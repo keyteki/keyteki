@@ -28,7 +28,8 @@
     "express": "^4.14.0",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
-    "react-router": "^2.8.1"
+    "react-router": "^2.8.1",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.1",
