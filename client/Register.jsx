@@ -1,4 +1,6 @@
 import React from 'react';
+import $ from 'jquery';
+import _ from 'underscore';
 
 class Register extends React.Component {
     constructor() {
@@ -6,13 +8,78 @@ class Register extends React.Component {
 
         this.onRegister = this.onRegister.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.verifyUsername = this.verifyUsername.bind(this);
+        this.verifyEmail = this.verifyEmail.bind(this);
+        this.verifyPassword = this.verifyPassword.bind(this);
 
         this.state = {
             username: '',
             email: '',
             password: '',
-            password1: ''
+            password1: '',
+            validation: {}
         };
+    }
+
+    verifyUsername(event, isSubmitting) {
+        var validation = this.state.validation;
+
+        delete validation['username'];
+
+        if(this.state.username.length < 3 || this.state.username.length > 15) {
+            validation['username'] = 'Username must be between 3 and 15 characters long';
+        }
+
+        if(!/^[A-Z0-9_-]+$/i.test(this.state.username)) {
+            validation['username'] = 'Usernames must only use the characters a-z, 0-9, _ and -';
+        }
+
+        if(isSubmitting) {
+            this.setState({ validation: validation });
+            return;
+        }
+
+        $.post('/api/account/check-username', { username: this.state.username })
+            .done((data) => {
+                if(data.message) {
+                    validation['username'] = data.message;
+                }
+            })
+            .always(() => {
+                this.setState({ validation: validation });
+            });
+    }
+
+    verifyEmail() {
+        var validation = this.state.validation;
+
+        delete validation['email'];
+
+        if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(this.state.email)) {
+            validation['email'] = 'Please enter a valid e-mail address';
+        }
+
+        this.setState({ validation: validation });
+    }
+
+    verifyPassword(event, isSubmitting) {
+        var validation = this.state.validation;
+
+        delete validation['password'];
+
+        if(this.state.password.length < 6) {
+            validation['password'] = 'The password you specify must be at least 6 characters long';
+        }
+
+        if(isSubmitting && !this.state.password1) {
+            validation['password'] = 'Please enter your password again';
+        }
+
+        if(this.state.password && this.state.password1 && this.state.password !== this.state.password1) {
+            validation['password'] = 'The passwords you have specified do not match';
+        }
+
+        this.setState({ validation: validation });
     }
 
     onChange(field, event) {
@@ -24,66 +91,117 @@ class Register extends React.Component {
 
     onRegister(event) {
         event.preventDefault();
+
+        this.setState({ error: '' });
+
+        this.verifyEmail();
+        this.verifyPassword({}, true);
+        this.verifyUsername({}, true);
+
+        if(_.any(this.state.validation, function(message) {
+            return message && message !== '';
+        })) {
+            this.setState({ error: 'There was an error in one or more fields, please see below, correct the error and try again' });
+            return;
+        }
+
+        $.ajax({
+            url: '/api/account/register',
+            type: 'POST',
+            data: JSON.stringify({ username: this.state.username, password: this.state.password, email: this.state.email }),
+            contentType: 'application/json'
+        }).done((data) => {
+            if(!data.success) {
+                this.setState({ error: data.message });
+                return;
+            }
+
+            if(this.props.onLogin) {
+                this.props.onLogin();
+            }
+        }).fail(() => {
+            this.setState({ error: 'Could not communicate with the server.  Please try again later.' });
+        });
     }
 
     render() {
+        var fields = [
+            {
+                name: 'username',
+                label: 'Username',
+                placeholder: 'Username',
+                inputType: 'text',
+                blurCallback: this.verifyUsername
+            },
+            {
+                name: 'email',
+                label: 'e-Mail Address',
+                placeholder: 'e-Mail Address',
+                inputType: 'email',
+                blurCallback: this.verifyEmail
+            },
+            {
+                name: 'password',
+                label: 'Password',
+                placeholder: 'Password',
+                inputType: 'password',
+                blurCallback: this.verifyPassword
+            },
+            {
+                name: 'password1',
+                label: 'Password (again)',
+                placeholder: 'Password (again)',
+                inputType: 'password',
+                blurCallback: this.verifyPassword
+            }
+        ];
+        var fieldsToRender = [];
+        var errorBar = this.state.error ? <div className='alert alert-danger' role='alert'>{ this.state.error }</div> : null;
+
+        _.each(fields, (field) => {
+            var className = 'form-group';
+            var validation = null;
+
+            if(this.state.validation[field.name]) {
+                className += ' has-error';
+                validation = <span className='help-block'>{ this.state.validation[field.name]}</span>;
+            }
+
+            fieldsToRender.push(
+                <div key={ field.name } className={ className }>
+                    <label htmlFor={ field.name } className='col-sm-2 control-label'>{ field.label }</label>
+                    <div className='col-sm-3'>
+                        <input type={ field.inputType }
+                            ref={ field.name }
+                            className='form-control'
+                            id={ field.name }
+                            placeholder={ field.placeholder }
+                            value={ this.state[field.name] }
+                            onChange={ this.onChange.bind(this, field.name) }
+                            onBlur={ field.blurCallback } />
+                        { validation }
+                    </div>
+                </div>);
+        });
+
         return (
-            <form className='form form-horizontal'>
-                <div className='form-group'>
-                    <label htmlFor='username' className='col-sm-2 control-label'>Username</label>
-                    <div className='col-sm-4'>
-                        <input type='text'
-                            className='form-control'
-                            id='username'
-                            placeholder='Username'
-                            value={ this.state.username }
-                            onChange={ this.onChange.bind(this, 'username') } />
+            <div>
+                { errorBar }
+                <form className='form form-horizontal'>
+                    { fieldsToRender }
+                    <div className='form-group'>
+                        <div className='col-sm-offset-2 col-sm-3'>
+                            <button ref='submit' type='submit' className='btn btn-primary' onClick={ this.onRegister }>Register</button>
+                        </div>
                     </div>
-                </div>
-                <div className='form-group'>
-                    <label htmlFor='email' className='col-sm-2 control-label'>E-Mail Address</label>
-                    <div className='col-sm-4'>
-                        <input type='email'
-                            className='form-control'
-                            id='email'
-                            placeholder='E-Mail Address'
-                            value={ this.state.email }
-                            onChange={ this.onChange.bind(this, 'email') }
-                            />
-                    </div>
-                </div>
-                <div className='form-group'>
-                    <label htmlFor='password' className='col-sm-2 control-label'>Password</label>
-                    <div className='col-sm-4'>
-                        <input type='password'
-                            className='form-control'
-                            id='password'
-                            placeholder='Password'
-                            value={ this.state.password }
-                            onChange={ this.onChange.bind(this, 'password') }
-                            />
-                    </div>
-                </div>
-                <div className='form-group'>
-                    <label htmlFor='password1' className='col-sm-2 control-label'>Password (again) </label>
-                    <div className='col-sm-4'>
-                        <input type='password'
-                            className='form-control'
-                            id='password1'
-                            placeholder='Password (again)'
-                            value={ this.state.password1 }
-                            onChange={ this.onChange.bind(this, 'password1') } />
-                    </div>
-                </div>
-                <div className='form-group'>
-                    <div className='col-sm-offset-2 col-sm-4'>
-                        <button type='submit' className='btn btn-primary' onClick={ this.onRegister }>Register</button>
-                    </div>
-                </div>
-            </form>);
+                </form>
+            </div>);
     }
 }
 
 Register.displayName = 'Register';
+Register.propTypes = {
+    onLogin: React.PropTypes.func
+};
 
 export default Register;

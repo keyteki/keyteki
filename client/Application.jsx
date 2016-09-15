@@ -8,16 +8,40 @@ import Register from './Register.jsx';
 import Lobby from './Lobby.jsx';
 import NotFound from './NotFound.jsx';
 
-var authMenu = [
+import auth from './auth.js';
+
+var notAuthedMenu = [
     { name: 'Login', path: '/login' },
     { name: 'Register', path: '/register' }
 ];
 
+var authedMenu = [
+    { name: 'Logout', path: '/logout' }
+];
+
 class Application extends React.Component {
+    constructor() {
+        super();
+
+        this.onLogin = this.onLogin.bind(this);
+
+        this.state = {
+            loggedIn: auth.loggedIn
+        };
+    }
+
+    onLogin() {
+        this.setState({
+            loggedIn: true
+        });
+    }
+
     render() {
         var menu = [];
 
-        _.each(authMenu, item => {
+        var menuToRender = this.state.loggedIn ? authedMenu : notAuthedMenu;
+
+        _.each(menuToRender, item => {
             var active = item.path === this.props.location.pathname ? 'active' : '';
 
             menu.push(<li key={ item.name } className={ active }><Link to={ item.path }>{ item.name }</Link></li>);
@@ -43,7 +67,9 @@ class Application extends React.Component {
                     </ul>
                 </div>
             </nav>
-            { this.props.children }
+            <div className='container-fluid'>
+                { this.props.children }
+            </div>
         </div>);
     }
 }
@@ -62,8 +88,7 @@ if(!window.__karma__) {
 Application.displayName = 'Application';
 Application.propTypes = {
     children: React.PropTypes.object,
-    location: React.PropTypes.string
-
+    location: React.PropTypes.object
 };
 
 export default Application;

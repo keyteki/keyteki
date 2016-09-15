@@ -1,16 +1,16 @@
-var webpack = require('webpack');
+require('webpack');
 
-module.exports = function (config) {
+module.exports = function(config) {
     config.set({
         basePath: '',
         frameworks: ['jasmine'],
 
         files: [
-            'test/tests.webpack.js'
+            'test/client/tests.webpack.js'
         ],
 
         preprocessors: {
-            'test/tests.webpack.js': ['webpack', 'sourcemap']
+            'test/client/tests.webpack.js': ['webpack', 'sourcemap']
         },
 
         reporters: ['dots', 'coverage'],
@@ -24,7 +24,7 @@ module.exports = function (config) {
                         test: /\.jsx?/,
                         loader: 'babel'
                     }
-                ],
+                ]
                 // postLoaders: [{
                 //     test: /\.jsx$/,
                 //     exclude: /(spec|node_modules|bower_components)\//,
@@ -41,18 +41,12 @@ module.exports = function (config) {
             dir: 'coverage/'
         },
 
-        port: 9876,
-
+        port: 9877,
         colors: true,
-
         logLevel: config.LOG_INFO,
-
         autoWatch: true,
-
         browsers: ['PhantomJS'],
-
         singleRun: false,
-
         concurrency: Infinity
-    })
-}
+    });
+};
