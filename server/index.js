@@ -101,6 +101,7 @@ function runServer() {
 
         app.use(middleware);
         app.use(webpackHotMiddleware(compiler));
+        app.use(express.static(__dirname + '/../public'));
         app.get('*', function response(req, res) {
             var html = pug.renderFile('views/index.pug', { basedir: path.join(__dirname, '..', 'views'), user: req.user });
             middleware.fileSystem.writeFileSync(path.join(__dirname, '..', 'public/index.html'), html);

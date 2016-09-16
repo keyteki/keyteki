@@ -1,3 +1,4 @@
+/*eslint no-console:0 */
 const request = require('request');
 const mongoskin = require('mongoskin');
 const db = mongoskin.db('mongodb://127.0.0.1:27017/throneteki');
@@ -30,17 +31,19 @@ request.get(apiUrl + 'cards', function(error, res, body) {
 
     cards.forEach(function(card) {
         var imagePath = path.join(imageDir, card.code + '.png');
-        
+
         if(!fs.existsSync(imagePath)) {
             console.info(card.imagesrc, card.code, imagePath);
             fetchImage(card.imagesrc, card.code, imagePath, i++ * 200);
         }
     });
 
-    db.collection('cards').remove(db.collection('cards').insert(cards, function() {
-        fs.writeFile('got-cards.json', JSON.stringify(cards), function() {
-            console.info(cards.length + ' cards fetched');
+    db.collection('cards').remove({}, function() {
+        db.collection('cards').insert(cards, function() {
+            fs.writeFile('got-cards.json', JSON.stringify(cards), function() {
+                console.info(cards.length + ' cards fetched');
+            });
         });
-    }));
+    });
 });
 
