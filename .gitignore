@@ -4,3 +4,4 @@ public
 typings
 coverage
 *.log
+*.json
