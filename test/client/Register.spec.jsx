@@ -8,10 +8,19 @@ import $ from 'jquery';
 
 describe('the <Register /> component', function() {
     var node, component;
+    var router = {
+        push: function() {},
+        replace: function() {},
+        go: function() {},
+        goBack: function() {},
+        goForward: function() {},
+        setRouteLeaveHook: function() {},
+        isActive: function() {}
+    };
 
     beforeEach(function() {
         node = document.createElement('div');
-        component = ReactDOM.render(<Register />, node);
+        component = ReactDOM.render(<Register router={ router }/>, node).getWrappedInstance();
 
         spyOn($, 'post').and.callFake(function() {
             var defer = $.Deferred();
@@ -229,7 +238,7 @@ describe('the <Register /> component', function() {
             it('should render error classes and the error text', function() {
                 component.state.validation['username'] = 'testing';
 
-                component = ReactDOM.render(<Register />, node);
+                component = ReactDOM.render(<Register router={ router } />, node);
 
                 var errorDivs = TestUtils.scryRenderedDOMComponentsWithClass(component, 'has-error');
 

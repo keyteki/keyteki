@@ -1,6 +1,5 @@
 var webpack = require('webpack');
 var path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 var precss = require('precss');
 var autoprefixer = require('autoprefixer');
 
@@ -21,11 +20,6 @@ var config = {
         publicPath: '/'
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            template: '!!pug!views/index.pug',
-            inject: 'body',
-            filename: 'index.html'
-        }),
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),

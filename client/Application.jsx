@@ -4,8 +4,11 @@ import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router';
 import _ from 'underscore';
 
 import Login from './Login.jsx';
+import Logout from './Logout.jsx';
 import Register from './Register.jsx';
 import Lobby from './Lobby.jsx';
+import Decks from './Decks.jsx';
+import AddDeck from './AddDeck.jsx';
 import NotFound from './NotFound.jsx';
 
 import auth from './auth.js';
@@ -19,25 +22,31 @@ var authedMenu = [
     { name: 'Logout', path: '/logout' }
 ];
 
+var leftMenu = [
+    { name: 'Decks', path: '/decks' }
+];
+
 class Application extends React.Component {
     constructor() {
         super();
 
-        this.onLogin = this.onLogin.bind(this);
+        this.onAuthChanged = this.onAuthChanged.bind(this);
+        auth.onChange = this.onAuthChanged;
 
         this.state = {
-            loggedIn: auth.loggedIn
+            loggedIn: auth.loggedIn()
         };
     }
 
-    onLogin() {
+    onAuthChanged(loggedIn) {
         this.setState({
-            loggedIn: true
+            loggedIn: loggedIn
         });
     }
 
     render() {
         var menu = [];
+        var leftMenuToRender = [];
 
         var menuToRender = this.state.loggedIn ? authedMenu : notAuthedMenu;
 
@@ -45,6 +54,12 @@ class Application extends React.Component {
             var active = item.path === this.props.location.pathname ? 'active' : '';
 
             menu.push(<li key={ item.name } className={ active }><Link to={ item.path }>{ item.name }</Link></li>);
+        });
+
+        _.each(leftMenu, item => {
+            var active = item.path === this.props.location.pathname ? 'active' : '';
+
+            leftMenuToRender.push(<li key={ item.name } className={ active }><Link to={ item.path }>{ item.name }</Link></li>);
         });
 
         return (<div>
@@ -61,7 +76,9 @@ class Application extends React.Component {
                 </div>
                 <Link to='/' className='navbar-brand'>Throneteki</Link>
                 <div id='navbar' className='collapse navbar-collapse'>
-                    <ul className='nav navbar-nav' />
+                    <ul className='nav navbar-nav'>
+                        { leftMenuToRender }
+                    </ul>
                     <ul className='nav navbar-nav navbar-right'>
                         { menu }
                     </ul>
@@ -80,6 +97,9 @@ if(!window.__karma__) {
             <IndexRoute component={ Lobby } />
             <Route path='register' component={ Register }/>
             <Route path='login' component={ Login } />
+            <Route path='logout' component={ Logout } />
+            <Route path='decks/add' component={ AddDeck } />
+            <Route path='decks' component={ Decks } />
             <Route path='*' component={ NotFound }/>
         </Route>
     </Router>, document.getElementById('component'));

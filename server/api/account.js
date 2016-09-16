@@ -2,6 +2,7 @@ const mongoskin = require('mongoskin');
 const db = mongoskin.db('mongodb://127.0.0.1:27017/throneteki');
 const logger = require('./../log.js');
 const bcrypt = require('bcrypt');
+const passport = require('passport');
 
 module.exports.init = function(server) {
     server.post('/api/account/register', function(req, res, next) {
@@ -65,5 +66,15 @@ module.exports.init = function(server) {
 
             res.send({ message: '' });
         });
+    });
+
+    server.post('/api/account/logout', function(req, res) {
+        req.logout();
+
+        res.send({ success: true});
+    });
+
+    server.post('/api/account/login', passport.authenticate('local'), function(req, res) {
+        res.send({ success: true, user: req.user });
     });
 };
