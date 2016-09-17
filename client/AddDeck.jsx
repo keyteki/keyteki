@@ -121,7 +121,7 @@ class AddDeck extends React.Component {
                 }
 
                 var packOffset = line.indexOf('(');
-                var cardName = line.substr(index, packOffset - index - 1);
+                var cardName = line.substr(index, packOffset === -1 ? line.length : packOffset - index - 1);
                 var packName = line.substr(packOffset + 1, line.length - packOffset - 2);
 
                 var pack = _.find(this.state.packs, function(pack) {
@@ -130,10 +130,10 @@ class AddDeck extends React.Component {
 
                 var card = _.find(this.state.cards, function(card) {
                     if(pack) {
-                        return card.label === cardName || card.label === cardName + ' (' + pack.code + ')';
+                        return card.label.toLowerCase() === cardName.toLowerCase() || card.label.toLowerCase() === (cardName + ' (' + pack.code + ')').toLowerCase();
                     }
 
-                    return card.label === cardName;
+                    return card.label.toLowerCase() === cardName.toLowerCase();
                 });
 
                 if(card) {
