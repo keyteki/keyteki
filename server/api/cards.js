@@ -13,4 +13,16 @@ module.exports.init = function(server) {
             res.send({ success: true, cards: data });
         });
     });
+
+    server.get('/api/packs', function(req, res, next) {
+        db.collection('packs').find({}).toArray(function(err, data) {
+            if(err) {
+                logger.info(err);
+                return next(err);
+            }
+
+            res.send({ success: true, packs: data });
+        });
+    });
+
 };

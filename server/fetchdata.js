@@ -47,3 +47,20 @@ request.get(apiUrl + 'cards', function(error, res, body) {
     });
 });
 
+request.get(apiUrl + 'packs', function(error, res, body) {
+    if(error) {
+        console.error('Unable to fetch packs');
+        return;
+    }
+
+    var packs = JSON.parse(body);
+
+    db.collection('packs').remove({}, function() {
+        db.collection('packs').insert(packs, function() {
+            fs.writeFile('got-packs.json', JSON.stringify(packs), function() {
+                console.info(packs.length + ' packs fetched');
+            });
+        });
+    });
+});
+

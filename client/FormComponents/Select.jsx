@@ -8,7 +8,7 @@ class Select extends React.Component {
             var value = this.props.blankOption[this.props.valueKey || 'value'];
             var name = this.props.blankOption[this.props.nameKey || 'name'];
             
-            options.push(<option key={ value } value={ value }>{ name }</option>);
+            options.push(<option key='default' value={ value }>{ name }</option>);
         }
 
         this.props.options.forEach(option => {

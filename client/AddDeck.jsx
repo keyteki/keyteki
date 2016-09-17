@@ -19,6 +19,7 @@ class AddDeck extends React.Component {
         this.addCardChange = this.addCardChange.bind(this);
         this.onCardMouseOut = this.onCardMouseOut.bind(this);
         this.onCardMouseOver = this.onCardMouseOver.bind(this);
+        this.onCardListChange = this.onCardListChange.bind(this);
     }
 
     componentWillMount() {
@@ -31,6 +32,13 @@ class AddDeck extends React.Component {
             });
 
             this.setState({ cards: data.cards, agendas: agendas });
+        });
+
+        $.ajax({
+            url: '/api/packs',
+            type: 'GET'
+        }).done((data) => {
+            this.setState({ packs: data.packs });
         });
     }
 
@@ -55,6 +63,7 @@ class AddDeck extends React.Component {
             plotCards: [],
             agendas: [],
             cards: [],
+            packs: [],
             factions: [
                 { name: 'House Baratheon', value: 'baratheon' },
                 { name: 'House Greyjoy', value: 'greyjoy' },
@@ -64,7 +73,8 @@ class AddDeck extends React.Component {
                 { name: 'House Stark', value: 'stark' },
                 { name: 'House Targaryen', value: 'targaryen' },
                 { name: 'House Tyrell', value: 'tyrell' }
-            ]
+            ],
+            cardList: ''
         };
     }
 
@@ -94,6 +104,47 @@ class AddDeck extends React.Component {
         this.setState({ selectedAgenda: agenda });
     }
 
+    onCardListChange(event) {
+        var split = event.target.value.split('\n');
+
+        this.setState({ drawCards: [], plotCards: [] }, () => {
+            _.each(split, line => {
+                var index = 2;
+
+                if(!$.isNumeric(line[0])) {
+                    return;
+                }
+
+                var num = parseInt(line[0]);
+                if(line[1] === 'x') {
+                    index++;
+                }
+
+                var packOffset = line.indexOf('(');
+                var cardName = line.substr(index, packOffset - index - 1);
+                var packName = line.substr(packOffset + 1, line.length - packOffset - 2);
+
+                var pack = _.find(this.state.packs, function(pack) {
+                    return pack.name === packName;
+                });
+
+                var card = _.find(this.state.cards, function(card) {
+                    if(pack) {
+                        return card.label === cardName || card.label === cardName + ' (' + pack.code + ')';
+                    }
+
+                    return card.label === cardName;
+                });
+
+                if(card) {
+                    this.addCard(card, num);
+                }
+            });
+        });
+
+        this.setState({ cardList: event.target.value });
+    }
+
     onCardMouseOver(event) {
         var cardToDisplay = _.filter(this.state.cards, card => {
             return event.target.innerText === card.label;
@@ -110,33 +161,47 @@ class AddDeck extends React.Component {
         this.setState({ cardToAdd: selectedCards[0] });
     }
 
-    onAddCard(event) {
+    addCard(card, number) {
         var plots = this.state.plotCards;
         var draw = this.state.drawCards;
 
-        event.preventDefault();
+        var list;
 
-        if(this.state.cardToAdd.type_code === 'plot') {
-            plots.push(this.state.cardToAdd);
+        if(card.type_code === 'plot') {
+            list = plots;
         } else {
-            if(draw[this.state.cardToAdd.code]) {
-                draw[this.state.cardToAdd.code].count += parseInt(this.state.numberToAdd);
-            } else {
-                draw.push({ count: this.state.numberToAdd, card: this.state.cardToAdd });
-            }
+            list = draw;
+        }
+
+        if(list[card.code]) {
+            list[card.code].count += number;
+        } else {
+            list.push({ count: number, card: card });
         }
 
         this.setState({ plotCards: plots, drawCards: draw });
     }
 
+    onAddCard(event) {
+        event.preventDefault();
+
+        var cardList = this.state.cardList;
+
+        cardList += this.state.numberToAdd + ' ' + this.state.cardToAdd.label + '\n';
+
+        this.addCard(this.state.cardToAdd, parseInt(this.state.numberToAdd));
+
+        this.setState({ cardList: cardList });
+    }
+
     render() {
         var errorBar = this.state.error ? <div className='alert alert-danger' role='alert'>{ this.state.error }</div> : null;
 
-        var plotsToRender = [];
         var cardsToRender = [];
         var groupedCards = {};
+        var combinedCards = _.union(this.state.plotCards, this.state.drawCards);
 
-        _.each(this.state.drawCards, (card) => {
+        _.each(combinedCards, (card) => {
             if(!groupedCards[card.card.type_name]) {
                 groupedCards[card.card.type_name] = [card];
             } else {
@@ -144,28 +209,27 @@ class AddDeck extends React.Component {
             }
         });
 
-        _.each(this.state.plotCards, plot => {
-            plotsToRender.push(<div onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut } id={ plot.code }>{ plot.label }</div>);
-        });
-
         _.each(groupedCards, (cardList, key) => {
             var cards = [];
             var count = 0;
 
             _.each(cardList, card => {
-                cards.push(<div><span>{card.count + 'x '}</span><span onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ card.card.label }</span></div>);
+                cards.push(<div key={ card.card.code }><span>{card.count + 'x '}</span><span className='card-name' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ card.card.label }</span></div>);
                 count += parseInt(card.count);
             });
 
-            cardsToRender.push(<div><h4>{ key + ' (' + count.toString() + ')' }</h4><div>{ cards }</div></div>);
+            cardsToRender.push(<div key={ key } className='card-group'><h4>{ key + ' (' + count.toString() + ')' }</h4>{ cards }</div>);
         });
 
         var cardCount = 0;
-        var cardList = '';
+        var plotCount = 0;
 
         _.each(this.state.drawCards, function(card) {
             cardCount += parseInt(card.count);
-            cardList += card.count + ' ' + card.card.label + '\n';
+        });
+
+        _.each(this.state.plotCards, function(card) {
+            plotCount += parseInt(card.count);
         });
 
         return (
@@ -181,7 +245,7 @@ class AddDeck extends React.Component {
                         onChange={ this.onAgendaChange } value={ this.state.selectedAgenda.code } valueKey='code' nameKey='label' blankOption={ { label: '- Select -' } } />
                     <div className='form-group'>
                         <label className='col-sm-2 control-label'>Card</label>
-                        <div className='col-sm-4'>
+                        <div className='col-sm-5'>
                             <Typeahead labelKey={ 'label' } options={ this.state.cards } onChange={ this.addCardChange } />
                         </div>
                         <div className='form-group'>
@@ -197,7 +261,7 @@ class AddDeck extends React.Component {
                     <div className='form-group'>
                         <label className='col-sm-2 control-label'>Cards</label>
                         <div className='col-sm-9'>
-                            <textarea className='form-control' rows='25' value={ cardList } />
+                            <textarea className='form-control' rows='25' value={ this.state.cardList } onChange={ this.onCardListChange } />
                         </div>
                     </div>
                     <div className='form-group'>
@@ -213,14 +277,14 @@ class AddDeck extends React.Component {
                         { this.state.selectedAgenda.code ? <img className='pull-right' src={ '/img/cards/' + this.state.selectedAgenda.code + '.png' } /> : null }
                         <div>
                             <h4>{ this.state.selectedFaction.name }</h4>
-                            <div>Agenda: <span onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ this.state.selectedAgenda.label || 'None' }</span></div>
+                            <div>Agenda: <span className='card-name' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ this.state.selectedAgenda.label || 'None' }</span></div>
                             <div>Draw deck: { cardCount } cards</div>
-                            <div>Plot deck: { this.state.plotCards.length } cards</div>
+                            <div>Plot deck: { plotCount } cards</div>
                         </div>
                     </div>
-                    <h4>Plots</h4>
-                    { plotsToRender }
-                    { cardsToRender }
+                    <div className='cards'>
+                        { cardsToRender }
+                    </div>
                 </div>
             </div>);
     }
