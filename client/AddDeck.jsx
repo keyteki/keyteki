@@ -3,30 +3,14 @@ import { withRouter } from 'react-router';
 import _ from 'underscore';
 import $ from 'jquery';
 import Typeahead from 'react-bootstrap-typeahead';
+import Input from './FormComponents/Input.jsx';
+import Select from './FormComponents/Select.jsx';
 
 class AddDeck extends React.Component {
     constructor() {
         super();
 
-        this.state = {
-            error: '',
-            deckname: 'New Deck',
-            faction: 'baratheon',
-            factionName: 'House Baratheon',
-            agenda: '',
-            agendaName: '',
-            cardToAdd: {},
-            numberToAdd: 1,
-            cardToShow: undefined,
-            validation: {
-                deckname: '',
-                cardToAdd: ''
-            },
-            drawCards: [],
-            plotCards: [],
-            agendas: [],
-            cards: []
-        };
+        this.state = this.getDefaultState();
 
         this.verifyDeckname = this.verifyDeckname.bind(this);
         this.onFactionChange = this.onFactionChange.bind(this);
@@ -35,42 +19,6 @@ class AddDeck extends React.Component {
         this.addCardChange = this.addCardChange.bind(this);
         this.onCardMouseOut = this.onCardMouseOut.bind(this);
         this.onCardMouseOver = this.onCardMouseOver.bind(this);
-
-        this.fields = [
-            {
-                name: 'deckname',
-                label: 'Deck Name',
-                placeholder: 'Deck Name',
-                inputType: 'text',
-                blurCallback: this.verifyDeckname
-            },
-            {
-                name: 'faction',
-                label: 'Faction',
-                inputType: 'select',
-                options: [
-                    { name: 'House Baratheon', value: 'baratheon' },
-                    { name: 'House Greyjoy', value: 'greyjoy' },
-                    { name: 'House Lannister', value: 'lannister' },
-                    { name: 'House Martell', value: 'martell' },
-                    { name: 'The Night\'s Watch', value: 'thenightswatch' },
-                    { name: 'House Stark', value: 'stark' },
-                    { name: 'House Targaryen', value: 'targaryen' },
-                    { name: 'House Tyrell', value: 'tyrell' }
-                ],
-                mandatory: true,
-                onChange: this.onFactionChange
-            },
-            {
-                name: 'agenda',
-                label: 'Agenda',
-                inputType: 'select',
-                options: _.map(this.state.agendas, function(agenda) {
-                    return { name: agenda.label, value: agenda.code };
-                }),
-                onChange: this.onAgendaChange
-            }
-        ];
     }
 
     componentWillMount() {
@@ -86,6 +34,40 @@ class AddDeck extends React.Component {
         });
     }
 
+    getDefaultState() {
+        return {
+            error: '',
+            deckname: 'New Deck',
+            selectedFaction: {
+                name: 'House Baratheon',
+                value: 'baratheon'
+            },
+            selectedAgenda: {},
+            agendaName: '',
+            cardToAdd: {},
+            numberToAdd: 1,
+            cardToShow: undefined,
+            validation: {
+                deckname: '',
+                cardToAdd: ''
+            },
+            drawCards: [],
+            plotCards: [],
+            agendas: [],
+            cards: [],
+            factions: [
+                { name: 'House Baratheon', value: 'baratheon' },
+                { name: 'House Greyjoy', value: 'greyjoy' },
+                { name: 'House Lannister', value: 'lannister' },
+                { name: 'House Martell', value: 'martell' },
+                { name: 'The Night\'s Watch', value: 'thenightswatch' },
+                { name: 'House Stark', value: 'stark' },
+                { name: 'House Targaryen', value: 'targaryen' },
+                { name: 'House Tyrell', value: 'tyrell' }
+            ]
+        };
+    }
+
     verifyDeckname() {
     }
 
@@ -97,11 +79,19 @@ class AddDeck extends React.Component {
     }
 
     onFactionChange(event) {
-        this.setState({ faction: event.target.value, factionName: event.target.options[event.target.selectedIndex].text });
+        var faction = _.find(this.state.factions, (faction) => {
+            return faction.value === event.target.value;
+        });
+
+        this.setState({ selectedFaction: faction });
     }
 
     onAgendaChange(event) {
-        this.setState({ agenda: event.target.value, agendaName: event.target.options[event.target.selectedIndex].text });
+        var agenda = _.find(this.state.agendas, function(agenda) {
+            return agenda.code === event.target.value;
+        });
+
+        this.setState({ selectedAgenda: agenda });
     }
 
     onCardMouseOver(event) {
@@ -139,72 +129,13 @@ class AddDeck extends React.Component {
         this.setState({ plotCards: plots, drawCards: draw });
     }
 
-    getFieldsToRender() {
-        var fieldsToRender = [];
-
-        _.each(this.fields, (field) => {
-            var className = 'form-group';
-            var validation = null;
-
-            if(this.state.validation[field.name]) {
-                className += ' has-error';
-                validation = <span className='help-block'>{ this.state.validation[field.name]}</span>;
-            }
-
-            var fieldToRender = {};
-
-            if(field.inputType === 'select') {
-                var options = [];
-
-                if(!field.mandatory) {
-                    options.push(<option key='default' value=''> --select an option-- </option>);
-                }
-
-                _.each(field.options, function(option) {
-                    options.push(<option key={ option.value } value={ option.value }>{ option.name }</option>);
-                });
-
-                fieldToRender = (
-                    <select ref={ field.name }
-                        className='form-control'
-                        id={ field.name }
-                        onChange={ field.onChange }>
-                        { options }
-                        value={this.state[field.name]}
-                    </select>);
-            } else {
-                fieldToRender = (
-                    <input type={ field.inputType }
-                        ref={ field.name }
-                        className='form-control'
-                        id={ field.name }
-                        placeholder={ field.placeholder }
-                        value={ this.state[field.name]}
-                        onChange={ this.onChange.bind(this, field.name) }
-                        onBlur={ field.blurCallback } />);
-            }
-
-            fieldsToRender.push(
-                <div key={ field.name } className={ className }>
-                    <label htmlFor={ field.name } className='col-sm-2 control-label'>{ field.label }</label>
-                    <div className='col-sm-9'>
-                        { fieldToRender }
-                        { validation }
-                    </div>
-                </div>);
-        });
-
-        return fieldsToRender;
-    }
-
     render() {
         var errorBar = this.state.error ? <div className='alert alert-danger' role='alert'>{ this.state.error }</div> : null;
 
-        var fieldsToRender = this.getFieldsToRender();
         var plotsToRender = [];
         var cardsToRender = [];
         var groupedCards = {};
-        
+
         _.each(this.state.drawCards, (card) => {
             if(!groupedCards[card.card.type_name]) {
                 groupedCards[card.card.type_name] = [card];
@@ -242,7 +173,12 @@ class AddDeck extends React.Component {
                 { errorBar }
                 { this.state.cardToShow ? <img className='hover-image' src={ '/img/cards/' + this.state.cardToShow.code + '.png' } /> : null }
                 <form className='form form-horizontal col-sm-6'>
-                    { fieldsToRender }
+                    <Input name='deckname' label='Deck Name' labelClass='col-sm-2' fieldClass='col-sm-9' placeholder='Deck Name'
+                        type='text' onChange={ this.onChange.bind(this, 'deckname') } value={ this.state.deckname } />
+                    <Select name='faction' label='Faction' labelClass='col-sm-2' fieldClass='col-sm-9' options={ this.state.factions }
+                        onChange={ this.onFactionChange } value={ this.state.selectedFaction.value } />
+                    <Select name='agenda' label='Agenda' labelClass='col-sm-2' fieldClass='col-sm-9' options={ this.state.agendas }
+                        onChange={ this.onAgendaChange } value={ this.state.selectedAgenda.code } valueKey='code' nameKey='label' blankOption={ { label: '- Select -' } } />
                     <div className='form-group'>
                         <label className='col-sm-2 control-label'>Card</label>
                         <div className='col-sm-4'>
@@ -273,11 +209,11 @@ class AddDeck extends React.Component {
                 <div className='col-sm-6 right-pane'>
                     <h3>{ this.state.deckname }</h3>
                     <div className='decklist'>
-                        <img className='pull-left' src={ '/img/factions/' + this.state.faction + '.png' } />
-                        { this.state.agenda !== '' ? <img className='pull-right' src={ '/img/cards/' + this.state.agenda + '.png' } /> : null }
+                        <img className='pull-left' src={ '/img/factions/' + this.state.selectedFaction.value + '.png' } />
+                        { this.state.selectedAgenda.code ? <img className='pull-right' src={ '/img/cards/' + this.state.selectedAgenda.code + '.png' } /> : null }
                         <div>
-                            <h4>{ this.state.factionName }</h4>
-                            <div>Agenda: <span onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ this.state.agenda === '' ? 'None' : this.state.agendaName }</span></div>
+                            <h4>{ this.state.selectedFaction.name }</h4>
+                            <div>Agenda: <span onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ this.state.selectedAgenda.label || 'None' }</span></div>
                             <div>Draw deck: { cardCount } cards</div>
                             <div>Plot deck: { this.state.plotCards.length } cards</div>
                         </div>
