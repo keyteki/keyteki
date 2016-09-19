@@ -1,7 +1,8 @@
 import React from 'react';
 import {render} from 'react-dom';
-import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute, Link, browserHistory, withRouter } from 'react-router';
 import _ from 'underscore';
+import $ from 'jquery';
 
 import Login from './Login.jsx';
 import Logout from './Logout.jsx';
@@ -36,6 +37,14 @@ class Application extends React.Component {
         this.state = {
             loggedIn: auth.loggedIn()
         };
+    }
+
+    componentWillMount() {
+        $(document).ajaxError((event, xhr) => {
+            if(xhr.status === 401) {
+                this.props.router.push('/login');
+            }
+        });
     }
 
     onAuthChanged(loggedIn) {
@@ -92,8 +101,10 @@ class Application extends React.Component {
 }
 
 if(!window.__karma__) {
+    var App = withRouter(Application, { withRefs: true });
+    
     render(<Router history={ browserHistory }>
-        <Route path='/' component={ Application }>
+        <Route path='/' component={ App }>
             <IndexRoute component={ Lobby } />
             <Route path='register' component={ Register }/>
             <Route path='login' component={ Login } />
@@ -108,7 +119,10 @@ if(!window.__karma__) {
 Application.displayName = 'Application';
 Application.propTypes = {
     children: React.PropTypes.object,
-    location: React.PropTypes.object
+    location: React.PropTypes.object,
+    router: React.PropTypes.shape({
+        push: React.PropTypes.func.isRequired
+    }).isRequired
 };
 
-export default Application;
+export default withRouter(Application, { withRefs: true });

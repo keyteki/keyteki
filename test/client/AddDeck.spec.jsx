@@ -1,12 +1,21 @@
 /* global describe, it, expect, beforeEach, spyOn */
+/* eslint camelcase: 0 */
 
 import AddDeck from '../../client/AddDeck.jsx';
+import Deck from '../../client/Deck.jsx';
 import ReactDOM from 'react-dom';
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
 import $ from 'jquery';
 import Typeahead from 'react-bootstrap-typeahead';
 import stubComponent from './test-setup.js';
+
+function loadCards(filename, component) {
+    var cards = require(filename);
+
+    cards.forEach(function(card) {
+        component.addCard(card.card, card.count);
+    });
+}
 
 describe('the </AddDeck /> component', function() {
     var node, component;
@@ -21,6 +30,7 @@ describe('the </AddDeck /> component', function() {
     };
 
     stubComponent(Typeahead);
+    stubComponent(Deck);
 
     beforeEach(function() {
         node = document.createElement('div');
@@ -37,7 +47,6 @@ describe('the </AddDeck /> component', function() {
 
     describe('when initially rendered', function() {
         it('should show the component elements with defaults set', function() {
-            expect(component.state.deckname).toBe('New Deck');
         });
     });
 });

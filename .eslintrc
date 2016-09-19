@@ -41,10 +41,9 @@
     "react/no-unknown-property": 1,
     "react/prop-types": 1,
     "react/react-in-jsx-scope": 1,
-    "react/require-extension": 1,
     "react/self-closing-comp": 1,
     "react/sort-comp": 1,
-    "react/wrap-multilines": 1
+    "react/jsx-wrap-multilines": 1
   },
 
   "parser": "babel-eslint",

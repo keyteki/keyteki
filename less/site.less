@@ -1,8 +1,6 @@
 @import "~bootstrap/less/bootstrap";
 
-body, html {
-  overflow: hidden;
-}
+@brand-primary: green;
 
 body {
   padding-top: 75px;
@@ -32,21 +30,50 @@ body {
 }
 
 .hover-image {
-  position: absolute;
+  position: fixed;
+  left: 10px;
   top: 60px;
   z-index: 9999;
 }
 
 .card-group {
-  display: inline-block;
+  break-inside: avoid;
 }
 
 .cards {
-  column-count: 4;
+  column-count: 2;
 }
 
 .card-name {
   cursor: pointer;
   cursor: hand;
-  color: green;
+  color: @brand-primary;
+}
+
+.deck-list {
+  margin-top: 20px;
+}
+
+.deck-row {
+  height: 50px;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: @brand-primary;
+  border-style: solid;
+  padding: 3px 5px;
+  margin-bottom: 5px;
+}
+
+.deck-row > img {
+  height: 100%;
+  padding-right: 10px;
+}
+
+.deck-row:hover {
+  border-color: @brand-info;
+}
+
+.deck-row.active {
+  border-color: @brand-danger;
+  color: @brand-danger;
 }

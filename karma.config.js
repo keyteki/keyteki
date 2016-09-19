@@ -23,6 +23,10 @@ module.exports = function(config) {
                     {
                         test: /\.jsx?/,
                         loader: 'babel'
+                    },
+                    {
+                        test: /\.json?/,
+                        loader: 'json'
                     }
                 ]
                 // postLoaders: [{
