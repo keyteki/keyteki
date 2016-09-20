@@ -1,11 +1,12 @@
-import { createStore, compose } from 'redux';
+import { applyMiddleware, createStore, compose } from 'redux';
 import { persistState } from 'redux-devtools';
+import thunkMiddleware from 'redux-thunk';
 import rootReducer from './reducers';
 import DevTools from './DevTools';
 
 const enhancer = compose(
     // Middleware you want to use in development:
-    //applyMiddleware(d1, d2, d3),
+    applyMiddleware(thunkMiddleware),
     // Required! Enable Redux DevTools with the monitors you chose
     DevTools.instrument(),
     // Optional. Lets you write ?debug_session=<key> in address bar to persist debug sessions

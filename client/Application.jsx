@@ -29,6 +29,8 @@ var leftMenu = [
 
 class App extends React.Component {
     componentWillMount() {
+        this.props.fetchCards();
+
         $(document).ajaxError((event, xhr) => {
             if(xhr.status === 401) {
                 this.props.navigate('/login');
@@ -56,10 +58,10 @@ class App extends React.Component {
                 component = <Register />;
                 break;
             case '/decks':
-                component = <Decks />;
+                component = <Decks cards={ this.props.cards } packs={ this.props.packs } />;
                 break;
             case '/decks/add':
-                component = <AddDeck />;
+                component = <AddDeck cards={ this.props.cards } packs={ this.props.packs } agendas={ this.props.agendas } />;
                 break;
             default:
                 component = <NotFound />;
@@ -109,13 +111,20 @@ class App extends React.Component {
 
 App.displayName = 'Application';
 App.propTypes = {
+    agendas: React.PropTypes.array,
+    cards: React.PropTypes.array,
+    fetchCards: React.PropTypes.func,
     loggedIn: React.PropTypes.bool,
     navigate: React.PropTypes.func,
+    packs: React.PropTypes.array,
     path: React.PropTypes.string
 };
 
 function mapStateToProps(state) {
     return {
+        agendas: state.cards.agendas,
+        cards: state.cards.cards,
+        packs: state.cards.packs,
         path: state.navigation.path,
         loggedIn: state.auth.loggedIn
     };

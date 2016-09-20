@@ -21,26 +21,6 @@ class AddDeck extends React.Component {
         this.onAddDeck = this.onAddDeck.bind(this);
     }
 
-    componentWillMount() {
-        $.ajax({
-            url: '/api/cards',
-            type: 'GET'
-        }).done((data) => {
-            var agendas = _.filter(data.cards, function(card) {
-                return card.type_code === 'agenda' && card.pack_code !== 'VDS';
-            });
-
-            this.setState({ cards: data.cards, agendas: agendas });
-        });
-
-        $.ajax({
-            url: '/api/packs',
-            type: 'GET'
-        }).done((data) => {
-            this.setState({ packs: data.packs });
-        });
-    }
-
     getDefaultState() {
         return {
             error: '',
@@ -58,9 +38,6 @@ class AddDeck extends React.Component {
             },
             drawCards: [],
             plotCards: [],
-            agendas: [],
-            cards: [],
-            packs: [],
             factions: [
                 { name: 'House Baratheon', value: 'baratheon' },
                 { name: 'House Greyjoy', value: 'greyjoy' },
@@ -99,7 +76,7 @@ class AddDeck extends React.Component {
             return;
         }
         
-        var agenda = _.find(this.state.agendas, function(agenda) {
+        var agenda = _.find(this.props.agendas, function(agenda) {
             return agenda.code === event.target.value;
         });
 
@@ -126,11 +103,11 @@ class AddDeck extends React.Component {
                 var cardName = line.substr(index, packOffset === -1 ? line.length : packOffset - index - 1);
                 var packName = line.substr(packOffset + 1, line.length - packOffset - 2);
 
-                var pack = _.find(this.state.packs, function(pack) {
+                var pack = _.find(this.props.packs, function(pack) {
                     return pack.name === packName;
                 });
 
-                var card = _.find(this.state.cards, function(card) {
+                var card = _.find(this.props.cards, function(card) {
                     if(pack) {
                         return card.label.toLowerCase() === cardName.toLowerCase() || card.label.toLowerCase() === (cardName + ' (' + pack.code + ')').toLowerCase();
                     }
@@ -209,13 +186,13 @@ class AddDeck extends React.Component {
                         type='text' onChange={ this.onChange.bind(this, 'deckname') } value={ this.state.deckname } />
                     <Select name='faction' label='Faction' labelClass='col-sm-3' fieldClass='col-sm-9' options={ this.state.factions }
                         onChange={ this.onFactionChange } value={ this.state.selectedFaction.value } />
-                    <Select name='agenda' label='Agenda' labelClass='col-sm-3' fieldClass='col-sm-9' options={ this.state.agendas }
+                    <Select name='agenda' label='Agenda' labelClass='col-sm-3' fieldClass='col-sm-9' options={ this.props.agendas }
                         onChange={ this.onAgendaChange } value={ this.state.selectedAgenda.code }
                         valueKey='code' nameKey='label' blankOption={ { label: '- Select -', code: '' } } />
                     <div className='form-group'>
                         <label className='col-sm-3 control-label'>Card</label>
                         <div className='col-sm-4'>
-                            <Typeahead labelKey={ 'label' } options={ this.state.cards } onChange={ this.addCardChange } />
+                            <Typeahead labelKey={ 'label' } options={ this.props.cards } onChange={ this.addCardChange } />
                         </div>
                         <div className='form-group'>
                             <label className='col-sm-1 control-label'>Num</label>
@@ -239,7 +216,7 @@ class AddDeck extends React.Component {
                         </div>
                     </div>
                 </form>
-                <Deck className='col-sm-6 right-pane' cards={ this.state.cards } name={ this.state.deckname } agenda={ this.state.selectedAgenda }
+                <Deck className='col-sm-6 right-pane' cards={ this.props.cards } name={ this.state.deckname } agenda={ this.state.selectedAgenda }
                     faction={ this.state.selectedFaction } plotCards={ this.state.plotCards } drawCards={ this.state.drawCards } />
             </div>);
     }
@@ -247,9 +224,9 @@ class AddDeck extends React.Component {
 
 AddDeck.displayName = 'AddDeck';
 AddDeck.propTypes = {
-    router: React.PropTypes.shape({
-        push: React.PropTypes.func.isRequired
-    }).isRequired
+    agendas: React.PropTypes.array,
+    cards: React.PropTypes.array,
+    packs: React.PropTypes.array
 };
 
 export default AddDeck;

@@ -36,24 +36,6 @@ class Decks extends React.Component {
         }).fail(() => {
             this.setState({ error: 'Could not communicate with the server.  Please try again later.' });
         });
-
-        $.ajax({
-            url: '/api/cards',
-            type: 'GET'
-        }).done((data) => {
-            var agendas = _.filter(data.cards, function(card) {
-                return card.type_code === 'agenda' && card.pack_code !== 'VDS';
-            });
-
-            this.setState({ cards: data.cards, agendas: agendas });
-        });
-
-        $.ajax({
-            url: '/api/packs',
-            type: 'GET'
-        }).done((data) => {
-            this.setState({ packs: data.packs });
-        });
     }
 
     onSelectionChanged(newIndex) {
@@ -107,7 +89,7 @@ class Decks extends React.Component {
                 </div>
                 { selectedDeck ? <Deck className='col-sm-6' name={ selectedDeck.name } faction={ selectedDeck.faction } 
                                         plotCards={ selectedDeck.plotCards } drawCards={ selectedDeck.drawCards } agenda={ selectedDeck.agenda }
-                                        cards={ this.state.cards } /> 
+                                        cards={ this.props.cards } /> 
                                : null }
             </div>);
     }
@@ -115,6 +97,7 @@ class Decks extends React.Component {
 
 Decks.displayName = 'Decks';
 Decks.propTypes = {
+    cards: React.PropTypes.array
 };
 
 export default Decks;
