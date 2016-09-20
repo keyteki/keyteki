@@ -11,7 +11,7 @@ var config = {
     devtool: 'source-map',
     entry: [
         'webpack-hot-middleware/client?reload=true',
-        path.join(__dirname, 'client/Application.jsx'),
+        path.join(__dirname, 'client/index.jsx'),
         LESS_DIR + '/site.less'
     ],
     output: {
@@ -24,14 +24,16 @@ var config = {
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('development')
+            'process.env.NODE_ENV': JSON.stringify('development'),
+            '__DEV__': JSON.stringify('true')
         })
     ],
     module: {
         loaders: [{
             test: /\.jsx?/,
             include: APP_DIR,
-            loader: 'babel'
+            exclude: /node_modules/,
+            loaders: ['babel']
         }, {
             test: /\.less$/,
             loader: 'style!css!less'

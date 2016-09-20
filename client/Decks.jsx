@@ -1,9 +1,10 @@
 import React from 'react';
 import $ from 'jquery';
 import _ from 'underscore';
-import { withRouter, Link } from 'react-router';
-import Deck from './Deck.jsx';
 import moment from 'moment';
+
+import Deck from './Deck.jsx';
+import Link from './Link.jsx';
 
 class Decks extends React.Component {
     constructor() {
@@ -101,7 +102,7 @@ class Decks extends React.Component {
             <div>
                 { errorBar }
                 <div className='col-sm-6'>
-                    <Link className='btn btn-primary' to='/decks/add'>Add new deck</Link>
+                    <Link className='btn btn-primary' href='/decks/add'>Add new deck</Link>
                     <div className='deck-list'>{ this.state.decks.length === 0 ? 'You have no decks, try adding one.' : deckList }</div>
                 </div>
                 { selectedDeck ? <Deck className='col-sm-6' name={ selectedDeck.name } faction={ selectedDeck.faction } 
@@ -114,9 +115,6 @@ class Decks extends React.Component {
 
 Decks.displayName = 'Decks';
 Decks.propTypes = {
-    router: React.PropTypes.shape({
-        push: React.PropTypes.func.isRequired
-    }).isRequired
 };
 
-export default withRouter(Decks, { withRef: true });
+export default Decks;

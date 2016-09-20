@@ -1,4 +1,4 @@
 {
   "presets": ["react", "es2015"],
-  "plugins": [ "istanbul" ]
+  "plugins": [ "istanbul", "react-hot-loader/babel" ]
 }

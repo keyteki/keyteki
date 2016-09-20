@@ -1,8 +1,7 @@
 import React from 'react';
-import {render} from 'react-dom';
-import { Router, Route, IndexRoute, Link, browserHistory, withRouter } from 'react-router';
 import _ from 'underscore';
 import $ from 'jquery';
+import {connect} from 'react-redux';
 
 import Login from './Login.jsx';
 import Logout from './Logout.jsx';
@@ -11,8 +10,9 @@ import Lobby from './Lobby.jsx';
 import Decks from './Decks.jsx';
 import AddDeck from './AddDeck.jsx';
 import NotFound from './NotFound.jsx';
+import Link from './Link.jsx';
 
-import auth from './auth.js';
+import * as actions from './actions';
 
 var notAuthedMenu = [
     { name: 'Login', path: '/login' },
@@ -27,48 +27,55 @@ var leftMenu = [
     { name: 'Decks', path: '/decks' }
 ];
 
-class Application extends React.Component {
-    constructor() {
-        super();
-
-        this.onAuthChanged = this.onAuthChanged.bind(this);
-        auth.onChange = this.onAuthChanged;
-
-        this.state = {
-            loggedIn: auth.loggedIn()
-        };
-    }
-
+class App extends React.Component {
     componentWillMount() {
         $(document).ajaxError((event, xhr) => {
             if(xhr.status === 401) {
-                this.props.router.push('/login');
+                this.props.navigate('/login');
             }
-        });
-    }
-
-    onAuthChanged(loggedIn) {
-        this.setState({
-            loggedIn: loggedIn
         });
     }
 
     render() {
         var menu = [];
         var leftMenuToRender = [];
-
-        var menuToRender = this.state.loggedIn ? authedMenu : notAuthedMenu;
+        var menuToRender = this.props.loggedIn ? authedMenu : notAuthedMenu;
+        var component = {};
+        
+        switch(this.props.path) {
+            case '/':
+                component = <Lobby />;
+                break;
+            case '/login':
+                component = <Login />;
+                break;
+            case '/logout':
+                component = <Logout />;
+                break;
+            case '/register':
+                component = <Register />;
+                break;
+            case '/decks':
+                component = <Decks />;
+                break;
+            case '/decks/add':
+                component = <AddDeck />;
+                break;
+            default:
+                component = <NotFound />;
+                break;
+        }
 
         _.each(menuToRender, item => {
-            var active = item.path === this.props.location.pathname ? 'active' : '';
+            var active = item.path === this.props.path ? 'active' : '';
 
-            menu.push(<li key={ item.name } className={ active }><Link to={ item.path }>{ item.name }</Link></li>);
+            menu.push(<li key={ item.name } className={ active }><Link href={ item.path }>{ item.name }</Link></li>);
         });
 
         _.each(leftMenu, item => {
-            var active = item.path === this.props.location.pathname ? 'active' : '';
+            var active = item.path === this.props.path ? 'active' : '';
 
-            leftMenuToRender.push(<li key={ item.name } className={ active }><Link to={ item.path }>{ item.name }</Link></li>);
+            leftMenuToRender.push(<li key={ item.name } className={ active }><Link href={ item.path }>{ item.name }</Link></li>);
         });
 
         return (<div>
@@ -83,7 +90,7 @@ class Application extends React.Component {
                         <span className='icon-bar' />
                     </div>
                 </div>
-                <Link to='/' className='navbar-brand'>Throneteki</Link>
+                <Link href='/' className='navbar-brand'>Throneteki</Link>
                 <div id='navbar' className='collapse navbar-collapse'>
                     <ul className='nav navbar-nav'>
                         { leftMenuToRender }
@@ -94,35 +101,26 @@ class Application extends React.Component {
                 </div>
             </nav>
             <div className='container-fluid'>
-                { this.props.children }
+                { component }
             </div>
         </div>);
     }
 }
 
-if(!window.__karma__) {
-    var App = withRouter(Application, { withRefs: true });
-    
-    render(<Router history={ browserHistory }>
-        <Route path='/' component={ App }>
-            <IndexRoute component={ Lobby } />
-            <Route path='register' component={ Register }/>
-            <Route path='login' component={ Login } />
-            <Route path='logout' component={ Logout } />
-            <Route path='decks/add' component={ AddDeck } />
-            <Route path='decks' component={ Decks } />
-            <Route path='*' component={ NotFound }/>
-        </Route>
-    </Router>, document.getElementById('component'));
-}
-
-Application.displayName = 'Application';
-Application.propTypes = {
-    children: React.PropTypes.object,
-    location: React.PropTypes.object,
-    router: React.PropTypes.shape({
-        push: React.PropTypes.func.isRequired
-    }).isRequired
+App.displayName = 'Application';
+App.propTypes = {
+    loggedIn: React.PropTypes.bool,
+    navigate: React.PropTypes.func,
+    path: React.PropTypes.string
 };
 
-export default withRouter(Application, { withRefs: true });
+function mapStateToProps(state) {
+    return {
+        path: state.navigation.path,
+        loggedIn: state.auth.loggedIn
+    };
+}
+
+const Application = connect(mapStateToProps, actions)(App);
+
+export default Application;

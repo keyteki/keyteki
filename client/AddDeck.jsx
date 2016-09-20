@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router';
 import _ from 'underscore';
 import $ from 'jquery';
 import Typeahead from 'react-bootstrap-typeahead';
@@ -253,4 +252,4 @@ AddDeck.propTypes = {
     }).isRequired
 };
 
-export default withRouter(AddDeck, { withRef: true });
+export default AddDeck;

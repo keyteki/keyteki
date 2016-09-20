@@ -1,11 +1,11 @@
 import React from 'react';
 import $ from 'jquery';
 import _ from 'underscore';
-import { withRouter } from 'react-router';
+import {connect} from 'react-redux';
 
-import auth from './auth.js';
+import * as actions from './actions';
 
-class Register extends React.Component {
+class InnerRegister extends React.Component {
     constructor() {
         super();
 
@@ -119,8 +119,7 @@ class Register extends React.Component {
                 return;
             }
 
-            auth.register();
-            this.props.router.push('/');
+            this.props.register();
         }).fail(() => {
             this.setState({ error: 'Could not communicate with the server.  Please try again later.' });
         });
@@ -201,11 +200,11 @@ class Register extends React.Component {
     }
 }
 
-Register.displayName = 'Register';
-Register.propTypes = {
-    router: React.PropTypes.shape({
-        push: React.PropTypes.func.isRequired
-    }).isRequired
+InnerRegister.displayName = 'Register';
+InnerRegister.propTypes = {
+    register: React.PropTypes.func
 };
 
-export default withRouter(Register, { withRef: true });
+const Register = connect(function() { }, actions)(InnerRegister);
+
+export default Register;

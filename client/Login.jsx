@@ -1,11 +1,11 @@
 import React from 'react';
 import _ from 'underscore';
 import $ from 'jquery';
-import { withRouter } from 'react-router';
+import {connect} from 'react-redux';
 
-import auth from './auth.js';
+import * as actions from './actions';
 
-class Login extends React.Component {
+class InnerLogin extends React.Component {
     constructor() {
         super();
 
@@ -79,8 +79,8 @@ class Login extends React.Component {
                 return;
             }
 
-            auth.register();
-            this.props.router.push('/');
+            this.props.register();
+            this.props.navigate('/');
         }).fail((xhr) => {
             if(xhr.status === 401) {
                 this.setState({ error: 'Invalid Username/password' });
@@ -152,11 +152,14 @@ class Login extends React.Component {
     }
 }
 
-Login.displayName = 'Login';
-Login.propTypes = {
-    router: React.PropTypes.shape({
-        push: React.PropTypes.func.isRequired
-    }).isRequired
+InnerLogin.displayName = 'Login';
+InnerLogin.propTypes = {
+    navigate: React.PropTypes.func,
+    register: React.PropTypes.func
 };
 
-export default withRouter(Login, { withRef: true });
+const Login = connect(function() {
+    return {};
+}, actions)(InnerLogin);
+
+export default Login;
