@@ -29,17 +29,19 @@ var config = {
         })
     ],
     module: {
-        loaders: [{
-            test: /\.jsx?/,
-            include: APP_DIR,
-            exclude: /node_modules/,
-            loaders: ['babel']
-        }, {
-            test: /\.less$/,
-            loader: 'style!css!less'
-        }, {
-            test: /.(png|woff(2)?|eot|ttf|svg)(\?[a-z0-9=\.]+)?$/, loader: 'url-loader?limit=100000'
-        }]
+        loaders: [
+            {
+                test: /\.jsx?/,
+                include: APP_DIR,
+                exclude: /node_modules/,
+                loaders: ['babel']
+            },
+            {
+                test: /\.less$/,
+                loader: 'style!css!less'
+            }, {
+                test: /.(png|woff(2)?|eot|ttf|svg)(\?[a-z0-9=\.]+)?$/, loader: 'url-loader?limit=100000'
+            }]
     },
     postcss: function() {
         return [precss, autoprefixer];

@@ -1,4 +1,4 @@
-/*global user */
+/*global user, authToken */
 import React from 'react';
 import {render} from 'react-dom';
 import Application from './Application.jsx';
@@ -12,7 +12,7 @@ const store = configureStore();
 store.dispatch(navigate(window.location.pathname));
 
 if(user) {
-    store.dispatch(login());
+    store.dispatch(login(user.username, authToken));
 }
 
 render(

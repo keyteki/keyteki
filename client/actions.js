@@ -7,15 +7,18 @@ export function navigate(path) {
     };
 }
 
-export function register() {
+export function register(username) {
     return {
-        type: 'AUTH_REGISTER'
+        type: 'AUTH_REGISTER',
+        username: username
     };
 }
 
-export function login() {
+export function login(username, token) {
     return {
-        type: 'AUTH_LOGIN'
+        type: 'AUTH_LOGIN',
+        username: username,
+        token: token
     };
 }
 
@@ -51,7 +54,7 @@ export function fetchCards() {
 
 export function requestPacks() {
     return {
-        type: 'REQUEST_PACK'
+        type: 'REQUEST_PACKS'
     };
 }
 
@@ -70,5 +73,45 @@ export function fetchPacks() {
             .done(function(data) {
                 dispatch(receivePacks(data.packs));
             });
+    };
+}
+
+export function receiveGames(games) {
+    return {
+        type: 'RECEIVE_GAMES',
+        games: games
+    };
+}
+
+export function startNewGame() {
+    return {
+        type: 'START_NEWGAME'
+    };
+}
+
+export function cancelNewGame() {
+    return {
+        type: 'CANCEL_NEWGAME'
+    };
+}
+
+export function socketConnected(socket) {
+    return {
+        type: 'SOCKET_CONNECTED',
+        socket: socket
+    };
+}
+
+export function receiveNewGame(game) {
+    return {
+        type: 'RECEIVE_NEWGAME',
+        game: game
+    };
+}
+
+export function receiveJoinGame(game) {
+    return {
+        type: 'RECEIVE_JOINGAME',
+        game: game
     };
 }

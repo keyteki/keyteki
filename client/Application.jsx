@@ -1,7 +1,7 @@
 import React from 'react';
-import _ from 'underscore';
 import $ from 'jquery';
 import {connect} from 'react-redux';
+import io from 'socket.io-client';
 
 import Login from './Login.jsx';
 import Logout from './Logout.jsx';
@@ -10,7 +10,8 @@ import Lobby from './Lobby.jsx';
 import Decks from './Decks.jsx';
 import AddDeck from './AddDeck.jsx';
 import NotFound from './NotFound.jsx';
-import Link from './Link.jsx';
+import NavBar from './NavBar.jsx';
+import GameLobby from './GameLobby.jsx';
 
 import * as actions from './actions';
 
@@ -24,7 +25,8 @@ var authedMenu = [
 ];
 
 var leftMenu = [
-    { name: 'Decks', path: '/decks' }
+    { name: 'Decks', path: '/decks' },
+    { name: 'Play', path: '/play' }
 ];
 
 class App extends React.Component {
@@ -36,14 +38,31 @@ class App extends React.Component {
                 this.props.navigate('/login');
             }
         });
+
+        var socket = io.connect(window.location.origin, { query: 'token=' + this.props.token });
+
+        socket.on('connect', () => {
+            this.props.socketConnected(socket);
+
+            socket.on('games', data => {
+                this.props.receiveGames(data);
+            });
+
+            socket.on('newgame', game => {
+                this.props.receiveNewGame(game);
+            });
+
+            socket.on('joingame', game => {
+                this.props.receiveJoinGame(game);
+            });
+        });
+
     }
 
     render() {
-        var menu = [];
-        var leftMenuToRender = [];
-        var menuToRender = this.props.loggedIn ? authedMenu : notAuthedMenu;
+        var rightMenu = this.props.loggedIn ? authedMenu : notAuthedMenu;
         var component = {};
-        
+
         switch(this.props.path) {
             case '/':
                 component = <Lobby />;
@@ -63,45 +82,16 @@ class App extends React.Component {
             case '/decks/add':
                 component = <AddDeck cards={ this.props.cards } packs={ this.props.packs } agendas={ this.props.agendas } />;
                 break;
+            case '/play':
+                component = <GameLobby games={ this.props.games } />;
+                break;
             default:
                 component = <NotFound />;
                 break;
         }
 
-        _.each(menuToRender, item => {
-            var active = item.path === this.props.path ? 'active' : '';
-
-            menu.push(<li key={ item.name } className={ active }><Link href={ item.path }>{ item.name }</Link></li>);
-        });
-
-        _.each(leftMenu, item => {
-            var active = item.path === this.props.path ? 'active' : '';
-
-            leftMenuToRender.push(<li key={ item.name } className={ active }><Link href={ item.path }>{ item.name }</Link></li>);
-        });
-
         return (<div>
-            <nav className='navbar navbar-inverse navbar-fixed-top'>
-                <div className='container-fluid'>
-                    <div className='navbar-header'>
-                        <button className='navbar-toggle collapsed' type='button' data-toggle='collapse' data-target='#navbar' aria-expanded='false' aria-controls='navbar' />
-                        <span className='sr-only' />
-                        <span className='sr-only'>Toggle Navigation</span>
-                        <span className='icon-bar' />
-                        <span className='icon-bar' />
-                        <span className='icon-bar' />
-                    </div>
-                </div>
-                <Link href='/' className='navbar-brand'>Throneteki</Link>
-                <div id='navbar' className='collapse navbar-collapse'>
-                    <ul className='nav navbar-nav'>
-                        { leftMenuToRender }
-                    </ul>
-                    <ul className='nav navbar-nav navbar-right'>
-                        { menu }
-                    </ul>
-                </div>
-            </nav>
+            <NavBar leftMenu={ leftMenu } rightMenu={ rightMenu } title='Throneteki' currentPath={ this.props.path } />
             <div className='container-fluid'>
                 { component }
             </div>
@@ -114,19 +104,27 @@ App.propTypes = {
     agendas: React.PropTypes.array,
     cards: React.PropTypes.array,
     fetchCards: React.PropTypes.func,
+    games: React.PropTypes.array,
     loggedIn: React.PropTypes.bool,
     navigate: React.PropTypes.func,
     packs: React.PropTypes.array,
-    path: React.PropTypes.string
+    path: React.PropTypes.string,
+    receiveGames: React.PropTypes.func,
+    receiveJoinGame: React.PropTypes.func,
+    receiveNewGame: React.PropTypes.func,
+    socketConnected: React.PropTypes.func,
+    token: React.PropTypes.string
 };
 
 function mapStateToProps(state) {
     return {
         agendas: state.cards.agendas,
         cards: state.cards.cards,
+        games: state.games.games,
         packs: state.cards.packs,
         path: state.navigation.path,
-        loggedIn: state.auth.loggedIn
+        loggedIn: state.auth.loggedIn,
+        token: state.auth.token
     };
 }
 
