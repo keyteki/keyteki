@@ -115,3 +115,11 @@ export function receiveJoinGame(game) {
         game: game
     };
 }
+
+export function receiveUpdateGame(game) {
+    return {
+        type: 'RECEIVE_UPDATEGAME',
+        game: game
+    };
+}
+

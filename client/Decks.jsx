@@ -5,6 +5,7 @@ import moment from 'moment';
 
 import Deck from './Deck.jsx';
 import Link from './Link.jsx';
+import {validateDeck} from './deck-validator';
 
 class Decks extends React.Component {
     constructor() {
@@ -54,10 +55,12 @@ class Decks extends React.Component {
                 className += ' active';
             }
 
+            var validation = validateDeck(deck);
+
             decks.push(
                 <div className={ className } key={ deck.name } onClick={ this.onSelectionChanged.bind(this, index) }>
                     <img className='pull-left' src={ '/img/factions/' + deck.faction.value + '.png' } />
-                    <div>{ deck.name }<span className='pull-right'>Valid?</span></div>
+                    <div>{ deck.name }<span className='pull-right'>{ validation.status }</span></div>
                     <div>{ deck.faction.name } 
                         { deck.agenda && deck.agenda.label ? <span>/{deck.agenda.label}</span> : null }
                         <span className='pull-right'>{ moment(deck.lastUpdated).format('Do MMMM YYYY') }</span>

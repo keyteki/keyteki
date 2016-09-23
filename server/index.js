@@ -142,6 +142,8 @@ function runServer() {
 
 var games = [];
 
+io.set('heartbeat timeout', 30000);
+
 io.use(function(socket, next) {
     if(socket.handshake.query.token) {
         jwt.verify(socket.handshake.query.token, 'supersecret', function(err, user) {
@@ -154,9 +156,20 @@ io.use(function(socket, next) {
     next();
 });
 
+function findGame(gameid) {
+    var game = _.find(games, function(g) {
+        return g.id === gameid;
+    });
+
+    return game;
+}
+
 io.on('connection', function(socket) {
+    socket.on('error', function(err) {
+        logger.info('socket error', err);
+    });
+
     socket.on('disconnect', function() {
-        logger.info('disconnect');
         games = _.reject(games, function(game) {
             return (game.player1 && game.player1.id === socket.id) || (game.player2 && game.player2.id === socket.id);
         });
@@ -178,9 +191,7 @@ io.on('connection', function(socket) {
     });
 
     socket.on('joingame', function(gameid) {
-        var game = _.find(games, function(g) {
-            return g.id === gameid;
-        });
+        var game = findGame(gameid);
 
         if(!game) {
             return;
@@ -194,6 +205,27 @@ io.on('connection', function(socket) {
         socket.emit('joingame', game);
         io.to(game.player1.id).emit('joingame', game);
         io.emit('games', games);
+    });
+
+    socket.on('selectdeck', function(gameid, deck) {
+        var game = findGame(gameid);
+
+        if(!game) {
+            return;
+        }
+
+        if(socket.id === game.player1.id) {
+            game.player1.deck = deck;
+        }
+
+        if(game.player2 && socket.id === game.player2.id) {
+            game.player2.deck = deck;
+        }
+
+        io.to(game.player1.id).emit('updategame', game);
+        if(game.player2) {
+            io.to(game.player2.id).emit('updategame', game);
+        }
     });
 
     socket.emit('games', games);

@@ -22,6 +22,10 @@ function games(state = {
         case 'RECEIVE_JOINGAME':
             return Object.assign({}, state, {
                 currentGame: action.game
+            });
+        case 'RECEIVE_UPDATEGAME':
+            return Object.assign({}, state, {
+                currentGame: action.game
             });            
         default:
             return state;

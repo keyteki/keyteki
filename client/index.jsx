@@ -6,6 +6,7 @@ import {Provider} from 'react-redux';
 import configureStore from './configureStore';
 import {navigate, login} from './actions';
 import DevTools from './DevTools';
+import 'bootstrap/dist/js/bootstrap';
 
 const store = configureStore();
 

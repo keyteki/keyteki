@@ -55,6 +55,10 @@ class App extends React.Component {
             socket.on('joingame', game => {
                 this.props.receiveJoinGame(game);
             });
+
+            socket.on('updategame', game => {
+                this.props.receiveUpdateGame(game);
+            });
         });
 
     }
@@ -112,6 +116,7 @@ App.propTypes = {
     receiveGames: React.PropTypes.func,
     receiveJoinGame: React.PropTypes.func,
     receiveNewGame: React.PropTypes.func,
+    receiveUpdateGame: React.PropTypes.func,
     socketConnected: React.PropTypes.func,
     token: React.PropTypes.string
 };
