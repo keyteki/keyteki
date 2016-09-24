@@ -5,3 +5,4 @@ typings
 coverage
 *.log
 *.json
+config.js

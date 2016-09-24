@@ -3,7 +3,7 @@ import $ from 'jquery';
 import _ from 'underscore';
 import moment from 'moment';
 
-import Deck from './Deck.jsx';
+import DeckSummary from './DeckSummary.jsx';
 import Link from './Link.jsx';
 import {validateDeck} from './deck-validator';
 
@@ -90,7 +90,7 @@ class Decks extends React.Component {
                     <Link className='btn btn-primary' href='/decks/add'>Add new deck</Link>
                     <div className='deck-list'>{ this.state.decks.length === 0 ? 'You have no decks, try adding one.' : deckList }</div>
                 </div>
-                { selectedDeck ? <Deck className='col-sm-6' name={ selectedDeck.name } faction={ selectedDeck.faction } 
+                { selectedDeck ? <DeckSummary className='col-sm-6' name={ selectedDeck.name } faction={ selectedDeck.faction } 
                                         plotCards={ selectedDeck.plotCards } drawCards={ selectedDeck.drawCards } agenda={ selectedDeck.agenda }
                                         cards={ this.props.cards } /> 
                                : null }

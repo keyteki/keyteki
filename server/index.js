@@ -6,7 +6,7 @@ const io = require('socket.io')(server);
 const webpack = require('webpack');
 const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
-const config = require('../webpack.config.js');
+const webpackConfig = require('../webpack.config.js');
 const api = require('./api');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -22,6 +22,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const uuid = require('node-uuid');
 const _ = require('underscore');
+const config = require('./config.js');
 
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 4000 : process.env.PORT;
@@ -34,7 +35,7 @@ app.use(session({
     store: new MongoStore({ url: 'mongodb://127.0.0.1:27017/throneteki' }),
     saveUninitialized: false,
     resave: false,
-    secret: 'thisisreallysecret',
+    secret: config.secret,
     cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 } // 7 days
 }));
 app.use(passport.initialize());
@@ -90,11 +91,11 @@ api.init(app);
 
 function runServer() {
     if(isDeveloping) {
-        const compiler = webpack(config);
+        const compiler = webpack(webpackConfig);
         const middleware = webpackMiddleware(compiler, {
             hot: true,
             contentBase: 'client',
-            publicPath: config.output.publicPath,
+            publicPath: webpackConfig.output.publicPath,
             stats: {
                 colors: true,
                 hash: false,
@@ -116,7 +117,7 @@ function runServer() {
             var token = undefined;
 
             if(req.user) {
-                token = jwt.sign(req.user, 'supersecret');
+                token = jwt.sign(req.user, config.secret);
             }
 
             var html = pug.renderFile('views/index.pug', { basedir: path.join(__dirname, '..', 'views'), user: req.user, token: token });
@@ -144,9 +145,9 @@ var games = [];
 
 io.set('heartbeat timeout', 30000);
 
-io.use(function(socket, next) {
+io.use(function(socket, next) { 
     if(socket.handshake.query.token) {
-        jwt.verify(socket.handshake.query.token, 'supersecret', function(err, user) {
+        jwt.verify(socket.handshake.query.token, config.secret, function(err, user) {
             if(!err) {
                 socket.request.user = user;
             }
@@ -175,6 +176,14 @@ io.on('connection', function(socket) {
         });
 
         io.emit('games', games);
+    });
+
+    socket.on('authenticate', function(token) {
+        jwt.verify(token, config.secret, function(err, user) {
+            if(!err) {
+                socket.request.user = user;
+            }
+        });
     });
 
     socket.on('newgame', function(game) {

@@ -119,7 +119,8 @@ class InnerRegister extends React.Component {
                 return;
             }
 
-            this.props.register();
+            this.props.register(data.user.username, data.token);
+            this.props.socket.emit('authenticate', data.token);
         }).fail(() => {
             this.setState({ error: 'Could not communicate with the server.  Please try again later.' });
         });
@@ -177,7 +178,7 @@ class InnerRegister extends React.Component {
                             className='form-control'
                             id={ field.name }
                             placeholder={ field.placeholder }
-                            value={ this.state[field.name] }
+                            value={ this.state[field.name]}
                             onChange={ this.onChange.bind(this, field.name) }
                             onBlur={ field.blurCallback } />
                         { validation }
@@ -202,9 +203,16 @@ class InnerRegister extends React.Component {
 
 InnerRegister.displayName = 'Register';
 InnerRegister.propTypes = {
-    register: React.PropTypes.func
+    register: React.PropTypes.func,
+    socket: React.PropTypes.object
 };
 
-const Register = connect(function() { }, actions)(InnerRegister);
+function mapStateToProps(state) {
+    return {
+        socket: state.socket.socket
+    };
+}
+
+const Register = connect(mapStateToProps, actions)(InnerRegister);
 
 export default Register;

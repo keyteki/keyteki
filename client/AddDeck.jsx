@@ -1,12 +1,15 @@
 import React from 'react';
 import _ from 'underscore';
 import $ from 'jquery';
+import {connect} from 'react-redux';
 import Typeahead from 'react-bootstrap-typeahead';
 import Input from './FormComponents/Input.jsx';
 import Select from './FormComponents/Select.jsx';
-import Deck from './Deck.jsx';
+import DeckSummary from './DeckSummary.jsx';
 
-class AddDeck extends React.Component {
+import * as actions from './actions';
+
+class InnerAddDeck extends React.Component {
     constructor() {
         super();
 
@@ -172,7 +175,16 @@ class AddDeck extends React.Component {
             drawCards: this.state.drawCards
         });
 
-        $.post('/api/decks/new', { data: str });
+        $.post('/api/decks/new', { data: str }).done((data) => {
+            if(!data.success) {
+                this.setState({ error: data.message });
+                return;
+            }
+
+            this.props.navigate('/decks');
+        }).fail(() => {
+            this.setState({ error: 'Could not communicate with the server.  Please try again later.' });
+        });
     }
 
     render() {
@@ -216,17 +228,26 @@ class AddDeck extends React.Component {
                         </div>
                     </div>
                 </form>
-                <Deck className='col-sm-6 right-pane' cards={ this.props.cards } name={ this.state.deckname } agenda={ this.state.selectedAgenda }
+                <DeckSummary className='col-sm-6 right-pane' cards={ this.props.cards } name={ this.state.deckname } agenda={ this.state.selectedAgenda }
                     faction={ this.state.selectedFaction } plotCards={ this.state.plotCards } drawCards={ this.state.drawCards } />
             </div>);
     }
 }
 
-AddDeck.displayName = 'AddDeck';
-AddDeck.propTypes = {
+InnerAddDeck.displayName = 'InnerAddDeck';
+InnerAddDeck.propTypes = {
     agendas: React.PropTypes.array,
     cards: React.PropTypes.array,
+    navigate: React.PropTypes.func,
     packs: React.PropTypes.array
 };
+
+function mapStateToProps(state) {
+    return {
+        socket: state.socket.socket
+    };
+}
+
+const AddDeck = connect(mapStateToProps, actions)(InnerAddDeck);
 
 export default AddDeck;

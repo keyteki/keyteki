@@ -79,7 +79,8 @@ class InnerLogin extends React.Component {
                 return;
             }
 
-            this.props.register();
+            this.props.login(data.user.username, data.token);
+            this.props.socket.emit('authenticate', data.token);
             this.props.navigate('/');
         }).fail((xhr) => {
             if(xhr.status === 401) {
@@ -154,12 +155,17 @@ class InnerLogin extends React.Component {
 
 InnerLogin.displayName = 'Login';
 InnerLogin.propTypes = {
+    login: React.PropTypes.func,
     navigate: React.PropTypes.func,
-    register: React.PropTypes.func
+    socket: React.PropTypes.object
 };
 
-const Login = connect(function() {
-    return {};
-}, actions)(InnerLogin);
+function mapStateToProps(state) {
+    return {
+        socket: state.socket.socket
+    };
+}
+
+const Login = connect(mapStateToProps, actions)(InnerLogin);
 
 export default Login;

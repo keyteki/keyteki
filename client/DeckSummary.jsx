@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'underscore';
 import {validateDeck} from './deck-validator';
 
-class Deck extends React.Component {
+class DeckSummary extends React.Component {
     constructor() {
         super();
 
@@ -18,11 +18,15 @@ class Deck extends React.Component {
     }
 
     componentWillMount() {
-        validateDeck(this.props);
+        this.updateDeck(validateDeck(this.props));
     }
 
     componentWillReceiveProps(newProps) {
-        validateDeck(newProps);
+        this.updateDeck(validateDeck(newProps));
+    }
+
+    updateDeck(status) {
+        this.setState({ status: status.status, drawCount: status.drawCount, plotCount: status.plotCount });
     }
 
     onCardMouseOver(event) {
@@ -91,8 +95,8 @@ class Deck extends React.Component {
     }
 }
 
-Deck.displayName = 'Deck';
-Deck.propTypes = {
+DeckSummary.displayName = 'DeckSummary';
+DeckSummary.propTypes = {
     agenda: React.PropTypes.shape({
         code: React.PropTypes.string,
         label: React.PropTypes.string
@@ -108,4 +112,4 @@ Deck.propTypes = {
     plotCards: React.PropTypes.array
 };
 
-export default Deck;
+export default DeckSummary;

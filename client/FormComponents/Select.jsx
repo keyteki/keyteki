@@ -7,18 +7,20 @@ class Select extends React.Component {
         if(this.props.blankOption) {
             var value = this.props.blankOption[this.props.valueKey || 'value'];
             var name = this.props.blankOption[this.props.nameKey || 'name'];
-            
+
             options.push(<option key='default' value={ value }>{ name }</option>);
         }
 
-        this.props.options.forEach(option => {
-            var value = option[this.props.valueKey || 'value'];
-            var name = option[this.props.nameKey || 'name'];
-            
-            options.push(<option key={ value } value={ value }>{ name }</option>);
-        });
+        if(this.props.options) {
+            this.props.options.forEach(option => {
+                var value = option[this.props.valueKey || 'value'];
+                var name = option[this.props.nameKey || 'name'];
 
-        return (        
+                options.push(<option key={ value } value={ value }>{ name }</option>);
+            });
+        }
+
+        return (
             <div className='form-group'>
                 <label htmlFor={ this.props.name } className={ this.props.labelClass + ' control-label'}>{ this.props.label }</label>
                 <div className={ this.props.fieldClass }>

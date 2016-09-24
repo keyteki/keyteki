@@ -7,10 +7,11 @@ export function navigate(path) {
     };
 }
 
-export function register(username) {
+export function register(username, token) {
     return {
         type: 'AUTH_REGISTER',
-        username: username
+        username: username,
+        token: token
     };
 }
 
