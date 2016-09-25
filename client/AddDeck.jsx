@@ -2,9 +2,10 @@ import React from 'react';
 import _ from 'underscore';
 import $ from 'jquery';
 import {connect} from 'react-redux';
-import Typeahead from 'react-bootstrap-typeahead';
 import Input from './FormComponents/Input.jsx';
 import Select from './FormComponents/Select.jsx';
+import Typeahead from './FormComponents/Typeahead.jsx';
+import TextArea from './FormComponents/TextArea.jsx';
 import DeckSummary from './DeckSummary.jsx';
 
 import * as actions from './actions';
@@ -201,27 +202,17 @@ class InnerAddDeck extends React.Component {
                     <Select name='agenda' label='Agenda' labelClass='col-sm-3' fieldClass='col-sm-9' options={ this.props.agendas }
                         onChange={ this.onAgendaChange } value={ this.state.selectedAgenda.code }
                         valueKey='code' nameKey='label' blankOption={ { label: '- Select -', code: '' } } />
-                    <div className='form-group'>
-                        <label className='col-sm-3 control-label'>Card</label>
-                        <div className='col-sm-4'>
-                            <Typeahead labelKey={ 'label' } options={ this.props.cards } onChange={ this.addCardChange } />
-                        </div>
-                        <div className='form-group'>
-                            <label className='col-sm-1 control-label'>Num</label>
-                            <div className='col-sm-2'>
-                                <input className='form-control' type='text' value={ this.state.numberToAdd } onChange={ this.onChange.bind(this, 'numberToAdd') } />
-                            </div>
+                    <Typeahead label='Card' labelClass={ 'col-sm-3' } fieldClass='col-sm-4' labelKey={ 'label' } options={ this.props.cards }
+                        onChange={ this.addCardChange }>
+                        <Input name='numcards' type='text' label='Num' labelClass='col-sm-1' fieldClass='col-sm-2' value={ this.state.numberToAdd }
+                            onChange={ this.onChange.bind(this, 'numberToAdd') }>
                             <div className='col-sm-1'>
                                 <button className='btn btn-default' onClick={ this.onAddCard }>Add</button>
                             </div>
-                        </div>
-                    </div>
-                    <div className='form-group'>
-                        <label className='col-sm-3 control-label'>Cards</label>
-                        <div className='col-sm-9'>
-                            <textarea className='form-control' rows='25' value={ this.state.cardList } onChange={ this.onCardListChange } />
-                        </div>
-                    </div>
+                        </Input>
+                    </Typeahead>
+                    <TextArea label='Cards' labelClass='col-sm-3' fieldClass='col-sm-9' rows='25' value={ this.state.cardList }
+                        onChange={ this.onCardListChange } />
                     <div className='form-group'>
                         <div className='col-sm-offset-3 col-sm-8'>
                             <button ref='submit' type='submit' className='btn btn-primary' onClick={ this.onAddDeck }>Add Deck</button>

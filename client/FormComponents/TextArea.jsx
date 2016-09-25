@@ -1,13 +1,14 @@
 import React from 'react';
 
-class Input extends React.Component {
+class TextArea extends React.Component {
     render() {
         return (
             <div className='form-group'>
                 <label htmlFor={ this.props.name } className={ this.props.labelClass + ' control-label'}>{ this.props.label }</label>
                 <div className={ this.props.fieldClass }>
-                    <input type={ this.props.type }
+                    <textarea type={ this.props.type }
                         ref={ this.props.name }
+                        rows={ this.props.rows }
                         className='form-control'
                         id={ this.props.name }
                         placeholder={ this.props.placeholder }
@@ -22,8 +23,8 @@ class Input extends React.Component {
     }
 }
 
-Input.displayName = 'Input';
-Input.propTypes = {
+TextArea.displayName = 'TextArea';
+TextArea.propTypes = {
     children: React.PropTypes.object,
     fieldClass: React.PropTypes.string,
     label: React.PropTypes.string,
@@ -32,9 +33,10 @@ Input.propTypes = {
     onBlur: React.PropTypes.func,
     onChange: React.PropTypes.func,
     placeholder: React.PropTypes.string,
+    rows: React.PropTypes.int,
     type: React.PropTypes.oneOf(['text']),
     validationMessage: React.PropTypes.string,
     value: React.PropTypes.string
 };
 
-export default Input;
+export default TextArea;
