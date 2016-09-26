@@ -13,6 +13,7 @@ class InnerPendingGame extends React.Component {
 
         this.isGameReady = this.isGameReady.bind(this);
         this.onSelectDeckClick = this.onSelectDeckClick.bind(this);
+        this.onLeaveClick = this.onLeaveClick.bind(this);
 
         this.state = {
             decks: []
@@ -36,8 +37,9 @@ class InnerPendingGame extends React.Component {
     }
 
     isGameReady() {
-        return this.props.currentGame.player1 && this.props.currentGame.player1.deck &&
-            this.props.currentGame.player2 && this.props.currentGame.player2.deck;
+        return this.props.currentGame.players.length === 2 && _.all(this.props.currentGame.players, player => {
+            return player.deck;
+        });
     }
 
     onSelectDeckClick() {
@@ -53,11 +55,41 @@ class InnerPendingGame extends React.Component {
     getPlayerStatus(player, username) {
         var playerIsMe = player && player.name === username;
 
-        var deck = player && !player.deck && playerIsMe ?
-            <span className='deck-link' data-toggle='modal' data-target='#decks-modal'>Select deck...</span> :
-            playerIsMe ? <span>{player.deck.name}</span> : <span>Deck Selected</span>;
+        var deck = null;
+        var selectLink = null;
 
-        return <div>{ player ? player.name : null }{ deck }</div>;
+        if(player && player.deck) {
+            if(playerIsMe) {
+                deck = <span className='deck-selection'>{ player.deck.name }</span>;
+                selectLink = <span className='deck-link' data-toggle='modal' data-target='#decks-modal'>Select deck...</span>;
+            } else {
+                deck = <span className='deck-selection'>Deck Selected</span>;
+            }
+        } else if(player && playerIsMe) {
+            selectLink = <span className='deck-link' data-toggle='modal' data-target='#decks-modal'>Select deck...</span>;
+        }
+
+        return <div className='player-row' key={ player.id }>{ player ? <span>{ player.name }</span> : null }{ deck } { selectLink }</div>;
+    }
+
+    getGameStatus() {
+        if(this.props.currentGame.players.length < 2) {
+            return 'Waiting for players...';
+        }
+
+        if(!_.all(this.props.currentGame.players, player => {
+            return !!player.deck;
+        })) {
+            return 'Waiting for players to select decks';
+        }
+
+        return 'Ready to begin, click start to begin the game';
+    }
+
+    onLeaveClick(event) {
+        event.preventDefault();
+
+        this.props.socket.emit('leavegame', this.props.currentGame.id);
     }
 
     render() {
@@ -65,7 +97,7 @@ class InnerPendingGame extends React.Component {
         var decks = this.state.decks ? _.map(this.state.decks, deck => {
             var row = <DeckRow key={ deck.name + index.toString() } deck={ deck } onClick={ this.selectDeck.bind(this, index) } active={ index === this.state.selectedDeck } />;
 
-            index++;            
+            index++;
 
             return row;
         }) : null;
@@ -86,18 +118,21 @@ class InnerPendingGame extends React.Component {
                     </div>
                 </div>
             </div>);
-        
+
         return (
             <div>
-                <div className='button-row'>
+                <div className='btn-group'>
                     <button className='btn btn-primary' disabled={ !this.isGameReady() }>Start</button>
-                    <button className='btn btn-primary'>Leave</button>
+                    <button className='btn btn-primary' onClick={ this.onLeaveClick }>Leave</button>
                 </div>
                 <h3>{ this.props.currentGame.name }</h3>
-                <div>Waiting for players...</div>
+                <div>{ this.getGameStatus() }</div>
                 <h4>Players</h4>
-                { this.getPlayerStatus(this.props.currentGame.player1, this.props.username) }
-                { this.getPlayerStatus(this.props.currentGame.player2, this.props.username) }
+                {
+                    _.map(this.props.currentGame.players, player => {
+                        return this.getPlayerStatus(player, this.props.username);
+                    })
+                }
 
                 { popup }
             </div>);

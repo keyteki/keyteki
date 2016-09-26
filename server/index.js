@@ -145,7 +145,7 @@ var games = [];
 
 io.set('heartbeat timeout', 30000);
 
-io.use(function(socket, next) { 
+io.use(function(socket, next) {
     if(socket.handshake.query.token) {
         jwt.verify(socket.handshake.query.token, config.secret, function(err, user) {
             if(!err) {
@@ -171,9 +171,35 @@ io.on('connection', function(socket) {
     });
 
     socket.on('disconnect', function() {
-        games = _.reject(games, function(game) {
-            return (game.player1 && game.player1.id === socket.id) || (game.player2 && game.player2.id === socket.id);
+        var playerGame = _.find(games, function(game) {
+            return _.any(game.players, function(player) {
+                return player.id === socket.id;
+            });
         });
+
+        if(!playerGame) {
+            return;
+        }
+
+        var players = playerGame.players;
+
+        playerGame.players = _.reject(playerGame.players, player => {
+            return player.id === socket.id;
+        });
+
+        _.each(players, player => {
+            if(socket.id === player.id) {
+                _.each(players, sendPlayer => {
+                    io.to(sendPlayer.id).emit('leavegame', playerGame, player);
+                });
+            }
+        });
+
+        if(_.isEmpty(playerGame.players)) {
+            games = _.reject(games, game => {
+                return game.id === playerGame.id;
+            });
+        }
 
         io.emit('games', games);
     });
@@ -189,10 +215,10 @@ io.on('connection', function(socket) {
     socket.on('newgame', function(game) {
         game.id = uuid.v1();
         game.started = false;
-        game.player1 = {
+        game.players = [{
             id: socket.id,
             name: socket.request.user.username
-        };
+        }];
 
         games.push(game);
         socket.emit('newgame', game);
@@ -202,17 +228,19 @@ io.on('connection', function(socket) {
     socket.on('joingame', function(gameid) {
         var game = findGame(gameid);
 
-        if(!game) {
+        if(!game || game.players.length === 2) {
             return;
         }
 
-        game.player2 = {
+        game.players.push({
             id: socket.id,
             name: socket.request.user.username
-        };
+        });
 
-        socket.emit('joingame', game);
-        io.to(game.player1.id).emit('joingame', game);
+        _.each(game.players, player => {
+            io.to(player.id).emit('joingame', game);
+        });
+
         io.emit('games', games);
     });
 
@@ -223,18 +251,67 @@ io.on('connection', function(socket) {
             return;
         }
 
-        if(socket.id === game.player1.id) {
-            game.player1.deck = deck;
+        _.each(game.players, player => {
+            if(socket.id === player.id) {
+                player.deck = deck;
+            }
+        });
+
+        _.each(game.players, player => {
+            io.to(player.id).emit('updategame', game);
+        });
+    });
+
+    socket.on('leavegame', function(gameid) {
+        var game = findGame(gameid);
+
+        if(!game) {
+            return;
         }
 
-        if(game.player2 && socket.id === game.player2.id) {
-            game.player2.deck = deck;
+        var players = game.players;
+
+        game.players = _.reject(game.players, player => {
+            return player.id === socket.id;
+        });
+
+        _.each(players, player => {
+            if(socket.id === player.id) {
+                _.each(players, sendPlayer => {
+                    io.to(sendPlayer.id).emit('leavegame', game, player);
+                });
+            }
+        });
+
+        if(_.isEmpty(game.players)) {
+            games = _.reject(games, game => {
+                return game.id === gameid;
+            });
         }
 
-        io.to(game.player1.id).emit('updategame', game);
-        if(game.player2) {
-            io.to(game.player2.id).emit('updategame', game);
+        io.emit('games', games);
+    });
+
+    socket.on('startgame', function(gameid) {
+        var game = findGame(gameid);
+
+        if(!game) {
+            return;
         }
+
+        if(_.any(game.players, function(player) {
+            return !player.deck;
+        })) {
+            return;
+        }
+
+        game.started = true;
+
+        _.each(game.players, player => {
+            io.to(player.id).emit('startgame', game);
+        });
+
+        socket.emit('games', games);
     });
 
     socket.emit('games', games);

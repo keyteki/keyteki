@@ -12,6 +12,7 @@ import AddDeck from './AddDeck.jsx';
 import NotFound from './NotFound.jsx';
 import NavBar from './NavBar.jsx';
 import GameLobby from './GameLobby.jsx';
+import GameBoard from './GameBoard.jsx';
 
 import * as actions from './actions';
 
@@ -59,8 +60,17 @@ class App extends React.Component {
             socket.on('updategame', game => {
                 this.props.receiveUpdateGame(game);
             });
-        });
 
+            socket.on('leavegame', (game, player) => {
+                var isMe = false;
+
+                if(player.name === this.props.username) {
+                    isMe = true;
+                }
+
+                this.props.receiveLeaveGame(game, isMe);
+            });
+        });
     }
 
     render() {
@@ -87,7 +97,7 @@ class App extends React.Component {
                 component = <AddDeck cards={ this.props.cards } packs={ this.props.packs } agendas={ this.props.agendas } />;
                 break;
             case '/play':
-                component = <GameLobby games={ this.props.games } />;
+                component = this.props.currentGame && this.props.currentGame.started ? <GameBoard /> : <GameLobby games={ this.props.games } />;
                 break;
             default:
                 component = <NotFound />;
@@ -107,6 +117,7 @@ App.displayName = 'Application';
 App.propTypes = {
     agendas: React.PropTypes.array,
     cards: React.PropTypes.array,
+    currentGame: React.PropTypes.object,
     fetchCards: React.PropTypes.func,
     games: React.PropTypes.array,
     loggedIn: React.PropTypes.bool,
@@ -115,21 +126,25 @@ App.propTypes = {
     path: React.PropTypes.string,
     receiveGames: React.PropTypes.func,
     receiveJoinGame: React.PropTypes.func,
+    receiveLeaveGame: React.PropTypes.func,
     receiveNewGame: React.PropTypes.func,
     receiveUpdateGame: React.PropTypes.func,
     socketConnected: React.PropTypes.func,
-    token: React.PropTypes.string
+    token: React.PropTypes.string,
+    username: React.PropTypes.string
 };
 
 function mapStateToProps(state) {
     return {
         agendas: state.cards.agendas,
         cards: state.cards.cards,
+        currentGame: state.games.currentGame,
         games: state.games.games,
         packs: state.cards.packs,
         path: state.navigation.path,
         loggedIn: state.auth.loggedIn,
-        token: state.auth.token
+        token: state.auth.token,
+        username: state.auth.username
     };
 }
 

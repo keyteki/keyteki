@@ -124,3 +124,11 @@ export function receiveUpdateGame(game) {
     };
 }
 
+export function receiveLeaveGame(game, isMe) {
+    return {
+        type: 'RECEIVE_LEAVEGAME',
+        game: game,
+        isMe: isMe
+    };
+}
+

@@ -26,7 +26,17 @@ function games(state = {
         case 'RECEIVE_UPDATEGAME':
             return Object.assign({}, state, {
                 currentGame: action.game
-            });            
+            });
+        case 'RECEIVE_LEAVEGAME':
+            var retState = Object.assign({}, state, {
+                currentGame: action.game
+            });
+
+            if(action.isMe) {
+                delete retState.currentGame;
+            }
+
+            return retState;
         default:
             return state;
     }
