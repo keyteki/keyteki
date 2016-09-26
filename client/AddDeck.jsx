@@ -204,7 +204,7 @@ class InnerAddDeck extends React.Component {
                         valueKey='code' nameKey='label' blankOption={ { label: '- Select -', code: '' } } />
                     <Typeahead label='Card' labelClass={ 'col-sm-3' } fieldClass='col-sm-4' labelKey={ 'label' } options={ this.props.cards }
                         onChange={ this.addCardChange }>
-                        <Input name='numcards' type='text' label='Num' labelClass='col-sm-1' fieldClass='col-sm-2' value={ this.state.numberToAdd }
+                        <Input name='numcards' type='text' label='Num' labelClass='col-sm-1' fieldClass='col-sm-2' value={ this.state.numberToAdd.toString() }
                             onChange={ this.onChange.bind(this, 'numberToAdd') }>
                             <div className='col-sm-1'>
                                 <button className='btn btn-default' onClick={ this.onAddCard }>Add</button>

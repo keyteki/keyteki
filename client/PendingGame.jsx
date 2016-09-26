@@ -3,10 +3,9 @@ import {findDOMNode} from 'react-dom';
 import {connect} from 'react-redux';
 import $ from 'jquery';
 import _ from 'underscore';
-import moment from 'moment';
 
 import * as actions from './actions';
-import {validateDeck} from './deck-validator';
+import DeckRow from './DeckRow.jsx';
 
 class InnerPendingGame extends React.Component {
     constructor() {
@@ -64,27 +63,11 @@ class InnerPendingGame extends React.Component {
     render() {
         var index = 0;
         var decks = this.state.decks ? _.map(this.state.decks, deck => {
-            var className = 'deck-row';
-            
-            if(index === this.state.selectedDeck) {
-                className += ' active';
-            }
+            var row = <DeckRow key={ deck.name + index.toString() } deck={ deck } onClick={ this.selectDeck.bind(this, index) } active={ index === this.state.selectedDeck } />;
 
-            var validation = validateDeck(deck);
+            index++;            
 
-            var deckRow = (                
-                <div className={ className } key={ deck.name } onClick={ this.selectDeck.bind(this, index) }>
-                    <img className='pull-left' src={ '/img/factions/' + deck.faction.value + '.png' } />
-                    <div>{ deck.name }<span className='pull-right'>{ validation.status }</span></div>
-                    <div>{ deck.faction.name } 
-                        { deck.agenda && deck.agenda.label ? <span>/{deck.agenda.label}</span> : null }
-                        <span className='pull-right'>{ moment(deck.lastUpdated).format('Do MMMM YYYY') }</span>
-                    </div>
-                </div>);
-
-            index++;
-
-            return deckRow;
+            return row;
         }) : null;
 
         var popup = (

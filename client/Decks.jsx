@@ -1,11 +1,10 @@
 import React from 'react';
 import $ from 'jquery';
 import _ from 'underscore';
-import moment from 'moment';
 
 import DeckSummary from './DeckSummary.jsx';
 import Link from './Link.jsx';
-import {validateDeck} from './deck-validator';
+import DeckRow from './DeckRow.jsx';
 
 class Decks extends React.Component {
     constructor() {
@@ -45,30 +44,14 @@ class Decks extends React.Component {
 
     render() {
         var errorBar = this.state.error ? <div className='alert alert-danger' role='alert'>{ this.state.error }</div> : null;
-        var decks = [];
         var index = 0;
 
-        _.each(this.state.decks, deck => {
-            var className = 'deck-row';
-            
-            if(index === this.state.selectedDeck) {
-                className += ' active';
-            }
+        var decks = _.map(this.state.decks, deck => {
+            var row = <DeckRow key={ deck.name + index.toString() } deck={ deck } onClick={ this.onSelectionChanged.bind(this, index) } active={ index === this.state.selectedDeck } />;
 
-            var validation = validateDeck(deck);
+            index++;            
 
-            decks.push(
-                <div className={ className } key={ deck.name } onClick={ this.onSelectionChanged.bind(this, index) }>
-                    <img className='pull-left' src={ '/img/factions/' + deck.faction.value + '.png' } />
-                    <div>{ deck.name }<span className='pull-right'>{ validation.status }</span></div>
-                    <div>{ deck.faction.name } 
-                        { deck.agenda && deck.agenda.label ? <span>/{deck.agenda.label}</span> : null }
-                        <span className='pull-right'>{ moment(deck.lastUpdated).format('Do MMMM YYYY') }</span>
-                    </div>
-                </div>
-            );
-
-            index++;
+            return row;
         });
 
         var deckList = (

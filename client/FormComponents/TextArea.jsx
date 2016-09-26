@@ -33,7 +33,7 @@ TextArea.propTypes = {
     onBlur: React.PropTypes.func,
     onChange: React.PropTypes.func,
     placeholder: React.PropTypes.string,
-    rows: React.PropTypes.int,
+    rows: React.PropTypes.string,
     type: React.PropTypes.oneOf(['text']),
     validationMessage: React.PropTypes.string,
     value: React.PropTypes.string

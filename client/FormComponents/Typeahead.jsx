@@ -19,7 +19,7 @@ class Input extends React.Component {
     }
 }
 
-Input.displayName = 'Input';
+Input.displayName = 'TypeAhead';
 Input.propTypes = {
     children: React.PropTypes.object,
     fieldClass: React.PropTypes.string,
@@ -28,7 +28,7 @@ Input.propTypes = {
     labelKey: React.PropTypes.string,
     name: React.PropTypes.string,
     onChange: React.PropTypes.func,
-    options: React.PropTypes.object,
+    options: React.PropTypes.array,
     validationMessage: React.PropTypes.string,
     value: React.PropTypes.string
 };
