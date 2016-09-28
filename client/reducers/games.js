@@ -37,6 +37,10 @@ function games(state = {
             }
 
             return retState;
+        case 'RECEIVE_GAMESTATE':
+            return Object.assign({}, state, {
+                state: action.state
+            });
         default:
             return state;
     }

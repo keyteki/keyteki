@@ -14,6 +14,7 @@ class InnerPendingGame extends React.Component {
         this.isGameReady = this.isGameReady.bind(this);
         this.onSelectDeckClick = this.onSelectDeckClick.bind(this);
         this.onLeaveClick = this.onLeaveClick.bind(this);
+        this.onStartClick = this.onStartClick.bind(this);
 
         this.state = {
             decks: []
@@ -37,8 +38,8 @@ class InnerPendingGame extends React.Component {
     }
 
     isGameReady() {
-        return this.props.currentGame.players.length === 2 && _.all(this.props.currentGame.players, player => {
-            return player.deck;
+        return _.any(this.props.currentGame.players, player => {
+            return !!player.deck;
         });
     }
 
@@ -92,6 +93,12 @@ class InnerPendingGame extends React.Component {
         this.props.socket.emit('leavegame', this.props.currentGame.id);
     }
 
+    onStartClick(event) {
+        event.preventDefault();
+
+        this.props.socket.emit('startgame', this.props.currentGame.id);
+    }
+
     render() {
         var index = 0;
         var decks = this.state.decks ? _.map(this.state.decks, deck => {
@@ -122,7 +129,7 @@ class InnerPendingGame extends React.Component {
         return (
             <div>
                 <div className='btn-group'>
-                    <button className='btn btn-primary' disabled={ !this.isGameReady() }>Start</button>
+                    <button className='btn btn-primary' disabled={ !this.isGameReady() } onClick={ this.onStartClick }>Start</button>
                     <button className='btn btn-primary' onClick={ this.onLeaveClick }>Leave</button>
                 </div>
                 <h3>{ this.props.currentGame.name }</h3>

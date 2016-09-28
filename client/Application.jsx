@@ -70,6 +70,10 @@ class App extends React.Component {
 
                 this.props.receiveLeaveGame(game, isMe);
             });
+
+            socket.on('gamestate', (game) => {
+                this.props.receiveGameState(game);
+            });
         });
     }
 
@@ -124,6 +128,7 @@ App.propTypes = {
     navigate: React.PropTypes.func,
     packs: React.PropTypes.array,
     path: React.PropTypes.string,
+    receiveGameState: React.PropTypes.func,
     receiveGames: React.PropTypes.func,
     receiveJoinGame: React.PropTypes.func,
     receiveLeaveGame: React.PropTypes.func,

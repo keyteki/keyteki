@@ -27,6 +27,8 @@ const config = require('./config.js');
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 4000 : process.env.PORT;
 
+const Game = require('./game/game.js');
+
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -142,6 +144,7 @@ function runServer() {
 }
 
 var games = [];
+var gamesInProgress = {};
 
 io.set('heartbeat timeout', 30000);
 
@@ -163,6 +166,14 @@ function findGame(gameid) {
     });
 
     return game;
+}
+
+function findGameForPlayer(socketid) {
+    return _.find(gamesInProgress, game => {
+        return _.any(game.players, player => {
+            return player.id === socketid.slice(2);
+        });
+    });
 }
 
 io.on('connection', function(socket) {
@@ -223,6 +234,8 @@ io.on('connection', function(socket) {
         games.push(game);
         socket.emit('newgame', game);
         io.emit('games', games);
+
+        socket.join(game.id);
     });
 
     socket.on('joingame', function(gameid) {
@@ -237,9 +250,9 @@ io.on('connection', function(socket) {
             name: socket.request.user.username
         });
 
-        _.each(game.players, player => {
-            io.to(player.id).emit('joingame', game);
-        });
+        socket.join(game.id);
+
+        io.to(game.id).emit('joingame', game);
 
         io.emit('games', games);
     });
@@ -257,9 +270,7 @@ io.on('connection', function(socket) {
             }
         });
 
-        _.each(game.players, player => {
-            io.to(player.id).emit('updategame', game);
-        });
+        io.to(game.id).emit('updategame', game);
     });
 
     socket.on('leavegame', function(gameid) {
@@ -270,18 +281,19 @@ io.on('connection', function(socket) {
         }
 
         var players = game.players;
+        var leavingPlayer = undefined;
 
         game.players = _.reject(game.players, player => {
+            if(player.id === socket.id) {
+                leavingPlayer = player;
+            }
+
             return player.id === socket.id;
         });
 
-        _.each(players, player => {
-            if(socket.id === player.id) {
-                _.each(players, sendPlayer => {
-                    io.to(sendPlayer.id).emit('leavegame', game, player);
-                });
-            }
-        });
+        socket.leave(game.id);
+
+        io.to(game.id).emit('leavegame', game, leavingPlayer);
 
         if(_.isEmpty(game.players)) {
             games = _.reject(games, game => {
@@ -307,11 +319,62 @@ io.on('connection', function(socket) {
 
         game.started = true;
 
-        _.each(game.players, player => {
-            io.to(player.id).emit('startgame', game);
+        var newGame = new Game(game);
+
+        gamesInProgress[newGame.id] = newGame;
+
+        newGame.initialise();
+
+        io.to(game.id).emit('updategame', game);
+
+        _.each(newGame.players, (player, key) => {
+            io.to(key).emit('gamestate', newGame.getState(player.id));
         });
 
         socket.emit('games', games);
+    });
+
+    socket.on('mulligan', function() {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        game.mulligan(socket.id.slice(2));
+        game.startGameIfAble();
+
+        _.each(game.players, (player, key) => {
+            io.to(key).emit('gamestate', game.getState(player.id));
+        });
+    });
+
+    socket.on('keep', function() {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        game.keep(socket.id.slice(2));
+        game.startGameIfAble();
+
+        _.each(game.players, (player, key) => {
+            io.to(key).emit('gamestate', game.getState(player.id));
+        });
+    });
+
+    socket.on('playcard', function(card) {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        game.playCard(socket.id.slice(2), card);
+        _.each(game.players, (player, key) => {
+            io.to(key).emit('gamestate', game.getState(player.id));
+        });
     });
 
     socket.emit('games', games);

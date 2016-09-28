@@ -132,3 +132,10 @@ export function receiveLeaveGame(game, isMe) {
     };
 }
 
+export function receiveGameState(state) {
+    return {
+        type: 'RECEIVE_GAMESTATE',
+        state: state
+    };
+}
+
