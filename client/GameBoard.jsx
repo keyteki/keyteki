@@ -9,9 +9,13 @@ class InnerGameBoard extends React.Component {
         super();
 
         this.onMouseOut = this.onMouseOut.bind(this);
+        this.onPlotDeckClick = this.onPlotDeckClick.bind(this);
+        this.onPlotCardClick = this.onPlotCardClick.bind(this);
 
         this.state = {
-            cardToZoom: undefined
+            cardToZoom: undefined,
+            showPlotDeck: false,
+            selectedPlot: undefined
         };
     }
 
@@ -25,15 +29,23 @@ class InnerGameBoard extends React.Component {
 
     onButtonClick(event, command) {
         event.preventDefault();
+        var arg = undefined;
 
-        this.props.socket.emit(command);
+        if(command === 'selectplot') {
+            if(!this.state.selectedPlot) {
+                return;
+            }
+
+            arg = this.state.selectedPlot;
+        }
+
+        this.props.socket.emit(command, arg);
     }
 
     canPlayCard(card) {
         var thisPlayer = this.props.state.players[this.props.socket.id];
 
         if(card.cost > thisPlayer.gold) {
-            console.info('costs too much');
             return false;
         }
 
@@ -48,6 +60,25 @@ class InnerGameBoard extends React.Component {
         this.props.socket.emit('playcard', card);
     }
 
+    onPlotDeckClick() {
+        this.setState({ showPlotDeck: !this.state.showPlotDeck });
+    }
+
+    onPlotCardClick(event, card) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        this.setState({ selectedPlot: card });
+    }
+
+    isButtonDisabled(button) {
+        if(button.command === 'selectplot') {
+            return !this.state.selectedPlot;
+        }
+
+        return false;
+    }
+    
     renderHand(hand, isMe) {
         var cardIndex = 0;
 
@@ -76,7 +107,7 @@ class InnerGameBoard extends React.Component {
         var thisPlayerHand = this.renderHand(thisPlayer.hand, true);
         var otherPlayerHand = otherPlayer ? this.renderHand(otherPlayer.hand, false) : [];
 
-        var index = 0;        
+        var index = 0;
         var thisPlayerCardsInPlay = _.map(thisPlayer.cardsInPlay, card => {
             var cardInPlay = (<div key={ 'card' + index.toString() } className='card' onMouseOver={ this.onMouseOver.bind(this, card.card) } onMouseOut={ this.onMouseOut }>
                 { card.facedown ? <img src='/img/cards/cardback.jpg' /> : <img src={ '/img/cards/' + card.card.code + '.png' } /> }
@@ -87,9 +118,10 @@ class InnerGameBoard extends React.Component {
             return cardInPlay;
         });
 
-        index = 0;        
+        index = 0;
         var otherPlayerCardsInPlay = otherPlayer ? _.map(otherPlayer.cardsInPlay, card => {
-            var cardInPlay = (<div key={ 'card' + index.toString() } className='card'>
+            var cardInPlay = (<div key={ 'card' + index.toString() } className='card' onMouseOver={ card.facedown ? null : this.onMouseOver.bind(this, card.card) }
+                onMouseOut={ card.facedown ? null : this.onMouseOut }>
                 { card.facedown ? <img src='/img/cards/cardback.jpg' /> : <img src={ '/img/cards/' + card.card.code + '.png' } /> }
             </div>);
 
@@ -98,8 +130,27 @@ class InnerGameBoard extends React.Component {
             return cardInPlay;
         }) : null;
 
+        index = 0;
+        var thisPlayerPlotDeck = _.map(thisPlayer.plotDeck, card => {
+            var plotClass = 'plot-card';
+
+            if(card === this.state.selectedPlot) {
+                plotClass += ' selected';
+            }
+
+            var plotCard = (<div key={ 'card' + index.toString() } className={ plotClass } onMouseOver={ this.onMouseOver.bind(this, card) }
+                onMouseOut={ this.onMouseOut } onClick={ (event) => this.onPlotCardClick(event, card) }>
+                <img src={ '/img/cards/' + card.code + '.png' } />
+            </div>);
+
+            index++;
+
+            return plotCard;
+        });
+
         var buttons = _.map(thisPlayer.buttons, button => {
-            return <button key={ button.command } className='btn btn-primary' onClick={ (event) => this.onButtonClick(event, button.command) }>{ button.text }</button>;
+            return (<button key={ button.command } className='btn btn-primary' onClick={ (event) => this.onButtonClick(event, button.command) }
+                disabled={ this.isButtonDisabled(button) }>{ button.text }</button>);
         });
 
         return (
@@ -109,8 +160,7 @@ class InnerGameBoard extends React.Component {
                         <div className='panel hand'>
                             { otherPlayerHand }
                         </div>
-                        <div className='discard panel'>
-                        </div>
+                        <div className='discard panel' />
                         <div className='draw panel'>
                             <div className='card'>
                                 <img src='/img/cards/cardback.jpg' />
@@ -130,6 +180,7 @@ class InnerGameBoard extends React.Component {
                             }
                         </div>
                         <div className='plot panel'>
+                            <img src='/img/cards/cardback.jpg' />
                         </div>
                     </div>
                     <div className='middle'>
@@ -168,7 +219,7 @@ class InnerGameBoard extends React.Component {
                             </div>
                         </div>
                         <div className='inset-pane'>
-                            <div></div>
+                            <div />
                             <div className='menu-pane'>
                                 <div className='panel'>
                                     <h4>{ thisPlayer.menuTitle }</h4>
@@ -181,13 +232,41 @@ class InnerGameBoard extends React.Component {
                                 <div>
                                     { otherPlayerCardsInPlay }
                                 </div>
-                                <div></div>
+                                <div />
                             </div>
                             <div className='player-board our-side'>
                                 <div>
                                     { thisPlayerCardsInPlay }
                                 </div>
-                                <div></div>
+                                <div />
+                            </div>
+                        </div>
+                        <div className='plots-pane'>
+                            <div>
+                                <div className='panel discard-plot'>
+                                </div>
+                                { otherPlayer && otherPlayer.selectedPlot ? 
+                                    otherPlayer.selectedPlot.facedown ? 
+                                        <div className='panel discard-plot'>
+                                            <img src={ '/img/cards/cardback.jpg' } />
+                                        </div> :
+                                        <div className='panel plot-deck-card'>
+                                            <img src={ '/img/cards/' + otherPlayer.selectedPlot.card.code + '.png' } />
+                                        </div> : null 
+                                }
+                            </div>
+                            <div>
+                                { thisPlayer.selectedPlot ? 
+                                    thisPlayer.selectedPlot.facedown ? 
+                                        <div className='panel discard-plot'>
+                                            <img src={ '/img/cards/cardback.jpg' } />
+                                        </div> :
+                                        <div className='panel plot-deck-card'>
+                                            <img src={ '/img/cards/' + thisPlayer.selectedPlot.card.code + '.png' } />
+                                        </div> : null 
+                                }
+                                <div className='panel discard-plot'>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -195,8 +274,7 @@ class InnerGameBoard extends React.Component {
                         <div className='panel hand'>
                             { thisPlayerHand }
                         </div>
-                        <div className='discard panel'>
-                        </div>
+                        <div className='discard panel' />
                         <div className='draw panel'>
                             <div className='card'>
                                 <img src='/img/cards/cardback.jpg' />
@@ -213,7 +291,12 @@ class InnerGameBoard extends React.Component {
                             </div>
                             : null
                         }
-                        <div className='plot panel'>
+                        <div className='plot our-side panel' onClick={ this.onPlotDeckClick }>
+                            <img src='/img/cards/cardback.jpg' />
+
+                            { this.state.showPlotDeck ? <div className='panel plot-popup'>
+                                { thisPlayerPlotDeck }
+                            </div> : null }
                         </div>
                     </div>
                 </div>

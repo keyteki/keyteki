@@ -60,6 +60,44 @@ class Game {
         player.playCard(card);
     }
 
+    setupDone(playerId) {
+        var player = _.find(this.players, player => {
+            return player.id === playerId;
+        });
+
+        player.setupDone();
+
+        if(!_.all(this.players, p => {
+            return p.setup;
+        })) {
+            player.menuTitle = 'Waiting for opponent to finish setup';
+            player.buttons = [];
+        } else {
+            _.each(this.players, p => {
+                p.startPlotPhase();
+            });
+        }
+    }
+
+    selectPlot(playerId, plot) {
+        var player = _.find(this.players, player => {
+            return player.id === playerId;
+        });
+
+        player.selectPlot(plot);
+
+        if(!_.all(this.players, p => {
+            return !!p.selectedPlot;
+        })) {
+            player.menuTitle = 'Waiting for opponent to select plot';
+            player.buttons = [];
+        } else {
+            _.each(this.players, p => {
+                p.revealPlots();
+            });
+        }
+    }
+
     initialise() {
         _.each(this.players, player => {
             player.initialise();

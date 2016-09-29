@@ -280,7 +280,6 @@ io.on('connection', function(socket) {
             return;
         }
 
-        var players = game.players;
         var leavingPlayer = undefined;
 
         game.players = _.reject(game.players, player => {
@@ -372,6 +371,32 @@ io.on('connection', function(socket) {
         }
 
         game.playCard(socket.id.slice(2), card);
+        _.each(game.players, (player, key) => {
+            io.to(key).emit('gamestate', game.getState(player.id));
+        });
+    });
+
+    socket.on('setupdone', function() {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        game.setupDone(socket.id.slice(2));
+        _.each(game.players, (player, key) => {
+            io.to(key).emit('gamestate', game.getState(player.id));
+        });
+    });
+
+    socket.on('selectplot', function(plot) {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        game.selectPlot(socket.id.slice(2), plot);
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));
         });

@@ -30,8 +30,13 @@ class Player {
         this.drawDeck = _.rest(this.drawDeck, 7);
     }
 
+    initPlotDeck() {
+        this.plotDeck = this.plotCards;
+    }
+
     initialise() {
         this.initDrawDeck();
+        this.initPlotDeck();
 
         this.gold = 0;
         this.claim = 0;
@@ -59,7 +64,7 @@ class Player {
         this.phase = 'setup';
 
         this.buttons = [
-            { command: 'setup', text: 'Done' }
+            { command: 'setupdone', text: 'Done' }
         ];
 
         this.menuTitle = 'Select setup cards';
@@ -165,9 +170,58 @@ class Player {
 
                 return true;
             }
- 
+
             return false;
         });
+    }
+
+    setupDone() {
+        this.setup = true;
+    }
+
+    startPlotPhase() {
+        this.phase = 'plot';
+
+        this.menuTitle = 'Choose your plot';
+        this.buttons = [
+            { command: 'selectplot', text: 'Done' }
+        ];
+        this.gold = 0;
+        this.claim = 0;
+        this.power = 0;
+        this.totalPower = 0;
+        this.reserve = 0;
+
+        _.each(this.cardsInPlay, card => {
+            card.facedown = false;
+        });
+    }
+
+    selectPlot(plot) {
+        this.selectedPlot = { facedown: true, card: plot };
+    }
+
+    revealPlots() {
+        this.selectedPlot.facedown = false;
+
+        this.menuTitle = '';
+        this.buttons = [];
+    }
+
+    getSelectedPlot(isActivePlayer) {
+        if(!this.selectedPlot) {
+            return undefined;
+        }
+
+        if(isActivePlayer) {
+            return this.selectedPlot;
+        }
+
+        if(this.selectedPlot.facedown) {
+            return { facedown: true, card: {} };
+        }
+
+        return this.selectedPlot;
     }
 
     getState(isActivePlayer) {
@@ -186,7 +240,10 @@ class Player {
             reserve: this.reserve,
             claim: this.claim,
             phase: this.phase,
-            cardsInPlay: this.cardsInPlay
+            cardsInPlay: this.cardsInPlay,
+            plotDeck: isActivePlayer ? this.plotDeck : undefined,
+            numPlotCards: this.plotDeck.length,
+            selectedPlot: this.getSelectedPlot(isActivePlayer)
         };
     }
 }

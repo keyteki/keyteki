@@ -207,33 +207,20 @@ body {
   display: inline-block;
 }
 
-.card > img {
+.plot-card {
+  height: 78px;
+  display: inline-block;
+}
+
+.card > img, .agenda > img, .card-large > img, .plot-deck-card > img {
   width: 100%;
 }
 
-.agenda > img {
-  width: 100%;
+.plot > img, .plot-card > img, .discard-plot > img {
+  height: 100%;
 }
 
-.discard {
-  position: relative;
-  width: 78px;
-  padding: 0px;
-}
-
-.draw {
-  position: relative;
-  width: 78px;
-  padding: 0px;
-}
-
-.faction {
-  position: relative;
-  width: 78px;
-  padding: 0px;
-}
-
-.agenda {
+.discard, .draw, .faction, .agenda {
   position: relative;
   width: 78px;
   padding: 0px;
@@ -241,9 +228,10 @@ body {
 
 .plot {
   position: relative;
-  width: 78px;
+  height: 110px;
   transform: rotate(90deg);
   margin-left: 25px;
+  padding: 0px;
 }
 
 .right-side {
@@ -259,10 +247,6 @@ body {
   margin-right: 5px;
   margin-top: 5px;
   border-radius: 4px;
-}
-
-.card-large > img {
-  width: 100%;
 }
 
 .inset-pane {
@@ -287,22 +271,55 @@ h4 {
   font-size: 14px;
 }
 
-.play-area {
+.play-area, .player-board {
   display: flex;
   flex: 1;
   flex-direction: column;
 }
 
-.player-board {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-}
-
-.our-side {
+.player-board.our-side {
   margin: 10px;
 }
 
 .our-side > div:first-child {
   margin-top: auto;
+}
+
+.plot-popup {
+  position: absolute;
+  transform: rotate(-90deg);
+  width: 256px;
+  min-height: 92px;
+  bottom: -40px;
+  left: -300px;
+}
+
+.plot-card.selected {
+  border: 2px solid @brand-primary;
+  border-radius: 4px;
+}
+
+.discard-plot {
+  height: 110px;
+  transform: rotate(90deg);
+  padding: 0px;
+  width: 78px;
+  margin-left: 20px;
+  margin-bottom: -25px;
+}
+
+.plots-pane {
+  display: flex;
+  flex-direction: column;
+  width: 110px;
+  justify-content: space-between;
+  padding-left: 5px;
+}
+
+.plot-deck-card {
+  margin-left: 4px;
+  margin-bottom: -17px;
+  width: 110px;
+  height: 78px;
+  padding: 0px;
 }
