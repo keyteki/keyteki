@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import _ from 'underscore';
 
+import PlayerStats from 'GameComponents/PlayerStats.jsx';
 import * as actions from './actions';
 
 class InnerGameBoard extends React.Component {
@@ -185,38 +186,10 @@ class InnerGameBoard extends React.Component {
                     </div>
                     <div className='middle'>
                         <div className='left-side'>
-                            <div>
-                                <div className='panel state'>
-                                    <div>
-                                        <span>{ otherPlayer ? otherPlayer.gold : '0' } Gold</span>
-                                    </div>
-                                    <div>
-                                        <span>{ otherPlayer ? otherPlayer.totalPower : '0' } Power</span>
-                                    </div>
-                                    <div>
-                                        <span>{ otherPlayer ? otherPlayer.reserve : '0' } Reserve</span>
-                                    </div>
-                                    <div>
-                                        <span>{ otherPlayer ? otherPlayer.claim : '0' } Claim</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div className='panel state'>
-                                    <div>
-                                        <span>{ thisPlayer.gold } Gold</span>
-                                    </div>
-                                    <div>
-                                        <span>{ thisPlayer.totalPower } Power</span>
-                                    </div>
-                                    <div>
-                                        <span>{ thisPlayer.reserve } Reserve</span>
-                                    </div>
-                                    <div>
-                                        <span>{ thisPlayer.claim } Claim</span>
-                                    </div>
-                                </div>
-                            </div>
+                            <PlayerStats gold={ otherPlayer ? otherPlayer.gold : '0' } claim={ otherPlayer ? otherPlayer.claim : '0' }
+                                reserve={ otherPlayer ? otherPlayer.reserve : '0' } power={ otherPlayer ? otherPlayer.totalPower : '0' } />    
+                            <PlayerStats gold={ thisPlayer.gold } claim={ thisPlayer.claim } reserve={ thisPlayer.reserve }
+                                power={ thisPlayer.totalPower } />    
                         </div>
                         <div className='inset-pane'>
                             <div />
@@ -243,14 +216,14 @@ class InnerGameBoard extends React.Component {
                         </div>
                         <div className='plots-pane'>
                             <div>
-                                <div className='panel discard-plot'>
+                                <div className='panel discard-plot opponent'>
                                 </div>
                                 { otherPlayer && otherPlayer.selectedPlot ? 
                                     otherPlayer.selectedPlot.facedown ? 
-                                        <div className='panel discard-plot'>
+                                        <div className='panel discard-plot opponent'>
                                             <img src={ '/img/cards/cardback.jpg' } />
                                         </div> :
-                                        <div className='panel plot-deck-card'>
+                                        <div className='panel plot-deck-card opponent'>
                                             <img src={ '/img/cards/' + otherPlayer.selectedPlot.card.code + '.png' } />
                                         </div> : null 
                                 }
