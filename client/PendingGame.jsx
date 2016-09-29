@@ -38,9 +38,20 @@ class InnerPendingGame extends React.Component {
     }
 
     isGameReady() {
-        return _.all(this.props.currentGame.players, player => {
+        if(!_.all(this.props.currentGame.players, player => {
             return !!player.deck;
+        })) {
+            return false;
+        }
+
+        var myGame = false;
+        _.each(this.props.currentGame.players, player => {
+            if(player.id.slice(2) === this.props.socket.id && player.owner) {
+                myGame = true;
+            }
         });
+
+        return myGame;
     }
 
     onSelectDeckClick() {

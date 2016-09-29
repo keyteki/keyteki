@@ -228,7 +228,8 @@ io.on('connection', function(socket) {
         game.started = false;
         game.players = [{
             id: socket.id,
-            name: socket.request.user.username
+            name: socket.request.user.username,
+            owner: true
         }];
 
         games.push(game);
@@ -313,6 +314,18 @@ io.on('connection', function(socket) {
         if(_.any(game.players, function(player) {
             return !player.deck;
         })) {
+            return;
+        }
+
+        var isOwner = false;
+
+        _.each(game.players, function(player) {
+            if(player.id === socket.id && player.owner) {
+                isOwner = true;
+            }
+        });
+
+        if(!isOwner) {
             return;
         }
 
