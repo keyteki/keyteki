@@ -38,7 +38,7 @@ class InnerPendingGame extends React.Component {
     }
 
     isGameReady() {
-        return _.any(this.props.currentGame.players, player => {
+        return _.all(this.props.currentGame.players, player => {
             return !!player.deck;
         });
     }
