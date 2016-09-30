@@ -75,16 +75,14 @@ class PlayerRow extends React.Component {
                         { this.props.faction ? <img src={ '/img/factions/' + this.props.faction.value + '.png' } /> : null }
                     </div>
                 </div>
-                <div className='agenda panel'>
-                    { this.props.agenda ?
-                        <div className='agenda panel' onMouseOver={ this.props.onMouseOver ? this.props.onMouseOver.bind(this, this.props.agenda) : null }
-                            onMouseOut={ this.props.onMouseOut ? this.props.onMouseOut : null }>
-                            <img src={ '/img/cards/' + this.props.agenda.code + '.png' } />
-                        </div>
-                        : null
-                    }
-                </div>
-                <div className='plot our-side panel' onClick={ this.onPlotDeckClick }>
+                { this.props.agenda ?
+                    <div className='agenda panel' onMouseOver={ this.props.onMouseOver ? this.props.onMouseOver.bind(this, this.props.agenda) : null }
+                        onMouseOut={ this.props.onMouseOut ? this.props.onMouseOut : null }>
+                        <img src={ '/img/cards/' + this.props.agenda.code + '.png' } />
+                    </div>
+                    : <div className='agenda panel' />
+                }
+                <div className={ 'plot ' + (this.isMe ? 'our-side ' : '') + 'panel' } onClick={ this.onPlotDeckClick }>
                     <img src='/img/cards/cardback.jpg' />
 
                     { this.state.showPlotDeck ? <div className='panel plot-popup'>

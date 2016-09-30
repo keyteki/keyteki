@@ -92,9 +92,31 @@ class Game {
             player.menuTitle = 'Waiting for opponent to select plot';
             player.buttons = [];
         } else {
+            var highestPlayer = undefined;
+            var highestInitiative = 0;
             _.each(this.players, p => {
                 p.revealPlots();
+
+                if(p.selectedPlot.card.initiative > highestInitiative) {
+                    highestInitiative = p.selectedPlot.card.initiative;
+                    highestPlayer = p;
+                }
             });
+
+            highestPlayer.firstPlayer = true;
+            highestPlayer.menuTitle = 'Select a first player';
+            highestPlayer.buttons = [
+                { command: 'mefirst', text: 'Me' },
+                { command: 'opponentfirst', text: 'Opponent' }
+            ];
+
+            var otherPlayer = _.find(this.players, player => {
+                return player.id !== highestPlayer.id;
+            });
+
+            if(otherPlayer) {
+                otherPlayer.menuTitle = 'Waiting for opponent to select first player';
+            }
         }
     }
 

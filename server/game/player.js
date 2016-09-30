@@ -5,6 +5,7 @@ class Player {
         this.drawCards = [];
         this.plotCards = [];
         this.drawDeck = [];
+        this.hand = [];
 
         this.id = player.id.slice(2);
         this.deck = player.deck;
@@ -23,11 +24,16 @@ class Player {
 
         this.takenMulligan = false;
     }
+    
+    drawCardsToHand(numCards) {
+        this.hand = this.hand.concat(_.first(this.drawDeck, numCards));
+        this.drawDeck = _.rest(this.drawDeck, numCards);
+    }
 
     initDrawDeck() {
         this.drawDeck = _.shuffle(this.drawCards);
-        this.hand = _.first(this.drawDeck, 7);
-        this.drawDeck = _.rest(this.drawDeck, 7);
+        this.hand = [];
+        this.drawCardsToHand(7);
     }
 
     initPlotDeck() {
@@ -191,6 +197,7 @@ class Player {
         this.power = 0;
         this.totalPower = 0;
         this.reserve = 0;
+        this.firstPlayer = false;
 
         _.each(this.cardsInPlay, card => {
             card.facedown = false;
@@ -206,6 +213,8 @@ class Player {
 
         this.menuTitle = '';
         this.buttons = [];
+
+        this.drawCardsToHand(7 - this.hand.length);
     }
 
     getSelectedPlot(isActivePlayer) {
