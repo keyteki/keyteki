@@ -25,11 +25,11 @@ class PlayerStats extends React.Component {
 
 PlayerStats.displayName = 'PlayerStats';
 PlayerStats.propTypes = {
-    claim: React.PropTypes.string,
-    gold: React.PropTypes.string,
+    claim: React.PropTypes.number,
+    gold: React.PropTypes.number,
     playerName: React.PropTypes.string,
-    power: React.PropTypes.string,
-    reserve: React.PropTypes.string
+    power: React.PropTypes.number,
+    reserve: React.PropTypes.number
 };
 
 export default PlayerStats;

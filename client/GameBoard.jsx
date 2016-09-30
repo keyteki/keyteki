@@ -2,7 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import _ from 'underscore';
 
-import PlayerStats from 'GameComponents/PlayerStats.jsx';
+import PlayerStats from './GameComponents/PlayerStats.jsx';
+import PlayerRow from './GameComponents/PlayerRow.jsx';
 import * as actions from './actions';
 
 class InnerGameBoard extends React.Component {
@@ -10,8 +11,9 @@ class InnerGameBoard extends React.Component {
         super();
 
         this.onMouseOut = this.onMouseOut.bind(this);
-        this.onPlotDeckClick = this.onPlotDeckClick.bind(this);
-        this.onPlotCardClick = this.onPlotCardClick.bind(this);
+        this.onMouseOver = this.onMouseOver.bind(this);
+        this.onCardClick = this.onCardClick.bind(this);
+        this.onPlotCardSelected = this.onPlotCardSelected.bind(this);
 
         this.state = {
             cardToZoom: undefined,
@@ -61,14 +63,7 @@ class InnerGameBoard extends React.Component {
         this.props.socket.emit('playcard', card);
     }
 
-    onPlotDeckClick() {
-        this.setState({ showPlotDeck: !this.state.showPlotDeck });
-    }
-
-    onPlotCardClick(event, card) {
-        event.preventDefault();
-        event.stopPropagation();
-
+    onPlotCardSelected(card) {
         this.setState({ selectedPlot: card });
     }
 
@@ -78,21 +73,6 @@ class InnerGameBoard extends React.Component {
         }
 
         return false;
-    }
-    
-    renderHand(hand, isMe) {
-        var cardIndex = 0;
-
-        return _.map(hand, card => {
-            var retCard = (
-                <div key={ cardIndex.toString() + card.code } className='card' onMouseOver={ this.onMouseOver.bind(this, card) } onMouseOut={ this.onMouseOut }
-                    onClick={ isMe ? this.onCardClick.bind(this, card) : null }>
-                    <img src={ '/img/cards/' + (card.code ? (card.code + '.png') : 'cardback.jpg') } />
-                </div>);
-            cardIndex++;
-
-            return retCard;
-        });
     }
 
     render() {
@@ -104,9 +84,6 @@ class InnerGameBoard extends React.Component {
         var otherPlayer = _.find(this.props.state.players, player => {
             return player.id !== this.props.socket.id;
         });
-
-        var thisPlayerHand = this.renderHand(thisPlayer.hand, true);
-        var otherPlayerHand = otherPlayer ? this.renderHand(otherPlayer.hand, false) : [];
 
         var index = 0;
         var thisPlayerCardsInPlay = _.map(thisPlayer.cardsInPlay, card => {
@@ -131,24 +108,6 @@ class InnerGameBoard extends React.Component {
             return cardInPlay;
         }) : null;
 
-        index = 0;
-        var thisPlayerPlotDeck = _.map(thisPlayer.plotDeck, card => {
-            var plotClass = 'plot-card';
-
-            if(card === this.state.selectedPlot) {
-                plotClass += ' selected';
-            }
-
-            var plotCard = (<div key={ 'card' + index.toString() } className={ plotClass } onMouseOver={ this.onMouseOver.bind(this, card) }
-                onMouseOut={ this.onMouseOut } onClick={ (event) => this.onPlotCardClick(event, card) }>
-                <img src={ '/img/cards/' + card.code + '.png' } />
-            </div>);
-
-            index++;
-
-            return plotCard;
-        });
-
         var buttons = _.map(thisPlayer.buttons, button => {
             return (<button key={ button.command } className='btn btn-primary' onClick={ (event) => this.onButtonClick(event, button.command) }
                 disabled={ this.isButtonDisabled(button) }>{ button.text }</button>);
@@ -157,39 +116,13 @@ class InnerGameBoard extends React.Component {
         return (
             <div className='game-board'>
                 <div className='main-window'>
-                    <div className='player-home-row'>
-                        <div className='panel hand'>
-                            { otherPlayerHand }
-                        </div>
-                        <div className='discard panel' />
-                        <div className='draw panel'>
-                            <div className='card'>
-                                <img src='/img/cards/cardback.jpg' />
-                            </div>
-                        </div>
-                        <div className='faction panel'>
-                            <div className='card'>
-                                { otherPlayer ? <img src={ '/img/factions/' + otherPlayer.faction.value + '.png' } /> : null }
-                            </div>
-                        </div>
-                        <div className='agenda panel'>
-                            { otherPlayer && otherPlayer.agenda ?
-                                <div className='agenda panel' onMouseOver={ this.onMouseOver.bind(this, otherPlayer.agenda) } onMouseOut={ this.onMouseOut }>
-                                    <img src={ '/img/cards/' + otherPlayer.agenda.code + '.png' } />
-                                </div>
-                                : null
-                            }
-                        </div>
-                        <div className='plot panel'>
-                            <img src='/img/cards/cardback.jpg' />
-                        </div>
-                    </div>
+                    <PlayerRow agenda={ otherPlayer ? otherPlayer.agenda : undefined } faction={ otherPlayer ? otherPlayer.faction : undefined } hand={ otherPlayer ? otherPlayer.hand : []} isMe={ false } />
                     <div className='middle'>
                         <div className='left-side'>
-                            <PlayerStats gold={ otherPlayer ? otherPlayer.gold : '0' } claim={ otherPlayer ? otherPlayer.claim : '0' }
-                                reserve={ otherPlayer ? otherPlayer.reserve : '0' } power={ otherPlayer ? otherPlayer.totalPower : '0' } />    
+                            <PlayerStats gold={ otherPlayer ? otherPlayer.gold : 0 } claim={ otherPlayer ? otherPlayer.claim : 0 }
+                                reserve={ otherPlayer ? otherPlayer.reserve : 0 } power={ otherPlayer ? otherPlayer.totalPower : 0 } />
                             <PlayerStats gold={ thisPlayer.gold } claim={ thisPlayer.claim } reserve={ thisPlayer.reserve }
-                                power={ thisPlayer.totalPower } />    
+                                power={ thisPlayer.totalPower } />
                         </div>
                         <div className='inset-pane'>
                             <div />
@@ -218,60 +151,33 @@ class InnerGameBoard extends React.Component {
                             <div>
                                 <div className='panel discard-plot opponent'>
                                 </div>
-                                { otherPlayer && otherPlayer.selectedPlot ? 
-                                    otherPlayer.selectedPlot.facedown ? 
+                                { otherPlayer && otherPlayer.selectedPlot ?
+                                    otherPlayer.selectedPlot.facedown ?
                                         <div className='panel discard-plot opponent'>
                                             <img src={ '/img/cards/cardback.jpg' } />
                                         </div> :
                                         <div className='panel plot-deck-card opponent'>
                                             <img src={ '/img/cards/' + otherPlayer.selectedPlot.card.code + '.png' } />
-                                        </div> : null 
+                                        </div> : null
                                 }
                             </div>
                             <div>
-                                { thisPlayer.selectedPlot ? 
-                                    thisPlayer.selectedPlot.facedown ? 
+                                { thisPlayer.selectedPlot ?
+                                    thisPlayer.selectedPlot.facedown ?
                                         <div className='panel discard-plot'>
                                             <img src={ '/img/cards/cardback.jpg' } />
                                         </div> :
                                         <div className='panel plot-deck-card'>
                                             <img src={ '/img/cards/' + thisPlayer.selectedPlot.card.code + '.png' } />
-                                        </div> : null 
+                                        </div> : null
                                 }
                                 <div className='panel discard-plot'>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className='player-home-row'>
-                        <div className='panel hand'>
-                            { thisPlayerHand }
-                        </div>
-                        <div className='discard panel' />
-                        <div className='draw panel'>
-                            <div className='card'>
-                                <img src='/img/cards/cardback.jpg' />
-                            </div>
-                        </div>
-                        <div className='faction panel'>
-                            <div className='card'>
-                                <img src={ '/img/factions/' + thisPlayer.faction.value + '.png' } />
-                            </div>
-                        </div>
-                        { thisPlayer.agenda ?
-                            <div className='agenda panel' onMouseOver={ this.onMouseOver.bind(this, thisPlayer.agenda) } onMouseOut={ this.onMouseOut }>
-                                <img src={ '/img/cards/' + thisPlayer.agenda.code + '.png' } />
-                            </div>
-                            : null
-                        }
-                        <div className='plot our-side panel' onClick={ this.onPlotDeckClick }>
-                            <img src='/img/cards/cardback.jpg' />
-
-                            { this.state.showPlotDeck ? <div className='panel plot-popup'>
-                                { thisPlayerPlotDeck }
-                            </div> : null }
-                        </div>
-                    </div>
+                    <PlayerRow agenda={ thisPlayer.agenda } faction={ thisPlayer.faction } hand={ thisPlayer.hand } isMe plotDeck={ thisPlayer.plotDeck }
+                        onCardClick={ this.onCardClick } onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } onPlotCardSelected={ this.onPlotCardSelected } />
                 </div>
                 <div className='right-side'>
                     <div className='card-large'>
