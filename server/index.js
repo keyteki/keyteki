@@ -415,6 +415,19 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on('firstplayer', function(arg) {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        game.setFirstPlayer(arg, socket.id);
+        _.each(game.players, (player, key) => {
+            io.to(key).emit('gamestate', game.getState(player.id));
+        });
+    });
+
     socket.emit('games', games);
 });
 

@@ -149,29 +149,25 @@ class InnerGameBoard extends React.Component {
                         </div>
                         <div className='plots-pane'>
                             <div>
-                                <div className='panel discard-plot opponent'>
+                                <div className='panel plot-deck-card opponent'>
+                                    { otherPlayer && otherPlayer.plotDiscard.length > 0 ?
+                                        <img src={ '/img/cards/' + otherPlayer.plotDiscard[0].code + '.png' } /> : null }
                                 </div>
-                                { otherPlayer && otherPlayer.selectedPlot ?
-                                    otherPlayer.selectedPlot.facedown ?
-                                        <div className='panel discard-plot opponent'>
-                                            <img src={ '/img/cards/cardback.jpg' } />
-                                        </div> :
-                                        <div className='panel plot-deck-card opponent'>
-                                            <img src={ '/img/cards/' + otherPlayer.selectedPlot.card.code + '.png' } />
-                                        </div> : null
+                                { otherPlayer && otherPlayer.plotSelected ?
+                                    <div className='panel discard-plot opponent'>
+                                        <img src='/img/cards/cardback.jpg' />
+                                    </div> : null
                                 }
                             </div>
                             <div>
-                                { thisPlayer.selectedPlot ?
-                                    thisPlayer.selectedPlot.facedown ?
-                                        <div className='panel discard-plot'>
-                                            <img src={ '/img/cards/cardback.jpg' } />
-                                        </div> :
-                                        <div className='panel plot-deck-card'>
-                                            <img src={ '/img/cards/' + thisPlayer.selectedPlot.card.code + '.png' } />
-                                        </div> : null
+                                { thisPlayer.plotSelected ?
+                                    <div className='panel discard-plot'>
+                                        <img src='/img/cards/cardback.jpg' />
+                                    </div> : null
                                 }
-                                <div className='panel discard-plot'>
+                                <div className='panel plot-deck-card'>
+                                    { thisPlayer.plotDiscard.length > 0 ?
+                                        <img src={ '/img/cards/' + thisPlayer.plotDiscard[0].code + '.png' } /> : null }
                                 </div>
                             </div>
                         </div>

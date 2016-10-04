@@ -6,6 +6,7 @@ class Player {
         this.plotCards = [];
         this.drawDeck = [];
         this.hand = [];
+        this.plotDiscard = [];
 
         this.id = player.id.slice(2);
         this.deck = player.deck;
@@ -52,6 +53,7 @@ class Player {
         this.readyToStart = false;
         this.cardsInPlay = [];
         this.limitedPlayed = false;
+        this.plotDiscard = [];
 
         this.menuTitle = 'Keep Starting Hand?';
 
@@ -198,6 +200,7 @@ class Player {
         this.totalPower = 0;
         this.reserve = 0;
         this.firstPlayer = false;
+        this.selectedPlot = undefined;
 
         _.each(this.cardsInPlay, card => {
             card.facedown = false;
@@ -215,22 +218,17 @@ class Player {
         this.buttons = [];
 
         this.drawCardsToHand(7 - this.hand.length);
+        this.plotDiscard.push(this.selectedPlot.card);
+        this.plotDeck = _.reject(this.plotDeck, card => {
+            return card.code === this.selectedPlot.card.code;
+        });
+
+        this.selectedPlot = undefined;
     }
 
-    getSelectedPlot(isActivePlayer) {
-        if(!this.selectedPlot) {
-            return undefined;
-        }
-
-        if(isActivePlayer) {
-            return this.selectedPlot;
-        }
-
-        if(this.selectedPlot.facedown) {
-            return { facedown: true, card: {} };
-        }
-
-        return this.selectedPlot;
+    drawPhase() {
+        this.phase = 'draw';
+        this.drawCardsToHand(2);
     }
 
     getState(isActivePlayer) {
@@ -252,7 +250,9 @@ class Player {
             cardsInPlay: this.cardsInPlay,
             plotDeck: isActivePlayer ? this.plotDeck : undefined,
             numPlotCards: this.plotDeck.length,
-            selectedPlot: this.getSelectedPlot(isActivePlayer)
+            plotSelected: !!this.selectedPlot,
+            firstPlayer: this.firstPlayer,
+            plotDiscard: this.plotDiscard
         };
     }
 }

@@ -95,19 +95,19 @@ class Game {
             var highestPlayer = undefined;
             var highestInitiative = 0;
             _.each(this.players, p => {
-                p.revealPlots();
-
                 if(p.selectedPlot.card.initiative > highestInitiative) {
                     highestInitiative = p.selectedPlot.card.initiative;
                     highestPlayer = p;
                 }
+
+                p.revealPlots();
             });
 
             highestPlayer.firstPlayer = true;
             highestPlayer.menuTitle = 'Select a first player';
             highestPlayer.buttons = [
-                { command: 'mefirst', text: 'Me' },
-                { command: 'opponentfirst', text: 'Opponent' }
+                { command: 'firstplayer', text: 'Me', arg: 'me' },
+                { command: 'firstplayer', text: 'Opponent', arg: 'opponent' }
             ];
 
             var otherPlayer = _.find(this.players, player => {
@@ -118,6 +118,20 @@ class Game {
                 otherPlayer.menuTitle = 'Waiting for opponent to select first player';
             }
         }
+    }
+
+    setFirstPlayer(sourcePlayer, who) {
+        _.each(this.players, player => {
+            if(player.id === sourcePlayer && who === 'me') {
+                player.firstPlayer = true;
+            } else {
+                player.firstPlayer = false;
+            }
+
+            player.drawPhase();
+            player.menuTitle = '';
+            player.buttons = [];
+        });
     }
 
     initialise() {
