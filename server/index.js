@@ -422,7 +422,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        game.setFirstPlayer(arg, socket.id);
+        game.setFirstPlayer(socket.id.slice(2), arg);
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));
         });

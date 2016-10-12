@@ -31,19 +31,19 @@ class InnerGameBoard extends React.Component {
         this.setState({ cardToZoom: undefined });
     }
 
-    onButtonClick(event, command) {
+    onButtonClick(event, command, arg) {
         event.preventDefault();
-        var arg = undefined;
+        var commandArg = arg;
 
         if(command === 'selectplot') {
             if(!this.state.selectedPlot) {
                 return;
             }
 
-            arg = this.state.selectedPlot;
+            commandArg = this.state.selectedPlot;
         }
 
-        this.props.socket.emit(command, arg);
+        this.props.socket.emit(command, commandArg);
     }
 
     canPlayCard(card) {
@@ -148,9 +148,17 @@ class InnerGameBoard extends React.Component {
             return plotCard;
         });
 
+        var buttonIndex = 0;
+
         var buttons = _.map(thisPlayer.buttons, button => {
-            return (<button key={button.command} className='btn btn-primary' onClick={(event) => this.onButtonClick(event, button.command)}
-                disabled={this.isButtonDisabled(button)}>{button.text}</button>);
+            var option = (
+                <button key={button.command + buttonIndex.toString()} className='btn btn-primary'
+                    onClick={(event) => this.onButtonClick(event, button.command, button.arg)}
+                    disabled={this.isButtonDisabled(button)}>{button.text}</button>);
+
+            buttonIndex++;
+
+            return option;
         });
 
         return (
@@ -199,7 +207,7 @@ class InnerGameBoard extends React.Component {
                                 </div>
                             </div>
 
-                            <PlayerStats gold={thisPlayer.gold} claim={thisPlayer.claim} reserve={thisPlayer.reserve}
+                            <PlayerStats gold={thisPlayer.gold || 0} claim={thisPlayer.claim || 0} reserve={thisPlayer.reserve || 0}
                                 power={thisPlayer.totalPower} />
                         </div>
                         <div className='inset-pane'>
@@ -231,7 +239,11 @@ class InnerGameBoard extends React.Component {
                 </div>
                 <div className='right-side'>
                     <div className='card-large'>
-                        {this.state.cardToZoom ? <img src={'/img/cards/' + this.state.cardToZoom.code + '.png'} /> : null}
+                        {this.state.cardToZoom ?
+                            <div className='card-zoomed shadow'>
+                                <img src={'/img/cards/' + this.state.cardToZoom.code + '.png'} />
+                            </div>
+                            : null}
                     </div>
                     <div className='messages panel'>
                         chatbox

@@ -249,7 +249,6 @@ body {
   position: relative;
   margin-right: 5px;
   margin-top: 5px;
-  border-radius: 4px;
 }
 
 .inset-pane {
@@ -328,19 +327,15 @@ h4 {
   margin-top: -25px;
 }
 
-.plot-deck-card.opponent {
-}
-
 .messages {
-  height: 100%;
+  width: 227px;
+  position: absolute;
+  bottom: 0;
+  top: 317px;
 }
 
 .kneeled { 
   transform: rotate(90deg);
-}
-
-.un-kneeled {
- // transform: rotate(-90deg);
 }
 
 .plot-deck-card {
@@ -421,4 +416,22 @@ h4 {
   width: @card-height;
   border-radius: 4px;
   box-shadow: 0 0 12px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.1);
+}
+
+.shadow {
+  box-shadow: 0 0 12px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.1);
+}
+
+.card-zoomed {
+  width: 100%;
+  height: 100%;
+}
+
+.card-zoomed > img {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
 }

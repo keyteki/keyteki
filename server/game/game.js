@@ -121,9 +121,12 @@ class Game {
     }
 
     setFirstPlayer(sourcePlayer, who) {
+        var firstPlayer = undefined;
+
         _.each(this.players, player => {
             if(player.id === sourcePlayer && who === 'me') {
                 player.firstPlayer = true;
+                firstPlayer = player;
             } else {
                 player.firstPlayer = false;
             }
@@ -132,6 +135,8 @@ class Game {
             player.menuTitle = '';
             player.buttons = [];
         });
+
+        firstPlayer.beginMarshal();
     }
 
     initialise() {

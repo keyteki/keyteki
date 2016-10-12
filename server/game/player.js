@@ -25,7 +25,7 @@ class Player {
 
         this.takenMulligan = false;
     }
-    
+
     drawCardsToHand(numCards) {
         this.hand = this.hand.concat(_.first(this.drawDeck, numCards));
         this.drawDeck = _.rest(this.drawDeck, numCards);
@@ -223,12 +223,24 @@ class Player {
             return card.code === this.selectedPlot.card.code;
         });
 
+        this.activePlot = this.selectedPlot;        
         this.selectedPlot = undefined;
     }
 
     drawPhase() {
         this.phase = 'draw';
         this.drawCardsToHand(2);
+    }
+
+    beginMarshal() {
+        this.phase = 'marshal';
+
+        this.buttons = [{ command: 'donemarshal', text: 'Done' }];
+        this.menuTitle = 'Marshal your cards';
+
+        this.gold = this.activePlot.card.income;
+        this.reserve = this.activePlot.card.reserve;
+        this.claim = this.activePlot.card.claim;
     }
 
     getState(isActivePlayer) {
