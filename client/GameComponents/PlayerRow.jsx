@@ -5,90 +5,72 @@ class PlayerRow extends React.Component {
     constructor() {
         super();
 
-        this.onPlotDeckClick = this.onPlotDeckClick.bind(this);
-
         this.state = {
             showPlotDeck: false
         };
     }
 
-    onPlotDeckClick() {
-        this.setState({ showPlotDeck: !this.state.showPlotDeck });
-    }
-
-    onPlotCardClick(event, card) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        this.setState({ selectedPlot: card });
-
-        if(this.props.onPlotCardSelected) {
-            this.props.onPlotCardSelected(card);
-        }
-    }
-
     render() {
         var cardIndex = 0;
+        var className = 'panel hand';
+
+        if(this.props.hand.length * 64 > 342) {
+            className += ' squish';
+        }
+
+        var requiredWidth = this.props.hand.length * 64;
+        var overflow = requiredWidth - 342;
+        var offset = overflow / (this.props.hand.length - 1);
 
         var hand = _.map(this.props.hand, card => {
+            var left = (64 - offset) * cardIndex;
+
+            var style = {
+                left: left + 'px'
+            };
+            
             var retCard = (
-                <div key={ cardIndex.toString() + card.code } className='card' onMouseOver={ this.props.onMouseOver ? this.props.onMouseOver.bind(this, card) : null } onMouseOut={ this.props.onMouseOut }
-                    onClick={ this.props.isMe ? () => this.props.onCardClick(card) : null }>
-                    <img src={ '/img/cards/' + (card.code ? (card.code + '.png') : 'cardback.jpg') } />
+                <div className='card-wrapper' style={ style }>
+                    <div className='card-frame'>
+                        <div key={ cardIndex.toString() + card.code } className='card'
+                            onMouseOver={ this.props.onMouseOver ? this.props.onMouseOver.bind(this, card) : null }
+                            onMouseOut={ this.props.onMouseOut }
+                            onClick={ this.props.isMe ? () => this.props.onCardClick(card) : null }>
+                            <div>
+                                <span className='card-name'>{ card.label }</span>
+                                <img className='card' src={ '/img/cards/' + (card.code ? (card.code + '.png') : 'cardback.jpg') } />
+                            </div>    
+                        </div>
+                    </div>
                 </div>);
             cardIndex++;
 
             return retCard;
         });
 
-        cardIndex = 0;
-        var plotDeck = _.map(this.props.plotDeck, card => {
-            var plotClass = 'plot-card';
-
-            if(card === this.state.selectedPlot) {
-                plotClass += ' selected';
-            }
-
-            var plotCard = (<div key={ 'card' + cardIndex.toString() } className={ plotClass } onMouseOver={ this.props.onMouseOver ? this.props.onMouseOver.bind(this, card) : null }
-                onMouseOut={ this.props.onMouseOut } onClick={ (event) => this.onPlotCardClick(event, card) }>
-                <img src={ '/img/cards/' + card.code + '.png' } />
-            </div>);
-
-            cardIndex++;
-
-            return plotCard;
-        });
-
         return (
             <div className='player-home-row'>
-                <div className='panel hand'>
+                <div className={ className }>
                     { hand }
                 </div>
                 <div className='discard panel' />
                 <div className='draw panel'>
                     <div className='card'>
-                        <img src='/img/cards/cardback.jpg' />
+                        <img className='card' src='/img/cards/cardback.jpg' />
                     </div>
                 </div>
                 <div className='faction panel'>
                     <div className='card'>
-                        { this.props.faction ? <img src={ '/img/factions/' + this.props.faction.value + '.png' } /> : null }
+                        { this.props.faction ? <img className='card' src={ '/img/factions/' + this.props.faction.value + '.png' } /> : null }
                     </div>
                 </div>
                 { this.props.agenda ?
                     <div className='agenda panel' onMouseOver={ this.props.onMouseOver ? this.props.onMouseOver.bind(this, this.props.agenda) : null }
                         onMouseOut={ this.props.onMouseOut ? this.props.onMouseOut : null }>
-                        <img src={ '/img/cards/' + this.props.agenda.code + '.png' } />
+                        <img className='card' src={ '/img/cards/' + this.props.agenda.code + '.png' } />
                     </div>
                     : <div className='agenda panel' />
                 }
-                <div className={ 'plot ' + (this.isMe ? 'our-side ' : '') + 'panel' } onClick={ this.onPlotDeckClick }>
-                    <img src='/img/cards/cardback.jpg' />
-
-                    { this.state.showPlotDeck ? <div className='panel plot-popup'>
-                        { plotDeck }
-                    </div> : null }
-                </div>
             </div>
         );
     }

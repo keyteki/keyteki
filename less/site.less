@@ -2,6 +2,13 @@
 
 @brand-primary: green;
 
+@card-width: 64px;
+@card-height: 84px;
+
+*, *:before, *:after { 
+  box-sizing: border-box; 
+}
+
 body {
   padding-top: 75px;
   background-color: #1E1E1E;
@@ -167,7 +174,7 @@ body {
 
 .player-home-row {
   display: flex;
-  height: 120px;
+  height: 100px;
 }
 
 .panel {
@@ -175,11 +182,16 @@ body {
   background-color: rgba(0, 0, 0, 0.85);
   margin: 5px;
   padding: 5px 10px;
+  border: 1px solid rgba(71, 58, 56, 0.95);
 }
 
 .hand {
-  width: 548px;
+  width: 342px;
   padding: 0px;
+}
+
+.hand, .discard, .draw, .faction, .agenda {
+  height: 86px;
 }
 
 .middle {
@@ -188,50 +200,41 @@ body {
 }
 
 .left-side {
-  width: 200px;
+  width: 150px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-
-.left-side > div {
-  width: 100%;
 }
 
 .state > div {
   height: 20px;
 }
 
-.card {
-  width: 78px;
-  display: inline-block;
-}
-
-.plot-card {
-  height: 78px;
-  display: inline-block;
-}
-
-.card > img, .agenda > img, .card-large > img, .plot-deck-card > img {
+.agenda > img, .card-large > img, .plot-deck-card > img {
   width: 100%;
 }
 
 .plot > img, .plot-card > img, .discard-plot > img {
+  width: 100%;
+}
+
+.plot-popup > .plot-card > img {
+  width: initial;
   height: 100%;
 }
 
 .discard, .draw, .faction, .agenda {
   position: relative;
-  width: 78px;
+  width: @card-width;
   padding: 0px;
 }
 
 .plot {
   position: relative;
-  height: 110px;
-  transform: rotate(90deg);
-  margin-left: 25px;
+  width: 64px;
+  margin: -7px 0px 0px 0px;
   padding: 0px;
+  border: none;
 }
 
 .right-side {
@@ -287,23 +290,20 @@ h4 {
 
 .plot-popup {
   position: absolute;
-  transform: rotate(-90deg);
-  width: 256px;
+  width: 200px;
   min-height: 92px;
-  bottom: -40px;
-  left: -300px;
+  bottom: 34px;
+  left: 119px;
 }
 
 .plot-card.selected {
-  border: 2px solid @brand-primary;
-  border-radius: 4px;
+  box-shadow: 0 0 1px 2px @brand-primary;
 }
 
 .discard-plot {
   height: 110px;
-  transform: rotate(90deg);
   padding: 0px;
-  width: 78px;
+  width: @card-width;
   margin-left: 20px;
   margin-bottom: -25px;
 }
@@ -311,17 +311,16 @@ h4 {
 .plots-pane {
   display: flex;
   flex-direction: column;
-  width: 110px;
   justify-content: space-between;
-  padding-left: 5px;
+  align-items: center;
 }
 
-.plot-deck-card {
-  margin-left: 4px;
-  margin-bottom: -17px;
-  width: 110px;
-  height: 78px;
+.plot-deck-card.kneeled {
+  width: @card-width;
   padding: 0px;
+  margin: -20px 0px 0px 0px;
+  border: none;
+  height: @card-height;
 }
 
 .discard-plot.opponent {
@@ -330,6 +329,96 @@ h4 {
 }
 
 .plot-deck-card.opponent {
-  margin-bottom: 0px;
-  margin-top: -10px;
+}
+
+.messages {
+  height: 100%;
+}
+
+.kneeled { 
+  transform: rotate(90deg);
+}
+
+.un-kneeled {
+ // transform: rotate(-90deg);
+}
+
+.plot-deck-card {
+  height: @card-width;
+  padding: 0px;
+  margin: 0px 0px 0px -20px;
+  border: none;
+  width: @card-height;
+}
+
+.horizontal-card {
+  height: @card-width;
+  width: @card-height;
+  padding: 0px;
+  margin-bottom: 1px;
+  border-radius: 4px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.horizontal-card > img.vertical {
+  transform: translateY(-13%) translateX(14%) rotate(90deg);
+  width: @card-width;
+  height: @card-height;
+}
+
+.horizontal-card > img.horizontal {
+  height: @card-width;
+  width: @card-height;
+}
+
+.relative {
+  position: relative;
+}
+
+.selected-plot {
+  position: absolute;
+  left: 120px;
+}
+
+.selected-plot.opponent {
+  top: 70px;
+}
+
+.card-wrapper {
+  display: inline-block;
+  margin: 0px 4px 0px 0px;
+}
+
+.card {
+  display: inline-block;
+  position: relative;
+  height: @card-height;
+  width: @card-width;
+  border-radius: 4px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.1);
+}
+
+.card > * > img {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.card-name {
+  float: left;
+  font-size: 10px;
+  line-height: 14px;
+}
+
+.squish .card-wrapper {
+  position: absolute;
+}
+
+.plot-card {
+  display: inline-block;
+  position: relative;
+  height: @card-width;
+  width: @card-height;
+  border-radius: 4px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.1);
 }
