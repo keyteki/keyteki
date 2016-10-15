@@ -241,14 +241,7 @@ body {
   position: relative;
   display: flex;
   flex-direction: column;
-}
-
-.card-large {
-  width: 220px;
-  height: 307px;
-  position: relative;
-  margin-right: 5px;
-  margin-top: 5px;
+  min-width: 307px;
 }
 
 .inset-pane {
@@ -328,10 +321,11 @@ h4 {
 }
 
 .messages {
-  width: 227px;
+  width: 220px;
   position: absolute;
   bottom: 0;
   top: 317px;
+  right: 0;
 }
 
 .kneeled { 
@@ -420,6 +414,24 @@ h4 {
 
 .shadow {
   box-shadow: 0 0 12px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.1);
+}
+
+.card-large {
+  width: 220px;
+  height: 307px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
+.card-large-plot {
+  width: 307px;
+  height: 220px;
+  position: relative;
+  margin-right: 5px;
+  margin-top: 5px;
 }
 
 .card-zoomed {

@@ -99,18 +99,10 @@ class InnerGameBoard extends React.Component {
         return false;
     }
 
-    render() {
-        if(!this.props.state) {
-            return <div>Waiting for server...</div>;
-        }
-
-        var thisPlayer = this.props.state.players[this.props.socket.id];
-        var otherPlayer = _.find(this.props.state.players, player => {
-            return player.id !== this.props.socket.id;
-        });
-
+    getCardsInPlay(player) {
         var index = 0;
-        var thisPlayerCardsInPlay = _.map(thisPlayer.cardsInPlay, card => {
+
+        return _.map(player.cardsInPlay, card => {
             var cardInPlay = (
                 <div className='card-wrapper' key={'card' + index.toString()}>
                     <div className='card-frame'>
@@ -129,27 +121,23 @@ class InnerGameBoard extends React.Component {
 
             return cardInPlay;
         });
+    }
 
-        index = 0;
-        var otherPlayerCardsInPlay = otherPlayer ? _.map(otherPlayer.cardsInPlay, card => {
-            var cardInPlay = (
-                <div className='card-wrapper' key={'card' + index.toString()}>
-                    <div className='card-frame'>
-                        <div className='card' onMouseOver={card.facedown ? null : this.onMouseOver.bind(this, card.card)}
-                            onMouseOut={card.facedown ? null : this.onMouseOut}>
-                            {card.facedown ?
-                                <img className='card' src='/img/cards/cardback.jpg' /> :
-                                <img className='card' src={'/img/cards/' + card.card.code + '.png'} />}
-                        </div>
-                    </div>
-                </div>);
+    render() {
+        if(!this.props.state) {
+            return <div>Waiting for server...</div>;
+        }
 
-            index++;
+        var thisPlayer = this.props.state.players[this.props.socket.id];
+        var otherPlayer = _.find(this.props.state.players, player => {
+            return player.id !== this.props.socket.id;
+        });
 
-            return cardInPlay;
-        }) : null;
+        var thisPlayerCardsInPlay = this.getCardsInPlay(thisPlayer);
+        var otherPlayerCardsInPlay = otherPlayer ? this.getCardsInPlay(otherPlayer) : null;
 
-        index = 0;
+        var index = 0;
+
         var plotDeck = _.map(thisPlayer.plotDeck, card => {
             var plotClass = 'plot-card';
 
@@ -184,6 +172,11 @@ class InnerGameBoard extends React.Component {
 
             return option;
         });
+
+        var zoomClass = 'card-large';
+        if(this.state.cardToZoom && this.state.cardToZoom.type_code === 'plot') {
+            zoomClass = 'card-large-plot';
+        }        
 
         return (
             <div className='game-board'>
@@ -273,7 +266,7 @@ class InnerGameBoard extends React.Component {
                         numDrawCards={thisPlayer.numDrawCards} />
                 </div>
                 <div className='right-side'>
-                    <div className='card-large'>
+                    <div className={zoomClass}>
                         {this.state.cardToZoom ?
                             <div className='card-zoomed shadow'>
                                 <img src={'/img/cards/' + this.state.cardToZoom.code + '.png'} />

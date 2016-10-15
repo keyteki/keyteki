@@ -111,7 +111,7 @@ class Game {
             player.buttons = [];
         } else {
             var highestPlayer = undefined;
-            var highestInitiative = 0;
+            var highestInitiative = -1;
             _.each(this.players, p => {
                 if(p.selectedPlot.card.initiative > highestInitiative) {
                     highestInitiative = p.selectedPlot.card.initiative;
@@ -173,7 +173,7 @@ class Game {
         if(player.selectedAttachment) {
             player.attach(player.selectedAttachment, card);
             this.checkForAttachments();
-            
+
             return;
         }
 
