@@ -103,6 +103,32 @@ class InnerGameBoard extends React.Component {
         var index = 0;
 
         return _.map(player.cardsInPlay, card => {
+            var attachments = _.map(card.attachments, a => {
+                return (
+                    <div className='attachment'>
+                        <div className='card' onMouseOver={this.onMouseOver.bind(this, a)} onMouseOut={this.onMouseOut}
+                            onClick={this.onCardClick2.bind(this, a)}>
+                            <div>
+                                {card.facedown ?
+                                    <img className='card' src='/img/cards/cardback.jpg' /> :
+                                    <img className='card' src={'/img/cards/' + a.code + '.png'} />}
+                            </div>
+                        </div>
+                    </div>);
+            });
+
+            var counters = null;
+
+            if(card.dupes.length !== 0) {
+                counters = (
+                    <div className='counters'>
+                        <div className='counter dupe'>
+                            {card.dupes.length + 1}
+                        </div>
+                    </div>
+                );
+            }
+
             var cardInPlay = (
                 <div className='card-wrapper' key={'card' + index.toString()}>
                     <div className='card-frame'>
@@ -113,7 +139,9 @@ class InnerGameBoard extends React.Component {
                                     <img className='card' src='/img/cards/cardback.jpg' /> :
                                     <img className='card' src={'/img/cards/' + card.card.code + '.png'} />}
                             </div>
+                            {counters}
                         </div>
+                        {attachments}
                     </div>
                 </div>);
 
@@ -176,7 +204,7 @@ class InnerGameBoard extends React.Component {
         var zoomClass = 'card-large';
         if(this.state.cardToZoom && this.state.cardToZoom.type_code === 'plot') {
             zoomClass = 'card-large-plot';
-        }        
+        }
 
         return (
             <div className='game-board'>

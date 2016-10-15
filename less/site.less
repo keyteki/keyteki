@@ -464,3 +464,63 @@ h4 {
   text-shadow: 1px 1px 2px #000;
   border-radius: 4px;
 }
+
+.attachment {
+  height: 84px;
+  width: auto;
+  margin-top: -65px;
+  z-index: -1;
+  position: relative;
+}
+
+.card-frame {
+  position: relative;
+  z-index: 1;
+}
+
+.attachment > div {
+  float: left;
+}
+
+.player-board {
+  .card-wrapper {
+    margin-right: 10px;
+    margin-bottom: 5px;
+  }
+}
+
+.counters {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.counter {
+  padding: 0;
+  font-size: 12px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  margin: 2px;
+}
+
+.dupe {
+  background-color: rgba(0,128,0,0.85);
+  text-shadow: 1px 1px 2px #000;
+  border-radius: 4px;
+  color: white;
+}
+
+.power {
+  background-color: rgba(0,0,128,0.85);
+  text-shadow: 1px 1px 2px #000;
+  border-radius: 4px;
+  color: white;
+}
