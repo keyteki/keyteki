@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'underscore';
+import $ from 'jquery';
 
 import PlayerStats from './GameComponents/PlayerStats.jsx';
 import PlayerRow from './GameComponents/PlayerRow.jsx';
@@ -13,6 +14,7 @@ class InnerGameBoard extends React.Component {
         this.onMouseOut = this.onMouseOut.bind(this);
         this.onMouseOver = this.onMouseOver.bind(this);
         this.onCardClick = this.onCardClick.bind(this);
+        this.onCardClick2 = this.onCardClick2.bind(this);
 
         this.onPlotDeckClick = this.onPlotDeckClick.bind(this);
 
@@ -21,6 +23,16 @@ class InnerGameBoard extends React.Component {
             showPlotDeck: false,
             selectedPlot: undefined
         };
+    }
+
+    componentWillReceiveProps(props) {
+        var thisPlayer = props.state.players[props.socket.id];
+
+        if(thisPlayer.selectCard) {
+            $('body').addClass('select-cursor');
+        } else {
+            $('body').removeClass('select-cursor');
+        }
     }
 
     onMouseOver(card) {
@@ -49,9 +61,9 @@ class InnerGameBoard extends React.Component {
     canPlayCard(card) {
         var thisPlayer = this.props.state.players[this.props.socket.id];
 
-        if(card.cost > thisPlayer.gold) {
-            return false;
-        }
+        // if(card.cost > thisPlayer.gold) {
+        //     return false;
+        // }
 
         return true;
     }
@@ -62,6 +74,10 @@ class InnerGameBoard extends React.Component {
         }
 
         this.props.socket.emit('playcard', card);
+    }
+
+    onCardClick2(card) {
+        this.props.socket.emit('cardclick', card);
     }
 
     onPlotCardClick(event, card) {
@@ -98,7 +114,8 @@ class InnerGameBoard extends React.Component {
             var cardInPlay = (
                 <div className='card-wrapper' key={'card' + index.toString()}>
                     <div className='card-frame'>
-                        <div className='card' onMouseOver={this.onMouseOver.bind(this, card.card)} onMouseOut={this.onMouseOut}>
+                        <div className='card' onMouseOver={this.onMouseOver.bind(this, card.card)} onMouseOut={this.onMouseOut}
+                            onClick={this.onCardClick2.bind(this, card.card)}>
                             <div>
                                 {card.facedown ?
                                     <img className='card' src='/img/cards/cardback.jpg' /> :

@@ -60,6 +60,26 @@ class Game {
         player.playCard(card);
     }
 
+    checkForAttachments() {
+        var playersWithAttachments = _.filter(this.players, p => {
+            return p.hasUnmappedAttachments();
+        });
+
+        if(playersWithAttachments.length !== 0) {
+            _.each(playersWithAttachments, p => {
+                p.menuTitle = 'Select attachment locations';
+                p.buttons = [
+                    { command: 'mapattachments', text: 'Done' }
+                ];
+                p.waitingForAttachments = true;
+            });
+        } else {
+            _.each(this.players, p => {
+                p.startPlotPhase();
+            });
+        }
+    }
+
     setupDone(playerId) {
         var player = _.find(this.players, player => {
             return player.id === playerId;
@@ -73,9 +93,7 @@ class Game {
             player.menuTitle = 'Waiting for opponent to finish setup';
             player.buttons = [];
         } else {
-            _.each(this.players, p => {
-                p.startPlotPhase();
-            });
+            this.checkForAttachments();
         }
     }
 
@@ -137,6 +155,35 @@ class Game {
         });
 
         firstPlayer.beginMarshal();
+    }
+
+    cardClicked(sourcePlayer, card) {
+        var player = _.find(this.players, player => {
+            return player.id === sourcePlayer;
+        });
+
+        if(!player) {
+            return;
+        }
+
+        if(!player.waitingForAttachments) {
+            return;
+        }
+
+        if(player.selectedAttachment) {
+            player.attach(player.selectedAttachment, card);
+            this.checkForAttachments();
+            
+            return;
+        }
+
+        if(card.type_code !== 'attachment') {
+            return;
+        }
+
+        player.selectedAttachment = card;
+        player.selectCard = true;
+        player.menuTitle = 'Select target for attachment';
     }
 
     initialise() {

@@ -428,6 +428,18 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on('cardclick', function(card) {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        game.cardClicked(socket.id.slice(2), card);
+
+        socket.emit('gamestate', game.getState(socket.id.slice(2)));
+    });
+
     socket.emit('games', games);
 });
 

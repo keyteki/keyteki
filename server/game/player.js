@@ -110,11 +110,13 @@ class Player {
             return false;
         }
 
-        if(card.cost > this.gold && !this.isDuplicateInPlay(card)) {
+        var isDupe = this.isDuplicateInPlay(card);
+
+        if(card.cost > this.gold && !isDupe) {
             return false;
         }
 
-        if(this.limitedPlayed && this.isLimited(card)) {
+        if(this.limitedPlayed && this.isLimited(card) && !isDupe) {
             return false;
         }
 
@@ -164,7 +166,7 @@ class Player {
             this.gold -= card.cost;
         }
 
-        this.cardsInPlay.push({ facedown: true, card: card });
+        this.cardsInPlay.push({ facedown: true, card: card, attachments: [], dupes: [] });
 
         if(this.isLimited(card)) {
             this.limitedPlayed = true;
@@ -202,9 +204,23 @@ class Player {
         this.firstPlayer = false;
         this.selectedPlot = undefined;
 
+        var processedCards = [];
+
         _.each(this.cardsInPlay, card => {
             card.facedown = false;
+            
+            var dupe = _.find(processedCards, c => {
+                return c.card.code === card.card.code;
+            });
+
+            if(dupe) {
+                dupe.dupes.push(card);
+            } else {
+                processedCards.push(card);
+            }
         });
+        
+        this.cardsInPlay = processedCards;
     }
 
     selectPlot(plot) {
@@ -223,7 +239,7 @@ class Player {
             return card.code === this.selectedPlot.card.code;
         });
 
-        this.activePlot = this.selectedPlot;        
+        this.activePlot = this.selectedPlot;
         this.selectedPlot = undefined;
     }
 
@@ -241,6 +257,27 @@ class Player {
         this.gold = this.activePlot.card.income;
         this.reserve = this.activePlot.card.reserve;
         this.claim = this.activePlot.card.claim;
+    }
+
+    hasUnmappedAttachments() {
+        return _.any(this.cardsInPlay, card => {
+            return card.card.type_code === 'attachment';
+        });
+    }
+
+    attach(attachment, card) {
+        var inPlayCard = _.find(this.cardsInPlay, c => {
+            return c.card.code === card.code; 
+        });
+
+        inPlayCard.attachments.push(attachment);
+        
+        this.cardsInPlay = _.reject(this.cardsInPlay, c => {
+            return c.card.code === attachment.code;
+        });
+
+        this.selectCard = false;
+        this.selectedAttachment = undefined;
     }
 
     getState(isActivePlayer) {
@@ -264,7 +301,9 @@ class Player {
             numPlotCards: this.plotDeck.length,
             plotSelected: !!this.selectedPlot,
             firstPlayer: this.firstPlayer,
-            plotDiscard: this.plotDiscard
+            plotDiscard: this.plotDiscard,
+            selectedAttachment: this.selectedAttachment,
+            selectCard: this.selectCard
         };
     }
 }
