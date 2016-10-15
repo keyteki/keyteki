@@ -132,10 +132,17 @@ class InnerGameBoard extends React.Component {
 
         index = 0;
         var otherPlayerCardsInPlay = otherPlayer ? _.map(otherPlayer.cardsInPlay, card => {
-            var cardInPlay = (<div key={'card' + index.toString()} className='card' onMouseOver={card.facedown ? null : this.onMouseOver.bind(this, card.card)}
-                onMouseOut={card.facedown ? null : this.onMouseOut}>
-                {card.facedown ? <img src='/img/cards/cardback.jpg' /> : <img src={'/img/cards/' + card.card.code + '.png'} />}
-            </div>);
+            var cardInPlay = (
+                <div className='card-wrapper' key={'card' + index.toString()}>
+                    <div className='card-frame'>
+                        <div className='card' onMouseOver={card.facedown ? null : this.onMouseOver.bind(this, card.card)}
+                            onMouseOut={card.facedown ? null : this.onMouseOut}>
+                            {card.facedown ?
+                                <img className='card' src='/img/cards/cardback.jpg' /> :
+                                <img className='card' src={'/img/cards/' + card.card.code + '.png'} />}
+                        </div>
+                    </div>
+                </div>);
 
             index++;
 
@@ -181,7 +188,10 @@ class InnerGameBoard extends React.Component {
         return (
             <div className='game-board'>
                 <div className='main-window'>
-                    <PlayerRow agenda={otherPlayer ? otherPlayer.agenda : undefined} faction={otherPlayer ? otherPlayer.faction : undefined} hand={otherPlayer ? otherPlayer.hand : []} isMe={false} />
+                    <PlayerRow agenda={otherPlayer ? otherPlayer.agenda : undefined}
+                        faction={otherPlayer ? otherPlayer.faction : undefined}
+                        hand={otherPlayer ? otherPlayer.hand : []} isMe={false}
+                        numDrawCards={otherPlayer ? otherPlayer.numDrawCards : 0} />
                     <div className='middle'>
                         <div className='left-side'>
                             <PlayerStats gold={otherPlayer ? otherPlayer.gold : 0} claim={otherPlayer ? otherPlayer.claim : 0}
@@ -189,6 +199,10 @@ class InnerGameBoard extends React.Component {
                             <div className='plots-pane'>
                                 <div className='relative'>
                                     <div className='panel horizontal-card'>
+                                        <div className='panel-header'>
+                                            {'Plot (' + (otherPlayer ? otherPlayer.numPlotCards : 0) + ')'}
+                                        </div>
+
                                         <img className='vertical' src='/img/cards/cardback.jpg' />
                                     </div>
                                     <div className='panel horizontal-card'
@@ -215,6 +229,9 @@ class InnerGameBoard extends React.Component {
                                             <img className='horizontal card' src={'/img/cards/' + thisPlayer.plotDiscard[0].code + '.png'} /> : null}
                                     </div>
                                     <div className='panel horizontal-card' onClick={this.onPlotDeckClick}>
+                                        <div className='panel-header'>
+                                            {'Plot (' + plotDeck.length + ')'}
+                                        </div>
                                         <img className='vertical card' src='/img/cards/cardback.jpg' />
 
                                         {this.state.showPlotDeck ? <div className='panel plot-popup un-kneeled'>
@@ -252,7 +269,8 @@ class InnerGameBoard extends React.Component {
                         </div>
                     </div>
                     <PlayerRow agenda={thisPlayer.agenda} faction={thisPlayer.faction} hand={thisPlayer.hand} isMe
-                        onCardClick={this.onCardClick} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} />
+                        onCardClick={this.onCardClick} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut}
+                        numDrawCards={thisPlayer.numDrawCards} />
                 </div>
                 <div className='right-side'>
                     <div className='card-large'>

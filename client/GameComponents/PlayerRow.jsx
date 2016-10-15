@@ -28,18 +28,18 @@ class PlayerRow extends React.Component {
             var style = {
                 left: left + 'px'
             };
-            
+
             var retCard = (
-                <div className='card-wrapper' style={ style }>
+                <div className='card-wrapper' style={style}>
                     <div className='card-frame'>
-                        <div key={ cardIndex.toString() + card.code } className='card'
-                            onMouseOver={ this.props.onMouseOver ? this.props.onMouseOver.bind(this, card) : null }
-                            onMouseOut={ this.props.onMouseOut }
-                            onClick={ this.props.isMe ? () => this.props.onCardClick(card) : null }>
+                        <div key={cardIndex.toString() + card.code} className='card'
+                            onMouseOver={this.props.onMouseOver ? this.props.onMouseOver.bind(this, card) : null}
+                            onMouseOut={this.props.onMouseOut}
+                            onClick={this.props.isMe ? () => this.props.onCardClick(card) : null}>
                             <div>
-                                <span className='card-name'>{ card.label }</span>
-                                <img className='card' src={ '/img/cards/' + (card.code ? (card.code + '.png') : 'cardback.jpg') } />
-                            </div>    
+                                <span className='card-name'>{card.label}</span>
+                                <img className='card' src={'/img/cards/' + (card.code ? (card.code + '.png') : 'cardback.jpg')} />
+                            </div>
                         </div>
                     </div>
                 </div>);
@@ -50,24 +50,34 @@ class PlayerRow extends React.Component {
 
         return (
             <div className='player-home-row'>
-                <div className={ className }>
-                    { hand }
+                <div className={className}>
+                    <div className='panel-header'>
+                        {'Hand (' + hand.length + ')'}
+                    </div>
+                    {hand}
                 </div>
-                <div className='discard panel' />
+                <div className='discard panel'>
+                    <div className='panel-header'>
+                        {'Discard (0)'}
+                    </div>
+                </div>
                 <div className='draw panel'>
+                    <div className='panel-header'>
+                        {'Draw (' + this.props.numDrawCards + ')'}
+                        </div>
                     <div className='card'>
                         <img className='card' src='/img/cards/cardback.jpg' />
                     </div>
                 </div>
                 <div className='faction panel'>
                     <div className='card'>
-                        { this.props.faction ? <img className='card' src={ '/img/factions/' + this.props.faction.value + '.png' } /> : null }
+                        {this.props.faction ? <img className='card' src={'/img/factions/' + this.props.faction.value + '.png'} /> : null}
                     </div>
                 </div>
-                { this.props.agenda ?
-                    <div className='agenda panel' onMouseOver={ this.props.onMouseOver ? this.props.onMouseOver.bind(this, this.props.agenda) : null }
-                        onMouseOut={ this.props.onMouseOut ? this.props.onMouseOut : null }>
-                        <img className='card' src={ '/img/cards/' + this.props.agenda.code + '.png' } />
+                {this.props.agenda ?
+                    <div className='agenda panel' onMouseOver={this.props.onMouseOver ? this.props.onMouseOver.bind(this, this.props.agenda) : null}
+                        onMouseOut={this.props.onMouseOut ? this.props.onMouseOut : null}>
+                        <img className='card' src={'/img/cards/' + this.props.agenda.code + '.png'} />
                     </div>
                     : <div className='agenda panel' />
                 }
@@ -82,6 +92,7 @@ PlayerRow.propTypes = {
     faction: React.PropTypes.object,
     hand: React.PropTypes.array,
     isMe: React.PropTypes.bool,
+    numDrawCards: React.PropTypes.number,
     onCardClick: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
