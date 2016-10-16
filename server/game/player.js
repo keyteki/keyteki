@@ -253,9 +253,6 @@ class Player {
     beginMarshal() {
         this.phase = 'marshal';
 
-        this.buttons = [{ command: 'donemarshal', text: 'Done' }];
-        this.menuTitle = 'Marshal your cards';
-
         this.gold = this.activePlot.card.income;
         this.reserve = this.activePlot.card.reserve;
         this.claim = this.activePlot.card.claim;

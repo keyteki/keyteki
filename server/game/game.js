@@ -176,6 +176,16 @@ class Game {
         this.messages.push({ date: new Date(), message: player.name + ' has selected ' + firstPlayer.name + ' to be the first player' });
 
         firstPlayer.beginMarshal();
+        firstPlayer.buttons = [{ command: 'donemarshal', text: 'Done' }];
+        firstPlayer.menuTitle = 'Marshal your cards';
+
+        var otherPlayer = _.find(this.players, player => {
+            return player.id !== firstPlayer.id;
+        });
+
+        if(otherPlayer) {
+            otherPlayer.menuTitle = 'Waiting for opponent to marshal their cards';
+        }
     }
 
     cardClicked(sourcePlayer, card) {
