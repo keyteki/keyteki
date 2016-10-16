@@ -440,6 +440,30 @@ io.on('connection', function(socket) {
         socket.emit('gamestate', game.getState(socket.id.slice(2)));
     });
 
+    socket.on('showdrawdeck', function() {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        game.showDrawDeck(socket.id.slice(2));
+
+        socket.emit('gamestate', game.getState(socket.id.slice(2)));
+    });
+
+    socket.on('handdrop', function(card) {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        game.handDrop(socket.id.slice(2), card);
+
+        socket.emit('gamestate', game.getState(socket.id.slice(2)));
+    });
+
     socket.emit('games', games);
 });
 

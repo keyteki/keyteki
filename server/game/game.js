@@ -186,6 +186,22 @@ class Game {
         player.menuTitle = 'Select target for attachment';
     }
 
+    showDrawDeck(playerId) {
+        var player = _.find(this.players, player => {
+            return player.id === playerId;
+        });
+
+        player.showDrawDeck();
+    }
+
+    handDrop(playerId, card) {
+        var player = _.find(this.players, player => {
+            return player.id === playerId;
+        });
+        
+        player.handDrop(card);
+    }
+
     initialise() {
         _.each(this.players, player => {
             player.initialise();

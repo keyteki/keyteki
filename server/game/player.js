@@ -280,8 +280,33 @@ class Player {
         this.selectedAttachment = undefined;
     }
 
+    showDrawDeck() {
+        this.showDeck = true;
+    }
+
+    handDrop(card) {
+        if(!_.any(this.drawDeck, c => {
+            return c.code === card.code;
+        })) {
+            return;
+        }
+
+        this.hand.push(card);
+        
+        var matchFound = false;
+        this.drawDeck = _.reject(this.drawDeck, c => {
+            var match = !matchFound && c.code === card.code;
+
+            if(match) {
+                matchFound = true;
+            }
+
+            return match;
+        });
+    }
+
     getState(isActivePlayer) {
-        return {
+        var state = {
             id: this.id,
             faction: this.deck.faction,
             agenda: this.deck.agenda,
@@ -305,6 +330,13 @@ class Player {
             selectedAttachment: this.selectedAttachment,
             selectCard: this.selectCard
         };
+
+        if(this.showDeck) {
+            state.showDeck = true;
+            state.drawDeck = this.drawDeck;
+        }
+
+        return state;
     }
 }
 

@@ -5,9 +5,30 @@ class PlayerRow extends React.Component {
     constructor() {
         super();
 
+        this.onHandDrop = this.onHandDrop.bind(this);
+
         this.state = {
             showPlotDeck: false
         };
+    }
+
+    onCardDragStart(event, card) {
+        event.dataTransfer.setData('card', JSON.stringify(card));
+    }
+
+    onDragOver(event) {
+        event.preventDefault();
+    }
+
+    onHandDrop(event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        var card = JSON.parse(event.dataTransfer.getData('card'));
+
+        if(this.props.onHandDrop) {
+            this.props.onHandDrop(card);
+        }
     }
 
     render() {
@@ -48,9 +69,26 @@ class PlayerRow extends React.Component {
             return retCard;
         });
 
+        var drawDeckPopup = undefined;
+
+        if(this.props.showDrawDeck && this.props.drawDeck) {
+            var drawDeck = _.map(this.props.drawDeck, card => {
+                return (
+                    <div draggable className='card-frame' onDragStart={(ev) => this.onCardDragStart(ev, card)}>
+                        <div className='card' onMouseOver={this.props.onMouseOver.bind(this, card)} onMouseOut={this.props.onMouseOut}>
+                            <div>
+                                <img className='card' src={'/img/cards/' + card.code + '.png'} />}
+                            </div>
+                        </div>
+                    </div>);
+            });
+
+            drawDeckPopup = <div className='panel popup'>{drawDeck}</div>;
+        }
+
         return (
             <div className='player-home-row'>
-                <div className={className}>
+                <div className={className} onDragOver={this.onDragOver} onDrop={this.onHandDrop}>
                     <div className='panel-header'>
                         {'Hand (' + hand.length + ')'}
                     </div>
@@ -61,13 +99,14 @@ class PlayerRow extends React.Component {
                         {'Discard (0)'}
                     </div>
                 </div>
-                <div className='draw panel'>
+                <div className='draw panel' onClick={this.props.isMe ? this.props.onDrawClick : null}>
                     <div className='panel-header'>
                         {'Draw (' + this.props.numDrawCards + ')'}
-                        </div>
+                    </div>
                     <div className='card'>
                         <img className='card' src='/img/cards/cardback.jpg' />
                     </div>
+                    {drawDeckPopup}
                 </div>
                 <div className='faction panel'>
                     <div className='card'>
@@ -89,15 +128,19 @@ class PlayerRow extends React.Component {
 PlayerRow.displayName = 'PlayerRow';
 PlayerRow.propTypes = {
     agenda: React.PropTypes.object,
+    drawDeck: React.PropTypes.array,
     faction: React.PropTypes.object,
     hand: React.PropTypes.array,
     isMe: React.PropTypes.bool,
     numDrawCards: React.PropTypes.number,
     onCardClick: React.PropTypes.func,
+    onDrawClick: React.PropTypes.func,
+    onHandDrop: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
     onPlotCardSelected: React.PropTypes.func,
-    plotDeck: React.PropTypes.array
+    plotDeck: React.PropTypes.array,
+    showDrawDeck: React.PropTypes.bool
 };
 
 export default PlayerRow;

@@ -15,12 +15,14 @@ class InnerGameBoard extends React.Component {
         this.onMouseOver = this.onMouseOver.bind(this);
         this.onCardClick = this.onCardClick.bind(this);
         this.onCardClick2 = this.onCardClick2.bind(this);
-
         this.onPlotDeckClick = this.onPlotDeckClick.bind(this);
+        this.onDrawClick = this.onDrawClick.bind(this);
+        this.onHandDrop = this.onHandDrop.bind(this);
 
         this.state = {
             cardToZoom: undefined,
             showPlotDeck: false,
+            showDrawDeck: false,
             selectedPlot: undefined
         };
     }
@@ -80,6 +82,14 @@ class InnerGameBoard extends React.Component {
         this.props.socket.emit('cardclick', card);
     }
 
+    onDrawClick() {
+        if(!this.state.showDrawDeck) {
+            this.props.socket.emit('showdrawdeck');
+        }
+
+        this.setState({ showDrawDeck: !this.state.showDrawDeck });
+    }
+
     onPlotCardClick(event, card) {
         event.preventDefault();
         event.stopPropagation();
@@ -89,6 +99,10 @@ class InnerGameBoard extends React.Component {
 
     onPlotDeckClick() {
         this.setState({ showPlotDeck: !this.state.showPlotDeck });
+    }
+
+    onHandDrop(card) {
+        this.props.socket.emit('handdrop', card);
     }
 
     isButtonDisabled(button) {
@@ -289,9 +303,17 @@ class InnerGameBoard extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <PlayerRow agenda={thisPlayer.agenda} faction={thisPlayer.faction} hand={thisPlayer.hand} isMe
-                        onCardClick={this.onCardClick} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut}
-                        numDrawCards={thisPlayer.numDrawCards} />
+                    <PlayerRow isMe
+                        agenda={thisPlayer.agenda}
+                        faction={thisPlayer.faction}
+                        hand={thisPlayer.hand}
+                        onCardClick={this.onCardClick}
+                        onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut}
+                        numDrawCards={thisPlayer.numDrawCards}
+                        onDrawClick={this.onDrawClick}
+                        showDrawDeck={this.state.showDrawDeck}
+                        drawDeck={thisPlayer.drawDeck}
+                        onHandDrop={this.onHandDrop} />
                 </div>
                 <div className='right-side'>
                     <div className={zoomClass}>
