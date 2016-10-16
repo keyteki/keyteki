@@ -7,6 +7,7 @@ import PlayerStats from './GameComponents/PlayerStats.jsx';
 import PlayerRow from './GameComponents/PlayerRow.jsx';
 import MenuPane from './GameComponents/MenuPane.jsx';
 import CardZoom from './GameComponents/CardZoom.jsx';
+import Messages from './GameComponents/Messages.jsx';
 import * as actions from './actions';
 
 class InnerGameBoard extends React.Component {
@@ -196,10 +197,6 @@ class InnerGameBoard extends React.Component {
             return plotCard;
         });
 
-        var messages = _.map(this.props.state.messages, message => {
-            return <div className='message'>{message.message}</div>;
-        });
-
         return (
             <div className='game-board'>
                 <div className='main-window'>
@@ -296,9 +293,7 @@ class InnerGameBoard extends React.Component {
                     <CardZoom imageUrl={this.state.cardToZoom ? '/img/cards/' + this.state.cardToZoom.code + '.png' : ''}
                         orientation={this.state.cardToZoom ? this.state.cardToZoom.type_code === 'plot' ? 'horizontal' : 'vertical' : 'vertical'}
                         show={!!this.state.cardToZoom} />
-                    <div className='messages panel'>
-                        {messages}
-                    </div>
+                    <Messages messages={this.props.state.messages} />
                 </div>
             </div>);
     }
