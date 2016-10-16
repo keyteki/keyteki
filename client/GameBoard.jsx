@@ -220,6 +220,10 @@ class InnerGameBoard extends React.Component {
             zoomClass = 'card-large-plot';
         }
 
+        var messages = _.map(this.props.state.messages, message => {
+            return <div className='message'>{message.message}</div>;
+        });
+
         return (
             <div className='game-board'>
                 <div className='main-window'>
@@ -324,7 +328,7 @@ class InnerGameBoard extends React.Component {
                             : null}
                     </div>
                     <div className='messages panel'>
-                        chatbox
+                        {messages}
                     </div>
                 </div>
             </div>);

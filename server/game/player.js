@@ -11,6 +11,8 @@ class Player {
         this.id = player.id.slice(2);
         this.deck = player.deck;
 
+        this.name = player.name;
+
         _.each(player.deck.drawCards, card => {
             for(var i = 0; i < card.count; i++) {
                 this.drawCards.push(card.card);

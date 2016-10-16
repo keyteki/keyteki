@@ -4,6 +4,7 @@ const Player = require('./Player.js');
 class Game {
     constructor(game) {
         this.players = {};
+        this.messages = [];
 
         _.each(game.players, player => {
             this.players[player.id] = new Player(player);
@@ -22,7 +23,8 @@ class Game {
 
         return {
             name: this.name,
-            players: playerState
+            players: playerState,
+            messages: this.messages
         };
     }
 
@@ -42,6 +44,8 @@ class Game {
         });
 
         player.mulligan();
+
+        this.messages.push({ date: new Date(), message: player.name + ' has taken a mulligan' });
     }
 
     keep(playerId) {
@@ -50,6 +54,7 @@ class Game {
         });
 
         player.keep();
+        this.messages.push({ date: new Date(), message: player.name + ' has kept their hand' });
     }
 
     playCard(playerId, card) {
@@ -87,6 +92,8 @@ class Game {
 
         player.setupDone();
 
+        this.messages.push({ date: new Date(), message: player.name + ' has finished setup' });
+
         if(!_.all(this.players, p => {
             return p.setup;
         })) {
@@ -103,6 +110,8 @@ class Game {
         });
 
         player.selectPlot(plot);
+
+        this.messages.push({ date: new Date(), message: player.name + ' has selected a plot' });
 
         if(!_.all(this.players, p => {
             return !!p.selectedPlot;
@@ -141,6 +150,10 @@ class Game {
     setFirstPlayer(sourcePlayer, who) {
         var firstPlayer = undefined;
 
+        var player = _.find(this.players, player => {
+            return player.id === sourcePlayer;
+        });
+
         _.each(this.players, player => {
             if(player.id === sourcePlayer && who === 'me') {
                 player.firstPlayer = true;
@@ -153,6 +166,8 @@ class Game {
             player.menuTitle = '';
             player.buttons = [];
         });
+
+        this.messages.push({ date: new Date(), message: player.name + ' has selected ' + firstPlayer.name + ' to be the first player' });
 
         firstPlayer.beginMarshal();
     }
@@ -192,14 +207,18 @@ class Game {
         });
 
         player.showDrawDeck();
+
+        this.messages.push({ date: new Date(), message: player.name + ' is looking at their deck' });
     }
 
     handDrop(playerId, card) {
         var player = _.find(this.players, player => {
             return player.id === playerId;
         });
-        
+
         player.handDrop(card);
+
+        this.messages.push({ date: new Date(), message: player.name + ' has moved a card from their deck to their hand' });
     }
 
     initialise() {
