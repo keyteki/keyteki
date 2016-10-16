@@ -133,9 +133,12 @@ class Game {
             highestPlayer.firstPlayer = true;
             highestPlayer.menuTitle = 'Select a first player';
             highestPlayer.buttons = [
-                { command: 'firstplayer', text: 'Me', arg: 'me' },
-                { command: 'firstplayer', text: 'Opponent', arg: 'opponent' }
+                { command: 'firstplayer', text: 'Me', arg: 'me' }
             ];
+
+            if(_.size(this.players) > 1) {
+                highestPlayer.buttons.push({ command: 'firstplayer', text: 'Opponent', arg: 'opponent' });
+            }
 
             var otherPlayer = _.find(this.players, player => {
                 return player.id !== highestPlayer.id;
@@ -156,6 +159,9 @@ class Game {
 
         _.each(this.players, player => {
             if(player.id === sourcePlayer && who === 'me') {
+                player.firstPlayer = true;
+                firstPlayer = player;
+            } else if(player.id !== sourcePlayer && who !== 'me') {
                 player.firstPlayer = true;
                 firstPlayer = player;
             } else {
