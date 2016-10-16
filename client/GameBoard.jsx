@@ -6,6 +6,7 @@ import $ from 'jquery';
 import PlayerStats from './GameComponents/PlayerStats.jsx';
 import PlayerRow from './GameComponents/PlayerRow.jsx';
 import MenuPane from './GameComponents/MenuPane.jsx';
+import CardZoom from './GameComponents/CardZoom.jsx';
 import * as actions from './actions';
 
 class InnerGameBoard extends React.Component {
@@ -195,11 +196,6 @@ class InnerGameBoard extends React.Component {
             return plotCard;
         });
 
-        var zoomClass = 'card-large';
-        if(this.state.cardToZoom && this.state.cardToZoom.type_code === 'plot') {
-            zoomClass = 'card-large-plot';
-        }
-
         var messages = _.map(this.props.state.messages, message => {
             return <div className='message'>{message.message}</div>;
         });
@@ -297,13 +293,9 @@ class InnerGameBoard extends React.Component {
                         onHandDrop={this.onHandDrop} />
                 </div>
                 <div className='right-side'>
-                    <div className={zoomClass}>
-                        {this.state.cardToZoom ?
-                            <div className='card-zoomed shadow'>
-                                <img src={'/img/cards/' + this.state.cardToZoom.code + '.png'} />
-                            </div>
-                            : null}
-                    </div>
+                    <CardZoom imageUrl={this.state.cardToZoom ? '/img/cards/' + this.state.cardToZoom.code + '.png' : ''}
+                        orientation={this.state.cardToZoom ? this.state.cardToZoom.type_code === 'plot' ? 'horizontal' : 'vertical' : 'vertical'}
+                        show={!!this.state.cardToZoom} />
                     <div className='messages panel'>
                         {messages}
                     </div>
