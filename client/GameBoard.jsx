@@ -5,6 +5,7 @@ import $ from 'jquery';
 
 import PlayerStats from './GameComponents/PlayerStats.jsx';
 import PlayerRow from './GameComponents/PlayerRow.jsx';
+import MenuPane from './GameComponents/MenuPane.jsx';
 import * as actions from './actions';
 
 class InnerGameBoard extends React.Component {
@@ -18,6 +19,7 @@ class InnerGameBoard extends React.Component {
         this.onPlotDeckClick = this.onPlotDeckClick.bind(this);
         this.onDrawClick = this.onDrawClick.bind(this);
         this.onHandDrop = this.onHandDrop.bind(this);
+        this.onCommand = this.onCommand.bind(this);
 
         this.state = {
             cardToZoom: undefined,
@@ -43,21 +45,6 @@ class InnerGameBoard extends React.Component {
 
     onMouseOut() {
         this.setState({ cardToZoom: undefined });
-    }
-
-    onButtonClick(event, command, arg) {
-        event.preventDefault();
-        var commandArg = arg;
-
-        if(command === 'selectplot') {
-            if(!this.state.selectedPlot) {
-                return;
-            }
-
-            commandArg = this.state.selectedPlot;
-        }
-
-        this.props.socket.emit(command, commandArg);
     }
 
     canPlayCard(card) {
@@ -103,14 +90,6 @@ class InnerGameBoard extends React.Component {
 
     onHandDrop(card) {
         this.props.socket.emit('handdrop', card);
-    }
-
-    isButtonDisabled(button) {
-        if(button.command === 'selectplot') {
-            return !this.state.selectedPlot;
-        }
-
-        return false;
     }
 
     getCardsInPlay(player) {
@@ -165,6 +144,20 @@ class InnerGameBoard extends React.Component {
         });
     }
 
+    onCommand(command, arg) {
+        var commandArg = arg;
+
+        if(command === 'selectplot') {
+            if(!this.state.selectedPlot) {
+                return;
+            }
+
+            commandArg = this.state.selectedPlot;
+        }
+
+        this.props.socket.emit(command, commandArg);
+    }
+
     render() {
         if(!this.props.state) {
             return <div>Waiting for server...</div>;
@@ -200,19 +193,6 @@ class InnerGameBoard extends React.Component {
             index++;
 
             return plotCard;
-        });
-
-        var buttonIndex = 0;
-
-        var buttons = _.map(thisPlayer.buttons, button => {
-            var option = (
-                <button key={button.command + buttonIndex.toString()} className='btn btn-primary'
-                    onClick={(event) => this.onButtonClick(event, button.command, button.arg)}
-                    disabled={this.isButtonDisabled(button)}>{button.text}</button>);
-
-            buttonIndex++;
-
-            return option;
         });
 
         var zoomClass = 'card-large';
@@ -285,12 +265,9 @@ class InnerGameBoard extends React.Component {
                         </div>
                         <div className='inset-pane'>
                             <div />
-                            <div className='menu-pane'>
-                                <div className='panel'>
-                                    <h4>{thisPlayer.menuTitle}</h4>
-                                    {buttons}
-                                </div>
-                            </div>
+                            <MenuPane title={thisPlayer.menuTitle} buttons={thisPlayer.buttons}
+                                disabled={(thisPlayer.phase === 'plot' && !this.state.selectedPlot)}
+                                onButtonClick={this.onCommand} />
                         </div>
                         <div className='play-area'>
                             <div className='player-board'>
