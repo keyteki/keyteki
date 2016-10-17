@@ -5,6 +5,11 @@
 @card-width: 64px;
 @card-height: 84px;
 
+@font-face {
+  font-family: thronesdb;
+  src: url('/fonts/thronesdb.ttf');
+}
+
 *, *:before, *:after { 
   box-sizing: border-box; 
 }
@@ -329,10 +334,6 @@ h4 {
   right: 0;
 }
 
-.kneeled { 
-  transform: rotate(90deg);
-}
-
 .plot-deck-card {
   height: @card-width;
   padding: 0px;
@@ -350,10 +351,12 @@ h4 {
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
-.horizontal-card > img.vertical {
+.horizontal-card {
+  img.vertical {
   transform: translateY(-13%) translateX(14%) rotate(90deg);
   width: @card-width;
   height: @card-height;
+  }
 }
 
 .horizontal-card > img.horizontal {
@@ -386,6 +389,10 @@ h4 {
   width: @card-width;
   border-radius: 4px;
   box-shadow: 0 0 12px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.1);
+}
+
+.card.selected {
+  box-shadow: 0 0 1px 4px @brand-primary;
 }
 
 .card > * > img {
@@ -554,4 +561,18 @@ h4 {
 
 .menu-pane {
   text-align: center;
+}
+
+.icon-military {
+  font-family: 'thronesdb';
+}
+
+.icon-military:before {
+  content: "\e605";
+}
+
+.kneeled {
+  position: relative;
+  top: 50%;
+  transform: translateY(-40%)
 }

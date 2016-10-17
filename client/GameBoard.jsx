@@ -124,15 +124,24 @@ class InnerGameBoard extends React.Component {
                 );
             }
 
+            var cardClass = 'card';
+            if(card.selected) {
+                cardClass += ' selected';
+            }
+
+            if(card.kneeled) {
+                cardClass += ' vertical kneeled';
+            }
+
             var cardInPlay = (
                 <div className='card-wrapper' key={'card' + index.toString()}>
                     <div className='card-frame'>
-                        <div className='card' onMouseOver={this.onMouseOver.bind(this, card.card)} onMouseOut={this.onMouseOut}
+                        <div className={card.kneeled ? 'horizontal-card kneeled' : 'card'} onMouseOver={this.onMouseOver.bind(this, card.card)} onMouseOut={this.onMouseOut}
                             onClick={this.onCardClick2.bind(this, card.card)}>
                             <div>
                                 {card.facedown ?
                                     <img className='card' src='/img/cards/cardback.jpg' /> :
-                                    <img className='card' src={'/img/cards/' + card.card.code + '.png'} />}
+                                    <img className={cardClass} src={'/img/cards/' + card.card.code + '.png'} />}
                             </div>
                             {counters}
                         </div>
@@ -160,22 +169,10 @@ class InnerGameBoard extends React.Component {
         this.props.socket.emit(command, commandArg);
     }
 
-    render() {
-        if(!this.props.state) {
-            return <div>Waiting for server...</div>;
-        }
-
-        var thisPlayer = this.props.state.players[this.props.socket.id];
-        var otherPlayer = _.find(this.props.state.players, player => {
-            return player.id !== this.props.socket.id;
-        });
-
-        var thisPlayerCardsInPlay = this.getCardsInPlay(thisPlayer);
-        var otherPlayerCardsInPlay = otherPlayer ? this.getCardsInPlay(otherPlayer) : null;
-
+    getPlotDeck(deck) {
         var index = 0;
 
-        var plotDeck = _.map(thisPlayer.plotDeck, card => {
+        var plotDeck = _.map(deck, card => {
             var plotClass = 'plot-card';
 
             if(card === this.state.selectedPlot) {
@@ -196,6 +193,21 @@ class InnerGameBoard extends React.Component {
 
             return plotCard;
         });
+
+        return plotDeck;
+    }
+
+    render() {
+        if(!this.props.state) {
+            return <div>Waiting for server...</div>;
+        }
+
+        var thisPlayer = this.props.state.players[this.props.socket.id];
+        var otherPlayer = _.find(this.props.state.players, player => {
+            return player.id !== this.props.socket.id;
+        });
+
+        var plotDeck = this.getPlotDeck(thisPlayer.plotDeck);
 
         return (
             <div className='game-board'>
@@ -265,13 +277,13 @@ class InnerGameBoard extends React.Component {
                         <div className='play-area'>
                             <div className='player-board'>
                                 <div>
-                                    {otherPlayerCardsInPlay}
+                                    {otherPlayer ? this.getCardsInPlay(otherPlayer) : null}
                                 </div>
                                 <div />
                             </div>
                             <div className='player-board our-side'>
                                 <div>
-                                    {thisPlayerCardsInPlay}
+                                    {this.getCardsInPlay(thisPlayer)}
                                 </div>
                                 <div />
                             </div>

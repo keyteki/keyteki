@@ -102,7 +102,7 @@ class Player {
     }
 
     canPlayCard(card) {
-        if(this.phase !== 'setup') {
+        if(this.phase !== 'setup' && this.phase !== 'marshal') {
             return false;
         }
 
@@ -122,23 +122,21 @@ class Player {
             return false;
         }
 
-        if(this.phase === 'setup') {
-            if(card.type_code === 'event') {
+        if(card.type_code === 'event') {
+            return false;
+        }
+
+        if(card.type_code === 'attachment') {
+            var attachments = _.filter(this.cardsInPlay, playCard => {
+                return playCard.card.type_code === 'attachment';
+            }).length;
+
+            var characters = _.filter(this.cardsInPlay, playCard => {
+                return playCard.card.type_code === 'character';
+            }).length;
+
+            if((attachments === 0 && characters === 0) || attachments >= characters) {
                 return false;
-            }
-
-            if(card.type_code === 'attachment') {
-                var attachments = _.filter(this.cardsInPlay, playCard => {
-                    return playCard.card.type_code === 'attachment';
-                }).length;
-
-                var characters = _.filter(this.cardsInPlay, playCard => {
-                    return playCard.card.type_code === 'character';
-                }).length;
-
-                if((attachments === 0 && characters === 0) || attachments >= characters) {
-                    return false;
-                }
             }
         }
 
@@ -159,21 +157,7 @@ class Player {
         return card.text.indexOf('Limited.') !== -1;
     }
 
-    playCard(card) {
-        if(!this.canPlayCard(card)) {
-            return;
-        }
-
-        if(!this.isDuplicateInPlay(card)) {
-            this.gold -= card.cost;
-        }
-
-        this.cardsInPlay.push({ facedown: true, card: card, attachments: [], dupes: [] });
-
-        if(this.isLimited(card)) {
-            this.limitedPlayed = true;
-        }
-
+    removeFromHand(card) {
         var removed = false;
 
         this.hand = _.reject(this.hand, handCard => {
@@ -187,8 +171,47 @@ class Player {
         });
     }
 
+    playCard(card) {
+        if(!this.canPlayCard(card)) {
+            return;
+        }
+
+        var isDupe = this.isDuplicateInPlay(card);
+
+        if(!isDupe) {
+            this.gold -= card.cost;
+        }
+
+        if(card.type_code === 'attachment' && this.phase !== 'setup') {
+            this.selectedAttachment = card;
+            this.selectCard = true;
+            this.menuTitle = 'Select target for attachment';
+            return;
+        }
+
+        if(isDupe && this.phase !== 'setup') {
+            var dupe = _.find(this.cardsInPlay, c => {
+                return card.code === c.card.code;
+            });
+
+            dupe.dupes.push(card);
+        } else {
+            this.cardsInPlay.push({ facedown: this.phase === 'setup', card: card, attachments: [], dupes: [] });
+        }
+
+        if(this.isLimited(card)) {
+            this.limitedPlayed = true;
+        }
+
+        this.removeFromHand(card);
+    }
+
     setupDone() {
         this.setup = true;
+    }
+
+    marshalDone() {
+        this.marshalled = true;
     }
 
     startPlotPhase() {
@@ -210,7 +233,7 @@ class Player {
 
         _.each(this.cardsInPlay, card => {
             card.facedown = false;
-            
+
             var dupe = _.find(processedCards, c => {
                 return c.card.code === card.card.code;
             });
@@ -221,7 +244,7 @@ class Player {
                 processedCards.push(card);
             }
         });
-        
+
         this.cardsInPlay = processedCards;
     }
 
@@ -256,6 +279,9 @@ class Player {
         this.gold = this.activePlot.card.income;
         this.reserve = this.activePlot.card.reserve;
         this.claim = this.activePlot.card.claim;
+
+        this.limitedPlayed = false;
+        this.marshalled = false;
     }
 
     hasUnmappedAttachments() {
@@ -266,11 +292,11 @@ class Player {
 
     attach(attachment, card) {
         var inPlayCard = _.find(this.cardsInPlay, c => {
-            return c.card.code === card.code; 
+            return c.card.code === card.code;
         });
 
         inPlayCard.attachments.push(attachment);
-        
+
         this.cardsInPlay = _.reject(this.cardsInPlay, c => {
             return c.card.code === attachment.code;
         });
@@ -291,7 +317,7 @@ class Player {
         }
 
         this.hand.push(card);
-        
+
         var matchFound = false;
         this.drawDeck = _.reject(this.drawDeck, c => {
             var match = !matchFound && c.code === card.code;
@@ -302,6 +328,66 @@ class Player {
 
             return match;
         });
+    }
+
+    beginChallenge() {
+        this.phase = 'challenge';
+        this.menuTitle = '';
+        this.buttons = [
+            { text: 'Military', command: 'military' },
+            { text: 'Intrigue', command: 'intrigue' },
+            { text: 'Power', command: 'power' },
+            { text: 'Done', command: 'donechallenge' }
+        ];
+    }
+
+    startMilitary() {
+        this.menuTitle = 'Select challenge targets';
+        this.buttons = [
+            { text: 'Done', command: 'donechallenge' }
+        ];
+
+        this.currentChallenge = 'military';
+        this.selectCard = true;
+    }
+
+    addToChallenge(card) {
+        if(this.currentChallenge === 'military' && !card.is_military) {
+            return;
+        }
+
+        if(this.currentChallenge === 'intrigue' && !card.is_intrigue) {
+            return;
+        }
+
+        if(this.currentChallenge === 'power' && !card.is_power) {
+            return;
+        }
+
+        var inPlay = _.find(this.cardsInPlay, c => {
+            return c.card.code === card.code;
+        });
+
+        if(!inPlay) {
+            return;
+        }
+
+        inPlay.selected = !inPlay.selected;
+    }
+
+    doneChallenge() {
+        var challengeCards = _.filter(this.cardsInPlay, card => {
+            return card.selected;
+        });
+        
+        var strength = _.reduce(challengeCards, (memo, card) => {
+            card.kneeled = true;
+            
+            return memo + card.card.strength;
+        }, 0);
+
+        this.challengeStrength = strength;
+        this.selectCard = false;
     }
 
     getState(isActivePlayer) {

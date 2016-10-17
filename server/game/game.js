@@ -197,18 +197,30 @@ class Game {
             return;
         }
 
-        if(!player.waitingForAttachments) {
+        if(player.phase === 'setup' && !player.waitingForAttachments) {
             return;
         }
 
         if(player.selectedAttachment) {
+            player.removeFromHand(player.selectedAttachment);
             player.attach(player.selectedAttachment, card);
-            this.checkForAttachments();
+
+            if(player.phase === 'setup') {
+                this.checkForAttachments();
+            } else {
+                player.buttons = [{ command: 'donemarshal', text: 'Done' }];
+                player.menuTitle = 'Marshal your cards';
+            }
 
             return;
         }
 
-        if(card.type_code !== 'attachment') {
+        if(player.phase === 'challenge' && player.currentChallenge) {
+            player.addToChallenge(card);
+            return;
+        }
+
+        if(player.phase !== 'setup' || card.type_code !== 'attachment') {
             return;
         }
 
@@ -235,6 +247,47 @@ class Game {
         player.handDrop(card);
 
         this.messages.push({ date: new Date(), message: player.name + ' has moved a card from their deck to their hand' });
+    }
+
+    marshalDone(playerId) {
+        var player = _.find(this.players, player => {
+            return player.id === playerId;
+        });
+
+        player.marshalDone();
+
+        this.messages.push({ date: new Date(), message: player.name + ' has finished marshalling' });
+
+        var unMarshalledPlayer = _.find(this.players, p => {
+            return !p.marshalled;
+        });      
+        
+        if(unMarshalledPlayer) {
+            player.menuTitle = 'Waiting for opponent to finish marshalling';
+            player.buttons = [];
+
+            unMarshalledPlayer.beginMarshal();
+        } else {
+            player.beginChallenge();
+        }
+    }
+
+    startMilitary(playerId) {
+        var player = _.find(this.players, player => {
+            return player.id === playerId;
+        });
+
+        player.startMilitary();
+    }
+
+    doneChallenge(playerId) {
+        var player = _.find(this.players, player => {
+            return player.id === playerId;
+        });
+
+        player.doneChallenge();
+
+        this.messages.push({ date: new Date(), message: player.name + ' has initiated a challenge with strength ' + player.challengeStrength });
     }
 
     initialise() {

@@ -464,6 +464,48 @@ io.on('connection', function(socket) {
         socket.emit('gamestate', game.getState(socket.id.slice(2)));
     });
 
+    socket.on('donemarshal', function() {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        game.marshalDone(socket.id.slice(2));
+
+        _.each(game.players, (player, key) => {
+            io.to(key).emit('gamestate', game.getState(player.id));
+        });
+    });
+
+    socket.on('military', function() {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        game.startMilitary(socket.id.slice(2));
+
+        _.each(game.players, (player, key) => {
+            io.to(key).emit('gamestate', game.getState(player.id));
+        });
+    });
+
+    socket.on('donechallenge', function() {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        game.doneChallenge(socket.id.slice(2));
+
+        _.each(game.players, (player, key) => {
+            io.to(key).emit('gamestate', game.getState(player.id));
+        });
+    });
+
     socket.emit('games', games);
 });
 
