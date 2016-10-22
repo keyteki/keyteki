@@ -299,7 +299,8 @@ class InnerGameBoard extends React.Component {
                         onDrawClick={this.onDrawClick}
                         showDrawDeck={this.state.showDrawDeck}
                         drawDeck={thisPlayer.drawDeck}
-                        onHandDrop={this.onHandDrop} />
+                        onHandDrop={this.onHandDrop}
+                        power={thisPlayer.totalPower} />
                 </div>
                 <div className='right-side'>
                     <CardZoom imageUrl={this.state.cardToZoom ? '/img/cards/' + this.state.cardToZoom.code + '.png' : ''}

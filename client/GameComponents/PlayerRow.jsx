@@ -86,6 +86,13 @@ class PlayerRow extends React.Component {
             drawDeckPopup = <div className='panel popup'>{drawDeck}</div>;
         }
 
+        var powerCounters = this.props.power > 0 ? (
+            <div className='counters'>
+                <div className='counter power'>
+                    {this.props.power}
+                </div>
+            </div>) : null;
+
         return (
             <div className='player-home-row'>
                 <div className={className} onDragOver={this.onDragOver} onDrop={this.onHandDrop}>
@@ -112,6 +119,7 @@ class PlayerRow extends React.Component {
                     <div className='card'>
                         {this.props.faction ? <img className='card' src={'/img/factions/' + this.props.faction.value + '.png'} /> : null}
                     </div>
+                    {powerCounters}
                 </div>
                 {this.props.agenda ?
                     <div className='agenda panel' onMouseOver={this.props.onMouseOver ? this.props.onMouseOver.bind(this, this.props.agenda) : null}
@@ -140,6 +148,7 @@ PlayerRow.propTypes = {
     onMouseOver: React.PropTypes.func,
     onPlotCardSelected: React.PropTypes.func,
     plotDeck: React.PropTypes.array,
+    power: React.PropTypes.number,
     showDrawDeck: React.PropTypes.bool
 };
 
