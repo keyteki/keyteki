@@ -437,7 +437,9 @@ io.on('connection', function(socket) {
 
         game.cardClicked(socket.id.slice(2), card);
 
-        socket.emit('gamestate', game.getState(socket.id.slice(2)));
+        _.each(game.players, (player, key) => {
+            io.to(key).emit('gamestate', game.getState(player.id));
+        });
     });
 
     socket.on('showdrawdeck', function() {
@@ -478,14 +480,14 @@ io.on('connection', function(socket) {
         });
     });
 
-    socket.on('military', function() {
+    socket.on('challenge', function(challengeType) {
         var game = findGameForPlayer(socket.id);
 
         if(!game) {
             return;
         }
 
-        game.startMilitary(socket.id.slice(2));
+        game.startChallenge(socket.id.slice(2), challengeType);
 
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));
@@ -504,6 +506,34 @@ io.on('connection', function(socket) {
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));
         });
+    });
+
+    socket.on('donedefend', function() {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        game.doneDefend(socket.id.slice(2));
+
+        _.each(game.players, (player, key) => {
+            io.to(key).emit('gamestate', game.getState(player.id));
+        });      
+    });
+
+    socket.on('doneallchallenges', function() {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        game.doneChallenges(socket.id.slice(2));
+
+        _.each(game.players, (player, key) => {
+            io.to(key).emit('gamestate', game.getState(player.id));
+        });              
     });
 
     socket.emit('games', games);

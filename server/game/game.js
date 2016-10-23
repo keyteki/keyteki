@@ -14,6 +14,10 @@ class Game {
         this.id = game.id;
     }
 
+    addMessage(message) {
+        this.messages.push({ date: new Date(), message: message });
+    }
+
     getState(activePlayer) {
         var playerState = {};
 
@@ -45,7 +49,7 @@ class Game {
 
         player.mulligan();
 
-        this.messages.push({ date: new Date(), message: player.name + ' has taken a mulligan' });
+        this.addMessage(player.name + ' has taken a mulligan');
     }
 
     keep(playerId) {
@@ -54,7 +58,7 @@ class Game {
         });
 
         player.keep();
-        this.messages.push({ date: new Date(), message: player.name + ' has kept their hand' });
+        this.addMessage(player.name + ' has kept their hand');
     }
 
     playCard(playerId, card) {
@@ -69,6 +73,9 @@ class Game {
         var playersWithAttachments = _.filter(this.players, p => {
             return p.hasUnmappedAttachments();
         });
+        var playersWaiting = _.filter(this.players, p => {
+            return !p.hasUnmappedAttachments();
+        });
 
         if(playersWithAttachments.length !== 0) {
             _.each(playersWithAttachments, p => {
@@ -77,6 +84,11 @@ class Game {
                     { command: 'mapattachments', text: 'Done' }
                 ];
                 p.waitingForAttachments = true;
+            });
+
+            _.each(playersWaiting, p => {
+                p.menuTitle = 'Waiting for opponent to finish setup';
+                p.buttons = [];
             });
         } else {
             _.each(this.players, p => {
@@ -92,7 +104,7 @@ class Game {
 
         player.setupDone();
 
-        this.messages.push({ date: new Date(), message: player.name + ' has finished setup' });
+        this.addMessage(player.name + ' has finished setup');
 
         if(!_.all(this.players, p => {
             return p.setup;
@@ -111,7 +123,7 @@ class Game {
 
         player.selectPlot(plot);
 
-        this.messages.push({ date: new Date(), message: player.name + ' has selected a plot' });
+        this.addMessage(player.name + ' has selected a plot');
 
         if(!_.all(this.players, p => {
             return !!p.selectedPlot;
@@ -173,11 +185,9 @@ class Game {
             player.buttons = [];
         });
 
-        this.messages.push({ date: new Date(), message: player.name + ' has selected ' + firstPlayer.name + ' to be the first player' });
+        this.addMessage(player.name + ' has selected ' + firstPlayer.name + ' to be the first player');
 
         firstPlayer.beginMarshal();
-        firstPlayer.buttons = [{ command: 'donemarshal', text: 'Done' }];
-        firstPlayer.menuTitle = 'Marshal your cards';
 
         var otherPlayer = _.find(this.players, player => {
             return player.id !== firstPlayer.id;
@@ -216,7 +226,41 @@ class Game {
         }
 
         if(player.phase === 'challenge' && player.currentChallenge) {
+            var cardInPlay = _.find(player.cardsInPlay, c => {
+                return c.card.code === card.code;
+            });
+
+            if(!cardInPlay) {
+                return;
+            }
+
+            if(cardInPlay.kneeled) {
+                return;
+            }
+
             player.addToChallenge(card);
+            return;
+        }
+
+        if(player.phase === 'claim' && player.currentChallenge === 'military') {
+            if(card.type_code !== 'character') {
+                return;
+            }
+
+            player.killCharacter(card);
+
+            if(player.claimToDo === 0) {
+                player.doneClaim();
+
+                var otherPlayer = _.find(this.players, p => {
+                    return p.id !== player.id;
+                });
+
+                if(otherPlayer) {
+                    otherPlayer.beginChallenge();
+                }
+            }
+
             return;
         }
 
@@ -236,7 +280,7 @@ class Game {
 
         player.showDrawDeck();
 
-        this.messages.push({ date: new Date(), message: player.name + ' is looking at their deck' });
+        this.addMessage(player.name + ' is looking at their deck');
     }
 
     handDrop(playerId, card) {
@@ -246,7 +290,7 @@ class Game {
 
         player.handDrop(card);
 
-        this.messages.push({ date: new Date(), message: player.name + ' has moved a card from their deck to their hand' });
+        this.addMessage(player.name + ' has moved a card from their deck to their hand');
     }
 
     marshalDone(playerId) {
@@ -256,28 +300,41 @@ class Game {
 
         player.marshalDone();
 
-        this.messages.push({ date: new Date(), message: player.name + ' has finished marshalling' });
+        this.addMessage(player.name + ' has finished marshalling');
 
         var unMarshalledPlayer = _.find(this.players, p => {
             return !p.marshalled;
-        });      
-        
+        });
+
         if(unMarshalledPlayer) {
             player.menuTitle = 'Waiting for opponent to finish marshalling';
             player.buttons = [];
 
             unMarshalledPlayer.beginMarshal();
         } else {
-            player.beginChallenge();
+            var firstPlayer = _.find(this.players, p => {
+                return p.firstPlayer;
+            });
+
+            firstPlayer.beginChallenge();
+
+            var otherPlayer = _.find(this.players, p => {
+                return p.id !== firstPlayer.id;
+            });
+
+            if(otherPlayer) {
+                otherPlayer.menuTitle = 'Waiting for other player to initiate challenge';
+                otherPlayer.buttons = [];
+            }
         }
     }
 
-    startMilitary(playerId) {
+    startChallenge(playerId, challengeType) {
         var player = _.find(this.players, player => {
             return player.id === playerId;
         });
 
-        player.startMilitary();
+        player.startChallenge(challengeType);
     }
 
     doneChallenge(playerId) {
@@ -287,7 +344,107 @@ class Game {
 
         player.doneChallenge();
 
-        this.messages.push({ date: new Date(), message: player.name + ' has initiated a challenge with strength ' + player.challengeStrength });
+        this.addMessage(player.name + ' has initiated a ' + player.currentChallenge + ' challenge with strength ' + player.challengeStrength);
+
+        var otherPlayer = _.find(this.players, p => {
+            return p.id !== player.id;
+        });
+
+        if(otherPlayer) {
+            player.menuTitle = 'Waiting for other player to defend';
+            player.buttons = [];
+
+            otherPlayer.beginDefend(player.currentChallenge);
+        }
+    }
+
+    doneDefend(playerId) {
+        var player = _.find(this.players, player => {
+            return player.id === playerId;
+        });
+
+        player.doneChallenge();
+
+        this.addMessage(player.name + ' has defended with strength ' + player.challengeStrength);
+
+        var challenger = _.find(this.players, p => {
+            return p.id !== player.id;
+        });
+
+        var winner = undefined;
+        var loser = undefined;
+
+        if(challenger) {
+            if(challenger.challengeStrength >= player.challengeStrength) {
+                loser = player;
+                winner = challenger;
+            } else {
+                loser = challenger;
+                winner = player;
+            }
+
+            this.addMessage(player.name + ' won a ' + winner.currentChallenge + '  challenge ' +
+                winner.challengeStrength + ' vs ' + loser.challengeStrength);
+
+            if(loser.challengeStrength === 0) {
+                winner.power++;
+
+                this.addMessage(winner.name + ' has gained 1 power from an unopposed challenge');
+            }
+
+            if(winner === challenger) {
+                this.applyClaim(winner, loser);
+            }
+        }
+    }
+
+    applyClaim(winner, loser) {
+        var claim = winner.activePlot.card.claim;
+
+        if(winner.currentChallenge === 'military') {
+            winner.menuTitle = 'Waiting for opponent to apply claim effects';
+            winner.buttons = [];
+
+            loser.claimToDo = claim;
+            loser.selectCharacterToKill();
+
+            return;
+        } else if(winner.currentChallenge === 'intrigue') {
+            loser.discardAtRandom(claim);
+        } else if(winner.currentChallenge === 'power') {
+            if(loser.power > 0) {
+                loser.power -= claim;
+                winner.power += claim;
+            }
+        }
+
+        loser.doneClaim();
+        winner.beginChallenge();
+    }
+
+    doneChallenges(playerId) {
+        var challenger = _.find(this.players, player => {
+            return player.id === playerId;
+        });
+
+        challenger.doneChallenges = true;
+
+        var other = _.find(this.players, p => {
+            return !p.doneChallenges;
+        });
+
+        if(other) {
+            other.beginChallenge();
+
+            challenger.menuTitle = 'Waiting for other player to initiate challenge';
+            challenger.buttons = [];
+        } else {
+            this.dominance();
+        }
+    }
+
+    dominance() {
+        console.info('entering dominance phase');
     }
 
     initialise() {

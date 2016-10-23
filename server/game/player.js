@@ -6,7 +6,6 @@ class Player {
         this.plotCards = [];
         this.drawDeck = [];
         this.hand = [];
-        this.plotDiscard = [];
 
         this.id = player.id.slice(2);
         this.deck = player.deck;
@@ -50,12 +49,14 @@ class Player {
         this.gold = 0;
         this.claim = 0;
         this.power = 0;
-        this.totalPower = 0;
         this.reserve = 0;
         this.readyToStart = false;
         this.cardsInPlay = [];
         this.limitedPlayed = false;
         this.plotDiscard = [];
+        this.deadPile = [];
+        this.discardPile = [];
+        this.claimToDo = 0;
 
         this.menuTitle = 'Keep Starting Hand?';
 
@@ -224,10 +225,11 @@ class Player {
         this.gold = 0;
         this.claim = 0;
         this.power = 0;
-        this.totalPower = 0;
         this.reserve = 0;
         this.firstPlayer = false;
         this.selectedPlot = undefined;
+        this.claimToDo = 0;
+        this.doneChallenges = false;
 
         var processedCards = [];
 
@@ -275,6 +277,9 @@ class Player {
 
     beginMarshal() {
         this.phase = 'marshal';
+
+        this.buttons = [{ command: 'donemarshal', text: 'Done' }];
+        this.menuTitle = 'Marshal your cards';
 
         this.gold = this.activePlot.card.income;
         this.reserve = this.activePlot.card.reserve;
@@ -334,21 +339,22 @@ class Player {
         this.phase = 'challenge';
         this.menuTitle = '';
         this.buttons = [
-            { text: 'Military', command: 'military' },
-            { text: 'Intrigue', command: 'intrigue' },
-            { text: 'Power', command: 'power' },
-            { text: 'Done', command: 'donechallenge' }
+            { text: 'Military', command: 'challenge', arg: 'military' },
+            { text: 'Intrigue', command: 'challenge', arg: 'intrigue' },
+            { text: 'Power', command: 'challenge', arg: 'power' },
+            { text: 'Done', command: 'doneallchallenges' }
         ];
     }
 
-    startMilitary() {
+    startChallenge(challengeType) {
         this.menuTitle = 'Select challenge targets';
         this.buttons = [
             { text: 'Done', command: 'donechallenge' }
         ];
 
-        this.currentChallenge = 'military';
+        this.currentChallenge = challengeType;
         this.selectCard = true;
+        this.challenger = true;
     }
 
     addToChallenge(card) {
@@ -382,12 +388,75 @@ class Player {
         
         var strength = _.reduce(challengeCards, (memo, card) => {
             card.kneeled = true;
-            
+            card.selected = false;
+
             return memo + card.card.strength;
         }, 0);
 
         this.challengeStrength = strength;
         this.selectCard = false;
+    }
+
+    beginDefend(challenge) {
+        this.menuTitle = 'Select defenders';
+        this.buttons = [
+            { text: 'Done', command: 'donedefend' }
+        ];
+
+        this.selectCard = true;
+        this.currentChallenge = challenge;
+        this.phase = 'challenge';
+    }
+
+    selectCharacterToKill() {
+        this.selectCard = true;
+        this.phase = 'claim';
+
+        this.menuTitle = 'Select character to kill';
+        this.buttons = [
+        ];
+    }
+
+    killCharacter(card) {
+        var character = _.find(this.cardsInPlay, c => {
+            return c.card.code === card.code;
+        });
+
+        if(character.dupes.length > 0) {
+            character.dupes = character.dupes.slice(1);
+        } else {
+            this.cardsInPlay = _.reject(this.cardsInPlay, c => {
+                return c.card.code === card.code;
+            });
+
+            this.deadPile.push(card);
+        }
+
+        this.claimToDo--;
+    }
+
+    doneClaim() {
+        this.phase = 'challenge';
+        this.selectCard = false;
+
+        this.menuTitle = 'Waiting for opponent to issue challenge';
+        this.buttons = [];
+    }
+
+    discardAtRandom(number) {
+        var toDiscard = number;
+
+        while(toDiscard > 0) {
+            var cardIndex = _.random(0, this.hand.length - 1);
+
+            var discarded = this.hand.splice(cardIndex, 1);
+
+            _.each(discarded, card => {
+                this.discardPile.push(card);
+            });
+
+            toDiscard--;
+        }
     }
 
     getState(isActivePlayer) {
@@ -402,7 +471,7 @@ class Player {
             buttons: isActivePlayer ? this.buttons : undefined,
             menuTitle: isActivePlayer ? this.menuTitle : undefined,
             gold: !isActivePlayer && this.phase === 'setup' ? 0 : this.gold,
-            totalPower: this.totalPower,
+            totalPower: this.power,
             reserve: this.reserve,
             claim: this.claim,
             phase: this.phase,
@@ -413,7 +482,9 @@ class Player {
             firstPlayer: this.firstPlayer,
             plotDiscard: this.plotDiscard,
             selectedAttachment: this.selectedAttachment,
-            selectCard: this.selectCard
+            selectCard: this.selectCard,
+            deadPile: this.deadPile,
+            discardPile: this.discardPile
         };
 
         if(this.showDeck) {
