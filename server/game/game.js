@@ -383,7 +383,7 @@ class Game {
                 winner = player;
             }
 
-            this.addMessage(player.name + ' won a ' + winner.currentChallenge + '  challenge ' +
+            this.addMessage(winner.name + ' won a ' + winner.currentChallenge + '  challenge ' +
                 winner.challengeStrength + ' vs ' + loser.challengeStrength);
 
             if(loser.challengeStrength === 0) {
@@ -394,6 +394,11 @@ class Game {
 
             if(winner === challenger) {
                 this.applyClaim(winner, loser);
+            } else {
+                challenger.beginChallenge();
+
+                player.menuTitle = 'Waiting for other player to initiate challenge';
+                player.buttons = [];
             }
         }
     }
@@ -444,7 +449,44 @@ class Game {
     }
 
     dominance() {
-        console.info('entering dominance phase');
+        var highestDominance = 0;
+        var highestPlayer = undefined;
+
+        _.each(this.players, player => {
+            player.phase = 'dominance';
+            var dominance = player.getDominance();
+
+            if(dominance > highestDominance) {
+                highestPlayer = player;
+            }
+        });
+
+        this.addMessage(highestPlayer.name + ' wins dominance');
+
+        highestPlayer.power++;
+
+        _.each(this.players, player => {
+            player.standCards();
+            player.taxation();
+        });
+
+        var firstPlayer = _.find(this.players, p => {
+            return p.firstPlayer;
+        });
+
+        firstPlayer.menuTitle = '';
+        firstPlayer.buttons = [
+            { command: 'doneround', text: 'End Turn' }
+        ];
+
+        var otherPlayer = _.find(this.players, p => {
+            return p.id !== firstPlayer.id;
+        });
+
+        if(otherPlayer) {
+            otherPlayer.menuTitle = 'Waiting for opponent to end their turn';
+            otherPlayer.buttons = [];
+        }
     }
 
     initialise() {

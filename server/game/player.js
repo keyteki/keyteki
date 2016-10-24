@@ -385,7 +385,7 @@ class Player {
         var challengeCards = _.filter(this.cardsInPlay, card => {
             return card.selected;
         });
-        
+
         var strength = _.reduce(challengeCards, (memo, card) => {
             card.kneeled = true;
             card.selected = false;
@@ -457,6 +457,28 @@ class Player {
 
             toDiscard--;
         }
+    }
+
+    getDominance() {
+        var cardStrength = _.reduce(this.cardsInPlay, (memo, card) => {
+            if(!card.kneeled && card.card.type_code === 'character') {
+                return memo + card.card.strength;
+            }
+
+            return memo;
+        }, 0);
+
+        return cardStrength + this.gold;
+    }
+
+    standCards() {
+        _.each(this.cardsInPlay, card => {
+            card.kneeled = false;
+        });
+    }
+
+    taxation() {
+        this.gold = 0;
     }
 
     getState(isActivePlayer) {
