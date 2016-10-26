@@ -20,7 +20,7 @@ class InnerGameBoard extends React.Component {
         this.onCardClick2 = this.onCardClick2.bind(this);
         this.onPlotDeckClick = this.onPlotDeckClick.bind(this);
         this.onDrawClick = this.onDrawClick.bind(this);
-        this.onHandDrop = this.onHandDrop.bind(this);
+        this.onDragDrop = this.onDragDrop.bind(this);
         this.onCommand = this.onCommand.bind(this);
 
         this.state = {
@@ -90,8 +90,8 @@ class InnerGameBoard extends React.Component {
         this.setState({ showPlotDeck: !this.state.showPlotDeck });
     }
 
-    onHandDrop(card) {
-        this.props.socket.emit('handdrop', card);
+    onDragDrop(card, source, target) {
+        this.props.socket.emit('drop', card, source, target);
     }
 
     getCardsInPlay(player) {
@@ -299,7 +299,7 @@ class InnerGameBoard extends React.Component {
                         onDrawClick={this.onDrawClick}
                         showDrawDeck={this.state.showDrawDeck}
                         drawDeck={thisPlayer.drawDeck}
-                        onHandDrop={this.onHandDrop}
+                        onDragDrop={this.onDragDrop}
                         power={thisPlayer.totalPower} />
                 </div>
                 <div className='right-side'>

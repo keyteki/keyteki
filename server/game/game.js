@@ -283,14 +283,14 @@ class Game {
         this.addMessage(player.name + ' is looking at their deck');
     }
 
-    handDrop(playerId, card) {
+    drop(playerId, card, source, target) {
         var player = _.find(this.players, player => {
             return player.id === playerId;
         });
 
-        player.handDrop(card);
-
-        this.addMessage(player.name + ' has moved a card from their deck to their hand');
+        if(player.drop(card, source, target)) {
+            this.addMessage(player.name + ' has moved a card from their ' + source + ' to their ' + target);
+        }    
     }
 
     marshalDone(playerId) {
@@ -486,6 +486,28 @@ class Game {
         if(otherPlayer) {
             otherPlayer.menuTitle = 'Waiting for opponent to end their turn';
             otherPlayer.buttons = [];
+        }
+    }
+
+    doneRound(playerId) {
+        var player = _.find(this.players, player => {
+            return player.id === playerId;
+        });
+
+        if(player.hand.length > player.activePlot.card.reserve) {
+            return;
+        }
+        var otherPlayer = _.find(this.players, p => {
+            return p.id !== player.id;
+        });
+
+        if(otherPlayer) {
+            if(otherPlayer.roundDone) {
+                player.startPlotPhase();
+                otherPlayer.startPlotPhase();
+            }
+        } else {
+            player.roundDone = true;
         }
     }
 

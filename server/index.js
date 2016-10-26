@@ -454,14 +454,14 @@ io.on('connection', function(socket) {
         socket.emit('gamestate', game.getState(socket.id.slice(2)));
     });
 
-    socket.on('handdrop', function(card) {
+    socket.on('drop', function(card, source, target) {
         var game = findGameForPlayer(socket.id);
 
         if(!game) {
             return;
         }
 
-        game.handDrop(socket.id.slice(2), card);
+        game.drop(socket.id.slice(2), card, source, target);
 
         socket.emit('gamestate', game.getState(socket.id.slice(2)));
     });
@@ -519,7 +519,7 @@ io.on('connection', function(socket) {
 
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));
-        });      
+        });
     });
 
     socket.on('doneallchallenges', function() {
@@ -533,7 +533,21 @@ io.on('connection', function(socket) {
 
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));
-        });              
+        });
+    });
+
+    socket.on('doneround', function() {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        game.doneRound(socket.id.slice(2));
+
+        _.each(game.players, (player, key) => {
+            io.to(key).emit('gamestate', game.getState(player.id));
+        });
     });
 
     socket.emit('games', games);

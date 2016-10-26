@@ -314,17 +314,51 @@ class Player {
         this.showDeck = true;
     }
 
-    handDrop(card) {
-        if(!_.any(this.drawDeck, c => {
-            return c.code === card.code;
-        })) {
-            return;
+    isValidDropCombination(source, target) {
+        if(source === 'plot' && target !== 'plot discard pile') {
+            return false;
         }
 
-        this.hand.push(card);
+        if(source === 'plot discard pile' && target !== 'plot') {
+            return false;
+        }
 
+        return source !== target;
+    }
+
+    getTargetList(source) {
+        switch(source) {
+            case 'hand':
+                return this.hand;
+            case 'draw deck':
+                return this.drawDeck;
+            case 'discard pile':
+                return this.discardPile;
+            case 'dead pile':
+                return this.deadPile;
+        }
+    }
+
+    updateTargetList(source, targetList) {
+        switch(source) {
+            case 'hand':
+                this.hand = targetList;
+                break;
+            case 'draw deck':
+                this.drawDeck = targetList;
+                break;
+            case 'discard pile':
+                this.discardPile = targetList;
+                break;
+            case 'dead pile':
+                this.deadPile = targetList;
+                break;
+        }
+    }
+
+    doCardMove(card, targetList) {
         var matchFound = false;
-        this.drawDeck = _.reject(this.drawDeck, c => {
+        targetList = _.reject(targetList, c => {
             var match = !matchFound && c.code === card.code;
 
             if(match) {
@@ -333,6 +367,58 @@ class Player {
 
             return match;
         });
+
+        return targetList;
+    }
+
+    doHandDrop(card, source) {
+        var targetList = this.getTargetList(source);
+
+        if(!_.any(targetList, c => {
+            return c.code === card.code;
+        })) {
+            return false;
+        }
+
+        this.hand.push(card);
+
+        targetList = this.doCardMove(targetList);
+
+        this.updateTargetList(source, targetList);
+
+        return true;
+    }
+
+    doDiscardDrop(card, source) {
+        var targetList = this.getTargetList(source);
+
+        if(!_.any(targetList, c => {
+            return c.code === card.code;
+        })) {
+            return false;
+        }
+
+        this.discardPile.push(card);
+
+        targetList = this.doCardMove(card, targetList);
+        this.updateTargetList(source, targetList);
+
+        return true;
+    }
+
+    drop(card, source, target) {
+        if(!this.isValidDropCombination(source, target)) {
+            return false;
+        }
+
+        switch(target) {
+            case 'hand':
+                return this.doHandDrop(card, source);
+            case 'discard pile':
+                return this.doDiscardDrop(card, source);
+        }
+
+        return false;
     }
 
     beginChallenge() {
