@@ -290,7 +290,7 @@ class Game {
 
         if(player.drop(card, source, target)) {
             this.addMessage(player.name + ' has moved a card from their ' + source + ' to their ' + target);
-        }    
+        }
     }
 
     marshalDone(playerId) {
@@ -509,6 +509,20 @@ class Game {
         } else {
             player.roundDone = true;
         }
+    }
+
+    changeStat(playerId, stat, value) {
+        var player = _.find(this.players, player => {
+            return player.id === playerId;
+        });
+
+        player[stat] += value;
+
+        if(player[stat] < 0) {
+            player[stat] = 0;
+        } else {
+            this.addMessage(player.name + ' sets ' + stat + ' to ' + player[stat] + ' (' + (value > 0 ? '+' : '') + value + ')');
+        }    
     }
 
     initialise() {

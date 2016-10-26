@@ -96,6 +96,9 @@ class PlayerRow extends React.Component {
                 </div>
             </div>) : null;
 
+        var topDiscard = _.last(this.props.discardPile);
+        //                            <div draggable className='card-frame' onDragStart={(ev) => this.onCardDragStart(ev, topDiscard, 'discard pile')}>
+
         return (
             <div className='player-home-row'>
                 <div className={className} onDragOver={this.onDragOver} onDrop={(event) => this.onDragDrop(event, 'hand')}>
@@ -108,6 +111,13 @@ class PlayerRow extends React.Component {
                     <div className='panel-header'>
                         {'Discard (0)'}
                     </div>
+                    {topDiscard ?
+                        <div className='card' onMouseOver={this.props.onMouseOver.bind(this, topDiscard)} onMouseOut={this.props.onMouseOut}>
+                            <div>
+                                <img className='card' src={'/img/cards/' + topDiscard.code + '.png'} />}
+                                </div>
+                        </div> :
+                        null}
                 </div>
                 <div className='draw panel' onClick={this.props.isMe ? this.props.onDrawClick : null}>
                     <div className='panel-header'>
@@ -139,6 +149,7 @@ class PlayerRow extends React.Component {
 PlayerRow.displayName = 'PlayerRow';
 PlayerRow.propTypes = {
     agenda: React.PropTypes.object,
+    discardPile: React.PropTypes.array,
     drawDeck: React.PropTypes.array,
     faction: React.PropTypes.object,
     hand: React.PropTypes.array,

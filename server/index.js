@@ -550,6 +550,20 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on('changestat', function(stat, value) {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        game.changeStat(socket.id.slice(2), stat, value);
+
+        _.each(game.players, (player, key) => {
+            io.to(key).emit('gamestate', game.getState(player.id));
+        });
+    });
+
     socket.emit('games', games);
 });
 

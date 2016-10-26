@@ -213,7 +213,7 @@ body {
 }
 
 .state > div {
-  height: 20px;
+  height: 21px;
 }
 
 .agenda > img, .card-large > img, .plot-deck-card > img {
@@ -576,4 +576,26 @@ h4 {
   position: relative;
   top: 50%;
   transform: translateY(-40%)
+}
+
+.btn-stat {
+  padding: 0;
+  font-size: 12px;
+  line-height: 18px;
+  height: 20px;
+  width: 20px;
+  background-color: transparent;
+  border-color: white;
+  color: white;
+}
+
+.btn-stat:hover {
+  background-color: rgba(0,128,0,0.35);
+  border-color: @brand-primary;
+  color: white;
+}
+
+.btn-stat:focus {
+  outline: 0px;
+  color: white;
 }

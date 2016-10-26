@@ -266,7 +266,7 @@ class InnerGameBoard extends React.Component {
                             </div>
 
                             <PlayerStats gold={thisPlayer.gold || 0} claim={thisPlayer.claim || 0} reserve={thisPlayer.reserve || 0}
-                                power={thisPlayer.totalPower} />
+                                power={thisPlayer.totalPower} isMe />
                         </div>
                         <div className='inset-pane'>
                             <div />
@@ -300,7 +300,8 @@ class InnerGameBoard extends React.Component {
                         showDrawDeck={this.state.showDrawDeck}
                         drawDeck={thisPlayer.drawDeck}
                         onDragDrop={this.onDragDrop}
-                        power={thisPlayer.totalPower} />
+                        power={thisPlayer.totalPower}
+                        discardPile={thisPlayer.discardPile} />
                 </div>
                 <div className='right-side'>
                     <CardZoom imageUrl={this.state.cardToZoom ? '/img/cards/' + this.state.cardToZoom.code + '.png' : ''}
