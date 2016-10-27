@@ -116,6 +116,26 @@ class Game {
         }
     }
 
+    selectFirstPlayer(highestPlayer) {
+        highestPlayer.firstPlayer = true;
+        highestPlayer.menuTitle = 'Select a first player';
+        highestPlayer.buttons = [
+            { command: 'firstplayer', text: 'Me', arg: 'me' }
+        ];
+
+        if(_.size(this.players) > 1) {
+            highestPlayer.buttons.push({ command: 'firstplayer', text: 'Opponent', arg: 'opponent' });
+        }
+
+        var otherPlayer = _.find(this.players, player => {
+            return player.id !== highestPlayer.id;
+        });
+
+        if(otherPlayer) {
+            otherPlayer.menuTitle = 'Waiting for opponent to select first player';
+        }
+    }
+
     selectPlot(playerId, plot) {
         var player = _.find(this.players, player => {
             return player.id === playerId;
@@ -140,25 +160,13 @@ class Game {
                 }
 
                 p.revealPlots();
+                if(p.activePlot.implementation && p.activePlot.implementation.revealed) {
+                    p.activePlot.implementation.revealed(this, p,
+                        p === highestPlayer ? () => this.selectFirstPlayer(highestPlayer) : undefined);
+                } else if(p === highestPlayer) {
+                    this.selectFirstPlayer(highestPlayer);
+                }
             });
-
-            highestPlayer.firstPlayer = true;
-            highestPlayer.menuTitle = 'Select a first player';
-            highestPlayer.buttons = [
-                { command: 'firstplayer', text: 'Me', arg: 'me' }
-            ];
-
-            if(_.size(this.players) > 1) {
-                highestPlayer.buttons.push({ command: 'firstplayer', text: 'Opponent', arg: 'opponent' });
-            }
-
-            var otherPlayer = _.find(this.players, player => {
-                return player.id !== highestPlayer.id;
-            });
-
-            if(otherPlayer) {
-                otherPlayer.menuTitle = 'Waiting for opponent to select first player';
-            }
         }
     }
 
@@ -205,6 +213,12 @@ class Game {
 
         if(!player) {
             return;
+        }
+
+        if(player.activePlot && player.activePlot.implementation && player.activePlot.implementation.cardClicked) {
+            if(player.activePlot.implementation.cardClicked(this, player, card)) {
+                return;
+            }
         }
 
         if(player.phase === 'setup' && !player.waitingForAttachments) {
@@ -522,7 +536,7 @@ class Game {
             player[stat] = 0;
         } else {
             this.addMessage(player.name + ' sets ' + stat + ' to ' + player[stat] + ' (' + (value > 0 ? '+' : '') + value + ')');
-        }    
+        }
     }
 
     initialise() {

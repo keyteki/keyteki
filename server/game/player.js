@@ -1,4 +1,5 @@
 const _ = require('underscore');
+const cards = require('./cards');
 
 class Player {
     constructor(player) {
@@ -267,6 +268,11 @@ class Player {
         });
 
         this.activePlot = this.selectedPlot;
+
+        if(cards[this.activePlot.card.code]) {
+            this.activePlot.implementation = cards[this.activePlot.card.code];
+        }
+
         this.selectedPlot = undefined;
     }
 
