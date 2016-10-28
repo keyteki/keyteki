@@ -1,5 +1,4 @@
 const _ = require('underscore');
-const cards = require('./cards');
 
 class Player {
     constructor(player) {
@@ -198,7 +197,9 @@ class Player {
 
             dupe.dupes.push(card);
         } else {
-            this.cardsInPlay.push({ facedown: this.phase === 'setup', card: card, attachments: [], dupes: [] });
+            this.cardsInPlay.push({
+                facedown: this.phase === 'setup', card: card, attachments: [], dupes: []
+            });
         }
 
         if(this.isLimited(card)) {
@@ -268,10 +269,6 @@ class Player {
         });
 
         this.activePlot = this.selectedPlot;
-
-        if(cards[this.activePlot.card.code]) {
-            this.activePlot.implementation = cards[this.activePlot.card.code];
-        }
 
         this.selectedPlot = undefined;
     }

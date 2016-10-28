@@ -1,8 +1,13 @@
 const _ = require('underscore');
-const Player = require('./Player.js');
+const EventEmitter = require('events');
 
-class Game {
+const Player = require('./Player.js');
+const cards = require('./cards');
+
+class Game extends EventEmitter {
     constructor(game) {
+        super();
+
         this.players = {};
         this.messages = [];
 
@@ -67,6 +72,11 @@ class Game {
         });
 
         player.playCard(card);
+
+        var cardImplemation = cards[card.code];
+        if(cardImplemation && cardImplemation.register) {
+            cardImplemation.register(this, card);
+        }
     }
 
     checkForAttachments() {
@@ -159,11 +169,14 @@ class Game {
                     highestPlayer = p;
                 }
 
+                var plotImplementation = cards[p.selectedPlot.card.code];
+                if(plotImplementation && plotImplementation.register) {
+                    plotImplementation.register(this);
+                }
+
                 p.revealPlots();
-                if(p.activePlot.implementation && p.activePlot.implementation.revealed) {
-                    p.activePlot.implementation.revealed(this, p,
-                        p === highestPlayer ? () => this.selectFirstPlayer(highestPlayer) : undefined);
-                } else if(p === highestPlayer) {
+                if(!this.emit('plotRevealed', this, p,
+                    p === highestPlayer ? () => this.selectFirstPlayer(highestPlayer) : undefined)) {
                     this.selectFirstPlayer(highestPlayer);
                 }
             });
@@ -197,6 +210,8 @@ class Game {
 
         firstPlayer.beginMarshal();
 
+        this.emit('beginMarshal', this, firstPlayer);
+
         var otherPlayer = _.find(this.players, player => {
             return player.id !== firstPlayer.id;
         });
@@ -215,10 +230,10 @@ class Game {
             return;
         }
 
-        if(player.activePlot && player.activePlot.implementation && player.activePlot.implementation.cardClicked) {
-            if(player.activePlot.implementation.cardClicked(this, player, card)) {
-                return;
-            }
+        this.clickHandled = false;
+        this.emit('cardClicked', this, player, card);
+        if(this.clickHandled) {
+            return;
         }
 
         if(player.phase === 'setup' && !player.waitingForAttachments) {

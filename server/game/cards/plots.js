@@ -4,6 +4,10 @@ var plots = {};
 
 // 01009 - Confiscation
 plots['01009'] = {
+    register(game) {
+        game.on('plotRevealed', this.revealed);
+        game.on('cardClicked', this.cardClicked);
+    },
     revealed: function(game, player, callback) {
         player.menuTitle = 'Select attachment to discard';
         player.buttons = [
@@ -30,6 +34,9 @@ plots['01009'] = {
 
 // 01010 - Counting coppers
 plots['01010'] = {
+    register: function(game) {
+        game.on('plotRevealed', this.revealed);
+    },
     revealed: function(game, player, callback) {
         player.drawCardsToHand(3);
 
@@ -41,6 +48,9 @@ plots['01010'] = {
 
 // 02039 - Trading with the Pentoshi
 plots['02039'] = {
+    register(game) {
+        game.on('plotRevealed', this.revealed);
+    },
     revealed: function(game, player, callback) {
         var otherPlayer = _.find(game.players, p => {
             return p.id !== player.id;
