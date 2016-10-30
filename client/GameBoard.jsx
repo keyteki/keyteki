@@ -113,13 +113,26 @@ class InnerGameBoard extends React.Component {
             });
 
             var counters = null;
+            var dupes = null;
+            var power = null;
 
             if(card.dupes.length !== 0) {
+                dupes = (<div className='counter dupe'>
+                    {card.dupes.length + 1}
+                </div>);
+            }
+
+            if(card.power > 0) {
+                power = (<div className='counter power'>
+                    {card.power}
+                </div>);
+            }
+
+            if(dupes || power) {
                 counters = (
                     <div className='counters'>
-                        <div className='counter dupe'>
-                            {card.dupes.length + 1}
-                        </div>
+                        {dupes}
+                        {power}
                     </div>
                 );
             }
@@ -216,7 +229,7 @@ class InnerGameBoard extends React.Component {
                         faction={otherPlayer ? otherPlayer.faction : undefined}
                         hand={otherPlayer ? otherPlayer.hand : []} isMe={false}
                         numDrawCards={otherPlayer ? otherPlayer.numDrawCards : 0}
-                        power={otherPlayer ? otherPlayer.totalPower : 0} />
+                        power={otherPlayer ? otherPlayer.power : 0} />
                     <div className='middle'>
                         <div className='left-side'>
                             <PlayerStats gold={otherPlayer ? otherPlayer.gold : 0} claim={otherPlayer ? otherPlayer.claim : 0}
@@ -301,7 +314,7 @@ class InnerGameBoard extends React.Component {
                         showDrawDeck={this.state.showDrawDeck}
                         drawDeck={thisPlayer.drawDeck}
                         onDragDrop={this.onDragDrop}
-                        power={thisPlayer.totalPower}
+                        power={thisPlayer.power}
                         discardPile={thisPlayer.discardPile} />
                 </div>
                 <div className='right-side'>

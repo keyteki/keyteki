@@ -506,6 +506,7 @@ class Player {
         this.selectCard = true;
         this.currentChallenge = challenge;
         this.phase = 'challenge';
+        this.cardsInChallenge = [];
     }
 
     selectCharacterToKill() {
@@ -601,6 +602,7 @@ class Player {
             buttons: isActivePlayer ? this.buttons : undefined,
             menuTitle: isActivePlayer ? this.menuTitle : undefined,
             gold: !isActivePlayer && this.phase === 'setup' ? 0 : this.gold,
+            power: this.power,
             totalPower: this.getTotalPower(),
             reserve: this.reserve,
             claim: this.claim,
