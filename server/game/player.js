@@ -232,6 +232,8 @@ class Player {
         this.claimToDo = 0;
         this.doneChallenges = false;
         this.plotRevealed = false;
+        this.roundDone = false;
+        this.marshalled = false;
 
         var processedCards = [];
 

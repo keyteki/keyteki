@@ -577,6 +577,8 @@ class Game extends EventEmitter {
             player.startPlotPhase();
             otherPlayer.startPlotPhase();
 
+            this.removeAllListeners('plotRevealed');
+
             return;
         }
 
