@@ -215,7 +215,8 @@ class InnerGameBoard extends React.Component {
                     <PlayerRow agenda={otherPlayer ? otherPlayer.agenda : undefined}
                         faction={otherPlayer ? otherPlayer.faction : undefined}
                         hand={otherPlayer ? otherPlayer.hand : []} isMe={false}
-                        numDrawCards={otherPlayer ? otherPlayer.numDrawCards : 0} />
+                        numDrawCards={otherPlayer ? otherPlayer.numDrawCards : 0}
+                        power={otherPlayer ? otherPlayer.totalPower : 0} />
                     <div className='middle'>
                         <div className='left-side'>
                             <PlayerStats gold={otherPlayer ? otherPlayer.gold : 0} claim={otherPlayer ? otherPlayer.claim : 0}
@@ -230,10 +231,10 @@ class InnerGameBoard extends React.Component {
                                         <img className='vertical' src='/img/cards/cardback.jpg' />
                                     </div>
                                     <div className='panel horizontal-card'
-                                        onMouseOver={otherPlayer ? this.onMouseOver.bind(this, otherPlayer.plotDiscard[0]) : null}
+                                        onMouseOver={otherPlayer ? this.onMouseOver.bind(this, _.last(otherPlayer.plotDiscard)) : null}
                                         onMouseOut={this.onMouseOut}>
                                         {otherPlayer && otherPlayer.plotDiscard.length > 0 ?
-                                            <img className='horizontal' src={'/img/cards/' + otherPlayer.plotDiscard[0].code + '.png'} /> : null}
+                                            <img className='horizontal' src={'/img/cards/' + _.last(otherPlayer.plotDiscard).code + '.png'} /> : null}
                                     </div>
                                     {otherPlayer && otherPlayer.plotSelected ?
                                         <div className='panel horizontal-card opponent selected-plot'>
@@ -247,10 +248,10 @@ class InnerGameBoard extends React.Component {
                                             <img className='vertical' src='/img/cards/cardback.jpg' />
                                         </div> : null
                                     }
-                                    <div className='panel horizontal-card' onMouseOver={this.onMouseOver.bind(this, thisPlayer.plotDiscard[0])}
+                                    <div className='panel horizontal-card' onMouseOver={this.onMouseOver.bind(this, _.last(thisPlayer.plotDiscard))}
                                         onMouseOut={this.onMouseOut}>
                                         {thisPlayer.plotDiscard.length > 0 ?
-                                            <img className='horizontal card' src={'/img/cards/' + thisPlayer.plotDiscard[0].code + '.png'} /> : null}
+                                            <img className='horizontal card' src={'/img/cards/' + _.last(thisPlayer.plotDiscard).code + '.png'} /> : null}
                                     </div>
                                     <div className='panel horizontal-card' onClick={this.onPlotDeckClick}>
                                         <div className='panel-header'>
