@@ -32,14 +32,8 @@ class PlayerRow extends React.Component {
         }
     }
 
-    render() {
+    getHand() {
         var cardIndex = 0;
-        var className = 'panel hand';
-
-        if(this.props.hand.length * 64 > 342) {
-            className += ' squish';
-        }
-
         var requiredWidth = this.props.hand.length * 64;
         var overflow = requiredWidth - 342;
         var offset = overflow / (this.props.hand.length - 1);
@@ -72,6 +66,10 @@ class PlayerRow extends React.Component {
             return retCard;
         });
 
+        return hand;
+    }
+
+    getDrawDeck() {
         var drawDeckPopup = undefined;
 
         if(this.props.showDrawDeck && this.props.drawDeck) {
@@ -88,6 +86,19 @@ class PlayerRow extends React.Component {
 
             drawDeckPopup = <div className='panel popup'>{drawDeck}</div>;
         }
+
+        return drawDeckPopup;
+    }
+
+    render() {
+        var className = 'panel hand';
+
+        if(this.props.hand.length * 64 > 342) {
+            className += ' squish';
+        }
+
+        var hand = this.getHand();
+        var drawDeckPopup = this.getDrawDeck();
 
         var powerCounters = this.props.power > 0 ? (
             <div className='counters'>
@@ -149,6 +160,7 @@ class PlayerRow extends React.Component {
 PlayerRow.displayName = 'PlayerRow';
 PlayerRow.propTypes = {
     agenda: React.PropTypes.object,
+    deadPile: React.PropTypes.array,
     discardPile: React.PropTypes.array,
     drawDeck: React.PropTypes.array,
     faction: React.PropTypes.object,
