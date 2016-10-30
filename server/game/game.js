@@ -413,6 +413,10 @@ class Game extends EventEmitter {
             return;
         }
 
+        if(player.challenges[challengeType].performed >= player.challenges[challengeType].max) {
+            return;
+        }
+
         player.startChallenge(challengeType);
     }
 
