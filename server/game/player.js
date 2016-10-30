@@ -264,7 +264,6 @@ class Player {
         this.menuTitle = '';
         this.buttons = [];
 
-        this.drawCardsToHand(7 - this.hand.length);
         this.plotDiscard.push(this.selectedPlot.card);
         this.plotDeck = _.reject(this.plotDeck, card => {
             return card.code === this.selectedPlot.card.code;
