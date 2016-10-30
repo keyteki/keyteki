@@ -463,7 +463,9 @@ io.on('connection', function(socket) {
 
         game.drop(socket.id.slice(2), card, source, target);
 
-        socket.emit('gamestate', game.getState(socket.id.slice(2)));
+        _.each(game.players, (player, key) => {
+            io.to(key).emit('gamestate', game.getState(player.id));
+        });
     });
 
     socket.on('donemarshal', function() {

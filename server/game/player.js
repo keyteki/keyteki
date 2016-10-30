@@ -226,12 +226,12 @@ class Player {
         ];
         this.gold = 0;
         this.claim = 0;
-        this.power = 0;
         this.reserve = 0;
         this.firstPlayer = false;
         this.selectedPlot = undefined;
         this.claimToDo = 0;
         this.doneChallenges = false;
+        this.plotRevealed = false;
 
         var processedCards = [];
 
@@ -256,7 +256,7 @@ class Player {
         this.selectedPlot = { facedown: true, card: plot };
     }
 
-    revealPlots() {
+    revealPlot() {
         this.selectedPlot.facedown = false;
 
         this.menuTitle = '';
@@ -269,11 +269,13 @@ class Player {
         });
 
         this.activePlot = this.selectedPlot;
+        this.plotRevealed = true;
 
         this.selectedPlot = undefined;
     }
 
     drawPhase() {
+        this.gold = 0;
         this.phase = 'draw';
         this.drawCardsToHand(2);
     }
@@ -284,7 +286,7 @@ class Player {
         this.buttons = [{ command: 'donemarshal', text: 'Done' }];
         this.menuTitle = 'Marshal your cards';
 
-        this.gold = this.activePlot.card.income;
+        this.gold += this.activePlot.card.income;
         this.reserve = this.activePlot.card.reserve;
         this.claim = this.activePlot.card.claim;
 
@@ -385,7 +387,7 @@ class Player {
 
         this.hand.push(card);
 
-        targetList = this.doCardMove(targetList);
+        targetList = this.doCardMove(card, targetList);
 
         this.updateTargetList(source, targetList);
 

@@ -1,7 +1,7 @@
 const _ = require('underscore');
 const EventEmitter = require('events');
 
-const Player = require('./Player.js');
+const Player = require('./player.js');
 const cards = require('./cards');
 
 class Game extends EventEmitter {
@@ -126,7 +126,7 @@ class Game extends EventEmitter {
         }
     }
 
-    selectFirstPlayer(highestPlayer) {
+    firstPlayerPrompt(highestPlayer) {
         highestPlayer.firstPlayer = true;
         highestPlayer.menuTitle = 'Select a first player';
         highestPlayer.buttons = [
@@ -143,6 +143,7 @@ class Game extends EventEmitter {
 
         if(otherPlayer) {
             otherPlayer.menuTitle = 'Waiting for opponent to select first player';
+            otherPlayer.buttons = [];
         }
     }
 
@@ -152,6 +153,11 @@ class Game extends EventEmitter {
         });
 
         player.selectPlot(plot);
+
+        var plotImplementation = cards[player.selectedPlot.card.code];
+        if(plotImplementation && plotImplementation.register) {
+            plotImplementation.register(this, player);
+        }
 
         this.addMessage(player.name + ' has selected a plot');
 
@@ -168,18 +174,59 @@ class Game extends EventEmitter {
                     highestInitiative = p.selectedPlot.card.initiative;
                     highestPlayer = p;
                 }
-
-                var plotImplementation = cards[p.selectedPlot.card.code];
-                if(plotImplementation && plotImplementation.register) {
-                    plotImplementation.register(this);
-                }
-
-                p.revealPlots();
-                if(!this.emit('plotRevealed', this, p,
-                    p === highestPlayer ? () => this.selectFirstPlayer(highestPlayer) : undefined)) {
-                    this.selectFirstPlayer(highestPlayer);
-                }
             });
+
+            this.firstPlayerPrompt(highestPlayer);
+        }
+    }
+
+    beginMarshal(player) {
+        player.beginMarshal();
+
+        this.emit('beginMarshal', this, player);
+
+        var otherPlayer = _.find(this.players, p => {
+            return player.id !== p.id;
+        });
+
+        if(otherPlayer) {
+            otherPlayer.menuTitle = 'Waiting for opponent to marshal their cards';
+            otherPlayer.buttons = [];
+        }
+    }
+
+    revealDone(player) {
+        var otherPlayer = _.find(this.players, p => {
+            return p.id !== player.id;
+        });
+
+        if(otherPlayer && !otherPlayer.plotRevealed) {
+            this.revealPlot(otherPlayer);
+
+            return;
+        }
+
+        if(!otherPlayer) {
+            this.beginMarshal(player);
+
+            return;
+        }
+
+        var firstPlayer = player.firstPlayer ? player : otherPlayer;
+
+        if(player.plotRevealed && otherPlayer.plotRevealed) {
+            this.beginMarshal(firstPlayer);
+        }
+    }
+
+    revealPlot(player) {
+        player.revealPlot();
+
+        this.pauseForPlot = false;
+        this.emit('plotRevealed', this, player);
+
+        if(!this.pauseForPlot) {
+            this.revealDone(player);
         }
     }
 
@@ -208,17 +255,7 @@ class Game extends EventEmitter {
 
         this.addMessage(player.name + ' has selected ' + firstPlayer.name + ' to be the first player');
 
-        firstPlayer.beginMarshal();
-
-        this.emit('beginMarshal', this, firstPlayer);
-
-        var otherPlayer = _.find(this.players, player => {
-            return player.id !== firstPlayer.id;
-        });
-
-        if(otherPlayer) {
-            otherPlayer.menuTitle = 'Waiting for opponent to marshal their cards';
-        }
+        this.revealPlot(firstPlayer);
     }
 
     cardClicked(sourcePlayer, card) {
@@ -241,6 +278,12 @@ class Game extends EventEmitter {
         }
 
         if(player.selectedAttachment) {
+            this.canAttach = true;
+            this.emit('beforeAttach', this, player, card);
+            if(!this.canAttach) {
+                return;
+            }
+
             player.removeFromHand(player.selectedAttachment);
             player.attach(player.selectedAttachment, card);
 
@@ -352,7 +395,7 @@ class Game extends EventEmitter {
             });
 
             if(otherPlayer) {
-                otherPlayer.menuTitle = 'Waiting for other player to initiate challenge';
+                otherPlayer.menuTitle = 'Waiting for opponent to initiate challenge';
                 otherPlayer.buttons = [];
             }
         }
@@ -380,7 +423,7 @@ class Game extends EventEmitter {
         });
 
         if(otherPlayer) {
-            player.menuTitle = 'Waiting for other player to defend';
+            player.menuTitle = 'Waiting for opponent to defend';
             player.buttons = [];
 
             otherPlayer.beginDefend(player.currentChallenge);
@@ -426,7 +469,7 @@ class Game extends EventEmitter {
             } else {
                 challenger.beginChallenge();
 
-                player.menuTitle = 'Waiting for other player to initiate challenge';
+                player.menuTitle = 'Waiting for opponent to initiate challenge';
                 player.buttons = [];
             }
         }
@@ -470,7 +513,7 @@ class Game extends EventEmitter {
         if(other) {
             other.beginChallenge();
 
-            challenger.menuTitle = 'Waiting for other player to initiate challenge';
+            challenger.menuTitle = 'Waiting for opponent to initiate challenge';
             challenger.buttons = [];
         } else {
             this.dominance();
@@ -530,14 +573,21 @@ class Game extends EventEmitter {
             return p.id !== player.id;
         });
 
-        if(otherPlayer) {
-            if(otherPlayer.roundDone) {
-                player.startPlotPhase();
-                otherPlayer.startPlotPhase();
-            }
-        } else {
-            player.roundDone = true;
+        if(otherPlayer && otherPlayer.roundDone) {
+            player.startPlotPhase();
+            otherPlayer.startPlotPhase();
+
+            return;
         }
+
+        player.roundDone = true;
+        player.menuTitle = 'Waiting for opponent to end their turn';
+        player.buttons = [];
+
+        otherPlayer.menuTitle = '';
+        otherPlayer.buttons = [
+            { command: 'doneround', text: 'End Turn' }
+        ];
     }
 
     changeStat(playerId, stat, value) {
