@@ -246,6 +246,10 @@ class InnerGameBoard extends React.Component {
                                     <div className='panel horizontal-card'
                                         onMouseOver={otherPlayer ? this.onMouseOver.bind(this, _.last(otherPlayer.plotDiscard)) : null}
                                         onMouseOut={this.onMouseOut}>
+                                        <div className='panel-header'>
+                                            {'Plot Discard (' + (otherPlayer ? otherPlayer.plotDiscard.length : 0) + ')'}
+                                        </div>
+
                                         {otherPlayer && otherPlayer.plotDiscard.length > 0 ?
                                             <img className='horizontal' src={'/img/cards/' + _.last(otherPlayer.plotDiscard).code + '.png'} /> : null}
                                     </div>
@@ -263,6 +267,10 @@ class InnerGameBoard extends React.Component {
                                     }
                                     <div className='panel horizontal-card' onMouseOver={this.onMouseOver.bind(this, _.last(thisPlayer.plotDiscard))}
                                         onMouseOut={this.onMouseOut}>
+                                        <div className='panel-header'>
+                                            {'Plot Discard (' + thisPlayer.plotDiscard.length + ')'}
+                                        </div>
+
                                         {thisPlayer.plotDiscard.length > 0 ?
                                             <img className='horizontal card' src={'/img/cards/' + _.last(thisPlayer.plotDiscard).code + '.png'} /> : null}
                                     </div>

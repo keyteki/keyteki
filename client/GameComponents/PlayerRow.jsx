@@ -109,7 +109,7 @@ class PlayerRow extends React.Component {
                 </div>
                 <div className='discard panel' onDragOver={this.onDragOver} onDrop={(event) => this.onDragDrop(event, 'discard pile')}>
                     <div className='panel-header'>
-                        {'Discard (0)'}
+                        {'Discard (' + (this.props.discardPile ? this.props.discardPile.length : 0) + ')'}
                     </div>
                     {topDiscard ?
                         <div className='card' onMouseOver={this.props.onMouseOver.bind(this, topDiscard)} onMouseOut={this.props.onMouseOut}>
