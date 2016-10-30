@@ -77,7 +77,7 @@ class Game extends EventEmitter {
 
         var cardImplemation = cards[card.code];
         if(cardImplemation && cardImplemation.register) {
-            cardImplemation.register(this, card);
+            cardImplemation.register(this, player, card);
         }
     }
 
@@ -602,6 +602,8 @@ class Game extends EventEmitter {
             this.addMessage(highestPlayer.name + ' has won the game');
         }
 
+        this.emit('cardsStanding', this);
+
         _.each(this.players, player => {
             player.standCards();
             player.taxation();
@@ -638,6 +640,14 @@ class Game extends EventEmitter {
             return p.id !== player.id;
         });
 
+        if(!otherPlayer) {
+            player.startPlotPhase();
+
+            this.removeAllListeners('plotRevealed');
+
+            return;            
+        }
+
         if(otherPlayer && otherPlayer.roundDone) {
             player.startPlotPhase();
             otherPlayer.startPlotPhase();
@@ -651,10 +661,12 @@ class Game extends EventEmitter {
         player.menuTitle = 'Waiting for opponent to end their turn';
         player.buttons = [];
 
-        otherPlayer.menuTitle = '';
-        otherPlayer.buttons = [
-            { command: 'doneround', text: 'End Turn' }
-        ];
+        if(otherPlayer) {
+            otherPlayer.menuTitle = '';
+            otherPlayer.buttons = [
+                { command: 'doneround', text: 'End Turn' }
+            ];
+        }
     }
 
     changeStat(playerId, stat, value) {
