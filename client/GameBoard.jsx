@@ -96,76 +96,87 @@ class InnerGameBoard extends React.Component {
 
     getCardsInPlay(player) {
         var index = 0;
+        
+        var cardsByType = _.groupBy(player.cardsInPlay, c => {
+            return c.card.type_code;
+        });
 
-        return _.map(player.cardsInPlay, card => {
-            var attachments = _.map(card.attachments, a => {
-                return (
-                    <div className='attachment'>
-                        <div className='card' onMouseOver={this.onMouseOver.bind(this, a)} onMouseOut={this.onMouseOut}
-                            onClick={this.onCardClick2.bind(this, a)}>
-                            <div>
-                                {card.facedown ?
-                                    <img className='card' src='/img/cards/cardback.jpg' /> :
-                                    <img className='card' src={'/img/cards/' + a.code + '.png'} />}
+        var cardsByLocation = [];
+        
+        _.each(cardsByType, cards => {
+            var cardsInPlay = _.map(cards, card => {
+                var attachments = _.map(card.attachments, a => {
+                    return (
+                        <div className='attachment'>
+                            <div className='card' onMouseOver={this.onMouseOver.bind(this, a)} onMouseOut={this.onMouseOut}
+                                onClick={this.onCardClick2.bind(this, a)}>
+                                <div>
+                                    {card.facedown ?
+                                        <img className='card' src='/img/cards/cardback.jpg' /> :
+                                        <img className='card' src={'/img/cards/' + a.code + '.png'} />}
+                                </div>
                             </div>
+                        </div>);
+                });
+
+                var counters = null;
+                var dupes = null;
+                var power = null;
+
+                if(card.dupes.length !== 0) {
+                    dupes = (<div className='counter dupe'>
+                        {card.dupes.length + 1}
+                    </div>);
+                }
+
+                if(card.power > 0) {
+                    power = (<div className='counter power'>
+                        {card.power}
+                    </div>);
+                }
+
+                if(dupes || power) {
+                    counters = (
+                        <div className='counters'>
+                            {dupes}
+                            {power}
+                        </div>
+                    );
+                }
+
+                var cardClass = 'card';
+                if(card.selected) {
+                    cardClass += ' selected';
+                }
+
+                if(card.kneeled) {
+                    cardClass += ' vertical kneeled';
+                }
+
+                var cardInPlay = (
+                    <div className='card-wrapper' key={'card' + index.toString()}>
+                        <div className='card-frame'>
+                            <div className={card.kneeled ? 'horizontal-card kneeled' : 'card'} onMouseOver={this.onMouseOver.bind(this, card.card)} onMouseOut={this.onMouseOut}
+                                onClick={this.onCardClick2.bind(this, card.card)}>
+                                <div>
+                                    {card.facedown ?
+                                        <img className='card' src='/img/cards/cardback.jpg' /> :
+                                        <img className={cardClass} src={'/img/cards/' + card.card.code + '.png'} />}
+                                </div>
+                                {counters}
+                            </div>
+                            {attachments}
                         </div>
                     </div>);
+
+                index++;
+
+                return cardInPlay;
             });
-
-            var counters = null;
-            var dupes = null;
-            var power = null;
-
-            if(card.dupes.length !== 0) {
-                dupes = (<div className='counter dupe'>
-                    {card.dupes.length + 1}
-                </div>);
-            }
-
-            if(card.power > 0) {
-                power = (<div className='counter power'>
-                    {card.power}
-                </div>);
-            }
-
-            if(dupes || power) {
-                counters = (
-                    <div className='counters'>
-                        {dupes}
-                        {power}
-                    </div>
-                );
-            }
-
-            var cardClass = 'card';
-            if(card.selected) {
-                cardClass += ' selected';
-            }
-
-            if(card.kneeled) {
-                cardClass += ' vertical kneeled';
-            }
-
-            var cardInPlay = (
-                <div className='card-wrapper' key={'card' + index.toString()}>
-                    <div className='card-frame'>
-                        <div className={card.kneeled ? 'horizontal-card kneeled' : 'card'} onMouseOver={this.onMouseOver.bind(this, card.card)} onMouseOut={this.onMouseOut}
-                            onClick={this.onCardClick2.bind(this, card.card)}>
-                            <div>
-                                {card.facedown ?
-                                    <img className='card' src='/img/cards/cardback.jpg' /> :
-                                    <img className={cardClass} src={'/img/cards/' + card.card.code + '.png'} />}
-                            </div>
-                            {counters}
-                        </div>
-                        {attachments}
-                    </div>
-                </div>);
-
-            index++;
-
-            return cardInPlay;
+            cardsByLocation.push(cardsInPlay);
         });
+
+        return cardsByLocation;
     }
 
     onCommand(command, arg) {
@@ -221,6 +232,27 @@ class InnerGameBoard extends React.Component {
         });
 
         var plotDeck = this.getPlotDeck(thisPlayer.plotDeck);
+
+        var thisPlayerCards = [];
+        
+        _.each(this.getCardsInPlay(thisPlayer).reverse(), cards => {
+            thisPlayerCards.push(<div>{cards}</div>);
+        });
+        var otherPlayerCards = [];
+        
+        if(otherPlayer) {
+            _.each(this.getCardsInPlay(otherPlayer).reverse(), cards => {
+                otherPlayerCards.push(<div>{cards}</div>);
+            });
+        }
+
+        for(var i = thisPlayerCards.length; i < 2; i++) {
+            thisPlayerCards.push(<div />);
+        }
+
+        for(i = otherPlayerCards.length; i < 2; i++) {
+            thisPlayerCards.push(<div />);
+        }
 
         return (
             <div className='game-board'>
@@ -298,16 +330,10 @@ class InnerGameBoard extends React.Component {
                         </div>
                         <div className='play-area'>
                             <div className='player-board'>
-                                <div>
-                                    {otherPlayer ? this.getCardsInPlay(otherPlayer) : null}
-                                </div>
-                                <div />
+                                {otherPlayerCards}
                             </div>
                             <div className='player-board our-side'>
-                                <div>
-                                    {this.getCardsInPlay(thisPlayer)}
-                                </div>
-                                <div />
+                                {thisPlayerCards}
                             </div>
                         </div>
                     </div>
