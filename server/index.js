@@ -566,6 +566,20 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on('custom', function(arg) {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        game.customCommand(socket.id.slice(2), arg);
+
+        _.each(game.players, (player, key) => {
+            io.to(key).emit('gamestate', game.getState(player.id));
+        });
+    });
+
     socket.emit('games', games);
 });
 

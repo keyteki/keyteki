@@ -238,6 +238,22 @@ class Player {
         this.plotRevealed = false;
         this.roundDone = false;
         this.marshalled = false;
+        this.challenges = {
+            complete: 0,
+            maxTotal: 3,
+            military: {
+                performed: 0,
+                max: 1
+            },
+            intrigue: {
+                performed: 0,
+                max: 1
+            },
+            power: {
+                performed: 0,
+                max: 1
+            }
+        };
 
         var processedCards = [];
 
@@ -495,6 +511,9 @@ class Player {
 
         this.challengeStrength = strength;
         this.selectCard = false;
+
+        this.challenges[this.currentChallenge].performed++;
+        this.challenges.complete++;
     }
 
     beginDefend(challenge) {

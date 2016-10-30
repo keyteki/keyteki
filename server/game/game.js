@@ -71,7 +71,9 @@ class Game extends EventEmitter {
             return player.id === playerId;
         });
 
+        this.emit('beforeCardPlayed', this, player, card);
         player.playCard(card);
+        this.emit('afterCardPlayed', this, player, card);
 
         var cardImplemation = cards[card.code];
         if(cardImplemation && cardImplemation.register) {
@@ -501,7 +503,7 @@ class Game extends EventEmitter {
             if(this.hasKeyword(card.card, 'Pillage')) {
                 loser.discardFromDraw(1);
 
-                this.addMessage(loser.name + ' discards a card from the top of their deck from Pillage on ' + card.card.label);                
+                this.addMessage(loser.name + ' discards a card from the top of their deck from Pillage on ' + card.card.label);
             }
 
             if(this.hasKeyword(card.card, 'Renown')) {
@@ -517,29 +519,35 @@ class Game extends EventEmitter {
     }
 
     applyClaim(winner, loser) {
+        this.emit('beforeClaim', this, winner.currentChallenge, winner, loser);
         var claim = winner.activePlot.card.claim;
 
-        if(winner.currentChallenge === 'military') {
-            winner.menuTitle = 'Waiting for opponent to apply claim effects';
-            winner.buttons = [];
+        if(claim <= 0) {
+            this.addMessage('The claim value for ' + winner.currentChallenge + ' is 0, no claim occurs');
+        } else {
+            if(winner.currentChallenge === 'military') {
+                winner.menuTitle = 'Waiting for opponent to apply claim effects';
+                winner.buttons = [];
 
-            loser.claimToDo = claim;
-            loser.selectCharacterToKill();
+                loser.claimToDo = claim;
+                loser.selectCharacterToKill();
 
-            return;
-        } else if(winner.currentChallenge === 'intrigue') {
-            loser.discardAtRandom(claim);
-        } else if(winner.currentChallenge === 'power') {
-            if(loser.power > 0) {
-                loser.power -= claim;
-                winner.power += claim;
+                return;
+            } else if(winner.currentChallenge === 'intrigue') {
+                loser.discardAtRandom(claim);
+            } else if(winner.currentChallenge === 'power') {
+                if(loser.power > 0) {
+                    loser.power -= claim;
+                    winner.power += claim;
 
-                if(winner.getTotalPower() > 15) {
-                    this.addMessage(winner.name + ' has won the game');
+                    if(winner.getTotalPower() > 15) {
+                        this.addMessage(winner.name + ' has won the game');
+                    }
                 }
             }
         }
 
+        this.emit('afterClaim', this, winner.currentChallenge, winner, loser);
         loser.doneClaim();
         winner.beginChallenge();
     }
@@ -653,6 +661,14 @@ class Game extends EventEmitter {
         } else {
             this.addMessage(player.name + ' sets ' + stat + ' to ' + player[stat] + ' (' + (value > 0 ? '+' : '') + value + ')');
         }
+    }
+
+    customCommand(playerId, arg) {
+        var player = _.find(this.players, player => {
+            return player.id === playerId;
+        });
+
+        this.emit('customCommand', this, player, arg);
     }
 
     initialise() {
