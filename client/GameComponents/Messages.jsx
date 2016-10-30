@@ -1,7 +1,12 @@
 import React from 'react';
 import _ from 'underscore';
+import $ from 'jquery';
 
 class Messages extends React.Component {
+    componentDidUpdate() {
+        $(this.refs.messagePanel).scrollTop(999999);
+    }
+
     getMessage() {
         var messages = _.map(this.props.messages, message => {
             return <div className='message'>{message.message}</div>;
@@ -12,7 +17,7 @@ class Messages extends React.Component {
 
     render() {
         return (
-            <div className='messages panel'>
+            <div className='messages panel' ref='messagePanel'>
                 {this.getMessage()}
             </div>);
     }
