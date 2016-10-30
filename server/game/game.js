@@ -465,6 +465,8 @@ class Game extends EventEmitter {
                 this.addMessage(winner.name + ' has gained 1 power from an unopposed challenge');
             }
 
+            this.applyKeywords(winner, loser);
+
             if(winner === challenger) {
                 this.applyClaim(winner, loser);
             } else {
@@ -474,6 +476,40 @@ class Game extends EventEmitter {
                 player.buttons = [];
             }
         }
+    }
+
+    hasKeyword(card, keyword) {
+        return card.text.indexOf(keyword + '.') !== -1;
+    }
+
+    applyKeywords(winner, loser) {
+        _.each(winner.cardsInChallenge, card => {
+            if(this.hasKeyword(card.card, 'Insight')) {
+                winner.drawCardsToHand(1);
+
+                this.addMessage(winner.name + ' draws a card from Insight on ' + card.card.label);
+            }
+
+            if(this.hasKeyword(card.card, 'Intimidate')) {
+                // something
+            }
+
+            if(this.hasKeyword(card.card, 'Pillage')) {
+                loser.discardFromDraw(1);
+
+                this.addMessage(loser.name + ' discards a card from the top of their deck from Pillage on ' + card.card.label);                
+            }
+
+            if(this.hasKeyword(card.card, 'Renown')) {
+                card.power++;
+
+                this.addMessage(winner.name + ' gains 1 power on ' + card.card.label + ' from Renown');
+            }
+
+            if(winner.getTotalPower() > 15) {
+                this.addMessage(winner.name + ' wins the game');
+            }
+        });
     }
 
     applyClaim(winner, loser) {

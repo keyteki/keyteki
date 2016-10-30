@@ -172,6 +172,10 @@ class Player {
         });
     }
 
+    discardFromDraw(number) {
+        this.drawDeck.slice(number);
+    }
+
     playCard(card) {
         if(!this.canPlayCard(card)) {
             return;
@@ -198,7 +202,7 @@ class Player {
             dupe.dupes.push(card);
         } else {
             this.cardsInPlay.push({
-                facedown: this.phase === 'setup', card: card, attachments: [], dupes: []
+                facedown: this.phase === 'setup', card: card, attachments: [], dupes: [], power: 0
             });
         }
 
@@ -436,6 +440,8 @@ class Player {
             { text: 'Power', command: 'challenge', arg: 'power' },
             { text: 'Done', command: 'doneallchallenges' }
         ];
+
+        this.cardsInChallenge = [];
     }
 
     startChallenge(challengeType) {
@@ -471,6 +477,8 @@ class Player {
         }
 
         inPlay.selected = !inPlay.selected;
+
+        this.cardsInChallenge.push(inPlay);
     }
 
     doneChallenge() {
@@ -573,6 +581,14 @@ class Player {
         this.gold = 0;
     }
 
+    getTotalPower() {
+        var power = _.reduce(this.cardsInPlay, (memo, card) => {
+            return memo + card.power;
+        }, this.power);
+
+        return power;
+    }
+
     getState(isActivePlayer) {
         var state = {
             id: this.id,
@@ -585,7 +601,7 @@ class Player {
             buttons: isActivePlayer ? this.buttons : undefined,
             menuTitle: isActivePlayer ? this.menuTitle : undefined,
             gold: !isActivePlayer && this.phase === 'setup' ? 0 : this.gold,
-            totalPower: this.power,
+            totalPower: this.getTotalPower(),
             reserve: this.reserve,
             claim: this.claim,
             phase: this.phase,
