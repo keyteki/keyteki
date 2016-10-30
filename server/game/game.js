@@ -463,6 +463,10 @@ class Game extends EventEmitter {
                 winner.power++;
 
                 this.addMessage(winner.name + ' has gained 1 power from an unopposed challenge');
+
+                if(winner.getTotalPower() > 15) {
+                    this.addMessage(winner.name + ' has won the game');
+                }
             }
 
             this.applyKeywords(winner, loser);
@@ -507,7 +511,7 @@ class Game extends EventEmitter {
             }
 
             if(winner.getTotalPower() > 15) {
-                this.addMessage(winner.name + ' wins the game');
+                this.addMessage(winner.name + ' has won the game');
             }
         });
     }
@@ -529,6 +533,10 @@ class Game extends EventEmitter {
             if(loser.power > 0) {
                 loser.power -= claim;
                 winner.power += claim;
+
+                if(winner.getTotalPower() > 15) {
+                    this.addMessage(winner.name + ' has won the game');
+                }
             }
         }
 
@@ -573,6 +581,10 @@ class Game extends EventEmitter {
         this.addMessage(highestPlayer.name + ' wins dominance');
 
         highestPlayer.power++;
+
+        if(highestPlayer.getTotalPower() > 15) {
+            this.addMessage(highestPlayer.name + ' has won the game');
+        }
 
         _.each(this.players, player => {
             player.standCards();
