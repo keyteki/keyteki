@@ -409,6 +409,10 @@ class Game extends EventEmitter {
             return player.id === playerId;
         });
 
+        if(player.challenges.complete >= player.challenges.maxTotal) {
+            return;
+        }
+
         player.startChallenge(challengeType);
     }
 

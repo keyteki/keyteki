@@ -165,6 +165,25 @@ plots['01010'] = {
     }
 };
 
+// 01021 - Sneak Attack
+plots['01021'] = {
+    register(game, player) {
+        this.player = player;
+
+        game.on('plotRevealed', this.revealed.bind(this));
+    },
+    revealed: function(game, player) {
+        if(player !== this.player) {
+            return;
+        }
+
+        player.challenges.maxTotal = 1;
+
+        game.addMessage(player.name + ' uses ' + player.activePlot.card.label + 
+            ' to make the maximum number of challenges able to be initiated by ' + player.name + ' this round be 1');
+    }
+};
+
 // 02039 - Trading with the Pentoshi
 plots['02039'] = {
     register(game, player) {
