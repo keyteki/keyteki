@@ -123,27 +123,36 @@ plots['01009'] = {
             return;
         }
 
+        if(!_.any(game.players, p => {
+            return _.any(p.cardsInPlay, card => {
+                return card.attachments.length > 0;
+            });
+        })) {
+            return;
+        }
+
         player.menuTitle = 'Select attachment to discard';
-        player.buttons = [
-            { text: 'Done', command: 'something' }
-        ];
+        player.buttons = [];
 
         player.selectCard = true;
-        game.pauseForPlot = true;   
+        game.pauseForPlot = true;
     },
 
     cardClicked: function(game, player, clicked) {
+        if(player !== this.player) {
+            return;
+        }
+
         if(clicked.type_code !== 'attachment') {
-            return false;
+            return;
         }
 
         game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to discard ' + clicked.label);
 
         player.selectCard = false;
-        
-        game.revealDone(player);
+        game.clickHandled = true;
 
-        return true;
+        game.revealDone(player);
     }
 };
 
