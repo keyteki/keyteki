@@ -73,7 +73,7 @@ class DeckSummary extends React.Component {
         var cardsToRender = this.getCardsToRender();
 
         return (
-            <div className={ this.props.className }>
+            <div>
                 { this.state.cardToShow ? <img className='hover-image' src={ '/img/cards/' + this.state.cardToShow.code + '.png' } /> : null }
                 <h3>{ this.props.name }</h3>
                 <div className='decklist'>
@@ -102,7 +102,6 @@ DeckSummary.propTypes = {
         label: React.PropTypes.string
     }),
     cards: React.PropTypes.array,
-    className: React.PropTypes.string,
     drawCards: React.PropTypes.array,
     faction: React.PropTypes.shape({
         name: React.PropTypes.string,

@@ -11,10 +11,13 @@ class Decks extends React.Component {
         super();
 
         this.onSelectionChanged = this.onSelectionChanged.bind(this);
+        this.onDeleteClick = this.onDeleteClick.bind(this);
+        this.onConfirmDeleteClick = this.onConfirmDeleteClick.bind(this);
 
         this.state = {
             decks: [],
-            error: ''
+            error: '',
+            showDelete: false
         };
     }
 
@@ -42,21 +45,57 @@ class Decks extends React.Component {
         this.setState({ selectedDeck: newIndex });
     }
 
+    onDeleteClick(event) {
+        event.preventDefault();
+
+        this.setState({ showDelete: !this.state.showDelete });
+    }
+
+    onConfirmDeleteClick(event) {
+        event.preventDefault();
+
+        var selectedDeck = undefined;
+
+        if(this.state.selectedDeck !== undefined) {
+            selectedDeck = this.state.decks[this.state.selectedDeck];
+        }
+
+        $.ajax({
+            url: '/api/decks/' + selectedDeck._id,
+            type: 'DELETE'
+        }).done(data => {
+            if(!data.success) {
+                this.setState({ error: data.message });
+                return;
+            }
+
+            this.setState({
+                decks: _.reject(this.state.decks, deck => {
+                    return deck._id === selectedDeck._id;
+                })
+            });
+        }).fail(() => {
+            this.setState({ error: 'Could not communicate with the server.  Please try again later.' });
+        });
+
+        this.setState({ showDelete: false });
+    }
+
     render() {
-        var errorBar = this.state.error ? <div className='alert alert-danger' role='alert'>{ this.state.error }</div> : null;
+        var errorBar = this.state.error ? <div className='alert alert-danger' role='alert'>{this.state.error}</div> : null;
         var index = 0;
 
         var decks = _.map(this.state.decks, deck => {
-            var row = <DeckRow key={ deck.name + index.toString() } deck={ deck } onClick={ this.onSelectionChanged.bind(this, index) } active={ index === this.state.selectedDeck } />;
+            var row = <DeckRow key={deck.name + index.toString()} deck={deck} onClick={this.onSelectionChanged.bind(this, index)} active={index === this.state.selectedDeck} />;
 
-            index++;            
+            index++;
 
             return row;
         });
 
         var deckList = (
             <div>
-                { decks }
+                {decks}
             </div>
         );
 
@@ -68,15 +107,24 @@ class Decks extends React.Component {
 
         return (
             <div>
-                { errorBar }
+                {errorBar}
                 <div className='col-sm-6'>
                     <Link className='btn btn-primary' href='/decks/add'>Add new deck</Link>
-                    <div className='deck-list'>{ this.state.decks.length === 0 ? 'You have no decks, try adding one.' : deckList }</div>
+                    <div className='deck-list'>{this.state.decks.length === 0 ? 'You have no decks, try adding one.' : deckList}</div>
                 </div>
-                { selectedDeck ? <DeckSummary className='col-sm-6' name={ selectedDeck.name } faction={ selectedDeck.faction } 
-                                        plotCards={ selectedDeck.plotCards } drawCards={ selectedDeck.drawCards } agenda={ selectedDeck.agenda }
-                                        cards={ this.props.cards } /> 
-                               : null }
+                <div className='col-sm-6'>
+                    <div className='btn-group'>
+                        <button className='btn btn-primary'>Edit</button>
+                        <button className='btn btn-primary' onClick={this.onDeleteClick}>Delete</button>
+                        {this.state.showDelete ?
+                            <button className='btn btn-danger' onClick={this.onConfirmDeleteClick}>Delete</button> :
+                            null}
+                    </div>
+                    {selectedDeck ? <DeckSummary name={selectedDeck.name} faction={selectedDeck.faction}
+                        plotCards={selectedDeck.plotCards} drawCards={selectedDeck.drawCards} agenda={selectedDeck.agenda}
+                        cards={this.props.cards} />
+                        : null}
+                </div>
             </div>);
     }
 }
