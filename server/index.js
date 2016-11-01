@@ -325,7 +325,7 @@ io.on('connection', function(socket) {
             }
         });
 
-        if(!isOwner) {
+        if(!isOwner || game.started) {
             return;
         }
 
@@ -343,7 +343,7 @@ io.on('connection', function(socket) {
             io.to(key).emit('gamestate', newGame.getState(player.id));
         });
 
-        socket.emit('games', games);
+        io.emit('games', games);
     });
 
     socket.on('mulligan', function() {
