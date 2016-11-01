@@ -59,7 +59,7 @@ class InnerRegister extends React.Component {
         delete validation['email'];
 
         if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(this.state.email)) {
-            validation['email'] = 'Please enter a valid e-mail address';
+            validation['email'] = 'Please enter a valid email address';
         }
 
         this.setState({ validation: validation });
@@ -121,6 +121,7 @@ class InnerRegister extends React.Component {
 
             this.props.register(data.user.username, data.token);
             this.props.socket.emit('authenticate', data.token);
+            this.props.navigate('/');
         }).fail(() => {
             this.setState({ error: 'Could not communicate with the server.  Please try again later.' });
         });
@@ -137,8 +138,8 @@ class InnerRegister extends React.Component {
             },
             {
                 name: 'email',
-                label: 'e-Mail Address',
-                placeholder: 'e-Mail Address',
+                label: 'email Address',
+                placeholder: 'email Address',
                 inputType: 'email',
                 blurCallback: this.verifyEmail
             },
@@ -203,6 +204,7 @@ class InnerRegister extends React.Component {
 
 InnerRegister.displayName = 'Register';
 InnerRegister.propTypes = {
+    navigate: React.PropTypes.func,
     register: React.PropTypes.func,
     socket: React.PropTypes.object
 };
