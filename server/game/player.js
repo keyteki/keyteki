@@ -217,6 +217,28 @@ class Player {
         this.setup = true;
     }
 
+    postSetup() {
+        this.drawCardsToHand(7 - this.hand.length);
+
+        var processedCards = [];
+
+        _.each(this.cardsInPlay, card => {
+            card.facedown = false;
+
+            var dupe = _.find(processedCards, c => {
+                return c.card.code === card.card.code;
+            });
+
+            if(dupe) {
+                dupe.dupes.push(card);
+            } else {
+                processedCards.push(card);
+            }
+        });
+
+        this.cardsInPlay = processedCards;
+    }
+
     marshalDone() {
         this.marshalled = true;
     }
@@ -254,24 +276,6 @@ class Player {
                 max: 1
             }
         };
-
-        var processedCards = [];
-
-        _.each(this.cardsInPlay, card => {
-            card.facedown = false;
-
-            var dupe = _.find(processedCards, c => {
-                return c.card.code === card.card.code;
-            });
-
-            if(dupe) {
-                dupe.dupes.push(card);
-            } else {
-                processedCards.push(card);
-            }
-        });
-
-        this.cardsInPlay = processedCards;
     }
 
     selectPlot(plot) {

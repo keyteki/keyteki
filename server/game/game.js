@@ -104,8 +104,8 @@ class Game extends EventEmitter {
             });
         } else {
             _.each(this.players, p => {
+                p.postSetup();
                 p.startPlotPhase();
-                p.drawCardsToHand(7 - p.hand.length);
             });
         }
     }
