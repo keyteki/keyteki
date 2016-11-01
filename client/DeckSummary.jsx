@@ -59,7 +59,7 @@ class DeckSummary extends React.Component {
             var count = 0;
 
             _.each(cardList, card => {
-                cards.push(<div key={ card.card.code }><span>{card.count + 'x '}</span><span className='card-name' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ card.card.label }</span></div>);
+                cards.push(<div key={ card.card.code }><span>{card.count + 'x '}</span><span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ card.card.label }</span></div>);
                 count += parseInt(card.count);
             });
 
@@ -81,7 +81,7 @@ class DeckSummary extends React.Component {
                     { this.props.agenda && this.props.agenda.code ? <img className='pull-right' src={ '/img/cards/' + this.props.agenda.code + '.png' } /> : null }
                     <div>
                         <h4>{ this.props.faction.name }</h4>
-                        <div ref='agenda'>Agenda: { this.props.agenda && this.props.agenda.label ? <span className='card-name' onMouseOver={ this.onCardMouseOver }
+                        <div ref='agenda'>Agenda: { this.props.agenda && this.props.agenda.label ? <span className='card-link' onMouseOver={ this.onCardMouseOver }
                             onMouseOut={ this.onCardMouseOut }>{ this.props.agenda.label }</span> : <span>None</span> }</div>
                         <div ref='drawCount'>Draw deck: { this.state.drawCount } cards</div>
                         <div ref='plotCount'>Plot deck: { this.state.plotCount } cards</div>
