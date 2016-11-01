@@ -425,6 +425,12 @@ class Game extends EventEmitter {
             return player.id === playerId;
         });
 
+        if(!_.any(player.cardsInPlay, card => {
+            return card.selected;
+        })) {
+            return;
+        }
+
         player.doneChallenge();
 
         this.addMessage(player.name + ' has initiated a ' + player.currentChallenge + ' challenge with strength ' + player.challengeStrength);
