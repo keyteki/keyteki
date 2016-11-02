@@ -291,9 +291,10 @@ io.on('connection', function(socket) {
             return player.id === socket.id;
         });
 
-        socket.leave(game.id);
-
         io.to(game.id).emit('leavegame', game, leavingPlayer);
+
+        socket.leave(game.id);
+        socket.emit('leavegame', game, leavingPlayer);
 
         if(_.isEmpty(game.players)) {
             games = _.reject(games, game => {
