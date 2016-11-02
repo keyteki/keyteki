@@ -4,6 +4,32 @@ const ObjectId = mongoskin.ObjectId;
 const logger = require('./../log.js');
 
 module.exports.init = function(server) {
+    server.get('/api/decks/:id', function(req, res, next) {
+        if(!req.user) {
+            return res.status(401).send({ message: 'Unauthorized' });
+        }
+
+        db.collection('decks').findOne({ _id: ObjectId.createFromHexString(req.params.id) }, function(err, deck) {
+            if(err) {
+                res.send({ success: false, message: 'Error fetching deck' });
+                logger.info(err.message);
+                return next(err);
+            }
+
+            if(!deck) {
+                res.status(404).send({ message: 'No such deck' });
+
+                return next();
+            }
+
+            if(deck.username !== req.user.username) {
+                return res.status(401).send({ message: 'Unauthorized' });
+            }
+
+            res.send({ success: true, deck: deck });
+        });
+    });
+
     server.get('/api/decks', function(req, res, next) {
         if(!req.user) {
             return res.status(401).send({ message: 'Unauthorized' });
@@ -19,7 +45,47 @@ module.exports.init = function(server) {
         });
     });
 
-    server.post('/api/decks/new', function(req, res, next) {
+    server.put('/api/decks/:id', function(req, res, next) {
+        if(!req.user) {
+            return res.status(401).send({ message: 'Unauthorized' });
+        }
+
+        db.collection('decks').findOne({ _id: ObjectId.createFromHexString(req.params.id) }, function(err, deck) {
+            if(err) {
+                res.send({ success: false, message: 'Error saving deck' });
+                logger.info(err.message);
+                return next(err);
+            }
+
+            if(!deck) {
+                res.status(404).send({ message: 'No such deck' });
+
+                return next();
+            }
+
+            if(deck.username !== req.user.username) {
+                return res.status(401).send({ message: 'Unauthorized' });
+            }
+
+            var data = JSON.parse(req.body.data);
+
+            db.collection('decks').update({ _id: mongoskin.helper.toObjectID(req.params.id) },
+                {
+                    '$set': {
+                        name: data.deckName,
+                        plotCards: data.plotCards,
+                        drawCards: data.drawCards,
+                        faction: data.faction,
+                        agenda: data.agenda,
+                        lastUpdated: new Date()
+                    }
+                });
+
+            res.send({ success: true, message: 'Saved' });
+        });
+    });
+
+    server.post('/api/decks', function(req, res, next) {
         if(!req.user) {
             return res.status(401).send({ message: 'Unauthorized' });
         }

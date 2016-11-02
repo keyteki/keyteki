@@ -99,10 +99,28 @@ class Decks extends React.Component {
             </div>
         );
 
-        var selectedDeck = undefined;
+        var deckInfo = null;
 
         if(this.state.selectedDeck !== undefined) {
+            var selectedDeck = undefined;
             selectedDeck = this.state.decks[this.state.selectedDeck];
+
+            if(selectedDeck) {
+                deckInfo = (<div className='col-sm-6'>
+                    <div className='btn-group'>
+                        <a href={'/decks/edit/' + selectedDeck._id} className='btn btn-primary'>Edit</a>
+                        <button className='btn btn-primary' onClick={this.onDeleteClick}>Delete</button>
+                        {this.state.showDelete ?
+                            <button className='btn btn-danger' onClick={this.onConfirmDeleteClick}>Delete</button> :
+                            null}
+                    </div>
+                    <DeckSummary name={selectedDeck.name} faction={selectedDeck.faction}
+                        plotCards={selectedDeck.plotCards} drawCards={selectedDeck.drawCards} agenda={selectedDeck.agenda}
+                        cards={this.props.cards} />
+                </div>);
+            } else {
+                deckInfo = null;
+            }
         }
 
         return (
@@ -112,19 +130,7 @@ class Decks extends React.Component {
                     <Link className='btn btn-primary' href='/decks/add'>Add new deck</Link>
                     <div className='deck-list'>{this.state.decks.length === 0 ? 'You have no decks, try adding one.' : deckList}</div>
                 </div>
-                <div className='col-sm-6'>
-                    <div className='btn-group'>
-                        <button className='btn btn-primary'>Edit</button>
-                        <button className='btn btn-primary' onClick={this.onDeleteClick}>Delete</button>
-                        {this.state.showDelete ?
-                            <button className='btn btn-danger' onClick={this.onConfirmDeleteClick}>Delete</button> :
-                            null}
-                    </div>
-                    {selectedDeck ? <DeckSummary name={selectedDeck.name} faction={selectedDeck.faction}
-                        plotCards={selectedDeck.plotCards} drawCards={selectedDeck.drawCards} agenda={selectedDeck.agenda}
-                        cards={this.props.cards} />
-                        : null}
-                </div>
+                {deckInfo}
             </div>);
     }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import io from 'socket.io-client';
 
 import Login from './Login.jsx';
@@ -9,6 +9,7 @@ import Register from './Register.jsx';
 import Lobby from './Lobby.jsx';
 import Decks from './Decks.jsx';
 import AddDeck from './AddDeck.jsx';
+import EditDeck from './EditDeck.jsx';
 import NotFound from './NotFound.jsx';
 import NavBar from './NavBar.jsx';
 import GameLobby from './GameLobby.jsx';
@@ -80,8 +81,17 @@ class App extends React.Component {
     render() {
         var rightMenu = this.props.loggedIn ? authedMenu : notAuthedMenu;
         var component = {};
+        
+        var path = this.props.path;
+        var pathArg = undefined;
+        var index = path.indexOf('/decks/edit');
 
-        switch(this.props.path) {
+        if(index !== -1) {
+            path = path.substr(index, 11);
+            pathArg = this.props.path.substr(11 + 1);
+        } 
+
+        switch(path) {
             case '/':
                 component = <Lobby />;
                 break;
@@ -95,13 +105,16 @@ class App extends React.Component {
                 component = <Register />;
                 break;
             case '/decks':
-                component = <Decks cards={ this.props.cards } packs={ this.props.packs } />;
+                component = <Decks cards={this.props.cards} packs={this.props.packs} />;
                 break;
             case '/decks/add':
-                component = <AddDeck cards={ this.props.cards } packs={ this.props.packs } agendas={ this.props.agendas } />;
+                component = <AddDeck cards={this.props.cards} packs={this.props.packs} agendas={this.props.agendas} />;
+                break;
+            case '/decks/edit':
+                component = <EditDeck cards={this.props.cards} packs={this.props.packs} agendas={this.props.agendas} deckId={pathArg} />;
                 break;
             case '/play':
-                component = this.props.currentGame && this.props.currentGame.started ? <GameBoard /> : <GameLobby games={ this.props.games } />;
+                component = this.props.currentGame && this.props.currentGame.started ? <GameBoard /> : <GameLobby games={this.props.games} />;
                 break;
             default:
                 component = <NotFound />;
@@ -109,9 +122,9 @@ class App extends React.Component {
         }
 
         return (<div>
-            <NavBar leftMenu={ leftMenu } rightMenu={ rightMenu } title='Throneteki' currentPath={ this.props.path } />
+            <NavBar leftMenu={leftMenu} rightMenu={rightMenu} title='Throneteki' currentPath={this.props.path} />
             <div className='container-fluid'>
-                { component }
+                {component}
             </div>
         </div>);
     }
