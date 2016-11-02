@@ -88,7 +88,8 @@ class InnerEditDeck extends React.Component {
                 {errorBar}
                 {this.state.loaded ?
                     <div>
-                        <DeckEditor agendas={this.props.agendas} cards={this.props.cards} deckName={this.state.deckName} mode='Save'
+                        <DeckEditor agendas={this.props.agendas} cards={this.props.cards} packs={this.props.packs}
+                            deckName={this.state.deckName} mode='Save'
                             faction={this.state.faction} agenda={this.state.agenda}
                             plotCards={this.state.plotCards} drawCards={this.state.drawCards}
                             onDeckChange={this.onDeckChange} onDeckSave={this.onEditDeck} />

@@ -61,7 +61,7 @@ class InnerAddDeck extends React.Component {
         return (
             <div >
                 {errorBar}
-                < DeckEditor agendas={this.props.agendas} cards={this.props.cards} mode='Add'
+                <DeckEditor agendas={this.props.agendas} cards={this.props.cards} packs={this.props.packs} mode='Add'
                     onDeckChange={this.onDeckChange} onDeckSave={this.onAddDeck} />
                 <DeckSummary className='col-sm-6 right-pane' cards={this.props.cards} name={this.state.deckName} agenda={this.state.agenda}
                     faction={this.state.faction} plotCards={this.state.plotCards} drawCards={this.state.drawCards} />

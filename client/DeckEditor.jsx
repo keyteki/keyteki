@@ -144,7 +144,7 @@ class DeckEditor extends React.Component {
                 var packName = line.substr(packOffset + 1, line.length - packOffset - 2);
 
                 var pack = _.find(this.props.packs, function(pack) {
-                    return pack.name === packName;
+                    return pack.code === packName || pack.name === packName;
                 });
 
                 var card = _.find(this.props.cards, function(card) {

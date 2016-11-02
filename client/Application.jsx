@@ -34,6 +34,7 @@ var leftMenu = [
 class App extends React.Component {
     componentWillMount() {
         this.props.fetchCards();
+        this.props.fetchPacks();
 
         $(document).ajaxError((event, xhr) => {
             if(xhr.status === 401) {
@@ -136,6 +137,7 @@ App.propTypes = {
     cards: React.PropTypes.array,
     currentGame: React.PropTypes.object,
     fetchCards: React.PropTypes.func,
+    fetchPacks: React.PropTypes.func,
     games: React.PropTypes.array,
     loggedIn: React.PropTypes.bool,
     navigate: React.PropTypes.func,
