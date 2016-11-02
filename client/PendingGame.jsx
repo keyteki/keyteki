@@ -46,7 +46,7 @@ class InnerPendingGame extends React.Component {
 
         var myGame = false;
         _.each(this.props.currentGame.players, player => {
-            if(player.id.slice(2) === this.props.socket.id && player.owner) {
+            if(player.id === this.props.socket.id && player.owner) {
                 myGame = true;
             }
         });

@@ -171,7 +171,7 @@ function findGame(gameid) {
 function findGameForPlayer(socketid) {
     return _.find(gamesInProgress, game => {
         return _.any(game.players, player => {
-            return player.id === socketid.slice(2);
+            return player.id === socketid;
         });
     });
 }
@@ -354,7 +354,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        game.mulligan(socket.id.slice(2));
+        game.mulligan(socket.id);
         game.startGameIfAble();
 
         _.each(game.players, (player, key) => {
@@ -369,7 +369,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        game.keep(socket.id.slice(2));
+        game.keep(socket.id);
         game.startGameIfAble();
 
         _.each(game.players, (player, key) => {
@@ -384,7 +384,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        game.playCard(socket.id.slice(2), card);
+        game.playCard(socket.id, card);
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));
         });
@@ -397,7 +397,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        game.setupDone(socket.id.slice(2));
+        game.setupDone(socket.id);
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));
         });
@@ -410,7 +410,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        game.selectPlot(socket.id.slice(2), plot);
+        game.selectPlot(socket.id, plot);
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));
         });
@@ -423,7 +423,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        game.setFirstPlayer(socket.id.slice(2), arg);
+        game.setFirstPlayer(socket.id, arg);
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));
         });
@@ -436,7 +436,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        game.cardClicked(socket.id.slice(2), card);
+        game.cardClicked(socket.id, card);
 
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));
@@ -450,9 +450,9 @@ io.on('connection', function(socket) {
             return;
         }
 
-        game.showDrawDeck(socket.id.slice(2));
+        game.showDrawDeck(socket.id);
 
-        socket.emit('gamestate', game.getState(socket.id.slice(2)));
+        socket.emit('gamestate', game.getState(socket.id));
     });
 
     socket.on('drop', function(card, source, target) {
@@ -462,7 +462,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        game.drop(socket.id.slice(2), card, source, target);
+        game.drop(socket.id, card, source, target);
 
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));
@@ -476,7 +476,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        game.marshalDone(socket.id.slice(2));
+        game.marshalDone(socket.id);
 
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));
@@ -490,7 +490,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        game.startChallenge(socket.id.slice(2), challengeType);
+        game.startChallenge(socket.id, challengeType);
 
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));
@@ -504,7 +504,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        game.doneChallenge(socket.id.slice(2));
+        game.doneChallenge(socket.id);
 
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));
@@ -518,7 +518,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        game.doneDefend(socket.id.slice(2));
+        game.doneDefend(socket.id);
 
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));
@@ -532,7 +532,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        game.doneChallenges(socket.id.slice(2));
+        game.doneChallenges(socket.id);
 
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));
@@ -546,7 +546,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        game.doneRound(socket.id.slice(2));
+        game.doneRound(socket.id);
 
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));
@@ -560,7 +560,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        game.changeStat(socket.id.slice(2), stat, value);
+        game.changeStat(socket.id, stat, value);
 
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));
@@ -574,7 +574,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        game.customCommand(socket.id.slice(2), arg);
+        game.customCommand(socket.id, arg);
 
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));

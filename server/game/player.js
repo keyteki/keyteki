@@ -7,7 +7,7 @@ class Player {
         this.drawDeck = [];
         this.hand = [];
 
-        this.id = player.id.slice(2);
+        this.id = player.id;
         this.deck = player.deck;
 
         this.name = player.name;
