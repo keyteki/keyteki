@@ -651,7 +651,7 @@ class Game extends EventEmitter {
 
             this.removeAllListeners('plotRevealed');
 
-            return;            
+            return;
         }
 
         if(otherPlayer && otherPlayer.roundDone) {
@@ -695,6 +695,14 @@ class Game extends EventEmitter {
         });
 
         this.emit('customCommand', this, player, arg);
+    }
+
+    chat(playerId, message) {
+        var player = _.find(this.players, player => {
+            return player.id === playerId;
+        });
+
+        this.addMessage('<' + player.name + '> ' + message);
     }
 
     initialise() {

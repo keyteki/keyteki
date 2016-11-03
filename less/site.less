@@ -327,11 +327,14 @@ h4 {
 }
 
 .messages {
-  width: 220px;
+  flex: 1;
+  overflow: auto;
   position: absolute;
-  bottom: 0;
-  top: 317px;
-  right: 0;
+  top: 0;
+  bottom: 42px;
+  left: 0;
+  right: 4px;
+  margin: 0;
 }
 
 .plot-deck-card {
@@ -614,4 +617,22 @@ h4 {
 
 .message {
   margin-top: 2px;
+}
+
+.chat {
+  width: 307px;
+  position: absolute;
+  top: 317px;
+  bottom: 0;
+}
+
+.chat > form {
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  right: 4px;
+}
+
+.chat > form input {
+  width: 100%;
 }

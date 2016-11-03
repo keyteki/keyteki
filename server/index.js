@@ -46,20 +46,20 @@ app.use(passport.session());
 passport.use(new localStrategy(
     function(username, password, done) {
         db.collection('users').findOne({ username: username }, function(err, user) {
-            if(err) {
+            if (err) {
                 return done(err);
             }
 
-            if(!user) {
+            if (!user) {
                 return done(null, false, { message: 'Invalid username/password' });
             }
 
             bcrypt.compare(password, user.password, function(err, valid) {
-                if(err) {
+                if (err) {
                     return done(err);
                 }
 
-                if(!valid) {
+                if (!valid) {
                     return done(null, false, { message: 'Invalid username/password' });
                 }
 
@@ -70,18 +70,18 @@ passport.use(new localStrategy(
 ));
 
 passport.serializeUser(function(user, done) {
-    if(user) {
+    if (user) {
         done(null, user._id);
     }
 });
 
 passport.deserializeUser(function(id, done) {
     db.collection('users').findById(id, function(err, user) {
-        if(err) {
+        if (err) {
             logger.info(err);
         }
 
-        if(!user) {
+        if (!user) {
             return;
         }
 
@@ -92,7 +92,7 @@ passport.deserializeUser(function(id, done) {
 api.init(app);
 
 function runServer() {
-    if(isDeveloping) {
+    if (isDeveloping) {
         const compiler = webpack(webpackConfig);
         const middleware = webpackMiddleware(compiler, {
             hot: true,
@@ -118,7 +118,7 @@ function runServer() {
         app.get('*', function response(req, res) {
             var token = undefined;
 
-            if(req.user) {
+            if (req.user) {
                 token = jwt.sign(req.user, config.secret);
             }
 
@@ -133,7 +133,7 @@ function runServer() {
         app.get('*', function response(req, res) {
             var token = undefined;
 
-            if(req.user) {
+            if (req.user) {
                 token = jwt.sign(req.user, config.secret);
             }
 
@@ -142,7 +142,7 @@ function runServer() {
     }
 
     server.listen(port, '0.0.0.0', function onStart(err) {
-        if(err) {
+        if (err) {
             logger.error(err);
         }
 
@@ -156,9 +156,9 @@ var gamesInProgress = {};
 io.set('heartbeat timeout', 30000);
 
 io.use(function(socket, next) {
-    if(socket.handshake.query.token) {
+    if (socket.handshake.query.token) {
         jwt.verify(socket.handshake.query.token, config.secret, function(err, user) {
-            if(!err) {
+            if (!err) {
                 socket.request.user = user;
             }
         });
@@ -195,7 +195,7 @@ io.on('connection', function(socket) {
             });
         });
 
-        if(!playerGame) {
+        if (!playerGame) {
             return;
         }
 
@@ -206,14 +206,14 @@ io.on('connection', function(socket) {
         });
 
         _.each(players, player => {
-            if(socket.id === player.id) {
+            if (socket.id === player.id) {
                 _.each(players, sendPlayer => {
                     io.to(sendPlayer.id).emit('leavegame', playerGame, player);
                 });
             }
         });
 
-        if(_.isEmpty(playerGame.players)) {
+        if (_.isEmpty(playerGame.players)) {
             games = _.reject(games, game => {
                 return game.id === playerGame.id;
             });
@@ -224,7 +224,7 @@ io.on('connection', function(socket) {
 
     socket.on('authenticate', function(token) {
         jwt.verify(token, config.secret, function(err, user) {
-            if(!err) {
+            if (!err) {
                 socket.request.user = user;
             }
         });
@@ -249,7 +249,7 @@ io.on('connection', function(socket) {
     socket.on('joingame', function(gameid) {
         var game = findGame(gameid);
 
-        if(!game || game.players.length === 2) {
+        if (!game || game.players.length === 2) {
             return;
         }
 
@@ -268,12 +268,12 @@ io.on('connection', function(socket) {
     socket.on('selectdeck', function(gameid, deck) {
         var game = findGame(gameid);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
         _.each(game.players, player => {
-            if(socket.id === player.id) {
+            if (socket.id === player.id) {
                 player.deck = deck;
             }
         });
@@ -284,14 +284,14 @@ io.on('connection', function(socket) {
     socket.on('leavegame', function(gameid) {
         var game = findGame(gameid);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
         var leavingPlayer = undefined;
 
         game.players = _.reject(game.players, player => {
-            if(player.id === socket.id) {
+            if (player.id === socket.id) {
                 leavingPlayer = player;
             }
 
@@ -303,7 +303,7 @@ io.on('connection', function(socket) {
         socket.leave(game.id);
         socket.emit('leavegame', game, leavingPlayer);
 
-        if(_.isEmpty(game.players)) {
+        if (_.isEmpty(game.players)) {
             games = _.reject(games, game => {
                 return game.id === gameid;
             });
@@ -315,11 +315,11 @@ io.on('connection', function(socket) {
     socket.on('startgame', function(gameid) {
         var game = findGame(gameid);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
-        if(_.any(game.players, function(player) {
+        if (_.any(game.players, function(player) {
             return !player.deck;
         })) {
             return;
@@ -328,12 +328,12 @@ io.on('connection', function(socket) {
         var isOwner = false;
 
         _.each(game.players, function(player) {
-            if(player.id === socket.id && player.owner) {
+            if (player.id === socket.id && player.owner) {
                 isOwner = true;
             }
         });
 
-        if(!isOwner || game.started) {
+        if (!isOwner || game.started) {
             return;
         }
 
@@ -357,7 +357,7 @@ io.on('connection', function(socket) {
     socket.on('mulligan', function() {
         var game = findGameForPlayer(socket.id);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
@@ -372,7 +372,7 @@ io.on('connection', function(socket) {
     socket.on('keep', function() {
         var game = findGameForPlayer(socket.id);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
@@ -387,7 +387,7 @@ io.on('connection', function(socket) {
     socket.on('playcard', function(card) {
         var game = findGameForPlayer(socket.id);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
@@ -400,7 +400,7 @@ io.on('connection', function(socket) {
     socket.on('setupdone', function() {
         var game = findGameForPlayer(socket.id);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
@@ -413,7 +413,7 @@ io.on('connection', function(socket) {
     socket.on('selectplot', function(plot) {
         var game = findGameForPlayer(socket.id);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
@@ -426,7 +426,7 @@ io.on('connection', function(socket) {
     socket.on('firstplayer', function(arg) {
         var game = findGameForPlayer(socket.id);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
@@ -439,7 +439,7 @@ io.on('connection', function(socket) {
     socket.on('cardclick', function(card) {
         var game = findGameForPlayer(socket.id);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
@@ -453,7 +453,7 @@ io.on('connection', function(socket) {
     socket.on('showdrawdeck', function() {
         var game = findGameForPlayer(socket.id);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
@@ -465,7 +465,7 @@ io.on('connection', function(socket) {
     socket.on('drop', function(card, source, target) {
         var game = findGameForPlayer(socket.id);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
@@ -479,7 +479,7 @@ io.on('connection', function(socket) {
     socket.on('donemarshal', function() {
         var game = findGameForPlayer(socket.id);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
@@ -493,7 +493,7 @@ io.on('connection', function(socket) {
     socket.on('challenge', function(challengeType) {
         var game = findGameForPlayer(socket.id);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
@@ -507,7 +507,7 @@ io.on('connection', function(socket) {
     socket.on('donechallenge', function() {
         var game = findGameForPlayer(socket.id);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
@@ -521,7 +521,7 @@ io.on('connection', function(socket) {
     socket.on('donedefend', function() {
         var game = findGameForPlayer(socket.id);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
@@ -535,7 +535,7 @@ io.on('connection', function(socket) {
     socket.on('doneallchallenges', function() {
         var game = findGameForPlayer(socket.id);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
@@ -549,7 +549,7 @@ io.on('connection', function(socket) {
     socket.on('doneround', function() {
         var game = findGameForPlayer(socket.id);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
@@ -563,7 +563,7 @@ io.on('connection', function(socket) {
     socket.on('changestat', function(stat, value) {
         var game = findGameForPlayer(socket.id);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
@@ -577,7 +577,7 @@ io.on('connection', function(socket) {
     socket.on('custom', function(arg) {
         var game = findGameForPlayer(socket.id);
 
-        if(!game) {
+        if (!game) {
             return;
         }
 
@@ -588,11 +588,25 @@ io.on('connection', function(socket) {
         });
     });
 
-    socket.on('lobbychat', function(message) {
-        if(!socket.request.user) {
+    socket.on('chat', function(message) {
+        var game = findGameForPlayer(socket.id);
+
+        if (!game) {
             return;
         }
-        
+
+        game.chat(socket.id, message);
+
+        _.each(game.players, (player, key) => {
+            io.to(key).emit('gamestate', game.getState(player.id));
+        });
+    });
+
+    socket.on('lobbychat', function(message) {
+        if (!socket.request.user) {
+            return;
+        }
+
         var chatMessage = { user: { username: socket.request.user.username }, message: message, time: new Date() };
         db.collection('messages').insert(chatMessage);
         io.emit('lobbychat', chatMessage);
@@ -601,7 +615,7 @@ io.on('connection', function(socket) {
     socket.emit('games', games);
 
     db.collection('messages').find().sort({ time: -1 }).limit(50).toArray((err, messages) => {
-        if(err) {
+        if (err) {
             logger.info(err);
             return;
         }
