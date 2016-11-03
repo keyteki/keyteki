@@ -597,8 +597,16 @@ class Player {
         if(character.dupes.length > 0) {
             character.dupes = character.dupes.slice(1);
         } else {
+            var found = false;
+
             this.cardsInPlay = _.reject(this.cardsInPlay, c => {
-                return c.card.code === card.code;
+                if(!found && c.card.code === card.code) {
+                    found = true;
+
+                    return true;
+                }
+                
+                return false;
             });
 
             this.deadPile.push(card);
