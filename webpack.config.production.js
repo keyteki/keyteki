@@ -8,7 +8,7 @@ var APP_DIR = path.resolve(__dirname, 'client');
 var LESS_DIR = path.resolve(__dirname, 'less');
 
 var config = {
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'source-map',
     entry: [
         path.join(__dirname, 'client/Application.jsx'),
         LESS_DIR + '/site.less'

@@ -130,7 +130,15 @@ function runServer() {
     } else {
         app.use(express.static(__dirname + '/public'));
         app.get('*', function response(req, res) {
-            res.sendFile(path.join(__dirname, 'public/index.html'));
+            var token = undefined;
+
+            if(req.user) {
+                token = jwt.sign(req.user, config.secret);
+            }
+
+            var html = pug.renderFile('views/index.pug', { basedir: path.join(__dirname, '..', 'views'), user: req.user, token: token, production: true });
+            res.write(html);
+            res.end();
         });
     }
 
