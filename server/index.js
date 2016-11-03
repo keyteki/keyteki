@@ -589,6 +589,10 @@ io.on('connection', function(socket) {
     });
 
     socket.on('lobbychat', function(message) {
+        if(!socket.request.user) {
+            return;
+        }
+        
         var chatMessage = { user: { username: socket.request.user.username }, message: message, time: new Date() };
         db.collection('messages').insert(chatMessage);
         io.emit('lobbychat', chatMessage);
