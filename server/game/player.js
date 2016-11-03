@@ -248,6 +248,11 @@ class Player {
     startPlotPhase() {
         this.phase = 'plot';
 
+        if(this.plotDeck.length === 0) {
+            this.plotDeck = this.plotDiscard;
+            this.plotDiscard = [];
+        }
+
         this.menuTitle = 'Choose your plot';
         this.buttons = [
             { command: 'selectplot', text: 'Done' }
