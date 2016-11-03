@@ -123,10 +123,12 @@ class PlayerRow extends React.Component {
                         {'Discard (' + (this.props.discardPile ? this.props.discardPile.length : 0) + ')'}
                     </div>
                     {topDiscard ?
-                        <div className='card' onMouseOver={this.props.onMouseOver.bind(this, topDiscard)} onMouseOut={this.props.onMouseOut}>
+                        <div className='card' onMouseOver={this.props.onMouseOver.bind(this, topDiscard)}
+                            onMouseOut={this.props.onMouseOut}
+                            onDragStart={(ev) => this.onCardDragStart(ev, topDiscard, 'discard pile')}>
                             <div>
                                 <img className='card' src={'/img/cards/' + topDiscard.code + '.png'} />}
-                                </div>
+                            </div>
                         </div> :
                         null}
                 </div>

@@ -176,25 +176,25 @@ class Player {
         this.drawDeck.slice(number);
     }
 
-    playCard(card) {
-        if(!this.canPlayCard(card)) {
+    playCard(card, dragDrop) {
+        if(!dragDrop && !this.canPlayCard(card)) {
             return;
         }
 
         var isDupe = this.isDuplicateInPlay(card);
 
-        if(!isDupe) {
+        if(!isDupe && !dragDrop) {
             this.gold -= card.cost;
         }
 
-        if(card.type_code === 'attachment' && this.phase !== 'setup') {
+        if(!dragDrop && card.type_code === 'attachment' && this.phase !== 'setup') {
             this.selectedAttachment = card;
             this.selectCard = true;
             this.menuTitle = 'Select target for attachment';
             return;
         }
 
-        if(isDupe && this.phase !== 'setup') {
+        if(isDupe && this.phase !== 'setup' && !dragDrop) {
             var dupe = _.find(this.cardsInPlay, c => {
                 return card.code === c.card.code;
             });
@@ -206,11 +206,13 @@ class Player {
             });
         }
 
-        if(this.isLimited(card)) {
+        if(this.isLimited(card) && !dragDrop) {
             this.limitedPlayed = true;
         }
 
-        this.removeFromHand(card);
+        if(!dragDrop) {
+            this.removeFromHand(card);
+        }
     }
 
     setupDone() {
@@ -366,6 +368,8 @@ class Player {
                 return this.discardPile;
             case 'dead pile':
                 return this.deadPile;
+            case 'play area':
+                return this.cardsInPlay;
         }
     }
 
@@ -383,13 +387,21 @@ class Player {
             case 'dead pile':
                 this.deadPile = targetList;
                 break;
+            case 'play area':
+                this.cardsInPlay = targetList;
         }
     }
 
     doCardMove(card, targetList) {
         var matchFound = false;
         targetList = _.reject(targetList, c => {
-            var match = !matchFound && c.code === card.code;
+            var match = false;
+            
+            if(c.card) {
+                match = !matchFound && c.card.code === card.code;
+            } else {
+                match = !matchFound && c.code === card.code;
+            }
 
             if(match) {
                 matchFound = true;
@@ -405,6 +417,10 @@ class Player {
         var targetList = this.getTargetList(source);
 
         if(!_.any(targetList, c => {
+            if(c.card) {
+                return c.card.code === card.code;
+            }
+
             return c.code === card.code;
         })) {
             return false;
@@ -423,12 +439,37 @@ class Player {
         var targetList = this.getTargetList(source);
 
         if(!_.any(targetList, c => {
+            if(c.card) {
+                return c.card.code === card.code;
+            }
+
             return c.code === card.code;
         })) {
             return false;
         }
 
         this.discardPile.push(card);
+
+        targetList = this.doCardMove(card, targetList);
+        this.updateTargetList(source, targetList);
+
+        return true;
+    }
+
+    doInPlayDrop(card, source) {
+        var targetList = this.getTargetList(source);
+
+        if(!_.any(targetList, c => {
+            if(c.card) {
+                return c.card.code === card.code;
+            }
+
+            return c.code === card.code;
+        })) {
+            return false;
+        }
+
+        this.playCard(card, true);
 
         targetList = this.doCardMove(card, targetList);
         this.updateTargetList(source, targetList);
@@ -446,6 +487,8 @@ class Player {
                 return this.doHandDrop(card, source);
             case 'discard pile':
                 return this.doDiscardDrop(card, source);
+            case 'play area':
+                return this.doInPlayDrop(card, source);
         }
 
         return false;

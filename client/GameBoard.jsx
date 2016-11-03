@@ -94,15 +94,20 @@ class InnerGameBoard extends React.Component {
         this.props.socket.emit('drop', card, source, target);
     }
 
+    onCardDragStart(event, card, source) {
+        var dragData = { card: card, source: source };
+        event.dataTransfer.setData('card', JSON.stringify(dragData));
+    }
+
     getCardsInPlay(player) {
         var index = 0;
-        
+
         var cardsByType = _.groupBy(player.cardsInPlay, c => {
             return c.card.type_code;
         });
 
         var cardsByLocation = [];
-        
+
         _.each(cardsByType, cards => {
             var cardsInPlay = _.map(cards, card => {
                 var attachments = _.map(card.attachments, a => {
@@ -156,7 +161,9 @@ class InnerGameBoard extends React.Component {
                 var cardInPlay = (
                     <div className='card-wrapper' key={'card' + index.toString()}>
                         <div className='card-frame'>
-                            <div className={card.kneeled ? 'horizontal-card kneeled' : 'card'} onMouseOver={this.onMouseOver.bind(this, card.card)} onMouseOut={this.onMouseOut}
+                            <div className={card.kneeled ? 'horizontal-card kneeled' : 'card'}
+                                onMouseOver={this.onMouseOver.bind(this, card.card)} onMouseOut={this.onMouseOut}
+                                onDragStart={(ev) => this.onCardDragStart(ev, card.card, 'play area')}
                                 onClick={this.onCardClick2.bind(this, card.card)}>
                                 <div>
                                     {card.facedown ?
@@ -221,6 +228,19 @@ class InnerGameBoard extends React.Component {
         return plotDeck;
     }
 
+    onDragOver(event) {
+        event.preventDefault();
+    }
+
+    onDragDropEvent(event, target) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        var dragData = JSON.parse(event.dataTransfer.getData('card'));
+
+        this.onDragDrop(dragData.card, dragData.source, target);
+    }
+
     render() {
         if(!this.props.state) {
             return <div>Waiting for server...</div>;
@@ -234,12 +254,12 @@ class InnerGameBoard extends React.Component {
         var plotDeck = this.getPlotDeck(thisPlayer.plotDeck);
 
         var thisPlayerCards = [];
-        
+
         _.each(this.getCardsInPlay(thisPlayer).reverse(), cards => {
             thisPlayerCards.push(<div>{cards}</div>);
         });
         var otherPlayerCards = [];
-        
+
         if(otherPlayer) {
             _.each(this.getCardsInPlay(otherPlayer).reverse(), cards => {
                 otherPlayerCards.push(<div>{cards}</div>);
@@ -332,7 +352,8 @@ class InnerGameBoard extends React.Component {
                             <div className='player-board'>
                                 {otherPlayerCards}
                             </div>
-                            <div className='player-board our-side'>
+                            <div className='player-board our-side' onDragOver={this.onDragOver}
+                                onDrop={(event) => this.onDragDropEvent(event, 'play area')} >
                                 {thisPlayerCards}
                             </div>
                         </div>
