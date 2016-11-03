@@ -98,7 +98,7 @@ class DeckEditor extends React.Component {
 
     onAgendaChange(event) {
         if(!event.target.value || event.target.value === '') {
-            this.setState({ selectedAgenda: { code: '' } });
+            this.setState({ selectedAgenda: { code: '' } }, () => this.raiseDeckChanged());
             return;
         }
 
