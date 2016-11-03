@@ -581,7 +581,22 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on('lobbychat', function(message) {
+        var chatMessage = { user: { username: socket.request.user.username }, message: message, time: new Date() };
+        db.collection('messages').insert(chatMessage);
+        io.emit('lobbychat', chatMessage);
+    });
+
     socket.emit('games', games);
+
+    db.collection('messages').find().sort({ time: -1 }).limit(50).toArray((err, messages) => {
+        if(err) {
+            logger.info(err);
+            return;
+        }
+
+        socket.emit('lobbymessages', messages.reverse());
+    });
 });
 
 module.exports = runServer;

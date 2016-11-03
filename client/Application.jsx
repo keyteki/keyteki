@@ -73,8 +73,16 @@ class App extends React.Component {
                 this.props.receiveLeaveGame(game, isMe);
             });
 
-            socket.on('gamestate', (game) => {
+            socket.on('gamestate', game => {
                 this.props.receiveGameState(game);
+            });
+
+            socket.on('lobbychat', message => {
+                this.props.receiveLobbyMessage(message);
+            });
+
+            socket.on('lobbymessages', messages => {
+                this.props.receiveLobbyMessages(messages);
             });
         });
     }
@@ -147,6 +155,8 @@ App.propTypes = {
     receiveGames: React.PropTypes.func,
     receiveJoinGame: React.PropTypes.func,
     receiveLeaveGame: React.PropTypes.func,
+    receiveLobbyMessage: React.PropTypes.func,
+    receiveLobbyMessages: React.PropTypes.func,
     receiveNewGame: React.PropTypes.func,
     receiveUpdateGame: React.PropTypes.func,
     socketConnected: React.PropTypes.func,
