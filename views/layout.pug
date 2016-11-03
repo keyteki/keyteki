@@ -7,3 +7,5 @@ html
     title= title
   body
     block content
+    if !production
+      script(src='bundle.js')

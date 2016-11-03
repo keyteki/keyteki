@@ -12,7 +12,7 @@ const store = configureStore();
 
 store.dispatch(navigate(window.location.pathname));
 
-if(user) {
+if(typeof user !== 'undefined') {
     store.dispatch(login(user.username, authToken));
 }
 
