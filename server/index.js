@@ -128,7 +128,8 @@ function runServer() {
             res.end();
         });
     } else {
-        app.use(express.static(__dirname + '/public'));
+        app.use(express.static(__dirname + '/../public'));
+        app.set('view engine', 'pug');
         app.get('*', function response(req, res) {
             var token = undefined;
 
@@ -136,9 +137,7 @@ function runServer() {
                 token = jwt.sign(req.user, config.secret);
             }
 
-            var html = pug.renderFile('views/index.pug', { basedir: path.join(__dirname, '..', 'views'), user: req.user, token: token, production: true });
-            res.write(html);
-            res.end();
+            res.render('index', { basedir: path.join(__dirname, '..', 'views'), user: req.user, token: token, production: true });
         });
     }
 

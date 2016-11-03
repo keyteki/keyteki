@@ -10,7 +10,7 @@ var LESS_DIR = path.resolve(__dirname, 'less');
 var config = {
     devtool: 'source-map',
     entry: [
-        path.join(__dirname, 'client/Application.jsx'),
+        path.join(__dirname, 'client/index.jsx'),
         LESS_DIR + '/site.less'
     ],
     output: {
@@ -34,6 +34,10 @@ var config = {
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+        }),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery'
         })
     ],
     module: {
