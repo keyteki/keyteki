@@ -194,7 +194,7 @@ plots['01008'] = {
         winner.activePlot.card.claim--;
 
         game.addMessage(loser.name + ' uses ' + loser.activePlot.card.label + ' to reduce the claim value of ' + 
-            winner.name + "'s " + challengeType + 'challenge to ' + winner.activePlot.card.claim);
+            winner.name + '\'s ' + challengeType + 'challenge to ' + winner.activePlot.card.claim);
     },
     afterClaim: function(game, challengeType, winner) {
         if(winner === this.player) {
