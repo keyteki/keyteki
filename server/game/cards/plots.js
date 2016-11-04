@@ -6,6 +6,23 @@ function hasTrait(card, trait) {
     return card.traits.indexOf(trait + '.') !== -1;
 }
 
+// 01001 - A Clash Of Kings
+plots['01001'] = {
+    register(game, player) {
+        this.player = player;
+
+        game.on('afterChallenge', this.afterChallenge.bind(this));
+    },
+    afterChallenge: function(game, challengeType, winner, loser) {
+        if(winner === this.player && challengeType === 'power' && loser.power > 0) {
+            loser.power--;
+            winner.power++;
+
+            game.addMessage(winner.name + ' uses ' + winner.activePlot.card.label + ' to move 1 power from ' + loser.name + '\'s faction card');
+        }
+    }
+};
+
 // 01004 - A Noble Cause
 plots['01004'] = {
     register(game, player) {

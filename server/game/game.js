@@ -317,7 +317,7 @@ class Game extends EventEmitter {
                         return c.card.code === card.code;
                     });
 
-                    if(!otherPlayer.addToStealth(otherCardInPlay)) {
+                    if(!otherPlayer.addToStealth(otherCardInPlay.card)) {
                         return;
                     }
 
@@ -457,7 +457,7 @@ class Game extends EventEmitter {
             return p.id !== player.id;
         });
 
-        player.doneChallenge();
+        player.doneChallenge(true);
         if(otherPlayer) {
             otherPlayer.currentChallenge = player.currentChallenge;
         }
@@ -492,7 +492,7 @@ class Game extends EventEmitter {
             return player.id === playerId;
         });
 
-        player.doneChallenge();
+        player.doneChallenge(false);
 
         this.addMessage(player.name + ' has defended with strength ' + player.challengeStrength);
 
@@ -514,6 +514,8 @@ class Game extends EventEmitter {
 
             this.addMessage(winner.name + ' won a ' + winner.currentChallenge + '  challenge ' +
                 winner.challengeStrength + ' vs ' + loser.challengeStrength);
+            
+            this.emit('afterChallenge', this, winner.currentChallenge, winner, loser);
 
             if(loser.challengeStrength === 0) {
                 winner.power++;
@@ -525,6 +527,7 @@ class Game extends EventEmitter {
                 }
             }
 
+            // XXX This should be after claim but needs a bit of reworking to make that possible            
             this.applyKeywords(winner, loser);
 
             if(winner === challenger) {

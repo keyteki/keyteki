@@ -549,7 +549,7 @@ class Player {
         }
 
         var inPlay = _.find(this.cardsInPlay, c => {
-            return c.card.code === card.card.code;
+            return c.card.code === card.code;
         });
 
         if(!inPlay) {
@@ -591,7 +591,7 @@ class Player {
         this.cardsInChallenge.push(inPlay);
     }
 
-    doneChallenge() {
+    doneChallenge(myChallenge) {
         var challengeCards = _.filter(this.cardsInPlay, card => {
             return card.selected;
         });
@@ -606,8 +606,10 @@ class Player {
         this.challengeStrength = strength;
         this.selectCard = false;
 
-        this.challenges[this.currentChallenge].performed++;
-        this.challenges.complete++;
+        if(myChallenge) {
+            this.challenges[this.currentChallenge].performed++;
+            this.challenges.complete++;
+        }
     }
 
     beginDefend(challenge) {
