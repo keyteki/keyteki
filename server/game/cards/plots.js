@@ -10,8 +10,12 @@ function hasTrait(card, trait) {
 plots['01001'] = {
     register(game, player) {
         this.player = player;
+        this.afterChallenge = this.afterChallenge.bind(this);
 
-        game.on('afterChallenge', this.afterChallenge.bind(this));
+        game.on('afterChallenge', this.afterChallenge);
+    },
+    unregister(game) {
+        game.removeListener('afterChallenge', this.afterChallenge);
     },
     afterChallenge: function(game, challengeType, winner, loser) {
         if(winner === this.player && challengeType === 'power' && loser.power > 0) {
@@ -23,13 +27,41 @@ plots['01001'] = {
     }
 };
 
+// 01002 - A Feats For Crows
+plots['01002'] = {
+    register(game, player) {
+        this.player = player;
+        this.afterDominance = this.afterDominance.bind(this);
+
+        game.on('afterDominance', this.afterDominance);
+    },
+    unregister(game) {
+        game.removeListener('afterDominance', this.afterDominance);
+    },
+    afterDominance: function(game, winner) {
+        if(winner !== this.player) {
+            return;
+        }
+
+        winner.power += 2;
+
+        game.addMessage(winner.name + ' uses ' + winner.activePlot.card.label + ' to gain 2 power');
+    }
+};
+
 // 01004 - A Noble Cause
 plots['01004'] = {
     register(game, player) {
         this.player = player;
+        this.revealed = this.revealed.bind(this);
+        this.beforeCardPlayed = this.beforeCardPlayed.bind(this);
 
-        game.on('plotRevealed', this.revealed.bind(this));
-        game.on('beforeCardPlayed', this.beforeCardPlayed.bind(this));
+        game.on('plotRevealed', this.revealed);
+        game.on('beforeCardPlayed', this.beforeCardPlayed);
+    },
+    unregister(game) {
+        game.removeListener('plotRevealed', this.revealed);
+        game.removeListener('beforeCardPlayed', this.beforeCardPlayed);
     },
     revealed: function(game, player) {
         if(player !== this.player) {
@@ -70,11 +102,21 @@ plots['01004'] = {
 plots['01008'] = {
     register(game, player) {
         this.player = player;
+        this.revealed = this.revealed.bind(this);
+        this.challengeTypeSelected = this.challengeTypeSelected.bind(this);
+        this.beforeClaim = this.beforeClaim.bind(this);
+        this.afterClaim = this.afterClaim.bind(this);
 
-        game.on('plotRevealed', this.revealed.bind(this));
-        game.on('customCommand', this.challengeTypeSelected.bind(this));
-        game.on('beforeClaim', this.beforeClaim.bind(this));
-        game.on('afterClaim', this.afterClaim.bind(this));
+        game.on('plotRevealed', this.revealed);
+        game.on('customCommand', this.challengeTypeSelected);
+        game.on('beforeClaim', this.beforeClaim);
+        game.on('afterClaim', this.afterClaim);
+    },
+    unregister(game) {
+        game.removeListener('plotRevealed', this.revealed);
+        game.removeListener('customCommand', this.challengeTypeSelected);
+        game.removeListener('beforeClaim', this.beforeClaim);
+        game.removeListener('afterClaim', this.afterClaim);
     },
     revealed: function(game, player) {
         if(player !== this.player) {
@@ -131,9 +173,15 @@ plots['01008'] = {
 plots['01009'] = {
     register(game, player) {
         this.player = player;
+        this.revealed = this.revealed.bind(this);
+        this.cardClicked = this.cardClicked.bind(this);
 
-        game.on('plotRevealed', this.revealed.bind(this));
+        game.on('plotRevealed', this.revealed);
         game.on('cardClicked', this.cardClicked);
+    },
+    unregister(game) {
+        game.removeListener('plotRevealed', this.revealed);
+        game.removeListener('cardClicked', this.cardClicked);
     },
     revealed: function(game, player) {
         if(player !== this.player) {
@@ -177,8 +225,12 @@ plots['01009'] = {
 plots['01010'] = {
     register: function(game, player) {
         this.player = player;
+        this.revealed = this.revealed.bind(this);
 
-        game.on('plotRevealed', this.revealed.bind(this));
+        game.on('plotRevealed', this.revealed);
+    },
+    unregister(game) {
+        game.removeListener('plotRevealed', this.revealed);
     },
     revealed: function(game, player) {
         if(player !== this.player) {
@@ -195,8 +247,12 @@ plots['01010'] = {
 plots['01021'] = {
     register(game, player) {
         this.player = player;
+        this.revealed = this.revealed.bind(this);
 
-        game.on('plotRevealed', this.revealed.bind(this));
+        game.on('plotRevealed', this.revealed);
+    },
+    unregister(game) {
+        game.removeListener('plotRevealed', this.revealed);
     },
     revealed: function(game, player) {
         if(player !== this.player) {
@@ -214,8 +270,12 @@ plots['01021'] = {
 plots['02039'] = {
     register(game, player) {
         this.player = player;
+        this.revealed = this.revealed.bind(this);
 
-        game.on('plotRevealed', this.revealed.bind(this));
+        game.on('plotRevealed', this.revealed);
+    },
+    unregister(game) {
+        game.removeListener('plotRevealed', this.revealed);
     },
     revealed: function(game, player) {
         if(player !== this.player) {

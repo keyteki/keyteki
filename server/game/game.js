@@ -514,7 +514,7 @@ class Game extends EventEmitter {
 
             this.addMessage(winner.name + ' won a ' + winner.currentChallenge + '  challenge ' +
                 winner.challengeStrength + ' vs ' + loser.challengeStrength);
-            
+
             this.emit('afterChallenge', this, winner.currentChallenge, winner, loser);
 
             if(loser.challengeStrength === 0) {
@@ -651,6 +651,8 @@ class Game extends EventEmitter {
             this.addMessage(highestPlayer.name + ' has won the game');
         }
 
+        this.emit('afterDominance', this, highestPlayer);
+
         this.emit('cardsStanding', this);
 
         _.each(this.players, player => {
@@ -692,7 +694,10 @@ class Game extends EventEmitter {
         if(!otherPlayer) {
             player.startPlotPhase();
 
-            this.removeAllListeners('plotRevealed');
+            var plotImplementation = cards[player.activePlot.card.code];
+            if(plotImplementation && plotImplementation.unregister) {
+                plotImplementation.unregister(this);
+            }
 
             return;
         }
@@ -701,7 +706,10 @@ class Game extends EventEmitter {
             player.startPlotPhase();
             otherPlayer.startPlotPhase();
 
-            this.removeAllListeners('plotRevealed');
+            plotImplementation = cards[player.activePlot.card.code];
+            if(plotImplementation && plotImplementation.unregister) {
+                plotImplementation.unregister(this);
+            }
 
             return;
         }
