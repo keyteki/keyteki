@@ -272,15 +272,18 @@ class Player {
             maxTotal: 3,
             military: {
                 performed: 0,
-                max: 1
+                max: 1,
+                won: 0
             },
             intrigue: {
                 performed: 0,
-                max: 1
+                max: 1,
+                won: 0
             },
             power: {
                 performed: 0,
-                max: 1
+                max: 1,
+                won: 0
             }
         };
     }

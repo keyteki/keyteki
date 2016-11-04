@@ -438,6 +438,14 @@ class Game extends EventEmitter {
             return;
         }
 
+        player.challengeType = challengeType;
+
+        this.cancelChallenge = false;        
+        this.emit('beforeChallenge', this, player, challengeType);
+        if(this.cancelChallenge) {
+            return;
+        }
+
         player.startChallenge(challengeType);
     }
 
@@ -511,6 +519,8 @@ class Game extends EventEmitter {
                 loser = challenger;
                 winner = player;
             }
+
+            winner.challenges[winner.currentChallenge].won++;
 
             this.addMessage(winner.name + ' won a ' + winner.currentChallenge + '  challenge ' +
                 winner.challengeStrength + ' vs ' + loser.challengeStrength);

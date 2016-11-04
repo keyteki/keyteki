@@ -49,6 +49,24 @@ plots['01002'] = {
     }
 };
 
+// 01003 - A Game Of Thrones
+plots['01003'] = {
+    register(game, player) {
+        this.player = player;
+        this.beforeChallenge = this.beforeChallenge.bind(this);
+
+        game.on('beforeChallenge', this.beforeChallenge);
+    },
+    unregister(game) {
+        game.removeListener('beforeChallenge', this.beforeChallenge);
+    },
+    beforeChallenge: function(game, player, challengeType) {
+        if((challengeType === 'power' || challengeType === 'military') && player.challenges['intrigue'].won <= 0) {
+            game.cancelChallenge = true;
+        }    
+    }
+};
+
 // 01004 - A Noble Cause
 plots['01004'] = {
     register(game, player) {
