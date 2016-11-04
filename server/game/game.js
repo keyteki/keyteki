@@ -272,6 +272,10 @@ class Game extends EventEmitter {
             return;
         }
 
+        var otherPlayer = _.find(this.players, p => {
+            return p.id !== player.id;
+        });
+
         this.clickHandled = false;
         this.emit('cardClicked', this, player, card);
         if(this.clickHandled) {
@@ -308,6 +312,25 @@ class Game extends EventEmitter {
             });
 
             if(!cardInPlay) {
+                if(otherPlayer) {
+                    var otherCardInPlay = _.find(otherPlayer.cardsInPlay, c => {
+                        return c.card.code === card.code;
+                    });
+
+                    if(!otherPlayer.addToStealth(otherCardInPlay)) {
+                        return;
+                    }
+
+                    this.addMessage(player.name + ' has chosen ' + otherCardInPlay.card.label + ' as a stealth target');
+                    this.addMessage(player.name + ' has initiated a ' + player.currentChallenge + ' challenge with strength ' + player.challengeStrength);
+
+                    player.menuTitle = 'Waiting for opponent to defend';
+                    player.buttons = [];
+                    player.selectCard = false;
+
+                    otherPlayer.beginDefend(player.currentChallenge);
+                }
+
                 return;
             }
 
@@ -328,10 +351,6 @@ class Game extends EventEmitter {
 
             if(player.claimToDo === 0) {
                 player.doneClaim();
-
-                var otherPlayer = _.find(this.players, p => {
-                    return p.id !== player.id;
-                });
 
                 if(otherPlayer) {
                     otherPlayer.beginChallenge();
@@ -434,13 +453,31 @@ class Game extends EventEmitter {
             return;
         }
 
-        player.doneChallenge();
-
-        this.addMessage(player.name + ' has initiated a ' + player.currentChallenge + ' challenge with strength ' + player.challengeStrength);
-
         var otherPlayer = _.find(this.players, p => {
             return p.id !== player.id;
         });
+
+        player.doneChallenge();
+        if(otherPlayer) {
+            otherPlayer.currentChallenge = player.currentChallenge;
+        }
+
+        var stealthCard = _.find(player.cardsInChallenge, card => {
+            return !card.stealthTarget && this.hasKeyword(card.card, 'Stealth');
+        });
+
+        if(stealthCard) {
+            player.menuTitle = 'Select stealth target for ' + stealthCard.card.label;
+            player.buttons = [
+                { command: 'donestealth', text: 'Done' }
+            ];
+            player.stealthCard = stealthCard;
+            player.selectCard = true;
+
+            return;
+        }
+
+        this.addMessage(player.name + ' has initiated a ' + player.currentChallenge + ' challenge with strength ' + player.challengeStrength);
 
         if(otherPlayer) {
             player.menuTitle = 'Waiting for opponent to defend';

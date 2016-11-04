@@ -291,7 +291,7 @@ class Player {
         })) {
             return false;
         }
-        
+
         this.selectedPlot = { facedown: true, card: plot };
 
         return true;
@@ -409,7 +409,7 @@ class Player {
         var matchFound = false;
         targetList = _.reject(targetList, c => {
             var match = false;
-            
+
             if(c.card) {
                 match = !matchFound && c.card.code === card.code;
             } else {
@@ -518,6 +518,9 @@ class Player {
         ];
 
         this.cardsInChallenge = [];
+        _.each(this.cardsInPlay, card => {
+            card.stealth = undefined;
+        });
         this.selectCard = false;
     }
 
@@ -530,6 +533,32 @@ class Player {
         this.currentChallenge = challengeType;
         this.selectCard = true;
         this.challenger = true;
+    }
+
+    addToStealth(card) {
+        if(this.currentChallenge === 'military' && !card.is_military) {
+            return false;
+        }
+
+        if(this.currentChallenge === 'intrigue' && !card.is_intrigue) {
+            return false;
+        }
+
+        if(this.currentChallenge === 'power' && !card.is_power) {
+            return false;
+        }
+
+        var inPlay = _.find(this.cardsInPlay, c => {
+            return c.card.code === card.card.code;
+        });
+
+        if(!inPlay) {
+            return false;
+        }
+
+        inPlay.stealth = true;
+
+        return true;
     }
 
     addToChallenge(card) {
@@ -550,6 +579,10 @@ class Player {
         });
 
         if(!inPlay) {
+            return;
+        }
+
+        if(inPlay.stealth) {
             return;
         }
 
@@ -614,7 +647,7 @@ class Player {
 
                     return true;
                 }
-                
+
                 return false;
             });
 
