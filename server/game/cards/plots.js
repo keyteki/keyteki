@@ -116,6 +116,28 @@ plots['01004'] = {
     }
 };
 
+// 01005 - A Storm Of Swords
+plots['01005'] = {
+    register(game, player) {
+        this.player = player;
+        this.revealed = this.revealed.bind(this);
+
+        game.on('plotRevealed', this.revealed);
+    },
+    unregister(game) {
+        game.removeListener('plotRevealed', this.revealed);
+    },
+    revealed(game, player) {
+        if(player !== this.player) {
+            return;
+        }
+
+        player.challenges['military'].max++;
+
+        game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to gain an additional military challenge this round');
+    }
+};
+
 // 01008 - Calm Over Westeros
 plots['01008'] = {
     register(game, player) {
