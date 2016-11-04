@@ -109,7 +109,6 @@ class PlayerRow extends React.Component {
             </div>) : null;
 
         var topDiscard = _.last(this.props.discardPile);
-        //                            <div draggable className='card-frame' onDragStart={(ev) => this.onCardDragStart(ev, topDiscard, 'discard pile')}>
 
         return (
             <div className='player-home-row'>
@@ -148,7 +147,7 @@ class PlayerRow extends React.Component {
                     </div>
                     {powerCounters}
                 </div>
-                {this.props.agenda ?
+                {this.props.agenda && this.props.agenda.code !== '' ?
                     <div className='agenda panel' onMouseOver={this.props.onMouseOver ? this.props.onMouseOver.bind(this, this.props.agenda) : null}
                         onMouseOut={this.props.onMouseOut ? this.props.onMouseOut : null}>
                         <img className='card' src={'/img/cards/' + this.props.agenda.code + '.png'} />
