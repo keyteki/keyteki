@@ -708,6 +708,14 @@ class Game extends EventEmitter {
         this.addMessage('<' + player.name + '> ' + message);
     }
 
+    playerDisconnect(playerId) {
+        var player = _.find(this.players, player => {
+            return player.id === playerId;
+        });
+
+        this.addMessage(player.name + ' has disconnected');
+    }
+
     initialise() {
         _.each(this.players, player => {
             player.initialise();
