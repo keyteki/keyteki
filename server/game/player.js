@@ -286,7 +286,15 @@ class Player {
     }
 
     selectPlot(plot) {
+        if(!_.any(this.plotDeck, card => {
+            return card.code === plot.code;
+        })) {
+            return false;
+        }
+        
         this.selectedPlot = { facedown: true, card: plot };
+
+        return true;
     }
 
     revealPlot() {

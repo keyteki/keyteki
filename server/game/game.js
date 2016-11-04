@@ -155,7 +155,9 @@ class Game extends EventEmitter {
             return player.id === playerId;
         });
 
-        player.selectPlot(plot);
+        if(!player.selectPlot(plot)) {
+            return;
+        }
 
         var plotImplementation = cards[player.selectedPlot.card.code];
         if(plotImplementation && plotImplementation.register) {
