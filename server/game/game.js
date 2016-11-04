@@ -430,6 +430,7 @@ class Game extends EventEmitter {
         if(!_.any(player.cardsInPlay, card => {
             return card.selected;
         })) {
+            player.beginChallenge();
             return;
         }
 

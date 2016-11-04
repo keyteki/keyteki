@@ -518,6 +518,7 @@ class Player {
         ];
 
         this.cardsInChallenge = [];
+        this.selectCard = false;
     }
 
     startChallenge(challengeType) {
