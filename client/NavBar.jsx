@@ -20,6 +20,8 @@ class NavBar extends React.Component {
             rightMenuToRender.push(<li key={ item.name } className={ active }><Link href={ item.path }>{ item.name }</Link></li>);
         });
 
+        var numGames = !_.isUndefined(this.props.numGames) ? <li><span>{this.props.numGames} Games</span></li> : null;
+
         return (
             <nav className='navbar navbar-inverse navbar-fixed-top'>
                 <div className='container-fluid'>
@@ -38,6 +40,7 @@ class NavBar extends React.Component {
                         { leftMenuToRender }
                     </ul>
                     <ul className='nav navbar-nav navbar-right'>
+                        { numGames }
                         { rightMenuToRender }
                     </ul>
                 </div>
@@ -49,6 +52,7 @@ NavBar.displayName = 'Decks';
 NavBar.propTypes = {
     currentPath: React.PropTypes.string,
     leftMenu: React.PropTypes.array,
+    numGames: React.PropTypes.number,
     rightMenu: React.PropTypes.array,
     title: React.PropTypes.string
 };

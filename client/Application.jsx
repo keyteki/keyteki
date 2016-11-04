@@ -98,7 +98,7 @@ class App extends React.Component {
         if(index !== -1) {
             path = path.substr(index, 11);
             pathArg = this.props.path.substr(11 + 1);
-        } 
+        }
 
         switch(path) {
             case '/':
@@ -131,7 +131,7 @@ class App extends React.Component {
         }
 
         return (<div>
-            <NavBar leftMenu={leftMenu} rightMenu={rightMenu} title='Throneteki' currentPath={this.props.path} />
+            <NavBar leftMenu={leftMenu} rightMenu={rightMenu} title='Throneteki' currentPath={this.props.path} numGames={this.props.games.length} />
             <div className='container-fluid'>
                 {component}
             </div>
