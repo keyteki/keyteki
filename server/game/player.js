@@ -228,7 +228,7 @@ class Player {
             card.facedown = false;
 
             var dupe = _.find(processedCards, c => {
-                return c.card.code === card.card.code;
+                return c.card.is_unique && c.card.code === card.card.code;
             });
 
             if(dupe) {
