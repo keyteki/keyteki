@@ -211,9 +211,9 @@ class InnerGameBoard extends React.Component {
             }
 
             var plotCard = (
-                <div className='card-wrapper'>
+                <div key={'card' + index.toString()} className='card-wrapper'>
                     <div className='card-frame'>
-                        <div key={'card' + index.toString()} className={plotClass} onMouseOver={this.onMouseOver ? this.onMouseOver.bind(this, card) : null}
+                        <div className={plotClass} onMouseOver={this.onMouseOver ? this.onMouseOver.bind(this, card) : null}
                             onMouseOut={this.onMouseOut} onClick={(event) => this.onPlotCardClick(event, card)}>
                             <img className='plot-card' src={'/img/cards/' + card.code + '.png'} />
                         </div>
@@ -255,23 +255,24 @@ class InnerGameBoard extends React.Component {
 
         var thisPlayerCards = [];
 
+        var index = 0;        
         _.each(this.getCardsInPlay(thisPlayer).reverse(), cards => {
-            thisPlayerCards.push(<div>{cards}</div>);
+            thisPlayerCards.push(<div key={'this-loc' + index++}>{cards}</div>);
         });
         var otherPlayerCards = [];
 
         if(otherPlayer) {
             _.each(this.getCardsInPlay(otherPlayer).reverse(), cards => {
-                otherPlayerCards.push(<div>{cards}</div>);
+                otherPlayerCards.push(<div key={'other-loc' + index++}>{cards}</div>);
             });
         }
 
         for(var i = thisPlayerCards.length; i < 2; i++) {
-            thisPlayerCards.push(<div />);
+            thisPlayerCards.push(<div key={'this-empty' + i} />);
         }
 
         for(i = otherPlayerCards.length; i < 2; i++) {
-            thisPlayerCards.push(<div />);
+            thisPlayerCards.push(<div key={'other-empty' + i} />);
         }
 
         return (

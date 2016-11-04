@@ -53,10 +53,11 @@ class InnerLobby extends React.Component {
 
     render() {
         var messages = _.map(this.props.messages, message => {
+            var timestamp = moment(message.time).format('MMM Do H:mm:ss');
             return (
-                <div>
+                <div key={timestamp + message.user.username}>
                     <img className='avatar pull-left' />
-                    <span className='username'>{message.user.username}</span><span>{moment(message.time).format('MMM Do H:mm:ss')}</span>
+                    <span className='username'>{message.user.username}</span><span>{timestamp}</span>
                     <div className='message'>{message.message}</div>
                 </div>);
         });

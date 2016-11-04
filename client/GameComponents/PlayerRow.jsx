@@ -46,9 +46,9 @@ class PlayerRow extends React.Component {
             };
 
             var retCard = (
-                <div className='card-wrapper' style={style}>
+                <div key={cardIndex.toString() + card.code} className='card-wrapper' style={style}>
                     <div className='card-frame'>
-                        <div key={cardIndex.toString() + card.code} className='card'
+                        <div className='card'
                             onMouseOver={this.props.onMouseOver ? this.props.onMouseOver.bind(this, card) : null}
                             onMouseOut={this.props.onMouseOut}
                             onClick={this.props.isMe ? () => this.props.onCardClick(card) : null}
@@ -73,9 +73,10 @@ class PlayerRow extends React.Component {
         var drawDeckPopup = undefined;
 
         if(this.props.showDrawDeck && this.props.drawDeck) {
+            var index = 0;
             var drawDeck = _.map(this.props.drawDeck, card => {
                 return (
-                    <div draggable className='card-frame' onDragStart={(ev) => this.onCardDragStart(ev, card, 'draw deck')}>
+                    <div key={'drawCard'+index++}draggable className='card-frame' onDragStart={(ev) => this.onCardDragStart(ev, card, 'draw deck')}>
                         <div className='card' onMouseOver={this.props.onMouseOver.bind(this, card)} onMouseOut={this.props.onMouseOut}>
                             <div>
                                 <img className='card' src={'/img/cards/' + card.code + '.png'} />}
