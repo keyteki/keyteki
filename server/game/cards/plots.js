@@ -656,7 +656,7 @@ plots['01015'] = {
                 }
             } else {
                 game.revealDone(player);
-            }    
+            }
         } else {
             player.menuTitle = 'Waiting for oppoent to apply plot effect';
             player.buttons = [];
@@ -683,6 +683,46 @@ plots['01016'] = {
 
         if(card.type_code === 'event' || card.type_code === 'attachment' || card.type_code === 'location') {
             game.stopCardPlay = true;
+        }
+    }
+};
+
+// 01017 - Naval Superiority
+plots['01017'] = {
+    register(game, player) {
+        this.player = player;
+        this.beginMarshal = this.beginMarshal.bind(this);
+
+        game.on('beginMarshal', this.beginMarshal);
+    },
+    unregister(game) {
+        game.removeListener('beginMarshal', this.beginMarshal);
+        if(this.plot) {
+            this.plot = this.plotGold;
+            this.plot = undefined;
+            this.plotGold = undefined;
+        }
+    },
+    beginMarshal(game, player) {
+        if(this.player !== player) {
+            return;
+        }
+
+        var otherPlayer = _.find(game.players, p => {
+            return p.id !== player.id;
+        });
+
+        if(!otherPlayer) {
+            return;
+        }
+
+        if(hasTrait(otherPlayer.activePlot.card, 'Kingdom') || hasTrait(otherPlayer.activePlot.card, 'Edict')) {
+            this.plot = otherPlayer.activePlot;
+            this.plotGold = otherPlayer.activePlot.gold;
+            otherPlayer.activePlot.card.income = 0;
+
+            game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to reduce the gold value of '
+                + otherPlayer.activePlot.card.label + ' to 0');
         }
     }
 };

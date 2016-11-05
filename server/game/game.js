@@ -191,9 +191,9 @@ class Game extends EventEmitter {
     }
 
     beginMarshal(player) {
-        player.beginMarshal();
-
         this.emit('beginMarshal', this, player);
+
+        player.beginMarshal();
 
         var otherPlayer = _.find(this.players, p => {
             return player.id !== p.id;
