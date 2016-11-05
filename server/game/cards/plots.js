@@ -63,7 +63,7 @@ plots['01003'] = {
     beforeChallenge: function(game, player, challengeType) {
         if((challengeType === 'power' || challengeType === 'military') && player.challenges['intrigue'].won <= 0) {
             game.cancelChallenge = true;
-        }    
+        }
     }
 };
 
@@ -97,7 +97,7 @@ plots['01004'] = {
             this.card = card;
             card.cost -= 2;
             this.cost = card.cost;
-            
+
             if(card.cost < 0) {
                 card.cost = 0;
             }
@@ -135,6 +135,71 @@ plots['01005'] = {
         player.challenges['military'].max++;
 
         game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to gain an additional military challenge this round');
+    }
+};
+
+// 01006 - Building Orders
+plots['01006'] = {
+    register(game, player) {
+        this.player = player;
+        this.revealed = this.revealed.bind(this);
+        this.cardSelected = this.cardSelected.bind(this);
+
+        game.on('plotRevealed', this.revealed);
+        game.on('customCommand', this.cardSelected);
+    },
+    unregister(game) {
+        game.removeListener('plotRevealed', this.revealed);
+        game.removeListener('customCommand', this.cardSelected);
+    },
+    revealed(game, player) {
+        if(this.player !== player) {
+            return;
+        }
+
+        var top10 = _.first(player.drawDeck, 10);
+        var attachmentsAndLocations = _.reject(top10, card => {
+            return card.type_code !== 'attachment' && card.type_code !== 'location';
+        });
+
+        var buttons = _.map(attachmentsAndLocations, card => {
+            return { text: card.label, command: 'custom', arg: card.code };
+        });
+
+        buttons.push({ text: 'Done', command: 'custom', arg: 'done' });
+
+        player.buttons = buttons;
+        player.menuTitle = 'Select a card to add to your hand';
+
+        game.pauseForPlot = true;
+    },
+    cardSelected(game, player, arg) {
+        if(this.player !== player) {
+            return;
+        }
+
+        if(arg === 'done') {
+            game.revealDone(player);
+        }
+
+        var card = _.find(player.drawDeck, c => {
+            return c.code === arg;
+        });
+            
+        if(!card) {
+            return;
+        }
+
+        player.drawDeck = _.reject(player.drawDeck, c => {
+            return c.code === card.code;
+        });
+
+        player.hand.push(card);
+        player.shuffleDrawDeck();
+
+        game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to reveal ' + card.label + ' and add it to their hand');
+
+        game.revealDone(player);
     }
 };
 
@@ -193,7 +258,7 @@ plots['01008'] = {
         this.claim = winner.activePlot.card.claim;
         winner.activePlot.card.claim--;
 
-        game.addMessage(loser.name + ' uses ' + loser.activePlot.card.label + ' to reduce the claim value of ' + 
+        game.addMessage(loser.name + ' uses ' + loser.activePlot.card.label + ' to reduce the claim value of ' +
             winner.name + '\'s ' + challengeType + 'challenge to ' + winner.activePlot.card.claim);
     },
     afterClaim: function(game, challengeType, winner) {
@@ -301,7 +366,7 @@ plots['01021'] = {
 
         player.challenges.maxTotal = 1;
 
-        game.addMessage(player.name + ' uses ' + player.activePlot.card.label + 
+        game.addMessage(player.name + ' uses ' + player.activePlot.card.label +
             ' to make the maximum number of challenges able to be initiated by ' + player.name + ' this round be 1');
     }
 };

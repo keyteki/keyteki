@@ -32,8 +32,13 @@ class Player {
         this.drawDeck = _.rest(this.drawDeck, numCards);
     }
 
+    shuffleDrawDeck() {
+        this.drawDeck = _.shuffle(this.drawDeck);
+    }
+
     initDrawDeck() {
-        this.drawDeck = _.shuffle(this.drawCards);
+        this.drawDeck = this.drawCards;
+        this.shuffleDrawDeck();
         this.hand = [];
         this.drawCardsToHand(7);
     }
