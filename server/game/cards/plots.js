@@ -355,7 +355,7 @@ plots['01009'] = {
         if(clicked.type_code !== 'attachment') {
             return;
         }
-        
+
         var attachmentPlayer = player;
 
         var card = _.find(player.cardsInPlay, c => {
@@ -379,6 +379,8 @@ plots['01009'] = {
             });
 
             if(!card) {
+                game.revealDone(player);
+
                 return;
             }
 
@@ -419,6 +421,83 @@ plots['01010'] = {
         player.drawCardsToHand(3);
 
         game.addMessage(player.name + ' draws 3 cards from ' + player.activePlot.card.label);
+    }
+};
+
+// 01011 - Filthy Accusations
+plots['01011'] = {
+    register(game, player) {
+        this.player = player;
+        this.revealed = this.revealed.bind(this);
+        this.cardClicked = this.cardClicked.bind(this);
+
+        game.on('plotRevealed', this.revealed);
+        game.on('cardClicked', this.cardClicked);
+    },
+    unregister(game) {
+        game.removeListener('plotRevealed', this.revealed);
+    },
+    revealed(game, player) {
+        if(this.player !== player) {
+            return;
+        }
+
+        player.menuTitle = 'Select character to kneel';
+        player.buttons = [];
+        player.selectCard = true;
+
+        game.pauseForPlot = true;
+
+        this.waitingForClick = true;
+    },
+    cardClicked: function(game, player, clicked) {
+        if(this.player !== player || !this.waitingForClick) {
+            return;
+        }
+
+        this.waitingForClick = false;
+        player.selectCard = false;
+
+        var card = _.find(player.cardsInPlay, c => {
+            return c.card.code === clicked.code;
+        });
+
+        var targetPlayer = player;
+
+        if(!card) {
+            var otherPlayer = _.find(game.players, p => {
+                return p.id !== player.id;
+            });
+
+            if(!otherPlayer) {
+                game.revealDone(player);
+
+                return;                
+            }
+
+            card = _.find(otherPlayer.cardsInPlay, c => {
+                return c.card.code === clicked.code;
+            });
+
+            if(!card) {
+                game.revealDone(player);
+
+                return;
+            }
+
+            targetPlayer = otherPlayer;
+        }
+
+        if(card.card.type_code !== 'character' || card.kneeled) {
+            game.revealDone(player);
+            return;
+        }
+
+        card.kneeled = true;
+
+        game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to kneel ' + card.card.label);
+
+        game.revealDone(player);
     }
 };
 
