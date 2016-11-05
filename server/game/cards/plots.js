@@ -530,9 +530,9 @@ plots['01013'] = {
         var card = otherPlayer.hand[cardIndex];
         var message = player.name + ' uses ' + player.activePlot.card.label + ' to discard ' + card.label +
             ' from ' + otherPlayer.name + '\'s hand';
-        
+
         otherPlayer.removeFromHand(card);
-        
+
         if(card.type_code === 'character') {
             message += ' and gain 2 power for their faction';
             otherPlayer.deadPile.push(card);
@@ -571,13 +571,16 @@ plots['01015'] = {
         this.player = player;
         this.revealed = this.revealed.bind(this);
         this.cardClicked = this.cardClicked.bind(this);
+        this.doneClicked = this.doneClicked.bind(this);
 
         game.on('plotRevealed', this.revealed);
         game.on('cardClicked', this.cardClicked);
+        game.on('customCommand', this.doneClicked);
     },
     unregister(game) {
         game.removeListener('plotRevealed', this.revealed);
         game.removeListener('cardClicked', this.cardClicked);
+        game.removeListener('customCommand', this.doneClicked);
     },
     revealed(game, player) {
         if(this.player !== player) {
@@ -594,9 +597,12 @@ plots['01015'] = {
         game.pauseForPlot = true;
         this.waitingForClick = true;
         this.cardDiscarded = false;
+        _.each(game.players, p => {
+            p.doneDiscard = false;
+        });
     },
     cardClicked(game, player, clicked) {
-        if(this.player !== player || this.cardDiscarded || !this.waitingForClick) {
+        if(player.doneDiscard || !this.waitingForClick) {
             return;
         }
 
@@ -609,14 +615,52 @@ plots['01015'] = {
         })) {
             return;
         }
-        
+
         game.addMessage(player.name + ' discards ' + clicked.label);
 
-        this.cardDiscarded = true;
         player.discardCard(clicked);
+        player.doneDiscard = true;
 
-        this.waitingForClick = false;
-        game.revealDone(player);
+        var stillToDiscard = _.find(game.players, p => {
+            return !p.doneDiscard;
+        });
+
+        if(!stillToDiscard) {
+            this.waitingForClick = false;
+            game.revealDone(player);
+        } else {
+            player.menuTitle = 'Waiting for oppoent to apply plot effect';
+            player.buttons = [];
+        }
+    },
+    doneClicked(game, player, arg) {
+        if(arg !== '01015done') {
+            return;
+        }
+
+        player.doneDiscard = true;
+
+        var stillToDiscard = _.find(game.players, p => {
+            return !p.doneDiscard;
+        });
+
+        if(!stillToDiscard) {
+            this.waitingForClick = false;
+            if(!player.plotRevealed) {
+                var otherPlayer = _.find(game.players, p => {
+                    return p.id !== player.id;
+                });
+
+                if(otherPlayer) {
+                    game.revealDone(otherPlayer);
+                }
+            } else {
+                game.revealDone(player);
+            }    
+        } else {
+            player.menuTitle = 'Waiting for oppoent to apply plot effect';
+            player.buttons = [];
+        }
     }
 };
 
