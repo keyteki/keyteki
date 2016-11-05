@@ -565,6 +565,61 @@ plots['01014'] = {
     }
 };
 
+// 01015 - Marched To The Wall
+plots['01015'] = {
+    register(game, player) {
+        this.player = player;
+        this.revealed = this.revealed.bind(this);
+        this.cardClicked = this.cardClicked.bind(this);
+
+        game.on('plotRevealed', this.revealed);
+        game.on('cardClicked', this.cardClicked);
+    },
+    unregister(game) {
+        game.removeListener('plotRevealed', this.revealed);
+        game.removeListener('cardClicked', this.cardClicked);
+    },
+    revealed(game, player) {
+        if(this.player !== player) {
+            return;
+        }
+
+        _.each(game.players, p => {
+            p.menuTitle = 'Select a character to discard';
+            p.buttons = [
+                { command: 'custom', text: 'Done', arg: '01015done' }
+            ];
+        });
+
+        game.pauseForPlot = true;
+        this.waitingForClick = true;
+        this.cardDiscarded = false;
+    },
+    cardClicked(game, player, clicked) {
+        if(this.player !== player || this.cardDiscarded || !this.waitingForClick) {
+            return;
+        }
+
+        if(clicked.type_code !== 'character') {
+            return;
+        }
+
+        if(!_.any(player.cardsInPlay, card => {
+            return card.card.code === clicked.code;
+        })) {
+            return;
+        }
+        
+        game.addMessage(player.name + ' discards ' + clicked.label);
+
+        this.cardDiscarded = true;
+        player.discardCard(clicked);
+
+        this.waitingForClick = false;
+        game.revealDone(player);
+    }
+};
+
 // 01021 - Sneak Attack
 plots['01021'] = {
     register(game, player) {

@@ -762,6 +762,38 @@ class Player {
 
         return power;
     }
+    
+    hasKeyword(card, keyword) {
+        return card.text.indexOf(keyword + '.') !== -1;
+    }
+
+    discardCard(card) {
+        var cardInPlay = _.find(this.cardsInPlay, c => {
+            return c.card.code === card.code;
+        });
+
+        if(!cardInPlay) {
+            return;
+        }
+
+        _.each(cardInPlay.dupes, dupe => {
+            this.discardPile.push(dupe.card);
+        });
+
+        _.each(cardInPlay.attachments, attachment => {
+            if(this.hasKeyword(attachment, 'Terminal')) {
+                this.discardPile.push(attachment);
+            } else {
+                this.hand.push(attachment);
+            }    
+        });
+
+        this.cardsInPlay = _.reject(this.cardsInPlay, c => {
+            return c.card.code === card.code;
+        });
+
+        this.discardPile.push(card);
+    }
 
     getState(isActivePlayer) {
         var state = {
