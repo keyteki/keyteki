@@ -146,6 +146,14 @@ class Player {
             }
         }
 
+        if(card.type_code === 'character' && card.is_unique) {
+            if(_.any(this.deadPile, c => {
+                return c.code === card.code;
+            })) {
+                return false;
+            }
+        }
+
         return true;
     }
 
