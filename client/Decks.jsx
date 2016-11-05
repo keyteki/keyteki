@@ -1,18 +1,22 @@
 import React from 'react';
 import $ from 'jquery';
 import _ from 'underscore';
+import {connect} from 'react-redux';
 
 import DeckSummary from './DeckSummary.jsx';
 import Link from './Link.jsx';
 import DeckRow from './DeckRow.jsx';
 
-class Decks extends React.Component {
+import * as actions from './actions';
+
+class InnerDecks extends React.Component {
     constructor() {
         super();
 
         this.onSelectionChanged = this.onSelectionChanged.bind(this);
         this.onDeleteClick = this.onDeleteClick.bind(this);
         this.onConfirmDeleteClick = this.onConfirmDeleteClick.bind(this);
+        this.onEditClick = this.onEditClick.bind(this);
 
         this.state = {
             decks: [],
@@ -49,6 +53,15 @@ class Decks extends React.Component {
         event.preventDefault();
 
         this.setState({ showDelete: !this.state.showDelete });
+    }
+
+    onEditClick(event) {
+        event.preventDefault();
+
+        var selectedDeck = this.state.decks[this.state.selectedDeck];
+
+
+        this.props.navigate('/decks/edit/' + selectedDeck._id);
     }
 
     onConfirmDeleteClick(event) {
@@ -108,7 +121,7 @@ class Decks extends React.Component {
             if(selectedDeck) {
                 deckInfo = (<div className='col-sm-6'>
                     <div className='btn-group'>
-                        <a href={'/decks/edit/' + selectedDeck._id} className='btn btn-primary'>Edit</a>
+                        <button className='btn btn-primary' onClick={this.onEditClick}>Edit</button>
                         <button className='btn btn-primary' onClick={this.onDeleteClick}>Delete</button>
                         {this.state.showDelete ?
                             <button className='btn btn-danger' onClick={this.onConfirmDeleteClick}>Delete</button> :
@@ -135,9 +148,17 @@ class Decks extends React.Component {
     }
 }
 
-Decks.displayName = 'Decks';
-Decks.propTypes = {
-    cards: React.PropTypes.array
+InnerDecks.displayName = 'Decks';
+InnerDecks.propTypes = {
+    cards: React.PropTypes.array,
+    navigate: React.PropTypes.func
 };
+
+function mapStateToProps() {
+    return {
+    };
+}
+
+const Decks = connect(mapStateToProps, actions)(InnerDecks);
 
 export default Decks;
