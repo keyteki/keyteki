@@ -436,6 +436,7 @@ plots['01011'] = {
     },
     unregister(game) {
         game.removeListener('plotRevealed', this.revealed);
+        game.removeListener('cardClicked', this.cardClicked);
     },
     revealed(game, player) {
         if(this.player !== player) {
@@ -541,6 +542,26 @@ plots['01013'] = {
         }
 
         game.addMessage(message);
+    }
+};
+
+// 01014 - Jousting Contest
+plots['01014'] = {
+    register(game, player) {
+        this.player = player;
+        this.beforeChallengerSelected = this.beforeChallengerSelected.bind(this);
+
+        game.on('beforeChallengerSelected', this.beforeChallengerSelected);
+    },
+    unregister(game) {
+        game.removeListener('beforeChallengerSelected', this.beforeChallengerSelected);
+    },
+    beforeChallengerSelected(game, player, card) {
+        if(player.cardsInChallenge.length !== 0 && !_.any(player.cardsInChallenge, c => {
+            return c.card.code === card.card.code;
+        })) {
+            game.canAddToChallenge = false;
+        }
     }
 };
 

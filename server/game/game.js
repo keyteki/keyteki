@@ -338,7 +338,17 @@ class Game extends EventEmitter {
                 return;
             }
 
-            player.addToChallenge(card);
+            var challengeCard = player.canAddToChallenge(card);
+            if(!challengeCard) {
+                return;
+            }
+
+            this.canAddToChallenge = true;            
+            this.emit('beforeChallengerSelected', this, player, challengeCard);            
+            
+            if(this.canAddToChallenge) {
+                player.addToChallenge(challengeCard);
+            }
             return;
         }
 

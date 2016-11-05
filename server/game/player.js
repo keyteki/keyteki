@@ -600,17 +600,17 @@ class Player {
         return true;
     }
 
-    addToChallenge(card) {
+    canAddToChallenge(card) {
         if(this.currentChallenge === 'military' && !card.is_military) {
-            return;
+            return false;
         }
 
         if(this.currentChallenge === 'intrigue' && !card.is_intrigue) {
-            return;
+            return false;
         }
 
         if(this.currentChallenge === 'power' && !card.is_power) {
-            return;
+            return false;
         }
 
         var inPlay = _.find(this.cardsInPlay, c => {
@@ -618,16 +618,27 @@ class Player {
         });
 
         if(!inPlay) {
-            return;
+            return false;
         }
 
         if(inPlay.stealth) {
-            return;
+            return false;
         }
 
-        inPlay.selected = !inPlay.selected;
+        return inPlay;
+    }
 
-        this.cardsInChallenge.push(inPlay);
+    addToChallenge(card) {
+        card.selected = !card.selected;
+
+        if(card.selected) {
+            this.cardsInChallenge.push(card);
+        }
+        else {
+            this.cardsInChallenge = _.reject(this.cardsInChallenge, c => {
+                return c.card.code === card.card.code;
+            });
+        }
     }
 
     doneChallenge(myChallenge) {
