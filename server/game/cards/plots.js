@@ -472,7 +472,7 @@ plots['01011'] = {
             if(!otherPlayer) {
                 game.revealDone(player);
 
-                return;                
+                return;
             }
 
             card = _.find(otherPlayer.cardsInPlay, c => {
@@ -498,6 +498,49 @@ plots['01011'] = {
         game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to kneel ' + card.card.label);
 
         game.revealDone(player);
+    }
+};
+
+// 01013 - Heads On Spikes
+plots['01013'] = {
+    register(game, player) {
+        this.player = player;
+        this.reveal = this.reveal.bind(this);
+
+        game.on('plotRevealed', this.reveal);
+    },
+    unregister(game) {
+        game.removeListener('plotRevealed', this.reveal);
+    },
+    reveal(game, player) {
+        if(this.player !== player) {
+            return;
+        }
+
+        var otherPlayer = _.find(game.players, p => {
+            return p.id !== player.id;
+        });
+
+        if(!otherPlayer) {
+            return;
+        }
+
+        var cardIndex = _.random(0, otherPlayer.hand.length - 1);
+        var card = otherPlayer.hand[cardIndex];
+        var message = player.name + ' uses ' + player.activePlot.card.label + ' to discard ' + card.label +
+            ' from ' + otherPlayer.name + '\'s hand';
+        
+        otherPlayer.removeFromHand(card);
+        
+        if(card.type_code === 'character') {
+            message += ' and gain 2 power for their faction';
+            otherPlayer.deadPile.push(card);
+            player.power += 2;
+        } else {
+            otherPlayer.discardPile.push(card);
+        }
+
+        game.addMessage(message);
     }
 };
 
