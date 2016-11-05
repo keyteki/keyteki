@@ -197,7 +197,11 @@ body {
 }
 
 .hand, .discard, .draw, .faction, .agenda {
-  height: 86px;
+  height: @card-height;
+}
+
+.dead {
+  height: @card-width;
 }
 
 .middle {
@@ -235,9 +239,17 @@ body {
   padding: 0px;
 }
 
+.dead {
+  position: relative;
+  width: @card-height;
+  padding: 0px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
 .plot {
   position: relative;
-  width: 64px;
+  width: @card-width;
   margin: -7px 0px 0px 0px;
   padding: 0px;
   border: none;

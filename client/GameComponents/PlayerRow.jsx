@@ -76,7 +76,7 @@ class PlayerRow extends React.Component {
             var index = 0;
             var drawDeck = _.map(this.props.drawDeck, card => {
                 return (
-                    <div key={'drawCard'+index++}draggable className='card-frame' onDragStart={(ev) => this.onCardDragStart(ev, card, 'draw deck')}>
+                    <div key={'drawCard' + index++} draggable className='card-frame' onDragStart={(ev) => this.onCardDragStart(ev, card, 'draw deck')}>
                         <div className='card' onMouseOver={this.props.onMouseOver.bind(this, card)} onMouseOut={this.props.onMouseOut}>
                             <div>
                                 <img className='card' src={'/img/cards/' + card.code + '.png'} />}
@@ -109,6 +109,7 @@ class PlayerRow extends React.Component {
             </div>) : null;
 
         var topDiscard = _.last(this.props.discardPile);
+        var topDead = _.last(this.props.deadPile);
 
         return (
             <div className='player-home-row'>
@@ -154,6 +155,20 @@ class PlayerRow extends React.Component {
                     </div>
                     : <div className='agenda panel' />
                 }
+                <div className='dead panel' onDragOver={this.onDragOver} onDrop={(event) => this.onDragDrop(event, 'dead pile')}>
+                    <div className='panel-header'>
+                        {'Dead (' + (this.props.deadPile ? this.props.deadPile.length : 0) + ')'}
+                    </div>
+                    {topDead ?
+                        <div className='horizontal-card' onMouseOver={this.props.onMouseOver.bind(this, topDead)}
+                            onMouseOut={this.props.onMouseOut}
+                            onDragStart={(ev) => this.onCardDragStart(ev, topDead, 'dead pile')}>
+                            <div>
+                                <img className='vertical card' src={'/img/cards/' + topDead.code + '.png'} />
+                            </div>
+                        </div> :
+                        null}
+                </div>
             </div>
         );
     }

@@ -477,6 +477,27 @@ class Player {
         return true;
     }
 
+    doDeadDrop(card, source) {
+        var targetList = this.getTargetList(source);
+
+        if(!_.any(targetList, c => {
+            if(c.card) {
+                return c.card.code === card.code;
+            }
+
+            return c.code === card.code;
+        })) {
+            return false;
+        }
+
+        this.deadPile.push(card);
+
+        targetList = this.doCardMove(card, targetList);
+        this.updateTargetList(source, targetList);
+
+        return true;
+    }
+
     doInPlayDrop(card, source) {
         var targetList = this.getTargetList(source);
 
@@ -508,6 +529,8 @@ class Player {
                 return this.doHandDrop(card, source);
             case 'discard pile':
                 return this.doDiscardDrop(card, source);
+            case 'dead pile':
+                return this.doDeadDrop(card, source);
             case 'play area':
                 return this.doInPlayDrop(card, source);
         }
