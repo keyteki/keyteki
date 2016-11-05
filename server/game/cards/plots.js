@@ -185,7 +185,7 @@ plots['01006'] = {
         var card = _.find(player.drawDeck, c => {
             return c.code === arg;
         });
-            
+
         if(!card) {
             return;
         }
@@ -200,6 +200,45 @@ plots['01006'] = {
         game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to reveal ' + card.label + ' and add it to their hand');
 
         game.revealDone(player);
+    }
+};
+
+// 01007 - Calling The Banners
+plots['01007'] = {
+    register(game, player) {
+        this.player = player;
+        this.revealed = this.revealed.bind(this);
+
+        game.on('plotRevealed', this.revealed);
+    },
+    unregister(game) {
+        game.removeListener('plotRevealed', this.revealed);
+    },
+    revealed(game, player) {
+        if(this.player !== player) {
+            return;
+        }
+
+        var otherPlayer = _.find(game.players, p => {
+            return p.id !== player.id;
+        });
+
+        if(!otherPlayer) {
+            return;
+        }
+
+        var characterCount = _.reduce(otherPlayer.cardsInPlay, (memo, card) => {
+            var count = memo;
+
+            if(card.card.type_code === 'character') {
+                count++;
+            }
+
+            return count;
+        }, 0);
+
+        game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to gain ' + characterCount + ' gold');
+        player.gold += characterCount;
     }
 };
 
