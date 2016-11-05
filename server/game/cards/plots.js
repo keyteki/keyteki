@@ -620,6 +620,29 @@ plots['01015'] = {
     }
 };
 
+// 01016 - Marching Orders
+plots['01016'] = {
+    register(game, player) {
+        this.player = player;
+
+        this.beforeCardPlayed = this.beforeCardPlayed.bind(this);
+
+        game.on('beforeCardPlayed', this.beforeCardPlayed);
+    },
+    unregister(game) {
+        game.removeListener('beforeCardPlayed', this.beforeCardPlayed);
+    },
+    beforeCardPlayed(game, player, card) {
+        if(this.player !== player) {
+            return;
+        }
+
+        if(card.type_code === 'event' || card.type_code === 'attachment' || card.type_code === 'location') {
+            game.stopCardPlay = true;
+        }
+    }
+};
+
 // 01021 - Sneak Attack
 plots['01021'] = {
     register(game, player) {

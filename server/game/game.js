@@ -71,7 +71,12 @@ class Game extends EventEmitter {
             return player.id === playerId;
         });
 
+        this.stopCardPlay = false;        
         this.emit('beforeCardPlayed', this, player, card);
+        if(this.stopCardPlay) {
+            return;
+        }
+
         player.playCard(card);
         this.emit('afterCardPlayed', this, player, card);
 
