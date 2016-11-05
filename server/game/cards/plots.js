@@ -778,4 +778,75 @@ plots['02039'] = {
     }
 };
 
+// 03049 - The Long Winter
+plots['03049'] = {
+    register(game, player) {
+        this.player = player;
+        this.revealed = this.revealed.bind(this);
+        this.cardSelected = this.cardSelected.bind(this);
+
+        game.on('plotRevealed', this.revealed);
+        game.on('cardClicked', this.cardSelected);
+    },
+    unregister(game) {
+        game.removeListener('plotRevealed', this.revealed);
+        game.removeListener('cardClicked', this.cardSelected);
+    },
+    revealed(game, player) {
+        if(this.player !== player) {
+            return;
+        }
+
+        this.waitingForPlayers = {};
+
+        var anySummerPlots = false;
+
+        _.each(game.players, p => {
+            if(!hasTrait(p.activePlot.card, 'Summer') && p.getTotalPower() > 0) {
+                if(!_.any(p.cardsInPlay, card => {
+                    return card.power > 0;
+                })) {
+                    game.addMessage(p.name + ' discards 1 power from their faction card from ' + player.activePlot.card.label);
+                    p.power--;
+                } else {
+                    p.menuTitle = 'Select a card to discard power from';
+                    p.buttons = [
+                        { command: 'custom', text: 'Done', arg: '03049' }
+                    ];
+
+                    this.waitingForPlayers[p.id] = p;
+
+                    anySummerPlots = true;
+                }
+            }
+        });
+
+        if(anySummerPlots) {
+            game.pauseForPlot = true;
+        }
+    },
+    cardSelected(game, player, card) {
+        if(!this.waitingForPlayers[player.id]) {
+            return;
+        }
+
+        var cardInPlay = _.find(player.cardsInPlay, c => {
+            return c.card.code === card.code;
+        });
+
+        if(!cardInPlay || cardInPlay.power === 0) {
+            return;
+        }
+
+        game.addMessage(player.name + ' discards 1 power form ' + cardInPlay.card.label + ' from ' + this.player.activePlot.card.label);
+        cardInPlay.power--;
+
+        delete this.waitingForPlayers[player.id];
+
+        if(!_.any(this.waitingForPlayers)) {
+            game.revealDone(this.player);
+        }
+    }
+};
+
 module.exports = plots;

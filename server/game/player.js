@@ -124,7 +124,7 @@ class Player {
             return false;
         }
 
-        if(this.limitedPlayed && this.isLimited(card) && !isDupe) {
+        if(this.limitedPlayed && this.hasKeyword(card, 'Limited') && !isDupe) {
             return false;
         }
 
@@ -165,11 +165,7 @@ class Player {
         return _.any(this.cardsInPlay, playCard => {
             return playCard.card.code === card.code;
         });
-    }
-
-    isLimited(card) {
-        return card.text.indexOf('Limited.') !== -1;
-    }
+    }    
 
     removeFromHand(card) {
         var removed = false;
@@ -219,7 +215,7 @@ class Player {
             });
         }
 
-        if(this.isLimited(card) && !dragDrop) {
+        if(this.hasKeyword(card, 'Limited') && !dragDrop) {
             this.limitedPlayed = true;
         }
 
@@ -764,6 +760,10 @@ class Player {
     }
     
     hasKeyword(card, keyword) {
+        if(!card.text) {
+            return false;
+        }
+
         return card.text.indexOf(keyword + '.') !== -1;
     }
 

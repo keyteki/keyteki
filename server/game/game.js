@@ -230,8 +230,6 @@ class Game extends EventEmitter {
     }
 
     revealPlot(player) {
-        player.revealPlot();
-
         this.pauseForPlot = false;
         this.emit('plotRevealed', this, player);
 
@@ -264,6 +262,10 @@ class Game extends EventEmitter {
         });
 
         this.addMessage(player.name + ' has selected ' + firstPlayer.name + ' to be the first player');
+
+        _.each(this.players, p => {
+            p.revealPlot();
+        });
 
         this.revealPlot(firstPlayer);
     }
