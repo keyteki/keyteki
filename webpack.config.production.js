@@ -1,7 +1,6 @@
 require('es6-promise').polyfill();
 var webpack = require('webpack');
 var path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var BUILD_DIR = path.resolve(__dirname, 'public');
 var APP_DIR = path.resolve(__dirname, 'client');
@@ -19,11 +18,6 @@ var config = {
         publicPath: '/'
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            template: '!!pug!views/index.pug',
-            inject: 'body',
-            filename: 'index.html'
-        }),
         new webpack.optimize.UglifyJsPlugin({
             compressor: {
                 warnings: false,
