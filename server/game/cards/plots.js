@@ -355,6 +355,41 @@ plots['01009'] = {
         if(clicked.type_code !== 'attachment') {
             return;
         }
+        
+        var attachmentPlayer = player;
+
+        var card = _.find(player.cardsInPlay, c => {
+            var attachment = _.find(c.attachments, a => {
+                return a.code === clicked.code;
+            });
+
+            return !!attachment;
+        });
+
+        if(!card) {
+            var otherPlayer = _.find(game.players, p => {
+                return p.id !== player.id;
+            });
+            card = _.find(otherPlayer.cardsInPlay, c => {
+                var attachment = _.find(c.attachments, a => {
+                    return a.code === clicked.code;
+                });
+
+                return !!attachment;
+            });
+
+            if(!card) {
+                return;
+            }
+
+            attachmentPlayer = otherPlayer;
+        }
+
+        card.attachments = _.reject(card.attachments, a => {
+            return a.code === clicked.code;
+        });
+
+        attachmentPlayer.discardPile.push(clicked);
 
         game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to discard ' + clicked.label);
 
