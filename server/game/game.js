@@ -71,7 +71,7 @@ class Game extends EventEmitter {
             return player.id === playerId;
         });
 
-        this.stopCardPlay = false;        
+        this.stopCardPlay = false;
         this.emit('beforeCardPlayed', this, player, card);
         if(this.stopCardPlay) {
             return;
@@ -313,11 +313,15 @@ class Game extends EventEmitter {
             return;
         }
 
-        if(player.phase === 'challenge' && player.currentChallenge) {
-            var cardInPlay = _.find(player.cardsInPlay, c => {
-                return c.card.code === card.code;
-            });
+        var cardInPlay = _.find(player.cardsInPlay, c => {
+            return c.card.code === card.code;
+        });
 
+        if(cardInPlay) {
+            cardInPlay.kneeled = !cardInPlay.kneeled;
+        }
+
+        if(player.phase === 'challenge' && player.currentChallenge) {
             if(!cardInPlay) {
                 if(otherPlayer) {
                     var otherCardInPlay = _.find(otherPlayer.cardsInPlay, c => {
@@ -350,9 +354,9 @@ class Game extends EventEmitter {
                 return;
             }
 
-            this.canAddToChallenge = true;            
-            this.emit('beforeChallengerSelected', this, player, challengeCard);            
-            
+            this.canAddToChallenge = true;
+            this.emit('beforeChallengerSelected', this, player, challengeCard);
+
             if(this.canAddToChallenge) {
                 player.addToChallenge(challengeCard);
             }
@@ -457,7 +461,7 @@ class Game extends EventEmitter {
 
         player.challengeType = challengeType;
 
-        this.cancelChallenge = false;        
+        this.cancelChallenge = false;
         this.emit('beforeChallenge', this, player, challengeType);
         if(this.cancelChallenge) {
             return;
