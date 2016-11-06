@@ -752,7 +752,7 @@ class Game extends EventEmitter {
     doneRound(playerId) {
         var player = this.players[playerId];
 
-        if(player.hand.length > player.activePlot.card.reserve) {
+        if(player.hand.length > player.reserve) {
             return;
         }
         var otherPlayer = _.find(this.players, p => {
