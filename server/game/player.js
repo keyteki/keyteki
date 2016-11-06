@@ -783,10 +783,14 @@ class Player {
     }
 
     selectDeck(deck) {
+        this.drawCards = [];
+        this.plotCards = [];
+
         _.each(deck.drawCards, card => {
             for(var i = 0; i < card.count; i++) {
                 var drawCard = _.clone(card.card);
                 drawCard.uuid = uuid.v1();
+                drawCard.owner = this.id;
                 this.drawCards.push(drawCard);
             }
         });
@@ -795,6 +799,7 @@ class Player {
             for(var i = 0; i < card.count; i++) {
                 var plotCard = _.clone(card.card);
                 plotCard.uuid = uuid.v1();
+                plotCard.owner = this.id;
                 this.plotCards.push(plotCard);
             }
         });

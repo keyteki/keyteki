@@ -224,7 +224,9 @@ class Game extends EventEmitter {
             return p.id !== player.id;
         });
 
-        if(otherPlayer && !otherPlayer.plotRevealed) {
+        player.revealFinished = true;
+
+        if(otherPlayer && !otherPlayer.revealFinished) {
             this.revealPlot(otherPlayer);
 
             return;
@@ -311,7 +313,10 @@ class Game extends EventEmitter {
             }
 
             player.removeFromHand(player.selectedAttachment);
-            player.attach(player.selectedAttachment, card);
+
+            var targetPlayer = this.players[card.owner];
+            targetPlayer.attach(player.selectedAttachment, card);
+            player.selectCard = false;
 
             if(player.phase === 'setup') {
                 this.checkForAttachments();
