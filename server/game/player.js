@@ -285,7 +285,7 @@ class Player {
 
     selectPlot(plot) {
         if(!_.any(this.plotDeck, card => {
-            return card.code === plot.code;
+            return card.uuid === plot.uuid;
         })) {
             return false;
         }
@@ -303,7 +303,7 @@ class Player {
 
         this.plotDiscard.push(this.selectedPlot.card);
         this.plotDeck = _.reject(this.plotDeck, card => {
-            return card.code === this.selectedPlot.card.code;
+            return card.uuid === this.selectedPlot.card.uuid;
         });
 
         this.activePlot = this.selectedPlot;
@@ -793,7 +793,9 @@ class Player {
 
         _.each(deck.plotCards, card => {
             for(var i = 0; i < card.count; i++) {
-                this.plotCards.push(card.card);
+                var plotCard = _.clone(card.card);
+                plotCard.uuid = uuid.v1();
+                this.plotCards.push(plotCard);
             }
         });
 
