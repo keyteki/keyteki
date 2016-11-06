@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import NewGame from './NewGame.jsx';
 import GameList from './GameList.jsx';
@@ -18,8 +18,10 @@ class InnerGameLobby extends React.Component {
         };
     }
 
-    componentWillMount() {
-        this.setState({ gameName: this.props.username + '\'s game' });
+    componentWillReceiveProps(props) {
+        if(!props.currentGame) {
+            this.props.setContextMenu([]);
+        }
     }
 
     onNewGameClick(event) {
@@ -32,12 +34,12 @@ class InnerGameLobby extends React.Component {
         return (
             <div>
                 <div className='col-sm-6'>
-                    <button className='btn btn-primary' onClick={ this.onNewGameClick } disabled={ !!this.props.currentGame }>New Game</button>
-                    { this.props.games.length === 0 ? <h4>No games are currently in progress</h4> : <GameList games={ this.props.games } /> }
+                    <button className='btn btn-primary' onClick={this.onNewGameClick} disabled={!!this.props.currentGame}>New Game</button>
+                    {this.props.games.length === 0 ? <h4>No games are currently in progress</h4> : <GameList games={this.props.games} />}
                 </div>
                 <div className='col-sm-6'>
-                    { this.props.newGame ? <NewGame defaultGameName={ this.props.username + '\'s game' } /> : null }
-                    { this.props.currentGame ? <PendingGame /> : null }
+                    {this.props.newGame ? <NewGame defaultGameName={this.props.username + '\'s game'} /> : null}
+                    {this.props.currentGame ? <PendingGame /> : null}
                 </div>
             </div>);
     }
@@ -48,6 +50,7 @@ InnerGameLobby.propTypes = {
     currentGame: React.PropTypes.object,
     games: React.PropTypes.array,
     newGame: React.PropTypes.bool,
+    setContextMenu: React.PropTypes.func,
     startNewGame: React.PropTypes.func,
     username: React.PropTypes.string
 };

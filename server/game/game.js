@@ -1,22 +1,19 @@
 const _ = require('underscore');
 const EventEmitter = require('events');
+const uuid = require('node-uuid');
 
-const Player = require('./player.js');
 const cards = require('./cards');
 
 class Game extends EventEmitter {
-    constructor(game) {
+    constructor(name) {
         super();
 
         this.players = {};
         this.messages = [];
 
-        _.each(game.players, player => {
-            this.players[player.id] = new Player(player);
-        });
-
-        this.name = game.name;
-        this.id = game.id;
+        this.name = name;
+        this.id = uuid.v1();
+        this.started = false;
     }
 
     addMessage(message) {
@@ -26,14 +23,41 @@ class Game extends EventEmitter {
     getState(activePlayer) {
         var playerState = {};
 
+        if(this.started) {
+            _.each(this.players, player => {
+                playerState[player.id] = player.getState(activePlayer === player.id);
+            });
+
+            return {
+                name: this.name,
+                players: playerState,
+                messages: this.messages
+            };
+        }
+
+        return this.getSummary(activePlayer);
+    }
+
+    getSummary(activePlayer) {
+        var playerSummaries = [];
+
         _.each(this.players, player => {
-            playerState[player.id] = player.getState(activePlayer === player.id);
+            var deck = undefined;
+
+            if(activePlayer === player.id && player.deck) {
+                deck = { name: player.deck.name };
+            } else if(player.deck) {
+                deck = {};
+            }
+
+            playerSummaries.push({ id: player.id, name: player.name, deck: deck, owner: player.owner });
         });
 
         return {
+            id: this.id,
             name: this.name,
-            players: playerState,
-            messages: this.messages
+            started: this.started,
+            players: playerSummaries
         };
     }
 
@@ -787,12 +811,42 @@ class Game extends EventEmitter {
         this.addMessage('<' + player.name + '> ' + message);
     }
 
-    playerDisconnect(playerId) {
+    playerLeave(playerId, reason) {
         var player = _.find(this.players, player => {
             return player.id === playerId;
         });
 
-        this.addMessage(player.name + ' has disconnected');
+        this.addMessage(player.name + ' ' + reason);
+    }
+
+    concede(playerId) {
+        var player = _.find(this.players, p => {
+            return p.id === playerId;
+        });
+
+        if(!player) {
+            return;
+        }
+
+        this.addMessage(player.name + ' concedes');
+
+        var otherPlayer = _.find(this.players, p => {
+            return p.id !== playerId;
+        });
+
+        if(otherPlayer) {
+            this.addMessage(otherPlayer.name + ' wins the game');
+        }
+    }
+
+    selectDeck(playerid, deck) {
+        var player = this.players[playerid];
+
+        if(!player) {
+            return;
+        }
+
+        player.selectDeck(deck);
     }
 
     initialise() {

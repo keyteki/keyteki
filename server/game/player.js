@@ -1,28 +1,15 @@
 const _ = require('underscore');
 
 class Player {
-    constructor(player) {
+    constructor(id, name, owner) {
         this.drawCards = [];
         this.plotCards = [];
         this.drawDeck = [];
         this.hand = [];
 
-        this.id = player.id;
-        this.deck = player.deck;
-
-        this.name = player.name;
-
-        _.each(player.deck.drawCards, card => {
-            for(var i = 0; i < card.count; i++) {
-                this.drawCards.push(card.card);
-            }
-        });
-
-        _.each(player.deck.plotCards, card => {
-            for(var i = 0; i < card.count; i++) {
-                this.plotCards.push(card.card);
-            }
-        });
+        this.id = id;
+        this.name = name;
+        this.owner = owner;
 
         this.takenMulligan = false;
     }
@@ -793,6 +780,22 @@ class Player {
         });
 
         this.discardPile.push(card);
+    }
+
+    selectDeck(deck) {
+        _.each(deck.drawCards, card => {
+            for(var i = 0; i < card.count; i++) {
+                this.drawCards.push(card.card);
+            }
+        });
+
+        _.each(deck.plotCards, card => {
+            for(var i = 0; i < card.count; i++) {
+                this.plotCards.push(card.card);
+            }
+        });
+
+        this.deck = deck;
     }
 
     getState(isActivePlayer) {

@@ -7,6 +7,13 @@ export function navigate(path) {
     };
 }
 
+export function setContextMenu(menu) {
+    return {
+        type: 'SET_CONTEXT_MENU',
+        menu: menu
+    };
+}
+
 export function register(username, token) {
     return {
         type: 'AUTH_REGISTER',

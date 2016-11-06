@@ -8,6 +8,11 @@ export default function(state = {}, action) {
         case 'NAVIGATE':
             state = navigate(state, action.newPath);
             break;
+        case 'SET_CONTEXT_MENU':
+            state = Object.assign({}, state, {
+                context: action.menu
+            });
+            break;
     }
 
     return state;

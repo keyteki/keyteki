@@ -20,7 +20,6 @@ const db = mongoskin.db('mongodb://127.0.0.1:27017/throneteki');
 const pug = require('pug');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const uuid = require('node-uuid');
 const _ = require('underscore');
 const config = require('./config.js');
 
@@ -28,6 +27,7 @@ const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 4000 : process.env.PORT;
 
 const Game = require('./game/game.js');
+const Player = require('./game/player.js');
 
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -150,8 +150,7 @@ function runServer() {
     });
 }
 
-var games = [];
-var gamesInProgress = {};
+var games = {};
 
 io.set('heartbeat timeout', 30000);
 
@@ -167,19 +166,70 @@ io.use(function(socket, next) {
     next();
 });
 
-function findGame(gameid) {
-    var game = _.find(games, function(g) {
-        return g.id === gameid;
+function refreshGameList(socket) {
+    var gameSummaries = [];
+
+    _.each(games, game => {
+        gameSummaries.push(game.getSummary());
     });
 
-    return game;
+    if(socket) {
+        socket.emit('games', gameSummaries);
+    } else {
+        io.emit('games', gameSummaries);
+    }
 }
 
 function findGameForPlayer(socketid) {
-    return _.find(gamesInProgress, game => {
-        return _.any(game.players, player => {
-            return player.id === socketid;
+    var gameToReturn = undefined;
+    _.each(games, game => {
+        if(game.players[socketid]) {
+            gameToReturn = game;
+        }
+
+        if(gameToReturn) {
+            return;
+        }
+    });
+
+    return gameToReturn;
+}
+
+function removePlayerFromGame(game, socket, reason) {
+    if(game.started) {
+        game.playerLeave(socket.id, reason);
+
+        _.each(game.players, (player, key) => {
+            io.to(key).emit('gamestate', game.getState(player.id));
         });
+    }
+
+    var player = game.players[socket.id];
+
+    if(!player) {
+        return;
+    }
+
+    delete game.players[socket.id];
+
+    io.to(game.id).emit('leavegame', game, player);
+
+    socket.leave(game.id);
+
+    if(_.isEmpty(game.players)) {
+        delete games[game.id];
+    }
+}
+
+function updateGame(game) {
+    _.each(game.players, (player, key) => {
+        io.to(key).emit('updategame', game.getSummary(player.id));
+    });
+}
+
+function sendGameState(game) {
+    _.each(game.players, (player, key) => {
+        io.to(key).emit('gamestate', game.getState(player.id));
     });
 }
 
@@ -189,46 +239,15 @@ io.on('connection', function(socket) {
     });
 
     socket.on('disconnect', function() {
-        var playerGame = _.find(games, function(game) {
-            return _.any(game.players, function(player) {
-                return player.id === socket.id;
-            });
-        });
+        var game = findGameForPlayer(socket.id);
 
-        if(!playerGame) {
+        if(!game) {
             return;
         }
 
-        var inProgressGame = findGameForPlayer(socket.id);
-        if(inProgressGame) {
-            inProgressGame.playerDisconnect(socket.id);
+        removePlayerFromGame(game, socket, 'has disconnected');
 
-            _.each(inProgressGame.players, (player, key) => {
-                io.to(key).emit('gamestate', inProgressGame.getState(player.id));
-            });
-        }
-
-        var players = playerGame.players;
-
-        playerGame.players = _.reject(playerGame.players, player => {
-            return player.id === socket.id;
-        });
-
-        _.each(players, player => {
-            if(socket.id === player.id) {
-                _.each(players, sendPlayer => {
-                    io.to(sendPlayer.id).emit('leavegame', playerGame, player);
-                });
-            }
-        });
-
-        if(_.isEmpty(playerGame.players)) {
-            games = _.reject(games, game => {
-                return game.id === playerGame.id;
-            });
-        }
-
-        io.emit('games', games);
+        refreshGameList();
     });
 
     socket.on('authenticate', function(token) {
@@ -239,96 +258,82 @@ io.on('connection', function(socket) {
         });
     });
 
-    socket.on('newgame', function(game) {
-        game.id = uuid.v1();
-        game.started = false;
-        game.players = [{
-            id: socket.id,
-            name: socket.request.user.username,
-            owner: true
-        }];
+    socket.on('newgame', function(name) {
+        if(!socket.request.user) {
+            return;
+        }
 
-        games.push(game);
-        socket.emit('newgame', game);
-        io.emit('games', games);
+        var game = new Game(name);
 
+        game.players[socket.id] = new Player(socket.id, socket.request.user.username, true);
+
+        games[game.id] = game;
+        socket.emit('newgame', game.getState(socket.id));
         socket.join(game.id);
+
+        refreshGameList();
     });
 
     socket.on('joingame', function(gameid) {
-        if (!socket.request.user) {
-            return;
-        }
-        
-        var game = findGame(gameid);
-
-        if(!game || game.players.length === 2) {
+        if(!socket.request.user) {
             return;
         }
 
-        game.players.push({
-            id: socket.id,
-            name: socket.request.user.username
-        });
+        var game = games[gameid];
 
+        if(!game || game.started || game.players.length === 2) {
+            return;
+        }
+
+        game.players[socket.id] = new Player(socket.id, socket.request.user.username, false);
         socket.join(game.id);
 
-        io.to(game.id).emit('joingame', game);
+        _.each(game.players, (player, key) => {
+            io.to(key).emit('joingame', game.getState(player.id));
+        });
 
-        io.emit('games', games);
+        refreshGameList();
     });
 
     socket.on('selectdeck', function(gameid, deck) {
-        var game = findGame(gameid);
+        if(!socket.request.user) {
+            return;
+        }
+
+        var game = games[gameid];
 
         if(!game) {
             return;
         }
 
-        _.each(game.players, player => {
-            if(socket.id === player.id) {
-                player.deck = deck;
-            }
-        });
+        game.selectDeck(socket.id, deck);
 
-        io.to(game.id).emit('updategame', game);
+        updateGame(game);
     });
 
     socket.on('leavegame', function(gameid) {
-        var game = findGame(gameid);
+        if(!socket.request.user) {
+            return;
+        }
 
+        var game = gameid ? games[gameid] : findGameForPlayer(socket.id);
         if(!game) {
             return;
         }
 
-        var leavingPlayer = undefined;
+        removePlayerFromGame(game, socket, 'has left the game');
 
-        game.players = _.reject(game.players, player => {
-            if(player.id === socket.id) {
-                leavingPlayer = player;
-            }
-
-            return player.id === socket.id;
-        });
-
-        io.to(game.id).emit('leavegame', game, leavingPlayer);
-
-        socket.leave(game.id);
-        socket.emit('leavegame', game, leavingPlayer);
-
-        if(_.isEmpty(game.players)) {
-            games = _.reject(games, game => {
-                return game.id === gameid;
-            });
-        }
-
-        io.emit('games', games);
+        refreshGameList();
     });
 
     socket.on('startgame', function(gameid) {
-        var game = findGame(gameid);
+        if(!socket.request.user) {
+            return;
+        }
 
-        if(!game) {
+        var game = games[gameid];
+
+        if(!game || game.started) {
             return;
         }
 
@@ -338,33 +343,20 @@ io.on('connection', function(socket) {
             return;
         }
 
-        var isOwner = false;
-
-        _.each(game.players, function(player) {
-            if(player.id === socket.id && player.owner) {
-                isOwner = true;
-            }
-        });
-
-        if(!isOwner || game.started) {
+        var player = game.players[socket.id];
+        if(!player || !player.owner) {
             return;
         }
 
         game.started = true;
 
-        var newGame = new Game(game);
+        updateGame(game);        
 
-        gamesInProgress[newGame.id] = newGame;
+        game.initialise();
+        
+        sendGameState(game);
 
-        newGame.initialise();
-
-        io.to(game.id).emit('updategame', game);
-
-        _.each(newGame.players, (player, key) => {
-            io.to(key).emit('gamestate', newGame.getState(player.id));
-        });
-
-        io.emit('games', games);
+        refreshGameList();
     });
 
     socket.on('mulligan', function() {
@@ -377,9 +369,7 @@ io.on('connection', function(socket) {
         game.mulligan(socket.id);
         game.startGameIfAble();
 
-        _.each(game.players, (player, key) => {
-            io.to(key).emit('gamestate', game.getState(player.id));
-        });
+        sendGameState(game);
     });
 
     socket.on('keep', function() {
@@ -392,9 +382,7 @@ io.on('connection', function(socket) {
         game.keep(socket.id);
         game.startGameIfAble();
 
-        _.each(game.players, (player, key) => {
-            io.to(key).emit('gamestate', game.getState(player.id));
-        });
+        sendGameState(game);
     });
 
     socket.on('playcard', function(card) {
@@ -405,9 +393,7 @@ io.on('connection', function(socket) {
         }
 
         game.playCard(socket.id, card);
-        _.each(game.players, (player, key) => {
-            io.to(key).emit('gamestate', game.getState(player.id));
-        });
+        sendGameState(game);
     });
 
     socket.on('setupdone', function() {
@@ -418,9 +404,7 @@ io.on('connection', function(socket) {
         }
 
         game.setupDone(socket.id);
-        _.each(game.players, (player, key) => {
-            io.to(key).emit('gamestate', game.getState(player.id));
-        });
+        sendGameState(game);
     });
 
     socket.on('selectplot', function(plot) {
@@ -431,9 +415,7 @@ io.on('connection', function(socket) {
         }
 
         game.selectPlot(socket.id, plot);
-        _.each(game.players, (player, key) => {
-            io.to(key).emit('gamestate', game.getState(player.id));
-        });
+        sendGameState(game);
     });
 
     socket.on('firstplayer', function(arg) {
@@ -444,9 +426,7 @@ io.on('connection', function(socket) {
         }
 
         game.setFirstPlayer(socket.id, arg);
-        _.each(game.players, (player, key) => {
-            io.to(key).emit('gamestate', game.getState(player.id));
-        });
+        sendGameState(game);
     });
 
     socket.on('cardclick', function(card) {
@@ -458,9 +438,7 @@ io.on('connection', function(socket) {
 
         game.cardClicked(socket.id, card);
 
-        _.each(game.players, (player, key) => {
-            io.to(key).emit('gamestate', game.getState(player.id));
-        });
+        sendGameState(game);
     });
 
     socket.on('showdrawdeck', function() {
@@ -472,7 +450,7 @@ io.on('connection', function(socket) {
 
         game.showDrawDeck(socket.id);
 
-        socket.emit('gamestate', game.getState(socket.id));
+        sendGameState(game);
     });
 
     socket.on('drop', function(card, source, target) {
@@ -484,9 +462,7 @@ io.on('connection', function(socket) {
 
         game.drop(socket.id, card, source, target);
 
-        _.each(game.players, (player, key) => {
-            io.to(key).emit('gamestate', game.getState(player.id));
-        });
+        sendGameState(game);
     });
 
     socket.on('donemarshal', function() {
@@ -498,9 +474,7 @@ io.on('connection', function(socket) {
 
         game.marshalDone(socket.id);
 
-        _.each(game.players, (player, key) => {
-            io.to(key).emit('gamestate', game.getState(player.id));
-        });
+        sendGameState(game);
     });
 
     socket.on('challenge', function(challengeType) {
@@ -512,9 +486,7 @@ io.on('connection', function(socket) {
 
         game.startChallenge(socket.id, challengeType);
 
-        _.each(game.players, (player, key) => {
-            io.to(key).emit('gamestate', game.getState(player.id));
-        });
+        sendGameState(game);
     });
 
     socket.on('donechallenge', function() {
@@ -526,9 +498,7 @@ io.on('connection', function(socket) {
 
         game.doneChallenge(socket.id);
 
-        _.each(game.players, (player, key) => {
-            io.to(key).emit('gamestate', game.getState(player.id));
-        });
+        sendGameState(game);
     });
 
     socket.on('donedefend', function() {
@@ -540,9 +510,7 @@ io.on('connection', function(socket) {
 
         game.doneDefend(socket.id);
 
-        _.each(game.players, (player, key) => {
-            io.to(key).emit('gamestate', game.getState(player.id));
-        });
+        sendGameState(game);
     });
 
     socket.on('doneallchallenges', function() {
@@ -554,9 +522,7 @@ io.on('connection', function(socket) {
 
         game.doneChallenges(socket.id);
 
-        _.each(game.players, (player, key) => {
-            io.to(key).emit('gamestate', game.getState(player.id));
-        });
+        sendGameState(game);
     });
 
     socket.on('doneround', function() {
@@ -568,9 +534,7 @@ io.on('connection', function(socket) {
 
         game.doneRound(socket.id);
 
-        _.each(game.players, (player, key) => {
-            io.to(key).emit('gamestate', game.getState(player.id));
-        });
+        sendGameState(game);
     });
 
     socket.on('changestat', function(stat, value) {
@@ -582,9 +546,7 @@ io.on('connection', function(socket) {
 
         game.changeStat(socket.id, stat, value);
 
-        _.each(game.players, (player, key) => {
-            io.to(key).emit('gamestate', game.getState(player.id));
-        });
+        sendGameState(game);
     });
 
     socket.on('custom', function(arg) {
@@ -596,9 +558,7 @@ io.on('connection', function(socket) {
 
         game.customCommand(socket.id, arg);
 
-        _.each(game.players, (player, key) => {
-            io.to(key).emit('gamestate', game.getState(player.id));
-        });
+        sendGameState(game);
     });
 
     socket.on('chat', function(message) {
@@ -610,9 +570,7 @@ io.on('connection', function(socket) {
 
         game.chat(socket.id, message);
 
-        _.each(game.players, (player, key) => {
-            io.to(key).emit('gamestate', game.getState(player.id));
-        });
+        sendGameState(game);
     });
 
     socket.on('lobbychat', function(message) {
@@ -625,7 +583,19 @@ io.on('connection', function(socket) {
         io.emit('lobbychat', chatMessage);
     });
 
-    socket.emit('games', games);
+    socket.on('concede', function() {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        game.concede(socket.id);
+
+        sendGameState(game);
+    });
+
+    refreshGameList(socket);
 
     db.collection('messages').find().sort({ time: -1 }).limit(50).toArray((err, messages) => {
         if(err) {
