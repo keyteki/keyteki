@@ -609,8 +609,7 @@ class Player {
 
         if(card.selected) {
             this.cardsInChallenge.push(card);
-        }
-        else {
+        } else {
             this.cardsInChallenge = _.reject(this.cardsInChallenge, c => {
                 return c.card.uuid === card.card.uuid;
             });
