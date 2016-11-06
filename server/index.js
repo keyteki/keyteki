@@ -256,6 +256,10 @@ io.on('connection', function(socket) {
     });
 
     socket.on('joingame', function(gameid) {
+        if (!socket.request.user) {
+            return;
+        }
+        
         var game = findGame(gameid);
 
         if(!game || game.players.length === 2) {
