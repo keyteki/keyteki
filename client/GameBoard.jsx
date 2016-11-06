@@ -99,7 +99,7 @@ class InnerGameBoard extends React.Component {
         event.dataTransfer.setData('card', JSON.stringify(dragData));
     }
 
-    getCardsInPlay(player) {
+    getCardsInPlay(player, isMe) {
         var index = 0;
 
         var cardsByType = _.groupBy(player.cardsInPlay, c => {
@@ -110,10 +110,12 @@ class InnerGameBoard extends React.Component {
 
         _.each(cardsByType, cards => {
             var cardsInPlay = _.map(cards, card => {
+                var allowMouseOver = isMe || !card.facedown;
                 var attachments = _.map(card.attachments, a => {
                     return (
                         <div className='attachment'>
-                            <div className='card' onMouseOver={this.onMouseOver.bind(this, a)} onMouseOut={this.onMouseOut}
+                            <div className='card' onMouseOver={allowMouseOver ? this.onMouseOver.bind(this, a) : null}
+                                onMouseOut={this.onMouseOut}
                                 onClick={this.onCardClick2.bind(this, a)}>
                                 <div>
                                     {card.facedown ?
@@ -162,7 +164,8 @@ class InnerGameBoard extends React.Component {
                     <div className='card-wrapper' key={'card' + index.toString()}>
                         <div className='card-frame'>
                             <div className={card.kneeled ? 'horizontal-card kneeled' : 'card'}
-                                onMouseOver={this.onMouseOver.bind(this, card.card)} onMouseOut={this.onMouseOut}
+                                onMouseOver={allowMouseOver ? this.onMouseOver.bind(this, card.card) : null}
+                                onMouseOut={this.onMouseOut}
                                 onDragStart={(ev) => this.onCardDragStart(ev, card.card, 'play area')}
                                 onClick={this.onCardClick2.bind(this, card.card)}>
                                 <div>
@@ -256,13 +259,13 @@ class InnerGameBoard extends React.Component {
         var thisPlayerCards = [];
 
         var index = 0;
-        _.each(this.getCardsInPlay(thisPlayer).reverse(), cards => {
+        _.each(this.getCardsInPlay(thisPlayer, true).reverse(), cards => {
             thisPlayerCards.push(<div key={'this-loc' + index++}>{cards}</div>);
         });
         var otherPlayerCards = [];
 
         if (otherPlayer) {
-            _.each(this.getCardsInPlay(otherPlayer).reverse(), cards => {
+            _.each(this.getCardsInPlay(otherPlayer, false).reverse(), cards => {
                 otherPlayerCards.push(<div key={'other-loc' + index++}>{cards}</div>);
             });
         }
