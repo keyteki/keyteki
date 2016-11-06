@@ -263,7 +263,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        var game = new Game(name);
+        var game = new Game(socket.id, name);
 
         game.players[socket.id] = new Player(socket.id, socket.request.user.username, true);
 

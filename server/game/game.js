@@ -5,7 +5,7 @@ const uuid = require('node-uuid');
 const cards = require('./cards');
 
 class Game extends EventEmitter {
-    constructor(name) {
+    constructor(owner, name) {
         super();
 
         this.players = {};
@@ -13,6 +13,7 @@ class Game extends EventEmitter {
 
         this.name = name;
         this.id = uuid.v1();
+        this.owner = owner;
         this.started = false;
     }
 
@@ -30,6 +31,7 @@ class Game extends EventEmitter {
 
             return {
                 name: this.name,
+                owner: this.owner,
                 players: playerState,
                 messages: this.messages
             };
@@ -56,6 +58,7 @@ class Game extends EventEmitter {
         return {
             id: this.id,
             name: this.name,
+            owner: this.owner,
             started: this.started,
             players: playerSummaries
         };

@@ -17,7 +17,7 @@ class InnerPendingGame extends React.Component {
         this.onStartClick = this.onStartClick.bind(this);
 
         this.state = {
-            playerCount: 0,
+            playerCount: 1,
             decks: [],
             playSound: true
         };
@@ -42,7 +42,7 @@ class InnerPendingGame extends React.Component {
     componentWillReceiveProps(props) {
         var players = _.size(props.currentGame.players);
 
-        if(this.state.playerCount <= 1 && players === 2) {
+        if(this.state.playerCount === 1 && players === 2 && props.currentGame.owner === this.props.socket.id) {
             this.refs.notification.play();
         }
 
@@ -56,14 +56,7 @@ class InnerPendingGame extends React.Component {
             return false;
         }
 
-        var myGame = false;
-        _.each(this.props.currentGame.players, player => {
-            if(player.id === this.props.socket.id && player.owner) {
-                myGame = true;
-            }
-        });
-
-        return myGame;
+        return this.props.currentGame.owner === this.props.socket.id;
     }
 
     onSelectDeckClick() {
