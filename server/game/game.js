@@ -72,9 +72,7 @@ class Game extends EventEmitter {
     }
 
     mulligan(playerId) {
-        var player = _.find(this.players, player => {
-            return player.id === playerId;
-        });
+        var player = this.players[playerId];
 
         player.mulligan();
 
@@ -82,18 +80,14 @@ class Game extends EventEmitter {
     }
 
     keep(playerId) {
-        var player = _.find(this.players, player => {
-            return player.id === playerId;
-        });
+        var player = this.players[playerId];
 
         player.keep();
         this.addMessage(player.name + ' has kept their hand');
     }
 
     playCard(playerId, card) {
-        var player = _.find(this.players, player => {
-            return player.id === playerId;
-        });
+        var player = this.players[playerId];
 
         this.stopCardPlay = false;
         this.emit('beforeCardPlayed', this, player, card);
@@ -140,9 +134,7 @@ class Game extends EventEmitter {
     }
 
     setupDone(playerId) {
-        var player = _.find(this.players, player => {
-            return player.id === playerId;
-        });
+        var player = this.players[playerId];
 
         player.setupDone();
 
@@ -180,9 +172,7 @@ class Game extends EventEmitter {
     }
 
     selectPlot(playerId, plot) {
-        var player = _.find(this.players, player => {
-            return player.id === playerId;
-        });
+        var player = this.players[playerId];
 
         if(!player.selectPlot(plot)) {
             return;
@@ -265,9 +255,7 @@ class Game extends EventEmitter {
     setFirstPlayer(sourcePlayer, who) {
         var firstPlayer = undefined;
 
-        var player = _.find(this.players, player => {
-            return player.id === sourcePlayer;
-        });
+        var player = this.players[sourcePlayer];
 
         _.each(this.players, player => {
             if(player.id === sourcePlayer && who === 'me') {
@@ -295,9 +283,7 @@ class Game extends EventEmitter {
     }
 
     cardClicked(sourcePlayer, card) {
-        var player = _.find(this.players, player => {
-            return player.id === sourcePlayer;
-        });
+        var player = this.players[sourcePlayer];
 
         if(!player) {
             return;
@@ -415,9 +401,7 @@ class Game extends EventEmitter {
     }
 
     showDrawDeck(playerId) {
-        var player = _.find(this.players, player => {
-            return player.id === playerId;
-        });
+        var player = this.players[playerId];
 
         player.showDrawDeck();
 
@@ -425,9 +409,7 @@ class Game extends EventEmitter {
     }
 
     drop(playerId, card, source, target) {
-        var player = _.find(this.players, player => {
-            return player.id === playerId;
-        });
+        var player = this.players[playerId];
 
         if(player.drop(card, source, target)) {
             this.addMessage(player.name + ' has moved a card from their ' + source + ' to their ' + target);
@@ -435,9 +417,7 @@ class Game extends EventEmitter {
     }
 
     marshalDone(playerId) {
-        var player = _.find(this.players, player => {
-            return player.id === playerId;
-        });
+        var player = this.players[playerId];
 
         player.marshalDone();
 
@@ -471,9 +451,7 @@ class Game extends EventEmitter {
     }
 
     startChallenge(playerId, challengeType) {
-        var player = _.find(this.players, player => {
-            return player.id === playerId;
-        });
+        var player = this.players[playerId];
 
         if(player.challenges.complete >= player.challenges.maxTotal) {
             return;
@@ -495,9 +473,7 @@ class Game extends EventEmitter {
     }
 
     doneChallenge(playerId) {
-        var player = _.find(this.players, player => {
-            return player.id === playerId;
-        });
+        var player = this.players[playerId];
 
         if(!_.any(player.cardsInPlay, card => {
             return card.selected;
@@ -541,9 +517,7 @@ class Game extends EventEmitter {
     }
 
     doneDefend(playerId) {
-        var player = _.find(this.players, player => {
-            return player.id === playerId;
-        });
+        var player = this.players[playerId];
 
         player.doneChallenge(false);
 
@@ -665,9 +639,7 @@ class Game extends EventEmitter {
     }
 
     doneChallenges(playerId) {
-        var challenger = _.find(this.players, player => {
-            return player.id === playerId;
-        });
+        var challenger = this.players[playerId];
 
         challenger.doneChallenges = true;
 
@@ -735,9 +707,7 @@ class Game extends EventEmitter {
     }
 
     doneRound(playerId) {
-        var player = _.find(this.players, player => {
-            return player.id === playerId;
-        });
+        var player = this.players[playerId];
 
         if(player.hand.length > player.activePlot.card.reserve) {
             return;
@@ -782,9 +752,7 @@ class Game extends EventEmitter {
     }
 
     changeStat(playerId, stat, value) {
-        var player = _.find(this.players, player => {
-            return player.id === playerId;
-        });
+        var player = this.players[playerId];
 
         player[stat] += value;
 
@@ -796,33 +764,25 @@ class Game extends EventEmitter {
     }
 
     customCommand(playerId, arg) {
-        var player = _.find(this.players, player => {
-            return player.id === playerId;
-        });
+        var player = this.players[playerId];
 
         this.emit('customCommand', this, player, arg);
     }
 
     chat(playerId, message) {
-        var player = _.find(this.players, player => {
-            return player.id === playerId;
-        });
+        var player = this.players[playerId];
 
         this.addMessage('<' + player.name + '> ' + message);
     }
 
     playerLeave(playerId, reason) {
-        var player = _.find(this.players, player => {
-            return player.id === playerId;
-        });
+        var player = this.players[playerId];
 
         this.addMessage(player.name + ' ' + reason);
     }
 
     concede(playerId) {
-        var player = _.find(this.players, p => {
-            return p.id === playerId;
-        });
+        var player = this.players[playerId];
 
         if(!player) {
             return;
