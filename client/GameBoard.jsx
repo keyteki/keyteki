@@ -130,9 +130,11 @@ class InnerGameBoard extends React.Component {
         _.each(cardsByType, cards => {
             var cardsInPlay = _.map(cards, card => {
                 var allowMouseOver = isMe || !card.facedown;
+                var offset = 10;
                 var attachments = _.map(card.attachments, a => {
-                    return (
-                        <div className='attachment'>
+                    var style = { top: offset + 'px', zIndex: -offset };
+                    var returnedAttachment = (
+                        <div className='attachment' style={style}>
                             <div className='card' onMouseOver={allowMouseOver ? this.onMouseOver.bind(this, a) : null}
                                 onMouseOut={this.onMouseOut}
                                 onClick={this.onCardClick2.bind(this, a)}>
@@ -143,6 +145,10 @@ class InnerGameBoard extends React.Component {
                                 </div>
                             </div>
                         </div>);
+                    
+                    offset += 10;
+
+                    return returnedAttachment;
                 });
 
                 var counters = null;
