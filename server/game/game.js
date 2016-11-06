@@ -98,7 +98,10 @@ class Game extends EventEmitter {
             return;
         }
 
-        player.playCard(card);
+        if(!player.playCard(card)) {
+            return;
+        }
+
         this.emit('afterCardPlayed', this, player, card);
 
         var cardImplemation = cards[card.code];
@@ -287,85 +290,61 @@ class Game extends EventEmitter {
         this.revealPlot(firstPlayer);
     }
 
-    cardClicked(sourcePlayer, card) {
-        var player = this.players[sourcePlayer];
-
-        if(!player) {
+    attachCard(player, card) {
+        this.canAttach = true;
+        this.emit('beforeAttach', this, player, card);
+        if(!this.canAttach) {
             return;
         }
 
-        var otherPlayer = _.find(this.players, p => {
-            return p.id !== player.id;
-        });
+        player.removeFromHand(player.selectedAttachment);
 
-        this.clickHandled = false;
-        this.emit('cardClicked', this, player, card);
-        if(this.clickHandled) {
-            return;
+        var targetPlayer = this.players[card.owner];
+        targetPlayer.attach(player.selectedAttachment, card);
+        player.selectCard = false;
+
+        if(player.phase === 'setup') {
+            this.checkForAttachments();
+        } else {
+            player.buttons = [{ command: 'donemarshal', text: 'Done' }];
+            player.menuTitle = 'Marshal your cards';
         }
+    }
 
-        if(player.phase === 'setup' && !player.waitingForAttachments) {
-            return;
-        }
-
-        if(player.selectedAttachment) {
-            this.canAttach = true;
-            this.emit('beforeAttach', this, player, card);
-            if(!this.canAttach) {
-                return;
-            }
-
-            player.removeFromHand(player.selectedAttachment);
-
-            var targetPlayer = this.players[card.owner];
-            targetPlayer.attach(player.selectedAttachment, card);
-            player.selectCard = false;
-
-            if(player.phase === 'setup') {
-                this.checkForAttachments();
-            } else {
-                player.buttons = [{ command: 'donemarshal', text: 'Done' }];
-                player.menuTitle = 'Marshal your cards';
-            }
-
-            return;
-        }
-
+    handleChallenge(player, otherPlayer, card) {
         var cardInPlay = player.findCardInPlayByUuid(card.uuid);
 
-        if(cardInPlay) {
-            cardInPlay.kneeled = !cardInPlay.kneeled;
-        }
-
-        if(player.phase === 'challenge' && player.currentChallenge) {
-            if(!cardInPlay) {
-                if(otherPlayer) {
-                    var otherCardInPlay = otherPlayer.findCardInPlayByUuid(card.uuid);
-
-                    if(!otherPlayer.addToStealth(otherCardInPlay.card)) {
-                        return;
-                    }
-
-                    this.addMessage(player.name + ' has chosen ' + otherCardInPlay.card.label + ' as a stealth target');
-                    this.addMessage(player.name + ' has initiated a ' + player.currentChallenge + ' challenge with strength ' + player.challengeStrength);
-
-                    player.menuTitle = 'Waiting for opponent to defend';
-                    player.buttons = [];
-                    player.selectCard = false;
-
-                    otherPlayer.beginDefend(player.currentChallenge);
-                }
-
-                return;
+        if(!cardInPlay) {
+            if(!player.pickingStealth) {
+                return false;
             }
 
-            if(cardInPlay.kneeled) {
-                return;
+            if(otherPlayer) {
+                var otherCardInPlay = otherPlayer.findCardInPlayByUuid(card.uuid);
+
+                if(!otherCardInPlay) {
+                    return false;
+                }
+
+                if(!otherPlayer.addToStealth(otherCardInPlay.card)) {
+                    return false;
+                }
+
+                this.addMessage(player.name + ' has chosen ' + otherCardInPlay.card.label + ' as a stealth target');
+                player.stealthCard.stealthTarget = otherCardInPlay;
+
+                if(this.doStealth(player)) {
+                    return true;
+                }
+            }
+        } else {
+            if(!player.selectingChallengers || cardInPlay.kneeled) {
+                return false;
             }
 
             var challengeCard = player.canAddToChallenge(card);
             if(!challengeCard) {
-                return;
+                return false;
             }
 
             this.canAddToChallenge = true;
@@ -374,34 +353,83 @@ class Game extends EventEmitter {
             if(this.canAddToChallenge) {
                 player.addToChallenge(challengeCard);
             }
+        }
+
+        return true;
+    }
+
+    handleClaim(player, otherPlayer, card) {
+        if(card.type_code !== 'character') {
             return;
+        }
+
+        player.killCharacter(card);
+
+        if(player.claimToDo === 0) {
+            player.doneClaim();
+
+            if(otherPlayer) {
+                otherPlayer.beginChallenge();
+            }
+        }
+    }
+
+    processCardClicked(player, card) {
+        var otherPlayer = _.find(this.players, p => {
+            return p.id !== player.id;
+        });
+
+        this.clickHandled = false;
+        this.emit('cardClicked', this, player, card);
+        if(this.clickHandled) {
+            return true;
+        }
+
+        if(player.phase === 'setup' && !player.waitingForAttachments) {
+            return false;
+        }
+
+        if(player.phase === 'marshal' && player.selectedAttachment) {
+            this.attachCard(player, card);
+
+            return true;
+        }
+
+        if(player.phase === 'challenge' && player.currentChallenge) {
+            return this.handleChallenge(player, otherPlayer, card);
         }
 
         if(player.phase === 'claim' && player.currentChallenge === 'military') {
-            if(card.type_code !== 'character') {
-                return;
-            }
+            this.handleClaim(player, otherPlayer, card);
 
-            player.killCharacter(card);
-
-            if(player.claimToDo === 0) {
-                player.doneClaim();
-
-                if(otherPlayer) {
-                    otherPlayer.beginChallenge();
-                }
-            }
-
-            return;
+            return true;
         }
 
         if(player.phase !== 'setup' || card.type_code !== 'attachment') {
-            return;
+            return false;
         }
 
         player.selectedAttachment = card;
         player.selectCard = true;
         player.menuTitle = 'Select target for attachment';
+
+        return true;
+    }
+
+    cardClicked(sourcePlayer, card) {
+        var player = this.players[sourcePlayer];
+
+        if(!player) {
+            return;
+        }
+
+        if(!this.processCardClicked(player, card)) {
+            var cardInPlay = player.findCardInPlayByUuid(card.uuid);
+
+            if(cardInPlay) {
+                cardInPlay.kneeled = !cardInPlay.kneeled;
+            }
+        }
     }
 
     showDrawDeck(playerId) {
@@ -476,6 +504,39 @@ class Game extends EventEmitter {
         player.startChallenge(challengeType);
     }
 
+    doStealth(player) {
+        var stealthCard = _.find(player.cardsInChallenge, card => {
+            return !card.stealthTarget && this.hasKeyword(card.card, 'Stealth');
+        });
+
+        if(stealthCard) {
+            player.menuTitle = 'Select stealth target for ' + stealthCard.card.label;
+            player.buttons = [
+                { command: 'donestealth', text: 'Done' }
+            ];
+            player.stealthCard = stealthCard;
+            player.selectCard = true;
+            player.pickingStealth = true;
+
+            return true;
+        }
+
+        this.addMessage(player.name + ' has initiated a ' + player.currentChallenge + ' challenge with strength ' + player.challengeStrength);
+
+        var otherPlayer = _.find(this.players, p => {
+            return p.id !== player.id;
+        });
+
+        if(otherPlayer) {
+            player.menuTitle = 'Waiting for opponent to defend';
+            player.buttons = [];
+
+            otherPlayer.beginDefend(player.currentChallenge);
+        }
+
+        return false;
+    }
+
     doneChallenge(playerId) {
         var player = this.players[playerId];
 
@@ -495,29 +556,7 @@ class Game extends EventEmitter {
             otherPlayer.currentChallenge = player.currentChallenge;
         }
 
-        var stealthCard = _.find(player.cardsInChallenge, card => {
-            return !card.stealthTarget && this.hasKeyword(card.card, 'Stealth');
-        });
-
-        if(stealthCard) {
-            player.menuTitle = 'Select stealth target for ' + stealthCard.card.label;
-            player.buttons = [
-                { command: 'donestealth', text: 'Done' }
-            ];
-            player.stealthCard = stealthCard;
-            player.selectCard = true;
-
-            return;
-        }
-
-        this.addMessage(player.name + ' has initiated a ' + player.currentChallenge + ' challenge with strength ' + player.challengeStrength);
-
-        if(otherPlayer) {
-            player.menuTitle = 'Waiting for opponent to defend';
-            player.buttons = [];
-
-            otherPlayer.beginDefend(player.currentChallenge);
-        }
+        this.doStealth(player);
     }
 
     doneDefend(playerId) {
@@ -811,6 +850,27 @@ class Game extends EventEmitter {
         }
 
         player.selectDeck(deck);
+    }
+
+    doneStealth(playerid) {
+        var player = this.players[playerid];
+
+        if(!player) {
+            return;
+        }
+
+        var otherPlayer = _.find(this.players, p => {
+            return p.id !== player.id;
+        });
+
+        if(otherPlayer) {
+            player.menuTitle = 'Waiting for opponent to defend';
+            player.buttons = [];
+
+            otherPlayer.beginDefend(player.currentChallenge);
+        }
+
+        return false;
     }
 
     initialise() {

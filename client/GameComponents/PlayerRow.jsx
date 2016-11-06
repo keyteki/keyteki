@@ -53,7 +53,7 @@ class PlayerRow extends React.Component {
                 <div key={cardIndex.toString() + card.code} className='card-wrapper' style={style}>
                     <div className='card-frame'>
                         <div className='card'
-                            onMouseOver={this.props.onMouseOver ? this.props.onMouseOver.bind(this, card) : null}
+                            onMouseOver={this.props.isMe && this.props.onMouseOver ? this.props.onMouseOver.bind(this, card) : null}
                             onMouseOut={this.props.onMouseOut}
                             onClick={this.props.isMe ? () => this.props.onCardClick(card) : null}
                             onDragStart={(ev) => this.onCardDragStart(ev, card, 'hand')}

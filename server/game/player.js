@@ -120,20 +120,6 @@ class Player {
             return false;
         }
 
-        if(card.type_code === 'attachment') {
-            var attachments = _.filter(this.cardsInPlay, playCard => {
-                return playCard.card.type_code === 'attachment';
-            }).length;
-
-            var characters = _.filter(this.cardsInPlay, playCard => {
-                return playCard.card.type_code === 'character';
-            }).length;
-
-            if((attachments === 0 && characters === 0) || attachments >= characters) {
-                return false;
-            }
-        }
-
         if(card.type_code === 'character' && card.is_unique) {
             if(_.any(this.deadPile, c => {
                 return c.code === card.code;
@@ -175,7 +161,7 @@ class Player {
 
     playCard(card, dragDrop) {
         if(!dragDrop && !this.canPlayCard(card)) {
-            return;
+            return false;
         }
 
         var isDupe = this.isDuplicateInPlay(card);
@@ -188,7 +174,7 @@ class Player {
             this.selectedAttachment = card;
             this.selectCard = true;
             this.menuTitle = 'Select target for attachment';
-            return;
+            return true;
         }
 
         if(isDupe && this.phase !== 'setup' && !dragDrop) {
@@ -208,6 +194,8 @@ class Player {
         if(!dragDrop) {
             this.removeFromHand(card);
         }
+
+        return true;
     }
 
     setupDone() {
@@ -541,6 +529,8 @@ class Player {
             card.stealth = undefined;
         });
         this.selectCard = false;
+        this.selectingChallengers = false;
+        this.selectedAttachment = undefined;
     }
 
     startChallenge(challengeType) {
@@ -552,6 +542,8 @@ class Player {
         this.currentChallenge = challengeType;
         this.selectCard = true;
         this.challenger = true;
+        this.selectingChallengers = true;
+        this.pickingStealth = false;
     }
 
     addToStealth(card) {
@@ -617,6 +609,8 @@ class Player {
     }
 
     doneChallenge(myChallenge) {
+        this.selectingChallengers = false;
+        
         var challengeCards = _.filter(this.cardsInPlay, card => {
             return card.selected;
         });
@@ -647,6 +641,7 @@ class Player {
         this.currentChallenge = challenge;
         this.phase = 'challenge';
         this.cardsInChallenge = [];
+        this.selectingChallengers = true;
     }
 
     selectCharacterToKill() {
