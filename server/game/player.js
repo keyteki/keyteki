@@ -153,7 +153,7 @@ class Player {
         return _.any(this.cardsInPlay, playCard => {
             return playCard.card.code === card.code;
         });
-    }    
+    }
 
     removeFromHand(card) {
         var removed = false;
@@ -192,7 +192,7 @@ class Player {
         }
 
         if(isDupe && this.phase !== 'setup' && !dragDrop) {
-            var dupe = this.findCardInPlayByUuid(card.uuid);
+            var dupe = this.findCardInPlayByCode(card.code);
 
             dupe.dupes.push(card);
         } else {
@@ -223,7 +223,7 @@ class Player {
             card.facedown = false;
 
             var dupe = _.find(processedCards, c => {
-                return c.card.is_unique && c.card.uuid === card.card.uuid;
+                return c.card.is_unique && c.card.code === card.card.code;
             });
 
             if(dupe) {
@@ -735,7 +735,7 @@ class Player {
 
         return power;
     }
-    
+
     hasKeyword(card, keyword) {
         if(!card.text) {
             return false;
@@ -760,7 +760,7 @@ class Player {
                 this.discardPile.push(attachment);
             } else {
                 this.hand.push(attachment);
-            }    
+            }
         });
 
         this.cardsInPlay = _.reject(this.cardsInPlay, c => {
@@ -773,6 +773,12 @@ class Player {
     findCardInPlayByUuid(uuid) {
         return _.find(this.cardsInPlay, card => {
             return card.card.uuid === uuid;
+        });
+    }
+
+    findCardInPlayByCode(code) {
+        return _.find(this.cardsInPlay, card => {
+            return card.card.code === code;
         });
     }
 

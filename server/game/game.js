@@ -200,6 +200,10 @@ class Game extends EventEmitter {
                 }
             });
 
+            _.each(this.players, p => {
+                p.revealPlot();
+            });
+
             this.firstPlayerPrompt(highestPlayer);
         }
     }
@@ -276,10 +280,6 @@ class Game extends EventEmitter {
         });
 
         this.addMessage(player.name + ' has selected ' + firstPlayer.name + ' to be the first player');
-
-        _.each(this.players, p => {
-            p.revealPlot();
-        });
 
         this.revealPlot(firstPlayer);
     }
