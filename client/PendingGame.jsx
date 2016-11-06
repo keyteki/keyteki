@@ -1,6 +1,6 @@
 import React from 'react';
-import {findDOMNode} from 'react-dom';
-import {connect} from 'react-redux';
+import { findDOMNode } from 'react-dom';
+import { connect } from 'react-redux';
 import $ from 'jquery';
 import _ from 'underscore';
 
@@ -17,7 +17,9 @@ class InnerPendingGame extends React.Component {
         this.onStartClick = this.onStartClick.bind(this);
 
         this.state = {
-            decks: []
+            playerCount: 0,
+            decks: [],
+            playSound: true
         };
     }
 
@@ -35,6 +37,16 @@ class InnerPendingGame extends React.Component {
         }).fail(() => {
             this.setState({ error: 'Could not communicate with the server.  Please try again later.' });
         });
+    }
+
+    componentWillReceiveProps(props) {
+        var players = _.size(props.currentGame.players);
+
+        if(this.state.playerCount <= 1 && players === 2) {
+            this.refs.notification.play();
+        }
+
+        this.setState({ playerCount: players});
     }
 
     isGameReady() {
@@ -72,7 +84,7 @@ class InnerPendingGame extends React.Component {
 
         if(player && player.deck) {
             if(playerIsMe) {
-                deck = <span className='deck-selection'>{ player.deck.name }</span>;
+                deck = <span className='deck-selection'>{player.deck.name}</span>;
                 selectLink = <span className='deck-link' data-toggle='modal' data-target='#decks-modal'>Select deck...</span>;
             } else {
                 deck = <span className='deck-selection'>Deck Selected</span>;
@@ -81,7 +93,7 @@ class InnerPendingGame extends React.Component {
             selectLink = <span className='deck-link' data-toggle='modal' data-target='#decks-modal'>Select deck...</span>;
         }
 
-        return <div className='player-row' key={ player.id }>{ player ? <span>{ player.name }</span> : null }{ deck } { selectLink }</div>;
+        return <div className='player-row' key={player.id}>{player ? <span>{player.name}</span> : null}{deck} {selectLink}</div>;
     }
 
     getGameStatus() {
@@ -113,7 +125,7 @@ class InnerPendingGame extends React.Component {
     render() {
         var index = 0;
         var decks = this.state.decks ? _.map(this.state.decks, deck => {
-            var row = <DeckRow key={ deck.name + index.toString() } deck={ deck } onClick={ this.selectDeck.bind(this, index) } active={ index === this.state.selectedDeck } />;
+            var row = <DeckRow key={deck.name + index.toString()} deck={deck} onClick={this.selectDeck.bind(this, index)} active={index === this.state.selectedDeck} />;
 
             index++;
 
@@ -130,7 +142,7 @@ class InnerPendingGame extends React.Component {
                         </div>
                         <div className='modal-body'>
                             <div className='deck-list'>
-                                { decks }
+                                {decks}
                             </div>
                         </div>
                     </div>
@@ -139,12 +151,16 @@ class InnerPendingGame extends React.Component {
 
         return (
             <div>
+                <audio ref='notification'>
+                    <source src='/sound/charge.mp3' type='audio/mpeg' />
+                    <source src='/sound/charge.ogg' type='audio/ogg' />
+                </audio>
                 <div className='btn-group'>
-                    <button className='btn btn-primary' disabled={ !this.isGameReady() } onClick={ this.onStartClick }>Start</button>
-                    <button className='btn btn-primary' onClick={ this.onLeaveClick }>Leave</button>
+                    <button className='btn btn-primary' disabled={!this.isGameReady()} onClick={this.onStartClick}>Start</button>
+                    <button className='btn btn-primary' onClick={this.onLeaveClick}>Leave</button>
                 </div>
-                <h3>{ this.props.currentGame.name }</h3>
-                <div>{ this.getGameStatus() }</div>
+                <h3>{this.props.currentGame.name}</h3>
+                <div>{this.getGameStatus()}</div>
                 <h4>Players</h4>
                 {
                     _.map(this.props.currentGame.players, player => {
@@ -152,7 +168,7 @@ class InnerPendingGame extends React.Component {
                     })
                 }
 
-                { popup }
+                {popup}
             </div>);
     }
 }
