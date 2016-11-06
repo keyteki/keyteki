@@ -1,4 +1,5 @@
 const _ = require('underscore');
+const uuid = require('node-uuid');
 
 class Player {
     constructor(id, name, owner) {
@@ -100,7 +101,7 @@ class Player {
         }
 
         if(!_.any(this.hand, handCard => {
-            return handCard.code === card.code;
+            return handCard.uuid === card.uuid;
         })) {
             return false;
         }
@@ -158,7 +159,7 @@ class Player {
         var removed = false;
 
         this.hand = _.reject(this.hand, handCard => {
-            if(handCard.code === card.code && !removed) {
+            if(handCard.uuid === card.uuid && !removed) {
                 removed = true;
 
                 return true;
@@ -191,9 +192,7 @@ class Player {
         }
 
         if(isDupe && this.phase !== 'setup' && !dragDrop) {
-            var dupe = _.find(this.cardsInPlay, c => {
-                return card.code === c.card.code;
-            });
+            var dupe = this.findCardInPlayByUuid(card.uuid);
 
             dupe.dupes.push(card);
         } else {
@@ -224,7 +223,7 @@ class Player {
             card.facedown = false;
 
             var dupe = _.find(processedCards, c => {
-                return c.card.is_unique && c.card.code === card.card.code;
+                return c.card.is_unique && c.card.uuid === card.card.uuid;
             });
 
             if(dupe) {
@@ -340,14 +339,12 @@ class Player {
     }
 
     attach(attachment, card) {
-        var inPlayCard = _.find(this.cardsInPlay, c => {
-            return c.card.code === card.code;
-        });
+        var inPlayCard = this.findCardInPlayByUuid(card.uuid);
 
         inPlayCard.attachments.push(attachment);
 
         this.cardsInPlay = _.reject(this.cardsInPlay, c => {
-            return c.card.code === attachment.code;
+            return c.card.uuid === attachment.uuid;
         });
 
         this.selectCard = false;
@@ -410,9 +407,9 @@ class Player {
             var match = false;
 
             if(c.card) {
-                match = !matchFound && c.card.code === card.code;
+                match = !matchFound && c.card.uuid === card.uuid;
             } else {
-                match = !matchFound && c.code === card.code;
+                match = !matchFound && c.uuid === card.uuid;
             }
 
             if(match) {
@@ -430,10 +427,10 @@ class Player {
 
         if(!_.any(targetList, c => {
             if(c.card) {
-                return c.card.code === card.code;
+                return c.card.uuid === card.uuid;
             }
 
-            return c.code === card.code;
+            return c.uuid === card.uuid;
         })) {
             return false;
         }
@@ -452,10 +449,10 @@ class Player {
 
         if(!_.any(targetList, c => {
             if(c.card) {
-                return c.card.code === card.code;
+                return c.card.uuid === card.uuid;
             }
 
-            return c.code === card.code;
+            return c.uuid === card.uuid;
         })) {
             return false;
         }
@@ -473,10 +470,10 @@ class Player {
 
         if(!_.any(targetList, c => {
             if(c.card) {
-                return c.card.code === card.code;
+                return c.card.uuid === card.uuid;
             }
 
-            return c.code === card.code;
+            return c.uuid === card.uuid;
         })) {
             return false;
         }
@@ -494,10 +491,10 @@ class Player {
 
         if(!_.any(targetList, c => {
             if(c.card) {
-                return c.card.code === card.code;
+                return c.card.uuid === card.uuid;
             }
 
-            return c.code === card.code;
+            return c.uuid === card.uuid;
         })) {
             return false;
         }
@@ -570,9 +567,7 @@ class Player {
             return false;
         }
 
-        var inPlay = _.find(this.cardsInPlay, c => {
-            return c.card.code === card.code;
-        });
+        var inPlay = this.findCardInPlayByUuid(card.uuid);
 
         if(!inPlay) {
             return false;
@@ -596,9 +591,7 @@ class Player {
             return false;
         }
 
-        var inPlay = _.find(this.cardsInPlay, c => {
-            return c.card.code === card.code;
-        });
+        var inPlay = this.findCardInPlayByUuid(card.uuid);
 
         if(!inPlay) {
             return false;
@@ -619,7 +612,7 @@ class Player {
         }
         else {
             this.cardsInChallenge = _.reject(this.cardsInChallenge, c => {
-                return c.card.code === card.card.code;
+                return c.card.uuid === card.card.uuid;
             });
         }
     }
@@ -667,9 +660,7 @@ class Player {
     }
 
     killCharacter(card) {
-        var character = _.find(this.cardsInPlay, c => {
-            return c.card.code === card.code;
-        });
+        var character = this.findCardInPlayByUuid(card.uuid);
 
         if(character.dupes.length > 0) {
             character.dupes = character.dupes.slice(1);
@@ -677,7 +668,7 @@ class Player {
             var found = false;
 
             this.cardsInPlay = _.reject(this.cardsInPlay, c => {
-                if(!found && c.card.code === card.code) {
+                if(!found && c.card.uuid === card.uuid) {
                     found = true;
 
                     return true;
@@ -755,9 +746,7 @@ class Player {
     }
 
     discardCard(card) {
-        var cardInPlay = _.find(this.cardsInPlay, c => {
-            return c.card.code === card.code;
-        });
+        var cardInPlay = this.findCardInPlayByUuid(card.uuid);
 
         if(!cardInPlay) {
             return;
@@ -776,16 +765,30 @@ class Player {
         });
 
         this.cardsInPlay = _.reject(this.cardsInPlay, c => {
-            return c.card.code === card.code;
+            return c.card.uuid === card.uuid;
         });
 
         this.discardPile.push(card);
     }
 
+    findCardInPlayByUuid(uuid) {
+        return _.find(this.cardsInPlay, card => {
+            return card.card.uuid === uuid;
+        });
+    }
+
+    findCardByUuid(list, uuid) {
+        return _.find(list, card => {
+            return card.uuid === uuid;
+        });
+    }
+
     selectDeck(deck) {
         _.each(deck.drawCards, card => {
             for(var i = 0; i < card.count; i++) {
-                this.drawCards.push(card.card);
+                var drawCard = _.clone(card.card);
+                drawCard.uuid = uuid.v1();
+                this.drawCards.push(drawCard);
             }
         });
 

@@ -323,9 +323,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        var cardInPlay = _.find(player.cardsInPlay, c => {
-            return c.card.code === card.code;
-        });
+        var cardInPlay = player.findCardInPlayByUuid(card.uuid);
 
         if(cardInPlay) {
             cardInPlay.kneeled = !cardInPlay.kneeled;
@@ -334,9 +332,7 @@ class Game extends EventEmitter {
         if(player.phase === 'challenge' && player.currentChallenge) {
             if(!cardInPlay) {
                 if(otherPlayer) {
-                    var otherCardInPlay = _.find(otherPlayer.cardsInPlay, c => {
-                        return c.card.code === card.code;
-                    });
+                    var otherCardInPlay = otherPlayer.findCardInPlayByUuid(card.uuid);
 
                     if(!otherPlayer.addToStealth(otherCardInPlay.card)) {
                         return;
