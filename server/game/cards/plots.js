@@ -201,7 +201,7 @@ class BuildingOrders {
         });
 
         var buttons = _.map(attachmentsAndLocations, card => {
-            return { text: card.label, command: 'custom', arg: card.code };
+            return { text: card.label, command: 'custom', arg: card.uuid };
         });
 
         buttons.push({ text: 'Done', command: 'custom', arg: 'done' });
@@ -222,7 +222,7 @@ class BuildingOrders {
         }
 
         var card = _.find(player.drawDeck, c => {
-            return c.code === arg;
+            return c.uuid === arg;
         });
 
         if(!card) {
@@ -230,7 +230,7 @@ class BuildingOrders {
         }
 
         player.drawDeck = _.reject(player.drawDeck, c => {
-            return c.code === card.code;
+            return c.uuid === card.uuid;
         });
 
         player.hand.push(card);
@@ -428,7 +428,7 @@ class Confiscation {
 
         var card = _.find(player.cardsInPlay, c => {
             var attachment = _.find(c.attachments, a => {
-                return a.code === clicked.code;
+                return a.uuid === clicked.uuid;
             });
 
             return !!attachment;
@@ -440,7 +440,7 @@ class Confiscation {
             });
             card = _.find(otherPlayer.cardsInPlay, c => {
                 var attachment = _.find(c.attachments, a => {
-                    return a.code === clicked.code;
+                    return a.uuid === clicked.uuid;
                 });
 
                 return !!attachment;
@@ -456,7 +456,7 @@ class Confiscation {
         }
 
         card.attachments = _.reject(card.attachments, a => {
-            return a.code === clicked.code;
+            return a.uuid === clicked.uuid;
         });
 
         attachmentPlayer.discardPile.push(clicked);
@@ -545,10 +545,8 @@ class FilthyAccusation {
         player.selectCard = false;
 
         var card = _.find(player.cardsInPlay, c => {
-            return c.card.code === clicked.code;
+            return c.card.uuid === clicked.uuid;
         });
-
-        var targetPlayer = player;
 
         if(!card) {
             var otherPlayer = _.find(game.players, p => {
@@ -562,7 +560,7 @@ class FilthyAccusation {
             }
 
             card = _.find(otherPlayer.cardsInPlay, c => {
-                return c.card.code === clicked.code;
+                return c.card.uuid === clicked.uuid;
             });
 
             if(!card) {
@@ -570,8 +568,6 @@ class FilthyAccusation {
 
                 return;
             }
-
-            targetPlayer = otherPlayer;
         }
 
         if(card.card.type_code !== 'character' || card.kneeled) {
@@ -660,7 +656,7 @@ class JoustingContest {
 
     beforeChallengerSelected(game, player, card) {
         if(player.cardsInChallenge.length !== 0 && !_.any(player.cardsInChallenge, c => {
-            return c.card.code === card.card.code;
+            return c.card.uuid === card.card.uuid;
         })) {
             game.canAddToChallenge = false;
         }
@@ -717,7 +713,7 @@ class MarchedToTheWall {
         }
 
         if(!_.any(player.cardsInPlay, card => {
-            return card.card.code === clicked.code;
+            return card.card.uuid === clicked.uuid;
         })) {
             return;
         }
@@ -900,6 +896,81 @@ plots['01021'] = {
     }
 };
 
+// 01022 - Summons
+class Summons {
+    constructor(player) {
+        this.player = player;
+        this.revealed = this.revealed.bind(this);
+        this.cardSelected = this.cardSelected.bind(this);
+    }
+
+    revealed(game, player) {
+        if(this.player !== player) {
+            return;
+        }
+
+        var top10 = _.first(player.drawDeck, 10);
+        var characters = _.reject(top10, card => {
+            return card.type_code !== 'character';
+        });
+
+        var buttons = _.map(characters, card => {
+            return { text: card.label, command: 'custom', arg: card.uuid };
+        });
+
+        buttons.push({ text: 'Done', command: 'custom', arg: 'done' });
+
+        player.buttons = buttons;
+        player.menuTitle = 'Select a card to add to your hand';
+
+        game.pauseForPlot = true;
+    }
+
+    cardSelected(game, player, arg) {
+        if(this.player !== player) {
+            return;
+        }
+
+        if(arg === 'done') {
+            game.revealDone(player);
+        }
+
+        var card = _.find(player.drawDeck, c => {
+            return c.uuid === arg;
+        });
+
+        if(!card) {
+            return;
+        }
+
+        player.drawDeck = _.reject(player.drawDeck, c => {
+            return c.uuid === card.uuid;
+        });
+
+        player.hand.push(card);
+        player.shuffleDrawDeck();
+
+        game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to reveal ' + card.label + ' and add it to their hand');
+
+        game.revealDone(player);
+    }
+}
+plots['01022'] = {
+    register(game, player) {
+        var plot = new Summons(player);
+
+        game.playerPlots[player.id] = plot;
+        game.on('plotRevealed', plot.revealed);
+        game.on('customCommand', plot.cardSelected);
+    },
+    unregister(game, player) {
+        var plot = game.playerPlots[player.id];
+        game.removeListener('plotRevealed', plot.revealed);
+        game.removeListener('customCommand', plot.cardSelected);
+    }
+};
+
+
 // 02039 - Trading with the Pentoshi
 class TradingWithThePentoshi {
     constructor(player) {
@@ -985,7 +1056,7 @@ class TheLongWinter {
         }
 
         var cardInPlay = _.find(player.cardsInPlay, c => {
-            return c.card.code === card.code;
+            return c.card.uuid === card.uuid;
         });
 
         if(!cardInPlay || cardInPlay.power === 0) {
