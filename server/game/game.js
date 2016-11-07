@@ -837,6 +837,30 @@ class Game extends EventEmitter {
     chat(playerId, message) {
         var player = this.players[playerId];
 
+        var args = message.split(' ');
+
+        if(message.indexOf('/draw') !== -1) {
+            var num = 1;
+
+            if(args.length > 1) {
+                num = parseInt(args[1]);
+
+                if(isNaN(num)) {
+                    num = 1;
+                }
+
+                if(num < 0) {
+                    num = 1;
+                }
+            }
+
+            this.addMessage(player.name + ' uses the /draw command to draw ' + num + ' cards to their hand');
+            
+            player.drawCardsToHand(num);
+
+            return;
+        }
+
         this.addMessage('<' + player.name + '> ' + message);
     }
 
