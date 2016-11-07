@@ -1,26 +1,5 @@
-/*global user, authToken */
-import React from 'react';
-import {render} from 'react-dom';
-import Application from './Application.jsx';
-import {Provider} from 'react-redux';
-import configureStore from './configureStore';
-import {navigate, login} from './actions';
-import DevTools from './DevTools';
-import 'bootstrap/dist/js/bootstrap';
-
-const store = configureStore();
-
-store.dispatch(navigate(window.location.pathname));
-
-if(typeof user !== 'undefined') {
-    store.dispatch(login(user.username, authToken));
+if(process.env.NODE_ENV === 'production') {
+    module.exports = require('./index.prod.jsx');
+} else {
+    module.exports = require('./index.dev.jsx');
 }
-
-render(
-    <Provider store={store}>
-        <div>
-            <Application />
-
-            <DevTools />
-        </div>
-    </Provider>, document.getElementById('component'));
