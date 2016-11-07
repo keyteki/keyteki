@@ -390,6 +390,21 @@ class Game extends EventEmitter {
             return p.id !== player.id;
         });
 
+        if(player.setPower) {
+            var cardInPlay = player.findCardInPlayByUuid(card.uuid);
+
+            if(!cardInPlay) {
+                return false;
+            }
+
+            cardInPlay.power = player.setPower;
+
+            this.addMessage(player.name + ' uses the /power command to set the power of ' + cardInPlay.card.label + ' to ' + player.setPower);            
+            this.doneSetPower(player.id);
+
+            return true;
+        }
+
         this.clickHandled = false;
         this.emit('cardClicked', this, player, card);
         if(this.clickHandled) {
@@ -725,9 +740,9 @@ class Game extends EventEmitter {
         });
 
         if(!highestPlayer) {
-          _.each(this.players, p => {
-            highestPlayer = p;
-          });
+            _.each(this.players, p => {
+                highestPlayer = p;
+            });
         }
 
         this.addMessage(highestPlayer.name + ' wins dominance');
@@ -834,34 +849,67 @@ class Game extends EventEmitter {
         this.emit('customCommand', this, player, arg);
     }
 
+    getNumberOrDefault(string, defaultNumber) {
+        var num = parseInt(string);
+
+        if(isNaN(num)) {
+            num = defaultNumber;
+        }
+
+        if(num < 0) {
+            num = defaultNumber;
+        }
+
+        return num;
+    }
+
     chat(playerId, message) {
         var player = this.players[playerId];
-
         var args = message.split(' ');
+        var num = 1;
 
         if(message.indexOf('/draw') !== -1) {
-            var num = 1;
-
             if(args.length > 1) {
-                num = parseInt(args[1]);
-
-                if(isNaN(num)) {
-                    num = 1;
-                }
-
-                if(num < 0) {
-                    num = 1;
-                }
+                num = this.getNumberOrDefault(args[1], 1);
             }
 
             this.addMessage(player.name + ' uses the /draw command to draw ' + num + ' cards to their hand');
-            
+
             player.drawCardsToHand(num);
 
             return;
         }
 
+        if(message.indexOf('/power') !== -1) {
+            if(args.length > 1) {
+                num = this.getNumberOrDefault(args[1], 1);
+            }
+
+            player.selectCard = true;
+            player.oldMenuTitle = player.menuTitle;
+            player.oldButtons = player.buttons;
+            player.menuTitle = 'Select a card to set power for';
+            player.buttons = [
+                { command: 'donesetpower', text: 'Done' }
+            ];
+            player.setPower = num;
+
+            return;
+        }
+
         this.addMessage('<' + player.name + '> ' + message);
+    }
+
+    doneSetPower(playerId) {
+        var player = this.players[playerId];
+
+        player.menuTitle = player.oldMenuTitle;
+        player.buttons = player.oldButtons;
+        player.selectCard = false;
+
+        player.oldMenuTitle = undefined;
+        player.oldButtons = undefined;
+        player.setPower = undefined;
     }
 
     playerLeave(playerId, reason) {
