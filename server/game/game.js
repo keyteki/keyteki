@@ -646,7 +646,7 @@ class Game extends EventEmitter {
     }
 
     hasKeyword(card, keyword) {
-        return card.text.indexOf(keyword + '.') !== -1;
+        return card.text && card.text.indexOf(keyword + '.') !== -1;
     }
 
     applyKeywords(winner, loser) {
