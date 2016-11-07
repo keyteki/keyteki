@@ -944,14 +944,13 @@ class TheLongWinter {
         this.player = player;
         this.revealed = this.revealed.bind(this);
         this.cardSelected = this.cardSelected.bind(this);
+        this.waitingForPlayers = {};
     }
 
     revealed(game, player) {
         if(this.player !== player) {
             return;
         }
-
-        this.waitingForPlayers = {};
 
         var anySummerPlots = false;
 
