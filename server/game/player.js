@@ -643,6 +643,7 @@ class Player {
 
         this.menuTitle = 'Select character to kill';
         this.buttons = [
+            { command: 'cancelclaim', text: 'Done' }
         ];
     }
 
