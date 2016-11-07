@@ -330,13 +330,6 @@ class Player {
         var inPlayCard = this.findCardInPlayByUuid(card.uuid);
 
         inPlayCard.attachments.push(attachment);
-
-        this.cardsInPlay = _.reject(this.cardsInPlay, c => {
-            return c.card.uuid === attachment.uuid;
-        });
-
-        this.selectCard = false;
-        this.selectedAttachment = undefined;
     }
 
     showDrawDeck() {

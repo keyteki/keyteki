@@ -305,6 +305,15 @@ class Game extends EventEmitter {
         targetPlayer.attach(player.selectedAttachment, card);
         player.selectCard = false;
 
+        if(targetPlayer === player && player.phase === 'setup') {
+            // We put attachments on the board during setup, now remove it
+            player.cardsInPlay = _.reject(player.cardsInPlay, c => {
+                return c.card.uuid === player.selectedAttachment.uuid;
+            });
+        }
+
+        player.selectedAttachment = undefined;
+
         if(player.phase === 'setup') {
             this.checkForAttachments();
         } else {
@@ -391,7 +400,7 @@ class Game extends EventEmitter {
             return false;
         }
 
-        if(player.phase === 'marshal' && player.selectedAttachment) {
+        if((player.phase === 'setup' || player.phase === 'marshal') && player.selectedAttachment) {
             this.attachCard(player, card);
 
             return true;
