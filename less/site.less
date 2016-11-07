@@ -713,3 +713,39 @@ h4 {
     padding-bottom: 15px;
   }
 }
+
+.menu {
+  position: absolute;
+  z-index: 10;
+  width: 200px;
+  left: 58px;
+  top: -5px;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.menu > div {
+  border: 1px solid @brand-primary;
+  padding: 3px 6px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+
+.menu > div:hover {
+  border-color: @brand-info;
+}
+
+.popup {
+  a {
+    display: inline-block;
+    margin: 0 10px 8px 4px;
+
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: @brand-info;
+    cursor: pointer;
+  }
+}

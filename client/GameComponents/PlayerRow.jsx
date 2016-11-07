@@ -8,10 +8,16 @@ class PlayerRow extends React.Component {
         this.onDragDrop = this.onDragDrop.bind(this);
         this.onDiscardClick = this.onDiscardClick.bind(this);
         this.onDeadClick = this.onDeadClick.bind(this);
+        this.onDrawClick = this.onDrawClick.bind(this);
+        this.onShuffleClick = this.onShuffleClick.bind(this);
+        this.onShowDeckClick = this.onShowDeckClick.bind(this);
+        this.onCloseClick = this.onCloseClick.bind(this);
+        this.onCloseAndShuffleClick = this.onCloseAndShuffleClick.bind(this);
 
         this.state = {
             showPlotDeck: false,
             showDiscard: false,
+            showDrawMenu: false,
             showDead: false
         };
     }
@@ -34,6 +40,28 @@ class PlayerRow extends React.Component {
         if(this.props.onDragDrop) {
             this.props.onDragDrop(dragData.card, dragData.source, target);
         }
+    }
+
+    onCloseClick(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if(this.props.onDrawClick) {
+            this.props.onDrawClick();
+        }
+    }
+
+    onCloseAndShuffleClick(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if(this.props.onDrawClick) {
+            this.props.onDrawClick();
+        }
+
+        if(this.props.onShuffleClick) {
+            this.props.onShuffleClick();
+        }        
     }
 
     getHand() {
@@ -89,7 +117,14 @@ class PlayerRow extends React.Component {
                     </div>);
             });
 
-            drawDeckPopup = <div className='panel popup'>{drawDeck}</div>;
+            drawDeckPopup = (
+                <div className='panel popup'>
+                    <div>
+                        <a onClick={this.onCloseClick}>Close</a>
+                        <a onClick={this.onCloseAndShuffleClick}>Close and shuffle</a>
+                    </div>
+                    {drawDeck}
+                </div>);
         }
 
         return drawDeckPopup;
@@ -153,6 +188,28 @@ class PlayerRow extends React.Component {
         this.setState({ showDead: !this.state.showDead });
     }
 
+    onDrawClick(event) {
+        event.preventDefault();
+
+        this.setState({ showDrawMenu: !this.state.showDrawMenu });
+    }
+
+    onShuffleClick(event) {
+        event.preventDefault();
+
+        if(this.props.onShuffleClick) {
+            this.props.onShuffleClick();
+        }
+    }
+
+    onShowDeckClick(event) {
+        event.preventDefault();
+
+        if(this.props.onDrawClick) {
+            this.props.onDrawClick();
+        }
+    }
+
     render() {
         var className = 'panel hand';
 
@@ -174,6 +231,13 @@ class PlayerRow extends React.Component {
 
         var topDiscard = _.last(this.props.discardPile);
         var topDead = _.last(this.props.deadPile);
+
+        var drawDeckMenu = this.state.showDrawMenu ?
+            (<div className='panel menu'>
+                <div onClick={this.onShowDeckClick}>Show</div>
+                <div onClick={this.onShuffleClick}>Shuffle</div>
+            </div>)
+            : null;
 
         return (
             <div className='player-home-row'>
@@ -199,13 +263,14 @@ class PlayerRow extends React.Component {
                         null}
                     {discardPilePopup}
                 </div>
-                <div className='draw panel' onClick={this.props.isMe ? this.props.onDrawClick : null}>
+                <div className='draw panel' onClick={this.props.isMe ? this.onDrawClick : null}>
                     <div className='panel-header'>
                         {'Draw (' + this.props.numDrawCards + ')'}
                     </div>
                     <div className='card'>
                         <img className='card' src='/img/cards/cardback.jpg' />
                     </div>
+                    {drawDeckMenu}
                     {drawDeckPopup}
                 </div>
                 <div className='faction panel'>
@@ -258,6 +323,7 @@ PlayerRow.propTypes = {
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
     onPlotCardSelected: React.PropTypes.func,
+    onShuffleClick: React.PropTypes.func,
     plotDeck: React.PropTypes.array,
     power: React.PropTypes.number,
     showDrawDeck: React.PropTypes.bool

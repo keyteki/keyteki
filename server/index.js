@@ -631,6 +631,18 @@ io.on('connection', function(socket) {
         sendGameState(game); 
     });
 
+    socket.on('shuffledeck', function() {
+        var game = findGameForPlayer(socket.id);
+
+        if (!game) {
+            return;
+        }
+
+        game.shuffleDeck(socket.id);
+
+        sendGameState(game); 
+    });
+
     refreshGameList(socket);
 
     db.collection('messages').find().sort({ time: -1 }).limit(50).toArray((err, messages) => {

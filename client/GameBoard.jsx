@@ -24,6 +24,7 @@ class InnerGameBoard extends React.Component {
         this.onCommand = this.onCommand.bind(this);
         this.onConcedeClick = this.onConcedeClick.bind(this);
         this.onLeaveClick = this.onLeaveClick.bind(this);
+        this.onShuffleClick = this.onShuffleClick.bind(this);
 
         this.state = {
             cardToZoom: undefined,
@@ -36,13 +37,13 @@ class InnerGameBoard extends React.Component {
     componentWillReceiveProps(props) {
         var thisPlayer = props.state.players[props.socket.id];
 
-        if(thisPlayer.selectCard) {
+        if (thisPlayer.selectCard) {
             $('body').addClass('select-cursor');
         } else {
             $('body').removeClass('select-cursor');
         }
 
-        if(props.currentGame) {
+        if (props.currentGame) {
             this.props.setContextMenu([
                 { text: 'Concede', onClick: this.onConcedeClick },
                 { text: 'Leave Game', onClick: this.onLeaveClick }
@@ -79,7 +80,7 @@ class InnerGameBoard extends React.Component {
     }
 
     onCardClick(card) {
-        if(!this.canPlayCard(card)) {
+        if (!this.canPlayCard(card)) {
             return;
         }
 
@@ -91,11 +92,13 @@ class InnerGameBoard extends React.Component {
     }
 
     onDrawClick() {
-        if(!this.state.showDrawDeck) {
-            this.props.socket.emit('showdrawdeck');
-        }
+        this.props.socket.emit('showdrawdeck');
 
         this.setState({ showDrawDeck: !this.state.showDrawDeck });
+    }
+
+    onShuffleClick() {
+        this.props.socket.emit('shuffledeck');
     }
 
     onPlotCardClick(event, card) {
@@ -145,7 +148,7 @@ class InnerGameBoard extends React.Component {
                                 </div>
                             </div>
                         </div>);
-                    
+
                     offset += 10;
 
                     return returnedAttachment;
@@ -155,19 +158,19 @@ class InnerGameBoard extends React.Component {
                 var dupes = null;
                 var power = null;
 
-                if(card.dupes.length !== 0) {
+                if (card.dupes.length !== 0) {
                     dupes = (<div className='counter dupe'>
                         {card.dupes.length + 1}
                     </div>);
                 }
 
-                if(card.power > 0) {
+                if (card.power > 0) {
                     power = (<div className='counter power'>
                         {card.power}
                     </div>);
                 }
 
-                if(dupes || power) {
+                if (dupes || power) {
                     counters = (
                         <div className='counters'>
                             {dupes}
@@ -177,11 +180,11 @@ class InnerGameBoard extends React.Component {
                 }
 
                 var cardClass = 'card';
-                if(card.selected) {
+                if (card.selected) {
                     cardClass += ' selected';
                 }
 
-                if(card.kneeled) {
+                if (card.kneeled) {
                     cardClass += ' vertical kneeled';
                 }
 
@@ -217,8 +220,8 @@ class InnerGameBoard extends React.Component {
     onCommand(command, arg) {
         var commandArg = arg;
 
-        if(command === 'selectplot') {
-            if(!this.state.selectedPlot) {
+        if (command === 'selectplot') {
+            if (!this.state.selectedPlot) {
                 return;
             }
 
@@ -234,7 +237,7 @@ class InnerGameBoard extends React.Component {
         var plotDeck = _.map(deck, card => {
             var plotClass = 'plot-card';
 
-            if(card === this.state.selectedPlot) {
+            if (card === this.state.selectedPlot) {
                 plotClass += ' selected';
             }
 
@@ -270,7 +273,7 @@ class InnerGameBoard extends React.Component {
     }
 
     render() {
-        if(!this.props.state) {
+        if (!this.props.state) {
             return <div>Waiting for server...</div>;
         }
 
@@ -279,7 +282,7 @@ class InnerGameBoard extends React.Component {
             return player.id !== this.props.socket.id;
         });
 
-        if(!thisPlayer) {
+        if (!thisPlayer) {
             debugger;
         }
 
@@ -293,17 +296,17 @@ class InnerGameBoard extends React.Component {
         });
         var otherPlayerCards = [];
 
-        if(otherPlayer) {
+        if (otherPlayer) {
             _.each(this.getCardsInPlay(otherPlayer, false).reverse(), cards => {
                 otherPlayerCards.push(<div key={'other-loc' + index++}>{cards}</div>);
             });
         }
 
-        for(var i = thisPlayerCards.length; i < 2; i++) {
+        for (var i = thisPlayerCards.length; i < 2; i++) {
             thisPlayerCards.push(<div key={'this-empty' + i} />);
         }
 
-        for(i = otherPlayerCards.length; i < 2; i++) {
+        for (i = otherPlayerCards.length; i < 2; i++) {
             thisPlayerCards.push(<div key={'other-empty' + i} />);
         }
 
@@ -405,6 +408,7 @@ class InnerGameBoard extends React.Component {
                         onMouseOut={this.onMouseOut}
                         numDrawCards={thisPlayer.numDrawCards}
                         onDrawClick={this.onDrawClick}
+                        onShuffleClick={this.onShuffleClick}
                         showDrawDeck={this.state.showDrawDeck}
                         drawDeck={thisPlayer.drawDeck}
                         onDragDrop={this.onDragDrop}

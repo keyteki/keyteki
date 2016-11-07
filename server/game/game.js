@@ -461,9 +461,15 @@ class Game extends EventEmitter {
     showDrawDeck(playerId) {
         var player = this.players[playerId];
 
-        player.showDrawDeck();
+        if (!player.showDeck) {
+            player.showDrawDeck();
 
-        this.addMessage(player.name + ' is looking at their deck');
+            this.addMessage(player.name + ' is looking at their deck');
+        } else {
+            player.showDeck = false;
+
+            this.addMessage(player.name + ' stops looking at their deck');
+        }
     }
 
     drop(playerId, card, source, target) {
@@ -981,6 +987,14 @@ class Game extends EventEmitter {
         if (otherPlayer) {
             otherPlayer.beginChallenge();
         }
+    }
+
+    shuffleDeck(playerId) {
+        var player = this.players[playerId];
+
+        this.addMessage(player.name + ' shuffles their deck');
+
+        player.shuffleDrawDeck();
     }
 
     initialise() {
