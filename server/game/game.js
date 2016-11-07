@@ -724,6 +724,12 @@ class Game extends EventEmitter {
             }
         });
 
+        if(!highestPlayer) {
+          _.each(this.players, p => {
+            highestPlayer = p;
+          });
+        }
+
         this.addMessage(highestPlayer.name + ' wins dominance');
 
         highestPlayer.power++;
