@@ -7,17 +7,13 @@ function hasTrait(card, trait) {
 }
 
 // 01001 - A Clash Of Kings
-plots['01001'] = {
-    register(game, player) {
+class AClashOfKings {
+    constructor(player) {
         this.player = player;
         this.afterChallenge = this.afterChallenge.bind(this);
+    }
 
-        game.on('afterChallenge', this.afterChallenge);
-    },
-    unregister(game) {
-        game.removeListener('afterChallenge', this.afterChallenge);
-    },
-    afterChallenge: function(game, challengeType, winner, loser) {
+    afterChallenge(game, challengeType, winner, loser) {
         if(winner === this.player && challengeType === 'power' && loser.power > 0) {
             loser.power--;
             winner.power++;
@@ -25,20 +21,28 @@ plots['01001'] = {
             game.addMessage(winner.name + ' uses ' + winner.activePlot.card.label + ' to move 1 power from ' + loser.name + '\'s faction card');
         }
     }
+}
+plots['01001'] = {
+    register(game, player) {
+        var plot = new AClashOfKings(player);
+        game.playerPlots[player.id] = plot;
+
+        game.on('afterChallenge', plot.afterChallenge);
+    },
+    unregister(game, player) {
+        game.removeListener('afterChallenge', game.playerPlots[player.id].afterChallenge);
+    }
 };
 
-// 01002 - A Feats For Crows
-plots['01002'] = {
-    register(game, player) {
+// 01002 - A Feast For Crows
+class AFeastForCrows {
+    constructor(player) {
         this.player = player;
-        this.afterDominance = this.afterDominance.bind(this);
 
-        game.on('afterDominance', this.afterDominance);
-    },
-    unregister(game) {
-        game.removeListener('afterDominance', this.afterDominance);
-    },
-    afterDominance: function(game, winner) {
+        this.afterDominance = this.afterDominance.bind(this);
+    }
+
+    afterDominance(game, winner) {
         if(winner !== this.player) {
             return;
         }
@@ -47,48 +51,63 @@ plots['01002'] = {
 
         game.addMessage(winner.name + ' uses ' + winner.activePlot.card.label + ' to gain 2 power');
     }
+}
+plots['01002'] = {
+    register(game, player) {
+        var plot = new AFeastForCrows(player);
+
+        game.playerPlots[player.id] = plot;
+
+        game.on('afterDominance', plot.afterDominance);
+    },
+    unregister(game, player) {
+        game.removeListener('afterDominance', game.playerPlots[player.id].afterDominance);
+    }
 };
 
 // 01003 - A Game Of Thrones
-plots['01003'] = {
-    register(game, player) {
+class AGameOfThrones {
+    constructor(player) {
         this.player = player;
         this.beforeChallenge = this.beforeChallenge.bind(this);
+    }
 
-        game.on('beforeChallenge', this.beforeChallenge);
-    },
-    unregister(game) {
-        game.removeListener('beforeChallenge', this.beforeChallenge);
-    },
-    beforeChallenge: function(game, player, challengeType) {
+    beforeChallenge(game, player, challengeType) {
         if((challengeType === 'power' || challengeType === 'military') && player.challenges['intrigue'].won <= 0) {
             game.cancelChallenge = true;
         }
     }
+}
+plots['01003'] = {
+    register(game, player) {
+        var plot = new AGameOfThrones(player);
+
+        game.playerPlots[player.id] = plot;
+
+        game.on('beforeChallenge', plot.beforeChallenge);
+    },
+    unregister(game, player) {
+        game.removeListener('beforeChallenge', game.playerPlots[player.id].beforeChallenge);
+    }
 };
 
 // 01004 - A Noble Cause
-plots['01004'] = {
-    register(game, player) {
+class ANobleCause {
+    constructor(player) {
         this.player = player;
         this.revealed = this.revealed.bind(this);
         this.beforeCardPlayed = this.beforeCardPlayed.bind(this);
+    }
 
-        game.on('plotRevealed', this.revealed);
-        game.on('beforeCardPlayed', this.beforeCardPlayed);
-    },
-    unregister(game) {
-        game.removeListener('plotRevealed', this.revealed);
-        game.removeListener('beforeCardPlayed', this.beforeCardPlayed);
-    },
-    revealed: function(game, player) {
+    revealed(game, player) {
         if(player !== this.player) {
             return;
         }
 
         this.abilityUsed = false;
-    },
-    beforeCardPlayed: function(game, player, card) {
+    }
+
+    beforeCardPlayed(game, player, card) {
         if(player !== this.player) {
             return;
         }
@@ -106,27 +125,40 @@ plots['01004'] = {
 
             game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to reduce the cost of ' + card.label + ' by 2');
         }
-    },
-    afterCardPlayed: function(game, player, card) {
+    }
+
+    afterCardPlayed(game, player, card) {
         if(this.card !== card) {
             return;
         }
 
         card.cost = this.cost;
     }
+}
+plots['01004'] = {
+    register(game, player) {
+        var plot = new ANobleCause(player);
+
+        game.playerPlots[player.id] = plot;
+
+        game.on('plotRevealed', plot.revealed);
+        game.on('beforeCardPlayed', plot.beforeCardPlayed);
+    },
+    unregister(game, player) {
+        var plot = game.playerPlots[player.id];
+
+        game.removeListener('plotRevealed', plot.revealed);
+        game.removeListener('beforeCardPlayed', plot.beforeCardPlayed);
+    }
 };
 
 // 01005 - A Storm Of Swords
-plots['01005'] = {
-    register(game, player) {
+class AStormOfSwords {
+    constructor(player) {
         this.player = player;
         this.revealed = this.revealed.bind(this);
+    }
 
-        game.on('plotRevealed', this.revealed);
-    },
-    unregister(game) {
-        game.removeListener('plotRevealed', this.revealed);
-    },
     revealed(game, player) {
         if(player !== this.player) {
             return;
@@ -136,22 +168,28 @@ plots['01005'] = {
 
         game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to gain an additional military challenge this round');
     }
+}
+plots['01005'] = {
+    register(game, player) {
+        var plot = new AStormOfSwords(player);
+
+        game.playerPlots[player.id] = plot;
+
+        game.on('plotRevealed', plot.revealed);
+    },
+    unregister(game, player) {
+        game.removeListener('plotRevealed', game.playerPlots[player.id].revealed);
+    }
 };
 
 // 01006 - Building Orders
-plots['01006'] = {
-    register(game, player) {
+class BuildingOrders {
+    constructor(player) {
         this.player = player;
         this.revealed = this.revealed.bind(this);
         this.cardSelected = this.cardSelected.bind(this);
+    }
 
-        game.on('plotRevealed', this.revealed);
-        game.on('customCommand', this.cardSelected);
-    },
-    unregister(game) {
-        game.removeListener('plotRevealed', this.revealed);
-        game.removeListener('customCommand', this.cardSelected);
-    },
     revealed(game, player) {
         if(this.player !== player) {
             return;
@@ -172,7 +210,8 @@ plots['01006'] = {
         player.menuTitle = 'Select a card to add to your hand';
 
         game.pauseForPlot = true;
-    },
+    }
+
     cardSelected(game, player, arg) {
         if(this.player !== player) {
             return;
@@ -201,19 +240,29 @@ plots['01006'] = {
 
         game.revealDone(player);
     }
+}
+plots['01006'] = {
+    register(game, player) {
+        var plot = new BuildingOrders(player);
+
+        game.playerPlots[player.id] = plot;
+        game.on('plotRevealed', plot.revealed);
+        game.on('customCommand', plot.cardSelected);
+    },
+    unregister(game, player) {
+        var plot = game.playerPlots[player.id];
+        game.removeListener('plotRevealed', plot.revealed);
+        game.removeListener('customCommand', plot.cardSelected);
+    }
 };
 
 // 01007 - Calling The Banners
-plots['01007'] = {
-    register(game, player) {
+class CallingTheBanners {
+    constructor(player) {
         this.player = player;
         this.revealed = this.revealed.bind(this);
+    }
 
-        game.on('plotRevealed', this.revealed);
-    },
-    unregister(game) {
-        game.removeListener('plotRevealed', this.revealed);
-    },
     revealed(game, player) {
         if(this.player !== player) {
             return;
@@ -240,29 +289,31 @@ plots['01007'] = {
         game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to gain ' + characterCount + ' gold');
         player.gold += characterCount;
     }
+
+}
+plots['01007'] = {
+    register(game, player) {
+        var plot = new CallingTheBanners(player);
+
+        game.playerPlots[player.id] = plot;
+        game.on('plotRevealed', plot.revealed);
+    },
+    unregister(game, player) {
+        game.removeListener('plotRevealed', game.playerPlots[player.id].revealed);
+    }
 };
 
 // 01008 - Calm Over Westeros
-plots['01008'] = {
-    register(game, player) {
+class CalmOverWesteros {
+    constructor(player) {
         this.player = player;
         this.revealed = this.revealed.bind(this);
         this.challengeTypeSelected = this.challengeTypeSelected.bind(this);
         this.beforeClaim = this.beforeClaim.bind(this);
         this.afterClaim = this.afterClaim.bind(this);
+    }
 
-        game.on('plotRevealed', this.revealed);
-        game.on('customCommand', this.challengeTypeSelected);
-        game.on('beforeClaim', this.beforeClaim);
-        game.on('afterClaim', this.afterClaim);
-    },
-    unregister(game) {
-        game.removeListener('plotRevealed', this.revealed);
-        game.removeListener('customCommand', this.challengeTypeSelected);
-        game.removeListener('beforeClaim', this.beforeClaim);
-        game.removeListener('afterClaim', this.afterClaim);
-    },
-    revealed: function(game, player) {
+    revealed(game, player) {
         if(player !== this.player) {
             return;
         }
@@ -275,8 +326,9 @@ plots['01008'] = {
         ];
 
         game.pauseForPlot = true;
-    },
-    challengeTypeSelected: function(game, player, arg) {
+    }
+
+    challengeTypeSelected(game, player, arg) {
         if(player !== this.player) {
             return;
         }
@@ -284,8 +336,9 @@ plots['01008'] = {
         this.challengeType = arg;
 
         game.revealDone(player);
-    },
-    beforeClaim: function(game, challengeType, winner, loser) {
+    }
+
+    beforeClaim(game, challengeType, winner, loser) {
         if(winner === this.player) {
             return;
         }
@@ -299,8 +352,9 @@ plots['01008'] = {
 
         game.addMessage(loser.name + ' uses ' + loser.activePlot.card.label + ' to reduce the claim value of ' +
             winner.name + '\'s ' + challengeType + 'challenge to ' + winner.activePlot.card.claim);
-    },
-    afterClaim: function(game, challengeType, winner) {
+    }
+
+    afterClaim(game, challengeType, winner) {
         if(winner === this.player) {
             return;
         }
@@ -311,23 +365,37 @@ plots['01008'] = {
 
         winner.activePlot.card.claim = this.claim;
     }
+}
+plots['01008'] = {
+    register(game, player) {
+        var plot = new CalmOverWesteros(player);
+
+        game.playerPlots[player.id] = plot;
+
+        game.on('plotRevealed', plot.revealed);
+        game.on('customCommand', plot.challengeTypeSelected);
+        game.on('beforeClaim', plot.beforeClaim);
+        game.on('afterClaim', plot.afterClaim);
+    },
+    unregister(game, player) {
+        var plot = game.playerPlots[player.id];
+
+        game.removeListener('plotRevealed', plot.revealed);
+        game.removeListener('customCommand', plot.challengeTypeSelected);
+        game.removeListener('beforeClaim', plot.beforeClaim);
+        game.removeListener('afterClaim', plot.afterClaim);
+    }
 };
 
 // 01009 - Confiscation
-plots['01009'] = {
-    register(game, player) {
+class Confiscation {
+    constructor(player) {
         this.player = player;
         this.revealed = this.revealed.bind(this);
         this.cardClicked = this.cardClicked.bind(this);
+    }
 
-        game.on('plotRevealed', this.revealed);
-        game.on('cardClicked', this.cardClicked);
-    },
-    unregister(game) {
-        game.removeListener('plotRevealed', this.revealed);
-        game.removeListener('cardClicked', this.cardClicked);
-    },
-    revealed: function(game, player) {
+    revealed(game, player) {
         if(player !== this.player) {
             return;
         }
@@ -345,9 +413,9 @@ plots['01009'] = {
 
         player.selectCard = true;
         game.pauseForPlot = true;
-    },
+    }
 
-    cardClicked: function(game, player, clicked) {
+    cardClicked(game, player, clicked) {
         if(player !== this.player) {
             return;
         }
@@ -400,20 +468,31 @@ plots['01009'] = {
 
         game.revealDone(player);
     }
+}
+plots['01009'] = {
+    register(game, player) {
+        var plot = new Confiscation(player);
+
+        game.playerPlots[player.id] = plot;
+        game.on('plotRevealed', plot.revealed);
+        game.on('cardClicked', plot.cardClicked);
+    },
+    unregister(game, player) {
+        var plot = game.playerPlots[player.id];
+
+        game.removeListener('plotRevealed', plot.revealed);
+        game.removeListener('cardClicked', plot.cardClicked);
+    }
 };
 
 // 01010 - Counting coppers
-plots['01010'] = {
-    register: function(game, player) {
+class CountingCoppers {
+    constructor(player) {
         this.player = player;
         this.revealed = this.revealed.bind(this);
+    }
 
-        game.on('plotRevealed', this.revealed);
-    },
-    unregister(game) {
-        game.removeListener('plotRevealed', this.revealed);
-    },
-    revealed: function(game, player) {
+    revealed(game, player) {
         if(player !== this.player) {
             return;
         }
@@ -422,22 +501,27 @@ plots['01010'] = {
 
         game.addMessage(player.name + ' draws 3 cards from ' + player.activePlot.card.label);
     }
+}
+plots['01010'] = {
+    register: function(game, player) {
+        var plot = new CountingCoppers(player);
+
+        game.playerPlots[player.id] = plot;
+        game.on('plotRevealed', plot.revealed);
+    },
+    unregister(game, player) {
+        game.removeListener('plotRevealed', game.playerPlots[player.id].revealed);
+    }
 };
 
 // 01011 - Filthy Accusations
-plots['01011'] = {
-    register(game, player) {
+class FilthyAccusation {
+    constructor(player) {
         this.player = player;
         this.revealed = this.revealed.bind(this);
         this.cardClicked = this.cardClicked.bind(this);
+    }
 
-        game.on('plotRevealed', this.revealed);
-        game.on('cardClicked', this.cardClicked);
-    },
-    unregister(game) {
-        game.removeListener('plotRevealed', this.revealed);
-        game.removeListener('cardClicked', this.cardClicked);
-    },
     revealed(game, player) {
         if(this.player !== player) {
             return;
@@ -450,8 +534,9 @@ plots['01011'] = {
         game.pauseForPlot = true;
 
         this.waitingForClick = true;
-    },
-    cardClicked: function(game, player, clicked) {
+    }
+
+    cardClicked(game, player, clicked) {
         if(this.player !== player || !this.waitingForClick) {
             return;
         }
@@ -500,19 +585,29 @@ plots['01011'] = {
 
         game.revealDone(player);
     }
+}
+plots['01011'] = {
+    register(game, player) {
+        var plot = new FilthyAccusation(player);
+
+        game.playerPlots[player.id] = plot;
+        game.on('plotRevealed', plot.revealed);
+        game.on('cardClicked', plot.cardClicked);
+    },
+    unregister(game, player) {
+        var plot = game.playerPlots[player.id];
+        game.removeListener('plotRevealed', plot.revealed);
+        game.removeListener('cardClicked', plot.cardClicked);
+    }
 };
 
 // 01013 - Heads On Spikes
-plots['01013'] = {
-    register(game, player) {
+class HeadsOnSpikes {
+    constructor(player) {
         this.player = player;
         this.reveal = this.reveal.bind(this);
+    }
 
-        game.on('plotRevealed', this.reveal);
-    },
-    unregister(game) {
-        game.removeListener('plotRevealed', this.reveal);
-    },
     reveal(game, player) {
         if(this.player !== player) {
             return;
@@ -543,19 +638,26 @@ plots['01013'] = {
 
         game.addMessage(message);
     }
+}
+plots['01013'] = {
+    register(game, player) {
+        var plot = new HeadsOnSpikes(player);
+
+        game.playerPlots[player.id] = plot;
+        game.on('plotRevealed', plot.reveal);
+    },
+    unregister(game, player) {
+        game.removeListener('plotRevealed', game.playerPlots[player.id].reveal);
+    }
 };
 
 // 01014 - Jousting Contest
-plots['01014'] = {
-    register(game, player) {
+class JoustingContest {
+    constructor(player) {
         this.player = player;
         this.beforeChallengerSelected = this.beforeChallengerSelected.bind(this);
+    }
 
-        game.on('beforeChallengerSelected', this.beforeChallengerSelected);
-    },
-    unregister(game) {
-        game.removeListener('beforeChallengerSelected', this.beforeChallengerSelected);
-    },
     beforeChallengerSelected(game, player, card) {
         if(player.cardsInChallenge.length !== 0 && !_.any(player.cardsInChallenge, c => {
             return c.card.code === card.card.code;
@@ -563,25 +665,28 @@ plots['01014'] = {
             game.canAddToChallenge = false;
         }
     }
+}
+plots['01014'] = {
+    register(game, player) {
+        var plot = new JoustingContest(player);
+
+        game.playerPlots[player.id] = plot;
+        game.on('beforeChallengerSelected', plot.beforeChallengerSelected);
+    },
+    unregister(game, player) {
+        game.removeListener('beforeChallengerSelected', game.playerPlots[player.id].beforeChallengerSelected);
+    }
 };
 
 // 01015 - Marched To The Wall
-plots['01015'] = {
-    register(game, player) {
+class MarchedToTheWall {
+    constructor(player) {
         this.player = player;
         this.revealed = this.revealed.bind(this);
         this.cardClicked = this.cardClicked.bind(this);
         this.doneClicked = this.doneClicked.bind(this);
+    }
 
-        game.on('plotRevealed', this.revealed);
-        game.on('cardClicked', this.cardClicked);
-        game.on('customCommand', this.doneClicked);
-    },
-    unregister(game) {
-        game.removeListener('plotRevealed', this.revealed);
-        game.removeListener('cardClicked', this.cardClicked);
-        game.removeListener('customCommand', this.doneClicked);
-    },
     revealed(game, player) {
         if(this.player !== player) {
             return;
@@ -600,7 +705,8 @@ plots['01015'] = {
         _.each(game.players, p => {
             p.doneDiscard = false;
         });
-    },
+    }
+
     cardClicked(game, player, clicked) {
         if(player.doneDiscard || !this.waitingForClick) {
             return;
@@ -632,7 +738,8 @@ plots['01015'] = {
             player.menuTitle = 'Waiting for oppoent to apply plot effect';
             player.buttons = [];
         }
-    },
+    }
+
     doneClicked(game, player, arg) {
         if(arg !== '01015done') {
             return;
@@ -662,20 +769,33 @@ plots['01015'] = {
             player.buttons = [];
         }
     }
+}
+plots['01015'] = {
+    register(game, player) {
+        var plot = new MarchedToTheWall(player);
+
+        game.playerPlots[player.id] = plot;
+
+        game.on('plotRevealed', plot.revealed);
+        game.on('cardClicked', plot.cardClicked);
+        game.on('customCommand', plot.doneClicked);
+    },
+    unregister(game, player) {
+        var plot = game.playerPlots[player.id];
+
+        game.removeListener('plotRevealed', plot.revealed);
+        game.removeListener('cardClicked', plot.cardClicked);
+        game.removeListener('customCommand', plot.doneClicked);
+    }
 };
 
 // 01016 - Marching Orders
-plots['01016'] = {
-    register(game, player) {
+class MarchingOrders {
+    constructor(player) {
         this.player = player;
-
         this.beforeCardPlayed = this.beforeCardPlayed.bind(this);
+    }
 
-        game.on('beforeCardPlayed', this.beforeCardPlayed);
-    },
-    unregister(game) {
-        game.removeListener('beforeCardPlayed', this.beforeCardPlayed);
-    },
     beforeCardPlayed(game, player, card) {
         if(this.player !== player) {
             return;
@@ -685,24 +805,34 @@ plots['01016'] = {
             game.stopCardPlay = true;
         }
     }
+}
+plots['01016'] = {
+    register(game, player) {
+        var plot = new MarchingOrders(player);
+
+        game.playerPlots[player.id] = plot;
+        game.on('beforeCardPlayed', plot.beforeCardPlayed);
+    },
+    unregister(game, player) {
+        game.removeListener('beforeCardPlayed', game.playerPlots[player.id].beforeCardPlayed);
+    }
 };
 
 // 01017 - Naval Superiority
-plots['01017'] = {
-    register(game, player) {
+class NavalSuperority {
+    constructor(player) {
         this.player = player;
         this.beginMarshal = this.beginMarshal.bind(this);
+    }
 
-        game.on('beginMarshal', this.beginMarshal);
-    },
-    unregister(game) {
-        game.removeListener('beginMarshal', this.beginMarshal);
+    cleanup() {
         if(this.plot) {
             this.plot = this.plotGold;
             this.plot = undefined;
             this.plotGold = undefined;
         }
-    },
+    }
+
     beginMarshal(game, player) {
         if(this.player !== player) {
             return;
@@ -725,20 +855,29 @@ plots['01017'] = {
                 + otherPlayer.activePlot.card.label + ' to 0');
         }
     }
+}
+plots['01017'] = {
+    register(game, player) {
+        var plot = new NavalSuperority(player);
+
+        game.playerPlots[player.id] = plot;
+        game.on('beginMarshal', plot.beginMarshal);
+    },
+    unregister(game, player) {
+        var plot = game.playerPlots[player.id];
+
+        game.removeListener('beginMarshal', plot.beginMarshal);
+    }
 };
 
 // 01021 - Sneak Attack
-plots['01021'] = {
-    register(game, player) {
+class SneakAttack {
+    constructor(player) {
         this.player = player;
         this.revealed = this.revealed.bind(this);
+    }
 
-        game.on('plotRevealed', this.revealed);
-    },
-    unregister(game) {
-        game.removeListener('plotRevealed', this.revealed);
-    },
-    revealed: function(game, player) {
+    revealed(game, player) {
         if(player !== this.player) {
             return;
         }
@@ -748,20 +887,28 @@ plots['01021'] = {
         game.addMessage(player.name + ' uses ' + player.activePlot.card.label +
             ' to make the maximum number of challenges able to be initiated by ' + player.name + ' this round be 1');
     }
+}
+plots['01021'] = {
+    register(game, player) {
+        var plot = new SneakAttack(player);
+
+        game.playerPlots[player.id] = plot;
+        game.on('plotRevealed', plot.revealed);
+    },
+    unregister(game, player) {
+        game.removeListener('plotRevealed', game.playerPlots[player.id].revealed);
+    }
 };
 
 // 02039 - Trading with the Pentoshi
-plots['02039'] = {
-    register(game, player) {
+class TradingWithThePentoshi {
+    constructor(player) {
         this.player = player;
-        this.revealed = this.revealed.bind(this);
 
-        game.on('plotRevealed', this.revealed);
-    },
-    unregister(game) {
-        game.removeListener('plotRevealed', this.revealed);
-    },
-    revealed: function(game, player) {
+        this.revealed = this.revealed.bind(this);
+    }
+
+    revealed(game, player) {
         if(player !== this.player) {
             return;
         }
@@ -776,22 +923,29 @@ plots['02039'] = {
             game.addMessage(otherPlayer.name + ' gains 3 gold from ' + player.activePlot.card.label);
         }
     }
+}
+
+plots['02039'] = {
+    register(game, player) {
+        var plot = new TradingWithThePentoshi(player);
+
+        game.playerPlots[player.id] = plot;
+
+        game.on('plotRevealed', plot.revealed);
+    },
+    unregister(game, player) {
+        game.removeListener('plotRevealed', game.playerPlots[player.id].revealed);
+    }
 };
 
 // 03049 - The Long Winter
-plots['03049'] = {
-    register(game, player) {
+class TheLongWinter {
+    constructor(player) {
         this.player = player;
         this.revealed = this.revealed.bind(this);
         this.cardSelected = this.cardSelected.bind(this);
+    }
 
-        game.on('plotRevealed', this.revealed);
-        game.on('cardClicked', this.cardSelected);
-    },
-    unregister(game) {
-        game.removeListener('plotRevealed', this.revealed);
-        game.removeListener('cardClicked', this.cardSelected);
-    },
     revealed(game, player) {
         if(this.player !== player) {
             return;
@@ -824,7 +978,8 @@ plots['03049'] = {
         if(anySummerPlots) {
             game.pauseForPlot = true;
         }
-    },
+    }
+
     cardSelected(game, player, card) {
         if(!this.waitingForPlayers[player.id]) {
             return;
@@ -846,6 +1001,21 @@ plots['03049'] = {
         if(!_.any(this.waitingForPlayers)) {
             game.revealDone(this.player);
         }
+    }
+}
+plots['03049'] = {
+    register(game, player) {
+        var plot = new TheLongWinter(player);
+
+        game.playerPlots[player.id] = plot;
+        game.on('plotRevealed', plot.revealed);
+        game.on('cardClicked', plot.cardSelected);
+    },
+    unregister(game, player) {
+        var plot = game.playerPlots[player.id];
+
+        game.removeListener('plotRevealed', plot.revealed);
+        game.removeListener('cardClicked', plot.cardSelected);
     }
 };
 

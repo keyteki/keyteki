@@ -3,28 +3,51 @@ const _ = require('underscore');
 var locations = {};
 
 // 01040 - The Roseroad
+class TheRoseRoad {
+    constructor(player, card) {
+        this.player = player;
+        this.card = card;
+
+        this.beginMarshal = this.beginMarshal.bind(this);
+    }
+
+    beginMarshal(game, player) {
+        if(this.player !== player) {
+            return;
+        }
+
+        player.gold++;
+
+        game.addMessage(player.name + ' gained 1 gold from ' + this.card.label);
+    }
+}
 locations['01040'] = {
     register: function(game, player, card) {
-        game.on('beginMarshal', (game, player) => {
-            player.gold++;
+        var implementation = new TheRoseRoad(player, card);
 
-            game.addMessage(player.name + ' gained 1 gold from ' + card.label);
-        });
+        game.playerCards[player.id + card.code] = implementation;
+        game.on('beginMarshal', implementation.beginMarshal);
+    },
+    unregister: function(game, player, card) {
+        var implementation = game.playerCards[player.id + card.code];
+
+        game.removeListener('beginMarshal', implementation.beginMarshal);
     }
 };
 
 // 01156 - Heart Tree Grove
-locations['01156'] = {
-    register: function(game, player, card) {
+class HeartTreeGrove {
+    constructor(player, card) {
         this.player = player;
         this.card = card;
 
-        game.on('cardClicked', this.cardClick.bind(this));
-        game.on('beforeCardPlayed', this.beforeCardPlayed.bind(this));
-        game.on('afterCardPlayed', this.afterCardPlayed.bind(this));
-        game.on('cardsStanding', this.cardsStanding.bind(this));
-    },
-    cardClick: function(game, player, card) {
+        this.cardClick = this.cardClick.bind(this);
+        this.beforeCardPlayed = this.beforeCardPlayed.bind(this);
+        this.afterCardPlayed = this.afterCardPlayed.bind(this);
+        this.cardsStanding = this.cardsStanding.bind(this);
+    }
+
+    cardClick(game, player, card) {
         if(this.player !== player || this.card.code !== card.code) {
             return;
         }
@@ -44,8 +67,9 @@ locations['01156'] = {
         cardInPlay.kneeled = true;
         game.clickHandled = true;
         this.active = true;
-    },
-    beforeCardPlayed: function(game, player, card) {
+    }
+
+    beforeCardPlayed(game, player, card) {
         if(this.player !== player) {
             return;
         }
@@ -57,17 +81,40 @@ locations['01156'] = {
 
             game.addMessage(player.name + ' uses ' + this.card.label + ' to reduce the cost of ' + card.label + ' by 1');
         }
-    },
-    afterCardPlayed: function(game, player, card) {
+    }
+
+    afterCardPlayed(game, player, card) {
         if(this.card !== card) {
             return;
         }
 
         card.cost = this.cost;
-    },
-    cardsStanding: function(game) {
+    }
+
+    cardsStanding(game) {
         this.abilityUsed = false;
         this.active = false;
+    }
+}
+locations['01156'] = {
+    register: function(game, player, card) {
+
+        var implementation = new HeartTreeGrove(player, card);
+
+        game.playerCards[player.id + card.code] = implementation;
+
+        game.on('cardClicked', implementation.cardClick);
+        game.on('beforeCardPlayed', implementation.beforeCardPlayed);
+        game.on('afterCardPlayed', implementation.afterCardPlayed);
+        game.on('cardsStanding', implementation.cardsStanding);
+    },
+    unregister: function(game, player, card) {
+        var implementation = game.playerCards[player.id + card.code];
+
+        game.removeListener('cardClicked', implementation.cardClick);
+        game.removeListener('beforeCardPlayed', implementation.beforeCardPlayed);
+        game.removeListener('afterCardPlayed', implementation.afterCardPlayed);
+        game.removeListener('cardsStanding', implementation.cardsStanding);
     }
 };
 

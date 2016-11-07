@@ -9,6 +9,8 @@ class Game extends EventEmitter {
         super();
 
         this.players = {};
+        this.playerPlots = {};
+        this.playerCards = {};
         this.messages = [];
 
         this.name = name;
@@ -463,7 +465,7 @@ class Game extends EventEmitter {
             player.menuTitle = 'Waiting for opponent to finish marshalling';
             player.buttons = [];
 
-            unMarshalledPlayer.beginMarshal();
+            this.beginMarshal(unMarshalledPlayer);
         } else {
             var firstPlayer = _.find(this.players, p => {
                 return p.firstPlayer;
@@ -764,7 +766,7 @@ class Game extends EventEmitter {
 
             var plotImplementation = cards[player.activePlot.card.code];
             if(plotImplementation && plotImplementation.unregister) {
-                plotImplementation.unregister(this);
+                plotImplementation.unregister(this, player);
             }
 
             return;
@@ -776,7 +778,12 @@ class Game extends EventEmitter {
 
             plotImplementation = cards[player.activePlot.card.code];
             if(plotImplementation && plotImplementation.unregister) {
-                plotImplementation.unregister(this);
+                plotImplementation.unregister(this, player);
+            }
+
+            plotImplementation = cards[otherPlayer.activePlot.card.code];
+            if(plotImplementation && plotImplementation.unregister) {
+                plotImplementation.unregister(this, otherPlayer);
             }
 
             return;
