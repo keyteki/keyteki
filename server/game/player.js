@@ -156,7 +156,10 @@ class Player {
     }
 
     discardFromDraw(number) {
-        this.drawDeck.slice(number);
+        for (var i = 0; i < number; i++) {
+            this.discardPile.push(_.first(this.drawDeck));
+            this.drawDeck = this.drawDeck.slice(1);
+        }
     }
 
     playCard(card, dragDrop) {
