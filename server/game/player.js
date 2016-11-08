@@ -652,6 +652,10 @@ class Player {
 
     killCharacter(card) {
         var character = this.findCardInPlayByUuid(card.uuid);
+        
+        if (!character) {
+            return;
+        }
 
         if (character.dupes.length > 0) {
             character.dupes = character.dupes.slice(1);
