@@ -124,10 +124,22 @@ function factionCostReductionLocation(factionCode) {
 // 01059 - Dragonstone Port
 locations['01059'] = factionCostReductionLocation('baratheon');
 
+// 01080 - Sea Tower
+locations['01080'] = factionCostReductionLocation('greyjoy');
+
+// 01099 - Western Fiefdom
+locations['01099'] = factionCostReductionLocation('lannister');
+
 // 01118 - Blood Orange Grove
 locations['01118'] = factionCostReductionLocation('martell');
 
 // 01156 - Heart Tree Grove
 locations['01156'] = factionCostReductionLocation('stark');
+
+// 01175 - Illyrio's Estate
+locations['01175'] = factionCostReductionLocation('targaryen');
+
+// 01194 - Rose Garden
+locations['01194'] = factionCostReductionLocation('tyrell');
 
 module.exports = locations;
