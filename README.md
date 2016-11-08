@@ -48,6 +48,15 @@ cd ..
 node .
 ```
 
+You'll also need a file called server/config.js that should look like this:
+```javascript
+var config = {
+  secret: 'somethingverysecret'
+};
+
+module.exports = config;
+```
+
 This will get you up and running in development mode, using the webpack dev server and hotloading.
 
 For production:
