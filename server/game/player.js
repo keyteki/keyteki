@@ -441,6 +441,12 @@ class Player {
             return false;
         }
 
+        if (source === 'play area') {
+            this.discardCard(card);
+
+            return;
+        }
+
         this.discardPile.push(card);
 
         targetList = this.doCardMove(card, targetList);
@@ -652,7 +658,7 @@ class Player {
 
     killCharacter(card) {
         var character = this.findCardInPlayByUuid(card.uuid);
-        
+
         if (!character) {
             return;
         }
@@ -661,6 +667,14 @@ class Player {
             character.dupes = character.dupes.slice(1);
         } else {
             var found = false;
+
+            _.each(character.attachments, attachment => {
+                if (this.hasKeyword(attachment, 'Terminal')) {
+                    this.discardPile.push(attachment);
+                } else {
+                    this.hand.push(attachment);
+                }
+            });
 
             this.cardsInPlay = _.reject(this.cardsInPlay, c => {
                 if (!found && c.card.uuid === card.uuid) {
