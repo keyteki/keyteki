@@ -903,6 +903,18 @@ class Game extends EventEmitter {
             return;
         }
 
+        if (message.indexOf('/discard') !== -1) {
+            if (args.length > 1) {
+                num = this.getNumberOrDefault(args[1], 1);
+            }
+
+            this.addMessage(player.name + ' uses the /discard command to discard ' + num + ' cards at random');
+
+            player.discardAtRandom(num);
+
+            return;
+        }
+
         this.addMessage('<' + player.name + '> ' + message);
     }
 

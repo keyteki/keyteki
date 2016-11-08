@@ -34,6 +34,8 @@ Most things can be done be clicking on or dragging the thing you're trying to in
 
 /power x - Allows you to set the power count of a card to x
 
+/discard x - Discards x cards at random from your hand
+
 ## Development
 
 The game uses mongodb as storage so you'll need that installed and running
