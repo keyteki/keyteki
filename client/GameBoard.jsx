@@ -37,7 +37,7 @@ class InnerGameBoard extends React.Component {
     componentWillReceiveProps(props) {
         var thisPlayer = props.state.players[props.socket.id];
 
-        if (thisPlayer.selectCard) {
+        if (thisPlayer && thisPlayer.selectCard) {
             $('body').addClass('select-cursor');
         } else {
             $('body').removeClass('select-cursor');
@@ -278,13 +278,12 @@ class InnerGameBoard extends React.Component {
         }
 
         var thisPlayer = this.props.state.players[this.props.socket.id];
-        var otherPlayer = _.find(this.props.state.players, player => {
-            return player.id !== this.props.socket.id;
-        });
-
         if (!thisPlayer) {
-            debugger;
+            thisPlayer = _.toArray(this.props.state.players)[0];
         }
+        var otherPlayer = _.find(this.props.state.players, player => {
+            return player.id !== thisPlayer.id;
+        });
 
         var plotDeck = this.getPlotDeck(thisPlayer.plotDeck);
 
