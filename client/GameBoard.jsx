@@ -19,6 +19,8 @@ class InnerGameBoard extends React.Component {
         this.onCardClick = this.onCardClick.bind(this);
         this.onCardClick2 = this.onCardClick2.bind(this);
         this.onPlotDeckClick = this.onPlotDeckClick.bind(this);
+        this.onUsedPlotDeckClick = this.onUsedPlotDeckClick.bind(this);
+        this.onOtherPlayerUsedPlotDeckClick = this.onOtherPlayerUsedPlotDeckClick.bind(this);
         this.onDrawClick = this.onDrawClick.bind(this);
         this.onDragDrop = this.onDragDrop.bind(this);
         this.onCommand = this.onCommand.bind(this);
@@ -29,6 +31,8 @@ class InnerGameBoard extends React.Component {
         this.state = {
             cardToZoom: undefined,
             showPlotDeck: false,
+            showUsedPlotDeck: false,
+            showOtherPlayerUsedPlotDeck: false,
             showDrawDeck: false,
             selectedPlot: undefined,
             spectating: true
@@ -116,7 +120,39 @@ class InnerGameBoard extends React.Component {
     }
 
     onPlotDeckClick() {
+        if (this.state.showUsedPlotDeck) {
+            this.setState({ showUsedPlotDeck: !this.state.showUsedPlotDeck });
+        }
+
+        if (this.state.showOtherPlayerUsedPlotDeck) {
+            this.setState({ showOtherPlayerUsedPlotDeck: !this.state.showOtherPlayerUsedPlotDeck });
+        }
+
         this.setState({ showPlotDeck: !this.state.showPlotDeck });
+    }
+
+    onUsedPlotDeckClick() {
+        if (this.state.showPlotDeck) {
+            this.setState({ showPlotDeck: !this.state.showPlotDeck });
+        }
+
+        if (this.state.showOtherPlayerUsedPlotDeck) {
+            this.setState({ showOtherPlayerUsedPlotDeck: !this.state.showOtherPlayerUsedPlotDeck });
+        }
+
+        this.setState({ showUsedPlotDeck: !this.state.showUsedPlotDeck });
+    }
+
+    onOtherPlayerUsedPlotDeckClick() {
+        if (this.state.showPlotDeck) {
+            this.setState({ showPlotDeck: !this.state.showPlotDeck });
+        }
+
+        if (this.state.showUsedPlotDeck) {
+            this.setState({ showUsedPlotDeck: !this.state.showUsedPlotDeck });
+        }
+
+        this.setState({ showOtherPlayerUsedPlotDeck: !this.state.showOtherPlayerUsedPlotDeck });
     }
 
     onDragDrop(card, source, target) {
@@ -293,6 +329,10 @@ class InnerGameBoard extends React.Component {
         });
 
         var plotDeck = this.getPlotDeck(thisPlayer.plotDeck);
+        var thisPlayerUsedPlotDeck = this.getPlotDeck(thisPlayer.plotDiscard);
+        if (otherPlayer) {
+            var otherPlayerUsedPlotDeck = this.getPlotDeck(otherPlayer.plotDiscard);
+        }
 
         var thisPlayerCards = [];
 
@@ -342,15 +382,20 @@ class InnerGameBoard extends React.Component {
 
                                         <img className='vertical' src='/img/cards/cardback.jpg' />
                                     </div>
-                                    <div className='panel horizontal-card'
-                                        onMouseOver={otherPlayer ? this.onMouseOver.bind(this, _.last(otherPlayer.plotDiscard)) : null}
-                                        onMouseOut={this.onMouseOut}>
+                                    <div className='panel horizontal-card' onMouseOver={otherPlayer ? this.onMouseOver.bind(this, _.last(otherPlayer.plotDiscard)) : null}
+                                        onMouseOut={this.onMouseOut} onClick={this.onOtherPlayerUsedPlotDeckClick}>
                                         <div className='panel-header'>
-                                            {'Plot Discard (' + (otherPlayer ? otherPlayer.plotDiscard.length : 0) + ')'}
+                                            {'Active Plot'}
                                         </div>
+                                        {(otherPlayer && otherPlayer.activePlot) ?
+                                            <img className='horizontal card' src={'/img/cards/' + otherPlayer.activePlot.card.code + '.png'} /> : null}
 
-                                        {otherPlayer && otherPlayer.plotDiscard.length > 0 ?
-                                            <img className='horizontal' src={'/img/cards/' + _.last(otherPlayer.plotDiscard).code + '.png'} /> : null}
+                                        {this.state.showOtherPlayerUsedPlotDeck ? <div className='panel plot-popup un-kneeled'>
+                                            <div className='panel-header'>
+                                                {'Used Plots (' + (otherPlayer ? otherPlayer.plotDiscard.length : 0) + ')'}
+                                            </div>
+                                            {otherPlayer ? otherPlayerUsedPlotDeck : null}
+                                        </div> : null}
                                     </div>
                                     {otherPlayer && otherPlayer.plotSelected ?
                                         <div className='panel horizontal-card opponent selected-plot'>
@@ -365,13 +410,19 @@ class InnerGameBoard extends React.Component {
                                         </div> : null
                                     }
                                     <div className='panel horizontal-card' onMouseOver={this.onMouseOver.bind(this, _.last(thisPlayer.plotDiscard))}
-                                        onMouseOut={this.onMouseOut}>
+                                        onMouseOut={this.onMouseOut} onClick={this.onUsedPlotDeckClick}>
                                         <div className='panel-header'>
-                                            {'Plot Discard (' + thisPlayer.plotDiscard.length + ')'}
+                                            {'Active Plot'}
                                         </div>
+                                        {thisPlayer.activePlot ?
+                                            <img className='horizontal card' src={'/img/cards/' + thisPlayer.activePlot.card.code + '.png'} /> : null}
 
-                                        {thisPlayer.plotDiscard.length > 0 ?
-                                            <img className='horizontal card' src={'/img/cards/' + _.last(thisPlayer.plotDiscard).code + '.png'} /> : null}
+                                        {this.state.showUsedPlotDeck ? <div className='panel plot-popup un-kneeled'>
+                                            <div className='panel-header'>
+                                                {'Used Plots (' + thisPlayer.plotDiscard.length + ')'}
+                                            </div>
+                                            {thisPlayerUsedPlotDeck}
+                                        </div> : null}
                                     </div>
                                     <div className='panel horizontal-card' onClick={this.state.spectating ? null : this.onPlotDeckClick}>
                                         <div className='panel-header'>
@@ -452,4 +503,3 @@ function mapStateToProps(state) {
 const GameBoard = connect(mapStateToProps, actions)(InnerGameBoard);
 
 export default GameBoard;
-
