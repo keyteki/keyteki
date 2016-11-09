@@ -35,6 +35,8 @@ class Game extends EventEmitter {
             if (!this.isSpectator(player)) {
                 playerList[player.id] = player;
             }
+
+            return playerList;
         }, players);
 
         return players;
