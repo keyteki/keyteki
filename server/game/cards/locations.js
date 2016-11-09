@@ -1,30 +1,7 @@
 const _ = require('underscore');
+const factionCostReducer = require('./reducer.js').factionCostReducer;
 
 var locations = {};
-
-function factionCostReductionLocation(factionCode) {
-    return {
-        register: function(game, player, card) {
-
-            var implementation = new FactionCostReduction(player, card, factionCode);
-
-            game.playerCards[player.id + card.uuid] = implementation;
-
-            game.on('cardClicked', implementation.cardClick);
-            game.on('beforeCardPlayed', implementation.beforeCardPlayed);
-            game.on('afterCardPlayed', implementation.afterCardPlayed);
-            game.on('cardsStanding', implementation.cardsStanding);
-        },
-        unregister: function(game, player, card) {
-            var implementation = game.playerCards[player.id + card.uuid];
-
-            game.removeListener('cardClicked', implementation.cardClick);
-            game.removeListener('beforeCardPlayed', implementation.beforeCardPlayed);
-            game.removeListener('afterCardPlayed', implementation.afterCardPlayed);
-            game.removeListener('cardsStanding', implementation.cardsStanding);
-        }
-    };
-}
 
 // 01039 - The Kingsroad
 class TheKingsRoad {
@@ -151,87 +128,25 @@ locations['01040'] = {
     }
 };
 
-class FactionCostReduction {
-    constructor(player, card, factionCode) {
-        this.player = player;
-        this.card = card;
-        this.factionCode = factionCode;
-
-        this.cardClick = this.cardClick.bind(this);
-        this.beforeCardPlayed = this.beforeCardPlayed.bind(this);
-        this.afterCardPlayed = this.afterCardPlayed.bind(this);
-        this.cardsStanding = this.cardsStanding.bind(this);
-    }
-
-    cardClick(game, player, card) {
-        if (this.player !== player || this.card.uuid !== card.uuid) {
-            return;
-        }
-
-        if (player.phase !== 'marshal') {
-            return;
-        }
-
-        var cardInPlay = _.find(player.cardsInPlay, c => {
-            return c.card.uuid === card.uuid;
-        });
-
-        if (!cardInPlay || cardInPlay.kneeled) {
-            return;
-        }
-
-        cardInPlay.kneeled = true;
-        game.clickHandled = true;
-        this.active = true;
-    }
-
-    beforeCardPlayed(game, player, card) {
-        if (this.player !== player) {
-            return;
-        }
-
-        if (this.active && !this.abilityUsed && card.faction_code === this.factionCode && card.cost > 0) {
-            card.cost -= 1;
-            this.abilityUsed = true;
-            this.cost = card.cost;
-
-            game.addMessage(player.name + ' uses ' + this.card.label + ' to reduce the cost of ' + card.label + ' by 1');
-        }
-    }
-
-    afterCardPlayed(game, player, card) {
-        if (this.card !== card) {
-            return;
-        }
-
-        card.cost = this.cost;
-    }
-
-    cardsStanding() {
-        this.abilityUsed = false;
-        this.active = false;
-    }
-}
-
 // 01059 - Dragonstone Port
-locations['01059'] = factionCostReductionLocation('baratheon');
+locations['01059'] = factionCostReducer('baratheon');
 
 // 01080 - Sea Tower
-locations['01080'] = factionCostReductionLocation('greyjoy');
+locations['01080'] = factionCostReducer('greyjoy');
 
 // 01099 - Western Fiefdom
-locations['01099'] = factionCostReductionLocation('lannister');
+locations['01099'] = factionCostReducer('lannister');
 
 // 01118 - Blood Orange Grove
-locations['01118'] = factionCostReductionLocation('martell');
+locations['01118'] = factionCostReducer('martell');
 
 // 01156 - Heart Tree Grove
-locations['01156'] = factionCostReductionLocation('stark');
+locations['01156'] = factionCostReducer('stark');
 
 // 01175 - Illyrio's Estate
-locations['01175'] = factionCostReductionLocation('targaryen');
+locations['01175'] = factionCostReducer('targaryen');
 
 // 01194 - Rose Garden
-locations['01194'] = factionCostReductionLocation('tyrell');
+locations['01194'] = factionCostReducer('tyrell');
 
 module.exports = locations;
