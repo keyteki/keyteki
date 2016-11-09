@@ -34,7 +34,7 @@ class InnerGameList extends React.Component {
                     }
                     <button className='btn btn-primary pull-right' onClick={event => this.watchGame(event, game)}>Watch</button>
                     <div><b>{ game.name }</b></div>
-                    <div><span>{ game.players[0].name }</span> { game.players.length === 2 ? <span><b>vs</b> { game.players[1].name }</span> : null }</div>
+                    <div><span>{ game.players.length > 0 ? game.players[0].name : '' }</span> { game.players.length === 2 ? <span><b>vs</b> { game.players[1].name }</span> : null }</div>
                 </div>
             );
         });
