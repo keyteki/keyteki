@@ -818,7 +818,7 @@ class Player extends Spectator {
     }
 
     getTotalInitiative() {
-        var plotInitiative = this.selectedPlot.card.initiative;
+        var plotInitiative = this.activePlot ? this.activePlot.card.initiative : 0;
         var initiativeModifier = _.chain(this.cardsInPlay).map(cip => {
             return [cip.card].concat(cip.attachments);
         }).flatten(true).reduce((memo, card) => {
