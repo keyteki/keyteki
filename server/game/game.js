@@ -390,7 +390,7 @@ class Game extends EventEmitter {
             return p.id !== player.id;
         });
 
-        if (player.setPower) {
+        if (!_.isUndefined(player.setPower)) {
             var cardInPlay = player.findCardInPlayByUuid(card.uuid);
 
             if (!cardInPlay) {
@@ -626,7 +626,7 @@ class Game extends EventEmitter {
 
                 this.addMessage(winner.name + ' has gained 1 power from an unopposed challenge');
 
-                if (winner.getTotalPower() => 15) {
+                if (winner.getTotalPower() >= 15) {
                     this.addMessage(winner.name + ' has won the game');
                 }
             }
@@ -673,352 +673,352 @@ class Game extends EventEmitter {
                 this.addMessage(winner.name + ' gains 1 power on ' + card.card.label + ' from Renown');
             }
 
-            if (winner.getTotalPower() => 15) {
-                this.addMessage(winner.name + ' has won the game');
-            }
-        });
-    }
-
-    applyClaim(winner, loser) {
-        this.emit('beforeClaim', this, winner.currentChallenge, winner, loser);
-        var claim = winner.activePlot.card.claim;
-
-        if (claim <= 0) {
-            this.addMessage('The claim value for ' + winner.currentChallenge + ' is 0, no claim occurs');
-        } else {
-            if (winner.currentChallenge === 'military') {
-                winner.menuTitle = 'Waiting for opponent to apply claim effects';
-                winner.buttons = [];
-
-                loser.claimToDo = claim;
-                loser.selectCharacterToKill();
-
-                return;
-            } else if (winner.currentChallenge === 'intrigue') {
-                loser.discardAtRandom(claim);
-            } else if (winner.currentChallenge === 'power') {
-                while (claim > 0) {
-                    if (loser.power > 0) {
-                        loser.power--;
-                        winner.power++;
-                        claim--;
-
-                        if (winner.getTotalPower() => 15) {
-                            this.addMessage(winner.name + ' has won the game');
-                        }
-                    } else {
-                        claim = 0;
-		    }
-		}
-            }
+            if (winner.getTotalPower() >= 15) {
+            this.addMessage(winner.name + ' has won the game');
         }
+    });
+}
 
-        this.emit('afterClaim', this, winner.currentChallenge, winner, loser);
-        loser.doneClaim();
-        winner.beginChallenge();
-    }
+applyClaim(winner, loser) {
+    this.emit('beforeClaim', this, winner.currentChallenge, winner, loser);
+    var claim = winner.activePlot.card.claim;
 
-    doneChallenges(playerId) {
-        var challenger = this.players[playerId];
+    if (claim <= 0) {
+        this.addMessage('The claim value for ' + winner.currentChallenge + ' is 0, no claim occurs');
+    } else {
+        if (winner.currentChallenge === 'military') {
+            winner.menuTitle = 'Waiting for opponent to apply claim effects';
+            winner.buttons = [];
 
-        challenger.doneChallenges = true;
+            loser.claimToDo = claim;
+            loser.selectCharacterToKill();
 
-        var other = _.find(this.players, p => {
-            return !p.doneChallenges;
-        });
+            return;
+        } else if (winner.currentChallenge === 'intrigue') {
+            loser.discardAtRandom(claim);
+        } else if (winner.currentChallenge === 'power') {
+            while (claim > 0) {
+                if (loser.power > 0) {
+                    loser.power--;
+                    winner.power++;
+                    claim--;
 
-        if (other) {
-            other.beginChallenge();
-
-            challenger.menuTitle = 'Waiting for opponent to initiate challenge';
-            challenger.buttons = [];
-        } else {
-            this.dominance();
+                    if (winner.getTotalPower() >= 15) {
+                        this.addMessage(winner.name + ' has won the game');
+                    }
+                } else {
+                    claim = 0;
+                }
+            }
         }
     }
 
-    dominance() {
-        var highestDominance = 0;
-        var highestPlayer = undefined;
+    this.emit('afterClaim', this, winner.currentChallenge, winner, loser);
+    loser.doneClaim();
+    winner.beginChallenge();
+}
 
-        _.each(this.players, player => {
-            player.phase = 'dominance';
-            var dominance = player.getDominance();
+doneChallenges(playerId) {
+    var challenger = this.players[playerId];
 
-            if (dominance > highestDominance) {
-                highestPlayer = player;
-            }
+    challenger.doneChallenges = true;
+
+    var other = _.find(this.players, p => {
+        return !p.doneChallenges;
+    });
+
+    if (other) {
+        other.beginChallenge();
+
+        challenger.menuTitle = 'Waiting for opponent to initiate challenge';
+        challenger.buttons = [];
+    } else {
+        this.dominance();
+    }
+}
+
+dominance() {
+    var highestDominance = 0;
+    var highestPlayer = undefined;
+
+    _.each(this.players, player => {
+        player.phase = 'dominance';
+        var dominance = player.getDominance();
+
+        if (dominance > highestDominance) {
+            highestPlayer = player;
+        }
+    });
+
+    if (!highestPlayer) {
+        _.each(this.players, p => {
+            highestPlayer = p;
         });
+    }
 
-        if (!highestPlayer) {
-            _.each(this.players, p => {
-                highestPlayer = p;
-            });
+    this.addMessage(highestPlayer.name + ' wins dominance');
+
+    highestPlayer.power++;
+
+    if (highestPlayer.getTotalPower() >= 15) {
+        this.addMessage(highestPlayer.name + ' has won the game');
+    }
+
+    this.emit('afterDominance', this, highestPlayer);
+
+    this.emit('cardsStanding', this);
+
+    _.each(this.players, player => {
+        player.standCards();
+        player.taxation();
+    });
+
+    var firstPlayer = _.find(this.players, p => {
+        return p.firstPlayer;
+    });
+
+    firstPlayer.menuTitle = '';
+    firstPlayer.buttons = [
+        { command: 'doneround', text: 'End Turn' }
+    ];
+
+    var otherPlayer = _.find(this.players, p => {
+        return p.id !== firstPlayer.id;
+    });
+
+    if (otherPlayer) {
+        otherPlayer.menuTitle = 'Waiting for opponent to end their turn';
+        otherPlayer.buttons = [];
+    }
+}
+
+doneRound(playerId) {
+    var player = this.players[playerId];
+
+    if (player.hand.length > player.reserve) {
+        return;
+    }
+    var otherPlayer = _.find(this.players, p => {
+        return p.id !== player.id;
+    });
+
+    if (!otherPlayer) {
+        player.startPlotPhase();
+
+        var plotImplementation = cards[player.activePlot.card.code];
+        if (plotImplementation && plotImplementation.unregister) {
+            plotImplementation.unregister(this, player);
         }
 
-        this.addMessage(highestPlayer.name + ' wins dominance');
+        return;
+    }
 
-        highestPlayer.power++;
+    if (otherPlayer && otherPlayer.roundDone) {
+        player.startPlotPhase();
+        otherPlayer.startPlotPhase();
 
-        if (highestPlayer.getTotalPower() > 15) {
-            this.addMessage(highestPlayer.name + ' has won the game');
+        plotImplementation = cards[player.activePlot.card.code];
+        if (plotImplementation && plotImplementation.unregister) {
+            plotImplementation.unregister(this, player);
         }
 
-        this.emit('afterDominance', this, highestPlayer);
+        plotImplementation = cards[otherPlayer.activePlot.card.code];
+        if (plotImplementation && plotImplementation.unregister) {
+            plotImplementation.unregister(this, otherPlayer);
+        }
 
-        this.emit('cardsStanding', this);
+        return;
+    }
 
-        _.each(this.players, player => {
-            player.standCards();
-            player.taxation();
-        });
+    player.roundDone = true;
+    player.menuTitle = 'Waiting for opponent to end their turn';
+    player.buttons = [];
 
-        var firstPlayer = _.find(this.players, p => {
-            return p.firstPlayer;
-        });
-
-        firstPlayer.menuTitle = '';
-        firstPlayer.buttons = [
+    if (otherPlayer) {
+        otherPlayer.menuTitle = '';
+        otherPlayer.buttons = [
             { command: 'doneround', text: 'End Turn' }
         ];
+    }
+}
 
-        var otherPlayer = _.find(this.players, p => {
-            return p.id !== firstPlayer.id;
-        });
+changeStat(playerId, stat, value) {
+    var player = this.players[playerId];
 
-        if (otherPlayer) {
-            otherPlayer.menuTitle = 'Waiting for opponent to end their turn';
-            otherPlayer.buttons = [];
-        }
+    player[stat] += value;
+
+    if (player[stat] < 0) {
+        player[stat] = 0;
+    } else {
+        this.addMessage(player.name + ' sets ' + stat + ' to ' + player[stat] + ' (' + (value > 0 ? '+' : '') + value + ')');
+    }
+}
+
+customCommand(playerId, arg) {
+    var player = this.players[playerId];
+
+    this.emit('customCommand', this, player, arg);
+}
+
+getNumberOrDefault(string, defaultNumber) {
+    var num = parseInt(string);
+
+    if (isNaN(num)) {
+        num = defaultNumber;
     }
 
-    doneRound(playerId) {
-        var player = this.players[playerId];
+    if (num < 0) {
+        num = defaultNumber;
+    }
 
-        if (player.hand.length > player.reserve) {
-            return;
-        }
-        var otherPlayer = _.find(this.players, p => {
-            return p.id !== player.id;
-        });
+    return num;
+}
 
-        if (!otherPlayer) {
-            player.startPlotPhase();
+chat(playerId, message) {
+    var player = this.players[playerId];
+    var args = message.split(' ');
+    var num = 1;
 
-            var plotImplementation = cards[player.activePlot.card.code];
-            if (plotImplementation && plotImplementation.unregister) {
-                plotImplementation.unregister(this, player);
-            }
-
-            return;
+    if (message.indexOf('/draw') !== -1) {
+        if (args.length > 1) {
+            num = this.getNumberOrDefault(args[1], 1);
         }
 
-        if (otherPlayer && otherPlayer.roundDone) {
-            player.startPlotPhase();
-            otherPlayer.startPlotPhase();
+        this.addMessage(player.name + ' uses the /draw command to draw ' + num + ' cards to their hand');
 
-            plotImplementation = cards[player.activePlot.card.code];
-            if (plotImplementation && plotImplementation.unregister) {
-                plotImplementation.unregister(this, player);
-            }
+        player.drawCardsToHand(num);
 
-            plotImplementation = cards[otherPlayer.activePlot.card.code];
-            if (plotImplementation && plotImplementation.unregister) {
-                plotImplementation.unregister(this, otherPlayer);
-            }
+        return;
+    }
 
-            return;
+    if (message.indexOf('/power') !== -1) {
+        if (args.length > 1) {
+            num = this.getNumberOrDefault(args[1], 1);
         }
 
-        player.roundDone = true;
-        player.menuTitle = 'Waiting for opponent to end their turn';
+        player.selectCard = true;
+        player.oldMenuTitle = player.menuTitle;
+        player.oldButtons = player.buttons;
+        player.menuTitle = 'Select a card to set power for';
+        player.buttons = [
+            { command: 'donesetpower', text: 'Done' }
+        ];
+        player.setPower = num;
+
+        return;
+    }
+
+    if (message.indexOf('/discard') !== -1) {
+        if (args.length > 1) {
+            num = this.getNumberOrDefault(args[1], 1);
+        }
+
+        this.addMessage(player.name + ' uses the /discard command to discard ' + num + ' cards at random');
+
+        player.discardAtRandom(num);
+
+        return;
+    }
+
+    this.addMessage('<' + player.name + '> ' + message);
+}
+
+doneSetPower(playerId) {
+    var player = this.players[playerId];
+
+    player.menuTitle = player.oldMenuTitle;
+    player.buttons = player.oldButtons;
+    player.selectCard = false;
+
+    player.oldMenuTitle = undefined;
+    player.oldButtons = undefined;
+    player.setPower = undefined;
+}
+
+playerLeave(playerId, reason) {
+    var player = this.players[playerId];
+
+    this.addMessage(player.name + ' ' + reason);
+}
+
+concede(playerId) {
+    var player = this.players[playerId];
+
+    if (!player) {
+        return;
+    }
+
+    this.addMessage(player.name + ' concedes');
+
+    var otherPlayer = _.find(this.players, p => {
+        return p.id !== playerId;
+    });
+
+    if (otherPlayer) {
+        this.addMessage(otherPlayer.name + ' wins the game');
+    }
+}
+
+selectDeck(playerId, deck) {
+    var player = this.players[playerId];
+
+    if (!player) {
+        return;
+    }
+
+    player.selectDeck(deck);
+}
+
+doneStealth(playerId) {
+    var player = this.players[playerId];
+
+    if (!player) {
+        return;
+    }
+
+    var otherPlayer = _.find(this.players, p => {
+        return p.id !== player.id;
+    });
+
+    if (otherPlayer) {
+        player.menuTitle = 'Waiting for opponent to defend';
         player.buttons = [];
 
-        if (otherPlayer) {
-            otherPlayer.menuTitle = '';
-            otherPlayer.buttons = [
-                { command: 'doneround', text: 'End Turn' }
-            ];
-        }
+        otherPlayer.beginDefend(player.currentChallenge);
     }
 
-    changeStat(playerId, stat, value) {
-        var player = this.players[playerId];
+    return false;
+}
 
-        player[stat] += value;
+cancelClaim(playerId) {
+    var player = this.players[playerId];
 
-        if (player[stat] < 0) {
-            player[stat] = 0;
-        } else {
-            this.addMessage(player.name + ' sets ' + stat + ' to ' + player[stat] + ' (' + (value > 0 ? '+' : '') + value + ')');
-        }
+    this.addMessage(player.name + ' has cancelled claim effects');
+
+    player.doneClaim();
+
+    var otherPlayer = _.find(this.players, p => {
+        return p !== player.id;
+    });
+
+    if (otherPlayer) {
+        otherPlayer.beginChallenge();
     }
+}
 
-    customCommand(playerId, arg) {
-        var player = this.players[playerId];
+shuffleDeck(playerId) {
+    var player = this.players[playerId];
 
-        this.emit('customCommand', this, player, arg);
-    }
+    this.addMessage(player.name + ' shuffles their deck');
 
-    getNumberOrDefault(string, defaultNumber) {
-        var num = parseInt(string);
+    player.shuffleDrawDeck();
+}
 
-        if (isNaN(num)) {
-            num = defaultNumber;
-        }
-
-        if (num < 0) {
-            num = defaultNumber;
-        }
-
-        return num;
-    }
-
-    chat(playerId, message) {
-        var player = this.players[playerId];
-        var args = message.split(' ');
-        var num = 1;
-
-        if (message.indexOf('/draw') !== -1) {
-            if (args.length > 1) {
-                num = this.getNumberOrDefault(args[1], 1);
-            }
-
-            this.addMessage(player.name + ' uses the /draw command to draw ' + num + ' cards to their hand');
-
-            player.drawCardsToHand(num);
-
-            return;
-        }
-
-        if (message.indexOf('/power') !== -1) {
-            if (args.length > 1) {
-                num = this.getNumberOrDefault(args[1], 1);
-            }
-
-            player.selectCard = true;
-            player.oldMenuTitle = player.menuTitle;
-            player.oldButtons = player.buttons;
-            player.menuTitle = 'Select a card to set power for';
-            player.buttons = [
-                { command: 'donesetpower', text: 'Done' }
-            ];
-            player.setPower = num;
-
-            return;
-        }
-
-        if (message.indexOf('/discard') !== -1) {
-            if (args.length > 1) {
-                num = this.getNumberOrDefault(args[1], 1);
-            }
-
-            this.addMessage(player.name + ' uses the /discard command to discard ' + num + ' cards at random');
-
-            player.discardAtRandom(num);
-
-            return;
-        }
-
-        this.addMessage('<' + player.name + '> ' + message);
-    }
-
-    doneSetPower(playerId) {
-        var player = this.players[playerId];
-
-        player.menuTitle = player.oldMenuTitle;
-        player.buttons = player.oldButtons;
-        player.selectCard = false;
-
-        player.oldMenuTitle = undefined;
-        player.oldButtons = undefined;
-        player.setPower = undefined;
-    }
-
-    playerLeave(playerId, reason) {
-        var player = this.players[playerId];
-
-        this.addMessage(player.name + ' ' + reason);
-    }
-
-    concede(playerId) {
-        var player = this.players[playerId];
-
-        if (!player) {
-            return;
-        }
-
-        this.addMessage(player.name + ' concedes');
-
-        var otherPlayer = _.find(this.players, p => {
-            return p.id !== playerId;
-        });
-
-        if (otherPlayer) {
-            this.addMessage(otherPlayer.name + ' wins the game');
-        }
-    }
-
-    selectDeck(playerId, deck) {
-        var player = this.players[playerId];
-
-        if (!player) {
-            return;
-        }
-
-        player.selectDeck(deck);
-    }
-
-    doneStealth(playerId) {
-        var player = this.players[playerId];
-
-        if (!player) {
-            return;
-        }
-
-        var otherPlayer = _.find(this.players, p => {
-            return p.id !== player.id;
-        });
-
-        if (otherPlayer) {
-            player.menuTitle = 'Waiting for opponent to defend';
-            player.buttons = [];
-
-            otherPlayer.beginDefend(player.currentChallenge);
-        }
-
-        return false;
-    }
-
-    cancelClaim(playerId) {
-        var player = this.players[playerId];
-
-        this.addMessage(player.name + ' has cancelled claim effects');
-
-        player.doneClaim();
-
-        var otherPlayer = _.find(this.players, p => {
-            return p !== player.id;
-        });
-
-        if (otherPlayer) {
-            otherPlayer.beginChallenge();
-        }
-    }
-
-    shuffleDeck(playerId) {
-        var player = this.players[playerId];
-
-        this.addMessage(player.name + ' shuffles their deck');
-
-        player.shuffleDrawDeck();
-    }
-
-    initialise() {
-        _.each(this.players, player => {
-            player.initialise();
-        });
-    }
+initialise() {
+    _.each(this.players, player => {
+        player.initialise();
+    });
+}
 }
 
 module.exports = Game;
