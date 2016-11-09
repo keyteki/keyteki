@@ -30,12 +30,19 @@ class InnerGameBoard extends React.Component {
             cardToZoom: undefined,
             showPlotDeck: false,
             showDrawDeck: false,
-            selectedPlot: undefined
+            selectedPlot: undefined,
+            spectating: true
         };
     }
 
     componentWillReceiveProps(props) {
         var thisPlayer = props.state.players[props.socket.id];
+
+        if (thisPlayer) {
+            this.setState({ spectating: false });
+        } else {
+            this.setState({ spectating: true });
+        }
 
         if (thisPlayer && thisPlayer.selectCard) {
             $('body').addClass('select-cursor');
@@ -245,7 +252,7 @@ class InnerGameBoard extends React.Component {
                 <div key={'card' + index.toString()} className='card-wrapper'>
                     <div className='card-frame'>
                         <div className={plotClass} onMouseOver={this.onMouseOver ? this.onMouseOver.bind(this, card) : null}
-                            onMouseOut={this.onMouseOut} onClick={(event) => this.onPlotCardClick(event, card)}>
+                            onMouseOut={this.onMouseOut} onClick={event => this.onPlotCardClick(event, card)}>
                             <img className='plot-card' src={'/img/cards/' + card.code + '.png'} />
                         </div>
                     </div>
@@ -366,9 +373,9 @@ class InnerGameBoard extends React.Component {
                                         {thisPlayer.plotDiscard.length > 0 ?
                                             <img className='horizontal card' src={'/img/cards/' + _.last(thisPlayer.plotDiscard).code + '.png'} /> : null}
                                     </div>
-                                    <div className='panel horizontal-card' onClick={this.onPlotDeckClick}>
+                                    <div className='panel horizontal-card' onClick={this.state.spectating ? null : this.onPlotDeckClick}>
                                         <div className='panel-header'>
-                                            {'Plot (' + plotDeck.length + ')'}
+                                            {'Plot (' + (this.state.spectating ? thisPlayer.numPlotCards : plotDeck.length) + ')'}
                                         </div>
                                         <img className='vertical card' src='/img/cards/cardback.jpg' />
 
@@ -380,7 +387,7 @@ class InnerGameBoard extends React.Component {
                             </div>
 
                             <PlayerStats gold={thisPlayer.gold || 0} claim={thisPlayer.claim || 0} reserve={thisPlayer.reserve || 0}
-                                power={thisPlayer.totalPower} isMe />
+                                power={thisPlayer.totalPower} isMe={!this.state.spectating} />
                         </div>
                         <div className='inset-pane'>
                             <div />
@@ -398,7 +405,7 @@ class InnerGameBoard extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <PlayerRow isMe
+                    <PlayerRow isMe={!this.state.spectating}
                         agenda={thisPlayer.agenda}
                         faction={thisPlayer.faction}
                         hand={thisPlayer.hand}
@@ -413,7 +420,8 @@ class InnerGameBoard extends React.Component {
                         onDragDrop={this.onDragDrop}
                         power={thisPlayer.power}
                         discardPile={thisPlayer.discardPile}
-                        deadPile={thisPlayer.deadPile} />
+                        deadPile={thisPlayer.deadPile}
+                        spectating={this.state.spectating} />
                 </div>
                 <div className='right-side'>
                     <CardZoom imageUrl={this.state.cardToZoom ? '/img/cards/' + this.state.cardToZoom.code + '.png' : ''}

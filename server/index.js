@@ -217,7 +217,9 @@ function removePlayerFromGame(game, socket, reason) {
 
     socket.leave(game.id);
 
-    if (_.isEmpty(game.players)) {
+    var listToCheck = game.started ? game.players : game.getPlayers();
+
+    if (_.isEmpty(listToCheck)) {
         delete games[game.id];
     }
 }

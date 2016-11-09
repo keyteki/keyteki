@@ -1,3 +1,5 @@
+import _ from 'underscore';
+
 function games(state = {
     games: []
 }, action) {
@@ -11,9 +13,17 @@ function games(state = {
                 newGame: false
             });
         case 'RECEIVE_GAMES':
-            return Object.assign({}, state, {
+            var ret = Object.assign({}, state, {
                 games: action.games
             });
+
+            if(state.currentGame && !_.find(action.games, game => {
+                return game.id === state.currentGame.id;
+            })) {
+                ret.currentGame = undefined;
+            }
+
+            return ret;
         case 'RECEIVE_NEWGAME':
             return Object.assign({}, state, {
                 currentGame: action.game,

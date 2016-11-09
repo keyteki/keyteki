@@ -15,7 +15,6 @@ class PlayerRow extends React.Component {
         this.onCloseAndShuffleClick = this.onCloseAndShuffleClick.bind(this);
 
         this.state = {
-            showPlotDeck: false,
             showDiscard: false,
             showDrawMenu: false,
             showDead: false
@@ -138,7 +137,7 @@ class PlayerRow extends React.Component {
             var discardPile = _.map(this.props.discardPile, card => {
                 return (
                     <div key={'discardCard' + index++} draggable className='card-frame'
-                        onDragStart={(ev) => this.onCardDragStart(ev, card, 'discard pile')}>
+                        onDragStart={ev => this.onCardDragStart(ev, card, 'discard pile')}>
                         <div className='card' onMouseOver={this.props.onMouseOver.bind(this, card)} onMouseOut={this.props.onMouseOut}>
                             <div>
                                 <img className='card' src={'/img/cards/' + card.code + '.png'} />}
@@ -147,7 +146,7 @@ class PlayerRow extends React.Component {
                     </div>);
             });
 
-            discardPilePopup = <div className={'panel popup' + (this.props.isMe ? ' our-side' : '')}>{discardPile}</div>;
+            discardPilePopup = <div className={'panel popup' + (this.props.isMe || this.props.spectating ? ' our-side' : '')}>{discardPile}</div>;
         }
 
         return discardPilePopup;
@@ -161,7 +160,7 @@ class PlayerRow extends React.Component {
             var deadPile = _.map(this.props.deadPile, card => {
                 return (
                     <div key={'deadCard' + index++} draggable className='card-frame'
-                        onDragStart={(ev) => this.onCardDragStart(ev, card, 'dead pile')}>
+                        onDragStart={ev => this.onCardDragStart(ev, card, 'dead pile')}>
                         <div className='card' onMouseOver={this.props.onMouseOver.bind(this, card)} onMouseOut={this.props.onMouseOut}>
                             <div>
                                 <img className='card' src={'/img/cards/' + card.code + '.png'} />}
@@ -170,7 +169,7 @@ class PlayerRow extends React.Component {
                     </div>);
             });
 
-            deadPilePopup = <div className={'panel popup' + (this.props.isMe ? ' our-side' : '')}>{deadPile}</div>;
+            deadPilePopup = <div className={'panel popup' + (this.props.isMe || this.props.spectating ? ' our-side' : '')}>{deadPile}</div>;
         }
 
         return deadPilePopup;
@@ -286,7 +285,7 @@ class PlayerRow extends React.Component {
                     </div>
                     : <div className='agenda panel' />
                 }
-                <div className='dead panel' onDragOver={this.onDragOver} onDrop={(event) => this.onDragDrop(event, 'dead pile')}
+                <div className='dead panel' onDragOver={this.onDragOver} onDrop={event => this.onDragDrop(event, 'dead pile')}
                     onClick={this.onDeadClick}>
                     <div className='panel-header'>
                         {'Dead (' + (this.props.deadPile ? this.props.deadPile.length : 0) + ')'}
@@ -326,7 +325,8 @@ PlayerRow.propTypes = {
     onShuffleClick: React.PropTypes.func,
     plotDeck: React.PropTypes.array,
     power: React.PropTypes.number,
-    showDrawDeck: React.PropTypes.bool
+    showDrawDeck: React.PropTypes.bool,
+    spectating: React.PropTypes.bool
 };
 
 export default PlayerRow;
