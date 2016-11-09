@@ -45,7 +45,7 @@ Clone the repository
 Run npm install
 mkdir server/logs
 cd server
-node fetchcards.js
+node fetchdata.js
 cd ..
 node .
 ```
