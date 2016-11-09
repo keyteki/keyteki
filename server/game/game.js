@@ -57,7 +57,7 @@ class Game extends EventEmitter {
             var spectators = [];
 
             _.reduce(this.players, (spectators, player) => {
-                if(this.isSpectator(player)) {
+                if (this.isSpectator(player)) {
                     spectators.push(player);
                 }
 
@@ -460,7 +460,16 @@ class Game extends EventEmitter {
             return;
         }
 
-        player.killCharacter(card);
+        var character = player.killCharacter(card);
+        if (character) {
+            _.each(character.attachments, attachment => {
+                if (this.hasKeyword(attachment, 'Terminal')) {
+                    this.getPlayers()[attachment.owner].discardPile.push(attachment);
+                } else {
+                    this.getPlayers()[attachment.owner].hand.push(attachment);
+                }
+            });
+        }
 
         if (player.claimToDo === 0) {
             player.doneClaim();

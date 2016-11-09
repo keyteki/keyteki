@@ -667,36 +667,23 @@ class Player extends Spectator {
         var character = this.findCardInPlayByUuid(card.uuid);
 
         if (!character) {
-            return;
+            return undefined;
         }
 
         if (character.dupes.length > 0) {
             character.dupes = character.dupes.slice(1);
+            character = undefined;
         } else {
-            var found = false;
-
-            _.each(character.attachments, attachment => {
-                if (this.hasKeyword(attachment, 'Terminal')) {
-                    this.discardPile.push(attachment);
-                } else {
-                    this.hand.push(attachment);
-                }
-            });
-
             this.cardsInPlay = _.reject(this.cardsInPlay, c => {
-                if (!found && c.card.uuid === card.uuid) {
-                    found = true;
-
-                    return true;
-                }
-
-                return false;
+                return c.card.uuid === card.uuid;
             });
 
             this.deadPile.push(card);
         }
 
         this.claimToDo--;
+
+        return character;
     }
 
     doneClaim() {
