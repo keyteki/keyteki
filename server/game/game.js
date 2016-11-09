@@ -321,13 +321,13 @@ class Game extends EventEmitter {
     setFirstPlayer(sourcePlayer, who) {
         var firstPlayer = undefined;
 
-        var player = this.players[sourcePlayer];
+        var player = this.getPlayers()[sourcePlayer];
 
         if (!player) {
             return;
         }
 
-        _.each(this.players, player => {
+        _.each(this.getPlayers(), player => {
             if (player.id === sourcePlayer && who === 'me') {
                 player.firstPlayer = true;
                 firstPlayer = player;
@@ -357,7 +357,7 @@ class Game extends EventEmitter {
 
         player.removeFromHand(player.selectedAttachment);
 
-        var targetPlayer = this.players[card.owner];
+        var targetPlayer = this.getPlayers()[card.owner];
         targetPlayer.attach(player.selectedAttachment, card);
         player.selectCard = false;
 
@@ -497,7 +497,7 @@ class Game extends EventEmitter {
     }
 
     cardClicked(sourcePlayer, card) {
-        var player = this.players[sourcePlayer];
+        var player = this.getPlayers()[sourcePlayer];
 
         if (!player) {
             return;
@@ -789,7 +789,7 @@ class Game extends EventEmitter {
 
     doneChallenges(playerId) {
         var challenger = this.getPlayers()[playerId];
-        if (!player) {
+        if (!challenger) {
             return;
         }
 
