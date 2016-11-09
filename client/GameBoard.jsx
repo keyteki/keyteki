@@ -382,13 +382,14 @@ class InnerGameBoard extends React.Component {
 
                                         <img className='vertical' src='/img/cards/cardback.jpg' />
                                     </div>
-                                    <div className='panel horizontal-card' onMouseOver={otherPlayer ? this.onMouseOver.bind(this, _.last(otherPlayer.plotDiscard)) : null}
-                                        onMouseOut={this.onMouseOut} onClick={this.onOtherPlayerUsedPlotDeckClick}>
+                                    <div className='panel horizontal-card' onClick={this.onOtherPlayerUsedPlotDeckClick}>
                                         <div className='panel-header'>
                                             {'Active Plot'}
                                         </div>
                                         {(otherPlayer && otherPlayer.activePlot) ?
-                                            <img className='horizontal card' src={'/img/cards/' + otherPlayer.activePlot.card.code + '.png'} /> : null}
+                                            <img className='horizontal card' src={'/img/cards/' + otherPlayer.activePlot.card.code + '.png'}
+                                                 onMouseOver={otherPlayer ? this.onMouseOver.bind(this, otherPlayer.activePlot.card) : null}
+                                                 onMouseOut={this.onMouseOut} /> : null}
 
                                         {this.state.showOtherPlayerUsedPlotDeck ? <div className='panel plot-popup un-kneeled'>
                                             <div className='panel-header'>
@@ -409,13 +410,14 @@ class InnerGameBoard extends React.Component {
                                             <img className='vertical' src='/img/cards/cardback.jpg' />
                                         </div> : null
                                     }
-                                    <div className='panel horizontal-card' onMouseOver={this.onMouseOver.bind(this, _.last(thisPlayer.plotDiscard))}
-                                        onMouseOut={this.onMouseOut} onClick={this.onUsedPlotDeckClick}>
+                                    <div className='panel horizontal-card' onClick={this.onUsedPlotDeckClick}>
                                         <div className='panel-header'>
                                             {'Active Plot'}
                                         </div>
                                         {thisPlayer.activePlot ?
-                                            <img className='horizontal card' src={'/img/cards/' + thisPlayer.activePlot.card.code + '.png'} /> : null}
+                                            <img className='horizontal card' src={'/img/cards/' + thisPlayer.activePlot.card.code + '.png'}
+                                                 onMouseOver={this.onMouseOver.bind(this, thisPlayer.activePlot.card)}
+                                                 onMouseOut={this.onMouseOut} /> : null}
 
                                         {this.state.showUsedPlotDeck ? <div className='panel plot-popup un-kneeled'>
                                             <div className='panel-header'>
@@ -424,9 +426,9 @@ class InnerGameBoard extends React.Component {
                                             {thisPlayerUsedPlotDeck}
                                         </div> : null}
                                     </div>
-                                    <div className='panel horizontal-card' onClick={this.state.spectating ? null : this.onPlotDeckClick}>
+                                    <div className='panel horizontal-card' onClick={this.onPlotDeckClick}>
                                         <div className='panel-header'>
-                                            {'Plot (' + (this.state.spectating ? thisPlayer.numPlotCards : plotDeck.length) + ')'}
+                                            {'Plot (' + plotDeck.length + ')'}
                                         </div>
                                         <img className='vertical card' src='/img/cards/cardback.jpg' />
 
@@ -438,7 +440,7 @@ class InnerGameBoard extends React.Component {
                             </div>
 
                             <PlayerStats gold={thisPlayer.gold || 0} claim={thisPlayer.claim || 0} reserve={thisPlayer.reserve || 0}
-                                power={thisPlayer.totalPower} isMe={!this.state.spectating} />
+                                power={thisPlayer.totalPower} isMe />
                         </div>
                         <div className='inset-pane'>
                             <div />
@@ -456,7 +458,7 @@ class InnerGameBoard extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <PlayerRow isMe={!this.state.spectating}
+                    <PlayerRow isMe
                         agenda={thisPlayer.agenda}
                         faction={thisPlayer.faction}
                         hand={thisPlayer.hand}
@@ -471,8 +473,7 @@ class InnerGameBoard extends React.Component {
                         onDragDrop={this.onDragDrop}
                         power={thisPlayer.power}
                         discardPile={thisPlayer.discardPile}
-                        deadPile={thisPlayer.deadPile}
-                        spectating={this.state.spectating} />
+                        deadPile={thisPlayer.deadPile} />
                 </div>
                 <div className='right-side'>
                     <CardZoom imageUrl={this.state.cardToZoom ? '/img/cards/' + this.state.cardToZoom.code + '.png' : ''}
