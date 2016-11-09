@@ -218,18 +218,18 @@ class Game extends EventEmitter {
         }
     }
 
-    firstPlayerPrompt(highestPlayer) {
-        highestPlayer.firstPlayer = true;
-        highestPlayer.menuTitle = 'Select a first player';
-        highestPlayer.buttons = [
+    firstPlayerPrompt(initiativeWinner) {
+        initiativeWinner.firstPlayer = true;
+        initiativeWinner.menuTitle = 'Select a first player';
+        initiativeWinner.buttons = [
             { command: 'firstplayer', text: 'Me', arg: 'me' }
         ];
 
         if (_.size(this.getPlayers()) > 1) {
-            highestPlayer.buttons.push({ command: 'firstplayer', text: 'Opponent', arg: 'opponent' });
+            initiativeWinner.buttons.push({ command: 'firstplayer', text: 'Opponent', arg: 'opponent' });
         }
 
-        var otherPlayer = this.getOtherPlayer(highestPlayer);
+        var otherPlayer = this.getOtherPlayer(initiativeWinner);
 
         if (otherPlayer) {
             otherPlayer.menuTitle = 'Waiting for opponent to select first player';
@@ -257,20 +257,48 @@ class Game extends EventEmitter {
             player.menuTitle = 'Waiting for opponent to select plot';
             player.buttons = [];
         } else {
-            var highestPlayer = undefined;
+            var initiativeWinner = undefined;
             var highestInitiative = -1;
-            _.each(this.getPlayers(), p => {
-                if (p.selectedPlot.card.initiative > highestInitiative) {
-                    highestInitiative = p.selectedPlot.card.initiative;
-                    highestPlayer = p;
-                }
-            });
+            var highestPower = -1;
 
+            // reveal plots when everyone has selected
             _.each(this.getPlayers(), p => {
                 p.revealPlot();
             });
 
-            this.firstPlayerPrompt(highestPlayer);
+            // determine initiative winner
+            _.each(this.getPlayers(), p => {
+                var playerInitiative = p.activePlot.card.initiative;
+                var playerPower = p.power;
+
+                if (playerInitiative === highestInitiative) {
+                    if (playerPower === highestPower) {
+                        var diceRoll = _.random(1, 20);
+                        if (diceRoll % 2 === 0) {
+                            highestInitiative = playerInitiative;
+                            highestPower = playerPower;
+                            initiativeWinner = p;
+                        }
+                    }
+
+                    if (playerPower > highestPower) {
+                        highestInitiative = playerInitiative;
+                        highestPower = playerPower;
+                        initiativeWinner = p;
+                    }
+                }
+
+                if (playerInitiative > highestInitiative) {
+                    highestInitiative = playerInitiative;
+                    highestPower = playerPower;
+                    initiativeWinner = p;
+                }
+            });
+
+            // initiative winner sets the first player
+            // note that control flow for the plot phase after this continues under
+            // the setFirstPlayer function
+            this.firstPlayerPrompt(initiativeWinner);
         }
     }
 
@@ -702,7 +730,7 @@ class Game extends EventEmitter {
                 }
             }
 
-            // XXX This should be after claim but needs a bit of reworking to make that possible            
+            // XXX This should be after claim but needs a bit of reworking to make that possible
             this.applyKeywords(winner, loser);
 
             if (winner === challenger) {
@@ -813,32 +841,36 @@ class Game extends EventEmitter {
 
     dominance() {
         var highestDominance = 0;
-        var highestPlayer = undefined;
+        var dominanceWinner = undefined;
 
         _.each(this.getPlayers(), player => {
             player.phase = 'dominance';
             var dominance = player.getDominance();
 
+            if (dominance === highestDominance) {
+                dominanceWinner = undefined;
+            }
+
             if (dominance > highestDominance) {
-                highestPlayer = player;
+                highestDominance = dominance;
+                dominanceWinner = player;
             }
         });
 
-        if (!highestPlayer) {
-            _.each(this.getPlayers(), p => {
-                highestPlayer = p;
-            });
+        if (dominanceWinner) {
+            this.addMessage(dominanceWinner.name + ' wins dominance');
+
+            dominanceWinner.power++;
+
+            if (dominanceWinner.getTotalPower() >= 15) {
+                this.addMessage(dominanceWinner.name + ' has won the game');
+            }
+        } else {
+            this.addMessage('There was a tie for dominance');
+            this.addMessage('No one wins dominance');
         }
 
-        this.addMessage(highestPlayer.name + ' wins dominance');
-
-        highestPlayer.power++;
-
-        if (highestPlayer.getTotalPower() >= 15) {
-            this.addMessage(highestPlayer.name + ' has won the game');
-        }
-
-        this.emit('afterDominance', this, highestPlayer);
+        this.emit('afterDominance', this, dominanceWinner);
 
         this.emit('cardsStanding', this);
 
