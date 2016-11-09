@@ -626,7 +626,7 @@ class Game extends EventEmitter {
 
                 this.addMessage(winner.name + ' has gained 1 power from an unopposed challenge');
 
-                if (winner.getTotalPower() > 15) {
+                if (winner.getTotalPower() => 15) {
                     this.addMessage(winner.name + ' has won the game');
                 }
             }
@@ -673,7 +673,7 @@ class Game extends EventEmitter {
                 this.addMessage(winner.name + ' gains 1 power on ' + card.card.label + ' from Renown');
             }
 
-            if (winner.getTotalPower() > 15) {
+            if (winner.getTotalPower() => 15) {
                 this.addMessage(winner.name + ' has won the game');
             }
         });
@@ -697,14 +697,19 @@ class Game extends EventEmitter {
             } else if (winner.currentChallenge === 'intrigue') {
                 loser.discardAtRandom(claim);
             } else if (winner.currentChallenge === 'power') {
-                if (loser.power > 0) {
-                    loser.power -= claim;
-                    winner.power += claim;
+                while (claim > 0) {
+                    if (loser.power > 0) {
+                        loser.power--;
+                        winner.power++;
+                        claim--;
 
-                    if (winner.getTotalPower() > 15) {
-                        this.addMessage(winner.name + ' has won the game');
-                    }
-                }
+                        if (winner.getTotalPower() => 15) {
+                            this.addMessage(winner.name + ' has won the game');
+                        }
+                    } else {
+                        claim = 0;
+		    }
+		}
             }
         }
 
