@@ -32,21 +32,12 @@ var leftMenu = [
 ];
 
 class App extends React.Component {
-    constructor() {
-        super();
-
-        this.onMessageSend = this.onMessageSend.bind(this);
-
-        this.state = {
-            lastPath: '/'
-        };
-    }
     componentWillMount() {
         this.props.fetchCards();
         this.props.fetchPacks();
 
         $(document).ajaxError((event, xhr) => {
-            if (xhr.status === 401) {
+            if(xhr.status === 401) {
                 this.props.navigate('/login');
             }
         });
@@ -75,7 +66,7 @@ class App extends React.Component {
             socket.on('leavegame', (game, player) => {
                 var isMe = false;
 
-                if (player.name === this.props.username) {
+                if(player.name === this.props.username) {
                     isMe = true;
                 }
 
@@ -96,10 +87,6 @@ class App extends React.Component {
         });
     }
 
-    onMessageSend(message) {
-        this.props.socket.emit('lobbymsg', message);
-    }
-
     render() {
         var rightMenu = this.props.loggedIn ? authedMenu : notAuthedMenu;
         var component = {};
@@ -115,7 +102,7 @@ class App extends React.Component {
 
         switch(path) {
             case '/':
-                component = <Lobby messages={this.props.messages} onMessageSend={this.onMessageSend} />;
+                component = <Lobby />;
                 break;
             case '/login':
                 component = <Login />;
@@ -161,7 +148,6 @@ App.propTypes = {
     fetchPacks: React.PropTypes.func,
     games: React.PropTypes.array,
     loggedIn: React.PropTypes.bool,
-    messages: React.PropTypes.array,
     navigate: React.PropTypes.func,
     packs: React.PropTypes.array,
     path: React.PropTypes.string,
@@ -173,7 +159,6 @@ App.propTypes = {
     receiveLobbyMessages: React.PropTypes.func,
     receiveNewGame: React.PropTypes.func,
     receiveUpdateGame: React.PropTypes.func,
-    socket: React.PropTypes.object,
     socketConnected: React.PropTypes.func,
     token: React.PropTypes.string,
     username: React.PropTypes.string
@@ -185,11 +170,9 @@ function mapStateToProps(state) {
         cards: state.cards.cards,
         currentGame: state.games.currentGame,
         games: state.games.games,
-        messages: state.chat.messages,
         packs: state.cards.packs,
         path: state.navigation.path,
         loggedIn: state.auth.loggedIn,
-        socket: state.socket.socket,
         token: state.auth.token,
         username: state.auth.username
     };
