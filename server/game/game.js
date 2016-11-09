@@ -268,7 +268,7 @@ class Game extends EventEmitter {
 
             // determine initiative winner
             _.each(this.getPlayers(), p => {
-                var playerInitiative = p.activePlot.card.initiative;
+                var playerInitiative = p.getTotalInitiative();
                 var playerPower = p.power;
 
                 if (playerInitiative === highestInitiative) {
