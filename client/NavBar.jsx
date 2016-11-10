@@ -27,10 +27,10 @@ class InnerNavBar extends React.Component {
 
         var contextMenu = _.map(this.props.context, menuItem => {
             return (
-                <li><a href='javascript:void(0)' onClick={event => {
+                <li key={menuItem.text}><a href='javascript:void(0)' onClick={menuItem.onClick ? event => {
                     event.preventDefault();
-                    menuItem.onClick()
-                }}>{menuItem.text}</a></li>
+                    menuItem.onClick();
+                } : null}>{menuItem.text}</a></li>
             );
         });
 

@@ -54,11 +54,20 @@ class InnerGameBoard extends React.Component {
             $('body').removeClass('select-cursor');
         }
 
-        if (props.currentGame) {
-            this.props.setContextMenu([
-                { text: 'Concede', onClick: this.onConcedeClick },
-                { text: 'Leave Game', onClick: this.onLeaveClick }
-            ]);
+        var menuOptions = [
+            { text: 'Leave Game', onClick: this.onLeaveClick }
+        ];
+
+        if(props.currentGame) {
+            if(_.find(props.currentGame.players, p => {
+                return p.id === props.socket.id;
+            })) {
+                menuOptions.unshift({ text: 'Concede', onClick: this.onConcedeClick });
+            }
+
+            menuOptions.unshift({ text: 'Spectators: ' + props.currentGame.spectators.length });
+
+            this.props.setContextMenu(menuOptions);
         } else {
             this.props.setContextMenu([]);
         }

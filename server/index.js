@@ -197,9 +197,9 @@ function findGameForPlayer(socketid) {
 }
 
 function removePlayerFromGame(game, socket, reason) {
-    if (game.started) {
-        game.playerLeave(socket.id, reason);
+    game.playerLeave(socket.id, reason);
 
+    if (game.started) {
         _.each(game.players, (player, key) => {
             io.to(key).emit('gamestate', game.getState(player.id));
         });
@@ -213,11 +213,11 @@ function removePlayerFromGame(game, socket, reason) {
 
     delete game.players[socket.id];
 
-    io.to(game.id).emit('leavegame', game, player);
+    io.to(game.id).emit('leavegame', game.getSummary(socket.id), player);
 
     socket.leave(game.id);
 
-    var listToCheck = game.started ? game.players : game.getPlayers();
+    var listToCheck = /*game.started ? game.players :*/ game.getPlayers();
 
     if (_.isEmpty(listToCheck)) {
         delete games[game.id];
@@ -226,7 +226,7 @@ function removePlayerFromGame(game, socket, reason) {
 
 function updateGame(game) {
     _.each(game.players, (player, key) => {
-        io.to(key).emit('updategame', game.getSummary(player.id));
+        io.to(key).emit('updategame', game.getState(player.id));
     });
 }
 
@@ -249,8 +249,7 @@ function handleError(game, e) {
 function runAndCatchErrors(game, func) {
     try {
         func();
-    }
-    catch (e) {
+    } catch (e) {
         handleError(game, e);
     }
 }
@@ -403,8 +402,8 @@ io.on('connection', function (socket) {
         runAndCatchErrors(game, () => {
             game.started = true;
 
-            updateGame(game);
             game.initialise();
+            updateGame(game);
         });
 
         sendGameState(game);
@@ -663,7 +662,11 @@ io.on('connection', function (socket) {
             game.chat(socket.id, message);
         });
 
-        sendGameState(game);
+        if (game.started) {
+            sendGameState(game);
+        } else {
+            updateGame(game);
+        }
     });
 
     socket.on('lobbychat', function (message) {

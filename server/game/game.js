@@ -70,6 +70,7 @@ class Game extends EventEmitter {
             });
 
             return {
+                id: this.id,
                 name: this.name,
                 owner: this.owner,
                 players: playerState,
@@ -103,7 +104,8 @@ class Game extends EventEmitter {
             owner: this.owner,
             started: this.started,
             spectators: this.getSpectators(),
-            players: playerSummaries
+            players: playerSummaries,
+            messages: this.messages
         };
     }
 
@@ -1163,6 +1165,7 @@ class Game extends EventEmitter {
 
     initialise() {
         this.playStarted = false;
+        this.messages = [];
         _.each(this.getPlayers(), player => {
             player.initialise();
         });

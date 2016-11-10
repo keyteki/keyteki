@@ -15,11 +15,15 @@ class InnerPendingGame extends React.Component {
         this.onSelectDeckClick = this.onSelectDeckClick.bind(this);
         this.onLeaveClick = this.onLeaveClick.bind(this);
         this.onStartClick = this.onStartClick.bind(this);
-
+        this.onChange = this.onChange.bind(this);
+        this.onKeyPress = this.onKeyPress.bind(this);
+        this.onSendClick = this.onSendClick.bind(this);
+        
         this.state = {
             playerCount: 1,
             decks: [],
-            playSound: true
+            playSound: true,
+            message: ''
         };
     }
 
@@ -46,7 +50,7 @@ class InnerPendingGame extends React.Component {
             this.refs.notification.play();
         }
 
-        this.setState({ playerCount: players});
+        this.setState({ playerCount: players });
     }
 
     isGameReady() {
@@ -115,6 +119,34 @@ class InnerPendingGame extends React.Component {
         this.props.socket.emit('startgame', this.props.currentGame.id);
     }
 
+    sendMessage() {
+        if(this.state.message === '') {
+            return;
+        }
+
+        this.props.socket.emit('chat', this.state.message);
+
+        this.setState({ message: '' });
+    }
+
+    onKeyPress(event) {
+        if(event.key === 'Enter') {
+            this.sendMessage();
+
+            event.preventDefault();
+        }
+    }
+
+    onSendClick(event) {
+        event.preventDefault();
+
+        this.sendMessage();
+    }
+
+    onChange(event) {
+        this.setState({ message: event.target.value });
+    }
+
     render() {
         var index = 0;
         var decks = this.state.decks ? _.map(this.state.decks, deck => {
@@ -141,6 +173,11 @@ class InnerPendingGame extends React.Component {
                     </div>
                 </div>
             </div>);
+        
+        var index = 0;
+        var messages = _.map(this.props.currentGame.messages, message => {
+            return <div key={'message' + index++} className='message'>{message.message}</div>;
+        });
 
         return (
             <div>
@@ -154,13 +191,35 @@ class InnerPendingGame extends React.Component {
                 </div>
                 <h3>{this.props.currentGame.name}</h3>
                 <div>{this.getGameStatus()}</div>
-                <h4>Players</h4>
-                {
-                    _.map(this.props.currentGame.players, player => {
-                        return this.getPlayerStatus(player, this.props.username);
-                    })
-                }
-
+                <div className='players'>
+                    <h3>Players</h3>
+                    {
+                        _.map(this.props.currentGame.players, player => {
+                            return this.getPlayerStatus(player, this.props.username);
+                        })
+                    }
+                </div>
+                <div className='spectators'>
+                    <h3>Spectators({this.props.currentGame.spectators.length})</h3>
+                    {_.map(this.props.currentGame.spectators, spectator => {
+                        return <div key={spectator.name}>{spectator.name}</div>;
+                    })}
+                </div>
+                <div className='chat-box'>
+                    <h3>Chat</h3>
+                    <div className='message-list'>
+                        {messages}
+                    </div>
+                        <form className='form form-hozitontal'>
+                            <div className='form-group'>
+                                <div className='col-sm-10'>
+                                    <input className='form-control' type='text' placeholder='Chat...' value={this.state.message}
+                                        onKeyPress={this.onKeyPress} onChange={this.onChange} />
+                                </div>
+                                <button type='button' className='btn btn-primary col-sm-2' onClick={this.onSendClick}>Send</button>
+                            </div>
+                        </form>
+                </div>
                 {popup}
             </div>);
     }

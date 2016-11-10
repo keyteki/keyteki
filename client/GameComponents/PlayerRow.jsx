@@ -65,9 +65,10 @@ class PlayerRow extends React.Component {
 
     getHand() {
         var cardIndex = 0;
-        var requiredWidth = this.props.hand.length * 64;
+        var handLength = this.props.hand ? this.props.hand.length : 0;
+        var requiredWidth = handLength * 64;
         var overflow = requiredWidth - 342;
-        var offset = overflow / (this.props.hand.length - 1);
+        var offset = overflow / (handLength - 1);
 
         var hand = _.map(this.props.hand, card => {
             var left = (64 - offset) * cardIndex;
@@ -83,7 +84,7 @@ class PlayerRow extends React.Component {
                             onMouseOver={this.props.isMe && this.props.onMouseOver ? this.props.onMouseOver.bind(this, card) : null}
                             onMouseOut={this.props.onMouseOut}
                             onClick={this.props.isMe ? () => this.props.onCardClick(card) : null}
-                            onDragStart={(ev) => this.onCardDragStart(ev, card, 'hand')}
+                            onDragStart={ev => this.onCardDragStart(ev, card, 'hand')}
                             draggable>
                             <div>
                                 <span className='card-name'>{card.label}</span>
@@ -212,7 +213,7 @@ class PlayerRow extends React.Component {
     render() {
         var className = 'panel hand';
 
-        if(this.props.hand.length * 64 > 342) {
+        if(this.props.hand && this.props.hand.length * 64 > 342) {
             className += ' squish';
         }
 
