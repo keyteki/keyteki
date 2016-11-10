@@ -52,6 +52,7 @@ class InnerLobby extends React.Component {
     }
 
     render() {
+        var index = 0;
         var messages = _.map(this.props.messages, message => {
             if(!message.user) {
                 return;
@@ -59,7 +60,7 @@ class InnerLobby extends React.Component {
 
             var timestamp = moment(message.time).format('MMM Do H:mm:ss');
             return (
-                <div key={timestamp + message.user.username}>
+                <div key={timestamp + message.user.username + (index++).toString()}>
                     <img className='avatar pull-left' />
                     <span className='username'>{message.user.username}</span><span>{timestamp}</span>
                     <div className='message'>{message.message}</div>
@@ -68,8 +69,8 @@ class InnerLobby extends React.Component {
         return (
             <div>
                 <div className='alert alert-warning col-sm-10'>PLEASE NOTE: This site is not in any way shape or form a finished product and is
-            very much in active development.  You will encounter bugs or missing features.  Please report these issues to
-             <a href='https://www.github.com/cryogen/throneteki' target='_blank'> GitHub</a>.
+            very much in active development.  You will encounter bugs or missing features.  Please report these issues to&nbsp;
+             <a href='https://www.github.com/cryogen/throneteki' target='_blank'>GitHub</a>.
             Games may crash and the site may restart at any time.
             Please do keep checking back as daily progress is being made and your help is invaluable.</div>
                 <div className='row' />
