@@ -87,10 +87,14 @@ class App extends React.Component {
         });
     }
 
+    componentDidUpdate() {
+        this.props.receiveLobbyMessage({});
+    }
+
     render() {
         var rightMenu = this.props.loggedIn ? authedMenu : notAuthedMenu;
         var component = {};
-        
+
         var path = this.props.path;
         var pathArg = undefined;
         var index = path.indexOf('/decks/edit');

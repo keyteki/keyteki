@@ -53,6 +53,10 @@ class InnerLobby extends React.Component {
 
     render() {
         var messages = _.map(this.props.messages, message => {
+            if(!message.user) {
+                return;
+            }
+
             var timestamp = moment(message.time).format('MMM Do H:mm:ss');
             return (
                 <div key={timestamp + message.user.username}>
