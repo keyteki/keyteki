@@ -68,21 +68,21 @@ class InnerLobby extends React.Component {
         });
         return (
             <div>
-                <div className='alert alert-warning col-sm-10'>PLEASE NOTE: This site is not in any way shape or form a finished product and is
+                <div className='alert alert-warning col-sm-8'>PLEASE NOTE: This site is not in any way shape or form a finished product and is
             very much in active development.  You will encounter bugs or missing features.  Please report these issues to&nbsp;
              <a href='https://www.github.com/cryogen/throneteki' target='_blank'>GitHub</a>.
             Games may crash and the site may restart at any time.
             Please do keep checking back as daily progress is being made and your help is invaluable.</div>
                 <div className='row' />
                 <h1 className='col-sm-12'>Play A Game Of Thrones 2nd Edition</h1>
-                <div className='lobby-chat col-sm-10'>
+                <div className='lobby-chat col-sm-8'>
                     <div className='panel lobby-messages' ref='messages'>
                         {messages}
                     </div>
                     <div>
                         <form className='form form-hozitontal'>
                             <div className='form-group'>
-                                <div className='col-sm-7'>
+                                <div className='col-sm-11'>
                                     <input className='form-control' type='text' placeholder='Chat...' value={this.state.message}
                                         onKeyPress={this.onKeyPress} onChange={this.onChange} />
                                 </div>
