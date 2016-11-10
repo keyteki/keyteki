@@ -236,6 +236,25 @@ function sendGameState(game) {
     });
 }
 
+function handleError(game, e) {
+    logger.error(e);
+    logger.error(game);
+    _.each(game.players, player => {
+        logger.error(player);
+    });
+
+    game.addMessage('A Server error has occured processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.');
+}
+
+function runAndCatchErrors(game, func) {
+    try {
+        func();
+    }
+    catch (e) {
+        handleError(game, e);
+    }
+}
+
 io.on('connection', function (socket) {
     socket.on('error', function (err) {
         logger.info('socket error', err);
@@ -288,8 +307,10 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.players[socket.id] = new Player(socket.id, socket.request.user.username, false, false);
-        socket.join(game.id);
+        runAndCatchErrors(game, () => {
+            game.players[socket.id] = new Player(socket.id, socket.request.user.username, false, false);
+            socket.join(game.id);
+        });
 
         _.each(game.players, (player, key) => {
             io.to(key).emit('joingame', game.getState(player.id));
@@ -309,9 +330,11 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.players[socket.id] = new Spectator(socket.id, socket.request.user.username);
-        game.addMessage(socket.request.user.username + ' has joined the game as a spectator');
-        socket.join(game.id);
+        runAndCatchErrors(game, () => {
+            game.players[socket.id] = new Spectator(socket.id, socket.request.user.username);
+            game.addMessage(socket.request.user.username + ' has joined the game as a spectator');
+            socket.join(game.id);
+        });
 
         _.each(game.players, (player, key) => {
             io.to(key).emit('joingame', game.getState(player.id));
@@ -331,7 +354,9 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.selectDeck(socket.id, deck);
+        runAndCatchErrors(game, () => {
+            game.selectDeck(socket.id, deck);
+        });
 
         updateGame(game);
     });
@@ -346,7 +371,9 @@ io.on('connection', function (socket) {
             return;
         }
 
-        removePlayerFromGame(game, socket, 'has left the game');
+        runAndCatchErrors(game, () => {
+            removePlayerFromGame(game, socket, 'has left the game');
+        });
 
         refreshGameList();
     });
@@ -373,10 +400,12 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.started = true;
+        runAndCatchErrors(game, () => {
+            game.started = true;
 
-        updateGame(game);
-        game.initialise();
+            updateGame(game);
+            game.initialise();
+        });
 
         sendGameState(game);
 
@@ -390,10 +419,12 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.mulligan(socket.id);
-        game.startGameIfAble();
+        runAndCatchErrors(game, () => {
+            game.mulligan(socket.id);
+            game.startGameIfAble();
 
-        sendGameState(game);
+            sendGameState(game);
+        });
     });
 
     socket.on('keep', function () {
@@ -403,8 +434,10 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.keep(socket.id);
-        game.startGameIfAble();
+        runAndCatchErrors(game, () => {
+            game.keep(socket.id);
+            game.startGameIfAble();
+        });
 
         sendGameState(game);
     });
@@ -416,7 +449,10 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.playCard(socket.id, card);
+        runAndCatchErrors(game, () => {
+            game.playCard(socket.id, card);
+        });
+
         sendGameState(game);
     });
 
@@ -427,7 +463,10 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.setupDone(socket.id);
+        runAndCatchErrors(game, () => {
+            game.setupDone(socket.id);
+        });
+
         sendGameState(game);
     });
 
@@ -438,7 +477,10 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.selectPlot(socket.id, plot);
+        runAndCatchErrors(game, () => {
+            game.selectPlot(socket.id, plot);
+        });
+
         sendGameState(game);
     });
 
@@ -449,7 +491,10 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.setFirstPlayer(socket.id, arg);
+        runAndCatchErrors(game, () => {
+            game.setFirstPlayer(socket.id, arg);
+        });
+
         sendGameState(game);
     });
 
@@ -460,7 +505,9 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.cardClicked(socket.id, card);
+        runAndCatchErrors(game, () => {
+            game.cardClicked(socket.id, card);
+        });
 
         sendGameState(game);
     });
@@ -472,7 +519,9 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.showDrawDeck(socket.id);
+        runAndCatchErrors(game, () => {
+            game.showDrawDeck(socket.id);
+        });
 
         sendGameState(game);
     });
@@ -484,7 +533,9 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.drop(socket.id, card, source, target);
+        runAndCatchErrors(game, () => {
+            game.drop(socket.id, card, source, target);
+        });
 
         sendGameState(game);
     });
@@ -496,7 +547,9 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.marshalDone(socket.id);
+        runAndCatchErrors(game, () => {
+            game.marshalDone(socket.id);
+        });
 
         sendGameState(game);
     });
@@ -508,7 +561,9 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.startChallenge(socket.id, challengeType);
+        runAndCatchErrors(game, () => {
+            game.startChallenge(socket.id, challengeType);
+        });
 
         sendGameState(game);
     });
@@ -520,7 +575,9 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.doneChallenge(socket.id);
+        runAndCatchErrors(game, () => {
+            game.doneChallenge(socket.id);
+        });
 
         sendGameState(game);
     });
@@ -532,7 +589,9 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.doneDefend(socket.id);
+        runAndCatchErrors(game, () => {
+            game.doneDefend(socket.id);
+        });
 
         sendGameState(game);
     });
@@ -544,7 +603,9 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.doneChallenges(socket.id);
+        runAndCatchErrors(game, () => {
+            game.doneChallenges(socket.id);
+        });
 
         sendGameState(game);
     });
@@ -556,7 +617,9 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.doneRound(socket.id);
+        runAndCatchErrors(game, () => {
+            game.doneRound(socket.id);
+        });
 
         sendGameState(game);
     });
@@ -568,7 +631,9 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.changeStat(socket.id, stat, value);
+        runAndCatchErrors(game, () => {
+            game.changeStat(socket.id, stat, value);
+        });
 
         sendGameState(game);
     });
@@ -580,7 +645,9 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.customCommand(socket.id, arg);
+        runAndCatchErrors(game, () => {
+            game.customCommand(socket.id, arg);
+        });
 
         sendGameState(game);
     });
@@ -592,7 +659,9 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.chat(socket.id, message);
+        runAndCatchErrors(game, () => {
+            game.chat(socket.id, message);
+        });
 
         sendGameState(game);
     });
@@ -614,7 +683,9 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.concede(socket.id);
+        runAndCatchErrors(game, () => {
+            game.concede(socket.id);
+        });
 
         sendGameState(game);
     });
@@ -626,7 +697,9 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.doneStealth(socket.id);
+        runAndCatchErrors(game, () => {
+            game.doneStealth(socket.id);
+        });
 
         sendGameState(game);
     });
@@ -638,7 +711,9 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.doneSetPower(socket.id);
+        runAndCatchErrors(game, () => {
+            game.doneSetPower(socket.id);
+        });
 
         sendGameState(game);
     });
@@ -650,7 +725,9 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.cancelClaim(socket.id);
+        runAndCatchErrors(game, () => {
+            game.cancelClaim(socket.id);
+        });
 
         sendGameState(game);
     });
@@ -662,7 +739,9 @@ io.on('connection', function (socket) {
             return;
         }
 
-        game.shuffleDeck(socket.id);
+        runAndCatchErrors(game, () => {
+            game.shuffleDeck(socket.id);
+        });
 
         sendGameState(game);
     });
