@@ -46,6 +46,20 @@ class Game extends EventEmitter {
         return this.players;
     }
 
+    getSpectators() {
+        var spectators = [];
+
+        _.reduce(this.players, (spectators, player) => {
+            if (this.isSpectator(player)) {
+                spectators.push(player);
+            }
+
+            return spectators;
+        }, spectators);
+
+        return spectators;
+    }
+
     getState(activePlayer) {
         var playerState = {};
 
@@ -54,22 +68,12 @@ class Game extends EventEmitter {
                 playerState[player.id] = player.getState(activePlayer === player.id);
             });
 
-            var spectators = [];
-
-            _.reduce(this.players, (spectators, player) => {
-                if (this.isSpectator(player)) {
-                    spectators.push(player);
-                }
-
-                return spectators;
-            }, spectators);
-
             return {
                 name: this.name,
                 owner: this.owner,
                 players: playerState,
                 messages: this.messages,
-                spectators: spectators,
+                spectators: this.getSpectators(),
                 started: this.started
             };
         }
@@ -97,6 +101,7 @@ class Game extends EventEmitter {
             name: this.name,
             owner: this.owner,
             started: this.started,
+            spectators: this.getSpectators(),
             players: playerSummaries
         };
     }
@@ -115,6 +120,8 @@ class Game extends EventEmitter {
         })) {
             _.each(this.getPlayers(), player => {
                 player.startGame();
+
+                this.started = true;
             });
         }
     }
@@ -122,7 +129,7 @@ class Game extends EventEmitter {
     mulligan(playerId) {
         var player = this.getPlayers()[playerId];
 
-        if (!player) {
+        if (this.started || !player) {
             return;
         }
 
