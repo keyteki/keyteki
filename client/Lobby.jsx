@@ -24,7 +24,7 @@ class InnerLobby extends React.Component {
     }
 
     sendMessage() {
-        if (this.state.message === '') {
+        if(this.state.message === '') {
             return;
         }
 
@@ -34,7 +34,7 @@ class InnerLobby extends React.Component {
     }
 
     onKeyPress(event) {
-        if (event.key === 'Enter') {
+        if(event.key === 'Enter') {
             this.sendMessage();
 
             event.preventDefault();
@@ -66,8 +66,14 @@ class InnerLobby extends React.Component {
                 </div>);
         });
         return (
-            <div ref='lala'>
-                <h1>Play A Game Of Thrones 2nd Edition</h1>
+            <div>
+                <div className='alert alert-warning col-sm-10'>PLEASE NOTE: This site is not in any way shape or form a finished product and is
+            very much in active development.  You will encounter bugs or missing features.  Please report these issues to
+             <a href='https://www.github.com/cryogen/throneteki' target='_blank'> GitHub</a>.
+            Games may crash and the site may restart at any time.
+            Please do keep checking back as daily progress is being made and your help is invaluable.</div>
+                <div className='row' />
+                <h1 className='col-sm-12'>Play A Game Of Thrones 2nd Edition</h1>
                 <div className='lobby-chat col-sm-10'>
                     <div className='panel lobby-messages' ref='messages'>
                         {messages}
