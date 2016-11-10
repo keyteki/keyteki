@@ -197,7 +197,6 @@ h3 {
   padding: 5px 10px;
   border: 1px solid rgba(71, 58, 56, 0.95);
   overflow: visible;
-  z-index: 10;
 }
 
 .hand {
@@ -606,6 +605,10 @@ h4 {
   color: white;
 }
 
+.popup {
+  z-index: 100;
+}
+
 .draw {
   .popup {
     left: -271px;
@@ -725,12 +728,12 @@ h4 {
 
 .menu {
   position: absolute;
-  z-index: 10;
   width: 200px;
   left: 58px;
   top: -5px;
   font-size: 12px;
   line-height: 16px;
+  z-index: 20;
 }
 
 .menu > div {
