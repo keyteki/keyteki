@@ -295,7 +295,6 @@ class Player extends Spectator {
         }
 
         this.activePlot = this.selectedPlot;
-
         this.plotDeck = _.reject(this.plotDeck, card => {
             return card.uuid === this.selectedPlot.card.uuid;
         });
@@ -306,6 +305,7 @@ class Player extends Spectator {
         }
 
         this.plotRevealed = true;
+        this.revealFinished = false;
 
         this.selectedPlot = undefined;
     }
@@ -322,9 +322,9 @@ class Player extends Spectator {
         this.buttons = [{ command: 'donemarshal', text: 'Done' }];
         this.menuTitle = 'Marshal your cards';
 
-        this.gold += this.activePlot.card.income;
-        this.reserve = this.activePlot.card.reserve;
-        this.claim = this.activePlot.card.claim;
+        this.gold += this.activePlot.card.income || 0;
+        this.reserve = this.activePlot.card.reserve || 0;
+        this.claim = this.activePlot.card.claim || 0;
 
         this.limitedPlayed = false;
         this.marshalled = false;
@@ -818,7 +818,12 @@ class Player extends Spectator {
     }
 
     getTotalInitiative() {
-        var plotInitiative = this.activePlot ? this.activePlot.card.initiative : 0;
+        var plotInitiative = 0;
+        
+        if(this.activePlot && this.activePlot.card.initiative) {
+            plotInitiative = this.activePlot.card.initiative;
+        }
+
         var initiativeModifier = _.chain(this.cardsInPlay).map(cip => {
             return [cip.card].concat(cip.attachments);
         }).flatten(true).reduce((memo, card) => {

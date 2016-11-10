@@ -911,6 +911,7 @@ class Game extends EventEmitter {
         if (!player || player.hand.length > player.reserve) {
             return;
         }
+
         var otherPlayer = this.getOtherPlayer(player);
 
         if (!otherPlayer) {
