@@ -67,3 +67,6 @@ For production:
 NODE_ENV=production ./node_nodules/.bin/webpack -p --config webpack.config.production.js
 NODE_ENV=production PORT=4000 node .
 ```
+
+###Build Status
+[![CircleCI](https://circleci.com/gh/cryogen/throneteki.svg?style=svg)](https://circleci.com/gh/cryogen/throneteki)
