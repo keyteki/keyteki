@@ -184,8 +184,10 @@ class Player extends Spectator {
             return true;
         }
 
-        if (isDupe && this.phase !== 'setup' && !dragDrop) {
-            var dupe = this.findCardInPlayByCode(card.code);
+        if(isDupe && this.phase !== 'setup' && !dragDrop) {
+            var dupe = _.find(this.cardsInPlay, c => {
+                return c.card.code === card.code && c.card.uuid !== card.uuid;
+            });
 
             dupe.dupes.push(card);
         } else {
