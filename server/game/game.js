@@ -1004,6 +1004,10 @@ class Game extends EventEmitter {
         var args = message.split(' ');
         var num = 1;
 
+        if (!player) {
+            return;
+        }
+
         if (this.isSpectator(player)) {
             this.addMessage('<' + player.name + '> ' + message);
             return;
@@ -1046,6 +1050,14 @@ class Game extends EventEmitter {
             this.addMessage(player.name + ' uses the /discard command to discard ' + num + ' cards at random');
 
             player.discardAtRandom(num);
+
+            return;
+        }
+
+        if (message.indexOf('/pillage') !== -1) {
+            this.addMessage(player.name + ' uses the /pillage command to discard a card from the top of their draw deck');
+
+            player.discardFromDraw(1);
 
             return;
         }
