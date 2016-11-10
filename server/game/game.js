@@ -18,6 +18,7 @@ class Game extends EventEmitter {
         this.id = uuid.v1();
         this.owner = owner;
         this.started = false;
+        this.playStarted = false;
     }
 
     addMessage(message) {
@@ -121,7 +122,7 @@ class Game extends EventEmitter {
             _.each(this.getPlayers(), player => {
                 player.startGame();
 
-                this.started = true;
+                this.playStarted = true;
             });
         }
     }
@@ -129,7 +130,7 @@ class Game extends EventEmitter {
     mulligan(playerId) {
         var player = this.getPlayers()[playerId];
 
-        if (this.started || !player) {
+        if (this.playStarted || !player) {
             return;
         }
 
@@ -1161,6 +1162,7 @@ class Game extends EventEmitter {
     }
 
     initialise() {
+        this.playStarted = false;
         _.each(this.getPlayers(), player => {
             player.initialise();
         });

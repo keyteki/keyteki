@@ -1,3 +1,5 @@
+/*global describe, it, beforeEach, spyOn, expect*/
+
 const Game = require('../../server/game/game.js');
 const Player = require('../../server/game/player.js');
 const Spectator = require('../../server/game/spectator.js');
@@ -39,7 +41,7 @@ describe('the Game', () => {
 
         describe('when called for a for a player in the game which has started', () => {
             it('should not mulligan for any players', () => {
-                game.started = true;
+                game.playStarted = true;
                 game.mulligan(player1.id);
 
                 expect(player1.mulligan).not.toHaveBeenCalled();
