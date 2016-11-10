@@ -26,10 +26,11 @@ describe('Trading With The Pentoshi', () => {
 
     describe('When a player has trading revealed and that player is first player', () => {
         it('should give the other player 3 gold', () => {
-            game.selectPlot(player1.id, pentoshi);                 
+            game.selectPlot(player1.id, pentoshi);
             game.selectPlot(player2.id, testPlot);
-            
+
             game.setFirstPlayer(player1.id, 'me');
+            game.resolvePlayerPlotEffect(player1.id);
 
             expect(player2.gold).toBe(3);
             expect(player1.gold).toBe(0);
@@ -38,10 +39,11 @@ describe('Trading With The Pentoshi', () => {
 
     describe('When a player has trading revealed and the other player is first player', () => {
         it('should give the other player 3 gold', () => {
-            game.selectPlot(player1.id, pentoshi);                 
+            game.selectPlot(player1.id, pentoshi);
             game.selectPlot(player2.id, testPlot);
-            
+
             game.setFirstPlayer(player1.id, 'other');
+            game.resolvePlayerPlotEffect(player1.id);
 
             expect(player2.gold).toBe(3);
             expect(player1.gold).toBe(0);
@@ -52,8 +54,10 @@ describe('Trading With The Pentoshi', () => {
         it('should give both players 3 gold', () => {
             game.selectPlot(player1.id, pentoshi);
             game.selectPlot(player2.id, pentoshi);
-            
+
             game.setFirstPlayer(player1.id, 'me');
+            game.resolvePlayerPlotEffect(player1.id);
+            game.resolvePlayerPlotEffect(player2.id);
 
             expect(player2.gold).toBe(3);
             expect(player1.gold).toBe(3);

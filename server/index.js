@@ -497,6 +497,32 @@ io.on('connection', function (socket) {
         sendGameState(game);
     });
 
+    socket.on('resolvePlotEffect', function (playerId) {
+        var game = findGameForPlayer(socket.id);
+
+        if (!game) {
+            return;
+        }
+
+        runAndCatchErrors(game, () => {
+            game.resolvePlayerPlotEffect(playerId);
+        });
+        sendGameState(game);
+    });
+
+    socket.on('doneWhenRealedEffects', function () {
+        var game = findGameForPlayer(socket.id);
+
+        if (!game) {
+            return;
+        }
+
+        runAndCatchErrors(game, () => {
+            game.drawPhase(game.getPlayers()[socket.id]);
+        });
+        sendGameState(game);
+    });
+
     socket.on('cardclick', function (card) {
         var game = findGameForPlayer(socket.id);
 

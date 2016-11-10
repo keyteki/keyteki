@@ -218,7 +218,7 @@ class BuildingOrders {
         }
 
         if(arg === 'done') {
-            game.revealDone(player);
+            game.playerRevealDone(player);
         }
 
         var card = _.find(player.drawDeck, c => {
@@ -238,7 +238,7 @@ class BuildingOrders {
 
         game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to reveal ' + card.label + ' and add it to their hand');
 
-        game.revealDone(player);
+        game.playerRevealDone(player);
     }
 }
 plots['01006'] = {
@@ -246,12 +246,12 @@ plots['01006'] = {
         var plot = new BuildingOrders(player);
 
         game.playerPlots[player.id] = plot;
-        game.on('plotRevealed', plot.revealed);
+        game.on('whenRevealed', plot.revealed);
         game.on('customCommand', plot.cardSelected);
     },
     unregister(game, player) {
         var plot = game.playerPlots[player.id];
-        game.removeListener('plotRevealed', plot.revealed);
+        game.removeListener('whenRevealed', plot.revealed);
         game.removeListener('customCommand', plot.cardSelected);
     }
 };
@@ -294,10 +294,10 @@ plots['01007'] = {
         var plot = new CallingTheBanners(player);
 
         game.playerPlots[player.id] = plot;
-        game.on('plotRevealed', plot.revealed);
+        game.on('whenRevealed', plot.revealed);
     },
     unregister(game, player) {
-        game.removeListener('plotRevealed', game.playerPlots[player.id].revealed);
+        game.removeListener('whenRevealed', game.playerPlots[player.id].revealed);
     }
 };
 
@@ -333,7 +333,7 @@ class CalmOverWesteros {
 
         this.challengeType = arg;
 
-        game.revealDone(player);
+        game.playerRevealDone(player);
     }
 
     beforeClaim(game, challengeType, winner, loser) {
@@ -370,7 +370,7 @@ plots['01008'] = {
 
         game.playerPlots[player.id] = plot;
 
-        game.on('plotRevealed', plot.revealed);
+        game.on('whenRevealed', plot.revealed);
         game.on('customCommand', plot.challengeTypeSelected);
         game.on('beforeClaim', plot.beforeClaim);
         game.on('afterClaim', plot.afterClaim);
@@ -378,7 +378,7 @@ plots['01008'] = {
     unregister(game, player) {
         var plot = game.playerPlots[player.id];
 
-        game.removeListener('plotRevealed', plot.revealed);
+        game.removeListener('whenRevealed', plot.revealed);
         game.removeListener('customCommand', plot.challengeTypeSelected);
         game.removeListener('beforeClaim', plot.beforeClaim);
         game.removeListener('afterClaim', plot.afterClaim);
@@ -444,7 +444,7 @@ class Confiscation {
             });
 
             if(!card) {
-                game.revealDone(player);
+                game.playerRevealDone(player);
 
                 return;
             }
@@ -463,7 +463,7 @@ class Confiscation {
         player.selectCard = false;
         game.clickHandled = true;
 
-        game.revealDone(player);
+        game.playerRevealDone(player);
     }
 }
 plots['01009'] = {
@@ -471,13 +471,13 @@ plots['01009'] = {
         var plot = new Confiscation(player);
 
         game.playerPlots[player.id] = plot;
-        game.on('plotRevealed', plot.revealed);
+        game.on('whenRevealed', plot.revealed);
         game.on('cardClicked', plot.cardClicked);
     },
     unregister(game, player) {
         var plot = game.playerPlots[player.id];
 
-        game.removeListener('plotRevealed', plot.revealed);
+        game.removeListener('whenRevealed', plot.revealed);
         game.removeListener('cardClicked', plot.cardClicked);
     }
 };
@@ -504,10 +504,10 @@ plots['01010'] = {
         var plot = new CountingCoppers(player);
 
         game.playerPlots[player.id] = plot;
-        game.on('plotRevealed', plot.revealed);
+        game.on('whenRevealed', plot.revealed);
     },
     unregister(game, player) {
-        game.removeListener('plotRevealed', game.playerPlots[player.id].revealed);
+        game.removeListener('whenRevealed', game.playerPlots[player.id].revealed);
     }
 };
 
@@ -549,7 +549,7 @@ class FilthyAccusation {
             var otherPlayer = game.getOtherPlayer(player);
 
             if(!otherPlayer) {
-                game.revealDone(player);
+                game.playerRevealDone(player);
 
                 return;
             }
@@ -559,14 +559,14 @@ class FilthyAccusation {
             });
 
             if(!card) {
-                game.revealDone(player);
+                game.playerRevealDone(player);
 
                 return;
             }
         }
 
         if(card.card.type_code !== 'character' || card.kneeled) {
-            game.revealDone(player);
+            game.playerRevealDone(player);
             return;
         }
 
@@ -574,7 +574,7 @@ class FilthyAccusation {
 
         game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to kneel ' + card.card.label);
 
-        game.revealDone(player);
+        game.playerRevealDone(player);
     }
 }
 plots['01011'] = {
@@ -582,12 +582,12 @@ plots['01011'] = {
         var plot = new FilthyAccusation(player);
 
         game.playerPlots[player.id] = plot;
-        game.on('plotRevealed', plot.revealed);
+        game.on('whenRevealed', plot.revealed);
         game.on('cardClicked', plot.cardClicked);
     },
     unregister(game, player) {
         var plot = game.playerPlots[player.id];
-        game.removeListener('plotRevealed', plot.revealed);
+        game.removeListener('whenRevealed', plot.revealed);
         game.removeListener('cardClicked', plot.cardClicked);
     }
 };
@@ -633,10 +633,10 @@ plots['01013'] = {
         var plot = new HeadsOnSpikes(player);
 
         game.playerPlots[player.id] = plot;
-        game.on('plotRevealed', plot.reveal);
+        game.on('whenRevealed', plot.reveal);
     },
     unregister(game, player) {
-        game.removeListener('plotRevealed', game.playerPlots[player.id].reveal);
+        game.removeListener('whenRevealed', game.playerPlots[player.id].reveal);
     }
 };
 
@@ -722,7 +722,7 @@ class MarchedToTheWall {
 
         if(!stillToDiscard) {
             this.waitingForClick = false;
-            game.revealDone(player);
+            game.playerRevealDone(player);
         } else {
             player.menuTitle = 'Waiting for oppoent to apply plot effect';
             player.buttons = [];
@@ -746,10 +746,10 @@ class MarchedToTheWall {
                 var otherPlayer = game.getOtherPlayer(player);
 
                 if(otherPlayer) {
-                    game.revealDone(otherPlayer);
+                    game.playerRevealDone(otherPlayer);
                 }
             } else {
-                game.revealDone(player);
+                game.playerRevealDone(player);
             }
         } else {
             player.menuTitle = 'Waiting for oppoent to apply plot effect';
@@ -763,14 +763,14 @@ plots['01015'] = {
 
         game.playerPlots[player.id] = plot;
 
-        game.on('plotRevealed', plot.revealed);
+        game.on('whenRevealed', plot.revealed);
         game.on('cardClicked', plot.cardClicked);
         game.on('customCommand', plot.doneClicked);
     },
     unregister(game, player) {
         var plot = game.playerPlots[player.id];
 
-        game.removeListener('plotRevealed', plot.revealed);
+        game.removeListener('whenRevealed', plot.revealed);
         game.removeListener('cardClicked', plot.cardClicked);
         game.removeListener('customCommand', plot.doneClicked);
     }
@@ -921,7 +921,7 @@ class Summons {
         }
 
         if(arg === 'done') {
-            game.revealDone(player);
+            game.playerRevealDone(player);
         }
 
         var card = _.find(player.drawDeck, c => {
@@ -941,7 +941,7 @@ class Summons {
 
         game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to reveal ' + card.label + ' and add it to their hand');
 
-        game.revealDone(player);
+        game.playerRevealDone(player);
     }
 }
 plots['01022'] = {
@@ -949,12 +949,12 @@ plots['01022'] = {
         var plot = new Summons(player);
 
         game.playerPlots[player.id] = plot;
-        game.on('plotRevealed', plot.revealed);
+        game.on('whenRevealed', plot.revealed);
         game.on('customCommand', plot.cardSelected);
     },
     unregister(game, player) {
         var plot = game.playerPlots[player.id];
-        game.removeListener('plotRevealed', plot.revealed);
+        game.removeListener('whenRevealed', plot.revealed);
         game.removeListener('customCommand', plot.cardSelected);
     }
 };
@@ -989,10 +989,10 @@ plots['02039'] = {
 
         game.playerPlots[player.id] = plot;
 
-        game.on('plotRevealed', plot.revealed);
+        game.on('whenRevealed', plot.revealed);
     },
     unregister(game, player) {
-        game.removeListener('plotRevealed', game.playerPlots[player.id].revealed);
+        game.removeListener('whenRevealed', game.playerPlots[player.id].revealed);
     }
 };
 
@@ -1056,7 +1056,7 @@ class TheLongWinter {
         delete this.waitingForPlayers[player.id];
 
         if(!_.any(this.waitingForPlayers)) {
-            game.revealDone(this.player);
+            game.playerRevealDone(this.player);
         }
     }
 }
@@ -1065,13 +1065,13 @@ plots['03049'] = {
         var plot = new TheLongWinter(player);
 
         game.playerPlots[player.id] = plot;
-        game.on('plotRevealed', plot.revealed);
+        game.on('whenRevealed', plot.revealed);
         game.on('cardClicked', plot.cardSelected);
     },
     unregister(game, player) {
         var plot = game.playerPlots[player.id];
 
-        game.removeListener('plotRevealed', plot.revealed);
+        game.removeListener('whenRevealed', plot.revealed);
         game.removeListener('cardClicked', plot.cardSelected);
     }
 };
