@@ -1,3 +1,5 @@
+/*global describe, it, beforeEach, expect, spyOn*/
+
 const Game = require('../../server/game/game.js');
 const Player = require('../../server/game/player.js');
 const Spectator = require('../../server/game/spectator.js');
@@ -14,6 +16,8 @@ describe('the Game', () => {
         game.players[spectator.id] = spectator;
 
         game.initialise();
+
+        player1.setPower = undefined;
     });
 
     describe('the chat() function', () => {
@@ -185,11 +189,11 @@ describe('the Game', () => {
             });
 
             describe('with a /power command', () => {
-                it('should add the message to the messages', function () {
+                it('should add the message to the messages', function() {
                     game.chat(spectator.id, '/power');
 
                     expect(game.messages.length).toBe(1);
-                    expect(player1.setPower).toBe(0);
+                    expect(player1.setPower).toBe(undefined);
                 });
             });
         });
