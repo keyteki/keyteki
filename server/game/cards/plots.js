@@ -268,9 +268,7 @@ class CallingTheBanners {
             return;
         }
 
-        var otherPlayer = _.find(game.players, p => {
-            return p.id !== player.id;
-        });
+        var otherPlayer = game.getOtherPlayer(player);
 
         if(!otherPlayer) {
             return;
@@ -400,7 +398,7 @@ class Confiscation {
             return;
         }
 
-        if(!_.any(game.players, p => {
+        if(!_.any(game.getPlayers(), p => {
             return _.any(p.cardsInPlay, card => {
                 return card.attachments.length > 0;
             });
@@ -435,9 +433,8 @@ class Confiscation {
         });
 
         if(!card) {
-            var otherPlayer = _.find(game.players, p => {
-                return p.id !== player.id;
-            });
+            var otherPlayer = game.getOtherPlayer(player);
+
             card = _.find(otherPlayer.cardsInPlay, c => {
                 var attachment = _.find(c.attachments, a => {
                     return a.uuid === clicked.uuid;
@@ -549,9 +546,7 @@ class FilthyAccusation {
         });
 
         if(!card) {
-            var otherPlayer = _.find(game.players, p => {
-                return p.id !== player.id;
-            });
+            var otherPlayer = game.getOtherPlayer(player);
 
             if(!otherPlayer) {
                 game.revealDone(player);
@@ -609,9 +604,7 @@ class HeadsOnSpikes {
             return;
         }
 
-        var otherPlayer = _.find(game.players, p => {
-            return p.id !== player.id;
-        });
+        var otherPlayer = game.getOtherPlayer(player);
 
         if(!otherPlayer) {
             return;
@@ -688,7 +681,7 @@ class MarchedToTheWall {
             return;
         }
 
-        _.each(game.players, p => {
+        _.each(game.getPlayers(), p => {
             p.menuTitle = 'Select a character to discard';
             p.buttons = [
                 { command: 'custom', text: 'Done', arg: '01015done' }
@@ -698,7 +691,7 @@ class MarchedToTheWall {
         game.pauseForPlot = true;
         this.waitingForClick = true;
         this.cardDiscarded = false;
-        _.each(game.players, p => {
+        _.each(game.getPlayers(), p => {
             p.doneDiscard = false;
         });
     }
@@ -723,7 +716,7 @@ class MarchedToTheWall {
         player.discardCard(clicked);
         player.doneDiscard = true;
 
-        var stillToDiscard = _.find(game.players, p => {
+        var stillToDiscard = _.find(game.getPlayers(), p => {
             return !p.doneDiscard;
         });
 
@@ -743,16 +736,14 @@ class MarchedToTheWall {
 
         player.doneDiscard = true;
 
-        var stillToDiscard = _.find(game.players, p => {
+        var stillToDiscard = _.find(game.getPlayers(), p => {
             return !p.doneDiscard;
         });
 
         if(!stillToDiscard) {
             this.waitingForClick = false;
             if(!player.plotRevealed) {
-                var otherPlayer = _.find(game.players, p => {
-                    return p.id !== player.id;
-                });
+                var otherPlayer = game.getOtherPlayer(player);
 
                 if(otherPlayer) {
                     game.revealDone(otherPlayer);
@@ -834,9 +825,7 @@ class NavalSuperority {
             return;
         }
 
-        var otherPlayer = _.find(game.players, p => {
-            return p.id !== player.id;
-        });
+        var otherPlayer = game.getOtherPlayer(player);
 
         if(!otherPlayer) {
             return;
@@ -984,9 +973,7 @@ class TradingWithThePentoshi {
             return;
         }
 
-        var otherPlayer = _.find(game.players, p => {
-            return p.id !== player.id;
-        });
+        var otherPlayer = game.getOtherPlayer(player);
 
         if(otherPlayer) {
             otherPlayer.gold += 3;
@@ -1025,7 +1012,7 @@ class TheLongWinter {
 
         var anySummerPlots = false;
 
-        _.each(game.players, p => {
+        _.each(game.getPlayers(), p => {
             if(!hasTrait(p.activePlot.card, 'Summer') && p.getTotalPower() > 0) {
                 if(!_.any(p.cardsInPlay, card => {
                     return card.power > 0;
