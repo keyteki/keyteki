@@ -30,9 +30,16 @@ function factionCostReducer(factionCode) {
     });
 }
 
+function factionCharacterCostReducer(factionCode) {
+    return getReducer((player, card) => {
+        return card.faction_code === factionCode && card.type_code === 'character';
+    });
+}
+
 module.exports = {
     getReducer: getReducer,
-    factionCostReducer: factionCostReducer
+    factionCostReducer: factionCostReducer,
+    factionCharacterCostReducer: factionCharacterCostReducer
 };
 
 class Reducer {
