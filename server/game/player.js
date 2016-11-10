@@ -52,7 +52,6 @@ class Player extends Spectator {
         this.deadPile = [];
         this.discardPile = [];
         this.claimToDo = 0;
-        this.setPower = 0;
 
         this.menuTitle = 'Keep Starting Hand?';
 
