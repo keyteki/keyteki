@@ -1,8 +1,9 @@
 /* global describe, it, expect, beforeEach, spyOn */
 /* eslint camelcase: 0 */
 
-import AddDeck from '../../client/AddDeck.jsx';
-import Deck from '../../client/Deck.jsx';
+import {InnerAddDeck} from '../../client/AddDeck.jsx';
+import DeckEditor from '../../client/DeckEditor.jsx';
+import DeckSummary from '../../client/DeckSummary.jsx';
 import ReactDOM from 'react-dom';
 import React from 'react';
 import $ from 'jquery';
@@ -17,20 +18,12 @@ function loadCards(filename, component) {
     });
 }
 
-describe('the </AddDeck /> component', function() {
+describe('the <InnerAddDeck /> component', function() {
     var node, component;
-    var router = {
-        push: function() { },
-        replace: function() { },
-        go: function() { },
-        goBack: function() { },
-        goForward: function() { },
-        setRouteLeaveHook: function() { },
-        isActive: function() { }
-    };
 
     stubComponent(Typeahead);
-    stubComponent(Deck);
+    stubComponent(DeckEditor);
+    stubComponent(DeckSummary);
 
     beforeEach(function() {
         node = document.createElement('div');
@@ -42,7 +35,7 @@ describe('the </AddDeck /> component', function() {
             return defer.promise();
         });
 
-        component = ReactDOM.render(<AddDeck router={ router }/>, node).getWrappedInstance();
+        component = ReactDOM.render(<InnerAddDeck />, node);
     });
 
     describe('when initially rendered', function() {

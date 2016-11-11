@@ -1,28 +1,26 @@
 /* global describe, it, expect, beforeEach, spyOn */
 
-import Register from '../../client/Register.jsx';
+import { InnerRegister } from '../../client/Register.jsx';
 import ReactDOM from 'react-dom';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import $ from 'jquery';
 
-describe('the <Register /> component', function() {
+describe('the <InnerRegister /> component', function () {
     var node, component;
-    var router = {
-        push: function() {},
-        replace: function() {},
-        go: function() {},
-        goBack: function() {},
-        goForward: function() {},
-        setRouteLeaveHook: function() {},
-        isActive: function() {}
-    };
+    var registerSpy = { register: function () { } };
+    var socketSpy = { emit: function () { } };
+    var navigateSpy = { navigate: function () { } };
 
-    beforeEach(function() {
+    beforeEach(function () {
+        spyOn(registerSpy, 'register');
+        spyOn(socketSpy, 'emit');
+        spyOn(navigateSpy, 'navigate');
+
         node = document.createElement('div');
-        component = ReactDOM.render(<Register router={ router }/>, node).getWrappedInstance();
+        component = ReactDOM.render(<InnerRegister register={registerSpy.register} socket={socketSpy} navigate={navigateSpy.navigate} />, node);
 
-        spyOn($, 'post').and.callFake(function() {
+        spyOn($, 'post').and.callFake(function () {
             var defer = $.Deferred();
 
             defer.resolve({});
@@ -31,19 +29,26 @@ describe('the <Register /> component', function() {
         });
     });
 
-    describe('when initially rendered', function() {
-        it('should render a blank form', function() {
-            var form = TestUtils.scryRenderedDOMComponentsWithTag(component, 'form');
+    describe('when initially rendered', function () {
+        var form = {};
 
+        beforeEach(function () {
+            form = TestUtils.scryRenderedDOMComponentsWithTag(component, 'form');
+        });
+
+        it('should render a blank form', function () {
             expect(form.length).toBe(1);
+        });
+
+        it('should have blank form fields', function () {
             expect(component.state.username).toBe('');
             expect(component.state.email).toBe('');
         });
     });
 
-    describe('when an input is changed', function() {
-        describe('and the username input is changed', function() {
-            it('should set the username in state', function() {
+    describe('when an input is changed', function () {
+        describe('and the username input is changed', function () {
+            it('should set the username in state', function () {
                 var input = component.refs.username;
 
                 TestUtils.Simulate.change(input, { target: { value: 'test' } });
@@ -52,8 +57,8 @@ describe('the <Register /> component', function() {
             });
         });
 
-        describe('and the email input is changed', function() {
-            it('should set the email in state', function() {
+        describe('and the email input is changed', function () {
+            it('should set the email in state', function () {
                 var input = component.refs.email;
 
                 TestUtils.Simulate.change(input, { target: { value: 'test@example.com' } });
@@ -63,10 +68,10 @@ describe('the <Register /> component', function() {
         });
     });
 
-    describe('when validating', function() {
-        describe('username', function() {
-            describe('and the username is blank', function() {
-                it('should give a validation error', function() {
+    describe('when validating', function () {
+        describe('username', function () {
+            describe('and the username is blank', function () {
+                it('should give a validation error', function () {
                     component.state.username = '';
 
                     TestUtils.Simulate.blur(component.refs.username);
@@ -75,8 +80,8 @@ describe('the <Register /> component', function() {
                 });
             });
 
-            describe('and the username is longer than 15 characters', function() {
-                it('should give a validation error', function() {
+            describe('and the username is longer than 15 characters', function () {
+                it('should give a validation error', function () {
                     component.state.username = '1234567890123456';
 
                     TestUtils.Simulate.blur(component.refs.username);
@@ -85,8 +90,8 @@ describe('the <Register /> component', function() {
                 });
             });
 
-            describe('and the username is shorter than 3 characters', function() {
-                it('should give a validation error', function() {
+            describe('and the username is shorter than 3 characters', function () {
+                it('should give a validation error', function () {
                     component.state.username = '12';
 
                     TestUtils.Simulate.blur(component.refs.username);
@@ -95,8 +100,8 @@ describe('the <Register /> component', function() {
                 });
             });
 
-            describe('and the username has invalid characters', function() {
-                it('should give a validation error', function() {
+            describe('and the username has invalid characters', function () {
+                it('should give a validation error', function () {
                     component.state.username = 'invalid£username';
 
                     TestUtils.Simulate.blur(component.refs.username);
@@ -105,11 +110,11 @@ describe('the <Register /> component', function() {
                 });
             });
 
-            describe('and the server returns the username is in use', function() {
-                it('should give a validation error', function() {
+            describe('and the server returns the username is in use', function () {
+                it('should give a validation error', function () {
                     component.state.username = 'test';
 
-                    $.post.and.callFake(function() {
+                    $.post.and.callFake(function () {
                         var defer = $.Deferred();
 
                         defer.resolve({ message: 'test' });
@@ -123,8 +128,8 @@ describe('the <Register /> component', function() {
                 });
             });
 
-            describe('and the username is valid', function() {
-                it('should not give a validation error', function() {
+            describe('and the username is valid', function () {
+                it('should not give a validation error', function () {
                     component.state.username = 'testusername';
 
                     TestUtils.Simulate.blur(component.refs.username);
@@ -134,9 +139,9 @@ describe('the <Register /> component', function() {
             });
         });
 
-        describe('email', function() {
-            describe('when no email address', function() {
-                it('should give a validation error', function() {
+        describe('email', function () {
+            describe('when no email address', function () {
+                it('should give a validation error', function () {
                     component.state.email = '';
 
                     TestUtils.Simulate.blur(component.refs.email);
@@ -145,8 +150,8 @@ describe('the <Register /> component', function() {
                 });
             });
 
-            describe('when not a valid email address', function() {
-                it('should give a validation error', function() {
+            describe('when not a valid email address', function () {
+                it('should give a validation error', function () {
                     component.state.email = 'invalid@email';
 
                     TestUtils.Simulate.blur(component.refs.email);
@@ -155,8 +160,8 @@ describe('the <Register /> component', function() {
                 });
             });
 
-            describe('when a valid email address', function() {
-                it('should not give a validation error', function() {
+            describe('when a valid email address', function () {
+                it('should not give a validation error', function () {
                     component.state.email = 'valid@email.example.com';
 
                     TestUtils.Simulate.blur(component.refs.email);
@@ -166,9 +171,9 @@ describe('the <Register /> component', function() {
             });
         });
 
-        describe('password', function() {
-            describe('when password and repeat password both unspecified', function() {
-                it('should give a validation error', function() {
+        describe('password', function () {
+            describe('when password and repeat password both unspecified', function () {
+                it('should give a validation error', function () {
                     component.state.password = '';
                     component.state.password1 = '';
 
@@ -178,8 +183,8 @@ describe('the <Register /> component', function() {
                 });
             });
 
-            describe('when password is specified but repeat is not and not submitting', function() {
-                it('should not give a validation error', function() {
+            describe('when password is specified but repeat is not and not submitting', function () {
+                it('should not give a validation error', function () {
                     component.state.password = 'testing';
                     component.state.password1 = '';
 
@@ -189,8 +194,8 @@ describe('the <Register /> component', function() {
                 });
             });
 
-            describe('when password is specified but repeat is not and submitting', function() {
-                it('should give a validation error', function() {
+            describe('when password is specified but repeat is not and submitting', function () {
+                it('should give a validation error', function () {
                     component.state.password = 'testing';
                     component.state.password1 = '';
 
@@ -200,8 +205,8 @@ describe('the <Register /> component', function() {
                 });
             });
 
-            describe('when password is specified and differs from repeat', function() {
-                it('should give a validation error', function() {
+            describe('when password is specified and differs from repeat', function () {
+                it('should give a validation error', function () {
                     component.state.password = 'test';
                     component.state.password1 = 'different';
 
@@ -211,8 +216,8 @@ describe('the <Register /> component', function() {
                 });
             });
 
-            describe('when password is too short', function() {
-                it('should give a validation error', function() {
+            describe('when password is too short', function () {
+                it('should give a validation error', function () {
                     component.state.password = 'test';
                     component.state.password = 'test';
 
@@ -222,8 +227,8 @@ describe('the <Register /> component', function() {
                 });
             });
 
-            describe('when password and repeat are specified and match', function() {
-                it('should not give a validation error', function() {
+            describe('when password and repeat are specified and match', function () {
+                it('should not give a validation error', function () {
                     component.state.password = 'testing';
                     component.state.password1 = 'testing';
 
@@ -234,11 +239,11 @@ describe('the <Register /> component', function() {
             });
         });
 
-        describe('and the validation fails', function() {
-            it('should render error classes and the error text', function() {
+        describe('and the validation fails', function () {
+            it('should render error classes and the error text', function () {
                 component.state.validation['username'] = 'testing';
 
-                component = ReactDOM.render(<Register router={ router } />, node);
+                component = ReactDOM.render(<InnerRegister />, node);
 
                 var errorDivs = TestUtils.scryRenderedDOMComponentsWithClass(component, 'has-error');
 
@@ -250,15 +255,15 @@ describe('the <Register /> component', function() {
         });
     });
 
-    describe('on register', function() {
-        beforeEach(function() {
+    describe('on InnerRegister', function () {
+        beforeEach(function () {
             spyOn(component, 'verifyUsername');
             spyOn(component, 'verifyEmail');
             spyOn(component, 'verifyPassword');
         });
 
-        describe('when a field is invalid', function() {
-            it('should show an error and not call the server', function() {
+        describe('when a field is invalid', function () {
+            it('should show an error and not call the server', function () {
                 spyOn($, 'ajax');
 
                 component.state.validation['username'] = 'Test error';
@@ -270,9 +275,9 @@ describe('the <Register /> component', function() {
             });
         });
 
-        describe('when the server call fails', function() {
-            it('should show an error', function() {
-                spyOn($, 'ajax').and.callFake(function() {
+        describe('when the server call fails', function () {
+            it('should show an error', function () {
+                spyOn($, 'ajax').and.callFake(function () {
                     var defer = $.Deferred();
 
                     defer.reject({ message: 'test' });
@@ -287,9 +292,9 @@ describe('the <Register /> component', function() {
             });
         });
 
-        describe('when the server returns failure', function() {
-            it('should show an error', function() {
-                spyOn($, 'ajax').and.callFake(function() {
+        describe('when the server returns failure', function () {
+            it('should show an error', function () {
+                spyOn($, 'ajax').and.callFake(function () {
                     var defer = $.Deferred();
 
                     defer.resolve({ success: false, message: 'test' });
@@ -304,20 +309,38 @@ describe('the <Register /> component', function() {
             });
         });
 
-        describe('when the server returns success', function() {
-            it('should not show any errors', function() {
-                spyOn($, 'ajax').and.callFake(function() {
+        describe('when the server returns success', function () {
+            beforeEach(function() {
+                spyOn($, 'ajax').and.callFake(function () {
                     var defer = $.Deferred();
 
-                    defer.resolve({ success: true, message: 'test' });
+                    defer.resolve({ success: true, message: 'test', token: 'token', user: { username: 'testuser' } });
 
                     return defer.promise();
                 });
 
                 TestUtils.Simulate.click(component.refs.submit);
+            });
 
+            it('should not show any errors', function () {
                 expect(component.state.error).toBe('');
+            });
+
+            it('should have called the server', function() {
                 expect($.ajax).toHaveBeenCalled();
+                
+            });
+
+            it('should raise the register event with the returned username and token', function () {
+                expect(registerSpy.register).toHaveBeenCalledWith('testuser', 'token');
+            });
+
+            it('should navigate to the home page', function () {
+                expect(navigateSpy.navigate).toHaveBeenCalledWith('/');
+            });
+
+            it('should authenticate with socket.io using the returned token', function () {
+                expect(socketSpy.emit).toHaveBeenCalledWith('authenticate', 'token');
             });
         });
     });

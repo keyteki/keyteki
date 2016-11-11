@@ -7,7 +7,7 @@ import DeckEditor from './DeckEditor.jsx';
 
 import * as actions from './actions';
 
-class InnerAddDeck extends React.Component {
+export class InnerAddDeck extends React.Component {
     constructor() {
         super();
 

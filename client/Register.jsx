@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 import * as actions from './actions';
 
-class InnerRegister extends React.Component {
+export class InnerRegister extends React.Component {
     constructor() {
         super();
 
