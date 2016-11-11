@@ -763,13 +763,8 @@ class Game extends EventEmitter {
             this.emit('afterChallenge', this, winner.currentChallenge, winner, loser);
 
             if (loser.challengeStrength === 0) {
-                winner.power++;
-
                 this.addMessage(winner.name + ' has gained 1 power from an unopposed challenge');
-
-                if (winner.getTotalPower() >= 15) {
-                    this.addMessage(winner.name + ' has won the game');
-                }
+                this.addPower(winner, 1);
             }
 
             // XXX This should be after claim but needs a bit of reworking to make that possible
@@ -783,6 +778,24 @@ class Game extends EventEmitter {
                 player.menuTitle = 'Waiting for opponent to initiate challenge';
                 player.buttons = [];
             }
+        }
+    }
+
+    addPower(player, power) {
+        player.power += power;
+        this.checkWinCondition(player);
+    }
+
+    transferPower(winner, loser, power) {
+        var appliedPower = Math.min(loser.power, power);
+        loser.power -= appliedPower;
+        winner.power += appliedPower;
+        this.checkWinCondition(winner);
+    }
+
+    checkWinCondition(player) {
+        if (player.getTotalPower() >= 15) {
+            this.addMessage(player.name + ' has won the game');
         }
     }
 
@@ -814,9 +827,7 @@ class Game extends EventEmitter {
                 this.addMessage(winner.name + ' gains 1 power on ' + card.card.label + ' from Renown');
             }
 
-            if (winner.getTotalPower() >= 15) {
-                this.addMessage(winner.name + ' has won the game');
-            }
+            this.checkWinCondition(winner);
         });
     }
 
@@ -838,19 +849,7 @@ class Game extends EventEmitter {
             } else if (winner.currentChallenge === 'intrigue') {
                 loser.discardAtRandom(claim);
             } else if (winner.currentChallenge === 'power') {
-                while (claim > 0) {
-                    if (loser.power > 0) {
-                        loser.power--;
-                        winner.power++;
-                        claim--;
-
-                        if (winner.getTotalPower() >= 15) {
-                            this.addMessage(winner.name + ' has won the game');
-                        }
-                    } else {
-                        claim = 0;
-                    }
-                }
+                this.transferPower(winner, loser, claim);
             }
         }
 
@@ -902,11 +901,7 @@ class Game extends EventEmitter {
         if (dominanceWinner) {
             this.addMessage(dominanceWinner.name + ' wins dominance');
 
-            dominanceWinner.power++;
-
-            if (dominanceWinner.getTotalPower() >= 15) {
-                this.addMessage(dominanceWinner.name + ' has won the game');
-            }
+            this.addPower(dominanceWinner, 1);
         } else {
             this.addMessage('There was a tie for dominance');
             this.addMessage('No one wins dominance');

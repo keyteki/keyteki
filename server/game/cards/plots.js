@@ -15,10 +15,8 @@ class AClashOfKings {
 
     afterChallenge(game, challengeType, winner, loser) {
         if(winner === this.player && challengeType === 'power' && loser.power > 0) {
-            loser.power--;
-            winner.power++;
-
             game.addMessage(winner.name + ' uses ' + winner.activePlot.card.label + ' to move 1 power from ' + loser.name + '\'s faction card');
+            game.transferPower(winner, loser, 1);
         }
     }
 }
@@ -47,9 +45,8 @@ class AFeastForCrows {
             return;
         }
 
-        winner.power += 2;
-
         game.addMessage(winner.name + ' uses ' + winner.activePlot.card.label + ' to gain 2 power');
+        game.addPower(winner, 2);
     }
 }
 plots['01002'] = {
@@ -620,7 +617,7 @@ class HeadsOnSpikes {
         if(card.type_code === 'character') {
             message += ' and gain 2 power for their faction';
             otherPlayer.deadPile.push(card);
-            player.power += 2;
+            game.addPower(player, 2);
         } else {
             otherPlayer.discardPile.push(card);
         }
