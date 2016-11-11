@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import $ from 'jquery';
 import Typeahead from 'react-bootstrap-typeahead';
-import stubComponent from './test-setup.js';
+import stubComponent from './test-setup.jsx';
 
 function loadCards(filename, component) {
     var cards = require(filename);

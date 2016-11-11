@@ -10,7 +10,7 @@ import CardZoom from './GameComponents/CardZoom.jsx';
 import Messages from './GameComponents/Messages.jsx';
 import * as actions from './actions';
 
-class InnerGameBoard extends React.Component {
+export class InnerGameBoard extends React.Component {
     constructor() {
         super();
 
@@ -38,6 +38,13 @@ class InnerGameBoard extends React.Component {
             spectating: true
         };
     }
+
+    setContextMenu(menu) {
+        if(this.props.setContextMenu) {
+            this.props.setContextMenu(menu);
+        }
+    }
+    
 
     componentWillReceiveProps(props) {
         var thisPlayer = props.state.players[props.socket.id];
@@ -67,9 +74,9 @@ class InnerGameBoard extends React.Component {
 
             menuOptions.unshift({ text: 'Spectators: ' + props.currentGame.spectators.length });
 
-            this.props.setContextMenu(menuOptions);
+            this.setContextMenu(menuOptions);
         } else {
-            this.props.setContextMenu([]);
+            this.setContextMenu([]);
         }
     }
 
@@ -176,10 +183,16 @@ class InnerGameBoard extends React.Component {
     getCardsInPlay(player, isMe) {
         var index = 0;
 
-        var cardsByType = _.groupBy(player.cardsInPlay, c => {
-            return c.card.type_code;
-        });
+        if(!isMe) {
+            player.cardsInPlay.reverse();
+        }
 
+        var cardsByType = _.groupBy(_.sortBy(player.cardsInPlay, card => {
+            return card.card.type_code;
+        }), card => {
+            return card.card.type_code;
+        });
+        
         var cardsByLocation = [];
 
         _.each(cardsByType, cards => {
@@ -210,7 +223,7 @@ class InnerGameBoard extends React.Component {
                 var dupes = null;
                 var power = null;
 
-                if (card.dupes.length !== 0) {
+                if (card.dupes && card.dupes.length !== 0) {
                     dupes = (<div className='counter dupe'>
                         {card.dupes.length + 1}
                     </div>);
@@ -346,23 +359,25 @@ class InnerGameBoard extends React.Component {
         var thisPlayerCards = [];
 
         var index = 0;
-        _.each(this.getCardsInPlay(thisPlayer, true).reverse(), cards => {
-            thisPlayerCards.push(<div key={'this-loc' + index++}>{cards}</div>);
+
+        var thisCardsInPlay = this.getCardsInPlay(thisPlayer, true);
+        _.each(thisCardsInPlay, cards => {
+            thisPlayerCards.push(<div className='card-row' key={'this-loc' + index++}>{cards}</div>);
         });
         var otherPlayerCards = [];
 
         if (otherPlayer) {
-            _.each(this.getCardsInPlay(otherPlayer, false).reverse(), cards => {
-                otherPlayerCards.push(<div key={'other-loc' + index++}>{cards}</div>);
+            _.each(this.getCardsInPlay(otherPlayer, false), cards => {
+                otherPlayerCards.push(<div className='card-row' key={'other-loc' + index++}>{cards}</div>);
             });
         }
 
         for (var i = thisPlayerCards.length; i < 2; i++) {
-            thisPlayerCards.push(<div key={'this-empty' + i} />);
+            thisPlayerCards.push(<div className='card-row' key={'this-empty' + i} />);
         }
 
         for (i = otherPlayerCards.length; i < 2; i++) {
-            thisPlayerCards.push(<div key={'other-empty' + i} />);
+            thisPlayerCards.push(<div className='card-row' key={'other-empty' + i} />);
         }
 
         return (
@@ -511,6 +526,6 @@ function mapStateToProps(state) {
     };
 }
 
-const GameBoard = connect(mapStateToProps, actions)(InnerGameBoard);
+const GameBoard = connect(mapStateToProps, actions, null, { withRef: true })(InnerGameBoard);
 
 export default GameBoard;

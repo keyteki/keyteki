@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import * as actions from '../actions';
 
-class InnerPlayerStats extends React.Component {
+export class InnerPlayerStats extends React.Component {
     constructor() {
         super();
 
@@ -60,7 +60,7 @@ class InnerPlayerStats extends React.Component {
     }
 }
 
-InnerPlayerStats.displayName = 'IPlayerStats';
+InnerPlayerStats.displayName = 'PlayerStats';
 InnerPlayerStats.propTypes = {
     claim: React.PropTypes.number,
     gold: React.PropTypes.number,

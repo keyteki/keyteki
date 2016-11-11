@@ -1,4 +1,6 @@
 /*global beforeEach, afterEach, spyOn */
+import React from 'react';
+
 var container = document.createElement('div');
 container.id = 'component';
 
@@ -12,7 +14,7 @@ var stubComponent = function(componentClass) {
 
         componentClass.propTypes = {};
 
-        spyOn(componentClass.prototype, 'render').and.returnValue(null);
+        spyOn(componentClass.prototype, 'render').and.returnValue(<div></div>);
         if(componentClass.prototype.componentWillMount) {
             spyOn(componentClass.prototype, 'componentWillMount').and.returnValue(null);
         }
