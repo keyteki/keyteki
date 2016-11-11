@@ -39,13 +39,6 @@ export class InnerGameBoard extends React.Component {
         };
     }
 
-    setContextMenu(menu) {
-        if(this.props.setContextMenu) {
-            this.props.setContextMenu(menu);
-        }
-    }
-    
-
     componentWillReceiveProps(props) {
         var thisPlayer = props.state.players[props.socket.id];
 
@@ -65,8 +58,8 @@ export class InnerGameBoard extends React.Component {
             { text: 'Leave Game', onClick: this.onLeaveClick }
         ];
 
-        if(props.currentGame) {
-            if(_.find(props.currentGame.players, p => {
+        if (props.currentGame) {
+            if (_.find(props.currentGame.players, p => {
                 return p.id === props.socket.id;
             })) {
                 menuOptions.unshift({ text: 'Concede', onClick: this.onConcedeClick });
@@ -77,6 +70,12 @@ export class InnerGameBoard extends React.Component {
             this.setContextMenu(menuOptions);
         } else {
             this.setContextMenu([]);
+        }
+    }
+
+    setContextMenu(menu) {
+        if (this.props.setContextMenu) {
+            this.props.setContextMenu(menu);
         }
     }
 
@@ -183,16 +182,18 @@ export class InnerGameBoard extends React.Component {
     getCardsInPlay(player, isMe) {
         var index = 0;
 
-        if(!isMe) {
-            player.cardsInPlay.reverse();
-        }
-
-        var cardsByType = _.groupBy(_.sortBy(player.cardsInPlay, card => {
-            return card.card.type_code;
-        }), card => {
+        var cards = _.sortBy(player.cardsInPlay, card => {
             return card.card.type_code;
         });
-        
+
+        if (!isMe) {
+            cards = cards.reverse();
+        }
+
+        var cardsByType = _.groupBy(cards, card => {
+            return card.card.type_code;
+        });
+
         var cardsByLocation = [];
 
         _.each(cardsByType, cards => {
@@ -412,8 +413,8 @@ export class InnerGameBoard extends React.Component {
                                         </div>
                                         {(otherPlayer && otherPlayer.activePlot) ?
                                             <img className='horizontal card' src={'/img/cards/' + otherPlayer.activePlot.card.code + '.png'}
-                                                 onMouseOver={otherPlayer ? this.onMouseOver.bind(this, otherPlayer.activePlot.card) : null}
-                                                 onMouseOut={this.onMouseOut} /> : null}
+                                                onMouseOver={otherPlayer ? this.onMouseOver.bind(this, otherPlayer.activePlot.card) : null}
+                                                onMouseOut={this.onMouseOut} /> : null}
 
                                         {this.state.showOtherPlayerUsedPlotDeck ? <div className='panel plot-popup un-kneeled'>
                                             <div className='panel-header'>
@@ -440,8 +441,8 @@ export class InnerGameBoard extends React.Component {
                                         </div>
                                         {thisPlayer.activePlot ?
                                             <img className='horizontal card' src={'/img/cards/' + thisPlayer.activePlot.card.code + '.png'}
-                                                 onMouseOver={this.onMouseOver.bind(this, thisPlayer.activePlot.card)}
-                                                 onMouseOut={this.onMouseOut} /> : null}
+                                                onMouseOver={this.onMouseOver.bind(this, thisPlayer.activePlot.card)}
+                                                onMouseOut={this.onMouseOut} /> : null}
 
                                         {this.state.showUsedPlotDeck ? <div className='panel plot-popup un-kneeled'>
                                             <div className='panel-header'>

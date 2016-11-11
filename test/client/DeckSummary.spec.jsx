@@ -37,7 +37,7 @@ describe('the <DeckSummary /> component', function() {
                 agenda={ { code: 'TestCode', label: 'Test Label' } } />);
 
             var agendaImages = TestUtils.scryRenderedDOMComponentsWithClass(component, 'pull-right');
-            var cardNames = TestUtils.scryRenderedDOMComponentsWithClass(component, 'card-name');
+            var cardNames = TestUtils.scryRenderedDOMComponentsWithClass(component, 'card-link');
 
             expect(agendaImages.length).toBe(1);
             expect(agendaImages[0].src.indexOf('/img/cards/TestCode.png')).not.toBe(-1);
