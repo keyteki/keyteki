@@ -334,7 +334,7 @@ class Player extends Spectator {
         this.buttons = [{ command: 'donemarshal', text: 'Done' }];
         this.menuTitle = 'Marshal your cards';
 
-        this.gold += this.activePlot.card.income || 0;
+        this.gold += this.getTotalIncome();
         this.reserve = this.activePlot.card.reserve || 0;
         this.claim = this.activePlot.card.claim || 0;
 
@@ -829,20 +829,32 @@ class Player extends Spectator {
         this.deck = deck;
     }
 
-    getTotalInitiative() {
-        var plotInitiative = 0;
+    getTotalPlotStat(property) {
+        var baseValue = 0;
 
-        if(this.activePlot && this.activePlot.card.initiative) {
-            plotInitiative = this.activePlot.card.initiative;
+        if (this.activePlot && property(this.activePlot.card)) {
+            baseValue = property(this.activePlot.card);
         }
 
-        var initiativeModifier = _.chain(this.cardsInPlay).map(cip => {
+        var modifier = _.chain(this.cardsInPlay).map(cip => {
             return [cip.card].concat(cip.attachments);
         }).flatten(true).reduce((memo, card) => {
-            return memo + (card.initiative || 0);
+            return memo + (property(card) || 0);
         }, 0);
 
-        return plotInitiative + initiativeModifier;
+        return baseValue + modifier;
+    }
+
+    getTotalInitiative() {
+        return this.getTotalPlotStat(card => {
+            return card.initiative;
+        });
+    }
+
+    getTotalIncome() {
+        return this.getTotalPlotStat(card => {
+            return card.income;
+        });
     }
 
     getState(isActivePlayer) {

@@ -96,35 +96,11 @@ locations['01039'] = {
 };
 
 // 01040 - The Roseroad
-class TheRoseRoad {
-    constructor(player, card) {
-        this.player = player;
-        this.card = card;
-
-        this.beginMarshal = this.beginMarshal.bind(this);
-    }
-
-    beginMarshal(game, player) {
-        if (this.player !== player) {
-            return;
-        }
-
-        player.gold++;
-
-        game.addMessage(player.name + ' gained 1 gold from ' + this.card.label);
-    }
-}
 locations['01040'] = {
     register: function(game, player, card) {
-        var implementation = new TheRoseRoad(player, card);
-
-        game.playerCards[player.id + card.uuid] = implementation;
-        game.on('beginMarshal', implementation.beginMarshal);
+        card.income = 1;
     },
     unregister: function(game, player, card) {
-        var implementation = game.playerCards[player.id + card.uuid];
-
-        game.removeListener('beginMarshal', implementation.beginMarshal);
     }
 };
 
@@ -148,5 +124,34 @@ locations['01175'] = factionCostReducer('targaryen');
 
 // 01194 - Rose Garden
 locations['01194'] = factionCostReducer('tyrell');
+
+// 02006 - Pleasure Barge
+locations['02006'] = {
+    register: function(game, player, card) {
+        card.income = -1;
+        // TODO: Event immunity, card draw
+    },
+    unregister: function(game, player, card) {
+    }
+};
+
+// 02064 - The Arbor
+locations['02064'] = {
+    register: function(game, player, card) {
+        card.income = 3;
+    },
+    unregister: function(game, player, card) {
+    }
+};
+
+// 04058 - The God's Eye
+locations['04058'] = {
+    register: function(game, player, card) {
+        card.income = 1;
+        // TODO: +1 Reserve modifier
+    },
+    unregister: function(game, player, card) {
+    }
+};
 
 module.exports = locations;
