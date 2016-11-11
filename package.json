@@ -4,7 +4,7 @@
   "description": "A Game of Throne Second Edition Card Game Server",
   "main": "index.js",
   "scripts": {
-    "test": "karma start karma.config.js"
+    "test": "jasmine-node test/server && karma start karma.config.js --single-run"
   },
   "repository": {
     "type": "git",
