@@ -4,7 +4,7 @@ const uuid = require('node-uuid');
 const Spectator = require('./spectator.js');
 
 class Player extends Spectator {
-    constructor(id, name, owner) {
+    constructor(id, name, owner, game) {
         super(id, name);
 
         this.drawCards = [];
@@ -14,6 +14,7 @@ class Player extends Spectator {
 
         this.owner = owner;
         this.takenMulligan = false;
+        this.game = game;
     }
 
     drawCardsToHand(numCards) {
@@ -24,10 +25,10 @@ class Player extends Spectator {
     searchDrawDeck(limit, predicate) {
         var cards = this.drawDeck;
 
-        if (_.isFunction(limit)) {
+        if(_.isFunction(limit)) {
             predicate = limit;
         } else {
-            if (limit > 0) {
+            if(limit > 0) {
                 cards = _.first(this.drawDeck, limit);
             } else {
                 cards = _.last(this.drawDeck, -limit);
@@ -380,8 +381,6 @@ class Player extends Spectator {
         attachment.parent = inPlayCard;
 
         inPlayCard.attachments.push(attachment);
-
-        this.dropPending = false;
     }
 
     showDrawDeck() {
@@ -434,7 +433,7 @@ class Player extends Spectator {
         }
     }
 
-    drop(otherPlayer, card, source, target) {
+    drop(card, source, target) {
         if(!this.isValidDropCombination(source, target)) {
             return false;
         }
@@ -452,7 +451,7 @@ class Player extends Spectator {
                 break;
             case 'discard pile':
                 if(source === 'play area') {
-                    this.discardCard(otherPlayer, card, this.discardPile);
+                    this.discardCard(card, this.discardPile);
 
                     return true;
                 }
@@ -466,7 +465,7 @@ class Player extends Spectator {
                 }
 
                 if(source === 'play area') {
-                    this.discardCard(otherPlayer, card, this.deadPile);
+                    this.discardCard(card, this.deadPile);
 
                     return true;
                 }
@@ -478,7 +477,7 @@ class Player extends Spectator {
                     return false;
                 }
 
-                this.playCard(card, true);
+                this.game.playCard(this.id, card, true);
 
                 if(card.type_code === 'attachment') {
                     this.dropPending = true;
@@ -743,7 +742,7 @@ class Player extends Spectator {
         return card.text.indexOf(keyword + '.') !== -1;
     }
 
-    discardCard(otherPlayer, card, pile) {
+    discardCard(card, pile) {
         var cardInPlay = this.findCardInPlayByUuid(card.uuid);
 
         if(!cardInPlay) {
@@ -757,13 +756,7 @@ class Player extends Spectator {
         cardInPlay.dupes = [];
 
         _.each(cardInPlay.attachments, attachment => {
-            var owner = attachment.owner === this.id ? this : otherPlayer;
-
-            if(this.hasKeyword(attachment, 'Terminal')) {
-                owner.discardPile.push(attachment);
-            } else {
-                owner.hand.push(attachment);
-            }
+            this.removeAttachment(cardInPlay, attachment);
         });
 
         this.cardsInPlay = _.reject(this.cardsInPlay, c => {
@@ -774,9 +767,24 @@ class Player extends Spectator {
             cardInPlay.parent.attachments = _.reject(cardInPlay.parent.attachments, attachment => {
                 return attachment.uuid === cardInPlay.uuid;
             });
+
+            this.game.notifyLeavingPlay(this, cardInPlay);
         }
 
         pile.push(card);
+    }
+
+    removeAttachment(cardInPlay, attachment) {
+        var otherPlayer = this.game.getOtherPlayer(this);
+        var owner = attachment.owner === this.id ? this : otherPlayer;
+
+        if(this.hasKeyword(attachment, 'Terminal')) {
+            owner.discardPile.push(attachment);
+        } else {
+            owner.hand.push(attachment);
+        }
+
+        this.game.notifyLeavingPlay(this, attachment);
     }
 
     findCardInPlayByUuid(uuid) {

@@ -153,7 +153,7 @@ class Game extends EventEmitter {
         this.addMessage(player.name + ' has kept their hand');
     }
 
-    playCard(playerId, card) {
+    playCard(playerId, card, isDrop) {
         var player = this.getPlayers()[playerId];
 
         if (!player) {
@@ -166,7 +166,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        if (!player.playCard(card)) {
+        if (!player.playCard(card, isDrop)) {
             return;
         }
 
@@ -244,6 +244,14 @@ class Game extends EventEmitter {
         if (otherPlayer) {
             otherPlayer.menuTitle = 'Waiting for opponent to select first player';
             otherPlayer.buttons = [];
+        }
+    }
+
+    notifyLeavingPlay(player, card) {
+        this.emit('cardLeavingPlay', this, player, card);
+        var cardImplementation = cards[card.code];
+        if (cardImplementation && cardImplementation.unregister) {
+            cardImplementation.unregister(this, player, card);
         }
     }
 
@@ -413,7 +421,7 @@ class Game extends EventEmitter {
 
     attachCard(player, card) {
         this.canAttach = true;
-        this.emit('beforeAttach', this, player, card);
+        this.emit('beforeAttach', this, player, player.selectedAttachment, card);
         if (!this.canAttach) {
             return;
         }
@@ -422,7 +430,7 @@ class Game extends EventEmitter {
             player.discardPile = _.reject(player.discardPile, c => {
                 return c.uuid === player.selectedAttachment.uuid;
             });
-        } 
+        }
 
         player.removeFromHand(player.selectedAttachment);
 
@@ -440,6 +448,8 @@ class Game extends EventEmitter {
         player.selectedAttachment = undefined;
 
         if (player.dropPending) {
+            player.dropPending = false;
+
             return;
         }
 
@@ -617,9 +627,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        var otherPlayer = this.getOtherPlayer(player);
-
-        if (player.drop(otherPlayer, card, source, target)) {
+        if (player.drop(card, source, target)) {
             this.addMessage(player.name + ' has moved a card from their ' + source + ' to their ' + target);
         }
     }
@@ -709,6 +717,7 @@ class Game extends EventEmitter {
         if (otherPlayer) {
             player.menuTitle = 'Waiting for opponent to defend';
             player.buttons = [];
+            player.selectCard = false;
 
             otherPlayer.beginDefend(player.currentChallenge);
         }
@@ -1155,6 +1164,7 @@ class Game extends EventEmitter {
         if (otherPlayer) {
             player.menuTitle = 'Waiting for opponent to defend';
             player.buttons = [];
+            player.selectCard = false;
 
             otherPlayer.beginDefend(player.currentChallenge);
         }

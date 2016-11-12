@@ -286,7 +286,7 @@ io.on('connection', function (socket) {
 
         var game = new Game(socket.id, name);
 
-        game.players[socket.id] = new Player(socket.id, socket.request.user.username, true);
+        game.players[socket.id] = new Player(socket.id, socket.request.user.username, true, game);
 
         games[game.id] = game;
         socket.emit('newgame', game.getState(socket.id));
@@ -307,7 +307,7 @@ io.on('connection', function (socket) {
         }
 
         runAndCatchErrors(game, () => {
-            game.players[socket.id] = new Player(socket.id, socket.request.user.username, false, false);
+            game.players[socket.id] = new Player(socket.id, socket.request.user.username, false, false, game);
             socket.join(game.id);
         });
 

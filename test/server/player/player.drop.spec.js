@@ -2,10 +2,12 @@
 /* eslint camelcase: 0 */
 
 const Player = require('../../../server/game/player.js');
+const Game = require('../../../server/game/game.js');
 
 describe('the Player', () => {
-    var player = new Player('1', 'Player 1', true);
-    var otherPlayer = new Player('2', 'Player 2', false);
+    var game = new Game('1', 'game');
+    var player = new Player('1', 'Player 1', true, game);
+    var otherPlayer = new Player('2', 'Player 2', false, game);
     var attachment = { card: { uuid: '1111', code: '1', label: 'Attachment', type_code: 'attachment', owner: player.id } };
     var cardWithNoAttachments = { attachments: [], dupes: [], card: { uuid: '2222', code: '2', label: 'Character', type_code: 'character', is_unique: true } };
     var cardWithAttachment = { attachments: [attachment.card], card: { uuid: '3333', code: '3', label: 'Character', type_code: 'character' } };
@@ -19,8 +21,9 @@ describe('the Player', () => {
     var otherPlayerTerminalAttachment = { card: { uuid: '1212', code: '12', label: 'Attachment', type_code: 'attachment', text: 'Terminal.', owner: otherPlayer.id } };
 
     beforeEach(() => {
-        player.initialise();
-        otherPlayer.initialise();
+        game.players[player.id] = player;
+        game.players[otherPlayer.id] = otherPlayer;
+        game.initialise();
 
         cardWithNoAttachments.dupes = [];
         cardWithAttachment.attachments = [attachment.card];
@@ -32,7 +35,7 @@ describe('the Player', () => {
         describe('when dragging a card from hand to play area', function() {
             describe('when the card is not in the hand', function() {
                 beforeEach(function() {
-                    dropSucceeded = player.drop(undefined, cardNotInHand, 'hand', 'play area');
+                    dropSucceeded = player.drop(cardNotInHand, 'hand', 'play area');
                 });
 
                 it('should return false and not change the game state', function() {
@@ -45,7 +48,7 @@ describe('the Player', () => {
             describe('when the card is in hand and a character', function() {
                 beforeEach(function() {
                     player.hand.push(characterInHand);
-                    dropSucceeded = player.drop(undefined, characterInHand, 'hand', 'play area');
+                    dropSucceeded = player.drop(characterInHand, 'hand', 'play area');
                 });
 
                 it('should return true and add the card to the play area', function() {
@@ -60,7 +63,7 @@ describe('the Player', () => {
                     player.hand.push(dupe.card);
                     player.cardsInPlay.push(cardWithNoAttachments);
 
-                    dropSucceeded = player.drop(undefined, dupe.card, 'hand', 'play area');
+                    dropSucceeded = player.drop(dupe.card, 'hand', 'play area');
                 });
 
                 it('should return true and add a dupe to the play area', function() {
@@ -74,7 +77,7 @@ describe('the Player', () => {
             describe('when the card is in hand and a location', function() {
                 beforeEach(function() {
                     player.hand.push(locationInHand);
-                    dropSucceeded = player.drop(undefined, locationInHand, 'hand', 'play area');
+                    dropSucceeded = player.drop(locationInHand, 'hand', 'play area');
                 });
 
                 it('should return true and add the card to the play area', function() {
@@ -87,7 +90,7 @@ describe('the Player', () => {
             describe('when the card is in hand and an event', function() {
                 beforeEach(function() {
                     player.hand.push(eventInHand);
-                    dropSucceeded = player.drop(undefined, eventInHand, 'hand', 'play area');
+                    dropSucceeded = player.drop(eventInHand, 'hand', 'play area');
                 });
 
                 it('should return false and not add the card to the play area', function() {
@@ -100,7 +103,7 @@ describe('the Player', () => {
             describe('when the card is in hand and an attachment', function() {
                 beforeEach(function() {
                     player.hand.push(attachmentInHand);
-                    dropSucceeded = player.drop(undefined, attachmentInHand, 'hand', 'play area');
+                    dropSucceeded = player.drop(attachmentInHand, 'hand', 'play area');
                 });
 
                 it('should return true and setup the card for attaching', function() {
@@ -118,7 +121,7 @@ describe('the Player', () => {
             describe('when the card is not in hand', function() {
                 beforeEach(function() {
                     player.hand.push(characterInHand);
-                    dropSucceeded = player.drop(undefined, cardNotInHand, 'hand', 'dead pile');
+                    dropSucceeded = player.drop(cardNotInHand, 'hand', 'dead pile');
                 });
 
                 it('should return false and not update the game state', function() {
@@ -132,7 +135,7 @@ describe('the Player', () => {
                 beforeEach(function() {
 
                     player.hand.push(locationInHand);
-                    dropSucceeded = player.drop(undefined, locationInHand, 'hand', 'dead pile');
+                    dropSucceeded = player.drop(locationInHand, 'hand', 'dead pile');
                 });
 
                 it('should return false and not update the game state', function() {
@@ -145,7 +148,7 @@ describe('the Player', () => {
             describe('when the card is in hand and is an attachment', function() {
                 beforeEach(function() {
                     player.hand.push(attachmentInHand);
-                    dropSucceeded = player.drop(undefined, attachmentInHand, 'hand', 'dead pile');
+                    dropSucceeded = player.drop(attachmentInHand, 'hand', 'dead pile');
                 });
 
                 it('should return false and not update the game state', function() {
@@ -158,7 +161,7 @@ describe('the Player', () => {
             describe('when the card is in hand and is an event', function() {
                 beforeEach(function() {
                     player.hand.push(eventInHand);
-                    dropSucceeded = player.drop(undefined, eventInHand, 'hand', 'dead pile');
+                    dropSucceeded = player.drop(eventInHand, 'hand', 'dead pile');
                 });
 
                 it('should return false and not update the game state', function() {
@@ -171,7 +174,7 @@ describe('the Player', () => {
             describe('when the card is in hand and is a character', function() {
                 beforeEach(function() {
                     player.hand.push(characterInHand);
-                    dropSucceeded = player.drop(undefined, characterInHand, 'hand', 'dead pile');
+                    dropSucceeded = player.drop(characterInHand, 'hand', 'dead pile');
                 });
 
                 it('should return true and put the character in the dead pile', function() {
@@ -186,7 +189,7 @@ describe('the Player', () => {
             describe('when the card is not in hand', function() {
                 beforeEach(function() {
                     player.hand.push(characterInHand);
-                    dropSucceeded = player.drop(undefined, cardNotInHand, 'hand', 'discard pile');
+                    dropSucceeded = player.drop(cardNotInHand, 'hand', 'discard pile');
                 });
 
                 it('should return false and not update the game state', function() {
@@ -200,7 +203,7 @@ describe('the Player', () => {
                 beforeEach(function() {
 
                     player.hand.push(locationInHand);
-                    dropSucceeded = player.drop(undefined, locationInHand, 'hand', 'discard pile');
+                    dropSucceeded = player.drop(locationInHand, 'hand', 'discard pile');
                 });
 
                 it('should return true and put the card in the discard pile', function() {
@@ -213,7 +216,7 @@ describe('the Player', () => {
             describe('when the card is in hand and is an attachment', function() {
                 beforeEach(function() {
                     player.hand.push(attachmentInHand);
-                    dropSucceeded = player.drop(undefined, attachmentInHand, 'hand', 'discard pile');
+                    dropSucceeded = player.drop(attachmentInHand, 'hand', 'discard pile');
                 });
 
                 it('should return true and put the card in the discard pile', function() {
@@ -226,7 +229,7 @@ describe('the Player', () => {
             describe('when the card is in hand and is an event', function() {
                 beforeEach(function() {
                     player.hand.push(eventInHand);
-                    dropSucceeded = player.drop(undefined, eventInHand, 'hand', 'discard pile');
+                    dropSucceeded = player.drop(eventInHand, 'hand', 'discard pile');
                 });
 
                 it('should return true and put the card in the discard pile', function() {
@@ -239,7 +242,7 @@ describe('the Player', () => {
             describe('when the card is in hand and is a character', function() {
                 beforeEach(function() {
                     player.hand.push(characterInHand);
-                    dropSucceeded = player.drop(undefined, characterInHand, 'hand', 'discard pile');
+                    dropSucceeded = player.drop(characterInHand, 'hand', 'discard pile');
                 });
 
                 it('should return true and put the card in the discard pile', function() {
@@ -254,7 +257,7 @@ describe('the Player', () => {
             describe('when the card is not in hand', function() {
                 beforeEach(function() {
                     player.hand.push(characterInHand);
-                    dropSucceeded = player.drop(undefined, cardNotInHand, 'hand', 'draw deck');
+                    dropSucceeded = player.drop(cardNotInHand, 'hand', 'draw deck');
                 });
 
                 it('should return false and not update the game state', function() {
@@ -268,7 +271,7 @@ describe('the Player', () => {
                 beforeEach(function() {
 
                     player.hand.push(locationInHand);
-                    dropSucceeded = player.drop(undefined, locationInHand, 'hand', 'draw deck');
+                    dropSucceeded = player.drop(locationInHand, 'hand', 'draw deck');
                 });
 
                 it('should return true and put the card in the draw deck', function() {
@@ -281,7 +284,7 @@ describe('the Player', () => {
             describe('when the card is in hand and is an attachment', function() {
                 beforeEach(function() {
                     player.hand.push(attachmentInHand);
-                    dropSucceeded = player.drop(undefined, attachmentInHand, 'hand', 'draw deck');
+                    dropSucceeded = player.drop(attachmentInHand, 'hand', 'draw deck');
                 });
 
                 it('should return true and put the card in the draw deck', function() {
@@ -294,7 +297,7 @@ describe('the Player', () => {
             describe('when the card is in hand and is an event', function() {
                 beforeEach(function() {
                     player.hand.push(eventInHand);
-                    dropSucceeded = player.drop(undefined, eventInHand, 'hand', 'draw deck');
+                    dropSucceeded = player.drop(eventInHand, 'hand', 'draw deck');
                 });
 
                 it('should return true and put the card in the draw deck', function() {
@@ -307,7 +310,7 @@ describe('the Player', () => {
             describe('when the card is in hand and is a character', function() {
                 beforeEach(function() {
                     player.hand.push(characterInHand);
-                    dropSucceeded = player.drop(undefined, characterInHand, 'hand', 'draw deck');
+                    dropSucceeded = player.drop(characterInHand, 'hand', 'draw deck');
                 });
 
                 it('should return true and put the card in the draw deck', function() {
@@ -322,8 +325,8 @@ describe('the Player', () => {
                     player.hand.push(characterInHand);
                     player.hand.push(locationInHand);
 
-                    dropSucceeded = player.drop(undefined, characterInHand, 'hand', 'draw deck');
-                    dropSucceeded = player.drop(undefined, locationInHand, 'hand', 'draw deck');
+                    dropSucceeded = player.drop(characterInHand, 'hand', 'draw deck');
+                    dropSucceeded = player.drop(locationInHand, 'hand', 'draw deck');
                 });
 
                 it('should put the cards in the draw deck in the correct order', function() {
@@ -340,7 +343,7 @@ describe('the Player', () => {
                 beforeEach(function() {
                     player.cardsInPlay.push(cardWithNoAttachments);
 
-                    dropSucceeded = player.drop(undefined, cardNotInHand, 'play area', 'discard pile');
+                    dropSucceeded = player.drop(cardNotInHand, 'play area', 'discard pile');
                 });
 
                 it('should return false and not update the game state', function() {
@@ -354,7 +357,7 @@ describe('the Player', () => {
                 beforeEach(function() {
                     player.cardsInPlay.push(cardWithNoAttachments);
 
-                    dropSucceeded = player.drop(undefined, cardWithNoAttachments.card, 'play area', 'discard pile');
+                    dropSucceeded = player.drop(cardWithNoAttachments.card, 'play area', 'discard pile');
                 });
 
                 it('should return true and put the card in the discard pile', function() {
@@ -370,7 +373,7 @@ describe('the Player', () => {
 
                     player.cardsInPlay.push(cardWithNoAttachments);
 
-                    dropSucceeded = player.drop(undefined, cardWithNoAttachments.card, 'play area', 'discard pile');
+                    dropSucceeded = player.drop(cardWithNoAttachments.card, 'play area', 'discard pile');
                 });
 
                 it('should return true and put the card and dupe in the discard pile', function() {
@@ -386,7 +389,7 @@ describe('the Player', () => {
                 beforeEach(function() {
                     player.cardsInPlay.push(cardWithAttachment);
 
-                    dropSucceeded = player.drop(undefined, cardWithAttachment.card, 'play area', 'discard pile');
+                    dropSucceeded = player.drop(cardWithAttachment.card, 'play area', 'discard pile');
                 });
 
                 it('should return true and put the card in the discard pile', function() {
@@ -405,7 +408,7 @@ describe('the Player', () => {
                     cardWithAttachment.attachments = [attachmentInHand];
                     player.cardsInPlay.push(cardWithAttachment);
 
-                    dropSucceeded = player.drop(undefined, cardWithAttachment.card, 'play area', 'discard pile');
+                    dropSucceeded = player.drop(cardWithAttachment.card, 'play area', 'discard pile');
                 });
 
                 it('should return true and put the card in the discard pile', function() {
@@ -424,7 +427,7 @@ describe('the Player', () => {
                     cardWithAttachment.attachments = [otherPlayerNonTerminalAttachment.card];
                     player.cardsInPlay.push(cardWithAttachment);
 
-                    dropSucceeded = player.drop(otherPlayer, cardWithAttachment.card, 'play area', 'discard pile');
+                    dropSucceeded = player.drop(cardWithAttachment.card, 'play area', 'discard pile');
                 });
 
                 it('should return true and put the card in the discard pile', function() {
@@ -443,7 +446,7 @@ describe('the Player', () => {
                     cardWithAttachment.attachments = [otherPlayerTerminalAttachment.card];
                     player.cardsInPlay.push(cardWithAttachment);
 
-                    dropSucceeded = player.drop(otherPlayer, cardWithAttachment.card, 'play area', 'discard pile');
+                    dropSucceeded = player.drop(cardWithAttachment.card, 'play area', 'discard pile');
                 });
 
                 it('should return true and put the card in the discard pile', function() {
@@ -464,7 +467,7 @@ describe('the Player', () => {
                     attachment.card.parent = cardWithAttachment;
                     player.cardsInPlay.push(cardWithAttachment);
 
-                    dropSucceeded = player.drop(undefined, attachment.card, 'play area', 'discard pile');
+                    dropSucceeded = player.drop(attachment.card, 'play area', 'discard pile');
                 });
 
                 it('should return true and put the attachment in the discard pile', function() {

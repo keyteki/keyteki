@@ -703,7 +703,7 @@ class MarchedToTheWall {
 
         game.addMessage(player.name + ' discards ' + clicked.label);
 
-        player.discardCard(game.getOtherPlayer(player), clicked, player.discardPile);
+        player.discardCard(clicked, player.discardPile);
         player.doneDiscard = true;
 
         var stillToDiscard = _.find(game.getPlayers(), p => {
