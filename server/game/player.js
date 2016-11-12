@@ -529,6 +529,27 @@ class Player extends Spectator {
         return true;
     }
 
+    doDrawDeckDrop(card, source) {
+        var targetList = this.getTargetList(source);
+
+        if (!_.any(targetList, c => {
+            if (c.card) {
+                return c.card.uuid === card.uuid;
+            }
+
+            return c.uuid === card.uuid;
+        })) {
+            return false;
+        }
+
+        this.drawDeck.unshift(card);
+
+        targetList = this.doCardMove(card, targetList);
+        this.updateTargetList(source, targetList);
+
+        return true;
+    }
+
     drop(card, source, target) {
         if (!this.isValidDropCombination(source, target)) {
             return false;
@@ -543,6 +564,8 @@ class Player extends Spectator {
                 return this.doDeadDrop(card, source);
             case 'play area':
                 return this.doInPlayDrop(card, source);
+            case 'draw deck':
+                return this.doDrawDeckDrop(card, source);
         }
 
         return false;

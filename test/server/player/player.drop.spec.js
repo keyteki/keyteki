@@ -128,7 +128,7 @@ describe('the Player', () => {
 
             describe('if the card is in hand and is a location', function() {
                 beforeEach(function() {
-                    
+
                     player.hand.push(locationInHand);
                     dropSucceeded = player.drop(locationInHand, 'hand', 'dead pile');
                 });
@@ -176,6 +176,159 @@ describe('the Player', () => {
                     expect(dropSucceeded).toBe(true);
                     expect(player.hand.length).toBe(0);
                     expect(player.deadPile.length).toBe(1);
+                });
+            });
+        });
+
+        describe('when dragging a card from hand to the discard pile', function() {
+            describe('if the card is not in hand', function() {
+                beforeEach(function() {
+                    player.hand.push(characterInHand);
+                    dropSucceeded = player.drop(cardNotInHand, 'hand', 'discard pile');
+                });
+
+                it('should return false and not update the game state', function() {
+                    expect(dropSucceeded).toBe(false);
+                    expect(player.hand.length).toBe(1);
+                    expect(player.discardPile.length).toBe(0);
+                });
+            });
+
+            describe('if the card is in hand and is a location', function() {
+                beforeEach(function() {
+
+                    player.hand.push(locationInHand);
+                    dropSucceeded = player.drop(locationInHand, 'hand', 'discard pile');
+                });
+
+                it('should return true and put the card in the discard pile', function() {
+                    expect(dropSucceeded).toBe(true);
+                    expect(player.hand.length).toBe(0);
+                    expect(player.discardPile.length).toBe(1);
+                });
+            });
+
+            describe('if the card is in hand and is an attachment', function() {
+                beforeEach(function() {
+                    player.hand.push(attachmentInHand);
+                    dropSucceeded = player.drop(attachmentInHand, 'hand', 'discard pile');
+                });
+
+                it('should return true and put the card in the discard pile', function() {
+                    expect(dropSucceeded).toBe(true);
+                    expect(player.hand.length).toBe(0);
+                    expect(player.discardPile.length).toBe(1);
+                });
+            });
+
+            describe('if the card is in hand and is an event', function() {
+                beforeEach(function() {
+                    player.hand.push(eventInHand);
+                    dropSucceeded = player.drop(eventInHand, 'hand', 'discard pile');
+                });
+
+                it('should return true and put the card in the discard pile', function() {
+                    expect(dropSucceeded).toBe(true);
+                    expect(player.hand.length).toBe(0);
+                    expect(player.discardPile.length).toBe(1);
+                });
+            });
+
+            describe('if the card is in hand and is a character', function() {
+                beforeEach(function() {
+                    player.hand.push(characterInHand);
+                    dropSucceeded = player.drop(characterInHand, 'hand', 'discard pile');
+                });
+
+                it('should return true and put the card in the discard pile', function() {
+                    expect(dropSucceeded).toBe(true);
+                    expect(player.hand.length).toBe(0);
+                    expect(player.discardPile.length).toBe(1);
+                });
+            });
+        });
+
+        describe('when dragging a card from hand to the deck', function() {
+            describe('if the card is not in hand', function() {
+                beforeEach(function() {
+                    player.hand.push(characterInHand);
+                    dropSucceeded = player.drop(cardNotInHand, 'hand', 'draw deck');
+                });
+
+                it('should return false and not update the game state', function() {
+                    expect(dropSucceeded).toBe(false);
+                    expect(player.hand.length).toBe(1);
+                    expect(player.drawDeck.length).toBe(0);
+                });
+            });
+
+            describe('if the card is in hand and is a location', function() {
+                beforeEach(function() {
+
+                    player.hand.push(locationInHand);
+                    dropSucceeded = player.drop(locationInHand, 'hand', 'draw deck');
+                });
+
+                it('should return true and put the card in the draw deck', function() {
+                    expect(dropSucceeded).toBe(true);
+                    expect(player.hand.length).toBe(0);
+                    expect(player.drawDeck.length).toBe(1);
+                });
+            });
+
+            describe('if the card is in hand and is an attachment', function() {
+                beforeEach(function() {
+                    player.hand.push(attachmentInHand);
+                    dropSucceeded = player.drop(attachmentInHand, 'hand', 'draw deck');
+                });
+
+                it('should return true and put the card in the draw deck', function() {
+                    expect(dropSucceeded).toBe(true);
+                    expect(player.hand.length).toBe(0);
+                    expect(player.drawDeck.length).toBe(1);
+                });
+            });
+
+            describe('if the card is in hand and is an event', function() {
+                beforeEach(function() {
+                    player.hand.push(eventInHand);
+                    dropSucceeded = player.drop(eventInHand, 'hand', 'draw deck');
+                });
+
+                it('should return true and put the card in the draw deck', function() {
+                    expect(dropSucceeded).toBe(true);
+                    expect(player.hand.length).toBe(0);
+                    expect(player.drawDeck.length).toBe(1);
+                });
+            });
+
+            describe('if the card is in hand and is a character', function() {
+                beforeEach(function() {
+                    player.hand.push(characterInHand);
+                    dropSucceeded = player.drop(characterInHand, 'hand', 'draw deck');
+                });
+
+                it('should return true and put the card in the draw deck', function() {
+                    expect(dropSucceeded).toBe(true);
+                    expect(player.hand.length).toBe(0);
+                    expect(player.drawDeck.length).toBe(1);
+                });
+            });
+
+            describe('when two cards are dragged to the draw deck', function() {
+                beforeEach(function() {
+                    player.hand.push(characterInHand);
+                    player.hand.push(locationInHand);
+
+                    dropSucceeded = player.drop(characterInHand, 'hand', 'draw deck');
+                    dropSucceeded = player.drop(locationInHand, 'hand', 'draw deck');
+                });
+
+                it('should put the cards in the draw deck in the correct order', function() {
+                    expect(dropSucceeded).toBe(true);
+                    expect(player.hand.length).toBe(0);
+                    expect(player.drawDeck[0].code).toBe(locationInHand.code);
+                    expect(player.drawDeck[1].code).toBe(characterInHand.code);
                 });
             });
         });
