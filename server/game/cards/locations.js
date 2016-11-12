@@ -47,7 +47,7 @@ class TheKingsRoad {
         cardInPlay.kneeled = true;
         game.clickHandled = true;
 
-        player.discardCard(player, card);
+        player.discardCard(player, card, player.discardPile);
 
         game.addMessage(player.name + ' scarifices ' + card.label + ' to reduce the cost of the next character they marshal by 3');        
 
