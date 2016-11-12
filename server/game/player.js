@@ -251,7 +251,7 @@ class Player extends Spectator {
             });
 
             if(dupe) {
-                dupe.dupes.push(card);
+                dupe.dupes.push(card.card);
             } else {
                 processedCards.push(card);
             }
@@ -452,7 +452,7 @@ class Player extends Spectator {
                 break;
             case 'discard pile':
                 if(source === 'play area') {
-                    this.discardCard(otherPlayer, card);
+                    this.discardCard(otherPlayer, card, this.discardPile);
 
                     return true;
                 }
@@ -463,6 +463,12 @@ class Player extends Spectator {
             case 'dead pile':
                 if(card.type_code !== 'character') {
                     return false;
+                }
+
+                if(source === 'play area') {
+                    this.discardCard(otherPlayer, card, this.deadPile);
+
+                    return true;
                 }
 
                 this.deadPile.push(card);
@@ -737,7 +743,7 @@ class Player extends Spectator {
         return card.text.indexOf(keyword + '.') !== -1;
     }
 
-    discardCard(otherPlayer, card) {
+    discardCard(otherPlayer, card, pile) {
         var cardInPlay = this.findCardInPlayByUuid(card.uuid);
 
         if(!cardInPlay) {
@@ -745,7 +751,7 @@ class Player extends Spectator {
         }
 
         _.each(cardInPlay.dupes, dupe => {
-            this.discardPile.push(dupe.card);
+            pile.push(dupe);
         });
 
         cardInPlay.dupes = [];
@@ -770,7 +776,7 @@ class Player extends Spectator {
             });
         }
 
-        this.discardPile.push(card);
+        pile.push(card);
     }
 
     findCardInPlayByUuid(uuid) {

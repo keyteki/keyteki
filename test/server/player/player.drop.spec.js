@@ -366,7 +366,7 @@ describe('the Player', () => {
 
             describe('when the card is in play and has a dupe', function() {
                 beforeEach(function() {
-                    cardWithNoAttachments.dupes.push(dupe);
+                    cardWithNoAttachments.dupes.push(dupe.card);
 
                     player.cardsInPlay.push(cardWithNoAttachments);
 
