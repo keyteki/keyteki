@@ -19,6 +19,15 @@ characters['01506'] = factionCharacterCostReducer('baratheon');
 // 01074 - Iron Islands Fishmonger
 characters['01074'] = factionCharacterCostReducer('greyjoy');
 
+// 01076 - Salty Navigator
+characters['01076'] = {
+    register: function(game, player, card) {
+        card.initiative = 1;
+    },
+    unregister: function(game, player, card) {
+    }
+};
+
 // 01090 - Tywin Lannister
 characters['01090'] = {
     register: function(game, player, card) {

@@ -135,6 +135,16 @@ locations['02006'] = {
     }
 };
 
+// 02010 - Cersei's Wheelhouse
+locations['02010'] = {
+    register: function(game, player, card) {
+        card.initiative = -1;
+        // TODO: +1 draw or +1 gold when first player.
+    },
+    unregister: function(game, player, card) {
+    }
+};
+
 // 02064 - The Arbor
 locations['02064'] = {
     register: function(game, player, card) {

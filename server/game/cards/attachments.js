@@ -13,6 +13,16 @@ attachments['02004'] = {
     }
 };
 
+// 02112 - Drowned God's Blessing
+attachments['02112'] = {
+    register: function(game, player, card) {
+        card.initiative = 1;
+        // TODO: Character gains 'Drowned God' trait, immune to single target events.
+    },
+    unregister: function(game, player, card) {
+    }
+};
+
 // 05020 - Shield of Lannisport
 attachments['05020'] = {
     register: function(game, player, card) {
