@@ -22,8 +22,9 @@ describe('the Player', () => {
     });
 
     describe('the drop() function', function() {
+        var dropSucceeded = false;
+
         describe('when dragging a card from hand to play area', function() {
-            var dropSucceeded = false;
 
             describe('if the card is not in the hand', function() {
                 beforeEach(function() {
@@ -46,7 +47,7 @@ describe('the Player', () => {
                 it('should return true and add the card to the play area', function() {
                     expect(dropSucceeded).toBe(true);
                     expect(player.cardsInPlay.length).toBe(1);
-                    expect(player.hand.length).toBe(0);                  
+                    expect(player.hand.length).toBe(0);
                 });
             });
 
@@ -90,7 +91,7 @@ describe('the Player', () => {
                 it('should return false and not add the card to the play area', function() {
                     expect(dropSucceeded).toBe(false);
                     expect(player.cardsInPlay.length).toBe(0);
-                    expect(player.hand.length).toBe(1);                   
+                    expect(player.hand.length).toBe(1);
                 });
             });
 
@@ -106,7 +107,75 @@ describe('the Player', () => {
                     expect(player.selectCard).toBe(true);
                     expect(player.selectedAttachment).toBe(attachmentInHand);
                     expect(player.cardsInPlay.length).toBe(0);
-                    expect(player.hand.length).toBe(1); 
+                    expect(player.hand.length).toBe(1);
+                });
+            });
+        });
+
+        describe('when dragging a card from hand to the dead pile', function() {
+            describe('if the card is not in hand', function() {
+                beforeEach(function() {
+                    player.hand.push(characterInHand);
+                    dropSucceeded = player.drop(cardNotInHand, 'hand', 'dead pile');
+                });
+
+                it('should return false and not update the game state', function() {
+                    expect(dropSucceeded).toBe(false);
+                    expect(player.hand.length).toBe(1);
+                    expect(player.deadPile.length).toBe(0);
+                });
+            });
+
+            describe('if the card is in hand and is a location', function() {
+                beforeEach(function() {
+                    
+                    player.hand.push(locationInHand);
+                    dropSucceeded = player.drop(locationInHand, 'hand', 'dead pile');
+                });
+
+                it('should return false and not update the game state', function() {
+                    expect(dropSucceeded).toBe(false);
+                    expect(player.hand.length).toBe(1);
+                    expect(player.deadPile.length).toBe(0);
+                });
+            });
+
+            describe('if the card is in hand and is an attachment', function() {
+                beforeEach(function() {
+                    player.hand.push(attachmentInHand);
+                    dropSucceeded = player.drop(attachmentInHand, 'hand', 'dead pile');
+                });
+
+                it('should return false and not update the game state', function() {
+                    expect(dropSucceeded).toBe(false);
+                    expect(player.hand.length).toBe(1);
+                    expect(player.deadPile.length).toBe(0);
+                });
+            });
+
+            describe('if the card is in hand and is an event', function() {
+                beforeEach(function() {
+                    player.hand.push(eventInHand);
+                    dropSucceeded = player.drop(eventInHand, 'hand', 'dead pile');
+                });
+
+                it('should return false and not update the game state', function() {
+                    expect(dropSucceeded).toBe(false);
+                    expect(player.hand.length).toBe(1);
+                    expect(player.deadPile.length).toBe(0);
+                });
+            });
+
+            describe('if the card is in hand and is a character', function() {
+                beforeEach(function() {
+                    player.hand.push(characterInHand);
+                    dropSucceeded = player.drop(characterInHand, 'hand', 'dead pile');
+                });
+
+                it('should return true and put the character in the dead pile', function() {
+                    expect(dropSucceeded).toBe(true);
+                    expect(player.hand.length).toBe(0);
+                    expect(player.deadPile.length).toBe(1);
                 });
             });
         });

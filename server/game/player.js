@@ -487,6 +487,10 @@ class Player extends Spectator {
             return false;
         }
 
+        if(card.type_code !== 'character') {
+            return false;
+        }
+
         this.deadPile.push(card);
 
         targetList = this.doCardMove(card, targetList);
