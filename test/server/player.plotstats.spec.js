@@ -7,6 +7,9 @@ describe('the Game', () => {
     var game = {};
     var player = new Player('1', 'Player 1', true);
     var testPlot = { card: { income: 5 } };
+    var income = (card) => {
+        return card.income;
+    };
 
     beforeEach(() => {
         game = new Game('1', 'Test Game');
@@ -21,30 +24,30 @@ describe('the Game', () => {
         player.cardsInPlay.push({ card: { }, attachments: [] });
     });
 
-    describe('the getTotalIncome() function', () => {
-        describe('when income is only provided by plot', () => {
-            it('should equal the plot income value', () => {
-                expect(player.getTotalIncome()).toBe(5);
+    describe('the getTotalPlotStat() function', () => {
+        describe('when property is only provided by plot', () => {
+            it('should equal the plot value', () => {
+                expect(player.getTotalPlotStat(income)).toBe(5);
             });
         });
 
-        describe('when an income modifying card is in play', () => {
+        describe('when a property modifying card is in play', () => {
             beforeEach(() => {
                 player.cardsInPlay.push({ card: { income: 1 }, attachments: [] });
             });
 
-            it('should include both the plot income and the modifier', () => {
-                expect(player.getTotalIncome()).toBe(6);
+            it('should include both the plot value and the modifier', () => {
+                expect(player.getTotalPlotStat(income)).toBe(6);
             });
         });
 
-        describe('when an income modifying attachment is in play', () => {
+        describe('when a property modifying attachment is in play', () => {
             beforeEach(() => {
                 player.cardsInPlay.push({ card: {}, attachments: [{ income: 1 }] });
             });
 
-            it('should include both the plot income and the modifier', () => {
-                expect(player.getTotalIncome()).toBe(6);
+            it('should include both the plot value and the modifier', () => {
+                expect(player.getTotalPlotStat(income)).toBe(6);
             });
         });
     });

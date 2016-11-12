@@ -335,7 +335,7 @@ class Player extends Spectator {
         this.menuTitle = 'Marshal your cards';
 
         this.gold += this.getTotalIncome();
-        this.reserve = this.activePlot.card.reserve || 0;
+        this.reserve = this.getTotalReserve();
         this.claim = this.activePlot.card.claim || 0;
 
         this.limitedPlayed = false;
@@ -854,6 +854,12 @@ class Player extends Spectator {
     getTotalIncome() {
         return this.getTotalPlotStat(card => {
             return card.income;
+        });
+    }
+
+    getTotalReserve() {
+        return this.getTotalPlotStat(card => {
+            return card.reserve;
         });
     }
 

@@ -3,6 +3,16 @@ const factionCostReducer = require('./reducer.js').factionCostReducer;
 
 var locations = {};
 
+// 01038 - The Iron Throne
+locations['01038'] = {
+    register: function(game, player, card) {
+        card.reserve = 1;
+        // TODO: Provides 8 STR in dominance phase.
+    },
+    unregister: function(game, player, card) {
+    }
+};
+
 // 01039 - The Kingsroad
 class TheKingsRoad {
     constructor(player, card) {
@@ -154,11 +164,23 @@ locations['02064'] = {
     }
 };
 
+// 02086 - Northern Rookery
+characters['02086'] = {
+    register: function(game, player, card) {
+        card.reserve = 1;
+        // TODO: +1 draw when marshalled
+    },
+    unregister: function(game, player, card) {
+    }
+};
+
+
 // 04058 - The God's Eye
 locations['04058'] = {
     register: function(game, player, card) {
         card.income = 1;
-        // TODO: +1 Reserve modifier
+        card.reserve = 1;
+        // TODO: Cannot be discarded
     },
     unregister: function(game, player, card) {
     }

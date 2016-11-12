@@ -53,6 +53,15 @@ characters['01094'] = factionCharacterCostReducer('lannister');
 // 01110 - Desert Scavenger
 characters['01110'] = factionCharacterCostReducer('martell');
 
+// 01127 -  Samwell Tarly
+characters['01127'] = {
+    register: function(game, player, card) {
+        card.reserve = 1;
+    },
+    unregister: function(game, player, card) {
+    }
+};
+
 // 01133 - Steward At The Wall
 characters['01133'] = factionCharacterCostReducer('thenightswatch');
 
