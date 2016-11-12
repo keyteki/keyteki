@@ -321,7 +321,6 @@ class Player extends Spectator {
     }
 
     drawPhase() {
-        this.gold = 0;
         this.phase = 'draw';
         this.drawCardsToHand(2);
     }
