@@ -30,15 +30,9 @@ describe('the Player', () => {
                     dropSucceeded = player.drop(cardNotInHand, 'hand', 'play area');
                 });
 
-                it('should return false', function() {
+                it('should return false and not change the game state', function() {
                     expect(dropSucceeded).toBe(false);
-                });
-
-                it('should not add any cards to the play area', function() {
                     expect(player.cardsInPlay.length).toBe(0);
-                });
-
-                it('should not remove any cards from hand', function() {
                     expect(player.hand.length).toBe(0);
                 });
             });
@@ -49,16 +43,10 @@ describe('the Player', () => {
                     dropSucceeded = player.drop(characterInHand, 'hand', 'play area');
                 });
 
-                it('should return true', function() {
+                it('should return true and add the card to the play area', function() {
                     expect(dropSucceeded).toBe(true);
-                });
-
-                it('should add the card to the player area', function() {
                     expect(player.cardsInPlay.length).toBe(1);
-                });
-
-                it('should remove the card from hand', function() {
-                    expect(player.hand.length).toBe(0);
+                    expect(player.hand.length).toBe(0);                  
                 });
             });
 
@@ -72,19 +60,10 @@ describe('the Player', () => {
                     dropSucceeded = player.drop(dupe, 'hand', 'play area');
                 });
 
-                it('should return true', function() {
+                it('should return true and add a dupe to the play area', function() {
                     expect(dropSucceeded).toBe(true);
-                });
-
-                it('should remove the card from hand', function() {
                     expect(player.hand.length).toBe(0);
-                });
-
-                it('should not add a new card to the play area', function() {
                     expect(player.cardsInPlay.length).toBe(1);
-                });
-
-                it('should add a dupe to the character in play', function() {
                     expect(cardWithNoAttachments.dupes.length).toBe(1);
                 });
             });
@@ -95,15 +74,9 @@ describe('the Player', () => {
                     dropSucceeded = player.drop(locationInHand, 'hand', 'play area');
                 });
 
-                it('should return true', function() {
+                it('should return true and add the card to the play area', function() {
                     expect(dropSucceeded).toBe(true);
-                });
-
-                it('should not add the card to the play area', function() {
                     expect(player.cardsInPlay.length).toBe(1);
-                });
-
-                it('should remove the card from hand', function() {
                     expect(player.hand.length).toBe(0);
                 });
             });
@@ -114,16 +87,10 @@ describe('the Player', () => {
                     dropSucceeded = player.drop(eventInHand, 'hand', 'play area');
                 });
 
-                it('should return false', function() {
+                it('should return false and not add the card to the play area', function() {
                     expect(dropSucceeded).toBe(false);
-                });
-
-                it('should not add the card to the player area', function() {
                     expect(player.cardsInPlay.length).toBe(0);
-                });
-
-                it('should not remove the card from hand', function() {
-                    expect(player.hand.length).toBe(1);
+                    expect(player.hand.length).toBe(1);                   
                 });
             });
 
@@ -133,22 +100,13 @@ describe('the Player', () => {
                     dropSucceeded = player.drop(attachmentInHand, 'hand', 'play area');
                 });
 
-                it('should return true', function() {
+                it('should return true and setup the card for attaching', function() {
                     expect(dropSucceeded).toBe(true);
-                });
-
-                it('should setup waiting for attachment target', function() {
                     expect(player.menuTitle).toBe('Select target for attachment');
                     expect(player.selectCard).toBe(true);
                     expect(player.selectedAttachment).toBe(attachmentInHand);
-                });
-
-                it('should not put any cards in play', function() {
                     expect(player.cardsInPlay.length).toBe(0);
-                });
-
-                it('should not remove the attachment from hand', function() {
-                    expect(player.hand.length).toBe(1);
+                    expect(player.hand.length).toBe(1); 
                 });
             });
         });

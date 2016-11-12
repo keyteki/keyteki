@@ -315,9 +315,9 @@ class Player extends Spectator {
 
         if (!_.isNull(plotText) && !_.isUndefined(plotText)) {
             return this.activePlot.card.text.indexOf('When Revealed:') !== -1;
-        } else {
-            return false;
-        }
+        } 
+        
+        return false;
     }
 
     drawPhase() {
