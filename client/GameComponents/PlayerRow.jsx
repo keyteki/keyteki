@@ -40,6 +40,8 @@ class PlayerRow extends React.Component {
         event.stopPropagation();
         event.preventDefault();
 
+        $(event.target).removeClass('highlight-panel');
+
         var card = event.dataTransfer.getData('card');
 
         if(!card) {
