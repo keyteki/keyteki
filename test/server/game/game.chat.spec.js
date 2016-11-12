@@ -1,8 +1,8 @@
 /*global describe, it, beforeEach, expect, spyOn*/
 
-const Game = require('../../server/game/game.js');
-const Player = require('../../server/game/player.js');
-const Spectator = require('../../server/game/spectator.js');
+const Game = require('../../../server/game/game.js');
+const Player = require('../../../server/game/player.js');
+const Spectator = require('../../../server/game/spectator.js');
 
 describe('the Game', () => {
     var game = {};

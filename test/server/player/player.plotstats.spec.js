@@ -1,10 +1,8 @@
-/*global describe, it, beforeEach, spyOn, expect*/
+/*global describe, it, beforeEach, expect*/
 
-const Game = require('../../server/game/game.js');
-const Player = require('../../server/game/player.js');
+const Player = require('../../../server/game/player.js');
 
-describe('the Game', () => {
-    var game = {};
+describe('the Player', () => {
     var player = new Player('1', 'Player 1', true);
     var testPlot = { card: { income: 5 } };
     var income = (card) => {
@@ -12,12 +10,6 @@ describe('the Game', () => {
     };
 
     beforeEach(() => {
-        game = new Game('1', 'Test Game');
-
-        game.initialise();
-
-        game.players[player.id] = player;
-
         player.initialise();
         player.activePlot = testPlot;
         // Normal card w/out income

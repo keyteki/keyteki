@@ -1,6 +1,8 @@
-const Game = require('../../server/game/game.js');
-const Player = require('../../server/game/player.js');
-const Spectator = require('../../server/game/spectator.js');
+/*global describe, it, beforeEach, expect*/
+
+const Game = require('../../../server/game/game.js');
+const Player = require('../../../server/game/player.js');
+const Spectator = require('../../../server/game/spectator.js');
 
 describe('the Game', () => {
     var game = {};
@@ -48,7 +50,7 @@ describe('the Game', () => {
                     expect(state.players.length).toBe(2);
                     expect(state.players[0].name).toBe(player1.name);
                     expect(state.players[1].name).toBe(player2.name);
-                })
+                });
             });
         });
 
@@ -73,7 +75,7 @@ describe('the Game', () => {
 
                     expect(state.players[0].deck).not.toBe(undefined);
                     expect(state.players[0].deck.name).toBe(undefined);
-                })
+                });
             });
         });
 

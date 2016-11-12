@@ -787,9 +787,22 @@ class Player extends Spectator {
     }
 
     findCardInPlayByUuid(uuid) {
-        return _.find(this.cardsInPlay, card => {
-            return card.card.uuid === uuid;
+        var returnedCard = undefined;
+
+        _.each(this.cardsInPlay, card => {
+            var attachment = this.findCardByUuid(card.attachments, uuid);
+            if (attachment) {
+                returnedCard = attachment;
+
+                return;                
+            }
+
+            if (card.card.uuid === uuid) {
+                returnedCard = card;
+            }
         });
+
+        return returnedCard;
     }
 
     findCardInPlayByCode(code) {
@@ -800,6 +813,10 @@ class Player extends Spectator {
 
     findCardByUuid(list, uuid) {
         return _.find(list, card => {
+            if (card.card) {
+                return card.card.uuid === uuid;
+            }
+
             return card.uuid === uuid;
         });
     }
