@@ -206,6 +206,7 @@ export class InnerGameBoard extends React.Component {
                         <div className='attachment' style={style}>
                             <div className='card' onMouseOver={allowMouseOver ? this.onMouseOver.bind(this, a) : null}
                                 onMouseOut={this.onMouseOut}
+                                onDragStart={(ev) => this.onCardDragStart(ev, a, 'play area')}
                                 onClick={this.onCardClick2.bind(this, a)}>
                                 <div>
                                     {card.facedown ?

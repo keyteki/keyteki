@@ -377,6 +377,8 @@ class Player extends Spectator {
     attach(attachment, card) {
         var inPlayCard = this.findCardInPlayByUuid(card.uuid);
 
+        attachment.parent = inPlayCard;
+
         inPlayCard.attachments.push(attachment);
 
         this.dropPending = false;
@@ -756,6 +758,12 @@ class Player extends Spectator {
             return c.card.uuid === card.uuid;
         });
 
+        if(cardInPlay.parent && cardInPlay.parent.attachments) {
+            cardInPlay.parent.attachments = _.reject(cardInPlay.parent.attachments, attachment => {
+                return attachment.uuid === cardInPlay.uuid;
+            });
+        }
+
         this.discardPile.push(card);
     }
 
@@ -772,6 +780,7 @@ class Player extends Spectator {
 
             if(card.card.uuid === uuid) {
                 returnedCard = card;
+                return;
             }
         });
 
@@ -785,13 +794,28 @@ class Player extends Spectator {
     }
 
     findCardByUuid(list, uuid) {
-        return _.find(list, card => {
-            if(card.card) {
-                return card.card.uuid === uuid;
+        var returnedCard = undefined;
+
+        _.each(list, card => {
+            if(card.attachments) {
+                var attachment = this.findCardByUuid(card.attachments, uuid);
+
+                if(attachment) {
+                    returnedCard = attachment;
+                    return;
+                }
             }
 
-            return card.uuid === uuid;
+            if(card.card && card.card.uuid === uuid) {
+                returnedCard = card;
+                return;
+            } else if(card.uuid === uuid) {
+                returnedCard = card;
+                return;
+            }
         });
+
+        return returnedCard;
     }
 
     selectDeck(deck) {
@@ -854,6 +878,22 @@ class Player extends Spectator {
     }
 
     getState(isActivePlayer) {
+        var cardsInPlay = _.map(this.cardsInPlay, card => {
+            var mappedCard;
+
+            if(isActivePlayer || !card.facedown) {
+                mappedCard = _.omit(card, 'attachments');
+
+                mappedCard.attachments = _.map(card.attachments, a => {
+                    return _.omit(a, 'parent');
+                });
+
+                return mappedCard;
+            }
+
+            return { facedown: true, card: {}, dupes: [] };
+        });
+
         var state = {
             id: this.id,
             faction: this.deck.faction,
@@ -870,12 +910,7 @@ class Player extends Spectator {
             reserve: this.reserve,
             claim: this.claim,
             phase: this.phase,
-            cardsInPlay: _.map(this.cardsInPlay, card => {
-                if(isActivePlayer || !card.facedown) {
-                    return card;
-                }
-                return { facedown: true, card: {}, dupes: [] };
-            }),
+            cardsInPlay: cardsInPlay,
             plotDeck: isActivePlayer ? this.plotDeck : undefined,
             numPlotCards: this.plotDeck.length,
             plotSelected: !!this.selectedPlot,

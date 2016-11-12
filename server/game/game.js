@@ -418,7 +418,15 @@ class Game extends EventEmitter {
             return;
         }
 
-        player.removeFromHand(player.selectedAttachment);
+        if (player.dropPending) {
+            player.discardPile = _.reject(player.discardPile, c => {
+                return c.uuid === player.selectedAttachment.uuid;
+            });
+
+            player.dropPending = false;
+        } else {
+            player.removeFromHand(player.selectedAttachment);
+        }    
 
         var targetPlayer = this.getPlayers()[card.owner];
         targetPlayer.attach(player.selectedAttachment, card);

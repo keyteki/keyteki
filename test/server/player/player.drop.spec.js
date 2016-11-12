@@ -30,7 +30,7 @@ describe('the Player', () => {
         var dropSucceeded = false;
 
         describe('when dragging a card from hand to play area', function() {
-            describe('if the card is not in the hand', function() {
+            describe('when the card is not in the hand', function() {
                 beforeEach(function() {
                     dropSucceeded = player.drop(undefined, cardNotInHand, 'hand', 'play area');
                 });
@@ -42,7 +42,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in hand and a character', function() {
+            describe('when the card is in hand and a character', function() {
                 beforeEach(function() {
                     player.hand.push(characterInHand);
                     dropSucceeded = player.drop(undefined, characterInHand, 'hand', 'play area');
@@ -55,7 +55,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is a character and a dupe is in play', function() {
+            describe('when the card is a character and a dupe is in play', function() {
                 beforeEach(function() {
                     player.hand.push(dupe.card);
                     player.cardsInPlay.push(cardWithNoAttachments);
@@ -71,7 +71,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in hand and a location', function() {
+            describe('when the card is in hand and a location', function() {
                 beforeEach(function() {
                     player.hand.push(locationInHand);
                     dropSucceeded = player.drop(undefined, locationInHand, 'hand', 'play area');
@@ -84,7 +84,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in hand and an event', function() {
+            describe('when the card is in hand and an event', function() {
                 beforeEach(function() {
                     player.hand.push(eventInHand);
                     dropSucceeded = player.drop(undefined, eventInHand, 'hand', 'play area');
@@ -97,7 +97,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in hand and an attachment', function() {
+            describe('when the card is in hand and an attachment', function() {
                 beforeEach(function() {
                     player.hand.push(attachmentInHand);
                     dropSucceeded = player.drop(undefined, attachmentInHand, 'hand', 'play area');
@@ -115,7 +115,7 @@ describe('the Player', () => {
         });
 
         describe('when dragging a card from hand to the dead pile', function() {
-            describe('if the card is not in hand', function() {
+            describe('when the card is not in hand', function() {
                 beforeEach(function() {
                     player.hand.push(characterInHand);
                     dropSucceeded = player.drop(undefined, cardNotInHand, 'hand', 'dead pile');
@@ -128,7 +128,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in hand and is a location', function() {
+            describe('when the card is in hand and is a location', function() {
                 beforeEach(function() {
 
                     player.hand.push(locationInHand);
@@ -142,7 +142,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in hand and is an attachment', function() {
+            describe('when the card is in hand and is an attachment', function() {
                 beforeEach(function() {
                     player.hand.push(attachmentInHand);
                     dropSucceeded = player.drop(undefined, attachmentInHand, 'hand', 'dead pile');
@@ -155,7 +155,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in hand and is an event', function() {
+            describe('when the card is in hand and is an event', function() {
                 beforeEach(function() {
                     player.hand.push(eventInHand);
                     dropSucceeded = player.drop(undefined, eventInHand, 'hand', 'dead pile');
@@ -168,7 +168,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in hand and is a character', function() {
+            describe('when the card is in hand and is a character', function() {
                 beforeEach(function() {
                     player.hand.push(characterInHand);
                     dropSucceeded = player.drop(undefined, characterInHand, 'hand', 'dead pile');
@@ -183,7 +183,7 @@ describe('the Player', () => {
         });
 
         describe('when dragging a card from hand to the discard pile', function() {
-            describe('if the card is not in hand', function() {
+            describe('when the card is not in hand', function() {
                 beforeEach(function() {
                     player.hand.push(characterInHand);
                     dropSucceeded = player.drop(undefined, cardNotInHand, 'hand', 'discard pile');
@@ -196,7 +196,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in hand and is a location', function() {
+            describe('when the card is in hand and is a location', function() {
                 beforeEach(function() {
 
                     player.hand.push(locationInHand);
@@ -210,7 +210,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in hand and is an attachment', function() {
+            describe('when the card is in hand and is an attachment', function() {
                 beforeEach(function() {
                     player.hand.push(attachmentInHand);
                     dropSucceeded = player.drop(undefined, attachmentInHand, 'hand', 'discard pile');
@@ -223,7 +223,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in hand and is an event', function() {
+            describe('when the card is in hand and is an event', function() {
                 beforeEach(function() {
                     player.hand.push(eventInHand);
                     dropSucceeded = player.drop(undefined, eventInHand, 'hand', 'discard pile');
@@ -236,7 +236,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in hand and is a character', function() {
+            describe('when the card is in hand and is a character', function() {
                 beforeEach(function() {
                     player.hand.push(characterInHand);
                     dropSucceeded = player.drop(undefined, characterInHand, 'hand', 'discard pile');
@@ -251,7 +251,7 @@ describe('the Player', () => {
         });
 
         describe('when dragging a card from hand to the deck', function() {
-            describe('if the card is not in hand', function() {
+            describe('when the card is not in hand', function() {
                 beforeEach(function() {
                     player.hand.push(characterInHand);
                     dropSucceeded = player.drop(undefined, cardNotInHand, 'hand', 'draw deck');
@@ -264,7 +264,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in hand and is a location', function() {
+            describe('when the card is in hand and is a location', function() {
                 beforeEach(function() {
 
                     player.hand.push(locationInHand);
@@ -278,7 +278,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in hand and is an attachment', function() {
+            describe('when the card is in hand and is an attachment', function() {
                 beforeEach(function() {
                     player.hand.push(attachmentInHand);
                     dropSucceeded = player.drop(undefined, attachmentInHand, 'hand', 'draw deck');
@@ -291,7 +291,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in hand and is an event', function() {
+            describe('when the card is in hand and is an event', function() {
                 beforeEach(function() {
                     player.hand.push(eventInHand);
                     dropSucceeded = player.drop(undefined, eventInHand, 'hand', 'draw deck');
@@ -304,7 +304,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in hand and is a character', function() {
+            describe('when the card is in hand and is a character', function() {
                 beforeEach(function() {
                     player.hand.push(characterInHand);
                     dropSucceeded = player.drop(undefined, characterInHand, 'hand', 'draw deck');
@@ -336,7 +336,7 @@ describe('the Player', () => {
         });
 
         describe('when dragging a card from the play area to the discard pile', function() {
-            describe('if the card is not in play', function() {
+            describe('when the card is not in play', function() {
                 beforeEach(function() {
                     player.cardsInPlay.push(cardWithNoAttachments);
 
@@ -350,7 +350,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in play', function() {
+            describe('when the card is in play', function() {
                 beforeEach(function() {
                     player.cardsInPlay.push(cardWithNoAttachments);
 
@@ -364,7 +364,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in play and has a dupe', function() {
+            describe('when the card is in play and has a dupe', function() {
                 beforeEach(function() {
                     cardWithNoAttachments.dupes.push(dupe);
 
@@ -382,7 +382,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in play and has a non terminal attachment belonging to this player', function() {
+            describe('when the card is in play and has a non terminal attachment belonging to this player', function() {
                 beforeEach(function() {
                     player.cardsInPlay.push(cardWithAttachment);
 
@@ -400,7 +400,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in play and has a terminal attachment belonging to this player', function() {
+            describe('when the card is in play and has a terminal attachment belonging to this player', function() {
                 beforeEach(function() {
                     cardWithAttachment.attachments = [attachmentInHand];
                     player.cardsInPlay.push(cardWithAttachment);
@@ -419,7 +419,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in play and has a non terminal attachment belonging to the other player', function() {
+            describe('when the card is in play and has a non terminal attachment belonging to the other player', function() {
                 beforeEach(function() {
                     cardWithAttachment.attachments = [otherPlayerNonTerminalAttachment.card];
                     player.cardsInPlay.push(cardWithAttachment);
@@ -438,7 +438,7 @@ describe('the Player', () => {
                 });
             });
 
-            describe('if the card is in play and has a terminal attachment belonging to the other player', function() {
+            describe('when the card is in play and has a terminal attachment belonging to the other player', function() {
                 beforeEach(function() {
                     cardWithAttachment.attachments = [otherPlayerTerminalAttachment.card];
                     player.cardsInPlay.push(cardWithAttachment);
@@ -455,6 +455,30 @@ describe('the Player', () => {
                 it('should put the attachment in the other player\'s discard', function() {
                     expect(otherPlayer.discardPile.length).toBe(1);
                     expect(otherPlayer.discardPile[0]).toBe(otherPlayerTerminalAttachment.card);
+                });
+            });
+
+            describe('when the card is in play and is attached to another card', function() {
+                beforeEach(function() {
+                    cardWithAttachment.attachments = [attachment.card];
+                    attachment.card.parent = cardWithAttachment;
+                    player.cardsInPlay.push(cardWithAttachment);
+
+                    dropSucceeded = player.drop(undefined, attachment.card, 'play area', 'discard pile');
+                });
+
+                it('should return true and put the attachment in the discard pile', function() {
+                    expect(dropSucceeded).toBe(true);
+                    expect(player.discardPile.length).toBe(1);
+                    expect(player.discardPile[0]).toBe(attachment.card);
+                });
+
+                it('should leave the parent card in play', function() {
+                    expect(player.cardsInPlay.length).toBe(1);
+                });
+
+                it('should remove the attachment from the parent', function() {
+                    expect(cardWithAttachment.attachments.length).toBe(0);
                 });
             });
         });
