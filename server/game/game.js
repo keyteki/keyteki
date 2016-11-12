@@ -350,13 +350,13 @@ class Game extends EventEmitter {
 
         _.each(this.getPlayers(), p => {
             if (p.hasWhenRevealed() && !p.revealFinished) {
-                firstPlayer.buttons.push({command: 'resolvePlotEffect', text: p.name, arg: p.id});
+                firstPlayer.buttons.push({ command: 'resolvePlotEffect', text: p.name, arg: p.id });
             }
         });
 
         if (_.isEmpty(firstPlayer.buttons)) {
             firstPlayer.menuTitle = 'Any reactions or actions?';
-            firstPlayer.buttons = [{command: 'doneWhenRealedEffects', text: 'Done'}]
+            firstPlayer.buttons = [{ command: 'doneWhenRealedEffects', text: 'Done' }]
         }
 
         var otherPlayer = this.getOtherPlayer(firstPlayer);
@@ -422,11 +422,9 @@ class Game extends EventEmitter {
             player.discardPile = _.reject(player.discardPile, c => {
                 return c.uuid === player.selectedAttachment.uuid;
             });
+        } 
 
-            player.dropPending = false;
-        } else {
-            player.removeFromHand(player.selectedAttachment);
-        }    
+        player.removeFromHand(player.selectedAttachment);
 
         var targetPlayer = this.getPlayers()[card.owner];
         targetPlayer.attach(player.selectedAttachment, card);
@@ -440,6 +438,10 @@ class Game extends EventEmitter {
         }
 
         player.selectedAttachment = undefined;
+
+        if (player.dropPending) {
+            return;
+        }
 
         if (player.phase === 'setup') {
             this.checkForAttachments();

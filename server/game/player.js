@@ -484,6 +484,12 @@ class Player extends Spectator {
                 break;
         }
 
+        if(sourceCard.parent && sourceCard.parent.attachments) {
+            sourceCard.parent.attachments = _.reject(sourceCard.parent.attachments, a => {
+                return a.uuid === card.uuid;
+            });
+        }
+
         sourceList = _.reject(sourceList, c => {
             if(c.card) {
                 return c.card.uuid === card.uuid;
