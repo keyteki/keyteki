@@ -607,7 +607,9 @@ class Game extends EventEmitter {
             return;
         }
 
-        if (player.drop(card, source, target)) {
+        var otherPlayer = this.getOtherPlayer(player);
+
+        if (player.drop(otherPlayer, card, source, target)) {
             this.addMessage(player.name + ' has moved a card from their ' + source + ' to their ' + target);
         }
     }

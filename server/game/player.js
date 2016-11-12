@@ -404,7 +404,7 @@ class Player extends Spectator {
         }
     }
 
-    drop(card, source, target) {
+    drop(otherPlayer, card, source, target) {
         if(!this.isValidDropCombination(source, target)) {
             return false;
         }
@@ -422,9 +422,9 @@ class Player extends Spectator {
                 break;
             case 'discard pile':
                 if(source === 'play area') {
-                    this.discardCard(card);
+                    this.discardCard(otherPlayer, card);
 
-                    return;
+                    return true;
                 }
 
                 this.discardPile.push(card);
@@ -701,7 +701,7 @@ class Player extends Spectator {
         return card.text.indexOf(keyword + '.') !== -1;
     }
 
-    discardCard(card) {
+    discardCard(otherPlayer, card) {
         var cardInPlay = this.findCardInPlayByUuid(card.uuid);
 
         if(!cardInPlay) {
@@ -712,11 +712,15 @@ class Player extends Spectator {
             this.discardPile.push(dupe.card);
         });
 
+        cardInPlay.dupes = [];
+
         _.each(cardInPlay.attachments, attachment => {
+            var owner = attachment.owner === this.id ? this : otherPlayer;
+
             if(this.hasKeyword(attachment, 'Terminal')) {
-                this.discardPile.push(attachment);
+                owner.discardPile.push(attachment);
             } else {
-                this.hand.push(attachment);
+                owner.hand.push(attachment);
             }
         });
 
