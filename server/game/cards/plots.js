@@ -192,9 +192,8 @@ class BuildingOrders {
             return;
         }
 
-        var top10 = _.first(player.drawDeck, 10);
-        var attachmentsAndLocations = _.reject(top10, card => {
-            return card.type_code !== 'attachment' && card.type_code !== 'location';
+        var attachmentsAndLocations = player.searchDrawDeck(10, card => {
+            return card.type_code === 'attachment' || card.type_code === 'location';
         });
 
         var buttons = _.map(attachmentsAndLocations, card => {
@@ -218,19 +217,13 @@ class BuildingOrders {
             game.playerRevealDone(player);
         }
 
-        var card = _.find(player.drawDeck, c => {
-            return c.uuid === arg;
-        });
+        var card = player.findDrawDeckCardByUuid(arg);
 
         if(!card) {
             return;
         }
 
-        player.drawDeck = _.reject(player.drawDeck, c => {
-            return c.uuid === card.uuid;
-        });
-
-        player.hand.push(card);
+        player.moveFromDrawDeckToHand(card);
         player.shuffleDrawDeck();
 
         game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to reveal ' + card.label + ' and add it to their hand');
@@ -895,9 +888,8 @@ class Summons {
             return;
         }
 
-        var top10 = _.first(player.drawDeck, 10);
-        var characters = _.reject(top10, card => {
-            return card.type_code !== 'character';
+        var characters = player.searchDrawDeck(10, card => {
+            return card.type_code === 'character';
         });
 
         var buttons = _.map(characters, card => {
@@ -921,19 +913,13 @@ class Summons {
             game.playerRevealDone(player);
         }
 
-        var card = _.find(player.drawDeck, c => {
-            return c.uuid === arg;
-        });
+        var card = player.findDrawDeckCardByUuid(arg);
 
         if(!card) {
             return;
         }
 
-        player.drawDeck = _.reject(player.drawDeck, c => {
-            return c.uuid === card.uuid;
-        });
-
-        player.hand.push(card);
+        player.moveFromDrawDeckToHand(card);
         player.shuffleDrawDeck();
 
         game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to reveal ' + card.label + ' and add it to their hand');

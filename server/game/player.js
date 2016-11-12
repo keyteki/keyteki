@@ -21,6 +21,35 @@ class Player extends Spectator {
         this.drawDeck = _.rest(this.drawDeck, numCards);
     }
 
+    searchDrawDeck(limit, predicate) {
+        var cards = this.drawDeck;
+
+        if (_.isFunction(limit)) {
+            predicate = limit;
+        } else {
+            if (limit > 0) {
+                cards = _.first(this.drawDeck, limit);
+            } else {
+                cards = _.last(this.drawDeck, -limit);
+            }
+        }
+
+        return _.filter(cards, predicate);
+    }
+
+    moveFromDrawDeckToHand(card) {
+        this.drawDeck = _.reject(this.drawDeck, c => {
+            return c.uuid === card.uuid;
+        });
+        this.hand.push(card);
+    }
+
+    findDrawDeckCardByUuid(uuid) {
+        return _.find(this.drawDeck, c => {
+            return c.uuid === uuid;
+        });
+    }
+
     shuffleDrawDeck() {
         this.drawDeck = _.shuffle(this.drawDeck);
     }
