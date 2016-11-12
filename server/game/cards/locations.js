@@ -165,7 +165,7 @@ locations['02064'] = {
 };
 
 // 02086 - Northern Rookery
-characters['02086'] = {
+locations['02086'] = {
     register: function(game, player, card) {
         card.reserve = 1;
         // TODO: +1 draw when marshalled
