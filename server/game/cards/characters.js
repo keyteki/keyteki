@@ -14,7 +14,7 @@ characters['01028'] = {
 };
 
 // 01056 - Dragonstone Faithful
-characters['01506'] = factionCharacterCostReducer('baratheon');
+characters['01056'] = factionCharacterCostReducer('baratheon');
 
 // 01074 - Iron Islands Fishmonger
 characters['01074'] = factionCharacterCostReducer('greyjoy');
