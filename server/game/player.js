@@ -177,10 +177,8 @@ class Player extends Spectator {
             this.gold -= card.cost;
         }
 
-        if (!dragDrop && card.type_code === 'attachment' && this.phase !== 'setup') {
-            this.selectedAttachment = card;
-            this.selectCard = true;
-            this.menuTitle = 'Select target for attachment';
+        if(card.type_code === 'attachment' && this.phase !== 'setup') {
+            this.promptForAttachment(card);
             return true;
         }
 
@@ -352,6 +350,8 @@ class Player extends Spectator {
         var inPlayCard = this.findCardInPlayByUuid(card.uuid);
 
         inPlayCard.attachments.push(attachment);
+
+        this.dropPending = false;
     }
 
     showDrawDeck() {
@@ -508,7 +508,16 @@ class Player extends Spectator {
             return false;
         }
 
+        if(card.type_code === 'event') {
+            return false;
+        }
+
         this.playCard(card, true);
+
+        if(card.type_code === 'attachment') {
+            this.dropPending = true;
+            return true;
+        }
 
         targetList = this.doCardMove(card, targetList);
         this.updateTargetList(source, targetList);
@@ -533,6 +542,15 @@ class Player extends Spectator {
         }
 
         return false;
+    }
+
+    promptForAttachment(card) {
+        this.selectedAttachment = card;
+        this.selectCard = true;
+        this.menuTitle = 'Select target for attachment';
+        this.buttons = [
+            { text: 'Done', command: 'doneattachment' }
+        ];
     }
 
     beginChallenge() {

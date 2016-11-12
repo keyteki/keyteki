@@ -541,7 +541,7 @@ class Game extends EventEmitter {
             return false;
         }
 
-        if ((player.phase === 'setup' || player.phase === 'marshal') && player.selectedAttachment) {
+        if ((player.phase === 'setup' || player.phase === 'marshal' || player.dropPending) && player.selectedAttachment) {
             this.attachCard(player, card);
 
             return true;
@@ -561,9 +561,7 @@ class Game extends EventEmitter {
             return false;
         }
 
-        player.selectedAttachment = card;
-        player.selectCard = true;
-        player.menuTitle = 'Select target for attachment';
+        player.promptForAttachment(card);
 
         return true;
     }
