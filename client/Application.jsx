@@ -66,7 +66,7 @@ class App extends React.Component {
             socket.on('leavegame', (game, player) => {
                 var isMe = false;
 
-                if(player.name === this.props.username) {
+                if(player === socket.id) {
                     isMe = true;
                 }
 
