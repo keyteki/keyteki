@@ -26,6 +26,8 @@
     "no-multiple-empty-lines": [1],
     "eol-last": [2],
     "semi": [2],
+    "keyword-spacing": [1, {"overrides": 
+      { "if": { "after": false }, "for": { "after": false }, "while": { "after": false }, "switch": { "after": false }, "catch": { "after": false } } }],
     "react/display-name": 1,
     "react/jsx-boolean-value": 1,
     "react/jsx-no-undef": 1,
