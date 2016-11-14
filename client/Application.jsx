@@ -46,44 +46,44 @@ class App extends React.Component {
 
         socket.on('connect', () => {
             this.props.socketConnected(socket);
+        });
 
-            socket.on('games', data => {
-                this.props.receiveGames(data);
-            });
+        socket.on('games', data => {
+            this.props.receiveGames(data);
+        });
 
-            socket.on('newgame', game => {
-                this.props.receiveNewGame(game);
-            });
+        socket.on('newgame', game => {
+            this.props.receiveNewGame(game);
+        });
 
-            socket.on('joingame', game => {
-                this.props.receiveJoinGame(game);
-            });
+        socket.on('joingame', game => {
+            this.props.receiveJoinGame(game);
+        });
 
-            socket.on('updategame', game => {
-                this.props.receiveUpdateGame(game);
-            });
+        socket.on('updategame', game => {
+            this.props.receiveUpdateGame(game);
+        });
 
-            socket.on('leavegame', (game, player) => {
-                var isMe = false;
+        socket.on('leavegame', (game, player) => {
+            var isMe = false;
 
-                if(player === socket.id) {
-                    isMe = true;
-                }
+            if(player === socket.id) {
+                isMe = true;
+            }
 
-                this.props.receiveLeaveGame(game, isMe);
-            });
+            this.props.receiveLeaveGame(game, isMe);
+        });
 
-            socket.on('gamestate', game => {
-                this.props.receiveGameState(game);
-            });
+        socket.on('gamestate', game => {
+            this.props.receiveGameState(game);
+        });
 
-            socket.on('lobbychat', message => {
-                this.props.receiveLobbyMessage(message);
-            });
+        socket.on('lobbychat', message => {
+            this.props.receiveLobbyMessage(message);
+        });
 
-            socket.on('lobbymessages', messages => {
-                this.props.receiveLobbyMessages(messages);
-            });
+        socket.on('lobbymessages', messages => {
+            this.props.receiveLobbyMessages(messages);
         });
     }
 
