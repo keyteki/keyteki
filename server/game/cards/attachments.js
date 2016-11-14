@@ -47,6 +47,10 @@ attachments['01035'] = {
     unregister: function(game, player, card) {
         var implementation = game.playerCards[player.id + card.uuid];
 
+        if(!implementation) {
+            return;
+        }
+
         game.removeListener('beforeAttach', implementation.beforeAttach);
         game.removeListener('cardLeavingPlay', implementation.cardLeavingPlay);
     }

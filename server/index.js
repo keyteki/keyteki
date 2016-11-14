@@ -238,10 +238,10 @@ function sendGameState(game) {
 
 function handleError(game, e) {
     logger.error(e);
-    logger.error(game);
-    _.each(game.players, player => {
-        logger.error(player);
-    });
+    // logger.error(game);
+    // _.each(game.players, player => {
+    //     logger.error(player);
+    // });
 
     if(game) {
         game.addMessage('A Server error has occured processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.');
@@ -309,7 +309,7 @@ io.on('connection', function(socket) {
         }
 
         runAndCatchErrors(game, () => {
-            game.players[socket.id] = new Player(socket.id, socket.request.user.username, false, false, game);
+            game.players[socket.id] = new Player(socket.id, socket.request.user.username, false, game);
             socket.join(game.id);
         });
 
