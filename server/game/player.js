@@ -665,8 +665,12 @@ class Player extends Spectator {
         }
 
         if(character.dupes.length > 0) {
+            var discardedDupe = _.first(character.dupes);
+
             character.dupes = character.dupes.slice(1);
             character = undefined;
+
+            this.discardPile.push(discardedDupe);
         } else {
             this.cardsInPlay = _.reject(this.cardsInPlay, c => {
                 return c.card.uuid === card.uuid;
