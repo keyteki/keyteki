@@ -600,6 +600,10 @@ class HeadsOnSpikes {
             return;
         }
 
+        if(otherPlayer.hand.length === 0) {
+            return;
+        }
+
         var cardIndex = _.random(0, otherPlayer.hand.length - 1);
         var card = otherPlayer.hand[cardIndex];
         var message = player.name + ' uses ' + player.activePlot.card.label + ' to discard ' + card.label +
