@@ -75,7 +75,12 @@ class Game extends EventEmitter {
                 owner: this.owner,
                 players: playerState,
                 messages: this.messages,
-                spectators: this.getSpectators(),
+                spectators: _.map(this.getSpectators(), spectator => {
+                    return {
+                        id: spectator.id,
+                        name: spectator.name
+                    };
+                }),
                 started: this.started
             };
         }
@@ -103,7 +108,12 @@ class Game extends EventEmitter {
             name: this.name,
             owner: this.owner,
             started: this.started,
-            spectators: this.getSpectators(),
+            spectators: _.map(this.getSpectators(), spectator => {
+                return {
+                    id: spectator.id,
+                    name: spectator.name
+                };
+            }),
             players: playerSummaries,
             messages: this.messages
         };
