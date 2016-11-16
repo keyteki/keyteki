@@ -752,24 +752,24 @@ class MarchedToTheWall {
         }
     }
 }
-plots['01015'] = {
-    register(game, player) {
-        var plot = new MarchedToTheWall(player);
+// plots['01015'] = {
+//     register(game, player) {
+//         var plot = new MarchedToTheWall(player);
 
-        game.playerPlots[player.id] = plot;
+//         game.playerPlots[player.id] = plot;
 
-        game.on('whenRevealed', plot.revealed);
-        game.on('cardClicked', plot.cardClicked);
-        game.on('customCommand', plot.doneClicked);
-    },
-    unregister(game, player) {
-        var plot = game.playerPlots[player.id];
+//         game.on('whenRevealed', plot.revealed);
+//         game.on('cardClicked', plot.cardClicked);
+//         game.on('customCommand', plot.doneClicked);
+//     },
+//     unregister(game, player) {
+//         var plot = game.playerPlots[player.id];
 
-        game.removeListener('whenRevealed', plot.revealed);
-        game.removeListener('cardClicked', plot.cardClicked);
-        game.removeListener('customCommand', plot.doneClicked);
-    }
-};
+//         game.removeListener('whenRevealed', plot.revealed);
+//         game.removeListener('cardClicked', plot.cardClicked);
+//         game.removeListener('customCommand', plot.doneClicked);
+//     }
+// };
 
 // 01016 - Marching Orders
 class MarchingOrders {
