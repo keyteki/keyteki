@@ -493,6 +493,8 @@ class Player extends Spectator {
             sourceCard.parent.attachments = _.reject(sourceCard.parent.attachments, a => {
                 return a.uuid === card.uuid;
             });
+
+            sourceCard.parent = undefined;
         }
 
         sourceList = _.reject(sourceList, c => {
@@ -783,6 +785,7 @@ class Player extends Spectator {
         var owner = attachment.owner === this.id ? this : otherPlayer;
 
         if(this.hasKeyword(attachment, 'Terminal')) {
+            attachment.parent = undefined;
             owner.discardPile.push(attachment);
         } else {
             owner.hand.push(attachment);
