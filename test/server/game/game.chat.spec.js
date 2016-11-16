@@ -35,7 +35,7 @@ describe('the Game', () => {
                     game.chat(player1.id, 'Test Message');
 
                     expect(game.messages.length).toBe(1);
-                    expect(game.messages[0].message.indexOf('Test Message')).not.toBe(-1);
+                    expect(game.messages[0].message.join('')).toEqual('<Player 1> Test Message');
                 });
             });
 
@@ -181,10 +181,10 @@ describe('the Game', () => {
         describe('when called by a spectator in the game', () => {
             describe('with no slashes', function () {
                 it('should add their chat message', () => {
-                    game.chat(player1.id, 'Test Message');
+                    game.chat(spectator.id, 'Test Message');
 
                     expect(game.messages.length).toBe(1);
-                    expect(game.messages[0].message.indexOf('Test Message')).not.toBe(-1);
+                    expect(game.messages[0].message.join('')).toEqual('<Spectator 1> Test Message');
                 });
             });
 

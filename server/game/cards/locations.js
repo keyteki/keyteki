@@ -49,7 +49,7 @@ class TheKingsRoad {
 
         player.discardCard(card, player.discardPile);
 
-        game.addMessage(player.name + ' scarifices ' + card.label + ' to reduce the cost of the next character they marshal by 3');        
+        game.addMessage('{0} sacrifices {1} to reduce the cost of the next character they marshal by 3', player.name, card);
 
         this.active = true;
     }
@@ -61,15 +61,14 @@ class TheKingsRoad {
 
         if (this.active && !this.abilityUsed && card.type_code === 'character' && card.cost > 0) {
             this.cost = card.cost;
-            
+
             card.cost -= 3;
             if (card.cost < 0) {
                 card.cost = 0;
             }
 
             this.abilityUsed = true;
-
-            game.addMessage(player.name + ' uses ' + this.card.label + ' to reduce the cost of ' + card.label + ' by 3');
+            game.addMessage('{0} uses {1} to reduce the cost of {2} by 3', player.name, this.card, card);
         }
     }
 

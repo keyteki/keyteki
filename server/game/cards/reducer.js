@@ -87,7 +87,7 @@ class Reducer {
             this.abilityUsed = true;
             this.active = false;
 
-            game.addMessage(player.name + ' uses ' + this.card.label + ' to reduce the cost of ' + card.label + ' by 1');
+            game.addMessage('{0} uses {1} to reduce the cost of {2} by 1', player.name, this.card, card);
         }
     }
 

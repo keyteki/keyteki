@@ -511,7 +511,7 @@ export class InnerGameBoard extends React.Component {
                     <CardZoom imageUrl={this.state.cardToZoom ? '/img/cards/' + this.state.cardToZoom.code + '.png' : ''}
                         orientation={this.state.cardToZoom ? this.state.cardToZoom.type_code === 'plot' ? 'horizontal' : 'vertical' : 'vertical'}
                         show={!!this.state.cardToZoom} />
-                    <Messages messages={this.props.state.messages} />
+                    <Messages messages={this.props.state.messages} onCardMouseOver={this.onMouseOver} onCardMouseOut={this.onMouseOut} />
                 </div>
             </div>);
     }

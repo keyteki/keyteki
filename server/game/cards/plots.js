@@ -15,7 +15,7 @@ class AClashOfKings {
 
     afterChallenge(game, challengeType, winner, loser) {
         if(winner === this.player && challengeType === 'power' && loser.power > 0) {
-            game.addMessage(winner.name + ' uses ' + winner.activePlot.card.label + ' to move 1 power from ' + loser.name + '\'s faction card');
+            game.addMessage('{0} uses {1} to move 1 power from {2}\'s faction card', winner.name, winner.activePlot.card, loser.name);
             game.transferPower(winner, loser, 1);
         }
     }
@@ -45,7 +45,7 @@ class AFeastForCrows {
             return;
         }
 
-        game.addMessage(winner.name + ' uses ' + winner.activePlot.card.label + ' to gain 2 power');
+        game.addMessage('{0} uses {1} to gain 2 power', winner.name, winner.activePlot.card);
         game.addPower(winner, 2);
     }
 }
@@ -120,7 +120,7 @@ class ANobleCause {
 
             this.abilityUsed = true;
 
-            game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to reduce the cost of ' + card.label + ' by 2');
+            game.addMessage('{0} uses {1} to reduce the cost of {2} by 2', player.name, player.activePlot.card, card);
         }
     }
 
@@ -163,7 +163,7 @@ class AStormOfSwords {
 
         player.challenges['military'].max++;
 
-        game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to gain an additional military challenge this round');
+        game.addMessage('{0} uses {1} to gain an additional military challenge this round', player.name, player.activePlot.card);
     }
 }
 plots['01005'] = {
@@ -226,7 +226,7 @@ class BuildingOrders {
         player.moveFromDrawDeckToHand(card);
         player.shuffleDrawDeck();
 
-        game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to reveal ' + card.label + ' and add it to their hand');
+        game.addMessage('{0} uses {1} to reveal {2} and add it to their hand', player.name, player.activePlot.card, card);
 
         game.playerRevealDone(player);
     }
@@ -274,7 +274,7 @@ class CallingTheBanners {
             return count;
         }, 0);
 
-        game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to gain ' + characterCount + ' gold');
+        game.addMessage('{0} uses {1} to gain {2} gold', player.name, player.activePlot.card, characterCount);
         player.gold += characterCount;
     }
 
@@ -338,8 +338,8 @@ class CalmOverWesteros {
         this.claim = winner.activePlot.card.claim;
         winner.activePlot.card.claim--;
 
-        game.addMessage(loser.name + ' uses ' + loser.activePlot.card.label + ' to reduce the claim value of ' +
-            winner.name + '\'s ' + challengeType + 'challenge to ' + winner.activePlot.card.claim);
+        game.addMessage('{0} uses {1} to reduce the claim value of {2}\'s {3} challenge to {4}',
+            loser.name, loser.activePlot.card, winner.name, challengeType, winner.activePlot.card.claim);
     }
 
     afterClaim(game, challengeType, winner) {
@@ -448,7 +448,7 @@ class Confiscation {
 
         attachmentPlayer.discardPile.push(clicked);
 
-        game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to discard ' + clicked.label);
+        game.addMessage('{0} uses {1} to discard {2}', player.name, player.activePlot.card, clicked);
 
         player.selectCard = false;
         game.clickHandled = true;
@@ -486,7 +486,7 @@ class CountingCoppers {
 
         player.drawCardsToHand(3);
 
-        game.addMessage(player.name + ' draws 3 cards from ' + player.activePlot.card.label);
+        game.addMessage('{0} draws 3 cards from {1}', player.name, player.activePlot.card);
     }
 }
 plots['01010'] = {
@@ -562,7 +562,7 @@ class FilthyAccusation {
 
         card.kneeled = true;
 
-        game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to kneel ' + card.card.label);
+        game.addMessage('{0} uses {1} to kneel {2}', player.name, player.activePlot.card, card.card);
 
         game.playerRevealDone(player);
     }
@@ -606,20 +606,21 @@ class HeadsOnSpikes {
 
         var cardIndex = _.random(0, otherPlayer.hand.length - 1);
         var card = otherPlayer.hand[cardIndex];
-        var message = player.name + ' uses ' + player.activePlot.card.label + ' to discard ' + card.label +
-            ' from ' + otherPlayer.name + '\'s hand';
+        var message = '{0} uses {1} to discard {2} from {3}\'s hand';
 
         otherPlayer.removeFromHand(card);
 
+
         if(card.type_code === 'character') {
-            message += ' and gain 2 power for their faction';
+            message = '{0} uses {1} to discard {2} from {3}\'s hand and gain 2 power for their faction';
             otherPlayer.deadPile.push(card);
             game.addPower(player, 2);
         } else {
             otherPlayer.discardPile.push(card);
         }
 
-        game.addMessage(message);
+
+        game.addMessage(message, player.name, player.activePlot.card, card, otherPlayer.name);
     }
 }
 plots['01013'] = {
@@ -705,7 +706,7 @@ class MarchedToTheWall {
             return;
         }
 
-        game.addMessage(player.name + ' discards ' + clicked.label);
+        game.addMessage('{0} discards {1}', player.name, clicked);
 
         player.discardCard(clicked, player.discardPile);
         player.doneDiscard = true;
@@ -830,8 +831,8 @@ class NavalSuperority {
             this.plotGold = otherPlayer.activePlot.gold;
             otherPlayer.activePlot.card.income = 0;
 
-            game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to reduce the gold value of '
-                + otherPlayer.activePlot.card.label + ' to 0');
+            game.addMessage('{0} uses {1} to reduce the gold value of {2} to 0',
+                player.name, player.activePlot.card, otherPlayer.activePlot.card);
         }
     }
 }
@@ -863,8 +864,7 @@ class SneakAttack {
 
         player.challenges.maxTotal = 1;
 
-        game.addMessage(player.name + ' uses ' + player.activePlot.card.label +
-            ' to make the maximum number of challenges able to be initiated by ' + player.name + ' this round be 1');
+        game.addMessage('{0} uses {1} to make the maximum number of challenges able to be initiated by {0} this round be 1', player.name, player.activePlot.card);
     }
 }
 plots['01021'] = {
@@ -926,7 +926,7 @@ class Summons {
         player.moveFromDrawDeckToHand(card);
         player.shuffleDrawDeck();
 
-        game.addMessage(player.name + ' uses ' + player.activePlot.card.label + ' to reveal ' + card.label + ' and add it to their hand');
+        game.addMessage('{0} uses {1} to reveal {2} and add it to their hand', player.name, player.activePlot.card, card);
 
         game.playerRevealDone(player);
     }
@@ -965,7 +965,7 @@ class TradingWithThePentoshi {
         if(otherPlayer) {
             otherPlayer.gold += 3;
 
-            game.addMessage(otherPlayer.name + ' gains 3 gold from ' + player.activePlot.card.label);
+            game.addMessage('{0} gains 3 gold from {1}', otherPlayer.name, player.activePlot.card);
         }
     }
 }
@@ -1004,7 +1004,7 @@ class TheLongWinter {
                 if(!_.any(p.cardsInPlay, card => {
                     return card.power > 0;
                 })) {
-                    game.addMessage(p.name + ' discards 1 power from their faction card from ' + player.activePlot.card.label);
+                    game.addMessage('{0} discards 1 power from their faction card from {1}', p.name, player.activePlot.card);
                     p.power--;
                 } else {
                     p.menuTitle = 'Select a card to discard power from';
@@ -1037,7 +1037,7 @@ class TheLongWinter {
             return;
         }
 
-        game.addMessage(player.name + ' discards 1 power form ' + cardInPlay.card.label + ' from ' + this.player.activePlot.card.label);
+        game.addMessage('{0} discards 1 power from {1} from {2}', player.name, cardInPlay.card, this.player.activePlot.card);
         cardInPlay.power--;
 
         delete this.waitingForPlayers[player.id];

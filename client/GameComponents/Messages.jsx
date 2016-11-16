@@ -15,6 +15,8 @@ class InnerMessages extends React.Component {
         this.state = {
             message: ''
         };
+
+        this.formatMessageText = this.formatMessageText.bind(this);
     }
 
     componentDidUpdate() {
@@ -24,10 +26,28 @@ class InnerMessages extends React.Component {
     getMessage() {
         var index = 0;
         var messages = _.map(this.props.messages, message => {
-            return <div key={'message'+index++} className='message'>{message.message}</div>;
+            return <div key={'message'+index++} className='message'>{this.formatMessageText(message.message)}</div>;
         });
 
         return messages;
+    }
+
+    formatMessageText(message) {
+        var index = 0;
+        return _.map(message, fragment => {
+            if(fragment.code && fragment.label) {
+                return (
+                    <span key={index++}
+                        className='card-link'
+                        onMouseOver={this.props.onCardMouseOver.bind(this, fragment)}
+                        onMouseOut={this.props.onCardMouseOut.bind(this)}>
+                        {fragment.label}
+                    </span>
+                );
+            } else {
+                return fragment;
+            }
+        });
     }
 
     sendMessage() {

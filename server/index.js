@@ -333,7 +333,7 @@ io.on('connection', function(socket) {
 
         runAndCatchErrors(game, () => {
             game.players[socket.id] = new Spectator(socket.id, socket.request.user.username);
-            game.addMessage(socket.request.user.username + ' has joined the game as a spectator');
+            game.addMessage('{0} has joined the game as a spectator', socket.request.user.username);
             socket.join(game.id);
             _.each(game.players, (player, key) => {
                 io.to(key).emit('joingame', game.getState(player.id));
