@@ -8,11 +8,11 @@ class MenuPane extends React.Component {
         this.onButtonClick = this.onButtonClick.bind(this);
     }
 
-    onButtonClick(event, command, arg) {
+    onButtonClick(event, command, arg, method) {
         event.preventDefault();
 
         if(this.props.onButtonClick) {
-            this.props.onButtonClick(command, arg);
+            this.props.onButtonClick(command, arg, method);
         }
     }
 
@@ -22,7 +22,7 @@ class MenuPane extends React.Component {
         var buttons = _.map(this.props.buttons, button => {
             var option = (
                 <button key={button.command + buttonIndex.toString()} className='btn btn-primary'
-                    onClick={(event) => this.onButtonClick(event, button.command, button.arg)}
+                    onClick={(event) => this.onButtonClick(event, button.command, button.arg, button.method)}
                     disabled={this.props.disabled}>{button.text}</button>);
 
             buttonIndex++;

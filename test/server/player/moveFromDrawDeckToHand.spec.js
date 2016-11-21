@@ -1,6 +1,7 @@
 /*global describe, it, beforeEach, expect*/
 /* eslint camelcase: 0 */
 
+const _ = require('underscore');
 const Player = require('../../../server/game/player.js');
 
 describe('the Player', () => {
@@ -14,7 +15,7 @@ describe('the Player', () => {
 
     beforeEach(() => {
         player.initialise();
-        player.drawDeck = drawDeck;
+        player.drawDeck = _(drawDeck);
         player.hand = [];
     });
 

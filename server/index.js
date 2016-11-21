@@ -238,14 +238,13 @@ function sendGameState(game) {
 
 function handleError(game, e) {
     logger.error(e);
-    // logger.error(game);
+    //logger.error(game);
     // _.each(game.players, player => {
     //     logger.error(player);
     // });
-
     if(game) {
         game.addMessage('A Server error has occured processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.');
-    }
+    }    
 }
 
 function runAndCatchErrors(game, func) {
@@ -776,6 +775,20 @@ io.on('connection', function(socket) {
 
             sendGameState(game);        
         });
+    });
+
+    socket.on('plot', function(arg, method) {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        runAndCatchErrors(game, () => {
+            game.plotCardCommand(socket.id, method, arg);
+
+            sendGameState(game);        
+        });        
     });
 
     refreshGameList(socket);

@@ -1,16 +1,17 @@
 /*global describe, it, beforeEach, expect*/
 /* eslint camelcase: 0 */
 
+const _ = require('underscore');
 const Player = require('../../../server/game/player.js');
 
 describe('the Player', () => {
     var player = new Player('1', 'Player 1', true);
-    var drawDeck = [
+    var drawDeck = _([
       { name: 'foo' },
       { name: 'bar' },
       { name: 'baz' },
       { name: 'ball' }
-    ];
+    ]);
 
     beforeEach(() => {
         player.initialise();
@@ -23,7 +24,7 @@ describe('the Player', () => {
                 var cards = player.searchDrawDeck(() => {
                     return true;
                 });
-                expect(cards.length).toBe(drawDeck.length);
+                expect(cards.length).toBe(drawDeck.size());
             });
 
             it('should filter the results using the predicate', () => {

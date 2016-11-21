@@ -1,13 +1,15 @@
 /*global describe, it, beforeEach, expect*/
 /* eslint camelcase: 0 */
 
+const _ = require('underscore');
+
 const Player = require('../../../server/game/player.js');
 
 describe('the Player', () => {
     var player = new Player('1', 'Player 1', true);
-    var attachment = { card: { uuid: '1111', code: '1', label: 'Attachment', type_code: 'attachment' } };
-    var cardWithNoAttachments = { attachments: [], card: { uuid: '2222', code: '2', label: 'Character', type_code: 'character' } };
-    var cardWithAttachment = { attachments: [attachment.card], card: { uuid: '3333', code: '3', label: 'Character', type_code: 'character' } };
+    var attachment = { uuid: '1111', code: '1', label: 'Attachment', type_code: 'attachment' };
+    var cardWithNoAttachments = { uuid: '2222', code: '2', label: 'Character', type_code: 'character' };
+    var cardWithAttachment = { attachments: _([attachment]), uuid: '3333', code: '3', label: 'Character', type_code: 'character' };
 
     beforeEach(() => {
         player.initialise();
@@ -22,7 +24,7 @@ describe('the Player', () => {
         describe('when called for a card that isn\'t in play', () => {
             it('should return undefined', () => {
                 card = player.findCardInPlayByUuid('notinplay');
-                
+
                 expect(card).toBe(undefined);
             });
         });
@@ -34,7 +36,7 @@ describe('the Player', () => {
 
             it('should return the card', () => {
                 expect(card).not.toBe(undefined);
-                expect(card.card.code).toBe('2');
+                expect(card.code).toBe('2');
             });
         });
 

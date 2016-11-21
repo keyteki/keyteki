@@ -1,8 +1,8 @@
 var _ = require('underscore');
-var plots = require('./plots.js');
-var locations = require('./locations.js');
-var characters = require('./characters.js');
-var attachments = require('./attachments.js');
+var plots = require('./plots');
+var locations = require('./locations');
+var characters = require('./characters');
+var attachments = require('./attachments');
 
 var cards = {};
 

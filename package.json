@@ -4,7 +4,8 @@
   "description": "A Game of Throne Second Edition Card Game Server",
   "main": "index.js",
   "scripts": {
-    "test": "jasmine-node test/server && karma start karma.config.js --single-run"
+    "test": "JASMINE_CONFIG_PATH=./jasmine.json jasmine && karma start karma.config.js --single-run",
+    "cover": "JASMINE_CONFIG_PATH=./jasmine.json istanbul cover --include-all-sources jasmine"
   },
   "repository": {
     "type": "git",
@@ -63,8 +64,9 @@
     "eslint-plugin-react": "^6.6.0",
     "file-loader": "^0.9.0",
     "html-webpack-plugin": "^2.22.0",
+    "istanbul": "^0.4.5",
+    "jasmine": "^2.5.2",
     "jasmine-core": "^2.5.1",
-    "jasmine-node": "^1.14.5",
     "json-loader": "^0.5.4",
     "karma": "^1.3.0",
     "karma-babel-preprocessor": "^6.0.1",

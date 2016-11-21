@@ -1,106 +1,99 @@
-const _ = require('underscore');
+const DrawCard = require('../drawcard.js');
 
-function getReducer(condition) {
-    return {
-        register: function(game, player, card) {
+class Reducer extends DrawCard {
+    constructor(owner, cardData, reduceBy, condition) {
+        super(owner, cardData);
 
-            var implementation = new Reducer(player, card, condition);
+        this.reduceBy = reduceBy;
+        this.condition = condition;
+        this.abilityUsed = false;
+    }
 
-            game.playerCards[player.id + card.uuid] = implementation;
-
-            game.on('cardClicked', implementation.cardClick);
-            game.on('beforeCardPlayed', implementation.beforeCardPlayed);
-            game.on('afterCardPlayed', implementation.afterCardPlayed);
-            game.on('cardsStanding', implementation.cardsStanding);
-        },
-        unregister: function(game, player, card) {
-            var implementation = game.playerCards[player.id + card.uuid];
-
-            game.removeListener('cardClicked', implementation.cardClick);
-            game.removeListener('beforeCardPlayed', implementation.beforeCardPlayed);
-            game.removeListener('afterCardPlayed', implementation.afterCardPlayed);
-            game.removeListener('cardsStanding', implementation.cardsStanding);
+    canReduce(player, card) {
+        if(!this.inPlay || this.owner !== player || !this.kneeled || this.abilityUsed) {
+            return false;
         }
-    };
+
+        return this.condition(player, card);
+    }
+
+    clicked(player) {
+        if(!this.inPlay || player.phase !== 'marshal' || this.owner !== player || this.kneeled || this.abilityUsed) {
+            return false;
+        }
+
+        this.kneeled = true;
+
+        return true;
+    }
+
+    reduce(card, currentCost, spending) {
+        if(this.kneeled && !this.abilityUsed) {
+            var cost = currentCost - this.reduceBy;
+
+            if(spending) {
+                this.abilityUsed = true;
+            }
+
+            if(cost < 0) {
+                cost = 0;
+            }
+
+            return cost;
+        }
+
+        return currentCost;
+    }
+
+    leavesPlay() {
+        this.abilityUsed = false;
+    }
 }
 
-function factionCostReducer(factionCode) {
-    return getReducer((player, card) => {
-        return card.faction_code === factionCode;
-    });
+class FactionCostReducer extends Reducer {
+    constructor(owner, cardData, reduceBy, faction) {
+        super(owner, cardData, reduceBy, (player, card) => {
+            return card.getFaction() === faction;
+        });
+
+        this.faction = faction;
+    }
+
+    clicked(player) {
+        var canUse = super.clicked(player);
+
+        if(canUse) {
+            this.game.addMessage('{0} uses {1} to reduce the cost of the next {2} card by {3}',
+                player, this, this.faction, this.reduceBy);
+        }
+
+        return canUse;
+    }
 }
 
-function factionCharacterCostReducer(factionCode) {
-    return getReducer((player, card) => {
-        return card.faction_code === factionCode && card.type_code === 'character';
-    });
+class FactionCharacterCostReducer extends Reducer {
+    constructor(owner, cardData, reduceBy, faction) {
+        super(owner, cardData, reduceBy, (player, card) => {
+            return card.getType === 'character' && card.getFaction() === faction;
+        });
+        
+        this.faction = faction;
+    }
+
+    clicked(player) {
+        var canUse = super.clicked(player);
+
+        if(canUse) {
+            this.game.addMessage('{0} uses {1} to reduce the cost of the next {2} character by {3}',
+                player, this, this.faction, this.reduceBy);
+        }
+
+        return canUse;
+    }
 }
 
 module.exports = {
-    getReducer: getReducer,
-    factionCostReducer: factionCostReducer,
-    factionCharacterCostReducer: factionCharacterCostReducer
+    Reducer: Reducer,
+    FactionCostReducer: FactionCostReducer,
+    FactionCharacterCostReducer: FactionCharacterCostReducer
 };
-
-class Reducer {
-    constructor(player, card, condition) {
-        this.player = player;
-        this.card = card;
-        this.condition = condition;
-
-        this.cardClick = this.cardClick.bind(this);
-        this.beforeCardPlayed = this.beforeCardPlayed.bind(this);
-        this.afterCardPlayed = this.afterCardPlayed.bind(this);
-        this.cardsStanding = this.cardsStanding.bind(this);
-    }
-
-    cardClick(game, player, card) {
-        if(this.player !== player || this.card.uuid !== card.uuid) {
-            return;
-        }
-
-        if(player.phase !== 'marshal') {
-            return;
-        }
-
-        var cardInPlay = _.find(player.cardsInPlay, c => {
-            return c.card.uuid === card.uuid;
-        });
-
-        if(!cardInPlay || cardInPlay.kneeled) {
-            return;
-        }
-
-        cardInPlay.kneeled = true;
-        game.clickHandled = true;
-        this.active = true;
-    }
-
-    beforeCardPlayed(game, player, card) {
-        if(this.player !== player) {
-            return;
-        }
-
-        if(this.active && !this.abilityUsed && this.condition(player, card) && card.cost > 0) {
-            this.cost = card.cost;
-            card.cost -= 1;
-            this.abilityUsed = true;
-            this.active = false;
-
-            game.addMessage('{0} uses {1} to reduce the cost of {2} by 1', player.name, this.card, card);
-        }
-    }
-
-    afterCardPlayed(game, player, card) {
-        if(this.card !== card) {
-            return;
-        }
-
-        card.cost = this.cost;
-    }
-
-    cardsStanding() {
-        this.abilityUsed = false;
-        this.active = false;
-    }
-}

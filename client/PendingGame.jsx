@@ -6,6 +6,7 @@ import _ from 'underscore';
 
 import * as actions from './actions';
 import DeckRow from './DeckRow.jsx';
+import Messages from './GameComponents/Messages.jsx';
 
 class InnerPendingGame extends React.Component {
     constructor() {
@@ -42,7 +43,7 @@ class InnerPendingGame extends React.Component {
             this.setState({ error: 'Could not communicate with the server.  Please try again later.' });
         });
     }
-
+    
     componentWillReceiveProps(props) {
         var players = _.size(props.currentGame.players);
 
@@ -51,6 +52,10 @@ class InnerPendingGame extends React.Component {
         }
 
         this.setState({ playerCount: players });
+    }
+
+    componentDidUpdate() {
+        $(this.refs.messagePanel).scrollTop(999999);
     }
 
     isGameReady() {
@@ -173,11 +178,6 @@ class InnerPendingGame extends React.Component {
                     </div>
                 </div>
             </div>);
-        
-        var index = 0;
-        var messages = _.map(this.props.currentGame.messages, message => {
-            return <div key={'message' + index++} className='message'>{message.message}</div>;
-        });
 
         return (
             <div>
@@ -208,8 +208,7 @@ class InnerPendingGame extends React.Component {
                 <div className='chat-box'>
                     <h3>Chat</h3>
                     <div className='message-list'>
-                        {messages}
-                    </div>
+                        <Messages messages={this.props.currentGame.messages} onCardMouseOver={this.onMouseOver} onCardMouseOut={this.onMouseOut} />                      </div>
                         <form className='form form-hozitontal'>
                             <div className='form-group'>
                                 <div className='col-sm-10'>

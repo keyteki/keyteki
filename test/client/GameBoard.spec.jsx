@@ -53,8 +53,8 @@ describe('the <GameBoard /> component', function() {
         describe('that include locations followed by characters', function() {
             beforeEach(function() {
                 state.games.currentGame.players['1'].cardsInPlay = [
-                    { card: { code: '0001', type_code: 'location', label: 'Test Location' } },
-                    { card: { code: '0002', type_code: 'character', label: 'Test Character' } }
+                    { code: '0001', type: 'location', label: 'Test Location' },
+                    { code: '0002', type: 'character', label: 'Test Character' }
                 ];
 
                 component = ReactDOM.render(<Provider store={store}><GameBoard /></Provider>, node);
@@ -73,8 +73,8 @@ describe('the <GameBoard /> component', function() {
         describe('that include characters followed by locations', function() {
             beforeEach(function() {
                 state.games.currentGame.players['1'].cardsInPlay = [
-                    { card: { code: '0002', type_code: 'character', label: 'Test Character' } },
-                    { card: { code: '0001', type_code: 'location', label: 'Test Location' } }
+                    { code: '0002', type: 'character', label: 'Test Character' },
+                    { code: '0001', type: 'location', label: 'Test Location' }
                 ];
 
                 component = ReactDOM.render(<Provider store={store}><GameBoard /></Provider>, node);
@@ -93,9 +93,9 @@ describe('the <GameBoard /> component', function() {
         describe('that include characters mixed with locations', function() {
             beforeEach(function() {
                 state.games.currentGame.players['1'].cardsInPlay = [
-                    { card: { code: '0002', type_code: 'character', label: 'Test Character' } },
-                    { card: { code: '0001', type_code: 'location', label: 'Test Location' } },
-                    { card: { code: '0003', type_code: 'character', label: 'Test Character2' } }
+                    { code: '0002', type: 'character', label: 'Test Character' },
+                    { code: '0001', type: 'location', label: 'Test Location' },
+                    { code: '0003', type: 'character', label: 'Test Character2' }
                 ];
 
                 component = ReactDOM.render(<Provider store={store}><GameBoard /></Provider>, node);
@@ -117,12 +117,12 @@ describe('the <GameBoard /> component', function() {
         describe('that include locations followed by characters', function() {
             beforeEach(function() {
                 state.games.currentGame.players['1'].cardsInPlay = [
-                    { card: { code: '0001', type_code: 'location', label: 'Test Location' } },
-                    { card: { code: '0002', type_code: 'character', label: 'Test Character' } }
+                    { code: '0001', type: 'location', label: 'Test Location' },
+                    { code: '0002', type: 'character', label: 'Test Character' }
                 ];
                 state.games.currentGame.players['2'].cardsInPlay = [
-                    { card: { code: '0001', type_code: 'location', label: 'Test Location' } },
-                    { card: { code: '0002', type_code: 'character', label: 'Test Character' } }
+                    { code: '0001', type: 'location', label: 'Test Location' },
+                    { code: '0002', type: 'character', label: 'Test Character' }
                 ];
 
                 component = ReactDOM.render(<Provider store={store}><GameBoard /></Provider>, node);
@@ -141,12 +141,12 @@ describe('the <GameBoard /> component', function() {
         describe('that include characters followed by locations', function() {
             beforeEach(function() {
                 state.games.currentGame.players['1'].cardsInPlay = [
-                    { card: { code: '0002', type_code: 'character', label: 'Test Character' } },
-                    { card: { code: '0001', type_code: 'location', label: 'Test Location' } }
+                    { code: '0002', type: 'character', label: 'Test Character' },
+                    { code: '0001', type: 'location', label: 'Test Location' }
                 ];
                 state.games.currentGame.players['2'].cardsInPlay = [
-                    { card: { code: '0002', type_code: 'character', label: 'Test Character' } },
-                    { card: { code: '0001', type_code: 'location', label: 'Test Location' } }
+                    { code: '0002', type: 'character', label: 'Test Character' },
+                    { code: '0001', type: 'location', label: 'Test Location' }
                 ];
 
                 component = ReactDOM.render(<Provider store={store}><GameBoard /></Provider>, node);
@@ -165,14 +165,14 @@ describe('the <GameBoard /> component', function() {
         describe('that include characters mixed with locations', function() {
             beforeEach(function() {
                 state.games.currentGame.players['1'].cardsInPlay = [
-                    { card: { code: '0002', type_code: 'character', label: 'Test Character' } },
-                    { card: { code: '0001', type_code: 'location', label: 'Test Location' } },
-                    { card: { code: '0003', type_code: 'character', label: 'Test Character2' } }
+                    { code: '0002', type: 'character', label: 'Test Character' },
+                    { code: '0001', type: 'location', label: 'Test Location' },
+                    { code: '0003', type: 'character', label: 'Test Character2' }
                 ];
                 state.games.currentGame.players['2'].cardsInPlay = [
-                    { card: { code: '0002', type_code: 'character', label: 'Test Character' } },
-                    { card: { code: '0001', type_code: 'location', label: 'Test Location' } },
-                    { card: { code: '0003', type_code: 'character', label: 'Test Character2' } }
+                    { code: '0002', type: 'character', label: 'Test Character' },
+                    { code: '0001', type: 'location', label: 'Test Location' },
+                    { code: '0003', type: 'character', label: 'Test Character2' }
                 ];
 
                 component = ReactDOM.render(<Provider store={store}><GameBoard /></Provider>, node);
@@ -192,12 +192,12 @@ describe('the <GameBoard /> component', function() {
         describe('when the control is re-rendered', function() {
             beforeEach(function() {
                 state.games.currentGame.players['1'].cardsInPlay = [
-                    { card: { code: '0001', type_code: 'location', label: 'Test Location' } },
-                    { card: { code: '0002', type_code: 'character', label: 'Test Character' } }
+                    { code: '0001', type: 'location', label: 'Test Location' },
+                    { code: '0002', type: 'character', label: 'Test Character' }
                 ];
                 state.games.currentGame.players['2'].cardsInPlay = [
-                    { card: { code: '0001', type_code: 'location', label: 'Test Location' } },
-                    { card: { code: '0002', type_code: 'character', label: 'Test Character' } }
+                    { code: '0001', type: 'location', label: 'Test Location' },
+                    { code: '0002', type: 'character', label: 'Test Character' }
                 ];
 
                 component = ReactDOM.render(<Provider store={store}><GameBoard /></Provider>, node);

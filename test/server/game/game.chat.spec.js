@@ -35,7 +35,8 @@ describe('the Game', () => {
                     game.chat(player1.id, 'Test Message');
 
                     expect(game.messages.length).toBe(1);
-                    expect(game.messages[0].message.join('')).toEqual('<Player 1> Test Message');
+                    expect(game.messages[0].message[1].name).toBe(player1.name);
+                    expect(game.messages[0].message.join('')).toContain('Test Message');
                 });
             });
 
@@ -184,7 +185,8 @@ describe('the Game', () => {
                     game.chat(spectator.id, 'Test Message');
 
                     expect(game.messages.length).toBe(1);
-                    expect(game.messages[0].message.join('')).toEqual('<Spectator 1> Test Message');
+                    expect(game.messages[0].message[1].name).toBe(spectator.name);
+                    expect(game.messages[0].message.join('')).toContain('Test Message');
                 });
             });
 

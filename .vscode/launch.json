@@ -41,6 +41,14 @@
             "port": 5858,
             "sourceMaps": false,
             "outDir": null
+        },
+        {
+            "name": "Debug Tests",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/node_modules/jasmine/bin/jasmine.js",
+            "env": { "JASMINE_CONFIG_PATH": "./jasmine.json" },
+            "cwd": "${workspaceRoot}"
         }
     ]
 }

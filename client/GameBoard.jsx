@@ -17,7 +17,7 @@ export class InnerGameBoard extends React.Component {
         this.onMouseOut = this.onMouseOut.bind(this);
         this.onMouseOver = this.onMouseOver.bind(this);
         this.onCardClick = this.onCardClick.bind(this);
-        this.onCardClick2 = this.onCardClick2.bind(this);
+        this.onInPlayCardClick = this.onInPlayCardClick.bind(this);
         this.onPlotDeckClick = this.onPlotDeckClick.bind(this);
         this.onUsedPlotDeckClick = this.onUsedPlotDeckClick.bind(this);
         this.onOtherPlayerUsedPlotDeckClick = this.onOtherPlayerUsedPlotDeckClick.bind(this);
@@ -27,6 +27,9 @@ export class InnerGameBoard extends React.Component {
         this.onConcedeClick = this.onConcedeClick.bind(this);
         this.onLeaveClick = this.onLeaveClick.bind(this);
         this.onShuffleClick = this.onShuffleClick.bind(this);
+        this.onKeyPress = this.onKeyPress.bind(this);
+        this.onSendClick = this.onSendClick.bind(this);
+        this.onChange = this.onChange.bind(this);
 
         this.state = {
             cardToZoom: undefined,
@@ -35,20 +38,21 @@ export class InnerGameBoard extends React.Component {
             showOtherPlayerUsedPlotDeck: false,
             showDrawDeck: false,
             selectedPlot: undefined,
-            spectating: true
+            spectating: true,
+            message: ''
         };
     }
 
     componentWillReceiveProps(props) {
         var thisPlayer = props.state.players[props.socket.id];
 
-        if (thisPlayer) {
+        if(thisPlayer) {
             this.setState({ spectating: false });
         } else {
             this.setState({ spectating: true });
         }
 
-        if (thisPlayer && thisPlayer.selectCard) {
+        if(thisPlayer && thisPlayer.selectCard) {
             $('body').addClass('select-cursor');
         } else {
             $('body').removeClass('select-cursor');
@@ -58,8 +62,8 @@ export class InnerGameBoard extends React.Component {
             { text: 'Leave Game', onClick: this.onLeaveClick }
         ];
 
-        if (props.currentGame) {
-            if (_.find(props.currentGame.players, p => {
+        if(props.currentGame) {
+            if(_.find(props.currentGame.players, p => {
                 return p.id === props.socket.id;
             })) {
                 menuOptions.unshift({ text: 'Concede', onClick: this.onConcedeClick });
@@ -73,8 +77,12 @@ export class InnerGameBoard extends React.Component {
         }
     }
 
+    componentDidUpdate() {
+        $(this.refs.messagePanel).scrollTop(999999);
+    }
+
     setContextMenu(menu) {
-        if (this.props.setContextMenu) {
+        if(this.props.setContextMenu) {
             this.props.setContextMenu(menu);
         }
     }
@@ -95,32 +103,46 @@ export class InnerGameBoard extends React.Component {
         this.setState({ cardToZoom: undefined });
     }
 
-    canPlayCard(card) {
-        var thisPlayer = this.props.state.players[this.props.socket.id];
-
-        // if(card.cost > thisPlayer.gold) {
-        //     return false;
-        // }
-
-        return true;
-    }
-
     onCardClick(card) {
-        if (!this.canPlayCard(card)) {
-            return;
-        }
-
-        this.props.socket.emit('playcard', card);
+        this.props.socket.emit('playcard', card.uuid);
     }
 
-    onCardClick2(card) {
-        this.props.socket.emit('cardclick', card);
+    onInPlayCardClick(card) {
+        this.props.socket.emit('cardclick', card.uuid);
     }
 
     onDrawClick() {
         this.props.socket.emit('showdrawdeck');
 
         this.setState({ showDrawDeck: !this.state.showDrawDeck });
+    }
+
+    sendMessage() {
+        if(this.state.message === '') {
+            return;
+        }
+
+        this.props.socket.emit('chat', this.state.message);
+
+        this.setState({ message: '' });
+    }
+
+    onChange(event) {
+        this.setState({ message: event.target.value });
+    }
+
+    onKeyPress(event) {
+        if(event.key === 'Enter') {
+            this.sendMessage();
+
+            event.preventDefault();
+        }
+    }
+
+    onSendClick(event) {
+        event.preventDefault();
+
+        this.sendMessage();
     }
 
     onShuffleClick() {
@@ -135,11 +157,11 @@ export class InnerGameBoard extends React.Component {
     }
 
     onPlotDeckClick() {
-        if (this.state.showUsedPlotDeck) {
+        if(this.state.showUsedPlotDeck) {
             this.setState({ showUsedPlotDeck: !this.state.showUsedPlotDeck });
         }
 
-        if (this.state.showOtherPlayerUsedPlotDeck) {
+        if(this.state.showOtherPlayerUsedPlotDeck) {
             this.setState({ showOtherPlayerUsedPlotDeck: !this.state.showOtherPlayerUsedPlotDeck });
         }
 
@@ -147,11 +169,11 @@ export class InnerGameBoard extends React.Component {
     }
 
     onUsedPlotDeckClick() {
-        if (this.state.showPlotDeck) {
+        if(this.state.showPlotDeck) {
             this.setState({ showPlotDeck: !this.state.showPlotDeck });
         }
 
-        if (this.state.showOtherPlayerUsedPlotDeck) {
+        if(this.state.showOtherPlayerUsedPlotDeck) {
             this.setState({ showOtherPlayerUsedPlotDeck: !this.state.showOtherPlayerUsedPlotDeck });
         }
 
@@ -159,11 +181,11 @@ export class InnerGameBoard extends React.Component {
     }
 
     onOtherPlayerUsedPlotDeckClick() {
-        if (this.state.showPlotDeck) {
+        if(this.state.showPlotDeck) {
             this.setState({ showPlotDeck: !this.state.showPlotDeck });
         }
 
-        if (this.state.showUsedPlotDeck) {
+        if(this.state.showUsedPlotDeck) {
             this.setState({ showUsedPlotDeck: !this.state.showUsedPlotDeck });
         }
 
@@ -171,7 +193,7 @@ export class InnerGameBoard extends React.Component {
     }
 
     onDragDrop(card, source, target) {
-        this.props.socket.emit('drop', card, source, target);
+        this.props.socket.emit('drop', card.uuid, source, target);
     }
 
     onCardDragStart(event, card, source) {
@@ -183,15 +205,15 @@ export class InnerGameBoard extends React.Component {
         var index = 0;
 
         var cards = _.sortBy(player.cardsInPlay, card => {
-            return card.card.type_code;
+            return card.type;
         });
 
-        if (!isMe) {
+        if(!isMe) {
             cards = cards.reverse();
         }
 
         var cardsByType = _.groupBy(cards, card => {
-            return card.card.type_code;
+            return card.type;
         });
 
         var cardsByLocation = [];
@@ -206,8 +228,8 @@ export class InnerGameBoard extends React.Component {
                         <div className='attachment' style={style}>
                             <div className='card' onMouseOver={allowMouseOver ? this.onMouseOver.bind(this, a) : null}
                                 onMouseOut={this.onMouseOut}
-                                onDragStart={(ev) => this.onCardDragStart(ev, a, 'play area')}
-                                onClick={this.onCardClick2.bind(this, a)}>
+                                onDragStart={ev => this.onCardDragStart(ev, a, 'play area')}
+                                onClick={this.onInPlayCardClick.bind(this, a)}>
                                 <div>
                                     {card.facedown ?
                                         <img className='card' src='/img/cards/cardback.jpg' /> :
@@ -225,19 +247,19 @@ export class InnerGameBoard extends React.Component {
                 var dupes = null;
                 var power = null;
 
-                if (card.dupes && card.dupes.length !== 0) {
+                if(card.dupes && card.dupes.length !== 0) {
                     dupes = (<div className='counter dupe'>
                         {card.dupes.length + 1}
                     </div>);
                 }
 
-                if (card.power > 0) {
+                if(card.power > 0) {
                     power = (<div className='counter power'>
                         {card.power}
                     </div>);
                 }
 
-                if (dupes || power) {
+                if(dupes || power) {
                     counters = (
                         <div className='counters ignore-mouse-events'>
                             {dupes}
@@ -247,11 +269,11 @@ export class InnerGameBoard extends React.Component {
                 }
 
                 var cardClass = 'card';
-                if (card.selected) {
+                if(card.selected) {
                     cardClass += ' selected';
                 }
 
-                if (card.kneeled) {
+                if(card.kneeled) {
                     cardClass += ' vertical kneeled';
                 }
 
@@ -259,14 +281,14 @@ export class InnerGameBoard extends React.Component {
                     <div className='card-wrapper' key={'card' + index.toString()}>
                         <div className='card-frame'>
                             <div className={card.kneeled ? 'horizontal-card kneeled' : 'card'}
-                                onMouseOver={allowMouseOver ? this.onMouseOver.bind(this, card.card) : null}
+                                onMouseOver={allowMouseOver ? this.onMouseOver.bind(this, card) : null}
                                 onMouseOut={this.onMouseOut}
-                                onDragStart={(ev) => this.onCardDragStart(ev, card.card, 'play area')}
-                                onClick={this.onCardClick2.bind(this, card.card)}>
+                                onDragStart={(ev) => this.onCardDragStart(ev, card, 'play area')}
+                                onClick={this.onInPlayCardClick.bind(this, card)}>
                                 <div>
                                     {card.facedown ?
                                         <img className='card' src='/img/cards/cardback.jpg' /> :
-                                        <img className={cardClass} src={'/img/cards/' + card.card.code + '.png'} />}
+                                        <img className={cardClass} src={'/img/cards/' + card.code + '.png'} />}
                                 </div>
                                 {counters}
                             </div>
@@ -284,18 +306,18 @@ export class InnerGameBoard extends React.Component {
         return cardsByLocation;
     }
 
-    onCommand(command, arg) {
+    onCommand(command, arg, method) {
         var commandArg = arg;
 
-        if (command === 'selectplot') {
-            if (!this.state.selectedPlot) {
+        if(command === 'selectplot') {
+            if(!this.state.selectedPlot) {
                 return;
             }
 
-            commandArg = this.state.selectedPlot;
+            commandArg = this.state.selectedPlot.uuid;
         }
 
-        this.props.socket.emit(command, commandArg);
+        this.props.socket.emit(command, commandArg, method);
     }
 
     getPlotDeck(deck) {
@@ -304,7 +326,7 @@ export class InnerGameBoard extends React.Component {
         var plotDeck = _.map(deck, card => {
             var plotClass = 'plot-card';
 
-            if (card === this.state.selectedPlot) {
+            if(card === this.state.selectedPlot) {
                 plotClass += ' selected';
             }
 
@@ -333,24 +355,24 @@ export class InnerGameBoard extends React.Component {
     onDragDropEvent(event, target) {
         event.stopPropagation();
         event.preventDefault();
-        
+
         var card = event.dataTransfer.getData('card');
         if(!card) {
             return;
         }
-        
+
         var dragData = JSON.parse(card);
 
         this.onDragDrop(dragData.card, dragData.source, target);
     }
 
     render() {
-        if (!this.props.state) {
+        if(!this.props.state) {
             return <div>Waiting for server...</div>;
         }
 
         var thisPlayer = this.props.state.players[this.props.socket.id];
-        if (!thisPlayer) {
+        if(!thisPlayer) {
             thisPlayer = _.toArray(this.props.state.players)[0];
         }
         var otherPlayer = _.find(this.props.state.players, player => {
@@ -359,7 +381,7 @@ export class InnerGameBoard extends React.Component {
 
         var plotDeck = this.getPlotDeck(thisPlayer.plotDeck);
         var thisPlayerUsedPlotDeck = this.getPlotDeck(thisPlayer.plotDiscard);
-        if (otherPlayer) {
+        if(otherPlayer) {
             var otherPlayerUsedPlotDeck = this.getPlotDeck(otherPlayer.plotDiscard);
         }
 
@@ -373,17 +395,17 @@ export class InnerGameBoard extends React.Component {
         });
         var otherPlayerCards = [];
 
-        if (otherPlayer) {
+        if(otherPlayer) {
             _.each(this.getCardsInPlay(otherPlayer, false), cards => {
                 otherPlayerCards.push(<div className='card-row' key={'other-loc' + index++}>{cards}</div>);
             });
         }
 
-        for (var i = thisPlayerCards.length; i < 2; i++) {
+        for(var i = thisPlayerCards.length; i < 2; i++) {
             thisPlayerCards.push(<div className='card-row' key={'this-empty' + i} />);
         }
 
-        for (i = otherPlayerCards.length; i < 2; i++) {
+        for(i = otherPlayerCards.length; i < 2; i++) {
             thisPlayerCards.push(<div className='card-row' key={'other-empty' + i} />);
         }
 
@@ -418,8 +440,8 @@ export class InnerGameBoard extends React.Component {
                                             {'Active Plot'}
                                         </div>
                                         {(otherPlayer && otherPlayer.activePlot) ?
-                                            <img className='horizontal card' src={'/img/cards/' + otherPlayer.activePlot.card.code + '.png'}
-                                                onMouseOver={otherPlayer ? this.onMouseOver.bind(this, otherPlayer.activePlot.card) : null}
+                                            <img className='horizontal card' src={'/img/cards/' + otherPlayer.activePlot.code + '.png'}
+                                                onMouseOver={otherPlayer ? this.onMouseOver.bind(this, otherPlayer.activePlot) : null}
                                                 onMouseOut={this.onMouseOut} /> : null}
 
                                         {this.state.showOtherPlayerUsedPlotDeck ? <div className='panel plot-popup un-kneeled'>
@@ -446,8 +468,8 @@ export class InnerGameBoard extends React.Component {
                                             {'Active Plot'}
                                         </div>
                                         {thisPlayer.activePlot ?
-                                            <img className='horizontal card' src={'/img/cards/' + thisPlayer.activePlot.card.code + '.png'}
-                                                onMouseOver={this.onMouseOver.bind(this, thisPlayer.activePlot.card)}
+                                            <img className='horizontal card' src={'/img/cards/' + thisPlayer.activePlot.code + '.png'}
+                                                onMouseOver={this.onMouseOver.bind(this, thisPlayer.activePlot)}
                                                 onMouseOut={this.onMouseOut} /> : null}
 
                                         {this.state.showUsedPlotDeck ? <div className='panel plot-popup un-kneeled'>
@@ -509,9 +531,17 @@ export class InnerGameBoard extends React.Component {
                 </div>
                 <div className='right-side'>
                     <CardZoom imageUrl={this.state.cardToZoom ? '/img/cards/' + this.state.cardToZoom.code + '.png' : ''}
-                        orientation={this.state.cardToZoom ? this.state.cardToZoom.type_code === 'plot' ? 'horizontal' : 'vertical' : 'vertical'}
+                        orientation={this.state.cardToZoom ? this.state.cardToZoom.type === 'plot' ? 'horizontal' : 'vertical' : 'vertical'}
                         show={!!this.state.cardToZoom} />
-                    <Messages messages={this.props.state.messages} onCardMouseOver={this.onMouseOver} onCardMouseOut={this.onMouseOut} />
+                    <div className='chat'>
+                        <div className='messages panel' ref='messagePanel'>
+                            <Messages messages={this.props.state.messages} onCardMouseOver={this.onMouseOver} onCardMouseOut={this.onMouseOut} />
+                        </div>
+                        <form>
+                            <input className='form-control' placeholder='Chat...' onKeyPress={this.onKeyPress} onChange={this.onChange}
+                                value={this.state.message} />
+                        </form>
+                    </div>
                 </div>
             </div>);
     }

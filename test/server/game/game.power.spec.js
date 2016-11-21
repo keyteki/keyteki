@@ -12,6 +12,8 @@ describe('the Game', () => {
         game = new Game('1', 'Test Game');
 
         game.initialise();
+        winner.initialise();
+        loser.initialise();
 
         game.players[winner.id] = winner;
         game.players[loser.id] = loser;
