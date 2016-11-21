@@ -68,11 +68,9 @@ class InnerLobby extends React.Component {
         });
         return (
             <div>
-                <div className='alert alert-warning col-sm-8'>PLEASE NOTE: This site is not in any way shape or form a finished product and is
-            very much in active development.  You will encounter bugs or missing features.  Please report these issues to&nbsp;
+                <div className='alert alert-info col-sm-8'>A major update has been deployed to the site.  You may not notice many changes but under the hood the engine is now more easily modified.  I still consider the site to be in beta.  You will encounter bugs or missing features.  Please report these issues to&nbsp;
              <a href='https://www.github.com/cryogen/throneteki' target='_blank'>GitHub</a>.
-            Games may crash and the site may restart at any time.
-            Please do keep checking back as daily progress is being made and your help is invaluable.</div>
+            Games may still crash, but hopefully less now, and the site may restart at any time.</div>
                 <div className='row' />
                 <h1 className='col-sm-12'>Play A Game Of Thrones 2nd Edition</h1>
                 <div className='lobby-chat col-sm-8'>
