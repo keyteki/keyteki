@@ -30,8 +30,10 @@ export class InnerGameBoard extends React.Component {
         this.onKeyPress = this.onKeyPress.bind(this);
         this.onSendClick = this.onSendClick.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.onScroll = this.onScroll.bind(this);
 
         this.state = {
+            canScroll: true,
             cardToZoom: undefined,
             showPlotDeck: false,
             showUsedPlotDeck: false,
@@ -78,12 +80,24 @@ export class InnerGameBoard extends React.Component {
     }
 
     componentDidUpdate() {
-        $(this.refs.messagePanel).scrollTop(999999);
+        if(this.state.canScroll) {
+            $(this.refs.messagePanel).scrollTop(999999);
+        }
     }
 
     setContextMenu(menu) {
         if(this.props.setContextMenu) {
             this.props.setContextMenu(menu);
+        }
+    }
+
+    onScroll() {
+        var messages = this.refs.messagePanel;
+
+        if(messages.scrollTop === (messages.scrollHeight - messages.offsetHeight + 2)) {
+            this.setState({canScroll: true});
+        } else {
+            this.setState({canScroll: false});
         }
     }
 
@@ -545,7 +559,7 @@ export class InnerGameBoard extends React.Component {
                         orientation={this.state.cardToZoom ? this.state.cardToZoom.type === 'plot' ? 'horizontal' : 'vertical' : 'vertical'}
                         show={!!this.state.cardToZoom} />
                     <div className='chat'>
-                        <div className='messages panel' ref='messagePanel'>
+                        <div className='messages panel' ref='messagePanel' onScroll={this.onScroll}>
                             <Messages messages={this.props.state.messages} onCardMouseOver={this.onMouseOver} onCardMouseOut={this.onMouseOut} />
                         </div>
                         <form>
