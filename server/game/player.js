@@ -798,7 +798,7 @@ class Player extends Spectator {
         if(!character.dupes.isEmpty()) {
             var discardedDupe = character.dupes.first();
 
-            character.dupes = character.dupes.slice(1);
+            character.dupes = _(character.dupes.slice(1));
 
             this.discardPile.push(discardedDupe);
         } else {
