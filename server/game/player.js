@@ -809,14 +809,14 @@ class Player extends Spectator {
             return;
         }
 
-        if(!character.dupes.empty()) {
+        if(!character.dupes.isEmpty()) {
             var discardedDupe = character.dupes.first();
 
             character.dupes = character.dupes.slice(1);
 
             this.discardPile.push(discardedDupe);
         } else {
-            this.discardCard(card.id, this.deadPile);
+            this.discardCard(card.uuid, this.deadPile);
         }
 
         this.claimToDo--;
