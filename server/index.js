@@ -750,6 +750,20 @@ io.on('connection', function(socket) {
         sendGameState(game);
     });
 
+    socket.on('donesetstrength', function() {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        runAndCatchErrors(game, () => {
+            game.doneSetStrength(socket.id);
+        });
+
+        sendGameState(game);
+    });
+
     socket.on('cancelclaim', function() {
         var game = findGameForPlayer(socket.id);
 

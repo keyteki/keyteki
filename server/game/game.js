@@ -44,7 +44,7 @@ class Game extends EventEmitter {
 
                     return arg;
                 }
-                
+
                 return '';
             }
 
@@ -160,7 +160,7 @@ class Game extends EventEmitter {
         var otherPlayer = this.getOtherPlayer(player);
         if(otherPlayer && otherPlayer.activePlot && !otherPlayer.activePlot.canPlay(player, cardId)) {
             return;
-        }       
+        }
 
         if(!player.playCard(cardId, isDrop)) {
             return;
@@ -304,7 +304,7 @@ class Game extends EventEmitter {
                 this.setFirstPlayer(player.id, 'me');
             } else {
                 this.firstPlayerPrompt(initiativeWinner);
-            }    
+            }
         }
     }
 
@@ -446,9 +446,9 @@ class Game extends EventEmitter {
             player.cardsInPlay = player.removeCardByUuid(player.cardsInPlay, player.selectedAttachment);
         } else {
             targetPlayer.attach(player.hand, player.selectedAttachment, cardId);
-            player.removeFromHand(player.selectedAttachment); 
+            player.removeFromHand(player.selectedAttachment);
         }
-        
+
         player.selectCard = false;
 
         player.selectedAttachment = undefined;
@@ -685,7 +685,7 @@ class Game extends EventEmitter {
         if(!player.activePlot.canChallenge(player, challengeType)) {
             return;
         }
-        
+
         var otherPlayer = this.getOtherPlayer(player);
         if(otherPlayer && !otherPlayer.activePlot.canChallenge(player, challengeType)) {
             return;
@@ -732,7 +732,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        if(!player.areCardsSelected()) {        
+        if(!player.areCardsSelected()) {
             player.beginChallenge();
             return;
         }
@@ -805,7 +805,7 @@ class Game extends EventEmitter {
         if(player.power < 0) {
             player.power = 0;
         }
-        
+
         this.checkWinCondition(player);
     }
 
@@ -855,7 +855,7 @@ class Game extends EventEmitter {
         this.emit('beforeClaim', this, winner.currentChallenge, winner, loser);
         var claim = winner.activePlot.getClaim();
         claim = winner.modifyClaim(winner, winner.currentChallenge, claim);
-        
+
         if(loser) {
             claim = loser.modifyClaim(winner, winner.currentChallenge, claim);
         }
@@ -1099,7 +1099,39 @@ class Game extends EventEmitter {
             return;
         }
 
+        if(message.indexOf('/strength') !== 1 || message.indexOf('/str') !== -1) {
+            if(args.length > 1) {
+                num = this.getNumberOrDefault(args[1], 1);
+            }
+
+            player.selectCard = true;
+            player.oldMenuTitle = player.menuTitle;
+            player.oldButtons = player.buttons;
+            player.menuTitle = 'Select a card to set strength for';
+            player.buttons = [
+                { command: 'donesetstrength', text: 'Done' }
+            ];
+            player.setStrength = num;
+
+            this.promptForSelect(player, this.setStrength.bind(this));
+        }
+
         this.addMessage('<{0}> {1}', player, message);
+    }
+
+    setStrength(player, cardId) {
+        var card = player.findCardInPlayByUuid(cardId);
+
+        if(!card || card.getType() !== 'character') {
+            return false;
+        }
+
+        card.strengthModifier = player.setStrength - card.cardData.strength;
+
+        this.addMessage('{0} uses the /strength command to set the strength of {1} to {2}', player, card, player.setStrength);
+        this.doneSetStrength(player.id);
+
+        return true;
     }
 
     setPower(player, cardId) {
@@ -1118,6 +1150,21 @@ class Game extends EventEmitter {
     }
 
     doneSetPower(playerId) {
+        var player = this.getPlayerById(playerId);
+        if(!player) {
+            return;
+        }
+
+        player.menuTitle = player.oldMenuTitle;
+        player.buttons = player.oldButtons;
+        player.selectCard = false;
+
+        player.oldMenuTitle = undefined;
+        player.oldButtons = undefined;
+        player.setPower = undefined;
+    }
+
+    doneSetStrength(playerId) {
         var player = this.getPlayerById(playerId);
         if(!player) {
             return;

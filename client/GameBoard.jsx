@@ -246,17 +246,27 @@ export class InnerGameBoard extends React.Component {
                 var counters = null;
                 var dupes = null;
                 var power = null;
+                var strength = null;
 
                 if(card.dupes && card.dupes.length !== 0) {
-                    dupes = (<div className='counter dupe'>
-                        {card.dupes.length + 1}
-                    </div>);
+                    dupes = (
+                        <div className='counter dupe'>
+                            {card.dupes.length + 1}
+                        </div>);
                 }
 
                 if(card.power > 0) {
-                    power = (<div className='counter power'>
-                        {card.power}
-                    </div>);
+                    power = (
+                        <div className='counter power'>
+                            {card.power}
+                        </div>);
+                }
+
+                if(card.baseStrength !== card.strength) {
+                    strength = (
+                        <div className='counter strength'>
+                            {card.strength}
+                        </div>);
                 }
 
                 if(dupes || power) {
@@ -264,6 +274,7 @@ export class InnerGameBoard extends React.Component {
                         <div className='counters ignore-mouse-events'>
                             {dupes}
                             {power}
+                            {strength}
                         </div>
                     );
                 }
