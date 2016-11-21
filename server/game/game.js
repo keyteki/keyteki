@@ -1182,6 +1182,18 @@ class Game extends EventEmitter {
         player.setStrength = undefined;
     }
 
+    doneAttachment(playerId) {
+        var player = this.getPlayerById(playerId);
+        if(!player) {
+            return;
+        }
+
+        player.menuTitle = player.oldMenuTitle;
+        player.buttons = player.oldButtons;
+        player.selectCard = false;
+        this.selectedAttachment = undefined;      
+    }
+
     playerLeave(playerId, reason) {
         var player = this.players[playerId];
 

@@ -198,6 +198,7 @@ class Player extends Spectator {
             var discarded = this.hand.value().splice(cardIndex, 1);
 
             _.each(discarded, card => {
+                this.game.addMessage('{0} discards {1} at random', this, card);
                 this.discardPile.push(card);
             });
 
@@ -662,6 +663,8 @@ class Player extends Spectator {
     promptForAttachment(card) {
         this.selectedAttachment = card.uuid;
         this.selectCard = true;
+        this.oldMenuTitle = this.menuTitle;
+        this.oldButtons = this.buttons;
         this.menuTitle = 'Select target for attachment';
         this.buttons = [
             { text: 'Done', command: 'doneattachment' }
