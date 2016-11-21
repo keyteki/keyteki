@@ -1099,7 +1099,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        if(message.indexOf('/strength') !== 1 || message.indexOf('/str') !== -1) {
+        if(message.indexOf('/strength') !== -1 || message.indexOf('/str') !== -1) {
             if(args.length > 1) {
                 num = this.getNumberOrDefault(args[1], 1);
             }
