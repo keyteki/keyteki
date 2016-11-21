@@ -238,13 +238,13 @@ function sendGameState(game) {
 
 function handleError(game, e) {
     logger.error(e);
-    //logger.error(game);
-    // _.each(game.players, player => {
-    //     logger.error(player);
-    // });
+    _.each(game.players, player => {
+        logger.error(game.getSummary(player.id));
+    });
+
     if(game) {
         game.addMessage('A Server error has occured processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.');
-    }    
+    }   
 }
 
 function runAndCatchErrors(game, func) {
@@ -252,6 +252,8 @@ function runAndCatchErrors(game, func) {
         func();
     } catch(e) {
         handleError(game, e);
+
+        sendGameState(game);
     }
 }
 
