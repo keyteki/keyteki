@@ -343,28 +343,30 @@ class Game extends EventEmitter {
         }
     }
 
-    resolvePlotEffects(firstPlayer) {
-        firstPlayer.menuTitle = 'Select player to resolve their plot';
-        firstPlayer.buttons = [];
+    resolvePlotEffects(player) {
+        player.menuTitle = 'Select player to resolve their plot';
+        player.buttons = [];
 
         _.each(this.getPlayers(), p => {
             if(p.activePlot.hasRevealEffect() && !p.revealFinished) {
-                firstPlayer.buttons.push({ command: 'resolvePlotEffect', text: p.name, arg: p.id });
+                player.buttons.push({ command: 'resolvePlotEffect', text: p.name, arg: p.id });
             }
         });
 
-        if(firstPlayer.buttons.length === 1) {
-            this.resolvePlayerPlotEffect(firstPlayer.buttons[0].arg);
+        if(player.buttons.length === 1) {
+            this.resolvePlayerPlotEffect(player.buttons[0].arg);
 
             return;
         }
 
-        if(_.isEmpty(firstPlayer.buttons)) {
+        var firstPlayer = this.getFirstPlayer();
+        var otherPlayer = this.getOtherPlayer(firstPlayer);
+
+        if(_.isEmpty(player.buttons)) {
             firstPlayer.menuTitle = 'Perform any after reveal actions';
             firstPlayer.buttons = [{ command: 'doneWhenRealedEffects', text: 'Done' }];
         }
 
-        var otherPlayer = this.getOtherPlayer(firstPlayer);
         if(otherPlayer) {
             otherPlayer.menuTitle = 'Waiting for first player to resolve plot phase';
             otherPlayer.buttons = [];
