@@ -1114,6 +1114,8 @@ class Game extends EventEmitter {
             player.setStrength = num;
 
             this.promptForSelect(player, this.setStrength.bind(this));
+
+            return;
         }
 
         this.addMessage('<{0}> {1}', player, message);

@@ -269,7 +269,7 @@ export class InnerGameBoard extends React.Component {
                         </div>);
                 }
 
-                if(dupes || power) {
+                if(dupes || power || strength) {
                     counters = (
                         <div className='counters ignore-mouse-events'>
                             {dupes}
