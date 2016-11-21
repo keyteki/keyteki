@@ -91,7 +91,7 @@ class DrawCard extends BaseCard {
             kneeled: this.kneeled,
             power: this.power,
             selected: isActivePlayer && this.selected,
-            strength: this.getStrength(),
+            strength: this.cardData.strength ? this.getStrength() : undefined,
             baseStrength: this.cardData.strength
         });
     }

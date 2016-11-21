@@ -1124,7 +1124,7 @@ class Game extends EventEmitter {
     setStrength(player, cardId) {
         var card = player.findCardInPlayByUuid(cardId);
 
-        if(!card || card.getType() !== 'character') {
+        if(!card || card.getType() !== 'character' || _.isUndefined(player.setStrength)) {
             return false;
         }
 
@@ -1139,7 +1139,7 @@ class Game extends EventEmitter {
     setPower(player, cardId) {
         var card = player.findCardInPlayByUuid(cardId);
 
-        if(!card) {
+        if(!card || _.isUndefined(player.setPower)) {
             return false;
         }
 
@@ -1178,7 +1178,7 @@ class Game extends EventEmitter {
 
         player.oldMenuTitle = undefined;
         player.oldButtons = undefined;
-        player.setPower = undefined;
+        player.setStrength = undefined;
     }
 
     playerLeave(playerId, reason) {
