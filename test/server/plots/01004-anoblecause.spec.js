@@ -82,18 +82,18 @@ describe('ANobleCause', function() {
     describe('reduce', function() {
         describe('when called for the first time', function() {
             beforeEach(function() {
-                this.cost = this.plot.reduce(this.cardSpy, 5);
+                this.cost = this.plot.reduce(this.cardSpy, 5, true);
             });
 
-            describe('for a card that costs more than 3', function() {
+            describe('for a card that costs more than 2', function() {
                 beforeEach(function() {
                     this.plot.abilityUsed = false;
 
-                    this.cost = this.plot.reduce(this.cardSpy, 5);
+                    this.cost = this.plot.reduce(this.cardSpy, 5, true);
                 });
                 
-                it('should reduce the cost by 3', function() {
-                    expect(this.cost).toBe(2);
+                it('should reduce the cost by 2', function() {
+                    expect(this.cost).toBe(3);
                 });
 
                 it('should flag the ability as being used', function() {
@@ -105,7 +105,7 @@ describe('ANobleCause', function() {
                 beforeEach(function() {
                     this.plot.abilityUsed = false;
 
-                    this.cost = this.plot.reduce(this.cardSpy, 2);
+                    this.cost = this.plot.reduce(this.cardSpy, 2, true);
                 });
                 
                 it('should reduce the cost by cost of that card', function() {
@@ -115,7 +115,7 @@ describe('ANobleCause', function() {
 
             describe('and then called again', function() {
                 beforeEach(function() {
-                    this.cost = this.plot.reduce(this.cardSpy, 2);
+                    this.cost = this.plot.reduce(this.cardSpy, 2, true);
                 });
 
                 it('should not reduce the cost', function() {
