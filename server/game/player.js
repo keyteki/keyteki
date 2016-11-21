@@ -126,7 +126,7 @@ class Player extends Spectator {
         var cost = card.getCost();
 
         if(this.activePlot && this.activePlot.canReduce(this, card)) {
-            cost = this.activePlot.reduce(card, cost);
+            cost = this.activePlot.reduce(card, cost, spending);
         }
 
         this.cardsInPlay.each(c => {
@@ -195,7 +195,7 @@ class Player extends Spectator {
         while(toDiscard > 0) {
             var cardIndex = _.random(0, this.hand.size() - 1);
 
-            var discarded = this.hand.splice(cardIndex, 1);
+            var discarded = this.hand.value().splice(cardIndex, 1);
 
             _.each(discarded, card => {
                 this.discardPile.push(card);
