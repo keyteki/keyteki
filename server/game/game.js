@@ -489,7 +489,7 @@ class Game extends EventEmitter {
                 this.addMessage('{0} has chosen {1} as a stealth target', player, otherCardInPlay.card);
                 player.stealthCard.stealthTarget = otherCardInPlay;
 
-                if(this.doStealth(player)) {
+                if(this.doStealth(player)) {               
                     return true;
                 }
             }
@@ -584,8 +584,6 @@ class Game extends EventEmitter {
 
             if(handled) {
                 player.selectCard = false;
-                this.selectPlayer = undefined;
-                this.selectCallback = undefined;
 
                 return;
             }
@@ -714,6 +712,8 @@ class Game extends EventEmitter {
         this.addMessage('{0} has initiated a {1} challenge with strength {2}', player, player.currentChallenge, player.challengeStrength);
 
         var otherPlayer = this.getOtherPlayer(player);
+
+        player.pickingStealth = false;
 
         if(otherPlayer) {
             player.menuTitle = 'Waiting for opponent to defend';

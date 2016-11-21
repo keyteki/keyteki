@@ -701,25 +701,11 @@ class Player extends Spectator {
     }
 
     addToStealth(card) {
-        if(this.currentChallenge === 'military' && !card.is_military) {
+        if(!card.hasIcon(this.currentChallenge)) {
             return false;
         }
 
-        if(this.currentChallenge === 'intrigue' && !card.is_intrigue) {
-            return false;
-        }
-
-        if(this.currentChallenge === 'power' && !card.is_power) {
-            return false;
-        }
-
-        var inPlay = this.findCardInPlayByUuid(card.uuid);
-
-        if(!inPlay) {
-            return false;
-        }
-
-        inPlay.stealth = true;
+        card.stealth = true;
 
         return true;
     }

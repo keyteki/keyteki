@@ -42,6 +42,7 @@ class MarchedToTheWall extends PlotCard {
         player.menuTitle = 'Select a character to discard';
         player.buttons = [{ command: 'plot', method: 'cancelSelection', text: 'Done' }];
 
+        this.state[player.id].selecting = true;
 
         var otherPlayer = this.game.getOtherPlayer(player);
         if(otherPlayer) {
