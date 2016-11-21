@@ -484,12 +484,11 @@ class Game extends EventEmitter {
                     return false;
                 }
 
-                if(!otherPlayer.addToStealth(otherCardInPlay)) {
+                if(!player.stealthCard.useStealthToBypass(otherCardInPlay)) {
                     return false;
                 }
 
-                this.addMessage('{0} has chosen {1} as a stealth target', player, otherCardInPlay.card);
-                player.stealthCard.stealthTarget = otherCardInPlay;
+                this.addMessage('{0} has chosen {1} as the stealth target for {2}', player, otherCardInPlay, player.stealthCard);
 
                 if(this.doStealth(player)) {               
                     return true;
@@ -696,7 +695,7 @@ class Game extends EventEmitter {
 
     doStealth(player) {
         var stealthCard = player.cardsInChallenge.find(card => {
-            return !card.stealthTarget && card.isStealth();
+            return card.needsStealthTarget();
         });
 
         if(stealthCard) {

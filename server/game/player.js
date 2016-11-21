@@ -680,7 +680,7 @@ class Player extends Spectator {
 
         this.cardsInChallenge = _([]);
         this.cardsInPlay.each(card => {
-            card.stealth = undefined;
+            card.resetForChallenge();
         });
         this.selectCard = false;
         this.selectingChallengers = false;
@@ -698,16 +698,6 @@ class Player extends Spectator {
         this.challenger = true;
         this.selectingChallengers = true;
         this.pickingStealth = false;
-    }
-
-    addToStealth(card) {
-        if(!card.hasIcon(this.currentChallenge)) {
-            return false;
-        }
-
-        card.stealth = true;
-
-        return true;
     }
 
     canAddToChallenge(cardId) {

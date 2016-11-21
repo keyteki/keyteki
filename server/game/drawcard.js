@@ -59,6 +59,21 @@ class DrawCard extends BaseCard {
         return this.strengthModifier + this.cardData.strength;
     }
 
+    needsStealthTarget() {
+        return this.isStealth() && !this.stealthTarget;
+    }
+
+    useStealthToBypass(targetCard) {
+        if(!this.isStealth() || targetCard.isStealth()) {
+            return false;
+        }
+
+        targetCard.stealth = true;
+        this.stealthTarget = targetCard;
+
+        return true;
+    }
+
     canAttach(player, card) {
         if(this.getType() !== 'attachment' || card.hasKeyword('No Attachments')) {
             return false;
@@ -76,6 +91,11 @@ class DrawCard extends BaseCard {
 
     leavesPlay() {
         this.kneeled = false;
+    }
+
+    resetForChallenge() {
+        this.stealth = false;
+        this.stealthTarget = undefined;
     }
 
     getSummary(isActivePlayer, hideWhenFaceup) {
