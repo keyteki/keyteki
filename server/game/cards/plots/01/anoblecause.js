@@ -12,27 +12,29 @@ class ANobleCause extends PlotCard {
             return false;
         }
 
-        if(this.abilityUsed || !card.hasTrait('Lord') && !card.hasTrait('Lady')) {
+        if(this.abilityUsed || (!card.hasTrait('Lord') && !card.hasTrait('Lady'))) {
             return false;
         }
 
         return true;
     }
 
-    reduce(card, currentCost) {
+    reduce(card, currentCost, spending) {
         if(this.abilityUsed) {
             return currentCost;
         }
 
-        this.abilityUsed = true;
 
-        var cost = currentCost - 3;
+        var cost = currentCost - 2;
 
         if(cost < 0) {
             cost = 0;
         }
 
-        this.game.addMessage('{0} uses {1} to reduce the cost of {2} by 3', this.owner, this, card);
+        if(spending) {
+            this.game.addMessage('{0} uses {1} to reduce the cost of {2} by 2', this.owner, this, card);
+            this.abilityUsed = true;
+        }
 
         return cost;
     }
