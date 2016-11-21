@@ -61,7 +61,7 @@ describe('Trading With The Pentoshi', () => {
         });
     });
 
-    fdescribe('When both players have trading revealed and that player is first player', () => {
+    describe('When both players have trading revealed and that player is first player', () => {
         it('should give both players 3 gold', () => {
             game.selectPlot(player1.id, pentoshi.uuid);
             game.selectPlot(player2.id, pentoshi2.uuid);

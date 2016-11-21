@@ -35,7 +35,7 @@ class Game extends EventEmitter {
             var argMatch = fragment.match(/\{(\d+)\}/);
             if(argMatch) {
                 var arg = args[argMatch[1]];
-                if(!_.isUndefined(arg) || !_.isNull(arg)) {
+                if(!_.isUndefined(arg) && !_.isNull(arg)) {
                     if(arg instanceof BaseCard) {
                         return { code: arg.code, label: arg.name, type: arg.getType() };
                     } else if(arg instanceof Player) {
