@@ -153,6 +153,17 @@ class Game extends EventEmitter {
             return;
         }
 
+        var handled = false;
+        if(player === this.selectPlayer && this.selectCallback) {
+            handled = this.selectCallback(player, cardId);
+
+            if(handled) {
+                player.selectCard = false;
+
+                return;
+            }
+        }
+
         if(player.activePlot && !player.activePlot.canPlay(player, cardId)) {
             return;
         }
@@ -492,7 +503,7 @@ class Game extends EventEmitter {
 
                 this.addMessage('{0} has chosen {1} as the stealth target for {2}', player, otherCardInPlay, player.stealthCard);
 
-                if(this.doStealth(player)) {               
+                if(this.doStealth(player)) {
                     return true;
                 }
             }
@@ -1196,7 +1207,7 @@ class Game extends EventEmitter {
 
         this.cancelSelect(player);
 
-        this.selectedAttachment = undefined;      
+        this.selectedAttachment = undefined;
     }
 
     playerLeave(playerId, reason) {
@@ -1321,7 +1332,7 @@ class Game extends EventEmitter {
 
         player.menuTitle = player.oldMenuTitle;
         player.buttons = player.oldButtons;
-        
+
     }
 
     initialise() {

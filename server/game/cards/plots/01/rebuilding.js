@@ -20,7 +20,7 @@ class Rebuilding extends PlotCard {
     }
 
     onCardClicked(player, cardId) {
-        if(!this.inPlay || this.owner !== player) {
+        if(!this.inPlay || this.owner !== player || !this.selecting) {
             return false;
         }
 
