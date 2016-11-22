@@ -333,7 +333,7 @@ class Player extends Spectator {
             return false;
         }
 
-        if(this.phase !== 'setup' && this.phase !== 'marshal') {
+        if(this.phase !== 'setup' && this.phase !== 'marshal' && card.getType() !== 'event') {
             return false;
         }
 
@@ -348,11 +348,6 @@ class Player extends Spectator {
         }
 
         if(this.limitedPlayed >= this.maxLimited && card.isLimited() && !dupe) {
-            return false;
-        }
-
-        // XXX this can come out soon, but not yet
-        if(card.getType() === 'event') {
             return false;
         }
 
@@ -388,6 +383,15 @@ class Player extends Spectator {
         }
 
         this.gold -= cost;
+
+        if(card.getType() === 'event') {
+            this.game.addMessage('{0} plays {1} costing {2}', this, card, cost);
+
+            this.removeFromHand(card.uuid);
+            this.discardPile.push(card);
+
+            return true;
+        }
 
         if(this.phase === 'marshal') {
             this.game.addMessage('{0} marshals {1} costing {2}', this, card, cost);
