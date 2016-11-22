@@ -95,7 +95,7 @@ class DrawCard extends BaseCard {
     attach() {
     }
 
-    clicked() {
+    onClick() {
         return false;
     }
 

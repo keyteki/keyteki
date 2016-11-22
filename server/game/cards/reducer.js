@@ -17,7 +17,7 @@ class Reducer extends DrawCard {
         return this.condition(player, card);
     }
 
-    clicked(player) {
+    onClick(player) {
         if(!this.inPlay || player.phase !== 'marshal' || this.owner !== player || this.kneeled || this.abilityUsed) {
             return false;
         }
@@ -59,8 +59,8 @@ class FactionCostReducer extends Reducer {
         this.faction = faction;
     }
 
-    clicked(player) {
-        var canUse = super.clicked(player);
+    onClick(player) {
+        var canUse = super.onClick(player);
 
         if(canUse) {
             this.game.addMessage('{0} uses {1} to reduce the cost of the next {2} card by {3}',
@@ -80,8 +80,8 @@ class FactionCharacterCostReducer extends Reducer {
         this.faction = faction;
     }
 
-    clicked(player) {
-        var canUse = super.clicked(player);
+    onClick(player) {
+        var canUse = super.onClick(player);
 
         if(canUse) {
             this.game.addMessage('{0} uses {1} to reduce the cost of the next {2} character by {3}',

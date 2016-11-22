@@ -7,8 +7,8 @@ class TheKingsroad extends Reducer {
         });
     }
 
-    clicked(player) {
-        var handled = super.clicked(player);
+    onClick(player) {
+        var handled = super.onClick(player);
 
         if(handled) {
             this.game.addMessage('{0} kneels and sacrifices {1} to reduce the cost of the next character by 3', player, this);

@@ -557,7 +557,7 @@ class Game extends EventEmitter {
             return true;
         }
 
-        if(card && card.clicked(player)) {
+        if(card && card.onClick(player)) {
             return true;
         }
 
