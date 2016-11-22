@@ -1,4 +1,5 @@
 const uuid = require('node-uuid');
+const _ = require('underscore');
 
 class BaseCard {
     constructor(owner, cardData) {
@@ -12,6 +13,8 @@ class BaseCard {
         this.facedown = false;
         this.inPlay = false;
         this.blankCount = 0;
+
+        this.tokens = {};
     }
 
     hasKeyword(keyword) {
@@ -84,6 +87,22 @@ class BaseCard {
 
     clearBlank() {
         this.blankCount--;
+    }
+
+    addToken(type, number) {
+        if(_.isUndefined(this.tokens[type])) {
+            this.tokens[type] = 0;
+        }
+
+        this.tokens[type] += number;
+    }
+
+    removeToken(type, number) {
+        this.tokens[type] += number;
+
+        if(this.tokens[type] < 0) {
+            this.tokens[type] = 0;
+        }
     }
 
     getSummary(isActivePlayer, hideWhenFaceup) {
