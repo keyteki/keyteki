@@ -333,6 +333,10 @@ export class InnerGameBoard extends React.Component {
                     cardClass += ' selected';
                 }
 
+                if(card.new) {
+                    cardClass += ' new';
+                }
+
                 if(card.kneeled) {
                     cardClass += ' vertical kneeled';
                 }

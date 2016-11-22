@@ -119,6 +119,7 @@ class BaseCard {
             facedown: this.facedown,
             menu: this.getMenu(),
             name: this.cardData.name,
+            new: this.new,
             tokens: this.tokens,
             type: this.cardData.type_code,
             uuid: this.uuid

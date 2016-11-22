@@ -407,6 +407,7 @@ class Player extends Spectator {
         } else {
             card.facedown = this.phase === 'setup';
             card.inPlay = true;
+            card.new = true;
             this.cardsInPlay.push(card);
         }
 
@@ -490,6 +491,10 @@ class Player extends Spectator {
         };
         
         this.challengerLimit = 0;
+
+        this.cardsInPlay.each(card => {
+            card.new = false;
+        });
     }
 
     selectPlot(plotId) {
