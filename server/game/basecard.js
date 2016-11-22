@@ -15,6 +15,8 @@ class BaseCard {
         this.blankCount = 0;
 
         this.tokens = {};
+
+        this.menu = _([]);
     }
 
     hasKeyword(keyword) {
@@ -31,6 +33,8 @@ class BaseCard {
 
     leavesPlay() {
         this.inPlay = false;
+
+        this.menu = _([]);
     }
 
     modifyDominance(player, strength) {
@@ -59,6 +63,10 @@ class BaseCard {
 
     getFaction() {
         return this.cardData.faction_code;
+    }
+
+    getMenu() {
+        return this.menu.isEmpty() ? undefined : this.menu.value();
     }
 
     isUnique() {
@@ -109,6 +117,7 @@ class BaseCard {
         return isActivePlayer || (!this.facedown && !hideWhenFaceup) ? {
             code: this.cardData.code,
             facedown: this.facedown,
+            menu: this.getMenu(),
             name: this.cardData.name,
             type: this.cardData.type_code,
             uuid: this.uuid

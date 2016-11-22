@@ -31,6 +31,7 @@ export class InnerGameBoard extends React.Component {
         this.onSendClick = this.onSendClick.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onScroll = this.onScroll.bind(this);
+        this.cardMenuClick = this.cardMenuClick.bind(this);
 
         this.state = {
             canScroll: true,
@@ -41,7 +42,8 @@ export class InnerGameBoard extends React.Component {
             showDrawDeck: false,
             selectedPlot: undefined,
             spectating: true,
-            message: ''
+            message: '',
+            showCardMenu: {}
         };
     }
 
@@ -95,9 +97,9 @@ export class InnerGameBoard extends React.Component {
         var messages = this.refs.messagePanel;
 
         if(messages.scrollTop === (messages.scrollHeight - messages.offsetHeight + 2)) {
-            this.setState({canScroll: true});
+            this.setState({ canScroll: true });
         } else {
-            this.setState({canScroll: false});
+            this.setState({ canScroll: false });
         }
     }
 
@@ -183,6 +185,20 @@ export class InnerGameBoard extends React.Component {
     }
 
     onUsedPlotDeckClick() {
+        var thisPlayer = this.props.state.players[this.props.socket.id];
+
+        if(thisPlayer && thisPlayer.activePlot && thisPlayer.activePlot.menu) {
+            var cardMenus = this.state.showCardMenu;
+
+            cardMenus[thisPlayer.activePlot.code] = !cardMenus[thisPlayer.activePlot.code];
+
+            this.setState({ showCardMenu: cardMenus });
+
+            if(cardMenus[thisPlayer.activePlot.code]) {
+                return;
+            }
+        }
+
         if(this.state.showPlotDeck) {
             this.setState({ showPlotDeck: !this.state.showPlotDeck });
         }
@@ -402,6 +418,10 @@ export class InnerGameBoard extends React.Component {
         this.onDragDrop(dragData.card, dragData.source, target);
     }
 
+    cardMenuClick(card, menuItem) {
+        this.props.socket.emit(menuItem.command, menuItem.arg, menuItem.method);
+    }
+
     render() {
         if(!this.props.state) {
             return <div>Waiting for server...</div>;
@@ -444,6 +464,18 @@ export class InnerGameBoard extends React.Component {
         for(i = otherPlayerCards.length; i < 2; i++) {
             thisPlayerCards.push(<div className='card-row' key={'other-empty' + i} />);
         }
+
+        var menuIndex = 0;
+        var plotMenuItems = thisPlayer.activePlot && this.state.showCardMenu[thisPlayer.activePlot.code] ? _.map(thisPlayer.activePlot.menu, menuItem => {
+            return <div key={menuIndex++} onClick={this.cardMenuClick.bind(this, thisPlayer.activePlot, menuItem)}>{menuItem.text}</div>;
+        }) : null;
+
+        var plotMenu = plotMenuItems ? (
+            <div className='panel menu'>
+                <div onClick={this.onUsedPlotDeckClick}>Show</div>
+                {plotMenuItems}
+            </div>
+        ) : null;
 
         return (
             <div className='game-board'>
@@ -499,7 +531,7 @@ export class InnerGameBoard extends React.Component {
                                             <img className='vertical' src='/img/cards/cardback.jpg' />
                                         </div> : null
                                     }
-                                    <div className='panel horizontal-card' onClick={this.onUsedPlotDeckClick}>
+                                    <div ref='thisPlayerUsedPlot' className='panel horizontal-card' onClick={this.onUsedPlotDeckClick}>
                                         <div className='panel-header'>
                                             {'Active Plot'}
                                         </div>
@@ -514,6 +546,7 @@ export class InnerGameBoard extends React.Component {
                                             </div>
                                             {thisPlayerUsedPlotDeck}
                                         </div> : null}
+                                        {plotMenu}
                                     </div>
                                     <div className='panel horizontal-card' onClick={this.state.spectating ? null : this.onPlotDeckClick}>
                                         <div className='panel-header'>

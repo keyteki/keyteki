@@ -10,10 +10,12 @@ class PowerBehindTheThrone extends PlotCard {
 
         this.addToken('stand', 1);
 
+        this.menu.push({ text: 'Discard a stand token', command: 'plot', method: 'discardToken' });
+
         return true;
     }
 
-    onClick(player) {
+    discardToken(player) {
         var buttons = [{ text: 'Done', command: 'plot', method: 'cancelStand' }];
 
         this.selecting = true;

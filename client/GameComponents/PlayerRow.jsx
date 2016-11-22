@@ -341,7 +341,6 @@ PlayerRow.propTypes = {
     onDrawClick: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
-    onPlotCardSelected: React.PropTypes.func,
     onShuffleClick: React.PropTypes.func,
     plotDeck: React.PropTypes.array,
     power: React.PropTypes.number,
