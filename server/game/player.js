@@ -264,7 +264,8 @@ class Player extends Spectator {
         this.reserve = 0;
         this.readyToStart = false;
         this.cardsInPlay = _([]);
-        this.limitedPlayed = false;
+        this.limitedPlayed = 0;
+        this.maxLimited = 1;
         this.activePlot = undefined;
         this.plotDiscard = _([]);
         this.deadPile = _([]);
@@ -346,7 +347,7 @@ class Player extends Spectator {
             return false;
         }
 
-        if(this.limitedPlayed && card.isLimited() && !dupe) {
+        if(this.limitedPlayed >= this.maxLimited && card.isLimited() && !dupe) {
             return false;
         }
 
@@ -406,7 +407,7 @@ class Player extends Spectator {
         }
 
         if(card.isLimited() && !forcePlay) {
-            this.limitedPlayed = true;
+            this.limitedPlayed++;
         }
 
         if(sourceList === this.hand) {
@@ -540,7 +541,7 @@ class Player extends Spectator {
         this.reserve = this.getTotalReserve();
         this.claim = this.activePlot.claim || 0;
 
-        this.limitedPlayed = false;
+        this.limitedPlayed = 0;
         this.marshalled = false;
     }
 
