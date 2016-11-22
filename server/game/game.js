@@ -158,7 +158,9 @@ class Game extends EventEmitter {
             handled = this.selectCallback(player, cardId);
 
             if(handled) {
-                player.selectCard = false;
+                if(!this.multiSelect) {
+                    player.selectCard = false;
+                }
 
                 return;
             }
@@ -597,7 +599,9 @@ class Game extends EventEmitter {
             handled = this.selectCallback(player, cardId);
 
             if(handled) {
-                player.selectCard = false;
+                if(!this.multiSelect) {
+                    player.selectCard = false;
+                }    
 
                 return;
             }
@@ -1314,7 +1318,7 @@ class Game extends EventEmitter {
         }
     }
 
-    promptForSelect(player, callback, menuTitle, buttons) {
+    promptForSelect(player, callback, menuTitle, buttons, multiSelect) {
         player.selectCard = true;
 
         this.selectPlayer = player;
@@ -1325,6 +1329,8 @@ class Game extends EventEmitter {
 
         player.menuTitle = menuTitle;
         player.buttons = buttons;
+
+        this.multiSelect = multiSelect;
     }
 
     cancelSelect(player) {

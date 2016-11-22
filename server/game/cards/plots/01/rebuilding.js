@@ -37,9 +37,7 @@ class Rebuilding extends PlotCard {
             return counter + 1;
         }, 0);
 
-        if(card.selected && numSelected === 2) {
-            return false;
-        } else if(!card.selected && numSelected === 3) {
+        if(!card.selected && numSelected === 3) {
             return false;
         }
 
