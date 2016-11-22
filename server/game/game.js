@@ -823,6 +823,8 @@ class Game extends EventEmitter {
             if(loser.challengeStrength === 0) {
                 this.addMessage('{0} has gained 1 power from an unopposed challenge', winner);
                 this.addPower(winner, 1);
+
+                this.emit('onUnopposedWin', winner);
             }
 
             // XXX This should be after claim but needs a bit of reworking to make that possible
