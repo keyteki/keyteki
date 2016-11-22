@@ -238,16 +238,27 @@ export class InnerGameBoard extends React.Component {
                 var offset = 10;
                 var attachments = _.map(card.attachments, a => {
                     var style = { top: offset + 'px', zIndex: -offset };
+                    var attachmentClass = 'card';
+
+                    if(a.selected) {
+                        attachmentClass += ' selected';
+                    }
+
+                    if(a.kneeled) {
+                        attachmentClass += ' vertical kneeled';
+                    }
+
                     var returnedAttachment = (
                         <div className='attachment' style={style}>
-                            <div className='card' onMouseOver={allowMouseOver ? this.onMouseOver.bind(this, a) : null}
+                            <div className={a.kneeled ? 'horizontal-card kneeled' : 'card'}
+                                onMouseOver={allowMouseOver ? this.onMouseOver.bind(this, a) : null}
                                 onMouseOut={this.onMouseOut}
                                 onDragStart={ev => this.onCardDragStart(ev, a, 'play area')}
                                 onClick={this.onInPlayCardClick.bind(this, a)}>
                                 <div>
                                     {card.facedown ?
                                         <img className='card' src='/img/cards/cardback.jpg' /> :
-                                        <img className='card' src={'/img/cards/' + a.code + '.png'} />}
+                                        <img className={attachmentClass} src={'/img/cards/' + a.code + '.png'} />}
                                 </div>
                             </div>
                         </div>);
