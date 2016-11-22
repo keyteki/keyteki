@@ -144,7 +144,7 @@ describe('Player', function() {
             });
 
             it('should set the limited played flag', function() {
-                expect(this.player.limitedPlayed).toBe(true);
+                expect(this.player.limitedPlayed).toBe(1);
             });
         });
 
@@ -155,7 +155,7 @@ describe('Player', function() {
             });
 
             it('should not set the limited played flag', function() {
-                expect(this.player.limitedPlayed).toBe(false);
+                expect(this.player.limitedPlayed).toBe(0);
             });
         });
     });
