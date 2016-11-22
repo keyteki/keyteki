@@ -873,6 +873,7 @@ class Player extends Spectator {
     removeAttachment(attachment) {
         attachment.parent.attachments = this.removeCardByUuid(attachment.parent.attachments, attachment.uuid);
 
+        attachment.leavesPlay();        
         if(attachment.isTerminal()) {
             attachment.parent = undefined;
             attachment.owner.discardPile.push(attachment);
@@ -880,7 +881,6 @@ class Player extends Spectator {
             attachment.owner.hand.push(attachment);
         }
 
-        attachment.leavesPlay();        
         this.game.notifyLeavingPlay(this, attachment);
     }
 
