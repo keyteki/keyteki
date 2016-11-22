@@ -98,7 +98,7 @@ export class InnerGameBoard extends React.Component {
     onScroll() {
         var messages = this.refs.messagePanel;
 
-        if(messages.scrollTop === (messages.scrollHeight - messages.offsetHeight + 2)) {
+        if(messages.scrollTop >= messages.scrollHeight - messages.offsetHeight - 20) {
             this.setState({ canScroll: true });
         } else {
             this.setState({ canScroll: false });
