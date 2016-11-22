@@ -106,7 +106,7 @@ class BaseCard {
     }
 
     removeToken(type, number) {
-        this.tokens[type] += number;
+        this.tokens[type] -= number;
 
         if(this.tokens[type] < 0) {
             this.tokens[type] = 0;
@@ -119,6 +119,7 @@ class BaseCard {
             facedown: this.facedown,
             menu: this.getMenu(),
             name: this.cardData.name,
+            tokens: this.tokens,
             type: this.cardData.type_code,
             uuid: this.uuid
         } : { facedown: true };

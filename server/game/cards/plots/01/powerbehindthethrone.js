@@ -6,7 +6,7 @@ class PowerBehindTheThrone extends PlotCard {
             return true;
         }
 
-        this.addMessage('{0} adds 1 stand token to {1}', player, this);
+        this.game.addMessage('{0} adds 1 stand token to {1}', player, this);
 
         this.addToken('stand', 1);
 
@@ -23,17 +23,24 @@ class PowerBehindTheThrone extends PlotCard {
         this.game.promptForSelect(player, this.onCardSelected.bind(this), 'Select a character to stand', buttons);
     }
 
-    onCardSelected(player, card) {
+    onCardSelected(player, cardId) {
         if(!this.inPlay || this.owner !== player) {
             return false;
         }
+
+        var card = player.findCardInPlayByUuid(cardId);
 
         if(!card || !card.kneeled) {
             return false;
         }
 
         this.game.addMessage('{0} uses {1} to remove a stand token and stand {2}', player, this, card);
+
+        card.kneeled = false;
+
         this.removeToken('stand', 1);
+
+        return true;
     }
 
     cancelStand(player) {

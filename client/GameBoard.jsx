@@ -32,6 +32,7 @@ export class InnerGameBoard extends React.Component {
         this.onChange = this.onChange.bind(this);
         this.onScroll = this.onScroll.bind(this);
         this.cardMenuClick = this.cardMenuClick.bind(this);
+        this.onShowUsedPlot = this.onShowUsedPlot.bind(this);
 
         this.state = {
             canScroll: true,
@@ -184,21 +185,7 @@ export class InnerGameBoard extends React.Component {
         this.setState({ showPlotDeck: !this.state.showPlotDeck });
     }
 
-    onUsedPlotDeckClick() {
-        var thisPlayer = this.props.state.players[this.props.socket.id];
-
-        if(thisPlayer && thisPlayer.activePlot && thisPlayer.activePlot.menu) {
-            var cardMenus = this.state.showCardMenu;
-
-            cardMenus[thisPlayer.activePlot.code] = !cardMenus[thisPlayer.activePlot.code];
-
-            this.setState({ showCardMenu: cardMenus });
-
-            if(cardMenus[thisPlayer.activePlot.code]) {
-                return;
-            }
-        }
-
+    onShowUsedPlot() {
         if(this.state.showPlotDeck) {
             this.setState({ showPlotDeck: !this.state.showPlotDeck });
         }
@@ -208,6 +195,22 @@ export class InnerGameBoard extends React.Component {
         }
 
         this.setState({ showUsedPlotDeck: !this.state.showUsedPlotDeck });
+    }
+
+    onUsedPlotDeckClick() {
+        var thisPlayer = this.props.state.players[this.props.socket.id];
+
+        if(thisPlayer && thisPlayer.activePlot && thisPlayer.activePlot.menu) {
+            var cardMenus = this.state.showCardMenu;
+
+            cardMenus[thisPlayer.activePlot.code] = !cardMenus[thisPlayer.activePlot.code];
+
+            this.setState({ showCardMenu: cardMenus });
+            
+            return;
+        }
+
+        return this.onShowUsedPlot();
     }
 
     onOtherPlayerUsedPlotDeckClick() {
@@ -472,10 +475,25 @@ export class InnerGameBoard extends React.Component {
 
         var plotMenu = plotMenuItems ? (
             <div className='panel menu'>
-                <div onClick={this.onUsedPlotDeckClick}>Show</div>
+                <div onClick={this.onShowUsedPlot}>Show</div>
                 {plotMenuItems}
             </div>
         ) : null;
+
+        var plotCounters = null;
+
+        if(thisPlayer.activePlot) {
+            var tokenIndex = 0;
+            var counters = _.map(thisPlayer.activePlot.tokens, (token, key) => {
+                return <div key={tokenIndex++} className={'counter ' + key}>{token}</div>;
+            });
+
+            plotCounters = (
+                <div className='counters ignore-mouse-events'>
+                    {counters}
+                </div>
+            );
+        }
 
         return (
             <div className='game-board'>
@@ -546,6 +564,7 @@ export class InnerGameBoard extends React.Component {
                                             </div>
                                             {thisPlayerUsedPlotDeck}
                                         </div> : null}
+                                        {plotCounters}
                                         {plotMenu}
                                     </div>
                                     <div className='panel horizontal-card' onClick={this.state.spectating ? null : this.onPlotDeckClick}>
