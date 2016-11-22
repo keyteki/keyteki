@@ -12,10 +12,9 @@ class Confiscation extends PlotCard {
             return true;
         }
 
-        player.menuTitle = 'Select attachment to discard';
-        player.buttons = [{ text: 'Done', command: 'plot', method: 'cancelDiscard' }];
+        var buttons = [{ text: 'Done', command: 'plot', method: 'cancelDiscard' }];
 
-        this.game.promptForSelect(player, this.onCardSelected.bind(this));
+        this.game.promptForSelect(player, this.onCardSelected.bind(this), 'Select attachment to discard', buttons);
 
         return false;
     }
@@ -25,6 +24,7 @@ class Confiscation extends PlotCard {
             return;
         }
 
+        this.game.cancelSelect(player);
         this.game.playerRevealDone(player);
     }
 

@@ -40,8 +40,7 @@ class MarchedToTheWall extends PlotCard {
     }
 
     setupSelection(player) {
-        player.menuTitle = 'Select a character to discard';
-        player.buttons = [{ command: 'plot', method: 'cancelSelection', text: 'Done' }];
+        var buttons = [{ command: 'plot', method: 'cancelSelection', text: 'Done' }];
 
         this.state[player.id].selecting = true;
 
@@ -51,7 +50,7 @@ class MarchedToTheWall extends PlotCard {
             otherPlayer.buttons = [];
         }
 
-        this.game.promptForSelect(player, this.onCardSelected.bind(this));
+        this.game.promptForSelect(player, this.onCardSelected.bind(this), 'Select a character to discard', buttons);
     }
 
     cancelSelection(player) {
@@ -62,6 +61,8 @@ class MarchedToTheWall extends PlotCard {
         this.game.addMessage('{0} has cancelled the resolution of {1}', player, this);
 
         this.state[player.id].doneSelecting = true;
+
+        this.game.cancelSelect(player);
 
         this.proceedToNextStep();
     }

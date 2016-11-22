@@ -6,16 +6,18 @@ class FilthyAccusations extends PlotCard {
             return true;
         }
 
-        player.menuTitle = 'Select chracter to kneel';
-        player.buttons = [{ text: 'Done', command: 'plot', method: 'cancelKneel' }];
-
-        player.selectCard = true;
+        var buttons = [{ text: 'Done', command: 'plot', method: 'cancelKneel' }];
 
         this.selecting = true;
-
-        this.game.promptForSelect(player, this.onCardSelected.bind(this));
+        this.game.promptForSelect(player, this.onCardSelected.bind(this), 'Select character to kneel', buttons);
 
         return false;
+    }
+
+    cancelKneel(player) {
+        this.game.cancelSelect(player);
+
+        this.selecting = false;
     }
 
     onCardSelected(player, cardId) {
@@ -54,6 +56,12 @@ class FilthyAccusations extends PlotCard {
         
         this.selecting = false;
         this.game.playerRevealDone(player);
+    }
+
+    leavesPlay() {
+        this.selecting = false;
+
+        super.leavesPlay();
     }
 }
 

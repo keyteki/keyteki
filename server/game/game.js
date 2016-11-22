@@ -1066,16 +1066,13 @@ class Game extends EventEmitter {
                 num = this.getNumberOrDefault(args[1], 1);
             }
 
-            player.selectCard = true;
-            player.oldMenuTitle = player.menuTitle;
-            player.oldButtons = player.buttons;
-            player.menuTitle = 'Select a card to set power for';
-            player.buttons = [
+            var buttons = [
                 { command: 'donesetpower', text: 'Done' }
             ];
+
             player.setPower = num;
 
-            this.promptForSelect(player, this.setPower.bind(this));
+            this.promptForSelect(player, this.setPower.bind(this), 'Select a card to set power for', buttons);
 
             return;
         }
@@ -1105,16 +1102,12 @@ class Game extends EventEmitter {
                 num = this.getNumberOrDefault(args[1], 1);
             }
 
-            player.selectCard = true;
-            player.oldMenuTitle = player.menuTitle;
-            player.oldButtons = player.buttons;
-            player.menuTitle = 'Select a card to set strength for';
-            player.buttons = [
+            buttons = [
                 { command: 'donesetstrength', text: 'Done' }
             ];
             player.setStrength = num;
 
-            this.promptForSelect(player, this.setStrength.bind(this));
+            this.promptForSelect(player, this.setStrength.bind(this), 'Select a card to set strength for', buttons);
 
             return;
         }
@@ -1158,12 +1151,8 @@ class Game extends EventEmitter {
             return;
         }
 
-        player.menuTitle = player.oldMenuTitle;
-        player.buttons = player.oldButtons;
-        player.selectCard = false;
+        this.cancelSelect(player);
 
-        player.oldMenuTitle = undefined;
-        player.oldButtons = undefined;
         player.setPower = undefined;
     }
 
@@ -1173,12 +1162,8 @@ class Game extends EventEmitter {
             return;
         }
 
-        player.menuTitle = player.oldMenuTitle;
-        player.buttons = player.oldButtons;
-        player.selectCard = false;
+        this.cancelSelect(player);
 
-        player.oldMenuTitle = undefined;
-        player.oldButtons = undefined;
         player.setStrength = undefined;
     }
 
@@ -1188,9 +1173,8 @@ class Game extends EventEmitter {
             return;
         }
 
-        player.menuTitle = player.oldMenuTitle;
-        player.buttons = player.oldButtons;
-        player.selectCard = false;
+        this.cancelSelect(player);
+
         this.selectedAttachment = undefined;      
     }
 
@@ -1295,11 +1279,28 @@ class Game extends EventEmitter {
         }
     }
 
-    promptForSelect(player, callback) {
+    promptForSelect(player, callback, menuTitle, buttons) {
         player.selectCard = true;
 
         this.selectPlayer = player;
         this.selectCallback = callback;
+
+        player.oldMenuTitle = player.menuTitle;
+        player.oldButtons = player.buttons;
+
+        player.menuTitle = menuTitle;
+        player.buttons = buttons;
+    }
+
+    cancelSelect(player) {
+        player.selectCard = false;
+
+        this.selectPlayer = undefined;
+        this.selectCallback = undefined;
+
+        player.menuTitle = player.oldMenuTitle;
+        player.buttons = player.oldButtons;
+        
     }
 
     initialise() {

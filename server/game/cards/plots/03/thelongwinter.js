@@ -52,6 +52,8 @@ class TheLongWinter extends PlotCard {
             return;
         }
 
+        this.game.cancelSelect(player);
+
         this.game.addMessage('{0} has cancelled the resolution of {1}', player, this);
 
         this.state[player.id].doneSelecting = true;
@@ -99,8 +101,7 @@ class TheLongWinter extends PlotCard {
     setupSelection(player) {
         this.state[player.id].selecting = true;
 
-        player.menuTitle = 'Select a card to discard power from';
-        player.buttons = [
+        var buttons = [
             { command: 'plot', method: 'selectFactionCard', text: 'Faction Card' },
             { command: 'plot', method: 'cancelSelection', text: 'Done' }
         ];
@@ -111,7 +112,7 @@ class TheLongWinter extends PlotCard {
             otherPlayer.buttons = [];
         }
 
-        this.game.promptForSelect(player, this.onCardSelected.bind(this));
+        this.game.promptForSelect(player, this.onCardSelected.bind(this), 'Select a card to discard power from', buttons);
     }
 
     doPower() {
