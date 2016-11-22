@@ -33,6 +33,7 @@ export class InnerGameBoard extends React.Component {
         this.onScroll = this.onScroll.bind(this);
         this.cardMenuClick = this.cardMenuClick.bind(this);
         this.onShowUsedPlot = this.onShowUsedPlot.bind(this);
+        this.onDiscardedCardClick = this.onDiscardedCardClick.bind(this);
 
         this.state = {
             canScroll: true,
@@ -122,6 +123,10 @@ export class InnerGameBoard extends React.Component {
 
     onCardClick(card) {
         this.props.socket.emit('playcard', card.uuid);
+    }
+
+    onDiscardedCardClick(cardId) {
+        this.props.socket.emit('discardclick', cardId);
     }
 
     onInPlayCardClick(card) {
@@ -604,6 +609,7 @@ export class InnerGameBoard extends React.Component {
                         faction={thisPlayer.faction}
                         hand={thisPlayer.hand}
                         onCardClick={this.onCardClick}
+                        onDiscardedCardClick={this.onDiscardedCardClick}
                         onMouseOver={this.onMouseOver}
                         onMouseOut={this.onMouseOut}
                         numDrawCards={thisPlayer.numDrawCards}

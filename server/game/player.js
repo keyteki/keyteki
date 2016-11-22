@@ -213,6 +213,10 @@ class Player extends Spectator {
         }
     }
 
+    addCardToDrawDeck(card) {
+        this.drawDeck.push(card);
+    }
+
     discardAtRandom(number) {
         var toDiscard = number;
 

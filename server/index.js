@@ -821,6 +821,20 @@ io.on('connection', function(socket) {
         });        
     });
 
+    socket.on('discardclick', function(cardId) {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        runAndCatchErrors(game, () => {
+            game.discardCardClicked(socket.id, cardId);
+
+            sendGameState(game);
+        });
+    });
+
     refreshGameList(socket);
 
     db.collection('messages').find().sort({ time: -1 }).limit(50).toArray((err, messages) => {

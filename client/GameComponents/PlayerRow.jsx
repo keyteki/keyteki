@@ -14,6 +14,7 @@ class PlayerRow extends React.Component {
         this.onShowDeckClick = this.onShowDeckClick.bind(this);
         this.onCloseClick = this.onCloseClick.bind(this);
         this.onCloseAndShuffleClick = this.onCloseAndShuffleClick.bind(this);
+        this.onDiscardedCardClick = this.onDiscardedCardClick.bind(this);
 
         this.state = {
             showDiscard: false,
@@ -74,6 +75,15 @@ class PlayerRow extends React.Component {
 
         if(this.props.onShuffleClick) {
             this.props.onShuffleClick();
+        }
+    }
+
+    onDiscardedCardClick(event, cardId) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if(this.props.onDiscardedCardClick) {
+            this.props.onDiscardedCardClick(cardId);
         }
     }
 
@@ -156,8 +166,9 @@ class PlayerRow extends React.Component {
             var discardPile = _.map(this.props.discardPile, card => {
                 return (
                     <div key={'discardCard' + index++} draggable className='card-frame'
+                        onClick={ev => this.onDiscardedCardClick(ev, card.uuid)}
                         onDragStart={ev => this.onCardDragStart(ev, card, 'discard pile')}>
-                        <div className='card' onMouseOver={this.props.onMouseOver.bind(this, card)} onMouseOut={this.props.onMouseOut}>
+                        <div className={'card' + (card.selected ? ' selected' : '')} onMouseOver={this.props.onMouseOver.bind(this, card)} onMouseOut={this.props.onMouseOut}>
                             <div>
                                 <img className='card' src={'/img/cards/' + card.code + '.png'} />}
                             </div>
@@ -337,6 +348,7 @@ PlayerRow.propTypes = {
     isMe: React.PropTypes.bool,
     numDrawCards: React.PropTypes.number,
     onCardClick: React.PropTypes.func,
+    onDiscardedCardClick: React.PropTypes.func,
     onDragDrop: React.PropTypes.func,
     onDrawClick: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,

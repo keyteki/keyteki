@@ -603,6 +603,25 @@ class Game extends EventEmitter {
         }
     }
 
+    discardCardClicked(sourcePlayer, cardId) {
+        var player = this.getPlayerById(sourcePlayer);
+
+        if(!player) {
+            return;
+        }
+
+        var handled = false;
+        if(player === this.selectPlayer && this.selectCallback) {
+            handled = this.selectCallback(player, cardId);
+
+            if(handled) {
+                player.selectCard = false;
+
+                return;
+            }
+        }
+    }
+
     showDrawDeck(playerId) {
         var player = this.getPlayerById(playerId);
 
