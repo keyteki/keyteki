@@ -52,6 +52,9 @@ class PlotCard extends BaseCard {
         return true;
     }
 
+    onBeginChallengePhase() {
+    }
+
     leavesPlay() {
         _.each(this.events, event => {
             this.game.removeListener(event, this[event]);
