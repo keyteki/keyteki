@@ -18,7 +18,7 @@ describe('AFeastForCrows', function() {
 
     describe('when revealed', function() {
         beforeEach(function() {
-            this.plot.revealed();
+            this.plot.onReveal();
         });
 
         it('should register its afterDominance handler', function() {

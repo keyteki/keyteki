@@ -1,7 +1,7 @@
 const PlotCard = require('../../../plotcard.js');
 
 class CalmOverWesteros extends PlotCard {
-    revealed(player) {
+    onReveal(player) {
         if(!this.inPlay || this.owner !== player) {
             return true;
         }

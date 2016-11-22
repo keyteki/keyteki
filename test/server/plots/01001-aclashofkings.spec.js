@@ -18,7 +18,7 @@ describe('AClashOfKings', function() {
 
     describe('when revealed', function() {
         beforeEach(function() {
-            this.plot.revealed();
+            this.plot.onReveal();
         });
 
         it('should register its afterChallenge handler', function() {

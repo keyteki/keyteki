@@ -48,7 +48,7 @@ class PlotCard extends BaseCard {
         this.facedown = false;
     }
 
-    revealed() {
+    onReveal() {
         return true;
     }
 

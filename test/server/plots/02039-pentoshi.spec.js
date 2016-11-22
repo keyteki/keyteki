@@ -12,13 +12,13 @@ describe('Trading With The Pentoshi', () => {
     var player2 = new Player('2', 'Player 2', false, game);
     var pentoshi = new cards['02039'](player1, {text: 'When Revealed: something something 3 gold'});
     var pentoshi2 = new cards['02039'](player2, {text: 'When Revealed: something something 3 gold'});
-    var testPlot = jasmine.createSpyObj('testplot', ['hasRevealEffect', 'flipFaceup', 'getInitiative', 'revealed']);
+    var testPlot = jasmine.createSpyObj('testplot', ['hasRevealEffect', 'flipFaceup', 'getInitiative', 'onReveal']);
 
     beforeEach(() => {
         pentoshi.uuid = '1';
         testPlot.uuid = '2';
 
-        testPlot.revealed.and.returnValue(true);
+        testPlot.onReveal.and.returnValue(true);
 
         player1.plotCards = _([testPlot, pentoshi]);
         player2.plotCards = _([testPlot, pentoshi2]);

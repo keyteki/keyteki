@@ -3,7 +3,7 @@ const _ = require('underscore');
 const PlotCard = require('../../../plotcard.js');
 
 class Summons extends PlotCard {
-    revealed(player) {
+    onReveal(player) {
         if(!this.inPlay || this.owner !== player) {
             return true;
         }

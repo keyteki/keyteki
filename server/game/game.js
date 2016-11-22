@@ -383,7 +383,7 @@ class Game extends EventEmitter {
             firstPlayer.buttons = [];
         }
 
-        if(player.activePlot.revealed(player)) {
+        if(player.activePlot.onReveal(player)) {
             this.playerRevealDone(player);
         }
     }

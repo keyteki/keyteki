@@ -8,7 +8,8 @@ class MarchedToTheWall extends PlotCard {
 
         this.state = {};
     }
-    revealed(player) {
+
+    onReveal(player) {
         if(!this.inPlay || this.owner !== player) {
             return true;
         }
