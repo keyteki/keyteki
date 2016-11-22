@@ -1049,7 +1049,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        if(message.indexOf('/draw') !== -1) {
+        if(message.indexOf('/draw') === 0) {
             if(args.length > 1) {
                 num = this.getNumberOrDefault(args[1], 1);
             }
@@ -1061,7 +1061,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        if(message.indexOf('/power') !== -1) {
+        if(message.indexOf('/power') === 0) {
             if(args.length > 1) {
                 num = this.getNumberOrDefault(args[1], 1);
             }
@@ -1077,7 +1077,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        if(message.indexOf('/discard') !== -1) {
+        if(message.indexOf('/discard') === 0) {
             if(args.length > 1) {
                 num = this.getNumberOrDefault(args[1], 1);
             }
@@ -1089,7 +1089,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        if(message.indexOf('/pillage') !== -1) {
+        if(message.indexOf('/pillage') === 0) {
             this.addMessage('{0} uses the /pillage command to discard a card from the top of their draw deck', player);
 
             player.discardFromDraw(1);
@@ -1097,7 +1097,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        if(message.indexOf('/strength') !== -1 || message.indexOf('/str') !== -1) {
+        if(message.indexOf('/strength') === 0 || message.indexOf('/str') === 0) {
             if(args.length > 1) {
                 num = this.getNumberOrDefault(args[1], 1);
             }
