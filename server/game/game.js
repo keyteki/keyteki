@@ -146,7 +146,7 @@ class Game extends EventEmitter {
         this.addMessage('{0} has kept their hand', player);
     }
 
-    playCard(playerId, cardId, isDrop) {
+    playCard(playerId, cardId, isDrop, sourceList) {
         var player = this.getPlayerById(playerId);
 
         if(!player) {
@@ -162,7 +162,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        if(!player.playCard(cardId, isDrop)) {
+        if(!player.playCard(cardId, isDrop, sourceList)) {
             return;
         }
     }
@@ -437,26 +437,28 @@ class Game extends EventEmitter {
             return;
         }
 
+        var targetPlayer = this.getPlayers()[card.owner.id];
+        if(targetPlayer === player && player.phase === 'setup') {
+            // We put attachments on the board during setup, now remove it
+            player.attach(player.selectedAttachment, cardId);
+            player.cardsInPlay = player.removeCardByUuid(player.cardsInPlay, player.selectedAttachment);
+        } else {
+            targetPlayer.attach(player.selectedAttachment, cardId);
+            player.removeFromHand(player.selectedAttachment);
+        }
+
         if(player.dropPending) {
             player.discardPile = player.removeCardByUuid(player.discardPile, player.selectedAttachment);
         }
 
-        var targetPlayer = this.getPlayers()[card.owner.id];
-        if(targetPlayer === player && player.phase === 'setup') {
-            // We put attachments on the board during setup, now remove it
-            player.attach(player.cardsInPlay, player.selectedAttachment, cardId);
-            player.cardsInPlay = player.removeCardByUuid(player.cardsInPlay, player.selectedAttachment);
-        } else {
-            targetPlayer.attach(player.hand, player.selectedAttachment, cardId);
-            player.removeFromHand(player.selectedAttachment);
-        }
-
         player.selectCard = false;
-
         player.selectedAttachment = undefined;
 
         if(player.dropPending) {
             player.dropPending = false;
+
+            player.menuTitle = player.oldMenuTitle;
+            player.buttons = player.oldButtons;
 
             return;
         }

@@ -57,6 +57,30 @@ class Player extends Spectator {
         });
     }
 
+    findCardByUuidInAnyList(uuid) {
+        var card = this.findCardByUuid(this.cardsInPlay, uuid);
+
+        if(card) {
+            return card;
+        }
+
+        card = this.findCardByUuid(this.hand, uuid);
+
+        if(card) {
+            return card;
+        }
+
+        card = this.findCardByUuid(this.discardPile, uuid);
+        if(card) {
+            return card;
+        }
+
+        card = this.findCardByUuid(this.deadPile, uuid);
+        if(card) {
+            return card;
+        }
+    }
+
     findCardByUuid(list, uuid) {
         var returnedCard = undefined;
 
@@ -336,8 +360,12 @@ class Player extends Spectator {
         return true;
     }
 
-    playCard(cardId, forcePlay) {
-        var card = this.findCardByUuid(this.hand, cardId);
+    playCard(cardId, forcePlay, sourceList) {
+        if(!sourceList) {
+            sourceList = this.hand;
+        }
+
+        var card = this.findCardByUuid(sourceList, cardId);
 
         if(!card) {
             return false;
@@ -377,7 +405,9 @@ class Player extends Spectator {
             this.limitedPlayed = true;
         }
 
-        this.removeFromHand(card.uuid);
+        if(sourceList === this.hand) {
+            this.removeFromHand(card.uuid);
+        }
 
         return true;
     }
@@ -517,7 +547,7 @@ class Player extends Spectator {
     }
 
     canAttach(attachmentId, card) {
-        var attachment = this.findCardByUuid(this.phase === 'setup' ? this.cardsInPlay : this.hand, attachmentId);
+        var attachment = this.findCardByUuidInAnyList(attachmentId);
 
         if(!attachment) {
             return false;
@@ -526,9 +556,9 @@ class Player extends Spectator {
         return attachment.canAttach(this, card);
     }
 
-    attach(source, attachmentId, cardId) {
+    attach(attachmentId, cardId) {
         var card = this.findCardInPlayByUuid(cardId);
-        var attachment = this.findCardByUuid(source, attachmentId);
+        var attachment = this.findCardByUuidInAnyList(attachmentId);
 
         if(!card || !attachment) {
             return;
@@ -635,10 +665,14 @@ class Player extends Spectator {
                     return false;
                 }
 
-                this.game.playCard(this.id, cardId, true);
+                this.game.playCard(this.id, cardId, true, sourceList);
 
                 if(card.getType() === 'attachment') {
                     this.dropPending = true;
+                    return true;
+                }
+
+                if(source === 'hand') {
                     return true;
                 }
                 break;
