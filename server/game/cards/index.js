@@ -1,10 +1,19 @@
-var _ = require('underscore');
-var plots = require('./plots');
-var locations = require('./locations');
-var characters = require('./characters');
-var attachments = require('./attachments');
+const _ = require('underscore');
+const path = require('path');
+const fs = require('fs');
+
+const plots = require('./plots');
+const locations = require('./locations');
+const characters = require('./characters');
+const attachments = require('./attachments');
 
 var cards = {};
+
+_.each(fs.readdirSync(path.join(__dirname, 'agendas')), file => {
+    var card = require('./agendas/' + file);
+
+    cards[card.code] = card;
+});
 
 cards = _.extend(cards, plots, locations, characters, attachments);
 

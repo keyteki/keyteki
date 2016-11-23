@@ -43,6 +43,10 @@ class DrawCard extends BaseCard {
         return this.hasKeyword('Terminal');
     }
 
+    isLoyal() {
+        return this.cardData.is_loyal;
+    }
+
     hasIcon(icon) {
         return this.icons[icon];
     }

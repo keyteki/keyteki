@@ -15,6 +15,7 @@ class PlayerRow extends React.Component {
         this.onCloseClick = this.onCloseClick.bind(this);
         this.onCloseAndShuffleClick = this.onCloseAndShuffleClick.bind(this);
         this.onDiscardedCardClick = this.onDiscardedCardClick.bind(this);
+        this.onAgendaClick = this.onAgendaClick.bind(this);
 
         this.state = {
             showDiscard: false,
@@ -223,6 +224,12 @@ class PlayerRow extends React.Component {
         this.setState({ showDrawMenu: !this.state.showDrawMenu });
     }
 
+    onAgendaClick(event) {
+        event.preventDefault();
+
+        this.setState({ showAgendaMenu: !this.state.showAgendaMenu });
+    }
+
     onShuffleClick(event) {
         event.preventDefault();
 
@@ -237,6 +244,14 @@ class PlayerRow extends React.Component {
         if(this.props.onDrawClick) {
             this.props.onDrawClick();
         }
+    }
+
+    cardMenuClick(card, menuItem) {
+        if(this.props.onCardMenuClick) {
+            this.props.onCardMenuClick(card, menuItem);
+        }
+
+        this.setState({ showAgendaMenu: false });
     }
 
     render() {
@@ -267,6 +282,17 @@ class PlayerRow extends React.Component {
                 <div onClick={this.onShuffleClick}>Shuffle</div>
             </div>)
             : null;
+
+        var menuIndex = 0;
+        var agendaMenuItems = this.props.agenda && this.props.agenda.menu && this.state.showAgendaMenu ? _.map(this.props.agenda.menu, menuItem => {
+            return <div key={menuIndex++} onClick={this.cardMenuClick.bind(this, this.props.agenda, menuItem)}>{menuItem.text}</div>;
+        }) : null;
+
+        var agendaMenu = agendaMenuItems ? (
+            <div className='panel menu'>
+                {agendaMenuItems}
+            </div>
+        ) : null;        
 
         return (
             <div className='player-home-row'>
@@ -303,16 +329,23 @@ class PlayerRow extends React.Component {
                     {drawDeckMenu}
                     {drawDeckPopup}
                 </div>
-                <div className='faction panel'>
-                    <div className='card'>
-                        {this.props.faction ? <img className='card' src={'/img/factions/' + this.props.faction.value + '.png'} /> : null}
+                <div className={'faction panel' + (this.props.faction && this.props.faction.kneeled ? ' kneeled horizontal-card' : '')}>
+                    <div>
+                        {this.props.faction ? <img
+                            className={'card' + (this.props.faction && this.props.faction.kneeled ? ' kneeled vertical' : '')}
+                            src={'/img/factions/' + this.props.faction.code + '.png'} /> : null}
                     </div>
                     {powerCounters}
                 </div>
                 {this.props.agenda && this.props.agenda.code !== '' ?
-                    <div className='agenda panel' onMouseOver={this.props.onMouseOver ? this.props.onMouseOver.bind(this, this.props.agenda) : null}
-                        onMouseOut={this.props.onMouseOut ? this.props.onMouseOut : null}>
-                        <img className='card' src={'/img/cards/' + this.props.agenda.code + '.png'} />
+                    <div className='agenda panel'
+                        onMouseOver={this.props.onMouseOver ? this.props.onMouseOver.bind(this, this.props.agenda) : null}
+                        onMouseOut={this.props.onMouseOut ? this.props.onMouseOut : null}
+                        onClick={this.onAgendaClick}>
+                        <div className='card'>
+                            <img className='card' src={'/img/cards/' + this.props.agenda.code + '.png'} />
+                        </div>    
+                        {agendaMenu}
                     </div>
                     : <div className='agenda panel' />
                 }
@@ -348,6 +381,7 @@ PlayerRow.propTypes = {
     isMe: React.PropTypes.bool,
     numDrawCards: React.PropTypes.number,
     onCardClick: React.PropTypes.func,
+    onCardMenuClick: React.PropTypes.func,
     onDiscardedCardClick: React.PropTypes.func,
     onDragDrop: React.PropTypes.func,
     onDrawClick: React.PropTypes.func,

@@ -623,7 +623,8 @@ export class InnerGameBoard extends React.Component {
                         power={thisPlayer.power}
                         discardPile={thisPlayer.discardPile}
                         deadPile={thisPlayer.deadPile}
-                        spectating={this.state.spectating} />
+                        spectating={this.state.spectating}
+                        onCardMenuClick={this.cardMenuClick}/>
                 </div>
                 <div className='right-side'>
                     <CardZoom imageUrl={this.state.cardToZoom ? '/img/cards/' + this.state.cardToZoom.code + '.png' : ''}

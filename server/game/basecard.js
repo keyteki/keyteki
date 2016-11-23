@@ -19,6 +19,18 @@ class BaseCard {
         this.menu = _([]);
     }
 
+    registerEvents(events) {
+        this.events = [];
+
+        _.each(events, event => {
+            this[event] = this[event].bind(this);
+
+            this.game.on(event, this[event]);
+
+            this.events.push(event);
+        });
+    }
+
     hasKeyword(keyword) {
         if(!this.cardData.text || this.isBlank()) {
             return false;
@@ -32,9 +44,11 @@ class BaseCard {
     }
 
     leavesPlay() {
-        this.inPlay = false;
+        _.each(this.events, event => {
+            this.game.removeListener(event, this[event]);
+        });
 
-        this.menu = _([]);
+        this.inPlay = false;
     }
 
     modifyDominance(player, strength) {
@@ -88,7 +102,7 @@ class BaseCard {
     modifyClaim(player, type, claim) {
         return claim;
     }
-    
+
     setBlank() {
         this.blankCount++;
     }

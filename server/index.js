@@ -821,6 +821,20 @@ io.on('connection', function(socket) {
         });        
     });
 
+    socket.on('agenda', function(arg, method) {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        runAndCatchErrors(game, () => {
+            game.agendaCardCommand(socket.id, method, arg);
+
+            sendGameState(game);
+        });
+    });
+
     socket.on('discardclick', function(cardId) {
         var game = findGameForPlayer(socket.id);
 

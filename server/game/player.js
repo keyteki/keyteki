@@ -16,6 +16,7 @@ class Player extends Spectator {
         this.plotCards = _([]);
         this.drawDeck = _([]);
         this.hand = _([]);
+        this.faction = new DrawCard(this, {});
 
         this.owner = owner;
         this.takenMulligan = false;
@@ -152,6 +153,10 @@ class Player extends Spectator {
 
         if(this.activePlot && this.activePlot.canReduce(this, card)) {
             cost = this.activePlot.reduce(card, cost, spending);
+        }
+
+        if(this.agenda && this.agenda.canReduce(this, card)) {
+            cost = this.agenda.reduce(card, cost, spending);
         }
 
         this.cardsInPlay.each(c => {
@@ -972,9 +977,14 @@ class Player extends Spectator {
             } else {
                 this.agenda = new AgendaCard(this, deck.agenda);
             }
+
+            this.agenda.inPlay = true;
         } else {
             this.agenda = undefined;
         }
+
+        this.faction.cardData = deck.faction;
+        this.faction.cardData.code = deck.faction.value;
     }
 
     getTotalPlotStat(property) {
@@ -1033,9 +1043,9 @@ class Player extends Spectator {
 
     getState(isActivePlayer) {
         var state = {
+            agenda: this.agenda ? this.agenda.getSummary() : undefined,
             id: this.id,
-            faction: this.deck.faction,
-            agenda: this.deck.agenda,
+            faction: this.faction.getSummary(),
             numDrawCards: this.drawDeck.size(),
             hand: this.getSummaryForCardList(this.hand, isActivePlayer, true),
             buttons: isActivePlayer ? this.buttons : undefined,

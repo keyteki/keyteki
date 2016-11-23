@@ -16,9 +16,9 @@ module.exports = {
             var normalisedPath = path.join(directory, dir);
 
             _.each(fs.readdirSync(normalisedPath), file => {
-                var plot = require('./cards/' + basePath + '/' + dir + '/' + file);
+                var card = require('./cards/' + basePath + '/' + dir + '/' + file);
 
-                cards[plot.code] = plot;
+                cards[card.code] = card;
             });
         });
 

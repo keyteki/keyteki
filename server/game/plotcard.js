@@ -3,18 +3,6 @@ const _ = require('underscore');
 const BaseCard = require('./basecard.js');
 
 class PlotCard extends BaseCard {
-    registerEvents(events) {
-        this.events = [];
-
-        _.each(events, event => {
-            this[event] = this[event].bind(this);
-
-            this.game.on(event, this[event]);
-
-            this.events.push(event);
-        });
-    }
-
     hasRevealEffect() {
         return this.cardData.text && this.cardData.text.indexOf('When Revealed:') !== -1;
     }
@@ -53,14 +41,6 @@ class PlotCard extends BaseCard {
     }
 
     onBeginChallengePhase() {
-    }
-
-    leavesPlay() {
-        _.each(this.events, event => {
-            this.game.removeListener(event, this[event]);
-        });
-
-        this.inPlay = false;
     }
 }
 

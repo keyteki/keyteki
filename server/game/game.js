@@ -249,14 +249,6 @@ class Game extends EventEmitter {
         }
     }
 
-    notifyLeavingPlay(player, card) {
-        this.emit('cardLeavingPlay', this, player, card);
-        var cardImplementation = cards[card.code];
-        if(cardImplementation && cardImplementation.unregister) {
-            cardImplementation.unregister(this, player, card);
-        }
-    }
-
     selectPlot(playerId, plotId) {
         var player = this.getPlayerById(playerId);
 
@@ -606,7 +598,7 @@ class Game extends EventEmitter {
             if(handled) {
                 if(!this.multiSelect) {
                     player.selectCard = false;
-                }    
+                }
 
                 return;
             }
@@ -1322,6 +1314,17 @@ class Game extends EventEmitter {
         var otherPlayer = this.getOtherPlayer(player);
         if(otherPlayer && otherPlayer.activePlot && otherPlayer.activePlot[method]) {
             otherPlayer.activePlot[method](player, arg);
+        }
+    }
+
+    agendaCardCommand(playerId, method, arg) {
+        var player = this.getPlayerById(playerId);
+        if(!player) {
+            return;
+        }
+
+        if(player.agenda && player.agenda[method]) {
+            player.agenda[method](player, arg);
         }
     }
 
