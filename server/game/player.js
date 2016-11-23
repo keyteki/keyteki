@@ -148,6 +148,10 @@ class Player extends Spectator {
         return this.challenges[challengeType].won;
     }
 
+    getNumberOfChallengesInitiated() {
+        return this.challenges.complete;
+    }
+
     getCostForCard(card, spending) {
         var cost = card.getCost();
 
