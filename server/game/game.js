@@ -450,13 +450,18 @@ class Game extends EventEmitter {
             return;
         }
 
-        var targetPlayer = this.getPlayers()[card.owner.id];
+        var attachment = player.findCardByUuidInAnyList(player.selectedAttachment);
+        if(!attachment) {
+            return;
+        }
+
+        var targetPlayer = this.getPlayerById(card.owner.id);
         if(targetPlayer === player && player.phase === 'setup') {
             // We put attachments on the board during setup, now remove it
-            player.attach(player.selectedAttachment, cardId);
+            player.attach(attachment, cardId);
             player.cardsInPlay = player.removeCardByUuid(player.cardsInPlay, player.selectedAttachment);
         } else {
-            targetPlayer.attach(player.selectedAttachment, cardId);
+            targetPlayer.attach(attachment, cardId);
             player.removeFromHand(player.selectedAttachment);
         }
 
