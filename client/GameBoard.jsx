@@ -331,9 +331,7 @@ export class InnerGameBoard extends React.Component {
                 var cardClass = 'card';
                 if(card.selected) {
                     cardClass += ' selected';
-                }
-
-                if(card.new) {
+                } else if(card.new) {
                     cardClass += ' new';
                 }
 
