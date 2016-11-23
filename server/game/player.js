@@ -4,6 +4,7 @@ const Spectator = require('./spectator.js');
 const cards = require('./cards');
 const DrawCard = require('./drawcard.js');
 const PlotCard = require('./plotcard.js');
+const AgendaCard = require('./agendacard.js');
 
 const StartingHandSize = 7;
 
@@ -964,6 +965,16 @@ class Player extends Spectator {
         });
 
         this.deck = deck;
+
+        if(deck.agenda) {
+            if(cards[deck.agenda.code]) {
+                this.agenda = new cards[deck.agenda.code](this, deck.agenda);
+            } else {
+                this.agenda = new AgendaCard(this, deck.agenda);
+            }
+        } else {
+            this.agenda = undefined;
+        }
     }
 
     getTotalPlotStat(property) {
