@@ -102,6 +102,10 @@ class WildfireAssault extends PlotCard {
             _.each(notSelected, card => {
                 card.selected = false;
 
+                if(card.getType() !== 'character') {
+                    return;
+                }
+
                 player.discardCard(card.uuid, player.deadPile);
 
                 params += '{' + paramIndex++ + '} ';
