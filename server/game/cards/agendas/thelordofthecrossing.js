@@ -27,7 +27,7 @@ class TheLordOfTheCrossing extends AgendaCard {
             return;
         }
         
-        var currentChallenge = winner.getNumberOfChallengesInitiated();
+        var currentChallenge = this.owner.getNumberOfChallengesInitiated();
         if(winner === this.owner && currentChallenge === 3) {
             this.game.addMessage('{0} gains 1 power from {1}', winner, this);
             this.game.addPower(winner, 1);
