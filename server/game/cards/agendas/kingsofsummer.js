@@ -31,7 +31,7 @@ class KingsOfSummer extends AgendaCard {
         if(!_.any(this.game.getPlayers(), player => {
             return player.selectedPlot.hasTrait('Winter');
         })) {
-            this.owner.activePlot.goldModifier++;
+            this.owner.selectedPlot.goldModifier++;
 
             this.game.addMessage('{0} uses {1} to add 1 gold to their revealed plot as there are no Winter plot cards revealed', this.owner, this);
         }
