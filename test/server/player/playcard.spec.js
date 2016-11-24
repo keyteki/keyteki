@@ -13,7 +13,7 @@ describe('Player', function() {
         beforeEach(function() {
             this.findSpy = spyOn(this.player, 'findCardByUuid');
             this.canPlaySpy = spyOn(this.player, 'canPlayCard');
-            this.cardSpy = jasmine.createSpyObj('card', ['getType', 'getCost', 'isUnique', 'isLimited']);
+            this.cardSpy = jasmine.createSpyObj('card', ['getType', 'getCost', 'isUnique', 'isLimited', 'play']);
             this.dupeCardSpy = jasmine.createSpyObj('dupecard', ['addDuplicate']);
             spyOn(this.player, 'removeFromHand');
 
@@ -114,7 +114,7 @@ describe('Player', function() {
                 it('should add a new card in play facedown', function() {
                     expect(this.player.cardsInPlay).toContain(this.cardSpy);
                     expect(this.cardSpy.facedown).toBe(true);
-                    expect(this.cardSpy.inPlay).toBe(true);
+                    expect(this.cardSpy.play).toHaveBeenCalledWith(this.player);
                 });
             });
 
