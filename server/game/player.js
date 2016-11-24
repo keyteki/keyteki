@@ -940,7 +940,7 @@ class Player extends Spectator {
     }
 
     selectDeck(deck) {
-        this.removeAllListeners(this.eventNames());
+        this.game.removeAllListeners(this.game.eventNames());
 
         this.drawCards = _([]);
         this.plotCards = _([]);
