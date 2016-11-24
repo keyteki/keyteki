@@ -92,19 +92,15 @@ class WildfireAssault extends PlotCard {
         var sortedPlayers = this.game.getPlayersInFirstPlayerOrder();
 
         _.each(sortedPlayers, player => {
-            var notSelected = player.cardsInPlay.filter(card => {
-                return !card.selected;
+            var toKill = player.cardsInPlay.filter(card => {
+                return card.getType() === 'character' && !card.selected;
             });
 
             var params = '';
             var paramIndex = 2;
 
-            _.each(notSelected, card => {
+            _.each(toKill, card => {
                 card.selected = false;
-
-                if(card.getType() !== 'character') {
-                    return;
-                }
 
                 player.discardCard(card.uuid, player.deadPile);
 
@@ -112,13 +108,21 @@ class WildfireAssault extends PlotCard {
 
             });
 
-            if(!_.isEmpty(notSelected)) {
-                this.game.addMessage('{0} uses {1} to kill ' + params, player, this, ...notSelected);
+            if(_.isEmpty(toKill)) {
+                this.game.addMessage('{0} does not kill any characters with {1}', player, this);
+            } else {
+                this.game.addMessage('{0} uses {1} to kill ' + params, player, this, ...toKill);                
             }
 
             player.cardsInPlay.each(card => {
                 card.selected = false;
             });
+
+            player.selectCard = false;
+        });
+
+        _.each(this.state, s => {
+            s.selecting = false;
         });
 
         this.game.playerRevealDone(this.owner);
