@@ -36,6 +36,8 @@ Most things can be done be clicking on or dragging the thing you're trying to in
 
 /discard x - Discards x cards at random from your hand
 
+/strength x - Allows you to set the strength of a card to x
+
 ## Development
 
 The game uses mongodb as storage so you'll need that installed and running
