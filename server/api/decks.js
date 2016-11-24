@@ -35,7 +35,7 @@ module.exports.init = function(server) {
             return res.status(401).send({ message: 'Unauthorized' });
         }
 
-        db.collection('decks').find({ username: req.user.username }).toArray(function(err, data) {
+        db.collection('decks').find({ username: req.user.username }).sort({ lastUpdated: -1 }).toArray(function(err, data) {
             if(err) {
                 logger.info(err);
                 return next(err);
