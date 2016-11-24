@@ -10,15 +10,20 @@ class Winterfell extends DrawCard {
     play(player) {
         super.play(player);
 
-        player.cardsInPlay(card => {
+        player.cardsInPlay.each(card => {
             if(card.getFaction() === this.getFaction() && card.getType() === 'character') {
                 card.strengthModifier++;
             }
         });
     }
 
-    onCardPlayed(player, card) {
-        if(this.owner !== player) {
+    onCardPlayed(player, cardId) {
+        if(!this.inPlay || this.owner !== player) {
+            return;
+        }
+
+        var card = player.findCardInPlayByUuid(cardId);
+        if(!card) {
             return;
         }
 
@@ -30,7 +35,7 @@ class Winterfell extends DrawCard {
     leavesPlay() {
         super.leavesPlay();
 
-        this.owner.cardsInPlay(card => {
+        this.owner.cardsInPlay.each(card => {
             if(card.getFaction() === this.getFaction() && card.getType() === 'character') {
                 card.strengthModifier--;
             }
