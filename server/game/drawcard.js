@@ -43,6 +43,10 @@ class DrawCard extends BaseCard {
         return this.hasKeyword('Terminal');
     }
 
+    isAmbush() {
+        return this.hasKeyword('Ambush');
+    }
+
     isLoyal() {
         return this.cardData.is_loyal;
     }
@@ -73,7 +77,7 @@ class DrawCard extends BaseCard {
         if(this.owner.phase === 'setup') {
             return this.cardData.strength;
         }
-        
+
         return this.strengthModifier + this.cardData.strength;
     }
 

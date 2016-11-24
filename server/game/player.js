@@ -344,7 +344,9 @@ class Player extends Spectator {
         }
 
         if(this.phase !== 'setup' && this.phase !== 'marshal' && card.getType() !== 'event') {
-            return false;
+            if(this.phase !== 'challenge' || !card.isAmbush()) {
+                return false;
+            }    
         }
 
         if(!this.isCardUuidInList(this.hand, card)) {
@@ -405,6 +407,8 @@ class Player extends Spectator {
 
         if(this.phase === 'marshal') {
             this.game.addMessage('{0} marshals {1} costing {2}', this, card, cost);
+        } else if(this.phase === 'challenge' && card.isAmbush()) {
+            this.game.addMessage('{0} Ambushes with {1} costing {2}', this, card, cost);
         }
 
         if(card.getType() === 'attachment' && this.phase !== 'setup') {

@@ -2,6 +2,7 @@ const uuid = require('node-uuid');
 const _ = require('underscore');
 
 const ValidKeywords = [
+    'ambush',
     'insight',
     'intimidate',
     'pillage',
