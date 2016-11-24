@@ -72,6 +72,10 @@ class BaseCard {
         return this.cardData.traits && this.cardData.traits.toLowerCase().indexOf(trait.toLowerCase() + '.') !== -1;
     }
 
+    play() {
+        this.inPlay = true;
+    }
+
     leavesPlay() {
         _.each(this.events, event => {
             this.game.removeListener(event, this[event]);

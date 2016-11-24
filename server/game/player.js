@@ -416,7 +416,7 @@ class Player extends Spectator {
             dupeCard.addDuplicate(card);
         } else {
             card.facedown = this.phase === 'setup';
-            card.inPlay = true;
+            card.play(this);
             card.new = true;
             this.cardsInPlay.push(card);
         }
