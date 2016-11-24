@@ -20,6 +20,8 @@ class Game extends EventEmitter {
         this.owner = owner;
         this.started = false;
         this.playStarted = false;
+
+        this.setMaxListeners(0); 
     }
 
     addMessage(message) {
