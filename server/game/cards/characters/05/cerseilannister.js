@@ -12,7 +12,9 @@ class CerseiLannister extends DrawCard {
             return;
         }
 
-        if(!this.isBlank()) {
+        if(!this.isBlank() && player.cardsInChallenge.any(card => {
+            return card.uuid === this.uuid;
+        })) {
             this.kneeled = false;
         }
     }
