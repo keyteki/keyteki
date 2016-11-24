@@ -937,8 +937,6 @@ class Player extends Spectator {
         } else {
             attachment.owner.hand.push(attachment);
         }
-
-        this.game.notifyLeavingPlay(this, attachment);
     }
 
     selectDeck(deck) {

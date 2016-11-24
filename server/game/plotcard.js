@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const BaseCard = require('./basecard.js');
 
 class PlotCard extends BaseCard {
