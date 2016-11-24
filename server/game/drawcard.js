@@ -89,8 +89,12 @@ class DrawCard extends BaseCard {
     }
 
     canAttach(player, card) {
-        if(this.getType() !== 'attachment' || card.hasKeyword('No Attachments')) {
+        if(this.getType() !== 'attachment' || card.allowedAttachmentTrait === 'none') {
             return false;
+        }
+
+        if(card.allowedAttachmentTrait !== 'any') {
+            return this.hasTrait(card.allowedAttachmentTrait);
         }
 
         return true;

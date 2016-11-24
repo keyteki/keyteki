@@ -1,6 +1,15 @@
 const uuid = require('node-uuid');
 const _ = require('underscore');
 
+const ValidKeywords = [
+    'insight',
+    'intimidate',
+    'pillage',
+    'renown',
+    'stealth',
+    'terminal'
+];
+
 class BaseCard {
     constructor(owner, cardData) {
         this.owner = owner;
@@ -17,6 +26,26 @@ class BaseCard {
         this.tokens = {};
 
         this.menu = _([]);
+        this.parseCard(cardData.text || '');
+    }
+
+    parseCard(text) {
+        var firstLine = text.split('\n')[0];
+        var potentialKeywords = _.map(firstLine.split('.'), k => k.toLowerCase().trim());
+        this.keywords = [];
+        this.allowedAttachmentTrait = 'any';
+        _.each(potentialKeywords, keyword => {
+            if(_.contains(ValidKeywords, keyword)) {
+                this.keywords.push(keyword);
+            } else if(keyword.indexOf('no attachment') === 0) {
+                var match = keyword.match(/no attachments except <b>(.*)<\/b>/);
+                if(match) {
+                    this.allowedAttachmentTrait = match[1];
+                } else {
+                    this.allowedAttachmentTrait = 'none';
+                }
+            }
+        });
     }
 
     registerEvents(events) {
@@ -32,15 +61,15 @@ class BaseCard {
     }
 
     hasKeyword(keyword) {
-        if(!this.cardData.text || this.isBlank()) {
+        if(this.isBlank()) {
             return false;
         }
 
-        return this.cardData.text.toLowerCase().indexOf(keyword.toLowerCase() + '.') !== -1;
+        return _.contains(this.keywords, keyword.toLowerCase());
     }
 
     hasTrait(trait) {
-        return this.cardData.traits && this.cardData.traits.indexOf(trait + '.') !== -1;
+        return this.cardData.traits && this.cardData.traits.toLowerCase().indexOf(trait.toLowerCase() + '.') !== -1;
     }
 
     leavesPlay() {
