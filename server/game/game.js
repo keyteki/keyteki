@@ -817,7 +817,7 @@ class Game extends EventEmitter {
             this.addMessage('{0} won a {1} challenge {2} vs {3}',
                 winner, winner.currentChallenge, winner.challengeStrength, loser.challengeStrength);
 
-            this.emit('afterChallenge', winner.currentChallenge, winner, loser);
+            this.emit('afterChallenge', winner.currentChallenge, winner, loser, challenger);
 
             if(loser.challengeStrength === 0) {
                 this.addMessage('{0} has gained 1 power from an unopposed challenge', winner);
