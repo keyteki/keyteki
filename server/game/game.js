@@ -782,6 +782,9 @@ class Game extends EventEmitter {
         this.emit('onChallenge', player, player.currentChallenge);
 
         player.doneChallenge(true);
+
+        this.emit('onAttackersDeclared', player, player.currentChallenge);
+
         if(otherPlayer) {
             otherPlayer.currentChallenge = player.currentChallenge;
         }
