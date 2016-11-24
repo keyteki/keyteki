@@ -268,7 +268,9 @@ class Game extends EventEmitter {
             var highestInitiative = -1;
             var lowestPower = -1;
 
-            // reveal plots when everyone has selected
+            this.emit('onPlotFlip');
+
+            // reveal plots when everyone has selected (flip them faceup)
             _.each(this.getPlayers(), p => {
                 p.revealPlot();
             });

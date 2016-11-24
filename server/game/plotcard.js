@@ -3,6 +3,13 @@ const _ = require('underscore');
 const BaseCard = require('./basecard.js');
 
 class PlotCard extends BaseCard {
+    constructor(owner, cardData) {
+        super(owner, cardData);
+
+        this.reserveModifier = 0;
+        this.goldMofidier = 0;
+    }
+
     hasRevealEffect() {
         return this.cardData.text && this.cardData.text.indexOf('When Revealed:') !== -1;
     }
@@ -12,11 +19,11 @@ class PlotCard extends BaseCard {
     }
 
     getIncome() {
-        return this.cardData.income;
+        return this.cardData.income + this.goldMofidier;
     }
 
     getReserve() {
-        return this.cardData.reserve;
+        return this.cardData.reserve + this.reserveModifier;
     }
 
     getClaim() {
