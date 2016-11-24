@@ -177,6 +177,8 @@ class Game extends EventEmitter {
         if(!player.playCard(cardId, isDrop, sourceList)) {
             return;
         }
+
+        this.emit('onCardPlayed', player, cardId);
     }
 
     checkForAttachments() {
@@ -324,7 +326,7 @@ class Game extends EventEmitter {
     }
 
     beginMarshal(player) {
-        this.emit('beginMarshal', this, player);
+        this.emit('onBeginMarshal', player);
 
         player.beginMarshal();
 
@@ -982,11 +984,13 @@ class Game extends EventEmitter {
 
         this.emit('afterDominance', dominanceWinner);
 
-        this.emit('cardsStanding', this);
+        this.emit('cardsStanding');
 
         _.each(this.getPlayers(), player => {
             player.standCards();
             player.taxation();
+
+            this.emit('onAfterTaxation', player);
         });
 
         var firstPlayer = this.getFirstPlayer();
@@ -1045,6 +1049,8 @@ class Game extends EventEmitter {
         }
 
         player[stat] += value;
+
+        this.emit('onStatChanged', player, stat, value);
 
         if(player[stat] < 0) {
             player[stat] = 0;
