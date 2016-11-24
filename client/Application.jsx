@@ -31,6 +31,13 @@ var leftMenu = [
     { name: 'Play', path: '/play' }
 ];
 
+var lobby = <Lobby />;
+var login = <Login />;
+var logout = <Logout />;
+var register = <Register />;
+var decks = <Decks />;
+var gameBoard = <GameBoard />;
+
 class App extends React.Component {
     componentWillMount() {
         this.props.fetchCards();
@@ -67,9 +74,9 @@ class App extends React.Component {
         socket.on('leavegame', (game, player) => {
             var isMe = false;
 
-                if(player === socket.id) {
-                    isMe = true;
-                }
+            if(player === socket.id) {
+                isMe = true;
+            }
 
             this.props.receiveLeaveGame(game, isMe);
         });
@@ -106,19 +113,19 @@ class App extends React.Component {
 
         switch(path) {
             case '/':
-                component = <Lobby />;
+                component = lobby;
                 break;
             case '/login':
-                component = <Login />;
+                component = login;
                 break;
             case '/logout':
-                component = <Logout />;
+                component = logout;
                 break;
             case '/register':
-                component = <Register />;
+                component = register;
                 break;
             case '/decks':
-                component = <Decks cards={this.props.cards} packs={this.props.packs} />;
+                component = decks;
                 break;
             case '/decks/add':
                 component = <AddDeck cards={this.props.cards} packs={this.props.packs} agendas={this.props.agendas} />;
@@ -127,7 +134,7 @@ class App extends React.Component {
                 component = <EditDeck cards={this.props.cards} packs={this.props.packs} agendas={this.props.agendas} deckId={pathArg} />;
                 break;
             case '/play':
-                component = this.props.currentGame && this.props.currentGame.started ? <GameBoard /> : <GameLobby games={this.props.games} />;
+                component = this.props.currentGame && this.props.currentGame.started ? gameBoard : <GameLobby games={this.props.games} />;
                 break;
             default:
                 component = <NotFound />;

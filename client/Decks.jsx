@@ -154,8 +154,9 @@ InnerDecks.propTypes = {
     navigate: React.PropTypes.func
 };
 
-function mapStateToProps() {
+function mapStateToProps(state) {
     return {
+        cards: state.cards.cards
     };
 }
 
