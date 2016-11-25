@@ -1,4 +1,4 @@
-/* global describe, it, expect, beforeEach, afterEach, jasmine */
+/* global describe, it, expect, beforeEach, jasmine */
 
 const _ = require('underscore');
 
@@ -30,11 +30,6 @@ describe('Trading With The Pentoshi', () => {
         game.players['2'] = player2;
 
         game.initialise();
-    });
-
-    afterEach(() => {
-        game.doneRound(player1.id);
-        game.doneRound(player2.id);
     });
 
     describe('When a player has trading revealed and that player is first player', () => {

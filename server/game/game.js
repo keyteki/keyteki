@@ -7,6 +7,7 @@ const Spectator = require('./spectator.js');
 const BaseCard = require('./basecard.js');
 const GamePipeline = require('./gamepipeline.js');
 const SetupPhase = require('./gamesteps/setupphase.js');
+const TaxationPhase = require('./gamesteps/taxationphase.js');
 
 class Game extends EventEmitter {
     constructor(owner, name) {
@@ -853,58 +854,10 @@ class Game extends EventEmitter {
 
         _.each(this.getPlayers(), player => {
             player.standCards();
-            player.taxation();
-
-            this.emit('onAfterTaxation', player);
         });
 
-        var firstPlayer = this.getFirstPlayer();
-
-        firstPlayer.menuTitle = '';
-        firstPlayer.buttons = [
-            { command: 'doneround', text: 'End Round' }
-        ];
-
-        var otherPlayer = this.getOtherPlayer(firstPlayer);
-
-        if(otherPlayer) {
-            otherPlayer.menuTitle = 'Waiting for opponent to end the round';
-            otherPlayer.buttons = [];
-        }
-    }
-
-    doneRound(playerId) {
-        var player = this.getPlayerById(playerId);
-
-        if(!player || player.hand.size() > player.reserve) {
-            return;
-        }
-
-        var otherPlayer = this.getOtherPlayer(player);
-
-        if(!otherPlayer) {
-            player.startPlotPhase();
-
-            return;
-        }
-
-        if(otherPlayer && otherPlayer.roundDone) {
-            player.startPlotPhase();
-            otherPlayer.startPlotPhase();
-
-            return;
-        }
-
-        player.roundDone = true;
-        player.menuTitle = 'Waiting for opponent to end the round';
-        player.buttons = [];
-
-        if(otherPlayer) {
-            otherPlayer.menuTitle = '';
-            otherPlayer.buttons = [
-                { command: 'doneround', text: 'End Round' }
-            ];
-        }
+        this.queueStep(new TaxationPhase(this));
+        this.pipeline.continue();
     }
 
     changeStat(playerId, stat, value) {

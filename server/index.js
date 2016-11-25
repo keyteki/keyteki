@@ -596,20 +596,6 @@ io.on('connection', function(socket) {
         });
     });
 
-    socket.on('doneround', function() {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.doneRound(socket.id);
-
-            sendGameState(game);
-        });
-    });
-
     socket.on('changestat', function(stat, value) {
         var game = findGameForPlayer(socket.id);
 
