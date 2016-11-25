@@ -78,7 +78,7 @@ class Game extends EventEmitter {
     }
 
     getPlayersInFirstPlayerOrder() {
-        return _.sortBy(this.getPlayers(), 'firstPlayer');
+        return _.sortBy(this.getPlayers(), player => !player.firstPlayer);
     }
 
     getPlayersAndSpectators() {

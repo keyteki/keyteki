@@ -9,6 +9,8 @@ describe('Game', function() {
 
         this.notSetPlayer1 = { id: '1', name: 'test' };
         this.notSetPlayer2 = { id: '2', name: 'test' };
+        this.setFalsePlayer1 = { id: '1', name: 'test', firstPlayer: false };
+        this.setFalsePlayer2 = { id: '2', name: 'test2', firstPlayer: false };
         this.setPlayer1 = { id: '1', name: 'test', firstPlayer: true };
         this.setPlayer2 = { id: '2', name: 'test2', firstPlayer: true };
     });
@@ -91,6 +93,20 @@ describe('Game', function() {
                 it('should return player 2 then player 1', function() {
                     expect(this.players[0]).toBe(this.setPlayer2);
                     expect(this.players[1]).toBe(this.notSetPlayer1);
+                });
+            });
+
+            describe('when player 2 is first player and player 1 is explicitly not first player', function() {
+                beforeEach(function() {
+                    this.game.players['1'] = this.setFalsePlayer1;
+                    this.game.players['2'] = this.setPlayer2;
+
+                    this.players = this.game.getPlayersInFirstPlayerOrder();
+                });
+
+                it('should return player 2 then player 1', function() {
+                    expect(this.players[0]).toBe(this.setPlayer2);
+                    expect(this.players[1]).toBe(this.setFalsePlayer1);
                 });
             });
         });
