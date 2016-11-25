@@ -908,6 +908,8 @@ class Player extends Spectator {
 
         pile.push(card);
         card.leavesPlay();
+
+        this.game.emit('onCardLeftPlay', this, card);
     }
 
     removeAttachment(attachment) {
