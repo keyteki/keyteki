@@ -412,36 +412,6 @@ io.on('connection', function(socket) {
         });
     });
 
-    socket.on('mulligan', function() {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.mulligan(socket.id);
-            game.startGameIfAble();
-
-            sendGameState(game);
-        });
-    });
-
-    socket.on('keep', function() {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.keep(socket.id);
-            game.startGameIfAble();
-
-            sendGameState(game);
-        });
-    });
-
     socket.on('playcard', function(card) {
         var game = findGameForPlayer(socket.id);
 
@@ -451,20 +421,6 @@ io.on('connection', function(socket) {
 
         runAndCatchErrors(game, () => {
             game.playCard(socket.id, card);
-
-            sendGameState(game);
-        });
-    });
-
-    socket.on('setupdone', function() {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.setupDone(socket.id);
 
             sendGameState(game);
         });
@@ -668,6 +624,20 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on('menuButton', function(arg) {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        runAndCatchErrors(game, () => {
+            game.menuButton(socket.id, arg);
+
+            sendGameState(game);
+        });
+    });
+
     socket.on('custom', function(arg) {
         var game = findGameForPlayer(socket.id);
 
@@ -733,20 +703,6 @@ io.on('connection', function(socket) {
 
         runAndCatchErrors(game, () => {
             game.doneStealth(socket.id);
-        });
-
-        sendGameState(game);
-    });
-
-    socket.on('doneattachment', function() {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.doneAttachment(socket.id);
         });
 
         sendGameState(game);
