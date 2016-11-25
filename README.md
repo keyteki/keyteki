@@ -38,6 +38,8 @@ Most things can be done be clicking on or dragging the thing you're trying to in
 
 /strength x - Allows you to set the strength of a card to x
 
+/cancel-prompt - Allows you to skip a game step. Warning: this should only be used if the game can't seem to proceed. Use of this command itself could prevent the game from proceeding.
+
 ## Development
 
 The game uses mongodb as storage so you'll need that installed and running

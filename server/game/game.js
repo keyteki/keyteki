@@ -5,6 +5,8 @@ const uuid = require('node-uuid');
 const Player = require('./player.js');
 const Spectator = require('./spectator.js');
 const BaseCard = require('./basecard.js');
+const GamePipeline = require('./gamepipeline.js');
+const SetupPhase = require('./gamesteps/setupphase.js');
 
 class Game extends EventEmitter {
     constructor(owner, name) {
@@ -111,40 +113,13 @@ class Game extends EventEmitter {
         return otherPlayer;
     }
 
-    startGameIfAble() {
-        if(_.all(this.getPlayers(), player => {
-            return player.readyToStart;
-        })) {
-            _.each(this.getPlayers(), player => {
-                player.startGame();
-
-                this.playStarted = true;
-            });
-        }
-    }
-
-    mulligan(playerId) {
-        var player = this.getPlayerById(playerId);
-
-        if(this.playStarted || !player) {
-            return;
-        }
-
-        if(player.mulligan()) {
-            this.addMessage('{0} has taken a mulligan', player);
-        }
-    }
-
-    keep(playerId) {
-        var player = this.getPlayerById(playerId);
-
-        if(!player) {
-            return;
-        }
-
-        player.keep();
-
-        this.addMessage('{0} has kept their hand', player);
+    findAnyCardInPlayByUuid(cardId) {
+        return _.reduce(this.getPlayers(), (card, player) => {
+            if(card) {
+                return card;
+            }
+            return player.findCardInPlayByUuid(cardId);
+        }, null);
     }
 
     playCard(playerId, cardId, isDrop, sourceList) {
@@ -181,56 +156,7 @@ class Game extends EventEmitter {
         }
 
         this.emit('onCardPlayed', player, cardId);
-    }
-
-    checkForAttachments() {
-        var playersWithAttachments = _.filter(this.getPlayers(), p => {
-            return p.hasUnmappedAttachments();
-        });
-        var playersWaiting = _.filter(this.getPlayers(), p => {
-            return !p.hasUnmappedAttachments();
-        });
-
-        if(playersWithAttachments.length !== 0) {
-            _.each(playersWithAttachments, p => {
-                p.menuTitle = 'Select attachment locations';
-                p.buttons = [
-                    { command: 'mapattachments', text: 'Done' }
-                ];
-                p.waitingForAttachments = true;
-            });
-
-            _.each(playersWaiting, p => {
-                p.menuTitle = 'Waiting for opponent to finish setup';
-                p.buttons = [];
-            });
-        } else {
-            _.each(this.getPlayers(), p => {
-                p.setupDone();
-                p.startPlotPhase();
-            });
-        }
-    }
-
-    setupDone(playerId) {
-        var player = this.getPlayerById(playerId);
-
-        if(!player) {
-            return;
-        }
-
-        player.setup = true;
-
-        this.addMessage('{0} has finished setup', player);
-
-        if(!_.all(this.getPlayers(), p => {
-            return p.setup;
-        })) {
-            player.menuTitle = 'Waiting for opponent to finish setup';
-            player.buttons = [];
-        } else {
-            this.checkForAttachments();
-        }
+        this.pipeline.continue();
     }
 
     firstPlayerPrompt(initiativeWinner) {
@@ -427,65 +353,6 @@ class Game extends EventEmitter {
         this.resolvePlotEffects(firstPlayer);
     }
 
-    attachCard(player, cardId) {
-        var card = player.findCardInPlayByUuid(cardId);
-        var otherPlayer = this.getOtherPlayer(player);
-
-        if(!card) {
-            if(!otherPlayer) {
-                return;
-            }
-
-            card = otherPlayer.findCardInPlayByUuid(cardId);
-
-            if(!card) {
-                return;
-            }
-        }
-
-        if(!player.canAttach(player.selectedAttachment, card)) {
-            return;
-        }
-
-        var attachment = player.findCardByUuidInAnyList(player.selectedAttachment);
-        if(!attachment) {
-            return;
-        }
-
-        var targetPlayer = this.getPlayerById(card.owner.id);
-        if(targetPlayer === player && player.phase === 'setup') {
-            // We put attachments on the board during setup, now remove it
-            player.attach(attachment, cardId);
-            player.cardsInPlay = player.removeCardByUuid(player.cardsInPlay, player.selectedAttachment);
-        } else {
-            targetPlayer.attach(attachment, cardId);
-            player.removeFromHand(player.selectedAttachment);
-        }
-
-        if(player.dropPending) {
-            player.discardPile = player.removeCardByUuid(player.discardPile, player.selectedAttachment);
-        }
-
-        player.selectCard = false;
-        player.selectedAttachment = undefined;
-
-        if(player.dropPending) {
-            player.dropPending = false;
-
-            player.menuTitle = player.oldMenuTitle;
-            player.buttons = player.oldButtons;
-
-            return;
-        }
-
-        if(player.phase === 'setup') {
-            this.checkForAttachments();
-        } else {
-            player.buttons = [{ command: 'donemarshal', text: 'Done' }];
-            player.menuTitle = 'Marshal your cards';
-        }
-    }
-
     handleChallenge(player, otherPlayer, cardId) {
         var card = player.findCardInPlayByUuid(cardId);
 
@@ -552,15 +419,13 @@ class Game extends EventEmitter {
 
     processCardClicked(player, cardId) {
         var otherPlayer = this.getOtherPlayer(player);
-        var card = player.findCardInPlayByUuid(cardId);
+        var card = this.findAnyCardInPlayByUuid(cardId);
 
-        if(player.phase === 'setup' && !player.waitingForAttachments) {
+        if(!card) {
             return false;
         }
 
-        if((player.phase === 'setup' || player.phase === 'marshal' || player.dropPending) && player.selectedAttachment) {
-            this.attachCard(player, cardId);
-
+        if(this.pipeline.handleCardClicked(player, card)) {
             return true;
         }
 
@@ -576,13 +441,6 @@ class Game extends EventEmitter {
 
         if(card && card.onClick(player)) {
             return true;
-        }
-
-        if(player.phase === 'setup') {
-            if(card && card.getType() === 'attachment') {
-                player.promptForAttachment(card);
-                return true;
-            }
         }
 
         return false;
@@ -618,6 +476,8 @@ class Game extends EventEmitter {
                 cardInPlay.kneeled = !cardInPlay.kneeled;
             }
         }
+
+        this.pipeline.continue();
     }
 
     discardCardClicked(sourcePlayer, cardId) {
@@ -1164,6 +1024,13 @@ class Game extends EventEmitter {
             return;
         }
 
+        if(message.indexOf('/cancel-prompt') === 0) {
+            this.addMessage('{0} uses the /cancel-prompt to skip the current step.', player);
+            this.pipeline.cancelStep();
+            this.pipeline.continue();
+            return;
+        }
+
         this.addMessage('<{0}> {1}', player, message);
     }
 
@@ -1217,17 +1084,6 @@ class Game extends EventEmitter {
         this.cancelSelect(player);
 
         player.setStrength = undefined;
-    }
-
-    doneAttachment(playerId) {
-        var player = this.getPlayerById(playerId);
-        if(!player) {
-            return;
-        }
-
-        this.cancelSelect(player);
-
-        this.selectedAttachment = undefined;
     }
 
     playerLeave(playerId, reason) {
@@ -1368,12 +1224,33 @@ class Game extends EventEmitter {
 
     }
 
+    menuButton(playerId, arg) {
+        var player = this.getPlayerById(playerId);
+        if(!player) {
+            return;
+        }
+
+        if(this.pipeline.handleMenuCommand(player, arg)) {
+            this.pipeline.continue();
+            return true;
+        }
+    }
+
     initialise() {
         this.playStarted = false;
         this.messages = [];
         _.each(this.getPlayers(), player => {
             player.initialise();
         });
+        this.pipeline = new GamePipeline();
+        this.pipeline.initialise([
+            new SetupPhase(this)
+        ]);
+        this.pipeline.continue();
+    }
+
+    queueStep(step) {
+        this.pipeline.queueStep(step);
     }
 
     getState(activePlayer) {

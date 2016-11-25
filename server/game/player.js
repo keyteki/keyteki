@@ -5,6 +5,7 @@ const cards = require('./cards');
 const DrawCard = require('./drawcard.js');
 const PlotCard = require('./plotcard.js');
 const AgendaCard = require('./agendacard.js');
+const AttachmentPrompt = require('./gamesteps/attachmentprompt.js');
 
 const StartingHandSize = 7;
 
@@ -153,7 +154,12 @@ class Player extends Spectator {
     }
 
     getCostForCard(card, spending) {
-        var cost = card.getCost();
+        var cost;
+        if(this.phase === 'challenge' && card.isAmbush()) {
+            cost = card.getAmbushCost();
+        } else {
+            cost = card.getCost();
+        }
 
         if(this.activePlot && this.activePlot.canReduce(this, card)) {
             cost = this.activePlot.reduce(card, cost, spending);
@@ -281,13 +287,6 @@ class Player extends Spectator {
         this.deadPile = _([]);
         this.discardPile = _([]);
         this.claimToDo = 0;
-
-        this.menuTitle = 'Keep Starting Hand?';
-
-        this.buttons = [
-            { command: 'keep', text: 'Keep Hand' },
-            { command: 'mulligan', text: 'Mulligan' }
-        ];
     }
 
     startGame() {
@@ -297,12 +296,6 @@ class Player extends Spectator {
 
         this.gold = 8;
         this.phase = 'setup';
-
-        this.buttons = [
-            { command: 'setupdone', text: 'Done' }
-        ];
-
-        this.menuTitle = 'Select setup cards';
     }
 
     mulligan() {
@@ -312,10 +305,6 @@ class Player extends Spectator {
 
         this.initDrawDeck();
         this.takenMulligan = true;
-
-        this.buttons = [];
-        this.menuTitle = 'Waiting for opponent to keep hand or mulligan';
-
         this.readyToStart = true;
 
         return true;
@@ -323,9 +312,6 @@ class Player extends Spectator {
 
     keep() {
         this.readyToStart = true;
-
-        this.buttons = [];
-        this.menuTitle = 'Waiting for opponent to keep hand or mulligan';
     }
 
     canPlayCard(card) {
@@ -408,7 +394,7 @@ class Player extends Spectator {
         if(this.phase === 'marshal') {
             this.game.addMessage('{0} marshals {1} costing {2}', this, card, cost);
         } else if(this.phase === 'challenge' && card.isAmbush()) {
-            this.game.addMessage('{0} Ambushes with {1} costing {2}', this, card, cost);
+            this.game.addMessage('{0} ambushes with {1} costing {2}', this, card, cost);
         }
 
         if(card.getType() === 'attachment' && this.phase !== 'setup') {
@@ -722,14 +708,8 @@ class Player extends Spectator {
     }
 
     promptForAttachment(card) {
-        this.selectedAttachment = card.uuid;
-        this.selectCard = true;
-        this.oldMenuTitle = this.menuTitle;
-        this.oldButtons = this.buttons;
-        this.menuTitle = 'Select target for attachment';
-        this.buttons = [
-            { text: 'Done', command: 'doneattachment' }
-        ];
+        // TODO: Really want to move this out of here.
+        this.game.queueStep(new AttachmentPrompt(this.game, this, card));
     }
 
     beginChallenge() {
@@ -748,7 +728,6 @@ class Player extends Spectator {
         });
         this.selectCard = false;
         this.selectingChallengers = false;
-        this.selectedAttachment = undefined;
     }
 
     startChallenge(challengeType) {
@@ -1041,6 +1020,20 @@ class Player extends Spectator {
         return list.map(card => {
             return card.getSummary(isActivePlayer, hideWhenFaceup);
         });
+    }
+
+    currentPrompt() {
+        return {
+            selectCard: this.selectCard,
+            menuTitle: this.menuTitle,
+            buttons: this.buttons
+        };
+    }
+
+    setPrompt(prompt) {
+        this.selectCard = prompt.selectCard || false;
+        this.menuTitle = prompt.menuTitle || '';
+        this.buttons = prompt.buttons || [];
     }
 
     cancelPrompt() {
