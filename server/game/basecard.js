@@ -45,6 +45,11 @@ class BaseCard {
                 } else {
                     this.allowedAttachmentTrait = 'none';
                 }
+            } else if (keyword.indexOf('ambush') === 0) {
+                var match = keyword.match(/ambush \((.*)\)/);
+                if(match) {
+                    this.ambushCost = parseInt(match[1]);
+                }
             }
         });
     }

@@ -153,7 +153,12 @@ class Player extends Spectator {
     }
 
     getCostForCard(card, spending) {
-        var cost = card.getCost();
+        var cost;
+        if(this.phase === 'challenge' && card.isAmbush()) {
+            cost = card.getAmbushCost();
+        } else {
+            cost = card.getCost();
+        }
 
         if(this.activePlot && this.activePlot.canReduce(this, card)) {
             cost = this.activePlot.reduce(card, cost, spending);
@@ -408,7 +413,7 @@ class Player extends Spectator {
         if(this.phase === 'marshal') {
             this.game.addMessage('{0} marshals {1} costing {2}', this, card, cost);
         } else if(this.phase === 'challenge' && card.isAmbush()) {
-            this.game.addMessage('{0} Ambushes with {1} costing {2}', this, card, cost);
+            this.game.addMessage('{0} ambushes with {1} costing {2}', this, card, cost);
         }
 
         if(card.getType() === 'attachment' && this.phase !== 'setup') {

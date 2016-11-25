@@ -44,7 +44,7 @@ class DrawCard extends BaseCard {
     }
 
     isAmbush() {
-        return this.hasKeyword('Ambush');
+        return !_.isUndefined(this.ambushCost);
     }
 
     isLoyal() {
@@ -57,6 +57,10 @@ class DrawCard extends BaseCard {
 
     getCost() {
         return this.cardData.cost;
+    }
+
+    getAmbushCost() {
+        return this.ambushCost;
     }
 
     getPower() {
