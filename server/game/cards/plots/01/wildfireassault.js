@@ -48,11 +48,13 @@ class WildfireAssault extends PlotCard {
             otherPlayer.buttons = [];
         }
 
+        this.waitingForSelection = true;
+
         this.game.promptForSelect(player, this.onCardSelected.bind(this), 'Select characters to save', buttons, true);
     }
 
     cancelSelection(player) {
-        if(!this.inPlay || !this.state[player.id].selecting) {
+        if(!this.inPlay || !this.waitingForSelection || !this.state[player.id].selecting) {
             return;
         }
 
@@ -62,7 +64,7 @@ class WildfireAssault extends PlotCard {
     }
 
     onCardSelected(player, cardId) {
-        if(!this.inPlay || !this.state[player.id].selecting) {
+        if(!this.inPlay || !this.waitingForSelection || !this.state[player.id].selecting) {
             return false;
         }
 
@@ -125,6 +127,8 @@ class WildfireAssault extends PlotCard {
             s.selecting = false;
         });
 
+        this.waitingForSelection = false;
+        
         this.game.playerRevealDone(this.owner);
     }
 
