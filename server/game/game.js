@@ -7,7 +7,10 @@ const Spectator = require('./spectator.js');
 const BaseCard = require('./basecard.js');
 const GamePipeline = require('./gamepipeline.js');
 const SetupPhase = require('./gamesteps/setupphase.js');
+const DominancePhase = require('./gamesteps/dominancephase.js');
+const StandingPhase = require('./gamesteps/standingphase.js');
 const TaxationPhase = require('./gamesteps/taxationphase.js');
+const FulfillMilitaryClaim = require('./gamesteps/challenge/fulfillmilitaryclaim.js');
 
 class Game extends EventEmitter {
     constructor(owner, name) {
@@ -400,24 +403,6 @@ class Game extends EventEmitter {
         return true;
     }
 
-    handleClaim(player, otherPlayer, cardId) {
-        var card = player.findCardInPlayByUuid(cardId);
-
-        if(!card || card.getType() !== 'character') {
-            return;
-        }
-
-        player.killCharacter(card);
-
-        if(player.claimToDo === 0) {
-            player.doneClaim();
-
-            if(otherPlayer) {
-                otherPlayer.beginChallenge();
-            }
-        }
-    }
-
     processCardClicked(player, cardId) {
         var otherPlayer = this.getOtherPlayer(player);
         var card = this.findAnyCardInPlayByUuid(cardId);
@@ -432,12 +417,6 @@ class Game extends EventEmitter {
 
         if(player.phase === 'challenge' && player.currentChallenge) {
             return this.handleChallenge(player, otherPlayer, cardId);
-        }
-
-        if(player.phase === 'claim' && player.currentChallenge === 'military') {
-            this.handleClaim(player, otherPlayer, cardId);
-
-            return true;
         }
 
         if(card && card.onClick(player)) {
@@ -774,12 +753,8 @@ class Game extends EventEmitter {
             this.addMessage('The claim value for {0} is 0, no claim occurs', winner.currentChallenge);
         } else {
             if(winner.currentChallenge === 'military') {
-                winner.menuTitle = 'Waiting for opponent to apply claim effects';
-                winner.buttons = [];
-
-                loser.claimToDo = claim;
-                loser.selectCharacterToKill();
-
+                this.queueStep(new FulfillMilitaryClaim(this, loser, claim));
+                this.pipeline.continue();
                 return;
             } else if(winner.currentChallenge === 'intrigue') {
                 loser.discardAtRandom(claim);
@@ -816,46 +791,8 @@ class Game extends EventEmitter {
     }
 
     dominance() {
-        var highestDominance = 0;
-        var lowestDominance = 0;
-        var dominanceWinner = undefined;
-
-        _.each(this.getPlayers(), player => {
-            player.phase = 'dominance';
-            var dominance = player.getDominance();
-
-            lowestDominance = dominance;
-
-            if(dominance === highestDominance) {
-                dominanceWinner = undefined;
-            }
-
-            if(dominance > highestDominance) {
-                lowestDominance = highestDominance;
-                highestDominance = dominance;
-                dominanceWinner = player;
-            } else {
-                lowestDominance = dominance;
-            }
-        });
-
-        if(dominanceWinner) {
-            this.addMessage('{0} wins dominance ({1} vs {2})', dominanceWinner, highestDominance, lowestDominance);
-
-            this.addPower(dominanceWinner, 1);
-        } else {
-            this.addMessage('There was a tie for dominance');
-            this.addMessage('No one wins dominance');
-        }
-
-        this.emit('afterDominance', dominanceWinner);
-
-        this.emit('cardsStanding');
-
-        _.each(this.getPlayers(), player => {
-            player.standCards();
-        });
-
+        this.queueStep(new DominancePhase(this));
+        this.queueStep(new StandingPhase(this));
         this.queueStep(new TaxationPhase(this));
         this.pipeline.continue();
     }
@@ -1093,24 +1030,6 @@ class Game extends EventEmitter {
         }
 
         return false;
-    }
-
-    cancelClaim(playerId) {
-        var player = this.getPlayerById(playerId);
-
-        if(!player) {
-            return;
-        }
-
-        this.addMessage('{0} has cancelled claim effects', player);
-
-        player.doneClaim();
-
-        var otherPlayer = this.getOtherPlayer(player);
-
-        if(otherPlayer) {
-            otherPlayer.beginChallenge();
-        }
     }
 
     shuffleDeck(playerId) {

@@ -286,7 +286,6 @@ class Player extends Spectator {
         this.plotDiscard = _([]);
         this.deadPile = _([]);
         this.discardPile = _([]);
-        this.claimToDo = 0;
     }
 
     startGame() {
@@ -465,7 +464,6 @@ class Player extends Spectator {
         this.reserve = 0;
         this.firstPlayer = false;
         this.selectedPlot = undefined;
-        this.claimToDo = 0;
         this.doneChallenges = false;
         this.plotRevealed = false;
         this.roundDone = false;
@@ -811,16 +809,6 @@ class Player extends Spectator {
         this.selectingChallengers = true;
     }
 
-    selectCharacterToKill() {
-        this.selectCard = true;
-        this.phase = 'claim';
-
-        this.menuTitle = 'Select character to kill';
-        this.buttons = [
-            { command: 'cancelclaim', text: 'Done' }
-        ];
-    }
-
     killCharacter(card) {
         var character = this.findCardInPlayByUuid(card.uuid);
 
@@ -837,8 +825,6 @@ class Player extends Spectator {
         } else {
             this.discardCard(card.uuid, this.deadPile);
         }
-
-        this.claimToDo--;
     }
 
     doneClaim() {

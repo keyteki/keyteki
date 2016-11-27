@@ -26,7 +26,7 @@ class PlayerRow extends React.Component {
 
     onCardDragStart(event, card, source) {
         var dragData = { card: card, source: source };
-        event.dataTransfer.setData('card', JSON.stringify(dragData));
+        event.dataTransfer.setData('Text', JSON.stringify(dragData));
     }
 
     onDragOver(event) {
@@ -44,7 +44,7 @@ class PlayerRow extends React.Component {
 
         $(event.target).removeClass('highlight-panel');
 
-        var card = event.dataTransfer.getData('card');
+        var card = event.dataTransfer.getData('Text');
 
         if(!card) {
             return;
