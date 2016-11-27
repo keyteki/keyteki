@@ -5,7 +5,10 @@ class AttachmentPrompt extends UiPrompt {
         super(game);
         this.player = player;
         this.attachmentCard = attachmentCard;
-        this.attached = false;
+    }
+
+    activeCondition(player) {
+        return player === this.player;
     }
 
     onCardClicked(player, targetCard) {
@@ -36,7 +39,7 @@ class AttachmentPrompt extends UiPrompt {
 
         player.dropPending = false;
         player.selectCard = false;
-        this.attached = true;
+        this.complete();
     }
 
     onMenuCommand(player) {
@@ -44,30 +47,21 @@ class AttachmentPrompt extends UiPrompt {
             return false;
         }
 
-        this.attached = true;
+        this.complete();
     }
 
-    setPrompt() {
-        if(!this.attached) {
-            this.originalPrompt = this.originalPrompt || this.player.currentPrompt();
-            this.player.setPrompt({
-                selectCard: true,
-                menuTitle: 'Select target for attachment',
-                buttons: [
-                    { text: 'Done', command: 'menuButton', arg: 'doneattachment' }
-                ]
-            });
-        } else {
-            // TODO: Should not be necessary in the end, but is for now due to
-            //       interrupts from drag/drop in the middle of steps not
-            //       converted to the new engine.
-            this.player.setPrompt(this.originalPrompt || {});
-        }
+    activePrompt() {
+        return {
+            selectCard: true,
+            menuTitle: 'Select target for attachment',
+            buttons: [
+                { text: 'Done', command: 'menuButton', arg: 'doneattachment' }
+            ]
+        };
     }
 
-    continue() {
-        this.setPrompt();
-        return this.attached;
+    waitingPrompt() {
+        return { menuTitle: 'Waiting for opponent to attach card' };
     }
 }
 
