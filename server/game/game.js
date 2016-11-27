@@ -7,6 +7,8 @@ const Spectator = require('./spectator.js');
 const BaseCard = require('./basecard.js');
 const GamePipeline = require('./gamepipeline.js');
 const SetupPhase = require('./gamesteps/setupphase.js');
+const DominancePhase = require('./gamesteps/dominancephase.js');
+const StandingPhase = require('./gamesteps/standingphase.js');
 const TaxationPhase = require('./gamesteps/taxationphase.js');
 
 class Game extends EventEmitter {
@@ -816,46 +818,8 @@ class Game extends EventEmitter {
     }
 
     dominance() {
-        var highestDominance = 0;
-        var lowestDominance = 0;
-        var dominanceWinner = undefined;
-
-        _.each(this.getPlayers(), player => {
-            player.phase = 'dominance';
-            var dominance = player.getDominance();
-
-            lowestDominance = dominance;
-
-            if(dominance === highestDominance) {
-                dominanceWinner = undefined;
-            }
-
-            if(dominance > highestDominance) {
-                lowestDominance = highestDominance;
-                highestDominance = dominance;
-                dominanceWinner = player;
-            } else {
-                lowestDominance = dominance;
-            }
-        });
-
-        if(dominanceWinner) {
-            this.addMessage('{0} wins dominance ({1} vs {2})', dominanceWinner, highestDominance, lowestDominance);
-
-            this.addPower(dominanceWinner, 1);
-        } else {
-            this.addMessage('There was a tie for dominance');
-            this.addMessage('No one wins dominance');
-        }
-
-        this.emit('afterDominance', dominanceWinner);
-
-        this.emit('cardsStanding');
-
-        _.each(this.getPlayers(), player => {
-            player.standCards();
-        });
-
+        this.queueStep(new DominancePhase(this));
+        this.queueStep(new StandingPhase(this));
         this.queueStep(new TaxationPhase(this));
         this.pipeline.continue();
     }
