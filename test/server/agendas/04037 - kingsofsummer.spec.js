@@ -92,7 +92,7 @@ describe('Kings Of Summer', function() {
                     this.agenda.onPlotFlip();
                 });
 
-                it('should resote the player\'s gold and reserve modifiers', function() {
+                it('should reset the player\'s gold and reserve modifiers', function() {
                     expect(this.plot1.goldModifier).toBe(0);
                     expect(this.plot1.goldModifier).toBe(0);           
                     expect(this.plot1.reserveModifier).toBe(0);
