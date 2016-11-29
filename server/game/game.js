@@ -534,12 +534,15 @@ class Game extends EventEmitter {
 
             firstPlayer.activePlot.onBeginChallengePhase();
 
+            firstPlayer.phase = 'challenge';
+
             firstPlayer.beginChallenge();
 
             var otherPlayer = this.getOtherPlayer(firstPlayer);
 
             if(otherPlayer) {
                 otherPlayer.activePlot.onBeginChallengePhase();
+                otherPlayer.phase = 'challenge';
                 otherPlayer.menuTitle = 'Waiting for opponent to initiate challenge';
                 otherPlayer.buttons = [];
             }

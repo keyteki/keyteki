@@ -711,7 +711,6 @@ class Player extends Spectator {
     }
 
     beginChallenge() {
-        this.phase = 'challenge';
         this.menuTitle = '';
         this.buttons = [
             { text: 'Military', command: 'challenge', arg: 'military' },
