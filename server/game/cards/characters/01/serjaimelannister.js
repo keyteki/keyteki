@@ -1,6 +1,6 @@
 const DrawCard = require('../../../drawcard.js');
  
-class CerseiLannister extends DrawCard {
+class SerJaimeLannister extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
         
@@ -34,6 +34,6 @@ class CerseiLannister extends DrawCard {
     }
 }
 
-CerseiLannister.code = '01087';
+SerJaimeLannister.code = '01087';
 
-module.exports = CerseiLannister;
+module.exports = SerJaimeLannister;
