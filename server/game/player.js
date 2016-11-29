@@ -853,6 +853,10 @@ class Player extends Spectator {
 
     standCards() {
         this.cardsInPlay.each(card => {
+            card.attachments.each(attachment => {
+                attachment.kneeled = false;
+            });
+            
             card.kneeled = false;
         });
     }
