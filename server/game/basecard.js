@@ -39,14 +39,14 @@ class BaseCard {
             if(_.contains(ValidKeywords, keyword)) {
                 this.keywords.push(keyword);
             } else if(keyword.indexOf('no attachment') === 0) {
-                var match = keyword.match(/no attachments except <b>(.*)<\/b>/);
+                var match = keyword.match(/no attachments except <[bi]>(.*)<\/[bi]>/);
                 if(match) {
                     this.allowedAttachmentTrait = match[1];
                 } else {
                     this.allowedAttachmentTrait = 'none';
                 }
-            } else if (keyword.indexOf('ambush') === 0) {
-                var match = keyword.match(/ambush \((.*)\)/);
+            } else if(keyword.indexOf('ambush') === 0) {
+                match = keyword.match(/ambush \((.*)\)/);
                 if(match) {
                     this.ambushCost = parseInt(match[1]);
                 }
