@@ -78,7 +78,7 @@ class Game extends EventEmitter {
     }
 
     getPlayerById(playerId) {
-        return this.getPlayerById(playerId);
+        return this.getPlayers()[playerId];
     }
 
     getPlayersInFirstPlayerOrder() {
