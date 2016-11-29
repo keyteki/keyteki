@@ -683,6 +683,8 @@ class Game extends EventEmitter {
             if(winner === challenger) {
                 this.applyClaim(winner, loser);
             } else {
+                this.emit('onChallengeFinished', winner.currentChallenge, winner, loser, challenger);
+
                 challenger.beginChallenge();
 
                 player.menuTitle = 'Waiting for opponent to initiate challenge';
@@ -733,7 +735,7 @@ class Game extends EventEmitter {
                 this.addMessage('{0} discards a card from the top of their deck from Pillage on {1}', loser, card);
             }
 
-            if(card.hasKeyword('Renown')) {
+            if(card.isRenown()) {
                 card.power++;
 
                 this.addMessage('{0} gains 1 power on {1} from Renown', winner, card);

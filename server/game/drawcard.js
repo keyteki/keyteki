@@ -25,6 +25,8 @@ class DrawCard extends BaseCard {
         this.power = 0;
         this.strengthModifier = 0;
         this.kneeled = false;
+
+        this.renownCount = this.hasKeyword('Renown') ? 1 : 0;
     }
 
     addDuplicate(card) {
@@ -49,6 +51,10 @@ class DrawCard extends BaseCard {
 
     isLoyal() {
         return this.cardData.is_loyal;
+    }
+
+    isRenown() {
+        return !this.isBlank() && this.renownCount > 0;
     }
 
     hasIcon(icon) {
@@ -83,6 +89,14 @@ class DrawCard extends BaseCard {
         }
 
         return this.strengthModifier + this.cardData.strength;
+    }
+
+    setRenown() {
+        this.renownCount++;
+    }
+
+    clearRenown() {
+        this.renownCount--;
     }
 
     needsStealthTarget() {
