@@ -78,7 +78,7 @@ class Game extends EventEmitter {
     }
 
     getPlayerById(playerId) {
-        return this.getPlayers()[playerId];
+        return this.getPlayerById(playerId);
     }
 
     getPlayersInFirstPlayerOrder() {
@@ -331,7 +331,7 @@ class Game extends EventEmitter {
     setFirstPlayer(sourcePlayer, who) {
         var firstPlayer = undefined;
 
-        var player = this.getPlayers()[sourcePlayer];
+        var player = this.getPlayerById(sourcePlayer);
 
         if(!player) {
             return;
@@ -427,7 +427,7 @@ class Game extends EventEmitter {
     }
 
     cardClicked(sourcePlayer, cardId) {
-        var player = this.getPlayers()[sourcePlayer];
+        var player = this.getPlayerById(sourcePlayer);
 
         if(!player) {
             return;

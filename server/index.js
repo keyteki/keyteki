@@ -396,7 +396,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        var player = game.getPlayers()[socket.id];
+        var player = game.getPlayersById(socket.id);
         if(!player || !player.owner) {
             return;
         }
@@ -476,7 +476,7 @@ io.on('connection', function(socket) {
         }
 
         runAndCatchErrors(game, () => {
-            game.drawPhase(game.getPlayers()[socket.id]);
+            game.drawPhase(game.getPlayersById(socket.id));
 
             sendGameState(game);
         });
