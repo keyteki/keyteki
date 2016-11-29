@@ -6,12 +6,10 @@ class ASongOfSummer extends PlotCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['onCardPlayed']);
+        this.registerEvents(['onCardPlayed', 'onPlotFlip']);
     }
 
-    flipFaceup() {
-        super.flipFaceup();
-
+    onPlotFlip() {
         var otherPlayer = this.game.getOtherPlayer(this.owner);
 
         if(!otherPlayer || !otherPlayer.selectedPlot.hasTrait('Winter')) {
