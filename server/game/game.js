@@ -11,6 +11,7 @@ const DominancePhase = require('./gamesteps/dominancephase.js');
 const StandingPhase = require('./gamesteps/standingphase.js');
 const TaxationPhase = require('./gamesteps/taxationphase.js');
 const FulfillMilitaryClaim = require('./gamesteps/challenge/fulfillmilitaryclaim.js');
+const MenuPrompt = require('./gamesteps/menuprompt.js');
 
 class Game extends EventEmitter {
     constructor(owner, name) {
@@ -1077,6 +1078,10 @@ class Game extends EventEmitter {
         }
     }
 
+    promptWithMenu(player, contextObj, properties) {
+        this.queueStep(new MenuPrompt(this, player, contextObj, properties));
+    }
+
     promptForSelect(player, callback, menuTitle, buttons, multiSelect) {
         player.selectCard = true;
 
@@ -1103,13 +1108,13 @@ class Game extends EventEmitter {
 
     }
 
-    menuButton(playerId, arg) {
+    menuButton(playerId, arg, method) {
         var player = this.getPlayerById(playerId);
         if(!player) {
             return;
         }
 
-        if(this.pipeline.handleMenuCommand(player, arg)) {
+        if(this.pipeline.handleMenuCommand(player, arg, method)) {
             this.pipeline.continue();
             return true;
         }

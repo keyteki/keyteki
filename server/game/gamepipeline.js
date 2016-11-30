@@ -52,10 +52,10 @@ class GamePipeline {
         return false;
     }
 
-    handleMenuCommand(player, arg) {
+    handleMenuCommand(player, arg, method) {
         if(this.pipeline.length > 0) {
             var step = _.first(this.pipeline);
-            if(step.onMenuCommand(player, arg) !== false) {
+            if(step.onMenuCommand(player, arg, method) !== false) {
                 return true;
             }
         }

@@ -20,8 +20,8 @@ class Phase extends BaseStep {
         return this.pipeline.handleCardClicked(player, card);
     }
 
-    onMenuCommand(player, arg) {
-        return this.pipeline.handleMenuCommand(player, arg);
+    onMenuCommand(player, arg, method) {
+        return this.pipeline.handleMenuCommand(player, arg, method);
     }
 
     cancelStep() {

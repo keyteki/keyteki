@@ -610,7 +610,7 @@ io.on('connection', function(socket) {
         });
     });
 
-    socket.on('menuButton', function(arg) {
+    socket.on('menuButton', function(arg, method) {
         var game = findGameForPlayer(socket.id);
 
         if(!game) {
@@ -618,7 +618,7 @@ io.on('connection', function(socket) {
         }
 
         runAndCatchErrors(game, () => {
-            game.menuButton(socket.id, arg);
+            game.menuButton(socket.id, arg, method);
 
             sendGameState(game);
         });
