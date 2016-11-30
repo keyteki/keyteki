@@ -24,9 +24,7 @@ class TaxationPhase extends Phase {
 
     // Temporary step until plot phase / round structure is more defined.
     startPlotPhase() {
-        _.each(this.game.getPlayers(), player => {
-            player.startPlotPhase();
-        });
+        this.game.beginRound();
     }
 }
 

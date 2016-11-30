@@ -13,7 +13,8 @@ class SetupPhase extends Phase {
             new SimpleStep(game, () => this.startGame()),
             new SetupCardsPrompt(game),
             new CheckAttachmentsPrompt(game),
-            new SimpleStep(game, () => this.setupDone())
+            new SimpleStep(game, () => this.setupDone()),
+            new SimpleStep(game, () => this.beginRound())
         ]);
     }
 
@@ -27,9 +28,11 @@ class SetupPhase extends Phase {
     setupDone() {
         _.each(this.game.getPlayers(), p => {
             p.setupDone();
-            // TODO: Temporarily trigger plot phase here until it's also converted.
-            p.startPlotPhase();
         });
+    }
+
+    beginRound() {
+        this.game.beginRound();
     }
 }
 

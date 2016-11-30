@@ -426,34 +426,6 @@ io.on('connection', function(socket) {
         });
     });
 
-    socket.on('selectplot', function(plot) {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.selectPlot(socket.id, plot);
-
-            sendGameState(game);
-        });
-    });
-
-    socket.on('firstplayer', function(arg) {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.setFirstPlayer(socket.id, arg);
-
-            sendGameState(game);
-        });
-    });
-
     socket.on('resolvePlotEffect', function(playerId) {
         var game = findGameForPlayer(socket.id);
 

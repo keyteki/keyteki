@@ -371,7 +371,7 @@ export class InnerGameBoard extends React.Component {
     onCommand(command, arg, method) {
         var commandArg = arg;
 
-        if(command === 'selectplot') {
+        if(arg === 'plotselected') {
             if(!this.state.selectedPlot) {
                 return;
             }

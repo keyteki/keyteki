@@ -1,71 +1,57 @@
-/* global describe, it, expect, beforeEach, jasmine */
-
-const _ = require('underscore');
+/* global describe, it, expect, beforeEach */
+/* eslint no-invalid-this: 0 */
 
 const Game = require('../../../../../server/game/game.js');
 const Player = require('../../../../../server/game/player.js');
 const cards = require('../../../../../server/game/cards');
 
-describe('Trading With The Pentoshi', () => {
-    var game = new Game('1', 'Test Game');
-    var player1 = new Player('1', 'Player 1', true, game);
-    var player2 = new Player('2', 'Player 2', false, game);
-    var pentoshi = new cards['02039'](player1, {text: 'When Revealed: something something 3 gold'});
-    var pentoshi2 = new cards['02039'](player2, {text: 'When Revealed: something something 3 gold'});
-    var testPlot = jasmine.createSpyObj('testplot', ['hasRevealEffect', 'flipFaceup', 'getInitiative', 'onReveal']);
+describe('Trading With The Pentoshi', function() {
+    beforeEach(function() {
+        this.game = new Game('1', 'Test Game');
+        this.player1 = new Player('1', 'Player 1', true, this.game);
+        this.player2 = new Player('2', 'Player 2', false, this.game);
+        this.pentoshi = new cards['02039'](this.player1, {text: 'When Revealed: something something 3 gold'});
 
-    beforeEach(() => {
-        pentoshi.uuid = '1';
-        testPlot.uuid = '2';
+        this.player1.gold = 0;
+        this.player2.gold = 0;
 
-        testPlot.onReveal.and.returnValue(true);
+        this.game.players['1'] = this.player1;
+        this.game.players['2'] = this.player2;
 
-        player1.plotCards = _([testPlot, pentoshi]);
-        player2.plotCards = _([testPlot, pentoshi2]);
-
-        player1.gold = 0;
-        player2.gold = 0;
-
-        game.players['1'] = player1;
-        game.players['2'] = player2;
-
-        game.initialise();
+        this.game.initialise();
     });
 
-    describe('When a player has trading revealed and that player is first player', () => {
-        it('should give the other player 3 gold', () => {
-            game.selectPlot(player1.id, pentoshi.uuid);
-            game.selectPlot(player2.id, testPlot.uuid);
+    describe('onReveal()', function() {
+        describe('when not in player', function() {
+            beforeEach(function() {
+                this.pentoshi.inPlay = false;
+            });
 
-            game.setFirstPlayer(player1.id, 'me');
+            it('should not give the player 3 gold', function() {
+                this.pentoshi.onReveal(this.player1);
+                expect(this.player1.gold).toBe(0);
+            });
 
-            expect(player2.gold).toBe(3);
-            expect(player1.gold).toBe(0);
+            it('should not give the opponents 3 gold', function() {
+                this.pentoshi.onReveal(this.player1);
+                expect(this.player2.gold).toBe(0);
+            });
         });
-    });
 
-    describe('When a player has trading revealed and the other player is first player', () => {
-        it('should give the other player 3 gold', () => {
-            game.selectPlot(player1.id, pentoshi.uuid);
-            game.selectPlot(player2.id, testPlot.uuid);
+        describe('when in play', function() {
+            beforeEach(function() {
+                this.pentoshi.inPlay = true;
+            });
 
-            game.setFirstPlayer(player1.id, 'other');
+            it('should not give the player 3 gold', function() {
+                this.pentoshi.onReveal(this.player1);
+                expect(this.player1.gold).toBe(0);
+            });
 
-            expect(player2.gold).toBe(3);
-            expect(player1.gold).toBe(0);
-        });
-    });
-
-    describe('When both players have trading revealed and that player is first player', () => {
-        it('should give both players 3 gold', () => {
-            game.selectPlot(player1.id, pentoshi.uuid);
-            game.selectPlot(player2.id, pentoshi2.uuid);
-
-            game.setFirstPlayer(player1.id, 'me');
-            game.resolvePlayerPlotEffect(player1.id);
-
-            expect(player2.gold).toBe(3);
-            expect(player1.gold).toBe(3);
+            it('should give the opponents 3 gold', function() {
+                this.pentoshi.onReveal(this.player1);
+                expect(this.player2.gold).toBe(3);
+            });
         });
     });
 });

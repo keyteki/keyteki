@@ -455,10 +455,6 @@ class Player extends Spectator {
     startPlotPhase() {
         this.phase = 'plot';
 
-        this.menuTitle = 'Choose your plot';
-        this.buttons = [
-            { command: 'selectplot', text: 'Done' }
-        ];
         this.gold = 0;
         this.claim = 0;
         this.reserve = 0;
@@ -508,7 +504,7 @@ class Player extends Spectator {
         return true;
     }
 
-    revealPlot() {
+    flipPlotFaceup() {
         this.menuTitle = '';
         this.buttons = [];
 
