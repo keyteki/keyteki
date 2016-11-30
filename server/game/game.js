@@ -33,11 +33,13 @@ class Game extends EventEmitter {
     addMessage(message) {
         var args = Array.from(arguments).slice(1);
         var formattedMessage = this.formatMessage(message, args);
+        
         this.messages.push({ date: new Date(), message: formattedMessage });
     }
 
     formatMessage(format, args) {
         var messageFragments = format.split(/(\{\d+\})/);
+
         return _.map(messageFragments, fragment => {
             var argMatch = fragment.match(/\{(\d+)\}/);
             if(argMatch) {
