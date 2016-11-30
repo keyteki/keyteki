@@ -2,7 +2,7 @@ const DrawCard = require('../../../drawcard.js');
  
 class Attainted extends DrawCard {
     attach(player, card) {
-        card.setIcon('intrigue');
+        card.clearIcon('intrigue');
     }
 
     leavesPlay() {
