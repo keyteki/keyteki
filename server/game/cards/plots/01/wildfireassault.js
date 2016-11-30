@@ -50,7 +50,7 @@ class WildfireAssault extends PlotCard {
 
         this.waitingForSelection = true;
 
-        this.game.promptForSelect(player, this.onCardSelected.bind(this), 'Select characters to save', buttons, true);
+        this.game.promptForSelectDeprecated(player, this.onCardSelected.bind(this), 'Select characters to save', buttons, true);
     }
 
     cancelSelection(player) {

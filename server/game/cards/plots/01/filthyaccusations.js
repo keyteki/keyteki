@@ -9,7 +9,7 @@ class FilthyAccusations extends PlotCard {
         var buttons = [{ text: 'Done', command: 'plot', method: 'cancelKneel' }];
 
         this.selecting = true;
-        this.game.promptForSelect(player, this.onCardSelected.bind(this), 'Select character to kneel', buttons);
+        this.game.promptForSelectDeprecated(player, this.onCardSelected.bind(this), 'Select character to kneel', buttons);
 
         return false;
     }

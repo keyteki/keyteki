@@ -24,7 +24,7 @@ class PowerBehindTheThrone extends PlotCard {
 
         this.selecting = true;
 
-        this.game.promptForSelect(player, this.onCardSelected.bind(this), 'Select a character to stand', buttons);
+        this.game.promptForSelectDeprecated(player, this.onCardSelected.bind(this), 'Select a character to stand', buttons);
     }
 
     onCardSelected(player, cardId) {

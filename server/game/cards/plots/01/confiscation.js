@@ -14,7 +14,7 @@ class Confiscation extends PlotCard {
 
         var buttons = [{ text: 'Done', command: 'plot', method: 'cancelDiscard' }];
 
-        this.game.promptForSelect(player, this.onCardSelected.bind(this), 'Select attachment to discard', buttons);
+        this.game.promptForSelectDeprecated(player, this.onCardSelected.bind(this), 'Select attachment to discard', buttons);
 
         return false;
     }

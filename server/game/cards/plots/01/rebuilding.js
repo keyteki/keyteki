@@ -12,7 +12,7 @@ class Rebuilding extends PlotCard {
             { text: 'Done', command: 'plot', method: 'doneSelect' }
         ];
 
-        this.game.promptForSelect(player, this.onCardClicked.bind(this), 'Select cards', buttons);
+        this.game.promptForSelectDeprecated(player, this.onCardClicked.bind(this), 'Select cards', buttons);
 
         this.selecting = true;
 

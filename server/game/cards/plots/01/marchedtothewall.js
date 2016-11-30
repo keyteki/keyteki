@@ -50,7 +50,7 @@ class MarchedToTheWall extends PlotCard {
             otherPlayer.buttons = [];
         }
 
-        this.game.promptForSelect(player, this.onCardSelected.bind(this), 'Select a character to discard', buttons);
+        this.game.promptForSelectDeprecated(player, this.onCardSelected.bind(this), 'Select a character to discard', buttons);
     }
 
     cancelSelection(player) {

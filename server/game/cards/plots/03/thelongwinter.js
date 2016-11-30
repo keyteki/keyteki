@@ -112,7 +112,7 @@ class TheLongWinter extends PlotCard {
             otherPlayer.buttons = [];
         }
 
-        this.game.promptForSelect(player, this.onCardSelected.bind(this), 'Select a card to discard power from', buttons);
+        this.game.promptForSelectDeprecated(player, this.onCardSelected.bind(this), 'Select a card to discard power from', buttons);
     }
 
     doPower() {

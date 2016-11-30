@@ -18,7 +18,7 @@ class RattleshirtsRaiders extends DrawCard {
 
         var buttons = [{ text: 'Done', command: 'plot', method: 'cancelSelect' }];
 
-        this.game.promptForSelect(this.owner, this.onCardSelected.bind(this), 'Select attachment to discard', buttons);
+        this.game.promptForSelectDeprecated(this.owner, this.onCardSelected.bind(this), 'Select attachment to discard', buttons);
     }
 
     cancelSelect(player) {

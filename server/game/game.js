@@ -12,6 +12,7 @@ const StandingPhase = require('./gamesteps/standingphase.js');
 const TaxationPhase = require('./gamesteps/taxationphase.js');
 const FulfillMilitaryClaim = require('./gamesteps/challenge/fulfillmilitaryclaim.js');
 const MenuPrompt = require('./gamesteps/menuprompt.js');
+const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 
 class Game extends EventEmitter {
     constructor(owner, name) {
@@ -28,13 +29,13 @@ class Game extends EventEmitter {
         this.started = false;
         this.playStarted = false;
 
-        this.setMaxListeners(0); 
+        this.setMaxListeners(0);
     }
 
     addMessage(message) {
         var args = Array.from(arguments).slice(1);
         var formattedMessage = this.formatMessage(message, args);
-        
+
         this.messages.push({ date: new Date(), message: formattedMessage });
     }
 
@@ -882,7 +883,7 @@ class Game extends EventEmitter {
 
             player.setPower = num;
 
-            this.promptForSelect(player, this.setPower.bind(this), 'Select a card to set power for', buttons);
+            this.promptForSelectDeprecated(player, this.setPower.bind(this), 'Select a card to set power for', buttons);
 
             return;
         }
@@ -917,7 +918,7 @@ class Game extends EventEmitter {
             ];
             player.setStrength = num;
 
-            this.promptForSelect(player, this.setStrength.bind(this), 'Select a card to set strength for', buttons);
+            this.promptForSelectDeprecated(player, this.setStrength.bind(this), 'Select a card to set strength for', buttons);
 
             return;
         }
@@ -1082,7 +1083,14 @@ class Game extends EventEmitter {
         this.queueStep(new MenuPrompt(this, player, contextObj, properties));
     }
 
-    promptForSelect(player, callback, menuTitle, buttons, multiSelect) {
+    promptForSelect(player, properties) {
+        this.queueStep(new SelectCardPrompt(this, player, properties));
+    }
+
+    /**
+     * @deprecated - use promptForSelect or promptWithMenu instead.
+     */
+    promptForSelectDeprecated(player, callback, menuTitle, buttons, multiSelect) {
         player.selectCard = true;
 
         this.selectPlayer = player;

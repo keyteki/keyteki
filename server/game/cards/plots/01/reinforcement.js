@@ -12,7 +12,7 @@ class Reinforcements extends PlotCard {
             { text: 'Done', command: 'plot', method: 'doneSelect' }
         ];
 
-        this.game.promptForSelect(player, this.onCardClicked.bind(this), 'Select card', buttons);
+        this.game.promptForSelectDeprecated(player, this.onCardClicked.bind(this), 'Select card', buttons);
 
         this.selecting = true;
 
