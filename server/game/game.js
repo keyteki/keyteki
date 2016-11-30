@@ -672,15 +672,6 @@ class Game extends EventEmitter {
         }
     }
 
-    customCommand(playerId, arg) {
-        var player = this.getPlayerById(playerId);
-        if(!player) {
-            return;
-        }
-
-        this.emit('customCommand', this, player, arg);
-    }
-
     getNumberOrDefault(string, defaultNumber) {
         var num = parseInt(string);
 

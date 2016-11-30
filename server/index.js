@@ -568,20 +568,6 @@ io.on('connection', function(socket) {
         });
     });
 
-    socket.on('custom', function(arg) {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.customCommand(socket.id, arg);
-
-            sendGameState(game);
-        });
-    });
-
     socket.on('chat', function(message) {
         var game = findGameForPlayer(socket.id);
 
