@@ -524,7 +524,6 @@ class Player extends Spectator {
         }
 
         this.plotRevealed = true;
-        this.revealFinished = false;
 
         this.selectedPlot = undefined;
     }

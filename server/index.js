@@ -244,7 +244,7 @@ function handleError(game, e) {
 
     if(game) {
         game.addMessage('A Server error has occured processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.');
-    }   
+    }
 }
 
 function runAndCatchErrors(game, func) {
@@ -421,34 +421,6 @@ io.on('connection', function(socket) {
 
         runAndCatchErrors(game, () => {
             game.playCard(socket.id, card);
-
-            sendGameState(game);
-        });
-    });
-
-    socket.on('resolvePlotEffect', function(playerId) {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.resolvePlayerPlotEffect(playerId);
-
-            sendGameState(game);
-        });
-    });
-
-    socket.on('doneWhenRealedEffects', function() {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.drawPhase(game.getPlayerById(socket.id));
 
             sendGameState(game);
         });
@@ -704,7 +676,7 @@ io.on('connection', function(socket) {
         runAndCatchErrors(game, () => {
             game.shuffleDeck(socket.id);
 
-            sendGameState(game);        
+            sendGameState(game);
         });
     });
 
@@ -718,8 +690,8 @@ io.on('connection', function(socket) {
         runAndCatchErrors(game, () => {
             game.plotCardCommand(socket.id, method, arg);
 
-            sendGameState(game);        
-        });        
+            sendGameState(game);
+        });
     });
 
     socket.on('agenda', function(arg, method) {

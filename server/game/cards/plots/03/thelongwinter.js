@@ -8,150 +8,68 @@ class TheLongWinter extends PlotCard {
             return true;
         }
 
-        this.state = {};
-
-        var firstPlayer = this.game.getFirstPlayer();
-
-        if(!firstPlayer) {
-            return true;
-        }
-
-        var otherPlayer = this.game.getOtherPlayer(firstPlayer);
-
-        this.state[firstPlayer.id] = {};
-        if(firstPlayer.activePlot.hasTrait('Summer')) {
-            this.state[firstPlayer.id].doneSelecting = true;
-            this.state[firstPlayer.id].needsToSelect = false;
-        } else {
-            this.state[firstPlayer.id].selecting = true;
-            this.state[firstPlayer.id].selectedCard = undefined;
-            this.state[firstPlayer.id].doneSelecting = false;
-            this.state[firstPlayer.id].needsToSelect = true;
-            this.setupSelection(firstPlayer);
-        }
-
-        if(otherPlayer) {
-            this.state[otherPlayer.id] = {};
-            
-            if(otherPlayer.activePlot.hasTrait('Summer')) {
-                this.state[otherPlayer.id].doneSelecting = true;
-                this.state[otherPlayer.id].needsToSelect = false;
-            } else {
-                this.state[otherPlayer.id].selecting = false;
-                this.state[otherPlayer.id].selectedCard = undefined;
-                this.state[otherPlayer.id].doneSelecting = false;
-                this.state[otherPlayer.id].needsToSelect = true;
-            }
-        }
+        this.selections = [];
+        this.remainingPlayers = _.reject(this.game.getPlayersInFirstPlayerOrder(), player => player.activePlot.hasTrait('Summer'));
+        this.proceedToNextStep();
 
         return false;
     }
 
     cancelSelection(player) {
-        if(!this.inPlay || !this.state[player.id].selecting) {
-            return;
-        }
-
-        this.game.cancelSelect(player);
-
         this.game.addMessage('{0} has cancelled the resolution of {1}', player, this);
-
-        this.state[player.id].doneSelecting = true;
-
         this.proceedToNextStep();
-    }
-
-    selectFactionCard(player) {
-        if(!this.inPlay || !this.state[player.id].selecting) {
-            return false;
-        }
-
-        this.state[player.id].doneSelecting = true;
-        this.state[player.id].factionCard = true;
-
-        this.proceedToNextStep();
-
-        player.selectedCard = false;
-
         return true;
     }
 
-    onCardSelected(player, cardId) {
-        if(!this.inPlay || !this.state[player.id].selecting) {
+    selectFactionCard(player, arg) {
+        if(arg !== 'faction') {
             return false;
         }
 
-        var card = player.findCardInPlayByUuid(cardId);
+        this.selections.push({ player: player, factionCard: true });
+        this.game.addMessage('{0} has selected their faction to lose power from {2}', player, this);
+        this.proceedToNextStep();
+        return true;
+    }
 
-        if(!card || card.getPower() === 0) {
-            return false;
-        }
-
-        this.state[player.id].selecting = false;
-        this.state[player.id].doneSelecting = true;
-        this.state[player.id].selectedCard = card;
-
+    onCardSelected(player, card) {
+        this.selections.push({ player: player, card: card });
         this.game.addMessage('{0} has selected {1} to lose power from {2}', player, card, this);
-
         this.proceedToNextStep();
-
         return true;
-    }
-
-    setupSelection(player) {
-        this.state[player.id].selecting = true;
-
-        var buttons = [
-            { command: 'plot', method: 'selectFactionCard', text: 'Faction Card' },
-            { command: 'plot', method: 'cancelSelection', text: 'Done' }
-        ];
-
-        var otherPlayer = this.game.getOtherPlayer(player);
-        if(otherPlayer) {
-            otherPlayer.menuTitle = 'Waiting for oppoent to select';
-            otherPlayer.buttons = [];
-        }
-
-        this.game.promptForSelectDeprecated(player, this.onCardSelected.bind(this), 'Select a card to discard power from', buttons);
     }
 
     doPower() {
-        var sortedPlayers = this.game.getPlayersInFirstPlayerOrder();
+        _.each(this.selections, selection => {
+            var player = selection.player;
 
-        _.each(sortedPlayers, player => {
-            var playerState = this.state[player.id];
-
-            playerState.selecting = false;
-
-            if(!playerState.needsToSelect) {
-                return;
-            }
-
-            if(playerState.factionCard) {
+            if(selection.factionCard) {
                 this.game.addPower(player, -1);
-
                 this.game.addMessage('{0} discards 1 power from their faction card from {1}', player, this);
-            } else if(playerState.selectedCard) {
-                this.game.addMessage('{0} discards 1 power from {1}', player, playerState.selectedCard);
-                this.state[player.id].selectedCard.power--;
+            } else if(selection.card) {
+                this.game.addMessage('{0} discards 1 power from {1}', player, selection.card);
+                selection.card.power--;
             }
         });
 
-        this.game.playerRevealDone(this.owner);
+        this.selections = [];
     }
 
     proceedToNextStep() {
-        var stillToSelect = _.find(this.game.getPlayers(), player => {
-            return !this.state[player.id].doneSelecting;
-        });
-
-        if(!stillToSelect) {
+        if(this.remainingPlayers.length > 0) {
+            var currentPlayer = this.remainingPlayers.shift();
+            this.game.promptForSelect(currentPlayer, {
+                activePromptTitle: 'Select a card to discard power from',
+                waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                additionalButtons: [{ command: 'menuButton', text: 'Faction Card', arg: 'faction' }],
+                cardCondition: card => card.owner === currentPlayer && card.getPower() > 0,
+                onSelect: (player, card) => this.onCardSelected(player, card),
+                onMenuCommand: (player, arg) => this.selectFactionCard(player, arg),
+                onCancel: (player) => this.cancelSelection(player)
+            });
+        } else {
             this.doPower();
-
-            return;
         }
-
-        this.setupSelection(stillToSelect);
     }
 }
 

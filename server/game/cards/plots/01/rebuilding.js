@@ -8,59 +8,31 @@ class Rebuilding extends PlotCard {
             return true;
         }
 
-        var buttons = [
-            { text: 'Done', command: 'plot', method: 'doneSelect' }
-        ];
-
-        this.game.promptForSelectDeprecated(player, this.onCardClicked.bind(this), 'Select cards', buttons);
-
-        this.selecting = true;
-
-        return false;
-    }
-
-    onCardClicked(player, cardId) {
-        if(!this.inPlay || this.owner !== player || !this.selecting) {
-            return false;
-        }
-
-        var card = player.findCardByUuid(player.discardPile, cardId);
-        if(!card) {
-            return false;
-        }
-
-        var numSelected = player.discardPile.reduce((counter, card) => {
-            if(!card.selected) {
-                return counter;
-            }
-
-            return counter + 1;
-        }, 0);
-
-        if(!card.selected && numSelected === 3) {
-            return false;
-        }
-
-        card.selected = !card.selected;
-
-        return false;
-    }
-
-    doneSelect(player) {
-        if(!this.inPlay || this.owner !== player) {
-            return;
-        }
-
-        var selected = player.discardPile.filter(card => {
-            return card.selected;
+        this.game.promptForSelect(player, {
+            numCards: 3,
+            activePromptTitle: 'Select up to 3 cards from discard',
+            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            cardCondition: card => this.cardCondition(card),
+            onSelect: (player, cards) => this.doneSelect(player, cards)
         });
+
+        return false;
+    }
+
+    cardCondition(card) {
+        var player = card.owner;
+        return this.owner === player && player.findCardByUuid(player.discardPile, card.uuid);
+    }
+
+    doneSelect(player, cards) {
+        if(!this.inPlay) {
+            return false;
+        }
 
         var params = '';
         var paramIndex = 2;
 
-        _.each(selected, card => {
-            card.selected = false;
-
+        _.each(cards, card => {
             player.discardPile = player.removeCardByUuid(player.discardPile, card.uuid);
             player.addCardToDrawDeck(card);
             player.shuffleDrawDeck();
@@ -68,18 +40,11 @@ class Rebuilding extends PlotCard {
             params += '{' + paramIndex++ + '} ';
         });
 
-        if(!_.isEmpty(selected)) {
-            this.game.addMessage('{0} uses {1} to shuffle ' + params + 'into their deck', player, this, ...selected);
+        if(!_.isEmpty(cards)) {
+            this.game.addMessage('{0} uses {1} to shuffle ' + params + 'into their deck', player, this, ...cards);
         }
 
-        this.selecting = false;
-        player.selectCard = false;
-        
-        this.game.playerRevealDone(player);
-    }
-
-    leavesPlay() {
-        this.selecting = false;
+        return true;
     }
 }
 

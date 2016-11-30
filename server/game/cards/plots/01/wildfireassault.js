@@ -3,107 +3,38 @@ const _ = require('underscore');
 const PlotCard = require('../../../plotcard.js');
 
 class WildfireAssault extends PlotCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.state = {};
-    }
-    
     onReveal(player) {
         if(!this.inPlay || this.owner !== player) {
             return true;
         }
 
-        var firstPlayer = this.game.getFirstPlayer();
-
-        if(!firstPlayer) {
-            return true;
-        }
-
-        var otherPlayer = this.game.getOtherPlayer(firstPlayer);
-
-        this.state[firstPlayer.id] = {};
-        this.state[firstPlayer.id].selecting = true;
-        this.state[firstPlayer.id].doneSelecting = false;
-
-        this.setupSelection(firstPlayer);
-
-        if(otherPlayer) {
-            this.state[otherPlayer.id] = {};
-            this.state[otherPlayer.id].selecting = false;
-            this.state[otherPlayer.id].doneSelecting = false;
-        }
+        this.selections = [];
+        this.remainingPlayers = this.game.getPlayersInFirstPlayerOrder();
+        this.proceedToNextStep();
 
         return false;
     }
 
-    setupSelection(player) {
-        var buttons = [{ command: 'plot', method: 'cancelSelection', text: 'Done' }];
-
-        this.state[player.id].selecting = true;
-
-        var otherPlayer = this.game.getOtherPlayer(player);
-        if(otherPlayer) {
-            otherPlayer.menuTitle = 'Waiting for opponent to select characters';
-            otherPlayer.buttons = [];
-        }
-
-        this.waitingForSelection = true;
-
-        this.game.promptForSelectDeprecated(player, this.onCardSelected.bind(this), 'Select characters to save', buttons, true);
-    }
-
-    cancelSelection(player) {
-        if(!this.inPlay || !this.waitingForSelection || !this.state[player.id].selecting) {
-            return;
-        }
-
-        this.state[player.id].doneSelecting = true;
-
+    onSelect(player, cards) {
+        this.selections.push({ player: player, cards: cards });
         this.proceedToNextStep();
-    }
-
-    onCardSelected(player, cardId) {
-        if(!this.inPlay || !this.waitingForSelection || !this.state[player.id].selecting) {
-            return false;
-        }
-
-        var card = player.findCardInPlayByUuid(cardId);
-        if(!card || card.getType() !== 'character') {
-            return false;
-        }
-
-        var numSelected = player.cardsInPlay.reduce((counter, card) => {
-            if(!card.selected) {
-                return counter;
-            }
-
-            return counter + 1;
-        }, 0);
-
-        if(numSelected === 3 && !card.selected) {
-            return false;
-        }
-
-        card.selected = !card.selected;
-
         return true;
     }
 
-    doDiscard() {
-        var sortedPlayers = this.game.getPlayersInFirstPlayerOrder();
+    cancelSelection(player) {
+        this.selections.push({ player: player, cards: [] });
+        this.proceedToNextStep();
+    }
 
-        _.each(sortedPlayers, player => {
-            var toKill = player.cardsInPlay.filter(card => {
-                return card.getType() === 'character' && !card.selected;
-            });
+    doDiscard() {
+        _.each(this.selections, selection => {
+            var player = selection.player;
+            var toKill = _.difference(player.cardsInPlay.filter(card => card.getType() === 'character'), selection.cards);
 
             var params = '';
             var paramIndex = 2;
 
             _.each(toKill, card => {
-                card.selected = false;
-
                 player.discardCard(card.uuid, player.deadPile);
 
                 params += '{' + paramIndex++ + '} ';
@@ -113,37 +44,27 @@ class WildfireAssault extends PlotCard {
             if(_.isEmpty(toKill)) {
                 this.game.addMessage('{0} does not kill any characters with {1}', player, this);
             } else {
-                this.game.addMessage('{0} uses {1} to kill ' + params, player, this, ...toKill);                
+                this.game.addMessage('{0} uses {1} to kill ' + params, player, this, ...toKill);
             }
-
-            player.cardsInPlay.each(card => {
-                card.selected = false;
-            });
-
-            player.selectCard = false;
         });
 
-        _.each(this.state, s => {
-            s.selecting = false;
-        });
-
-        this.waitingForSelection = false;
-        
-        this.game.playerRevealDone(this.owner);
+        this.selections = [];
     }
 
     proceedToNextStep() {
-        var stillToSelect = _.find(this.game.getPlayers(), player => {
-            return !this.state[player.id].doneSelecting;
-        });
-
-        if(!stillToSelect) {
+        if(this.remainingPlayers.length > 0) {
+            var currentPlayer = this.remainingPlayers.shift();
+            this.game.promptForSelect(currentPlayer, {
+                numCards: 3,
+                activePromptTitle: 'Select up to 3 characters to save',
+                waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                cardCondition: card => card.owner === currentPlayer && card.getType() === 'character',
+                onSelect: (player, cards) => this.onSelect(player, cards),
+                onCancel: (player) => this.cancelSelection(player)
+            });
+        } else {
             this.doDiscard();
-
-            return;
         }
-
-        this.setupSelection(stillToSelect);
     }
 }
 

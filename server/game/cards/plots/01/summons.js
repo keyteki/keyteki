@@ -13,26 +13,26 @@ class Summons extends PlotCard {
         });
 
         var buttons = _.map(characters, card => {
-            return { text: card.name, command: 'plot', method: 'cardSelected', arg: card.uuid };
+            return { text: card.name, command: 'menuButton', method: 'cardSelected', arg: card.uuid };
         });
+        buttons.push({ text: 'Done', command: 'menuButton', method: 'doneSelecting' });
 
-        buttons.push({ text: 'Done', command: 'plot', method: 'doneSelecting' });
-
-        player.buttons = buttons;
-        player.menuTitle = 'Select a card to add to your hand';
+        this.game.promptWithMenu(player, this, {
+            activePrompt: {
+                menuTitle: 'Select a card to add to your hand',
+                buttons: buttons
+            },
+            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+        });
 
         return false;
     }
 
     cardSelected(player, cardId) {
-        if(this.owner !== player) {
-            return;
-        }
-
         var card = player.findCardByUuid(player.drawDeck, cardId);
 
         if(!card) {
-            return;
+            return false;
         }
 
         player.moveFromDrawDeckToHand(card);
@@ -40,15 +40,14 @@ class Summons extends PlotCard {
 
         this.game.addMessage('{0} uses {1} to reveal {2} and add it to their hand', player, this, card);
 
-        this.game.playerRevealDone(player);
+        return true;
     }
 
     doneSelecting(player) {
-        if(this.owner !== player) {
-            return;
-        }
-        
-        this.game.playerRevealDone(player);
+        player.shuffleDrawDeck();
+        this.game.addMessage('{0} does not use {1} to add a card to their hand', player, this);
+
+        return true;
     }
 }
 

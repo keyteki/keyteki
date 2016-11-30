@@ -3,6 +3,7 @@ const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
 const SelectPlotPrompt = require('./plot/selectplotprompt.js');
 const FirstPlayerPrompt = require('./plot/firstplayerprompt.js');
+const ResolvePlots = require('./plot/resolveplots.js');
 
 class PlotPhase extends Phase {
     constructor(game) {
@@ -12,10 +13,10 @@ class PlotPhase extends Phase {
             new SelectPlotPrompt(game),
             new SimpleStep(game, () => this.flipPlotsFaceup()),
             new SimpleStep(game, () => this.determineInitiative()),
-            () => {
-                return new FirstPlayerPrompt(game, this.initiativeWinner);
-            },
-            new SimpleStep(game, () => this.startPlotRevealEffects())
+            () => new FirstPlayerPrompt(game, this.initiativeWinner),
+            () => new ResolvePlots(game, this.getPlayersWithRevealEffects()),
+            // TODO: Temporarily start draw phase.
+            new SimpleStep(game, () => this.beginDrawPhase())
         ]);
     }
 
@@ -23,11 +24,6 @@ class PlotPhase extends Phase {
         _.each(this.game.getPlayers(), player => {
             player.startPlotPhase();
         });
-    }
-
-    // Temporarily go back into the old flow.
-    startPlotRevealEffects() {
-        this.game.resolvePlotEffects(this.game.getFirstPlayer());
     }
 
     flipPlotsFaceup() {
@@ -72,6 +68,14 @@ class PlotPhase extends Phase {
         });
 
         this.initiativeWinner = initiativeWinner;
+    }
+
+    getPlayersWithRevealEffects() {
+        return _.filter(this.game.getPlayers(), player => player.activePlot.hasRevealEffect());
+    }
+
+    beginDrawPhase() {
+        this.game.drawPhase(this.game.getFirstPlayer());
     }
 }
 

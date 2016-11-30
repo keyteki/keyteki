@@ -6,39 +6,33 @@ class CalmOverWesteros extends PlotCard {
             return true;
         }
 
-        player.menuTitle = 'Select a challenge type';
-        player.buttons = [
-            { text: 'Military', command: 'plot', method: 'setChallengeType', arg: 'military' },
-            { text: 'Intrigue', command: 'plot', method: 'setChallengeType', arg: 'intrigue' },
-            { text: 'Power', command: 'plot', method: 'setChallengeType', arg: 'power' },
-            { text: 'Cancel', command: 'plot', method: 'cancelChallengeSelect' }
-        ];
+        this.game.promptWithMenu(player, this, {
+            activePrompt: {
+                menuTitle: 'Select a challenge type',
+                buttons: [
+                    { text: 'Military', command: 'menuButton', method: 'setChallengeType', arg: 'military' },
+                    { text: 'Intrigue', command: 'menuButton', method: 'setChallengeType', arg: 'intrigue' },
+                    { text: 'Power', command: 'menuButton', method: 'setChallengeType', arg: 'power' },
+                    { text: 'Cancel', command: 'menuButton', method: 'cancelChallengeSelect' }
+                ]
+            },
+            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+        });
 
         return false;
     }
 
     cancelChallengeSelect(player) {
-        if(!this.inPlay || this.owner !== player) {
-            return;
-        }
-
         this.game.addMessage('{0} cancels the effect of {1}', player, this);
-        
-        this.game.playerRevealDone(player);       
+        return true;
     }
 
     setChallengeType(player, challengeType) {
-        if(!this.inPlay || this.owner !== player) {
-            return;
-        }
-
         this.challengeType = challengeType;
-
         this.game.addMessage('{0} uses {1} to reduce the claim value of {2} challenges by 1 this round', player, this, challengeType);
-
-        this.game.playerRevealDone(player);
+        return true;
     }
-    
+
     modifyClaim(player, challengeType, claim) {
         if(!this.inPlay || player === this.owner || this.challengeType !== challengeType) {
             return claim;

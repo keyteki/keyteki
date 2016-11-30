@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const PlotCard = require('../../../plotcard.js');
 
 class Reinforcements extends PlotCard {
@@ -8,38 +6,30 @@ class Reinforcements extends PlotCard {
             return true;
         }
 
-        var buttons = [
-            { text: 'Done', command: 'plot', method: 'doneSelect' }
-        ];
-
-        this.game.promptForSelectDeprecated(player, this.onCardClicked.bind(this), 'Select card', buttons);
-
-        this.selecting = true;
+        this.game.promptForSelect(player, {
+            activePromptTitle: 'Select a character from your hand or discard pile',
+            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            cardCondition: card => this.cardCondition(card),
+            onSelect: (player, card) => this.onCardClicked(player, card)
+        });
 
         return false;
     }
 
-    onCardClicked(player, cardId) {
-        if(!this.inPlay || this.owner !== player) {
+    cardCondition(card) {
+        var player = card.owner;
+        return this.owner === player &&
+            card.getCost() <= 5 &&
+            card.getType() === 'character' &&
+            (player.findCardByUuid(player.discardPile, card.uuid) || player.findCardByUuid(player.hand, card.uuid));
+    }
+
+    onCardClicked(player, card) {
+        if(!this.inPlay) {
             return false;
         }
 
-        var hand = false;
-
-        var card = player.findCardByUuid(player.discardPile, cardId);
-        if(!card) {
-            card = player.findCardByUuid(player.hand, cardId);
-
-            hand = true;
-
-            if(!card) {
-                return false;
-            }    
-        }
-
-        if(card.getCost() > 5 || card.getType() !== 'character') {
-            return false;
-        }
+        var hand = !!player.findCardByUuid(player.hand, card.uuid);
 
         this.game.addMessage('{0} uses {1} to put {2} into play from their {3}', player, this, card, hand ? 'hand' : 'discard pile');
 
@@ -49,21 +39,7 @@ class Reinforcements extends PlotCard {
             player.discardPile = player.removeCardByUuid(player.discardPile, card.uuid);
         }
 
-        this.selecting = false;
-        player.selectCard = false;
-        
-        this.game.playerRevealDone(player);
-
         return true;
-    }
-
-    doneSelect(player) {
-        if(!this.inPlay || this.owner !== player || !this.selecting) {
-            return;
-        }
-
-        this.game.cancelSelect(player);
-        this.game.playerRevealDone(player);
     }
 }
 

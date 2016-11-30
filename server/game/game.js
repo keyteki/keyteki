@@ -138,6 +138,17 @@ class Game extends EventEmitter {
             return;
         }
 
+        var card = player.findCardByUuid(player.hand, cardId);
+
+        if(!card) {
+            return;
+        }
+
+        if(this.pipeline.handleCardClicked(player, card)) {
+            this.pipeline.continue();
+            return;
+        }
+
         var handled = false;
         if(player === this.selectPlayer && this.selectCallback) {
             handled = this.selectCallback(player, cardId);
@@ -187,64 +198,6 @@ class Game extends EventEmitter {
         if(otherPlayer) {
             otherPlayer.menuTitle = 'Waiting for opponent to marshal their cards';
             otherPlayer.buttons = [];
-        }
-    }
-
-    playerRevealDone(player) {
-        var otherPlayer = this.getOtherPlayer(player);
-
-        player.revealFinished = true;
-
-        if(otherPlayer) {
-            this.resolvePlotEffects(otherPlayer);
-        } else {
-            player.menuTitle = 'Perform any after reveal actions';
-            player.buttons = [{ command: 'doneWhenRealedEffects', text: 'Done' }];
-        }
-    }
-
-    resolvePlotEffects(player) {
-        player.menuTitle = 'Select player to resolve their plot';
-        player.buttons = [];
-
-        _.each(this.getPlayers(), p => {
-            if(p.activePlot.hasRevealEffect() && !p.revealFinished) {
-                player.buttons.push({ command: 'resolvePlotEffect', text: p.name, arg: p.id });
-            }
-        });
-
-        if(player.buttons.length === 1) {
-            this.resolvePlayerPlotEffect(player.buttons[0].arg);
-
-            return;
-        }
-
-        var firstPlayer = this.getFirstPlayer();
-        var otherPlayer = this.getOtherPlayer(firstPlayer);
-
-        if(_.isEmpty(player.buttons)) {
-            firstPlayer.menuTitle = 'Perform any after reveal actions';
-            firstPlayer.buttons = [{ command: 'doneWhenRealedEffects', text: 'Done' }];
-        }
-
-        if(otherPlayer) {
-            otherPlayer.menuTitle = 'Waiting for first player to resolve plot phase';
-            otherPlayer.buttons = [];
-        }
-    }
-
-    resolvePlayerPlotEffect(playerId) {
-        var player = this.getPlayerById(playerId);
-        var otherPlayer = this.getOtherPlayer(player);
-        var firstPlayer = player.firstPlayer ? player : otherPlayer;
-
-        if(otherPlayer && otherPlayer.activePlot.hasRevealEffect()) {
-            firstPlayer.menuTitle = 'Waiting for opponent to resolve plot effect';
-            firstPlayer.buttons = [];
-        }
-
-        if(player.activePlot.onReveal(player)) {
-            this.playerRevealDone(player);
         }
     }
 
@@ -355,6 +308,19 @@ class Game extends EventEmitter {
         var player = this.getPlayerById(sourcePlayer);
 
         if(!player) {
+            return;
+        }
+
+        var card = _.reduce(this.getPlayers(), (memo, p) => {
+            return memo || p.findCardByUuid(p.discardPile, cardId);
+        }, null);
+
+        if(!card) {
+            return;
+        }
+
+        if(this.pipeline.handleCardClicked(player, card)) {
+            this.pipeline.continue();
             return;
         }
 

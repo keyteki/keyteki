@@ -6,54 +6,30 @@ class Confiscation extends PlotCard {
             return true;
         }
 
-        if(!player.cardsInPlay.any(card => {
-            return card.attachments.size() !== 0;
-        })) {
-            return true;
-        }
-
-        var buttons = [{ text: 'Done', command: 'plot', method: 'cancelDiscard' }];
-
-        this.game.promptForSelectDeprecated(player, this.onCardSelected.bind(this), 'Select attachment to discard', buttons);
+        this.game.promptForSelect(player, {
+            cardCondition: card => this.cardCondition(card),
+            activePromptTitle: 'Select an attachment to discard',
+            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            onSelect: (player, card) => this.onCardSelected(player, card)
+        });
 
         return false;
     }
 
-    cancelDiscard(player) {
-        if(!this.inPlay || this.owner !== player) {
-            return;
-        }
-
-        this.game.cancelSelect(player);
-        this.game.playerRevealDone(player);
+    cardCondition(card) {
+        return card.getType() === 'attachment';
     }
 
-    onCardSelected(player, cardId) {
-        if(!this.inPlay || this.owner !== player) {
-            return;
-        }
-
-        var attachment = player.findCardInPlayByUuid(cardId);
-
-        if(!attachment) {
-            var otherPlayer = this.game.getOtherPlayer(player);
-
-            if(!otherPlayer) {
-                return;            
-            }
-
-            attachment = otherPlayer.findCardInPlayByUuid(cardId);
-        }
-        
-        
-        if(!attachment || attachment.getType() !== 'attachment') {
-            return;
+    onCardSelected(player, attachment) {
+        if(!this.inPlay) {
+            return false;
         }
 
         attachment.owner.removeAttachment(attachment);
 
-        this.game.addMessage('{0} uses {1} to discard {2}', attachment.owner, this, attachment);
-        this.game.playerRevealDone(player);
+        this.game.addMessage('{0} uses {1} to discard {2}', player, this, attachment);
+
+        return true;
     }
 }
 
