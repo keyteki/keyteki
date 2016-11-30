@@ -815,6 +815,8 @@ class Player extends Spectator {
 
             character.dupes = _(character.dupes.slice(1));
 
+            this.game.emit('onDupeDiscarded', this, character, discardedDupe);
+
             this.discardPile.push(discardedDupe);
         } else {
             this.discardCard(card.uuid, this.deadPile);
