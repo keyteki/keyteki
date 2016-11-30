@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const BaseStep = require('./basestep.js');
 const GamePipeline = require('../gamepipeline.js');
 
@@ -10,6 +9,10 @@ class Phase extends BaseStep {
 
     initialise(steps) {
         this.pipeline.initialise(steps);
+    }
+
+    queueStep(step) {
+        this.pipeline.queueStep(step);
     }
 
     isComplete() {

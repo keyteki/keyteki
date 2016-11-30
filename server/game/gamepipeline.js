@@ -10,6 +10,7 @@ class GamePipeline {
         if(!_.isArray(steps)) {
             steps = [steps];
         }
+
         this.pipeline = steps;
     }
 
@@ -17,11 +18,28 @@ class GamePipeline {
         return this.pipeline.length;
     }
 
+    getCurrentStep() {
+        var step = _.first(this.pipeline);
+
+        if(_.isFunction(step)) {
+            var createdStep = step();
+            this.pipeline[0] = createdStep;
+            return createdStep;
+        }
+
+        return step;
+    }
+
     queueStep(step) {
         if(this.pipeline.length === 0) {
             this.pipeline.unshift(step);
         } else {
-            this.queue.push(step);
+            var currentStep = this.getCurrentStep();
+            if(currentStep.queueStep) {
+                currentStep.queueStep(step);
+            } else {
+                this.queue.push(step);
+            }
         }
     }
 
@@ -30,7 +48,8 @@ class GamePipeline {
             return;
         }
 
-        var step = this.pipeline[0];
+        var step = this.getCurrentStep();
+
         if(step.cancelStep && step.isComplete) {
             step.cancelStep();
             if(!step.isComplete()) {
@@ -43,7 +62,7 @@ class GamePipeline {
 
     handleCardClicked(player, card) {
         if(this.pipeline.length > 0) {
-            var step = _.first(this.pipeline);
+            var step = this.getCurrentStep();
             if(step.onCardClicked(player, card) !== false) {
                 return true;
             }
@@ -54,7 +73,7 @@ class GamePipeline {
 
     handleMenuCommand(player, arg, method) {
         if(this.pipeline.length > 0) {
-            var step = _.first(this.pipeline);
+            var step = this.getCurrentStep();
             if(step.onMenuCommand(player, arg, method) !== false) {
                 return true;
             }
@@ -65,7 +84,7 @@ class GamePipeline {
 
     continue() {
         while(this.pipeline.length > 0) {
-            var currentStep = _.first(this.pipeline);
+            var currentStep = this.getCurrentStep();
 
             // Explicitly check for a return of false - if no return values is
             // defined then just continue to the next step.
