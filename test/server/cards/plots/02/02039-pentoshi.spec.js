@@ -2,9 +2,9 @@
 
 const _ = require('underscore');
 
-const Game = require('../../../server/game/game.js');
-const Player = require('../../../server/game/player.js');
-const cards = require('../../../server/game/cards');
+const Game = require('../../../../../server/game/game.js');
+const Player = require('../../../../../server/game/player.js');
+const cards = require('../../../../../server/game/cards');
 
 describe('Trading With The Pentoshi', () => {
     var game = new Game('1', 'Test Game');

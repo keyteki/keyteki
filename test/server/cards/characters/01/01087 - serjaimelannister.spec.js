@@ -3,7 +3,7 @@
 
 const _ = require('underscore');
 
-const SerJaimeLannister = require('../../../../server/game/cards/characters/01/serjaimelannister.js');
+const SerJaimeLannister = require('../../../../../server/game/cards/characters/01/serjaimelannister.js');
 
 describe('SerJaimeLannister', function() {
     beforeEach(function() {

@@ -1,7 +1,7 @@
 /* global describe, it, expect, beforeEach, jasmine */
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
-const cards = require('../../../server/game/cards');
+const cards = require('../../../../../server/game/cards');
 const ANobleCause = cards['01004'];
 
 describe('ANobleCause', function() {
