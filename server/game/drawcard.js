@@ -8,18 +8,22 @@ class DrawCard extends BaseCard {
 
         this.dupes = _([]);
         this.attachments = _([]);
-        this.icons = {};
+        this.icons = {
+            military: 0,
+            intrigue: 0,
+            power: 0
+        };
 
         if(cardData.is_military) {
-            this.icons.military = true;
+            this.icons.military++;
         }
 
         if(cardData.is_intrigue) {
-            this.icons.intrigue = true;
+            this.icons.intrigue++;
         }
 
         if(cardData.is_power) {
-            this.icons.power = true;
+            this.icons.power++;
         }
 
         this.power = 0;
@@ -58,7 +62,7 @@ class DrawCard extends BaseCard {
     }
 
     hasIcon(icon) {
-        return this.icons[icon];
+        return this.icons[icon] > 0;
     }
 
     getCost() {
@@ -95,8 +99,16 @@ class DrawCard extends BaseCard {
         this.renownCount++;
     }
 
+    setIcon(icon) {
+        this.icons[icon]++;
+    }
+
     clearRenown() {
         this.renownCount--;
+    }
+
+    clearIcon(icon) {
+        this.icons[icon]--;
     }
 
     needsStealthTarget() {
