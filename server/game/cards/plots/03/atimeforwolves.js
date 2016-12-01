@@ -13,13 +13,19 @@ class ATimeForWolves extends PlotCard {
         });
 
         var buttons = _.map(direwolfCards, card => {
-            return { text: card.name, command: 'plot', method: 'cardSelected', arg: card.uuid };
+            return { text: card.name, command: 'menuButton', method: 'cardSelected', arg: card.uuid };
         });
 
-        buttons.push({ text: 'Done', command: 'plot', method: 'doneSelecting' });
+        buttons.push({ text: 'Done', command: 'menuButton', method: 'doneSelecting' });
 
-        player.buttons = buttons;
-        player.menuTitle = 'Select a card to add to your hand';
+        this.game.promptWithMenu(player, this, {
+            activePrompt: {
+                menuTitle: 'Select a card to add to your hand',
+                buttons: buttons
+            },
+
+            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+        });
 
         return false;
     }
@@ -48,11 +54,19 @@ class ATimeForWolves extends PlotCard {
 
         this.revealedCard = card;
 
-        player.menuTitle = 'Put card into play?';
-        player.buttons = [
+        var buttons = [
             { text: 'Keep in hand', command: 'plot', method: 'keepInHand' },
             { text: 'Put in play', command: 'plot', method: 'putInPlay' }
         ];
+        
+        this.game.promptWithMenu(player, this, {
+            activePrompt: {
+                menuTitle: 'Put card into play?',
+                buttons: buttons
+            },
+
+            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+        });
     }
 
     keepInHand(player) {
