@@ -140,11 +140,7 @@ class Game extends EventEmitter {
 
         var card = player.findCardByUuid(player.hand, cardId);
 
-        if(!card) {
-            return;
-        }
-
-        if(this.pipeline.handleCardClicked(player, card)) {
+        if(card && !isDrop && this.pipeline.handleCardClicked(player, card)) {
             this.pipeline.continue();
             return;
         }
