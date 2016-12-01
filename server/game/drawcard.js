@@ -89,10 +89,10 @@ class DrawCard extends BaseCard {
 
     getStrength() {
         if(this.owner.phase === 'setup') {
-            return this.cardData.strength;
+            return this.cardData.strength || 0;
         }
 
-        return this.strengthModifier + this.cardData.strength;
+        return this.strengthModifier + this.cardData.strength || 0;
     }
 
     setRenown() {
