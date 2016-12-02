@@ -419,10 +419,6 @@ class Player extends Spectator {
         this.cardsInPlay = processedCards;
     }
 
-    marshalDone() {
-        this.marshalled = true;
-    }
-
     startPlotPhase() {
         this.phase = 'plot';
 
@@ -434,7 +430,6 @@ class Player extends Spectator {
         this.doneChallenges = false;
         this.plotRevealed = false;
         this.roundDone = false;
-        this.marshalled = false;
         this.challenges = {
             complete: 0,
             maxTotal: 3,
@@ -507,15 +502,11 @@ class Player extends Spectator {
     beginMarshal() {
         this.phase = 'marshal';
 
-        this.buttons = [{ command: 'donemarshal', text: 'Done' }];
-        this.menuTitle = 'Marshal your cards';
-
         this.gold += this.getTotalIncome();
         this.reserve = this.getTotalReserve();
         this.claim = this.activePlot.claim || 0;
 
         this.limitedPlayed = 0;
-        this.marshalled = false;
     }
 
     hasUnmappedAttachments() {

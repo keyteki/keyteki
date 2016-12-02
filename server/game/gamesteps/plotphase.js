@@ -14,9 +14,7 @@ class PlotPhase extends Phase {
             new SimpleStep(game, () => this.flipPlotsFaceup()),
             new SimpleStep(game, () => this.determineInitiative()),
             () => new FirstPlayerPrompt(game, this.initiativeWinner),
-            () => new ResolvePlots(game, this.getPlayersWithRevealEffects()),
-            // TODO: Temporarily start draw phase.
-            new SimpleStep(game, () => this.beginDrawPhase())
+            () => new ResolvePlots(game, this.getPlayersWithRevealEffects())
         ]);
     }
 
@@ -72,10 +70,6 @@ class PlotPhase extends Phase {
 
     getPlayersWithRevealEffects() {
         return _.filter(this.game.getPlayers(), player => player.activePlot.hasRevealEffect());
-    }
-
-    beginDrawPhase() {
-        this.game.drawPhase(this.game.getFirstPlayer());
     }
 }
 

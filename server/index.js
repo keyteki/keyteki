@@ -468,20 +468,6 @@ io.on('connection', function(socket) {
         });
     });
 
-    socket.on('donemarshal', function() {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.marshalDone(socket.id);
-
-            sendGameState(game);
-        });
-    });
-
     socket.on('challenge', function(challengeType) {
         var game = findGameForPlayer(socket.id);
 
