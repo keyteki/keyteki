@@ -8,7 +8,7 @@ class ATimeForWolves extends PlotCard {
             return true;
         }
 
-        var direwolfCards = player.searchDrawDeck(10, card => {
+        var direwolfCards = player.searchDrawDeck(card => {
             return card.hasTrait('Direwolf');
         });
 
@@ -23,7 +23,6 @@ class ATimeForWolves extends PlotCard {
                 menuTitle: 'Select a card to add to your hand',
                 buttons: buttons
             },
-
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name
         });
 
@@ -31,14 +30,10 @@ class ATimeForWolves extends PlotCard {
     }
 
     cardSelected(player, cardId) {
-        if(this.owner !== player) {
-            return;
-        }
-
         var card = player.findCardByUuid(player.drawDeck, cardId);
 
         if(!card) {
-            return;
+            return false;
         }
 
         player.moveFromDrawDeckToHand(card);
@@ -46,19 +41,16 @@ class ATimeForWolves extends PlotCard {
 
         if(card.getCost() > 3) {
             this.game.addMessage('{0} uses {1} to reveal {2} and add it to their hand', player, this, card);
-
-            this.game.playerRevealDone(player);
-
-            return;
+            return true;
         }
 
         this.revealedCard = card;
 
         var buttons = [
-            { text: 'Keep in hand', command: 'plot', method: 'keepInHand' },
-            { text: 'Put in play', command: 'plot', method: 'putInPlay' }
+            { text: 'Keep in hand', command: 'menuButton', method: 'keepInHand' },
+            { text: 'Put in play', command: 'menuButton', method: 'putInPlay' }
         ];
-        
+
         this.game.promptWithMenu(player, this, {
             activePrompt: {
                 menuTitle: 'Put card into play?',
@@ -67,36 +59,37 @@ class ATimeForWolves extends PlotCard {
 
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name
         });
+
+        return true;
     }
 
     keepInHand(player) {
-        if(this.owner !== player || !this.revealedCard) {
-            return;
+        if(!this.revealedCard) {
+            return false;
         }
 
         this.game.addMessage('{0} uses {1} to reveal {2} and add it to their hand', player, this, this.revealedCard);
+        this.revealedCard = null;
 
-        this.game.playerRevealDone(player);
+        return true;
     }
 
     putInPlay(player) {
-        if(this.owner !== player || !this.revealedCard) {
-            return;
+        if(!this.revealedCard) {
+            return false;
         }
 
         this.game.addMessage('{0} uses {1} to reveal {2} and put it in play', player, this, this.revealedCard);
-
         player.playCard(this.revealedCard.uuid, true, player.hand);
+        this.revealedCard = null;
 
-        this.game.playerRevealDone(player);
+        return true;
     }
 
     doneSelecting(player) {
-        if(this.owner !== player) {
-            return;
-        }
-        
-        this.game.playerRevealDone(player);
+        player.shuffleDrawDeck();
+        this.game.addMessage('{0} does not use {1} to find a card', player, this);
+        return true;
     }
 }
 
