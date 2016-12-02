@@ -37,6 +37,12 @@ class DrawCard extends BaseCard {
         this.dupes.push(card);
     }
 
+    removeDuplicate() {
+        var firstDupe = this.dupes.first();
+        this.dupes.shift();
+        return firstDupe;
+    }
+
     isLimited() {
         return this.hasKeyword('Limited');
     }

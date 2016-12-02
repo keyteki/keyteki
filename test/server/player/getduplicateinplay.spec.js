@@ -1,7 +1,8 @@
-/* global describe, it, beforeEach, expect, spyOn, jasmine */
+/* global describe, it, beforeEach, expect, jasmine */
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
 const Player = require('../../../server/game/player.js');
+const DrawCard = require('../../../server/game/drawcard.js');
 
 describe('Player', function() {
     describe('getDuplicateInPlay', function() {
@@ -9,15 +10,13 @@ describe('Player', function() {
             this.player = new Player('1', 'Player 1', true);
             this.player.initialise();
 
-            this.dupeCard = { code: '1', name: 'Test' };
+            this.dupeCard = new DrawCard(this.player, { code: '1', name: 'Test' });
 
             this.player.cardsInPlay.push(this.dupeCard);
 
-            this.findSpy = spyOn(this.player, 'findCardByUuid');
             this.cardSpy = jasmine.createSpyObj('card', ['isUnique']);
 
             this.cardSpy.isUnique.and.returnValue(true);
-            this.findSpy.and.returnValue(this.cardSpy);
         });
 
         describe('when the card is not unique', function() {
@@ -58,6 +57,22 @@ describe('Player', function() {
             });
         });
 
+        describe('when there is a matching attached card in play', function() {
+            beforeEach(function() {
+                this.attachedCard = new DrawCard(this.player, { code: '3', name: 'Attached', type_code: 'attachment' });
+                this.dupeCard.attachments.push(this.attachedCard);
+
+                this.cardSpy.code = '3';
+                this.cardSpy.name = 'Attached';
+
+                this.dupe = this.player.getDuplicateInPlay(this.cardSpy);
+            });
+
+            it('should return the duplicate attached card', function() {
+                expect(this.dupe).toBe(this.attachedCard);
+            });
+        });
+
         describe('when there is a card that doesnt match by name or code', function() {
             beforeEach(function() {
                 this.cardSpy.code = '6';
@@ -66,7 +81,7 @@ describe('Player', function() {
                 this.dupe = this.player.getDuplicateInPlay(this.cardSpy);
             });
 
-            it('should return dupe', function() {
+            it('should return undefined', function() {
                 expect(this.dupe).toBe(undefined);
             });
         });

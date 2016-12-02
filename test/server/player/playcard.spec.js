@@ -75,19 +75,51 @@ describe('Player', function() {
                 spyOn(this.player, 'promptForAttachment');
 
                 this.cardSpy.getType.and.returnValue('attachment');
-                this.canPlay = this.player.playCard('');
             });
 
-            it('should return true', function() {
-                expect(this.canPlay).toBe(true);
+            describe('and there is no duplicate out', function() {
+                beforeEach(function() {
+                    this.canPlay = this.player.playCard('');
+                });
+
+                it('should return true', function() {
+                    expect(this.canPlay).toBe(true);
+                });
+
+                it('should prompt for attachment target', function() {
+                    expect(this.player.promptForAttachment).toHaveBeenCalled();
+                });
+
+                it('should not remove the card from hand', function() {
+                    expect(this.player.removeFromHand).not.toHaveBeenCalled();
+                });
             });
 
-            it('should prompt for attachment target', function() {
-                expect(this.player.promptForAttachment).toHaveBeenCalled();
-            });
+            describe('and there is a duplicate out', function() {
+                beforeEach(function() {
+                    spyOn(this.player, 'getDuplicateInPlay').and.returnValue(this.dupeCardSpy);
+                    this.canPlay = this.player.playCard('');
+                });
 
-            it('should not remove the card from hand', function() {
-                expect(this.player.removeFromHand).not.toHaveBeenCalled();
+                it('should return true', function() {
+                    expect(this.canPlay).toBe(true);
+                });
+
+                it('should not prompt for attachment target', function() {
+                    expect(this.player.promptForAttachment).not.toHaveBeenCalled();
+                });
+
+                it('should remove the card from hand', function() {
+                    expect(this.player.removeFromHand).toHaveBeenCalled();
+                });
+
+                it('should add a duplicate to the existing card in play', function() {
+                    expect(this.dupeCardSpy.addDuplicate).toHaveBeenCalledWith(this.cardSpy);
+                });
+
+                it('should not add a new card to play', function() {
+                    expect(this.player.cardsInPlay).not.toContain(this.cardSpy);
+                });
             });
         });
 
@@ -99,7 +131,7 @@ describe('Player', function() {
             describe('and this is the setup phase', function() {
                 beforeEach(function() {
                     this.player.phase = 'setup';
-                    
+
                     this.canPlay = this.player.playCard('');
                 });
 

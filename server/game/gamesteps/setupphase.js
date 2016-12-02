@@ -12,8 +12,8 @@ class SetupPhase extends Phase {
             new KeepOrMulliganPrompt(game),
             new SimpleStep(game, () => this.startGame()),
             new SetupCardsPrompt(game),
-            new CheckAttachmentsPrompt(game),
             new SimpleStep(game, () => this.setupDone()),
+            new CheckAttachmentsPrompt(game),
             new SimpleStep(game, () => this.beginRound())
         ]);
     }

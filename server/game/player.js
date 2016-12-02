@@ -42,12 +42,6 @@ class Player extends Spectator {
         });
     }
 
-    findCardInPlayByCode(code) {
-        return this.cardsInPlay.find(card => {
-            return card.code === code;
-        });
-    }
-
     removeCardByUuid(list, uuid) {
         return _(list.reject(card => {
             return card.uuid === uuid;
@@ -55,9 +49,7 @@ class Player extends Spectator {
     }
 
     findCardByName(list, name) {
-        return list.find(card => {
-            return card.name === name;
-        });
+        return this.findCard(list, card => card.name === name);
     }
 
     findCardByUuidInAnyList(uuid) {
@@ -85,54 +77,31 @@ class Player extends Spectator {
     }
 
     findCardByUuid(list, uuid) {
-        var returnedCard = undefined;
-
-        if(!list) {
-            return undefined;
-        }
-
-        list.each(card => {
-            if(card.attachments) {
-                var attachment = this.findCardByUuid(card.attachments, uuid);
-
-                if(attachment) {
-                    returnedCard = attachment;
-                    return;
-                }
-            }
-
-            if(card.card && card.uuid === uuid) {
-                returnedCard = card;
-                return;
-            } else if(card.uuid === uuid) {
-                returnedCard = card;
-                return;
-            }
-        });
-
-        return returnedCard;
+        return this.findCard(list, card => card.uuid === uuid);
     }
 
     findCardInPlayByUuid(uuid) {
-        var returnedCard = undefined;
+        return this.findCard(this.cardsInPlay, card => card.uuid === uuid);
+    }
 
-        this.cardsInPlay.each(card => {
+    findCard(cards, predicate) {
+        if(!cards) {
+            return;
+        }
+
+        return cards.reduce((matchingCard, card) => {
+            if(matchingCard) {
+                return matchingCard;
+            }
+
+            if(predicate(card)) {
+                return card;
+            }
+
             if(card.attachments) {
-                var attachment = this.findCardByUuid(card.attachments, uuid);
-                if(attachment) {
-                    returnedCard = attachment;
-
-                    return;
-                }
+                return card.attachments.find(predicate);
             }
-
-            if(card.uuid === uuid) {
-                returnedCard = card;
-                return;
-            }
-        });
-
-        return returnedCard;
+        }, undefined);
     }
 
     getDuplicateInPlay(card) {
@@ -140,7 +109,7 @@ class Player extends Spectator {
             return undefined;
         }
 
-        return this.cardsInPlay.find(playCard => {
+        return this.findCard(this.cardsInPlay, playCard => {
             return playCard.code === card.code || playCard.name === card.name;
         });
     }
@@ -396,8 +365,10 @@ class Player extends Spectator {
             this.game.addMessage('{0} ambushes with {1} costing {2}', this, card, cost);
         }
 
-        if(card.getType() === 'attachment' && this.phase !== 'setup') {
+        if(card.getType() === 'attachment' && this.phase !== 'setup' && !dupeCard) {
             this.promptForAttachment(card);
+            // Hacky workaround for drag and drop.
+            this.dropPending = sourceList === this.discardPile;
             return true;
         }
 
@@ -673,8 +644,7 @@ class Player extends Spectator {
 
                 this.game.playCard(this.id, cardId, true, sourceList);
 
-                if(card.getType() === 'attachment') {
-                    this.dropPending = true;
+                if(this.dropPending) {
                     return true;
                 }
 
@@ -883,7 +853,7 @@ class Player extends Spectator {
         card.dupes = _([]);
 
         card.attachments.each(attachment => {
-            this.removeAttachment(attachment);
+            this.removeAttachment(attachment, false);
         });
 
         this.cardsInPlay = this.removeCardByUuid(this.cardsInPlay, cardId);
@@ -898,12 +868,19 @@ class Player extends Spectator {
         this.game.emit('onCardLeftPlay', this, card);
     }
 
-    removeAttachment(attachment) {
-        attachment.parent.attachments = this.removeCardByUuid(attachment.parent.attachments, attachment.uuid);
+    removeAttachment(attachment, allowSave = true) {
+        while(attachment.dupes.size() > 0) {
+            var dupe = attachment.removeDuplicate();
+            dupe.owner.discardPile.push(dupe);
+            if(allowSave) {
+                return;
+            }
+        }
 
-        attachment.leavesPlay();        
+        attachment.parent.attachments = this.removeCardByUuid(attachment.parent.attachments, attachment.uuid);
+        attachment.parent = undefined;
+        attachment.leavesPlay();
         if(attachment.isTerminal()) {
-            attachment.parent = undefined;
             attachment.owner.discardPile.push(attachment);
         } else {
             attachment.owner.hand.push(attachment);
