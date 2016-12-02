@@ -364,11 +364,6 @@ h4 {
     width: 505px;
     min-height: 92px;
   }
-
-  .card {
-    float: left;
-    margin: 2px;
-  }
 }
 
 .dead {
@@ -425,10 +420,13 @@ h4 {
 }
 
 .horizontal-card {
-  img.vertical {
-  transform: translateY(-13%) translateX(14%) rotate(90deg);
-  width: @card-width;
-  height: @card-height;
+  img.kneeled {
+    position: absolute;
+    transform: rotate(90deg);
+    left: 9px;
+    top: -10px;
+    width: @card-width;
+    height: @card-height;
   }
 }
 
@@ -490,6 +488,12 @@ h4 {
 }
 
 .plot-card {
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
   display: inline-block;
   position: relative;
   height: @card-width;
@@ -555,6 +559,7 @@ h4 {
   height: @card-height;
   width: auto;
   position: absolute;
+  left: 0;
 }
 
 .card-frame {

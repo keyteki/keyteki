@@ -8,6 +8,8 @@ import PlayerRow from './GameComponents/PlayerRow.jsx';
 import MenuPane from './GameComponents/MenuPane.jsx';
 import CardZoom from './GameComponents/CardZoom.jsx';
 import Messages from './GameComponents/Messages.jsx';
+import Card from './GameComponents/Card.jsx';
+
 import * as actions from './actions';
 
 export class InnerGameBoard extends React.Component {
@@ -17,7 +19,6 @@ export class InnerGameBoard extends React.Component {
         this.onMouseOut = this.onMouseOut.bind(this);
         this.onMouseOver = this.onMouseOver.bind(this);
         this.onCardClick = this.onCardClick.bind(this);
-        this.onInPlayCardClick = this.onInPlayCardClick.bind(this);
         this.onPlotDeckClick = this.onPlotDeckClick.bind(this);
         this.onUsedPlotDeckClick = this.onUsedPlotDeckClick.bind(this);
         this.onOtherPlayerUsedPlotDeckClick = this.onOtherPlayerUsedPlotDeckClick.bind(this);
@@ -33,7 +34,7 @@ export class InnerGameBoard extends React.Component {
         this.onScroll = this.onScroll.bind(this);
         this.cardMenuClick = this.cardMenuClick.bind(this);
         this.onShowUsedPlot = this.onShowUsedPlot.bind(this);
-        this.onDiscardedCardClick = this.onDiscardedCardClick.bind(this);
+        this.onPlotCardClick = this.onPlotCardClick.bind(this);
 
         this.state = {
             canScroll: true,
@@ -114,23 +115,15 @@ export class InnerGameBoard extends React.Component {
     }
 
     onMouseOver(card) {
-        this.setState({ cardToZoom: card });
+        this.props.zoomCard(card);
     }
 
     onMouseOut() {
-        this.setState({ cardToZoom: undefined });
+        this.props.clearZoom();
     }
 
-    onCardClick(card) {
-        this.props.socket.emit('playcard', card.uuid);
-    }
-
-    onDiscardedCardClick(cardId) {
-        this.props.socket.emit('discardclick', cardId);
-    }
-
-    onInPlayCardClick(card) {
-        this.props.socket.emit('cardclick', card.uuid);
+    onCardClick(source, card) {
+        this.props.sendSocketMessage('cardclick', source, card.uuid);
     }
 
     onDrawClick() {
@@ -171,10 +164,14 @@ export class InnerGameBoard extends React.Component {
         this.props.socket.emit('shuffledeck');
     }
 
-    onPlotCardClick(event, card) {
-        event.preventDefault();
-        event.stopPropagation();
+    onPlotCardClick(source, card) {
+        var thisPlayer = this.props.state.players[this.props.socket.id];
 
+        _.each(thisPlayer.plotDeck, plot => {
+            plot.selected = false;
+        });
+
+        card.selected = true;
         this.setState({ selectedPlot: card });
     }
 
@@ -240,17 +237,16 @@ export class InnerGameBoard extends React.Component {
     }
 
     getCardsInPlay(player, isMe) {
-        var index = 0;
-
-        var cards = _.sortBy(player.cardsInPlay, card => {
+        var sortedCards = _.sortBy(player.cardsInPlay, card => {
             return card.type;
         });
 
         if(!isMe) {
-            cards = cards.reverse();
+            // we want locations on the bottom, other side wants locations on top
+            sortedCards = sortedCards.reverse();
         }
 
-        var cardsByType = _.groupBy(cards, card => {
+        var cardsByType = _.groupBy(sortedCards, card => {
             return card.type;
         });
 
@@ -258,109 +254,8 @@ export class InnerGameBoard extends React.Component {
 
         _.each(cardsByType, cards => {
             var cardsInPlay = _.map(cards, card => {
-                var allowMouseOver = isMe || !card.facedown;
-                var offset = 10;
-                var attachments = _.map(card.attachments, a => {
-                    var style = { top: offset + 'px', zIndex: -offset };
-                    var attachmentClass = 'card';
-
-                    if(a.selected) {
-                        attachmentClass += ' selected';
-                    }
-
-                    if(a.kneeled) {
-                        attachmentClass += ' vertical kneeled';
-                    }
-
-                    var returnedAttachment = (
-                        <div className='attachment' style={style}>
-                            <div className={a.kneeled ? 'horizontal-card kneeled' : 'card'}
-                                onMouseOver={allowMouseOver ? this.onMouseOver.bind(this, a) : null}
-                                onMouseOut={this.onMouseOut}
-                                onDragStart={ev => this.onCardDragStart(ev, a, 'play area')}
-                                onClick={this.onInPlayCardClick.bind(this, a)}>
-                                <div>
-                                    {card.facedown ?
-                                        <img className='card' src='/img/cards/cardback.jpg' /> :
-                                        <img className={attachmentClass} src={'/img/cards/' + a.code + '.png'} />}
-                                </div>
-                            </div>
-                        </div>);
-
-                    offset += 10;
-
-                    return returnedAttachment;
-                });
-
-                var counters = null;
-                var dupes = null;
-                var power = null;
-                var strength = null;
-
-                if(card.dupes && card.dupes.length !== 0) {
-                    dupes = (
-                        <div className='counter dupe'>
-                            {card.dupes.length + 1}
-                        </div>);
-                }
-
-                if(card.power > 0) {
-                    power = (
-                        <div className='counter power'>
-                            {card.power}
-                        </div>);
-                }
-
-                if(card.baseStrength !== card.strength) {
-                    strength = (
-                        <div className='counter strength'>
-                            {card.strength}
-                        </div>);
-                }
-
-                if(dupes || power || strength) {
-                    counters = (
-                        <div className='counters ignore-mouse-events'>
-                            {dupes}
-                            {power}
-                            {strength}
-                        </div>
-                    );
-                }
-
-                var cardClass = 'card';
-                if(card.selected) {
-                    cardClass += ' selected';
-                } else if(card.new) {
-                    cardClass += ' new';
-                }
-
-                if(card.kneeled) {
-                    cardClass += ' vertical kneeled';
-                }
-
-                var cardInPlay = (
-                    <div className='card-wrapper' key={'card' + index.toString()}>
-                        <div className='card-frame'>
-                            <div className={card.kneeled ? 'horizontal-card kneeled' : 'card'}
-                                onMouseOver={allowMouseOver ? this.onMouseOver.bind(this, card) : null}
-                                onMouseOut={this.onMouseOut}
-                                onDragStart={(ev) => this.onCardDragStart(ev, card, 'play area')}
-                                onClick={this.onInPlayCardClick.bind(this, card)}>
-                                <div>
-                                    {card.facedown ?
-                                        <img className='card' src='/img/cards/cardback.jpg' /> :
-                                        <img className={cardClass} src={'/img/cards/' + card.code + '.png'} />}
-                                </div>
-                                {counters}
-                            </div>
-                            {attachments}
-                        </div>
-                    </div>);
-
-                index++;
-
-                return cardInPlay;
+                return (<Card key={card.uuid} source='play area' card={card} 
+                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onClick={this.onCardClick} />);
             });
             cardsByLocation.push(cardsInPlay);
         });
@@ -383,26 +278,8 @@ export class InnerGameBoard extends React.Component {
     }
 
     getPlotDeck(deck) {
-        var index = 0;
-
         var plotDeck = _.map(deck, card => {
-            var plotClass = 'plot-card';
-
-            if(card === this.state.selectedPlot) {
-                plotClass += ' selected';
-            }
-
-            var plotCard = (
-                <div key={'card' + index.toString()} className='card-wrapper'>
-                    <div className='card-frame'>
-                        <div className={plotClass} onMouseOver={this.onMouseOver ? this.onMouseOver.bind(this, card) : null}
-                            onMouseOut={this.onMouseOut} onClick={event => this.onPlotCardClick(event, card)}>
-                            <img className='plot-card' src={'/img/cards/' + card.code + '.png'} />
-                        </div>
-                    </div>
-                </div>);
-
-            index++;
+            var plotCard = <Card key={card.uuid} source='plot deck' card={card} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onClick={this.onPlotCardClick} />;
 
             return plotCard;
         });
@@ -441,6 +318,7 @@ export class InnerGameBoard extends React.Component {
         if(!thisPlayer) {
             thisPlayer = _.toArray(this.props.state.players)[0];
         }
+
         var otherPlayer = _.find(this.props.state.players, player => {
             return player.id !== thisPlayer.id;
         });
@@ -487,21 +365,6 @@ export class InnerGameBoard extends React.Component {
             </div>
         ) : null;
 
-        var plotCounters = null;
-
-        if(thisPlayer.activePlot) {
-            var tokenIndex = 0;
-            var counters = _.map(thisPlayer.activePlot.tokens, (token, key) => {
-                return <div key={tokenIndex++} className={'counter ' + key}>{token}</div>;
-            });
-
-            plotCounters = (
-                <div className='counters ignore-mouse-events'>
-                    {counters}
-                </div>
-            );
-        }
-
         return (
             <div className='game-board'>
                 <div className='main-window'>
@@ -526,7 +389,7 @@ export class InnerGameBoard extends React.Component {
                                             {'Plot (' + (otherPlayer ? otherPlayer.numPlotCards : 0) + ')'}
                                         </div>
 
-                                        <img className='vertical' src='/img/cards/cardback.jpg' />
+                                        <img className='kneeled' src='/img/cards/cardback.jpg' />
                                     </div>
                                     <div className='panel horizontal-card' onClick={this.onOtherPlayerUsedPlotDeckClick}>
                                         <div className='panel-header'>
@@ -546,14 +409,14 @@ export class InnerGameBoard extends React.Component {
                                     </div>
                                     {otherPlayer && otherPlayer.plotSelected ?
                                         <div className='panel horizontal-card opponent selected-plot'>
-                                            <img className='vertical' src='/img/cards/cardback.jpg' />
+                                            <img className='kneeled' src='/img/cards/cardback.jpg' />
                                         </div> : null
                                     }
                                 </div>
                                 <div className='relative'>
                                     {thisPlayer.plotSelected ?
                                         <div className='panel horizontal-card selected-plot'>
-                                            <img className='vertical' src='/img/cards/cardback.jpg' />
+                                            <img className='kneeled card' src='/img/cards/cardback.jpg' />
                                         </div> : null
                                     }
                                     <div ref='thisPlayerUsedPlot' className='panel horizontal-card' onClick={this.onUsedPlotDeckClick}>
@@ -571,14 +434,13 @@ export class InnerGameBoard extends React.Component {
                                             </div>
                                             {thisPlayerUsedPlotDeck}
                                         </div> : null}
-                                        {plotCounters}
                                         {plotMenu}
                                     </div>
                                     <div className='panel horizontal-card' onClick={this.state.spectating ? null : this.onPlotDeckClick}>
                                         <div className='panel-header'>
                                             {'Plot (' + (this.state.spectating ? thisPlayer.numPlotCards : plotDeck.length) + ')'}
                                         </div>
-                                        <img className='vertical card' src='/img/cards/cardback.jpg' />
+                                        <img className='kneeled card' src='/img/cards/cardback.jpg' />
 
                                         {this.state.showPlotDeck ? <div className='panel plot-popup un-kneeled'>
                                             {plotDeck}
@@ -611,7 +473,6 @@ export class InnerGameBoard extends React.Component {
                         faction={thisPlayer.faction}
                         hand={thisPlayer.hand}
                         onCardClick={this.onCardClick}
-                        onDiscardedCardClick={this.onDiscardedCardClick}
                         onMouseOver={this.onMouseOver}
                         onMouseOut={this.onMouseOut}
                         numDrawCards={thisPlayer.numDrawCards}
@@ -627,9 +488,9 @@ export class InnerGameBoard extends React.Component {
                         onCardMenuClick={this.cardMenuClick}/>
                 </div>
                 <div className='right-side'>
-                    <CardZoom imageUrl={this.state.cardToZoom ? '/img/cards/' + this.state.cardToZoom.code + '.png' : ''}
-                        orientation={this.state.cardToZoom ? this.state.cardToZoom.type === 'plot' ? 'horizontal' : 'vertical' : 'vertical'}
-                        show={!!this.state.cardToZoom} />
+                    <CardZoom imageUrl={this.props.cardToZoom ? '/img/cards/' + this.props.cardToZoom.code + '.png' : ''}
+                        orientation={this.props.cardToZoom ? this.props.cardToZoom.type === 'plot' ? 'horizontal' : 'vertical' : 'vertical'}
+                        show={!!this.props.cardToZoom} cardName={this.props.cardToZoom ? this.props.cardToZoom.name : null} />
                     <div className='chat'>
                         <div className='messages panel' ref='messagePanel' onScroll={this.onScroll}>
                             <Messages messages={this.props.state.messages} onCardMouseOver={this.onMouseOver} onCardMouseOut={this.onMouseOut} />
@@ -646,14 +507,19 @@ export class InnerGameBoard extends React.Component {
 
 InnerGameBoard.displayName = 'GameBoard';
 InnerGameBoard.propTypes = {
+    cardToZoom: React.PropTypes.object,
+    clearZoom: React.PropTypes.func,
     currentGame: React.PropTypes.object,
+    sendSocketMessage: React.PropTypes.func,
     setContextMenu: React.PropTypes.func,
     socket: React.PropTypes.object,
-    state: React.PropTypes.object
+    state: React.PropTypes.object,
+    zoomCard: React.PropTypes.func
 };
 
 function mapStateToProps(state) {
     return {
+        cardToZoom: state.cards.zoomCard,
         currentGame: state.games.currentGame,
         socket: state.socket.socket,
         state: state.games.state

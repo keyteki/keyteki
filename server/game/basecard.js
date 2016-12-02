@@ -171,10 +171,10 @@ class BaseCard {
             code: this.cardData.code,
             facedown: this.facedown,
             menu: this.getMenu(),
-            name: this.cardData.name,
+            name: this.cardData.label,
             new: this.new,
             tokens: this.tokens,
-            type: this.cardData.type_code,
+            type: this.getType(),
             uuid: this.uuid
         } : { facedown: true };
     }

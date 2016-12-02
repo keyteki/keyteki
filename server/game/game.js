@@ -246,11 +246,17 @@ class Game extends EventEmitter {
         return false;
     }
 
-    cardClicked(sourcePlayer, cardId) {
+    cardClicked(sourcePlayer, source, cardId) {
         var player = this.getPlayerById(sourcePlayer);
 
         if(!player) {
             return;
+        }
+
+        switch(source) {
+            case 'hand':
+                this.playCard(player.id, cardId);
+                return;
         }
 
         var handled = false;
@@ -274,6 +280,8 @@ class Game extends EventEmitter {
 
             if(cardInPlay && !cardInPlay.facedown) {
                 cardInPlay.kneeled = !cardInPlay.kneeled;
+
+                this.addMessage('{0} {1} {2}', player, cardInPlay.kneeled ? 'kneels' : 'stands', cardInPlay);
             }
         }
 

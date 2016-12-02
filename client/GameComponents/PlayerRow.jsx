@@ -2,6 +2,8 @@ import React from 'react';
 import _ from 'underscore';
 import $ from 'jquery';
 
+import Card from './Card.jsx';
+
 class PlayerRow extends React.Component {
     constructor() {
         super();
@@ -96,31 +98,16 @@ class PlayerRow extends React.Component {
         var offset = overflow / (handLength - 1);
 
         var hand = _.map(this.props.hand, card => {
-            var left = (64 - offset) * cardIndex;
+            var left = (64 - offset) * cardIndex++;
 
             var style = {
                 left: left + 'px'
             };
 
-            var retCard = (
-                <div key={cardIndex.toString() + card.code} className='card-wrapper' style={style}>
-                    <div className='card-frame'>
-                        <div className='card'
-                            onMouseOver={this.props.isMe && this.props.onMouseOver ? this.props.onMouseOver.bind(this, card) : null}
-                            onMouseOut={this.props.onMouseOut}
-                            onClick={this.props.isMe ? () => this.props.onCardClick(card) : null}
-                            onDragStart={ev => this.onCardDragStart(ev, card, 'hand')}
-                            draggable>
-                            <div>
-                                <span className='card-name'>{card.label}</span>
-                                <img className='card' src={'/img/cards/' + (card.code ? (card.code + '.png') : 'cardback.jpg')} />
-                            </div>
-                        </div>
-                    </div>
-                </div>);
-            cardIndex++;
-
-            return retCard;
+            return (<Card key={card.uuid} card={card} style={style} disableMouseOver={!this.props.isMe} source='hand' 
+                         onMouseOver={this.props.onMouseOver}
+                         onMouseOut={this.props.onMouseOut}
+                         onClick={this.props.onCardClick} />);
         });
 
         return hand;
@@ -130,22 +117,15 @@ class PlayerRow extends React.Component {
         var drawDeckPopup = undefined;
 
         if(this.props.showDrawDeck && this.props.drawDeck) {
-            var index = 0;
             var drawDeck = _.map(this.props.drawDeck, card => {
-                return (
-                    <div key={'drawCard' + index++} draggable className='card-frame' onDragStart={(ev) => this.onCardDragStart(ev, card, 'draw deck')}>
-                        <div className='card' onMouseOver={this.props.onMouseOver.bind(this, card)} onMouseOut={this.props.onMouseOut}>
-                            <div>
-                                <img className='card' src={'/img/cards/' + card.code + '.png'} />}
-                            </div>
-                        </div>
-                    </div>);
+                return (<Card key={card.uuid} card={card} source='draw deck'
+                             onMouseOver={this.props.onMouseOver}
+                             onMouseOut={this.props.onMouseOut}
+                             onClick={this.props.onCardClick} />);
             });
 
             drawDeckPopup = (
-                <div className='popup panel' onClick={event => {
-                    event.stopPropagation();
-                } }>
+                <div className='popup panel' onClick={event => event.stopPropagation() }>
                     <div>
                         <a onClick={this.onCloseClick}>Close</a>
                         <a onClick={this.onCloseAndShuffleClick}>Close and shuffle</a>
@@ -163,18 +143,11 @@ class PlayerRow extends React.Component {
         var discardPilePopup = undefined;
 
         if(this.state.showDiscard && this.props.discardPile) {
-            var index = 0;
             var discardPile = _.map(this.props.discardPile, card => {
-                return (
-                    <div key={'discardCard' + index++} draggable className='card-frame'
-                        onClick={ev => this.onDiscardedCardClick(ev, card.uuid)}
-                        onDragStart={ev => this.onCardDragStart(ev, card, 'discard pile')}>
-                        <div className={'card' + (card.selected ? ' selected' : '')} onMouseOver={this.props.onMouseOver.bind(this, card)} onMouseOut={this.props.onMouseOut}>
-                            <div>
-                                <img className='card' src={'/img/cards/' + card.code + '.png'} />}
-                            </div>
-                        </div>
-                    </div>);
+                return (<Card key={card.uuid} card={card} source='discard pile'
+                             onMouseOver={this.props.onMouseOver}
+                             onMouseOut={this.props.onMouseOut}
+                             onClick={this.props.onCardClick} />);
             });
 
             discardPilePopup = <div className={'panel popup' + (this.props.isMe || this.props.spectating ? ' our-side' : '')}>{discardPile}</div>;
@@ -187,17 +160,11 @@ class PlayerRow extends React.Component {
         var deadPilePopup = undefined;
 
         if(this.state.showDead && this.props.deadPile) {
-            var index = 0;
             var deadPile = _.map(this.props.deadPile, card => {
-                return (
-                    <div key={'deadCard' + index++} draggable className='card-frame'
-                        onDragStart={ev => this.onCardDragStart(ev, card, 'dead pile')}>
-                        <div className='card' onMouseOver={this.props.onMouseOver.bind(this, card)} onMouseOut={this.props.onMouseOut}>
-                            <div>
-                                <img className='card' src={'/img/cards/' + card.code + '.png'} />}
-                            </div>
-                        </div>
-                    </div>);
+                return (<Card key={card.uuid} card={card} source='dead pile'
+                             onMouseOver={this.props.onMouseOver}
+                             onMouseOut={this.props.onMouseOut}
+                             onClick={this.props.onCardClick} />);
             });
 
             deadPilePopup = <div className={'panel popup' + (this.props.isMe || this.props.spectating ? ' our-side' : '')}>{deadPile}</div>;
@@ -310,9 +277,9 @@ class PlayerRow extends React.Component {
                     {topDiscard ?
                         <div className='card' onMouseOver={this.props.onMouseOver.bind(this, topDiscard)}
                             onMouseOut={this.props.onMouseOut}
-                            onDragStart={(ev) => this.onCardDragStart(ev, topDiscard, 'discard pile')}>
+                            onDragStart={ev => this.onCardDragStart(ev, topDiscard, 'discard pile')}>
                             <div>
-                                <img className='card' src={'/img/cards/' + topDiscard.code + '.png'} />}
+                                <img className='card' src={'/img/cards/' + topDiscard.code + '.png'} />
                             </div>
                         </div> :
                         null}
@@ -359,7 +326,7 @@ class PlayerRow extends React.Component {
                             onMouseOut={this.props.onMouseOut}
                             onDragStart={(ev) => this.onCardDragStart(ev, topDead, 'dead pile')}>
                             <div>
-                                <img className='vertical card' src={'/img/cards/' + topDead.code + '.png'} />
+                                <img className='kneeled card' src={'/img/cards/' + topDead.code + '.png'} />
                             </div>
                         </div> :
                         null}

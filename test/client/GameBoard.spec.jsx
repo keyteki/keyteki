@@ -3,13 +3,14 @@
 
 import GameBoard, { InnerGameBoard } from '../../client/GameBoard.jsx';
 import PlayerStats, { InnerPlayerStats } from '../../client/GameComponents/PlayerStats.jsx';
+import Card from '../../client/GameComponents/Card.jsx';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import stubComponent from './test-setup.jsx';
 
-var state = { games: { state: {}, currentGame: { players: {} } }, socket: {} };
+var state = { cards: {}, games: { state: {}, currentGame: { players: {} } }, socket: {} };
 
 const store = {
     subscribe: () => { },
@@ -24,6 +25,7 @@ describe('the <GameBoard /> component', function() {
 
     stubComponent(PlayerStats);
     stubComponent(InnerPlayerStats);
+    stubComponent(Card);
 
     beforeEach(function() {
         node = document.createElement('div');
@@ -53,8 +55,8 @@ describe('the <GameBoard /> component', function() {
         describe('that include locations followed by characters', function() {
             beforeEach(function() {
                 state.games.currentGame.players['1'].cardsInPlay = [
-                    { code: '0001', type: 'location', label: 'Test Location' },
-                    { code: '0002', type: 'character', label: 'Test Character' }
+                    { uuid: '1', code: '00001', type: 'location', label: 'Test Location' },
+                    { uuid: '2', code: '00002', type: 'character', label: 'Test Character' }
                 ];
 
                 component = ReactDOM.render(<Provider store={store}><GameBoard /></Provider>, node);
@@ -62,19 +64,18 @@ describe('the <GameBoard /> component', function() {
             });
 
             it('should render locations on the bottom and characters on the top', function() {
-                var rows = TestUtils.scryRenderedDOMComponentsWithClass(component, 'card-row');
+                var cards = TestUtils.scryRenderedComponentsWithType(component, Card);
 
-                // <div class='card-row'><div class='card-wrapper'><div class='card-frame'><div class='card'><div><img></img></div></div></div></div></div>
-                expect(rows[0].children[0].children[0].children[0].children[0].children[0].src.indexOf('0002')).not.toBe(-1);
-                expect(rows[1].children[0].children[0].children[0].children[0].children[0].src.indexOf('0001')).not.toBe(-1);
+                expect(cards[0].props.card.code).toBe('00002');
+                expect(cards[1].props.card.code).toBe('00001');
             });
         });
 
         describe('that include characters followed by locations', function() {
             beforeEach(function() {
                 state.games.currentGame.players['1'].cardsInPlay = [
-                    { code: '0002', type: 'character', label: 'Test Character' },
-                    { code: '0001', type: 'location', label: 'Test Location' }
+                    { uuid: '1', code: '00002', type: 'character', label: 'Test Character' },
+                    { uuid: '2', code: '00001', type: 'location', label: 'Test Location' }
                 ];
 
                 component = ReactDOM.render(<Provider store={store}><GameBoard /></Provider>, node);
@@ -82,20 +83,19 @@ describe('the <GameBoard /> component', function() {
             });
 
             it('should render locations on the bottom and characters on the top', function() {
-                var rows = TestUtils.scryRenderedDOMComponentsWithClass(component, 'card-row');
+                var cards = TestUtils.scryRenderedComponentsWithType(component, Card);
 
-                // <div class='card-row'><div class='card-wrapper'><div class='card-frame'><div class='card'><div><img></img></div></div></div></div></div>
-                expect(rows[0].children[0].children[0].children[0].children[0].children[0].src.indexOf('0002')).not.toBe(-1);
-                expect(rows[1].children[0].children[0].children[0].children[0].children[0].src.indexOf('0001')).not.toBe(-1);
+                expect(cards[0].props.card.code).toBe('00002');
+                expect(cards[1].props.card.code).toBe('00001');
             });
         });
 
         describe('that include characters mixed with locations', function() {
             beforeEach(function() {
                 state.games.currentGame.players['1'].cardsInPlay = [
-                    { code: '0002', type: 'character', label: 'Test Character' },
-                    { code: '0001', type: 'location', label: 'Test Location' },
-                    { code: '0003', type: 'character', label: 'Test Character2' }
+                    { uuid: '2', code: '00002', type: 'character', label: 'Test Character' },
+                    { uuid: '1', code: '00001', type: 'location', label: 'Test Location' },
+                    { uuid: '3', code: '00003', type: 'character', label: 'Test Character2' }
                 ];
 
                 component = ReactDOM.render(<Provider store={store}><GameBoard /></Provider>, node);
@@ -103,12 +103,11 @@ describe('the <GameBoard /> component', function() {
             });
 
             it('should render locations on the bottom and characters on the top', function() {
-                var rows = TestUtils.scryRenderedDOMComponentsWithClass(component, 'card-row');
+                var cards = TestUtils.scryRenderedComponentsWithType(component, Card);
 
-                // <div class='card-row'><div class='card-wrapper'><div class='card-frame'><div class='card'><div><img></img></div></div></div></div></div>
-                expect(rows[0].children[0].children[0].children[0].children[0].children[0].src.indexOf('0002')).not.toBe(-1);
-                expect(rows[0].children[1].children[0].children[0].children[0].children[0].src.indexOf('0003')).not.toBe(-1);
-                expect(rows[1].children[0].children[0].children[0].children[0].children[0].src.indexOf('0001')).not.toBe(-1);
+                expect(cards[0].props.card.code).toBe('00002');
+                expect(cards[1].props.card.code).toBe('00003');
+                expect(cards[2].props.card.code).toBe('00001');                
             });
         });
     });
@@ -117,12 +116,12 @@ describe('the <GameBoard /> component', function() {
         describe('that include locations followed by characters', function() {
             beforeEach(function() {
                 state.games.currentGame.players['1'].cardsInPlay = [
-                    { code: '0001', type: 'location', label: 'Test Location' },
-                    { code: '0002', type: 'character', label: 'Test Character' }
+                    { uuid: '1', code: '00001', type: 'location', label: 'Test Location' },
+                    { uuid: '2', code: '00002', type: 'character', label: 'Test Character' }
                 ];
                 state.games.currentGame.players['2'].cardsInPlay = [
-                    { code: '0001', type: 'location', label: 'Test Location' },
-                    { code: '0002', type: 'character', label: 'Test Character' }
+                    { uuid: '3', code: '00001', type: 'location', label: 'Test Location' },
+                    { uuid: '4', code: '00002', type: 'character', label: 'Test Character' }
                 ];
 
                 component = ReactDOM.render(<Provider store={store}><GameBoard /></Provider>, node);
@@ -130,23 +129,22 @@ describe('the <GameBoard /> component', function() {
             });
 
             it('should render locations on the top and characters on the bottom', function() {
-                var rows = TestUtils.scryRenderedDOMComponentsWithClass(component, 'card-row');
+                var cards = TestUtils.scryRenderedComponentsWithType(component, Card);
 
-                // <div class='card-row'><div class='card-wrapper'><div class='card-frame'><div class='card'><div><img></img></div></div></div></div></div>
-                expect(rows[0].children[0].children[0].children[0].children[0].children[0].src.indexOf('0001')).not.toBe(-1);
-                expect(rows[1].children[0].children[0].children[0].children[0].children[0].src.indexOf('0002')).not.toBe(-1);
+                expect(cards[0].props.card.code).toBe('00001');
+                expect(cards[1].props.card.code).toBe('00002');
             });
         });
 
         describe('that include characters followed by locations', function() {
             beforeEach(function() {
                 state.games.currentGame.players['1'].cardsInPlay = [
-                    { code: '0002', type: 'character', label: 'Test Character' },
-                    { code: '0001', type: 'location', label: 'Test Location' }
+                    { uuid: '2', code: '00002', type: 'character', label: 'Test Character' },
+                    { uuid: '1', code: '00001', type: 'location', label: 'Test Location' }
                 ];
                 state.games.currentGame.players['2'].cardsInPlay = [
-                    { code: '0002', type: 'character', label: 'Test Character' },
-                    { code: '0001', type: 'location', label: 'Test Location' }
+                    { uuid: '4', code: '00002', type: 'character', label: 'Test Character' },
+                    { uuid: '3', code: '00001', type: 'location', label: 'Test Location' }
                 ];
 
                 component = ReactDOM.render(<Provider store={store}><GameBoard /></Provider>, node);
@@ -154,25 +152,24 @@ describe('the <GameBoard /> component', function() {
             });
 
             it('should render locations on the top and characters on the bottom', function() {
-                var rows = TestUtils.scryRenderedDOMComponentsWithClass(component, 'card-row');
+                var cards = TestUtils.scryRenderedComponentsWithType(component, Card);
 
-                // <div class='card-row'><div class='card-wrapper'><div class='card-frame'><div class='card'><div><img></img></div></div></div></div></div>
-                expect(rows[0].children[0].children[0].children[0].children[0].children[0].src.indexOf('0001')).not.toBe(-1);
-                expect(rows[1].children[0].children[0].children[0].children[0].children[0].src.indexOf('0002')).not.toBe(-1);
+                expect(cards[0].props.card.code).toBe('00001');
+                expect(cards[1].props.card.code).toBe('00002');
             });
         });
 
         describe('that include characters mixed with locations', function() {
             beforeEach(function() {
                 state.games.currentGame.players['1'].cardsInPlay = [
-                    { code: '0002', type: 'character', label: 'Test Character' },
-                    { code: '0001', type: 'location', label: 'Test Location' },
-                    { code: '0003', type: 'character', label: 'Test Character2' }
+                    { uuid: '2', code: '00002', type: 'character', label: 'Test Character' },
+                    { uuid: '1', code: '00001', type: 'location', label: 'Test Location' },
+                    { uuid: '3', code: '00003', type: 'character', label: 'Test Character2' }
                 ];
                 state.games.currentGame.players['2'].cardsInPlay = [
-                    { code: '0002', type: 'character', label: 'Test Character' },
-                    { code: '0001', type: 'location', label: 'Test Location' },
-                    { code: '0003', type: 'character', label: 'Test Character2' }
+                    { uuid: '5', code: '00002', type: 'character', label: 'Test Character' },
+                    { uuid: '4', code: '00001', type: 'location', label: 'Test Location' },
+                    { uuid: '6', code: '00003', type: 'character', label: 'Test Character2' }
                 ];
 
                 component = ReactDOM.render(<Provider store={store}><GameBoard /></Provider>, node);
@@ -180,24 +177,23 @@ describe('the <GameBoard /> component', function() {
             });
 
             it('should render locations on the top and characters on the bottom', function() {
-                var rows = TestUtils.scryRenderedDOMComponentsWithClass(component, 'card-row');
+                var cards = TestUtils.scryRenderedComponentsWithType(component, Card);
 
-                // <div class='card-row'><div class='card-wrapper'><div class='card-frame'><div class='card'><div><img></img></div></div></div></div></div>
-                expect(rows[0].children[0].children[0].children[0].children[0].children[0].src.indexOf('0001')).not.toBe(-1);
-                expect(rows[1].children[1].children[0].children[0].children[0].children[0].src.indexOf('0002')).not.toBe(-1);
-                expect(rows[1].children[0].children[0].children[0].children[0].children[0].src.indexOf('0003')).not.toBe(-1);
+                expect(cards[0].props.card.code).toBe('00001');
+                expect(cards[1].props.card.code).toBe('00003');
+                expect(cards[2].props.card.code).toBe('00002');
             });
         });
 
         describe('when the control is re-rendered', function() {
             beforeEach(function() {
                 state.games.currentGame.players['1'].cardsInPlay = [
-                    { code: '0001', type: 'location', label: 'Test Location' },
-                    { code: '0002', type: 'character', label: 'Test Character' }
+                    { uuid: '1', code: '00001', type: 'location', label: 'Test Location' },
+                    { uuid: '2', code: '00002', type: 'character', label: 'Test Character' }
                 ];
                 state.games.currentGame.players['2'].cardsInPlay = [
-                    { code: '0001', type: 'location', label: 'Test Location' },
-                    { code: '0002', type: 'character', label: 'Test Character' }
+                    { uuid: '3', code: '00001', type: 'location', label: 'Test Location' },
+                    { uuid: '4', code: '00002', type: 'character', label: 'Test Character' }
                 ];
 
                 component = ReactDOM.render(<Provider store={store}><GameBoard /></Provider>, node);
@@ -206,11 +202,10 @@ describe('the <GameBoard /> component', function() {
             });
 
             it('should still render the locations on top and characters on bottom', function() {
-                var rows = TestUtils.scryRenderedDOMComponentsWithClass(component, 'card-row');
+                var cards = TestUtils.scryRenderedComponentsWithType(component, Card);
 
-                // <div class='card-row'><div class='card-wrapper'><div class='card-frame'><div class='card'><div><img></img></div></div></div></div></div>
-                expect(rows[0].children[0].children[0].children[0].children[0].children[0].src.indexOf('0001')).not.toBe(-1);
-                expect(rows[1].children[0].children[0].children[0].children[0].children[0].src.indexOf('0002')).not.toBe(-1);
+                expect(cards[0].props.card.code).toBe('00001');
+                expect(cards[1].props.card.code).toBe('00002');
             });
         });
     });
@@ -218,7 +213,7 @@ describe('the <GameBoard /> component', function() {
     describe('card menus', function() {
         describe('when there is no menu and the plot is clicked', function() {
             it('should show the used plot popup', function() {
-                state.games.state.players['1'].activePlot = { code: '0001' };
+                state.games.state.players['1'].activePlot = { code: '00001' };
                 state.games.state.players['1'].plotDiscard = [];
 
                 component = ReactDOM.render(<Provider store={store}><GameBoard /></Provider>, node);
@@ -239,7 +234,7 @@ describe('the <GameBoard /> component', function() {
 
         describe('when there is a menu and the plot is clicked', function() {
             beforeEach(function() {
-                state.games.state.players['1'].activePlot = { code: '0001', menu: [{ text: 'Test', command: 'plot', method: 'testMethod', arg: 'test' }] };
+                state.games.state.players['1'].activePlot = { code: '00001', menu: [{ text: 'Test', command: 'plot', method: 'testMethod', arg: 'test' }] };
                 state.games.state.players['1'].plotDiscard = [];
 
                 component = ReactDOM.render(<Provider store={store}><GameBoard /></Provider>, node);

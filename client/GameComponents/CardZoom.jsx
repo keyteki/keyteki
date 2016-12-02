@@ -12,6 +12,7 @@ class CardZoom extends React.Component {
             <div className={zoomClass}>
                 {this.props.show ?
                     <div className='card-zoomed shadow'>
+                        <span className='card-name'>{this.props.cardName}</span>
                         <img src={this.props.imageUrl} />
                     </div>
                     : null}
@@ -21,6 +22,7 @@ class CardZoom extends React.Component {
 
 CardZoom.displayName = 'CardZoom';
 CardZoom.propTypes = {
+    cardName: React.PropTypes.string,
     imageUrl: React.PropTypes.string,
     orientation: React.PropTypes.oneOf(['horizontal', 'vertical']),
     show: React.PropTypes.bool

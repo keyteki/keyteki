@@ -21,7 +21,15 @@ function cards(state = {
         case 'RECEIVE_PACKS':
             return Object.assign({}, state, {
                 packs: action.packs
-            });            
+            });
+        case 'ZOOM_CARD':
+            return Object.assign({}, state, {
+                zoomCard: action.card
+            });
+        case 'CLEAR_ZOOM':
+            return Object.assign({}, state, {
+                zoomCard: undefined
+            });
         default:
             return state;
     }

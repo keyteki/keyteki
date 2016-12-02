@@ -159,3 +159,33 @@ export function receiveLobbyMessages(messages) {
         messages: messages
     };
 }
+
+export function zoomCard(card) {
+    return {
+        type: 'ZOOM_CARD',
+        card: card
+    };
+}
+
+export function clearZoom() {
+    return {
+        type: 'CLEAR_ZOOM'
+    };
+}
+
+export function socketMessageSent(message) {
+    return {
+        type: 'SOCKET_MESSAGE_SENT',
+        message: message
+    };
+}
+
+export function sendSocketMessage(message, ...args) {
+    return (dispatch, getState) => {
+        var state = getState();
+
+        state.socket.socket.emit(message, ...args);
+
+        return dispatch(socketMessageSent(message));
+    };
+}

@@ -6,8 +6,15 @@ module.exports = function(config) {
         frameworks: ['jasmine'],
 
         files: [
-            'test/client/tests.webpack.js'
+            'test/client/tests.webpack.js',
+            { pattern: 'public/img/**/*.jpg', included: false, watched: false, served: true},
+            { pattern: 'public/img/**/*.png', included: false, watched: false, served: true}
         ],
+
+        proxies: {
+            '/img': '/base/public/img',
+            '/img/cards/00001.png': '/base/public/img/cards/cardback.jpg'
+        },
 
         preprocessors: {
             'test/client/tests.webpack.js': ['webpack', 'sourcemap']

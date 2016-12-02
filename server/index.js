@@ -412,7 +412,7 @@ io.on('connection', function(socket) {
         });
     });
 
-    socket.on('playcard', function(card) {
+    socket.on('cardclick', function(source, cardId) {
         var game = findGameForPlayer(socket.id);
 
         if(!game) {
@@ -420,21 +420,7 @@ io.on('connection', function(socket) {
         }
 
         runAndCatchErrors(game, () => {
-            game.playCard(socket.id, card);
-
-            sendGameState(game);
-        });
-    });
-
-    socket.on('cardclick', function(card) {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.cardClicked(socket.id, card);
+            game.cardClicked(socket.id, source, cardId);
 
             sendGameState(game);
         });
