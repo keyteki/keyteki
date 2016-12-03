@@ -22,6 +22,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const _ = require('underscore');
 const config = require('./config.js');
+const crypto = require('crypto');
 
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 4000 : process.env.PORT;
@@ -64,7 +65,7 @@ passport.use(new localStrategy(
                     return done(null, false, { message: 'Invalid username/password' });
                 }
 
-                return done(null, { username: user.username, email: user.email, _id: user._id });
+                return done(null, { username: user.username, email: user.email, emailHash: user.emailHash, _id: user._id });
             });
         });
     }
@@ -86,7 +87,18 @@ passport.deserializeUser(function(id, done) {
             return;
         }
 
-        done(err, { username: user.username, email: user.email, _id: user._id });
+        if(!user.emailHash) {
+            user.emailHash = crypto.createHash('md5').update(user.email).digest('hex');
+
+            db.collection('users').update({ username: user.username }, 
+                {
+                    '$set': {
+                        emailHash: user.emailHash
+                    }
+                });
+        }
+
+        done(err, { username: user.username, email: user.email, emailHash: user.emailHash, _id: user._id });
     });
 });
 
@@ -217,7 +229,7 @@ function removePlayerFromGame(game, socket, reason) {
 
     socket.leave(game.id);
 
-    var listToCheck = /*game.started ? game.players :*/ game.getPlayers();
+    var listToCheck = game.getPlayers();
 
     if(_.isEmpty(listToCheck)) {
         delete games[game.id];
@@ -289,7 +301,7 @@ io.on('connection', function(socket) {
 
         var game = new Game(socket.id, name);
 
-        game.players[socket.id] = new Player(socket.id, socket.request.user.username, true, game);
+        game.players[socket.id] = new Player(socket.id, socket.request.user, true, game);
 
         games[game.id] = game;
         socket.emit('newgame', game.getState(socket.id));
@@ -310,7 +322,7 @@ io.on('connection', function(socket) {
         }
 
         runAndCatchErrors(game, () => {
-            game.players[socket.id] = new Player(socket.id, socket.request.user.username, false, game);
+            game.players[socket.id] = new Player(socket.id, socket.request.user, false, game);
             socket.join(game.id);
         });
 
@@ -333,7 +345,7 @@ io.on('connection', function(socket) {
         }
 
         runAndCatchErrors(game, () => {
-            game.players[socket.id] = new Spectator(socket.id, socket.request.user.username);
+            game.players[socket.id] = new Spectator(socket.id, socket.request.user);
             game.addMessage('{0} has joined the game as a spectator', socket.request.user.username);
             socket.join(game.id);
             _.each(game.players, (player, key) => {

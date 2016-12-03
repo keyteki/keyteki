@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const config = require('./../config.js');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
 module.exports.init = function(server) {
     server.post('/api/account/register', function(req, res, next) {
@@ -29,6 +30,7 @@ module.exports.init = function(server) {
 
                 req.body.password = hash;
                 req.body.registered = new Date();
+                req.body.emailHash = crypto.createHash('md5').update(req.body.email).digest('hex');
 
                 db.collection('users').insert(req.body, function(err) {
                     if(err) {

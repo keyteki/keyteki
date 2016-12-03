@@ -53,7 +53,7 @@ class Game extends EventEmitter {
                     if(arg instanceof BaseCard) {
                         return { code: arg.code, label: arg.name, type: arg.getType() };
                     } else if(arg instanceof Player) {
-                        return { name: arg.name };
+                        return { name: arg.user };
                     }
 
                     return arg;
@@ -997,7 +997,7 @@ class Game extends EventEmitter {
                 deck = {};
             }
 
-            playerSummaries.push({ id: player.id, name: player.name, deck: deck, owner: player.owner });
+            playerSummaries.push({ id: player.id, name: player.user.username, emailHash: player.user.emailHash, deck: deck, owner: player.owner });
         });
 
         return {

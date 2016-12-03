@@ -10,8 +10,8 @@ const AttachmentPrompt = require('./gamesteps/attachmentprompt.js');
 const StartingHandSize = 7;
 
 class Player extends Spectator {
-    constructor(id, name, owner, game) {
-        super(id, name);
+    constructor(id, user, owner, game) {
+        super(id, user);
 
         this.drawCards = _([]);
         this.plotCards = _([]);

@@ -1,7 +1,7 @@
 class Spectator {
-    constructor(id, name) {
+    constructor(id, user) {
         this.id = id;
-        this.name = name;
+        this.user = user;
 
         this.buttons = [];
         this.menuTitle = 'Spectator mode';

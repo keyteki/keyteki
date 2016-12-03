@@ -95,7 +95,10 @@ class InnerPendingGame extends React.Component {
             selectLink = <span className='deck-link' data-toggle='modal' data-target='#decks-modal'>Select deck...</span>;
         }
 
-        return <div className='player-row' key={player.id}>{player ? <span>{player.name}</span> : null}{deck} {selectLink}</div>;
+        return (
+            <div className='player-row' key={player.id}>
+                <img className='gravatar' src={'http://www.gravatar.com/avatar/' + player.emailHash + '?d=identicon&s=32}'} /><span>{player.name}</span>{deck} {selectLink}
+            </div>);
     }
 
     getGameStatus() {
