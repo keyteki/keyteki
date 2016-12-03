@@ -294,7 +294,9 @@ io.on('connection', function(socket) {
     socket.on('disconnect', function() {
         var game = findGameForPlayer(socket.id);
 
-        delete users[socket.request.user.username];
+        if(socket.request.user) {
+            delete users[socket.request.user.username];
+        }
 
         refreshUserList();
 
