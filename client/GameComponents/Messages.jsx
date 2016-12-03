@@ -56,7 +56,7 @@ class InnerMessages extends React.Component {
                     <div key={index++}>
                         <Avatar emailHash={fragment.emailHash} float />
                         <span key={index++}>
-                            {fragment.name}
+                            <b>{fragment.name}</b>
                         </span>
                     </div>
                 );
