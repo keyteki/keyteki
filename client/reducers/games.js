@@ -51,6 +51,10 @@ function games(state = {
             return Object.assign({}, state, {
                 state: action.state
             });
+        case 'RECEIVE_USERS':
+            return Object.assign({}, state, {
+                users: action.users
+            });
         default:
             return state;
     }

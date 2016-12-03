@@ -91,6 +91,13 @@ export function receiveGames(games) {
     };
 }
 
+export function receiveUsers(users) {
+    return {
+        type: 'RECEIVE_USERS',
+        users: users
+    };
+}
+
 export function startNewGame() {
     return {
         type: 'START_NEWGAME'

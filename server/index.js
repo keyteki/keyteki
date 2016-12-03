@@ -193,6 +193,21 @@ function refreshGameList(socket) {
     }
 }
 
+function refreshUserList(socket) {
+    var userList = _.map(users, function(user) {
+        return {
+            name: user.username,
+            emailHash: user.emailHash
+        };
+    });
+    
+    if(socket) {
+        socket.emit('users', userList);
+    } else {
+        io.emit('users', userList);
+    }
+}
+
 function findGameForPlayer(socketid) {
     var gameToReturn = undefined;
     _.each(games, game => {
@@ -269,6 +284,8 @@ function runAndCatchErrors(game, func) {
     }
 }
 
+var users = {};
+
 io.on('connection', function(socket) {
     socket.on('error', function(err) {
         logger.info('socket error', err);
@@ -276,6 +293,10 @@ io.on('connection', function(socket) {
 
     socket.on('disconnect', function() {
         var game = findGameForPlayer(socket.id);
+
+        delete users[socket.request.user.username];
+
+        refreshUserList();
 
         if(!game) {
             return;
@@ -290,6 +311,9 @@ io.on('connection', function(socket) {
         jwt.verify(token, config.secret, function(err, user) {
             if(!err) {
                 socket.request.user = user;
+                users[user.username] = user;
+
+                refreshUserList();
             }
         });
     });
@@ -693,6 +717,12 @@ io.on('connection', function(socket) {
     });
 
     refreshGameList(socket);
+
+    if(socket.request.user) {
+        users[socket.request.user.username] = socket.request.user;
+    }
+
+    refreshUserList();
 
     db.collection('messages').find().sort({ time: -1 }).limit(50).toArray((err, messages) => {
         if(err) {

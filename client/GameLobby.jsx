@@ -58,6 +58,7 @@ InnerGameLobby.propTypes = {
 function mapStateToProps(state) {
     return {
         currentGame: state.games.currentGame,
+        games: state.games.games,
         newGame: state.games.newGame,
         socket: state.socket.socket,
         username: state.auth.username

@@ -55,8 +55,12 @@ class App extends React.Component {
             this.props.socketConnected(socket);
         });
 
-        socket.on('games', data => {
-            this.props.receiveGames(data);
+        socket.on('games', games => {
+            this.props.receiveGames(games);
+        });
+
+        socket.on('users', users => {
+            this.props.receiveUsers(users);
         });
 
         socket.on('newgame', game => {
@@ -134,7 +138,7 @@ class App extends React.Component {
                 component = <EditDeck cards={this.props.cards} packs={this.props.packs} agendas={this.props.agendas} deckId={pathArg} />;
                 break;
             case '/play':
-                component = this.props.currentGame && this.props.currentGame.started ? gameBoard : <GameLobby games={this.props.games} />;
+                component = this.props.currentGame && this.props.currentGame.started ? gameBoard : <GameLobby />;
                 break;
             default:
                 component = <NotFound />;
@@ -170,6 +174,7 @@ App.propTypes = {
     receiveLobbyMessages: React.PropTypes.func,
     receiveNewGame: React.PropTypes.func,
     receiveUpdateGame: React.PropTypes.func,
+    receiveUsers: React.PropTypes.func,
     socketConnected: React.PropTypes.func,
     token: React.PropTypes.string,
     username: React.PropTypes.string

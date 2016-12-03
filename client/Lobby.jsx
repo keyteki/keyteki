@@ -67,21 +67,39 @@ class InnerLobby extends React.Component {
                     <div className='message'>{message.message}</div>
                 </div>);
         });
+
+        var users = _.map(this.props.users, user => {
+            return (
+                <div>
+                    <Avatar emailHash={user.emailHash} />
+                    <span>{user.name}</span>
+                </div>
+            );
+        });
+
         return (
             <div>
                 <div className='alert alert-info col-sm-8'>The site is in beta.  You will encounter bugs or missing features.  Please report these issues to&nbsp;
              <a href='https://www.github.com/cryogen/throneteki' target='_blank'>GitHub</a>.</div>
                 <div className='alert alert-success col-sm-8'>Avatars are now in use in various parts of the site.  If you want your own rather than the default, see <a href='https://en.gravatar.com/'>Gravatar</a></div>
-                <div className='row' />
-                <h1 className='col-sm-12'>Play A Game Of Thrones 2nd Edition</h1>
-                <div className='lobby-chat col-sm-8'>
-                    <div className='panel lobby-messages' ref='messages'>
-                        {messages}
+                <div className='row'>
+                    <span className='col-sm-5'><h1>Play A Game Of Thrones 2nd Edition</h1></span>
+                    <span className='col-sm-2'><h3>Online Users</h3></span>
+                </div>
+                <div className='row'>
+                    <div className='lobby-chat col-sm-5'>
+                        <div className='panel lobby-messages' ref='messages'>
+                            {messages}
+                        </div>
                     </div>
-                    <div>
+                    <div className='panel user-list col-sm-1'>
+                        {users}
+                    </div>
+                </div>
+                    <div className='row'>
                         <form className='form form-hozitontal'>
                             <div className='form-group'>
-                                <div className='col-sm-11'>
+                                <div className='chat-box col-sm-5'>
                                     <input className='form-control' type='text' placeholder='Chat...' value={this.state.message}
                                         onKeyPress={this.onKeyPress} onChange={this.onChange} />
                                 </div>
@@ -89,7 +107,6 @@ class InnerLobby extends React.Component {
                             </div>
                         </form>
                     </div>
-                </div>
             </div>);
     }
 }
@@ -97,13 +114,15 @@ class InnerLobby extends React.Component {
 InnerLobby.displayName = 'Lobby';
 InnerLobby.propTypes = {
     messages: React.PropTypes.array,
-    socket: React.PropTypes.object
+    socket: React.PropTypes.object,
+    users: React.PropTypes.array
 };
 
 function mapStateToProps(state) {
     return {
         messages: state.chat.messages,
-        socket: state.socket.socket
+        socket: state.socket.socket,
+        users: state.games.users
     };
 }
 
