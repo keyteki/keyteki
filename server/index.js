@@ -575,7 +575,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        var chatMessage = { user: { username: socket.request.user.username }, message: message, time: new Date() };
+        var chatMessage = { user: { username: socket.request.user.username, emailHash: socket.request.user.emailHash }, message: message, time: new Date() };
         db.collection('messages').insert(chatMessage);
         io.emit('lobbychat', chatMessage);
     });
