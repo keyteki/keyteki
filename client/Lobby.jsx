@@ -71,7 +71,7 @@ class InnerLobby extends React.Component {
             <div>
                 <div className='alert alert-info col-sm-8'>The site is in beta.  You will encounter bugs or missing features.  Please report these issues to&nbsp;
              <a href='https://www.github.com/cryogen/throneteki' target='_blank'>GitHub</a>.</div>
-                <div className='alert alert-success col-sm-8'>Avatars are now in use in various parts of the site(more coming soon).  If you want your own rather than the default, see <a href='https://en.gravatar.com/'>Gravatar</a></div>
+                <div className='alert alert-success col-sm-8'>Avatars are now in use in various parts of the site.  If you want your own rather than the default, see <a href='https://en.gravatar.com/'>Gravatar</a></div>
                 <div className='row' />
                 <h1 className='col-sm-12'>Play A Game Of Thrones 2nd Edition</h1>
                 <div className='lobby-chat col-sm-8'>
