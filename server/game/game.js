@@ -35,8 +35,27 @@ class Game extends EventEmitter {
         this.setMaxListeners(0);
     }
 
+    addChatMessage(message) {
+        var args = Array.from(arguments).slice(1);
+        var formattedMessage = this.formatMessage(message, args);
+
+        this.messages.push({ date: new Date(), message: formattedMessage });
+    }
+
     addMessage(message) {
         var args = Array.from(arguments).slice(1);
+        var argList = [];
+
+        args = _.reduce(args, (argList, arg) => {
+            if(arg instanceof Spectator) {
+                argList.push(arg.name);
+            } else {
+                argList.push(arg);
+            }
+
+            return argList;
+        }, argList);
+
         var formattedMessage = this.formatMessage(message, args);
 
         this.messages.push({ date: new Date(), message: formattedMessage });
@@ -52,7 +71,7 @@ class Game extends EventEmitter {
                 if(!_.isUndefined(arg) && !_.isNull(arg)) {
                     if(arg instanceof BaseCard) {
                         return { code: arg.code, label: arg.name, type: arg.getType() };
-                    } else if(arg instanceof Player) {
+                    } else if(arg instanceof Spectator) {
                         return { name: arg.user.username, emailHash: arg.user.emailHash };
                     }
 
@@ -663,7 +682,7 @@ class Game extends EventEmitter {
         }
 
         if(this.isSpectator(player)) {
-            this.addMessage('<{0}> {1}', player, message);
+            this.addMessage('{0} {1}', player, message);
             return;
         }
 
@@ -737,7 +756,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        this.addMessage('<{0}> {1}', player, message);
+        this.addChatMessage('{0} {1}', player, message);
     }
 
     setStrength(player, cardId) {

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'underscore';
 
+import Avatar from '../Avatar.jsx';
 import * as actions from '../actions';
 
 class InnerMessages extends React.Component {
@@ -38,9 +39,12 @@ class InnerMessages extends React.Component {
                 );
             } else if(fragment.name) {
                 return (
-                    <span key={index++}>
-                        {fragment.name}
-                    </span>
+                    <div key={index++}>
+                        <Avatar emailHash={fragment.emailHash} float />
+                        <span key={index++}>
+                            {fragment.name}
+                        </span>
+                    </div>
                 );
             } else if(fragment === 'military') {
                 return (
