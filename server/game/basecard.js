@@ -8,7 +8,8 @@ const ValidKeywords = [
     'pillage',
     'renown',
     'stealth',
-    'terminal'
+    'terminal',
+    'limited'
 ];
 
 class BaseCard {
