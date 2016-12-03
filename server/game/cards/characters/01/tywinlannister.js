@@ -10,6 +10,10 @@ class TywinLannister extends DrawCard {
     }
 
     updateStrength() {
+        if(!this.inPlay) {
+            return;
+        }
+        
         this.strengthModifier -= this.lastGold;
         this.strengthModifier += this.owner.gold;
 
