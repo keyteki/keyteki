@@ -62,7 +62,7 @@ class InnerLobby extends React.Component {
             var timestamp = moment(message.time).format('MMM Do H:mm:ss');
             return (
                 <div key={timestamp + message.user.username + (index++).toString()}>
-                    <Avatar emailHash={message.user.emailHash} />
+                    <Avatar emailHash={message.user.emailHash} float />
                     <span className='username'>{message.user.username}</span><span>{timestamp}</span>
                     <div className='message'>{message.message}</div>
                 </div>);

@@ -53,7 +53,7 @@ class Game extends EventEmitter {
                     if(arg instanceof BaseCard) {
                         return { code: arg.code, label: arg.name, type: arg.getType() };
                     } else if(arg instanceof Player) {
-                        return { name: arg.user };
+                        return { name: arg.user.username, emailHash: arg.user.emailHash };
                     }
 
                     return arg;
