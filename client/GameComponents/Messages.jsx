@@ -13,6 +13,20 @@ class InnerMessages extends React.Component {
             message: ''
         };
 
+        this.icons = [
+            'military',
+            'power',
+            'intrigue',
+            'stark',
+            'baratheon',
+            'tyrell',
+            'martell',
+            'lannister',
+            'thenightswatch',
+            'targaryen',
+            'greyjoy'
+        ]
+            
         this.formatMessageText = this.formatMessageText.bind(this);
     }
 
@@ -46,14 +60,10 @@ class InnerMessages extends React.Component {
                         </span>
                     </div>
                 );
-            } else if(fragment === 'military') {
+            } else if(_.contains(this.icons, fragment)) {
                 return (
-                    <span className='icon-military' key={index++} />
+                    <span className={'icon-' + fragment} key={index++} />
                 );
-            } else if(fragment === 'power') {
-                return <span className='icon-power' key={index++} />;
-            } else if(fragment === 'intrigue') {
-                return <span className='icon-intrigue' key={index++} />;
             }
 
             return fragment;
