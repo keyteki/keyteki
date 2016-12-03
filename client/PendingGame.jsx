@@ -211,7 +211,8 @@ class InnerPendingGame extends React.Component {
                 <div className='chat-box'>
                     <h3>Chat</h3>
                     <div className='message-list'>
-                        <Messages messages={this.props.currentGame.messages} onCardMouseOver={this.onMouseOver} onCardMouseOut={this.onMouseOut} />                      </div>
+                        <Messages messages={this.props.currentGame.messages} onCardMouseOver={this.onMouseOver} onCardMouseOut={this.onMouseOut} />                      
+                    </div>
                         <form className='form form-hozitontal'>
                             <div className='form-group'>
                                 <div className='col-sm-10'>
