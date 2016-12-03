@@ -320,12 +320,12 @@ io.on('connection', function(socket) {
         });
     });
 
-    socket.on('newgame', function(name) {
+    socket.on('newgame', function(gameDetails) {
         if(!socket.request.user) {
             return;
         }
 
-        var game = new Game(socket.id, name);
+        var game = new Game(socket.id, gameDetails);
 
         game.players[socket.id] = new Player(socket.id, socket.request.user, true, game);
 
@@ -366,7 +366,7 @@ io.on('connection', function(socket) {
 
         var game = games[gameid];
 
-        if(!game) {
+        if(!game || !game.allowSpectators) {
             return;
         }
 

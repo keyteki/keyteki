@@ -18,7 +18,7 @@ const MenuPrompt = require('./gamesteps/menuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 
 class Game extends EventEmitter {
-    constructor(owner, name) {
+    constructor(owner, details) {
         super();
 
         this.players = {};
@@ -26,7 +26,8 @@ class Game extends EventEmitter {
         this.playerCards = {};
         this.messages = [];
 
-        this.name = name;
+        this.name = details.name;
+        this.allowSpectators = details.spectators;
         this.id = uuid.v1();
         this.owner = owner;
         this.started = false;
@@ -1020,18 +1021,19 @@ class Game extends EventEmitter {
         });
 
         return {
+            allowSpectators: this.allowSpectators,
             id: this.id,
+            messages: this.messages,
             name: this.name,
             owner: this.owner,
+            players: playerSummaries,
             started: this.started,
             spectators: _.map(this.getSpectators(), spectator => {
                 return {
                     id: spectator.id,
                     name: spectator.name
                 };
-            }),
-            players: playerSummaries,
-            messages: this.messages
+            })
         };
     }
 }

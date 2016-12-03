@@ -8,8 +8,13 @@ class InnerNewGame extends React.Component {
         super();
 
         this.onCancelClick = this.onCancelClick.bind(this);
-        this.onGameNameChange = this.onGameNameChange.bind(this);
         this.onSubmitClick = this.onSubmitClick.bind(this);
+        this.onNameChange = this.onNameChange.bind(this);
+        this.onSpecatorsClick = this.onSpecatorsClick.bind(this);
+
+        this.state = {
+            spectators: true
+        };
     }
 
     componentWillMount() {
@@ -22,27 +27,44 @@ class InnerNewGame extends React.Component {
         this.props.cancelNewGame();
     }
 
-    onGameNameChange(event) {
-        this.setState({ gameName: event.target.value });
+    onNameChange(event) {
+        this.setState({gameName: event.target.value});
+    }
+
+    onSpecatorsClick(event) {
+        this.setState({spectators: event.target.checked});
     }
 
     onSubmitClick(event) {
         event.preventDefault();
 
-        this.props.socket.emit('newgame', this.state.gameName);
+        this.props.socket.emit('newgame', { 
+            name: this.state.gameName,
+            spectators: this.state.spectators
+        });
     }
 
     render() {
         return (
             <div>
                 <form className='form'>
-                    <div className='form-group col-sm-6'>
-                        <label htmlFor='gameName'>Name</label>
-                        <input className='form-control' type='text' id='gameName' onChange={ this.onGameNameChange } value={ this.state.gameName } />
-                        <div className='button-row'>
-                            <button className='btn btn-primary' onClick={ this.onSubmitClick }>Submit</button>
-                            <button className='btn btn-primary' onClick={ this.onCancelClick }>Cancel</button>
+                    <div className='row'>
+                        <div className='col-sm-5'>
+                            <label htmlFor='gameName'>Name</label>
+                            <input className='form-control' placeholder='Game Name' type='text' onChange={this.onNameChange} value={this.state.gameName}/>
                         </div>
+                    </div>
+                    <div className='row'>
+                        <div className='checkbox col-sm-5'>
+                            <label>
+                            <input type='checkbox' onChange={this.onSpecatorsClick} checked={this.state.spectators} />
+                                Allow spectators
+                            </label>
+                        </div>
+                    </div>
+                    <div className='button-row'>
+                        <button className='btn btn-primary' onClick={ this.onSubmitClick }>Submit</button>
+                        <button className='btn btn-primary' onClick={ this.onCancelClick }>Cancel</button>
                     </div>
                 </form>
             </div>);
