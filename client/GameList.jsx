@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import _ from 'underscore';
 
+import Avatar from './Avatar.jsx';
 import * as actions from './actions';
 
 class InnerGameList extends React.Component {
@@ -36,10 +37,10 @@ class InnerGameList extends React.Component {
                         <button className='btn btn-primary pull-right' onClick={event => this.watchGame(event, game)}>Watch</button>}
                     <div><b>{ game.name }</b></div>
                     <div>
-                        <img className='gravatar' src={'http://www.gravatar.com/avatar/' + game.players[0].emailHash + '?d=identicon&s=32}'} />
+                        <Avatar emailHash={game.players[0].emailHash} />
                         <span>{ game.players.length > 0 ? game.players[0].name : '' }</span> 
                         { game.players.length === 2 ? <span><b>{' vs '}</b>
-                        <img className='gravatar' src={'http://www.gravatar.com/avatar/' + game.players[1].emailHash + '?d=identicon&s=32}'} />
+                        <Avatar emailHash={game.players[1].emailHash} />
                         { game.players[1].name }</span> : null }</div>
                 </div>
             );

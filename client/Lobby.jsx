@@ -5,6 +5,7 @@ import $ from 'jquery';
 import moment from 'moment';
 
 import * as actions from './actions';
+import Avatar from './Avatar.jsx';
 
 class InnerLobby extends React.Component {
     constructor() {
@@ -61,7 +62,7 @@ class InnerLobby extends React.Component {
             var timestamp = moment(message.time).format('MMM Do H:mm:ss');
             return (
                 <div key={timestamp + message.user.username + (index++).toString()}>
-                    <img className='avatar pull-left' />
+                    <Avatar emailHash={message.user.emailHash} />
                     <span className='username'>{message.user.username}</span><span>{timestamp}</span>
                     <div className='message'>{message.message}</div>
                 </div>);

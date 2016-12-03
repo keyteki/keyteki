@@ -7,6 +7,7 @@ import _ from 'underscore';
 import * as actions from './actions';
 import DeckRow from './DeckRow.jsx';
 import Messages from './GameComponents/Messages.jsx';
+import Avatar from './Avatar.jsx';
 
 class InnerPendingGame extends React.Component {
     constructor() {
@@ -97,7 +98,7 @@ class InnerPendingGame extends React.Component {
 
         return (
             <div className='player-row' key={player.id}>
-                <img className='gravatar' src={'http://www.gravatar.com/avatar/' + player.emailHash + '?d=identicon&s=32}'} /><span>{player.name}</span>{deck} {selectLink}
+                <Avatar emailHash={player.emailHash} /><span>{player.name}</span>{deck} {selectLink}
             </div>);
     }
 
