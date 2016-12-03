@@ -36,7 +36,7 @@ class InnerNavBar extends React.Component {
 
         return (
             <nav className='navbar navbar-inverse navbar-fixed-top'>
-                <div className='container-fluid'>
+                <div className='container'>
                     <div className='navbar-header'>
                         <button className='navbar-toggle collapsed' type='button' data-toggle='collapse' data-target='#navbar' aria-expanded='false' aria-controls='navbar'>
                             <span className='sr-only'>Toggle Navigation</span>

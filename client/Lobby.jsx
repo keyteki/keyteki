@@ -79,20 +79,20 @@ class InnerLobby extends React.Component {
 
         return (
             <div>
-                <div className='alert alert-info col-sm-8'>The site is in beta.  You will encounter bugs or missing features.  Please report these issues to&nbsp;
+                <div className='alert alert-info'>The site is in beta.  You will encounter bugs or missing features.  Please report these issues to&nbsp;
              <a href='https://www.github.com/cryogen/throneteki' target='_blank'>GitHub</a>.</div>
-                <div className='alert alert-success col-sm-8'>Avatars are now in use in various parts of the site.  If you want your own rather than the default, see <a href='https://en.gravatar.com/'>Gravatar</a></div>
+                <div className='alert alert-success'>Avatars are now in use in various parts of the site.  If you want your own rather than the default, see <a href='https://en.gravatar.com/'>Gravatar</a></div>
                 <div className='row'>
-                    <span className='col-sm-5'><h1>Play A Game Of Thrones 2nd Edition</h1></span>
-                    <span className='col-sm-2'><h3>Online Users</h3></span>
+                    <span className='col-sm-9'><h1>Play A Game Of Thrones 2nd Edition</h1></span>
+                    <span className='col-sm-3'><h3>Online Users</h3></span>
                 </div>
                 <div className='row'>
-                    <div className='lobby-chat col-sm-5'>
+                    <div className='lobby-chat col-sm-9'>
                         <div className='panel lobby-messages' ref='messages'>
                             {messages}
                         </div>
                     </div>
-                    <div className='panel user-list col-sm-1'>
+                    <div className='panel user-list col-sm-3 col-xs-5'>
                         {users}
                     </div>
                 </div>
@@ -103,7 +103,7 @@ class InnerLobby extends React.Component {
                                     <input className='form-control' type='text' placeholder='Chat...' value={this.state.message}
                                         onKeyPress={this.onKeyPress} onChange={this.onChange} />
                                 </div>
-                                <button type='button' className='btn btn-primary col-sm-1' onClick={this.onSendClick}>Send</button>
+                                <button type='button' className='btn btn-primary col-sm-1 col-xs-2' onClick={this.onSendClick}>Send</button>
                             </div>
                         </form>
                     </div>

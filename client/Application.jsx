@@ -147,7 +147,7 @@ class App extends React.Component {
 
         return (<div>
             <NavBar leftMenu={leftMenu} rightMenu={rightMenu} title='The Iron Throne' currentPath={this.props.path} numGames={this.props.games.length} />
-            <div className='container-fluid'>
+            <div className='container'>
                 {component}
             </div>
         </div>);
