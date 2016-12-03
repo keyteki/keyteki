@@ -66,6 +66,7 @@ class Card extends React.Component {
     render() {
         var cardClass = '';
         var imageClass = '';
+        var wrapperClass = 'card-wrapper';
         
         if(this.props.card.kneeled) {
             cardClass = 'horizontal-card';
@@ -78,10 +79,14 @@ class Card extends React.Component {
             imageClass = 'card';
         }
 
-        if(this.props.card.new) {
-            cardClass += ' new';
-        } else if(this.props.card.selected) {
+        if(this.props.card.selected) {
             cardClass += ' selected';
+        } else if(this.props.card.new) {
+            cardClass += ' new';
+        }
+
+        if(this.props.source === 'play area' && this.props.card.type === 'attachment') {
+            wrapperClass += ' attachment';
         }
 
         var offset = 10;
@@ -101,7 +106,7 @@ class Card extends React.Component {
         });
 
         return (
-                <div className={'card-wrapper' + (this.props.card.type === 'attachment' ? ' attachment' : '')} style={this.props.style}>
+                <div className={wrapperClass} style={this.props.style}>
                     <div className='card-frame'>
                         <div className={cardClass}
                             onMouseOver={this.props.disableMouseOver ? null : this.onMouseOver.bind(this, this.props.card)}

@@ -26,7 +26,7 @@ describe('BaseCard', function () {
             describe('and card is faceup', function() {
                 it('should return card data', function() {
                     expect(this.summary.uuid).toEqual(this.card.uuid);
-                    expect(this.summary.name).toEqual(this.testCard.name);
+                    expect(this.summary.name).toEqual(this.testCard.label);
                     expect(this.summary.code).toEqual(this.testCard.code);
                 });
 
@@ -43,7 +43,7 @@ describe('BaseCard', function () {
 
                 it('should return card data', function() {
                     expect(this.summary.uuid).toEqual(this.card.uuid);
-                    expect(this.summary.name).toEqual(this.testCard.name);
+                    expect(this.summary.name).toEqual(this.testCard.label);
                     expect(this.summary.code).toEqual(this.testCard.code);
                 });
 
@@ -77,7 +77,7 @@ describe('BaseCard', function () {
 
                 it('should return card data', function () {
                     expect(this.summary.uuid).toEqual(this.card.uuid);
-                    expect(this.summary.name).toEqual(this.testCard.name);
+                    expect(this.summary.name).toEqual(this.testCard.label);
                     expect(this.summary.code).toEqual(this.testCard.code);
                 });
 
