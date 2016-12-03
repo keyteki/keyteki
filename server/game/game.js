@@ -682,7 +682,7 @@ class Game extends EventEmitter {
         }
 
         if(this.isSpectator(player)) {
-            this.addMessage('{0} {1}', player, message);
+            this.addChatMessage('{0} {1}', player, message);
             return;
         }
 
