@@ -11,7 +11,7 @@ describe('the Game', () => {
     var spectator = new Spectator('3', 'Spectator 1');
 
     beforeEach(() => {
-        game = new Game('1', 'Test Game');
+        game = new Game('1', { name: 'Test Game' });
     });
 
     describe('getSummary function', () => {
