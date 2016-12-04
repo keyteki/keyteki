@@ -133,7 +133,7 @@ class Card extends React.Component {
             cardClass += ' new';
         }
 
-        if(this.props.source === 'play area' && this.props.card.type === 'attachment') {
+        if(this.props.source === 'play area' && this.props.card.type === 'attachment' && this.props.card.attached) {
             wrapperClass += ' attachment';
         }
 
@@ -162,6 +162,7 @@ class Card extends React.Component {
 Card.displayName = 'Card';
 Card.propTypes = {
     card: React.PropTypes.shape({
+        attached: React.PropTypes.bool,
         attachments: React.PropTypes.array,
         baseStrength: React.PropTypes.number,
         code: React.PropTypes.string,

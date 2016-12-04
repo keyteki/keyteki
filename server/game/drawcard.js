@@ -169,6 +169,7 @@ class DrawCard extends BaseCard {
             dupes: this.dupes.map(dupe => {
                 return dupe.getSummary(isActivePlayer, hideWhenFaceup);
             }),
+            attached: !!this.parent,
             attachments: this.attachments.map(attachment => {
                 return attachment.getSummary(isActivePlayer, hideWhenFaceup);
             }),
