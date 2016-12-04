@@ -10,6 +10,10 @@ class ASongOfSummer extends PlotCard {
     }
 
     onPlotFlip() {
+        if(this.owner.selectedPlot !== this) {
+            return;
+        }
+        
         var otherPlayer = this.game.getOtherPlayer(this.owner);
 
         if(!otherPlayer || !otherPlayer.selectedPlot.hasTrait('Winter')) {
