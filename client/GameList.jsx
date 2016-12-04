@@ -18,8 +18,8 @@ class InnerGameList extends React.Component {
         this.props.socket.emit('joingame', game.id);
     }
 
-    canWatch() {
-        return this.props.currentGame && this.props.currentGame.allowSpectators;
+    canWatch(game) {
+        return !this.props.currentGame && game.allowSpectators;
     }
     
     watchGame(event, game) {
@@ -36,7 +36,7 @@ class InnerGameList extends React.Component {
                         null : 
                         <button className='btn btn-primary pull-right' onClick={ event => this.joinGame(event, game) }>Join</button> 
                     }
-                    {this.canWatch() ? 
+                    {this.canWatch(game) ? 
                         <button className='btn btn-primary pull-right' onClick={event => this.watchGame(event, game)}>Watch</button> : null}
                     <div><b>{ game.name }</b></div>
                     <div>
