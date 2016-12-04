@@ -749,6 +749,10 @@ class Player extends Spectator {
             this.challenges[this.currentChallenge].performed++;
             this.challenges.complete++;
         }
+
+        this.cardsInPlay.each(card => {
+            card.resetForChallenge();
+        });
     }
 
     beginDefend(challenge) {
@@ -761,6 +765,7 @@ class Player extends Spectator {
         this.currentChallenge = challenge;
         this.phase = 'challenge';
         this.cardsInChallenge = _([]);
+
         this.selectingChallengers = true;
     }
 
