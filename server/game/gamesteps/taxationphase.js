@@ -18,7 +18,7 @@ class TaxationPhase extends Phase {
     returnGold() {
         _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
             player.taxation();
-            this.game.emit('onAfterTaxation', player);
+            this.game.raiseEvent('onAfterTaxation', player);
         });
     }
 

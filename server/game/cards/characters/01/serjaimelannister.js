@@ -7,7 +7,7 @@ class SerJaimeLannister extends DrawCard {
         this.registerEvents(['onAttackersDeclared', 'onChallengeFinished']);
     }
 
-    onAttackersDeclared(player, challengeType) {
+    onAttackersDeclared(e, player, challengeType) {
         if(!this.inPlay || challengeType !== 'military') {
             return;
         }
@@ -27,7 +27,7 @@ class SerJaimeLannister extends DrawCard {
         }
     }
 
-    onChallengeFinished(challengeType, winner, loser, challenger) {
+    onChallengeFinished(e, challengeType, winner, loser, challenger) {
         if(challengeType === 'military') {
             this.clearRenown();
         }

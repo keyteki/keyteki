@@ -9,7 +9,7 @@ class AryaStark extends DrawCard {
         this.registerEvents(['onCardEntersPlay', 'onDupeDiscarded']);
     }
 
-    onCardEntersPlay(card) {
+    onCardEntersPlay(e, card) {
         if(card !== this) {
             return;
         }
@@ -24,7 +24,7 @@ class AryaStark extends DrawCard {
         this.game.addMessage('{0} places the top card of their deck on {1} as a duplicate', this.owner, this);
     }
 
-    onDupeDiscarded(player, card) {
+    onDupeDiscarded(e, player, card) {
         if(this.owner !== player || card !== this) {
             return;
         }

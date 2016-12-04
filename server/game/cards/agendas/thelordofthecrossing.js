@@ -7,7 +7,7 @@ class TheLordOfTheCrossing extends AgendaCard {
         this.registerEvents(['onChallenge', 'afterChallenge']);
     }
 
-    onChallenge(player) {
+    onChallenge(e, player) {
         if(this.owner !== player) {
             return;
         }
@@ -22,7 +22,7 @@ class TheLordOfTheCrossing extends AgendaCard {
         });
     }
     
-    afterChallenge(challengeType, winner, loser, challenger) {
+    afterChallenge(e, challengeType, winner, loser, challenger) {
         if(challenger !== this.owner) {
             return;
         }

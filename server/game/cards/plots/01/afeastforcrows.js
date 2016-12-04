@@ -7,7 +7,7 @@ class AFeastForCrows extends PlotCard {
         this.registerEvents(['afterDominance']);
     }
 
-    afterDominance(winner) {
+    afterDominance(e, winner) {
         if(!this.inPlay || winner !== this.owner) {
             return;
         }

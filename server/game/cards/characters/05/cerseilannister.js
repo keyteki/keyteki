@@ -7,7 +7,7 @@ class CerseiLannister extends DrawCard {
         this.registerEvents(['onAttackersDeclared']);
     }
 
-    onAttackersDeclared(player, challengeType) {
+    onAttackersDeclared(e, player, challengeType) {
         if(!this.inPlay || this.owner !== player || challengeType !== 'intrigue') {
             return;
         }

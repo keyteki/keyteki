@@ -192,7 +192,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        this.emit('onCardPlayed', player, cardId);
+        this.raiseEvent('onCardPlayed', player, cardId);
         this.pipeline.continue();
     }
 
@@ -232,7 +232,7 @@ class Game extends EventEmitter {
             }
 
             this.canAddToChallenge = true;
-            this.emit('beforeChallengerSelected', this, player, challengeCard);
+            this.raiseEvent('beforeChallengerSelected', this, player, challengeCard);
 
             if(this.canAddToChallenge) {
                 player.addToChallenge(challengeCard);
@@ -463,11 +463,11 @@ class Game extends EventEmitter {
 
         var otherPlayer = this.getOtherPlayer(player);
 
-        this.emit('onChallenge', player, player.currentChallenge);
+        this.raiseEvent('onChallenge', player, player.currentChallenge);
 
         player.doneChallenge(true);
 
-        this.emit('onAttackersDeclared', player, player.currentChallenge);
+        this.raiseEvent('onAttackersDeclared', player, player.currentChallenge);
 
         if(otherPlayer) {
             otherPlayer.currentChallenge = player.currentChallenge;
@@ -507,13 +507,13 @@ class Game extends EventEmitter {
             this.addMessage('{0} won a {1} challenge {2} vs {3}',
                 winner, winner.currentChallenge, winner.challengeStrength, loser.challengeStrength);
 
-            this.emit('afterChallenge', winner.currentChallenge, winner, loser, challenger);
+            this.raiseEvent('afterChallenge', winner.currentChallenge, winner, loser, challenger);
 
             if(loser.challengeStrength === 0) {
                 this.addMessage('{0} has gained 1 power from an unopposed challenge', winner);
                 this.addPower(winner, 1);
 
-                this.emit('onUnopposedWin', winner);
+                this.raiseEvent('onUnopposedWin', winner);
             }
 
             // XXX This should be after claim but needs a bit of reworking to make that possible
@@ -522,7 +522,7 @@ class Game extends EventEmitter {
             if(winner === challenger) {
                 this.applyClaim(winner, loser);
             } else {
-                this.emit('onChallengeFinished', winner.currentChallenge, winner, loser, challenger);
+                this.raiseEvent('onChallengeFinished', winner.currentChallenge, winner, loser, challenger);
 
                 challenger.beginChallenge();
 
@@ -585,7 +585,7 @@ class Game extends EventEmitter {
     }
 
     applyClaim(winner, loser) {
-        this.emit('beforeClaim', this, winner.currentChallenge, winner, loser);
+        this.raiseEvent('beforeClaim', this, winner.currentChallenge, winner, loser);
         var claim = winner.activePlot.getClaim();
         claim = winner.modifyClaim(winner, winner.currentChallenge, claim);
 
@@ -607,7 +607,7 @@ class Game extends EventEmitter {
             }
         }
 
-        this.emit('afterClaim', this, winner.currentChallenge, winner, loser);
+        this.raiseEvent('afterClaim', this, winner.currentChallenge, winner, loser);
         loser.doneClaim();
         winner.beginChallenge();
     }
@@ -649,7 +649,7 @@ class Game extends EventEmitter {
 
         player[stat] += value;
 
-        this.emit('onStatChanged', player, stat, value);
+        this.raiseEvent('onStatChanged', player, stat, value);
 
         if(player[stat] < 0) {
             player[stat] = 0;
@@ -975,6 +975,14 @@ class Game extends EventEmitter {
 
     queueStep(step) {
         this.pipeline.queueStep(step);
+    }
+
+    raiseEvent(eventName, ...params) {
+        var event = new Event();
+
+        this.emit(eventName, event, ...params);
+        
+        return event;
     }
 
     getState(activePlayer) {

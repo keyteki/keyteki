@@ -7,7 +7,7 @@ class AClashOfKings extends PlotCard {
         this.registerEvents(['afterChallenge']);
     }
 
-    afterChallenge(challengeType, winner, loser) {
+    afterChallenge(e, challengeType, winner, loser) {
         if(!this.inPlay) {
             return;
         }

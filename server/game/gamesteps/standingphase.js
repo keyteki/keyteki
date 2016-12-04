@@ -11,7 +11,7 @@ class StandingPhase extends Phase {
     }
 
     standCards() {
-        this.game.emit('cardsStanding');
+        this.game.raiseEvent('cardsStanding');
 
         _.each(this.game.getPlayers(), player => {
             player.standCards();

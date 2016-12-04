@@ -376,7 +376,7 @@ class Player extends Spectator {
             dupeCard.addDuplicate(card);
         } else {
             if(this.phase !== 'setup') {
-                this.game.emit('onCardEntersPlay', card);
+                this.game.raiseEvent('onCardEntersPlay', card);
             }
 
             card.facedown = this.phase === 'setup';
@@ -417,7 +417,7 @@ class Player extends Spectator {
                 duplicate.addDuplicate(card);
             } else {
                 processedCards.push(card);
-                this.game.emit('onCardEntersPlay', card);
+                this.game.raiseEvent('onCardEntersPlay', card);
             }
             
         });
@@ -805,7 +805,7 @@ class Player extends Spectator {
 
             character.dupes = _(character.dupes.slice(1));
 
-            this.game.emit('onDupeDiscarded', this, character, discardedDupe);
+            this.game.raiseEvent('onDupeDiscarded', this, character, discardedDupe);
 
             this.discardPile.push(discardedDupe);
         } else {
@@ -885,7 +885,7 @@ class Player extends Spectator {
         pile.push(card);
         card.leavesPlay();
 
-        this.game.emit('onCardLeftPlay', this, card);
+        this.game.raiseEvent('onCardLeftPlay', this, card);
     }
 
     removeAttachment(attachment, allowSave = true) {

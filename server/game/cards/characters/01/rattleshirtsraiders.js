@@ -7,7 +7,7 @@ class RattleshirtsRaiders extends DrawCard {
         this.registerEvents(['afterChallenge']);
     }
 
-    afterChallenge(challengeType, winner, loser, challenger) {
+    afterChallenge(e, challengeType, winner, loser, challenger) {
         if(!this.inPlay || challenger !== this.owner) {
             return;
         }

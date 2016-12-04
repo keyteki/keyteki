@@ -43,7 +43,7 @@ class DominancePhase extends Phase {
             this.game.addMessage('No one wins dominance');
         }
 
-        this.game.emit('afterDominance', dominanceWinner);
+        this.game.raiseEvent('afterDominance', dominanceWinner);
     }
 }
 

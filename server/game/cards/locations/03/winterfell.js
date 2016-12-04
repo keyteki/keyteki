@@ -17,7 +17,7 @@ class Winterfell extends DrawCard {
         });
     }
 
-    onCardPlayed(player, cardId) {
+    onCardPlayed(e, player, cardId) {
         if(!this.inPlay || this.owner !== player) {
             return;
         }

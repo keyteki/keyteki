@@ -20,7 +20,7 @@ class MarshalingPhase extends Phase {
 
     promptForMarshal() {
         var currentPlayer = this.remainingPlayers.shift();
-        this.game.emit('onBeginMarshal', currentPlayer);
+        this.game.raiseEvent('onBeginMarshal', currentPlayer);
         currentPlayer.beginMarshal();
         this.game.queueStep(new MarshalCardsPrompt(this.game, currentPlayer));
         return this.remainingPlayers.length === 0;
