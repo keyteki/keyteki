@@ -153,6 +153,8 @@ class DrawCard extends BaseCard {
 
     leavesPlay() {
         this.kneeled = false;
+        this.strengthModifier = 0;
+        this.power = 0;
     }
 
     resetForChallenge() {
