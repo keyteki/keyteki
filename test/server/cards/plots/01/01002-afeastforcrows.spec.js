@@ -44,7 +44,7 @@ describe('AFeastForCrows', function() {
         describe('and this plot is not in play', function() {
             beforeEach(function() {
                 this.plot.inPlay = false;
-                this.plot.afterDominance(this.playerSpy);
+                this.plot.afterDominance({}, this.playerSpy);
             });
 
             it('should not change any power', function() {
@@ -55,7 +55,7 @@ describe('AFeastForCrows', function() {
         describe('and this plot is in play', function() {
             beforeEach(function() {
                 this.plot.inPlay = true;
-                this.plot.afterDominance(this.playerSpy);
+                this.plot.afterDominance({}, this.playerSpy);
             });
             
             describe('and our owner won', function() {
@@ -68,7 +68,7 @@ describe('AFeastForCrows', function() {
                 beforeEach(function() {
                     this.gameSpy.addPower.calls.reset();
                     
-                    this.plot.afterDominance(this.otherPlayerSpy);
+                    this.plot.afterDominance({}, this.otherPlayerSpy);
                 });
 
                 it('should not add any power', function() {

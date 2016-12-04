@@ -2,6 +2,7 @@ const _ = require('underscore');
 const EventEmitter = require('events');
 const uuid = require('node-uuid');
 
+const Event = require('./event.js');
 const Spectator = require('./spectator.js');
 const BaseCard = require('./basecard.js');
 const GamePipeline = require('./gamepipeline.js');

@@ -34,7 +34,7 @@ describe('SerJaimeLannister', function() {
 
             describe('and the attacker is not my owner', function() {
                 beforeEach(function() {
-                    this.character.onAttackersDeclared(this.otherPlayerSpy, 'military');
+                    this.character.onAttackersDeclared({}, this.otherPlayerSpy, 'military');
                 });
 
                 it('should not stand the card', function() {
@@ -48,13 +48,13 @@ describe('SerJaimeLannister', function() {
 
             describe('and the attacker is my owner', function() {
                 beforeEach(function() {
-                    this.character.onAttackersDeclared(this.playerSpy, 'military');
+                    this.character.onAttackersDeclared({}, this.playerSpy, 'military');
                 });
 
                 describe('and this card is blank', function() {
                     beforeEach(function() {
                         this.character.setBlank();
-                        this.character.onAttackersDeclared(this.playerSpy, 'military');
+                        this.character.onAttackersDeclared({}, this.playerSpy, 'military');
                     });
 
                     afterEach(function() {
@@ -84,7 +84,7 @@ describe('SerJaimeLannister', function() {
                     beforeEach(function() {
                         this.playerSpy.cardsInChallenge.push(this.character);
 
-                        this.character.onAttackersDeclared(this.playerSpy, 'military');
+                        this.character.onAttackersDeclared({}, this.playerSpy, 'military');
                     });
 
                     it('should stand the card', function() {
@@ -95,7 +95,7 @@ describe('SerJaimeLannister', function() {
                         beforeEach(function() {
                             this.character.kneeled = true;
                             this.character.renownCount = 0;
-                            this.character.onAttackersDeclared(this.playerSpy, 'intrigue');
+                            this.character.onAttackersDeclared({}, this.playerSpy, 'intrigue');
                         });
 
                         it('should set not renown', function() {

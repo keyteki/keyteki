@@ -103,7 +103,7 @@ describe('RedCloaks', function() {
 
             describe('and this is not an intrigue challenge', function() {
                 beforeEach(function() {
-                    this.card.onAttackersDeclared(this.playerSpy, 'power');
+                    this.card.onAttackersDeclared({}, this.playerSpy, 'power');
                 });
 
                 it('should not increase the strength modifier', function() {
@@ -114,7 +114,7 @@ describe('RedCloaks', function() {
             describe('and this card is not in play', function() {
                 beforeEach(function() {
                     this.card.inPlay = false;
-                    this.card.onAttackersDeclared(this.playerSpy, 'intrigue');
+                    this.card.onAttackersDeclared({}, this.playerSpy, 'intrigue');
                 });
 
                 it('should not increase the strength modifier', function() {
@@ -124,7 +124,7 @@ describe('RedCloaks', function() {
 
             describe('and this is an intrigue challenge', function() {
                 beforeEach(function() {
-                    this.card.onAttackersDeclared(this.playerSpy, 'intrigue');
+                    this.card.onAttackersDeclared({}, this.playerSpy, 'intrigue');
                 });
 
                 it('should increase the strength modifier', function() {
