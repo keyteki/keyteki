@@ -5,7 +5,7 @@ class PlotCard extends BaseCard {
         super(owner, cardData);
 
         this.reserveModifier = 0;
-        this.goldMofidier = 0;
+        this.goldModifier = 0;
     }
 
     hasRevealEffect() {
@@ -16,8 +16,12 @@ class PlotCard extends BaseCard {
         return this.cardData.initiative;
     }
 
-    getIncome() {
-        return this.cardData.income + this.goldMofidier;
+    getIncome(printed) {
+        if(printed) {
+            return this.cardData.income;
+        }
+        
+        return this.cardData.income + this.goldModifier;
     }
 
     getReserve() {
