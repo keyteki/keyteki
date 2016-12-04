@@ -59,6 +59,54 @@ class Card extends React.Component {
             </div>);
     }
 
+    getAttachments() {
+        var offset = 10;
+        var attachments = _.map(this.props.card.attachments, attachment => {
+            var style = { top: offset + 'px', zIndex: -offset };
+
+            var returnedAttachment = (<Card key={attachment.uuid} style={style} source={this.props.source} card={attachment}
+                            onMouseOver={this.props.disableMouseOver ? null : this.onMouseOver.bind(this, attachment)}
+                            onMouseOut={this.props.disableMouseOver ? null : this.onMouseOut}
+                            onClick={ev => this.onClick(ev, attachment, this.props.source)}
+                            onDragStart={ev => this.onCardDragStart(ev, attachment, this.props.source)} />);
+
+            offset += 10;
+
+            return returnedAttachment;
+        });
+
+        return attachments;
+    }
+
+    getDupes() {
+        var facedownDupes = _.filter(this.props.card.dupes, card => {
+            return card.facedown;
+        });
+
+        if(!facedownDupes || facedownDupes.length === 0) {
+            return;
+        }
+
+        var offset = -10;
+        var dupes = _.map(facedownDupes, dupe => {
+            var style = { 
+                top: offset + 'px',
+                left: '0px',
+                zIndex: offset,
+                position: 'absolute' };
+
+            var returnedDupe = (<Card key={dupe.uuid} style={style} source={this.props.source} card={dupe}
+                            onMouseOver={this.props.disableMouseOver ? null : this.onMouseOver.bind(this, dupe)}
+                            onMouseOut={this.props.disableMouseOver ? null : this.onMouseOut} />);
+
+            offset -= 10;
+
+            return returnedDupe;
+        });
+
+        return dupes;
+    }
+
     isFacedown() {
         return this.props.card.facedown || !this.props.card.code;
     }
@@ -89,22 +137,6 @@ class Card extends React.Component {
             wrapperClass += ' attachment';
         }
 
-        var offset = 10;
-        var attachments = _.map(this.props.card.attachments, attachment => {
-            var style = { top: offset + 'px', zIndex: -offset };
-
-            var returnedAttachment = (<Card key={attachment.uuid} style={style} source={this.props.source} card={attachment}
-                            onMouseOver={this.props.disableMouseOver ? null : this.onMouseOver.bind(this, attachment)}
-                            onMouseOut={this.props.disableMouseOver ? null : this.onMouseOut}
-                            onClick={ev => this.onClick(ev, attachment, this.props.source)}
-                            onDragStart={ev => this.onCardDragStart(ev, attachment, this.props.source)}
-                            draggable />);
-
-            offset += 10;
-
-            return returnedAttachment;
-        });
-
         return (
                 <div className={wrapperClass} style={this.props.style}>
                     <div className='card-frame'>
@@ -120,7 +152,8 @@ class Card extends React.Component {
                             </div>
                             { this.getCounters() }
                         </div>
-                        {attachments}
+                        {this.getDupes()}
+                        {this.getAttachments()}
                     </div>
                 </div>);
     }

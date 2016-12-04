@@ -375,11 +375,15 @@ class Player extends Spectator {
         if(dupeCard && this.phase !== 'setup') {
             dupeCard.addDuplicate(card);
         } else {
+            if(this.phase !== 'setup') {
+                this.game.emit('onCardEntersPlay', card);
+            }
+
             card.facedown = this.phase === 'setup';
             card.play(this);
             card.new = true;
             this.cardsInPlay.push(card);
-        }
+        } 
 
         if(card.isLimited() && !forcePlay) {
             this.limitedPlayed++;
@@ -413,7 +417,9 @@ class Player extends Spectator {
                 duplicate.addDuplicate(card);
             } else {
                 processedCards.push(card);
+                this.game.emit('onCardEntersPlay', card);
             }
+            
         });
 
         this.cardsInPlay = processedCards;
