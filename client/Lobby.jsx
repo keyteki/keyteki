@@ -83,8 +83,8 @@ class InnerLobby extends React.Component {
              <a href='https://www.github.com/cryogen/throneteki' target='_blank'>GitHub</a>.</div>
                 <div className='alert alert-success'>Avatars are now in use in various parts of the site.  If you want your own rather than the default, see <a href='https://en.gravatar.com/'>Gravatar</a></div>
                 <div className='row'>
-                    <span className='col-sm-9'><h1>Play A Game Of Thrones 2nd Edition</h1></span>
-                    <span className='col-sm-3'><h3>Online Users</h3></span>
+                    <span className='col-sm-9 text-center'><h1>Play A Game Of Thrones 2nd Edition</h1></span>
+                    <span className='col-sm-3 hidden-xs'><h3>Online Users</h3></span>
                 </div>
                 <div className='row'>
                     <div className='lobby-chat col-sm-9'>
@@ -92,14 +92,14 @@ class InnerLobby extends React.Component {
                             {messages}
                         </div>
                     </div>
-                    <div className='panel user-list col-sm-3 col-xs-5'>
+                    <div className='panel user-list col-sm-3 hidden-xs'>
                         {users}
                     </div>
                 </div>
                     <div className='row'>
                         <form className='form form-hozitontal'>
                             <div className='form-group'>
-                                <div className='chat-box col-sm-5'>
+                                <div className='chat-box col-sm-5 col-xs-9'>
                                     <input className='form-control' type='text' placeholder='Chat...' value={this.state.message}
                                         onKeyPress={this.onKeyPress} onChange={this.onChange} />
                                 </div>
