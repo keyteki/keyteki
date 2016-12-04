@@ -603,8 +603,26 @@ class Player extends Spectator {
 
         var sourceList = this.getSourceList(source);
         var card = this.findCardByUuid(sourceList, cardId);
+        var player = this;
+
         if(!card) {
-            return false;
+            if(source === 'play area') {
+                var otherPlayer = this.game.getOtherPlayer(this);
+
+                if(!otherPlayer) {
+                    return false;
+                }
+
+                card = otherPlayer.findCardInPlayByUuid(cardId);
+
+                if(!card || card.owner !== this) {
+                    return false;
+                }
+
+                player = otherPlayer;
+            } else {
+                return false;
+            }
         }
 
         switch(target) {
@@ -613,7 +631,7 @@ class Player extends Spectator {
                 break;
             case 'discard pile':
                 if(source === 'play area') {
-                    this.discardCard(cardId, this.discardPile);
+                    player.discardCard(cardId, this.discardPile);
 
                     return true;
                 }
