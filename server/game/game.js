@@ -15,7 +15,6 @@ const StandingPhase = require('./gamesteps/standingphase.js');
 const TaxationPhase = require('./gamesteps/taxationphase.js');
 const Challenge = require('./challenge.js');
 const ChallengeFlow = require('./gamesteps/challenge/challengeflow.js');
-const FulfillMilitaryClaim = require('./gamesteps/challenge/fulfillmilitaryclaim.js');
 const MenuPrompt = require('./gamesteps/menuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 
@@ -199,32 +198,7 @@ class Game extends EventEmitter {
         this.pipeline.continue();
     }
 
-    handleChallenge(player, otherPlayer, cardId) {
-        var card = player.findCardInPlayByUuid(cardId);
-
-        if(card) {
-            if(!player.selectingChallengers || card.kneeled) {
-                return false;
-            }
-
-            var challengeCard = player.canAddToChallenge(cardId);
-            if(!challengeCard) {
-                return false;
-            }
-
-            this.canAddToChallenge = true;
-            this.raiseEvent('beforeChallengerSelected', this, player, challengeCard);
-
-            if(this.canAddToChallenge) {
-                player.addToChallenge(challengeCard);
-            }
-        }
-
-        return true;
-    }
-
     processCardClicked(player, cardId) {
-        var otherPlayer = this.getOtherPlayer(player);
         var card = this.findAnyCardInPlayByUuid(cardId);
 
         if(!card) {
@@ -233,10 +207,6 @@ class Game extends EventEmitter {
 
         if(this.pipeline.handleCardClicked(player, card)) {
             return true;
-        }
-
-        if(player.phase === 'challenge' && player.currentChallenge) {
-            return this.handleChallenge(player, otherPlayer, cardId);
         }
 
         if(card && card.onClick(player)) {
@@ -407,73 +377,6 @@ class Game extends EventEmitter {
         this.pipeline.continue();
     }
 
-    completeAttacker(player) {
-        this.addMessage('{0} has initiated a {1} challenge with strength {2}', player, player.currentChallenge, player.challengeStrength);
-
-        var otherPlayer = this.getOtherPlayer(player);
-
-        if(otherPlayer) {
-            player.menuTitle = 'Waiting for opponent to defend';
-            player.buttons = [];
-            player.selectCard = false;
-
-            otherPlayer.beginDefend(player.currentChallenge);
-        }
-    }
-
-    doneDefend(playerId) {
-        var player = this.getPlayerById(playerId);
-        if(!player) {
-            return;
-        }
-
-        player.doneChallenge(false);
-
-        this.addMessage('{0} has defended with strength {1}', player, player.challengeStrength);
-
-        var challenger = _.find(this.getPlayers(), p => {
-            return p.id !== player.id;
-        });
-
-        var winner = undefined;
-        var loser = undefined;
-
-        if(challenger) {
-            if(challenger.challengeStrength >= player.challengeStrength) {
-                loser = player;
-                winner = challenger;
-            } else {
-                loser = challenger;
-                winner = player;
-            }
-
-            winner.challenges[winner.currentChallenge].won++;
-
-            this.addMessage('{0} won a {1} challenge {2} vs {3}',
-                winner, winner.currentChallenge, winner.challengeStrength, loser.challengeStrength);
-
-            this.raiseEvent('afterChallenge', winner.currentChallenge, winner, loser, challenger);
-
-            if(loser.challengeStrength === 0) {
-                this.addMessage('{0} has gained 1 power from an unopposed challenge', winner);
-                this.addPower(winner, 1);
-
-                this.raiseEvent('onUnopposedWin', winner);
-            }
-
-            // XXX This should be after claim but needs a bit of reworking to make that possible
-            this.applyKeywords(winner, loser);
-
-            if(winner === challenger) {
-                this.applyClaim(winner, loser);
-            } else {
-                this.raiseEvent('onChallengeFinished', winner.currentChallenge, winner, loser, challenger);
-
-                this.promptForChallenge(challenger);
-            }
-        }
-    }
-
     addPower(player, power) {
         player.power += power;
 
@@ -496,62 +399,6 @@ class Game extends EventEmitter {
         if(player.getTotalPower() >= 15) {
             this.addMessage('{0} has won the game', player);
         }
-    }
-
-    applyKeywords(winner, loser) {
-        winner.cardsInChallenge.each(card => {
-            if(card.hasKeyword('Insight')) {
-                winner.drawCardsToHand(1);
-
-                this.addMessage('{0} draws a card from Insight on {1}', winner, card);
-            }
-
-            if(card.hasKeyword('Intimidate')) {
-                // something
-            }
-
-            if(card.hasKeyword('Pillage')) {
-                loser.discardFromDraw(1);
-
-                this.addMessage('{0} discards a card from the top of their deck from Pillage on {1}', loser, card);
-            }
-
-            if(card.isRenown()) {
-                card.power++;
-
-                this.addMessage('{0} gains 1 power on {1} from Renown', winner, card);
-            }
-
-            this.checkWinCondition(winner);
-        });
-    }
-
-    applyClaim(winner, loser) {
-        this.raiseEvent('beforeClaim', this, winner.currentChallenge, winner, loser);
-        var claim = winner.activePlot.getClaim();
-        claim = winner.modifyClaim(winner, winner.currentChallenge, claim);
-
-        if(loser) {
-            claim = loser.modifyClaim(winner, winner.currentChallenge, claim);
-        }
-
-        if(claim <= 0) {
-            this.addMessage('The claim value for {0} is 0, no claim occurs', winner.currentChallenge);
-        } else {
-            if(winner.currentChallenge === 'military') {
-                this.queueStep(new FulfillMilitaryClaim(this, loser, claim));
-                this.pipeline.continue();
-                return;
-            } else if(winner.currentChallenge === 'intrigue') {
-                loser.discardAtRandom(claim);
-            } else if(winner.currentChallenge === 'power') {
-                this.transferPower(winner, loser, claim);
-            }
-        }
-
-        this.raiseEvent('afterClaim', this, winner.currentChallenge, winner, loser);
-        loser.doneClaim();
-        this.promptForChallenge(winner);
     }
 
     doneChallenges(playerId) {

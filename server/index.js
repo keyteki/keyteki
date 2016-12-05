@@ -507,20 +507,6 @@ io.on('connection', function(socket) {
 
     });
 
-    socket.on('donedefend', function() {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.doneDefend(socket.id);
-
-            sendGameState(game);
-        });
-    });
-
     socket.on('doneallchallenges', function() {
         var game = findGameForPlayer(socket.id);
 
