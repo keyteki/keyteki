@@ -492,35 +492,6 @@ io.on('connection', function(socket) {
         });
     });
 
-    socket.on('challenge', function(challengeType) {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.startChallenge(socket.id, challengeType);
-
-            sendGameState(game);
-        });
-
-    });
-
-    socket.on('doneallchallenges', function() {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.doneChallenges(socket.id);
-
-            sendGameState(game);
-        });
-    });
-
     socket.on('changestat', function(stat, value) {
         var game = findGameForPlayer(socket.id);
 

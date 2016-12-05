@@ -10,11 +10,11 @@ const SetupPhase = require('./gamesteps/setupphase.js');
 const PlotPhase = require('./gamesteps/plotphase.js');
 const DrawPhase = require('./gamesteps/drawphase.js');
 const MarshalingPhase = require('./gamesteps/marshalingphase.js');
+const ChallengePhase = require('./gamesteps/challengephase.js');
 const DominancePhase = require('./gamesteps/dominancephase.js');
 const StandingPhase = require('./gamesteps/standingphase.js');
 const TaxationPhase = require('./gamesteps/taxationphase.js');
-const Challenge = require('./challenge.js');
-const ChallengeFlow = require('./gamesteps/challenge/challengeflow.js');
+const SimpleStep = require('./gamesteps/simplestep.js');
 const MenuPrompt = require('./gamesteps/menuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 
@@ -320,63 +320,6 @@ class Game extends EventEmitter {
         }
     }
 
-    beginChallengePhase() {
-        var firstPlayer = this.getFirstPlayer();
-
-        firstPlayer.activePlot.onBeginChallengePhase();
-        firstPlayer.phase = 'challenge';
-
-        var otherPlayer = this.getOtherPlayer(firstPlayer);
-
-        if(otherPlayer) {
-            otherPlayer.phase = 'challenge';
-            otherPlayer.activePlot.onBeginChallengePhase();
-        }
-
-        this.promptForChallenge(firstPlayer);
-    }
-
-    promptForChallenge(attackingPlayer) {
-        attackingPlayer.beginChallenge();
-
-        var otherPlayer = this.getOtherPlayer(attackingPlayer);
-
-        if(otherPlayer) {
-            otherPlayer.menuTitle = 'Waiting for opponent to initiate challenge';
-            otherPlayer.buttons = [];
-        }
-    }
-
-    startChallenge(playerId, challengeType) {
-        var player = this.getPlayerById(playerId);
-        if(!player) {
-            return;
-        }
-
-        if(player.challenges.complete >= player.challenges.maxTotal) {
-            return;
-        }
-
-        if(player.challenges[challengeType].performed >= player.challenges[challengeType].max) {
-            return;
-        }
-
-        player.challengeType = challengeType;
-
-        if(!player.activePlot.canChallenge(player, challengeType)) {
-            return;
-        }
-
-        var otherPlayer = this.getOtherPlayer(player);
-        if(otherPlayer && !otherPlayer.activePlot.canChallenge(player, challengeType)) {
-            return;
-        }
-
-        var challenge = new Challenge(player, otherPlayer, challengeType);
-        this.queueStep(new ChallengeFlow(this, challenge));
-        this.pipeline.continue();
-    }
-
     addPower(player, power) {
         player.power += power;
 
@@ -399,32 +342,6 @@ class Game extends EventEmitter {
         if(player.getTotalPower() >= 15) {
             this.addMessage('{0} has won the game', player);
         }
-    }
-
-    doneChallenges(playerId) {
-        var challenger = this.getPlayerById(playerId);
-        if(!challenger) {
-            return;
-        }
-
-        challenger.doneChallenges = true;
-
-        var other = _.find(this.getPlayers(), p => {
-            return !p.doneChallenges;
-        });
-
-        if(other) {
-            this.promptForChallenge(other);
-        } else {
-            this.dominance();
-        }
-    }
-
-    dominance() {
-        this.queueStep(new DominancePhase(this));
-        this.queueStep(new StandingPhase(this));
-        this.queueStep(new TaxationPhase(this));
-        this.pipeline.continue();
     }
 
     changeStat(playerId, stat, value) {
@@ -728,7 +645,8 @@ class Game extends EventEmitter {
         });
         this.pipeline = new GamePipeline();
         this.pipeline.initialise([
-            new SetupPhase(this)
+            new SetupPhase(this),
+            new SimpleStep(this, () => this.beginRound())
         ]);
         this.pipeline.continue();
     }
@@ -737,6 +655,11 @@ class Game extends EventEmitter {
         this.queueStep(new PlotPhase(this));
         this.queueStep(new DrawPhase(this));
         this.queueStep(new MarshalingPhase(this));
+        this.queueStep(new ChallengePhase(this));
+        this.queueStep(new DominancePhase(this));
+        this.queueStep(new StandingPhase(this));
+        this.queueStep(new TaxationPhase(this));
+        this.queueStep(new SimpleStep(this, () => this.beginRound()));
     }
 
     queueStep(step) {

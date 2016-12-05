@@ -10,8 +10,7 @@ class TaxationPhase extends Phase {
         this.initialise([
             new SimpleStep(game, () => this.returnGold()),
             new DiscardToReservePrompt(game),
-            new EndRoundPrompt(game),
-            new SimpleStep(game, () => this.startPlotPhase())
+            new EndRoundPrompt(game)
         ]);
     }
 
@@ -20,11 +19,6 @@ class TaxationPhase extends Phase {
             player.taxation();
             this.game.raiseEvent('onAfterTaxation', player);
         });
-    }
-
-    // Temporary step until plot phase / round structure is more defined.
-    startPlotPhase() {
-        this.game.beginRound();
     }
 }
 

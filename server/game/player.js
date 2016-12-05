@@ -433,7 +433,6 @@ class Player extends Spectator {
         this.reserve = 0;
         this.firstPlayer = false;
         this.selectedPlot = undefined;
-        this.doneChallenges = false;
         this.plotRevealed = false;
         this.roundDone = false;
         this.challenges = {
@@ -691,14 +690,6 @@ class Player extends Spectator {
     }
 
     beginChallenge() {
-        this.menuTitle = '';
-        this.buttons = [
-            { text: 'Military', command: 'challenge', arg: 'military' },
-            { text: 'Intrigue', command: 'challenge', arg: 'intrigue' },
-            { text: 'Power', command: 'challenge', arg: 'power' },
-            { text: 'Done', command: 'doneallchallenges' }
-        ];
-
         this.cardsInChallenge = _([]);
         this.cardsInPlay.each(card => {
             card.resetForChallenge();

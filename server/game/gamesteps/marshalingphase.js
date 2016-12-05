@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
 const MarshalCardsPrompt = require('./marshaling/marshalcardsprompt.js');
@@ -8,9 +7,7 @@ class MarshalingPhase extends Phase {
         super(game);
         this.initialise([
             new SimpleStep(game, () => this.beginMarshal()),
-            new SimpleStep(game, () => this.promptForMarshal()),
-            // Temporarily start the challenges phase
-            new SimpleStep(game, () => this.game.beginChallengePhase())
+            new SimpleStep(game, () => this.promptForMarshal())
         ]);
     }
 

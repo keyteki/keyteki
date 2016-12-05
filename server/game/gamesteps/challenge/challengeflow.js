@@ -22,8 +22,6 @@ class ChallengeFlow extends BaseStep {
             new SimpleStep(this.game, () => this.unopposedPower()),
             new SimpleStep(this.game, () => this.applyClaim()),
             new SimpleStep(this.game, () => this.applyKeywords()),
-            // TODO: Temporary to resume game flow.
-            new SimpleStep(this.game, () => this.game.promptForChallenge(this.challenge.attackingPlayer))
         ]);
     }
 
@@ -67,8 +65,6 @@ class ChallengeFlow extends BaseStep {
     cancelChallenge() {
         this.game.addMessage('{0} cancels their {1} challenge', this.challenge.attackingPlayer, this.challenge.challengeType);
         this.cancelled = true;
-        // TODO: Temporarily re-enter old game flow.
-        this.game.promptForChallenge(this.challenge.attackingPlayer);
         return true;
     }
 
