@@ -6,7 +6,8 @@ const UiPrompt = require('./uiprompt.js');
  *
  * The properties option object has the following properties:
  * numCards           - an integer specifying the number of cards the player
- *                      must select.
+ *                      must select. Set to 0 if there is no limit on the num
+ *                      of cards that can be selected.
  * additionalButtons  - array of additional buttons for the prompt.
  * activePromptTitle  - the title that should be used in the prompt for the
  *                      choosing player.
@@ -86,7 +87,7 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     selectCard(card) {
-        if(this.selectedCards.length >= this.properties.numCards && !_.contains(this.selectedCards, card)) {
+        if(this.properties.numCards !== 0 && this.selectedCards.length >= this.properties.numCards && !_.contains(this.selectedCards, card)) {
             return false;
         }
 

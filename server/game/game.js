@@ -13,6 +13,8 @@ const MarshalingPhase = require('./gamesteps/marshalingphase.js');
 const DominancePhase = require('./gamesteps/dominancephase.js');
 const StandingPhase = require('./gamesteps/standingphase.js');
 const TaxationPhase = require('./gamesteps/taxationphase.js');
+const Challenge = require('./challenge.js');
+const ChallengeFlow = require('./gamesteps/challenge/challengeflow.js');
 const FulfillMilitaryClaim = require('./gamesteps/challenge/fulfillmilitaryclaim.js');
 const MenuPrompt = require('./gamesteps/menuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
@@ -200,29 +202,7 @@ class Game extends EventEmitter {
     handleChallenge(player, otherPlayer, cardId) {
         var card = player.findCardInPlayByUuid(cardId);
 
-        if(!card) {
-            if(!player.pickingStealth) {
-                return false;
-            }
-
-            if(otherPlayer) {
-                var otherCardInPlay = otherPlayer.findCardInPlayByUuid(cardId);
-
-                if(!otherCardInPlay) {
-                    return false;
-                }
-
-                if(!player.stealthCard.useStealthToBypass(otherCardInPlay)) {
-                    return false;
-                }
-
-                this.addMessage('{0} has chosen {1} as the stealth target for {2}', player, otherCardInPlay, player.stealthCard);
-
-                if(this.doStealth(player)) {
-                    return true;
-                }
-            }
-        } else {
+        if(card) {
             if(!player.selectingChallengers || card.kneeled) {
                 return false;
             }
@@ -374,16 +354,24 @@ class Game extends EventEmitter {
         var firstPlayer = this.getFirstPlayer();
 
         firstPlayer.activePlot.onBeginChallengePhase();
-
         firstPlayer.phase = 'challenge';
-
-        firstPlayer.beginChallenge();
 
         var otherPlayer = this.getOtherPlayer(firstPlayer);
 
         if(otherPlayer) {
-            otherPlayer.activePlot.onBeginChallengePhase();
             otherPlayer.phase = 'challenge';
+            otherPlayer.activePlot.onBeginChallengePhase();
+        }
+
+        this.promptForChallenge(firstPlayer);
+    }
+
+    promptForChallenge(attackingPlayer) {
+        attackingPlayer.beginChallenge();
+
+        var otherPlayer = this.getOtherPlayer(attackingPlayer);
+
+        if(otherPlayer) {
             otherPlayer.menuTitle = 'Waiting for opponent to initiate challenge';
             otherPlayer.buttons = [];
         }
@@ -414,31 +402,15 @@ class Game extends EventEmitter {
             return;
         }
 
-        player.startChallenge(challengeType);
+        var challenge = new Challenge(player, otherPlayer, challengeType);
+        this.queueStep(new ChallengeFlow(this, challenge));
+        this.pipeline.continue();
     }
 
-    doStealth(player) {
-        var stealthCard = player.cardsInChallenge.find(card => {
-            return card.needsStealthTarget();
-        });
-
-        if(stealthCard) {
-            player.menuTitle = 'Select stealth target for ' + stealthCard.name;
-            player.buttons = [
-                { command: 'donestealth', text: 'Done' }
-            ];
-            player.stealthCard = stealthCard;
-            player.selectCard = true;
-            player.pickingStealth = true;
-
-            return true;
-        }
-
+    completeAttacker(player) {
         this.addMessage('{0} has initiated a {1} challenge with strength {2}', player, player.currentChallenge, player.challengeStrength);
 
         var otherPlayer = this.getOtherPlayer(player);
-
-        player.pickingStealth = false;
 
         if(otherPlayer) {
             player.menuTitle = 'Waiting for opponent to defend';
@@ -447,34 +419,6 @@ class Game extends EventEmitter {
 
             otherPlayer.beginDefend(player.currentChallenge);
         }
-
-        return false;
-    }
-
-    doneChallenge(playerId) {
-        var player = this.getPlayerById(playerId);
-        if(!player) {
-            return;
-        }
-
-        if(!player.areCardsSelected()) {
-            player.beginChallenge();
-            return;
-        }
-
-        var otherPlayer = this.getOtherPlayer(player);
-
-        this.raiseEvent('onChallenge', player, player.currentChallenge);
-
-        player.doneChallenge(true);
-
-        this.raiseEvent('onAttackersDeclared', player, player.currentChallenge);
-
-        if(otherPlayer) {
-            otherPlayer.currentChallenge = player.currentChallenge;
-        }
-
-        this.doStealth(player);
     }
 
     doneDefend(playerId) {
@@ -525,10 +469,7 @@ class Game extends EventEmitter {
             } else {
                 this.raiseEvent('onChallengeFinished', winner.currentChallenge, winner, loser, challenger);
 
-                challenger.beginChallenge();
-
-                player.menuTitle = 'Waiting for opponent to initiate challenge';
-                player.buttons = [];
+                this.promptForChallenge(challenger);
             }
         }
     }
@@ -610,7 +551,7 @@ class Game extends EventEmitter {
 
         this.raiseEvent('afterClaim', this, winner.currentChallenge, winner, loser);
         loser.doneClaim();
-        winner.beginChallenge();
+        this.promptForChallenge(winner);
     }
 
     doneChallenges(playerId) {
@@ -626,10 +567,7 @@ class Game extends EventEmitter {
         });
 
         if(other) {
-            other.beginChallenge();
-
-            challenger.menuTitle = 'Waiting for opponent to initiate challenge';
-            challenger.buttons = [];
+            this.promptForChallenge(other);
         } else {
             this.dominance();
         }
@@ -848,26 +786,6 @@ class Game extends EventEmitter {
         player.selectDeck(deck);
     }
 
-    doneStealth(playerId) {
-        var player = this.getPlayerById(playerId);
-
-        if(!player) {
-            return;
-        }
-
-        var otherPlayer = this.getOtherPlayer(player);
-
-        if(otherPlayer) {
-            player.menuTitle = 'Waiting for opponent to defend';
-            player.buttons = [];
-            player.selectCard = false;
-
-            otherPlayer.beginDefend(player.currentChallenge);
-        }
-
-        return false;
-    }
-
     shuffleDeck(playerId) {
         var player = this.getPlayerById(playerId);
         if(!player) {
@@ -982,7 +900,7 @@ class Game extends EventEmitter {
         var event = new Event();
 
         this.emit(eventName, event, ...params);
-        
+
         return event;
     }
 

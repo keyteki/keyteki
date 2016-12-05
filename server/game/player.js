@@ -708,16 +708,7 @@ class Player extends Spectator {
     }
 
     startChallenge(challengeType) {
-        this.menuTitle = 'Select challenge targets';
-        this.buttons = [
-            { text: 'Done', command: 'donechallenge' }
-        ];
-
         this.currentChallenge = challengeType;
-        this.selectCard = true;
-        this.challenger = true;
-        this.selectingChallengers = true;
-        this.pickingStealth = false;
     }
 
     canAddToChallenge(cardId) {
@@ -739,6 +730,10 @@ class Player extends Spectator {
             return false;
         }
 
+        if(card.kneeled) {
+            return false;
+        }
+
         return card;
     }
 
@@ -755,13 +750,8 @@ class Player extends Spectator {
     doneChallenge(myChallenge) {
         this.selectingChallengers = false;
 
-        var challengeCards = this.cardsInPlay.filter(card => {
-            return card.selected;
-        });
-
-        var strength = _.reduce(challengeCards, (memo, card) => {
+        var strength = this.cardsInChallenge.reduce((memo, card) => {
             card.kneeled = true;
-            card.selected = false;
 
             return memo + card.getStrength();
         }, 0);

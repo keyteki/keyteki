@@ -204,6 +204,21 @@ describe('the SelectCardPrompt', function() {
                 });
             });
 
+            describe('when selecting unlimited cards', function() {
+                beforeEach(function() {
+                    this.properties.numCards = 0;
+                    this.properties.cardCondition.and.returnValue(true);
+                    this.prompt.onCardClicked(this.player, this.card);
+                    this.prompt.onCardClicked(this.player, this.card2);
+                    this.card3 = new DrawCard(this.player, {});
+                });
+
+                it('should select the card', function() {
+                    this.prompt.onCardClicked(this.player, this.card3);
+                    expect(this.card3.selected).toBe(true);
+                });
+            });
+
             describe('when selecting more cards than the numCards property', function() {
                 beforeEach(function() {
                     this.properties.cardCondition.and.returnValue(true);

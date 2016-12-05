@@ -22,7 +22,7 @@ class FulfillMilitaryClaim extends BaseStep {
             var otherPlayer = this.game.getOtherPlayer(this.player);
 
             if(otherPlayer) {
-                otherPlayer.beginChallenge();
+                this.game.promptForChallenge(otherPlayer);
             }
         }));
 
