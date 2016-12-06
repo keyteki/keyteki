@@ -37,6 +37,10 @@ describe('SerJaimeLannister', function() {
                     this.character.onAttackersDeclared({}, this.otherPlayerSpy, 'military');
                 });
 
+                afterEach(function() {
+                    this.character.removeKeyword('renown');
+                });
+
                 it('should not stand the card', function() {
                     expect(this.character.kneeled).toBe(true);
                 });
@@ -50,6 +54,11 @@ describe('SerJaimeLannister', function() {
                 beforeEach(function() {
                     this.character.onAttackersDeclared({}, this.playerSpy, 'military');
                 });
+
+                afterEach(function() {
+                    this.character.removeKeyword('renown');
+                });
+
 
                 describe('and this card is blank', function() {
                     beforeEach(function() {
@@ -86,6 +95,10 @@ describe('SerJaimeLannister', function() {
 
                         this.character.onAttackersDeclared({}, this.playerSpy, 'military');
                     });
+                    
+                    afterEach(function() {
+                        this.character.removeKeyword('renown');
+                    });
 
                     it('should stand the card', function() {
                         expect(this.character.kneeled).toBe(false);
@@ -94,7 +107,7 @@ describe('SerJaimeLannister', function() {
                     describe('and the challenge type is not military', function() {
                         beforeEach(function() {
                             this.character.kneeled = true;
-                            this.character.renownCount = 0;
+                            this.character.keywords['renown'] = 0;
                             this.character.onAttackersDeclared({}, this.playerSpy, 'intrigue');
                         });
 

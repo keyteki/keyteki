@@ -3,6 +3,7 @@
 
 import GameBoard, { InnerGameBoard } from '../../client/GameBoard.jsx';
 import PlayerStats, { InnerPlayerStats } from '../../client/GameComponents/PlayerStats.jsx';
+import PlayerRow from '../../client/GameComponents/PlayerRow.jsx';
 import Card from '../../client/GameComponents/Card.jsx';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
@@ -26,6 +27,7 @@ describe('the <GameBoard /> component', function() {
     stubComponent(PlayerStats);
     stubComponent(InnerPlayerStats);
     stubComponent(Card);
+    stubComponent(PlayerRow);
 
     beforeEach(function() {
         node = document.createElement('div');

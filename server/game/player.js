@@ -118,6 +118,10 @@ class Player extends Spectator {
         return this.challenges[challengeType].won;
     }
 
+    getNumberOfChallengesLost(challengeType) {
+        return this.challenges[challengeType].lost;
+    }
+
     getNumberOfChallengesInitiated() {
         return this.challenges.complete;
     }
@@ -297,6 +301,11 @@ class Player extends Spectator {
             return false;
         }
 
+        canPlay = card.canPlay(this, card);
+        if(!canPlay) {
+            return false;
+        }     
+
         if(this.phase !== 'setup' && this.phase !== 'marshal' && card.getType() !== 'event') {
             if(this.phase !== 'challenge' || !card.isAmbush()) {
                 return false;
@@ -351,7 +360,13 @@ class Player extends Spectator {
         this.gold -= cost;
 
         if(card.getType() === 'event') {
+            if(!this.canPlayCard(card)) {
+                return false;
+            }
+
             this.game.addMessage('{0} plays {1} costing {2}', this, card, cost);
+
+            card.play(this);
 
             this.removeFromHand(card.uuid);
             this.discardPile.push(card);
@@ -441,17 +456,20 @@ class Player extends Spectator {
             military: {
                 performed: 0,
                 max: 1,
-                won: 0
+                won: 0,
+                lost: 0
             },
             intrigue: {
                 performed: 0,
                 max: 1,
-                won: 0
+                won: 0,
+                lost: 0
             },
             power: {
                 performed: 0,
                 max: 1,
-                won: 0
+                won: 0,
+                lost: 0
             }
         };
         
@@ -764,6 +782,8 @@ class Player extends Spectator {
             this.discardPile.push(discardedDupe);
         } else {
             this.discardCard(card.uuid, this.deadPile);
+
+            this.game.raiseEvent('onCharacterKilled', this, character);
         }
     }
 

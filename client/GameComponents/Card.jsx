@@ -116,7 +116,7 @@ class Card extends React.Component {
         var imageClass = '';
         var wrapperClass = 'card-wrapper';
         
-        if(this.props.card.kneeled) {
+        if(this.props.card.kneeled || this.props.horizontal) {
             cardClass = 'horizontal-card';
             imageClass = 'kneeled card';
         } else if(this.props.card.type === 'plot') {
@@ -178,6 +178,7 @@ Card.propTypes = {
         type: React.PropTypes.string
     }).isRequired,
     disableMouseOver: React.PropTypes.bool,
+    horizontal: React.PropTypes.bool,
     onClick: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,

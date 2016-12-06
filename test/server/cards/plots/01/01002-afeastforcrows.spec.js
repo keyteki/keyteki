@@ -21,8 +21,8 @@ describe('AFeastForCrows', function() {
             this.plot.onReveal();
         });
 
-        it('should register its afterDominance handler', function() {
-            expect(this.gameSpy.on).toHaveBeenCalledWith('afterDominance', this.plot.afterDominance);
+        it('should register its onDominanceDetermined handler', function() {
+            expect(this.gameSpy.on).toHaveBeenCalledWith('onDominanceDetermined', this.plot.onDominanceDetermined);
         });
     });
 
@@ -35,8 +35,8 @@ describe('AFeastForCrows', function() {
             expect(this.plot.inPlay).toBe(false);
         });
 
-        it('should unregister its afterDominance handler', function() {
-            expect(this.gameSpy.removeListener).toHaveBeenCalledWith('afterDominance', this.plot.afterDominance);
+        it('should unregister its onDominanceDetermined handler', function() {
+            expect(this.gameSpy.removeListener).toHaveBeenCalledWith('onDominanceDetermined', this.plot.onDominanceDetermined);
         });
     });
 
@@ -44,7 +44,7 @@ describe('AFeastForCrows', function() {
         describe('and this plot is not in play', function() {
             beforeEach(function() {
                 this.plot.inPlay = false;
-                this.plot.afterDominance({}, this.playerSpy);
+                this.plot.onDominanceDetermined({}, this.playerSpy);
             });
 
             it('should not change any power', function() {
@@ -55,7 +55,7 @@ describe('AFeastForCrows', function() {
         describe('and this plot is in play', function() {
             beforeEach(function() {
                 this.plot.inPlay = true;
-                this.plot.afterDominance({}, this.playerSpy);
+                this.plot.onDominanceDetermined({}, this.playerSpy);
             });
             
             describe('and our owner won', function() {
@@ -68,7 +68,7 @@ describe('AFeastForCrows', function() {
                 beforeEach(function() {
                     this.gameSpy.addPower.calls.reset();
                     
-                    this.plot.afterDominance({}, this.otherPlayerSpy);
+                    this.plot.onDominanceDetermined({}, this.otherPlayerSpy);
                 });
 
                 it('should not add any power', function() {

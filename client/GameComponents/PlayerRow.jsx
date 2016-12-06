@@ -3,60 +3,22 @@ import _ from 'underscore';
 import $ from 'jquery';
 
 import Card from './Card.jsx';
+import CardCollection from './CardCollection.jsx';
 
 class PlayerRow extends React.Component {
     constructor() {
         super();
 
-        this.onDragDrop = this.onDragDrop.bind(this);
-        this.onDiscardClick = this.onDiscardClick.bind(this);
-        this.onDeadClick = this.onDeadClick.bind(this);
         this.onDrawClick = this.onDrawClick.bind(this);
         this.onShuffleClick = this.onShuffleClick.bind(this);
         this.onShowDeckClick = this.onShowDeckClick.bind(this);
         this.onCloseClick = this.onCloseClick.bind(this);
         this.onCloseAndShuffleClick = this.onCloseAndShuffleClick.bind(this);
-        this.onDiscardedCardClick = this.onDiscardedCardClick.bind(this);
         this.onAgendaClick = this.onAgendaClick.bind(this);
 
         this.state = {
-            showDiscard: false,
-            showDrawMenu: false,
-            showDead: false
+            showDrawMenu: false
         };
-    }
-
-    onCardDragStart(event, card, source) {
-        var dragData = { card: card, source: source };
-        event.dataTransfer.setData('Text', JSON.stringify(dragData));
-    }
-
-    onDragOver(event) {
-        $(event.target).addClass('highlight-panel');
-        event.preventDefault();
-    }
-
-    onDragLeave(event) {
-        $(event.target).removeClass('highlight-panel');
-    }
-
-    onDragDrop(event, target) {
-        event.stopPropagation();
-        event.preventDefault();
-
-        $(event.target).removeClass('highlight-panel');
-
-        var card = event.dataTransfer.getData('Text');
-
-        if(!card) {
-            return;
-        }
-
-        var dragData = JSON.parse(card);
-
-        if(this.props.onDragDrop) {
-            this.props.onDragDrop(dragData.card, dragData.source, target);
-        }
     }
 
     onCloseClick(event) {
@@ -139,52 +101,6 @@ class PlayerRow extends React.Component {
         return drawDeckPopup;
     }
 
-    getDiscardPile() {
-        var discardPilePopup = undefined;
-
-        if(this.state.showDiscard && this.props.discardPile) {
-            var discardPile = _.map(this.props.discardPile, card => {
-                return (<Card key={card.uuid} card={card} source='discard pile'
-                             onMouseOver={this.props.onMouseOver}
-                             onMouseOut={this.props.onMouseOut}
-                             onClick={this.props.onCardClick} />);
-            });
-
-            discardPilePopup = <div className={'panel popup' + (this.props.isMe || this.props.spectating ? ' our-side' : '')}>{discardPile}</div>;
-        }
-
-        return discardPilePopup;
-    }
-
-    getDeadPile() {
-        var deadPilePopup = undefined;
-
-        if(this.state.showDead && this.props.deadPile) {
-            var deadPile = _.map(this.props.deadPile, card => {
-                return (<Card key={card.uuid} card={card} source='dead pile'
-                             onMouseOver={this.props.onMouseOver}
-                             onMouseOut={this.props.onMouseOut}
-                             onClick={this.props.onCardClick} />);
-            });
-
-            deadPilePopup = <div className={'panel popup' + (this.props.isMe || this.props.spectating ? ' our-side' : '')}>{deadPile}</div>;
-        }
-
-        return deadPilePopup;
-    }
-
-    onDiscardClick(event) {
-        event.preventDefault();
-
-        this.setState({ showDiscard: !this.state.showDiscard });
-    }
-
-    onDeadClick(event) {
-        event.preventDefault();
-
-        this.setState({ showDead: !this.state.showDead });
-    }
-
     onDrawClick(event) {
         event.preventDefault();
 
@@ -230,8 +146,6 @@ class PlayerRow extends React.Component {
 
         var hand = this.getHand();
         var drawDeckPopup = this.getDrawDeck();
-        var discardPilePopup = this.getDiscardPile();
-        var deadPilePopup = this.getDeadPile();
 
         var powerCounters = this.props.power > 0 ? (
             <div className='counters ignore-mouse-events'>
@@ -239,9 +153,6 @@ class PlayerRow extends React.Component {
                     {this.props.power}
                 </div>
             </div>) : null;
-
-        var topDiscard = _.last(this.props.discardPile);
-        var topDead = _.last(this.props.deadPile);
 
         var drawDeckMenu = this.state.showDrawMenu ?
             (<div className='panel menu'>
@@ -269,22 +180,10 @@ class PlayerRow extends React.Component {
                     </div>
                     {hand}
                 </div>
-                <div className='discard panel' onDragLeave={this.onDragLeave} onDragOver={this.onDragOver} onDrop={(event) => this.onDragDrop(event, 'discard pile')}
-                    onClick={this.onDiscardClick}>
-                    <div className='panel-header'>
-                        {'Discard (' + (this.props.discardPile ? this.props.discardPile.length : 0) + ')'}
-                    </div>
-                    {topDiscard ?
-                        <div className='card' onMouseOver={this.props.onMouseOver.bind(this, topDiscard)}
-                            onMouseOut={this.props.onMouseOut}
-                            onDragStart={ev => this.onCardDragStart(ev, topDiscard, 'discard pile')}>
-                            <div>
-                                <img className='card' src={'/img/cards/' + topDiscard.code + '.png'} />
-                            </div>
-                        </div> :
-                        null}
-                    {discardPilePopup}
-                </div>
+                <CardCollection className='discard' title='Discard' source='discard pile' cards={this.props.discardPile} 
+                                popupLocation={this.props.isMe ? 'top' : 'bottom'}
+                                onDragDrop={this.props.onDragDrop} />
+
                 <div className='draw panel' onDragLeave={this.onDragLeave} onDragOver={this.onDragOver} onDrop={(event) => this.onDragDrop(event, 'draw deck')}
                     onClick={this.props.isMe ? this.onDrawClick : null}>
                     <div className='panel-header'>
@@ -316,22 +215,9 @@ class PlayerRow extends React.Component {
                     </div>
                     : <div className='agenda panel' />
                 }
-                <div className='dead panel' onDragLeave={this.onDragLeave} onDragOver={this.onDragOver} onDrop={event => this.onDragDrop(event, 'dead pile')}
-                    onClick={this.onDeadClick}>
-                    <div className='panel-header'>
-                        {'Dead (' + (this.props.deadPile ? this.props.deadPile.length : 0) + ')'}
-                    </div>
-                    {topDead ?
-                        <div className='horizontal-card' onMouseOver={this.props.onMouseOver.bind(this, topDead)}
-                            onMouseOut={this.props.onMouseOut}
-                            onDragStart={(ev) => this.onCardDragStart(ev, topDead, 'dead pile')}>
-                            <div>
-                                <img className='kneeled card' src={'/img/cards/' + topDead.code + '.png'} />
-                            </div>
-                        </div> :
-                        null}
-                    {deadPilePopup}
-                </div>
+                <CardCollection className='dead' title='Dead' source='dead pile' cards={this.props.deadPile} 
+                                popupLocation={this.props.isMe ? 'top' : 'bottom'}
+                                onDragDrop={this.props.onDragDrop} orientation='horizontal' />
             </div>
         );
     }

@@ -34,11 +34,13 @@ class BaseCard {
     parseCard(text) {
         var firstLine = text.split('\n')[0];
         var potentialKeywords = _.map(firstLine.split('.'), k => k.toLowerCase().trim());
-        this.keywords = [];
+
+        this.keywords = {};
         this.allowedAttachmentTrait = 'any';
+
         _.each(potentialKeywords, keyword => {
             if(_.contains(ValidKeywords, keyword)) {
-                this.keywords.push(keyword);
+                this.addKeyword(keyword);
             } else if(keyword.indexOf('no attachment') === 0) {
                 var match = keyword.match(/no attachments except <[bi]>(.*)<\/[bi]>/);
                 if(match) {
@@ -72,7 +74,9 @@ class BaseCard {
             return false;
         }
 
-        return _.contains(this.keywords, keyword.toLowerCase());
+        var keywordEntry = this.keywords[keyword.toLowerCase()];
+
+        return !!keywordEntry;
     }
 
     hasTrait(trait) {
@@ -145,6 +149,20 @@ class BaseCard {
 
     setBlank() {
         this.blankCount++;
+    }
+
+    addKeyword(keyword) {
+        var lowerCaseKeyword = keyword.toLowerCase();
+
+        if(!this.keywords[lowerCaseKeyword]) {
+            this.keywords[lowerCaseKeyword] = 1;
+        } else {
+            this.keywords[lowerCaseKeyword]++;
+        }
+    }
+
+    removeKeyword(keyword) {
+        this.keywords[keyword.toLowerCase()]--;
     }
 
     clearBlank() {

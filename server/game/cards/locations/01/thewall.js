@@ -4,7 +4,7 @@ class TheWall extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['onCardPlayed']);
+        this.registerEvents(['onCardPlayed', 'onEndChallengePhase']);
     }
 
     play(player) {
@@ -38,6 +38,46 @@ class TheWall extends DrawCard {
             this.kneeled = true;
         }
     }
+
+    onEndChallengePhase() {
+        if(!this.inPlay || this.kneeled) {
+            return;
+        }
+
+        this.game.promptWithMenu(this.owner, this, {
+            activePrompt: {
+                menuTitle: 'Kneel ' + this.name + '?',
+                buttons: [
+                    { text: 'Yes', command: 'menuButton', method: 'kneel' },
+                    { text: 'No', command: 'menuButton', method: 'cancel' }
+                ]
+            },
+            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+        });
+
+        this.game.pipeline.continue();            
+    }
+
+    kneel(player) {
+        if(!this.inPlay || this.isBlank() || this.owner !== player) {
+            return false;
+        }
+
+        this.game.addMessage('{0} kneels {1} to gain 2 power for their faction', player, this);
+        
+        this.game.addPower(player, 2);
+
+        return true;
+    }
+
+    cancel(player) {
+        if(!this.inPlay || this.isBlank() || this.owner !== player) {
+            return false;
+        }
+
+        this.game.addMessage('{0} declines to trigger {1}', player, this);
+        return true;
+    }    
 
     leavesPlay() {
         super.leavesPlay();

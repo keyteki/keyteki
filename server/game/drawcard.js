@@ -64,7 +64,7 @@ class DrawCard extends BaseCard {
     }
 
     isRenown() {
-        return !this.isBlank() && this.renownCount > 0;
+        return this.hasKeyword('renown');
     }
 
     hasIcon(icon) {
@@ -101,16 +101,8 @@ class DrawCard extends BaseCard {
         return this.strengthModifier + this.cardData.strength || 0;
     }
 
-    setRenown() {
-        this.renownCount++;
-    }
-
     setIcon(icon) {
         this.icons[icon]++;
-    }
-
-    clearRenown() {
-        this.renownCount--;
     }
 
     clearIcon(icon) {

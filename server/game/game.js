@@ -327,6 +327,8 @@ class Game extends EventEmitter {
             player.power = 0;
         }
 
+        this.raiseEvent('onStatChanged', player, 'power');
+
         this.checkWinCondition(player);
     }
 
@@ -334,6 +336,9 @@ class Game extends EventEmitter {
         var appliedPower = Math.min(loser.power, power);
         loser.power -= appliedPower;
         winner.power += appliedPower;
+
+        this.raiseEvent('onStatChanged', loser, 'power');
+        this.raiseEvent('onStatChanged', winner, 'power');
 
         this.checkWinCondition(winner);
     }
@@ -660,6 +665,8 @@ class Game extends EventEmitter {
         this.queueStep(new StandingPhase(this));
         this.queueStep(new TaxationPhase(this));
         this.queueStep(new SimpleStep(this, () => this.beginRound()));
+
+        this.raiseEvent('onBeginRound');
     }
 
     queueStep(step) {

@@ -42,6 +42,12 @@ class ChallengeFlow extends BaseStep {
     }
 
     allowAsAttacker(card) {
+        var event = this.game.raiseEvent('onAttackerSelected', this.challenge.attackingPlayer, card);
+
+        if(event.cancel) {
+            return false;
+        }
+
         return this.challenge.attackingPlayer.canAddToChallenge(card.uuid);
     }
 
@@ -108,9 +114,12 @@ class ChallengeFlow extends BaseStep {
         }
 
         this.winner.challenges[this.winner.currentChallenge].won++;
+        this.loser.challenges[this.loser.currentChallenge].lost++;
 
         this.game.addMessage('{0} won a {1} challenge {2} vs {3}',
             this.winner, this.challenge.challengeType, this.winner.challengeStrength, this.loser.challengeStrength);
+
+        this.challenge.strengthDifference = this.winner.challengeStrength - this.loser.challengeStrength;
 
         this.game.raiseEvent('afterChallenge', this.challenge.challengeType, this.winner, this.loser, this.challenge.attackingPlayer);
     }
@@ -173,6 +182,8 @@ class ChallengeFlow extends BaseStep {
 
             if(card.isRenown()) {
                 card.power++;
+
+                this.game.raiseEvent('onRenown', this.winner, card);
 
                 this.game.addMessage('{0} gains 1 power on {1} from Renown', this.winner, card);
             }

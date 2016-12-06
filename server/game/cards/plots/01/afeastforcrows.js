@@ -4,10 +4,10 @@ class AFeastForCrows extends PlotCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['afterDominance']);
+        this.registerEvents(['onDominanceDetermined']);
     }
 
-    afterDominance(e, winner) {
+    onDominanceDetermined(event, winner) {
         if(!this.inPlay || winner !== this.owner) {
             return;
         }
