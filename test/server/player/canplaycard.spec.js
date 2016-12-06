@@ -9,7 +9,7 @@ describe('Player', function () {
             this.player = new Player('1', 'Test 1', true, this.gameSpy);
 
             this.gameSpy = jasmine.createSpyObj('game', ['drop']);
-            this.cardSpy = jasmine.createSpyObj('card', ['getType', 'getCost', 'isLimited', 'isUnique']);
+            this.cardSpy = jasmine.createSpyObj('card', ['getType', 'getCost', 'isLimited', 'isUnique', 'canPlay']);
             this.isCardUuidInListSpy = spyOn(this.player, 'isCardUuidInList');
             this.isCardNameInListSpy = spyOn(this.player, 'isCardNameInList');
             this.dupeSpy = spyOn(this.player, 'getDuplicateInPlay');
@@ -17,6 +17,8 @@ describe('Player', function () {
             this.isCardUuidInListSpy.and.returnValue(true);
             this.isCardNameInListSpy.and.returnValue(false);
             this.dupeSpy.and.returnValue(undefined);
+
+            this.cardSpy.canPlay.and.returnValue(true);
 
             this.player.initialise();
             this.player.phase = 'marshal';
