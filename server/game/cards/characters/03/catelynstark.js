@@ -30,6 +30,10 @@ class CatelynStark extends DrawCard {
             return;
         }
 
+        if(card === this) {
+            return;
+        }
+
         if(card.getFaction() === this.getFaction() && card.getType() === 'character') {
             this.game.promptWithMenu(player, this, {
                 activePrompt: {
