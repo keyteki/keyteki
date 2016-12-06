@@ -84,7 +84,7 @@ class InnerLobby extends React.Component {
                 <div className='alert alert-success'>Avatars are now in use in various parts of the site.  If you want your own rather than the default, see <a href='https://en.gravatar.com/'>Gravatar</a></div>
                 <div className='row'>
                     <span className='col-sm-9 text-center'><h1>Play A Game Of Thrones 2nd Edition</h1></span>
-                    <span className='col-sm-3 hidden-xs'><h3>Online Users</h3></span>
+                    <span className='col-sm-3 hidden-xs'><h3>{'Online Users (' + users.length + ')'}</h3></span>
                 </div>
                 <div className='row'>
                     <div className='lobby-chat col-sm-9'>
