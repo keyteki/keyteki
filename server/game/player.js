@@ -644,6 +644,7 @@ class Player extends Spectator {
 
         switch(target) {
             case 'hand':
+                card.facedown = false;
                 this.hand.push(card);
                 break;
             case 'discard pile':
