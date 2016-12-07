@@ -30,6 +30,7 @@ const port = isDeveloping ? 4000 : process.env.PORT;
 const Game = require('./game/game.js');
 const Player = require('./game/player.js');
 const Spectator = require('./game/spectator.js');
+const escapeRegex = require('./util.js').escapeRegex;
 
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -47,7 +48,8 @@ app.use(passport.session());
 
 passport.use(new localStrategy(
     function(username, password, done) {
-        db.collection('users').findOne({ username: username }, function(err, user) {
+        db.collection('users').findOne({ username: { '$regex': new RegExp('^' + escapeRegex(username.toLowerCase()), 'i')}}, 
+        function(err, user) {
             if(err) {
                 return done(err);
             }

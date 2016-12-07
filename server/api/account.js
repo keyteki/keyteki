@@ -6,10 +6,12 @@ const passport = require('passport');
 const config = require('./../config.js');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const escapeRegex = require('../util.js').escapeRegex;
 
 module.exports.init = function(server) {
     server.post('/api/account/register', function(req, res, next) {
-        db.collection('users').findOne({ username: req.body.username }, function(err, account) {
+        db.collection('users').findOne({ username: {'$regex': new RegExp('^' + escapeRegex(req.body.username.toLowerCase()), 'i')}}, 
+        function(err, account) {
             if(err) {
                 res.send({ success: false, message: 'An error occured registering your account' });
                 logger.info(err.message);
@@ -54,7 +56,8 @@ module.exports.init = function(server) {
     });
 
     server.post('/api/account/check-username', function(req, res) {
-        db.collection('users').findOne({ username: req.body.username }, function(err, account) {
+        db.collection('users').findOne({ username: { '$regex': new RegExp('^' + escapeRegex(req.body.username.toLowerCase()), 'i')}}, 
+        function(err, account) {
             if(err) {
                 res.send({ message: '' });
                 logger.info(err.message);
