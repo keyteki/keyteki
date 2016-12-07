@@ -180,6 +180,8 @@ class Card extends React.Component {
 
         if(this.props.source === 'play area' && this.props.card.type === 'attachment' && this.props.card.attached) {
             wrapperClass += ' attachment';
+        } else if(this.props.source === 'selected plot') {
+            wrapperClass += ' selected-plot';
         }
 
         return (

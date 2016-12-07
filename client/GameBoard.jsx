@@ -316,12 +316,6 @@ export class InnerGameBoard extends React.Component {
             return player.id !== thisPlayer.id;
         });
 
-        var plotDeck = this.getPlotDeck(thisPlayer.plotDeck);
-        var thisPlayerUsedPlotDeck = this.getPlotDeck(thisPlayer.plotDiscard);
-        if(otherPlayer) {
-            var otherPlayerUsedPlotDeck = this.getPlotDeck(otherPlayer.plotDiscard);
-        }
-
         var thisPlayerCards = [];
 
         var index = 0;
@@ -346,18 +340,6 @@ export class InnerGameBoard extends React.Component {
             thisPlayerCards.push(<div className='card-row' key={'other-empty' + i} />);
         }
 
-        var menuIndex = 0;
-        var plotMenuItems = thisPlayer.activePlot && this.state.showCardMenu[thisPlayer.activePlot.code] ? _.map(thisPlayer.activePlot.menu, menuItem => {
-            return <div key={menuIndex++} onClick={this.cardMenuClick.bind(this, thisPlayer.activePlot, menuItem)}>{menuItem.text}</div>;
-        }) : null;
-
-        var plotMenu = plotMenuItems ? (
-            <div className='panel menu'>
-                <div onClick={this.onShowUsedPlot}>Show</div>
-                {plotMenuItems}
-            </div>
-        ) : null;
-
         return (
             <div className='game-board'>
                 <div className='main-window'>
@@ -377,33 +359,14 @@ export class InnerGameBoard extends React.Component {
                                 reserve={otherPlayer ? otherPlayer.reserve : 0} power={otherPlayer ? otherPlayer.totalPower : 0} />
                             <div className='plots-pane'>
                                 <div className='relative'>
-                                    <div className='panel horizontal-card'>
-                                        <div className='panel-header'>
-                                            {'Plot (' + (otherPlayer ? otherPlayer.numPlotCards : 0) + ')'}
-                                        </div>
-
-                                        <img className='kneeled' src='/img/cards/cardback.jpg' />
-                                    </div>
-                                    <div className='panel horizontal-card' onClick={this.onOtherPlayerUsedPlotDeckClick}>
-                                        <div className='panel-header'>
-                                            {'Active Plot'}
-                                        </div>
-                                        {(otherPlayer && otherPlayer.activePlot) ?
-                                            <img className='horizontal card' src={'/img/cards/' + otherPlayer.activePlot.code + '.png'}
-                                                onMouseOver={otherPlayer ? this.onMouseOver.bind(this, otherPlayer.activePlot) : null}
-                                                onMouseOut={this.onMouseOut} /> : null}
-
-                                        {this.state.showOtherPlayerUsedPlotDeck ? <div className='panel plot-popup un-kneeled'>
-                                            <div className='panel-header'>
-                                                {'Used Plots (' + (otherPlayer ? otherPlayer.plotDiscard.length : 0) + ')'}
-                                            </div>
-                                            {otherPlayer ? otherPlayerUsedPlotDeck : null}
-                                        </div> : null}
-                                    </div>
+                                    <CardCollection className='plot' title='Plots' source='plot deck' cards={otherPlayer ? otherPlayer.plotDeck : []} 
+                                                    topCard={{ facedown: true, kneeled: true }}
+                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disableMouseOver disablePopup 
+                                                    onCardClick={this.onCardClick} orientation='horizontal' />
+                                    <CardCollection className='plot' title='Used Plots' source='revealed plots' cards={otherPlayer ? otherPlayer.plotDiscard : []} 
+                                                    topCard={otherPlayer ? otherPlayer.activePlot : undefined} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} />
                                     {otherPlayer && otherPlayer.plotSelected ?
-                                        <div className='panel horizontal-card opponent selected-plot'>
-                                            <img className='kneeled' src='/img/cards/cardback.jpg' />
-                                        </div> : null
+                                        <Card source='selected plot' card={{ facedown: true, kneeled: true }} horizontal /> : null
                                     }
                                 </div>
                                 <div className='relative'>

@@ -24,6 +24,10 @@ class CardCollection extends React.Component {
     }
 
     onTopCardClick() {
+        if(this.props.disablePopup) {
+            return;
+        }
+
         this.setState({showPopup: !this.state.showPopup});
     }
 
@@ -62,9 +66,11 @@ class CardCollection extends React.Component {
         if(this.state.showPopup) {
             var cardList = _.map(this.props.cards, card => {
                 return (<Card key={card.uuid} card={card} source={this.props.source}
+                             disableMouseOver={this.props.disableMouseOver}
                              onMouseOver={this.props.onMouseOver}
                              onMouseOut={this.props.onMouseOut}
-                             onClick={this.props.onCardClick} />);
+                             onClick={this.props.onCardClick}
+                             horizontal={this.props.orientation === 'horizontal'} />);
             });
 
             var popupClass = 'popup panel';
@@ -112,6 +118,8 @@ CardCollection.displayName = 'CardCollection';
 CardCollection.propTypes = {
     cards: React.PropTypes.array,
     className: React.PropTypes.string,
+    disableMouseOver: React.PropTypes.bool,
+    disablePopup: React.PropTypes.bool,
     onCardClick: React.PropTypes.func,
     onDragDrop: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,

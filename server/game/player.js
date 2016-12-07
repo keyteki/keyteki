@@ -999,7 +999,7 @@ class Player extends Spectator {
             claim: this.claim,
             phase: this.phase,
             cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, isActivePlayer),
-            plotDeck: isActivePlayer ? this.getSummaryForCardList(this.plotDeck, isActivePlayer) : undefined,
+            plotDeck: this.getSummaryForCardList(this.plotDeck, isActivePlayer, true),
             numPlotCards: this.plotDeck.size(),
             plotSelected: !!this.selectedPlot,
             activePlot: this.activePlot ? this.activePlot.getSummary(isActivePlayer) : undefined,
