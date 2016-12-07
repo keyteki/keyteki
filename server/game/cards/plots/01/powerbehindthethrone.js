@@ -20,24 +20,15 @@ class PowerBehindTheThrone extends PlotCard {
     }
 
     discardToken(player) {
-        var buttons = [{ text: 'Done', command: 'plot', method: 'cancelStand' }];
-
-        this.selecting = true;
-
-        this.game.promptForSelectDeprecated(player, this.onCardSelected.bind(this), 'Select a character to stand', buttons);
+        this.game.promptForSelect(player, {
+            activePromptTitle: 'Select a character to stand',
+            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            cardCondition: card => card.inPlay && card.owner === player && card.kneeled,
+            onSelect: (p, card) => this.onCardSelected(p, card)
+        });
     }
 
-    onCardSelected(player, cardId) {
-        if(!this.inPlay || this.owner !== player) {
-            return false;
-        }
-
-        var card = player.findCardInPlayByUuid(cardId);
-
-        if(!card || !card.kneeled) {
-            return false;
-        }
-
+    onCardSelected(player, card) {
         this.game.addMessage('{0} uses {1} to remove a stand token and stand {2}', player, this, card);
 
         card.kneeled = false;
@@ -47,17 +38,7 @@ class PowerBehindTheThrone extends PlotCard {
         return true;
     }
 
-    cancelStand(player) {
-        if(!this.inPlay || this.owner !== player) {
-            return;
-        }
-
-        this.game.cancelSelect(player);
-    }
-
     leavesPlay() {
-        this.selecting = false;
-
         super.leavesPlay();
     }
 }

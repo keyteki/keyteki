@@ -16,7 +16,6 @@ class UiPrompt extends BaseStep {
     }
 
     setPrompt() {
-        this.saveOriginalPrompts();
         _.each(this.game.getPlayers(), player => {
             if(this.activeCondition(player)) {
                 player.setPrompt(this.activePrompt());
@@ -53,30 +52,6 @@ class UiPrompt extends BaseStep {
         _.each(this.game.getPlayers(), player => {
             player.cancelPrompt();
         });
-        this.restoreOriginalPrompts();
-    }
-
-    // TODO: Saving and restoring prompts shouldn't be necessary once the full
-    //       game is converted into steps + prompts.
-    saveOriginalPrompts() {
-        if(this.originalPrompts) {
-            return;
-        }
-
-        this.originalPrompts = _.map(this.game.getPlayers(), player => {
-            return {
-                player: player,
-                prompt: player.currentPrompt()
-            };
-        });
-    }
-
-    restoreOriginalPrompts() {
-        if(this.originalPrompts) {
-            _.each(this.originalPrompts, originalPrompt => {
-                originalPrompt.player.setPrompt(originalPrompt.prompt);
-            });
-        }
     }
 }
 

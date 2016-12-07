@@ -20,6 +20,32 @@ describe('the Game', function() {
         player1.setPower = undefined;
     });
 
+    describe('the getNumberOrDefault() function', function() {
+        describe('with no arguments', function() {
+            it('should return the default', function () {
+                expect(game.getNumberOrDefault('', 1)).toBe(1);
+            });
+        });
+
+        describe('with a string argument', function() {
+            it('should return the default', function () {
+                expect(game.getNumberOrDefault('test', 1)).toBe(1);
+            });
+        });
+
+        describe('with a negative argument', function() {
+            it('should return the default', function () {
+                expect(game.getNumberOrDefault('-1', 1)).toBe(1);
+            });
+        });
+
+        describe('with a valid argument', function() {
+            it('should return the parsed value', function () {
+                expect(game.getNumberOrDefault('3', 1)).toBe(3);
+            });
+        });
+    });
+
     describe('the chat() function', function() {
         describe('when called by a player not in the game', function() {
             it('should not add any chat messages', function() {
@@ -37,52 +63,6 @@ describe('the Game', function() {
                     expect(game.messages.length).toBe(1);
                     expect(game.messages[0].message[1].name).toBe(player1.name);
                     expect(game.messages[0].message.join('')).toContain('Test Message');
-                });
-            });
-
-            describe('with a /power command', function() {
-                describe('with no arguments', function() {
-                    it('should prompt the user to change power to 1', function () {
-                        game.chat(player1.id, '/power');
-
-                        expect(game.messages.length).toBe(0);
-                        expect(player1.setPower).toBe(1);
-                    });
-                });
-
-                describe('with a string argument', function() {
-                    it('should prompt the user to change power to 1', function () {
-                        game.chat(player1.id, '/power test');
-
-                        expect(game.messages.length).toBe(0);
-                        expect(player1.setPower).toBe(1);
-                    });
-                });
-
-                describe('with a negative argument', function() {
-                    it('should prompt the user to change power to 1', function () {
-                        game.chat(player1.id, '/power -1');
-
-                        expect(game.messages.length).toBe(0);
-                        expect(player1.setPower).toBe(1);
-                    });
-                });
-
-                describe('with a valid argument', function() {
-                    it('should prompt the user to change power to the argument', function () {
-                        game.chat(player1.id, '/power 3');
-
-                        expect(game.messages.length).toBe(0);
-                        expect(player1.setPower).toBe(3);
-                    });
-                });
-
-                describe('half way through a message', function() {
-                    it('should not trigger the /power command', function() {
-                        game.chat(player1.id, 'test test /power test');
-
-                        expect(player1.setPower).toBe(undefined);
-                    });
                 });
             });
 
@@ -124,6 +104,14 @@ describe('the Game', function() {
 
                         expect(game.messages.length).toBe(1);
                         expect(player1.drawCardsToHand).toHaveBeenCalledWith(4);
+                    });
+                });
+
+                describe('half way through a message', function() {
+                    it('should not trigger the /draw command', function() {
+                        game.chat(player1.id, 'test test /draw test');
+
+                        expect(player1.drawCardsToHand).not.toHaveBeenCalled();
                     });
                 });
             });
