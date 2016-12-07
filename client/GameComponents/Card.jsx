@@ -136,7 +136,7 @@ class Card extends React.Component {
     }
 
     getMenu() {
-        if(this.props.source !== 'play area') {
+        if(this.props.source !== 'play area' && this.props.source !== 'agenda') {
             return null;
         }
 
