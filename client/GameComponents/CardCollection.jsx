@@ -25,6 +25,10 @@ class CardCollection extends React.Component {
 
     onTopCardClick() {
         if(this.props.disablePopup) {
+            if(this.props.onCardClick) {
+                this.props.onCardClick(this.props.source, this.props.topCard);
+            }
+
             return;
         }
 
@@ -95,8 +99,13 @@ class CardCollection extends React.Component {
 
     render() {
         var className = 'panel ' + this.props.className;
-        var headerText = this.props.title + ' (' + this.props.cards.length + ')';
+        var headerText = this.props.title ? this.props.title + ' (' + this.props.cards.length + ')' : '';
         var topCard = this.props.topCard || _.last(this.props.cards);
+
+        if(topCard && topCard.kneeled) {
+            className += ' horizontal-card';
+        }
+
         return (
             <div className={className} onDragLeave={this.onDragLeave} onDragOver={this.onDragOver} onDrop={event => this.onDragDrop(event, this.props.source)}
                     onClick={this.onCollectionClick}>
@@ -108,6 +117,7 @@ class CardCollection extends React.Component {
                          onMouseOut={this.props.onMouseOut}
                          disableMouseOver={topCard.facedown}
                          onClick={this.onTopCardClick}
+                         onMenuItemClick={this.props.onMenuItemClick}
                          horizontal={this.props.orientation === 'horizontal'} /> : null}
                 {this.getPopup()}
             </div>);
@@ -122,11 +132,12 @@ CardCollection.propTypes = {
     disablePopup: React.PropTypes.bool,
     onCardClick: React.PropTypes.func,
     onDragDrop: React.PropTypes.func,
+    onMenuItemClick: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
     orientation: React.PropTypes.string,
     popupLocation: React.PropTypes.string,
-    source: React.PropTypes.oneOf(['hand', 'discard pile', 'play area', 'dead pile', 'draw deck', 'plot deck', 'revealed plots', 'selected plot', 'attachment']).isRequired,
+    source: React.PropTypes.oneOf(['hand', 'discard pile', 'play area', 'dead pile', 'draw deck', 'plot deck', 'revealed plots', 'selected plot', 'attachment', 'agenda', 'faction']).isRequired,
     title: React.PropTypes.string,
     topCard: React.PropTypes.object
 };

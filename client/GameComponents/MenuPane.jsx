@@ -23,7 +23,7 @@ class MenuPane extends React.Component {
             var option = (
                 <button key={button.command + buttonIndex.toString()} className='btn btn-primary'
                     onClick={(event) => this.onButtonClick(event, button.command, button.arg, button.method)}
-                    disabled={this.props.disabled}>{button.text}</button>);
+                    disabled={button.disabled}>{button.text}</button>);
 
             buttonIndex++;
 
@@ -46,7 +46,6 @@ class MenuPane extends React.Component {
 MenuPane.displayName = 'MenuPane';
 MenuPane.propTypes = {
     buttons: React.PropTypes.array,
-    disabled: React.PropTypes.bool,
     onButtonClick: React.PropTypes.func,
     socket: React.PropTypes.object,
     title: React.PropTypes.string

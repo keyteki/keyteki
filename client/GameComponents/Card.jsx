@@ -164,6 +164,10 @@ class Card extends React.Component {
         var cardClass = '';
         var imageClass = '';
         var wrapperClass = 'card-wrapper';
+
+        if(!this.props.card) {
+            return <div />;
+        }
         
         if(this.props.card.kneeled || this.props.horizontal) {
             cardClass = 'horizontal-card';
@@ -236,7 +240,7 @@ Card.propTypes = {
     onMenuItemClick: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
-    source: React.PropTypes.oneOf(['hand', 'discard pile', 'play area', 'dead pile', 'draw deck', 'plot deck', 'selected plot', 'attachment', 'agenda']).isRequired,
+    source: React.PropTypes.oneOf(['hand', 'discard pile', 'play area', 'dead pile', 'draw deck', 'plot deck', 'selected plot', 'attachment', 'agenda', 'faction']).isRequired,
     style: React.PropTypes.object
 };
 

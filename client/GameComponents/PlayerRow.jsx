@@ -168,13 +168,6 @@ class PlayerRow extends React.Component {
         var hand = this.getHand();
         var drawDeckPopup = this.getDrawDeck();
 
-        var powerCounters = this.props.power > 0 ? (
-            <div className='counters ignore-mouse-events'>
-                <div className='counter power'>
-                    {this.props.power}
-                </div>
-            </div>) : null;
-
         var drawDeckMenu = this.state.showDrawMenu ?
             (<div className='panel menu'>
                 <div onClick={this.onShowDeckClick}>Show</div>
@@ -205,17 +198,10 @@ class PlayerRow extends React.Component {
                     {drawDeckMenu}
                     {drawDeckPopup}
                 </div>
-                <div className={'faction panel' + (this.props.faction && this.props.faction.kneeled ? ' kneeled horizontal-card' : '')}>
-                    <div>
-                        {this.props.faction ? <img
-                            className={'card' + (this.props.faction && this.props.faction.kneeled ? ' kneeled vertical' : '')}
-                            src={'/img/factions/' + this.props.faction.code + '.png'} /> : null}
-                    </div>
-                    {powerCounters}
-                </div>
+                <CardCollection className='faction' source='faction' cards={[]} topCard={this.props.faction} onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} disablePopup />
                 {this.props.agenda && this.props.agenda.code !== '' ?
-                    <Card source='agenda' card={this.props.agenda} onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} 
-                          onClick={this.onCardClick} onMenuItemClick={this.props.onMenuItemClick} />
+                    <CardCollection className='agenda' source='agenda' cards={[]} topCard={this.props.agenda} onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} 
+                          onClick={this.onClick} disablePopup onMenuItemClick={this.props.onMenuItemClick} />
                     : <div className='agenda panel' />
                 }
                 <CardCollection className='dead' title='Dead' source='dead pile' cards={this.props.deadPile}
