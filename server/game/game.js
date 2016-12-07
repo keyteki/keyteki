@@ -203,6 +203,20 @@ class Game extends EventEmitter {
         return false;
     }
 
+    selectPlot(player, plotId) {
+        var plot = player.findCardByUuid(player.plotDeck, plotId);
+
+        if(!plot) {
+            return;
+        }
+
+        player.plotDeck.each(p => {
+            p.selected = false;
+        });
+
+        plot.selected = true;
+    }
+
     cardClicked(sourcePlayer, source, cardId) {
         var player = this.getPlayerById(sourcePlayer);
 
@@ -213,6 +227,11 @@ class Game extends EventEmitter {
         switch(source) {
             case 'hand':
                 this.playCard(player.id, cardId);
+                return;
+            case 'plot deck':
+                this.selectPlot(player, cardId);
+
+                this.pipeline.continue();
                 return;
         }
 
@@ -244,8 +263,10 @@ class Game extends EventEmitter {
                     player.agenda[menuItem.method](player, menuItem.arg);
                 }
 
-                return;
+                break;
         }
+
+        this.pipeline.continue();
     }
 
     discardCardClicked(sourcePlayer, cardId) {

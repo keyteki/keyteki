@@ -18,11 +18,19 @@ class SelectPlotPrompt extends AllPlayerPrompt {
         return { menuTitle: 'Waiting for opponent to select plot' };
     }
 
-    onMenuCommand(player, plotId) {
-        if(!player.selectPlot(plotId)) {
+    onMenuCommand(player) {
+        var plot = player.findCard(player.plotDeck, card => {
+            return card.selected;
+        });
+
+        if(!plot) {
             return;
         }
-        
+
+        plot.facedown = true;
+        plot.selected = false;
+        player.selectedPlot = plot;
+
         this.game.addMessage('{0} has selected a plot', player);
     }
 }

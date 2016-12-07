@@ -55,6 +55,10 @@ class Card extends React.Component {
     getCounters() {
         var counters = {};
 
+        if(this.props.source !== 'play area') {
+            return null;
+        }
+
         counters['power'] = this.props.card.power;
         counters['strength'] = this.props.card.baseStrength !== this.props.card.strength ? this.props.card.strength : 0;
         counters['dupe'] = this.props.card.dupes && this.props.card.dupes.length > 0 ? this.props.card.dupes.length : 0;
@@ -76,6 +80,10 @@ class Card extends React.Component {
     }
 
     getAttachments() {
+        if(this.props.source !== 'play area') {
+            return null;
+        }
+
         var offset = 10;
         var attachments = _.map(this.props.card.attachments, attachment => {
             var style = { top: offset + 'px', zIndex: -offset };
@@ -95,6 +103,10 @@ class Card extends React.Component {
     }
 
     getDupes() {
+        if(this.props.source !== 'play area') {
+            return null;
+        }
+
         var facedownDupes = _.filter(this.props.card.dupes, card => {
             return card.facedown;
         });
@@ -124,6 +136,10 @@ class Card extends React.Component {
     }
 
     getMenu() {
+        if(this.props.source !== 'play area') {
+            return null;
+        }
+
         var menuIndex = 0;
         var menuItems = this.props.card.menu && this.state.showMenu ? _.map(this.props.card.menu, menuItem => {
             return <div key={menuIndex++} onClick={this.onMenuItemClick.bind(this, menuItem)}>{menuItem.text}</div>;
@@ -179,7 +195,7 @@ class Card extends React.Component {
                                 <span className='card-name'>{this.props.card.name}</span>
                                 <img className={imageClass} src={'/img/cards/' + (!this.isFacedown() ? (this.props.card.code + '.png') : 'cardback.jpg')} />
                             </div>
-                            { this.getCounters() }
+                            {this.getCounters()}
                             {this.getMenu()}
                         </div>
                         {this.getDupes()}

@@ -267,14 +267,6 @@ export class InnerGameBoard extends React.Component {
     onCommand(command, arg, method) {
         var commandArg = arg;
 
-        if(arg === 'plotselected') {
-            if(!this.state.selectedPlot) {
-                return;
-            }
-
-            commandArg = this.state.selectedPlot.uuid;
-        }
-
         this.props.socket.emit(command, commandArg, method);
     }
 
@@ -418,10 +410,10 @@ export class InnerGameBoard extends React.Component {
                                     {thisPlayer.plotSelected ?
                                         <Card source='selected plot' card={{ facedown: true, kneeled: true }} horizontal /> : null
                                     }
-                                    <CardCollection className='plot' title='Revealed Plots' source='revealed plots' cards={thisPlayer.plotDiscard} topCard={thisPlayer.activePlot}
+                                    <CardCollection className='plot' title='Used Plots' source='revealed plots' cards={thisPlayer.plotDiscard} topCard={thisPlayer.activePlot}
                                                     onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} />
                                     <CardCollection className='plot' title='Plots' source='plot deck' cards={thisPlayer.plotDeck} topCard={{ facedown: true, kneeled: true }}
-                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} />
+                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onCardClick={this.onCardClick} />
                                 </div>
                             </div>
 
@@ -430,9 +422,7 @@ export class InnerGameBoard extends React.Component {
                         </div>
                         <div className='inset-pane'>
                             <div />
-                            <MenuPane title={thisPlayer.menuTitle} buttons={thisPlayer.buttons}
-                                disabled={(thisPlayer.phase === 'plot' && !this.state.selectedPlot)}
-                                onButtonClick={this.onCommand} />
+                            <MenuPane title={thisPlayer.menuTitle} buttons={thisPlayer.buttons} onButtonClick={this.onCommand} />
                         </div>
                         <div className='play-area'>
                             <div className='player-board'>

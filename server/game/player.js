@@ -480,19 +480,6 @@ class Player extends Spectator {
         });
     }
 
-    selectPlot(plotId) {
-        var plot = this.findCardByUuid(this.plotDeck, plotId);
-
-        if(!plot) {
-            return false;
-        }
-
-        plot.facedown = true;
-        this.selectedPlot = plot;
-
-        return true;
-    }
-
     flipPlotFaceup() {
         this.menuTitle = '';
         this.buttons = [];
