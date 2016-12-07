@@ -7,6 +7,10 @@ class Card extends React.Component {
 
         this.onMouseOver = this.onMouseOver.bind(this);
         this.onMouseOut = this.onMouseOut.bind(this);
+
+        this.state = {
+            showMenu: false
+        };
     }
 
     onMouseOver(card) {
@@ -31,8 +35,20 @@ class Card extends React.Component {
         event.preventDefault();
         event.stopPropagation();
 
+        if(!_.isEmpty(this.props.card.menu)) {
+            this.setState({showMenu: !this.state.showMenu});
+
+            return;
+        }
+
         if(this.props.onClick) {
             this.props.onClick(source, card);
+        }
+    }
+
+    onMenuItemClick(menuItem) {
+        if(this.props.onMenuItemClick) {
+            this.props.onMenuItemClick(this.props.source, this.props.card, menuItem);
         }
     }
 
@@ -53,10 +69,10 @@ class Card extends React.Component {
             return <div key={key} className={'counter ' + key}>{counterValue}</div>;
         });
 
-        return (
+        return counterDivs.length !== 0 ? (
             <div className='counters ignore-mouse-events'>
                 {counterDivs}
-            </div>);
+            </div>) : null;
     }
 
     getAttachments() {
@@ -107,6 +123,19 @@ class Card extends React.Component {
         return dupes;
     }
 
+    getMenu() {
+        var menuIndex = 0;
+        var menuItems = this.props.card.menu && this.state.showMenu ? _.map(this.props.card.menu, menuItem => {
+            return <div key={menuIndex++} onClick={this.onMenuItemClick.bind(this, menuItem)}>{menuItem.text}</div>;
+        }) : null;
+
+        return menuItems && menuItems.length !== 0 ? (
+            <div className='panel menu'>
+                {menuItems}
+            </div>
+        ) : null;  
+    }
+
     isFacedown() {
         return this.props.card.facedown || !this.props.card.code;
     }
@@ -151,6 +180,7 @@ class Card extends React.Component {
                                 <img className={imageClass} src={'/img/cards/' + (!this.isFacedown() ? (this.props.card.code + '.png') : 'cardback.jpg')} />
                             </div>
                             { this.getCounters() }
+                            {this.getMenu()}
                         </div>
                         {this.getDupes()}
                         {this.getAttachments()}
@@ -169,6 +199,7 @@ Card.propTypes = {
         dupes: React.PropTypes.array,
         facedown: React.PropTypes.bool,
         kneeled: React.PropTypes.bool,
+        menu: React.PropTypes.array,
         name: React.PropTypes.string,
         new: React.PropTypes.bool,
         power: React.PropTypes.number,
@@ -180,9 +211,10 @@ Card.propTypes = {
     disableMouseOver: React.PropTypes.bool,
     horizontal: React.PropTypes.bool,
     onClick: React.PropTypes.func,
+    onMenuItemClick: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
-    source: React.PropTypes.oneOf(['hand', 'discard pile', 'play area', 'dead pile', 'draw deck', 'plot deck', 'attachment']).isRequired,
+    source: React.PropTypes.oneOf(['hand', 'discard pile', 'play area', 'dead pile', 'draw deck', 'plot deck', 'attachment', 'agenda']).isRequired,
     style: React.PropTypes.object
 };
 

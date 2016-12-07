@@ -32,7 +32,7 @@ export class InnerGameBoard extends React.Component {
         this.onSendClick = this.onSendClick.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onScroll = this.onScroll.bind(this);
-        this.cardMenuClick = this.cardMenuClick.bind(this);
+        this.onMenuItemClick = this.onMenuItemClick.bind(this);
         this.onShowUsedPlot = this.onShowUsedPlot.bind(this);
         this.onPlotCardClick = this.onPlotCardClick.bind(this);
 
@@ -305,8 +305,8 @@ export class InnerGameBoard extends React.Component {
         this.onDragDrop(dragData.card, dragData.source, target);
     }
 
-    cardMenuClick(card, menuItem) {
-        this.props.socket.emit(menuItem.command, menuItem.arg, menuItem.method);
+    onMenuItemClick(source, card, menuItem) {
+        this.props.sendSocketMessage('menuclick', source, card.uuid, menuItem);
     }
 
     render() {
@@ -485,7 +485,7 @@ export class InnerGameBoard extends React.Component {
                         discardPile={thisPlayer.discardPile}
                         deadPile={thisPlayer.deadPile}
                         spectating={this.state.spectating}
-                        onCardMenuClick={this.cardMenuClick}/>
+                        onMenuItemClick={this.onMenuItemClick}/>
                 </div>
                 <div className='right-side'>
                     <CardZoom imageUrl={this.props.cardToZoom ? '/img/cards/' + this.props.cardToZoom.code + '.png' : ''}

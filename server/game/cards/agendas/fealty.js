@@ -6,7 +6,7 @@ class Fealty extends Reducer {
             return card.isLoyal();
         });
 
-        this.menu.push({ text: 'Kneel your faction card', command: 'agenda', method: 'onClick' });
+        this.menu.push({ text: 'Kneel your faction card', method: 'onClick' });
 
         this.registerEvents(['cardsStanding']);
     }

@@ -158,14 +158,6 @@ class PlayerRow extends React.Component {
         }
     }
 
-    cardMenuClick(card, menuItem) {
-        if(this.props.onCardMenuClick) {
-            this.props.onCardMenuClick(card, menuItem);
-        }
-
-        this.setState({ showAgendaMenu: false });
-    }
-
     render() {
         var className = 'panel hand';
 
@@ -188,18 +180,7 @@ class PlayerRow extends React.Component {
                 <div onClick={this.onShowDeckClick}>Show</div>
                 <div onClick={this.onShuffleClick}>Shuffle</div>
             </div>)
-            : null;
-
-        var menuIndex = 0;
-        var agendaMenuItems = this.props.agenda && this.props.agenda.menu && this.state.showAgendaMenu ? _.map(this.props.agenda.menu, menuItem => {
-            return <div key={menuIndex++} onClick={this.cardMenuClick.bind(this, this.props.agenda, menuItem)}>{menuItem.text}</div>;
-        }) : null;
-
-        var agendaMenu = agendaMenuItems ? (
-            <div className='panel menu'>
-                {agendaMenuItems}
-            </div>
-        ) : null;        
+            : null;   
 
         return (
             <div className='player-home-row'>
@@ -233,15 +214,8 @@ class PlayerRow extends React.Component {
                     {powerCounters}
                 </div>
                 {this.props.agenda && this.props.agenda.code !== '' ?
-                    <div className='agenda panel'
-                        onMouseOver={this.props.onMouseOver ? this.props.onMouseOver.bind(this, this.props.agenda) : null}
-                        onMouseOut={this.props.onMouseOut ? this.props.onMouseOut : null}
-                        onClick={this.onAgendaClick}>
-                        <div className='card'>
-                            <img className='card' src={'/img/cards/' + this.props.agenda.code + '.png'} />
-                        </div>    
-                        {agendaMenu}
-                    </div>
+                    <Card source='agenda' card={this.props.agenda} onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} 
+                          onClick={this.onCardClick} onMenuItemClick={this.props.onMenuItemClick} />
                     : <div className='agenda panel' />
                 }
                 <CardCollection className='dead' title='Dead' source='dead pile' cards={this.props.deadPile} 
@@ -263,10 +237,10 @@ PlayerRow.propTypes = {
     isMe: React.PropTypes.bool,
     numDrawCards: React.PropTypes.number,
     onCardClick: React.PropTypes.func,
-    onCardMenuClick: React.PropTypes.func,
     onDiscardedCardClick: React.PropTypes.func,
     onDragDrop: React.PropTypes.func,
     onDrawClick: React.PropTypes.func,
+    onMenuItemClick: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
     onShuffleClick: React.PropTypes.func,

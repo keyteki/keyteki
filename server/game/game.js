@@ -231,6 +231,23 @@ class Game extends EventEmitter {
         this.pipeline.continue();
     }
 
+    menuItemClick(sourcePlayer, source, cardId, menuItem) {
+        var player = this.getPlayerById(sourcePlayer);
+
+        if(!player) {
+            return;
+        }
+
+        switch(source) {
+            case 'agenda':
+                if(player.agenda && player.agenda[menuItem.method]) {
+                    player.agenda[menuItem.method](player, menuItem.arg);
+                }
+
+                return;
+        }
+    }
+
     discardCardClicked(sourcePlayer, cardId) {
         var player = this.getPlayerById(sourcePlayer);
 
@@ -501,17 +518,6 @@ class Game extends EventEmitter {
         }
 
         this.pipeline.continue();
-    }
-
-    agendaCardCommand(playerId, method, arg) {
-        var player = this.getPlayerById(playerId);
-        if(!player) {
-            return;
-        }
-
-        if(player.agenda && player.agenda[method]) {
-            player.agenda[method](player, arg);
-        }
     }
 
     promptWithMenu(player, contextObj, properties) {

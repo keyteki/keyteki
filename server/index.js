@@ -578,6 +578,20 @@ io.on('connection', function(socket) {
         });
     });
 
+    socket.on('menuclick', function(source, cardId, menuItem) {
+        var game = findGameForPlayer(socket.id);
+
+        if(!game) {
+            return;
+        }
+
+        runAndCatchErrors(game, () => {
+            game.menuItemClick(socket.id, source, cardId, menuItem);
+
+            sendGameState(game);
+        });
+    });
+
     socket.on('plot', function(arg, method) {
         var game = findGameForPlayer(socket.id);
 
@@ -587,20 +601,6 @@ io.on('connection', function(socket) {
 
         runAndCatchErrors(game, () => {
             game.plotCardCommand(socket.id, method, arg);
-
-            sendGameState(game);
-        });
-    });
-
-    socket.on('agenda', function(arg, method) {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.agendaCardCommand(socket.id, method, arg);
 
             sendGameState(game);
         });
