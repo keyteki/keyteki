@@ -15,10 +15,39 @@ class PlayerRow extends React.Component {
         this.onCloseClick = this.onCloseClick.bind(this);
         this.onCloseAndShuffleClick = this.onCloseAndShuffleClick.bind(this);
         this.onAgendaClick = this.onAgendaClick.bind(this);
+        this.onDragDrop = this.onDragDrop.bind(this);
 
         this.state = {
             showDrawMenu: false
         };
+    }
+
+    onDragOver(event) {
+        $(event.target).addClass('highlight-panel');
+        event.preventDefault();
+    }
+ 
+    onDragLeave(event) {
+        $(event.target).removeClass('highlight-panel');
+    }
+
+    onDragDrop(event, target) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        $(event.target).removeClass('highlight-panel');
+
+        var card = event.dataTransfer.getData('Text');
+
+        if(!card) {
+            return;
+        }
+
+        var dragData = JSON.parse(card);
+
+        if(this.props.onDragDrop) {
+            this.props.onDragDrop(dragData.card, dragData.source, target);
+        }
     }
 
     onCloseClick(event) {
