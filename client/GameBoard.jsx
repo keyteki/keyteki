@@ -20,8 +20,6 @@ export class InnerGameBoard extends React.Component {
         this.onMouseOut = this.onMouseOut.bind(this);
         this.onMouseOver = this.onMouseOver.bind(this);
         this.onCardClick = this.onCardClick.bind(this);
-        this.onPlotDeckClick = this.onPlotDeckClick.bind(this);
-        this.onUsedPlotDeckClick = this.onUsedPlotDeckClick.bind(this);
         this.onOtherPlayerUsedPlotDeckClick = this.onOtherPlayerUsedPlotDeckClick.bind(this);
         this.onDrawClick = this.onDrawClick.bind(this);
         this.onDragDrop = this.onDragDrop.bind(this);
@@ -34,8 +32,6 @@ export class InnerGameBoard extends React.Component {
         this.onChange = this.onChange.bind(this);
         this.onScroll = this.onScroll.bind(this);
         this.onMenuItemClick = this.onMenuItemClick.bind(this);
-        this.onShowUsedPlot = this.onShowUsedPlot.bind(this);
-        this.onPlotCardClick = this.onPlotCardClick.bind(this);
 
         this.state = {
             canScroll: true,
@@ -165,41 +161,6 @@ export class InnerGameBoard extends React.Component {
         this.props.socket.emit('shuffledeck');
     }
 
-    onPlotCardClick(source, card) {
-        var thisPlayer = this.props.state.players[this.props.socket.id];
-
-        _.each(thisPlayer.plotDeck, plot => {
-            plot.selected = false;
-        });
-
-        card.selected = true;
-        this.setState({ selectedPlot: card });
-    }
-
-    onPlotDeckClick() {
-        if(this.state.showUsedPlotDeck) {
-            this.setState({ showUsedPlotDeck: !this.state.showUsedPlotDeck });
-        }
-
-        if(this.state.showOtherPlayerUsedPlotDeck) {
-            this.setState({ showOtherPlayerUsedPlotDeck: !this.state.showOtherPlayerUsedPlotDeck });
-        }
-
-        this.setState({ showPlotDeck: !this.state.showPlotDeck });
-    }
-
-    onShowUsedPlot() {
-        if(this.state.showPlotDeck) {
-            this.setState({ showPlotDeck: !this.state.showPlotDeck });
-        }
-
-        if(this.state.showOtherPlayerUsedPlotDeck) {
-            this.setState({ showOtherPlayerUsedPlotDeck: !this.state.showOtherPlayerUsedPlotDeck });
-        }
-
-        this.setState({ showUsedPlotDeck: !this.state.showUsedPlotDeck });
-    }
-
     onUsedPlotDeckClick() {
         var thisPlayer = this.props.state.players[this.props.socket.id];
 
@@ -268,16 +229,6 @@ export class InnerGameBoard extends React.Component {
         var commandArg = arg;
 
         this.props.socket.emit(command, commandArg, method);
-    }
-
-    getPlotDeck(deck) {
-        var plotDeck = _.map(deck, card => {
-            var plotCard = <Card key={card.uuid} source='plot deck' card={card} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onClick={this.onPlotCardClick} />;
-
-            return plotCard;
-        });
-
-        return plotDeck;
     }
 
     onDragOver(event) {
