@@ -78,6 +78,10 @@ class ChallengeFlow extends BaseStep {
     }
 
     promptForDefenders() {
+        if(this.challenge.isSinglePlayer) {
+            return;
+        }
+
         this.game.promptForSelect(this.challenge.defendingPlayer, {
             numCards: this.challenge.defendingPlayer.challengerLimit,
             activePromptTitle: 'Select defenders',
@@ -123,6 +127,10 @@ class ChallengeFlow extends BaseStep {
 
     applyClaim() {
         if(!this.challenge.isAttackerTheWinner()) {
+            return;
+        }
+
+        if(this.challenge.isSinglePlayer) {
             return;
         }
 

@@ -1,14 +1,23 @@
 const _ = require('underscore');
+const Player = require('./player.js');
 
 class Challenge {
     constructor(game, attackingPlayer, defendingPlayer, challengeType) {
         this.game = game;
         this.attackingPlayer = attackingPlayer;
-        this.defendingPlayer = defendingPlayer;
+        this.isSinglePlayer = !defendingPlayer;
+        this.defendingPlayer = defendingPlayer || this.singlePlayerDefender();
         this.challengeType = challengeType;
         this.attackers = [];
         this.defenders = [];
         this.registerEvents(['onCardLeftPlay'])
+    }
+
+    singlePlayerDefender() {
+        var dummyPlayer = new Player('', { name: 'Dummy Player' }, false, this.game);
+        dummyPlayer.initialise();
+        dummyPlayer.startPlotPhase();
+        return dummyPlayer;
     }
 
     resetCards() {
@@ -98,7 +107,7 @@ class Challenge {
         var claim = this.winner.activePlot.getClaim();
         claim = this.winner.modifyClaim(this.winner, this.challengeType, claim);
 
-        if(this.loser) {
+        if(!this.isSinglePlayer) {
             claim = this.loser.modifyClaim(this.winner, this.challengeType, claim);
         }
 
