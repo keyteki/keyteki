@@ -67,7 +67,7 @@ class Card extends React.Component {
             var returnedAttachment = (<Card key={attachment.uuid} style={style} source={this.props.source} card={attachment}
                             onMouseOver={this.props.disableMouseOver ? null : this.onMouseOver.bind(this, attachment)}
                             onMouseOut={this.props.disableMouseOver ? null : this.onMouseOut}
-                            onClick={ev => this.onClick(ev, attachment, this.props.source)}
+                            onClick={this.props.onClick}
                             onDragStart={ev => this.onCardDragStart(ev, attachment, this.props.source)} />);
 
             offset += 10;
