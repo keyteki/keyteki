@@ -22,7 +22,7 @@ class ChallengeFlow extends BaseStep {
             new SimpleStep(this.game, () => this.determineWinner()),
             new SimpleStep(this.game, () => this.unopposedPower()),
             new SimpleStep(this.game, () => this.applyClaim()),
-            new SimpleStep(this.game, () => this.applyKeywords()),
+            new SimpleStep(this.game, () => this.applyKeywords())
         ]);
     }
 
@@ -145,6 +145,8 @@ class ChallengeFlow extends BaseStep {
     }
 
     applyKeywords() {
+        var appliedIntimidate = false;
+
         this.challenge.winner.cardsInChallenge.each(card => {
             if(card.hasKeyword('Insight')) {
                 this.challenge.winner.drawCardsToHand(1);
@@ -152,8 +154,14 @@ class ChallengeFlow extends BaseStep {
                 this.game.addMessage('{0} draws a card from Insight on {1}', this.challenge.winner, card);
             }
 
-            if(card.hasKeyword('Intimidate')) {
-                // something
+            if(card.hasKeyword('Intimidate') && !appliedIntimidate) {
+                var strength = this.challenge.strengthDifference;
+                this.game.promptForSelect(this.challenge.winner, {
+                    activePromptTitle: 'Choose and kneel a character with ' + strength + ' strength or less',
+                    cardCondition: card => this.canIntimidate(card, strength),
+                    onSelect: (player, targetCard) => this.intimidate(card, targetCard)
+                });
+                appliedIntimidate = true;
             }
 
             if(card.hasKeyword('Pillage')) {
@@ -172,6 +180,16 @@ class ChallengeFlow extends BaseStep {
 
             this.game.checkWinCondition(this.challenge.winner);
         });
+    }
+
+    canIntimidate(card, strength) {
+        return !card.kneeled && card.owner === this.challenge.loser && card.getStrength() <= strength;
+    }
+
+    intimidate(sourceCard, targetCard) {
+        targetCard.kneeled = true;
+        this.game.addMessage('{0} uses intimidate from {1} to kneel {2}', sourceCard.owner, sourceCard, targetCard);
+        return true;
     }
 
     completeChallenge() {
