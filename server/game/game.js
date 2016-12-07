@@ -250,6 +250,12 @@ class Game extends EventEmitter {
         this.pipeline.continue();
     }
 
+    cardHasMenuItem(card, menuItem) {
+        return card.menu && card.menu.any(m => {
+            return m.method === menuItem.method;
+        });
+    }
+
     menuItemClick(sourcePlayer, source, cardId, menuItem) {
         var player = this.getPlayerById(sourcePlayer);
 
@@ -259,7 +265,7 @@ class Game extends EventEmitter {
 
         switch(source) {
             case 'agenda':
-                if(player.agenda && player.agenda[menuItem.method]) {
+                if(player.agenda && player.agenda[menuItem.method] && this.cardHasMenuItem(player.agenda, menuItem)) {
                     player.agenda[menuItem.method](player, menuItem.arg);
                 }
 
