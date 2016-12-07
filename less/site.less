@@ -217,7 +217,7 @@ h3 {
   height: @card-height;
 }
 
-.dead {
+.dead, .plot {
   height: @card-width;
 }
 
@@ -256,20 +256,20 @@ h3 {
   padding: 0px;
 }
 
-.dead {
+.dead, .plot {
   position: relative;
   width: @card-height;
   padding: 0px;
   margin-top: auto;
   margin-bottom: auto;
-}
 
-.plot {
-  position: relative;
-  width: @card-width;
-  margin: -7px 0px 0px 0px;
-  padding: 0px;
-  border: none;
+  .popup {
+    position: absolute;
+    width: 200px;
+    min-height: 92px;
+    bottom: 34px;
+    left: 119px;
+  }
 }
 
 .right-side {
@@ -313,14 +313,6 @@ h4 {
 
 .our-side > div:first-child {
   margin-top: auto;
-}
-
-.plot-popup {
-  position: absolute;
-  width: 200px;
-  min-height: 92px;
-  bottom: 34px;
-  left: 119px;
 }
 
 .plot-card.selected {

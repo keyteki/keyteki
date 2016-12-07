@@ -89,8 +89,8 @@ class CardCollection extends React.Component {
 
     render() {
         var className = 'panel ' + this.props.className;
-        var headerText = this.props.title + '(' + this.props.cards.length + ')';
-        var topCard = _.last(this.props.cards);
+        var headerText = this.props.title + ' (' + this.props.cards.length + ')';
+        var topCard = this.props.topCard || _.last(this.props.cards);
         return (
             <div className={className} onDragLeave={this.onDragLeave} onDragOver={this.onDragOver} onDrop={event => this.onDragDrop(event, this.props.source)}
                     onClick={this.onCollectionClick}>
@@ -100,6 +100,7 @@ class CardCollection extends React.Component {
                 {topCard ? <Card card={topCard} source={this.props.source}
                          onMouseOver={this.props.onMouseOver}
                          onMouseOut={this.props.onMouseOut}
+                         disableMouseOver={topCard.facedown}
                          onClick={this.onTopCardClick}
                          horizontal={this.props.orientation === 'horizontal'} /> : null}
                 {this.getPopup()}
@@ -117,8 +118,9 @@ CardCollection.propTypes = {
     onMouseOver: React.PropTypes.func,
     orientation: React.PropTypes.string,
     popupLocation: React.PropTypes.string,
-    source: React.PropTypes.oneOf(['hand', 'discard pile', 'play area', 'dead pile', 'draw deck', 'plot deck', 'attachment']).isRequired,
-    title: React.PropTypes.string
+    source: React.PropTypes.oneOf(['hand', 'discard pile', 'play area', 'dead pile', 'draw deck', 'plot deck', 'revealed plots', 'selected plot', 'attachment']).isRequired,
+    title: React.PropTypes.string,
+    topCard: React.PropTypes.object
 };
 
 export default CardCollection;

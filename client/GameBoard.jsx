@@ -9,6 +9,7 @@ import MenuPane from './GameComponents/MenuPane.jsx';
 import CardZoom from './GameComponents/CardZoom.jsx';
 import Messages from './GameComponents/Messages.jsx';
 import Card from './GameComponents/Card.jsx';
+import CardCollection from './GameComponents/CardCollection.jsx';
 
 import * as actions from './actions';
 
@@ -415,37 +416,12 @@ export class InnerGameBoard extends React.Component {
                                 </div>
                                 <div className='relative'>
                                     {thisPlayer.plotSelected ?
-                                        <div className='panel horizontal-card selected-plot'>
-                                            <img className='kneeled card' src='/img/cards/cardback.jpg' />
-                                        </div> : null
+                                        <Card source='selected plot' card={{ facedown: true, kneeled: true }} horizontal /> : null
                                     }
-                                    <div ref='thisPlayerUsedPlot' className='panel horizontal-card' onClick={this.onUsedPlotDeckClick}>
-                                        <div className='panel-header'>
-                                            {'Active Plot'}
-                                        </div>
-                                        {thisPlayer.activePlot ?
-                                            <img className='horizontal card' src={'/img/cards/' + thisPlayer.activePlot.code + '.png'}
-                                                onMouseOver={this.onMouseOver.bind(this, thisPlayer.activePlot)}
-                                                onMouseOut={this.onMouseOut} /> : null}
-
-                                        {this.state.showUsedPlotDeck ? <div className='panel plot-popup un-kneeled'>
-                                            <div className='panel-header'>
-                                                {'Used Plots (' + thisPlayer.plotDiscard.length + ')'}
-                                            </div>
-                                            {thisPlayerUsedPlotDeck}
-                                        </div> : null}
-                                        {plotMenu}
-                                    </div>
-                                    <div className='panel horizontal-card' onClick={this.state.spectating ? null : this.onPlotDeckClick}>
-                                        <div className='panel-header'>
-                                            {'Plot (' + (this.state.spectating ? thisPlayer.numPlotCards : plotDeck.length) + ')'}
-                                        </div>
-                                        <img className='kneeled card' src='/img/cards/cardback.jpg' />
-
-                                        {this.state.showPlotDeck ? <div className='panel plot-popup un-kneeled'>
-                                            {plotDeck}
-                                        </div> : null}
-                                    </div>
+                                    <CardCollection className='plot' title='Revealed Plots' source='revealed plots' cards={thisPlayer.plotDiscard} topCard={thisPlayer.activePlot}
+                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} />
+                                    <CardCollection className='plot' title='Plots' source='plot deck' cards={thisPlayer.plotDeck} topCard={{ facedown: true, kneeled: true }}
+                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} />
                                 </div>
                             </div>
 
@@ -463,7 +439,7 @@ export class InnerGameBoard extends React.Component {
                                 {otherPlayerCards}
                             </div>
                             <div className='player-board our-side' onDragOver={this.onDragOver}
-                                onDrop={(event) => this.onDragDropEvent(event, 'play area')} >
+                                onDrop={event => this.onDragDropEvent(event, 'play area')} >
                                 {thisPlayerCards}
                             </div>
                         </div>

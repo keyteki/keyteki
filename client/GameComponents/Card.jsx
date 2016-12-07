@@ -214,7 +214,7 @@ Card.propTypes = {
     onMenuItemClick: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
-    source: React.PropTypes.oneOf(['hand', 'discard pile', 'play area', 'dead pile', 'draw deck', 'plot deck', 'attachment', 'agenda']).isRequired,
+    source: React.PropTypes.oneOf(['hand', 'discard pile', 'play area', 'dead pile', 'draw deck', 'plot deck', 'selected plot', 'attachment', 'agenda']).isRequired,
     style: React.PropTypes.object
 };
 
