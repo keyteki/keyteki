@@ -203,7 +203,7 @@ describe('the <Card /> component', function() {
     describe('when card has power', function() {
         beforeEach(function() {
             this.card.power = 4;
-            this.component = ReactDOM.render(<Card card={this.card} source='hand' />, this.node);          
+            this.component = ReactDOM.render(<Card card={this.card} source='play area' />, this.node);          
         });
 
         afterEach(function() {
@@ -238,7 +238,7 @@ describe('the <Card /> component', function() {
             this.card.strength = 1;
             this.card.baseStrength = 2;
 
-            this.component = ReactDOM.render(<Card card={this.card} source='hand' />, this.node);
+            this.component = ReactDOM.render(<Card card={this.card} source='play area' />, this.node);
         });
 
         afterEach(function() {
@@ -258,7 +258,7 @@ describe('the <Card /> component', function() {
         beforeEach(function() {
             this.card.dupes = [{}, {}];
 
-            this.component = ReactDOM.render(<Card card={this.card} source='hand' />, this.node);
+            this.component = ReactDOM.render(<Card card={this.card} source='play area' />, this.node);
         });
 
         afterEach(function() {
@@ -277,7 +277,7 @@ describe('the <Card /> component', function() {
         beforeEach(function() {
             this.card.tokens = { 'poison': 1 }; 
 
-            this.component = ReactDOM.render(<Card card={this.card} source='hand' />, this.node);
+            this.component = ReactDOM.render(<Card card={this.card} source='play area' />, this.node);
         });
 
         afterEach(function() {
@@ -298,7 +298,7 @@ describe('the <Card /> component', function() {
             this.card.power = 3;
             this.card.dupes = [{}, {}];
 
-            this.component = ReactDOM.render(<Card card={this.card} source='hand' />, this.node);
+            this.component = ReactDOM.render(<Card card={this.card} source='play area' />, this.node);
         });
 
         afterEach(function() {
