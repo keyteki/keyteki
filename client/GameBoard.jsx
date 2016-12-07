@@ -20,7 +20,6 @@ export class InnerGameBoard extends React.Component {
         this.onMouseOut = this.onMouseOut.bind(this);
         this.onMouseOver = this.onMouseOver.bind(this);
         this.onCardClick = this.onCardClick.bind(this);
-        this.onOtherPlayerUsedPlotDeckClick = this.onOtherPlayerUsedPlotDeckClick.bind(this);
         this.onDrawClick = this.onDrawClick.bind(this);
         this.onDragDrop = this.onDragDrop.bind(this);
         this.onCommand = this.onCommand.bind(this);
@@ -36,11 +35,7 @@ export class InnerGameBoard extends React.Component {
         this.state = {
             canScroll: true,
             cardToZoom: undefined,
-            showPlotDeck: false,
-            showUsedPlotDeck: false,
-            showOtherPlayerUsedPlotDeck: false,
             showDrawDeck: false,
-            selectedPlot: undefined,
             spectating: true,
             message: '',
             showCardMenu: {}
@@ -159,34 +154,6 @@ export class InnerGameBoard extends React.Component {
 
     onShuffleClick() {
         this.props.socket.emit('shuffledeck');
-    }
-
-    onUsedPlotDeckClick() {
-        var thisPlayer = this.props.state.players[this.props.socket.id];
-
-        if(thisPlayer && thisPlayer.activePlot && thisPlayer.activePlot.menu) {
-            var cardMenus = this.state.showCardMenu;
-
-            cardMenus[thisPlayer.activePlot.code] = !cardMenus[thisPlayer.activePlot.code];
-
-            this.setState({ showCardMenu: cardMenus });
-            
-            return;
-        }
-
-        return this.onShowUsedPlot();
-    }
-
-    onOtherPlayerUsedPlotDeckClick() {
-        if(this.state.showPlotDeck) {
-            this.setState({ showPlotDeck: !this.state.showPlotDeck });
-        }
-
-        if(this.state.showUsedPlotDeck) {
-            this.setState({ showUsedPlotDeck: !this.state.showUsedPlotDeck });
-        }
-
-        this.setState({ showOtherPlayerUsedPlotDeck: !this.state.showOtherPlayerUsedPlotDeck });
     }
 
     onDragDrop(card, source, target) {
