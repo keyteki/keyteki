@@ -18,7 +18,7 @@ class Fealty extends Reducer {
 
         player.faction.kneeled = true;
 
-        this.game.addMessage('{0} uses {1} to kneel their faction card and reduce the cost of the next loyal character by 1', player, this);
+        this.game.addMessage('{0} uses {1} to kneel their faction card and reduce the cost of the next loyal card by 1', player, this);
     }
 
     canReduce(player, card) {
