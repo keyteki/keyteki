@@ -31,11 +31,15 @@ class Card extends React.Component {
         event.dataTransfer.setData('Text', JSON.stringify(dragData));
     }
 
+    isAllowedMenuSource() {
+        return this.props.source === 'play area' || this.props.source === 'agenda';
+    }
+
     onClick(event, card, source) {
         event.preventDefault();
         event.stopPropagation();
 
-        if(!_.isEmpty(this.props.card.menu)) {
+        if(this.isAllowedMenuSource() && !_.isEmpty(this.props.card.menu)) {
             this.setState({showMenu: !this.state.showMenu});
 
             return;
@@ -136,7 +140,7 @@ class Card extends React.Component {
     }
 
     getMenu() {
-        if(this.props.source !== 'play area' && this.props.source !== 'agenda') {
+        if(!this.isAllowedMenuSource()) {
             return null;
         }
 
