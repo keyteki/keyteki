@@ -185,7 +185,7 @@ class PlayerRow extends React.Component {
                 </div>
                 <CardCollection className='discard' title='Discard' source='discard pile' cards={this.props.discardPile}
                                 onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut}
-                                popupLocation={this.props.isMe ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} />
+                                popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} />
 
                 <div className='draw panel' onDragLeave={this.onDragLeave} onDragOver={this.onDragOver} onDrop={(event) => this.onDragDrop(event, 'draw deck')}
                     onClick={this.props.isMe ? this.onDrawClick : null}>
@@ -206,7 +206,7 @@ class PlayerRow extends React.Component {
                 }
                 <CardCollection className='dead' title='Dead' source='dead pile' cards={this.props.deadPile}
                                 onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} 
-                                popupLocation={this.props.isMe ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} orientation='horizontal' />
+                                popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} orientation='horizontal' />
             </div>
         );
     }
