@@ -12,7 +12,9 @@ describe('Kings Of Summer', function() {
         this.plot3 = jasmine.createSpyObj('plot3', ['hasTrait']);
         this.plot4 = jasmine.createSpyObj('plot4', ['hasTrait']);
 
-        this.plot1.hasTrait.and.returnValue(false);
+        this.plot1.hasTrait.and.callFake(trait => {
+            return trait === 'Summer';
+        });
         this.plot2.hasTrait.and.returnValue(false);
 
         this.player1Fake = {};
