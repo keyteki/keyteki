@@ -29,6 +29,10 @@ class PlayerOrderPrompt extends UiPrompt {
         this.players.shift();
     }
 
+    setPlayers(players) {
+        this.players = players;
+    }
+
     isComplete() {
         return this.players.length === 0;
     }

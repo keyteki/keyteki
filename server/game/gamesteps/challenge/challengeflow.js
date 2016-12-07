@@ -4,6 +4,7 @@ const GamePipeline = require('../../gamepipeline.js');
 const SimpleStep = require('../simplestep.js');
 const ChooseStealthTargets = require('./choosestealthtargets.js');
 const FulfillMilitaryClaim = require('./fulfillmilitaryclaim.js');
+const ActionWindow = require('../actionwindow.js');
 
 class ChallengeFlow extends BaseStep {
     constructor(game, challenge) {
@@ -15,10 +16,10 @@ class ChallengeFlow extends BaseStep {
             new SimpleStep(this.game, () => this.announceChallenge()),
             new SimpleStep(this.game, () => this.promptForAttackers()),
             () => new ChooseStealthTargets(this.game, this.challenge, this.challenge.getStealthAttackers()),
-            // TODO: Action window
             new SimpleStep(this.game, () => this.announceAttackerStrength()),
+            new ActionWindow(this.game),
             new SimpleStep(this.game, () => this.promptForDefenders()),
-            // TODO: Action window
+            new ActionWindow(this.game),
             new SimpleStep(this.game, () => this.determineWinner()),
             new SimpleStep(this.game, () => this.unopposedPower()),
             new SimpleStep(this.game, () => this.applyClaim()),
