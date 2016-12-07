@@ -54,8 +54,6 @@ class TheWall extends DrawCard {
             },
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name
         });
-
-        this.game.pipeline.continue();            
     }
 
     kneel(player) {
