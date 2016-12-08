@@ -17,6 +17,11 @@ describe('SerJaimeLannister', function() {
         this.playerSpy.cardsInChallenge = _([]);
 
         this.character = new SerJaimeLannister(this.playerSpy, {});
+
+        this.challenge = {
+            attackingPlayer: this.playerSpy,
+            challengeType: 'military'
+        };
     });
 
     describe('when attackers are declared', function() {
@@ -34,7 +39,8 @@ describe('SerJaimeLannister', function() {
 
             describe('and the attacker is not my owner', function() {
                 beforeEach(function() {
-                    this.character.onAttackersDeclared({}, this.otherPlayerSpy, 'military');
+                    this.challenge.attackingPlayer = this.otherPlayerSpy;
+                    this.character.onAttackersDeclared({}, this.challenge);
                 });
 
                 afterEach(function() {
@@ -52,7 +58,7 @@ describe('SerJaimeLannister', function() {
 
             describe('and the attacker is my owner', function() {
                 beforeEach(function() {
-                    this.character.onAttackersDeclared({}, this.playerSpy, 'military');
+                    this.character.onAttackersDeclared({}, this.challenge);
                 });
 
                 afterEach(function() {
@@ -63,7 +69,7 @@ describe('SerJaimeLannister', function() {
                 describe('and this card is blank', function() {
                     beforeEach(function() {
                         this.character.setBlank();
-                        this.character.onAttackersDeclared({}, this.playerSpy, 'military');
+                        this.character.onAttackersDeclared({}, this.challenge);
                     });
 
                     afterEach(function() {
@@ -93,7 +99,7 @@ describe('SerJaimeLannister', function() {
                     beforeEach(function() {
                         this.playerSpy.cardsInChallenge.push(this.character);
 
-                        this.character.onAttackersDeclared({}, this.playerSpy, 'military');
+                        this.character.onAttackersDeclared({}, this.challenge);
                     });
                     
                     afterEach(function() {
@@ -108,7 +114,8 @@ describe('SerJaimeLannister', function() {
                         beforeEach(function() {
                             this.character.kneeled = true;
                             this.character.keywords['renown'] = 0;
-                            this.character.onAttackersDeclared({}, this.playerSpy, 'intrigue');
+                            this.challenge = 'intrigue';
+                            this.character.onAttackersDeclared({}, this.challenge);
                         });
 
                         it('should set not renown', function() {

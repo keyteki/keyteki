@@ -30,16 +30,16 @@ class RedCloaks extends DrawCard {
         this.usedThisRound = false;
     }
 
-    onAttackersDeclared(e, player, challengeType) {
-        if(!this.inPlay || this.owner !== player || challengeType !== 'intrigue') {
+    onAttackersDeclared(e, challenge) {
+        if(!this.inPlay || this.owner !== challenge.attackingPlayer || challenge.challengeType !== 'intrigue') {
             return;
         }
 
         this.strengthModifier += this.tokens['gold'];
     }
 
-    onChallengeFinished(challengeType) {
-        if(challengeType === 'intrigue') {
+    onChallengeFinished(e, challenge) {
+        if(challenge.challengeType === 'intrigue') {
             this.strengthModifier -= this.tokens['gold'];
         }
     }

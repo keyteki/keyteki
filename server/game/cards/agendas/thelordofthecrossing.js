@@ -7,13 +7,14 @@ class TheLordOfTheCrossing extends AgendaCard {
         this.registerEvents(['onChallenge', 'afterChallenge']);
     }
 
-    onChallenge(e, player) {
+    onChallenge(e, challenge) {
+        var player = challenge.attackingPlayer;
         if(this.owner !== player) {
             return;
         }
 
         player.cardsInChallenge.each(card => {
-            var numChallenges = player.getNumberOfChallengesInitiated(); 
+            var numChallenges = player.getNumberOfChallengesInitiated();
             if(numChallenges === 0) {
                 card.strengthModifier--;
             } else if(numChallenges === 2) {
@@ -21,16 +22,16 @@ class TheLordOfTheCrossing extends AgendaCard {
             }
         });
     }
-    
-    afterChallenge(e, challengeType, winner, loser, challenger) {
-        if(challenger !== this.owner) {
+
+    afterChallenge(e, challenge) {
+        if(challenge.attackingPlayer !== this.owner) {
             return;
         }
         
         var currentChallenge = this.owner.getNumberOfChallengesInitiated();
-        if(winner === this.owner && currentChallenge === 3) {
-            this.game.addMessage('{0} gains 1 power from {1}', winner, this);
-            this.game.addPower(winner, 1);
+        if(challenge.winner === this.owner && currentChallenge === 3) {
+            this.game.addMessage('{0} gains 1 power from {1}', challenge.winner, this);
+            this.game.addPower(challenge.winner, 1);
         }
 
         this.owner.cardsInChallenge.each(card => {

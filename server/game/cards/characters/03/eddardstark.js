@@ -7,7 +7,8 @@ class EddardStark extends DrawCard {
         this.registerEvents(['onRenown']);
     }
 
-    onRenown(event, player, card) {
+    onRenown(event, challenge, card) {
+        var player = challenge.winner;
         if(!this.inPlay || this.isBlank() || this.owner !== player || card !== this) {
             return;
         }

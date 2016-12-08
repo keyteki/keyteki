@@ -3,6 +3,7 @@
 
 const cards = require('../../../../../server/game/cards');
 const AClashOfKings = cards['01001'];
+const Challenge = require('../../../../../server/game/challenge.js');
 
 describe('AClashOfKings', function() {
     beforeEach(function() {
@@ -41,10 +42,18 @@ describe('AClashOfKings', function() {
     });
 
     describe('when a challenge is finished', function() {
+        beforeEach(function() {
+            this.challenge = new Challenge(this.gameSpy, this.playerSpy, this.otherPlayerSpy, 'power');
+            this.challenge.winner = this.playerSpy
+            this.challenge.loser = this.otherPlayerSpy;
+        });
+
         describe('and this plot is not in play', function() {
             beforeEach(function() {
                 this.plot.inPlay = false;
-                this.plot.afterChallenge({}, 'power', this.otherPlayerSpy, this.playerSpy);
+                this.challenge.winner = this.otherPlayerSpy;
+                this.challenge.loser = this.playerSpy
+                this.plot.afterChallenge({}, this.challenge);
             });
 
             it('should not change any power', function() {
@@ -59,18 +68,21 @@ describe('AClashOfKings', function() {
 
             describe('and the challenge type was not power', function() {
                 beforeEach(function() {
-                    this.plot.afterChallenge({}, 'not power', this.playerSpy, this.otherPlayerSpy);
+                    this.challenge.challengeType = 'not power';
+                    this.plot.afterChallenge({}, this.challenge);
                 });
 
                 it('should not change any power', function() {
                     expect(this.gameSpy.transferPower).not.toHaveBeenCalled();
                 });
             });
-        
+
             describe('and the challenge type was power', function() {
                 describe('and our owner lost', function() {
                     beforeEach(function() {
-                        this.plot.afterChallenge({}, 'power', this.otherPlayerSpy, this.playerSpy);
+                        this.challenge.winner = this.otherPlayerSpy;
+                        this.challenge.loser = this.playerSpy
+                        this.plot.afterChallenge({}, this.challenge);
                     });
 
                     it('should not change any power', function() {
@@ -81,7 +93,7 @@ describe('AClashOfKings', function() {
                 describe('and our owner won', function() {
                     describe('but the loser did not have any power', function() {
                         beforeEach(function() {
-                            this.plot.afterChallenge({}, 'power', this.playerSpy, this.otherPlayerSpy);
+                            this.plot.afterChallenge({}, this.challenge);
                         });
 
                         it('should not change any power', function() {
@@ -92,7 +104,7 @@ describe('AClashOfKings', function() {
                     describe('and the loser had power', function() {
                         beforeEach(function() {
                             this.otherPlayerSpy.power = 1;
-                            this.plot.afterChallenge({}, 'power', this.playerSpy, this.otherPlayerSpy);
+                            this.plot.afterChallenge({}, this.challenge);
                         });
 
                         it('should transfer one power from the loser to our owner', function() {

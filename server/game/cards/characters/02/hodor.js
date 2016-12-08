@@ -7,7 +7,8 @@ class Hodor extends DrawCard {
         this.registerEvents(['onAttackerSelected']);
     }
 
-    onAttackerSelected(event, player, card) {
+    onAttackerSelected(event, challenge, card) {
+        var player = challenge.attackingPlayer;
         if(!this.inPlay || this.owner !== player || card !== this) {
             return;
         }

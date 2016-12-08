@@ -7,23 +7,23 @@ class RattleshirtsRaiders extends DrawCard {
         this.registerEvents(['afterChallenge']);
     }
 
-    afterChallenge(e, challengeType, winner, loser, challenger) {
-        if(!this.inPlay || challenger !== this.owner) {
+    afterChallenge(e, challenge) {
+        if(!this.inPlay || challenge.attackingPlayer !== this.owner) {
             return;
         }
 
-        if(winner !== this.owner) {
+        if(challenge.winner !== this.owner) {
             return;
         }
 
-        if(!challenger.cardsInChallenge.contains(this)) {
+        if(!challenge.attackingPlayer.cardsInChallenge.contains(this)) {
             return;
         }
 
         this.game.promptForSelect(this.owner, {
             activePromptTitle: 'Select attachment to discard',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            cardCondition: card => card.inPlay && card.owner === loser && card.getType() === 'attachment',
+            cardCondition: card => card.inPlay && card.owner === challenge.loser && card.getType() === 'attachment',
             onSelect: (p, card) => this.onCardSelected(p, card)
         });
     }

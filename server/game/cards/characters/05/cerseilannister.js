@@ -1,14 +1,15 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class CerseiLannister extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
-        
+
         this.registerEvents(['onAttackersDeclared']);
     }
 
-    onAttackersDeclared(e, player, challengeType) {
-        if(!this.inPlay || this.owner !== player || challengeType !== 'intrigue') {
+    onAttackersDeclared(e, challenge) {
+        var player = challenge.attackingPlayer;
+        if(!this.inPlay || this.owner !== player || challenge.challengeType !== 'intrigue') {
             return;
         }
 

@@ -11,7 +11,8 @@ class GreatKraken extends DrawCard {
         this.abilityUsed = 0;
     }
 
-    onUnopposedWin(event, winner) {
+    onUnopposedWin(event, challenge) {
+        var winner = challenge.winner;
         if(!this.inPlay || this.isBlank() || this.owner !== winner && this.abilityUsed < 2) {
             return;
         }

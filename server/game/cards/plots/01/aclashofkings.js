@@ -7,15 +7,15 @@ class AClashOfKings extends PlotCard {
         this.registerEvents(['afterChallenge']);
     }
 
-    afterChallenge(e, challengeType, winner, loser) {
+    afterChallenge(e, challenge) {
         if(!this.inPlay) {
             return;
         }
 
-        if(winner === this.owner && challengeType === 'power' && loser.power > 0) {
-            this.game.addMessage('{0} uses {1} to move 1 power from {2}\'s faction card to their own', winner, this, loser);
+        if(challenge.winner === this.owner && challenge.challengeType === 'power' && challenge.loser.power > 0) {
+            this.game.addMessage('{0} uses {1} to move 1 power from {2}\'s faction card to their own', challenge.winner, this, challenge.loser);
 
-            this.game.transferPower(winner, loser, 1);
+            this.game.transferPower(challenge.winner, challenge.loser, 1);
         }
     }
 }

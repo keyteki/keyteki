@@ -11,16 +11,16 @@ class Lannisport extends DrawCard {
         this.abilityUsed = 0;
     }
 
-    afterChallenge(event, challengeType, winner) {
+    afterChallenge(event, challenge) {
         if(!this.inPlay || this.isBlank()) {
             return;
         }
 
-        if(challengeType !== 'intrigue' || winner !== this.owner) {
+        if(challenge.challengeType !== 'intrigue' || challenge.winner !== this.owner) {
             return;
         }
 
-        this.game.promptWithMenu(winner, this, {
+        this.game.promptWithMenu(challenge.winner, this, {
             activePrompt: {
                 menuTitle: 'Trigger ' + this.name + '?',
                 buttons: [

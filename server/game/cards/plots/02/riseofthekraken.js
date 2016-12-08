@@ -7,7 +7,8 @@ class RiseOfTheKraken extends PlotCard {
         this.registerEvents(['onUnopposedWin']);
     }
 
-    onUnopposedWin(e, player) {
+    onUnopposedWin(e, challenge) {
+        var player = challenge.winner;
         if(!this.inPlay || this.owner !== player) {
             return;
         }
