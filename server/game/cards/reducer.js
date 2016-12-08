@@ -53,6 +53,7 @@ class Reducer extends DrawCard {
 
     leavesPlay() {
         this.abilityUsed = false;
+        super.leavesPlay();
     }
 }
 
