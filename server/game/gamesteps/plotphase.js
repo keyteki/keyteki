@@ -39,7 +39,7 @@ class PlotPhase extends Phase {
 
         _.each(this.game.getPlayers(), p => {
             var playerInitiative = p.getTotalInitiative();
-            var playerPower = p.power;
+            var playerPower = p.faction.power;
 
             if(playerInitiative === highestInitiative) {
                 if(playerPower === lowestPower) {

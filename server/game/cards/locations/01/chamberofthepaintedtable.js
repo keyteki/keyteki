@@ -30,7 +30,7 @@ class ChamberOfThePaintedTable extends DrawCard {
         }
 
         var otherPlayer = this.game.getOtherPlayer(player);
-        if(!otherPlayer || otherPlayer.power === 0) {
+        if(!otherPlayer || otherPlayer.faction.power === 0) {
             return false;
         }
 

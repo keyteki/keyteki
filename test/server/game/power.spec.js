@@ -22,28 +22,28 @@ describe('the Game', () => {
     describe('the transferPower() function', () => {
         describe('when the loser has enough power', () => {
             it('should transfer the exact amount of power', () => {
-                winner.power = 1;
-                loser.power = 2;
+                winner.faction.power = 1;
+                loser.faction.power = 2;
 
                 game.transferPower(winner, loser, 2);
 
-                expect(winner.power).toBe(3);
+                expect(winner.faction.power).toBe(3);
             });
         });
 
         describe('when the loser does not have enough power', () => {
             beforeEach(() => {
-                winner.power = 1;
-                loser.power = 2;
+                winner.faction.power = 1;
+                loser.faction.power = 2;
                 game.transferPower(winner, loser, 3);
             });
 
             it('should increase the winner power by the losers total power', () => {
-                expect(winner.power).toBe(3);
+                expect(winner.faction.power).toBe(3);
             });
 
             it('should set the losers power to 0', () => {
-                expect(loser.power).toBe(0);
+                expect(loser.faction.power).toBe(0);
             });
         });
     });

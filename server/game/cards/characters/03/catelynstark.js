@@ -18,7 +18,7 @@ class CatelynStark extends DrawCard {
         this.strengthModifier -= this.lastPower;
         this.strengthModifier += this.power;
 
-        this.lastPower = this.owner.power;
+        this.lastPower = this.owner.faction.power;
     }
 
     onBeginRound() {

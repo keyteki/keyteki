@@ -327,10 +327,10 @@ class Game extends EventEmitter {
     }
 
     addPower(player, power) {
-        player.power += power;
+        player.factuin,power += power;
 
-        if(player.power < 0) {
-            player.power = 0;
+        if(player.faction.power < 0) {
+            player.faction.power = 0;
         }
 
         this.raiseEvent('onStatChanged', player, 'power');
@@ -339,9 +339,9 @@ class Game extends EventEmitter {
     }
 
     transferPower(winner, loser, power) {
-        var appliedPower = Math.min(loser.power, power);
-        loser.power -= appliedPower;
-        winner.power += appliedPower;
+        var appliedPower = Math.min(loser.faction.power, power);
+        loser.faction.power -= appliedPower;
+        winner.faction.power += appliedPower;
 
         this.raiseEvent('onStatChanged', loser, 'power');
         this.raiseEvent('onStatChanged', winner, 'power');

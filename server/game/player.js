@@ -249,7 +249,6 @@ class Player extends Spectator {
 
         this.gold = 0;
         this.claim = 0;
-        this.power = 0;
         this.reserve = 0;
         this.readyToStart = false;
         this.cardsInPlay = _([]);
@@ -799,7 +798,7 @@ class Player extends Spectator {
     getTotalPower() {
         var power = this.cardsInPlay.reduce((memo, card) => {
             return memo + card.getPower();
-        }, this.power);
+        }, this.faction.power);
 
         return power;
     }
@@ -987,7 +986,6 @@ class Player extends Spectator {
             buttons: isActivePlayer ? this.buttons : undefined,
             menuTitle: isActivePlayer ? this.menuTitle : undefined,
             gold: !isActivePlayer && this.phase === 'setup' ? 0 : this.gold,
-            power: this.power,
             totalPower: this.getTotalPower(),
             reserve: this.reserve,
             claim: this.claim,
