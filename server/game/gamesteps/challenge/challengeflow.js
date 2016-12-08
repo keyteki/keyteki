@@ -22,7 +22,7 @@ class ChallengeFlow extends BaseStep {
             new ActionWindow(this.game),
             new SimpleStep(this.game, () => this.determineWinner()),
             new SimpleStep(this.game, () => this.unopposedPower()),
-            new SimpleStep(this.game, () => this.applyClaim()),
+            new SimpleStep(this.game, () => this.beforeClaim()),
             new SimpleStep(this.game, () => this.applyKeywords())
         ]);
     }
@@ -125,7 +125,7 @@ class ChallengeFlow extends BaseStep {
         }
     }
 
-    applyClaim() {
+    beforeClaim() {
         if(!this.challenge.isAttackerTheWinner()) {
             return;
         }
@@ -140,17 +140,41 @@ class ChallengeFlow extends BaseStep {
         if(claim <= 0) {
             this.game.addMessage('The claim value for {0} is 0, no claim occurs', this.challenge.challengeType);
         } else {
-            if(this.challenge.challengeType === 'military') {
-                this.game.queueStep(new FulfillMilitaryClaim(this.game, this.challenge.loser, claim));
-                return;
-            } else if(this.challenge.challengeType === 'intrigue') {
-                this.challenge.loser.discardAtRandom(claim);
-            } else if(this.challenge.challengeType === 'power') {
-                this.game.transferPower(this.challenge.winner, this.challenge.loser, claim);
-            }
+            this.game.promptWithMenu(this.challenge.winner, this, {
+                activePrompt: {
+                    menuTitle: 'Perform before claim actions',
+                    buttons: [
+                        { text: 'Apply Claim', command: 'menuButton', method: 'applyClaim' },
+                        { text: 'Continue', command: 'menuButton', method: 'cancel' }
+                    ]
+                },
+                waitingPromptTitle: 'Waiting for opponent to apply claim'
+            });
+
+            this.challenge.claim = claim;
         }
 
         this.game.raiseEvent('afterClaim', this.challenge);
+    }
+
+    applyClaim(player) {
+        if(player !== this.challenge.winner) {
+            return false;
+        }
+        
+        switch(this.challenge.challengeType) {
+            case 'military':
+                this.game.queueStep(new FulfillMilitaryClaim(this.game, this.challenge.loser, this.challenge.claim));
+                break;
+            case 'intrigue':
+                this.challenge.loser.discardAtRandom(this.challenge.claim);
+                break;
+            case 'power':
+                this.game.transferPower(this.challenge.winner, this.challenge.loser, this.challenge.claim);
+                break;
+        }
+
+        return true;
     }
 
     applyKeywords() {
