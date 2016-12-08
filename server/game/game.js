@@ -327,7 +327,7 @@ class Game extends EventEmitter {
     }
 
     addPower(player, power) {
-        player.factuin,power += power;
+        player.faction.power += power;
 
         if(player.faction.power < 0) {
             player.faction.power = 0;
