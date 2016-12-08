@@ -11,12 +11,7 @@ function getDeckCount(deck) {
 }
 
 function hasTrait(card, trait) {
-    var traits = card.card.traits;
-    var split = traits.split('.');
-
-    return _.any(split, function(t) {
-        return t.toLowerCase() === trait.toLowerCase();
-    });
+    return card.card.traits && card.card.traits.toLowerCase().indexOf(trait.toLowerCase() + '.') !== -1;
 }
 
 function isBannerCard(bannerCode, faction) {
