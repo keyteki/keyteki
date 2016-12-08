@@ -4,7 +4,7 @@ const MarshalCardsPrompt = require('./marshaling/marshalcardsprompt.js');
 
 class MarshalingPhase extends Phase {
     constructor(game) {
-        super(game);
+        super(game, 'marshal');
         this.initialise([
             new SimpleStep(game, () => this.beginMarshal()),
             new SimpleStep(game, () => this.promptForMarshal())

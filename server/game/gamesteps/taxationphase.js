@@ -6,7 +6,7 @@ const EndRoundPrompt = require('./taxation/endroundprompt.js');
 
 class TaxationPhase extends Phase {
     constructor(game) {
-        super(game);
+        super(game, 'taxation');
         this.initialise([
             new SimpleStep(game, () => this.returnGold()),
             new DiscardToReservePrompt(game),

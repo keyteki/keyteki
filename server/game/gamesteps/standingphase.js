@@ -4,7 +4,7 @@ const SimpleStep = require('./simplestep.js');
 
 class StandingPhase extends Phase {
     constructor(game) {
-        super(game);
+        super(game, 'standing');
         this.initialise([
             new SimpleStep(game, () => this.standCards()),
         ]);

@@ -1,14 +1,19 @@
+const _ = require('underscore');
 const BaseStep = require('./basestep.js');
 const GamePipeline = require('../gamepipeline.js');
+const SimpleStep = require('./simplestep.js');
 
 class Phase extends BaseStep {
-    constructor(game) {
+    constructor(game, name) {
         super(game);
+        this.name = name;
         this.pipeline = new GamePipeline();
     }
 
     initialise(steps) {
-        this.pipeline.initialise(steps);
+        var startStep = new SimpleStep(this.game, () => this.startPhase());
+        var endStep = new SimpleStep(this.game, () => this.endPhase());
+        this.pipeline.initialise([startStep].concat(steps).concat([endStep]));
     }
 
     queueStep(step) {
@@ -33,6 +38,23 @@ class Phase extends BaseStep {
 
     continue() {
         return this.pipeline.continue();
+    }
+
+    startPhase() {
+        this.game.currentPhase = this.name;
+        _.each(this.game.getPlayers(), player => {
+            player.phase = this.name;
+        });
+        this.game.raiseEvent('onPhaseBegins', this.name);
+    }
+
+    endPhase() {
+        this.game.raiseEvent('onPhaseEnds', this.name);
+        this.game.currentPhase = '';
+        _.each(this.game.getPlayers(), player => {
+            player.phase = '';
+        });
+        this.game.raiseEvent('onAtEndOfPhase');
     }
 }
 

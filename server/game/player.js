@@ -267,7 +267,6 @@ class Player extends Spectator {
         }
 
         this.gold = 8;
-        this.phase = 'setup';
     }
 
     mulligan() {
@@ -434,15 +433,13 @@ class Player extends Spectator {
                 processedCards.push(card);
                 this.game.raiseEvent('onCardEntersPlay', card);
             }
-            
+
         });
 
         this.cardsInPlay = processedCards;
     }
 
     startPlotPhase() {
-        this.phase = 'plot';
-
         this.gold = 0;
         this.claim = 0;
         this.reserve = 0;
@@ -505,13 +502,10 @@ class Player extends Spectator {
     }
 
     drawPhase() {
-        this.phase = 'draw';
         this.drawCardsToHand(2);
     }
 
     beginMarshal() {
-        this.phase = 'marshal';
-
         this.gold += this.getTotalIncome();
         this.reserve = this.getTotalReserve();
         this.claim = this.activePlot.claim || 0;

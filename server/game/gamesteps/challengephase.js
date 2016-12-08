@@ -6,7 +6,7 @@ const ChallengeFlow = require('./challenge/challengeflow.js');
 
 class ChallengePhase extends Phase {
     constructor(game) {
-        super(game);
+        super(game, 'challenge');
         this.initialise([
             new SimpleStep(this.game, () => this.beginPhase()),
             new SimpleStep(this.game, () => this.promptForChallenge())
@@ -17,7 +17,6 @@ class ChallengePhase extends Phase {
         this.remainingPlayers = this.game.getPlayersInFirstPlayerOrder();
         _.each(this.remainingPlayers, player => {
             player.activePlot.onBeginChallengePhase();
-            player.phase = 'challenge';
         });
     }
 

@@ -7,7 +7,7 @@ const CheckAttachmentsPrompt = require('./setup/checkattachmentsprompt.js');
 
 class SetupPhase extends Phase {
     constructor(game) {
-        super(game);
+        super(game, 'setup');
         this.initialise([
             new KeepOrMulliganPrompt(game),
             new SimpleStep(game, () => this.startGame()),

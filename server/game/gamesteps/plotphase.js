@@ -7,7 +7,7 @@ const ResolvePlots = require('./plot/resolveplots.js');
 
 class PlotPhase extends Phase {
     constructor(game) {
-        super(game);
+        super(game, 'plot');
         this.initialise([
             new SimpleStep(game, () => this.startPlotPhase()),
             new SelectPlotPrompt(game),

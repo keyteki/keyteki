@@ -16,7 +16,6 @@ class DominancePhase extends Phase {
         var dominanceWinner = undefined;
 
         _.each(this.game.getPlayers(), player => {
-            player.phase = 'dominance';
             var dominance = player.getDominance();
 
             lowestDominance = dominance;
