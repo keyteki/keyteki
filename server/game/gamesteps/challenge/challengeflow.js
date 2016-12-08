@@ -145,7 +145,7 @@ class ChallengeFlow extends BaseStep {
                     menuTitle: 'Perform before claim actions',
                     buttons: [
                         { text: 'Apply Claim', command: 'menuButton', method: 'applyClaim' },
-                        { text: 'Continue', command: 'menuButton', method: 'cancel' }
+                        { text: 'Continue', command: 'menuButton', method: 'cancelClaim' }
                     ]
                 },
                 waitingPromptTitle: 'Waiting for opponent to apply claim'
@@ -173,6 +173,12 @@ class ChallengeFlow extends BaseStep {
                 this.game.transferPower(this.challenge.winner, this.challenge.loser, this.challenge.claim);
                 break;
         }
+
+        return true;
+    }
+
+    cancelClaim(player) {
+        this.game.addMessage('{0} continues without applying claim', player, this);
 
         return true;
     }
