@@ -743,14 +743,14 @@ class Player extends Spectator {
         });
     }
 
-    killCharacter(card) {
+    killCharacter(card, allowSave = true) {
         var character = this.findCardInPlayByUuid(card.uuid);
 
         if(!character) {
             return;
         }
 
-        if(!character.dupes.isEmpty()) {
+        if(!character.dupes.isEmpty() && allowSave) {
             var discardedDupe = character.dupes.first();
 
             character.dupes = _(character.dupes.slice(1));

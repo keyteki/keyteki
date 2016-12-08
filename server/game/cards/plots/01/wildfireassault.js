@@ -35,7 +35,7 @@ class WildfireAssault extends PlotCard {
             var paramIndex = 2;
 
             _.each(toKill, card => {
-                player.discardCard(card.uuid, player.deadPile);
+                player.killCharacter(card, false);
 
                 params += '{' + paramIndex++ + '} ';
 
