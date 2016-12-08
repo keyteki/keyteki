@@ -7,6 +7,8 @@ module.exports = function(config) {
 
         files: [
             'test/client/tests.webpack.js',
+            'node_modules/jquery/dist/jquery.js',
+            'node_modules/bootstrap/dist/js/bootstrap.js',
             { pattern: 'public/img/**/*.jpg', included: false, watched: false, served: true},
             { pattern: 'public/img/**/*.png', included: false, watched: false, served: true}
         ],

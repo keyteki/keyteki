@@ -128,6 +128,7 @@ class DeckEditor extends React.Component {
 
         this.setState({ drawCards: [], plotCards: [] }, () => {
             _.each(split, line => {
+                line = line.trim();
                 var index = 2;
 
                 if(!$.isNumeric(line[0])) {

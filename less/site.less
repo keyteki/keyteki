@@ -1,6 +1,8 @@
 @import "~bootstrap/less/bootstrap";
 
 @brand-primary: green;
+@background-color: #1E1E1E;
+@foreground-color: #C1C2C3;
 
 @card-width: 64px;
 @card-height: 84px;
@@ -16,8 +18,26 @@
 
 body {
   padding-top: 75px;
-  background-color: #1E1E1E;
-  color: #C1C2C3
+  background-color: @background-color;
+  color: @foreground-color
+}
+
+.popover.right {
+  .arrow {
+    &:after {
+      border-right-color: @background-color
+    }
+  }  
+}
+
+.popover {
+  background-color: @background-color;
+  color: @foreground-color;
+  width: 200px;
+
+  li {
+    list-style: none;
+  }
 }
 
 #container { 

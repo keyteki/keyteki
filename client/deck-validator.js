@@ -54,31 +54,67 @@ export function validateDeck(deck) {
     var plotCount = getDeckCount(deck.plotCards);
     var drawCount = getDeckCount(deck.drawCards);
     var status = 'Valid';
+    var requiredPlots = 7;
+    var isRains = false;
+    var extendedStatus = [];
 
-    if(drawCount < 60) {
-        status = 'Too few draw cards';
+    // "The Rains of Castamere"
+    if(deck.agenda && deck.agenda.code === '05045') {
+        isRains = true;
+        requiredPlots = 12;
     }
 
-    if(plotCount < 7) {
-        status = 'Too few plot cards';
+    if(drawCount < 60) {
+        status = 'Invalid';
+        extendedStatus.push('Too few draw cards');
+    }
+
+    if(plotCount < requiredPlots) {
+        status = 'Invalid';
+        extendedStatus.push('Too few plot cards');
     }
 
     var combined = _.union(deck.plotCards, deck.drawCards);
 
     if(_.any(combined, function(card) {
-        return card.count > card.card.deck_limit;
+        if(card.count > card.card.deck_limit) {
+            extendedStatus.push(card.card.label + ' has limit ' + card.card.deck_limit);
+
+            return true;
+        }
+
+        return false;
     })) {
         status = 'Invalid';
     }
 
-    if(plotCount > 7) {
+    if(plotCount > requiredPlots) {
+        extendedStatus.push('Too many plots');
         status = 'Invalid';
+    }
+
+    if(isRains) {
+        var schemePlots = _.filter(deck.plotCards, plot => {
+            return hasTrait(plot, 'Scheme');
+        });
+
+        var groupedSchemes = _.groupBy(schemePlots, plot => {
+            return plot.card.code;
+        });
+
+        if(_.size(groupedSchemes) !== 5 && !_.all(groupedSchemes, plot => {
+            return plot.count === 1;
+        })) {
+            extendedStatus.push('Rains requires 5 different scheme plots');
+            status = 'Invalid';
+        }
     }
 
     // Kings of summer        
     if(deck.agenda && deck.agenda.code === '04037' && _.any(deck.plotCards, card => {
         return hasTrait(card, 'winter');
     })) {
+        extendedStatus.push('Kings of Summer cannot include Winter plots');
         status = 'Invalid';
     }
 
@@ -86,6 +122,7 @@ export function validateDeck(deck) {
     if(deck.agenda && deck.agenda.code === '04038' && _.any(deck.plotCards, card => {
         return hasTrait(card, 'summer');
     })) {
+        extendedStatus.push('Kings of Winter cannot include Summer plots');
         status = 'Invalid';
     }
 
@@ -102,12 +139,14 @@ export function validateDeck(deck) {
 
         return bannerCard || faction === deck.faction.value.toLowerCase() || faction === 'neutral';
     })) {
+        extendedStatus.push('Too many out of faction cards');
         status = 'Invalid';
     }
 
     if(bannerCount > 0 && bannerCount < 12) {
+        extendedStatus.push('Not enough banner faction cards');
         status = 'Invalid';
     }
 
-    return { status: status, plotCount: plotCount, drawCount: drawCount };
+    return { status: status, plotCount: plotCount, drawCount: drawCount, extendedStatus: extendedStatus };
 }
