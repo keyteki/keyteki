@@ -59,7 +59,7 @@ class Card extends React.Component {
     getCounters() {
         var counters = {};
 
-        if(this.props.source !== 'play area') {
+        if(this.props.source !== 'play area' && this.props.source !== 'faction') {
             return null;
         }
 
@@ -240,7 +240,7 @@ Card.propTypes = {
     onMenuItemClick: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
-    source: React.PropTypes.oneOf(['hand', 'discard pile', 'play area', 'dead pile', 'draw deck', 'plot deck', 'selected plot', 'attachment', 'agenda', 'faction']).isRequired,
+    source: React.PropTypes.oneOf(['hand', 'discard pile', 'play area', 'dead pile', 'draw deck', 'plot deck', 'revealed plots', 'selected plot', 'attachment', 'agenda', 'faction']).isRequired,
     style: React.PropTypes.object
 };
 
