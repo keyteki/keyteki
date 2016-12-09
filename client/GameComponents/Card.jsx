@@ -182,6 +182,8 @@ class Card extends React.Component {
 
         if(this.props.card.selected) {
             cardClass += ' selected';
+        } else if(this.props.card.controlled) {
+            cardClass += ' controlled';
         } else if(this.props.card.new) {
             cardClass += ' new';
         }
@@ -222,6 +224,7 @@ Card.propTypes = {
         attachments: React.PropTypes.array,
         baseStrength: React.PropTypes.number,
         code: React.PropTypes.string,
+        controlled: React.PropTypes.bool,
         dupes: React.PropTypes.array,
         facedown: React.PropTypes.bool,
         kneeled: React.PropTypes.bool,

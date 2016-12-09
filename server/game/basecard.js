@@ -198,6 +198,7 @@ class BaseCard {
     getSummary(isActivePlayer, hideWhenFaceup) {
         return isActivePlayer || (!this.facedown && !hideWhenFaceup) ? {
             code: this.cardData.code,
+            controlled: this.owner !== this.controller,
             facedown: this.facedown,
             menu: this.getMenu(),
             name: this.cardData.label,
