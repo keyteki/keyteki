@@ -62,7 +62,7 @@ class InnerPendingGame extends React.Component {
 
     isGameReady() {
         if(!_.all(this.props.currentGame.players, player => {
-            return !!player.deck;
+            return !!player.deck.selected;
         })) {
             return false;
         }
@@ -86,7 +86,7 @@ class InnerPendingGame extends React.Component {
         var deck = null;
         var selectLink = null;
 
-        if(player && player.deck) {
+        if(player && player.deck && player.deck.selected) {
             if(playerIsMe) {
                 deck = <span className='deck-selection'>{player.deck.name}</span>;
                 selectLink = <span className='deck-link' data-toggle='modal' data-target='#decks-modal'>Select deck...</span>;
@@ -109,7 +109,7 @@ class InnerPendingGame extends React.Component {
         }
 
         if(!_.all(this.props.currentGame.players, player => {
-            return !!player.deck;
+            return !!player.deck.selected;
         })) {
             return 'Waiting for players to select decks';
         }
