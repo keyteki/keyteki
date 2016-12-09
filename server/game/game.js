@@ -378,15 +378,21 @@ class Game extends EventEmitter {
         if(!player) {
             return;
         }
+        
+        var target = player;
 
-        player[stat] += value;
+        if(stat === 'power') {
+            target = player.faction;
+        } 
+
+        target[stat] += value;
 
         this.raiseEvent('onStatChanged', player, stat, value);
 
-        if(player[stat] < 0) {
-            player[stat] = 0;
+        if(target[stat] < 0) {
+            target[stat] = 0;
         } else {
-            this.addMessage('{0} sets {1} to {2} ({3})', player, stat, player[stat], (value > 0 ? '+' : '') + value);
+            this.addMessage('{0} sets {1} to {2} ({3})', player, stat, target[stat], (value > 0 ? '+' : '') + value);
         }
     }
 
