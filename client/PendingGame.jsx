@@ -20,6 +20,7 @@ class InnerPendingGame extends React.Component {
         this.onChange = this.onChange.bind(this);
         this.onKeyPress = this.onKeyPress.bind(this);
         this.onSendClick = this.onSendClick.bind(this);
+        this.onMouseOut = this.onMouseOver.bind(this);
         
         this.state = {
             playerCount: 1,
@@ -156,6 +157,10 @@ class InnerPendingGame extends React.Component {
         this.setState({ message: event.target.value });
     }
 
+    onMouseOver(card) {
+        this.props.zoomCard(card);
+    }
+
     render() {
         var index = 0;
         var decks = this.state.decks ? _.map(this.state.decks, deck => {
@@ -234,7 +239,8 @@ InnerPendingGame.propTypes = {
     cards: React.PropTypes.array,
     currentGame: React.PropTypes.object,
     socket: React.PropTypes.object,
-    username: React.PropTypes.string
+    username: React.PropTypes.string,
+    zoomCard: React.PropTypes.func
 };
 
 function mapStateToProps(state) {
