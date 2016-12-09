@@ -1,6 +1,6 @@
 const DrawCard = require('../../../drawcard.js');
  
-class NorthernRookery extends DrawCard {
+class TheGodsEye extends DrawCard {
     getReserve() {
         return 1;
     }
@@ -10,6 +10,6 @@ class NorthernRookery extends DrawCard {
     }
 }
 
-NorthernRookery.code = '04058';
+TheGodsEye.code = '04058';
 
-module.exports = NorthernRookery;
+module.exports = TheGodsEye;
