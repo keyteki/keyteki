@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import Avatar from '../Avatar.jsx';
+
 import * as actions from '../actions';
 
 export class InnerPlayerStats extends React.Component {
@@ -15,10 +17,16 @@ export class InnerPlayerStats extends React.Component {
     }
 
     render() {
+        var playerAvatar = this.props.user ? (
+                    <div className='player-avatar' key={this.props.user.id}>
+                        <Avatar emailHash={this.props.user.emailHash} /><b>{this.props.user.username}</b>
+                    </div>) : null;
+
         return (
             <div>
-                <div className='panel state'>
-                    <div>
+                <div className='panel'>
+                {playerAvatar}
+                    <div className='state'>
                         <span>{this.props.gold + ' Gold'}</span>
                         {this.props.isMe ?
                             <div className='pull-right'>
@@ -27,7 +35,7 @@ export class InnerPlayerStats extends React.Component {
                             </div> :
                             null}
                     </div>
-                    <div>
+                    <div className='state'>
                         <span>{this.props.power + ' Power'}</span>
                         {this.props.isMe ?
                             <div className='pull-right'>
@@ -36,7 +44,7 @@ export class InnerPlayerStats extends React.Component {
                             </div> :
                             null}
                     </div>
-                    <div>
+                    <div className='state'>
                         <span>{this.props.reserve + ' Reserve'}</span>
                         {this.props.isMe ?
                             <div className='pull-right'>
@@ -45,7 +53,7 @@ export class InnerPlayerStats extends React.Component {
                             </div> :
                             null}
                     </div>
-                    <div>
+                    <div className='state'>
                         <span>{this.props.claim + ' Claim'}</span>
                         {this.props.isMe ?
                             <div className='pull-right'>
@@ -68,7 +76,8 @@ InnerPlayerStats.propTypes = {
     playerName: React.PropTypes.string,
     power: React.PropTypes.number,
     reserve: React.PropTypes.number,
-    socket: React.PropTypes.object
+    socket: React.PropTypes.object,
+    user: React.PropTypes.object
 };
 
 function mapStateToProps(state) {

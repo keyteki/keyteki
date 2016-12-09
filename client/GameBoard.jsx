@@ -274,7 +274,7 @@ export class InnerGameBoard extends React.Component {
                     <div className='middle'>
                         <div className='left-side'>
                             <PlayerStats gold={otherPlayer ? otherPlayer.gold : 0} claim={otherPlayer ? otherPlayer.claim : 0}
-                                reserve={otherPlayer ? otherPlayer.reserve : 0} power={otherPlayer ? otherPlayer.totalPower : 0} />
+                                reserve={otherPlayer ? otherPlayer.reserve : 0} power={otherPlayer ? otherPlayer.totalPower : 0} user={otherPlayer ? otherPlayer.user : null} />
                             <div className='plots-pane'>
                                 <div className='plot-group'>
                                     <CardCollection className={otherPlayer && otherPlayer.plotSelected ? 'plot plot-selected' : 'plot'} 
@@ -295,7 +295,7 @@ export class InnerGameBoard extends React.Component {
                             </div>
 
                             <PlayerStats gold={thisPlayer.gold || 0} claim={thisPlayer.claim || 0} reserve={thisPlayer.reserve || 0}
-                                power={thisPlayer.totalPower} isMe={!this.state.spectating} />
+                                power={thisPlayer.totalPower} isMe={!this.state.spectating} user={thisPlayer.user} />
                         </div>
                         <div className='inset-pane'>
                             <div />

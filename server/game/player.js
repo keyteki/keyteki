@@ -998,7 +998,8 @@ class Player extends Spectator {
             plotDiscard: this.getSummaryForCardList(this.plotDiscard, isActivePlayer),
             selectCard: this.selectCard,
             deadPile: this.getSummaryForCardList(this.deadPile, isActivePlayer),
-            discardPile: this.getSummaryForCardList(this.discardPile, isActivePlayer)
+            discardPile: this.getSummaryForCardList(this.discardPile, isActivePlayer),
+            user: _.omit(this.user, 'password')
         };
 
         if(this.showDeck) {
