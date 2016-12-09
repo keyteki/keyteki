@@ -14,7 +14,9 @@ describe('the Player', () => {
     ]);
 
     beforeEach(() => {
+        player.deck = drawDeck;
         player.initialise();
+        
         player.drawDeck = drawDeck;
     });
 

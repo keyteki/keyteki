@@ -7,6 +7,7 @@ const DrawCard = require('../../../server/game/drawcard.js');
 describe('Player', function() {
     beforeEach(function() {
         this.player = new Player('1', 'Player 1', true);
+        this.player.deck = {};
         this.player.initialise();
         this.attachmentOwner = new Player('2', 'Player 2', false);
         this.attachmentOwner.initialise();

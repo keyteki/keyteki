@@ -22,6 +22,8 @@ class Player extends Spectator {
         this.owner = owner;
         this.takenMulligan = false;
         this.game = game;
+
+        this.deck = {};
     }
 
     isCardUuidInList(list, card) {
