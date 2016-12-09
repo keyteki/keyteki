@@ -8,6 +8,7 @@ const AgendaCard = require('./agendacard.js');
 const AttachmentPrompt = require('./gamesteps/attachmentprompt.js');
 
 const StartingHandSize = 7;
+const DrawPhaseCards = 2;
 
 class Player extends Spectator {
     constructor(id, user, owner, game) {
@@ -514,6 +515,7 @@ class Player extends Spectator {
         };
         
         this.challengerLimit = 0;
+        this.drawPhaseCards = DrawPhaseCards;
 
         this.cardsInPlay.each(card => {
             card.new = false;
@@ -545,7 +547,8 @@ class Player extends Spectator {
     }
 
     drawPhase() {
-        this.drawCardsToHand(2);
+        this.game.addMessage('{0} draws {1} cards for the draw phase', this, this.drawPhaseCards);
+        this.drawCardsToHand(this.drawPhaseCards);
     }
 
     beginMarshal() {
