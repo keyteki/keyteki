@@ -13,7 +13,7 @@ class GreatKraken extends DrawCard {
 
     onUnopposedWin(event, challenge) {
         var winner = challenge.winner;
-        if(!this.inPlay || this.isBlank() || this.owner !== winner && this.abilityUsed < 2) {
+        if(!this.inPlay || this.isBlank() || this.controller !== winner && this.abilityUsed < 2) {
             return;
         }
 
@@ -31,7 +31,7 @@ class GreatKraken extends DrawCard {
     }
 
     onCardPlayed(event, player, cardId) {
-        if(!this.inPlay || this.owner !== player) {
+        if(!this.inPlay || this.controller !== player) {
             return;
         }
 
@@ -46,7 +46,7 @@ class GreatKraken extends DrawCard {
     }
 
     gainPower(player) {
-        if(!this.inPlay || this.isBlank() || this.owner !== player) {
+        if(!this.inPlay || this.isBlank() || this.controller !== player) {
             return false;
         }
 
@@ -60,7 +60,7 @@ class GreatKraken extends DrawCard {
     }
 
     drawCard(player) {
-        if(!this.inPlay || this.isBlank() || this.owner !== player) {
+        if(!this.inPlay || this.isBlank() || this.controller !== player) {
             return false;
         }
 
@@ -74,7 +74,7 @@ class GreatKraken extends DrawCard {
     }
 
     cancel(player) {
-        if(!this.inPlay || this.isBlank() || this.owner !== player) {
+        if(!this.inPlay || this.isBlank() || this.controller !== player) {
             return false;
         }
 
@@ -83,7 +83,7 @@ class GreatKraken extends DrawCard {
     }
 
     leavesPlay() {
-        var balonGreyjoy = this.owner.findCardByName(this.owner.cardsInPlay, 'Balon Greyjoy');
+        var balonGreyjoy = this.controller.findCardByName(this.controller.cardsInPlay, 'Balon Greyjoy');
 
         if(balonGreyjoy) {
             balonGreyjoy.removeKeyword('stealth');

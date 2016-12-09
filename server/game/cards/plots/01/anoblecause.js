@@ -8,7 +8,7 @@ class ANobleCause extends PlotCard {
     }
 
     canReduce(player, card) {
-        if(!this.inPlay || this.owner !== player) {
+        if(!this.inPlay || this.controller !== player) {
             return false;
         }
 
@@ -32,7 +32,7 @@ class ANobleCause extends PlotCard {
         }
 
         if(spending) {
-            this.game.addMessage('{0} uses {1} to reduce the cost of {2} by 2', this.owner, this, card);
+            this.game.addMessage('{0} uses {1} to reduce the cost of {2} by 2', this.controller, this, card);
             this.abilityUsed = true;
         }
 

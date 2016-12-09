@@ -2,7 +2,7 @@ const PlotCard = require('../../../plotcard.js');
 
 class Confiscation extends PlotCard {
     onReveal(player) {
-        if(!this.inPlay || this.owner !== player) {
+        if(!this.inPlay || this.controller !== player) {
             return true;
         }
 
@@ -25,7 +25,7 @@ class Confiscation extends PlotCard {
             return false;
         }
 
-        attachment.owner.removeAttachment(attachment);
+        attachment.controller.removeAttachment(attachment);
 
         this.game.addMessage('{0} uses {1} to discard {2}', player, this, attachment);
 

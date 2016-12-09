@@ -16,7 +16,7 @@ class Lannisport extends DrawCard {
             return;
         }
 
-        if(challenge.challengeType !== 'intrigue' || challenge.winner !== this.owner) {
+        if(challenge.challengeType !== 'intrigue' || challenge.winner !== this.controller) {
             return;
         }
 
@@ -33,7 +33,7 @@ class Lannisport extends DrawCard {
     }
 
     drawCard(player) {
-        if(!this.inPlay || this.isBlank() || this.owner !== player) {
+        if(!this.inPlay || this.isBlank() || this.controller !== player) {
             return false;
         }
 
@@ -45,7 +45,7 @@ class Lannisport extends DrawCard {
     }
 
     cancel(player) {
-        if(!this.inPlay || this.isBlank() || this.owner !== player) {
+        if(!this.inPlay || this.isBlank() || this.controller !== player) {
             return false;
         }
 

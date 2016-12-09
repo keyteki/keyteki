@@ -10,14 +10,14 @@ class ASongOfSummer extends PlotCard {
     }
 
     onPlotFlip() {
-        if(this.owner.selectedPlot !== this) {
+        if(this.controller.selectedPlot !== this) {
             return;
         }
         
-        var otherPlayer = this.game.getOtherPlayer(this.owner);
+        var otherPlayer = this.game.getOtherPlayer(this.controller);
 
         if(!otherPlayer || !otherPlayer.selectedPlot.hasTrait('Winter')) {
-            this.owner.cardsInPlay.each(card => {
+            this.controller.cardsInPlay.each(card => {
                 if(card.getType() === 'character') {
                     card.strengthModifier++;
                 }
@@ -26,7 +26,7 @@ class ASongOfSummer extends PlotCard {
     }
 
     onCardPlayed(e, player, cardId) {
-        if(!this.inPlay || this.owner !== player) {
+        if(!this.inPlay || this.controller !== player) {
             return;
         }
 
@@ -43,10 +43,10 @@ class ASongOfSummer extends PlotCard {
     leavesPlay() {
         super.leavesPlay();
         
-        var otherPlayer = this.game.getOtherPlayer(this.owner);
+        var otherPlayer = this.game.getOtherPlayer(this.controller);
 
         if(!otherPlayer || (otherPlayer.activePlot && !otherPlayer.activePlot.hasTrait('Winter'))) {
-            this.owner.cardsInPlay.each(card => {
+            this.controller.cardsInPlay.each(card => {
                 if(card.getType() === 'character') {
                     card.strengthModifier--;
                 }

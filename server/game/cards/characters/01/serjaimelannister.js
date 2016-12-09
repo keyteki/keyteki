@@ -17,7 +17,7 @@ class SerJaimeLannister extends DrawCard {
             this.addKeyword('renown');
         }
 
-        if(this.owner !== player) {
+        if(this.controller !== player) {
             return;
         }
 

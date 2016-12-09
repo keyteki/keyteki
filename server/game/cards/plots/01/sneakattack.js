@@ -4,7 +4,7 @@ class SneakAttack extends PlotCard {
     flipFaceup() {
         super.flipFaceup();
 
-        this.owner.setMaxChallenge(1);
+        this.controller.setMaxChallenge(1);
     }
 }
 

@@ -10,10 +10,10 @@ class ChooseStealthTargets extends BaseStep {
     continue() {
         if(this.stealthCharacters.length > 0) {
             var character = this.stealthCharacters.shift();
-            this.game.promptForSelect(character.owner, {
+            this.game.promptForSelect(character.controller, {
                 activePromptTitle: 'Select stealth target for ' + character.name,
                 waitingPromptTitle: 'Waiting for opponent to choose stealth target for ' + character.name,
-                cardCondition: card => card.owner === this.challenge.defendingPlayer && card.getType() === 'character',
+                cardCondition: card => card.controller === this.challenge.defendingPlayer && card.getType() === 'character',
                 onSelect: (player, target) => this.selectStealthTarget(character, target)
             });
         }

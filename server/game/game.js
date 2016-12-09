@@ -256,6 +256,14 @@ class Game extends EventEmitter {
         });
     }
 
+    callCardMenuCommand(card, player, menuItem) {
+        if(!card || !card[menuItem.method] || !this.cardHasMenuItem(card, menuItem)) {
+            return;
+        }
+
+        card[menuItem.method](player, menuItem.arg);
+    }
+
     menuItemClick(sourcePlayer, source, cardId, menuItem) {
         var player = this.getPlayerById(sourcePlayer);
 
@@ -263,12 +271,22 @@ class Game extends EventEmitter {
             return;
         }
 
+        if(menuItem.command === 'click') {
+            this.cardClicked(sourcePlayer, source, cardId);
+            return;
+        }
+
         switch(source) {
             case 'agenda':
-                if(player.agenda && player.agenda[menuItem.method] && this.cardHasMenuItem(player.agenda, menuItem)) {
-                    player.agenda[menuItem.method](player, menuItem.arg);
+                this.callCardMenuCommand(player.agenda, player, menuItem);
+                break;
+            case 'play area':
+                var card = this.findAnyCardInPlayByUuid(cardId);
+                if(card.controller !== player && !menuItem.anyPlayer) {
+                    return;
                 }
 
+                this.callCardMenuCommand(card, player, menuItem);
                 break;
         }
 
@@ -420,7 +438,7 @@ class Game extends EventEmitter {
             this.promptForSelect(player, {
                 activePromptTitle: 'Select a card to set power for',
                 waitingPromptTitle: 'Waiting for opponent to set power',
-                cardCondition: card => card.inPlay && card.owner === player,
+                cardCondition: card => card.inPlay && card.controller === player,
                 onSelect: (p, card) => {
                     card.power = num;
                     this.addMessage('{0} uses the /power command to set the power of {1} to {2}', p, card, num);
@@ -460,7 +478,7 @@ class Game extends EventEmitter {
             this.promptForSelect(player, {
                 activePromptTitle: 'Select a card to set strength for',
                 waitingPromptTitle: 'Waiting for opponent to set strength',
-                cardCondition: card => card.inPlay && card.owner === player && card.getType() === 'character',
+                cardCondition: card => card.inPlay && card.controller === player && card.getType() === 'character',
                 onSelect: (p, card) => {
                     card.strengthModifier = num - card.cardData.strength;
                     this.addMessage('{0} uses the /strength command to set the strength of {1} to {2}', p, card, num);
@@ -604,6 +622,19 @@ class Game extends EventEmitter {
         this.emit(eventName, event, ...params);
 
         return event;
+    }
+
+    takeControl(player, card) {
+        var oldController = card.controller;
+        var newController = player;
+
+        if(oldController === newController) {
+            return;
+        }
+
+        oldController.cardsInPlay = oldController.removeCardByUuid(oldController.cardsInPlay, card.uuid);
+        newController.cardsInPlay.push(card);
+        card.controller = newController;
     }
 
     getState(activePlayer) {

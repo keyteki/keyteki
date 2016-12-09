@@ -4,7 +4,7 @@ const PlotCard = require('../../../plotcard.js');
 
 class WildfireAssault extends PlotCard {
     onReveal(player) {
-        if(!this.inPlay || this.owner !== player) {
+        if(!this.inPlay || this.controller !== player) {
             return true;
         }
 
@@ -58,7 +58,7 @@ class WildfireAssault extends PlotCard {
                 numCards: 3,
                 activePromptTitle: 'Select up to 3 characters to save',
                 waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-                cardCondition: card => card.owner === currentPlayer && card.getType() === 'character',
+                cardCondition: card => card.controller === currentPlayer && card.getType() === 'character',
                 onSelect: (player, cards) => this.onSelect(player, cards),
                 onCancel: (player) => this.cancelSelection(player)
             });

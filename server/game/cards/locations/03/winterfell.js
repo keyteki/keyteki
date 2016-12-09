@@ -18,7 +18,7 @@ class Winterfell extends DrawCard {
     }
 
     onCardPlayed(e, player, cardId) {
-        if(!this.inPlay || this.owner !== player) {
+        if(!this.inPlay || this.controller !== player) {
             return;
         }
 
@@ -35,7 +35,7 @@ class Winterfell extends DrawCard {
     leavesPlay() {
         super.leavesPlay();
 
-        this.owner.cardsInPlay.each(card => {
+        this.controller.cardsInPlay.each(card => {
             if(card.getFaction() === this.getFaction() && card.getType() === 'character') {
                 card.strengthModifier--;
             }

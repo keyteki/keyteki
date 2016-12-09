@@ -13,13 +13,13 @@ class KhalDrogo extends DrawCard {
         }
 
         if(!this.isBlank()) {
-            this.owner.addChallenge('military', 1);
+            this.controller.addChallenge('military', 1);
         }
     }
 
     leavesPlay() {
         if(!this.isBlank()) {
-            this.owner.addChallenge('military', -1);
+            this.controller.addChallenge('military', -1);
         }
     }
 }

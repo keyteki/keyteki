@@ -8,7 +8,7 @@ class SupportingTheFaith extends PlotCard {
             player.gold = 0;
         });
 
-        this.game.addMessage('{0} uses {1} to make both players return their gold to the treasury', this.owner, this);
+        this.game.addMessage('{0} uses {1} to make both players return their gold to the treasury', this.controller, this);
     }
 }
 

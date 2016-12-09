@@ -15,13 +15,13 @@ class TywinLannister extends DrawCard {
         }
         
         this.strengthModifier -= this.lastGold;
-        this.strengthModifier += this.owner.gold;
+        this.strengthModifier += this.controller.gold;
 
-        this.lastGold = this.owner.gold;
+        this.lastGold = this.controller.gold;
     }
 
     onBeginMarshal(e, player) {
-        if(this.owner !== player) {
+        if(this.controller !== player) {
             return;
         }
 
@@ -29,7 +29,7 @@ class TywinLannister extends DrawCard {
     }
 
     onStatChanged(e, player, stat) {
-        if(this.owner !== player || stat !== 'gold') {
+        if(this.controller !== player || stat !== 'gold') {
             return;
         }
 
@@ -37,7 +37,7 @@ class TywinLannister extends DrawCard {
     }
 
     onCardPlayed(e, player) {
-        if(this.owner !== player) {
+        if(this.controller !== player) {
             return;
         }
 
@@ -45,7 +45,7 @@ class TywinLannister extends DrawCard {
     }
 
     onAfterTaxation(e, player) {
-        if(this.owner !== player) {
+        if(this.controller !== player) {
             return;
         }
 

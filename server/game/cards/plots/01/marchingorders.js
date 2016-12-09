@@ -2,7 +2,7 @@ const PlotCard = require('../../../plotcard.js');
 
 class MarchingOrders extends PlotCard {
     canPlay(player, cardId) {
-        if(!this.inPlay || this.owner !== player) {
+        if(!this.inPlay || this.controller !== player) {
             return true;
         }
 

@@ -8,11 +8,11 @@ class RattleshirtsRaiders extends DrawCard {
     }
 
     afterChallenge(e, challenge) {
-        if(!this.inPlay || challenge.attackingPlayer !== this.owner) {
+        if(!this.inPlay || challenge.attackingPlayer !== this.controller) {
             return;
         }
 
-        if(challenge.winner !== this.owner) {
+        if(challenge.winner !== this.controller) {
             return;
         }
 
@@ -20,16 +20,16 @@ class RattleshirtsRaiders extends DrawCard {
             return;
         }
 
-        this.game.promptForSelect(this.owner, {
+        this.game.promptForSelect(this.controller, {
             activePromptTitle: 'Select attachment to discard',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            cardCondition: card => card.inPlay && card.owner === challenge.loser && card.getType() === 'attachment',
+            cardCondition: card => card.inPlay && card.controller === challenge.loser && card.getType() === 'attachment',
             onSelect: (p, card) => this.onCardSelected(p, card)
         });
     }
 
     onCardSelected(player, card) {
-        card.parent.owner.discardCard(card);
+        card.parent.controller.discardCard(card);
         
         return true;
     }

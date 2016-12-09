@@ -6,7 +6,7 @@ class StandingPhase extends Phase {
     constructor(game) {
         super(game, 'standing');
         this.initialise([
-            new SimpleStep(game, () => this.standCards()),
+            new SimpleStep(game, () => this.standCards())
         ]);
     }
 

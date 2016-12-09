@@ -206,6 +206,8 @@ class ChallengeFlow extends BaseStep {
             if(card.hasKeyword('Pillage')) {
                 this.challenge.loser.discardFromDraw(1);
 
+                this.game.raiseEvent('onPillage', this.challenge, card);
+
                 this.game.addMessage('{0} discards a card from the top of their deck from Pillage on {1}', this.challenge.loser, card);
             }
 
@@ -222,12 +224,12 @@ class ChallengeFlow extends BaseStep {
     }
 
     canIntimidate(card, strength) {
-        return !card.kneeled && card.owner === this.challenge.loser && card.getStrength() <= strength;
+        return !card.kneeled && card.controller === this.challenge.loser && card.getStrength() <= strength;
     }
 
     intimidate(sourceCard, targetCard) {
         targetCard.kneeled = true;
-        this.game.addMessage('{0} uses intimidate from {1} to kneel {2}', sourceCard.owner, sourceCard, targetCard);
+        this.game.addMessage('{0} uses intimidate from {1} to kneel {2}', sourceCard.controller, sourceCard, targetCard);
         return true;
     }
 

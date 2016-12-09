@@ -18,7 +18,7 @@ class CatelynStark extends DrawCard {
         this.strengthModifier -= this.lastPower;
         this.strengthModifier += this.power;
 
-        this.lastPower = this.owner.faction.power;
+        this.lastPower = this.controller.faction.power;
     }
 
     onBeginRound() {
@@ -26,7 +26,7 @@ class CatelynStark extends DrawCard {
     }
 
     onCardSacrificed(event, player, card) {
-        if(!this.inPlay || this.isBlank() || this.owner !== player || this.abilityUsed >= 2) {
+        if(!this.inPlay || this.isBlank() || this.controller !== player || this.abilityUsed >= 2) {
             return;
         }
 
@@ -53,7 +53,7 @@ class CatelynStark extends DrawCard {
     }
 
     gainPower(player) {
-        if(!this.inPlay || this.isBlank() || this.owner !== player) {
+        if(!this.inPlay || this.isBlank() || this.controller !== player) {
             return false;
         }
 
@@ -67,7 +67,7 @@ class CatelynStark extends DrawCard {
     }
 
     cancel(player) {
-        if(!this.inPlay || this.isBlank() || this.owner !== player) {
+        if(!this.inPlay || this.isBlank() || this.controller !== player) {
             return false;
         }
 

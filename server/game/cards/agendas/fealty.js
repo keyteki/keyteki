@@ -12,7 +12,7 @@ class Fealty extends Reducer {
     }
 
     onClick(player) {
-        if(!this.owner === player) {
+        if(!this.controller === player) {
             return;
         }
 
@@ -22,7 +22,7 @@ class Fealty extends Reducer {
     }
 
     canReduce(player, card) {
-        if(!this.inPlay || this.owner !== player || !player.faction.kneeled || this.abilityUsed) {
+        if(!this.inPlay || this.controller !== player || !player.faction.kneeled || this.abilityUsed) {
             return false;
         }
 
@@ -30,7 +30,7 @@ class Fealty extends Reducer {
     }
 
     reduce(card, currentCost, spending) {
-        if(this.owner.faction.kneeled && !this.abilityUsed) {
+        if(this.controller.faction.kneeled && !this.abilityUsed) {
             var cost = currentCost - this.reduceBy;
 
             if(spending) {
@@ -48,7 +48,7 @@ class Fealty extends Reducer {
     }
 
     cardsStanding() {
-        this.owner.faction.kneeled = false;
+        this.controller.faction.kneeled = false;
     }
 }
 

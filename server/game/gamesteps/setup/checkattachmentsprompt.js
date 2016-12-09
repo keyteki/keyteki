@@ -20,7 +20,7 @@ class CheckAttachmentsPrompt extends AllPlayerPrompt {
     }
 
     onCardClicked(player, card) {
-        if(player !== card.owner) {
+        if(player !== card.controller) {
             return false;
         }
 

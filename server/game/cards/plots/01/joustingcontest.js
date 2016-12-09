@@ -4,8 +4,8 @@ class JoustingContest extends PlotCard {
     flipFaceup() {
         super.flipFaceup();
 
-        this.owner.challengerLimit = 1;
-        var otherPlayer = this.game.getOtherPlayer(this.owner);
+        this.controller.challengerLimit = 1;
+        var otherPlayer = this.game.getOtherPlayer(this.controller);
 
         if(otherPlayer) {
             otherPlayer.challengerLimit = 1;

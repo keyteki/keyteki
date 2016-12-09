@@ -13,14 +13,14 @@ class RedCloaks extends DrawCard {
     }
 
     addGold(player) {
-        if(!this.inPlay || this.owner !== player || this.usedThisRound || player.gold <= 0) {
+        if(!this.inPlay || this.controller !== player || this.usedThisRound || player.gold <= 0) {
             return;
         }
         
         this.addToken('gold', 1);
-        this.owner.gold--;
+        this.controller.gold--;
 
-        this.game.addMessage('{0} moves 1 gold from their gold pool to {1}', this.owner, this);
+        this.game.addMessage('{0} moves 1 gold from their gold pool to {1}', this.controller, this);
 
         this.usedThisRound = true;
     }
@@ -31,7 +31,7 @@ class RedCloaks extends DrawCard {
     }
 
     onAttackersDeclared(e, challenge) {
-        if(!this.inPlay || this.owner !== challenge.attackingPlayer || challenge.challengeType !== 'intrigue') {
+        if(!this.inPlay || this.controller !== challenge.attackingPlayer || challenge.challengeType !== 'intrigue') {
             return;
         }
 

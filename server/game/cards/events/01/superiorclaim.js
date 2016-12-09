@@ -2,11 +2,11 @@ const DrawCard = require('../../../drawcard.js');
 
 class SuperiorClaim extends DrawCard {
     canPlay(player, card) {
-        if(player !== this.owner || this !== card) {
+        if(player !== this.controller || this !== card) {
             return false;
         }
 
-        if(!this.game.currentChallenge || this.game.currentChallenge.winner !== this.owner || this.game.currentChallenge.strengthDifference < 5) {
+        if(!this.game.currentChallenge || this.game.currentChallenge.winner !== this.controller || this.game.currentChallenge.strengthDifference < 5) {
             return false;
         }
 
@@ -14,7 +14,7 @@ class SuperiorClaim extends DrawCard {
     }
 
     play(player) {
-        if(this.owner !== player) {
+        if(this.controller !== player) {
             return;
         }
 

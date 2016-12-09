@@ -4,7 +4,7 @@ const PlotCard = require('../../../plotcard.js');
 
 class MarchedToTheWall extends PlotCard {
     onReveal(player) {
-        if(!this.inPlay || this.owner !== player) {
+        if(!this.inPlay || this.controller !== player) {
             return true;
         }
 
@@ -40,7 +40,7 @@ class MarchedToTheWall extends PlotCard {
             this.game.promptForSelect(currentPlayer, {
                 activePromptTitle: 'Select a character to discard',
                 waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-                cardCondition: card => card.owner === currentPlayer && card.getType() === 'character',
+                cardCondition: card => card.controller === currentPlayer && card.getType() === 'character',
                 onSelect: (player, cards) => this.onCardSelected(player, cards),
                 onCancel: (player) => this.cancelSelection(player)
             });

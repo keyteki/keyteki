@@ -9,7 +9,7 @@ class EddardStark extends DrawCard {
 
     onRenown(event, challenge, card) {
         var player = challenge.winner;
-        if(!this.inPlay || this.isBlank() || this.owner !== player || card !== this) {
+        if(!this.inPlay || this.isBlank() || this.controller !== player || card !== this) {
             return;
         }
 
@@ -26,7 +26,7 @@ class EddardStark extends DrawCard {
             return false;
         }
 
-        if(!this.owner.cardsInChallenge.find(c => {
+        if(!this.controller.cardsInChallenge.find(c => {
             return c.uuid !== this.uuid && c.uuid === card.uuid;
         })) {
             return false;
@@ -36,7 +36,7 @@ class EddardStark extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        if(!this.inPlay || this.isBlank() || this.owner !== player) {
+        if(!this.inPlay || this.isBlank() || this.controller !== player) {
             return;
         }
 

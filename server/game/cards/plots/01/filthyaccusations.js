@@ -2,7 +2,7 @@ const PlotCard = require('../../../plotcard.js');
 
 class FilthyAccusations extends PlotCard {
     onReveal(player) {
-        if(!this.inPlay || this.owner !== player) {
+        if(!this.inPlay || this.controller !== player) {
             return true;
         }
 

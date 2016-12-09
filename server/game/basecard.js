@@ -15,6 +15,7 @@ const ValidKeywords = [
 class BaseCard {
     constructor(owner, cardData) {
         this.owner = owner;
+        this.controller = owner;
         this.game = this.owner.game;
         this.cardData = cardData;
 
@@ -124,7 +125,16 @@ class BaseCard {
     }
 
     getMenu() {
-        return this.menu.isEmpty() ? undefined : this.menu.value();
+        var menu = [];
+
+        if(this.menu.isEmpty()) {
+            return undefined;
+        }
+
+        menu.push({ command: 'click', text: 'Select Card' });
+        menu = menu.concat(this.menu.value());
+
+        return menu;
     }
 
     isUnique() {

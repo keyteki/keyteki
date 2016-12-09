@@ -18,7 +18,7 @@ class TheWall extends DrawCard {
     }
 
     onCardPlayed(e, player, cardId) {
-        if(!this.inPlay || this.owner !== player) {
+        if(!this.inPlay || this.controller !== player) {
             return;
         }
 
@@ -33,8 +33,8 @@ class TheWall extends DrawCard {
     }
 
     onUnopposedWin(winner) {
-        if(this.owner !== winner && !this.kneeled) {
-            this.game.addMessage('{0} is forced to kneel {1} because they lost an unopposed challenge', this.owner, this);
+        if(this.controller !== winner && !this.kneeled) {
+            this.game.addMessage('{0} is forced to kneel {1} because they lost an unopposed challenge', this.controller, this);
             this.kneeled = true;
         }
     }
@@ -44,7 +44,7 @@ class TheWall extends DrawCard {
             return;
         }
 
-        this.game.promptWithMenu(this.owner, this, {
+        this.game.promptWithMenu(this.controller, this, {
             activePrompt: {
                 menuTitle: 'Kneel ' + this.name + '?',
                 buttons: [
@@ -57,7 +57,7 @@ class TheWall extends DrawCard {
     }
 
     kneel(player) {
-        if(!this.inPlay || this.isBlank() || this.owner !== player) {
+        if(!this.inPlay || this.isBlank() || this.controller !== player) {
             return false;
         }
 
@@ -69,7 +69,7 @@ class TheWall extends DrawCard {
     }
 
     cancel(player) {
-        if(!this.inPlay || this.isBlank() || this.owner !== player) {
+        if(!this.inPlay || this.isBlank() || this.controller !== player) {
             return false;
         }
 
@@ -80,7 +80,7 @@ class TheWall extends DrawCard {
     leavesPlay() {
         super.leavesPlay();
 
-        this.owner.cardsInPlay.each(card => {
+        this.controller.cardsInPlay.each(card => {
             if(card.getFaction() === this.getFaction() && card.getType() === 'character') {
                 card.strengthModifier--;
             }

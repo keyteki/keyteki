@@ -9,7 +9,7 @@ class CerseiLannister extends DrawCard {
 
     onAttackersDeclared(e, challenge) {
         var player = challenge.attackingPlayer;
-        if(!this.inPlay || this.owner !== player || challenge.challengeType !== 'intrigue') {
+        if(!this.inPlay || this.controller !== player || challenge.challengeType !== 'intrigue') {
             return;
         }
 

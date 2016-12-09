@@ -26,7 +26,7 @@ class FulfillMilitaryClaim extends BaseStep {
     }
 
     allowedToKill(card) {
-        return card.owner === this.player;
+        return card.controller === this.player;
     }
 
     fulfillClaim() {

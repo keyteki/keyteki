@@ -1,12 +1,14 @@
 const _ = require('underscore');
 const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
+const ActionWindow = require('./actionwindow.js');
 
 class DominancePhase extends Phase {
     constructor(game) {
-        super(game);
+        super(game, 'dominance');
         this.initialise([
-            new SimpleStep(game, () => this.determineWinner())
+            new SimpleStep(game, () => this.determineWinner()),
+            new ActionWindow(this.game)
         ]);
     }
 

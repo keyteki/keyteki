@@ -243,7 +243,53 @@ class Player extends Spectator {
         this.plotDeck = this.plotCards;
     }
 
+    prepareDecks() {        
+        this.drawCards = _([]);
+        this.plotCards = _([]);
+
+        _.each(this.deck.drawCards, cardEntry => {
+            for(var i = 0; i < cardEntry.count; i++) {
+                var drawCard = undefined;
+
+                if(cards[cardEntry.card.code]) {
+                    drawCard = new cards[cardEntry.card.code](this, cardEntry.card);
+                } else {
+                    drawCard = new DrawCard(this, cardEntry.card);
+                }
+
+                this.drawCards.push(drawCard);
+            }
+        });
+
+        _.each(this.deck.plotCards, cardEntry => {
+            for(var i = 0; i < cardEntry.count; i++) {
+                var plotCard = undefined;
+
+                if(cards[cardEntry.card.code]) {
+                    plotCard = new cards[cardEntry.card.code](this, cardEntry.card);
+                } else {
+                    plotCard = new PlotCard(this, cardEntry.card);
+                }
+
+                this.plotCards.push(plotCard);
+            }
+        });
+
+        if(this.deck.agenda) {
+            if(cards[this.deck.agenda.code]) {
+                this.agenda = new cards[this.deck.agenda.code](this, this.deck.agenda);
+            } else {
+                this.agenda = new AgendaCard(this, this.deck.agenda);
+            }
+
+            this.agenda.inPlay = true;
+        } else {
+            this.agenda = undefined;
+        }        
+    }
+
     initialise() {
+        this.prepareDecks();
         this.initDrawDeck();
         this.initPlotDeck();
 
@@ -358,10 +404,6 @@ class Player extends Spectator {
         this.gold -= cost;
 
         if(card.getType() === 'event') {
-            if(!this.canPlayCard(card)) {
-                return false;
-            }
-
             this.game.addMessage('{0} plays {1} costing {2}', this, card, cost);
 
             card.play(this);
@@ -373,7 +415,7 @@ class Player extends Spectator {
         }
 
         if(this.phase === 'marshal') {
-            this.game.addMessage('{0} marshals {1} costing {2}', this, card, cost);
+            this.game.addMessage('{0} {1} {2} costing {3}', this, dupeCard ? 'duplicates' : 'marshals', card, cost);
         } else if(this.phase === 'challenge' && card.isAmbush()) {
             this.game.addMessage('{0} ambushes with {1} costing {2}', this, card, cost);
         }
@@ -528,7 +570,7 @@ class Player extends Spectator {
         return attachment.canAttach(this, card);
     }
 
-    attach(attachment, cardId) {
+    attach(player, attachment, cardId) {
         var card = this.findCardInPlayByUuid(cardId);
 
         if(!card || !attachment) {
@@ -540,7 +582,7 @@ class Player extends Spectator {
 
         card.attachments.push(attachment);
 
-        attachment.attach(this, card);
+        attachment.attach(player, card);
     }
 
     showDrawDeck() {
@@ -612,7 +654,7 @@ class Player extends Spectator {
 
                 card = otherPlayer.findCardInPlayByUuid(cardId);
 
-                if(!card || card.owner !== this) {
+                if(!card || card.controller !== this) {
                     return false;
                 }
 
@@ -853,52 +895,7 @@ class Player extends Spectator {
     }
 
     selectDeck(deck) {
-        this.game.removeAllListeners(this.game.eventNames());
-
-        this.drawCards = _([]);
-        this.plotCards = _([]);
-
-        _.each(deck.drawCards, cardEntry => {
-            for(var i = 0; i < cardEntry.count; i++) {
-                var drawCard = undefined;
-
-                if(cards[cardEntry.card.code]) {
-                    drawCard = new cards[cardEntry.card.code](this, cardEntry.card);
-                } else {
-                    drawCard = new DrawCard(this, cardEntry.card);
-                }
-
-                this.drawCards.push(drawCard);
-            }
-        });
-
-        _.each(deck.plotCards, cardEntry => {
-            for(var i = 0; i < cardEntry.count; i++) {
-                var plotCard = undefined;
-
-                if(cards[cardEntry.card.code]) {
-                    plotCard = new cards[cardEntry.card.code](this, cardEntry.card);
-                } else {
-                    plotCard = new PlotCard(this, cardEntry.card);
-                }
-
-                this.plotCards.push(plotCard);
-            }
-        });
-
         this.deck = deck;
-
-        if(deck.agenda) {
-            if(cards[deck.agenda.code]) {
-                this.agenda = new cards[deck.agenda.code](this, deck.agenda);
-            } else {
-                this.agenda = new AgendaCard(this, deck.agenda);
-            }
-
-            this.agenda.inPlay = true;
-        } else {
-            this.agenda = undefined;
-        }
 
         this.faction.cardData = deck.faction;
         this.faction.cardData.code = deck.faction.value;

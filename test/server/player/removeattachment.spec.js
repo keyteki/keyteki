@@ -13,7 +13,7 @@ describe('Player', function() {
         this.attachment = new DrawCard(this.attachmentOwner, {});
         this.card = new DrawCard(this.player, {});
         this.player.cardsInPlay.push(this.card);
-        this.player.attach(this.attachment, this.card.uuid);
+        this.player.attach(this.player, this.attachment, this.card.uuid);
     });
 
     describe('removeAttachment', function() {

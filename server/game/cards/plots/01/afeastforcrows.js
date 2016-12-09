@@ -8,7 +8,7 @@ class AFeastForCrows extends PlotCard {
     }
 
     onDominanceDetermined(event, winner) {
-        if(!this.inPlay || winner !== this.owner) {
+        if(!this.inPlay || winner !== this.controller) {
             return;
         }
 

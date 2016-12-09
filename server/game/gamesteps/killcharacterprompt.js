@@ -44,7 +44,7 @@ class KillCharacterPrompt extends UiPrompt {
             return false;
         }
 
-        card.owner.killCharacter(card);
+        card.controller.killCharacter(card);
         this.events.onKill(card);
         this.complete();
     }

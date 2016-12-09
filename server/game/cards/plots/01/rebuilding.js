@@ -4,7 +4,7 @@ const PlotCard = require('../../../plotcard.js');
 
 class Rebuilding extends PlotCard {
     onReveal(player) {
-        if(!this.inPlay || this.owner !== player) {
+        if(!this.inPlay || this.controller !== player) {
             return true;
         }
 
@@ -20,8 +20,8 @@ class Rebuilding extends PlotCard {
     }
 
     cardCondition(card) {
-        var player = card.owner;
-        return this.owner === player && player.findCardByUuid(player.discardPile, card.uuid);
+        var player = card.controller;
+        return this.controller === player && player.findCardByUuid(player.discardPile, card.uuid);
     }
 
     doneSelect(player, cards) {

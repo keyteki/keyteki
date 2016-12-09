@@ -184,7 +184,7 @@ class PlayerRow extends React.Component {
                     {hand}
                 </div>
                 <CardCollection className='discard' title='Discard' source='discard pile' cards={this.props.discardPile}
-                                onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut}
+                                onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
                                 popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} />
 
                 <div className='draw panel' onDragLeave={this.onDragLeave} onDragOver={this.onDragOver} onDrop={(event) => this.onDragDrop(event, 'draw deck')}

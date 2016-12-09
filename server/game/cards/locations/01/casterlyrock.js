@@ -13,13 +13,13 @@ class CasterlyRock extends DrawCard {
         }
 
         if(!this.isBlank()) {
-            this.owner.addChallenge('intrigue', 1);
+            this.controller.addChallenge('intrigue', 1);
         }
     }
 
     leavesPlay() {
         if(!this.isBlank()) {
-            this.owner.addChallenge('intrigue', -1);
+            this.controller.addChallenge('intrigue', -1);
         }
     }
 }

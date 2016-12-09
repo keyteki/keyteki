@@ -8,7 +8,7 @@ class PowerBehindTheThrone extends PlotCard {
     }
     
     onReveal(player) {
-        if(!this.inPlay || this.owner !== player) {
+        if(!this.inPlay || this.controller !== player) {
             return true;
         }
 
@@ -23,7 +23,7 @@ class PowerBehindTheThrone extends PlotCard {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a character to stand',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            cardCondition: card => card.inPlay && card.owner === player && card.kneeled,
+            cardCondition: card => card.inPlay && card.controller === player && card.kneeled,
             onSelect: (p, card) => this.onCardSelected(p, card)
         });
     }

@@ -14,18 +14,18 @@ class AryaStark extends DrawCard {
             return;
         }
 
-        var dupe = this.owner.drawDeck.first(1)[0];
+        var dupe = this.controller.drawDeck.first(1)[0];
         dupe.facedown = true;
-        this.owner.drawDeck = _(this.owner.drawDeck.rest(1));
+        this.controller.drawDeck = _(this.controller.drawDeck.rest(1));
 
         this.dupes.push(dupe);
         this.setIcon('military');
 
-        this.game.addMessage('{0} places the top card of their deck on {1} as a duplicate', this.owner, this);
+        this.game.addMessage('{0} places the top card of their deck on {1} as a duplicate', this.controller, this);
     }
 
     onDupeDiscarded(e, player, card) {
-        if(this.owner !== player || card !== this) {
+        if(this.controller !== player || card !== this) {
             return;
         }
 

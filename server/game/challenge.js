@@ -10,7 +10,7 @@ class Challenge {
         this.challengeType = challengeType;
         this.attackers = [];
         this.defenders = [];
-        this.registerEvents(['onCardLeftPlay'])
+        this.registerEvents(['onCardLeftPlay']);
     }
 
     singlePlayerDefender() {

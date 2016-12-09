@@ -2,7 +2,7 @@ const PlotCard = require('../../../plotcard.js');
 
 class Reinforcements extends PlotCard {
     onReveal(player) {
-        if(!this.inPlay || this.owner !== player) {
+        if(!this.inPlay || this.controller !== player) {
             return true;
         }
 
@@ -17,8 +17,8 @@ class Reinforcements extends PlotCard {
     }
 
     cardCondition(card) {
-        var player = card.owner;
-        return this.owner === player &&
+        var player = card.controller;
+        return this.controller === player &&
             card.getCost() <= 5 &&
             card.getType() === 'character' &&
             (player.findCardByUuid(player.discardPile, card.uuid) || player.findCardByUuid(player.hand, card.uuid));

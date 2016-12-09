@@ -4,7 +4,7 @@ const PlotCard = require('../../../plotcard.js');
 
 class TheLongWinter extends PlotCard {
     onReveal(player) {
-        if(!this.inPlay || this.owner !== player) {
+        if(!this.inPlay || this.controller !== player) {
             return true;
         }
 
@@ -62,7 +62,7 @@ class TheLongWinter extends PlotCard {
                 activePromptTitle: 'Select a card to discard power from',
                 waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
                 additionalButtons: [{ command: 'menuButton', text: 'Faction Card', arg: 'faction' }],
-                cardCondition: card => card.owner === currentPlayer && card.getPower() > 0,
+                cardCondition: card => card.controller === currentPlayer && card.getPower() > 0,
                 onSelect: (player, card) => this.onCardSelected(player, card),
                 onMenuCommand: (player, arg) => this.selectFactionCard(player, arg),
                 onCancel: (player) => this.cancelSelection(player)
