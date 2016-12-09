@@ -103,7 +103,7 @@ class CardCollection extends React.Component {
         var topCard = this.props.topCard || _.last(this.props.cards);
 
         if(topCard && topCard.kneeled) {
-            className += ' horizontal-card';
+            className = 'horizontal-card ' + className;
         }
 
         return (
