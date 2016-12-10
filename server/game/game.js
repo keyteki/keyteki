@@ -678,7 +678,7 @@ class Game extends EventEmitter {
 
             if(activePlayer === player.id && player.deck) {
                 deck = { name: player.deck.name, selected: player.deck.selected };
-            } else if(player.deck && player.deck.selected) {
+            } else if(player.deck) {
                 deck = { selected: player.deck.selected };
             }
 

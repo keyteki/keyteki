@@ -9,7 +9,9 @@ class TimeOfPlenty extends PlotCard {
         this.registerEvents(['onPlotFlip']);
     }
 
-    onPlotFlip() {
+    flipFaceup() {
+        super.flipFaceup();
+        
         _.each(this.game.getPlayers(), player => {
             player.drawPhaseCards++;
         });
