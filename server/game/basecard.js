@@ -29,10 +29,11 @@ class BaseCard {
         this.tokens = {};
 
         this.menu = _([]);
-        this.parseCard(cardData.text || '');
+        this.parseKeywords(cardData.text || '');
+        this.parseTraits(cardData.traits || '');
     }
 
-    parseCard(text) {
+    parseKeywords(text) {
         var firstLine = text.split('\n')[0];
         var potentialKeywords = _.map(firstLine.split('.'), k => k.toLowerCase().trim());
 
@@ -58,6 +59,12 @@ class BaseCard {
         });
     }
 
+    parseTraits(traits) {
+        var firstLine = traits.split('\n')[0];
+
+        this.traits = _.map(firstLine.split('.'), k => k.toLowerCase().trim());
+    }
+
     registerEvents(events) {
         this.events = [];
 
@@ -81,7 +88,7 @@ class BaseCard {
     }
 
     hasTrait(trait) {
-        return this.cardData.traits && this.cardData.traits.toLowerCase().indexOf(trait.toLowerCase() + '.') !== -1;
+        return !!this.traits[trait.toLowerCase()];
     }
 
     play() {
@@ -171,8 +178,22 @@ class BaseCard {
         }
     }
 
+    addTrait(trait) {
+        var lowerCaseTrait = trait.toLowerCase();
+
+        if(!this.traits[lowerCaseTrait]) {
+            this.traits[lowerCaseTrait] = 1;
+        } else {
+            this.traits[lowerCaseTrait]++;
+        }
+    }
+
     removeKeyword(keyword) {
         this.keywords[keyword.toLowerCase()]--;
+    }
+
+    removeTrait(trait) {
+        this.traits[trait.toLowerCase()]--;
     }
 
     clearBlank() {
