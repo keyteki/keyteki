@@ -244,6 +244,7 @@ class Player extends Spectator {
     }
 
     initDrawDeck() {
+        this.allCards = _(this.drawCards.clone());
         this.drawDeck = this.drawCards;
         this.drawDeck.each(card => card.location = 'draw deck');
         this.shuffleDrawDeck();

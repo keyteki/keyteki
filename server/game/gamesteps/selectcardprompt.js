@@ -33,6 +33,7 @@ class SelectCardPrompt extends UiPrompt {
         this.properties = properties;
         _.defaults(this.properties, this.defaultProperties());
         this.selectedCards = [];
+        this.savePreviouslySelectedCards();
     }
 
     defaultProperties() {
@@ -44,6 +45,11 @@ class SelectCardPrompt extends UiPrompt {
             onMenuCommand: () => true,
             onCancel: () => true
         };
+    }
+
+    savePreviouslySelectedCards() {
+        this.previouslySelectedCards = this.game.allCards.filter(card => card.selected);
+        _.each(this.previouslySelectedCards, card => card.selected = false);
     }
 
     activeCondition(player) {
@@ -81,7 +87,7 @@ class SelectCardPrompt extends UiPrompt {
             return false;
         }
 
-        if(this.properties.numCards === 1) {
+        if(this.properties.numCards === 1 && this.selectedCards.length === 1) {
             this.fireOnSelect();
         }
     }
@@ -137,6 +143,8 @@ class SelectCardPrompt extends UiPrompt {
         _.each(this.selectedCards, card => {
             card.selected = false;
         });
+        // Restore previous selections.
+        _.each(this.previouslySelectedCards, card => card.selected = true);
     }
 }
 

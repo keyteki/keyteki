@@ -1,23 +1,23 @@
-/*global describe, it, beforeEach, expect,spyOn*/
+/*global describe, it, beforeEach, expect,spyOn, jasmine*/
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
+const _ = require('underscore');
 const SelectCardPrompt = require('../../../server/game/gamesteps/selectcardprompt.js');
-const Game = require('../../../server/game/game.js');
-const Player = require('../../../server/game/player.js');
-const DrawCard = require('../../../server/game/drawcard.js');
 
 describe('the SelectCardPrompt', function() {
     beforeEach(function() {
-        this.game = new Game('1', 'Test Game');
-        this.player = new Player('1', 'Player 1', true, this.game);
-        this.player.initialise();
-        this.otherPlayer = new Player('2', 'Player 2', false, this.game);
-        this.otherPlayer.initialise();
-        this.game.players[this.player.id] = this.player;
-        this.game.players[this.otherPlayer.id] = this.otherPlayer;
-        this.card = new DrawCard(this.player, {});
+        this.game = jasmine.createSpyObj('game', ['getPlayers']);
+
+        this.player = jasmine.createSpyObj('player1', ['setPrompt', 'cancelPrompt']);
+        this.player.cardsInPlay = _([]);
+        this.otherPlayer = jasmine.createSpyObj('player2', ['setPrompt', 'cancelPrompt']);
+
+        this.card = {};
 
         this.player.cardsInPlay.push(this.card);
+
+        this.previousCard = { selected: true };
+        this.game.allCards = _([this.previousCard]);
 
         this.properties = {
             cardCondition: function() {
@@ -43,6 +43,10 @@ describe('the SelectCardPrompt', function() {
         beforeEach(function() {
             this.properties.numCards = 1;
             this.prompt = new SelectCardPrompt(this.game, this.player, this.properties);
+        });
+
+        it('should unselect the cards when the prompt starts', function() {
+            expect(this.previousCard.selected).toBe(false);
         });
 
         describe('the onCardClicked() function', function() {
@@ -72,6 +76,17 @@ describe('the SelectCardPrompt', function() {
                     expect(this.properties.onSelect).toHaveBeenCalledWith(this.player, this.card);
                 });
 
+                describe('when the card is selected from a previous prompt', function() {
+                    beforeEach(function() {
+                        this.card.selected = true;
+                    });
+
+                    it('should not fire the onSelect event', function() {
+                        this.prompt.onCardClicked(this.player, this.card);
+                        expect(this.properties.onSelect).not.toHaveBeenCalled();
+                    });
+                });
+
                 describe('when onSelect returns true', function() {
                     beforeEach(function() {
                         this.properties.onSelect.and.returnValue(true);
@@ -80,6 +95,13 @@ describe('the SelectCardPrompt', function() {
                     it('should complete the prompt', function() {
                         this.prompt.onCardClicked(this.player, this.card);
                         expect(this.prompt.isComplete()).toBe(true);
+                    });
+
+                    it('should reselect the card when the prompt is completed', function() {
+                        this.prompt.onCardClicked(this.player, this.card);
+                        this.prompt.continue();
+
+                        expect(this.previousCard.selected).toBe(true);
                     });
                 });
 
@@ -152,6 +174,13 @@ describe('the SelectCardPrompt', function() {
                             this.prompt.onMenuCommand(this.player, 'another');
                             expect(this.prompt.isComplete()).toBe(true);
                         });
+
+                        it('should reselect the card when the prompt is completed', function() {
+                            this.prompt.onMenuCommand(this.player, 'another');
+                            this.prompt.continue();
+
+                            expect(this.previousCard.selected).toBe(true);
+                        });
                     });
                 });
             });
@@ -160,7 +189,7 @@ describe('the SelectCardPrompt', function() {
 
     describe('for a multiple card prompt', function() {
         beforeEach(function() {
-            this.card2 = new DrawCard(this.player, {});
+            this.card2 = {};
             this.properties.numCards = 2;
             this.prompt = new SelectCardPrompt(this.game, this.player, this.properties);
         });
@@ -210,7 +239,7 @@ describe('the SelectCardPrompt', function() {
                     this.properties.cardCondition.and.returnValue(true);
                     this.prompt.onCardClicked(this.player, this.card);
                     this.prompt.onCardClicked(this.player, this.card2);
-                    this.card3 = new DrawCard(this.player, {});
+                    this.card3 = {};
                 });
 
                 it('should select the card', function() {
@@ -224,7 +253,7 @@ describe('the SelectCardPrompt', function() {
                     this.properties.cardCondition.and.returnValue(true);
                     this.prompt.onCardClicked(this.player, this.card);
                     this.prompt.onCardClicked(this.player, this.card2);
-                    this.card3 = new DrawCard(this.player, {});
+                    this.card3 = {};
                 });
 
                 it('should not select the card', function() {
