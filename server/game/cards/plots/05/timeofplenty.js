@@ -3,12 +3,6 @@ const _ = require('underscore');
 const PlotCard = require('../../../plotcard.js');
 
 class TimeOfPlenty extends PlotCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onPlotFlip']);
-    }
-
     flipFaceup() {
         super.flipFaceup();
         
