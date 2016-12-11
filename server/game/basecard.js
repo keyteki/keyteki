@@ -60,9 +60,11 @@ class BaseCard {
     }
 
     parseTraits(traits) {
+        this.traits = {};
+        
         var firstLine = traits.split('\n')[0];
 
-        this.traits = _.map(firstLine.split('.'), k => k.toLowerCase().trim());
+        _.each(firstLine.split('.'), trait => this.addTrait(trait.toLowerCase().trim()));
     }
 
     registerEvents(events) {
@@ -180,6 +182,10 @@ class BaseCard {
 
     addTrait(trait) {
         var lowerCaseTrait = trait.toLowerCase();
+
+        if(!lowerCaseTrait || lowerCaseTrait === '') {
+            return;
+        }
 
         if(!this.traits[lowerCaseTrait]) {
             this.traits[lowerCaseTrait] = 1;

@@ -37,7 +37,7 @@ class DirewolfPup extends DrawCard {
     }
 
     onCardLeftPlay(e, player) {
-        if(this.controller !== player) {
+        if(!this.inPlay || this.controller !== player) {
             return;
         }
 
