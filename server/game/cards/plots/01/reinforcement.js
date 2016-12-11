@@ -35,10 +35,6 @@ class Reinforcements extends PlotCard {
 
         player.playCard(card.uuid, true, hand ? player.hand : player.discardPile);
 
-        if(!hand) {
-            player.discardPile = player.removeCardByUuid(player.discardPile, card.uuid);
-        }
-
         return true;
     }
 }

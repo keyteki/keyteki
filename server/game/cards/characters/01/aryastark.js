@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const DrawCard = require('../../../drawcard.js');
 
 class AryaStark extends DrawCard {
@@ -14,12 +12,11 @@ class AryaStark extends DrawCard {
             return;
         }
 
-        var dupe = this.controller.drawDeck.first(1)[0];
+        var dupe = this.controller.drawDeck.first();
         dupe.facedown = true;
-        this.controller.drawDeck = _(this.controller.drawDeck.rest(1));
+        this.controller.removeCardFromPile(dupe);
 
-        this.dupes.push(dupe);
-        this.setIcon('military');
+        this.addDuplicate(dupe);
 
         this.game.addMessage('{0} places the top card of their deck on {1} as a duplicate', this.controller, this);
     }

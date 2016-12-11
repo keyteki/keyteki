@@ -30,7 +30,7 @@ class MarchedToTheWall extends PlotCard {
     doDiscard() {
         _.each(this.selections, selection => {
             var player = selection.player;
-            player.discardCard(selection.card.uuid, player.discardPile);
+            player.discardCard(selection.card, false);
         });
     }
 

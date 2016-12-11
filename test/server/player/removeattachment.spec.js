@@ -6,10 +6,11 @@ const DrawCard = require('../../../server/game/drawcard.js');
 
 describe('Player', function() {
     beforeEach(function() {
-        this.player = new Player('1', 'Player 1', true);
+        this.gameSpy = jasmine.createSpyObj('game', ['raiseEvent']);
+        this.player = new Player('1', 'Player 1', true, this.gameSpy);
         this.player.deck = {};
         this.player.initialise();
-        this.attachmentOwner = new Player('2', 'Player 2', false);
+        this.attachmentOwner = new Player('2', 'Player 2', false, this.gameSpy);
         this.attachmentOwner.initialise();
         this.attachment = new DrawCard(this.attachmentOwner, {});
         this.card = new DrawCard(this.player, {});

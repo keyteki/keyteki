@@ -27,7 +27,6 @@ describe('the AttachmentPrompt', () => {
 
         player.cardsInPlay.push(attachmentTarget);
         spyOn(player, 'attach');
-        spyOn(player, 'removeFromHand');
     });
 
     describe('the onCardClicked() function', () => {
@@ -62,11 +61,6 @@ describe('the AttachmentPrompt', () => {
                     prompt.onCardClicked(player, attachmentTarget);
                     expect(player.attach).toHaveBeenCalled();
                 });
-
-                it('should remove the attachment from in play', () => {
-                    prompt.onCardClicked(player, attachmentTarget);
-                    expect(player.findCardInPlayByUuid(attachment.uuid)).not.toBeDefined();
-                });
             });
 
             describe('when attaching a played card', () => {
@@ -78,32 +72,16 @@ describe('the AttachmentPrompt', () => {
                     prompt.onCardClicked(player, attachmentTarget);
                     expect(player.attach).toHaveBeenCalled();
                 });
-
-                it('should remove the attachment from hand', () => {
-                    prompt.onCardClicked(player, attachmentTarget);
-                    expect(player.removeFromHand).toHaveBeenCalledWith(attachment.uuid);
-                });
             });
 
             describe('when attaching a card from discard', () => {
                 beforeEach(() => {
                     player.discardPile.push(attachment);
-                    player.dropPending = true;
                 });
 
                 it('should attach the card', () => {
                     prompt.onCardClicked(player, attachmentTarget);
                     expect(player.attach).toHaveBeenCalled();
-                });
-
-                it('should remove the attachment from discard', () => {
-                    prompt.onCardClicked(player, attachmentTarget);
-                    expect(player.findCardByUuid(player.discard, attachment.uuid)).not.toBeDefined();
-                });
-
-                it('should end drop flow', () => {
-                    prompt.onCardClicked(player, attachmentTarget);
-                    expect(player.dropPending).toBeFalsy();
                 });
             });
         });

@@ -164,8 +164,10 @@ class Player extends Spectator {
     }
 
     drawCardsToHand(numCards) {
-        this.hand = _(this.hand.concat(this.drawDeck.first(numCards)));
-        this.drawDeck = _(this.drawDeck.rest(numCards));
+        var cards = this.drawDeck.first(numCards);
+        _.each(cards, card => {
+            this.moveCard(card, 'hand');
+        });
     }
 
     searchDrawDeck(limit, predicate) {
@@ -184,29 +186,14 @@ class Player extends Spectator {
         return cards.filter(predicate);
     }
 
-    moveFromDrawDeckToHand(card) {
-        this.drawDeck = this.removeCardByUuid(this.drawDeck, card.uuid);
-
-        this.hand.push(card);
-    }
-
     shuffleDrawDeck() {
         this.drawDeck = _(this.drawDeck.shuffle());
     }
 
-    removeFromHand(cardId) {
-        this.hand = this.removeCardByUuid(this.hand, cardId);
-    }
-
     discardFromDraw(number) {
         for(var i = 0; i < number; i++) {
-            this.discardPile.push(this.drawDeck.first());
-            this.drawDeck = _(this.drawDeck.slice(1));
+            this.discardCard(this.drawDeck.first());
         }
-    }
-
-    addCardToDrawDeck(card) {
-        this.drawDeck.push(card);
     }
 
     discardAtRandom(number) {
@@ -215,12 +202,10 @@ class Player extends Spectator {
         while(toDiscard > 0) {
             var cardIndex = _.random(0, this.hand.size() - 1);
 
-            var discarded = this.hand.value().splice(cardIndex, 1);
+            var card = this.hand.value()[cardIndex];
 
-            _.each(discarded, card => {
-                this.game.addMessage('{0} discards {1} at random', this, card);
-                this.discardPile.push(card);
-            });
+            this.game.addMessage('{0} discards {1} at random', this, card);
+            this.discardCard(card);
 
             toDiscard--;
         }
@@ -237,6 +222,7 @@ class Player extends Spectator {
 
     initDrawDeck() {
         this.drawDeck = this.drawCards;
+        this.drawDeck.each(card => card.location = 'draw deck');
         this.shuffleDrawDeck();
         this.hand = _([]);
         this.drawCardsToHand(StartingHandSize);
@@ -259,6 +245,8 @@ class Player extends Spectator {
                 } else {
                     drawCard = new DrawCard(this, cardEntry.card);
                 }
+
+                drawCard.location = 'draw deck';
 
                 this.drawCards.push(drawCard);
             }
@@ -411,8 +399,7 @@ class Player extends Spectator {
 
             card.play(this);
 
-            this.removeFromHand(card.uuid);
-            this.discardPile.push(card);
+            this.moveCard(card, 'discard pile');
 
             return true;
         }
@@ -425,12 +412,11 @@ class Player extends Spectator {
 
         if(card.getType() === 'attachment' && this.phase !== 'setup' && !dupeCard) {
             this.promptForAttachment(card);
-            // Hacky workaround for drag and drop.
-            this.dropPending = sourceList === this.discardPile;
             return true;
         }
 
         if(dupeCard && this.phase !== 'setup') {
+            this.removeCardFromPile(card);
             dupeCard.addDuplicate(card);
         } else {
             if(this.phase !== 'setup') {
@@ -440,15 +426,11 @@ class Player extends Spectator {
             card.facedown = this.phase === 'setup';
             card.play(this);
             card.new = true;
-            this.cardsInPlay.push(card);
-        } 
+            this.moveCard(card, 'play area');
+        }
 
         if(card.isLimited() && !forcePlay) {
             this.limitedPlayed++;
-        }
-
-        if(sourceList === this.hand) {
-            this.removeFromHand(card.uuid);
         }
 
         return true;
@@ -582,8 +564,12 @@ class Player extends Spectator {
             return;
         }
 
+        attachment.owner.removeCardFromPile(attachment);
+
         attachment.parent = card;
         attachment.facedown = false;
+        attachment.location = 'play area';
+        attachment.inPlay = true;
 
         card.attachments.push(attachment);
 
@@ -647,7 +633,6 @@ class Player extends Spectator {
 
         var sourceList = this.getSourceList(source);
         var card = this.findCardByUuid(sourceList, cardId);
-        var player = this;
 
         if(!card) {
             if(source === 'play area') {
@@ -659,73 +644,31 @@ class Player extends Spectator {
 
                 card = otherPlayer.findCardInPlayByUuid(cardId);
 
-                if(!card || card.controller !== this) {
+                if(!card) {
                     return false;
                 }
-
-                player = otherPlayer;
             } else {
                 return false;
             }
         }
 
-        switch(target) {
-            case 'hand':
-                card.facedown = false;
-                this.hand.push(card);
-                break;
-            case 'discard pile':
-                if(source === 'play area') {
-                    player.discardCard(cardId, this.discardPile);
-
-                    return true;
-                }
-
-                this.discardPile.push(card);
-
-                break;
-            case 'dead pile':
-                if(card.getType() !== 'character') {
-                    return false;
-                }
-
-                if(source === 'play area') {
-                    this.discardCard(cardId, this.deadPile);
-
-                    return true;
-                }
-
-                this.deadPile.push(card);
-                break;
-            case 'play area':
-                if(card.getType() === 'event') {
-                    return false;
-                }
-
-                this.game.playCard(this.id, cardId, true, sourceList);
-
-                if(this.dropPending) {
-                    return true;
-                }
-
-                if(source === 'hand') {
-                    return true;
-                }
-                break;
-            case 'draw deck':
-                this.drawDeck.unshift(card);
-                break;
+        if(card.controller !== this) {
+            return false;
         }
 
-        if(card.parent && card.parent.attachments) {
-            card.parent.attachments = this.removeCardByUuid(card.parent.attachments, cardId);
-
-            card.parent = undefined;
+        if(target === 'dead pile' && card.getType() !== 'character') {
+            return false;
         }
 
-        sourceList = this.removeCardByUuid(sourceList, cardId);
+        if(target === 'play area' && card.getType() === 'event') {
+            return false;
+        }
 
-        this.updateSourceList(source, sourceList);
+        if(target === 'play area') {
+            this.game.playCard(this.id, cardId, true, sourceList);
+        } else {
+            this.moveCard(card, target);
+        }
 
         return true;
     }
@@ -790,6 +733,19 @@ class Player extends Spectator {
         });
     }
 
+    sacrificeCard(card) {
+        this.move(card, 'discard pile');
+        this.game.raiseEvent('onSacrificed', this, card);
+    }
+
+    discardCard(card, allowSave = true) {
+        if(!card.dupes.isEmpty() && allowSave) {
+            this.removeDuplicate(card);
+        } else {
+            this.moveCard(card, 'discard pile');
+        }
+    }
+
     killCharacter(card, allowSave = true) {
         var character = this.findCardInPlayByUuid(card.uuid);
 
@@ -798,15 +754,9 @@ class Player extends Spectator {
         }
 
         if(!character.dupes.isEmpty() && allowSave) {
-            var discardedDupe = character.dupes.first();
-
-            character.dupes = _(character.dupes.slice(1));
-
-            this.game.raiseEvent('onDupeDiscarded', this, character, discardedDupe);
-
-            this.discardPile.push(discardedDupe);
+            this.removeDuplicate(character);
         } else {
-            this.discardCard(card.uuid, this.deadPile);
+            this.moveCard(card, 'dead pile');
 
             this.game.raiseEvent('onCharacterKilled', this, character);
         }
@@ -850,52 +800,18 @@ class Player extends Spectator {
         return power;
     }
 
-    discardCard(cardId, pile) {
-        var card = this.findCardInPlayByUuid(cardId);
-
-        if(!card) {
-            return;
-        }
-
-        card.dupes.each(dupe => {
-            pile.push(dupe);
-        });
-
-        card.dupes = _([]);
-
-        card.attachments.each(attachment => {
-            this.removeAttachment(attachment, false);
-        });
-
-        this.cardsInPlay = this.removeCardByUuid(this.cardsInPlay, cardId);
-
-        if(card.parent && card.parent.attachments) {
-            card.parent.attachments = this.removeCardByUuid(card.parent.attachments, cardId);
-        }
-
-        pile.push(card);
-        card.leavesPlay();
-
-        this.game.raiseEvent('onCardLeftPlay', this, card);
-    }
-
     removeAttachment(attachment, allowSave = true) {
         while(attachment.dupes.size() > 0) {
-            var dupe = attachment.removeDuplicate();
-            dupe.owner.discardPile.push(dupe);
+            this.removeDuplicate(attachment);
             if(allowSave) {
                 return;
             }
         }
 
-        attachment.parent.attachments = this.removeCardByUuid(attachment.parent.attachments, attachment.uuid);
-        attachment.leavesPlay();
-        attachment.parent = undefined;
-
         if(attachment.isTerminal()) {
-            attachment.owner.discardPile.push(attachment);
+            attachment.owner.moveCard(attachment, 'discard pile');
         } else {
-            attachment.owner.hand.push(attachment);
+            attachment.owner.moveCard(attachment, 'hand');
         }
     }
 
@@ -906,6 +822,66 @@ class Player extends Spectator {
 
         this.faction.cardData = deck.faction;
         this.faction.cardData.code = deck.faction.value;
+    }
+
+    moveCard(card, targetLocation) {
+        var targetPile = this.getSourceList(targetLocation);
+
+        if(!targetPile) {
+            return;
+        }
+
+        this.removeCardFromPile(card);
+
+        if(card.location === 'play area') {
+            card.attachments.each(attachment => {
+                this.removeAttachment(attachment, false);
+            });
+
+            while(card.dupes.size() > 0) {
+                this.removeDuplicate(card);
+            }
+
+            card.leavesPlay();
+            this.game.raiseEvent('onCardLeftPlay', this, card);
+
+            if(card.parent && card.parent.attachments) {
+                card.parent.attachments = this.removeCardByUuid(card.parent.attachments, card.uuid);
+                card.parent = undefined;
+            }
+        }
+
+        card.location = targetLocation;
+        if(targetLocation === 'draw deck') {
+            targetPile.unshift(card);
+        } else {
+            targetPile.push(card);
+        }
+
+        if(targetLocation !== 'play area') {
+            card.facedown = false;
+        }
+    }
+
+    removeDuplicate(card) {
+        if(card.dupes.isEmpty()) {
+            return;
+        }
+
+        var dupe = card.removeDuplicate();
+        dupe.facedown = false;
+        dupe.location = 'discard pile';
+        dupe.owner.discardPile.push(dupe);
+        this.game.raiseEvent('onDupeDiscarded', this, card, dupe);
+    }
+
+    removeCardFromPile(card) {
+        var originalLocation = card.location;
+        var originalPile = this.getSourceList(originalLocation);
+        if(originalPile) {
+            originalPile = this.removeCardByUuid(originalPile, card.uuid);
+            this.updateSourceList(originalLocation, originalPile);
+        }
     }
 
     getTotalPlotStat(property) {

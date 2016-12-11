@@ -36,7 +36,7 @@ class ATimeForWolves extends PlotCard {
             return false;
         }
 
-        player.moveFromDrawDeckToHand(card);
+        player.moveCard(card, 'hand');
         player.shuffleDrawDeck();
 
         if(card.getCost() > 3) {

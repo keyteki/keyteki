@@ -24,20 +24,8 @@ class AttachmentPrompt extends UiPrompt {
         }
 
         var targetPlayer = this.game.getPlayerById(targetCard.controller.id);
-        if(targetPlayer === player && player.phase === 'setup') {
-            // We put attachments on the board during setup, now remove it
-            player.attach(player, attachment, targetCard.uuid);
-            player.cardsInPlay = player.removeCardByUuid(player.cardsInPlay, attachmentId);
-        } else {
-            targetPlayer.attach(player, attachment, targetCard.uuid);
-            player.removeFromHand(attachmentId);
-        }
+        targetPlayer.attach(player, attachment, targetCard.uuid);
 
-        if(player.dropPending) {
-            player.discardPile = player.removeCardByUuid(player.discardPile, attachmentId);
-        }
-
-        player.dropPending = false;
         player.selectCard = false;
         this.complete();
     }

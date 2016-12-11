@@ -33,8 +33,7 @@ class Rebuilding extends PlotCard {
         var paramIndex = 2;
 
         _.each(cards, card => {
-            player.discardPile = player.removeCardByUuid(player.discardPile, card.uuid);
-            player.addCardToDrawDeck(card);
+            player.moveCard(card, 'draw deck');
             player.shuffleDrawDeck();
 
             params += '{' + paramIndex++ + '} ';
