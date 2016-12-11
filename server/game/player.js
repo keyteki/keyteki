@@ -748,7 +748,7 @@ class Player extends Spectator {
     }
 
     sacrificeCard(card) {
-        this.move(card, 'discard pile');
+        this.moveCard(card, 'discard pile');
         this.game.raiseEvent('onSacrificed', this, card);
     }
 
