@@ -196,6 +196,15 @@ class Player extends Spectator {
         }
     }
 
+    moveFromTopToBottomOfDrawDeck(number) {
+        while(number > 0) {
+            var nextCard = this.drawDeck.value().shift();
+            this.drawDeck.push(nextCard);
+
+            number--;
+        }
+    }
+
     discardAtRandom(number) {
         var toDiscard = number;
 
