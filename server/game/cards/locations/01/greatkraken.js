@@ -83,6 +83,8 @@ class GreatKraken extends DrawCard {
     }
 
     leavesPlay() {
+        super.leavesPlay();
+        
         var balonGreyjoy = this.controller.findCardByName(this.controller.cardsInPlay, 'Balon Greyjoy');
 
         if(balonGreyjoy) {

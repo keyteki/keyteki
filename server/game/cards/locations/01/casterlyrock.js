@@ -18,6 +18,8 @@ class CasterlyRock extends DrawCard {
     }
 
     leavesPlay() {
+        super.leavesPlay();
+        
         if(!this.isBlank()) {
             this.controller.addChallenge('intrigue', -1);
         }

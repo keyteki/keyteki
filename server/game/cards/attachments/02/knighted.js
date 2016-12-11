@@ -7,6 +7,8 @@ class Knighted extends DrawCard {
     }
 
     leavesPlay() {
+        super.leavesPlay();
+        
         this.parent.strengthModifier--;
         this.parent.removeTrait('Knight');
     }

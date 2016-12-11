@@ -6,6 +6,8 @@ class MilkOfThePoppy extends DrawCard {
     }
 
     leavesPlay() {
+        super.leavesPlay();
+        
         this.parent.clearBlank();
     }
 }

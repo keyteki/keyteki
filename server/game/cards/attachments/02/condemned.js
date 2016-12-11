@@ -6,6 +6,8 @@ class Condemned extends DrawCard {
     }
 
     leavesPlay() {
+        super.leavesPlay();
+        
         this.parent.setIcon('power');
     }
 }

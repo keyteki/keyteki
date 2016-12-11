@@ -18,6 +18,8 @@ class KhalDrogo extends DrawCard {
     }
 
     leavesPlay() {
+        super.leavesPlay();
+        
         if(!this.isBlank()) {
             this.controller.addChallenge('military', -1);
         }

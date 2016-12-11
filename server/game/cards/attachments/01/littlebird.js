@@ -6,6 +6,8 @@ class LittleBird extends DrawCard {
     }
 
     leavesPlay() {
+        super.leavesPlay();
+        
         this.parent.setIcon('intrigue');
     }
 }
