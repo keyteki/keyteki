@@ -229,7 +229,7 @@ class Player extends Spectator {
             return undefined;
         }
 
-        this.discardCard(retCard)
+        this.discardCard(retCard);
 
         return retCard;
     }
@@ -490,7 +490,6 @@ class Player extends Spectator {
     }
 
     startPlotPhase() {
-        this.gold = 0;
         this.claim = 0;
         this.reserve = 0;
         this.firstPlayer = false;
