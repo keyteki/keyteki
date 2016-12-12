@@ -14,8 +14,8 @@ function addCardsToHand(hand, number) {
 describe('Player', function() {
     describe('setupDone', function() {
         beforeEach(function() {
-            this.gameSpy = jasmine.createSpyObj('game', ['raiseEvent']);
-            this.player = new Player('1', 'Player 1', true, this.gameSpy);
+            this.game = {};
+            this.player = new Player('1', 'Player 1', true, this.game);
             this.player.deck = {};
             this.player.initialise();
 
@@ -83,6 +83,10 @@ describe('Player', function() {
                 expect(this.findSpy).not.toHaveBeenCalled();
                 expect(this.cardSpy.addDuplicate).not.toHaveBeenCalled();
             });
+
+            it('should mark the card as face up', function() {
+                expect(this.cardSpy.facedown).toBe(false);
+            });
         });
 
         describe('when there is a unique card', function() {
@@ -104,6 +108,10 @@ describe('Player', function() {
                     });
 
                     this.player.setupDone();
+                });
+
+                it('should mark the card as face up', function() {
+                    expect(this.duplicateSpy.facedown).toBe(false);
                 });
 
                 it('should add a duplicate', function() {

@@ -482,7 +482,6 @@ class Player extends Spectator {
                 duplicate.addDuplicate(card);
             } else {
                 processedCards.push(card);
-                this.game.raiseEvent('onCardEntersPlay', card);
             }
 
         });
