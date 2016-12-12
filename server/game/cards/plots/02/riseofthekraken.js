@@ -13,9 +13,38 @@ class RiseOfTheKraken extends PlotCard {
             return;
         }
 
+        this.game.promptWithMenu(player, this, {
+            activePrompt: {
+                menuTitle: 'Trigger ' + this.name + '?',
+                buttons: [
+                    { text: 'Yes', command: 'menuButton', method: 'gainPower' },
+                    { text: 'No', command: 'menuButton', method: 'cancel' }
+                ]
+            },
+            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+        });
+    }
+
+    gainPower(player) {
+        if(!this.inPlay || this.controller !== player) {
+            return false;
+        }
+
         this.game.addMessage('{0} uses {1} to gain an additional power from winning an unopposed challenge', player, this);
 
         this.game.addPower(player, 1);
+
+        return true;        
+    }
+
+    cancel(player) {
+        if(!this.inPlay || this.controller !== player) {
+            return false;
+        }
+        
+        this.game.addMessage('{0} declines to trigger {1}', player, this);
+
+        return true;
     }
 }
 
