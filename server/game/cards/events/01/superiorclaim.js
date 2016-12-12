@@ -6,7 +6,8 @@ class SuperiorClaim extends DrawCard {
             return false;
         }
 
-        if(!this.game.currentChallenge || this.game.currentChallenge.winner !== this.controller || this.game.currentChallenge.strengthDifference < 5) {
+        if(!this.game.currentChallenge || this.game.currentChallenge.winner !== this.controller || this.game.currentChallenge.strengthDifference < 5 ||
+                this.game.currentChallenge.challengeType !== 'power') {
             return false;
         }
 
