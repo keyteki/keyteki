@@ -13,7 +13,7 @@ class ASongOfSummer extends PlotCard {
         if(this.owner.selectedPlot !== this && this.owner.activePlot !== this) {
             return;
         }
-
+       
         var otherPlayer = this.game.getOtherPlayer(this.controller);
 
         if(this.owner.activePlot === this) {
