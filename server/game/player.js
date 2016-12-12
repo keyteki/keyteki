@@ -797,9 +797,10 @@ class Player extends Spectator {
                 this.moveCard(card, 'dead pile');
             }
         } else {
-            this.moveCard(card, 'dead pile');
-
-            this.game.raiseEvent('onCharacterKilled', this, character);
+            var event = this.game.raiseEvent('onCharacterKilled', this, character, allowSave);
+            if(!event.cancel && allowSave) {
+                this.moveCard(card, 'dead pile');
+            }
         }
     }
 
