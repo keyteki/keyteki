@@ -378,12 +378,12 @@ class Game extends EventEmitter {
         if(!player) {
             return;
         }
-        
+
         var target = player;
 
         if(stat === 'power') {
             target = player.faction;
-        } 
+        }
 
         target[stat] += value;
 

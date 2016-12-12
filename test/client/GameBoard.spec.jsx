@@ -111,7 +111,7 @@ describe('the <GameBoard /> component', function() {
 
                 expect(cards[0].props.card.code).toBe('00002');
                 expect(cards[1].props.card.code).toBe('00003');
-                expect(cards[2].props.card.code).toBe('00001');                
+                expect(cards[2].props.card.code).toBe('00001');
             });
         });
     });
@@ -226,10 +226,10 @@ describe('the <GameBoard /> component', function() {
                 var usedPlots = component.refs.thisPlayerUsedPlot;
 
                 TestUtils.Simulate.click(usedPlots);
-                
+
                 component = ReactDOM.render(<Provider store={store}><GameBoard /></Provider>, node);
                 component = TestUtils.findRenderedComponentWithType(component, GameBoard).getWrappedInstance();
-                
+
                 var popup = TestUtils.scryRenderedDOMComponentsWithClass(component, 'plot-popup');
 
                 expect(popup.length).toBe(1);
@@ -247,7 +247,7 @@ describe('the <GameBoard /> component', function() {
                 var usedPlots = component.refs.thisPlayerUsedPlot;
 
                 TestUtils.Simulate.click(usedPlots);
-                
+
                 component = ReactDOM.render(<Provider store={store}><GameBoard /></Provider>, node);
                 component = TestUtils.findRenderedComponentWithType(component, GameBoard).getWrappedInstance();
 
@@ -267,7 +267,7 @@ describe('the <GameBoard /> component', function() {
                 expect(this.popup.length).toBe(0);
             });
 
-            it('should show the plot menu', function() {              
+            it('should show the plot menu', function() {
                 expect(this.menu.length).toBe(1);
                 expect(this.menu[0].children[0].innerText).toBe('Show');
                 expect(this.menu[0].children[1].innerText).toBe('Test');

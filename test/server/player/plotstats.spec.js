@@ -26,7 +26,7 @@ describe('the Player', function() {
         this.player.activePlot = this.plotSpy;
 
         this.plotSpy.getIncome.and.returnValue(5);
-        
+
         this.player.cardsInPlay.push(this.card);
     });
 

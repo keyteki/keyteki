@@ -44,7 +44,7 @@ class TheRedKeep extends DrawCard {
         }
 
         this.game.addMessage('{0} kneels {1} to draw 2 cards', player, this);
-        
+
         player.drawCardsToHand(2);
 
         return true;
@@ -57,7 +57,7 @@ class TheRedKeep extends DrawCard {
 
         this.game.addMessage('{0} declines to trigger {1}', player, this);
         return true;
-    }    
+    }
 }
 
 TheRedKeep.code = '01061';

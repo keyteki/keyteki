@@ -1,5 +1,5 @@
 const Reducer = require('../reducer.js').Reducer;
- 
+
 class Fealty extends Reducer {
     constructor(owner, cardData) {
         super(owner, cardData, 1, (player, card) => {

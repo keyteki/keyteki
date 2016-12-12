@@ -161,7 +161,7 @@ class ChallengeFlow extends BaseStep {
         if(player !== this.challenge.winner) {
             return false;
         }
-        
+
         switch(this.challenge.challengeType) {
             case 'military':
                 this.game.queueStep(new FulfillMilitaryClaim(this.game, this.challenge.loser, this.challenge.claim));

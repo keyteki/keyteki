@@ -1,5 +1,5 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class Imprisoned extends DrawCard {
     attach(player, card) {
         card.clearIcon('military');

@@ -18,7 +18,7 @@ describe('Player', function() {
             this.player = new Player('1', 'Player 1', true, this.gameSpy);
             this.player.deck = {};
             this.player.initialise();
-            
+
             this.cardSpy = jasmine.createSpyObj('card', ['isUnique', 'addDuplicate']);
             this.duplicateSpy = jasmine.createSpyObj('card', ['isUnique', 'addDuplicate']);
             this.findSpy = spyOn(this.player, 'findCardByName');
@@ -118,7 +118,7 @@ describe('Player', function() {
             describe('and no duplicate is found', function() {
                 beforeEach(function() {
                     this.findSpy.and.returnValue(undefined);
-                    
+
                     this.player.setupDone();
                 });
 

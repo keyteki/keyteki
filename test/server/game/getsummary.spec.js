@@ -88,7 +88,7 @@ describe('the Game', () => {
 
             it('should show the specators to any player', () => {
                 var state = game.getSummary('any');
-                
+
                 expect(state.spectators).not.toBe(undefined);
                 expect(state.spectators.length).toBe(1);
                 expect(state.spectators[0].name).toBe(spectator.name);

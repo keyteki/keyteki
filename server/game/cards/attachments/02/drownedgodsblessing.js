@@ -1,5 +1,5 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class DrownedGodsBlessing extends DrawCard {
     getInitiative() {
         return 1;

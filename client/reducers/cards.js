@@ -9,7 +9,7 @@ function cards(state = {
             });
         case 'REQUEST_PACKS':
             return Object.assign({}, state, {
-            });            
+            });
         case 'RECEIVE_CARDS':
             var agendas = _.filter(action.cards, function(card) {
                 return card.type_code === 'agenda' && card.pack_code !== 'VDS';

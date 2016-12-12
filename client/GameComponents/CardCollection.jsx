@@ -19,7 +19,7 @@ class CardCollection extends React.Component {
 
     onCollectionClick(event) {
         event.preventDefault();
-        
+
         this.setState({showPopup: !this.state.showPopup});
     }
 

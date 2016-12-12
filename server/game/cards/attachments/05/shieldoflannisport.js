@@ -1,5 +1,5 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class ShieldOfLannisport extends DrawCard {
     getIncome() {
         return 1;

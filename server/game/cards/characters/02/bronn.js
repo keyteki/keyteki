@@ -1,5 +1,5 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class Bronn extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);

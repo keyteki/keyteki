@@ -1,5 +1,5 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class SaltyNavigator extends DrawCard {
     getInitiative() {
         return 1;

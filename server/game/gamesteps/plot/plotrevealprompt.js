@@ -37,9 +37,9 @@ class PlotRevealPrompt extends UIPrompt {
         var otherPlayer = this.game.getOtherPlayer(firstPlayer);
         if(otherPlayer) {
             otherPlayer.firstPlayer = false;
-        }    
+        }
 
-        this.game.addMessage('{0} has selected {1} to be the first player', player, firstPlayer);        
+        this.game.addMessage('{0} has selected {1} to be the first player', player, firstPlayer);
     }
 
     continue() {

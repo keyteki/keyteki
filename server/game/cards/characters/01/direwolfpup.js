@@ -40,7 +40,7 @@ class DirewolfPup extends DrawCard {
         if(this.controller !== player) {
             return;
         }
-    
+
         this.calculateStrength();
     }
 }

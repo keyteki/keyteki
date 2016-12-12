@@ -48,7 +48,7 @@ app.use(passport.session());
 
 passport.use(new localStrategy(
     function(username, password, done) {
-        db.collection('users').findOne({ username: { '$regex': new RegExp('^' + escapeRegex(username.toLowerCase()), 'i')}}, 
+        db.collection('users').findOne({ username: { '$regex': new RegExp('^' + escapeRegex(username.toLowerCase()), 'i')}},
         function(err, user) {
             if(err) {
                 return done(err);
@@ -92,7 +92,7 @@ passport.deserializeUser(function(id, done) {
         if(!user.emailHash) {
             user.emailHash = crypto.createHash('md5').update(user.email).digest('hex');
 
-            db.collection('users').update({ username: user.username }, 
+            db.collection('users').update({ username: user.username },
                 {
                     '$set': {
                         emailHash: user.emailHash
@@ -202,7 +202,7 @@ function refreshUserList(socket) {
             emailHash: user.emailHash
         };
     });
-    
+
     if(socket) {
         socket.emit('users', userList);
     } else {

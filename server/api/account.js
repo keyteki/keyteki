@@ -10,7 +10,7 @@ const escapeRegex = require('../util.js').escapeRegex;
 
 module.exports.init = function(server) {
     server.post('/api/account/register', function(req, res, next) {
-        db.collection('users').findOne({ username: {'$regex': new RegExp('^' + escapeRegex(req.body.username.toLowerCase()), 'i')}}, 
+        db.collection('users').findOne({ username: {'$regex': new RegExp('^' + escapeRegex(req.body.username.toLowerCase()), 'i')}},
         function(err, account) {
             if(err) {
                 res.send({ success: false, message: 'An error occured registering your account' });
@@ -56,7 +56,7 @@ module.exports.init = function(server) {
     });
 
     server.post('/api/account/check-username', function(req, res) {
-        db.collection('users').findOne({ username: { '$regex': new RegExp('^' + escapeRegex(req.body.username.toLowerCase()), 'i')}}, 
+        db.collection('users').findOne({ username: { '$regex': new RegExp('^' + escapeRegex(req.body.username.toLowerCase()), 'i')}},
         function(err, account) {
             if(err) {
                 res.send({ message: '' });

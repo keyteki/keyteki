@@ -1,5 +1,5 @@
 const AgendaCard = require('../../agendacard.js');
- 
+
 class TheLordOfTheCrossing extends AgendaCard {
     constructor(owner, cardData) {
         super(owner, cardData);
@@ -27,7 +27,7 @@ class TheLordOfTheCrossing extends AgendaCard {
         if(challenge.attackingPlayer !== this.controller) {
             return;
         }
-        
+
         var currentChallenge = this.controller.getNumberOfChallengesInitiated();
         if(challenge.winner === this.controller && currentChallenge === 3) {
             this.game.addMessage('{0} gains 1 power from {1}', challenge.winner, this);

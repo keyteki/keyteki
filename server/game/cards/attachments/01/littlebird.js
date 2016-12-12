@@ -1,5 +1,5 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class LittleBird extends DrawCard {
     attach(player, card) {
         card.setIcon('intrigue');

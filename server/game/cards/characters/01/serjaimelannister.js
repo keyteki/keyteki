@@ -1,9 +1,9 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class SerJaimeLannister extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
-        
+
         this.registerEvents(['onAttackersDeclared', 'onChallengeFinished']);
     }
 

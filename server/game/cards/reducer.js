@@ -83,7 +83,7 @@ class FactionCharacterCostReducer extends Reducer {
         super(owner, cardData, reduceBy, (player, card) => {
             return card.getType() === 'character' && card.getFaction() === faction;
         });
-        
+
         this.faction = faction;
     }
 

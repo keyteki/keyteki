@@ -229,7 +229,7 @@ class Player extends Spectator {
             return undefined;
         }
 
-        this.discardCard(retCard)        
+        this.discardCard(retCard)
 
         return retCard;
     }
@@ -256,7 +256,7 @@ class Player extends Spectator {
         this.plotDeck = this.plotCards;
     }
 
-    prepareDecks() {        
+    prepareDecks() {
         this.drawCards = _([]);
         this.plotCards = _([]);
 
@@ -300,7 +300,7 @@ class Player extends Spectator {
             this.agenda.inPlay = true;
         } else {
             this.agenda = undefined;
-        }        
+        }
     }
 
     initialise() {
@@ -363,12 +363,12 @@ class Player extends Spectator {
         canPlay = card.canPlay(this, card);
         if(!canPlay) {
             return false;
-        }     
+        }
 
         if(this.phase !== 'setup' && this.phase !== 'marshal' && card.getType() !== 'event') {
             if(this.phase !== 'challenge' || !card.isAmbush()) {
                 return false;
-            }    
+            }
         }
 
         if(!this.isCardUuidInList(this.hand, card)) {
@@ -519,7 +519,7 @@ class Player extends Spectator {
                 lost: 0
             }
         };
-        
+
         this.challengerLimit = 0;
         this.drawPhaseCards = DrawPhaseCards;
 
@@ -533,7 +533,7 @@ class Player extends Spectator {
         this.buttons = [];
 
         this.selectedPlot.flipFaceup();
-        
+
         if(this.activePlot) {
             this.activePlot.leavesPlay(this);
             this.plotDiscard.push(this.activePlot);
@@ -807,7 +807,7 @@ class Player extends Spectator {
             card.attachments.each(attachment => {
                 attachment.kneeled = false;
             });
-            
+
             card.kneeled = false;
         });
     }
@@ -935,12 +935,12 @@ class Player extends Spectator {
 
         gold = this.activePlot.modifyIncome(this, gold);
 
-        // XXX this player shouldn't know about the other player, this should be deffered to game        
+        // XXX this player shouldn't know about the other player, this should be deffered to game
         var otherPlayer = this.game.getOtherPlayer(this);
         if(otherPlayer) {
             gold = otherPlayer.activePlot.modifyIncome(this, gold);
-        }    
-        
+        }
+
         return gold;
     }
 

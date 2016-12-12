@@ -121,7 +121,7 @@ class Card extends React.Component {
 
         var offset = -10;
         var dupes = _.map(facedownDupes, dupe => {
-            var style = { 
+            var style = {
                 top: offset + 'px',
                 left: '0px',
                 zIndex: offset,
@@ -153,7 +153,7 @@ class Card extends React.Component {
             <div className='panel menu'>
                 {menuItems}
             </div>
-        ) : null;  
+        ) : null;
     }
 
     isFacedown() {
@@ -168,7 +168,7 @@ class Card extends React.Component {
         if(!this.props.card) {
             return <div />;
         }
-        
+
         if(this.props.card.kneeled || this.props.horizontal) {
             cardClass = 'horizontal-card';
             imageClass = 'kneeled card';

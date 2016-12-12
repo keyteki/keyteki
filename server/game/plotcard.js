@@ -20,7 +20,7 @@ class PlotCard extends BaseCard {
         if(printed) {
             return this.cardData.income;
         }
-        
+
         return this.cardData.income + this.goldModifier;
     }
 

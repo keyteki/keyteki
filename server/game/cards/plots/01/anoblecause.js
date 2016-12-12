@@ -3,7 +3,7 @@ const PlotCard = require('../../../plotcard.js');
 class ANobleCause extends PlotCard {
     constructor(owner, cardData) {
         super(owner, cardData);
-    
+
         this.abilityUsed = false;
     }
 

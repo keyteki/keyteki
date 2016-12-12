@@ -11,7 +11,7 @@ class StatusPopOver extends React.Component {
 
         return extendedStatuses;
     }
-    
+
     render() {
         return (
             <ul className='hidden'>

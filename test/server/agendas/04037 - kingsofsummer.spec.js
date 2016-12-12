@@ -50,7 +50,7 @@ describe('Kings Of Summer', function() {
                 this.player1Fake.selectedPlot.goldModifier = 0;
                 this.player2Fake.selectedPlot.reserveModifier = 0;
                 this.player2Fake.selectedPlot.goldModifier = 0;
-                
+
                 this.plot2.hasTrait.and.returnValue(true);
 
                 this.agenda.onPlotFlip();
@@ -96,9 +96,9 @@ describe('Kings Of Summer', function() {
 
                 it('should reset the player\'s gold and reserve modifiers', function() {
                     expect(this.plot1.goldModifier).toBe(0);
-                    expect(this.plot1.goldModifier).toBe(0);           
+                    expect(this.plot1.goldModifier).toBe(0);
                     expect(this.plot1.reserveModifier).toBe(0);
-                    expect(this.plot1.reserveModifier).toBe(0);         
+                    expect(this.plot1.reserveModifier).toBe(0);
                 });
             });
         });

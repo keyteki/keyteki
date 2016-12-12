@@ -1,12 +1,12 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class CatelynStark extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
         this.power = 0;
         this.lastPower = 0;
-        
+
         this.registerEvents(['onCardSacrificed', 'onCharacterKilled', 'onBeginRound']);
     }
 
@@ -14,7 +14,7 @@ class CatelynStark extends DrawCard {
         if(!this.inPlay || this.isBlank()) {
             return;
         }
-        
+
         this.strengthModifier -= this.lastPower;
         this.strengthModifier += this.power;
 

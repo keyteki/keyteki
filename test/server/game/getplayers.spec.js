@@ -75,7 +75,7 @@ describe('Game', function() {
                     this.players = this.game.getPlayersInFirstPlayerOrder();
                 });
 
-                it('should return player 1 then player 2', function() { 
+                it('should return player 1 then player 2', function() {
                     this.game.players['1'] = this.setPlayer1;
                     expect(this.players[0]).toBe(this.setPlayer1);
                     expect(this.players[1]).toBe(this.notSetPlayer2);

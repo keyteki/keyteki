@@ -1,5 +1,5 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class TywinLannister extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
@@ -13,7 +13,7 @@ class TywinLannister extends DrawCard {
         if(!this.inPlay) {
             return;
         }
-        
+
         this.strengthModifier -= this.lastGold;
         this.strengthModifier += this.controller.gold;
 
@@ -49,7 +49,7 @@ class TywinLannister extends DrawCard {
             return;
         }
 
-        this.updateStrength();        
+        this.updateStrength();
     }
 
     getIncome() {

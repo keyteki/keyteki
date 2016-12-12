@@ -105,7 +105,7 @@ export function validateDeck(deck) {
         }
     }
 
-    // Kings of summer        
+    // Kings of summer
     if(deck.agenda && deck.agenda.code === '04037' && _.any(deck.plotCards, card => {
         return hasTrait(card, 'winter');
     })) {
@@ -113,7 +113,7 @@ export function validateDeck(deck) {
         status = 'Invalid';
     }
 
-    // Kings of winter        
+    // Kings of winter
     if(deck.agenda && deck.agenda.code === '04038' && _.any(deck.plotCards, card => {
         return hasTrait(card, 'summer');
     })) {

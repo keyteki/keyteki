@@ -15,7 +15,7 @@ class CountingCoppers extends PlotCard {
         });
     }
 
-    leavesPlay() {   
+    leavesPlay() {
         _.each(this.game.getPlayers(), player => {
             player.cardsInPlay.each(card => {
                 if(card.getType() === 'character') {

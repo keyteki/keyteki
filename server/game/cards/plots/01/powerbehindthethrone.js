@@ -6,7 +6,7 @@ class PowerBehindTheThrone extends PlotCard {
 
         this.menu.push({ text: 'Discard a stand token', command: 'plot', method: 'discardToken' });
     }
-    
+
     onReveal(player) {
         if(!this.inPlay || this.controller !== player) {
             return true;

@@ -39,7 +39,7 @@ class SeenInFlames extends DrawCard {
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name
         });
     }
-    
+
     cardSelected(player, cardId) {
         var otherPlayer = this.game.getOtherPlayer(player);
         if(!otherPlayer) {
@@ -53,7 +53,7 @@ class SeenInFlames extends DrawCard {
         }
 
         this.game.addMessage('{0} uses {1} to discard {2} from {3}\'s hand', player, this, discarded, otherPlayer);
-        
+
         return true;
     }
 

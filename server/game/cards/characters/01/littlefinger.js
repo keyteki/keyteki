@@ -1,5 +1,5 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class LittleFinger extends DrawCard {
     play(player) {
         super.play(player);

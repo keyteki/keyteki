@@ -328,7 +328,7 @@ describe('the <InnerRegister /> component', function () {
 
             it('should have called the server', function() {
                 expect($.ajax).toHaveBeenCalled();
-                
+
             });
 
             it('should raise the register event with the returned username and token', function () {

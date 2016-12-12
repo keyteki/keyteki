@@ -1,9 +1,9 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class RedCloaks extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
-        
+
         this.registerEvents(['onAttackersDeclared', 'onAfterTaxation']);
 
         this.menu.push({ text: 'Move 1 gold from your gold pool to this card', command: 'card', method: 'addGold' });
@@ -16,7 +16,7 @@ class RedCloaks extends DrawCard {
         if(!this.inPlay || this.controller !== player || this.usedThisRound || player.gold <= 0) {
             return;
         }
-        
+
         this.addToken('gold', 1);
         this.controller.gold--;
 

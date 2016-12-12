@@ -1,7 +1,7 @@
 const _ = require('underscore');
 
 const AgendaCard = require('../../agendacard.js');
- 
+
 class KingsOfSummer extends AgendaCard {
     constructor(owner, cardData) {
         super(owner, cardData);

@@ -1,5 +1,5 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class TheGodsEye extends DrawCard {
     getReserve() {
         return 1;

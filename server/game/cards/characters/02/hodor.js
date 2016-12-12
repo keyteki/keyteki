@@ -1,9 +1,9 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class Hodor extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
-        
+
         this.registerEvents(['onAttackerSelected']);
     }
 

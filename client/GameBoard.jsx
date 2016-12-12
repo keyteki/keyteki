@@ -277,17 +277,17 @@ export class InnerGameBoard extends React.Component {
                                 reserve={otherPlayer ? otherPlayer.reserve : 0} power={otherPlayer ? otherPlayer.totalPower : 0} user={otherPlayer ? otherPlayer.user : null} />
                             <div className='plots-pane'>
                                 <div className='plot-group'>
-                                    <CardCollection className={otherPlayer && otherPlayer.plotSelected ? 'plot plot-selected' : 'plot'} 
-                                                    title='Plots' source='plot deck' cards={otherPlayer ? otherPlayer.plotDeck : []} 
+                                    <CardCollection className={otherPlayer && otherPlayer.plotSelected ? 'plot plot-selected' : 'plot'}
+                                                    title='Plots' source='plot deck' cards={otherPlayer ? otherPlayer.plotDeck : []}
                                                     topCard={{ facedown: true, kneeled: true }}
-                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disableMouseOver disablePopup 
+                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disableMouseOver disablePopup
                                                     onCardClick={this.onCardClick} orientation='horizontal' />
-                                    <CardCollection className={thisPlayer.plotSelected ? 'plot plot-selected' : 'plot'} 
+                                    <CardCollection className={thisPlayer.plotSelected ? 'plot plot-selected' : 'plot'}
                                                     title='Plots' source='plot deck' cards={thisPlayer.plotDeck} topCard={{ facedown: true, kneeled: true }}
                                                     onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onCardClick={this.onCardClick} />
                                 </div>
                                 <div className='plot-group'>
-                                    <CardCollection className='plot' title='Used Plots' source='revealed plots' cards={otherPlayer ? otherPlayer.plotDiscard : []} 
+                                    <CardCollection className='plot' title='Used Plots' source='revealed plots' cards={otherPlayer ? otherPlayer.plotDiscard : []}
                                                     topCard={otherPlayer ? otherPlayer.activePlot : undefined} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} />
                                     <CardCollection className='plot' title='Used Plots' source='revealed plots' cards={thisPlayer.plotDiscard} topCard={thisPlayer.activePlot}
                                                     onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} />

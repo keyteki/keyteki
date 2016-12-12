@@ -1,7 +1,7 @@
 const _ = require('underscore');
 
 const DrawCard = require('../../../drawcard.js');
- 
+
 class GreenbloodTrader extends DrawCard {
     play(player) {
         super.play(player);
@@ -26,9 +26,9 @@ class GreenbloodTrader extends DrawCard {
         if(!this.inPlay || this.isBlank() || this.controller !== player) {
             return false;
         }
-        
+
         this.top2Cards = player.drawDeck.first(2);
-        
+
         var buttons = _.map(this.top2Cards, card => {
             return { text: card.name, command: 'menuButton', method: 'cardSelected', arg: card.uuid, card: card.getSummary(true) };
         });
@@ -68,7 +68,7 @@ class GreenbloodTrader extends DrawCard {
         player.moveCard(card, 'hand');
 
         player.moveFromTopToBottomOfDrawDeck(1);
-        
+
         this.game.addMessage('{0} uses {1} to draw 2 cards, draw 1 and place the other on the bottom of their deck', player, this);
 
         return true;
@@ -86,7 +86,7 @@ class GreenbloodTrader extends DrawCard {
 
         player.drawDeck.value().shift();
         player.drawDeck.value().shift();
-        
+
         player.drawDeck.push(otherCard);
         player.drawDeck.push(card);
 

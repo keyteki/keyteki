@@ -26,7 +26,7 @@ class InnerMessages extends React.Component {
             'targaryen',
             'greyjoy'
         ];
-            
+
         this.formatMessageText = this.formatMessageText.bind(this);
     }
 

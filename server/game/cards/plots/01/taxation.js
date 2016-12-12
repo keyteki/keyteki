@@ -5,7 +5,7 @@ class Taxation extends PlotCard {
         super.flipFaceup();
 
         this.controller.maxLimited++;
-    
+
         this.game.addMessage('{0} uses {1} to gain be able to play an additional Limited card this round', this.controller, this);
     }
 

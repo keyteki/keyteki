@@ -7,7 +7,7 @@ class Avatar extends React.Component {
         if(this.props.float) {
             className += ' pull-left';
         }
-        
+
         return (<img className={className} src={'http://www.gravatar.com/avatar/' + this.props.emailHash + '?d=identicon&s=32}'} />);
     }
 }

@@ -62,7 +62,7 @@ class TheWall extends DrawCard {
         }
 
         this.game.addMessage('{0} kneels {1} to gain 2 power for their faction', player, this);
-        
+
         this.game.addPower(player, 2);
 
         return true;
@@ -75,7 +75,7 @@ class TheWall extends DrawCard {
 
         this.game.addMessage('{0} declines to trigger {1}', player, this);
         return true;
-    }    
+    }
 
     leavesPlay() {
         super.leavesPlay();

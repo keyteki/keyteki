@@ -1,5 +1,5 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class Condemned extends DrawCard {
     attach(player, card) {
         card.clearIcon('power');

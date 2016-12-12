@@ -1,5 +1,5 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class Lady extends DrawCard {
     canAttach(player, card) {
         if(card.getFaction() !== this.getFaction()) {

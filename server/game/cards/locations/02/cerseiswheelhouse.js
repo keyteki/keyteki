@@ -1,5 +1,5 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 // TODO: +1 draw or +1 gold when first player.
 class CerseisWheelhouse extends DrawCard {
     getInitiative() {

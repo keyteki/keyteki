@@ -57,7 +57,7 @@ describe('AFeastForCrows', function() {
                 this.plot.inPlay = true;
                 this.plot.onDominanceDetermined({}, this.playerSpy);
             });
-            
+
             describe('and our owner won', function() {
                 it('should add 2 power to our owner', function() {
                     expect(this.gameSpy.addPower).toHaveBeenCalledWith(this.playerSpy, 2);
@@ -67,7 +67,7 @@ describe('AFeastForCrows', function() {
             describe('and our owner did not win', function() {
                 beforeEach(function() {
                     this.gameSpy.addPower.calls.reset();
-                    
+
                     this.plot.onDominanceDetermined({}, this.otherPlayerSpy);
                 });
 

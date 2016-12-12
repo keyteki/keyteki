@@ -1,5 +1,5 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class LannisportMoneylender extends DrawCard {
     getIncome() {
         return 1;

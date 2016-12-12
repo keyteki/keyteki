@@ -33,7 +33,7 @@ class HeadsOnSpikes extends PlotCard {
 
         this.game.addMessage('{0} uses {1} to discard {2} from {3}\'s hand{4}', player, this, card, otherPlayer, powerMessage);
 
-        return true;        
+        return true;
     }
 }
 

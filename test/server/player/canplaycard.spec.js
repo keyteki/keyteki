@@ -51,7 +51,7 @@ describe('Player', function () {
         describe('when the card costs more than the player has', function() {
             beforeEach(function() {
                 this.player.gold = 0;
-                
+
                 this.cardSpy.getCost.and.returnValue(5);
                 this.canPlay = this.player.canPlayCard(this.cardSpy);
             });

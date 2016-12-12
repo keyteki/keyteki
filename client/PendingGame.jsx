@@ -21,7 +21,7 @@ class InnerPendingGame extends React.Component {
         this.onKeyPress = this.onKeyPress.bind(this);
         this.onSendClick = this.onSendClick.bind(this);
         this.onMouseOut = this.onMouseOver.bind(this);
-        
+
         this.state = {
             playerCount: 1,
             decks: [],
@@ -45,7 +45,7 @@ class InnerPendingGame extends React.Component {
             this.setState({ error: 'Could not communicate with the server.  Please try again later.' });
         });
     }
-    
+
     componentWillReceiveProps(props) {
         var players = _.size(props.currentGame.players);
 
@@ -217,7 +217,7 @@ class InnerPendingGame extends React.Component {
                 <div className='chat-box'>
                     <h3>Chat</h3>
                     <div className='message-list'>
-                        <Messages messages={this.props.currentGame.messages} onCardMouseOver={this.onMouseOver} onCardMouseOut={this.onMouseOut} />                      
+                        <Messages messages={this.props.currentGame.messages} onCardMouseOver={this.onMouseOver} onCardMouseOut={this.onMouseOut} />
                     </div>
                         <form className='form form-hozitontal'>
                             <div className='form-group'>

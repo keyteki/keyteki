@@ -16,7 +16,7 @@ class TheKingsroad extends Reducer {
 
         return handled;
     }
-    
+
     reduce(card, currentCost, spending) {
         var cost = super.reduce(card, currentCost, spending);
 

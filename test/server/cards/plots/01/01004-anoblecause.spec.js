@@ -64,7 +64,7 @@ describe('ANobleCause', function() {
                     it('should return false', function() {
                         expect(this.canReduce).toBe(false);
                     });
-                });              
+                });
             });
 
             describe('and the card and neither a lord nor lady', function() {
@@ -91,7 +91,7 @@ describe('ANobleCause', function() {
 
                     this.cost = this.plot.reduce(this.cardSpy, 5, true);
                 });
-                
+
                 it('should reduce the cost by 2', function() {
                     expect(this.cost).toBe(3);
                 });
@@ -107,7 +107,7 @@ describe('ANobleCause', function() {
 
                     this.cost = this.plot.reduce(this.cardSpy, 2, true);
                 });
-                
+
                 it('should reduce the cost by cost of that card', function() {
                     expect(this.cost).toBe(0);
                 });

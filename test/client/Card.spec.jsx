@@ -23,14 +23,14 @@ describe('the <Card /> component', function() {
     describe('when initially rendered', function() {
         it('should show a facedown card with a card back rendered', function() {
             var cardImage = TestUtils.findRenderedDOMComponentWithTag(this.component, 'img');
-            
+
             expect(cardImage.src.indexOf('/img/cards/cardback.jpg')).not.toBe(-1);
         });
     });
 
     describe('when rendered with a card', function() {
         beforeEach(function() {
-            this.component = ReactDOM.render(<Card card={this.card} source='hand' />, this.node);   
+            this.component = ReactDOM.render(<Card card={this.card} source='hand' />, this.node);
         });
 
         describe('that is selected', function() {
@@ -38,7 +38,7 @@ describe('the <Card /> component', function() {
                 this.card.selected = true;
                 this.component = ReactDOM.render(<Card card={this.card} source='hand' />, this.node);
             });
-            
+
             afterEach(function() {
                 this.card.selected = undefined;
             });
@@ -105,7 +105,7 @@ describe('the <Card /> component', function() {
         it('should show the card image and name', function() {
             var cardImage = TestUtils.findRenderedDOMComponentWithTag(this.component, 'img');
             var cardLabel = TestUtils.findRenderedDOMComponentWithClass(this.component, 'card-name');
-            
+
             expect(cardImage.src.indexOf('/img/cards/00001.png')).not.toBe(-1);
             expect(cardLabel.innerText).toBe(this.card.name);
         });
@@ -127,7 +127,7 @@ describe('the <Card /> component', function() {
 
                 // var verticalClass = TestUtils.scryRenderedDOMComponentsWithClass(this.component, 'vertical');
                 // expect(verticalClass.length).not.toBe(0);
-            });            
+            });
         });
     });
 
@@ -203,7 +203,7 @@ describe('the <Card /> component', function() {
     describe('when card has power', function() {
         beforeEach(function() {
             this.card.power = 4;
-            this.component = ReactDOM.render(<Card card={this.card} source='play area' />, this.node);          
+            this.component = ReactDOM.render(<Card card={this.card} source='play area' />, this.node);
         });
 
         afterEach(function() {
@@ -217,7 +217,7 @@ describe('the <Card /> component', function() {
             expect(counter.className).toBe('counter power');
         });
     });
-    
+
     describe('when a card has strength matching its base strength', function() {
         beforeEach(function() {
             this.card.strength = 1;
@@ -267,7 +267,7 @@ describe('the <Card /> component', function() {
 
         it('should render a counter for the dupes', function() {
             var counter = TestUtils.findRenderedDOMComponentWithClass(this.component, 'counter');
-            
+
             expect(counter.innerText).toBe('2');
             expect(counter.className).toBe('counter dupe');
         });
@@ -275,7 +275,7 @@ describe('the <Card /> component', function() {
 
     describe('when a card has other tokens', function() {
         beforeEach(function() {
-            this.card.tokens = { 'poison': 1 }; 
+            this.card.tokens = { 'poison': 1 };
 
             this.component = ReactDOM.render(<Card card={this.card} source='play area' />, this.node);
         });
@@ -286,9 +286,9 @@ describe('the <Card /> component', function() {
 
         it('should render the tokens', function() {
             var counter = TestUtils.findRenderedDOMComponentWithClass(this.component, 'counter');
-            
+
             expect(counter.innerText).toBe('1');
-            expect(counter.className).toBe('counter poison');            
+            expect(counter.className).toBe('counter poison');
         });
     });
 
@@ -309,7 +309,7 @@ describe('the <Card /> component', function() {
 
         it('should render all of the counters', function() {
             var counters = TestUtils.scryRenderedDOMComponentsWithClass(this.component, 'counter');
-            
+
             expect(counters.length).toBe(3);
 
             expect(counters[0].innerText).toBe(this.card.power.toString());

@@ -29,17 +29,17 @@ describe('RedCloaks', function() {
             });
 
             it('should not add any gold to the card', function() {
-                expect(this.card.tokens['gold']).toBe(0);                
+                expect(this.card.tokens['gold']).toBe(0);
             });
         });
-        
+
         describe('when not called for my owner', function() {
             beforeEach(function() {
                 this.card.addGold(this.otherPlayerSpy);
             });
 
             it('should not add any gold to the card', function() {
-                expect(this.card.tokens['gold']).toBe(0);                
+                expect(this.card.tokens['gold']).toBe(0);
             });
         });
 
@@ -79,7 +79,7 @@ describe('RedCloaks', function() {
                     });
                 });
 
-                // XXX this should be per phase, will change this when the new phase stuff is done and have a phase change event 
+                // XXX this should be per phase, will change this when the new phase stuff is done and have a phase change event
                 describe('and then called again in a new round', function() {
                     beforeEach(function() {
                         this.card.onAfterTaxation();

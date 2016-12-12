@@ -38,7 +38,7 @@ class InnerNewGame extends React.Component {
     onSubmitClick(event) {
         event.preventDefault();
 
-        this.props.socket.emit('newgame', { 
+        this.props.socket.emit('newgame', {
             name: this.state.gameName,
             spectators: this.state.spectators
         });

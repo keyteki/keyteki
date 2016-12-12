@@ -101,7 +101,7 @@ describe('SerJaimeLannister', function() {
 
                         this.character.onAttackersDeclared({}, this.challenge);
                     });
-                    
+
                     afterEach(function() {
                         this.character.removeKeyword('renown');
                     });

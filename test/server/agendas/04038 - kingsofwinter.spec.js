@@ -49,7 +49,7 @@ describe('Kings Of Winter', function() {
                 this.player1Fake.selectedPlot.goldModifier = 0;
                 this.player2Fake.selectedPlot.reserveModifier = 0;
                 this.player2Fake.selectedPlot.goldModifier = 0;
-                
+
                 this.plot1.hasTrait.and.returnValue(true);
 
                 this.agenda.onPlotFlip();
@@ -63,7 +63,7 @@ describe('Kings Of Winter', function() {
                     this.player2Fake.selectedPlot.goldModifier = 0;
                     this.plot2.hasTrait.and.returnValue(true);
 
-                    this.agenda.onPlotFlip();                    
+                    this.agenda.onPlotFlip();
                 });
 
                 it('should not reduce the opponent\'s gold modifier', function() {

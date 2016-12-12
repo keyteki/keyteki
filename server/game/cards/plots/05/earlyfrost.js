@@ -5,7 +5,7 @@ const PlotCard = require('../../../plotcard.js');
 class EarlyFrost extends PlotCard {
     flipFaceup() {
         super.flipFaceup();
-        
+
         _.each(this.game.getPlayers(), player => {
             player.drawPhaseCards--;
         });
