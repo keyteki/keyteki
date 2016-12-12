@@ -229,7 +229,7 @@ class Player extends Spectator {
             return undefined;
         }
 
-        this.discardCard(retCard);
+        this.discardCard(retCard);        
 
         return retCard;
     }
