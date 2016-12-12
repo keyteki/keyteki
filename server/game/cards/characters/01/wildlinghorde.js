@@ -9,26 +9,32 @@ class WildlingHorde extends DrawCard {
         this.registerEvents(['afterChallenge']);
     }
 
+    cardCondition(player, card) {
+        return card.inPlay && card.controller === player && card.hasTrait('Wildling') && player.isCardUuidInList(player.cardsInChallenge, card);
+    }
+
     kneelFactionCard(player) {
         if(!this.inPlay || this.controller !== player || player.faction.kneeled) {
-            return;
+            return false;
         }
 
         if(player.phase !== 'challenge' || !this.game.currentChallenge) {
-            return;
+            return false;
         }
 
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a Wildling character',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            cardCondition: card => card.inPlay && card.controller === player && card.hasTrait('Wildling') && player.isCardUuidInList(player.cardsInChallenge, card.uuid),
+            cardCondition: card => this.cardCondition(player, card),
             onSelect: (p, card) => this.onCardSelected(p, card)
         });
+
+        return true;
     }
 
     onCardSelected(player, card) {
         if(!this.inPlay || this.controller !== player) {
-            return;
+            return false;
         }
 
         player.faction.kneeled = true;
@@ -36,6 +42,8 @@ class WildlingHorde extends DrawCard {
         card.strengthModifier += 2;
 
         this.game.addMessage('{0} uses {1} to kneel their faction card and increase the strength of {2} by 2 until the end of the challenge', player, this, card);
+
+        return true;
     }
 
     afterChallenge() {

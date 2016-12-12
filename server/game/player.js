@@ -313,6 +313,7 @@ class Player extends Spectator {
         this.reserve = 0;
         this.readyToStart = false;
         this.cardsInPlay = _([]);
+        this.cardsInChallenge = _([]);
         this.limitedPlayed = 0;
         this.maxLimited = 1;
         this.activePlot = undefined;
