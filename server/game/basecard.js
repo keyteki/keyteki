@@ -214,6 +214,10 @@ class BaseCard {
         this.tokens[type] += number;
     }
 
+    hasToken(type) {
+        return !!this.tokens[type];
+    }
+
     removeToken(type, number) {
         this.tokens[type] -= number;
 
