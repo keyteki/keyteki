@@ -79,7 +79,7 @@ describe('A Song of Summer', function() {
                     this.playerSpy.activePlot = this.playerSpy.selectedPlot;
                     this.playerSpy.selectedPlot = this.otherPlotSpy;
                     this.otherPlayerSpy.activePlot = this.otherPlotSpy;
-                    
+
                     this.plot.onPlotFlip();
                 });
 
@@ -89,6 +89,6 @@ describe('A Song of Summer', function() {
                 });
             });
         });
-    });  
+    });
 });
 
