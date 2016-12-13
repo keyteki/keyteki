@@ -208,6 +208,10 @@ class Player extends Spectator {
     discardAtRandom(number) {
         var toDiscard = number;
 
+        if(toDiscard > this.hand.size()) {
+            toDiscard = this.hand.size();
+        }
+
         while(toDiscard > 0) {
             var cardIndex = _.random(0, this.hand.size() - 1);
 
