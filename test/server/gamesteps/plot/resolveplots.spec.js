@@ -1,27 +1,15 @@
-/*global describe, it, beforeEach, expect, jasmine, spyOn*/
+/*global describe, it, beforeEach, expect, jasmine */
 /* eslint no-invalid-this: 0 */
 
 const ResolvePlots = require('../../../../server/game/gamesteps/plot/resolveplots.js');
-const Game = require('../../../../server/game/game.js');
-const Player = require('../../../../server/game/player.js');
-const PlotCard = require('../../../../server/game/plotcard.js');
 
 describe('the ResolvePlots', function() {
     beforeEach(function() {
-        this.game = new Game({}, '');
-        this.player = new Player('1', 'Player 1', true, this.game);
-        this.otherPlayer = new Player('2', 'Player 2', false, this.game);
-        this.otherPlayer.firstPlayer = true;
+        this.game = jasmine.createSpyObj('game', ['getPlayerById', 'getFirstPlayer', 'promptWithMenu']);
+        this.player = jasmine.createSpyObj('player', ['setPrompt', 'cancelPrompt', 'revealPlot']);
+        this.otherPlayer = jasmine.createSpyObj('player', ['setPrompt', 'cancelPrompt', 'revealPlot']);
 
-        this.game.players[this.player.id] = this.player;
-        this.game.players[this.otherPlayer.id] = this.otherPlayer;
-
-        this.player.activePlot = new PlotCard({}, {});
-        this.otherPlayer.activePlot = new PlotCard({}, {});
-
-        spyOn(this.player.activePlot, 'onReveal');
-        spyOn(this.otherPlayer.activePlot, 'onReveal');
-        spyOn(this.game, 'promptWithMenu');
+        this.game.getFirstPlayer.and.returnValue(this.otherPlayer);
     });
 
     describe('the continue() function', function() {
@@ -50,9 +38,9 @@ describe('the ResolvePlots', function() {
                 expect(this.game.promptWithMenu).not.toHaveBeenCalled();
             });
 
-            it('should call the onReveal for the plot', function() {
+            it('should reveal the plot', function() {
                 this.prompt.continue();
-                expect(this.player.activePlot.onReveal).toHaveBeenCalledWith(this.player);
+                expect(this.player.revealPlot).toHaveBeenCalled();
             });
 
             it('should return true', function() {
@@ -70,10 +58,10 @@ describe('the ResolvePlots', function() {
                 expect(this.game.promptWithMenu).toHaveBeenCalledWith(this.otherPlayer, this.prompt, jasmine.any(Object));
             });
 
-            it('should not call onReveal on any plot', function() {
+            it('should not reveal any plot', function() {
                 this.prompt.continue();
-                expect(this.player.activePlot.onReveal).not.toHaveBeenCalled();
-                expect(this.otherPlayer.activePlot.onReveal).not.toHaveBeenCalled();
+                expect(this.player.revealPlot).not.toHaveBeenCalled();
+                expect(this.otherPlayer.revealPlot).not.toHaveBeenCalled();
             });
 
             it('should return false', function() {
@@ -88,10 +76,14 @@ describe('the ResolvePlots', function() {
         });
 
         describe('when the player ID does not exist', function() {
-            it('should not call onReveal', function() {
+            beforeEach(function() {
+                this.game.getPlayerById.and.returnValue(undefined);
+            });
+
+            it('should not reveal a plot', function() {
                 this.prompt.resolvePlayer(this.player, 54321);
-                expect(this.player.activePlot.onReveal).not.toHaveBeenCalled();
-                expect(this.otherPlayer.activePlot.onReveal).not.toHaveBeenCalled();
+                expect(this.player.revealPlot).not.toHaveBeenCalled();
+                expect(this.otherPlayer.revealPlot).not.toHaveBeenCalled();
             });
 
             it('should not modify the resolution list', function() {
@@ -101,9 +93,13 @@ describe('the ResolvePlots', function() {
         });
 
         describe('when the player ID does exist', function() {
+            beforeEach(function() {
+                this.game.getPlayerById.and.returnValue(this.otherPlayer);
+            });
+
             it('should call onReveal', function() {
                 this.prompt.resolvePlayer(this.player, this.otherPlayer.id);
-                expect(this.otherPlayer.activePlot.onReveal).toHaveBeenCalledWith(this.otherPlayer);
+                expect(this.otherPlayer.revealPlot).toHaveBeenCalled();
             });
 
             it('should remove the resolved player from the list', function() {

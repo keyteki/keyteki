@@ -494,7 +494,6 @@ class Player extends Spectator {
         this.reserve = 0;
         this.firstPlayer = false;
         this.selectedPlot = undefined;
-        this.plotRevealed = false;
         this.roundDone = false;
         this.challenges = {
             complete: 0,
@@ -528,14 +527,11 @@ class Player extends Spectator {
     }
 
     flipPlotFaceup() {
-        this.menuTitle = '';
-        this.buttons = [];
-
         this.selectedPlot.flipFaceup();
 
         if(this.activePlot) {
-            this.activePlot.leavesPlay(this);
-            this.plotDiscard.push(this.activePlot);
+            var previousPlot = this.removeActivePlot();
+            this.plotDiscard.push(previousPlot);
         }
 
         this.activePlot = this.selectedPlot;
@@ -546,9 +542,22 @@ class Player extends Spectator {
             this.plotDiscard = _([]);
         }
 
-        this.plotRevealed = true;
-
         this.selectedPlot = undefined;
+    }
+
+    removeActivePlot() {
+        if(this.activePlot) {
+            var plot = this.activePlot;
+            plot.leavesPlay(this);
+            this.activePlot = undefined;
+            return plot;
+        }
+    }
+
+    revealPlot() {
+        this.activePlot.onReveal(this);
+        this.reserve = this.getTotalReserve();
+        this.claim = this.activePlot.claim || 0;
     }
 
     drawPhase() {
@@ -809,6 +818,8 @@ class Player extends Spectator {
 
             card.kneeled = false;
         });
+
+        this.faction.kneeled = false;
     }
 
     taxation() {

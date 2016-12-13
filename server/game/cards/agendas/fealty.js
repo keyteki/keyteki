@@ -7,8 +7,6 @@ class Fealty extends Reducer {
         });
 
         this.menu.push({ text: 'Kneel your faction card', method: 'onClick' });
-
-        this.registerEvents(['cardsStanding']);
     }
 
     onClick(player) {
@@ -45,10 +43,6 @@ class Fealty extends Reducer {
         }
 
         return currentCost;
-    }
-
-    cardsStanding() {
-        this.controller.faction.kneeled = false;
     }
 }
 
