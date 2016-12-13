@@ -491,6 +491,7 @@ class Player extends Spectator {
         });
 
         this.cardsInPlay = processedCards;
+        this.gold = 0;
     }
 
     startPlotPhase() {

@@ -34,6 +34,7 @@ describe('Player', function() {
 
             this.player.cardsInPlay.push(this.cardSpy);
             this.player.cardsInPlay.push(this.duplicateSpy);
+            this.player.gold = 8;
 
             this.player.setupDone();
         });
@@ -145,5 +146,9 @@ describe('Player', function() {
                 return card.facedown;
             })).toBe(false);
         });
+
+        it('should return unspent setup gold', function() {
+            expect(this.player.gold).toBe(0);
+        })
     });
 });
