@@ -22,7 +22,7 @@ class GreatKraken extends DrawCard {
                 menuTitle: 'Trigger ' + this.name + '?',
                 buttons: [
                     { text: 'Draw 1 card', command: 'menuButton', method: 'drawCard' },
-                    { test: 'Gain 1 power', command: 'menuButton', method: 'gainPower' },
+                    { text: 'Gain 1 power', command: 'menuButton', method: 'gainPower' },
                     { text: 'No', command: 'menuButton', method: 'cancel' }
                 ]
             },
