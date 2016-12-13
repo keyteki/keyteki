@@ -777,7 +777,9 @@ class Player extends Spectator {
 
     discardCard(card, allowSave = true) {
         if(!card.dupes.isEmpty() && allowSave) {
-            this.removeDuplicate(card);
+            if(!this.removeDuplicate(card)) {
+                this.moveCard(card, 'discard pile');    
+            }
         } else {
             this.moveCard(card, 'discard pile');
         }
@@ -791,7 +793,9 @@ class Player extends Spectator {
         }
 
         if(!character.dupes.isEmpty() && allowSave) {
-            this.removeDuplicate(character);
+            if(!this.removeDuplicate(character)) {
+                this.moveCard(card, 'dead pile');
+            }
         } else {
             this.moveCard(card, 'dead pile');
 
@@ -841,8 +845,8 @@ class Player extends Spectator {
 
     removeAttachment(attachment, allowSave = true) {
         while(attachment.dupes.size() > 0) {
-            this.removeDuplicate(attachment);
-            if(allowSave) {
+            var dupeRemoved = this.removeDuplicate(attachment);
+            if(dupeRemoved && allowSave) {
                 return;
             }
         }
@@ -873,6 +877,11 @@ class Player extends Spectator {
         this.removeCardFromPile(card);
 
         if(card.location === 'play area') {
+            if(card.owner !== this) {
+                card.owner.moveCard(card, targetLocation);
+                return;
+            }
+
             card.attachments.each(attachment => {
                 this.removeAttachment(attachment, false);
             });
@@ -904,14 +913,20 @@ class Player extends Spectator {
 
     removeDuplicate(card) {
         if(card.dupes.isEmpty()) {
-            return;
+            return false;
         }
 
         var dupe = card.removeDuplicate();
+        if(!dupe) {
+            return false;
+        }
+        
         dupe.facedown = false;
         dupe.location = 'discard pile';
         dupe.owner.discardPile.push(dupe);
         this.game.raiseEvent('onDupeDiscarded', this, card, dupe);
+
+        return true;
     }
 
     removeCardFromPile(card) {
