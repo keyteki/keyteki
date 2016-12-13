@@ -78,7 +78,9 @@ class ChallengePhase extends Phase {
         return this.game.getOtherPlayer(attackingPlayer);
     }
 
-    completeChallenges() {
+    completeChallenges(player) {
+        this.game.addMessage('{0} has finished their challenges', player);
+
         this.remainingPlayers.shift();
         return true;
     }
