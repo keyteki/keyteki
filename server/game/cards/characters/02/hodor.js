@@ -19,7 +19,7 @@ class Hodor extends DrawCard {
     }
 
     modifyDominance(player, strength) {
-        if(!this.inPlay || this.controller !== player) {
+        if(!this.inPlay || this.controller !== player || this.kneeled) {
             return strength;
         }
 
