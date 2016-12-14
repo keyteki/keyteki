@@ -36,6 +36,8 @@ Most things can be done be clicking on or dragging the thing you're trying to in
 
 /discard x - Discards x cards at random from your hand
 
+/pillage - Discards the top card from your deck
+
 /strength x - Allows you to set the strength of a card to x
 
 /cancel-prompt - Allows you to skip a game step. Warning: this should only be used if the game can't seem to proceed. Use of this command itself could prevent the game from proceeding.
