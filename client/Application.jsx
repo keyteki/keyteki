@@ -14,6 +14,7 @@ import NotFound from './NotFound.jsx';
 import NavBar from './NavBar.jsx';
 import GameLobby from './GameLobby.jsx';
 import GameBoard from './GameBoard.jsx';
+import About from './About.jsx';
 
 import * as actions from './actions';
 
@@ -28,7 +29,8 @@ var authedMenu = [
 
 var leftMenu = [
     { name: 'Decks', path: '/decks' },
-    { name: 'Play', path: '/play' }
+    { name: 'Play', path: '/play' },
+    { name: 'About', path: '/about' }
 ];
 
 var lobby = <Lobby />;
@@ -37,6 +39,8 @@ var logout = <Logout />;
 var register = <Register />;
 var decks = <Decks />;
 var gameBoard = <GameBoard />;
+var gameLobby = <GameLobby />;
+var about = <About />;
 
 class App extends React.Component {
     componentWillMount() {
@@ -138,7 +142,10 @@ class App extends React.Component {
                 component = <EditDeck cards={this.props.cards} packs={this.props.packs} agendas={this.props.agendas} deckId={pathArg} />;
                 break;
             case '/play':
-                component = this.props.currentGame && this.props.currentGame.started ? gameBoard : <GameLobby />;
+                component = this.props.currentGame && this.props.currentGame.started ? gameBoard : gameLobby;
+                break;
+            case '/about':
+                component = about;
                 break;
             default:
                 component = <NotFound />;
