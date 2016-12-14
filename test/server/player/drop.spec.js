@@ -17,7 +17,7 @@ describe('Player', () => {
 
             this.cardSpy = jasmine.createSpyObj('card', ['getType', 'leavesPlay']);
             this.cardSpy.uuid = '1111';
-            this.cardSpy.controller = this.player;
+            this.cardSpy.controller = this.cardSpy.owner = this.player;
             this.cardSpy.attachments = _([]);
             this.cardSpy.dupes = _([]);
         });
