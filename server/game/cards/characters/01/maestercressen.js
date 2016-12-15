@@ -12,7 +12,7 @@ class MaesterCressen extends DrawCard {
             activePrompt: {
                 menuTitle: 'Trigger ' + this.name + '?',
                 buttons: [
-                    { text: 'Kneel', command: 'menuButton', method: 'kneel' },
+                    { text: 'Kneel and Discard', command: 'menuButton', method: 'kneel' },
                     { text: 'Cancel', command: 'menuButton', method: 'cancel' }
                 ]
             },
@@ -24,7 +24,7 @@ class MaesterCressen extends DrawCard {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select an attachment to discard',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            cardCondition: card => card.inPlay && card.getType() === 'attachment' && !card.hasTrait('condition'),
+            cardCondition: card => card.inPlay && card.getType() === 'attachment' && card.hasTrait('condition'),
             onSelect: (p, card) => this.onCardSelected(p, card)
         });
 
@@ -32,9 +32,13 @@ class MaesterCressen extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        player.moveCard(card, 'discard pile');
+        player.discardCard(card);
+
+        this.kneeled = true;
 
         this.game.addMessage('{0} uses {1} to discard {2}', player, this, card);
+
+        return true;
     }
 }
 
