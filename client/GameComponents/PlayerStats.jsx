@@ -13,7 +13,7 @@ export class InnerPlayerStats extends React.Component {
     }
 
     sendUpdate(type, direction) {
-        this.props.socket.emit('changestat', type, direction === 'up' ? 1 : -1);
+        this.props.sendSocketMessage('changeStat', type, direction === 'up' ? 1 : -1);
     }
 
     render() {
@@ -76,14 +76,12 @@ InnerPlayerStats.propTypes = {
     playerName: React.PropTypes.string,
     power: React.PropTypes.number,
     reserve: React.PropTypes.number,
-    socket: React.PropTypes.object,
+    sendSocketMessage: React.PropTypes.func,
     user: React.PropTypes.object
 };
 
-function mapStateToProps(state) {
-    return {
-        socket: state.socket.socket
-    };
+function mapStateToProps() {
+    return {};
 }
 
 const PlayerStats = connect(mapStateToProps, actions)(InnerPlayerStats);

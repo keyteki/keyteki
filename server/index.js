@@ -452,91 +452,17 @@ io.on('connection', function(socket) {
         });
     });
 
-    socket.on('cardclick', function(source, cardId) {
+    socket.on('game', function(command, ...args) {
         var game = findGameForPlayer(socket.id);
 
-        if(!game) {
+        if(!game || !game[command] || !_.isFunction(game[command])) {
             return;
         }
 
         runAndCatchErrors(game, () => {
-            game.cardClicked(socket.id, source, cardId);
+            game[command](socket.id, ...args);
 
             sendGameState(game);
-        });
-    });
-
-    socket.on('showdrawdeck', function() {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.showDrawDeck(socket.id);
-
-            sendGameState(game);
-        });
-    });
-
-    socket.on('drop', function(card, source, target) {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.drop(socket.id, card, source, target);
-
-            sendGameState(game);
-        });
-    });
-
-    socket.on('changestat', function(stat, value) {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.changeStat(socket.id, stat, value);
-
-            sendGameState(game);
-        });
-    });
-
-    socket.on('menuButton', function(arg, method) {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.menuButton(socket.id, arg, method);
-
-            sendGameState(game);
-        });
-    });
-
-    socket.on('chat', function(message) {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.chat(socket.id, message);
-
-            if(game.started) {
-                sendGameState(game);
-            } else {
-                updateGame(game);
-            }
         });
     });
 
@@ -548,76 +474,6 @@ io.on('connection', function(socket) {
         var chatMessage = { user: { username: socket.request.user.username, emailHash: socket.request.user.emailHash }, message: message, time: new Date() };
         db.collection('messages').insert(chatMessage);
         io.emit('lobbychat', chatMessage);
-    });
-
-    socket.on('concede', function() {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.concede(socket.id);
-        });
-
-        sendGameState(game);
-    });
-
-    socket.on('shuffledeck', function() {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.shuffleDeck(socket.id);
-
-            sendGameState(game);
-        });
-    });
-
-    socket.on('menuclick', function(source, cardId, menuItem) {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.menuItemClick(socket.id, source, cardId, menuItem);
-
-            sendGameState(game);
-        });
-    });
-
-    socket.on('plot', function(arg, method) {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.plotCardCommand(socket.id, method, arg);
-
-            sendGameState(game);
-        });
-    });
-
-    socket.on('discardclick', function(cardId) {
-        var game = findGameForPlayer(socket.id);
-
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.discardCardClicked(socket.id, cardId);
-
-            sendGameState(game);
-        });
     });
 
     refreshGameList(socket);

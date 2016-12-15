@@ -293,27 +293,6 @@ class Game extends EventEmitter {
         this.pipeline.continue();
     }
 
-    discardCardClicked(sourcePlayer, cardId) {
-        var player = this.getPlayerById(sourcePlayer);
-
-        if(!player) {
-            return;
-        }
-
-        var card = _.reduce(this.getPlayers(), (memo, p) => {
-            return memo || p.findCardByUuid(p.discardPile, cardId);
-        }, null);
-
-        if(!card) {
-            return;
-        }
-
-        if(this.pipeline.handleCardClicked(player, card)) {
-            this.pipeline.continue();
-            return;
-        }
-    }
-
     showDrawDeck(playerId) {
         var player = this.getPlayerById(playerId);
 
@@ -551,24 +530,6 @@ class Game extends EventEmitter {
         this.addMessage('{0} shuffles their deck', player);
 
         player.shuffleDrawDeck();
-    }
-
-    plotCardCommand(playerId, method, arg) {
-        var player = this.getPlayerById(playerId);
-        if(!player) {
-            return;
-        }
-
-        if(player.activePlot && player.activePlot[method]) {
-            player.activePlot[method](player, arg);
-        }
-
-        var otherPlayer = this.getOtherPlayer(player);
-        if(otherPlayer && otherPlayer.activePlot && otherPlayer.activePlot[method]) {
-            otherPlayer.activePlot[method](player, arg);
-        }
-
-        this.pipeline.continue();
     }
 
     promptWithMenu(player, contextObj, properties) {

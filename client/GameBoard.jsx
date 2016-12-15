@@ -99,7 +99,7 @@ export class InnerGameBoard extends React.Component {
     }
 
     onConcedeClick() {
-        this.props.socket.emit('concede');
+        this.props.sendSocketMessage('concede');
     }
 
     onLeaveClick() {
@@ -115,11 +115,11 @@ export class InnerGameBoard extends React.Component {
     }
 
     onCardClick(source, card) {
-        this.props.sendSocketMessage('cardclick', source, card.uuid);
+        this.props.sendSocketMessage('cardClicked', source, card.uuid);
     }
 
     onDrawClick() {
-        this.props.socket.emit('showdrawdeck');
+        this.props.sendSocketMessage('showDrawDeck');
 
         this.setState({ showDrawDeck: !this.state.showDrawDeck });
     }
@@ -129,7 +129,7 @@ export class InnerGameBoard extends React.Component {
             return;
         }
 
-        this.props.socket.emit('chat', this.state.message);
+        this.props.sendSocketMessage('chat', this.state.message);
 
         this.setState({ message: '' });
     }
@@ -153,11 +153,11 @@ export class InnerGameBoard extends React.Component {
     }
 
     onShuffleClick() {
-        this.props.socket.emit('shuffledeck');
+        this.props.sendSocketMessage('shuffleDeck');
     }
 
     onDragDrop(card, source, target) {
-        this.props.socket.emit('drop', card.uuid, source, target);
+        this.props.sendSocketMessage('drop', card.uuid, source, target);
     }
 
     onCardDragStart(event, card, source) {
@@ -195,7 +195,7 @@ export class InnerGameBoard extends React.Component {
     onCommand(command, arg, method) {
         var commandArg = arg;
 
-        this.props.socket.emit(command, commandArg, method);
+        this.props.sendSocketMessage(command, commandArg, method);
     }
 
     onDragOver(event) {
@@ -217,7 +217,7 @@ export class InnerGameBoard extends React.Component {
     }
 
     onMenuItemClick(source, card, menuItem) {
-        this.props.sendSocketMessage('menuclick', source, card.uuid, menuItem);
+        this.props.sendSocketMessage('menuItemClick', source, card.uuid, menuItem);
     }
 
     render() {

@@ -191,7 +191,7 @@ export function sendSocketMessage(message, ...args) {
     return (dispatch, getState) => {
         var state = getState();
 
-        state.socket.socket.emit(message, ...args);
+        state.socket.socket.emit('game', message, ...args);
 
         return dispatch(socketMessageSent(message));
     };
