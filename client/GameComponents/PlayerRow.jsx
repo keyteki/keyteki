@@ -81,7 +81,7 @@ class PlayerRow extends React.Component {
         }
     }
 
-    getHand() {
+    getHand(needsSquish) {
         var cardIndex = 0;
         var handLength = this.props.hand ? this.props.hand.length : 0;
         var requiredWidth = handLength * 64;
@@ -91,9 +91,12 @@ class PlayerRow extends React.Component {
         var hand = _.map(this.props.hand, card => {
             var left = (64 - offset) * cardIndex++;
 
-            var style = {
-                left: left + 'px'
-            };
+            var style = {};
+            if(needsSquish) {
+                style = {
+                    left: left + 'px'
+                };
+            }
 
             return (<Card key={card.uuid} card={card} style={style} disableMouseOver={!this.props.isMe} source='hand'
                          onMouseOver={this.props.onMouseOver}
@@ -160,12 +163,13 @@ class PlayerRow extends React.Component {
 
     render() {
         var className = 'panel hand';
+        var needsSquish = this.props.hand && this.props.hand.length * 64 > 342;
 
-        if(this.props.hand && this.props.hand.length * 64 > 342) {
+        if(needsSquish) {
             className += ' squish';
         }
 
-        var hand = this.getHand();
+        var hand = this.getHand(needsSquish);
         var drawDeckPopup = this.getDrawDeck();
 
         var drawDeckMenu = this.state.showDrawMenu ?
@@ -192,8 +196,8 @@ class PlayerRow extends React.Component {
                     <div className='panel-header'>
                         {'Draw (' + this.props.numDrawCards + ')'}
                     </div>
-                    <div className='card ignore-mouse-events'>
-                        <img className='card' src='/img/cards/cardback.jpg' />
+                    <div className='card vertical ignore-mouse-events'>
+                        <img className='card-image vertical' src='/img/cards/cardback.jpg' />
                     </div>
                     {drawDeckMenu}
                     {drawDeckPopup}
