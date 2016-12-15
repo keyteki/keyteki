@@ -4,7 +4,7 @@ class SealOfTheHand extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.menu.push({ text: 'Kneel', command: 'card', method: 'kneel' });
+        this.menu.push({ text: 'Stand attached character', method: 'kneel' });
     }
 
     kneel(player) {

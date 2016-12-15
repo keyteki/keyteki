@@ -96,6 +96,7 @@ class Card extends React.Component {
                             onMouseOver={this.props.disableMouseOver ? null : this.onMouseOver.bind(this, attachment)}
                             onMouseOut={this.props.disableMouseOver ? null : this.onMouseOut}
                             onClick={this.props.onClick}
+                            onMenuItemClick={this.props.onMenuItemClick}
                             onDragStart={ev => this.onCardDragStart(ev, attachment, this.props.source)} />);
 
             offset += 10;
