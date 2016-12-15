@@ -240,7 +240,11 @@ function removePlayerFromGame(game, socket, reason) {
         return;
     }
 
-    delete game.players[socket.id];
+    if(game.isSpectator(player)) {
+        delete game.players[socket.id];
+    } else {
+        game.players[socket.id].left = true;
+    }
 
     io.to(game.id).emit('leavegame', game.getSummary(socket.id), player.id);
 
@@ -248,7 +252,9 @@ function removePlayerFromGame(game, socket, reason) {
 
     var listToCheck = game.getPlayers();
 
-    if(_.isEmpty(listToCheck)) {
+    if(_.all(listToCheck, p => {
+        return !!p.left;
+    }) && _.isEmpty(game.getSpectators())) {
         delete games[game.id];
     }
 }
