@@ -79,9 +79,10 @@ class InnerLobby extends React.Component {
 
         return (
             <div>
-                <div className='alert alert-info'>The site is in beta.  You will encounter bugs or missing features.  Please report these issues to&nbsp;
-             <a href='https://www.github.com/cryogen/throneteki' target='_blank'>GitHub</a>.</div>
-                <div className='alert alert-success'>Avatars are now in use in various parts of the site.  If you want your own rather than the default, see <a href='https://en.gravatar.com/'>Gravatar</a></div>
+                <div className='alert alert-info'>
+                    <div><span className='glyphicon glyphicon-info-sign' />Avatars are now in use in various parts of the site.  If you want your own rather than the default, see <a href='https://en.gravatar.com/'>Gravatar</a></div>
+                    <div><span className='icon-military' />New cards: Seal of the Hand, Bodyguard, Put to the Sword, Put to the Torch, Maester Cressen</div>
+                </div>
                 <div className='row'>
                     <span className='col-sm-9 text-center'><h1>Play A Game Of Thrones 2nd Edition</h1></span>
                     <span className='col-sm-3 hidden-xs'><h3>{'Online Users (' + users.length + ')'}</h3></span>
