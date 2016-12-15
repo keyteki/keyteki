@@ -37,6 +37,8 @@ class BodyGuard extends DrawCard {
     save(player) {
         this.game.addMessage('{0} uses {1} to save {2}', player, this, this.parent);
 
+        this.controller.sacrificeCard(this);
+
         return true;
     }
 
