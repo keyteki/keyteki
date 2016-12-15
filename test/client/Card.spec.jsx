@@ -122,11 +122,12 @@ describe('the <Card /> component', function() {
             });
 
             it('should add the kneeled styling to the card', function() {
-                var kneeledClass = TestUtils.scryRenderedDOMComponentsWithClass(this.component, 'horizontal-card');
-                expect(kneeledClass.length).not.toBe(0);
-
-                // var verticalClass = TestUtils.scryRenderedDOMComponentsWithClass(this.component, 'vertical');
-                // expect(verticalClass.length).not.toBe(0);
+                var card = TestUtils.findRenderedDOMComponentWithClass(this.component, 'card');
+                var cardImage = TestUtils.findRenderedDOMComponentWithClass(this.component, 'card-image');
+                expect(card.className).toContain('horizontal');
+                expect(card.className).not.toContain('vertical');
+                expect(cardImage.className).toContain('vertical');
+                expect(cardImage.className).toContain('kneeled');
             });
         });
     });
