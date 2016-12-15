@@ -8,7 +8,7 @@ class PutToTheTorch extends DrawCard {
 
         var currentChallenge = this.game.currentChallenge;
 
-        if(!currentChallenge || currentChallenge.winner !== this.controller || currentChallenge.attacker !== this.controller || currentChallenge.strengthDifference < 5 ||
+        if(!currentChallenge || currentChallenge.winner !== this.controller || currentChallenge.attackingPlayer !== this.controller || currentChallenge.strengthDifference < 5 ||
                 currentChallenge.challengeType !== 'military') {
             return false;
         }
@@ -30,7 +30,7 @@ class PutToTheTorch extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        card.controller.moveCard(card, 'discard pile');
+        card.controller.discardCard(card);
 
         this.game.addMessage('{0} uses {1} to discard {2}', player, this, card);
 
