@@ -6,6 +6,7 @@ class TearsOfLys extends DrawCard {
 
         this.registerEvents(['onEndChallengePhase']);
     }
+
     canPlay(player, card) {
         if(player !== this.controller || this !== card) {
             return false;
@@ -48,6 +49,8 @@ class TearsOfLys extends DrawCard {
             this.poisonTarget.controller.killCharacter(this.poisonTarget);
 
             this.game.addMessage('{0} uses {1} to kill {2} at the end of the phase', this.controller, this, this.poisonTarget);
+
+            this.poisonTarget = undefined;
         }
     }
 }
