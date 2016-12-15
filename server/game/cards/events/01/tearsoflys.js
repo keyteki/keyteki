@@ -13,7 +13,7 @@ class TearsOfLys extends DrawCard {
 
         var currentChallenge = this.game.currentChallenge;
 
-        if(!currentChallenge || currentChallenge.winner !== this.controller || currentChallenge.attacker !== this.controller || currentChallenge.challengeType !== 'intrigue') {
+        if(!currentChallenge || currentChallenge.winner !== this.controller || currentChallenge.attackingPlayer !== this.controller || currentChallenge.challengeType !== 'intrigue') {
             return false;
         }
 
@@ -44,7 +44,7 @@ class TearsOfLys extends DrawCard {
     }
 
     onEndChallengePhase() {
-        if(this.poisonTarget && this.poisonTarget.inPlay && this.hasToken('poison')) {
+        if(this.poisonTarget && this.poisonTarget.inPlay && this.poisonTarget.hasToken('poison')) {
             this.poisonTarget.controller.killCharacter(this.poisonTarget);
 
             this.game.addMessage('{0} uses {1} to kill {2} at the end of the phase', this.controller, this, this.poisonTarget);
