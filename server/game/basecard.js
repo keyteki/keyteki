@@ -103,6 +103,7 @@ class BaseCard {
         });
 
         this.inPlay = false;
+        this.tokens = {};
     }
 
     modifyDominance(player, strength) {
