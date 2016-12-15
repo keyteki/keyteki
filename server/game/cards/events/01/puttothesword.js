@@ -8,7 +8,7 @@ class PutToTheSword extends DrawCard {
 
         var currentChallenge = this.game.currentChallenge;
 
-        if(!currentChallenge || currentChallenge.winner !== this.controller || currentChallenge.attacker !== this.controller || currentChallenge.strengthDifference < 5 ||
+        if(!currentChallenge || currentChallenge.winner !== this.controller || currentChallenge.attackingPlayer !== this.controller || currentChallenge.strengthDifference < 5 ||
                 currentChallenge.challengeType !== 'military') {
             return false;
         }
