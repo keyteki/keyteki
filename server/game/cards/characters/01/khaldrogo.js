@@ -13,6 +13,7 @@ class KhalDrogo extends DrawCard {
         }
 
         if(!this.isBlank()) {
+            this.challengeAdded = true;
             this.controller.addChallenge('military', 1);
         }
     }
@@ -20,7 +21,7 @@ class KhalDrogo extends DrawCard {
     leavesPlay() {
         super.leavesPlay();
         
-        if(!this.isBlank()) {
+        if(this.challengeAdded) {
             this.controller.addChallenge('military', -1);
         }
     }
