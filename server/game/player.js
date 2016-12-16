@@ -453,7 +453,9 @@ class Player extends Spectator {
             }
 
             card.facedown = this.phase === 'setup';
-            card.play(this);
+            if(!dupeCard) {
+                card.play(this);
+            }
             card.new = true;
             this.moveCard(card, 'play area');
         }
