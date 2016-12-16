@@ -226,27 +226,27 @@ function findGameForPlayer(socketid) {
 }
 
 function removePlayerFromGame(game, socket, reason) {
-    game.playerLeave(socket.id, reason);
+    game.playerLeave(socket.request.user.username, reason);
 
     if(game.started) {
-        _.each(game.players, (player, key) => {
-            io.to(key).emit('gamestate', game.getState(player.id));
+        _.each(game.players, player => {
+            io.to(player.id).emit('gamestate', game.getState(player.name));
         });
     }
 
-    var player = game.players[socket.id];
+    var player = game.players[socket.request.user.username];
 
     if(!player) {
         return;
     }
 
     if(game.isSpectator(player)) {
-        delete game.players[socket.id];
+        delete game.players[socket.request.user.username];
     } else {
-        game.players[socket.id].left = true;
+        game.players[socket.request.user.username].left = true;
     }
 
-    io.to(game.id).emit('leavegame', game.getSummary(socket.id), player.id);
+    io.to(game.id).emit('leavegame', game.getSummary(socket.request.user.username), player.name);
 
     socket.leave(game.id);
 
@@ -260,21 +260,21 @@ function removePlayerFromGame(game, socket, reason) {
 }
 
 function updateGame(game) {
-    _.each(game.players, (player, key) => {
-        io.to(key).emit('updategame', game.getState(player.id));
+    _.each(game.players, player => {
+        io.to(player.id).emit('updategame', game.getState(player.name));
     });
 }
 
 function sendGameState(game) {
-    _.each(game.players, (player, key) => {
-        io.to(key).emit('gamestate', game.getState(player.id));
+    _.each(game.players, player => {
+        io.to(player.id).emit('gamestate', game.getState(player.name));
     });
 }
 
 function handleError(game, e) {
     logger.error(e);
     _.each(game.players, player => {
-        logger.error(game.getSummary(player.id));
+        logger.error(game.getSummary(player.name));
     });
 
     if(game) {
@@ -300,11 +300,13 @@ io.on('connection', function(socket) {
     });
 
     socket.on('disconnect', function() {
-        var game = findGameForPlayer(socket.id);
-
-        if(socket.request.user) {
-            delete users[socket.request.user.username];
+        if(!socket.request.user) {
+            return;
         }
+
+        var game = findGameForPlayer(socket.request.user.username);
+
+        delete users[socket.request.user.username];
 
         refreshUserList();
 
@@ -315,6 +317,23 @@ io.on('connection', function(socket) {
         removePlayerFromGame(game, socket, 'has disconnected');
 
         refreshGameList();
+    });
+
+    socket.on('reconnect', function() {
+        if(!socket.request.user) {
+            return;
+        }
+
+        var game = findGameForPlayer(socket.request.user.username);
+        if(!game) {
+            return;
+        }
+
+        runAndCatchErrors(game, () => {
+            game.reconnect(socket.id, socket.request.user.username);
+
+            sendGameState(game);
+        });
     });
 
     socket.on('authenticate', function(token) {
@@ -333,12 +352,12 @@ io.on('connection', function(socket) {
             return;
         }
 
-        var game = new Game(socket.id, gameDetails);
+        var game = new Game(socket.request.user.username, gameDetails);
 
-        game.players[socket.id] = new Player(socket.id, socket.request.user, true, game);
+        game.players[socket.request.user.username] = new Player(socket.id, socket.request.user, true, game);
 
         games[game.id] = game;
-        socket.emit('newgame', game.getState(socket.id));
+        socket.emit('newgame', game.getState(socket.request.user.username));
         socket.join(game.id);
 
         refreshGameList();
@@ -356,12 +375,12 @@ io.on('connection', function(socket) {
         }
 
         runAndCatchErrors(game, () => {
-            game.players[socket.id] = new Player(socket.id, socket.request.user, false, game);
+            game.players[socket.request.user.username] = new Player(socket.id, socket.request.user, false, game);
             socket.join(game.id);
         });
 
-        _.each(game.players, (player, key) => {
-            io.to(key).emit('joingame', game.getState(player.id));
+        _.each(game.players, player => {
+            io.to(player.id).emit('joingame', game.getState(player.name));
         });
 
         refreshGameList();
@@ -379,11 +398,11 @@ io.on('connection', function(socket) {
         }
 
         runAndCatchErrors(game, () => {
-            game.players[socket.id] = new Spectator(socket.id, socket.request.user);
+            game.players[socket.request.user.username] = new Spectator(socket.id, socket.request.user);
             game.addMessage('{0} has joined the game as a spectator', socket.request.user.username);
             socket.join(game.id);
-            _.each(game.players, (player, key) => {
-                io.to(key).emit('joingame', game.getState(player.id));
+            _.each(game.players, player => {
+                io.to(player.id).emit('joingame', game.getState(player.name));
             });
 
             sendGameState(game);
@@ -402,7 +421,7 @@ io.on('connection', function(socket) {
         }
 
         runAndCatchErrors(game, () => {
-            game.selectDeck(socket.id, deck);
+            game.selectDeck(socket.request.user.username, deck);
         });
 
         updateGame(game);
@@ -413,7 +432,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        var game = gameid ? games[gameid] : findGameForPlayer(socket.id);
+        var game = gameid ? games[gameid] : findGameForPlayer(socket.request.user.username);
         if(!game) {
             return;
         }
@@ -442,7 +461,7 @@ io.on('connection', function(socket) {
             return;
         }
 
-        var player = game.getPlayerById(socket.id);
+        var player = game.getPlayerByName(socket.request.user.username);
         if(!player || !player.owner) {
             return;
         }
@@ -459,14 +478,14 @@ io.on('connection', function(socket) {
     });
 
     socket.on('game', function(command, ...args) {
-        var game = findGameForPlayer(socket.id);
+        var game = findGameForPlayer(socket.request.user.username);
 
         if(!game || !game[command] || !_.isFunction(game[command])) {
             return;
         }
 
         runAndCatchErrors(game, () => {
-            game[command](socket.id, ...args);
+            game[command](socket.request.user.username, ...args);
 
             sendGameState(game);
         });

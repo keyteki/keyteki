@@ -80,8 +80,9 @@ class InnerLobby extends React.Component {
         return (
             <div>
                 <div className='alert alert-info'>
-                    <div><span className='glyphicon glyphicon-info-sign' />Avatars are now in use in various parts of the site.  If you want your own rather than the default, see <a href='https://en.gravatar.com/'>Gravatar</a></div>
+                    <div><span className='icon-intrigue' />Fixed: Tears of Lys, attachment styling, menus appearing underneath cards.  New: Losing connectivity should no longer throw you out of a game, and games will now stay open until the last person has left</div>
                     <div><span className='icon-military' />New cards: Seal of the Hand, Bodyguard, Put to the Sword, Put to the Torch, Maester Cressen, Knighted, Red God's Blessing</div>
+                    <div><span className='glyphicon glyphicon-info-sign' />Avatars are now in use in various parts of the site.  If you want your own rather than the default, see <a href='https://en.gravatar.com/'>Gravatar</a></div>
                 </div>
                 <div className='row'>
                     <span className='col-sm-9 text-center'><h1>Play A Game Of Thrones 2nd Edition</h1></span>

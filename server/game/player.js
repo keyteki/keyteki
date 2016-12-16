@@ -702,7 +702,7 @@ class Player extends Spectator {
         }
 
         if(target === 'play area') {
-            this.game.playCard(this.id, cardId, true, sourceList);
+            this.game.playCard(this.name, cardId, true, sourceList);
         } else {
             this.moveCard(card, target);
         }
@@ -1035,7 +1035,8 @@ class Player extends Spectator {
             selectCard: this.selectCard,
             deadPile: this.getSummaryForCardList(this.deadPile, isActivePlayer),
             discardPile: this.getSummaryForCardList(this.discardPile, isActivePlayer),
-            user: _.omit(this.user, 'password')
+            user: _.omit(this.user, 'password'),
+            name: this.name
         };
 
         if(this.showDeck) {

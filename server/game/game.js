@@ -96,7 +96,7 @@ class Game extends EventEmitter {
 
         _.reduce(this.players, (playerList, player) => {
             if(!this.isSpectator(player)) {
-                playerList[player.id] = player;
+                playerList[player.name] = player;
             }
 
             return playerList;
@@ -105,8 +105,8 @@ class Game extends EventEmitter {
         return players;
     }
 
-    getPlayerById(playerId) {
-        return this.getPlayers()[playerId];
+    getPlayerByName(playerName) {
+        return this.getPlayers()[playerName];
     }
 
     getPlayersInFirstPlayerOrder() {
@@ -139,7 +139,7 @@ class Game extends EventEmitter {
 
     getOtherPlayer(player) {
         var otherPlayer = _.find(this.getPlayers(), p => {
-            return p.id !== player.id;
+            return p.name !== player.name;
         });
 
         return otherPlayer;
@@ -154,8 +154,8 @@ class Game extends EventEmitter {
         }, null);
     }
 
-    playCard(playerId, cardId, isDrop, sourceList) {
-        var player = this.getPlayerById(playerId);
+    playCard(playerName, cardId, isDrop, sourceList) {
+        var player = this.getPlayerByName(playerName);
 
         if(!player) {
             return;
@@ -218,7 +218,7 @@ class Game extends EventEmitter {
     }
 
     cardClicked(sourcePlayer, source, cardId) {
-        var player = this.getPlayerById(sourcePlayer);
+        var player = this.getPlayerByName(sourcePlayer);
 
         if(!player) {
             return;
@@ -226,7 +226,7 @@ class Game extends EventEmitter {
 
         switch(source) {
             case 'hand':
-                this.playCard(player.id, cardId);
+                this.playCard(player.name, cardId);
                 return;
             case 'plot deck':
                 this.selectPlot(player, cardId);
@@ -265,7 +265,7 @@ class Game extends EventEmitter {
     }
 
     menuItemClick(sourcePlayer, source, cardId, menuItem) {
-        var player = this.getPlayerById(sourcePlayer);
+        var player = this.getPlayerByName(sourcePlayer);
 
         if(!player) {
             return;
@@ -293,8 +293,8 @@ class Game extends EventEmitter {
         this.pipeline.continue();
     }
 
-    showDrawDeck(playerId) {
-        var player = this.getPlayerById(playerId);
+    showDrawDeck(playerName) {
+        var player = this.getPlayerByName(playerName);
 
         if(!player) {
             return;
@@ -311,8 +311,8 @@ class Game extends EventEmitter {
         }
     }
 
-    drop(playerId, cardId, source, target) {
-        var player = this.getPlayerById(playerId);
+    drop(playerName, cardId, source, target) {
+        var player = this.getPlayerByName(playerName);
 
         if(!player) {
             return;
@@ -352,8 +352,8 @@ class Game extends EventEmitter {
         }
     }
 
-    changeStat(playerId, stat, value) {
-        var player = this.getPlayerById(playerId);
+    changeStat(playerName, stat, value) {
+        var player = this.getPlayerByName(playerName);
         if(!player) {
             return;
         }
@@ -389,8 +389,8 @@ class Game extends EventEmitter {
         return num;
     }
 
-    chat(playerId, message) {
-        var player = this.players[playerId];
+    chat(playerName, message) {
+        var player = this.players[playerName];
         var args = message.split(' ');
         var num = 1;
 
@@ -485,8 +485,8 @@ class Game extends EventEmitter {
         this.addChatMessage('{0} {1}', player, message);
     }
 
-    playerLeave(playerId, reason) {
-        var player = this.players[playerId];
+    playerLeave(playerName, reason) {
+        var player = this.players[playerName];
 
         if(!player) {
             return;
@@ -495,8 +495,8 @@ class Game extends EventEmitter {
         this.addMessage('{0} {1}', player, reason);
     }
 
-    concede(playerId) {
-        var player = this.getPlayerById(playerId);
+    concede(playerName) {
+        var player = this.getPlayerByName(playerName);
 
         if(!player) {
             return;
@@ -511,8 +511,8 @@ class Game extends EventEmitter {
         }
     }
 
-    selectDeck(playerId, deck) {
-        var player = this.getPlayerById(playerId);
+    selectDeck(playerName, deck) {
+        var player = this.getPlayerByName(playerName);
 
         if(!player) {
             return;
@@ -521,8 +521,8 @@ class Game extends EventEmitter {
         player.selectDeck(deck);
     }
 
-    shuffleDeck(playerId) {
-        var player = this.getPlayerById(playerId);
+    shuffleDeck(playerName) {
+        var player = this.getPlayerByName(playerName);
         if(!player) {
             return;
         }
@@ -540,8 +540,8 @@ class Game extends EventEmitter {
         this.queueStep(new SelectCardPrompt(this, player, properties));
     }
 
-    menuButton(playerId, arg, method) {
-        var player = this.getPlayerById(playerId);
+    menuButton(playerName, arg, method) {
+        var player = this.getPlayerByName(playerName);
         if(!player) {
             return;
         }
@@ -608,12 +608,23 @@ class Game extends EventEmitter {
         card.controller = newController;
     }
 
+    reconnect(id, playerName) {
+        var player = this.getPlayerByName(playerName);
+        if(!player) {
+            return;
+        }
+
+        player.id = id;
+
+        this.addMessage('{0} has reconnected', player);
+    }
+
     getState(activePlayer) {
         var playerState = {};
 
         if(this.started) {
             _.each(this.getPlayers(), player => {
-                playerState[player.id] = player.getState(activePlayer === player.id);
+                playerState[player.name] = player.getState(activePlayer === player.name);
             });
 
             return {
@@ -641,7 +652,7 @@ class Game extends EventEmitter {
         _.each(this.getPlayers(), player => {
             var deck = undefined;
 
-            if(activePlayer === player.id && player.deck) {
+            if(activePlayer === player.name && player.deck) {
                 deck = { name: player.deck.name, selected: player.deck.selected };
             } else if(player.deck) {
                 deck = { selected: player.deck.selected };

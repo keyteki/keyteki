@@ -26,15 +26,15 @@ class ResolvePlots extends BaseStep {
             activePrompt: {
                 menuTitle: 'Select a player to resolve their plot effects',
                 buttons: _.map(this.playersWithRevealEffects, player => {
-                    return { command: 'menuButton', method: 'resolvePlayer', text: player.name, arg: player.id };
+                    return { command: 'menuButton', method: 'resolvePlayer', text: player.name, arg: player.name };
                 })
             },
             waitingPromptTitle: 'Waiting for first player to choose plot resolution order'
         });
     }
 
-    resolvePlayer(firstPlayer, playerId) {
-        var player = this.game.getPlayerById(playerId);
+    resolvePlayer(firstPlayer, playerName) {
+        var player = this.game.getPlayerByName(playerName);
 
         if(!player) {
             return false;

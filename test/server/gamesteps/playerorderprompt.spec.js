@@ -14,8 +14,8 @@ describe('the PlayerOrderPrompt', () => {
 
     beforeEach(() => {
         game = new Game('1', 'Test Game');
-        player1 = new Player('1', 'Player 1', true, game);
-        player2 = new Player('2', 'Player 2', false, game);
+        player1 = new Player('1', { username: 'Player 1' }, true, game);
+        player2 = new Player('2', { username: 'Player 2' }, false, game);
         player2.firstPlayer = true;
         game.players[0] = player1;
         game.players[1] = player2;

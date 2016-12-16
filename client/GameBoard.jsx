@@ -43,7 +43,7 @@ export class InnerGameBoard extends React.Component {
     }
 
     componentWillReceiveProps(props) {
-        var thisPlayer = props.state.players[props.socket.id];
+        var thisPlayer = props.state.players[props.username];
 
         if(thisPlayer) {
             this.setState({ spectating: false });
@@ -63,7 +63,7 @@ export class InnerGameBoard extends React.Component {
 
         if(props.currentGame) {
             if(_.find(props.currentGame.players, p => {
-                return p.id === props.socket.id;
+                return p.name === props.username;
             })) {
                 menuOptions.unshift({ text: 'Concede', onClick: this.onConcedeClick });
             }
@@ -225,13 +225,13 @@ export class InnerGameBoard extends React.Component {
             return <div>Waiting for server...</div>;
         }
 
-        var thisPlayer = this.props.state.players[this.props.socket.id];
+        var thisPlayer = this.props.state.players[this.props.username];
         if(!thisPlayer) {
             thisPlayer = _.toArray(this.props.state.players)[0];
         }
 
         var otherPlayer = _.find(this.props.state.players, player => {
-            return player.id !== thisPlayer.id;
+            return player.name !== thisPlayer.name;
         });
 
         var thisPlayerCards = [];
@@ -357,6 +357,7 @@ InnerGameBoard.propTypes = {
     setContextMenu: React.PropTypes.func,
     socket: React.PropTypes.object,
     state: React.PropTypes.object,
+    username: React.PropTypes.string,
     zoomCard: React.PropTypes.func
 };
 
@@ -365,7 +366,8 @@ function mapStateToProps(state) {
         cardToZoom: state.cards.zoomCard,
         currentGame: state.games.currentGame,
         socket: state.socket.socket,
-        state: state.games.state
+        state: state.games.state,
+        username: state.auth.username
     };
 }
 

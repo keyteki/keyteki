@@ -15,12 +15,12 @@ describe('the AttachmentPrompt', () => {
 
     beforeEach(() => {
         game = new Game('1', 'Test Game');
-        player = new Player('1', 'Player 1', true, game);
+        player = new Player('1', { username: 'Player 1' }, true, game);
         player.initialise();
-        otherPlayer = new Player('2', 'Player 2', false, game);
+        otherPlayer = new Player('2', { username: 'Player 2' }, false, game);
         otherPlayer.initialise();
-        game.players[player.id] = player;
-        game.players[otherPlayer.id] = otherPlayer;
+        game.players[player.name] = player;
+        game.players[otherPlayer.name] = otherPlayer;
         attachment = new DrawCard(player, {});
         attachmentTarget = new DrawCard(player, {});
         prompt = new AttachmentPrompt(game, player, attachment);

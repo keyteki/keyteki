@@ -8,15 +8,15 @@ const cards = require('../../../../../server/game/cards');
 describe('Trading With The Pentoshi', function() {
     beforeEach(function() {
         this.game = new Game('1', 'Test Game');
-        this.player1 = new Player('1', 'Player 1', true, this.game);
-        this.player2 = new Player('2', 'Player 2', false, this.game);
+        this.player1 = new Player('1', { username: 'Player 1' }, true, this.game);
+        this.player2 = new Player('2', { username: 'Player 2' }, false, this.game);
         this.pentoshi = new cards['02039'](this.player1, {text: 'When Revealed: something something 3 gold'});
 
         this.player1.gold = 0;
         this.player2.gold = 0;
 
-        this.game.players['1'] = this.player1;
-        this.game.players['2'] = this.player2;
+        this.game.players['Player 1'] = this.player1;
+        this.game.players['Player 2'] = this.player2;
 
         this.game.initialise();
     });

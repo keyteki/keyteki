@@ -6,8 +6,8 @@ const Spectator = require('../../../server/game/spectator.js');
 
 describe('the Game', () => {
     var game = {};
-    var player1 = new Player('1', 'Player 1', true);
-    var player2 = new Player('2', 'Player 2', false);
+    var player1 = new Player('1', { username: 'Player 1' }, true, game);
+    var player2 = new Player('2', { username: 'Player 2' }, false, game);
     var spectator = new Spectator('3', 'Spectator 1');
 
     beforeEach(() => {
@@ -27,7 +27,7 @@ describe('the Game', () => {
 
         describe('when a player joins', () => {
             beforeEach(() => {
-                game.players[player1.id] = player1;
+                game.players[player1.name] = player1;
             });
 
             it('should return basic state for the player', () => {
@@ -40,7 +40,7 @@ describe('the Game', () => {
 
             describe('and another player joins', () => {
                 beforeEach(() => {
-                    game.players[player2.id] = player2;
+                    game.players[player2.name] = player2;
                 });
 
                 it('should return basic state for both players', () => {
@@ -57,13 +57,13 @@ describe('the Game', () => {
         describe('when a player has a deck selected', () => {
             beforeEach(() => {
                 player1.deck = { name: 'Test Deck'};
-                game.players[player1.id] = player1;
-                game.players[player2.id] = player2;
+                game.players[player1.name] = player1;
+                game.players[player2.name] = player2;
             });
 
             describe('who is the current player', () => {
                 it('should return a summary of their deck', () => {
-                    var state = game.getSummary(player1.id);
+                    var state = game.getSummary(player1.name);
 
                     expect(state.players[0].deck.name).toBe('Test Deck');
                 });
@@ -71,19 +71,19 @@ describe('the Game', () => {
 
             describe('who is not the current player', () => {
                 it('should show that the player has a deck but no details', () => {
-                    var state = game.getSummary(player2.id);
+                    var state = game.getSummary(player2.name);
 
                     expect(state.players[0].deck).not.toBe(undefined);
-                    expect(state.players[0].deck.name).toBe(undefined);
+                    expect(state.players[1].deck.name).toBe(undefined);
                 });
             });
         });
 
         describe('when there are spectators', () => {
             beforeEach(() => {
-                game.players[player1.id] = player1;
-                game.players[player2.id] = player2;
-                game.players[spectator.id] = spectator;
+                game.players[player1.name] = player1;
+                game.players[player2.name] = player2;
+                game.players[spectator.name] = spectator;
             });
 
             it('should show the specators to any player', () => {

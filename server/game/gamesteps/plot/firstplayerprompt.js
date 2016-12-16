@@ -19,17 +19,17 @@ class FirstPlayerPrompt extends UIPrompt {
         return {
             menuTitle: 'Select first player',
             buttons: _.map(players, player => {
-                return { text: player.name, command: 'menuButton', arg: player.id };
+                return { text: player.name, command: 'menuButton', arg: player.name };
             })
         };
     }
 
-    onMenuCommand(player, playerId) {
+    onMenuCommand(player, playerName) {
         if(player !== this.player) {
             return false;
         }
 
-        var firstPlayer = this.game.getPlayerById(playerId);
+        var firstPlayer = this.game.getPlayerByName(playerName);
         if(!firstPlayer) {
             return;
         }

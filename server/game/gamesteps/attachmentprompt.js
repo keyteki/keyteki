@@ -23,7 +23,7 @@ class AttachmentPrompt extends UiPrompt {
             return false;
         }
 
-        var targetPlayer = this.game.getPlayerById(targetCard.controller.id);
+        var targetPlayer = this.game.getPlayerByName(targetCard.controller.name);
         targetPlayer.attach(player, attachment, targetCard.uuid);
 
         player.selectCard = false;

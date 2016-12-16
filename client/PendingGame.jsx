@@ -49,7 +49,7 @@ class InnerPendingGame extends React.Component {
     componentWillReceiveProps(props) {
         var players = _.size(props.currentGame.players);
 
-        if(this.state.playerCount === 1 && players === 2 && props.currentGame.owner === this.props.socket.id) {
+        if(this.state.playerCount === 1 && players === 2 && props.currentGame.owner === this.props.username) {
             this.refs.notification.play();
         }
 
@@ -67,7 +67,7 @@ class InnerPendingGame extends React.Component {
             return false;
         }
 
-        return this.props.currentGame.owner === this.props.socket.id;
+        return this.props.currentGame.owner === this.props.username;
     }
 
     onSelectDeckClick() {
@@ -98,7 +98,7 @@ class InnerPendingGame extends React.Component {
         }
 
         return (
-            <div className='player-row' key={player.id}>
+            <div className='player-row' key={player.name}>
                 <Avatar emailHash={player.emailHash} /><span>{player.name}</span>{deck} {selectLink}
             </div>);
     }

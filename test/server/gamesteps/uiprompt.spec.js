@@ -14,10 +14,10 @@ describe('the UiPrompt', () => {
 
     beforeEach(() => {
         game = new Game('1', 'Test Game');
-        player1 = new Player('1', 'Player 1', true);
-        player2 = new Player('2', 'Player 2', false);
-        game.players[player1.id] = player1;
-        game.players[player2.id] = player2;
+        player1 = new Player('1', { username: 'Player 1' }, true, game);
+        player2 = new Player('2', { username: 'Player 2' }, false, game);
+        game.players[player1.name] = player1;
+        game.players[player2.name] = player2;
         prompt = new UiPrompt(game);
         spyOn(prompt, 'activePrompt').and.returnValue(activePrompt);
         spyOn(prompt, 'waitingPrompt').and.returnValue(waitingPrompt);

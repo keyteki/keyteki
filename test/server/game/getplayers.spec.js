@@ -8,7 +8,7 @@ describe('Game', function() {
         this.game = new Game('1', 'Test Game');
 
         this.notSetPlayer1 = { id: '1', name: 'test' };
-        this.notSetPlayer2 = { id: '2', name: 'test' };
+        this.notSetPlayer2 = { id: '2', name: 'test2' };
         this.setFalsePlayer1 = { id: '1', name: 'test', firstPlayer: false };
         this.setFalsePlayer2 = { id: '2', name: 'test2', firstPlayer: false };
         this.setPlayer1 = { id: '1', name: 'test', firstPlayer: true };
@@ -29,7 +29,7 @@ describe('Game', function() {
         describe('when there is one player', function() {
             describe('and first player is not set yet', function() {
                 beforeEach(function() {
-                    this.game.players['1'] = this.notSetPlayer1;
+                    this.game.players['test1'] = this.notSetPlayer1;
 
                     this.players = this.game.getPlayersInFirstPlayerOrder();
                 });
@@ -41,7 +41,7 @@ describe('Game', function() {
 
             describe('and the first player is set', function() {
                 beforeEach(function() {
-                    this.game.players['1'] = this.setPlayer1;
+                    this.game.players['test1'] = this.setPlayer1;
 
                     this.players = this.game.getPlayersInFirstPlayerOrder();
                 });
@@ -55,8 +55,8 @@ describe('Game', function() {
         describe('when there are two players', function() {
             describe('and first player is not set', function() {
                 beforeEach(function() {
-                    this.game.players['1'] = this.notSetPlayer1;
-                    this.game.players['2'] = this.notSetPlayer2;
+                    this.game.players['test1'] = this.notSetPlayer1;
+                    this.game.players['test2'] = this.notSetPlayer2;
 
                     this.players = this.game.getPlayersInFirstPlayerOrder();
                 });
@@ -69,14 +69,14 @@ describe('Game', function() {
 
             describe('when player 1 is first player', function() {
                 beforeEach(function() {
-                    this.game.players['1'] = this.setPlayer1;
-                    this.game.players['2'] = this.notSetPlayer2;
+                    this.game.players['test1'] = this.setPlayer1;
+                    this.game.players['test2'] = this.notSetPlayer2;
 
                     this.players = this.game.getPlayersInFirstPlayerOrder();
                 });
 
                 it('should return player 1 then player 2', function() {
-                    this.game.players['1'] = this.setPlayer1;
+                    this.game.players['test1'] = this.setPlayer1;
                     expect(this.players[0]).toBe(this.setPlayer1);
                     expect(this.players[1]).toBe(this.notSetPlayer2);
                 });
@@ -84,8 +84,8 @@ describe('Game', function() {
 
             describe('when player 2 is first player', function() {
                 beforeEach(function() {
-                    this.game.players['1'] = this.notSetPlayer1;
-                    this.game.players['2'] = this.setPlayer2;
+                    this.game.players['test1'] = this.notSetPlayer1;
+                    this.game.players['test2'] = this.setPlayer2;
 
                     this.players = this.game.getPlayersInFirstPlayerOrder();
                 });
@@ -98,8 +98,8 @@ describe('Game', function() {
 
             describe('when player 2 is first player and player 1 is explicitly not first player', function() {
                 beforeEach(function() {
-                    this.game.players['1'] = this.setFalsePlayer1;
-                    this.game.players['2'] = this.setPlayer2;
+                    this.game.players['test1'] = this.setFalsePlayer1;
+                    this.game.players['test2'] = this.setPlayer2;
 
                     this.players = this.game.getPlayersInFirstPlayerOrder();
                 });

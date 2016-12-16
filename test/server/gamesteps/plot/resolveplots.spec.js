@@ -5,7 +5,7 @@ const ResolvePlots = require('../../../../server/game/gamesteps/plot/resolveplot
 
 describe('the ResolvePlots', function() {
     beforeEach(function() {
-        this.game = jasmine.createSpyObj('game', ['getPlayerById', 'getFirstPlayer', 'promptWithMenu']);
+        this.game = jasmine.createSpyObj('game', ['getPlayerByName', 'getFirstPlayer', 'promptWithMenu']);
         this.player = jasmine.createSpyObj('player', ['setPrompt', 'cancelPrompt', 'revealPlot']);
         this.otherPlayer = jasmine.createSpyObj('player', ['setPrompt', 'cancelPrompt', 'revealPlot']);
 
@@ -77,7 +77,7 @@ describe('the ResolvePlots', function() {
 
         describe('when the player ID does not exist', function() {
             beforeEach(function() {
-                this.game.getPlayerById.and.returnValue(undefined);
+                this.game.getPlayerByName.and.returnValue(undefined);
             });
 
             it('should not reveal a plot', function() {
@@ -94,16 +94,16 @@ describe('the ResolvePlots', function() {
 
         describe('when the player ID does exist', function() {
             beforeEach(function() {
-                this.game.getPlayerById.and.returnValue(this.otherPlayer);
+                this.game.getPlayerByName.and.returnValue(this.otherPlayer);
             });
 
             it('should call onReveal', function() {
-                this.prompt.resolvePlayer(this.player, this.otherPlayer.id);
+                this.prompt.resolvePlayer(this.player, this.otherPlayer.name);
                 expect(this.otherPlayer.revealPlot).toHaveBeenCalled();
             });
 
             it('should remove the resolved player from the list', function() {
-                this.prompt.resolvePlayer(this.player, this.otherPlayer.id);
+                this.prompt.resolvePlayer(this.player, this.otherPlayer.name);
                 expect(this.prompt.playersWithRevealEffects).toEqual([this.player]);
             });
         });

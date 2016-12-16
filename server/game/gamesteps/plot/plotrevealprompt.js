@@ -17,18 +17,18 @@ class PlotRevealPrompt extends UIPrompt {
         return {
             menuTitle: 'Select first player',
             buttons: [
-                { text: this.player.name, command: 'menuButton', arg: this.player.id },
-                { text: otherPlayer.name, command: 'menuButton', arg: otherPlayer.id }
+                { text: this.player.name, command: 'menuButton', arg: this.player.name },
+                { text: otherPlayer.name, command: 'menuButton', arg: otherPlayer.name }
             ]
         };
     }
 
-    onMenuCommand(player, playerId) {
+    onMenuCommand(player, playerName) {
         if(player !== this.player) {
             return false;
         }
 
-        var firstPlayer = this.game.getPlayerById(playerId);
+        var firstPlayer = this.game.getPlayerByName(playerName);
         if(!firstPlayer) {
             return;
         }
