@@ -651,6 +651,9 @@ class Game extends EventEmitter {
 
         _.each(this.getPlayers(), player => {
             var deck = undefined;
+            if(player.left) {
+                return;
+            }
 
             if(activePlayer === player.name && player.deck) {
                 deck = { name: player.deck.name, selected: player.deck.selected };
