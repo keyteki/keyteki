@@ -800,7 +800,7 @@ class Player extends Spectator {
             }
         } else {
             var event = this.game.raiseEvent('onCharacterKilled', this, character, allowSave);
-            if(!event.cancel && allowSave) {
+            if(!event.cancel || !allowSave) {
                 this.moveCard(card, 'dead pile');
             }
         }
