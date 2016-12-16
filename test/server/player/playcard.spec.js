@@ -147,7 +147,6 @@ describe('Player', function() {
                 it('should add a new card in play facedown', function() {
                     expect(this.player.cardsInPlay).toContain(this.cardSpy);
                     expect(this.cardSpy.facedown).toBe(true);
-                    expect(this.cardSpy.play).toHaveBeenCalledWith(this.player);
                 });
             });
 
