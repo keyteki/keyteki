@@ -8,7 +8,7 @@ class Avatar extends React.Component {
             className += ' pull-left';
         }
 
-        return (<img className={className} src={'http://www.gravatar.com/avatar/' + this.props.emailHash + '?d=identicon&s=32}'} />);
+        return (<img className={className} src={'https://www.gravatar.com/avatar/' + this.props.emailHash + '?d=identicon&s=32}'} />);
     }
 }
 
