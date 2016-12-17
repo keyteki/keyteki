@@ -43,8 +43,8 @@ class TheWall extends DrawCard {
             activePrompt: {
                 menuTitle: 'Kneel ' + this.name + '?',
                 buttons: [
-                    { text: 'Yes', command: 'menuButton', method: 'kneel' },
-                    { text: 'No', command: 'menuButton', method: 'cancel' }
+                    { text: 'Yes', method: 'kneel' },
+                    { text: 'No', method: 'cancel' }
                 ]
             },
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name

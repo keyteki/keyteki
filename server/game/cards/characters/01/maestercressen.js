@@ -12,8 +12,8 @@ class MaesterCressen extends DrawCard {
             activePrompt: {
                 menuTitle: 'Trigger ' + this.name + '?',
                 buttons: [
-                    { text: 'Kneel and Discard', command: 'menuButton', method: 'kneel' },
-                    { text: 'Cancel', command: 'menuButton', method: 'cancel' }
+                    { text: 'Kneel and Discard', method: 'kneel' },
+                    { text: 'Cancel', method: 'cancel' }
                 ]
             },
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name

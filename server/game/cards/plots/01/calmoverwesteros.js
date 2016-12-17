@@ -10,10 +10,10 @@ class CalmOverWesteros extends PlotCard {
             activePrompt: {
                 menuTitle: 'Select a challenge type',
                 buttons: [
-                    { text: 'Military', command: 'menuButton', method: 'setChallengeType', arg: 'military' },
-                    { text: 'Intrigue', command: 'menuButton', method: 'setChallengeType', arg: 'intrigue' },
-                    { text: 'Power', command: 'menuButton', method: 'setChallengeType', arg: 'power' },
-                    { text: 'Cancel', command: 'menuButton', method: 'cancelChallengeSelect' }
+                    { text: 'Military', method: 'setChallengeType', arg: 'military' },
+                    { text: 'Intrigue', method: 'setChallengeType', arg: 'intrigue' },
+                    { text: 'Power', method: 'setChallengeType', arg: 'power' },
+                    { text: 'Cancel', method: 'cancelChallengeSelect' }
                 ]
             },
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name

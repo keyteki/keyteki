@@ -9,7 +9,7 @@ class SetupCardsPrompt extends AllPlayerPrompt {
         return {
             menuTitle: 'Select setup cards',
             buttons: [
-                { command: 'menuButton', arg: 'setupdone', text: 'Done' }
+                { arg: 'setupdone', text: 'Done' }
             ]
         };
     }

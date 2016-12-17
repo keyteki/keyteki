@@ -26,10 +26,10 @@ class SeenInFlames extends DrawCard {
         }
 
         var buttons = otherPlayer.hand.map(card => {
-            return { text: card.name, command: 'menuButton', method: 'cardSelected', arg: card.uuid, card: card.getSummary(true) };
+            return { text: card.name, method: 'cardSelected', arg: card.uuid, card: card.getSummary(true) };
         });
 
-        buttons.push({ text: 'Cancel', command: 'menuButton', method: 'cancel' });
+        buttons.push({ text: 'Cancel', method: 'cancel' });
 
         this.game.promptWithMenu(player, this, {
             activePrompt: {

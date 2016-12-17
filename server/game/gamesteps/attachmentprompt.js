@@ -43,7 +43,7 @@ class AttachmentPrompt extends UiPrompt {
             selectCard: true,
             menuTitle: 'Select target for attachment',
             buttons: [
-                { text: 'Done', command: 'menuButton', arg: 'doneattachment' }
+                { text: 'Done', arg: 'doneattachment' }
             ]
         };
     }

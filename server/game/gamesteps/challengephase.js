@@ -31,10 +31,10 @@ class ChallengePhase extends Phase {
             activePrompt: {
                 menuTitle: '',
                 buttons: [
-                    { text: 'Military', command: 'menuButton', method: 'initiateChallenge', arg: 'military' },
-                    { text: 'Intrigue', command: 'menuButton', method: 'initiateChallenge', arg: 'intrigue' },
-                    { text: 'Power', command: 'menuButton', method: 'initiateChallenge', arg: 'power' },
-                    { text: 'Done', command: 'menuButton', method: 'completeChallenges' }
+                    { text: 'Military', method: 'initiateChallenge', arg: 'military' },
+                    { text: 'Intrigue', method: 'initiateChallenge', arg: 'intrigue' },
+                    { text: 'Power', method: 'initiateChallenge', arg: 'power' },
+                    { text: 'Done', method: 'completeChallenges' }
                 ]
             },
             waitingPromptTitle: 'Waiting for opponent to initiate challenge'

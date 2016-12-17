@@ -24,8 +24,8 @@ class BodyGuard extends DrawCard {
             activePrompt: {
                 menuTitle: 'Use ' + this.name + ' to save ' + card.name + '?',
                 buttons: [
-                    { text: 'Yes', command: 'menuButton', method: 'save' },
-                    { text: 'No', command: 'menuButton', method: 'cancel' }
+                    { text: 'Yes', method: 'save' },
+                    { text: 'No', method: 'cancel' }
                 ]
             },
             waitingPromptTitle: 'Waiting for opponent to use save effects'

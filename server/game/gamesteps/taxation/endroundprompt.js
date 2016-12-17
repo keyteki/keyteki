@@ -5,7 +5,7 @@ class EndRoundPrompt extends PlayerOrderPrompt {
         return {
             menuTitle: '',
             buttons: [
-                { command: 'menuButton', text: 'End Round' }
+                { text: 'End Round' }
             ]
         };
     }

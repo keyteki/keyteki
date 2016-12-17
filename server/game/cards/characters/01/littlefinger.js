@@ -12,8 +12,8 @@ class LittleFinger extends DrawCard {
             activePrompt: {
                 menuTitle: 'Trigger ' + this.name + '?',
                 buttons: [
-                    { text: 'Draw 2 Cards', command: 'menuButton', method: 'trigger' },
-                    { text: 'Cancel', command: 'menuButton', method: 'cancel' }
+                    { text: 'Draw 2 Cards', method: 'trigger' },
+                    { text: 'Cancel', method: 'cancel' }
                 ]
             },
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name

@@ -49,10 +49,10 @@ class TheRainsOfCastamere extends AgendaCard {
 
     menuButtons() {
         var buttons = _.map(this.schemes, scheme => {
-            return { text: scheme.name, command: 'menuButton', method: 'revealScheme', arg: scheme.uuid, card: scheme.getSummary(true) };
+            return { text: scheme.name, method: 'revealScheme', arg: scheme.uuid, card: scheme.getSummary(true) };
         });
 
-        buttons.push({ text: 'Done', command: 'menuButton', method: 'cancelScheme' });
+        buttons.push({ text: 'Done', method: 'cancelScheme' });
         return buttons;
     }
 

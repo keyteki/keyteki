@@ -14,8 +14,8 @@ class GreenbloodTrader extends DrawCard {
             activePrompt: {
                 menuTitle: 'Trigger ' + this.name + '?',
                 buttons: [
-                    { text: 'Look at top 2 cards', command: 'menuButton', method: 'trigger' },
-                    { text: 'Cancel', command: 'menuButton', method: 'cancel' }
+                    { text: 'Look at top 2 cards', method: 'trigger' },
+                    { text: 'Cancel', method: 'cancel' }
                 ]
             },
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name
@@ -30,10 +30,10 @@ class GreenbloodTrader extends DrawCard {
         this.top2Cards = player.drawDeck.first(2);
 
         var buttons = _.map(this.top2Cards, card => {
-            return { text: card.name, command: 'menuButton', method: 'cardSelected', arg: card.uuid, card: card.getSummary(true) };
+            return { text: card.name, method: 'cardSelected', arg: card.uuid, card: card.getSummary(true) };
         });
 
-        buttons.push({ text: 'Continue', command: 'menuButton', method: 'continueWithoutSelecting' });
+        buttons.push({ text: 'Continue', method: 'continueWithoutSelecting' });
 
         this.game.promptWithMenu(player, this, {
             activePrompt: {
@@ -97,10 +97,10 @@ class GreenbloodTrader extends DrawCard {
 
     continueWithoutSelecting(player) {
         var buttons = _.map(this.top2Cards, card => {
-            return { text: card.name, command: 'menuButton', method: 'moveToBottom', arg: card.uuid, card: card.getSummary(true) };
+            return { text: card.name, method: 'moveToBottom', arg: card.uuid, card: card.getSummary(true) };
         });
 
-        buttons.push({ text: 'Cancel', command: 'menuButton', method: 'cancel' });
+        buttons.push({ text: 'Cancel', method: 'cancel' });
 
         this.game.promptWithMenu(player, this, {
             activePrompt: {

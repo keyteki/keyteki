@@ -14,7 +14,7 @@ class MarshalCardsPrompt extends UiPrompt {
         return {
             menuTitle: 'Marshal your cards',
             buttons: [
-                { command: 'menuButton', text: 'Done' }
+                { text: 'Done' }
             ]
         };
     }

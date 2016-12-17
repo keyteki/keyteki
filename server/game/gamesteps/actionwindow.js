@@ -5,7 +5,7 @@ class ActionWindow extends PlayerOrderPrompt {
         return {
             menuTitle: 'Any actions or reactions?',
             buttons: [
-                { command: 'menuButton', text: 'Done' }
+                { text: 'Done' }
             ]
         };
     }

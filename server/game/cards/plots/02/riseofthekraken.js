@@ -17,8 +17,8 @@ class RiseOfTheKraken extends PlotCard {
             activePrompt: {
                 menuTitle: 'Trigger ' + this.name + '?',
                 buttons: [
-                    { text: 'Yes', command: 'menuButton', method: 'gainPower' },
-                    { text: 'No', command: 'menuButton', method: 'cancel' }
+                    { text: 'Yes', method: 'gainPower' },
+                    { text: 'No', method: 'cancel' }
                 ]
             },
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name

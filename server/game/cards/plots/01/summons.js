@@ -13,9 +13,9 @@ class Summons extends PlotCard {
         });
 
         var buttons = _.map(characters, card => {
-            return { text: card.name, command: 'menuButton', method: 'cardSelected', arg: card.uuid };
+            return { text: card.name, method: 'cardSelected', arg: card.uuid };
         });
-        buttons.push({ text: 'Done', command: 'menuButton', method: 'doneSelecting' });
+        buttons.push({ text: 'Done', method: 'doneSelecting' });
 
         this.game.promptWithMenu(player, this, {
             activePrompt: {

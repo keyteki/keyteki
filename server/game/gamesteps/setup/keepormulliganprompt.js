@@ -9,8 +9,8 @@ class KeepOrMulliganPrompt extends AllPlayerPrompt {
         return {
             menuTitle: 'Keep Starting Hand?',
             buttons: [
-                { command: 'menuButton', arg: 'keep', text: 'Keep Hand' },
-                { command: 'menuButton', arg: 'mulligan', text: 'Mulligan' }
+                { arg: 'keep', text: 'Keep Hand' },
+                { arg: 'mulligan', text: 'Mulligan' }
             ]
         };
     }

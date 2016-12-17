@@ -16,8 +16,8 @@ class ChamberOfThePaintedTable extends DrawCard {
             activePrompt: {
                 menuTitle: 'Kneel ' + this.name + '?',
                 buttons: [
-                    { text: 'Yes', command: 'menuButton', method: 'gainPower' },
-                    { text: 'No', command: 'menuButton', method: 'cancel' }
+                    { text: 'Yes', method: 'gainPower' },
+                    { text: 'No', method: 'cancel' }
                 ]
             },
             waitingPromptTitle: 'Waiting for opponent to perform reactions'

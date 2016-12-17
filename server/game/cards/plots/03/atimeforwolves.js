@@ -13,10 +13,10 @@ class ATimeForWolves extends PlotCard {
         });
 
         var buttons = _.map(direwolfCards, card => {
-            return { text: card.name, command: 'menuButton', method: 'cardSelected', arg: card.uuid };
+            return { text: card.name, method: 'cardSelected', arg: card.uuid };
         });
 
-        buttons.push({ text: 'Done', command: 'menuButton', method: 'doneSelecting' });
+        buttons.push({ text: 'Done', method: 'doneSelecting' });
 
         this.game.promptWithMenu(player, this, {
             activePrompt: {
@@ -47,8 +47,8 @@ class ATimeForWolves extends PlotCard {
         this.revealedCard = card;
 
         var buttons = [
-            { text: 'Keep in hand', command: 'menuButton', method: 'keepInHand' },
-            { text: 'Put in play', command: 'menuButton', method: 'putInPlay' }
+            { text: 'Keep in hand', method: 'keepInHand' },
+            { text: 'Put in play', method: 'putInPlay' }
         ];
 
         this.game.promptWithMenu(player, this, {

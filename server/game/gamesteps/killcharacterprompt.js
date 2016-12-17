@@ -26,7 +26,7 @@ class KillCharacterPrompt extends UiPrompt {
             selectCard: true,
             menuTitle: 'Select character to kill',
             buttons: [
-                { command: 'menuButton', text: 'Cancel' }
+                { text: 'Cancel' }
             ]
         };
     }

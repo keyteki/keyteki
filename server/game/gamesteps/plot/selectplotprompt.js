@@ -9,7 +9,7 @@ class SelectPlotPrompt extends AllPlayerPrompt {
         return {
             menuTitle: 'Select a plot',
             buttons: [
-                { command: 'menuButton', arg: 'plotselected', text: 'Done' }
+                { arg: 'plotselected', text: 'Done' }
             ]
         };
     }

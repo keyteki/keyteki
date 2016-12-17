@@ -5,7 +5,7 @@ class DiscardToReservePrompt extends PlayerOrderPrompt {
         return {
             menuTitle: 'Discard down to ' + this.currentPlayer.reserve + ' cards',
             buttons: [
-                { command: 'menuButton', text: 'Done' }
+                { text: 'Done' }
             ]
         };
     }

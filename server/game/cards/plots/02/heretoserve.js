@@ -13,10 +13,10 @@ class HereToServe extends PlotCard {
         });
 
         var buttons = _.map(maesterCards, card => {
-            return { text: card.name, command: 'menuButton', method: 'cardSelected', arg: card.uuid, card: card.getSummary(true) };
+            return { text: card.name, method: 'cardSelected', arg: card.uuid, card: card.getSummary(true) };
         });
 
-        buttons.push({ text: 'Done', command: 'menuButton', method: 'doneSelecting' });
+        buttons.push({ text: 'Done', method: 'doneSelecting' });
 
         this.game.promptWithMenu(player, this, {
             activePrompt: {

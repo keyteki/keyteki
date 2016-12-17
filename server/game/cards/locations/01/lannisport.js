@@ -24,8 +24,8 @@ class Lannisport extends DrawCard {
             activePrompt: {
                 menuTitle: 'Trigger ' + this.name + '?',
                 buttons: [
-                    { text: 'Draw 1 card', command: 'menuButton', method: 'drawCard' },
-                    { text: 'No', command: 'menuButton', method: 'cancel' }
+                    { text: 'Draw 1 card', method: 'drawCard' },
+                    { text: 'No', method: 'cancel' }
                 ]
             },
             waitingPromptTitle: 'Waiting for opponent to perform reactions'

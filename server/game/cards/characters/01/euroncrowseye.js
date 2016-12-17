@@ -19,8 +19,8 @@ class EuronCrowsEye extends DrawCard {
             activePrompt: {
                 menuTitle: 'Trigger ' + this.name + '?',
                 buttons: [
-                    { text: 'Yes', command: 'menuButton', method: 'trigger' },
-                    { text: 'No', command: 'menuButton', method: 'cancel' }
+                    { text: 'Yes', method: 'trigger' },
+                    { text: 'No', method: 'cancel' }
                 ]
             },
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name

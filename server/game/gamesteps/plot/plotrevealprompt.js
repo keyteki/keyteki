@@ -17,8 +17,8 @@ class PlotRevealPrompt extends UIPrompt {
         return {
             menuTitle: 'Select first player',
             buttons: [
-                { text: this.player.name, command: 'menuButton', arg: this.player.name },
-                { text: otherPlayer.name, command: 'menuButton', arg: otherPlayer.name }
+                { text: this.player.name, arg: this.player.name },
+                { text: otherPlayer.name, arg: otherPlayer.name }
             ]
         };
     }

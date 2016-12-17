@@ -24,8 +24,8 @@ class TheLongPlan extends PlotCard {
             activePrompt: {
                 menuTitle: 'Gain 1 gold from ' + this.name + '?',
                 buttons: [
-                    { text: 'Yes', command: 'menuButton', method: 'gainGold' },
-                    { text: 'No', command: 'menuButton', method: 'cancel' }
+                    { text: 'Yes', method: 'gainGold' },
+                    { text: 'No', method: 'cancel' }
                 ]
             },
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name

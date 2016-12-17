@@ -29,8 +29,8 @@ class TheRedKeep extends DrawCard {
                 activePrompt: {
                     menuTitle: 'Kneel ' + this.name + '?',
                     buttons: [
-                        { text: 'Yes', command: 'menuButton', method: 'drawTwo' },
-                        { text: 'No', command: 'menuButton', method: 'cancel' }
+                        { text: 'Yes', method: 'drawTwo' },
+                        { text: 'No', method: 'cancel' }
                     ]
                 },
                 waitingPromptTitle: 'Waiting for opponent to use ' + this.name

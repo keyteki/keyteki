@@ -144,8 +144,8 @@ class ChallengeFlow extends BaseStep {
                 activePrompt: {
                     menuTitle: 'Perform before claim actions',
                     buttons: [
-                        { text: 'Apply Claim', command: 'menuButton', method: 'applyClaim' },
-                        { text: 'Continue', command: 'menuButton', method: 'cancelClaim' }
+                        { text: 'Apply Claim', method: 'applyClaim' },
+                        { text: 'Continue', method: 'cancelClaim' }
                     ]
                 },
                 waitingPromptTitle: 'Waiting for opponent to apply claim'

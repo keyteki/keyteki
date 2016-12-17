@@ -19,7 +19,7 @@ class FirstPlayerPrompt extends UIPrompt {
         return {
             menuTitle: 'Select first player',
             buttons: _.map(players, player => {
-                return { text: player.name, command: 'menuButton', arg: player.name };
+                return { text: player.name, arg: player.name };
             })
         };
     }

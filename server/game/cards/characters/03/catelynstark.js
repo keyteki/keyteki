@@ -39,8 +39,8 @@ class CatelynStark extends DrawCard {
                 activePrompt: {
                     menuTitle: 'Gain 1 power on ' + this.name + '?',
                     buttons: [
-                        { text: 'Yes', command: 'menuButton', method: 'gainPower' },
-                        { text: 'No', command: 'menuButton', method: 'cancel' }
+                        { text: 'Yes', method: 'gainPower' },
+                        { text: 'No', method: 'cancel' }
                     ]
                 },
                 waitingPromptTitle: 'Waiting for opponent to use ' + this.name

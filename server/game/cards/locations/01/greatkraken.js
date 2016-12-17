@@ -21,9 +21,9 @@ class GreatKraken extends DrawCard {
             activePrompt: {
                 menuTitle: 'Trigger ' + this.name + '?',
                 buttons: [
-                    { text: 'Draw 1 card', command: 'menuButton', method: 'drawCard' },
-                    { text: 'Gain 1 power', command: 'menuButton', method: 'gainPower' },
-                    { text: 'No', command: 'menuButton', method: 'cancel' }
+                    { text: 'Draw 1 card', method: 'drawCard' },
+                    { text: 'Gain 1 power', method: 'gainPower' },
+                    { text: 'No', method: 'cancel' }
                 ]
             },
             waitingPromptTitle: 'Waiting for opponent to perform reactions'
