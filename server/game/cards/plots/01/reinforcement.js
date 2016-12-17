@@ -33,7 +33,7 @@ class Reinforcements extends PlotCard {
 
         this.game.addMessage('{0} uses {1} to put {2} into play from their {3}', player, this, card, hand ? 'hand' : 'discard pile');
 
-        player.playCard(card.uuid, true, hand ? player.hand : player.discardPile);
+        player.playCard(card, true);
 
         return true;
     }

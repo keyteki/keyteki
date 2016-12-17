@@ -161,27 +161,18 @@ class Game extends EventEmitter {
             return;
         }
 
-        var card = player.findCardByUuid(player.hand, cardId);
+        var card = player.findCardByUuid(sourceList, cardId);
 
         if(card && !isDrop && this.pipeline.handleCardClicked(player, card)) {
             this.pipeline.continue();
             return;
         }
 
-        if(player.activePlot && !player.activePlot.canPlay(player, cardId)) {
+        if(!player.playCard(card, isDrop)) {
             return;
         }
 
-        var otherPlayer = this.getOtherPlayer(player);
-        if(otherPlayer && otherPlayer.activePlot && !otherPlayer.activePlot.canPlay(player, cardId)) {
-            return;
-        }
-
-        if(!player.playCard(cardId, isDrop, sourceList)) {
-            return;
-        }
-
-        this.raiseEvent('onCardPlayed', player, cardId);
+        this.raiseEvent('onCardPlayed', player, card);
         this.pipeline.continue();
     }
 
@@ -226,7 +217,7 @@ class Game extends EventEmitter {
 
         switch(source) {
             case 'hand':
-                this.playCard(player.name, cardId);
+                this.playCard(player.name, cardId, false, player.hand);
                 return;
             case 'plot deck':
                 this.selectPlot(player, cardId);

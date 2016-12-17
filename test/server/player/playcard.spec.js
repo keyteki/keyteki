@@ -14,7 +14,6 @@ describe('Player', function() {
         beforeEach(function() {
             this.canPlaySpy = spyOn(this.player, 'canPlayCard');
             this.cardSpy = jasmine.createSpyObj('card', ['getType', 'getCost', 'isUnique', 'isLimited', 'play']);
-            this.cardSpy.uuid = '1111';
             this.dupeCardSpy = jasmine.createSpyObj('dupecard', ['addDuplicate']);
 
             this.canPlaySpy.and.returnValue(true);
@@ -22,10 +21,10 @@ describe('Player', function() {
             this.cardSpy.location = 'hand';
         });
 
-        describe('when card is not in hand to play', function() {
+        describe('when card is undefined', function() {
             beforeEach(function() {
                 this.player.hand.pop();
-                this.canPlay = this.player.playCard('not found');
+                this.canPlay = this.player.playCard(undefined);
             });
 
             it('should return false', function() {
@@ -44,7 +43,7 @@ describe('Player', function() {
 
             describe('and not forcing play', function() {
                 beforeEach(function() {
-                    this.canPlay = this.player.playCard(this.cardSpy.uuid, false);
+                    this.canPlay = this.player.playCard(this.cardSpy, false);
                 });
 
                 it('should return false', function() {
@@ -58,7 +57,7 @@ describe('Player', function() {
 
             describe('and forcing play', function() {
                 beforeEach(function() {
-                    this.canPlay = this.player.playCard(this.cardSpy.uuid, true);
+                    this.canPlay = this.player.playCard(this.cardSpy, true);
                 });
 
                 it('should return true', function() {
@@ -80,7 +79,7 @@ describe('Player', function() {
 
             describe('and there is no duplicate out', function() {
                 beforeEach(function() {
-                    this.canPlay = this.player.playCard(this.cardSpy.uuid);
+                    this.canPlay = this.player.playCard(this.cardSpy);
                 });
 
                 it('should return true', function() {
@@ -99,7 +98,7 @@ describe('Player', function() {
             describe('and there is a duplicate out', function() {
                 beforeEach(function() {
                     spyOn(this.player, 'getDuplicateInPlay').and.returnValue(this.dupeCardSpy);
-                    this.canPlay = this.player.playCard(this.cardSpy.uuid);
+                    this.canPlay = this.player.playCard(this.cardSpy);
                 });
 
                 it('should return true', function() {
@@ -133,7 +132,7 @@ describe('Player', function() {
                 beforeEach(function() {
                     this.player.phase = 'setup';
 
-                    this.canPlay = this.player.playCard(this.cardSpy.uuid);
+                    this.canPlay = this.player.playCard(this.cardSpy);
                 });
 
                 it('should return true', function() {
@@ -152,7 +151,7 @@ describe('Player', function() {
 
             describe('and this is not the setup phase', function() {
                 beforeEach(function() {
-                    this.canPlay = this.player.playCard(this.cardSpy.uuid);
+                    this.canPlay = this.player.playCard(this.cardSpy);
                 });
 
                 it('should return true', function() {
@@ -172,7 +171,7 @@ describe('Player', function() {
         describe('when card is limited and not forcing play', function() {
             beforeEach(function() {
                 this.cardSpy.isLimited.and.returnValue(true);
-                this.canPlay = this.player.playCard(this.cardSpy.uuid);
+                this.canPlay = this.player.playCard(this.cardSpy);
             });
 
             it('should set the limited played flag', function() {
@@ -183,7 +182,7 @@ describe('Player', function() {
         describe('when card is limited and forcing play', function() {
             beforeEach(function() {
                 this.cardSpy.isLimited.and.returnValue(true);
-                this.canPlay = this.player.playCard(this.cardSpy.uuid, true);
+                this.canPlay = this.player.playCard(this.cardSpy, true);
             });
 
             it('should not set the limited played flag', function() {

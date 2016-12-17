@@ -37,13 +37,8 @@ class ASongOfSummer extends PlotCard {
         }
     }
 
-    onCardPlayed(e, player, cardId) {
+    onCardPlayed(e, player, card) {
         if(!this.inPlay || this.owner !== player) {
-            return;
-        }
-
-        var card = player.findCardInPlayByUuid(cardId);
-        if(!card) {
             return;
         }
 

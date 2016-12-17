@@ -34,13 +34,8 @@ class RedGodsBlessing extends DrawCard {
         this.parent.strengthModifier -= this.getNumberOfCardsWithRhllor();
     }
 
-    onCardPlayed(event, player, cardId) {
+    onCardPlayed(event, player, card) {
         if(!this.inPlay || this.controller !== player) {
-            return;
-        }
-
-        var card = player.findCardInPlayByUuid(cardId);
-        if(!card) {
             return;
         }
 

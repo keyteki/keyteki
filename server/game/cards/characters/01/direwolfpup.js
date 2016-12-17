@@ -23,13 +23,8 @@ class DirewolfPup extends DrawCard {
         this.calculateStrength();
     }
 
-    onCardPlayed(e, player, cardId) {
+    onCardPlayed(e, player) {
         if(!this.inPlay || this.controller !== player) {
-            return;
-        }
-
-        var card = player.findCardInPlayByUuid(cardId);
-        if(!card) {
             return;
         }
 

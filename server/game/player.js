@@ -351,22 +351,15 @@ class Player extends Spectator {
     }
 
     canPlayCard(card) {
-        var canPlay = true;
-
-        this.cardsInPlay.each(c => {
-            canPlay = c.canPlay(this, card);
-
-            if(!canPlay) {
-                return;
-            }
-        });
-
-        if(!canPlay) {
+        if(this.activePlot && !this.activePlot.canPlay(this, card)) {
             return false;
         }
 
-        canPlay = card.canPlay(this, card);
-        if(!canPlay) {
+        if(!this.cardsInPlay.all(c => c.canPlay(this, card))) {
+            return false;
+        }
+
+        if(!card.canPlay(this, card)) {
             return false;
         }
 
@@ -399,13 +392,7 @@ class Player extends Spectator {
         return true;
     }
 
-    playCard(cardId, forcePlay, sourceList) {
-        if(!sourceList) {
-            sourceList = this.hand;
-        }
-
-        var card = this.findCardByUuid(sourceList, cardId);
-
+    playCard(card, forcePlay) {
         if(!card) {
             return false;
         }

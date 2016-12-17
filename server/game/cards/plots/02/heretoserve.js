@@ -40,7 +40,7 @@ class HereToServe extends PlotCard {
 
         this.game.addMessage('{0} uses {1} to put {2} into play', player, this, card);
 
-        player.playCard(card.uuid, true, player.drawDeck);
+        player.playCard(card, true);
 
         return true;
     }

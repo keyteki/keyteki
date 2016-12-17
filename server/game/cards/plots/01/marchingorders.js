@@ -1,15 +1,9 @@
 const PlotCard = require('../../../plotcard.js');
 
 class MarchingOrders extends PlotCard {
-    canPlay(player, cardId) {
-        if(!this.inPlay || this.controller !== player) {
+    canPlay(player, card) {
+        if(!this.inPlay || this.controller !== player || this.controller !== card.controller) {
             return true;
-        }
-
-        var card = player.findCardByUuid(player.hand, cardId);
-
-        if(!card) {
-            return false;
         }
 
         if(card.getType() === 'location' || card.getType() === 'attachment' || card.getType() === 'event') {

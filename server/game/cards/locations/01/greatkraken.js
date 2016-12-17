@@ -30,13 +30,8 @@ class GreatKraken extends DrawCard {
         });
     }
 
-    onCardPlayed(event, player, cardId) {
+    onCardPlayed(event, player, card) {
         if(!this.inPlay || this.controller !== player) {
-            return;
-        }
-
-        var card = player.findCardInPlayByUuid(cardId);
-        if(!card) {
             return;
         }
 

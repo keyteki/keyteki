@@ -1,6 +1,7 @@
 /* global describe, it, beforeEach, expect, jasmine, spyOn */
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
+const _ = require('underscore');
 const Player = require('../../../server/game/player.js');
 
 describe('Player', function () {
@@ -10,18 +11,17 @@ describe('Player', function () {
 
             this.gameSpy = jasmine.createSpyObj('game', ['drop']);
             this.cardSpy = jasmine.createSpyObj('card', ['getType', 'getCost', 'isLimited', 'isUnique', 'canPlay']);
-            this.isCardUuidInListSpy = spyOn(this.player, 'isCardUuidInList');
-            this.isCardNameInListSpy = spyOn(this.player, 'isCardNameInList');
-            this.dupeSpy = spyOn(this.player, 'getDuplicateInPlay');
+            this.cardSpy.uuid = '1111';
+            this.cardSpy.name = 'Test Card';
 
-            this.isCardUuidInListSpy.and.returnValue(true);
-            this.isCardNameInListSpy.and.returnValue(false);
+            this.dupeSpy = spyOn(this.player, 'getDuplicateInPlay');
             this.dupeSpy.and.returnValue(undefined);
 
             this.cardSpy.canPlay.and.returnValue(true);
 
             this.player.initialise();
             this.player.phase = 'marshal';
+            this.player.hand = _([this.cardSpy]);
         });
 
         describe('when not setup or marshal phase', function() {
@@ -38,7 +38,7 @@ describe('Player', function () {
 
         describe('when card is not in hand', function() {
             beforeEach(function() {
-                this.isCardUuidInListSpy.and.returnValue(false);
+                this.player.hand = _([]);
 
                 this.canPlay = this.player.canPlayCard(this.cardSpy);
             });
@@ -119,10 +119,6 @@ describe('Player', function () {
             it('should return true', function() {
                 expect(this.canPlay).toBe(true);
             });
-
-            it('should not check the dead pile', function() {
-                expect(this.isCardNameInListSpy).not.toHaveBeenCalled();
-            });
         });
 
         describe('when a card is a character', function() {
@@ -136,10 +132,6 @@ describe('Player', function () {
                 it('should return true', function() {
                     expect(this.canPlay).toBe(true);
                 });
-
-                it('should not check the dead pile', function() {
-                    expect(this.isCardNameInListSpy).not.toHaveBeenCalled();
-                });
             });
 
             describe('that is unique', function() {
@@ -149,7 +141,7 @@ describe('Player', function () {
 
                 describe('and is in the dead pile', function() {
                     beforeEach(function() {
-                        this.isCardNameInListSpy.and.returnValue(true);
+                        this.player.deadPile = _([{ name: this.cardSpy.name }]);
 
                         this.canPlay = this.player.canPlayCard(this.cardSpy);
                     });
