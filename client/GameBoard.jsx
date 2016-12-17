@@ -290,7 +290,7 @@ export class InnerGameBoard extends React.Component {
                                     <CardCollection className='plot' title='Used Plots' source='revealed plots' cards={otherPlayer ? otherPlayer.plotDiscard : []}
                                                     topCard={otherPlayer ? otherPlayer.activePlot : undefined} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} />
                                     <CardCollection className='plot' title='Used Plots' source='revealed plots' cards={thisPlayer.plotDiscard} topCard={thisPlayer.activePlot}
-                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} />
+                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onMenuItemClick={this.onMenuItemClick} />
                                 </div>
                             </div>
 

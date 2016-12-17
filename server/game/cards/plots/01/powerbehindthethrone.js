@@ -20,6 +20,10 @@ class PowerBehindTheThrone extends PlotCard {
     }
 
     discardToken(player) {
+        if(!this.hasToken('stand')) {
+            return;
+        }
+
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a character to stand',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
