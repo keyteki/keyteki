@@ -11,4 +11,5 @@ html
     if !production
       script(src='/bundle.js')
     else
+      script(src='https://cdn.ravenjs.com/3.9.1/raven.min.js' crossorigin='anonymous')
       script(src='/bundle.min.js')
