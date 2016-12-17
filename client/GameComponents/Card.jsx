@@ -59,6 +59,7 @@ class Card extends React.Component {
 
     getCounters() {
         var counters = {};
+        var countersClass = 'counters ignore-mouse-events';
 
         if(this.props.source !== 'play area' && this.props.source !== 'faction') {
             return null;
@@ -78,8 +79,12 @@ class Card extends React.Component {
             return <div key={key} className={'counter ' + key}>{counterValue}</div>;
         });
 
+        if(counters.length > 3) {
+            countersClass += ' many-counters';
+        }
+
         return counterDivs.length !== 0 ? (
-            <div className='counters ignore-mouse-events'>
+            <div className={countersClass}>
                 {counterDivs}
             </div>) : null;
     }

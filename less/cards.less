@@ -132,9 +132,26 @@
   right: 0;
   justify-content: center;
   display: flex;
-  flex-direction: column;
+  align-content: center;
   align-items: center;
+  flex-wrap: wrap;
   z-index: @layer-cards + 1;
+}
+
+.card.vertical .counters {
+  flex-direction: column;
+
+  &.many-counters {
+    flex-direction: row;
+  }
+}
+
+.card.horizontal .counters {
+  flex-direction: row;
+
+  &.many-counters {
+    flex-direction: column;
+  }
 }
 
 .counter {
@@ -145,41 +162,29 @@
   line-height: 24px;
   text-align: center;
   margin: 2px;
+  text-shadow: 1px 1px 2px #000;
+  border-radius: 4px;
+  color: white;
 }
 
 .dupe {
   background-color: rgba(0,128,0,0.85);
-  text-shadow: 1px 1px 2px #000;
-  border-radius: 4px;
-  color: white;
 }
 
 .power {
   background-color: rgba(0,0,128,0.85);
-  text-shadow: 1px 1px 2px #000;
-  border-radius: 4px;
-  color: white;
 }
 
 .strength {
   background-color: rgba(128,0,0,0.85);
-  text-shadow: 1px 1px 2px #000;
-  border-radius: 4px;
-  color: white;
 }
 
 .stand {
   background-color: rgba(128,128,128,0.85);
-  text-shadow: 1px 1px 2px #000;
-  border-radius: 4px;
-  color: white;
 }
 
 .poison {
   background-color: rgba(43,43, 0, 0.85);
-  text-shadow: 1px 1px 2px #000;
-  border-radius: 4px;
-  color: white;
 }
 
 .plot-selected {
