@@ -33,7 +33,7 @@ const Player = require('./game/player.js');
 const Spectator = require('./game/spectator.js');
 const escapeRegex = require('./util.js').escapeRegex;
 
-var ravenClient = new raven.Client('https://cd45fd5119a4404eab0e23ab65cc3f86:8d768d025ce74e6f9cbdddad42226f1c@sentry.io/123019');
+var ravenClient = new raven.Client(config.sentryDsn);
 ravenClient.patchGlobal();
 
 app.use(cookieParser());
