@@ -23,6 +23,7 @@ const jwt = require('jsonwebtoken');
 const _ = require('underscore');
 const config = require('./config.js');
 const crypto = require('crypto');
+const raven = require('raven');
 
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 4000 : process.env.PORT;
@@ -31,6 +32,9 @@ const Game = require('./game/game.js');
 const Player = require('./game/player.js');
 const Spectator = require('./game/spectator.js');
 const escapeRegex = require('./util.js').escapeRegex;
+
+var ravenClient = new raven.Client('https://cd45fd5119a4404eab0e23ab65cc3f86:8d768d025ce74e6f9cbdddad42226f1c@sentry.io/123019');
+ravenClient.patchGlobal();
 
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -273,9 +277,14 @@ function sendGameState(game) {
 
 function handleError(game, e) {
     logger.error(e);
+
+    var debugData = {};
+
     _.each(game.players, player => {
-        logger.error(game.getSummary(player.name));
+        debugData[player.name] = game.getSummary(player.name);
     });
+
+    ravenClient.captureException(e, { extra: debugData });
 
     if(game) {
         game.addMessage('A Server error has occured processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.');
@@ -285,7 +294,7 @@ function handleError(game, e) {
 function runAndCatchErrors(game, func) {
     try {
         func();
-    } catch(e) {
+    } catch(e) { 
         handleError(game, e);
 
         sendGameState(game);
