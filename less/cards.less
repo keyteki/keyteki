@@ -1,0 +1,187 @@
+@import "variables";
+
+.card-wrapper {
+  margin: 0px 4px 0px 0px;
+  vertical-align: middle;
+}
+
+.card-frame {
+  position: relative;
+}
+
+.card {
+  position: relative;
+  border-radius: 4px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.1);
+  overflow: hidden;
+  z-index: @layer-cards;
+
+  &.vertical {
+    height: @card-height;
+    width: @card-width;
+  }
+
+  &.horizontal {
+    height: @card-width;
+    width: @card-height;
+  }
+}
+
+.card.selected {
+  box-shadow: 0 0 1px 4px @brand-primary;
+}
+
+.card.new {
+  box-shadow: 0 0 1px 2px @brand-info;
+}
+
+.card.controlled {
+  box-shadow: 0 0 1px 2px #d0d834;
+}
+
+.card-image {
+  left: 0;
+  position: absolute;
+  top: 0;
+
+  &.vertical {
+    height: @card-height;
+    width: @card-width;
+  }
+
+  &.horizontal {
+    height: @card-width;
+    width: @card-height;
+  }
+
+  &.kneeled {
+    left: 9px;
+    top: -10px;
+    transform: rotate(90deg);
+  }
+}
+
+.card-name {
+  font-size: 10px;
+  line-height: 14px;
+}
+
+.card-large {
+  width: 220px;
+  height: 307px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
+.card-large-horizontal {
+  width: 307px;
+  height: 220px;
+  position: relative;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
+.card-zoomed {
+  width: 100%;
+  height: 100%;
+}
+
+.card-zoomed > img {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+}
+
+.attachment {
+  margin-top: @attachment-offset - @card-height;
+}
+
+.generate-attachments(@n, @i: 1) when (@i =< @n) {
+  .attachment-@{i} {
+    z-index: @layer-cards - @i;
+  }
+  .generate-attachments(@n, (@i + 1));
+}
+
+.generate-attachments(5, 1);
+
+.card-dupe {
+  margin-bottom: @attachment-offset;
+  margin-top: -(@attachment-offset + @card-height);
+}
+
+.generate-card-dupes(@n, @i: 1) when (@i =< @n) {
+  .card-dupe-@{i} {
+    z-index: @layer-cards - @i;
+  }
+  .generate-card-dupes(@n, (@i + 1));
+}
+.generate-card-dupes(5, 1);
+
+.counters {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: @layer-cards + 1;
+}
+
+.counter {
+  padding: 0;
+  font-size: 12px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  margin: 2px;
+}
+
+.dupe {
+  background-color: rgba(0,128,0,0.85);
+  text-shadow: 1px 1px 2px #000;
+  border-radius: 4px;
+  color: white;
+}
+
+.power {
+  background-color: rgba(0,0,128,0.85);
+  text-shadow: 1px 1px 2px #000;
+  border-radius: 4px;
+  color: white;
+}
+
+.strength {
+  background-color: rgba(128,0,0,0.85);
+  text-shadow: 1px 1px 2px #000;
+  border-radius: 4px;
+  color: white;
+}
+
+.stand {
+  background-color: rgba(128,128,128,0.85);
+  text-shadow: 1px 1px 2px #000;
+  border-radius: 4px;
+  color: white;
+}
+
+.poison {
+  background-color: rgba(43,43, 0, 0.85);
+  text-shadow: 1px 1px 2px #000;
+  border-radius: 4px;
+  color: white;
+}
+
+.plot-selected {
+  box-shadow: 0 0 1px 2px @brand-danger;
+}

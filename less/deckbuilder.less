@@ -1,0 +1,75 @@
+@import "variables";
+
+.popover.right {
+  .arrow {
+    &:after {
+      border-right-color: @background-color
+    }
+  }
+}
+
+.popover {
+  background-color: @background-color;
+  color: @foreground-color;
+  width: 200px;
+
+  li {
+    list-style: none;
+  }
+}
+
+.right-pane {
+  margin-top: -20px;
+}
+
+.decklist {
+  height: 200px;
+}
+
+.decklist > img {
+  height: 100%;
+  padding-right: 10px;
+}
+
+.hover-image {
+  position: fixed;
+  left: 10px;
+  top: 60px;
+  z-index: @layer-top;
+}
+
+.card-group {
+  break-inside: avoid;
+}
+
+.cards {
+  column-count: 2;
+}
+
+.deck-list {
+  margin-top: 20px;
+}
+
+.deck-row {
+  height: 50px;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: @brand-primary;
+  border-style: solid;
+  padding: 3px 5px;
+  margin-bottom: 5px;
+}
+
+.deck-row > img {
+  height: 100%;
+  padding-right: 10px;
+}
+
+.deck-row:hover {
+  border-color: @brand-info;
+}
+
+.deck-row.active {
+  border-color: @brand-danger;
+  color: @brand-danger;
+}

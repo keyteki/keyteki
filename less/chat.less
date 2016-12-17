@@ -1,0 +1,68 @@
+@import "variables";
+
+.messages {
+  flex: 1;
+  overflow: auto;
+  position: absolute;
+  top: 0;
+  bottom: 42px;
+  left: 0;
+  right: 4px;
+  margin: 0;
+  font-size: 12px;
+  overflow-y: auto;
+}
+
+.message {
+  margin-bottom: 4px;
+  margin-top: 2px;
+}
+
+.lobby-messages {
+  height: 400px;
+  font-size: 12px;
+  overflow-y: auto;
+}
+
+.chat {
+  width: 307px;
+  position: absolute;
+  top: 317px;
+  bottom: 0;
+}
+
+.chat > form {
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  right: 4px;
+}
+
+.chat > form input {
+  width: 100%;
+}
+
+.message-list {
+  height: 200px;
+  width: 100%;
+  border: 1px solid @brand-primary;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  overflow: auto;
+  padding: 5px 10px;
+}
+
+.user-list {
+  >div {
+    margin-bottom: 5px;
+  }
+
+  height: 400px;
+  margin-left: 0px;
+  margin-right: 0px;
+  overflow-y: scroll;
+}
+
+.chat-box {
+  margin-left: 5px;
+}

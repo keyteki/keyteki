@@ -1,0 +1,67 @@
+@import "variables";
+
+.button-row {
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+.button-row > button {
+  margin-right: 10px;
+}
+
+.game-list {
+  margin-top: 10px;
+}
+
+.game-row {
+  height: 64px;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: @brand-primary;
+  border-style: solid;
+  padding: 3px 5px;
+  margin-bottom: 5px;
+}
+
+.game-row:hover {
+  border-color: @brand-info;
+}
+
+.game-row.active {
+  border-color: @brand-danger;
+  color: @brand-danger;
+}
+
+.game-row > button {
+  margin-top: 12px;
+}
+
+.deck-link {
+  cursor: pointer;
+  cursor: hand;
+  color: @brand-primary;
+  margin-left: 10px;
+}
+
+.deck-link:hover {
+  color: @brand-info;
+}
+
+.deck-selection {
+  margin-left: 10px;
+  padding: 6px 12px;
+  border: 1px solid black;
+  border-radius: 4px;
+  background: @brand-primary;
+  color: white;
+}
+
+.players {
+  height: 100px;
+  clear: both;
+}
+
+.spectators {
+  height: 55px;
+  clear: both;
+}

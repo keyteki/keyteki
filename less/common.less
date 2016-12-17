@@ -1,0 +1,105 @@
+@import "variables";
+
+.card-link {
+  cursor: pointer;
+  cursor: hand;
+  color: @brand-primary;
+}
+
+.card-link:hover {
+  color: @brand-info;
+}
+
+.username {
+  font-weight: bold;
+  margin-right: 5px;
+  color: white;
+}
+
+.gravatar {
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+.popup {
+  color: #1E1E1E;
+  background-color: #999999;
+  z-index: @layer-card-collection;
+
+  .inner {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  a {
+    display: inline-block;
+    margin: 0 10px 8px 4px;
+
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: @brand-info;
+    cursor: pointer;
+  }
+}
+
+.panel {
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.85);
+  margin: 5px;
+  padding: 5px 10px;
+  border: 1px solid rgba(71, 58, 56, 0.95);
+  overflow: visible;
+}
+
+.panel-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: @layer-pile-header;
+  padding: 1px 4px;
+  font-size: 10px;
+  line-height: 14px;
+  background: rgba(0,0,0,0.6);
+  text-shadow: 1px 1px 2px #000;
+  border-radius: 4px;
+}
+
+.highlight-panel {
+  border-color: @brand-info;
+}
+
+.menu {
+  position: absolute;
+  width: 200px;
+  left: 58px;
+  top: -5px;
+  font-size: 12px;
+  line-height: 16px;
+  z-index: @layer-card-menu;
+}
+
+.menu > div {
+  border: 1px solid @brand-primary;
+  padding: 3px 6px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+
+.menu > div:hover {
+  border-color: @brand-info;
+}
+
+.bootstrap-typeahead-input-main {
+  background: white !important;
+}
+
+.ignore-mouse-events {
+  pointer-events: none;
+}
+
+.shadow {
+  box-shadow: 0 0 12px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.1);
+}

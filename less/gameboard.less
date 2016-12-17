@@ -1,0 +1,244 @@
+.player-row {
+  margin-top: 15px;
+}
+
+.game-board {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 55px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.main-window {
+  display: flex;
+  flex-direction: column;
+}
+
+.player-home-row {
+  display: flex;
+  height: 100px;
+}
+
+.hand {
+  width: 342px;
+  padding: 0px;
+}
+
+.hand, .discard, .draw, .faction, .agenda {
+  height: @card-height;
+}
+
+.dead, .plot {
+  height: @card-width;
+}
+
+.middle {
+  display: flex;
+  flex: 1;
+}
+
+.left-side {
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.state {
+  height: 22px;
+}
+
+.discard, .draw, .faction, .agenda {
+  position: relative;
+  width: @card-width;
+  padding: 0px;
+}
+
+.dead, .plot {
+  position: relative;
+  width: @card-height;
+  padding: 0px;
+  margin-top: auto;
+  margin-bottom: auto;
+
+  .popup {
+    position: absolute;
+    width: 200px;
+    min-height: 92px;
+    bottom: 34px;
+    left: 119px;
+  }
+}
+
+.right-side {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 307px;
+}
+
+.inset-pane {
+  display: flex;
+  flex-direction: column;
+  width: 210px;
+  justify-content: space-between;
+}
+
+.inset-pane > div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-pane button {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.play-area, .player-board {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.player-board.our-side {
+  margin: 10px;
+}
+
+.our-side > div:first-child {
+  margin-top: auto;
+}
+
+.plots-pane {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.discard {
+  .popup.our-side {
+    left: -6px;
+    position: absolute;
+    top: initial;
+    bottom: 85px;
+    width: 505px;
+    min-height: 92px;
+  }
+
+  .popup {
+    position: absolute;
+    left: -6px;
+    top: 85px;
+    bottom: initial;
+    width: 505px;
+    min-height: 92px;
+  }
+}
+
+.dead {
+  .popup.our-side {
+    left: -154px;
+    position: absolute;
+    top: initial;
+    bottom: 85px;
+    width: 368px;
+    min-height: 92px;
+  }
+
+  .popup {
+    position: absolute;
+    left: -154px;
+    top: 85px;
+    bottom: initial;
+    width: 368px;
+    min-height: 92px;
+  }
+
+  .card {
+    margin: 2px;
+  }
+}
+
+.card-row .card.horizontal {
+    margin-bottom: @card-height - @card-width;
+}
+
+.plot-group {
+  >.plot {
+    margin-bottom: 5px;
+  }
+}
+
+.card-row, .hand {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.squish .card-wrapper {
+  position: absolute;
+}
+
+.select-cursor {
+  cursor: url(/img/crosshairs.cur), default;
+}
+
+.player-board {
+  .card-wrapper {
+    margin-right: 10px;
+    margin-bottom: 5px;
+  }
+}
+
+.draw {
+  .popup {
+    left: -271px;
+    position: absolute;
+    bottom: 85px;
+    width: 590px;
+    min-height: 92px;
+
+    .card {
+      margin: 2px;
+    }
+  }
+
+  .inner {
+    height: 450px;
+    overflow-y: scroll;
+  }
+}
+
+.menu-pane {
+  text-align: center;
+  z-index: @layer-prompt;
+}
+
+.faction.kneeled {
+  transform: translateY(18%);
+}
+
+.btn-stat {
+  padding: 0;
+  font-size: 12px;
+  line-height: 18px;
+  height: 20px;
+  width: 20px;
+  background-color: transparent;
+  border-color: white;
+  color: white;
+}
+
+.btn-stat:hover {
+  background-color: rgba(0,128,0,0.35);
+  border-color: @brand-primary;
+  color: white;
+}
+
+.btn-stat:focus {
+  outline: 0px;
+  color: white;
+}
