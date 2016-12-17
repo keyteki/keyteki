@@ -39,12 +39,14 @@ class InnerGameList extends React.Component {
                     {this.canWatch(game) ?
                         <button className='btn btn-primary pull-right' onClick={event => this.watchGame(event, game)}>Watch</button> : null}
                     <div><b>{ game.name }</b></div>
+                    { game.players.length !== 0 ?
                     <div>
                         <Avatar emailHash={game.players[0].emailHash} />
                         <span>{ game.players.length > 0 ? game.players[0].name : '' }</span>
                         { game.players.length === 2 ? <span><b>{' vs '}</b>
                         <Avatar emailHash={game.players[1].emailHash} />
                         { game.players[1].name }</span> : null }</div>
+                    : null }
                 </div>
             );
         });
