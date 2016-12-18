@@ -20,7 +20,6 @@ class DeckEditor extends React.Component {
 
         this.state = {
             cardList: '',
-            cardToAdd: {},
             deckName: props.deckName || 'New Deck',
             drawCards: props.drawCards || [],
             factions: [
@@ -115,6 +114,10 @@ class DeckEditor extends React.Component {
 
     onAddCard(event) {
         event.preventDefault();
+
+        if(!this.state.cardToAdd || !this.state.cardToAdd.label) {
+            return;
+        }
 
         var cardList = this.state.cardList;
         cardList += this.state.numberToAdd + ' ' + this.state.cardToAdd.label + '\n';

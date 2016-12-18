@@ -53,6 +53,15 @@ export function validateDeck(deck) {
     var isRains = false;
     var extendedStatus = [];
 
+    if(_.any(deck.drawCards, card => {
+        return !card.faction_code;
+    })) {
+        status = 'Invalid';
+        extendedStatus.push('Deck contains invalid cards');
+        
+        return { status: status, plotCount: plotCount, drawCount: drawCount, extendedStatus: extendedStatus };
+    }
+
     // "The Rains of Castamere"
     if(deck.agenda && deck.agenda.code === '05045') {
         isRains = true;
@@ -71,7 +80,7 @@ export function validateDeck(deck) {
 
     var combined = _.union(deck.plotCards, deck.drawCards);
 
-    if(_.any(combined, function(card) {
+    if(_.any(combined, card => {
         if(card.count > card.card.deck_limit) {
             extendedStatus.push(card.card.label + ' has limit ' + card.card.deck_limit);
 
