@@ -54,7 +54,7 @@ export function validateDeck(deck) {
     var extendedStatus = [];
 
     if(_.any(deck.drawCards, card => {
-        return !card.faction_code;
+        return !card.card.faction_code;
     })) {
         status = 'Invalid';
         extendedStatus.push('Deck contains invalid cards');
