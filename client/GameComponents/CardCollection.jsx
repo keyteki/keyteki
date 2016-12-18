@@ -99,7 +99,7 @@ class CardCollection extends React.Component {
 
     render() {
         var className = 'panel ' + this.props.className;
-        var headerText = this.props.title ? this.props.title + ' (' + this.props.cards.length + ')' : '';
+        var headerText = this.props.title ? this.props.title + ' (' + (this.props.cards ? this.props.cards.length : '0') + ')' : '';
         var topCard = this.props.topCard || _.last(this.props.cards);
 
         if(topCard && topCard.kneeled) {
