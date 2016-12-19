@@ -43,7 +43,7 @@ class BodyGuard extends DrawCard {
     }
 
     cancel(player) {
-        player.killcharacter(this.parent);
+        player.killCharacter(this.parent);
 
         this.game.addMessage('{0} declines to trigger {1}', player, this);
 
