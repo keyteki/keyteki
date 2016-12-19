@@ -166,6 +166,10 @@ export class InnerGameBoard extends React.Component {
     }
 
     getCardsInPlay(player, isMe) {
+        if(!player) {
+            return [];
+        }
+        
         var sortedCards = _.sortBy(player.cardsInPlay, card => {
             return card.type;
         });
