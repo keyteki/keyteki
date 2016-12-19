@@ -9,7 +9,7 @@ class Bronn extends DrawCard {
         this.registerEvents(['onChallenge', 'onChallengeFinished']);
     }
 
-    onChallenge(challenge) {
+    onChallenge(e, challenge) {
         if(!this.inPlay || this.controller !== challenge.defendingPlayer) {
             return;
         }
@@ -19,7 +19,7 @@ class Bronn extends DrawCard {
         this.setIcon('power');
     }
 
-    onChallengeFinished(challenge) {
+    onChallengeFinished(e, challenge) {
         if(!this.inPlay || this.controller !== challenge.defendingPlayer) {
             return;
         }
