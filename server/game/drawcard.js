@@ -176,7 +176,7 @@ class DrawCard extends BaseCard {
             }),
             kneeled: this.kneeled,
             power: this.power,
-            strength: this.cardData.strength ? this.getStrength() : undefined,
+            strength: !_.isNull(this.cardData.strength) ? this.getStrength() : undefined,
             baseStrength: this.cardData.strength
         });
     }
