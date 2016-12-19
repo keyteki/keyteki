@@ -295,7 +295,6 @@ function handleError(game, e) {
 
 function runAndCatchErrors(game, func) {
     try {
-        test = error;
         func();
     } catch(e) { 
         handleError(game, e);
