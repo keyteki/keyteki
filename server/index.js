@@ -280,8 +280,10 @@ function handleError(game, e) {
 
     var debugData = {};
 
+    debugData.game = game.getSummary();
+
     _.each(game.players, player => {
-        debugData[player.name] = game.getSummary(player.name);
+        debugData[player.name] = player.getSummary(player.name);
     });
 
     ravenClient.captureException(e, { extra: debugData });
