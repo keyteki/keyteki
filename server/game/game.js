@@ -164,7 +164,6 @@ class Game extends EventEmitter {
         var card = player.findCardByUuid(sourceList, cardId);
 
         if(card && !isDrop && this.pipeline.handleCardClicked(player, card)) {
-            this.pipeline.continue();
             return;
         }
 
@@ -173,7 +172,6 @@ class Game extends EventEmitter {
         }
 
         this.raiseEvent('onCardPlayed', player, card);
-        this.pipeline.continue();
     }
 
     processCardClicked(player, cardId) {
@@ -222,7 +220,6 @@ class Game extends EventEmitter {
             case 'plot deck':
                 this.selectPlot(player, cardId);
 
-                this.pipeline.continue();
                 return;
         }
 
@@ -237,8 +234,6 @@ class Game extends EventEmitter {
                 this.addMessage('{0} {1} {2}', player, cardInPlay.kneeled ? 'kneels' : 'stands', cardInPlay);
             }
         }
-
-        this.pipeline.continue();
     }
 
     cardHasMenuItem(card, menuItem) {
@@ -283,8 +278,6 @@ class Game extends EventEmitter {
                 this.callCardMenuCommand(card, player, menuItem);
                 break;
         }
-
-        this.pipeline.continue();
     }
 
     showDrawDeck(playerName) {
@@ -424,7 +417,6 @@ class Game extends EventEmitter {
                     return true;
                 }
             });
-            this.pipeline.continue();
 
             return;
         }
@@ -464,7 +456,6 @@ class Game extends EventEmitter {
                     return true;
                 }
             });
-            this.pipeline.continue();
 
             return;
         }
@@ -472,7 +463,6 @@ class Game extends EventEmitter {
         if(message.indexOf('/cancel-prompt') === 0) {
             this.addMessage('{0} uses the /cancel-prompt to skip the current step.', player);
             this.pipeline.cancelStep();
-            this.pipeline.continue();
             return;
         }
 
@@ -541,7 +531,6 @@ class Game extends EventEmitter {
         }
 
         if(this.pipeline.handleMenuCommand(player, arg, method)) {
-            this.pipeline.continue();
             return true;
         }
     }
@@ -561,7 +550,7 @@ class Game extends EventEmitter {
             new SetupPhase(this),
             new SimpleStep(this, () => this.beginRound())
         ]);
-        this.pipeline.continue();
+        this.continue();
     }
 
     beginRound() {
@@ -611,6 +600,10 @@ class Game extends EventEmitter {
         player.id = id;
 
         this.addMessage('{0} has reconnected', player);
+    }
+
+    continue() {
+        this.pipeline.continue();
     }
 
     getState(activePlayer) {

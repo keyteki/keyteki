@@ -496,6 +496,8 @@ io.on('connection', function(socket) {
         runAndCatchErrors(game, () => {
             game[command](socket.request.user.username, ...args);
 
+            game.continue();
+
             sendGameState(game);
         });
     });
