@@ -280,10 +280,10 @@ function handleError(game, e) {
 
     var debugData = {};
 
-    debugData.game = game.getSummary();
+    debugData.game = game.getState();
 
     _.each(game.players, player => {
-        debugData[player.name] = player.getSummary(player.name);
+        debugData[player.name] = player.getState(player.name);
     });
 
     ravenClient.captureException(e, { extra: debugData });
@@ -295,6 +295,7 @@ function handleError(game, e) {
 
 function runAndCatchErrors(game, func) {
     try {
+        test = error;
         func();
     } catch(e) { 
         handleError(game, e);
