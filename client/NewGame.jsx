@@ -45,7 +45,7 @@ class InnerNewGame extends React.Component {
     }
 
     render() {
-        return (
+        return this.props.socket ? (
             <div>
                 <form className='form'>
                     <div className='row'>
@@ -67,7 +67,11 @@ class InnerNewGame extends React.Component {
                         <button className='btn btn-primary' onClick={ this.onCancelClick }>Cancel</button>
                     </div>
                 </form>
-            </div>);
+            </div>) : (
+                <div>
+                    Connecting to the server, please wait...
+                </div>
+            );
     }
 }
 
