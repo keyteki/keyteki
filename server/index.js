@@ -487,6 +487,10 @@ io.on('connection', function(socket) {
     });
 
     socket.on('game', function(command, ...args) {
+        if(!socket.request.user) {
+            return;
+        }
+
         var game = findGameForPlayer(socket.request.user.username);
 
         if(!game || !game[command] || !_.isFunction(game[command])) {
