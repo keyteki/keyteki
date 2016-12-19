@@ -62,6 +62,10 @@ class Player extends Spectator {
     }
 
     findCardByUuidInAnyList(uuid) {
+        if(uuid === this.agenda.uuid) {
+            return this.agenda;
+        }
+
         var card = this.findCardByUuid(this.cardsInPlay, uuid);
 
         if(card) {
@@ -80,6 +84,16 @@ class Player extends Spectator {
         }
 
         card = this.findCardByUuid(this.deadPile, uuid);
+        if(card) {
+            return card;
+        }
+
+        card = this.findCardByUuid(this.plotDeck, uuid);
+        if(card) {
+            return card;
+        }
+
+        card = this.findCardByUuid(this.plotDiscard, uuid);
         if(card) {
             return card;
         }
@@ -296,6 +310,8 @@ class Player extends Spectator {
                     plotCard = new PlotCard(this, cardEntry.card);
                 }
 
+                plotCard.location = 'plot deck';
+
                 this.plotCards.push(plotCard);
             }
         });
@@ -308,6 +324,7 @@ class Player extends Spectator {
             }
 
             this.agenda.inPlay = true;
+            this.agenda.location = 'agenda';
         } else {
             this.agenda = undefined;
         }

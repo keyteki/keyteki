@@ -35,7 +35,7 @@ class Card extends React.Component {
         return this.props.source === 'play area' || this.props.source === 'agenda' || this.props.source === 'revealed plots';
     }
 
-    onClick(event, card, source) {
+    onClick(event, card) {
         event.preventDefault();
         event.stopPropagation();
 
@@ -46,13 +46,13 @@ class Card extends React.Component {
         }
 
         if(this.props.onClick) {
-            this.props.onClick(source, card);
+            this.props.onClick(card);
         }
     }
 
     onMenuItemClick(menuItem) {
         if(this.props.onMenuItemClick) {
-            this.props.onMenuItemClick(this.props.source, this.props.card, menuItem);
+            this.props.onMenuItemClick(this.props.card, menuItem);
             this.setState({showMenu: !this.state.showMenu});
         }
     }
@@ -96,7 +96,7 @@ class Card extends React.Component {
 
         var index = 1;
         var attachments = _.map(this.props.card.attachments, attachment => {
-            var returnedAttachment = (<Card key={attachment.uuid} source={this.props.source} card={attachment} className={"attachment attachment-" + index} wrapped={false}
+            var returnedAttachment = (<Card key={attachment.uuid} source={this.props.source} card={attachment} className={'attachment attachment-' + index} wrapped={false}
                             onMouseOver={this.props.disableMouseOver ? null : this.onMouseOver.bind(this, attachment)}
                             onMouseOut={this.props.disableMouseOver ? null : this.onMouseOut}
                             onClick={this.props.onClick}
@@ -208,7 +208,7 @@ class Card extends React.Component {
                     <div className={cardClass}
                         onMouseOver={this.props.disableMouseOver ? null : this.onMouseOver.bind(this, this.props.card)}
                         onMouseOut={this.props.disableMouseOver ? null : this.onMouseOut}
-                        onClick={ev => this.onClick(ev, this.props.card, this.props.source)}
+                        onClick={ev => this.onClick(ev, this.props.card)}
                         onDragStart={ev => this.onCardDragStart(ev, this.props.card, this.props.source)}
                         draggable>
                         <div>

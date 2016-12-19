@@ -154,6 +154,15 @@ class Game extends EventEmitter {
         }, null);
     }
 
+    findAnyCardInAnyList(cardId) {
+        return _.reduce(this.getPlayers(), (card, player) => {
+            if(card) {
+                return card;
+            }
+            return player.findCardByUuidInAnyList(cardId);
+        }, null);
+    }
+
     playCard(playerName, cardId, isDrop, sourceList) {
         var player = this.getPlayerByName(playerName);
 
@@ -174,13 +183,7 @@ class Game extends EventEmitter {
         this.raiseEvent('onCardPlayed', player, card);
     }
 
-    processCardClicked(player, cardId) {
-        var card = this.findAnyCardInPlayByUuid(cardId);
-
-        if(!card) {
-            return false;
-        }
-
+    processCardClicked(player, card) {
         if(this.pipeline.handleCardClicked(player, card)) {
             return true;
         }
@@ -206,14 +209,20 @@ class Game extends EventEmitter {
         plot.selected = true;
     }
 
-    cardClicked(sourcePlayer, source, cardId) {
+    cardClicked(sourcePlayer, cardId) {
         var player = this.getPlayerByName(sourcePlayer);
 
         if(!player) {
             return;
         }
 
-        switch(source) {
+        var card = this.findAnyCardInAnyList(cardId);
+
+        if(!card) {
+            return;
+        }
+
+        switch(card.location) {
             case 'hand':
                 this.playCard(player.name, cardId, false, player.hand);
                 return;
@@ -223,15 +232,13 @@ class Game extends EventEmitter {
                 return;
         }
 
-        var handled = this.processCardClicked(player, cardId);
+        var handled = this.processCardClicked(player, card);
 
         if(!handled) {
-            var cardInPlay = player.findCardInPlayByUuid(cardId);
+            if(card && !card.facedown && card.location === 'play area') {
+                card.kneeled = !card.kneeled;
 
-            if(cardInPlay && !cardInPlay.facedown) {
-                cardInPlay.kneeled = !cardInPlay.kneeled;
-
-                this.addMessage('{0} {1} {2}', player, cardInPlay.kneeled ? 'kneels' : 'stands', cardInPlay);
+                this.addMessage('{0} {1} {2}', player, card.kneeled ? 'kneels' : 'stands', card);
             }
         }
     }
@@ -250,7 +257,7 @@ class Game extends EventEmitter {
         card[menuItem.method](player, menuItem.arg);
     }
 
-    menuItemClick(sourcePlayer, source, cardId, menuItem) {
+    menuItemClick(sourcePlayer, cardId, menuItem) {
         var player = this.getPlayerByName(sourcePlayer);
 
         if(!player) {
@@ -258,11 +265,17 @@ class Game extends EventEmitter {
         }
 
         if(menuItem.command === 'click') {
-            this.cardClicked(sourcePlayer, source, cardId);
+            this.cardClicked(sourcePlayer, cardId);
             return;
         }
 
-        switch(source) {
+        var card = this.findAnyCardInAnyList(cardId);
+
+        if(!card) {
+            return;
+        }
+
+        switch(card.location) {
             case 'revealed plots':
                 this.callCardMenuCommand(player.activePlot, player, menuItem);
                 break;
@@ -270,7 +283,6 @@ class Game extends EventEmitter {
                 this.callCardMenuCommand(player.agenda, player, menuItem);
                 break;
             case 'play area':
-                var card = this.findAnyCardInPlayByUuid(cardId);
                 if(card.controller !== player && !menuItem.anyPlayer) {
                     return;
                 }

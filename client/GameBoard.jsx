@@ -114,8 +114,8 @@ export class InnerGameBoard extends React.Component {
         this.props.clearZoom();
     }
 
-    onCardClick(source, card) {
-        this.props.sendSocketMessage('cardClicked', source, card.uuid);
+    onCardClick(card) {
+        this.props.sendSocketMessage('cardClicked', card.uuid);
     }
 
     onDrawClick() {
@@ -220,8 +220,8 @@ export class InnerGameBoard extends React.Component {
         this.onDragDrop(dragData.card, dragData.source, target);
     }
 
-    onMenuItemClick(source, card, menuItem) {
-        this.props.sendSocketMessage('menuItemClick', source, card.uuid, menuItem);
+    onMenuItemClick(card, menuItem) {
+        this.props.sendSocketMessage('menuItemClick', card.uuid, menuItem);
     }
 
     render() {

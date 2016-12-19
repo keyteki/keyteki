@@ -20,13 +20,15 @@ class CardCollection extends React.Component {
     onCollectionClick(event) {
         event.preventDefault();
 
-        this.setState({showPopup: !this.state.showPopup});
+        if(!this.props.disablePopup) {
+            this.setState({showPopup: !this.state.showPopup});
+        }
     }
 
     onTopCardClick() {
         if(this.props.disablePopup) {
             if(this.props.onCardClick) {
-                this.props.onCardClick(this.props.source, this.props.topCard);
+                this.props.onCardClick(this.props.topCard);
             }
 
             return;

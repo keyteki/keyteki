@@ -209,7 +209,7 @@ class PlayerRow extends React.Component {
                     : <div className='agenda panel' />
                 }
                 <CardCollection className='dead' title='Dead' source='dead pile' cards={this.props.deadPile}
-                                onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut}
+                                onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
                                 popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} orientation='horizontal' />
             </div>
         );
