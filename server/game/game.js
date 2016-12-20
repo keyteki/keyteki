@@ -658,6 +658,8 @@ class Game extends EventEmitter {
                 deck = { name: player.deck.name, selected: player.deck.selected };
             } else if(player.deck) {
                 deck = { selected: player.deck.selected };
+            } else {
+                deck = {};
             }
 
             playerSummaries.push({ id: player.id, name: player.user.username, emailHash: player.user.emailHash, deck: deck, owner: player.owner });
