@@ -197,7 +197,7 @@ describe('the <Card /> component', function() {
         });
 
         it('should call the on click handler with the card source', function() {
-            expect(this.spy.onClick).toHaveBeenCalledWith('hand', this.card);
+            expect(this.spy.onClick).toHaveBeenCalledWith(this.card);
         });
     });
 
