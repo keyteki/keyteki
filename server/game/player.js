@@ -184,10 +184,23 @@ class Player extends Spectator {
     }
 
     drawCardsToHand(numCards) {
+        if(numCards > this.drawDeck.size()) {
+            numCards = this.drawDeck.size();
+        }
+
         var cards = this.drawDeck.first(numCards);
         _.each(cards, card => {
             this.moveCard(card, 'hand');
         });
+
+        if(this.drawDeck.size() === 0) {
+            var otherPlayer = this.game.getOtherPlayer(this);
+
+            if(otherPlayer) {
+                this.game.addMessage('{0}\'s draw deck is empty', this);
+                this.game.addMessage('{0} wins the game', otherPlayer);
+            }
+        }
     }
 
     searchDrawDeck(limit, predicate) {
@@ -211,9 +224,22 @@ class Player extends Spectator {
     }
 
     discardFromDraw(number) {
+        if(number > this.drawDeck.size()) {
+            number = this.drawDeck.size();
+        }
+
         for(var i = 0; i < number; i++) {
             this.discardCard(this.drawDeck.first());
         }
+
+        if(this.drawDeck.size() === 0) {
+            var otherPlayer = this.game.getOtherPlayer(this);
+
+            if(otherPlayer) {
+                this.game.addMessage('{0}\'s draw deck is empty', this);
+                this.game.addMessage('{0} wins the game', otherPlayer);
+            }
+        }        
     }
 
     moveFromTopToBottomOfDrawDeck(number) {
