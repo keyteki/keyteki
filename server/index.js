@@ -286,7 +286,9 @@ function handleError(game, e) {
         debugData[player.name] = player.getState(player.name);
     });
 
-    ravenClient.captureException(e, { extra: debugData });
+    if(!isDeveloping) {
+        ravenClient.captureException(e, { extra: debugData });
+    }
 
     if(game) {
         game.addMessage('A Server error has occured processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.');
