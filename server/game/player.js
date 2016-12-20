@@ -926,7 +926,7 @@ class Player extends Spectator {
                 this.removeDuplicate(card);
             }
 
-            if(!this.phase === 'setup') {
+            if(this.phase !== 'setup') {
                 card.leavesPlay();
                 this.game.raiseEvent('onCardLeftPlay', this, card);
             }

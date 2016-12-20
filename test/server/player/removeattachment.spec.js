@@ -1,4 +1,4 @@
-/* global describe, it, beforeEach, expect, spyOn */
+/* global describe, it, beforeEach, expect, spyOn, jasmine */
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
 const Player = require('../../../server/game/player.js');
@@ -6,10 +6,11 @@ const DrawCard = require('../../../server/game/drawcard.js');
 
 describe('Player', function() {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['raiseEvent']);
+        this.gameSpy = jasmine.createSpyObj('game', ['raiseEvent', 'getOtherPlayer']);
         this.player = new Player('1', 'Player 1', true, this.gameSpy);
         this.player.deck = {};
         this.player.initialise();
+        this.player.phase = 'marshal';
         this.attachmentOwner = new Player('2', 'Player 2', false, this.gameSpy);
         this.attachmentOwner.initialise();
         this.attachment = new DrawCard(this.attachmentOwner, {});

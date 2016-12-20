@@ -14,7 +14,7 @@ function addCardsToHand(hand, number) {
 describe('Player', function() {
     describe('setupDone', function() {
         beforeEach(function() {
-            this.game = {};
+            this.game = jasmine.createSpyObj('game', ['getOtherPlayer']);
             this.player = new Player('1', 'Player 1', true, this.game);
             this.player.deck = {};
             this.player.initialise();
@@ -149,6 +149,6 @@ describe('Player', function() {
 
         it('should return unspent setup gold', function() {
             expect(this.player.gold).toBe(0);
-        })
+        });
     });
 });

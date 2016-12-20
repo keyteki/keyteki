@@ -5,11 +5,13 @@ const Player = require('../../../server/game/player.js');
 
 describe('the Game', () => {
     var game = {};
-    var winner = new Player('1', 'Player 1', true);
-    var loser = new Player('1', 'Player 1', true);
+    var winner = {};
+    var loser = {};
 
     beforeEach(() => {
         game = new Game('1', 'Test Game');
+        winner = new Player('1', 'Player 1', true, game);
+        loser = new Player('1', 'Player 1', true, game);
 
         game.initialise();
         winner.initialise();

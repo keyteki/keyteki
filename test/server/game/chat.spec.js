@@ -6,11 +6,14 @@ const Spectator = require('../../../server/game/spectator.js');
 
 describe('the Game', function() {
     var game = {};
-    var player1 = new Player('1', 'Player 1', true);
-    var spectator = new Spectator('3', 'Spectator 1');
+    var player1 = {};
+    var spectator = {};
 
     beforeEach(function() {
         game = new Game('1', 'Test Game');
+
+        player1 = new Player('1', 'Player 1', true, game);
+        spectator = new Spectator('3', 'Spectator 1', game);
 
         game.players[player1.id] = player1;
         game.players[spectator.id] = spectator;

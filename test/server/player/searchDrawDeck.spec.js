@@ -1,11 +1,13 @@
-/*global describe, it, beforeEach, expect*/
+/*global describe, it, beforeEach, expect, jasmine*/
 /* eslint camelcase: 0 */
 
 const _ = require('underscore');
 const Player = require('../../../server/game/player.js');
 
 describe('the Player', () => {
-    var player = new Player('1', 'Player 1', true);
+    var game = jasmine.createSpyObj('game', ['getOtherPlayer']);
+
+    var player = new Player('1', 'Player 1', true, game);
     var drawDeck = _([
       { name: 'foo' },
       { name: 'bar' },

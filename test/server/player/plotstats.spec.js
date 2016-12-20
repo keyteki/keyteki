@@ -16,7 +16,8 @@ function income(card) {
 
 describe('the Player', function() {
     beforeEach(function() {
-        this.player = new Player('1', 'Player 1', true);
+        this.game = jasmine.createSpyObj('game', ['getOtherPlayer']);        
+        this.player = new Player('1', 'Player 1', true, this.game);
         this.plotSpy = jasmine.createSpyObj('plot', ['getIncome']);
         this.incomeCard = new TestCard(this.player, { });
         this.card = new DrawCard(this.player, { });

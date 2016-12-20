@@ -7,9 +7,10 @@ const Player = require('../../../server/game/player.js');
 describe('Player', function () {
     describe('canPlayCard()', function () {
         beforeEach(function () {
+            this.gameSpy = jasmine.createSpyObj('game', ['drop', 'getOtherPlayer']);
+
             this.player = new Player('1', 'Test 1', true, this.gameSpy);
 
-            this.gameSpy = jasmine.createSpyObj('game', ['drop']);
             this.cardSpy = jasmine.createSpyObj('card', ['getType', 'getCost', 'isLimited', 'isUnique', 'canPlay']);
             this.cardSpy.uuid = '1111';
             this.cardSpy.name = 'Test Card';
