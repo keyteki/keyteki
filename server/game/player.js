@@ -900,8 +900,10 @@ class Player extends Spectator {
                 this.removeDuplicate(card);
             }
 
-            card.leavesPlay();
-            this.game.raiseEvent('onCardLeftPlay', this, card);
+            if(!this.phase === 'setup') {
+                card.leavesPlay();
+                this.game.raiseEvent('onCardLeftPlay', this, card);
+            }
 
             if(card.parent && card.parent.attachments) {
                 card.parent.attachments = this.removeCardByUuid(card.parent.attachments, card.uuid);
