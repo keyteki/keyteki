@@ -142,7 +142,7 @@ class App extends React.Component {
                 component = <EditDeck cards={this.props.cards} packs={this.props.packs} agendas={this.props.agendas} deckId={pathArg} />;
                 break;
             case '/play':
-                component = this.props.currentGame && this.props.currentGame.started ? gameBoard : gameLobby;
+                component = (this.props.currentGame && this.props.currentGame.started) || (this.props.state && this.props.state.started) ? gameBoard : gameLobby;
                 break;
             case '/about':
                 component = about;
@@ -183,6 +183,7 @@ App.propTypes = {
     receiveUpdateGame: React.PropTypes.func,
     receiveUsers: React.PropTypes.func,
     socketConnected: React.PropTypes.func,
+    state: React.PropTypes.object,
     token: React.PropTypes.string,
     username: React.PropTypes.string
 };
@@ -196,6 +197,7 @@ function mapStateToProps(state) {
         packs: state.cards.packs,
         path: state.navigation.path,
         loggedIn: state.auth.loggedIn,
+        state: state.games.state,
         token: state.auth.token,
         username: state.auth.username
     };

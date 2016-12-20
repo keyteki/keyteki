@@ -308,6 +308,18 @@ function runAndCatchErrors(game, func) {
 var users = {};
 
 io.on('connection', function(socket) {
+    if(socket.request.user) {
+        var game = findGameForPlayer(socket.request.user.username);
+
+        if(game) {
+            runAndCatchErrors(game, () => {
+                game.reconnect(socket.id, socket.request.user.username);
+
+                sendGameState(game);
+            });
+        }
+    }
+
     socket.on('error', function(err) {
         logger.info('socket error', err);
     });
@@ -330,23 +342,6 @@ io.on('connection', function(socket) {
         removePlayerFromGame(game, socket, 'has disconnected');
 
         refreshGameList();
-    });
-
-    socket.on('reconnect', function() {
-        if(!socket.request.user) {
-            return;
-        }
-
-        var game = findGameForPlayer(socket.request.user.username);
-        if(!game) {
-            return;
-        }
-
-        runAndCatchErrors(game, () => {
-            game.reconnect(socket.id, socket.request.user.username);
-
-            sendGameState(game);
-        });
     });
 
     socket.on('authenticate', function(token) {
