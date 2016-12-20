@@ -76,7 +76,7 @@ class CardCollection extends React.Component {
                              onMouseOver={this.props.onMouseOver}
                              onMouseOut={this.props.onMouseOut}
                              onClick={this.props.onCardClick}
-                             horizontal={this.props.orientation === 'horizontal'} />);
+                             orientation={this.props.orientation} />);
             });
 
             var popupClass = 'popup panel';
@@ -100,12 +100,15 @@ class CardCollection extends React.Component {
     }
 
     render() {
-        var className = 'panel ' + this.props.className;
+        var className = 'panel card-pile ' + this.props.className;
         var headerText = this.props.title ? this.props.title + ' (' + (this.props.cards ? this.props.cards.length : '0') + ')' : '';
         var topCard = this.props.topCard || _.last(this.props.cards);
+        var cardOrientation = this.props.orientation === 'horizontal' && topCard && topCard.facedown ? 'kneeled' : this.props.orientation;
 
-        if(topCard && topCard.kneeled) {
-            className = 'horizontal-card ' + className;
+        if(this.props.orientation === 'horizontal' || this.props.orientation === 'kneeled') {
+            className += ' horizontal';
+        } else {
+            className += ' vertical';
         }
 
         return (
@@ -120,7 +123,7 @@ class CardCollection extends React.Component {
                          disableMouseOver={topCard.facedown}
                          onClick={this.onTopCardClick}
                          onMenuItemClick={this.props.onMenuItemClick}
-                         horizontal={this.props.orientation === 'horizontal'} /> : null}
+                         orientation={cardOrientation} /> : null}
                 {this.getPopup()}
             </div>);
     }
@@ -142,6 +145,9 @@ CardCollection.propTypes = {
     source: React.PropTypes.oneOf(['hand', 'discard pile', 'play area', 'dead pile', 'draw deck', 'plot deck', 'revealed plots', 'selected plot', 'attachment', 'agenda', 'faction']).isRequired,
     title: React.PropTypes.string,
     topCard: React.PropTypes.object
+};
+CardCollection.defaultProps = {
+    orientation: 'vertical'
 };
 
 export default CardCollection;

@@ -23,16 +23,9 @@
 }
 
 .hand {
+  height: @card-height;
   width: 342px;
   padding: 0px;
-}
-
-.hand, .discard, .draw, .faction, .agenda {
-  height: @card-height;
-}
-
-.dead, .plot {
-  height: @card-width;
 }
 
 .middle {
@@ -51,16 +44,23 @@
   height: 22px;
 }
 
-.discard, .draw, .faction, .agenda {
-  position: relative;
-  width: @card-width;
+.card-pile {
   padding: 0px;
+  position: relative;
+  margin: 5px 7px;
+
+  &.vertical {
+    height: @card-height;
+    width: @card-width;
+  }
+
+  &.horizontal {
+    height: @card-width;
+    width: @card-height;
+  }
 }
 
 .dead, .plot {
-  position: relative;
-  width: @card-height;
-  padding: 0px;
   margin-top: auto;
   margin-bottom: auto;
 
@@ -157,10 +157,6 @@
     width: 368px;
     min-height: 92px;
   }
-
-  .card {
-    margin: 2px;
-  }
 }
 
 .card-row .card.horizontal {
@@ -215,10 +211,6 @@
 .menu-pane {
   text-align: center;
   z-index: @layer-prompt;
-}
-
-.faction.kneeled {
-  transform: translateY(18%);
 }
 
 .btn-stat {

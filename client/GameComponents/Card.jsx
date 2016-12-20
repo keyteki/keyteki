@@ -180,10 +180,12 @@ class Card extends React.Component {
             return <div />;
         }
 
-        if(this.props.card.kneeled || this.props.horizontal) {
+        cardClass += ' card-type-' + this.props.card.type;
+
+        if(this.props.orientation === 'kneeled' || this.props.card.kneeled) {
             cardClass += ' horizontal';
             imageClass += ' vertical kneeled';
-        } else if(this.props.card.type === 'plot') {
+        } else if(this.props.orientation === 'horizontal') {
             cardClass += ' horizontal';
             imageClass += ' horizontal';
         } else {
@@ -244,16 +246,17 @@ Card.propTypes = {
     }).isRequired,
     className: React.PropTypes.string,
     disableMouseOver: React.PropTypes.bool,
-    horizontal: React.PropTypes.bool,
     onClick: React.PropTypes.func,
     onMenuItemClick: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
+    orientation: React.PropTypes.oneOf(['horizontal', 'kneeled', 'vertical']),
     source: React.PropTypes.oneOf(['hand', 'discard pile', 'play area', 'dead pile', 'draw deck', 'plot deck', 'revealed plots', 'selected plot', 'attachment', 'agenda', 'faction']).isRequired,
     style: React.PropTypes.object,
     wrapped: React.PropTypes.bool
 };
 Card.defaultProps = {
+    orientation: 'vertical',
     wrapped: true
 };
 
