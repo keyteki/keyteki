@@ -191,7 +191,7 @@ class PlayerRow extends React.Component {
                                 onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
                                 popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} />
 
-                <div className='draw panel' onDragLeave={this.onDragLeave} onDragOver={this.onDragOver} onDrop={(event) => this.onDragDrop(event, 'draw deck')}
+                <div className='draw card-pile vertical panel' onDragLeave={this.onDragLeave} onDragOver={this.onDragOver} onDrop={(event) => this.onDragDrop(event, 'draw deck')}
                     onClick={this.props.isMe ? this.onDrawClick : null}>
                     <div className='panel-header'>
                         {'Draw (' + this.props.numDrawCards + ')'}
@@ -206,11 +206,11 @@ class PlayerRow extends React.Component {
                 {this.props.agenda && this.props.agenda.code !== '' ?
                     <CardCollection className='agenda' source='agenda' cards={[]} topCard={this.props.agenda} onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut}
                           onClick={this.onClick} disablePopup onMenuItemClick={this.props.onMenuItemClick} />
-                    : <div className='agenda panel' />
+                    : <div className='agenda card-pile vertical panel' />
                 }
                 <CardCollection className='dead' title='Dead' source='dead pile' cards={this.props.deadPile}
                                 onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
-                                popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} orientation='horizontal' />
+                                popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} orientation='kneeled' />
             </div>
         );
     }

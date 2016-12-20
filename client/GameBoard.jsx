@@ -283,18 +283,18 @@ export class InnerGameBoard extends React.Component {
                                 <div className='plot-group'>
                                     <CardCollection className={otherPlayer && otherPlayer.plotSelected ? 'plot plot-selected' : 'plot'}
                                                     title='Plots' source='plot deck' cards={otherPlayer ? otherPlayer.plotDeck : []}
-                                                    topCard={{ facedown: true, kneeled: true }}
+                                                    topCard={{ facedown: true, kneeled: true }} orientation='horizontal'
                                                     onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disableMouseOver disablePopup
                                                     onCardClick={this.onCardClick} orientation='horizontal' />
                                     <CardCollection className={thisPlayer.plotSelected ? 'plot plot-selected' : 'plot'}
-                                                    title='Plots' source='plot deck' cards={thisPlayer.plotDeck} topCard={{ facedown: true, kneeled: true }}
+                                                    title='Plots' source='plot deck' cards={thisPlayer.plotDeck} topCard={{ facedown: true, kneeled: true }} orientation='horizontal'
                                                     onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onCardClick={this.onCardClick} />
                                 </div>
                                 <div className='plot-group'>
                                     <CardCollection className='plot' title='Used Plots' source='revealed plots' cards={otherPlayer ? otherPlayer.plotDiscard : []}
-                                                    topCard={otherPlayer ? otherPlayer.activePlot : undefined} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} />
+                                                    topCard={otherPlayer ? otherPlayer.activePlot : undefined}  orientation='horizontal' onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} />
                                     <CardCollection className='plot' title='Used Plots' source='revealed plots' cards={thisPlayer.plotDiscard} topCard={thisPlayer.activePlot}
-                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onMenuItemClick={this.onMenuItemClick} />
+                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut}  orientation='horizontal' onMenuItemClick={this.onMenuItemClick} />
                                 </div>
                             </div>
 

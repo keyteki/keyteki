@@ -874,6 +874,7 @@ class Player extends Spectator {
 
         this.faction.cardData = deck.faction;
         this.faction.cardData.code = deck.faction.value;
+        this.faction.cardData.type_code = 'faction';
     }
 
     moveCard(card, targetLocation) {
