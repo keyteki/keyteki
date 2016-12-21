@@ -104,7 +104,7 @@ class Challenge {
     }
 
     getClaim() {
-        var claim = this.winner.activePlot.getClaim();
+        var claim = this.winner.claim;
         claim = this.winner.modifyClaim(this.winner, this.challengeType, claim);
 
         if(!this.isSinglePlayer) {

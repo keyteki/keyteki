@@ -596,7 +596,7 @@ class Player extends Spectator {
     revealPlot() {
         this.activePlot.onReveal(this);
         this.reserve = this.getTotalReserve();
-        this.claim = this.activePlot.claim || 0;
+        this.claim = this.activePlot.getClaim();
     }
 
     drawPhase() {
@@ -606,8 +606,6 @@ class Player extends Spectator {
 
     beginMarshal() {
         this.gold += this.getTotalIncome();
-        this.reserve = this.getTotalReserve();
-        this.claim = this.activePlot.claim || 0;
 
         this.limitedPlayed = 0;
     }
