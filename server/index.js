@@ -149,6 +149,7 @@ function runServer() {
     } else {
         app.use(express.static(__dirname + '/../public'));
         app.set('view engine', 'pug');
+        app.set('views', path.join(__dirname, '..', 'views'));
         app.get('*', function response(req, res) {
             var token = undefined;
 
