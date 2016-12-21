@@ -3,6 +3,7 @@ const EventEmitter = require('events');
 const uuid = require('node-uuid');
 
 const Event = require('./event.js');
+const GameChat = require('./gamechat.js');
 const Spectator = require('./spectator.js');
 const BaseCard = require('./basecard.js');
 const GamePipeline = require('./gamepipeline.js');
@@ -25,7 +26,7 @@ class Game extends EventEmitter {
         this.players = {};
         this.playerPlots = {};
         this.playerCards = {};
-        this.messages = [];
+        this.gameChat = new GameChat();
 
         this.name = details.name;
         this.allowSpectators = details.spectators;
@@ -37,54 +38,12 @@ class Game extends EventEmitter {
         this.setMaxListeners(0);
     }
 
-    addChatMessage(message) {
-        var args = Array.from(arguments).slice(1);
-        var formattedMessage = this.formatMessage(message, args);
-
-        this.messages.push({ date: new Date(), message: formattedMessage });
+    addMessage() {
+        this.gameChat.addMessage(...arguments);
     }
 
-    addMessage(message) {
-        var args = Array.from(arguments).slice(1);
-        var argList = [];
-
-        args = _.reduce(args, (argList, arg) => {
-            if(arg instanceof Spectator) {
-                argList.push(arg.name);
-            } else {
-                argList.push(arg);
-            }
-
-            return argList;
-        }, argList);
-
-        var formattedMessage = this.formatMessage(message, args);
-
-        this.messages.push({ date: new Date(), message: formattedMessage });
-    }
-
-    formatMessage(format, args) {
-        var messageFragments = format.split(/(\{\d+\})/);
-
-        return _.map(messageFragments, fragment => {
-            var argMatch = fragment.match(/\{(\d+)\}/);
-            if(argMatch) {
-                var arg = args[argMatch[1]];
-                if(!_.isUndefined(arg) && !_.isNull(arg)) {
-                    if(arg instanceof BaseCard) {
-                        return { code: arg.code, label: arg.name, type: arg.getType() };
-                    } else if(arg instanceof Spectator) {
-                        return { name: arg.user.username, emailHash: arg.user.emailHash };
-                    }
-
-                    return arg;
-                }
-
-                return '';
-            }
-
-            return fragment;
-        });
+    get messages() {
+        return this.gameChat.messages;
     }
 
     isSpectator(player) {
@@ -398,7 +357,7 @@ class Game extends EventEmitter {
         }
 
         if(this.isSpectator(player)) {
-            this.addChatMessage('{0} {1}', player, message);
+            this.gameChat.addChatMessage('{0} {1}', player, message);
             return;
         }
 
@@ -478,7 +437,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        this.addChatMessage('{0} {1}', player, message);
+        this.gameChat.addChatMessage('{0} {1}', player, message);
     }
 
     playerLeave(playerName, reason) {
@@ -549,7 +508,6 @@ class Game extends EventEmitter {
 
     initialise() {
         this.playStarted = false;
-        this.messages = [];
         _.each(this.getPlayers(), player => {
             player.initialise();
         });
@@ -631,7 +589,7 @@ class Game extends EventEmitter {
                 name: this.name,
                 owner: this.owner,
                 players: playerState,
-                messages: this.messages,
+                messages: this.gameChat.messages,
                 spectators: _.map(this.getSpectators(), spectator => {
                     return {
                         id: spectator.id,
@@ -668,7 +626,7 @@ class Game extends EventEmitter {
         return {
             allowSpectators: this.allowSpectators,
             id: this.id,
-            messages: this.messages,
+            messages: this.gameChat.messages,
             name: this.name,
             owner: this.owner,
             players: playerSummaries,
