@@ -44,6 +44,7 @@ function games(state = {
 
             if(action.isMe) {
                 delete retState.currentGame;
+                delete retState.state;
             }
 
             return retState;
