@@ -194,7 +194,7 @@ class Game extends EventEmitter {
         var handled = this.processCardClicked(player, card);
 
         if(!handled) {
-            if(card && !card.facedown && card.location === 'play area') {
+            if(card && !card.facedown && card.location === 'play area' && card.controller === player) {
                 card.kneeled = !card.kneeled;
 
                 this.addMessage('{0} {1} {2}', player, card.kneeled ? 'kneels' : 'stands', card);
