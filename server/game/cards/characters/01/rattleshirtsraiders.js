@@ -31,6 +31,8 @@ class RattleshirtsRaiders extends DrawCard {
     onCardSelected(player, card) {
         card.owner.discardCard(card);
 
+        this.game.addMessage('{0} uses {1} to discard {2}', player, this, card);
+
         return true;
     }
 }
