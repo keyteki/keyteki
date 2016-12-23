@@ -90,7 +90,7 @@ class App extends React.Component {
         });
 
         socket.on('gamestate', game => {
-            this.props.receiveGameState(game);
+            this.props.receiveGameState(game, this.props.username);
         });
 
         socket.on('lobbychat', message => {

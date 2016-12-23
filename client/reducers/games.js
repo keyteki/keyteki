@@ -49,9 +49,16 @@ function games(state = {
 
             return retState;
         case 'RECEIVE_GAMESTATE':
-            return Object.assign({}, state, {
+            retState = Object.assign({}, state, {
                 state: action.state
             });
+
+            if(state.players[state.username].left) {
+                delete retState.state;
+                delete retState.currentGame;
+            }
+
+            return retState;
         case 'RECEIVE_USERS':
             return Object.assign({}, state, {
                 users: action.users

@@ -146,10 +146,11 @@ export function receiveLeaveGame(game, isMe) {
     };
 }
 
-export function receiveGameState(state) {
+export function receiveGameState(state, username) {
     return {
         type: 'RECEIVE_GAMESTATE',
-        state: state
+        state: state,
+        username: username
     };
 }
 
