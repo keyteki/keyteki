@@ -283,7 +283,6 @@ class Player extends Spectator {
         this.claim = 0;
         this.reserve = 0;
         this.readyToStart = false;
-        this.cardsInChallenge = _([]);
         this.limitedPlayed = 0;
         this.maxLimited = 1;
         this.activePlot = undefined;
@@ -666,7 +665,6 @@ class Player extends Spectator {
     }
 
     beginChallenge() {
-        this.cardsInChallenge = _([]);
         this.cardsInPlay.each(card => {
             card.resetForChallenge();
         });
@@ -674,10 +672,6 @@ class Player extends Spectator {
     }
 
     canAddToChallenge(card, challengeType) {
-        if(this.challengerLimit && this.cardsInChallenge.size() >= this.challengerLimit) {
-            return false;
-        }
-
         if(!card) {
             return false;
         }

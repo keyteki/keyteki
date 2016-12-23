@@ -111,7 +111,7 @@ class ChallengeFlow extends BaseStep {
         this.challenge.determineWinner();
 
         this.game.addMessage('{0} won a {1} challenge {2} vs {3}',
-            this.challenge.winner, this.challenge.challengeType, this.challenge.winner.challengeStrength, this.challenge.loser.challengeStrength);
+            this.challenge.winner, this.challenge.challengeType, this.challenge.winnerStrength, this.challenge.loserStrength);
 
         this.game.raiseEvent('afterChallenge', this.challenge);
     }
@@ -185,8 +185,9 @@ class ChallengeFlow extends BaseStep {
 
     applyKeywords() {
         var appliedIntimidate = false;
+        var winnerCards = this.challenge.getWinnerCards();
 
-        this.challenge.winner.cardsInChallenge.each(card => {
+        _.each(winnerCards, card => {
             if(card.hasKeyword('Insight')) {
                 this.challenge.winner.drawCardsToHand(1);
 

@@ -16,7 +16,7 @@ class RattleshirtsRaiders extends DrawCard {
             return;
         }
 
-        if(!challenge.attackingPlayer.cardsInChallenge.contains(this)) {
+        if(!challenge.isAttacking(this)) {
             return;
         }
 

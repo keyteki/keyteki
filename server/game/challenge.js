@@ -9,7 +9,11 @@ class Challenge {
         this.defendingPlayer = defendingPlayer || this.singlePlayerDefender();
         this.challengeType = challengeType;
         this.attackers = [];
+        this.attackerStrength = 0;
+        this.attackerStrengthModifier = 0;
         this.defenders = [];
+        this.defenderStrength = 0;
+        this.defenderStrengthModifier = 0;
         this.registerEvents(['onCardLeftPlay']);
     }
 
@@ -32,27 +36,17 @@ class Challenge {
     addAttackers(attackers) {
         this.attackers = attackers;
         this.markAsParticipating(attackers);
-
-        // TODO: Remove duplicated logic.
-        this.attackingPlayer.cardsInChallenge = _(attackers);
     }
 
     addDefenders(defenders) {
         this.defenders = defenders;
         this.markAsParticipating(defenders);
-
-        // TODO: Remove duplicated logic.
-        this.defendingPlayer.cardsInChallenge = _(defenders);
     }
 
     removeFromChallenge(card) {
         this.attackers = _.reject(this.attackers, c => c === card);
         this.defenders = _.reject(this.defenders, c => c === card);
         this.calculateStrength();
-
-        // TODO: Remove duplicated logic
-        this.attackingPlayer.cardsInChallenge = _(this.attackers);
-        this.defendingPlayer.cardsInChallenge = _(this.defenders);
     }
 
     markAsParticipating(cards) {
@@ -61,19 +55,37 @@ class Challenge {
         });
     }
 
-    calculateStrength() {
-        this.attackerStrength = this.calculateStrengthFor(this.attackers);
-        this.defenderStrength = this.calculateStrengthFor(this.defenders);
+    isAttacking(card) {
+        return this.attackers.includes(card);
+    }
 
-        // TODO: Remove duplicated logic
-        this.attackingPlayer.challengeStrength = this.attackerStrength;
-        this.defendingPlayer.challengeStrength = this.defenderStrength;
+    isDefending(card) {
+        return this.defenders.includes(card);
+    }
+
+    isParticipating(card) {
+        return this.isAttacking(card) || this.isDefending(card);
+    }
+
+    calculateStrength() {
+        this.attackerStrength = this.calculateStrengthFor(this.attackers) + this.attackerStrengthModifier;
+        this.defenderStrength = this.calculateStrengthFor(this.defenders) + this.defenderStrengthModifier;
     }
 
     calculateStrengthFor(cards) {
         return _.reduce(cards, (sum, card) => {
             return sum + card.getStrength();
         }, 0);
+    }
+
+    modifyAttackerStrength(value) {
+        this.attackerStrengthModifier += value;
+        this.calculateStrength();
+    }
+
+    modifyDefenderStrength(value) {
+        this.defenderStrengthModifier += value;
+        this.calculateStrength();
     }
 
     getStealthAttackers() {
@@ -84,15 +96,19 @@ class Challenge {
         this.calculateStrength();
         if(this.attackerStrength >= this.defenderStrength) {
             this.loser = this.defendingPlayer;
+            this.loserStrength = this.defenderStrength;
             this.winner = this.attackingPlayer;
+            this.winnerStrength = this.attackerStrength;
         } else {
             this.loser = this.attackingPlayer;
+            this.loserStrength = this.attackerStrength;
             this.winner = this.defendingPlayer;
+            this.winnerStrength = this.defenderStrength;
         }
 
         this.winner.winChallenge(this.challengeType);
         this.loser.loseChallenge(this.challengeType);
-        this.strengthDifference = this.winner.challengeStrength - this.loser.challengeStrength;
+        this.strengthDifference = this.winnerStrength - this.loserStrength;
     }
 
     isAttackerTheWinner() {
@@ -112,6 +128,16 @@ class Challenge {
         }
 
         return claim;
+    }
+
+    getWinnerCards() {
+        if(this.winner === this.attackingPlayer) {
+            return this.attackers;
+        } else if(this.winner === this.defendingPlayer) {
+            return this.defenders;
+        }
+
+        return [];
     }
 
     onCardLeftPlay(e, player, card) {

@@ -12,8 +12,8 @@ class TheRedKeep extends DrawCard {
             return;
         }
 
-        if(challenge.challengeType === 'power' && this.controller.cardsInChallenge.size() > 0) {
-            this.controller.challengeStrength += 2;
+        if(challenge.challengeType === 'power' && challenge.attackers.length > 0) {
+            challenge.modifyAttackerStrength(2);
 
             this.game.addMessage('{0} uses {1} to add 2 to the strength of this {2} challenge', this.controller, this, challenge.challengeType);
         }

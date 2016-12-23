@@ -14,14 +14,11 @@ describe('SerJaimeLannister', function() {
         this.playerSpy.game = this.gameSpy;
         this.otherPlayerSpy.game = this.gameSpy;
 
-        this.playerSpy.cardsInChallenge = _([]);
-
         this.character = new SerJaimeLannister(this.playerSpy, {});
 
-        this.challenge = {
-            attackingPlayer: this.playerSpy,
-            challengeType: 'military'
-        };
+        this.challenge = jasmine.createSpyObj('challenge', ['isAttacking']);
+        this.challenge.attackingPlayer = this.playerSpy;
+        this.challenge.challengeType = 'military';
     });
 
     describe('when attackers are declared', function() {
@@ -86,6 +83,10 @@ describe('SerJaimeLannister', function() {
                 });
 
                 describe('and this card is not in the challenge', function() {
+                    beforeEach(function() {
+                        this.challenge.isAttacking.and.returnValue(false);
+                    });
+
                     it('should set renown', function() {
                         expect(this.character.isRenown()).toBe(true);
                     });
@@ -97,7 +98,7 @@ describe('SerJaimeLannister', function() {
 
                 describe('and this card is in the challenge', function() {
                     beforeEach(function() {
-                        this.playerSpy.cardsInChallenge.push(this.character);
+                        this.challenge.isAttacking.and.returnValue(true);
 
                         this.character.onAttackersDeclared({}, this.challenge);
                     });

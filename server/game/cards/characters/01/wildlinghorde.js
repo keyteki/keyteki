@@ -10,7 +10,12 @@ class WildlingHorde extends DrawCard {
     }
 
     cardCondition(player, card) {
-        return card.inPlay && card.controller === player && card.hasTrait('Wildling') && player.isCardUuidInList(player.cardsInChallenge, card);
+        var currentChallenge = this.game.currentChallenge;
+        if(!currentChallenge) {
+            return false;
+        }
+
+        return card.inPlay && card.controller === player && card.hasTrait('Wildling') && currentChallenge.isAttacking(card);
     }
 
     kneelFactionCard(player) {

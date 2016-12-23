@@ -21,9 +21,7 @@ class SerJaimeLannister extends DrawCard {
             return;
         }
 
-        if(!this.isBlank() && player.cardsInChallenge.any(card => {
-            return card.uuid === this.uuid;
-        })) {
+        if(!this.isBlank() && challenge.isAttacking(this)) {
             this.kneeled = false;
         }
     }

@@ -14,8 +14,6 @@ describe('RedCloaks', function() {
         this.playerSpy.game = this.gameSpy;
         this.otherPlayerSpy.game = this.gameSpy;
 
-        this.playerSpy.cardsInChallenge = _([]);
-
         this.card = new RedCloaks(this.playerSpy, {});
         this.card.inPlay = true;
     });

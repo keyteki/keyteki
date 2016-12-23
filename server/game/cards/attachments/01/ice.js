@@ -34,7 +34,7 @@ class Ice extends DrawCard {
             return;
         }
 
-        if(!challenge.attackingPlayer.cardsInChallenge.contains(this.parent)) {
+        if(!challenge.isAttacking(this.parent)) {
             return;
         }
 

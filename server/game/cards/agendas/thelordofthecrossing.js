@@ -13,7 +13,7 @@ class TheLordOfTheCrossing extends AgendaCard {
             return;
         }
 
-        player.cardsInChallenge.each(card => {
+        _.each(challenge.attackers, card => {
             var numChallenges = player.getNumberOfChallengesInitiated();
             if(numChallenges === 0) {
                 card.strengthModifier--;
@@ -34,7 +34,7 @@ class TheLordOfTheCrossing extends AgendaCard {
             this.game.addPower(challenge.winner, 1);
         }
 
-        this.controller.cardsInChallenge.each(card => {
+        _.each(challenge.attackers, card => {
             if(currentChallenge === 1) {
                 card.strengthModifier++;
             } else if(currentChallenge === 3) {
