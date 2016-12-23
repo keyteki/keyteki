@@ -53,7 +53,9 @@ function games(state = {
                 state: action.state
             });
 
-            if(state.players[state.username].left) {
+            var currentState = state.state;
+
+            if(currentState && currentState.players[action.username].left) {
                 delete retState.state;
                 delete retState.currentGame;
             }
