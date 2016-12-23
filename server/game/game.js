@@ -568,6 +568,7 @@ class Game extends EventEmitter {
         }
 
         player.id = id;
+        player.left = false;
 
         this.addMessage('{0} has reconnected', player);
     }
