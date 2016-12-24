@@ -847,6 +847,10 @@ class Player extends Spectator {
             }
         }
 
+        if(targetLocation === 'discard pile') {
+            this.game.raiseEvent('onCardDiscarded', this, card);
+        }
+
         card.location = targetLocation;
         if(targetLocation === 'draw deck') {
             targetPile.unshift(card);
