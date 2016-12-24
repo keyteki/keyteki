@@ -31,6 +31,8 @@ class DrawCard extends BaseCard {
         this.kneeled = false;
 
         this.renownCount = this.hasKeyword('Renown') ? 1 : 0;
+
+        this.wasAmbush = false;
     }
 
     addDuplicate(card) {
@@ -144,6 +146,12 @@ class DrawCard extends BaseCard {
     }
 
     attach() {
+    }
+
+    play(isAmbush) {
+        this.wasAmbush = isAmbush;
+
+        super.play();
     }
 
     onClick() {

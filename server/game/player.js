@@ -382,10 +382,14 @@ class Player extends Spectator {
             return true;
         }
 
+        var isAmbush = false;
+
         if(this.phase === 'marshal') {
             this.game.addMessage('{0} {1} {2} costing {3}', this, dupeCard ? 'duplicates' : 'marshals', card, cost);
-        } else if(this.phase === 'challenge' && card.isAmbush()) {
+        } else if(card.isAmbush()) {
             this.game.addMessage('{0} ambushes with {1} costing {2}', this, card, cost);
+
+            isAmbush = true;
         }
 
         if(card.getType() === 'attachment' && this.phase !== 'setup' && !dupeCard) {
@@ -403,7 +407,7 @@ class Player extends Spectator {
 
             card.facedown = this.phase === 'setup';
             if(!dupeCard) {
-                card.play(this);
+                card.play(this, isAmbush);
             }
             card.new = true;
             this.moveCard(card, 'play area');
