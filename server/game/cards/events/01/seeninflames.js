@@ -46,7 +46,12 @@ class SeenInFlames extends DrawCard {
             return false;
         }
 
-        var discarded = otherPlayer.discardFromHand(cardId);
+        var card = otherPlayer.findCardByUuid(otherPlayer.hand, cardId);
+        if(!card) {
+            return false;
+        }
+
+        var discarded = otherPlayer.discardFromHand(card);
 
         if(!discarded) {
             return false;
