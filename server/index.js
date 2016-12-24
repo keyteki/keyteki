@@ -493,7 +493,7 @@ io.on('connection', function(socket) {
 
         var game = findGameForPlayer(socket.request.user.username);
 
-        if(!game || !game[command] || !_.isFunction(game[command])) {
+        if(!game || !game.playStarted || !game[command] || !_.isFunction(game[command])) {
             return;
         }
 

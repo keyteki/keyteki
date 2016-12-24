@@ -27,6 +27,7 @@ class Game extends EventEmitter {
         this.playerPlots = {};
         this.playerCards = {};
         this.gameChat = new GameChat();
+        this.pipeline = new GamePipeline();
 
         this.name = details.name;
         this.allowSpectators = details.spectators;
@@ -507,7 +508,6 @@ class Game extends EventEmitter {
     }
 
     initialise() {
-        this.playStarted = false;
         _.each(this.getPlayers(), player => {
             player.initialise();
         });
@@ -515,11 +515,11 @@ class Game extends EventEmitter {
             return cards.concat(player.allCards.toArray());
         }, []));
         this.raiseEvent('onDecksPrepared');
-        this.pipeline = new GamePipeline();
         this.pipeline.initialise([
             new SetupPhase(this),
             new SimpleStep(this, () => this.beginRound())
         ]);
+        this.playStarted = true;
         this.continue();
     }
 
