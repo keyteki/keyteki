@@ -3,7 +3,7 @@
 
 const _ = require('underscore');
 
-const TheRainsOfCastamere = require('../../../server/game/cards/agendas/therainsofcastamere.js');
+const TheRainsOfCastamere = require('../../../../server/game/cards/agendas/therainsofcastamere.js');
 
 describe('The Rains of Castamere', function() {
     function createPlotSpy(uuid, hasTrait) {
@@ -22,7 +22,7 @@ describe('The Rains of Castamere', function() {
     }
 
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['on', 'promptWithMenu', 'addMessage']);
+        this.gameSpy = jasmine.createSpyObj('game', ['on', 'promptWithMenu', 'addMessage', 'raiseEvent']);
 
         this.plot1 = plot('1111');
         this.plot2 = plot('2222');
@@ -153,7 +153,7 @@ describe('The Rains of Castamere', function() {
                 this.agenda.afterChallenge(this.event, this.challenge);
                 expect(this.gameSpy.promptWithMenu).toHaveBeenCalled();
             });
-        })
+        });
     });
 
     describe('revealScheme()', function() {

@@ -5,7 +5,7 @@ const ResolvePlots = require('../../../../server/game/gamesteps/plot/resolveplot
 
 describe('the ResolvePlots', function() {
     beforeEach(function() {
-        this.game = jasmine.createSpyObj('game', ['getPlayerByName', 'getFirstPlayer', 'promptWithMenu']);
+        this.game = jasmine.createSpyObj('game', ['getPlayerByName', 'getFirstPlayer', 'promptWithMenu', 'raiseEvent']);
         this.player = jasmine.createSpyObj('player', ['setPrompt', 'cancelPrompt', 'revealPlot']);
         this.otherPlayer = jasmine.createSpyObj('player', ['setPrompt', 'cancelPrompt', 'revealPlot']);
 

@@ -1,7 +1,7 @@
 /* global describe, it, expect, beforeEach, jasmine */
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
-const KingsOfWinter = require('../../../server/game/cards/agendas/kingsofwinter.js');
+const KingsOfWinter = require('../../../../server/game/cards/agendas/kingsofwinter.js');
 
 describe('Kings Of Winter', function() {
     beforeEach(function() {
