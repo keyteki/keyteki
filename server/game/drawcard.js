@@ -162,6 +162,7 @@ class DrawCard extends BaseCard {
         this.kneeled = false;
         this.strengthModifier = 0;
         this.power = 0;
+        this.wasAmbush = false;
 
         super.leavesPlay();
     }
