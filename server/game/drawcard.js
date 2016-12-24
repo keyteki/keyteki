@@ -148,7 +148,7 @@ class DrawCard extends BaseCard {
     attach() {
     }
 
-    play(isAmbush) {
+    play(player, isAmbush) {
         this.wasAmbush = isAmbush;
 
         super.play();
