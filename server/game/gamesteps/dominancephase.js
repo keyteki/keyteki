@@ -8,7 +8,8 @@ class DominancePhase extends Phase {
         super(game, 'dominance');
         this.initialise([
             new SimpleStep(game, () => this.determineWinner()),
-            new ActionWindow(this.game)
+            new ActionWindow(this.game),
+            new SimpleStep(game, () => this.endPhase())
         ]);
     }
 
@@ -46,6 +47,10 @@ class DominancePhase extends Phase {
 
         this.game.raiseEvent('onDominanceDetermined', dominanceWinner);
     }
+
+    endPhase() {
+        this.game.raiseEvent('onPhaseEnd', 'dominance');
+    }    
 }
 
 module.exports = DominancePhase;

@@ -7,7 +7,8 @@ class MarshalingPhase extends Phase {
         super(game, 'marshal');
         this.initialise([
             new SimpleStep(game, () => this.beginMarshal()),
-            new SimpleStep(game, () => this.promptForMarshal())
+            new SimpleStep(game, () => this.promptForMarshal()),
+            new SimpleStep(game, () => this.endPhase())
         ]);
     }
 
@@ -22,6 +23,10 @@ class MarshalingPhase extends Phase {
         this.game.queueStep(new MarshalCardsPrompt(this.game, currentPlayer));
         return this.remainingPlayers.length === 0;
     }
+
+    endPhase() {
+        this.game.raiseEvent('onPhaseEnd', 'marshal');
+    }    
 }
 
 module.exports = MarshalingPhase;
