@@ -4,7 +4,7 @@ class Shae extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['onPhaseEnd']);
+        this.registerEvents(['onPhaseEnded']);
 
         this.menu.push({ text: 'Pay 1 gold to stand Shae', command: 'card', method: 'stand' });
 
@@ -25,7 +25,7 @@ class Shae extends DrawCard {
         this.usedThisPhase++;
     }
 
-    onPhaseEnd() {
+    onPhaseEnded() {
         this.usedThisPhase = 0;
     }
 }

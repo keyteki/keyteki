@@ -9,8 +9,7 @@ class ChallengePhase extends Phase {
         super(game, 'challenge');
         this.initialise([
             new SimpleStep(this.game, () => this.beginPhase()),
-            new SimpleStep(this.game, () => this.promptForChallenge()),
-            new SimpleStep(this.game, () => this.endPhase())
+            new SimpleStep(this.game, () => this.promptForChallenge())
         ]);
     }
 
@@ -85,10 +84,6 @@ class ChallengePhase extends Phase {
         this.remainingPlayers.shift();
         return true;
     }
-
-    endPhase() {
-        this.game.raiseEvent('onPhaseEnd', 'challenge');
-    }    
 }
 
 module.exports = ChallengePhase;

@@ -6,10 +6,10 @@ class GoldCloaks extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['onPhaseEnd']);
+        this.registerEvents(['onPhaseEnded']);
     }
 
-    onPhaseEnd() {
+    onPhaseEnded() {
         if(!this.inPlay || !this.wasAmbush) {
             return;
         }

@@ -4,7 +4,7 @@ class RedCloaks extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['onAttackersDeclared', 'onPhaseEnd']);
+        this.registerEvents(['onAttackersDeclared', 'onPhaseEnded']);
 
         this.menu.push({ text: 'Move 1 gold from your gold pool to this card', command: 'card', method: 'addGold' });
 
@@ -25,7 +25,7 @@ class RedCloaks extends DrawCard {
         this.usedThisPhase = true;
     }
 
-    onPhaseEnd() {
+    onPhaseEnded() {
         this.usedThisPhase = false;
     }
 

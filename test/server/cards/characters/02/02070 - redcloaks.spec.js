@@ -77,10 +77,9 @@ describe('RedCloaks', function() {
                     });
                 });
 
-                // XXX this should be per phase, will change this when the new phase stuff is done and have a phase change event
-                describe('and then called again in a new round', function() {
+                describe('and then called again in a new phase', function() {
                     beforeEach(function() {
-                        this.card.onAfterTaxation();
+                        this.card.onPhaseEnded();
                         this.card.addGold(this.playerSpy);
                     });
 

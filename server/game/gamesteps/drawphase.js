@@ -6,8 +6,7 @@ class DrawPhase extends Phase {
     constructor(game) {
         super(game, 'draw');
         this.initialise([
-            new SimpleStep(game, () => this.draw()),
-            new SimpleStep(game, () => this.endPhase())
+            new SimpleStep(game, () => this.draw())
         ]);
     }
 
@@ -17,10 +16,6 @@ class DrawPhase extends Phase {
             p.drawPhase();
         });
     }
-
-    endPhase() {
-        this.game.raiseEvent('onPhaseEnd', 'draw');
-    }    
 }
 
 module.exports = DrawPhase;

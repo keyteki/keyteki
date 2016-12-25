@@ -10,8 +10,7 @@ class TaxationPhase extends Phase {
         this.initialise([
             new SimpleStep(game, () => this.returnGold()),
             new DiscardToReservePrompt(game),
-            new EndRoundPrompt(game),
-            new SimpleStep(game, () => this.endPhase())
+            new EndRoundPrompt(game)
         ]);
     }
 
@@ -25,10 +24,6 @@ class TaxationPhase extends Phase {
             this.game.raiseEvent('onAfterTaxation', player);
         });
     }
-
-    endPhase() {
-        this.game.raiseEvent('onPhaseEnd', 'taxation');
-    }    
 }
 
 module.exports = TaxationPhase;
