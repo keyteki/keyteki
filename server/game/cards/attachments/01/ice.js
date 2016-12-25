@@ -26,7 +26,7 @@ class Ice extends DrawCard {
     }
 
     afterChallenge(event, challenge) {
-        if(!this.inPlay || challenge.attackingPlayer !== this.controller) {
+        if(!this.inPlay) {
             return;
         }
 
@@ -34,7 +34,7 @@ class Ice extends DrawCard {
             return;
         }
 
-        if(!challenge.isAttacking(this.parent)) {
+        if(!challenge.isParticipating(this.parent)) {
             return;
         }
 
