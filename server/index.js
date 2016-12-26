@@ -283,7 +283,7 @@ function handleError(game, e) {
 
     debugData.game = game.getState();
 
-    _.each(game.players, player => {
+    _.each(game.getPlayers(), player => {
         debugData[player.name] = player.getState(player.name);
     });
 
