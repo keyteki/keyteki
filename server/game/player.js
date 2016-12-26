@@ -232,20 +232,6 @@ class Player extends Spectator {
         }
     }
 
-    discardFromHand(cardId) {
-        var retCard = this.hand.find(card => {
-            return card.uuid === cardId;
-        });
-
-        if(retCard === -1) {
-            return undefined;
-        }
-
-        this.discardCard(retCard);        
-
-        return retCard;
-    }
-
     addChallenge(type, number) {
         this.challenges[type].max += number;
         this.challenges.maxTotal += number;

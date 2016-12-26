@@ -51,13 +51,9 @@ class SeenInFlames extends DrawCard {
             return false;
         }
 
-        var discarded = otherPlayer.discardFromHand(card);
+        otherPlayer.discardCard(card);
 
-        if(!discarded) {
-            return false;
-        }
-
-        this.game.addMessage('{0} uses {1} to discard {2} from {3}\'s hand', player, this, discarded, otherPlayer);
+        this.game.addMessage('{0} uses {1} to discard {2} from {3}\'s hand', player, this, card, otherPlayer);
 
         return true;
     }
