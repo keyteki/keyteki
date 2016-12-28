@@ -19,36 +19,29 @@ describe('AGameOfThrones', function() {
     });
 
     describe('when called for intrigue challenge', function() {
-        describe('and this plot is not in play', function() {
-            beforeEach(function() {
-                this.plot.inPlay = false;
-
-                this.canChallenge = this.plot.canChallenge(this.playerSpy, 'intrigue');
-            });
-
-            it('should return true', function() {
-                expect(this.canChallenge).toBe(true);
-            });
+        beforeEach(function() {
+            this.canChallenge = this.plot.canChallenge(this.playerSpy, 'intrigue');
         });
 
-        describe('and this plot is in play', function() {
-            beforeEach(function() {
-                this.plot.inPlay = true;
-
-                this.canChallenge = this.plot.canChallenge(this.playerSpy, 'intrigue');
-            });
-
-            it('should return true', function() {
-                expect(this.canChallenge).toBe(true);
-            });
+        it('should return true', function() {
+            expect(this.canChallenge).toBe(true);
         });
     });
 
     describe('when called for power challenge', function() {
-        describe('and this plot is not in play', function() {
+        describe('and no intrique challenges have been won yet this round', function() {
             beforeEach(function() {
-                this.plot.inPlay = false;
+                this.canChallenge = this.plot.canChallenge(this.playerSpy, 'power');
+            });
 
+            it('should return false', function() {
+                expect(this.canChallenge).toBe(false);
+            });
+        });
+
+        describe('and at least one intrigue challenge has been won this round', function() {
+            beforeEach(function() {
+                this.playerSpy.getNumberOfChallengesWon.and.returnValue(1);
                 this.canChallenge = this.plot.canChallenge(this.playerSpy, 'power');
             });
 
@@ -56,72 +49,27 @@ describe('AGameOfThrones', function() {
                 expect(this.canChallenge).toBe(true);
             });
         });
-
-        describe('and this plot is in play', function() {
-            beforeEach(function() {
-                this.plot.inPlay = true;
-            });
-
-            describe('and no intrique challenges have been won yet this round', function() {
-                beforeEach(function() {
-                    this.canChallenge = this.plot.canChallenge(this.playerSpy, 'power');
-                });
-
-                it('should return false', function() {
-                    expect(this.canChallenge).toBe(false);
-                });
-            });
-
-            describe('and at least one intrigue challenge has been won this round', function() {
-                beforeEach(function() {
-                    this.playerSpy.getNumberOfChallengesWon.and.returnValue(1);
-                    this.canChallenge = this.plot.canChallenge(this.playerSpy, 'power');
-                });
-
-                it('should return true', function() {
-                    expect(this.canChallenge).toBe(true);
-                });
-            });
-        });
     });
 
     describe('when called for military challenge', function() {
-        describe('and this plot is not in play', function() {
+        describe('and no intrique challenges have been won yet this round', function() {
             beforeEach(function() {
-                this.plot.inPlay = false;
+                this.canChallenge = this.plot.canChallenge(this.playerSpy, 'military');
+            });
 
+            it('should return false', function() {
+                expect(this.canChallenge).toBe(false);
+            });
+        });
+
+        describe('and at least one intrigue challenge has been won this round', function() {
+            beforeEach(function() {
+                this.playerSpy.getNumberOfChallengesWon.and.returnValue(1);
                 this.canChallenge = this.plot.canChallenge(this.playerSpy, 'military');
             });
 
             it('should return true', function() {
                 expect(this.canChallenge).toBe(true);
-            });
-        });
-
-        describe('and this plot is in play', function() {
-            beforeEach(function() {
-                this.plot.inPlay = true;
-            });
-
-            describe('and no intrique challenges have been won yet this round', function() {
-                beforeEach(function() {
-                    this.canChallenge = this.plot.canChallenge(this.playerSpy, 'military');
-                });
-
-                it('should return false', function() {
-                    expect(this.canChallenge).toBe(false);
-                });
-            });
-
-            describe('and at least one intrigue challenge has been won this round', function() {
-                beforeEach(function() {
-                    this.playerSpy.getNumberOfChallengesWon.and.returnValue(1);
-                    this.canChallenge = this.plot.canChallenge(this.playerSpy, 'military');
-                });
-
-                it('should return true', function() {
-                    expect(this.canChallenge).toBe(true);
-                });
             });
         });
     });

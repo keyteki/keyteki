@@ -2,10 +2,6 @@ const PlotCard = require('../../../plotcard.js');
 
 class NavalSuperiority extends PlotCard {
     modifyIncome(player, income) {
-        if(!this.inPlay) {
-            return income;
-        }
-
         if(player.activePlot.hasTrait('Kingdom') || player.activePlot.hasTrait('Edict')) {
             this.game.addMessage('{0} uses {1} to treat the gold value of {2} as if it were 0', this.controller, this, player.activePlot);
 

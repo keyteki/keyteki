@@ -22,36 +22,14 @@ describe('Trading With The Pentoshi', function() {
     });
 
     describe('onReveal()', function() {
-        describe('when not in player', function() {
-            beforeEach(function() {
-                this.pentoshi.inPlay = false;
-            });
-
-            it('should not give the player 3 gold', function() {
-                this.pentoshi.onReveal(this.player1);
-                expect(this.player1.gold).toBe(0);
-            });
-
-            it('should not give the opponents 3 gold', function() {
-                this.pentoshi.onReveal(this.player1);
-                expect(this.player2.gold).toBe(0);
-            });
+        it('should not give the player 3 gold', function() {
+            this.pentoshi.onReveal(this.player1);
+            expect(this.player1.gold).toBe(0);
         });
 
-        describe('when in play', function() {
-            beforeEach(function() {
-                this.pentoshi.inPlay = true;
-            });
-
-            it('should not give the player 3 gold', function() {
-                this.pentoshi.onReveal(this.player1);
-                expect(this.player1.gold).toBe(0);
-            });
-
-            it('should give the opponents 3 gold', function() {
-                this.pentoshi.onReveal(this.player1);
-                expect(this.player2.gold).toBe(3);
-            });
+        it('should give the opponents 3 gold', function() {
+            this.pentoshi.onReveal(this.player1);
+            expect(this.player2.gold).toBe(3);
         });
     });
 });

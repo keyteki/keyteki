@@ -8,7 +8,7 @@ class TheLongPlan extends PlotCard {
     }
 
     onBeforeTaxation(event, player) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return;
         }
 
@@ -16,7 +16,7 @@ class TheLongPlan extends PlotCard {
     }
 
     afterChallenge(event, challenge) {
-        if(!this.inPlay || this.controller !== challenge.loser) {
+        if(this.controller !== challenge.loser) {
             return;
         }
 
@@ -33,7 +33,7 @@ class TheLongPlan extends PlotCard {
     }
 
     gainGold(player) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return false;
         }
 
@@ -45,7 +45,7 @@ class TheLongPlan extends PlotCard {
     }
 
     cancel(player) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return false;
         }
         

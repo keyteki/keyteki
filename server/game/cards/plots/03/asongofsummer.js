@@ -38,7 +38,7 @@ class ASongOfSummer extends PlotCard {
     }
 
     onCardPlayed(e, player, card) {
-        if(!this.inPlay || this.owner !== player) {
+        if(this.owner !== player) {
             return;
         }
 

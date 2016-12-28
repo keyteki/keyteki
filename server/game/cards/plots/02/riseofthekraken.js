@@ -9,7 +9,7 @@ class RiseOfTheKraken extends PlotCard {
 
     onUnopposedWin(e, challenge) {
         var player = challenge.winner;
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return;
         }
 
@@ -26,7 +26,7 @@ class RiseOfTheKraken extends PlotCard {
     }
 
     gainPower(player) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return false;
         }
 
@@ -38,7 +38,7 @@ class RiseOfTheKraken extends PlotCard {
     }
 
     cancel(player) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return false;
         }
         

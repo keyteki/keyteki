@@ -2,7 +2,7 @@ const PlotCard = require('../../../plotcard.js');
 
 class SummerHarvest extends PlotCard {
     onReveal(player) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return true;
         }
 

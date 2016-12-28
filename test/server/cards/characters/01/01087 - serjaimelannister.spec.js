@@ -30,7 +30,6 @@ describe('SerJaimeLannister', function() {
 
         describe('and this card is in play', function() {
             beforeEach(function() {
-                this.character.inPlay = true;
                 this.character.kneeled = true;
             });
 

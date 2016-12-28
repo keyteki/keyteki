@@ -8,7 +8,7 @@ class RattleshirtsRaiders extends DrawCard {
     }
 
     afterChallenge(event, challenge) {
-        if(!this.inPlay || challenge.attackingPlayer !== this.controller) {
+        if(challenge.attackingPlayer !== this.controller) {
             return;
         }
 
@@ -23,7 +23,7 @@ class RattleshirtsRaiders extends DrawCard {
         this.game.promptForSelect(this.controller, {
             activePromptTitle: 'Select attachment to discard',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            cardCondition: card => card.inPlay && card.controller === challenge.loser && card.getType() === 'attachment',
+            cardCondition: card => card.location === 'play area' && card.controller === challenge.loser && card.getType() === 'attachment',
             onSelect: (p, card) => this.onCardSelected(p, card)
         });
     }

@@ -8,7 +8,7 @@ class SealOfTheHand extends DrawCard {
     }
 
     kneel(player) {
-        if(!this.inPlay || !this.parent || !this.parent.kneeled) {
+        if(!this.parent || !this.parent.kneeled) {
             return;
         }
 

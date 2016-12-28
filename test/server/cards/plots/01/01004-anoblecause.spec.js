@@ -20,61 +20,51 @@ describe('ANobleCause', function() {
     });
 
     describe('canReduce', function() {
-        describe('when this plot is not active', function() {
-            it('should return false', function() {
-                expect(this.canReduce).toBe(false);
-            });
+        beforeEach(function() {
+            this.canReduce = this.plot.canReduce(this.playerSpy, this.cardSpy);
         });
 
-        describe('when this plot is active', function() {
+        describe('and the card is a lord or lady', function() {
             beforeEach(function() {
-                this.plot.inPlay = true;
+                this.cardSpy.hasTrait.and.returnValue(true);
 
                 this.canReduce = this.plot.canReduce(this.playerSpy, this.cardSpy);
             });
 
-            describe('and the card is a lord or lady', function() {
-                beforeEach(function() {
-                    this.cardSpy.hasTrait.and.returnValue(true);
-
-                    this.canReduce = this.plot.canReduce(this.playerSpy, this.cardSpy);
-                });
-
-                it('should return true', function() {
-                    expect(this.canReduce).toBe(true);
-                });
-
-                describe('and the plot has already been used this round', function() {
-                    beforeEach(function() {
-                        this.plot.abilityUsed = true;
-
-                        this.canReduce = this.plot.canReduce(this.playerSpy, this.cardSpy);
-                    });
-
-                    it('should return false', function() {
-                        expect(this.canReduce).toBe(false);
-                    });
-                });
-
-                describe('and the player is not my owner', function() {
-                    beforeEach(function() {
-                        this.canReduce = this.plot.canReduce(this.otherPlayerSpy, this.cardSpy);
-                    });
-
-                    it('should return false', function() {
-                        expect(this.canReduce).toBe(false);
-                    });
-                });
+            it('should return true', function() {
+                expect(this.canReduce).toBe(true);
             });
 
-            describe('and the card and neither a lord nor lady', function() {
+            describe('and the plot has already been used this round', function() {
                 beforeEach(function() {
+                    this.plot.abilityUsed = true;
+
                     this.canReduce = this.plot.canReduce(this.playerSpy, this.cardSpy);
                 });
 
                 it('should return false', function() {
                     expect(this.canReduce).toBe(false);
                 });
+            });
+
+            describe('and the player is not my owner', function() {
+                beforeEach(function() {
+                    this.canReduce = this.plot.canReduce(this.otherPlayerSpy, this.cardSpy);
+                });
+
+                it('should return false', function() {
+                    expect(this.canReduce).toBe(false);
+                });
+            });
+        });
+
+        describe('and the card and neither a lord nor lady', function() {
+            beforeEach(function() {
+                this.canReduce = this.plot.canReduce(this.playerSpy, this.cardSpy);
+            });
+
+            it('should return false', function() {
+                expect(this.canReduce).toBe(false);
             });
         });
     });

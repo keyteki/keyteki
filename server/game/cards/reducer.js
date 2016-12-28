@@ -12,7 +12,7 @@ class Reducer extends DrawCard {
     }
 
     canReduce(player, card) {
-        if(!this.inPlay || this.controller !== player || !this.kneeled || this.abilityUsed) {
+        if(this.controller !== player || !this.kneeled || this.abilityUsed) {
             return false;
         }
 
@@ -20,7 +20,7 @@ class Reducer extends DrawCard {
     }
 
     onClick(player) {
-        if(!this.inPlay || player.phase !== 'marshal' || this.controller !== player || this.kneeled || this.abilityUsed) {
+        if(player.phase !== 'marshal' || this.controller !== player || this.kneeled || this.abilityUsed) {
             return false;
         }
 

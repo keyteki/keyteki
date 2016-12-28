@@ -8,10 +8,6 @@ class AClashOfKings extends PlotCard {
     }
 
     afterChallenge(e, challenge) {
-        if(!this.inPlay) {
-            return;
-        }
-
         if(challenge.winner === this.controller && challenge.challengeType === 'power' && challenge.loser.power > 0) {
             this.game.addMessage('{0} uses {1} to move 1 power from {2}\'s faction card to their own', challenge.winner, this, challenge.loser);
 

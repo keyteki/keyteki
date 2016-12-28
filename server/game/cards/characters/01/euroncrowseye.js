@@ -11,7 +11,7 @@ class EuronCrowsEye extends DrawCard {
 
     onPillage(event, challenge, card) {
         var player = challenge.winner;
-        if(!this.inPlay || this.controller !== player || card !== this) {
+        if(this.controller !== player || card !== this) {
             return;
         }
 
@@ -47,7 +47,7 @@ class EuronCrowsEye extends DrawCard {
     }
 
     cancel(player) {
-        if(!this.inPlay || this.isBlank() || this.controller !== player) {
+        if(this.isBlank() || this.controller !== player) {
             return false;
         }
 

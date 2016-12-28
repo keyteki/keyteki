@@ -15,13 +15,13 @@ describe('RedCloaks', function() {
         this.otherPlayerSpy.game = this.gameSpy;
 
         this.card = new RedCloaks(this.playerSpy, {});
-        this.card.inPlay = true;
+        this.card.location = 'play area';
     });
 
     describe('addGold', function() {
         describe('when called while i am not in play', function() {
             beforeEach(function() {
-                this.card.inPlay = false;
+                this.card.location = 'discard pile';
                 this.playerSpy.gold = 10;
                 this.card.addGold(this.playerSpy);
             });
@@ -115,7 +115,7 @@ describe('RedCloaks', function() {
 
             describe('and this card is not in play', function() {
                 beforeEach(function() {
-                    this.card.inPlay = false;
+                    this.card.location = 'hand';
                     this.card.onAttackersDeclared({}, this.challenge);
                 });
 

@@ -15,11 +15,11 @@ class WildlingHorde extends DrawCard {
             return false;
         }
 
-        return card.inPlay && card.controller === player && card.hasTrait('Wildling') && currentChallenge.isAttacking(card);
+        return card.location === 'play area' && card.controller === player && card.hasTrait('Wildling') && currentChallenge.isAttacking(card);
     }
 
     kneelFactionCard(player) {
-        if(!this.inPlay || this.controller !== player || player.faction.kneeled) {
+        if(this.controller !== player || player.faction.kneeled) {
             return false;
         }
 
@@ -38,7 +38,7 @@ class WildlingHorde extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return false;
         }
 

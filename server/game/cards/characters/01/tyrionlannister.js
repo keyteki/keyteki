@@ -12,7 +12,7 @@ class TyrionLannister extends DrawCard {
     }
 
     onChallenge(event, challenge) {
-        if(!this.inPlay || challenge.challengeType !== 'intrigue' || this.abilityUsed >= 2) {
+        if(challenge.challengeType !== 'intrigue' || this.abilityUsed >= 2) {
             return;
         }
 

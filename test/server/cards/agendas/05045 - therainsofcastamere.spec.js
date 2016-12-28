@@ -7,7 +7,7 @@ const TheRainsOfCastamere = require('../../../../server/game/cards/agendas/thera
 
 describe('The Rains of Castamere', function() {
     function createPlotSpy(uuid, hasTrait) {
-        var plot = jasmine.createSpyObj('plot', ['hasTrait']);
+        var plot = jasmine.createSpyObj('plot', ['hasTrait', 'moveTo']);
         plot.uuid = uuid;
         plot.hasTrait.and.callFake(hasTrait);
         return plot;
@@ -78,6 +78,7 @@ describe('The Rains of Castamere', function() {
 
             it('should not make the plot leave play directly', function() {
                 expect(this.player.removeActivePlot).not.toHaveBeenCalled();
+                expect(this.plot1.moveTo).not.toHaveBeenCalled();
             });
         });
 
@@ -90,6 +91,7 @@ describe('The Rains of Castamere', function() {
 
             it('should remove the active plot from the game', function() {
                 expect(this.player.removeActivePlot).toHaveBeenCalled();
+                expect(this.scheme1.moveTo).toHaveBeenCalledWith('out of game');
             });
         });
     });

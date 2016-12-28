@@ -20,7 +20,7 @@ class Fealty extends Reducer {
     }
 
     canReduce(player, card) {
-        if(!this.inPlay || this.controller !== player || !player.faction.kneeled || this.abilityUsed) {
+        if(this.controller !== player || !player.faction.kneeled || this.abilityUsed) {
             return false;
         }
 

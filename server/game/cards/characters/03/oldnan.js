@@ -10,7 +10,7 @@ class OldNan extends DrawCard {
     }
 
     onPlotFlip() {
-        if(!this.inPlay || this.kneeled) {
+        if(this.kneeled) {
             return;
         }
 
@@ -36,7 +36,7 @@ class OldNan extends DrawCard {
     }
 
     plotSelected(player, cardId) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return false;
         }
 

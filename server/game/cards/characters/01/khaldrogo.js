@@ -8,10 +8,6 @@ class KhalDrogo extends DrawCard {
     }
 
     onPlotFlip() {
-        if(!this.inPlay) {
-            return;
-        }
-
         if(!this.isBlank()) {
             this.challengeAdded = true;
             this.controller.addChallenge('military', 1);

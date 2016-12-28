@@ -12,7 +12,7 @@ class Lannisport extends DrawCard {
     }
 
     afterChallenge(event, challenge) {
-        if(!this.inPlay || this.isBlank()) {
+        if(this.isBlank()) {
             return;
         }
 
@@ -33,7 +33,7 @@ class Lannisport extends DrawCard {
     }
 
     drawCard(player) {
-        if(!this.inPlay || this.isBlank() || this.controller !== player) {
+        if(this.isBlank() || this.controller !== player) {
             return false;
         }
 
@@ -45,7 +45,7 @@ class Lannisport extends DrawCard {
     }
 
     cancel(player) {
-        if(!this.inPlay || this.isBlank() || this.controller !== player) {
+        if(this.isBlank() || this.controller !== player) {
             return false;
         }
 

@@ -41,7 +41,6 @@ class PlotCard extends BaseCard {
     }
 
     flipFaceup() {
-        this.inPlay = true;
         this.facedown = false;
     }
 

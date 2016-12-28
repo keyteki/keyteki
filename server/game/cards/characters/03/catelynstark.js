@@ -11,7 +11,7 @@ class CatelynStark extends DrawCard {
     }
 
     updateStrength() {
-        if(!this.inPlay || this.isBlank()) {
+        if(this.isBlank()) {
             return;
         }
 
@@ -26,7 +26,7 @@ class CatelynStark extends DrawCard {
     }
 
     onCardSacrificed(event, player, card) {
-        if(!this.inPlay || this.isBlank() || this.controller !== player || this.abilityUsed >= 2) {
+        if(this.isBlank() || this.controller !== player || this.abilityUsed >= 2) {
             return;
         }
 
@@ -53,7 +53,7 @@ class CatelynStark extends DrawCard {
     }
 
     gainPower(player) {
-        if(!this.inPlay || this.isBlank() || this.controller !== player) {
+        if(this.isBlank() || this.controller !== player) {
             return false;
         }
 
@@ -67,7 +67,7 @@ class CatelynStark extends DrawCard {
     }
 
     cancel(player) {
-        if(!this.inPlay || this.isBlank() || this.controller !== player) {
+        if(this.isBlank() || this.controller !== player) {
             return false;
         }
 

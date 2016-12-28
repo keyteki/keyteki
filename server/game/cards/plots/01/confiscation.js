@@ -2,7 +2,7 @@ const PlotCard = require('../../../plotcard.js');
 
 class Confiscation extends PlotCard {
     onReveal(player) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return true;
         }
 
@@ -21,10 +21,6 @@ class Confiscation extends PlotCard {
     }
 
     onCardSelected(player, attachment) {
-        if(!this.inPlay) {
-            return false;
-        }
-
         attachment.owner.discardCard(attachment);
 
         this.game.addMessage('{0} uses {1} to discard {2}', player, this, attachment);

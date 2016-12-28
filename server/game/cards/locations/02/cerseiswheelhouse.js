@@ -8,7 +8,7 @@ class CerseisWheelhouse extends DrawCard {
     }
 
     onFirstPlayerDetermined(event, player) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return;
         }
 

@@ -8,7 +8,7 @@ class TheHound extends DrawCard {
     }
 
     afterChallenge(event, challenge) {
-        if(!this.inPlay || challenge.winner !== this.controller) {
+        if(challenge.winner !== this.controller) {
             return;
         }
 

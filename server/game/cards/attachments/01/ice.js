@@ -26,10 +26,6 @@ class Ice extends DrawCard {
     }
 
     afterChallenge(event, challenge) {
-        if(!this.inPlay) {
-            return;
-        }
-
         if(challenge.winner !== this.controller || challenge.challengeType !== 'military') {
             return;
         }
@@ -66,16 +62,16 @@ class Ice extends DrawCard {
         this.game.promptForSelect(this.controller, {
             activePromptTitle: 'Select a character to kill',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            cardCondition: card => card.inPlay && card.controller !== this.controller && card.getType() === 'character',
+            cardCondition: card => card.location === 'play area' && card.controller !== this.controller && card.getType() === 'character',
             onSelect: (p, card) => this.onCardSelected(p, card)
         });
     }
 
     cancel(player) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return false;
         }
-        
+
         this.game.addMessage('{0} declines to trigger {1}', player, this);
 
         return true;

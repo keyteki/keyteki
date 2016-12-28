@@ -24,7 +24,7 @@ class PutToTheTorch extends DrawCard {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a location to discard',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            cardCondition: card => card.inPlay && card.controller !== player && card.getType() === 'location',
+            cardCondition: card => card.location === 'play area' && card.controller !== player && card.getType() === 'location',
             onSelect: (p, card) => this.onCardSelected(p, card)
         });
     }

@@ -13,7 +13,7 @@ class GreatKraken extends DrawCard {
 
     onUnopposedWin(event, challenge) {
         var winner = challenge.winner;
-        if(!this.inPlay || this.isBlank() || this.controller !== winner || this.abilityUsed >= 2) {
+        if(this.isBlank() || this.controller !== winner || this.abilityUsed >= 2) {
             return;
         }
 
@@ -31,7 +31,7 @@ class GreatKraken extends DrawCard {
     }
 
     onCardPlayed(event, player, card) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return;
         }
 
@@ -41,7 +41,7 @@ class GreatKraken extends DrawCard {
     }
 
     gainPower(player) {
-        if(!this.inPlay || this.isBlank() || this.controller !== player) {
+        if(this.isBlank() || this.controller !== player) {
             return false;
         }
 
@@ -55,7 +55,7 @@ class GreatKraken extends DrawCard {
     }
 
     drawCard(player) {
-        if(!this.inPlay || this.isBlank() || this.controller !== player) {
+        if(this.isBlank() || this.controller !== player) {
             return false;
         }
 
@@ -69,7 +69,7 @@ class GreatKraken extends DrawCard {
     }
 
     cancel(player) {
-        if(!this.inPlay || this.isBlank() || this.controller !== player) {
+        if(this.isBlank() || this.controller !== player) {
             return false;
         }
 

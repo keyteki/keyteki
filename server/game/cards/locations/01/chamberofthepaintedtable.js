@@ -8,7 +8,7 @@ class ChamberOfThePaintedTable extends DrawCard {
     }
 
     onDominanceDetermined(event, winner) {
-        if(!this.inPlay || this.isBlank() || this.controller !== winner) {
+        if(this.isBlank() || this.controller !== winner) {
             return;
         }
 
@@ -25,7 +25,7 @@ class ChamberOfThePaintedTable extends DrawCard {
     }
 
     gainPower(player) {
-        if(!this.inPlay || this.isBlank() || this.controller !== player) {
+        if(this.isBlank() || this.controller !== player) {
             return false;
         }
 
@@ -41,7 +41,7 @@ class ChamberOfThePaintedTable extends DrawCard {
     }
 
     cancel(player) {
-        if(!this.inPlay || this.isBlank() || this.controller !== player) {
+        if(this.isBlank() || this.controller !== player) {
             return false;
         }
 

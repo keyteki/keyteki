@@ -243,7 +243,7 @@ class Player extends Spectator {
 
     initDrawDeck() {
         this.hand.each(card => {
-            card.location = 'draw deck';
+            card.moveTo('draw deck');
             this.drawDeck.push(card);
         });
         this.hand = _([]);
@@ -477,14 +477,19 @@ class Player extends Spectator {
 
         if(this.activePlot) {
             var previousPlot = this.removeActivePlot();
+            previousPlot.moveTo('revealed plots');
             this.plotDiscard.push(previousPlot);
         }
 
+        this.selectedPlot.moveTo('active plot');
         this.activePlot = this.selectedPlot;
         this.plotDeck = this.removeCardByUuid(this.plotDeck, this.selectedPlot.uuid);
 
         if(this.plotDeck.isEmpty()) {
             this.plotDeck = this.plotDiscard;
+            _.each(this.plotDeck, plot => {
+                plot.moveTo('plot deck');
+            });
             this.plotDiscard = _([]);
         }
 
@@ -543,9 +548,7 @@ class Player extends Spectator {
         attachment.owner.removeCardFromPile(attachment);
 
         attachment.parent = card;
-        attachment.facedown = false;
-        attachment.location = 'play area';
-        attachment.inPlay = true;
+        attachment.moveTo('play area');
 
         card.attachments.push(attachment);
 
@@ -666,7 +669,7 @@ class Player extends Spectator {
             return false;
         }
 
-        if(!card.inPlay) {
+        if(card.location !== 'play area') {
             return false;
         }
 
@@ -841,15 +844,11 @@ class Player extends Spectator {
             this.game.raiseEvent('onCardDiscarded', this, card);
         }
 
-        card.location = targetLocation;
+        card.moveTo(targetLocation);
         if(targetLocation === 'draw deck') {
             targetPile.unshift(card);
         } else {
             targetPile.push(card);
-        }
-
-        if(targetLocation !== 'play area') {
-            card.facedown = false;
         }
     }
 
@@ -862,9 +861,8 @@ class Player extends Spectator {
         if(!dupe) {
             return false;
         }
-        
-        dupe.facedown = false;
-        dupe.location = 'discard pile';
+
+        dupe.moveTo('discard pile');
         dupe.owner.discardPile.push(dupe);
         this.game.raiseEvent('onDupeDiscarded', this, card, dupe);
 

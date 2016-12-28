@@ -8,7 +8,7 @@ class ANobleCause extends PlotCard {
     }
 
     canReduce(player, card) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return false;
         }
 

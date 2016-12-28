@@ -13,7 +13,7 @@ class Shae extends DrawCard {
     }
 
     stand(player) {
-        if(!this.inPlay || this.controller !== player || this.usedThisPhase >= 2 || player.gold <= 0 || !this.kneeled) {
+        if(this.controller !== player || this.usedThisPhase >= 2 || player.gold <= 0 || !this.kneeled) {
             return;
         }
 

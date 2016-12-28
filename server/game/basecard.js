@@ -1,6 +1,8 @@
 const uuid = require('node-uuid');
 const _ = require('underscore');
 
+const EventRegistrar = require('./eventregistrar.js');
+
 const ValidKeywords = [
     'ambush',
     'insight',
@@ -11,6 +13,7 @@ const ValidKeywords = [
     'terminal',
     'limited'
 ];
+const LocationsWithEventHandling = ['play area', 'active plot', 'faction', 'agenda'];
 
 class BaseCard {
     constructor(owner, cardData) {
@@ -23,7 +26,6 @@ class BaseCard {
         this.code = cardData.code;
         this.name = cardData.name;
         this.facedown = false;
-        this.inPlay = false;
         this.blankCount = 0;
 
         this.tokens = {};
@@ -31,6 +33,8 @@ class BaseCard {
         this.menu = _([]);
         this.parseKeywords(cardData.text || '');
         this.parseTraits(cardData.traits || '');
+
+        this.events = new EventRegistrar(this.game, this);
     }
 
     parseKeywords(text) {
@@ -61,22 +65,14 @@ class BaseCard {
 
     parseTraits(traits) {
         this.traits = {};
-        
+
         var firstLine = traits.split('\n')[0];
 
         _.each(firstLine.split('.'), trait => this.addTrait(trait.toLowerCase().trim()));
     }
 
     registerEvents(events) {
-        this.events = [];
-
-        _.each(events, event => {
-            this[event] = this[event].bind(this);
-
-            this.game.on(event, this[event]);
-
-            this.events.push(event);
-        });
+        this.eventsForRegistration = events;
     }
 
     hasKeyword(keyword) {
@@ -94,16 +90,24 @@ class BaseCard {
     }
 
     play() {
-        this.inPlay = true;
     }
 
     leavesPlay() {
-        _.each(this.events, event => {
-            this.game.removeListener(event, this[event]);
-        });
-
-        this.inPlay = false;
         this.tokens = {};
+    }
+
+    moveTo(targetLocation) {
+        if(LocationsWithEventHandling.includes(targetLocation) && !LocationsWithEventHandling.includes(this.location)) {
+            this.events.register(this.eventsForRegistration);
+        } else if(LocationsWithEventHandling.includes(this.location) && !LocationsWithEventHandling.includes(targetLocation)) {
+            this.events.unregisterAll();
+        }
+
+        if(targetLocation !== 'play area') {
+            this.facedown = false;
+        }
+
+        this.location = targetLocation;
     }
 
     modifyDominance(player, strength) {

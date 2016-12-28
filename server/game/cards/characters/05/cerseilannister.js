@@ -13,7 +13,7 @@ class CerseiLannister extends DrawCard {
 
     onAttackersDeclared(e, challenge) {
         var player = challenge.attackingPlayer;
-        if(!this.inPlay || this.controller !== player || challenge.challengeType !== 'intrigue') {
+        if(this.controller !== player || challenge.challengeType !== 'intrigue') {
             return;
         }
 
@@ -23,7 +23,7 @@ class CerseiLannister extends DrawCard {
     }
 
     onCardDiscarded(event, player, card) {
-        if(!this.inPlay || this.controller === player || card.location !== 'hand' || this.abilityUsed >= 3 || this.isBlank()) {
+        if(this.controller === player || card.location !== 'hand' || this.abilityUsed >= 3 || this.isBlank()) {
             return;
         }
 

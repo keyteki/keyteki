@@ -16,7 +16,7 @@ class BodyGuard extends DrawCard {
     }
 
     onCharacterKilled(event, player, card, allowSave) {
-        if(!this.inPlay || this.parent !== card || !allowSave) {
+        if(this.parent !== card || !allowSave) {
             return;
         }
 

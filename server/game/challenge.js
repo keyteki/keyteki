@@ -1,5 +1,6 @@
 const _ = require('underscore');
 const Player = require('./player.js');
+const EventRegistrar = require('./eventregistrar.js');
 
 class Challenge {
     constructor(game, attackingPlayer, defendingPlayer, challengeType) {
@@ -14,6 +15,7 @@ class Challenge {
         this.defenders = [];
         this.defenderStrength = 0;
         this.defenderStrengthModifier = 0;
+        this.events = new EventRegistrar(game, this);
         this.registerEvents(['onCardLeftPlay']);
     }
 
@@ -145,21 +147,11 @@ class Challenge {
     }
 
     registerEvents(events) {
-        this.events = [];
-
-        _.each(events, event => {
-            this[event] = this[event].bind(this);
-
-            this.game.on(event, this[event]);
-
-            this.events.push(event);
-        });
+        this.events.register(events);
     }
 
     unregisterEvents() {
-        _.each(this.events, event => {
-            this.game.removeListener(event, this[event]);
-        });
+        this.events.unregisterAll();
     }
 }
 

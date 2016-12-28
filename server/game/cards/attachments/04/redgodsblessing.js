@@ -35,7 +35,7 @@ class RedGodsBlessing extends DrawCard {
     }
 
     onCardPlayed(event, player, card) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return;
         }
 
@@ -45,7 +45,7 @@ class RedGodsBlessing extends DrawCard {
     }
 
     onCardLeftPlay(event, player, card) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return;
         }
     

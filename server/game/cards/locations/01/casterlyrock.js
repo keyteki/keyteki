@@ -8,10 +8,6 @@ class CasterlyRock extends DrawCard {
     }
 
     onPlotFlip() {
-        if(!this.inPlay) {
-            return;
-        }
-
         if(!this.isBlank()) {
             this.controller.addChallenge('intrigue', 1);
         }

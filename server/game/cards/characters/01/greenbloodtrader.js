@@ -23,7 +23,7 @@ class GreenbloodTrader extends DrawCard {
     }
 
     trigger(player) {
-        if(!this.inPlay || this.isBlank() || this.controller !== player) {
+        if(this.isBlank() || this.controller !== player) {
             return false;
         }
 
@@ -47,7 +47,7 @@ class GreenbloodTrader extends DrawCard {
     }
 
     getCard(player, cardId) {
-        if(!this.inPlay || this.isBlank() || this.controller !== player) {
+        if(this.isBlank() || this.controller !== player) {
             return undefined;
         }
 
@@ -114,7 +114,7 @@ class GreenbloodTrader extends DrawCard {
     }
 
     cancel(player) {
-        if(!this.inPlay || this.isBlank() || this.controller !== player) {
+        if(this.isBlank() || this.controller !== player) {
             return false;
         }
 

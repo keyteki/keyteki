@@ -2,7 +2,7 @@ const PlotCard = require('../../../plotcard.js');
 
 class CloseCall extends PlotCard {
     onReveal(player) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return true;
         }
 
@@ -21,10 +21,6 @@ class CloseCall extends PlotCard {
     }
 
     onCardSelected(player, card) {
-        if(!this.inPlay) {
-            return false;
-        }
-
         player.moveCard(card, 'discard pile');
 
         this.game.addMessage('{0} uses {1} to move {2} to their discard pile', player, this, card);

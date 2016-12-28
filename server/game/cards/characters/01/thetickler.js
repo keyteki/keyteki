@@ -8,7 +8,7 @@ class TheTickler extends DrawCard {
     }
 
     onDominanceDetermined(event, player) {
-        if(!this.inPlay || this.kneeled) {
+        if(this.kneeled) {
             return;
         }
 
@@ -40,7 +40,7 @@ class TheTickler extends DrawCard {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a copy of ' + this.topCard.name + ' to discard',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            cardCondition: card => card.inPlay && card.name === this.topCard.name,
+            cardCondition: card => card.location === 'play area' && card.name === this.topCard.name,
             onSelect: (p, card) => this.onCardSelected(p, card)
         });
 

@@ -13,7 +13,7 @@ class RedCloaks extends DrawCard {
     }
 
     addGold(player) {
-        if(!this.inPlay || this.controller !== player || this.usedThisPhase || player.gold <= 0) {
+        if(this.location !== 'play area' || this.controller !== player || this.usedThisPhase || player.gold <= 0) {
             return;
         }
 
@@ -30,7 +30,7 @@ class RedCloaks extends DrawCard {
     }
 
     onAttackersDeclared(e, challenge) {
-        if(!this.inPlay || this.controller !== challenge.attackingPlayer || challenge.challengeType !== 'intrigue') {
+        if(this.location !== 'play area' || this.controller !== challenge.attackingPlayer || challenge.challengeType !== 'intrigue') {
             return;
         }
 

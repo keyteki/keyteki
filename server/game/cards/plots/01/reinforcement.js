@@ -2,7 +2,7 @@ const PlotCard = require('../../../plotcard.js');
 
 class Reinforcements extends PlotCard {
     onReveal(player) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return true;
         }
 
@@ -25,10 +25,6 @@ class Reinforcements extends PlotCard {
     }
 
     onCardClicked(player, card) {
-        if(!this.inPlay) {
-            return false;
-        }
-
         var hand = !!player.findCardByUuid(player.hand, card.uuid);
 
         this.game.addMessage('{0} uses {1} to put {2} into play from their {3}', player, this, card, hand ? 'hand' : 'discard pile');

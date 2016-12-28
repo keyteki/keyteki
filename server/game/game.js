@@ -382,7 +382,7 @@ class Game extends EventEmitter {
             this.promptForSelect(player, {
                 activePromptTitle: 'Select a card to set power for',
                 waitingPromptTitle: 'Waiting for opponent to set power',
-                cardCondition: card => card.inPlay && card.controller === player,
+                cardCondition: card => card.location === 'play area' && card.controller === player,
                 onSelect: (p, card) => {
                     card.power = num;
                     this.addMessage('{0} uses the /power command to set the power of {1} to {2}', p, card, num);
@@ -421,7 +421,7 @@ class Game extends EventEmitter {
             this.promptForSelect(player, {
                 activePromptTitle: 'Select a card to set strength for',
                 waitingPromptTitle: 'Waiting for opponent to set strength',
-                cardCondition: card => card.inPlay && card.controller === player && card.getType() === 'character',
+                cardCondition: card => card.location === 'play area' && card.controller === player && card.getType() === 'character',
                 onSelect: (p, card) => {
                     card.strengthModifier = num - card.cardData.strength;
                     this.addMessage('{0} uses the /strength command to set the strength of {1} to {2}', p, card, num);

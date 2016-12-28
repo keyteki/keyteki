@@ -2,7 +2,7 @@ const PlotCard = require('../../../plotcard.js');
 
 class FilthyAccusations extends PlotCard {
     onReveal(player) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return true;
         }
 
@@ -20,10 +20,6 @@ class FilthyAccusations extends PlotCard {
     }
 
     onCardSelected(player, card) {
-        if(!this.inPlay) {
-            return false;
-        }
-
         card.kneeled = true;
 
         this.game.addMessage('{0} uses {1} to kneel {2}', player, this, card);

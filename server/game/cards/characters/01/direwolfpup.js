@@ -24,7 +24,7 @@ class DirewolfPup extends DrawCard {
     }
 
     onCardPlayed(e, player) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return;
         }
 
@@ -32,7 +32,7 @@ class DirewolfPup extends DrawCard {
     }
 
     onCardLeftPlay(e, player) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return;
         }
 

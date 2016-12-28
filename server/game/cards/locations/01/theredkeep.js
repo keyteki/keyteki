@@ -8,10 +8,6 @@ class TheRedKeep extends DrawCard {
     }
 
     onAttackersDeclared(event, challenge) {
-        if(!this.inPlay) {
-            return;
-        }
-
         if(challenge.challengeType === 'power' && challenge.attackers.length > 0) {
             challenge.modifyAttackerStrength(2);
 
@@ -20,7 +16,7 @@ class TheRedKeep extends DrawCard {
     }
 
     onEndChallengePhase() {
-        if(!this.inPlay || this.kneeled) {
+        if(this.kneeled) {
             return;
         }
 
@@ -39,7 +35,7 @@ class TheRedKeep extends DrawCard {
     }
 
     drawTwo(player) {
-        if(!this.inPlay || this.isBlank() || this.controller !== player) {
+        if(this.isBlank() || this.controller !== player) {
             return false;
         }
 
@@ -51,7 +47,7 @@ class TheRedKeep extends DrawCard {
     }
 
     cancel(player) {
-        if(!this.inPlay || this.isBlank() || this.controller !== player) {
+        if(this.isBlank() || this.controller !== player) {
             return false;
         }
 

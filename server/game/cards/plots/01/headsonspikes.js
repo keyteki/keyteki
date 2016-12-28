@@ -4,7 +4,7 @@ const PlotCard = require('../../../plotcard.js');
 
 class HeadsOnSpikes extends PlotCard {
     onReveal(player) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return true;
         }
 

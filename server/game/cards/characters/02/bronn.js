@@ -10,7 +10,7 @@ class Bronn extends DrawCard {
     }
 
     onChallenge(e, challenge) {
-        if(!this.inPlay || this.controller !== challenge.defendingPlayer) {
+        if(this.controller !== challenge.defendingPlayer) {
             return;
         }
 
@@ -20,7 +20,7 @@ class Bronn extends DrawCard {
     }
 
     onChallengeFinished(e, challenge) {
-        if(!this.inPlay || this.controller !== challenge.defendingPlayer) {
+        if(this.controller !== challenge.defendingPlayer) {
             return;
         }
 
@@ -30,7 +30,7 @@ class Bronn extends DrawCard {
     }
 
     takeControl(player) {
-        if(!this.inPlay || player.controller === this.controller || player.gold < 1) {
+        if(player.controller === this.controller || player.gold < 1) {
             return;
         }
 

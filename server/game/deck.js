@@ -33,14 +33,13 @@ class Deck {
         } else {
             result.faction = new DrawCard(player, { type_code: 'faction' });
         }
-        result.faction.location = 'faction';
+        result.faction.moveTo('faction');
 
         result.allCards = [result.faction].concat(result.drawCards).concat(result.plotCards);
 
         if(this.data.agenda) {
             result.agenda = this.createCard(AgendaCard, player, this.data.agenda);
-            result.agenda.inPlay = true;
-            result.agenda.location = 'agenda';
+            result.agenda.moveTo('agenda');
             result.allCards.push(result.agenda);
         } else {
             result.agenda = undefined;

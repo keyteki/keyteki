@@ -1,4 +1,4 @@
-/* global describe, it, beforeEach, expect, jasmine, spyOn */
+/* global describe, it, beforeEach, expect, jasmine */
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
 const _ = require('underscore');
@@ -15,7 +15,7 @@ describe('Player', () => {
             this.gameSpy.players = [];
             this.gameSpy.players[this.player.name] = this.player;
 
-            this.cardSpy = jasmine.createSpyObj('card', ['getType', 'leavesPlay']);
+            this.cardSpy = jasmine.createSpyObj('card', ['getType', 'leavesPlay', 'moveTo']);
             this.cardSpy.uuid = '1111';
             this.cardSpy.controller = this.cardSpy.owner = this.player;
             this.cardSpy.attachments = _([]);
@@ -300,7 +300,7 @@ describe('Player', () => {
 
             describe('when two cards are dragged to the draw deck', function() {
                 beforeEach(function() {
-                    this.cardSpy2 = jasmine.createSpyObj('card', ['getType']);
+                    this.cardSpy2 = jasmine.createSpyObj('card', ['getType', 'moveTo']);
                     this.cardSpy2.uuid = '2222';
                     this.cardSpy2.controller = this.player;
                     this.player.hand.push(this.cardSpy2);

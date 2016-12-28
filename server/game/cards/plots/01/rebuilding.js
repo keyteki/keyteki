@@ -4,7 +4,7 @@ const PlotCard = require('../../../plotcard.js');
 
 class Rebuilding extends PlotCard {
     onReveal(player) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return true;
         }
 
@@ -25,10 +25,6 @@ class Rebuilding extends PlotCard {
     }
 
     doneSelect(player, cards) {
-        if(!this.inPlay) {
-            return false;
-        }
-
         var params = '';
         var paramIndex = 2;
 

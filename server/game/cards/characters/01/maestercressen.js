@@ -24,7 +24,7 @@ class MaesterCressen extends DrawCard {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select an attachment to discard',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            cardCondition: card => card.inPlay && card.getType() === 'attachment' && card.hasTrait('condition'),
+            cardCondition: card => card.location === 'play area' && card.getType() === 'attachment' && card.hasTrait('condition'),
             onSelect: (p, card) => this.onCardSelected(p, card)
         });
 

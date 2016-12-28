@@ -2,7 +2,7 @@ const PlotCard = require('../../../plotcard.js');
 
 class CalmOverWesteros extends PlotCard {
     onReveal(player) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return true;
         }
 
@@ -34,7 +34,7 @@ class CalmOverWesteros extends PlotCard {
     }
 
     modifyClaim(player, challengeType, claim) {
-        if(!this.inPlay || player === this.controller || this.challengeType !== challengeType) {
+        if(player === this.controller || this.challengeType !== challengeType) {
             return claim;
         }
 

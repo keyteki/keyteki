@@ -10,7 +10,7 @@ class GoldCloaks extends DrawCard {
     }
 
     onPhaseEnded() {
-        if(!this.inPlay || !this.wasAmbush) {
+        if(!this.wasAmbush) {
             return;
         }
 

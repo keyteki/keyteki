@@ -27,6 +27,7 @@ class TheRainsOfCastamere extends AgendaCard {
         }
 
         this.owner.removeActivePlot();
+        previousPlot.moveTo('out of game');
     }
 
     afterChallenge(e, challenge) {

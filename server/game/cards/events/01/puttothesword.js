@@ -24,7 +24,7 @@ class PutToTheSword extends DrawCard {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a character to kill',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            cardCondition: card => card.inPlay && card.controller !== player && card.getType() === 'character',
+            cardCondition: card => card.location === 'play area' && card.controller !== player && card.getType() === 'character',
             onSelect: (p, card) => this.onCardSelected(p, card)
         });
     }

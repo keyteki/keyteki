@@ -10,7 +10,7 @@ class BitterbridgeEncampment extends DrawCard {
     }
 
     onPlotRevealed(event, player) {
-        if(!this.inPlay || this.kneeled || !player.activePlot.hasTrait('Summer')) {
+        if(this.kneeled || !player.activePlot.hasTrait('Summer')) {
             return;
         }
 
@@ -33,7 +33,7 @@ class BitterbridgeEncampment extends DrawCard {
     }
 
     kneel(player) {
-        if(!this.inPlay || this.controller !== player) {
+        if(this.controller !== player) {
             return false;
         }
 
