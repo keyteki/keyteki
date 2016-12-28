@@ -131,13 +131,6 @@ export function receiveJoinGame(game) {
     };
 }
 
-export function receiveUpdateGame(game) {
-    return {
-        type: 'RECEIVE_UPDATEGAME',
-        game: game
-    };
-}
-
 export function receiveLeaveGame(game, isMe) {
     return {
         type: 'RECEIVE_LEAVEGAME',
@@ -146,10 +139,10 @@ export function receiveLeaveGame(game, isMe) {
     };
 }
 
-export function receiveGameState(state, username) {
+export function receiveGameState(game, username) {
     return {
         type: 'RECEIVE_GAMESTATE',
-        state: state,
+        currentGame: game,
         username: username
     };
 }

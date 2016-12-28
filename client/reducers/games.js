@@ -33,10 +33,6 @@ function games(state = {
             return Object.assign({}, state, {
                 currentGame: action.game
             });
-        case 'RECEIVE_UPDATEGAME':
-            return Object.assign({}, state, {
-                currentGame: action.game
-            });
         case 'RECEIVE_LEAVEGAME':
             var retState = Object.assign({}, state, {
                 currentGame: action.game
@@ -44,19 +40,17 @@ function games(state = {
 
             if(action.isMe) {
                 delete retState.currentGame;
-                delete retState.state;
             }
 
             return retState;
         case 'RECEIVE_GAMESTATE':
             retState = Object.assign({}, state, {
-                state: action.state
+                currentGame: action.currentGame
             });
 
-            var currentState = state.state;
+            var currentState = state.currentGame;
 
             if(currentState && currentState.players[action.username] && currentState.players[action.username].left) {
-                delete retState.state;
                 delete retState.currentGame;
             }
 

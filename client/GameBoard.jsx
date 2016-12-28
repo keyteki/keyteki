@@ -43,7 +43,7 @@ export class InnerGameBoard extends React.Component {
     }
 
     componentWillReceiveProps(props) {
-        var thisPlayer = props.state.players[props.username];
+        var thisPlayer = props.currentGame.players[props.username];
 
         if(thisPlayer) {
             this.setState({ spectating: false });
@@ -61,7 +61,7 @@ export class InnerGameBoard extends React.Component {
             { text: 'Leave Game', onClick: this.onLeaveClick }
         ];
 
-        if(props.currentGame) {
+        if(props.currentGame && props.currentGame.started) {
             if(_.find(props.currentGame.players, p => {
                 return p.name === props.username;
             })) {
@@ -225,16 +225,16 @@ export class InnerGameBoard extends React.Component {
     }
 
     render() {
-        if(!this.props.state) {
+        if(!this.props.currentGame) {
             return <div>Waiting for server...</div>;
         }
 
-        var thisPlayer = this.props.state.players[this.props.username];
+        var thisPlayer = this.props.currentGame.players[this.props.username];
         if(!thisPlayer) {
-            thisPlayer = _.toArray(this.props.state.players)[0];
+            thisPlayer = _.toArray(this.props.currentGame.players)[0];
         }
 
-        var otherPlayer = _.find(this.props.state.players, player => {
+        var otherPlayer = _.find(this.props.currentGame.players, player => {
             return player.name !== thisPlayer.name;
         });
 
@@ -292,9 +292,9 @@ export class InnerGameBoard extends React.Component {
                                 </div>
                                 <div className='plot-group'>
                                     <CardCollection className='plot' title='Used Plots' source='revealed plots' cards={otherPlayer ? otherPlayer.plotDiscard : []}
-                                                    topCard={otherPlayer ? otherPlayer.activePlot : undefined}  orientation='horizontal' onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} />
+                                                    topCard={otherPlayer ? otherPlayer.activePlot : undefined} orientation='horizontal' onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} />
                                     <CardCollection className='plot' title='Used Plots' source='revealed plots' cards={thisPlayer.plotDiscard} topCard={thisPlayer.activePlot}
-                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut}  orientation='horizontal' onMenuItemClick={this.onMenuItemClick} />
+                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} orientation='horizontal' onMenuItemClick={this.onMenuItemClick} />
                                 </div>
                             </div>
 
@@ -340,7 +340,7 @@ export class InnerGameBoard extends React.Component {
                         show={!!this.props.cardToZoom} cardName={this.props.cardToZoom ? this.props.cardToZoom.name : null} />
                     <div className='chat'>
                         <div className='messages panel' ref='messagePanel' onScroll={this.onScroll}>
-                            <Messages messages={this.props.state.messages} onCardMouseOver={this.onMouseOver} onCardMouseOut={this.onMouseOut} />
+                            <Messages messages={this.props.currentGame.messages} onCardMouseOver={this.onMouseOver} onCardMouseOut={this.onMouseOut} />
                         </div>
                         <form>
                             <input className='form-control' placeholder='Chat...' onKeyPress={this.onKeyPress} onChange={this.onChange}
@@ -360,7 +360,6 @@ InnerGameBoard.propTypes = {
     sendSocketMessage: React.PropTypes.func,
     setContextMenu: React.PropTypes.func,
     socket: React.PropTypes.object,
-    state: React.PropTypes.object,
     username: React.PropTypes.string,
     zoomCard: React.PropTypes.func
 };
@@ -370,7 +369,6 @@ function mapStateToProps(state) {
         cardToZoom: state.cards.zoomCard,
         currentGame: state.games.currentGame,
         socket: state.socket.socket,
-        state: state.games.state,
         username: state.auth.username
     };
 }

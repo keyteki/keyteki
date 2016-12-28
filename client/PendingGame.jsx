@@ -134,7 +134,7 @@ class InnerPendingGame extends React.Component {
             return;
         }
 
-        this.props.socket.emit('chat', this.state.message);
+        this.props.sendSocketMessage('chat', this.state.message);
 
         this.setState({ message: '' });
     }
@@ -238,6 +238,7 @@ InnerPendingGame.displayName = 'PendingGame';
 InnerPendingGame.propTypes = {
     cards: React.PropTypes.array,
     currentGame: React.PropTypes.object,
+    sendSocketMessage: React.PropTypes.func,
     socket: React.PropTypes.object,
     username: React.PropTypes.string,
     zoomCard: React.PropTypes.func

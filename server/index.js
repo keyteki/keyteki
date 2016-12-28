@@ -264,12 +264,6 @@ function removePlayerFromGame(game, socket, reason) {
     }
 }
 
-function updateGame(game) {
-    _.each(game.players, player => {
-        io.to(player.id).emit('updategame', game.getState(player.name));
-    });
-}
-
 function sendGameState(game) {
     _.each(game.players, player => {
         io.to(player.id).emit('gamestate', game.getState(player.name));
@@ -433,7 +427,7 @@ io.on('connection', function(socket) {
             game.selectDeck(socket.request.user.username, deck);
         });
 
-        updateGame(game);
+        sendGameState(game);
     });
 
     socket.on('leavegame', function(gameid) {
@@ -479,7 +473,6 @@ io.on('connection', function(socket) {
             game.started = true;
 
             game.initialise();
-            updateGame(game);
             sendGameState(game);
 
             refreshGameList();
@@ -493,7 +486,7 @@ io.on('connection', function(socket) {
 
         var game = findGameForPlayer(socket.request.user.username);
 
-        if(!game || !game.playStarted || !game[command] || !_.isFunction(game[command])) {
+        if(!game || (!game.playStarted && command !== 'chat') || !game[command] || !_.isFunction(game[command])) {
             return;
         }
 
