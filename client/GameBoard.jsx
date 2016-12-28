@@ -42,7 +42,21 @@ export class InnerGameBoard extends React.Component {
         };
     }
 
+    componentDidMount() {
+        this.updateContextMenu(this.props);
+    }
+
     componentWillReceiveProps(props) {
+        this.updateContextMenu(props);
+    }
+
+    componentDidUpdate() {
+        if(this.state.canScroll) {
+            $(this.refs.messagePanel).scrollTop(999999);
+        }
+    }
+
+    updateContextMenu(props) {
         var thisPlayer = props.currentGame.players[props.username];
 
         if(thisPlayer) {
@@ -74,13 +88,7 @@ export class InnerGameBoard extends React.Component {
         } else {
             this.setContextMenu([]);
         }
-    }
-
-    componentDidUpdate() {
-        if(this.state.canScroll) {
-            $(this.refs.messagePanel).scrollTop(999999);
-        }
-    }
+    }    
 
     setContextMenu(menu) {
         if(this.props.setContextMenu) {
