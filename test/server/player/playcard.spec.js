@@ -13,7 +13,7 @@ describe('Player', function() {
     describe('playCard', function() {
         beforeEach(function() {
             this.canPlaySpy = spyOn(this.player, 'canPlayCard');
-            this.cardSpy = jasmine.createSpyObj('card', ['getType', 'getCost', 'isUnique', 'isLimited', 'play', 'isAmbush', 'moveTo']);
+            this.cardSpy = jasmine.createSpyObj('card', ['getType', 'getCost', 'isUnique', 'isLimited', 'play', 'isAmbush', 'moveTo', 'getAmbushCost']);
             this.dupeCardSpy = jasmine.createSpyObj('dupecard', ['addDuplicate']);
 
             this.canPlaySpy.and.returnValue(true);
@@ -66,6 +66,34 @@ describe('Player', function() {
 
                 it('should remove the card from hand', function() {
                     expect(this.player.hand).not.toContain(this.cardSpy);
+                });
+            });
+        });
+
+        describe('when the card has ambush', function() {
+            beforeEach(function() {
+                this.cardSpy.isAmbush.and.returnValue(true);
+            });
+
+            describe('and it is the challenge phase', function() {
+                beforeEach(function() {
+                    this.player.phase = 'challenge';
+                    this.canPlay = this.player.playCard(this.cardSpy, false);
+                });
+
+                it('should play the card as an ambush', function() {
+                    expect(this.cardSpy.play).toHaveBeenCalledWith(this.player, true);
+                });
+            });
+
+            describe('and it is not the challenge phase', function() {
+                beforeEach(function() {
+                    this.player.phase = 'setup';
+                    this.canPlay = this.player.playCard(this.cardSpy, false);
+                });
+
+                it('should not play the card as an ambush', function() {
+                    expect(this.cardSpy.play).toHaveBeenCalledWith(this.player, false);
                 });
             });
         });
