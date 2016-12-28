@@ -1,0 +1,84 @@
+/* global describe, it, beforeEach, expect, jasmine */
+/* eslint camelcase: 0, no-invalid-this: 0 */
+
+const _ = require('underscore');
+const Player = require('../../../server/game/player.js');
+
+describe('Player', function() {
+    describe('flipPlotFaceup()', function() {
+        beforeEach(function() {
+            this.gameSpy = jasmine.createSpyObj('game', ['on', 'getOtherPlayer']);
+
+            this.player = new Player('1', 'Player 1', true, this.gameSpy);
+            this.player.initialise();
+
+            this.selectedPlotSpy = jasmine.createSpyObj('plot', ['flipFaceup', 'moveTo']);
+            this.selectedPlotSpy.uuid = '111';
+            this.anotherPlotSpy = jasmine.createSpyObj('plot', ['flipFaceup', 'moveTo']);
+
+            this.player.selectedPlot = this.selectedPlotSpy;
+            this.player.plotDeck = _([this.selectedPlotSpy, this.anotherPlotSpy]);
+        });
+
+        describe('on any flip', function() {
+            beforeEach(function() {
+                this.player.flipPlotFaceup();
+            });
+
+            it('should flip the selected plot face up', function() {
+                expect(this.selectedPlotSpy.flipFaceup).toHaveBeenCalled();
+            });
+
+            it('should move the plot to the active plot slot', function() {
+                expect(this.selectedPlotSpy.moveTo).toHaveBeenCalledWith('active plot');
+                expect(this.player.activePlot).toBe(this.selectedPlotSpy);
+            });
+
+            it('should unselect the plot', function() {
+                expect(this.player.selectedPlot).toBeFalsy();
+            });
+
+            it('should remove the selected plot from the plot deck', function() {
+                expect(this.player.plotDeck).not.toContain(this.selectedPlotSpy);
+            });
+        });
+
+        describe('when there is an active plot', function() {
+            beforeEach(function() {
+                this.activePlotSpy = jasmine.createSpyObj('plot', ['leavesPlay', 'moveTo']);
+                this.player.activePlot = this.activePlotSpy;
+
+                this.player.flipPlotFaceup();
+            });
+
+            it('should move the plot to the revealed plots pile', function() {
+                expect(this.activePlotSpy.moveTo).toHaveBeenCalledWith('revealed plots');
+                expect(this.player.plotDiscard).toContain(this.activePlotSpy);
+            });
+
+            it('should have the plot leave play', function() {
+                expect(this.activePlotSpy.leavesPlay).toHaveBeenCalled();
+            });
+        });
+
+        describe('when the selected plot is the last', function() {
+            beforeEach(function() {
+                this.player.plotDeck = _([this.selectedPlotSpy]);
+                this.player.plotDiscard = _([this.anotherPlotSpy]);
+
+                this.player.flipPlotFaceup();
+            });
+
+            it('should move the contents of the used plots pile back to the plots pile', function() {
+                expect(this.anotherPlotSpy.moveTo).toHaveBeenCalledWith('plot deck');
+                expect(this.player.plotDeck).toContain(this.anotherPlotSpy);
+                expect(this.player.plotDiscard).not.toContain(this.anotherPlotSpy);
+            });
+
+            it('should not move the just revealed plot to any of the piles', function() {
+                expect(this.player.plotDeck).not.toContain(this.selectedPlotSpy);
+                expect(this.player.plotDiscard).not.toContain(this.selectedPlotSpy);
+            });
+        });
+    });
+});

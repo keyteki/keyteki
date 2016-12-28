@@ -487,7 +487,7 @@ class Player extends Spectator {
 
         if(this.plotDeck.isEmpty()) {
             this.plotDeck = this.plotDiscard;
-            _.each(this.plotDeck, plot => {
+            this.plotDeck.each(plot => {
                 plot.moveTo('plot deck');
             });
             this.plotDiscard = _([]);
