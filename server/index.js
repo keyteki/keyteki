@@ -308,9 +308,11 @@ io.on('connection', function(socket) {
 
         if(game) {
             runAndCatchErrors(game, () => {
-                game.reconnect(socket.id, socket.request.user.username);
+                if(!game.players[socket.request.user.username].noReconnect) {
+                    game.reconnect(socket.id, socket.request.user.username);        
 
-                sendGameState(game);
+                    sendGameState(game);
+                }
             });
         }
     }
@@ -439,6 +441,8 @@ io.on('connection', function(socket) {
         if(!game) {
             return;
         }
+
+        game.players[socket.request.user.username].noReconnect = true;
 
         runAndCatchErrors(game, () => {
             removePlayerFromGame(game, socket, 'has left the game');
