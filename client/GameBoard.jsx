@@ -57,6 +57,10 @@ export class InnerGameBoard extends React.Component {
     }
 
     updateContextMenu(props) {
+        if(!props.currentGame) {
+            return;
+        }
+
         var thisPlayer = props.currentGame.players[props.username];
 
         if(thisPlayer) {
