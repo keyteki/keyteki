@@ -387,16 +387,16 @@ class Player extends Spectator {
             this.removeCardFromPile(card);
             dupeCard.addDuplicate(card);
         } else {
-            if(this.phase !== 'setup') {
-                this.game.raiseEvent('onCardEntersPlay', card);
-            }
-
             card.facedown = this.phase === 'setup';
             if(!dupeCard) {
                 card.play(this, isAmbush);
             }
             card.new = true;
             this.moveCard(card, 'play area');
+
+            if(this.phase !== 'setup') {
+                this.game.raiseEvent('onCardEntersPlay', card);
+            }
         }
 
         if(card.isLimited() && !forcePlay) {
