@@ -30,7 +30,7 @@ class InnerPendingGame extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         $.ajax({
             url: '/api/decks',
             type: 'GET'
@@ -162,6 +162,10 @@ class InnerPendingGame extends React.Component {
     }
 
     render() {
+        if(this.props.currentGame && this.props.currentGame.started) {
+            return <div>Loading game in progress, please wait...</div>;
+        }
+
         var index = 0;
         var decks = this.state.decks ? _.map(this.state.decks, deck => {
             var row = <DeckRow key={deck.name + index.toString()} deck={deck} onClick={this.selectDeck.bind(this, index)} active={index === this.state.selectedDeck} />;

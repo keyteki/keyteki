@@ -309,7 +309,9 @@ io.on('connection', function(socket) {
         if(game) {
             runAndCatchErrors(game, () => {
                 if(!game.players[socket.request.user.username].noReconnect) {
-                    game.reconnect(socket.id, socket.request.user.username);        
+                    socket.join(game.id);
+                    
+                    game.reconnect(socket.id, socket.request.user.username);
 
                     sendGameState(game);
                 }
