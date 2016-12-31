@@ -10,7 +10,8 @@ class TaxationPhase extends Phase {
         this.initialise([
             new SimpleStep(game, () => this.returnGold()),
             new DiscardToReservePrompt(game),
-            new EndRoundPrompt(game)
+            new EndRoundPrompt(game),
+            new SimpleStep(game, () => this.roundEnded())
         ]);
     }
 
@@ -20,9 +21,13 @@ class TaxationPhase extends Phase {
             if(!event.cancel) {
                 player.taxation();
             }
-            
+
             this.game.raiseEvent('onAfterTaxation', player);
         });
+    }
+
+    roundEnded() {
+        this.game.raiseEvent('onRoundEnded');
     }
 }
 

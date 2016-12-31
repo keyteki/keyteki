@@ -1,6 +1,7 @@
 const uuid = require('node-uuid');
 const _ = require('underscore');
 
+const CardAction = require('./cardaction.js');
 const EventRegistrar = require('./eventregistrar.js');
 
 const ValidKeywords = [
@@ -35,6 +36,9 @@ class BaseCard {
         this.parseTraits(cardData.traits || '');
 
         this.events = new EventRegistrar(this.game, this);
+
+        this.abilities = {};
+        this.setupCardAbilities();
     }
 
     parseKeywords(text) {
@@ -75,6 +79,23 @@ class BaseCard {
         this.eventsForRegistration = events;
     }
 
+    setupCardAbilities() {
+    }
+
+    action(properties) {
+        var action = new CardAction(this.game, this, properties);
+        this.abilities.action = action;
+        this.menu.push(action.getMenuItem());
+    }
+
+    doAction(player, arg) {
+        if(!this.abilities.action) {
+            return;
+        }
+
+        this.abilities.action.execute(player, arg);
+    }
+
     hasKeyword(keyword) {
         if(this.isBlank()) {
             return false;
@@ -99,8 +120,14 @@ class BaseCard {
     moveTo(targetLocation) {
         if(LocationsWithEventHandling.includes(targetLocation) && !LocationsWithEventHandling.includes(this.location)) {
             this.events.register(this.eventsForRegistration);
+            if(this.abilities.action) {
+                this.abilities.action.registerEvents();
+            }
         } else if(LocationsWithEventHandling.includes(this.location) && !LocationsWithEventHandling.includes(targetLocation)) {
             this.events.unregisterAll();
+            if(this.abilities.action) {
+                this.abilities.action.unregisterEvents();
+            }
         }
 
         if(targetLocation !== 'play area') {

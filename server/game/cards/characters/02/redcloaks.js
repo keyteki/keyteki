@@ -4,29 +4,28 @@ class RedCloaks extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['onAttackersDeclared', 'onPhaseEnded']);
-
-        this.menu.push({ text: 'Move 1 gold from your gold pool to this card', command: 'card', method: 'addGold' });
+        this.registerEvents(['onAttackersDeclared']);
 
         this.tokens['gold'] = 0;
-        this.usedThisPhase = false;
+    }
+
+    setupCardAbilities() {
+        this.action({
+            title: 'Move 1 gold from your gold pool to this card',
+            method: 'addGold',
+            limit: { amount: 1, period: 'phase' }
+        });
     }
 
     addGold(player) {
-        if(this.location !== 'play area' || this.controller !== player || this.usedThisPhase || player.gold <= 0) {
-            return;
+        if(this.location !== 'play area' || player.gold <= 0) {
+            return false;
         }
 
         this.addToken('gold', 1);
         this.controller.gold--;
 
         this.game.addMessage('{0} moves 1 gold from their gold pool to {1}', this.controller, this);
-
-        this.usedThisPhase = true;
-    }
-
-    onPhaseEnded() {
-        this.usedThisPhase = false;
     }
 
     onAttackersDeclared(e, challenge) {

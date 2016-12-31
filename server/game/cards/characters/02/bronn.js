@@ -4,9 +4,16 @@ class Bronn extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.menu.push({ text: 'Pay 1 gold to take control of Bronn', command: 'menuItem', method: 'takeControl', anyPlayer: true });
-
         this.registerEvents(['onChallenge', 'onChallengeFinished']);
+    }
+
+    setupCardAbilities() {
+        this.action({
+            title: 'Pay 1 gold to take control of Bronn',
+            method: 'takeControl',
+            phase: 'marshal',
+            anyPlayer: true
+        });
     }
 
     onChallenge(e, challenge) {
@@ -30,8 +37,8 @@ class Bronn extends DrawCard {
     }
 
     takeControl(player) {
-        if(player.controller === this.controller || player.gold < 1) {
-            return;
+        if(player === this.controller || player.gold < 1) {
+            return false;
         }
 
         this.game.addMessage('{0} pays 1 gold to take control of {1}', player, this);

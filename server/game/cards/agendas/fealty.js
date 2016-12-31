@@ -5,15 +5,16 @@ class Fealty extends Reducer {
         super(owner, cardData, 1, (player, card) => {
             return card.isLoyal();
         });
+    }
 
-        this.menu.push({ text: 'Kneel your faction card', method: 'onClick' });
+    setupCardAbilities() {
+        this.action({
+            title: 'Kneel your faction card',
+            method: 'onClick'
+        });
     }
 
     onClick(player) {
-        if(!this.controller === player) {
-            return;
-        }
-
         player.faction.kneeled = true;
 
         this.game.addMessage('{0} uses {1} to kneel their faction card and reduce the cost of the next loyal card by 1', player, this);

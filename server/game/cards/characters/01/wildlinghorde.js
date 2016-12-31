@@ -1,12 +1,18 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class WildlingHorde extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.menu.push({ text: 'Kneel your faction card', command: 'card', method: 'kneelFactionCard' });
-
         this.registerEvents(['afterChallenge']);
+    }
+
+    setupCardAbilities() {
+      this.action({
+          title: 'Kneel your faction card',
+          method: 'kneelFactionCard',
+          phase: 'challenge'
+      });
     }
 
     cardCondition(player, card) {
@@ -19,11 +25,11 @@ class WildlingHorde extends DrawCard {
     }
 
     kneelFactionCard(player) {
-        if(this.controller !== player || player.faction.kneeled) {
+        if(player.faction.kneeled) {
             return false;
         }
 
-        if(player.phase !== 'challenge' || !this.game.currentChallenge) {
+        if(!this.game.currentChallenge) {
             return false;
         }
 

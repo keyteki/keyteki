@@ -4,29 +4,26 @@ class Shae extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['onPhaseEnded']);
-
-        this.menu.push({ text: 'Pay 1 gold to stand Shae', command: 'card', method: 'stand' });
-
         this.tokens['gold'] = 0;
-        this.usedThisPhase = 0;
+    }
+
+    setupCardAbilities() {
+        this.action({
+            title: 'Pay 1 gold to stand Shae',
+            method: 'stand',
+            phase: 'challenge'
+        });
     }
 
     stand(player) {
-        if(this.controller !== player || this.usedThisPhase >= 2 || player.gold <= 0 || !this.kneeled) {
-            return;
+        if(player.gold <= 0 || !this.kneeled) {
+            return false;
         }
 
         this.controller.gold--;
         this.kneeled = false;
 
         this.game.addMessage('{0} pays 1 gold to stand {1}', this.controller, this);
-
-        this.usedThisPhase++;
-    }
-
-    onPhaseEnded() {
-        this.usedThisPhase = 0;
     }
 }
 

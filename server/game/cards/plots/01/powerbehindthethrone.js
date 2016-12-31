@@ -1,10 +1,11 @@
 const PlotCard = require('../../../plotcard.js');
 
 class PowerBehindTheThrone extends PlotCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.menu.push({ text: 'Discard a stand token', command: 'plot', method: 'discardToken' });
+    setupCardAbilities() {
+        this.action({
+            title: 'Discard a stand token',
+            method: 'discardToken'
+        });
     }
 
     onReveal(player) {
@@ -21,7 +22,7 @@ class PowerBehindTheThrone extends PlotCard {
 
     discardToken(player) {
         if(!this.hasToken('stand')) {
-            return;
+            return false;
         }
 
         this.game.promptForSelect(player, {
@@ -40,10 +41,6 @@ class PowerBehindTheThrone extends PlotCard {
         this.removeToken('stand', 1);
 
         return true;
-    }
-
-    leavesPlay() {
-        super.leavesPlay();
     }
 }
 

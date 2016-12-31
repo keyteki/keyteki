@@ -9,10 +9,8 @@ describe('RedCloaks', function() {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'addPower', 'addMessage']);
         this.playerSpy = jasmine.createSpyObj('player', ['']);
-        this.otherPlayerSpy = jasmine.createSpyObj('player2', ['']);
 
         this.playerSpy.game = this.gameSpy;
-        this.otherPlayerSpy.game = this.gameSpy;
 
         this.card = new RedCloaks(this.playerSpy, {});
         this.card.location = 'play area';
@@ -24,16 +22,6 @@ describe('RedCloaks', function() {
                 this.card.location = 'discard pile';
                 this.playerSpy.gold = 10;
                 this.card.addGold(this.playerSpy);
-            });
-
-            it('should not add any gold to the card', function() {
-                expect(this.card.tokens['gold']).toBe(0);
-            });
-        });
-
-        describe('when not called for my owner', function() {
-            beforeEach(function() {
-                this.card.addGold(this.otherPlayerSpy);
             });
 
             it('should not add any gold to the card', function() {
@@ -65,27 +53,6 @@ describe('RedCloaks', function() {
 
                 it('should reduce my owner\'s gold count by 1', function() {
                     expect(this.playerSpy.gold).toBe(9);
-                });
-
-                describe('and then called again in the same round', function() {
-                    beforeEach(function() {
-                        this.card.addGold(this.playerSpy);
-                    });
-
-                    it('should not add another gold token to the card', function() {
-                        expect(this.card.tokens['gold']).toBe(1);
-                    });
-                });
-
-                describe('and then called again in a new phase', function() {
-                    beforeEach(function() {
-                        this.card.onPhaseEnded();
-                        this.card.addGold(this.playerSpy);
-                    });
-
-                    it('should add another gold token to the card', function() {
-                        expect(this.card.tokens['gold']).toBe(2);
-                    });
                 });
             });
         });

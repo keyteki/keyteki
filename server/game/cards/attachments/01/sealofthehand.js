@@ -1,15 +1,16 @@
 const DrawCard = require('../../../drawcard.js');
- 
-class SealOfTheHand extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
 
-        this.menu.push({ text: 'Stand attached character', method: 'kneel' });
+class SealOfTheHand extends DrawCard {
+    setupCardAbilities() {
+        this.action({
+            title: 'Stand attached character',
+            method: 'kneel'
+        });
     }
 
     kneel(player) {
         if(!this.parent || !this.parent.kneeled) {
-            return;
+            return false;
         }
 
         this.parent.kneeled = false;

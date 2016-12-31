@@ -1,19 +1,15 @@
 const DrawCard = require('../../../drawcard.js');
 
 class JonSnow extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onBeginRound']);
-
-        this.menu.push({ text: 'Sacrifice character', command: 'card', method: 'sacrifice' });
+    setupCardAbilities() {
+        this.action({
+            title: 'Sacrifice character',
+            method: 'sacrifice',
+            limit: { amount: 1, period: 'round' }
+        });
     }
 
-    sacrifice(player) {
-        if(this.controller !== player || this.usedThisRound) {
-            return;
-        }
-
+    sacrifice() {
         this.game.promptForSelect(this.controller, {
             activePromptTitle: 'Select a character to sacrifice',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
@@ -45,13 +41,7 @@ class JonSnow extends DrawCard {
         player.sacrificeCard(this.toSacrifice);
         this.toSacrifice.selected = false;
 
-        this.usedThisRound = true;
-
         return true;
-    }
-
-    onBeginRound() {
-        this.usedThisRound = false;
     }
 }
 
