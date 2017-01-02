@@ -10,7 +10,7 @@ class JoryCassel extends DrawCard {
     }
 
     onCharacterKilled(event, player, card, allowSave) {
-        if(!allowSave) {
+        if(!allowSave || player !== this.controller) {
             return;
         }
 
