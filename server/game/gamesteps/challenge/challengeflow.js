@@ -100,6 +100,8 @@ class ChallengeFlow extends BaseStep {
         this.challenge.addDefenders(defenders);
         this.challenge.calculateStrength();
 
+        this.game.raiseEvent('onDefendersDeclared', this.challenge);        
+
         if(!this.challenge.isUnopposed()) {
             this.game.addMessage('{0} has defended with strength {1}', this.challenge.defendingPlayer, this.challenge.defenderStrength);
         }
