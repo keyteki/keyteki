@@ -479,6 +479,8 @@ class Player extends Spectator {
             var previousPlot = this.removeActivePlot();
             previousPlot.moveTo('revealed plots');
             this.plotDiscard.push(previousPlot);
+
+            this.game.raiseEvent('onPlotDiscarded', this, previousPlot);
         }
 
         this.selectedPlot.moveTo('active plot');
@@ -491,6 +493,8 @@ class Player extends Spectator {
                 plot.moveTo('plot deck');
             });
             this.plotDiscard = _([]);
+
+            this.game.raiseEvent('onPlotsRecycled', this);
         }
 
         this.selectedPlot = undefined;

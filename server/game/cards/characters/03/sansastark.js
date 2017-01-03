@@ -22,14 +22,12 @@ class SansaStark extends DrawCard {
             this.strengthModifier--;
         }
 
-        if((this.cardData.strength + this.strengthModifier) < 0) {
-            this.strengthModifier = -this.cardData.strength;
-        }
-
         if(this.getStrength() === 0) {
-            this.addKeyword('insight');
-        } else if(this.hasKeyword('insight')) {
-            this.removeKeyword('insight');
+            if(!this.addedInsight) {
+                this.addKeyword('Insight');
+            }
+        } else if(this.addedInsight) {
+            this.removeKeyword('Insight');
         }
     }
 
@@ -60,8 +58,8 @@ class SansaStark extends DrawCard {
     leavesPlay() {
         super.leavesPlay();
 
-        if(this.hasKeyword('insight')) {
-            this.removeKeyword('insight');
+        if(this.addedInsight) {
+            this.removeKeyword('Insight');
         }
     }
 }
