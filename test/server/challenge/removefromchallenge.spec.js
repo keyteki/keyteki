@@ -7,11 +7,11 @@ const DrawCard = require('../../../server/game/drawcard.js');
 
 describe('Challenge', function() {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['on']);
+        this.gameSpy = jasmine.createSpyObj('game', ['on', 'raiseEvent']);
 
-        this.attackingPlayer = new Player('1', 'Player 1', true);
+        this.attackingPlayer = new Player('1', 'Player 1', true, this.gameSpy);
         spyOn(this.attackingPlayer, 'winChallenge');
-        this.defendingPlayer = new Player('2', 'Player 2', true);
+        this.defendingPlayer = new Player('2', 'Player 2', true, this.gameSpy);
         spyOn(this.defendingPlayer, 'winChallenge');
 
         this.attackerCard = new DrawCard(this.attackingPlayer, {});

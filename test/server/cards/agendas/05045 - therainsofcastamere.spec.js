@@ -29,7 +29,7 @@ describe('The Rains of Castamere', function() {
         this.scheme1 = scheme('3333');
         this.scheme2 = scheme('4444');
 
-        this.player = jasmine.createSpyObj('player', ['flipPlotFaceup', 'removeActivePlot', 'revealPlot']);
+        this.player = jasmine.createSpyObj('player', ['flipPlotFaceup', 'removeActivePlot', 'revealPlot', 'kneelCard']);
         this.player.game = this.gameSpy;
         this.player.faction = {};
 
@@ -210,7 +210,7 @@ describe('The Rains of Castamere', function() {
                 });
 
                 it('should kneel the player faction card', function() {
-                    expect(this.player.faction.kneeled).toBe(true);
+                    expect(this.player.kneelCard).toHaveBeenCalledWith(this.player.faction);
                 });
             });
 
@@ -238,7 +238,7 @@ describe('The Rains of Castamere', function() {
                 });
 
                 it('should kneel the player faction card', function() {
-                    expect(this.player.faction.kneeled).toBe(true);
+                    expect(this.player.kneelCard).toHaveBeenCalledWith(this.player.faction);
                 });
             });
 
@@ -270,7 +270,7 @@ describe('The Rains of Castamere', function() {
                 });
 
                 it('should kneel the player faction card', function() {
-                    expect(this.player.faction.kneeled).toBe(true);
+                    expect(this.player.kneelCard).toHaveBeenCalledWith(this.player.faction);
                 });
             });
         });

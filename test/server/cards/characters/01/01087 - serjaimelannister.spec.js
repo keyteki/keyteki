@@ -7,9 +7,9 @@ const SerJaimeLannister = require('../../../../../server/game/cards/characters/0
 
 describe('SerJaimeLannister', function() {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['on', 'once', 'removeListener', 'addPower', 'addMessage']);
-        this.playerSpy = jasmine.createSpyObj('player', ['']);
-        this.otherPlayerSpy = jasmine.createSpyObj('player2', ['']);
+        this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'addPower', 'addMessage', 'raiseEvent', 'once']);
+        this.playerSpy = jasmine.createSpyObj('player', ['standCard']);
+        this.otherPlayerSpy = jasmine.createSpyObj('player2', ['standCard']);
 
         this.playerSpy.game = this.gameSpy;
         this.otherPlayerSpy.game = this.gameSpy;
@@ -44,7 +44,7 @@ describe('SerJaimeLannister', function() {
                 });
 
                 it('should not stand the card', function() {
-                    expect(this.character.kneeled).toBe(true);
+                    expect(this.playerSpy.standCard).not.toHaveBeenCalled();
                 });
 
                 it('should set renown', function() {
@@ -107,7 +107,7 @@ describe('SerJaimeLannister', function() {
                     });
 
                     it('should stand the card', function() {
-                        expect(this.character.kneeled).toBe(false);
+                        expect(this.playerSpy.standCard).toHaveBeenCalled();
                     });
 
                     describe('and the challenge type is not military', function() {
