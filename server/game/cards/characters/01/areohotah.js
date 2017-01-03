@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const DrawCard = require('../../../drawcard.js');
 
 class AreoHotah extends DrawCard {
@@ -45,7 +43,7 @@ class AreoHotah extends DrawCard {
 
     onCardSelected(player, card) {
         this.game.currentChallenge.removeFromChallenge(card);
-        
+
         this.game.addMessage('{0} uses {1} to remove {2} from the challenge', player, this, card);
 
         return true;
