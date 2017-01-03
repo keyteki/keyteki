@@ -6,7 +6,7 @@ class EuronCrowsEye extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-//        this.registerEvents(['onPillage']);
+        this.registerEvents(['onPillage']);
     }
 
     onPillage(event, challenge, card) {
@@ -28,10 +28,16 @@ class EuronCrowsEye extends DrawCard {
     }
 
     cardCondition(card) {
-        return false;
+        return card.controller !== this.controller && card.getType() === 'location' && card.location === 'discard pile';
     }
 
     onCardSelected(player, card) {
+        this.game.takeControl(player, card);
+
+        player.moveCard(card, 'play area');
+
+        this.game.addMessage('{0} uses {1} to put {2} into play from their opponent\'s discard pile', player, this, card);
+
         return true;
     }
 
@@ -47,12 +53,7 @@ class EuronCrowsEye extends DrawCard {
     }
 
     cancel(player) {
-        if(this.isBlank() || this.controller !== player) {
-            return false;
-        }
-
-        this.game.addMessage('{0} declines to trigger {1}', player, this);
-        return true;
+        this.game.addMessage('{0} declines to trigger {1}', player, this); return true;
     }
 }
 
