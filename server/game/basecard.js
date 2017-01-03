@@ -266,7 +266,7 @@ class BaseCard {
             menu: this.getMenu(),
             name: this.cardData.label,
             new: this.new,
-            selected: isActivePlayer && this.selected,
+            selected: (isActivePlayer && this.selected) || this.opponentSelected,
             tokens: this.tokens,
             type: this.getType(),
             uuid: this.uuid

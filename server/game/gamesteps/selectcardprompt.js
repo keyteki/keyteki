@@ -48,8 +48,14 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     savePreviouslySelectedCards() {
-        this.previouslySelectedCards = this.game.allCards.filter(card => card.selected);
-        _.each(this.previouslySelectedCards, card => card.selected = false);
+        this.previouslySelectedCards = this.game.allCards.filter(card => card.selected || card.opponentSelected);
+        _.each(this.previouslySelectedCards, card => {
+            if(card.controller !== this.choosingPlayer) {
+                card.opponentSelected = false;
+            } else {
+                card.selected = false;
+            }
+        });
     }
 
     activeCondition(player) {
@@ -97,8 +103,13 @@ class SelectCardPrompt extends UiPrompt {
             return false;
         }
 
-        card.selected = !card.selected;
-        if(card.selected) {
+        if(this.choosingPlayer !== card.controller) {
+            card.opponentSelected = !card.opponentSelected;
+        } else {
+            card.selected = !card.selected;
+        }
+
+        if(card.selected || card.opponentSelected) {
             this.selectedCards.push(card);
         } else {
             this.selectedCards = _.reject(this.selectedCards, c => c === card);
@@ -142,9 +153,17 @@ class SelectCardPrompt extends UiPrompt {
     clearSelection() {
         _.each(this.selectedCards, card => {
             card.selected = false;
+            card.opponentSelected = false;
         });
+        
         // Restore previous selections.
-        _.each(this.previouslySelectedCards, card => card.selected = true);
+        _.each(this.previouslySelectedCards, card => {
+            if(card.controller !== this.choosingPlayer) {
+                card.opponentSelected = true;
+            } else {
+                card.selected = true;
+            }
+        });
     }
 }
 

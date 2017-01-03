@@ -23,8 +23,7 @@ class EliaSand extends DrawCard {
                 ]
             },
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name
-        });
-        
+        });   
     }
 
     giveStealth(player) {      
