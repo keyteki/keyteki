@@ -104,10 +104,10 @@ class DrawCard extends BaseCard {
 
     getStrength() {
         if(this.controller.phase === 'setup') {
-            return this.cardData.strength || 0;
+            return this.cardData.strength || undefined;
         }
 
-        return this.strengthModifier + this.cardData.strength || 0;
+        return this.strengthModifier + (this.cardData.strength || 0);
     }
 
     setIcon(icon) {
@@ -185,7 +185,7 @@ class DrawCard extends BaseCard {
             }),
             kneeled: this.kneeled,
             power: this.power,
-            strength: !_.isNull(this.cardData.strength) ? this.getStrength() : undefined,
+            strength: !_.isNull(this.cardData.strength) ? this.getStrength() : 0,
             baseStrength: this.cardData.strength
         });
     }

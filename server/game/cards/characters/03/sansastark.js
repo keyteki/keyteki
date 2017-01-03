@@ -9,20 +9,24 @@ class SansaStark extends DrawCard {
         this.lastGold = 0;
     }
 
-    updateStrength() {
+    updateStrength(card) {
         this.strengthModifier = this.controller.deadPile.reduce((count, card) => {
             if(card.getFaction() === 'stark') {
-                return count + 1;
+                return count - 1;
             }
 
             return count;
         }, 0);
 
-        if(this.strengthModifier < 0) {
-            this.strengthModifier = 0;
+        if(card && card.getFaction() === 'stark') {
+            this.strengthModifier--;
         }
 
-        if(this.strengthModifier === 0) {
+        if((this.cardData.strength + this.strengthModifier) < 0) {
+            this.strengthModifier = -this.cardData.strength;
+        }
+
+        if(this.getStrength() === 0) {
             this.addKeyword('insight');
         } else if(this.hasKeyword('insight')) {
             this.removeKeyword('insight');
@@ -45,12 +49,12 @@ class SansaStark extends DrawCard {
         this.updateStrength();
     }
 
-    onCharacterKilled(event, player) {
+    onCharacterKilled(event, player, card) {
         if(this.controller !== player) {
             return;
         }
 
-        this.updateStrength();
+        this.updateStrength(card);
     }
 
     leavesPlay() {

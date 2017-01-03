@@ -804,6 +804,7 @@ class Player extends Spectator {
         this.faction.cardData = deck.faction;
         this.faction.cardData.code = deck.faction.value;
         this.faction.cardData.type_code = 'faction';
+        this.faction.cardData.strength = 0;
     }
 
     moveCard(card, targetLocation) {
@@ -842,6 +843,10 @@ class Player extends Spectator {
 
         if(targetLocation === 'discard pile') {
             this.game.raiseEvent('onCardDiscarded', this, card);
+        }
+
+        if(targetLocation === 'dead pile') {
+            this.game.raiseEvent('onCharacterKilled', this, card, false);
         }
 
         card.moveTo(targetLocation);

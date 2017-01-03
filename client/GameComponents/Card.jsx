@@ -65,14 +65,14 @@ class Card extends React.Component {
             return null;
         }
 
-        counters['power'] = this.props.card.power;
-        counters['strength'] = this.props.card.baseStrength !== this.props.card.strength ? this.props.card.strength : 0;
-        counters['dupe'] = this.props.card.dupes && this.props.card.dupes.length > 0 ? this.props.card.dupes.length : 0;
+        counters['power'] = this.props.card.power || undefined;
+        counters['strength'] = this.props.card.baseStrength !== this.props.card.strength ? this.props.card.strength : undefined;
+        counters['dupe'] = this.props.card.dupes && this.props.card.dupes.length > 0 ? this.props.card.dupes.length : undefined;
 
         _.extend(counters, this.props.card.tokens);
 
         var filteredCounters = _.omit(counters, counter => {
-            return _.isUndefined(counter) || _.isNull(counter) || counter <= 0;
+            return _.isUndefined(counter) || _.isNull(counter) || counter < 0;
         });
 
         var counterDivs = _.map(filteredCounters, (counterValue, key) => {
@@ -159,19 +159,6 @@ class Card extends React.Component {
         return this.props.card.facedown || !this.props.card.code;
     }
 
-    render() {
-        if(this.props.wrapped) {
-            return (
-                    <div className='card-wrapper' style={this.props.style}>
-                        {this.getCard()}
-                        {this.getDupes()}
-                        {this.getAttachments()}
-                    </div>);
-        }
-
-        return this.getCard();
-    }
-
     getCard() {
         var cardClass = 'card';
         var imageClass = 'card-image';
@@ -222,6 +209,19 @@ class Card extends React.Component {
                     {this.getMenu()}
                 </div>);
     }
+
+    render() {
+        if(this.props.wrapped) {
+            return (
+                    <div className='card-wrapper' style={this.props.style}>
+                        {this.getCard()}
+                        {this.getDupes()}
+                        {this.getAttachments()}
+                    </div>);
+        }
+
+        return this.getCard();
+    }    
 }
 
 Card.displayName = 'Card';
