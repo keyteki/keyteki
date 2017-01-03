@@ -67,6 +67,7 @@ class PlotPhase extends Phase {
         });
 
         this.initiativeWinner = initiativeWinner;
+        this.game.raiseEvent('onInitiativeDetermined', initiativeWinner);
     }
 
     getPlayersWithRevealEffects() {
