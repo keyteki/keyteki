@@ -195,7 +195,11 @@ class Game extends EventEmitter {
 
         if(!handled) {
             if(card && !card.facedown && card.location === 'play area' && card.controller === player) {
-                card.kneeled = !card.kneeled;
+                if(card.kneeled) {
+                    player.standCard(card);
+                } else {
+                    player.kneelCard(card);
+                }
 
                 this.addMessage('{0} {1} {2}', player, card.kneeled ? 'kneels' : 'stands', card);
             }

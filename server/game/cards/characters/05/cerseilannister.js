@@ -18,7 +18,7 @@ class CerseiLannister extends DrawCard {
         }
 
         if(!this.isBlank() && challenge.isAttacking(this)) {
-            this.kneeled = false;
+            player.standCard(this);
         }
     }
 

@@ -22,7 +22,7 @@ class SerJaimeLannister extends DrawCard {
         }
 
         if(!this.isBlank() && challenge.isAttacking(this)) {
-            this.kneeled = false;
+            player.standCard(this);
         }
 
         this.game.once('onChallengeFinished', (event, challenge) => {

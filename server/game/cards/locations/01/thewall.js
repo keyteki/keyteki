@@ -30,7 +30,7 @@ class TheWall extends DrawCard {
     onUnopposedWin(e, challenge) {
         if(this.controller !== challenge.winner && !this.kneeled) {
             this.game.addMessage('{0} is forced to kneel {1} because they lost an unopposed challenge', this.controller, this);
-            this.kneeled = true;
+            player.kneelCard(this);
         }
     }
 

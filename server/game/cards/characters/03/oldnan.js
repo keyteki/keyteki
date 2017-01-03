@@ -75,7 +75,7 @@ class OldNan extends DrawCard {
 
         this.modifiedPlot = plotCard;
         this.trait = trait;
-        this.kneeled = true;
+        player.kneelCard(this);
 
         this.game.once('onAfterTaxation', () => {
             this.onAfterTaxation();

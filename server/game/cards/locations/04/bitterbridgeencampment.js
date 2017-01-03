@@ -37,7 +37,7 @@ class BitterbridgeEncampment extends DrawCard {
             return false;
         }
 
-        this.kneeled = true;
+        player.kneelCard(this);
 
         this.remainingPlayers = this.game.getPlayersInFirstPlayerOrder();
         this.selections = [];

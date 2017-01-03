@@ -37,7 +37,7 @@ class JonSnow extends DrawCard {
     onStandSelected(player, card) {
         this.game.addMessage('{0} uses {1} to sacrifice {2} and stand {3}', player, this, this.toSacrifice, card);
 
-        card.kneeled = false;
+        player.standCard(card);
         player.sacrificeCard(this.toSacrifice);
         this.toSacrifice.selected = false;
 

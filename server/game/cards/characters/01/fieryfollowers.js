@@ -27,7 +27,7 @@ class FieryFollowers extends DrawCard {
     stand(player) {
         this.game.addMessage('{0} uses {1} to stand {1}', player, this);
 
-        this.kneeled = false;
+        player.standCard(this);
 
         return true;
     }

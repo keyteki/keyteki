@@ -26,7 +26,7 @@ class RaidingLongship extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        this.kneeled = true;
+        player.kneelCard(this);
 
         this.game.currentChallenge.removeFromChallenge(card);
 

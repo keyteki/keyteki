@@ -27,7 +27,7 @@ class AshaGreyjoy extends DrawCard {
     }
 
     stand(player) {
-        this.kneeled = false;
+        player.standCard(this);
 
         this.game.addMessage('{0} uses {1} to stand {1}', player, this, this);
 

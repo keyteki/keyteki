@@ -24,7 +24,7 @@ class Reducer extends DrawCard {
             return false;
         }
 
-        this.kneeled = true;
+        player.kneelCard(this);
 
         return true;
     }

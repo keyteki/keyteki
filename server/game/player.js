@@ -862,6 +862,18 @@ class Player extends Spectator {
         }
     }
 
+    kneelCard(card) {
+        card.kneeled = true;
+
+        this.game.raiseEvent('onCardKneeled', this, card);
+    }
+
+    standCard(card) {
+        card.kneeled = false;
+
+        this.game.raiseEvent('onCardStood', this, card);
+    }
+
     removeDuplicate(card) {
         if(card.dupes.isEmpty()) {
             return false;

@@ -1,18 +1,18 @@
 const DrawCard = require('../../../drawcard.js');
-
-class AsshaiPriestess extends DrawCard {
+ 
+class ShireenBaratheon extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['onCardEntersPlay']);
+        this.registerEvents(['onCharacterKilled']);
     }
 
-    onCardEntersPlay(event, card) {
-        if(card !== this) {
+    onCharacterKilled(event, player, card) {
+        if(player !== this.controller || card !== this) {
             return;
         }
 
-        this.game.promptWithMenu(this.controller, this, {
+        this.game.promptWithMenu(player, this, {
             activePrompt: {
                 menuTitle: 'Trigger ' + this.name + '?',
                 buttons: [
@@ -21,7 +21,7 @@ class AsshaiPriestess extends DrawCard {
                 ]
             },
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name
-        });       
+        });
     }
 
     kneel(player) {
@@ -36,7 +36,7 @@ class AsshaiPriestess extends DrawCard {
     }
 
     cardCondition(card) {
-        return card.getType() === 'character' && card.getStrength() <= 2 && !card.kneeled;
+        return card.getType() === 'character' && !card.kneeled;
     }
 
     onCardSelected(player, card) {
@@ -45,7 +45,7 @@ class AsshaiPriestess extends DrawCard {
         this.game.addMessage('{0} uses {1} to kneel {2}', player, this, card);
 
         return true;
-    }    
+    } 
 
     cancel(player) {
         this.game.addMessage('{0} declines to trigger {1}', player, this);
@@ -54,6 +54,6 @@ class AsshaiPriestess extends DrawCard {
     }
 }
 
-AsshaiPriestess.code = '04047';
+ShireenBaratheon.code = '01051';
 
-module.exports = AsshaiPriestess;
+module.exports = ShireenBaratheon;

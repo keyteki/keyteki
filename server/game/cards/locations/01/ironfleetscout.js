@@ -26,7 +26,7 @@ class IronFleetScout extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        this.kneeled = true;
+        player.kneelCard(this);
 
         this.strength = player.firstPlayer ? 2 : 1;
 

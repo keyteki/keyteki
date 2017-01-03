@@ -53,7 +53,7 @@ class Challenge {
 
     markAsParticipating(cards) {
         _.each(cards, card => {
-            card.kneeled = true;
+            player.kneelCard(card);
         });
     }
 

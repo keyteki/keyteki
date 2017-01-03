@@ -40,7 +40,7 @@ class MaesterCressen extends DrawCard {
     onCardSelected(player, card) {
         player.discardCard(card);
 
-        this.kneeled = true;
+        player.kneelCard(this);
 
         this.game.addMessage('{0} uses {1} to discard {2}', player, this, card);
 

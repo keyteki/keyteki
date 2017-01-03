@@ -36,7 +36,7 @@ class PowerBehindTheThrone extends PlotCard {
     onCardSelected(player, card) {
         this.game.addMessage('{0} uses {1} to remove a stand token and stand {2}', player, this, card);
 
-        card.kneeled = false;
+        player.standCard(card);
 
         this.removeToken('stand', 1);
 

@@ -13,8 +13,8 @@ class SealOfTheHand extends DrawCard {
             return false;
         }
 
-        this.parent.kneeled = false;
-        this.kneeled = true;
+        player.standCard(this.parent);
+        player.kneelCard(this);
 
         this.game.addMessage('{0} kneels {1} to stand {2}', player, this, this.parent);
     }

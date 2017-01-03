@@ -231,7 +231,7 @@ class ChallengeFlow extends BaseStep {
     }
 
     intimidate(sourceCard, targetCard) {
-        targetCard.kneeled = true;
+        targetplayer.kneelCard(card);
         this.game.addMessage('{0} uses intimidate from {1} to kneel {2}', sourceCard.controller, sourceCard, targetCard);
         return true;
     }

@@ -25,7 +25,7 @@ class TheTickler extends DrawCard {
     }
 
     kneel(player) {
-        this.kneeled = true;
+        player.kneelCard(this);
 
         var otherPlayer = this.game.getOtherPlayer(player);
         if(!otherPlayer) {

@@ -35,7 +35,7 @@ class RobbStark extends DrawCard {
     stand(player) {
         this.controller.cardsInPlay.each(card => {
             if(card.getType() === 'character' && card.getFaction() === 'stark') {
-                card.kneeled = false;
+                player.standCard(card);
             }
         });
 
