@@ -30,7 +30,7 @@ class TheRainsOfCastamere extends AgendaCard {
         previousPlot.moveTo('out of game');
     }
 
-    afterChallenge(e, challenge) {
+    afterChallenge(event, challenge) {
         if(challenge.challengeType !== 'intrigue' || challenge.winner !== this.owner || challenge.strengthDifference < 5) {
             return;
         }
