@@ -24,7 +24,7 @@ class BastardDaughter extends DrawCard {
                     { text: 'No', method: 'cancel' }
                 ]
             },
-            waitingPromptTitle: 'Waiting for opponent to use save effects'
+            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
         });
     }
 
@@ -43,8 +43,6 @@ class BastardDaughter extends DrawCard {
     }
 
     cancel(player) {
-        player.killCharacter(this.toKill);
-
         this.game.addMessage('{0} declines to trigger {1}', player, this);
 
         return true;
