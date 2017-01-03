@@ -2,13 +2,13 @@ const DrawCard = require('../../../drawcard.js');
 
 class Condemned extends DrawCard {
     attach(player, card) {
-        card.clearIcon('power');
+        card.removeIcon('power');
     }
 
     leavesPlay() {
         super.leavesPlay();
         
-        this.parent.setIcon('power');
+        this.parent.addIcon('power');
     }
 }
 

@@ -114,7 +114,7 @@ class DrawCard extends BaseCard {
         this.icons[icon]++;
     }
 
-    clearIcon(icon) {
+    removeIcon(icon) {
         this.icons[icon]--;
     }
 

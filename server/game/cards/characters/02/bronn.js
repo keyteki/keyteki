@@ -21,9 +21,9 @@ class Bronn extends DrawCard {
             return;
         }
 
-        this.setIcon('military');
-        this.setIcon('intrigue');
-        this.setIcon('power');
+        this.addIcon('military');
+        this.addIcon('intrigue');
+        this.addIcon('power');
     }
 
     onChallengeFinished(e, challenge) {
@@ -31,9 +31,9 @@ class Bronn extends DrawCard {
             return;
         }
 
-        this.clearIcon('military');
-        this.clearIcon('intrigue');
-        this.clearIcon('power');
+        this.removeIcon('military');
+        this.removeIcon('intrigue');
+        this.removeIcon('power');
     }
 
     takeControl(player) {

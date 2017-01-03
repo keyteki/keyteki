@@ -27,7 +27,7 @@ class AryaStark extends DrawCard {
         }
 
         if(this.dupes.isEmpty()) {
-            this.clearIcon('military');
+            this.removeIcon('military');
         }
     }
 
@@ -35,7 +35,7 @@ class AryaStark extends DrawCard {
         super.addDuplicate(card);
 
         if(this.dupes.size() === 1) {
-            this.setIcon('military');
+            this.addIcon('military');
         }
     }
 }

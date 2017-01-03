@@ -2,13 +2,13 @@ const DrawCard = require('../../../drawcard.js');
 
 class NobleLineage extends DrawCard {
     attach(player, card) {
-        card.setIcon('power');
+        card.addIcon('power');
     }
 
     leavesPlay() {
         super.leavesPlay();
         
-        this.parent.setIcon('power');
+        this.parent.addIcon('power');
     }
 }
 

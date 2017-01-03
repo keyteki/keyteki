@@ -2,13 +2,13 @@ const DrawCard = require('../../../drawcard.js');
 
 class Attainted extends DrawCard {
     attach(player, card) {
-        card.clearIcon('intrigue');
+        card.removeIcon('intrigue');
     }
 
     leavesPlay() {
         super.leavesPlay();
         
-        this.parent.setIcon('intrigue');
+        this.parent.addIcon('intrigue');
     }
 }
 

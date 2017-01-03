@@ -5,7 +5,7 @@ class WidowsWail extends DrawCard {
         card.strengthModifier += 2;
 
         if(card.name === 'Joffrey Baratheon') {
-            card.setIcon('military');
+            card.addIcon('military');
         }
     }
 
@@ -15,7 +15,7 @@ class WidowsWail extends DrawCard {
         this.parent.strengthModifier -= 2;
 
         if(this.parent.name === 'Joffrey Baratheon') {
-            this.parent.clearIcon('military');
+            this.parent.removeIcon('military');
         }
     }
 }
