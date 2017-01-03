@@ -24,7 +24,9 @@ class SelyseBaratheon extends DrawCard {
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
             cardCondition: card => card.location === 'play area' && card.getFaction() === 'baratheon' && card.getType() === 'character',
             onSelect: (p, card) => this.onCardSelected(p, card)
-        });        
+        });
+
+        return true;  
     }
 
     onCardSelected(player, card) {
@@ -42,6 +44,7 @@ class SelyseBaratheon extends DrawCard {
     onPhaseEnded() {
         if(this.cardModified) {
             this.cardModified.removeIcon('intrigue');
+            this.cardModified = undefined;
         }
     }
 }
