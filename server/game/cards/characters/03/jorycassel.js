@@ -6,10 +6,10 @@ class JoryCassel extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['onCharacterKilled']);
+        this.registerEvents(['onKillingCharacter']);
     }
 
-    onCharacterKilled(event, player, card, allowSave) {
+    onKillingCharacter(event, player, card, allowSave) {
         if(!allowSave || player !== this.controller) {
             return;
         }

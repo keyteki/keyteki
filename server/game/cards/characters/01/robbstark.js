@@ -11,8 +11,8 @@ class RobbStark extends DrawCard {
         this.abilityUsed = false;
     }
 
-    onCharacterKilled(event, player, card, allowSave) {
-        if(!allowSave || this.abilityUsed || player !== this.controller || card.getFaction() !== 'stark' || card.getType() !== 'character') {
+    onCharacterKilled(event, player, card) {
+        if(this.abilityUsed || player !== this.controller || card.getFaction() !== 'stark' || card.getType() !== 'character') {
             return;
         }
 
@@ -28,8 +28,8 @@ class RobbStark extends DrawCard {
         });
     }
 
-    onSacrificed(event, player, card, allowSave) {
-        return this.onCharacterKilled(event, player, card, allowSave);
+    onSacrificed(event, player, card) {
+        return this.onCharacterKilled(event, player, card);
     }
 
     stand(player) {

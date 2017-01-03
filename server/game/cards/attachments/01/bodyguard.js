@@ -4,7 +4,7 @@ class BodyGuard extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['onCharacterKilled']);
+        this.registerEvents(['onKillingCharacter']);
     }
 
     canAttach(player, card) {
@@ -15,7 +15,7 @@ class BodyGuard extends DrawCard {
         return super.canAttach(player, card);
     }
 
-    onCharacterKilled(event, player, card, allowSave) {
+    onKillingCharacter(event, player, card, allowSave) {
         if(this.parent !== card || !allowSave) {
             return;
         }
