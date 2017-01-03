@@ -7,7 +7,7 @@ class CatelynStark extends DrawCard {
         this.power = 0;
         this.lastPower = 0;
 
-        this.registerEvents(['onCardSacrificed', 'onCharacterKilled', 'onBeginRound']);
+        this.registerEvents(['onSacrificed', 'onCharacterKilled', 'onBeginRound']);
     }
 
     updateStrength() {
@@ -25,7 +25,7 @@ class CatelynStark extends DrawCard {
         this.abilityUsed = 0;
     }
 
-    onCardSacrificed(event, player, card) {
+    onSacrificed(event, player, card) {
         if(this.isBlank() || this.controller !== player || this.abilityUsed >= 2) {
             return;
         }
