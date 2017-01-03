@@ -176,17 +176,14 @@ class DrawCard extends BaseCard {
         var baseSummary = super.getSummary(isActivePlayer, hideWhenFaceup);
 
         return _.extend(baseSummary, {
-            dupes: this.dupes.map(dupe => {
-                return dupe.getSummary(isActivePlayer, hideWhenFaceup);
-            }),
             attached: !!this.parent,
             attachments: this.attachments.map(attachment => {
                 return attachment.getSummary(isActivePlayer, hideWhenFaceup);
             }),
+            baseStrength: _.isNull(this.cardData.strength) ? 0 : this.cardData.strength
             kneeled: this.kneeled,
             power: this.power,
             strength: !_.isNull(this.cardData.strength) ? this.getStrength() : 0,
-            baseStrength: _.isNull(this.cardData.strength) ? 0 : this.cardData.strength
         });
     }
 }
