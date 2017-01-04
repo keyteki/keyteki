@@ -11,17 +11,6 @@ describe('DrawCard', function () {
 
     describe('getSummary', function() {
         describe('strength property', function() {
-            describe('when the card has null strength', function() {
-                beforeEach(function() {
-                    this.testCard.strength = null;
-                    this.summary = this.card.getSummary(true, true);
-                });
-
-                it('should not include the strength', function() {
-                    expect(this.summary.strength).toBeUndefined();
-                });
-            });
-
             describe('when the card has non-zero strength', function() {
                 beforeEach(function() {
                     this.testCard.strength = 5;
