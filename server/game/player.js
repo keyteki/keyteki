@@ -653,6 +653,10 @@ class Player extends Spectator {
             this.moveCard(card, target);
         }
 
+        if(target === 'dead pile') {
+            this.game.raiseEvent('onCharacterKilled', this, card, false);
+        }
+
         return true;
     }
 
@@ -847,10 +851,6 @@ class Player extends Spectator {
 
         if(targetLocation === 'discard pile') {
             this.game.raiseEvent('onCardDiscarded', this, card);
-        }
-
-        if(targetLocation === 'dead pile') {
-            this.game.raiseEvent('onCharacterKilled', this, card, false);
         }
 
         card.moveTo(targetLocation);
