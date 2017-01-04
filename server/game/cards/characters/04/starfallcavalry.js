@@ -1,6 +1,6 @@
 const DrawCard = require('../../../drawcard.js');
 
-class LittleFinger extends DrawCard {
+class StarfallCavalry extends DrawCard {
     play(player) {
         super.play(player);
 
@@ -12,7 +12,7 @@ class LittleFinger extends DrawCard {
             activePrompt: {
                 menuTitle: 'Trigger ' + this.name + '?',
                 buttons: [
-                    { text: 'Draw 2 Cards', method: 'trigger' },
+                    { text: 'Draw card(s)', method: 'trigger' },
                     { text: 'No', method: 'cancel' }
                 ]
             },
@@ -21,31 +21,22 @@ class LittleFinger extends DrawCard {
     }
 
     trigger(player) {
-        if(this.isBlank() || this.controller !== player) {
-            return false;
-        }
+        var numCards = player.plotDiscard.size() >= 3 ? 3 : 1;
 
-        player.drawCardsToHand(2);
+        player.drawCardsToHand(numCards);
 
-        this.game.addMessage('{0} uses {1} to draw 2 cards', player, this);
+        this.game.addMessage('{0} uses {1} to draw {2} card{3}', player, this, numCards, numCards > 1 ? 's' : '');
 
         return true;
     }
 
     cancel(player) {
-        if(this.isBlank() || this.controller !== player) {
-            return false;
-        }
-
         this.game.addMessage('{0} declines to trigger {1}', player, this);
-        return true;
-    }
 
-    getIncome() {
-        return 1;
+        return true;
     }
 }
 
-LittleFinger.code = '01028';
+StarfallCavalry.code = '04035';
 
-module.exports = LittleFinger;
+module.exports = StarfallCavalry;
