@@ -49,7 +49,7 @@ class CatelynStark extends DrawCard {
     }
 
     onCharacterKilled(event, player, card) {
-        this.onCardSacrificed(event, player, card);
+        this.onSacrificed(event, player, card);
     }
 
     gainPower(player) {
