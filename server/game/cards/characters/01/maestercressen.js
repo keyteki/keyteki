@@ -31,6 +31,12 @@ class MaesterCressen extends DrawCard {
         return true;
     }
 
+    cancel(player) {
+        this.game.addMessage('{0} declines to trigger {1}', player, this);
+
+        return true;
+    }
+
     onCardSelected(player, card) {
         player.discardCard(card);
 
