@@ -51,7 +51,7 @@ class NymeriaSand extends DrawCard {
             icons.push('Power');
         }
 
-        this.cardSelected = card;
+        this.selectedCard = card;
 
         var buttons = _.map(icons, icon => {
             return { text: icon, method: 'iconSelected', arg: icon.toLowerCase() };
@@ -69,8 +69,8 @@ class NymeriaSand extends DrawCard {
     }
 
     iconSelected(player, icon) {
-        this.cardSelected.removeIcon(icon);
-        this.iconSelected = icon;
+        this.selectedCard.removeIcon(icon);
+        this.selectedIcon = icon;
         this.cardsAffected = [];
 
         this.controller.cardsInPlay.each(card => {
@@ -86,11 +86,11 @@ class NymeriaSand extends DrawCard {
 
     onPhaseEnded() {
         _.each(this.cardsAffected, card => {
-            card.removeIcon(this.iconSelected);
+            card.removeIcon(this.selectedIcon);
         });
 
-        this.cardSelected = undefined;
-        this.iconSelected = undefined;
+        this.selectedCard = undefined;
+        this.selectedIcon = undefined;
         this.cardsAffected = undefined;
     }
 }

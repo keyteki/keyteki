@@ -80,9 +80,9 @@ class InnerLobby extends React.Component {
         return (
             <div>
                 <div className='alert alert-info'>
+                    <div><span className='icon-intrigue' />New cards: Robb Stark (Core), Sansa Stark (WotN), Asshai Priestess, Bastard Daughter, Fiery Followers, Knights of the Sun, Melisandre, Moon Boy, Nymeria Sand, Quentyn Martell.  Fixes for Jory Cassel, The Red Keep, Maester Cressen.  Fixed bug causing cards to disappear when spectators leave a game.</div>                    
                     <div><span className='icon-military' />New cards: The Tickler, Tyrion Lannister, Widow's Wail, Cersei's Wheelhouse, Street of the Sisters, Jon Snow, Jory Cassel.  Fix Great Kraken, Seen in Flame</div>                
                     <div><span className='icon-power' />New cards: Old Nan, Bitterbridge Encampment, Cersei Lannister(LoCR), Gold Cloaks, Shae, The Hound. Fix Ice and Lord of the Crossing</div>
-                    <div><span className='icon-intrigue' />New card: Ice.  (Hopefully) Fixed a bug causing players not to be able to leave games. Fixed a bug allowing you to kneel opponents cards.</div>                    
                 </div>
                 <div className='row'>
                     <span className='col-sm-9 text-center'><h1>Play A Game Of Thrones 2nd Edition</h1></span>

@@ -144,7 +144,7 @@ class DrawCard extends BaseCard {
         return icons;
     }
 
-    setIcon(icon) {
+    addIcon(icon) {
         this.icons[icon]++;
     }
 
@@ -222,7 +222,7 @@ class DrawCard extends BaseCard {
             iconsRemoved: this.getIconsRemoved(),            
             kneeled: this.kneeled,
             power: this.power,
-            strength: !_.isNull(this.cardData.strength) ? this.getStrength() : 0,
+            strength: !_.isNull(this.cardData.strength) ? this.getStrength() : 0
         });
     }
 }
