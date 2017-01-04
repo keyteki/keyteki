@@ -12,11 +12,11 @@ describe('the SelectCardPrompt', function() {
         this.player.cardsInPlay = _([]);
         this.otherPlayer = jasmine.createSpyObj('player2', ['setPrompt', 'cancelPrompt']);
 
-        this.card = {};
+        this.card = { controller: this.player };
 
         this.player.cardsInPlay.push(this.card);
 
-        this.previousCard = { selected: true };
+        this.previousCard = { selected: true, controller: this.player };
         this.game.allCards = _([this.previousCard]);
 
         this.properties = {
@@ -239,7 +239,7 @@ describe('the SelectCardPrompt', function() {
                     this.properties.cardCondition.and.returnValue(true);
                     this.prompt.onCardClicked(this.player, this.card);
                     this.prompt.onCardClicked(this.player, this.card2);
-                    this.card3 = {};
+                    this.card3 = { controller: this.player };
                 });
 
                 it('should select the card', function() {
