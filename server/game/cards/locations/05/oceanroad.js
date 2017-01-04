@@ -6,6 +6,18 @@ class OceanRoad extends Reducer {
             return card.getFaction() === 'neutral' || card.getFaction() !== this.controller.faction.getFaction();
         });
     }
+
+    onClick(player) {
+        var ret = super.onClick(player);
+
+        if(!ret) {
+            return false;
+        }
+
+        this.game.addMessage('{0} kneels {1} to reduce the cost of the next neutral or out of faction card marshalled by 1', player, this);
+
+        return ret;
+    }
 }
 
 OceanRoad.code = '05042';
