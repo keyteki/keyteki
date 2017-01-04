@@ -218,7 +218,7 @@ class DrawCard extends BaseCard {
             dupes: this.dupes.map(dupe => {
                 return dupe.getSummary(isActivePlayer, hideWhenFaceup);
             }),
-            iconsAded: this.getIconsAdded(),
+            iconsAdded: this.getIconsAdded(),
             iconsRemoved: this.getIconsRemoved(),            
             kneeled: this.kneeled,
             power: this.power,

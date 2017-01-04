@@ -69,6 +69,14 @@ class Card extends React.Component {
         counters['strength'] = this.props.card.baseStrength !== this.props.card.strength ? this.props.card.strength : undefined;
         counters['dupe'] = this.props.card.dupes && this.props.card.dupes.length > 0 ? this.props.card.dupes.length : undefined;
 
+        _.map(this.props.card.iconsAdded, icon => {
+            counters['new' + icon] = 0;
+        });
+
+        _.map(this.props.card.iconsRemoved, icon => {
+            counters['no' + icon] = 0;
+        });
+
         _.extend(counters, this.props.card.tokens);
 
         var filteredCounters = _.omit(counters, counter => {
@@ -76,7 +84,7 @@ class Card extends React.Component {
         });
 
         var counterDivs = _.map(filteredCounters, (counterValue, key) => {
-            return <div key={key} className={'counter ' + key}>{counterValue}</div>;
+            return <div key={key} className={'counter ' + key}><span>{counterValue}</span></div>;
         });
 
         if(counters.length > 3) {
@@ -234,6 +242,8 @@ Card.propTypes = {
         controlled: React.PropTypes.bool,
         dupes: React.PropTypes.array,
         facedown: React.PropTypes.bool,
+        iconsAdded: React.PropTypes.array,
+        iconsRemoved: React.PropTypes.array,
         kneeled: React.PropTypes.bool,
         menu: React.PropTypes.array,
         name: React.PropTypes.string,
