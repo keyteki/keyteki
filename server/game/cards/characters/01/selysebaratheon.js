@@ -20,7 +20,7 @@ class SelyseBaratheon extends DrawCard {
         }
 
         this.game.promptForSelect(this.controller, {
-            activePromptTitle: 'Select attachment to discard',
+            activePromptTitle: 'Select character',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
             cardCondition: card => card.location === 'play area' && card.getFaction() === 'baratheon' && card.getType() === 'character',
             onSelect: (p, card) => this.onCardSelected(p, card)
