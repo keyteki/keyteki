@@ -1,38 +1,24 @@
 const DrawCard = require('../../../drawcard.js');
 
 class LordsportShipright extends DrawCard {
-    play(player) {
-        super.play(player);
+    setupCardAbilities() {
+        this.action({
+            title: 'Kneel Lordsport Shipwright to kneel a location',
+            method: 'kneelLocation'
+        });
+    }    
 
-        if(player.phase !== 'marshal') {
+    kneelLocation(player) {
+        if(player.phase !== 'marshal' || this.kneeled) {
             return;
         }
 
-        this.game.promptWithMenu(player, this, {
-            activePrompt: {
-                menuTitle: 'Trigger ' + this.name + '?',
-                buttons: [
-                    { text: 'Kneel a location', method: 'trigger' },
-                    { text: 'Cancel', method: 'cancel' }
-                ]
-            },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
-        });
-    }
-
-    trigger(player) {
         this.game.promptForSelect(player, {
             cardCondition: card => this.cardCondition(card),
             activePromptTitle: 'Select location',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
             onSelect: (player, card) => this.onCardSelected(player, card)
         });        
-
-        return true;
-    }
-
-    cancel(player) {
-        this.game.addMessage('{0} declines to trigger {1}', player, this);
 
         return true;
     }

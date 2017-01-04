@@ -8,7 +8,7 @@ class TheRedKeep extends DrawCard {
     }
 
     onAttackersDeclared(event, challenge) {
-        if(challenge.challengeType !== 'power' || challenge.attackers.length === 0) {
+        if(challenge.challengeType !== 'power' || challenge.attackers.length === 0 || challenge.attackingPlayer !== this.controller) {
             return;
         }
 
@@ -17,7 +17,7 @@ class TheRedKeep extends DrawCard {
     }
 
     onDefendersDeclared(event, challenge) {
-        if(challenge.challengeType !== 'power' || challenge.defenders.length === 0) {
+        if(challenge.challengeType !== 'power' || challenge.defenders.length === 0 || challenge.defendingPlayer !== this.controller) {
             return;
         }
 
