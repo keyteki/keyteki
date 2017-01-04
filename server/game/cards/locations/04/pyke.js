@@ -14,7 +14,7 @@ class Pyke extends DrawCard {
         });
     }    
 
-    sacrifice(player) {
+    kneel(player) {
         if(this.location !== 'play area' || this.kneeled) {
             return false;
         }
