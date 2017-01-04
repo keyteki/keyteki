@@ -5,7 +5,6 @@ const uuid = require('node-uuid');
 const Event = require('./event.js');
 const GameChat = require('./gamechat.js');
 const Spectator = require('./spectator.js');
-const BaseCard = require('./basecard.js');
 const GamePipeline = require('./gamepipeline.js');
 const SetupPhase = require('./gamesteps/setupphase.js');
 const PlotPhase = require('./gamesteps/plotphase.js');
@@ -556,8 +555,9 @@ class Game extends EventEmitter {
             return;
         }
 
-        oldController.cardsInPlay = oldController.removeCardByUuid(oldController.cardsInPlay, card.uuid);
+        oldController.removeCardFromPile(card);
         newController.cardsInPlay.push(card);
+
         card.controller = newController;
     }
 
