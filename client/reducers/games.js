@@ -34,9 +34,7 @@ function games(state = {
                 currentGame: action.game
             });
         case 'RECEIVE_LEAVEGAME':
-            var retState = Object.assign({}, state, {
-                currentGame: action.game
-            });
+            var retState = Object.assign({}, state, {});
 
             if(action.isMe) {
                 delete retState.currentGame;
