@@ -12,7 +12,7 @@ class Melisandre extends DrawCard {
     }
 
     onCardPlayed(event, player, card) {
-        if(this.controller !== player || this.abilityUsed || !card.hasTrait('R\'hllor')) {
+        if(this.controller !== player || this.abilityUsed || !card.hasTrait('R\'hllor') || player.phase === 'setup') {
             return;
         }
 
