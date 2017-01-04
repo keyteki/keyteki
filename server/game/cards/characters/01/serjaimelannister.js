@@ -4,7 +4,7 @@ class SerJaimeLannister extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['onAttackersDeclared', 'onChallengeFinished']);
+        this.registerEvents(['onAttackersDeclared']);
     }
 
     onAttackersDeclared(event, challenge) {
@@ -24,6 +24,10 @@ class SerJaimeLannister extends DrawCard {
         if(!this.isBlank() && challenge.isAttacking(this)) {
             this.kneeled = false;
         }
+
+        this.game.once('onChallengeFinished', (event, challenge) => {
+            this.onChallengeFinished(event, challenge);
+        });
     }
 
     onChallengeFinished(event, challenge) {

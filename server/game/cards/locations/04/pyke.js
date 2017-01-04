@@ -1,12 +1,6 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class Pyke extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onPhaseEnded']);
-    }
-
     setupCardAbilities() {
         this.action({
             title: 'Kneel Pyke to give a character stealth',
@@ -38,6 +32,10 @@ class Pyke extends DrawCard {
         this.modifiedCard = card;
 
         this.game.addMessage('{0} kneeled {1} to make {2} gain stealth', player, this, card);
+
+        this.game.once('onPhaseEnded', () => {
+            this.onPhaseEnded();
+        });
 
         return true;
     }

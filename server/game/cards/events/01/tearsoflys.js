@@ -1,12 +1,6 @@
 const DrawCard = require('../../../drawcard.js');
 
 class TearsOfLys extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onEndChallengePhase']);
-    }
-
     canPlay(player, card) {
         if(player !== this.controller || this !== card) {
             return false;
@@ -40,6 +34,10 @@ class TearsOfLys extends DrawCard {
         this.game.addMessage('{0} uses {1} to place 1 poison token on {2}', player, this, card);
 
         this.poisonTarget = card;
+
+        this.game.once('onEndChallengePhase', () => {
+            this.onEndChallengePhase();
+        });
 
         return true;
     }

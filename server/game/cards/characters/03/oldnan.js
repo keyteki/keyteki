@@ -6,7 +6,7 @@ class OldNan extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['onPlotFlip', 'onAfterTaxation']);
+        this.registerEvents(['onPlotFlip']);
     }
 
     onPlotFlip() {
@@ -76,6 +76,10 @@ class OldNan extends DrawCard {
         this.modifiedPlot = plotCard;
         this.trait = trait;
         this.kneeled = true;
+
+        this.game.once('onAfterTaxation', () => {
+            this.onAfterTaxation();
+        });
 
         return true;
     }

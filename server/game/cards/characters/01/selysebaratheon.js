@@ -1,12 +1,6 @@
 const DrawCard = require('../../../drawcard.js');
 
 class SelyseBaratheon extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onPhaseEnded']);
-    }
-
     setupCardAbilities() {
         this.action({
             title: 'Pay 1 gold to give an intrigue icon to a character',
@@ -37,6 +31,10 @@ class SelyseBaratheon extends DrawCard {
         this.game.addMessage('{0} uses {1} to give {2} an {3} icon', player, this, card, 'intrigue');
 
         this.controller.gold--;
+
+        this.game.once('onPhaseEnded', () => {
+            this.onPhaseEnded();
+        });
 
         return true;
     }

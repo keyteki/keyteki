@@ -3,12 +3,6 @@ const _ = require('underscore');
 const DrawCard = require('../../../drawcard.js');
 
 class NymeriaSand extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onPhaseEnded']);
-    }
-
     setupCardAbilities() {
         this.action({
             title: 'Remove icon from opponent\'s character',
@@ -79,6 +73,10 @@ class NymeriaSand extends DrawCard {
 
                 this.cardsAffected.push(card);
             }
+        });
+
+        this.game.once('onPhaseEnded', () => {
+            this.onPhaseEnded();
         });
 
         return true;

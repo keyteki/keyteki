@@ -7,7 +7,7 @@ const RedCloaks = require('../../../../../server/game/cards/characters/02/redclo
 
 describe('RedCloaks', function() {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'addPower', 'addMessage']);
+        this.gameSpy = jasmine.createSpyObj('game', ['on', 'once', 'removeListener', 'addPower', 'addMessage']);
         this.playerSpy = jasmine.createSpyObj('player', ['']);
 
         this.playerSpy.game = this.gameSpy;

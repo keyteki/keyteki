@@ -1,12 +1,6 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class WildlingScout extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onPhaseEnded']);
-    }
-
     setupCardAbilities() {
         this.action({
             title: 'Sacrifice this character to give another character stealth',
@@ -39,6 +33,10 @@ class WildlingScout extends DrawCard {
         this.modifiedCard = card;
 
         this.game.addMessage('{0} sacrifices {1} to make {2} gain stealth', player, this, card);
+
+        this.game.once('onPhaseEnded', () => {
+            this.onPhaseEnded();
+        });
 
         return true;
     }

@@ -4,8 +4,6 @@ class EdricDayne extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['onPhaseEnded']);
-
         this.icons = [];
     }
 
@@ -33,7 +31,7 @@ class EdricDayne extends DrawCard {
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name
         });
 
-        return true;        
+        return true;
     }
 
     iconSelected(player, icon) {
@@ -43,6 +41,10 @@ class EdricDayne extends DrawCard {
         this.game.addMessage('{0} uses {1} to give {1} an {2} icon', player, this, icon);
 
         this.controller.gold--;
+
+        this.game.once('onPhaseEnded', () => {
+            this.onPhaseEnded();
+        });
 
         return true;
     }

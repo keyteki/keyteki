@@ -4,7 +4,7 @@ class Bronn extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['onChallenge', 'onChallengeFinished']);
+        this.registerEvents(['onChallenge']);
     }
 
     setupCardAbilities() {
@@ -24,6 +24,10 @@ class Bronn extends DrawCard {
         this.addIcon('military');
         this.addIcon('intrigue');
         this.addIcon('power');
+
+        this.game.once('onChallengeFinished', (e, challenge) => {
+            this.onChallengeFinished(e, challenge);
+        });
     }
 
     onChallengeFinished(e, challenge) {

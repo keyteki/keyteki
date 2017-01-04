@@ -1,12 +1,6 @@
 const DrawCard = require('../../../drawcard.js');
 
 class WildlingHorde extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['afterChallenge']);
-    }
-
     setupCardAbilities() {
       this.action({
           title: 'Kneel your faction card',
@@ -53,6 +47,10 @@ class WildlingHorde extends DrawCard {
         card.strengthModifier += 2;
 
         this.game.addMessage('{0} uses {1} to kneel their faction card and increase the strength of {2} by 2 until the end of the challenge', player, this, card);
+
+        this.game.once('afterChallenge', () => {
+            this.afterChallenge();
+        });
 
         return true;
     }

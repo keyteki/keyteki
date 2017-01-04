@@ -1,12 +1,6 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class IronFleetScout extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onAfterChallenge']);
-    }
-
     setupCardAbilities() {
         this.action({
             title: 'Kneel this card to give a character +1 STR',
@@ -40,6 +34,10 @@ class IronFleetScout extends DrawCard {
         this.modifiedCard = card;
 
         this.game.addMessage('{0} kneels {1} to give {2} +{3} STR until the end of the challenge', player, this, card, this.strength);
+
+        this.game.once('afterChallenge', () => {
+            this.onAfterChallenge();
+        });
 
         return true;
     }

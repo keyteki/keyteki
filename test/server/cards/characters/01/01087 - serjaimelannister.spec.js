@@ -7,7 +7,7 @@ const SerJaimeLannister = require('../../../../../server/game/cards/characters/0
 
 describe('SerJaimeLannister', function() {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'addPower', 'addMessage']);
+        this.gameSpy = jasmine.createSpyObj('game', ['on', 'once', 'removeListener', 'addPower', 'addMessage']);
         this.playerSpy = jasmine.createSpyObj('player', ['']);
         this.otherPlayerSpy = jasmine.createSpyObj('player2', ['']);
 
