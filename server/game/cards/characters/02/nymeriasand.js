@@ -7,8 +7,6 @@ class NymeriaSand extends DrawCard {
         super(owner, cardData);
 
         this.registerEvents(['onPhaseEnded']);
-
-        this.tokens['gold'] = 0;
     }
 
     setupCardAbilities() {
@@ -30,6 +28,8 @@ class NymeriaSand extends DrawCard {
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
             onSelect: (player, card) => this.onCardSelected(player, card)
         });
+
+        return true;
     }
 
     cardCondition(card) {
@@ -80,6 +80,8 @@ class NymeriaSand extends DrawCard {
                 this.cardsAffected.push(card);
             }
         });
+
+        return true;
     }
 
     onPhaseEnded() {
