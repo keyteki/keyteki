@@ -39,12 +39,12 @@ class DaenerysTargaryen extends DrawCard {
         this.modifyStrength(challenge);
     }    
 
-    afterChallenge() {
-        if(!this.strengthModified || !this.game.currentChallenge) {
+    afterChallenge(event, challenge) {
+        if(!this.strengthModified) {
             return;
         }
 
-        var opponentCards = this.game.currentChallenge.getOpponentCards(this.controller);
+        var opponentCards = challenge.getOpponentCards(this.controller);
 
         _.each(opponentCards, card => {
             card.strengthModifier++;
