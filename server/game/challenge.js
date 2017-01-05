@@ -142,6 +142,10 @@ class Challenge {
         return [];
     }
 
+    getOpponentCards(player) {
+        return this.attackingPlayer === player ? this.defenders : this.attackers; 
+    }
+
     onCardLeftPlay(e, player, card) {
         this.removeFromChallenge(card);
     }
