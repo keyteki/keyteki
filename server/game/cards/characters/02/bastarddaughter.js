@@ -35,7 +35,7 @@ class BastardDaughter extends DrawCard {
             return true;
         }
 
-        this.game.addMessage('{0} uses {1} to dicard 1 card at random from {2}\'s hand', player, this, otherPlayer);
+        this.game.addMessage('{0} uses {1} to discard 1 card at random from {2}\'s hand', player, this, otherPlayer);
 
         otherPlayer.discardAtRandom(1);
 
