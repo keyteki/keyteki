@@ -6,12 +6,12 @@ class NymeriaSand extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Remove icon from opponent\'s character',
-            method: 'removeIcon',
+            method: 'stealIcon',
             limit: { amount: 1, period: 'phase' }
         });
     }
 
-    removeIcon(player) {
+    stealIcon(player) {
         if(this.location !== 'play area' || player.phase !== 'challenge') {
             return false;
         }
@@ -86,6 +86,10 @@ class NymeriaSand extends DrawCard {
         _.each(this.cardsAffected, card => {
             card.removeIcon(this.selectedIcon);
         });
+
+        if(this.selectedCard) {
+            this.selectedCard.addIcon(this.selectedIcon);
+        }
 
         this.selectedCard = undefined;
         this.selectedIcon = undefined;
