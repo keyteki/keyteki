@@ -10,7 +10,7 @@ class Dracarys extends DrawCard {
             return false;
         }
 
-        return true;
+        return super.canPlay();
     }
 
     play(player) {
