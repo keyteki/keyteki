@@ -40,6 +40,27 @@
   justify-content: space-between;
 }
 
+.popup {
+  z-index: @layer-card-collection;
+
+  .inner {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  a {
+    display: inline-block;
+    margin: 0 10px 8px 4px;
+
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: @brand-info;
+    cursor: pointer;
+  }
+}
+
 .state {
   height: 22px;
 }
@@ -69,7 +90,7 @@
     width: 200px;
     min-height: 92px;
     bottom: 34px;
-    left: 119px;
+    left: 119px;    
   }
 }
 

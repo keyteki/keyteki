@@ -178,7 +178,7 @@ class InnerPendingGame extends React.Component {
         var popup = (
             <div id='decks-modal' ref='modal' className='modal fade' tabIndex='-1' role='dialog'>
                 <div className='modal-dialog' role='document'>
-                    <div className='modal-content popup'>
+                    <div className='modal-content deck-popup'>
                         <div className='modal-header'>
                             <button type='button' className='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>×</span></button>
                             <h4 className='modal-title'>Select Deck</h4>
