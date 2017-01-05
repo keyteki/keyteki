@@ -12,7 +12,7 @@ class AreoHotah extends DrawCard {
             activePrompt: {
                 menuTitle: 'Trigger ' + this.name + '?',
                 buttons: [
-                    { text: 'Remove a character from the challenge', method: 'trigger' },
+                    { text: 'Remove a character', method: 'trigger' },
                     { text: 'No', method: 'cancel' }
                 ]
             },
