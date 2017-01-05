@@ -346,5 +346,24 @@ describe('Player', () => {
                 });
             });
         });
+
+        describe('event order', function() {
+            beforeEach(function() {
+                this.player.cardsInPlay.push(this.cardSpy);
+                this.cardSpy.location = 'play area';
+                this.cardSpy.getType.and.returnValue('character');
+            });
+
+            it('should fire onCharacterKilled before onCardLeftPlay', function() {
+                var events = [];
+                this.gameSpy.raiseEvent.and.callFake((name) => {
+                    events.push(name);
+                });
+
+                var result = this.player.drop(this.cardSpy.uuid, 'play area', 'dead pile');
+                expect(result).toBe(true);
+                expect(events.indexOf('onCharacterKilled')).toBeLessThan(events.indexOf('onCardLeftPlay'));
+            });
+        });
     });
 });

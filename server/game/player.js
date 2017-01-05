@@ -650,11 +650,18 @@ class Player extends Spectator {
         if(target === 'play area') {
             this.game.playCard(this.name, cardId, true, sourceList);
         } else {
-            this.moveCard(card, target);
-        }
+            // It's important that these events be raised prior to the card
+            // being moved. Moving the card out of play will remove event
+            // listeners and the card may need to react to itself being killed.
+            if(target === 'dead pile') {
+                this.game.raiseEvent('onCharacterKilled', this, card, false);
+            }
 
-        if(target === 'dead pile') {
-            this.game.raiseEvent('onCharacterKilled', this, card, false);
+            if(target === 'discard pile') {
+                this.game.raiseEvent('onCardDiscarded', this, card, false);
+            }
+
+            this.moveCard(card, target);
         }
 
         return true;
@@ -716,8 +723,8 @@ class Player extends Spectator {
     }
 
     sacrificeCard(card) {
-        this.moveCard(card, 'discard pile');
         this.game.raiseEvent('onSacrificed', this, card);
+        this.moveCard(card, 'discard pile');
     }
 
     discardCard(card, allowSave = true) {
@@ -848,10 +855,6 @@ class Player extends Spectator {
                 card.parent.attachments = this.removeCardByUuid(card.parent.attachments, card.uuid);
                 card.parent = undefined;
             }
-        }
-
-        if(targetLocation === 'discard pile') {
-            this.game.raiseEvent('onCardDiscarded', this, card);
         }
 
         card.moveTo(targetLocation);
