@@ -216,6 +216,10 @@ class DrawCard extends BaseCard {
             }),
             baseStrength: _.isNull(this.cardData.strength) ? 0 : this.cardData.strength,
             dupes: this.dupes.map(dupe => {
+                if(dupe.dupes.size() !== 0) {
+                    throw new Error('A dupe should not have dupes! ' + dupe.name);
+                }
+
                 return dupe.getSummary(isActivePlayer, hideWhenFaceup);
             }),
             iconsAdded: this.getIconsAdded(),
