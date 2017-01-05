@@ -11,8 +11,13 @@ class RobertBaratheon extends DrawCard {
 
     calculateStrength() {
         var otherPlayer = this.game.getOtherPlayer(this.controller);
+        var cardsInPlay = [];
 
-        var cardsInPlay = this.controller.cardsInPlay.union(otherPlayer.cardsInPlay.value());
+        if(!otherPlayer) {
+            cardsInPlay = this.controller.cardsInPlay;
+        } else {
+            cardsInPlay = this.controller.cardsInPlay.union(otherPlayer.cardsInPlay.value());
+        }
 
         this.strengthModifier = _.reduce(cardsInPlay, (counter, card) => {
             if(card.getType() !== 'character' || !card.kneeled) {
