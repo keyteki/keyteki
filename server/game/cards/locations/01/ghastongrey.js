@@ -8,7 +8,7 @@ class GhastonGrey extends DrawCard {
     }
 
     afterChallenge(event, challenge) {
-        if(challenge.winner === this.controller || challenge.defendingPlayer !== this.controller) {
+        if(challenge.winner === this.controller || challenge.defendingPlayer !== this.controller || this.isBlank()) {
             return;
         }
 

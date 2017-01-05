@@ -8,7 +8,7 @@ class TyeneSand extends DrawCard {
     }
 
     afterChallenge(event, challenge) {
-        if(challenge.winner !== this.controller || !challenge.isAttacking(this) || challenge.challengeType !== 'intrigue') {
+        if(challenge.winner !== this.controller || !challenge.isAttacking(this) || challenge.challengeType !== 'intrigue' || this.isBlank()) {
             return;
         }
 

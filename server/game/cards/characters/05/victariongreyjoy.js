@@ -8,7 +8,7 @@ class VictarionGreyjoy extends DrawCard {
     }
 
     onKillingCharacter(event, player, card, allowSave) {
-        if(!allowSave || player !== this.controller || card !== this || this.power < 2) {
+        if(!allowSave || player !== this.controller || card !== this || this.power < 2 || this.isBlank()) {
             return;
         }
 

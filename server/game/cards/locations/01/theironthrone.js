@@ -6,7 +6,7 @@ class TheIronThrone extends DrawCard {
     }
 
     modifyDominance(player, strength) {
-        if(this.controller === player) {
+        if(this.controller === player && !this.isBlank()) {
             return strength + 8;
         }
 

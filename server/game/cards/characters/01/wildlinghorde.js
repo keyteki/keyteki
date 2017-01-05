@@ -3,10 +3,10 @@ const DrawCard = require('../../../drawcard.js');
 class WildlingHorde extends DrawCard {
     setupCardAbilities() {
         this.action({
-          title: 'Kneel your faction card',
-          method: 'kneelFactionCard',
-          phase: 'challenge'
-      });
+            title: 'Kneel your faction card',
+            method: 'kneelFactionCard',
+            phase: 'challenge'
+        });
     }
 
     cardCondition(player, card) {

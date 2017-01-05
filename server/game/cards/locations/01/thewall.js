@@ -28,14 +28,14 @@ class TheWall extends DrawCard {
     }
 
     onUnopposedWin(e, challenge) {
-        if(this.controller !== challenge.winner && !this.kneeled) {
+        if(this.controller !== challenge.winner && !this.kneeled && !this.isBlank()) {
             this.game.addMessage('{0} is forced to kneel {1} because they lost an unopposed challenge', this.controller, this);
-            player.kneelCard(this);
+            this.controller.kneelCard(this);
         }
     }
 
     onEndChallengePhase() {
-        if(this.kneeled) {
+        if(this.kneeled || this.isBlank()) {
             return;
         }
 
@@ -74,6 +74,10 @@ class TheWall extends DrawCard {
 
     leavesPlay() {
         super.leavesPlay();
+
+        if(this.isBlank()) {
+            return;
+        }
 
         this.controller.cardsInPlay.each(card => {
             if(card.getFaction() === this.getFaction() && card.getType() === 'character') {

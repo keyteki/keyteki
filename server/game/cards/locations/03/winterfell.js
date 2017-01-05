@@ -18,7 +18,7 @@ class Winterfell extends DrawCard {
     }
 
     onCardPlayed(e, player, card) {
-        if(this.controller !== player) {
+        if(this.controller !== player || this.isBlank()) {
             return;
         }
 

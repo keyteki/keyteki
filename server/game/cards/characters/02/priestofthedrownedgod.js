@@ -18,7 +18,7 @@ class PriestOfTheDrownedGod extends DrawCard {
     }
 
     onCardPlayed(e, player, card) {
-        if(this.controller !== player) {
+        if(this.controller !== player || this.isBlank()) {
             return;
         }
 
@@ -29,6 +29,10 @@ class PriestOfTheDrownedGod extends DrawCard {
 
     leavesPlay() {
         super.leavesPlay();
+        
+        if(this.isBlank()) {
+            return;
+        }
 
         this.controller.cardsInPlay.each(card => {
             if(card.getType() === 'character' && card.hasTrait('Drowned God')) {

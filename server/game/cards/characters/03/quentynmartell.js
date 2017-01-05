@@ -17,7 +17,7 @@ class QuentynMartell extends DrawCard {
                 this.strengthModifier--;
                 this.removeKeyword('Stealth');
             }
-        } else if(!this.abilityInEffect) {
+        } else if(!this.abilityInEffect && !this.isBlank()) {
             this.abilityInEffect = true;
             this.strengthModifier++;
             this.addKeyword('Stealth');
@@ -25,7 +25,7 @@ class QuentynMartell extends DrawCard {
     }
 
     onCharacterKilled(event, player, card) {
-        if(this.controller !== player || card.name !== 'Quentyn Martell') {
+        if(this.controller !== player || card.name !== 'Quentyn Martell' || !this.isBlank()) {
             return;
         }
 

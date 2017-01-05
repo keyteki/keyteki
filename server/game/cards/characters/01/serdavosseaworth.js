@@ -8,7 +8,7 @@ class SerDavosSeaworth extends DrawCard {
     }
 
     onCharacterKilled(event, player, card) {
-        if(player !== this.controller || card !== this) {
+        if(player !== this.controller || card !== this || this.isBlank()) {
             return;
         }
 

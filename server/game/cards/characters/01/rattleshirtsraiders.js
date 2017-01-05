@@ -8,7 +8,7 @@ class RattleshirtsRaiders extends DrawCard {
     }
 
     afterChallenge(event, challenge) {
-        if(challenge.attackingPlayer !== this.controller) {
+        if(challenge.attackingPlayer !== this.controller || this.isBlank()) {
             return;
         }
 

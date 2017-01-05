@@ -18,6 +18,10 @@ class Doreah extends DrawCard {
             return;
         }
 
+        if(this.isBlank()) {
+            return;
+        }
+
         this.addKeyword('Insight');
         this.keywordAdded = true;
     }

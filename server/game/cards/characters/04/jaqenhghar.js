@@ -29,7 +29,7 @@ class JaqenHGhar extends DrawCard {
     leavesPlay() {
         super.leavesPlay();
 
-        if(this.selectedCards) {
+        if(this.selectedCards && !this.isBlank()) {
             _.each(this.selectedCards, card => {
                 card.removeToken('valarmorghulis', 1);
             });
@@ -39,7 +39,7 @@ class JaqenHGhar extends DrawCard {
     }
 
     afterChallenge(event, challenge) {
-        if(challenge.winner !== this.controller || !challenge.isAttacking(this) || challenge.attackers.length > 1) {
+        if(challenge.winner !== this.controller || !challenge.isAttacking(this) || challenge.attackers.length > 1 || this.isBlank()) {
             return;
         }
 

@@ -10,7 +10,7 @@ class EliaSand extends DrawCard {
     }
 
     afterChallenge(event, challenge) {
-        if(challenge.winner === this.controller || this.abilityUsed >= 2) {
+        if(challenge.winner === this.controller || this.abilityUsed >= 2 || this.isBlank()) {
             return;
         }
 

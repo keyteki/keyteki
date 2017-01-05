@@ -9,7 +9,7 @@ class Hodor extends DrawCard {
 
     onAttackerSelected(event, challenge, card) {
         var player = challenge.attackingPlayer;
-        if(this.controller !== player || card !== this) {
+        if(this.controller !== player || card !== this || this.isBlank()) {
             return;
         }
 
@@ -19,7 +19,7 @@ class Hodor extends DrawCard {
     }
 
     modifyDominance(player, strength) {
-        if(this.controller !== player || this.kneeled) {
+        if(this.controller !== player || this.kneeled || this.isBlank()) {
             return strength;
         }
 

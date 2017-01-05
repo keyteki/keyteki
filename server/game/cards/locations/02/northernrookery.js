@@ -2,7 +2,9 @@ const DrawCard = require('../../../drawcard.js');
 
 class NorthernRookery extends DrawCard {
     getReserve() {
-        return 1;
+        if(!this.isBlank()) {
+            return 1;
+        }
     }
 }
 

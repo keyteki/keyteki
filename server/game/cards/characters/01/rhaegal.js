@@ -14,7 +14,7 @@ class Rhaegal extends DrawCard {
     }
 
     afterChallenge(event, challenge) {
-        if(challenge.winner !== this.controller || this.abilityUsed) {
+        if(challenge.winner !== this.controller || this.abilityUsed || this.isBlank()) {
             return;
         }
 

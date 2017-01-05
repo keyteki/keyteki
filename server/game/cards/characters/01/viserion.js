@@ -28,7 +28,7 @@ class Viserion extends DrawCard {
     }
 
     onCardPlayed(event, player, card) {
-        if(this.controller !== player) {
+        if(this.controller !== player || this.isBlank()) {
             return;
         }
 
@@ -38,7 +38,7 @@ class Viserion extends DrawCard {
     }
 
     onCardLeftPlay(event, player, card) {
-        if(this.controller !== player) {
+        if(this.controller !== player || this.isBlank()) {
             return;
         }
     

@@ -8,7 +8,7 @@ class TheTickler extends DrawCard {
     }
 
     onDominanceDetermined(event, player) {
-        if(this.kneeled) {
+        if(this.kneeled || this.isBlank()) {
             return;
         }
 

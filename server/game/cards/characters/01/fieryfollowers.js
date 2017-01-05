@@ -8,7 +8,7 @@ class FieryFollowers extends DrawCard {
     }
 
     onPhaseStarted(event, phase) {
-        if(phase !== 'dominance' || !this.kneeled) {
+        if(phase !== 'dominance' || !this.kneeled || this.isBlank()) {
             return;
         }
 

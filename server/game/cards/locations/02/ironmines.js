@@ -8,7 +8,7 @@ class IronMines extends DrawCard {
     }
 
     onKillingCharacter(event, player, card, allowSave) {
-        if(!allowSave || player !== this.controller) {
+        if(!allowSave || player !== this.controller || this.isBlank()) {
             return;
         }
 

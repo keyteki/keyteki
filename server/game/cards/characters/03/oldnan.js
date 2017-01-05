@@ -10,7 +10,7 @@ class OldNan extends DrawCard {
     }
 
     onPlotFlip() {
-        if(this.kneeled) {
+        if(this.kneeled || this.isBlank()) {
             return;
         }
 

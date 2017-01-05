@@ -9,7 +9,7 @@ class DrownedMen extends DrawCard {
 
     calculateStrength() {
         this.strengthModifier = this.controller.cardsInPlay.reduce((counter, card) => {
-            if(card.getType() !== 'location' || !card.hasTrait('Warship')) {
+            if(this.isBlank() || card.getType() !== 'location' || !card.hasTrait('Warship')) {
                 return counter;
             }
 
@@ -35,6 +35,18 @@ class DrownedMen extends DrawCard {
         if(this.controller !== player) {
             return;
         }
+
+        this.calculateStrength();
+    }
+
+    setBlank() {
+        super.setBlank();
+
+        this.calculateStrength();
+    }
+
+    clearBlank() {
+        super.clearBlank();
 
         this.calculateStrength();
     }

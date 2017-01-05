@@ -8,7 +8,7 @@ class BastardDaughter extends DrawCard {
     }
 
     onCharacterKilled(event, player, card) {
-        if(player !== this.controller) {
+        if(player !== this.controller || this.isBlank()) {
             return;
         }
 

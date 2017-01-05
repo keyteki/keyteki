@@ -20,7 +20,7 @@ class RobertBaratheon extends DrawCard {
         }
 
         this.strengthModifier = _.reduce(cardsInPlay, (counter, card) => {
-            if(card.getType() !== 'character' || !card.kneeled) {
+            if(this.isBlank() || card.getType() !== 'character' || !card.kneeled) {
                 return counter;
             }
 
@@ -34,11 +34,11 @@ class RobertBaratheon extends DrawCard {
         this.calculateStrength();
     }
 
-    onCardPlayed(event) {
+    onCardPlayed() {
         this.calculateStrength();
     }
 
-    onCardLeftPlay(event) {
+    onCardLeftPlay() {
         this.calculateStrength();
     }
 
@@ -54,6 +54,18 @@ class RobertBaratheon extends DrawCard {
         if(card.getType() !== 'character') {
             return;
         }
+
+        this.calculateStrength();
+    }
+
+    setBlank() {
+        super.setBlank();
+
+        this.calculateStrength();
+    }
+
+    clearBlank() {
+        super.clearBlank();
 
         this.calculateStrength();
     }

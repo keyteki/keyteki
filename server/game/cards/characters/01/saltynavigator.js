@@ -2,7 +2,9 @@ const DrawCard = require('../../../drawcard.js');
 
 class SaltyNavigator extends DrawCard {
     getInitiative() {
-        return 1;
+        if(!this.isBlank()) {
+            return 1;
+        }
     }
 }
 

@@ -10,7 +10,7 @@ class PlazaOfPunishment extends DrawCard {
     }
 
     afterChallenge(event, challenge) {
-        if(challenge.winner !== this.controller || challenge.challengeType !== 'power' || this.kneeled) {
+        if(challenge.winner !== this.controller || challenge.challengeType !== 'power' || this.kneeled || this.isBlank()) {
             return;
         }
 

@@ -24,7 +24,7 @@ class DaenerysTargaryen extends DrawCard {
     }
 
     onAttackersDeclared(event, challenge) {
-        if(this.kneeled || challenge.attackingPlayer === this.controller) {
+        if(this.kneeled || challenge.attackingPlayer === this.controller || this.isBlank()) {
             return;
         }
 
@@ -32,7 +32,7 @@ class DaenerysTargaryen extends DrawCard {
     }
 
     onDefendersDeclared(event, challenge) {
-        if(this.kneeled || challenge.defendingPlayer === this.controller) {
+        if(this.kneeled || challenge.defendingPlayer === this.controller || this.isBlank()) {
             return;
         }
 
@@ -40,7 +40,7 @@ class DaenerysTargaryen extends DrawCard {
     }    
 
     afterChallenge(event, challenge) {
-        if(!this.strengthModified) {
+        if(!this.strengthModified || this.isBlank()) {
             return;
         }
 

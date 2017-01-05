@@ -49,7 +49,9 @@ class TywinLannister extends DrawCard {
     }
 
     getIncome() {
-        return 2;
+        if(!this.isBlank()) {
+            return 2;
+        }
     }
 }
 

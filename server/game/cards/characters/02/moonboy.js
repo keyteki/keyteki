@@ -8,7 +8,7 @@ class MoonBoy extends DrawCard {
     }
 
     afterChallenge(event, challenge) {
-        if(challenge.winner === this.controller || !challenge.isParticipating(this)) {
+        if(challenge.winner === this.controller || !challenge.isParticipating(this) || this.isBlank()) {
             return;
         }
 

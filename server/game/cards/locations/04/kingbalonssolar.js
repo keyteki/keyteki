@@ -8,7 +8,7 @@ class KingBalonsSolar extends DrawCard {
     }
 
     onInitiativeDetermined(event, player) {
-        if(this.controller !== player) {
+        if(this.controller !== player || this.isBlank()) {
             return;
         }
 

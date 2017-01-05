@@ -42,7 +42,9 @@ class LittleFinger extends DrawCard {
     }
 
     getIncome() {
-        return 1;
+        if(!this.isBlank()) {
+            return 1;
+        }
     }
 }
 

@@ -10,7 +10,7 @@ class Unsullied extends DrawCard {
     }
 
     onDefendersDeclared(event, challenge) {
-        if(challenge.defendingPlayer === this.controller || !challenge.isAttacking(this)) {
+        if(challenge.defendingPlayer === this.controller || !challenge.isAttacking(this) || this.isBlank()) {
             return;
         }
 

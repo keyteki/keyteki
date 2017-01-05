@@ -8,7 +8,7 @@ class StreetOfTheSisters extends DrawCard {
     }
 
     afterChallenge(event, challenge) {
-        if(this.controller.faction.kneeled) {
+        if(this.controller.faction.kneeled || this.isBlank()) {
             return;
         }
 

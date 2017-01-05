@@ -9,7 +9,7 @@ class DirewolfPup extends DrawCard {
 
     calculateStrength() {
         this.strengthModifier = this.controller.cardsInPlay.reduce((counter, card) => {
-            if(card.uuid === this.uuid || !card.hasTrait('Direwolf')) {
+            if(this.isBlank() || card.uuid === this.uuid || !card.hasTrait('Direwolf')) {
                 return counter;
             }
 
@@ -35,6 +35,18 @@ class DirewolfPup extends DrawCard {
         if(this.controller !== player) {
             return;
         }
+
+        this.calculateStrength();
+    }
+
+    setBlank() {
+        super.setBlank();
+
+        this.calculateStrength();
+    }
+
+    clearBlank() {
+        super.clearBlank();
 
         this.calculateStrength();
     }

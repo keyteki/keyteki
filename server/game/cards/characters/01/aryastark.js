@@ -22,20 +22,50 @@ class AryaStark extends DrawCard {
     }
 
     onDupeDiscarded(event, player, card) {
-        if(this.controller !== player || card !== this) {
+        if(this.controller !== player || card !== this || this.isBlank()) {
             return;
         }
 
-        if(this.dupes.isEmpty()) {
+        if(this.dupes.isEmpty() && this.iconAdded) {
             this.removeIcon('military');
+
+            this.iconAdded = false;
         }
     }
 
     addDuplicate(card) {
         super.addDuplicate(card);
 
-        if(this.dupes.size() === 1) {
+        if(this.isBlank()) {
+            return;
+        }
+
+        if(this.dupes.size() >= 1 && !this.iconAdded) {
             this.addIcon('military');
+
+            this.iconAdded = true;
+        }
+    }
+
+    setBlank() {
+        super.setBlank();
+
+        if(this.isBlank() && this.iconAdded) {
+            this.removeIcon('military');
+
+            this.iconAdded = false;
+        }
+    }
+
+    clearBlank() {
+        super.clearBlank();
+
+        if(!this.isBlank()) {
+            if(this.dupes.size() >= 1 && !this.iconAdded) {
+                this.addIcon('military');
+
+                this.iconAdded = true;
+            }            
         }
     }
 }

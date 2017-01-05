@@ -2,6 +2,10 @@ const DrawCard = require('../../../drawcard.js');
  
 class ViserysTargaryen extends DrawCard {
     leavesPlay() {
+        if(this.isBlank()) {
+            return;
+        }
+        
         this.game.promptWithMenu(this.controller, this, {
             activePrompt: {
                 menuTitle: 'Trigger ' + this.name + '?',
