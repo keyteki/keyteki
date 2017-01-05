@@ -136,24 +136,27 @@ class ChallengeFlow extends BaseStep {
             return;
         }
 
-        this.game.raiseEvent('beforeClaim', this.challenge);
-        var claim = this.challenge.getClaim();
+        var event = this.game.raiseEvent('beforeClaim', this.challenge);
 
-        if(claim <= 0) {
-            this.game.addMessage('The claim value for {0} is 0, no claim occurs', this.challenge.challengeType);
-        } else {
-            this.game.promptWithMenu(this.challenge.winner, this, {
-                activePrompt: {
-                    menuTitle: 'Perform before claim actions',
-                    buttons: [
-                        { text: 'Apply Claim', method: 'applyClaim' },
-                        { text: 'Continue', method: 'cancelClaim' }
-                    ]
-                },
-                waitingPromptTitle: 'Waiting for opponent to apply claim'
-            });
+        if(!event.cancel) {
+            var claim = this.challenge.getClaim();
 
-            this.challenge.claim = claim;
+            if(claim <= 0) {
+                this.game.addMessage('The claim value for {0} is 0, no claim occurs', this.challenge.challengeType);
+            } else {
+                this.game.promptWithMenu(this.challenge.winner, this, {
+                    activePrompt: {
+                        menuTitle: 'Perform before claim actions',
+                        buttons: [
+                            { text: 'Apply Claim', method: 'applyClaim' },
+                            { text: 'Continue', method: 'cancelClaim' }
+                        ]
+                    },
+                    waitingPromptTitle: 'Waiting for opponent to apply claim'
+                });
+
+                this.challenge.claim = claim;
+            }
         }
 
         this.game.raiseEvent('afterClaim', this.challenge);
