@@ -9,7 +9,7 @@ class Jhogo extends DrawCard {
 
     getNumberOfBloodriders() {
         var cards = this.controller.cardsInPlay.reduce((runningTotal, card) => {
-            if(card.hasTrait('Bloodrider') && card.getType() === 'character' && card !== this) {
+            if(!this.isBlank() && card.hasTrait('Bloodrider') && card.getType() === 'character' && card !== this) {
                 return runningTotal + 1;
             }
 

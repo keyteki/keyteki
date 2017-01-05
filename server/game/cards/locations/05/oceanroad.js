@@ -10,7 +10,7 @@ class OceanRoad extends Reducer {
     onClick(player) {
         var ret = super.onClick(player);
 
-        if(!ret) {
+        if(!ret || this.isBlank()) {
             return false;
         }
 
