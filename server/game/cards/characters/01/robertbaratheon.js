@@ -14,7 +14,7 @@ class RobertBaratheon extends DrawCard {
         var cardsInPlay = [];
 
         if(!otherPlayer) {
-            cardsInPlay = this.controller.cardsInPlay;
+            cardsInPlay = this.controller.cardsInPlay.value();
         } else {
             cardsInPlay = this.controller.cardsInPlay.union(otherPlayer.cardsInPlay.value());
         }
