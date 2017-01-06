@@ -19,6 +19,7 @@ class InnerDecks extends React.Component {
         this.onEditClick = this.onEditClick.bind(this);
 
         this.state = {
+            loaded: false,
             decks: [],
             error: '',
             showDelete: false
@@ -30,6 +31,8 @@ class InnerDecks extends React.Component {
             url: '/api/decks',
             type: 'GET'
         }).done((data) => {
+            this.setState({ loaded: true });
+
             if(!data.success) {
                 this.setState({ error: data.message });
                 return;
@@ -41,7 +44,7 @@ class InnerDecks extends React.Component {
                 this.setState({ selectedDeck: 0 });
             }
         }).fail(() => {
-            this.setState({ error: 'Could not communicate with the server.  Please try again later.' });
+            this.setState({ loaded: true, error: 'Could not communicate with the server.  Please try again later.' });
         });
     }
 
@@ -138,12 +141,16 @@ class InnerDecks extends React.Component {
 
         return (
             <div>
-                {errorBar}
-                <div className='col-sm-6'>
-                    <Link className='btn btn-primary' href='/decks/add'>Add new deck</Link>
-                    <div className='deck-list'>{this.state.decks.length === 0 ? 'You have no decks, try adding one.' : deckList}</div>
+                {this.state.loaded ?
+                <div>
+                    {errorBar}
+                    <div className='col-sm-6'>
+                        <Link className='btn btn-primary' href='/decks/add'>Add new deck</Link>
+                        <div className='deck-list'>{this.state.decks.length === 0 ? 'You have no decks, try adding one.' : deckList}</div>
+                    </div>
+                    {deckInfo}
                 </div>
-                {deckInfo}
+                : <div>Loading decks from the server...</div>}
             </div>);
     }
 }
