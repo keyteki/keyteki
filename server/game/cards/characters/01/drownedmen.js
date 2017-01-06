@@ -5,16 +5,19 @@ class DrownedMen extends DrawCard {
         super(owner, cardData);
 
         this.registerEvents(['onCardPlayed', 'onCardLeftPlay']);
+        this.warshipStrength = 0;
     }
 
     calculateStrength() {
-        this.strengthModifier = this.controller.cardsInPlay.reduce((counter, card) => {
+        this.strengthModifier -= this.warshipStrength;
+        this.warshipStrength = this.controller.cardsInPlay.reduce((counter, card) => {
             if(this.isBlank() || card.getType() !== 'location' || !card.hasTrait('Warship')) {
                 return counter;
             }
 
             return counter + 1;
         }, 0);
+        this.strengthModifier += this.warshipStrength;
     }
 
     play(player) {
