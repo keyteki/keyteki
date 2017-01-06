@@ -199,7 +199,7 @@ class ChallengeFlow extends BaseStep {
                 this.game.addMessage('{0} draws a card from Insight on {1}', this.challenge.winner, card);
             }
 
-            if(card.hasKeyword('Intimidate') && !appliedIntimidate) {
+            if(card.hasKeyword('Intimidate') && !appliedIntimidate && this.challenge.isAttackerTheWinner()) {
                 var strength = this.challenge.strengthDifference;
                 this.game.promptForSelect(this.challenge.winner, {
                     activePromptTitle: 'Choose and kneel a character with ' + strength + ' strength or less',
