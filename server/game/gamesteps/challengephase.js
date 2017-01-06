@@ -22,7 +22,6 @@ class ChallengePhase extends Phase {
 
     promptForChallenge() {
         if(this.remainingPlayers.length === 0) {
-            this.game.raiseEvent('onEndChallengePhase');
             return true;
         }
 

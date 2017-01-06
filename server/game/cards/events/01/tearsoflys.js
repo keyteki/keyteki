@@ -35,14 +35,16 @@ class TearsOfLys extends DrawCard {
 
         this.poisonTarget = card;
 
-        this.game.once('onEndChallengePhase', () => {
-            this.onEndChallengePhase();
+        this.game.once('onPhaseEnded', (event, phase) => {
+            if(phase === 'challenge') {
+                this.onPhaseEnded();
+            }
         });
 
         return true;
     }
 
-    onEndChallengePhase() {
+    onPhaseEnded() {
         if(this.poisonTarget && this.poisonTarget.location === 'play area' && this.poisonTarget.hasToken('poison')) {
             this.poisonTarget.controller.killCharacter(this.poisonTarget);
 

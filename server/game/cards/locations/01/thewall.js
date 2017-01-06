@@ -4,7 +4,7 @@ class TheWall extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['onCardPlayed', 'onEndChallengePhase', 'onUnopposedWin']);
+        this.registerEvents(['onCardPlayed']);
     }
 
     setupCardAbilities() {

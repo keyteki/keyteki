@@ -4,7 +4,7 @@ class TheRedKeep extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['onAttackersDeclared', 'onDefendersDeclared', 'onEndChallengePhase']);
+        this.registerEvents(['onAttackersDeclared', 'onDefendersDeclared', 'onPhaseEnded']);
     }
 
     onAttackersDeclared(event, challenge) {
@@ -25,8 +25,8 @@ class TheRedKeep extends DrawCard {
         this.game.addMessage('{0} uses {1} to add 2 to the strength of this {2} challenge', this.controller, this, challenge.challengeType);
     }    
 
-    onEndChallengePhase() {
-        if(this.kneeled || this.isBlank()) {
+    onPhaseEnded(event, phase) {
+        if(phase !== 'challenge' || this.kneeled || this.isBlank()) {
             return;
         }
 
