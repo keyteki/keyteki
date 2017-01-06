@@ -391,8 +391,9 @@ class Player extends Spectator {
             if(!dupeCard) {
                 card.play(this, isAmbush);
             }
+
             card.new = true;
-            this.moveCard(card, 'play area');
+            this.moveCard(card, 'play area', !!dupeCard);
 
             if(this.phase !== 'setup') {
                 this.game.raiseEvent('onCardEntersPlay', card);
@@ -825,7 +826,7 @@ class Player extends Spectator {
         this.faction.cardData.strength = 0;
     }
 
-    moveCard(card, targetLocation) {
+    moveCard(card, targetLocation, isDupe = false) {
         var targetPile = this.getSourceList(targetLocation);
 
         if(!targetPile) {
@@ -859,7 +860,12 @@ class Player extends Spectator {
             }
         }
 
-        card.moveTo(targetLocation);
+        if(!isDupe) {
+            card.moveTo(targetLocation);
+        } else {
+            card.location = 'dupe';
+        }
+
         if(targetLocation === 'draw deck') {
             targetPile.unshift(card);
         } else {
