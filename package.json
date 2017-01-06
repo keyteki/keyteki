@@ -63,7 +63,7 @@
     "body-parser": "^1.15.2",
     "css-loader": "^0.25.0",
     "eslint": "^3.9.1",
-    "eslint-plugin-react": "^6.6.0",
+    "eslint-plugin-react": "^6.8.0",
     "file-loader": "^0.9.0",
     "html-webpack-plugin": "^2.22.0",
     "istanbul": "^0.4.5",

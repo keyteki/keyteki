@@ -80,10 +80,9 @@ class InnerLobby extends React.Component {
         return (
             <div>
                 <div className='alert alert-info'>
+                    <div><span className='icon-intrigue' />2017-01-06: New cards: Fire and Blood, Alerie Tyrell, Arbor Knight, Butterbumps, Margaery Tyrell, Olenna's Informant, Paxter Redwyne, Ser Colen of Greenpools, Wardens of the Reach, Crown of Golden Roses, Heartsbane, Highgarden, Arry, Benjen Stark(partial)</div>
                     <div><span className='icon-military' />2017-01-05: New cards: Syrio Forel, Tyene Sand, Ghaston Grey, His Viper Eyes, Daenerys Targaryen, Doreah, Drogon, Jhogo, Magister Illyrio, Mirri Maz Duur, Rhaegal, Ser Jorah Mormont, Unsullied, Viserion, Viserys Targaryen (Core), Beggar King, Crown of Gold, Plaza of Punishment, Dracarys!</div> 
                     <div><span className='icon-power' />2017-01-04 (2): New cards: Asha Greyjoy, Drowned Men, Euron Crows Eye, Lordsport Shipwright, Newly-made Lord, Priest of the Drowned God, The Reader, Theon Greyjoy, Victarion Greyjoy, Wildling Scout, Iron Fleet Scout, Iron Mines, King Balon's Solar, Pyke, Raiding Longship, Areo Hotah, Arianne Martell, Edric Dayne, Elia Sand, Jaqen H'Ghar, Robert Baratheon</div>
-                    <div><p><span className='icon-intrigue' />2017-01-04: New cards: Robb Stark (Core), Sansa Stark (WotN), Asshai Priestess, Bastard Daughter, Fiery Followers, Knights of the Sun, Melisandre, Moon Boy, Nymeria Sand, Quentyn Martell, Selyse Baratheon, Ocean Road.</p>
-                    <p>Fixes for Jory Cassel, The Red Keep, Maester Cressen.  Fixed bug causing cards to disappear when spectators leave a game.  Added counters for a visual indication of when characters have gained/lost icons.</p></div>                    
                 </div>
                 <div className='row'>
                     <span className='col-sm-9 text-center'><h1>Play A Game Of Thrones 2nd Edition</h1></span>
