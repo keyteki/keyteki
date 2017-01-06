@@ -37,7 +37,7 @@ class IronMines extends DrawCard {
     }
 
     cancel(player) {
-        player.killCharacter(this.toKill);
+        player.killCharacter(this.toKill, false);
 
         this.game.addMessage('{0} declines to trigger {1}', player, this);
 

@@ -35,7 +35,7 @@ class VictarionGreyjoy extends DrawCard {
     }
 
     cancel(player) {
-        player.killCharacter(this);
+        player.killCharacter(this, false);
 
         this.game.addMessage('{0} declines to trigger {1}', player, this);
 
