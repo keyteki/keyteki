@@ -396,6 +396,22 @@ class Game extends EventEmitter {
             return;
         }
 
+        if(message.indexOf('/kill') === 0) {
+            this.promptForSelect(player, {
+                activePromptTitle: 'Select a character',
+                waitingPromptTitle: 'Waiting for opponent to set power',
+                cardCondition: card => card.location === 'play area' && card.controller === player,
+                onSelect: (p, card) => {
+                    card.controller.killCharacter(card);
+
+                    this.addMessage('{0} uses the /kill command to kill {1}', p, card);
+                    return true;
+                }
+            });  
+
+            return;          
+        }
+
         if(message.indexOf('/discard') === 0) {
             if(args.length > 1) {
                 num = this.getNumberOrDefault(args[1], 1);
