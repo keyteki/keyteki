@@ -199,31 +199,35 @@ class DeckEditor extends React.Component {
 
     render() {
         return (
-            <form className='form form-horizontal col-sm-6'>
-                <Input name='deckName' label='Deck Name' labelClass='col-sm-3' fieldClass='col-sm-9' placeholder='Deck Name'
-                    type='text' onChange={this.onChange.bind(this, 'deckName')} value={this.state.deckName} />
-                <Select name='faction' label='Faction' labelClass='col-sm-3' fieldClass='col-sm-9' options={this.state.factions}
-                    onChange={this.onFactionChange} value={this.state.selectedFaction.value} />
-                <Select name='agenda' label='Agenda' labelClass='col-sm-3' fieldClass='col-sm-9' options={this.props.agendas}
-                    onChange={this.onAgendaChange} value={this.state.selectedAgenda.code}
-                    valueKey='code' nameKey='label' blankOption={{ label: '- Select -', code: '' }} />
-                <Typeahead label='Card' labelClass={'col-sm-3'} fieldClass='col-sm-4' labelKey={'label'} options={this.props.cards}
-                    onChange={this.addCardChange}>
-                    <Input name='numcards' type='text' label='Num' labelClass='col-sm-1' fieldClass='col-sm-2'
-                        value={this.state.numberToAdd.toString()} onChange={this.onChange.bind(this, 'numberToAdd')}>
-                        <div className='col-sm-1'>
-                            <button className='btn btn-default' onClick={this.onAddCard}>Add</button>
+            <div className='col-sm-6'>
+                <h2>Deck Editor</h2>
+                <h4>Either type the cards manually into the box below, add the cards one by one using the card box and autocomplete or for best results, copy and paste a decklist from <a href='http://thronesdb.net' target='_blank'>Thrones DB</a> into the box below.</h4>
+                <form className='form form-horizontal'>
+                    <Input name='deckName' label='Deck Name' labelClass='col-sm-3' fieldClass='col-sm-9' placeholder='Deck Name'
+                        type='text' onChange={this.onChange.bind(this, 'deckName')} value={this.state.deckName} />
+                    <Select name='faction' label='Faction' labelClass='col-sm-3' fieldClass='col-sm-9' options={this.state.factions}
+                        onChange={this.onFactionChange} value={this.state.selectedFaction.value} />
+                    <Select name='agenda' label='Agenda' labelClass='col-sm-3' fieldClass='col-sm-9' options={this.props.agendas}
+                        onChange={this.onAgendaChange} value={this.state.selectedAgenda.code}
+                        valueKey='code' nameKey='label' blankOption={{ label: '- Select -', code: '' }} />
+                    <Typeahead label='Card' labelClass={'col-sm-3'} fieldClass='col-sm-4' labelKey={'label'} options={this.props.cards}
+                        onChange={this.addCardChange}>
+                        <Input name='numcards' type='text' label='Num' labelClass='col-sm-1' fieldClass='col-sm-2'
+                            value={this.state.numberToAdd.toString()} onChange={this.onChange.bind(this, 'numberToAdd')}>
+                            <div className='col-sm-1'>
+                                <button className='btn btn-default' onClick={this.onAddCard}>Add</button>
+                            </div>
+                        </Input>
+                    </Typeahead>
+                    <TextArea label='Cards' labelClass='col-sm-3' fieldClass='col-sm-9' rows='25' value={this.state.cardList}
+                        onChange={this.onCardListChange} />
+                    <div className='form-group'>
+                        <div className='col-sm-offset-3 col-sm-8'>
+                            <button ref='submit' type='submit' className='btn btn-primary' onClick={this.onSaveClick}>{this.props.mode}</button>
                         </div>
-                    </Input>
-                </Typeahead>
-                <TextArea label='Cards' labelClass='col-sm-3' fieldClass='col-sm-9' rows='25' value={this.state.cardList}
-                    onChange={this.onCardListChange} />
-                <div className='form-group'>
-                    <div className='col-sm-offset-3 col-sm-8'>
-                        <button ref='submit' type='submit' className='btn btn-primary' onClick={this.onSaveClick}>{this.props.mode}</button>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         );
     }
 }
