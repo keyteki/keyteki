@@ -31,11 +31,19 @@ class CardReaction extends BaseCardReaction {
     }
 
     createChoices(properties) {
+        var choices = {};
+
         if(properties.choices) {
-            return properties.choices;
+            choices = properties.choices;
+        } else {
+            choices = { 'Yes': properties.handler };
         }
 
-        return { 'Yes': properties.handler };
+        if(properties.onCancel) {
+            this.onCancel = properties.onCancel;
+        }
+
+        return choices;
     }
 
     executeReaction() {
@@ -69,10 +77,8 @@ class CardReaction extends BaseCardReaction {
     cancel() {
         this.game.addMessage('{0} declines to trigger {1}', this.card.controller, this.card);
 
-        var handler = this.choices['onCancel'];
-
-        if(handler) {
-            return handler();
+        if(this.onCancel) {
+            return this.onCancel();
         }
 
         return true;
