@@ -1,56 +1,16 @@
 const DrawCard = require('../../../drawcard.js');
 
 class Lannisport extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['afterChallenge']);
-    }
-
-    onBeginRound() {
-        this.abilityUsed = 0;
-    }
-
-    afterChallenge(event, challenge) {
-        if(this.isBlank()) {
-            return;
-        }
-
-        if(challenge.challengeType !== 'intrigue' || challenge.winner !== this.controller) {
-            return;
-        }
-
-        this.game.promptWithMenu(challenge.winner, this, {
-            activePrompt: {
-                menuTitle: 'Trigger ' + this.name + '?',
-                buttons: [
-                    { text: 'Draw 1 card', method: 'drawCard' },
-                    { text: 'No', method: 'cancel' }
-                ]
+    setupCardAbilities() {
+        this.reaction({
+            when: {
+                afterChallenge: (event, challenge) => challenge.challengeType === 'intrigue' && challenge.winner === this.controller
             },
-            waitingPromptTitle: 'Waiting for opponent to perform reactions'
+            handler: () => {
+                this.controller.drawCardsToHand(1);
+                this.game.addMessage('{0} uses {1} to draw 1 card', this.controller, this);
+            }
         });
-    }
-
-    drawCard(player) {
-        if(this.isBlank() || this.controller !== player) {
-            return false;
-        }
-
-        player.drawCardsToHand(1);
-
-        this.game.addMessage('{0} uses {1} to draw 1 card', player, this);
-
-        return true;
-    }
-
-    cancel(player) {
-        if(this.isBlank() || this.controller !== player) {
-            return false;
-        }
-
-        this.game.addMessage('{0} declines to trigger {1}', player, this);
-        return true;
     }
 }
 

@@ -1,6 +1,7 @@
 const _ = require('underscore');
 
 const DrawCard = require('../../../drawcard.js');
+const AbilityLimit = require('../../../abilitylimit.js');
 
 class ArborKnight extends DrawCard {
     constructor(owner, cardData) {
@@ -13,7 +14,7 @@ class ArborKnight extends DrawCard {
         this.action({
             title: 'Pay 1 gold to give a character +1 STR',
             method: 'payGold',
-            limit: { amount: 3, period: 'phase' }
+            limit: AbilityLimit.perPhase(3)
         });
     }
 

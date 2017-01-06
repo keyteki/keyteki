@@ -1,40 +1,24 @@
 const DrawCard = require('../../../drawcard.js');
 
 class AreoHotah extends DrawCard {
-    play(player) {
-        super.play(player);
-
-        if(player.phase !== 'challenge' || !this.game.currentChallenge) {
-            return;
-        }
-
-        this.game.promptWithMenu(player, this, {
-            activePrompt: {
-                menuTitle: 'Trigger ' + this.name + '?',
-                buttons: [
-                    { text: 'Remove a character', method: 'trigger' },
-                    { text: 'No', method: 'cancel' }
-                ]
+    setupCardAbilities() {
+        this.reaction({
+            when: {
+                onCardEntersPlay: (card) => (
+                    card === this &&
+                    this.game.currentChallenge &&
+                    this.game.currentPhase === 'challenge'
+                )
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            handler: () => {
+                this.game.promptForSelect(this.controller, {
+                    cardCondition: card => this.cardCondition(card),
+                    activePromptTitle: 'Select character',
+                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    onSelect: (player, card) => this.onCardSelected(player, card)
+                });
+            }
         });
-    }
-
-    trigger(player) {
-        this.game.promptForSelect(player, {
-            cardCondition: card => this.cardCondition(card),
-            activePromptTitle: 'Select character',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            onSelect: (player, card) => this.onCardSelected(player, card)
-        });
-
-        return true;
-    }
-
-    cancel(player) {
-        this.game.addMessage('{0} declines to trigger {1}', player, this);
-
-        return true;
     }
 
     cardCondition(card) {

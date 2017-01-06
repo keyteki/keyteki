@@ -7,6 +7,28 @@ class TheWall extends DrawCard {
         this.registerEvents(['onCardPlayed', 'onEndChallengePhase', 'onUnopposedWin']);
     }
 
+    setupCardAbilities() {
+        this.forcedReaction({
+            when: {
+                onUnopposedWin: (e, challenge) => this.controller !== challenge.winner && !this.kneeled
+            },
+            handler: () => {
+                this.game.addMessage('{0} is forced to kneel {1} because they lost an unopposed challenge', this.controller, this);
+                this.controller.kneelCard(this);
+            }
+        });
+        this.interrupt({
+            when: {
+                onPhaseEnded: (e, phase) => phase === 'challenge'
+            },
+            handler: () => {
+                this.controller.kneelCard(this);
+                this.game.addPower(this.controller, 2);
+                this.game.addMessage('{0} kneels {1} to gain 2 power for their faction', this.controller, this);
+            }
+        });
+    }
+
     play(player) {
         super.play(player);
 
@@ -25,51 +47,6 @@ class TheWall extends DrawCard {
         if(card.getFaction() === this.getFaction() && card.getType() === 'character') {
             card.strengthModifier++;
         }
-    }
-
-    onUnopposedWin(e, challenge) {
-        if(this.controller !== challenge.winner && !this.kneeled && !this.isBlank()) {
-            this.game.addMessage('{0} is forced to kneel {1} because they lost an unopposed challenge', this.controller, this);
-            this.controller.kneelCard(this);
-        }
-    }
-
-    onEndChallengePhase() {
-        if(this.kneeled || this.isBlank()) {
-            return;
-        }
-
-        this.game.promptWithMenu(this.controller, this, {
-            activePrompt: {
-                menuTitle: 'Kneel ' + this.name + '?',
-                buttons: [
-                    { text: 'Yes', method: 'kneel' },
-                    { text: 'No', method: 'cancel' }
-                ]
-            },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
-        });
-    }
-
-    kneel(player) {
-        if(this.isBlank() || this.controller !== player) {
-            return false;
-        }
-
-        this.game.addMessage('{0} kneels {1} to gain 2 power for their faction', player, this);
-
-        this.game.addPower(player, 2);
-
-        return true;
-    }
-
-    cancel(player) {
-        if(this.isBlank() || this.controller !== player) {
-            return false;
-        }
-
-        this.game.addMessage('{0} declines to trigger {1}', player, this);
-        return true;
     }
 
     leavesPlay() {

@@ -1,11 +1,12 @@
 const DrawCard = require('../../../drawcard.js');
+const AbilityLimit = require('../../../abilitylimit.js');
 
 class WildlingScout extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Sacrifice this character to give another character stealth',
             method: 'sacrifice',
-            limit: { amount: 1, period: 'phase' }
+            limit: AbilityLimit.perPhase(1)
         });
     }    
 

@@ -11,10 +11,8 @@
  * phase        - string representing which phases the action may be executed.
  *                Defaults to 'any' which allows the action to be executed in
  *                any phase.
- * limit.amount - integer indicating the number of times an action may be
- *                executed per period.
- * limit.period - string indicating how often the action's use count is reset.
- *                Must be either 'challenge', 'phase', or 'round'.
+ * limit        - optional AbilityLimit object that represents the max number of
+ *                uses for the action as well as when it resets.
  * anyPlayer    - boolean indicating that the action may be executed by a player
  *                other than the card's controller. Defaults to false.
  */
@@ -26,7 +24,6 @@ class CardAction {
         this.limit = properties.limit;
         this.phase = properties.phase || 'any';
         this.anyPlayer = properties.anyPlayer || false;
-        this.useCount = 0;
 
         this.handler = card[properties.method].bind(card);
     }
@@ -36,7 +33,7 @@ class CardAction {
             return;
         }
 
-        if(this.limit && this.useCount >= this.limit.amount) {
+        if(this.limit && this.limit.isAtMax()) {
             return;
         }
 
@@ -48,8 +45,8 @@ class CardAction {
             return;
         }
 
-        if(this.handler(player, arg) !== false) {
-            this.useCount += 1;
+        if(this.handler(player, arg) !== false && this.limit) {
+            this.limit.increment();
         }
     }
 
@@ -57,37 +54,15 @@ class CardAction {
         return { text: this.title, method: 'doAction', anyPlayer: !!this.anyPlayer };
     }
 
-    reset() {
-        this.useCount = 0;
-    }
-
     registerEvents() {
         if(this.limit) {
-            this.event = {
-                name: this.getPeriodEventName(),
-                handler: this.reset.bind(this)
-            };
-            this.game.on(this.event.name, this.event.handler);
+            this.limit.registerEvents(this.game);
         }
-    }
-
-    getPeriodEventName() {
-        switch(this.limit.period) {
-            case 'challenge':
-                return 'onChallengeFinished';
-            case 'phase':
-                return 'onPhaseEnded';
-            case 'round':
-                return 'onRoundEnded';
-        }
-
-        throw new Error('Unknown period"' + this.limit.period + '" for card ' + this.card.name);
     }
 
     unregisterEvents() {
-        if(this.event) {
-            this.game.removeListener(this.event.name, this.event.handler);
-            this.event = null;
+        if(this.limit) {
+            this.limit.unregisterEvents(this.game);
         }
     }
 }

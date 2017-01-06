@@ -1,13 +1,14 @@
 const _ = require('underscore');
 
 const DrawCard = require('../../../drawcard.js');
+const AbilityLimit = require('../../../abilitylimit.js');
 
 class CrownOfGoldenRoses extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Discard a card to give attached character STR',
             method: 'boost',
-            limit: { amount: 2, period: 'round' }
+            limit: AbilityLimit.perRound(2)
         });
     }
 

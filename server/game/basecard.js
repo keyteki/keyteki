@@ -2,6 +2,8 @@ const uuid = require('node-uuid');
 const _ = require('underscore');
 
 const CardAction = require('./cardaction.js');
+const CardForcedReaction = require('./cardforcedreaction.js');
+const CardReaction = require('./cardreaction.js');
 const EventRegistrar = require('./eventregistrar.js');
 
 const ValidKeywords = [
@@ -37,7 +39,7 @@ class BaseCard {
 
         this.events = new EventRegistrar(this.game, this);
 
-        this.abilities = {};
+        this.abilities = { reactions: [] };
         this.setupCardAbilities();
     }
 
@@ -88,6 +90,26 @@ class BaseCard {
         this.menu.push(action.getMenuItem());
     }
 
+    reaction(properties) {
+        var reaction = new CardReaction(this.game, this, properties);
+        this.abilities.reactions.push(reaction);
+    }
+
+    forcedReaction(properties) {
+        var reaction = new CardForcedReaction(this.game, this, properties);
+        this.abilities.reactions.push(reaction);
+    }
+
+    // TODO: Interrupt shouldn't be a synonym for reaction, but for now this
+    //       mirrors how they've been implemented so far.
+    interrupt(properties) {
+        this.reaction(properties);
+    }
+
+    forcedInterrupt(properties) {
+        this.forcedReaction(properties);
+    }
+
     doAction(player, arg) {
         if(!this.abilities.action) {
             return;
@@ -123,11 +145,17 @@ class BaseCard {
             if(this.abilities.action) {
                 this.abilities.action.registerEvents();
             }
+            _.each(this.abilities.reactions, reaction => {
+                reaction.registerEvents();
+            })
         } else if(LocationsWithEventHandling.includes(this.location) && !LocationsWithEventHandling.includes(targetLocation)) {
             this.events.unregisterAll();
             if(this.abilities.action) {
                 this.abilities.action.unregisterEvents();
             }
+            _.each(this.abilities.reactions, reaction => {
+                reaction.unregisterEvents();
+            })
         }
 
         if(targetLocation !== 'play area') {

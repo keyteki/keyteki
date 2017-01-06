@@ -1,13 +1,14 @@
 const _ = require('underscore');
 
 const DrawCard = require('../../../drawcard.js');
+const AbilityLimit = require('../../../abilitylimit.js');
 
 class NymeriaSand extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Remove icon from opponent\'s character',
             method: 'stealIcon',
-            limit: { amount: 1, period: 'phase' }
+            limit: AbilityLimit.perPhase(1)
         });
     }
 

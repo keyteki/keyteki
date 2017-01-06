@@ -1,11 +1,12 @@
 const DrawCard = require('../../../drawcard.js');
+const AbilityLimit = require('../../../abilitylimit.js');
 
 class ArianneMartell extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Put a card with printed cost of 5 or lower in play',
             method: 'putInPlay',
-            limit: { amount: 1, period: 'phase' }
+            limit: AbilityLimit.perPhase(1)
         });
     }
 

@@ -1,11 +1,12 @@
 const DrawCard = require('../../../drawcard.js');
+const AbilityLimit = require('../../../abilitylimit.js');
 
 class SyrioForel extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Give a character military icon and stealth',
             method: 'giveIcon',
-            limit: { amount: 1, period: 'phase' }
+            limit: AbilityLimit.perPhase(1)
         });
     }
 

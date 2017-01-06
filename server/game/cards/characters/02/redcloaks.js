@@ -1,10 +1,11 @@
 const DrawCard = require('../../../drawcard.js');
+const AbilityLimit = require('../../../abilitylimit.js');
 
 class RedCloaks extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['onAttackersDeclared']);
+        this.registerEvents(['onAttackersDeclared', 'onChallengeFinished']);
 
         this.tokens['gold'] = 0;
     }
@@ -13,7 +14,7 @@ class RedCloaks extends DrawCard {
         this.action({
             title: 'Move 1 gold from your gold pool to this card',
             method: 'addGold',
-            limit: { amount: 1, period: 'phase' }
+            limit: AbilityLimit.perPhase(1)
         });
     }
 

@@ -1,4 +1,5 @@
 const DrawCard = require('../../../drawcard.js');
+const AbilityLimit = require('../../../abilitylimit.js');
 
 class Shae extends DrawCard {
     constructor(owner, cardData) {
@@ -11,7 +12,8 @@ class Shae extends DrawCard {
         this.action({
             title: 'Pay 1 gold to stand Shae',
             method: 'stand',
-            phase: 'challenge'
+            phase: 'challenge',
+            limit: AbilityLimit.perPhase(2)
         });
     }
 

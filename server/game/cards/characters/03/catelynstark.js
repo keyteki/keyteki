@@ -1,4 +1,5 @@
 const DrawCard = require('../../../drawcard.js');
+const AbilityLimit = require('../../../abilitylimit.js');
 
 class CatelynStark extends DrawCard {
     constructor(owner, cardData) {
@@ -6,8 +7,30 @@ class CatelynStark extends DrawCard {
 
         this.power = 0;
         this.lastPower = 0;
+    }
 
-        this.registerEvents(['onSacrificed', 'onCharacterKilled', 'onBeginRound']);
+    setupCardAbilities() {
+        this.reaction({
+            when: {
+                onSacrificed: (event, player, card) => this.starkCharacterSacrificedOrKilled(event, player, card),
+                onCharacterKilled: (event, player, card) => this.starkCharacterSacrificedOrKilled(event, player, card)
+            },
+            limit: AbilityLimit.perRound(2),
+            handler: () => {
+                this.game.addMessage('{0} gains 1 power on {1} in reaction to a {2} character being sacrificed or killed', this.controller, this, this.getFaction());
+                this.power++;
+                this.updateStrength();
+            }
+        })
+    }
+
+    starkCharacterSacrificedOrKilled(event, player, card) {
+        return (
+            this.controller === player &&
+            card !== this &&
+            card.getFaction() === this.getFaction() &&
+            card.getType() === 'character'
+        );
     }
 
     updateStrength() {
@@ -19,60 +42,6 @@ class CatelynStark extends DrawCard {
         this.strengthModifier += this.power;
 
         this.lastPower = this.controller.faction.power;
-    }
-
-    onBeginRound() {
-        this.abilityUsed = 0;
-    }
-
-    onSacrificed(event, player, card) {
-        if(this.isBlank() || this.controller !== player || this.abilityUsed >= 2) {
-            return;
-        }
-
-        if(card === this) {
-            return;
-        }
-
-        if(card.getFaction() === this.getFaction() && card.getType() === 'character') {
-            this.game.promptWithMenu(player, this, {
-                activePrompt: {
-                    menuTitle: 'Gain 1 power on ' + this.name + '?',
-                    buttons: [
-                        { text: 'Yes', method: 'gainPower' },
-                        { text: 'No', method: 'cancel' }
-                    ]
-                },
-                waitingPromptTitle: 'Waiting for opponent to use ' + this.name
-            });
-        }
-    }
-
-    onCharacterKilled(event, player, card) {
-        this.onSacrificed(event, player, card);
-    }
-
-    gainPower(player) {
-        if(this.isBlank() || this.controller !== player) {
-            return false;
-        }
-
-        this.game.addMessage('{0} gains 1 power on {1} in reaction to a {2} character being sacrificed or killed', player, this, this.getFaction());
-        this.power++;
-        this.updateStrength();
-
-        this.abilityUsed++;
-
-        return true;
-    }
-
-    cancel(player) {
-        if(this.isBlank() || this.controller !== player) {
-            return false;
-        }
-
-        this.game.addMessage('{0} declines to trigger {1}', player, this);
-        return true;
     }
 }
 
