@@ -4,12 +4,13 @@ class LordsportShipright extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Kneel Lordsport Shipwright to kneel a location',
-            method: 'kneelLocation'
+            method: 'kneelLocation',
+            phase: 'marshal'
         });
     }    
 
     kneelLocation(player) {
-        if(player.phase !== 'marshal' || this.kneeled) {
+        if(this.kneeled) {
             return;
         }
 
