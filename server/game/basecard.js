@@ -147,7 +147,7 @@ class BaseCard {
             }
             _.each(this.abilities.reactions, reaction => {
                 reaction.registerEvents();
-            })
+            });
         } else if(LocationsWithEventHandling.includes(this.location) && !LocationsWithEventHandling.includes(targetLocation)) {
             this.events.unregisterAll();
             if(this.abilities.action) {
@@ -155,7 +155,7 @@ class BaseCard {
             }
             _.each(this.abilities.reactions, reaction => {
                 reaction.unregisterEvents();
-            })
+            });
         }
 
         if(targetLocation !== 'play area') {

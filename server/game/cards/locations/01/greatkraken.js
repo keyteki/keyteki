@@ -16,8 +16,8 @@ class GreatKraken extends DrawCard {
             limit: AbilityLimit.perRound(2),
             choices: {
                 'Draw 1 card': () => {
-                  this.controller.drawCardsToHand(1);
-                  this.game.addMessage('{0} uses {1} to draw 1 card', this.controller, this);
+                    this.controller.drawCardsToHand(1);
+                    this.game.addMessage('{0} uses {1} to draw 1 card', this.controller, this);
                 },
                 'Gain 1 power': () => {
                     this.game.addPower(this.controller, 1);

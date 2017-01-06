@@ -21,7 +21,7 @@ class CatelynStark extends DrawCard {
                 this.power++;
                 this.updateStrength();
             }
-        })
+        });
     }
 
     starkCharacterSacrificedOrKilled(event, player, card) {

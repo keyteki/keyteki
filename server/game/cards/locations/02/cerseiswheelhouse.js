@@ -16,7 +16,7 @@ class CerseisWheelhouse extends DrawCard {
                     this.game.addMessage('{0} uses {1} to draw 1 card', this.controller, this);
                 }
             }
-        })
+        });
     }
 
     getInitiative() {

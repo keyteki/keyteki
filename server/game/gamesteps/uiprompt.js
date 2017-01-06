@@ -25,7 +25,7 @@ class UiPrompt extends BaseStep {
         });
     }
 
-    activeCondition(player) {
+    activeCondition() {
         return true;
     }
 

@@ -6,11 +6,11 @@ class BaseStep {
     continue() {
     }
 
-    onCardClicked(player, card) {
+    onCardClicked() {
         return false;
     }
 
-    onMenuCommand(player, arg) {
+    onMenuCommand() {
         return false;
     }
 }

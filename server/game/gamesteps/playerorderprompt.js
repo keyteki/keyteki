@@ -21,7 +21,7 @@ class PlayerOrderPrompt extends UiPrompt {
         this.players = _.reject(this.players, p => this.skipCondition(p));
     }
 
-    skipCondition(player) {
+    skipCondition() {
         return false;
     }
 

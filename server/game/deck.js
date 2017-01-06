@@ -20,7 +20,7 @@ class Deck {
             var drawCard = this.createCard(DrawCard, player, cardData);
             drawCard.location = 'draw deck';
             result.drawCards.push(drawCard);
-        })
+        });
 
         this.eachRepeatedCard(this.data.plotCards, cardData => {
             var plotCard = this.createCard(PlotCard, player, cardData);

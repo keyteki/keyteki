@@ -19,7 +19,7 @@
     "no-useless-constructor": [1],
     "array-bracket-spacing": [1, "never"],
     "block-spacing": [1, "always"],
-    "camelcase": [1],
+    "camelcase": [1, { "properties": "never"}],
     "comma-dangle": [1],
     "space-before-blocks": [1],
     "space-in-parens": [2, "never"],
