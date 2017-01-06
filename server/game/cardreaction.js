@@ -69,6 +69,12 @@ class CardReaction extends BaseCardReaction {
     cancel() {
         this.game.addMessage('{0} declines to trigger {1}', this.card.controller, this.card);
 
+        var handler = this.choices['onCancel'];
+
+        if(handler) {
+            return handler();
+        }
+
         return true;
     }
 }
