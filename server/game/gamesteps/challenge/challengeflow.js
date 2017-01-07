@@ -218,7 +218,7 @@ class ChallengeFlow extends BaseStep {
             }
 
             if(card.isRenown()) {
-                card.power++;
+                this.modifyPower(1);
 
                 this.game.raiseEvent('onRenown', this.challenge, card);
 

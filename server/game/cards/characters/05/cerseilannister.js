@@ -41,7 +41,7 @@ class CerseiLannister extends DrawCard {
 
     gainPower(player) {
         this.game.addMessage('{0} gains 1 power on {1} in reaction to a card being discarded from their opponents\'s hand', player, this);
-        this.power++;
+        this.modifyPower(1);
         this.abilityUsed++;
 
         return true;

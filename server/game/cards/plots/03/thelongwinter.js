@@ -48,7 +48,7 @@ class TheLongWinter extends PlotCard {
                 this.game.addMessage('{0} discards 1 power from their faction card from {1}', player, this);
             } else if(selection.card) {
                 this.game.addMessage('{0} discards 1 power from {1}', player, selection.card);
-                selection.card.power--;
+                selection.card.modifyPower(-1);
             }
         });
 

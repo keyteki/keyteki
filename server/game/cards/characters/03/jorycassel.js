@@ -38,7 +38,7 @@ class JoryCassel extends DrawCard {
         if(!_.any(this.game.getPlayers(), player => {
             return player.activePlot.hasTrait('Winter');
         })) {
-            this.toKill.power++;
+            this.toKill.modifyPower(1);
         }
 
         return true;

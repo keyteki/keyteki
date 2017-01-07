@@ -18,7 +18,7 @@ class CatelynStark extends DrawCard {
             limit: AbilityLimit.perRound(2),
             handler: () => {
                 this.game.addMessage('{0} gains 1 power on {1} in reaction to a {2} character being sacrificed or killed', this.controller, this, this.getFaction());
-                this.power++;
+                this.modifyPower(1);
                 this.updateStrength();
             }
         });

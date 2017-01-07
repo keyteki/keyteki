@@ -26,7 +26,7 @@ class TheonGreyjoy extends DrawCard {
     }
 
     gainPower(player) {
-        this.power++;
+        this.modifyPower(1);
         this.game.addMessage('{0} gains 1 power on {1} after winning an unopposed challenge', player, this);
 
         return true;

@@ -27,7 +27,7 @@ class VictarionGreyjoy extends DrawCard {
     }
 
     save(player) {
-        this.power -= 2;
+        this.modifyPower(-2);
 
         this.game.addMessage('{0} uses {1} to save {2}', player, this, this);
 

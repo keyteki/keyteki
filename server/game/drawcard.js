@@ -152,6 +152,12 @@ class DrawCard extends BaseCard {
         this.icons[icon]--;
     }
 
+    modifyPower(power) {
+        this.power += power;
+
+        this.game.raiseEvent('powerChanged', this, power);
+    }
+
     needsStealthTarget() {
         return this.isStealth() && !this.stealthTarget;
     }

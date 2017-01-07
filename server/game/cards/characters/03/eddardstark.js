@@ -30,7 +30,7 @@ class EddardStark extends DrawCard {
             return;
         }
 
-        card.power++;
+        this.modifyPower(1);
 
         this.game.addMessage('{0} uses {1} to allow {2} to gain 1 power', player, this, card);
 
