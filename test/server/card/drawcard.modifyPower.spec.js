@@ -28,6 +28,16 @@ describe('DrawCard', function () {
                 expect(this.card.power).toBe(0);
                 expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onCardPowerChanged', this.card, -2);
             });
-        });        
+        });
+
+        describe('when a card power would go negative', function() {
+            it('should set the power of the card to 0', function() {
+                this.card.power = 2;
+                this.card.modifyPower(-5);
+
+                expect(this.card.power).toBe(0);
+                expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onCardPowerChanged', this.card, -2);
+            });
+        });
     });
 });
