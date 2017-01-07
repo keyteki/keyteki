@@ -155,7 +155,7 @@ class DrawCard extends BaseCard {
     modifyPower(power) {
         this.power += power;
 
-        this.game.raiseEvent('powerChanged', this, power);
+        this.game.raiseEvent('onCardPowerChanged', this, power);
     }
 
     needsStealthTarget() {

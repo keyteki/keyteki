@@ -12,21 +12,21 @@ describe('DrawCard', function () {
 
     describe('modifyPower()', function() {
         describe('when called with a positive power', function() {
-            it('should increase the power on the card and raise a powerChanged event', function() {
+            it('should increase the power on the card and raise a onCardPowerChanged event', function() {
                 this.card.modifyPower(2);
 
                 expect(this.card.power).toBe(2);
-                expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('powerChanged', this.card, 2);
+                expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onCardPowerChanged', this.card, 2);
             });
         });
 
         describe('when called with a negative power', function() {
-            it('should reduce the power on the card and raise a powerChanged event', function() {
+            it('should reduce the power on the card and raise a onCardPowerChanged event', function() {
                 this.card.power = 2;
                 this.card.modifyPower(-2);
 
                 expect(this.card.power).toBe(0);
-                expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('powerChanged', this.card, -2);
+                expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onCardPowerChanged', this.card, -2);
             });
         });        
     });
