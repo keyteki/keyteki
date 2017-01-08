@@ -2,12 +2,6 @@ const DrawCard = require('../../../drawcard.js');
 const AbilityLimit = require('../../../abilitylimit.js');
 
 class Shae extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.tokens['gold'] = 0;
-    }
-
     setupCardAbilities() {
         this.action({
             title: 'Pay 1 gold to stand Shae',
