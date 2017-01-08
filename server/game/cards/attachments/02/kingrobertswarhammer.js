@@ -15,15 +15,33 @@ class KingRobertsWarhammer extends DrawCard {
                     numCards: 99,
                     activePromptTitle: 'Select characters',
                     waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-                    cardCondition: card => !card.kneeled && card.getStrength() + this.selectedStrength <= this.parent.getStrength(),
-                    onCardSelected: (player, card) => {
-                        this.selectedStrength += card.getStrength();
+                    cardCondition: card => {
+                        return !card.kneeled && (card.getStrength() + this.selectedStrength <= this.parent.getStrength() || card.opponentSelected);
+                    },
+                    onCardToggle: (player, card) => {
+                        if(card.opponentSelected) {
+                            this.selectedStrength += card.getStrength();
+                        } else {
+                            this.selectedStrength -= card.getStrength();
+                        }    
                     },
                     onSelect: (player, cards) => this.onSelect(player, cards),
                     onCancel: (player) => this.cancelSelection(player)
                 });
             }
         });
+    }
+
+    attach(player, card) {
+        card.strengthModifier++;
+
+        super.attach(player, card);
+    }
+
+    leavesPlay(player) {
+        this.parent.strengthModifier--;
+
+        super.leavesPlay(player);
     }
 
     onSelect(player, cards) {
