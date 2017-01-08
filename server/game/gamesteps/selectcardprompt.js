@@ -115,6 +115,10 @@ class SelectCardPrompt extends UiPrompt {
             this.selectedCards = _.reject(this.selectedCards, c => c === card);
         }
 
+        if(this.properties.onCardSelected) {
+            this.properties.onCardSelected(this.choosingPlayer, card);
+        }
+
         return true;
     }
 
