@@ -61,7 +61,7 @@ class PaidOff extends DrawCard {
     }    
 
     canAttach(player, card) {
-        if(card.controller === this.controller) {
+        if(card.getType() !== 'character' || card.controller === this.controller) {
             return false;
         }
 
