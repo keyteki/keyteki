@@ -29,11 +29,15 @@ class TheWall extends DrawCard {
         });
     }
 
+    isBoostableCard(card) {
+        return card.getFaction() === this.getFaction() && card.getType() === 'character';
+    }
+
     play(player) {
         super.play(player);
 
         player.cardsInPlay.each(card => {
-            if(card.getFaction() === this.getFaction() && card.getType() === 'character') {
+            if(this.isBoostableCard(card)) {
                 card.strengthModifier++;
             }
         });
@@ -44,7 +48,7 @@ class TheWall extends DrawCard {
             return;
         }
 
-        if(card.getFaction() === this.getFaction() && card.getType() === 'character') {
+        if(this.isBoostableCard(card)) {
             card.strengthModifier++;
         }
     }
@@ -57,7 +61,7 @@ class TheWall extends DrawCard {
         }
 
         this.controller.cardsInPlay.each(card => {
-            if(card.getFaction() === this.getFaction() && card.getType() === 'character') {
+            if(this.isBoostableCard(card)) {
                 card.strengthModifier--;
             }
         });

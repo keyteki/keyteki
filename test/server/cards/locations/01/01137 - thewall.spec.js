@@ -1,4 +1,4 @@
-/* global describe, it, expect, beforeEach, jasmine, afterEach */
+/* global describe, it, expect, beforeEach */
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
 const _ = require('underscore');
@@ -24,7 +24,7 @@ describe('TheWall', function() {
                 this.player.phase = 'setup';
                 this.player.gold = 10;
 
-                var wallData = { "pack_code" : "Core", "pack_name" : "Core Set", "type_code" : "location", "type_name" : "Location", "faction_code" : "thenightswatch", "faction_name" : "The Night's Watch", "position" : 137, "code" : "01137", "name" : "The Wall", "cost" : 4, "text" : "Each [thenightswatch] character you control gets +1 STR.\n<b>Forced Reaction:</b> After you lose an unopposed challenge, kneel The Wall.\n<b>Interrupt:</b> When the challenges phase ends, kneel The Wall to gain 2 power for your faction.", "quantity" : 1, "income" : null, "initiative" : null, "claim" : null, "reserve" : null, "deck_limit" : 3, "strength" : null, "traits" : "Stronghold. The North.", "flavor" : null, "illustrator" : "Lino Drieghe", "is_unique" : true, "is_loyal" : false, "is_military" : false, "is_intrigue" : false, "is_power" : false, "octgn_id" : "5d20e021-5d12-4338-8bdd-42d008bff919", "url" : "https://thronesdb.com/card/01137", "imagesrc" : "/bundles/cards/01137.png", "label" : "The Wall", "ci" : 4, "si" : -1 };
+                var wallData = { 'pack_code' : 'Core', 'pack_name' : 'Core Set', 'type_code' : 'location', 'type_name' : 'Location', 'faction_code' : 'thenightswatch', 'faction_name' : 'The Night\'s Watch', 'position' : 137, 'code' : '01137', 'name' : 'The Wall', 'cost' : 4, 'text' : 'Each [thenightswatch] character you control gets +1 STR.\n<b>Forced Reaction:</b> After you lose an unopposed challenge, kneel The Wall.\n<b>Interrupt:</b> When the challenges phase ends, kneel The Wall to gain 2 power for your faction.', 'quantity' : 1, 'income' : null, 'initiative' : null, 'claim' : null, 'reserve' : null, 'deck_limit' : 3, 'strength' : null, 'traits' : 'Stronghold. The North.', 'flavor' : null, 'illustrator' : 'Lino Drieghe', 'is_unique' : true, 'is_loyal' : false, 'is_military' : false, 'is_intrigue' : false, 'is_power' : false, 'octgn_id' : '5d20e021-5d12-4338-8bdd-42d008bff919', 'url' : 'https://thronesdb.com/card/01137', 'imagesrc' : '/bundles/cards/01137.png', 'label' : 'The Wall', 'ci' : 4, 'si' : -1 };
 
                 this.wall1 = new TheWall(this.player, wallData);
                 this.wall1.location = 'draw deck';

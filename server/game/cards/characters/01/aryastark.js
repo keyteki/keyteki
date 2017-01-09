@@ -8,7 +8,7 @@ class AryaStark extends DrawCard {
     }
 
     onCardEntersPlay(event, card) {
-        if(card !== this) {
+        if(card !== this || card.controller.phase === 'setup') {
             return;
         }
 

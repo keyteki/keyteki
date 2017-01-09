@@ -395,9 +395,7 @@ class Player extends Spectator {
             card.new = true;
             this.moveCard(card, 'play area', !!dupeCard);
 
-            if(this.phase !== 'setup') {
-                this.game.raiseEvent('onCardEntersPlay', card);
-            }
+            this.game.raiseEvent('onCardEntersPlay', card);
         }
 
         if(card.isLimited() && !forcePlay) {

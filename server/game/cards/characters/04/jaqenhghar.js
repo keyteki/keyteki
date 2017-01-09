@@ -10,7 +10,7 @@ class JaqenHGhar extends DrawCard {
     }
 
     onCardEntersPlay(event, card) {
-        if(card !== this) {
+        if(card !== this || this.controller.phase === 'setup') {
             return;
         }
 
