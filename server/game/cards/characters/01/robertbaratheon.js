@@ -20,7 +20,7 @@ class RobertBaratheon extends DrawCard {
         }
 
         this.strengthModifier = _.reduce(cardsInPlay, (counter, card) => {
-            if(this.isBlank() || card.getType() !== 'character' || !card.kneeled) {
+            if(this.isBlank() || card === this || card.getType() !== 'character' || !card.kneeled) {
                 return counter;
             }
 
