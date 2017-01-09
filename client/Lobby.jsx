@@ -78,9 +78,9 @@ class InnerLobby extends React.Component {
         });
 
         return (
-            <div>;
+            <div>
                 <div className='alert alert-info'>
-                    <div><span className='icon-intrigue' />2017-01-??: New cards: Mare in Heat, Silver Steed, Stinking Drunk, Paid Off, Consolidation of Power, Ours is the Fury, We Do Not Sow, Hear Me Roar!, The Things I Do For Love, Doran's Game, Unbowed Unbent Unbroken, Confinement.  Fixed: The wall triggering when it is knelt and not boosting cards that are put into play, Eddard Stark gaining power instead of select card, Euron Crow's Eye and other take control effects when controller cards go out of play.  Added a highlight for cards that are currently participating in a challenge</div>
+                    <div><span className='icon-intrigue' />2017-01-09: New cards: Mare in Heat, Silver Steed, Stinking Drunk, Paid Off, Consolidation of Power, Ours is the Fury, We Do Not Sow, Hear Me Roar!, The Things I Do For Love, Doran's Game, Unbowed Unbent Unbroken, Confinement, Gates Of Winterfell.  Fixed: The wall triggering when it is knelt and not boosting cards that are put into play, Eddard Stark gaining power instead of selected card, Euron Crow's Eye and other take control effects when controller cards go out of play.  Added a highlight for cards that are currently participating in a challenge</div>
                     <div><span className='icon-military' />2017-01-08: New cards: Lightbringer, Throwing Axe, Dawn, Longclaw, Drogo's Arakh, Lady, King Robert's Warhammer</div> 
                     <div><span className='icon-power' />2017-01-07: New cards: Maester Aemon, Messenger Raven, Old Forest Hunter, Ser Waymar Royce, Shadow Tower Mason, Thoren Smallwood, Practice Blade.  Fixed: Heartsbane, The Wall and similar STR boosting cards when duped in setup.  Also fixed cards that allow saves when the save is declined.</div>                
                 </div>
