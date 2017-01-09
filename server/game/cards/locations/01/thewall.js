@@ -19,7 +19,7 @@ class TheWall extends DrawCard {
         });
         this.interrupt({
             when: {
-                onPhaseEnded: (e, phase) => phase === 'challenge'
+                onPhaseEnded: (e, phase) => phase === 'challenge' && !this.kneeled
             },
             handler: () => {
                 this.controller.kneelCard(this);
