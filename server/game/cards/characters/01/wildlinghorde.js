@@ -15,7 +15,7 @@ class WildlingHorde extends DrawCard {
             return false;
         }
 
-        return card.location === 'play area' && card.controller === player && card.hasTrait('Wildling') && currentChallenge.isAttacking(card);
+        return card.location === 'play area' && card.controller === player && card.hasTrait('Wildling') && currentChallenge.isParticipating(card);
     }
 
     kneelFactionCard(player) {
