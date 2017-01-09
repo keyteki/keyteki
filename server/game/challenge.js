@@ -48,12 +48,16 @@ class Challenge {
     removeFromChallenge(card) {
         this.attackers = _.reject(this.attackers, c => c === card);
         this.defenders = _.reject(this.defenders, c => c === card);
+
+        card.inChallenge = false;
+
         this.calculateStrength();
     }
 
     markAsParticipating(cards) {
         _.each(cards, card => {
             card.controller.kneelCard(card);
+            card.inChallenge = true;
         });
     }
 
@@ -156,6 +160,11 @@ class Challenge {
 
     unregisterEvents() {
         this.events.unregisterAll();
+    }
+
+    finish() {
+        _.each(this.attackers, card => card.inChallenge = false);
+        _.each(this.defenders, card => card.inChallenge = false);        
     }
 }
 

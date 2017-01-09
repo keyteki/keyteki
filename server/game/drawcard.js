@@ -29,7 +29,7 @@ class DrawCard extends BaseCard {
         this.power = 0;
         this.strengthModifier = 0;
         this.kneeled = false;
-
+        this.inChallenge = false;
         this.wasAmbush = false;
     }
 
@@ -209,6 +209,8 @@ class DrawCard extends BaseCard {
         this.strengthModifier = 0;
         this.power = 0;
         this.wasAmbush = false;
+        this.inChallenge = false;
+        this.selected = this.opponentSelected = false;
 
         super.leavesPlay();
     }
@@ -216,6 +218,7 @@ class DrawCard extends BaseCard {
     resetForChallenge() {
         this.stealth = false;
         this.stealthTarget = undefined;
+        this.inChallenge = false;
     }
 
     getSummary(isActivePlayer, hideWhenFaceup) {
@@ -235,7 +238,8 @@ class DrawCard extends BaseCard {
                 return dupe.getSummary(isActivePlayer, hideWhenFaceup);
             }),
             iconsAdded: this.getIconsAdded(),
-            iconsRemoved: this.getIconsRemoved(),            
+            iconsRemoved: this.getIconsRemoved(),
+            inChallenge: this.inChallenge,      
             kneeled: this.kneeled,
             power: this.power,
             strength: !_.isNull(this.cardData.strength) ? this.getStrength() : 0

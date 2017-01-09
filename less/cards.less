@@ -25,18 +25,22 @@
     height: @card-width;
     width: @card-height;
   }
-}
 
-.card.selected {
-  box-shadow: 0 0 1px 4px @brand-primary;
-}
+  &.selected {
+    box-shadow: 0 0 1px 4px @brand-primary;
+  }
 
-.card.new {
-  box-shadow: 0 0 1px 2px @brand-info;
-}
+  &.new {
+    box-shadow: 0 0 1px 2px @brand-info;
+  }
 
-.card.controlled {
-  box-shadow: 0 0 1px 2px #d0d834;
+  &.controlled {
+    box-shadow: 0 0 1px 2px @brand-warning;
+  }
+
+  &.challenge {
+    box-shadow: 0 0 1px 2px @brand-danger;
+  }
 }
 
 .card-image {

@@ -190,6 +190,8 @@ class Card extends React.Component {
 
         if(this.props.card.selected) {
             cardClass += ' selected';
+        } else if(this.props.card.inChallenge) {
+            cardClass += ' challenge';
         } else if(this.props.card.controlled) {
             cardClass += ' controlled';
         } else if(this.props.card.new) {
@@ -244,6 +246,7 @@ Card.propTypes = {
         facedown: React.PropTypes.bool,
         iconsAdded: React.PropTypes.array,
         iconsRemoved: React.PropTypes.array,
+        inChallenge: React.PropTypes.bool,
         kneeled: React.PropTypes.bool,
         menu: React.PropTypes.array,
         name: React.PropTypes.string,
