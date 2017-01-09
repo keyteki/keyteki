@@ -41,7 +41,7 @@ class BeggarKing extends DrawCard {
             gold = 2;
         }
 
-        this.controller.gold += gold;
+        this.game.addGold(this.controller, gold);
 
         this.game.addMessage('{0} uses {1} to gain {2} gold', player, this, gold);
 

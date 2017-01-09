@@ -297,6 +297,16 @@ class Game extends EventEmitter {
         this.checkWinCondition(player);
     }
 
+    addGold(player, gold) {
+        player.gold += gold;
+
+        if(player.gold < 0) {
+            player.gold = 0;
+        }
+
+        this.raiseEvent('onStatChange', player, 'gold');
+    }
+
     transferPower(winner, loser, power) {
         var appliedPower = Math.min(loser.faction.power, power);
         loser.faction.power -= appliedPower;
@@ -306,6 +316,16 @@ class Game extends EventEmitter {
         this.raiseEvent('onStatChanged', winner, 'power');
 
         this.checkWinCondition(winner);
+    }
+
+    transferGold(to, from, gold) {
+        var appliedGold = Math.min(from.gold, gold);
+
+        from.gold -= appliedGold;
+        to.gold += appliedGold;
+
+        this.raiseEvent('onStatChanged', from, 'power');
+        this.raiseEvent('onStatChanged', to, 'power');        
     }
 
     checkWinCondition(player) {

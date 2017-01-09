@@ -30,8 +30,7 @@ class PaidOff extends DrawCard {
             return false;
         }
 
-        player.gold -= 1;
-        this.controller.gold += 1;
+        this.game.transferGold(this.controller, player, 1);
 
         player.standCard(this.parent);
 

@@ -8,7 +8,7 @@ class CerseisWheelhouse extends DrawCard {
             },
             choices: {
                 'Gain 1 gold': () => {
-                    this.controller.gold++;
+                    this.game.addGold(this.controller, 1);
                     this.game.addMessage('{0} uses {1} to gain 1 gold', this.controller, this);
                 },
                 'Draw 1 card': () => {

@@ -9,7 +9,7 @@ class TyrionLannister extends DrawCard {
             },
             limit: AbilityLimit.perRound(2),
             handler: () => {
-                this.controller.gold += 2;
+                this.game.addGold(this.controller, 2);
                 this.game.addMessage('{0} uses {1} to gain 2 gold as an intrigue challenge has been declared', this.controller, this);
             }
         });

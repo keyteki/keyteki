@@ -24,7 +24,7 @@ class RedCloaks extends DrawCard {
         }
 
         this.addToken('gold', 1);
-        this.controller.gold--;
+        this.game.addGold(this.controller, -1);
 
         this.game.addMessage('{0} moves 1 gold from their gold pool to {1}', this.controller, this);
     }

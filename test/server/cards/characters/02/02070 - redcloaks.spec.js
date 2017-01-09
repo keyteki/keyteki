@@ -7,7 +7,7 @@ const RedCloaks = require('../../../../../server/game/cards/characters/02/redclo
 
 describe('RedCloaks', function() {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['on', 'once', 'removeListener', 'addPower', 'addMessage']);
+        this.gameSpy = jasmine.createSpyObj('game', ['on', 'once', 'removeListener', 'addPower', 'addMessage', 'addGold']);
         this.playerSpy = jasmine.createSpyObj('player', ['']);
 
         this.playerSpy.game = this.gameSpy;
@@ -52,7 +52,7 @@ describe('RedCloaks', function() {
                 });
 
                 it('should reduce my owner\'s gold count by 1', function() {
-                    expect(this.playerSpy.gold).toBe(9);
+                    expect(this.gameSpy.addGold).toHaveBeenCalledWith(this.playerSpy, -1);
                 });
             });
         });
@@ -71,7 +71,7 @@ describe('RedCloaks', function() {
 
             describe('and this is not an intrigue challenge', function() {
                 beforeEach(function() {
-                  this.challenge.challengeType = 'power';
+                    this.challenge.challengeType = 'power';
                     this.card.onAttackersDeclared({}, this.challenge);
                 });
 

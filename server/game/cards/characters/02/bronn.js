@@ -47,8 +47,7 @@ class Bronn extends DrawCard {
 
         this.game.addMessage('{0} pays 1 gold to take control of {1}', player, this);
 
-        player.gold--;
-
+        this.game.addGold(player, -1);
         this.game.takeControl(player, this);
     }
 }

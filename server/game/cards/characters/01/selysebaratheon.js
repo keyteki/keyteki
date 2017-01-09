@@ -30,7 +30,7 @@ class SelyseBaratheon extends DrawCard {
 
         this.game.addMessage('{0} uses {1} to give {2} an {3} icon', player, this, card, 'intrigue');
 
-        this.controller.gold--;
+        this.game.addGold(this.controller, -1);
 
         this.game.once('onPhaseEnded', () => {
             this.onPhaseEnded();

@@ -42,7 +42,7 @@ class EdricDayne extends DrawCard {
 
         this.game.addMessage('{0} uses {1} to give {1} an {2} icon', player, this, icon);
 
-        this.controller.gold--;
+        this.game.addGold(this.controller, -1);
 
         this.game.once('onPhaseEnded', () => {
             this.onPhaseEnded();

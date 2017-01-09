@@ -23,7 +23,7 @@ class OldForestHunter extends DrawCard {
 
     onCardSelected(player, card) {
         this.controller.discardCard(card);
-        this.controller.gold += 1;
+        this.game.addGold(this.controller, 1);
 
         this.game.addMessage('{0} uses {1} to discard {2} and gain 1 gold', player, this, card);
 

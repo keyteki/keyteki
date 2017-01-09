@@ -16,7 +16,7 @@ class Shae extends DrawCard {
             return false;
         }
 
-        this.controller.gold--;
+        this.game.addGold(this.controller, -1);
         player.standCard(this);
 
         this.game.addMessage('{0} pays 1 gold to stand {1}', this.controller, this);

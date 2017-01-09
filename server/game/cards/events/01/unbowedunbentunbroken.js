@@ -45,7 +45,7 @@ class UnbowedUnbentUnbroken extends DrawCard {
     cancel(player) {
         this.game.addMessage('{0} cancel the resolution of {1}', player, this);
 
-        player.gold += this.getCost();
+        this.game.addGold(player, this.getCost());
         player.moveCard(this, 'hand');
 
         return true;

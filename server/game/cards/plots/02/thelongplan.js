@@ -39,7 +39,7 @@ class TheLongPlan extends PlotCard {
 
         this.game.addMessage('{0} uses {1} to gain 1 gold from losing a challenge', player, this);
 
-        player.gold++;
+        this.game.addGold(player, 1);
 
         return true;        
     }
