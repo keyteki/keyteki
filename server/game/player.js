@@ -538,6 +538,14 @@ class Player extends Spectator {
             return false;
         }
 
+        if(card.location !== 'play area') {
+            return false;
+        }
+
+        if(card === attachment) {
+            return false;
+        }
+
         return attachment.canAttach(this, card);
     }
 
