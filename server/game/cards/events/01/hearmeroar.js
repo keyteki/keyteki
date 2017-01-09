@@ -14,7 +14,7 @@ class HearMeRoar extends DrawCard {
             activePromptTitle: 'Select character',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
             cardCondition: card => card.location === 'hand' && card.controller === this.controller && card.getType() === 'character' && card.getFaction() === 'lannister',
-            onSelect: (player, cards) => this.onCardSelected(player, cards)
+            onSelect: (player, card) => this.onCardSelected(player, card)
         });
     }
 
