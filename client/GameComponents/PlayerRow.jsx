@@ -4,6 +4,7 @@ import $ from 'jquery';
 
 import Card from './Card.jsx';
 import CardCollection from './CardCollection.jsx';
+import {tryParseJSON} from '../util.js';
 
 class PlayerRow extends React.Component {
     constructor() {
@@ -43,7 +44,10 @@ class PlayerRow extends React.Component {
             return;
         }
 
-        var dragData = JSON.parse(card);
+        var dragData = tryParseJSON(card);
+        if(!dragData) {
+            return;
+        }
 
         if(this.props.onDragDrop) {
             this.props.onDragDrop(dragData.card, dragData.source, target);

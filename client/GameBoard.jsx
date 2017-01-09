@@ -10,6 +10,7 @@ import CardZoom from './GameComponents/CardZoom.jsx';
 import Messages from './GameComponents/Messages.jsx';
 import Card from './GameComponents/Card.jsx';
 import CardCollection from './GameComponents/CardCollection.jsx';
+import {tryParseJSON} from './util.js';
 
 import * as actions from './actions';
 
@@ -227,7 +228,11 @@ export class InnerGameBoard extends React.Component {
             return;
         }
 
-        var dragData = JSON.parse(card);
+        var dragData = tryParseJSON(card);
+
+        if(!dragData) {
+            return;
+        }
 
         this.onDragDrop(dragData.card, dragData.source, target);
     }
@@ -244,6 +249,10 @@ export class InnerGameBoard extends React.Component {
         var thisPlayer = this.props.currentGame.players[this.props.username];
         if(!thisPlayer) {
             thisPlayer = _.toArray(this.props.currentGame.players)[0];
+        }
+
+        if(!thisPlayer) {
+            return <div>Waiting for game to have players or close...</div>;
         }
 
         var otherPlayer = _.find(this.props.currentGame.players, player => {

@@ -3,6 +3,7 @@ import _ from 'underscore';
 import $ from 'jquery';
 
 import Card from './Card.jsx';
+import {tryParseJSON} from '../util.js';
 
 class CardCollection extends React.Component {
     constructor() {
@@ -59,7 +60,11 @@ class CardCollection extends React.Component {
             return;
         }
 
-        var dragData = JSON.parse(card);
+        var dragData = tryParseJSON(card);
+
+        if(!dragData) {
+            return;
+        }
 
         if(this.props.onDragDrop) {
             this.props.onDragDrop(dragData.card, dragData.source, target);
