@@ -19,7 +19,7 @@ class PaidOff extends DrawCard {
                             { text: 'No', method: 'cancel' }
                         ]
                     },
-                    waitingPromptTitle: 'Waiting for opponent to use save effects'
+                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name
                 });
             }
         });
