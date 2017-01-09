@@ -4,7 +4,7 @@ class TheWall extends DrawCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['onCardPlayed']);
+        this.registerEvents(['onCardEntersPlay']);
     }
 
     setupCardAbilities() {
@@ -39,8 +39,8 @@ class TheWall extends DrawCard {
         });
     }
 
-    onCardPlayed(e, player, card) {
-        if(this.controller !== player) {
+    onCardEntersPlay(event, card) {
+        if(this.controller !== card.controller) {
             return;
         }
 

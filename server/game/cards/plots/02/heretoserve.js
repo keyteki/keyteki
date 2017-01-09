@@ -37,9 +37,7 @@ class HereToServe extends PlotCard {
         }
 
         player.shuffleDrawDeck();
-
         this.game.addMessage('{0} uses {1} to put {2} into play', player, this, card);
-
         player.playCard(card, true);
 
         return true;
@@ -48,6 +46,7 @@ class HereToServe extends PlotCard {
     doneSelecting(player) {
         player.shuffleDrawDeck();
         this.game.addMessage('{0} does not use {1} to find a card', player, this);
+
         return true;
     }
 }
