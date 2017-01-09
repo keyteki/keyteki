@@ -36,13 +36,23 @@ class Challenge {
     }
 
     addAttackers(attackers) {
-        this.attackers = attackers;
+        this.attackers = this.attackers.concat(attackers);
         this.markAsParticipating(attackers);
     }
 
+    addAttacker(attacker) {
+        this.attackers.push(attacker);
+        this.markAsParticipating(this.attackers);
+    }
+
     addDefenders(defenders) {
-        this.defenders = defenders;
+        this.defenders = this.defenders.concat(defenders);
         this.markAsParticipating(defenders);
+    }
+
+    addDefender(defender) {
+        this.defenders.push(defender);
+        this.markAsParticipating(this.defenders);
     }
 
     removeFromChallenge(card) {
@@ -56,7 +66,10 @@ class Challenge {
 
     markAsParticipating(cards) {
         _.each(cards, card => {
-            card.controller.kneelCard(card);
+            if(!card.kneeled) {
+                card.controller.kneelCard(card);
+            }
+
             card.inChallenge = true;
         });
     }

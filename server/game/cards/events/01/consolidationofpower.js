@@ -37,12 +37,6 @@ class ConsolidationOfPower extends DrawCard {
         });
     }
 
-    leavesPlay(player) {
-        this.parent.strengthModifier--;
-
-        super.leavesPlay(player);
-    }
-
     onSelect(player, cards) {
         this.cards = cards;
 
