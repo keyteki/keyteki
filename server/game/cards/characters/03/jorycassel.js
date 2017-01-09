@@ -31,15 +31,19 @@ class JoryCassel extends DrawCard {
     }
 
     save(player) {
-        this.game.addMessage('{0} uses {1} to save {2}', player, this, this.toKill);
+        var message = '{0} uses {1} to save {2}'; 
 
         this.controller.sacrificeCard(this);
 
-        if(!_.any(this.game.getPlayers(), player => {
+        if(_.any(this.game.getPlayers(), player => {
             return player.activePlot.hasTrait('Winter');
         })) {
             this.toKill.modifyPower(1);
+
+            message += ' and make it gain 1 power';
         }
+
+        this.game.addMessage(player, this, this.toKill);
 
         return true;
     }
