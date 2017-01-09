@@ -901,8 +901,17 @@ class Player extends Spectator {
     }
 
     removeCardFromPile(card) {
+        if(card.controller !== card.owner && card.controller !== this) {
+            card.controller.removeCardFromPile(card);
+
+            card.controller = card.owner;
+
+            return;
+        }
+
         var originalLocation = card.location;
         var originalPile = this.getSourceList(originalLocation);
+
         if(originalPile) {
             originalPile = this.removeCardByUuid(originalPile, card.uuid);
             this.updateSourceList(originalLocation, originalPile);
