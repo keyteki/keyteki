@@ -43,7 +43,7 @@ class JoryCassel extends DrawCard {
             message += ' and make it gain 1 power';
         }
 
-        this.game.addMessage(player, this, this.toKill);
+        this.game.addMessage(message, player, this, this.toKill);
 
         return true;
     }
