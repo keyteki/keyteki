@@ -765,7 +765,15 @@ class Game extends EventEmitter {
                 deck = {};
             }
 
-            playerSummaries.push({ id: player.id, name: player.user.username, emailHash: player.user.emailHash, deck: deck, owner: player.owner });
+            playerSummaries.push({ 
+                id: player.id, 
+                name: player.user.username, 
+                emailHash: player.user.emailHash, 
+                deck: deck, 
+                owner: player.owner, 
+                faction: player.faction.code,
+                agenda: player.agenda ? player.agenda.code : undefined
+            });
         });
 
         return {
