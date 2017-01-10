@@ -53,7 +53,13 @@ class App extends React.Component {
             }
         });
 
-        var socket = io.connect(window.location.origin, { query: 'token=' + this.props.token });
+        var socket = io.connect(window.location.origin, {
+            reconnection: true,
+            reconnectionDelay: 1000,
+            reconnectionDelayMax : 5000,
+            reconnectionAttempts: Infinity,             
+            query: 'token=' + this.props.token 
+        });
 
         socket.on('connect', () => {
             this.props.socketConnected(socket);
