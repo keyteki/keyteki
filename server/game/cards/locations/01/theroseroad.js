@@ -2,7 +2,9 @@ const DrawCard = require('../../../drawcard.js');
 
 class TheRoseroad extends DrawCard {
     getIncome() {
-        return 1;
+        if(!this.isBlank()) {
+            return 1;
+        }
     }
 }
 

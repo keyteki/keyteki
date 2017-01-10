@@ -26,6 +26,12 @@ class TheKingsroad extends Reducer {
 
         return cost;
     }
+
+    getInitiative() {
+        if(!this.isBlank()) {
+            return 1;
+        }
+    }
 }
 
 TheKingsroad.code = '01039';
