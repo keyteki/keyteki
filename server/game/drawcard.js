@@ -242,7 +242,8 @@ class DrawCard extends BaseCard {
             inChallenge: this.inChallenge,      
             kneeled: this.kneeled,
             power: this.power,
-            strength: !_.isNull(this.cardData.strength) ? this.getStrength() : 0
+            strength: !_.isNull(this.cardData.strength) ? this.getStrength() : 0,
+            stealth: this.stealth
         });
     }
 }

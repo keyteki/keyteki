@@ -241,6 +241,9 @@ class ChallengeFlow extends BaseStep {
 
     completeChallenge() {
         this.game.raiseEvent('onChallengeFinished', this.challenge);
+
+        this.resetCards();
+
         this.challenge.finish();
     }
 

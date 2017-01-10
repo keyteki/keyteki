@@ -192,6 +192,8 @@ class Card extends React.Component {
             cardClass += ' selected';
         } else if(this.props.card.inChallenge) {
             cardClass += ' challenge';
+        } else if(this.props.card.stealth) {
+            cardClass += ' stealth';
         } else if(this.props.card.controlled) {
             cardClass += ' controlled';
         } else if(this.props.card.new) {
@@ -253,6 +255,7 @@ Card.propTypes = {
         new: React.PropTypes.bool,
         power: React.PropTypes.number,
         selected: React.PropTypes.bool,
+        stealth: React.PropTypes.bool,
         strength: React.PropTypes.number,
         tokens: React.PropTypes.object,
         type: React.PropTypes.string
