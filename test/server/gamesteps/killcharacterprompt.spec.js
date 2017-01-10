@@ -1,4 +1,4 @@
-/*global describe, it, beforeEach, expect,spyOn*/
+/*global describe, it, beforeEach, expect, spyOn, jasmine*/
 /* eslint camelcase: 0 */
 
 const KillCharacterPrompt = require('../../../server/game/gamesteps/killcharacterprompt.js');
@@ -22,11 +22,12 @@ describe('the KillCharacterPrompt', () => {
     }
 
     beforeEach(() => {
-        game = new Game('1', 'Test Game');
+        game = jasmine.createSpyObj('game', ['playerDecked']);
         player = new Player('1', 'Player 1', true, game);
         player.initialise();
         otherPlayer = new Player('2', 'Player 2', false, game);
         otherPlayer.initialise();
+        game.players = {};
         game.players[player.name] = player;
         game.players[otherPlayer.name] = otherPlayer;
         card = new DrawCard(player, { type_code: 'character', name: 'Killable' });

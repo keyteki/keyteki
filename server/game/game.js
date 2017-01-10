@@ -346,11 +346,11 @@ class Game extends EventEmitter {
     }
 
     playerDecked(player) {
-        var otherPlayer = this.game.getOtherPlayer(player);
+        var otherPlayer = this.getOtherPlayer(player);
 
         if(otherPlayer) {
-            this.game.addMessage('{0}\'s draw deck is empty', player);
-            this.game.addMessage('{0} has won the game', otherPlayer);
+            this.addMessage('{0}\'s draw deck is empty', player);
+            this.addMessage('{0} has won the game', otherPlayer);
 
             if(!this.winner) {
                 this.winner = player;

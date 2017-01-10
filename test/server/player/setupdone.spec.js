@@ -14,7 +14,7 @@ function addCardsToHand(hand, number) {
 describe('Player', function() {
     describe('setupDone', function() {
         beforeEach(function() {
-            this.game = jasmine.createSpyObj('game', ['getOtherPlayer']);
+            this.game = jasmine.createSpyObj('game', ['getOtherPlayer', 'playerDecked']);
             this.player = new Player('1', 'Player 1', true, this.game);
             this.player.deck = {};
             this.player.initialise();

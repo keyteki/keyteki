@@ -8,7 +8,7 @@ const DrawCard = require('../../../server/game/drawcard.js');
 describe('Player', function() {
     describe('moveCard', function() {
         beforeEach(function() {
-            this.gameSpy = jasmine.createSpyObj('game', ['raiseEvent', 'getOtherPlayer']);
+            this.gameSpy = jasmine.createSpyObj('game', ['raiseEvent', 'getOtherPlayer', 'playerDecked']);
             this.player = new Player('1', 'Player 1', true, this.gameSpy);
             this.player.initialise();
             this.player.phase = 'marshal';

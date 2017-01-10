@@ -1,4 +1,4 @@
-/*global describe, it, beforeEach, expect,spyOn*/
+/*global describe, it, beforeEach, expect, spyOn, jasmine*/
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
 const MenuPrompt = require('../../../server/game/gamesteps/menuprompt.js');
@@ -7,11 +7,13 @@ const Player = require('../../../server/game/player.js');
 
 describe('the MenuPrompt', function() {
     beforeEach(function() {
-        var game = new Game('1', 'Test Game');
+        var game = new jasmine.createSpyObj('game', ['playerDecked']);
+
         this.player = new Player('1', 'Player 1', true, game);
         this.player.initialise();
         this.otherPlayer = new Player('2', 'Player 2', false, game);
         this.otherPlayer.initialise();
+        game.players = {};
         game.players[this.player.name] = this.player;
         game.players[this.otherPlayer.name] = this.otherPlayer;
 

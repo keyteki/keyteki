@@ -1,8 +1,6 @@
-/*global describe, it, beforeEach, expect,spyOn*/
+/*global describe, it, beforeEach, expect, spyOn, jasmine*/
 
 const AttachmentPrompt = require('../../../server/game/gamesteps/attachmentprompt.js');
-const Game = require('../../../server/game/game.js');
-const Player = require('../../../server/game/player.js');
 const DrawCard = require('../../../server/game/drawcard.js');
 
 describe('the AttachmentPrompt', () => {
@@ -14,19 +12,15 @@ describe('the AttachmentPrompt', () => {
     var attachmentTarget;
 
     beforeEach(() => {
-        game = new Game('1', 'Test Game');
-        player = new Player('1', { username: 'Player 1' }, true, game);
-        player.initialise();
-        otherPlayer = new Player('2', { username: 'Player 2' }, false, game);
-        otherPlayer.initialise();
-        game.players[player.name] = player;
-        game.players[otherPlayer.name] = otherPlayer;
+        game = jasmine.createSpyObj('game', ['playerDecked', 'getPlayerByName']);
+        player = jasmine.createSpyObj('player1', ['canAttach', 'attach']);
+        otherPlayer = jasmine.createSpyObj('player2', ['canAttach', 'attach']);
+
         attachment = new DrawCard(player, {});
         attachmentTarget = new DrawCard(player, {});
         prompt = new AttachmentPrompt(game, player, attachment);
 
-        player.cardsInPlay.push(attachmentTarget);
-        spyOn(player, 'attach');
+        player.cardsInPlay = [attachmentTarget];
     });
 
     describe('the onCardClicked() function', () => {
@@ -38,7 +32,7 @@ describe('the AttachmentPrompt', () => {
 
         describe('when the player cannot attach the card', () => {
             beforeEach(() => {
-                spyOn(player, 'canAttach').and.returnValue(false);
+                player.canAttach.and.returnValue(false);
             });
 
             it('should return false', () => {
@@ -48,7 +42,9 @@ describe('the AttachmentPrompt', () => {
 
         describe('when the player can attach the card', () => {
             beforeEach(() => {
-                spyOn(player, 'canAttach').and.returnValue(true);
+                game.getPlayerByName.and.returnValue(player);
+
+                player.canAttach.and.returnValue(true);
             });
 
             describe('when attaching a setup card', () => {
@@ -65,7 +61,7 @@ describe('the AttachmentPrompt', () => {
 
             describe('when attaching a played card', () => {
                 beforeEach(() => {
-                    player.hand.push(attachment);
+                    player.hand = [attachment];
                 });
 
                 it('should attach the card', () => {
@@ -76,7 +72,7 @@ describe('the AttachmentPrompt', () => {
 
             describe('when attaching a card from discard', () => {
                 beforeEach(() => {
-                    player.discardPile.push(attachment);
+                    player.discardPile = [attachment];
                 });
 
                 it('should attach the card', () => {
