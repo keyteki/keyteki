@@ -33,12 +33,15 @@ const Player = require('./game/player.js');
 const Spectator = require('./game/spectator.js');
 const escapeRegex = require('./util.js').escapeRegex;
 
-var ravenClient = new raven.Client(config.sentryDsn);
-ravenClient.patchGlobal();
+var ravenClient = new raven.Client(!isDeveloping && config.sentryDsn);
+if(!isDeveloping) {
+    ravenClient.patchGlobal();
+}
 
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(raven.middleware.express.requestHandler(config.sentryDsn));
 
 app.use(session({
     store: new MongoStore({ url: 'mongodb://127.0.0.1:27017/throneteki' }),
@@ -259,8 +262,15 @@ function removePlayerFromGame(game, socket, reason) {
 
     if(_.all(listToCheck, p => {
         return !!p.left;
-    }) && _.isEmpty(game.getSpectators())) {
-        delete games[game.id];
+    })) {
+        if(!game.finishedAt) {
+            game.finishedAt = new Date();
+            game.saveGame();
+        }
+
+        if(_.isEmpty(game.getSpectators())) {
+            delete games[game.id];
+        }
     }
 }
 
@@ -445,6 +455,10 @@ io.on('connection', function(socket) {
         }
 
         game.players[socket.request.user.username].noReconnect = true;
+        if(!game.finishedAt) {
+            game.finishedAt = new Date();
+            game.saveGame();
+        }
 
         runAndCatchErrors(game, () => {
             removePlayerFromGame(game, socket, 'has left the game');

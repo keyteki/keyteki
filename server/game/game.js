@@ -17,6 +17,7 @@ const TaxationPhase = require('./gamesteps/taxationphase.js');
 const SimpleStep = require('./gamesteps/simplestep.js');
 const MenuPrompt = require('./gamesteps/menuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
+const GameRepository = require('../repositories/gameRepository.js');
 
 class Game extends EventEmitter {
     constructor(owner, details) {
@@ -36,6 +37,8 @@ class Game extends EventEmitter {
         this.playStarted = false;
 
         this.setMaxListeners(0);
+
+        this.gameRepository = new GameRepository();
     }
 
     addMessage() {
@@ -331,6 +334,31 @@ class Game extends EventEmitter {
     checkWinCondition(player) {
         if(player.getTotalPower() >= 15) {
             this.addMessage('{0} has won the game', player);
+
+            if(!this.winner) {
+                this.winner = player;
+                this.finishedAt = new Date();
+                this.winReason = 'power';
+
+                this.saveGame();
+            }
+        }
+    }
+
+    playerDecked(player) {
+        var otherPlayer = this.game.getOtherPlayer(player);
+
+        if(otherPlayer) {
+            this.game.addMessage('{0}\'s draw deck is empty', player);
+            this.game.addMessage('{0} has won the game', otherPlayer);
+
+            if(!this.winner) {
+                this.winner = player;
+                this.finishedAt = new Date();
+                this.winReason = 'decked';
+
+                this.saveGame();
+            }            
         }
     }
 
@@ -536,6 +564,14 @@ class Game extends EventEmitter {
 
         if(otherPlayer) {
             this.addMessage('{0} wins the game', otherPlayer);
+
+            if(!this.winner) {
+                this.winner = otherPlayer;
+                this.finishedAt = new Date();
+                this.winReason = 'concede';
+
+                this.saveGame();
+            }            
         }
     }
 
@@ -583,15 +619,22 @@ class Game extends EventEmitter {
         _.each(this.getPlayers(), player => {
             player.initialise();
         });
+
         this.allCards = _(_.reduce(this.getPlayers(), (cards, player) => {
             return cards.concat(player.allCards.toArray());
         }, []));
+
         this.raiseEvent('onDecksPrepared');
         this.pipeline.initialise([
             new SetupPhase(this),
             new SimpleStep(this, () => this.beginRound())
         ]);
+
         this.playStarted = true;
+        this.startedAt = new Date();
+
+        this.saveGame();
+
         this.continue();
     }
 
@@ -648,6 +691,34 @@ class Game extends EventEmitter {
 
     continue() {
         this.pipeline.continue();
+    }
+
+    getSaveState() {
+        var players = _.map(this.getPlayers(), player => {
+            return { 
+                name: player.name,
+                faction: player.faction.name,
+                agenda: player.agenda ? player.agenda.name : undefined,
+                power: player.getTotalPower()
+            };
+        });
+
+        return {
+            id: this.savedGameId,
+            startedAt: this.startedAt,
+            players: players,
+            winner: this.winner ? this.winner.name : undefined,
+            winReason: this.winReason,
+            finishedAt: this.finishedAt
+        };
+    }
+    
+    saveGame() {
+        this.gameRepository.save(this.getSaveState(), (err, id) => {
+            if(!err) {
+                this.savedGameId = id;
+            }
+        });
     }
 
     getState(activePlayer) {

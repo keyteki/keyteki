@@ -156,12 +156,7 @@ class Player extends Spectator {
         });
 
         if(this.drawDeck.size() === 0) {
-            var otherPlayer = this.game.getOtherPlayer(this);
-
-            if(otherPlayer) {
-                this.game.addMessage('{0}\'s draw deck is empty', this);
-                this.game.addMessage('{0} wins the game', otherPlayer);
-            }
+            this.game.playerDecked(this);
         }
     }
 
