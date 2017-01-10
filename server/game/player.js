@@ -95,7 +95,7 @@ class Player extends Spectator {
         }
 
         return this.findCard(this.cardsInPlay, playCard => {
-            return playCard.code === card.code || playCard.name === card.name;
+            return playCard !== card && (playCard.code === card.code || playCard.name === card.name);
         });
     }
 
@@ -293,7 +293,7 @@ class Player extends Spectator {
         this.readyToStart = true;
     }
 
-    canPlayCard(card) {
+    canPlayCard(card, overrideHandCheck = false) {
         if(this.activePlot && !this.activePlot.canPlay(this, card)) {
             return false;
         }
@@ -312,7 +312,7 @@ class Player extends Spectator {
             }
         }
 
-        if(!this.isCardUuidInList(this.hand, card)) {
+        if(!this.isCardUuidInList(this.hand, card) && !overrideHandCheck) {
             return false;
         }
 
@@ -335,12 +335,12 @@ class Player extends Spectator {
         return true;
     }
 
-    playCard(card, forcePlay) {
+    playCard(card, forcePlay, overrideHandCheck = false) {
         if(!card) {
             return false;
         }
 
-        if(!forcePlay && !this.canPlayCard(card)) {
+        if(!forcePlay && !this.canPlayCard(card, overrideHandCheck)) {
             return false;
         }
 
