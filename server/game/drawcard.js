@@ -168,8 +168,16 @@ class DrawCard extends BaseCard {
         return this.isStealth() && !this.stealthTarget;
     }
 
-    useStealthToBypass(targetCard) {
+    canUseStealthToBypass(targetCard) {
         if(!this.isStealth() || targetCard.isStealth()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    useStealthToBypass(targetCard) {
+        if(!this.canUseStealthToBypass(targetCard)) {
             return false;
         }
 

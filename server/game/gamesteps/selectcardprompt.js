@@ -126,6 +126,8 @@ class SelectCardPrompt extends UiPrompt {
         var cardParam = (this.properties.numCards === 1) ? this.selectedCards[0] : this.selectedCards;
         if(this.properties.onSelect(this.choosingPlayer, cardParam)) {
             this.complete();
+        } else {
+            this.clearSelection();
         }
     }
 

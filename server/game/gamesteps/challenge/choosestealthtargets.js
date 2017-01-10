@@ -13,7 +13,7 @@ class ChooseStealthTargets extends BaseStep {
             this.game.promptForSelect(character.controller, {
                 activePromptTitle: 'Select stealth target for ' + character.name,
                 waitingPromptTitle: 'Waiting for opponent to choose stealth target for ' + character.name,
-                cardCondition: card => card.controller === this.challenge.defendingPlayer && card.getType() === 'character',
+                cardCondition: card => card.controller === this.challenge.defendingPlayer && card.getType() === 'character' && character.canUseStealthToBypass(card),
                 onSelect: (player, target) => this.selectStealthTarget(character, target)
             });
         }
