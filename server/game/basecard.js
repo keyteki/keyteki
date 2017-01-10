@@ -284,6 +284,10 @@ class BaseCard {
         if(this.tokens[type] < 0) {
             this.tokens[type] = 0;
         }
+
+        if(this.tokens[type] === 0) {
+            delete this.tokens[type];
+        }
     }
 
     getSummary(isActivePlayer, hideWhenFaceup) {

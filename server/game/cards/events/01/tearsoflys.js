@@ -48,6 +48,8 @@ class TearsOfLys extends DrawCard {
         if(this.poisonTarget && this.poisonTarget.location === 'play area' && this.poisonTarget.hasToken('poison')) {
             this.poisonTarget.controller.killCharacter(this.poisonTarget);
 
+            this.poisonTarget.removeToken('poision', 1);
+
             this.game.addMessage('{0} uses {1} to kill {2} at the end of the phase', this.controller, this, this.poisonTarget);
 
             this.poisonTarget = undefined;

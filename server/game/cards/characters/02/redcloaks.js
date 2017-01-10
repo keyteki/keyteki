@@ -6,8 +6,6 @@ class RedCloaks extends DrawCard {
         super(owner, cardData);
 
         this.registerEvents(['onAttackersDeclared', 'onChallengeFinished']);
-
-        this.tokens['gold'] = 0;
     }
 
     setupCardAbilities() {
