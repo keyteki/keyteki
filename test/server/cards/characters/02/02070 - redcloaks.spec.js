@@ -25,7 +25,7 @@ describe('RedCloaks', function() {
             });
 
             it('should not add any gold to the card', function() {
-                expect(this.card.tokens['gold']).toBe(0);
+                expect(this.card.tokens['gold']).toBe(undefined);
             });
         });
 
@@ -37,7 +37,7 @@ describe('RedCloaks', function() {
                 });
 
                 it('should not add any gold to the card', function() {
-                    expect(this.card.tokens['gold']).toBe(0);
+                    expect(this.card.tokens['gold']).toBe(undefined);
                 });
             });
 
