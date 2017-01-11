@@ -42,7 +42,7 @@ class InnerMessages extends React.Component {
     formatMessageText(message) {
         var index = 0;
         return _.map(message, fragment => {
-            if(!_.isNull(fragment) || _.isUndefined(fragment)) {
+            if(_.isNull(fragment) || _.isUndefined(fragment)) {
                 return '';
             }
 
