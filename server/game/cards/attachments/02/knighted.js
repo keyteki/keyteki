@@ -1,16 +1,13 @@
 const DrawCard = require('../../../drawcard.js');
- 
-class Knighted extends DrawCard {
-    attach(player, card) {
-        card.strengthModifier++;
-        card.addTrait('Knight');
-    }
 
-    leavesPlay() {
-        super.leavesPlay();
-        
-        this.parent.strengthModifier--;
-        this.parent.removeTrait('Knight');
+class Knighted extends DrawCard {
+    setupCardAbilities(dsl) {
+        this.whileAttached({
+            effect: dsl.effects.modifyStrength(1)
+        });
+        this.whileAttached({
+            effect: dsl.effects.addTrait('Knight')
+        });
     }
 }
 

@@ -1,6 +1,7 @@
 const uuid = require('node-uuid');
 const _ = require('underscore');
 
+const AbilityDsl = require('./abilitydsl.js');
 const CardAction = require('./cardaction.js');
 const CardForcedReaction = require('./cardforcedreaction.js');
 const CardReaction = require('./cardreaction.js');
@@ -39,8 +40,8 @@ class BaseCard {
 
         this.events = new EventRegistrar(this.game, this);
 
-        this.abilities = { reactions: [] };
-        this.setupCardAbilities();
+        this.abilities = { reactions: [], persistentEffects: [] };
+        this.setupCardAbilities(AbilityDsl);
     }
 
     parseKeywords(text) {
@@ -81,7 +82,7 @@ class BaseCard {
         this.eventsForRegistration = events;
     }
 
-    setupCardAbilities() {
+    setupCardAbilities(dsl) {
     }
 
     action(properties) {
@@ -110,6 +111,29 @@ class BaseCard {
         this.forcedReaction(properties);
     }
 
+    /**
+     * Applies an effect that continues as long as the card providing the effect
+     * is both in play and not blank.
+     */
+    persistentEffect(properties) {
+        this.abilities.persistentEffects.push(_.extend({ duration: 'persistent' }, properties));
+    }
+
+    /**
+     * Applies an effect with the specified properties while the current card is
+     * attached to another card. By default the effect will target the parent
+     * card, but you can provide a match function to narrow down whether the
+     * effect is applied (for cases where the effect only applies to specific
+     * characters).
+     */
+    whileAttached(properties) {
+        this.persistentEffect({
+            match: (card, context) => card === this.parent && (!properties.match || properties.match(card, context)),
+            targetController: 'any',
+            effect: properties.effect
+        });
+    }
+
     doAction(player, arg) {
         if(!this.abilities.action) {
             return;
@@ -133,6 +157,9 @@ class BaseCard {
     }
 
     play() {
+        _.each(this.abilities.persistentEffects, effect => {
+            this.game.addEffect(this, effect);
+        });
     }
 
     leavesPlay() {
@@ -227,7 +254,12 @@ class BaseCard {
     }
 
     setBlank() {
+        var before = this.isBlank();
         this.blankCount++;
+        var after = this.isBlank();
+        if(!before && after) {
+            this.game.raiseEvent('onCardBlankToggled', this, after);
+        }
     }
 
     addKeyword(keyword) {
@@ -263,7 +295,12 @@ class BaseCard {
     }
 
     clearBlank() {
+        var before = this.isBlank();
         this.blankCount--;
+        var after = this.isBlank();
+        if(before && !after) {
+            this.game.raiseEvent('onCardBlankToggled', this, after);
+        }
     }
 
     addToken(type, number) {

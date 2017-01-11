@@ -1,40 +1,12 @@
 const DrawCard = require('../../../drawcard.js');
 
 class Winterfell extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onCardPlayed']);
-    }
-
-    play(player) {
-        super.play(player);
-
-        player.cardsInPlay.each(card => {
-            if(card.getFaction() === this.getFaction() && card.getType() === 'character') {
-                card.strengthModifier++;
-            }
+    setupCardAbilities(dsl) {
+        this.persistentEffect({
+            match: card => card.getFaction() === this.getFaction() && card.getType() === 'character',
+            effect: dsl.effects.modifyStrength(1)
         });
-    }
-
-    onCardPlayed(e, player, card) {
-        if(this.controller !== player || this.isBlank()) {
-            return;
-        }
-
-        if(card.getFaction() === this.getFaction() && card.getType() === 'character') {
-            card.strengthModifier++;
-        }
-    }
-
-    leavesPlay() {
-        super.leavesPlay();
-
-        this.controller.cardsInPlay.each(card => {
-            if(card.getFaction() === this.getFaction() && card.getType() === 'character') {
-                card.strengthModifier--;
-            }
-        });
+        // TODO: Reaction for preventing card abilities.
     }
 }
 

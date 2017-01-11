@@ -1,13 +1,7 @@
 const DrawCard = require('../../../drawcard.js');
 
 class TheWall extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onCardEntersPlay']);
-    }
-
-    setupCardAbilities() {
+    setupCardAbilities(dsl) {
         this.forcedReaction({
             when: {
                 onUnopposedWin: (e, challenge) => this.controller !== challenge.winner && !this.kneeled
@@ -27,43 +21,9 @@ class TheWall extends DrawCard {
                 this.game.addMessage('{0} kneels {1} to gain 2 power for their faction', this.controller, this);
             }
         });
-    }
-
-    isBoostableCard(card) {
-        return card.getFaction() === this.getFaction() && card.getType() === 'character';
-    }
-
-    play(player) {
-        super.play(player);
-
-        player.cardsInPlay.each(card => {
-            if(this.isBoostableCard(card)) {
-                card.strengthModifier++;
-            }
-        });
-    }
-
-    onCardEntersPlay(event, card) {
-        if(this.controller !== card.controller) {
-            return;
-        }
-
-        if(this.isBoostableCard(card)) {
-            card.strengthModifier++;
-        }
-    }
-
-    leavesPlay() {
-        super.leavesPlay();
-
-        if(this.isBlank()) {
-            return;
-        }
-
-        this.controller.cardsInPlay.each(card => {
-            if(this.isBoostableCard(card)) {
-                card.strengthModifier--;
-            }
+        this.persistentEffect({
+            match: (card) => this.getFaction() === card.getFaction() && card.getType() === 'character',
+            effect: dsl.effects.modifyStrength(1)
         });
     }
 }

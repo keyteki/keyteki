@@ -1,43 +1,10 @@
 const DrawCard = require('../../../drawcard.js');
 
 class PriestOfTheDrownedGod extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onCardPlayed']);
-    }
-
-    play(player) {
-        super.play(player);
-
-        player.cardsInPlay.each(card => {
-            if(card.getType() === 'character' && card.hasTrait('Drowned God')) {
-                card.strengthModifier++;
-            }
-        });
-    }
-
-    onCardPlayed(e, player, card) {
-        if(this.controller !== player || this.isBlank()) {
-            return;
-        }
-
-        if(card.getType() === 'character' && card.hasTrait('Drowned God')) {
-            card.strengthModifier++;
-        }
-    }
-
-    leavesPlay() {
-        super.leavesPlay();
-        
-        if(this.isBlank()) {
-            return;
-        }
-
-        this.controller.cardsInPlay.each(card => {
-            if(card.getType() === 'character' && card.hasTrait('Drowned God')) {
-                card.strengthModifier--;
-            }
+    setupCardAbilities(dsl) {
+        this.persistentEffect({
+            match: card => card.getType() === 'character' && card.hasTrait('Drowned God'),
+            effect: dsl.effects.modifyStrength(1)
         });
     }
 }

@@ -1,51 +1,12 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class Viserion extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onCardPlayed', 'onCardLeftPlay']);
-    }
-
-    play() {
-        super.play();
-
-        this.controller.cardsInPlay.each(card => {
-            if(card.hasTrait('Stormborn')) {
-                card.addKeyword('Stealth');
-            }
+    setupCardAbilities(dsl) {
+        this.persistentEffect({
+            match: (card) => card.hasTrait('Stormborn'),
+            effect: dsl.effects.addKeyword('Stealth')
         });
     }
-    
-    leavesPlay() {
-        super.leavesPlay();
-
-        this.controller.cardsInPlay.each(card => {
-            if(card.hasTrait('Stormborn')) {
-                card.removeKeyword('Stealth');
-            }
-        });
-    }
-
-    onCardPlayed(event, player, card) {
-        if(this.controller !== player || this.isBlank()) {
-            return;
-        }
-
-        if(card.hasTrait('Stormborn')) {
-            card.addKeyword('Stealth');
-        }
-    }
-
-    onCardLeftPlay(event, player, card) {
-        if(this.controller !== player || this.isBlank()) {
-            return;
-        }
-    
-        if(card.hasTrait('Stormborn')) {
-            card.removeKeyword('Stealth');
-        }
-    }    
 }
 
 Viserion.code = '01166';

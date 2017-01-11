@@ -7,6 +7,12 @@ class DrogosArakh extends DrawCard {
         this.registerEvents(['onAttackersDeclared']);
     }
 
+    setupCardAbilities(dsl) {
+        this.whileAttached({
+            effect: dsl.effects.modifyStrength(2)
+        });
+    }
+
     onAttackersDeclared(event, challenge) {
         if(challenge.challengeType !== 'military' || !challenge.isAttacking(this.parent) || this.parent.name !== 'Khal Drogo' || this.controller.getNumberOfChallengesInitiated() > 1) {
             return;
@@ -21,18 +27,6 @@ class DrogosArakh extends DrawCard {
         }
 
         return super.canAttach(player, card);
-    }
-
-    attach(player, card) {
-        card.strengthModifier += 2;
-
-        super.attach(player, card);
-    }
-
-    leavesPlay() {
-        super.leavesPlay();
-
-        this.parent.strengthModifier--;
     }
 }
 

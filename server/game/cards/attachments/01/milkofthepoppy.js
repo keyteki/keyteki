@@ -1,14 +1,10 @@
 const DrawCard = require('../../../drawcard.js');
 
 class MilkOfThePoppy extends DrawCard {
-    attach(player, card) {
-        card.setBlank();
-    }
-
-    leavesPlay() {
-        super.leavesPlay();
-        
-        this.parent.clearBlank();
+    setupCardAbilities(dsl) {
+        this.whileAttached({
+            effect: dsl.effects.blank
+        });
     }
 }
 

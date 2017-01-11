@@ -200,6 +200,9 @@ class DrawCard extends BaseCard {
     }
 
     attach() {
+        _.each(this.abilities.persistentEffects, effect => {
+            this.game.addEffect(this, effect);
+        });
     }
 
     play(player, isAmbush) {
@@ -214,7 +217,6 @@ class DrawCard extends BaseCard {
 
     leavesPlay() {
         this.kneeled = false;
-        this.strengthModifier = 0;
         this.power = 0;
         this.wasAmbush = false;
         this.inChallenge = false;

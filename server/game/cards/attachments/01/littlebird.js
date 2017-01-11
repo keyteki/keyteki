@@ -1,14 +1,10 @@
 const DrawCard = require('../../../drawcard.js');
 
 class LittleBird extends DrawCard {
-    attach(player, card) {
-        card.addIcon('intrigue');
-    }
-
-    leavesPlay() {
-        super.leavesPlay();
-        
-        this.parent.addIcon('intrigue');
+    setupCardAbilities(dsl) {
+        this.whileAttached({
+            effect: dsl.effects.addIcon('intrigue')
+        });
     }
 }
 

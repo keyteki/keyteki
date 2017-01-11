@@ -4,6 +4,8 @@ const uuid = require('node-uuid');
 
 const Event = require('./event.js');
 const GameChat = require('./gamechat.js');
+const EffectEngine = require('./effectengine.js');
+const Effect = require('./effect.js');
 const Spectator = require('./spectator.js');
 const GamePipeline = require('./gamepipeline.js');
 const SetupPhase = require('./gamesteps/setupphase.js');
@@ -23,6 +25,7 @@ class Game extends EventEmitter {
     constructor(owner, details) {
         super();
 
+        this.effectEngine = new EffectEngine(this);
         this.players = {};
         this.playerPlots = {};
         this.playerCards = {};
@@ -123,6 +126,10 @@ class Game extends EventEmitter {
             }
             return player.findCardByUuidInAnyList(cardId);
         }, null);
+    }
+
+    addEffect(source, properties) {
+        this.effectEngine.add(new Effect(this, source, properties));
     }
 
     playCard(playerName, cardId, isDrop, sourceList) {
@@ -691,6 +698,7 @@ class Game extends EventEmitter {
 
     continue() {
         this.pipeline.continue();
+        this.effectEngine.reapplyStateDependentEffects();
     }
 
     getSaveState() {
