@@ -7,11 +7,10 @@ class StinkingDrunk extends DrawCard {
                 onCardStood: (event, player, card) => card === this.parent
             },
             handler: () => {
-                this.owner.sacrificeCard(this);
+                this.game.addMessage('{0} sacrifices {1} to kneel {2}', this.controller, this, this.parent);
 
                 this.parent.controller.kneelCard(this.parent);
-
-                this.game.addMessage('{0} sacrifices {1} to kneel {2}', this.controller, this, this.parent);
+                this.owner.sacrificeCard(this);
             }
         });
     }
