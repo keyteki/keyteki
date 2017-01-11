@@ -201,7 +201,7 @@ class DeckEditor extends React.Component {
         return (
             <div className='col-sm-6'>
                 <h2>Deck Editor</h2>
-                <h4>Either type the cards manually into the box below, add the cards one by one using the card box and autocomplete or for best results, copy and paste a decklist from <a href='http://thronesdb.net' target='_blank'>Thrones DB</a> into the box below.</h4>
+                <h4>Either type the cards manually into the box below, add the cards one by one using the card box and autocomplete or for best results, copy and paste a decklist from <a href='http://thronesdb.com' target='_blank'>Thrones DB</a> into the box below.</h4>
                 <form className='form form-horizontal'>
                     <Input name='deckName' label='Deck Name' labelClass='col-sm-3' fieldClass='col-sm-9' placeholder='Deck Name'
                         type='text' onChange={this.onChange.bind(this, 'deckName')} value={this.state.deckName} />
