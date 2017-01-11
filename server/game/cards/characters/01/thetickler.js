@@ -12,7 +12,7 @@ class TheTickler extends DrawCard {
             return;
         }
 
-        this.game.promptWithMenu(player, this, {
+        this.game.promptWithMenu(this.controller, this, {
             activePrompt: {
                 menuTitle: 'Trigger ' + this.name + '?',
                 buttons: [
