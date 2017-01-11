@@ -32,7 +32,9 @@ class RedCloaks extends DrawCard {
             return;
         }
 
-        this.strengthModifier += this.tokens['gold'];
+        if(this.tokens['gold']) {
+            this.strengthModifier += this.tokens['gold'];
+        }
 
         this.game.once('onChallengeFinished', (e, challenge) => {
             this.onChallengeFinished(e, challenge);
@@ -40,7 +42,7 @@ class RedCloaks extends DrawCard {
     }
 
     onChallengeFinished(e, challenge) {
-        if(challenge.challengeType === 'intrigue') {
+        if(challenge.challengeType === 'intrigue' && this.tokens['gold']) {
             this.strengthModifier -= this.tokens['gold'];
         }
     }
