@@ -79,7 +79,6 @@ class InnerLobby extends React.Component {
 
         return (
             <div>
-                <div className='alert alert-danger'>There is an issue with the chat log currently.  It is being investigated.</div>
                 <div className='alert alert-info'>
                     <div><span className='icon-power' />2017-01-10: New cards: Winter Festival, The Boneway, Yoren, Brienna of Tarth, Roose Bolton, Offer of a Peach, The Frostfangs, Frozen Solid, Hedge Knight, Night Gathers...  Fixed tokens placed by Tears of Lys not being removed correctly, fixed Jory Cassel triggering incorrectly, fix Wildling Horde not being triggerable as a defender.  Added logging of games for statistical purposes.  I hope to use this data to provide stats on what factions people are playing and things of that nature.  Watch out for reports on them in the future!</div>                
                     <div><span className='icon-intrigue' />2017-01-09: New cards: Mare in Heat, Silver Steed, Stinking Drunk, Paid Off, Consolidation of Power, Ours is the Fury, We Do Not Sow, Hear Me Roar!, The Things I Do For Love, Doran's Game, Unbowed Unbent Unbroken, Confinement, Gates Of Winterfell, Harrenhal (GoH).  Fixed: The wall triggering when it is knelt and not boosting cards that are put into play, Eddard Stark gaining power instead of selected card, Euron Crow's Eye and other take control effects when controller cards go out of play.  Added a highlight for cards that are currently participating in a challenge</div>
