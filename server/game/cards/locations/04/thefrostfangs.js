@@ -12,9 +12,8 @@ class TheFrostfangs extends DrawCard {
                     return;
                 }
 
-                this.game.takeControl(otherPlayer, this);
-
                 this.game.addMessage('{0} uses {1} to give control of {1} to {2}', this.controller, this, otherPlayer);
+                this.game.takeControl(otherPlayer, this);
             }
         });
     }
