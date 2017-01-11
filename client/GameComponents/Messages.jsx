@@ -42,10 +42,6 @@ class InnerMessages extends React.Component {
     formatMessageText(message) {
         var index = 0;
         return _.map(message, fragment => {
-            if(!fragment) {
-                return '';
-            }
-            
             if(fragment.code && fragment.label) {
                 return (
                     <span key={index++}

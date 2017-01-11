@@ -35,10 +35,6 @@ class GameChat {
     }
 
     formatMessage(format, args) {
-        if(!format) {
-            return '';
-        }
-        
         var messageFragments = format.split(/(\{\d+\})/);
 
         return _.map(messageFragments, fragment => {
