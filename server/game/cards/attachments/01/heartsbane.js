@@ -32,7 +32,7 @@ class Heartsbane extends DrawCard {
     }
 
     onChallengeFinished() {
-        if(this.triggered) {
+        if(this.triggered && this.parent) {
             this.parent.strengthModifier -= 3;
 
             this.triggered = false;
