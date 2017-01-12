@@ -3,16 +3,14 @@ const _ = require('underscore');
 const PlotCard = require('../../../plotcard.js');
 
 class MarchedToTheWall extends PlotCard {
-    onReveal(player) {
-        if(this.controller !== player) {
-            return true;
-        }
-
-        this.remainingPlayers = this.game.getPlayersInFirstPlayerOrder();
-        this.selections = [];
-        this.proceedToNextStep();
-
-        return false;
+    setupCardAbilities() {
+        this.whenRevealed({
+            handler: () => {
+                this.remainingPlayers = this.game.getPlayersInFirstPlayerOrder();
+                this.selections = [];
+                this.proceedToNextStep();
+            }
+        })
     }
 
     cancelSelection(player) {

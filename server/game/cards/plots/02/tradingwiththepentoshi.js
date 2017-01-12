@@ -1,20 +1,17 @@
 const PlotCard = require('../../../plotcard.js');
 
 class TradingWithThePentoshi extends PlotCard {
-    onReveal(player) {
-        if(this.controller !== player) {
-            return true;
-        }
+    setupCardAbilities() {
+        this.whenRevealed({
+            handler: () => {
+                var otherPlayer = this.game.getOtherPlayer(this.controller);
 
-        var otherPlayer = this.game.getOtherPlayer(player);
-
-        if(otherPlayer) {
-            this.game.addGold(otherPlayer, 3);
-
-            this.game.addMessage('{0} gains 3 gold from {1}\'s {2}', otherPlayer, player, this);
-        }
-
-        return true;
+                if(otherPlayer) {
+                    this.game.addGold(otherPlayer, 3);
+                    this.game.addMessage('{0} gains 3 gold from {1}\'s {2}', otherPlayer, this.controller, this);
+                }
+            }
+        });
     }
 }
 

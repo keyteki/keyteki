@@ -467,8 +467,6 @@ class Player extends Spectator {
     }
 
     flipPlotFaceup() {
-        this.selectedPlot.flipFaceup();
-
         if(this.activePlot) {
             var previousPlot = this.removeActivePlot();
             previousPlot.moveTo('revealed plots');
@@ -477,6 +475,8 @@ class Player extends Spectator {
             this.game.raiseEvent('onPlotDiscarded', this, previousPlot);
         }
 
+        this.selectedPlot.flipFaceup();
+        this.selectedPlot.play();
         this.selectedPlot.moveTo('active plot');
         this.activePlot = this.selectedPlot;
         this.plotDeck = this.removeCardByUuid(this.plotDeck, this.selectedPlot.uuid);
@@ -498,6 +498,7 @@ class Player extends Spectator {
         if(this.activePlot) {
             var plot = this.activePlot;
             plot.leavesPlay(this);
+            this.game.raiseEvent('onCardLeftPlay', this, plot);
             this.activePlot = undefined;
             return plot;
         }

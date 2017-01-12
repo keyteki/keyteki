@@ -3,20 +3,18 @@ const _ = require('underscore');
 const PlotCard = require('../../../plotcard.js');
 
 class Rebuilding extends PlotCard {
-    onReveal(player) {
-        if(this.controller !== player) {
-            return true;
-        }
-
-        this.game.promptForSelect(player, {
-            numCards: 3,
-            activePromptTitle: 'Select up to 3 cards from discard',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            cardCondition: card => this.cardCondition(card),
-            onSelect: (player, cards) => this.doneSelect(player, cards)
+    setupCardAbilities() {
+        this.whenRevealed({
+            handler: () => {
+                this.game.promptForSelect(this.controller, {
+                    numCards: 3,
+                    activePromptTitle: 'Select up to 3 cards from discard',
+                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    cardCondition: card => this.cardCondition(card),
+                    onSelect: (player, cards) => this.doneSelect(player, cards)
+                });
+            }
         });
-
-        return false;
     }
 
     cardCondition(card) {

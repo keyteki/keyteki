@@ -3,16 +3,14 @@ const _ = require('underscore');
 const PlotCard = require('../../../plotcard.js');
 
 class ValarMorghulis extends PlotCard {
-    onReveal(player) {
-        if(this.controller !== player) {
-            return true;
-        }
-
-        _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
-            this.killAllCharacters(player);
+    setupCardAbilities() {
+        this.whenRevealed({
+            handler: () => {
+                _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
+                    this.killAllCharacters(player);
+                });
+            }
         });
-
-        return true;
     }
 
     killAllCharacters(player) {

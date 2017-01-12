@@ -12,9 +12,9 @@ describe('Player', function() {
             this.player = new Player('1', 'Player 1', true, this.gameSpy);
             this.player.initialise();
 
-            this.selectedPlotSpy = jasmine.createSpyObj('plot', ['flipFaceup', 'moveTo']);
+            this.selectedPlotSpy = jasmine.createSpyObj('plot', ['flipFaceup', 'moveTo', 'play']);
             this.selectedPlotSpy.uuid = '111';
-            this.anotherPlotSpy = jasmine.createSpyObj('plot', ['flipFaceup', 'moveTo']);
+            this.anotherPlotSpy = jasmine.createSpyObj('plot', ['flipFaceup', 'moveTo', 'play']);
 
             this.player.selectedPlot = this.selectedPlotSpy;
             this.player.plotDeck = _([this.selectedPlotSpy, this.anotherPlotSpy]);
@@ -27,6 +27,10 @@ describe('Player', function() {
 
             it('should flip the selected plot face up', function() {
                 expect(this.selectedPlotSpy.flipFaceup).toHaveBeenCalled();
+            });
+
+            it('should put the selected plot into play', function() {
+                expect(this.selectedPlotSpy.play).toHaveBeenCalled();
             });
 
             it('should move the plot to the active plot slot', function() {
@@ -58,6 +62,10 @@ describe('Player', function() {
 
             it('should have the plot leave play', function() {
                 expect(this.activePlotSpy.leavesPlay).toHaveBeenCalled();
+            });
+
+            it('should raise the onCardLeftPlay event', function() {
+                expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onCardLeftPlay', this.player, this.activePlotSpy);
             });
         });
 

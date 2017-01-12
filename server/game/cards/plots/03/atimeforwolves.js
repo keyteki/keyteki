@@ -3,30 +3,28 @@ const _ = require('underscore');
 const PlotCard = require('../../../plotcard.js');
 
 class ATimeForWolves extends PlotCard {
-    onReveal(player) {
-        if(this.controller !== player) {
-            return true;
-        }
+    setupCardAbilities() {
+        this.whenRevealed({
+            handler: () => {
+                var direwolfCards = this.controller.searchDrawDeck(card => {
+                    return card.hasTrait('Direwolf');
+                });
 
-        var direwolfCards = player.searchDrawDeck(card => {
-            return card.hasTrait('Direwolf');
-        });
+                var buttons = _.map(direwolfCards, card => {
+                    return { text: card.name, method: 'cardSelected', arg: card.uuid };
+                });
 
-        var buttons = _.map(direwolfCards, card => {
-            return { text: card.name, method: 'cardSelected', arg: card.uuid };
-        });
+                buttons.push({ text: 'Done', method: 'doneSelecting' });
 
-        buttons.push({ text: 'Done', method: 'doneSelecting' });
-
-        this.game.promptWithMenu(player, this, {
-            activePrompt: {
-                menuTitle: 'Select a card to add to your hand',
-                buttons: buttons
-            },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
-        });
-
-        return false;
+                this.game.promptWithMenu(this.controller, this, {
+                    activePrompt: {
+                        menuTitle: 'Select a card to add to your hand',
+                        buttons: buttons
+                    },
+                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+                });
+            }
+        })
     }
 
     cardSelected(player, cardId) {

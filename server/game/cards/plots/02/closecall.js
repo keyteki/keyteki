@@ -1,19 +1,17 @@
 const PlotCard = require('../../../plotcard.js');
 
 class CloseCall extends PlotCard {
-    onReveal(player) {
-        if(this.controller !== player) {
-            return true;
-        }
-
-        this.game.promptForSelect(player, {
-            cardCondition: card => this.cardCondition(card),
-            activePromptTitle: 'Select a character',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            onSelect: (player, card) => this.onCardSelected(player, card)
+    setupCardAbilities() {
+        this.whenRevealed({
+            handler: () => {
+                this.game.promptForSelect(this.controller, {
+                    cardCondition: card => this.cardCondition(card),
+                    activePromptTitle: 'Select a character',
+                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    onSelect: (player, card) => this.onCardSelected(player, card)
+                });
+            }
         });
-
-        return false;
     }
 
     cardCondition(card) {

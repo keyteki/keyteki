@@ -1,25 +1,23 @@
 const PlotCard = require('../../../plotcard.js');
 
 class CalmOverWesteros extends PlotCard {
-    onReveal(player) {
-        if(this.controller !== player) {
-            return true;
-        }
-
-        this.game.promptWithMenu(player, this, {
-            activePrompt: {
-                menuTitle: 'Select a challenge type',
-                buttons: [
-                    { text: 'Military', method: 'setChallengeType', arg: 'military' },
-                    { text: 'Intrigue', method: 'setChallengeType', arg: 'intrigue' },
-                    { text: 'Power', method: 'setChallengeType', arg: 'power' },
-                    { text: 'Cancel', method: 'cancelChallengeSelect' }
-                ]
-            },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+    setupCardAbilities() {
+        this.whenRevealed({
+            handler: () => {
+                this.game.promptWithMenu(this.controller, this, {
+                    activePrompt: {
+                        menuTitle: 'Select a challenge type',
+                        buttons: [
+                            { text: 'Military', method: 'setChallengeType', arg: 'military' },
+                            { text: 'Intrigue', method: 'setChallengeType', arg: 'intrigue' },
+                            { text: 'Power', method: 'setChallengeType', arg: 'power' },
+                            { text: 'Cancel', method: 'cancelChallengeSelect' }
+                        ]
+                    },
+                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+                });
+            }
         });
-
-        return false;
     }
 
     cancelChallengeSelect(player) {

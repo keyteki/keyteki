@@ -3,29 +3,27 @@ const _ = require('underscore');
 const PlotCard = require('../../../plotcard.js');
 
 class BuildingOrders extends PlotCard {
-    onReveal(player) {
-        if(this.controller !== player) {
-            return true;
-        }
+    setupCardAbilities() {
+        this.whenRevealed({
+            handler: () => {
+                var attachmentsAndLocations = this.controller.searchDrawDeck(10, card => {
+                    return card.getType() === 'attachment' || card.getType() === 'location';
+                });
 
-        var attachmentsAndLocations = player.searchDrawDeck(10, card => {
-            return card.getType() === 'attachment' || card.getType() === 'location';
-        });
+                var buttons = _.map(attachmentsAndLocations, card => {
+                    return { text: card.name, method: 'cardSelected', arg: card.uuid };
+                });
+                buttons.push({ text: 'Done', method: 'doneSelecting' });
 
-        var buttons = _.map(attachmentsAndLocations, card => {
-            return { text: card.name, method: 'cardSelected', arg: card.uuid };
-        });
-        buttons.push({ text: 'Done', method: 'doneSelecting' });
-
-        this.game.promptWithMenu(player, this, {
-            activePrompt: {
-                menuTitle: 'Select a card to add to your hand',
-                buttons: buttons
-            },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
-        });
-
-        return false;
+                this.game.promptWithMenu(this.controller, this, {
+                    activePrompt: {
+                        menuTitle: 'Select a card to add to your hand',
+                        buttons: buttons
+                    },
+                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+                });
+            }
+        })
     }
 
     cardSelected(player, cardId) {

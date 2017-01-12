@@ -111,6 +111,17 @@ class BaseCard {
         this.forcedReaction(properties);
     }
 
+    // TODO: When revealed abilities shouldn't be a synonym for forced reactions
+    //       but it is probably close enough for now.
+    whenRevealed(properties) {
+        var whenClause = {
+            when: {
+                onPlotRevealed: (e, player) => player === this.controller
+            }
+        };
+        this.forcedReaction(_.extend(whenClause, properties));
+    }
+
     /**
      * Applies an effect that continues as long as the card providing the effect
      * is both in play and not blank.

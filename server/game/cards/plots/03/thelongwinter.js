@@ -3,16 +3,14 @@ const _ = require('underscore');
 const PlotCard = require('../../../plotcard.js');
 
 class TheLongWinter extends PlotCard {
-    onReveal(player) {
-        if(this.controller !== player) {
-            return true;
-        }
-
-        this.selections = [];
-        this.remainingPlayers = _.reject(this.game.getPlayersInFirstPlayerOrder(), player => player.activePlot.hasTrait('Summer'));
-        this.proceedToNextStep();
-
-        return false;
+    setupCardAbilities() {
+        this.whenRevealed({
+            handler: () => {
+                this.selections = [];
+                this.remainingPlayers = _.reject(this.game.getPlayersInFirstPlayerOrder(), player => player.activePlot.hasTrait('Summer'));
+                this.proceedToNextStep();
+            }
+        });
     }
 
     cancelSelection(player) {

@@ -3,30 +3,28 @@ const _ = require('underscore');
 const PlotCard = require('../../../plotcard.js');
 
 class HereToServe extends PlotCard {
-    onReveal(player) {
-        if(this.controller !== player) {
-            return true;
-        }
+    setupCardAbilities() {
+        this.whenRevealed({
+            handler: () => {
+                var maesterCards = this.controller.searchDrawDeck(card => {
+                    return (card.hasTrait('Maester') && card.getCost() <= 3);
+                });
 
-        var maesterCards = player.searchDrawDeck(card => {
-            return (card.hasTrait('Maester') && card.getCost() <= 3);
-        });
+                var buttons = _.map(maesterCards, card => {
+                    return { text: card.name, method: 'cardSelected', arg: card.uuid, card: card.getSummary(true) };
+                });
 
-        var buttons = _.map(maesterCards, card => {
-            return { text: card.name, method: 'cardSelected', arg: card.uuid, card: card.getSummary(true) };
-        });
+                buttons.push({ text: 'Done', method: 'doneSelecting' });
 
-        buttons.push({ text: 'Done', method: 'doneSelecting' });
-
-        this.game.promptWithMenu(player, this, {
-            activePrompt: {
-                menuTitle: 'Select a card to put in play',
-                buttons: buttons
-            },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
-        });
-
-        return false;
+                this.game.promptWithMenu(this.controller, this, {
+                    activePrompt: {
+                        menuTitle: 'Select a card to put in play',
+                        buttons: buttons
+                    },
+                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+                });
+            }
+        })
     }
 
     cardSelected(player, cardId) {

@@ -1,19 +1,17 @@
 const PlotCard = require('../../../plotcard.js');
 
 class Reinforcements extends PlotCard {
-    onReveal(player) {
-        if(this.controller !== player) {
-            return true;
-        }
-
-        this.game.promptForSelect(player, {
-            activePromptTitle: 'Select a character from your hand or discard pile',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            cardCondition: card => this.cardCondition(card),
-            onSelect: (player, card) => this.onCardClicked(player, card)
+    setupCardAbilities() {
+        this.whenRevealed({
+            handler: () => {
+                this.game.promptForSelect(this.controller, {
+                    activePromptTitle: 'Select a character from your hand or discard pile',
+                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    cardCondition: card => this.cardCondition(card),
+                    onSelect: (player, card) => this.onCardClicked(player, card)
+                });
+            }
         });
-
-        return false;
     }
 
     cardCondition(card) {

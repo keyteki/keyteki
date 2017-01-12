@@ -3,16 +3,14 @@ const _ = require('underscore');
 const PlotCard = require('../../../plotcard.js');
 
 class PoliticalDisaster extends PlotCard {
-    onReveal(player) {
-        if(this.controller !== player) {
-            return true;
-        }
-
-        this.selections = [];
-        this.remainingPlayers = this.game.getPlayersInFirstPlayerOrder();
-        this.proceedToNextStep();
-
-        return false;
+    setupCardAbilities() {
+        this.whenRevealed({
+            handler: () => {
+                this.selections = [];
+                this.remainingPlayers = this.game.getPlayersInFirstPlayerOrder();
+                this.proceedToNextStep();
+            }
+        });
     }
 
     onSelect(player, cards) {
