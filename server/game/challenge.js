@@ -193,6 +193,14 @@ class Challenge {
         _.each(this.attackers, card => card.inChallenge = false);
         _.each(this.defenders, card => card.inChallenge = false);        
     }
+
+    cancelChallenge() {
+        this.cancelled = true;
+
+        this.resetCards();
+
+        this.game.addMessage('{0}\'s {1} challenge is cancelled', this.attackingPlayer, this.challengeType);
+    }
 }
 
 module.exports = Challenge;

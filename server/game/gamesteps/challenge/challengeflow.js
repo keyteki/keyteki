@@ -42,7 +42,7 @@ class ChallengeFlow extends BaseStep {
             waitingPromptTitle: 'Waiting for opponent to select attackers',
             cardCondition: card => this.allowAsAttacker(card),
             onSelect: (player, attackers) => this.chooseAttackers(player, attackers),
-            onCancel: () => this.cancelChallenge()
+            onCancel: () => this.challenge.cancelChallenge()
         });
     }
 
@@ -64,12 +64,6 @@ class ChallengeFlow extends BaseStep {
         this.challenge.calculateStrength();
         this.game.raiseEvent('onAttackersDeclared', this.challenge);
 
-        return true;
-    }
-
-    cancelChallenge() {
-        this.game.addMessage('{0} cancels their {1} challenge', this.challenge.attackingPlayer, this.challenge.challengeType);
-        this.cancelled = true;
         return true;
     }
 
@@ -276,7 +270,7 @@ class ChallengeFlow extends BaseStep {
     }
 
     continue() {
-        return this.cancelled || this.pipeline.continue();
+        return this.challenge.cancelled || this.pipeline.continue();
     }
 }
 
