@@ -682,23 +682,11 @@ class Player extends Spectator {
     }
 
     canAddToChallenge(card, challengeType) {
-        if(!card) {
+        if(!card || card.location !== 'play area' || card.stealth || card.kneeled) {
             return false;
         }
 
-        if(card.location !== 'play area') {
-            return false;
-        }
-
-        if(!card.hasIcon(challengeType)) {
-            return false;
-        }
-
-        if(card.stealth) {
-            return false;
-        }
-
-        if(card.kneeled) {
+        if(card.controller !== this || !card.hasIcon(challengeType)) {
             return false;
         }
 
