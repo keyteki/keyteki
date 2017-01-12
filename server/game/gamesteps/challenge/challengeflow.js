@@ -112,8 +112,12 @@ class ChallengeFlow extends BaseStep {
     determineWinner() {
         this.challenge.determineWinner();
 
-        this.game.addMessage('{0} won a {1} challenge {2} vs {3}',
-            this.challenge.winner, this.challenge.challengeType, this.challenge.winnerStrength, this.challenge.loserStrength);
+        if(!this.challenge.winner && !this.challenge.loser) {
+            this.game.addMessage('Attacking strength is 0, there is no winner for this challenge');
+        } else {
+            this.game.addMessage('{0} won a {1} challenge {2} vs {3}',
+                this.challenge.winner, this.challenge.challengeType, this.challenge.winnerStrength, this.challenge.loserStrength);
+        }
 
         this.game.raiseEvent('afterChallenge', this.challenge);
     }

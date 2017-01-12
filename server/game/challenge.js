@@ -113,6 +113,16 @@ class Challenge {
 
     determineWinner() {
         this.calculateStrength();
+
+        if(this.attackerStrength === 0 && this.defenderStrength === 0) {
+            this.loser = undefined;
+            this.winner = undefined;
+            this.loserStrength = this.winnerStrength = 0;
+            this.strengthDifference = 0;
+
+            return;            
+        }
+
         if(this.attackerStrength >= this.defenderStrength) {
             this.loser = this.defendingPlayer;
             this.loserStrength = this.defenderStrength;
@@ -135,7 +145,7 @@ class Challenge {
     }
 
     isUnopposed() {
-        return this.defenderStrength <= 0;
+        return this.defenderStrength <= 0 && this.attackerStrength > 0;
     }
 
     getClaim() {
