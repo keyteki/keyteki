@@ -112,6 +112,8 @@ class Challenge {
     }
 
     determineWinner() {
+        this.winnerDetermined = true;
+
         this.calculateStrength();
 
         if(this.attackerStrength === 0 && this.defenderStrength === 0) {
@@ -174,7 +176,9 @@ class Challenge {
     }
 
     onCardLeftPlay(e, player, card) {
-        this.removeFromChallenge(card);
+        if(!this.winnerDetermined) {
+            this.removeFromChallenge(card);
+        }
     }
 
     registerEvents(events) {
