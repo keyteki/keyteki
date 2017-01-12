@@ -3,12 +3,14 @@ const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
 const Challenge = require('../challenge.js');
 const ChallengeFlow = require('./challenge/challengeflow.js');
+const ActionWindow = require('./actionwindow.js');
 
 class ChallengePhase extends Phase {
     constructor(game) {
         super(game, 'challenge');
         this.initialise([
             new SimpleStep(this.game, () => this.beginPhase()),
+            new ActionWindow(this.game),
             new SimpleStep(this.game, () => this.promptForChallenge())
         ]);
     }
