@@ -24,26 +24,15 @@ class SelyseBaratheon extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        card.addIcon('intrigue');
-
-        this.cardModified = card;
-
         this.game.addMessage('{0} uses {1} to give {2} an {3} icon', player, this, card, 'intrigue');
 
         this.game.addGold(this.controller, -1);
-
-        this.game.once('onPhaseEnded', () => {
-            this.onPhaseEnded();
-        });
+        this.untilEndOfPhase(ability => ({
+            match: card,
+            effect: ability.effects.addIcon('intrigue')
+        }));
 
         return true;
-    }
-
-    onPhaseEnded() {
-        if(this.cardModified) {
-            this.cardModified.removeIcon('intrigue');
-            this.cardModified = undefined;
-        }
     }
 }
 

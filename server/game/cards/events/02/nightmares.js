@@ -11,25 +11,14 @@ class Nightmares extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        this.selectedCard = card;
-
-        card.setBlank();
+        this.untilEndOfPhase(ability => ({
+            match: card,
+            effect: ability.effects.blank
+        }));
 
         this.game.addMessage('{0} uses {1} to treat the text box of {2} as blank until the end of the phase', player, this, card);
 
-        this.game.once('onPhaseEnded', () => {
-            this.onPhaseEnded();
-        });
-
         return true;
-    }
-
-    onPhaseEnded() {
-        if(this.selectedCard) {
-            this.selectedCard.clearBlank();
-
-            this.selectedCard = undefined;
-        }
     }
 }
 

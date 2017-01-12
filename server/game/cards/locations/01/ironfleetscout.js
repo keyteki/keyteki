@@ -26,29 +26,16 @@ class IronFleetScout extends DrawCard {
     }
 
     onCardSelected(player, card) {
+        var strength = player.firstPlayer ? 2 : 1;
         player.kneelCard(this);
-
-        this.strength = player.firstPlayer ? 2 : 1;
-
-        card.strengthModifier += this.strength;
-        this.modifiedCard = card;
-
-        this.game.addMessage('{0} kneels {1} to give {2} +{3} STR until the end of the challenge', player, this, card, this.strength);
-
-        this.game.once('afterChallenge', () => {
-            this.onAfterChallenge();
-        });
+        this.game.addMessage('{0} kneels {1} to give {2} +{3} STR until the end of the challenge', player, this, card, strength);
+        this.untilEndOfPhase(ability => ({
+            match: card,
+            effect: ability.effects.modifyStrength(strength)
+        }));
 
         return true;
     }
-
-    onAfterChallenge() {
-        if(this.modifiedCard) {
-            this.modifiedCard.strengthModifier -= this.strength;
-
-            this.modifiedCard = undefined;
-        }
-    }   
 }
 
 IronFleetScout.code = '01079';

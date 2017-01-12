@@ -36,33 +36,17 @@ class Dracarys extends DrawCard {
     }
 
     onStrSelected(player, card) {
-        player.kneelCard(this.selectedCard);
-
-        card.strengthModifier -= 4;
-
         this.game.addMessage('{0} uses {1} to kneel {2} and give {3} -4 STR until the end of the phase', player, this, this.selectedCard, card);
-
-        if(card.getStrength() <= 0) {
-            card.controller.killCharacter(card, false);
-            
-            this.game.addMessage('{0} is killed as its STR is 0', card);
-        } else {
-            this.game.once('onPhaseEnded', () => {
-                this.onPhaseEnded();
-            });
-
-            this.strCard = card;
-        }
+        player.kneelCard(this.selectedCard);
+        this.untilEndOfPhase(ability => ({
+            match: card,
+            effect: [
+                ability.effects.modifyStrength(-4),
+                ability.effects.killByStrength
+            ]
+        }));
 
         return true;
-    }
-
-    onPhaseEnded() {
-        if(this.strCard) {
-            this.strCard.strengthModifier += 4;
-
-            this.strCard = undefined;
-        }
     }
 }
 

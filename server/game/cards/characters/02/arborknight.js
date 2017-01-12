@@ -4,12 +4,6 @@ const DrawCard = require('../../../drawcard.js');
 const AbilityLimit = require('../../../abilitylimit.js');
 
 class ArborKnight extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.cardsAffected = [];
-    }
-
     setupCardAbilities() {
         this.action({
             title: 'Pay 1 gold to give a character +1 STR',
@@ -30,35 +24,19 @@ class ArborKnight extends DrawCard {
             onSelect: (p, card) => this.onCardSelected(p, card)
         });
 
-        if(!this.registeredEvent) {
-            this.game.once('onChallengeFinished', this.onChallengeFinished.bind(this));
-
-            this.registeredEvent = true;
-        }
-
         return true;
     }
 
     onCardSelected(player, card) {
         this.game.addMessage('{0} uses {1} to pay 1 gold and give {2} +1 STR until the end of the challenge', player, this, card);
+        this.untilEndOfChallenge(ability => ({
+            match: card,
+            effect: ability.effects.modifyStrength(1)
+        }));
 
-        card.strengthModifier++;
-
-        this.cardsAffected.push(card);
-        
         player.gold -= 1;
 
         return true;
-    }
-
-    onChallengeFinished() {
-        this.registeredEvent = false;
-        
-        _.each(this.cardsAffected, card => {
-            card.strengthModifier--;
-        });
-
-        this.cardsAffected = [];
     }
 }
 

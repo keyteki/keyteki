@@ -1,12 +1,14 @@
 const DrawCard = require('../../../drawcard.js');
-const AbilityLimit = require('../../../abilitylimit.js');
 
 class CrownOfGoldenRoses extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Discard a card to give attached character STR',
             method: 'boost',
-            limit: AbilityLimit.perRound(2)
+            limit: ability.limit.perRound(2)
+        });
+        this.whileAttached({
+            effect: ability.effects.addTrait('King')
         });
     }
 
@@ -42,14 +44,10 @@ class CrownOfGoldenRoses extends DrawCard {
             icons++;
         }
 
-        this.parent.strengthModifier += icons;
-
-        this.modifiedStr += icons;
-
-        if(!this.eventRegistered) {
-            this.game.once('onPhaseEnded', this.onPhaseEnded.bind(this));
-            this.eventRegistered = true;
-        }
+        this.untilEndOfPhase(ability => ({
+            match: card => card === this.parent,
+            effect: ability.effects.modifyStrength(icons)
+        }));
 
         this.game.addMessage('{0} uses {1} to discard {2} to give {3} +{4} STR', player, this, card, this.parent, icons);
 
@@ -62,28 +60,6 @@ class CrownOfGoldenRoses extends DrawCard {
         }
 
         return super.canAttach(player, card);
-    }
-
-    attach(player, card) {
-        card.addTrait('King');
-
-        super.attach(player, card);
-
-        this.modifiedStr = 0;
-    }
-
-    leavesPlay(player) {
-        super.leavesPlay(player);
-
-        this.parent.removeTrait('King');
-    }
-
-    onPhaseEnded() {
-        if(this.modifiedStr) {
-            this.parent.strengthModifier -= this.modifiedStr;
-
-            this.modifiedStr = 0;
-        }
     }
 }
 

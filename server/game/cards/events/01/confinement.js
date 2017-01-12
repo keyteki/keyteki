@@ -17,25 +17,16 @@ class Confinement extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        card.removeIcon('military');
-        card.removeIcon('intrigue');
-        card.removeIcon('power');
-
-        this.cardSelected = card;
-
-        this.game.once('onPhaseEnded', this.onPhaseEnded.bind(this));
+        this.untilEndOfPhase(ability => ({
+            match: card,
+            effect: [
+                ability.effects.removeIcon('military'),
+                ability.effects.removeIcon('intrigue'),
+                ability.effects.removeIcon('power')
+            ]
+        }));
 
         return true;
-    }
-
-    onPhaseEnded() {
-        if(this.cardSelected) {
-            this.cardSelected.addIcon('military');
-            this.cardSelected.addIcon('intrigue');
-            this.cardSelected.addIcon('power');
-
-            this.cardSelected = undefined;
-        }
     }
 }
 

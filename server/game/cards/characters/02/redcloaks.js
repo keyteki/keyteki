@@ -2,12 +2,6 @@ const DrawCard = require('../../../drawcard.js');
 const AbilityLimit = require('../../../abilitylimit.js');
 
 class RedCloaks extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onAttackersDeclared', 'onChallengeFinished']);
-    }
-
     setupCardAbilities() {
         this.action({
             title: 'Move 1 gold from your gold pool to this card',
@@ -32,19 +26,10 @@ class RedCloaks extends DrawCard {
             return;
         }
 
-        if(this.tokens['gold']) {
-            this.strengthModifier += this.tokens['gold'];
-        }
-
-        this.game.once('onChallengeFinished', (e, challenge) => {
-            this.onChallengeFinished(e, challenge);
-        });
-    }
-
-    onChallengeFinished(e, challenge) {
-        if(challenge.challengeType === 'intrigue' && this.tokens['gold']) {
-            this.strengthModifier -= this.tokens['gold'];
-        }
+        this.untilEndOfChallenge(ability => ({
+            match: this,
+            effect: ability.effects.modifyStrength(this.tokens['gold'] || 0)
+        }));
     }
 }
 

@@ -1,14 +1,13 @@
 const _ = require('underscore');
 
 const DrawCard = require('../../../drawcard.js');
-const AbilityLimit = require('../../../abilitylimit.js');
 
 class NymeriaSand extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Remove icon from opponent\'s character',
             method: 'stealIcon',
-            limit: AbilityLimit.perPhase(1)
+            limit: ability.limit.perPhase(1)
         });
     }
 
@@ -58,43 +57,22 @@ class NymeriaSand extends DrawCard {
                 buttons: buttons
             },
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name
-        });           
+        });
 
         return true;
     }
 
     iconSelected(player, icon) {
-        this.selectedCard.removeIcon(icon);
-        this.selectedIcon = icon;
-        this.cardsAffected = [];
-
-        this.controller.cardsInPlay.each(card => {
-            if(card.getType() === 'character' && card.hasTrait('Sand Snake')) {
-                card.addIcon(icon);
-
-                this.cardsAffected.push(card);
-            }
-        });
-
-        this.game.once('onPhaseEnded', () => {
-            this.onPhaseEnded();
-        });
+        this.untilEndOfPhase(ability => ({
+            match: card => card === this.selectedCard,
+            effect: ability.effects.removeIcon(icon)
+        }));
+        this.untilEndOfPhase(ability => ({
+            match: card => card.getType() === 'character' && card.hasTrait('Sand Snake'),
+            effect: ability.effects.addIcon(icon)
+        }));
 
         return true;
-    }
-
-    onPhaseEnded() {
-        _.each(this.cardsAffected, card => {
-            card.removeIcon(this.selectedIcon);
-        });
-
-        if(this.selectedCard) {
-            this.selectedCard.addIcon(this.selectedIcon);
-        }
-
-        this.selectedCard = undefined;
-        this.selectedIcon = undefined;
-        this.cardsAffected = undefined;
     }
 }
 

@@ -6,7 +6,7 @@ class EffectEngine {
     constructor(game) {
         this.game = game;
         this.events = new EventRegistrar(game, this);
-        this.events.register(['onCardEntersPlay', 'onCardLeftPlay', 'onCardBlankToggled']);
+        this.events.register(['onCardEntersPlay', 'onCardLeftPlay', 'onCardBlankToggled', 'onChallengeFinished', 'onPhaseEnded', 'onAtEndOfPhase', 'onRoundEnded']);
         this.effects = [];
     }
 
@@ -50,6 +50,22 @@ class EffectEngine {
         _.each(matchingEffects, effect => {
             effect.setActive(!isBlank);
         });
+    }
+
+    onChallengeFinished() {
+        this.unapplyAndRemove(effect => effect.duration === 'untilEndOfChallenge');
+    }
+
+    onPhaseEnded() {
+        this.unapplyAndRemove(effect => effect.duration === 'untilEndOfPhase');
+    }
+
+    onAtEndOfPhase() {
+        this.unapplyAndRemove(effect => effect.duration === 'atEndOfPhase');
+    }
+
+    onRoundEnded() {
+        this.unapplyAndRemove(effect => effect.duration === 'untilEndOfRound');
     }
 
     unapplyAndRemove(match) {

@@ -13,10 +13,11 @@ class Heartsbane extends DrawCard {
             return false;
         }
 
-        this.triggered = true;
-        this.parent.strengthModifier += 3;
-
-        this.game.once('onChallengeFinished', this.onChallengeFinished.bind(this));
+        this.controller.kneelCard(this);
+        this.untilEndOfChallenge(ability => ({
+            match: card => card === this.parent,
+            effect: ability.effects.modifyStrength(3)
+        }));
 
         this.game.addMessage('{0} kneels {1} to give {2} +3 STR until the end of the challenge', player, this, this.parent);
 
@@ -29,14 +30,6 @@ class Heartsbane extends DrawCard {
         }
 
         return super.canAttach(player, card);
-    }
-
-    onChallengeFinished() {
-        if(this.triggered && this.parent) {
-            this.parent.strengthModifier -= 3;
-
-            this.triggered = false;
-        }
     }
 }
 

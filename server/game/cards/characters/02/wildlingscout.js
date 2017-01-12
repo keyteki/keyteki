@@ -1,14 +1,13 @@
 const DrawCard = require('../../../drawcard.js');
-const AbilityLimit = require('../../../abilitylimit.js');
 
 class WildlingScout extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Sacrifice this character to give another character stealth',
             method: 'sacrifice',
-            limit: AbilityLimit.perPhase(1)
+            limit: ability.limit.perPhase(1)
         });
-    }    
+    }
 
     sacrifice(player) {
         if(this.location !== 'play area') {
@@ -30,25 +29,14 @@ class WildlingScout extends DrawCard {
     onCardSelected(player, card) {
         player.sacrificeCard(this);
 
-        card.addKeyword('Stealth');
-        this.modifiedCard = card;
-
         this.game.addMessage('{0} sacrifices {1} to make {2} gain stealth', player, this, card);
-
-        this.game.once('onPhaseEnded', () => {
-            this.onPhaseEnded();
-        });
+        this.untilEndOfPhase(ability => ({
+            match: card,
+            effect: ability.effects.addKeyword('Stealth')
+        }));
 
         return true;
     }
-
-    onPhaseEnded() {
-        if(this.modifiedCard) {
-            this.modifiedCard.removeKeyword('Stealth');
-
-            this.modifiedCard = undefined;
-        }
-    }   
 }
 
 WildlingScout.code = '02078';

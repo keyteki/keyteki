@@ -13,9 +13,10 @@ class SerJaimeLannister extends DrawCard {
             return;
         }
 
-        if(!this.isBlank()) {
-            this.addKeyword('renown');
-        }
+        this.untilEndOfChallenge(ability => ({
+            match: this,
+            effect: ability.effects.addKeyword('renown')
+        }));
 
         if(this.controller !== player) {
             return;
@@ -23,16 +24,6 @@ class SerJaimeLannister extends DrawCard {
 
         if(!this.isBlank() && challenge.isAttacking(this)) {
             player.standCard(this);
-        }
-
-        this.game.once('onChallengeFinished', (event, challenge) => {
-            this.onChallengeFinished(event, challenge);
-        });
-    }
-
-    onChallengeFinished(event, challenge) {
-        if(challenge.challengeType === 'military') {
-            this.removeKeyword('renown');
         }
     }
 }

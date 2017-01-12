@@ -8,9 +8,7 @@ class Halder extends DrawCard {
             title: 'Kneel a location or attachment',
             method: 'kneel'
         });
-
-        this.cardsAffected = [];
-    }    
+    }
 
     kneel(player) {
         this.game.promptForSelect(player, {
@@ -39,25 +37,13 @@ class Halder extends DrawCard {
     onStrCardSelected(player, card) {
         this.game.addMessage('{0} uses {1} to kneels {2} to give {3} +1 STR until the end of the phase', player, this, this.kneelingCard, card);
 
-        if(!this.eventRegistered) {
-            this.game.once('onPhaseEnded', this.onPhaseEnded.bind(this));
-
-            this.eventRegistered = true;
-        }
-
-        card.strengthModifier++;
-
-        this.cardsAffected.push(card);
+        this.kneelingCard.controller.kneelCard(this.kneelingCard);
+        this.untilEndOfPhase(ability => ({
+            match: card,
+            effect: ability.effects.modifyStrength(1)
+        }));
 
         return true;
-    }
-
-    onPhaseEnded() {
-        _.each(this.cardsAffected, card => {
-            card.strengthModifier--;
-        });
-
-        this.cardsAffected = [];
     }
 }
 

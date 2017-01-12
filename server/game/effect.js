@@ -1,12 +1,15 @@
 const _ = require('underscore');
 
+const Effects = require('./effects.js');
+
 /**
  * Represents a card based effect applied to one or more targets.
  *
  * Properties:
  * match            - function that takes a card and context object and returns
  *                    a boolean about whether the passed card should have the
- *                    effect applied.
+ *                    effect applied. Alternatively, a card can be passed as the
+ *                    match property to match that single card.
  * duration         - string representing how long the effect lasts.
  * condition        - function that returns a boolean determining whether the
  *                    effect can be applied. Use with cards that have a
@@ -15,6 +18,9 @@ const _ = require('underscore');
  *                    than Winter plots").
  * targetController - string that determines which player's cards are targeted.
  *                    Can be 'current' (default), 'opponent' or 'any'.
+ * effect           - object representing the effect to be applied. If passed an
+ *                    array instead of an object, it will apply / unapply all of
+ *                    the sub objects in the array instead.
  * effect.apply     - function that takes a card and a context object and modifies
  *                    the card to apply the effect.
  * effect.unapply   - function that takes a card and a context object and modifies
@@ -28,11 +34,19 @@ class Effect {
         this.duration = properties.duration;
         this.condition = properties.condition || (() => true);
         this.targetController = properties.targetController || 'current';
-        this.effect = properties.effect;
+        this.effect = this.buildEffect(properties.effect);
         this.targets = [];
         this.context = { game: game, source: source };
         this.active = true;
-        this.isStateDependent = properties.condition || properties.effect.isStateDependent;
+        this.isStateDependent = properties.condition || this.effect.isStateDependent;
+    }
+
+    buildEffect(effect) {
+        if(_.isArray(effect)) {
+            return Effects.all(effect);
+        }
+
+        return effect;
     }
 
     addTargets(cards) {
@@ -51,6 +65,10 @@ class Effect {
     }
 
     isValidTarget(card) {
+        if(!_.isFunction(this.match)) {
+            return card === this.match;
+        }
+
         if(!this.match(card, this.context)) {
             return false;
         }

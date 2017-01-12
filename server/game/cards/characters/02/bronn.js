@@ -21,23 +21,14 @@ class Bronn extends DrawCard {
             return;
         }
 
-        this.addIcon('military');
-        this.addIcon('intrigue');
-        this.addIcon('power');
-
-        this.game.once('onChallengeFinished', (e, challenge) => {
-            this.onChallengeFinished(e, challenge);
-        });
-    }
-
-    onChallengeFinished(e, challenge) {
-        if(this.controller !== challenge.defendingPlayer) {
-            return;
-        }
-
-        this.removeIcon('military');
-        this.removeIcon('intrigue');
-        this.removeIcon('power');
+        this.untilEndOfChallenge(ability => ({
+            match: this,
+            effect: [
+                ability.effects.addIcon('military'),
+                ability.effects.addIcon('intrigue'),
+                ability.effects.addIcon('power')
+            ]
+        }));
     }
 
     takeControl(player) {

@@ -256,4 +256,152 @@ describe('EffectEngine', function () {
             });
         });
     });
+
+    describe('onChallengeFinished()', function() {
+        beforeEach(function() {
+            this.engine.effects = [this.effectSpy];
+        });
+
+        describe('when an effect has untilEndOfChallenge duration', function() {
+            beforeEach(function() {
+                this.effectSpy.duration = 'untilEndOfChallenge';
+                this.engine.onChallengeFinished({}, {});
+            });
+
+            it('should cancel the effect', function() {
+                expect(this.effectSpy.cancel).toHaveBeenCalled();
+            });
+
+            it('should remove the effect from the list', function() {
+                expect(this.engine.effects).not.toContain(this.effectSpy);
+            });
+        });
+
+
+        describe('when an effect has a non-untilEndOfChallenge duration', function() {
+            beforeEach(function() {
+                this.effectSpy.duration = 'persistent';
+                this.engine.onChallengeFinished({}, {});
+            });
+
+            it('should not cancel the effect', function() {
+                expect(this.effectSpy.cancel).not.toHaveBeenCalled();
+            });
+
+            it('should not remove the effect from the list', function() {
+                expect(this.engine.effects).toContain(this.effectSpy);
+            });
+        });
+    });
+
+    describe('onPhaseEnded()', function() {
+        beforeEach(function() {
+            this.engine.effects = [this.effectSpy];
+        });
+
+        describe('when an effect has untilEndOfPhase duration', function() {
+            beforeEach(function() {
+                this.effectSpy.duration = 'untilEndOfPhase';
+                this.engine.onPhaseEnded({}, 'marshal');
+            });
+
+            it('should cancel the effect', function() {
+                expect(this.effectSpy.cancel).toHaveBeenCalled();
+            });
+
+            it('should remove the effect from the list', function() {
+                expect(this.engine.effects).not.toContain(this.effectSpy);
+            });
+        });
+
+
+        describe('when an effect has a non-untilEndOfPhase duration', function() {
+            beforeEach(function() {
+                this.effectSpy.duration = 'persistent';
+                this.engine.onPhaseEnded({}, 'marshal');
+            });
+
+            it('should not cancel the effect', function() {
+                expect(this.effectSpy.cancel).not.toHaveBeenCalled();
+            });
+
+            it('should not remove the effect from the list', function() {
+                expect(this.engine.effects).toContain(this.effectSpy);
+            });
+        });
+    });
+
+    describe('onAtEndOfPhase()', function() {
+        beforeEach(function() {
+            this.engine.effects = [this.effectSpy];
+        });
+
+        describe('when an effect has atEndOfPhase duration', function() {
+            beforeEach(function() {
+                this.effectSpy.duration = 'atEndOfPhase';
+                this.engine.onAtEndOfPhase({});
+            });
+
+            it('should cancel the effect', function() {
+                expect(this.effectSpy.cancel).toHaveBeenCalled();
+            });
+
+            it('should remove the effect from the list', function() {
+                expect(this.engine.effects).not.toContain(this.effectSpy);
+            });
+        });
+
+
+        describe('when an effect has a non-atEndOfPhase duration', function() {
+            beforeEach(function() {
+                this.effectSpy.duration = 'persistent';
+                this.engine.onAtEndOfPhase({});
+            });
+
+            it('should not cancel the effect', function() {
+                expect(this.effectSpy.cancel).not.toHaveBeenCalled();
+            });
+
+            it('should not remove the effect from the list', function() {
+                expect(this.engine.effects).toContain(this.effectSpy);
+            });
+        });
+    });
+
+    describe('onRoundEnded()', function() {
+        beforeEach(function() {
+            this.engine.effects = [this.effectSpy];
+        });
+
+        describe('when an effect has untilEndOfRound duration', function() {
+            beforeEach(function() {
+                this.effectSpy.duration = 'untilEndOfRound';
+                this.engine.onRoundEnded({});
+            });
+
+            it('should cancel the effect', function() {
+                expect(this.effectSpy.cancel).toHaveBeenCalled();
+            });
+
+            it('should remove the effect from the list', function() {
+                expect(this.engine.effects).not.toContain(this.effectSpy);
+            });
+        });
+
+
+        describe('when an effect has a non-untilEndOfRound duration', function() {
+            beforeEach(function() {
+                this.effectSpy.duration = 'persistent';
+                this.engine.onRoundEnded({});
+            });
+
+            it('should not cancel the effect', function() {
+                expect(this.effectSpy.cancel).not.toHaveBeenCalled();
+            });
+
+            it('should not remove the effect from the list', function() {
+                expect(this.engine.effects).toContain(this.effectSpy);
+            });
+        });
+    });
 });

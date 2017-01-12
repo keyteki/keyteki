@@ -7,7 +7,7 @@ const RedCloaks = require('../../../../../server/game/cards/characters/02/redclo
 
 describe('RedCloaks', function() {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['on', 'once', 'removeListener', 'addPower', 'addMessage', 'addGold']);
+        this.gameSpy = jasmine.createSpyObj('game', ['on', 'once', 'removeListener', 'addPower', 'addMessage', 'addGold', 'addEffect']);
         this.playerSpy = jasmine.createSpyObj('player', ['']);
 
         this.playerSpy.game = this.gameSpy;
@@ -76,7 +76,7 @@ describe('RedCloaks', function() {
                 });
 
                 it('should not increase the strength modifier', function() {
-                    expect(this.card.strengthModifier).toBe(0);
+                    expect(this.gameSpy.addEffect).not.toHaveBeenCalled()
                 });
             });
 
@@ -87,7 +87,7 @@ describe('RedCloaks', function() {
                 });
 
                 it('should not increase the strength modifier', function() {
-                    expect(this.card.strengthModifier).toBe(0);
+                    expect(this.gameSpy.addEffect).not.toHaveBeenCalled()
                 });
             });
 
@@ -97,7 +97,7 @@ describe('RedCloaks', function() {
                 });
 
                 it('should increase the strength modifier', function() {
-                    expect(this.card.strengthModifier).toBe(1);
+                    expect(this.gameSpy.addEffect).toHaveBeenCalled()
                 });
             });
         });

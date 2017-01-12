@@ -1,40 +1,20 @@
 const DrawCard = require('../../../drawcard.js');
 
 class MaesterCaleotte extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['afterChallenge']);
-
-        this.abilityUsed = 0;
-    }
-
-    afterChallenge(event, challenge) {
-        if(challenge.winner === this.controller || !challenge.isParticipating(this) || this.isBlank()) {
-            return;
-        }
-
-        this.game.promptWithMenu(this.controller, this, {
-            activePrompt: {
-                menuTitle: 'Trigger ' + this.name + '?',
-                buttons: [
-                    { text: 'Yes', method: 'takeIcon' },
-                    { text: 'No', method: 'cancel' }
-                ]
+    setupCardAbilities(ability) {
+        this.reaction({
+            when: {
+                afterChallenge: (event, challenge) => challenge.loser === this.controller && challenge.isParticipating(this)
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
-        });   
-    }
-
-    takeIcon(player) {      
-        this.game.promptForSelect(player, {
-            activePromptTitle: 'Select character',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            cardCondition: card => card.location === 'play area' && card.getType() === 'character',
-            onSelect: (p, card) => this.onCardSelected(p, card)
-        });
-
-        return true;        
+            handler: () => {
+                this.game.promptForSelect(this.controller, {
+                    activePromptTitle: 'Select character',
+                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    cardCondition: card => card.location === 'play area' && card.getType() === 'character',
+                    onSelect: (p, card) => this.onCardSelected(p, card)
+                });
+            }
+        })
     }
 
     onCardSelected(player, card) {
@@ -57,22 +37,12 @@ class MaesterCaleotte extends DrawCard {
     
     iconSelected(player, icon) {
         this.game.addMessage('{0} uses {1} to remove a {2} icon from {3}', player, this, icon, this.selectedCard);
-        this.selectedIcon = icon;
-
-        this.selectedCard.removeIcon(icon);
-
-        this.game.once('onPhaseEnded', () => {
-            this.onPhaseEnded();
-        });
+        this.untilEndOfPhase(ability => ({
+            match: card => card === this.selectedCard,
+            effect: ability.effects.removeIcon(icon)
+        }));
 
         return true;
-    }
-
-    onPhaseEnded() {
-        if(this.selectedCard) {
-            this.selectedCard.addIcon(this.selectedIcon);
-            this.selectedCard = undefined;
-        }
     }
 }
 

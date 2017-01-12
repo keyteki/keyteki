@@ -3,12 +3,6 @@ const _ = require('underscore');
 const DrawCard = require('../../../drawcard.js');
 
 class EdricDayne extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.icons = [];
-    }
-
     setupCardAbilities() {
         this.action({
             title: 'Pay 1 gold to give this character a challenge icon',
@@ -37,26 +31,16 @@ class EdricDayne extends DrawCard {
     }
 
     iconSelected(player, icon) {
-        this.addIcon(icon);
-        this.icons.push(icon);
-
         this.game.addMessage('{0} uses {1} to give {1} an {2} icon', player, this, icon);
 
         this.game.addGold(this.controller, -1);
 
-        this.game.once('onPhaseEnded', () => {
-            this.onPhaseEnded();
-        });
+        this.untilEndOfPhase(ability => ({
+            match: card => card === this,
+            effects: ability.effects.addIcon(icon)
+        }));
 
         return true;
-    }
-
-    onPhaseEnded() {
-        _.each(this.icons, icon => {
-            this.removeIcon(icon);
-        });
-        
-        this.icons = [];
     }
 }
 

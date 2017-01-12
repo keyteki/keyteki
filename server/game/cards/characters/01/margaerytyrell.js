@@ -20,26 +20,18 @@ class MargaeryTyrell extends DrawCard {
             onSelect: (p, card) => this.onCardSelected(p, card)
         });
 
-        this.game.once('onChallengeFinished', this.onChallengeFinished.bind(this));
-
         return true;
     }
 
     onCardSelected(player, card) {
         this.game.addMessage('{0} kneels {1} to give {2} +3 STR until the end of the phase', player, this, card);
-
-        card.strengthModifier += 3;
-
-        this.selectedCard = card;
+        this.controller.kneelCard(this);
+        this.untilEndOfChallenge(ability => ({
+            match: card,
+            effect: ability.effects.modifyStrength(3)
+        }));
 
         return true;
-    }
-
-    onChallengeFinished() {
-        if(this.selectedCard) {
-            this.selectedCard.strengthModifier -= 3;
-            this.selcetedCard = undefined;
-        }
     }
 }
 

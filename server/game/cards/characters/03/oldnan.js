@@ -69,27 +69,14 @@ class OldNan extends DrawCard {
             return false;
         }
 
-        plotCard.addTrait(trait);
-
         this.game.addMessage('{0} uses {1} to add the {2} trait to {3}', player, this, trait, plotCard);
-
-        this.modifiedPlot = plotCard;
-        this.trait = trait;
         player.kneelCard(this);
-
-        this.game.once('onAfterTaxation', () => {
-            this.onAfterTaxation();
-        });
+        this.untilEndOfRound(ability => ({
+            match: plotCard,
+            effect: ability.effects.addTrait(trait)
+        }));
 
         return true;
-    }
-
-    onAfterTaxation() {
-        if(this.modifiedPlot) {
-            this.modifiedPlot.removeTrait(this.trait);
-
-            this.modifiedPlot = undefined;
-        }
     }
 }
 

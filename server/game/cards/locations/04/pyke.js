@@ -26,27 +26,15 @@ class Pyke extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        player.kneelCard(this);
-
-        card.addKeyword('Stealth');
-        this.modifiedCard = card;
-
         this.game.addMessage('{0} kneeled {1} to make {2} gain stealth', player, this, card);
-
-        this.game.once('onPhaseEnded', () => {
-            this.onPhaseEnded();
-        });
+        player.kneelCard(this);
+        this.untilEndOfPhase(ability => ({
+            match: card,
+            effect: ability.effects.addKeyword('Stealth')
+        }));
 
         return true;
     }
-
-    onPhaseEnded() {
-        if(this.modifiedCard) {
-            this.modifiedCard.removeKeyword('Stealth');
-
-            this.modifiedCard = undefined;
-        }
-    }   
 }
 
 Pyke.code = '04013';

@@ -24,36 +24,14 @@ class TearsOfLys extends DrawCard {
             activePromptTitle: 'Select a character to receive poison token',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
             cardCondition: card => card.location === 'play area' && card.controller !== player && card.getType() === 'character' && !card.hasIcon('intrigue'),
-            onSelect: (p, card) => this.onCardSelected(p, card)
-        });
-    }
-
-    onCardSelected(player, card) {
-        card.addToken('poison', 1);
-
-        this.game.addMessage('{0} uses {1} to place 1 poison token on {2}', player, this, card);
-
-        this.poisonTarget = card;
-
-        this.game.once('onPhaseEnded', (event, phase) => {
-            if(phase === 'challenge') {
-                this.onPhaseEnded();
+            onSelect: (p, card) => {
+                this.atEndOfPhase(ability => ({
+                    match: card,
+                    effect: ability.effects.poison
+                }));
+                return true;
             }
         });
-
-        return true;
-    }
-
-    onPhaseEnded() {
-        if(this.poisonTarget && this.poisonTarget.location === 'play area' && this.poisonTarget.hasToken('poison')) {
-            this.poisonTarget.controller.killCharacter(this.poisonTarget);
-
-            this.poisonTarget.removeToken('poision', 1);
-
-            this.game.addMessage('{0} uses {1} to kill {2} at the end of the phase', this.controller, this, this.poisonTarget);
-
-            this.poisonTarget = undefined;
-        }
     }
 }
 

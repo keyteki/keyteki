@@ -36,33 +36,17 @@ class PlazaOfPunishment extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        card.strengthModifier -= 2;
-
-        player.kneelCard(this);
-
         this.game.addMessage('{0} uses {1} to give {2} -2 STR', player, this, card);
-
-        if(card.getStrength() <= 0) {
-            card.controller.killCharacter(card, false);
-
-            this.game.addMessage('{0} is killed as its STR is 0', card);
-        } else {
-            this.cardSelected = card;
-
-            this.game.once('onPhaseEnded', () => {
-                this.onPhaseEnded();
-            });
-        }
+        player.kneelCard(this);
+        this.untilEndOfPhase(ability => ({
+            match: card,
+            effect: [
+                ability.effects.modifyStrength(-2),
+                ability.effects.killByStrength
+            ]
+        }));
 
         return true;
-    }
-
-    onPhaseEnded() {
-        if(this.cardSelected) {
-            this.cardSelected.strengthModifier += 2;
-
-            this.cardSelected = undefined;
-        }
     }
 }
 

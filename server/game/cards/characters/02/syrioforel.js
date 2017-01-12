@@ -1,12 +1,11 @@
 const DrawCard = require('../../../drawcard.js');
-const AbilityLimit = require('../../../abilitylimit.js');
 
 class SyrioForel extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Give a character military icon and stealth',
             method: 'giveIcon',
-            limit: AbilityLimit.perPhase(1)
+            limit: ability.limit.perPhase(1)
         });
     }
 
@@ -30,26 +29,16 @@ class SyrioForel extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        this.selectedCard = card;
-
-        card.addIcon('military');
-        card.addKeyword('Stealth');
-
         this.game.addMessage('{0} uses {1} to give {2} a {3} icon and stealth until the end of the phase', player, this, card, 'military');
-
-        this.game.once('onPhaseEnded', () => {
-            this.onPhaseEnded();
-        });
+        this.untilEndOfPhase(ability => ({
+            match: card,
+            effect: [
+                ability.effects.addIcon('military'),
+                ability.effects.addKeyword('Stealth')
+            ]
+        }));
 
         return true;
-    }
-
-    onPhaseEnded() {
-        if(this.selectedCard) {
-            this.selectedCard.removeIcon('military');
-            this.selectedCard.removeKeyword('Stealth');
-            this.selectedCard = undefined;
-        }
     }
 }
 
