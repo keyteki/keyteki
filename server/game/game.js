@@ -249,7 +249,7 @@ class Game extends EventEmitter {
         }
 
         switch(card.location) {
-            case 'revealed plots':
+            case 'active plot':
                 this.callCardMenuCommand(player.activePlot, player, menuItem);
                 break;
             case 'agenda':
