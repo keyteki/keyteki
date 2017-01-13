@@ -623,6 +623,10 @@ class Game extends EventEmitter {
     }
 
     initialise() {
+        this.players = _.reject(this.players, player => {
+            return player.left;
+        });
+
         _.each(this.getPlayers(), player => {
             player.initialise();
         });
