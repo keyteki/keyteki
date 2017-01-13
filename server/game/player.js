@@ -505,7 +505,6 @@ class Player extends Spectator {
     }
 
     revealPlot() {
-        this.activePlot.onReveal(this);
         this.reserve = this.getTotalReserve();
         this.claim = this.activePlot.getClaim();
     }

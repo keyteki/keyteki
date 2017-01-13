@@ -97,7 +97,7 @@ describe('the ResolvePlots', function() {
                 this.game.getPlayerByName.and.returnValue(this.otherPlayer);
             });
 
-            it('should call onReveal', function() {
+            it('should reveal the plot', function() {
                 this.prompt.resolvePlayer(this.player, this.otherPlayer.name);
                 expect(this.otherPlayer.revealPlot).toHaveBeenCalled();
             });

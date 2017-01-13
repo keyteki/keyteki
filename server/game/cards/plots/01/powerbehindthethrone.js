@@ -2,22 +2,16 @@ const PlotCard = require('../../../plotcard.js');
 
 class PowerBehindTheThrone extends PlotCard {
     setupCardAbilities() {
+        this.whenRevealed({
+            handler: () => {
+              this.game.addMessage('{0} adds 1 stand token to {1}', this.controller, this);
+              this.addToken('stand', 1);
+            }
+        });
         this.action({
             title: 'Discard a stand token',
             method: 'discardToken'
         });
-    }
-
-    onReveal(player) {
-        if(this.controller !== player) {
-            return true;
-        }
-
-        this.game.addMessage('{0} adds 1 stand token to {1}', player, this);
-
-        this.addToken('stand', 1);
-
-        return true;
     }
 
     discardToken(player) {
