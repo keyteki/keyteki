@@ -7,9 +7,9 @@ class DrogosArakh extends DrawCard {
         this.registerEvents(['onAttackersDeclared']);
     }
 
-    setupCardAbilities(dsl) {
+    setupCardAbilities(ability) {
         this.whileAttached({
-            effect: dsl.effects.modifyStrength(2)
+            effect: ability.effects.modifyStrength(2)
         });
     }
 

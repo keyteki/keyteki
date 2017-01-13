@@ -1,16 +1,13 @@
 const DrawCard = require('../../../drawcard.js');
 
 class Longclaw extends DrawCard {
-    attach(player, card) {
-        card.strengthModifier++;
-        card.addKeyword('Renown');
-    }
-
-    leavesPlay() {
-        super.leavesPlay();
-
-        this.parent.strengthModifier--;
-        this.parent.removeKeyword('Renown');
+    setupCardAbilities(ability) {
+        this.whileAttached({
+            effect: [
+                ability.effects.modifyStrength(1),
+                ability.effects.addKeyword('Renown')
+            ]
+        });
     }
 }
 

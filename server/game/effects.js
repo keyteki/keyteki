@@ -10,7 +10,7 @@ const Effects = {
                 _.each(effects, effect => effect.unapply(card, context));
             },
             isStateDependent: _.any(effects, effect => !!effect.isStateDependent)
-        }
+        };
     },
     modifyStrength: function(value) {
         return {
@@ -118,6 +118,20 @@ const Effects = {
                     card.controller.discardCard(card, allowSave);
                     context.game.addMessage('{0} discards {1} at the end of the phase because of {2}', context.source.controller, card, context.source);
                 }
+            }
+        };
+    },
+    takeControl: function(newController) {
+        return {
+            apply: function(card, context) {
+                context.takeControl = context.takeControl || {};
+                context.takeControl[card] = { originalController: card.controller };
+                context.game.takeControl(newController, card);
+                context.game.addMessage('{0} uses {1} to take control of {2}', context.source.controller, context.source, card);
+            },
+            unapply: function(card, context) {
+                context.game.takeControl(context.takeControl[card].originalController, card);
+                delete context.takeControl[card];
             }
         };
     }

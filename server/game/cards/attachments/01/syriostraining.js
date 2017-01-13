@@ -1,9 +1,9 @@
 const DrawCard = require('../../../drawcard.js');
 
 class SyriosTraining extends DrawCard {
-    setupCardAbilities(dsl) {
+    setupCardAbilities(ability) {
         this.whileAttached({
-            effect: dsl.effects.addIcon('military')
+            effect: ability.effects.addIcon('military')
         });
     }
 }

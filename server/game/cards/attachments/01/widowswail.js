@@ -1,13 +1,13 @@
 const DrawCard = require('../../../drawcard.js');
 
 class WidowsWail extends DrawCard {
-    setupCardAbilities(dsl) {
+    setupCardAbilities(ability) {
         this.whileAttached({
-            effect: dsl.effects.modifyStrength(2)
+            effect: ability.effects.modifyStrength(2)
         });
         this.whileAttached({
             match: (card) => card.name === 'Joffrey Baratheon',
-            effect: dsl.effects.addIcon('military')
+            effect: ability.effects.addIcon('military')
         });
     }
 }

@@ -1,12 +1,12 @@
 const DrawCard = require('../../../drawcard.js');
 
 class PracticeBlade extends DrawCard {
-    setupCardAbilities(dsl) {
+    setupCardAbilities(ability) {
         this.whileAttached({
-            effect: dsl.effects.modifyStrength(1)
-        });
-        this.whileAttached({
-            effect: dsl.effects.addIcon('military')
+            effect: [
+                ability.effects.modifyStrength(1),
+                ability.effects.addIcon('military')
+            ]
         });
     }
 

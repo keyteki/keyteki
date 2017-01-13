@@ -1,9 +1,9 @@
 const DrawCard = require('../../../drawcard.js');
 
 class MilkOfThePoppy extends DrawCard {
-    setupCardAbilities(dsl) {
+    setupCardAbilities(ability) {
         this.whileAttached({
-            effect: dsl.effects.blank
+            effect: ability.effects.blank
         });
     }
 }

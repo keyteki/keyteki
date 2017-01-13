@@ -1,51 +1,32 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class BeggarKing extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onPlotRevealed']);
-    }
-
-    onPlotRevealed(event, player) {
-        if(this.kneeled || player === this.controller || player.activePlot.getIncome(true) <= this.controller.activePlot.getIncome(true)) {
-            return;
-        }
-
-        this.game.promptWithMenu(this.controller, this, {
-            activePrompt: {
-                menuTitle: 'Trigger ' + this.name + '?',
-                buttons: [
-                    { text: 'Yes', method: 'gainGold' },
-                    { text: 'No', method: 'cancel' }
-                ]
-            },
-            waitingPromptTitle: 'Waiting for opponent to trigger ' + this.name
+    setupCardAbilities(ability) {
+        this.whileAttached({
+            effect: ability.effects.addTrait('King')
         });
-    }
+        this.reaction({
+            when: {
+                onPlotRevealed: (event, player) => (
+                    !this.kneeled &&
+                    player !== this.controller &&
+                    this.controller.activePlot.getIncome(true) < player.activePlot.getIncome(true)
+                )
+            },
+            handler: () => {
+                this.controller.kneelCard(this);
+                var gold = 1;
 
-    cancel(player) {
-        this.game.addMessage('{0} declines to trigger {1}', player, this);
+                var otherPlayer = this.game.getOtherPlayer(this.controller);
+                if(!otherPlayer || !otherPlayer.cardsInPlay.any(card => card.hasTrait('King'))) {
+                    gold = 2;
+                }
 
-        return true;
-    }
+                this.game.addGold(this.controller, gold);
 
-    gainGold(player) {
-        player.kneelCard(this);
-        var gold = 1;
-
-        var otherPlayer = this.game.getOtherPlayer(this.controller);
-        if(!otherPlayer || !otherPlayer.cardsInPlay.any(card => {
-            return card.hasTrait('King');
-        })) {
-            gold = 2;
-        }
-
-        this.game.addGold(this.controller, gold);
-
-        this.game.addMessage('{0} uses {1} to gain {2} gold', player, this, gold);
-
-        return true;
+                this.game.addMessage('{0} uses {1} to gain {2} gold', this.controller, this, gold);
+            }
+        });
     }
 
     canAttach(player, card) {
@@ -54,18 +35,6 @@ class BeggarKing extends DrawCard {
         }
 
         return super.canAttach(player, card);
-    }
-
-    attach(player, card) {
-        card.addTrait('King');
-
-        super.attach(player, card);
-    }
-
-    leavesPlay() {
-        super.leavesPlay();
-
-        this.parent.removeTrait('King');
     }
 }
 

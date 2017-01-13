@@ -1,13 +1,16 @@
 const DrawCard = require('../../../drawcard.js');
-const AbilityLimit = require('../../../abilitylimit.js');
 
 class Lightbringer extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
+        this.whileAttached({
+            match: card => card.name === 'Stannis Baratheon',
+            effect: ability.effects.addKeyword('Renown')
+        });
         this.reaction({
             when: {
                 onCardPowerChanged: (event, card, power) => card === this.parent && power > 0 && card.kneeled
             },
-            limit: AbilityLimit.perPhase(1),
+            limit: ability.limit.perPhase(1),
             handler: () => {
                 this.parent.controller.standCard(this.parent);
 
@@ -22,22 +25,6 @@ class Lightbringer extends DrawCard {
         }
 
         return super.canAttach(player, card);
-    }
-
-    attach(player, card) {
-        if(card.name === 'Stannis Baratheon') {
-            card.addKeyword('Renown');
-
-            this.renownAdded = true;
-        }
-    }
-
-    leavesPlay() {
-        super.leavesPlay();
-
-        if(this.renownAdded) {
-            this.parent.removeKeyword('Renown');
-        }
     }
 }
 

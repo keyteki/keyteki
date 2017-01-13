@@ -1,7 +1,10 @@
 const DrawCard = require('../../../drawcard.js');
 
 class Lady extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
+        this.whileAttached({
+            effect: ability.effects.modifyStrength(2)
+        });
         this.action({
             title: 'Pay 1 gold to attach Lady to another character',
             method: 'reAttach'
@@ -32,8 +35,6 @@ class Lady extends DrawCard {
     }
 
     attach(player, card) {
-        card.strengthModifier += 2;
-
         if(this.triggered) {
             if(card.name === 'Sansa Stark' && card.kneeled) {
                 player.standCard(card);
@@ -41,10 +42,6 @@ class Lady extends DrawCard {
 
             this.triggered = false;
         }
-    }
-
-    leavesPlay() {
-        this.parent.strengthModifier -= 2;
     }
 }
 

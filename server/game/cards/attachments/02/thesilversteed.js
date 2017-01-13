@@ -1,13 +1,15 @@
 const DrawCard = require('../../../drawcard.js');
 
 class TheSilverSteed extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['afterChallenge', 'onChallengeFinished']);
-    }
-
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
+        this.whileAttached({
+            condition: () => (
+                this.game.currentChallenge &&
+                this.game.currentChallenge.challengeType === 'power' &&
+                this.game.currentChallenge.isParticipating(this.parent)
+            ),
+            effect: ability.effects.addKeyword('Renown')
+        });
         this.reaction({
             when: {
                 onRenown: (event, challenge, card) => card === this.parent
@@ -20,22 +22,6 @@ class TheSilverSteed extends DrawCard {
                 this.game.addMessage('{0} sacrifices {1} to be able to initiate an additional {2} challenge this round', this.controller, this, 'power');
             }
         });
-    }
-
-    afterChallenge(event, challenge) {
-        if(challenge.isParticipating(this.parent) && challenge.challengeType === 'power') {
-            this.parent.addKeyword('Renown');
-
-            this.renownAdded = true;
-        }
-    }
-
-    onChallengeFinished() {
-        if(this.renownAdded) {
-            this.parent.removeKeyword('Renown');
-
-            this.renownAdded = false;
-        }
     }
 
     canAttach(player, card) {

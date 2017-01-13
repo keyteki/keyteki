@@ -1,10 +1,27 @@
 const DrawCard = require('../../../drawcard.js');
- 
-class BodyGuard extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
 
-        this.registerEvents(['onKillingCharacter']);
+class BodyGuard extends DrawCard {
+    setupCardAbilities() {
+        this.interrupt({
+            when: {
+                onKillingCharacter: (event, player, card, allowSave) => {
+                    if(this.parent === card && allowSave) {
+                        event.cancel = true;
+                        return true;
+                    }
+
+                    return false;
+                }
+            },
+            handler: () => {
+                this.game.addMessage('{0} uses {1} to save {2}', this.controller, this, this.parent);
+                this.controller.sacrificeCard(this);
+            },
+            onCancel: () => {
+                this.controller.killCharacter(this.parent, false);
+                return true;
+            }
+        });
     }
 
     canAttach(player, card) {
@@ -13,41 +30,6 @@ class BodyGuard extends DrawCard {
         }
 
         return super.canAttach(player, card);
-    }
-
-    onKillingCharacter(event, player, card, allowSave) {
-        if(this.parent !== card || !allowSave) {
-            return;
-        }
-
-        this.game.promptWithMenu(player, this, {
-            activePrompt: {
-                menuTitle: 'Use ' + this.name + ' to save ' + card.name + '?',
-                buttons: [
-                    { text: 'Yes', method: 'save' },
-                    { text: 'No', method: 'cancel' }
-                ]
-            },
-            waitingPromptTitle: 'Waiting for opponent to use save effects'
-        });
-
-        event.cancel = true;
-    }
-
-    save(player) {
-        this.game.addMessage('{0} uses {1} to save {2}', player, this, this.parent);
-
-        this.controller.sacrificeCard(this);
-
-        return true;
-    }
-
-    cancel(player) {
-        player.killCharacter(this.parent, false);
-
-        this.game.addMessage('{0} declines to trigger {1}', player, this);
-
-        return true;
     }
 }
 

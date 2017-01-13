@@ -46,7 +46,7 @@ class DrawCard extends BaseCard {
         this.dupes = _(this.dupes.reject(dupe => {
             return dupe === firstDupe;
         }));
-        
+
         return firstDupe;
     }
 
@@ -249,7 +249,7 @@ class DrawCard extends BaseCard {
             }),
             iconsAdded: this.getIconsAdded(),
             iconsRemoved: this.getIconsRemoved(),
-            inChallenge: this.inChallenge,      
+            inChallenge: this.inChallenge,
             kneeled: this.kneeled,
             power: this.power,
             strength: !_.isNull(this.cardData.strength) ? this.getStrength() : 0,

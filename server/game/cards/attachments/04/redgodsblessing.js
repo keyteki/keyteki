@@ -1,10 +1,13 @@
 const DrawCard = require('../../../drawcard.js');
- 
-class RedGodsBlessing extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
 
-        this.registerEvents(['onCardPlayed', 'onCardLeftPlay']);
+class RedGodsBlessing extends DrawCard {
+    setupCardAbilities(ability) {
+        this.whileAttached({
+            effect: [
+                ability.effects.addTrait('R\'hllor'),
+                ability.effects.dynamicStrength(() => this.getNumberOfCardsWithRhllor())
+            ]
+        });
     }
 
     getNumberOfCardsWithRhllor() {
@@ -16,43 +19,8 @@ class RedGodsBlessing extends DrawCard {
             return runningTotal;
         }, 0);
 
-        return cardsWithRhllor;        
+        return cardsWithRhllor;
     }
-
-    attach(player, card) {
-        card.addTrait('R\'hllor');
-
-        card.strengthModifier += this.getNumberOfCardsWithRhllor();
-    }
-    
-
-    leavesPlay() {
-        super.leavesPlay();
-
-        this.parent.removeTrait('R\'hllor');
-
-        this.parent.strengthModifier -= this.getNumberOfCardsWithRhllor();
-    }
-
-    onCardPlayed(event, player, card) {
-        if(this.controller !== player) {
-            return;
-        }
-
-        if(card.getType() === 'character' && card.hasTrait('R\'hllor')) {
-            card.strengthModifier++;
-        }
-    }
-
-    onCardLeftPlay(event, player, card) {
-        if(this.controller !== player) {
-            return;
-        }
-    
-        if(card.getType() === 'character' && card.hasTrait('R\'hllor')) {
-            card.strengthModifier--;
-        }
-    }    
 }
 
 RedGodsBlessing.code = '04068';

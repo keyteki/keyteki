@@ -1,9 +1,9 @@
 const DrawCard = require('../../../drawcard.js');
 
 class LittleBird extends DrawCard {
-    setupCardAbilities(dsl) {
+    setupCardAbilities(ability) {
         this.whileAttached({
-            effect: dsl.effects.addIcon('intrigue')
+            effect: ability.effects.addIcon('intrigue')
         });
     }
 }

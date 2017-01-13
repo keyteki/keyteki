@@ -3,9 +3,12 @@ const _ = require('underscore');
 const DrawCard = require('../../../drawcard.js');
 
 class KingRobertsWarhammer extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.selectedStrength = 0;
 
+        this.whileAttached({
+            effect: ability.effects.modifyStrength(1)
+        });
         this.reaction({
             when: {
                 afterChallenge: (event, challenge) => challenge.winner === this.controller && challenge.isAttacking(this.parent)
@@ -23,25 +26,13 @@ class KingRobertsWarhammer extends DrawCard {
                             this.selectedStrength += card.getStrength();
                         } else {
                             this.selectedStrength -= card.getStrength();
-                        }    
+                        }
                     },
                     onSelect: (player, cards) => this.onSelect(player, cards),
                     onCancel: (player) => this.cancelSelection(player)
                 });
             }
         });
-    }
-
-    attach(player, card) {
-        card.strengthModifier++;
-
-        super.attach(player, card);
-    }
-
-    leavesPlay(player) {
-        this.parent.strengthModifier--;
-
-        super.leavesPlay(player);
     }
 
     onSelect(player, cards) {
