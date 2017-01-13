@@ -48,13 +48,17 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     savePreviouslySelectedCards() {
-        this.previouslySelectedCards = this.game.allCards.filter(card => card.selected || card.opponentSelected);
-        _.each(this.previouslySelectedCards, card => {
-            if(card.controller !== this.choosingPlayer) {
-                card.opponentSelected = false;
-            } else {
-                card.selected = false;
-            }
+        this.previouslySelectedCards = _.map(
+            this.game.allCards.filter(card => card.selected || card.opponentSelected),
+            card => ({
+                card: card,
+                selected: card.selected,
+                opponentSelected: card.opponentSelected
+            })
+        );
+        _.each(this.previouslySelectedCards, selection => {
+            selection.card.selected = false;
+            selection.card.opponentSelected = false;
         });
     }
 
@@ -161,14 +165,11 @@ class SelectCardPrompt extends UiPrompt {
             card.selected = false;
             card.opponentSelected = false;
         });
-        
+
         // Restore previous selections.
-        _.each(this.previouslySelectedCards, card => {
-            if(card.controller !== this.choosingPlayer) {
-                card.opponentSelected = true;
-            } else {
-                card.selected = true;
-            }
+        _.each(this.previouslySelectedCards, selection => {
+            selection.card.selected = selection.selected;
+            selection.card.opponentSelected = selection.opponentSelected;
         });
     }
 }
