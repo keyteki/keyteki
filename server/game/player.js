@@ -729,6 +729,18 @@ class Player extends Spectator {
         }
     }
 
+    returnCardToHand(card, allowSave = true) {
+        if(!card.dupes.isEmpty() && allowSave) {
+            if(!this.removeDuplicate(card)) {
+                this.moveCard(card, 'hand');    
+            } else {
+                this.game.addMessage('{0} discards a duplicate to save {1}', this, card);
+            }
+        } else {
+            this.moveCard(card, 'hand');
+        }        
+    }
+
     killCharacter(card, allowSave = true) {
         var character = this.findCardInPlayByUuid(card.uuid);
 

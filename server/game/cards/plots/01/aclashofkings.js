@@ -15,7 +15,7 @@ class AClashOfKings extends PlotCard {
                 this.game.addMessage('{0} uses {1} to move 1 power from {2}\'s faction card to their own', challenge.winner, this, challenge.loser);
                 this.game.transferPower(challenge.winner, challenge.loser, 1);
             }
-        })
+        });
     }
 }
 
