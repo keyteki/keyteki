@@ -108,6 +108,8 @@ class ChallengeFlow extends BaseStep {
 
         if(!this.challenge.winner && !this.challenge.loser) {
             this.game.addMessage('Attacking strength is 0, there is no winner for this challenge');
+        } else if(this.challenge.isAttackerTheWinner() && this.challenge.attackerCannotWin) {
+            this.game.addMessage('There is no winner or loser for this challenge');
         } else {
             this.game.addMessage('{0} won a {1} challenge {2} vs {3}',
                 this.challenge.winner, this.challenge.challengeType, this.challenge.winnerStrength, this.challenge.loserStrength);
@@ -117,7 +119,7 @@ class ChallengeFlow extends BaseStep {
     }
 
     unopposedPower() {
-        if(this.challenge.isUnopposed() && this.challenge.isAttackerTheWinner()) {
+        if(this.challenge.isUnopposed() && this.challenge.isAttackerTheWinner() && !this.challenge.attackerCannotWin) {
             this.game.addMessage('{0} has gained 1 power from an unopposed challenge', this.challenge.winner);
             this.game.addPower(this.challenge.winner, 1);
 
@@ -126,7 +128,7 @@ class ChallengeFlow extends BaseStep {
     }
 
     beforeClaim() {
-        if(!this.challenge.isAttackerTheWinner()) {
+        if(!this.challenge.isAttackerTheWinner() || this.challenge.attackerCannotWin) {
             return;
         }
 
