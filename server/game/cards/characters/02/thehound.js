@@ -39,7 +39,7 @@ class TheHound extends DrawCard {
     returnToHand(player) {
         this.game.addMessage('{0} is forced to return {1} to their hand', player, this);
 
-        player.moveCard(this, 'hand');
+        player.returnCardToHand(this);
 
         return true;
     }
