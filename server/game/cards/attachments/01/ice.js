@@ -1,12 +1,6 @@
 const DrawCard = require('../../../drawcard.js');
 
 class Ice extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['afterChallenge']);
-    }
-
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: ability.effects.modifyStrength(2)
