@@ -35,7 +35,7 @@ class EdricDayne extends DrawCard {
 
         this.untilEndOfPhase(ability => ({
             match: card => card === this,
-            effects: ability.effects.addIcon(icon)
+            effect: ability.effects.addIcon(icon)
         }));
 
         return true;
