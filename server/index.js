@@ -454,7 +454,10 @@ io.on('connection', function(socket) {
             return;
         }
 
-        game.players[socket.request.user.username].noReconnect = true;
+        if(game.players[socket.request.user.username]) {
+            game.players[socket.request.user.username].noReconnect = true;
+        }
+        
         if(!game.finishedAt) {
             game.finishedAt = new Date();
             game.saveGame();
