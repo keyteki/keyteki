@@ -4,7 +4,7 @@ class SummerHarvest extends PlotCard {
     setupCardAbilities() {
         this.whenRevealed({
             handler: () => {
-                var otherPlayer = this.game.getOtherPlayer(this.player);
+                var otherPlayer = this.game.getOtherPlayer(this.controller);
                 if(!otherPlayer) {
                     return true;
                 }
