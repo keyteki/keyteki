@@ -111,10 +111,13 @@ const Effects = {
     },
     discardIfStillInPlay: function(allowSave = false) {
         return {
-            apply: function() {
+            apply: function(card, context) {
+                context.discardIfStillInPlay = context.discardIfStillInPlay || [];
+                context.discardIfStillInPlay.push(card);
             },
             unapply: function(card, context) {
-                if(card.location === 'play area') {
+                if(card.location === 'play area' && context.discardIfStillInPlay.includes(card)) {
+                    context.discardIfStillInPlay = _.reject(context.discardIfStillInPlay, c => c === card);
                     card.controller.discardCard(card, allowSave);
                     context.game.addMessage('{0} discards {1} at the end of the phase because of {2}', context.source.controller, card, context.source);
                 }
