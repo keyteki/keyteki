@@ -12,8 +12,8 @@ describe('the Game', function() {
     beforeEach(function() {
         game = new Game('1', 'Test Game');
 
-        player1 = new Player('1', 'Player 1', true, game);
-        spectator = new Spectator('3', 'Spectator 1', game);
+        player1 = new Player('1', { username: 'Player 1' }, true, game);
+        spectator = new Spectator('3', { username: 'Spectator 1' }, game);
 
         game.players[player1.id] = player1;
         game.players[spectator.id] = spectator;
@@ -61,7 +61,7 @@ describe('the Game', function() {
         describe('when called by a player in the game', function() {
             describe('with no slashes', function() {
                 it('should add their chat message', function() {
-                    game.chat(player1.id, 'Test Message');
+                    game.chat(player1.name, 'Test Message');
 
                     expect(game.messages.length).toBe(1);
                     expect(game.messages[0].message[1].name).toBe(player1.name);
@@ -76,7 +76,7 @@ describe('the Game', function() {
 
                 describe('with no arguments', function() {
                     it('should draw 1 card', function () {
-                        game.chat(player1.id, '/draw');
+                        game.chat(player1.name, '/draw');
 
                         expect(game.messages.length).toBe(1);
                         expect(player1.drawCardsToHand).toHaveBeenCalledWith(1);
@@ -85,7 +85,7 @@ describe('the Game', function() {
 
                 describe('with a string argument', function() {
                     it('should draw 1 card', function () {
-                        game.chat(player1.id, '/draw test');
+                        game.chat(player1.name, '/draw test');
 
                         expect(game.messages.length).toBe(1);
                         expect(player1.drawCardsToHand).toHaveBeenCalledWith(1);
@@ -94,7 +94,7 @@ describe('the Game', function() {
 
                 describe('with a negative argument', function() {
                     it('should draw 1 card', function () {
-                        game.chat(player1.id, '/draw -1');
+                        game.chat(player1.name, '/draw -1');
 
                         expect(game.messages.length).toBe(1);
                         expect(player1.drawCardsToHand).toHaveBeenCalledWith(1);
@@ -103,7 +103,7 @@ describe('the Game', function() {
 
                 describe('with a valid argument', function() {
                     it('should draw 4 cards', function () {
-                        game.chat(player1.id, '/draw 4');
+                        game.chat(player1.name, '/draw 4');
 
                         expect(game.messages.length).toBe(1);
                         expect(player1.drawCardsToHand).toHaveBeenCalledWith(4);
@@ -112,7 +112,7 @@ describe('the Game', function() {
 
                 describe('half way through a message', function() {
                     it('should not trigger the /draw command', function() {
-                        game.chat(player1.id, 'test test /draw test');
+                        game.chat(player1.name, 'test test /draw test');
 
                         expect(player1.drawCardsToHand).not.toHaveBeenCalled();
                     });
@@ -126,7 +126,7 @@ describe('the Game', function() {
 
                 describe('with no arguments', function() {
                     it('should discard 1 card', function () {
-                        game.chat(player1.id, '/discard');
+                        game.chat(player1.name, '/discard');
 
                         expect(game.messages.length).toBe(1);
                         expect(player1.discardAtRandom).toHaveBeenCalledWith(1);
@@ -135,7 +135,7 @@ describe('the Game', function() {
 
                 describe('with a string argument', function() {
                     it('should discard 1 card', function () {
-                        game.chat(player1.id, '/discard test');
+                        game.chat(player1.name, '/discard test');
 
                         expect(game.messages.length).toBe(1);
                         expect(player1.discardAtRandom).toHaveBeenCalledWith(1);
@@ -144,7 +144,7 @@ describe('the Game', function() {
 
                 describe('with a negative argument', function() {
                     it('should discard 1 card', function () {
-                        game.chat(player1.id, '/discard -1');
+                        game.chat(player1.name, '/discard -1');
 
                         expect(game.messages.length).toBe(1);
                         expect(player1.discardAtRandom).toHaveBeenCalledWith(1);
@@ -153,7 +153,7 @@ describe('the Game', function() {
 
                 describe('with a valid argument', function() {
                     it('should discard 3 cards', function () {
-                        game.chat(player1.id, '/discard 3');
+                        game.chat(player1.name, '/discard 3');
 
                         expect(game.messages.length).toBe(1);
                         expect(player1.discardAtRandom).toHaveBeenCalledWith(3);
@@ -168,7 +168,7 @@ describe('the Game', function() {
 
                 describe('with no arguments', function() {
                     it('should discard 1 card', function () {
-                        game.chat(player1.id, '/pillage');
+                        game.chat(player1.name, '/pillage');
 
                         expect(game.messages.length).toBe(1);
                         expect(player1.discardFromDraw).toHaveBeenCalledWith(1);
@@ -181,7 +181,7 @@ describe('the Game', function() {
         describe('when called by a spectator in the game', function() {
             describe('with no slashes', function () {
                 it('should add their chat message', function() {
-                    game.chat(spectator.id, 'Test Message');
+                    game.chat(spectator.name, 'Test Message');
 
                     expect(game.messages.length).toBe(1);
                     expect(game.messages[0].message[1].name).toBe(spectator.name);
@@ -191,7 +191,7 @@ describe('the Game', function() {
 
             describe('with a /power command', function() {
                 it('should add the message to the messages', function() {
-                    game.chat(spectator.id, '/power');
+                    game.chat(spectator.name, '/power');
 
                     expect(game.messages.length).toBe(1);
                     expect(player1.setPower).toBe(undefined);

@@ -623,9 +623,15 @@ class Game extends EventEmitter {
     }
 
     initialise() {
-        this.players = _.reject(this.players, player => {
-            return player.left;
+        var players = {};
+
+        _.each(this.players, player => {
+            if(!player.left) {
+                players[player.name] = player;
+            }
         });
+        
+        this.players = players;
 
         _.each(this.getPlayers(), player => {
             player.initialise();
