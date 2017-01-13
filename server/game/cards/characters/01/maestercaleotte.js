@@ -1,7 +1,7 @@
 const DrawCard = require('../../../drawcard.js');
 
 class MaesterCaleotte extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
             when: {
                 afterChallenge: (event, challenge) => challenge.loser === this.controller && challenge.isParticipating(this)
@@ -14,7 +14,7 @@ class MaesterCaleotte extends DrawCard {
                     onSelect: (p, card) => this.onCardSelected(p, card)
                 });
             }
-        })
+        });
     }
 
     onCardSelected(player, card) {

@@ -15,7 +15,7 @@ class Summons extends PlotCard {
                 });
                 buttons.push({ text: 'Done', method: 'doneSelecting' });
 
-                this.game.promptWithMenu(player, this, {
+                this.game.promptWithMenu(this.controller, this, {
                     activePrompt: {
                         menuTitle: 'Select a card to add to your hand',
                         buttons: buttons

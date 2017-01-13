@@ -23,7 +23,7 @@ class BuildingOrders extends PlotCard {
                     waitingPromptTitle: 'Waiting for opponent to use ' + this.name
                 });
             }
-        })
+        });
     }
 
     cardSelected(player, cardId) {

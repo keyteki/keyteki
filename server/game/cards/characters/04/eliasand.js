@@ -15,7 +15,7 @@ class EliaSand extends DrawCard {
                     onSelect: (p, card) => this.onCardSelected(p, card)
                 });
             }
-        })
+        });
     }
 
     onCardSelected(player, card) {

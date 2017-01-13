@@ -1,7 +1,7 @@
 const DrawCard = require('../../../drawcard.js');
 
 class TyeneSand extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
             when: {
                 afterChallenge: (event, challenge) => (
@@ -24,7 +24,7 @@ class TyeneSand extends DrawCard {
                     }
                 });
             }
-        })
+        });
     }
 }
 

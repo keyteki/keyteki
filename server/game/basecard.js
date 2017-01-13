@@ -82,7 +82,7 @@ class BaseCard {
         this.eventsForRegistration = events;
     }
 
-    setupCardAbilities(dsl) {
+    setupCardAbilities() {
     }
 
     action(properties) {

@@ -10,7 +10,7 @@ class MarchedToTheWall extends PlotCard {
                 this.selections = [];
                 this.proceedToNextStep();
             }
-        })
+        });
     }
 
     cancelSelection(player) {

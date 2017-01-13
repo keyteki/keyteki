@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const PlotCard = require('../../../plotcard.js');
 
 class FortifiedPosition extends PlotCard {

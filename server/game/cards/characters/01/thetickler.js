@@ -7,7 +7,7 @@ class TheTickler extends DrawCard {
         this.registerEvents(['onDominanceDetermined']);
     }
 
-    onDominanceDetermined(event, player) {
+    onDominanceDetermined() {
         if(this.kneeled || this.isBlank()) {
             return;
         }
