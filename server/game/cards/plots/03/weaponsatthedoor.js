@@ -17,8 +17,8 @@ class WeaponsAtTheDoor extends PlotCard {
     }
 
     returnCardsToHand(player) {
-        player.cardsInPlay.each(card => {
-            if(card.getType() === 'attachment') {
+        player.allCards.each(card => {
+            if(card.getType() === 'attachment' && card.parent) {
                 player.returnCardToHand(card);
             }
         });
