@@ -138,6 +138,10 @@ class Player extends Spectator {
             }
         });
 
+        if(cost < 0) {
+            return 0;
+        }
+
         return cost;
     }
 
