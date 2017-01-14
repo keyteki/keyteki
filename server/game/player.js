@@ -572,11 +572,19 @@ class Player extends Spectator {
     }
 
     isValidDropCombination(source, target) {
-        if(source === 'plot' && target !== 'plot discard pile') {
+        if(source === 'plot deck' && target !== 'revealed plots') {
             return false;
         }
 
-        if(source === 'plot discard pile' && target !== 'plot') {
+        if(source === 'revealed plots' && target !== 'plot deck') {
+            return false;
+        }
+
+        if(target === 'plot deck' && source !== 'revealed plots') {
+            return false;
+        }
+
+        if(target === 'revealed plots' && source !== 'plot deck') {
             return false;
         }
 
