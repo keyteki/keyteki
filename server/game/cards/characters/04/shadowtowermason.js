@@ -8,8 +8,8 @@ class ShadowTowerMason extends DrawCard {
     }
 
     getCardCount() {
-        var count = this.controller.cardsInPlay.reduce((counter, card) => {
-            if(this.isBlank() || card.getFaction() !== 'thenightswatch' || (card.getType() !== 'location' && card.getType() !== 'attachment')) {
+        var count = this.controller.allCards.reduce((counter, card) => {
+            if(this.isBlank() || card.location !== 'play area' || card.getFaction() !== 'thenightswatch' || (card.getType() !== 'location' && card.getType() !== 'attachment')) {
                 return counter;
             }
 
