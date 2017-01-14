@@ -12,7 +12,7 @@ class RobbStark extends DrawCard {
     }
 
     onCharacterKilled(event, player, card) {
-        if(this.abilityUsed || player !== this.controller || card.getFaction() !== 'stark' || card.getType() !== 'character' || this.isBlank()) {
+        if(this.abilityUsed || player !== this.controller || card.getFaction() !== 'stark' || card.getType() !== 'character' || this.isBlank() || card === this) {
             return;
         }
 
