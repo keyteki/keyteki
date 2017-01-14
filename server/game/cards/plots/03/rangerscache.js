@@ -1,5 +1,3 @@
-const DrawCard = require('../../../drawcard.js');
-
 const PlotCard = require('../../../plotcard.js');
 
 class RangersCache extends PlotCard {
