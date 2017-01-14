@@ -312,10 +312,10 @@ export class InnerGameBoard extends React.Component {
                                                     onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onCardClick={this.onCardClick} onDragDrop={this.onDragDrop} />
                                 </div>
                                 <div className='plot-group'>
-                                    <CardCollection className='plot' title='Used Plots' source='used plots' cards={otherPlayer ? otherPlayer.plotDiscard : []}
+                                    <CardCollection className='plot' title='Used Plots' source='revealed plots' cards={otherPlayer ? otherPlayer.plotDiscard : []}
                                                     topCard={otherPlayer ? otherPlayer.activePlot : undefined} orientation='horizontal' onMouseOver={this.onMouseOver} 
                                                     onMouseOut={this.onMouseOut} onCardClick={this.onCardClick} />
-                                    <CardCollection className='plot' title='Used Plots' source='used plots' cards={thisPlayer.plotDiscard} topCard={thisPlayer.activePlot}
+                                    <CardCollection className='plot' title='Used Plots' source='revealed plots' cards={thisPlayer.plotDiscard} topCard={thisPlayer.activePlot}
                                                     onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} orientation='horizontal' onMenuItemClick={this.onMenuItemClick}
                                                     onCardClick={this.onCardClick} onDragDrop={this.onDragDrop} />
                                 </div>

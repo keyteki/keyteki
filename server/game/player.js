@@ -589,7 +589,7 @@ class Player extends Spectator {
             case 'active plot':
             case 'plot deck':
                 return this.plotDeck;
-            case 'used plots':
+            case 'revealed plots':
                 return this.plotDiscard;
         }
     }
@@ -614,7 +614,7 @@ class Player extends Spectator {
             case 'plot deck':
                 this.plotDeck = targetList;
                 break;
-            case 'used plots':
+            case 'revealed plots':
                 this.plotDiscard = targetList;
                 break;
         }
