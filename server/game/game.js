@@ -696,6 +696,7 @@ class Game extends EventEmitter {
 
         oldController.removeCardFromPile(card);
         newController.cardsInPlay.push(card);
+        card.moveTo('play area');
 
         card.controller = newController;
     }
