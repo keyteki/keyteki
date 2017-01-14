@@ -123,6 +123,11 @@ class Player extends Spectator {
             cost = this.activePlot.reduce(card, cost, spending);
         }
 
+        var otherPlayer = this.game.getOtherPlayer(this);
+        if(otherPlayer && otherPlayer.activePlot && otherPlayer.activePlot.canReduce(this, card)) {
+            cost = otherPlayer.activePlot.reduce(card, cost, spending);
+        }
+
         if(this.agenda && this.agenda.canReduce(this, card)) {
             cost = this.agenda.reduce(card, cost, spending);
         }
