@@ -17,6 +17,7 @@ class ChallengeFlow extends BaseStep {
             new SimpleStep(this.game, () => this.promptForAttackers()),
             () => new ChooseStealthTargets(this.game, this.challenge, this.challenge.getStealthAttackers()),
             new SimpleStep(this.game, () => this.announceAttackerStrength()),
+            new ActionWindow(this.game),
             new SimpleStep(this.game, () => this.promptForDefenders()),
             new ActionWindow(this.game),
             new SimpleStep(this.game, () => this.determineWinner()),
