@@ -372,6 +372,10 @@ class BaseCard {
         }
     }
 
+    onClick() {
+        return false;
+    }
+
     getSummary(isActivePlayer, hideWhenFaceup) {
         return isActivePlayer || (!this.facedown && !hideWhenFaceup) ? {
             code: this.cardData.code,

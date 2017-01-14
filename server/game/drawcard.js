@@ -211,10 +211,6 @@ class DrawCard extends BaseCard {
         super.play();
     }
 
-    onClick() {
-        return false;
-    }
-
     leavesPlay() {
         this.kneeled = false;
         this.power = 0;
