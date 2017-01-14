@@ -379,6 +379,12 @@ class Game extends EventEmitter {
 
         if(stat === 'power') {
             target = player.faction;
+        } else if(stat === 'reserve') {
+            if(!player.activePlot) {
+                return;
+            }
+            
+            target = player.activePlot.cardData;
         }
 
         target[stat] += value;
