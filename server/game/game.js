@@ -314,7 +314,7 @@ class Game extends EventEmitter {
             player.gold = 0;
         }
 
-        this.raiseEvent('onStatChange', player, 'gold');
+        this.raiseEvent('onStatChanged', player, 'gold');
     }
 
     transferPower(winner, loser, power) {
