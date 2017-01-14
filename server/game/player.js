@@ -586,6 +586,11 @@ class Player extends Spectator {
                 return this.deadPile;
             case 'play area':
                 return this.cardsInPlay;
+            case 'active plot':
+            case 'plot deck':
+                return this.plotDeck;
+            case 'used plots':
+                return this.plotDiscard;
         }
     }
 
@@ -605,6 +610,13 @@ class Player extends Spectator {
                 break;
             case 'play area':
                 this.cardsInPlay = targetList;
+                break;
+            case 'plot deck':
+                this.plotDeck = targetList;
+                break;
+            case 'used plots':
+                this.plotDiscard = targetList;
+                break;
         }
     }
 
