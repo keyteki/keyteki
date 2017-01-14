@@ -16,7 +16,7 @@ class EffectEngine {
     }
 
     applyEffect(effect) {
-        var validTargets = this.game.allCards.filter(card => card.location === 'play area');
+        var validTargets = this.game.allCards.filter(card => card.location === 'play area' || card.location === 'active plot');
         effect.addTargets(validTargets);
     }
 

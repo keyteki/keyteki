@@ -262,7 +262,6 @@ class Player extends Spectator {
 
         this.gold = 0;
         this.claim = 0;
-        this.reserve = 0;
         this.readyToStart = false;
         this.limitedPlayed = 0;
         this.maxLimited = 1;
@@ -431,7 +430,6 @@ class Player extends Spectator {
 
     startPlotPhase() {
         this.claim = 0;
-        this.reserve = 0;
         this.firstPlayer = false;
         this.selectedPlot = undefined;
         this.roundDone = false;
@@ -505,7 +503,6 @@ class Player extends Spectator {
     }
 
     revealPlot() {
-        this.reserve = this.getTotalReserve();
         this.claim = this.activePlot.getClaim();
     }
 
@@ -968,7 +965,7 @@ class Player extends Spectator {
     }
 
     isBelowReserve() {
-        return this.hand.size() <= this.reserve;
+        return this.hand.size() <= this.getTotalReserve();
     }
 
     getSummaryForCardList(list, isActivePlayer, hideWhenFaceup) {
@@ -1020,7 +1017,7 @@ class Player extends Spectator {
             plotDeck: this.getSummaryForCardList(this.plotDeck, isActivePlayer, true),
             plotDiscard: this.getSummaryForCardList(this.plotDiscard, isActivePlayer),
             plotSelected: !!this.selectedPlot,
-            reserve: this.reserve,
+            reserve: this.getTotalReserve(),
             selectCard: this.selectCard,
             totalPower: this.getTotalPower(),
             user: _.omit(this.user, 'password')

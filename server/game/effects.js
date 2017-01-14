@@ -22,6 +22,16 @@ const Effects = {
             }
         };
     },
+    modifyReserve: function(value) {
+        return {
+            apply: function(card) {
+                card.reserveModifier += value;
+            },
+            unapply: function(card) {
+                card.reserveModifier -= value;
+            }
+        };        
+    },
     dynamicStrength: function(calculate) {
         return {
             apply: function(card, context) {

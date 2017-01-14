@@ -3,7 +3,7 @@ const PlayerOrderPrompt = require('../playerorderprompt.js');
 class DiscardToReservePrompt extends PlayerOrderPrompt {
     activePrompt() {
         return {
-            menuTitle: 'Discard down to ' + this.currentPlayer.reserve + ' cards',
+            menuTitle: 'Discard down to ' + this.currentPlayer.getTotalReserve() + ' cards',
             buttons: [
                 { text: 'Done' }
             ]
