@@ -8,7 +8,7 @@ class TheHauntedForest extends DrawCard {
     }
 
     onDefendersDeclared(event, challenge) {
-        if(challenge.defendingPlayer !== this.controller || this.isBlank()) {
+        if(challenge.defendingPlayer !== this.controller || this.isBlank() || this.kneeled) {
             return;
         }
 
