@@ -2,37 +2,101 @@
 
 const DrawCard = require('../../../server/game/drawcard.js');
 
-describe('the DrawCard', () => {
+describe('the DrawCard', function() {
     var owner = {};
     var card;
 
-    describe('the hasKeyword() function', () => {
-        describe('when the card mentions a keyword in its body', () => {
-            beforeEach(() => {
-                card = new DrawCard(owner, { text: 'Each <i>Ranger</i> character you control cannot be bypassed by stealth.\n<b>Interrupt:</b> When Benjen Stark is killed, gain 2 power for your faction. Then, shuffle him back into your deck instead of placing him in your dead pile."' });
-            });
-
-            it('should return false.', () => {
-                expect(card.hasKeyword('Stealth')).toBe(false);
-            });
+    describe('the hasKeyword() function', function() {
+        beforeEach(function() {
+            this.owner = {};
+            this.card = new DrawCard(this.owner, {});
         });
 
-        describe('when the card has a keyword line', () => {
-            beforeEach(() => {
-                card = new DrawCard(owner, { text: 'Intimidate. Renown. Notarealkeyword.\nRobert Baratheon gets +1 STR for each other kneeling character in play.' });
+        it('should return false if no keyword has been added', function() {
+            expect(this.card.hasKeyword('stealth')).toBe(false);
+        });
+
+        it('should return true if a keyword has been added', function() {
+            this.card.addKeyword('stealth');
+            expect(this.card.hasKeyword('stealth')).toBe(true);
+        });
+
+        it('should not be case sensitive', function() {
+            this.card.addKeyword('Intimidate');
+            expect(this.card.hasKeyword('InTiMiDaTe')).toBe(true);
+        });
+
+        it('should return true if a keyword has been added more than it has been removed', function() {
+            this.card.addKeyword('stealth');
+            this.card.addKeyword('stealth');
+            this.card.removeKeyword('stealth');
+            expect(this.card.hasKeyword('stealth')).toBe(true);
+        });
+
+        it('should return false if a keyword has been removed more than it has been added', function() {
+            this.card.removeKeyword('stealth');
+            this.card.removeKeyword('stealth');
+            this.card.addKeyword('stealth');
+            expect(this.card.hasKeyword('stealth')).toBe(false);
+        });
+    });
+
+    describe('integration', function() {
+        const _ = require('underscore');
+
+        const Game = require('../../../server/game/game.js');
+        const Player = require('../../../server/game/player.js');
+
+        beforeEach(function() {
+            this.game = new Game(null, {});
+
+            this.player = new Player(1, { username: 'foo' }, false, this.game);
+
+            this.game.players['foo'] = this.player;
+            this.game.initialise();
+
+            this.game.currentPhase = 'marshal';
+            this.player.phase = 'marshal';
+        });
+
+        describe('parsing initial keywords', function() {
+            describe('when the card mentions a keyword in its body', function() {
+                beforeEach(function() {
+                    this.card = new DrawCard(this.player, { text: 'Each <i>Ranger</i> character you control cannot be bypassed by stealth.\n<b>Interrupt:</b> When Benjen Stark is killed, gain 2 power for your faction. Then, shuffle him back into your deck instead of placing him in your dead pile."' });
+                    this.card.location = 'hand';
+                    this.player.hand = _([this.card]);
+                    this.player.playCard(this.card, true);
+                });
+
+                it('should return false.', function() {
+                    expect(this.card.hasKeyword('Stealth')).toBe(false);
+                });
             });
 
-            it('should return true for each keyword', () => {
-                expect(card.hasKeyword('Intimidate')).toBe(true);
-                expect(card.hasKeyword('Renown')).toBe(true);
-            });
+            describe('when the card has a keyword line', function() {
+                beforeEach(function() {
+                    this.card = new DrawCard(this.player, { text: 'Intimidate. Renown. Notarealkeyword.\nRobert Baratheon gets +1 STR for each other kneeling character in play.' });
+                    this.card.location = 'hand';
+                    this.player.hand = _([this.card]);
+                    this.player.playCard(this.card, true);
+                });
 
-            it('should not be case sensitive', () => {
-                expect(card.hasKeyword('InTiMiDaTe')).toBe(true);
-            });
+                it('should return true for each keyword', function() {
+                    expect(this.card.hasKeyword('Intimidate')).toBe(true);
+                    expect(this.card.hasKeyword('Renown')).toBe(true);
+                });
 
-            it('should reject non-valid keywords', () => {
-                expect(card.hasKeyword('Notarealkeyword')).toBe(false);
+                it('should reject non-valid keywords', function() {
+                    expect(this.card.hasKeyword('Notarealkeyword')).toBe(false);
+                });
+
+                it('should not blank externally given keywords', function() {
+                    this.card.addKeyword('Stealth');
+                    this.card.setBlank();
+                    expect(this.card.hasKeyword('Intimidate')).toBe(false);
+                    expect(this.card.hasKeyword('Renown')).toBe(false);
+                    expect(this.card.hasKeyword('Stealth')).toBe(true);
+                });
             });
         });
     });

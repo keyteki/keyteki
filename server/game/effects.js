@@ -76,6 +76,16 @@ const Effects = {
             }
         };
     },
+    addMultipleKeywords: function(keywords) {
+        return {
+            apply: function(card) {
+                _.each(keywords, keyword => card.addKeyword(keyword));
+            },
+            unapply: function(card) {
+                _.each(keywords, keyword => card.removeKeyword(keyword));
+            }
+        };
+    },
     addTrait: function(trait) {
         return {
             apply: function(card) {

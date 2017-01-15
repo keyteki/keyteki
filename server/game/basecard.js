@@ -33,27 +33,26 @@ class BaseCard {
         this.blankCount = 0;
 
         this.tokens = {};
-
         this.menu = _([]);
-        this.parseKeywords(cardData.text || '');
-        this.parseTraits(cardData.traits || '');
-
         this.events = new EventRegistrar(this.game, this);
 
         this.abilities = { reactions: [], persistentEffects: [] };
+        this.parseKeywords(cardData.text || '');
+        this.parseTraits(cardData.traits || '');
         this.setupCardAbilities(AbilityDsl);
     }
 
     parseKeywords(text) {
         var firstLine = text.split('\n')[0];
         var potentialKeywords = _.map(firstLine.split('.'), k => k.toLowerCase().trim());
+        var keywords = [];
 
         this.keywords = {};
         this.allowedAttachmentTrait = 'any';
 
         _.each(potentialKeywords, keyword => {
             if(_.contains(ValidKeywords, keyword)) {
-                this.addKeyword(keyword);
+                keywords.push(keyword);
             } else if(keyword.indexOf('no attachment') === 0) {
                 var match = keyword.match(/no attachments except <[bi]>(.*)<\/[bi]>/);
                 if(match) {
@@ -68,6 +67,13 @@ class BaseCard {
                 }
             }
         });
+
+        if(keywords.length > 0) {
+            this.persistentEffect({
+                match: this,
+                effect: AbilityDsl.effects.addMultipleKeywords(keywords)
+            });
+        }
     }
 
     parseTraits(traits) {
@@ -188,13 +194,8 @@ class BaseCard {
     }
 
     hasKeyword(keyword) {
-        if(this.isBlank()) {
-            return false;
-        }
-
-        var keywordEntry = this.keywords[keyword.toLowerCase()];
-
-        return !!keywordEntry;
+        var keywordCount = this.keywords[keyword.toLowerCase()] || 0;
+        return keywordCount > 0;
     }
 
     hasTrait(trait) {
@@ -309,12 +310,8 @@ class BaseCard {
 
     addKeyword(keyword) {
         var lowerCaseKeyword = keyword.toLowerCase();
-
-        if(!this.keywords[lowerCaseKeyword]) {
-            this.keywords[lowerCaseKeyword] = 1;
-        } else {
-            this.keywords[lowerCaseKeyword]++;
-        }
+        this.keywords[lowerCaseKeyword] = this.keywords[lowerCaseKeyword] || 0;
+        this.keywords[lowerCaseKeyword]++;
     }
 
     addTrait(trait) {
@@ -332,7 +329,9 @@ class BaseCard {
     }
 
     removeKeyword(keyword) {
-        this.keywords[keyword.toLowerCase()]--;
+        var lowerCaseKeyword = keyword.toLowerCase();
+        this.keywords[lowerCaseKeyword] = this.keywords[lowerCaseKeyword] || 0;
+        this.keywords[lowerCaseKeyword]--;
     }
 
     removeTrait(trait) {
