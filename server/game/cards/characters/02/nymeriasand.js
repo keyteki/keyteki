@@ -31,19 +31,7 @@ class NymeriaSand extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        var icons = [];
-
-        if(card.hasIcon('military')) {
-            icons.push('Military');
-        }
-
-        if(card.hasIcon('intrigue')) {
-            icons.push('Intrigue');
-        }
-
-        if(card.hasIcon('power')) {
-            icons.push('Power');
-        }
+        var icons = ['Military', 'Intrigue', 'Power'];
 
         this.selectedCard = card;
 
@@ -64,7 +52,7 @@ class NymeriaSand extends DrawCard {
 
     iconSelected(player, icon) {
         this.untilEndOfPhase(ability => ({
-            match: card => card === this.selectedCard,
+            match: this.selectedCard,
             effect: ability.effects.removeIcon(icon)
         }));
         this.untilEndOfPhase(ability => ({
