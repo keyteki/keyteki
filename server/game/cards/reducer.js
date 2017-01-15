@@ -8,7 +8,7 @@ class Reducer extends DrawCard {
         this.condition = condition;
         this.abilityUsed = false;
 
-        this.registerEvents(['cardsStanding']);
+        this.registerEvents(['onBeginRound']);
     }
 
     canReduce(player, card) {
@@ -47,7 +47,7 @@ class Reducer extends DrawCard {
         return currentCost;
     }
 
-    cardsStanding() {
+    onBeginRound() {
         this.abilityUsed = false;
     }
 

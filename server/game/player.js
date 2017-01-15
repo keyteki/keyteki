@@ -807,11 +807,15 @@ class Player extends Spectator {
         return cardStrength + this.gold;
     }
 
-    standCards() {
+    standCards(notCharacters = false) {
         this.cardsInPlay.each(card => {
             card.attachments.each(attachment => {
                 attachment.kneeled = false;
             });
+
+            if(notCharacters && card.getType() === 'character') {
+                return;
+            }
 
             card.kneeled = false;
         });
