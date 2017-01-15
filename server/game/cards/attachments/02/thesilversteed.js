@@ -17,9 +17,13 @@ class TheSilverSteed extends DrawCard {
             handler: () => {
                 this.controller.sacrificeCard(this);
 
-                this.controller.addChallenge('power', 1);
+                this.untilEndOfPhase(ability => ({
+                    targetType: 'player',
+                    targetController: 'current',
+                    effect: ability.effects.modifyChallengeTypeLimit('power', 1)
+                }));
 
-                this.game.addMessage('{0} sacrifices {1} to be able to initiate an additional {2} challenge this round', this.controller, this, 'power');
+                this.game.addMessage('{0} sacrifices {1} to be able to initiate an additional {2} challenge this phase', this.controller, this, 'power');
             }
         });
     }

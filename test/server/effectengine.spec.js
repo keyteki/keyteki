@@ -11,7 +11,8 @@ describe('EffectEngine', function () {
         this.handCard = { location: 'hand' };
         this.discardedCard = { location: 'discard pile' };
 
-        this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener']);
+        this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'getPlayers']);
+        this.gameSpy.getPlayers.and.returnValue([]);
         this.gameSpy.allCards = _([this.handCard, this.playAreaCard, this.discardedCard]);
 
         this.effectSpy = jasmine.createSpyObj('effect', ['addTargets', 'removeTarget', 'cancel', 'setActive']);

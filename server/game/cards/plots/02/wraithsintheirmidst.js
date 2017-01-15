@@ -21,6 +21,11 @@ class WraithsInTheirMidst extends PlotCard {
             match: otherPlayer.activePlot,
             effect: ability.effects.modifyReserve(-2)
         }));
+        this.untilEndOfRound(ability => ({
+            targetType: 'player',
+            targetController: 'opponent',
+            effect: ability.effects.setMinReserve(2)
+        }));
     }
 }
 

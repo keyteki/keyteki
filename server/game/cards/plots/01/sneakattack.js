@@ -1,10 +1,12 @@
 const PlotCard = require('../../../plotcard.js');
 
 class SneakAttack extends PlotCard {
-    flipFaceup() {
-        super.flipFaceup();
-
-        this.controller.setMaxChallenge(1);
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            targetType: 'player',
+            targetController: 'current',
+            effect: ability.effects.setMaxChallenge(1)
+        });
     }
 }
 

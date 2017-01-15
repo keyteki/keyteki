@@ -2,6 +2,7 @@
 /*eslint camelcase: 0, no-invalid-this: 0 */
 
 const Effect = require('../../server/game/effect.js');
+const Player = require('../../server/game/player.js');
 
 describe('Effect', function () {
     beforeEach(function () {
@@ -100,6 +101,128 @@ describe('Effect', function () {
 
             it('should not apply the effect to the matching card', function() {
                 expect(this.properties.effect.apply).not.toHaveBeenCalledWith(this.matchingCard, jasmine.any(Object));
+            });
+        });
+
+        describe('when the effect target type is card', function() {
+            beforeEach(function() {
+                this.effect.active = true;
+                this.player = {};
+                this.anotherPlayer = {};
+                this.sourceSpy.controller = this.player;
+            });
+
+            describe('when the target controller is current', function() {
+                beforeEach(function() {
+                    this.effect.targetController = 'current';
+                });
+
+                it('should add targets controlled by source card controller', function() {
+                    this.matchingCard.controller = this.player;
+                    this.effect.addTargets([this.matchingCard]);
+                    expect(this.effect.targets).toContain(this.matchingCard);
+                });
+
+                it('should reject targets controlled by an opponent', function() {
+                    this.matchingCard.controller = this.anotherPlayer;
+                    this.effect.addTargets([this.matchingCard]);
+                    expect(this.effect.targets).not.toContain(this.matchingCard);
+                });
+            });
+
+            describe('when the target controller is opponent', function() {
+                beforeEach(function() {
+                    this.effect.targetController = 'opponent';
+                });
+
+                it('should reject targets controlled by source card controller', function() {
+                    this.matchingCard.controller = this.player;
+                    this.effect.addTargets([this.matchingCard]);
+                    expect(this.effect.targets).not.toContain(this.matchingCard);
+                });
+
+                it('should add targets controlled by a different controller', function() {
+                    this.matchingCard.controller = this.anotherPlayer;
+                    this.effect.addTargets([this.matchingCard]);
+                    expect(this.effect.targets).toContain(this.matchingCard);
+                });
+            });
+
+            describe('when the target controller is any', function() {
+                beforeEach(function() {
+                    this.effect.targetController = 'any';
+                });
+
+                it('should add targets controlled by source card controller', function() {
+                    this.matchingCard.controller = this.player;
+                    this.effect.addTargets([this.matchingCard]);
+                    expect(this.effect.targets).toContain(this.matchingCard);
+                });
+
+                it('should add targets controlled by a different controller', function() {
+                    this.matchingCard.controller = this.anotherPlayer;
+                    this.effect.addTargets([this.matchingCard]);
+                    expect(this.effect.targets).toContain(this.matchingCard);
+                });
+            });
+        });
+
+        describe('when the effect target type is player', function() {
+            beforeEach(function() {
+                this.properties.match.and.returnValue(true);
+                this.effect.targetType = 'player';
+                this.effect.active = true;
+                this.player = new Player(1, {}, true, {});
+                this.anotherPlayer = new Player(2, {}, false, {});
+                this.sourceSpy.controller = this.player;
+            });
+
+            describe('when the target controller is current', function() {
+                beforeEach(function() {
+                    this.effect.targetController = 'current';
+                });
+
+                it('should add the current player as a target', function() {
+                    this.effect.addTargets([this.player]);
+                    expect(this.effect.targets).toContain(this.player);
+                });
+
+                it('should reject opponents as a target', function() {
+                    this.effect.addTargets([this.anotherPlayer]);
+                    expect(this.effect.targets).not.toContain(this.anotherPlayer);
+                });
+            });
+
+            describe('when the target controller is opponent', function() {
+                beforeEach(function() {
+                    this.effect.targetController = 'opponent';
+                });
+
+                it('should reject the current player as a target', function() {
+                    this.effect.addTargets([this.player]);
+                    expect(this.effect.targets).not.toContain(this.player);
+                });
+
+                it('should add opponents as a target', function() {
+                    this.effect.addTargets([this.anotherPlayer]);
+                    expect(this.effect.targets).toContain(this.anotherPlayer);
+                });
+            });
+
+            describe('when the target controller is any', function() {
+                beforeEach(function() {
+                    this.effect.targetController = 'any';
+                });
+
+                it('should add the current player as a target', function() {
+                    this.effect.addTargets([this.player]);
+                    expect(this.effect.targets).toContain(this.player);
+                });
+
+                it('should add opponents as a target', function() {
+                    this.effect.addTargets([this.anotherPlayer]);
+                    expect(this.effect.targets).toContain(this.anotherPlayer);
+                });
             });
         });
     });

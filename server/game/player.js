@@ -4,6 +4,7 @@ const Spectator = require('./spectator.js');
 const DrawCard = require('./drawcard.js');
 const Deck = require('./deck.js');
 const AttachmentPrompt = require('./gamesteps/attachmentprompt.js');
+const ChallengeTracker = require('./challengetracker.js');
 
 const StartingHandSize = 7;
 const DrawPhaseCards = 2;
@@ -27,6 +28,8 @@ class Player extends Spectator {
         this.game = game;
 
         this.deck = {};
+        this.challenges = new ChallengeTracker();
+        this.minReserve = 0;
     }
 
     isCardUuidInList(list, card) {
@@ -100,11 +103,11 @@ class Player extends Spectator {
     }
 
     getNumberOfChallengesWon(challengeType) {
-        return this.challenges[challengeType].won;
+        return this.challenges.getWon(challengeType);
     }
 
     getNumberOfChallengesLost(challengeType) {
-        return this.challenges[challengeType].lost;
+        return this.challenges.getLost(challengeType);
     }
 
     getNumberOfChallengesInitiated() {
@@ -236,13 +239,20 @@ class Player extends Spectator {
         }
     }
 
+    canInitiateChallenge(challengeType) {
+        return !this.challenges.isAtMax(challengeType);
+    }
+
     addChallenge(type, number) {
-        this.challenges[type].max += number;
-        this.challenges.maxTotal += number;
+        this.challenges.modifyMaxForType(type, number);
     }
 
     setMaxChallenge(number) {
-        this.challenges.maxTotal = number;
+        this.challenges.setMax(number);
+    }
+
+    clearMaxChallenge() {
+        this.challenges.clearMax();
     }
 
     initDrawDeck() {
@@ -442,28 +452,8 @@ class Player extends Spectator {
         this.firstPlayer = false;
         this.selectedPlot = undefined;
         this.roundDone = false;
-        this.challenges = {
-            complete: 0,
-            maxTotal: 3,
-            military: {
-                performed: 0,
-                max: 1,
-                won: 0,
-                lost: 0
-            },
-            intrigue: {
-                performed: 0,
-                max: 1,
-                won: 0,
-                lost: 0
-            },
-            power: {
-                performed: 0,
-                max: 1,
-                won: 0,
-                lost: 0
-            }
-        };
+
+        this.challenges.reset();
 
         this.challengerLimit = 0;
         this.drawPhaseCards = DrawPhaseCards;
@@ -720,16 +710,15 @@ class Player extends Spectator {
     }
 
     initiateChallenge(challengeType) {
-        this.challenges[challengeType].performed++;
-        this.challenges.complete++;
+        this.challenges.perform(challengeType);
     }
 
     winChallenge(challengeType) {
-        this.challenges[challengeType].won++;
+        this.challenges.won(challengeType);
     }
 
     loseChallenge(challengeType) {
-        this.challenges[challengeType].lost++;
+        this.challenges.lost(challengeType);
     }
 
     resetForChallenge() {
@@ -992,9 +981,11 @@ class Player extends Spectator {
     }
 
     getTotalReserve() {
-        return this.getTotalPlotStat(card => {
+        var reserve = this.getTotalPlotStat(card => {
             return card.getReserve();
         });
+
+        return Math.max(reserve, this.minReserve);
     }
 
     isBelowReserve() {

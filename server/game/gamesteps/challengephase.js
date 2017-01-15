@@ -45,11 +45,7 @@ class ChallengePhase extends Phase {
     }
 
     initiateChallenge(attackingPlayer, challengeType) {
-        if(attackingPlayer.challenges.complete >= attackingPlayer.challenges.maxTotal) {
-            return;
-        }
-
-        if(attackingPlayer.challenges[challengeType].performed >= attackingPlayer.challenges[challengeType].max) {
+        if(!attackingPlayer.canInitiateChallenge(challengeType)) {
             return;
         }
 

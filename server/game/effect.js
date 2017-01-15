@@ -1,6 +1,7 @@
 const _ = require('underscore');
 
 const Effects = require('./effects.js');
+const Player = require('./player.js');
 
 /**
  * Represents a card based effect applied to one or more targets.
@@ -18,6 +19,8 @@ const Effects = require('./effects.js');
  *                    than Winter plots").
  * targetController - string that determines which player's cards are targeted.
  *                    Can be 'current' (default), 'opponent' or 'any'.
+ * targetType       - string that determines whether cards or players are the
+ *                    target for the effect. Can be 'card' (default) or 'player'
  * effect           - object representing the effect to be applied. If passed an
  *                    array instead of an object, it will apply / unapply all of
  *                    the sub objects in the array instead.
@@ -30,10 +33,11 @@ class Effect {
     constructor(game, source, properties) {
         this.game = game;
         this.source = source;
-        this.match = properties.match;
+        this.match = properties.match || (() => true);
         this.duration = properties.duration;
         this.condition = properties.condition || (() => true);
         this.targetController = properties.targetController || 'current';
+        this.targetType = properties.targetType || 'card';
         this.effect = this.buildEffect(properties.effect);
         this.targets = [];
         this.context = { game: game, source: source };
@@ -49,36 +53,50 @@ class Effect {
         return effect;
     }
 
-    addTargets(cards) {
+    addTargets(targets) {
         if(!this.condition()) {
             return;
         }
 
-        _.each(cards, card => {
-            if(this.isValidTarget(card)) {
-                this.targets.push(card);
+        _.each(targets, target => {
+            if(this.isValidTarget(target)) {
+                this.targets.push(target);
                 if(this.active) {
-                    this.effect.apply(card, this.context);
+                    this.effect.apply(target, this.context);
                 }
             }
         });
     }
 
-    isValidTarget(card) {
+    isValidTarget(target) {
         if(!_.isFunction(this.match)) {
-            return card === this.match;
+            return target === this.match;
         }
 
-        if(!this.match(card, this.context)) {
+        if(this.targetType === 'card' && (target instanceof Player) || this.targetType === 'player' && !(target instanceof Player)) {
             return false;
         }
 
-        if(this.targetController === 'current') {
-            return card.controller === this.source.controller;
+        if(!this.match(target, this.context)) {
+            return false;
         }
 
-        if(this.targetController === 'opponent') {
-            return card.controller !== this.source.controller;
+        if(this.targetType === 'card') {
+            if(this.targetController === 'current') {
+                return target.controller === this.source.controller;
+            }
+
+            if(this.targetController === 'opponent') {
+                return target.controller !== this.source.controller;
+            }
+        } else if(this.targetType === 'player') {
+            if(this.targetController === 'current') {
+                return target === this.source.controller;
+            }
+
+            if(this.targetController === 'opponent') {
+                return target !== this.source.controller;
+            }
         }
 
         return true;

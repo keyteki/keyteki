@@ -582,13 +582,19 @@ class Game extends EventEmitter {
                     onSelect: (p, card) => {
                         card.removeIcon(icon);
                         this.addMessage('{0} uses the /take-icon command to remove a {1} icon from {2}', p, icon, card);
-                        
+
                         return true;
                     }
                 });
 
-                return;       
+                return;
             }
+        }
+
+        if(message.indexOf('/reset-challenges-count') === 0) {
+            player.challenges.reset();
+            this.addMessage('{0} uses /reset-challenges-count to reset the number of challenges performed', player);
+            return;
         }
 
         if(message.indexOf('/cancel-prompt') === 0) {

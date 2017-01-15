@@ -30,7 +30,7 @@ const Effects = {
             unapply: function(card) {
                 card.reserveModifier -= value;
             }
-        };        
+        };
     },
     dynamicStrength: function(calculate) {
         return {
@@ -155,6 +155,38 @@ const Effects = {
             unapply: function(card, context) {
                 context.game.takeControl(context.takeControl[card].originalController, card);
                 delete context.takeControl[card];
+            }
+        };
+    },
+    modifyChallengeTypeLimit: function(challengeType, value) {
+        return {
+            apply: function(player) {
+                player.addChallenge(challengeType, value);
+            },
+            unapply: function(player) {
+                player.addChallenge(challengeType, -value);
+            }
+        };
+    },
+    setMaxChallenge: function(max) {
+        return {
+            apply: function(player) {
+                player.setMaxChallenge(max);
+            },
+            unapply: function(player) {
+                player.clearMaxChallenge();
+            }
+        };
+    },
+    setMinReserve: function(min) {
+        return {
+            apply: function(player, context) {
+                context.setMinReserve = context.setMinReserve || {};
+                context.setMinReserve[player] = player.minReserve;
+                player.minReserve = min;
+            },
+            unapply: function(player, context) {
+                player.minReserve = context.setMinReserve[player];
             }
         };
     }
