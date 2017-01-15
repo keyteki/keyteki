@@ -61,7 +61,7 @@ class Card extends React.Component {
         var counters = {};
         var countersClass = 'counters ignore-mouse-events';
 
-        if(this.props.source !== 'play area' && this.props.source !== 'faction') {
+        if(this.props.source !== 'play area' && this.props.source !== 'faction' && this.props.source !== 'revealed plots') {
             return null;
         }
 
