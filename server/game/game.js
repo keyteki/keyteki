@@ -412,6 +412,12 @@ class Game extends EventEmitter {
         return num;
     }
 
+    isValidIcon(icon) {
+        var lowerIcon = icon.toLowerCase();
+
+        return lowerIcon === 'military' || lowerIcon === 'intrigue' || lowerIcon === 'power';
+    }
+
     chat(playerName, message) {
         var player = this.players[playerName];
         var args = message.split(' ');
@@ -543,6 +549,46 @@ class Game extends EventEmitter {
             });
 
             return;
+        }
+
+        if(message.indexOf('/give-icon') === 0) {
+            if(args.length > 1 && this.isValidIcon(args[1])) {
+                var icon = args[1];
+
+                this.promptForSelect(player, {
+                    activePromptTitle: 'Select a character',
+                    waitingPromptTitle: 'Waiting for opponent to give icon',
+                    cardCondition: card => card.location === 'play area' && card.controller === player && card.getType() === 'character',
+                    onSelect: (p, card) => {
+                        card.addIcon(icon);
+                        this.addMessage('{0} uses the /give-icon command to give {1} a {2} icon', p, card, icon);
+
+                        return true;
+                    }
+                });
+
+                return;       
+            }
+        }
+
+        if(message.indexOf('/take-icon') === 0) {
+            if(args.length > 1 && this.isValidIcon(args[1])) {
+                icon = args[1];
+
+                this.promptForSelect(player, {
+                    activePromptTitle: 'Select a character',
+                    waitingPromptTitle: 'Waiting for opponent to remove icon',
+                    cardCondition: card => card.location === 'play area' && card.controller === player && card.getType() === 'character',
+                    onSelect: (p, card) => {
+                        card.removeIcon(icon);
+                        this.addMessage('{0} uses the /take-icon command to remove a {1} icon from {2}', p, icon, card);
+                        
+                        return true;
+                    }
+                });
+
+                return;       
+            }
         }
 
         if(message.indexOf('/cancel-prompt') === 0) {
