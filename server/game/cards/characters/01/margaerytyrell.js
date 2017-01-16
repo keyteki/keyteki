@@ -26,7 +26,7 @@ class MargaeryTyrell extends DrawCard {
     onCardSelected(player, card) {
         this.game.addMessage('{0} kneels {1} to give {2} +3 STR until the end of the phase', player, this, card);
         this.controller.kneelCard(this);
-        this.untilEndOfChallenge(ability => ({
+        this.untilEndOfPhase(ability => ({
             match: card,
             effect: ability.effects.modifyStrength(3)
         }));
