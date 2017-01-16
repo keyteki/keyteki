@@ -32,6 +32,16 @@ const Effects = {
             }
         };
     },
+    modifyClaim: function(value) {
+        return {
+            apply: function(card) {
+                card.claimModifier += value;
+            },
+            unapply: function(card) {
+                card.claimModifier -= value;
+            }
+        };
+    },
     dynamicStrength: function(calculate) {
         return {
             apply: function(card, context) {

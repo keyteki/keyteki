@@ -280,7 +280,6 @@ class Player extends Spectator {
         this.initDrawDeck();
 
         this.gold = 0;
-        this.claim = 0;
         this.readyToStart = false;
         this.limitedPlayed = 0;
         this.maxLimited = 1;
@@ -448,7 +447,6 @@ class Player extends Spectator {
     }
 
     startPlotPhase() {
-        this.claim = 0;
         this.firstPlayer = false;
         this.selectedPlot = undefined;
         this.roundDone = false;
@@ -499,10 +497,6 @@ class Player extends Spectator {
             this.activePlot = undefined;
             return plot;
         }
-    }
-
-    revealPlot() {
-        this.claim = this.activePlot.getClaim();
     }
 
     drawPhase() {
@@ -988,6 +982,10 @@ class Player extends Spectator {
         return Math.max(reserve, this.minReserve);
     }
 
+    getClaim() {
+        return this.activePlot ? this.activePlot.getClaim() : 0;
+    }
+
     isBelowReserve() {
         return this.hand.size() <= this.getTotalReserve();
     }
@@ -1024,7 +1022,7 @@ class Player extends Spectator {
             agenda: this.agenda ? this.agenda.getSummary() : undefined,
             buttons: isActivePlayer ? this.buttons : undefined,
             cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, isActivePlayer),
-            claim: this.claim,
+            claim: this.getClaim(),
             deadPile: this.getSummaryForCardList(this.deadPile, isActivePlayer),
             discardPile: this.getSummaryForCardList(this.discardPile, isActivePlayer),
             faction: this.faction.getSummary(),

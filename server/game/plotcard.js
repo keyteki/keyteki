@@ -6,6 +6,7 @@ class PlotCard extends BaseCard {
 
         this.reserveModifier = 0;
         this.goldModifier = 0;
+        this.claimModifier = 0;
     }
 
     hasRevealEffect() {
@@ -29,7 +30,7 @@ class PlotCard extends BaseCard {
     }
 
     getClaim() {
-        return this.cardData.claim;
+        return this.cardData.claim + this.claimModifier;
     }
 
     modifyIncome(player, income) {

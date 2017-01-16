@@ -77,7 +77,6 @@ class PlotPhase extends Phase {
     resolveRemainingPlots() {
         var playersWithoutRevealEffects = _.reject(this.game.getPlayers(), player => player.activePlot.hasRevealEffect());
         _.each(playersWithoutRevealEffects, player => {
-            player.revealPlot();
             this.game.raiseEvent('onPlotRevealed', player);
         });
     }
