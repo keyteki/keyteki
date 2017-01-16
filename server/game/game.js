@@ -512,6 +512,82 @@ class Game extends EventEmitter {
             return;          
         }
 
+        if(message.indexOf('/add-trait') === 0) {
+            if(args.length > 1) {
+                var trait = args[1];            
+                this.promptForSelect(player, {
+                    activePromptTitle: 'Select a card',
+                    waitingPromptTitle: 'Waiting for opponent to add trait to card',
+                    cardCondition: card => card.location === 'play area' && card.controller === player,
+                    onSelect: (p, card) => {
+                        card.addTrait(trait);
+
+                        this.addMessage('{0} uses the /add-trait command to add the {1} trait to {2}', p, trait, card);
+                        return true;
+                    }
+                });
+
+                return;
+            }
+        }
+
+        if(message.indexOf('/remove-trait') === 0) {
+            if(args.length > 1) {
+                trait = args[1];            
+                this.promptForSelect(player, {
+                    activePromptTitle: 'Select a card',
+                    waitingPromptTitle: 'Waiting for opponent to remove trait remove card',
+                    cardCondition: card => card.location === 'play area' && card.controller === player,
+                    onSelect: (p, card) => {
+                        card.removeTrait(trait);
+
+                        this.addMessage('{0} uses the /remove-trait command to remove the {1} trait from {2}', p, trait, card);
+                        return true;
+                    }
+                });
+
+                return;
+            }
+        }        
+
+        if(message.indexOf('/add-keyword') === 0) {
+            if(args.length > 1) {
+                var keyword = args[1];            
+                this.promptForSelect(player, {
+                    activePromptTitle: 'Select a card',
+                    waitingPromptTitle: 'Waiting for opponent to add keyword to card',
+                    cardCondition: card => card.location === 'play area' && card.controller === player,
+                    onSelect: (p, card) => {
+                        card.addKeyword(keyword);
+
+                        this.addMessage('{0} uses the /add-keyword command to add the {1} keyword to {2}', p, keyword, card);
+                        return true;
+                    }
+                });
+
+                return;                
+            }
+        }
+
+        if(message.indexOf('/remove-keyword') === 0) {
+            if(args.length > 1) {
+                keyword = args[1];            
+                this.promptForSelect(player, {
+                    activePromptTitle: 'Select a card',
+                    waitingPromptTitle: 'Waiting for opponent to add keyword to card',
+                    cardCondition: card => card.location === 'play area' && card.controller === player,
+                    onSelect: (p, card) => {
+                        card.removeKeyword(keyword);
+
+                        this.addMessage('{0} uses the /remove-keyword command to remove the {1} keyword from {2}', p, keyword, card);
+                        return true;
+                    }
+                });
+
+                return;
+            }
+        }
+
         if(message.indexOf('/discard') === 0) {
             if(args.length > 1) {
                 num = this.getNumberOrDefault(args[1], 1);
