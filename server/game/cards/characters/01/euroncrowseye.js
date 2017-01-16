@@ -1,27 +1,19 @@
 const DrawCard = require('../../../drawcard.js');
 
 class EuronCrowsEye extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onPillage']);
-    }
-
-    onPillage(event, challenge, card) {
-        var player = challenge.winner;
-        if(this.controller !== player || card !== this) {
-            return;
-        }
-
-        this.game.promptWithMenu(player, this, {
-            activePrompt: {
-                menuTitle: 'Trigger ' + this.name + '?',
-                buttons: [
-                    { text: 'Yes', method: 'trigger' },
-                    { text: 'No', method: 'cancel' }
-                ]
+    setupCardAbilities() {
+        this.reaction({
+            when: {
+                onPillage: (event, challenge, card) => challenge.winner === this.controller && card === this
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            handler: () => {
+                this.game.promptForSelect(this.controller, {
+                    cardCondition: card => this.cardCondition(card),
+                    activePromptTitle: 'Select location',
+                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    onSelect: (player, card) => this.onCardSelected(player, card)
+                });
+            }
         });
     }
 
@@ -37,21 +29,6 @@ class EuronCrowsEye extends DrawCard {
         this.game.addMessage('{0} uses {1} to put {2} into play from their opponent\'s discard pile', player, this, card);
 
         return true;
-    }
-
-    trigger(player) {
-        this.game.promptForSelect(player, {
-            cardCondition: card => this.cardCondition(card),
-            activePromptTitle: 'Select location',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            onSelect: (player, card) => this.onCardSelected(player, card)
-        });
-
-        return true;
-    }
-
-    cancel(player) {
-        this.game.addMessage('{0} declines to trigger {1}', player, this); return true;
     }
 }
 

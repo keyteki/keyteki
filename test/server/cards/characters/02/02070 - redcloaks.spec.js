@@ -57,49 +57,4 @@ describe('RedCloaks', function() {
             });
         });
     });
-
-    describe('when attackers are declared', function() {
-        describe('if the card has gold on it', function() {
-            beforeEach(function() {
-                this.playerSpy.gold = 10;
-                this.card.addGold(this.playerSpy);
-                this.challenge = {
-                    attackingPlayer: this.playerSpy,
-                    challengeType: 'intrigue'
-                };
-            });
-
-            describe('and this is not an intrigue challenge', function() {
-                beforeEach(function() {
-                    this.challenge.challengeType = 'power';
-                    this.card.onAttackersDeclared({}, this.challenge);
-                });
-
-                it('should not increase the strength modifier', function() {
-                    expect(this.gameSpy.addEffect).not.toHaveBeenCalled()
-                });
-            });
-
-            describe('and this card is not in play', function() {
-                beforeEach(function() {
-                    this.card.location = 'hand';
-                    this.card.onAttackersDeclared({}, this.challenge);
-                });
-
-                it('should not increase the strength modifier', function() {
-                    expect(this.gameSpy.addEffect).not.toHaveBeenCalled()
-                });
-            });
-
-            describe('and this is an intrigue challenge', function() {
-                beforeEach(function() {
-                    this.card.onAttackersDeclared({}, this.challenge);
-                });
-
-                it('should increase the strength modifier', function() {
-                    expect(this.gameSpy.addEffect).toHaveBeenCalled()
-                });
-            });
-        });
-    });
 });

@@ -3,47 +3,29 @@ const _ = require('underscore');
 const DrawCard = require('../../../drawcard.js');
 
 class GreenbloodTrader extends DrawCard {
-    play(player) {
-        super.play(player);
-
-        if(player.phase !== 'marshal') {
-            return;
-        }
-
-        this.game.promptWithMenu(player, this, {
-            activePrompt: {
-                menuTitle: 'Trigger ' + this.name + '?',
-                buttons: [
-                    { text: 'Look at top 2 cards', method: 'trigger' },
-                    { text: 'Cancel', method: 'cancel' }
-                ]
+    setupCardAbilities() {
+        this.reaction({
+            when: {
+                onCardEntersPlay: (e, card) => card === this
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            handler: () => {
+                this.top2Cards = this.controller.drawDeck.first(2);
+
+                var buttons = _.map(this.top2Cards, card => {
+                    return { text: card.name, method: 'cardSelected', arg: card.uuid, card: card.getSummary(true) };
+                });
+
+                buttons.push({ text: 'Continue', method: 'continueWithoutSelecting' });
+
+                this.game.promptWithMenu(this.controller, this, {
+                    activePrompt: {
+                        menuTitle: 'Add a card to hand?',
+                        buttons: buttons
+                    },
+                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+                });
+            }
         });
-    }
-
-    trigger(player) {
-        if(this.isBlank() || this.controller !== player) {
-            return false;
-        }
-
-        this.top2Cards = player.drawDeck.first(2);
-
-        var buttons = _.map(this.top2Cards, card => {
-            return { text: card.name, method: 'cardSelected', arg: card.uuid, card: card.getSummary(true) };
-        });
-
-        buttons.push({ text: 'Continue', method: 'continueWithoutSelecting' });
-
-        this.game.promptWithMenu(player, this, {
-            activePrompt: {
-                menuTitle: 'Add a card to hand?',
-                buttons: buttons
-            },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
-        });
-
-        return true;
     }
 
     getCard(player, cardId) {

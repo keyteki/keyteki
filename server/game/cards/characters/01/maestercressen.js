@@ -1,38 +1,25 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class MaesterCressen extends DrawCard {
-    play(player) {
-        super.play(player);
-
-        if(player.phase !== 'marshal') {
-            return;
-        }
-
-        this.game.promptWithMenu(player, this, {
-            activePrompt: {
-                menuTitle: 'Trigger ' + this.name + '?',
-                buttons: [
-                    { text: 'Kneel and Discard', method: 'kneel' },
-                    { text: 'Cancel', method: 'cancel' }
-                ]
-            },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+    setupCardAbilities() {
+        this.action({
+            title: 'Kneel to discard condition',
+            phase: 'marshal',
+            method: 'kneel'
         });
     }
 
     kneel(player) {
+        if(this.kneeled) {
+            return false;
+        }
+
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select an attachment to discard',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
             cardCondition: card => card.location === 'play area' && card.getType() === 'attachment' && card.hasTrait('condition'),
             onSelect: (p, card) => this.onCardSelected(p, card)
         });
-
-        return true;
-    }
-
-    cancel(player) {
-        this.game.addMessage('{0} declines to trigger {1}', player, this);
 
         return true;
     }

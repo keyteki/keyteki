@@ -1,10 +1,15 @@
 const DrawCard = require('../../../drawcard.js');
- 
-class HedgeKnight extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
 
-        this.registerEvents(['onCardPlayed', 'onCardLeftPlay']);
+class HedgeKnight extends DrawCard {
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            condition: () => this.isControlAnotherKnight(),
+            match: this,
+            effect: [
+                ability.effects.modifyStrength(1),
+                ability.effects.addIcon('power')
+            ]
+        });
     }
 
     isControlAnotherKnight() {
@@ -17,76 +22,6 @@ class HedgeKnight extends DrawCard {
         }, 0);
 
         return numOtherKnights >= 1;
-    }
-
-    addIconAndStr() {
-        if(!this.iconAndStrAdded) {
-            this.addIcon('power');
-            this.strengthModifier++;
-
-            this.iconAndStrAdded = true;
-        }
-    }
-
-    removeIconAndStr() {
-        if(this.iconAndStrAdded) {
-            this.removeIcon('power');
-            this.strengthModifier--;
-
-            this.iconAndStrAdded = false;
-        }
-    }
-
-    updateIconAndStr() {
-        if(this.isControlAnotherKnight()) {
-            this.addIconAndStr();
-        } else {
-            this.removeIconAndStr();
-        }
-    }
-
-    onCardPlayed(event, player) {
-        if(player !== this.controller) {
-            return;
-        }
-
-        this.updateIconAndStr();
-    }
-
-    onCardLeftPlay(event, player) {
-        if(player !== this.controller) {
-            return;
-        }
-
-        this.updateIconAndStr();        
-    }
-
-    play() {
-        super.play();
-
-        this.updateIconAndStr();
-    }
-
-    leavesPlay() {       
-        this.removeIconAndStr();
-
-        super.leavesPlay();        
-    }
-
-    setBlank() {
-        super.setBlank();
-
-        if(this.isBlank()) {
-            this.removeIconAndStr();
-        }
-    }
-
-    clearBlank() {
-        super.clearBlank();
-
-        if(!this.isBlank()) {
-            this.updateIconAndStr();
-        }
     }
 }
 

@@ -1,20 +1,16 @@
 const DrawCard = require('../../../drawcard.js');
 
 class GoldCloaks extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onPhaseEnded']);
-    }
-
-    onPhaseEnded() {
-        if(!this.wasAmbush || this.isBlank()) {
-            return;
-        }
-
-        this.controller.discardCard(this);
-
-        this.game.addMessage('{0} is forced to discard {1} from play at the end of the phase', this.controller, this);
+    setupCardAbilities() {
+        this.forcedInterrupt({
+            when: {
+                onPhaseEnded: () => this.wasAmbush
+            },
+            handler: () => {
+                this.controller.discardCard(this);
+                this.game.addMessage('{0} is forced to discard {1} from play at the end of the phase', this.controller, this);
+            }
+        });
     }
 }
 

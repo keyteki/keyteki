@@ -1,10 +1,17 @@
 const DrawCard = require('../../../drawcard.js');
- 
-class Jhogo extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
 
-        this.registerEvents(['onCardPlayed', 'onCardLeftPlay']);
+class Jhogo extends DrawCard {
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            condition: () => this.getNumberOfBloodriders >= 1,
+            match: this,
+            effect: ability.effects.addKeyword('stealth')
+        });
+        this.persistentEffect({
+            condition: () => this.game.currentChallenge && this.game.currentChallenge.isAttacking(this),
+            match: this,
+            effect: ability.effects.dynamicStrength(() => this.getNumberOfDeadDefendingCharacters())
+        });
     }
 
     getNumberOfBloodriders() {
@@ -16,44 +23,21 @@ class Jhogo extends DrawCard {
             return runningTotal;
         }, 0);
 
-        return cards;        
-    }    
-
-    play() {
-        super.play();
-
-        if(this.getNumberOfBloodriders() >= 1) {
-            this.addKeyword('Stealth');
-        }
-    }
-    
-    leavesPlay() {
-        super.leavesPlay();
-
-        if(this.getNumberOfBloodriders() >= 1) {
-            this.removeKeyword('Stealth');
-        }
+        return cards;
     }
 
-    onCardPlayed(event, player) {
-        if(this.controller !== player) {
-            return;
-        }
+    getNumberOfDeadDefendingCharacters() {
+        var deadDefenders = [];
+        this.game.currentChallenge.defendingPlayer.deadPile.each(card => {
+            if(card.isUnique() && !deadDefenders.includes(card.name)) {
+                deadDefenders.push(card.name);
+            } else if(!card.isUnique()) {
+                deadDefenders.push(card.name);
+            }
+        });
 
-        if(this.getNumberOfBloodriders() >= 1) {
-            this.addKeyword('Stealth');
-        }
+        return deadDefenders.length;
     }
-
-    onCardLeftPlay(event, player) {
-        if(this.controller !== player) {
-            return;
-        }
-    
-        if(this.getNumberOfBloodriders() < 1) {
-            this.removeKeyword('Stealth');
-        }
-    }    
 }
 
 Jhogo.code = '02113';

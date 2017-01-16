@@ -1,30 +1,19 @@
 const DrawCard = require('../../../drawcard.js');
 
 class TheTickler extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onDominanceDetermined']);
-    }
-
-    onDominanceDetermined() {
-        if(this.kneeled || this.isBlank()) {
-            return;
-        }
-
-        this.game.promptWithMenu(this.controller, this, {
-            activePrompt: {
-                menuTitle: 'Trigger ' + this.name + '?',
-                buttons: [
-                    { text: 'Yes', method: 'kneel' },
-                    { text: 'No', method: 'cancel' }
-                ]
-            },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+    setupCardAbilities() {
+        this.action({
+            title: 'Discard opponents top card',
+            phase: 'dominance',
+            method: 'kneel'
         });
     }
 
     kneel(player) {
+        if(this.kneeled) {
+            return false;
+        }
+
         player.kneelCard(this);
 
         var otherPlayer = this.game.getOtherPlayer(player);
@@ -51,12 +40,6 @@ class TheTickler extends DrawCard {
         card.controller.discardCard(card);
 
         this.game.addMessage('{0} uses {1} to discard a copy of {2} from play', player, this, card);
-
-        return true;
-    }
-
-    cancel(player) {
-        this.game.addMessage('{0} declines to trigger {1}', player, this);
 
         return true;
     }

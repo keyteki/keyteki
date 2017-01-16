@@ -1,30 +1,23 @@
 const DrawCard = require('../../../drawcard.js');
 
 class RattleshirtsRaiders extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['afterChallenge']);
-    }
-
-    afterChallenge(event, challenge) {
-        if(challenge.attackingPlayer !== this.controller || this.isBlank()) {
-            return;
-        }
-
-        if(challenge.winner !== this.controller) {
-            return;
-        }
-
-        if(!challenge.isAttacking(this)) {
-            return;
-        }
-
-        this.game.promptForSelect(this.controller, {
-            activePromptTitle: 'Select attachment to discard',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            cardCondition: card => card.location === 'play area' && card.controller === challenge.loser && card.getType() === 'attachment',
-            onSelect: (p, card) => this.onCardSelected(p, card)
+    setupCardAbilities() {
+        this.reaction({
+            when: {
+                afterChallenge: (event, challenge) => (
+                    challenge.attackingPlayer === this.controller &&
+                    challenge.winner === this.controller &&
+                    challenge.isAttacking(this)
+                )
+            },
+            handler: () => {
+                this.game.promptForSelect(this.controller, {
+                    activePromptTitle: 'Select attachment to discard',
+                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    cardCondition: card => card.location === 'play area' && card.controller === this.game.currentChallenge.loser && card.getType() === 'attachment',
+                    onSelect: (p, card) => this.onCardSelected(p, card)
+                });
+            }
         });
     }
 

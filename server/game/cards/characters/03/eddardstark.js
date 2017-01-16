@@ -1,23 +1,19 @@
 const DrawCard = require('../../../drawcard.js');
 
 class EddardStark extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onRenown']);
-    }
-
-    onRenown(event, challenge, card) {
-        var player = challenge.winner;
-        if(this.isBlank() || this.controller !== player || card !== this) {
-            return;
-        }
-
-        this.game.promptForSelect(player, {
-            cardCondition: card => this.cardCondition(challenge, card),
-            activePromptTitle: 'Select character to gain power',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            onSelect: (player, card) => this.onCardSelected(player, card)
+    setupCardAbilities() {
+        this.reaction({
+            when: {
+                onRenown: (event, challenge, card) => card === this
+            },
+            handler: () => {
+                this.game.promptForSelect(this.controller, {
+                    cardCondition: card => this.cardCondition(this.game.currentChallenge, card),
+                    activePromptTitle: 'Select character to gain power',
+                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    onSelect: (player, card) => this.onCardSelected(player, card)
+                });
+            }
         });
     }
 

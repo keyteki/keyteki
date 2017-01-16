@@ -3,34 +3,22 @@ const _ = require('underscore');
 const DrawCard = require('../../../drawcard.js');
 
 class Doreah extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['afterChallenge', 'onChallengeFinished']);
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            condition: () => this.hasParticipatingLordOrLady(),
+            match: this,
+            effect: ability.effects.addKeyword('Insight')
+        });
     }
 
-    afterChallenge(challenge) {
+    hasParticipatingLordOrLady() {
+        var challenge = this.game.currentChallenge;
+        if(!challenge) {
+            return false;
+        }
+
         var ourCards = challenge.attackingPlayer === this.controller ? challenge.attackers : challenge.defenders;
-
-        if(!_.any(ourCards, card => {
-            return card.hasTrait('Lord') || card.hasTrait('Lady');
-        })) {
-            return;
-        }
-
-        if(this.isBlank()) {
-            return;
-        }
-
-        this.addKeyword('Insight');
-        this.keywordAdded = true;
-    }
-
-    onChallengeFinished() {
-        if(this.keywordAdded) {
-            this.removeKeyword('Insight');
-            this.keywordAdded = false;
-        }
+        return _.any(ourCards, card => card.hasTrait('Lord') || card.hasTrait('Lady'));
     }
 }
 

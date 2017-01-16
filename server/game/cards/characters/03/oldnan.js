@@ -3,36 +3,25 @@ const _ = require('underscore');
 const DrawCard = require('../../../drawcard.js');
 
 class OldNan extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onPlotFlip']);
-    }
-
-    onPlotFlip() {
-        if(this.kneeled || this.isBlank()) {
-            return;
-        }
-
-        var buttons = _.map(this.game.getPlayers(), player => {
-            return { text: player.selectedPlot.name, method: 'plotSelected', arg: player.selectedPlot.uuid };
-        });
-
-        buttons.push({ text: 'No Trigger', method: 'cancel' });
-
-        this.game.promptWithMenu(this.controller, this, {
-            activePrompt: {
-                menuTitle: 'Trigger ' + this.name + '?',
-                buttons: buttons
+    setupCardAbilities() {
+        this.interrupt({
+            when: {
+                onPlotFlip: () => !this.kneeled
             },
-            waitingPromptTitle: 'Waiting for opponent to trigger ' + this.name
+            handler: () => {
+                var buttons = _.map(this.game.getPlayers(), player => {
+                    return { text: player.selectedPlot.name, method: 'plotSelected', arg: player.selectedPlot.uuid };
+                });
+
+                this.game.promptWithMenu(this.controller, this, {
+                    activePrompt: {
+                        menuTitle: 'Select plot to modify',
+                        buttons: buttons
+                    },
+                    waitingPromptTitle: 'Waiting for opponent to trigger ' + this.name
+                });
+            }
         });
-    }
-
-    cancel(player) {
-        this.game.addMessage('{0} declines to trigger {1}', player, this);
-
-        return true;
     }
 
     plotSelected(player, cardId) {

@@ -1,44 +1,20 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class ViserysTargaryen extends DrawCard {
-    leavesPlay() {
-        if(this.isBlank()) {
-            return;
-        }
-        
-        this.game.promptWithMenu(this.controller, this, {
-            activePrompt: {
-                menuTitle: 'Trigger ' + this.name + '?',
-                buttons: [
-                    { text: 'Yes', method: 'discard' },
-                    { text: 'No', method: 'cancel' }
-                ]
+    setupCardAbilities() {
+        this.interrupt({
+            when: {
+                onCardLeftPlay: (e, player, card) => card === this
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            handler: () => {
+                this.game.promptForSelect(this.controller, {
+                    cardCondition: card => card.getType() === 'attachment',
+                    activePromptTitle: 'Select an attachment to discard',
+                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    onSelect: (player, card) => this.onCardSelected(player, card)
+                });
+            }
         });
-
-        super.leavesPlay();        
-    }
-
-    discard(player) {
-        this.game.promptForSelect(player, {
-            cardCondition: card => this.cardCondition(card),
-            activePromptTitle: 'Select an attachment to discard',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            onSelect: (player, card) => this.onCardSelected(player, card)
-        });
-
-        return true;
-    }
-
-    cancel(player) {
-        this.game.addMessage('{0} declines to trigger {1}', player, this);
-        
-        return true;
-    }
-
-    cardCondition(card) {
-        return card.getType() === 'attachment';
     }
 
     onCardSelected(player, attachment) {

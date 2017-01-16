@@ -3,73 +3,33 @@ const _ = require('underscore');
 const DrawCard = require('../../../drawcard.js');
 
 class TheReader extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onUnopposedWin', 'onPhaseEnded']);
-    }
-
-    onPhaseEnded() {
-        this.abilityUsed = false;
-    }
-
-    onUnopposedWin(event, challenge) {
-        var winner = challenge.winner;
-        if(this.isBlank() || this.controller !== winner || this.abilityUsed) {
-            return;
-        }
-
-        var cards = challenge.getWinnerCards();
-
-        if(!_.any(cards, card => {
-            return card.getFaction() === 'greyjoy' && card.isUnique();
-        })) {
-            return;
-        }
-
-        this.game.promptWithMenu(winner, this, {
-            activePrompt: {
-                menuTitle: 'Trigger ' + this.name + '?',
-                buttons: [
-                    { text: 'Draw 1 card', method: 'drawCard' },
-                    { text: 'Discard 3 cards', method: 'discardCards' },
-                    { text: 'No', method: 'cancel' }
-                ]
+    setupCardAbilities(ability) {
+        this.reaction({
+            when: {
+                onUnopposedWin: (event, challenge) => (
+                    challenge.winner === this.controller &&
+                    _.any(challenge.getWinnerCards(), card => card.getFaction() === 'greyjoy' && card.isUnique())
+                )
             },
-            waitingPromptTitle: 'Waiting for opponent to perform reactions'
+            limit: ability.limit.perPhase(1),
+            choices: {
+                'Draw 1 card': () => {
+                    this.controller.drawCardsToHand(1);
+                    this.game.addMessage('{0} uses {1} to draw 1 card', this.controller, this);
+                },
+                'Discard 3 cards': () => {
+                    var otherPlayer = this.game.getOtherPlayer(this.controller);
+
+                    if(!otherPlayer) {
+                        return true;
+                    }
+
+                    otherPlayer.discardFromDraw(3);
+
+                    this.game.addMessage('{0} uses {1} to discard the top 3 cards from {2}\'s deck', this.controller, this, otherPlayer);
+                }
+            }
         });
-    }
-
-    discardCards(player) {
-        var otherPlayer = this.game.getOtherPlayer(player);
-
-        if(!otherPlayer) {
-            return true;
-        }
-
-        otherPlayer.discardFromDraw(3);
-
-        this.game.addMessage('{0} uses {1} to discard the top 3 cards from {2}\'s deck', player, this, otherPlayer);
-
-        this.abilityUsed = true;
-
-        return true;
-    }
-
-    drawCard(player) {
-        player.drawCardsToHand(1);
-
-        this.game.addMessage('{0} uses {1} to draw 1 card', player, this);
-
-        this.abilityUsed = true;
-
-        return true;
-    }
-
-    cancel(player) {
-        this.game.addMessage('{0} declines to trigger {1}', player, this);
-
-        return true;
     }
 }
 

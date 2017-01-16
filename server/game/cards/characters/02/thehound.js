@@ -1,30 +1,23 @@
 const DrawCard = require('../../../drawcard.js');
 
 class TheHound extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['afterChallenge']);
-    }
-
-    afterChallenge(event, challenge) {
-        if(challenge.winner !== this.controller || this.isBlank()) {
-            return;
-        }
-
-        if(!challenge.isParticipating(this)) {
-            return;
-        }
-
-        this.game.promptWithMenu(this.controller, this, {
-            activePrompt: {
-                menuTitle: 'Discard 1 card at random for ' + this.name + '?',
-                buttons: [
-                    { text: 'Yes', method: 'discardCard' },
-                    { text: 'No', method: 'returnToHand' }
-                ]
+    setupCardAbilities() {
+        this.forcedReaction({
+            when: {
+                afterChallenge: (event, challenge) => challenge.winner === this.controller && challenge.isParticipating(this)
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            handler: () => {
+                this.game.promptWithMenu(this.controller, this, {
+                    activePrompt: {
+                        menuTitle: 'Discard 1 card at random for ' + this.name + '?',
+                        buttons: [
+                            { text: 'Yes', method: 'discardCard' },
+                            { text: 'No', method: 'returnToHand' }
+                        ]
+                    },
+                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+                });
+            }
         });
     }
 

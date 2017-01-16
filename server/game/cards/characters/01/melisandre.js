@@ -1,42 +1,21 @@
 const DrawCard = require('../../../drawcard.js');
 
 class Melisandre extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onCardPlayed', 'onBeginRound']);
-    }
-
-    onBeginRound() {
-        this.abilityUsed = false;
-    }
-
-    onCardPlayed(event, player, card) {
-        if(this.controller !== player || this.abilityUsed || !card.hasTrait('R\'hllor') || player.phase === 'setup' || this.isBlank()) {
-            return;
-        }
-
-        this.game.promptWithMenu(this.controller, this, {
-            activePrompt: {
-                menuTitle: 'Trigger ' + this.name + '?',
-                buttons: [
-                    { text: 'Yes', method: 'kneel' },
-                    { text: 'No', method: 'cancel' }
-                ]
+    setupCardAbilities(ability) {
+        this.reaction({
+            when: {
+                onCardEntersPlay: (e, card) => card.controller === this.controller && card.hasTrait('R\'hllor')
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
-        });       
-    }
-
-    kneel(player) {
-        this.game.promptForSelect(player, {
-            cardCondition: card => this.cardCondition(card),
-            activePromptTitle: 'Select a character to kneel',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            onSelect: (player, card) => this.onCardSelected(player, card)
+            limit: ability.limit.perRound(1),
+            handler: () => {
+                this.game.promptForSelect(this.controller, {
+                    cardCondition: card => this.cardCondition(card),
+                    activePromptTitle: 'Select a character to kneel',
+                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    onSelect: (player, card) => this.onCardSelected(player, card)
+                });
+            }
         });
-
-        return true;
     }
 
     cardCondition(card) {
@@ -47,12 +26,6 @@ class Melisandre extends DrawCard {
         player.kneelCard(card);
 
         this.game.addMessage('{0} uses {1} to kneel {2}', player, this, card);
-
-        return true;
-    }    
-
-    cancel(player) {
-        this.game.addMessage('{0} declines to trigger {1}', player, this);
 
         return true;
     }

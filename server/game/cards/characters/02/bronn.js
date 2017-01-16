@@ -1,34 +1,22 @@
 const DrawCard = require('../../../drawcard.js');
 
 class Bronn extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onChallenge']);
-    }
-
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Pay 1 gold to take control of Bronn',
             method: 'takeControl',
             phase: 'marshal',
             anyPlayer: true
         });
-    }
-
-    onChallenge(e, challenge) {
-        if(this.controller !== challenge.defendingPlayer) {
-            return;
-        }
-
-        this.untilEndOfChallenge(ability => ({
+        this.persistentEffect({
+            condition: () => this.game.currentChallenge && this.game.currentChallenge.defendingPlayer === this.controller,
             match: this,
             effect: [
                 ability.effects.addIcon('military'),
                 ability.effects.addIcon('intrigue'),
                 ability.effects.addIcon('power')
             ]
-        }));
+        });
     }
 
     takeControl(player) {
