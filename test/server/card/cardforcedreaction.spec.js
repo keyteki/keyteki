@@ -37,6 +37,17 @@ describe('CardForcedReaction', function () {
             expect(this.properties.when.onSomething).toHaveBeenCalledWith(1, 2, 3);
         });
 
+        describe('when in the setup phase', function() {
+            beforeEach(function() {
+                this.gameSpy.currentPhase = 'setup';
+                this.executeEventHandler(1, 2, 3);
+            });
+
+            it('should not execute the handler', function() {
+                expect(this.properties.handler).not.toHaveBeenCalled();
+            });
+        });
+
         describe('when the card has been blanked', function() {
             beforeEach(function() {
                 this.cardSpy.isBlank.and.returnValue(true);

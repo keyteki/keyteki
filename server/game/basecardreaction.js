@@ -10,6 +10,10 @@ class BaseCardReaction {
 
     createEventHandlerFor(eventName) {
         return (...args) => {
+            if(this.game.currentPhase === 'setup') {
+                return;
+            }
+
             if(this.limit && this.limit.isAtMax()) {
                 return;
             }
