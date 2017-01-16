@@ -567,7 +567,7 @@ class Game extends EventEmitter {
                     }
                 });
 
-                return;       
+                return;
             }
         }
 
