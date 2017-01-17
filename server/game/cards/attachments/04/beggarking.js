@@ -1,3 +1,5 @@
+const _ = require('underscore');
+
 const DrawCard = require('../../../drawcard.js');
 
 class BeggarKing extends DrawCard {
@@ -7,10 +9,12 @@ class BeggarKing extends DrawCard {
         });
         this.reaction({
             when: {
-                onPlotRevealed: (event, player) => (
+                onPlotRevealCompleted: () => (
                     !this.kneeled &&
-                    player !== this.controller &&
-                    this.controller.activePlot.getIncome(true) < player.activePlot.getIncome(true)
+                    _.any(this.game.getPlayers(), player => (
+                        player !== this.controller &&
+                        this.controller.activePlot.getIncome(true) < player.activePlot.getIncome(true)
+                    ))
                 )
             },
             handler: () => {

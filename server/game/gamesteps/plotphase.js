@@ -15,7 +15,8 @@ class PlotPhase extends Phase {
             new SimpleStep(game, () => this.determineInitiative()),
             () => new FirstPlayerPrompt(game, this.initiativeWinner),
             () => new ResolvePlots(game, this.getPlayersWithRevealEffects()),
-            new SimpleStep(game, () => this.resolveRemainingPlots())
+            new SimpleStep(game, () => this.resolveRemainingPlots()),
+            new SimpleStep(game, () => this.completePlotReveal())
         ]);
     }
 
@@ -79,6 +80,10 @@ class PlotPhase extends Phase {
         _.each(playersWithoutRevealEffects, player => {
             this.game.raiseEvent('onPlotRevealed', player);
         });
+    }
+
+    completePlotReveal() {
+        this.game.raiseEvent('onPlotRevealCompleted');
     }
 }
 

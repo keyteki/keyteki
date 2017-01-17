@@ -29,7 +29,7 @@ describe('The Rains of Castamere', function() {
         this.scheme1 = scheme('3333');
         this.scheme2 = scheme('4444');
 
-        this.player = jasmine.createSpyObj('player', ['flipPlotFaceup', 'removeActivePlot', 'revealPlot', 'kneelCard']);
+        this.player = jasmine.createSpyObj('player', ['flipPlotFaceup', 'removeActivePlot', 'kneelCard']);
         this.player.game = this.gameSpy;
         this.player.faction = {};
 
@@ -173,7 +173,7 @@ describe('The Rains of Castamere', function() {
             });
 
             it('should not reveal a plot', function() {
-                expect(this.player.revealPlot).not.toHaveBeenCalled();
+                expect(this.gameSpy.raiseEvent).not.toHaveBeenCalledWith('onPlotRevealed', jasmine.any(Object));
             });
 
             it('should return false', function() {
@@ -202,7 +202,7 @@ describe('The Rains of Castamere', function() {
                 });
 
                 it('should reveal the plot', function() {
-                    expect(this.player.revealPlot).toHaveBeenCalled();
+                    expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onPlotRevealed', this.player);
                 });
 
                 it('should return true', function() {
@@ -230,7 +230,7 @@ describe('The Rains of Castamere', function() {
                 });
 
                 it('should reveal the plot', function() {
-                    expect(this.player.revealPlot).toHaveBeenCalled();
+                    expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onPlotRevealed', this.player);
                 });
 
                 it('should return true', function() {
@@ -262,7 +262,7 @@ describe('The Rains of Castamere', function() {
                 });
 
                 it('should reveal the plot', function() {
-                    expect(this.player.revealPlot).toHaveBeenCalled();
+                    expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onPlotRevealed', this.player);
                 });
 
                 it('should return true', function() {

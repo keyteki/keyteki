@@ -3,47 +3,19 @@ const _ = require('underscore');
 const DrawCard = require('../../../drawcard.js');
 
 class BitterbridgeEncampment extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onPlotRevealed']);
-    }
-
-    onPlotRevealed(event, player) {
-        if(this.kneeled || !player.activePlot.hasTrait('Summer') || this.isBlank()) {
-            return;
-        }
-
-        this.game.promptWithMenu(this.controller, this, {
-            activePrompt: {
-                menuTitle: 'Trigger ' + this.name + '?',
-                buttons: [
-                    { text: 'Yes', method: 'kneel' },
-                    { text: 'No', method: 'cancel' }
-                ]
+    setupCardAbilities() {
+        this.reaction({
+            when: {
+                onPlotRevealCompleted: () => _.any(this.game.getPlayers(), player => player.activePlot.hasTrait('Summer'))
             },
-            waitingPromptTitle: 'Waiting for opponent to trigger ' + this.name
+            handler: () => {
+                this.controller.kneelCard(this);
+
+                this.remainingPlayers = this.game.getPlayersInFirstPlayerOrder();
+                this.selections = [];
+                this.proceedToNextStep();
+            }
         });
-    }
-
-    cancel(player) {
-        this.game.addMessage('{0} declines to trigger {1}', player, this);
-
-        return true;
-    }
-
-    kneel(player) {
-        if(this.controller !== player) {
-            return false;
-        }
-
-        player.kneelCard(this);
-
-        this.remainingPlayers = this.game.getPlayersInFirstPlayerOrder();
-        this.selections = [];
-        this.proceedToNextStep();
-
-        return true;
     }
 
     cancelSelection(player) {

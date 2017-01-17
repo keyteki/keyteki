@@ -6,8 +6,8 @@ const ResolvePlots = require('../../../../server/game/gamesteps/plot/resolveplot
 describe('the ResolvePlots', function() {
     beforeEach(function() {
         this.game = jasmine.createSpyObj('game', ['getPlayerByName', 'getFirstPlayer', 'promptWithMenu', 'raiseEvent']);
-        this.player = jasmine.createSpyObj('player', ['setPrompt', 'cancelPrompt', 'revealPlot']);
-        this.otherPlayer = jasmine.createSpyObj('player', ['setPrompt', 'cancelPrompt', 'revealPlot']);
+        this.player = jasmine.createSpyObj('player', ['setPrompt', 'cancelPrompt']);
+        this.otherPlayer = jasmine.createSpyObj('player', ['setPrompt', 'cancelPrompt']);
 
         this.game.getFirstPlayer.and.returnValue(this.otherPlayer);
     });
@@ -40,7 +40,7 @@ describe('the ResolvePlots', function() {
 
             it('should reveal the plot', function() {
                 this.prompt.continue();
-                expect(this.player.revealPlot).toHaveBeenCalled();
+                expect(this.game.raiseEvent).toHaveBeenCalledWith('onPlotRevealed', this.player);
             });
 
             it('should return true', function() {
@@ -60,8 +60,8 @@ describe('the ResolvePlots', function() {
 
             it('should not reveal any plot', function() {
                 this.prompt.continue();
-                expect(this.player.revealPlot).not.toHaveBeenCalled();
-                expect(this.otherPlayer.revealPlot).not.toHaveBeenCalled();
+                expect(this.game.raiseEvent).not.toHaveBeenCalledWith('onPlotRevealed', this.player);
+                expect(this.game.raiseEvent).not.toHaveBeenCalledWith('onPlotRevealed', this.otherPlayer);
             });
 
             it('should return false', function() {
@@ -82,8 +82,8 @@ describe('the ResolvePlots', function() {
 
             it('should not reveal a plot', function() {
                 this.prompt.resolvePlayer(this.player, 54321);
-                expect(this.player.revealPlot).not.toHaveBeenCalled();
-                expect(this.otherPlayer.revealPlot).not.toHaveBeenCalled();
+                expect(this.game.raiseEvent).not.toHaveBeenCalledWith('onPlotRevealed', this.player);
+                expect(this.game.raiseEvent).not.toHaveBeenCalledWith('onPlotRevealed', this.otherPlayer);
             });
 
             it('should not modify the resolution list', function() {
@@ -99,7 +99,7 @@ describe('the ResolvePlots', function() {
 
             it('should reveal the plot', function() {
                 this.prompt.resolvePlayer(this.player, this.otherPlayer.name);
-                expect(this.otherPlayer.revealPlot).toHaveBeenCalled();
+                expect(this.game.raiseEvent).toHaveBeenCalledWith('onPlotRevealed', this.otherPlayer);
             });
 
             it('should remove the resolved player from the list', function() {
