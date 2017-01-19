@@ -31,6 +31,10 @@ class DeckSummary extends React.Component {
 
     updateStatus() {
         if(this.state.status === 'Valid') {
+            if($(this.refs.popover).popover) {
+                $(this.refs.popover).popover('disable');
+            }
+
             return;
         }
 

@@ -130,6 +130,13 @@ export function validateDeck(deck) {
         status = 'Invalid';
     }
 
+    if(deck.agenda && deck.agenda.code === '01027' && _.reduce(deck.drawCards, (counter, card) => {
+        return card.card.faction_code === 'neutral' ? counter + card.count : counter;
+    }, 0) > 15) {
+        status = 'Invalid';
+        extendedStatus.push('You cannot include more than 15 neutral cards in a deck with Fealty');
+    }
+
     var bannerCount = 0;
 
     if(!_.all(combined, card => {
