@@ -21,6 +21,16 @@ class ChallengeTracker {
                 max: 1,
                 won: 0,
                 lost: 0
+            },
+            defender: {
+                performed: 0,
+                won: 0,
+                lost: 0
+            },
+            attacker: {
+                performed: 0,
+                won: 0,
+                lost: 0
             }
         };
     }
@@ -30,6 +40,8 @@ class ChallengeTracker {
         this.resetForType('military');
         this.resetForType('intrigue');
         this.resetForType('power');
+        this.resetForType('defender');
+        this.resetForType('attacker');
     }
 
     resetForType(challengeType) {
@@ -67,12 +79,14 @@ class ChallengeTracker {
         this.complete++;
     }
 
-    won(challengeType) {
+    won(challengeType, wasAttacker) {
         this.challengeTypes[challengeType].won++;
+        this.challengeTypes[wasAttacker ? 'attacker' : 'defender'].won++;
     }
 
-    lost(challengeType) {
+    lost(challengeType, wasAttacker) {
         this.challengeTypes[challengeType].lost++;
+        this.challengeTypes[wasAttacker ? 'attacker' : 'defender'].lost++;
     }
 
     modifyMaxForType(challengeType, number) {

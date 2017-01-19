@@ -709,12 +709,12 @@ class Player extends Spectator {
         this.challenges.perform(challengeType);
     }
 
-    winChallenge(challengeType) {
-        this.challenges.won(challengeType);
+    winChallenge(challengeType, wasAttacker) {
+        this.challenges.won(challengeType, wasAttacker);
     }
 
-    loseChallenge(challengeType) {
-        this.challenges.lost(challengeType);
+    loseChallenge(challengeType, wasAttacker) {
+        this.challenges.lost(challengeType, wasAttacker);
     }
 
     resetForChallenge() {
