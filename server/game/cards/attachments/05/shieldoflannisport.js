@@ -9,6 +9,9 @@ class ShieldOfLannisport extends DrawCard {
                 ability.effects.addKeyword('Renown')
             ]
         });
+        this.plotModifiers({
+            gold: 1
+        });
     }
 
     noOtherLordsOrLadies() {
@@ -17,10 +20,6 @@ class ShieldOfLannisport extends DrawCard {
             (card.hasTrait('Lord') || card.hasTrait('Lady')) &&
             card.getCost() < 4
         ));
-    }
-
-    getIncome() {
-        return 1;
     }
 }
 

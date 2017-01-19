@@ -7,6 +7,12 @@ class PaxterRedwyne extends DrawCard {
         this.registerEvents(['onBeginRound']);
     }
 
+    setupCardAbilities() {
+        this.plotModifiers({
+            gold: 1
+        });
+    }
+
     onBeginRound() {
         this.abilityUsed = false;
     }
@@ -37,12 +43,6 @@ class PaxterRedwyne extends DrawCard {
         }
 
         return currentCost;
-    }
-
-    getIncome() {
-        if(!this.isBlank()) {
-            return 1;
-        }
     }
 }
 

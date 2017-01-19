@@ -11,12 +11,9 @@ class LittleFinger extends DrawCard {
                 this.game.addMessage('{0} uses {1} to draw 2 cards', this.controller, this);
             }
         });
-    }
-
-    getIncome() {
-        if(!this.isBlank()) {
-            return 1;
-        }
+        this.plotModifiers({
+            gold: 1
+        });
     }
 }
 

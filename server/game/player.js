@@ -486,6 +486,8 @@ class Player extends Spectator {
             this.game.raiseEvent('onPlotsRecycled', this);
         }
 
+        this.game.raiseEvent('onCardEntersPlay', this.activePlot);
+
         this.selectedPlot = undefined;
     }
 
@@ -938,48 +940,28 @@ class Player extends Spectator {
         }
     }
 
-    getTotalPlotStat(property) {
-        var baseValue = 0;
-
-        if(this.activePlot && property(this.activePlot)) {
-            baseValue = property(this.activePlot);
+    getTotalInitiative() {
+        if(!this.activePlot) {
+            return 0;
         }
 
-        var modifier = this.cardsInPlay.reduce((memo, card) => {
-            return memo + (property(card) || 0);
-        }, 0);
-
-        return baseValue + modifier;
-    }
-
-    getTotalInitiative() {
-        return this.getTotalPlotStat(card => {
-            return card.getInitiative();
-        });
+        return this.activePlot.getInitiative();
     }
 
     getTotalIncome() {
-        var gold = this.getTotalPlotStat(card => {
-            return card.getIncome();
-        });
-
-        gold = this.activePlot.modifyIncome(this, gold);
-
-        // XXX this player shouldn't know about the other player, this should be deffered to game
-        var otherPlayer = this.game.getOtherPlayer(this);
-        if(otherPlayer) {
-            gold = otherPlayer.activePlot.modifyIncome(this, gold);
+        if(!this.activePlot) {
+            return 0;
         }
 
-        return gold;
+        return this.activePlot.getIncome();
     }
 
     getTotalReserve() {
-        var reserve = this.getTotalPlotStat(card => {
-            return card.getReserve();
-        });
+        if(!this.activePlot) {
+            return 0;
+        }
 
-        return Math.max(reserve, this.minReserve);
+        return Math.max(this.activePlot.getReserve(), this.minReserve);
     }
 
     getClaim() {

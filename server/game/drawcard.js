@@ -90,16 +90,6 @@ class DrawCard extends BaseCard {
         return this.power;
     }
 
-    getIncome() {
-        var income = super.getIncome();
-
-        income = this.attachments.reduce((runningTotal, attachment) => {
-            return runningTotal + attachment.getIncome();
-        }, 0);
-
-        return income;
-    }
-
     getStrength() {
         if(this.controller.phase === 'setup') {
             return this.cardData.strength || undefined;

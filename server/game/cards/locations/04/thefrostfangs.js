@@ -16,12 +16,9 @@ class TheFrostfangs extends DrawCard {
                 this.game.takeControl(otherPlayer, this);
             }
         });
-    }
-
-    getReserve() {
-        if(!this.isBlank()) {
-            return -1;
-        }
+        this.plotModifiers({
+            reserve: -1
+        });
     }
 }
 

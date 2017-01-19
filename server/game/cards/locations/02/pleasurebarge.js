@@ -2,10 +2,10 @@ const DrawCard = require('../../../drawcard.js');
 
 // TODO: Event immunity, card draw
 class PleasureBarge extends DrawCard {
-    getIncome() {
-        if(!this.isBlank()) {
-            return -1;
-        }
+    setupCardAbilities() {
+        this.plotModifiers({
+            gold: -1
+        });
     }
 }
 

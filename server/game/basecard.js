@@ -33,6 +33,16 @@ class BaseCard {
         this.blankCount = 0;
 
         this.tokens = {};
+        this.plotModifierValues = {
+            gold: 0,
+            initiative: 0,
+            reserve: 0
+        };
+        this.canProvidePlotModifier = {
+            gold: true,
+            initiative: true,
+            reserve: true
+        };
         this.menu = _([]);
         this.events = new EventRegistrar(this.game, this);
 
@@ -89,6 +99,34 @@ class BaseCard {
     }
 
     setupCardAbilities() {
+    }
+
+    plotModifiers(modifiers) {
+        this.plotModifierValues = _.extend(this.plotModifierValues, modifiers);
+        if(modifiers.gold) {
+            this.persistentEffect({
+                condition: () => this.canProvidePlotModifier['gold'],
+                match: card => card.controller.activePlot === card,
+                targetController: 'current',
+                effect: AbilityDsl.effects.modifyGold(modifiers.gold)
+            });
+        }
+        if(modifiers.initiative) {
+            this.persistentEffect({
+                condition: () => this.canProvidePlotModifier['initiative'],
+                match: card => card.controller.activePlot === card,
+                targetController: 'current',
+                effect: AbilityDsl.effects.modifyInitiative(modifiers.initiative)
+            });
+        }
+        if(modifiers.reserve) {
+            this.persistentEffect({
+                condition: () => this.canProvidePlotModifier['reserve'],
+                match: card => card.controller.activePlot === card,
+                targetController: 'current',
+                effect: AbilityDsl.effects.modifyReserve(modifiers.reserve)
+            });
+        }
     }
 
     action(properties) {
@@ -248,18 +286,6 @@ class BaseCard {
 
     canReduce() {
         return false;
-    }
-
-    getInitiative() {
-        return 0;
-    }
-
-    getIncome() {
-        return 0;
-    }
-
-    getReserve() {
-        return 0;
     }
 
     getFaction() {

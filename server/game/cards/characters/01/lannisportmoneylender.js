@@ -1,8 +1,10 @@
 const DrawCard = require('../../../drawcard.js');
 
 class LannisportMoneylender extends DrawCard {
-    getIncome() {
-        return 1;
+    setupCardAbilities() {
+        this.plotModifiers({
+            gold: 1
+        });
     }
 }
 

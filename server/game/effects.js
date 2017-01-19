@@ -22,6 +22,26 @@ const Effects = {
             }
         };
     },
+    modifyGold: function(value) {
+        return {
+            apply: function(card) {
+                card.goldModifier += value;
+            },
+            unapply: function(card) {
+                card.goldModifier -= value;
+            }
+        };
+    },
+    modifyInitiative: function(value) {
+        return {
+            apply: function(card) {
+                card.initiativeModifier += value;
+            },
+            unapply: function(card) {
+                card.initiativeModifier -= value;
+            }
+        };
+    },
     modifyReserve: function(value) {
         return {
             apply: function(card) {
@@ -39,6 +59,16 @@ const Effects = {
             },
             unapply: function(card) {
                 card.claimModifier -= value;
+            }
+        };
+    },
+    preventPlotModifier: function(modifier) {
+        return {
+            apply: function(card) {
+                card.canProvidePlotModifier[modifier] = false;
+            },
+            unapply: function(card) {
+                card.canProvidePlotModifier[modifier] = true;
             }
         };
     },

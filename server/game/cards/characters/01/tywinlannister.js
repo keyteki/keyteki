@@ -6,12 +6,9 @@ class TywinLannister extends DrawCard {
             match: this,
             effect: ability.effects.dynamicStrength(() => this.controller.gold)
         });
-    }
-
-    getIncome() {
-        if(!this.isBlank()) {
-            return 2;
-        }
+        this.plotModifiers({
+            gold: 2
+        });
     }
 }
 

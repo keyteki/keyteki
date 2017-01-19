@@ -1,16 +1,12 @@
 const DrawCard = require('../../../drawcard.js');
 
 class TheGodsEye extends DrawCard {
-    getReserve() {
-        if(!this.isBlank()) {
-            return 1;
-        }
-    }
-
-    getIncome() {
-        if(!this.isBlank()) {
-            return 1;
-        }
+    setupCardAbilities() {
+        // TODO: Cannot be discarded.
+        this.plotModifiers({
+            reserve: 1,
+            gold: 1
+        });
     }
 }
 

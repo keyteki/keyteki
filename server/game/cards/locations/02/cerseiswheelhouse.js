@@ -17,10 +17,9 @@ class CerseisWheelhouse extends DrawCard {
                 }
             }
         });
-    }
-
-    getInitiative() {
-        return -1;
+        this.plotModifiers({
+            initiative: -1
+        });
     }
 }
 

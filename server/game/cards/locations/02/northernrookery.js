@@ -1,10 +1,10 @@
 const DrawCard = require('../../../drawcard.js');
 
 class NorthernRookery extends DrawCard {
-    getReserve() {
-        if(!this.isBlank()) {
-            return 1;
-        }
+    setupCardAbilities() {
+        this.plotModifiers({
+            reserve: 1
+        });
     }
 }
 

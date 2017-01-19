@@ -1,10 +1,10 @@
 const DrawCard = require('../../../drawcard.js');
 
 class TheArbor extends DrawCard {
-    getIncome() {
-        if(!this.isBlank()) {
-            return 3;
-        }
+    setupCardAbilities() {
+        this.plotModifiers({
+            gold: 3
+        });
     }
 }
 

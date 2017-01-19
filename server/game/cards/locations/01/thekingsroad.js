@@ -7,6 +7,12 @@ class TheKingsroad extends Reducer {
         });
     }
 
+    setupCardAbilities() {
+        this.plotModifiers({
+            initiative: 1
+        });
+    }
+
     onClick(player) {
         var handled = super.onClick(player);
 
@@ -25,12 +31,6 @@ class TheKingsroad extends Reducer {
         }
 
         return cost;
-    }
-
-    getInitiative() {
-        if(!this.isBlank()) {
-            return 1;
-        }
     }
 }
 

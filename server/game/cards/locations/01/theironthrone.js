@@ -1,8 +1,10 @@
 const DrawCard = require('../../../drawcard.js');
 
 class TheIronThrone extends DrawCard {
-    getReserve() {
-        return 1;
+    setupCardAbilities() {
+        this.plotModifiers({
+            reserve: 1
+        });
     }
 
     modifyDominance(player, strength) {
