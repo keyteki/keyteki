@@ -14,6 +14,10 @@ class JoryCassel extends DrawCard {
             return;
         }
 
+        if(!card.isUnique() || card.getFaction() !== 'stark') {
+            return;
+        }
+
         this.game.promptWithMenu(player, this, {
             activePrompt: {
                 menuTitle: 'Use ' + this.name + ' to save ' + card.name + '?',
