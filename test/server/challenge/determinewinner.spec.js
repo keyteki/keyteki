@@ -36,7 +36,7 @@ describe('Challenge', function() {
             });
 
             it('should mark the win for the attacking player', function() {
-                expect(this.attackingPlayer.winChallenge).toHaveBeenCalledWith('military');
+                expect(this.attackingPlayer.winChallenge).toHaveBeenCalledWith('military', true);
             });
 
             it('should have the defending player be the loser', function() {
@@ -44,7 +44,7 @@ describe('Challenge', function() {
             });
 
             it('should mark the loss for the defending player', function() {
-                expect(this.defendingPlayer.loseChallenge).toHaveBeenCalledWith('military');
+                expect(this.defendingPlayer.loseChallenge).toHaveBeenCalledWith('military', false);
             });
         });
 
@@ -63,7 +63,7 @@ describe('Challenge', function() {
             });
 
             it('should mark the win for the attacking player', function() {
-                expect(this.attackingPlayer.winChallenge).toHaveBeenCalledWith('military');
+                expect(this.attackingPlayer.winChallenge).toHaveBeenCalledWith('military', true);
             });
 
             it('should have the defending player be the loser', function() {
@@ -71,7 +71,7 @@ describe('Challenge', function() {
             });
 
             it('should mark the loss for the defending player', function() {
-                expect(this.defendingPlayer.loseChallenge).toHaveBeenCalledWith('military');
+                expect(this.defendingPlayer.loseChallenge).toHaveBeenCalledWith('military', false);
             });
         });
 
@@ -89,7 +89,7 @@ describe('Challenge', function() {
             });
 
             it('should mark the win for the defending player', function() {
-                expect(this.defendingPlayer.winChallenge).toHaveBeenCalledWith('military');
+                expect(this.defendingPlayer.winChallenge).toHaveBeenCalledWith('military', false);
             });
 
             it('should have the attacking player be the loser', function() {
@@ -97,7 +97,7 @@ describe('Challenge', function() {
             });
 
             it('should mark the loss for the attacking player', function() {
-                expect(this.attackingPlayer.loseChallenge).toHaveBeenCalledWith('military');
+                expect(this.attackingPlayer.loseChallenge).toHaveBeenCalledWith('military', true);
             });
         });
     });
