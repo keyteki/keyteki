@@ -51,7 +51,7 @@ class DrawCard extends BaseCard {
     }
 
     isLimited() {
-        return this.hasKeyword('Limited');
+        return this.hasKeyword('Limited') || this.hasPrintedKeyword('Limited');
     }
 
     isStealth() {

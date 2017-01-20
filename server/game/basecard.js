@@ -55,14 +55,14 @@ class BaseCard {
     parseKeywords(text) {
         var firstLine = text.split('\n')[0];
         var potentialKeywords = _.map(firstLine.split('.'), k => k.toLowerCase().trim());
-        var keywords = [];
 
         this.keywords = {};
+        this.printedKeywords = [];
         this.allowedAttachmentTrait = 'any';
 
         _.each(potentialKeywords, keyword => {
             if(_.contains(ValidKeywords, keyword)) {
-                keywords.push(keyword);
+                this.printedKeywords.push(keyword);
             } else if(keyword.indexOf('no attachment') === 0) {
                 var match = keyword.match(/no attachments except <[bi]>(.*)<\/[bi]>/);
                 if(match) {
@@ -78,10 +78,10 @@ class BaseCard {
             }
         });
 
-        if(keywords.length > 0) {
+        if(this.printedKeywords.length > 0) {
             this.persistentEffect({
                 match: this,
-                effect: AbilityDsl.effects.addMultipleKeywords(keywords)
+                effect: AbilityDsl.effects.addMultipleKeywords(this.printedKeywords)
             });
         }
     }
@@ -234,6 +234,10 @@ class BaseCard {
     hasKeyword(keyword) {
         var keywordCount = this.keywords[keyword.toLowerCase()] || 0;
         return keywordCount > 0;
+    }
+
+    hasPrintedKeyword(keyword) {
+        return this.printedKeywords.includes(keyword.toLowerCase());
     }
 
     hasTrait(trait) {
