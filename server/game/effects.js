@@ -229,6 +229,33 @@ const Effects = {
                 player.minReserve = context.setMinReserve[player];
             }
         };
+    },
+    /**
+     * Effects specifically for Old Wyk.
+     */
+    returnToHandOrDeckBottom: function() {
+        return {
+            apply: function(card, context) {
+                context.returnToHandOrDeckBottom = context.returnToHandOrDeckBottom || [];
+                context.returnToHandOrDeckBottom.push(card);
+            },
+            unapply: function(card, context) {
+                if(!context.returnToHandOrDeckBottom.includes(card)) {
+                    return;
+                }
+
+                context.returnToHandOrDeckBottom = _.reject(context.returnToHandOrDeckBottom, c => c === card);
+
+                var challenge = context.game.currentChallenge;
+                if(challenge && challenge.winner === context.source.controller && challenge.strengthDifference >= 5) {
+                    card.controller.moveCard(card, 'hand');
+                    context.game.addMessage('{0} returns {1} to their hand', context.source.controller, card);
+                } else {
+                    card.controller.moveCard(card, 'draw deck', { bottom: true });
+                    context.game.addMessage('{0} returns {1} to the bottom of their deck', context.source.controller, card);
+                }
+            }
+        };
     }
 };
 

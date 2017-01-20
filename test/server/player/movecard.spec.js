@@ -143,11 +143,24 @@ describe('Player', function() {
         describe('when the target location is the draw deck', function() {
             beforeEach(function() {
                 this.player.drawDeck = _([{}, {}, {}]);
-                this.player.moveCard(this.card, 'draw deck');
             });
 
             it('should add the card to the top of the deck', function() {
-                expect(this.player.drawDeck.value()[0]).toBe(this.card);
+                this.player.moveCard(this.card, 'draw deck');
+                expect(this.player.drawDeck.first()).toBe(this.card);
+            });
+
+            it('should add the card to the bottom of the deck when the option is passed', function() {
+                this.player.moveCard(this.card, 'draw deck', { bottom: true });
+                expect(this.player.drawDeck.last()).toBe(this.card);
+            });
+
+            it('should be able to move a card from top to bottom of the deck', function() {
+                this.player.drawDeck = _([this.card, {}, {}, {}]);
+                this.card.location = 'draw deck';
+                this.player.moveCard(this.card, 'draw deck', { bottom: true });
+                expect(this.player.drawDeck.size()).toBe(4);
+                expect(this.player.drawDeck.last()).toBe(this.card);
             });
         });
     });

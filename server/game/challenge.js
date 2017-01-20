@@ -38,21 +38,25 @@ class Challenge {
     addAttackers(attackers) {
         this.attackers = this.attackers.concat(attackers);
         this.markAsParticipating(attackers);
+        this.calculateStrength();
     }
 
     addAttacker(attacker) {
         this.attackers.push(attacker);
-        this.markAsParticipating(this.attackers);
+        this.markAsParticipating([attacker]);
+        this.calculateStrength();
     }
 
     addDefenders(defenders) {
         this.defenders = this.defenders.concat(defenders);
         this.markAsParticipating(defenders);
+        this.calculateStrength();
     }
 
     addDefender(defender) {
         this.defenders.push(defender);
-        this.markAsParticipating(this.defenders);
+        this.markAsParticipating([defender]);
+        this.calculateStrength();
     }
 
     removeFromChallenge(card) {

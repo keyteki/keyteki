@@ -208,13 +208,12 @@ class Player extends Spectator {
                 this.game.addMessage('{0}\'s draw deck is empty', this);
                 this.game.addMessage('{0} wins the game', otherPlayer);
             }
-        }        
+        }
     }
 
     moveFromTopToBottomOfDrawDeck(number) {
         while(number > 0) {
-            var nextCard = this.drawDeck.value().shift();
-            this.drawDeck.push(nextCard);
+            this.moveCard(this.drawDeck.first(), 'draw deck', { bottom: true });
 
             number--;
         }
@@ -405,7 +404,7 @@ class Player extends Spectator {
             }
 
             card.new = true;
-            this.moveCard(card, 'play area', !!dupeCard);
+            this.moveCard(card, 'play area', { isDupe: !!dupeCard });
 
             this.game.raiseEvent('onCardEntersPlay', card);
         }
@@ -846,14 +845,14 @@ class Player extends Spectator {
         this.faction.cardData.strength = 0;
     }
 
-    moveCard(card, targetLocation, isDupe = false) {
+    moveCard(card, targetLocation, options = {}) {
+        this.removeCardFromPile(card);
+
         var targetPile = this.getSourceList(targetLocation);
 
         if(!targetPile) {
             return;
         }
-
-        this.removeCardFromPile(card);
 
         if(card.location === 'play area') {
             if(card.owner !== this) {
@@ -880,13 +879,13 @@ class Player extends Spectator {
             }
         }
 
-        if(!isDupe) {
+        if(!options.isDupe) {
             card.moveTo(targetLocation);
         } else {
             card.location = 'dupe';
         }
 
-        if(targetLocation === 'draw deck') {
+        if(targetLocation === 'draw deck' && !options.bottom) {
             targetPile.unshift(card);
         } else {
             targetPile.push(card);

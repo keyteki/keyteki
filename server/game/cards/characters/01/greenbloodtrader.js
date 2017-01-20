@@ -63,14 +63,11 @@ class GreenbloodTrader extends DrawCard {
         }
 
         var otherCard = _.find(this.top2Cards, c => {
-            return c.uuid === card.uuid;
+            return c.uuid !== card.uuid;
         });
 
-        player.drawDeck.value().shift();
-        player.drawDeck.value().shift();
-
-        player.drawDeck.push(otherCard);
-        player.drawDeck.push(card);
+        player.moveCard(otherCard, 'draw deck', { bottom: true });
+        player.moveCard(card, 'draw deck', { bottom: true });
 
         this.game.addMessage('{0} uses {1} to draw 2 cards, and place them on the bottom of their deck', player, this);
 
