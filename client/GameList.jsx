@@ -30,23 +30,33 @@ class InnerGameList extends React.Component {
 
     render() {
         var gameList = _.map(this.props.games, game => {
+            var sides = _.map(game.players, player => {
+                return (
+                    <span>
+                        <Avatar emailHash={player.emailHash} />
+                        <span>{ player.name }</span>
+                    </span>
+                );
+            });
+
+            var gameLayout = undefined;
+
+            if(sides.length === 2) {
+                gameLayout = <span>{ sides[0] }<b> vs </b>{ sides[1] }</span>;
+            } else {
+                gameLayout = <span>{ sides[0] }</span>;
+            }
+
             return (
                 <div key={ game.id } className='game-row'>
-                    { (this.props.currentGame || game.players.length === 2 || game.started) ?
+                    { (this.props.currentGame || _.size(game.players) === 2 || game.started) ?
                         null :
                         <button className='btn btn-primary pull-right' onClick={ event => this.joinGame(event, game) }>Join</button>
                     }
                     {this.canWatch(game) ?
                         <button className='btn btn-primary pull-right' onClick={event => this.watchGame(event, game)}>Watch</button> : null}
                     <div><b>{ game.name }</b></div>
-                    { game.players.length !== 0 ?
-                    <div>
-                        <Avatar emailHash={game.players[0].emailHash} />
-                        <span>{ game.players.length > 0 ? game.players[0].name : '' }</span>
-                        { game.players.length === 2 ? <span><b>{' vs '}</b>
-                        <Avatar emailHash={game.players[1].emailHash} />
-                        { game.players[1].name }</span> : null }</div>
-                    : null }
+                    { gameLayout }
                 </div>
             );
         });

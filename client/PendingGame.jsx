@@ -104,7 +104,7 @@ class InnerPendingGame extends React.Component {
     }
 
     getGameStatus() {
-        if(this.props.currentGame.players.length < 2) {
+        if(_.size(this.props.currentGame.players) < 2) {
             return 'Waiting for players...';
         }
 

@@ -901,7 +901,7 @@ class Game extends EventEmitter {
     }
 
     getSummary(activePlayer) {
-        var playerSummaries = [];
+        var playerSummaries = {};
 
         _.each(this.getPlayers(), player => {
             var deck = undefined;
@@ -917,15 +917,16 @@ class Game extends EventEmitter {
                 deck = {};
             }
 
-            playerSummaries.push({ 
-                id: player.id, 
-                name: player.user.username, 
-                emailHash: player.user.emailHash, 
+            playerSummaries[player.name] = { 
+                agenda: player.agenda ? player.agenda.code : undefined,
                 deck: deck, 
-                owner: player.owner, 
+                emailHash: player.user.emailHash, 
                 faction: player.faction.code,
-                agenda: player.agenda ? player.agenda.code : undefined
-            });
+                id: player.id,
+                left: player.left,
+                name: player.user.username, 
+                owner: player.owner
+            };
         });
 
         return {

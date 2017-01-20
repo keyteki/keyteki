@@ -1,5 +1,7 @@
 /*global describe, it, beforeEach, expect*/
 
+const _ = require('underscore');
+
 const Game = require('../../../server/game/game.js');
 const Player = require('../../../server/game/player.js');
 const Spectator = require('../../../server/game/spectator.js');
@@ -21,7 +23,7 @@ describe('the Game', () => {
 
                 expect(state.name).toBe('Test Game');
                 expect(state.started).toBe(false);
-                expect(state.players.length).toBe(0);
+                expect(_.size(state.players)).toBe(0);
             });
         });
 
@@ -34,8 +36,8 @@ describe('the Game', () => {
                 var state = game.getSummary('');
 
                 expect(state.started).toBe(false);
-                expect(state.players.length).toBe(1);
-                expect(state.players[0].name).toBe(player1.name);
+                expect(_.size(state.players)).toBe(1);
+                expect(state.players[player1.name].name).toBe(player1.name);
             });
 
             describe('and another player joins', () => {
@@ -47,9 +49,9 @@ describe('the Game', () => {
                     var state = game.getSummary('');
 
                     expect(state.started).toBe(false);
-                    expect(state.players.length).toBe(2);
-                    expect(state.players[0].name).toBe(player1.name);
-                    expect(state.players[1].name).toBe(player2.name);
+                    expect(_.size(state.players)).toBe(2);
+                    expect(state.players[player1.name].name).toBe(player1.name);
+                    expect(state.players[player2.name].name).toBe(player2.name);
                 });
             });
         });
@@ -65,7 +67,7 @@ describe('the Game', () => {
                 it('should return a summary of their deck', () => {
                     var state = game.getSummary(player1.name);
 
-                    expect(state.players[0].deck.name).toBe('Test Deck');
+                    expect(state.players[player1.name].deck.name).toBe('Test Deck');
                 });
             });
 
@@ -73,8 +75,8 @@ describe('the Game', () => {
                 it('should show that the player has a deck but no details', () => {
                     var state = game.getSummary(player2.name);
 
-                    expect(state.players[0].deck).not.toBe(undefined);
-                    expect(state.players[1].deck.name).toBe(undefined);
+                    expect(state.players[player1.name].deck).not.toBe(undefined);
+                    expect(state.players[player2.name].deck.name).toBe(undefined);
                 });
             });
         });
