@@ -90,8 +90,8 @@ class DrawCard extends BaseCard {
         return this.power;
     }
 
-    getStrength() {
-        if(this.controller.phase === 'setup') {
+    getStrength(printed = false) {
+        if(this.controller.phase === 'setup' || printed) {
             return this.cardData.strength || undefined;
         }
 
