@@ -279,7 +279,8 @@ io.on('connection', function(socket) {
             runAndCatchErrors(game, () => {
                 if(!game.players[socket.request.user.username].left) {
                     socket.join(game.id);
-                    
+
+                    game.players[socket.request.user.disconnected = false];
                     game.reconnect(socket.id, socket.request.user.username);
 
                     sendGameState(game);
@@ -305,6 +306,12 @@ io.on('connection', function(socket) {
 
         if(!game) {
             return;
+        }
+
+        if(_.size(game.getPlayers()) === 1 && _.isEmpty(game.getSpectators())) {
+            delete games[game.id];
+        } else {
+            game.players[socket.request.user.username].disconnected = true;
         }
 
         game.playerLeave(socket.request.user.username, 'has disconnected');
@@ -437,11 +444,9 @@ io.on('connection', function(socket) {
             var listToCheck = game.getPlayers();
 
             if(_.all(listToCheck, p => {
-                return !!p.left;
-            })) {
-                if(_.isEmpty(game.getSpectators())) {
-                    delete games[game.id];
-                }
+                return p.left || p.disconnected;
+            }) && _.isEmpty(game.getSpectators())) {
+                delete games[game.id];
             }
 
             if(games[game.id]) {
