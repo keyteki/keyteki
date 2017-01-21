@@ -1,21 +1,21 @@
 const DrawCard = require('../../../drawcard.js');
 
-class VerteranBuilder extends DrawCard {
+class HandMaiden extends DrawCard {
     setupCardAbilities() {
         this.action({
-            title: 'Sacrifice this card to stand a location',
+            title: 'Sacrifice Handmaiden to stand a Lady character',
             method: 'sacrifice'
         });
     }
 
     sacrifice() {
         this.game.promptForSelect(this.controller, {
-            activePromptTitle: 'Select a location',
+            activePromptTitle: 'Select a character',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            cardCondition: card => card.location === 'play area' && card.controller === this.controller && card.getType() === 'location',
+            cardCondition: card => card.location === 'play area' && card.controller === this.controller && card.getType() === 'character' && card.hasTrait('Lady'),
             onSelect: (p, card) => this.onStandSelected(p, card)
         });
-
+        
         return true;
     }
 
@@ -29,6 +29,6 @@ class VerteranBuilder extends DrawCard {
     }
 }
 
-VerteranBuilder.code = '01134';
+HandMaiden.code = '01169';
 
-module.exports = VerteranBuilder;
+module.exports = HandMaiden;
