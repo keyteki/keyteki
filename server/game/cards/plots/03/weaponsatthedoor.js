@@ -11,7 +11,7 @@ class WeaponsAtTheDoor extends PlotCard {
             handler: () => {
                 _.each(this.game.getPlayers(), player => this.returnCardsToHand(player));
 
-                this.game.addMessage('{0} uses {1} to force both players to return each card with printed attachment card type to their hand', this.controller, card);
+                this.game.addMessage('{0} uses {1} to force both players to return each card with printed attachment card type to their hand', this.controller, this);
             }
         });
     }
