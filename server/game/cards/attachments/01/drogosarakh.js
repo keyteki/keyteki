@@ -18,7 +18,7 @@ class DrogosArakh extends DrawCard {
             return;
         }
 
-        this.parent.kneeled = false;
+        this.parent.controller.standCard(this.parent);
     }
 
     canAttach(player, card) {

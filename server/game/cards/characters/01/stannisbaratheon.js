@@ -41,7 +41,7 @@ class StannisBaratheon extends DrawCard {
             var paramIndex = 2;
 
             _.each(toStand, card => {
-                card.kneeled = false;
+                card.controller.standCard(card);
 
                 params += '{' + paramIndex++ + '} ';
 

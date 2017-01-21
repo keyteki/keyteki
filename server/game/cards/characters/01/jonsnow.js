@@ -21,7 +21,7 @@ class JonSnow extends DrawCard {
         }
 
         challenge.addAttacker(this);
-        this.kneeled = false;
+        this.controller.standCard(this);
 
         this.game.addMessage('{0} uses {1} to add {1} to the challenge as an attacker', this.controller, this);
     }

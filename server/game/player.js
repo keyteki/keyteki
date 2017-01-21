@@ -794,14 +794,14 @@ class Player extends Spectator {
     standCards(notCharacters = false) {
         this.cardsInPlay.each(card => {
             card.attachments.each(attachment => {
-                attachment.kneeled = false;
+                this.standCard(attachment);
             });
 
             if(notCharacters && card.getType() === 'character') {
                 return;
             }
 
-            card.kneeled = false;
+            this.standCard(card);
         });
 
         this.faction.kneeled = false;
