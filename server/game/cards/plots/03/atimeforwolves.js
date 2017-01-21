@@ -11,7 +11,7 @@ class ATimeForWolves extends PlotCard {
                 });
 
                 var buttons = _.map(direwolfCards, card => {
-                    return { text: card.name, method: 'cardSelected', arg: card.uuid };
+                    return { text: card.name, method: 'cardSelected', arg: card.uuid, card: card.getSummary(true) };
                 });
 
                 buttons.push({ text: 'Done', method: 'doneSelecting' });

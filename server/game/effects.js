@@ -184,6 +184,21 @@ const Effects = {
             }
         };
     },
+    returnToHandIfStillInPlay: function(allowSave = false) {
+        return {
+            apply: function(card, context) {
+                context.returnToHandIfStillInPlay = context.returnToHandIfStillInPlay || [];
+                context.returnToHandIfStillInPlay.push(card);
+            },
+            unapply: function(card, context) {
+                if(card.location === 'play area' && context.returnToHandIfStillInPlay.includes(card)) {
+                    context.returnToHandIfStillInPlay = _.reject(context.returnToHandIfStillInPlay, c => c === card);
+                    card.controller.returnCardToHand(card, allowSave);
+                    context.game.addMessage('{0} returns {1} to hand at the end of the phase because of {2}', context.source.controller, card, context.source);
+                }
+            }
+        };
+    },    
     takeControl: function(newController) {
         return {
             apply: function(card, context) {
