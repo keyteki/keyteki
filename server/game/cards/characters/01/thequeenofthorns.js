@@ -15,14 +15,14 @@ class TheQueenOfThorns extends DrawCard {
                 });                 
             }
         });
+    }
 
-        onCardSelected(player, card) {
-            player.moveCard(card, 'play area');
+    onCardSelected(player, card) {
+        player.moveCard(card, 'play area');
 
-            this.game.addMessage('{0} uses {1} to put {2} in play from their hand', player, this, card);
+        this.game.addMessage('{0} uses {1} to put {2} in play from their hand', player, this, card);
 
-            return true;
-        }
+        return true;
     }
 }
 
