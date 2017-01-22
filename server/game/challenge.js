@@ -120,7 +120,7 @@ class Challenge {
 
         this.calculateStrength();
 
-        if(this.attackerStrength === 0 && this.defenderStrength === 0) {
+        if(this.attackerStrength === 0 && this.defenderStrength === 0 || this.attackerStrength >= this.defenderStrength && this.attackerCannotWin) {
             this.loser = undefined;
             this.winner = undefined;
             this.loserStrength = this.winnerStrength = 0;

@@ -48,13 +48,7 @@ class ChallengeFlow extends BaseStep {
     }
 
     allowAsAttacker(card) {
-        var event = this.game.raiseEvent('onAttackerSelected', this.challenge, card);
-
-        if(event.cancel) {
-            return false;
-        }
-
-        return this.challenge.attackingPlayer.canAddToChallenge(card, this.challenge.challengeType);
+        return this.challenge.attackingPlayer === card.controller && card.canAddAsAttacker(this.challenge.challengeType);
     }
 
     chooseAttackers(player, attackers) {
@@ -87,7 +81,7 @@ class ChallengeFlow extends BaseStep {
     }
 
     allowAsDefender(card) {
-        return this.challenge.defendingPlayer.canAddToChallenge(card, this.challenge.challengeType);
+        return this.challenge.defendingPlayer === card.controller && card.canAddAsDefender(this.challenge.challengeType);
     }
 
     chooseDefenders(defenders) {
@@ -106,9 +100,11 @@ class ChallengeFlow extends BaseStep {
         this.challenge.determineWinner();
 
         if(!this.challenge.winner && !this.challenge.loser) {
-            this.game.addMessage('Attacking strength is 0, there is no winner for this challenge');
-        } else if(this.challenge.isAttackerTheWinner() && this.challenge.attackerCannotWin) {
-            this.game.addMessage('There is no winner or loser for this challenge');
+            if(this.challenge.attackerStrength === 0) {
+                this.game.addMessage('Attacking strength is 0, there is no winner for this challenge');
+            } else {
+                this.game.addMessage('There is no winner or loser for this challenge');
+            }
         } else {
             this.game.addMessage('{0} won a {1} challenge {2} vs {3}',
                 this.challenge.winner, this.challenge.challengeType, this.challenge.winnerStrength, this.challenge.loserStrength);
