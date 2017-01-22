@@ -311,7 +311,7 @@ io.on('connection', function(socket) {
         game.players[socket.request.user.username].disconnected = true;
 
         if(_.size(game.getPlayers()) === 1 && _.isEmpty(game.getSpectators()) || _.all(game.players, player => {
-            return player.disconnected;
+            return player.disconnected || player.left;
         })) {
             delete games[game.id];
         }
