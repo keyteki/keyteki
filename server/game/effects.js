@@ -12,6 +12,30 @@ const Effects = {
             isStateDependent: _.any(effects, effect => !!effect.isStateDependent)
         };
     },
+    allowAsAttacker: function(value) {
+        return {
+            apply: function(card, context) {
+                context.allowAsAttacker = context.allowAsAttacker || {};
+                context.allowAsAttacker[card] = card.challengeOptions.allowAsAttacker;
+                card.challengeOptions.allowAsAttacker = value;
+            },
+            unapply: function(card, context) {
+                card.challengeOptions.allowAsAttacker = context.allowAsAttacker[card];
+            }
+        };
+    },
+    allowAsDefender: function(value) {
+        return {
+            apply: function(card, context) {
+                context.allowAsDefender = context.allowAsDefender || {};
+                context.allowAsDefender[card] = card.challengeOptions.allowAsDefender;
+                card.challengeOptions.allowAsDefender = value;
+            },
+            unapply: function(card, context) {
+                card.challengeOptions.allowAsDefender = context.allowAsDefender[card];
+            }
+        };
+    },
     modifyStrength: function(value) {
         return {
             apply: function(card) {
@@ -198,7 +222,7 @@ const Effects = {
                 }
             }
         };
-    },    
+    },
     takeControl: function(newController) {
         return {
             apply: function(card, context) {

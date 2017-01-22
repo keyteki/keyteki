@@ -692,18 +692,6 @@ class Player extends Spectator {
         this.selectCard = false;
     }
 
-    canAddToChallenge(card, challengeType) {
-        if(!card || card.location !== 'play area' || card.stealth || card.kneeled) {
-            return false;
-        }
-
-        if(card.controller !== this || !card.hasIcon(challengeType)) {
-            return false;
-        }
-
-        return card;
-    }
-
     initiateChallenge(challengeType) {
         this.challenges.perform(challengeType);
     }

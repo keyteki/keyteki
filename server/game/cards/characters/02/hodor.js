@@ -1,21 +1,12 @@
 const DrawCard = require('../../../drawcard.js');
 
 class Hodor extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onAttackerSelected']);
-    }
-
-    onAttackerSelected(event, challenge, card) {
-        var player = challenge.attackingPlayer;
-        if(this.controller !== player || card !== this || this.isBlank()) {
-            return;
-        }
-
-        if(!player.findCardByName(player.cardsInPlay, 'Bran Stark')) {
-            event.cancel = true;
-        }
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            condition: () => !this.controller.findCardByName(this.controller.cardsInPlay, 'Bran Stark'),
+            match: this,
+            effect: ability.effects.allowAsAttacker(false)
+        });
     }
 
     modifyDominance(player, strength) {

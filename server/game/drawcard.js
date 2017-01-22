@@ -31,6 +31,10 @@ class DrawCard extends BaseCard {
         this.kneeled = false;
         this.inChallenge = false;
         this.wasAmbush = false;
+        this.challengeOptions = {
+            allowAsAttacker: true,
+            allowAsDefender: true
+        };
     }
 
     addDuplicate(card) {
@@ -215,6 +219,30 @@ class DrawCard extends BaseCard {
         this.stealth = false;
         this.stealthTarget = undefined;
         this.inChallenge = false;
+    }
+
+    canAddAsAttacker(challengeType) {
+        if(this.location !== 'play area' || this.stealth || this.kneeled) {
+            return false;
+        }
+
+        if(!this.hasIcon(challengeType)) {
+            return false;
+        }
+
+        return this.challengeOptions.allowAsAttacker;
+    }
+
+    canAddAsDefender(challengeType) {
+        if(this.location !== 'play area' || this.stealth || this.kneeled) {
+            return false;
+        }
+
+        if(!this.hasIcon(challengeType)) {
+            return false;
+        }
+
+        return this.challengeOptions.allowAsDefender;
     }
 
     getSummary(isActivePlayer, hideWhenFaceup) {
