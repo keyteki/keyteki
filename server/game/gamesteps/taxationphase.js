@@ -17,12 +17,9 @@ class TaxationPhase extends Phase {
 
     returnGold() {
         _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
-            var event = this.game.raiseEvent('onBeforeTaxation', player);
-            if(!event.cancel) {
+            this.game.raiseEvent('onUnspentGoldReturned', player, () => {
                 player.taxation();
-            }
-
-            this.game.raiseEvent('onAfterTaxation', player);
+            });
         });
     }
 

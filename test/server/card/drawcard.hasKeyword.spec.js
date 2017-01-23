@@ -66,6 +66,8 @@ describe('the DrawCard', function() {
                     this.card.location = 'hand';
                     this.player.hand = _([this.card]);
                     this.player.playCard(this.card, true);
+                    // Resolve events in pipeline.
+                    this.game.continue();
                 });
 
                 it('should return false.', function() {
@@ -79,6 +81,8 @@ describe('the DrawCard', function() {
                     this.card.location = 'hand';
                     this.player.hand = _([this.card]);
                     this.player.playCard(this.card, true);
+                    // Resolve events in pipeline.
+                    this.game.continue();
                 });
 
                 it('should return true for each keyword', function() {
@@ -93,6 +97,8 @@ describe('the DrawCard', function() {
                 it('should not blank externally given keywords', function() {
                     this.card.addKeyword('Stealth');
                     this.card.setBlank();
+                    // Resolve events in pipeline.
+                    this.game.continue();
                     expect(this.card.hasKeyword('Intimidate')).toBe(false);
                     expect(this.card.hasKeyword('Renown')).toBe(false);
                     expect(this.card.hasKeyword('Stealth')).toBe(true);

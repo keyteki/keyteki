@@ -1,45 +1,23 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class VictarionGreyjoy extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onKillingCharacter']);
-    }
-
-    onKillingCharacter(event, player, card, allowSave) {
-        if(!allowSave || player !== this.controller || card !== this || this.power < 2 || this.isBlank()) {
-            return;
-        }
-
-        this.game.promptWithMenu(player, this, {
-            activePrompt: {
-                menuTitle: 'Save ' + this.name + '?',
-                buttons: [
-                    { text: 'Yes', method: 'save' },
-                    { text: 'No', method: 'cancel' }
-                ]
+    setupCardAbilities() {
+        this.interrupt({
+            when: {
+                onCharacterKilled: (event, player, card, allowSave) => (
+                    allowSave &&
+                    card === this &&
+                    this.power >= 2
+                )
             },
-            waitingPromptTitle: 'Waiting for opponent to use save effects'
+            canCancel: true,
+            handler: (context) => {
+                context.cancel();
+                this.modifyPower(-2);
+
+                this.game.addMessage('{0} uses {1} to save {2}', this.controller, this, this);
+            }
         });
-
-        event.cancel = true;
-    }
-
-    save(player) {
-        this.modifyPower(-2);
-
-        this.game.addMessage('{0} uses {1} to save {2}', player, this, this);
-
-        return true;
-    }
-
-    cancel(player) {
-        player.killCharacter(this, false);
-
-        this.game.addMessage('{0} declines to trigger {1}', player, this);
-
-        return true;
     }
 }
 

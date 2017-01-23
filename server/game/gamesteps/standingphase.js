@@ -11,14 +11,10 @@ class StandingPhase extends Phase {
     }
 
     standCards() {
-        var event = this.game.raiseEvent('onBeforeCardsStand');
-
-        if(event.cancel) {
-            return;
-        }
-
-        _.each(this.game.getPlayers(), player => {
-            player.standCards();
+        this.game.raiseEvent('onStandAllCards', () => {
+            _.each(this.game.getPlayers(), player => {
+                player.standCards();
+            });
         });
     }
 }

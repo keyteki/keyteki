@@ -4,22 +4,13 @@ class BodyGuard extends DrawCard {
     setupCardAbilities() {
         this.interrupt({
             when: {
-                onKillingCharacter: (event, player, card, allowSave) => {
-                    if(this.parent === card && allowSave) {
-                        event.cancel = true;
-                        return true;
-                    }
-
-                    return false;
-                }
+                onCharacterKilled: (event, player, card, allowSave) => this.parent === card && allowSave
             },
-            handler: () => {
+            canCancel: true,
+            handler: (context) => {
+                context.cancel();
                 this.game.addMessage('{0} uses {1} to save {2}', this.controller, this, this.parent);
                 this.controller.sacrificeCard(this);
-            },
-            onCancel: () => {
-                this.controller.killCharacter(this.parent, false);
-                return true;
             }
         });
     }

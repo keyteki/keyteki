@@ -142,30 +142,24 @@ class ChallengeFlow extends BaseStep {
             return;
         }
 
-        var event = this.game.raiseEvent('beforeClaim', this.challenge);
+        var claim = this.challenge.getClaim();
 
-        if(!event.cancel) {
-            var claim = this.challenge.getClaim();
+        if(claim <= 0) {
+            this.game.addMessage('The claim value for {0} is 0, no claim occurs', this.challenge.challengeType);
+        } else {
+            this.game.promptWithMenu(this.challenge.winner, this, {
+                activePrompt: {
+                    menuTitle: 'Perform before claim actions',
+                    buttons: [
+                        { text: 'Apply Claim', method: 'applyClaim' },
+                        { text: 'Continue', method: 'cancelClaim' }
+                    ]
+                },
+                waitingPromptTitle: 'Waiting for opponent to apply claim'
+            });
 
-            if(claim <= 0) {
-                this.game.addMessage('The claim value for {0} is 0, no claim occurs', this.challenge.challengeType);
-            } else {
-                this.game.promptWithMenu(this.challenge.winner, this, {
-                    activePrompt: {
-                        menuTitle: 'Perform before claim actions',
-                        buttons: [
-                            { text: 'Apply Claim', method: 'applyClaim' },
-                            { text: 'Continue', method: 'cancelClaim' }
-                        ]
-                    },
-                    waitingPromptTitle: 'Waiting for opponent to apply claim'
-                });
-
-                this.challenge.claim = claim;
-            }
+            this.challenge.claim = claim;
         }
-
-        this.game.raiseEvent('afterClaim', this.challenge);
     }
 
     applyClaim(player) {
@@ -173,25 +167,27 @@ class ChallengeFlow extends BaseStep {
             return false;
         }
 
-        switch(this.challenge.challengeType) {
-            case 'military':
-                this.game.addMessage('{0} claim is applied.  {1} must kill {2} character{3}', this.challenge.challengeType, this.challenge.loser, this.challenge.claim, 
-                    this.challenge.claim > 1 ? 's' : '');
-                this.game.queueStep(new FulfillMilitaryClaim(this.game, this.challenge.loser, this.challenge.claim));
-                break;
-            case 'intrigue':
-                this.game.addMessage('{0} claim is applied.  {1} must discard {2} card{3} at random', this.challenge.challengeType, this.challenge.loser, this.challenge.claim, 
-                    this.challenge.claim > 1 ? 's' : '');
-                this.challenge.loser.discardAtRandom(this.challenge.claim);
-                break;
-            case 'power':
-                if(this.challenge.loser.faction.power > 0) {
-                    this.game.addMessage('{0} claim is applied.  {1} removes {2} power and {3} gains {2} power', this.challenge.challengeType, this.challenge.loser, this.challenge.claim, 
-                        this.challenge.winner);
-                }
-                this.game.transferPower(this.challenge.winner, this.challenge.loser, this.challenge.claim);
-                break;
-        }
+        this.game.raiseEvent('onClaimApplied', this.challenge, () => {
+            switch(this.challenge.challengeType) {
+                case 'military':
+                    this.game.addMessage('{0} claim is applied.  {1} must kill {2} character{3}', this.challenge.challengeType, this.challenge.loser, this.challenge.claim,
+                        this.challenge.claim > 1 ? 's' : '');
+                    this.game.queueStep(new FulfillMilitaryClaim(this.game, this.challenge.loser, this.challenge.claim));
+                    break;
+                case 'intrigue':
+                    this.game.addMessage('{0} claim is applied.  {1} must discard {2} card{3} at random', this.challenge.challengeType, this.challenge.loser, this.challenge.claim,
+                        this.challenge.claim > 1 ? 's' : '');
+                    this.challenge.loser.discardAtRandom(this.challenge.claim);
+                    break;
+                case 'power':
+                    if(this.challenge.loser.faction.power > 0) {
+                        this.game.addMessage('{0} claim is applied.  {1} removes {2} power and {3} gains {2} power', this.challenge.challengeType, this.challenge.loser, this.challenge.claim,
+                            this.challenge.winner);
+                    }
+                    this.game.transferPower(this.challenge.winner, this.challenge.loser, this.challenge.claim);
+                    break;
+            }
+        });
 
         return true;
     }

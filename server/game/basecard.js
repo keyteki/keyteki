@@ -3,7 +3,9 @@ const _ = require('underscore');
 
 const AbilityDsl = require('./abilitydsl.js');
 const CardAction = require('./cardaction.js');
+const CardForcedInterrupt = require('./cardforcedinterrupt.js');
 const CardForcedReaction = require('./cardforcedreaction.js');
+const CardInterrupt = require('./cardinterrupt.js');
 const CardReaction = require('./cardreaction.js');
 const EventRegistrar = require('./eventregistrar.js');
 
@@ -145,14 +147,14 @@ class BaseCard {
         this.abilities.reactions.push(reaction);
     }
 
-    // TODO: Interrupt shouldn't be a synonym for reaction, but for now this
-    //       mirrors how they've been implemented so far.
     interrupt(properties) {
-        this.reaction(properties);
+        var reaction = new CardInterrupt(this.game, this, properties);
+        this.abilities.reactions.push(reaction);
     }
 
     forcedInterrupt(properties) {
-        this.forcedReaction(properties);
+        var reaction = new CardForcedInterrupt(this.game, this, properties);
+        this.abilities.reactions.push(reaction);
     }
 
     // TODO: When revealed abilities shouldn't be a synonym for forced reactions

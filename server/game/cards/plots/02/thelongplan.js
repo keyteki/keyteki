@@ -1,20 +1,6 @@
 const PlotCard = require('../../../plotcard.js');
 
 class TheLongPlan extends PlotCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onBeforeTaxation']);
-    }
-
-    onBeforeTaxation(event, player) {
-        if(this.controller !== player) {
-            return;
-        }
-
-        event.cancel = true;
-    }
-
     setupCardAbilities() {
         this.reaction({
             when: {
@@ -23,6 +9,16 @@ class TheLongPlan extends PlotCard {
             handler: () => {
                 this.game.addMessage('{0} uses {1} to gain 1 gold from losing a challenge', this.controller, this);
                 this.game.addGold(this.controller, 1);
+            }
+        });
+        // TODO: This is a hack, really the ability should be a persistent effect.
+        this.forcedInterrupt({
+            when: {
+                onUnspentGoldReturned: (event, player) => player === this.controller
+            },
+            handler: context => {
+                context.skipHandler();
+                // Do nothing - just needed to prevent gold from being returned.
             }
         });
     }

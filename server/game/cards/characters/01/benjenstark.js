@@ -4,25 +4,15 @@ class BenjenStark extends DrawCard {
     setupCardAbilities() {
         this.interrupt({
             when: {
-                onCharacterKilled: (event, player, card) => {
-                    if(card !== this || player !== card.controller) {
-                        return false;
-                    }
-
-                    event.cancel = true;
-
-                    return true;
-                }
+                onCharacterKilled: (event, player, card) => card === this
             },
-            handler: () => {
+            handler: (context) => {
+                context.skipHandler();
                 this.game.addMessage('{0} uses {1} to gain 2 power for their faction and shuffles {1} back into their deck instead of placing it in their dead pile', this.controller, this);
 
                 this.game.addPower(this.controller, 2);
                 this.controller.moveCard(this, 'draw deck');
                 this.controller.shuffleDrawDeck();
-            },
-            onCancel: () => {
-                this.controller.moveCard(this, 'dead pile');
             }
         });
     }

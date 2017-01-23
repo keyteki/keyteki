@@ -3,7 +3,7 @@ const DrawCard = require('../../../drawcard.js');
 class Jhogo extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            condition: () => this.getNumberOfBloodriders >= 1,
+            condition: () => this.getNumberOfBloodriders() >= 1,
             match: this,
             effect: ability.effects.addKeyword('stealth')
         });

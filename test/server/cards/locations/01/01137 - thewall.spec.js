@@ -50,6 +50,8 @@ describe('TheWall', function() {
                 this.player.startPlotPhase();
                 this.player.phase = 'plot';
                 this.game.currentPhase = 'plot';
+                // Resolve events in pipeline.
+                this.game.continue();
                 expect(this.wall1.dupes.size()).toBe(1);
                 expect(this.player.cardsInPlay.size()).toBe(2);
                 expect(this.character.getStrength()).toBe(2);

@@ -1,47 +1,20 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class IronMines extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onKillingCharacter']);
-    }
-
-    onKillingCharacter(event, player, card, allowSave) {
-        if(!allowSave || player !== this.controller || this.isBlank()) {
-            return;
-        }
-
-        this.game.promptWithMenu(player, this, {
-            activePrompt: {
-                menuTitle: 'Use ' + this.name + ' to save ' + card.name + '?',
-                buttons: [
-                    { text: 'Yes', method: 'save' },
-                    { text: 'No', method: 'cancel' }
-                ]
+    setupCardAbilities() {
+        this.interrupt({
+            when: {
+                onCharacterKilled: (event, player, card, allowSave) => card.controller === this.controller && allowSave
             },
-            waitingPromptTitle: 'Waiting for opponent to use save effects'
+            canCancel: true,
+            title: context => 'Sacrifice ' + this.name + ' to save ' + context.event.params[2].name,
+            handler: (context) => {
+                context.cancel();
+                this.game.addMessage('{0} sacrifices {1} to save {2}', this.controller, this, context.event.params[2]);
+
+                this.controller.sacrificeCard(this);
+            }
         });
-
-        this.toKill = card;
-
-        event.cancel = true;
-    }
-
-    save(player) {
-        this.game.addMessage('{0} uses {1} to save {2}', player, this, this.toKill);
-
-        this.controller.sacrificeCard(this);
-
-        return true;
-    }
-
-    cancel(player) {
-        player.killCharacter(this.toKill, false);
-
-        this.game.addMessage('{0} declines to trigger {1}', player, this);
-
-        return true;
     }
 }
 

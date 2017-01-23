@@ -3,22 +3,20 @@ const _ = require('underscore');
 const DrawCard = require('../../../drawcard.js');
 
 class StannisBaratheon extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onBeforeCardsStand']);
-    }
-
-    onBeforeCardsStand(event) {
-        if(this.isBlank()) {
-            return;
-        }
-
-        event.cancel = true;
-        
-        this.selections = [];
-        this.remainingPlayers = this.game.getPlayersInFirstPlayerOrder();
-        this.proceedToNextStep();
+    setupCardAbilities() {
+        // TODO: This is a hack, as Stannis' ability is a persistent effect, not
+        //       an interrupt.
+        this.forcedInterrupt({
+            when: {
+                onStandAllCards: () => true
+            },
+            handler: context => {
+                context.skipHandler();
+                this.selections = [];
+                this.remainingPlayers = this.game.getPlayersInFirstPlayerOrder();
+                this.proceedToNextStep();
+            }
+        });
     }
 
     onSelect(player, cards) {

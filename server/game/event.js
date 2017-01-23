@@ -1,10 +1,17 @@
 class Event {
-    constructor() {
-        this.cancel = false;
+    constructor(name, params) {
+        this.name = name;
+        this.params = [this].concat(params);
+        this.cancelled = false;
+        this.shouldSkipHandler = false;
     }
 
-    preventDefault() {
-        this.cancel = true;
+    cancel() {
+        this.cancelled = true;
+    }
+
+    skipHandler() {
+        this.shouldSkipHandler = true;
     }
 }
 

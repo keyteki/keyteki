@@ -2,7 +2,6 @@ const _ = require('underscore');
 const EventEmitter = require('events');
 const uuid = require('node-uuid');
 
-const Event = require('./event.js');
 const GameChat = require('./gamechat.js');
 const EffectEngine = require('./effectengine.js');
 const Effect = require('./effect.js');
@@ -19,6 +18,7 @@ const TaxationPhase = require('./gamesteps/taxationphase.js');
 const SimpleStep = require('./gamesteps/simplestep.js');
 const MenuPrompt = require('./gamesteps/menuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
+const EventWindow = require('./gamesteps/eventwindow.js');
 const GameRepository = require('../repositories/gameRepository.js');
 
 class Game extends EventEmitter {
@@ -807,11 +807,13 @@ class Game extends EventEmitter {
     }
 
     raiseEvent(eventName, ...params) {
-        var event = new Event();
+        var handler = () => true;
 
-        this.emit(eventName, event, ...params);
+        if(_.isFunction(_.last(params))) {
+            handler = params.pop();
+        }
 
-        return event;
+        this.queueStep(new EventWindow(this, eventName, params, handler));
     }
 
     takeControl(player, card) {

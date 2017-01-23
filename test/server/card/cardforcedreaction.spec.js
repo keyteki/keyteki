@@ -120,9 +120,9 @@ describe('CardForcedReaction', function () {
             this.reaction.registerEvents();
         });
 
-        it('should register all when event handler', function() {
-            expect(this.gameSpy.on).toHaveBeenCalledWith('onFoo', jasmine.any(Function));
-            expect(this.gameSpy.on).toHaveBeenCalledWith('onBar', jasmine.any(Function));
+        it('should register all when event handlers with the proper event type suffix', function() {
+            expect(this.gameSpy.on).toHaveBeenCalledWith('onFoo:forcedreaction', jasmine.any(Function));
+            expect(this.gameSpy.on).toHaveBeenCalledWith('onBar:forcedreaction', jasmine.any(Function));
         });
 
         it('should not reregister events already registered', function() {
@@ -145,11 +145,11 @@ describe('CardForcedReaction', function () {
 
         });
 
-        it('should unregister all previously registered when event handler', function() {
+        it('should unregister all previously registered when event handlers', function() {
             this.reaction.registerEvents();
             this.reaction.unregisterEvents();
-            expect(this.gameSpy.removeListener).toHaveBeenCalledWith('onFoo', jasmine.any(Function));
-            expect(this.gameSpy.removeListener).toHaveBeenCalledWith('onBar', jasmine.any(Function));
+            expect(this.gameSpy.removeListener).toHaveBeenCalledWith('onFoo:forcedreaction', jasmine.any(Function));
+            expect(this.gameSpy.removeListener).toHaveBeenCalledWith('onBar:forcedreaction', jasmine.any(Function));
         });
 
         it('should not remove listeners when they have not been registered', function() {
