@@ -775,7 +775,6 @@ class Game extends EventEmitter {
             return cards.concat(player.allCards.toArray());
         }, []));
 
-        this.raiseEvent('onDecksPrepared');
         this.pipeline.initialise([
             new SetupPhase(this),
             new SimpleStep(this, () => this.beginRound())

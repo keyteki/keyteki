@@ -9,12 +9,22 @@ class SetupPhase extends Phase {
     constructor(game) {
         super(game, 'setup');
         this.initialise([
+            new SimpleStep(game, () => this.prepareDecks()),
             new KeepOrMulliganPrompt(game),
             new SimpleStep(game, () => this.startGame()),
             new SetupCardsPrompt(game),
             new SimpleStep(game, () => this.setupDone()),
             new CheckAttachmentsPrompt(game)
         ]);
+    }
+
+    prepareDecks() {
+        this.game.raiseEvent('onDecksPrepared');
+        _.each(this.game.getPlayers(), player => {
+            if(player.agenda) {
+                player.agenda.play();
+            }
+        });
     }
 
     startGame() {

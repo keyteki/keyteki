@@ -6,23 +6,28 @@ class TheLordOfTheCrossing extends AgendaCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['onChallenge', 'afterChallenge']);
+        this.registerEvents(['afterChallenge']);
     }
 
-    onChallenge(e, challenge) {
-        var player = challenge.attackingPlayer;
-        if(this.controller !== player) {
-            return;
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            condition: () => this.game.currentChallenge && this.game.currentChallenge.attackingPlayer === this.controller,
+            match: card => this.game.currentChallenge.isAttacking(card),
+            effect: ability.effects.dynamicStrength(() => this.challengeBonus())
+        });
+    }
+
+    challengeBonus() {
+        var numChallenges = this.controller.getNumberOfChallengesInitiated();
+        if(numChallenges === 1) {
+            return -1;
         }
 
-        _.each(challenge.attackers, card => {
-            var numChallenges = player.getNumberOfChallengesInitiated();
-            if(numChallenges === 0) {
-                card.strengthModifier--;
-            } else if(numChallenges === 2) {
-                card.strengthModifier += 2;
-            }
-        });
+        if(numChallenges === 3) {
+            return 2;
+        }
+
+        return 0;
     }
 
     afterChallenge(e, challenge) {
@@ -35,14 +40,6 @@ class TheLordOfTheCrossing extends AgendaCard {
             this.game.addMessage('{0} gains 1 power from {1}', challenge.winner, this);
             this.game.addPower(challenge.winner, 1);
         }
-
-        _.each(challenge.attackers, card => {
-            if(currentChallenge === 1) {
-                card.strengthModifier++;
-            } else if(currentChallenge === 3) {
-                card.strengthModifier -= 2;
-            }
-        });
     }
 }
 
