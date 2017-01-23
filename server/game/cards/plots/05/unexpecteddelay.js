@@ -4,7 +4,7 @@ const PlotCard = require('../../../plotcard.js');
 
 class UnexpectedDelay extends PlotCard {
     setupCardAbilities() {
-        this.reaction({
+        this.forcedReaction({
             when: {
                 onPhaseStarted: (event, phase) => phase === 'challenge'
             },
@@ -25,14 +25,13 @@ class UnexpectedDelay extends PlotCard {
         this.selections.push({ player: player, card: card });
         this.game.addMessage('{0} has selected {1} for {2}', player, card, this);
         this.proceedToNextStep();
-        
+
         return true;
     }
 
     doReturn() {
         _.each(this.selections, selection => {
-            var player = selection.player;
-            player.returnCardToHand(selection.card);
+            selection.card.owner.returnCardToHand(selection.card);
         });
     }
 
@@ -42,7 +41,7 @@ class UnexpectedDelay extends PlotCard {
             this.game.promptForSelect(currentPlayer, {
                 activePromptTitle: 'Select a character to return',
                 waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-                cardCondition: card => card.controller === currentPlayer && card.getType() === 'character' && card.power === 0 && card.attachments.size() === 0,
+                cardCondition: card => card.getType() === 'character' && card.power === 0 && card.attachments.size() === 0,
                 onSelect: (player, cards) => this.onCardSelected(player, cards),
                 onCancel: (player) => this.cancelSelection(player)
             });
