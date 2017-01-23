@@ -790,6 +790,7 @@ class Game extends EventEmitter {
     }
 
     beginRound() {
+        this.raiseEvent('onBeginRound');
         this.queueStep(new PlotPhase(this));
         this.queueStep(new DrawPhase(this));
         this.queueStep(new MarshalingPhase(this));
@@ -798,8 +799,6 @@ class Game extends EventEmitter {
         this.queueStep(new StandingPhase(this));
         this.queueStep(new TaxationPhase(this));
         this.queueStep(new SimpleStep(this, () => this.beginRound()));
-
-        this.raiseEvent('onBeginRound');
     }
 
     queueStep(step) {
