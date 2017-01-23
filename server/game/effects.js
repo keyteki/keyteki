@@ -269,6 +269,18 @@ const Effects = {
             }
         };
     },
+    setChallengerLimit: function(value) {
+        return {
+            apply: function(player, context) {
+                context.setChallengerLimit = context.setChallengerLimit || {};
+                context.setChallengerLimit[player] = player.challengerLimit;
+                player.challengerLimit = value;
+            },
+            unapply: function(player, context) {
+                player.challengerLimit = context.setChallengerLimit[player];
+            }
+        };
+    },
     /**
      * Effects specifically for Old Wyk.
      */

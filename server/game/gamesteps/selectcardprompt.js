@@ -8,6 +8,8 @@ const UiPrompt = require('./uiprompt.js');
  * numCards           - an integer specifying the number of cards the player
  *                      must select. Set to 0 if there is no limit on the num
  *                      of cards that can be selected.
+ * multiSelect        - boolean that ensures that the selected cards are sent as
+ *                      an array, even if the numCards limit is 1.
  * additionalButtons  - array of additional buttons for the prompt.
  * activePromptTitle  - the title that should be used in the prompt for the
  *                      choosing player.
@@ -97,7 +99,7 @@ class SelectCardPrompt extends UiPrompt {
             return false;
         }
 
-        if(this.properties.numCards === 1 && this.selectedCards.length === 1) {
+        if(this.properties.numCards === 1 && this.selectedCards.length === 1 && !this.properties.multiSelect) {
             this.fireOnSelect();
         }
     }
@@ -127,7 +129,7 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     fireOnSelect() {
-        var cardParam = (this.properties.numCards === 1) ? this.selectedCards[0] : this.selectedCards;
+        var cardParam = (this.properties.numCards === 1 && !this.properties.multiSelect) ? this.selectedCards[0] : this.selectedCards;
         if(this.properties.onSelect(this.choosingPlayer, cardParam)) {
             this.complete();
         } else {

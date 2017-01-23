@@ -37,9 +37,14 @@ class ChallengeFlow extends BaseStep {
     }
 
     promptForAttackers() {
+        var title = 'Select challenge attackers';
+        if(this.challenge.attackingPlayer.challengerLimit !== 0) {
+            title += ' (limit ' + this.challenge.attackingPlayer.challengerLimit + ')'
+        }
         this.game.promptForSelect(this.challenge.attackingPlayer, {
             numCards: this.challenge.attackingPlayer.challengerLimit,
-            activePromptTitle: 'Select challenge attackers',
+            multiSelect: true,
+            activePromptTitle: title,
             waitingPromptTitle: 'Waiting for opponent to select attackers',
             cardCondition: card => this.allowAsAttacker(card),
             onSelect: (player, attackers) => this.chooseAttackers(player, attackers),
@@ -70,9 +75,15 @@ class ChallengeFlow extends BaseStep {
             return;
         }
 
+        var title = 'Select defenders';
+        if(this.challenge.defendingPlayer.challengerLimit !== 0) {
+            title += ' (limit ' + this.challenge.defendingPlayer.challengerLimit + ')'
+        }
+
         this.game.promptForSelect(this.challenge.defendingPlayer, {
             numCards: this.challenge.defendingPlayer.challengerLimit,
-            activePromptTitle: 'Select defenders',
+            multiSelect: true,
+            activePromptTitle: title,
             waitingPromptTitle: 'Waiting for opponent to defend',
             cardCondition: card => this.allowAsDefender(card),
             onSelect: (player, defenders) => this.chooseDefenders(defenders),
