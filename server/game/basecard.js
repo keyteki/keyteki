@@ -165,7 +165,7 @@ class BaseCard {
                 onPlotRevealed: (e, player) => player === this.controller
             }
         };
-        this.forcedReaction(_.extend(whenClause, properties));
+        this.forcedInterrupt(_.extend(whenClause, properties));
     }
 
     /**
