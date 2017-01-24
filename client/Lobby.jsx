@@ -83,9 +83,9 @@ class InnerLobby extends React.Component {
                 A breaking change has been deployed to the server which requires you to have an up to date version of the client.  Please <a href='http://clearyourcache.com' target='blank'>Clear your cache</a> before trying to play.  If you have issues with disconnects this is likely the cause.
                 </div>
                 <div className='alert alert-info'>
+                    <div><span className='icon-military' />2017-01-24: Fix issues with most agendas, also fix Varys's riddle.</div>
                     <div><span className='icon-power' />2017-01-21-2: New card: Sansa Stark(Core), Summer, Vanguard of the North, Handmaiden, Left, Maester Lomys, Right, Queen of Thorns, Blood of My Blood, Olenna's Cunning, Pyat Pree.  Most of the core set characters are now implemented.  Fixed an issue causing games to stick around when people disconnected.</div>                    
                     <div><span className='icon-intrigue' />2017-01-21: New cards: Jon Snow(Core), Old Bear Mormont, Verteran Builder, Eddard Stark (Core), Grey Wind.  Fix Fealty in the deck builder.  Attempt to fix the reconnection issues some of you have been having.  This is an issue with the library we use for server communication but was made worse by how we were using it.  Hopefully this will make it better.</div>
-                    <div><span className='icon-military' />2017-01-19: New cards: King's Hunting Party, Vanguard Lancer, Aeron Damphair, Balon Greyjoy, The Kraken's Grasp, Cersei Lannister (Core), Joffrey Baratheon (Core), Doran Martell, The Red Viper, Dornish Paramour, Palace Spearman, The Queen's Assassin, Snowed Under, Rains of Autumn.   Duplicates are no longer considered in play for card effects.  Fixed timing of plot revealed events.  Fixed Jory Cassel triggering for non unique non starks.</div>
                 </div> 
                 <div className='row'>
                     <span className='col-sm-9 text-center'><h1>Play A Game Of Thrones 2nd Edition</h1></span>
