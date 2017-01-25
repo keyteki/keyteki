@@ -27,10 +27,10 @@ class PlotPhase extends Phase {
     }
 
     flipPlotsFaceup() {
-        this.game.raiseEvent('onPlotFlip');
-
-        _.each(this.game.getPlayers(), player => {
-            player.flipPlotFaceup();
+        this.game.raiseEvent('onPlotFlip', () => {
+            _.each(this.game.getPlayers(), player => {
+                player.flipPlotFaceup();
+            });
         });
     }
 

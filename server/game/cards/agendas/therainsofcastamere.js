@@ -6,7 +6,33 @@ class TheRainsOfCastamere extends AgendaCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.registerEvents(['onDecksPrepared', 'onPlotFlip', 'afterChallenge']);
+        // TODO: This is a hack - should not be considered an interrupt but
+        //       should fire approx at that timeframe.
+        this['onPlotFlip:forcedinterrupt'] = () => this.onPlotFlip();
+
+        this.registerEvents(['onDecksPrepared', 'onPlotFlip:forcedinterrupt']);
+    }
+
+    setupCardAbilities() {
+        this.reaction({
+            when: {
+                afterChallenge: (event, challenge) => (
+                    !this.owner.faction.kneeled &&
+                    challenge.challengeType === 'intrigue' &&
+                    challenge.winner === this.owner &&
+                    challenge.strengthDifference >= 5
+                )
+            },
+            handler: () => {
+                this.game.promptWithMenu(this.owner, this, {
+                    activePrompt: {
+                        menuTitle: 'Trigger Scheme plot?',
+                        buttons: this.menuButtons()
+                    },
+                    waitingPromptTitle: 'Waiting for opponent to use' + this.name
+                });
+            }
+        });
     }
 
     onDecksPrepared() {
@@ -28,24 +54,6 @@ class TheRainsOfCastamere extends AgendaCard {
 
         this.owner.removeActivePlot();
         previousPlot.moveTo('out of game');
-    }
-
-    afterChallenge(event, challenge) {
-        if(challenge.challengeType !== 'intrigue' || challenge.winner !== this.owner || challenge.strengthDifference < 5) {
-            return;
-        }
-
-        if(this.owner.faction.kneeled) {
-            return;
-        }
-
-        this.game.promptWithMenu(this.owner, this, {
-            activePrompt: {
-                menuTitle: 'Trigger Scheme plot?',
-                buttons: this.menuButtons()
-            },
-            waitingPromptTitle: 'Waiting for opponent to use' + this.name
-        });
     }
 
     menuButtons() {

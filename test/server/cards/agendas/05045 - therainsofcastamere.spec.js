@@ -100,59 +100,56 @@ describe('The Rains of Castamere', function() {
         beforeEach(function() {
             this.event = {};
             this.challenge = { challengeType: 'intrigue', winner: this.player, strengthDifference: 5 };
+            this.reaction = this.agenda.abilities.reactions[0];
         });
 
         describe('when the challenge type is not intrigue', function() {
             beforeEach(function() {
                 this.challenge.challengeType = 'power';
-
-                this.agenda.afterChallenge(this.event, this.challenge);
             });
 
-            it('should not prompt the player', function() {
-                expect(this.gameSpy.promptWithMenu).not.toHaveBeenCalled();
+            it('should not trigger', function() {
+                expect(this.reaction.when.afterChallenge(this.event, this.challenge)).toBe(false);
             });
         });
 
         describe('when the challenge winner is not the Castamere player', function() {
             beforeEach(function() {
                 this.challenge.winner = {};
-
-                this.agenda.afterChallenge(this.event, this.challenge);
             });
 
-            it('should not prompt the player', function() {
-                expect(this.gameSpy.promptWithMenu).not.toHaveBeenCalled();
+            it('should not trigger', function() {
+                expect(this.reaction.when.afterChallenge(this.event, this.challenge)).toBe(false);
             });
         });
 
         describe('when the strength difference is less than 5', function() {
             beforeEach(function() {
                 this.challenge.strengthDifference = 4;
-
-                this.agenda.afterChallenge(this.event, this.challenge);
             });
 
-            it('should not prompt the player', function() {
-                expect(this.gameSpy.promptWithMenu).not.toHaveBeenCalled();
+            it('should not trigger', function() {
+                expect(this.reaction.when.afterChallenge(this.event, this.challenge)).toBe(false);
             });
         });
 
         describe('when the player faction card is already knelt', function() {
             beforeEach(function() {
                 this.player.faction.kneeled = true;
-
-                this.agenda.afterChallenge(this.event, this.challenge);
             });
 
-            it('should not prompt the player', function() {
-                expect(this.gameSpy.promptWithMenu).not.toHaveBeenCalled();
+            it('should not trigger', function() {
+                expect(this.reaction.when.afterChallenge(this.event, this.challenge)).toBe(false);
             });
         });
 
         describe('when all triggering criteria are met', function() {
+            it('should trigger', function() {
+                expect(this.reaction.when.afterChallenge(this.event, this.challenge)).toBe(true);
+            });
+
             it('should prompt the player', function() {
-                this.agenda.afterChallenge(this.event, this.challenge);
+                this.reaction.executeReaction();
                 expect(this.gameSpy.promptWithMenu).toHaveBeenCalled();
             });
         });
