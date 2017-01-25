@@ -196,6 +196,8 @@ function refreshGameList(socket) {
         gameSummaries.push(game.getSummary());
     });
 
+    gameSummaries = _.sortBy(gameSummaries, 'createdAt').reverse();
+
     if(socket) {
         socket.emit('games', gameSummaries);
     } else {

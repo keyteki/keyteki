@@ -38,6 +38,7 @@ class Game extends EventEmitter {
         this.owner = owner;
         this.started = false;
         this.playStarted = false;
+        this.createdAt = new Date();
 
         this.setMaxListeners(0);
 
@@ -931,6 +932,7 @@ class Game extends EventEmitter {
 
         return {
             allowSpectators: this.allowSpectators,
+            createdAt: this.createdAt,
             id: this.id,
             messages: this.gameChat.messages,
             name: this.name,
