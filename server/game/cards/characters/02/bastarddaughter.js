@@ -2,7 +2,7 @@ const DrawCard = require('../../../drawcard.js');
 
 class BastardDaughter extends DrawCard {
     setupCardAbilities() {
-        this.reaction({
+        this.interrupt({
             when: {
                 onCharacterKilled: (event, player, card) => (
                     this.controller === card.controller &&
