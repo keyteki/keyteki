@@ -310,7 +310,197 @@ this.action({
 
 ### Triggered abilities
 
-TODO
+Triggered abilities include all card abilities that have **Interrupt**, **Forced Interrupt**, **Reaction**, **Forced Reaction**, or **When Revealed**. For full documentation of properties, see `/server/game/promptedtriggeredability.js` and `/server/game/forcedtriggeredability.js`. Here are some common scenarios:
+
+#### Defining the triggering condition
+
+Each triggered ability has an associated triggering condition. This is done using the `when` property. This should be an object whose sub-property is the name of the event, and whose value is a function with the parameters of that event. When the function returns `true`, the ability will be executed.
+
+```javascript
+this.interrupt({
+    when: {
+	    // when the challenges phase ends and the card is not kneeled
+        onPhaseEnded: (e, phase) => phase === 'challenge' && !this.kneeled
+    },
+    handler: () => {
+        // handler code.
+    }
+});
+```
+
+In rare cases, there may be multiple triggering conditions for the same ability. For example, WotN Catelyn Stark gains power whenever a character is killed OR sacrificed. In these cases, just defined an additional event on the `when` object.
+
+```javascript
+this.reaction({
+    when: {
+        onSacrificed: (event, player, card) => this.starkCharacterSacrificedOrKilled(event, player, card),
+        onCharacterKilled: (event, player, card) => this.starkCharacterSacrificedOrKilled(event, player, card)
+    },
+    handler: () => {
+        // gain power
+    }
+});
+```
+
+#### Forced reactions and interrupts
+
+Forced reactions and interrupts do not provide the player with a choice - unless cancelled, the provided `handler` method will always be executed.
+
+To declare a forced reaction, use the `forcedReaction` method:
+
+```javascript
+// After you lose an unopposed challenge, kneel The Wall.
+this.forcedReaction({
+    when: {
+        // lost an unopposed challenge
+    },
+    handler: () => {
+        // kneel the Wall.
+    }
+});
+```
+
+To declare a forced interrupt, use the `forcedInterrupt` method.
+
+```javascript
+// When a phase ends in which Gold Cloaks entered play using ambush, discard it from play (cannot be saved)
+this.forcedInterrupt({
+    when: {
+        // the card entered play via ambush
+    },
+    handler: () => {
+        // discard the card
+    }
+});
+```
+
+#### Cancelling or replacing events with interrupts
+
+Some cards (primarily saving cards) allow the player to cancel an effect. The `handler` method is always passed a `context` object that allows the handler to cancel the event. Such abilities must also be passed `canCancel: true` in the declaration.
+
+```javascript
+this.interrupt({
+    when: {
+        // attached character would be killed + allowed to save
+    },
+    canCancel: true,
+    handler: (context) => {
+        context.cancel();
+        // sacrifice the Bodyguard
+    }
+});
+```
+
+In other cases, abilities contain the word 'instead' to indicate that the event will not be cancelled, but the normal effect will be replaced. In these case, `context.skipHandler()` can be called to replace the effect.
+
+```javascript
+this.interrupt({
+    when: {
+        // claim is applied and Mirri is attacking alone
+    },
+    handler: context => {
+        context.skipHandler();
+        // prompt the player to select a character to kill
+    }
+});
+```
+
+#### Yes / no reactions and interrupts
+
+Most reactions and interrupt are a yes / no choice on whether the player wants to activate the ability or not. For these, it's only necessary to provide a `when` event listener and the `handler` method, similar to forced reactions and interrupts.
+
+To declare a reaction, use the `reaction` method.
+
+```javascript
+this.reaction({
+    when: {
+        // triggering event condition
+    }
+    handler: () => {
+        // code to implement the ability
+    }
+});
+```
+
+To declare an interrupt, use the `interrupt` method.
+
+```javascript
+this.interrupt({
+    when: {
+        // triggering event condition
+    }
+    handler: () => {
+        // code to implement the ability
+    }
+});
+```
+
+#### Multiple choice reactions and interrupts
+
+A few cards provide reactions or interrupts that have more than a yes or no choice. For example, the Great Kraken can be used to draw a card, gain power, or declined. In these cases, instead of sending a `handler` method, a `choices` object may be provided. Each property under the `choices` object will be used as the prompt button text, while the value will be the function to be executed if the player chooses that option. The option to decline / cancel the ability is provided automatically and does not need to be added to the `choices` object.
+
+```javascript
+this.reaction({
+    when: {
+        // unopposed win
+    },
+    choices: {
+        'Draw 1 card': () => {
+            // code to draw a card
+        },
+        'Gain 1 power': () => {
+            // code to gain 1 power
+        }
+    }
+});
+```
+
+#### Changing the title of the reaction / interrupt prompt
+
+By default, the prompt title players will see for all triggered abilities come in the form of 'Trigger [card name]?'. In certain scenarios -- mainly saves -- you may want to override that title. This can be done by passing a `title` method which will take the ability `context` object (allowing access to the event and its parameters) and which should return the string to be used as the prompt title.
+
+```javascript
+this.interrupt({
+    when: {
+        // a character is killed
+    },
+    canCancel: true,
+    title: context => 'Sacrifice ' + this.name + ' to save ' + context.event.params[2].name,
+    handler: (context) => {
+        context.cancel();
+        // sacrifice the Iron Mines
+    }
+});
+```
+
+#### Limiting the number of uses
+
+Some abilities have text limiting the number of times they may be used in a given period. You can pass an optional `limit` property using one of the duration-specific ability limiters.
+
+```javascript
+this.reaction({
+    when: {
+        // the attached character gains power
+    },
+    // limit once per phase
+    limit: ability.limit.perPhase(1),
+    handler: () => {
+        // stand the attached character
+    }
+});
+```
+
+#### When revealed abilities
+
+When implementing plot cards that have a **When Revealed** ability, use the `whenRevealed` method. It will automatically listen to the correct event for you and all that must be provided is a `handler` method.
+
+```javascript
+this.whenRevealed({
+    handler: () => {
+        // code to implement the ability
+    }
+});
+```
 
 ### Ability limits
 
