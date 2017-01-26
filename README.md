@@ -18,6 +18,8 @@ Sure!  The code is written in node.js(server) and react.js(client).  Feel free t
 
 If you are going to contribute code, try and follow the style of the existing code as much as possible and talk to me before engaging in any big refactors.  Also bear in mind there is an .eslintrc file in the project so try to follow those rules.
 
+[Documentation for implementing cards](https://github.com/cryogen/throneteki/blob/master/docs/implementing-cards.md)
+
 The biggest help at the moment would be in terms of CSS, as that's a bit of a weakness of mine, feel free to pick up any of the issues tagged 'CSS' in the issue list.
 
 If you're not coding inclined, then just playing games on the site, and reporting bugs and issues that you find is a big help
