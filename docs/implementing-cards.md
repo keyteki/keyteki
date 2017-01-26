@@ -47,6 +47,27 @@ class NobleLineage extends DrawCard {
 }
 ```
 
+### Keywords
+
+Keywords are automatically parsed from the card text. It isn't necessary to explicitly implement them unless they are provided by a conditional persistent effect (e.g. Ser Jaime Lannister's military-only renown).
+
+### Plot modifiers
+
+Cards with plot modifier icons need to be declared when setting up the card using the `plotModifiers` method. The method takes an object that can have three properties: `gold` to modify the plot's gold value, `initiative` to modify the plot's initiative value, and `reserve` to modify the plot's reserve value. While most cards only provide a single modifier, it's possible to declare multiple values when appropriate.
+
+```javascript
+// The Arbor provides +3 gold.
+this.plotModifiers({
+    gold: 3
+});
+
+// The God's Eye provides both +1 gold and +1 reserve
+this.plotModifiers({
+    reserve: 1,
+    gold: 1
+});
+```
+
 ### Persistent effects
 
 Many cards provide continuous bonuses to other cards you control or detrimental effects to opponents cards in certain situations. These can be defined using the `persistentEffect` method. Cards that enter play while the persistent effect is in play will automatically have the effect applied, and cards that leave play will have the effect removed. If the card providing the effect becomes blank, the effect is automatically removed from all previously applied cards.
@@ -139,6 +160,15 @@ this.whileAttached({
 });
 ```
 
+If the effect has an additional requirement, an optional `match` function can be passed in.
+```javascript
+// If attached character is Joffrey Baratheon, he gains a military icon.
+this.whileAttached({
+    match: card => card.name === 'Joffrey Baratheon',
+    effect: ability.effects.addIcon('military')
+});
+```
+
 #### Applying multiple effects at once
 As a shorthand, it is possible to pass an array into the `effect` property to apply multiple effects that have the same conditions / matching functions.
 
@@ -170,7 +200,7 @@ this.persistentEffect({
 
 ### Lasting effects
 
-Unlike persistent effects, lasting effects are typically applied during an action, reaction or interrupt and expire after a specified period of time.  The properties sent when applying these effects are identical to those of persistent effects, but additional methods are provided to apply them immediately with the correct duration.
+Unlike persistent effects, lasting effects are typically applied during an action, reaction or interrupt and expire after a specified period of time.  Because lasting effects can be applied almost anywhere, each method takes a factory function that provides the `ability` object and should return the effect properties. The properties returned when applying these effects are identical to those of persistent effects, but additional methods are provided to apply them immediately with the correct duration.
 
 **Important: These should not be used within setupCardAbilities, only within handler code for actions and triggered abilities.**
 
@@ -213,8 +243,83 @@ this.untilEndOfRound(ability => ({
 
 ### Actions
 
-TODO
+**Note:** Actions may be reworked in the future to separate out the action's cost from the action's effect. So this API may change slightly.
+
+Actions are abilities provided by the card text that players may trigger during action windows. They are declared using the `action` method. See `/server/game/cardaction.js` for full documentation. Here are some common scenarios:
+
+#### Declaring an action
+
+When declaring an action, use the `action` method and provide it with a `title` and a `method` property. The title is what will be displayed in the menu players see when clicking on the card. The method is a string that references a method on the card object to be called when the player chooses to trigger the action. The player executing the action is passed into the method.
+
+```javascript
+class SealOfTheHand extends DrawCard {
+    setupCardAbilities() {
+        this.action({
+            title: 'Stand attached character',
+            method: 'kneel'
+        });
+    }
+
+    kneel(player) {
+        // Code to stand the parent card.
+    }
+}
+```
+
+#### Cancelling an action due to cost
+
+Some actions have an additional cost or requirement, such as kneeling the card. In these cases, if the cost cannot be paid, returning false from the handler will cancel the action.
+
+```javascript
+// Handler method for Seal of the Hand
+kneel(player) {
+    // ensure the parent is kneeled and the Seal is standing.
+    if(!this.parent || !this.parent.kneeled || this.kneeled) {
+        return false;
+    }
+
+    // stand parent, kneel this.
+}
+```
+
+If an action is cancelled in this manner, it is not counted towards any 'limit X per challenge/phase/round' requirements.
+
+#### Limiting an action to a specific phase
+
+Some actions are limited to a specific phase by their card text (e.g. 'Challenges Action:'). You can pass an optional `phase` property to the action to limit it to just that phase. Valid phases include `'plot'`, `'draw'`, `'marshal'`, `'challenges'`, `'dominance'`, `'standing'` `'taxation'`. The default is `'any'` which allows the action to be triggered in any phase.
+
+```javascript
+this.action({
+    title: 'Kneel Grey Wind to kill a character',
+    method: 'kill',
+    phase: 'challenge'
+});
+```
+
+#### Limiting the number of uses
+
+Some actions have text limiting the number of times they may be used in a given period. You can pass an optional `limit` property using one of the duration-specific ability limiters.
+
+```javascript
+this.action({
+    title: 'Put a card with printed cost of 5 or lower in play',
+    method: 'putInPlay',
+    limit: ability.limit.perPhase(1)
+});
+```
 
 ### Triggered abilities
 
 TODO
+
+### Ability limits
+
+Actions, reactions, and interrupts can have limits on how many times they may be used within a certain period. These limits can be set by setting the `limit` property on the ability. The `ability` object has a limit helper with methods for the different periods.
+
+To limit an ability per challenge, use `ability.limit.perChallenge(x)`.
+
+To limit an ability per phase, use `ability.limit.perPhase(x)`.
+
+To limit an ability per challenge, use `ability.limit.perRound(x)`.
+
+In each case, `x` should be the number of times the ability is allowed to be used.
