@@ -282,7 +282,7 @@ io.on('connection', function(socket) {
                 if(!game.players[socket.request.user.username].left) {
                     socket.join(game.id);
 
-                    game.players[socket.request.user.disconnected = false];
+                    game.players[socket.request.user.username].disconnected = false;
                     game.reconnect(socket.id, socket.request.user.username);
 
                     sendGameState(game);
