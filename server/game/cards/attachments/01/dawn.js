@@ -7,7 +7,7 @@ class Dawn extends DrawCard {
         });
         this.whileAttached({
             match: card => card.hasTrait('House Dayne'),
-            effect: ability.effects.addKeyword('Renown')
+            effect: ability.effects.addKeyword('Intimidate')
         });
     }
 }
