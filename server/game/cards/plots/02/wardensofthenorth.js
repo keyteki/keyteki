@@ -1,13 +1,12 @@
 const PlotCard = require('../../../plotcard.js');
-const AbilityLimit = require('../../../abilitylimit.js');
 
 class WardensOfTheNorth extends PlotCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Kneel a character to have it participate in the current challenge',
             method: 'onClick',
             phase: 'challenge',
-            limit: AbilityLimit.perRound(2)
+            limit: ability.limit.perRound(2)
         });
     }
 

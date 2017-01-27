@@ -1,12 +1,11 @@
 const DrawCard = require('../../../drawcard.js');
-const AbilityLimit = require('../../../abilitylimit.js');
 
 class MagisterIllyrio extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Pay 2 gold to stand a character',
             method: 'stand',
-            limit: AbilityLimit.perPhase(1)
+            limit: ability.limit.perPhase(1)
         });
     }
 

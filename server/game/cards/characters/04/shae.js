@@ -1,13 +1,12 @@
 const DrawCard = require('../../../drawcard.js');
-const AbilityLimit = require('../../../abilitylimit.js');
 
 class Shae extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Pay 1 gold to stand Shae',
             method: 'stand',
             phase: 'challenge',
-            limit: AbilityLimit.perPhase(2)
+            limit: ability.limit.perPhase(2)
         });
     }
 

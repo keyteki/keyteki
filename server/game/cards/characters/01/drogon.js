@@ -1,10 +1,10 @@
 const DrawCard = require('../../../drawcard.js');
 
 class Drogon extends DrawCard {
-    setupCardAbilities(dsl) {
+    setupCardAbilities(ability) {
         this.persistentEffect({
             match: (card) => card.hasTrait('Stormborn'),
-            effect: dsl.effects.addKeyword('Renown')
+            effect: ability.effects.addKeyword('Renown')
         });
     }
 }

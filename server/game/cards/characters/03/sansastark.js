@@ -1,15 +1,15 @@
 const DrawCard = require('../../../drawcard.js');
 
 class SansaStark extends DrawCard {
-    setupCardAbilities(dsl) {
+    setupCardAbilities(ability) {
         this.persistentEffect({
             match: card => card === this,
-            effect: dsl.effects.dynamicStrength(() => this.calculateStrength())
+            effect: ability.effects.dynamicStrength(() => this.calculateStrength())
         });
         this.persistentEffect({
             condition: () => this.getStrength() === 0,
             match: card => card === this,
-            effect: dsl.effects.addKeyword('Insight')
+            effect: ability.effects.addKeyword('Insight')
         });
     }
 

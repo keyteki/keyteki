@@ -1,12 +1,11 @@
 const DrawCard = require('../../../drawcard.js');
-const AbilityLimit = require('../../../abilitylimit.js');
 
 class ArborKnight extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Pay 1 gold to give a character +1 STR',
             method: 'payGold',
-            limit: AbilityLimit.perPhase(3)
+            limit: ability.limit.perPhase(3)
         });
     }
 

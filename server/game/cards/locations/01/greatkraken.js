@@ -1,5 +1,4 @@
 const DrawCard = require('../../../drawcard.js');
-const AbilityLimit = require('../../../abilitylimit.js');
 
 class GreatKraken extends DrawCard {
     constructor(owner, cardData) {
@@ -8,12 +7,12 @@ class GreatKraken extends DrawCard {
         this.registerEvents(['onCardPlayed']);
     }
 
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             when: {
                 onUnopposedWin: (event, challenge) => this.controller === challenge.winner
             },
-            limit: AbilityLimit.perRound(2),
+            limit: ability.limit.perRound(2),
             choices: {
                 'Draw 1 card': () => {
                     this.controller.drawCardsToHand(1);

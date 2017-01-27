@@ -1,13 +1,12 @@
 const DrawCard = require('../../../drawcard.js');
-const AbilityLimit = require('../../../abilitylimit.js');
 
 class ThrowingAxe extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             when: {
                 afterChallenge: (event, challenge) => challenge.winner === this.controller && challenge.isAttacking(this.parent)
             },
-            limit: AbilityLimit.perPhase(1),
+            limit: ability.limit.perPhase(1),
             handler: () => {
                 this.game.promptForSelect(this.controller, {
                     activePromptTitle: 'Select a character to kill',

@@ -1,7 +1,7 @@
 const DrawCard = require('../../../drawcard.js');
 
 class TheWall extends DrawCard {
-    setupCardAbilities(dsl) {
+    setupCardAbilities(ability) {
         this.forcedReaction({
             when: {
                 onUnopposedWin: (e, challenge) => this.controller !== challenge.winner && !this.kneeled
@@ -23,7 +23,7 @@ class TheWall extends DrawCard {
         });
         this.persistentEffect({
             match: (card) => this.getFaction() === card.getFaction() && card.getType() === 'character',
-            effect: dsl.effects.modifyStrength(1)
+            effect: ability.effects.modifyStrength(1)
         });
     }
 }

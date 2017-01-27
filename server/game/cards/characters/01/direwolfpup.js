@@ -1,10 +1,10 @@
 const DrawCard = require('../../../drawcard.js');
 
 class DirewolfPup extends DrawCard {
-    setupCardAbilities(dsl) {
+    setupCardAbilities(ability) {
         this.persistentEffect({
             match: card => card === this,
-            effect: dsl.effects.dynamicStrength(() => this.calculateStrength())
+            effect: ability.effects.dynamicStrength(() => this.calculateStrength())
         });
     }
 

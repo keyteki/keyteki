@@ -1,12 +1,11 @@
 const DrawCard = require('../../../drawcard.js');
-const AbilityLimit = require('../../../abilitylimit.js');
 
 class JonSnow extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Sacrifice character',
             method: 'sacrifice',
-            limit: AbilityLimit.perRound(1)
+            limit: ability.limit.perRound(1)
         });
     }
 
