@@ -7,7 +7,7 @@ class AClashOfKings extends PlotCard {
                 afterChallenge: (e, challenge) => (
                     challenge.winner === this.controller &&
                     challenge.challengeType === 'power' &&
-                    challenge.loser.power > 0
+                    challenge.loser.faction.power > 0
                 )
             },
             handler: () => {
