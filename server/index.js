@@ -31,8 +31,9 @@ const port = isDeveloping ? 4000 : process.env.PORT;
 const Game = require('./game/game.js');
 const Player = require('./game/player.js');
 const Spectator = require('./game/spectator.js');
-const escapeRegex = require('./util.js').escapeRegex;
+const UserRepository = require('./repositories/userRepository.js');
 
+var userRepository = new UserRepository();
 var ravenClient = new raven.Client(!isDeveloping && config.sentryDsn);
 if(!isDeveloping) {
     ravenClient.patchGlobal();
@@ -55,12 +56,7 @@ app.use(passport.session());
 
 passport.use(new localStrategy(
     function(username, password, done) {
-        db.collection('users').findOne({ username: { '$regex': new RegExp('^' + escapeRegex(username.toLowerCase()), 'i')}},
-        function(err, user) {
-            if(err) {
-                return done(err);
-            }
-
+        userRepository.getUserByUsername(username).then(user => {
             if(!user) {
                 return done(null, false, { message: 'Invalid username/password' });
             }
@@ -75,7 +71,11 @@ passport.use(new localStrategy(
                 }
 
                 return done(null, { username: user.username, email: user.email, emailHash: user.emailHash, _id: user._id });
-            });
+            });            
+        }).catch(err => {
+            logger.info(err.message);
+
+            return done(err);
         });
     }
 ));
