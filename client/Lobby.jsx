@@ -79,9 +79,6 @@ class InnerLobby extends React.Component {
 
         return (
             <div>
-                <div className='alert alert-danger'>
-                A breaking change has been deployed to the server which requires you to have an up to date version of the client.  Please <a href='http://clearyourcache.com' target='blank'>Clear your cache</a> before trying to play.  If you have issues with disconnects this is likely the cause.
-                </div>
                 <div className='alert alert-info'>
                     <div><span className='icon-power' />2017-01-29: New cards: Mother of Dragons, Xaro Xhoan Daxos, Ser Hobber Redwyne, Aggo.  Fix A Clash of Kings.  Add a password reset facility</div>                    
                     <div><span className='icon-intrigue' />2017-01-26: New card: Devoted Bloodrider.  Fix Rains of Castamere and Bastard Daughter.  Order the games list so that newer games are at the top</div>
