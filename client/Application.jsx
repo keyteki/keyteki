@@ -15,6 +15,8 @@ import NavBar from './NavBar.jsx';
 import GameLobby from './GameLobby.jsx';
 import GameBoard from './GameBoard.jsx';
 import About from './About.jsx';
+import ForgotPassword from './ForgotPassword.jsx';
+import ResetPassword from './ResetPassword.jsx';
 
 import * as actions from './actions';
 
@@ -41,6 +43,7 @@ var decks = <Decks />;
 var gameBoard = <GameBoard />;
 var gameLobby = <GameLobby />;
 var about = <About />;
+var forgot = <ForgotPassword />;
 
 class App extends React.Component {
     componentWillMount() {
@@ -98,17 +101,33 @@ class App extends React.Component {
         this.props.receiveLobbyMessage({});
     }
 
+    getUrlParameter(name) {
+        name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
     render() {
         var rightMenu = this.props.loggedIn ? authedMenu : notAuthedMenu;
         var component = {};
 
         var path = this.props.path;
         var pathArg = undefined;
+        var idArg = undefined;
+        var tokenArg = undefined;
         var index = path.indexOf('/decks/edit');
 
         if(index !== -1) {
             path = path.substr(index, 11);
             pathArg = this.props.path.substr(11 + 1);
+        }
+
+        index = path.indexOf('/reset-password');
+        if(index !== -1) {
+            path = path.substr(index, 15);
+            idArg = this.getUrlParameter('id');
+            tokenArg = this.getUrlParameter('token');
         }
 
         switch(path) {
@@ -138,6 +157,12 @@ class App extends React.Component {
                 break;
             case '/about':
                 component = about;
+                break;
+            case '/forgot':
+                component = forgot;
+                break;
+            case '/reset-password':
+                component = <ResetPassword id={ idArg } token={ tokenArg } />;
                 break;
             default:
                 component = <NotFound />;

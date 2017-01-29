@@ -1,13 +1,13 @@
+/*global grecaptcha */
+
 import React from 'react';
 import _ from 'underscore';
 import $ from 'jquery';
 import {connect} from 'react-redux';
 
-import Link from './Link.jsx';
-
 import * as actions from './actions';
 
-class InnerLogin extends React.Component {
+class InnerForgotPassword extends React.Component {
     constructor() {
         super();
 
@@ -20,8 +20,7 @@ class InnerLogin extends React.Component {
 
         this.onChange = this.onChange.bind(this);
         this.verifyUsername = this.verifyUsername.bind(this);
-        this.verifyPassword = this.verifyPassword.bind(this);
-        this.onLogin = this.onLogin.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     onChange(field, event) {
@@ -43,53 +42,42 @@ class InnerLogin extends React.Component {
         this.setState({ validation: validation });
     }
 
-    verifyPassword() {
-        var validation = this.state.validation;
-
-        delete validation['password'];
-
-        if(!this.state.password || this.state.password === '') {
-            validation['password'] = 'Please enter your password';
-        }
-
-        this.setState({ validation: validation });
-    }
-
-    onLogin(event) {
+    onSubmit(event) {
         event.preventDefault();
+
+        var response = grecaptcha.getResponse();
 
         this.setState({ error: '' });
 
-        this.verifyPassword();
         this.verifyUsername();
 
         if(_.any(this.state.validation, function(message) {
             return message && message !== '';
         })) {
-            this.setState({ error: 'Please complete both fields and try again' });
+            this.setState({ error: 'Please complete the fields and try again' });
             return;
         }
 
+        this.setState({ submitting: true });
+
         $.ajax({
-            url: '/api/account/login',
+            url: '/api/account/password-reset',
             type: 'POST',
-            data: JSON.stringify({ username: this.state.username, password: this.state.password }),
+            data: JSON.stringify({ username: this.state.username, captcha: response }),
             contentType: 'application/json'
         }).done((data) => {
+            this.setState({ submitting: false });
+
             if(!data.success) {
                 this.setState({ error: data.message });
                 return;
             }
 
-            this.props.login(data.user.username, data.token);
-            this.props.socket.emit('authenticate', data.token);
-            this.props.navigate('/');
-        }).fail((xhr) => {
-            if(xhr.status === 401) {
-                this.setState({ error: 'Invalid Username/password' });
-            } else {
-                this.setState({ error: 'Could not communicate with the server.  Please try again later.' });
-            }
+            this.setState({ success: 'Your request was submitted, if you have an account, an email will have been sent to the address you used to register with more instructions' });
+        }).fail(() => {
+            this.setState({ submitting: false });
+
+            this.setState({ error: 'Could not communicate with the server.  Please try again later.' });
         });
     }
 
@@ -101,18 +89,12 @@ class InnerLogin extends React.Component {
                 placeholder: 'Username',
                 inputType: 'text',
                 blurCallback: this.verifyUsername
-            },
-            {
-                name: 'password',
-                label: 'Password',
-                placeholder: 'Password',
-                inputType: 'password',
-                blurCallback: this.verifyPassword
             }
         ];
 
         var fieldsToRender = [];
         var errorBar = this.state.error ? <div className='alert alert-danger' role='alert'>{ this.state.error }</div> : null;
+        var successBar = this.state.success ? <div className='alert alert-success' role='alert'>{ this.state.success }</div> : null;
 
         _.each(fields, (field) => {
             var className = 'form-group';
@@ -140,28 +122,36 @@ class InnerLogin extends React.Component {
                 </div>);
         });
 
+        if(this.state.success) {
+            return <div>{ successBar }</div>;
+        }
+
         return (
             <div>
                 { errorBar }
+                <div className='alert alert-info'>
+                To start the password recovery process, please enter your username and click the submit button.
+                </div>
                 <form className='form form-horizontal'>
                     { fieldsToRender }
                     <div className='form-group'>
-                        <div className='col-sm-offset-2 col-sm-3'>
-                            <Link href='/forgot' >Forgot your password?</Link>
+                        <div className='g-recaptcha col-sm-offset-2 col-sm-3' data-sitekey='6LfELhMUAAAAAKbD2kLd6OtbsBbrZJFs7grwOREZ' data-theme='dark'/>
+                    </div>
+                        <div className='form-group'>
+                            <div className='col-sm-offset-2 col-sm-3'>
+                    {this.state.submitting ? <button type='submit' className='btn btn-primary' disabled>Submitting...</button> :
+                                <button ref='submit' type='submit' className='btn btn-primary' onClick={ this.onSubmit }>Submit</button>
+                    }
                         </div>
                     </div>
-                    <div className='form-group'>
-                        <div className='col-sm-offset-2 col-sm-3'>
-                            <button ref='submit' type='submit' className='btn btn-primary' onClick={ this.onLogin }>Login</button>
-                        </div>
-                    </div>
+
                 </form>
             </div>);
     }
 }
 
-InnerLogin.displayName = 'Login';
-InnerLogin.propTypes = {
+InnerForgotPassword.displayName = 'ForgotPassword';
+InnerForgotPassword.propTypes = {
     login: React.PropTypes.func,
     navigate: React.PropTypes.func,
     socket: React.PropTypes.object
@@ -173,6 +163,6 @@ function mapStateToProps(state) {
     };
 }
 
-const Login = connect(mapStateToProps, actions)(InnerLogin);
+const ForgotPassword = connect(mapStateToProps, actions)(InnerForgotPassword);
 
-export default Login;
+export default ForgotPassword;

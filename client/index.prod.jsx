@@ -11,7 +11,7 @@ Raven.config('https://f5286cd580bf46898e7180c7a46de2f6@sentry.io/123019', { rele
 
 const store = configureStore();
 
-store.dispatch(navigate(window.location.pathname));
+store.dispatch(navigate(window.location.pathname, window.location.search));
 
 if(typeof user !== 'undefined') {
     store.dispatch(login(user.username, authToken));

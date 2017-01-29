@@ -1,71 +1,25 @@
 import React from 'react';
-import $ from 'jquery';
 import _ from 'underscore';
+import $ from 'jquery';
+
 import {connect} from 'react-redux';
 
 import * as actions from './actions';
 
-export class InnerRegister extends React.Component {
+class InnerResetPassword extends React.Component {
     constructor() {
         super();
 
-        this.onRegister = this.onRegister.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.verifyUsername = this.verifyUsername.bind(this);
-        this.verifyEmail = this.verifyEmail.bind(this);
-        this.verifyPassword = this.verifyPassword.bind(this);
-
         this.state = {
-            username: '',
-            email: '',
             password: '',
             password1: '',
             validation: {}
         };
+
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
-    verifyUsername(event, isSubmitting) {
-        var validation = this.state.validation;
-
-        delete validation['username'];
-
-        if(this.state.username.length < 3 || this.state.username.length > 15) {
-            validation['username'] = 'Username must be between 3 and 15 characters long';
-        }
-
-        if(!/^[A-Z0-9_-]+$/i.test(this.state.username)) {
-            validation['username'] = 'Usernames must only use the characters a-z, 0-9, _ and -';
-        }
-
-        if(isSubmitting) {
-            this.setState({ validation: validation });
-            return;
-        }
-
-        $.post('/api/account/check-username', { username: this.state.username })
-            .done((data) => {
-                if(data.message) {
-                    validation['username'] = data.message;
-                }
-            })
-            .always(() => {
-                this.setState({ validation: validation });
-            });
-    }
-
-    verifyEmail() {
-        var validation = this.state.validation;
-
-        delete validation['email'];
-
-        if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(this.state.email)) {
-            validation['email'] = 'Please enter a valid email address';
-        }
-
-        this.setState({ validation: validation });
-    }
-
-    verifyPassword(event, isSubmitting) {
+    verifyPassword(isSubmitting) {
         var validation = this.state.validation;
 
         delete validation['password'];
@@ -92,14 +46,12 @@ export class InnerRegister extends React.Component {
         this.setState(newState);
     }
 
-    onRegister(event) {
+    onSubmit(event) {
         event.preventDefault();
 
         this.setState({ error: '' });
 
-        this.verifyEmail();
-        this.verifyPassword({}, true);
-        this.verifyUsername({}, true);
+        this.verifyPassword(true);
 
         if(_.any(this.state.validation, function(message) {
             return message && message !== '';
@@ -109,9 +61,9 @@ export class InnerRegister extends React.Component {
         }
 
         $.ajax({
-            url: '/api/account/register',
+            url: '/api/account/password-reset-finish',
             type: 'POST',
-            data: JSON.stringify({ username: this.state.username, password: this.state.password, email: this.state.email }),
+            data: JSON.stringify({ id: this.props.id, token: this.props.token, newPassword: this.state.password }),
             contentType: 'application/json'
         }).done((data) => {
             if(!data.success) {
@@ -119,43 +71,31 @@ export class InnerRegister extends React.Component {
                 return;
             }
 
-            this.props.register(data.user.username, data.token);
-            this.props.socket.emit('authenticate', data.token);
-            this.props.navigate('/');
+            this.props.navigate('/login');
         }).fail(() => {
             this.setState({ error: 'Could not communicate with the server.  Please try again later.' });
         });
     }
 
     render() {
+        if(!this.props.id || !this.props.token) {
+            return <div className='alert alert-danger'>This page is not intended to be viewed directly.  Please click on the link in your email to reset your password</div>;
+        }
+
         var fields = [
             {
-                name: 'username',
-                label: 'Username',
-                placeholder: 'Username',
-                inputType: 'text',
-                blurCallback: (event) => this.verifyUsername(event, false)
-            },
-            {
-                name: 'email',
-                label: 'email Address',
-                placeholder: 'email Address',
-                inputType: 'email',
-                blurCallback: this.verifyEmail
-            },
-            {
                 name: 'password',
-                label: 'Password',
+                label: 'New Password',
                 placeholder: 'Password',
                 inputType: 'password',
-                blurCallback: this.verifyPassword
+                blurCallback: () => this.verifyPassword(false)
             },
             {
                 name: 'password1',
-                label: 'Password (again)',
+                label: 'New Password (again)',
                 placeholder: 'Password (again)',
                 inputType: 'password',
-                blurCallback: this.verifyPassword
+                blurCallback: () => this.verifyPassword(false)
             }
         ];
         var fieldsToRender = [];
@@ -187,14 +127,14 @@ export class InnerRegister extends React.Component {
                 </div>);
         });
 
-        return (
+        return (       
             <div>
                 { errorBar }
                 <form className='form form-horizontal'>
                     { fieldsToRender }
                     <div className='form-group'>
                         <div className='col-sm-offset-2 col-sm-3'>
-                            <button ref='submit' type='submit' className='btn btn-primary' onClick={ this.onRegister }>Register</button>
+                            <button ref='submit' type='submit' className='btn btn-primary' onClick={ this.onSubmit }>Submit</button>
                         </div>
                     </div>
                 </form>
@@ -202,19 +142,18 @@ export class InnerRegister extends React.Component {
     }
 }
 
-InnerRegister.displayName = 'Register';
-InnerRegister.propTypes = {
+InnerResetPassword.propTypes = {
+    id: React.PropTypes.string,
     navigate: React.PropTypes.func,
-    register: React.PropTypes.func,
-    socket: React.PropTypes.object
+    token: React.PropTypes.string
 };
+InnerResetPassword.displayName = 'ResetPassword';
 
-function mapStateToProps(state) {
+function mapStateToProps() {
     return {
-        socket: state.socket.socket
     };
 }
 
-const Register = connect(mapStateToProps, actions)(InnerRegister);
+const ResetPassword = connect(mapStateToProps, actions)(InnerResetPassword);
 
-export default Register;
+export default ResetPassword;

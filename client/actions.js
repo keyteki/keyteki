@@ -1,9 +1,10 @@
 import $ from 'jquery';
 
-export function navigate(path) {
+export function navigate(path, search) {
     return {
         type: 'NAVIGATE',
-        newPath: path
+        newPath: path,
+        search: search
     };
 }
 

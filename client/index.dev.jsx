@@ -10,7 +10,7 @@ import 'bootstrap/dist/js/bootstrap';
 
 const store = configureStore();
 
-store.dispatch(navigate(window.location.pathname));
+store.dispatch(navigate(window.location.pathname, window.location.search));
 
 if(typeof user !== 'undefined') {
     store.dispatch(login(user.username, authToken));
