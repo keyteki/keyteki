@@ -40,7 +40,7 @@ function sendEmail(address, email) {
         var emailTransport = nodemailer.createTransport(config.emailPath);
 
         emailTransport.sendMail({
-            from: 'The Iron Throne <noreply@theironthrone.net',
+            from: 'The Iron Throne <noreply@theironthrone.net>',
             to: address,
             subject: 'Your account at The Iron Throne',
             text: email
