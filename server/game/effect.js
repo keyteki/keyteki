@@ -28,6 +28,8 @@ const Player = require('./player.js');
  *                    the card to apply the effect.
  * effect.unapply   - function that takes a card and a context object and modifies
  *                    the card to remove the previously applied effect.
+ * recalculateWhen  - optional array of event names that indicate when an effect
+ *                    should be recalculated by the engine.
  */
 class Effect {
     constructor(game, source, properties) {
@@ -42,6 +44,7 @@ class Effect {
         this.targets = [];
         this.context = { game: game, source: source };
         this.active = true;
+        this.recalculateWhen = properties.recalculateWhen || [];
         this.isStateDependent = properties.condition || this.effect.isStateDependent;
     }
 
@@ -135,6 +138,11 @@ class Effect {
             _.each(this.targets, target => this.effect.unapply(target, this.context));
         }
         this.targets = [];
+    }
+
+    resetTargets(newTargets) {
+        this.cancel();
+        this.addTargets(newTargets);
     }
 }
 

@@ -15,7 +15,7 @@ describe('EffectEngine', function () {
         this.gameSpy.getPlayers.and.returnValue([]);
         this.gameSpy.allCards = _([this.handCard, this.playAreaCard, this.discardedCard]);
 
-        this.effectSpy = jasmine.createSpyObj('effect', ['addTargets', 'removeTarget', 'cancel', 'setActive']);
+        this.effectSpy = jasmine.createSpyObj('effect', ['addTargets', 'resetTargets', 'removeTarget', 'cancel', 'setActive']);
 
         this.engine = new EffectEngine(this.gameSpy);
     });
@@ -34,6 +34,17 @@ describe('EffectEngine', function () {
         });
     });
 
+    describe('getTargets()', function() {
+        beforeEach(function() {
+            this.player = {};
+            this.gameSpy.getPlayers.and.returnValue([this.player]);
+        });
+
+        it('should return all play area cards and players', function() {
+            expect(this.engine.getTargets()).toEqual([this.playAreaCard, this.player]);
+        });
+    });
+
     describe('reapplyStateDependentEffects()', function() {
         beforeEach(function() {
             this.engine.effects = [this.effectSpy];
@@ -45,12 +56,8 @@ describe('EffectEngine', function () {
                 this.engine.reapplyStateDependentEffects();
             });
 
-            it('should cancel the effect', function() {
-                expect(this.effectSpy.cancel).toHaveBeenCalled();
-            });
-
-            it('should add existing valid targets back to the effect', function() {
-                expect(this.effectSpy.addTargets).toHaveBeenCalledWith([this.playAreaCard]);
+            it('should reset valid targets', function() {
+                expect(this.effectSpy.resetTargets).toHaveBeenCalledWith([this.playAreaCard]);
             });
         });
 
@@ -60,12 +67,8 @@ describe('EffectEngine', function () {
                 this.engine.reapplyStateDependentEffects();
             });
 
-            it('should not cancel the effect', function() {
-                expect(this.effectSpy.cancel).not.toHaveBeenCalled();
-            });
-
-            it('should not add existing valid targets back to the effect', function() {
-                expect(this.effectSpy.addTargets).not.toHaveBeenCalled();
+            it('should not reset valid targets', function() {
+                expect(this.effectSpy.resetTargets).not.toHaveBeenCalled();
             });
         });
     });
