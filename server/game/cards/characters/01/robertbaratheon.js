@@ -3,7 +3,8 @@ const DrawCard = require('../../../drawcard.js');
 class RobertBaratheon extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            match: card => card === this,
+            match: this,
+            recalculateWhen: ['onCardStood', 'onCardKneeled'],
             effect: ability.effects.dynamicStrength(() => this.calculateStrength())
         });
     }

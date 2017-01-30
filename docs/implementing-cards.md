@@ -149,6 +149,18 @@ this.persistentEffect({
 });
 ```
 
+Certain cards may apply effects that need to be recalculated mid-challenge. For example, Robert Baratheon's strength is based on how many other characters are kneeling, so declaring him in a challenge along with other characters will change his strength. For such scenarios, pass the optional `recalculateWhen` property as an array of event names for which the effect should be recalculated. **Note:** this mechanism should be used sparingly if possible and only with problematic cards.
+
+```javascript
+// Robert Baratheon gets +1 STR for each other kneeling character in play.
+this.persistentEffect({
+    match: this,
+    // Recalculate the effect whenever a card stands or kneels.
+    recalculateWhen: ['onCardStood', 'onCardKneeled'],
+    effect: ability.effects.dynamicStrength(() => this.calculateStrength())
+});
+```
+
 #### Attachment-based effects
 
 A `whileAttached` method is provided to define persistent effects that are applied to the card an attachment is attached. These effects remain as long as the card is attached to its parent and the attachment has not been blanked.

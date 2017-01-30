@@ -19,6 +19,7 @@ class ChallengeFlow extends BaseStep {
             new SimpleStep(this.game, () => this.announceAttackerStrength()),
             new ActionWindow(this.game),
             new SimpleStep(this.game, () => this.promptForDefenders()),
+            new SimpleStep(this.game, () => this.announceDefenderStrength()),
             new ActionWindow(this.game),
             new SimpleStep(this.game, () => this.determineWinner()),
             new SimpleStep(this.game, () => this.unopposedPower()),
@@ -67,6 +68,8 @@ class ChallengeFlow extends BaseStep {
     }
 
     announceAttackerStrength() {
+        // Explicitly recalculate strength in case an effect has modified character strength.
+        this.challenge.calculateStrength();
         this.game.addMessage('{0} has initiated a {1} challenge with strength {2}', this.challenge.attackingPlayer, this.challenge.challengeType, this.challenge.attackerStrength);
     }
 
@@ -100,11 +103,15 @@ class ChallengeFlow extends BaseStep {
 
         this.game.raiseEvent('onDefendersDeclared', this.challenge);
 
+        return true;
+    }
+
+    announceDefenderStrength() {
+        // Explicitly recalculate strength in case an effect has modified character strength.
+        this.challenge.calculateStrength();
         if(!this.challenge.isUnopposed()) {
             this.game.addMessage('{0} has defended with strength {1}', this.challenge.defendingPlayer, this.challenge.defenderStrength);
         }
-
-        return true;
     }
 
     determineWinner() {
