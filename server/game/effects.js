@@ -16,11 +16,12 @@ const Effects = {
         return {
             apply: function(card, context) {
                 context.allowAsAttacker = context.allowAsAttacker || {};
-                context.allowAsAttacker[card] = card.challengeOptions.allowAsAttacker;
+                context.allowAsAttacker[card.uuid] = card.challengeOptions.allowAsAttacker;
                 card.challengeOptions.allowAsAttacker = value;
             },
             unapply: function(card, context) {
-                card.challengeOptions.allowAsAttacker = context.allowAsAttacker[card];
+                card.challengeOptions.allowAsAttacker = context.allowAsAttacker[card.uuid];
+                delete context.allowAsAttacker[card.uuid];
             }
         };
     },
@@ -28,11 +29,12 @@ const Effects = {
         return {
             apply: function(card, context) {
                 context.allowAsDefender = context.allowAsDefender || {};
-                context.allowAsDefender[card] = card.challengeOptions.allowAsDefender;
+                context.allowAsDefender[card.uuid] = card.challengeOptions.allowAsDefender;
                 card.challengeOptions.allowAsDefender = value;
             },
             unapply: function(card, context) {
-                card.challengeOptions.allowAsDefender = context.allowAsDefender[card];
+                card.challengeOptions.allowAsDefender = context.allowAsDefender[card.uuid];
+                delete context.allowAsDefender[card.uuid];
             }
         };
     },
@@ -100,12 +102,12 @@ const Effects = {
         return {
             apply: function(card, context) {
                 context.dynamicStrength = context.dynamicStrength || {};
-                context.dynamicStrength[card] = calculate(card, context);
-                card.strengthModifier += context.dynamicStrength[card];
+                context.dynamicStrength[card.uuid] = calculate(card, context);
+                card.strengthModifier += context.dynamicStrength[card.uuid];
             },
             unapply: function(card, context) {
-                card.strengthModifier -= context.dynamicStrength[card];
-                delete context.dynamicStrength[card];
+                card.strengthModifier -= context.dynamicStrength[card.uuid];
+                delete context.dynamicStrength[card.uuid];
             },
             isStateDependent: true
         };
@@ -227,13 +229,13 @@ const Effects = {
         return {
             apply: function(card, context) {
                 context.takeControl = context.takeControl || {};
-                context.takeControl[card] = { originalController: card.controller };
+                context.takeControl[card.uuid] = { originalController: card.controller };
                 context.game.takeControl(newController, card);
                 context.game.addMessage('{0} uses {1} to take control of {2}', context.source.controller, context.source, card);
             },
             unapply: function(card, context) {
-                context.game.takeControl(context.takeControl[card].originalController, card);
-                delete context.takeControl[card];
+                context.game.takeControl(context.takeControl[card.uuid].originalController, card);
+                delete context.takeControl[card.uuid];
             }
         };
     },
@@ -261,11 +263,12 @@ const Effects = {
         return {
             apply: function(player, context) {
                 context.setMinReserve = context.setMinReserve || {};
-                context.setMinReserve[player] = player.minReserve;
+                context.setMinReserve[player.id] = player.minReserve;
                 player.minReserve = min;
             },
             unapply: function(player, context) {
-                player.minReserve = context.setMinReserve[player];
+                player.minReserve = context.setMinReserve[player.id];
+                delete context.setMinReserve[player.id];
             }
         };
     },
@@ -273,11 +276,12 @@ const Effects = {
         return {
             apply: function(player, context) {
                 context.setChallengerLimit = context.setChallengerLimit || {};
-                context.setChallengerLimit[player] = player.challengerLimit;
+                context.setChallengerLimit[player.id] = player.challengerLimit;
                 player.challengerLimit = value;
             },
             unapply: function(player, context) {
-                player.challengerLimit = context.setChallengerLimit[player];
+                player.challengerLimit = context.setChallengerLimit[player.id];
+                delete context.setChallengerLimit[player.id];
             }
         };
     },
