@@ -310,7 +310,14 @@ io.on('connection', function(socket) {
             return;
         }
 
-        game.players[socket.request.user.username].disconnected = true;
+        var player = game.players[socket.request.user.username];
+
+        if(game.isSpectator(player)) {
+            delete game.players[socket.request.user.username];
+        } else {
+            player.disconnected = true;
+        }
+
         game.playerLeave(socket.request.user.username, 'has disconnected');
         
         if(_.all(game.players, player => {
