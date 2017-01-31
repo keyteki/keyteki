@@ -4,7 +4,7 @@ class AreoHotah extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onCardEntersPlay: (card) => (
+                onCardEntersPlay: (event, card) => (
                     card === this &&
                     this.game.currentChallenge &&
                     this.game.currentPhase === 'challenge'
