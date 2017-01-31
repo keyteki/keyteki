@@ -197,6 +197,20 @@ this.persistentEffect({
 });
 ```
 
+#### Applying effects to cards in hand
+
+By default, effects will only be applied to cards in the play area.  Certain cards effects refer to cards in your hand, such as reducing their cost or providing ambush to matching cards. In these cases, set the `targetLocation` property to `'hand'`.
+
+```javascript
+// Each Direwolf card in your hand gains ambush (X). X is that card's printed cost.
+this.persistentEffect({
+    // Explicitly target the effect to cards in hand.
+    targetLocation: 'hand',
+    match: card => card.hasTrait('Direwolf'),
+    effect: ability.effects.gainAmbush()
+});
+```
+
 #### Player modifying effects
 
 Certain cards provide bonuses or restrictions on the player itself instead of on any specific cards. These can be implemented setting the `targetType` to `'player'` and using the appropriate effect.

@@ -68,7 +68,7 @@ describe('Player', function() {
             });
 
             it('should not to raise the left play event', function() {
-                expect(this.gameSpy.raiseEvent).not.toHaveBeenCalled();
+                expect(this.gameSpy.raiseEvent).not.toHaveBeenCalledWith('onCardLeftPlay', jasmine.any(Object), jasmine.any(Object));
             });
         });
 

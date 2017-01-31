@@ -3,6 +3,8 @@ const _ = require('underscore');
 const Effects = require('./effects.js');
 const Player = require('./player.js');
 
+const PlayAreaLocations = ['play area', 'active plot'];
+
 /**
  * Represents a card based effect applied to one or more targets.
  *
@@ -21,6 +23,9 @@ const Player = require('./player.js');
  *                    Can be 'current' (default), 'opponent' or 'any'.
  * targetType       - string that determines whether cards or players are the
  *                    target for the effect. Can be 'card' (default) or 'player'
+ * targetLocation   - string that determines the location of cards that can be
+ *                    applied by the effect. Can be 'play area' (default) or
+ *                    'hand'.
  * effect           - object representing the effect to be applied. If passed an
  *                    array instead of an object, it will apply / unapply all of
  *                    the sub objects in the array instead.
@@ -40,6 +45,7 @@ class Effect {
         this.condition = properties.condition || (() => true);
         this.targetController = properties.targetController || 'current';
         this.targetType = properties.targetType || 'card';
+        this.targetLocation = properties.targetLocation || 'play area';
         this.effect = this.buildEffect(properties.effect);
         this.targets = [];
         this.context = { game: game, source: source };
@@ -85,6 +91,14 @@ class Effect {
         }
 
         if(this.targetType === 'card') {
+            if(this.targetLocation === 'play area' && !PlayAreaLocations.includes(target.location)) {
+                return false;
+            }
+
+            if(this.targetLocation === 'hand' && target.location !== 'hand') {
+                return false;
+            }
+
             if(this.targetController === 'current') {
                 return target.controller === this.source.controller;
             }

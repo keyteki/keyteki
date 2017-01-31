@@ -24,8 +24,8 @@ describe('Effect', function () {
 
     describe('addTargets()', function() {
         beforeEach(function() {
-            this.matchingCard = { good: true };
-            this.nonMatchingCard = { bad: true };
+            this.matchingCard = { good: true, location: 'play area' };
+            this.nonMatchingCard = { bad: true, location: 'play area' };
 
             this.properties.match.and.callFake((card) => card === this.matchingCard);
         });
@@ -229,7 +229,7 @@ describe('Effect', function () {
 
     describe('removeTarget()', function() {
         beforeEach(function() {
-            this.target = { good: true };
+            this.target = { good: true, location: 'play area' };
 
             this.effect.addTargets([this.target]);
         });

@@ -863,6 +863,10 @@ class Player extends Spectator {
             }
         }
 
+        if(card.location === 'hand') {
+            this.game.raiseEvent('onCardLeftHand', card);
+        }
+
         if(!options.isDupe) {
             card.moveTo(targetLocation);
         } else {
@@ -873,6 +877,10 @@ class Player extends Spectator {
             targetPile.unshift(card);
         } else {
             targetPile.push(card);
+        }
+
+        if(targetLocation === 'hand') {
+            this.game.raiseEvent('onCardEntersHand', card);
         }
     }
 

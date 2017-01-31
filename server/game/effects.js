@@ -195,6 +195,19 @@ const Effects = {
             }
         }
     },
+    gainAmbush: function(costModifier = 0) {
+        return {
+            apply: function(card, context) {
+                context.gainAmbush = context.gainAmbush || {};
+                context.gainAmbush[card.uuid] = card.ambushCost;
+                card.ambushCost = card.cardData.cost + costModifier;
+            },
+            unapply: function(card, context) {
+                card.ambushCost = context.gainAmbush[card.uuid];
+                delete context.gainAmbush[card.uuid];
+            }
+        };
+    },
     discardIfStillInPlay: function(allowSave = false) {
         return {
             apply: function(card, context) {
