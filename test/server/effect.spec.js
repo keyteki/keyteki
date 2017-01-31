@@ -110,6 +110,7 @@ describe('Effect', function () {
                 this.player = {};
                 this.anotherPlayer = {};
                 this.sourceSpy.controller = this.player;
+                this.matchingCard.controller = this.player;
             });
 
             describe('when the target controller is current', function() {
@@ -163,6 +164,108 @@ describe('Effect', function () {
                     this.matchingCard.controller = this.anotherPlayer;
                     this.effect.addTargets([this.matchingCard]);
                     expect(this.effect.targets).toContain(this.matchingCard);
+                });
+            });
+
+            describe('when the target location is play area', function() {
+                beforeEach(function() {
+                    this.effect.targetLocation = 'play area';
+                });
+
+                it('should add targets from play area', function() {
+                    this.matchingCard.location = 'play area';
+                    this.effect.addTargets([this.matchingCard]);
+                    expect(this.effect.targets).toContain(this.matchingCard);
+                });
+
+                it('should add targets from active plot', function() {
+                    this.matchingCard.location = 'active plot';
+                    this.effect.addTargets([this.matchingCard]);
+                    expect(this.effect.targets).toContain(this.matchingCard);
+                });
+
+                it('should reject targets from hand', function() {
+                    this.matchingCard.location = 'hand';
+                    this.effect.addTargets([this.matchingCard]);
+                    expect(this.effect.targets).not.toContain(this.matchingCard);
+                });
+            });
+
+            describe('when the target location is hand', function() {
+                beforeEach(function() {
+                    this.effect.targetLocation = 'hand';
+                });
+
+                it('should reject targets from play area', function() {
+                    this.matchingCard.location = 'play area';
+                    this.effect.addTargets([this.matchingCard]);
+                    expect(this.effect.targets).not.toContain(this.matchingCard);
+                });
+
+                it('should reject targets from active plot', function() {
+                    this.matchingCard.location = 'active plot';
+                    this.effect.addTargets([this.matchingCard]);
+                    expect(this.effect.targets).not.toContain(this.matchingCard);
+                });
+
+                it('should add targets from hand', function() {
+                    this.matchingCard.location = 'hand';
+                    this.effect.addTargets([this.matchingCard]);
+                    expect(this.effect.targets).toContain(this.matchingCard);
+                });
+            });
+
+            describe('when the match is a specific card', function() {
+                beforeEach(function() {
+                    this.effect.match = this.matchingCard;
+                });
+
+                describe('when the target location is play area', function() {
+                    beforeEach(function() {
+                        this.effect.targetLocation = 'play area';
+                    });
+
+                    it('should add targets from play area', function() {
+                        this.matchingCard.location = 'play area';
+                        this.effect.addTargets([this.matchingCard]);
+                        expect(this.effect.targets).toContain(this.matchingCard);
+                    });
+
+                    it('should add targets from active plot', function() {
+                        this.matchingCard.location = 'active plot';
+                        this.effect.addTargets([this.matchingCard]);
+                        expect(this.effect.targets).toContain(this.matchingCard);
+                    });
+
+                    it('should reject targets from hand', function() {
+                        this.matchingCard.location = 'hand';
+                        this.effect.addTargets([this.matchingCard]);
+                        expect(this.effect.targets).not.toContain(this.matchingCard);
+                    });
+                });
+
+                describe('when the target location is hand', function() {
+                    beforeEach(function() {
+                        this.effect.targetLocation = 'hand';
+                    });
+
+                    it('should reject targets from play area', function() {
+                        this.matchingCard.location = 'play area';
+                        this.effect.addTargets([this.matchingCard]);
+                        expect(this.effect.targets).not.toContain(this.matchingCard);
+                    });
+
+                    it('should reject targets from active plot', function() {
+                        this.matchingCard.location = 'active plot';
+                        this.effect.addTargets([this.matchingCard]);
+                        expect(this.effect.targets).not.toContain(this.matchingCard);
+                    });
+
+                    it('should add targets from hand', function() {
+                        this.matchingCard.location = 'hand';
+                        this.effect.addTargets([this.matchingCard]);
+                        expect(this.effect.targets).toContain(this.matchingCard);
+                    });
                 });
             });
         });

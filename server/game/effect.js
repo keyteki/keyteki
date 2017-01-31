@@ -78,6 +78,16 @@ class Effect {
     }
 
     isValidTarget(target) {
+        if(this.targetType === 'card') {
+            if(this.targetLocation === 'play area' && !PlayAreaLocations.includes(target.location)) {
+                return false;
+            }
+
+            if(this.targetLocation === 'hand' && target.location !== 'hand') {
+                return false;
+            }
+        }
+
         if(!_.isFunction(this.match)) {
             return target === this.match;
         }
@@ -91,14 +101,6 @@ class Effect {
         }
 
         if(this.targetType === 'card') {
-            if(this.targetLocation === 'play area' && !PlayAreaLocations.includes(target.location)) {
-                return false;
-            }
-
-            if(this.targetLocation === 'hand' && target.location !== 'hand') {
-                return false;
-            }
-
             if(this.targetController === 'current') {
                 return target.controller === this.source.controller;
             }
