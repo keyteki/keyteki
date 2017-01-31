@@ -6,7 +6,8 @@ class SerDavosSeaworth extends DrawCard {
             when: {
                 onCharacterKilled: (event, player, card) => card === this
             },
-            handler: () => {
+            handler: (context) => {
+                context.skipHandler();
                 this.game.addMessage('{0} uses {1} to return {1} to their hand instead of their dead pile', this.controller, this, this);
                 this.controller.moveCard(this, 'hand');
             }
