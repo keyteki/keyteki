@@ -80,9 +80,9 @@ class InnerLobby extends React.Component {
         return (
             <div>
                 <div className='alert alert-info'>
+                    <div><span className='icon-military' />2017-01-31: New cards: Harmen Uller, Mance Rayder, Raider from Pyke, The Wolfswood</div>
                     <div><span className='icon-power' />2017-01-29: New cards: Mother of Dragons, Xaro Xhoan Daxos, Ser Hobber Redwyne, Aggo.  Fix A Clash of Kings.  Add a password reset facility</div>                    
                     <div><span className='icon-intrigue' />2017-01-26: New card: Devoted Bloodrider.  Fix Rains of Castamere and Bastard Daughter.  Order the games list so that newer games are at the top</div>
-                    <div><span className='icon-military' />2017-01-24: Fix issues with most agendas, also fix Varys's riddle</div>
                 </div> 
                 <div className='row'>
                     <span className='col-sm-9 text-center'><h1>Play A Game Of Thrones 2nd Edition</h1></span>
