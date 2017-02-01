@@ -38,7 +38,7 @@ class MaesterCaleotte extends DrawCard {
     iconSelected(player, icon) {
         this.game.addMessage('{0} uses {1} to remove a {2} icon from {3}', player, this, icon, this.selectedCard);
         this.untilEndOfPhase(ability => ({
-            match: card => card === this.selectedCard,
+            match: this.selectedCard,
             effect: ability.effects.removeIcon(icon)
         }));
 
