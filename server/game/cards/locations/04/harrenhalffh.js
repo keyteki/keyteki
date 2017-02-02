@@ -11,7 +11,8 @@ class Harrenhal extends DrawCard {
 
     kneel(player) {
         this.game.promptForSelect(player, {
-            cardCondition: card => card.location === 'hand' && card.getType() === 'character' && (card.getFaction() === 'lannister' || card.hasTrait('House Bolton')),
+            cardCondition: card => card.location === 'hand' && card.getType() === 'character' && card.controller === this.controller &&
+                (card.getFaction() === 'lannister' || card.hasTrait('House Bolton')),
             activePromptTitle: 'Select a character',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
             onSelect: (player, card) => this.onCardSelected(player, card)
