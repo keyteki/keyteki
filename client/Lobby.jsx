@@ -80,9 +80,9 @@ class InnerLobby extends React.Component {
         return (
             <div>
                 <div className='alert alert-info'>
+                    <div><span className='icon-intrigue' />2017-02-02: Fix: cards with persistent effects, Areo Hotah, Davos Seaworth, Maester Caleotte.  Limit accounts to only be able to be in one game at once, playing or spectating.  Attempt to fix some of the sticky game/disconnect issues.  Please bear with me while I try to fix these issues, they're very difficult to replicate.  If you have more information on how they occur please raise an issue or let me know</div>
                     <div><span className='icon-military' />2017-01-31: New cards: Harmen Uller, Mance Rayder, Raider from Pyke, The Wolfswood</div>
                     <div><span className='icon-power' />2017-01-29: New cards: Mother of Dragons, Xaro Xhoan Daxos, Ser Hobber Redwyne, Aggo.  Fix A Clash of Kings.  Add a password reset facility</div>                    
-                    <div><span className='icon-intrigue' />2017-01-26: New card: Devoted Bloodrider.  Fix Rains of Castamere and Bastard Daughter.  Order the games list so that newer games are at the top</div>
                 </div> 
                 <div className='row'>
                     <span className='col-sm-9 text-center'><h1>Play A Game Of Thrones 2nd Edition</h1></span>
