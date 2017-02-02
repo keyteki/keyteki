@@ -220,10 +220,10 @@ function refreshUserList(socket) {
     }
 }
 
-function findGameForPlayer(socketid) {
+function findGameForPlayer(username) {
     var gameToReturn = undefined;
     _.each(games, game => {
-        if(game.players[socketid]) {
+        if(game.players[username] && !game.players[username].left) {
             gameToReturn = game;
         }
 
@@ -312,19 +312,21 @@ io.on('connection', function(socket) {
 
         var player = game.players[socket.request.user.username];
 
+        game.playerLeave(socket.request.user.username, 'has disconnected');
+
         if(game.isSpectator(player)) {
             delete game.players[socket.request.user.username];
         } else {
             player.disconnected = true;
         }
-
-        game.playerLeave(socket.request.user.username, 'has disconnected');
         
         if(_.all(game.players, player => {
             return player.disconnected || player.left;
         })) {
             delete games[game.id];
         }
+
+        sendGameState(game);
 
         refreshGameList();
     });
@@ -345,6 +347,11 @@ io.on('connection', function(socket) {
             return;
         }
 
+        var existingGame = findGameForPlayer(socket.request.user.username);
+        if(existingGame) {
+            return;
+        }
+
         var game = new Game(socket.request.user.username, gameDetails);
 
         game.players[socket.request.user.username] = new Player(socket.id, socket.request.user, true, game);
@@ -358,6 +365,11 @@ io.on('connection', function(socket) {
 
     socket.on('joingame', function(gameid) {
         if(!socket.request.user) {
+            return;
+        }
+
+        var existingGame = findGameForPlayer(socket.request.user.username);
+        if(existingGame) {
             return;
         }
 
@@ -383,6 +395,11 @@ io.on('connection', function(socket) {
         if(!socket.request.user) {
             return;
         }
+
+        var existingGame = findGameForPlayer(socket.request.user.username);
+        if(existingGame) {
+            return;
+        }        
 
         var game = games[gameid];
 
@@ -453,7 +470,7 @@ io.on('connection', function(socket) {
 
             if(_.all(game.players, p => {
                 return p.left || p.disconnected;
-            }) && _.isEmpty(game.getSpectators())) {
+            })) {
                 delete games[game.id];
             }
 
