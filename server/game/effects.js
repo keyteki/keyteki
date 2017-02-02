@@ -223,6 +223,21 @@ const Effects = {
             }
         };
     },
+    killIfStillInPlay: function(allowSave = false) {
+        return {
+            apply: function(card, context) {
+                context.killIfStillInPlay = context.killIfStillInPlay || [];
+                context.killIfStillInPlay.push(card);
+            },
+            unapply: function(card, context) {
+                if(card.location === 'play area' && context.killIfStillInPlay.includes(card)) {
+                    context.killIfStillInPlay = _.reject(context.killIfStillInPlay, c => c === card);
+                    card.controller.killCharacter(card, allowSave);
+                    context.game.addMessage('{0} kills {1} at the end of the phase because of {2}', context.source.controller, card, context.source);
+                }
+            }
+        };
+    },    
     returnToHandIfStillInPlay: function(allowSave = false) {
         return {
             apply: function(card, context) {
