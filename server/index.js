@@ -235,6 +235,10 @@ function findGameForPlayer(username) {
 
 function sendGameState(game) {
     _.each(game.playersAndSpectators, player => {
+        if(player.left) {
+            return;
+        }
+        
         io.to(player.id).emit('gamestate', game.getState(player.name));
     });
 }
