@@ -11,8 +11,8 @@ describe('ActionWindow', function() {
         this.player1 = new Player('1', { username: 'Player 1' }, true, this.game);
         this.player2 = new Player('2', { username: 'Player 2' }, false, this.game);
         this.player2.firstPlayer = true;
-        this.game.players[this.player1.name] = this.player1;
-        this.game.players[this.player2.name] = this.player2;
+        this.game.playersAndSpectators[this.player1.name] = this.player1;
+        this.game.playersAndSpectators[this.player2.name] = this.player2;
 
         this.prompt = new ActionWindow(this.game);
     });

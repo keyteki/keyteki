@@ -5,6 +5,7 @@ const uuid = require('node-uuid');
 const GameChat = require('./gamechat.js');
 const EffectEngine = require('./effectengine.js');
 const Effect = require('./effect.js');
+const Player = require('./player.js');
 const Spectator = require('./spectator.js');
 const GamePipeline = require('./gamepipeline.js');
 const SetupPhase = require('./gamesteps/setupphase.js');
@@ -26,7 +27,7 @@ class Game extends EventEmitter {
         super();
 
         this.effectEngine = new EffectEngine(this);
-        this.players = {};
+        this.playersAndSpectators = {};
         this.playerPlots = {};
         this.playerCards = {};
         this.gameChat = new GameChat();
@@ -57,18 +58,12 @@ class Game extends EventEmitter {
         return player.constructor === Spectator;
     }
 
+    hasActivePlayer(playerName) {
+        return this.playersAndSpectators[playerName] && !this.playersAndSpectators[playerName].left;
+    }
+
     getPlayers() {
-        var players = {};
-
-        _.reduce(this.players, (playerList, player) => {
-            if(!this.isSpectator(player)) {
-                playerList[player.name] = player;
-            }
-
-            return playerList;
-        }, players);
-
-        return players;
+        return _.omit(this.playersAndSpectators, player => this.isSpectator(player));
     }
 
     getPlayerByName(playerName) {
@@ -80,21 +75,11 @@ class Game extends EventEmitter {
     }
 
     getPlayersAndSpectators() {
-        return this.players;
+        return this.playersAndSpectators;
     }
 
     getSpectators() {
-        var spectators = [];
-
-        _.reduce(this.players, (spectators, player) => {
-            if(this.isSpectator(player)) {
-                spectators.push(player);
-            }
-
-            return spectators;
-        }, spectators);
-
-        return spectators;
+        return _.pick(this.playersAndSpectators, player => this.isSpectator(player));
     }
 
     getFirstPlayer() {
@@ -420,7 +405,7 @@ class Game extends EventEmitter {
     }
 
     chat(playerName, message) {
-        var player = this.players[playerName];
+        var player = this.playersAndSpectators[playerName];
         var args = message.split(' ');
         var num = 1;
 
@@ -683,16 +668,6 @@ class Game extends EventEmitter {
         this.gameChat.addChatMessage('{0} {1}', player, message);
     }
 
-    playerLeave(playerName, reason) {
-        var player = this.players[playerName];
-
-        if(!player) {
-            return;
-        }
-
-        this.addMessage('{0} {1}', player, reason);
-    }
-
     concede(playerName) {
         var player = this.getPlayerByName(playerName);
 
@@ -760,13 +735,13 @@ class Game extends EventEmitter {
     initialise() {
         var players = {};
 
-        _.each(this.players, player => {
+        _.each(this.playersAndSpectators, player => {
             if(!player.left) {
                 players[player.name] = player;
             }
         });
-        
-        this.players = players;
+
+        this.playersAndSpectators = players;
 
         _.each(this.getPlayers(), player => {
             player.initialise();
@@ -829,6 +804,68 @@ class Game extends EventEmitter {
         card.controller = newController;
     }
 
+    watch(socketId, user) {
+        if(!this.allowSpectators) {
+            return false;
+        }
+
+        this.playersAndSpectators[user.username] = new Spectator(socketId, user);
+        this.addMessage('{0} has joined the game as a spectator', user.username);
+
+        return true;
+    }
+
+    join(socketId, user) {
+        if(this.started || _.values(this.getPlayers()).length === 2) {
+            return false;
+        }
+
+        this.playersAndSpectators[user.username] = new Player(socketId, user, this.owner === user.username, this);
+
+        return true;
+    }
+
+    isEmpty() {
+        return _.all(this.playersAndSpectators, player => player.disconnected || player.left);
+    }
+
+    leave(playerName) {
+        var player = this.playersAndSpectators[playerName];
+
+        if(!player) {
+            return;
+        }
+
+        this.addMessage('{0} has left the game', player);
+
+        if(this.isSpectator(player)) {
+            delete this.playersAndSpectators[playerName];
+        } else {
+            player.left = true;
+
+            if(this.started && !this.finishedAt) {
+                this.finishedAt = new Date();
+                this.saveGame();
+            }
+        }
+    }
+
+    disconnect(playerName) {
+        var player = this.playersAndSpectators[playerName];
+
+        if(!player) {
+            return;
+        }
+
+        this.addMessage('{0} has disconnected', player);
+
+        if(this.isSpectator(player)) {
+            delete this.playersAndSpectators[playerName];
+        } else {
+            player.disconnected = true;
+        }
+    }
+
     reconnect(id, playerName) {
         var player = this.getPlayerByName(playerName);
         if(!player) {
@@ -836,7 +873,7 @@ class Game extends EventEmitter {
         }
 
         player.id = id;
-        player.left = false;
+        player.disconnected = false;
 
         this.addMessage('{0} has reconnected', player);
     }

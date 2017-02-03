@@ -2,7 +2,6 @@
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
 const MenuPrompt = require('../../../server/game/gamesteps/menuprompt.js');
-const Game = require('../../../server/game/game.js');
 const Player = require('../../../server/game/player.js');
 
 describe('the MenuPrompt', function() {
@@ -13,9 +12,9 @@ describe('the MenuPrompt', function() {
         this.player.initialise();
         this.otherPlayer = new Player('2', 'Player 2', false, game);
         this.otherPlayer.initialise();
-        game.players = {};
-        game.players[this.player.name] = this.player;
-        game.players[this.otherPlayer.name] = this.otherPlayer;
+        game.playersAndSpectators = {};
+        game.playersAndSpectators[this.player.name] = this.player;
+        game.playersAndSpectators[this.otherPlayer.name] = this.otherPlayer;
 
         this.contextObj = {
             doIt: function() {

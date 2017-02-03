@@ -1,11 +1,9 @@
 /*global describe, it, beforeEach, expect*/
+/* eslint camelcase: 0, no-invalid-this: 0 */
 
 const DrawCard = require('../../../server/game/drawcard.js');
 
 describe('the DrawCard', function() {
-    var owner = {};
-    var card;
-
     describe('the hasKeyword() function', function() {
         beforeEach(function() {
             this.owner = {};
@@ -52,7 +50,7 @@ describe('the DrawCard', function() {
 
             this.player = new Player(1, { username: 'foo' }, false, this.game);
 
-            this.game.players['foo'] = this.player;
+            this.game.playersAndSpectators['foo'] = this.player;
             this.game.initialise();
 
             this.game.currentPhase = 'marshal';

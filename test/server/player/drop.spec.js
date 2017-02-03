@@ -12,8 +12,8 @@ describe('Player', () => {
             this.player = new Player('1', 'Player 1', true, this.gameSpy);
             this.player.initialise();
 
-            this.gameSpy.players = [];
-            this.gameSpy.players[this.player.name] = this.player;
+            this.gameSpy.playersAndSpectators = [];
+            this.gameSpy.playersAndSpectators[this.player.name] = this.player;
 
             this.cardSpy = jasmine.createSpyObj('card', ['getType', 'leavesPlay', 'moveTo']);
             this.cardSpy.uuid = '1111';

@@ -17,8 +17,8 @@ describe('the Game', () => {
         winner.initialise();
         loser.initialise();
 
-        game.players[winner.id] = winner;
-        game.players[loser.id] = loser;
+        game.playersAndSpectators[winner.id] = winner;
+        game.playersAndSpectators[loser.id] = loser;
     });
 
     describe('the transferPower() function', () => {

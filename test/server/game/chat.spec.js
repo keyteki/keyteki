@@ -15,8 +15,8 @@ describe('the Game', function() {
         player1 = new Player('1', { username: 'Player 1' }, true, game);
         spectator = new Spectator('3', { username: 'Spectator 1' }, game);
 
-        game.players[player1.id] = player1;
-        game.players[spectator.id] = spectator;
+        game.playersAndSpectators[player1.id] = player1;
+        game.playersAndSpectators[spectator.id] = spectator;
 
         game.initialise();
 

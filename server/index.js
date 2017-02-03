@@ -29,8 +29,6 @@ const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 4000 : process.env.PORT;
 
 const Game = require('./game/game.js');
-const Player = require('./game/player.js');
-const Spectator = require('./game/spectator.js');
 const UserRepository = require('./repositories/userRepository.js');
 
 var userRepository = new UserRepository();
@@ -223,7 +221,7 @@ function refreshUserList(socket) {
 function findGameForPlayer(username) {
     var gameToReturn = undefined;
     _.each(games, game => {
-        if(game.players[username] && !game.players[username].left) {
+        if(game.hasActivePlayer(username)) {
             gameToReturn = game;
         }
 
@@ -236,7 +234,7 @@ function findGameForPlayer(username) {
 }
 
 function sendGameState(game) {
-    _.each(game.players, player => {
+    _.each(game.playersAndSpectators, player => {
         io.to(player.id).emit('gamestate', game.getState(player.name));
     });
 }
@@ -279,10 +277,9 @@ io.on('connection', function(socket) {
 
         if(game) {
             runAndCatchErrors(game, () => {
-                if(!game.players[socket.request.user.username].left) {
+                if(!game.playersAndSpectators[socket.request.user.username].left) {
                     socket.join(game.id);
 
-                    game.players[socket.request.user.username].disconnected = false;
                     game.reconnect(socket.id, socket.request.user.username);
 
                     sendGameState(game);
@@ -310,19 +307,9 @@ io.on('connection', function(socket) {
             return;
         }
 
-        var player = game.players[socket.request.user.username];
+        game.disconnect(socket.request.user.username);
 
-        game.playerLeave(socket.request.user.username, 'has disconnected');
-
-        if(game.isSpectator(player)) {
-            delete game.players[socket.request.user.username];
-        } else {
-            player.disconnected = true;
-        }
-        
-        if(_.all(game.players, player => {
-            return player.disconnected || player.left;
-        })) {
+        if(game.isEmpty()) {
             delete games[game.id];
         }
 
@@ -354,7 +341,7 @@ io.on('connection', function(socket) {
 
         var game = new Game(socket.request.user.username, gameDetails);
 
-        game.players[socket.request.user.username] = new Player(socket.id, socket.request.user, true, game);
+        game.join(socket.id, socket.request.user);
 
         games[game.id] = game;
         socket.emit('newgame', game.getState(socket.request.user.username));
@@ -375,16 +362,17 @@ io.on('connection', function(socket) {
 
         var game = games[gameid];
 
-        if(!game || game.started || game.getPlayers().length === 2) {
+        if(!game) {
             return;
         }
 
         runAndCatchErrors(game, () => {
-            game.players[socket.request.user.username] = new Player(socket.id, socket.request.user, false, game);
-            socket.join(game.id);
+            if(game.join(socket.id, socket.request.user)) {
+                socket.join(game.id);
+            }
         });
 
-        _.each(game.players, player => {
+        _.each(game.playersAndSpectators, player => {
             io.to(player.id).emit('joingame', game.getState(player.name));
         });
 
@@ -399,23 +387,23 @@ io.on('connection', function(socket) {
         var existingGame = findGameForPlayer(socket.request.user.username);
         if(existingGame) {
             return;
-        }        
+        }
 
         var game = games[gameid];
 
-        if(!game || !game.allowSpectators) {
+        if(!game) {
             return;
         }
 
         runAndCatchErrors(game, () => {
-            game.players[socket.request.user.username] = new Spectator(socket.id, socket.request.user);
-            game.addMessage('{0} has joined the game as a spectator', socket.request.user.username);
-            socket.join(game.id);
-            _.each(game.players, player => {
-                io.to(player.id).emit('joingame', game.getState(player.name));
-            });
+            if(game.watch(socket.id, socket.request.user)) {
+                socket.join(game.id);
+                _.each(game.playersAndSpectators, player => {
+                    io.to(player.id).emit('joingame', game.getState(player.name));
+                });
 
-            sendGameState(game);
+                sendGameState(game);
+            }
         });
     });
 
@@ -447,30 +435,12 @@ io.on('connection', function(socket) {
             return;
         }
 
-        runAndCatchErrors(game, () => {           
-            game.playerLeave(socket.request.user.username, 'has left the game');
+        runAndCatchErrors(game, () => {
+            game.leave(socket.request.user.username);
+            // Force update of game state to make sure spectators get disconnected.
+            socket.emit('gamestate', game.getState(socket.request.user.username));
 
-            var player = game.players[socket.request.user.username];
-
-            if(!player) {
-                return;
-            }
-
-            if(game.isSpectator(player)) {
-                delete game.players[socket.request.user.username];
-                io.to(player.id).emit('gamestate', game.getState(player.name));
-            } else {
-                game.players[socket.request.user.username].left = true;
-
-                if(game.started && !game.finishedAt) {
-                    game.finishedAt = new Date();
-                    game.saveGame();
-                }                
-            }
-
-            if(_.all(game.players, p => {
-                return p.left || p.disconnected;
-            })) {
+            if(game.isEmpty()) {
                 delete games[game.id];
             }
 

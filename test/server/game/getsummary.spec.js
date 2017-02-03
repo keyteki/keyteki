@@ -29,7 +29,7 @@ describe('the Game', () => {
 
         describe('when a player joins', () => {
             beforeEach(() => {
-                game.players[player1.name] = player1;
+                game.playersAndSpectators[player1.name] = player1;
             });
 
             it('should return basic state for the player', () => {
@@ -42,7 +42,7 @@ describe('the Game', () => {
 
             describe('and another player joins', () => {
                 beforeEach(() => {
-                    game.players[player2.name] = player2;
+                    game.playersAndSpectators[player2.name] = player2;
                 });
 
                 it('should return basic state for both players', () => {
@@ -59,8 +59,8 @@ describe('the Game', () => {
         describe('when a player has a deck selected', () => {
             beforeEach(() => {
                 player1.deck = { name: 'Test Deck'};
-                game.players[player1.name] = player1;
-                game.players[player2.name] = player2;
+                game.playersAndSpectators[player1.name] = player1;
+                game.playersAndSpectators[player2.name] = player2;
             });
 
             describe('who is the current player', () => {
@@ -83,9 +83,9 @@ describe('the Game', () => {
 
         describe('when there are spectators', () => {
             beforeEach(() => {
-                game.players[player1.name] = player1;
-                game.players[player2.name] = player2;
-                game.players[spectator.name] = spectator;
+                game.playersAndSpectators[player1.name] = player1;
+                game.playersAndSpectators[player2.name] = player2;
+                game.playersAndSpectators[spectator.name] = spectator;
             });
 
             it('should show the specators to any player', () => {
