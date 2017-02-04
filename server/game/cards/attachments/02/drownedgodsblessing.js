@@ -1,7 +1,10 @@
 const DrawCard = require('../../../drawcard.js');
 
 class DrownedGodsBlessing extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
+        this.whileAttached({
+            effect: ability.effects.addTrait('Drowned God')
+        });
         this.plotModifiers({
             initiative: 1
         });
