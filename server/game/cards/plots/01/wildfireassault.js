@@ -36,7 +36,6 @@ class WildfireAssault extends PlotCard {
                 player.killCharacter(card, false);
 
                 params += '{' + paramIndex++ + '} ';
-
             });
 
             if(_.isEmpty(toKill)) {
