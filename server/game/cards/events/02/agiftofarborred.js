@@ -33,6 +33,8 @@ class AGiftOfArborRed extends DrawCard {
             },
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name
         });
+
+        player.faction.kneeled = true;
     }
 
     revealCards(player, cards) {
@@ -43,7 +45,7 @@ class AGiftOfArborRed extends DrawCard {
             params += '{' + paramIndex++ + '} ';
         });
 
-        this.game.addMessage('{0} uses {1} to reveal the top 4 cards of {2}\'s deck as: ' + params, player, this, player, ...cards);
+        this.game.addMessage('{0} uses {1} to kneel their faction card and reveal the top 4 cards of {2}\'s deck as: ' + params, player, this, player, ...cards);
     }
 
     selectThisPlayerCardForHand(player, cardId) {

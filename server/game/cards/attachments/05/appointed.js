@@ -4,12 +4,12 @@ class Appointed extends DrawCard {
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: [
-            ability.effects.addIcon('intrigue'),
-            ability.effects.addTrait('Small Council')
+                ability.effects.addIcon('intrigue'),
+                ability.effects.addTrait('Small Council')
             ]
         });
     }
-    
+
     canAttach(player, card) {
         if(card.getType() !== 'character' || !card.isUnique()) {
             return false;
