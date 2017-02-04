@@ -44,7 +44,7 @@ class EventWindow extends BaseStep {
     }
 
     continue() {
-        return this.event.cancelled || this.pipeline.continue();
+        return this.pipeline.continue();
     }
 
     cancelInterrupts() {
@@ -52,14 +52,26 @@ class EventWindow extends BaseStep {
     }
 
     forcedInterrupts() {
+        if(this.event.cancelled) {
+            return;
+        }
+
         this.game.emit(this.eventName + ':forcedinterrupt', this.event, ...this.params);
     }
 
     interrupts() {
+        if(this.event.cancelled) {
+            return;
+        }
+
         this.game.emit(this.eventName + ':interrupt', this.event, ...this.params);
     }
 
     executeHandler() {
+        if(this.event.cancelled) {
+            return;
+        }
+
         if(!this.event.shouldSkipHandler) {
             this.handler();
         }
@@ -67,10 +79,18 @@ class EventWindow extends BaseStep {
     }
 
     forcedReactions() {
+        if(this.event.cancelled) {
+            return;
+        }
+
         this.game.emit(this.eventName + ':forcedreaction', this.event, ...this.params);
     }
 
     reactions() {
+        if(this.event.cancelled) {
+            return;
+        }
+
         this.game.emit(this.eventName + ':reaction', this.event, ...this.params);
     }
 }
