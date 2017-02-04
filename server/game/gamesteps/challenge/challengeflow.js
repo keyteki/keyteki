@@ -60,9 +60,10 @@ class ChallengeFlow extends BaseStep {
     chooseAttackers(player, attackers) {
         this.challenge.addAttackers(attackers);
 
-        this.game.raiseEvent('onChallenge', this.challenge);
-        this.challenge.initiateChallenge();
-        this.game.raiseEvent('onAttackersDeclared', this.challenge);
+        this.game.raiseEvent('onChallenge', this.challenge, () => {
+            this.challenge.initiateChallenge();
+            this.game.raiseEvent('onAttackersDeclared', this.challenge);
+        });
 
         return true;
     }
@@ -109,8 +110,10 @@ class ChallengeFlow extends BaseStep {
     announceDefenderStrength() {
         // Explicitly recalculate strength in case an effect has modified character strength.
         this.challenge.calculateStrength();
-        if(!this.challenge.isUnopposed()) {
+        if(this.challenge.defenderStrength > 0) {
             this.game.addMessage('{0} has defended with strength {1}', this.challenge.defendingPlayer, this.challenge.defenderStrength);
+        } else {
+            this.game.addMessage('{0} does not defend the challenge', this.challenge.defendingPlayer);
         }
     }
 
@@ -132,7 +135,7 @@ class ChallengeFlow extends BaseStep {
     }
 
     unopposedPower() {
-        if(this.challenge.isUnopposed() && this.challenge.isAttackerTheWinner() && !this.challenge.attackerCannotWin) {
+        if(this.challenge.isUnopposed() && this.challenge.isAttackerTheWinner()) {
             this.game.addMessage('{0} has gained 1 power from an unopposed challenge', this.challenge.winner);
             this.game.addPower(this.challenge.winner, 1);
 
@@ -141,7 +144,7 @@ class ChallengeFlow extends BaseStep {
     }
 
     beforeClaim() {
-        if(!this.challenge.isAttackerTheWinner() || this.challenge.attackerCannotWin) {
+        if(!this.challenge.isAttackerTheWinner()) {
             return;
         }
 

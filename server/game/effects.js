@@ -313,6 +313,16 @@ const Effects = {
             }
         };
     },
+    cannotWinChallenge: function() {
+        return {
+            apply: function(player) {
+                player.cannotWinChallenge = true;
+            },
+            unapply: function(player) {
+                player.cannotWinChallenge = false;
+            }
+        }
+    },
     /**
      * Effects specifically for Old Wyk.
      */
