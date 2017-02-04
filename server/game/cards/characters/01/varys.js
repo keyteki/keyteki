@@ -9,6 +9,7 @@ class Varys extends DrawCard {
                 onPhaseEnded: (event, phase) => phase === 'dominance'
             },
             handler: () => {
+                this.game.addMessage('{0} removes {1} from the game to discard all characters', this.controller, this);
                 this.controller.removeCardFromPile(this);
                 this.moveTo('out of game');
                 _.each(this.game.getPlayers(), player => {
