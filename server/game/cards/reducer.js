@@ -7,6 +7,7 @@ class Reducer extends DrawCard {
         this.reduceBy = reduceBy;
         this.condition = condition;
         this.abilityUsed = false;
+        this.abilityTriggered = false;
 
         this.registerEvents(['onBeginRound']);
     }
@@ -26,11 +27,13 @@ class Reducer extends DrawCard {
 
         player.kneelCard(this);
 
+        this.abilityTriggered = true;
+
         return true;
     }
 
     reduce(card, currentCost, spending) {
-        if(this.kneeled && !this.abilityUsed) {
+        if(this.abilityTriggered && this.kneeled && !this.abilityUsed) {
             var cost = currentCost - this.reduceBy;
 
             if(spending) {
@@ -49,10 +52,12 @@ class Reducer extends DrawCard {
 
     onBeginRound() {
         this.abilityUsed = false;
+        this.abilityTriggered = false;
     }
 
     leavesPlay() {
         this.abilityUsed = false;
+        this.abilityTriggered = false;
         super.leavesPlay();
     }
 }
