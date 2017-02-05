@@ -23,6 +23,10 @@ class InnerForgotPassword extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
+    componentDidMount() {
+        grecaptcha.render('captcha', { sitekey: '6LfELhMUAAAAAKbD2kLd6OtbsBbrZJFs7grwOREZ', theme: 'dark' });
+    }
+
     onChange(field, event) {
         var newState = {};
 
@@ -135,7 +139,7 @@ class InnerForgotPassword extends React.Component {
                 <form className='form form-horizontal'>
                     { fieldsToRender }
                     <div className='form-group'>
-                        <div className='g-recaptcha col-sm-offset-2 col-sm-3' data-sitekey='6LfELhMUAAAAAKbD2kLd6OtbsBbrZJFs7grwOREZ' data-theme='dark'/>
+                        <div id='captcha' className='g-recaptcha col-sm-offset-2 col-sm-3' />
                     </div>
                         <div className='form-group'>
                             <div className='col-sm-offset-2 col-sm-3'>
