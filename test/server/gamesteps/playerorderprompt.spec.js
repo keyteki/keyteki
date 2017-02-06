@@ -1,80 +1,97 @@
 /*global describe, it, beforeEach, expect, spyOn*/
+/* eslint camelcase: 0, no-invalid-this: 0 */
 
 const PlayerOrderPrompt = require('../../../server/game/gamesteps/playerorderprompt.js');
-const Game = require('../../../server/game/game.js');
-const Player = require('../../../server/game/player.js');
 
-describe('the PlayerOrderPrompt', () => {
-    var prompt;
-    var game = {};
-    var player1;
-    var player2;
-    var activePrompt = {};
-    var waitingPrompt = {};
+describe('the PlayerOrderPrompt', function() {
+    beforeEach(function() {
+        this.activePrompt = { active: true };
+        this.waitingPrompt = { active: false };
 
-    beforeEach(() => {
-        game = new Game('1', 'Test Game');
-        player1 = new Player('1', { username: 'Player 1' }, true, game);
-        player2 = new Player('2', { username: 'Player 2' }, false, game);
-        player2.firstPlayer = true;
-        game.playersAndSpectators[0] = player1;
-        game.playersAndSpectators[1] = player2;
-        prompt = new PlayerOrderPrompt(game);
-        spyOn(prompt, 'activePrompt').and.returnValue(activePrompt);
-        spyOn(prompt, 'waitingPrompt').and.returnValue(waitingPrompt);
-        spyOn(player1, 'setPrompt');
-        spyOn(player2, 'setPrompt');
-        spyOn(player1, 'cancelPrompt');
-        spyOn(player2, 'cancelPrompt');
+        this.game = jasmine.createSpyObj('game', ['getPlayers', 'getPlayersInFirstPlayerOrder']);
+        this.player1 = jasmine.createSpyObj('player1', ['setPrompt', 'cancelPrompt']);
+        this.player2 = jasmine.createSpyObj('player1', ['setPrompt', 'cancelPrompt']);
+
+        this.game.getPlayers.and.returnValue([this.player1, this.player2]);
+        this.game.getPlayersInFirstPlayerOrder.and.returnValue([this.player2, this.player1]);
+
+        this.prompt = new PlayerOrderPrompt(this.game);
+        spyOn(this.prompt, 'activePrompt').and.returnValue(this.activePrompt);
+        spyOn(this.prompt, 'waitingPrompt').and.returnValue(this.waitingPrompt);
     });
 
-    describe('the continue() function', () => {
-        describe('when there is a skip condition', () => {
-            beforeEach(() => {
-                spyOn(prompt, 'skipCondition').and.callFake(p => p === player2);
+    describe('the continue() function', function() {
+        describe('when there is a skip condition', function() {
+            beforeEach(function() {
+                spyOn(this.prompt, 'skipCondition').and.callFake(p => p === this.player2);
             });
 
-            it('should skip over the matching players', () => {
-                prompt.continue();
-                expect(prompt.currentPlayer).toBe(player1);
-            });
-        });
-
-        describe('when the prompt is incomplete', () => {
-            it('should prompt players in first-player order', () => {
-                prompt.continue();
-                expect(prompt.currentPlayer).toBe(player2);
-            });
-
-            it('should give the active prompt to the current player', () => {
-                prompt.continue();
-                expect(player2.setPrompt).toHaveBeenCalledWith(activePrompt);
-            });
-
-            it('should give the waiting prompt to the remaining players', () => {
-                prompt.continue();
-                expect(player1.setPrompt).toHaveBeenCalledWith(waitingPrompt);
-            });
-
-            it('should return false', () => {
-                expect(prompt.continue()).toBe(false);
+            it('should skip over the matching players', function() {
+                this.prompt.continue();
+                expect(this.prompt.currentPlayer).toBe(this.player1);
             });
         });
 
-        describe('when each player has been completed', () => {
-            beforeEach(() => {
-                prompt.completePlayer();
-                prompt.completePlayer();
+        describe('when the prompt is incomplete', function() {
+            it('should prompt players in first-player order', function() {
+                this.prompt.continue();
+                expect(this.prompt.currentPlayer).toBe(this.player2);
             });
 
-            it('should set the cancel prompts for each player', () => {
-                prompt.continue();
-                expect(player1.cancelPrompt).toHaveBeenCalled();
-                expect(player2.cancelPrompt).toHaveBeenCalled();
+            it('should give the active prompt to the current player', function() {
+                this.prompt.continue();
+                expect(this.player2.setPrompt).toHaveBeenCalledWith(this.activePrompt);
             });
 
-            it('should return true', () => {
-                expect(prompt.continue()).toBe(true);
+            it('should give the waiting prompt to the remaining players', function() {
+                this.prompt.continue();
+                expect(this.player1.setPrompt).toHaveBeenCalledWith(this.waitingPrompt);
+            });
+
+            it('should return false', function() {
+                expect(this.prompt.continue()).toBe(false);
+            });
+        });
+
+        describe('when each player has been completed', function() {
+            beforeEach(function() {
+                this.prompt.completePlayer();
+                this.prompt.completePlayer();
+            });
+
+            it('should set the cancel prompts for each player', function() {
+                this.prompt.continue();
+                expect(this.player1.cancelPrompt).toHaveBeenCalled();
+                expect(this.player2.cancelPrompt).toHaveBeenCalled();
+            });
+
+            it('should return true', function() {
+                expect(this.prompt.continue()).toBe(true);
+            });
+        });
+
+        describe('when the first player order changes after construction', function() {
+            beforeEach(function() {
+                this.game.getPlayersInFirstPlayerOrder.and.returnValue([this.player1, this.player2]);
+            });
+
+            it('should prompt players in the current first-player order', function() {
+                this.prompt.continue();
+                expect(this.prompt.currentPlayer).toBe(this.player1);
+            });
+
+            it('should give the active prompt to the current player', function() {
+                this.prompt.continue();
+                expect(this.player1.setPrompt).toHaveBeenCalledWith(this.activePrompt);
+            });
+
+            it('should give the waiting prompt to the remaining players', function() {
+                this.prompt.continue();
+                expect(this.player2.setPrompt).toHaveBeenCalledWith(this.waitingPrompt);
+            });
+
+            it('should return false', function() {
+                expect(this.prompt.continue()).toBe(false);
             });
         });
     });

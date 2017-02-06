@@ -8,16 +8,19 @@ const UiPrompt = require('./uiprompt.js');
  * any matching players from the prompt.
  */
 class PlayerOrderPrompt extends UiPrompt {
-    constructor(game) {
-        super(game);
-        this.players = game.getPlayersInFirstPlayerOrder();
-    }
-
     get currentPlayer() {
+        this.lazyFetchPlayers();
         return this.players[0];
     }
 
+    lazyFetchPlayers() {
+        if(!this.players) {
+            this.players = this.game.getPlayersInFirstPlayerOrder();
+        }
+    }
+
     skipPlayers() {
+        this.lazyFetchPlayers();
         this.players = _.reject(this.players, p => this.skipCondition(p));
     }
 
@@ -26,6 +29,7 @@ class PlayerOrderPrompt extends UiPrompt {
     }
 
     completePlayer() {
+        this.lazyFetchPlayers();
         this.players.shift();
     }
 
@@ -34,6 +38,7 @@ class PlayerOrderPrompt extends UiPrompt {
     }
 
     isComplete() {
+        this.lazyFetchPlayers();
         return this.players.length === 0;
     }
 
