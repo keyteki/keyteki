@@ -237,7 +237,22 @@ const Effects = {
                 }
             }
         };
-    },    
+    },
+    moveToDeadPileIfStillInPlay: function() {
+        return {
+            apply: function(card, context) {
+                context.moveToDeadPileIfStillInPlay = context.moveToDeadPileIfStillInPlay || [];
+                context.moveToDeadPileIfStillInPlay.push(card);
+            },
+            unapply: function(card, context) {
+                if(card.location === 'play area' && context.moveToDeadPileIfStillInPlay.includes(card)) {
+                    context.moveToDeadPileIfStillInPlay = _.reject(context.moveToDeadPileIfStillInPlay, c => c === card);
+                    card.owner.moveCard(card, 'dead pile');
+                    context.game.addMessage('{0} moves {1} to its owner\'s dead pile at the end of the phase because of {2}', context.source.controller, card, context.source);
+                }
+            }
+        };
+    },
     returnToHandIfStillInPlay: function(allowSave = false) {
         return {
             apply: function(card, context) {
