@@ -310,14 +310,6 @@ class Player extends Spectator {
     }
 
     canPlayCard(card, overrideHandCheck = false) {
-        if(this.activePlot && !this.activePlot.canPlay(this, card)) {
-            return false;
-        }
-
-        if(!this.cardsInPlay.all(c => c.canPlay(this, card))) {
-            return false;
-        }
-
         if(!card.canPlay(this, card)) {
             return false;
         }
@@ -326,6 +318,14 @@ class Player extends Spectator {
             if(this.phase !== 'challenge' || !card.isAmbush()) {
                 return false;
             }
+        }
+
+        if(card.getType() !== 'event' && this.phase === 'marshal' && card.cannotMarshal) {
+            return false;
+        }
+
+        if(card.getType() === 'event' && card.cannotPlay) {
+            return false;
         }
 
         if(!this.isCardUuidInList(this.hand, card) && !overrideHandCheck) {
