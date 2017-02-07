@@ -6,7 +6,7 @@ class BastardDaughter extends DrawCard {
             when: {
                 onCharacterKilled: (event, player, card) => (
                     this.controller === card.controller &&
-                    (card.name === 'Bastard Daughter' || card.name === 'The Red Viper')
+                    (card === this || card.name === 'The Red Viper')
                 )
             },
             handler: () => {
