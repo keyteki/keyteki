@@ -80,9 +80,9 @@ class InnerLobby extends React.Component {
         return (
             <div>
                 <div className='alert alert-info'>
+                    <div><span className='icon-military' />2017-02-07: New cards: Alannys Greyjoy, House of the Undying, Bear Island, Royal Entourage, Tobho Mott's Armory, Greatjon's Vanguard.  Fix Bastard Daughter, fix reducers triggering when knelt and fix the captcha on the restet password page</div>
                     <div><span className='icon-power' />2017-02-04: New cards: Harrenhal(FFH), Tower of the Hand, House Manderly Knight, "Wolf in the Night", Relentless Assault, Sea Bitch, Quaithe of the Shadow, Small Council Chamber, Varys, A Gift Of Arbor Red.  Various fixes including Fiery Followers</div>
                     <div><span className='icon-intrigue' />2017-02-02: Fix: cards with persistent effects, Areo Hotah, Davos Seaworth, Maester Caleotte.  Limit accounts to only be able to be in one game at once, playing or spectating.  Attempt to fix some of the sticky game/disconnect issues.  Please bear with me while I try to fix these issues, they're very difficult to replicate.  If you have more information on how they occur please raise an issue or let me know</div>
-                    <div><span className='icon-military' />2017-01-31: New cards: Harmen Uller, Mance Rayder, Raider from Pyke, The Wolfswood</div>
                 </div>
                 <div className='row'>
                     <span className='col-sm-9 text-center'><h1>Play A Game Of Thrones 2nd Edition</h1></span>
