@@ -6,7 +6,7 @@ class HisViperEyes extends DrawCard {
             return false;
         }
 
-        if(!this.game.currentChallenge || this.game.currentChallenge.winner === this.controller || 
+        if(!this.game.currentChallenge || this.game.currentChallenge.winner === this.controller ||
                 (this.game.currentChallenge.challengeType !== 'military' && this.game.currentChallenge.challengeType !== 'power')) {
             return false;
         }
@@ -61,7 +61,7 @@ class HisViperEyes extends DrawCard {
         this.game.addMessage('{0} cancels the resolution of {1}', player, this);
 
         return true;
-    }    
+    }
 }
 
 HisViperEyes.code = '03032';

@@ -13,7 +13,7 @@ class TowerOfTheHand extends DrawCard {
                     activePromptTitle: 'Select a character',
                     waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
                     onSelect: (player, card) => this.onCardSelected(player, card)
-                });             
+                });
             }
         });
     }
@@ -27,7 +27,7 @@ class TowerOfTheHand extends DrawCard {
         });
 
         this.selectedCard = card;
-        
+
         return true;
     }
 
@@ -37,7 +37,7 @@ class TowerOfTheHand extends DrawCard {
         this.game.addMessage('{0} uses {1} to return {2} to their hand and return {3} to {4}\'s hand', this.controller, this, this.selectedCard, card, card.controller);
 
         return true;
-    }    
+    }
 }
 
 TowerOfTheHand.code = '03030';

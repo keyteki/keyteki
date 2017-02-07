@@ -5,7 +5,7 @@ class NightGathers extends DrawCard {
         if(this !== card || player.phase !== 'marshal') {
             return false;
         }
-        
+
         var otherPlayer = this.game.getOtherPlayer(player);
         if(!otherPlayer) {
             return true;
@@ -32,7 +32,7 @@ class NightGathers extends DrawCard {
 
     onCardSelected(player, card) {
         this.game.takeControl(player, card);
-        
+
         player.playCard(card, false, true);
 
         this.game.promptForSelect(player, {
@@ -41,7 +41,7 @@ class NightGathers extends DrawCard {
             cardCondition: card => card.getType() === 'character' && card.controller !== this.controller && player.canPlayCard(card, true),
             onSelect: (player, cards) => this.onCardSelected(player, cards),
             onCancel: (player) => this.doneMarshalling(player)
-        });        
+        });
 
         return true;
     }

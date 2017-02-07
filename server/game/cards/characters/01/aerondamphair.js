@@ -41,7 +41,7 @@ class AeronDamphair extends DrawCard {
         this.game.addMessage('{0} uses {1} to put {2} into play from their dead pile', player, this, card);
 
         return true;
-    } 
+    }
 }
 
 AeronDamphair.code = '01065';

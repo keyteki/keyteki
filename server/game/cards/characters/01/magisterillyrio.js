@@ -19,7 +19,7 @@ class MagisterIllyrio extends DrawCard {
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
             cardCondition: card => card.location === 'play area' && card.getType() === 'character',
             onSelect: (p, card) => this.onStandSelected(p, card)
-        });        
+        });
 
         return true;
     }

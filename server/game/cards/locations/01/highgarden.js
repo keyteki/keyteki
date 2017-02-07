@@ -1,12 +1,12 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class Highgarden extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Kneel this card',
             method: 'kneel'
         });
-    }    
+    }
 
     kneel(player) {
         if(this.kneeled || this.controller.gold < 1 || this.location !== 'play area' || !this.game.currentChallenge) {

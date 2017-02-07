@@ -32,7 +32,7 @@ class MotherOfDragons extends DrawCard {
             return false;
         }
         return super.canAttach(player, card);
-    }       
+    }
 }
 
 MotherOfDragons.code = '04094';

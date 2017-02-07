@@ -12,7 +12,7 @@ class TheQueenOfThorns extends DrawCard {
                     waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
                     cardCondition: card => card.location === 'hand' && card.getCost() && card.getType() === 'character' && card.getFaction() === 'tyrell',
                     onSelect: (p, card) => this.onCardSelected(p, card)
-                });                 
+                });
             }
         });
     }

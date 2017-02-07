@@ -31,7 +31,7 @@ class AreoHotah extends DrawCard {
         this.game.addMessage('{0} uses {1} to remove {2} from the challenge', player, this, card);
 
         return true;
-    } 
+    }
 }
 
 AreoHotah.code = '01103';

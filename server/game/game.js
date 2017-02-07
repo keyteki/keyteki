@@ -321,7 +321,7 @@ class Game extends EventEmitter {
         to.gold += appliedGold;
 
         this.raiseEvent('onStatChanged', from, 'power');
-        this.raiseEvent('onStatChanged', to, 'power');        
+        this.raiseEvent('onStatChanged', to, 'power');
     }
 
     checkWinCondition(player) {
@@ -351,7 +351,7 @@ class Game extends EventEmitter {
                 this.winReason = 'decked';
 
                 this.saveGame();
-            }            
+            }
         }
     }
 
@@ -369,7 +369,7 @@ class Game extends EventEmitter {
             if(!player.activePlot) {
                 return;
             }
-            
+
             target = player.activePlot.cardData;
         }
 
@@ -461,9 +461,9 @@ class Game extends EventEmitter {
                     this.addMessage('{0} uses the /kill command to kill {1}', p, card);
                     return true;
                 }
-            });  
+            });
 
-            return;          
+            return;
         }
 
         if(message.indexOf('/blank') === 0) {
@@ -477,9 +477,9 @@ class Game extends EventEmitter {
                     this.addMessage('{0} uses the /blank command to blank {1}', p, card);
                     return true;
                 }
-            });  
+            });
 
-            return;          
+            return;
         }
 
         if(message.indexOf('/unblank') === 0) {
@@ -493,14 +493,14 @@ class Game extends EventEmitter {
                     this.addMessage('{0} uses the /unblank command to remove the blank condition from {1}', p, card);
                     return true;
                 }
-            });  
+            });
 
-            return;          
+            return;
         }
 
         if(message.indexOf('/add-trait') === 0) {
             if(args.length > 1) {
-                var trait = args[1];            
+                var trait = args[1];
                 this.promptForSelect(player, {
                     activePromptTitle: 'Select a card',
                     waitingPromptTitle: 'Waiting for opponent to add trait to card',
@@ -519,7 +519,7 @@ class Game extends EventEmitter {
 
         if(message.indexOf('/remove-trait') === 0) {
             if(args.length > 1) {
-                trait = args[1];            
+                trait = args[1];
                 this.promptForSelect(player, {
                     activePromptTitle: 'Select a card',
                     waitingPromptTitle: 'Waiting for opponent to remove trait remove card',
@@ -534,11 +534,11 @@ class Game extends EventEmitter {
 
                 return;
             }
-        }        
+        }
 
         if(message.indexOf('/add-keyword') === 0) {
             if(args.length > 1) {
-                var keyword = args[1];            
+                var keyword = args[1];
                 this.promptForSelect(player, {
                     activePromptTitle: 'Select a card',
                     waitingPromptTitle: 'Waiting for opponent to add keyword to card',
@@ -551,13 +551,13 @@ class Game extends EventEmitter {
                     }
                 });
 
-                return;                
+                return;
             }
         }
 
         if(message.indexOf('/remove-keyword') === 0) {
             if(args.length > 1) {
-                keyword = args[1];            
+                keyword = args[1];
                 this.promptForSelect(player, {
                     activePromptTitle: 'Select a card',
                     waitingPromptTitle: 'Waiting for opponent to add keyword to card',
@@ -688,7 +688,7 @@ class Game extends EventEmitter {
                 this.winReason = 'concede';
 
                 this.saveGame();
-            }            
+            }
         }
     }
 
@@ -885,7 +885,7 @@ class Game extends EventEmitter {
 
     getSaveState() {
         var players = _.map(this.getPlayers(), player => {
-            return { 
+            return {
                 name: player.name,
                 faction: player.faction.name,
                 agenda: player.agenda ? player.agenda.name : undefined,
@@ -902,7 +902,7 @@ class Game extends EventEmitter {
             finishedAt: this.finishedAt
         };
     }
-    
+
     saveGame() {
         this.gameRepository.save(this.getSaveState(), (err, id) => {
             if(!err) {
@@ -955,14 +955,14 @@ class Game extends EventEmitter {
                 deck = {};
             }
 
-            playerSummaries[player.name] = { 
+            playerSummaries[player.name] = {
                 agenda: player.agenda ? player.agenda.code : undefined,
-                deck: deck, 
-                emailHash: player.user.emailHash, 
+                deck: deck,
+                emailHash: player.user.emailHash,
                 faction: player.faction.code,
                 id: player.id,
                 left: player.left,
-                name: player.user.username, 
+                name: player.user.username,
                 owner: player.owner
             };
         });

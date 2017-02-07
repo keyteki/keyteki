@@ -126,7 +126,7 @@ class Challenge {
             this.loserStrength = this.winnerStrength = 0;
             this.strengthDifference = 0;
 
-            return;            
+            return;
         }
 
         if(this.attackerStrength >= this.defenderStrength) {
@@ -176,7 +176,7 @@ class Challenge {
     }
 
     getOpponentCards(player) {
-        return this.attackingPlayer === player ? this.defenders : this.attackers; 
+        return this.attackingPlayer === player ? this.defenders : this.attackers;
     }
 
     onCardLeftPlay(e, player, card) {
@@ -195,7 +195,7 @@ class Challenge {
 
     finish() {
         _.each(this.attackers, card => card.inChallenge = false);
-        _.each(this.defenders, card => card.inChallenge = false);        
+        _.each(this.defenders, card => card.inChallenge = false);
     }
 
     cancelChallenge() {

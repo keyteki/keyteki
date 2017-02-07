@@ -6,7 +6,7 @@ class TheFirstSnowOfWinter extends PlotCard {
     setupCardAbilities() {
         this.forcedReaction({
             when: {
-                onPhaseStarted: (event, phase) => phase === 'challenge' 
+                onPhaseStarted: (event, phase) => phase === 'challenge'
             },
             handler: () => {
                 _.each(this.game.getPlayers(), player => this.returnCardsToHand(player));

@@ -23,7 +23,7 @@ class GameRepository {
                     players: game.playersAndSpectators,
                     winner: game.winner,
                     winReason: game.winReason,
-                    finishedAt: game.finishedAt                    
+                    finishedAt: game.finishedAt
                 }
             });
         }

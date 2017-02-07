@@ -29,10 +29,10 @@ function loginUser(request, user) {
             if(err) {
                 return reject(err);
             }
-            
+
             resolve();
         });
-    });    
+    });
 }
 
 function sendEmail(address, email) {
@@ -127,7 +127,7 @@ module.exports.init = function(server) {
 
             if(user.tokenExpires < now) {
                 res.send({ success: false, message: 'The reset token you have provided has expired'});
-                
+
                 responseSent = true;
 
                 throw new Error('Token expired');
@@ -140,7 +140,7 @@ module.exports.init = function(server) {
                 throw new Error('Invalid reset token');
             }
 
-            return hashPassword(req.body.newPassword, 10);            
+            return hashPassword(req.body.newPassword, 10);
         }).then(hash => {
             return userRepository.setPassword(resetUser, hash);
         }).then(() => {
@@ -194,7 +194,7 @@ module.exports.init = function(server) {
                   'If you did not request this reset, do not worry, your account has not been affected and your password has not been changed, just ignore this email.\n' +
                   'Kind regards,\n\n' +
                   'The Iron Throne team';
-                  
+
             sendEmail(emailUser.email, emailText);
         })
         .catch(err => {

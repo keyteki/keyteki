@@ -1,5 +1,5 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class MareInHeat extends DrawCard {
     setupCardAbilities() {
         this.action({

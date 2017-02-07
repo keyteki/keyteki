@@ -27,11 +27,11 @@ class ArianneMartell extends DrawCard {
     onCardSelected(player, card) {
         player.moveCard(card, 'play area');
         player.moveCard(this, 'hand');
-        
+
         this.game.addMessage('{0} uses {1} to put {2} in play from their hand and return {1} to their hand', player, this, card);
 
         return true;
-    } 
+    }
 }
 
 ArianneMartell.code = '01104';

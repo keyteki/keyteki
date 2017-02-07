@@ -718,7 +718,7 @@ class Player extends Spectator {
     discardCard(card, allowSave = true) {
         if(!card.dupes.isEmpty() && allowSave) {
             if(!this.removeDuplicate(card)) {
-                this.moveCard(card, 'discard pile');    
+                this.moveCard(card, 'discard pile');
             } else {
                 this.game.addMessage('{0} discards a duplicate to save {1}', this, card);
             }
@@ -730,13 +730,13 @@ class Player extends Spectator {
     returnCardToHand(card, allowSave = true) {
         if(!card.dupes.isEmpty() && allowSave) {
             if(!this.removeDuplicate(card)) {
-                this.moveCard(card, 'hand');    
+                this.moveCard(card, 'hand');
             } else {
                 this.game.addMessage('{0} discards a duplicate to save {1}', this, card);
             }
         } else {
             this.moveCard(card, 'hand');
-        }        
+        }
     }
 
     killCharacter(card, allowSave = true) {

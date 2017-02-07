@@ -22,7 +22,7 @@ class PullingTheStrings extends PlotCard {
         return card.getType() === 'plot' && card.location === 'revealed plots' && card.controller !== this.controller && (card.hasTrait('Edict') || card.hasTrait('Kingdom') || card.hasTrait('Scheme'));
     }
 
-    onCardSelected(player, card) {      
+    onCardSelected(player, card) {
         card.moveTo('active plot');
         this.resolving = true;
 

@@ -25,7 +25,7 @@ class StreetOfTheSisters extends DrawCard {
                 ]
             },
             waitingPromptTitle: 'Waiting for opponent to trigger ' + this.name
-        });        
+        });
     }
 
     kneel(player) {

@@ -30,11 +30,11 @@ class MaesterCaleotte extends DrawCard {
                 ]
             },
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name
-        }); 
+        });
 
         return true;
     }
-    
+
     iconSelected(player, icon) {
         this.game.addMessage('{0} uses {1} to remove a {2} icon from {3}', player, this, icon, this.selectedCard);
         this.untilEndOfPhase(ability => ({

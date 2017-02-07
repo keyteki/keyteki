@@ -34,7 +34,7 @@ class KingBalonsSolar extends DrawCard {
 
     cancel(player) {
         this.game.addMessage('{0} declines to trigger {1}', player, this);
-        
+
         return true;
     }
 }

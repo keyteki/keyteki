@@ -14,8 +14,8 @@ class TheHauntedForest extends DrawCard {
 
         challenge.modifyDefenderStrength(1);
         this.game.addMessage('{0} uses {1} to add 1 to the strength of this {2} challenge', this.controller, this, challenge.challengeType);
-    }    
-    
+    }
+
     setupCardAbilities() {
         this.forcedReaction({
             when: {

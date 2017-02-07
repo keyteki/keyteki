@@ -45,7 +45,7 @@ class BloodOfMyBlood extends DrawCard {
         this.atEndOfPhase(ability => ({
             match: card,
             effect: ability.effects.returnToHandIfStillInPlay(true)
-        }));        
+        }));
 
         this.game.addMessage('{0} uses {1} to reveal {2} and put it into play', player, this, card);
 

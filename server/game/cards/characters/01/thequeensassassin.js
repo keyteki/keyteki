@@ -26,7 +26,7 @@ class TheQueensAssassin extends DrawCard {
                     onSelect: (p, card) => this.onCardSelected(p, card)
                 });
 
-                this.game.addMessage('{0} uses {1} to force {2} to choose and kill a character', this.controller, this, otherPlayer);     
+                this.game.addMessage('{0} uses {1} to force {2} to choose and kill a character', this.controller, this, otherPlayer);
             }
         });
     }
@@ -37,7 +37,7 @@ class TheQueensAssassin extends DrawCard {
         this.game.addMessage('{0} selected {1} to kill', player, card);
 
         return true;
-    }    
+    }
 }
 
 TheQueensAssassin.code = '01095';

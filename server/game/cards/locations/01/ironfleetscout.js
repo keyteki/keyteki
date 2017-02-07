@@ -6,7 +6,7 @@ class IronFleetScout extends DrawCard {
             title: 'Kneel this card to give a character +1 STR',
             method: 'kneel'
         });
-    }    
+    }
 
     kneel(player) {
         if(this.location !== 'play area' || !this.game.currentChallenge || this.kneeled) {

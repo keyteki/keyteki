@@ -13,7 +13,7 @@ class ThrowingAxe extends DrawCard {
                     waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
                     cardCondition: card => card.location === 'play area' && this.game.currentChallenge.isDefending(card),
                     onSelect: (p, card) => this.onCardSelected(p, card)
-                });                
+                });
             }
         });
     }

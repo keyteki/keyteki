@@ -15,7 +15,7 @@ class HandMaiden extends DrawCard {
             cardCondition: card => card.location === 'play area' && card.controller === this.controller && card.getType() === 'character' && card.hasTrait('Lady'),
             onSelect: (p, card) => this.onStandSelected(p, card)
         });
-        
+
         return true;
     }
 

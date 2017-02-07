@@ -18,7 +18,7 @@ class Halder extends DrawCard {
 
         return true;
     }
-    
+
     onCardSelected(player, card) {
         this.game.promptForSelect(player, {
             cardCondition: card => card.getFaction() === 'thenightswatch' && card.getType() === 'character',

@@ -1,12 +1,12 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class RaidingLongship extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Kneel this card',
             method: 'kneel'
         });
-    }    
+    }
 
     kneel(player) {
         if(this.kneeled || this.location !== 'play area' || !this.game.currentChallenge || !player.firstPlayer) {

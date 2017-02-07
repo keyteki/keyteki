@@ -45,7 +45,7 @@ class WardensOfTheWest extends PlotCard {
         this.game.addMessage('{0} cancels the resolution of {1}', player, this);
 
         return true;
-    }    
+    }
 }
 
 WardensOfTheWest.code = '02030';

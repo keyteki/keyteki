@@ -38,7 +38,7 @@ class PaidOff extends DrawCard {
 
         return true;
     }
-    
+
     cancel(player) {
         this.game.addMessage('{0} does not pay 1 gold and {1} remains kneeled', player, this.parent);
 
@@ -57,7 +57,7 @@ class PaidOff extends DrawCard {
         this.game.addMessage('{0} kneels {1} to remove {2} from the challenge', player, this, card);
 
         return true;
-    }    
+    }
 
     canAttach(player, card) {
         if(card.getType() !== 'character' || card.controller === this.controller) {

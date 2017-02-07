@@ -69,7 +69,7 @@ passport.use(new localStrategy(
                 }
 
                 return done(null, { username: user.username, email: user.email, emailHash: user.emailHash, _id: user._id });
-            });            
+            });
         }).catch(err => {
             logger.info(err.message);
 
@@ -238,7 +238,7 @@ function sendGameState(game) {
         if(player.left) {
             return;
         }
-        
+
         io.to(player.id).emit('gamestate', game.getState(player.name));
     });
 }
@@ -266,7 +266,7 @@ function handleError(game, e) {
 function runAndCatchErrors(game, func) {
     try {
         func();
-    } catch(e) { 
+    } catch(e) {
         handleError(game, e);
 
         sendGameState(game);

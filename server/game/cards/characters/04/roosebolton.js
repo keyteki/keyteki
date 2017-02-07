@@ -16,7 +16,7 @@ class RooseBolton extends DrawCard {
                     activePromptTitle: 'Select characters',
                     waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
                     cardCondition: card => {
-                        return card.getType() === 'character' && card.controller !== this.controller && 
+                        return card.getType() === 'character' && card.controller !== this.controller &&
                             (card.getStrength() + this.selectedStrength <= this.getStrength() || card.opponentSelected);
                     },
                     onCardToggle: (player, card) => {
@@ -24,7 +24,7 @@ class RooseBolton extends DrawCard {
                             this.selectedStrength += card.getStrength();
                         } else {
                             this.selectedStrength -= card.getStrength();
-                        }    
+                        }
                     },
                     onSelect: (player, cards) => this.onSelect(player, cards),
                     onCancel: (player) => this.cancelSelection(player)

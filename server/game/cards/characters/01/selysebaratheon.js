@@ -20,7 +20,7 @@ class SelyseBaratheon extends DrawCard {
             onSelect: (p, card) => this.onCardSelected(p, card)
         });
 
-        return true;  
+        return true;
     }
 
     onCardSelected(player, card) {

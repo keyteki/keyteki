@@ -41,7 +41,7 @@ class ANobleCause extends PlotCard {
 
     leavesPlay() {
         super.leavesPlay();
-        
+
         this.abilityUsed = false;
     }
 }

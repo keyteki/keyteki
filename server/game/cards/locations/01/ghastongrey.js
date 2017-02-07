@@ -21,9 +21,9 @@ class GhastonGrey extends DrawCard {
                 ]
             },
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name
-        });         
+        });
 
-        return true;        
+        return true;
     }
 
     sacrifice(player) {
@@ -34,7 +34,7 @@ class GhastonGrey extends DrawCard {
             onSelect: (p, card) => this.onCardSelected(p, card)
         });
 
-        return true;        
+        return true;
     }
 
     cancel(player) {
@@ -48,7 +48,7 @@ class GhastonGrey extends DrawCard {
         player.sacrificeCard(this);
 
         card.controller.moveCard(card, 'hand');
-        
+
         this.game.addMessage('{0} uses {1} to return {2} to {3}\'s hand', player, this, card, card.controller);
 
         return true;

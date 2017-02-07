@@ -1,12 +1,12 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class SeaBitch extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Sacrifice this card',
             method: 'sacrifice'
         });
-    }    
+    }
 
     sacrifice(player) {
         if(this.location !== 'play area') {
@@ -24,7 +24,7 @@ class SeaBitch extends DrawCard {
         return card.getType() === 'location' && card.location === 'play area' && card.owner !== this.owner && !card.hasKeyword('Limited');
     }
 
-    onCardSelected(player, card) {      
+    onCardSelected(player, card) {
         this.untilEndOfPhase(ability => ({
             targetController: 'opponent',
             match:  card,

@@ -23,7 +23,7 @@ class TheRedKeep extends DrawCard {
 
         challenge.modifyDefenderStrength(2);
         this.game.addMessage('{0} uses {1} to add 2 to the strength of this {2} challenge', this.controller, this, challenge.challengeType);
-    }    
+    }
 
     onPhaseEnded(event, phase) {
         if(phase !== 'challenge' || this.kneeled || this.isBlank()) {

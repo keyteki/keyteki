@@ -30,7 +30,7 @@ class ConsolidationOfPower extends DrawCard {
                     this.selectedStrength += card.getStrength();
                 } else {
                     this.selectedStrength -= card.getStrength();
-                }    
+                }
             },
             onSelect: (player, cards) => this.onSelect(player, cards),
             onCancel: (player) => this.cancelSelection(player)

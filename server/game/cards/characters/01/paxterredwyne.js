@@ -32,7 +32,7 @@ class PaxterRedwyne extends DrawCard {
             if(spending) {
                 this.abilityUsed = true;
 
-                this.game.addMessage('{0} uses {1} to reduce the cost of {2} by 1', this.controller, this, card);                
+                this.game.addMessage('{0} uses {1} to reduce the cost of {2} by 1', this.controller, this, card);
             }
 
             if(cost < 0) {

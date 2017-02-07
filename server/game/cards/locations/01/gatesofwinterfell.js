@@ -1,5 +1,5 @@
 const DrawCard = require('../../../drawcard.js');
- 
+
 class GatesOfWinterfell extends DrawCard {
     setupCardAbilities() {
         this.action({
@@ -7,7 +7,7 @@ class GatesOfWinterfell extends DrawCard {
             method: 'kneel',
             phase: 'challenge'
         });
-    }    
+    }
 
     kneel(player) {
         if(this.kneeled || this.location !== 'play area') {

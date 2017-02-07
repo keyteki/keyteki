@@ -20,7 +20,7 @@ class TheKingsPeace extends PlotCard {
 
                 if(buttons.length === 0) {
                     this.cancelChallenge(otherPlayer);
-                    
+
                     return true;
                 }
 
@@ -64,7 +64,7 @@ class TheKingsPeace extends PlotCard {
         this.game.addMessage('{0} uses {1} to cancel the current challenge', this.controller, this);
 
         return true;
-    }   
+    }
 }
 
 TheKingsPeace.code = '02048';

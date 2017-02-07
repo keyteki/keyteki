@@ -31,7 +31,7 @@ class FireAndBlood extends DrawCard {
                     ]
                 },
                 waitingPromptTitle: 'Waiting for opponent to use ' + this.name
-            });            
+            });
         } else {
             this.shuffleCard(card);
         }

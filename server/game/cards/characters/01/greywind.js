@@ -7,7 +7,7 @@ class GreyWind extends DrawCard {
             method: 'kill',
             phase: 'challenge'
         });
-    }    
+    }
 
     kill(player) {
         if(this.kneeled) {

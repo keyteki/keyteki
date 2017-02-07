@@ -21,7 +21,7 @@ class TheKrakensGrasp extends DrawCard {
 
                 return true;
             }
-        });        
+        });
     }
 }
 

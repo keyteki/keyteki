@@ -20,7 +20,7 @@ class OldBearMormont extends DrawCard {
                     activePromptTitle: 'Select character',
                     waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
                     onSelect: (player, card) => this.onCardSelected(player, card)
-                });                
+                });
             }
         });
     }

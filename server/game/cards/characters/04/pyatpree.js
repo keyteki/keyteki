@@ -24,7 +24,7 @@ class PyatPree extends DrawCard {
                         buttons: buttons
                     },
                     waitingPromptTitle: 'Waiting for opponent to use ' + this.name
-                });                                 
+                });
             }
         });
     }

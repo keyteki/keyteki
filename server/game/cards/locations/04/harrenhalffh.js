@@ -6,7 +6,7 @@ class Harrenhal extends DrawCard {
             title: 'Kneel Harrenhal to put a character in play',
             method: 'kneel',
             phase: 'challenge'
-        });        
+        });
     }
 
     kneel(player) {
@@ -16,7 +16,7 @@ class Harrenhal extends DrawCard {
             activePromptTitle: 'Select a character',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
             onSelect: (player, card) => this.onCardSelected(player, card)
-        });        
+        });
     }
 
     onCardSelected(player, card) {

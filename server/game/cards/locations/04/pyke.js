@@ -6,7 +6,7 @@ class Pyke extends DrawCard {
             title: 'Kneel Pyke to give a character stealth',
             method: 'kneel'
         });
-    }    
+    }
 
     kneel(player) {
         if(this.location !== 'play area' || this.kneeled) {

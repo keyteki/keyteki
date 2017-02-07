@@ -15,7 +15,7 @@ class JonSnow extends DrawCard {
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
             cardCondition: card => card.location === 'play area' && card.controller === this.controller && card.getType() === 'character' && card.getFaction() === this.getFaction(),
             onSelect: (p, card) => this.onSacrificeSelected(p, card)
-        });        
+        });
 
         return true;
     }

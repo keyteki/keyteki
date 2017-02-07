@@ -7,7 +7,7 @@ class LordsportShipright extends DrawCard {
             method: 'kneelLocation',
             phase: 'marshal'
         });
-    }    
+    }
 
     kneelLocation(player) {
         if(this.kneeled) {
@@ -19,7 +19,7 @@ class LordsportShipright extends DrawCard {
             activePromptTitle: 'Select location',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
             onSelect: (player, card) => this.onCardSelected(player, card)
-        });        
+        });
 
         return true;
     }
@@ -37,7 +37,7 @@ class LordsportShipright extends DrawCard {
         this.game.addMessage('{0} uses {1} to kneel {2}', player, this, card);
 
         return true;
-    }    
+    }
 }
 
 LordsportShipright.code = '01075';

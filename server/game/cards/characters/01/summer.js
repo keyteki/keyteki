@@ -19,14 +19,14 @@ class Summer extends DrawCard {
                     waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
                     cardCondition: (card) => this.cardCondition(card),
                     onSelect: (p, card) => this.onCardSelected(p, card)
-                });                
-            }            
+                });
+            }
         });
     }
 
     cardCondition(card) {
         return (card.location === 'dead pile' || card.location === 'discard pile') && card.controller === this.controller && card.getType() === 'character' &&
-            card.getFaction() === 'stark' && card.getStrength(true) <= 2;    
+            card.getFaction() === 'stark' && card.getStrength(true) <= 2;
     }
 
     onCardSelected(player, card) {
