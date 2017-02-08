@@ -29,7 +29,7 @@ class IronFleetScout extends DrawCard {
         var strength = player.firstPlayer ? 2 : 1;
         player.kneelCard(this);
         this.game.addMessage('{0} kneels {1} to give {2} +{3} STR until the end of the challenge', player, this, card, strength);
-        this.untilEndOfPhase(ability => ({
+        this.untilEndOfChallenge(ability => ({
             match: card,
             effect: ability.effects.modifyStrength(strength)
         }));
