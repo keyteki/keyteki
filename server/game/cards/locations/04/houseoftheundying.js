@@ -31,7 +31,6 @@ class HouseOfTheUndying extends DrawCard {
 
         _.each(eligibleCharacters, card => {
             this.game.takeControl(this.controller, card);
-            card.moveTo('play area');
             this.atEndOfPhase(ability => ({
                 match: card,
                 effect: ability.effects.moveToDeadPileIfStillInPlay()

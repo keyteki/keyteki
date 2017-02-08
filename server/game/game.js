@@ -653,6 +653,27 @@ class Game extends EventEmitter {
             }
         }
 
+        if(message.indexOf('/give-control') === 0) {
+            this.promptForSelect(player, {
+                activePromptTitle: 'Select a character',
+                waitingPromptTitle: 'Waiting for opponent to give control',
+                cardCondition: card => ['play area', 'discard pile', 'dead pile'].includes(card.location) && card.controller === player,
+                onSelect: (p, card) => {
+                    var otherPlayer = this.getOtherPlayer(player);
+                    if(!otherPlayer) {
+                        return true;
+                    }
+
+                    this.takeControl(otherPlayer, card);
+                    this.addMessage('{0} uses the /give-control command to pass control of {1} to {2}', p, card, otherPlayer);
+
+                    return true;
+                }
+            });
+
+            return;
+        }
+
         if(message.indexOf('/reset-challenges-count') === 0) {
             player.challenges.reset();
             this.addMessage('{0} uses /reset-challenges-count to reset the number of challenges performed', player);
@@ -800,8 +821,15 @@ class Game extends EventEmitter {
 
         oldController.removeCardFromPile(card);
         newController.cardsInPlay.push(card);
-
         card.controller = newController;
+
+        if(card.location !== 'play area') {
+            card.play(newController, false);
+            card.moveTo('play area');
+            this.raiseEvent('onCardEntersPlay', card);
+        }
+
+        this.raiseEvent('onCardTakenControl', card);
     }
 
     watch(socketId, user) {

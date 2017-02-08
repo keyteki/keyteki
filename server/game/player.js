@@ -834,7 +834,7 @@ class Player extends Spectator {
 
         var targetPile = this.getSourceList(targetLocation);
 
-        if(!targetPile) {
+        if(!targetPile || targetPile.contains(card)) {
             return;
         }
 

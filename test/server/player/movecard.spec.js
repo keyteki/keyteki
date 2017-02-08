@@ -163,5 +163,24 @@ describe('Player', function() {
                 expect(this.player.drawDeck.last()).toBe(this.card);
             });
         });
+
+        describe('when the card location property and actual location do not match', function() {
+            // Game.takeControl used to push the card directly onto cardsInPlay
+            // but did not update the location for the card. This caused weird
+            // problems where the strength of the card would be doubled for both
+            // challenges and dominance.
+            beforeEach(function() {
+                // Put into play with the wrong location.
+                this.card.location = 'discard pile';
+                this.player.cardsInPlay = _([this.card]);
+
+                this.player.moveCard(this.card, 'play area');
+            });
+
+            it('should not duplicate the card', function() {
+                expect(this.player.cardsInPlay.size()).toBe(1);
+                expect(this.player.cardsInPlay.toArray()).toEqual([this.card]);
+            });
+        });
     });
 });
