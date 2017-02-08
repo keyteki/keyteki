@@ -1,30 +1,18 @@
 const DrawCard = require('../../../drawcard.js');
 
 class SerJaimeLannister extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onAttackersDeclared']);
-    }
-
-    onAttackersDeclared(event, challenge) {
-        var player = challenge.attackingPlayer;
-        if(challenge.challengeType !== 'military') {
-            return;
-        }
-
-        this.untilEndOfChallenge(ability => ({
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            condition: () => (
+                this.game.currentChallenge &&
+                this.game.currentChallenge.challengeType === 'military'
+            ),
             match: this,
-            effect: ability.effects.addKeyword('renown')
-        }));
-
-        if(this.controller !== player) {
-            return;
-        }
-
-        if(!this.isBlank() && challenge.isAttacking(this)) {
-            player.standCard(this);
-        }
+            effect: [
+                ability.effects.addKeyword('Renown'),
+                ability.effects.doesNotKneelAsAttacker()
+            ]
+        });
     }
 }
 

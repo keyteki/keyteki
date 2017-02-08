@@ -1,15 +1,12 @@
-const _ = require('underscore');
-
 const DrawCard = require('../../../drawcard.js');
 
 class OldBearMormont extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onDefendersDeclared']);
-    }
-
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            condition: () => this.controller.cardsInPlay.any(card => card.name === 'The Wall'),
+            match: this,
+            effect: ability.effects.doesNotKneelAsDefender()
+        });
         this.interrupt({
             when: {
                 onPhaseEnded: (event, phase) => phase === 'challenge' && this.controller.getNumberOfChallengesLost('defender') === 0
@@ -31,22 +28,6 @@ class OldBearMormont extends DrawCard {
         this.game.addMessage('{0} uses {1} to put {2} into play from their hand', player, this, card);
 
         return true;
-    }
-
-    onDefendersDeclared(event, challenge) {
-        if(this.isBlank() || this.controller !== challenge.defendingPlayer) {
-            return;
-        }
-
-        if(!this.controller.cardsInPlay.any(card => {
-            return card.name === 'The Wall';
-        })) {
-            return;
-        }
-
-        if(challenge.isDefending(this)) {
-            this.controller.standCard(this);
-        }
     }
 }
 

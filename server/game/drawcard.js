@@ -33,7 +33,11 @@ class DrawCard extends BaseCard {
         this.wasAmbush = false;
         this.challengeOptions = {
             allowAsAttacker: true,
-            allowAsDefender: true
+            allowAsDefender: true,
+            doesNotKneelAs: {
+                attacker: false,
+                defender: false
+            }
         };
     }
 

@@ -1,21 +1,18 @@
+const _ = require('underscore');
+
 const DrawCard = require('../../../drawcard.js');
 
 class VanguardOfTheNorth extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onAttackersDeclared']);
-    }
-
-    onAttackersDeclared(event, challenge) {
-        var player = challenge.attackingPlayer;
-        if(this.isBlank() || challenge.challengeType !== 'military' || !challenge.isAttacking(this)) {
-            return;
-        }
-
-        if(player.activePlot.hasTrait('War')) {
-            player.standCard(this);
-        }
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            condition: () => (
+                this.game.currentChallenge &&
+                this.game.currentChallenge.challengeType === 'military' &&
+                _.any(this.game.getPlayers(), player => player.activePlot && player.activePlot.hasTrait('War'))
+            ),
+            match: this,
+            effect: ability.effects.doesNotKneelAsAttacker()
+        });
     }
 }
 

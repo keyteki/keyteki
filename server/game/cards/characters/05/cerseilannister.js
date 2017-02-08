@@ -2,6 +2,14 @@ const DrawCard = require('../../../drawcard.js');
 
 class CerseiLannister extends DrawCard {
     setupCardAbilities(ability) {
+        this.persistentEffect({
+            condition: () => (
+                this.game.currentChallenge &&
+                this.game.currentChallenge.challengeType === 'intrigue'
+            ),
+            match: this,
+            effect: ability.effects.doesNotKneelAsAttacker()
+        });
         this.reaction({
             when: {
                 onCardDiscarded: (event, player, card) => this.controller !== player && card.location === 'hand'
@@ -12,23 +20,6 @@ class CerseiLannister extends DrawCard {
                 this.modifyPower(1);
             }
         });
-    }
-
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onAttackersDeclared']);
-    }
-
-    onAttackersDeclared(e, challenge) {
-        var player = challenge.attackingPlayer;
-        if(this.controller !== player || challenge.challengeType !== 'intrigue') {
-            return;
-        }
-
-        if(!this.isBlank() && challenge.isAttacking(this)) {
-            player.standCard(this);
-        }
     }
 }
 

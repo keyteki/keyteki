@@ -1,24 +1,19 @@
 const DrawCard = require('../../../drawcard.js');
 
 class DrogosArakh extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onAttackersDeclared']);
-    }
-
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: ability.effects.modifyStrength(2)
         });
-    }
-
-    onAttackersDeclared(event, challenge) {
-        if(challenge.challengeType !== 'military' || !challenge.isAttacking(this.parent) || this.parent.name !== 'Khal Drogo' || this.controller.getNumberOfChallengesInitiated() > 1) {
-            return;
-        }
-
-        this.parent.controller.standCard(this.parent);
+        this.whileAttached({
+            condition: () => (
+                this.game.currentChallenge &&
+                this.game.currentChallenge.challengeType === 'military' &&
+                this.controller.getNumberOfChallengesInitiatedByType('military') === 0
+            ),
+            match: card => card.name === 'Khal Drogo',
+            effect: ability.effects.doesNotKneelAsAttacker()
+        });
     }
 
     canAttach(player, card) {

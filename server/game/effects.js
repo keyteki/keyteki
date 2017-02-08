@@ -38,6 +38,26 @@ const Effects = {
             }
         };
     },
+    doesNotKneelAsAttacker: function() {
+        return {
+            apply: function(card) {
+                card.challengeOptions.doesNotKneelAs.attacker = true;
+            },
+            unapply: function(card) {
+                card.challengeOptions.doesNotKneelAs.attacker = false;
+            }
+        };
+    },
+    doesNotKneelAsDefender: function() {
+        return {
+            apply: function(card) {
+                card.challengeOptions.doesNotKneelAs.defender = true;
+            },
+            unapply: function(card) {
+                card.challengeOptions.doesNotKneelAs.defender = false;
+            }
+        };
+    },
     modifyStrength: function(value) {
         return {
             apply: function(card) {

@@ -110,6 +110,10 @@ class Player extends Spectator {
         return this.challenges.getLost(challengeType);
     }
 
+    getNumberOfChallengesInitiatedByType(challengeType) {
+        return this.challenges.getPerformed(challengeType);
+    }
+
     getNumberOfChallengesInitiated() {
         return this.challenges.complete;
     }

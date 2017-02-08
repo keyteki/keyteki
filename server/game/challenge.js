@@ -37,25 +37,25 @@ class Challenge {
 
     addAttackers(attackers) {
         this.attackers = this.attackers.concat(attackers);
-        this.markAsParticipating(attackers);
+        this.markAsParticipating(attackers, 'attacker');
         this.calculateStrength();
     }
 
     addAttacker(attacker) {
         this.attackers.push(attacker);
-        this.markAsParticipating([attacker]);
+        this.markAsParticipating([attacker], 'attacker');
         this.calculateStrength();
     }
 
     addDefenders(defenders) {
         this.defenders = this.defenders.concat(defenders);
-        this.markAsParticipating(defenders);
+        this.markAsParticipating(defenders, 'defender');
         this.calculateStrength();
     }
 
     addDefender(defender) {
         this.defenders.push(defender);
-        this.markAsParticipating([defender]);
+        this.markAsParticipating([defender], 'defender');
         this.calculateStrength();
     }
 
@@ -68,9 +68,9 @@ class Challenge {
         this.calculateStrength();
     }
 
-    markAsParticipating(cards) {
+    markAsParticipating(cards, participantType) {
         _.each(cards, card => {
-            if(!card.kneeled) {
+            if(!card.kneeled && !card.challengeOptions.doesNotKneelAs[participantType]) {
                 card.controller.kneelCard(card);
             }
 

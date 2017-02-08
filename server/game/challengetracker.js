@@ -66,6 +66,10 @@ class ChallengeTracker {
         return this.challengeTypes[challengeType].lost;
     }
 
+    getPerformed(challengeType) {
+        return this.challengeTypes[challengeType].performed;
+    }
+
     setMax(max) {
         this.maxTotal = max;
     }
