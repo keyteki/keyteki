@@ -1,7 +1,7 @@
 const DrawCard = require('../../../drawcard.js');
 
 class BearIsland extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             when: {
                 onCardEntersPlay: (event, card) => card.controller === this.controller && card.isLoyal() && this.game.currentPhase === 'marshal'
