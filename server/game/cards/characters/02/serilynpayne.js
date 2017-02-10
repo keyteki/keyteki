@@ -7,12 +7,12 @@ class SerIlynPayne extends DrawCard {
             method: 'kneel'
         });
     }
-    
+
     kneel(player) {
         if(this.controller !== player || this.location !== 'play area' || this.kneeled || player.phase !== 'marshal') {
-        return false;
+            return false;
         }
-      
+
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a character',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
@@ -22,7 +22,7 @@ class SerIlynPayne extends DrawCard {
 
         return true;
     }
-    
+
     onCardSelected(player, card) {
         this.game.addMessage('{0} kneels {1} to kill {2}', player, this, card);
         this.controller.kneelCard(this);

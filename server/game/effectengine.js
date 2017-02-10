@@ -127,7 +127,7 @@ class EffectEngine {
             if(effect.isStateDependent && effect.recalculateWhen.includes(event.name)) {
                 effect.resetTargets(this.getTargets());
             }
-        })
+        });
     }
 
     unapplyAndRemove(match) {

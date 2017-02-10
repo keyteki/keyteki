@@ -376,7 +376,7 @@ const Effects = {
             unapply: function(player) {
                 player.cannotWinChallenge = false;
             }
-        }
+        };
     },
     /**
      * Effects specifically for Old Wyk.

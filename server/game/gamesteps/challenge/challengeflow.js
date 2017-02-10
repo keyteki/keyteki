@@ -40,8 +40,9 @@ class ChallengeFlow extends BaseStep {
     promptForAttackers() {
         var title = 'Select challenge attackers';
         if(this.challenge.attackingPlayer.challengerLimit !== 0) {
-            title += ' (limit ' + this.challenge.attackingPlayer.challengerLimit + ')'
+            title += ' (limit ' + this.challenge.attackingPlayer.challengerLimit + ')';
         }
+
         this.game.promptForSelect(this.challenge.attackingPlayer, {
             numCards: this.challenge.attackingPlayer.challengerLimit,
             multiSelect: true,
@@ -81,7 +82,7 @@ class ChallengeFlow extends BaseStep {
 
         var title = 'Select defenders';
         if(this.challenge.defendingPlayer.challengerLimit !== 0) {
-            title += ' (limit ' + this.challenge.defendingPlayer.challengerLimit + ')'
+            title += ' (limit ' + this.challenge.defendingPlayer.challengerLimit + ')';
         }
 
         this.game.promptForSelect(this.challenge.defendingPlayer, {

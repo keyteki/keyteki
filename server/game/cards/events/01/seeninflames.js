@@ -6,9 +6,11 @@ class SeenInFlames extends DrawCard {
         if(player !== this.controller || this !== card || player.phase !== 'challenge') {
             return false;
         }
-        if(otherPlayer && otherPlayer.hand.isEmpty()){
+
+        if(otherPlayer && otherPlayer.hand.isEmpty()) {
             return false;
         }
+
         var rhllor = player.cardsInPlay.find(card => {
             return card.hasTrait('R\'hllor');
         });

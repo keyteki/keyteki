@@ -9,8 +9,9 @@ class LannisportGuard extends DrawCard {
             },
             handler: () => {
                 _.each(this.game.getPlayers(), player => {
-                player.drawCardsToHand(1);
+                    player.drawCardsToHand(1);
                 });
+
                 this.game.addMessage('{0} uses {1} to have each player draw a card', this.controller, this);
             }
         });

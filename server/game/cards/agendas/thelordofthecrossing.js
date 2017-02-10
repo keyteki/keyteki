@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const AgendaCard = require('../../agendacard.js');
 
 class TheLordOfTheCrossing extends AgendaCard {
