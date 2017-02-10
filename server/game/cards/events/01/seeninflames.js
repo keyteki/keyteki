@@ -2,10 +2,13 @@ const DrawCard = require('../../../drawcard.js');
 
 class SeenInFlames extends DrawCard {
     canPlay(player, card) {
+        var otherPlayer = this.game.getOtherPlayer(player);
         if(player !== this.controller || this !== card || player.phase !== 'challenge') {
             return false;
         }
-
+        if(otherPlayer && otherPlayer.hand.isEmpty()){
+            return false;
+        }
         var rhllor = player.cardsInPlay.find(card => {
             return card.hasTrait('R\'hllor');
         });
