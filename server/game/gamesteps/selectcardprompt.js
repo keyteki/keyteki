@@ -167,6 +167,7 @@ class SelectCardPrompt extends UiPrompt {
             card.selected = false;
             card.opponentSelected = false;
         });
+        this.selectedCards = [];
 
         // Restore previous selections.
         _.each(this.previouslySelectedCards, selection => {

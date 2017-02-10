@@ -369,11 +369,20 @@ describe('the SelectCardPrompt', function() {
                 describe('when onSelect returns false', function() {
                     beforeEach(function() {
                         this.properties.onSelect.and.returnValue(false);
+                        this.prompt.onMenuCommand(this.player, 'done');
                     });
 
                     it('should not complete the prompt', function() {
-                        this.prompt.onMenuCommand(this.player, 'done');
                         expect(this.prompt.isComplete()).toBe(false);
+                    });
+
+                    it('should clear selections', function() {
+                        expect(this.card.selected).toBe(false);
+                        expect(this.card2.selected).toBe(false);
+                    });
+
+                    it('should remove select cards on the prompt', function() {
+                        expect(this.prompt.selectedCards.length).toBe(0);
                     });
                 });
             });

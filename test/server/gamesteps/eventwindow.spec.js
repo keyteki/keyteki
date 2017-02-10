@@ -83,5 +83,24 @@ describe('EventWindow', function() {
                 expect(this.handler).not.toHaveBeenCalled();
             });
         });
+
+        describe('when an event handler cancels the event', function() {
+            beforeEach(function() {
+                this.handler.and.callFake(event => event.cancel());
+                this.eventWindow.continue();
+            });
+
+            it('should emit all of the interrupt events', function() {
+                expect(this.gameSpy.emit).toHaveBeenCalledWith('myevent:cancelinterrupt', jasmine.any(Event), 'foo', 'bar');
+                expect(this.gameSpy.emit).toHaveBeenCalledWith('myevent:forcedinterrupt', jasmine.any(Event), 'foo', 'bar');
+                expect(this.gameSpy.emit).toHaveBeenCalledWith('myevent:interrupt', jasmine.any(Event), 'foo', 'bar');
+            });
+
+            it('should not emit the post-cancel  events', function() {
+                expect(this.gameSpy.emit).not.toHaveBeenCalledWith('myevent', jasmine.any(Event), jasmine.any(String), jasmine.any(String));
+                expect(this.gameSpy.emit).not.toHaveBeenCalledWith('myevent:forcedreaction', jasmine.any(Event), jasmine.any(String), jasmine.any(String));
+                expect(this.gameSpy.emit).not.toHaveBeenCalledWith('myevent:reaction', jasmine.any(Event), jasmine.any(String), jasmine.any(String));
+            });
+        });
     });
 });

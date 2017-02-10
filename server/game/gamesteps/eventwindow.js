@@ -73,7 +73,11 @@ class EventWindow extends BaseStep {
         }
 
         if(!this.event.shouldSkipHandler) {
-            this.handler();
+            this.handler(this.event);
+
+            if(this.event.cancelled) {
+                return;
+            }
         }
         this.game.emit(this.eventName, this.event, ...this.params);
     }

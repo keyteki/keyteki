@@ -1,5 +1,6 @@
+const _ = require('underscore');
+
 const BaseStep = require('../basestep.js');
-const KillCharacterPrompt = require('../killcharacterprompt.js');
 
 class FulfillMilitaryClaim extends BaseStep {
     constructor(game, player, claim) {
@@ -9,32 +10,39 @@ class FulfillMilitaryClaim extends BaseStep {
     }
 
     continue() {
-        if(this.claim > 0) {
-            this.game.queueStep(this.createKillPrompt());
-            return false;
-        }
+        var promptMessage = 'Select ' + this.claim + ' ' + (this.claim > 1 ? 'characters' : 'character') + ' to fulfill military claim';
+        this.game.promptForSelect(this.player, {
+            numCards: this.claim,
+            activePromptTitle: promptMessage,
+            waitingPromptTitle: 'Waiting for opponent to fulfill military claim',
+            cardCondition: card => card.location === 'play area' && card.controller === this.player && card.getType() === 'character',
+            onSelect: (p, cards) => this.fulfillClaim(p, cards),
+            onCancel: () => this.cancelClaim()
+        });
 
         return true;
     }
 
-    createKillPrompt() {
-        var events = {
-            onKill: () => this.fulfillClaim(),
-            onCancel: () => this.cancelClaim()
-        };
-        return new KillCharacterPrompt(this.game, this.player, card => this.allowedToKill(card), events);
-    }
+    fulfillClaim(p, cards) {
+        if(!_.isArray(cards)) {
+            cards = [cards];
+        }
 
-    allowedToKill(card) {
-        return card.controller === this.player;
-    }
+        var charactersAvailable = this.player.cardsInPlay.filter(c => c.getType() === 'character').length;
+        var maxAppliedClaim = Math.min(this.claim, charactersAvailable);
 
-    fulfillClaim() {
-        this.claim -= 1;
+        if(cards.length < maxAppliedClaim) {
+            return false;
+        }
+
+        _.each(cards, card => {
+            card.controller.killCharacter(card);
+        });
+
+        return true;
     }
 
     cancelClaim() {
-        this.claim = 0;
         this.game.addMessage('{0} has cancelled claim effects', this.player);
     }
 }
