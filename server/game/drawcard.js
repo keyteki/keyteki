@@ -185,16 +185,29 @@ class DrawCard extends BaseCard {
         return true;
     }
 
+    clearBlank() {
+        super.clearBlank();
+        this.attachments.each(attachment => {
+            if(!this.allowAttachment(attachment)) {
+                this.controller.discardCard(attachment, false);
+            }
+        });
+    }
+
+    allowAttachment(attachment) {
+        return (
+            this.isBlank() ||
+            this.allowedAttachmentTrait === 'any' ||
+            this.allowedAttachmentTrait !== 'none' && attachment.hasTrait(this.allowedAttachmentTrait)
+        );
+    }
+
     canAttach(player, card) {
-        if(this.getType() !== 'attachment' || card.allowedAttachmentTrait === 'none') {
+        if(this.getType() !== 'attachment') {
             return false;
         }
 
-        if(card.allowedAttachmentTrait !== 'any') {
-            return this.hasTrait(card.allowedAttachmentTrait);
-        }
-
-        return true;
+        return card.allowAttachment(this);
     }
 
     attach() {
