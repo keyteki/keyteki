@@ -8,7 +8,7 @@ class Left extends DrawCard {
             effect: [
                 ability.effects.modifyStrength(1),
                 ability.effects.addIcon('power'),
-                ability.doesNotKneelAsDefender()
+                ability.effects.doesNotKneelAsDefender()
             ]
         });
     }
