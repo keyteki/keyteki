@@ -80,9 +80,9 @@ class InnerLobby extends React.Component {
         return (
             <div>
                 <div className='alert alert-info'>
+                    <div><span className='icon-power' />2017-02-12: New cards: Nymeria, The Wolf King, Fishing Net, Craven, Tanda Stokeworth, The Blackfish, Ser Barristan Selmy(TS), Maester's Chain, Crone of Vaes Dothrak, Old Bears Raven, Needle, Visited By Shadows, Maseter Luwin(partial), Septa Mordane(partial)</div>
                     <div><span className='icon-intrigue' />2017-02-10: New cards: Ser Ilyn Payne, Blackwater, Shadowblack Lane, Lannisport Guard, Streek of Silk, Street of Steel, Disputed Claim, Daenerys's Favor, Valarian Steel Dagger.  Fix Bastard's Daughter, Seen in Flames and various take control related issues.  Also fix multiple military claim allowing you to select the same character for claim twice</div>
                     <div><span className='icon-military' />2017-02-07: New cards: Alannys Greyjoy, House of the Undying, Bear Island, Royal Entourage, Tobho Mott's Armory, Greatjon's Vanguard.  Fix Bastard Daughter, fix reducers triggering when knelt and fix the captcha on the restet password page</div>
-                    <div><span className='icon-power' />2017-02-04: New cards: Harrenhal(FFH), Tower of the Hand, House Manderly Knight, "Wolf in the Night", Relentless Assault, Sea Bitch, Quaithe of the Shadow, Small Council Chamber, Varys, A Gift Of Arbor Red.  Various fixes including Fiery Followers</div>
                 </div>
                 <div className='row'>
                     <span className='col-sm-9 text-center'><h1>Play A Game Of Thrones 2nd Edition</h1></span>
