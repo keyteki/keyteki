@@ -727,7 +727,12 @@ class Player extends Spectator {
                 this.game.addMessage('{0} discards a duplicate to save {1}', this, card);
             }
         } else {
+            var originalLocation = card.location;
             this.moveCard(card, 'discard pile');
+            // TODO: This should really wrap the move card call. However, this
+            //       will require rewriting the random discard from hand method
+            //       which assumes synchronous handling right now.
+            this.game.raiseEvent('onCardDiscarded', this, card, allowSave, originalLocation);
         }
     }
 
