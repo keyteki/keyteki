@@ -23,45 +23,43 @@ export class InnerPlayerStats extends React.Component {
                     </div>) : null;
 
         return (
-            <div>
-                <div className='panel'>
+            <div className='panel player-stats'>
                 {playerAvatar}
-                    <div className='state'>
-                        <span>{this.props.gold + ' Gold'}</span>
-                        {this.props.isMe ?
-                            <div className='pull-right'>
-                                <button className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'gold', 'down')}>-</button>
-                                <button className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'gold', 'up')}>+</button>
-                            </div> :
-                            null}
-                    </div>
-                    <div className='state'>
-                        <span>{this.props.power + ' Power'}</span>
-                        {this.props.isMe ?
-                            <div className='pull-right'>
-                                <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'power', 'down')}>-</span>
-                                <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'power', 'up')}>+</span>
-                            </div> :
-                            null}
-                    </div>
-                    <div className='state'>
-                        <span>{this.props.reserve + ' Reserve'}</span>
-                        {this.props.isMe ?
-                            <div className='pull-right'>
-                                <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'reserve', 'down')}>-</span>
-                                <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'reserve', 'up')}>+</span>
-                            </div> :
-                            null}
-                    </div>
-                    <div className='state'>
-                        <span>{this.props.claim + ' Claim'}</span>
-                        {this.props.isMe ?
-                            <div className='pull-right'>
-                                <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'claim', 'down')}>-</span>
-                                <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'claim', 'up')}>+</span>
-                            </div> :
-                            null}
-                    </div>
+                <div className='state'>
+                    <span>{this.props.gold + ' Gold'}</span>
+                    {this.props.isMe ?
+                        <div className='pull-right'>
+                            <button className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'gold', 'down')}>-</button>
+                            <button className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'gold', 'up')}>+</button>
+                        </div> :
+                        null}
+                </div>
+                <div className='state'>
+                    <span>{this.props.power + ' Power'}</span>
+                    {this.props.isMe ?
+                        <div className='pull-right'>
+                            <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'power', 'down')}>-</span>
+                            <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'power', 'up')}>+</span>
+                        </div> :
+                        null}
+                </div>
+                <div className='state'>
+                    <span>{this.props.reserve + ' Reserve'}</span>
+                    {this.props.isMe ?
+                        <div className='pull-right'>
+                            <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'reserve', 'down')}>-</span>
+                            <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'reserve', 'up')}>+</span>
+                        </div> :
+                        null}
+                </div>
+                <div className='state'>
+                    <span>{this.props.claim + ' Claim'}</span>
+                    {this.props.isMe ?
+                        <div className='pull-right'>
+                            <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'claim', 'down')}>-</span>
+                            <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'claim', 'up')}>+</span>
+                        </div> :
+                        null}
                 </div>
             </div>
         );

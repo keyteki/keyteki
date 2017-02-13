@@ -74,24 +74,37 @@ class CardCollection extends React.Component {
     getPopup() {
         var popup = null;
 
+        var cardList = _.map(this.props.cards, card => {
+            return (<Card key={card.uuid} card={card} source={this.props.source}
+                         disableMouseOver={this.props.disableMouseOver}
+                         onMouseOver={this.props.onMouseOver}
+                         onMouseOut={this.props.onMouseOut}
+                         onClick={this.props.onCardClick}
+                         orientation={this.props.orientation} />);
+        });
+
+        var popupClass = 'popup panel';
+
+        if(this.props.popupLocation === 'top') {
+            popupClass += ' our-side';
+        }
+
         if(this.state.showPopup) {
-            var cardList = _.map(this.props.cards, card => {
-                return (<Card key={card.uuid} card={card} source={this.props.source}
-                             disableMouseOver={this.props.disableMouseOver}
-                             onMouseOver={this.props.onMouseOver}
-                             onMouseOut={this.props.onMouseOut}
-                             onClick={this.props.onCardClick}
-                             orientation={this.props.orientation} />);
-            });
-
-            var popupClass = 'popup panel';
-
-            if(this.props.popupLocation === 'top') {
-                popupClass += ' our-side';
-            }
-
             popup = (
                 <div className={popupClass} onClick={event => event.stopPropagation() }>
+                    <span className='arrow-indicator'></span>
+                    <div>
+                        <a onClick={this.onCollectionClick}>Close</a>
+                    </div>
+                    <div className='inner'>
+                        {cardList}
+                    </div>
+                </div>);
+        }
+        else {
+            popup = (
+                <div className={'hidden ' + popupClass} onClick={event => event.stopPropagation() }>
+                    <span className='arrow-indicator'></span>
                     <div>
                         <a onClick={this.onCollectionClick}>Close</a>
                     </div>
