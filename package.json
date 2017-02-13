@@ -32,6 +32,8 @@
     "express": "^4.14.0",
     "express-session": "^1.14.1",
     "jquery": "^3.1.0",
+    "jquery-migrate": "^3.0.0",
+    "jquery-nearest": "^1.4.0",
     "jsonwebtoken": "^7.1.9",
     "moment": "^2.15.0",
     "mongodb": "^2.2.9",

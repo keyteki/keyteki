@@ -93,7 +93,7 @@ export class InnerGameBoard extends React.Component {
         } else {
             this.setContextMenu([]);
         }
-    }    
+    }
 
     setContextMenu(menu) {
         if(this.props.setContextMenu) {
@@ -125,6 +125,10 @@ export class InnerGameBoard extends React.Component {
 
     onMouseOut() {
         this.props.clearZoom();
+    }
+
+    onTouchMove(event, card) {
+        var touch = event.targetTouches[0];
     }
 
     onCardClick(card) {
@@ -182,7 +186,7 @@ export class InnerGameBoard extends React.Component {
         if(!player) {
             return [];
         }
-        
+
         var sortedCards = _.sortBy(player.cardsInPlay, card => {
             return card.type;
         });
@@ -201,7 +205,7 @@ export class InnerGameBoard extends React.Component {
         _.each(cardsByType, cards => {
             var cardsInPlay = _.map(cards, card => {
                 return (<Card key={card.uuid} source='play area' card={card} disableMouseOver={card.facedown && !card.code} onMenuItemClick={this.onMenuItemClick}
-                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onClick={this.onCardClick} />);
+                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onClick={this.onCardClick} onDragDrop={this.onDragDrop} />);
             });
             cardsByLocation.push(cardsInPlay);
         });
@@ -320,7 +324,7 @@ export class InnerGameBoard extends React.Component {
                                                     onCardClick={this.onCardClick} onDragDrop={this.onDragDrop} />
                                     <CardCollection className={thisPlayer.plotSelected ? 'plot plot-selected' : 'plot'}
                                                     title='Plots' source='plot deck' cards={thisPlayer.plotDeck} topCard={{ facedown: true, kneeled: true }} orientation='horizontal'
-                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onCardClick={this.onCardClick} onDragDrop={this.onDragDrop} />
+                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onCardClick={this.onCardClick} onDragDrop={this.onDragDrop} onTouchMove={this.onTouchMove} />
                                 </div>
                             </div>
                             <div className='middle-right'>

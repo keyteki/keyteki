@@ -53,19 +53,13 @@ class PlayerRow extends React.Component {
         }
     }
 
-    onCloseClick(event) {
-        event.preventDefault();
-        event.stopPropagation();
-
+    onCloseClick() {
         if(this.props.onDrawClick) {
             this.props.onDrawClick();
         }
     }
 
-    onCloseAndShuffleClick(event) {
-        event.preventDefault();
-        event.stopPropagation();
-
+    onCloseAndShuffleClick() {
         if(this.props.onDrawClick) {
             this.props.onDrawClick();
         }
@@ -104,7 +98,8 @@ class PlayerRow extends React.Component {
             return (<Card key={card.uuid} card={card} style={style} disableMouseOver={!this.props.isMe} source='hand'
                          onMouseOver={this.props.onMouseOver}
                          onMouseOut={this.props.onMouseOut}
-                         onClick={this.props.onCardClick} />);
+                         onClick={this.props.onCardClick}
+                         onDragDrop={this.props.onDragDrop} />);
         });
 
         return hand;
@@ -136,23 +131,17 @@ class PlayerRow extends React.Component {
         return drawDeckPopup;
     }
 
-    onDrawClick(event) {
-        event.preventDefault();
-
+    onDrawClick() {
         this.setState({ showDrawMenu: !this.state.showDrawMenu });
     }
 
-    onShuffleClick(event) {
-        event.preventDefault();
-
+    onShuffleClick() {
         if(this.props.onShuffleClick) {
             this.props.onShuffleClick();
         }
     }
 
-    onShowDeckClick(event) {
-        event.preventDefault();
-
+    onShowDeckClick() {
         if(this.props.onDrawClick) {
             this.props.onDrawClick();
         }
@@ -167,18 +156,20 @@ class PlayerRow extends React.Component {
         }
 
         var hand = this.getHand(needsSquish);
-        var drawDeckPopup = this.getDrawDeck();
 
-        var drawDeckMenu = this.state.showDrawMenu ?
-            (<div className='panel menu'>
-                <div onClick={this.onShowDeckClick}>Show</div>
-                <div onClick={this.onShuffleClick}>Shuffle</div>
-            </div>)
-            : null;
+        var drawDeckMenu = [
+            { text: 'Show', handler: this.onShowDeckClick, showPopup: true },
+            { text: 'Shuffle', handler: this.onShuffleClick}
+        ];
+
+        var drawDeckPopupMenu = [
+            { text: 'Close', handler: this.onCloseClick},
+            { text: 'Close and Shuffle', handler: this.onCloseAndShuffleClick}
+        ];
 
         return (
             <div className='player-home-row'>
-                <div className="deck-cards">
+                <div className='deck-cards'>
                     <div className={className} onDragLeave={this.onDragLeave} onDragOver={this.onDragOver} onDrop={(event) => this.onDragDrop(event, 'hand')}>
                         <div className='panel-header'>
                             {'Hand (' + hand.length + ')'}
@@ -186,23 +177,16 @@ class PlayerRow extends React.Component {
                         {hand}
                     </div>
 
-                    <div className='draw card-pile vertical panel' onDragLeave={this.onDragLeave} onDragOver={this.onDragOver} onDrop={(event) => this.onDragDrop(event, 'draw deck')}
-                        onClick={this.props.isMe ? this.onDrawClick : null}>
-                        <div className='panel-header'>
-                            {'Draw (' + this.props.numDrawCards + ')'}
-                        </div>
-                        <div className='card vertical ignore-mouse-events'>
-                            <img className='card-image vertical' src='/img/cards/cardback.jpg' />
-                        </div>
-                        {drawDeckMenu}
-                        {drawDeckPopup}
-                    </div>
-                    <CardCollection className='discard' title='Discard' source='discard pile' cards={this.props.discardPile}
-                                    onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
-                                    popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} />
-                    <CardCollection className='dead' title='Dead' source='dead pile' cards={this.props.deadPile}
-                                    onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
-                                    popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} orientation='kneeled' />
+                <CardCollection className='draw' title='Draw' source='draw deck' cards={this.props.drawDeck}
+                                onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
+                                popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop}
+                                menu={drawDeckMenu} hiddenTopCard cardCount={this.props.numDrawCards} popupMenu={drawDeckPopupMenu} />
+                <CardCollection className='discard' title='Discard' source='discard pile' cards={this.props.discardPile}
+                                onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
+                                popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} />
+                <CardCollection className='dead' title='Dead' source='dead pile' cards={this.props.deadPile}
+                                onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
+                                popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} orientation='kneeled' />
                 </div>
             </div>
         );

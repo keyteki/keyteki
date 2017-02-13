@@ -1,5 +1,8 @@
 import React from 'react';
 import _ from 'underscore';
+import $ from 'jquery';
+import 'jquery-migrate';
+import 'jquery-nearest';
 
 class Card extends React.Component {
     constructor() {
@@ -29,6 +32,58 @@ class Card extends React.Component {
         var dragData = { card: card, source: source };
 
         event.dataTransfer.setData('Text', JSON.stringify(dragData));
+    }
+
+    onTouchMove(event) {
+        var touch = event.targetTouches[0];
+
+        event.currentTarget.style.left = touch.pageX - 32 + 'px';
+        event.currentTarget.style.top = touch.pageY - 42 + 'px';
+        event.currentTarget.style.position = 'fixed';
+    }
+
+    getReactComponentFromDOMNode(dom) {
+        for(var key in dom) {
+            if(key.startsWith('__reactInternalInstance$')) {
+                var compInternals = dom[key]._currentElement;
+                var compWrapper = compInternals._owner;
+                var comp = compWrapper._instance;
+                return comp;
+            }
+        }
+        return null;
+    }
+
+    onTouchStart(event) {
+        this.setState({ touchStart: $(event.currentTarget).position() });
+    }
+
+    onTouchEnd(event) {
+        var target = $(event.currentTarget);
+        var nearestPile = target.nearest('.card-pile, .hand, .player-board');
+
+        var pilePosition = nearestPile.position();
+        var cardPosition = target.position();
+
+        if(cardPosition.left + target.width() > pilePosition.left - 10 && cardPosition.left < pilePosition.left + nearestPile.width() + 10) {
+            var dropTarget = '';
+
+            if(nearestPile.attr('class').includes('hand')) {
+                dropTarget = 'hand';
+            } else if(nearestPile.attr('class').includes('player-board')) {
+                dropTarget = 'play area';
+            } else {
+                var component = this.getReactComponentFromDOMNode(nearestPile[0]);
+                dropTarget = component.props.source;
+            }
+
+            if(dropTarget) {
+                this.props.onDragDrop(this.props.card, this.props.source, dropTarget);
+            }
+        }
+
+        target.css({left: this.state.touchStart.left + 'px', top: this.state.touchStart.top + 'px'});
+        event.currentTarget.style.position = 'initial';
     }
 
     isAllowedMenuSource() {
@@ -205,7 +260,10 @@ class Card extends React.Component {
         }
 
         return (
-                <div className='card-frame'>
+                <div className='card-frame' ref='cardFrame'
+                    onTouchMove={ev => this.onTouchMove(ev)}
+                    onTouchEnd={ev => this.onTouchEnd(ev)}
+                    onTouchStart={ev => this.onTouchStart(ev)}>
                     <div className={cardClass}
                         onMouseOver={this.props.disableMouseOver ? null : this.onMouseOver.bind(this, this.props.card)}
                         onMouseOut={this.props.disableMouseOver ? null : this.onMouseOut}
@@ -233,7 +291,7 @@ class Card extends React.Component {
         }
 
         return this.getCard();
-    }    
+    }
 }
 
 Card.displayName = 'Card';
@@ -263,6 +321,7 @@ Card.propTypes = {
     className: React.PropTypes.string,
     disableMouseOver: React.PropTypes.bool,
     onClick: React.PropTypes.func,
+    onDragDrop: React.PropTypes.func,
     onMenuItemClick: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,

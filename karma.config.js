@@ -1,4 +1,4 @@
-require('webpack');
+const webpack = require('webpack');
 
 module.exports = function(config) {
     config.set({
@@ -43,7 +43,14 @@ module.exports = function(config) {
                 //     exclude: /(spec|node_modules|bower_components)\//,
                 //     loader: 'istanbul-instrumenter'
                 // }]
-            }
+            },
+
+            plugins: [
+                new webpack.ProvidePlugin({
+                    $: 'jquery',
+                    jQuery: 'jquery'
+                })
+            ]
         },
         webpackMiddleware: {
             noInfo: true

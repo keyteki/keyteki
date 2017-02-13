@@ -14,19 +14,44 @@ class CardCollection extends React.Component {
         this.onTopCardClick = this.onTopCardClick.bind(this);
 
         this.state = {
-            showPopup: false
+            showPopup: false,
+            showMenu: false
         };
     }
 
     onCollectionClick(event) {
         event.preventDefault();
 
+        if(this.props.menu) {
+            this.setState({ showMenu: !this.state.showMenu });
+            return;
+        }
+
         if(!this.props.disablePopup) {
-            this.setState({showPopup: !this.state.showPopup});
+            this.setState({ showPopup: !this.state.showPopup });
         }
     }
 
+    onMenuItemClick(menuItem) {
+        if(menuItem.showPopup) {
+            this.setState({ showPopup: !this.state.showPopup });
+        }
+
+        menuItem.handler();
+    }
+
+    onPopupMenuItemClick(menuItem) {
+        menuItem.handler();
+
+        this.setState({ showPopup: !this.state.showPopup });
+    }
+
     onTopCardClick() {
+        if(this.props.menu) {
+            this.setState({ showMenu: !this.state.showMenu });
+            return;
+        }
+
         if(this.props.disablePopup) {
             if(this.props.onCardClick) {
                 this.props.onCardClick(this.props.topCard);
@@ -76,11 +101,13 @@ class CardCollection extends React.Component {
 
         var cardList = _.map(this.props.cards, card => {
             return (<Card key={card.uuid} card={card} source={this.props.source}
-                         disableMouseOver={this.props.disableMouseOver}
-                         onMouseOver={this.props.onMouseOver}
-                         onMouseOut={this.props.onMouseOut}
-                         onClick={this.props.onCardClick}
-                         orientation={this.props.orientation} />);
+                            disableMouseOver={this.props.disableMouseOver}
+                            onMouseOver={this.props.onMouseOver}
+                            onMouseOut={this.props.onMouseOut}
+                            onTouchMove={this.props.onTouchMove}
+                            onClick={this.props.onCardClick}
+                            onDragDrop={this.props.onDragDrop}
+                            orientation={this.props.orientation} />);
         });
 
         var popupClass = 'popup panel';
@@ -89,39 +116,49 @@ class CardCollection extends React.Component {
             popupClass += ' our-side';
         }
 
-        if(this.state.showPopup) {
-            popup = (
-                <div className={popupClass} onClick={event => event.stopPropagation() }>
-                    <span className='arrow-indicator'></span>
-                    <div>
-                        <a onClick={this.onCollectionClick}>Close</a>
-                    </div>
-                    <div className='inner'>
-                        {cardList}
-                    </div>
-                </div>);
-        }
-        else {
-            popup = (
-                <div className={'hidden ' + popupClass} onClick={event => event.stopPropagation() }>
-                    <span className='arrow-indicator'></span>
-                    <div>
-                        <a onClick={this.onCollectionClick}>Close</a>
-                    </div>
-                    <div className='inner'>
-                        {cardList}
-                    </div>
-                </div>);
-        }
+        var popupMenu = this.props.popupMenu ? (<div>{_.map(this.props.popupMenu, menuItem => {
+            return <a onClick={() => this.onPopupMenuItemClick(menuItem)}>{menuItem.text}</a>;
+        })}</div>) : (
+            <div>
+                <a onClick={this.onCollectionClick}>Close</a>
+            </div>);
+
+        popup = (
+            <div className={popupClass + (this.state.showPopup ? '' : ' hidden')} onClick={event => event.stopPropagation() }>
+                {popupMenu}
+                <div className='inner'>
+                    {cardList}
+                </div>
+            </div>);
 
         return popup;
     }
 
+    getMenu() {
+        var menuIndex = 0;
+
+        var menu = _.map(this.props.menu, item => {
+            return <div key={(menuIndex++).toString()} onClick={this.onMenuItemClick.bind(this, item)}>{item.text}</div>;
+        });
+
+        return (
+            <div className='panel menu'>
+                {menu}
+            </div>);
+    }
+
     render() {
         var className = 'panel card-pile ' + this.props.className;
-        var headerText = this.props.title ? this.props.title + ' (' + (this.props.cards ? this.props.cards.length : '0') + ')' : '';
+        var cardCount = this.props.cardCount || (this.props.cards ? this.props.cards.length : '0');
+        var headerText = this.props.title ? this.props.title + ' (' + (cardCount) + ')' : '';
         var topCard = this.props.topCard || _.last(this.props.cards);
         var cardOrientation = this.props.orientation === 'horizontal' && topCard && topCard.facedown ? 'kneeled' : this.props.orientation;
+
+        if(this.props.hiddenTopCard && topCard) {
+            topCard.facedown = true;
+        } else if(this.props.hiddenTopCard) {
+            topCard = { facedown: true };
+        }
 
         if(this.props.orientation === 'horizontal' || this.props.orientation === 'kneeled') {
             className += ' horizontal';
@@ -141,7 +178,9 @@ class CardCollection extends React.Component {
                          disableMouseOver={topCard.facedown}
                          onClick={this.onTopCardClick}
                          onMenuItemClick={this.props.onMenuItemClick}
+                         onDragDrop={this.props.onDragDrop}
                          orientation={cardOrientation} /> : null}
+                {this.state.showMenu ? this.getMenu() : null}
                 {this.getPopup()}
             </div>);
     }
@@ -149,17 +188,22 @@ class CardCollection extends React.Component {
 
 CardCollection.displayName = 'CardCollection';
 CardCollection.propTypes = {
+    cardCount: React.PropTypes.number,
     cards: React.PropTypes.array,
     className: React.PropTypes.string,
     disableMouseOver: React.PropTypes.bool,
     disablePopup: React.PropTypes.bool,
+    hiddenTopCard: React.PropTypes.bool,
+    menu: React.PropTypes.array,
     onCardClick: React.PropTypes.func,
     onDragDrop: React.PropTypes.func,
     onMenuItemClick: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
+    onTouchMove: React.PropTypes.func,
     orientation: React.PropTypes.string,
     popupLocation: React.PropTypes.string,
+    popupMenu: React.PropTypes.array,
     source: React.PropTypes.oneOf(['hand', 'discard pile', 'play area', 'dead pile', 'draw deck', 'plot deck', 'revealed plots', 'selected plot', 'attachment', 'agenda', 'faction']).isRequired,
     title: React.PropTypes.string,
     topCard: React.PropTypes.object
