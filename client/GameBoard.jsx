@@ -128,10 +128,6 @@ export class InnerGameBoard extends React.Component {
         this.props.clearZoom();
     }
 
-    onTouchMove(event, card) {
-        var touch = event.targetTouches[0];
-    }
-
     onCardClick(card) {
         this.props.sendSocketMessage('cardClicked', card.uuid);
     }
@@ -317,14 +313,14 @@ export class InnerGameBoard extends React.Component {
                                 reserve={otherPlayer ? otherPlayer.reserve : 0} power={otherPlayer ? otherPlayer.totalPower : 0} user={otherPlayer ? otherPlayer.user : null} />
                             <div className='deck-info'>
                                 <div className='deck-type'>
-                                    <CardCollection className='faction' source='faction' cards={[]} topCard={otherPlayer ? otherPlayer.faction : undefined} onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} disablePopup />
+                                    <CardCollection className='faction' source='faction' cards={[]} topCard={otherPlayer ? otherPlayer.faction : undefined} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
                                     {otherPlayer && otherPlayer.agenda && otherPlayer.agenda.code !== '' ?
-                                        <CardCollection className='agenda' source='agenda' cards={[]} topCard={otherPlayer ? otherPlayer.agenda : undefined} onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut}
+                                        <CardCollection className='agenda' source='agenda' cards={[]} topCard={otherPlayer ? otherPlayer.agenda : undefined} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut}
                                               onClick={this.onClick} disablePopup onMenuItemClick={this.onMenuItemClick} />
-                                        : <div className='agenda card-pile vertical panel'></div>
+                                        : <div className='agenda card-pile vertical panel' />
                                     }
                                 </div>
-                                { otherPlayer ? <div className={"first-player-indicator " + (!thisPlayer.firstPlayer ? '' : 'hidden')}>First player</div> : ''}
+                                { otherPlayer ? <div className={'first-player-indicator ' + (!thisPlayer.firstPlayer ? '' : 'hidden')}>First player</div> : ''}
                             </div>
                         </div>
                         <div className='middle'>
@@ -346,7 +342,7 @@ export class InnerGameBoard extends React.Component {
                                                     onCardClick={this.onCardClick} onDragDrop={this.onDragDrop} />
                                     <CardCollection className={thisPlayer.plotSelected ? 'plot plot-selected' : 'plot'}
                                                     title='Plots' source='plot deck' cards={thisPlayer.plotDeck} topCard={{ facedown: true, kneeled: true }} orientation='horizontal'
-                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onCardClick={this.onCardClick} onDragDrop={this.onDragDrop} onTouchMove={this.onTouchMove} />
+                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onCardClick={this.onCardClick} onDragDrop={this.onDragDrop} />
                                     {this.getAdditionalPlotPiles(thisPlayer, !this.state.spectating)}
                                 </div>
                             </div>
@@ -356,8 +352,7 @@ export class InnerGameBoard extends React.Component {
                                     <MenuPane title={thisPlayer.menuTitle} buttons={thisPlayer.buttons} onButtonClick={this.onCommand}
                                                 onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} />
                                 </div>
-                                <div className='schemes-pane'>
-                                </div>
+                                <div className='schemes-pane' />
                             </div>
                         </div>
                         <div className='player-info our-side'>
@@ -366,11 +361,11 @@ export class InnerGameBoard extends React.Component {
                             <div className='deck-info'>
                                 <div className={'first-player-indicator ' + (thisPlayer.firstPlayer ? '' : 'hidden')}>First player</div>
                                 <div className='deck-type'>
-                                    <CardCollection className='faction' source='faction' cards={[]} topCard={thisPlayer.faction} onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} disablePopup />
+                                    <CardCollection className='faction' source='faction' cards={[]} topCard={thisPlayer.faction} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
                                     {thisPlayer.agenda && thisPlayer.agenda.code !== '' ?
-                                        <CardCollection className='agenda' source='agenda' cards={[]} topCard={thisPlayer.agenda} onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut}
+                                        <CardCollection className='agenda' source='agenda' cards={[]} topCard={thisPlayer.agenda} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut}
                                               onClick={this.onClick} disablePopup onMenuItemClick={this.onMenuItemClick} />
-                                        : <div className='agenda card-pile vertical panel'></div>
+                                        : <div className='agenda card-pile vertical panel' />
                                     }
                                 </div>
                             </div>
