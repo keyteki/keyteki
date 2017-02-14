@@ -43,8 +43,10 @@ class DominancePhase extends Phase {
             this.game.addMessage('There was a tie for dominance');
             this.game.addMessage('No one wins dominance');
         }
+        
+        var dominanceLoser = this.game.getOtherPlayer(dominanceWinner);
 
-        this.game.raiseEvent('onDominanceDetermined', dominanceWinner);
+        this.game.raiseEvent('onDominanceDetermined', dominanceWinner, dominanceLoser);
     }
 }
 
