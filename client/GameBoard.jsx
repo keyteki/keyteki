@@ -8,6 +8,7 @@ import PlayerRow from './GameComponents/PlayerRow.jsx';
 import MenuPane from './GameComponents/MenuPane.jsx';
 import CardZoom from './GameComponents/CardZoom.jsx';
 import Messages from './GameComponents/Messages.jsx';
+import AdditionalCardPile from './GameComponents/AdditionalCardPile.jsx';
 import Card from './GameComponents/Card.jsx';
 import CardCollection from './GameComponents/CardCollection.jsx';
 import {tryParseJSON} from './util.js';
@@ -213,6 +214,26 @@ export class InnerGameBoard extends React.Component {
         return cardsByLocation;
     }
 
+    getAdditionalPlotPiles(player, isMe) {
+        if(!player) {
+            return;
+        }
+
+        var piles = _.reject(player.additionalPiles, pile => pile.cards.length === 0 || pile.area !== 'plots');
+        var index = 0;
+        return _.map(piles, pile => {
+            return (
+                <AdditionalCardPile key={'additional-pile-' + index++}
+                    className='plot'
+                    isMe={isMe}
+                    onMouseOut={this.onMouseOut}
+                    onMouseOver={this.onMouseOver}
+                    pile={pile}
+                    spectating={this.state.spectating} />
+            );
+        });
+    }
+
     onCommand(command, arg, method) {
         var commandArg = arg;
 
@@ -309,6 +330,7 @@ export class InnerGameBoard extends React.Component {
                         <div className='middle'>
                              <div className='plots-pane'>
                                 <div className='plot-group'>
+                                    {this.getAdditionalPlotPiles(otherPlayer, false)}
                                     <CardCollection className={otherPlayer && otherPlayer.plotSelected ? 'plot plot-selected' : 'plot'}
                                                     title='Plots' source='plot deck' cards={otherPlayer ? otherPlayer.plotDeck : []}
                                                     topCard={{ facedown: true, kneeled: true }} orientation='horizontal'
@@ -318,13 +340,14 @@ export class InnerGameBoard extends React.Component {
                                                     topCard={otherPlayer ? otherPlayer.activePlot : undefined} orientation='horizontal' onMouseOver={this.onMouseOver}
                                                     onMouseOut={this.onMouseOut} onCardClick={this.onCardClick} />
                                 </div>
-                                <div className='plot-group'>
+                                <div className='plot-group our-side'>
                                     <CardCollection className='plot' title='Used Plots' source='revealed plots' cards={thisPlayer.plotDiscard} topCard={thisPlayer.activePlot}
                                                     onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} orientation='horizontal' onMenuItemClick={this.onMenuItemClick}
                                                     onCardClick={this.onCardClick} onDragDrop={this.onDragDrop} />
                                     <CardCollection className={thisPlayer.plotSelected ? 'plot plot-selected' : 'plot'}
                                                     title='Plots' source='plot deck' cards={thisPlayer.plotDeck} topCard={{ facedown: true, kneeled: true }} orientation='horizontal'
                                                     onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onCardClick={this.onCardClick} onDragDrop={this.onDragDrop} onTouchMove={this.onTouchMove} />
+                                    {this.getAdditionalPlotPiles(thisPlayer, !this.state.spectating)}
                                 </div>
                             </div>
                             <div className='middle-right'>
@@ -356,6 +379,7 @@ export class InnerGameBoard extends React.Component {
 
                     <div className='center'>
                         <PlayerRow
+                            additionalPiles={otherPlayer ? otherPlayer.additionalPiles : {}}
                             hand={otherPlayer ? otherPlayer.hand : []} isMe={false}
                             numDrawCards={otherPlayer ? otherPlayer.numDrawCards : 0}
                             discardPile={otherPlayer ? otherPlayer.discardPile : []}
@@ -374,6 +398,7 @@ export class InnerGameBoard extends React.Component {
                             </div>
                         </div>
                         <PlayerRow isMe={!this.state.spectating}
+                            additionalPiles={thisPlayer.additionalPiles}
                             hand={thisPlayer.hand}
                             onCardClick={this.onCardClick}
                             onMouseOver={this.onMouseOver}

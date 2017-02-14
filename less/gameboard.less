@@ -30,6 +30,11 @@
   }
 }
 
+.player-home-row .card-pile.horizontal {
+    margin-bottom: auto;
+    margin-top: auto;
+}
+
 .popup {
   z-index: @layer-card-menu;
 
@@ -146,6 +151,17 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.plot-group {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  &.our-side {
+    justify-content: flex-start;
+  }
 }
 
 .plot {
@@ -296,7 +312,7 @@
   &.our-side {
     top: initial;
     bottom: 85px;
-   
+
     .arrow-indicator {
       transform: rotate(-45deg);
       top: inherit;
@@ -305,9 +321,30 @@
   }
 }
 
-.dead {
-  margin-top: auto;
-  margin-bottom: auto;
+.player-home-row .additional-cards .popup {
+  position: absolute;
+  left: -380px;
+  top: 65px;
+  bottom: initial;
+  width: 465px;
+  min-height: 92px;
+
+  .arrow-indicator {
+    transform: rotate(135deg);
+    top: -11px;
+    left: 400px;
+  }
+
+  &.our-side {
+    top: initial;
+    bottom: 70px;
+
+    .arrow-indicator {
+      transform: rotate(-45deg);
+      top: inherit;
+      bottom: -11px;
+    }
+  }
 }
 
 .dead .popup {

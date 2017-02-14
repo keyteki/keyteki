@@ -14,7 +14,10 @@ describe('Player', function() {
 
             this.selectedPlotSpy = jasmine.createSpyObj('plot', ['flipFaceup', 'moveTo', 'play']);
             this.selectedPlotSpy.uuid = '111';
+            this.selectedPlotSpy.location = 'plot deck';
             this.anotherPlotSpy = jasmine.createSpyObj('plot', ['flipFaceup', 'moveTo', 'play']);
+            this.selectedPlotSpy.uuid = '222';
+            this.anotherPlotSpy.location = 'plot deck';
 
             this.player.selectedPlot = this.selectedPlotSpy;
             this.player.plotDeck = _([this.selectedPlotSpy, this.anotherPlotSpy]);
@@ -50,6 +53,7 @@ describe('Player', function() {
         describe('when there is an active plot', function() {
             beforeEach(function() {
                 this.activePlotSpy = jasmine.createSpyObj('plot', ['leavesPlay', 'moveTo']);
+                this.activePlotSpy.location = 'active plot';
                 this.player.activePlot = this.activePlotSpy;
 
                 this.player.flipPlotFaceup();
@@ -73,6 +77,7 @@ describe('Player', function() {
             beforeEach(function() {
                 this.player.plotDeck = _([this.selectedPlotSpy]);
                 this.player.plotDiscard = _([this.anotherPlotSpy]);
+                this.anotherPlotSpy.location = 'revealed plots';
 
                 this.player.flipPlotFaceup();
             });

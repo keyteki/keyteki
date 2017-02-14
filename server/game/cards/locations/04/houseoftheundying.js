@@ -12,8 +12,7 @@ class HouseOfTheUndying extends DrawCard {
     }
 
     controlDeadCharacters() {
-        this.controller.removeCardFromPile(this);
-        this.moveTo('out of game');
+        this.controller.moveCard(this, 'out of game');
 
         var opponent = this.game.getOtherPlayer(this.controller);
 

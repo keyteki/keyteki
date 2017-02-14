@@ -36,9 +36,13 @@ class TheRainsOfCastamere extends AgendaCard {
     }
 
     onDecksPrepared() {
+        this.owner.createAdditionalPile('scheme plots', { title: 'Schemes', area: 'plots', isPrivate: true });
         var schemePartition = this.owner.plotDeck.partition(card => card.hasTrait('Scheme'));
         this.schemes = schemePartition[0];
         this.owner.plotDeck = _(schemePartition[1]);
+        _.each(this.schemes, scheme => {
+            this.owner.moveCard(scheme, 'scheme plots');
+        });
     }
 
     onPlotFlip() {
@@ -52,8 +56,7 @@ class TheRainsOfCastamere extends AgendaCard {
             return;
         }
 
-        this.owner.removeActivePlot();
-        previousPlot.moveTo('out of game');
+        this.owner.removeActivePlot('out of game');
     }
 
     menuButtons() {

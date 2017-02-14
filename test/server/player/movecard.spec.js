@@ -182,5 +182,12 @@ describe('Player', function() {
                 expect(this.player.cardsInPlay.toArray()).toEqual([this.card]);
             });
         });
+
+        describe('when the target location is the active plot', function() {
+            it('should set the card as the active plot', function() {
+                this.player.moveCard(this.card, 'active plot');
+                expect(this.player.activePlot).toBe(this.card);
+            });
+        });
     });
 });

@@ -10,8 +10,7 @@ class Varys extends DrawCard {
             },
             handler: () => {
                 this.game.addMessage('{0} removes {1} from the game to discard all characters', this.controller, this);
-                this.controller.removeCardFromPile(this);
-                this.moveTo('out of game');
+                this.controller.moveCard(this, 'out of game');
                 _.each(this.game.getPlayers(), player => {
                     player.cardsInPlay.each(card => {
                         if(card.getType() === 'character') {

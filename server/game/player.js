@@ -20,6 +20,7 @@ class Player extends Spectator {
         this.cardsInPlay = _([]);
         this.deadPile = _([]);
         this.discardPile = _([]);
+        this.additionalPiles = {};
 
         this.faction = new DrawCard(this, {});
 
@@ -30,6 +31,8 @@ class Player extends Spectator {
         this.deck = {};
         this.challenges = new ChallengeTracker();
         this.minReserve = 0;
+
+        this.createAdditionalPile('out of game', { title: 'Out of Game', area: 'player row' });
     }
 
     isCardUuidInList(list, card) {
@@ -466,25 +469,18 @@ class Player extends Spectator {
 
     flipPlotFaceup() {
         if(this.activePlot) {
-            var previousPlot = this.removeActivePlot();
-            previousPlot.moveTo('revealed plots');
-            this.plotDiscard.push(previousPlot);
-
+            var previousPlot = this.removeActivePlot('revealed plots');
             this.game.raiseEvent('onPlotDiscarded', this, previousPlot);
         }
 
         this.selectedPlot.flipFaceup();
         this.selectedPlot.play();
-        this.selectedPlot.moveTo('active plot');
-        this.activePlot = this.selectedPlot;
-        this.plotDeck = this.removeCardByUuid(this.plotDeck, this.selectedPlot.uuid);
+        this.moveCard(this.selectedPlot, 'active plot');
 
         if(this.plotDeck.isEmpty()) {
-            this.plotDeck = this.plotDiscard;
-            this.plotDeck.each(plot => {
-                plot.moveTo('plot deck');
+            this.plotDiscard.each(plot => {
+                this.moveCard(plot, 'plot deck');
             });
-            this.plotDiscard = _([]);
 
             this.game.raiseEvent('onPlotsRecycled', this);
         }
@@ -494,11 +490,10 @@ class Player extends Spectator {
         this.selectedPlot = undefined;
     }
 
-    removeActivePlot() {
+    removeActivePlot(targetLocation) {
         if(this.activePlot) {
             var plot = this.activePlot;
-            plot.leavesPlay(this);
-            this.game.raiseEvent('onCardLeftPlay', this, plot);
+            this.moveCard(this.activePlot, targetLocation);
             this.activePlot = undefined;
             return plot;
         }
@@ -593,11 +588,20 @@ class Player extends Spectator {
             case 'play area':
                 return this.cardsInPlay;
             case 'active plot':
+                return _([]);
             case 'plot deck':
                 return this.plotDeck;
             case 'revealed plots':
                 return this.plotDiscard;
+            default:
+                if(this.additionalPiles[source]) {
+                    return this.additionalPiles[source].cards;
+                }
         }
+    }
+
+    createAdditionalPile(name, properties) {
+        this.additionalPiles[name] = _.extend({ cards: _([]) }, properties);
     }
 
     updateSourceList(source, targetList) {
@@ -623,6 +627,10 @@ class Player extends Spectator {
             case 'revealed plots':
                 this.plotDiscard = targetList;
                 break;
+            default:
+                if(this.additionalPiles[source]) {
+                    this.additionalPiles[source].cards = targetList;
+                }
         }
     }
 
@@ -881,13 +889,20 @@ class Player extends Spectator {
             this.game.raiseEvent('onCardLeftHand', card);
         }
 
+        if(card.location === 'active plot') {
+            card.leavesPlay();
+            this.game.raiseEvent('onCardLeftPlay', this, card);
+        }
+
         if(!options.isDupe) {
             card.moveTo(targetLocation);
         } else {
             card.location = 'dupe';
         }
 
-        if(targetLocation === 'draw deck' && !options.bottom) {
+        if(targetLocation === 'active plot') {
+            this.activePlot = card;
+        } else if(targetLocation === 'draw deck' && !options.bottom) {
             targetPile.unshift(card);
         } else {
             targetPile.push(card);
@@ -1010,6 +1025,12 @@ class Player extends Spectator {
     getState(isActivePlayer) {
         var state = {
             activePlot: this.activePlot ? this.activePlot.getSummary(isActivePlayer) : undefined,
+            additionalPiles: _.mapObject(this.additionalPiles, pile => ({
+                title: pile.title,
+                area: pile.area,
+                isPrivate: pile.isPrivate,
+                cards: this.getSummaryForCardList(pile.cards, isActivePlayer, pile.isPrivate)
+            })),
             agenda: this.agenda ? this.agenda.getSummary() : undefined,
             buttons: isActivePlayer ? this.buttons : undefined,
             cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, isActivePlayer),

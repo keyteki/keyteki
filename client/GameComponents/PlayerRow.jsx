@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'underscore';
 import $ from 'jquery';
 
+import AdditionalCardPile from './AdditionalCardPile.jsx';
 import Card from './Card.jsx';
 import CardCollection from './CardCollection.jsx';
 import {tryParseJSON} from '../util.js';
@@ -147,6 +148,22 @@ class PlayerRow extends React.Component {
         }
     }
 
+    getAdditionalPiles() {
+        var piles = _.reject(this.props.additionalPiles, pile => pile.cards.length === 0 || pile.area !== 'player row');
+        var index = 0;
+        return _.map(piles, pile => {
+            return (
+                <AdditionalCardPile key={'additional-pile-' + index++}
+                    className='additional-cards'
+                    isMe={this.props.isMe}
+                    onMouseOut={this.props.onMouseOut}
+                    onMouseOver={this.props.onMouseOver}
+                    pile={pile}
+                    spectating={this.props.spectating} />
+            );
+        });
+    }
+
     render() {
         var className = 'panel hand';
         var needsSquish = this.props.hand && this.props.hand.length * 64 > 342;
@@ -156,6 +173,8 @@ class PlayerRow extends React.Component {
         }
 
         var hand = this.getHand(needsSquish);
+
+        var additionalPiles = this.getAdditionalPiles();
 
         var drawDeckMenu = [
             { text: 'Show', handler: this.onShowDeckClick, showPopup: true },
@@ -187,6 +206,7 @@ class PlayerRow extends React.Component {
                 <CardCollection className='dead' title='Dead' source='dead pile' cards={this.props.deadPile}
                                 onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
                                 popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} orientation='kneeled' />
+                  {additionalPiles}
                 </div>
             </div>
         );
@@ -195,6 +215,7 @@ class PlayerRow extends React.Component {
 
 PlayerRow.displayName = 'PlayerRow';
 PlayerRow.propTypes = {
+    additionalPiles: React.PropTypes.object,
     deadPile: React.PropTypes.array,
     discardPile: React.PropTypes.array,
     drawDeck: React.PropTypes.array,
