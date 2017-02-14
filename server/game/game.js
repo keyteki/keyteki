@@ -2,6 +2,7 @@ const _ = require('underscore');
 const EventEmitter = require('events');
 const uuid = require('node-uuid');
 
+const ChatCommands = require('./chatcommands.js');
 const GameChat = require('./gamechat.js');
 const EffectEngine = require('./effectengine.js');
 const Effect = require('./effect.js');
@@ -31,6 +32,7 @@ class Game extends EventEmitter {
         this.playerPlots = {};
         this.playerCards = {};
         this.gameChat = new GameChat();
+        this.chatCommands = new ChatCommands(this);
         this.pipeline = new GamePipeline();
 
         this.name = details.name;
@@ -384,306 +386,18 @@ class Game extends EventEmitter {
         }
     }
 
-    getNumberOrDefault(string, defaultNumber) {
-        var num = parseInt(string);
-
-        if(isNaN(num)) {
-            num = defaultNumber;
-        }
-
-        if(num < 0) {
-            num = defaultNumber;
-        }
-
-        return num;
-    }
-
-    isValidIcon(icon) {
-        var lowerIcon = icon.toLowerCase();
-
-        return lowerIcon === 'military' || lowerIcon === 'intrigue' || lowerIcon === 'power';
-    }
-
     chat(playerName, message) {
         var player = this.playersAndSpectators[playerName];
         var args = message.split(' ');
-        var num = 1;
 
         if(!player) {
             return;
         }
 
-        if(this.isSpectator(player)) {
-            this.gameChat.addChatMessage('{0} {1}', player, message);
-            return;
-        }
-
-        if(message.indexOf('/draw') === 0) {
-            if(args.length > 1) {
-                num = this.getNumberOrDefault(args[1], 1);
-            }
-
-            this.addMessage('{0} uses the /draw command to draw {1} cards to their hand', player, num);
-
-            player.drawCardsToHand(num);
-
-            return;
-        }
-
-        if(message.indexOf('/power') === 0) {
-            if(args.length > 1) {
-                num = this.getNumberOrDefault(args[1], 1);
-            }
-
-            this.promptForSelect(player, {
-                activePromptTitle: 'Select a card to set power for',
-                waitingPromptTitle: 'Waiting for opponent to set power',
-                cardCondition: card => card.location === 'play area' && card.controller === player,
-                onSelect: (p, card) => {
-                    card.modifyPower(num - card.power);
-
-                    this.addMessage('{0} uses the /power command to set the power of {1} to {2}', p, card, num);
-                    return true;
-                }
-            });
-
-            return;
-        }
-
-        if(message.indexOf('/kill') === 0) {
-            this.promptForSelect(player, {
-                activePromptTitle: 'Select a character',
-                waitingPromptTitle: 'Waiting for opponent to kill character',
-                cardCondition: card => card.location === 'play area' && card.controller === player,
-                onSelect: (p, card) => {
-                    card.controller.killCharacter(card);
-
-                    this.addMessage('{0} uses the /kill command to kill {1}', p, card);
-                    return true;
-                }
-            });
-
-            return;
-        }
-
-        if(message.indexOf('/blank') === 0) {
-            this.promptForSelect(player, {
-                activePromptTitle: 'Select a card',
-                waitingPromptTitle: 'Waiting for opponent to blank card',
-                cardCondition: card => card.location === 'play area' && card.controller === player,
-                onSelect: (p, card) => {
-                    card.setBlank();
-
-                    this.addMessage('{0} uses the /blank command to blank {1}', p, card);
-                    return true;
-                }
-            });
-
-            return;
-        }
-
-        if(message.indexOf('/unblank') === 0) {
-            this.promptForSelect(player, {
-                activePromptTitle: 'Select a card',
-                waitingPromptTitle: 'Waiting for opponent to unblank card',
-                cardCondition: card => card.location === 'play area' && card.controller === player,
-                onSelect: (p, card) => {
-                    card.clearBlank();
-
-                    this.addMessage('{0} uses the /unblank command to remove the blank condition from {1}', p, card);
-                    return true;
-                }
-            });
-
-            return;
-        }
-
-        if(message.indexOf('/add-trait') === 0) {
-            if(args.length > 1) {
-                var trait = args[1];
-                this.promptForSelect(player, {
-                    activePromptTitle: 'Select a card',
-                    waitingPromptTitle: 'Waiting for opponent to add trait to card',
-                    cardCondition: card => card.location === 'play area' && card.controller === player,
-                    onSelect: (p, card) => {
-                        card.addTrait(trait);
-
-                        this.addMessage('{0} uses the /add-trait command to add the {1} trait to {2}', p, trait, card);
-                        return true;
-                    }
-                });
-
+        if(!this.isSpectator(player)) {
+            if(this.chatCommands.executeCommand(player, args[0], args)) {
                 return;
             }
-        }
-
-        if(message.indexOf('/remove-trait') === 0) {
-            if(args.length > 1) {
-                trait = args[1];
-                this.promptForSelect(player, {
-                    activePromptTitle: 'Select a card',
-                    waitingPromptTitle: 'Waiting for opponent to remove trait remove card',
-                    cardCondition: card => card.location === 'play area' && card.controller === player,
-                    onSelect: (p, card) => {
-                        card.removeTrait(trait);
-
-                        this.addMessage('{0} uses the /remove-trait command to remove the {1} trait from {2}', p, trait, card);
-                        return true;
-                    }
-                });
-
-                return;
-            }
-        }
-
-        if(message.indexOf('/add-keyword') === 0) {
-            if(args.length > 1) {
-                var keyword = args[1];
-                this.promptForSelect(player, {
-                    activePromptTitle: 'Select a card',
-                    waitingPromptTitle: 'Waiting for opponent to add keyword to card',
-                    cardCondition: card => card.location === 'play area' && card.controller === player,
-                    onSelect: (p, card) => {
-                        card.addKeyword(keyword);
-
-                        this.addMessage('{0} uses the /add-keyword command to add the {1} keyword to {2}', p, keyword, card);
-                        return true;
-                    }
-                });
-
-                return;
-            }
-        }
-
-        if(message.indexOf('/remove-keyword') === 0) {
-            if(args.length > 1) {
-                keyword = args[1];
-                this.promptForSelect(player, {
-                    activePromptTitle: 'Select a card',
-                    waitingPromptTitle: 'Waiting for opponent to add keyword to card',
-                    cardCondition: card => card.location === 'play area' && card.controller === player,
-                    onSelect: (p, card) => {
-                        card.removeKeyword(keyword);
-
-                        this.addMessage('{0} uses the /remove-keyword command to remove the {1} keyword from {2}', p, keyword, card);
-                        return true;
-                    }
-                });
-
-                return;
-            }
-        }
-
-        if(message.indexOf('/discard') === 0) {
-            if(args.length > 1) {
-                num = this.getNumberOrDefault(args[1], 1);
-            }
-
-            this.addMessage('{0} uses the /discard command to discard {1} cards at random', player, num);
-
-            player.discardAtRandom(num);
-
-            return;
-        }
-
-        if(message.indexOf('/pillage') === 0) {
-            this.addMessage('{0} uses the /pillage command to discard a card from the top of their draw deck', player);
-
-            player.discardFromDraw(1);
-
-            return;
-        }
-
-        if(message.indexOf('/strength') === 0 || message.indexOf('/str') === 0) {
-            if(args.length > 1) {
-                num = this.getNumberOrDefault(args[1], 1);
-            }
-
-            this.promptForSelect(player, {
-                activePromptTitle: 'Select a card to set strength for',
-                waitingPromptTitle: 'Waiting for opponent to set strength',
-                cardCondition: card => card.location === 'play area' && card.controller === player && card.getType() === 'character',
-                onSelect: (p, card) => {
-                    card.strengthModifier = num - card.cardData.strength;
-                    this.addMessage('{0} uses the /strength command to set the strength of {1} to {2}', p, card, num);
-                    return true;
-                }
-            });
-
-            return;
-        }
-
-        if(message.indexOf('/give-icon') === 0) {
-            if(args.length > 1 && this.isValidIcon(args[1])) {
-                var icon = args[1];
-
-                this.promptForSelect(player, {
-                    activePromptTitle: 'Select a character',
-                    waitingPromptTitle: 'Waiting for opponent to give icon',
-                    cardCondition: card => card.location === 'play area' && card.controller === player && card.getType() === 'character',
-                    onSelect: (p, card) => {
-                        card.addIcon(icon);
-                        this.addMessage('{0} uses the /give-icon command to give {1} a {2} icon', p, card, icon);
-
-                        return true;
-                    }
-                });
-
-                return;
-            }
-        }
-
-        if(message.indexOf('/take-icon') === 0) {
-            if(args.length > 1 && this.isValidIcon(args[1])) {
-                icon = args[1];
-
-                this.promptForSelect(player, {
-                    activePromptTitle: 'Select a character',
-                    waitingPromptTitle: 'Waiting for opponent to remove icon',
-                    cardCondition: card => card.location === 'play area' && card.controller === player && card.getType() === 'character',
-                    onSelect: (p, card) => {
-                        card.removeIcon(icon);
-                        this.addMessage('{0} uses the /take-icon command to remove a {1} icon from {2}', p, icon, card);
-
-                        return true;
-                    }
-                });
-
-                return;
-            }
-        }
-
-        if(message.indexOf('/give-control') === 0) {
-            this.promptForSelect(player, {
-                activePromptTitle: 'Select a character',
-                waitingPromptTitle: 'Waiting for opponent to give control',
-                cardCondition: card => ['play area', 'discard pile', 'dead pile'].includes(card.location) && card.controller === player,
-                onSelect: (p, card) => {
-                    var otherPlayer = this.getOtherPlayer(player);
-                    if(!otherPlayer) {
-                        return true;
-                    }
-
-                    this.takeControl(otherPlayer, card);
-                    this.addMessage('{0} uses the /give-control command to pass control of {1} to {2}', p, card, otherPlayer);
-
-                    return true;
-                }
-            });
-
-            return;
-        }
-
-        if(message.indexOf('/reset-challenges-count') === 0) {
-            player.challenges.reset();
-            this.addMessage('{0} uses /reset-challenges-count to reset the number of challenges performed', player);
-            return;
-        }
-
-        if(message.indexOf('/cancel-prompt') === 0) {
-            this.addMessage('{0} uses the /cancel-prompt to skip the current step.', player);
-            this.pipeline.cancelStep();
-            return;
         }
 
         this.gameChat.addChatMessage('{0} {1}', player, message);
