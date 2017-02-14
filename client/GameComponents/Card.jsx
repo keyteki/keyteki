@@ -35,6 +35,7 @@ class Card extends React.Component {
     }
 
     onTouchMove(event) {
+        event.preventDefault();
         var touch = event.targetTouches[0];
 
         event.currentTarget.style.left = touch.pageX - 32 + 'px';
