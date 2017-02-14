@@ -354,15 +354,12 @@ describe('Player', () => {
                 this.cardSpy.getType.and.returnValue('character');
             });
 
-            it('should fire onCharacterKilled before onCardLeftPlay', function() {
-                var events = [];
-                this.gameSpy.raiseEvent.and.callFake((name) => {
-                    events.push(name);
-                });
+            it('should rely on killCharacter to maintain event order', function() {
+                spyOn(this.player, 'killCharacter');
 
                 var result = this.player.drop(this.cardSpy.uuid, 'play area', 'dead pile');
                 expect(result).toBe(true);
-                expect(events.indexOf('onCharacterKilled')).toBeLessThan(events.indexOf('onCardLeftPlay'));
+                expect(this.player.killCharacter).toHaveBeenCalledWith(this.cardSpy, false);
             });
         });
     });

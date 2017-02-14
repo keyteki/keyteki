@@ -667,15 +667,14 @@ class Player extends Spectator {
         if(target === 'play area') {
             this.game.playCard(this.name, cardId, true, sourceList);
         } else {
-            // It's important that these events be raised prior to the card
-            // being moved. Moving the card out of play will remove event
-            // listeners and the card may need to react to itself being killed.
-            if(target === 'dead pile') {
-                this.game.raiseEvent('onCharacterKilled', this, card, false);
+            if(target === 'dead pile' && card.location === 'play area') {
+                this.killCharacter(card, false);
+                return true;
             }
 
             if(target === 'discard pile') {
-                this.game.raiseEvent('onCardDiscarded', this, card, false);
+                this.discardCard(card, false);
+                return true;
             }
 
             this.moveCard(card, target);
