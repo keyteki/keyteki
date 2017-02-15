@@ -322,8 +322,8 @@ class Game extends EventEmitter {
         from.gold -= appliedGold;
         to.gold += appliedGold;
 
-        this.raiseEvent('onStatChanged', from, 'power');
-        this.raiseEvent('onStatChanged', to, 'power');
+        this.raiseEvent('onStatChanged', from, 'gold');
+        this.raiseEvent('onStatChanged', to, 'gold');
     }
 
     checkWinCondition(player) {
