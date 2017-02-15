@@ -1,11 +1,12 @@
-/*global describe, it, beforeEach, expect*/
+/*global describe, it, beforeEach, expect, jasmine*/
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
 const Game = require('../../../server/game/game.js');
 
 describe('Game', function() {
     beforeEach(function() {
-        this.game = new Game('1', 'Test Game');
+        this.gameRepository = jasmine.createSpyObj('gameRepository', ['save']);
+        this.game = new Game('1', 'Test Game', { gameRepository: this.gameRepository });
 
         this.notSetPlayer1 = { id: '1', name: 'test' };
         this.notSetPlayer2 = { id: '2', name: 'test2' };

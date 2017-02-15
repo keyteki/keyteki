@@ -13,7 +13,8 @@ describe('TheWall', function() {
 
         describe('when dupes are put out in the setup phase', function() {
             beforeEach(function() {
-                this.game = new Game(null, {});
+                this.gameRepository = jasmine.createSpyObj('gameRepository', ['save']);
+                this.game = new Game(null, {}, { gameRepository: this.gameRepository });
 
                 this.player = new Player(1, { username: 'foo' }, false, this.game);
 

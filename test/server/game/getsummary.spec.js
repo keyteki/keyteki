@@ -1,4 +1,4 @@
-/*global describe, it, beforeEach, expect*/
+/*global describe, it, beforeEach, expect, jasmine*/
 
 const _ = require('underscore');
 
@@ -13,7 +13,8 @@ describe('the Game', () => {
     var spectator = new Spectator('3', 'Spectator 1');
 
     beforeEach(() => {
-        game = new Game('1', { name: 'Test Game' });
+        var gameRepository = jasmine.createSpyObj('gameRepository', ['save']);
+        game = new Game('1', { name: 'Test Game' }, { gameRepository: gameRepository });
     });
 
     describe('getSummary function', () => {

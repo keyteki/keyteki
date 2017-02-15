@@ -1,4 +1,4 @@
-/*global describe, it, beforeEach, expect*/
+/*global describe, it, beforeEach, expect, jasmine*/
 
 const Game = require('../../../server/game/game.js');
 const Player = require('../../../server/game/player.js');
@@ -9,7 +9,8 @@ describe('the Game', () => {
     var loser = {};
 
     beforeEach(() => {
-        game = new Game('1', 'Test Game');
+        var gameRepository = jasmine.createSpyObj('gameRepository', ['save']);
+        game = new Game('1', 'Test Game', { gameRepository: gameRepository });
         winner = new Player('1', 'Player 1', true, game);
         loser = new Player('1', 'Player 1', true, game);
 

@@ -24,7 +24,7 @@ const EventWindow = require('./gamesteps/eventwindow.js');
 const GameRepository = require('../repositories/gameRepository.js');
 
 class Game extends EventEmitter {
-    constructor(owner, details) {
+    constructor(owner, details, options = {}) {
         super();
 
         this.effectEngine = new EffectEngine(this);
@@ -45,7 +45,7 @@ class Game extends EventEmitter {
 
         this.setMaxListeners(0);
 
-        this.gameRepository = new GameRepository();
+        this.gameRepository = options.gameRepository || new GameRepository();
     }
 
     addMessage() {

@@ -1,4 +1,4 @@
-/*global describe, it, beforeEach, expect*/
+/*global describe, it, beforeEach, expect, jasmine*/
 /* eslint no-invalid-this: 0 */
 
 const ActionWindow = require('../../../server/game/gamesteps/actionwindow.js');
@@ -7,7 +7,8 @@ const Player = require('../../../server/game/player.js');
 
 describe('ActionWindow', function() {
     beforeEach(function() {
-        this.game = new Game('1', 'Test Game');
+        this.gameRepository = jasmine.createSpyObj('gameRepository', ['save']);
+        this.game = new Game('1', 'Test Game', { gameRepository: this.gameRepository });
         this.player1 = new Player('1', { username: 'Player 1' }, true, this.game);
         this.player2 = new Player('2', { username: 'Player 2' }, false, this.game);
         this.player2.firstPlayer = true;

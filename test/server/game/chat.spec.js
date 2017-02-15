@@ -1,4 +1,4 @@
-/*global describe, it, beforeEach, expect, spyOn*/
+/*global describe, it, beforeEach, expect, spyOn, jasmine*/
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
 const Game = require('../../../server/game/game.js');
@@ -7,7 +7,8 @@ const Spectator = require('../../../server/game/spectator.js');
 
 describe('the Game', function() {
     beforeEach(function() {
-        this.game = new Game('1', 'Test Game');
+        this.gameRepository = jasmine.createSpyObj('gameRepository', ['save']);
+        this.game = new Game('1', 'Test Game', { gameRepository: this.gameRepository });
 
         this.player1 = new Player('1', { username: 'Player 1' }, true, this.game);
         this.spectator = new Spectator('3', { username: 'Spectator 1' }, this.game);
