@@ -1,10 +1,20 @@
 const DrawCard = require('../../../drawcard.js');
 
-// TODO: Event immunity, card draw
+// TODO: Immunity to card effects; "have not yet drawn cards this phase" check
 class PleasureBarge extends DrawCard {
     setupCardAbilities() {
         this.plotModifiers({
             gold: -1
+        });
+        
+        this.reaction({
+            when: {
+                onCardEntersPlay: (e, card) => card === this && this.game.currentPhase === 'marshal'
+            },
+            handler: () => {
+                this.controller.drawCardsToHand(3);
+                this.game.addMessage('{0} uses {1} to draw 3 cards', this.controller, this);
+            }
         });
     }
 }
