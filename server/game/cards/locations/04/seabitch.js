@@ -21,7 +21,11 @@ class SeaBitch extends DrawCard {
     }
 
     cardCondition(card) {
-        return card.getType() === 'location' && card.location === 'play area' && card.owner !== this.owner && !card.hasKeyword('Limited');
+        return card.getType() === 'location'
+            && card.location === 'play area'
+            && card.owner !== this.owner
+            && !card.hasKeyword('Limited')
+            && card.name !== this.name;
     }
 
     onCardSelected(player, card) {
