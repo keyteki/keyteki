@@ -3,8 +3,9 @@ const logger = require('../log.js');
 
 class GameRepository {
     save(game, callback) {
+        console.info('called save');
         var db = mongoskin.db('mongodb://127.0.0.1:27017/throneteki');
-        
+
         if(!game.id) {
             db.collection('games').insert(game, function(err, result) {
                 if(err) {
