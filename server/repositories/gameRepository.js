@@ -3,7 +3,6 @@ const logger = require('../log.js');
 
 class GameRepository {
     save(game, callback) {
-        console.info('called save');
         var db = mongoskin.db('mongodb://127.0.0.1:27017/throneteki');
 
         if(!game.id) {
