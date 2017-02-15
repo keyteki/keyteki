@@ -29,7 +29,8 @@ class InnerDecks extends React.Component {
     componentWillMount() {
         $.ajax({
             url: '/api/decks',
-            type: 'GET'
+            type: 'GET',
+            cache: false
         }).done((data) => {
             this.setState({ loaded: true });
 

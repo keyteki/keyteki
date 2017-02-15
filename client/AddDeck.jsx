@@ -32,7 +32,8 @@ export class InnerAddDeck extends React.Component {
         $.ajax({
             url: '/api/decks/',
             type: 'POST',
-            data: { data: str }
+            data: { data: str },
+            cache: false
         }).done((data) => {
             if(!data.success) {
                 this.setState({ error: data.message });

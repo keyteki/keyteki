@@ -60,8 +60,8 @@ class App extends React.Component {
             reconnection: true,
             reconnectionDelay: 1000,
             reconnectionDelayMax : 5000,
-            reconnectionAttempts: Infinity,             
-            query: 'token=' + this.props.token 
+            reconnectionAttempts: Infinity,
+            query: 'token=' + this.props.token
         });
 
         socket.on('connect', () => {
