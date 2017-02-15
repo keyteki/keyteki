@@ -1,9 +1,10 @@
 const mongoskin = require('mongoskin');
-const db = mongoskin.db('mongodb://127.0.0.1:27017/throneteki');
 const logger = require('../log.js');
 
 class GameRepository {
     save(game, callback) {
+        var db = mongoskin.db('mongodb://127.0.0.1:27017/throneteki');
+        
         if(!game.id) {
             db.collection('games').insert(game, function(err, result) {
                 if(err) {
