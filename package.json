@@ -6,7 +6,7 @@
   "scripts": {
     "test": "JASMINE_CONFIG_PATH=./jasmine.json jasmine && karma start karma.config.js --single-run",
     "cover": "JASMINE_CONFIG_PATH=./jasmine.json istanbul cover --include-all-sources jasmine",
-    "lint": "eslint server/ test/server"
+    "lint": "eslint server/ test/server/ client/"
   },
   "repository": {
     "type": "git",
