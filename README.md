@@ -84,10 +84,18 @@ linting by [ESLint](http://eslint.org/), according to the rules defined in
 case install ESLint and run
 
 ```
-eslint client/ server/
+eslint client/ server/ test/
 ```
 
 from repository's root.
+
+All tests should also pass.  To run these manually do:
+
+```
+npm test
+```
+
+If you are making any game engine changes, these will not be accepted without unit tests to cover them.
 
 ### Build Status
 
