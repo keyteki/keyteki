@@ -13,4 +13,4 @@ addons:
     - g++-4.9 
 script:
   - npm test
-  - npm lint
+  - npm run lint
