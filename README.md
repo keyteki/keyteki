@@ -76,5 +76,19 @@ NODE_ENV=production ./node_nodules/.bin/webpack -p --config webpack.config.produ
 NODE_ENV=production PORT=4000 node .
 ```
 
-###Build Status
+### Coding Guidelines
+
+All JavaScript code included in Throneteki should pass (no errors, no warnings)
+linting by [ESLint](http://eslint.org/), according to the rules defined in
+`.eslintrc` at the root of this repo. To manually check that that is indeed the
+case install ESLint and run
+
+```
+eslint client/ server/
+```
+
+from repository's root.
+
+### Build Status
+
 [![CircleCI](https://circleci.com/gh/cryogen/throneteki.svg?style=svg)](https://circleci.com/gh/cryogen/throneteki)
