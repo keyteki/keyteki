@@ -3,24 +3,24 @@ const DrawCard = require('../../../drawcard.js');
 class ShierakQiya extends DrawCard {
 
     canPlay(player, card) {
-        if (player !== this.controller || this !== card)
+        if(player !== this.controller || this !== card) {
             return false;
+        }
 
         var currentChallenge = this.game.currentChallenge;
 
-        if (!currentChallenge
-            || currentChallenge.winner !== player
-            || currentChallenge.strengthDifference < 5
-            || currentChallenge.challengeType !== 'power'
-            || player.faction.kneeled)
+        if(!currentChallenge || currentChallenge.winner !== player || currentChallenge.strengthDifference < 5 || 
+                currentChallenge.challengeType !== 'power' || player.faction.kneeled) {
             return false;
+        }
 
         return true;
     }
 
     play(player) {
-        if(this.controller !== player)
+        if(this.controller !== player) {
             return;
+        }
 
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a participating character to stand',
@@ -28,7 +28,7 @@ class ShierakQiya extends DrawCard {
             cardCondition: card =>
                 card.location === 'play area'
                 && this.game.currentChallenge.isParticipating(card),
-            onSelect: (p, card) => this.onCardSelected(p, card),
+            onSelect: (p, card) => this.onCardSelected(p, card)
         });
     }
 

@@ -11,10 +11,10 @@ class SerLancelLannister extends DrawCard {
 
     getSingleOtherLannisterLordOrLady() {
         var cards = this.controller.cardsInPlay.filter(card => {
-            return card.getFaction() === "lannister" && (card.hasTrait('Lord') || card.hasTrait('Lady')) && card.getType() === 'character' && card !== this;
+            return card.getFaction() === 'lannister' && (card.hasTrait('Lord') || card.hasTrait('Lady')) && card.getType() === 'character' && card !== this;
         });
 
-        if (cards.length === 1) {
+        if(cards.length === 1) {
             return cards.first();
         }
 

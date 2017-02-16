@@ -8,12 +8,12 @@ class KingRenlySHost extends DrawCard {
         this.persistentEffect({  // STR increase while Summer
             condition: () => this.anyPlotHasTrait('Summer'),
             match: this,
-            effect: ability.effects.modifyStrength(4),
+            effect: ability.effects.modifyStrength(4)
         });
         this.persistentEffect({  // cannot attack while Winter
             condition: () => this.anyPlotHasTrait('Winter'),
             match: this,
-            effect: ability.effects.allowAsAttacker(false),
+            effect: ability.effects.allowAsAttacker(false)
         });
     }
 

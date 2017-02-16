@@ -1,4 +1,4 @@
-/*global describe, it, beforeEach, expect, spyOn, jasmine*/
+/*global describe, it, beforeEach, expect, jasmine*/
 
 const AttachmentPrompt = require('../../../server/game/gamesteps/attachmentprompt.js');
 const DrawCard = require('../../../server/game/drawcard.js');

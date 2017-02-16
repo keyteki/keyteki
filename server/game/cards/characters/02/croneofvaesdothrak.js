@@ -14,7 +14,7 @@ class CroneOfVaesDothrak extends DrawCard {
                 && standingDothrakis.length > 0);
     }
 
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
             when: {
                 onCardDiscarded: (e, p, c) => this.canBeTriggered(e, p, c)
@@ -39,8 +39,9 @@ class CroneOfVaesDothrak extends DrawCard {
 
     onCardSelected(player, selectedCard, discardedCard) {
         var otherPlayer = this.game.getOtherPlayer(this.controller);
-        if (!otherPlayer)
+        if(!otherPlayer) {
             return true;
+        }
 
         this.game.addMessage('{0} uses {1} to kneel {2} and place {3} in the dead pile of {4}',
                              player, this, selectedCard, discardedCard, otherPlayer);

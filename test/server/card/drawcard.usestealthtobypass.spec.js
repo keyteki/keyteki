@@ -1,4 +1,5 @@
-/*global describe, it, beforeEach, expect, spyOn*/
+/*global describe, it, beforeEach, expect*/
+/*eslint camelcase: 0, no-invalid-this: 0 */
 
 const DrawCard = require('../../../server/game/drawcard.js');
 

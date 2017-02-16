@@ -1,4 +1,4 @@
-/* global describe, it, beforeEach, expect, jasmine */
+/* global describe, it, beforeEach, expect, jasmine, spyOn */
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
 const _ = require('underscore');

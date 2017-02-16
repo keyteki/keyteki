@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const PlotCard = require('../../../plotcard.js');
 
 class BattleOfOxcross extends PlotCard {
@@ -14,7 +12,7 @@ class BattleOfOxcross extends PlotCard {
                 card.getType() === 'character'
                 && card.getCost() >= 4,
             targetController: 'opponent',
-            effect: ability.effects.allowAsDefender(false),
+            effect: ability.effects.allowAsDefender(false)
         });
     }
 

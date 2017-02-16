@@ -1,7 +1,5 @@
-/* global describe, it, expect, beforeEach, jasmine, afterEach */
+/* global describe, it, expect, beforeEach, jasmine */
 /* eslint camelcase: 0, no-invalid-this: 0 */
-
-const _ = require('underscore');
 
 const RedCloaks = require('../../../../../server/game/cards/characters/02/redcloaks.js');
 
