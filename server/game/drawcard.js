@@ -103,7 +103,7 @@ class DrawCard extends BaseCard {
             return this.cardData.strength || undefined;
         }
 
-        return this.strengthModifier + (this.cardData.strength || 0);
+        return Math.max(0, this.strengthModifier + (this.cardData.strength || 0));
     }
 
     getIconsAdded() {
