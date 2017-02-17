@@ -33,7 +33,8 @@ class InnerPendingGame extends React.Component {
     componentDidMount() {
         $.ajax({
             url: '/api/decks',
-            type: 'GET'
+            type: 'GET',
+            cache: false
         }).done((data) => {
             if(!data.success) {
                 this.setState({ error: data.message });
