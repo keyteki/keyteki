@@ -9,7 +9,7 @@ class SummerHarvest extends PlotCard {
                     return true;
                 }
 
-                this.goldModifier += otherPlayer.activePlot.getIncome(true) + 2;
+                this.baseIncome = otherPlayer.activePlot.getIncome(true) + 2;
             }
         });
     }

@@ -24,7 +24,7 @@ class PlotCard extends BaseCard {
             return this.cardData.income;
         }
 
-        var baseValue = this.canProvidePlotModifier['gold'] ? this.cardData.income : 0;
+        var baseValue = this.canProvidePlotModifier['gold'] ? (this.baseIncome || this.cardData.income) : 0;
 
         return baseValue + this.goldModifier;
     }
