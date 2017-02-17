@@ -79,10 +79,13 @@ class InnerLobby extends React.Component {
 
         return (
             <div>
+                <div className='alert alert-warning'>
+                    Some of you may have noticed some lag when the site is a little busier at peak times.  This is an unfortunate side effect of the site getting popular much quicker than I anticipated.  Rest assured we are aware of the issue and are looking into solutions, including both improving the efficiency of the code and seeking better hardware for the server to run on.  Please bear with us 😃
+                </div>
                 <div className='alert alert-info'>
+                    <div><span className='icon-intrigue' />2017-02-17: New cards: Shierak Qiya, Gendry, Pleasure Barge(partial), Northen Rookery(partial), Ser Lancel Lannister, Robb Stark (ATSK), Crossroads Sellsword, Dagmer Cleftjaw, Battle of Oxcross, King Renly's Host, Timett, Son of Timett, Isle of Ravens, Bridge of Skulls, The Mander, Wildling Bandit, Ser Arys Oakheart, Ser Jaime Lannister (LoCR).  Fix Summer Harvest, Core Cersei, Sea Bitch, Rodrik Cassel</div>
                     <div><span className='icon-military' />2017-02-14: New cards: Even Handed Justice, Qhorin Halfhand, Alliser Throne(Partial), Castle Black, Riverrun Minstrel, Shaggydog, Ser Rodrik Cassel, Helya.  UI changes!  We've made some changes to the UI to hopefully improve the game experience.  These changes include some repositioning, some helpful labels and the display of schemes for Rains as well as showing removed from the game cards.  Enjoy!</div>
                     <div><span className='icon-power' />2017-02-12: New cards: Nymeria, The Wolf King, Fishing Net, Craven, Tanda Stokeworth, The Blackfish, Ser Barristan Selmy(TS), Maester's Chain, Crone of Vaes Dothrak, Old Bears Raven, Needle, Visited By Shadows, Maseter Luwin(partial), Septa Mordane(partial).  Fixed: Several cards causing games not to start, added a test to make sure that doesn't happen again.</div>
-                    <div><span className='icon-intrigue' />2017-02-10: New cards: Ser Ilyn Payne, Blackwater, Shadowblack Lane, Lannisport Guard, Streek of Silk, Street of Steel, Disputed Claim, Daenerys's Favor, Valarian Steel Dagger.  Fix Bastard's Daughter, Seen in Flames and various take control related issues.  Also fix multiple military claim allowing you to select the same character for claim twice</div>
                 </div>
                 <div className='row'>
                     <span className='col-sm-9 text-center'><h1>Play A Game Of Thrones 2nd Edition</h1></span>
