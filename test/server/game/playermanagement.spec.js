@@ -107,9 +107,11 @@ describe('Game', function() {
                 this.game.join('1', { username: 'foo' });
             });
 
-            it('should mark the player as left', function() {
-                this.game.leave('foo');
-                expect(this.game.playersAndSpectators['foo'].left).toBe(true);
+            describe('when the game has not started', function() {
+                it('should delete the player', function() {
+                    this.game.leave('foo');
+                    expect(this.game.playersAndSpectators['foo']).toBeUndefined();
+                });
             });
 
             describe('when the game has started', function() {
@@ -121,6 +123,11 @@ describe('Game', function() {
                     beforeEach(function() {
                         this.game.finishedAt = undefined;
                         this.game.leave('foo');
+                    });
+
+                    it('should mark the player as left', function() {
+                        this.game.leave('foo');
+                        expect(this.game.playersAndSpectators['foo'].left).toBe(true);
                     });
 
                     it('should save the game', function() {

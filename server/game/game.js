@@ -580,12 +580,12 @@ class Game extends EventEmitter {
 
         this.addMessage('{0} has left the game', player);
 
-        if(this.isSpectator(player)) {
+        if(this.isSpectator(player) || !this.started) {
             delete this.playersAndSpectators[playerName];
         } else {
             player.left = true;
 
-            if(this.started && !this.finishedAt) {
+            if(!this.finishedAt) {
                 this.finishedAt = new Date();
                 this.saveGame();
             }
