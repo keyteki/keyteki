@@ -15,7 +15,7 @@ class SerLancelLannister extends DrawCard {
         });
 
         if(cards.length === 1) {
-            return cards.first();
+            return cards[0];
         }
 
         return;
