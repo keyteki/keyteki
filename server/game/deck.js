@@ -29,7 +29,11 @@ class Deck {
         });
 
         if(this.data.faction) {
-            result.faction = new DrawCard(player, _.extend({ code: this.data.faction.value, type_code: 'faction' }, this.data.faction));
+            result.faction = new DrawCard(player, _.extend({
+                code: this.data.faction.value,
+                type_code: 'faction',
+                faction_code: this.data.faction.value
+            }, this.data.faction));
         } else {
             result.faction = new DrawCard(player, { type_code: 'faction' });
         }
