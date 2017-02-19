@@ -13,10 +13,10 @@ class TheWall extends DrawCard {
         });
         this.interrupt({
             when: {
-                onPhaseEnded: (e, phase) => phase === 'challenge' && !this.kneeled
+                onPhaseEnded: (e, phase) => phase === 'challenge'
             },
+            cost: ability.costs.kneelSelf(),
             handler: () => {
-                this.controller.kneelCard(this);
                 this.game.addPower(this.controller, 2);
                 this.game.addMessage('{0} kneels {1} to gain 2 power for their faction', this.controller, this);
             }

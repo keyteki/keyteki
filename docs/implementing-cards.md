@@ -269,43 +269,90 @@ this.untilEndOfRound(ability => ({
 
 ### Actions
 
-**Note:** Actions may be reworked in the future to separate out the action's cost from the action's effect. So this API may change slightly.
+**Note:** Actions may be reworked in the future to separate out targeting / choosing cards for the action. So this API may change slightly.
 
 Actions are abilities provided by the card text that players may trigger during action windows. They are declared using the `action` method. See `/server/game/cardaction.js` for full documentation. Here are some common scenarios:
 
 #### Declaring an action
 
-When declaring an action, use the `action` method and provide it with a `title` and a `method` property. The title is what will be displayed in the menu players see when clicking on the card. The method is a string that references a method on the card object to be called when the player chooses to trigger the action. The player executing the action is passed into the method.
+When declaring an action, use the `action` method and provide it with a `title` and a `handler` property. The title is what will be displayed in the menu players see when clicking on the card. The handler is a function to be called when the player chooses to trigger the action. The handler receives a context object as its only parameter which contains the `player` executing the action, and the `source` card that triggered the ability.
 
 ```javascript
 class SealOfTheHand extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Stand attached character',
-            method: 'kneel'
+            handler: context => {
+                // Code to stand the parent card
+            }
         });
-    }
-
-    kneel(player) {
-        // Code to stand the parent card.
     }
 }
 ```
 
-#### Cancelling an action due to cost
+#### DEPRECATED - Specifying handler using `method` property.
 
-Some actions have an additional cost or requirement, such as kneeling the card. In these cases, if the cost cannot be paid, returning false from the handler will cancel the action.
+**Note:** This syntax is being phased out. Prefer using `handler` instead.
+
+You can specify a method on the card to call instead of a specific handler function by using the `method` property. The method is a string that references a method on the card object to be called when the player chooses to trigger the action. The player executing the action is passed into the method.
+
+#### Checking ability restrictions
+
+Card abilities can only be triggered if they have the potential to modify game state (outside of paying costs). To ensure that the action's play restrictions are met, pass a `condition` function that returns `true` when the restrictions are met, and `false` otherwise. If the condition returns `false`, the action will not be executed and costs will not be paid.
 
 ```javascript
-// Handler method for Seal of the Hand
-kneel(player) {
-    // ensure the parent is kneeled and the Seal is standing.
-    if(!this.parent || !this.parent.kneeled || this.kneeled) {
-        return false;
-    }
+this.action({
+    title: 'Stand attached character',
+    // Ensure that the parent card is knelt
+    condition: () => this.parent.kneeled,
+    // ...
+});
+```
 
-    // stand parent, kneel this.
-}
+#### Paying additional costs for action
+
+Some actions have an additional cost, such as kneeling the card. In these cases, specify the `cost` parameter. The action will check if the cost can be paid. If it can't, the action will not execute. If it can, costs will be paid automatically and then the action will execute.
+
+For a full list of costs, look at `/server/game/costs.js`.
+
+```javascript
+this.action({
+    title: 'Stand attached character',
+    // This card must be knelt as a cost for the action.
+    cost: ability.costs.kneelSelf(),
+    // ...
+});
+```
+
+If a card has multiple costs, an array of cost objects may be sent using the `cost` property.
+
+```javascript
+this.action({
+    title: 'Reduce the next character marshalled by 3',
+    // This card must be knelt AND sacrificed as a cost for the action.
+    cost: [
+        ability.costs.kneelSelf(),
+        ability.costs.sacrificeSelf()
+    ],
+    // ...
+});
+```
+
+#### Cancelling an action
+
+If after checking play requirements and paying costs an action needs to be cancelled for some reason, simply return `false` from the handler. **Note**: This should be very rare.
+
+```javascript
+this.action({
+    title: 'Do something',
+    handler: () => {
+        if(!this.canDoIt()) {
+            return false;
+        }
+
+        // normal handler code
+    }
+});
 ```
 
 If an action is cancelled in this manner, it is not counted towards any 'limit X per challenge/phase/round' requirements.
@@ -317,8 +364,8 @@ Some actions are limited to a specific phase by their card text (e.g. 'Challenge
 ```javascript
 this.action({
     title: 'Kneel Grey Wind to kill a character',
-    method: 'kill',
-    phase: 'challenge'
+    phase: 'challenge',
+    // ...
 });
 ```
 
@@ -329,8 +376,8 @@ Some actions have text limiting the number of times they may be used in a given 
 ```javascript
 this.action({
     title: 'Put a card with printed cost of 5 or lower in play',
-    method: 'putInPlay',
-    limit: ability.limit.perPhase(1)
+    limit: ability.limit.perPhase(1),
+    // ...
 });
 ```
 
@@ -477,6 +524,43 @@ this.reaction({
         'Gain 1 power': () => {
             // code to gain 1 power
         }
+    }
+});
+```
+
+#### Paying additional costs for reactions and interrupts
+
+Some abilities have an additional cost, such as kneeling the card. In these cases, specify the `cost` parameter. The ability will check if the cost can be paid. If it can't, the ability will not prompt the player. If it can, costs will be paid automatically and then the ability will execute.
+
+For a full list of costs, look at `/server/game/costs.js`.
+
+```javascript
+this.interrupt({
+    when: {
+        // condition for the Wall.
+    }
+    // This card must be knelt as a cost for the action.
+    cost: ability.costs.kneelSelf(),
+    handler: () => {
+        // Gain 2 power for your faction.
+    }
+});
+```
+
+If a card has multiple costs, an array of cost objects may be sent using the `cost` property.
+
+```javascript
+this.reaction({
+    when {
+        // condition for Ghaston Grey
+    }
+    // This card must be knelt AND sacrificed as a cost for the action.
+    cost: [
+        ability.costs.kneelSelf(),
+        ability.costs.sacrificeSelf()
+    ],
+    handler: () => {
+        // Choose and return an attacking character to your opponent's hand.
     }
 });
 ```

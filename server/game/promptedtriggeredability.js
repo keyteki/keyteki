@@ -17,6 +17,8 @@ const TriggeredAbility = require('./triggeredability.js');
  *           possible triggers for the same reaction.
  * title   - function that returns the string to be used as the prompt title. If
  *           none provided, then the title will be "Trigger {card name}?".
+ * cost    - object or array of objects representing the cost required to be
+ *           paid before the action will activate. See Costs.
  * handler - function that will be executed if the player chooses 'Yes' when
  *           asked to trigger the reaction. If the reaction has more than one
  *           choice, use the choices sub object instead.
@@ -69,13 +71,19 @@ class PromptedTriggeredAbility extends TriggeredAbility {
     }
 
     triggerReaction(player, choice) {
-        var handler = this.choices[choice];
+        this.currentContext.choice = choice;
+
+        this.queueResolver(this.currentContext);
+
+        return true;
+    }
+
+    executeHandler(context) {
+        var handler = this.choices[context.choice];
 
         if(handler && handler(this.currentContext) !== false && this.limit) {
             this.limit.increment();
         }
-
-        return true;
     }
 
     cancel() {

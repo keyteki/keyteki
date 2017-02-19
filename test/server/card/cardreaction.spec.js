@@ -1,4 +1,4 @@
-/*global describe, it, beforeEach, expect, jasmine */
+/*global describe, it, beforeEach, expect, jasmine, spyOn */
 /*eslint camelcase: 0, no-invalid-this: 0 */
 
 const CardReaction = require('../../../server/game/cardreaction.js');
@@ -97,9 +97,67 @@ describe('CardReaction', function () {
                 });
             });
         });
+
+        describe('when the reaction has a cost', function() {
+            beforeEach(function() {
+                this.cost = jasmine.createSpyObj('cost', ['canPay']);
+                this.properties.cost = this.cost;
+            });
+
+            describe('and the cost can be paid', function() {
+                beforeEach(function() {
+                    this.cost.canPay.and.returnValue(true);
+                    this.executeEventHandler(1, 2, 3);
+                });
+
+                it('should prompt for trigger', function() {
+                    expect(this.gameSpy.promptWithMenu).toHaveBeenCalled();
+                });
+            });
+
+            describe('and the cost cannot be paid', function() {
+                beforeEach(function() {
+                    this.cost.canPay.and.returnValue(false);
+                    this.executeEventHandler(1, 2, 3);
+                });
+
+                it('should not prompt', function() {
+                    expect(this.gameSpy.promptWithMenu).not.toHaveBeenCalled();
+                });
+            });
+        });
     });
 
     describe('triggerReaction()', function() {
+        beforeEach(function() {
+            this.properties = {
+                when: {
+                    onSomething: () => true
+                },
+                handler: jasmine.createSpy('handler')
+            };
+            this.reaction = this.createReaction();
+            spyOn(this.reaction, 'queueResolver');
+
+            this.context = {};
+            this.reaction.currentContext = this.context;
+            this.reaction.triggerReaction(this.player, 'My Choice');
+        });
+
+        it('should store the choice on the current context', function() {
+            expect(this.context.choice).toEqual('My Choice');
+        });
+
+        it('should queue the ability resolver', function() {
+            expect(this.reaction.queueResolver).toHaveBeenCalledWith(this.context);
+        });
+    });
+
+    describe('executeHandler()', function() {
+        beforeEach(function() {
+            this.context = { context: 1 };
+        });
+
         describe('with single choice reactions', function() {
             beforeEach(function() {
                 this.properties = {
@@ -108,12 +166,14 @@ describe('CardReaction', function () {
                     },
                     handler: jasmine.createSpy('handler')
                 };
+                this.context.choice = 'Yes';
             });
 
             describe('when the choice is Yes', function () {
                 beforeEach(function() {
                     this.reaction = this.createReaction();
-                    this.reaction.triggerReaction(this.player, 'Yes');
+                    this.context.choice = 'Yes';
+                    this.reaction.executeHandler(this.context);
                 });
 
                 it('should call the handler', function() {
@@ -124,7 +184,8 @@ describe('CardReaction', function () {
             describe('when the choice is unconfigured', function() {
                 beforeEach(function() {
                     this.reaction = this.createReaction();
-                    this.reaction.triggerReaction(this.player, 'Win the game');
+                    this.context.choice = 'Win the game';
+                    this.reaction.executeHandler(this.context);
                 });
 
                 it('should not call the handler', function() {
@@ -141,7 +202,7 @@ describe('CardReaction', function () {
                 describe('and the handler returns a non-false value', function() {
                     beforeEach(function() {
                         this.properties.handler.and.returnValue(undefined);
-                        this.reaction.triggerReaction(this.player, 'Yes');
+                        this.reaction.executeHandler(this.context);
                     });
 
                     it('should increment the limit', function() {
@@ -152,7 +213,7 @@ describe('CardReaction', function () {
                 describe('and the handler returns false', function() {
                     beforeEach(function() {
                         this.properties.handler.and.returnValue(false);
-                        this.reaction.triggerReaction(this.player, 'Yes');
+                        this.reaction.executeHandler(this.context);
                     });
 
                     it('should not increment the limit', function() {
@@ -174,12 +235,14 @@ describe('CardReaction', function () {
                         'Baz': jasmine.createSpy('handler3')
                     }
                 };
+                this.context.choice = 'Baz';
             });
 
             describe('when the choice is an existing choice', function () {
                 beforeEach(function() {
                     this.reaction = this.createReaction();
-                    this.reaction.triggerReaction(this.player, 'Baz');
+                    this.context.choice = 'Baz';
+                    this.reaction.executeHandler(this.context);
                 });
 
                 it('should call the appropriate handler', function() {
@@ -192,7 +255,8 @@ describe('CardReaction', function () {
             describe('when the choice is unconfigured', function() {
                 beforeEach(function() {
                     this.reaction = this.createReaction();
-                    this.reaction.triggerReaction(this.player, 'Win the game');
+                    this.context.choice = 'Win the game';
+                    this.reaction.executeHandler(this.context);
                 });
 
                 it('should not call any of the handler', function() {
@@ -211,7 +275,7 @@ describe('CardReaction', function () {
                 describe('and the handler returns a non-false value', function() {
                     beforeEach(function() {
                         this.properties.choices['Baz'].and.returnValue(undefined);
-                        this.reaction.triggerReaction(this.player, 'Baz');
+                        this.reaction.executeHandler(this.context);
                     });
 
                     it('should increment the limit', function() {
@@ -222,7 +286,7 @@ describe('CardReaction', function () {
                 describe('and the handler returns false', function() {
                     beforeEach(function() {
                         this.properties.choices['Baz'].and.returnValue(false);
-                        this.reaction.triggerReaction(this.player, 'Baz');
+                        this.reaction.executeHandler(this.context);
                     });
 
                     it('should not increment the limit', function() {

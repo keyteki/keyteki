@@ -20,6 +20,48 @@ describe('CardAction', function () {
         };
     });
 
+    describe('constructor', function() {
+        describe('handler', function() {
+            beforeEach(function() {
+                this.context = {
+                    player: 'player',
+                    arg: 'arg',
+                    foo: 'bar'
+                };
+            });
+
+            describe('when passed a method reference', function() {
+                beforeEach(function() {
+                    this.properties = {
+                        title: 'Do the thing',
+                        method: 'handler'
+                    };
+                    this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+                });
+
+                it('should use the specified method on the card object', function() {
+                    this.action.handler(this.context);
+                    expect(this.cardSpy.handler).toHaveBeenCalledWith('player', 'arg', this.context);
+                });
+            });
+
+            describe('when passed a handler directly', function() {
+                beforeEach(function() {
+                    this.properties = {
+                        title: 'Do the thing',
+                        handler: jasmine.createSpy('handler')
+                    };
+                    this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+                });
+
+                it('should use the handler directly', function() {
+                    this.action.handler(this.context);
+                    expect(this.properties.handler).toHaveBeenCalledWith(this.context);
+                });
+            });
+        });
+    });
+
     describe('execute()', function() {
         beforeEach(function() {
             this.player = {};
@@ -30,6 +72,7 @@ describe('CardAction', function () {
             beforeEach(function() {
                 this.properties.limit = this.limitSpy;
                 this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+                spyOn(this.action, 'queueResolver');
             });
 
             describe('and the use count has reached the limit', function() {
@@ -39,46 +82,18 @@ describe('CardAction', function () {
                     this.action.execute(this.player, 'arg');
                 });
 
-                it('should not call the handler', function() {
-                    expect(this.cardSpy.handler).not.toHaveBeenCalled();
-                });
-
-                it('should not count towards the limit', function() {
-                    expect(this.limitSpy.increment).not.toHaveBeenCalled();
+                it('should not queue the ability resolver', function() {
+                    expect(this.action.queueResolver).not.toHaveBeenCalled();
                 });
             });
 
             describe('and the use count is below the limit', function() {
-                describe('and the handler returns false', function() {
-                    beforeEach(function() {
-                        this.cardSpy.handler.and.returnValue(false);
-
-                        this.action.execute(this.player, 'arg');
-                    });
-
-                    it('should call the handler', function() {
-                        expect(this.cardSpy.handler).toHaveBeenCalledWith(this.player, 'arg');
-                    });
-
-                    it('should not count towards the limit', function() {
-                        expect(this.limitSpy.increment).not.toHaveBeenCalled();
-                    });
+                beforeEach(function() {
+                    this.action.execute(this.player, 'arg');
                 });
 
-                describe('and the handler returns undefined or a non-false value', function() {
-                    beforeEach(function() {
-                        this.cardSpy.handler.and.returnValue(undefined);
-
-                        this.action.execute(this.player, 'arg');
-                    });
-
-                    it('should call the handler', function() {
-                        expect(this.cardSpy.handler).toHaveBeenCalledWith(this.player, 'arg');
-                    });
-
-                    it('should count towards the limit', function() {
-                        expect(this.limitSpy.increment).toHaveBeenCalled();
-                    });
+                it('should queue the ability resolver', function() {
+                    expect(this.action.queueResolver).toHaveBeenCalled();
                 });
             });
         });
@@ -91,11 +106,12 @@ describe('CardAction', function () {
             describe('and the anyPlayer property is not set', function() {
                 beforeEach(function() {
                     this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+                    spyOn(this.action, 'queueResolver');
                     this.action.execute(this.otherPlayer, 'arg');
                 });
 
-                it('should not call the handler', function() {
-                    expect(this.cardSpy.handler).not.toHaveBeenCalled();
+                it('should not queue the ability resolver', function() {
+                    expect(this.action.queueResolver).not.toHaveBeenCalled();
                 });
             });
 
@@ -103,11 +119,12 @@ describe('CardAction', function () {
                 beforeEach(function() {
                     this.properties.anyPlayer = true;
                     this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+                    spyOn(this.action, 'queueResolver');
                     this.action.execute(this.otherPlayer, 'arg');
                 });
 
-                it('should call the handler', function() {
-                    expect(this.cardSpy.handler).toHaveBeenCalledWith(this.otherPlayer, 'arg');
+                it('should queue the ability resolver', function() {
+                    expect(this.action.queueResolver).toHaveBeenCalled();
                 });
             });
         });
@@ -116,11 +133,12 @@ describe('CardAction', function () {
             beforeEach(function() {
                 this.cardSpy.isBlank.and.returnValue(true);
                 this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+                spyOn(this.action, 'queueResolver');
                 this.action.execute(this.player, 'arg');
             });
 
-            it('should not call the handler', function() {
-                expect(this.cardSpy.handler).not.toHaveBeenCalled();
+            it('should not queue the ability resolver', function() {
+                expect(this.action.queueResolver).not.toHaveBeenCalled();
             });
         });
 
@@ -128,6 +146,7 @@ describe('CardAction', function () {
             beforeEach(function() {
                 this.properties.phase = 'challenge';
                 this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+                spyOn(this.action, 'queueResolver');
             });
 
             describe('and it is not that phase', function() {
@@ -136,8 +155,8 @@ describe('CardAction', function () {
                     this.action.execute(this.player, 'arg');
                 });
 
-                it('should not call the handler', function() {
-                    expect(this.cardSpy.handler).not.toHaveBeenCalled();
+                it('should not queue the ability resolver', function() {
+                    expect(this.action.queueResolver).not.toHaveBeenCalled();
                 });
             });
 
@@ -147,8 +166,8 @@ describe('CardAction', function () {
                     this.action.execute(this.player, 'arg');
                 });
 
-                it('should call the handler', function() {
-                    expect(this.cardSpy.handler).toHaveBeenCalledWith(this.player, 'arg');
+                it('should queue the ability resolver', function() {
+                    expect(this.action.queueResolver).toHaveBeenCalled();
                 });
             });
         });
@@ -158,22 +177,55 @@ describe('CardAction', function () {
                 this.gameSpy.currentPhase = 'setup';
                 this.properties.phase = 'any';
                 this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+                spyOn(this.action, 'queueResolver');
                 this.action.execute(this.player, 'arg');
             });
 
-            it('should not call the handler', function() {
-                expect(this.cardSpy.handler).not.toHaveBeenCalled();
+            it('should not queue the ability resolver', function() {
+                expect(this.action.queueResolver).not.toHaveBeenCalled();
+            });
+        });
+
+        describe('when a condition is provided', function() {
+            beforeEach(function() {
+                this.condition = jasmine.createSpy('condition');
+                this.properties.condition = this.condition;
+                this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+                spyOn(this.action, 'queueResolver');
+            });
+
+            describe('and the condition returns true', function() {
+                beforeEach(function() {
+                    this.condition.and.returnValue(true);
+                    this.action.execute(this.player, 'arg');
+                });
+
+                it('should queue the ability resolver', function() {
+                    expect(this.action.queueResolver).toHaveBeenCalled();
+                });
+            });
+
+            describe('and the condition returns false', function() {
+                beforeEach(function() {
+                    this.condition.and.returnValue(false);
+                    this.action.execute(this.player, 'arg');
+                });
+
+                it('should not queue the ability resolver', function() {
+                    expect(this.action.queueResolver).not.toHaveBeenCalled();
+                });
             });
         });
 
         describe('when all conditions met', function() {
             beforeEach(function() {
                 this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+                spyOn(this.action, 'queueResolver');
                 this.action.execute(this.player, 'arg');
             });
 
-            it('should call the handler', function() {
-                expect(this.cardSpy.handler).toHaveBeenCalledWith(this.player, 'arg');
+            it('should queue the ability resolver', function() {
+                expect(this.action.queueResolver).toHaveBeenCalled();
             });
         });
     });
@@ -238,6 +290,68 @@ describe('CardAction', function () {
 
         it('returns the menu item format', function() {
             expect(this.menuItem).toEqual({ text: 'Do the thing', method: 'doAction', anyPlayer: false });
+        });
+    });
+
+    describe('executeHandler()', function() {
+        beforeEach(function() {
+            this.player = { player: true };
+            this.context = {
+                player: this.player,
+                arg: 'arg'
+            };
+            this.handler = jasmine.createSpy('handler');
+            this.properties.handler = this.handler;
+        });
+
+        describe('when the action has no limit', function() {
+            beforeEach(function() {
+                this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+                this.action.executeHandler(this.context);
+            });
+
+            it('should call the handler', function() {
+                expect(this.handler).toHaveBeenCalledWith(this.context);
+            });
+        });
+
+        describe('when the action has limited uses', function() {
+            beforeEach(function() {
+                this.properties.limit = this.limitSpy;
+                this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+            });
+
+            describe('and the handler returns false', function() {
+                beforeEach(function() {
+                    this.handler.and.returnValue(false);
+
+                    this.action.executeHandler(this.context);
+                });
+
+                it('should call the handler', function() {
+                    expect(this.handler).toHaveBeenCalledWith(this.context);
+                });
+
+                it('should not count towards the limit', function() {
+                    expect(this.limitSpy.increment).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('and the handler returns undefined or a non-false value', function() {
+                beforeEach(function() {
+                    this.handler.and.returnValue(undefined);
+
+                    this.action.executeHandler(this.context);
+                });
+
+                it('should call the handler', function() {
+                    expect(this.handler).toHaveBeenCalledWith(this.context);
+                });
+
+                it('should count towards the limit', function() {
+                    expect(this.limitSpy.increment).toHaveBeenCalled();
+                });
+            });
         });
     });
 });
