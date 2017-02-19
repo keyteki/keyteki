@@ -10,7 +10,7 @@ class EvenHandedJustice extends DrawCard {
         }
 
         return (_.every(this.game.getPlayers(), this.hasStandingCharacters)
-                && super.canPlay());
+                && super.canPlay(player, card));
     }
 
     hasStandingCharacters(player) {

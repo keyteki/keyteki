@@ -10,7 +10,7 @@ class WeDoNotSow extends DrawCard {
             return false;
         }
 
-        return super.canPlay();
+        return super.canPlay(player, card);
     }
 
     play(player) {
