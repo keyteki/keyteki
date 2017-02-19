@@ -58,6 +58,26 @@ const Effects = {
             }
         };
     },
+    canBeDeclaredWithoutIcon: function() {
+        return {
+            apply: function(card) {
+                card.challengeOptions.canBeDeclaredWithoutIcon = true;
+            },
+            unapply: function(card) {
+                card.challengeOptions.canBeDeclaredWithoutIcon = false;
+            }
+        };
+    },
+    canBeDeclaredWhileKneeling: function() {
+        return {
+            apply: function(card) {
+                card.challengeOptions.canBeDeclaredWhileKneeling = true;
+            },
+            unapply: function(card) {
+                card.challengeOptions.canBeDeclaredWhileKneeling = false;
+            }
+        };
+    },
     modifyStrength: function(value) {
         return {
             apply: function(card) {
