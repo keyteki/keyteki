@@ -14,13 +14,14 @@
 }
 
 .game-row {
-  height: 64px;
+  min-height: 64px;
   border-radius: 4px;
   border-width: 1px;
   border-color: @brand-primary;
   border-style: solid;
   padding: 3px 5px;
   margin-bottom: 5px;
+  word-wrap: break-word;
 }
 
 .game-row:hover {
@@ -64,4 +65,8 @@
 .spectators {
   height: 55px;
   clear: both;
+}
+
+.game-name-char-limit {
+  float: right;
 }

@@ -28,7 +28,7 @@ class InnerNewGame extends React.Component {
     }
 
     onNameChange(event) {
-        this.setState({gameName: event.target.value});
+        this.setState({gameName: event.target.value.substr(0,140)});
     }
 
     onSpecatorsClick(event) {
@@ -45,12 +45,14 @@ class InnerNewGame extends React.Component {
     }
 
     render() {
+        let charsLeft = 140 - this.state.gameName.length;
         return this.props.socket ? (
             <div>
                 <form className='form'>
                     <div className='row'>
                         <div className='col-sm-5'>
                             <label htmlFor='gameName'>Name</label>
+                            <label className='game-name-char-limit'>{charsLeft >= 0 ? charsLeft: 0}</label>
                             <input className='form-control' placeholder='Game Name' type='text' onChange={this.onNameChange} value={this.state.gameName}/>
                         </div>
                     </div>
