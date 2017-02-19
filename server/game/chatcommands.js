@@ -288,6 +288,10 @@ class ChatCommands {
     }
 
     isValidIcon(icon) {
+        if(!icon) {
+            return false;
+        }
+
         var lowerIcon = icon.toLowerCase();
 
         return lowerIcon === 'military' || lowerIcon === 'intrigue' || lowerIcon === 'power';
