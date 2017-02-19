@@ -121,6 +121,10 @@ class Card extends React.Component {
             return null;
         }
 
+        if(this.props.card.facedown) {
+            return null;
+        }
+
         counters['power'] = this.props.card.power || undefined;
         counters['strength'] = this.props.card.baseStrength !== this.props.card.strength ? this.props.card.strength : undefined;
         counters['dupe'] = this.props.card.dupes && this.props.card.dupes.length > 0 ? this.props.card.dupes.length : undefined;
