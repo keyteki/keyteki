@@ -62,11 +62,14 @@ class JaqenHGhar extends DrawCard {
     onSelect(player, cards) {
         this.selectedCards = cards;
 
+        var addedTokens = 0;
         _.each(cards, card => {
             card.addToken('valarmorghulis', 1);
+            addedTokens++;
         });
 
-        this.game.addMessage('{0} uses {1} to add up to 3 Valar Morghulis tokens', player, this);
+        this.game.addMessage('{0} uses {1} to add {2} Valar Morghulis token(s)',
+                             player, this, addedTokens);
 
         return true;
     }
