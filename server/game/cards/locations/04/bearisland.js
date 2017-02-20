@@ -4,7 +4,7 @@ class BearIsland extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardEntersPlay: (event, card) => card.controller === this.controller && card.isLoyal() && this.game.currentPhase === 'marshal'
+                onCardEntersPlay: (event, card) => card.getType() !== 'plot' && card.controller === this.controller && card.isLoyal() && this.game.currentPhase === 'marshal'
             },
             limit: ability.limit.perPhase(2),
             handler: () => {
