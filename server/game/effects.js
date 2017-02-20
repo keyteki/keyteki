@@ -352,6 +352,16 @@ const Effects = {
             }
         };
     },
+    setChallengeTypeLimit: function(challengeType, max) {
+        return {
+            apply: function(player) {
+                player.setMaxChallengeForType(challengeType, max);
+            },
+            unapply: function(player) {
+                player.clearMaxChallengeForType(challengeType);
+            }
+        };
+    },
     setMaxChallenge: function(max) {
         return {
             apply: function(player) {

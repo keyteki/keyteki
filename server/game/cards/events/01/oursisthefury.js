@@ -1,16 +1,9 @@
-const DrawCard = require('../../../drawcard.js');
+const ChallengeEvent = require('../../challengeevent.js');
 
-class OursIsTheFury extends DrawCard {
-    canPlay(player, card) {
-        if(player !== this.controller || this !== card) {
-            return false;
-        }
+class OursIsTheFury extends ChallengeEvent {
 
-        if(!this.game.currentChallenge || this.game.currentChallenge.defendingPlayer !== this.controller) {
-            return false;
-        }
-
-        return super.canPlay(player, card);
+    constructor(owner, cardData) {
+        super(owner, cardData, null, 'defender');
     }
 
     play(player) {
