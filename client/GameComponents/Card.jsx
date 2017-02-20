@@ -78,7 +78,7 @@ class Card extends React.Component {
                 dropTarget = component.props.source;
             }
 
-            if(dropTarget) {
+            if(dropTarget && this.props.onDragDrop) {
                 this.props.onDragDrop(this.props.card, this.props.source, dropTarget);
             }
         }

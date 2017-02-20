@@ -129,7 +129,7 @@ class CardCollection extends React.Component {
                 <div className='inner'>
                     {cardList}
                 </div>
-                <div className='arrow-indicator'></div>
+                <div className='arrow-indicator' />
             </div>);
 
         return popup;
