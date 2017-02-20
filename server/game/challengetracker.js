@@ -78,6 +78,14 @@ class ChallengeTracker {
         delete this.maxTotal;
     }
 
+    setMaxForType(challengeType, max) {
+        this.challengeTypes[challengeType].max = max;
+    }
+
+    clearMaxForType(challengeType) {
+        this.challengeTypes[challengeType].max = 1;
+    }
+
     perform(challengeType) {
         this.challengeTypes[challengeType].performed++;
         this.complete++;

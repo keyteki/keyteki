@@ -261,6 +261,14 @@ class Player extends Spectator {
         this.challenges.clearMax();
     }
 
+    setMaxChallengeForType(type, number) {
+        this.challenges.setMaxForType(type, number);
+    }
+
+    clearMaxChallengeForType(type) {
+        this.challenges.clearMaxForType(type);
+    }
+
     initDrawDeck() {
         this.hand.each(card => {
             card.moveTo('draw deck');
