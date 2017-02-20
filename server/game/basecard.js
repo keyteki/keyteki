@@ -417,6 +417,7 @@ class BaseCard {
             name: this.cardData.label,
             new: this.new,
             selected: (isActivePlayer && this.selected) || this.opponentSelected,
+            selectable: (isActivePlayer && this.selectable),
             tokens: this.tokens,
             type: this.getType(),
             uuid: this.uuid

@@ -64,6 +64,22 @@ class SelectCardPrompt extends UiPrompt {
         });
     }
 
+    continue() {
+        if(!this.isComplete()) {
+            this.highlightSelectableCards();
+        }
+
+        return super.continue();
+    }
+
+    highlightSelectableCards() {
+        this.game.allCards.each(card => {
+            if(['character', 'attachment', 'location', 'event'].includes(card.getType())) {
+                card.selectable = this.properties.cardCondition(card);
+            }
+        });
+    }
+
     activeCondition(player) {
         return player === this.choosingPlayer;
     }
@@ -168,6 +184,9 @@ class SelectCardPrompt extends UiPrompt {
             card.opponentSelected = false;
         });
         this.selectedCards = [];
+        this.game.allCards.each(card => {
+            card.selectable = false;
+        });
 
         // Restore previous selections.
         _.each(this.previouslySelectedCards, selection => {

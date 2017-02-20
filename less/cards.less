@@ -26,6 +26,20 @@
     width: @card-height;
   }
 
+  &.selectable {
+    animation: selectable-pulse 4s infinite;
+    box-shadow: 0 0 10px 1px fadeout(lighten(@brand-primary, 60%), 10%);
+  }
+
+  @keyframes selectable-pulse {
+    0% {
+      box-shadow: 0 0 10px 1px fadeout(lighten(@brand-primary, 60%), 10%);
+    }
+    50% {
+      box-shadow: 0 0 10px 1px fadeout(lighten(@brand-primary, 60%), 50%);
+    }
+  }
+
   &.selected {
     box-shadow: 0 0 1px 4px @brand-primary;
   }
