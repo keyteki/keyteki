@@ -28,15 +28,21 @@ class VanguardLancer extends DrawCard {
         return true;
     }
 
-    selectFactionCard() {
-        var otherPlayer = this.game.getOtherPlayer(this.controller);
+    selectFactionCard(player) {
+        var otherPlayer = this.game.getOtherPlayer(player);
         if(!otherPlayer) {
             return true;
         }
 
         this.game.addPower(otherPlayer, -1);
 
-        this.game.addMessage('{0} uses {1} to remove 1 power from {2}\'s faction card', this.controller, this, otherPlayer);
+        this.game.addMessage('{0} uses {1} to remove 1 power from {2}\'s faction card', player, this, otherPlayer);
+
+        return true;
+    }
+
+    cancelSelection(player) {
+        this.game.addMessage('{0} cancels the resolution of {1}', player, this);
 
         return true;
     }
