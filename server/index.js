@@ -268,14 +268,6 @@ function runAndCatchErrors(game, func) {
         func();
     } catch(e) {
         handleError(game, e);
-
-        // Sometimes sending game state causes its own issues, so just report the error instead of crashing
-
-        try {
-            sendGameState(game);
-        } catch(e) {
-            handleError(game, e);
-        }
     }
 }
 
