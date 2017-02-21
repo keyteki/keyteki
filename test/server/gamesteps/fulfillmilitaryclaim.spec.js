@@ -7,7 +7,7 @@ const FulfillMilitaryClaim = require('../../../server/game/gamesteps/challenge/f
 
 describe('FulfillMilitaryClaim', function() {
     beforeEach(function() {
-        this.game = jasmine.createSpyObj('game', ['promptForSelect']);
+        this.game = jasmine.createSpyObj('game', ['promptForSelect', 'addMessage']);
         this.loser = jasmine.createSpyObj('loser', ['killCharacter']);
         this.loser.cardsInPlay = _([]);
 

@@ -787,6 +787,7 @@ class Player extends Spectator {
                 }
 
                 this.moveCard(card, 'dead pile');
+                this.game.addMessage('{0} kills {1}', this, character);
             });
         }
     }
