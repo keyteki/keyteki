@@ -33,8 +33,8 @@ class About extends React.Component {
                         <li>/discard x - Discards x cards randomly from your hand</li>
                         <li>/pillage - Discards the top card from your deck</li>
                         <li>/strength x - Sets the strength of a card to x</li>
-                        <li>/give-icon x - Give a character an x icon; where "x" is one of "military", "intrigue", "power"</li>
-                        <li>/take-icon x - Take an x icon from a character; where "x" is as per "/give-icon"</li>
+                        <li>/give-icon x - Give a character an x icon; where 'x' is one of 'military', 'intrigue', 'power'</li>
+                        <li>/take-icon x - Take an x icon from a character; where 'x' is as per '/give-icon'</li>
                         <li>/cancel-prompt - Clear the current prompt and resume the game flow.  Use with caution and only when the prompt is 'stuck' and you are unable to continue</li>
                     </ul>
                 </p>
@@ -56,6 +56,21 @@ class About extends React.Component {
                 artwork or trademarks.  This site exists for passionate fans to play a game they enjoy and augment, rather than replace, the in person LCG.  FFG does not endorse, support, and is not
                 involved with, this site in any way.
                 </p>
+
+                <h3>Donations</h3>
+                I was always reluctant to accept donations but since I've been asked a few times I thought I'd put up a small section about it here.
+
+                <form action='https://www.paypal.com/cgi-bin/webscr' method='post' target='_top'>
+                    <input type='hidden' name='cmd' value='_s-xclick' />
+                    <input type='hidden' name='hosted_button_id' value='5SB6UZEGFSD58' />
+                    <input type='image' src='https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif' border='0' name='submit' alt='PayPal – The safer, easier way to pay online!' />
+                    <img alt='' border='0' src='https://www.paypalobjects.com/en_GB/i/scr/pixel.gif' width='1' height='1' />
+                </form>
+
+                Just to make things clear, I'm not going this for any personal gain whatsoever, I'm happy to run the servers at my own expense, but any money reaised via this link will be used towards paying the hosting fees for the server and related services (error tracking, load balancing etc).
+                If, after the annnual bills for that are paid up, there is any money left over, I'll put it towards events for the site or towards the following years expenses.
+                Also, this is not required to continue to use and enjoy the site and will not give anything in return (other than my sincerce gratitude and potentially better hardware for the site to run on).
+                I will also put a donation report in with the monthly reports that I'm publishing so that you know where your donations are going.
             </div>
         );
     }
