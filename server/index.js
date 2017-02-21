@@ -233,13 +233,78 @@ function findGameForPlayer(username) {
     return gameToReturn;
 }
 
+class CircularReferenceDetector {
+    static detectCircularReferences(toBeStringifiedValue: any, serializationKeyStack: string[] = []) {
+        Object.keys(toBeStringifiedValue).forEach(key => {
+            var value = toBeStringifiedValue[key];
+
+            var serializationKeyStackWithNewKey = serializationKeyStack.slice();
+            serializationKeyStackWithNewKey.push(key);
+            try {
+                JSON.stringify(value);
+                logger.debug(`path "${Util.joinStrings(serializationKeyStack)}" is ok`);
+            } catch(error) {
+                logger.debug(`path "${Util.joinStrings(serializationKeyStack)}" JSON.stringify results in error: ${error}`);
+
+                var isCircularValue:boolean;
+                var circularExcludingStringifyResult:string = '';
+                try {
+                    circularExcludingStringifyResult = JSON.stringify(value, CircularReferenceDetector.replaceRootStringifyReplacer(value), 2);
+                    isCircularValue = true;
+                } catch(error) {
+                    logger.debug(`path "${Util.joinStrings(serializationKeyStack)}" is not the circular source`);
+                    CircularReferenceDetector.detectCircularReferences(value, serializationKeyStackWithNewKey);
+                    isCircularValue = false;
+                }
+                if(isCircularValue) {
+                    throw new Error(`Circular reference detected:\nCircularly referenced value is value under path "${Util.joinStrings(serializationKeyStackWithNewKey)}" of the given root object\n`+
+                        `Calling stringify on this value but replacing itself with [Circular object --- fix me] ( <-- search for this string) results in:\n${circularExcludingStringifyResult}\n`);
+                }
+            }
+        });
+    }
+
+    static replaceRootStringifyReplacer(toBeStringifiedValue: any): any {
+        var serializedObjectCounter = 0;
+
+        return function (key: any, value: any) {
+            if(serializedObjectCounter !== 0 && typeof(toBeStringifiedValue) === 'object' && toBeStringifiedValue === value) {
+                logger.error(`object serialization with key ${key} has circular reference to being stringified object`);
+                return '[Circular object --- fix me]';
+            }
+
+            serializedObjectCounter++;
+
+            return value;
+        };
+    }
+}
+
+export class Util {
+    static joinStrings(arr: string[], separator: string = ':') {
+        if(arr.length === 0) {
+            return '';
+        }
+
+        return arr.reduce((v1, v2) => `${v1}${separator}${v2}`);
+    }
+
+}
+
 function sendGameState(game) {
     _.each(game.playersAndSpectators, player => {
         if(player.left) {
             return;
         }
 
-        io.to(player.id).emit('gamestate', game.getState(player.name));
+        var state = game.getState(player.name);
+        try {
+            CircularReferenceDetector.detectCircularReferences(state);
+        } catch(e) {
+            logger.error(e);
+        }
+
+        io.to(player.id).emit('gamestate', state);
     });
 }
 
