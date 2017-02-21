@@ -75,7 +75,7 @@ class SelectCardPrompt extends UiPrompt {
     highlightSelectableCards() {
         this.game.allCards.each(card => {
             if(['character', 'attachment', 'location', 'event'].includes(card.getType())) {
-                card.selectable = this.properties.cardCondition(card);
+                card.selectable = !!this.properties.cardCondition(card);
             }
         });
     }
