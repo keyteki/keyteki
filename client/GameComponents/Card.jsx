@@ -45,7 +45,7 @@ class Card extends React.Component {
 
     getReactComponentFromDOMNode(dom) {
         for(var key in dom) {
-            if(key.startsWith('__reactInternalInstance$')) {
+            if(key.indexOf('__reactInternalInstance$') === 0) {
                 var compInternals = dom[key]._currentElement;
                 var compWrapper = compInternals._owner;
                 var comp = compWrapper._instance;
