@@ -2,14 +2,15 @@ const DrawCard = require('../../../drawcard.js');
 
 class CroneOfVaesDothrak extends DrawCard {
 
-    canBeTriggered(event, player, card) {
+    canBeTriggered(event, player, card, allowSave, originalLocation) {
         var standingDothrakis = this.controller.cardsInPlay.filter(
             card =>
                 card.getType() === 'character'
                 && !card.kneeled
                 && card.hasTrait('Dothraki'));
 
-        return (card.getType() === 'character'
+        return ((originalLocation === 'hand' || originalLocation === 'draw deck')
+                && card.getType() === 'character'
                 && player !== this.controller
                 && standingDothrakis.length > 0);
     }
@@ -17,7 +18,8 @@ class CroneOfVaesDothrak extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onCardDiscarded: (e, p, c) => this.canBeTriggered(e, p, c)
+                onCardDiscarded: (event, player, card, allowSave, originalLocation) =>
+                    this.canBeTriggered(event, player, card, allowSave, originalLocation)
             },
             handler: context => {
                 var discardedCard = context.event.params[2];
