@@ -234,7 +234,7 @@ function findGameForPlayer(username) {
 }
 
 class CircularReferenceDetector {
-    static detectCircularReferences(toBeStringifiedValue: any, serializationKeyStack: string[] = []) {
+    static detectCircularReferences(toBeStringifiedValue, serializationKeyStack = []) {
         Object.keys(toBeStringifiedValue).forEach(key => {
             var value = toBeStringifiedValue[key];
 
@@ -246,8 +246,8 @@ class CircularReferenceDetector {
             } catch(error) {
                 logger.debug(`path "${Util.joinStrings(serializationKeyStack)}" JSON.stringify results in error: ${error}`);
 
-                var isCircularValue:boolean;
-                var circularExcludingStringifyResult:string = '';
+                var isCircularValue;
+                var circularExcludingStringifyResult = '';
                 try {
                     circularExcludingStringifyResult = JSON.stringify(value, CircularReferenceDetector.replaceRootStringifyReplacer(value), 2);
                     isCircularValue = true;
@@ -264,10 +264,10 @@ class CircularReferenceDetector {
         });
     }
 
-    static replaceRootStringifyReplacer(toBeStringifiedValue: any): any {
+    static replaceRootStringifyReplacer(toBeStringifiedValue) {
         var serializedObjectCounter = 0;
 
-        return function (key: any, value: any) {
+        return function (key, value) {
             if(serializedObjectCounter !== 0 && typeof(toBeStringifiedValue) === 'object' && toBeStringifiedValue === value) {
                 logger.error(`object serialization with key ${key} has circular reference to being stringified object`);
                 return '[Circular object --- fix me]';
@@ -280,8 +280,8 @@ class CircularReferenceDetector {
     }
 }
 
-export class Util {
-    static joinStrings(arr: string[], separator: string = ':') {
+class Util {
+    static joinStrings(arr, separator = ':') {
         if(arr.length === 0) {
             return '';
         }
