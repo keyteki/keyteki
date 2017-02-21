@@ -4,7 +4,7 @@ class ForgottenPlans extends PlotCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: () => this.game.phase !== 'plot',
-            match: card => !card.hasTrait('Scheme'),
+            match: card => card.getType() === 'plot' && !card.hasTrait('Scheme'),
             targetController: 'any',
             effect: ability.effects.blank
         });
