@@ -71,7 +71,7 @@ class Card extends React.Component {
 
             if(_.includes(nearestPile.attr('class'), 'hand')) {
                 dropTarget = 'hand';
-            } else if(_.inclludes(nearestPile.attr('class'), 'player-board')) {
+            } else if(_.includes(nearestPile.attr('class'), 'player-board')) {
                 dropTarget = 'play area';
             } else {
                 var component = this.getReactComponentFromDOMNode(nearestPile[0]);
