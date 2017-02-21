@@ -5,19 +5,19 @@ class TimettSonOfTimett extends DrawCard {
         this.reaction({
             when: {
                 afterChallenge: (event, challenge) => (
-                    challenge.winner === this.controller && 
+                    challenge.winner === this.controller &&
                     challenge.isAttacking(this))
             },
             handler: () => {
                 this.game.promptForSelect(this.controller, {
                     cardCondition: card => (
-                        card.location === 'play area' && 
-                        card.getType() === 'character' && 
+                        card.location === 'play area' &&
+                        card.getType() === 'character' &&
                         card.getCost() <= this.getNumberOfClansmen()),
                     activePromptTitle: 'Select character to kill',
                     waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
                     onSelect: (player, card) => (
-                        card.controller.killCard(card),
+                        card.controller.killCharacter(card),
                         this.game.addMessage('{0} uses {1} to kill {2}', this.controller, this, card))
                 });
             }
