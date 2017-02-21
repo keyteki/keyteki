@@ -36,6 +36,9 @@ class About extends React.Component {
                         <li>/give-icon x - Give a character an x icon; where 'x' is one of 'military', 'intrigue', 'power'</li>
                         <li>/take-icon x - Take an x icon from a character; where 'x' is as per '/give-icon'</li>
                         <li>/cancel-prompt - Clear the current prompt and resume the game flow.  Use with caution and only when the prompt is 'stuck' and you are unable to continue</li>
+                        <li>/token t x - Set the token count of a card of type 't' to 'x'</li>
+                        <li>/give-control - Give control of a card to your opponent.  Use with caution</li>
+                        <li>/kill - Manually kill a character.  Use with caution</li>
                     </ul>
                 </p>
 

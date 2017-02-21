@@ -1,3 +1,5 @@
+const _ = require('underscore');
+
 class ChatCommands {
     constructor(game) {
         this.game = game;
@@ -21,8 +23,18 @@ class ChatCommands {
             '/remove-icon': this.removeIcon,
             '/give-control': this.giveControl,
             '/reset-challenges-count': this.resetChallengeCount,
-            '/cancel-prompt': this.cancelPrompt
+            '/cancel-prompt': this.cancelPrompt,
+            '/token': this.setToken
         };
+        this.tokens = [
+            'power',
+            'gold',
+            'valarmorghulis',
+            'stand',
+            'poison',
+            'betreyal',
+            'vengeance'
+        ];
     }
 
     executeCommand(player, command, args) {
@@ -273,6 +285,29 @@ class ChatCommands {
         this.game.pipeline.cancelStep();
     }
 
+    setToken(player, args) {
+        var token = args[1];
+        var num = this.getNumberOrDefault(args[2], 1);
+
+        if(!this.isValidToken(token)) {
+            return false;
+        }
+
+        this.game.promptForSelect(player, {
+            activePromptTitle: 'Select a card',
+            waitingPromptTitle: 'Waiting for opponent to set token',
+            cardCondition: card => (card.location === 'play area' || card.location === 'plot') && card.controller === player,
+            onSelect: (p, card) => {
+                var numTokens = card.tokens[token] || 0;
+
+                card.addToken(token, num - numTokens);
+                this.game.addMessage('{0} uses the /token command to set the {1} token count of {2} to {3}', p, token, card, num - numTokens);
+
+                return true;
+            }
+        });
+    }    
+
     getNumberOrDefault(string, defaultNumber) {
         var num = parseInt(string);
 
@@ -295,6 +330,16 @@ class ChatCommands {
         var lowerIcon = icon.toLowerCase();
 
         return lowerIcon === 'military' || lowerIcon === 'intrigue' || lowerIcon === 'power';
+    }
+
+    isValidToken(token) {
+        if(!token) {
+            return false;
+        }
+
+        var lowerToken = token.toLowerCase();
+
+        return _.contains(this.tokens, lowerToken);
     }
 }
 
