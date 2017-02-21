@@ -248,11 +248,15 @@ function handleError(game, e) {
 
     var debugData = {};
 
-    debugData.game = game.getState();
+    try {
+        debugData.game = game.getState();
 
-    _.each(game.getPlayers(), player => {
-        debugData[player.name] = player.getState(player.name);
-    });
+        _.each(game.getPlayers(), player => {
+            debugData[player.name] = player.getState(player.name);
+        });
+    } catch(serializationError) {
+        debugData.serializationError = serializationError.toString();
+    }
 
     if(!isDeveloping) {
         ravenClient.captureException(e, { extra: debugData });
