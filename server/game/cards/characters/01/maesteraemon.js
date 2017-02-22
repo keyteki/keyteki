@@ -7,7 +7,7 @@ class MaesterAemon extends DrawCard {
                 onCharacterKilled: (event, player, card, allowSaves) => (
                     allowSaves &&
                     !this.kneeled &&
-                    card.getFaction() === 'thenightswatch' &&
+                    card.isFaction('thenightswatch') &&
                     card.controller === this.controller
                 )
             },

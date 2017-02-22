@@ -15,7 +15,7 @@ class WolfInTheNight extends DrawCard {
 
     play(player) {
         this.game.promptForSelect(player, {
-            cardCondition: card => card.location === 'play area' && card.getType() === 'character' && card.getFaction() === 'stark' &&
+            cardCondition: card => card.location === 'play area' && card.getType() === 'character' && card.isFaction('stark') &&
                 this.game.currentChallenge.attackers.length === 1 && this.game.currentChallenge.isAttacking(card),
             activePromptTitle: 'Select a character',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,

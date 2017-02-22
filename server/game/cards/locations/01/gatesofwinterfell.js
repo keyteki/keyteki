@@ -20,7 +20,7 @@ class GatesOfWinterfell extends DrawCard {
 
         var message = '{0} uses {1} to reveal {2} as the top card of their deck';
 
-        if(card.getFaction() === 'stark') {
+        if(card.isFaction('stark')) {
             player.drawCardsToHand(1);
 
             message += ' and draw it';

@@ -31,7 +31,7 @@ describe('TheWall', function() {
                 this.wall1.location = 'draw deck';
                 this.wall2 = new TheWall(this.player, wallData);
                 this.wall2.location = 'draw deck';
-                this.character = new DrawCard(this.player, { faction_code: this.wall1.getFaction(), type_code: 'character', strength: 1, cost: 0 });
+                this.character = new DrawCard(this.player, { faction_code: 'thenightswatch', type_code: 'character', strength: 1, cost: 0 });
                 this.character.location = 'draw deck';
 
 

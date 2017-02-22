@@ -11,7 +11,7 @@ class JeyneWesterling extends DrawCard {
                     waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
                     cardCondition: card => (
                         card.location === 'play area' &&
-                        card.getFaction() === this.getFaction() &&
+                        card.isFaction('stark') &&
                         (card.hasTrait('King') || card.hasTrait('Lord')) &&
                         card.getType() === 'character'),
                     onSelect: (player, card) => {

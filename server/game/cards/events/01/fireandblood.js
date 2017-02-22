@@ -13,7 +13,7 @@ class FireAndBlood extends DrawCard {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a character',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            cardCondition: card => card.location === 'dead pile' && card.isUnique() && card.getFaction() === 'targaryen',
+            cardCondition: card => card.location === 'dead pile' && card.isUnique() && card.isFaction('targaryen'),
             onSelect: (player, card) => this.onCardSelected(player, card)
         });
     }

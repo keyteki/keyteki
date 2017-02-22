@@ -20,7 +20,7 @@ class Needle extends DrawCard {
     }
 
     canAttach(player, card) {
-        if(card.getType() !== 'character' || card.getFaction() !== this.getFaction()) {
+        if(card.getType() !== 'character' || card.isFaction('stark')) {
             return false;
         }
         return super.canAttach(player, card);

@@ -10,7 +10,7 @@ class AlerieTyrell extends DrawCard {
             },
             handler: () => {
                 var characters = this.controller.searchDrawDeck(10, card => {
-                    return card.getType() === 'character' && card.getFaction() === 'tyrell' && card.getCost() <= 3;
+                    return card.getType() === 'character' && card.isFaction('tyrell') && card.getCost() <= 3;
                 });
 
                 var buttons = _.map(characters, card => {

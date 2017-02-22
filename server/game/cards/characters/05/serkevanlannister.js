@@ -13,7 +13,7 @@ class SerKevanLannister extends DrawCard {
                     cardCondition: card => (
                         card.location === 'discard pile' &&
                         card.controller === this.controller &&
-                        (card.getFaction() === this.getFaction() || card.getFaction() === 'neutral') &&
+                        (card.isFaction('lannister') || card.isFaction('neutral')) &&
                         (card.getType() === 'location' || card.getType() === 'attachment')),
                     onSelect: (player, card) => {
                         player.playCard(card, true);

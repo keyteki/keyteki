@@ -15,7 +15,7 @@ class JonSnow extends DrawCard {
         }
 
         if(!_.any(challenge.attackers, card => {
-            return card.getFaction() === 'thenightswatch';
+            return card.isFaction('thenightswatch');
         })) {
             return;
         }

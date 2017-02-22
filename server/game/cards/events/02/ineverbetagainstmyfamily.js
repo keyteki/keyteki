@@ -33,7 +33,7 @@ class INeverBetAgainstMyFamily extends DrawCard {
 
         this.game.addMessage('{0} uses {1} to reveal from the bottom of their deck: ' + revealedCards, player, this, ...this.remainingCards);
 
-        this.uniqueCharacters = _.filter(this.remainingCards, card => card.isUnique() && card.getType() === 'character' && card.getFaction() === 'lannister');
+        this.uniqueCharacters = _.filter(this.remainingCards, card => card.isUnique() && card.getType() === 'character' && card.isFaction('lannister'));
 
         if(this.uniqueCharacters.length > 0) {
             this.promptToChooseCharacter();

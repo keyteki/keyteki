@@ -15,7 +15,7 @@ class SansaStark extends DrawCard {
 
     calculateStrength() {
         return this.controller.deadPile.reduce((count, card) => {
-            if(card.getFaction() === 'stark') {
+            if(card.isFaction('stark')) {
                 return count - 1;
             }
 

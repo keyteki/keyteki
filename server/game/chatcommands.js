@@ -32,7 +32,7 @@ class ChatCommands {
             'valarmorghulis',
             'stand',
             'poison',
-            'betreyal',
+            'betrayal',
             'vengeance'
         ];
     }
@@ -306,7 +306,7 @@ class ChatCommands {
                 return true;
             }
         });
-    }    
+    }
 
     getNumberOrDefault(string, defaultNumber) {
         var num = parseInt(string);

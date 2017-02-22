@@ -12,13 +12,13 @@ class WardensOfTheNorth extends PlotCard {
 
     onClick(player) {
         if(!this.game.currentChallenge || !this.controller.cardsInPlay.any(card => {
-            return this.game.currentChallenge.isParticipating(card) && card.getFaction() === 'stark';
+            return this.game.currentChallenge.isParticipating(card) && card.isFaction('stark');
         })) {
             return false;
         }
 
         this.game.promptForSelect(player, {
-            cardCondition: card => card.getFaction() === 'stark' && !card.kneeled,
+            cardCondition: card => card.isFaction('stark') && !card.kneeled,
             activePromptTitle: 'Select character',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
             onSelect: (player, card) => this.onCardSelected(player, card)

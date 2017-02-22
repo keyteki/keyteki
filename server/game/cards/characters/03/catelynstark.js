@@ -9,7 +9,7 @@ class CatelynStark extends DrawCard {
             },
             limit: ability.limit.perRound(2),
             handler: () => {
-                this.game.addMessage('{0} gains 1 power on {1} in reaction to a {2} character being sacrificed or killed', this.controller, this, this.getFaction());
+                this.game.addMessage('{0} gains 1 power on {1} in reaction to a {2} character being sacrificed or killed', this.controller, this, 'stark');
                 this.modifyPower(1);
             }
         });
@@ -23,7 +23,7 @@ class CatelynStark extends DrawCard {
         return (
             this.controller === player &&
             card !== this &&
-            card.getFaction() === this.getFaction() &&
+            card.isFaction('stark') &&
             card.getType() === 'character'
         );
     }

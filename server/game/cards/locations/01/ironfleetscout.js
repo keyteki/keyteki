@@ -22,7 +22,7 @@ class IronFleetScout extends DrawCard {
     }
 
     cardCondition(card) {
-        return card.getType() === 'character' && card.location === 'play area' && this.game.currentChallenge.isParticipating(card) && card.getFaction() === 'greyjoy';
+        return card.getType() === 'character' && card.location === 'play area' && this.game.currentChallenge.isParticipating(card) && card.isFaction('greyjoy');
     }
 
     onCardSelected(player, card) {

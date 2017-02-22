@@ -65,7 +65,7 @@ class Reducer extends DrawCard {
 class FactionCostReducer extends Reducer {
     constructor(owner, cardData, reduceBy, faction) {
         super(owner, cardData, reduceBy, (player, card) => {
-            return card.getFaction() === faction;
+            return card.isFaction(faction);
         });
 
         this.faction = faction;
@@ -86,7 +86,7 @@ class FactionCostReducer extends Reducer {
 class FactionCharacterCostReducer extends Reducer {
     constructor(owner, cardData, reduceBy, faction) {
         super(owner, cardData, reduceBy, (player, card) => {
-            return card.getType() === 'character' && card.getFaction() === faction;
+            return card.getType() === 'character' && card.isFaction(faction);
         });
 
         this.faction = faction;

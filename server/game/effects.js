@@ -202,6 +202,16 @@ const Effects = {
             }
         };
     },
+    addFaction: function(faction) {
+        return {
+            apply: function(card) {
+                card.addFaction(faction);
+            },
+            unapply: function(card) {
+                card.removeFaction(faction);
+            }
+        };
+    },
     killByStrength: {
         apply: function(card, context) {
             if(card.getStrength() <= 0) {

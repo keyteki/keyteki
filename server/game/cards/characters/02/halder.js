@@ -5,12 +5,12 @@ class Halder extends DrawCard {
         this.action({
             title: 'Kneel a location or attachment',
             cost: ability.costs.kneel(card => (
-                card.getFaction() === 'thenightswatch' &&
+                card.isFaction('thenightswatch') &&
                 (card.getType() === 'attachment' || card.getType() === 'location')
             )),
             handler: (context) => {
                 this.game.promptForSelect(context.player, {
-                    cardCondition: card => card.getFaction() === 'thenightswatch' && card.getType() === 'character',
+                    cardCondition: card => card.hsaFaction('thenightswatch') && card.getType() === 'character',
                     activePromptTitle: 'Select character',
                     waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
                     onSelect: (player, card) => this.onStrCardSelected(player, card, context.kneelingCostCard)

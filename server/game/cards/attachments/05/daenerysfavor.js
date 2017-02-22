@@ -14,7 +14,7 @@ class DaenerysFavor extends DrawCard {
         });
     }
     canAttach(player, card) {
-        if(card.getType() !== 'character' || card.getFaction() !== this.getFaction()) {
+        if(card.getType() !== 'character' || card.isFaction('targaryen')) {
             return false;
         }
         return super.canAttach(player, card);

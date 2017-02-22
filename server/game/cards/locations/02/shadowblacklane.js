@@ -10,7 +10,7 @@ class ShadowblackLane extends DrawCard {
             },
             handler: () => {
                 var events = this.controller.searchDrawDeck(10, card => {
-                    return card.getType() === 'event' && card.getFaction() === this.controller.faction.getFaction();
+                    return card.getType() === 'event' && card.isFaction(this.controller.faction.getPrintedFaction());
                 });
 
                 var buttons = _.map(events, card => {

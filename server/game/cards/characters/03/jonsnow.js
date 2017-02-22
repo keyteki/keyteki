@@ -13,7 +13,7 @@ class JonSnow extends DrawCard {
         this.game.promptForSelect(this.controller, {
             activePromptTitle: 'Select a character to sacrifice',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
-            cardCondition: card => card.location === 'play area' && card.controller === this.controller && card.getType() === 'character' && card.getFaction() === this.getFaction(),
+            cardCondition: card => card.location === 'play area' && card.controller === this.controller && card.getType() === 'character' && card.isFaction('stark'),
             onSelect: (p, card) => this.onSacrificeSelected(p, card)
         });
 
@@ -27,7 +27,7 @@ class JonSnow extends DrawCard {
             activePromptTitle: 'Select a character to stand',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
             cardCondition: card => card.location === 'play area' && card.controller === this.controller && card.getType() === 'character' &&
-                card.getFaction() === this.getFaction() && card.isUnique() && card.kneeled,
+                card.isFaction('stark') && card.isUnique() && card.kneeled,
             onSelect: (p, card) => this.onStandSelected(p, card)
         });
 

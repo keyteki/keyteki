@@ -14,7 +14,7 @@ class ForTheNorth extends ChallengeEvent {
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
             cardCondition: card =>
                 this.game.currentChallenge.isParticipating(card)
-                && card.getFaction() === 'stark',
+                && card.isFaction('stark'),
             onSelect: (player, cards) => this.onCardSelected(player, cards)
         });
     }

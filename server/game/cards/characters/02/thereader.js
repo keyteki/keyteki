@@ -8,7 +8,7 @@ class TheReader extends DrawCard {
             when: {
                 onUnopposedWin: (event, challenge) => (
                     challenge.winner === this.controller &&
-                    _.any(challenge.getWinnerCards(), card => card.getFaction() === 'greyjoy' && card.isUnique())
+                    _.any(challenge.getWinnerCards(), card => card.isFaction('greyjoy') && card.isUnique())
                 )
             },
             limit: ability.limit.perPhase(1),

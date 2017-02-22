@@ -5,7 +5,7 @@ const DrawCard = require('../../../drawcard.js');
 class TheGreenblood extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            match: card => card.getType() === 'character' && card.getFaction() === this.getFaction(),
+            match: card => card.getType() === 'character' && card.isFaction('martell'),
             effect: ability.effects.dynamicStrength(() => this.numOfSummerPlotsRevealed())
         });
     }

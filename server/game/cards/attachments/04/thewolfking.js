@@ -15,7 +15,7 @@ class TheWolfKing extends DrawCard {
     }
 
     canAttach(player, card) {
-        if(card.getFaction() !== this.getFaction() || card.getType() !== 'character') {
+        if(card.isFaction('stark') || card.getType() !== 'character') {
             return false;
         }
 

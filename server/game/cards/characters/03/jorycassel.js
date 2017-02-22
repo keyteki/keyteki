@@ -10,7 +10,7 @@ class JoryCassel extends DrawCard {
                     allowSave &&
                     card.controller === this.controller &&
                     card.isUnique() &&
-                    card.getFaction() === 'stark'
+                    card.isFaction('stark')
                 )
             },
             canCancel: true,

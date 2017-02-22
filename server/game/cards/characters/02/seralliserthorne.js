@@ -4,7 +4,7 @@ class SerAlliserThorne extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: () => this.game.currentChallenge && this.game.currentChallenge.defendingPlayer === this.controller,
-            match: card => card.getType() === 'character' && card.getFaction() === this.getFaction(),
+            match: card => card.getType() === 'character' && card.isFaction('thenightswatch'),
             effect: ability.effects.addIcon('military')
         });
         // TODO: Military ambush ability

@@ -8,7 +8,7 @@ class ThereIsMyClaim extends ChallengeEvent {
 
     isTyrellCharacterInHand(card) {
         return card.location === 'hand'
-            && card.getType() === 'character' && card.getFaction() === 'tyrell';
+            && card.getType() === 'character' && card.isFaction('tyrell');
     }
 
     canPlay(player, card) {

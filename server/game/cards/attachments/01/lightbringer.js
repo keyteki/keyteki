@@ -20,7 +20,7 @@ class Lightbringer extends DrawCard {
     }
 
     canAttach(player, card) {
-        if(card.getType() !== 'character' || card.getFaction() !== this.getFaction()) {
+        if(card.getType() !== 'character' || card.isFaction('baratheon')) {
             return false;
         }
 

@@ -13,7 +13,7 @@ class OldBearMormont extends DrawCard {
             },
             handler: () => {
                 this.game.promptForSelect(this.controller, {
-                    cardCondition: card => card.location === 'hand' && card.controller === this.controller && card.getFaction() === 'thenightswatch',
+                    cardCondition: card => card.location === 'hand' && card.controller === this.controller && card.isFaction('thenightswatch'),
                     activePromptTitle: 'Select character',
                     waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
                     onSelect: (player, card) => this.onCardSelected(player, card)

@@ -8,7 +8,7 @@ class SerRodrikCassel extends DrawCard {
                 this.game.currentChallenge.challengeType === 'military' &&
                 this.game.currentChallenge.isAttacking(this)
             ),
-            match: card => card.isUnique() && card.getFaction() === this.getFaction(),
+            match: card => card.isUnique() && card.isFaction('stark'),
             effect: ability.effects.addKeyword('Insight')
         });
     }

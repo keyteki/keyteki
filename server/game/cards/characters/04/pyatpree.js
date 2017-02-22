@@ -10,7 +10,7 @@ class PyatPree extends DrawCard {
             },
             handler: () => {
                 var cards = this.controller.searchDrawDeck(this.game.currentChallenge.strengthDifference, card => {
-                    return (card.getType() === 'attachment' || card.getType() === 'event') && card.getFaction() === 'targaryen';
+                    return (card.getType() === 'attachment' || card.getType() === 'event') && card.isFaction('targaryen');
                 });
 
                 var buttons = _.map(cards, card => {
