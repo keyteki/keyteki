@@ -58,7 +58,7 @@ class About extends React.Component {
                     <img alt='' border='0' src='https://www.paypalobjects.com/en_GB/i/scr/pixel.gif' width='1' height='1' />
                 </form>
 
-                Just to make things clear, I'm not going this for any personal gain whatsoever, I'm happy to run the servers at my own expense, but any money raised via this link will be used towards paying the hosting fees for the server and related services (error tracking, load balancing etc).
+                Just to make things clear, I'm not doing this for any personal gain whatsoever, I'm happy to run the servers at my own expense, but any money raised via this link will be used towards paying the hosting fees for the server and related services (error tracking, load balancing etc).
                 If, after the annnual bills for that are paid up, there is any money left over, I'll put it towards the following years expenses.
                 Also, this is not required to continue to use and enjoy the site and will not give anything in return (other than my sincerce gratitude and potentially better hardware for the site to run on).
                 I will also put a donation report in with the monthly reports that I'm publishing so that you know where your donations are going.
