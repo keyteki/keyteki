@@ -1,19 +1,16 @@
 const DrawCard = require('../../../drawcard.js');
 
 class GreyWind extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Kneel Grey Wind to kill a character',
             method: 'kill',
+            cost: ability.costs.kneelSelf(),
             phase: 'challenge'
         });
     }
 
     kill(player) {
-        if(this.kneeled) {
-            return;
-        }
-
         this.game.promptForSelect(player, {
             cardCondition: card => this.cardCondition(card),
             activePromptTitle: 'Select a character',
@@ -31,7 +28,6 @@ class GreyWind extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        player.kneelCard(this);
         card.controller.killCharacter(card);
 
         this.game.addMessage('{0} kneels {1} to kill {2}', player, this, card);

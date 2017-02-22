@@ -1,15 +1,16 @@
 const DrawCard = require('../../../drawcard.js');
 
 class MargaeryTyrell extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Kneel this character to give another +3 STR',
+            cost: ability.costs.kneelSelf(),
             method: 'kneel'
         });
     }
 
     kneel(player) {
-        if(this.controller !== player || this.kneeled || player.phase !== 'challenge') {
+        if(this.controller !== player || player.phase !== 'challenge') {
             return false;
         }
 
@@ -25,7 +26,6 @@ class MargaeryTyrell extends DrawCard {
 
     onCardSelected(player, card) {
         this.game.addMessage('{0} kneels {1} to give {2} +3 STR until the end of the phase', player, this, card);
-        this.controller.kneelCard(this);
         this.untilEndOfPhase(ability => ({
             match: card,
             effect: ability.effects.modifyStrength(3)

@@ -1,21 +1,16 @@
 const DrawCard = require('../../../drawcard.js');
 
 class TheTickler extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Discard opponents top card',
             phase: 'dominance',
+            cost: ability.costs.kneelSelf(),
             method: 'kneel'
         });
     }
 
     kneel(player) {
-        if(this.kneeled) {
-            return false;
-        }
-
-        player.kneelCard(this);
-
         var otherPlayer = this.game.getOtherPlayer(player);
         if(!otherPlayer) {
             return true;

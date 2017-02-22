@@ -1,19 +1,16 @@
 const DrawCard = require('../../../drawcard.js');
 
 class LordsportShipright extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Kneel Lordsport Shipwright to kneel a location',
+            cost: ability.costs.kneelSelf(),
             method: 'kneelLocation',
             phase: 'marshal'
         });
     }
 
     kneelLocation(player) {
-        if(this.kneeled) {
-            return;
-        }
-
         this.game.promptForSelect(player, {
             cardCondition: card => this.cardCondition(card),
             activePromptTitle: 'Select location',
@@ -31,7 +28,6 @@ class LordsportShipright extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        player.kneelCard(this);
         player.kneelCard(card);
 
         this.game.addMessage('{0} uses {1} to kneel {2}', player, this, card);

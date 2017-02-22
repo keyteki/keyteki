@@ -1,19 +1,16 @@
 const DrawCard = require('../../../drawcard.js');
 
 class MaesterCressen extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Kneel to discard condition',
             phase: 'marshal',
+            cost: ability.costs.kneelSelf(),
             method: 'kneel'
         });
     }
 
     kneel(player) {
-        if(this.kneeled) {
-            return false;
-        }
-
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select an attachment to discard',
             waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
@@ -26,8 +23,6 @@ class MaesterCressen extends DrawCard {
 
     onCardSelected(player, card) {
         player.discardCard(card);
-
-        player.kneelCard(this);
 
         this.game.addMessage('{0} uses {1} to discard {2}', player, this, card);
 
