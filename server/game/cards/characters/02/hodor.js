@@ -7,14 +7,10 @@ class Hodor extends DrawCard {
             match: this,
             effect: ability.effects.allowAsAttacker(false)
         });
-    }
-
-    modifyDominance(player, strength) {
-        if(this.controller !== player || this.kneeled || this.isBlank()) {
-            return strength;
-        }
-
-        return strength - this.getStrength();
+        this.persistentEffect({
+            match: this,
+            effect: ability.effects.doesNotContributeToDominance()
+        });
     }
 }
 

@@ -28,6 +28,7 @@ class DrawCard extends BaseCard {
 
         this.power = 0;
         this.strengthModifier = 0;
+        this.contributesToDominance = true;
         this.kneeled = false;
         this.inChallenge = false;
         this.wasAmbush = false;

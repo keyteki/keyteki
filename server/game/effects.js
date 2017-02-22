@@ -318,6 +318,16 @@ const Effects = {
             }
         };
     },
+    doesNotContributeToDominance: function() {
+        return {
+            apply: function(card) {
+                card.contributesToDominance = false;
+            },
+            unapply: function(card) {
+                card.contributesToDominance = true;
+            }
+        };
+    },
     takeControl: function(newController) {
         return {
             apply: function(card, context) {

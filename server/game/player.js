@@ -794,7 +794,7 @@ class Player extends Spectator {
 
     getDominance() {
         var cardStrength = this.cardsInPlay.reduce((memo, card) => {
-            if(!card.kneeled && card.getType() === 'character') {
+            if(!card.kneeled && card.getType() === 'character' && card.contributesToDominance) {
                 return memo + card.getStrength();
             }
 
