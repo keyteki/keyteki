@@ -35,20 +35,14 @@ class StannisBaratheon extends DrawCard {
             var player = selection.player;
             var toStand = selection.cards;
 
-            var params = '';
-            var paramIndex = 2;
-
             _.each(toStand, card => {
                 card.controller.standCard(card);
-
-                params += '{' + paramIndex++ + '} ';
-
             });
 
             if(_.isEmpty(toStand)) {
                 this.game.addMessage('{0} does not stand any characters with {1}', player, this);
             } else {
-                this.game.addMessage('{0} uses {1} to stand ' + params, player, this, ...toStand);
+                this.game.addMessage('{0} uses {1} to stand {2}', player, this, toStand);
             }
 
             // Stand all non character cards

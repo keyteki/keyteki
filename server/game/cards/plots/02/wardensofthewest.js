@@ -27,16 +27,12 @@ class WardensOfTheWest extends PlotCard {
 
     onSelect(player, cards) {
         this.game.addGold(this.controller, -2);
-        var cardStr = '';
-        var index = 1;
 
         _.each(cards, card => {
             card.controller.moveCard(card, 'discard pile');
-
-            cardStr += ' {' + index++ + '}';
         });
 
-        this.game.addMessage('{0} chooses' + cardStr + ' to discard from their hand', player, ...cards);
+        this.game.addMessage('{0} chooses {1} to discard from their hand', player, cards);
 
         return true;
     }

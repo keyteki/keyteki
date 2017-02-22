@@ -46,7 +46,9 @@ class GameChat {
             if(argMatch) {
                 var arg = args[argMatch[1]];
                 if(!_.isUndefined(arg) && !_.isNull(arg)) {
-                    if(arg instanceof BaseCard) {
+                    if(_.isArray(arg)) {
+                        return this.formatArray(arg);
+                    } else if(arg instanceof BaseCard) {
                         return { code: arg.code, label: arg.name, type: arg.getType() };
                     } else if(arg instanceof Spectator) {
                         return { name: arg.user.username, emailHash: arg.user.emailHash };
@@ -60,6 +62,25 @@ class GameChat {
 
             return fragment;
         });
+    }
+
+    formatArray(array) {
+        if(array.length === 0) {
+            return '';
+        }
+
+        var format;
+
+        if(array.length === 1) {
+            format = '{0}';
+        } else if(array.length === 2) {
+            format = '{0} and {1}';
+        } else {
+            var range = _.map(_.range(array.length - 1), i => '{' + i + '}');
+            format = range.join(', ') + ', and {' + (array.length - 1) + '}';
+        }
+
+        return { message: this.formatMessage(format, array) };
     }
 }
 

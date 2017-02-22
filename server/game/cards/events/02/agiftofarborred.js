@@ -38,14 +38,7 @@ class AGiftOfArborRed extends DrawCard {
     }
 
     revealCards(player, cards) {
-        var params = '';
-        var paramIndex = 3;
-
-        _.each(cards, () => {
-            params += '{' + paramIndex++ + '} ';
-        });
-
-        this.game.addMessage('{0} uses {1} to kneel their faction card and reveal the top 4 cards of {2}\'s deck as: ' + params, player, this, player, ...cards);
+        this.game.addMessage('{0} uses {1} to kneel their faction card and reveal the top 4 cards of {2}\'s deck as: {3}', player, this, player, cards);
     }
 
     selectThisPlayerCardForHand(player, cardId) {

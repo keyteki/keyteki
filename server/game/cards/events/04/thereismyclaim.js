@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const ChallengeEvent = require('../../challengeevent.js');
 
 class ThereIsMyClaim extends ChallengeEvent {
@@ -39,11 +37,8 @@ class ThereIsMyClaim extends ChallengeEvent {
             effect: ability.effects.modifyClaim(1)
         }));
 
-        // TODO use card name renderer helper, refactored from Wildfire Assault
-        var reveleadCharacters = _.map(cards, card => card.name).join(', ');
-
         this.game.addMessage('{0} uses {1} to reveal {2} and raise their claim value until the end of the challenge',
-                             player, this, reveleadCharacters);
+                             player, this, cards);
 
         return true;
     }

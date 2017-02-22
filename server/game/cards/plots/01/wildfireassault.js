@@ -14,6 +14,11 @@ class WildfireAssault extends PlotCard {
     }
 
     onSelect(player, cards) {
+        if(_.isEmpty(cards)) {
+            this.game.addMessage('{0} does not choose any characters to save from {1}', player, this);
+        } else {
+            this.game.addMessage('{0} chooses to save {1} from {2}', player, cards, this);
+        }
         this.selections.push({ player: player, cards: cards });
         this.proceedToNextStep();
         return true;
@@ -29,19 +34,14 @@ class WildfireAssault extends PlotCard {
             var player = selection.player;
             var toKill = _.difference(player.cardsInPlay.filter(card => card.getType() === 'character'), selection.cards);
 
-            var params = '';
-            var paramIndex = 2;
-
             _.each(toKill, card => {
                 player.killCharacter(card, false);
-
-                params += '{' + paramIndex++ + '} ';
             });
 
             if(_.isEmpty(toKill)) {
                 this.game.addMessage('{0} does not kill any characters with {1}', player, this);
             } else {
-                this.game.addMessage('{0} uses {1} to kill ' + params, player, this, ...toKill);
+                this.game.addMessage('{0} uses {1} to kill {2}', player, this, toKill);
             }
         });
 

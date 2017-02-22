@@ -29,20 +29,14 @@ class PoliticalDisaster extends PlotCard {
             var player = selection.player;
             var toDiscard = _.difference(player.cardsInPlay.filter(card => card.getType() === 'location'), selection.cards);
 
-            var params = '';
-            var paramIndex = 2;
-
             _.each(toDiscard, card => {
                 player.discardCard(card);
-
-                params += '{' + paramIndex++ + '} ';
-
             });
 
             if(_.isEmpty(toDiscard)) {
                 this.game.addMessage('{0} does not discard any locations with {1}', player, this);
             } else {
-                this.game.addMessage('{0} uses {1} to discard ' + params, player, this, ...toDiscard);
+                this.game.addMessage('{0} uses {1} to discard {2}', player, this, toDiscard);
             }
         });
 

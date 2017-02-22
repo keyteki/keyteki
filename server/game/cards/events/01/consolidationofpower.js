@@ -54,24 +54,13 @@ class ConsolidationOfPower extends DrawCard {
     }
 
     onPowerSelected(player, card) {
-        var cardNames = '';
-        var firstCard = true;
-        var paramIndex = 2;
-
         _.each(this.cards, card => {
-            if(!firstCard) {
-                cardNames += ', {' + paramIndex++ + '}';
-            } else {
-                firstCard = false;
-                cardNames += '{' + paramIndex++ + '}';
-            }
-
             card.controller.kneelCard(card);
         });
 
         card.modifyPower(1);
 
-        this.game.addMessage('{0} uses {1} to kneel ' + cardNames, player, this, ...this.cards);
+        this.game.addMessage('{0} uses {1} to kneel {2}', player, this, this.cards);
         this.game.addMessage('{0} uses {1} to have {2} gain 1 power', player, this, card);
 
         this.selectedStrength = 0;

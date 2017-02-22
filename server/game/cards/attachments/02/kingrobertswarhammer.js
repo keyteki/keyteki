@@ -36,22 +36,11 @@ class KingRobertsWarhammer extends DrawCard {
     }
 
     onSelect(player, cards) {
-        var cardNames = '';
-        var firstCard = true;
-        var paramIndex = 2;
-
         _.each(cards, card => {
-            if(!firstCard) {
-                cardNames += ', {' + paramIndex++ + '}';
-            } else {
-                firstCard = false;
-                cardNames += '{' + paramIndex++ + '}';
-            }
-
             card.controller.kneelCard(card);
         });
 
-        this.game.addMessage('{0} sacrifices {1} to kneel ' + cardNames, player, this, ...cards);
+        this.game.addMessage('{0} sacrifices {1} to kneel {2}', player, this, cards);
 
         this.selectedStrength = 0;
 

@@ -36,13 +36,7 @@ class HouseOfTheUndying extends DrawCard {
             }));
         });
 
-        var format = '';
-        var index = 0;
-        while(index < eligibleCharacters.length) {
-            format += ' {' + (index + 2) + '}';
-            index++;
-        }
-        this.game.addMessage('{0} removes {1} from the game to control' + format, this.controller, this, ...eligibleCharacters);
+        this.game.addMessage('{0} removes {1} from the game to control {2}', this.controller, this, eligibleCharacters);
     }
 }
 

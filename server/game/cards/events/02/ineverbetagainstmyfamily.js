@@ -24,14 +24,7 @@ class INeverBetAgainstMyFamily extends DrawCard {
 
         this.remainingCards = this.controller.searchDrawDeck(-5);
 
-        var revealedCardIndex = 0;
-        var revealedCards = '';
-        while(revealedCardIndex < this.remainingCards.length) {
-            revealedCards += '{' + (revealedCardIndex + 2) + '} ';
-            revealedCardIndex += 1;
-        }
-
-        this.game.addMessage('{0} uses {1} to reveal from the bottom of their deck: ' + revealedCards, player, this, ...this.remainingCards);
+        this.game.addMessage('{0} uses {1} to reveal from the bottom of their deck: {2}', player, this, this.remainingCards);
 
         this.uniqueCharacters = _.filter(this.remainingCards, card => card.isUnique() && card.getType() === 'character' && card.isFaction('lannister'));
 

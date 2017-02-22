@@ -68,7 +68,7 @@ class EvenHandedJustice extends DrawCard {
 
         var kneeledCards = _.map(this.toKneel, card => card.name);
         this.game.addMessage('{0} uses {1} to kneel {2}',
-                             player, this, kneeledCards.join(' and '));
+                             player, this, kneeledCards);
 
         return true;
     }

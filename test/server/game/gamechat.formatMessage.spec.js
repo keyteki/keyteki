@@ -45,6 +45,64 @@ describe('GameChat', function() {
                 var message = this.chat.formatMessage('Hello {2} world', this.args);
                 expect(message[1]).toEqual('');
             });
+
+            describe('when the arg is an array', function() {
+                describe('and it is an empty array', function() {
+                    beforeEach(function() {
+                        this.args = [
+                            'foo',
+                            []
+                        ];
+                    });
+
+                    it('should return an empty string fragment', function() {
+                        var message = this.chat.formatMessage('Hello {0} world {1}', this.args);
+                        expect(message[3]).toEqual('');
+                    });
+                });
+
+                describe('and it is a single entry array', function() {
+                    beforeEach(function() {
+                        this.args = [
+                            'foo',
+                            ['bar']
+                        ];
+                    });
+
+                    it('should return a sub-message with no separators', function() {
+                        var message = this.chat.formatMessage('Hello {0} world {1}', this.args);
+                        expect(message[3]).toEqual({ message: ['', 'bar', ''] });
+                    });
+                });
+
+                describe('and it is a pair entry array', function() {
+                    beforeEach(function() {
+                        this.args = [
+                            'foo',
+                            ['bar', 'baz']
+                        ];
+                    });
+
+                    it('should return a sub-message with no commas', function() {
+                        var message = this.chat.formatMessage('Hello {0} world {1}', this.args);
+                        expect(message[3]).toEqual({ message: ['', 'bar', ' and ', 'baz', ''] });
+                    });
+                });
+
+                describe('and it is a multiple entry array', function() {
+                    beforeEach(function() {
+                        this.args = [
+                            'foo',
+                            ['bar', 'baz', 'ball']
+                        ];
+                    });
+
+                    it('should return a sub-message with separators', function() {
+                        var message = this.chat.formatMessage('Hello {0} world {1}', this.args);
+                        expect(message[3]).toEqual({ message: ['', 'bar', ', ', 'baz', ', and ', 'ball', ''] });
+                    });
+                });
+            });
         });
     });
 });

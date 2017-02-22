@@ -34,22 +34,11 @@ class RooseBolton extends DrawCard {
     }
 
     onSelect(player, cards) {
-        var cardNames = '';
-        var firstCard = true;
-        var paramIndex = 2;
-
         _.each(cards, card => {
-            if(!firstCard) {
-                cardNames += ', {' + paramIndex++ + '}';
-            } else {
-                firstCard = false;
-                cardNames += '{' + paramIndex++ + '}';
-            }
-
             card.controller.killCharacter(card);
         });
 
-        this.game.addMessage('{0} sacrifices {1} to kill ' + cardNames, player, this, ...cards);
+        this.game.addMessage('{0} sacrifices {1} to kill {2}', player, this, cards);
 
         this.selectedStrength = 0;
 
