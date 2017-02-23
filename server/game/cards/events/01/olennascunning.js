@@ -35,7 +35,7 @@ class OlennasCunning extends DrawCard {
     }
 
     typeSelected(player, type) {
-        var cards = player.searchDrawDeck(card => {
+        var cards = this.controller.searchDrawDeck(card => {
             return card.getType() !== type;
         });
 
