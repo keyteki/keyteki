@@ -116,6 +116,16 @@ class Game extends EventEmitter {
         }, null);
     }
 
+    findAnyCardsInPlay(predicate) {
+        var foundCards = [];
+        
+        _.each(this.getPlayers(), (card, player) => {
+            foundCards = foundCards.concat(player.findCards(player.cardsInPlay, predicate));
+        });
+
+        return foundCards;
+    }
+
     addEffect(source, properties) {
         this.effectEngine.add(new Effect(this, source, properties));
     }

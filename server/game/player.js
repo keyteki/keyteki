@@ -75,24 +75,35 @@ class Player extends Spectator {
         return this.findCard(this.cardsInPlay, card => card.uuid === uuid);
     }
 
-    findCard(cards, predicate) {
-        if(!cards) {
+    findCard(cardList, predicate) {
+        var cards = this.findCards(cardList, predicate);
+        if(!cards || _.isEmpty(cards)) {
+            return undefined;
+        }
+
+        return cards[0];
+    }
+
+    findCards(cardList, predicate) {
+        if(!cardList) {
             return;
         }
 
-        return cards.reduce((matchingCard, card) => {
-            if(matchingCard) {
-                return matchingCard;
-            }
+        var cardsToReturn = [];
 
+        cardList.each(card => {
             if(predicate(card)) {
-                return card;
+                cardsToReturn.push(card);
             }
 
             if(card.attachments) {
-                return card.attachments.find(predicate);
+                cardsToReturn = cardsToReturn.concat(card.attachments.filter(predicate));
             }
-        }, undefined);
+
+            return cardsToReturn;
+        });
+        
+        return cardsToReturn;
     }
 
     getDuplicateInPlay(card) {
