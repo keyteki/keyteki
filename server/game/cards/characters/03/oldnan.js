@@ -3,11 +3,12 @@ const _ = require('underscore');
 const DrawCard = require('../../../drawcard.js');
 
 class OldNan extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onPlotFlip: () => !this.kneeled
+                onPlotFlip: () => true
             },
+            cost: ability.costs.kneelSelf(),
             handler: () => {
                 var buttons = _.map(this.game.getPlayers(), player => {
                     return { text: player.selectedPlot.name, method: 'plotSelected', arg: player.selectedPlot.uuid };
@@ -59,7 +60,6 @@ class OldNan extends DrawCard {
         }
 
         this.game.addMessage('{0} uses {1} to add the {2} trait to {3}', player, this, trait, plotCard);
-        player.kneelCard(this);
         this.untilEndOfRound(ability => ({
             match: plotCard,
             effect: ability.effects.addTrait(trait)
