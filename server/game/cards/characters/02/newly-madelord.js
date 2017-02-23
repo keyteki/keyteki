@@ -18,7 +18,7 @@ class NewlyMadeLord extends DrawCard {
     }
 
     cardCondition(card) {
-        return !card.kneeled && card.getType() === 'location' && !card.isLimited() && card.getCost() <= 3;
+        return card.getType() === 'location' && !card.isLimited() && card.getCost() <= 3;
     }
 
     onCardSelected(player, card) {
