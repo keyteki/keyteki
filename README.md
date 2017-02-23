@@ -6,7 +6,7 @@ Web based implementation of A Game Of Thrones LCG 2nd Edition
 
 ### What is it?
 
-This is the respository for the code internally known as throneteki which is running on theironthrone.net allowing people to play AGoT 2nd edition online using only their browser
+This is the respository for the code internally known as throneteki which is running on [theironthrone.net](https://theironthrone.net/) allowing people to play AGoT 2nd edition online using only their browser
 
 ### Does't this look a lot like Jinteki? The Android netrunner online experience?
 
@@ -30,19 +30,8 @@ That's not a question, but that still sucks, sorry :(  First, bear in mind the s
 See this document for features I have planned and a link to the currently implemented cards:  http://bit.ly/throneteki
 
 ### How do I do X Y Z?
-Most things can be done be clicking on or dragging the thing you're trying to interact with.  There are some slash commands to help manually perform some things.  Those commands currently consist of:
 
-/draw x - Draws x cards
-
-/power x - Allows you to set the power count of a card to x
-
-/discard x - Discards x cards at random from your hand
-
-/pillage - Discards the top card from your deck
-
-/strength x - Allows you to set the strength of a card to x
-
-/cancel-prompt - Allows you to skip a game step. Warning: this should only be used if the game can't seem to proceed. Use of this command itself could prevent the game from proceeding.
+Check out the [About page](https://theironthrone.net/about) of a Throneteki live deployment.
 
 ## Development
 
