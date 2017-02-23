@@ -25,7 +25,7 @@ class EffectEngine {
     reapplyStateDependentEffects() {
         _.each(this.effects, effect => {
             if(effect.isStateDependent) {
-                effect.resetTargets(this.getTargets());
+                effect.reapply(this.getTargets());
             }
         });
     }
@@ -50,7 +50,7 @@ class EffectEngine {
     onCardTakenControl(e, card) {
         _.each(this.effects, effect => {
             if(effect.duration === 'persistent' && effect.source === card) {
-                effect.resetTargets(this.getTargets());
+                effect.reapply(this.getTargets());
             }
         });
     }
@@ -125,7 +125,7 @@ class EffectEngine {
     recalculateEvent(event) {
         _.each(this.effects, effect => {
             if(effect.isStateDependent && effect.recalculateWhen.includes(event.name)) {
-                effect.resetTargets(this.getTargets());
+                effect.reapply(this.getTargets());
             }
         });
     }

@@ -15,7 +15,7 @@ describe('EffectEngine', function () {
         this.gameSpy.getPlayers.and.returnValue([]);
         this.gameSpy.allCards = _([this.handCard, this.playAreaCard, this.discardedCard]);
 
-        this.effectSpy = jasmine.createSpyObj('effect', ['addTargets', 'resetTargets', 'removeTarget', 'cancel', 'setActive']);
+        this.effectSpy = jasmine.createSpyObj('effect', ['addTargets', 'reapply', 'removeTarget', 'cancel', 'setActive']);
         this.effectSpy.targetLocation = 'play area';
 
         this.engine = new EffectEngine(this.gameSpy);
@@ -57,8 +57,8 @@ describe('EffectEngine', function () {
                 this.engine.reapplyStateDependentEffects();
             });
 
-            it('should reset valid targets', function() {
-                expect(this.effectSpy.resetTargets).toHaveBeenCalledWith([this.handCard, this.playAreaCard]);
+            it('should reapply valid targets', function() {
+                expect(this.effectSpy.reapply).toHaveBeenCalledWith([this.handCard, this.playAreaCard]);
             });
         });
 
@@ -68,8 +68,8 @@ describe('EffectEngine', function () {
                 this.engine.reapplyStateDependentEffects();
             });
 
-            it('should not reset valid targets', function() {
-                expect(this.effectSpy.resetTargets).not.toHaveBeenCalled();
+            it('should not reapply valid targets', function() {
+                expect(this.effectSpy.reapply).not.toHaveBeenCalled();
             });
         });
     });

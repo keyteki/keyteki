@@ -51,6 +51,7 @@ class Effect {
         this.context = { game: game, source: source };
         this.active = true;
         this.recalculateWhen = properties.recalculateWhen || [];
+        this.isConditional = !!properties.condition;
         this.isStateDependent = properties.condition || this.effect.isStateDependent;
     }
 
@@ -156,9 +157,20 @@ class Effect {
         this.targets = [];
     }
 
-    resetTargets(newTargets) {
-        this.cancel();
-        this.addTargets(newTargets);
+    reapply(newTargets) {
+        if(!this.active) {
+            return;
+        }
+
+        if(this.isConditional) {
+            this.cancel();
+            this.addTargets(newTargets);
+        } else if(this.effect.isStateDependent) {
+            _.each(this.targets, target => {
+                this.effect.unapply(target, this.context);
+                this.effect.apply(target, this.context);
+            });
+        }
     }
 }
 

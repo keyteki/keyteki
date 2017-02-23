@@ -489,4 +489,142 @@ describe('Effect', function () {
             });
         });
     });
+
+    describe('reapply()', function() {
+        beforeEach(function() {
+            this.target = { target: 1, location: 'play area' };
+            this.newTarget = { target: 2, location: 'play area' };
+            this.effect.targets = [this.target];
+            this.newTargets = [this.target, this.newTarget];
+        });
+
+        describe('when the effect is neither state dependent nor conditional', function() {
+            beforeEach(function() {
+                this.effect.isConditional = false;
+                this.properties.effect.isStateDependent = false;
+            });
+
+            describe('when the effect is inactive', function() {
+                beforeEach(function() {
+                    this.effect.active = false;
+
+                    this.effect.reapply(this.newTargets);
+                });
+
+                it('should not unapply the effect from existing targets', function() {
+                    expect(this.properties.effect.unapply).not.toHaveBeenCalled();
+                });
+
+                it('should not apply the effect for new or existing targets', function() {
+                    expect(this.properties.effect.apply).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('when the effect is active', function() {
+                beforeEach(function() {
+                    this.effect.active = true;
+
+                    this.effect.reapply(this.newTargets);
+                });
+
+                it('should not unapply the effect from existing targets', function() {
+                    expect(this.properties.effect.unapply).not.toHaveBeenCalled();
+                });
+
+                it('should not apply the effect for new or existing targets', function() {
+                    expect(this.properties.effect.apply).not.toHaveBeenCalled();
+                });
+            });
+        });
+
+        describe('when the effect is state dependent but not conditional', function() {
+            beforeEach(function() {
+                this.effect.isConditional = false;
+                this.properties.effect.isStateDependent = true;
+            });
+
+            describe('when the effect is inactive', function() {
+                beforeEach(function() {
+                    this.effect.active = false;
+
+                    this.effect.reapply(this.newTargets);
+                });
+
+                it('should not unapply the effect from existing targets', function() {
+                    expect(this.properties.effect.unapply).not.toHaveBeenCalled();
+                });
+
+                it('should not apply the effect for new or existing targets', function() {
+                    expect(this.properties.effect.apply).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('when the effect is active', function() {
+                beforeEach(function() {
+                    this.effect.active = true;
+
+                    this.effect.reapply(this.newTargets);
+                });
+
+                it('should unapply the effect for existing targets', function() {
+                    expect(this.properties.effect.unapply).toHaveBeenCalledWith(this.target, jasmine.any(Object));
+                });
+
+                it('should apply the effect for existing targets', function() {
+                    expect(this.properties.effect.apply).toHaveBeenCalledWith(this.target, jasmine.any(Object));
+                });
+
+                it('should not apply the effect to new targets', function() {
+                    expect(this.properties.effect.apply).not.toHaveBeenCalledWith(this.newTarget, jasmine.any(Object));
+                });
+            });
+        });
+
+        describe('when the effect is conditional', function() {
+            beforeEach(function() {
+                this.effect.isConditional = true;
+            });
+
+            describe('when the effect is inactive', function() {
+                beforeEach(function() {
+                    this.effect.active = false;
+
+                    this.effect.reapply(this.newTargets);
+                });
+
+                it('should not unapply the effect from existing targets', function() {
+                    expect(this.properties.effect.unapply).not.toHaveBeenCalled();
+                });
+
+                it('should not apply the effect from existing targets', function() {
+                    expect(this.properties.effect.apply).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('when the effect is active', function() {
+                beforeEach(function() {
+                    this.effect.active = true;
+
+                    this.effect.reapply(this.newTargets);
+                });
+
+                it('should unapply the effect from existing targets', function() {
+                    expect(this.properties.effect.unapply).toHaveBeenCalledWith(this.target, jasmine.any(Object));
+                });
+
+                it('should apply the effect from existing targets', function() {
+                    expect(this.properties.effect.apply).toHaveBeenCalledWith(this.target, jasmine.any(Object));
+                });
+
+                it('should apply the effect to new targets', function() {
+                    expect(this.properties.effect.apply).toHaveBeenCalledWith(this.newTarget, jasmine.any(Object));
+                });
+
+                it('should update the target list', function() {
+                    expect(this.effect.targets).toContain(this.target);
+                    expect(this.effect.targets).toContain(this.newTarget);
+                });
+            });
+        });
+    });
 });
