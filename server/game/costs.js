@@ -75,6 +75,20 @@ const Costs = {
                 context.source.controller.sacrificeCard(context.source);
             }
         };
+    },
+    /**
+     * Cost that will stand the card that initiated the ability (e.g.,
+     * Barristan Selmy (TS)).
+     */
+    standSelf: function() {
+        return {
+            canPay: function(context) {
+                return context.source.kneeled;
+            },
+            pay: function(context) {
+                context.source.controller.standCard(context.source);
+            }
+        };
     }
 };
 

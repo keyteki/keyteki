@@ -1,15 +1,16 @@
 const DrawCard = require('../../../drawcard.js');
 
 class SerIlynPayne extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Kneel Ser Ilyn Payne to kill a character',
+            cost: ability.costs.kneelSelf(),
             method: 'kneel'
         });
     }
 
     kneel(player) {
-        if(this.controller !== player || this.location !== 'play area' || this.kneeled || player.phase !== 'marshal') {
+        if(this.controller !== player || this.location !== 'play area' || player.phase !== 'marshal') {
             return false;
         }
 
@@ -25,7 +26,7 @@ class SerIlynPayne extends DrawCard {
 
     onCardSelected(player, card) {
         this.game.addMessage('{0} kneels {1} to kill {2}', player, this, card);
-        this.controller.kneelCard(this);
+
         card.controller.killCharacter(card);
 
         return true;
