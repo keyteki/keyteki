@@ -204,7 +204,9 @@ class Player extends Spectator {
             number = this.drawDeck.size();
         }
 
+        var discarded = [];
         for(var i = 0; i < number; i++) {
+            discarded.push(this.drawDeck.first());
             this.discardCard(this.drawDeck.first());
         }
 
@@ -216,6 +218,7 @@ class Player extends Spectator {
                 this.game.addMessage('{0} wins the game', otherPlayer);
             }
         }
+        return (discarded.length > 1) ? discarded : discarded[0];
     }
 
     moveFromTopToBottomOfDrawDeck(number) {

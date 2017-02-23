@@ -190,15 +190,16 @@ class ChatCommands {
     discard(player, args) {
         var num = this.getNumberOrDefault(args[1], 1);
 
-        this.game.addMessage('{0} uses the /discard command to discard {1} cards at random', player, num);
+        this.game.addMessage('{0} uses the /discard command to discard {1} card{2} at random', player, num, num > 1 ? 's' : '');
 
         player.discardAtRandom(num);
     }
 
     pillage(player) {
-        this.game.addMessage('{0} uses the /pillage command to discard a card from the top of their draw deck', player);
+        this.game.addMessage('{0} uses the /pillage command to discard 1 card from the top of their draw deck', player);
 
-        player.discardFromDraw(1);
+        var discarded = player.discardFromDraw(1);
+        this.game.addMessage('{0} discards {1} due to Pillage', player, discarded);
     }
 
     strength(player, args) {
