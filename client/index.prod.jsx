@@ -7,7 +7,7 @@ import configureStore from './configureStore';
 import {navigate, login} from './actions';
 import 'bootstrap/dist/js/bootstrap';
 
-Raven.config('https://f5286cd580bf46898e7180c7a46de2f6@sentry.io/123019', { release: 'dev'}).install();
+Raven.config('https://f5286cd580bf46898e7180c7a46de2f6@sentry.io/123019', { release: '2017-02-24'}).install();
 
 const store = configureStore();
 
