@@ -1,12 +1,6 @@
-const Reducer = require('../../reducer.js').Reducer;
+const DrawCard = require('../../../drawcard.js');
 
-class TheKingsroad extends Reducer {
-    constructor(owner, cardData) {
-        super(owner, cardData, 3, (player, card) => {
-            return card.getType() === 'character';
-        });
-    }
-
+class TheKingsroad extends DrawCard {
     setupCardAbilities() {
         this.plotModifiers({
             initiative: 1
@@ -14,23 +8,21 @@ class TheKingsroad extends Reducer {
     }
 
     onClick(player) {
-        var handled = super.onClick(player);
-
-        if(handled) {
-            this.game.addMessage('{0} kneels and sacrifices {1} to reduce the cost of the next character by 3', player, this);
+        if(player.phase !== 'marshal' || this.controller !== player || this.kneeled) {
+            return false;
         }
 
-        return handled;
-    }
+        player.kneelCard(this);
+        player.sacrificeCard(this);
+        this.game.addMessage('{0} kneels and sacrifices {1} to reduce the cost of the next character by 3', player, this);
 
-    reduce(card, currentCost, spending) {
-        var cost = super.reduce(card, currentCost, spending);
+        this.untilEndOfPhase(ability => ({
+            targetType: 'player',
+            targetController: 'current',
+            effect: ability.effects.reduceNextMarshalledCardCost(3, card => card.getType() === 'character')
+        }));
 
-        if(spending) {
-            this.owner.sacrificeCard(this);
-        }
-
-        return cost;
+        return true;
     }
 }
 

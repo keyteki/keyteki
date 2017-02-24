@@ -1,12 +1,16 @@
 const PlotCard = require('../../../plotcard.js');
 
 class LittleFingersMeddling extends PlotCard {
-    canReduce(player, card) {
-        return card.controller === this.controller && card.getType() === 'event';
-    }
-
-    reduce(card, cost) {
-        return cost - 2;
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            targetType: 'player',
+            targetController: 'current',
+            effect: ability.effects.reduceCost({
+                playingTypes: 'play',
+                amount: 2,
+                match: card => card.getType() === 'event'
+            })
+        });
     }
 }
 

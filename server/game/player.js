@@ -133,40 +133,6 @@ class Player extends Spectator {
         return this.challenges.complete;
     }
 
-    getCostForCard(card, spending) {
-        var cost;
-        if(this.phase === 'challenge' && card.isAmbush()) {
-            cost = card.getAmbushCost();
-        } else {
-            cost = card.getCost();
-        }
-
-        if(this.activePlot && this.activePlot.canReduce(this, card)) {
-            cost = this.activePlot.reduce(card, cost, spending);
-        }
-
-        var otherPlayer = this.game.getOtherPlayer(this);
-        if(otherPlayer && otherPlayer.activePlot && otherPlayer.activePlot.canReduce(this, card)) {
-            cost = otherPlayer.activePlot.reduce(card, cost, spending);
-        }
-
-        if(this.agenda && this.agenda.canReduce(this, card)) {
-            cost = this.agenda.reduce(card, cost, spending);
-        }
-
-        this.cardsInPlay.each(c => {
-            if(c.canReduce(this, card)) {
-                cost = c.reduce(card, cost, spending);
-            }
-        });
-
-        if(cost < 0) {
-            return 0;
-        }
-
-        return cost;
-    }
-
     modifyClaim(winner, challengeType, claim) {
         claim = this.activePlot.modifyClaim(winner, challengeType, claim);
         this.cardsInPlay.each(card => {
@@ -406,7 +372,9 @@ class Player extends Spectator {
 
         var dupe = this.getDuplicateInPlay(card);
 
-        if(this.getCostForCard(card, false) > this.gold && !dupe) {
+        var playingType = this.getPlayingType(card, false);
+        var cost = (dupe && playingType !== 'ambush') ? 0 : this.getReducedCost(playingType, card);
+        if(cost > this.gold) {
             return false;
         }
 
@@ -428,18 +396,17 @@ class Player extends Spectator {
             return false;
         }
 
+        var playingType = this.getPlayingType(card, forcePlay);
+        var dupeCard = this.getDuplicateInPlay(card);
+        var cost = (dupeCard && playingType !== 'ambush' || forcePlay) ? 0 : this.getReducedCost(playingType, card);
+
         if(!forcePlay && !this.canPlayCard(card, overrideHandCheck)) {
             return false;
         }
 
-        var dupeCard = this.getDuplicateInPlay(card);
-        var cost = 0;
-
-        if(!dupeCard && !forcePlay) {
-            cost = this.getCostForCard(card, true);
-        }
-
         this.gold -= cost;
+
+        this.markUsedReducers(playingType, card);
 
         if(card.getType() === 'event') {
             this.game.addMessage('{0} plays {1} costing {2}', this, card, cost);

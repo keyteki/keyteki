@@ -298,10 +298,6 @@ class BaseCard {
         return true;
     }
 
-    canReduce() {
-        return false;
-    }
-
     getMenu() {
         var menu = [];
 
@@ -329,10 +325,6 @@ class BaseCard {
 
     getPrintedFaction() {
         return this.cardData.faction_code;
-    }
-
-    reduce(card, cost) {
-        return cost;
     }
 
     modifyClaim(player, type, claim) {

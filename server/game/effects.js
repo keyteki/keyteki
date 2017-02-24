@@ -477,6 +477,13 @@ const Effects = {
     reduceFirstMarshalledOrPlayedCardCostEachRound: function(amount, match) {
         return this.reduceFirstCardCostEachRound(['marshal', 'play'], amount, match);
     },
+    reduceAmbushCardCost: function(amount, match) {
+        return this.reduceCost({
+            playingTypes: 'ambush',
+            amount: amount,
+            match: match
+        });
+    },
     increaseCost: function(properties) {
         properties.amount = -properties.amount;
         return this.reduceCost(properties);

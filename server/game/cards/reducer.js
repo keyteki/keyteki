@@ -6,18 +6,6 @@ class Reducer extends DrawCard {
 
         this.reduceBy = reduceBy;
         this.condition = condition;
-        this.abilityUsed = false;
-        this.abilityTriggered = false;
-
-        this.registerEvents(['onBeginRound']);
-    }
-
-    canReduce(player, card) {
-        if(this.controller !== player || !this.kneeled || this.abilityUsed) {
-            return false;
-        }
-
-        return this.condition(player, card);
     }
 
     onClick(player) {
@@ -27,44 +15,19 @@ class Reducer extends DrawCard {
 
         player.kneelCard(this);
 
-        this.abilityTriggered = true;
+        this.untilEndOfPhase(ability => ({
+            targetType: 'player',
+            targetController: 'current',
+            effect: ability.effects.reduceNextMarshalledCardCost(this.reduceBy, this.condition)
+        }));
 
         return true;
-    }
-
-    reduce(card, currentCost, spending) {
-        if(this.abilityTriggered && this.kneeled && !this.abilityUsed) {
-            var cost = currentCost - this.reduceBy;
-
-            if(spending) {
-                this.abilityUsed = true;
-            }
-
-            if(cost < 0) {
-                cost = 0;
-            }
-
-            return cost;
-        }
-
-        return currentCost;
-    }
-
-    onBeginRound() {
-        this.abilityUsed = false;
-        this.abilityTriggered = false;
-    }
-
-    leavesPlay() {
-        this.abilityUsed = false;
-        this.abilityTriggered = false;
-        super.leavesPlay();
     }
 }
 
 class FactionCostReducer extends Reducer {
     constructor(owner, cardData, reduceBy, faction) {
-        super(owner, cardData, reduceBy, (player, card) => {
+        super(owner, cardData, reduceBy, (card) => {
             return card.isFaction(faction);
         });
 
@@ -85,7 +48,7 @@ class FactionCostReducer extends Reducer {
 
 class FactionCharacterCostReducer extends Reducer {
     constructor(owner, cardData, reduceBy, faction) {
-        super(owner, cardData, reduceBy, (player, card) => {
+        super(owner, cardData, reduceBy, (card) => {
             return card.getType() === 'character' && card.isFaction(faction);
         });
 
