@@ -6,6 +6,7 @@ import moment from 'moment';
 
 import * as actions from './actions';
 import Avatar from './Avatar.jsx';
+import Link from './Link.jsx';
 
 class InnerLobby extends React.Component {
     constructor() {
@@ -79,13 +80,14 @@ class InnerLobby extends React.Component {
 
         return (
             <div>
-                <div className='alert alert-warning'>
-                    Some of you may have noticed some lag when the site is a little busier at peak times.  This is an unfortunate side effect of the site getting popular much quicker than I anticipated.  Rest assured we are aware of the issue and are looking into solutions, including both improving the efficiency of the code and seeking better hardware for the server to run on.  Please bear with us 😃
+                <div className='alert alert-success'>
+                    I've been asked a few times about whether I accept donations towards the upkeep of the site.  I've now added a note to the <Link href='/about' >About Page</Link>
+                    <p>Work is continuing on the new framework which will fix the lag issues during peak times, and a new server has been commissioned ready to be rolled out when the framework is ready.</p>
                 </div>
                 <div className='alert alert-info'>
+                    <div><span className='icon-intrigue' />2017-02-24: New Command: /token. Check the about page for its usage.  New Cards: Forgotten Plans, Red Keep Spy, Ward(the rest of it), Edric Storm, Ser Robar Royce, Knight of Summer, Riverrun, Kingswood, White Raven, Stannis Baratheon(TIMC) (partial), Ser Gregor's Marauders, Growing Strong, Ser Edmure Tully(Currently will trigger on some effects that it shouldn't). Fix Mother of Dragons</div>
                     <div><span className='icon-military' />2017-02-21: New cards: Salladhor Saan, Ser Kevan Lannister, Jeyne Westerling, Osha.  Fixed infinte loop bug that caused the server instablity yesterday.  Sorry about that.  Added chat messages for characters selected for military claim.</div>
                     <div><span className='icon-power' />2017-02-20: New cards: Renly's Pavillion, Will, Myrcella Baratheon, Obara Sand, Unsworn Apprentice, The Greenblood, White Tree, Lady In Waiting(partial), Arya Stark(WotN), Merchant Prince, Bless Him With Salt, For The North!, In The Name Of Your King!, The Watcher On The Walls, Winter Is Coming, There Is My Claim.  Fix Bear Island Lancel Lannister, and some cards that were not reporting their effects in chat</div>
-                    <div><span className='icon-intrigue' />2017-02-17: New cards: Shierak Qiya, Gendry, Pleasure Barge(partial), Northen Rookery(partial), Ser Lancel Lannister, Robb Stark (ATSK), Crossroads Sellsword, Dagmer Cleftjaw, Battle of Oxcross, King Renly's Host, Timett, Son of Timett, Isle of Ravens, Bridge of Skulls, The Mander, Wildling Bandit, Ser Arys Oakheart, Ser Jaime Lannister (LoCR).  Fix Summer Harvest, Core Cersei, Sea Bitch, Rodrik Cassel</div>
                 </div>
                 <div className='row'>
                     <span className='col-sm-9 text-center'><h1>Play A Game Of Thrones 2nd Edition</h1></span>
