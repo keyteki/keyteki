@@ -27,20 +27,20 @@ class About extends React.Component {
 
                 <h3>Manual Commands</h3>
                 <p>The following manual commands have been implemented in order to allow for a smoother gameplay experience:
-                    <ul>
-                        <li>/draw x - Draws x cards from your deck to your hand</li>
-                        <li>/power x - Sets the power of a card to x</li>
-                        <li>/discard x - Discards x cards randomly from your hand</li>
-                        <li>/pillage - Discards the top card from your deck</li>
-                        <li>/strength x - Sets the strength of a card to x</li>
-                        <li>/give-icon x - Give a character an x icon; where 'x' is one of 'military', 'intrigue', 'power'</li>
-                        <li>/take-icon x - Take an x icon from a character; where 'x' is as per '/give-icon'</li>
-                        <li>/cancel-prompt - Clear the current prompt and resume the game flow.  Use with caution and only when the prompt is 'stuck' and you are unable to continue</li>
-                        <li>/token t x - Set the token count of a card of type 't' to 'x'</li>
-                        <li>/give-control - Give control of a card to your opponent.  Use with caution</li>
-                        <li>/kill - Manually kill a character.  Use with caution</li>
-                    </ul>
                 </p>
+                <ul>
+                    <li>/draw x - Draws x cards from your deck to your hand</li>
+                    <li>/power x - Sets the power of a card to x</li>
+                    <li>/discard x - Discards x cards randomly from your hand</li>
+                    <li>/pillage - Discards the top card from your deck</li>
+                    <li>/strength x - Sets the strength of a card to x</li>
+                    <li>/give-icon x - Give a character an x icon; where 'x' is one of 'military', 'intrigue', 'power'</li>
+                    <li>/take-icon x - Take an x icon from a character; where 'x' is as per '/give-icon'</li>
+                    <li>/cancel-prompt - Clear the current prompt and resume the game flow.  Use with caution and only when the prompt is 'stuck' and you are unable to continue</li>
+                    <li>/token t x - Set the token count of a card of type 't' to 'x'</li>
+                    <li>/give-control - Give control of a card to your opponent.  Use with caution</li>
+                    <li>/kill - Manually kill a character.  Use with caution</li>
+                </ul>
 
                 <h3>Can I help?</h3>
                 <p>Sure!  The project is all written in Javascript.  The server is node.js and the client is React.js.  The source code can be found in the&nbsp;
@@ -54,8 +54,8 @@ class About extends React.Component {
                 <form action='https://www.paypal.com/cgi-bin/webscr' method='post' target='_top'>
                     <input type='hidden' name='cmd' value='_s-xclick' />
                     <input type='hidden' name='hosted_button_id' value='5SB6UZEGFSD58' />
-                    <input type='image' src='https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif' border='0' name='submit' alt='PayPal – The safer, easier way to pay online!' />
-                    <img alt='' border='0' src='https://www.paypalobjects.com/en_GB/i/scr/pixel.gif' width='1' height='1' />
+                    <input type='image' src='https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif' name='submit' alt='PayPal – The safer, easier way to pay online!' />
+                    <img alt='' src='https://www.paypalobjects.com/en_GB/i/scr/pixel.gif' width='1' height='1' />
                 </form>
 
                 Just to make things clear, I'm not doing this for any personal gain whatsoever, I'm happy to run the servers at my own expense, but any money raised via this link will be used towards paying the hosting fees for the server and related services (error tracking, load balancing etc).
