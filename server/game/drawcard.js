@@ -161,6 +161,8 @@ class DrawCard extends BaseCard {
         }
 
         this.game.raiseEvent('onCardPowerChanged', this, this.power - oldPower);
+
+        this.game.checkWinCondition(this.controller);
     }
 
     needsStealthTarget() {
