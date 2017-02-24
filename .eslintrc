@@ -23,6 +23,7 @@
     "comma-dangle": [1],
     "space-before-blocks": [1],
     "space-in-parens": [2, "never"],
+    "space-infix-ops": [1],
     "no-multiple-empty-lines": [1],
     "eol-last": [2],
     "semi": [2],
