@@ -31,6 +31,7 @@ class Player extends Spectator {
         this.deck = {};
         this.challenges = new ChallengeTracker();
         this.minReserve = 0;
+        this.costReducers = [];
 
         this.createAdditionalPile('out of game', { title: 'Out of Game', area: 'player row' });
     }
@@ -336,6 +337,48 @@ class Player extends Spectator {
 
     keep() {
         this.readyToStart = true;
+    }
+
+    addCostReducer(reducer) {
+        this.costReducers.push(reducer);
+    }
+
+    removeCostReducer(reducer) {
+        if(_.contains(this.costReducers, reducer)) {
+            reducer.unregisterEvents();
+            this.costReducers = _.reject(this.costReducers, r => r === reducer);
+        }
+    }
+
+    getReducedCost(playingType, card) {
+        var baseCost = playingType === 'ambush' ? card.getAmbushCost() : card.getCost();
+        var matchingReducers = _.filter(this.costReducers, reducer => reducer.canReduce(playingType, card));
+        var reducedCost = _.reduce(matchingReducers, (cost, reducer) => cost - reducer.amount, baseCost);
+        return Math.max(reducedCost, 0);
+    }
+
+    markUsedReducers(playingType, card) {
+        var matchingReducers = _.filter(this.costReducers, reducer => reducer.canReduce(playingType, card));
+        _.each(matchingReducers, reducer => {
+            reducer.markUsed();
+            if(reducer.isExpired()) {
+                this.removeCostReducer(reducer);
+            }
+        });
+    }
+
+    getPlayingType(card, forcePlay) {
+        if(card.getType() === 'event') {
+            return 'play';
+        } else if(forcePlay) {
+            return 'putIntoPlay';
+        } else if(this.game.currentPhase === 'challenge') {
+            return 'ambush';
+        } else if(this.game.currentPhase === 'marshal') {
+            return 'marshal';
+        }
+
+        return 'none';
     }
 
     canPlayCard(card, overrideHandCheck = false) {

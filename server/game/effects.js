@@ -1,5 +1,8 @@
 const _ = require('underscore');
 
+const AbilityLimit = require('./abilitylimit.js');
+const CostReducer = require('./costreducer.js');
+
 const Effects = {
     all: function(effects) {
         return {
@@ -427,6 +430,56 @@ const Effects = {
                 player.cannotWinChallenge = false;
             }
         };
+    },
+    reduceCost: function(properties) {
+        return {
+            apply: function(player, context) {
+                context.reducers = context.reducers || [];
+                var reducer = new CostReducer(context.game, context.source, properties);
+                context.reducers.push(reducer);
+                player.addCostReducer(reducer);
+            },
+            unapply: function(player, context) {
+                if(context.reducers.length > 0) {
+                    _.each(context.reducers, reducer => player.removeCostReducer(reducer));
+                }
+            }
+        };
+    },
+    reduceNextCardCost: function(playingTypes, amount, match) {
+        return this.reduceCost({
+            playingTypes: playingTypes,
+            amount: amount,
+            match: match,
+            limit: AbilityLimit.fixed(1)
+        });
+    },
+    reduceNextMarshalledCardCost: function(amount, match) {
+        return this.reduceNextCardCost('marshal', amount, match);
+    },
+    reduceNextMarshalledOrPlayedCardCost: function(amount, match) {
+        return this.reduceNextCardCost(['marshal', 'play'], amount, match);
+    },
+    reduceFirstCardCostEachRound: function(playingTypes, amount, match) {
+        return this.reduceCost({
+            playingTypes: playingTypes,
+            amount: amount,
+            match: match,
+            limit: AbilityLimit.perRound(1)
+        });
+    },
+    reduceFirstPlayedCardCostEachRound: function(amount, match) {
+        return this.reduceFirstCardCostEachRound('play', amount, match);
+    },
+    reduceFirstMarshalledCardCostEachRound: function(amount, match) {
+        return this.reduceFirstCardCostEachRound('marshal', amount, match);
+    },
+    reduceFirstMarshalledOrPlayedCardCostEachRound: function(amount, match) {
+        return this.reduceFirstCardCostEachRound(['marshal', 'play'], amount, match);
+    },
+    increaseCost: function(properties) {
+        properties.amount = -properties.amount;
+        return this.reduceCost(properties);
     },
     /**
      * Effects specifically for Old Wyk.
