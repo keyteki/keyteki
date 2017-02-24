@@ -10,7 +10,7 @@ class Halder extends DrawCard {
             )),
             handler: (context) => {
                 this.game.promptForSelect(context.player, {
-                    cardCondition: card => card.hsaFaction('thenightswatch') && card.getType() === 'character',
+                    cardCondition: card => card.isFaction('thenightswatch') && card.getType() === 'character',
                     activePromptTitle: 'Select character',
                     waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
                     onSelect: (player, card) => this.onStrCardSelected(player, card, context.kneelingCostCard)
