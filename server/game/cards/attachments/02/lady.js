@@ -27,7 +27,7 @@ class Lady extends DrawCard {
     }
 
     canAttach(player, card) {
-        if(card.isFaction('stark')) {
+        if(!card.isFaction('stark')) {
             return false;
         }
 

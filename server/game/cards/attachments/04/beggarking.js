@@ -34,7 +34,7 @@ class BeggarKing extends DrawCard {
     }
 
     canAttach(player, card) {
-        if(card.isFaction('targaryen')) {
+        if(!card.isFaction('targaryen')) {
             return false;
         }
 
