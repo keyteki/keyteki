@@ -9,7 +9,7 @@ describe('AbilityLimit', function () {
     beforeEach(function () {
         this.eventEmitterSpy = jasmine.createSpyObj('event emitter', ['on', 'removeListener']);
 
-        this.limit = new AbilityLimit(2, 'onEventForReset');
+        this.limit = AbilityLimit.repeatable(2, 'onEventForReset');
     });
 
     describe('increment()', function() {
