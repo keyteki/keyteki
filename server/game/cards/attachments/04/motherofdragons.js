@@ -11,11 +11,16 @@ class MotherOfDragons extends DrawCard {
 
     addToChallenge(player) {
         var challenge = this.game.currentChallenge;
+        if(!challenge) {
+            return false;
+        }
+
         if(this.kneeled || !player.cardsInPlay.any(card => {
             return challenge.isParticipating(card) && card.hasTrait('Dragon');
         })) {
             return false;
         }
+
         this.controller.kneelCard(this);
         if(challenge.attackingPlayer === player) {
             challenge.addAttacker(this.parent);
@@ -24,6 +29,7 @@ class MotherOfDragons extends DrawCard {
             challenge.addDefender(this.parent);
             this.game.addMessage('{0} uses {1} to add {2} to the challenge as a defender with strength {3}', this.controller, this, this.parent, this.parent.getStrength());
         }
+
         this.controller.standCard(this.parent);
     }
 
@@ -31,6 +37,7 @@ class MotherOfDragons extends DrawCard {
         if(!card.hasTrait('Stormborn')) {
             return false;
         }
+
         return super.canAttach(player, card);
     }
 }
