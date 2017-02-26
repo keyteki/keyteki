@@ -185,6 +185,16 @@ const Effects = {
             }
         };
     },
+    removeKeyword: function(keyword) {
+        return {
+            apply: function(card) {
+                card.removeKeyword(keyword);
+            },
+            unapply: function(card) {
+                card.addKeyword(keyword);
+            }
+        };
+    },
     addMultipleKeywords: function(keywords) {
         return {
             apply: function(card) {
@@ -194,6 +204,18 @@ const Effects = {
                 _.each(keywords, keyword => card.removeKeyword(keyword));
             }
         };
+    },
+    removeAllKeywords: function() {
+        return [
+            this.removeKeyword('Ambush'),
+            this.removeKeyword('Insight'),
+            this.removeKeyword('Intimidate'),
+            this.removeKeyword('Pillage'),
+            this.removeKeyword('Renown'),
+            this.removeKeyword('Stealth'),
+            this.removeKeyword('Terminal'),
+            this.removeKeyword('Limited')
+        ];
     },
     addTrait: function(trait) {
         return {
