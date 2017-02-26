@@ -10,7 +10,7 @@ class TheShadowTower extends DrawCard {
             handler: () => {
                 this.game.promptForSelect(this.controller, {
                     activePromptTitle: 'Select a character',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     cardCondition: card => card.location === 'play area' && card.getType() === 'character' && card.controller !== this.controller,
                     onSelect: (player, card) => {
                         this.game.addMessage('{0} kneels {1} to make {2} unable to be declared as attacker', player, this, card);

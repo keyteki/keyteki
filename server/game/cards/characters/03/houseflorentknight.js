@@ -10,7 +10,7 @@ class HouseFlorentKnight extends DrawCard {
             handler: () => {
                 this.game.promptForSelect(this.controller, {
                     activePromptTitle: 'Select a character with the lowest strength in play',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     cardCondition: card => {
                         return card.getStrength() === this.getLowestStrInPlay() && card.location === 'play area';
                     },
