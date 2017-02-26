@@ -3,11 +3,12 @@ const _ = require('underscore');
 const DrawCard = require('../../../drawcard.js');
 
 class ShadowblackLane extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             when: {
-                afterChallenge: (e, challenge) => challenge.winner === this.controller && challenge.challengeType === 'intrigue' && !this.controller.faction.kneeled
+                afterChallenge: (e, challenge) => challenge.winner === this.controller && challenge.challengeType === 'intrigue'
             },
+            cost: ability.costs.kneelFactionCard(),
             handler: () => {
                 var events = this.controller.searchDrawDeck(10, card => {
                     return card.getType() === 'event' && card.isFaction(this.controller.faction.getPrintedFaction());
@@ -36,7 +37,6 @@ class ShadowblackLane extends DrawCard {
             return false;
         }
 
-        this.controller.faction.kneeled = true;
         player.moveCard(card, 'hand');
         player.shuffleDrawDeck();
         this.game.addMessage('{0} uses {1} to reveal {2} and add it to their hand', player, this, card);
@@ -45,7 +45,6 @@ class ShadowblackLane extends DrawCard {
     }
 
     doneSelecting(player) {
-        this.controller.faction.kneeled = true;
         player.shuffleDrawDeck();
         this.game.addMessage('{0} does not use {1} to add a card to their hand', player, this);
 

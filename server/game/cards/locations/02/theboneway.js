@@ -1,7 +1,7 @@
 const DrawCard = require('../../../drawcard.js');
 
 class TheBoneway extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             when: {
                 afterChallenge: (event, challenge) => challenge.loser === this.controller
@@ -15,19 +15,18 @@ class TheBoneway extends DrawCard {
 
         this.action({
             title: 'Kneel this card to discard 6 vengeance tokens',
+            cost: ability.costs.kneelSelf(),
+            condition: () => this.tokens['vengeance'] >= 6,
             method: 'kneel'
         });
     }
 
     kneel(player) {
-        if(this.kneeled || this.location !== 'play area' || this.tokens['vengeance'] < 6) {
-            return false;
-        }
-
-        this.game.addPower(player, 3);
         this.removeToken('vengeance', 6);
+        this.game.addPower(player, 3);
 
-        this.game.addMessage('{0} uses {1} to discard 6 vengeance tokens and gain 3 power for their faction', this.controller, this);
+        this.game.addMessage('{0} uses {1} to discard 6 vengeance tokens and gain 3 power for their faction',
+                             this.controller, this);
     }
 }
 
