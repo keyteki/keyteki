@@ -21,11 +21,15 @@ class SerEdmureTully extends DrawCard {
                     return false;
                 }
             },
+            title: () => 'Use ' + this.name + ' to move power from ' + this.powerGainingCharacter.name + '?',
             limit: ability.limit.perRound(1),
             handler: () => {
                 this.game.promptForSelect(this.controller, {
-                    cardCondition: card =>
-                        card.location === 'play area' && this.isTullyCharacter(card),
+                    cardCondition: card => (
+                        card.location === 'play area' &&
+                        card !== this.powerGainingCharacter &&
+                        this.isTullyCharacter(card)
+                    ),
                     activePromptTitle: 'Select a Tully character to move power to',
                     waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
                     onSelect: (player, card) => this.transferPower(card)
@@ -50,6 +54,8 @@ class SerEdmureTully extends DrawCard {
                              this.controller, this, this.powerGainingCharacter, toCharacter);
 
         this.powerGainingCharacter = undefined;
+
+        return true;
     }
 
 }
