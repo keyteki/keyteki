@@ -3,7 +3,7 @@ const PlotCard = require('../../../plotcard.js');
 class ForgottenPlans extends PlotCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            condition: () => this.game.phase !== 'plot',
+            condition: () => this.game.currentPhase !== 'plot',
             match: card => card.getType() === 'plot' && !card.hasTrait('Scheme'),
             targetController: 'any',
             effect: ability.effects.blank
