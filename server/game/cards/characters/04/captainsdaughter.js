@@ -1,11 +1,11 @@
 const DrawCard = require('../../../drawcard.js');
 
-class Harrenhal extends DrawCard {
+class CaptainsDaughter extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
                 onCardEntersPlay: (event, card) => {
-                    if(this.controller === card.controller || this.controller.phase === 'setup' || card.getType() !== 'character') {
+                    if(this.controller === card.controller || this.controller.phase === 'setup' || card.isLoyal() || card.getType() !== 'character') {
                         return false;
                     }
 
@@ -19,13 +19,13 @@ class Harrenhal extends DrawCard {
                 ability.costs.kneelFactionCard()
             ],
             handler: () => {
-                this.pendingCard.controller.killCharacter(this.pendingCard);
-                this.game.addMessage('{0} sacrifices {1} to kill {2}', this.controller, this, this.pendingCard);
+                this.pendingCard.controller.moveCard(this.pendingCard, 'draw deck');
+                this.game.addMessage('{0} sacrifices {1} to move {2} to the top of {3}\'s deck', this.controller, this, this.pendingCard, this.pendingCard.controller);
             }
         });
     }
 }
 
-Harrenhal.code = '04082';
+CaptainsDaughter.code = '04012';
 
-module.exports = Harrenhal;
+module.exports = CaptainsDaughter;
