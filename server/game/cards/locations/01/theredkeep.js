@@ -7,12 +7,13 @@ class TheRedKeep extends DrawCard {
         this.registerEvents(['onAttackersDeclared', 'onDefendersDeclared']);
     }
 
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onPhaseEnded: (event, phase) => phase === 'challenge' && !this.kneeled &&
+                onPhaseEnded: (event, phase) => phase === 'challenge' &&
                     this.controller.getNumberOfChallengesLost('power') === 0
             },
+            cost: ability.costs.kneelSelf(),
             handler: () => {
                 this.game.addMessage('{0} kneels {1} to draw 2 cards', this.controller, this);
 

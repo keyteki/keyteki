@@ -1,18 +1,16 @@
 const DrawCard = require('../../../drawcard.js');
 
 class CastleBlack extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Kneel this card to stand and give a defending character +2 STR',
+            cost: ability.costs.kneelSelf(),
+            condition: () => this.game.currentChallenge,
             method: 'kneel'
         });
     }
 
     kneel(player) {
-        if(this.location !== 'play area' || !this.game.currentChallenge || this.kneeled) {
-            return false;
-        }
-
         this.game.promptForSelect(player, {
             cardCondition: card => this.cardCondition(card),
             activePromptTitle: 'Select defender to stand and gain STR',
@@ -26,7 +24,6 @@ class CastleBlack extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        player.kneelCard(this);
         player.standCard(card);
         this.game.addMessage('{0} kneels {1} to stand {2} and give +2 STR until the end of the challenge', player, this, card);
         this.untilEndOfChallenge(ability => ({

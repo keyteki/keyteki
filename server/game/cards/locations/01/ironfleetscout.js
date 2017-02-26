@@ -1,18 +1,16 @@
 const DrawCard = require('../../../drawcard.js');
 
 class IronFleetScout extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Kneel this card to give a character +1 STR',
+            cost: ability.costs.kneelSelf(),
+            condition: () => this.game.currentChallenge,
             method: 'kneel'
         });
     }
 
     kneel(player) {
-        if(this.location !== 'play area' || !this.game.currentChallenge || this.kneeled) {
-            return false;
-        }
-
         this.game.promptForSelect(player, {
             cardCondition: card => this.cardCondition(card),
             activePromptTitle: 'Select character to gain STR',
@@ -27,7 +25,6 @@ class IronFleetScout extends DrawCard {
 
     onCardSelected(player, card) {
         var strength = player.firstPlayer ? 2 : 1;
-        player.kneelCard(this);
         this.game.addMessage('{0} kneels {1} to give {2} +{3} STR until the end of the challenge', player, this, card, strength);
         this.untilEndOfChallenge(ability => ({
             match: card,

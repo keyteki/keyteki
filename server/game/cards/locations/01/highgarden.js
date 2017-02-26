@@ -1,18 +1,16 @@
 const DrawCard = require('../../../drawcard.js');
 
 class Highgarden extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Kneel this card',
+            cost: ability.costs.kneelSelf(),
+            condition: () => this.controller.gold >= 1 && this.game.currentChallenge,
             method: 'kneel'
         });
     }
 
     kneel(player) {
-        if(this.kneeled || this.controller.gold < 1 || this.location !== 'play area' || !this.game.currentChallenge) {
-            return false;
-        }
-
         this.game.promptForSelect(player, {
             cardCondition: card => this.cardCondition(card),
             activePromptTitle: 'Select character',
@@ -26,7 +24,6 @@ class Highgarden extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        player.kneelCard(this);
         this.controller.gold -= 1;
 
         this.game.currentChallenge.removeFromChallenge(card);
