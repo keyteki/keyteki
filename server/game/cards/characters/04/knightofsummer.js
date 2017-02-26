@@ -18,10 +18,10 @@ class KnightOfSummer extends DrawCard {
         var summerPlots = 0;
         var winterPlots = 0;
         _.each(this.game.getPlayers(), player => {
-            if(player.activePlot.hasTrait('winter')) {
+            if(player.activePlot && player.activePlot.hasTrait('winter')) {
                 winterPlots++;
             }
-            if(player.activePlot.hasTrait('summer')) {
+            if(player.activePlot && player.activePlot.hasTrait('summer')) {
                 summerPlots++;
             }
         });
