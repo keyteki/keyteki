@@ -19,7 +19,7 @@ class OldNan extends DrawCard {
                         menuTitle: 'Select plot to modify',
                         buttons: buttons
                     },
-                    waitingPromptTitle: 'Waiting for opponent to trigger ' + this.name
+                    source: this
                 });
             }
         });
@@ -38,7 +38,7 @@ class OldNan extends DrawCard {
                     { text: 'Summer', method: 'traitSelected', arg: 'Summer'}
                 ]
             },
-            waitingPromptTitle: 'Waiting for opponent to trigger ' + this.name
+            source: this
         });
 
         this.selectedCard = cardId;

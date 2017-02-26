@@ -54,7 +54,7 @@ class WildfireAssault extends PlotCard {
             this.game.promptForSelect(currentPlayer, {
                 numCards: 3,
                 activePromptTitle: 'Select up to 3 characters to save',
-                waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                source: this,
                 cardCondition: card => card.controller === currentPlayer && card.getType() === 'character',
                 onSelect: (player, cards) => this.onSelect(player, cards),
                 onCancel: (player) => this.cancelSelection(player)

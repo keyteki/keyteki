@@ -10,7 +10,7 @@ class ViserysTargaryen extends DrawCard {
                 this.game.promptForSelect(this.controller, {
                     cardCondition: card => card.getType() === 'attachment',
                     activePromptTitle: 'Select an attachment to discard',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     onSelect: (player, card) => this.onCardSelected(player, card)
                 });
             }

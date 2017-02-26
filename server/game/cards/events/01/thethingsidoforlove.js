@@ -18,7 +18,7 @@ class TheThingsIDoForLove extends DrawCard {
     play(player) {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select character',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card => card.location === 'play area' && card.controller !== this.controller && card.getType() === 'character' && card.getCost() <= player.gold,
             onSelect: (player, card) => this.onCardSelected(player, card)
         });

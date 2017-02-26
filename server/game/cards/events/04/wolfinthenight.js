@@ -18,7 +18,7 @@ class WolfInTheNight extends DrawCard {
             cardCondition: card => card.location === 'play area' && card.getType() === 'character' && card.isFaction('stark') &&
                 this.game.currentChallenge.attackers.length === 1 && this.game.currentChallenge.isAttacking(card),
             activePromptTitle: 'Select a character',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             onSelect: (player, card) => this.onCardSelected(player, card)
         });
     }

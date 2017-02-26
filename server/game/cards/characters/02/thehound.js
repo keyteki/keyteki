@@ -15,7 +15,7 @@ class TheHound extends DrawCard {
                             { text: 'No', method: 'returnToHand' }
                         ]
                     },
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+                    source: this
                 });
             }
         });

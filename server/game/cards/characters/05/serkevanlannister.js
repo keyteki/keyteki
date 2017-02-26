@@ -9,7 +9,7 @@ class SerKevanLannister extends DrawCard {
             handler: () => {
                 this.game.promptForSelect(this.controller, {
                     activePromptTitle: 'Select location or attachment',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     cardCondition: card => (
                         card.location === 'discard pile' &&
                         card.controller === this.controller &&

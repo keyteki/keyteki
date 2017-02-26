@@ -39,7 +39,7 @@ class SeenInFlames extends DrawCard {
                 menuTitle: 'Select a card to discard',
                 buttons: buttons
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
     }
 

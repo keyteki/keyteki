@@ -22,7 +22,7 @@ class GreenbloodTrader extends DrawCard {
                         menuTitle: 'Add a card to hand?',
                         buttons: buttons
                     },
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+                    source: this
                 });
             }
         });
@@ -86,7 +86,7 @@ class GreenbloodTrader extends DrawCard {
                 menuTitle: 'Select card to place on the bottom of the deck',
                 buttons: buttons
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
 
         return true;

@@ -21,7 +21,7 @@ class HereToServe extends PlotCard {
                         menuTitle: 'Select a card to put in play',
                         buttons: buttons
                     },
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+                    source: this
                 });
             }
         });

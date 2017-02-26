@@ -10,7 +10,7 @@ class NewlyMadeLord extends DrawCard {
                 this.game.promptForSelect(this.controller, {
                     cardCondition: card => this.cardCondition(card),
                     activePromptTitle: 'Select location',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     onSelect: (player, card) => this.onCardSelected(player, card)
                 });
             }

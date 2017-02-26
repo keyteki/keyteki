@@ -49,7 +49,7 @@ class INeverBetAgainstMyFamily extends DrawCard {
                 menuTitle: 'Choose a unique character to put in play',
                 buttons: buttons
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
 
         return true;
@@ -84,7 +84,7 @@ class INeverBetAgainstMyFamily extends DrawCard {
                 menuTitle: 'Choose card to place on bottom of deck',
                 buttons: buttons
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
 
         return true;

@@ -18,7 +18,7 @@ class GreenDreams extends DrawCard {
                             { text: 'No', method: 'placeOnBottom', arg: 'no', card: this.topCard.getSummary(true) }
                         ]
                     },
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+                    source: this
                 });
             }
         });

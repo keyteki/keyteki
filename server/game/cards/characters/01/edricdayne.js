@@ -22,7 +22,7 @@ class EdricDayne extends DrawCard {
                     { text: 'Power', method: 'iconSelected', arg: 'power' }
                 ]
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
 
         return true;

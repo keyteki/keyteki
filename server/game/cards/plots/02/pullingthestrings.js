@@ -11,7 +11,7 @@ class PullingTheStrings extends PlotCard {
                 this.game.promptForSelect(this.controller, {
                     cardCondition: card => this.cardCondition(card),
                     activePromptTitle: 'Select a plot',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     onSelect: (player, card) => this.onCardSelected(player, card)
                 });
             }

@@ -20,14 +20,14 @@ class PlazaOfPunishment extends DrawCard {
                     { text: 'No', method: 'cancel' }
                 ]
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
     }
 
     chooseCharacter(player) {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select character',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card => card.location === 'play area' && card.getType() === 'character' && card.attachments.size() === 0,
             onSelect: (p, card) => this.onCardSelected(p, card)
         });

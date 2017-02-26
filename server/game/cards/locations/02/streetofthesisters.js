@@ -24,7 +24,7 @@ class StreetOfTheSisters extends DrawCard {
                     { text: 'Cancel', method: 'cancel' }
                 ]
             },
-            waitingPromptTitle: 'Waiting for opponent to trigger ' + this.name
+            source: this
         });
     }
 

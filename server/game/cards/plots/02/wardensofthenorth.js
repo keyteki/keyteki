@@ -20,7 +20,7 @@ class WardensOfTheNorth extends PlotCard {
         this.game.promptForSelect(player, {
             cardCondition: card => card.isFaction('stark') && !card.kneeled,
             activePromptTitle: 'Select character',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             onSelect: (player, card) => this.onCardSelected(player, card)
         });
 

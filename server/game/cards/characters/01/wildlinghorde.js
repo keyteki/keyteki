@@ -10,7 +10,7 @@ class WildlingHorde extends DrawCard {
             handler: (context) => {
                 this.game.promptForSelect(context.player, {
                     activePromptTitle: 'Select a Wildling character',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     cardCondition: card => this.cardCondition(context.player, card),
                     onSelect: (p, card) => this.onCardSelected(p, card)
                 });

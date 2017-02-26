@@ -29,7 +29,7 @@ class TheRainsOfCastamere extends AgendaCard {
                         menuTitle: 'Trigger Scheme plot?',
                         buttons: this.menuButtons()
                     },
-                    waitingPromptTitle: 'Waiting for opponent to use' + this.name
+                    source: this
                 });
             }
         });

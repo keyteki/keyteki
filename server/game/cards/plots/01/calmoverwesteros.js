@@ -14,7 +14,7 @@ class CalmOverWesteros extends PlotCard {
                             { text: 'Cancel', method: 'cancelChallengeSelect' }
                         ]
                     },
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+                    source: this
                 });
             }
         });

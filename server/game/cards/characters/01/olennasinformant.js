@@ -16,7 +16,7 @@ class OlennasInformant extends DrawCard {
                             { text: 'Power', method: 'challengeSelected', arg: 'power' }
                         ]
                     },
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+                    source: this
                 });
             }
         });

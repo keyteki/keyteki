@@ -49,7 +49,7 @@ class PoliticalDisaster extends PlotCard {
             this.game.promptForSelect(currentPlayer, {
                 numCards: 2,
                 activePromptTitle: 'Select up to 2 locations to save',
-                waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                source: this,
                 cardCondition: card => card.controller === currentPlayer && card.getType() === 'location',
                 onSelect: (player, cards) => this.onSelect(player, cards),
                 onCancel: (player) => this.cancelSelection(player)

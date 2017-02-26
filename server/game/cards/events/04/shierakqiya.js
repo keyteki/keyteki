@@ -24,7 +24,7 @@ class ShierakQiya extends DrawCard {
 
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a participating character to stand',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card =>
                 card.location === 'play area'
                 && this.game.currentChallenge.isParticipating(card),

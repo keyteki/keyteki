@@ -15,7 +15,7 @@ class OldBearMormont extends DrawCard {
                 this.game.promptForSelect(this.controller, {
                     cardCondition: card => card.location === 'hand' && card.controller === this.controller && card.isFaction('thenightswatch'),
                     activePromptTitle: 'Select character',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     onSelect: (player, card) => this.onCardSelected(player, card)
                 });
             }

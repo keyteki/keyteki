@@ -7,7 +7,7 @@ class FallenFromFavor extends PlotCard {
             handler: () => {
                 this.game.promptForSelect(this.controller, {
                     activePromptTitle: 'Select a character to sacrifice',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     cardCondition: card => card.controller === this.controller && card.getType() === 'character',
                     onSelect: (player, card) => this.onCardSelected(player, card)
                 });

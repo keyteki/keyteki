@@ -28,7 +28,7 @@ class OlennasCunning extends DrawCard {
                 menuTitle: 'Select a card type',
                 buttons: buttons
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
 
         return true;
@@ -49,7 +49,7 @@ class OlennasCunning extends DrawCard {
                 menuTitle: 'Select a card add to your hand',
                 buttons: buttons
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
 
         return true;

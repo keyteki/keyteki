@@ -14,7 +14,7 @@ class MirriMazDuur extends DrawCard {
                 context.skipHandler();
                 this.game.promptForSelect(this.controller, {
                     activePromptTitle: 'Select a character to kill',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     cardCondition: card => card.location === 'play area' && card.getType() === 'character' && card.controller !== this.controller,
                     onSelect: (p, card) => this.onCardSelected(p, card)
                 });

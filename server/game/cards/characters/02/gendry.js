@@ -25,7 +25,7 @@ class Gendry extends DrawCard {
                             { text: 'No', method: 'sacrificeBastard' }
                         ]
                     },
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+                    source: this
                 });
             }
         });
@@ -42,7 +42,7 @@ class Gendry extends DrawCard {
         this.game.promptForSelect(player, {
             cardCondition: card => card.location === 'play area' && card.hasTrait('Bastard') && card.getType() === 'character' && card.controller === this.controller,
             activePromptTitle: 'Select a bastard to sacrifice',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             onSelect: (player, card) => {
                 card.controller.sacrificeCard(card);
                 this.game.addMessage('{0} is forced by {1} to sacrifice {2}', player, this, card);

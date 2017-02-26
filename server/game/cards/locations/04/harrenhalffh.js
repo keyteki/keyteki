@@ -14,7 +14,7 @@ class Harrenhal extends DrawCard {
             cardCondition: card => card.location === 'hand' && card.getType() === 'character' && card.controller === this.controller &&
                 (card.isFaction('lannister') || card.hasTrait('House Bolton')),
             activePromptTitle: 'Select a character',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             onSelect: (player, card) => this.onCardSelected(player, card)
         });
     }

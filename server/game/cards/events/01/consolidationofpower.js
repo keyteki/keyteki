@@ -21,7 +21,7 @@ class ConsolidationOfPower extends DrawCard {
         this.game.promptForSelect(player, {
             numCards: 99,
             activePromptTitle: 'Select characters',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card => {
                 return !card.kneeled && (card.getStrength() + this.selectedStrength <= 4 || card.opponentSelected || card.selected);
             },
@@ -42,7 +42,7 @@ class ConsolidationOfPower extends DrawCard {
 
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select character to gain power',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card => {
                 return _.contains(this.cards, card);
             },

@@ -17,7 +17,7 @@ class SyrioForel extends DrawCard {
         this.game.promptForSelect(player, {
             cardCondition: card => this.cardCondition(card),
             activePromptTitle: 'Select a character',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             onSelect: (player, card) => this.onCardSelected(player, card)
         });
 

@@ -23,7 +23,7 @@ class SerJaimeLannister extends DrawCard {
 
         this.game.promptForSelect(this.controller, {
             activePromptTitle: 'Select character',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card => (
                 card.location === 'play area' && 
                 card.hasTrait('Kingsguard') && 

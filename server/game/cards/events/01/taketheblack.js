@@ -20,7 +20,7 @@ class TakeTheBlack extends DrawCard {
 
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a character',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card => this.cardCondition(card),
             onSelect: (player, card) => this.onCardClicked(player, card)
         });

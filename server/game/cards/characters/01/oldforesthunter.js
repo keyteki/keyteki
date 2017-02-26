@@ -12,7 +12,7 @@ class OldForestHunter extends DrawCard {
     discard(player) {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a card to discard',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card => card.location === 'hand',
             onSelect: (p, card) => this.onCardSelected(p, card)
         });

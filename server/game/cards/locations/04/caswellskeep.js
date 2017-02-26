@@ -18,7 +18,7 @@ class CaswellsKeep extends DrawCard {
                         menuTitle: 'Choose a player',
                         buttons: buttons
                     },
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+                    source: this
                 });
             }
         });
@@ -44,7 +44,7 @@ class CaswellsKeep extends DrawCard {
                 menuTitle: 'Choose card to place on bottom of deck',
                 buttons: buttons
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
 
         return true;

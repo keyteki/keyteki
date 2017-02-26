@@ -16,7 +16,7 @@ class WeDoNotSow extends DrawCard {
     play(player) {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select attachment or location',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card => card.location === 'play area' && card.controller === this.game.currentChallenge.loser && (card.getType() === 'attachment' || card.getType() === 'location'),
             onSelect: (player, cards) => this.onCardSelected(player, cards)
         });

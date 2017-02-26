@@ -26,7 +26,7 @@ class BloodOfMyBlood extends DrawCard {
                 menuTitle: 'Select a card to put it in play',
                 buttons: buttons
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
 
         return true;

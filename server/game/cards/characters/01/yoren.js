@@ -10,7 +10,7 @@ class Yoren extends DrawCard {
                 this.game.promptForSelect(this.controller, {
                     cardCondition: card => card.location === 'discard pile' && card.getType() === 'character' && card.owner !== this.controller && card.getCost() <= 3,
                     activePromptTitle: 'Select a character',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     onSelect: (player, card) => this.onCardSelected(player, card)
                 });
             }

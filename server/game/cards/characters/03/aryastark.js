@@ -16,7 +16,7 @@ class AryaStark extends DrawCard {
                         card.getType() === 'character' &&
                         card.getStrength() <= 3),
                     activePromptTitle: 'Select a character',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     onSelect: (player, card) => this.onCardSelected(player, card)
                 });
             }

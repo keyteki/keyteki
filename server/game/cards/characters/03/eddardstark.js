@@ -10,7 +10,7 @@ class EddardStark extends DrawCard {
                 this.game.promptForSelect(this.controller, {
                     cardCondition: card => this.cardCondition(this.game.currentChallenge, card),
                     activePromptTitle: 'Select character to gain power',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     onSelect: (player, card) => this.onCardSelected(player, card)
                 });
             }

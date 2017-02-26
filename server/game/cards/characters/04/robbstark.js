@@ -30,7 +30,7 @@ class RobbStark extends DrawCard {
                 !card.hasTrait('King') &&
                 this.game.currentChallenge.isParticipating(card)),
             activePromptTitle: 'Select character to stand and remove',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             onSelect: (player, card) => this.onCardSelected(player, card)
         });
     }

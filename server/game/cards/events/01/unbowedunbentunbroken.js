@@ -24,7 +24,7 @@ class UnbowedUnbentUnbroken extends DrawCard {
                     { text: 'Cancel', method: 'cancel' }
                 ]
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
     }
 

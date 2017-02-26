@@ -10,7 +10,7 @@ class ThrowingAxe extends DrawCard {
             handler: () => {
                 this.game.promptForSelect(this.controller, {
                     activePromptTitle: 'Select a character to kill',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     cardCondition: card => card.location === 'play area' && this.game.currentChallenge.isDefending(card),
                     onSelect: (p, card) => this.onCardSelected(p, card)
                 });

@@ -22,7 +22,7 @@ class MaestersChain extends DrawCard {
         }
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a condition attachment to discard',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card => card.location === 'play area' && card.getType() === 'attachment' && card.hasTrait('condition'),
             onSelect: (p, card) => this.onCardSelected(p, card)
         });

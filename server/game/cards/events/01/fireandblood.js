@@ -12,7 +12,7 @@ class FireAndBlood extends DrawCard {
     play(player) {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a character',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card => card.location === 'dead pile' && card.isUnique() && card.isFaction('targaryen'),
             onSelect: (player, card) => this.onCardSelected(player, card)
         });
@@ -30,7 +30,7 @@ class FireAndBlood extends DrawCard {
                         { text: 'No', method: 'shuffle' }
                     ]
                 },
-                waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+                source: this
             });
         } else {
             this.shuffleCard(card);

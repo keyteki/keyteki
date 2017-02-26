@@ -11,7 +11,7 @@ class TowerOfTheHand extends DrawCard {
                     cardCondition: card => card.location === 'play area' && card.getType() === 'character' &&
                         this.controller === card.controller && this.game.currentChallenge.isParticipating(card),
                     activePromptTitle: 'Select a character',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     onSelect: (player, card) => this.onCardSelected(player, card)
                 });
             }
@@ -22,7 +22,7 @@ class TowerOfTheHand extends DrawCard {
         this.game.promptForSelect(this.controller, {
             cardCondition: c => c.location === 'play area' && c.getType() === 'character' && c.getCost() < card.getCost(),
             activePromptTitle: 'Select an opponent\'s character',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             onSelect: (player, card) => this.onOpponentCardSelected(player, card)
         });
 

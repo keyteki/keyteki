@@ -9,7 +9,7 @@ class TheQueenOfThorns extends DrawCard {
             handler: () => {
                 this.game.promptForSelect(this.controller, {
                     activePromptTitle: 'Select a character to put in play',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     cardCondition: card => card.location === 'hand' && card.getCost() && card.getType() === 'character' && card.isFaction('tyrell'),
                     onSelect: (p, card) => this.onCardSelected(p, card)
                 });

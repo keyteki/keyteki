@@ -13,7 +13,7 @@ class DagmerCleftjaw extends DrawCard {
                 context.skipHandler();
                 this.game.promptForSelect(this.controller, {
                     activePromptTitle: 'Select a location',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     cardCondition: card => (
                         card.location === 'play area' &&
                         card.getType() === 'location' &&

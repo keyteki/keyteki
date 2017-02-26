@@ -15,7 +15,7 @@ class Rhaegal extends DrawCard {
             handler: () => {
                 this.game.promptForSelect(this.controller, {
                     activePromptTitle: 'Select character to stand',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     cardCondition: card => card.location === 'play area' && card.getType() === 'character' && card.hasTrait('Stormborn'),
                     onSelect: (p, card) => this.onCardSelected(p, card)
                 });

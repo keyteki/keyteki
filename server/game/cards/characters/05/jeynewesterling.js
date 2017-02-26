@@ -8,7 +8,7 @@ class JeyneWesterling extends DrawCard {
             handler: context => {
                 this.game.promptForSelect(context.player, {
                     activePromptTitle: 'Select a King or Lord',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     cardCondition: card => (
                         card.location === 'play area' &&
                         card.isFaction('stark') &&

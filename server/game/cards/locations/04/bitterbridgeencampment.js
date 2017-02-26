@@ -43,7 +43,7 @@ class BitterbridgeEncampment extends DrawCard {
             var currentPlayer = this.remainingPlayers.shift();
             this.game.promptForSelect(currentPlayer, {
                 activePromptTitle: 'Select a character to put into play',
-                waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                source: this,
                 cardCondition: card => card.controller === currentPlayer && card.getType() === 'character' && card.location === 'hand',
                 onSelect: (player, card) => this.onCardSelected(player, card),
                 onCancel: (player) => this.cancelSelection(player)

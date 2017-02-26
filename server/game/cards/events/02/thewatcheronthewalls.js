@@ -22,7 +22,7 @@ class TheWatcherOnTheWalls extends ChallengeEvent {
         this.game.promptForSelect(player, {
             numCards: 2,
             activePromptTitle: 'Select 2 standing rangers',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card =>
                 card.location === 'play area'
                 && !card.kneeled

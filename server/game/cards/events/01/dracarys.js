@@ -16,7 +16,7 @@ class Dracarys extends DrawCard {
     play(player) {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a character to kneel',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card => card.location === 'play area' && (card.hasTrait('Dragon') || card.name === 'Daenerys Targaryen') && !card.kneeled,
             onSelect: (player, card) => this.onCardSelected(player, card)
         });
@@ -27,7 +27,7 @@ class Dracarys extends DrawCard {
 
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a character',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card => card.location === 'play area' && this.game.currentChallenge.isParticipating(card),
             onSelect: (player, card) => this.onStrSelected(player, card)
         });

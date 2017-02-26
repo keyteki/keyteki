@@ -16,7 +16,7 @@ class Summer extends DrawCard {
             handler: () => {
                 this.game.promptForSelect(this.controller, {
                     activePromptTitle: 'Select a character',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     cardCondition: (card) => this.cardCondition(card),
                     onSelect: (p, card) => this.onCardSelected(p, card)
                 });

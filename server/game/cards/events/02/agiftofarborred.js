@@ -31,7 +31,7 @@ class AGiftOfArborRed extends DrawCard {
                 menuTitle: 'Choose a card to add to your hand',
                 buttons: buttons
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
 
         player.faction.kneeled = true;
@@ -57,7 +57,7 @@ class AGiftOfArborRed extends DrawCard {
                 menuTitle: 'Choose opponent card to add to their hand',
                 buttons: buttons
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
 
         return true;

@@ -15,7 +15,7 @@ class TimettSonOfTimett extends DrawCard {
                         card.getType() === 'character' &&
                         card.getCost() <= this.getNumberOfClansmen()),
                     activePromptTitle: 'Select character to kill',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     onSelect: (player, card) => (
                         card.controller.killCharacter(card),
                         this.game.addMessage('{0} uses {1} to kill {2}', this.controller, this, card))

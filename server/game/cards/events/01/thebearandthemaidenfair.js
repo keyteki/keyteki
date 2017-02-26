@@ -17,7 +17,7 @@ class TheBearAndTheMaidenFair extends DrawCard {
                 menuTitle: 'Choose a player',
                 buttons: buttons
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
     }
 
@@ -52,7 +52,7 @@ class TheBearAndTheMaidenFair extends DrawCard {
                 menuTitle: this.mode === 'top' ? 'Choose card to place on top of deck' : 'Choose card to place on bottom of deck',
                 buttons: buttons
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
     }
 

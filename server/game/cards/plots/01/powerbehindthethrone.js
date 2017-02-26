@@ -21,7 +21,7 @@ class PowerBehindTheThrone extends PlotCard {
 
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a character to stand',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card => card.location === 'play area' && card.controller === player && card.kneeled,
             onSelect: (p, card) => this.onCardSelected(p, card)
         });

@@ -27,11 +27,18 @@ const UiPrompt = require('./uiprompt.js');
  *                      buttons is clicked.
  * onCancel           - a callback that is called when the player clicks the
  *                      done button without selecting any cards.
+ * source             - what is at the origin of the user prompt, usually a card;
+ *                      used to provide a default waitingPromptTitle, if missing
  */
 class SelectCardPrompt extends UiPrompt {
     constructor(game, choosingPlayer, properties) {
         super(game);
+
         this.choosingPlayer = choosingPlayer;
+        if(properties.source && !properties.waitingPromptTitle) {
+            properties.waitingPromptTitle = 'Waiting for opponent to use ' + properties.source.name;
+        }
+
         this.properties = properties;
         _.defaults(this.properties, this.defaultProperties());
         this.selectedCards = [];

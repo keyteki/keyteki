@@ -33,7 +33,7 @@ class ARoseOfGold extends DrawCard {
                 menuTitle: 'Choose a card to add to your hand',
                 buttons: buttons
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
     }
 
@@ -62,7 +62,7 @@ class ARoseOfGold extends DrawCard {
                 menuTitle: 'Choose card to place on bottom of deck',
                 buttons: buttons
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
     }
 

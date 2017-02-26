@@ -58,7 +58,7 @@ class TheLongWinter extends PlotCard {
             var currentPlayer = this.remainingPlayers.shift();
             this.game.promptForSelect(currentPlayer, {
                 activePromptTitle: 'Select a card to discard power from',
-                waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                source: this,
                 additionalButtons: [{ text: 'Faction Card', arg: 'faction' }],
                 cardCondition: card => card.controller === currentPlayer && card.getPower() > 0,
                 onSelect: (player, card) => this.onCardSelected(player, card),

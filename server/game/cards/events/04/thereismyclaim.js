@@ -25,7 +25,7 @@ class ThereIsMyClaim extends ChallengeEvent {
         this.game.promptForSelect(player, {
             numCards: 4,
             activePromptTitle: 'Select 4 Tyrell characters from your hand',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: this.isTyrellCharacterInHand,
             onSelect: (player, cards) => this.onSelect(player, cards)
         });

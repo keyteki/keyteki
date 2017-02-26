@@ -23,7 +23,7 @@ class TheTickler extends DrawCard {
 
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a copy of ' + this.topCard.name + ' to discard',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card => card.location === 'play area' && card.name === this.topCard.name,
             onSelect: (p, card) => this.onCardSelected(p, card)
         });

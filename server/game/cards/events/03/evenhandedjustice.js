@@ -20,14 +20,12 @@ class EvenHandedJustice extends DrawCard {
     }
 
     play(player) {
-        this.waitingPrompt = 'Waiting for opponent to use ' + this.name;
-
         this.toKneel = [];  // characters to kneel (later)
 
         // step 1: select opponent character
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a standing character controlled by your opponent',
-            waitingPromptTitle: this.waitingPrompt,
+            source: this,
             cardCondition: card =>
                 !card.kneeled
                 && card.getType() === 'character'
@@ -44,7 +42,7 @@ class EvenHandedJustice extends DrawCard {
         // step 2: select event controller character
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a standing character of yours',
-            waitingPromptTitle: this.waitingPrompt,
+            source: this,
             cardCondition: card =>
                 !card.kneeled
                 && card.getType() === 'character'

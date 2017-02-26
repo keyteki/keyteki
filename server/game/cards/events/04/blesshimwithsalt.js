@@ -11,7 +11,7 @@ class BlessHimWithSalt extends ChallengeEvent {
 
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select character',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card =>
                 this.game.currentChallenge.isParticipating(card)
                 && (card.hasTrait('Drowned God') || card.hasTrait('Ironborn')),

@@ -19,7 +19,7 @@ class NymeriaSand extends DrawCard {
         this.game.promptForSelect(player, {
             cardCondition: card => this.cardCondition(card),
             activePromptTitle: 'Select a character to remove an icon from',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             onSelect: (player, card) => this.onCardSelected(player, card)
         });
 
@@ -44,7 +44,7 @@ class NymeriaSand extends DrawCard {
                 menuTitle: 'Select an icon to remove',
                 buttons: buttons
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
 
         return true;

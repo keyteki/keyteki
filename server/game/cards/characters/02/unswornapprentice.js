@@ -24,7 +24,7 @@ class UnswornApprentice extends DrawCard {
                 menuTitle: 'Select an icon to gain',
                 buttons: buttons
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
         return true;
     }

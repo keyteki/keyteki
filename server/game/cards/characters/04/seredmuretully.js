@@ -31,7 +31,7 @@ class SerEdmureTully extends DrawCard {
                         this.isTullyCharacter(card)
                     ),
                     activePromptTitle: 'Select a Tully character to move power to',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     onSelect: (player, card) => this.transferPower(card)
                 });
             }

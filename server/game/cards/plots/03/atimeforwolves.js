@@ -21,7 +21,7 @@ class ATimeForWolves extends PlotCard {
                         menuTitle: 'Select a card to add to your hand',
                         buttons: buttons
                     },
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+                    source: this
                 });
             }
         });
@@ -55,7 +55,7 @@ class ATimeForWolves extends PlotCard {
                 buttons: buttons
             },
 
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
 
         return true;

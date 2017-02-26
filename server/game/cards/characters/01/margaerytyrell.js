@@ -16,7 +16,7 @@ class MargaeryTyrell extends DrawCard {
 
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a character',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card => card.location === 'play area' && card.getType() === 'character',
             onSelect: (p, card) => this.onCardSelected(p, card)
         });

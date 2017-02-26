@@ -22,7 +22,7 @@ class TearsOfLys extends DrawCard {
 
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a character to receive poison token',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card => card.location === 'play area' && card.controller !== player && card.getType() === 'character' && !card.hasIcon('intrigue'),
             onSelect: (p, card) => {
                 this.atEndOfPhase(ability => ({

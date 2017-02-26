@@ -11,7 +11,7 @@ class VerteranBuilder extends DrawCard {
     sacrifice() {
         this.game.promptForSelect(this.controller, {
             activePromptTitle: 'Select a location',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card => card.location === 'play area' && card.controller === this.controller && card.getType() === 'location',
             onSelect: (p, card) => this.onStandSelected(p, card)
         });

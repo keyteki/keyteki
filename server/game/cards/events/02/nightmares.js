@@ -4,7 +4,7 @@ class Nightmares extends DrawCard {
     play(player) {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a character or location',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card => card.location === 'play area' && (card.getType() === 'character' || card.getType() === 'location'),
             onSelect: (player, card) => this.onCardSelected(player, card)
         });

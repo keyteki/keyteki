@@ -14,7 +14,7 @@ class RooseBolton extends DrawCard {
                 this.game.promptForSelect(this.controller, {
                     numCards: 99,
                     activePromptTitle: 'Select characters',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     cardCondition: card => {
                         return card.getType() === 'character' && card.controller !== this.controller &&
                             (card.getStrength() + this.selectedStrength <= this.getStrength() || card.opponentSelected);

@@ -22,7 +22,7 @@ class StannisBaratheon extends DrawCard {
                         card.getType() === 'character' && 
                         !card.isLoyal()),
                     activePromptTitle: 'Select a character',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     onSelect: (player, card) => {
                         this.game.addMessage('{0} has chosen {1} as the target for {2}\'s ability', player, card, this);
                     }

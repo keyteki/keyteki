@@ -9,7 +9,7 @@ class Rebuilding extends PlotCard {
                 this.game.promptForSelect(this.controller, {
                     numCards: 3,
                     activePromptTitle: 'Select up to 3 cards from discard',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     cardCondition: card => this.cardCondition(card),
                     onSelect: (player, cards) => this.doneSelect(player, cards)
                 });

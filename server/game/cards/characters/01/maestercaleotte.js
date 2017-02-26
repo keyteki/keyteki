@@ -9,7 +9,7 @@ class MaesterCaleotte extends DrawCard {
             handler: () => {
                 this.game.promptForSelect(this.controller, {
                     activePromptTitle: 'Select character',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     cardCondition: card => card.location === 'play area' && card.getType() === 'character',
                     onSelect: (p, card) => this.onCardSelected(p, card)
                 });
@@ -29,7 +29,7 @@ class MaesterCaleotte extends DrawCard {
                     { text: 'Power', method: 'iconSelected', arg: 'power' }
                 ]
             },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name
+            source: this
         });
 
         return true;

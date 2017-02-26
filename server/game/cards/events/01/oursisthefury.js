@@ -11,7 +11,7 @@ class OursIsTheFury extends ChallengeEvent {
 
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select character',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             cardCondition: card => card.kneeled && card.controller === this.controller && card.isFaction('baratheon'),
             onSelect: (player, cards) => this.onCardSelected(player, cards)
         });

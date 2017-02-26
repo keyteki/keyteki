@@ -15,7 +15,7 @@ class RenlysPavilion extends DrawCard {
         this.game.promptForSelect(player, {
             cardCondition: card => this.cardCondition(card),
             activePromptTitle: 'Select a character to get -1 STR',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             onSelect: (player, card) => this.firstCardSelected(player, card)
         });
         
@@ -32,7 +32,7 @@ class RenlysPavilion extends DrawCard {
         this.game.promptForSelect(player, {
             cardCondition: card => this.cardCondition(card),
             activePromptTitle: 'Select a character to get +1 STR',
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+            source: this,
             onSelect: (player, card) => this.raiseStr(player, card)
         });
         return true;

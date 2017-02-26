@@ -13,7 +13,7 @@ class SerArysOakheart extends DrawCard {
                         card.getType() === 'character' && 
                         card.hasTrait('Ally')),
                     activePromptTitle: 'Select a character',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     onSelect: (player, card) => {
                         card.controller.discardCard(card);
                         this.controller.gold -= 2;

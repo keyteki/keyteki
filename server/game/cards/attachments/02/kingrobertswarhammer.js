@@ -17,7 +17,7 @@ class KingRobertsWarhammer extends DrawCard {
                 this.game.promptForSelect(this.controller, {
                     numCards: 99,
                     activePromptTitle: 'Select characters',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + this.name,
+                    source: this,
                     cardCondition: card => {
                         return !card.kneeled && (card.getStrength() + this.selectedStrength <= this.parent.getStrength() || card.opponentSelected);
                     },
