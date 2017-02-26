@@ -29,17 +29,17 @@ class About extends React.Component {
                 <p>The following manual commands have been implemented in order to allow for a smoother gameplay experience:
                 </p>
                 <ul>
-                    <li>/draw x - Draws x cards from your deck to your hand</li>
-                    <li>/power x - Sets the power of a card to x</li>
-                    <li>/discard x - Discards x cards randomly from your hand</li>
-                    <li>/pillage - Discards the top card from your deck</li>
-                    <li>/strength x - Sets the strength of a card to x</li>
-                    <li>/give-icon x - Give a character an x icon; where 'x' is one of 'military', 'intrigue', 'power'</li>
-                    <li>/take-icon x - Take an x icon from a character; where 'x' is as per '/give-icon'</li>
                     <li>/cancel-prompt - Clear the current prompt and resume the game flow.  Use with caution and only when the prompt is 'stuck' and you are unable to continue</li>
-                    <li>/token t x - Set the token count of a card of type 't' to 'x'</li>
+                    <li>/discard x - Discards x cards randomly from your hand</li>
+                    <li>/draw x - Draws x cards from your deck to your hand</li>
                     <li>/give-control - Give control of a card to your opponent.  Use with caution</li>
+                    <li>/give-icon x - Give a character an x icon; where 'x' is one of 'military', 'intrigue', 'power'</li>
                     <li>/kill - Manually kill a character.  Use with caution</li>
+                    <li>/pillage - Discards the top card from your deck</li>
+                    <li>/power x - Sets the power of a card to x</li>
+                    <li>/strength x - Sets the strength of a card to x</li>
+                    <li>/take-icon x - Take an x icon from a character; where 'x' is as per '/give-icon'</li>
+                    <li>/token t x - Set the token count of a card of type 't' to 'x'. Currently used token types are: 'betrayal', 'gold', 'poison', 'vengeance'.</li>
                 </ul>
 
                 <h3>Can I help?</h3>
