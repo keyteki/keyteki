@@ -23,6 +23,8 @@ const BaseAbility = require('./baseability.js');
  *                uses for the action as well as when it resets.
  * anyPlayer    - boolean indicating that the action may be executed by a player
  *                other than the card's controller. Defaults to false.
+ * clickToActivate - boolean that indicates the action should be activated when
+ *                   the card is clicked.
  */
 class CardAction extends BaseAbility {
     constructor(game, card, properties) {
@@ -34,6 +36,7 @@ class CardAction extends BaseAbility {
         this.phase = properties.phase || 'any';
         this.anyPlayer = properties.anyPlayer || false;
         this.condition = properties.condition;
+        this.clickToActivate = !!properties.clickToActivate;
 
         this.handler = this.buildHandler(card, properties);
     }
@@ -56,35 +59,49 @@ class CardAction extends BaseAbility {
         };
     }
 
-    execute(player, arg) {
-        var context = {
+    createContext(player, arg) {
+        return {
             arg: arg,
             game: this.game,
             player: player,
             source: this.card
         };
+    }
 
+    meetsRequirements(context) {
         if(this.phase !== 'any' && this.phase !== this.game.currentPhase || this.game.currentPhase === 'setup') {
-            return;
+            return false;
         }
 
         if(this.limit && this.limit.isAtMax()) {
-            return;
+            return false;
         }
 
-        if(player !== this.card.controller && !this.anyPlayer) {
-            return;
+        if(context.player !== this.card.controller && !this.anyPlayer) {
+            return false;
         }
 
         if(this.card.isBlank()) {
-            return;
+            return false ;
         }
 
         if(this.condition && !this.condition()) {
-            return;
+            return false;
+        }
+
+        return this.canPayCosts(context);
+    }
+
+    execute(player, arg) {
+        var context = this.createContext(player, arg);
+
+        if(!this.meetsRequirements(context)) {
+            return false;
         }
 
         this.queueResolver(context);
+
+        return true;
     }
 
     executeHandler(context) {
@@ -95,6 +112,10 @@ class CardAction extends BaseAbility {
 
     getMenuItem() {
         return { text: this.title, method: 'doAction', anyPlayer: !!this.anyPlayer };
+    }
+
+    isClickToActivate() {
+        return this.clickToActivate;
     }
 
     registerEvents() {

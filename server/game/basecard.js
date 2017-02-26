@@ -137,7 +137,9 @@ class BaseCard {
     action(properties) {
         var action = new CardAction(this.game, this, properties);
         this.abilities.action = action;
-        this.menu.push(action.getMenuItem());
+        if(!action.isClickToActivate()) {
+            this.menu.push(action.getMenuItem());
+        }
     }
 
     reaction(properties) {
@@ -234,7 +236,9 @@ class BaseCard {
             return;
         }
 
-        this.abilities.action.execute(player, arg);
+        var context = this.abilities.action.createContext(player, arg);
+
+        this.abilities.action.execute(context);
     }
 
     hasKeyword(keyword) {
@@ -417,7 +421,12 @@ class BaseCard {
         }
     }
 
-    onClick() {
+    onClick(player) {
+        var action = this.abilities.action;
+        if(action && action.isClickToActivate()) {
+            return action.execute(player);
+        }
+
         return false;
     }
 

@@ -1,22 +1,25 @@
-const Reducer = require('../../reducer.js').Reducer;
+const DrawCard = require('../../../drawcard');
 
-class OceanRoad extends Reducer {
-    constructor(owner, cardData) {
-        super(owner, cardData, 1, (card) => {
-            return card.isFaction('neutral') || !card.isFaction(this.controller.faction.getPrintedFaction());
+class OceanRoad extends DrawCard {
+    setupCardAbilities(ability) {
+        this.action({
+            title: 'Kneel to reduce',
+            clickToActivate: true,
+            phase: 'marshal',
+            cost: ability.costs.kneelSelf(),
+            handler: () => {
+                this.game.addMessage('{0} uses {1} to reduce the cost of the next {2} card by {3}',
+                    this.controller, this, this.faction, 1);
+                this.untilEndOfPhase(ability => ({
+                    targetType: 'player',
+                    targetController: 'current',
+                    effect: ability.effects.reduceNextMarshalledCardCost(
+                        1,
+                        card => card.isFaction('neutral') || !card.isFaction(this.controller.faction.getPrintedFaction())
+                    )
+                }));
+            }
         });
-    }
-
-    onClick(player) {
-        var ret = super.onClick(player);
-
-        if(!ret || this.isBlank()) {
-            return false;
-        }
-
-        this.game.addMessage('{0} kneels {1} to reduce the cost of the next neutral or out of faction card marshalled by 1', player, this);
-
-        return ret;
     }
 }
 
