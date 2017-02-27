@@ -38,7 +38,7 @@ class AGiftOfArborRed extends DrawCard {
     }
 
     revealCards(player, cards) {
-        this.game.addMessage('{0} uses {1} to kneel their faction card and reveal the top 4 cards of {2}\'s deck as: {3}', player, this, player, cards);
+        this.game.addMessage('{0} uses {1} to kneel their faction card and reveal the top 4 cards of {2}\'s deck as: {3}', this.controller, this, player, cards);
     }
 
     selectThisPlayerCardForHand(player, cardId) {
