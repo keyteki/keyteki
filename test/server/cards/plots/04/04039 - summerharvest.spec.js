@@ -1,29 +1,11 @@
 /* global describe, it, expect, beforeEach, integration */
-/* eslint camelcase: 0, no-invalid-this: 0, quotes: 0 */
+/* eslint camelcase: 0, no-invalid-this: 0 */
 
 describe('SummerHarvest', function() {
     integration(function() {
-        const summerHarvestCardData = { "pack_code" : "CtA", "pack_name" : "Called to Arms", "type_code" : "plot", "type_name" : "Plot", "faction_code" : "neutral", "faction_name" : "Neutral", "position" : 39, "code" : "04039", "name" : "Summer Harvest", "cost" : null, "text" : "<b>When Revealed:</b> Choose an opponent. X is 2 higher than the printed gold value on that player's revealed plot card.", "quantity" : 3, "income" : 0, "initiative" : 4, "claim" : 1, "reserve" : 6, "deck_limit" : 2, "strength" : null, "traits" : "Summer.", "flavor" : null, "illustrator" : "Tomasz Jedruszek", "is_unique" : false, "is_loyal" : false, "is_military" : false, "is_intrigue" : false, "is_power" : false, "octgn_id" : "9804cffd-3269-4860-8285-135446dd3dba", "url" : "https://thronesdb.com/card/04039", "imagesrc" : "/bundles/cards/04039.png", "label" : "Summer Harvest", "ci" : null, "si" : 4 };
-        const nobleCauseCardData = { "pack_code" : "Core", "pack_name" : "Core Set", "type_code" : "plot", "type_name" : "Plot", "faction_code" : "neutral", "faction_name" : "Neutral", "position" : 4, "code" : "01004", "name" : "A Noble Cause", "cost" : null, "text" : "Reduce the cost of the first <i>Lord</i> or <i>Lady</i> character you marshal this round by 2.", "quantity" : 1, "income" : 5, "initiative" : 0, "claim" : 1, "reserve" : 6, "deck_limit" : 2, "strength" : null, "traits" : "Kingdom. Noble.", "flavor" : null, "illustrator" : "Drazenka Kimpel", "is_unique" : false, "is_loyal" : false, "is_military" : false, "is_intrigue" : false, "is_power" : false, "octgn_id" : "0fb3ad4b-5cf3-49e9-a33f-484ecafeabf8", "url" : "https://thronesdb.com/card/01004", "imagesrc" : "/bundles/cards/01004.png", "label" : "A Noble Cause", "ci" : 5, "si" : null };
-        const varysRiddleCardData = { "pack_code" : "AtSK", "pack_name" : "Across the Seven Kingdoms", "type_code" : "plot", "type_name" : "Plot", "faction_code" : "neutral", "faction_name" : "Neutral", "position" : 20, "code" : "04020", "name" : "Varys's Riddle", "cost" : null, "text" : "<b>When Revealed:</b> Initiate the when revealed ability on a revealed non-<i>Riddle</i> plot card as if you had just revealed it.", "quantity" : 3, "income" : 5, "initiative" : 6, "claim" : 1, "reserve" : 7, "deck_limit" : 2, "strength" : null, "traits" : "Riddle. Scheme.", "flavor" : "\"In a room sit three great men, a king, a priest, and a rich man with his gold. Between them stands a sellsword, a little man of common birth and no great mind. Each of the great ones bids him slay the other two.\" <cite>Varys</cite>", "illustrator" : "Serena Malyon", "is_unique" : false, "is_loyal" : false, "is_military" : false, "is_intrigue" : false, "is_power" : false, "octgn_id" : "d68d7083-089d-4d28-8249-e70613639680", "url" : "https://thronesdb.com/card/04020", "imagesrc" : "/bundles/cards/04020.png", "label" : "Varys's Riddle", "ci" : 5, "si" : 6 };
-
-        const deck1 = {
-            faction: { value: 'lannister' },
-            plotCards: [
-                { count: 1, card: summerHarvestCardData }
-            ],
-            drawCards: []
-        };
-        const deck2 = {
-            faction: { value: 'lannister' },
-            plotCards: [
-                { count: 1, card: nobleCauseCardData },
-                { count: 1, card: varysRiddleCardData }
-            ],
-            drawCards: []
-        };
-
         beforeEach(function() {
+            const deck1 = this.buildDeck('lannister', ['Summer Harvest', 'Tyrion Lannister (Core)']);
+            const deck2 = this.buildDeck('lannister', ['A Noble Cause', 'Varys\'s Riddle']);
             this.player = this.player1Object;
             this.opponent = this.player2Object;
 

@@ -3,6 +3,7 @@
 
 const _ = require('underscore');
 
+const DeckBuilder = require('./deckbuilder.js');
 const GameFlowWrapper = require('./gameflowwrapper.js');
 
 const ProxiedGameFlowWrapperMethods = [
@@ -10,6 +11,8 @@ const ProxiedGameFlowWrapperMethods = [
     'completeMarshalPhase', 'completeChallengesPhase', 'completeDominancePhase',
     'completeTaxationPhase', 'selectPlotOrder', 'completeSetup'
 ];
+
+const deckBuilder = new DeckBuilder();
 
 global.integration = function(definitions) {
     describe('integration', function() {
@@ -25,6 +28,10 @@ global.integration = function(definitions) {
             _.each(ProxiedGameFlowWrapperMethods, method => {
                 this[method] = (...args) => this.flow[method].apply(this.flow, args);
             });
+
+            this.buildDeck = function(faction, cards) {
+                return deckBuilder.buildDeck(faction, cards);
+            };
         });
 
         definitions();

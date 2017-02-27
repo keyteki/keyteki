@@ -1,3 +1,7 @@
+checkout:
+  post:
+    - git submodule sync
+    - git submodule update --init
 machine:
   node:
     version: 6.1.0

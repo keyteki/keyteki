@@ -1,5 +1,7 @@
 const _ = require('underscore');
 
+const {matchCardByNameAndPack} = require('./cardutil.js');
+
 class PlayerInteractionWrapper {
     constructor(game, player) {
         this.game = game;
@@ -33,7 +35,8 @@ class PlayerInteractionWrapper {
     }
 
     filterCardsByName(name) {
-        var cards = this.player.allCards.filter(card => card.name === name);
+        var matchFunc = matchCardByNameAndPack(name);
+        var cards = this.player.allCards.filter(card => matchFunc(card.cardData));
 
         if(cards.length === 0) {
             throw new Error(`Could not find any matching card "${name}" for ${this.player.name}`);
