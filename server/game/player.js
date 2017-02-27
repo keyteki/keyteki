@@ -155,6 +155,8 @@ class Player extends Spectator {
         if(this.drawDeck.size() === 0) {
             this.game.playerDecked(this);
         }
+
+        return (cards.length > 1) ? cards : cards[0];
     }
 
     searchDrawDeck(limit, predicate) {

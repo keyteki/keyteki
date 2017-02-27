@@ -215,7 +215,9 @@ class ChallengeFlow extends BaseStep {
 
         _.each(winnerCards, card => {
             if(card.hasKeyword('Insight')) {
-                this.challenge.winner.drawCardsToHand(1);
+                var drawn = this.challenge.winner.drawCardsToHand(1);
+
+                this.game.raiseEvent('onInsight', this.challenge, card, drawn);
 
                 this.game.addMessage('{0} draws a card from Insight on {1}', this.challenge.winner, card);
             }
