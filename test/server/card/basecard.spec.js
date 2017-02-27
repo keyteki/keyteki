@@ -1,4 +1,4 @@
-/*global describe, it, beforeEach, expect*/
+/*global describe, it, beforeEach, expect, jasmine*/
 /*eslint camelcase: 0, no-invalid-this: 0 */
 
 const BaseCard = require('../../../server/game/basecard.js');
@@ -14,6 +14,30 @@ describe('BaseCard', function () {
     describe('when new instance created', function() {
         it('should generate a new uuid', function() {
             expect(this.card.uuid).not.toBeUndefined();
+        });
+    });
+
+    describe('doAction()', function() {
+        describe('when there is no action for the card', function() {
+            beforeEach(function() {
+                this.card.abilities.action = null;
+            });
+
+            it('does not crash', function() {
+                expect(() => this.card.doAction('player', 'arg')).not.toThrow();
+            });
+        });
+
+        describe('when there is an action for the card', function() {
+            beforeEach(function() {
+                this.actionSpy = jasmine.createSpyObj('action', ['execute']);
+                this.card.abilities.action = this.actionSpy;
+            });
+
+            it('should call execute on the action', function() {
+                this.card.doAction('player', 'arg');
+                expect(this.actionSpy.execute).toHaveBeenCalledWith('player', 'arg');
+            });
         });
     });
 

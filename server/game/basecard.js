@@ -236,9 +236,7 @@ class BaseCard {
             return;
         }
 
-        var context = this.abilities.action.createContext(player, arg);
-
-        this.abilities.action.execute(context);
+        this.abilities.action.execute(player, arg);
     }
 
     hasKeyword(keyword) {
