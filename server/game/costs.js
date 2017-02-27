@@ -30,9 +30,15 @@ const Costs = {
      * predicate function.
      */
     kneel: function(condition) {
+        var fullCondition = (card, context) => (
+            !card.kneeled &&
+            card.location === 'play area' &&
+            card.controller === context.player &&
+            condition(card)
+        );
         return {
             canPay: function(context) {
-                return context.player.cardsInPlay.any(condition);
+                return context.player.cardsInPlay.any(card => fullCondition(card, context));
             },
             resolve: function(context) {
                 var result = {
@@ -40,9 +46,9 @@ const Costs = {
                 };
 
                 context.game.promptForSelect(context.player, {
-                    cardCondition: card => card.controller === context.player && condition(card),
+                    cardCondition: card => fullCondition(card, context),
                     activePromptTitle: 'Select card to kneel',
-                    waitingPromptTitle: 'Waiting for opponent to use ' + context.source.name,
+                    source: context.source,
                     onSelect: (player, card) => {
                         context.kneelingCostCard = card;
                         result.value = true;

@@ -1,13 +1,13 @@
-const PlotCard = require('../../../plotcard.js');
+const DrawCard = require('../../../drawcard.js');
 
-class WardensOfTheNorth extends PlotCard {
+class WinterfellKennelMaster extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
-            title: 'Kneel a character to have it participate in the current challenge',
+            title: 'Kneel a Direwolf to have it participate in the current challenge',
             phase: 'challenge',
-            limit: ability.limit.perRound(2),
+            limit: ability.limit.perPhase(1),
             condition: () => this.isStarkCardParticipatingInChallenge(),
-            cost: ability.costs.kneel(card => card.getType() === 'character' && card.isFaction('stark')),
+            cost: ability.costs.kneel(card => this.isDirewolfOrHasAttachment(card)),
             handler: context => {
                 var card = context.kneelingCostCard;
                 if(this.game.currentChallenge.attackingPlayer === context.player) {
@@ -26,8 +26,12 @@ class WardensOfTheNorth extends PlotCard {
             return this.game.currentChallenge.isParticipating(card) && card.isFaction('stark');
         });
     }
+
+    isDirewolfOrHasAttachment(card) {
+        return card.hasTrait('Direwolf') || card.attachments.any(attachment => attachment.hasTrait('Direwolf'));
+    }
 }
 
-WardensOfTheNorth.code = '02062';
+WinterfellKennelMaster.code = '02021';
 
-module.exports = WardensOfTheNorth;
+module.exports = WinterfellKennelMaster;
