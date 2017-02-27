@@ -10,7 +10,7 @@ class RedCloaks extends DrawCard {
         this.persistentEffect({
             condition: () => this.game.currentChallenge && this.game.currentChallenge.challengeType === 'intrigue',
             match: this,
-            effect: ability.effects.dynamicStrength(() => this.tokens['gold'] || 0)
+            effect: ability.effects.dynamicStrength(() => this.tokens['gold'])
         });
     }
 

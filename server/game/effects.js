@@ -145,7 +145,7 @@ const Effects = {
         return {
             apply: function(card, context) {
                 context.dynamicStrength = context.dynamicStrength || {};
-                context.dynamicStrength[card.uuid] = calculate(card, context);
+                context.dynamicStrength[card.uuid] = calculate(card, context) || 0;
                 card.strengthModifier += context.dynamicStrength[card.uuid];
             },
             unapply: function(card, context) {
