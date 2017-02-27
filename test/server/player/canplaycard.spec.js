@@ -101,8 +101,8 @@ describe('Player', function () {
                         this.canPlay = this.player.canPlayCard(this.cardSpy);
                     });
 
-                    it('should return true', function() {
-                        expect(this.canPlay).toBe(true);
+                    it('should return false', function() {
+                        expect(this.canPlay).toBe(false);
                     });
                 });
 

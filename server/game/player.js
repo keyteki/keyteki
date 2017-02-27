@@ -354,6 +354,10 @@ class Player extends Spectator {
             return false;
         }
 
+        if(card.getType() === 'event' && this.phase === 'setup') {
+            return false;
+        }
+
         if(this.phase !== 'setup' && this.phase !== 'marshal' && card.getType() !== 'event') {
             if(this.phase !== 'challenge' || !card.isAmbush()) {
                 return false;
@@ -380,7 +384,7 @@ class Player extends Spectator {
             return false;
         }
 
-        if(this.limitedPlayed >= this.maxLimited && card.isLimited() && !dupe) {
+        if(this.limitedPlayed >= this.maxLimited && card.isLimited()) {
             return false;
         }
 
@@ -929,11 +933,7 @@ class Player extends Spectator {
             this.game.raiseEvent('onCardLeftPlay', this, card);
         }
 
-        if(!options.isDupe) {
-            card.moveTo(targetLocation);
-        } else {
-            card.location = 'dupe';
-        }
+        card.moveTo(targetLocation);
 
         if(targetLocation === 'active plot') {
             this.activePlot = card;

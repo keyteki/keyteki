@@ -1,4 +1,4 @@
-/* global describe, beforeEach */
+/* global describe, beforeEach, jasmine */
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
 const _ = require('underscore');
@@ -13,6 +13,31 @@ const ProxiedGameFlowWrapperMethods = [
 ];
 
 const deckBuilder = new DeckBuilder();
+
+var customMatchers = {
+    toHavePrompt: function(util, customEqualityMatchers) {
+        return {
+            compare: function(actual, expected) {
+                var currentTitle = actual.currentPrompt().menuTitle;
+                var result = {};
+
+                result.pass = util.equals(currentTitle, expected, customEqualityMatchers);
+
+                if(result.pass) {
+                    result.message = `Expected ${actual.name} not to have prompt "${expected}" but it did.`;
+                } else {
+                    result.message = `Expected ${actual.name} to have prompt "${expected}" but it had "${currentTitle}".`;
+                }
+
+                return result;
+            }
+        };
+    }
+};
+
+beforeEach(function() {
+    jasmine.addMatchers(customMatchers);
+});
 
 global.integration = function(definitions) {
     describe('integration', function() {

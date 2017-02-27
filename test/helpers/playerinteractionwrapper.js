@@ -89,6 +89,10 @@ class PlayerInteractionWrapper {
         this.game.cardClicked(this.player.name, card.uuid);
         this.game.continue();
     }
+
+    dragCard(card, targetLocation) {
+        this.game.drop(this.player.name, card.uuid, card.location, targetLocation);
+    }
 }
 
 module.exports = PlayerInteractionWrapper;

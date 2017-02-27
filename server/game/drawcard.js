@@ -44,7 +44,7 @@ class DrawCard extends BaseCard {
 
     addDuplicate(card) {
         this.dupes.push(card);
-        card.location = 'duplicate';
+        card.moveTo('duplicate');
     }
 
     removeDuplicate() {
