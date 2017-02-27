@@ -33,7 +33,8 @@ class ChatCommands {
             'stand',
             'poison',
             'betrayal',
-            'vengeance'
+            'vengeance',
+            'ear'
         ];
     }
 
