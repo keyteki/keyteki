@@ -194,5 +194,26 @@ describe('setup phase', function() {
                 expect(this.player1).not.toHavePrompt('Trigger The Wall?');
             });
         });
+
+        describe('when a persistent reducer is set up', function() {
+            beforeEach(function() {
+                const deck = this.buildDeck('baratheon', ['Renly Baratheon (TtB)', 'Steward at the Wall']);
+                this.player1.selectDeck(deck);
+                this.player2.selectDeck(deck);
+                this.startGame();
+                this.keepStartingHands();
+
+                this.renly = this.player1.findCardByName('Renly Baratheon (TtB)');
+                this.character = this.player1.findCardByName('Steward at the Wall');
+
+                this.player1.clickCard(this.renly);
+            });
+
+            it('should not reduce cards during setup', function() {
+                this.player1.clickCard(this.character);
+
+                expect(this.player1Object.gold).toBe(1);
+            });
+        });
     });
 });

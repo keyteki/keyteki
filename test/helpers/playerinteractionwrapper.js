@@ -30,16 +30,17 @@ class PlayerInteractionWrapper {
         return prompt.menuTitle + '\n' + _.map(prompt.buttons, button => '[ ' + button.text + ' ]').join('\n');
     }
 
-    findCardByName(name) {
-        return this.filterCardsByName(name)[0];
+    findCardByName(name, location = 'any') {
+        return this.filterCardsByName(name, location)[0];
     }
 
-    filterCardsByName(name) {
+    filterCardsByName(name, location = 'any') {
         var matchFunc = matchCardByNameAndPack(name);
-        var cards = this.player.allCards.filter(card => matchFunc(card.cardData));
+        var cards = this.player.allCards.filter(card => matchFunc(card.cardData) && (location === 'any' || card.location === location));
 
         if(cards.length === 0) {
-            throw new Error(`Could not find any matching card "${name}" for ${this.player.name}`);
+            var locationString = location === 'any' ? 'any location' : location;
+            throw new Error(`Could not find any matching card "${name}" for ${this.player.name} in ${locationString}`);
         }
 
         return cards;
@@ -69,6 +70,10 @@ class PlayerInteractionWrapper {
     }
 
     selectPlot(plot) {
+        if(_.isString(plot)) {
+            plot = this.findCardByName(plot);
+        }
+
         this.player.selectedPlot = plot;
         this.clickPrompt('Done');
     }
@@ -85,7 +90,11 @@ class PlayerInteractionWrapper {
         this.game.continue();
     }
 
-    clickCard(card) {
+    clickCard(card, location = 'any') {
+        if(_.isString(card)) {
+            card = this.findCardByName(card, location);
+        }
+
         this.game.cardClicked(this.player.name, card.uuid);
         this.game.continue();
     }
