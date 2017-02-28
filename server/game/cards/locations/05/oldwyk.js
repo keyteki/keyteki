@@ -3,17 +3,15 @@ const _ = require('underscore');
 const DrawCard = require('../../../drawcard.js');
 
 class OldWyk extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onChallenge: (event, challenge) => (
-                    challenge.attackingPlayer === this.controller &&
-                    challenge.challengeType === 'power' &&
-                    !this.kneeled
-                )
+                onChallenge: (event, challenge) =>
+                    challenge.attackingPlayer === this.controller
+                    && challenge.challengeType === 'power'
             },
+            cost: ability.costs.kneelSelf(),
             handler: () => {
-                this.controller.kneelCard(this);
                 var card = _.last(this.controller.deadPile.filter(c => c.hasTrait('Drowned God')));
 
                 if(!card) {

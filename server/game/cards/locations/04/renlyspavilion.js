@@ -1,17 +1,15 @@
 const DrawCard = require('../../../drawcard.js');
 
 class RenlysPavilion extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Kneel this card to modify the strength of two characters',
+            cost: ability.costs.kneelSelf(),
             method: 'kneel'
         });
     }
 
     kneel(player) {
-        if(this.location !== 'play area' || this.kneeled) {
-            return false;
-        }
         this.game.promptForSelect(player, {
             cardCondition: card => this.cardCondition(card),
             activePromptTitle: 'Select a character to get -1 STR',
@@ -19,7 +17,6 @@ class RenlysPavilion extends DrawCard {
             onSelect: (player, card) => this.firstCardSelected(player, card)
         });
         
-        player.kneelCard(this);
         return true;
     }
 

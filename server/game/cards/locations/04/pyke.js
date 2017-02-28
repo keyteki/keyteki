@@ -1,18 +1,15 @@
 const DrawCard = require('../../../drawcard.js');
 
 class Pyke extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Kneel Pyke to give a character stealth',
+            cost: ability.costs.kneelSelf(),
             method: 'kneel'
         });
     }
 
     kneel(player) {
-        if(this.location !== 'play area' || this.kneeled) {
-            return false;
-        }
-
         this.game.promptForSelect(player, {
             cardCondition: card => this.cardCondition(card),
             activePromptTitle: 'Select character to gain stealth',
@@ -26,8 +23,7 @@ class Pyke extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        this.game.addMessage('{0} kneeled {1} to make {2} gain stealth', player, this, card);
-        player.kneelCard(this);
+        this.game.addMessage('{0} kneels {1} to make {2} gain stealth', player, this, card);
         this.untilEndOfPhase(ability => ({
             match: card,
             effect: ability.effects.addKeyword('Stealth')
