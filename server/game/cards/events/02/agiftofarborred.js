@@ -78,7 +78,10 @@ class AGiftOfArborRed extends DrawCard {
 
         this.remainingCards = _.reject(this.remainingCards, card => card.uuid === cardId);
         player.moveCard(card, 'hand');
-        this.game.addMessage('{0} added {1} to {2}\'s hand', this.controller, card, player);
+        player.shuffleDrawDeck();
+
+        this.game.addMessage('{0} adds {1} to {2}\'s hand and shuffles their deck',
+                             this.controller, card, player);
 
         return true;
     }
