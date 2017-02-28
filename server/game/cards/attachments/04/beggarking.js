@@ -10,15 +10,14 @@ class BeggarKing extends DrawCard {
         this.reaction({
             when: {
                 onPlotRevealCompleted: () => (
-                    !this.kneeled &&
                     _.any(this.game.getPlayers(), player => (
                         player !== this.controller &&
                         this.controller.activePlot.getIncome(true) < player.activePlot.getIncome(true)
                     ))
                 )
             },
+            cost: ability.costs.kneelSelf(),
             handler: () => {
-                this.controller.kneelCard(this);
                 var gold = 1;
 
                 var otherPlayer = this.game.getOtherPlayer(this.controller);

@@ -1,9 +1,11 @@
 const DrawCard = require('../../../drawcard.js');
 
 class MareInHeat extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Kneel this card to remove a character from a challenge',
+            condition: () => this.game.currentChallenge,
+            cost: ability.costs.kneelSelf(),
             method: 'kneel'
         });
     }
@@ -17,10 +19,6 @@ class MareInHeat extends DrawCard {
     }
 
     kneel(player) {
-        if(this.kneeled || this.location !== 'play area' || !this.game.currentChallenge) {
-            return false;
-        }
-
         this.game.promptForSelect(player, {
             cardCondition: card => this.cardCondition(card),
             activePromptTitle: 'Select character',
@@ -34,8 +32,6 @@ class MareInHeat extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        player.kneelCard(this);
-
         this.game.currentChallenge.removeFromChallenge(card);
 
         this.game.addMessage('{0} kneels {1} to remove {2} from the challenge', player, this, card);

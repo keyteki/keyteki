@@ -1,19 +1,19 @@
 const DrawCard = require('../../../drawcard.js');
 
 class Heartsbane extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
-            title: 'Kneel this card to give attached card +3 STR',
+            title: 'Kneel this card to give attached character +3 STR',
+            condition: () =>
+                this.parent
+                && this.game.currentChallenge
+                && this.game.currentChallenge.isParticipating(this.parent),
+            cost: ability.costs.kneelSelf(),
             method: 'kneel'
         });
     }
 
     kneel(player) {
-        if(!this.parent || this.kneeled || !this.game.currentChallenge || !this.game.currentChallenge.isParticipating(this.parent)) {
-            return false;
-        }
-
-        this.controller.kneelCard(this);
         this.untilEndOfChallenge(ability => ({
             match: card => card === this.parent,
             effect: ability.effects.modifyStrength(3)

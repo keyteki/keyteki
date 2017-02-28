@@ -1,27 +1,22 @@
 const DrawCard = require('../../../drawcard.js');
 
 class MotherOfDragons extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Kneel Mother of Dragons to add attached character to challenge',
-            method: 'addToChallenge',
-            phase: 'challenge'
+            condition: () =>
+                this.game.currentChallenge
+                && this.controller.cardsInPlay.any(
+                    card => this.game.currentChallenge.isParticipating(card)
+                        && card.hasTrait('Dragon')),
+            cost: ability.costs.kneelSelf(),
+            method: 'addToChallenge'
         });
     }
 
     addToChallenge(player) {
         var challenge = this.game.currentChallenge;
-        if(!challenge) {
-            return false;
-        }
 
-        if(this.kneeled || !player.cardsInPlay.any(card => {
-            return challenge.isParticipating(card) && card.hasTrait('Dragon');
-        })) {
-            return false;
-        }
-
-        this.controller.kneelCard(this);
         if(challenge.attackingPlayer === player) {
             challenge.addAttacker(this.parent);
             this.game.addMessage('{0} uses {1} to add {2} to the challenge as an attacker with strength {3}', this.controller, this, this.parent, this.parent.getStrength());
