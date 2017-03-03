@@ -95,6 +95,20 @@ const Costs = {
                 context.source.controller.standCard(context.source);
             }
         };
+    },
+    /**
+     * Cost that will discard a gold from the card. Used mainly by cards
+     * having the bestow keyword.
+     */
+    discardGold: function() {
+        return {
+            canPay: function(context) {
+                return context.source.hasToken('gold');
+            },
+            pay: function(context) {
+                context.source.removeToken('gold', 1);
+            }
+        };
     }
 };
 
