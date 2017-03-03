@@ -911,7 +911,7 @@ class Player extends Spectator {
                 this.removeAttachment(attachment, false);
             });
 
-            while(card.dupes.size() > 0) {
+            while(card.dupes.size() > 0 && targetLocation !== 'play area') {
                 this.removeDuplicate(card);
             }
 
