@@ -99,6 +99,21 @@ class PlayerInteractionWrapper {
         this.game.continue();
     }
 
+    clickMenu(card, menuText) {
+        if(_.isString(card)) {
+            card = this.findCardByName(card);
+        }
+
+        var items = _.filter(card.getMenu(), item => item.text === menuText);
+
+        if(items.length === 0) {
+            throw new Error(`Card ${card.name} does not have a menu item "${menuText}"`);
+        }
+
+        this.game.menuItemClick(this.player.name, card.uuid, items[0]);
+        this.game.continue();
+    }
+
     dragCard(card, targetLocation) {
         this.game.drop(this.player.name, card.uuid, card.location, targetLocation);
     }

@@ -56,20 +56,24 @@ class GameFlowWrapper {
     completeChallengesPhase() {
         this.guardCurrentPhase('challenge');
         // Pre challenge action window
-        this.eachPlayerInFirstPlayerOrder(player => player.clickPrompt('Done'));
+        this.skipActionWindow();
         // Each player clicks 'Done' when challenge initiation prompt shows up.
         this.eachPlayerInFirstPlayerOrder(player => player.clickPrompt('Done'));
     }
 
     completeDominancePhase() {
         this.guardCurrentPhase('dominance');
-        this.eachPlayerInFirstPlayerOrder(player => player.clickPrompt('Done'));
+        this.skipActionWindow();
     }
 
     completeTaxationPhase() {
         this.guardCurrentPhase('taxation');
         // TODO: Discard down to reserve in case of tests that fill up the player's hand
         this.eachPlayerInFirstPlayerOrder(player => player.clickPrompt('End Round'));
+    }
+
+    skipActionWindow() {
+        this.eachPlayerInFirstPlayerOrder(player => player.clickPrompt('Done'));
     }
 
     getPromptedPlayer(title) {
@@ -91,6 +95,22 @@ class GameFlowWrapper {
     selectPlotOrder(player) {
         var promptedPlayer = this.getPromptedPlayer('Select a player to resolve their plot effects');
         promptedPlayer.clickPrompt(player.name);
+    }
+
+    unopposedChallenge(player, type, participant) {
+        var opponent = this.allPlayers.find(p => p !== player);
+
+        this.skipActionWindow();
+
+        player.clickPrompt(type);
+        player.clickCard(participant, 'play area');
+        player.clickPrompt('Done');
+
+        this.skipActionWindow();
+
+        opponent.clickPrompt('Done');
+
+        this.skipActionWindow();
     }
 }
 
