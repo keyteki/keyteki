@@ -9,7 +9,7 @@ class GhostsOfHarrenhal extends PlotCard {
             handler: () => {
                 _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
                     var deadCharacters = player.findCards(player.deadPile, card => card.getType() === 'character');
-                    if(deadCharacters) {
+                    if(!_.isEmpty(deadCharacters)) {
                         var lastDeadCharacter = _.last(deadCharacters);
                         player.playCard(lastDeadCharacter, true);
 
