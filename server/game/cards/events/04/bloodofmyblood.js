@@ -39,7 +39,7 @@ class BloodOfMyBlood extends DrawCard {
             return false;
         }
 
-        player.playCard(card, true, true);
+        player.putIntoPlay(card);
         player.shuffleDrawDeck();
 
         this.atEndOfPhase(ability => ({

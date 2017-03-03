@@ -344,6 +344,8 @@ class Player extends Spectator {
             return 'ambush';
         } else if(this.game.currentPhase === 'marshal') {
             return 'marshal';
+        } else if(this.game.currentPhase === 'setup') {
+            return 'setup';
         }
 
         return 'none';
@@ -424,28 +426,36 @@ class Player extends Spectator {
             return true;
         }
 
-        var isAmbush = false;
-
         if(this.phase === 'marshal') {
             this.game.addMessage('{0} {1} {2} costing {3}', this, dupeCard ? 'duplicates' : 'marshals', card, cost);
         } else if(card.isAmbush() && this.phase === 'challenge') {
             this.game.addMessage('{0} ambushes with {1} costing {2}', this, card, cost);
-
-            isAmbush = true;
         }
 
-        if(card.getType() === 'attachment' && this.phase !== 'setup' && !dupeCard) {
+        this.putIntoPlay(card, playingType);
+
+        if(card.isLimited() && !forcePlay) {
+            this.limitedPlayed++;
+        }
+
+        return true;
+    }
+
+    putIntoPlay(card, playingType = 'play') {
+        var dupeCard = this.getDuplicateInPlay(card);
+
+        if(card.getType() === 'attachment' && playingType !== 'setup' && !dupeCard) {
             this.promptForAttachment(card);
-            return true;
+            return;
         }
 
-        if(dupeCard && this.phase !== 'setup') {
+        if(dupeCard && playingType !== 'setup') {
             this.removeCardFromPile(card);
             dupeCard.addDuplicate(card);
         } else {
-            card.facedown = this.phase === 'setup';
+            card.facedown = this.game.currentPhase === 'setup';
             if(!dupeCard) {
-                card.play(this, isAmbush);
+                card.play(this, playingType === 'ambush');
             }
 
             card.new = true;
@@ -453,12 +463,6 @@ class Player extends Spectator {
 
             this.game.raiseEvent('onCardEntersPlay', card);
         }
-
-        if(card.isLimited() && !forcePlay) {
-            this.limitedPlayed++;
-        }
-
-        return true;
     }
 
     setupDone() {

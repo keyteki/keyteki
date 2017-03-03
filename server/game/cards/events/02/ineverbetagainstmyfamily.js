@@ -63,7 +63,7 @@ class INeverBetAgainstMyFamily extends DrawCard {
         }
 
         this.remainingCards = _.reject(this.remainingCards, card => card.uuid === cardId);
-        this.controller.playCard(card, true, true);
+        this.controller.putIntoPlay(card);
         this.game.addMessage('{0} uses {1} to put {2} into play', this.controller, this, card);
         this.untilEndOfPhase(ability => ({
             match: card,

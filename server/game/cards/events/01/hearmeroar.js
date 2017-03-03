@@ -19,7 +19,7 @@ class HearMeRoar extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        player.playCard(card, true);
+        player.putIntoPlay(card);
 
         this.atEndOfPhase(ability => ({
             match: card,

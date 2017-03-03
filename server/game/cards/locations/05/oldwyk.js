@@ -19,7 +19,7 @@ class OldWyk extends DrawCard {
                     return;
                 }
 
-                this.controller.playCard(card, true, true);
+                this.controller.putIntoPlay(card);
                 this.game.currentChallenge.addAttacker(card);
 
                 this.game.addMessage('{0} uses {1} to put into play {2} as an attacker from their dead pile', this.controller, this, card);

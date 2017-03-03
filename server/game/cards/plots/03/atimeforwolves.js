@@ -78,7 +78,7 @@ class ATimeForWolves extends PlotCard {
         }
 
         this.game.addMessage('{0} uses {1} to reveal {2} and put it in play', player, this, this.revealedCard);
-        player.playCard(this.revealedCard, true);
+        player.putIntoPlay(this.revealedCard);
         this.revealedCard = null;
 
         return true;

@@ -34,7 +34,7 @@ class BitterbridgeEncampment extends DrawCard {
     doPutIntoPlay() {
         _.each(this.selections, selection => {
             var player = selection.player;
-            player.playCard(selection.card, true);
+            player.putIntoPlay(selection.card);
         });
     }
 

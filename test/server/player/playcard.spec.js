@@ -77,7 +77,7 @@ describe('Player', function() {
 
             describe('and it is the challenge phase', function() {
                 beforeEach(function() {
-                    this.player.phase = 'challenge';
+                    this.gameSpy.currentPhase = 'challenge';
                     this.canPlay = this.player.playCard(this.cardSpy, false);
                 });
 
@@ -88,7 +88,7 @@ describe('Player', function() {
 
             describe('and it is not the challenge phase', function() {
                 beforeEach(function() {
-                    this.player.phase = 'setup';
+                    this.gameSpy.currentPhase = 'setup';
                     this.canPlay = this.player.playCard(this.cardSpy, false);
                 });
 
@@ -158,7 +158,7 @@ describe('Player', function() {
 
             describe('and this is the setup phase', function() {
                 beforeEach(function() {
-                    this.player.phase = 'setup';
+                    this.gameSpy.currentPhase = 'setup';
 
                     this.canPlay = this.player.playCard(this.cardSpy);
                 });
