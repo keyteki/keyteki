@@ -28,6 +28,8 @@ class ChooseStealthTargets extends BaseStep {
 
         this.game.addMessage('{0} has chosen {1} as the stealth target for {2}', this.challenge.attackingPlayer, target, character);
 
+        this.game.raiseEvent('onBypassedByStealth', this.challenge, character, target);
+
         return true;
     }
 }
