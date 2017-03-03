@@ -56,9 +56,12 @@ function sendEmail(address, email) {
 
 module.exports.init = function(server) {
     server.post('/api/account/register', function(req, res, next) {
+        var responseSent = false;
+
         userRepository.getUserByUsername(req.body.username).then(user => {
             if(user) {
                 res.send({ success: false, message: 'An account with that name already exists, please choose another' });
+                responseSent = true;
                 return next();
             }
 
@@ -72,16 +75,23 @@ module.exports.init = function(server) {
         }).then(() => {
             return loginUser(req, req.body);
         }).then(() => {
+            responseSent = true;
             res.send({ success: true, user: req.body, token: jwt.sign(req.user, config.secret)});
         }).catch(err => {
-            res.send({ success: false, message: 'An error occured registering your account' });
+            if(!responseSent) {
+                res.send({ success: false, message: 'An error occured registering your account' });
+            }
+            
             logger.info(err.message);
             return next(err);
         });
     });
 
     server.post('/api/account/check-username', function(req, res) {
+        var responseSent = false;
         userRepository.getUserByUsername(req.body.username).then(user => {
+            responseSent = true;
+
             if(user) {
                 res.send({ message: 'An account with that name already exists, please choose another' });
                 return;
@@ -89,7 +99,10 @@ module.exports.init = function(server) {
 
             res.send({ message: '' });
         }).catch(err => {
-            res.send({ message: '' });
+            if(!responseSent) {
+                res.send({ message: '' });
+            }
+
             logger.info(err.message);
         });
     });
@@ -109,6 +122,8 @@ module.exports.init = function(server) {
         var resetUser;
 
         if(!req.body.id || !req.body.token || !req.body.newPassword) {
+            responseSent = true;
+
             return res.send({ success: false, message: 'Invalid parameters' });
         }
 
@@ -146,6 +161,8 @@ module.exports.init = function(server) {
         }).then(() => {
             res.send({ success: true });
 
+            responseSent = true;
+
             userRepository.clearResetToken(resetUser);
         }).catch(err => {
             logger.info(err.message);
@@ -163,14 +180,14 @@ module.exports.init = function(server) {
 
         util.httpRequest('https://www.google.com/recaptcha/api/siteverify?secret=' + config.captchaKey + '&response=' + req.body.captcha).then((response) => {
             var answer = JSON.parse(response);
+            
+            responseSent = true;
 
             if(!answer.success) {
                 return res.send({ success: false, message: 'Please complete the captcha correctly' });
             }
 
             res.send({ success: true });
-
-            responseSent = true;
 
             return userRepository.getUserByUsername(req.body.username);
         }).then(user => {
