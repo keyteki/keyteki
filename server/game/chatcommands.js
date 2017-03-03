@@ -24,7 +24,8 @@ class ChatCommands {
             '/give-control': this.giveControl,
             '/reset-challenges-count': this.resetChallengeCount,
             '/cancel-prompt': this.cancelPrompt,
-            '/token': this.setToken
+            '/token': this.setToken,
+            '/bestow': this.bestow
         };
         this.tokens = [
             'power',
@@ -304,6 +305,28 @@ class ChatCommands {
 
                 card.addToken(token, num - numTokens);
                 this.game.addMessage('{0} uses the /token command to set the {1} token count of {2} to {3}', p, token, card, num - numTokens);
+
+                return true;
+            }
+        });
+    }
+
+    bestow(player, args) {
+        var num = this.getNumberOrDefault(args[1], 1);
+
+        if(player.gold < num) {
+            return false;
+        }
+
+        this.game.promptForSelect(player, {
+            activePromptTitle: 'Select a card to bestow ' + num + ' gold',
+            waitingPromptTitle: 'Waiting for opponent to bestow',
+            cardCondition: card => card.location === 'play area' && card.controller === player,
+            onSelect: (p, card) => {
+                player.gold -= num;
+
+                card.addToken('gold', num);
+                this.game.addMessage('{0} uses the /bestow command to add {1} gold to {2}', p, num, card);
 
                 return true;
             }
