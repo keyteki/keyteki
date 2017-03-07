@@ -13,26 +13,34 @@ class RobbStark extends DrawCard {
 
         this.action({
             title: 'Stand and remove a character from the challenge',
-            method: 'initiate',
-            limit: ability.limit.perChallenge(1)
+            limit: ability.limit.perChallenge(1),
+            condition: () => this.isParticipatingInMilitaryChallenge(),
+            handler: context => {
+                this.game.promptForSelect(context.player, {
+                    cardCondition: card => this.isParticipatingNonKing(card),
+                    activePromptTitle: 'Select character to stand and remove',
+                    source: this,
+                    onSelect: (player, card) => this.onCardSelected(player, card)
+                });
+            }
         });
     }
 
-    initiate(player) {
-        if(!this.game.currentChallenge || !this.game.currentChallenge.challengeType === 'military' || !this.game.currentChallenge.isParticipating(this)) {
-            return false;
-        }
+    isParticipatingInMilitaryChallenge() {
+        return (
+            this.game.currentChallenge &&
+            this.game.currentChallenge.challengeType === 'military' &&
+            this.game.currentChallenge.isParticipating(this)
+        );
+    }
 
-        this.game.promptForSelect(player, {
-            cardCondition: card => (
-                card.location === 'play area' && 
-                card.getType() === 'character' && 
-                !card.hasTrait('King') &&
-                this.game.currentChallenge.isParticipating(card)),
-            activePromptTitle: 'Select character to stand and remove',
-            source: this,
-            onSelect: (player, card) => this.onCardSelected(player, card)
-        });
+    isParticipatingNonKing(card) {
+        return (
+            card.location === 'play area' &&
+            card.getType() === 'character' &&
+            !card.hasTrait('King') &&
+            this.game.currentChallenge.isParticipating(card)
+        );
     }
 
     onCardSelected(player, card) {
