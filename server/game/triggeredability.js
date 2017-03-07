@@ -21,8 +21,9 @@ class TriggeredAbilityContext {
 
 class TriggeredAbility extends BaseAbility {
     constructor(game, card, eventType, properties) {
-        super(game, card, properties);
+        super(properties);
 
+        this.game = game;
         this.card = card;
         this.limit = properties.limit;
         this.when = properties.when;
@@ -31,7 +32,7 @@ class TriggeredAbility extends BaseAbility {
 
     createEventHandlerFor(eventName) {
         return (...args) => {
-            var context = new TriggeredAbilityContext(args[0], this.game, this.source);
+            var context = new TriggeredAbilityContext(args[0], this.game, this.card);
 
             if(this.game.currentPhase === 'setup') {
                 return;

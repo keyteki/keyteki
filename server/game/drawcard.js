@@ -1,6 +1,11 @@
 const _ = require('underscore');
 
 const BaseCard = require('./basecard.js');
+const SetupCardAction = require('./setupcardaction.js');
+
+const StandardPlayActions = [
+    new SetupCardAction()
+];
 
 class DrawCard extends BaseCard {
     constructor(owner, cardData) {
@@ -217,6 +222,10 @@ class DrawCard extends BaseCard {
         _.each(this.abilities.persistentEffects, effect => {
             this.game.addEffect(this, effect);
         });
+    }
+
+    getPlayActions() {
+        return StandardPlayActions;
     }
 
     play(player, isAmbush) {

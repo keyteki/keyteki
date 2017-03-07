@@ -73,7 +73,7 @@ class PromptedTriggeredAbility extends TriggeredAbility {
     triggerReaction(player, choice) {
         this.currentContext.choice = choice;
 
-        this.queueResolver(this.currentContext);
+        this.game.resolveAbility(this, this.currentContext);
 
         return true;
     }

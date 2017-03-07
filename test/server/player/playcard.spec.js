@@ -5,15 +5,16 @@ const Player = require('../../../server/game/player.js');
 
 describe('Player', function() {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'raiseEvent', 'getOtherPlayer', 'playerDecked']);
+        this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'raiseEvent', 'getOtherPlayer', 'playerDecked', 'resolveAbility']);
         this.player = new Player('1', 'Player 1', true, this.gameSpy);
         this.player.initialise();
     });
 
     describe('playCard', function() {
         beforeEach(function() {
+            this.playActionSpy = jasmine.createSpyObj('playAction', ['meetsRequirements', 'canPayCosts']);
             this.canPlaySpy = spyOn(this.player, 'canPlayCard');
-            this.cardSpy = jasmine.createSpyObj('card', ['getType', 'getCost', 'isUnique', 'isLimited', 'play', 'isAmbush', 'moveTo', 'getAmbushCost']);
+            this.cardSpy = jasmine.createSpyObj('card', ['getType', 'getCost', 'isUnique', 'isLimited', 'play', 'isAmbush', 'moveTo', 'getAmbushCost', 'getPlayActions']);
             this.dupeCardSpy = jasmine.createSpyObj('dupecard', ['addDuplicate']);
 
             this.canPlaySpy.and.returnValue(true);
@@ -33,6 +34,48 @@ describe('Player', function() {
 
             it('should not put the card in play', function() {
                 expect(this.player.cardsInPlay).not.toContain(this.cardSpy);
+            });
+        });
+
+        describe('when card has play actions', function() {
+            beforeEach(function() {
+                this.cardSpy.getPlayActions.and.returnValue([this.playActionSpy]);
+            });
+
+            describe('when the requirements are met and the costs can be paid', function() {
+                beforeEach(function() {
+                    this.playActionSpy.meetsRequirements.and.returnValue(true);
+                    this.playActionSpy.canPayCosts.and.returnValue(true);
+                });
+
+                it('should resolve the play action', function() {
+                    this.player.playCard(this.cardSpy);
+                    expect(this.gameSpy.resolveAbility).toHaveBeenCalledWith(this.playActionSpy, { game: this.gameSpy, player: this.player, source: this.cardSpy });
+                });
+            });
+
+            describe('when the requirements are met but the costs cannot be paid', function() {
+                beforeEach(function() {
+                    this.playActionSpy.meetsRequirements.and.returnValue(true);
+                    this.playActionSpy.canPayCosts.and.returnValue(false);
+                });
+
+                it('should not resolve the play action', function() {
+                    this.player.playCard(this.cardSpy);
+                    expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
+                });
+            });
+
+            describe('when the costs can be paid but the requirements are not met', function() {
+                beforeEach(function() {
+                    this.playActionSpy.meetsRequirements.and.returnValue(false);
+                    this.playActionSpy.canPayCosts.and.returnValue(true);
+                });
+
+                it('should not resolve the play action', function() {
+                    this.player.playCard(this.cardSpy);
+                    expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
+                });
             });
         });
 
@@ -88,7 +131,7 @@ describe('Player', function() {
 
             describe('and it is not the challenge phase', function() {
                 beforeEach(function() {
-                    this.gameSpy.currentPhase = 'setup';
+                    this.gameSpy.currentPhase = 'marshal';
                     this.canPlay = this.player.playCard(this.cardSpy, false);
                 });
 
@@ -154,45 +197,19 @@ describe('Player', function() {
         describe('when card is a duplicate of a card in play', function() {
             beforeEach(function() {
                 spyOn(this.player, 'getDuplicateInPlay').and.returnValue(this.dupeCardSpy);
+                this.canPlay = this.player.playCard(this.cardSpy);
             });
 
-            describe('and this is the setup phase', function() {
-                beforeEach(function() {
-                    this.gameSpy.currentPhase = 'setup';
-
-                    this.canPlay = this.player.playCard(this.cardSpy);
-                });
-
-                it('should return true', function() {
-                    expect(this.canPlay).toBe(true);
-                });
-
-                it('should not try to add a duplicate to the card in play', function() {
-                    expect(this.dupeCardSpy.addDuplicate).not.toHaveBeenCalled();
-                });
-
-                it('should add a new card in play facedown', function() {
-                    expect(this.player.cardsInPlay).toContain(this.cardSpy);
-                    expect(this.cardSpy.facedown).toBe(true);
-                });
+            it('should return true', function() {
+                expect(this.canPlay).toBe(true);
             });
 
-            describe('and this is not the setup phase', function() {
-                beforeEach(function() {
-                    this.canPlay = this.player.playCard(this.cardSpy);
-                });
+            it('should add a duplicate to the existing card in play', function() {
+                expect(this.dupeCardSpy.addDuplicate).toHaveBeenCalled();
+            });
 
-                it('should return true', function() {
-                    expect(this.canPlay).toBe(true);
-                });
-
-                it('should add a duplicate to the existing card in play', function() {
-                    expect(this.dupeCardSpy.addDuplicate).toHaveBeenCalled();
-                });
-
-                it('should not add a new card to play', function() {
-                    expect(this.player.cardsInPlay).not.toContain(this.cardSpy);
-                });
+            it('should not add a new card to play', function() {
+                expect(this.player.cardsInPlay).not.toContain(this.cardSpy);
             });
         });
 

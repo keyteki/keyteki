@@ -28,8 +28,9 @@ const BaseAbility = require('./baseability.js');
  */
 class CardAction extends BaseAbility {
     constructor(game, card, properties) {
-        super(game, card, properties);
+        super(properties);
 
+        this.game = game;
         this.card = card;
         this.title = properties.title;
         this.limit = properties.limit;
@@ -99,7 +100,7 @@ class CardAction extends BaseAbility {
             return false;
         }
 
-        this.queueResolver(context);
+        this.game.resolveAbility(this, context);
 
         return true;
     }

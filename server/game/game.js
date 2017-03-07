@@ -21,6 +21,7 @@ const SimpleStep = require('./gamesteps/simplestep.js');
 const MenuPrompt = require('./gamesteps/menuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 const EventWindow = require('./gamesteps/eventwindow.js');
+const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const GameRepository = require('../repositories/gameRepository.js');
 
 class Game extends EventEmitter {
@@ -523,6 +524,10 @@ class Game extends EventEmitter {
 
     queueStep(step) {
         this.pipeline.queueStep(step);
+    }
+
+    resolveAbility(ability, context) {
+        this.queueStep(new AbilityResolver(this.game, ability, context));
     }
 
     raiseEvent(eventName, ...params) {

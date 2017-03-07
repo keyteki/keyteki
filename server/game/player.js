@@ -403,6 +403,16 @@ class Player extends Spectator {
         if(!card) {
             return false;
         }
+        var context = {
+            game: this.game,
+            player: this,
+            source: card
+        };
+        var playAction = _.find(card.getPlayActions(), action => action.meetsRequirements(context) && action.canPayCosts(context));
+        if(playAction) {
+            this.game.resolveAbility(playAction, context);
+            return true;
+        }
 
         var playingType = this.getPlayingType(card, forcePlay);
         var dupeCard = this.getDuplicateInPlay(card);

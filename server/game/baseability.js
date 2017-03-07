@@ -1,7 +1,5 @@
 const _ = require('underscore');
 
-const AbilityResolver = require('./gamesteps/abilityresolver.js');
-
 /**
  * Base class representing an ability that can be done by the player. This
  * includes card actions, reactions, interrupts, playing a card, marshaling a
@@ -16,16 +14,12 @@ class BaseAbility {
     /**
      * Creates an ability.
      *
-     * @param {Game} game - The game object.
-     * @param {Object} source - The source of the ability.
      * @param {Object} properties - An object with ability related properties.
      * @param {Object|Array} properties.cost - optional property that specifies
      * the cost for the ability. Can either be a cost object or an array of cost
      * objects.
      */
-    constructor(game, source, properties) {
-        this.game = game;
-        this.source = source;
+    constructor(properties) {
         this.cost = this.buildCost(properties.cost);
     }
 
@@ -39,14 +33,6 @@ class BaseAbility {
         }
 
         return cost;
-    }
-
-    /**
-     * Queues an AbilityResolver onto the game pipeline in order to pay costs
-     * and execute the ability if able.
-     */
-    queueResolver(context) {
-        this.game.queueStep(new AbilityResolver(this.game, this, context));
     }
 
     /**

@@ -1,11 +1,11 @@
-/*global describe, it, beforeEach, expect, jasmine, spyOn */
+/*global describe, it, beforeEach, expect, jasmine */
 /*eslint camelcase: 0, no-invalid-this: 0 */
 
 const CardReaction = require('../../../server/game/cardreaction.js');
 
 describe('CardReaction', function () {
     beforeEach(function () {
-        this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'promptWithMenu']);
+        this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'promptWithMenu', 'resolveAbility']);
         this.cardSpy = jasmine.createSpyObj('card', ['isBlank']);
         this.limitSpy = jasmine.createSpyObj('limit', ['increment', 'isAtMax', 'registerEvents', 'unregisterEvents']);
 
@@ -137,7 +137,6 @@ describe('CardReaction', function () {
                 handler: jasmine.createSpy('handler')
             };
             this.reaction = this.createReaction();
-            spyOn(this.reaction, 'queueResolver');
 
             this.context = {};
             this.reaction.currentContext = this.context;
@@ -149,7 +148,7 @@ describe('CardReaction', function () {
         });
 
         it('should queue the ability resolver', function() {
-            expect(this.reaction.queueResolver).toHaveBeenCalledWith(this.context);
+            expect(this.gameSpy.resolveAbility).toHaveBeenCalledWith(this.reaction, this.context);
         });
     });
 

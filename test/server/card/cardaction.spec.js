@@ -5,7 +5,7 @@ const CardAction = require('../../../server/game/cardaction.js');
 
 describe('CardAction', function () {
     beforeEach(function () {
-        this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener']);
+        this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'resolveAbility']);
         this.gameSpy.currentPhase = 'marshal';
 
         this.cardSpy = jasmine.createSpyObj('card', ['isBlank']);
@@ -72,7 +72,6 @@ describe('CardAction', function () {
             beforeEach(function() {
                 this.properties.limit = this.limitSpy;
                 this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
-                spyOn(this.action, 'queueResolver');
             });
 
             describe('and the use count has reached the limit', function() {
@@ -83,7 +82,7 @@ describe('CardAction', function () {
                 });
 
                 it('should not queue the ability resolver', function() {
-                    expect(this.action.queueResolver).not.toHaveBeenCalled();
+                    expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
                 });
             });
 
@@ -93,7 +92,7 @@ describe('CardAction', function () {
                 });
 
                 it('should queue the ability resolver', function() {
-                    expect(this.action.queueResolver).toHaveBeenCalled();
+                    expect(this.gameSpy.resolveAbility).toHaveBeenCalled();
                 });
             });
         });
@@ -106,12 +105,11 @@ describe('CardAction', function () {
             describe('and the anyPlayer property is not set', function() {
                 beforeEach(function() {
                     this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
-                    spyOn(this.action, 'queueResolver');
                     this.action.execute(this.otherPlayer, 'arg');
                 });
 
                 it('should not queue the ability resolver', function() {
-                    expect(this.action.queueResolver).not.toHaveBeenCalled();
+                    expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
                 });
             });
 
@@ -119,12 +117,11 @@ describe('CardAction', function () {
                 beforeEach(function() {
                     this.properties.anyPlayer = true;
                     this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
-                    spyOn(this.action, 'queueResolver');
                     this.action.execute(this.otherPlayer, 'arg');
                 });
 
                 it('should queue the ability resolver', function() {
-                    expect(this.action.queueResolver).toHaveBeenCalled();
+                    expect(this.gameSpy.resolveAbility).toHaveBeenCalled();
                 });
             });
         });
@@ -133,12 +130,11 @@ describe('CardAction', function () {
             beforeEach(function() {
                 this.cardSpy.isBlank.and.returnValue(true);
                 this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
-                spyOn(this.action, 'queueResolver');
                 this.action.execute(this.player, 'arg');
             });
 
             it('should not queue the ability resolver', function() {
-                expect(this.action.queueResolver).not.toHaveBeenCalled();
+                expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
             });
         });
 
@@ -146,7 +142,6 @@ describe('CardAction', function () {
             beforeEach(function() {
                 this.properties.phase = 'challenge';
                 this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
-                spyOn(this.action, 'queueResolver');
             });
 
             describe('and it is not that phase', function() {
@@ -156,7 +151,7 @@ describe('CardAction', function () {
                 });
 
                 it('should not queue the ability resolver', function() {
-                    expect(this.action.queueResolver).not.toHaveBeenCalled();
+                    expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
                 });
             });
 
@@ -167,7 +162,7 @@ describe('CardAction', function () {
                 });
 
                 it('should queue the ability resolver', function() {
-                    expect(this.action.queueResolver).toHaveBeenCalled();
+                    expect(this.gameSpy.resolveAbility).toHaveBeenCalled();
                 });
             });
         });
@@ -177,12 +172,11 @@ describe('CardAction', function () {
                 this.gameSpy.currentPhase = 'setup';
                 this.properties.phase = 'any';
                 this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
-                spyOn(this.action, 'queueResolver');
                 this.action.execute(this.player, 'arg');
             });
 
             it('should not queue the ability resolver', function() {
-                expect(this.action.queueResolver).not.toHaveBeenCalled();
+                expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
             });
         });
 
@@ -191,7 +185,6 @@ describe('CardAction', function () {
                 this.condition = jasmine.createSpy('condition');
                 this.properties.condition = this.condition;
                 this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
-                spyOn(this.action, 'queueResolver');
             });
 
             describe('and the condition returns true', function() {
@@ -201,7 +194,7 @@ describe('CardAction', function () {
                 });
 
                 it('should queue the ability resolver', function() {
-                    expect(this.action.queueResolver).toHaveBeenCalled();
+                    expect(this.gameSpy.resolveAbility).toHaveBeenCalled();
                 });
             });
 
@@ -212,7 +205,7 @@ describe('CardAction', function () {
                 });
 
                 it('should not queue the ability resolver', function() {
-                    expect(this.action.queueResolver).not.toHaveBeenCalled();
+                    expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
                 });
             });
         });
@@ -220,12 +213,11 @@ describe('CardAction', function () {
         describe('when all conditions met', function() {
             beforeEach(function() {
                 this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
-                spyOn(this.action, 'queueResolver');
                 this.action.execute(this.player, 'arg');
             });
 
             it('should queue the ability resolver', function() {
-                expect(this.action.queueResolver).toHaveBeenCalled();
+                expect(this.gameSpy.resolveAbility).toHaveBeenCalled();
             });
         });
     });

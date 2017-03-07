@@ -109,6 +109,45 @@ const Costs = {
                 context.source.removeToken('gold', 1);
             }
         };
+    },
+    /**
+     * Cost that ensures that the player can still play a Limited card this
+     * round.
+     */
+    playLimited: function() {
+        return {
+            canPay: function(context) {
+                return !context.source.isLimited() || context.player.limitedPlayed < context.player.maxLimited;
+            },
+            pay: function(context) {
+                if(context.source.isLimited()) {
+                    context.player.limitedPlayed += 1;
+                }
+            }
+        };
+    },
+    /**
+     * Cost that will pay the exact printed gold cost for the card.
+     */
+    payPrintedGoldCost: function() {
+        return {
+            canPay: function(context) {
+                var hasDupe = context.player.getDuplicateInPlay(context.source);
+                if(hasDupe) {
+                    return true;
+                }
+
+                return context.player.gold >= context.source.getCost();
+            },
+            pay: function(context) {
+                var hasDupe = context.player.getDuplicateInPlay(context.source);
+                if(hasDupe) {
+                    return;
+                }
+
+                context.player.gold -= context.source.getCost();
+            }
+        };
     }
 };
 

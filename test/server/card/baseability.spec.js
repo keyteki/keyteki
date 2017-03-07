@@ -3,13 +3,8 @@
 
 const BaseAbility = require('../../../server/game/baseability.js');
 
-const AbilityResolver = require('../../../server/game/gamesteps/abilityresolver.js');
-
 describe('BaseAbility', function () {
     beforeEach(function () {
-        this.gameSpy = jasmine.createSpyObj('game', ['queueStep']);
-
-        this.cardSpy = jasmine.createSpyObj('card', ['']);
         this.properties = {};
     });
 
@@ -18,7 +13,7 @@ describe('BaseAbility', function () {
             describe('when no cost is passed', function() {
                 beforeEach(function() {
                     delete this.properties.cost;
-                    this.ability = new BaseAbility(this.gameSpy, this.cardSpy, this.properties);
+                    this.ability = new BaseAbility(this.properties);
                 });
 
                 it('should set cost to be empty array', function() {
@@ -30,7 +25,7 @@ describe('BaseAbility', function () {
                 beforeEach(function() {
                     this.cost = { cost: 1 };
                     this.properties.cost = this.cost;
-                    this.ability = new BaseAbility(this.gameSpy, this.cardSpy, this.properties);
+                    this.ability = new BaseAbility(this.properties);
                 });
 
                 it('should set cost to be an array with the cost', function() {
@@ -43,7 +38,7 @@ describe('BaseAbility', function () {
                     this.cost1 = { cost: 1 };
                     this.cost2 = { cost: 2 };
                     this.properties.cost = [this.cost1, this.cost2];
-                    this.ability = new BaseAbility(this.gameSpy, this.cardSpy, this.properties);
+                    this.ability = new BaseAbility(this.properties);
                 });
 
                 it('should set cost to be the array', function() {
@@ -53,23 +48,11 @@ describe('BaseAbility', function () {
         });
     });
 
-    describe('queueResolver()', function() {
-        beforeEach(function() {
-            this.context = { context: true };
-            this.ability = new BaseAbility(this.gameSpy, this.cardSpy, this.properties);
-            this.ability.queueResolver(this.context);
-        });
-
-        it('should queue an AbilityResolver step onto game', function() {
-            expect(this.gameSpy.queueStep).toHaveBeenCalledWith(jasmine.any(AbilityResolver));
-        });
-    });
-
     describe('canPayCosts()', function() {
         beforeEach(function() {
             this.cost1 = jasmine.createSpyObj('cost1', ['canPay']);
             this.cost2 = jasmine.createSpyObj('cost1', ['canPay']);
-            this.ability = new BaseAbility(this.gameSpy, this.cardSpy, this.properties);
+            this.ability = new BaseAbility(this.properties);
             this.ability.cost = [this.cost1, this.cost2];
             this.context = { context: 1 };
         });
@@ -107,7 +90,7 @@ describe('BaseAbility', function () {
         beforeEach(function() {
             this.noResolveCost = jasmine.createSpyObj('cost1', ['canPay']);
             this.resolveCost = jasmine.createSpyObj('cost2', ['canPay', 'resolve']);
-            this.ability = new BaseAbility(this.gameSpy, this.cardSpy, this.properties);
+            this.ability = new BaseAbility(this.properties);
 
             this.context = { context: 1 };
         });
@@ -155,7 +138,7 @@ describe('BaseAbility', function () {
         beforeEach(function() {
             this.cost1 = jasmine.createSpyObj('cost1', ['pay']);
             this.cost2 = jasmine.createSpyObj('cost1', ['pay']);
-            this.ability = new BaseAbility(this.gameSpy, this.cardSpy, this.properties);
+            this.ability = new BaseAbility(this.properties);
             this.ability.cost = [this.cost1, this.cost2];
             this.context = { context: 1 };
         });
