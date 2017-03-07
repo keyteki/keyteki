@@ -727,7 +727,7 @@ class Player extends Spectator {
         }
 
         if(target === 'play area') {
-            this.game.playCard(this.name, cardId, true, sourceList);
+            this.putIntoPlay(card);
         } else {
             if(target === 'dead pile' && card.location === 'play area') {
                 this.killCharacter(card, false);

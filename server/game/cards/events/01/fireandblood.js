@@ -40,7 +40,7 @@ class FireAndBlood extends DrawCard {
     }
 
     putIntoPlay(player) {
-        player.playCard(this.selectedCard, true);
+        player.putIntoPlay(this.selectedCard);
 
         this.game.addMessage('{0} uses {1} to remove {2} from their dead pile and put it into play', player, this, this.selectedCard);
 

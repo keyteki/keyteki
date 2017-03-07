@@ -131,20 +131,12 @@ class Game extends EventEmitter {
         this.effectEngine.add(new Effect(this, source, properties));
     }
 
-    playCard(playerName, cardId, isDrop, sourceList) {
-        var player = this.getPlayerByName(playerName);
-
-        if(!player) {
+    playCard(player, card) {
+        if(this.pipeline.handleCardClicked(player, card)) {
             return;
         }
 
-        var card = player.findCardByUuid(sourceList, cardId);
-
-        if(card && !isDrop && this.pipeline.handleCardClicked(player, card)) {
-            return;
-        }
-
-        if(!player.playCard(card, isDrop)) {
+        if(!player.playCard(card)) {
             return;
         }
 
@@ -192,7 +184,7 @@ class Game extends EventEmitter {
 
         switch(card.location) {
             case 'hand':
-                this.playCard(player.name, cardId, false, player.hand);
+                this.playCard(player, card);
                 return;
             case 'plot deck':
                 this.selectPlot(player, cardId);

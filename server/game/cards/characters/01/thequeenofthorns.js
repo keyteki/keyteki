@@ -18,7 +18,7 @@ class TheQueenOfThorns extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        player.playCard(card, true);
+        player.putIntoPlay(card);
 
         this.game.addMessage('{0} uses {1} to put {2} in play from their hand', player, this, card);
 
