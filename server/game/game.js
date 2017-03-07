@@ -127,6 +127,12 @@ class Game extends EventEmitter {
         return foundCards;
     }
 
+    anyPlotHasTrait(trait) {
+        return _.any(this.game.getPlayers(), player => 
+            player.activePlot &&
+            player.activePlot.hasTrait(trait));
+    }
+
     addEffect(source, properties) {
         this.effectEngine.add(new Effect(this, source, properties));
     }
