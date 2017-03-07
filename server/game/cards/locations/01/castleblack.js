@@ -20,7 +20,9 @@ class CastleBlack extends DrawCard {
     }
 
     cardCondition(card) {
-        return card.getType() === 'character' && card.location === 'play area' && this.game.currentChallenge.attackingPlayer !== this.controller && card.isFaction('thenightswatch');
+        return card.getType() === 'character'
+            && this.game.currentChallenge.isDefending(card)
+            && card.isFaction('thenightswatch');
     }
 
     onCardSelected(player, card) {
