@@ -3,9 +3,10 @@ const DrawCard = require('../../../drawcard.js');
 class KnightsOfTheSun extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            condition: () => this.controller.plotDiscard.size() >= 3,
+            condition: () => this.controller.getNumberOfUsedPlots() >= 3,
             match: this,
-            effect: ability.effects.addKeyword('Renown')
+            effect: ability.effects.addKeyword('Renown'),
+            recalculateWhen: ['onUsedPlotsModified']
         });
     }
 }

@@ -4,7 +4,8 @@ class DoranMartell extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: card => card.isFaction('martell') && card !== this && (card.hasTrait('Lord') || card.hasTrait('Lady')),
-            effect: ability.effects.dynamicStrength(() => this.controller.plotDiscard.size())
+            effect: ability.effects.dynamicStrength(() => this.controller.getNumberOfUsedPlots()),
+            recalculateWhen: ['onUsedPlotsModified']
         });
     }
 }

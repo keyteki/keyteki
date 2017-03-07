@@ -7,7 +7,7 @@ class StarfallCavalry extends DrawCard {
                 onCardEntersPlay: (event, card) => card === this
             },
             handler: () => {
-                var numCards = this.controller.plotDiscard.size() >= 3 ? 3 : 1;
+                var numCards = this.controller.getNumberOfUsedPlots() >= 3 ? 3 : 1;
 
                 this.controller.drawCardsToHand(numCards);
 

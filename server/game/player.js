@@ -32,6 +32,7 @@ class Player extends Spectator {
         this.challenges = new ChallengeTracker();
         this.minReserve = 0;
         this.costReducers = [];
+        this.usedPlotsModifier = 0;
 
         this.createAdditionalPile('out of game', { title: 'Out of Game', area: 'player row' });
     }
@@ -131,6 +132,15 @@ class Player extends Spectator {
 
     getNumberOfChallengesInitiated() {
         return this.challenges.complete;
+    }
+
+    getNumberOfUsedPlots() {
+        return this.plotDiscard.size() + this.usedPlotsModifier;
+    }
+
+    modifyUsedPlots(value) {
+        this.usedPlotsModifier += value;
+        this.game.raiseEvent('onUsedPlotsModified', this);
     }
 
     modifyClaim(winner, challengeType, claim) {

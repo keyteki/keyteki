@@ -510,6 +510,20 @@ const Effects = {
         properties.amount = -properties.amount;
         return this.reduceCost(properties);
     },
+    dynamicUsedPlots: function(calculate) {
+        return {
+            apply: function(player, context) {
+                context.dynamicUsedPlots = context.dynamicUsedPlots || {};
+                context.dynamicUsedPlots[player.name] = calculate(player, context) || 0;
+                player.modifyUsedPlots(context.dynamicUsedPlots[player.name]);
+            },
+            unapply: function(player, context) {
+                player.modifyUsedPlots(-context.dynamicUsedPlots[player.name]);
+                delete context.dynamicUsedPlots[player.name];
+            },
+            isStateDependent: true
+        };
+    },
     /**
      * Effects specifically for Old Wyk.
      */

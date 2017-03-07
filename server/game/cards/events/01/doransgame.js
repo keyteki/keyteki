@@ -19,7 +19,7 @@ class DoransGame extends DrawCard {
             return;
         }
 
-        var power = player.plotDiscard.size();
+        var power = player.getNumberOfUsedPlots();
 
         this.game.addPower(player, power);
         this.game.addMessage('{0} uses {1} to gain {2} power for their faction', player, this, power);

@@ -193,7 +193,8 @@ class BaseCard {
             condition: properties.condition,
             match: (card, context) => card === this.parent && (!properties.match || properties.match(card, context)),
             targetController: 'any',
-            effect: properties.effect
+            effect: properties.effect,
+            recalculateWhen: properties.recalculateWhen
         });
     }
 
