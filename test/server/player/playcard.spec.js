@@ -14,7 +14,7 @@ describe('Player', function() {
         beforeEach(function() {
             this.playActionSpy = jasmine.createSpyObj('playAction', ['meetsRequirements', 'canPayCosts']);
             this.canPlaySpy = spyOn(this.player, 'canPlayCard');
-            this.cardSpy = jasmine.createSpyObj('card', ['getType', 'getCost', 'isUnique', 'isLimited', 'play', 'isAmbush', 'moveTo', 'getAmbushCost', 'getPlayActions']);
+            this.cardSpy = jasmine.createSpyObj('card', ['getType', 'getCost', 'isBestow', 'isUnique', 'isLimited', 'play', 'isAmbush', 'moveTo', 'getAmbushCost', 'getPlayActions']);
             this.dupeCardSpy = jasmine.createSpyObj('dupecard', ['addDuplicate']);
 
             this.canPlaySpy.and.returnValue(true);

@@ -4,6 +4,7 @@ const Spectator = require('./spectator.js');
 const DrawCard = require('./drawcard.js');
 const Deck = require('./deck.js');
 const AttachmentPrompt = require('./gamesteps/attachmentprompt.js');
+const BestowPrompt = require('./gamesteps/bestowprompt.js');
 const ChallengeTracker = require('./challengetracker.js');
 
 const StartingHandSize = 7;
@@ -477,6 +478,10 @@ class Player extends Spectator {
             this.moveCard(card, 'play area', { isDupe: !!dupeCard });
 
             this.game.raiseEvent('onCardEntersPlay', card);
+
+            if(this.game.currentPhase !== 'setup' && card.isBestow()) {
+                this.game.queueStep(new BestowPrompt(this.game, this, card));
+            }
         }
     }
 

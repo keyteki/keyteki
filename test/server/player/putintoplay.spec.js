@@ -5,13 +5,13 @@ const Player = require('../../../server/game/player.js');
 
 describe('Player', function() {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['raiseEvent', 'playerDecked']);
+        this.gameSpy = jasmine.createSpyObj('game', ['queueStep', 'raiseEvent', 'playerDecked']);
         this.player = new Player('1', 'Player 1', true, this.gameSpy);
         this.player.initialise();
 
         spyOn(this.player, 'getDuplicateInPlay');
 
-        this.cardSpy = jasmine.createSpyObj('card', ['getType', 'getCost', 'play', 'moveTo']);
+        this.cardSpy = jasmine.createSpyObj('card', ['getType', 'getCost', 'isBestow', 'play', 'moveTo']);
         this.dupeCardSpy = jasmine.createSpyObj('dupecard', ['addDuplicate']);
         this.player.hand.push(this.cardSpy);
         this.cardSpy.location = 'hand';
@@ -44,6 +44,18 @@ describe('Player', function() {
                 it('should raise the onCardEntersPlay event', function() {
                     expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onCardEntersPlay', this.cardSpy);
                 });
+
+                describe('when it has the Bestow keyword', function() {
+                    beforeEach(function() {
+                        this.cardSpy.isBestow.and.returnValue(true);
+                        this.player.putIntoPlay(this.cardSpy, 'marshal');
+                    });
+
+                    it('should queue the bestow prompt', function() {
+                        expect(this.gameSpy.queueStep).toHaveBeenCalled();
+                        expect(this.gameSpy.queueStep.calls.mostRecent().args[0].constructor.name).toBe('BestowPrompt');
+                    });
+                });
             });
 
             describe('and the card is a duplicate', function() {
@@ -66,6 +78,17 @@ describe('Player', function() {
 
                 it('should add as a duplicate', function() {
                     expect(this.dupeCardSpy.addDuplicate).toHaveBeenCalledWith(this.cardSpy);
+                });
+
+                describe('when it has the Bestow keyword', function() {
+                    beforeEach(function() {
+                        this.cardSpy.isBestow.and.returnValue(true);
+                        this.player.putIntoPlay(this.cardSpy, 'marshal');
+                    });
+
+                    it('should not queue the bestow prompt', function() {
+                        expect(this.gameSpy.queueStep).not.toHaveBeenCalled();
+                    });
                 });
             });
         });
@@ -142,6 +165,17 @@ describe('Player', function() {
 
                 it('should raise the onCardEntersPlay event', function() {
                     expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onCardEntersPlay', this.cardSpy);
+                });
+
+                describe('when it has the Bestow keyword', function() {
+                    beforeEach(function() {
+                        this.cardSpy.isBestow.and.returnValue(true);
+                        this.player.putIntoPlay(this.cardSpy, 'setup');
+                    });
+
+                    it('should not queue the bestow prompt', function() {
+                        expect(this.gameSpy.queueStep).not.toHaveBeenCalled();
+                    });
                 });
             });
 

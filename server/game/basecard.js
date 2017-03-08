@@ -80,6 +80,11 @@ class BaseCard {
                 if(match) {
                     this.ambushCost = parseInt(match[1]);
                 }
+            } else if(keyword.indexOf('bestow') === 0) {
+                match = keyword.match(/bestow \((.*)\)/);
+                if(match) {
+                    this.bestowMax = parseInt(match[1]);
+                }
             }
         });
 

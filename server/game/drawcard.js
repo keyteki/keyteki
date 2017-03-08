@@ -80,6 +80,10 @@ class DrawCard extends BaseCard {
         return !_.isUndefined(this.ambushCost);
     }
 
+    isBestow() {
+        return !_.isUndefined(this.bestowMax);
+    }
+
     isLoyal() {
         return this.cardData.is_loyal;
     }
