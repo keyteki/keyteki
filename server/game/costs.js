@@ -111,6 +111,19 @@ const Costs = {
         };
     },
     /**
+     * Cost that will discard faction power matching the passed amount.
+     */
+    discardFactionPower: function(amount) {
+        return {
+            canPay: function(context) {
+                return context.player.faction.power >= amount;
+            },
+            pay: function(context) {
+                context.source.game.addPower(context.player, -amount);
+            }
+        };
+    },
+    /**
      * Cost that ensures that the player can still play a Limited card this
      * round.
      */
