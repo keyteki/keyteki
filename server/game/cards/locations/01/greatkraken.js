@@ -1,13 +1,11 @@
 const DrawCard = require('../../../drawcard.js');
 
 class GreatKraken extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onCardPlayed']);
-    }
-
     setupCardAbilities(ability) {
+        this.persistentEffect({
+            match: card => card.name === 'Balon Greyjoy',
+            effect: ability.effects.addKeyword('stealth')
+        });
         this.reaction({
             when: {
                 onUnopposedWin: (event, challenge) => this.controller === challenge.winner
@@ -24,26 +22,6 @@ class GreatKraken extends DrawCard {
                 }
             }
         });
-    }
-
-    onCardPlayed(event, player, card) {
-        if(this.controller !== player) {
-            return;
-        }
-
-        if(card.name === 'Balon Greyjoy') {
-            card.addKeyword('stealth');
-        }
-    }
-
-    leavesPlay() {
-        super.leavesPlay();
-
-        var balonGreyjoy = this.controller.findCardByName(this.controller.cardsInPlay, 'Balon Greyjoy');
-
-        if(balonGreyjoy) {
-            balonGreyjoy.removeKeyword('stealth');
-        }
     }
 }
 
