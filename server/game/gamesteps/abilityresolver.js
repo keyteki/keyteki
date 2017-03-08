@@ -44,6 +44,7 @@ class AbilityResolver extends BaseStep {
     }
 
     resolveCosts() {
+        this.context.costs = {};
         this.canPayResults = this.ability.resolveCosts(this.context);
     }
 

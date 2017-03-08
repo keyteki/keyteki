@@ -161,6 +161,34 @@ const Costs = {
                 context.player.gold -= context.source.getCost();
             }
         };
+    },
+    /**
+     * Cost that will pay the printed gold cost on the card minus any active
+     * reducer effects the play has activated. Upon playing the card, all
+     * matching reducer effects will expire, if applicable.
+     */
+    payReduceableGoldCost: function(playingType) {
+        return {
+            canPay: function(context) {
+                var hasDupe = context.player.getDuplicateInPlay(context.source);
+                if(hasDupe && playingType === 'marshal') {
+                    return true;
+                }
+
+                return context.player.gold >= context.player.getReducedCost(playingType, context.source);
+            },
+            pay: function(context) {
+                var hasDupe = context.player.getDuplicateInPlay(context.source);
+                context.costs.isDupe = !!hasDupe;
+                if(hasDupe && playingType === 'marshal') {
+                    context.costs.gold = 0;
+                } else {
+                    context.costs.gold = context.player.getReducedCost(playingType, context.source);
+                    context.player.gold -= context.costs.gold;
+                }
+                context.player.markUsedReducers(playingType, context.source);
+            }
+        };
     }
 };
 
