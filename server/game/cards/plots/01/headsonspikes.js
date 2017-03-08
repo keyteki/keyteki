@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const PlotCard = require('../../../plotcard.js');
 
 class HeadsOnSpikes extends PlotCard {
@@ -16,20 +14,19 @@ class HeadsOnSpikes extends PlotCard {
                     return true;
                 }
 
-                var cardIndex = _.random(0, otherPlayer.hand.size() - 1);
-                var card = otherPlayer.hand.value()[cardIndex];
-                var powerMessage = '';
+                otherPlayer.discardAtRandom(1, cards => {
+                    var powerMessage = '';
+                    var card = cards[0];
 
-                if(card.getType() === 'character') {
-                    powerMessage = ' and gain 2 power for their faction';
-                    otherPlayer.moveCard(card, 'dead pile');
+                    if(card.getType() === 'character') {
+                        powerMessage = ' and gain 2 power for their faction';
+                        otherPlayer.moveCard(card, 'dead pile');
 
-                    this.game.addPower(this.controller, 2);
-                } else {
-                    otherPlayer.discardCard(card);
-                }
+                        this.game.addPower(this.controller, 2);
+                    }
 
-                this.game.addMessage('{0} uses {1} to discard {2} from {3}\'s hand{4}', this.controller, this, card, otherPlayer, powerMessage);
+                    this.game.addMessage('{0} uses {1} to discard {2} from {3}\'s hand{4}', this.controller, this, card, otherPlayer, powerMessage);
+                });
             }
         });
     }

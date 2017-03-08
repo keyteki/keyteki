@@ -4,14 +4,13 @@ const SimpleStep = require('./simplestep.js');
 const Event = require('../event.js');
 
 class EventWindow extends BaseStep {
-    constructor(game, eventName, params, handler) {
+    constructor(game, eventName, params, handler, merged = false) {
         super(game);
 
         this.eventName = eventName;
-        this.params = params;
         this.handler = handler;
 
-        this.event = new Event(eventName, params);
+        this.event = new Event(eventName, params, merged);
         this.pipeline = new GamePipeline();
         this.pipeline.initialise([
             new SimpleStep(game, () => this.cancelInterrupts()),
@@ -48,7 +47,7 @@ class EventWindow extends BaseStep {
     }
 
     cancelInterrupts() {
-        this.game.emit(this.eventName + ':cancelinterrupt', this.event, ...this.params);
+        this.game.emit(this.eventName + ':cancelinterrupt', ...this.event.params);
     }
 
     forcedInterrupts() {
@@ -56,7 +55,7 @@ class EventWindow extends BaseStep {
             return;
         }
 
-        this.game.emit(this.eventName + ':forcedinterrupt', this.event, ...this.params);
+        this.game.emit(this.eventName + ':forcedinterrupt', ...this.event.params);
     }
 
     interrupts() {
@@ -64,7 +63,7 @@ class EventWindow extends BaseStep {
             return;
         }
 
-        this.game.emit(this.eventName + ':interrupt', this.event, ...this.params);
+        this.game.emit(this.eventName + ':interrupt', ...this.event.params);
     }
 
     executeHandler() {
@@ -73,13 +72,13 @@ class EventWindow extends BaseStep {
         }
 
         if(!this.event.shouldSkipHandler) {
-            this.handler(this.event);
+            this.handler(...this.event.params);
 
             if(this.event.cancelled) {
                 return;
             }
         }
-        this.game.emit(this.eventName, this.event, ...this.params);
+        this.game.emit(this.eventName, ...this.event.params);
     }
 
     forcedReactions() {
@@ -87,7 +86,7 @@ class EventWindow extends BaseStep {
             return;
         }
 
-        this.game.emit(this.eventName + ':forcedreaction', this.event, ...this.params);
+        this.game.emit(this.eventName + ':forcedreaction', ...this.event.params);
     }
 
     reactions() {
@@ -95,7 +94,7 @@ class EventWindow extends BaseStep {
             return;
         }
 
-        this.game.emit(this.eventName + ':reaction', this.event, ...this.params);
+        this.game.emit(this.eventName + ':reaction', ...this.event.params);
     }
 }
 

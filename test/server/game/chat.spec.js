@@ -168,8 +168,7 @@ describe('the Game', function() {
                     it('should discard 1 card', function () {
                         this.game.chat(this.player1.name, '/pillage');
 
-                        expect(this.game.messages.length).toBe(2);
-                        expect(this.player1.discardFromDraw).toHaveBeenCalledWith(1);
+                        expect(this.player1.discardFromDraw).toHaveBeenCalledWith(1, jasmine.any(Function));
                     });
                 });
             });

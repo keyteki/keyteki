@@ -16,16 +16,16 @@ class TheTickler extends DrawCard {
             return true;
         }
 
-        this.topCard = otherPlayer.drawDeck.first();
-        otherPlayer.discardFromDraw(1);
+        otherPlayer.discardFromDraw(1, cards => {
+            var topCard = cards[0];
+            this.game.addMessage('{0} uses {1} to discard the top card of {2}\'s deck', player, this, otherPlayer);
 
-        this.game.addMessage('{0} uses {1} to discard the top card of {2}\'s deck', player, this, otherPlayer);
-
-        this.game.promptForSelect(player, {
-            activePromptTitle: 'Select a copy of ' + this.topCard.name + ' to discard',
-            source: this,
-            cardCondition: card => card.location === 'play area' && card.name === this.topCard.name,
-            onSelect: (p, card) => this.onCardSelected(p, card)
+            this.game.promptForSelect(player, {
+                activePromptTitle: 'Select a copy of ' + topCard.name + ' to discard',
+                source: this,
+                cardCondition: card => card.location === 'play area' && card.name === topCard.name,
+                onSelect: (p, card) => this.onCardSelected(p, card)
+            });
         });
 
         return true;

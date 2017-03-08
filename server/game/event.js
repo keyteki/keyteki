@@ -1,9 +1,17 @@
+const _ = require('underscore');
+
 class Event {
-    constructor(name, params) {
+    constructor(name, params, merge = false) {
         this.name = name;
-        this.params = [this].concat(params);
         this.cancelled = false;
         this.shouldSkipHandler = false;
+
+        if(merge) {
+            _.extend(this, params);
+            this.params = [this].concat([params]);
+        } else {
+            this.params = [this].concat(params);
+        }
     }
 
     cancel() {

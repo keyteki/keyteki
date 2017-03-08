@@ -189,26 +189,21 @@ class Player extends Spectator {
         this.drawDeck = _(this.drawDeck.shuffle());
     }
 
-    discardFromDraw(number) {
-        if(number > this.drawDeck.size()) {
-            number = this.drawDeck.size();
-        }
+    discardFromDraw(number, callback = () => true) {
+        number = Math.min(number, this.drawDeck.size());
 
-        var discarded = [];
-        for(var i = 0; i < number; i++) {
-            discarded.push(this.drawDeck.first());
-            this.discardCard(this.drawDeck.first());
-        }
+        var cards = this.drawDeck.first(number);
+        this.discardCards(cards, false, discarded => {
+            callback(discarded);
+            if(this.drawDeck.size() === 0) {
+                var otherPlayer = this.game.getOtherPlayer(this);
 
-        if(this.drawDeck.size() === 0) {
-            var otherPlayer = this.game.getOtherPlayer(this);
-
-            if(otherPlayer) {
-                this.game.addMessage('{0}\'s draw deck is empty', this);
-                this.game.addMessage('{0} wins the game', otherPlayer);
+                if(otherPlayer) {
+                    this.game.addMessage('{0}\'s draw deck is empty', this);
+                    this.game.addMessage('{0} wins the game', otherPlayer);
+                }
             }
-        }
-        return (discarded.length > 1) ? discarded : discarded[0];
+        });
     }
 
     moveFromTopToBottomOfDrawDeck(number) {
@@ -219,23 +214,23 @@ class Player extends Spectator {
         }
     }
 
-    discardAtRandom(number) {
-        var toDiscard = number;
+    discardAtRandom(number, callback = () => true) {
+        var toDiscard = Math.min(number, this.hand.size());
+        var cards = [];
 
-        if(toDiscard > this.hand.size()) {
-            toDiscard = this.hand.size();
-        }
-
-        while(toDiscard > 0) {
+        while(cards.length < toDiscard) {
             var cardIndex = _.random(0, this.hand.size() - 1);
 
             var card = this.hand.value()[cardIndex];
-
-            this.game.addMessage('{0} discards {1} at random', this, card);
-            this.discardCard(card);
-
-            toDiscard--;
+            if(!cards.includes(card)) {
+                cards.push(card);
+            }
         }
+
+        this.discardCards(cards, false, discarded => {
+            this.game.addMessage('{0} discards {1} at random', this, discarded);
+            callback(discarded);
+        });
     }
 
     canInitiateChallenge(challengeType) {
@@ -793,19 +788,46 @@ class Player extends Spectator {
 
     discardCard(card, allowSave = true) {
         if(!card.dupes.isEmpty() && allowSave) {
-            if(!this.removeDuplicate(card)) {
-                this.moveCard(card, 'discard pile');
-            } else {
+            if(this.removeDuplicate(card)) {
                 this.game.addMessage('{0} discards a duplicate to save {1}', this, card);
+                return;
             }
-        } else {
-            var originalLocation = card.location;
-            this.moveCard(card, 'discard pile');
-            // TODO: This should really wrap the move card call. However, this
-            //       will require rewriting the random discard from hand method
-            //       which assumes synchronous handling right now.
-            this.game.raiseEvent('onCardDiscarded', this, card, allowSave, originalLocation);
         }
+
+        this.discardCards([card], allowSave);
+    }
+
+    discardCards(cards, allowSave = true, callback = () => true) {
+        if(cards.length === 0) {
+            return;
+        }
+
+        var params = {
+            player: this,
+            cards: cards,
+            allowSave: allowSave,
+            originalLocation: cards[0].location
+        };
+        this.game.raiseMergedEvent('onCardsDiscarded', params, event => {
+            _.each(event.cards, card => {
+                this.doSingleCardDiscard(card, allowSave);
+            });
+            this.game.queueSimpleStep(() => {
+                callback(event.cards);
+            });
+        });
+    }
+
+    doSingleCardDiscard(card, allowSave = true) {
+        var params = {
+            player: this,
+            card: card,
+            allowSave: allowSave,
+            originalLocation: card.location
+        };
+        this.game.raiseMergedEvent('onCardDiscarded', params, event => {
+            this.moveCard(event.card, 'discard pile');
+        });
     }
 
     returnCardToHand(card, allowSave = true) {

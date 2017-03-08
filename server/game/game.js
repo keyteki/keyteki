@@ -128,7 +128,7 @@ class Game extends EventEmitter {
     }
 
     anyPlotHasTrait(trait) {
-        return _.any(this.game.getPlayers(), player => 
+        return _.any(this.game.getPlayers(), player =>
             player.activePlot &&
             player.activePlot.hasTrait(trait));
     }
@@ -524,6 +524,10 @@ class Game extends EventEmitter {
         this.pipeline.queueStep(step);
     }
 
+    queueSimpleStep(handler) {
+        this.pipeline.queueStep(new SimpleStep(this, handler));
+    }
+
     resolveAbility(ability, context) {
         this.queueStep(new AbilityResolver(this.game, ability, context));
     }
@@ -536,6 +540,14 @@ class Game extends EventEmitter {
         }
 
         this.queueStep(new EventWindow(this, eventName, params, handler));
+    }
+
+    raiseMergedEvent(eventName, params, handler) {
+        if(!handler) {
+            handler = () => true;
+        }
+
+        this.queueStep(new EventWindow(this, eventName, params, handler, true));
     }
 
     takeControl(player, card) {

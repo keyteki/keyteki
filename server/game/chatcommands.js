@@ -200,8 +200,9 @@ class ChatCommands {
     pillage(player) {
         this.game.addMessage('{0} uses the /pillage command to discard 1 card from the top of their draw deck', player);
 
-        var discarded = player.discardFromDraw(1);
-        this.game.addMessage('{0} discards {1} due to Pillage', player, discarded);
+        player.discardFromDraw(1, discarded => {
+            this.game.addMessage('{0} discards {1} due to Pillage', player, discarded);
+        });
     }
 
     strength(player, args) {
