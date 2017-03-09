@@ -4,7 +4,7 @@ class LadyInWaiting extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onCardEntersPlay: (event, card) => card === this && this.game.currentPhase === 'marshal' && this.controller.gold >= 2
+                onCardEntersPlay: (event, card) => card === this && this.game.currentPhase === 'marshal'
             },
             handler: () => {
                 this.marshalAsDupe();
