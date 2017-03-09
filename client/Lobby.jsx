@@ -81,8 +81,7 @@ class InnerLobby extends React.Component {
         return (
             <div>
                 <div className='alert alert-success'>
-                    I've been asked a few times about whether I accept donations towards the upkeep of the site.  I've now added a note to the <Link href='/about' >About Page</Link>
-                    <p>Work is continuing on the new framework which will fix the lag issues during peak times, and a new server has been commissioned ready to be rolled out when the framework is ready.</p>
+                    The stats for February are now live.<a href='https://gist.github.com/cryogen/6f8accf082546c2e523bf1a4737def37' target='_blank'>Click this link to view them</a>
                 </div>
                 <div className='alert alert-info'>
                     <div><span className='icon-intrigue' />2017-03-09: New cards: Moat Cailin, Late Summer Feast, Joffrey Baratheon(FFH), Ghost, Sworn Brother, Eastwatch Carpenter, EastWatch By The Sea, Ricasso, King Robb's Host, Tywin Lannister(LoCR), Storm's End, Margery Tyrell (AMAF), Pyromancers, Ser Armory Lorch.  Add bestow keyword.  Fix: Castle Black, Cersei Lannister(LoCR)</div>
