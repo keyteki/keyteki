@@ -21,7 +21,7 @@ class GameRepository {
             db.collection('games').update({ _id: mongoskin.helper.toObjectID(game.id) }, {
                 '$set': {
                     startedAt: game.startedAt,
-                    players: game.playersAndSpectators,
+                    players: game.players,
                     winner: game.winner,
                     winReason: game.winReason,
                     finishedAt: game.finishedAt
