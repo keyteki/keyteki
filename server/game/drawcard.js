@@ -84,10 +84,6 @@ class DrawCard extends BaseCard {
         return !_.isUndefined(this.bestowMax);
     }
 
-    isLoyal() {
-        return this.cardData.is_loyal;
-    }
-
     isRenown() {
         return this.hasKeyword('renown');
     }

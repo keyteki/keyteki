@@ -262,6 +262,10 @@ class BaseCard {
         return !!this.factions[faction.toLowerCase()];
     }
 
+    isLoyal() {
+        return this.cardData.is_loyal;
+    }
+
     play() {
         _.each(this.abilities.persistentEffects, effect => {
             this.game.addEffect(this, effect);
