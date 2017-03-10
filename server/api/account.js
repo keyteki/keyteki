@@ -81,7 +81,7 @@ module.exports.init = function(server) {
             if(!responseSent) {
                 res.send({ success: false, message: 'An error occured registering your account' });
             }
-            
+
             logger.info(err.message);
             return next(err);
         });
@@ -180,7 +180,7 @@ module.exports.init = function(server) {
 
         util.httpRequest('https://www.google.com/recaptcha/api/siteverify?secret=' + config.captchaKey + '&response=' + req.body.captcha).then((response) => {
             var answer = JSON.parse(response);
-            
+
             responseSent = true;
 
             if(!answer.success) {
@@ -212,7 +212,7 @@ module.exports.init = function(server) {
                   'Kind regards,\n\n' +
                   'The Iron Throne team';
 
-            sendEmail(emailUser.email, emailText);
+            return sendEmail(emailUser.email, emailText);
         })
         .catch(err => {
             logger.info(err.message);
