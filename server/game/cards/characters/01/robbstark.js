@@ -10,7 +10,7 @@ class RobbStark extends DrawCard {
             limit: ability.limit.perRound(1),
             handler: () => {
                 this.controller.cardsInPlay.each(card => {
-                    if(card.getType() === 'character' && card.isFaction('stark')) {
+                    if(card.getType() === 'character') {
                         card.controller.standCard(card);
                     }
                 });
