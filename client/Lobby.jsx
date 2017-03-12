@@ -80,8 +80,8 @@ class InnerLobby extends React.Component {
         return (
             <div>
                 { this.props.bannerNotice ? <div className='alert alert-danger'>{this.props.bannerNotice}</div> : null }
-                <div className='alert alert-success'>
-                    The stats for February are now live.<a href='https://gist.github.com/cryogen/6f8accf082546c2e523bf1a4737def37' target='_blank'>Click this link to view them</a>
+                <div className='alert alert-danger'>
+                    The server is very unstable right now.  I have deployed the new multi node code and am ironing out the bugs.  Please bear with me or try again tomorrow if you want a stable game experience
                 </div>
                 <div className='alert alert-info'>
                     <div><span className='icon-intrigue' />2017-03-09: New cards: Moat Cailin, Late Summer Feast, Joffrey Baratheon(FFH), Ghost, Sworn Brother, Eastwatch Carpenter, EastWatch By The Sea, Ricasso, King Robb's Host, Tywin Lannister(LoCR), Storm's End, Margery Tyrell (AMAF), Pyromancers, Ser Armory Lorch.  Add bestow keyword.  Fix: Castle Black, Cersei Lannister(LoCR)</div>

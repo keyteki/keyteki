@@ -129,7 +129,10 @@ class GameRouter extends EventEmitter {
                 break;
             case 'PLAYERLEFT':
                 logger.info('player left', message.arg.gameId);
-                this.gameRepository.save(message.arg.game);
+
+                if(!message.arg.spectator) {
+                    this.gameRepository.save(message.arg.game);
+                }
 
                 this.emit('onPlayerLeft', message.arg.gameId, message.arg.player);
 

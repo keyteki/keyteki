@@ -182,6 +182,8 @@ class GameServer {
             delete this.games[game.id];
 
             this.socket.send('GAMECLOSED', { game: game.id });
+        } else if(game.isSpectator(game.playersAndSpectators[socket.user.username])) {
+            this.socket.send('PLAYERLEFT', { gameId: game.id, game: game.getSaveState(), player: socket.user.username, spectator: true });
         }
 
         this.sendGameState(game);
@@ -199,7 +201,12 @@ class GameServer {
 
         socket.leaveChannel(game.id);
 
-        this.socket.send('PLAYERLEFT', { gameId: game.id, game: game.getSaveState(), player: socket.user.username });
+        this.socket.send('PLAYERLEFT', {
+            gameId: game.id,
+            game: game.getSaveState(),
+            player:
+            socket.user.username, spectator: game.isSpectator(game.playersAndSpectators[socket.user.username])
+        });
 
         if(game.isEmpty()) {
             delete this.games[game.id];
