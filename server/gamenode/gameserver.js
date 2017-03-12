@@ -109,10 +109,6 @@ class GameServer {
         this.socket.send('GAMEWIN', { game: game.getSaveState(), winner: winner.name, reason: reason });
     }
 
-    playerLeft(game, player) {
-        this.socket.send('PLAYERLEFT', { gameId: game.id, game: game.getSaveState(), player: player.name });
-    }
-
     onStartGame(pendingGame) {
         var game = new Game(pendingGame, { router: this });
         this.games[pendingGame.id] = game;
@@ -202,6 +198,8 @@ class GameServer {
         socket.send('gamestate', game.getState(socket.user.username));
 
         socket.leaveChannel(game.id);
+
+        this.socket.send('PLAYERLEFT', { gameId: game.id, player: socket.user.username });
 
         if(game.isEmpty()) {
             delete this.games[game.id];

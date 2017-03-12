@@ -613,13 +613,11 @@ class Game extends EventEmitter {
 
         if(this.isSpectator(player) || !this.started) {
             delete this.playersAndSpectators[playerName];
-            this.router.playerLeft(this, player);
         } else {
             player.left = true;
 
             if(!this.finishedAt) {
                 this.finishedAt = new Date();
-                this.router.playerLeft(this, player);
             }
         }
     }
