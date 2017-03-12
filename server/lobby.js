@@ -149,7 +149,7 @@ class Lobby {
         }
 
         var game = this.findGameForUser(socket.user.username);
-        if(game) {
+        if(game && game.started) {
             socket.send('handoff', { address: game.node.address, port: game.node.port });
         }
     }

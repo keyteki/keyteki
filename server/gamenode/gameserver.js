@@ -224,7 +224,7 @@ class GameServer {
             return;
         }
 
-        this.runAndCatchErrors(() => {
+        this.runAndCatchErrors(game, () => {
             game[command](socket.user.username, ...args);
 
             game.continue();
