@@ -176,13 +176,15 @@ class GameServer {
             return;
         }
 
+        var isSpectator = game.isSpectator(game.playersAndSpectators[socket.user.username]);
+
         game.disconnect(socket.user.username);
 
         if(game.isEmpty()) {
             delete this.games[game.id];
 
             this.socket.send('GAMECLOSED', { game: game.id });
-        } else if(game.isSpectator(game.playersAndSpectators[socket.user.username])) {
+        } else if(isSpectator) {
             this.socket.send('PLAYERLEFT', { gameId: game.id, game: game.getSaveState(), player: socket.user.username, spectator: true });
         }
 
