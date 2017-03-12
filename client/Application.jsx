@@ -95,6 +95,7 @@ class App extends React.Component {
         });
 
         socket.on('handoff', server => {
+            console.info('got handoff to', server);
             var gameSocket = io.connect('http://' + server.address + ':' + server.port, {
                 reconnection: true,
                 reconnectionDelay: 1000,
@@ -104,10 +105,12 @@ class App extends React.Component {
             });
 
             gameSocket.on('connect', () => {
+                console.info('connected to handoff');
                 this.props.gameSocketConnected(gameSocket);
             });
 
             gameSocket.on('gamestate', game => {
+                console.info('got gamestate for handoff');
                 this.props.receiveGameState(game, this.props.username);
             });
         });
