@@ -166,6 +166,8 @@ class Lobby {
             return;
         }
 
+        delete this.users[socket.user.username];
+
         var game = this.findGameForUser(socket.user.username);
         if(!game) {
             return;
