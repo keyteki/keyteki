@@ -10,7 +10,8 @@ addons:
     - llvm-toolchain-precise-3.6
     packages:
     - gcc-4.9
-    - g++-4.9 
+    - g++-4.9
+    - libzmq-dev 
 script:
   - npm test
   - npm run lint

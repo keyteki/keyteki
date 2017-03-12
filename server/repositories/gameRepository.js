@@ -10,12 +10,16 @@ class GameRepository {
                 if(err) {
                     logger.info(err.message);
 
-                    callback(err);
+                    if(callback) {
+                        callback(err);
+                    }
 
                     return;
                 }
 
-                callback(undefined, result.ops[0]._id);
+                if(callback) {
+                    callback(undefined, result.ops[0]._id);
+                }
             });
         } else {
             db.collection('games').update({ _id: mongoskin.helper.toObjectID(game.id) }, {

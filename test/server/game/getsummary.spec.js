@@ -14,7 +14,7 @@ describe('the Game', () => {
 
     beforeEach(() => {
         var gameRepository = jasmine.createSpyObj('gameRepository', ['save']);
-        game = new Game('1', { name: 'Test Game' }, { gameRepository: gameRepository });
+        game = new Game({ name: 'Test Game' }, { gameRepository: gameRepository });
     });
 
     describe('getSummary function', () => {

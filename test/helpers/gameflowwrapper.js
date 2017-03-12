@@ -7,11 +7,18 @@ const PlayerInteractionWrapper = require('./playerinteractionwrapper.js');
 
 class GameFlowWrapper {
     constructor() {
-        var creator = { username: 'player1' };
-        var gameRepository = jasmine.createSpyObj('gameRepository', ['save']);
-        this.game = new Game(creator.username, {}, { gameRepository: gameRepository });
-        this.game.join('111', creator);
-        this.game.join('222', { username: 'player2' });
+        var gameRouter = jasmine.createSpyObj('gameRouter', ['gameWon', 'playerLeft']);
+        var details = {
+            name: 'player1\'s game',
+            id: 12345,
+            owner: 'player1',
+            saveGameId: 12345,
+            players: [
+                { id: '111', user: { username: 'player1' } },
+                { id: '222', user: { username: 'player2' } }
+            ]
+        };
+        this.game = new Game(details, { router: gameRouter });
 
         this.player1 = new PlayerInteractionWrapper(this.game, this.game.getPlayerByName('player1'));
         this.player2 = new PlayerInteractionWrapper(this.game, this.game.getPlayerByName('player2'));

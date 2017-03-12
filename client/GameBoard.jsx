@@ -113,11 +113,11 @@ export class InnerGameBoard extends React.Component {
     }
 
     onConcedeClick() {
-        this.props.sendSocketMessage('concede');
+        this.props.sendGameMessage('concede');
     }
 
     onLeaveClick() {
-        this.props.socket.emit('leavegame');
+        this.props.sendGameMessage('leavegame');
     }
 
     onMouseOver(card) {
@@ -129,11 +129,11 @@ export class InnerGameBoard extends React.Component {
     }
 
     onCardClick(card) {
-        this.props.sendSocketMessage('cardClicked', card.uuid);
+        this.props.sendGameMessage('cardClicked', card.uuid);
     }
 
     onDrawClick() {
-        this.props.sendSocketMessage('showDrawDeck');
+        this.props.sendGameMessage('showDrawDeck');
 
         this.setState({ showDrawDeck: !this.state.showDrawDeck });
     }
@@ -143,7 +143,7 @@ export class InnerGameBoard extends React.Component {
             return;
         }
 
-        this.props.sendSocketMessage('chat', this.state.message);
+        this.props.sendGameMessage('chat', this.state.message);
 
         this.setState({ message: '' });
     }
@@ -167,11 +167,11 @@ export class InnerGameBoard extends React.Component {
     }
 
     onShuffleClick() {
-        this.props.sendSocketMessage('shuffleDeck');
+        this.props.sendGameMessage('shuffleDeck');
     }
 
     onDragDrop(card, source, target) {
-        this.props.sendSocketMessage('drop', card.uuid, source, target);
+        this.props.sendGameMessage('drop', card.uuid, source, target);
     }
 
     onCardDragStart(event, card, source) {
@@ -233,7 +233,7 @@ export class InnerGameBoard extends React.Component {
     onCommand(command, arg, method) {
         var commandArg = arg;
 
-        this.props.sendSocketMessage(command, commandArg, method);
+        this.props.sendGameMessage(command, commandArg, method);
     }
 
     onDragOver(event) {
@@ -259,7 +259,7 @@ export class InnerGameBoard extends React.Component {
     }
 
     onMenuItemClick(card, menuItem) {
-        this.props.sendSocketMessage('menuItemClick', card.uuid, menuItem);
+        this.props.sendGameMessage('menuItemClick', card.uuid, menuItem);
     }
 
     render() {
@@ -433,7 +433,7 @@ InnerGameBoard.propTypes = {
     cardToZoom: React.PropTypes.object,
     clearZoom: React.PropTypes.func,
     currentGame: React.PropTypes.object,
-    sendSocketMessage: React.PropTypes.func,
+    sendGameMessage: React.PropTypes.func,
     setContextMenu: React.PropTypes.func,
     socket: React.PropTypes.object,
     username: React.PropTypes.string,

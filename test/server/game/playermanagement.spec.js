@@ -1,12 +1,12 @@
-/*global describe, it, beforeEach, expect, spyOn, jasmine*/
+/*global describe, it, beforeEach, expect, jasmine*/
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
 const Game = require('../../../server/game/game.js');
 
 describe('Game', function() {
     beforeEach(function() {
-        this.gameRepository = jasmine.createSpyObj('gameRepository', ['save']);
-        this.game = new Game('1', { spectators: true }, { gameRepository: this.gameRepository });
+        this.gameRouter = jasmine.createSpyObj('gameRouter', ['playerLeft']);
+        this.game = new Game({ spectators: true }, { router: this.gameRouter });
     });
 
     describe('join()', function() {
@@ -92,10 +92,6 @@ describe('Game', function() {
     });
 
     describe('leave()', function() {
-        beforeEach(function() {
-            spyOn(this.game, 'saveGame');
-        });
-
         describe('when the user is not part of the game', function() {
             it('should not crash', function() {
                 expect(() => this.game.leave('nothere')).not.toThrow();
@@ -130,8 +126,8 @@ describe('Game', function() {
                         expect(this.game.playersAndSpectators['foo'].left).toBe(true);
                     });
 
-                    it('should save the game', function() {
-                        expect(this.game.saveGame).toHaveBeenCalled();
+                    it('should notify the router', function() {
+                        expect(this.gameRouter.playerLeft).toHaveBeenCalled();
                     });
 
                     it('should set the finishedAt property', function() {
@@ -145,8 +141,8 @@ describe('Game', function() {
                         this.game.leave('foo');
                     });
 
-                    it('should not save the game', function() {
-                        expect(this.game.saveGame).not.toHaveBeenCalled();
+                    it('should not notify the router', function() {
+                        expect(this.gameRouter.playerLeft).not.toHaveBeenCalled();
                     });
                 });
             });
@@ -162,8 +158,8 @@ describe('Game', function() {
                 expect(this.game.playersAndSpectators['foo']).toBeUndefined();
             });
 
-            it('should not save the game', function() {
-                expect(this.game.saveGame).not.toHaveBeenCalled();
+            it('should not notify the router', function() {
+                expect(this.gameRouter.playerLeft).not.toHaveBeenCalled();
             });
         });
     });

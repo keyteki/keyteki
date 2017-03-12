@@ -1,6 +1,5 @@
 const _ = require('underscore');
 const EventEmitter = require('events');
-const uuid = require('node-uuid');
 
 const ChatCommands = require('./chatcommands.js');
 const GameChat = require('./gamechat.js');
@@ -22,10 +21,11 @@ const MenuPrompt = require('./gamesteps/menuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 const EventWindow = require('./gamesteps/eventwindow.js');
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
-const GameRepository = require('../repositories/gameRepository.js');
+
+const logger = require('../log.js');
 
 class Game extends EventEmitter {
-    constructor(owner, details, options = {}) {
+    constructor(details, options = {}) {
         super();
 
         this.effectEngine = new EffectEngine(this);
@@ -38,15 +38,20 @@ class Game extends EventEmitter {
 
         this.name = details.name;
         this.allowSpectators = details.spectators;
-        this.id = uuid.v1();
-        this.owner = owner;
+        this.id = details.id;
+        this.owner = details.owner;
         this.started = false;
         this.playStarted = false;
         this.createdAt = new Date();
+        this.savedGameId = details.savedGameId;
+
+        _.each(details.players, player => {
+            this.playersAndSpectators[player.user.username] = new Player(player.id, player.user, this.owner === player.user.username, this);
+        });
 
         this.setMaxListeners(0);
 
-        this.gameRepository = options.gameRepository || new GameRepository();
+        this.router = options.router;
     }
 
     addMessage() {
@@ -344,7 +349,7 @@ class Game extends EventEmitter {
                 this.finishedAt = new Date();
                 this.winReason = 'power';
 
-                this.saveGame();
+                this.router.gameWon(this, 'power', player);
             }
         }
     }
@@ -361,7 +366,7 @@ class Game extends EventEmitter {
                 this.finishedAt = new Date();
                 this.winReason = 'decked';
 
-                this.saveGame();
+                this.router.gameWon('decked', player);
             }
         }
     }
@@ -431,7 +436,8 @@ class Game extends EventEmitter {
                 this.finishedAt = new Date();
                 this.winReason = 'concede';
 
-                this.saveGame();
+                logger.info('concede');
+                this.router.gameWon(this, 'concede', otherPlayer);
             }
         }
     }
@@ -503,7 +509,7 @@ class Game extends EventEmitter {
         this.playStarted = true;
         this.startedAt = new Date();
 
-        this.saveGame();
+//        this.saveGame();
 
         this.continue();
     }
@@ -612,7 +618,7 @@ class Game extends EventEmitter {
 
             if(!this.finishedAt) {
                 this.finishedAt = new Date();
-                this.saveGame();
+                this.router.playerLeft(this, player);
             }
         }
     }
@@ -670,14 +676,6 @@ class Game extends EventEmitter {
             winReason: this.winReason,
             finishedAt: this.finishedAt
         };
-    }
-
-    saveGame() {
-        this.gameRepository.save(this.getSaveState(), (err, id) => {
-            if(!err) {
-                this.savedGameId = id;
-            }
-        });
     }
 
     getState(activePlayer) {

@@ -13,7 +13,7 @@ export class InnerPlayerStats extends React.Component {
     }
 
     sendUpdate(type, direction) {
-        this.props.sendSocketMessage('changeStat', type, direction === 'up' ? 1 : -1);
+        this.props.sendGameMessage('changeStat', type, direction === 'up' ? 1 : -1);
     }
 
     render() {
@@ -74,7 +74,7 @@ InnerPlayerStats.propTypes = {
     playerName: React.PropTypes.string,
     power: React.PropTypes.number,
     reserve: React.PropTypes.number,
-    sendSocketMessage: React.PropTypes.func,
+    sendGameMessage: React.PropTypes.func,
     user: React.PropTypes.object
 };
 

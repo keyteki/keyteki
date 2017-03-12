@@ -21,6 +21,7 @@ function games(state = {
                 return game.id === state.currentGame.id;
             })) {
                 ret.currentGame = undefined;
+                ret.newGame = false;
             }
 
             return ret;
@@ -29,10 +30,6 @@ function games(state = {
                 currentGame: action.game,
                 newGame: false
             });
-        case 'RECEIVE_JOINGAME':
-            return Object.assign({}, state, {
-                currentGame: action.game
-            });
         case 'RECEIVE_GAMESTATE':
             var retState = Object.assign({}, state, {
                 currentGame: action.currentGame
@@ -40,6 +37,7 @@ function games(state = {
 
             var currentState = retState.currentGame;
             if(!currentState) {
+                retState.newGame = false;
                 return retState;
             }
 
@@ -51,8 +49,9 @@ function games(state = {
 
             if(!currentState || !currentState.players[action.username] || currentState.players[action.username].left) {
                 delete retState.currentGame;
+                retState.newGame = false;
             }
-            
+
             return retState;
         case 'RECEIVE_USERS':
             return Object.assign({}, state, {

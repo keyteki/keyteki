@@ -12,6 +12,10 @@ function chat(state = {
             return Object.assign({}, state, {
                 messages: action.messages
             });
+        case 'RECEIVE_BANNER_NOTICE':
+            return Object.assign({}, state, {
+                notice: action.notice
+            });
         default:
             return state;
     }
