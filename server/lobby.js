@@ -144,6 +144,10 @@ class Lobby {
 
         this.broadcastGameList();
 
+        if(!socket.user) {
+            return;
+        }
+
         var game = this.findGameForUser(socket.user.username);
         if(game) {
             socket.send('handoff', { address: game.node.address, port: game.node.port });
