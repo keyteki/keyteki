@@ -347,7 +347,7 @@ class Lobby {
             return;
         }
 
-        game.players[player].left = true;
+        game.leave(player);
 
         if(game.isEmpty()) {
             delete this.games[gameId];
