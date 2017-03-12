@@ -199,7 +199,7 @@ class GameServer {
 
         socket.leaveChannel(game.id);
 
-        this.socket.send('PLAYERLEFT', { gameId: game.id, player: socket.user.username });
+        this.socket.send('PLAYERLEFT', { gameId: game.id, game: game.getSaveState(), player: socket.user.username });
 
         if(game.isEmpty()) {
             delete this.games[game.id];
