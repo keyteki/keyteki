@@ -21,6 +21,7 @@ class Lobby {
         this.deckRepository = new DeckRepository();
         this.router = new GameRouter();
         this.router.on('onGameClosed', this.onGameClosed.bind(this));
+        this.router.on('onPlayerLeft', this.onPlayerLeft.bind(this));
 
         this.io = socketio(server);
         this.io.set('heartbeat timeout', 30000);
@@ -335,6 +336,22 @@ class Lobby {
     // router Events
     onGameClosed(gameId) {
         delete this.games[gameId];
+
+        this.broadcastGameList();
+    }
+
+    onPlayerLeft(gameId, player) {
+        var game = this.games[gameId];
+
+        if(!game) {
+            return;
+        }
+
+        game.players[player].left = true;
+
+        if(game.isEmpty()) {
+            delete this.games[gameId];
+        }
 
         this.broadcastGameList();
     }

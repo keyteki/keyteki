@@ -110,7 +110,7 @@ class GameServer {
     }
 
     playerLeft(game, player) {
-        this.socket.send('PLAYERLEFT', { game: game.getSaveState(), player: player.name });
+        this.socket.send('PLAYERLEFT', { gameId: game.id, game: game.getSaveState(), player: player.name });
     }
 
     onStartGame(pendingGame) {
@@ -198,6 +198,9 @@ class GameServer {
         }
 
         game.leave(socket.user.username);
+
+        socket.send('gamestate', game.getState(socket.user.username));
+
         socket.leaveChannel(game.id);
 
         if(game.isEmpty()) {
