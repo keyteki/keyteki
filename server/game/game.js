@@ -49,6 +49,10 @@ class Game extends EventEmitter {
             this.playersAndSpectators[player.user.username] = new Player(player.id, player.user, this.owner === player.user.username, this);
         });
 
+        _.each(details.spectators, spectator => {
+            this.playersAndSpectators[spectator.user.username] = new Spectator(spectator.id, spectator.user);
+        });
+
         this.setMaxListeners(0);
 
         this.router = options.router;
