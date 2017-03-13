@@ -106,6 +106,7 @@ class GameRouter extends EventEmitter {
         var message = JSON.parse(msg.toString());
         switch(message.command) {
             case 'HELLO':
+                this.emit('onWorkerStarted', identityStr);
                 this.workers[identityStr] = {
                     identity: identityStr,
                     maxGames: message.arg.maxGames,
@@ -154,6 +155,7 @@ class GameRouter extends EventEmitter {
             if(worker.pingSent && currentTime - worker.pingSent > 5 * 60 * 1000) {
                 logger.info('worker', worker.identity + ' timed out');
                 delete this.workers[worker.identity];
+                this.emit('onWorkerTimedOut', worker.identity);
             } else if(!worker.pingSent) {
                 if(currentTime - worker.lastMessage > 5 * 60 * 1000) {
                     worker.pingSent = currentTime;

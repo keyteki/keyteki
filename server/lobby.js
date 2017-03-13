@@ -22,6 +22,8 @@ class Lobby {
         this.router = new GameRouter();
         this.router.on('onGameClosed', this.onGameClosed.bind(this));
         this.router.on('onPlayerLeft', this.onPlayerLeft.bind(this));
+        this.router.on('onWorkerStarted', this.onWorkerStarted.bind(this));
+        this.router.on('onWorkerTimedOut', this.onWorkerTimedOut.bind(this));
 
         this.io = socketio(server);
         this.io.set('heartbeat timeout', 30000);
@@ -112,6 +114,16 @@ class Lobby {
         _.each(game.getPlayersAndSpectators(), player => {
             this.sockets[player.id].send('gamestate', game.getSummary(player.name));
         });
+    }
+
+    clearGamesForNode(nodeName) {
+        _.each(this.games, game => {
+            if(game.node && game.node.identity === nodeName) {
+                delete this.games[game.id];
+            }
+        });
+
+        this.broadcastGameList();
     }
 
     // Events
@@ -356,6 +368,16 @@ class Lobby {
         }
 
         this.broadcastGameList();
+    }
+
+    onWorkerStarted(nodeName) {
+        // If any games are already active on a worker with this name, then the
+        // worker was probably restarted and those games are gone.
+        this.clearGamesForNode(nodeName);
+    }
+
+    onWorkerTimedOut(nodeName) {
+        this.clearGamesForNode(nodeName);
     }
 }
 
