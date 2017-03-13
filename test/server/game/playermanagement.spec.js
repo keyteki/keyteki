@@ -126,23 +126,8 @@ describe('Game', function() {
                         expect(this.game.playersAndSpectators['foo'].left).toBe(true);
                     });
 
-                    it('should notify the router', function() {
-                        expect(this.gameRouter.playerLeft).toHaveBeenCalled();
-                    });
-
                     it('should set the finishedAt property', function() {
                         expect(this.game.finishedAt).toBeDefined();
-                    });
-                });
-
-                describe('and the game has previously finished', function() {
-                    beforeEach(function() {
-                        this.game.finishedAt = new Date();
-                        this.game.leave('foo');
-                    });
-
-                    it('should not notify the router', function() {
-                        expect(this.gameRouter.playerLeft).not.toHaveBeenCalled();
                     });
                 });
             });
