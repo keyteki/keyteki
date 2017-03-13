@@ -112,7 +112,8 @@ class GameRouter extends EventEmitter {
                     maxGames: message.arg.maxGames,
                     numGames: 0,
                     address: message.arg.address,
-                    port: message.arg.port
+                    port: message.arg.port,
+                    protocol: message.arg.protocol
                 };
                 worker = this.workers[identityStr];
                 break;

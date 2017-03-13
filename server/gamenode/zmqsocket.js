@@ -4,10 +4,11 @@ const config = require('./nodeconfig.js');
 const logger = require('../log.js');
 
 class ZmqSocket extends EventEmitter {
-    constructor(listenAddress) {
+    constructor(listenAddress, protocol) {
         super();
 
         this.listenAddress = listenAddress;
+        this.protocol = protocol;
 
         this.socket = zmq.socket('dealer');
         this.socket.identity = process.env.SERVER || config.nodeIdentity;
@@ -28,7 +29,7 @@ class ZmqSocket extends EventEmitter {
     }
 
     onConnect() {
-        this.send('HELLO', { maxGames: config.maxGames, address: this.listenAddress, port: process.env.PORT || config.socketioPort });
+        this.send('HELLO', { maxGames: config.maxGames, address: this.listenAddress, port: process.env.PORT || config.socketioPort, protocol: this.protocol });
     }
 
     onMessage(x, msg) {

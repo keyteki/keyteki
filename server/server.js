@@ -20,7 +20,6 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const http = require('http');
 
-
 const UserRepository = require('./repositories/userRepository.js');
 
 class Server {

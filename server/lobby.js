@@ -163,7 +163,7 @@ class Lobby {
 
         var game = this.findGameForUser(socket.user.username);
         if(game && game.started) {
-            socket.send('handoff', { address: game.node.address, port: game.node.port });
+            socket.send('handoff', { address: game.node.address, port: game.node.port, protocol: game.node.protocol });
         }
     }
 
@@ -266,7 +266,7 @@ class Lobby {
 
         this.broadcastGameList();
 
-        this.io.to(game.id).emit('handoff', { address: gameNode.address, port: gameNode.port });
+        this.io.to(game.id).emit('handoff', { address: gameNode.address, port: gameNode.port, protocol: game.node.protocol });
     }
 
     onWatchGame(socket, gameId) {
@@ -285,7 +285,7 @@ class Lobby {
 
             if(game.started) {
                 this.router.addSpectator(game, socket.user.username);
-                socket.send('handoff', { address: game.node.address, port: game.node.port });
+                socket.send('handoff', { address: game.node.address, port: game.node.port, protocol: game.node.protocol });
             } else {
                 this.sendGameState(game);
             }

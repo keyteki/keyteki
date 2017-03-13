@@ -10,6 +10,9 @@ const logger = require('../log.js');
 const ZmqSocket = require('./zmqsocket.js');
 const Game = require('../game/game.js');
 const Socket = require('../socket.js');
+const http = require('http');
+const https = require('https');
+const fs = require('fs');
 
 var ravenClient = new raven.Client(config.sentryDsn);
 ravenClient.patchGlobal();
@@ -20,12 +23,30 @@ class GameServer {
         this.games = {};
         this.sockets = {};
 
-        this.socket = new ZmqSocket(this.listenAddress);
+        this.protocol = 'https';
+
+        try {
+            var privateKey = fs.readFileSync('../throneteki.key').toString();
+            var certificate = fs.readFileSync('../thronteki.crt').toString();
+        } catch(e) {
+            this.protocol = 'http';
+        }
+
+        this.socket = new ZmqSocket(this.listenAddress, this.protocol);
         this.socket.on('onStartGame', this.onStartGame.bind(this));
         this.socket.on('onSpectator', this.onSpectator.bind(this));
 
-        this.io = socketio();
-        this.io.listen(process.env.PORT || config.socketioPort);
+        var server = undefined;
+
+        if(!privateKey || !certificate) {
+            server = http.createServer();
+        } else {
+            server = https.createServer({ key:privateKey,cert:certificate });
+        }
+
+        server.listen(process.env.PORT || config.socketioPort);
+
+        this.io = socketio(server);
         this.io.set('heartbeat timeout', 30000);
         this.io.use(this.handshake.bind(this));
         this.io.on('connection', this.onConnection.bind(this));
