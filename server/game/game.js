@@ -370,7 +370,7 @@ class Game extends EventEmitter {
                 this.finishedAt = new Date();
                 this.winReason = 'decked';
 
-                this.router.gameWon('decked', player);
+                this.router.gameWon(this, 'decked', player);
             }
         }
     }
