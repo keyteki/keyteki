@@ -19,7 +19,6 @@ ravenClient.patchGlobal();
 
 class GameServer {
     constructor() {
-        this.listenAddress = this.getNetworkAddress();
         this.games = {};
         this.sockets = {};
 
@@ -32,7 +31,9 @@ class GameServer {
             this.protocol = 'http';
         }
 
-        this.socket = new ZmqSocket(this.listenAddress, this.protocol);
+        this.host = config.host || process.env.HOST;
+
+        this.socket = new ZmqSocket(this.host, this.protocol);
         this.socket.on('onStartGame', this.onStartGame.bind(this));
         this.socket.on('onSpectator', this.onSpectator.bind(this));
 
@@ -50,22 +51,6 @@ class GameServer {
         this.io.set('heartbeat timeout', 30000);
         this.io.use(this.handshake.bind(this));
         this.io.on('connection', this.onConnection.bind(this));
-    }
-
-    getNetworkAddress() {
-        var firstAddress = undefined;
-
-        _.each(interfaces, addresses => {
-            _.each(addresses, address => {
-                if(address.family !== 'IPv4' || address.internal || firstAddress) {
-                    return;
-                }
-
-                firstAddress = address.address;
-            });
-        });
-
-        return firstAddress;
     }
 
     handleError(game, e) {
