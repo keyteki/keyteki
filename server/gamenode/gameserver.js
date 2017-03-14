@@ -1,5 +1,3 @@
-const os = require('os');
-const interfaces = os.networkInterfaces();
 const _ = require('underscore');
 const socketio = require('socket.io');
 const jwt = require('jsonwebtoken');
