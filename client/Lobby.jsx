@@ -80,8 +80,8 @@ class InnerLobby extends React.Component {
         return (
             <div>
                 { this.props.bannerNotice ? <div className='alert alert-danger'>{this.props.bannerNotice}</div> : null }
-                <div className='alert alert-danger'>
-                    The server is very unstable right now.  I have deployed the new multi node code and am ironing out the bugs.  Please bear with me or try again tomorrow if you want a stable game experience
+                <div className='alert alert-warning'>
+                    The server is running the new multi node code.  The lag should be much better now but there may still be issues that need to be worked out.  Your patience is appreciated.  Please raise issues on <a href='https://github.com/cryogen/throneteki'>GitHub</a>.
                 </div>
                 <div className='alert alert-info'>
                     <div><span className='icon-intrigue' />2017-03-09: New cards: Moat Cailin, Late Summer Feast, Joffrey Baratheon(FFH), Ghost, Sworn Brother, Eastwatch Carpenter, EastWatch By The Sea, Ricasso, King Robb's Host, Tywin Lannister(LoCR), Storm's End, Margery Tyrell (AMAF), Pyromancers, Ser Armory Lorch.  Add bestow keyword.  Fix: Castle Black, Cersei Lannister(LoCR)</div>

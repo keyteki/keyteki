@@ -23,8 +23,8 @@ class GameServer {
         this.protocol = 'https';
 
         try {
-            var privateKey = fs.readFileSync('../throneteki.key').toString();
-            var certificate = fs.readFileSync('../thronteki.crt').toString();
+            var privateKey = fs.readFileSync(config.keyPath).toString();
+            var certificate = fs.readFileSync(config.certPath).toString();
         } catch(e) {
             this.protocol = 'http';
         }
