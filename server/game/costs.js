@@ -83,6 +83,49 @@ const Costs = {
         };
     },
     /**
+     * Cost that requires you return a card matching the condition to the
+     * player's hand.
+     */
+    returnToHand: function(condition) {
+        var fullCondition = (card, context) => (
+            card.location === 'play area' &&
+            card.controller === context.player &&
+            condition(card)
+        );
+        return {
+            canPay: function(context) {
+                return context.player.cardsInPlay.any(card => fullCondition(card, context));
+            },
+            resolve: function(context) {
+                var result = {
+                    resolved: false
+                };
+
+                context.game.promptForSelect(context.player, {
+                    cardCondition: card => fullCondition(card, context),
+                    activePromptTitle: 'Select card to return to hand',
+                    source: context.source,
+                    onSelect: (player, card) => {
+                        context.costs.returnedToHandCard = card;
+                        result.value = true;
+                        result.resolved = true;
+
+                        return true;
+                    },
+                    onCancel: () => {
+                        result.value = false;
+                        result.resolved = true;
+                    }
+                });
+
+                return result;
+            },
+            pay: function(context) {
+                context.player.returnCardToHand(context.costs.returnedToHandCard, false);
+            }
+        };
+    },
+    /**
      * Cost that will stand the card that initiated the ability (e.g.,
      * Barristan Selmy (TS)).
      */
