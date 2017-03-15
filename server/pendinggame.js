@@ -71,6 +71,7 @@ class PendingGame {
             id: id,
             name: user.username,
             user: user,
+            emailHash: user.emailHash,
             owner: this.owner === user.username
         };
 
@@ -85,6 +86,7 @@ class PendingGame {
         this.spectators[user.username] = {
             id: id,
             name: user.username,
+            emailHash: user.emailHash,
             user: user
         };
 
