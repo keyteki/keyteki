@@ -476,6 +476,7 @@ class Player extends Spectator {
 
             card.new = true;
             this.moveCard(card, 'play area', { isDupe: !!dupeCard });
+            card.controller = this;
 
             this.game.raiseEvent('onCardEntersPlay', card);
 
@@ -1033,7 +1034,7 @@ class Player extends Spectator {
     }
 
     removeCardFromPile(card) {
-        if(card.controller !== card.owner && card.controller !== this) {
+        if(card.controller !== this) {
             card.controller.removeCardFromPile(card);
 
             card.controller = card.owner;

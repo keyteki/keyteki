@@ -22,7 +22,7 @@ class EuronCrowsEye extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        this.game.takeControl(player, card);
+        player.putIntoPlay(card);
         this.game.addMessage('{0} uses {1} to put {2} into play from their opponent\'s discard pile', player, this, card);
 
         return true;

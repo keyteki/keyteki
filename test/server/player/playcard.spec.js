@@ -20,6 +20,7 @@ describe('Player', function() {
             this.canPlaySpy.and.returnValue(true);
             this.player.hand.push(this.cardSpy);
             this.cardSpy.location = 'hand';
+            this.cardSpy.controller = this.player;
         });
 
         describe('when card is undefined', function() {

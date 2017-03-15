@@ -29,7 +29,7 @@ class HouseOfTheUndying extends DrawCard {
         });
 
         _.each(eligibleCharacters, card => {
-            this.game.takeControl(this.controller, card);
+            this.controller.putIntoPlay(card);
             this.atEndOfPhase(ability => ({
                 match: card,
                 effect: ability.effects.moveToDeadPileIfStillInPlay()
