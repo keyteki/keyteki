@@ -1,6 +1,8 @@
 /* global describe, it, beforeEach, expect, spyOn, jasmine */
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
+const _ = require('underscore');
+
 const Player = require('../../../server/game/player.js');
 
 describe('Player', function() {
@@ -12,6 +14,8 @@ describe('Player', function() {
         spyOn(this.player, 'getDuplicateInPlay');
 
         this.cardSpy = jasmine.createSpyObj('card', ['getType', 'getCost', 'isBestow', 'play', 'moveTo']);
+        this.cardSpy.controller = this.player;
+        this.cardSpy.owner = this.player;
         this.dupeCardSpy = jasmine.createSpyObj('dupecard', ['addDuplicate']);
         this.player.hand.push(this.cardSpy);
         this.cardSpy.location = 'hand';
@@ -261,6 +265,31 @@ describe('Player', function() {
                 it('should add as a duplicate', function() {
                     expect(this.dupeCardSpy.addDuplicate).toHaveBeenCalledWith(this.cardSpy);
                 });
+            });
+        });
+
+        describe('when the card is not controlled by the player', function() {
+            beforeEach(function() {
+                this.opponent = new Player('2', 'Player 2', true, this.gameSpy);
+                this.opponent.initialise();
+                this.cardSpy.controller = this.opponent;
+                this.cardSpy.owner = this.opponent;
+                this.opponent.hand.push(this.cardSpy);
+                this.player.hand = _([]);
+
+                this.player.putIntoPlay(this.cardSpy, 'marshal');
+            });
+
+            it('should add the card to cards in play', function() {
+                expect(this.player.cardsInPlay).toContain(this.cardSpy);
+            });
+
+            it('should remove the card from the other player', function() {
+                expect(this.opponent.hand).not.toContain(this.cardSpy);
+            });
+
+            it('should transfer control to the player', function () {
+                expect(this.cardSpy.controller).toBe(this.player);
             });
         });
     });

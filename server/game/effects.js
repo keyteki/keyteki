@@ -387,6 +387,16 @@ const Effects = {
             }
         };
     },
+    cannotBeBypassedByStealth: function() {
+        return {
+            apply: function(card) {
+                card.cannotBeBypassedByStealth = true;
+            },
+            unapply: function(card) {
+                card.cannotBeBypassedByStealth = false;
+            }
+        };
+    },
     modifyChallengeTypeLimit: function(challengeType, value) {
         return {
             apply: function(player) {
@@ -478,6 +488,9 @@ const Effects = {
     },
     reduceNextMarshalledCardCost: function(amount, match) {
         return this.reduceNextCardCost('marshal', amount, match);
+    },
+    reduceNextPlayedCardCost: function(amount, match) {
+        return this.reduceNextCardCost('play', amount, match);
     },
     reduceNextMarshalledOrPlayedCardCost: function(amount, match) {
         return this.reduceNextCardCost(['marshal', 'play'], amount, match);

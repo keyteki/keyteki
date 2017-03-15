@@ -358,14 +358,6 @@ class Player extends Spectator {
     }
 
     canPlayCard(card, overrideHandCheck = false) {
-        if(!card.canPlay(this, card)) {
-            return false;
-        }
-
-        if(card.getType() === 'event' && this.phase === 'setup') {
-            return false;
-        }
-
         if(this.phase !== 'setup' && this.phase !== 'marshal' && card.getType() !== 'event') {
             if(this.phase !== 'challenge' || !card.isAmbush()) {
                 return false;
@@ -373,10 +365,6 @@ class Player extends Spectator {
         }
 
         if(card.getType() !== 'event' && this.phase === 'marshal' && card.cannotMarshal) {
-            return false;
-        }
-
-        if(card.getType() === 'event' && card.cannotPlay) {
             return false;
         }
 
@@ -420,6 +408,12 @@ class Player extends Spectator {
             return true;
         }
 
+        // TODO: These are implemented via play actions now. Once everything is
+        // converted, this guard will not be necessary.
+        if(card.getType() === 'event' || this.game.currentPhase === 'setup') {
+            return false;
+        }
+
         var playingType = this.getPlayingType(card, forcePlay);
         var dupeCard = this.getDuplicateInPlay(card);
         var cost = (dupeCard && playingType !== 'ambush' || forcePlay) ? 0 : this.getReducedCost(playingType, card);
@@ -431,16 +425,6 @@ class Player extends Spectator {
         this.gold -= cost;
 
         this.markUsedReducers(playingType, card);
-
-        if(card.getType() === 'event') {
-            this.game.addMessage('{0} plays {1} costing {2}', this, card, cost);
-
-            card.play(this);
-
-            this.moveCard(card, 'discard pile');
-
-            return true;
-        }
 
         if(this.phase === 'marshal') {
             this.game.addMessage('{0} {1} {2} costing {3}', this, dupeCard ? 'duplicates' : 'marshals', card, cost);
@@ -476,6 +460,7 @@ class Player extends Spectator {
 
             card.new = true;
             this.moveCard(card, 'play area', { isDupe: !!dupeCard });
+            card.controller = this;
 
             this.game.raiseEvent('onCardEntersPlay', card);
 
@@ -1033,7 +1018,7 @@ class Player extends Spectator {
     }
 
     removeCardFromPile(card) {
-        if(card.controller !== card.owner && card.controller !== this) {
+        if(card.controller !== this) {
             card.controller.removeCardFromPile(card);
 
             card.controller = card.owner;

@@ -1,42 +1,39 @@
 const DrawCard = require('../../../drawcard.js');
 
 class TowerOfTheHand extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             when: {
                 afterChallenge: (event, challenge) => challenge.challengeType === 'intrigue' && challenge.winner === this.controller
             },
-            handler: () => {
+            cost: [
+                ability.costs.kneelSelf(),
+                ability.costs.returnToHand(card => this.isParticipatingLannister(card))
+            ],
+            handler: context => {
+                this.returnedToHandCard = context.costs.returnedToHandCard;
                 this.game.promptForSelect(this.controller, {
-                    cardCondition: card => card.location === 'play area' && card.getType() === 'character' &&
-                        this.controller === card.controller && this.game.currentChallenge.isParticipating(card),
-                    activePromptTitle: 'Select a character',
+                    cardCondition: c => c.location === 'play area' && c.getType() === 'character' && c.getCost() < this.returnedToHandCard.getCost(),
+                    activePromptTitle: 'Select an opponent\'s character',
                     source: this,
-                    onSelect: (player, card) => this.onCardSelected(player, card)
+                    onSelect: (player, card) => this.onOpponentCardSelected(player, card)
                 });
             }
         });
     }
 
-    onCardSelected(player, card) {
-        this.game.promptForSelect(this.controller, {
-            cardCondition: c => c.location === 'play area' && c.getType() === 'character' && c.getCost() < card.getCost(),
-            activePromptTitle: 'Select an opponent\'s character',
-            source: this,
-            onSelect: (player, card) => this.onOpponentCardSelected(player, card)
-        });
-
-        this.selectedCard = card;
-
-        return true;
+    isParticipatingLannister(card) {
+        return (
+            card.getType() === 'character' &&
+            card.isFaction('lannister') &&
+            this.game.currentChallenge.isParticipating(card)
+        );
     }
 
     onOpponentCardSelected(player, card) {
         card.controller.returnCardToHand(card);
-        this.selectedCard.controller.returnCardToHand(this.selectedCard);
-        this.controller.kneelCard(this);
 
-        this.game.addMessage('{0} kneels {1} to return {2} to their hand and return {3} to {4}\'s hand', this.controller, this, this.selectedCard, card, card.controller);
+        this.game.addMessage('{0} kneels {1} and returns {2} to their hand to return {3} to {4}\'s hand', this.controller, this, this.returnedToHandCard, card, card.controller);
 
         return true;
     }

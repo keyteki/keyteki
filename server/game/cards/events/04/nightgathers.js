@@ -31,8 +31,6 @@ class NightGathers extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        this.game.takeControl(player, card);
-
         player.playCard(card, false, true);
 
         this.game.promptForSelect(player, {

@@ -137,7 +137,7 @@ class Game extends EventEmitter {
     }
 
     anyPlotHasTrait(trait) {
-        return _.any(this.game.getPlayers(), player =>
+        return _.any(this.getPlayers(), player =>
             player.activePlot &&
             player.activePlot.hasTrait(trait));
     }
@@ -154,8 +154,6 @@ class Game extends EventEmitter {
         if(!player.playCard(card)) {
             return;
         }
-
-        this.raiseEvent('onCardPlayed', player, card);
     }
 
     processCardClicked(player, card) {
@@ -297,7 +295,18 @@ class Game extends EventEmitter {
         }
 
         if(player.drop(cardId, source, target)) {
-            this.addMessage('{0} has moved a card from their {1} to their {2}', player, source, target);
+            var movedCard = 'a card';
+            if(!_.isEmpty(_.intersection(['dead pile', 'discard pile', 'out of game', 'play area'],
+                                         [source, target]))) {
+                // log the moved card only if it moved from/to a public place
+                var card = this.findAnyCardInAnyList(cardId);
+                if(card && this.currentPhase !== 'setup') {
+                    movedCard = card;
+                }
+            }
+
+            this.addMessage('{0} has moved {1} from their {2} to their {3}',
+                            player, movedCard, source, target);
         }
     }
 

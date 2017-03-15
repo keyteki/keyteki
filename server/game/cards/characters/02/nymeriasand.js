@@ -60,6 +60,9 @@ class NymeriaSand extends DrawCard {
             effect: ability.effects.addIcon(icon)
         }));
 
+        this.game.addMessage('{0} uses {1} to remove a {2} icon from {3} and have each Sand Snake character they control gain it', 
+                             player, this, icon, this.selectedCard);
+
         return true;
     }
 }
