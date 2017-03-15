@@ -32,6 +32,7 @@ class SerGregorClegane extends DrawCard {
     onCardSelected(player, card) {
         this.game.addMessage('{0} uses {1} to kill {2}', this.controller, this, card);
         card.controller.killCharacter(card);
+        return true;
     }
 }
 
