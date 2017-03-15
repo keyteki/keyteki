@@ -200,14 +200,16 @@ class GameServer {
             return;
         }
 
+        var isSpectator = game.isSpectator(game.playersAndSpectators[socket.user.username];
+
+        game.leave(socket.user.username);
+
         this.socket.send('PLAYERLEFT', {
             gameId: game.id,
             game: game.getSaveState(),
             player: socket.user.username,
-            spectator: game.isSpectator(game.playersAndSpectators[socket.user.username])
+            spectator: isSpectator)
         });
-
-        game.leave(socket.user.username);
 
         socket.send('gamestate', game.getState(socket.user.username));
 
