@@ -48,9 +48,7 @@ class Lobby {
 
     // Helpers
     findGameForUser(user) {
-        return _.find(this.games, game => {
-            return game.players[user] || game.spectators[user];
-        });
+        return _.find(this.games, game => game.hasActivePlayer(user));
     }
 
     handshake(socket, next) {

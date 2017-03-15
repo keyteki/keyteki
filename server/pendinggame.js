@@ -109,8 +109,12 @@ class PendingGame {
             this.addMessage('{0} has left the game', playerName);
         }
 
-        if(this.players[playerName] && !this.started) {
-            delete this.players[playerName];
+        if(this.players[playerName]) {
+            if(this.started) {
+                this.players[playerName].left = true;
+            } else {
+                delete this.players[playerName];
+            }
         } else {
             delete this.spectators[playerName];
         }
@@ -171,11 +175,16 @@ class PendingGame {
         return true;
     }
 
+    hasActivePlayer(playerName) {
+        return this.players[playerName] && !this.players[playerName].left || this.spectators[playerName];
+    }
+
     // Summary
     getSummary(activePlayer) {
         var playerSummaries = {};
+        var playersInGame = _.filter(this.players, player => !player.left);
 
-        _.each(this.players, player => {
+        _.each(playersInGame, player => {
             var deck = undefined;
 
             if(activePlayer === player.name && player.deck) {
