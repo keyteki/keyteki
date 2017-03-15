@@ -25,13 +25,27 @@ class RenlysPavilion extends DrawCard {
     }
 
     firstCardSelected(player, card) {
-        this.lowerStr(player, card);
+        this.toLower = card;
+
         this.game.promptForSelect(player, {
             cardCondition: card => this.cardCondition(card),
             activePromptTitle: 'Select a character to get +1 STR',
             source: this,
-            onSelect: (player, card) => this.raiseStr(player, card)
+            onSelect: (player, card) => this.secondCardSelected(player, card)
         });
+
+        return true;
+    }
+
+    secondCardSelected(player, card) {
+        this.lowerStr(player, this.toLower);
+        this.raiseStr(player, card);
+
+        this.game.addMessage('{0} uses {1} to give -1 STR to {2} and +1 STR to {3}',
+                             player, this, this.toLower, card);
+
+        this.toLower = undefined;
+
         return true;
     }
 
