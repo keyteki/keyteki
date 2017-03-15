@@ -107,7 +107,7 @@ class PendingGame {
             this.addMessage('{0} has left the game', playerName);
         }
 
-        if(this.players[playerName]) {
+        if(this.players[playerName] && !this.started) {
             delete this.players[playerName];
         } else {
             delete this.spectators[playerName];

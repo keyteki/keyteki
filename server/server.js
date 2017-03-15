@@ -10,13 +10,8 @@ const localStrategy = require('passport-local').Strategy;
 const logger = require('./log.js');
 const bcrypt = require('bcrypt');
 const api = require('./api');
-// const webpack = require('webpack');
-// const webpackMiddleware = require('webpack-dev-middleware');
-// const webpackHotMiddleware = require('webpack-hot-middleware');
-// const webpackConfig = require('../webpack.config.js');
 const express = require('express');
 const path = require('path');
-// const pug = require('pug');
 const jwt = require('jsonwebtoken');
 const http = require('http');
 
@@ -58,63 +53,18 @@ class Server {
 
         api.init(app);
 
-        if(this.isDeveloping) {
-            // const compiler = webpack(webpackConfig);
-            // const middleware = webpackMiddleware(compiler, {
-            //     hot: true,
-            //     contentBase: 'client',
-            //     publicPath: webpackConfig.output.publicPath,
-            //     stats: {
-            //         colors: true,
-            //         hash: false,
-            //         timings: true,
-            //         chunks: false,
-            //         chunkModules: false,
-            //         modules: false
-            //     },
-            //     historyApiFallback: true
-            // });
+        app.use(express.static(__dirname + '/../public'));
+        app.set('view engine', 'pug');
+        app.set('views', path.join(__dirname, '..', 'views'));
+        app.get('*', function response(req, res) {
+            var token = undefined;
 
-            // app.use(middleware);
-            // app.use(express.static(__dirname + '/../public'));
-            // app.get('*', function response(req, res) {
-            //     var token = undefined;
+            if(req.user) {
+                token = jwt.sign(req.user, config.secret);
+            }
 
-            //     if(req.user) {
-            //         token = jwt.sign(req.user, config.secret);
-            //     }
-
-            //     var html = pug.renderFile('views/index.pug', { basedir: path.join(__dirname, '..', 'views'), user: req.user, token: token });
-            //     middleware.fileSystem.writeFileSync(path.join(__dirname, '..', 'public/index.html'), html);
-            //     res.write(middleware.fileSystem.readFileSync(path.join(__dirname, '..', 'public/index.html')));
-            //     res.end();
-            // });
-            app.use(express.static(__dirname + '/../public'));
-            app.set('view engine', 'pug');
-            app.set('views', path.join(__dirname, '..', 'views'));
-            app.get('*', function response(req, res) {
-                var token = undefined;
-
-                if(req.user) {
-                    token = jwt.sign(req.user, config.secret);
-                }
-
-                res.render('index', { basedir: path.join(__dirname, '..', 'views'), user: req.user, token: token });
-            });
-        } else {
-            app.use(express.static(__dirname + '/../public'));
-            app.set('view engine', 'pug');
-            app.set('views', path.join(__dirname, '..', 'views'));
-            app.get('*', function response(req, res) {
-                var token = undefined;
-
-                if(req.user) {
-                    token = jwt.sign(req.user, config.secret);
-                }
-
-                res.render('index', { basedir: path.join(__dirname, '..', 'views'), user: req.user, token: token, production: true });
-            });
-        }
+            res.render('index', { basedir: path.join(__dirname, '..', 'views'), user: req.user, token: token, production: !isDeveloping });
+        });        
 
         return this.server;
     }

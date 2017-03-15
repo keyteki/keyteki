@@ -40,7 +40,7 @@ class GameServer {
         if(!privateKey || !certificate) {
             server = http.createServer();
         } else {
-            server = https.createServer({ key:privateKey,cert:certificate });
+            server = https.createServer({ key: privateKey, cert: certificate });
         }
 
         server.listen(process.env.PORT || config.socketioPort);
@@ -78,7 +78,6 @@ class GameServer {
             this.sendGameState(game);
         }
     }
-
 
     findGameForUser(username) {
         return _.find(this.games, game => {

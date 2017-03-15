@@ -349,6 +349,14 @@ class Lobby {
 
     // router Events
     onGameClosed(gameId) {
+        var game = this.games[gameId];
+
+        if(!game) {
+            return;
+        }
+
+        game.node.numGames--;
+
         delete this.games[gameId];
 
         this.broadcastGameList();

@@ -33,10 +33,8 @@ class GameRouter extends EventEmitter {
             return;
         }
 
-        this.gameRepository.save(game.getSaveState(), (err, id) => {
-            if(!err) {
-                game.savedGameId = id;
-            }
+        this.gameRepository.create(game.getSaveState()).catch(err => {
+            logger.error(err);
         });
 
         node.numGames++;
@@ -121,7 +119,7 @@ class GameRouter extends EventEmitter {
                 worker.pingSent = undefined;
                 break;
             case 'GAMEWIN':
-                this.gameRepository.save(message.arg, () => {});
+                this.gameRepository.update(message.arg);
                 break;
             case 'GAMECLOSED':
                 logger.info('game closed', message.arg.game);
@@ -133,7 +131,7 @@ class GameRouter extends EventEmitter {
                 logger.info('player left', message.arg.gameId);
 
                 if(!message.arg.spectator) {
-                    this.gameRepository.save(message.arg.game);
+                    this.gameRepository.update(message.arg.game);
                 }
 
                 this.emit('onPlayerLeft', message.arg.gameId, message.arg.player);

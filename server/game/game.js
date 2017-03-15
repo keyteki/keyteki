@@ -673,6 +673,7 @@ class Game extends EventEmitter {
 
         return {
             id: this.savedGameId,
+            gameId: this.id,
             startedAt: this.startedAt,
             players: players,
             winner: this.winner ? this.winner.name : undefined,
