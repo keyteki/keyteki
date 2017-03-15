@@ -42,8 +42,8 @@ class PendingGame {
         });
 
         return {
-            id: this.savedGameId,
-            startedAt: this.startedAt,
+            gameId: this.id,
+            startedAt: this.createdAt,
             players: players
         };
     }
