@@ -208,7 +208,7 @@ class GameServer {
             gameId: game.id,
             game: game.getSaveState(),
             player: socket.user.username,
-            spectator: isSpectator)
+            spectator: isSpectator
         });
 
         socket.send('gamestate', game.getState(socket.user.username));
