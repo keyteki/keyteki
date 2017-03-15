@@ -9,6 +9,7 @@ class SetupCardAction extends BaseAbility {
                 Costs.playLimited()
             ]
         });
+        this.title = 'Setup';
     }
 
     meetsRequirements(context) {

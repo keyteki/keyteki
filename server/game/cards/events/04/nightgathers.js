@@ -19,32 +19,18 @@ class NightGathers extends DrawCard {
     }
 
     play(player) {
-        this.game.promptForSelect(player, {
-            activePromptTitle: 'Marshal cards from hand or opponent discard',
-            waitingPromptTitle: 'Waiting for opponent to finish marshalling',
-            cardCondition: card => card.getType() === 'character' && card.controller !== this.controller && player.canPlayCard(card, true),
-            onSelect: (player, cards) => this.onCardSelected(player, cards),
-            onCancel: (player) => this.doneMarshalling(player)
-        });
+        var opponent = this.game.getOtherPlayer(player);
+        if(!opponent) {
+            return;
+        }
 
-        return true;
-    }
+        this.game.addMessage('{0} plays {1} to allow cards from {2}\'s discard pile to be marshaled', player, this, opponent);
+        this.untilEndOfPhase(ability => ({
+            targetType: 'player',
+            targetController: 'current',
+            effect: ability.effects.canMarshalFrom(opponent, 'discard pile')
+        }));
 
-    onCardSelected(player, card) {
-        player.playCard(card, false, true);
-
-        this.game.promptForSelect(player, {
-            activePromptTitle: 'Marshal cards from hand or opponent discard',
-            waitingPromptTitle: 'Waiting for opponent to finish marshalling',
-            cardCondition: card => card.getType() === 'character' && card.controller !== this.controller && player.canPlayCard(card, true),
-            onSelect: (player, cards) => this.onCardSelected(player, cards),
-            onCancel: (player) => this.doneMarshalling(player)
-        });
-
-        return true;
-    }
-
-    doneMarshalling() {
         return true;
     }
 }
