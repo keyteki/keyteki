@@ -76,7 +76,7 @@ describe('the DrawCard', function() {
 
             describe('when the card has a keyword line', function() {
                 beforeEach(function() {
-                    this.card = new DrawCard(this.player, { text: 'Intimidate. Renown. Notarealkeyword.\nRobert Baratheon gets +1 STR for each other kneeling character in play.' });
+                    this.card = new DrawCard(this.player, { type_code: 'character', cost: 0, text: 'Intimidate. Renown. Notarealkeyword.\nRobert Baratheon gets +1 STR for each other kneeling character in play.' });
                     this.card.location = 'hand';
                     this.player.hand = _([this.card]);
                     this.player.playCard(this.card, true);

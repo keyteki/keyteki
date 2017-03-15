@@ -2,10 +2,14 @@ const _ = require('underscore');
 
 const BaseCard = require('./basecard.js');
 const SetupCardAction = require('./setupcardaction.js');
+const MarshalCardAction = require('./marshalcardaction.js');
+const AmbushCardAction = require('./ambushcardaction.js');
 const PlayCardAction = require('./playcardaction.js');
 
 const StandardPlayActions = [
     new SetupCardAction(),
+    new MarshalCardAction(),
+    new AmbushCardAction(),
     new PlayCardAction()
 ];
 

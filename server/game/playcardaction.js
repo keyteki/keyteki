@@ -9,6 +9,7 @@ class PlayCardAction extends BaseAbility {
                 Costs.playLimited()
             ]
         });
+        this.title = 'Play';
     }
 
     meetsRequirements(context) {

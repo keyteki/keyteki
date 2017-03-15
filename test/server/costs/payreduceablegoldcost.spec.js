@@ -127,8 +127,8 @@ describe('Costs.payReduceableGoldCost', function() {
                     expect(this.playerSpy.gold).toBe(4);
                 });
 
-                it('should mark any reducers as used', function() {
-                    expect(this.playerSpy.markUsedReducers).toHaveBeenCalledWith('marshal', this.cardSpy);
+                it('should not mark any reducers as used', function() {
+                    expect(this.playerSpy.markUsedReducers).not.toHaveBeenCalled();
                 });
             });
 

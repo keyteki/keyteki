@@ -228,8 +228,8 @@ const Costs = {
                 } else {
                     context.costs.gold = context.player.getReducedCost(playingType, context.source);
                     context.player.gold -= context.costs.gold;
+                    context.player.markUsedReducers(playingType, context.source);
                 }
-                context.player.markUsedReducers(playingType, context.source);
             }
         };
     }

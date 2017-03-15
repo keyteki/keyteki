@@ -144,28 +144,6 @@ class Game extends EventEmitter {
         this.effectEngine.add(new Effect(this, source, properties));
     }
 
-    playCard(player, card) {
-        if(this.pipeline.handleCardClicked(player, card)) {
-            return;
-        }
-
-        if(!player.playCard(card)) {
-            return;
-        }
-    }
-
-    processCardClicked(player, card) {
-        if(this.pipeline.handleCardClicked(player, card)) {
-            return true;
-        }
-
-        if(card && card.onClick(player)) {
-            return true;
-        }
-
-        return false;
-    }
-
     selectPlot(player, plotId) {
         var plot = player.findCardByUuid(player.plotDeck, plotId);
 
@@ -193,28 +171,32 @@ class Game extends EventEmitter {
             return;
         }
 
-        switch(card.location) {
-            case 'hand':
-                this.playCard(player, card);
-                return;
-            case 'plot deck':
-                this.selectPlot(player, cardId);
-
-                return;
+        if(card.location === 'plot deck') {
+            this.selectPlot(player, cardId);
+            return;
         }
 
-        var handled = this.processCardClicked(player, card);
+        if(this.pipeline.handleCardClicked(player, card)) {
+            return;
+        }
 
-        if(!handled) {
-            if(card && !card.facedown && card.location === 'play area' && card.controller === player) {
-                if(card.kneeled) {
-                    player.standCard(card);
-                } else {
-                    player.kneelCard(card);
-                }
+        // Attempt to play cards that are not already in the play area.
+        if(['hand', 'discard pile', 'dead pile'].includes(card.location) && player.playCard(card)) {
+            return;
+        }
 
-                this.addMessage('{0} {1} {2}', player, card.kneeled ? 'kneels' : 'stands', card);
+        if(card.onClick(player)) {
+            return;
+        }
+
+        if(!card.facedown && card.location === 'play area' && card.controller === player) {
+            if(card.kneeled) {
+                player.standCard(card);
+            } else {
+                player.kneelCard(card);
             }
+
+            this.addMessage('{0} {1} {2}', player, card.kneeled ? 'kneels' : 'stands', card);
         }
     }
 

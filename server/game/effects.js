@@ -2,6 +2,7 @@ const _ = require('underscore');
 
 const AbilityLimit = require('./abilitylimit.js');
 const CostReducer = require('./costreducer.js');
+const MarshalLocation = require('./marshallocation.js');
 
 const Effects = {
     all: function(effects) {
@@ -460,6 +461,17 @@ const Effects = {
             },
             unapply: function(player) {
                 player.cannotWinChallenge = false;
+            }
+        };
+    },
+    canMarshalFrom: function(p, location) {
+        var marshalLocation = new MarshalLocation(p, location);
+        return {
+            apply: function(player) {
+                player.marshalLocations.push(marshalLocation);
+            },
+            unapply: function(player) {
+                player.marshalLocations = _.reject(player.additionalMarshalLocations, l => l === marshalLocation);
             }
         };
     },
