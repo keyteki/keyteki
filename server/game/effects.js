@@ -387,6 +387,16 @@ const Effects = {
             }
         };
     },
+    cannotBeBypassedByStealth: function() {
+        return {
+            apply: function(card) {
+                card.cannotBeBypassedByStealth = true;
+            },
+            unapply: function(card) {
+                card.cannotBeBypassedByStealth = false;
+            }
+        };
+    },
     modifyChallengeTypeLimit: function(challengeType, value) {
         return {
             apply: function(player) {

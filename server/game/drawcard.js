@@ -175,7 +175,7 @@ class DrawCard extends BaseCard {
     }
 
     canUseStealthToBypass(targetCard) {
-        if(!this.isStealth() || targetCard.isStealth()) {
+        if(!this.isStealth() || targetCard.isStealth() || targetCard.cannotBeBypassedByStealth) {
             return false;
         }
 
