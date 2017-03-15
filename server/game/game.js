@@ -449,7 +449,6 @@ class Game extends EventEmitter {
                 this.finishedAt = new Date();
                 this.winReason = 'concede';
 
-                logger.info('concede');
                 this.router.gameWon(this, 'concede', otherPlayer);
             }
         }

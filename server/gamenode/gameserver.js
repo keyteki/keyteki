@@ -122,8 +122,6 @@ class GameServer {
         });
 
         game.initialise();
-
-        logger.info('Starting new game', game.id);
     }
 
     onSpectator(pendingGame, user) {

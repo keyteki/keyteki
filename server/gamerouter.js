@@ -125,14 +125,11 @@ class GameRouter extends EventEmitter {
                 });
                 break;
             case 'GAMECLOSED':
-                logger.info('game closed', message.arg.game);
                 worker.numGames--;
                 this.emit('onGameClosed', message.arg.game);
 
                 break;
             case 'PLAYERLEFT':
-                logger.info('player left', message.arg.gameId);
-
                 if(!message.arg.spectator) {
                     this.gameRepository.update(message.arg.game).catch(err => {
                         logger.error(err);
