@@ -200,7 +200,7 @@ class GameServer {
             return;
         }
 
-        var isSpectator = game.isSpectator(game.playersAndSpectators[socket.user.username];
+        var isSpectator = game.isSpectator(game.playersAndSpectators[socket.user.username]);
 
         game.leave(socket.user.username);
 
