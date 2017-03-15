@@ -22,8 +22,6 @@ const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 const EventWindow = require('./gamesteps/eventwindow.js');
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
 
-const logger = require('../log.js');
-
 class Game extends EventEmitter {
     constructor(details, options = {}) {
         super();
