@@ -231,7 +231,7 @@ class DrawCard extends BaseCard {
     }
 
     getPlayActions() {
-        return StandardPlayActions;
+        return StandardPlayActions.concat(this.abilities.playActions);
     }
 
     play(player, isAmbush) {
