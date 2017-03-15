@@ -17,15 +17,19 @@ class Deck {
         };
 
         this.eachRepeatedCard(this.data.drawCards, cardData => {
-            var drawCard = this.createCard(DrawCard, player, cardData);
-            drawCard.location = 'draw deck';
-            result.drawCards.push(drawCard);
+            if(['attachment', 'character', 'event', 'location'].includes(cardData.type_code)) {
+                var drawCard = this.createCard(DrawCard, player, cardData);
+                drawCard.location = 'draw deck';
+                result.drawCards.push(drawCard);
+            }
         });
 
         this.eachRepeatedCard(this.data.plotCards, cardData => {
-            var plotCard = this.createCard(PlotCard, player, cardData);
-            plotCard.location = 'plot deck';
-            result.plotCards.push(plotCard);
+            if(cardData.type_code === 'plot') {
+                var plotCard = this.createCard(PlotCard, player, cardData);
+                plotCard.location = 'plot deck';
+                result.plotCards.push(plotCard);
+            }
         });
 
         if(this.data.faction) {
