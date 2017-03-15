@@ -284,7 +284,7 @@ class Lobby {
             socket.joinChannel(game.id);
 
             if(game.started) {
-                this.router.addSpectator(game, socket.user.username);
+                this.router.addSpectator(game, socket.user);
                 socket.send('handoff', { address: game.node.address, port: game.node.port, protocol: game.node.protocol });
             } else {
                 this.sendGameState(game);

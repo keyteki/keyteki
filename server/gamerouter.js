@@ -12,6 +12,7 @@ class GameRouter extends EventEmitter {
 
         this.workers = {};
         this.gameRepository = new GameRepository();
+        router.monitor(500, 0);
 
         router.bind(config.mqUrl, err => {
             if(err) {
@@ -43,8 +44,8 @@ class GameRouter extends EventEmitter {
         return node;
     }
 
-    addSpectator(game, username) {
-        this.sendCommand(game.node.identity, 'SPECTATOR', { game: game, username: username });
+    addSpectator(game, user) {
+        this.sendCommand(game.node.identity, 'SPECTATOR', { game: game, user: user });
     }
 
     getNextAvailableGameNode() {

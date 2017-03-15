@@ -126,13 +126,13 @@ class GameServer {
         logger.info('Starting new game', game.id);
     }
 
-    onSpectator(pendingGame, username) {
+    onSpectator(pendingGame, user) {
         var game = this.games[pendingGame.id];
         if(!game) {
             return;
         }
 
-        game.watch('TBA', { username: username });
+        game.watch('TBA', user);
 
         this.sendGameState(game);
     }
