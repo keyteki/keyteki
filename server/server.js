@@ -56,14 +56,14 @@ class Server {
         app.use(express.static(__dirname + '/../public'));
         app.set('view engine', 'pug');
         app.set('views', path.join(__dirname, '..', 'views'));
-        app.get('*', function response(req, res) {
+        app.get('*', (req, res) => {
             var token = undefined;
 
             if(req.user) {
                 token = jwt.sign(req.user, config.secret);
             }
 
-            res.render('index', { basedir: path.join(__dirname, '..', 'views'), user: req.user, token: token, production: !isDeveloping });
+            res.render('index', { basedir: path.join(__dirname, '..', 'views'), user: req.user, token: token, production: !this.isDeveloping });
         });        
 
         return this.server;
