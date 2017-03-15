@@ -135,7 +135,7 @@ class GameRouter extends EventEmitter {
                 if(!message.arg.spectator) {
                     this.gameRepository.update(message.arg.game).catch(err => {
                         logger.error(err);
-                    }
+                    });
                 }
 
                 this.emit('onPlayerLeft', message.arg.gameId, message.arg.player);
