@@ -67,16 +67,26 @@ module.exports.init = function(server) {
 
             return hashPassword(req.body.password, 10);
         }).then(hash => {
+            if(responseSent) {
+                return;
+            }
+
             req.body.password = hash;
             req.body.registered = new Date();
             req.body.emailHash = crypto.createHash('md5').update(req.body.email).digest('hex');
 
             return userRepository.addUser(req.body);
         }).then(() => {
+            if(responseSent) {
+                return;
+            }
+
             return loginUser(req, req.body);
         }).then(() => {
-            responseSent = true;
-            res.send({ success: true, user: req.body, token: jwt.sign(req.user, config.secret)});
+            if(!responseSent) {
+                responseSent = true;
+                res.send({ success: true, user: req.body, token: jwt.sign(req.user, config.secret)});
+            }
         }).catch(err => {
             if(!responseSent) {
                 res.send({ success: false, message: 'An error occured registering your account' });
