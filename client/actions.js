@@ -218,3 +218,22 @@ export function gameSocketConnecting(host) {
         host: host
     };
 }
+
+export function gameSocketConnectFailed() {
+    return {
+        type: 'GAME_SOCKET_CONNECT_FAILED'
+    };
+}
+
+export function gameSocketClosed(message) {
+    return {
+        type: 'GAME_SOCKET_CLOSED',
+        message: message
+    };
+}
+
+export function gameSocketClose() {
+    return (dispatch) => {
+        return dispatch(gameSocketClosed());
+    };
+}

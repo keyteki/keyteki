@@ -107,7 +107,7 @@ class App extends React.Component {
                 reconnection: true,
                 reconnectionDelay: 1000,
                 reconnectionDelayMax : 5000,
-                reconnectionAttempts: Infinity,
+                reconnectionAttempts: 5,
                 query: 'token=' + this.props.token
             });
 
@@ -130,6 +130,11 @@ class App extends React.Component {
             gameSocket.on('reconnect', () => {
                 toastr.success('Reconnected', 'The reconnection has been successful');
                 this.props.gameSocketConnected(gameSocket);
+            });
+
+            gameSocket.on('reconnect_failed', () => {
+                toastr.error('Reconnect failed', 'Given up trying to connect to the server');
+                this.props.gameSocketConnectFailed();
             });
 
             gameSocket.on('connect', () => {
@@ -235,6 +240,7 @@ App.propTypes = {
     fetchCards: React.PropTypes.func,
     fetchPacks: React.PropTypes.func,
     gameSocketConnectError: React.PropTypes.func,
+    gameSocketConnectFailed: React.PropTypes.func,
     gameSocketConnected: React.PropTypes.func,
     gameSocketConnecting: React.PropTypes.func,
     gameSocketDisconnect: React.PropTypes.func,

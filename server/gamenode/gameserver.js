@@ -163,10 +163,13 @@ class GameServer {
 
         this.sockets[socket.id] = socket;
 
+        game.addMessage('{0} has connected to the game server', player);
+
         this.sendGameState(game);
 
         socket.registerEvent('game', this.onGameMessage.bind(this));
         socket.on('disconnect', this.onSocketDisconnected.bind(this));
+
 
         this.sockets[ioSocket.id] = socket;
     }

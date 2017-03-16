@@ -126,6 +126,8 @@ class InnerPendingGame extends React.Component {
         event.preventDefault();
 
         this.props.socket.emit('leavegame', this.props.currentGame.id);
+
+        this.props.gameSocketClose();
     }
 
     onStartClick(event) {
@@ -248,6 +250,7 @@ InnerPendingGame.propTypes = {
     cards: React.PropTypes.array,
     connecting: React.PropTypes.bool,
     currentGame: React.PropTypes.object,
+    gameSocketClose: React.PropTypes.func,
     host: React.PropTypes.string,
     sendSocketMessage: React.PropTypes.func,
     socket: React.PropTypes.object,

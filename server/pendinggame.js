@@ -126,10 +126,16 @@ class PendingGame {
             return;
         }
 
-        this.addMessage('{0} has disconnected', playerName);
+        if(!this.started) {
+            this.addMessage('{0} has disconnected', playerName);
+        }
 
         if(this.players[playerName]) {
-            delete this.players[playerName];
+            if(this.started) {
+                this.players[playerName].disconnected = true;
+            } else {
+                delete this.players[playerName];
+            }
         } else {
             delete this.spectators[playerName];
         }
@@ -162,7 +168,7 @@ class PendingGame {
 
     // interrogators
     isEmpty() {
-        return _.isEmpty(this.players) && _.isEmpty(this.spectators);
+        return !_.any(this.getPlayersAndSpectators(), player => this.hasActivePlayer(player.name));
     }
 
     isOwner(playerName) {
@@ -176,7 +182,7 @@ class PendingGame {
     }
 
     hasActivePlayer(playerName) {
-        return this.players[playerName] && !this.players[playerName].left || this.spectators[playerName];
+        return this.players[playerName] && !this.players[playerName].left && !this.players[playerName].disconnected || this.spectators[playerName];
     }
 
     // Summary

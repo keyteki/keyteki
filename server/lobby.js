@@ -183,10 +183,6 @@ class Lobby {
             return;
         }
 
-        if(game.started) {
-            return;
-        }
-
         game.disconnect(socket.user.username);
         socket.send('gamestate', game.getSummary(socket.user.username));
         socket.leaveChannel(game.id);
