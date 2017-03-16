@@ -13,19 +13,19 @@ const MessageRepository = require('./repositories/messageRepository.js');
 const DeckRepository = require('./repositories/deckRepository.js');
 
 class Lobby {
-    constructor(server) {
+    constructor(server, options = {}) {
         this.sockets = {};
         this.users = {};
         this.games = {};
-        this.messageRepository = new MessageRepository();
-        this.deckRepository = new DeckRepository();
-        this.router = new GameRouter();
+        this.messageRepository = options.messageRepository || new MessageRepository();
+        this.deckRepository = options.deckRepository || new DeckRepository();
+        this.router = options.router || new GameRouter();
         this.router.on('onGameClosed', this.onGameClosed.bind(this));
         this.router.on('onPlayerLeft', this.onPlayerLeft.bind(this));
         this.router.on('onWorkerStarted', this.onWorkerStarted.bind(this));
         this.router.on('onWorkerTimedOut', this.onWorkerTimedOut.bind(this));
 
-        this.io = socketio(server);
+        this.io = options.io || socketio(server);
         this.io.set('heartbeat timeout', 30000);
         this.io.use(this.handshake.bind(this));
         this.io.on('connection', this.onConnection.bind(this));
@@ -197,7 +197,7 @@ class Lobby {
     }
 
     onNewGame(socket, gameDetails) {
-        var existingGame = this.findGameForUser(socket.user);
+        var existingGame = this.findGameForUser(socket.user.username);
         if(existingGame) {
             return;
         }
@@ -214,7 +214,7 @@ class Lobby {
     }
 
     onJoinGame(socket, gameId) {
-        var existingGame = this.findGameForUser(socket.user);
+        var existingGame = this.findGameForUser(socket.user.username);
         if(existingGame) {
             return;
         }
