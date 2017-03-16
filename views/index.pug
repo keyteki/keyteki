@@ -2,6 +2,7 @@ extends /layout
 
 block content
   #component
-  script(type="text/javascript").
-    var authToken = '#{token}';
+  if token
+    script(type="text/javascript").
+      var authToken = '#{token}';
   script(type="text/javascript")!= "var user = " + JSON.stringify(user) + ";"

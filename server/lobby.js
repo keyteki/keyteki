@@ -54,7 +54,7 @@ class Lobby {
     handshake(socket, next) {
         var versionInfo = undefined;
 
-        if(socket.handshake.query.token) {
+        if(socket.handshake.query.token && socket.handshake.query.token !== 'undefined') {
             jwt.verify(socket.handshake.query.token, config.secret, function(err, user) {
                 if(err) {
                     logger.info(err);
