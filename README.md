@@ -35,7 +35,7 @@ Check out the [About page](https://theironthrone.net/about) of a Throneteki live
 
 ## Development
 
-The game uses mongodb as storage so you'll need that installed and running
+The game uses mongodb as storage so you'll need that installed and running.
 
 ```
 Clone the repository
@@ -46,25 +46,55 @@ mkdir server/logs
 cd server
 node fetchdata.js
 cd ..
+./node_nodules/.bin/webpack --config webpack.config.js
 node .
+node server
 ```
 
-You'll also need a file called server/config.js that should look like this:
+If you make changes to the client code you will need to rerun this:
+```
+./node_nodules/.bin/webpack --config webpack.config.js
+```
+
+There are two exectuable components and you'll need to configure/run both to run a local server.  First is the lobby server and then there are game nodes.
+
+For the lobby server, you'll need a file called server/config.js that should look like this:
 ```javascript
 var config = {
-  secret: 'somethingverysecret'
+  secret: 'somethingverysecret',
+  mqUrl: 'tcp://127.0.0.1:6000' // This is the host/port of the Zero MQ server which does the node load balancing
 };
 
 module.exports = config;
 ```
 
-This will get you up and running in development mode, using the webpack dev server and hotloading.
+For the game nodes you will need a file called server/gamenode/nodeconfig.js that looks like this:
+
+```javascript
+var config = {
+  secret: 'somethingverysecret', // This needs to match the config above
+  mqUrl: 'tcp://127.0.0.1:6000', // This is the host/port of the Zero MQ server which does the node load balancing and needs to match the config above
+  socketioPort: 9500, // This is the port for the game node to listen on
+  nodeIdentity: 'test1', // This is the identity of the node,
+  host: 'localhost'
+};
+
+module.exports = config;
+```
+
+This will get you up and running in development mode.
 
 For production:
 
 ```
 NODE_ENV=production ./node_nodules/.bin/webpack -p --config webpack.config.production.js
 NODE_ENV=production PORT=4000 node .
+```
+
+Then for each game node (typically one per CPU/core):
+
+```
+PORT={port} SERVER={node-name} node server/gamenode
 ```
 
 ### Coding Guidelines
@@ -91,3 +121,4 @@ If you are making any game engine changes, these will not be accepted without un
 ### Build Status
 
 [![CircleCI](https://circleci.com/gh/cryogen/throneteki.svg?style=svg)](https://circleci.com/gh/cryogen/throneteki)
+[![Travis Build](https://travis-ci.org/cryogen/throneteki.svg?branch=master])(https://travis-ci.org/cryogen/throneteki)
