@@ -81,12 +81,22 @@ class GameServer {
 
     findGameForUser(username) {
         return _.find(this.games, game => {
-            return game.playersAndSpectators[username];
+            var player = game.playersAndSpectators[username];
+
+            if(!player || player.left) {
+                return false;
+            }
+
+            return true;
         });
     }
 
     sendGameState(game) {
         _.each(game.getPlayersAndSpectators(), player => {
+            if(player.left) {
+                return;
+            }
+
             if(this.sockets[player.id]) {
                 this.sockets[player.id].send('gamestate', game.getState(player.name));
             }
@@ -185,6 +195,8 @@ class GameServer {
 
         game.disconnect(socket.user.username);
 
+        delete this.sockets[socket.id];
+
         if(game.isEmpty()) {
             delete this.games[game.id];
 
@@ -216,6 +228,8 @@ class GameServer {
         socket.send('gamestate', game.getState(socket.user.username));
 
         socket.leaveChannel(game.id);
+
+        delete this.sockets[socket.id];
 
         if(game.isEmpty()) {
             delete this.games[game.id];
