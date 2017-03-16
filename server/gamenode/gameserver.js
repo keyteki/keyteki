@@ -94,7 +94,7 @@ class GameServer {
     }
 
     handshake(socket, next) {
-        if(socket.handshake.query.token) {
+        if(socket.handshake.query.token && socket.handshake.query.token !== 'undefined') {
             jwt.verify(socket.handshake.query.token, config.secret, function(err, user) {
                 if(err) {
                     logger.info(err);
@@ -163,13 +163,14 @@ class GameServer {
 
         this.sockets[socket.id] = socket;
 
-        game.addMessage('{0} has connected to the game server', player);
+        if(!game.isSpectator(player)) {
+            game.addMessage('{0} has connected to the game server', player);
+        }
 
         this.sendGameState(game);
 
         socket.registerEvent('game', this.onGameMessage.bind(this));
         socket.on('disconnect', this.onSocketDisconnected.bind(this));
-
 
         this.sockets[ioSocket.id] = socket;
     }
