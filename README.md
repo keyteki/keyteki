@@ -62,6 +62,7 @@ For the lobby server, you'll need a file called server/config.js that should loo
 ```javascript
 var config = {
   secret: 'somethingverysecret',
+  dbPath: 'mongodb://127.0.0.1:27017/throneteki',
   mqUrl: 'tcp://127.0.0.1:6000' // This is the host/port of the Zero MQ server which does the node load balancing
 };
 
@@ -121,4 +122,4 @@ If you are making any game engine changes, these will not be accepted without un
 ### Build Status
 
 [![CircleCI](https://circleci.com/gh/cryogen/throneteki.svg?style=svg)](https://circleci.com/gh/cryogen/throneteki)
-[![Travis Build](https://travis-ci.org/cryogen/throneteki.svg?branch=master])(https://travis-ci.org/cryogen/throneteki)
+[![Travis Build](https://travis-ci.org/cryogen/throneteki.svg?branch=master)](https://travis-ci.org/cryogen/throneteki)
