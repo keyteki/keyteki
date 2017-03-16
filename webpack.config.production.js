@@ -43,6 +43,10 @@ var config = {
                 loaders: ['babel']
             },
             {
+                test: /\.scss$/,
+                loader: 'style!css!sass'
+            },
+            {
                 test: /\.less$/,
                 loader: 'style!css!less'
             }, {

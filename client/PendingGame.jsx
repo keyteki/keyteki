@@ -105,6 +105,10 @@ class InnerPendingGame extends React.Component {
     }
 
     getGameStatus() {
+        if(this.props.connecting) {
+            return 'Connecting to game server: ' + this.props.host;
+        }        
+        
         if(_.size(this.props.currentGame.players) < 2) {
             return 'Waiting for players...';
         }
@@ -126,7 +130,7 @@ class InnerPendingGame extends React.Component {
 
     onStartClick(event) {
         event.preventDefault();
-
+    
         this.props.socket.emit('startgame', this.props.currentGame.id);
     }
 
@@ -200,7 +204,7 @@ class InnerPendingGame extends React.Component {
                     <source src='/sound/charge.ogg' type='audio/ogg' />
                 </audio>
                 <div className='btn-group'>
-                    <button className='btn btn-primary' disabled={!this.isGameReady()} onClick={this.onStartClick}>Start</button>
+                    <button className='btn btn-primary' disabled={!this.isGameReady() || this.props.connecting} onClick={this.onStartClick}>Start</button>
                     <button className='btn btn-primary' onClick={this.onLeaveClick}>Leave</button>
                 </div>
                 <h3>{this.props.currentGame.name}</h3>
@@ -242,7 +246,9 @@ class InnerPendingGame extends React.Component {
 InnerPendingGame.displayName = 'PendingGame';
 InnerPendingGame.propTypes = {
     cards: React.PropTypes.array,
+    connecting: React.PropTypes.bool,
     currentGame: React.PropTypes.object,
+    host: React.PropTypes.string,
     sendSocketMessage: React.PropTypes.func,
     socket: React.PropTypes.object,
     username: React.PropTypes.string,
@@ -252,7 +258,9 @@ InnerPendingGame.propTypes = {
 function mapStateToProps(state) {
     return {
         cards: state.cards.cards,
+        connecting: state.socket.gameConnecting,
         currentGame: state.games.currentGame,
+        host: state.socket.gameHost,
         socket: state.socket.socket,
         username: state.auth.username
     };

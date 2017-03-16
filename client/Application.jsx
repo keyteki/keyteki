@@ -18,6 +18,8 @@ import About from './About.jsx';
 import ForgotPassword from './ForgotPassword.jsx';
 import ResetPassword from './ResetPassword.jsx';
 
+import {toastr} from 'react-redux-toastr';
+
 import version from '../version.js';
 
 import * as actions from './actions';
@@ -98,12 +100,36 @@ class App extends React.Component {
         });
 
         socket.on('handoff', server => {
-            var gameSocket = io.connect(server.protocol + '://' + server.address + ':' + server.port, {
+            var url = server.protocol + '://' + server.address + ':' + server.port;
+            this.props.gameSocketConnecting(url);
+
+            var gameSocket = io.connect(url, {
                 reconnection: true,
                 reconnectionDelay: 1000,
                 reconnectionDelayMax : 5000,
                 reconnectionAttempts: Infinity,
                 query: 'token=' + this.props.token
+            });
+
+            gameSocket.on('connect_error', () => {
+                toastr.error('Connect Error', 'There was an error connecting to the game server');
+            });
+
+            gameSocket.on('disconnect', () => {
+                toastr.error('Connection lost', 'You have been disconnected from the game server, attempting reconnect..');
+
+                this.props.gameSocketDisconnect();
+            });
+
+            gameSocket.on('reconnecting', (attemptNumber) => {
+                toastr.info('Reconnecting', 'Attempt number ' + attemptNumber + ' to reconnect..');
+
+                this.props.gameSocketReconnecting(attemptNumber);
+            });
+
+            gameSocket.on('reconnect', () => {
+                toastr.success('Reconnected', 'The reconnection has been successful');
+                this.props.gameSocketConnected(gameSocket);
             });
 
             gameSocket.on('connect', () => {
@@ -208,7 +234,11 @@ App.propTypes = {
     currentGame: React.PropTypes.object,
     fetchCards: React.PropTypes.func,
     fetchPacks: React.PropTypes.func,
+    gameSocketConnectError: React.PropTypes.func,
     gameSocketConnected: React.PropTypes.func,
+    gameSocketConnecting: React.PropTypes.func,
+    gameSocketDisconnect: React.PropTypes.func,
+    gameSocketReconnecting: React.PropTypes.func,
     games: React.PropTypes.array,
     loggedIn: React.PropTypes.bool,
     navigate: React.PropTypes.func,

@@ -41,6 +41,10 @@ var config = {
             {
                 test: /\.less$/,
                 loader: 'style!css!less'
+            },
+            {
+                test: /\.scss$/,
+                loader: 'style!css!sass'
             }, {
                 test: /.(png|woff(2)?|eot|ttf|svg)(\?[a-z0-9=\.]+)?$/, loader: 'url-loader?limit=100000'
             }]

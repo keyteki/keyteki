@@ -7,6 +7,7 @@ import configureStore from './configureStore';
 import {navigate, login} from './actions';
 import DevTools from './DevTools';
 import 'bootstrap/dist/js/bootstrap';
+import ReduxToastr from 'react-redux-toastr';
 
 const store = configureStore();
 
@@ -19,8 +20,14 @@ if(typeof user !== 'undefined') {
 render(
     <Provider store={store}>
         <div>
+            <ReduxToastr
+                timeOut={4000}
+                newestOnTop
+                preventDuplicates
+                position='top-right'
+                transitionIn='fadeIn'
+                transitionOut='fadeOut'/>  
             <Application />
-
             <DevTools />
         </div>
     </Provider>, document.getElementById('component'));

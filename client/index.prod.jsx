@@ -6,6 +6,7 @@ import {Provider} from 'react-redux';
 import configureStore from './configureStore';
 import {navigate, login} from './actions';
 import 'bootstrap/dist/js/bootstrap';
+import ReduxToastr from 'react-redux-toastr';
 
 import version from '../version.js';
 
@@ -22,6 +23,13 @@ if(typeof user !== 'undefined') {
 render(
     <Provider store={store}>
         <div>
+            <ReduxToastr
+                timeOut={4000}
+                newestOnTop
+                preventDuplicates
+                position='top-right'
+                transitionIn='fadeIn'
+                transitionOut='fadeOut'/>        
             <Application />
         </div>
     </Provider>, document.getElementById('component'));

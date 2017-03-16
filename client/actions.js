@@ -193,3 +193,28 @@ export function receiveBannerNotice(notice) {
         notice: notice
     };
 }
+
+export function gameSocketConnectError() {
+    return {
+        type: 'GAME_SOCKET_CONNECT_ERROR'
+    };
+}
+
+export function gameSocketDisconnect() {
+    return {
+        type: 'GAME_SOCKET_DISCONNETED'
+    };
+}
+
+export function gameSocketReconnecting() {
+    return {
+        type: 'GAME_SOCKET_RECONNECTED'
+    };
+}
+
+export function gameSocketConnecting(host) {
+    return {
+        type: 'GAME_SOCKET_CONNECTING',
+        host: host
+    };
+}
