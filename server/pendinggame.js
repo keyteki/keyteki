@@ -115,7 +115,9 @@ class PendingGame {
             } else {
                 delete this.players[playerName];
             }
-        } else {
+        }
+
+        if(this.spectators[playerName]) {
             delete this.spectators[playerName];
         }
     }
