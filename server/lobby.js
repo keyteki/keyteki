@@ -230,13 +230,13 @@ class Lobby {
         socket.send('gamestate', game.getSummary(socket.user.username));
         socket.leaveChannel(game.id);
 
-        delete this.sockets[socket.id];
-
         if(game.isEmpty()) {
             delete this.games[game.id];
         } else {
             this.sendGameState(game);
         }
+
+        delete this.sockets[socket.id];
 
         this.broadcastGameList();
     }
