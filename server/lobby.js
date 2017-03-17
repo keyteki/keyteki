@@ -148,6 +148,10 @@ class Lobby {
 
     sendGameState(game) {
         _.each(game.getPlayersAndSpectators(), player => {
+            if(!this.sockets[player.id]) {
+                logger.info('Wanted to send to ', player.id, ' but have no socket');
+                return;
+            }
             this.sockets[player.id].send('gamestate', game.getSummary(player.name));
         });
     }
