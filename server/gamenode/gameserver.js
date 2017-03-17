@@ -59,7 +59,8 @@ class GameServer {
                     name: player.name,
                     left: player.left,
                     disconnected: player.disconnected,
-                    id: player.id
+                    id: player.id,
+                    spectator: game.isSpectator(player)
                 };
             });
 
