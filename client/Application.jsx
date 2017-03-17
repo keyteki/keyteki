@@ -60,8 +60,8 @@ class App extends React.Component {
             }
         });
 
-        var queryString = this.props.token ? 'token=' + this.props.token : '';
-        queryString += '&version=' + version;
+        var queryString = this.props.token ? 'token=' + this.props.token + '&' : '';
+        queryString += 'version=' + version;
 
         var socket = io.connect(window.location.origin, {
             reconnection: true,
