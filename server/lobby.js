@@ -172,7 +172,13 @@ class Lobby {
     }
 
     onSocketDisconnected(socket) {
-        if(!socket || !socket.user) {
+        if(!socket) {
+            return;
+        }
+
+        delete this.sockets[socket.id];
+
+        if(!socket.user) {
             return;
         }
 
