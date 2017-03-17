@@ -51,6 +51,44 @@ class Lobby {
         return _.find(this.games, game => game.hasActivePlayer(user));
     }
 
+    debugDump() {
+        var games = _.map(this.games, game => {
+            var players = _.map(game.players, player => {
+                return {
+                    name: player.name,
+                    left: player.left,
+                    disconnected: player.disconnected,
+                    id: player.id
+                };
+            });
+
+            var spectators = _.map(game.spectators, spectator => {
+                return {
+                    name: spectator.name,
+                    id: spectator.id
+                };
+            });
+
+            return {
+                name: game.name,
+                players: players,
+                spectators: spectators,
+                id: game.id,
+                started: game.started,
+                node: game.node ? game.node.identity : 'None'
+            };
+        });
+
+        var nodes = this.router.getNodeStatus();
+
+        return {
+            games: games,
+            nodes: nodes,
+            socketCount: _.size(this.sockets),
+            userCount: _.size(this.users)
+        };
+    }
+
     handshake(socket, next) {
         var versionInfo = undefined;
 

@@ -33,6 +33,10 @@ function runServer() {
         reply({ success: lobby.enableNode(param) });
     });
 
+    pmx.action('debug', reply => {
+        reply(lobby.debugDump());
+    });
+
     server.run();
 }
 

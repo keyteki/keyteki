@@ -52,6 +52,32 @@ class GameServer {
         this.io.on('connection', this.onConnection.bind(this));
     }
 
+    debugDump() {
+        var games = _.map(this.games, game => {
+            var players = _.map(game.playersAndSpectators, player => {
+                return {
+                    name: player.name,
+                    left: player.left,
+                    disconnected: player.disconnected,
+                    id: player.id
+                };
+            });
+
+            return {
+                name: game.name,
+                players: players,
+                id: game.id,
+                started: game.started
+            };
+        });
+
+        return {
+            games: games,
+            socketCount: _.size(this.sockets),
+            gameCount: _.size(this.games)
+        };
+    }
+
     handleError(game, e) {
         logger.error(e);
 
