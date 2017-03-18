@@ -60,12 +60,26 @@ describe('CardAction', function () {
                 });
             });
         });
+
+        describe('location', function() {
+            it('should default to play area', function() {
+                this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+                expect(this.action.location).toBe('play area');
+            });
+
+            it('should use the location sent via properties', function() {
+                this.properties.location = 'foo';
+                this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+                expect(this.action.location).toBe('foo');
+            });
+        });
     });
 
     describe('execute()', function() {
         beforeEach(function() {
             this.player = {};
             this.cardSpy.controller = this.player;
+            this.cardSpy.location = 'play area';
         });
 
         describe('when the action has limited uses', function() {
@@ -123,6 +137,19 @@ describe('CardAction', function () {
                 it('should queue the ability resolver', function() {
                     expect(this.gameSpy.resolveAbility).toHaveBeenCalled();
                 });
+            });
+        });
+
+        describe('when the card is not in a location for the action', function() {
+            beforeEach(function() {
+                this.cardSpy.location = 'hand';
+                this.properties.location = 'play area';
+                this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+                this.action.execute(this.player, 'arg');
+            });
+
+            it('should not queue the ability resolver', function() {
+                expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
             });
         });
 

@@ -231,7 +231,13 @@ class DrawCard extends BaseCard {
     }
 
     getPlayActions() {
-        return StandardPlayActions.concat(this.abilities.playActions);
+        var playActions = StandardPlayActions.concat(this.abilities.playActions);
+
+        if(this.abilities.action && this.abilities.action.location !== 'play area') {
+            playActions = playActions.concat([this.abilities.action]);
+        }
+
+        return playActions;
     }
 
     play(player, isAmbush) {

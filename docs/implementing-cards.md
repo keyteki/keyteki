@@ -381,6 +381,18 @@ this.action({
 });
 ```
 
+#### Actions outside of play
+
+Certain actions, such as those for Dolorous Edd, can only be activated while the character is in hand. Such actions should be defined by specifying the `location` property with the location from which the ability may be activated. The player can then activate the ability by simply clicking the card. If there is a conflict (e.g. both the ability and normal marshaling can occur), then the player will be prompted.
+
+```javascript
+this.action({
+    title: 'Add Dolorous Edd as a defender',
+    location: 'hand',
+    // ...
+})
+```
+
 ### Triggered abilities
 
 Triggered abilities include all card abilities that have **Interrupt**, **Forced Interrupt**, **Reaction**, **Forced Reaction**, or **When Revealed**. For full documentation of properties, see `/server/game/promptedtriggeredability.js` and `/server/game/forcedtriggeredability.js`. Here are some common scenarios:
