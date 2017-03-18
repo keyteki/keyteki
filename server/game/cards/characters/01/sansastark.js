@@ -20,9 +20,9 @@ class SansaStark extends DrawCard {
             when: {
                 onCardStood: (e, player, card) => {
                     return card === this;
-                },
-                limit: ability.limit.perRound(1)
+                }
             },
+            limit: ability.limit.perRound(1),
             handler: () => {
                 this.game.addPower(this.controller, 1);
 
