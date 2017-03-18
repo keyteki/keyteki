@@ -14,14 +14,18 @@ class InnerLobby extends React.Component {
         this.onChange = this.onChange.bind(this);
         this.onKeyPress = this.onKeyPress.bind(this);
         this.onSendClick = this.onSendClick.bind(this);
+        this.onScroll = this.onScroll.bind(this);
 
         this.state = {
+            canScroll: true,
             message: ''
         };
     }
 
     componentDidUpdate() {
-        $(this.refs.messages).scrollTop(999999);
+        if(this.state.canScroll) {
+            $(this.refs.messages).scrollTop(999999);
+        }
     }
 
     sendMessage() {
@@ -50,6 +54,18 @@ class InnerLobby extends React.Component {
 
     onChange(event) {
         this.setState({ message: event.target.value });
+    }
+
+    onScroll() {
+        var messages = this.refs.messages;
+
+        setTimeout(() => {
+            if(messages.scrollTop >= messages.scrollHeight - messages.offsetHeight - 20) {
+                this.setState({ canScroll: true });
+            } else {
+                this.setState({ canScroll: false });
+            }
+        }, 500);
     }
 
     render() {
@@ -94,7 +110,7 @@ class InnerLobby extends React.Component {
                 </div>
                 <div className='row'>
                     <div className='lobby-chat col-sm-9'>
-                        <div className='panel lobby-messages' ref='messages'>
+                        <div className='panel lobby-messages' ref='messages' onScroll={ this.onScroll }>
                             {messages}
                         </div>
                     </div>

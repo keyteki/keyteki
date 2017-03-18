@@ -33,7 +33,7 @@ class InnerMessages extends React.Component {
     getMessage() {
         var index = 0;
         var messages = _.map(this.props.messages, message => {
-            return <div key={'message'+index++} className='message'>{this.formatMessageText(message.message)}</div>;
+            return <div key={'message' + index++} className='message'>{this.formatMessageText(message.message)}</div>;
         });
 
         return messages;
