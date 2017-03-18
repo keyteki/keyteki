@@ -62,6 +62,13 @@ class DeckSummary extends React.Component {
         this.setState({ cardToShow: undefined });
     }
 
+    getBannersToRender() {
+        var banners = [];
+        _.each(this.props.bannerCards, (card) => {
+            banners.push(<div key={ card.code ? card.code : card }><span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ card.label }</span></div>);
+        });
+        return banners;
+    }
     getCardsToRender() {
         var cardsToRender = [];
         var groupedCards = {};
@@ -92,7 +99,7 @@ class DeckSummary extends React.Component {
 
     render() {
         var cardsToRender = this.getCardsToRender();
-
+        var banners = this.getBannersToRender();
         return (
             <div>
                 { this.state.cardToShow ? <img className='hover-image' src={ '/img/cards/' + this.state.cardToShow.code + '.png' } /> : null }
@@ -104,6 +111,9 @@ class DeckSummary extends React.Component {
                         <h4>{ this.props.faction.name }</h4>
                         <div ref='agenda'>Agenda: { this.props.agenda && this.props.agenda.label ? <span className='card-link' onMouseOver={ this.onCardMouseOver }
                             onMouseOut={ this.onCardMouseOut }>{ this.props.agenda.label }</span> : <span>None</span> }</div>
+                   
+                       {(this.props.agenda && this.props.agenda.label === 'Alliance') ? banners : null}
+                        
                         <div ref='drawCount'>Draw deck: { this.state.drawCount } cards</div>
                         <div ref='plotCount'>Plot deck: { this.state.plotCount } cards</div>
                         <div className={this.state.status === 'Valid' ? 'text-success' : 'text-danger'}>
@@ -125,6 +135,7 @@ DeckSummary.propTypes = {
         code: React.PropTypes.string,
         label: React.PropTypes.string
     }),
+    bannerCards: React.PropTypes.array,
     cards: React.PropTypes.array,
     drawCards: React.PropTypes.array,
     faction: React.PropTypes.shape({

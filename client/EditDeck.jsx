@@ -37,7 +37,8 @@ class InnerEditDeck extends React.Component {
                     faction: deck.faction,
                     agenda: deck.agenda,
                     plotCards: deck.plotCards,
-                    drawCards: deck.drawCards
+                    drawCards: deck.drawCards,
+                    bannerCards: deck.bannerCards
                 });
             })
             .fail(() => {
@@ -51,7 +52,8 @@ class InnerEditDeck extends React.Component {
             faction: deck.selectedFaction,
             agenda: deck.selectedAgenda,
             plotCards: deck.plotCards,
-            drawCards: deck.drawCards
+            drawCards: deck.drawCards,
+            bannerCards: deck.bannerCards
         });
 
         $.ajax({
@@ -76,7 +78,8 @@ class InnerEditDeck extends React.Component {
             faction: deck.selectedFaction,
             agenda: deck.selectedAgenda,
             plotCards: deck.plotCards,
-            drawCards: deck.drawCards
+            drawCards: deck.drawCards,
+            bannerCards: deck.bannerCards
         });
     }
 
@@ -91,10 +94,10 @@ class InnerEditDeck extends React.Component {
                         <DeckEditor agendas={this.props.agendas} cards={this.props.cards} packs={this.props.packs}
                             deckName={this.state.deckName} mode='Save'
                             faction={this.state.faction} agenda={this.state.agenda}
-                            plotCards={this.state.plotCards} drawCards={this.state.drawCards}
+                            plotCards={this.state.plotCards} drawCards={this.state.drawCards} bannerCards={this.state.bannerCards}
                             onDeckChange={this.onDeckChange} onDeckSave={this.onEditDeck} />
                         <DeckSummary className='col-sm-6 right-pane' cards={this.props.cards} name={this.state.deckName} agenda={this.state.agenda}
-                            faction={this.state.faction} plotCards={this.state.plotCards} drawCards={this.state.drawCards} />
+                            faction={this.state.faction} plotCards={this.state.plotCards} drawCards={this.state.drawCards} bannerCards={this.state.bannerCards} />
                     </div> :
                     <div>Loading deck...</div>}
             </div>);

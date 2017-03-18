@@ -52,7 +52,7 @@ export function validateDeck(deck) {
     var requiredPlots = 7;
     var isRains = false;
     var extendedStatus = [];
-
+    var requiredDraw = 60;
     if(_.any(deck.drawCards, card => {
         return !card.card.faction_code;
     })) {
@@ -61,14 +61,41 @@ export function validateDeck(deck) {
         
         return { status: status, plotCount: plotCount, drawCount: drawCount, extendedStatus: extendedStatus };
     }
+    var combined = _.union(deck.plotCards, deck.drawCards);
 
+    // Alliance 
+    if(deck.agenda && deck.agenda.code === '06018') {
+        requiredDraw = 75;
+        _.each(deck.bannerCards, banner => {
+            var hasLoyalBannerCard = false;
+            var banneredCards = _.reduce(combined, (memo, card) => {
+                var faction = card.card.faction_code.toLowerCase();
+                if(isBannerCard(banner.code, faction) && !card.card.is_loyal) {
+                    return memo + card.count;          
+                }
+                if(isBannerCard(banner.code, faction) && card.card.is_loyal) {
+                    hasLoyalBannerCard = true;
+                }
+                return memo;
+            }, 0);
+            if(banneredCards < 12) {
+                status = 'Invalid';
+                extendedStatus.push('Too few banner cards for ' + banner.label);
+            }
+            if(hasLoyalBannerCard) {
+                status = 'Invalid';
+                extendedStatus.push('Has a loyal banner card');
+            }
+        });   
+    }
+    
     // "The Rains of Castamere"
     if(deck.agenda && deck.agenda.code === '05045') {
         isRains = true;
         requiredPlots = 12;
     }
 
-    if(drawCount < 60) {
+    if(drawCount < requiredDraw) {
         status = 'Invalid';
         extendedStatus.push('Too few draw cards');
     }
@@ -76,9 +103,7 @@ export function validateDeck(deck) {
     if(plotCount < requiredPlots) {
         status = 'Invalid';
         extendedStatus.push('Too few plot cards');
-    }
-
-    var combined = _.union(deck.plotCards, deck.drawCards);
+    }  
 
     if(_.any(combined, card => {
         if(card.count > card.card.deck_limit) {
@@ -113,7 +138,7 @@ export function validateDeck(deck) {
             status = 'Invalid';
         }
     }
-
+   
     // Kings of summer
     if(deck.agenda && deck.agenda.code === '04037' && _.any(deck.plotCards, card => {
         return hasTrait(card, 'winter');
@@ -139,7 +164,7 @@ export function validateDeck(deck) {
 
     var bannerCount = 0;
 
-    if(!_.all(combined, card => {
+    if((!deck.agenda || deck.agenda && deck.agenda.code !== '06018') && !_.all(combined, card => {
         var faction = card.card.faction_code.toLowerCase();
         var bannerCard = false;
 

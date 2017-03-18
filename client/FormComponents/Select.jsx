@@ -19,16 +19,22 @@ class Select extends React.Component {
                 options.push(<option key={ value } value={ value }>{ name }</option>);
             });
         }
-
+        var selectStyle = {};
+        if(this.props.button) {
+            selectStyle = {
+                display: 'inline-block',
+                width: '67%' };
+        }
         return (
             <div className='form-group'>
                 <label htmlFor={ this.props.name } className={ this.props.labelClass + ' control-label'}>{ this.props.label }</label>
                 <div className={ this.props.fieldClass }>
-                    <select ref={ this.props.name } className='form-control' id={ this.props.name } value={ this.props.value }
+                    <select ref={ this.props.name } style={selectStyle} className='form-control' id={ this.props.name } value={ this.props.value }
                         onChange={ this.props.onChange } onBlur={ this.props.onBlur }>
                         { options }
                     </select>
                     { this.props.validationMessage ? <span className='help-block'>{ this.props.validationMessage} </span> : null }
+                    { this.props.button ? <button className='btn btn-default select-button' onClick={this.props.button.onClick}>{this.props.button.text}</button> : null }
                 </div>
             </div>
         );
@@ -38,6 +44,7 @@ class Select extends React.Component {
 Select.displayName = 'Select';
 Select.propTypes = {
     blankOption: React.PropTypes.object,
+    button: React.PropTypes.object,
     fieldClass: React.PropTypes.string,
     label: React.PropTypes.string,
     labelClass: React.PropTypes.string,

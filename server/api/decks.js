@@ -75,6 +75,7 @@ module.exports.init = function(server) {
                         name: data.deckName,
                         plotCards: data.plotCards,
                         drawCards: data.drawCards,
+                        bannerCards: data.bannerCards,
                         faction: data.faction,
                         agenda: data.agenda,
                         lastUpdated: new Date()
@@ -96,6 +97,7 @@ module.exports.init = function(server) {
             username: req.user.username,
             name: data.deckName,
             plotCards: data.plotCards,
+            bannerCards: data.bannerCards,
             drawCards: data.drawCards,
             faction: data.faction,
             agenda: data.agenda,
