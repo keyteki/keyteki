@@ -51,7 +51,7 @@ class GreenbloodTrader extends DrawCard {
 
         player.moveFromTopToBottomOfDrawDeck(1);
 
-        this.game.addMessage('{0} uses {1} to draw 2 cards, draw 1 and place the other on the bottom of their deck', player, this);
+        this.game.addMessage('{0} uses {1} to draw 2 cards, keep 1 and place the other on the bottom of their deck', player, this);
 
         return true;
     }
