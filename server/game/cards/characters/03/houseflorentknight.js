@@ -16,6 +16,9 @@ class HouseFlorentKnight extends DrawCard {
                     },
                     onSelect: (player, card) => {
                         player.discardCard(card);
+
+                        this.game.addMessage('{0} uses {1} to discard {2}', player, this, card);
+
                         return true;
                     }
                 });
@@ -29,12 +32,14 @@ class HouseFlorentKnight extends DrawCard {
             var playerMin = player.cardsInPlay.min(card => {
                 if(card.getType() === 'character') {
                     return card.getStrength();
-                }          
+                }
             }).getStrength();
+
             if(!currentMin || playerMin < currentMin) {
                 currentMin = playerMin;
             }
         });
+
         return currentMin;
     }
 }
