@@ -24,19 +24,35 @@ class HisViperEyes extends DrawCard {
             return;
         }
 
+        this.game.promptWithMenu(otherPlayer, this, {
+            activePrompt: {
+                menuTitle: 'Resolve ' + this.name + ' and reveal hand to opponent?',
+                buttons: [
+                    { text: 'Yes', method: 'revealHand' },
+                    { text: 'No', method: 'cancel' }
+                ]
+            },
+            source: this
+        });
+    }
+
+    revealHand() {
+        var otherPlayer = this.game.getOtherPlayer(this.controller);
         var buttons = otherPlayer.hand.map(card => {
             return { text: card.name, method: 'cardSelected', arg: card.uuid, card: card.getSummary(true) };
         });
 
         buttons.push({ text: 'Cancel', method: 'cancel' });
 
-        this.game.promptWithMenu(player, this, {
+        this.game.promptWithMenu(this.controller, this, {
             activePrompt: {
                 menuTitle: 'Select a card to discard',
                 buttons: buttons
             },
             source: this
         });
+
+        return true;
     }
 
     cardSelected(player, cardId) {
