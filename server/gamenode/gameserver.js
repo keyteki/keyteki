@@ -212,8 +212,6 @@ class GameServer {
 
         socket.registerEvent('game', this.onGameMessage.bind(this));
         socket.on('disconnect', this.onSocketDisconnected.bind(this));
-
-        this.sockets[ioSocket.id] = socket;
     }
 
     onSocketDisconnected(socket) {

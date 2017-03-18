@@ -118,7 +118,7 @@ class GameRouter extends EventEmitter {
                 worker.pingSent = undefined;
                 break;
             case 'GAMEWIN':
-                this.gameRepository.update(message.arg).catch(err => {
+                this.gameRepository.update(message.arg.game).catch(err => {
                     logger.error(err);
                 });
                 break;
