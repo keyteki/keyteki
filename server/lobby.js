@@ -46,11 +46,6 @@ class Lobby {
         return this.router.enableNode(nodeName);
     }
 
-    // Helpers
-    findGameForUser(user) {
-        return _.find(this.games, game => game.hasActivePlayer(user));
-    }
-
     debugDump() {
         var games = _.map(this.games, game => {
             var players = _.map(game.players, player => {
@@ -87,6 +82,11 @@ class Lobby {
             socketCount: _.size(this.sockets),
             userCount: _.size(this.users)
         };
+    }
+
+    // Helpers
+    findGameForUser(user) {
+        return _.find(this.games, game => game.hasActivePlayer(user));
     }
 
     handshake(socket, next) {

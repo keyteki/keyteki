@@ -37,7 +37,7 @@ class Server {
             saveUninitialized: false,
             resave: false,
             secret: config.secret,
-            cookie: { maxAge: config.cookieLifetime } // 7 days
+            cookie: { maxAge: config.cookieLifetime }
         }));
 
         app.use(passport.initialize());
@@ -64,7 +64,7 @@ class Server {
             }
 
             res.render('index', { basedir: path.join(__dirname, '..', 'views'), user: req.user, token: token, production: !this.isDeveloping });
-        });        
+        });
 
         return this.server;
     }

@@ -48,7 +48,7 @@ class GameServer {
         this.io = socketio(server);
         this.io.set('heartbeat timeout', 30000);
         this.io.use(this.handshake.bind(this));
-        this.io.set('origins', 'http://throneteki.net:* https://throneteki.net:* http://theironthrone.net:* https://theironthrone.net:* http://localhost:*');
+        this.io.set('origins', 'http://www.throneteki.net:* https://www.throneteki.net:* http://www.theironthrone.net:* https://www.theironthrone.net:* http://localhost:*');
         this.io.on('connection', this.onConnection.bind(this));
     }
 

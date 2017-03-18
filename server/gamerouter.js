@@ -11,7 +11,6 @@ class GameRouter extends EventEmitter {
 
         this.workers = {};
         this.gameRepository = new GameRepository(config.dbPath);
-        router.monitor(500, 0);
 
         router.bind(config.mqUrl, err => {
             if(err) {
@@ -21,7 +20,7 @@ class GameRouter extends EventEmitter {
 
         router.on('message', this.onMessage.bind(this));
 
-        setInterval(this.checkTimeouts.bind(this), 100);
+        setInterval(this.checkTimeouts.bind(this), 1000 * 60);
     }
 
     // External methods
