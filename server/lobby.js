@@ -1,5 +1,4 @@
 const socketio = require('socket.io');
-const config = require('./config.js');
 const Socket = require('./socket.js');
 const jwt = require('jsonwebtoken');
 const _ = require('underscore');
@@ -17,9 +16,10 @@ class Lobby {
         this.sockets = {};
         this.users = {};
         this.games = {};
-        this.messageRepository = options.messageRepository || new MessageRepository();
-        this.deckRepository = options.deckRepository || new DeckRepository();
-        this.router = options.router || new GameRouter();
+        this.config = options.config;
+        this.messageRepository = options.messageRepository || new MessageRepository(this.config.dbPath);
+        this.deckRepository = options.deckRepository || new DeckRepository(this.config.dbPath);
+        this.router = options.router || new GameRouter(this.config);
         this.router.on('onGameClosed', this.onGameClosed.bind(this));
         this.router.on('onPlayerLeft', this.onPlayerLeft.bind(this));
         this.router.on('onWorkerStarted', this.onWorkerStarted.bind(this));
@@ -93,7 +93,7 @@ class Lobby {
         var versionInfo = undefined;
 
         if(socket.handshake.query.token && socket.handshake.query.token !== 'undefined') {
-            jwt.verify(socket.handshake.query.token, config.secret, function(err, user) {
+            jwt.verify(socket.handshake.query.token, this.config.secret, function(err, user) {
                 if(err) {
                     logger.info(err);
                     return;
@@ -168,7 +168,7 @@ class Lobby {
 
     // Events
     onConnection(ioSocket) {
-        var socket = new Socket(ioSocket);
+        var socket = new Socket(ioSocket, { config: this.config });
 
         socket.registerEvent('lobbychat', this.onLobbyChat.bind(this));
         socket.registerEvent('newgame', this.onNewGame.bind(this));

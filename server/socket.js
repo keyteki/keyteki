@@ -1,14 +1,14 @@
 const logger = require('./log.js');
 const EventEmitter = require('events');
 const jwt = require('jsonwebtoken');
-const config = require('./config.js');
 
 class Socket extends EventEmitter {
-    constructor(socket) {
+    constructor(socket, options = {}) {
         super();
 
         this.socket = socket;
         this.user = socket.request.user;
+        this.config = options.config;
 
         socket.on('error', this.onError.bind(this));
         socket.on('authenticate', this.onAuthenticate.bind(this));
@@ -46,7 +46,7 @@ class Socket extends EventEmitter {
     }
 
     onAuthenticate(token) {
-        jwt.verify(token, config.secret, (err, user) => {
+        jwt.verify(token, this.config.secret, (err, user) => {
             if(err) {
                 logger.info(err);
                 return;

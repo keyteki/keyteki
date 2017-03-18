@@ -1,17 +1,16 @@
 const zmq = require('zmq');
 const router = zmq.socket('router');
 const logger = require('./log.js');
-const config = require('./config.js');
 const _ = require('underscore');
 const EventEmitter = require('events');
 const GameRepository = require('./repositories/gameRepository.js');
 
 class GameRouter extends EventEmitter {
-    constructor() {
+    constructor(config) {
         super();
 
         this.workers = {};
-        this.gameRepository = new GameRepository();
+        this.gameRepository = new GameRepository(config.dbPath);
         router.monitor(500, 0);
 
         router.bind(config.mqUrl, err => {

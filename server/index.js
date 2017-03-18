@@ -1,11 +1,12 @@
 const Server = require('./server.js');
 const Lobby = require('./lobby.js');
 const pmx = require('pmx');
+const config = require('./config.js');
 
 function runServer() {
     var server = new Server(process.env.NODE_ENV !== 'production');
     var httpServer = server.init();
-    var lobby = new Lobby(httpServer);
+    var lobby = new Lobby(httpServer, { config: config });
 
     pmx.action('status', reply => {
         var status = lobby.getStatus();

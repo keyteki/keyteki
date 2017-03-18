@@ -1,20 +1,23 @@
-const config = require('../config.js');
-const db = require('monk')(config.dbPath);
-const games = db.get('games');
+const monk = require('monk');
 
 class GameRepository {
+    constructor(dbPath) {
+        var db = monk(dbPath);
+        this.games = db.get('games');
+    }
+
     create(game) {
-        return games.insert(game);
+        return this.games.insert(game);
     }
 
     update(game) {
-        return games.update({ gameId: game.gameId }, {
+        return this.games.update({ gameId: game.gameId }, {
             '$set': {
                 startedAt: game.startedAt,
                 players: game.players,
                 winner: game.winner,
                 winReason: game.winReason,
-                finishedAt: game.finishedAt                
+                finishedAt: game.finishedAt
             }
         });
     }

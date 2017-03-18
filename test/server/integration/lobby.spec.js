@@ -13,7 +13,7 @@ describe('lobby', function() {
         this.socketSpy.user = { username: 'test'};
         this.socketSpy.id = 'socket1';
 
-        this.lobby = new Lobby({}, { io: this.ioSpy, messageRepository: {}, deckRepository: {}, router: this.routerSpy });
+        this.lobby = new Lobby({}, { io: this.ioSpy, messageRepository: {}, deckRepository: {}, router: this.routerSpy, config: {} });
         this.lobby.sockets[this.socketSpy.id] = this.socketSpy;
     });
 

@@ -1,13 +1,16 @@
-const db = require('monk')('mongodb://127.0.0.1:27017/throneteki');
-const messages = db.get('messages');
+const monk = require('monk');
 
 class MessageRepository {
+    constructor(dbPath) {
+        var db = monk(dbPath);
+        this.messages = db.get('messages');
+    }
     addMessage(message) {
-        return messages.insert(message);
+        return this.messages.insert(message);
     }
 
     getLastMessages() {
-        return messages.find({}, { limit: 50, sort : { time: -1 }});
+        return this.messages.find({}, { limit: 50, sort : { time: -1 }});
     }
 }
 

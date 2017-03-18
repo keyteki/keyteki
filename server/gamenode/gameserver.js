@@ -185,7 +185,7 @@ class GameServer {
             return;
         }
 
-        var socket = new Socket(ioSocket);
+        var socket = new Socket(ioSocket, { config: config });
 
         var player = game.playersAndSpectators[socket.user.username];
         if(!player) {

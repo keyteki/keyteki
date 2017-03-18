@@ -1,10 +1,13 @@
-const config = require('../config.js');
-const db = require('monk')(config.dbPath);
-const decks = db.get('decks');
+const monk = require('monk');
 
 class DeckRepository {
+    constructor(dbPath) {
+        var db = monk(dbPath);
+        this.decks = db.get('decks');
+    }
+
     getById(id) {
-        return decks.findOne({ _id: id });
+        return this.decks.findOne({ _id: id });
     }
 }
 
