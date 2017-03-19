@@ -1,43 +1,30 @@
 const DrawCard = require('../../../drawcard.js');
 
 class PlazaOfPunishment extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
 
-        this.registerEvents(['afterChallenge']);
-    }
-
-    afterChallenge(event, challenge) {
-        if(challenge.winner !== this.controller || challenge.challengeType !== 'power' || this.kneeled || this.isBlank()) {
-            return;
-        }
-
-        this.game.promptWithMenu(this.controller, this, {
-            activePrompt: {
-                menuTitle: 'Trigger ' + this.name + '?',
-                buttons: [
-                    { text: 'Yes', method: 'chooseCharacter' },
-                    { text: 'No', method: 'cancel' }
-                ]
+    setupCardAbilities(ability) {
+        this.reaction({
+            when: {
+                afterChallenge: (event, challenge) =>
+                    challenge.winner === this.controller
+                    && challenge.challengeType === 'power'
             },
-            source: this
+            cost: ability.costs.kneelSelf(),
+            handler: () => {
+                this.game.promptForSelect(this.controller, {
+                    activePromptTitle: 'Select character',
+                    source: this,
+                    cardCondition: card =>
+                        card.location === 'play area'
+                        && card.getType() === 'character'
+                        && card.attachments.size() === 0,
+                    onSelect: (p, card) => this.onCardSelected(p, card)
+                });
+            }
         });
-    }
-
-    chooseCharacter(player) {
-        this.game.promptForSelect(player, {
-            activePromptTitle: 'Select character',
-            source: this,
-            cardCondition: card => card.location === 'play area' && card.getType() === 'character' && card.attachments.size() === 0,
-            onSelect: (p, card) => this.onCardSelected(p, card)
-        });
-
-        return true;
     }
 
     onCardSelected(player, card) {
-        this.game.addMessage('{0} uses {1} to give {2} -2 STR', player, this, card);
-        player.kneelCard(this);
         this.untilEndOfPhase(ability => ({
             match: card,
             effect: [
@@ -46,8 +33,11 @@ class PlazaOfPunishment extends DrawCard {
             ]
         }));
 
+        this.game.addMessage('{0} uses {1} to give {2} -2 STR', player, this, card);
+
         return true;
     }
+
 }
 
 PlazaOfPunishment.code = '01173';
