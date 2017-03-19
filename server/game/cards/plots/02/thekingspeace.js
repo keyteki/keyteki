@@ -43,7 +43,7 @@ class TheKingsPeace extends PlotCard {
     }
 
     kneel(player) {
-        player.faction.kneeled = true;
+        player.kneelCard(player.faction);
 
         this.game.addMessage('{0} chooses to kneel their faction card to let the challenge continue', player);
 

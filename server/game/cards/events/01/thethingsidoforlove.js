@@ -25,7 +25,7 @@ class TheThingsIDoForLove extends DrawCard {
     }
 
     onCardSelected(player, card) {
-        player.faction.kneeled = true;
+        player.kneelCard(player.faction);
         card.controller.moveCard(card, 'hand');
         player.gold -= card.getCost();
 

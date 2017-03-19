@@ -34,7 +34,7 @@ class AGiftOfArborRed extends DrawCard {
             source: this
         });
 
-        player.faction.kneeled = true;
+        player.kneelCard(player.faction);
     }
 
     revealCards(player, cards) {
