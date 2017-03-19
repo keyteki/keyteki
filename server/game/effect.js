@@ -101,6 +101,10 @@ class Effect {
             return false;
         }
 
+        if(this.targets.includes(target)) {
+            return false;
+        }
+
         if(this.targetType === 'card') {
             if(this.targetController === 'current') {
                 return target.controller === this.source.controller;

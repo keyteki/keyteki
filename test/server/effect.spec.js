@@ -104,6 +104,17 @@ describe('Effect', function () {
             });
         });
 
+        describe('when the target is already applied', function() {
+            beforeEach(function() {
+                this.effect.targets.push(this.matchingCard);
+                this.effect.addTargets([this.matchingCard]);
+            });
+
+            it('should not add the target again', function() {
+                expect(this.effect.targets).toEqual([this.matchingCard]);
+            });
+        });
+
         describe('when the effect target type is card', function() {
             beforeEach(function() {
                 this.effect.active = true;
@@ -381,7 +392,7 @@ describe('Effect', function () {
     describe('setActive()', function() {
         beforeEach(function() {
             this.target = {};
-            this.effect.targets =[this.target];
+            this.effect.targets = [this.target];
         });
 
         describe('when the effect is active', function() {
