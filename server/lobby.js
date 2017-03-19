@@ -143,7 +143,9 @@ class Lobby {
             };
         });
 
-        userList = _.sortBy(userList, 'name');
+        userList = _.sortBy(userList, user => {
+            return user.name.toLowerCase();
+        });
 
         this.broadcastMessage('users', userList);
     }
