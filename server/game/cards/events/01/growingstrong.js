@@ -29,9 +29,8 @@ class GrowingStrong extends DrawCard {
                 match: card,
                 effect: ability.effects.modifyStrength(2)
             })));
-        var buffedCards = _.map(cards, card => card.name);
         this.game.addMessage('{0} uses {1} to give +2 STR to {2}',
-                             player, this, buffedCards.join(' and '));
+                             player, this, cards);
         return true;
     }
 }
