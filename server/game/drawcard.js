@@ -43,6 +43,7 @@ class DrawCard extends BaseCard {
         this.kneeled = false;
         this.inChallenge = false;
         this.wasAmbush = false;
+        this.standsDuringStanding = true;
         this.challengeOptions = {
             allowAsAttacker: true,
             allowAsDefender: true,

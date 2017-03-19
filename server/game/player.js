@@ -816,7 +816,7 @@ class Player extends Spectator {
                 this.standCard(attachment);
             });
 
-            if(notCharacters && card.getType() === 'character') {
+            if((notCharacters && card.getType() === 'character') || !card.standsDuringStanding) {
                 return;
             }
 

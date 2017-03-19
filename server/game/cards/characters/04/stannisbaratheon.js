@@ -8,9 +8,10 @@ class StannisBaratheon extends DrawCard {
                 this.game.currentChallenge.challengeType === 'power'),
             match: (card) => this.game.currentChallenge.isParticipating(card) && !card.hasTrait('King'),
             targetController: 'any',
-            effect: ability.effects.modifyStrength(-1)
+            effect: ability.effects.modifyStrength(-1),
+            recalculateWhen: ['onAttackersDeclared', 'onDefendersDeclared']
         });
-/*
+
         this.reaction({
             when: {
                 onDominanceDetermined: (event, winner) => this.controller === winner
@@ -23,12 +24,22 @@ class StannisBaratheon extends DrawCard {
                         !card.isLoyal()),
                     activePromptTitle: 'Select a character',
                     source: this,
-                    onSelect: (player, card) => {
-                        this.game.addMessage('{0} has chosen {1} as the target for {2}\'s ability', player, card, this);
-                    }
+                    onSelect: (player, card) => this.onCardSelected(player, card)
                 });
             }
-        }); */
+        });
+    }
+
+    onCardSelected(player, card) {
+        this.game.addMessage('{0} uses {1} to make {2} unable to stand during the standing phase this round', 
+                              player, this, card);
+
+        this.untilEndOfRound(ability => ({
+            match: card,
+            effect: ability.effects.doesNotStandDuringStanding()
+        }));
+
+        return true;
     }
 }
 

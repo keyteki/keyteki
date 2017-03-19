@@ -354,6 +354,16 @@ const Effects = {
             }
         };
     },
+    doesNotStandDuringStanding: function() {
+        return {
+            apply: function(card) {
+                card.standsDuringStanding = false;
+            },
+            unapply: function(card) {
+                card.standsDuringStanding = true;
+            }
+        };
+    },
     takeControl: function(newController) {
         return {
             apply: function(card, context) {
