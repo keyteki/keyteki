@@ -21,6 +21,7 @@ class BaseAbility {
      */
     constructor(properties) {
         this.cost = this.buildCost(properties.cost);
+        this.targets = this.buildTargets(properties);
     }
 
     buildCost(cost) {
@@ -33,6 +34,20 @@ class BaseAbility {
         }
 
         return cost;
+    }
+
+    buildTargets(properties) {
+        if(properties.target) {
+            return {
+                target: properties.target
+            };
+        }
+
+        if(properties.targets) {
+            return properties.targets;
+        }
+
+        return {};
     }
 
     /**
@@ -69,6 +84,46 @@ class BaseAbility {
         _.each(this.cost, cost => {
             cost.pay(context);
         });
+    }
+
+    /**
+     * Returns whether there are eligible cards available to fulfill targets.
+     *
+     * @returns {Boolean}
+     */
+    canResolveTargets(context) {
+        return _.all(this.targets, target => {
+            return context.game.allCards.any(card => target.cardCondition(card));
+        });
+    }
+
+    /**
+     * Prompts the current player to choose each target defined for the ability.
+     *
+     * @returns {Array} An array of target resolution objects.
+     */
+    resolveTargets(context) {
+        return _.map(this.targets, (targetProperties, name) => {
+            return this.resolveTarget(context, name, targetProperties);
+        });
+    }
+
+    resolveTarget(context, name, targetProperties) {
+        var result = { resolved: false, name: name, value: null };
+        var promptProperties = {
+            source: context.source,
+            onSelect: (player, card) => {
+                result.resolved = true;
+                result.value = card;
+                return true;
+            },
+            onCancel: () => {
+                result.resolved = true;
+                return true;
+            }
+        };
+        context.game.promptForSelect(context.player, _.extend(promptProperties, targetProperties));
+        return result;
     }
 
     /**

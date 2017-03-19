@@ -13,13 +13,14 @@ class Ice extends DrawCard {
                     challenge.isParticipating(this.parent)
                 )
             },
-            handler: () => {
-                this.game.promptForSelect(this.controller, {
-                    activePromptTitle: 'Select a character to kill',
-                    source: this,
-                    cardCondition: card => card.location === 'play area' && card.controller !== this.controller && card.getType() === 'character',
-                    onSelect: (p, card) => this.onCardSelected(p, card)
-                });
+            cost: ability.costs.sacrificeSelf(),
+            target: {
+                activePromptTitle: 'Select a character to kill',
+                cardCondition: card => card.location === 'play area' && card.controller !== this.controller && card.getType() === 'character'
+            },
+            handler: context => {
+                context.target.owner.killCharacter(context.target);
+                this.game.addMessage('{0} sacrifices {1} to kill {2}', context.player, this, context.target);
             }
         });
     }
@@ -30,16 +31,6 @@ class Ice extends DrawCard {
         }
 
         return super.canAttach(player, card);
-    }
-
-    onCardSelected(player, card) {
-        card.owner.killCharacter(card);
-
-        this.controller.sacrificeCard(this);
-
-        this.game.addMessage('{0} sacrifices {1} to kill {2}', player, this, card);
-
-        return true;
     }
 }
 

@@ -269,8 +269,6 @@ this.untilEndOfRound(ability => ({
 
 ### Actions
 
-**Note:** Actions may be reworked in the future to separate out targeting / choosing cards for the action. So this API may change slightly.
-
 Actions are abilities provided by the card text that players may trigger during action windows. They are declared using the `action` method. See `/server/game/cardaction.js` for full documentation. Here are some common scenarios:
 
 #### Declaring an action
@@ -335,6 +333,70 @@ this.action({
         ability.costs.sacrificeSelf()
     ],
     // ...
+});
+```
+
+#### Choosing / targeting cards
+
+Cards that specify to 'choose' or otherwise target a specific card can be implemented by passing a `target` property, At minimum, the target property must have an `activePromptTitle` to be used as the prompt text, and a `cardCondition` function that returns `true` for valid targets. Any other properties that apply to `Game.promptForSelect` are valid.
+
+```javascript
+this.action({
+    title: 'Stand a Bloodrider (if a Summer plot is revealed)',
+    target: {
+        activePromptTitle: 'Select a character',
+        cardCondition: card => card.location === 'play area' && card.getType() === 'character' && card.hasTrait('Bloodrider')
+    },
+    // ...
+});
+```
+
+The card that was chosen will be set on the `target` property of the context object passed to the handler.
+
+```javascript
+this.action({
+    // ...
+    handler: context => {
+        this.game.addMessage('{0} uses {1} to stand {2}', context.player, this, context.target);
+        this.controller.standCard(context.target);
+    }
+});
+```
+
+Some card abilities require multiple targets. These may be specified using the `targets` property. Each sub key under `targets` is the name that will be given to the chosen card, and the value is the prompt properties.
+
+```javascript
+this.action({
+    title: 'Kneel this card to modify the strength of two characters',
+    targets: {
+        toLower: {
+            activePromptTitle: 'Select a character to get -1 STR',
+            cardCondition: card => this.cardCondition(card)
+        },
+        toRaise: {
+            activePromptTitle: 'Select a character to get +1 STR',
+            cardCondition: card => this.cardCondition(card)
+        }
+    },
+    // ...
+});
+```
+
+Once all targets are chosen, they will be set using their specified name under the `targets` property on the handler context object.
+
+```javascript
+this.action({
+    // ...
+    handler: context => {
+        this.untilEndOfPhase(ability => ({
+            match: context.targets.toLower,
+            effect: ability.effects.modifyStrength(-1)
+        }));
+        this.untilEndOfPhase(ability => ({
+            match: context.targets.toRaise,
+            effect: ability.effects.modifyStrength(1)
+        }));
+    }
 });
 ```
 

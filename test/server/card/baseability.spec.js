@@ -46,6 +46,46 @@ describe('BaseAbility', function () {
                 });
             });
         });
+
+        describe('targets', function() {
+            describe('when no target is passed', function() {
+                beforeEach(function() {
+                    delete this.properties.target;
+                    delete this.properties.targets;
+                    this.ability = new BaseAbility(this.properties);
+                });
+
+                it('should set cost to be empty object', function() {
+                    expect(this.ability.targets).toEqual({});
+                });
+            });
+
+            describe('when a single target is passed using target', function() {
+                beforeEach(function() {
+                    this.target = { foo: 'bar' };
+                    this.properties.target = this.target;
+                    this.ability = new BaseAbility(this.properties);
+                });
+
+                it('should set the target sub-property of targets', function() {
+                    expect(this.ability.targets.target).toEqual(this.target);
+                });
+            });
+
+            describe('when targets are passed using targets', function() {
+                beforeEach(function() {
+                    this.target1 = { foo: 'bar' };
+                    this.target2 = { bar: 'baz' };
+                    this.properties.targets = { toKill: this.target1, toSave: this.target2 };
+                    this.ability = new BaseAbility(this.properties);
+                });
+
+                it('should set all targets', function() {
+                    expect(this.ability.targets.toKill).toEqual(this.target1);
+                    expect(this.ability.targets.toSave).toEqual(this.target2);
+                });
+            });
+        });
     });
 
     describe('canPayCosts()', function() {
@@ -147,6 +187,69 @@ describe('BaseAbility', function () {
             this.ability.payCosts(this.context);
             expect(this.cost1.pay).toHaveBeenCalledWith(this.context);
             expect(this.cost2.pay).toHaveBeenCalledWith(this.context);
+        });
+    });
+
+    describe('resolveTargets()', function() {
+        beforeEach(function() {
+            this.gameSpy = jasmine.createSpyObj('game', ['promptForSelect']);
+            this.player = { player: 1 };
+            this.source = { source: 1 };
+
+            this.target1 = { target: 1 };
+            this.target2 = { target: 2 };
+            this.ability = new BaseAbility(this.properties);
+            this.ability.targets.target1 = this.target1;
+            this.ability.targets.target2 = this.target2;
+
+            this.context = { game: this.gameSpy, player: this.player, source: this.source };
+        });
+
+        it('should return target results for each target', function() {
+            expect(this.ability.resolveTargets(this.context)).toEqual([{ resolved: false, name: 'target1', value: null }, { resolved: false, name: 'target2', value: null }]);
+        });
+
+        it('should prompt the player to select each target', function() {
+            this.ability.resolveTargets(this.context);
+            expect(this.gameSpy.promptForSelect).toHaveBeenCalledWith(this.player, { source: this.source, target: 1, onSelect: jasmine.any(Function), onCancel: jasmine.any(Function)});
+            expect(this.gameSpy.promptForSelect).toHaveBeenCalledWith(this.player, { source: this.source, target: 2, onSelect: jasmine.any(Function), onCancel: jasmine.any(Function)});
+        });
+
+        describe('the select prompt', function() {
+            beforeEach(function() {
+                var results = this.ability.resolveTargets(this.context);
+                this.lastResult = results[1];
+                var call = this.gameSpy.promptForSelect.calls.mostRecent();
+                this.lastPromptProperties = call.args[1];
+            });
+
+            describe('when a card is selected', function() {
+                beforeEach(function() {
+                    this.lastPromptProperties.onSelect(this.player, 'foo');
+                });
+
+                it('should resolve the result', function() {
+                    expect(this.lastResult.resolved).toBe(true);
+                });
+
+                it('should set the result value', function() {
+                    expect(this.lastResult.value).toBe('foo');
+                });
+            });
+
+            describe('when the prompt is cancelled', function() {
+                beforeEach(function() {
+                    this.lastPromptProperties.onCancel();
+                });
+
+                it('should resolve the result', function() {
+                    expect(this.lastResult.resolved).toBe(true);
+                });
+
+                it('should not set the result value', function() {
+                    expect(this.lastResult.value).toBeFalsy();
+                });
+            });
         });
     });
 });

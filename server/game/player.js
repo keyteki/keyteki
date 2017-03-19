@@ -362,7 +362,7 @@ class Player extends Spectator {
             player: this,
             source: card
         };
-        var playActions = _.filter(card.getPlayActions(), action => action.meetsRequirements(context) && action.canPayCosts(context));
+        var playActions = _.filter(card.getPlayActions(), action => action.meetsRequirements(context) && action.canPayCosts(context) && action.canResolveTargets(context));
 
         if(playActions.length === 0) {
             return false;

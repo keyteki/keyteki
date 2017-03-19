@@ -14,7 +14,7 @@ describe('Player', function() {
 
     describe('playCard', function() {
         beforeEach(function() {
-            this.playActionSpy = jasmine.createSpyObj('playAction', ['meetsRequirements', 'canPayCosts']);
+            this.playActionSpy = jasmine.createSpyObj('playAction', ['meetsRequirements', 'canPayCosts', 'canResolveTargets']);
             this.cardSpy = jasmine.createSpyObj('card', ['getPlayActions']);
 
             this.player.hand.push(this.cardSpy);
@@ -46,6 +46,7 @@ describe('Player', function() {
                 beforeEach(function() {
                     this.playActionSpy.meetsRequirements.and.returnValue(true);
                     this.playActionSpy.canPayCosts.and.returnValue(true);
+                    this.playActionSpy.canResolveTargets.and.returnValue(true);
                 });
 
                 it('should resolve the play action', function() {
@@ -62,6 +63,7 @@ describe('Player', function() {
                 beforeEach(function() {
                     this.playActionSpy.meetsRequirements.and.returnValue(true);
                     this.playActionSpy.canPayCosts.and.returnValue(false);
+                    this.playActionSpy.canResolveTargets.and.returnValue(true);
                 });
 
                 it('should not resolve the play action', function() {
@@ -78,6 +80,24 @@ describe('Player', function() {
                 beforeEach(function() {
                     this.playActionSpy.meetsRequirements.and.returnValue(false);
                     this.playActionSpy.canPayCosts.and.returnValue(true);
+                    this.playActionSpy.canResolveTargets.and.returnValue(true);
+                });
+
+                it('should not resolve the play action', function() {
+                    this.player.playCard(this.cardSpy);
+                    expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
+                });
+
+                it('should return false', function() {
+                    expect(this.player.playCard(this.cardSpy)).toBe(false);
+                });
+            });
+
+            describe('when targets cannot be resolved', function() {
+                beforeEach(function() {
+                    this.playActionSpy.meetsRequirements.and.returnValue(true);
+                    this.playActionSpy.canPayCosts.and.returnValue(true);
+                    this.playActionSpy.canResolveTargets.and.returnValue(false);
                 });
 
                 it('should not resolve the play action', function() {
@@ -95,9 +115,11 @@ describe('Player', function() {
             beforeEach(function() {
                 this.playActionSpy.meetsRequirements.and.returnValue(true);
                 this.playActionSpy.canPayCosts.and.returnValue(true);
-                this.playActionSpy2 = jasmine.createSpyObj('playAction', ['meetsRequirements', 'canPayCosts']);
+                this.playActionSpy.canResolveTargets.and.returnValue(true);
+                this.playActionSpy2 = jasmine.createSpyObj('playAction', ['meetsRequirements', 'canPayCosts', 'canResolveTargets']);
                 this.playActionSpy2.meetsRequirements.and.returnValue(true);
                 this.playActionSpy2.canPayCosts.and.returnValue(true);
+                this.playActionSpy2.canResolveTargets.and.returnValue(true);
                 this.cardSpy.getPlayActions.and.returnValue([this.playActionSpy, this.playActionSpy2]);
             });
 

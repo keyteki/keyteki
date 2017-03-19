@@ -50,7 +50,7 @@ class TriggeredAbility extends BaseAbility {
                 return;
             }
 
-            if(!this.canPayCosts(context)) {
+            if(!this.canPayCosts(context) || !this.canResolveTargets(context)) {
                 return;
             }
 

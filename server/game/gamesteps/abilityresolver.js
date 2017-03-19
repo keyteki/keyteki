@@ -15,6 +15,8 @@ class AbilityResolver extends BaseStep {
             new SimpleStep(game, () => this.resolveCosts()),
             new SimpleStep(game, () => this.waitForCostResolution()),
             new SimpleStep(game, () => this.payCosts()),
+            new SimpleStep(game, () => this.resolveTargets()),
+            new SimpleStep(game, () => this.waitForTargetResolution()),
             new SimpleStep(game, () => this.executeHandler())
         ]);
     }
@@ -62,6 +64,34 @@ class AbilityResolver extends BaseStep {
         }
 
         this.ability.payCosts(this.context);
+    }
+
+    resolveTargets() {
+        if(this.cancelled) {
+            return;
+        }
+
+        this.context.targets = {};
+        this.targetResults = this.ability.resolveTargets(this.context);
+    }
+
+    waitForTargetResolution() {
+        if(this.cancelled) {
+            return;
+        }
+
+        this.cancelled = _.any(this.targetResults, result => result.resolved && !result.value);
+
+        if(!_.all(this.targetResults, result => result.resolved)) {
+            return false;
+        }
+
+        _.each(this.targetResults, result => {
+            this.context.targets[result.name] = result.value;
+            if(result.name === 'target') {
+                this.context.target = result.value;
+            }
+        });
     }
 
     executeHandler() {
