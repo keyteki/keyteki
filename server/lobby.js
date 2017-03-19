@@ -143,6 +143,8 @@ class Lobby {
             };
         });
 
+        userList = _.sortBy(userList, 'name');
+
         this.broadcastMessage('users', userList);
     }
 
