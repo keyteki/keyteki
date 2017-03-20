@@ -1,5 +1,7 @@
 const webpack = require('webpack');
 
+var webpackConfig = require('./webpack.config.js');
+
 module.exports = function(config) {
     config.set({
         basePath: '',
@@ -15,7 +17,8 @@ module.exports = function(config) {
 
         proxies: {
             '/img': '/base/public/img',
-            '/img/cards/00001.png': '/base/public/img/cards/cardback.jpg'
+            '/img/cards/00001.png': '/base/public/img/cards/cardback.jpg',
+            '/img/cards/TestCode.png': '/base/public/img/cards/cardback.jpg'
         },
 
         preprocessors: {
@@ -24,34 +27,7 @@ module.exports = function(config) {
 
         reporters: ['dots', 'coverage'],
 
-        webpack: {
-            devtool: 'inline-source-map',
-
-            module: {
-                loaders: [
-                    {
-                        test: /\.jsx?/,
-                        loader: 'babel'
-                    },
-                    {
-                        test: /\.json?/,
-                        loader: 'json'
-                    }
-                ]
-                // postLoaders: [{
-                //     test: /\.jsx$/,
-                //     exclude: /(spec|node_modules|bower_components)\//,
-                //     loader: 'istanbul-instrumenter'
-                // }]
-            },
-
-            plugins: [
-                new webpack.ProvidePlugin({
-                    $: 'jquery',
-                    jQuery: 'jquery'
-                })
-            ]
-        },
+        webpack: webpackConfig,
         webpackMiddleware: {
             noInfo: true
         },

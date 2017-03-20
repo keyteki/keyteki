@@ -69,6 +69,7 @@ class DeckSummary extends React.Component {
         });
         return banners;
     }
+
     getCardsToRender() {
         var cardsToRender = [];
         var groupedCards = {};
@@ -100,6 +101,7 @@ class DeckSummary extends React.Component {
     render() {
         var cardsToRender = this.getCardsToRender();
         var banners = this.getBannersToRender();
+
         return (
             <div>
                 { this.state.cardToShow ? <img className='hover-image' src={ '/img/cards/' + this.state.cardToShow.code + '.png' } /> : null }
