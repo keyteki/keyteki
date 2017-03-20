@@ -206,11 +206,11 @@ class PendingGame {
             playerSummaries[player.name] = {
                 agenda: player.agenda ? player.agenda.code : undefined,
                 deck: deck,
-                emailHash: player.user.emailHash,
+                emailHash: player.emailHash,
                 faction: player.faction ? player.faction.code : undefined,
                 id: player.id,
                 left: player.left,
-                name: player.user.username,
+                name: player.name,
                 owner: player.owner
             };
         });
@@ -227,7 +227,8 @@ class PendingGame {
             spectators: _.map(this.spectators, spectator => {
                 return {
                     id: spectator.id,
-                    name: spectator.name
+                    name: spectator.name,
+                    emailHash: spectator.emailHash
                 };
             })
         };

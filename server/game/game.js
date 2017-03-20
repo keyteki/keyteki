@@ -33,10 +33,9 @@ class Game extends EventEmitter {
         this.gameChat = new GameChat();
         this.chatCommands = new ChatCommands(this);
         this.pipeline = new GamePipeline();
-
-        this.name = details.name;
-        this.allowSpectators = details.spectators;
         this.id = details.id;
+        this.name = details.name;
+        this.allowSpectators = details.allowSpectators;
         this.owner = details.owner;
         this.started = false;
         this.playStarted = false;
@@ -717,11 +716,12 @@ class Game extends EventEmitter {
             playerSummaries[player.name] = {
                 agenda: player.agenda ? player.agenda.code : undefined,
                 deck: deck,
-                emailHash: player.user.emailHash,
+                emailHash: player.emailHash,
                 faction: player.faction.code,
                 id: player.id,
+                lobbyId: player.lobbyId,
                 left: player.left,
-                name: player.user.username,
+                name: player.name,
                 owner: player.owner
             };
         });
@@ -735,9 +735,11 @@ class Game extends EventEmitter {
             owner: this.owner,
             players: playerSummaries,
             started: this.started,
+            startedAt: this.startedAt,
             spectators: _.map(this.getSpectators(), spectator => {
                 return {
                     id: spectator.id,
+                    lobbyId: spectator.lobbyId,
                     name: spectator.name
                 };
             })

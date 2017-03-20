@@ -29,7 +29,16 @@ class ZmqSocket extends EventEmitter {
     }
 
     onConnect() {
-        this.send('HELLO', { maxGames: config.maxGames, address: this.listenAddress, port: process.env.PORT || config.socketioPort, protocol: this.protocol });
+        this.emit('onGameSync', this.onGameSync.bind(this));
+    }
+
+    onGameSync(games) {
+        this.send('HELLO', {
+            maxGames: config.maxGames,
+            address: this.listenAddress,
+            port: process.env.PORT || config.socketioPort,
+            protocol: this.protocol,
+            games: games });
     }
 
     onMessage(x, msg) {

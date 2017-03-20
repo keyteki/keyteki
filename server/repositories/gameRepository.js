@@ -4,7 +4,7 @@ const BaseRepository = require('./baseRepository.js');
 
 class GameRepository extends BaseRepository {
     create(game) {
-        return this.games.insert(game, (err) => {
+        return this.db.collection('games').insert(game, (err) => {
             if(err) {
                 logger.error(err);
             }
@@ -12,7 +12,7 @@ class GameRepository extends BaseRepository {
     }
 
     update(game) {
-        return this.games.update({ gameId: game.gameId }, {
+        return this.db.collection('games').update({ gameId: game.gameId }, {
             '$set': {
                 startedAt: game.startedAt,
                 players: game.players,

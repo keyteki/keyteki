@@ -27,6 +27,7 @@ class Lobby {
         this.router.on('onPlayerLeft', this.onPlayerLeft.bind(this));
         this.router.on('onWorkerStarted', this.onWorkerStarted.bind(this));
         this.router.on('onWorkerTimedOut', this.onWorkerTimedOut.bind(this));
+        this.router.on('onNodeReconnected', this.onNodeReconnected.bind(this));
 
         this.io = options.io || socketio(server);
         this.io.set('heartbeat timeout', 30000);
@@ -436,14 +437,50 @@ class Lobby {
         this.broadcastGameList();
     }
 
-    onWorkerStarted(nodeName) {
-        // If any games are already active on a worker with this name, then the
-        // worker was probably restarted and those games are gone.
-        this.clearGamesForNode(nodeName);
+    onWorkerStarted() {
+        // // If any games are already active on a worker with this name, then the
+        // // worker was probably restarted and those games are gone.
+        // this.clearGamesForNode(nodeName);
     }
 
     onWorkerTimedOut(nodeName) {
         this.clearGamesForNode(nodeName);
+    }
+
+    onNodeReconnected(nodeName, games) {
+        _.each(games, game => {
+            var syncGame = new PendingGame({ username: game.owner }, {spectators: game.allowSpectators, name: game.name});
+            syncGame.id = game.id;
+
+            _.each(game.players, player => {
+                syncGame.players[player.name] = {
+                    id: player.id,
+                    name: player.name,
+                    emailHash: player.emailHash,
+                    owner: game.owner === player.name
+                };
+            });
+
+            _.each(game.spectators, player => {
+                syncGame.spectators[player.name] = {
+                    id: player.id,
+                    name: player.name,
+                    emailHash: player.emailHash
+                };
+            });
+
+            this.games[syncGame.id] = syncGame;
+        });
+
+        var nodeGames = _.filter(this.games, game => {
+            return game.node && game.node.identity === nodeName;
+        });
+
+        this.games = _.reject(this.games, game => {
+            return game.node && game.node.identity === nodeName && !_.find(nodeGames, nodeGame => {
+                return nodeGame.id === game.id;
+            });
+        });
     }
 }
 

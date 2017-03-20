@@ -34,6 +34,7 @@ class GameServer {
         this.socket = new ZmqSocket(this.host, this.protocol);
         this.socket.on('onStartGame', this.onStartGame.bind(this));
         this.socket.on('onSpectator', this.onSpectator.bind(this));
+        this.socket.on('onGameSync', this.onGameSync.bind(this));
 
         var server = undefined;
 
@@ -176,6 +177,14 @@ class GameServer {
         this.sendGameState(game);
     }
 
+    onGameSync(callback) {
+        var gameSummaries = _.map(this.games, game => {
+            return game.getSummary();
+        });
+
+        callback(gameSummaries);
+    }
+
     onConnection(ioSocket) {
         if(!ioSocket.request.user) {
             ioSocket.disconnect();
@@ -195,6 +204,7 @@ class GameServer {
             return;
         }
 
+        player.lobbyId = player.id;
         player.id = socket.id;
         if(player.disconnected) {
             game.reconnect(socket.id, player.name);

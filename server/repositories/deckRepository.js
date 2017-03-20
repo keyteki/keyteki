@@ -5,7 +5,7 @@ const BaseRepository = require('./baseRepository.js');
 
 class DeckRepository extends BaseRepository {
     getById(id, callback) {
-        return this.decks.findOne({ _id: mongoskin.helper.toObjectID(id) }, (err, deck) => {
+        return this.db.collection('decks').findOne({ _id: mongoskin.helper.toObjectID(id) }, (err, deck) => {
             if(err) {
                 logger.error(err);
 
