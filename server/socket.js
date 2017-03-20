@@ -9,6 +9,7 @@ class Socket extends EventEmitter {
         this.socket = socket;
         this.user = socket.request.user;
         this.config = options.config;
+        this.ravenClient = options.ravenClient;
 
         socket.on('error', this.onError.bind(this));
         socket.on('authenticate', this.onAuthenticate.bind(this));
@@ -42,7 +43,12 @@ class Socket extends EventEmitter {
             return;
         }
 
-        callback(this, ...args);
+        try {
+            callback(this, ...args);
+        } catch(err) {
+            logger.info(err);
+            this.ravenClient.captureException(err, { extra: args });
+        }
     }
 
     onAuthenticate(token) {

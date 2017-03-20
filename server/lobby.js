@@ -3,6 +3,7 @@ const Socket = require('./socket.js');
 const jwt = require('jsonwebtoken');
 const _ = require('underscore');
 const moment = require('moment');
+const raven = require('raven');
 
 const logger = require('./log.js');
 const version = moment(require('../version.js'));
@@ -20,6 +21,8 @@ class Lobby {
         this.messageRepository = options.messageRepository || new MessageRepository(this.config.dbPath);
         this.deckRepository = options.deckRepository || new DeckRepository(this.config.dbPath);
         this.router = options.router || new GameRouter(this.config);
+        this.ravenClient = new raven.Client(options.config.sentryDsn);
+
         this.router.on('onGameClosed', this.onGameClosed.bind(this));
         this.router.on('onPlayerLeft', this.onPlayerLeft.bind(this));
         this.router.on('onWorkerStarted', this.onWorkerStarted.bind(this));
@@ -176,7 +179,7 @@ class Lobby {
 
     // Events
     onConnection(ioSocket) {
-        var socket = new Socket(ioSocket, { config: this.config });
+        var socket = new Socket(ioSocket, { config: this.config, ravenClient: this.ravenClient });
 
         socket.registerEvent('lobbychat', this.onLobbyChat.bind(this));
         socket.registerEvent('newgame', this.onNewGame.bind(this));
@@ -197,10 +200,12 @@ class Lobby {
             this.broadcastUserList();
         }
 
-        this.messageRepository.getLastMessages().then(messages => {
+        this.messageRepository.getLastMessages((err, messages) => {
+            if(err) {
+                return;
+            }
+
             socket.send('lobbymessages', messages.reverse());
-        }).catch(err => {
-            logger.info(err);
         });
 
         this.broadcastGameList();
@@ -389,12 +394,14 @@ class Lobby {
             return;
         }
 
-        this.deckRepository.getById(deckId).then(deck => {
+        this.deckRepository.getById(deckId, (err, deck) => {
+            if(err) {
+                return;
+            }
+
             game.selectDeck(socket.user.username, deck);
 
             this.sendGameState(game);
-        }).catch(err => {
-            logger.info(err);
         });
     }
 

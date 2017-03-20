@@ -1,13 +1,19 @@
-const monk = require('monk');
+const logger = require('../log.js');
+const mongoskin = require('mongoskin');
 
-class DeckRepository {
-    constructor(dbPath) {
-        var db = monk(dbPath);
-        this.decks = db.get('decks');
-    }
+const BaseRepository = require('./baseRepository.js');
 
-    getById(id) {
-        return this.decks.findOne({ _id: id });
+class DeckRepository extends BaseRepository {
+    getById(id, callback) {
+        return this.decks.findOne({ _id: mongoskin.helper.toObjectID(id) }, (err, deck) => {
+            if(err) {
+                logger.error(err);
+
+                this.callCallbackIfPresent(callback, err);
+            }
+
+            this.callCallbackIfPresent(callback, err, deck);
+        });
     }
 }
 

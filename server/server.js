@@ -1,7 +1,6 @@
 const app = require('express')();
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const raven = require('raven');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const config = require('./config.js');
@@ -14,6 +13,7 @@ const express = require('express');
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const http = require('http');
+const raven = require('raven');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpack = require('webpack');
@@ -24,7 +24,7 @@ const UserRepository = require('./repositories/userRepository.js');
 
 class Server {
     constructor(isDeveloping) {
-        this.userRepository = new UserRepository();
+        this.userRepository = new UserRepository(config.dbPath);
         this.isDeveloping = isDeveloping;
         this.server = http.Server(app);
     }
@@ -84,7 +84,7 @@ class Server {
                 log: false,
                 path: '/__webpack_hmr',
                 heartbeat: 2000
-            }));            
+            }));
 
             app.get('*', function response(req, res) {
                 var token = undefined;
@@ -97,7 +97,7 @@ class Server {
                 middleware.fileSystem.writeFileSync(path.join(__dirname, '..', 'public/index.html'), html);
                 res.write(middleware.fileSystem.readFileSync(path.join(__dirname, '..', 'public/index.html')));
                 res.end();
-            });            
+            });
         } else {
             app.get('*', (req, res) => {
                 var token = undefined;
@@ -126,13 +126,15 @@ class Server {
     }
 
     verifyUser(username, password, done) {
-        this.userRepository.getUserByUsername(username).then(user => {
+        this.userRepository.getUserByUsername(username, (err, user) => {
             if(!user) {
                 return done(null, false, { message: 'Invalid username/password' });
             }
 
             bcrypt.compare(password, user.password, function(err, valid) {
                 if(err) {
+                    logger.info(err.message);
+
                     return done(err);
                 }
 
@@ -142,10 +144,6 @@ class Server {
 
                 return done(null, { username: user.username, email: user.email, emailHash: user.emailHash, _id: user._id });
             });
-        }).catch(err => {
-            logger.info(err.message);
-
-            return done(err);
         });
     }
 
@@ -156,14 +154,12 @@ class Server {
     }
 
     deserializeUser(id, done) {
-        this.userRepository.getUserById(id).then(user => {
+        this.userRepository.getUserById(id, (err, user) => {
             if(!user) {
-                return;
+                return done(err);
             }
 
             done(null, { username: user.username, email: user.email, emailHash: user.emailHash, _id: user._id });
-        }).catch(err => {
-            logger.info(err);
         });
     }
 }

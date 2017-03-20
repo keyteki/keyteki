@@ -1,13 +1,14 @@
-const monk = require('monk');
+const logger = require('../log.js');
 
-class GameRepository {
-    constructor(dbPath) {
-        var db = monk(dbPath);
-        this.games = db.get('games');
-    }
+const BaseRepository = require('./baseRepository.js');
 
+class GameRepository extends BaseRepository {
     create(game) {
-        return this.games.insert(game);
+        return this.games.insert(game, (err) => {
+            if(err) {
+                logger.error(err);
+            }
+        });
     }
 
     update(game) {
@@ -18,6 +19,10 @@ class GameRepository {
                 winner: game.winner,
                 winReason: game.winReason,
                 finishedAt: game.finishedAt
+            }
+        }, (err) => {
+            if(err) {
+                logger.error(err);
             }
         });
     }

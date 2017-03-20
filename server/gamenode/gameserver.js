@@ -188,7 +188,7 @@ class GameServer {
             return;
         }
 
-        var socket = new Socket(ioSocket, { config: config });
+        var socket = new Socket(ioSocket, { config: config, ravenClient: ravenClient });
 
         var player = game.playersAndSpectators[socket.user.username];
         if(!player) {

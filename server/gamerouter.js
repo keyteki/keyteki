@@ -32,9 +32,7 @@ class GameRouter extends EventEmitter {
             return;
         }
 
-        this.gameRepository.create(game.getSaveState()).catch(err => {
-            logger.error(err);
-        });
+        this.gameRepository.create(game.getSaveState());
 
         node.numGames++;
 
@@ -118,9 +116,7 @@ class GameRouter extends EventEmitter {
                 worker.pingSent = undefined;
                 break;
             case 'GAMEWIN':
-                this.gameRepository.update(message.arg.game).catch(err => {
-                    logger.error(err);
-                });
+                this.gameRepository.update(message.arg.game);
                 break;
             case 'GAMECLOSED':
                 if(worker) {
@@ -134,9 +130,7 @@ class GameRouter extends EventEmitter {
                 break;
             case 'PLAYERLEFT':
                 if(!message.arg.spectator) {
-                    this.gameRepository.update(message.arg.game).catch(err => {
-                        logger.error(err);
-                    });
+                    this.gameRepository.update(message.arg.game);
                 }
 
                 this.emit('onPlayerLeft', message.arg.gameId, message.arg.player);

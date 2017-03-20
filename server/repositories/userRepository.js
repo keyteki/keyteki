@@ -1,30 +1,91 @@
-const db = require('monk')('mongodb://127.0.0.1:27017/throneteki');
-const users = db.get('users');
+const mongoskin = require('mongoskin');
 const escapeRegex = require('../util.js').escapeRegex;
+const logger = require('../log.js');
 
-class UserRepository {
-    getUserByUsername(username) {
-        return users.findOne({ username: {'$regex': new RegExp('^' + escapeRegex(username.toLowerCase()) + '$', 'i') }});
+const BaseRepository = require('./baseRepository.js');
+
+class UserRepository extends BaseRepository {
+    getUserByUsername(username, callback) {
+        this.db.collection('users').find({ username: {'$regex': new RegExp('^' + escapeRegex(username.toLowerCase()) + '$', 'i') }}).toArray((err, users) => {
+            if(err) {
+                logger.error(err);
+
+                this.callCallbackIfPresent(callback, err);
+
+                return;
+            }
+
+            this.callCallbackIfPresent(callback, err, users[0]);
+        });
     }
 
-    getUserById(id) {
-        return users.findOne({ _id: id });
+    getUserById(id, callback) {
+        this.db.collection('users').find({ _id: mongoskin.helper.toObjectID(id) }).toArray((err, users) => {
+            if(err) {
+                logger.error(err);
+
+                this.callCallbackIfPresent(callback, err);
+
+                return;
+            }
+
+            this.callCallbackIfPresent(callback, err, users[0]);
+        });
     }
 
-    addUser(user) {
-        return users.insert(user);
+    addUser(user, callback) {
+        this.db.collection('users').insert(user, (err, result) => {
+            if(err) {
+                logger.error(err);
+                this.callCallbackIfPresent(callback, err);
+
+                return;
+            }
+
+            this.callCallbackIfPresent(callback, err, result);
+        });
     }
 
-    setResetToken(user, token, tokenExpiration) {
-        return users.update({ username: user.username }, { '$set': { resetToken: token, tokenExpires: tokenExpiration } });
+    setResetToken(user, token, tokenExpiration, callback) {
+        this.db.collection('users').update({ username: user.username }, { '$set': { resetToken: token, tokenExpires: tokenExpiration } }, (err, result) => {
+            if(err) {
+                logger.error(err);
+
+                this.callCallbackIfPresent(callback, err);
+
+                return;
+            }
+
+            this.callCallbackIfPresent(callback, err, result);
+        });
     }
 
-    setPassword(user, password) {
-        return users.update({ username: user.username }, { '$set': { password: password } });
+    setPassword(user, password, callback) {
+        this.db.collection('users').update({ username: user.username }, { '$set': { password: password } }, (err, result) => {
+            if(err) {
+                logger.error(err);
+
+                this.callCallbackIfPresent(callback, err);
+
+                return;
+            }
+
+            this.callCallbackIfPresent(callback, err, result);
+        });
     }
 
-    clearResetToken(user) {
-        return users.update({ username: user.username }, { '$set': { resetToken: undefined, tokenExpires: undefined } });
+    clearResetToken(user, callback) {
+        this.db.collection('users').update({ username: user.username }, { '$set': { resetToken: undefined, tokenExpires: undefined } }, (err, result) => {
+            if(err) {
+                logger.error(err);
+
+                this.callCallbackIfPresent(callback, err);
+
+                return;
+            }
+
+            this.callCallbackIfPresent(callback, err, result);
+        });
     }
 }
 
