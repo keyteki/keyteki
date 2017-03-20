@@ -19,8 +19,7 @@ var config = {
         publicPath: '/'
     },
     plugins: [
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('development'),
             '__DEV__': JSON.stringify('true')
@@ -36,21 +35,27 @@ var config = {
                 test: /\.jsx?/,
                 include: APP_DIR,
                 exclude: /node_modules/,
-                loaders: ['babel']
+                loader: 'babel-loader'
             },
             {
                 test: /\.less$/,
-                loader: 'style!css!less'
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'less-loader'
+                ]
             },
             {
                 test: /\.scss$/,
-                loader: 'style!css!sass'
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader'
+                ]
             }, {
-                test: /.(png|woff(2)?|eot|ttf|svg)(\?[a-z0-9=\.]+)?$/, loader: 'url-loader?limit=100000'
+                test: /.(png|woff(2)?|eot|ttf|svg)(\?[a-z0-9=\.]+)?$/, 
+                loader: 'url-loader?limit=100000'
             }]
-    },
-    postcss: function() {
-        return [precss, autoprefixer];
     }
 };
 

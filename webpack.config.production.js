@@ -19,13 +19,12 @@ var config = {
     },
     plugins: [
         new webpack.optimize.UglifyJsPlugin({
+            sourceMap: true,
             compressor: {
                 warnings: false,
                 screw_ie8: true
             }
         }),
-        new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
         }),
@@ -35,22 +34,31 @@ var config = {
         })
     ],
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.jsx?/,
                 include: APP_DIR,
                 exclude: /node_modules/,
-                loaders: ['babel']
+                loader: 'babel-loader'
             },
             {
                 test: /\.scss$/,
-                loader: 'style!css!sass'
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader'
+                ]
             },
             {
                 test: /\.less$/,
-                loader: 'style!css!less'
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'less-loader'
+                ]
             }, {
-                test: /.(png|woff(2)?|eot|ttf|svg)(\?[a-z0-9=\.]+)?$/, loader: 'url-loader?limit=100000'
+                test: /.(png|woff(2)?|eot|ttf|svg)(\?[a-z0-9=\.]+)?$/, 
+                loader: 'url-loader?limit=100000'
             }]
     }
 };
