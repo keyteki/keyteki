@@ -8,7 +8,7 @@ class MargaeryTyrell extends DrawCard {
             when: {
                 onCharacterKilled: (event, player, card) => {
                     return card.isUnique() && (card.hasTrait('king') || card.hasTrait('lord')) && card.controller === this.controller;
-                },
+                }
             },
             limit: ability.limit.perRound(1),
             handler: () => {
@@ -23,12 +23,14 @@ class MargaeryTyrell extends DrawCard {
                     if(uniqueCardsByTitle.indexOf(char.cardData.label) >= 0) {
                         return false;
                     }
+
                     uniqueCardsByTitle.push(char.cardData.label);
                     return true;
                 });
                 var buttons = _.map(selectableCharacters, card => {
                     return { text: card.cardData.label, method: 'cardSelected', arg: card.uuid, card: card.getSummary(true) };
                 });
+
                 buttons.push({ text: 'Done', method: 'doneSelecting' });
                 this.game.promptWithMenu(this.controller, this, {
                     activePrompt: {

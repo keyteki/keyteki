@@ -5,7 +5,7 @@ class RenlyBaratheon extends DrawCard {
         this.reaction({
             when: {
                 onInsight: (event, challenge, insightTrigger, drawn) => {
-                    if (insightTrigger.controller !== this.controller) {
+                    if(insightTrigger.controller !== this.controller) {
                         return false;
                     }
                     this.drawnCard = drawn;

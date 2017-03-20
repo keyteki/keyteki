@@ -3,7 +3,7 @@
 
   "rules": {
     "indent": [2, 4, {"SwitchCase": 1}],
-    "quotes": [1, "single"],
+    "quotes": [2, "single"],
     "strict": [1, "global"],
     "global-strict": 0,
     "brace-style": [2, "1tbs"],
@@ -18,16 +18,16 @@
     "no-useless-concat": [1],
     "no-useless-constructor": [1],
     "array-bracket-spacing": [1, "never"],
-    "block-spacing": [1, "always"],
+    "block-spacing": [2, "always"],
     "camelcase": [1, { "properties": "never"}],
     "comma-dangle": [1],
-    "space-before-blocks": [1],
+    "space-before-blocks": [2],
     "space-in-parens": [2, "never"],
-    "space-infix-ops": [1],
-    "no-multiple-empty-lines": [1],
+    "space-infix-ops": [2],
+    "no-multiple-empty-lines": [2],
     "eol-last": [2],
     "semi": [2],
-    "keyword-spacing": [1, {"overrides": 
+    "keyword-spacing": [2, {"overrides": 
       { "if": { "after": false }, "for": { "after": false }, "while": { "after": false }, "switch": { "after": false }, "catch": { "after": false } } }],
     "react/display-name": 1,
     "react/jsx-boolean-value": 1,
