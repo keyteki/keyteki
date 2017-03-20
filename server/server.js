@@ -14,6 +14,11 @@ const express = require('express');
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const http = require('http');
+const webpackDevMiddleware = require("webpack-dev-middleware");
+const webpackHotMiddleware = require("webpack-hot-middleware");
+const webpack = require("webpack")
+const webpackConfig = require('../webpack.config.js');
+const pug = require('pug');
 
 const UserRepository = require('./repositories/userRepository.js');
 
@@ -56,15 +61,54 @@ class Server {
         app.use(express.static(__dirname + '/../public'));
         app.set('view engine', 'pug');
         app.set('views', path.join(__dirname, '..', 'views'));
-        app.get('*', (req, res) => {
-            var token = undefined;
 
-            if(req.user) {
-                token = jwt.sign(req.user, config.secret);
-            }
+        if(this.isDeveloping) {
+            const compiler = webpack(webpackConfig);
+            const middleware = webpackDevMiddleware(compiler, {
+                hot: true,
+                contentBase: 'client',
+                publicPath: webpackConfig.output.publicPath,
+                stats: {
+                    colors: true,
+                    hash: false,
+                    timings: true,
+                    chunks: false,
+                    chunkModules: false,
+                    modules: false
+                },
+                historyApiFallback: true
+            });
 
-            res.render('index', { basedir: path.join(__dirname, '..', 'views'), user: req.user, token: token, production: !this.isDeveloping });
-        });
+            app.use(middleware);
+            app.use(webpackHotMiddleware(compiler, {
+                log: false,
+                path: "/__webpack_hmr",
+                heartbeat: 2000
+            }));            
+
+            app.get('*', function response(req, res) {
+                var token = undefined;
+
+                if(req.user) {
+                    token = jwt.sign(req.user, config.secret);
+                }
+
+                var html = pug.renderFile('views/index.pug', { basedir: path.join(__dirname, '..', 'views'), user: req.user, token: token });
+                middleware.fileSystem.writeFileSync(path.join(__dirname, '..', 'public/index.html'), html);
+                res.write(middleware.fileSystem.readFileSync(path.join(__dirname, '..', 'public/index.html')));
+                res.end();
+            });            
+        } else {
+            app.get('*', (req, res) => {
+                var token = undefined;
+
+                if(req.user) {
+                    token = jwt.sign(req.user, config.secret);
+                }
+
+                res.render('index', { basedir: path.join(__dirname, '..', 'views'), user: req.user, token: token, production: !this.isDeveloping });
+            });
+        }
 
         return this.server;
     }
