@@ -82,7 +82,7 @@ This will get you up and running in development mode.
 For production:
 
 ```
-NODE_ENV=production ./node_nodules/.bin/webpack -p --config webpack.config.production.js
+npm run build
 NODE_ENV=production PORT=4000 node .
 ```
 
