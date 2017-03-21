@@ -233,11 +233,13 @@ class ChallengeFlow extends BaseStep {
             }
 
             if(card.hasKeyword('Pillage')) {
-                this.challenge.loser.discardFromDraw(1, cards => {
-                    var discarded = cards[0];
-                    this.game.raiseEvent('onPillage', this.challenge, card, discarded);
+                this.game.queueSimpleStep(() => {
+                    this.challenge.loser.discardFromDraw(1, cards => {
+                        var discarded = cards[0];
+                        this.game.raiseEvent('onPillage', this.challenge, card, discarded);
 
-                    this.game.addMessage('{0} discards {1} from the top of their deck due to Pillage from {2}', this.challenge.loser, discarded, card);
+                        this.game.addMessage('{0} discards {1} from the top of their deck due to Pillage from {2}', this.challenge.loser, discarded, card);
+                    });
                 });
             }
 
