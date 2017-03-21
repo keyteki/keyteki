@@ -46,14 +46,8 @@ mkdir server/logs
 cd server
 node fetchdata.js
 cd ..
-./node_nodules/.bin/webpack --config webpack.config.js
 node .
-node server
-```
-
-If you make changes to the client code you will need to rerun this:
-```
-./node_nodules/.bin/webpack --config webpack.config.js
+node server/gamenode
 ```
 
 There are two exectuable components and you'll need to configure/run both to run a local server.  First is the lobby server and then there are game nodes.
