@@ -8,7 +8,7 @@ describe('CardAction', function () {
         this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'resolveAbility']);
         this.gameSpy.currentPhase = 'marshal';
 
-        this.cardSpy = jasmine.createSpyObj('card', ['isBlank']);
+        this.cardSpy = jasmine.createSpyObj('card', ['getType', 'isBlank']);
         this.cardSpy.handler = function() {};
         spyOn(this.cardSpy, 'handler').and.returnValue(true);
 
@@ -65,6 +65,12 @@ describe('CardAction', function () {
             it('should default to play area', function() {
                 this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
                 expect(this.action.location).toBe('play area');
+            });
+
+            it('should default to agenda for cards with type agenda', function() {
+                this.cardSpy.getType.and.returnValue('agenda');
+                this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+                expect(this.action.location).toBe('agenda');
             });
 
             it('should use the location sent via properties', function() {

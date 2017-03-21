@@ -40,7 +40,7 @@ class CardAction extends BaseAbility {
         this.anyPlayer = properties.anyPlayer || false;
         this.condition = properties.condition;
         this.clickToActivate = !!properties.clickToActivate;
-        this.location = properties.location || 'play area';
+        this.location = properties.location || (card.getType() === 'agenda' ? 'agenda' : 'play area');
 
         this.handler = this.buildHandler(card, properties);
     }

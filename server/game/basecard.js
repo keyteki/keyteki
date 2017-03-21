@@ -143,7 +143,7 @@ class BaseCard {
     action(properties) {
         var action = new CardAction(this.game, this, properties);
         this.abilities.action = action;
-        if(!action.isClickToActivate() && action.location === 'play area') {
+        if(!action.isClickToActivate() && ['play area', 'agenda'].includes(action.location)) {
             this.menu.push(action.getMenuItem());
         }
     }
