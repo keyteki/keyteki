@@ -232,8 +232,9 @@ class Lobby {
             return;
         }
 
+        delete this.sockets[socket.id];
+
         if(!socket.user) {
-            delete this.sockets[socket.id];
             return;
         }
 
@@ -245,16 +246,12 @@ class Lobby {
         }
 
         game.disconnect(socket.user.username);
-        socket.send('gamestate', game.getSummary(socket.user.username));
-        socket.leaveChannel(game.id);
 
         if(game.isEmpty()) {
             delete this.games[game.id];
         } else {
             this.sendGameState(game);
         }
-
-        delete this.sockets[socket.id];
 
         this.broadcastGameList();
     }
