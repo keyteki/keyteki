@@ -12,7 +12,7 @@ class EddardStark extends DrawCard {
             },
             handler: context => {
                 context.target.modifyPower(1);
-                this.game.addMessage('{0} uses {1} to allow {2} to gain 1 power', context.player, this, context.target);
+                this.game.addMessage('{0} uses {1} to have {2} gain 1 power', this.controller, this, context.target);
             }
         });
     }
