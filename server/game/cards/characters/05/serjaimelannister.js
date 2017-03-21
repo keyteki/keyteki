@@ -12,36 +12,23 @@ class SerJaimeLannister extends DrawCard {
             title: 'Give an intrigue icon to a character',
             method: 'addIcon',
             limit: ability.limit.perPhase(1),
-            phase: 'challenge'
+            phase: 'challenge',
+            target: {
+                activePromptTitle: 'Select character',
+                cardCondition: card => this.isKingsguardCharacter(card)
+            },
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to give {2} an {3} icon', context.player, this, context.target, 'intrigue');
+                this.untilEndOfPhase(ability => ({
+                    match: context.target,
+                    effect: ability.effects.addIcon('intrigue')
+                }));
+            }
         });
     }
 
-    addIcon() {
-        if(this.location !== 'play area') {
-            return false;
-        }
-
-        this.game.promptForSelect(this.controller, {
-            activePromptTitle: 'Select character',
-            source: this,
-            cardCondition: card => (
-                card.location === 'play area' && 
-                card.hasTrait('Kingsguard') && 
-                card.getType() === 'character'),
-            onSelect: (p, card) => this.onCardSelected(p, card)
-        });
-
-        return true;
-    }
-
-    onCardSelected(player, card) {
-        this.game.addMessage('{0} uses {1} to give {2} an {3} icon', player, this, card, 'intrigue');
-        this.untilEndOfPhase(ability => ({
-            match: card,
-            effect: ability.effects.addIcon('intrigue')
-        }));
-
-        return true;
+    isKingsguardCharacter(card) {
+        return card.location === 'play area' && card.hasTrait('Kingsguard') && card.getType() === 'character';
     }
 }
 
