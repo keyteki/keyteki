@@ -42,7 +42,14 @@ class ZmqSocket extends EventEmitter {
     }
 
     onMessage(x, msg) {
-        var message = JSON.parse(msg.toString());
+        var message = undefined;
+
+        try {
+            message = JSON.parse(msg.toString());
+        } catch(err) {
+            logger.info(err);
+            return;
+        }
 
         switch(message.command) {
             case 'PING':
