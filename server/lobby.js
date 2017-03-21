@@ -451,6 +451,7 @@ class Lobby {
         _.each(games, game => {
             var syncGame = new PendingGame({ username: game.owner }, {spectators: game.allowSpectators, name: game.name});
             syncGame.id = game.id;
+            syncGame.node = this.router.workers[nodeName];
 
             _.each(game.players, player => {
                 syncGame.players[player.name] = {
@@ -476,11 +477,17 @@ class Lobby {
             return game.node && game.node.identity === nodeName;
         });
 
-        this.games = _.reject(this.games, game => {
-            return game.node && game.node.identity === nodeName && !_.find(nodeGames, nodeGame => {
+        _.each(this.games, game => {
+            if(game.node && game.node.identity === nodeName && _.find(nodeGames, nodeGame => {
                 return nodeGame.id === game.id;
-            });
+            })) {
+                this.games[game.id] = game;
+            } else {
+                delete this.games[game.id];
+            }
         });
+
+        this.broadcastGameList();
     }
 }
 
