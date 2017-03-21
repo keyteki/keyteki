@@ -100,9 +100,9 @@ class InnerLobby extends React.Component {
                     Apologies for the server instability over the last couple of days.  I have been working out the last of the issues with the big release last week.  It should be a lot better now. As always, please raise issues on <a href='https://github.com/cryogen/throneteki'>GitHub</a>.
                 </div>
                 <div className='alert alert-info'>
+                    <div><span className='icon-intrigue' />2017-03-21: New cards: Jon Snow(WotW), The Dragon's Tail.  Fix Fealty, Ser Jaime Lannister, Selyse Baratheon, Eddard Stark.  Automatically populate the faction/agenda from a copy/pasted thronesdb decklist. </div>
                     <div><span className='icon-military' />2017-03-19: Implemented Alliance in the deck builder! New cards: King of Salt and Rock, Venomous Blade, Dragonglass Dagger(partial), Motley, Old Bear Mormont(WotW), The Seastone Chair, Bowen Marsh, Cotter Pyke, Stannis Baratheon(TIMC), Ser Denys Mallister, Ser Jaremy Rykker.  Fixed lobby chat to now keep trying to scroll to the bottom if you're scrolling it.  Fixed chat not being able to be scrolled with the mouse wheel</div>
                     <div><span className='icon-power' />2017-03-15: New cards: Golden Tooth, Ghiscari Elite, Ser Gregor Clegane, Jojen Reed, Maester of Starfall, First of the Men, The Boy King, Bear Island Host, The Prince's Pass, Mountains of the Moon, The Stone Drum, Vaes Tolorro, Tower of the Sun, Brandon's Gift, Tourney Grounds, King Beyond The Wall, Lannisport Treasury.  Fix Tinder Marge(sorry), various other minor fixes.</div>
-                    <div><span className='icon-intrigue' />2017-03-09: New cards: Moat Cailin, Late Summer Feast, Joffrey Baratheon(FFH), Ghost, Sworn Brother, Eastwatch Carpenter, EastWatch By The Sea, Ricasso, King Robb's Host, Tywin Lannister(LoCR), Storm's End, Margery Tyrell (AMAF), Pyromancers, Ser Armory Lorch.  Add bestow keyword.  Fix: Castle Black, Cersei Lannister(LoCR)</div>
                 </div>
                 <div className='row'>
                     <span className='col-sm-9 text-center'><h1>Play A Game Of Thrones 2nd Edition</h1></span>
