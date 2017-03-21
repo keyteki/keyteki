@@ -232,6 +232,19 @@ const Costs = {
                 }
             }
         };
+    },
+    /**
+     * Cost in which the player must pay a fixed, non-reduceable amount of gold.
+     */
+    payGold: function(amount) {
+        return {
+            canPay: function(context) {
+                return context.player.gold >= amount;
+            },
+            pay: function(context) {
+                context.game.addGold(context.player, -amount);
+            }
+        };
     }
 };
 

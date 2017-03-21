@@ -116,6 +116,7 @@ class PlayerInteractionWrapper {
 
     dragCard(card, targetLocation) {
         this.game.drop(this.player.name, card.uuid, card.location, targetLocation);
+        this.game.continue();
     }
 }
 
