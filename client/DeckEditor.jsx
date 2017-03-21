@@ -194,6 +194,42 @@ class DeckEditor extends React.Component {
     onCardListChange(event) {
         var split = event.target.value.split('\n');
 
+        var headerMark = _.findIndex(split, line => line.match(/^Packs:/));
+        if(headerMark >= 0) { // ThronesDB-style deck header found
+                              // extract deck title, faction, agenda, and banners
+            var header = _.filter(_.first(split, headerMark), line => line !== '');
+            split = _.rest(split, headerMark);
+
+            if(header.length >= 2) {
+                this.setState({ deckName: header[0] });
+
+                var faction = _.find(this.state.factions, faction => faction.name === header[1]);
+                if(faction) {
+                    this.setState({ selectedFaction: faction }, () => this.raiseDeckChanged());
+                }
+
+                header = _.rest(header, 2);
+                if(header.length >= 1) {
+                    var rawAgenda = undefined;
+                    if(_.contains(header, 'Alliance')) {
+                        rawAgenda = 'Alliance';
+                        var rawBanners = _.filter(header, line => line !== 'Alliance');
+                    } else {
+                        rawAgenda = header[0];
+                    }
+
+                    var agenda = _.find(this.props.agendas, agenda => agenda.name === rawAgenda);
+                    if(agenda) {
+                        this.setState({ bannersVisible: agenda.name === 'Alliance'});
+                        this.setState({ selectedAgenda: agenda }, () => this.raiseDeckChanged());
+                    }
+                    if(rawBanners) {
+                        this.setState({ bannerList: rawBanners.join('\n') }, () => this.raiseDeckChanged());
+                    }
+                }
+            }
+        }
+
         this.setState({ drawCards: [], plotCards: [] }, () => {
             _.each(split, line => {
                 line = line.trim();
