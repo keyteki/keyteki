@@ -209,7 +209,7 @@ class Lobby {
             socket.send('lobbymessages', messages.reverse());
         });
 
-        this.broadcastGameList();
+        this.broadcastGameList(socket);
 
         if(!socket.user) {
             return;
