@@ -183,6 +183,8 @@ class GameServer {
             return game.getSummary();
         });
 
+        logger.info('syncing', _.size(gameSummaries), ' games');
+
         callback(gameSummaries);
     }
 
