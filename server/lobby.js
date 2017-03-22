@@ -474,7 +474,7 @@ class Lobby {
             this.games[syncGame.id] = syncGame;
         });
 
-        var nodeGames = _.filter(this.games, game => {
+        var nodeGames = _.filter(games, game => {
             return game.node && game.node.identity === nodeName;
         });
 
