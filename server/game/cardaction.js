@@ -32,6 +32,11 @@ class CardAction extends BaseAbility {
     constructor(game, card, properties) {
         super(properties);
 
+        const DefaultLocationForType = {
+            agenda: 'agenda',
+            plot: 'active plot'
+        };
+
         this.game = game;
         this.card = card;
         this.title = properties.title;
@@ -40,7 +45,7 @@ class CardAction extends BaseAbility {
         this.anyPlayer = properties.anyPlayer || false;
         this.condition = properties.condition;
         this.clickToActivate = !!properties.clickToActivate;
-        this.location = properties.location || (card.getType() === 'agenda' ? 'agenda' : 'play area');
+        this.location = properties.location || DefaultLocationForType[card.getType()] || 'play area';
 
         this.handler = this.buildHandler(card, properties);
     }
@@ -61,6 +66,10 @@ class CardAction extends BaseAbility {
             //       the context object directly.
             return card[properties.method].call(card, context.player, context.arg, context);
         };
+    }
+
+    allowMenu() {
+        return ['play area', 'agenda', 'active plot'].includes(this.location);
     }
 
     createContext(player, arg) {

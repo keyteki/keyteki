@@ -73,6 +73,12 @@ describe('CardAction', function () {
                 expect(this.action.location).toBe('agenda');
             });
 
+            it('should default to active plot for cards with type plot', function() {
+                this.cardSpy.getType.and.returnValue('plot');
+                this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+                expect(this.action.location).toBe('active plot');
+            });
+
             it('should use the location sent via properties', function() {
                 this.properties.location = 'foo';
                 this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
