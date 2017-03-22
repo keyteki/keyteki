@@ -73,7 +73,8 @@ class Lobby {
                 spectators: spectators,
                 id: game.id,
                 started: game.started,
-                node: game.node ? game.node.identity : 'None'
+                node: game.node ? game.node.identity : 'None',
+                startedAt: game.createdAt
             };
         });
 

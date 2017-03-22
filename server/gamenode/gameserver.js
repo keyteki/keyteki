@@ -72,7 +72,8 @@ class GameServer {
                 name: game.name,
                 players: players,
                 id: game.id,
-                started: game.started
+                started: game.started,
+                startedAt: game.startedAt
             };
         });
 
@@ -225,6 +226,8 @@ class GameServer {
     }
 
     onSocketDisconnected(socket) {
+        delete this.sockets[socket.id];
+
         var game = this.findGameForUser(socket.user.username);
         if(!game) {
             return;
@@ -233,8 +236,6 @@ class GameServer {
         var isSpectator = game.isSpectator(game.playersAndSpectators[socket.user.username]);
 
         game.disconnect(socket.user.username);
-
-        delete this.sockets[socket.id];
 
         if(game.isEmpty()) {
             delete this.games[game.id];
