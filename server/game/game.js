@@ -590,7 +590,7 @@ class Game extends EventEmitter {
     }
 
     isEmpty() {
-        return _.all(this.playersAndSpectators, player => player.disconnected || player.left);
+        return _.all(this.playersAndSpectators, player => player.disconnected || player.left && player.id !== 'TBA');
     }
 
     leave(playerName) {
