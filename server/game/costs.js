@@ -9,6 +9,12 @@ const Costs = {
             },
             pay: function(context) {
                 context.source.controller.kneelCard(context.source);
+            },
+            canUnpay: function(context) {
+                return context.source.kneeled;
+            },
+            unpay: function(context) {
+                context.source.controller.standCard(context.source);
             }
         };
     },

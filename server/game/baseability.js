@@ -87,6 +87,25 @@ class BaseAbility {
     }
 
     /**
+     * Return whether when unpay is implemented for the ability cost and the
+     * cost can be unpaid.
+     *
+     * @returns {boolean}
+     */
+    canUnpayCosts(context) {
+        return _.all(this.cost, cost => cost.unpay && cost.canUnpay(context));
+    }
+
+    /**
+     * Unpays each cost associated with the ability.
+     */
+    unpayCosts(context) {
+        _.each(this.cost, cost => {
+            cost.unpay(context);
+        });
+    }
+
+    /**
      * Returns whether there are eligible cards available to fulfill targets.
      *
      * @returns {Boolean}

@@ -441,7 +441,7 @@ class BaseCard {
     onClick(player) {
         var action = this.abilities.action;
         if(action && action.isClickToActivate()) {
-            return action.execute(player);
+            return action.execute(player) || action.deactivate(player);
         }
 
         return false;

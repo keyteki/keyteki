@@ -261,6 +261,97 @@ describe('CardAction', function () {
         });
     });
 
+    describe('deactivate()', function() {
+        beforeEach(function() {
+            this.player = { player: 1 };
+            this.cardSpy.controller = this.player;
+            this.cardSpy.location = 'play area';
+            this.costSpy = jasmine.createSpyObj('cost', ['canUnpay', 'unpay']);
+            this.costSpy.canUnpay.and.returnValue(true);
+            this.properties.cost = this.costSpy;
+            this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+            this.bottomContext = { context: 'bottom', player: this.player };
+            this.topContext = { context: 'top', player: this.player };
+            this.action.activationContexts.push(this.bottomContext);
+            this.action.activationContexts.push(this.topContext);
+        });
+
+        describe('when everything is normal', function() {
+            beforeEach(function() {
+                this.result = this.action.deactivate(this.player);
+            });
+
+            it('should unpay costs', function() {
+                expect(this.costSpy.unpay).toHaveBeenCalledWith(this.topContext);
+            });
+
+            it('should deactivate the top context', function() {
+                expect(this.bottomContext.abilityDeactivated).toBeFalsy();
+                expect(this.topContext.abilityDeactivated).toBe(true);
+            });
+
+            it('should return true', function() {
+                expect(this.result).toBe(true);
+            });
+        });
+
+        describe('when there are no previous activation contexts', function() {
+            beforeEach(function() {
+                this.action.activationContexts = [];
+                this.result = this.action.deactivate(this.player);
+            });
+
+            it('should not unpay costs', function() {
+                expect(this.costSpy.unpay).not.toHaveBeenCalled();
+            });
+
+            it('should not deactivate the top context', function() {
+                expect(this.topContext.abilityDeactivated).toBeFalsy();
+            });
+
+            it('should return false', function() {
+                expect(this.result).toBe(false);
+            });
+        });
+
+        describe('when the cost cannot be unpaid', function() {
+            beforeEach(function() {
+                this.costSpy.canUnpay.and.returnValue(false);
+                this.result = this.action.deactivate(this.player);
+            });
+
+            it('should not unpay costs', function() {
+                expect(this.costSpy.unpay).not.toHaveBeenCalled();
+            });
+
+            it('should not deactivate the top context', function() {
+                expect(this.topContext.abilityDeactivated).toBeFalsy();
+            });
+
+            it('should return false', function() {
+                expect(this.result).toBe(false);
+            });
+        });
+
+        describe('when the player does not control the source card', function() {
+            beforeEach(function() {
+                this.result = this.action.deactivate({ player: 2 });
+            });
+
+            it('should not unpay costs', function() {
+                expect(this.costSpy.unpay).not.toHaveBeenCalled();
+            });
+
+            it('should not deactivate the top context', function() {
+                expect(this.topContext.abilityDeactivated).toBeFalsy();
+            });
+
+            it('should return false', function() {
+                expect(this.result).toBe(false);
+            });
+        });
+    });
+
     describe('registerEvents()', function() {
         describe('when there is no limit', function() {
             beforeEach(function() {

@@ -1,4 +1,7 @@
+const _ = require('underscore');
+
 const BaseAbility = require('./baseability.js');
+const EventRegistrar = require('./eventregistrar.js');
 
 /**
  * Represents an action ability provided by card text.
@@ -46,6 +49,8 @@ class CardAction extends BaseAbility {
         this.condition = properties.condition;
         this.clickToActivate = !!properties.clickToActivate;
         this.location = properties.location || DefaultLocationForType[card.getType()] || 'play area';
+        this.events = new EventRegistrar(game, this);
+        this.activationContexts = [];
 
         this.handler = this.buildHandler(card, properties);
     }
@@ -116,6 +121,8 @@ class CardAction extends BaseAbility {
             return false;
         }
 
+        this.activationContexts.push(context);
+
         this.game.resolveAbility(this, context);
 
         return true;
@@ -135,13 +142,35 @@ class CardAction extends BaseAbility {
         return this.clickToActivate;
     }
 
+    deactivate(player) {
+        var context = _.last(this.activationContexts);
+
+        if(!context || player !== context.player) {
+            return false;
+        }
+
+        if(this.canUnpayCosts(context)) {
+            this.unpayCosts(context);
+            context.abilityDeactivated = true;
+            return true;
+        }
+
+        return false;
+    }
+
+    onBeginRound() {
+        this.activationContexts = [];
+    }
+
     registerEvents() {
+        this.events.register(['onBeginRound']);
         if(this.limit) {
             this.limit.registerEvents(this.game);
         }
     }
 
     unregisterEvents() {
+        this.events.unregisterAll();
         if(this.limit) {
             this.limit.unregisterEvents(this.game);
         }

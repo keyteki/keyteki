@@ -6,8 +6,9 @@ class TourneyGrounds extends DrawCard {
             title: 'Kneel to reduce event',
             clickToActivate: true,
             cost: ability.costs.kneelSelf(),
-            handler: () => {
+            handler: context => {
                 this.untilEndOfPhase(ability => ({
+                    condition: () => !context.abilityDeactivated,
                     targetType: 'player',
                     targetController: 'current',
                     effect: ability.effects.reduceNextPlayedCardCost(1, card => card.getType() === 'event')

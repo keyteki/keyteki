@@ -7,10 +7,11 @@ class OceanRoad extends DrawCard {
             clickToActivate: true,
             phase: 'marshal',
             cost: ability.costs.kneelSelf(),
-            handler: () => {
+            handler: context => {
                 this.game.addMessage('{0} uses {1} to reduce the cost of the next {2} card by {3}',
                     this.controller, this, this.faction, 1);
                 this.untilEndOfPhase(ability => ({
+                    condition: () => !context.abilityDeactivated,
                     targetType: 'player',
                     targetController: 'current',
                     effect: ability.effects.reduceNextMarshalledCardCost(
