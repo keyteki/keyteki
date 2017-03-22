@@ -13,7 +13,7 @@ const express = require('express');
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const http = require('http');
-const raven = require('raven');
+const Raven = require('raven');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpack = require('webpack');
@@ -31,10 +31,10 @@ class Server {
 
     init() {
         if(!this.isDeveloping) {
-            raven.config(config.sentryDsn);
-
-            app.use(raven.requestHandler());
-            app.use(raven.errorHandler());
+            Raven.config(config.sentryDsn, { release: version }).install();
+            
+            app.use(Raven.requestHandler());
+            app.use(Raven.errorHandler());
         }
 
         app.use(session({

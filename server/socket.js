@@ -1,6 +1,7 @@
 const logger = require('./log.js');
 const EventEmitter = require('events');
 const jwt = require('jsonwebtoken');
+const Raven = require('raven');
 
 class Socket extends EventEmitter {
     constructor(socket, options = {}) {
@@ -9,8 +10,7 @@ class Socket extends EventEmitter {
         this.socket = socket;
         this.user = socket.request.user;
         this.config = options.config;
-        this.ravenClient = options.ravenClient;
-
+        
         socket.on('error', this.onError.bind(this));
         socket.on('authenticate', this.onAuthenticate.bind(this));
         socket.on('disconnect', this.onDisconnect.bind(this));
@@ -47,7 +47,7 @@ class Socket extends EventEmitter {
             callback(this, ...args);
         } catch(err) {
             logger.info(err);
-            this.ravenClient.captureException(err, { extra: args });
+            Raven.captureException(err, { extra: args });
         }
     }
 

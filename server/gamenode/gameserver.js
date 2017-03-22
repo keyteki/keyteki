@@ -1,19 +1,19 @@
 const _ = require('underscore');
 const socketio = require('socket.io');
 const jwt = require('jsonwebtoken');
-const raven = require('raven');
+const Raven = require('raven');
+const http = require('http');
+const https = require('https');
+const fs = require('fs');
 
 const config = require('./nodeconfig.js');
 const logger = require('../log.js');
 const ZmqSocket = require('./zmqsocket.js');
 const Game = require('../game/game.js');
 const Socket = require('../socket.js');
-const http = require('http');
-const https = require('https');
-const fs = require('fs');
+const version = require('../../version.js');
 
-var ravenClient = new raven.Client(config.sentryDsn);
-ravenClient.patchGlobal();
+Raven.config(config.sentryDsn, { release: version }).install();
 
 class GameServer {
     constructor() {
@@ -95,7 +95,7 @@ class GameServer {
             debugData[player.name] = player.getState(player.name);
         });
 
-        ravenClient.captureException(e, { extra: debugData });
+        Raven.captureException(e, { extra: debugData });
 
         if(game) {
             game.addMessage('A Server error has occured processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.');
@@ -200,7 +200,7 @@ class GameServer {
             return;
         }
 
-        var socket = new Socket(ioSocket, { config: config, ravenClient: ravenClient });
+        var socket = new Socket(ioSocket, { config: config });
 
         var player = game.playersAndSpectators[socket.user.username];
         if(!player) {
