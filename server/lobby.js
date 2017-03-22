@@ -474,12 +474,8 @@ class Lobby {
             this.games[syncGame.id] = syncGame;
         });
 
-        var nodeGames = _.filter(games, game => {
-            return game.node && game.node.identity === nodeName;
-        });
-
         _.each(this.games, game => {
-            if(game.node && game.node.identity === nodeName && _.find(nodeGames, nodeGame => {
+            if(game.node && game.node.identity === nodeName && _.find(games, nodeGame => {
                 return nodeGame.id === game.id;
             })) {
                 this.games[game.id] = game;
