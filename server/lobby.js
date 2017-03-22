@@ -30,6 +30,8 @@ class Lobby {
         this.io.set('heartbeat timeout', 30000);
         this.io.use(this.handshake.bind(this));
         this.io.on('connection', this.onConnection.bind(this));
+
+        this.lastUserBroadcast = moment();
     }
 
     // External methods
@@ -138,6 +140,14 @@ class Lobby {
     }
 
     broadcastUserList() {
+        var now = moment();
+
+        if((now - this.lastUserBroadcast) / 1000 < 60) {
+            return;
+        }
+
+        this.lastUserBroadcast = moment();
+
         var userList = _.map(this.users, function(user) {
             return {
                 name: user.username,
