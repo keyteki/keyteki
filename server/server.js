@@ -21,6 +21,7 @@ const webpackConfig = require('../webpack.config.js');
 const pug = require('pug');
 
 const UserRepository = require('./repositories/userRepository.js');
+const version = require('../version.js');
 
 class Server {
     constructor(isDeveloping) {
