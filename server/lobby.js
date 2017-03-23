@@ -479,7 +479,6 @@ class Lobby {
                 return nodeGame.id === game.id;
             })) {
                 this.games[game.id] = game;
-                game.node.numGames++;
             } else if(game.node && game.node.identity === nodeName) {
                 delete this.games[game.id];
             }

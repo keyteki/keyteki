@@ -124,6 +124,8 @@ class GameRouter extends EventEmitter {
                     this.emit('onNodeReconnected', identityStr, message.arg.games);
                 }
 
+                worker.numGames = _.size(message.arg.games);
+
                 break;
             case 'PONG':
                 worker.pingSent = undefined;
