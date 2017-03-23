@@ -120,7 +120,7 @@ export class InnerGameBoard extends React.Component {
     }
 
     onLeaveClick() {
-        if(!this.props.currentGame.winner) {
+        if(!this.props.currentGame.winner && !this.state.spectating) {
             toastr.confirm('Your game is not finished, are you sure you want to leave? Your game will be conceded.', {
                 onOk: () => {
                     this.props.sendGameMessage('concede');
