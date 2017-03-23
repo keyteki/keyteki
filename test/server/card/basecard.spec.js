@@ -20,23 +20,30 @@ describe('BaseCard', function () {
     describe('doAction()', function() {
         describe('when there is no action for the card', function() {
             beforeEach(function() {
-                this.card.abilities.action = null;
+                this.card.abilities.actions = [];
             });
 
             it('does not crash', function() {
-                expect(() => this.card.doAction('player', 'arg')).not.toThrow();
+                expect(() => this.card.doAction('player', 0)).not.toThrow();
             });
         });
 
-        describe('when there is an action for the card', function() {
+        describe('when there are actions for the card', function() {
             beforeEach(function() {
-                this.actionSpy = jasmine.createSpyObj('action', ['execute']);
-                this.card.abilities.action = this.actionSpy;
+                this.actionSpy1 = jasmine.createSpyObj('action', ['execute']);
+                this.actionSpy2 = jasmine.createSpyObj('action', ['execute']);
+                this.card.abilities.actions = [this.actionSpy1, this.actionSpy2];
             });
 
-            it('should call execute on the action', function() {
-                this.card.doAction('player', 'arg');
-                expect(this.actionSpy.execute).toHaveBeenCalledWith('player', 'arg');
+            it('should call execute on the action with the appropriate index', function() {
+                this.card.doAction('player', 1);
+                expect(this.actionSpy2.execute).toHaveBeenCalledWith('player', 1);
+            });
+
+            it('should handle out of bounds indices', function() {
+                this.card.doAction('player', 3);
+                expect(this.actionSpy1.execute).not.toHaveBeenCalled();
+                expect(this.actionSpy2.execute).not.toHaveBeenCalled();
             });
         });
     });

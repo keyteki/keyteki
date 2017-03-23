@@ -232,13 +232,9 @@ class DrawCard extends BaseCard {
     }
 
     getPlayActions() {
-        var playActions = StandardPlayActions.concat(this.abilities.playActions);
-
-        if(this.abilities.action && this.abilities.action.location !== 'play area') {
-            playActions = playActions.concat([this.abilities.action]);
-        }
-
-        return playActions;
+        return StandardPlayActions
+            .concat(this.abilities.playActions)
+            .concat(_.filter(this.abilities.actions, action => !action.allowMenu()));
     }
 
     play(player, isAmbush) {

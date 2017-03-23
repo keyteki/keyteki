@@ -134,8 +134,8 @@ class CardAction extends BaseAbility {
         }
     }
 
-    getMenuItem() {
-        return { text: this.title, method: 'doAction', anyPlayer: !!this.anyPlayer };
+    getMenuItem(arg) {
+        return { text: this.title, method: 'doAction', anyPlayer: !!this.anyPlayer, arg: arg };
     }
 
     isClickToActivate() {

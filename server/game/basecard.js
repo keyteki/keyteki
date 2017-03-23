@@ -49,7 +49,7 @@ class BaseCard {
         this.menu = _([]);
         this.events = new EventRegistrar(this.game, this);
 
-        this.abilities = { reactions: [], persistentEffects: [], playActions: [] };
+        this.abilities = { actions: [], reactions: [], persistentEffects: [], playActions: [] };
         this.parseKeywords(cardData.text || '');
         this.parseTraits(cardData.traits || '');
         this.setupCardAbilities(AbilityDsl);
@@ -142,10 +142,12 @@ class BaseCard {
 
     action(properties) {
         var action = new CardAction(this.game, this, properties);
-        this.abilities.action = action;
+
         if(!action.isClickToActivate() && action.allowMenu()) {
-            this.menu.push(action.getMenuItem());
+            var index = this.abilities.actions.length;
+            this.menu.push(action.getMenuItem(index));
         }
+        this.abilities.actions.push(action);
     }
 
     reaction(properties) {
@@ -247,11 +249,13 @@ class BaseCard {
     }
 
     doAction(player, arg) {
-        if(!this.abilities.action) {
+        var action = this.abilities.actions[arg];
+
+        if(!action) {
             return;
         }
 
-        this.abilities.action.execute(player, arg);
+        action.execute(player, arg);
     }
 
     hasKeyword(keyword) {
@@ -288,17 +292,17 @@ class BaseCard {
     moveTo(targetLocation) {
         if(LocationsWithEventHandling.includes(targetLocation) && !LocationsWithEventHandling.includes(this.location)) {
             this.events.register(this.eventsForRegistration);
-            if(this.abilities.action) {
-                this.abilities.action.registerEvents();
-            }
+            _.each(this.abilities.actions, action => {
+                action.registerEvents();
+            });
             _.each(this.abilities.reactions, reaction => {
                 reaction.registerEvents();
             });
         } else if(LocationsWithEventHandling.includes(this.location) && !LocationsWithEventHandling.includes(targetLocation)) {
             this.events.unregisterAll();
-            if(this.abilities.action) {
-                this.abilities.action.unregisterEvents();
-            }
+            _.each(this.abilities.actions, action => {
+                action.unregisterEvents();
+            });
             _.each(this.abilities.reactions, reaction => {
                 reaction.unregisterEvents();
             });
@@ -439,8 +443,8 @@ class BaseCard {
     }
 
     onClick(player) {
-        var action = this.abilities.action;
-        if(action && action.isClickToActivate()) {
+        var action = _.find(this.abilities.actions, action => action.isClickToActivate());
+        if(action) {
             return action.execute(player) || action.deactivate(player);
         }
 
