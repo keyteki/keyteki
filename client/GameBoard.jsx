@@ -119,8 +119,37 @@ export class InnerGameBoard extends React.Component {
         this.props.sendGameMessage('concede');
     }
 
+    isGameActive() {
+        if(!this.props.currentGame) {
+            return false;
+        }
+
+        if(this.props.currentGame.winner) {
+            return false;
+        }
+
+        var thisPlayer = this.props.currentGame.players[this.props.username];
+        if(!thisPlayer) {
+            thisPlayer = _.toArray(this.props.currentGame.players)[0];
+        }        
+
+        var otherPlayer = _.find(this.props.currentGame.players, player => {
+            return player.name !== thisPlayer.name;
+        });
+
+        if(!otherPlayer) {
+            return false;
+        }
+
+        if(otherPlayer.disconnected) {
+            return false;
+        }
+
+        return true;
+    }
+
     onLeaveClick() {
-        if(!this.props.currentGame.winner && !this.state.spectating) {
+        if(!this.state.spectating && this.isGameActive()) {
             toastr.confirm('Your game is not finished, are you sure you want to leave? Your game will be conceded.', {
                 onOk: () => {
                     this.props.sendGameMessage('concede');

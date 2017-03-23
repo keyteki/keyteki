@@ -1044,6 +1044,7 @@ class Player extends Spectator {
             claim: this.getClaim(),
             deadPile: this.getSummaryForCardList(this.deadPile, isActivePlayer),
             discardPile: this.getSummaryForCardList(this.discardPile, isActivePlayer),
+            disconnected: this.disconnected,
             faction: this.faction.getSummary(),
             firstPlayer: this.firstPlayer,
             gold: !isActivePlayer && this.phase === 'setup' ? 0 : this.gold,
