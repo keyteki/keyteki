@@ -398,11 +398,11 @@ class Player extends Spectator {
             this.moveCard(card, 'play area', { isDupe: !!dupeCard });
             card.controller = this;
 
-            this.game.raiseEvent('onCardEntersPlay', card);
-
             if(this.game.currentPhase !== 'setup' && card.isBestow()) {
                 this.game.queueStep(new BestowPrompt(this.game, this, card));
             }
+
+            this.game.raiseEvent('onCardEntersPlay', card);
         }
     }
 
