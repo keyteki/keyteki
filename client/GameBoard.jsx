@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'underscore';
 import $ from 'jquery';
+import {toastr} from 'react-redux-toastr';
 
 import PlayerStats from './GameComponents/PlayerStats.jsx';
 import PlayerRow from './GameComponents/PlayerRow.jsx';
@@ -119,6 +120,17 @@ export class InnerGameBoard extends React.Component {
     }
 
     onLeaveClick() {
+        if(!this.props.currentGame.winner) {
+            toastr.confirm('Your game is not finished, are you sure you want to leave? Your game will be conceded.', {
+                onOk: () => {
+                    this.props.sendGameMessage('concede');
+                    this.props.sendGameMessage('leavegame');
+                }
+            });
+
+            return;
+        }
+
         this.props.sendGameMessage('leavegame');
     }
 

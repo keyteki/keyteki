@@ -689,7 +689,8 @@ class Game extends EventEmitter {
                         name: spectator.name
                     };
                 }),
-                started: this.started
+                started: this.started,
+                winner: this.winner ? this.winner.name : undefined
             };
         }
 
