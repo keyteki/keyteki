@@ -153,7 +153,9 @@ class GameRouter extends EventEmitter {
                 break;
         }
 
-        worker.lastMessage = Date.now();
+        if(worker) {
+            worker.lastMessage = Date.now();
+        }
     }
 
     // Internal methods
