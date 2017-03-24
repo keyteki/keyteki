@@ -82,9 +82,11 @@ class InnerLogin extends React.Component {
             }
 
             this.props.login(data.user.username, data.token);
+            console.info(this.props.socket, 'authenticate');
             if(this.props.socket) {
                 this.props.socket.emit('authenticate', data.token);
             }
+
             this.props.navigate('/');
         }).fail((xhr) => {
             if(xhr.status === 401) {

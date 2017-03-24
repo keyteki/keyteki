@@ -63,6 +63,7 @@ class Socket extends EventEmitter {
             }
 
             this.socket.request.user = user;
+            this.user = user;
             this.emit('authenticate', user);
         });
     }
