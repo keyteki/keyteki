@@ -26,7 +26,9 @@ class InnerPendingGame extends React.Component {
             playerCount: 1,
             decks: [],
             playSound: true,
-            message: ''
+            message: '',
+            decksLoading: true,
+            waiting: false
         };
     }
 
@@ -41,9 +43,9 @@ class InnerPendingGame extends React.Component {
                 return;
             }
 
-            this.setState({ decks: data.decks });
+            this.setState({ decks: data.decks, decksLoading: false });
         }).fail(() => {
-            this.setState({ error: 'Could not communicate with the server.  Please try again later.' });
+            this.setState({ error: 'Could not communicate with the server.  Please try again later.', decksLoading: false });
         });
     }
 
@@ -52,6 +54,10 @@ class InnerPendingGame extends React.Component {
 
         if(this.state.playerCount === 1 && players === 2 && props.currentGame.owner === this.props.username) {
             this.refs.notification.play();
+        }
+
+        if(props.connecting) {
+            this.setState({ waiting: false });
         }
 
         this.setState({ playerCount: players });
@@ -107,8 +113,12 @@ class InnerPendingGame extends React.Component {
     getGameStatus() {
         if(this.props.connecting) {
             return 'Connecting to game server: ' + this.props.host;
-        }        
-        
+        }
+
+        if(this.state.waiting) {
+            return 'Waiting for lobby server...';
+        }
+
         if(_.size(this.props.currentGame.players) < 2) {
             return 'Waiting for players...';
         }
@@ -132,7 +142,9 @@ class InnerPendingGame extends React.Component {
 
     onStartClick(event) {
         event.preventDefault();
-    
+
+        this.setState({ waiting: true });
+
         this.props.socket.emit('startgame', this.props.currentGame.id);
     }
 
@@ -174,13 +186,19 @@ class InnerPendingGame extends React.Component {
         }
 
         var index = 0;
-        var decks = this.state.decks ? _.map(this.state.decks, deck => {
-            var row = <DeckRow key={deck.name + index.toString()} deck={deck} onClick={this.selectDeck.bind(this, index)} active={index === this.state.selectedDeck} />;
+        var decks = null;
 
-            index++;
+        if(this.state.decksLoading) {
+            decks = <div>Loading decks please wait...</div>;
+        } else {
+            decks = _.size(this.state.decks) > 0 ? _.map(this.state.decks, deck => {
+                var row = <DeckRow key={deck.name + index.toString()} deck={deck} onClick={this.selectDeck.bind(this, index)} active={index === this.state.selectedDeck} />;
 
-            return row;
-        }) : null;
+                index++;
+
+                return row;
+            }) : <div>You have no decks, please add one</div>;
+        }
 
         var popup = (
             <div id='decks-modal' ref='modal' className='modal fade' tabIndex='-1' role='dialog'>
@@ -206,7 +224,7 @@ class InnerPendingGame extends React.Component {
                     <source src='/sound/charge.ogg' type='audio/ogg' />
                 </audio>
                 <div className='btn-group'>
-                    <button className='btn btn-primary' disabled={!this.isGameReady() || this.props.connecting} onClick={this.onStartClick}>Start</button>
+                    <button className='btn btn-primary' disabled={!this.isGameReady() || this.props.connecting || this.state.waiting } onClick={this.onStartClick}>Start</button>
                     <button className='btn btn-primary' onClick={this.onLeaveClick}>Leave</button>
                 </div>
                 <h3>{this.props.currentGame.name}</h3>
