@@ -10,7 +10,7 @@ class Socket extends EventEmitter {
         this.socket = socket;
         this.user = socket.request.user;
         this.config = options.config;
-        
+
         socket.on('error', this.onError.bind(this));
         socket.on('authenticate', this.onAuthenticate.bind(this));
         socket.on('disconnect', this.onDisconnect.bind(this));
@@ -35,6 +35,10 @@ class Socket extends EventEmitter {
 
     send(message, ...args) {
         this.socket.emit(message, ...args);
+    }
+
+    disconnect() {
+        this.socket.disconnect();
     }
 
     // Events

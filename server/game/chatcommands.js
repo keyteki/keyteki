@@ -25,7 +25,8 @@ class ChatCommands {
             '/reset-challenges-count': this.resetChallengeCount,
             '/cancel-prompt': this.cancelPrompt,
             '/token': this.setToken,
-            '/bestow': this.bestow
+            '/bestow': this.bestow,
+            '/disconnectme': this.disconnectMe
         };
         this.tokens = [
             'power',
@@ -332,6 +333,10 @@ class ChatCommands {
                 return true;
             }
         });
+    }
+
+    disconnectMe(player) {
+        player.socket.disconnect();
     }
 
     getNumberOrDefault(string, defaultNumber) {

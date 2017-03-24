@@ -500,8 +500,6 @@ class Game extends EventEmitter {
         this.playStarted = true;
         this.startedAt = new Date();
 
-//        this.saveGame();
-
         this.continue();
     }
 
@@ -627,15 +625,18 @@ class Game extends EventEmitter {
         } else {
             player.disconnected = true;
         }
+
+        player.socket = undefined;
     }
 
-    reconnect(id, playerName) {
+    reconnect(socket, playerName) {
         var player = this.getPlayerByName(playerName);
         if(!player) {
             return;
         }
 
-        player.id = id;
+        player.id = socket.id;
+        player.socket = socket;
         player.disconnected = false;
 
         this.addMessage('{0} has reconnected', player);

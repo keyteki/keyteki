@@ -90,7 +90,19 @@ class Lobby {
 
     // Helpers
     findGameForUser(user) {
-        return _.find(this.games, game => game.hasActivePlayer(user));
+        return _.find(this.games, game => {
+            if(game.spectators[user]) {
+                return true;
+            }
+
+            var player = game.players[user];
+
+            if(!player || player.left) {
+                return false;
+            }
+
+            return true;
+        });
     }
 
     handshake(socket, next) {

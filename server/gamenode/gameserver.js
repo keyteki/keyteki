@@ -13,12 +13,13 @@ const Game = require('../game/game.js');
 const Socket = require('../socket.js');
 const version = require('../../version.js');
 
-Raven.config(config.sentryDsn, { release: version }).install();
+if(config.sentryDsn) {
+    Raven.config(config.sentryDsn, { release: version }).install();
+}
 
 class GameServer {
     constructor() {
         this.games = {};
-        this.sockets = {};
 
         this.protocol = 'https';
 
@@ -79,7 +80,6 @@ class GameServer {
 
         return {
             games: games,
-            socketCount: _.size(this.sockets),
             gameCount: _.size(this.games)
         };
     }
@@ -126,13 +126,11 @@ class GameServer {
 
     sendGameState(game) {
         _.each(game.getPlayersAndSpectators(), player => {
-            if(player.left) {
+            if(player.left || player.disconnected || !player.socket) {
                 return;
             }
 
-            if(this.sockets[player.id]) {
-                this.sockets[player.id].send('gamestate', game.getState(player.name));
-            }
+            player.socket.send('gamestate', game.getState(player.name));
         });
     }
 
@@ -210,12 +208,12 @@ class GameServer {
         player.lobbyId = player.id;
         player.id = socket.id;
         if(player.disconnected) {
-            game.reconnect(socket.id, player.name);
+            game.reconnect(socket, player.name);
         }
 
         socket.joinChannel(game.id);
 
-        this.sockets[socket.id] = socket;
+        player.socket = socket;
 
         if(!game.isSpectator(player)) {
             game.addMessage('{0} has connected to the game server', player);
@@ -228,8 +226,6 @@ class GameServer {
     }
 
     onSocketDisconnected(socket) {
-        delete this.sockets[socket.id];
-
         var game = this.findGameForUser(socket.user.username);
         if(!game) {
             return;
@@ -268,10 +264,7 @@ class GameServer {
         });
 
         socket.send('gamestate', game.getState(socket.user.username));
-
         socket.leaveChannel(game.id);
-
-        delete this.sockets[socket.id];
 
         if(game.isEmpty()) {
             delete this.games[game.id];
