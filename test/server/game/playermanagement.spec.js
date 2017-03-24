@@ -183,7 +183,7 @@ describe('Game', function() {
         beforeEach(function() {
             this.game.join('1', { username: 'foo' });
             this.game.disconnect('foo');
-            this.game.reconnect('2', 'foo');
+            this.game.reconnect({ id: '2' }, 'foo');
         });
 
         it('should not crash when the user is not part of the game', function() {
@@ -191,7 +191,7 @@ describe('Game', function() {
         });
 
         it('should set the new socket ID on the player', function() {
-            expect(this.game.playersAndSpectators['foo'].id).toBe('2');
+            expect(this.game.playersAndSpectators['foo'].socket.id).toBe('2');
         });
 
         it('should mark the player as no longer disconnected', function() {
