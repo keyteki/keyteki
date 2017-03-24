@@ -27,6 +27,10 @@ class ForcedTriggeredAbility extends TriggeredAbility {
     }
 
     executeReaction(context) {
+        this.game.resolveAbility(this, context);
+    }
+
+    executeHandler(context) {
         if(this.handler(context) !== false && this.limit) {
             this.limit.increment();
         }

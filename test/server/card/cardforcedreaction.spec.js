@@ -5,7 +5,7 @@ const CardForcedReaction = require('../../../server/game/cardforcedreaction.js')
 
 describe('CardForcedReaction', function () {
     beforeEach(function () {
-        this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener']);
+        this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'resolveAbility']);
         this.cardSpy = jasmine.createSpyObj('card', ['isBlank']);
         this.limitSpy = jasmine.createSpyObj('limit', ['increment', 'isAtMax', 'registerEvents', 'unregisterEvents']);
 
@@ -43,8 +43,8 @@ describe('CardForcedReaction', function () {
                 this.executeEventHandler(1, 2, 3);
             });
 
-            it('should not execute the handler', function() {
-                expect(this.properties.handler).not.toHaveBeenCalled();
+            it('should not resolve the ability', function() {
+                expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
             });
         });
 
@@ -54,8 +54,8 @@ describe('CardForcedReaction', function () {
                 this.executeEventHandler(1, 2, 3);
             });
 
-            it('should not execute the handler', function() {
-                expect(this.properties.handler).not.toHaveBeenCalled();
+            it('should not resolve the ability', function() {
+                expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
             });
         });
 
@@ -65,8 +65,8 @@ describe('CardForcedReaction', function () {
                 this.executeEventHandler(1, 2, 3);
             });
 
-            it('should not execute the handler', function() {
-                expect(this.properties.handler).not.toHaveBeenCalled();
+            it('should not resolve the ability', function() {
+                expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
             });
         });
 
@@ -81,12 +81,8 @@ describe('CardForcedReaction', function () {
                     this.executeEventHandler(1, 2, 3);
                 });
 
-                it('should not execute the handler', function() {
-                    expect(this.properties.handler).not.toHaveBeenCalled();
-                });
-
-                it('should not increment the limit', function() {
-                    expect(this.limitSpy.increment).not.toHaveBeenCalled();
+                it('should not resolve the ability', function() {
+                    expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
                 });
             });
 
@@ -96,12 +92,48 @@ describe('CardForcedReaction', function () {
                     this.executeEventHandler(1, 2, 3);
                 });
 
-                it('should execute the handler', function() {
-                    expect(this.properties.handler).toHaveBeenCalled();
+                it('should resolve the ability', function() {
+                    expect(this.gameSpy.resolveAbility).toHaveBeenCalledWith(this.reaction, jasmine.any(Object));
+                });
+            });
+        });
+    });
+
+    describe('executeHandler', function() {
+        beforeEach(function() {
+            this.reaction = new CardForcedReaction(this.gameSpy, this.cardSpy, this.properties);
+            this.context = { context: 1 };
+        });
+
+        it('should execute the handler', function() {
+            this.reaction.executeHandler(this.context);
+            expect(this.properties.handler).toHaveBeenCalledWith(this.context);
+        });
+
+        describe('when there is a limit', function() {
+            beforeEach(function() {
+                this.reaction.limit = this.limitSpy;
+            });
+
+            describe('and the handler returns non-false', function() {
+                beforeEach(function() {
+                    this.properties.handler.and.returnValue(undefined);
+                    this.reaction.executeHandler(this.context);
                 });
 
                 it('should increment the limit', function() {
                     expect(this.limitSpy.increment).toHaveBeenCalled();
+                });
+            });
+
+            describe('and the handler returns explicitly false', function() {
+                beforeEach(function() {
+                    this.properties.handler.and.returnValue(false);
+                    this.reaction.executeHandler(this.context);
+                });
+
+                it('should not increment the limit', function() {
+                    expect(this.limitSpy.increment).not.toHaveBeenCalled();
                 });
             });
         });

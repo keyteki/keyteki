@@ -7,21 +7,15 @@ class HouseFlorentKnight extends DrawCard {
             when: {
                 onCardEntersPlay: (event, card) => card === this
             },
-            handler: () => {
-                this.game.promptForSelect(this.controller, {
-                    activePromptTitle: 'Select a character with the lowest strength in play',
-                    source: this,
-                    cardCondition: card => {
-                        return card.getStrength() === this.getLowestStrInPlay() && card.location === 'play area';
-                    },
-                    onSelect: (player, card) => {
-                        player.discardCard(card);
-
-                        this.game.addMessage('{0} uses {1} to discard {2}', player, this, card);
-
-                        return true;
-                    }
-                });
+            target: {
+                activePromptTitle: 'Select a character with the lowest strength in play',
+                cardCondition: card => {
+                    return card.getStrength() === this.getLowestStrInPlay() && card.location === 'play area';
+                }
+            },
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to discard {2}', context.player, this, context.target);
+                context.target.controller.discardCard(context.target);
             }
         });
     }
