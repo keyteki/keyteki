@@ -133,9 +133,7 @@ class PendingGame {
         }
 
         if(this.players[playerName]) {
-            if(this.started) {
-                this.players[playerName].disconnected = true;
-            } else {
+            if(!this.started) {
                 delete this.players[playerName];
             }
         } else {
