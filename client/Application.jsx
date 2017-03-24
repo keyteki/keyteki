@@ -75,6 +75,15 @@ class App extends React.Component {
             this.props.socketConnected(socket);
         });
 
+        socket.on('disconnect', () => {
+            toastr.error('Connection lost', 'You have been disconnected from the lobby server, attempting reconnect..');
+        });
+
+        socket.on('reconnect', () => {
+            toastr.success('Reconnected', 'The reconnection to the lobby has been successful');
+            this.props.socketConnected(socket);
+        });
+
         socket.on('games', games => {
             this.props.receiveGames(games);
         });
