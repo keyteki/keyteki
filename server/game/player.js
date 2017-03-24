@@ -377,7 +377,28 @@ class Player extends Spectator {
         return true;
     }
 
+    canPutIntoPlay(card) {
+        var owner = card.owner;
+        return (
+            (!this.isCharacterDead(card) || this.canResurrect(card)) &&
+            (
+                owner === this ||
+                !this.getDuplicateInPlay(card) &&
+                !owner.getDuplicateInPlay(card) &&
+                (!owner.isCharacterDead(card) || owner.canResurrect(card))
+            )
+        );
+    }
+
+    canResurrect(card) {
+        return this.deadPile.includes(card) && (!card.isUnique() || this.deadPile.filter(c => c.name === card.name).length === 1);
+    }
+
     putIntoPlay(card, playingType = 'play') {
+        if(!this.canPutIntoPlay(card)) {
+            return;
+        }
+
         var dupeCard = this.getDuplicateInPlay(card);
 
         if(card.getType() === 'attachment' && playingType !== 'setup' && !dupeCard) {

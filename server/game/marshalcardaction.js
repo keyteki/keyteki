@@ -14,20 +14,13 @@ class MarshalCardAction extends BaseAbility {
 
     meetsRequirements(context) {
         var {game, player, source} = context;
-        var owner = source.owner;
 
         return (
             game.currentPhase === 'marshal' &&
             !source.cannotMarshal &&
             source.getType() !== 'event' &&
             player.isCardInMarshalLocation(source) &&
-            !player.isCharacterDead(source) &&
-            (
-                owner === player ||
-                !player.getDuplicateInPlay(source) &&
-                !owner.getDuplicateInPlay(source) &&
-                !owner.isCharacterDead(source)
-            )
+            player.canPutIntoPlay(source)
         );
     }
 

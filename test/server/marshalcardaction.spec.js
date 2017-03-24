@@ -6,8 +6,7 @@ const MarshalCardAction = require('../../server/game/marshalcardaction.js');
 describe('MarshalCardAction', function () {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'on', 'removeListener']);
-        this.playerSpy = jasmine.createSpyObj('player', ['getDuplicateInPlay', 'isCardInMarshalLocation', 'isCharacterDead', 'putIntoPlay']);
-        this.opponentSpy = jasmine.createSpyObj('opponentPlayer', ['getDuplicateInPlay', 'isCharacterDead']);
+        this.playerSpy = jasmine.createSpyObj('player', ['canPutIntoPlay', 'isCardInMarshalLocation', 'putIntoPlay']);
         this.cardSpy = jasmine.createSpyObj('card', ['getType']);
         this.cardSpy.controller = this.playerSpy;
         this.cardSpy.owner = this.playerSpy;
@@ -23,6 +22,7 @@ describe('MarshalCardAction', function () {
     describe('meetsRequirements()', function() {
         beforeEach(function() {
             this.gameSpy.currentPhase = 'marshal';
+            this.playerSpy.canPutIntoPlay.and.returnValue(true);
             this.playerSpy.isCardInMarshalLocation.and.returnValue(true);
             this.cardSpy.getType.and.returnValue('character');
         });
@@ -73,65 +73,13 @@ describe('MarshalCardAction', function () {
             });
         });
 
-        describe('when the player is the owner of the card', function() {
+        describe('when the card cannot be put into play', function() {
             beforeEach(function() {
-                this.cardSpy.owner = this.playerSpy;
+                this.playerSpy.canPutIntoPlay.and.returnValue(false);
             });
 
-            describe('and the character is already in play', function() {
-                beforeEach(function() {
-                    this.playerSpy.getDuplicateInPlay.and.returnValue({ foo: 'bar' });
-                });
-
-                it('should return true', function() {
-                    expect(this.action.meetsRequirements(this.context)).toBe(true);
-                });
-            });
-
-            describe('and the character is dead', function() {
-                beforeEach(function() {
-                    this.playerSpy.isCharacterDead.and.returnValue(true);
-                });
-
-                it('should return false', function() {
-                    expect(this.action.meetsRequirements(this.context)).toBe(false);
-                });
-            });
-        });
-
-        describe('when the player is not the owner of the card', function() {
-            beforeEach(function() {
-                this.cardSpy.owner = this.opponentSpy;
-            });
-
-            describe('and the character is already in play', function() {
-                beforeEach(function() {
-                    this.playerSpy.getDuplicateInPlay.and.returnValue({ foo: 'bar' });
-                });
-
-                it('should return false', function() {
-                    expect(this.action.meetsRequirements(this.context)).toBe(false);
-                });
-            });
-
-            describe('and the character is in play for the owner', function() {
-                beforeEach(function() {
-                    this.opponentSpy.getDuplicateInPlay.and.returnValue({ foo: 'bar' });
-                });
-
-                it('should return false', function() {
-                    expect(this.action.meetsRequirements(this.context)).toBe(false);
-                });
-            });
-
-            describe('and the character is dead for the owner', function() {
-                beforeEach(function() {
-                    this.opponentSpy.isCharacterDead.and.returnValue(true);
-                });
-
-                it('should return false', function() {
-                    expect(this.action.meetsRequirements(this.context)).toBe(false);
-                });
+            it('should return false', function() {
+                expect(this.action.meetsRequirements(this.context)).toBe(false);
             });
         });
     });
