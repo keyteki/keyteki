@@ -157,6 +157,22 @@ class Game extends EventEmitter {
         plot.selected = true;
     }
 
+    factionCardClicked(sourcePlayer) {
+        var player = this.getPlayerByName(sourcePlayer);
+
+        if(!player) {
+            return;
+        }
+
+        if(player.faction.kneeled) {
+            player.standCard(player.faction);
+        } else {
+            player.kneelCard(player.faction);
+        }
+
+        this.addMessage('{0} {1} their faction card', player, player.faction.kneeled ? 'kneels' : 'stands');
+    }
+
     cardClicked(sourcePlayer, cardId) {
         var player = this.getPlayerByName(sourcePlayer);
 
