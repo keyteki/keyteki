@@ -431,8 +431,6 @@ class Lobby {
             return;
         }
 
-        game.node.numGames--;
-
         delete this.games[gameId];
 
         this.broadcastGameList();
