@@ -72,6 +72,7 @@ describe('Tywin Lannister (LoCR)', function() {
                 this.player1.clickPrompt('Done');
 
                 this.skipActionWindow();
+                this.skipActionWindow();
 
                 // Trigger The Reader
                 this.player2.clickPrompt('Discard 3 cards');
@@ -102,6 +103,7 @@ describe('Tywin Lannister (LoCR)', function() {
                 // Player 2 does not oppose
                 this.player2.clickPrompt('Done');
 
+                this.skipActionWindow();
                 this.skipActionWindow();
 
                 this.player1.clickPrompt('Apply Claim');

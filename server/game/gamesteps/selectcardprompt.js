@@ -98,7 +98,7 @@ class SelectCardPrompt extends UiPrompt {
             buttons: this.properties.additionalButtons.concat([
                 { text: 'Done', arg: 'done' }
             ]),
-            source: this.properties.source
+            promptTitle: this.properties.source ? this.properties.source.name : undefined
         };
     }
 

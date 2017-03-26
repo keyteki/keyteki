@@ -1,12 +1,19 @@
 const PlayerOrderPrompt = require('./playerorderprompt.js');
 
 class ActionWindow extends PlayerOrderPrompt {
+    constructor(game, title) {
+        super(game);
+
+        this.title = title;
+    }
+
     activePrompt() {
         return {
             menuTitle: 'Any actions or reactions?',
             buttons: [
                 { text: 'Done' }
-            ]
+            ],
+            promptTitle: this.title
         };
     }
 

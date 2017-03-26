@@ -397,7 +397,7 @@ export class InnerGameBoard extends React.Component {
                             <div className='middle-right'>
                                 <div className='inset-pane'>
                                     <div className={'phase-indicator ' + thisPlayer.phase}>{thisPlayer.phase} phase</div>
-                                    <MenuPane title={thisPlayer.menuTitle} buttons={thisPlayer.buttons} source={thisPlayer.menuSource} onButtonClick={this.onCommand}
+                                    <MenuPane title={thisPlayer.menuTitle} buttons={thisPlayer.buttons} promptTitle={thisPlayer.promptTitle} onButtonClick={this.onCommand}
                                                 onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} />
                                 </div>
                                 <div className='schemes-pane' />

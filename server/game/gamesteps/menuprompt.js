@@ -29,7 +29,7 @@ class MenuPrompt extends UiPrompt {
     }
 
     activePrompt() {
-        return _.extend({ source: this.properties.source }, this.properties.activePrompt);
+        return _.extend({ promptTitle: this.properties.promptTitle }, this.properties.activePrompt);
     }
 
     waitingPrompt() {

@@ -8,7 +8,7 @@ class DominancePhase extends Phase {
         super(game, 'dominance');
         this.initialise([
             new SimpleStep(game, () => this.determineWinner()),
-            new ActionWindow(this.game)
+            new ActionWindow(this.game, 'After dominance determined')
         ]);
     }
 
@@ -43,7 +43,7 @@ class DominancePhase extends Phase {
             this.game.addMessage('There was a tie for dominance');
             this.game.addMessage('No one wins dominance');
         }
-        
+
         var dominanceLoser = dominanceWinner ? this.game.getOtherPlayer(dominanceWinner) : undefined;
 
         this.game.raiseEvent('onDominanceDetermined', dominanceWinner, dominanceLoser);

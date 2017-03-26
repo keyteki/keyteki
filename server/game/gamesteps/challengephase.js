@@ -10,7 +10,7 @@ class ChallengePhase extends Phase {
         super(game, 'challenge');
         this.initialise([
             new SimpleStep(this.game, () => this.beginPhase()),
-            new ActionWindow(this.game),
+            new ActionWindow(this.game, 'Before challenges'),
             new SimpleStep(this.game, () => this.promptForChallenge())
         ]);
     }

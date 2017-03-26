@@ -47,12 +47,12 @@ class MenuPane extends React.Component {
     }
 
     render() {
-        let sourceTitle;
-        if(this.props.source) {
-            sourceTitle = (<div className='menu-pane-source'>{this.props.source.name}</div>);
+        let promptTitle;
+        if(this.props.promptTitle) {
+            promptTitle = (<div className='menu-pane-source'>{this.props.promptTitle}</div>);
         }
         return (<div>
-            {sourceTitle}
+            {promptTitle}
             <div className='menu-pane'>
                 <div className='panel'>
                     <h4>{this.props.title}</h4>
@@ -69,8 +69,8 @@ MenuPane.propTypes = {
     onButtonClick: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
+    promptTitle: React.PropTypes.object,
     socket: React.PropTypes.object,
-    source: React.PropTypes.object,
     title: React.PropTypes.string
 };
 

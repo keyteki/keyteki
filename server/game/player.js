@@ -108,7 +108,7 @@ class Player extends Spectator {
 
             return cardsToReturn;
         });
-        
+
         return cardsToReturn;
     }
 
@@ -1041,7 +1041,7 @@ class Player extends Spectator {
     setPrompt(prompt) {
         this.selectCard = prompt.selectCard || false;
         this.menuTitle = prompt.menuTitle || '';
-        this.menuSource = prompt.source;
+        this.promptTitle = prompt.promptTitle;
         this.buttons = prompt.buttons || [];
     }
 
@@ -1073,7 +1073,6 @@ class Player extends Spectator {
             hand: this.getSummaryForCardList(this.hand, isActivePlayer, true),
             id: this.id,
             left: this.left,
-            menuSource: this.menuSource ? this.menuSource.getSummary(true) : undefined,
             menuTitle: isActivePlayer ? this.menuTitle : undefined,
             numDrawCards: this.drawDeck.size(),
             name: this.name,
@@ -1082,6 +1081,7 @@ class Player extends Spectator {
             plotDeck: this.getSummaryForCardList(this.plotDeck, isActivePlayer, true),
             plotDiscard: this.getSummaryForCardList(this.plotDiscard, isActivePlayer),
             plotSelected: !!this.selectedPlot,
+            promptTitle: this.promptTitle,
             reserve: this.getTotalReserve(),
             selectCard: this.selectCard,
             totalPower: this.getTotalPower(),

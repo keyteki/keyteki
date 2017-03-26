@@ -104,7 +104,7 @@ class GameFlowWrapper {
         promptedPlayer.clickPrompt(player.name);
     }
 
-    unopposedChallenge(player, type, participant) {
+    unopposedChallenge(player, type, participant, reactionExpected) {
         var opponent = this.allPlayers.find(p => p !== player);
 
         this.skipActionWindow();
@@ -118,6 +118,10 @@ class GameFlowWrapper {
         opponent.clickPrompt('Done');
 
         this.skipActionWindow();
+
+        if(!reactionExpected) {
+            this.skipActionWindow();
+        }
     }
 }
 
