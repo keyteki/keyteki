@@ -36,7 +36,8 @@ class ChatCommands {
             'poison',
             'betrayal',
             'vengeance',
-            'ear'
+            'ear',
+            'venom'
         ];
     }
 
