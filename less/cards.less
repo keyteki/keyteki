@@ -193,16 +193,29 @@
   color: white;
 }
 
+@dupe-color: rgba(0,128,0,0.85);
+@power-color: rgba(0,0,128,0.85);
+@strength-color: rgba(128,0,0,0.85);
+@venom-color: rgba(29, 145, 163, 0.85);
+
 .dupe {
-  background-color: rgba(0,128,0,0.85);
+  background-color: @dupe-color;
+}
+
+.attachment-dupe {
+  background-color: fade(@dupe-color, 50%);
 }
 
 .power {
-  background-color: rgba(0,0,128,0.85);
+  background-color: @power-color;
+}
+
+.attachment-power {
+  background-color: fade(@power-color, 50%);
 }
 
 .strength {
-  background-color: rgba(128,0,0,0.85);
+  background-color: @strength-color;
 }
 
 .stand {
@@ -234,7 +247,11 @@
 }
 
 .venom {
-  background-color: rgba(29, 145, 163, 0.85);
+  background-color: @venom-color;
+}
+
+.attachment-venom {
+  background-color: fade(@venom-color, 50%);
 }
 
 .newintrigue {
@@ -256,7 +273,7 @@
   span {
     display: none;
   }
-  
+
   font-family: 'thronesdb';
 
   &:before {
@@ -271,7 +288,7 @@
   span {
     display: none;
   }
-  
+
   font-family: 'thronesdb';
 
   &:before {
@@ -301,7 +318,7 @@
   span {
     display: none;
   }
-  
+
   font-family: 'thronesdb';
 
   &:before {
@@ -316,7 +333,7 @@
   span {
     display: none;
   }
-  
+
   font-family: 'thronesdb';
 
   &:before {

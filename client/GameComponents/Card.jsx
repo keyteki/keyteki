@@ -113,8 +113,33 @@ class Card extends React.Component {
         }
     }
 
-    getCounters() {
+    getCountersForCard(card) {
         var counters = {};
+
+        counters[card.type === 'attachment' ? 'attachment-power' : 'power'] = card.power || undefined;
+        counters[card.type === 'attachment' ? 'attachment-strength' : 'strength'] = card.baseStrength !== card.strength ? card.strength : undefined;
+        counters[card.type === 'attachment' ? 'attachment-dupe' : 'dupe'] = card.dupes && card.dupes.length > 0 ? card.dupes.length : undefined;
+
+        _.map(card.iconsAdded, icon => {
+            counters['new' + icon] = 0;
+        });
+
+        _.map(card.iconsRemoved, icon => {
+            counters['no' + icon] = 0;
+        });
+
+        _.each(card.tokens, (token, key) => {
+            counters[card.type === 'attachment' ? 'attachment-' + key : key] = token;
+        });
+
+        var filteredCounters = _.omit(counters, counter => {
+            return _.isUndefined(counter) || _.isNull(counter) || counter < 0;
+        });
+
+        return filteredCounters;
+    }
+
+    getCounters() {
         var countersClass = 'counters ignore-mouse-events';
 
         if(this.props.source !== 'play area' && this.props.source !== 'faction' && this.props.source !== 'revealed plots') {
@@ -125,25 +150,13 @@ class Card extends React.Component {
             return null;
         }
 
-        counters['power'] = this.props.card.power || undefined;
-        counters['strength'] = this.props.card.baseStrength !== this.props.card.strength ? this.props.card.strength : undefined;
-        counters['dupe'] = this.props.card.dupes && this.props.card.dupes.length > 0 ? this.props.card.dupes.length : undefined;
+        var counters = this.getCountersForCard(this.props.card);
 
-        _.map(this.props.card.iconsAdded, icon => {
-            counters['new' + icon] = 0;
+        _.each(this.props.card.attachments, attachment => {
+            _.extend(counters, this.getCountersForCard(attachment));
         });
 
-        _.map(this.props.card.iconsRemoved, icon => {
-            counters['no' + icon] = 0;
-        });
-
-        _.extend(counters, this.props.card.tokens);
-
-        var filteredCounters = _.omit(counters, counter => {
-            return _.isUndefined(counter) || _.isNull(counter) || counter < 0;
-        });
-
-        var counterDivs = _.map(filteredCounters, (counterValue, key) => {
+        var counterDivs = _.map(counters, (counterValue, key) => {
             return <div key={key} className={'counter ' + key}><span>{counterValue}</span></div>;
         });
 
