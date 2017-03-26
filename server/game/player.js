@@ -1041,6 +1041,7 @@ class Player extends Spectator {
     setPrompt(prompt) {
         this.selectCard = prompt.selectCard || false;
         this.menuTitle = prompt.menuTitle || '';
+        this.menuSource = prompt.source;
         this.buttons = prompt.buttons || [];
     }
 
@@ -1072,6 +1073,7 @@ class Player extends Spectator {
             hand: this.getSummaryForCardList(this.hand, isActivePlayer, true),
             id: this.id,
             left: this.left,
+            menuSource: this.menuSource ? this.menuSource.getSummary(true) : undefined,
             menuTitle: isActivePlayer ? this.menuTitle : undefined,
             numDrawCards: this.drawDeck.size(),
             name: this.name,

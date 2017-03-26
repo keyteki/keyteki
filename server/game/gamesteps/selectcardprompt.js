@@ -97,7 +97,8 @@ class SelectCardPrompt extends UiPrompt {
             menuTitle: this.properties.activePromptTitle || this.defaultActivePromptTitle(),
             buttons: this.properties.additionalButtons.concat([
                 { text: 'Done', arg: 'done' }
-            ])
+            ]),
+            source: this.properties.source
         };
     }
 
