@@ -4,7 +4,7 @@ class LittleFinger extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onCardEntersPlay: (e, card) => card === this
+                onCardEntersPlay: (e, card) => card === this && this.game.currentPhase === 'marshal'
             },
             handler: () => {
                 this.controller.drawCardsToHand(2);
