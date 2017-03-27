@@ -120,9 +120,7 @@ class GameRouter extends EventEmitter {
                 };
                 worker = this.workers[identityStr];
 
-                if(_.size(message.arg.games) > 0) {
-                    this.emit('onNodeReconnected', identityStr, message.arg.games);
-                }
+                this.emit('onNodeReconnected', identityStr, message.arg.games);
 
                 worker.numGames = _.size(message.arg.games);
 
