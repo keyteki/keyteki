@@ -120,8 +120,8 @@ class App extends React.Component {
                 query: this.props.token ? 'token=' + this.props.token : undefined
             });
 
-            gameSocket.on('connect_error', () => {
-                toastr.error('Connect Error', 'There was an error connecting to the game server');
+            gameSocket.on('connect_error', (err) => {
+                toastr.error('Connect Error', 'There was an error connecting to the game server: ' + err.message);
             });
 
             gameSocket.on('disconnect', () => {
@@ -143,7 +143,7 @@ class App extends React.Component {
 
             gameSocket.on('reconnect_failed', () => {
                 toastr.error('Reconnect failed', 'Given up trying to connect to the server');
-                this.props.gameSocketConnectFailed();
+                this.props.sendGameSocketConnectFailed();
             });
 
             gameSocket.on('connect', () => {
@@ -249,7 +249,6 @@ App.propTypes = {
     fetchCards: React.PropTypes.func,
     fetchPacks: React.PropTypes.func,
     gameSocketConnectError: React.PropTypes.func,
-    gameSocketConnectFailed: React.PropTypes.func,
     gameSocketConnected: React.PropTypes.func,
     gameSocketConnecting: React.PropTypes.func,
     gameSocketDisconnect: React.PropTypes.func,
@@ -267,6 +266,7 @@ App.propTypes = {
     receiveLobbyMessages: React.PropTypes.func,
     receiveNewGame: React.PropTypes.func,
     receiveUsers: React.PropTypes.func,
+    sendGameSocketConnectFailed: React.PropTypes.func,
     socketConnected: React.PropTypes.func,
     token: React.PropTypes.string,
     username: React.PropTypes.string

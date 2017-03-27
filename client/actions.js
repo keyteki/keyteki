@@ -225,6 +225,18 @@ export function gameSocketConnectFailed() {
     };
 }
 
+export function sendGameSocketConnectFailed() {
+    return (dispatch, getState) => {
+        var state = getState();
+
+        if(state.socket.socket) {
+            state.socket.socket.emit('connectfailed');
+        }
+
+        return dispatch(gameSocketConnectFailed());
+    };
+}
+
 export function gameSocketClosed(message) {
     return {
         type: 'GAME_SOCKET_CLOSED',
