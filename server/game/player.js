@@ -1085,7 +1085,7 @@ class Player extends Spectator {
             reserve: this.getTotalReserve(),
             selectCard: this.selectCard,
             totalPower: this.getTotalPower(),
-            user: _.omit(this.user, 'password')
+            user: _.omit(this.user, ['password', 'email'])
         };
 
         if(this.showDeck) {
