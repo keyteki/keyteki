@@ -672,11 +672,11 @@ class Game extends EventEmitter {
             return;
         }
 
-        this.addMessage('{0} has failed to connect to the game', player);
-
         if(this.isSpectator(player) || !this.started) {
             delete this.playersAndSpectators[playerName];
         } else {
+            this.addMessage('{0} has failed to connect to the game', player);
+
             player.disconnected = true;
 
             if(!this.finishedAt) {
