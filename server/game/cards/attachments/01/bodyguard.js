@@ -4,7 +4,8 @@ class BodyGuard extends DrawCard {
     setupCardAbilities() {
         this.interrupt({
             when: {
-                onCharacterKilled: (event, player, card, allowSave) => this.parent === card && allowSave
+                onCharacterKilled: (event, player, card, allowSave) => this.parent === card && allowSave,
+                onCardDiscarded: event => event.card === this.parent && event.allowSave
             },
             canCancel: true,
             handler: (context) => {
