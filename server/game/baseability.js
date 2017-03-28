@@ -111,8 +111,15 @@ class BaseAbility {
      * @returns {Boolean}
      */
     canResolveTargets(context) {
+        const ValidTypes = ['character', 'attachment', 'location', 'event'];
         return _.all(this.targets, target => {
-            return context.game.allCards.any(card => target.cardCondition(card));
+            return context.game.allCards.any(card => {
+                if(!ValidTypes.includes(card.getType())) {
+                    return false;
+                }
+
+                return target.cardCondition(card);
+            });
         });
     }
 

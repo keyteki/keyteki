@@ -21,20 +21,9 @@ class HouseFlorentKnight extends DrawCard {
     }
 
     getLowestStrInPlay() {
-        var currentMin;
-        _.each(this.game.getPlayers(), (player) => {
-            var playerMin = player.cardsInPlay.min(card => {
-                if(card.getType() === 'character') {
-                    return card.getStrength();
-                }
-            }).getStrength();
-
-            if(!currentMin || playerMin < currentMin) {
-                currentMin = playerMin;
-            }
-        });
-
-        return currentMin;
+        let charactersInPlay = this.game.findAnyCardsInPlay(card => card.getType() === 'character');
+        let strengths = _.map(charactersInPlay, card => card.getStrength());
+        return _.min(strengths);
     }
 }
 HouseFlorentKnight.code = '03037';

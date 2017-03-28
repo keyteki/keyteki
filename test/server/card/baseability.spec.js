@@ -3,6 +3,8 @@
 
 const BaseAbility = require('../../../server/game/baseability.js');
 
+const _ = require('underscore');
+
 describe('BaseAbility', function () {
     beforeEach(function () {
         this.properties = {};
@@ -187,6 +189,54 @@ describe('BaseAbility', function () {
             this.ability.payCosts(this.context);
             expect(this.cost1.pay).toHaveBeenCalledWith(this.context);
             expect(this.cost2.pay).toHaveBeenCalledWith(this.context);
+        });
+    });
+
+    describe('canResolveTargets()', function() {
+        beforeEach(function() {
+            this.ability = new BaseAbility(this.properties);
+            this.cardCondition = jasmine.createSpy('cardCondition');
+            this.ability.targets.target = { cardCondition: this.cardCondition };
+
+            this.card1 = jasmine.createSpyObj('card', ['getType']);
+            this.card1.getType.and.returnValue('character');
+            this.card2 = jasmine.createSpyObj('card', ['getType']);
+            this.card2.getType.and.returnValue('location');
+            let game = { allCards: _([this.card1, this.card2]) };
+            this.context = { game: game };
+        });
+
+        describe('when there is a non-draw card', function() {
+            beforeEach(function() {
+                this.card1.getType.and.returnValue('plot');
+
+                this.ability.canResolveTargets(this.context);
+            });
+
+            it('should not call card condition on that card', function() {
+                expect(this.cardCondition).not.toHaveBeenCalledWith(this.card1);
+                expect(this.cardCondition).toHaveBeenCalledWith(this.card2);
+            });
+        });
+
+        describe('when there is at least 1 matching card', function() {
+            beforeEach(function() {
+                this.cardCondition.and.callFake(card => card === this.card2);
+            });
+
+            it('should return true', function() {
+                expect(this.ability.canResolveTargets(this.context)).toBe(true);
+            });
+        });
+
+        describe('when there are no matching cards', function() {
+            beforeEach(function() {
+                this.cardCondition.and.returnValue(false);
+            });
+
+            it('should return false', function() {
+                expect(this.ability.canResolveTargets(this.context)).toBe(false);
+            });
         });
     });
 
