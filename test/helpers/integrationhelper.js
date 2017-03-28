@@ -33,6 +33,25 @@ var customMatchers = {
                 return result;
             }
         };
+    },
+    toHavePromptButton: function(util, customEqualityMatchers) {
+        return {
+            compare: function(actual, expected) {
+                var buttons = actual.currentPrompt().buttons;
+                var result = {};
+
+                result.pass = _.any(buttons, button => util.equals(button.text, expected, customEqualityMatchers));
+
+                if(result.pass) {
+                    result.message = `Expected ${actual.name} not to have prompt button "${expected}" but it did.`;
+                } else {
+                    var buttonText = _.map(buttons, button => '[' + button.text + ']').join('\n');
+                    result.message = `Expected ${actual.name} to have prompt button "${expected}" but it had buttons:\n${buttonText}`;
+                }
+
+                return result;
+            }
+        };
     }
 };
 

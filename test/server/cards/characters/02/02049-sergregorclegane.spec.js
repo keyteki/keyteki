@@ -55,7 +55,7 @@ describe('Ser Gregor Clegane', function() {
                 this.unopposedChallenge(this.player1, 'Military', 'Ser Gregor Clegane');
                 this.player1.clickPrompt('Apply Claim');
                 this.player2.clickCard('Hedge Knight', 'play area');
-                this.player1.clickPrompt('Yes');
+                this.player1.clickPrompt('Ser Gregor Clegane');
             });
 
             it('should put the character into the dead pile', function() {
@@ -68,7 +68,9 @@ describe('Ser Gregor Clegane', function() {
 
             it('should allow the player to kill an equal cost character', function() {
                 this.player1.clickCard(this.shireen);
-                this.player2.clickPrompt('No');
+
+                // Pass on reactions to Shireen being killed
+                this.player2.clickPrompt('Pass');
 
                 expect(this.shireen.location).toBe('dead pile');
             });
@@ -80,7 +82,7 @@ describe('Ser Gregor Clegane', function() {
                 this.unopposedChallenge(this.player1, 'Military', 'Ser Gregor Clegane');
                 this.player1.clickPrompt('Apply Claim');
                 this.player2.clickCard('Hedge Knight', 'play area');
-                this.player1.clickPrompt('Yes');
+                this.player1.clickPrompt('Ser Gregor Clegane');
             });
 
             it('should put the character into the dead pile', function() {

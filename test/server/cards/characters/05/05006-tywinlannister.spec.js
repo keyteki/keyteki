@@ -41,7 +41,7 @@ describe('Tywin Lannister (LoCR)', function() {
             });
 
             it('should allow Tywin to choose to trigger', function() {
-                this.player1.clickPrompt('Yes');
+                this.player1.clickPrompt('Tywin Lannister');
                 this.player1.clickPrompt('Hedge Knight');
                 expect(this.cersei.location).toBe('draw deck');
                 expect(this.knight.location).toBe('discard pile');
@@ -75,11 +75,11 @@ describe('Tywin Lannister (LoCR)', function() {
                 this.skipActionWindow();
 
                 // Trigger The Reader
-                this.player2.clickPrompt('Discard 3 cards');
+                this.player2.clickPrompt('The Reader - Discard 3 cards');
             });
 
             it('should not allow Tywin to choose to trigger', function() {
-                expect(this.player1).not.toHavePrompt('Trigger Tywin Lannister?');
+                expect(this.player1).not.toHavePromptButton('Tywin Lannister');
             });
         });
 
@@ -110,7 +110,7 @@ describe('Tywin Lannister (LoCR)', function() {
             });
 
             it('should allow Tywin to choose to trigger', function() {
-                this.player1.clickPrompt('Yes');
+                this.player1.clickPrompt('Tywin Lannister');
                 this.player1.clickPrompt('Hedge Knight');
                 expect(this.cersei.location).toBe('draw deck');
                 expect(this.knight.location).toBe('discard pile');

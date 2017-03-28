@@ -21,6 +21,7 @@ const MenuPrompt = require('./gamesteps/menuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 const EventWindow = require('./gamesteps/eventwindow.js');
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
+const TriggeredAbilityWindow = require('./gamesteps/triggeredabilitywindow.js');
 
 class Game extends EventEmitter {
     constructor(details, options = {}) {
@@ -41,6 +42,7 @@ class Game extends EventEmitter {
         this.playStarted = false;
         this.createdAt = new Date();
         this.savedGameId = details.savedGameId;
+        this.abilityWindowStack = [];
 
         _.each(details.players, player => {
             this.playersAndSpectators[player.user.username] = new Player(player.id, player.user, this.owner === player.user.username, this);
@@ -541,6 +543,24 @@ class Game extends EventEmitter {
 
     resolveAbility(ability, context) {
         this.queueStep(new AbilityResolver(this.game, ability, context));
+    }
+
+    openAbilityWindow(properties) {
+        let window = new TriggeredAbilityWindow(this, { abilityType: properties.abilityType, event: properties.event });
+        this.abilityWindowStack.push(window);
+        this.emit(properties.event.name + ':' + properties.abilityType, ...properties.event.params);
+        this.queueStep(window);
+        this.queueSimpleStep(() => this.abilityWindowStack.pop());
+    }
+
+    registerAbility(ability, context) {
+        var currentReaction = _.last(this.abilityWindowStack);
+
+        if(!currentReaction) {
+            return false;
+        }
+
+        currentReaction.registerAbility(ability, context);
     }
 
     raiseEvent(eventName, ...params) {

@@ -39,8 +39,8 @@ describe('marshal phase', function() {
                 // Ensure there is a card in draw deck
                 this.kingsroad.controller.moveCard(this.kingsroad, 'draw deck');
                 this.player1.clickCard(this.arya);
-                expect(this.player1).toHavePrompt('Trigger Arya Stark?');
-                this.player1.clickPrompt('Yes');
+
+                this.player1.clickPrompt('Arya Stark');
 
                 expect(this.arya.dupes.size()).toBe(1);
             });

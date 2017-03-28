@@ -12,7 +12,6 @@ class SerBarristanSelmy extends DrawCard {
             },
             cost: ability.costs.standSelf(),
             canCancel: true,
-            title: context => 'Stand ' + this.name + ' to save ' + context.event.params[2].name,
             handler: context => {
                 context.cancel();
 

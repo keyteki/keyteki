@@ -32,7 +32,7 @@ class PromptedTriggeredAbility extends TriggeredAbility {
         super(game, card, type, properties);
 
         this.choices = this.createChoices(properties);
-        this.title = properties.title || (() => 'Trigger ' + this.card.name + '?');
+        this.title = properties.title;
     }
 
     createChoices(properties) {
@@ -41,59 +41,29 @@ class PromptedTriggeredAbility extends TriggeredAbility {
         if(properties.choices) {
             choices = properties.choices;
         } else {
-            choices = { 'Yes': properties.handler };
-        }
-
-        if(properties.onCancel) {
-            this.onCancel = properties.onCancel;
+            choices = { 'default': properties.handler };
         }
 
         return choices;
     }
 
+    getChoices(context) {
+        return _.map(this.choices, (handler, title) => {
+            var text = title === 'default' && this.title ? this.title(context) : title;
+            return { text: text, choice: title };
+        });
+    }
+
     executeReaction(context) {
-        this.currentContext = context;
-        this.game.promptWithMenu(this.card.controller, this, {
-            activePrompt: {
-                menuTitle: this.title(context),
-                buttons: this.buttonsForChoices()
-            },
-            waitingPromptTitle: 'Waiting for opponent to use ' + this.card.name
-        });
-    }
-
-    buttonsForChoices() {
-        var buttons = _.map(this.choices, (handler, title) => {
-            return { text: title, method: 'triggerReaction', arg: title };
-        });
-        buttons.push({ text: 'No', method: 'cancel' });
-        return buttons;
-    }
-
-    triggerReaction(player, choice) {
-        this.currentContext.choice = choice;
-
-        this.game.resolveAbility(this, this.currentContext);
-
-        return true;
+        this.game.registerAbility(this, context);
     }
 
     executeHandler(context) {
         var handler = this.choices[context.choice];
 
-        if(handler && handler(this.currentContext) !== false && this.limit) {
+        if(handler && handler(context) !== false && this.limit) {
             this.limit.increment();
         }
-    }
-
-    cancel() {
-        this.game.addMessage('{0} declines to trigger {1}', this.card.controller, this.card);
-
-        if(this.onCancel) {
-            return this.onCancel();
-        }
-
-        return true;
     }
 }
 

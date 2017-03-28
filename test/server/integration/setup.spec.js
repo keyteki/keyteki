@@ -187,11 +187,9 @@ describe('setup phase', function() {
                 this.completeMarshalPhase();
                 this.completeChallengesPhase();
 
-                expect(this.player1).toHavePrompt('Trigger The Wall?');
+                this.player1.clickPrompt('The Wall');
 
-                this.player1.clickPrompt('No');
-
-                expect(this.player1).not.toHavePrompt('Trigger The Wall?');
+                expect(this.player1).not.toHavePromptButton('The Wall');
             });
         });
 

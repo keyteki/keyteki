@@ -639,21 +639,15 @@ this.reaction({
 });
 ```
 
-#### Changing the title of the reaction / interrupt prompt
+#### Changing the title of the reaction / interrupt button
 
-By default, the prompt title players will see for all triggered abilities come in the form of 'Trigger [card name]?'. In certain scenarios -- mainly saves -- you may want to override that title. This can be done by passing a `title` method which will take the ability `context` object (allowing access to the event and its parameters) and which should return the string to be used as the prompt title.
+By default, players will see for all triggered abilities come in the form of buttons with the name of the card. In certain scenarios, you may want to override that title. This can be done by passing a `title` method which will take the ability `context` object (allowing access to the event and its parameters) and which should return the string to be added after the card name in ability prompts.
 
 ```javascript
 this.interrupt({
-    when: {
-        // a character is killed
-    },
-    canCancel: true,
-    title: context => 'Sacrifice ' + this.name + ' to save ' + context.event.params[2].name,
-    handler: (context) => {
-        context.cancel();
-        // sacrifice the Iron Mines
-    }
+    // ...
+    title: context => 'Do something',
+    // Results in a prompt button: Iron Mines - Do something
 });
 ```
 

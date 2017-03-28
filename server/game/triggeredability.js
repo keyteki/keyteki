@@ -30,32 +30,38 @@ class TriggeredAbility extends BaseAbility {
         this.eventType = eventType;
     }
 
-    createEventHandlerFor(eventName) {
-        return (...args) => {
-            var context = new TriggeredAbilityContext(args[0], this.game, this.card);
+    eventHandler(event) {
+        var context = new TriggeredAbilityContext(event, this.game, this.card);
 
-            if(this.game.currentPhase === 'setup') {
-                return;
-            }
+        if(!this.meetsRequirements(context)) {
+            return;
+        }
 
-            if(this.limit && this.limit.isAtMax()) {
-                return;
-            }
+        this.executeReaction(context);
+    }
 
-            if(this.card.isBlank()) {
-                return;
-            }
+    meetsRequirements(context) {
+        if(this.game.currentPhase === 'setup') {
+            return false;
+        }
 
-            if(!this.when[eventName](...args)) {
-                return;
-            }
+        if(this.limit && this.limit.isAtMax()) {
+            return false;
+        }
 
-            if(!this.canPayCosts(context) || !this.canResolveTargets(context)) {
-                return;
-            }
+        if(this.card.isBlank()) {
+            return false;
+        }
 
-            this.executeReaction(context);
-        };
+        if(!this.when[context.event.name](...context.event.params)) {
+            return false;
+        }
+
+        if(!this.canPayCosts(context) || !this.canResolveTargets(context)) {
+            return false;
+        }
+
+        return true;
     }
 
     executeReaction() {
@@ -72,7 +78,7 @@ class TriggeredAbility extends BaseAbility {
         _.each(eventNames, eventName => {
             var event = {
                 name: eventName + ':' + this.eventType,
-                handler: this.createEventHandlerFor(eventName)
+                handler: event => this.eventHandler(event)
             };
             this.game.on(event.name, event.handler);
             this.events.push(event);

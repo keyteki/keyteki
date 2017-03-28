@@ -65,8 +65,7 @@ describe('WraithsInTheirMidst', function() {
 
                 this.unopposedChallenge(this.player2, 'intrigue', 'Tywin Lannister', true);
 
-                expect(this.player2).toHavePrompt('Trigger "The Rains of Castamere"?');
-                this.player2.clickPrompt('Yes');
+                this.player2.clickPrompt('"The Rains of Castamere"');
                 this.player2.clickPrompt('Filthy Accusations');
             });
 

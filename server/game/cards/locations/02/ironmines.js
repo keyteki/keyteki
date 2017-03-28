@@ -7,7 +7,6 @@ class IronMines extends DrawCard {
                 onCharacterKilled: (event, player, card, allowSave) => card.controller === this.controller && allowSave
             },
             canCancel: true,
-            title: context => 'Sacrifice ' + this.name + ' to save ' + context.event.params[2].name,
             handler: (context) => {
                 context.cancel();
                 this.game.addMessage('{0} sacrifices {1} to save {2}', this.controller, this, context.event.params[2]);

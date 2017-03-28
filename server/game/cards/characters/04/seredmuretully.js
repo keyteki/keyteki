@@ -21,7 +21,6 @@ class SerEdmureTully extends DrawCard {
                     return false;
                 }
             },
-            title: () => 'Use ' + this.name + ' to move power from ' + this.powerGainingCharacter.name + '?',
             limit: ability.limit.perRound(1),
             handler: () => {
                 this.game.promptForSelect(this.controller, {

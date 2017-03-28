@@ -14,7 +14,6 @@ class JoryCassel extends DrawCard {
                 )
             },
             canCancel: true,
-            title: context => 'Sacrifice ' + this.name + ' to save ' + context.event.params[2].name,
             handler: context => {
                 context.cancel();
                 var message = '{0} uses {1} to save {2}';

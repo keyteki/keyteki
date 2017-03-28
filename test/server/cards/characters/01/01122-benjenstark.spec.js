@@ -37,18 +37,17 @@ describe('Benjen Stark', function() {
             });
 
             it('should allow the player to put Benjen back in the deck', function() {
-                expect(this.player1).toHavePrompt('Trigger Benjen Stark?');
-                this.player1.clickPrompt('Yes');
+                this.player1.clickPrompt('Benjen Stark');
 
                 expect(this.benjen.location).toBe('draw deck');
             });
 
             it('should not prompt twice', function() {
                 // Trigger for the one being killed.
-                this.player1.clickPrompt('Yes');
+                this.player1.clickPrompt('Benjen Stark');
 
                 // Should not prompt again for any copies of Benjen in hand
-                expect(this.player1).not.toHavePrompt('Trigger Benjen Stark?');
+                expect(this.player1).not.toHavePromptButton('Benjen Stark');
             });
         });
     });

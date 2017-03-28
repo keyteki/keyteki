@@ -47,7 +47,10 @@ class EventWindow extends BaseStep {
     }
 
     cancelInterrupts() {
-        this.game.emit(this.eventName + ':cancelinterrupt', ...this.event.params);
+        this.game.openAbilityWindow({
+            abilityType: 'cancelinterrupt',
+            event: this.event
+        });
     }
 
     forcedInterrupts() {
@@ -63,7 +66,10 @@ class EventWindow extends BaseStep {
             return;
         }
 
-        this.game.emit(this.eventName + ':interrupt', ...this.event.params);
+        this.game.openAbilityWindow({
+            abilityType: 'interrupt',
+            event: this.event
+        });
     }
 
     executeHandler() {
@@ -94,7 +100,10 @@ class EventWindow extends BaseStep {
             return;
         }
 
-        this.game.emit(this.eventName + ':reaction', ...this.event.params);
+        this.game.openAbilityWindow({
+            abilityType: 'reaction',
+            event: this.event
+        });
     }
 }
 

@@ -22,7 +22,7 @@ describe('The Rains of Castamere', function() {
     }
 
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['on', 'promptWithMenu', 'addMessage', 'raiseEvent']);
+        this.gameSpy = jasmine.createSpyObj('game', ['on', 'registerAbility', 'addMessage', 'raiseEvent']);
 
         this.plot1 = plot('1111');
         this.plot2 = plot('2222');
@@ -150,9 +150,9 @@ describe('The Rains of Castamere', function() {
                 expect(this.reaction.when.afterChallenge(this.event, this.challenge)).toBe(true);
             });
 
-            it('should prompt the player', function() {
-                this.reaction.executeReaction();
-                expect(this.gameSpy.promptWithMenu).toHaveBeenCalled();
+            it('should register the ability', function() {
+                this.reaction.executeReaction({});
+                expect(this.gameSpy.registerAbility).toHaveBeenCalledWith(this.reaction, jasmine.any(Object));
             });
         });
     });
