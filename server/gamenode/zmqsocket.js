@@ -58,13 +58,14 @@ class ZmqSocket extends EventEmitter {
                 break;
             case 'STARTGAME':
                 this.emit('onStartGame', message.arg);
-                this.send('ACK');
 
                 break;
             case 'SPECTATOR':
                 this.emit('onSpectator', message.arg.game, message.arg.user);
-                this.send('ACK');
 
+                break;
+            case 'CONNECTFAILED':
+                this.emit('onFailedConnect', message.arg.gameId, message.arg.username);
                 break;
         }
     }

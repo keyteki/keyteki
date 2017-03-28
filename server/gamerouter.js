@@ -92,6 +92,14 @@ class GameRouter extends EventEmitter {
         return true;
     }
 
+    notifyFailedConnect(game, username) {
+        if(!game.node) {
+            return;
+        }
+
+        this.sendCommand(game.node.identity, 'CONNECTFAILED', { gameId: game.id, username: username });
+    }
+
     // Events
     onMessage(identity, msg) {
         var identityStr = identity.toString();
@@ -163,14 +171,15 @@ class GameRouter extends EventEmitter {
 
     checkTimeouts() {
         var currentTime = Date.now();
+        const pingTimeout = 1 * 60 * 1000;
 
         _.each(this.workers, worker => {
-            if(worker.pingSent && currentTime - worker.pingSent > 5 * 60 * 1000) {
+            if(worker.pingSent && currentTime - worker.pingSent > pingTimeout) {
                 logger.info('worker', worker.identity + ' timed out');
                 delete this.workers[worker.identity];
                 this.emit('onWorkerTimedOut', worker.identity);
             } else if(!worker.pingSent) {
-                if(currentTime - worker.lastMessage > 5 * 60 * 1000) {
+                if(currentTime - worker.lastMessage > pingTimeout) {
                     worker.pingSent = currentTime;
                     this.sendCommand(worker.identity, 'PING');
                 }

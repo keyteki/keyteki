@@ -30,12 +30,13 @@ class GameServer {
             this.protocol = 'http';
         }
 
-        this.host = config.host || process.env.HOST;
+        this.host = process.env.HOST || config.host;
 
         this.socket = new ZmqSocket(this.host, this.protocol);
         this.socket.on('onStartGame', this.onStartGame.bind(this));
         this.socket.on('onSpectator', this.onSpectator.bind(this));
         this.socket.on('onGameSync', this.onGameSync.bind(this));
+        this.socket.on('onFailedConnect', this.onFailedConnect.bind(this));
 
         var server = undefined;
 
@@ -184,6 +185,23 @@ class GameServer {
         logger.info('syncing', _.size(gameSummaries), ' games');
 
         callback(gameSummaries);
+    }
+
+    onFailedConnect(gameId, username) {
+        var game = this.findGameForUser(username);
+        if(!game || game.id !== gameId) {
+            return;
+        }
+
+        game.failedConnect(username);
+
+        if(game.isEmpty()) {
+            delete this.games[game.id];
+
+            this.socket.send('GAMECLOSED', { game: game.id });
+        }
+
+        this.sendGameState(game);
     }
 
     onConnection(ioSocket) {

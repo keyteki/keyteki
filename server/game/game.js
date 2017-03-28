@@ -645,6 +645,26 @@ class Game extends EventEmitter {
         player.socket = undefined;
     }
 
+    failedConnect(playerName) {
+        var player = this.playersAndSpectators[playerName];
+
+        if(!player) {
+            return;
+        }
+
+        this.addMessage('{0} has failed to connect to the game', player);
+
+        if(this.isSpectator(player) || !this.started) {
+            delete this.playersAndSpectators[playerName];
+        } else {
+            player.disconnected = true;
+
+            if(!this.finishedAt) {
+                this.finishedAt = new Date();
+            }
+        }
+    }
+
     reconnect(socket, playerName) {
         var player = this.getPlayerByName(playerName);
         if(!player) {

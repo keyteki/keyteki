@@ -210,6 +210,7 @@ class Lobby {
         socket.registerEvent('startgame', this.onStartGame.bind(this));
         socket.registerEvent('chat', this.onPendingGameChat.bind(this));
         socket.registerEvent('selectdeck', this.onSelectDeck.bind(this));
+        socket.registerEvent('connectfailed', this.onConnectFailed.bind(this));
 
         socket.on('authenticate', this.onAuthenticated.bind(this));
         socket.on('disconnect', this.onSocketDisconnected.bind(this));
@@ -421,6 +422,15 @@ class Lobby {
 
             this.sendGameState(game);
         });
+    }
+
+    onConnectFailed(socket) {
+        var game = this.findGameForUser(socket.user.username);
+        if(!game) {
+            return;
+        }
+
+        this.router.notifyFailedConnect(game, socket.user.username);
     }
 
     // router Events
