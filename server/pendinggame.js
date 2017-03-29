@@ -225,6 +225,7 @@ class PendingGame {
             id: this.id,
             messages: this.gameChat.messages,
             name: this.name,
+            node: this.node ? this.node.identity : undefined,
             owner: this.owner,
             players: playerSummaries,
             started: this.started,

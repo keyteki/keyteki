@@ -65,7 +65,7 @@ class InnerGameList extends React.Component {
                     {this.props.isAdmin ?
                         <button className='btn btn-primary pull-right' onClick={event => this.removeGame(event, game)}>Remove</button> : null}
                     <div><b>{ game.name }</b></div>
-                    { gameLayout }
+                    { gameLayout } { this.props.isAdmin ? <span>Node: {game.node}</span> : null}
                 </div>
             );
         });
