@@ -28,6 +28,12 @@ class InnerGameList extends React.Component {
         this.props.socket.emit('watchgame', game.id);
     }
 
+    removeGame(event, game) {
+        event.preventDefault();
+
+        this.props.socket.emit('removegame', game.id);
+    }
+
     render() {
         var gameList = _.map(this.props.games, game => {
             var sides = _.map(game.players, player => {
@@ -56,6 +62,8 @@ class InnerGameList extends React.Component {
                     }
                     {this.canWatch(game) ?
                         <button className='btn btn-primary pull-right' onClick={event => this.watchGame(event, game)}>Watch</button> : null}
+                    {this.props.isAdmin ?
+                        <button className='btn btn-primary pull-right' onClick={event => this.removeGame(event, game)}>Remove</button> : null}
                     <div><b>{ game.name }</b></div>
                     { gameLayout }
                 </div>
@@ -73,6 +81,7 @@ InnerGameList.displayName = 'GameList';
 InnerGameList.propTypes = {
     currentGame: React.PropTypes.object,
     games: React.PropTypes.array,
+    isAdmin: React.PropTypes.bool,
     joinGame: React.PropTypes.func,
     socket: React.PropTypes.object
 };
@@ -80,6 +89,7 @@ InnerGameList.propTypes = {
 function mapStateToProps(state) {
     return {
         currentGame: state.games.currentGame,
+        isAdmin: state.auth.isAdmin,
         socket: state.socket.socket
     };
 }

@@ -1,5 +1,5 @@
-function login(username, token) {
-    return { username: username, token: token, loggedIn: true };
+function login(username, token, isAdmin = false) {
+    return { username: username, token: token, loggedIn: true, isAdmin: isAdmin };
 }
 
 function register(username, token) {
@@ -16,7 +16,7 @@ export default function(state = {}, action) {
             state = register(action.username, action.token);
             break;
         case 'AUTH_LOGIN':
-            state = login(action.username, action.token);
+            state = login(action.username, action.token, action.isAdmin);
             break;
         case 'AUTH_LOGOUT':
             state = logout();

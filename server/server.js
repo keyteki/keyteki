@@ -160,7 +160,7 @@ class Server {
                 return done(err);
             }
 
-            done(null, { username: user.username, email: user.email, emailHash: user.emailHash, _id: user._id });
+            done(null, { username: user.username, email: user.email, emailHash: user.emailHash, _id: user._id, admin: user.admin });
         });
     }
 }
