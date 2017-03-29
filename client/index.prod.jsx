@@ -17,7 +17,7 @@ const store = configureStore();
 store.dispatch(navigate(window.location.pathname, window.location.search));
 
 if(typeof user !== 'undefined') {
-    store.dispatch(login(user.username, authToken));
+    store.dispatch(login(user.username, authToken, user.admin));
 }
 
 render(
@@ -29,7 +29,7 @@ render(
                 preventDuplicates
                 position='top-right'
                 transitionIn='fadeIn'
-                transitionOut='fadeOut'/>        
+                transitionOut='fadeOut'/>
             <Application />
         </div>
     </Provider>, document.getElementById('component'));
