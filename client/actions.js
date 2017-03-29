@@ -23,11 +23,12 @@ export function register(username, token) {
     };
 }
 
-export function login(username, token) {
+export function login(username, token, isAdmin) {
     return {
         type: 'AUTH_LOGIN',
         username: username,
-        token: token
+        token: token,
+        isAdmin: isAdmin
     };
 }
 

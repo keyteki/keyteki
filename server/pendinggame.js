@@ -36,8 +36,8 @@ class PendingGame {
         var players = _.map(this.getPlayers(), player => {
             return {
                 name: player.name,
-                faction: player.faction.name,
-                agenda: player.agenda ? player.agenda.name : undefined
+                faction: player.faction.cardData.name,
+                agenda: player.agenda ? player.agenda.cardData.name : undefined
             };
         });
 
@@ -55,6 +55,11 @@ class PendingGame {
         player.faction.cardData.code = faction.value;
         player.faction.cardData.type_code = 'faction';
         player.faction.cardData.strength = 0;
+    }
+
+    setupAgenda(player, agenda) {
+        player.agenda = {};
+        player.agenda.cardData = agenda;
     }
 
     // Actions
@@ -164,6 +169,7 @@ class PendingGame {
         player.deck.selected = true;
 
         this.setupFaction(player, deck.faction);
+        this.setupAgenda(player, deck.agenda);
     }
 
     // interrogators
@@ -202,10 +208,10 @@ class PendingGame {
             }
 
             playerSummaries[player.name] = {
-                agenda: player.agenda ? player.agenda.code : undefined,
+                agenda: this.started && player.agenda ? player.agenda.cardData.code : undefined,
                 deck: deck,
                 emailHash: player.emailHash,
-                faction: player.faction ? player.faction.code : undefined,
+                faction: this.started && player.faction ? player.faction.cardData.code : undefined,
                 id: player.id,
                 left: player.left,
                 name: player.name,
@@ -219,6 +225,7 @@ class PendingGame {
             id: this.id,
             messages: this.gameChat.messages,
             name: this.name,
+            node: this.node ? this.node.identity : undefined,
             owner: this.owner,
             players: playerSummaries,
             started: this.started,

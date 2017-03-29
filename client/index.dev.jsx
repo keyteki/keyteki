@@ -14,11 +14,11 @@ const store = configureStore();
 store.dispatch(navigate(window.location.pathname, window.location.search));
 
 if(typeof user !== 'undefined') {
-    store.dispatch(login(user.username, authToken));
+    store.dispatch(login(user.username, authToken, user.admin));
 }
 
 const render = () => {
-    const Application = require('./Application.jsx').default
+    const Application = require('./Application.jsx').default;
     ReactDOM.render(<AppContainer>
         <Provider store={store}>
             <div>
@@ -38,8 +38,8 @@ const render = () => {
 
 if(module.hot) {
     module.hot.accept('./Application.jsx', () => {
-        setTimeout(render)
-  });
+        setTimeout(render);
+    });
 }
 
 render();

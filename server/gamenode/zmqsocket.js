@@ -66,6 +66,12 @@ class ZmqSocket extends EventEmitter {
                 break;
             case 'CONNECTFAILED':
                 this.emit('onFailedConnect', message.arg.gameId, message.arg.username);
+                
+                break;
+
+            case 'CLOSEGAME':
+                this.emit('onCloseGame', message.arg.gameId);
+
                 break;
         }
     }

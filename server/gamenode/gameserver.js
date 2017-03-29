@@ -32,11 +32,12 @@ class GameServer {
 
         this.host = process.env.HOST || config.host;
 
-        this.socket = new ZmqSocket(this.host, this.protocol);
-        this.socket.on('onStartGame', this.onStartGame.bind(this));
-        this.socket.on('onSpectator', this.onSpectator.bind(this));
-        this.socket.on('onGameSync', this.onGameSync.bind(this));
-        this.socket.on('onFailedConnect', this.onFailedConnect.bind(this));
+        this.zmqSocket = new ZmqSocket(this.host, this.protocol);
+        this.zmqSocket.on('onStartGame', this.onStartGame.bind(this));
+        this.zmqSocket.on('onSpectator', this.onSpectator.bind(this));
+        this.zmqSocket.on('onGameSync', this.onGameSync.bind(this));
+        this.zmqSocket.on('onFailedConnect', this.onFailedConnect.bind(this));
+        this.zmqSocket.on('onCloseGame', this.onCloseGame.bind(this));
 
         var server = undefined;
 
@@ -151,7 +152,7 @@ class GameServer {
     }
 
     gameWon(game, reason, winner) {
-        this.socket.send('GAMEWIN', { game: game.getSaveState(), winner: winner.name, reason: reason });
+        this.zmqSocket.send('GAMEWIN', { game: game.getSaveState(), winner: winner.name, reason: reason });
     }
 
     onStartGame(pendingGame) {
@@ -198,10 +199,20 @@ class GameServer {
         if(game.isEmpty()) {
             delete this.games[game.id];
 
-            this.socket.send('GAMECLOSED', { game: game.id });
+            this.zmqSocket.send('GAMECLOSED', { game: game.id });
         }
 
         this.sendGameState(game);
+    }
+
+    onCloseGame(gameId) {
+        var game = this.games[gameId];
+        if(!game) {
+            return;
+        }
+
+        delete this.games[gameId];
+        this.zmqSocket.send('GAMECLOSED', { game: game.id });
     }
 
     onConnection(ioSocket) {
@@ -256,9 +267,9 @@ class GameServer {
         if(game.isEmpty()) {
             delete this.games[game.id];
 
-            this.socket.send('GAMECLOSED', { game: game.id });
+            this.zmqSocket.send('GAMECLOSED', { game: game.id });
         } else if(isSpectator) {
-            this.socket.send('PLAYERLEFT', { gameId: game.id, game: game.getSaveState(), player: socket.user.username, spectator: true });
+            this.zmqSocket.send('PLAYERLEFT', { gameId: game.id, game: game.getSaveState(), player: socket.user.username, spectator: true });
         }
 
         this.sendGameState(game);
@@ -274,7 +285,7 @@ class GameServer {
 
         game.leave(socket.user.username);
 
-        this.socket.send('PLAYERLEFT', {
+        this.zmqSocket.send('PLAYERLEFT', {
             gameId: game.id,
             game: game.getSaveState(),
             player: socket.user.username,
@@ -287,7 +298,7 @@ class GameServer {
         if(game.isEmpty()) {
             delete this.games[game.id];
 
-            this.socket.send('GAMECLOSED', { game: game.id });
+            this.zmqSocket.send('GAMECLOSED', { game: game.id });
         }
 
         this.sendGameState(game);

@@ -111,6 +111,15 @@ class DrawCard extends BaseCard {
         return this.power;
     }
 
+    modifyStrength(amount, applying = true) {
+        this.strengthModifier += amount;
+        this.game.raiseMergedEvent('onCardStrengthChanged', {
+            card: this,
+            amount: amount,
+            applying: applying
+        });
+    }
+
     getStrength(printed = false) {
         if(this.controller.phase === 'setup' || printed) {
             return this.cardData.strength || undefined;

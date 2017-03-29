@@ -65,7 +65,7 @@ describe('Effects.killByStrength', function() {
         describe('when a character is killed by a persistent burn effect', function() {
             beforeEach(function() {
                 // Activate Bastard Daughter's ability
-                this.player1.clickPrompt('Yes');
+                this.player1.clickPrompt('Bastard Daughter');
             });
 
             it('should activate the ability', function() {
@@ -74,7 +74,7 @@ describe('Effects.killByStrength', function() {
             });
 
             it('should not activate the ability twice', function() {
-                expect(this.player1).not.toHavePrompt('Trigger Bastard Daughter?');
+                expect(this.player1).not.toHavePromptButton('Bastard Daughter');
             });
         });
     });
