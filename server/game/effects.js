@@ -96,10 +96,10 @@ const Effects = {
     modifyStrength: function(value) {
         return {
             apply: function(card) {
-                card.strengthModifier += value;
+                card.modifyStrength(value, true);
             },
             unapply: function(card) {
-                card.strengthModifier -= value;
+                card.modifyStrength(-value, false);
             }
         };
     },
@@ -158,16 +158,16 @@ const Effects = {
             apply: function(card, context) {
                 context.dynamicStrength = context.dynamicStrength || {};
                 context.dynamicStrength[card.uuid] = calculate(card, context) || 0;
-                card.strengthModifier += context.dynamicStrength[card.uuid];
+                card.modifyStrength(context.dynamicStrength[card.uuid], true);
             },
             reapply: function(card, context) {
                 let currentStrength = context.dynamicStrength[card.uuid];
                 let newStrength = calculate(card, context) || 0;
                 context.dynamicStrength[card.uuid] = newStrength;
-                card.strengthModifier += newStrength - currentStrength;
+                card.modifyStrength(newStrength - currentStrength, true);
             },
             unapply: function(card, context) {
-                card.strengthModifier -= context.dynamicStrength[card.uuid];
+                card.modifyStrength(-context.dynamicStrength[card.uuid], false);
                 delete context.dynamicStrength[card.uuid];
             },
             isStateDependent: true
