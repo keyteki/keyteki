@@ -100,6 +100,14 @@ class GameRouter extends EventEmitter {
         this.sendCommand(game.node.identity, 'CONNECTFAILED', { gameId: game.id, username: username });
     }
 
+    closeGame(game) {
+        if(!game.node) {
+            return;
+        }
+
+        this.sendCommand(game.node.identity, 'CLOSEGAME', { gameId: game.id });
+    }
+
     // Events
     onMessage(identity, msg) {
         var identityStr = identity.toString();

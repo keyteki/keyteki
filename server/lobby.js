@@ -211,6 +211,7 @@ class Lobby {
         socket.registerEvent('chat', this.onPendingGameChat.bind(this));
         socket.registerEvent('selectdeck', this.onSelectDeck.bind(this));
         socket.registerEvent('connectfailed', this.onConnectFailed.bind(this));
+        socket.registerEvent('removegame', this.onRemoveGame.bind(this));
 
         socket.on('authenticate', this.onAuthenticated.bind(this));
         socket.on('disconnect', this.onSocketDisconnected.bind(this));
@@ -431,6 +432,23 @@ class Lobby {
         }
 
         this.router.notifyFailedConnect(game, socket.user.username);
+    }
+
+    onRemoveGame(socket, gameId) {
+        if(!socket.user.admin) {
+            return;
+        }
+
+        var game = this.games[gameId];
+        if(!game) {
+            return;
+        }
+
+        if(!game.started) {
+            delete this.games[game.id];
+        } else {
+            this.router.closeGame(game);
+        }
     }
 
     // router Events
