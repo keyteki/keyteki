@@ -33,7 +33,7 @@ class Server {
     init() {
         if(!this.isDeveloping) {
             Raven.config(config.sentryDsn, { release: version }).install();
-            
+
             app.use(Raven.requestHandler());
             app.use(Raven.errorHandler());
         }
@@ -143,7 +143,7 @@ class Server {
                     return done(null, false, { message: 'Invalid username/password' });
                 }
 
-                return done(null, { username: user.username, email: user.email, emailHash: user.emailHash, _id: user._id });
+                return done(null, { username: user.username, email: user.email, emailHash: user.emailHash, _id: user._id, admin: user.admin });
             });
         });
     }
