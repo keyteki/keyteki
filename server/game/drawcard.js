@@ -164,6 +164,10 @@ class DrawCard extends BaseCard {
         return icons;
     }
 
+    getNumberOfIcons() {
+        return _.size(this.icons);
+    }
+
     addIcon(icon) {
         this.icons[icon]++;
     }
