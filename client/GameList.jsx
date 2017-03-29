@@ -35,6 +35,7 @@ class InnerGameList extends React.Component {
                     <span>
                         <Avatar emailHash={player.emailHash} />
                         <span>{ player.name }</span>
+                        <span className={'game-icon icon-' + player.faction} />
                     </span>
                 );
             });
