@@ -444,6 +444,8 @@ class Lobby {
             return;
         }
 
+        logger.info(socket.user.username, 'closed game', game.id, '(' + game.name + ') forcefully');
+
         if(!game.started) {
             delete this.games[game.id];
         } else {
