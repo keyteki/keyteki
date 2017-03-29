@@ -6,14 +6,25 @@ const MarshalLocation = require('./marshallocation.js');
 
 const Effects = {
     all: function(effects) {
+        let stateDependentEffects = _.filter(effects, effect => effect.isStateDependent);
         return {
             apply: function(card, context) {
                 _.each(effects, effect => effect.apply(card, context));
             },
+            reapply: function(card, context) {
+                _.each(stateDependentEffects, effect => {
+                    if(effect.reapply) {
+                        effect.reapply(card, context);
+                    } else {
+                        effect.unapply(card, context);
+                        effect.apply(card, context);
+                    }
+                });
+            },
             unapply: function(card, context) {
                 _.each(effects, effect => effect.unapply(card, context));
             },
-            isStateDependent: _.any(effects, effect => !!effect.isStateDependent)
+            isStateDependent: (stateDependentEffects.length !== 0)
         };
     },
     allowAsAttacker: function(value) {
@@ -148,6 +159,12 @@ const Effects = {
                 context.dynamicStrength = context.dynamicStrength || {};
                 context.dynamicStrength[card.uuid] = calculate(card, context) || 0;
                 card.strengthModifier += context.dynamicStrength[card.uuid];
+            },
+            reapply: function(card, context) {
+                let currentStrength = context.dynamicStrength[card.uuid];
+                let newStrength = calculate(card, context) || 0;
+                context.dynamicStrength[card.uuid] = newStrength;
+                card.strengthModifier += newStrength - currentStrength;
             },
             unapply: function(card, context) {
                 card.strengthModifier -= context.dynamicStrength[card.uuid];
@@ -553,6 +570,12 @@ const Effects = {
                 context.dynamicUsedPlots = context.dynamicUsedPlots || {};
                 context.dynamicUsedPlots[player.name] = calculate(player, context) || 0;
                 player.modifyUsedPlots(context.dynamicUsedPlots[player.name]);
+            },
+            reapply: function(player, context) {
+                let oldValue = context.dynamicUsedPlots[player.name];
+                let newValue = calculate(player, context) || 0;
+                context.dynamicUsedPlots[player.name] = newValue;
+                player.modifyUsedPlots(newValue - oldValue);
             },
             unapply: function(player, context) {
                 player.modifyUsedPlots(-context.dynamicUsedPlots[player.name]);

@@ -53,6 +53,7 @@ class Effect {
         this.recalculateWhen = properties.recalculateWhen || [];
         this.isConditional = !!properties.condition;
         this.isStateDependent = properties.condition || this.effect.isStateDependent;
+        this.currentCondition = false;
     }
 
     buildEffect(effect) {
@@ -63,8 +64,13 @@ class Effect {
         return effect;
     }
 
+    checkCondition() {
+        this.currentCondition = this.condition();
+        return this.currentCondition;
+    }
+
     addTargets(targets) {
-        if(!this.condition()) {
+        if(!this.checkCondition()) {
             return;
         }
 
@@ -167,14 +173,35 @@ class Effect {
         }
 
         if(this.isConditional) {
-            this.cancel();
-            this.addTargets(newTargets);
-        } else if(this.effect.isStateDependent) {
-            _.each(this.targets, target => {
-                this.effect.unapply(target, this.context);
-                this.effect.apply(target, this.context);
-            });
+            let oldCondition = this.currentCondition;
+            let newCondition = this.checkCondition();
+
+            if(oldCondition && !newCondition) {
+                this.cancel();
+                return;
+            }
+
+            if(!oldCondition && newCondition) {
+                this.addTargets(newTargets);
+                return;
+            }
         }
+
+        if(this.effect.isStateDependent) {
+            let reapplyFunc = this.createReapplyFunc();
+            _.each(this.targets, target => reapplyFunc(target));
+        }
+    }
+
+    createReapplyFunc() {
+        if(this.effect.reapply) {
+            return target => this.effect.reapply(target, this.context);
+        }
+
+        return target => {
+            this.effect.unapply(target, this.context);
+            this.effect.apply(target, this.context);
+        };
     }
 }
 

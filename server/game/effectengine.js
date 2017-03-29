@@ -50,7 +50,11 @@ class EffectEngine {
     onCardTakenControl(e, card) {
         _.each(this.effects, effect => {
             if(effect.duration === 'persistent' && effect.source === card) {
-                effect.reapply(this.getTargets());
+                // Since the controllers have changed, explicitly cancel the
+                // effect for existing targets and then recalculate effects for
+                // the new controller from scratch.
+                effect.cancel();
+                effect.addTargets(this.getTargets());
             }
         });
     }
