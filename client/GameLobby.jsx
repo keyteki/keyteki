@@ -12,9 +12,11 @@ class InnerGameLobby extends React.Component {
         super();
 
         this.onNewGameClick = this.onNewGameClick.bind(this);
+        this.onShowNodesChecked = this.onShowNodesChecked.bind(this);
 
         this.state = {
-            newGame: false
+            newGame: false,
+            showNodes: false
         };
     }
 
@@ -30,16 +32,21 @@ class InnerGameLobby extends React.Component {
         this.props.startNewGame();
     }
 
+    onShowNodesChecked() {
+        this.setState({ showNodes: !this.state.showNodes });
+    }
+
     render() {
         return (
             <div>
                 { this.props.bannerNotice ? <div className='alert alert-danger'>{this.props.bannerNotice}</div> : null }
 
-                <div className='col-sm-6'>
+                <div className='col-sm-7'>
                     <button className='btn btn-primary' onClick={this.onNewGameClick} disabled={!!this.props.currentGame}>New Game</button>
-                    {this.props.games.length === 0 ? <h4>No games are currently in progress</h4> : <GameList games={this.props.games} />}
+                    {this.props.isAdmin ? <span className='pull-right'><input type='checkbox' checked={this.state.showNodes} onChange={this.onShowNodesChecked} />Show Nodes</span> : null}
+                    {this.props.games.length === 0 ? <h4>No games are currently in progress</h4> : <GameList games={this.props.games} showNodes={this.state.showNodes} />}
                 </div>
-                <div className='col-sm-6'>
+                <div className='col-sm-5'>
                     {(!this.props.currentGame && this.props.newGame) ? <NewGame defaultGameName={this.props.username + '\'s game'} /> : null}
                     {this.props.currentGame ? <PendingGame /> : null}
                 </div>
@@ -52,6 +59,7 @@ InnerGameLobby.propTypes = {
     bannerNotice: React.PropTypes.string,
     currentGame: React.PropTypes.object,
     games: React.PropTypes.array,
+    isAdmin: React.PropTypes.bool,
     newGame: React.PropTypes.bool,
     setContextMenu: React.PropTypes.func,
     startNewGame: React.PropTypes.func,
@@ -62,6 +70,7 @@ function mapStateToProps(state) {
     return {
         bannerNotice: state.chat.notice,
         currentGame: state.games.currentGame,
+        isAdmin: state.auth.isAdmin,
         games: state.games.games,
         newGame: state.games.newGame,
         socket: state.socket.socket,

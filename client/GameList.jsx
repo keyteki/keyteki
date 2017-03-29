@@ -36,36 +36,54 @@ class InnerGameList extends React.Component {
 
     render() {
         var gameList = _.map(this.props.games, game => {
+            var firstPlayer = true;
+
             var sides = _.map(game.players, player => {
-                return (
+                var playerElement = null;
+
+                if(firstPlayer) {
+                    playerElement = (
                     <span>
-                        <Avatar emailHash={player.emailHash} />
-                        <span>{ player.name }</span>
-                        <span className={'game-icon icon-' + player.faction} />
-                    </span>
-                );
+                        <span><Avatar emailHash={player.emailHash} /></span>
+                        <span className='player-name'>{ player.name }</span>
+                        <span className={' game-icon icon-' + player.faction} />
+                    </span>);
+
+                    firstPlayer = false;
+                } else {
+                    playerElement = (
+                    <span>
+                        <span className={' game-icon icon-' + player.faction} />
+                        <span className='player-name'>{ player.name }</span>
+                        <span><Avatar emailHash={player.emailHash} /></span>
+                    </span>);
+                }
+
+                return playerElement;
             });
 
             var gameLayout = undefined;
 
             if(sides.length === 2) {
-                gameLayout = <span>{ sides[0] }<b> vs </b>{ sides[1] }</span>;
+                gameLayout = <span>{ sides[0] }<span><b> vs </b></span>{ sides[1] }</span>;
             } else {
                 gameLayout = <span>{ sides[0] }</span>;
             }
 
             return (
                 <div key={ game.id } className='game-row'>
-                    { (this.props.currentGame || _.size(game.players) === 2 || game.started) ?
-                        null :
-                        <button className='btn btn-primary pull-right' onClick={ event => this.joinGame(event, game) }>Join</button>
-                    }
-                    {this.canWatch(game) ?
-                        <button className='btn btn-primary pull-right' onClick={event => this.watchGame(event, game)}>Watch</button> : null}
-                    {this.props.isAdmin ?
-                        <button className='btn btn-primary pull-right' onClick={event => this.removeGame(event, game)}>Remove</button> : null}
-                    <div><b>{ game.name }</b></div>
-                    { gameLayout } { this.props.isAdmin ? <span>Node: {game.node}</span> : null}
+                    <div><b>{ game.name }</b>{ this.props.isAdmin && this.props.showNodes ? <span className='game-node'>Node: {game.node}</span> : null}</div>
+                    { gameLayout }
+                    <span className='pull-right'>
+                        { (this.props.currentGame || _.size(game.players) === 2 || game.started) ?
+                            null :
+                            <button className='btn btn-primary' onClick={ event => this.joinGame(event, game) }>Join</button>
+                        }
+                        {this.canWatch(game) ?
+                            <button className='btn btn-primary' onClick={event => this.watchGame(event, game)}>Watch</button> : null}
+                        {this.props.isAdmin ?
+                            <button className='btn btn-primary' onClick={event => this.removeGame(event, game)}>Remove</button> : null}
+                    </span>
                 </div>
             );
         });
@@ -83,6 +101,7 @@ InnerGameList.propTypes = {
     games: React.PropTypes.array,
     isAdmin: React.PropTypes.bool,
     joinGame: React.PropTypes.func,
+    showNodes: React.PropTypes.bool,
     socket: React.PropTypes.object
 };
 
