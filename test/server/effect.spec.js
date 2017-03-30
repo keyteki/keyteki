@@ -56,6 +56,8 @@ describe('Effect', function () {
 
             describe('and the condition returns false', function() {
                 beforeEach(function() {
+                    this.existingTarget = { target: 1 };
+                    this.effect.targets = [this.existingTarget];
                     this.properties.condition.and.returnValue(false);
                     this.effect.addTargets([this.nonMatchingCard, this.matchingCard]);
                 });
@@ -645,7 +647,6 @@ describe('Effect', function () {
                     this.matchingTarget = { target: 3, location: 'play area' };
                     this.effect.targets = [this.target, this.matchingTarget];
                     this.effect.active = true;
-                    this.effect.currentCondition = false;
                     this.effect.condition.and.returnValue(true);
                     this.properties.match.and.callFake(card => card !== this.target);
                     this.effect.reapply(this.newTargets);
@@ -668,11 +669,10 @@ describe('Effect', function () {
                 });
             });
 
-            describe('when the condition goes from true to false', function() {
+            describe('when the condition is false', function() {
                 beforeEach(function() {
                     this.effect.targets = [this.target];
                     this.effect.active = true;
-                    this.effect.currentCondition = true;
                     this.effect.condition.and.returnValue(false);
                     this.effect.reapply(this.newTargets);
                 });
@@ -687,28 +687,6 @@ describe('Effect', function () {
 
                 it('should clear the target list', function() {
                     expect(this.effect.targets).toEqual([]);
-                });
-            });
-
-            describe('when the condition does not change', function() {
-                beforeEach(function() {
-                    this.effect.targets = [this.target];
-                    this.effect.active = true;
-                    this.effect.currentCondition = false;
-                    this.effect.condition.and.returnValue(false);
-                    this.effect.reapply(this.newTargets);
-                });
-
-                it('should not unapply the effect from existing targets', function() {
-                    expect(this.properties.effect.unapply).not.toHaveBeenCalled();
-                });
-
-                it('should not apply the effect to any targets', function() {
-                    expect(this.properties.effect.apply).not.toHaveBeenCalled();
-                });
-
-                it('should not update the target list', function() {
-                    expect(this.effect.targets).toEqual([this.target]);
                 });
             });
         });

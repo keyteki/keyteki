@@ -53,7 +53,6 @@ class Effect {
         this.recalculateWhen = properties.recalculateWhen || [];
         this.isConditional = !!properties.condition;
         this.isStateDependent = properties.condition || this.effect.isStateDependent;
-        this.currentCondition = false;
     }
 
     buildEffect(effect) {
@@ -64,13 +63,8 @@ class Effect {
         return effect;
     }
 
-    checkCondition() {
-        this.currentCondition = this.condition();
-        return this.currentCondition;
-    }
-
     addTargets(targets) {
-        if(!this.checkCondition()) {
+        if(!this.condition()) {
             return;
         }
 
@@ -171,10 +165,9 @@ class Effect {
         }
 
         if(this.isConditional) {
-            let oldCondition = this.currentCondition;
-            let newCondition = this.checkCondition();
+            let newCondition = this.condition();
 
-            if(oldCondition && !newCondition) {
+            if(!newCondition) {
                 this.cancel();
                 return;
             }
