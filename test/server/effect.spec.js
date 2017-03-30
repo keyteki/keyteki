@@ -640,23 +640,31 @@ describe('Effect', function () {
                 });
             });
 
-            describe('when the condition goes from false to true', function() {
+            describe('when the condition is true', function() {
                 beforeEach(function() {
-                    this.effect.targets = [];
+                    this.matchingTarget = { target: 3, location: 'play area' };
+                    this.effect.targets = [this.target, this.matchingTarget];
                     this.effect.active = true;
                     this.effect.currentCondition = false;
                     this.effect.condition.and.returnValue(true);
+                    this.properties.match.and.callFake(card => card !== this.target);
                     this.effect.reapply(this.newTargets);
                 });
 
                 it('should apply the effect to new targets', function() {
-                    expect(this.properties.effect.apply).toHaveBeenCalledWith(this.target, jasmine.any(Object));
                     expect(this.properties.effect.apply).toHaveBeenCalledWith(this.newTarget, jasmine.any(Object));
                 });
 
+                it('should not unapply the effect from targets that still match', function() {
+                    expect(this.properties.effect.unapply).not.toHaveBeenCalledWith(this.matchingTarget, jasmine.any(Object));
+                });
+
+                it('should unapply the effect from targets that no longer match', function() {
+                    expect(this.properties.effect.unapply).toHaveBeenCalledWith(this.target, jasmine.any(Object));
+                });
+
                 it('should update the target list', function() {
-                    expect(this.effect.targets).toContain(this.target);
-                    expect(this.effect.targets).toContain(this.newTarget);
+                    expect(this.effect.targets).toEqual([this.matchingTarget, this.newTarget]);
                 });
             });
 
@@ -686,8 +694,8 @@ describe('Effect', function () {
                 beforeEach(function() {
                     this.effect.targets = [this.target];
                     this.effect.active = true;
-                    this.effect.currentCondition = true;
-                    this.effect.condition.and.returnValue(true);
+                    this.effect.currentCondition = false;
+                    this.effect.condition.and.returnValue(false);
                     this.effect.reapply(this.newTargets);
                 });
 

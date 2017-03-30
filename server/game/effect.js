@@ -74,7 +74,9 @@ class Effect {
             return;
         }
 
-        _.each(targets, target => {
+        let newTargets = _.difference(targets, this.targets);
+
+        _.each(newTargets, target => {
             if(this.isValidTarget(target)) {
                 this.targets.push(target);
                 if(this.active) {
@@ -104,10 +106,6 @@ class Effect {
         }
 
         if(!this.match(target, this.context)) {
-            return false;
-        }
-
-        if(this.targets.includes(target)) {
             return false;
         }
 
@@ -181,9 +179,12 @@ class Effect {
                 return;
             }
 
-            if(!oldCondition && newCondition) {
+            if(newCondition) {
+                let invalidTargets = _.filter(this.targets, target => !this.isValidTarget(target));
+                _.each(invalidTargets, target => {
+                    this.removeTarget(target);
+                });
                 this.addTargets(newTargets);
-                return;
             }
         }
 
