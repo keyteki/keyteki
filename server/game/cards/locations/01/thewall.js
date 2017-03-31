@@ -4,7 +4,7 @@ class TheWall extends DrawCard {
     setupCardAbilities(ability) {
         this.forcedReaction({
             when: {
-                onUnopposedWin: (e, challenge) => this.controller !== challenge.winner && !this.kneeled
+                afterChallenge: (e, challenge) => this.controller === challenge.loser && !this.kneeled && challenge.isUnopposed()
             },
             handler: () => {
                 this.game.addMessage('{0} is forced to kneel {1} because they lost an unopposed challenge', this.controller, this);

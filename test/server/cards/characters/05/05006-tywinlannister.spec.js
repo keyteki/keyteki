@@ -72,7 +72,6 @@ describe('Tywin Lannister (LoCR)', function() {
                 this.player1.clickPrompt('Done');
 
                 this.skipActionWindow();
-                this.skipActionWindow();
 
                 // Trigger The Reader
                 this.player2.clickPrompt('The Reader - Discard 3 cards');
