@@ -91,13 +91,13 @@ export class InnerGameBoard extends React.Component {
             }
 
             let spectators = _.map(props.currentGame.spectators, spectator => {
-                return <span>{spectator.name}</span>;
+                return <li key={spectator.id}>{spectator.name}</li>;
             });
 
             let spectatorPopup = (
-                <div className='spectators-popup'>
+                <ul className='spectators-popup absolute-panel'>
                     {spectators}
-                </div>
+                </ul>
             );
 
             menuOptions.unshift({ text: 'Spectators: ' + props.currentGame.spectators.length, popup: spectatorPopup });

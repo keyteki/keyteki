@@ -12,7 +12,7 @@ class InnerNavBar extends React.Component {
 
         this.state = {};
     }
-    
+
     onMenuItemMouseOver(menuItem) {
         this.setState({
             showPopup : menuItem
@@ -46,11 +46,11 @@ class InnerNavBar extends React.Component {
         var contextMenu = _.map(this.props.context, menuItem => {
             return (
                 <li key={menuItem.text}><a href='javascript:void(0)' onMouseOver={this.onMenuItemMouseOver.bind(this, menuItem)}
-                                           onMouseOut={this.onMenuItemMouseOut.bind(this)} 
+                                           onMouseOut={this.onMenuItemMouseOut.bind(this)}
                                            onClick={menuItem.onClick ? event => {
                                                event.preventDefault();
                                                menuItem.onClick();
-                                           } : null}>{menuItem.text}</a></li>
+                                           } : null}>{menuItem.text}</a>{(this.state.showPopup === menuItem) ? this.state.showPopup.popup : null}</li>
             );
         });
 
@@ -76,7 +76,6 @@ class InnerNavBar extends React.Component {
                             {rightMenuToRender}
                         </ul>
                     </div>
-                    {this.state.showPopup ? this.state.showPopup.popup : null}
                 </div>
             </nav>);
     }
