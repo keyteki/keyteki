@@ -90,7 +90,17 @@ export class InnerGameBoard extends React.Component {
                 menuOptions.unshift({ text: 'Concede', onClick: this.onConcedeClick });
             }
 
-            menuOptions.unshift({ text: 'Spectators: ' + props.currentGame.spectators.length });
+            let spectators = _.map(props.currentGame.spectators, spectator => {
+                return <span>{spectator.name}</span>;
+            });
+
+            let spectatorPopup = (
+                <div className='spectators-popup'>
+                    {spectators}
+                </div>
+            );
+
+            menuOptions.unshift({ text: 'Spectators: ' + props.currentGame.spectators.length, popup: spectatorPopup });
 
             this.setContextMenu(menuOptions);
         } else {

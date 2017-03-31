@@ -7,6 +7,24 @@ import Link from './Link.jsx';
 import * as actions from './actions';
 
 class InnerNavBar extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {};
+    }
+    
+    onMenuItemMouseOver(menuItem) {
+        this.setState({
+            showPopup : menuItem
+        });
+    }
+
+    onMenuItemMouseOut() {
+        this.setState({
+            showPopup: undefined
+        });
+    }
+
     render() {
         var leftMenuToRender = [];
         var rightMenuToRender = [];
@@ -27,10 +45,12 @@ class InnerNavBar extends React.Component {
 
         var contextMenu = _.map(this.props.context, menuItem => {
             return (
-                <li key={menuItem.text}><a href='javascript:void(0)' onClick={menuItem.onClick ? event => {
-                    event.preventDefault();
-                    menuItem.onClick();
-                } : null}>{menuItem.text}</a></li>
+                <li key={menuItem.text}><a href='javascript:void(0)' onMouseOver={this.onMenuItemMouseOver.bind(this, menuItem)}
+                                           onMouseOut={this.onMenuItemMouseOut.bind(this)} 
+                                           onClick={menuItem.onClick ? event => {
+                                               event.preventDefault();
+                                               menuItem.onClick();
+                                           } : null}>{menuItem.text}</a></li>
             );
         });
 
@@ -56,6 +76,7 @@ class InnerNavBar extends React.Component {
                             {rightMenuToRender}
                         </ul>
                     </div>
+                    {this.state.showPopup ? this.state.showPopup.popup : null}
                 </div>
             </nav>);
     }

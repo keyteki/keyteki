@@ -143,11 +143,13 @@ class DeckEditor extends React.Component {
         });      
         this.setState({ selectedBanner: banner }, () => this.raiseDeckChanged());
     }
+
     addBanner(card) {
         var list = this.state.bannerCards;
         list.push(card);
         this.setState({bannerCards: list});
     }
+    
     onAddBanner(event) {
         event.preventDefault();
         this.addBanner(this.state.selectedBanner);
