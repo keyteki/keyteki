@@ -500,7 +500,7 @@ const Effects = {
                 player.marshalLocations.push(marshalLocation);
             },
             unapply: function(player) {
-                player.marshalLocations = _.reject(player.additionalMarshalLocations, l => l === marshalLocation);
+                player.marshalLocations = _.reject(player.marshalLocations, l => l === marshalLocation);
             }
         };
     },
