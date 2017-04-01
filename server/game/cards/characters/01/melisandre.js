@@ -4,7 +4,10 @@ class Melisandre extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardEntersPlay: (e, card) => card.controller === this.controller && card.hasTrait('R\'hllor')
+                onCardEntersPlay: (event, card) =>
+                    card.controller === this.controller && card.hasTrait('R\'hllor'),
+                onCardPlayed: (event, player, card) =>
+                    card.controller === this.controller && card.hasTrait('R\'hllor')
             },
             limit: ability.limit.perRound(1),
             handler: () => {
