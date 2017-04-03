@@ -1,4 +1,5 @@
-const app = require('express')();
+const express = require('express');
+const app = express();
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -9,7 +10,6 @@ const localStrategy = require('passport-local').Strategy;
 const logger = require('./log.js');
 const bcrypt = require('bcrypt');
 const api = require('./api');
-const express = require('express');
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const http = require('http');
