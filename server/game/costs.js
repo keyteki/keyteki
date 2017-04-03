@@ -104,6 +104,19 @@ const Costs = {
         };
     },
     /**
+     * Cost that will remove from game the card that initiated the ability.
+     */
+    removeSelfFromGame: function() {
+        return {
+            canPay: function() {
+                return true;
+            },
+            pay: function(context) {
+                context.source.controller.moveCard(context.source, 'out of game');
+            }
+        };
+    },
+    /**
      * Cost that requires you return a card matching the condition to the
      * player's hand.
      */
