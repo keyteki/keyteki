@@ -20,10 +20,10 @@ describe('EventWindow', function() {
 
             it('should emit all of the interrupt/reaction events', function() {
                 expect(this.gameSpy.openAbilityWindow).toHaveBeenCalledWith({ abilityType: 'cancelinterrupt', event: jasmine.any(Event) });
-                expect(this.gameSpy.emit).toHaveBeenCalledWith('myevent:forcedinterrupt', jasmine.any(Event), 'foo', 'bar');
+                expect(this.gameSpy.openAbilityWindow).toHaveBeenCalledWith({ abilityType: 'forcedinterrupt', event: jasmine.any(Event) });
                 expect(this.gameSpy.openAbilityWindow).toHaveBeenCalledWith({ abilityType: 'interrupt', event: jasmine.any(Event) });
                 expect(this.gameSpy.emit).toHaveBeenCalledWith('myevent', jasmine.any(Event), 'foo', 'bar');
-                expect(this.gameSpy.emit).toHaveBeenCalledWith('myevent:forcedreaction', jasmine.any(Event), 'foo', 'bar');
+                expect(this.gameSpy.openAbilityWindow).toHaveBeenCalledWith({ abilityType: 'forcedreaction', event: jasmine.any(Event) });
                 expect(this.gameSpy.openAbilityWindow).toHaveBeenCalledWith({ abilityType: 'reaction', event: jasmine.any(Event) });
             });
 
@@ -39,10 +39,10 @@ describe('EventWindow', function() {
 
             it('should not emit the post-cancel interrupt/reaction events', function() {
                 this.eventWindow.continue();
-                expect(this.gameSpy.emit).not.toHaveBeenCalledWith('myevent:forcedinterrupt', jasmine.any(Event), jasmine.any(String), jasmine.any(String));
+                expect(this.gameSpy.openAbilityWindow).not.toHaveBeenCalledWith({ abilityType: 'forcedinterrupt', event: jasmine.any(Event) });
                 expect(this.gameSpy.openAbilityWindow).not.toHaveBeenCalledWith({ abilityType: 'interrupt', event: jasmine.any(Event) });
                 expect(this.gameSpy.emit).not.toHaveBeenCalledWith('myevent', jasmine.any(Event), jasmine.any(String), jasmine.any(String));
-                expect(this.gameSpy.emit).not.toHaveBeenCalledWith('myevent:forcedreaction', jasmine.any(Event), jasmine.any(String), jasmine.any(String));
+                expect(this.gameSpy.openAbilityWindow).not.toHaveBeenCalledWith({ abilityType: 'forcedreaction', event: jasmine.any(Event) });
                 expect(this.gameSpy.openAbilityWindow).not.toHaveBeenCalledWith({ abilityType: 'reaction', event: jasmine.any(Event) });
             });
 
@@ -72,10 +72,10 @@ describe('EventWindow', function() {
 
             it('should emit all of the interrupt/reaction events', function() {
                 expect(this.gameSpy.openAbilityWindow).toHaveBeenCalledWith({ abilityType: 'cancelinterrupt', event: jasmine.any(Event) });
-                expect(this.gameSpy.emit).toHaveBeenCalledWith('myevent:forcedinterrupt', jasmine.any(Event), 'foo', 'bar');
+                expect(this.gameSpy.openAbilityWindow).toHaveBeenCalledWith({ abilityType: 'forcedinterrupt', event: jasmine.any(Event) });
                 expect(this.gameSpy.openAbilityWindow).toHaveBeenCalledWith({ abilityType: 'interrupt', event: jasmine.any(Event) });
                 expect(this.gameSpy.emit).toHaveBeenCalledWith('myevent', jasmine.any(Event), 'foo', 'bar');
-                expect(this.gameSpy.emit).toHaveBeenCalledWith('myevent:forcedreaction', jasmine.any(Event), 'foo', 'bar');
+                expect(this.gameSpy.openAbilityWindow).toHaveBeenCalledWith({ abilityType: 'forcedreaction', event: jasmine.any(Event) });
                 expect(this.gameSpy.openAbilityWindow).toHaveBeenCalledWith({ abilityType: 'reaction', event: jasmine.any(Event) });
             });
 
@@ -92,13 +92,13 @@ describe('EventWindow', function() {
 
             it('should emit all of the interrupt events', function() {
                 expect(this.gameSpy.openAbilityWindow).toHaveBeenCalledWith({ abilityType: 'cancelinterrupt', event: jasmine.any(Event) });
-                expect(this.gameSpy.emit).toHaveBeenCalledWith('myevent:forcedinterrupt', jasmine.any(Event), 'foo', 'bar');
+                expect(this.gameSpy.openAbilityWindow).toHaveBeenCalledWith({ abilityType: 'forcedinterrupt', event: jasmine.any(Event) });
                 expect(this.gameSpy.openAbilityWindow).toHaveBeenCalledWith({ abilityType: 'interrupt', event: jasmine.any(Event) });
             });
 
             it('should not emit the post-cancel  events', function() {
                 expect(this.gameSpy.emit).not.toHaveBeenCalledWith('myevent', jasmine.any(Event), jasmine.any(String), jasmine.any(String));
-                expect(this.gameSpy.emit).not.toHaveBeenCalledWith('myevent:forcedreaction', jasmine.any(Event), jasmine.any(String), jasmine.any(String));
+                expect(this.gameSpy.openAbilityWindow).not.toHaveBeenCalledWith({ abilityType: 'forcedreaction', event: jasmine.any(Event) });
                 expect(this.gameSpy.openAbilityWindow).not.toHaveBeenCalledWith({ abilityType: 'reaction', event: jasmine.any(Event) });
             });
         });

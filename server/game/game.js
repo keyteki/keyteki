@@ -21,6 +21,7 @@ const MenuPrompt = require('./gamesteps/menuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 const EventWindow = require('./gamesteps/eventwindow.js');
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
+const ForcedTriggeredAbilityWindow = require('./gamesteps/forcedtriggeredabilitywindow.js');
 const TriggeredAbilityWindow = require('./gamesteps/triggeredabilitywindow.js');
 
 class Game extends EventEmitter {
@@ -546,7 +547,8 @@ class Game extends EventEmitter {
     }
 
     openAbilityWindow(properties) {
-        let window = new TriggeredAbilityWindow(this, { abilityType: properties.abilityType, event: properties.event });
+        let windowClass = ['forcedreaction', 'forcedinterrupt'].includes(properties.abilityType) ? ForcedTriggeredAbilityWindow : TriggeredAbilityWindow;
+        let window = new windowClass(this, { abilityType: properties.abilityType, event: properties.event });
         this.abilityWindowStack.push(window);
         this.emit(properties.event.name + ':' + properties.abilityType, ...properties.event.params);
         this.queueStep(window);

@@ -27,7 +27,7 @@ class ForcedTriggeredAbility extends TriggeredAbility {
     }
 
     executeReaction(context) {
-        this.game.resolveAbility(this, context);
+        this.game.registerAbility(this, context);
     }
 
     executeHandler(context) {

@@ -58,7 +58,10 @@ class EventWindow extends BaseStep {
             return;
         }
 
-        this.game.emit(this.eventName + ':forcedinterrupt', ...this.event.params);
+        this.game.openAbilityWindow({
+            abilityType: 'forcedinterrupt',
+            event: this.event
+        });
     }
 
     interrupts() {
@@ -92,7 +95,10 @@ class EventWindow extends BaseStep {
             return;
         }
 
-        this.game.emit(this.eventName + ':forcedreaction', ...this.event.params);
+        this.game.openAbilityWindow({
+            abilityType: 'forcedreaction',
+            event: this.event
+        });
     }
 
     reactions() {

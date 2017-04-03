@@ -6,7 +6,7 @@ const Event = require('../../../server/game/event.js');
 
 describe('CardForcedReaction', function () {
     beforeEach(function () {
-        this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'resolveAbility']);
+        this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'registerAbility']);
         this.cardSpy = jasmine.createSpyObj('card', ['isBlank']);
         this.limitSpy = jasmine.createSpyObj('limit', ['increment', 'isAtMax', 'registerEvents', 'unregisterEvents']);
 
@@ -44,8 +44,8 @@ describe('CardForcedReaction', function () {
                 this.executeEventHandler(1, 2, 3);
             });
 
-            it('should not resolve the ability', function() {
-                expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
+            it('should not register the ability', function() {
+                expect(this.gameSpy.registerAbility).not.toHaveBeenCalled();
             });
         });
 
@@ -55,8 +55,8 @@ describe('CardForcedReaction', function () {
                 this.executeEventHandler(1, 2, 3);
             });
 
-            it('should not resolve the ability', function() {
-                expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
+            it('should not register the ability', function() {
+                expect(this.gameSpy.registerAbility).not.toHaveBeenCalled();
             });
         });
 
@@ -66,8 +66,8 @@ describe('CardForcedReaction', function () {
                 this.executeEventHandler(1, 2, 3);
             });
 
-            it('should not resolve the ability', function() {
-                expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
+            it('should not register the ability', function() {
+                expect(this.gameSpy.registerAbility).not.toHaveBeenCalled();
             });
         });
 
@@ -82,8 +82,8 @@ describe('CardForcedReaction', function () {
                     this.executeEventHandler(1, 2, 3);
                 });
 
-                it('should not resolve the ability', function() {
-                    expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
+                it('should not register the ability', function() {
+                    expect(this.gameSpy.registerAbility).not.toHaveBeenCalled();
                 });
             });
 
@@ -93,8 +93,8 @@ describe('CardForcedReaction', function () {
                     this.executeEventHandler(1, 2, 3);
                 });
 
-                it('should resolve the ability', function() {
-                    expect(this.gameSpy.resolveAbility).toHaveBeenCalledWith(this.reaction, jasmine.any(Object));
+                it('should register the ability', function() {
+                    expect(this.gameSpy.registerAbility).toHaveBeenCalledWith(this.reaction, jasmine.any(Object));
                 });
             });
         });
