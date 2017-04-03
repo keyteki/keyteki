@@ -22,6 +22,10 @@ class InnerLobby extends React.Component {
         };
     }
 
+    componentDidMount() {
+        this.props.fetchNews();
+    }
+
     componentDidUpdate() {
         if(this.state.canScroll) {
             $(this.refs.messages).scrollTop(999999);
@@ -93,13 +97,28 @@ class InnerLobby extends React.Component {
             );
         });
 
+        let icons = [
+            'military',
+            'intrigue',
+            'power'
+        ];
+        let iconIndex = 0;
+
+        let news = _.map(this.props.news, newsItem => {
+            let retNews = <div><span className={'icon-' + icons[iconIndex++]}/>{newsItem.datePublished + ' - ' + newsItem.text}</div>;
+            if(iconIndex === 3) {
+                iconIndex = 0;
+            }
+
+            return retNews;
+        });
+
         return (
             <div>
                 { this.props.bannerNotice ? <div className='alert alert-danger'>{this.props.bannerNotice}</div> : null }
                 <div className='alert alert-info'>
-                    <div><span className='icon-military' />2017-03-28: New cards: Lost Ranger, Sworn to the Watch, Marya Seaworth, Salt Wife, Lingering Venom, Jeyne Poole, Rattleshirt, Weirdwood Bow, The Fire That Burns, Called Into Service, Whisper Campaign.  Fixed Littlefinger, Bodyguard, Aeron Damphair, various other niggly cards.  Added a new action window after challenge winner is declared.  Added titles to the reaction prompts so you know what it's referring to.</div>
-                    <div><span className='icon-power' />2017-03-24: Several fixes to improve server performance/fix crashes.  User updates are now only sent priodically, so you may see 0 users online for a short while after connecting. New cards: Funeral Pyre, Green, Pyp, Samwell Tarly(WotW), Satin, A Meager Contribution(partial), Tyrion Lanniser(LoCR), Moon Brothers, Shagga Son of Dolf, The New Gift.  Fixes for Bestow ordering, Venomous Blade, Unbowed unbent unbroken</div>
-                    <div><span className='icon-intrigue' />2017-03-21: New cards: Jon Snow(WotW), The Dragon's Tail.  Fix Fealty, Ser Jaime Lannister, Selyse Baratheon, Eddard Stark.  Automatically populate the faction/agenda from a copy/pasted thronesdb decklist. </div>
+                {this.props.newsLoading ? <div>News loading...</div> : null}
+                {news}
                 </div>
                 <div className='row'>
                     <span className='col-sm-9 text-center'><h1>Play A Game Of Thrones 2nd Edition</h1></span>
@@ -133,7 +152,10 @@ class InnerLobby extends React.Component {
 InnerLobby.displayName = 'Lobby';
 InnerLobby.propTypes = {
     bannerNotice: React.PropTypes.string,
+    fetchNews: React.PropTypes.func,
     messages: React.PropTypes.array,
+    news: React.PropTypes.array,
+    newsLoading: React.PropTypes.bool,
     socket: React.PropTypes.object,
     users: React.PropTypes.array
 };
@@ -142,6 +164,8 @@ function mapStateToProps(state) {
     return {
         bannerNotice: state.chat.notice,
         messages: state.chat.messages,
+        news: state.news.news,
+        newsLoading: state.news.newsLoading,
         socket: state.socket.socket,
         users: state.games.users
     };
