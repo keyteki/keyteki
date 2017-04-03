@@ -55,6 +55,10 @@ class ChallengeTracker {
             return true;
         }
 
+        if(this.challengeTypes[challengeType].cannotInitiate) {
+            return true;
+        }
+
         return this.challengeTypes[challengeType].performed >= this.challengeTypes[challengeType].max;
     }
 
@@ -78,12 +82,8 @@ class ChallengeTracker {
         delete this.maxTotal;
     }
 
-    setMaxForType(challengeType, max) {
-        this.challengeTypes[challengeType].max = max;
-    }
-
-    clearMaxForType(challengeType) {
-        this.challengeTypes[challengeType].max = 1;
+    setCannotInitiateForType(challengeType, value) {
+        this.challengeTypes[challengeType].cannotInitiate = value;
     }
 
     perform(challengeType) {

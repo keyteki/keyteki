@@ -35,7 +35,11 @@ class UnbowedUnbentUnbroken extends DrawCard {
             return true;
         }
 
-        otherPlayer.setMaxChallengeForType(challengeType, 0);
+        this.untilEndOfPhase(ability => ({
+            targetType: 'player',
+            targetController: 'opponent',
+            effect: ability.effects.cannotInitiateChallengeType(challengeType)
+        }));
 
         this.game.addMessage('{0} uses {1} to make {2} unable to initiate {3} challenges until the end of the phase', player, this, otherPlayer, challengeType);
 

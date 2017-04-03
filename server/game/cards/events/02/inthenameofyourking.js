@@ -17,7 +17,7 @@ class InTheNameOfYourKing extends ChallengeEvent {
         this.untilEndOfPhase(ability => ({
             targetType: 'player',
             targetController: 'current',
-            effect: ability.effects.setChallengeTypeLimit('military', 0)
+            effect: ability.effects.cannotInitiateChallengeType('military')
         }));
 
         this.game.addMessage('{0} uses {1} to end this challenge with no winner or loser',

@@ -437,13 +437,13 @@ const Effects = {
             }
         };
     },
-    setChallengeTypeLimit: function(challengeType, max) {
+    cannotInitiateChallengeType(challengeType) {
         return {
             apply: function(player) {
-                player.setMaxChallengeForType(challengeType, max);
+                player.setCannotInitiateChallengeForType(challengeType, true);
             },
             unapply: function(player) {
-                player.clearMaxChallengeForType(challengeType);
+                player.setCannotInitiateChallengeForType(challengeType, false);
             }
         };
     },
