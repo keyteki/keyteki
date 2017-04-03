@@ -6,6 +6,7 @@ import moment from 'moment';
 
 import * as actions from './actions';
 import Avatar from './Avatar.jsx';
+import News from 'SiteComponents/News.jsx';
 
 class InnerLobby extends React.Component {
     constructor() {
@@ -97,28 +98,12 @@ class InnerLobby extends React.Component {
             );
         });
 
-        let icons = [
-            'military',
-            'intrigue',
-            'power'
-        ];
-        let iconIndex = 0;
-
-        let news = _.map(this.props.news, newsItem => {
-            let retNews = <div><span className={'icon-' + icons[iconIndex++]}/>{newsItem.datePublished + ' - ' + newsItem.text}</div>;
-            if(iconIndex === 3) {
-                iconIndex = 0;
-            }
-
-            return retNews;
-        });
-
         return (
             <div>
                 { this.props.bannerNotice ? <div className='alert alert-danger'>{this.props.bannerNotice}</div> : null }
                 <div className='alert alert-info'>
                 {this.props.newsLoading ? <div>News loading...</div> : null}
-                {news}
+                <News news={this.props.news} />
                 </div>
                 <div className='row'>
                     <span className='col-sm-9 text-center'><h1>Play A Game Of Thrones 2nd Edition</h1></span>
