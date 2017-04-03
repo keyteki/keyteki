@@ -25,7 +25,7 @@ describe('PlayCardAction', function () {
             this.playerSpy.hand = _([this.cardSpy]);
             this.cardSpy.getType.and.returnValue('event');
             this.cardSpy.canPlay.and.returnValue(true);
-            this.cardSpy.abilities = {};
+            this.cardSpy.abilities = { actions: [] };
         });
 
         describe('when all conditions are met', function() {

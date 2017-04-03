@@ -1,6 +1,7 @@
 const _ = require('underscore');
 
 const BaseAbility = require('./baseability.js');
+const Costs = require('./costs.js');
 const EventRegistrar = require('./eventregistrar.js');
 
 /**
@@ -36,6 +37,7 @@ class CardAction extends BaseAbility {
         super(properties);
 
         const DefaultLocationForType = {
+            event: 'hand',
             agenda: 'agenda',
             plot: 'active plot'
         };
@@ -53,6 +55,10 @@ class CardAction extends BaseAbility {
         this.activationContexts = [];
 
         this.handler = this.buildHandler(card, properties);
+
+        if(card.getType() === 'event') {
+            this.cost.push(Costs.playEvent());
+        }
     }
 
     buildHandler(card, properties) {

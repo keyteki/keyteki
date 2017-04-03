@@ -1,4 +1,19 @@
+const _ = require('underscore');
+
 const Costs = {
+    /**
+     * Cost that aggregates a list of other costs.
+     */
+    all: function(...costs) {
+        return {
+            canPay: function(context) {
+                return _.all(costs, cost => cost.canPay(context));
+            },
+            pay: function(context) {
+                _.each(costs, cost => cost.pay(context));
+            }
+        };
+    },
     /**
      * Cost that will kneel the card that initiated the ability.
      */
@@ -144,6 +159,30 @@ const Costs = {
                 context.source.controller.standCard(context.source);
             }
         };
+    },
+    /**
+     * Cost that will place the played event card in the player's discard pile.
+     */
+    expendEvent: function() {
+        return {
+            canPay: function(context) {
+                return context.source.location === 'hand' && !context.source.cannotPlay;
+            },
+            pay: function(context) {
+                context.source.controller.moveCard(context.source, 'discard pile');
+            }
+        };
+    },
+    /**
+     * Cost that will pay the reduceable gold cost associated with an event card
+     * and place it in discard.
+     */
+    playEvent: function() {
+        return Costs.all(
+            Costs.payReduceableGoldCost('play'),
+            Costs.expendEvent(),
+            Costs.playLimited()
+        );
     },
     /**
      * Cost that will discard a gold from the card. Used mainly by cards

@@ -7,7 +7,7 @@ describe('marshal phase', function() {
             beforeEach(function() {
                 const deck = this.buildDeck('stark', [
                     'Trading with the Pentoshi', 'Sneak Attack',
-                    'Arya Stark (Core)', 'Eddard Stark (Core)', 'Eddard Stark (Core)', 'Eddard Stark (WotN)', 'The Kingsroad', 'Hear Me Roar!'
+                    'Arya Stark (Core)', 'Eddard Stark (Core)', 'Eddard Stark (Core)', 'Eddard Stark (WotN)', 'The Kingsroad', 'Hear Me Roar!', 'Gold Cloaks'
                 ]);
                 this.player1.selectDeck(deck);
                 this.player2.selectDeck(deck);

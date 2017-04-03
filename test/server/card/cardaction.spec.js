@@ -79,10 +79,30 @@ describe('CardAction', function () {
                 expect(this.action.location).toBe('active plot');
             });
 
+            it('should default to hand for cards with type event', function() {
+                this.cardSpy.getType.and.returnValue('event');
+                this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+                expect(this.action.location).toBe('hand');
+            });
+
             it('should use the location sent via properties', function() {
                 this.properties.location = 'foo';
                 this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
                 expect(this.action.location).toBe('foo');
+            });
+        });
+
+        describe('cost', function() {
+            describe('when the card type is event', function() {
+                beforeEach(function() {
+                    this.cardSpy.getType.and.returnValue('event');
+                    this.properties.cost = ['foo'];
+                    this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+                });
+
+                it('should add the play event cost', function() {
+                    expect(this.action.cost.length).toBe(2);
+                });
             });
         });
     });

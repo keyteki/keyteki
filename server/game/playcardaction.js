@@ -16,6 +16,7 @@ class PlayCardAction extends BaseAbility {
         return (
             context.game.currentPhase !== 'setup' &&
             context.source.getType() === 'event' &&
+            context.source.abilities.actions.length === 0 &&
             !context.source.cannotPlay &&
             context.player.hand.contains(context.source) &&
             context.source.canPlay(context.player, context.source)
