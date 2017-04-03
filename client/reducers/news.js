@@ -1,5 +1,3 @@
-import _ from 'underscore';
-
 function news(state = {
     news: []
 }, action) {
