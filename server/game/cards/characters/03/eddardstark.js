@@ -18,7 +18,7 @@ class EddardStark extends DrawCard {
     }
 
     cardCondition(challenge, card) {
-        return card !== this && card.getType() === 'character' && challenge.isParticipating(card);
+        return card !== this && card.controller === this.controller && card.getType() === 'character' && challenge.isParticipating(card);
     }
 }
 
