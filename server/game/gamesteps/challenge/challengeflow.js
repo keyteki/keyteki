@@ -22,7 +22,6 @@ class ChallengeFlow extends BaseStep {
             new SimpleStep(this.game, () => this.announceDefenderStrength()),
             new ActionWindow(this.game, 'After defenders declared'),
             new SimpleStep(this.game, () => this.determineWinner()),
-            new ActionWindow(this.game, 'After winner determined'),
             new SimpleStep(this.game, () => this.unopposedPower()),
             new SimpleStep(this.game, () => this.beforeClaim()),
             new SimpleStep(this.game, () => this.applyKeywords()),
@@ -134,6 +133,11 @@ class ChallengeFlow extends BaseStep {
         }
 
         this.game.raiseEvent('afterChallenge', this.challenge);
+
+        // Only open a winner action window if a winner / loser was determined.
+        if(this.challenge.winner) {
+            this.game.queueStep(new ActionWindow(this.game, 'After winner determined'));
+        }
     }
 
     unopposedPower() {

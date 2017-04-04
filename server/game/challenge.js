@@ -120,7 +120,7 @@ class Challenge {
 
         this.calculateStrength();
 
-        if(this.attackerStrength === 0 && this.defenderStrength === 0 || this.attackerStrength >= this.defenderStrength && this.attackingPlayer.cannotWinChallenge) {
+        if(this.hasNoWinnerOrLoser()) {
             this.loser = undefined;
             this.winner = undefined;
             this.loserStrength = this.winnerStrength = 0;
@@ -144,6 +144,16 @@ class Challenge {
         this.winner.winChallenge(this.challengeType, this.attackingPlayer === this.winner);
         this.loser.loseChallenge(this.challengeType, this.attackingPlayer === this.loser);
         this.strengthDifference = this.winnerStrength - this.loserStrength;
+    }
+
+    hasNoWinnerOrLoser() {
+        return (
+            this.attackerStrength === 0 && this.defenderStrength === 0 ||
+            this.attackerStrength >= this.defenderStrength && this.attackingPlayer.cannotWinChallenge ||
+            this.attackerStrength >= this.defenderStrength && this.attackers.length === 0 ||
+            this.defenderStrength > this.attackerStrength && this.defendingPlayer.cannotWinChallenge ||
+            this.defenderStrength > this.attackerStrength && this.defenders.length === 0
+        );
     }
 
     isAttackerTheWinner() {
