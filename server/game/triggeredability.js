@@ -23,11 +23,18 @@ class TriggeredAbility extends BaseAbility {
     constructor(game, card, eventType, properties) {
         super(properties);
 
+        const DefaultLocationForType = {
+            event: 'hand',
+            agenda: 'agenda',
+            plot: 'active plot'
+        };
+
         this.game = game;
         this.card = card;
         this.limit = properties.limit;
         this.when = properties.when;
         this.eventType = eventType;
+        this.location = properties.location || DefaultLocationForType[card.getType()] || 'play area';
     }
 
     eventHandler(event) {
@@ -65,6 +72,10 @@ class TriggeredAbility extends BaseAbility {
     }
 
     executeReaction() {
+    }
+
+    isEventListeningLocation(location) {
+        return this.location === location;
     }
 
     registerEvents() {

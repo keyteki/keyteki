@@ -7,7 +7,7 @@ const Event = require('../../../server/game/event.js');
 describe('CardReaction', function () {
     beforeEach(function () {
         this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'registerAbility']);
-        this.cardSpy = jasmine.createSpyObj('card', ['isBlank']);
+        this.cardSpy = jasmine.createSpyObj('card', ['getType', 'isBlank']);
         this.limitSpy = jasmine.createSpyObj('limit', ['increment', 'isAtMax', 'registerEvents', 'unregisterEvents']);
 
         this.properties = {
@@ -22,6 +22,39 @@ describe('CardReaction', function () {
         this.createReaction = () => {
             return new CardReaction(this.gameSpy, this.cardSpy, this.properties);
         };
+    });
+
+    describe('constructor', function() {
+        describe('location', function() {
+            it('should default to play area', function() {
+                this.action = new CardReaction(this.gameSpy, this.cardSpy, this.properties);
+                expect(this.action.location).toBe('play area');
+            });
+
+            it('should default to agenda for cards with type agenda', function() {
+                this.cardSpy.getType.and.returnValue('agenda');
+                this.action = new CardReaction(this.gameSpy, this.cardSpy, this.properties);
+                expect(this.action.location).toBe('agenda');
+            });
+
+            it('should default to active plot for cards with type plot', function() {
+                this.cardSpy.getType.and.returnValue('plot');
+                this.action = new CardReaction(this.gameSpy, this.cardSpy, this.properties);
+                expect(this.action.location).toBe('active plot');
+            });
+
+            it('should default to hand for cards with type event', function() {
+                this.cardSpy.getType.and.returnValue('event');
+                this.action = new CardReaction(this.gameSpy, this.cardSpy, this.properties);
+                expect(this.action.location).toBe('hand');
+            });
+
+            it('should use the location sent via properties', function() {
+                this.properties.location = 'foo';
+                this.action = new CardReaction(this.gameSpy, this.cardSpy, this.properties);
+                expect(this.action.location).toBe('foo');
+            });
+        });
     });
 
     describe('eventHandler()', function() {

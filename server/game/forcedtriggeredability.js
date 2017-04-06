@@ -18,6 +18,8 @@ const TriggeredAbility = require('./triggeredability.js');
  *           choice, use the choices sub object instead.
  * limit   - optional AbilityLimit object that represents the max number of uses
  *           for the reaction as well as when it resets.
+ * location - string indicating the location the card should be in in order
+ *            to activate the reaction. Defaults to 'play area'.
  */
 class ForcedTriggeredAbility extends TriggeredAbility {
     constructor(game, card, type, properties) {

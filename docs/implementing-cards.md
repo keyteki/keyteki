@@ -668,6 +668,17 @@ this.reaction({
 });
 ```
 
+#### Abilities outside of play
+
+Certain abilities, such as those for The Prince's Plan, can only be activated in non-play locations. Such reactions should be defined by specifying the `location` property with the location from which the ability may be activated. The player can then activate the ability when prompted.
+
+```javascript
+this.reaction({
+    location: 'discard pile',
+    // Implementation for The Prince's Plan
+})
+```
+
 #### When revealed abilities
 
 When implementing plot cards that have a **When Revealed** ability, use the `whenRevealed` method. It will automatically listen to the correct event for you and all that must be provided is a `handler` method.

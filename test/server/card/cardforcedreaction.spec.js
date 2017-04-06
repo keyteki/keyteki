@@ -7,7 +7,7 @@ const Event = require('../../../server/game/event.js');
 describe('CardForcedReaction', function () {
     beforeEach(function () {
         this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'registerAbility']);
-        this.cardSpy = jasmine.createSpyObj('card', ['isBlank']);
+        this.cardSpy = jasmine.createSpyObj('card', ['getType', 'isBlank']);
         this.limitSpy = jasmine.createSpyObj('limit', ['increment', 'isAtMax', 'registerEvents', 'unregisterEvents']);
 
         this.properties = {

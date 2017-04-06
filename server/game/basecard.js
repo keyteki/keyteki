@@ -292,21 +292,24 @@ class BaseCard {
     moveTo(targetLocation) {
         if(LocationsWithEventHandling.includes(targetLocation) && !LocationsWithEventHandling.includes(this.location)) {
             this.events.register(this.eventsForRegistration);
-            _.each(this.abilities.actions, action => {
-                action.registerEvents();
-            });
-            _.each(this.abilities.reactions, reaction => {
-                reaction.registerEvents();
-            });
         } else if(LocationsWithEventHandling.includes(this.location) && !LocationsWithEventHandling.includes(targetLocation)) {
             this.events.unregisterAll();
-            _.each(this.abilities.actions, action => {
-                action.unregisterEvents();
-            });
-            _.each(this.abilities.reactions, reaction => {
-                reaction.unregisterEvents();
-            });
         }
+
+        _.each(this.abilities.actions, action => {
+            if(action.isEventListeningLocation(targetLocation) && !action.isEventListeningLocation(this.location)) {
+                action.registerEvents();
+            } else if(action.isEventListeningLocation(this.location) && !action.isEventListeningLocation(targetLocation)) {
+                action.unregisterEvents();
+            }
+        });
+        _.each(this.abilities.reactions, reaction => {
+            if(reaction.isEventListeningLocation(targetLocation) && !reaction.isEventListeningLocation(this.location)) {
+                reaction.registerEvents();
+            } else if(reaction.isEventListeningLocation(this.location) && !reaction.isEventListeningLocation(targetLocation)) {
+                reaction.unregisterEvents();
+            }
+        });
 
         if(targetLocation !== 'play area') {
             this.facedown = false;
