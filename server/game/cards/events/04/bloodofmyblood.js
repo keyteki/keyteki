@@ -3,33 +3,29 @@ const _ = require('underscore');
 const DrawCard = require('../../../drawcard.js');
 
 class BloodOfMyBlood extends DrawCard {
-    canPlay(player, card) {
-        if(this !== card || player.phase !== 'challenge') {
-            return false;
-        }
+    setupCardAbilities() {
+        this.action({
+            title: 'Search deck for Bloodrider',
+            phase: 'challenge',
+            handler: () => {
+                var bloodRiders = this.controller.searchDrawDeck(card => {
+                    return card.getType() === 'character' && card.hasTrait('Bloodrider');
+                });
 
-        return super.canPlay(player, card);
-    }
+                var buttons = _.map(bloodRiders, card => {
+                    return { text: card.name, method: 'cardSelected', arg: card.uuid, card: card.getSummary(true) };
+                });
+                buttons.push({ text: 'Done', method: 'doneSelecting' });
 
-    play(player) {
-        var bloodRiders = player.searchDrawDeck(card => {
-            return card.getType() === 'character' && card.hasTrait('Bloodrider');
+                this.game.promptWithMenu(this.controller, this, {
+                    activePrompt: {
+                        menuTitle: 'Select a card to put it in play',
+                        buttons: buttons
+                    },
+                    source: this
+                });
+            }
         });
-
-        var buttons = _.map(bloodRiders, card => {
-            return { text: card.name, method: 'cardSelected', arg: card.uuid, card: card.getSummary(true) };
-        });
-        buttons.push({ text: 'Done', method: 'doneSelecting' });
-
-        this.game.promptWithMenu(this.controller, this, {
-            activePrompt: {
-                menuTitle: 'Select a card to put it in play',
-                buttons: buttons
-            },
-            source: this
-        });
-
-        return true;
     }
 
     cardSelected(player, cardId) {

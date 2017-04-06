@@ -1,42 +1,32 @@
 const DrawCard = require('../../../drawcard.js');
 
 class FireAndBlood extends DrawCard {
-    canPlay(player, card) {
-        if(player !== this.controller || this !== card || player.phase !== 'challenge') {
-            return false;
-        }
-
-        return super.canPlay(player, card);
-    }
-
-    play(player) {
-        this.game.promptForSelect(player, {
-            activePromptTitle: 'Select a character',
-            source: this,
-            cardCondition: card => card.location === 'dead pile' && card.isUnique() && card.isFaction('targaryen'),
-            onSelect: (player, card) => this.onCardSelected(player, card)
+    setupCardAbilities() {
+        this.action({
+            title: 'Shuffle card from dead pile back into deck',
+            phase: 'challenge',
+            target: {
+                activePromptTitle: 'Select a character',
+                cardCondition: card => card.controller === this.controller && card.location === 'dead pile' && card.isUnique() && card.isFaction('targaryen')
+            },
+            handler: context => {
+                if(context.target.hasTrait('Hatchling')) {
+                    this.selectedCard = context.target;
+                    this.game.promptWithMenu(context.player, this, {
+                        activePrompt: {
+                            menuTitle: 'Put card into play?',
+                            buttons: [
+                                { text: 'Yes', method: 'putIntoPlay' },
+                                { text: 'No', method: 'shuffle' }
+                            ]
+                        },
+                        source: this
+                    });
+                } else {
+                    this.shuffleCard(context.target);
+                }
+            }
         });
-    }
-
-    onCardSelected(player, card) {
-        this.selectedCard = card;
-
-        if(card.hasTrait('Hatchling')) {
-            this.game.promptWithMenu(player, this, {
-                activePrompt: {
-                    menuTitle: 'Put card into play?',
-                    buttons: [
-                        { text: 'Yes', method: 'putIntoPlay' },
-                        { text: 'No', method: 'shuffle' }
-                    ]
-                },
-                source: this
-            });
-        } else {
-            this.shuffleCard(card);
-        }
-
-        return true;
     }
 
     putIntoPlay(player) {

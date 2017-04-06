@@ -1,45 +1,23 @@
 const DrawCard = require('../../../drawcard.js');
 
 class TakeTheBlack extends DrawCard {
-    canPlay(player, card) {
-        if(player !== this.controller || this !== card) {
-            return false;
-        }
-
-        if(this.game.currentPhase !== 'dominance') {
-            return false;
-        }
-
-        return true;
-    }
-
-    play(player) {
-        if(!this.canPlay(player, this)) {
-            return;
-        }
-
-        this.game.promptForSelect(player, {
-            activePromptTitle: 'Select a character',
-            source: this,
-            cardCondition: card => this.cardCondition(card),
-            onSelect: (player, card) => this.onCardClicked(player, card)
+    setupCardAbilities() {
+        this.action({
+            title: 'Take control of character',
+            phase: 'dominance',
+            target: {
+                activePromptTitle: 'Select a character',
+                cardCondition: card => this.cardCondition(card)
+            },
+            handler: context => {
+                this.game.takeControl(context.player, context.target);
+                this.game.addMessage('{0} uses {1} to take control of {2}', context.player, this, context.target);
+            }
         });
     }
 
     cardCondition(card) {
-        if(card.controller === this.choosingPlayer || card.getType() !== 'character' || card.isUnique() || card.getCost() > 6) {
-            return false;
-        }
-
-        return true;
-    }
-
-    onCardClicked(player, card) {
-        this.game.takeControl(player, card);
-
-        this.game.addMessage('{0} uses {1} to take control of {2}', player, this, card);
-
-        return true;
+        return card.controller !== this.controller && card.getType() === 'character' && card.isUnique() && card.getCost() <= 6;
     }
 }
 

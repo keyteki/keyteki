@@ -3,21 +3,22 @@ const _ = require('underscore');
 const DrawCard = require('../../../drawcard.js');
 
 class TheBearAndTheMaidenFair extends DrawCard {
-    play(player) {
-        if(this.controller !== player) {
-            return;
-        }
+    setupCardAbilities() {
+        this.action({
+            title: 'Look at top 5 cards of a deck',
+            handler: () => {
+                var buttons = _.map(this.game.getPlayers(), player => ({
+                    text: player.name, arg: player.name, method: 'selectPlayer'
+                }));
 
-        var buttons = _.map(this.game.getPlayers(), player => ({
-            text: player.name, arg: player.name, method: 'selectPlayer'
-        }));
-
-        this.game.promptWithMenu(player, this, {
-            activePrompt: {
-                menuTitle: 'Choose a player',
-                buttons: buttons
-            },
-            source: this
+                this.game.promptWithMenu(this.controller, this, {
+                    activePrompt: {
+                        menuTitle: 'Choose a player',
+                        buttons: buttons
+                    },
+                    source: this
+                });
+            }
         });
     }
 

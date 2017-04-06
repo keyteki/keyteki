@@ -1,52 +1,26 @@
 const DrawCard = require('../../../drawcard.js');
 
 class Dracarys extends DrawCard {
-    canPlay(player, card) {
-        if(player !== this.controller || this !== card) {
-            return false;
-        }
-
-        if(!this.game.currentChallenge) {
-            return false;
-        }
-
-        return super.canPlay(player, card);
-    }
-
-    play(player) {
-        this.game.promptForSelect(player, {
-            activePromptTitle: 'Select a character to kneel',
-            source: this,
-            cardCondition: card => card.location === 'play area' && (card.hasTrait('Dragon') || card.name === 'Daenerys Targaryen') && !card.kneeled,
-            onSelect: (player, card) => this.onCardSelected(player, card)
+    setupCardAbilities(ability) {
+        this.action({
+            title: 'Reduce character STR by 4',
+            condition: () => this.game.currentChallenge,
+            cost: ability.costs.kneel(card => card.name === 'Daenerys Targaryen' || card.hasTrait('Dragon')),
+            target: {
+                activePromptTitle: 'Select a character',
+                cardCondition: card => card.location === 'play area' && this.game.currentChallenge.isParticipating(card)
+            },
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to kneel {2} and give {3} -4 STR until the end of the phase', context.player, this, context.kneelingCostCard, context.target);
+                this.untilEndOfPhase(ability => ({
+                    match: context.target,
+                    effect: [
+                        ability.effects.modifyStrength(-4),
+                        ability.effects.killByStrength
+                    ]
+                }));
+            }
         });
-    }
-
-    onCardSelected(player, card) {
-        this.selectedCard = card;
-
-        this.game.promptForSelect(player, {
-            activePromptTitle: 'Select a character',
-            source: this,
-            cardCondition: card => card.location === 'play area' && this.game.currentChallenge.isParticipating(card),
-            onSelect: (player, card) => this.onStrSelected(player, card)
-        });
-
-        return true;
-    }
-
-    onStrSelected(player, card) {
-        this.game.addMessage('{0} uses {1} to kneel {2} and give {3} -4 STR until the end of the phase', player, this, this.selectedCard, card);
-        player.kneelCard(this.selectedCard);
-        this.untilEndOfPhase(ability => ({
-            match: card,
-            effect: [
-                ability.effects.modifyStrength(-4),
-                ability.effects.killByStrength
-            ]
-        }));
-
-        return true;
     }
 }
 
