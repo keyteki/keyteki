@@ -26,6 +26,24 @@ class GameRepository extends BaseRepository {
             }
         });
     }
+
+    getAllGames(from, to, callback) {
+        this.db.collection('games').find({ startedAt: { '$gte': new Date(from + 'T00:00:00.000Z'), '$lt': new Date(to + 'T00:00:00.000Z') } }).toArray((err, games) => {
+            if(err) {
+                logger.error(err);
+
+                if(callback) {
+                    return callback(err);
+                }
+
+                return;
+            }
+
+            if(callback) {
+                return callback(err, games);
+            }
+        });
+    }
 }
 
 module.exports = GameRepository;
