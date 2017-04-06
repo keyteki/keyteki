@@ -19,7 +19,7 @@ console.info('Running stats...');
 
 gameRepository.getAllGames(args[0], args[1], (err, games) => {
     let winners = {};
-    let factionWinners = {};
+    //let factionWinners = {};
 
     _.each(games, game => {
         if(_.size(game.players) !== 2) {
@@ -38,4 +38,4 @@ gameRepository.getAllGames(args[0], args[1], (err, games) => {
     console.info(winners);
 });
 
- 
+
