@@ -26,7 +26,7 @@ class Lobby {
         this.router.on('onWorkerTimedOut', this.onWorkerTimedOut.bind(this));
         this.router.on('onNodeReconnected', this.onNodeReconnected.bind(this));
 
-        this.io = options.io || socketio(server);
+        this.io = options.io || socketio(server, {perMessageDeflate: false});
         this.io.set('heartbeat timeout', 30000);
         this.io.use(this.handshake.bind(this));
         this.io.on('connection', this.onConnection.bind(this));
