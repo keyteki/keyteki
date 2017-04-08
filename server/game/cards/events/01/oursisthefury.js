@@ -1,19 +1,23 @@
-const ChallengeEvent = require('../../challengeevent.js');
+const DrawCard = require('../../../drawcard.js');
 
-class OursIsTheFury extends ChallengeEvent {
+class OursIsTheFury extends DrawCard {
+    setupCardAbilities() {
+        this.action({
+            title: 'Add knelt Baratheon as defender',
+            condition: () => this.game.currentChallenge && this.game.currentChallenge.defendingPlayer === this.controller,
+            target: {
+                activePromptTitle: 'Select character',
+                cardCondition: card => card.kneeled && card.controller === this.controller && card.isFaction('baratheon')
+            },
+            handler: context => {
+                this.selectedCard = context.target;
 
-    constructor(owner, cardData) {
-        super(owner, cardData, null, 'defender');
-    }
+                this.game.currentChallenge.addDefender(context.target);
 
-    play(player) {
-        this.selectedCard = undefined;
+                this.game.addMessage('{0} uses {1} to add {2} to the challenge as a defender', context.player, this, context.target);
 
-        this.game.promptForSelect(player, {
-            activePromptTitle: 'Select character',
-            source: this,
-            cardCondition: card => card.kneeled && card.controller === this.controller && card.isFaction('baratheon'),
-            onSelect: (player, cards) => this.onCardSelected(player, cards)
+                this.game.once('afterChallenge', this.afterChallenge.bind(this));
+            }
         });
     }
 
@@ -29,18 +33,6 @@ class OursIsTheFury extends ChallengeEvent {
         }
 
         this.selectedCard = undefined;
-    }
-
-    onCardSelected(player, card) {
-        this.selectedCard = card;
-
-        this.game.currentChallenge.addDefender(card);
-
-        this.game.addMessage('{0} uses {1} to add {2} to the challenge as a defender', player, this, card);
-
-        this.game.once('afterChallenge', this.afterChallenge.bind(this));
-
-        return true;
     }
 }
 

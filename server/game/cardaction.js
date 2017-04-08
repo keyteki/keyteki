@@ -168,6 +168,10 @@ class CardAction extends BaseAbility {
         this.activationContexts = [];
     }
 
+    isEventListeningLocation(location) {
+        return this.location === location;
+    }
+
     registerEvents() {
         this.events.register(['onBeginRound']);
         if(this.limit) {

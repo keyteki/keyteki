@@ -26,6 +26,8 @@ const TriggeredAbility = require('./triggeredability.js');
  *           are handlers when the player chooses it from the prompt.
  * limit   - optional AbilityLimit object that represents the max number of uses
  *           for the reaction as well as when it resets.
+ * location - string indicating the location the card should be in in order
+ *            to activate the reaction. Defaults to 'play area'.
  */
 class PromptedTriggeredAbility extends TriggeredAbility {
     constructor(game, card, type, properties) {

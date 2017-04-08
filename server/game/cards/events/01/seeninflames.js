@@ -1,43 +1,37 @@
 const DrawCard = require('../../../drawcard.js');
 
 class SeenInFlames extends DrawCard {
-    canPlay(player, card) {
-        var otherPlayer = this.game.getOtherPlayer(player);
-        if(player !== this.controller || this !== card || player.phase !== 'challenge') {
-            return false;
-        }
+    setupCardAbilities() {
+        this.action({
+            title: 'Discard from opponent\'s hand',
+            phase: 'challenge',
+            condition: () => (
+                this.controller.cardsInPlay.any(card => card.hasTrait('R\'hllor')) &&
+                this.opponentHasCards()
+            ),
+            handler: context => {
+                let otherPlayer = this.game.getOtherPlayer(context.player);
+                if(!otherPlayer) {
+                    return;
+                }
 
-        if(otherPlayer && otherPlayer.hand.isEmpty()) {
-            return false;
-        }
-
-        var rhllor = player.cardsInPlay.find(card => {
-            return card.hasTrait('R\'hllor');
+                this.game.promptWithMenu(otherPlayer, this, {
+                    activePrompt: {
+                        menuTitle: 'Resolve ' + this.name + ' and reveal hand to opponent?',
+                        buttons: [
+                            { text: 'Yes', method: 'revealHand' },
+                            { text: 'No', method: 'cancel' }
+                        ]
+                    },
+                    source: this
+                });
+            }
         });
-
-        return !!rhllor;
     }
 
-    play(player) {
-        if(this.controller !== player) {
-            return;
-        }
-
-        var otherPlayer = this.game.getOtherPlayer(player);
-        if(!otherPlayer) {
-            return;
-        }
-
-        this.game.promptWithMenu(otherPlayer, this, {
-            activePrompt: {
-                menuTitle: 'Resolve ' + this.name + ' and reveal hand to opponent?',
-                buttons: [
-                    { text: 'Yes', method: 'revealHand' },
-                    { text: 'No', method: 'cancel' }
-                ]
-            },
-            source: this
-        }); 
+    opponentHasCards() {
+        let otherPlayer = this.game.getOtherPlayer(this.controller);
+        return otherPlayer && !otherPlayer.hand.isEmpty();
     }
 
     revealHand() {

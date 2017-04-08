@@ -1,30 +1,31 @@
 const DrawCard = require('../../../drawcard.js');
 
 class AryasGift extends DrawCard {
-    play() {
-        this.game.promptForSelect(this.controller, {
-            cardCondition: card => card.getType && card.getType() === 'attachment' && card.parent &&
-                card.parent.isFaction('stark') && card.parent.controller === this.controller,
-            activePromptTitle: 'Select attachment to move from Stark character',
-            waitingPromptTitle: 'Waiting for opponent to move attachment',
-            onSelect: (player, card) => this.onCardSelected(player, card)
+    setupCardAbilities() {
+        this.action({
+            title: 'Move attachment',
+            target: {
+                activePromptTitle: 'Select attachment to move from Stark character',
+                cardCondition: card => card.getType && card.getType() === 'attachment' && card.parent &&
+                    card.parent.isFaction('stark') && card.parent.controller === this.controller
+            },
+            handler: context => {
+                let player = context.player;
+                let attachment = context.target;
+                let oldOwner = attachment.parent;
+
+                player.moveCard(attachment, 'play area');
+
+                this.game.promptForSelect(this.controller, {
+                    cardCondition: card => card.getType() === 'character' && card.controller === this.controller &&
+                        card !== oldOwner && attachment.canAttach(this.controller, card) && card.location === 'play area',
+                    activePromptTitle: 'Select another character for attachment',
+                    waitingPromptTitle: 'Waiting for opponent to move attachment',
+                    onSelect: (player, card) => this.moveAttachment(player, card, attachment, oldOwner)
+                });
+
+            }
         });
-    }
-
-    onCardSelected(player, attachment) {
-        var oldOwner = attachment.parent;
-
-        player.moveCard(attachment, 'play area');
-
-        this.game.promptForSelect(this.controller, {
-            cardCondition: card => card.getType() === 'character' && card.controller === this.controller &&
-                card !== oldOwner && attachment.canAttach(this.controller, card) && card.location === 'play area',
-            activePromptTitle: 'Select another character for attachment',
-            waitingPromptTitle: 'Waiting for opponent to move attachment',
-            onSelect: (player, card) => this.moveAttachment(player, card, attachment, oldOwner)
-        });
-
-        return true;
     }
 
     moveAttachment(player, newOwner, attachment, oldOwner) {

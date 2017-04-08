@@ -3,37 +3,27 @@ const _ = require('underscore');
 const DrawCard = require('../../../drawcard.js');
 
 class ARoseOfGold extends DrawCard {
-    canPlay(player, card) {
-        if(player !== this.controller || this !== card) {
-            return false;
-        }
+    setupCardAbilities() {
+        this.action({
+            title: 'Look at top 3 cards of deck',
+            phase: 'challenge',
+            handler: () => {
+                this.game.addMessage('{0} uses {1} to look at the top 3 cards of their deck', this.controller, this);
 
-        if(this.game.currentPhase !== 'challenge') {
-            return false;
-        }
+                this.remainingCards = this.controller.searchDrawDeck(3);
 
-        return super.canPlay(player, card);
-    }
+                var buttons = _.map(this.remainingCards, card => ({
+                    text: card.name, method: 'selectCardForHand', arg: card.uuid, card: card.getSummary(true)
+                }));
 
-    play(player) {
-        if(this.controller !== player) {
-            return;
-        }
-
-        this.game.addMessage('{0} uses {1} to look at the top 3 cards of their deck', player, this);
-
-        this.remainingCards = this.controller.searchDrawDeck(3);
-
-        var buttons = _.map(this.remainingCards, card => ({
-            text: card.name, method: 'selectCardForHand', arg: card.uuid, card: card.getSummary(true)
-        }));
-
-        this.game.promptWithMenu(this.controller, this, {
-            activePrompt: {
-                menuTitle: 'Choose a card to add to your hand',
-                buttons: buttons
-            },
-            source: this
+                this.game.promptWithMenu(this.controller, this, {
+                    activePrompt: {
+                        menuTitle: 'Choose a card to add to your hand',
+                        buttons: buttons
+                    },
+                    source: this
+                });
+            }
         });
     }
 
