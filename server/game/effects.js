@@ -427,6 +427,16 @@ const Effects = {
             }
         };
     },
+    cannotBeKilled: function() {
+        return {
+            apply: function(card) {
+                card.cannotBeKilled = true;
+            },
+            unapply: function(card) {
+                card.cannotBeKilled = false;
+            }
+        };
+    },
     modifyChallengeTypeLimit: function(challengeType, value) {
         return {
             apply: function(player) {

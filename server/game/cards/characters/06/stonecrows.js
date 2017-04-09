@@ -15,6 +15,7 @@ class StoneCrows extends DrawCard {
                 this.game.promptForSelect(otherPlayer, {
                     cardCondition: card => (
                         this.game.currentChallenge.isDefending(card) &&
+                        card.canBeKilled() &&
                         card.getType() === 'character'),
                     activePromptTitle: 'Select character to kill',
                     source: this,

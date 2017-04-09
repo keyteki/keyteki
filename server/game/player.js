@@ -792,7 +792,10 @@ class Player extends Spectator {
             return;
         }
 
-        if(!character.dupes.isEmpty() && allowSave) {
+        if(!character.canBeKilled()) {
+            this.game.addMessage('{0} controlled by {1} cannot be killed',
+                                 character, this);
+        } else if(!character.dupes.isEmpty() && allowSave) {
             if(!this.removeDuplicate(character)) {
                 this.moveCard(card, 'dead pile');
             } else {

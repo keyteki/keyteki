@@ -52,6 +52,7 @@ class DrawCard extends BaseCard {
                 defender: false
             }
         };
+        this.cannotBeKilled = false;
     }
 
     addDuplicate(card) {
@@ -287,6 +288,10 @@ class DrawCard extends BaseCard {
             (!this.kneeled || this.challengeOptions.canBeDeclaredWhileKneeling) &&
             (this.hasIcon(challengeType) || this.challengeOptions.canBeDeclaredWithoutIcon)
         );
+    }
+
+    canBeKilled() {
+        return !this.cannotBeKilled;
     }
 
     getSummary(isActivePlayer, hideWhenFaceup) {

@@ -15,7 +15,11 @@ class FulfillMilitaryClaim extends BaseStep {
             numCards: this.claim,
             activePromptTitle: promptMessage,
             waitingPromptTitle: 'Waiting for opponent to fulfill military claim',
-            cardCondition: card => card.location === 'play area' && card.controller === this.player && card.getType() === 'character',
+            cardCondition: card =>
+                card.location === 'play area'
+                && card.controller === this.player
+                && card.getType() === 'character'
+                && card.canBeKilled(),
             onSelect: (p, cards) => this.fulfillClaim(p, cards),
             onCancel: () => this.cancelClaim()
         });

@@ -20,7 +20,12 @@ class ShaggaSonOfDolf extends DrawCard {
             },
             target: {
                 activePromptTitle: 'Select a character to kill',
-                cardCondition: card => card.location === 'play area' && card.controller === this.controller && card.isFaction('lannister') && card.getType() === 'character'
+                cardCondition: card =>
+                    card.location === 'play area'
+                    && card.controller === this.controller
+                    && card.isFaction('lannister')
+                    && card.getType() === 'character'
+                    && card.canBeKilled()
             },
             handler: context => {
                 this.game.addMessage('{0} is forced by {1} to kill a character', this.controller, this);
