@@ -18,6 +18,10 @@ class OfferOfAPeach extends DrawCard {
             }
         });
     }
+
+    cardCondition(card) {
+        return card.location === 'play area' && this.game.currentChallenge.isAttacking(card);
+    }
 }
 
 OfferOfAPeach.code = '04084';
