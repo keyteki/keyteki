@@ -35,40 +35,47 @@ class PlotPhase extends Phase {
     }
 
     determineInitiative() {
-        var initiativeWinner = undefined;
-        var highestInitiative = -1;
-        var lowestPower = -1;
+        let result = this.getInitiativeResult();
+        let initiativeWinner = result.player;
 
-        _.each(this.game.getPlayers(), p => {
-            var playerInitiative = p.getTotalInitiative();
-            var playerPower = p.getTotalPower();
+        if(!initiativeWinner) {
+            return false;
+        }
 
-            if(playerInitiative === highestInitiative) {
-                if(playerPower === lowestPower) {
-                    var randomNumber = _.random(0, 1);
-                    if(randomNumber === 0) {
-                        highestInitiative = playerInitiative;
-                        lowestPower = playerPower;
-                        initiativeWinner = p;
-                    }
-                }
-
-                if(playerPower < lowestPower) {
-                    highestInitiative = playerInitiative;
-                    lowestPower = playerPower;
-                    initiativeWinner = p;
-                }
-            }
-
-            if(playerInitiative > highestInitiative) {
-                highestInitiative = playerInitiative;
-                lowestPower = playerPower;
-                initiativeWinner = p;
-            }
-        });
+        if(result.powerTied) {
+            this.game.addMessage('{0} was randomly selected to win initiative because both initiative values and power were tied', initiativeWinner);
+        } else if(result.initiativeTied) {
+            this.game.addMessage('{0} won initiative because initiative values were tied but {0} had the lowest power', initiativeWinner);
+        } else {
+            this.game.addMessage('{0} won initiative', initiativeWinner);
+        }
 
         this.initiativeWinner = initiativeWinner;
         this.game.raiseEvent('onInitiativeDetermined', initiativeWinner);
+    }
+
+    getInitiativeResult(sampleFunc = _.sample) {
+        let result = { initiativeTied: false, powerTied: false, player: undefined };
+        let playerInitiatives = _.map(this.game.getPlayers(), player => {
+            return { player: player, initiative: player.getTotalInitiative(), power: player.getTotalPower() };
+        });
+        let highestInitiative = _.max(_.pluck(playerInitiatives, 'initiative'));
+        let potentialWinners = _.filter(playerInitiatives, p => p.initiative === highestInitiative);
+
+        result.initiativeTied = potentialWinners.length > 1;
+
+        if(result.initiativeTied) {
+            let lowestPower = _.min(_.pluck(potentialWinners, 'power'));
+            potentialWinners = _.filter(potentialWinners, p => p.power === lowestPower);
+        }
+
+        result.powerTied = potentialWinners.length > 1;
+
+        if(potentialWinners.length > 0) {
+            result.player = sampleFunc(potentialWinners).player;
+        }
+
+        return result;
     }
 
     getPlayersWithRevealEffects() {
