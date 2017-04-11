@@ -31,7 +31,7 @@ module.exports.init = function(server) {
                         return next(err);
                     }
 
-                    req.login(user, function(err) {
+                    req.login(req.body, function(err) {
                         if(err) {
                             res.send({ success: false, message: 'An error occured registering your account' });
 
