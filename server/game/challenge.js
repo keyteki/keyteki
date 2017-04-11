@@ -120,7 +120,9 @@ class Challenge {
 
         this.calculateStrength();
 
-        if(this.hasNoWinnerOrLoser()) {
+        let result = this.checkNoWinnerOrLoser();
+        if(result.noWinner) {
+            this.noWinnerMessage = result.message;
             this.loser = undefined;
             this.winner = undefined;
             this.loserStrength = this.winnerStrength = 0;
@@ -146,14 +148,34 @@ class Challenge {
         this.strengthDifference = this.winnerStrength - this.loserStrength;
     }
 
-    hasNoWinnerOrLoser() {
-        return (
-            this.attackerStrength === 0 && this.defenderStrength === 0 ||
-            this.attackerStrength >= this.defenderStrength && this.attackingPlayer.cannotWinChallenge ||
-            this.attackerStrength >= this.defenderStrength && this.attackers.length === 0 ||
-            this.defenderStrength > this.attackerStrength && this.defendingPlayer.cannotWinChallenge ||
-            this.defenderStrength > this.attackerStrength && this.defenders.length === 0
-        );
+    checkNoWinnerOrLoser() {
+        const noWinnerRules = [
+            {
+                condition: () => this.attackerStrength === 0 && this.defenderStrength === 0,
+                message: 'There is no winner or loser for this challenge because the attacker strength is 0'
+            },
+            {
+                condition: () => this.attackerStrength >= this.defenderStrength && this.attackingPlayer.cannotWinChallenge,
+                message: 'There is no winner or loser for this challenge because the attacker cannot win'
+            },
+            {
+                condition: () => this.attackerStrength >= this.defenderStrength && this.attackers.length === 0,
+                message: 'There is no winner or loser for this challenge because the attacker has no participants'
+            },
+            {
+                condition: () => this.defenderStrength > this.attackerStrength && this.defendingPlayer.cannotWinChallenge,
+                message: 'There is no winner or loser for this challenge because the defender cannot win'
+            },
+            {
+                condition: () => this.defenderStrength > this.attackerStrength && this.defenders.length === 0,
+                message: 'There is no winner or loser for this challenge because the defender has no participants'
+            }
+        ];
+
+        return _.chain(noWinnerRules)
+            .map(rule => ({ noWinner: !!rule.condition(), message: rule.message }))
+            .find(match => match.noWinner)
+            .value() || { noWinner: false };
     }
 
     isAttackerTheWinner() {
