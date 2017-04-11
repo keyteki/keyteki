@@ -131,6 +131,8 @@ module.exports.init = function(server) {
 
                             return next(err);
                         }
+
+                        res.send({ success: true });
                     });
                 });
             });
