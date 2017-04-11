@@ -64,6 +64,10 @@ class TriggeredAbility extends BaseAbility {
             return false;
         }
 
+        if(this.card.location !== this.location) {
+            return false;
+        }
+
         if(!this.canPayCosts(context) || !this.canResolveTargets(context)) {
             return false;
         }

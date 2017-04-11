@@ -8,6 +8,7 @@ describe('CardReaction', function () {
     beforeEach(function () {
         this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'registerAbility']);
         this.cardSpy = jasmine.createSpyObj('card', ['getType', 'isBlank']);
+        this.cardSpy.location = 'play area';
         this.limitSpy = jasmine.createSpyObj('limit', ['increment', 'isAtMax', 'registerEvents', 'unregisterEvents']);
 
         this.properties = {
@@ -96,6 +97,17 @@ describe('CardReaction', function () {
         describe('when the when condition returns false', function() {
             beforeEach(function() {
                 this.properties.when.onSomething.and.returnValue(false);
+                this.executeEventHandler(1, 2, 3);
+            });
+
+            it('should not register the ability', function() {
+                expect(this.gameSpy.registerAbility).not.toHaveBeenCalled();
+            });
+        });
+
+        describe('when the card is not in the proper location', function() {
+            beforeEach(function() {
+                this.cardSpy.location = 'foo';
                 this.executeEventHandler(1, 2, 3);
             });
 
