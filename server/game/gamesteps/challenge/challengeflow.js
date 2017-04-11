@@ -15,7 +15,6 @@ class ChallengeFlow extends BaseStep {
             new SimpleStep(this.game, () => this.resetCards()),
             new SimpleStep(this.game, () => this.announceChallenge()),
             new SimpleStep(this.game, () => this.promptForAttackers()),
-            () => new ChooseStealthTargets(this.game, this.challenge, this.challenge.getStealthAttackers()),
             new SimpleStep(this.game, () => this.announceAttackerStrength()),
             new ActionWindow(this.game, 'After attackers declared'),
             new SimpleStep(this.game, () => this.promptForDefenders()),
@@ -60,6 +59,8 @@ class ChallengeFlow extends BaseStep {
 
     chooseAttackers(player, attackers) {
         this.challenge.addAttackers(attackers);
+
+        this.game.queueStep(new ChooseStealthTargets(this.game, this.challenge, this.challenge.getStealthAttackers()));
 
         this.game.raiseEvent('onChallenge', this.challenge, () => {
             this.challenge.initiateChallenge();
