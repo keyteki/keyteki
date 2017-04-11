@@ -9,6 +9,11 @@ class ApplyClaim extends BaseStep {
 
     continue() {
         this.game.raiseEvent('onClaimApplied', this.challenge, () => {
+            if(this.challenge.claim === 0) {
+                this.game.addMessage('The claim value for {0} is 0', this.challenge.challengeType);
+                return;
+            }
+
             switch(this.challenge.challengeType) {
                 case 'military':
                     this.game.addMessage('{0} claim is applied.  {1} must kill {2} character{3}', this.challenge.challengeType, this.challenge.loser, this.challenge.claim,
