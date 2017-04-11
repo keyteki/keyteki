@@ -109,7 +109,7 @@ module.exports.init = function(server) {
                 return next();
             }
 
-            bcrypt.hash(req.body.password, 10, function(err, hash) {
+            bcrypt.hash(req.body.newPassword, 10, function(err, hash) {
                 if(err) {
                     logger.error(err);
 
