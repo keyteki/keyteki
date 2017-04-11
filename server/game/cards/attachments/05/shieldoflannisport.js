@@ -18,7 +18,7 @@ class ShieldOfLannisport extends DrawCard {
         return !this.controller.cardsInPlay.any(card => (
             card !== this.parent &&
             (card.hasTrait('Lord') || card.hasTrait('Lady')) &&
-            card.getCost() < 4
+            card.getCost() >= 4
         ));
     }
 }
