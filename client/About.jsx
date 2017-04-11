@@ -6,6 +6,7 @@ class About extends React.Component {
     render() {
         return (
             <div>
+                <a className='btn btn-danger btn-lg pull-right' href='https://github.com/cryogen/throneteki/issues'>Report Problems</a>
                 <h2>Help and Information</h2>
                 <h3>What is this?</h3>
                 <p>This site was setup to allow you to play A Game Of Thrones 2.0, an LCG from Fantasy Flight Games (FFG) in your browser.</p>
