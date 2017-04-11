@@ -1080,7 +1080,7 @@ class Player extends Spectator {
             plotDeck: this.getSummaryForCardList(this.plotDeck, isActivePlayer, true),
             plotDiscard: this.getSummaryForCardList(this.plotDiscard, isActivePlayer),
             plotSelected: !!this.selectedPlot,
-            promptTitle: this.promptTitle,
+            promptTitle: isActivePlayer ? this.promptTitle : undefined,
             reserve: this.getTotalReserve(),
             selectCard: this.selectCard,
             totalPower: this.getTotalPower(),
