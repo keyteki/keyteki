@@ -4,12 +4,15 @@ import $ from 'jquery';
 import 'jquery-migrate';
 import 'jquery-nearest';
 
+import CardMenu from './CardMenu.jsx';
+
 class Card extends React.Component {
     constructor() {
         super();
 
         this.onMouseOver = this.onMouseOver.bind(this);
         this.onMouseOut = this.onMouseOut.bind(this);
+        this.onMenuItemClick = this.onMenuItemClick.bind(this);
 
         this.state = {
             showMenu: false
@@ -52,6 +55,7 @@ class Card extends React.Component {
                 return comp;
             }
         }
+        
         return null;
     }
 
@@ -219,21 +223,16 @@ class Card extends React.Component {
         return dupes;
     }
 
-    getMenu() {
+    showMenu() {
         if(!this.isAllowedMenuSource()) {
-            return null;
+            return false;
         }
 
-        var menuIndex = 0;
-        var menuItems = this.props.card.menu && this.state.showMenu ? _.map(this.props.card.menu, menuItem => {
-            return <div key={menuIndex++} onClick={this.onMenuItemClick.bind(this, menuItem)}>{menuItem.text}</div>;
-        }) : null;
+        if(!this.props.card.menu || !this.state.showMenu) {
+            return false;
+        }
 
-        return menuItems && menuItems.length !== 0 ? (
-            <div className='panel menu'>
-                {menuItems}
-            </div>
-        ) : null;
+        return true;
     }
 
     isFacedown() {
@@ -296,7 +295,7 @@ class Card extends React.Component {
                         </div>
                         {this.getCounters()}
                     </div>
-                    {this.getMenu()}
+                    { this.showMenu() ? <CardMenu menu={ this.props.card.menu } onMenuItemClick={ this.onMenuItemClick } /> : null }
                 </div>);
     }
 
