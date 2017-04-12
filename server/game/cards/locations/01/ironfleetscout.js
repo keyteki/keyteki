@@ -3,7 +3,7 @@ const DrawCard = require('../../../drawcard.js');
 class IronFleetScout extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
-            title: 'Kneel this card to give a character +1 STR',
+            title: 'Kneel this card to give a character STR',
             cost: ability.costs.kneelSelf(),
             condition: () => this.game.currentChallenge,
             method: 'kneel'
