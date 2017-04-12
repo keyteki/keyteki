@@ -100,6 +100,32 @@ class GamePipeline {
         }
         return true;
     }
+
+    getDebugInfo() {
+        return {
+            pipeline: _.map(this.pipeline, step => this.getDebugInfoForStep(step)),
+            queue: _.map(this.queue, step => this.getDebugInfoForStep(step))
+        };
+    }
+
+    getDebugInfoForStep(step) {
+        let name = step.constructor.name;
+        if(step.pipeline) {
+            let result = {};
+            result[name] = step.pipeline.getDebugInfo();
+            return result;
+        }
+
+        if(step.getDebugInfo) {
+            return step.getDebugInfo();
+        }
+
+        if(_.isFunction(step)) {
+            return step.toString();
+        }
+
+        return name;
+    }
 }
 
 module.exports = GamePipeline;

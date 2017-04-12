@@ -13,6 +13,10 @@ class BaseStep {
     onMenuCommand() {
         return false;
     }
+
+    getDebugInfo() {
+        return this.constructor.name;
+    }
 }
 
 module.exports = BaseStep;

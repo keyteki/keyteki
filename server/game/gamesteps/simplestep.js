@@ -9,6 +9,10 @@ class SimpleStep extends BaseStep {
     continue() {
         return this.continueFunc();
     }
+
+    getDebugInfo() {
+        return { SimpleStep: this.continueFunc.toString() };
+    }
 }
 
 module.exports = SimpleStep;
