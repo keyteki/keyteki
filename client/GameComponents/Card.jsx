@@ -18,6 +18,17 @@ class Card extends React.Component {
         this.state = {
             showMenu: false
         };
+
+        this.shortNames = {
+            stand: 'T',
+            poison: 'P',
+            gold: 'G',
+            valarmorghulis: 'V',
+            betrayal: 'B',
+            vengeance: 'N',
+            ear: 'E',
+            venom: 'M'
+        };
     }
 
     onMouseOver(card) {
@@ -121,9 +132,9 @@ class Card extends React.Component {
     getCountersForCard(card) {
         var counters = {};
 
-        counters['card-power'] = { count: card.power, fade: card.type === 'attachment' } || undefined;
-        counters['strength'] = card.baseStrength !== card.strength ? { count: card.strength, fade: card.type === 'attachment' } : undefined;
-        counters['dupe'] = card.dupes && card.dupes.length > 0 ? { count: card.dupes.length, fade: card.type === 'attachment' } : undefined;
+        counters['card-power'] = { count: card.power, fade: card.type === 'attachment', shortName: 'P' } || undefined;
+        counters['strength'] = card.baseStrength !== card.strength ? { count: card.strength, fade: card.type === 'attachment', shortName: 'S' } : undefined;
+        counters['dupe'] = card.dupes && card.dupes.length > 0 ? { count: card.dupes.length, fade: card.type === 'attachment', shortName: 'D' } : undefined;
 
         _.map(card.iconsAdded, icon => {
             counters[icon] = { count: 0, cancel: false, displayIfNoCount: true };
@@ -134,7 +145,7 @@ class Card extends React.Component {
         });
 
         _.each(card.tokens, (token, key) => {
-            counters[key] = { count: token, fade: card.type === 'attachment' };
+            counters[key] = { count: token, fade: card.type === 'attachment', shortName: this.shortNames[key] };
         });
 
         _.each(this.props.card.attachments, attachment => {

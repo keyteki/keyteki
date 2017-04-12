@@ -2,7 +2,7 @@ import React from 'react';
 
 class Counter extends React.Component {
     render() {
-        if((!this.props.count || this.props.count === 0) && !this.props.displayIfNoCount) {
+        if((!this.props.value || this.props.value === 0) && !this.props.displayIfNoCount) {
             return null;
         }
 
@@ -13,7 +13,8 @@ class Counter extends React.Component {
         }
         
         return (<div key={ this.props.name } className={ className }>
-            <span>{ this.props.count }</span>
+            { this.props.shortName ? <span>{ this.props.shortName }</span> : null }
+            <span>{ this.props.value }</span>
         </div>);
     }
 }
@@ -21,10 +22,11 @@ class Counter extends React.Component {
 Counter.displayName = 'Counter';
 Counter.propTypes = {
     cancel: React.PropTypes.bool,
-    count: React.PropTypes.number,
     displayIfNoCount: React.PropTypes.bool,
     fade: React.PropTypes.bool,
-    name: React.PropTypes.string.isRequired
+    name: React.PropTypes.string.isRequired,
+    shortName: React.PropTypes.string,
+    value: React.PropTypes.number
 };
 
 export default Counter;
