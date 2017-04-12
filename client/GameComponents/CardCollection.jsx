@@ -116,8 +116,10 @@ class CardCollection extends React.Component {
             popupClass += ' our-side';
         }
 
+        let linkIndex = 0;
+
         var popupMenu = this.props.popupMenu ? (<div>{_.map(this.props.popupMenu, menuItem => {
-            return <a onClick={() => this.onPopupMenuItemClick(menuItem)}>{menuItem.text}</a>;
+            return <a key={ linkIndex++ } onClick={() => this.onPopupMenuItemClick(menuItem)}>{menuItem.text}</a>;
         })}</div>) : (
             <div>
                 <a onClick={this.onCollectionClick}>Close</a>

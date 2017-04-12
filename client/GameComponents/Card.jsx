@@ -148,7 +148,7 @@ class Card extends React.Component {
             counters[key] = { count: token, fade: card.type === 'attachment', shortName: this.shortNames[key] };
         });
 
-        _.each(this.props.card.attachments, attachment => {
+        _.each(card.attachments, attachment => {
             _.extend(counters, this.getCountersForCard(attachment));
         });        
 
@@ -225,7 +225,7 @@ class Card extends React.Component {
             return false;
         }
 
-        if(this.props.card.facedown) {
+        if(this.props.card.facedown || this.props.card.type === 'attachment') {
             return false;
         }
 

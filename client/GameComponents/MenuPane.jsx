@@ -69,7 +69,7 @@ MenuPane.propTypes = {
     onButtonClick: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
-    promptTitle: React.PropTypes.object,
+    promptTitle: React.PropTypes.string,
     socket: React.PropTypes.object,
     title: React.PropTypes.string
 };

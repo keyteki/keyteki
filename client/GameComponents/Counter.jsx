@@ -11,6 +11,10 @@ class Counter extends React.Component {
         if(this.props.cancel) {
             className += ' cancel';
         }
+
+        if(this.props.fade) {
+            className += ' fade-out';
+        }
         
         return (<div key={ this.props.name } className={ className }>
             { this.props.shortName ? <span>{ this.props.shortName }</span> : null }
