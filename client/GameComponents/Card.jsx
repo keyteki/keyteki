@@ -21,7 +21,7 @@ class Card extends React.Component {
 
         this.shortNames = {
             stand: 'T',
-            poison: 'P',
+            poison: 'O',
             gold: 'G',
             valarmorghulis: 'V',
             betrayal: 'B',

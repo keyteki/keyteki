@@ -214,8 +214,8 @@ describe('the <Card /> component', function() {
         it('should render the power counters', function() {
             var counter = TestUtils.findRenderedDOMComponentWithClass(this.component, 'counter');
 
-            expect(counter.innerText).toBe(this.card.power.toString());
-            expect(counter.className).toBe('counter power');
+            expect(counter.innerText).toBe('P' + this.card.power.toString());
+            expect(counter.className).toBe('counter card-power');
         });
     });
 
@@ -250,7 +250,7 @@ describe('the <Card /> component', function() {
         it('should render a counter for its current strength', function() {
             var counter = TestUtils.findRenderedDOMComponentWithClass(this.component, 'counter');
 
-            expect(counter.innerText).toBe(this.card.strength.toString());
+            expect(counter.innerText).toBe('S' + this.card.strength.toString());
             expect(counter.className).toBe('counter strength');
         });
     });
@@ -269,7 +269,7 @@ describe('the <Card /> component', function() {
         it('should render a counter for the dupes', function() {
             var counter = TestUtils.findRenderedDOMComponentWithClass(this.component, 'counter');
 
-            expect(counter.innerText).toBe('2');
+            expect(counter.innerText).toBe('D2');
             expect(counter.className).toBe('counter dupe');
         });
     });
@@ -288,7 +288,7 @@ describe('the <Card /> component', function() {
         it('should render the tokens', function() {
             var counter = TestUtils.findRenderedDOMComponentWithClass(this.component, 'counter');
 
-            expect(counter.innerText).toBe('1');
+            expect(counter.innerText).toBe('O1');
             expect(counter.className).toBe('counter poison');
         });
     });
@@ -313,11 +313,11 @@ describe('the <Card /> component', function() {
 
             expect(counters.length).toBe(3);
 
-            expect(counters[0].innerText).toBe(this.card.power.toString());
-            expect(counters[0].className).toBe('counter power');
-            expect(counters[1].innerText).toBe(this.card.dupes.length.toString());
+            expect(counters[0].innerText).toBe('P' + this.card.power.toString());
+            expect(counters[0].className).toBe('counter card-power');
+            expect(counters[1].innerText).toBe('D' + this.card.dupes.length.toString());
             expect(counters[1].className).toBe('counter dupe');
-            expect(counters[2].innerText).toBe(this.card.tokens.poison.toString());
+            expect(counters[2].innerText).toBe('O' + this.card.tokens.poison.toString());
             expect(counters[2].className).toBe('counter poison');
         });
     });
