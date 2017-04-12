@@ -24,10 +24,20 @@ class InnerGameLobby extends React.Component {
         if(!props.currentGame) {
             this.props.setContextMenu([]);
         }
+
+        if(props.username) {
+            this.setState({ errorMessage: undefined });
+        }
     }
 
     onNewGameClick(event) {
         event.preventDefault();
+
+        if(!this.props.username) {
+            this.setState({ errorMessage: 'Please login before trying to start a new game' });
+
+            return;
+        }
 
         this.props.startNewGame();
     }
@@ -39,16 +49,17 @@ class InnerGameLobby extends React.Component {
     render() {
         return (
             <div>
-                { this.props.bannerNotice ? <div className='alert alert-danger'>{this.props.bannerNotice}</div> : null }
+                { this.props.bannerNotice ? <div className='alert alert-danger'>{ this.props.bannerNotice }</div> : null }
+                { this.state.errorMessage ? <div className='alert alert-danger'>{ this.state.errorMessage }</div> : null }
 
                 <div className='col-sm-7'>
-                    <button className='btn btn-primary' onClick={this.onNewGameClick} disabled={!!this.props.currentGame}>New Game</button>
-                    {this.props.isAdmin ? <span className='pull-right'><input type='checkbox' checked={this.state.showNodes} onChange={this.onShowNodesChecked} />Show Nodes</span> : null}
-                    {this.props.games.length === 0 ? <h4>No games are currently in progress</h4> : <GameList games={this.props.games} showNodes={this.state.showNodes} />}
+                    <button className='btn btn-primary' onClick={ this.onNewGameClick } disabled={ !!this.props.currentGame }>New Game</button>
+                    { this.props.isAdmin ? <span className='pull-right'><input type='checkbox' checked={ this.state.showNodes } onChange={ this.onShowNodesChecked } />Show Nodes</span> : null }
+                    { this.props.games.length === 0 ? <h4>No games are currently in progress</h4> : <GameList games={ this.props.games } showNodes={ this.state.showNodes } /> }
                 </div>
                 <div className='col-sm-5'>
-                    {(!this.props.currentGame && this.props.newGame) ? <NewGame defaultGameName={this.props.username + '\'s game'} /> : null}
-                    {this.props.currentGame ? <PendingGame /> : null}
+                    { (!this.props.currentGame && this.props.newGame) ? <NewGame defaultGameName={ this.props.username + '\'s game' } /> : null }
+                    { this.props.currentGame ? <PendingGame /> : null }
                 </div>
             </div>);
     }
