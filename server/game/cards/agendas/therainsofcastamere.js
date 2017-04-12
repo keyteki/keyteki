@@ -13,7 +13,7 @@ class TheRainsOfCastamere extends AgendaCard {
         this.registerEvents(['onDecksPrepared', 'onPlotFlip:forcedinterrupt']);
     }
 
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             when: {
                 afterChallenge: (event, challenge) => (
@@ -23,16 +23,24 @@ class TheRainsOfCastamere extends AgendaCard {
                     challenge.strengthDifference >= 5
                 )
             },
-            handler: () => {
-                this.game.promptWithMenu(this.owner, this, {
-                    activePrompt: {
-                        menuTitle: 'Trigger Scheme plot?',
-                        buttons: this.menuButtons()
-                    },
-                    source: this
-                });
-            }
+            handler: this.trigger.bind(this)
         });
+
+        this.action({
+            title: 'Manually trigger',
+            method: 'trigger',
+            cost: ability.costs.kneelFactionCard()
+        });
+    }
+
+    trigger() {
+        this.game.promptWithMenu(this.owner, this, {
+            activePrompt: {
+                menuTitle: 'Trigger Scheme plot?',
+                buttons: this.menuButtons()
+            },
+            source: this
+        });        
     }
 
     onDecksPrepared() {
