@@ -191,12 +191,66 @@
   text-shadow: 1px 1px 2px #000;
   border-radius: 4px;
   color: white;
-}
 
-@dupe-color: rgba(0,128,0,0.85);
-@power-color: rgba(0,0,128,0.85);
-@strength-color: rgba(128,0,0,0.85);
-@venom-color: rgba(29, 145, 163, 0.85);
+  &.intrigue {
+    span {
+      display: none;
+    }
+
+    font-family: 'thronesdb';
+
+    &:before {
+      content: "\e602";
+      color: @intrigue-icon-color;
+    }
+
+    background-color: rgba(0, 0, 0, 0.85);
+  }
+
+  &.military {
+    span {
+      display: none;
+    }
+
+    font-family: 'thronesdb';
+
+    &:before {
+      content: "\e605";
+      color: @military-icon-color;
+    }
+
+    background-color: rgba(0, 0, 0, 0.85);
+  }
+
+  &.power {
+    span {
+      display: none;
+    }
+
+    font-family: 'thronesdb';
+
+    &:before {
+      content: "\e607";
+      color: @power-icon-color;
+    }
+
+    background-color: rgba(0, 0, 0, 0.85);
+  }  
+
+  &.cancel {
+    position: relative;
+
+    &:after {
+      border-bottom: 0.17em solid @brand-danger;
+      content: "";
+      left: 0;
+      margin-top: calc(0.17em / 2 * -1);
+      position: absolute;
+      right: 0;
+      top: 50%;
+    }
+  }
+}
 
 .dupe {
   background-color: @dupe-color;
@@ -206,7 +260,7 @@
   background-color: fade(@dupe-color, 50%);
 }
 
-.power {
+.card-power {
   background-color: @power-color;
 }
 
@@ -252,96 +306,6 @@
 
 .attachment-venom {
   background-color: fade(@venom-color, 50%);
-}
-
-.newintrigue {
-  span {
-    display: none;
-  }
-
-  font-family: 'thronesdb';
-
-  &:before {
-    content: "\e602";
-    color: #159e40;
-  }
-
-  background-color: rgba(0, 0, 0, 0.85);
-}
-
-.newmilitary {
-  span {
-    display: none;
-  }
-
-  font-family: 'thronesdb';
-
-  &:before {
-    content: "\e605";
-    color: #159e40;
-  }
-
-  background-color: rgba(0, 0, 0, 0.85);
-}
-
-.newpower {
-  span {
-    display: none;
-  }
-
-  font-family: 'thronesdb';
-
-  &:before {
-    content: "\e607";
-    color: #159e40;
-  }
-
-  background-color: rgba(0, 0, 0, 0.85);
-}
-
-.nointrigue {
-  span {
-    display: none;
-  }
-
-  font-family: 'thronesdb';
-
-  &:before {
-    content: "\e602";
-    color: #fa050c;
-  }
-
-  background-color: rgba(0, 0, 0, 0.85);
-}
-
-.nomilitary {
-  span {
-    display: none;
-  }
-
-  font-family: 'thronesdb';
-
-  &:before {
-    content: "\e605";
-    color: #fa050c;
-  }
-
-  background-color: rgba(0, 0, 0, 0.85);
-}
-
-.nopower {
-  span {
-    display: none;
-  }
-
-  font-family: 'thronesdb';
-
-  &:before {
-    content: "\e607";
-    color: #fa050c;
-  }
-
-  background-color: rgba(0, 0, 0, 0.85);
 }
 
 .plot-selected {

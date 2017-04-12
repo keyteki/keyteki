@@ -5,6 +5,7 @@ import 'jquery-migrate';
 import 'jquery-nearest';
 
 import CardMenu from './CardMenu.jsx';
+import CardCounters from './CardCounters.jsx';
 
 class Card extends React.Component {
     constructor() {
@@ -120,58 +121,31 @@ class Card extends React.Component {
     getCountersForCard(card) {
         var counters = {};
 
-        counters[card.type === 'attachment' ? 'attachment-power' : 'power'] = card.power || undefined;
-        counters[card.type === 'attachment' ? 'attachment-strength' : 'strength'] = card.baseStrength !== card.strength ? card.strength : undefined;
-        counters[card.type === 'attachment' ? 'attachment-dupe' : 'dupe'] = card.dupes && card.dupes.length > 0 ? card.dupes.length : undefined;
+        counters['card-power'] = { count: card.power, fade: card.type === 'attachment' } || undefined;
+        counters['strength'] = card.baseStrength !== card.strength ? { count: card.strength, fade: card.type === 'attachment' } : undefined;
+        counters['dupe'] = card.dupes && card.dupes.length > 0 ? { count: card.dupes.length, fade: card.type === 'attachment' } : undefined;
 
         _.map(card.iconsAdded, icon => {
-            counters['new' + icon] = 0;
+            counters[icon] = { count: 0, cancel: false, displayIfNoCount: true };
         });
 
         _.map(card.iconsRemoved, icon => {
-            counters['no' + icon] = 0;
+            counters[icon] = { count: 0, cancel: true, displayIfNoCount: true };
         });
 
         _.each(card.tokens, (token, key) => {
-            counters[card.type === 'attachment' ? 'attachment-' + key : key] = token;
+            counters[key] = { count: token, fade: card.type === 'attachment' };
         });
+
+        _.each(this.props.card.attachments, attachment => {
+            _.extend(counters, this.getCountersForCard(attachment));
+        });        
 
         var filteredCounters = _.omit(counters, counter => {
             return _.isUndefined(counter) || _.isNull(counter) || counter < 0;
         });
 
         return filteredCounters;
-    }
-
-    getCounters() {
-        var countersClass = 'counters ignore-mouse-events';
-
-        if(this.props.source !== 'play area' && this.props.source !== 'faction' && this.props.source !== 'revealed plots') {
-            return null;
-        }
-
-        if(this.props.card.facedown) {
-            return null;
-        }
-
-        var counters = this.getCountersForCard(this.props.card);
-
-        _.each(this.props.card.attachments, attachment => {
-            _.extend(counters, this.getCountersForCard(attachment));
-        });
-
-        var counterDivs = _.map(counters, (counterValue, key) => {
-            return <div key={key} className={'counter ' + key}><span>{counterValue}</span></div>;
-        });
-
-        if(counters.length > 3) {
-            countersClass += ' many-counters';
-        }
-
-        return counterDivs.length !== 0 ? (
-            <div className={countersClass}>
-                {counterDivs}
-            </div>) : null;
     }
 
     getAttachments() {
@@ -229,6 +203,18 @@ class Card extends React.Component {
         }
 
         if(!this.props.card.menu || !this.state.showMenu) {
+            return false;
+        }
+
+        return true;
+    }
+
+    showCounters() {
+        if(this.props.source !== 'play area' && this.props.source !== 'faction' && this.props.source !== 'revealed plots') {
+            return false;
+        }
+
+        if(this.props.card.facedown) {
             return false;
         }
 
@@ -293,7 +279,7 @@ class Card extends React.Component {
                             <span className='card-name'>{this.props.card.name}</span>
                             <img className={imageClass} src={'/img/cards/' + (!this.isFacedown() ? (this.props.card.code + '.png') : 'cardback.jpg')} />
                         </div>
-                        {this.getCounters()}
+                        { this.showCounters() ? <CardCounters counters={ this.getCountersForCard(this.props.card) } /> : null }
                     </div>
                     { this.showMenu() ? <CardMenu menu={ this.props.card.menu } onMenuItemClick={ this.onMenuItemClick } /> : null }
                 </div>);
