@@ -67,7 +67,7 @@ class Card extends React.Component {
                 return comp;
             }
         }
-        
+
         return null;
     }
 
@@ -132,7 +132,7 @@ class Card extends React.Component {
     getCountersForCard(card) {
         var counters = {};
 
-        counters['card-power'] = { count: card.power, fade: card.type === 'attachment', shortName: 'P' } || undefined;
+        counters['card-power'] = card.power ? { count: card.power, fade: card.type === 'attachment', shortName: 'P' } : undefined;
         counters['strength'] = card.baseStrength !== card.strength ? { count: card.strength, fade: card.type === 'attachment', shortName: 'S' } : undefined;
         counters['dupe'] = card.dupes && card.dupes.length > 0 ? { count: card.dupes.length, fade: card.type === 'attachment', shortName: 'D' } : undefined;
 
@@ -150,7 +150,7 @@ class Card extends React.Component {
 
         _.each(card.attachments, attachment => {
             _.extend(counters, this.getCountersForCard(attachment));
-        });        
+        });
 
         var filteredCounters = _.omit(counters, counter => {
             return _.isUndefined(counter) || _.isNull(counter) || counter < 0;
