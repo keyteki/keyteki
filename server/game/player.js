@@ -477,6 +477,12 @@ class Player extends Spectator {
         this.selectedPlot.play();
         this.moveCard(this.selectedPlot, 'active plot');
 
+        this.game.raiseEvent('onCardEntersPlay', this.activePlot);
+
+        this.selectedPlot = undefined;
+    }
+
+    recyclePlots() {
         if(this.plotDeck.isEmpty()) {
             this.plotDiscard.each(plot => {
                 this.moveCard(plot, 'plot deck');
@@ -484,10 +490,6 @@ class Player extends Spectator {
 
             this.game.raiseEvent('onPlotsRecycled', this);
         }
-
-        this.game.raiseEvent('onCardEntersPlay', this.activePlot);
-
-        this.selectedPlot = undefined;
     }
 
     removeActivePlot(targetLocation) {

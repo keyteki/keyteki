@@ -5,26 +5,26 @@ const _ = require('underscore');
 const Player = require('../../../server/game/player.js');
 
 describe('Player', function() {
+    beforeEach(function() {
+        this.gameSpy = jasmine.createSpyObj('game', ['on', 'getOtherPlayer', 'raiseEvent', 'playerDecked']);
+
+        this.player = new Player('1', 'Player 1', true, this.gameSpy);
+        this.player.initialise();
+
+        this.selectedPlotSpy = jasmine.createSpyObj('plot', ['flipFaceup', 'moveTo', 'play']);
+        this.selectedPlotSpy.uuid = '111';
+        this.selectedPlotSpy.location = 'plot deck';
+        this.selectedPlotSpy.controller = this.player;
+        this.anotherPlotSpy = jasmine.createSpyObj('plot', ['flipFaceup', 'moveTo', 'play']);
+        this.anotherPlotSpy.uuid = '222';
+        this.anotherPlotSpy.location = 'plot deck';
+        this.anotherPlotSpy.controller = this.player;
+
+        this.player.selectedPlot = this.selectedPlotSpy;
+        this.player.plotDeck = _([this.selectedPlotSpy, this.anotherPlotSpy]);
+    });
+
     describe('flipPlotFaceup()', function() {
-        beforeEach(function() {
-            this.gameSpy = jasmine.createSpyObj('game', ['on', 'getOtherPlayer', 'raiseEvent', 'playerDecked']);
-
-            this.player = new Player('1', 'Player 1', true, this.gameSpy);
-            this.player.initialise();
-
-            this.selectedPlotSpy = jasmine.createSpyObj('plot', ['flipFaceup', 'moveTo', 'play']);
-            this.selectedPlotSpy.uuid = '111';
-            this.selectedPlotSpy.location = 'plot deck';
-            this.selectedPlotSpy.controller = this.player;
-            this.anotherPlotSpy = jasmine.createSpyObj('plot', ['flipFaceup', 'moveTo', 'play']);
-            this.anotherPlotSpy.uuid = '222';
-            this.anotherPlotSpy.location = 'plot deck';
-            this.anotherPlotSpy.controller = this.player;
-
-            this.player.selectedPlot = this.selectedPlotSpy;
-            this.player.plotDeck = _([this.selectedPlotSpy, this.anotherPlotSpy]);
-        });
-
         describe('on any flip', function() {
             beforeEach(function() {
                 this.player.flipPlotFaceup();
@@ -75,14 +75,17 @@ describe('Player', function() {
                 expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onCardLeftPlay', this.player, this.activePlotSpy);
             });
         });
+    });
 
-        describe('when the selected plot is the last', function() {
+    describe('recyclePlots()', function() {
+        describe('when there are no plots left', function() {
             beforeEach(function() {
-                this.player.plotDeck = _([this.selectedPlotSpy]);
+                this.player.activePlot = this.selectedPlot;
+                this.player.plotDeck = _([]);
                 this.player.plotDiscard = _([this.anotherPlotSpy]);
                 this.anotherPlotSpy.location = 'revealed plots';
 
-                this.player.flipPlotFaceup();
+                this.player.recyclePlots();
             });
 
             it('should move the contents of the used plots pile back to the plots pile', function() {
@@ -94,6 +97,22 @@ describe('Player', function() {
             it('should not move the just revealed plot to any of the piles', function() {
                 expect(this.player.plotDeck).not.toContain(this.selectedPlotSpy);
                 expect(this.player.plotDiscard).not.toContain(this.selectedPlotSpy);
+            });
+        });
+
+        describe('when there are plots left', function() {
+            beforeEach(function() {
+                this.player.plotDeck = _([this.selectedPlot]);
+                this.player.plotDiscard = _([this.anotherPlotSpy]);
+                this.anotherPlotSpy.location = 'revealed plots';
+
+                this.player.recyclePlots();
+            });
+
+            it('should not move the contents of the used plots pile back to the plots pile', function() {
+                expect(this.anotherPlotSpy.moveTo).not.toHaveBeenCalledWith('plot deck');
+                expect(this.player.plotDeck).not.toContain(this.anotherPlotSpy);
+                expect(this.player.plotDiscard).toContain(this.anotherPlotSpy);
             });
         });
     });
