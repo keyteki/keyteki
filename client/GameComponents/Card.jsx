@@ -137,11 +137,11 @@ class Card extends React.Component {
         counters['dupe'] = card.dupes && card.dupes.length > 0 ? { count: card.dupes.length, fade: card.type === 'attachment', shortName: 'D' } : undefined;
 
         _.map(card.iconsAdded, icon => {
-            counters[icon] = { count: 0, cancel: false, displayIfNoCount: true };
+            counters[icon] = { count: 0, cancel: false };
         });
 
         _.map(card.iconsRemoved, icon => {
-            counters[icon] = { count: 0, cancel: true, displayIfNoCount: true };
+            counters[icon] = { count: 0, cancel: true };
         });
 
         _.each(card.tokens, (token, key) => {
