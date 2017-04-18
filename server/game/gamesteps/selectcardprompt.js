@@ -17,6 +17,9 @@ const UiPrompt = require('./uiprompt.js');
  *                      opponent players.
  * cardCondition      - a function that takes a card and should return a boolean
  *                      on whether that card is elligible to be selected.
+ * cardType           - a string or array of strings listing which types of
+ *                      cards can be selected. Defaults to the list of draw
+ *                      card types.
  * onSelect           - a callback that is called once all cards have been
  *                      selected. On single card prompts this is called as soon
  *                      as an elligible card is clicked. On multi-select prompts
@@ -41,6 +44,9 @@ class SelectCardPrompt extends UiPrompt {
 
         this.properties = properties;
         _.defaults(this.properties, this.defaultProperties());
+        if(!_.isArray(this.properties.cardType)) {
+            this.properties.cardType = [this.properties.cardType];
+        }
         this.selectedCards = [];
         this.savePreviouslySelectedCards();
     }
@@ -50,6 +56,7 @@ class SelectCardPrompt extends UiPrompt {
             numCards: 1,
             additionalButtons: [],
             cardCondition: () => true,
+            cardType: ['attachment', 'character', 'event', 'location'],
             onSelect: () => true,
             onMenuCommand: () => true,
             onCancel: () => true
@@ -81,7 +88,7 @@ class SelectCardPrompt extends UiPrompt {
 
     highlightSelectableCards() {
         this.game.allCards.each(card => {
-            if(['character', 'attachment', 'location', 'event'].includes(card.getType())) {
+            if(this.properties.cardType.includes(card.getType())) {
                 card.selectable = !!this.properties.cardCondition(card);
             }
         });
@@ -115,7 +122,7 @@ class SelectCardPrompt extends UiPrompt {
             return false;
         }
 
-        if(!this.properties.cardCondition(card)) {
+        if(!this.checkCardCondition(card)) {
             return false;
         }
 
@@ -126,6 +133,10 @@ class SelectCardPrompt extends UiPrompt {
         if(this.properties.numCards === 1 && this.selectedCards.length === 1 && !this.properties.multiSelect) {
             this.fireOnSelect();
         }
+    }
+
+    checkCardCondition(card) {
+        return this.properties.cardType.includes(card.getType()) && this.properties.cardCondition(card);
     }
 
     selectCard(card) {

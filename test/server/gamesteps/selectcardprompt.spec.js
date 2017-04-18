@@ -5,18 +5,25 @@ const _ = require('underscore');
 const SelectCardPrompt = require('../../../server/game/gamesteps/selectcardprompt.js');
 
 describe('the SelectCardPrompt', function() {
+    function createCardSpy(properties = {}) {
+        let card = jasmine.createSpyObj('card', ['getType']);
+        card.getType.and.returnValue('character');
+        _.extend(card, properties);
+        return card;
+    }
+
     beforeEach(function() {
         this.game = jasmine.createSpyObj('game', ['getPlayers']);
 
         this.player = jasmine.createSpyObj('player1', ['setPrompt', 'cancelPrompt']);
         this.player.cardsInPlay = _([]);
         this.otherPlayer = jasmine.createSpyObj('player2', ['setPrompt', 'cancelPrompt']);
+        this.card = createCardSpy({ controller: this.player });
 
-        this.card = { controller: this.player };
 
         this.player.cardsInPlay.push(this.card);
 
-        this.previousCard = { selected: true, controller: this.player };
+        this.previousCard = createCardSpy({ selected: true, controller: this.player });
         this.game.allCards = _([this.previousCard]);
 
         this.properties = {
@@ -39,6 +46,27 @@ describe('the SelectCardPrompt', function() {
         spyOn(this.properties, 'onCancel');
     });
 
+    describe('constructor', function() {
+        describe('cardType', function() {
+            it('should default to a list of draw card types', function() {
+                let prompt = new SelectCardPrompt(this.game, this.player, this.properties);
+                expect(prompt.properties.cardType).toEqual(['attachment', 'character', 'event', 'location']);
+            });
+
+            it('should let a custom array be set', function() {
+                this.properties.cardType = ['foo'];
+                let prompt = new SelectCardPrompt(this.game, this.player, this.properties);
+                expect(prompt.properties.cardType).toEqual(['foo']);
+            });
+
+            it('should let a non-array be set', function() {
+                this.properties.cardType = 'foo';
+                let prompt = new SelectCardPrompt(this.game, this.player, this.properties);
+                expect(prompt.properties.cardType).toEqual(['foo']);
+            });
+        });
+    });
+
     describe('for a single card prompt', function() {
         beforeEach(function() {
             this.properties.numCards = 1;
@@ -59,6 +87,18 @@ describe('the SelectCardPrompt', function() {
             describe('when the card does not match the allowed condition', function() {
                 beforeEach(function() {
                     this.properties.cardCondition.and.returnValue(false);
+                });
+
+                it('should return false', function() {
+                    expect(this.prompt.onCardClicked(this.player, this.card)).toBe(false);
+                });
+            });
+
+            describe('when the card is not of the correct type', function() {
+                beforeEach(function() {
+                    this.properties.cardCondition.and.returnValue(true);
+                    this.card.getType.and.returnValue('character');
+                    this.prompt.properties.cardType = ['event'];
                 });
 
                 it('should return false', function() {
@@ -189,7 +229,7 @@ describe('the SelectCardPrompt', function() {
 
     describe('for a multiple card prompt', function() {
         beforeEach(function() {
-            this.card2 = {};
+            this.card2 = createCardSpy();
             this.properties.numCards = 2;
             this.prompt = new SelectCardPrompt(this.game, this.player, this.properties);
         });
@@ -280,7 +320,7 @@ describe('the SelectCardPrompt', function() {
                     this.properties.cardCondition.and.returnValue(true);
                     this.prompt.onCardClicked(this.player, this.card);
                     this.prompt.onCardClicked(this.player, this.card2);
-                    this.card3 = { controller: this.player };
+                    this.card3 = createCardSpy({ controller: this.player });
                 });
 
                 it('should select the card', function() {
@@ -294,7 +334,7 @@ describe('the SelectCardPrompt', function() {
                     this.properties.cardCondition.and.returnValue(true);
                     this.prompt.onCardClicked(this.player, this.card);
                     this.prompt.onCardClicked(this.player, this.card2);
-                    this.card3 = {};
+                    this.card3 = createCardSpy();
                 });
 
                 it('should not select the card', function() {
@@ -405,8 +445,8 @@ describe('the SelectCardPrompt', function() {
 
     describe('multiple prompts', function() {
         beforeEach(function() {
-            this.card2 = { controller: this.player };
-            this.card3 = { controller: this.player };
+            this.card2 = createCardSpy({ controller: this.player });
+            this.card3 = createCardSpy({ controller: this.player });
             this.game.allCards = _([this.card, this.card2, this.card3]);
             this.properties = {
                 cardCondition: () => true,

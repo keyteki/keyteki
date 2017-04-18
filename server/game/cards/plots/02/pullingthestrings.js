@@ -10,6 +10,7 @@ class PullingTheStrings extends PlotCard {
 
                 this.game.promptForSelect(this.controller, {
                     cardCondition: card => this.cardCondition(card),
+                    cardType: 'plot',
                     activePromptTitle: 'Select a plot',
                     source: this,
                     onSelect: (player, card) => this.onCardSelected(player, card)
@@ -19,7 +20,7 @@ class PullingTheStrings extends PlotCard {
     }
 
     cardCondition(card) {
-        return card.getType() === 'plot' && card.location === 'revealed plots' && card.controller !== this.controller && (card.hasTrait('Edict') || card.hasTrait('Kingdom') || card.hasTrait('Scheme'));
+        return card.location === 'revealed plots' && card.controller !== this.controller && (card.hasTrait('Edict') || card.hasTrait('Kingdom') || card.hasTrait('Scheme'));
     }
 
     onCardSelected(player, card) {
