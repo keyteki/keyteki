@@ -62,6 +62,10 @@ class INeverBetAgainstMyFamily extends DrawCard {
     }
 
     promptToPlaceNextCard() {
+        if(this.remainingCards.length === 0) {
+            return true;
+        }
+
         var buttons = _.map(this.remainingCards, card => ({
             text: card.name, method: 'selectCardForBottom', arg: card.uuid, card: card.getSummary(true)
         }));
