@@ -172,7 +172,7 @@ describe('The Rains of Castamere', function() {
             });
 
             it('should not reveal a plot', function() {
-                expect(this.gameSpy.raiseEvent).not.toHaveBeenCalledWith('onPlotRevealed', jasmine.any(Object));
+                expect(this.gameSpy.raiseEvent).not.toHaveBeenCalledWith('onPlotRevealed', jasmine.any(Object), jasmine.any(Object));
             });
 
             it('should return false', function() {
@@ -201,7 +201,7 @@ describe('The Rains of Castamere', function() {
                 });
 
                 it('should reveal the plot', function() {
-                    expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onPlotRevealed', this.player);
+                    expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onPlotRevealed', this.player, this.scheme1);
                 });
 
                 it('should return true', function() {
@@ -229,7 +229,7 @@ describe('The Rains of Castamere', function() {
                 });
 
                 it('should reveal the plot', function() {
-                    expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onPlotRevealed', this.player);
+                    expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onPlotRevealed', this.player, this.scheme1);
                 });
 
                 it('should return true', function() {
@@ -261,7 +261,7 @@ describe('The Rains of Castamere', function() {
                 });
 
                 it('should reveal the plot', function() {
-                    expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onPlotRevealed', this.player);
+                    expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onPlotRevealed', this.player, this.scheme1);
                 });
 
                 it('should return true', function() {

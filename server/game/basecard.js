@@ -175,7 +175,7 @@ class BaseCard {
     whenRevealed(properties) {
         var whenClause = {
             when: {
-                onPlotRevealed: (e, player) => player === this.controller
+                onPlotRevealed: (e, player, plot) => plot === this
             }
         };
         this.forcedInterrupt(_.extend(whenClause, properties));

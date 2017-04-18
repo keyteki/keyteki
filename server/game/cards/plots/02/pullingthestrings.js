@@ -29,11 +29,9 @@ class PullingTheStrings extends PlotCard {
 
         this.game.addMessage('{0} uses {1} to initiate the when resolved effect of {2}', player, this, card);
         card.controller = player;
-        this.controller = null;
-        this.game.raiseEvent('onPlotRevealed', player, () => {
+        this.game.raiseEvent('onPlotRevealed', player, card, () => {
             card.controller = card.owner;
             card.moveTo('revealed plots');
-            this.controller = player;
 
             this.resolving = false;
         });

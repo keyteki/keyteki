@@ -15,7 +15,7 @@ class ResolvePlots extends BaseStep {
         }
 
         _.each(this.playersWithRevealEffects, player => {
-            this.game.raiseEvent('onPlotRevealed', player);
+            this.game.raiseEvent('onPlotRevealed', player, player.activePlot);
         });
 
         return true;
@@ -41,7 +41,7 @@ class ResolvePlots extends BaseStep {
         }
 
         this.playersWithRevealEffects = _.reject(this.playersWithRevealEffects, p => p === player);
-        this.game.raiseEvent('onPlotRevealed', player);
+        this.game.raiseEvent('onPlotRevealed', player, player.activePlot);
 
         return true;
     }

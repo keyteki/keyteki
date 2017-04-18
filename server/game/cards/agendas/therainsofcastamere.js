@@ -91,7 +91,7 @@ class TheRainsOfCastamere extends AgendaCard {
 
         player.selectedPlot = scheme;
         player.flipPlotFaceup();
-        this.game.raiseEvent('onPlotRevealed', player);
+        this.game.raiseEvent('onPlotRevealed', player, scheme);
 
         player.kneelCard(player.faction);
 
