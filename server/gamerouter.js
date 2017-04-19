@@ -144,9 +144,9 @@ class GameRouter extends EventEmitter {
             case 'PONG':
                 if(worker) {
                     worker.pingSent = undefined;
+                } else {
+                    logger.error('PONG received for unknown worker');
                 }
-
-                logger.error('PONG received for unknown worker');
                 break;
             case 'GAMEWIN':
                 this.gameRepository.update(message.arg.game);
