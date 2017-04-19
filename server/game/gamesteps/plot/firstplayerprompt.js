@@ -14,14 +14,18 @@ class FirstPlayerPrompt extends UIPrompt {
     }
 
     activePrompt() {
-        var players = [this.player].concat(_.reject(this.game.getPlayers(), p => p === this.player));
-
         return {
             menuTitle: 'Select first player',
-            buttons: _.map(players, player => {
+            buttons: _.map(this.getFirstPlayerChoices(), player => {
                 return { text: player.name, arg: player.name };
             })
         };
+    }
+
+    getFirstPlayerChoices() {
+        let opponents = _.reject(this.game.getPlayers(), player => player === this.player);
+        let firstPlayerChoices = [this.player].concat(opponents);
+        return _.filter(firstPlayerChoices, player => this.player.canSelectAsFirstPlayer(player));
     }
 
     onMenuCommand(player, playerName) {

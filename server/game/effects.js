@@ -514,6 +514,16 @@ const Effects = {
             }
         };
     },
+    canSelectAsFirstPlayer: function(condition) {
+        return {
+            apply: function(player) {
+                player.firstPlayerSelectCondition = condition;
+            },
+            unapply: function(player) {
+                player.firstPlayerSelectCondition = null;
+            }
+        };
+    },
     reduceCost: function(properties) {
         return {
             apply: function(player, context) {

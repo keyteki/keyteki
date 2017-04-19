@@ -245,6 +245,14 @@ class Player extends Spectator {
         return !this.challenges.isAtMax(challengeType);
     }
 
+    canSelectAsFirstPlayer(player) {
+        if(this.firstPlayerSelectCondition) {
+            return this.firstPlayerSelectCondition(player);
+        }
+
+        return true;
+    }
+
     addChallenge(type, number) {
         this.challenges.modifyMaxForType(type, number);
     }
