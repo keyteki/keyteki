@@ -1,6 +1,7 @@
-const logger = require('../log.js');
+const _ = require('underscore');
 
 const BaseRepository = require('./baseRepository.js');
+const logger = require('../log.js');
 
 class GameRepository extends BaseRepository {
     create(game) {
@@ -28,7 +29,7 @@ class GameRepository extends BaseRepository {
     }
 
     getAllGames(from, to, callback) {
-        this.db.collection('games').find({ startedAt: { '$gte': new Date(from + 'T00:00:00.000Z'), '$lt': new Date(to + 'T00:00:00.000Z') } }).toArray((err, games) => {
+        this.db.collection('games').find().toArray((err, games) => {
             if(err) {
                 logger.error(err);
 
@@ -40,6 +41,10 @@ class GameRepository extends BaseRepository {
             }
 
             if(callback) {
+                games = _.filter(games, game => {
+                    return game.startedAt >= from && game.startedAt < to;
+                });
+
                 return callback(err, games);
             }
         });
