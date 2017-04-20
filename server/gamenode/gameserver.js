@@ -49,9 +49,10 @@ class GameServer {
 
         server.listen(process.env.PORT || config.socketioPort);
 
-        this.io = socketio(server);
+        this.io = socketio(server, { perMessageDeflate: false });
         this.io.set('heartbeat timeout', 30000);
         this.io.use(this.handshake.bind(this));
+
         if(process.env.NODE_ENV === 'production') {
             this.io.set('origins', 'http://www.throneteki.net:* https://www.throneteki.net:* http://www.theironthrone.net:* https://www.theironthrone.net:*');
         }
