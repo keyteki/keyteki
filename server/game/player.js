@@ -112,6 +112,10 @@ class Player extends Spectator {
         return cardsToReturn;
     }
 
+    anyCardsInPlay(predicate) {
+        return this.cardsInPlay.any(predicate);
+    }
+
     isCardInMarshalLocation(card) {
         return _.any(this.marshalLocations, location => location.contains(card));
     }
