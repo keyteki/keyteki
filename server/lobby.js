@@ -361,7 +361,7 @@ class Lobby {
 
             if(game.started) {
                 this.router.addSpectator(game, socket.user);
-                socket.send('handoff', { address: game.node.address, port: game.node.port, protocol: game.node.protocol });
+                socket.send('handoff', { address: game.node.address, port: game.node.port, protocol: game.node.protocol, name: game.node.identity });
             } else {
                 this.sendGameState(game);
             }
