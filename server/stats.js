@@ -25,7 +25,7 @@ gameRepository.getAllGames(args[0], args[1], (err, games) => {
     let players = {};
     let factions = {};
     let factionAgendas = {};
-    
+
     _.each(games, game => {
         if(_.size(game.players) !== 2) {
             rejected.singlePlayer++;
@@ -49,7 +49,7 @@ gameRepository.getAllGames(args[0], args[1], (err, games) => {
             }
 
             if(!factionAgendas[player.faction + player.agenda]) {
-                factionAgendas[player.faction + player.agenda] = { name: player.faction + ' ' + player.agenda, wins: 0, losses: 0 };
+                factionAgendas[player.faction + player.agenda] = { name: player.faction + ' / ' + player.agenda, wins: 0, losses: 0 };
             }
 
             var playerStat = players[player.name];
@@ -82,9 +82,9 @@ gameRepository.getAllGames(args[0], args[1], (err, games) => {
         return -player.winRate;
     }).first(10).value();
 
-    let factionWinners = _.sortBy(factions, faction => {
-        return -faction.wins;
-    });
+    // let factionWinners = _.sortBy(factions, faction => {
+    //     return -faction.wins;
+    // });
 
     let factionWinRates = _.map(factions, faction => {
         let games = faction.wins + faction.losses;
@@ -110,12 +110,29 @@ gameRepository.getAllGames(args[0], args[1], (err, games) => {
         return - faction.winRate;
     }).first(10).value();
 
-    console.info(winners);
-    console.info(winRateStats);
-    console.info(factionWinners);
-    console.info(factionWinRateStats);
-    console.info(factionAgendaWinners);
-    console.info(factionAgendaWinRateStats);
+    console.info('### Top 10\n\nName | Number of wins\n----|----------------');
+
+    _.each(winners, winner => {
+        console.info(winner.name, ' | ', winner.wins);
+    });
+
+    console.info('### Top 10 by winrate\n\nName | Number of wins | Number of losses | Win Rate\n----|-------------|------------------|--------');
+
+    _.each(winRateStats, winner => {
+        console.info(winner.name, ' | ', winner.wins, ' | ', winner.losses, ' | ', winner.winRate + '%');
+    });
+
+    console.info('### Faction win rates\n\nFaction | Number of wins | Number of losses | Win Rate\n----|-------------|------------------|--------');
+
+    _.each(factionWinRateStats, winner => {
+        console.info(winner.name, ' | ', winner.wins, ' | ', winner.losses, ' | ', winner.winRate + '%');
+    });
+
+    console.info('### Faction/Agenda combination win rates\n\nFaction/Agenda | Number of wins | Number of losses | Win Rate\n----|-------------|------------------|--------');
+
+    _.each(factionAgendaWinRateStats, winner => {
+        console.info(winner.name, ' | ', winner.wins, ' | ', winner.losses, ' | ', winner.winRate + '%');
+    });
 
     console.info(rejected);
 });
