@@ -113,7 +113,7 @@ class App extends React.Component {
             this.props.gameSocketConnecting(url);
 
             var gameSocket = io.connect(url, {
-                resource: server.name + '/socket.io',
+                path: server.name + '/socket.io',
                 reconnection: true,
                 reconnectionDelay: 1000,
                 reconnectionDelayMax : 5000,
