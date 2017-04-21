@@ -239,7 +239,7 @@ class Lobby {
 
         var game = this.findGameForUser(socket.user.username);
         if(game && game.started) {
-            socket.send('handoff', { address: game.node.address, port: game.node.port, protocol: game.node.protocol });
+            socket.send('handoff', { address: game.node.address, port: game.node.port, protocol: game.node.protocol, name: game.node.identity });
         }
     }
 

@@ -109,7 +109,7 @@ class App extends React.Component {
         });
 
         socket.on('handoff', server => {
-            var url = server.protocol + '://' + server.address + ':' + server.port;
+            var url = '//' + server.address + '/' + server.identity;
             this.props.gameSocketConnecting(url);
 
             var gameSocket = io.connect(url, {
