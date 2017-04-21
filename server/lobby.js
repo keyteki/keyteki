@@ -342,7 +342,7 @@ class Lobby {
 
         this.broadcastGameList();
 
-        this.io.to(game.id).emit('handoff', { address: gameNode.address, port: gameNode.port, protocol: game.node.protocol });
+        this.io.to(game.id).emit('handoff', { address: gameNode.address, port: gameNode.port, protocol: game.node.protocol, name: game.node.identity });
     }
 
     onWatchGame(socket, gameId) {
