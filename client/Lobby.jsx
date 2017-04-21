@@ -101,6 +101,9 @@ class InnerLobby extends React.Component {
         return (
             <div>
                 { this.props.bannerNotice ? <div className='alert alert-danger'>{this.props.bannerNotice}</div> : null }
+                <div className='alert alert-success'>
+                    <a href='https://gist.github.com/cryogen/6f8accf082546c2e523bf1a4737def37#file-3-ironthrone-report-mar-md'>March Report</a> is now live!
+                </div>
                 <div className='alert alert-info'>
                 {this.props.newsLoading ? <div>News loading...</div> : null}
                 <News news={this.props.news} />
