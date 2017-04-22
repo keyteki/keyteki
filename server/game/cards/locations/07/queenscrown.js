@@ -79,6 +79,10 @@ class Queenscrown extends DrawCard {
     placeCardOnBottom(player, cardId) {
         let card = _.find(this.remainingCards, card => card.uuid === cardId);
 
+        if(!card) {
+            return false;
+        }
+
         card.controller.moveCard(card, 'draw deck', { bottom: true });
         this.remainingCards = _.reject(this.remainingCards, c => c === card);
         this.promptToPlaceOnBottom();
