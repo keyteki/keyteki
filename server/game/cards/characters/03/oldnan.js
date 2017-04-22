@@ -6,12 +6,12 @@ class OldNan extends DrawCard {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onPlotFlip: () => true
+                onPlotsRevealed: () => true
             },
             cost: ability.costs.kneelSelf(),
-            handler: () => {
-                var buttons = _.map(this.game.getPlayers(), player => {
-                    return { text: player.selectedPlot.name, method: 'plotSelected', arg: player.selectedPlot.uuid };
+            handler: context => {
+                let buttons = _.map(context.event.plots, plot => {
+                    return { text: plot.name, method: 'plotSelected', arg: plot.uuid };
                 });
 
                 this.game.promptWithMenu(this.controller, this, {

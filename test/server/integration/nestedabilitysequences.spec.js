@@ -32,7 +32,7 @@ describe('nested ability sequences', function() {
             this.selectFirstPlayer(this.player1);
 
             // Resolve plot order
-            this.player1.clickPrompt('player1');
+            this.selectPlotOrder(this.player1);
 
 
             this.player1.clickCard(this.steward1);

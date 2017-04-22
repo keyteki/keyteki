@@ -170,17 +170,6 @@ class BaseCard {
         this.abilities.reactions.push(reaction);
     }
 
-    // TODO: When revealed abilities shouldn't be a synonym for forced reactions
-    //       but it is probably close enough for now.
-    whenRevealed(properties) {
-        var whenClause = {
-            when: {
-                onPlotRevealed: (e, player, plot) => plot === this
-            }
-        };
-        this.forcedInterrupt(_.extend(whenClause, properties));
-    }
-
     /**
      * Defines a special play action that can occur when the card is outside the
      * play area (e.g. Lady-in-Waiting's dupe marshal ability)

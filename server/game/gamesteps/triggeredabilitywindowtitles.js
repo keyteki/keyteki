@@ -11,7 +11,8 @@ const AbilityTypeToWord = {
     interrupt: 'interrupt',
     reaction: 'reaction',
     forcedreaction: 'forced reaction',
-    forcedinterrupt: 'forced interrupt'
+    forcedinterrupt: 'forced interrupt',
+    whenrevealed: 'when revealed'
 };
 
 const AbilityWindowTitles = {
@@ -19,7 +20,7 @@ const AbilityWindowTitles = {
         let abilityWord = AbilityTypeToWord[abilityType] || abilityType;
         let titleFunc = EventToTitleFunc[event.name];
 
-        if(['forcedreaction', 'forcedinterrupt'].includes(abilityType)) {
+        if(['forcedreaction', 'forcedinterrupt', 'whenrevealed'].includes(abilityType)) {
             if(titleFunc) {
                 return 'Choose ' + abilityWord + ' order for ' + titleFunc(event);
             }

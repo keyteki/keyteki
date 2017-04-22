@@ -25,7 +25,7 @@ describe('reducer cards', function() {
             this.selectFirstPlayer(this.player1);
 
             // Resolve plot order
-            this.player1.clickPrompt('player1');
+            this.selectPlotOrder(this.player1);
         });
 
         it('should allow reducers to activate', function() {

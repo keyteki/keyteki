@@ -24,7 +24,7 @@ describe('Power Behind the Throne', function() {
             this.selectFirstPlayer(this.player1);
 
             // Resolve plot order
-            this.player1.clickPrompt('player1');
+            this.selectPlotOrder(this.player1);
 
             // Manually kneel Cersei
             this.player1.clickCard(this.cersei);

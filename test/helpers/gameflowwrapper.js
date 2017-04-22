@@ -100,8 +100,9 @@ class GameFlowWrapper {
     }
 
     selectPlotOrder(player) {
-        var promptedPlayer = this.getPromptedPlayer('Select a player to resolve their plot effects');
-        promptedPlayer.clickPrompt(player.name);
+        let promptedPlayer = this.getPromptedPlayer('Choose when revealed order');
+        let buttonText = player.name + ' - ' + player.activePlot.name;
+        promptedPlayer.clickPrompt(buttonText);
     }
 
     unopposedChallenge(player, type, participant, reactionExpected) {

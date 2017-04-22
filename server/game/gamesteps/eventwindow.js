@@ -88,6 +88,12 @@ class EventWindow extends BaseStep {
             }
         }
         this.game.emit(this.eventName, ...this.event.params);
+        if(this.eventName === 'onPlotsWhenRevealed') {
+            this.game.openAbilityWindow({
+                abilityType: 'whenrevealed',
+                event: this.event
+            });
+        }
     }
 
     forcedReactions() {
