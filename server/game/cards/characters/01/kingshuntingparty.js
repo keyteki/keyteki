@@ -15,7 +15,7 @@ class KingsHuntingParty extends DrawCard {
             return false;
         }
 
-        if(otherPlayer.cardsInPlay.any(card => {
+        if(otherPlayer.anyCardsInPlay(card => {
             return card.getType() === 'character' && card.hasTrait('King');
         })) {
             return true;

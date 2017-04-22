@@ -3,7 +3,7 @@ const DrawCard = require('../../../drawcard.js');
 class BrienneOfTarth extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            condition: () => this.controller.cardsInPlay.any(card => card.hasTrait('King') || card.name === 'Catelyn Stark'),
+            condition: () => this.controller.anyCardsInPlay(card => card.hasTrait('King') || card.name === 'Catelyn Stark'),
             match: this,
             effect: ability.effects.doesNotKneelAsDefender()
         });

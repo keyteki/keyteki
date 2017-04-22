@@ -1,6 +1,7 @@
 const _ = require('underscore');
 
 const AgendaCard = require('../../agendacard.js');
+const RevealPlots = require('../../gamesteps/revealplots.js');
 
 class TheRainsOfCastamere extends AgendaCard {
     constructor(owner, cardData) {
@@ -91,7 +92,7 @@ class TheRainsOfCastamere extends AgendaCard {
 
         player.selectedPlot = scheme;
         player.flipPlotFaceup();
-        this.game.raiseEvent('onPlotRevealed', player, scheme);
+        this.game.queueStep(new RevealPlots(this.game, [scheme]));
 
         player.kneelCard(player.faction);
 

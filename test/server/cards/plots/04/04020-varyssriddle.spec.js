@@ -59,5 +59,33 @@ describe('Varys\'s Riddle', function() {
                 expect(this.varysRiddle.getReserve()).toBe(5);
             });
         });
+
+        describe('when played against something that reacts to plots being revealed', function() {
+            beforeEach(function() {
+                const deck2 = this.buildDeck('stark', [
+                    'Trading with the Pentoshi',
+                    'Old Nan'
+                ]);
+
+                this.player2.selectDeck(deck2);
+                this.startGame();
+                this.keepStartingHands();
+                this.player2.clickCard('Old Nan', 'hand');
+                this.completeSetup();
+
+                this.player1.selectPlot('Varys\'s Riddle');
+                this.player2.selectPlot('Trading with the Pentoshi');
+
+                expect(this.player2).toHavePromptButton('Old Nan');
+                this.player2.clickPrompt('Pass');
+
+                this.selectFirstPlayer(this.player1);
+                this.selectPlotOrder(this.player1);
+            });
+
+            it('should not trigger plot reveal interrupts / reactions', function() {
+                expect(this.player2).not.toHavePromptButton('Old Nan');
+            });
+        });
     });
 });

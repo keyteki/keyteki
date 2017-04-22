@@ -16,6 +16,10 @@ class PlayerInteractionWrapper {
         return this.player.firstPlayer;
     }
 
+    get activePlot() {
+        return this.player.activePlot;
+    }
+
     currentPrompt() {
         return this.player.currentPrompt();
     }

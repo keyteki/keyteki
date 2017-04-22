@@ -6,7 +6,7 @@ class SerRobarRoyce extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onPlotRevealCompleted: () => this.anyPlotHasTrait('Summer')
+                onPlotsRevealed: event => _.any(event.plots, plot => plot.hasTrait('Summer'))
             },
             limit: ability.limit.perPhase(1),
             handler: () => {
@@ -17,19 +17,13 @@ class SerRobarRoyce extends DrawCard {
 
         this.forcedReaction({
             when: {
-                onPlotRevealCompleted: () => this.anyPlotHasTrait('Winter')
+                onPlotsRevealed: event => _.any(event.plots, plot => plot.hasTrait('Winter'))
             },
             handler: () => {
                 this.controller.kneelCard(this),
                 this.game.addMessage('{0} is forced by {1} to kneel {1}', this.controller, this);
             }
         });
-    }
-
-    anyPlotHasTrait(trait) {
-        return _.any(this.game.getPlayers(), player => 
-            player.activePlot &&
-            player.activePlot.hasTrait(trait));
     }
 }
 

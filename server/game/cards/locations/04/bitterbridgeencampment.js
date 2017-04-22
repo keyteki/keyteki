@@ -6,7 +6,7 @@ class BitterbridgeEncampment extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onPlotRevealCompleted: () => _.any(this.game.getPlayers(), player => player.activePlot.hasTrait('Summer'))
+                onPlotsRevealed: event => _.any(event.plots, plot => plot.hasTrait('Summer'))
             },
             handler: () => {
                 this.controller.kneelCard(this);

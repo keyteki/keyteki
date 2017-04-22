@@ -29,7 +29,8 @@ class PullingTheStrings extends PlotCard {
 
         this.game.addMessage('{0} uses {1} to initiate the when resolved effect of {2}', player, this, card);
         card.controller = player;
-        this.game.raiseEvent('onPlotRevealed', player, card, () => {
+        this.game.raiseMergedEvent('onPlotsWhenRevealed', { plots: [card] });
+        this.game.queueSimpleStep(() => {
             card.controller = card.owner;
             card.moveTo('revealed plots');
 

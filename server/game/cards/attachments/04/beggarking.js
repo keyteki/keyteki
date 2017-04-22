@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const DrawCard = require('../../../drawcard.js');
 
 class BeggarKing extends DrawCard {
@@ -9,19 +7,22 @@ class BeggarKing extends DrawCard {
         });
         this.reaction({
             when: {
-                onPlotRevealCompleted: () => (
-                    _.any(this.game.getPlayers(), player => (
-                        player !== this.controller &&
-                        this.controller.activePlot.getIncome(true) < player.activePlot.getIncome(true)
-                    ))
-                )
+                onPlotsRevealed: event => {
+                    let opponent = this.game.getOtherPlayer(this.controller);
+
+                    if(!opponent || !event.plots.includes(opponent.activePlot)) {
+                        return false;
+                    }
+
+                    return this.controller.activePlot.getIncome(true) < opponent.activePlot.getIncome(true);
+                }
             },
             cost: ability.costs.kneelSelf(),
             handler: () => {
                 var gold = 1;
 
                 var otherPlayer = this.game.getOtherPlayer(this.controller);
-                if(!otherPlayer || !otherPlayer.cardsInPlay.any(card => card.hasTrait('King'))) {
+                if(!otherPlayer || !otherPlayer.anyCardsInPlay(card => card.hasTrait('King'))) {
                     gold = 2;
                 }
 

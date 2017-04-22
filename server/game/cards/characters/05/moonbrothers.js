@@ -22,7 +22,7 @@ class MoonBrothers extends DrawCard {
     }
 
     hasAttackingClansman() {
-        var cards = this.controller.cardsInPlay.filter(card => {
+        var cards = this.controller.filterCardsInPlay(card => {
             return card.hasTrait('Clansman') && card.getType() === 'character' && this.game.currentChallenge.isAttacking(card);
         });
 

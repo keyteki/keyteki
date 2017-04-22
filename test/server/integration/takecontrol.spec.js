@@ -56,7 +56,7 @@ describe('take control', function() {
 
                 describe('and Valar goes before Confiscation', function() {
                     beforeEach(function() {
-                        this.player1.clickPrompt('player1');
+                        this.selectPlotOrder(this.player1);
                     });
 
                     it('should kill the character even with dupes', function() {
@@ -66,7 +66,7 @@ describe('take control', function() {
 
                 describe('and Confiscation goes before Valar', function() {
                     beforeEach(function() {
-                        this.player1.clickPrompt('player2');
+                        this.selectPlotOrder(this.player2);
 
                         // Remove the Ward via Confiscation
                         this.player2.clickCard(this.ward);

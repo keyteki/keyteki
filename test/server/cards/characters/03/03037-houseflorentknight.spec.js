@@ -22,7 +22,7 @@ describe('House Florent Knight', function() {
         describe('when there is a lower strength character out', function() {
             beforeEach(function() {
                 this.selectFirstPlayer(this.player1);
-                this.player1.clickPrompt('player1');
+                this.selectPlotOrder(this.player1);
 
                 this.hedgeKnight = this.player1.findCardByName('Hedge Knight', 'hand');
 
@@ -42,7 +42,7 @@ describe('House Florent Knight', function() {
         describe('when House Florent Knight would be the lowest strength', function() {
             beforeEach(function() {
                 this.selectFirstPlayer(this.player2);
-                this.player2.clickPrompt('player2');
+                this.selectPlotOrder(this.player2);
 
                 this.player2.clickCard(this.florentKnight);
             });

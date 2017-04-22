@@ -14,7 +14,7 @@ class ValarMorghulis extends PlotCard {
     }
 
     killAllCharacters(player) {
-        var characters = player.cardsInPlay.filter(card => card.getType() === 'character');
+        var characters = player.filterCardsInPlay(card => card.getType() === 'character');
 
         _.each(characters, character => {
             player.killCharacter(character);

@@ -11,15 +11,7 @@ class RedGodsBlessing extends DrawCard {
     }
 
     getNumberOfCardsWithRhllor() {
-        var cardsWithRhllor = this.controller.cardsInPlay.reduce((runningTotal, c) => {
-            if(c.hasTrait('R\'hllor') && c.getType() === 'character') {
-                return runningTotal + 1;
-            }
-
-            return runningTotal;
-        }, 0);
-
-        return cardsWithRhllor;
+        return this.controller.getNumberOfCardsInPlay(c => c.hasTrait('R\'hllor') && c.getType() === 'character');
     }
 }
 

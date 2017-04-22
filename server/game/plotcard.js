@@ -1,4 +1,7 @@
+const _ = require('underscore');
+
 const BaseCard = require('./basecard.js');
+const CardWhenRevealed = require('./cardwhenrevealed.js');
 
 class PlotCard extends BaseCard {
     constructor(owner, cardData) {
@@ -8,6 +11,16 @@ class PlotCard extends BaseCard {
         this.goldModifier = 0;
         this.initiativeModifier = 0;
         this.claimModifier = 0;
+    }
+
+    whenRevealed(properties) {
+        let whenClause = {
+            when: {
+                onPlotsWhenRevealed: event => event.plots.includes(this)
+            }
+        };
+        let reaction = new CardWhenRevealed(this.game, this, _.extend(whenClause, properties));
+        this.abilities.reactions.push(reaction);
     }
 
     hasRevealEffect() {

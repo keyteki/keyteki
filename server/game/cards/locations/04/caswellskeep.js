@@ -6,7 +6,7 @@ class CaswellsKeep extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onPlotRevealCompleted: () => true
+                onPlotsRevealed: event => _.any(event.plots, plot => plot.controller === this.controller)
             },
             handler: () => {
                 var buttons = _.map(this.game.getPlayers(), player => ({

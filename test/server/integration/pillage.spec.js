@@ -18,7 +18,7 @@ describe('pillage', function() {
             this.selectFirstPlayer(this.player1);
 
             // Resolve plot order
-            this.player1.clickPrompt('player1');
+            this.selectPlotOrder(this.player1);
 
             [this.wildlingHorde1, this.wildlingHorde2] = this.player1.filterCardsByName('Wildling Horde');
 

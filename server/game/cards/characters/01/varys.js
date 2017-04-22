@@ -11,10 +11,9 @@ class Varys extends DrawCard {
             cost: ability.costs.removeSelfFromGame(),
             handler: () => {
                 _.each(this.game.getPlayers(), player => {
-                    player.cardsInPlay.each(card => {
-                        if(card.getType() === 'character') {
-                            player.discardCard(card);
-                        }
+                    let characters = player.filterCardsInPlay(card => card.getType() === 'character');
+                    _.each(characters, card => {
+                        player.discardCard(card);
                     });
                 });
 

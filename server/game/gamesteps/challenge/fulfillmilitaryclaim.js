@@ -32,7 +32,7 @@ class FulfillMilitaryClaim extends BaseStep {
             cards = [cards];
         }
 
-        var charactersAvailable = this.player.cardsInPlay.filter(c => c.getType() === 'character').length;
+        var charactersAvailable = this.player.getNumberOfCardsInPlay(c => c.getType() === 'character');
         var maxAppliedClaim = Math.min(this.claim, charactersAvailable);
 
         if(cards.length < maxAppliedClaim) {

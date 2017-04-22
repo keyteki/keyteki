@@ -16,7 +16,7 @@ class EastwatchCarpenter extends DrawCard {
     }
 
     numberOfNWLocations() {
-        var cards = this.controller.cardsInPlay.filter(card => {
+        var cards = this.controller.filterCardsInPlay(card => {
             return card.isFaction('thenightswatch') && card.getType() === 'location';
         });
 
