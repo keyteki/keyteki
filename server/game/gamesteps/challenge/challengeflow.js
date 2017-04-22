@@ -173,7 +173,9 @@ class ChallengeFlow extends BaseStep {
             return false;
         }
 
-        this.game.queueStep(new ApplyClaim(this.game, this.challenge));
+        this.game.raiseEvent('onClaimApplied', this.challenge, () => {
+            this.game.queueStep(new ApplyClaim(this.game, this.challenge));
+        });
 
         return true;
     }
