@@ -3,7 +3,7 @@ const DrawCard = require('../../../drawcard.js');
 class OldBearMormont extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            condition: () => this.controller.cardsInPlay.any(card => card.name === 'The Wall'),
+            condition: () => this.controller.anyCardsInPlay(card => card.name === 'The Wall'),
             match: this,
             effect: ability.effects.doesNotKneelAsDefender()
         });

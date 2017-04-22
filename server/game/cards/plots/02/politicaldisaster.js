@@ -27,7 +27,7 @@ class PoliticalDisaster extends PlotCard {
     doDiscard() {
         _.each(this.selections, selection => {
             var player = selection.player;
-            var toDiscard = _.difference(player.cardsInPlay.filter(card => card.getType() === 'location'), selection.cards);
+            var toDiscard = _.difference(player.filterCardsInPlay(card => card.getType() === 'location'), selection.cards);
 
             _.each(toDiscard, card => {
                 player.discardCard(card);

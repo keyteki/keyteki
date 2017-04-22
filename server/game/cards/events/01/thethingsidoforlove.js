@@ -4,7 +4,7 @@ class TheThingsIDoForLove extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Return card to owners hand',
-            condition: () => this.controller.cardsInPlay.any(card => card.hasTrait('Lord') || card.hasTrait('Lady')),
+            condition: () => this.controller.anyCardsInPlay(card => card.hasTrait('Lord') || card.hasTrait('Lady')),
             phase: 'challenge',
             cost: ability.costs.kneelFactionCard(),
             target: {

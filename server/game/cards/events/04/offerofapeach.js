@@ -4,7 +4,7 @@ class OfferOfAPeach extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Remove character from challenge',
-            condition: () => this.game.currentChallenge && this.controller.cardsInPlay.any(card => card.hasTrait('Lady') || card.name === 'Renly Baratheon'),
+            condition: () => this.game.currentChallenge && this.controller.anyCardsInPlay(card => card.hasTrait('Lady') || card.name === 'Renly Baratheon'),
             phase: 'challenge',
             target: {
                 activePromptTitle: 'Select a character',

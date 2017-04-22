@@ -20,7 +20,7 @@ class LadyInWaiting extends DrawCard {
             this.game.currentPhase === 'marshal' &&
             !this.cannotMarshal &&
             this.controller.isCardInMarshalLocation(this) &&
-            this.controller.cardsInPlay.any(card => card.getType() === 'character' && card.hasTrait('Lady'))
+            this.controller.anyCardsInPlay(card => card.getType() === 'character' && card.hasTrait('Lady'))
         );
     }
 

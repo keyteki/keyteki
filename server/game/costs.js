@@ -59,7 +59,7 @@ const Costs = {
         );
         return {
             canPay: function(context) {
-                return context.player.cardsInPlay.any(card => fullCondition(card, context));
+                return context.player.anyCardsInPlay(card => fullCondition(card, context));
             },
             resolve: function(context) {
                 var result = {
@@ -128,7 +128,7 @@ const Costs = {
         );
         return {
             canPay: function(context) {
-                return context.player.cardsInPlay.any(card => fullCondition(card, context));
+                return context.player.anyCardsInPlay(card => fullCondition(card, context));
             },
             resolve: function(context) {
                 var result = {

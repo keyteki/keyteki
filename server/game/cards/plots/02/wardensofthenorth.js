@@ -22,7 +22,7 @@ class WardensOfTheNorth extends PlotCard {
     }
 
     isStarkCardParticipatingInChallenge() {
-        return this.game.currentChallenge && this.controller.cardsInPlay.any(card => {
+        return this.game.currentChallenge && this.controller.anyCardsInPlay(card => {
             return this.game.currentChallenge.isParticipating(card) && card.isFaction('stark');
         });
     }

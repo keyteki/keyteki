@@ -35,10 +35,10 @@ class ShaggaSonOfDolf extends DrawCard {
     }
 
     hasClansmanOrTyrion() {
-        var cards = this.controller.cardsInPlay.filter(card => {
+        var cards = this.controller.filterCardsInPlay(card => {
             return (card.hasTrait('Clansman') && card.getType() === 'character') || card.name === 'Tyrion Lannister';
         });
-        
+
         return cards.length > 0;
     }
 }

@@ -32,7 +32,7 @@ class WildfireAssault extends PlotCard {
     doDiscard() {
         _.each(this.selections, selection => {
             var player = selection.player;
-            var toKill = _.difference(player.cardsInPlay.filter(card => card.getType() === 'character'), selection.cards);
+            var toKill = _.difference(player.filterCardsInPlay(card => card.getType() === 'character'), selection.cards);
 
             _.each(toKill, card => {
                 player.killCharacter(card, false);

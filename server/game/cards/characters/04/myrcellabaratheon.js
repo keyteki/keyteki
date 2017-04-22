@@ -21,7 +21,7 @@ class MyrcellaBaratheon extends DrawCard {
 
     areNoKingsInPlay() {
         return !_.any(this.game.getPlayers(), player => {
-            return player.cardsInPlay.any(card => card.getType() === 'character' && card.hasTrait('King'));
+            return player.anyCardsInPlay(card => card.getType() === 'character' && card.hasTrait('King'));
         });
     }
 }

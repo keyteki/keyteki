@@ -3,7 +3,7 @@ const DrawCard = require('../../../drawcard.js');
 class Right extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            condition: () => this.controller.findCardByName(this.controller.cardsInPlay, 'Left'),
+            condition: () => this.controller.anyCardsInPlay(card => card.name === 'Left'),
             match: this,
             effect: [
                 ability.effects.modifyStrength(1),

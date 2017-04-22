@@ -17,10 +17,9 @@ class TheFirstSnowOfWinter extends PlotCard {
     }
 
     returnCardsToHand(player) {
-        player.cardsInPlay.each(card => {
-            if(card.getType() === 'character' && card.getCost() <= 3) {
-                player.returnCardToHand(card);
-            }
+        let characters = player.filterCardsInPlay(card => card.getType() === 'character' && card.getCost() <= 3);
+        _.each(characters, card => {
+            player.returnCardToHand(card);
         });
     }
 }

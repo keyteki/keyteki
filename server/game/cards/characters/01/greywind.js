@@ -18,7 +18,7 @@ class GreyWind extends DrawCard {
     }
 
     cardCondition(card) {
-        var str = this.controller.findCardByName(this.controller.cardsInPlay, 'Robb Stark') ? 2 : 1;
+        var str = this.controller.anyCardsInPlay(card => card.name === 'Robb Stark') ? 2 : 1;
 
         return card.getStrength() <= str && card.location === 'play area' && card.getType() === 'character';
     }

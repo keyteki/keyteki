@@ -9,13 +9,7 @@ class WardensOfTheReach extends DrawCard {
     }
 
     calculateStrength() {
-        return this.controller.cardsInPlay.reduce((counter, card) => {
-            if(card.getType() !== 'location' || !card.hasTrait('The Reach')) {
-                return counter;
-            }
-
-            return counter + 1;
-        }, 0);
+        return this.controller.getNumberOfCardsInPlay(card => card.getType() === 'location' && card.hasTrait('The Reach'));
     }
 }
 

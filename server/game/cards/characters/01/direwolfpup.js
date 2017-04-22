@@ -4,24 +4,12 @@ class DirewolfPup extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: card => card === this,
-            effect: ability.effects.dynamicStrength(() => this.calculateStrength(this.controller.cardsInPlay))
+            effect: ability.effects.dynamicStrength(() => this.getNumberOfOtherDirewolves())
         });
     }
 
-    isOtherDirewolf(card) {
-        return card.uuid === this.uuid || !card.hasTrait('Direwolf');
-    }
-
-    calculateStrength(list) {
-        return list.reduce((counter, card) => {
-            var attachmentStr = this.calculateStrength(card.attachments);
-
-            if(this.isOtherDirewolf(card)) {
-                return counter + attachmentStr;
-            }
-
-            return counter + attachmentStr + 1;
-        }, 0);
+    getNumberOfOtherDirewolves() {
+        return this.controller.getNumberOfCardsInPlay(card => card !== this && card.hasTrait('Direwolf'));
     }
 }
 

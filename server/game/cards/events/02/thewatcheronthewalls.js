@@ -9,7 +9,7 @@ class TheWatcherOnTheWalls extends ChallengeEvent {
     }
 
     canPlay(player, card) {
-        var standingRangers = this.controller.cardsInPlay.filter(
+        var standingRangers = this.controller.filterCardsInPlay(
             card =>
                 !card.kneeled
                 && card.hasTrait('Ranger'));

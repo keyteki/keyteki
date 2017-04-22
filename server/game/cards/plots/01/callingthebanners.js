@@ -4,21 +4,13 @@ class CallingTheBanners extends PlotCard {
     setupCardAbilities() {
         this.whenRevealed({
             handler: () => {
-                var otherPlayer = this.game.getOtherPlayer(this.controller);
+                let otherPlayer = this.game.getOtherPlayer(this.controller);
 
                 if(!otherPlayer) {
                     return;
                 }
 
-                var characterCount = otherPlayer.cardsInPlay.reduce((memo, card) => {
-                    var count = memo;
-
-                    if(card.getType() === 'character') {
-                        count++;
-                    }
-
-                    return count;
-                }, 0);
+                let characterCount = otherPlayer.getNumberOfCardsInPlay(card => card.getType() === 'character');
 
                 if(characterCount <= 0) {
                     return;

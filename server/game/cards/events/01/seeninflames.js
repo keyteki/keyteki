@@ -6,7 +6,7 @@ class SeenInFlames extends DrawCard {
             title: 'Discard from opponent\'s hand',
             phase: 'challenge',
             condition: () => (
-                this.controller.cardsInPlay.any(card => card.hasTrait('R\'hllor')) &&
+                this.controller.anyCardsInPlay(card => card.hasTrait('R\'hllor')) &&
                 this.opponentHasCards()
             ),
             handler: context => {
