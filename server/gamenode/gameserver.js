@@ -49,7 +49,17 @@ class GameServer {
 
         server.listen(process.env.PORT || config.socketioPort);
 
-        this.io = socketio(server, { perMessageDeflate: false });
+        var options = {
+            perMessageDeflate: false
+        };
+
+        if(process.env.NODE_ENV !== 'production') {
+            options.path = '/' + (process.env.SERVER || config.nodeIdentity) + '/socket.io';
+
+            logger.info('listening on', options.path);
+        }
+
+        this.io = socketio(server, options);
         this.io.set('heartbeat timeout', 30000);
         this.io.use(this.handshake.bind(this));
 
