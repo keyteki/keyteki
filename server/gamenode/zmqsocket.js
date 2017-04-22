@@ -36,7 +36,7 @@ class ZmqSocket extends EventEmitter {
         this.send('HELLO', {
             maxGames: config.maxGames,
             address: this.listenAddress,
-            port: process.env.PORT || config.socketioPort,
+            port: process.env.NODE_ENV === 'production' ? 80 : (process.env.PORT || config.socketioPort),
             protocol: this.protocol,
             games: games });
     }
@@ -66,7 +66,7 @@ class ZmqSocket extends EventEmitter {
                 break;
             case 'CONNECTFAILED':
                 this.emit('onFailedConnect', message.arg.gameId, message.arg.username);
-                
+
                 break;
 
             case 'CLOSEGAME':
