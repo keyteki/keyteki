@@ -91,6 +91,58 @@ const Costs = {
         };
     },
     /**
+     * Cost that requires kneeling a certain number of cards that match the
+     * passed condition predicate function.
+     */
+    kneelMultiple: function(number, condition) {
+        var fullCondition = (card, context) => (
+            !card.kneeled &&
+            card.location === 'play area' &&
+            card.controller === context.player &&
+            condition(card)
+        );
+        return {
+            canPay: function(context) {
+                return context.player.getNumberOfCardsInPlay(card => fullCondition(card, context)) >= number;
+            },
+            resolve: function(context) {
+                var result = {
+                    resolved: false
+                };
+
+                context.game.promptForSelect(context.player, {
+                    cardCondition: card => fullCondition(card, context),
+                    activePromptTitle: 'Select ' + number + ' cards to kneel',
+                    numCards: number,
+                    multiSelect: true,
+                    source: context.source,
+                    onSelect: (player, cards) => {
+                        if(cards.length !== number) {
+                            return false;
+                        }
+
+                        context.kneelingCostCards = cards;
+                        result.value = true;
+                        result.resolved = true;
+
+                        return true;
+                    },
+                    onCancel: () => {
+                        result.value = false;
+                        result.resolved = true;
+                    }
+                });
+
+                return result;
+            },
+            pay: function(context) {
+                _.each(context.kneelingCostCards, card => {
+                    context.player.kneelCard(card);
+                });
+            }
+        };
+    },
+    /**
      * Cost that will sacrifice the card that initiated the ability.
      */
     sacrificeSelf: function() {
