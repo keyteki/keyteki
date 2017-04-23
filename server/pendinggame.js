@@ -36,16 +36,17 @@ class PendingGame {
     getSaveState() {
         var players = _.map(this.getPlayers(), player => {
             return {
-                name: player.name,
+                agenda: player.agenda ? player.agenda.cardData.name : undefined,
                 faction: player.faction.cardData.name,
-                agenda: player.agenda ? player.agenda.cardData.name : undefined
+                name: player.name
             };
         });
 
         return {
             gameId: this.id,
-            startedAt: this.createdAt,
-            players: players
+            gameType: this.gameType,
+            players: players,
+            startedAt: this.createdAt
         };
     }
 

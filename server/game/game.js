@@ -44,6 +44,7 @@ class Game extends EventEmitter {
         this.playStarted = false;
         this.createdAt = new Date();
         this.savedGameId = details.savedGameId;
+        this.gameType = details.gameType;
         this.abilityWindowStack = [];
 
         _.each(details.players, player => {
@@ -796,6 +797,7 @@ class Game extends EventEmitter {
         return {
             allowSpectators: this.allowSpectators,
             createdAt: this.createdAt,
+            gameType: this.gameType,
             id: this.id,
             messages: this.gameChat.messages,
             name: this.name,

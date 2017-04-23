@@ -493,6 +493,7 @@ class Lobby {
             syncGame.node = this.router.workers[nodeName];
             syncGame.createdAt = game.startedAt;
             syncGame.started = game.started;
+            syncGame.gameType = game.gameType;
 
             _.each(game.players, player => {
                 syncGame.players[player.name] = {
