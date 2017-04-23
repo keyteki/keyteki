@@ -53,6 +53,7 @@ class DrawCard extends BaseCard {
             }
         };
         this.cannotBeKilled = false;
+        this.stealthLimit = 1;
     }
 
     addDuplicate(card) {

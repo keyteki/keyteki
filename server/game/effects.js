@@ -173,6 +173,16 @@ const Effects = {
             isStateDependent: true
         };
     },
+    addStealthLimit: function(value) {
+        return {
+            apply: function(card) {
+                card.stealthLimit += value;
+            },
+            unapply: function(card) {
+                card.stealthLimit -= value;
+            }
+        };
+    },
     addIcon: function(icon) {
         return {
             apply: function(card) {
