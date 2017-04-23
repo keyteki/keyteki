@@ -23,6 +23,8 @@ describe('Crone of Vaes Dothrak', function() {
             this.player1.selectPlot('A Noble Cause');
             this.player2.selectPlot('Sneak Attack');
             this.selectFirstPlayer(this.player1);
+
+            this.skipActionWindow();
         });
 
         describe('when a card is discarded from the draw deck', function() {

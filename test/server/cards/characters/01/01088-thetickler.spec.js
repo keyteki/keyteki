@@ -23,6 +23,8 @@ describe('The Tickler', function() {
             this.player2.selectPlot('Sneak Attack');
             this.selectFirstPlayer(this.player1);
 
+            this.skipActionWindow();
+
             // Move remaining cards back to draw deck.
             this.player2Object.hand.each(card => {
                 this.player2Object.moveCard(card, 'draw deck');

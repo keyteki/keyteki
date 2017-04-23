@@ -29,6 +29,9 @@ describe('Cersei Lannister (LoCR)', function() {
                     this.player1.selectPlot('A Clash of Kings');
                     this.player2.selectPlot('Sneak Attack');
                     this.selectFirstPlayer(this.player1);
+
+                    this.skipActionWindow();
+
                     this.completeMarshalPhase();
 
                     this.unopposedChallenge(this.player1, 'Intrigue', this.cersei);
@@ -49,6 +52,9 @@ describe('Cersei Lannister (LoCR)', function() {
                     this.player1.selectPlot('Sneak Attack');
                     this.player2.selectPlot('Sneak Attack');
                     this.selectFirstPlayer(this.player1);
+
+                    this.skipActionWindow();
+
                     this.completeMarshalPhase();
 
                     this.unopposedChallenge(this.player1, 'Intrigue', this.cersei);

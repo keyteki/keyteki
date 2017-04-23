@@ -23,6 +23,9 @@ describe('Dolorous Edd', function() {
             this.player1.selectPlot('Sneak Attack');
             this.player2.selectPlot('Sneak Attack');
             this.selectFirstPlayer(this.player2);
+
+            this.skipActionWindow();
+
             this.completeMarshalPhase();
 
             this.edd = this.player1.findCardByName('Dolorous Edd', 'hand');

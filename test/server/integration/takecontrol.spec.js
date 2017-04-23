@@ -31,6 +31,7 @@ describe('take control', function() {
                 this.player1.selectPlot('Sneak Attack');
                 this.player2.selectPlot('Sneak Attack');
                 this.selectFirstPlayer(this.player1);
+                this.skipActionWindow();
                 this.player1.clickCard(this.ward);
                 this.player1.clickCard(this.paxter);
             });
@@ -45,6 +46,7 @@ describe('take control', function() {
                     this.completeMarshalPhase();
                     this.completeChallengesPhase();
                     this.completeDominancePhase();
+                    this.skipActionWindow();
                     this.completeTaxationPhase();
 
                     // Select plots for round 2
@@ -70,6 +72,8 @@ describe('take control', function() {
 
                         // Remove the Ward via Confiscation
                         this.player2.clickCard(this.ward);
+
+                        this.skipActionWindow();
 
                         // Complete marshal phase to ensure both players have collected their gold
                         this.completeMarshalPhase();
@@ -102,6 +106,7 @@ describe('take control', function() {
                     this.completeMarshalPhase();
                     this.completeChallengesPhase();
                     this.completeDominancePhase();
+                    this.skipActionWindow();
                     this.completeTaxationPhase();
 
                     // Select plots for round 2
@@ -111,6 +116,8 @@ describe('take control', function() {
 
                     // Remove the Ward via Confiscation
                     this.player2.clickCard(this.ward);
+
+                    this.skipActionWindow();
 
                     // Complete marshal phase to ensure both players have collected their gold
                     this.completeMarshalPhase();
@@ -152,7 +159,9 @@ describe('take control', function() {
 
                 this.player1.selectPlot('Sneak Attack');
                 this.player2.selectPlot('Sneak Attack');
+
                 this.selectFirstPlayer(this.player1);
+                this.skipActionWindow();
 
                 // Move Kingsroad back into draw deck for Euron's pillage.
                 this.kingsroad.controller.moveCard(this.kingsroad, 'draw deck');
@@ -187,12 +196,15 @@ describe('take control', function() {
 
                 // Complete round
                 this.completeDominancePhase();
+                this.skipActionWindow();
                 this.completeTaxationPhase();
 
                 // Round 2
                 this.player1.selectPlot('Sneak Attack');
                 this.player2.selectPlot('Sneak Attack');
                 this.selectFirstPlayer(this.player1);
+
+                this.skipActionWindow();
             });
 
             it('should allow card abilities to be used', function() {

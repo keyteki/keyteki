@@ -28,6 +28,8 @@ describe('The Lord of the Crossing', function() {
             this.player2.selectPlot('A Noble Cause');
             this.selectFirstPlayer(this.player1);
 
+            this.skipActionWindow();
+
             this.completeMarshalPhase();
         });
 

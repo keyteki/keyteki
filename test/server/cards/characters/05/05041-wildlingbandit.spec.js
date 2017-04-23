@@ -24,6 +24,8 @@ describe('Wildling Bandit', function() {
             this.player2.selectPlot('Time of Plenty');
             this.selectFirstPlayer(this.player1);
 
+            this.skipActionWindow();
+
             this.completeMarshalPhase();
         });
 

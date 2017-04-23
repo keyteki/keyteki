@@ -22,6 +22,8 @@ describe('Ser Lancel Lannister', function() {
             this.player2.selectPlot('Trading with the Pentoshi');
             this.selectFirstPlayer(this.player1);
             this.selectPlotOrder(this.player1);
+
+            this.skipActionWindow();
         });
 
         describe('when there are no lords or ladies out', function() {

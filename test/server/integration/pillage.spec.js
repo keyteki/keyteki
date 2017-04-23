@@ -20,6 +20,8 @@ describe('pillage', function() {
             // Resolve plot order
             this.selectPlotOrder(this.player1);
 
+            this.skipActionWindow();
+
             [this.wildlingHorde1, this.wildlingHorde2] = this.player1.filterCardsByName('Wildling Horde');
 
             this.player1.clickCard(this.wildlingHorde1);

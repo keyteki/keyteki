@@ -24,6 +24,8 @@ describe('Take the Black', function() {
             this.selectFirstPlayer(this.player1);
             this.selectPlotOrder(this.player1);
 
+            this.skipActionWindow();
+
             this.player1.clickPrompt('Done');
             this.player2.clickCard(this.unique);
             this.player2.clickCard(this.eligible);

@@ -32,6 +32,8 @@ describe('Randyll Tarly', function() {
                 this.player2.selectPlot('A Feast for Crows');
                 this.selectFirstPlayer(this.player1);
 
+                this.skipActionWindow();
+
                 let margaery = this.player1.findCardByName('Margaery Tyrell', 'hand');
 
                 this.player1.clickCard(margaery);
@@ -74,6 +76,8 @@ describe('Randyll Tarly', function() {
                 this.player1.selectPlot('A Feast for Crows');
                 this.player2.selectPlot('A Feast for Crows');
                 this.selectFirstPlayer(this.player1);
+
+                this.skipActionWindow();
 
                 this.completeMarshalPhase();
 

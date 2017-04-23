@@ -34,6 +34,8 @@ describe('WraithsInTheirMidst', function() {
                 this.player1.selectPlot('Wraiths in Their Midst');
                 this.player2.selectPlot(this.nobleCause);
                 this.selectFirstPlayer(this.player1);
+
+                this.skipActionWindow();
             });
 
             it('should reduce the reserve by the full amount', function() {
@@ -47,6 +49,8 @@ describe('WraithsInTheirMidst', function() {
                 this.player1.selectPlot('Wraiths in Their Midst');
                 this.player2.selectPlot(this.feastForCrows);
                 this.selectFirstPlayer(this.player1);
+
+                this.skipActionWindow();
             });
 
             it('should reduce the reserve and cap at the 2 minimum', function() {
@@ -60,6 +64,8 @@ describe('WraithsInTheirMidst', function() {
                 this.player1.selectPlot('Wraiths in Their Midst');
                 this.player2.selectPlot(this.feastForCrows);
                 this.selectFirstPlayer(this.player2);
+
+                this.skipActionWindow();
 
                 this.completeMarshalPhase();
 

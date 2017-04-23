@@ -25,6 +25,8 @@ describe('SummerHarvest', function() {
                 this.player2.selectPlot(this.nobleCause);
 
                 this.selectFirstPlayer(this.player1);
+
+                this.skipActionWindow();
             });
 
             it('should calculate the gold amount properly', function() {
@@ -36,6 +38,7 @@ describe('SummerHarvest', function() {
                     this.completeMarshalPhase();
                     this.completeChallengesPhase();
                     this.completeDominancePhase();
+                    this.skipActionWindow();
                     this.completeTaxationPhase();
 
                     // Move Summer Harvest back to the plot deck so it's eligible to be picked again.
@@ -45,6 +48,8 @@ describe('SummerHarvest', function() {
                     this.player2.selectPlot(this.nobleCause);
 
                     this.selectFirstPlayer(this.player1);
+
+                    this.skipActionWindow();
                 });
 
                 it('should still properly calculate the gold amount properly', function() {
@@ -65,6 +70,8 @@ describe('SummerHarvest', function() {
                 // Harvest value.
                 // See this thread for details: http://www.cardgamedb.com/forums/index.php?/topic/32255-varys-riddle-vs-summer-harvest/?p=281948
                 this.selectPlotOrder(this.player1);
+
+                this.skipActionWindow();
             });
 
             it('should use the second value for Summer Harvest', function() {

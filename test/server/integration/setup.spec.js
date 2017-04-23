@@ -184,6 +184,9 @@ describe('setup phase', function() {
                 this.player1.selectPlot(this.sneakAttack);
                 this.player2.selectPlot(this.opponentSneakAttack);
                 this.selectFirstPlayer(this.player1);
+
+                this.skipActionWindow();
+
                 this.completeMarshalPhase();
                 this.completeChallengesPhase();
 

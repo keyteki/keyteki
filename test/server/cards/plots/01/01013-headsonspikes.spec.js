@@ -31,6 +31,8 @@ describe('Heads on Spikes', function() {
                 this.player1.selectPlot('Heads on Spikes');
                 this.player2.selectPlot('Sneak Attack');
                 this.selectFirstPlayer(this.player1);
+
+                this.skipActionWindow();
             });
 
             it('should discard a card from the opponent hand', function() {
@@ -60,6 +62,8 @@ describe('Heads on Spikes', function() {
                 this.player1.selectPlot('Heads on Spikes');
                 this.player2.selectPlot('Sneak Attack');
                 this.selectFirstPlayer(this.player1);
+
+                this.skipActionWindow();
             });
 
             it('should discard a card from the opponent hand', function() {

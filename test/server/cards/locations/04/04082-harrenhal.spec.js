@@ -21,6 +21,8 @@ describe('Harrenhal (GoH)', function() {
             this.player1.selectPlot('Sneak Attack');
             this.player2.selectPlot('Sneak Attack');
             this.selectFirstPlayer(this.player1);
+
+            this.skipActionWindow();
         });
 
         describe('when a character is put into play', function() {

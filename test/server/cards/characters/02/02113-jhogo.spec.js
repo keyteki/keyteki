@@ -28,7 +28,10 @@ describe('Jhogo', function() {
             this.player2.selectPlot('Marching Orders');
             this.selectFirstPlayer(this.player1);
 
+            this.skipActionWindow();
+
             this.player1.clickCard(this.aggo);
+
             this.completeMarshalPhase();
 
             this.player2Object.moveCard(this.chud1, 'dead pile');

@@ -28,6 +28,8 @@ describe('forced reaction order', function() {
             // Resolve plot order
             this.selectPlotOrder(this.player1);
 
+            this.skipActionWindow();
+
             this.completeMarshalPhase();
 
             this.skipActionWindow();

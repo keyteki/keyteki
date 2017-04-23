@@ -21,6 +21,8 @@ describe('challenges phase', function() {
                 this.player2.selectPlot('Sneak Attack');
                 this.selectFirstPlayer(this.player1);
 
+                this.skipActionWindow();
+
                 this.completeMarshalPhase();
 
                 this.skipActionWindow();
@@ -61,6 +63,8 @@ describe('challenges phase', function() {
                 this.player1.selectPlot('Sneak Attack');
                 this.player2.selectPlot('Sneak Attack');
                 this.selectFirstPlayer(this.player1);
+
+                this.skipActionWindow();
 
                 this.completeMarshalPhase();
 

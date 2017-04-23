@@ -25,6 +25,8 @@ describe('Tywin Lannister (LoCR)', function() {
             this.player2.selectPlot('Sneak Attack');
             this.selectFirstPlayer(this.player1);
 
+            this.skipActionWindow();
+
             // Move remaining cards back to draw deck so we have something to discard
             this.player1Object.hand.each(card => this.player1Object.moveCard(card, 'draw deck'));
             this.player2Object.hand.each(card => this.player2Object.moveCard(card, 'draw deck'));

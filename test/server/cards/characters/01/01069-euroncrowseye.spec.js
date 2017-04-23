@@ -22,6 +22,8 @@ describe('Euron Crow\'s Eye', function() {
             this.player2.selectPlot('Sneak Attack');
             this.selectFirstPlayer(this.player1);
 
+            this.skipActionWindow();
+
             this.ourArbor = this.player1.findCardByName('The Arbor', 'hand');
             [this.theirArbor1, this.theirArbor2] = this.player2.filterCardsByName('The Arbor', 'hand');
         });

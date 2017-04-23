@@ -22,6 +22,9 @@ describe('Selyse Baratheon', function() {
             this.player1.selectPlot('Sneak Attack');
             this.player2.selectPlot('Sneak Attack');
             this.selectFirstPlayer(this.player1);
+
+            this.skipActionWindow();
+
             this.completeMarshalPhase();
 
             this.selyse = this.player1.findCardByName('Selyse Baratheon', 'play area');
