@@ -13,7 +13,8 @@ class InnerNewGame extends React.Component {
         this.onSpecatorsClick = this.onSpecatorsClick.bind(this);
 
         this.state = {
-            spectators: true
+            spectators: true,
+            selectedGameType: 'casual'
         };
     }
 
@@ -28,11 +29,11 @@ class InnerNewGame extends React.Component {
     }
 
     onNameChange(event) {
-        this.setState({gameName: event.target.value.substr(0,140)});
+        this.setState({ gameName: event.target.value.substr(0, 140) });
     }
 
     onSpecatorsClick(event) {
-        this.setState({spectators: event.target.checked});
+        this.setState({ spectators: event.target.checked });
     }
 
     onSubmitClick(event) {
@@ -40,8 +41,17 @@ class InnerNewGame extends React.Component {
 
         this.props.socket.emit('newgame', {
             name: this.state.gameName,
-            spectators: this.state.spectators
+            spectators: this.state.spectators,
+            gameType: this.state.selectedGameType
         });
+    }
+
+    onRadioChange(gameType) {
+        this.setState({ selectedGameType: gameType });
+    }
+
+    isGameTypeSelected(gameType) {
+        return this.state.selectedGameType === gameType;
     }
 
     render() {
@@ -52,15 +62,35 @@ class InnerNewGame extends React.Component {
                     <div className='row'>
                         <div className='col-sm-5'>
                             <label htmlFor='gameName'>Name</label>
-                            <label className='game-name-char-limit'>{charsLeft >= 0 ? charsLeft: 0}</label>
-                            <input className='form-control' placeholder='Game Name' type='text' onChange={this.onNameChange} value={this.state.gameName}/>
+                            <label className='game-name-char-limit'>{ charsLeft >= 0 ? charsLeft : 0 }</label>
+                            <input className='form-control' placeholder='Game Name' type='text' onChange={ this.onNameChange } value={ this.state.gameName }/>
                         </div>
                     </div>
                     <div className='row'>
                         <div className='checkbox col-sm-5'>
                             <label>
-                            <input type='checkbox' onChange={this.onSpecatorsClick} checked={this.state.spectators} />
+                                <input type='checkbox' onChange={ this.onSpecatorsClick } checked={ this.state.spectators } />
                                 Allow spectators
+                            </label>
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div className='col-sm-12'>
+                            <b>Game Type</b>
+                        </div>
+                        <div className='col-sm-9'>
+
+                            <label className='radio-inline'>
+                                <input type='radio' onChange={ this.onRadioChange.bind(this, 'beginner') } checked={ this.isGameTypeSelected('beginner') } />
+                                Beginner
+                            </label>
+                            <label className='radio-inline'>
+                                <input type='radio' onChange={ this.onRadioChange.bind(this, 'casual') } checked={ this.isGameTypeSelected('casual') } />
+                                Casual
+                            </label>
+                            <label className='radio-inline'>
+                                <input type='radio' onChange={ this.onRadioChange.bind(this, 'competitive') } checked={ this.isGameTypeSelected('competitive') } />
+                                Competitive
                             </label>
                         </div>
                     </div>

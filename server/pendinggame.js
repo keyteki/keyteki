@@ -11,6 +11,7 @@ class PendingGame {
         this.id = uuid.v1();
         this.name = details.name;
         this.allowSpectators = details.spectators;
+        this.gameType = details.gameType;
         this.createdAt = new Date();
         this.gameChat = new GameChat();
     }
@@ -222,6 +223,7 @@ class PendingGame {
         return {
             allowSpectators: this.allowSpectators,
             createdAt: this.createdAt,
+            gameType: this.gameType,
             id: this.id,
             messages: this.gameChat.messages,
             name: this.name,

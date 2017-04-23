@@ -44,7 +44,7 @@ class InnerGameList extends React.Component {
                 if(firstPlayer) {
                     playerElement = (
                     <span>
-                        <span><Avatar emailHash={player.emailHash} /></span>
+                        <span><Avatar emailHash={ player.emailHash } /></span>
                         <span className='player-name'>{ player.name }</span>
                         <span className={' game-icon icon-' + player.faction} />
                     </span>);
@@ -72,7 +72,7 @@ class InnerGameList extends React.Component {
 
             return (
                 <div key={ game.id } className='game-row'>
-                    <div><b>{ game.name }</b>{ this.props.isAdmin && this.props.showNodes ? <span className='game-node'>Node: {game.node}</span> : null}</div>
+                    <div><b>[{ game.gameType }] { game.name }</b>{ this.props.isAdmin && this.props.showNodes ? <span className='game-node'>Node: { game.node }</span> : null}</div>
                     { gameLayout }
                     <span className='pull-right'>
                         { (this.props.currentGame || _.size(game.players) === 2 || game.started) ?
