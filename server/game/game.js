@@ -17,6 +17,7 @@ const DominancePhase = require('./gamesteps/dominancephase.js');
 const StandingPhase = require('./gamesteps/standingphase.js');
 const TaxationPhase = require('./gamesteps/taxationphase.js');
 const SimpleStep = require('./gamesteps/simplestep.js');
+const DeckSearchPrompt = require('./gamesteps/decksearchprompt.js');
 const MenuPrompt = require('./gamesteps/menuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 const EventWindow = require('./gamesteps/eventwindow.js');
@@ -479,6 +480,10 @@ class Game extends EventEmitter {
 
     promptForSelect(player, properties) {
         this.queueStep(new SelectCardPrompt(this, player, properties));
+    }
+
+    promptForDeckSearch(player, properties) {
+        this.queueStep(new DeckSearchPrompt(this, player, properties));
     }
 
     menuButton(playerName, arg, method) {
