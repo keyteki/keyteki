@@ -3,6 +3,7 @@ const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
 const SelectPlotPrompt = require('./plot/selectplotprompt.js');
 const RevealPlots = require('./revealplots.js');
+const ActionWindow = require('./actionwindow.js');
 
 class PlotPhase extends Phase {
     constructor(game) {
@@ -12,6 +13,7 @@ class PlotPhase extends Phase {
             new SelectPlotPrompt(game),
             new SimpleStep(game, () => this.flipPlotsFaceup()),
             () => new RevealPlots(game, _.map(this.game.getPlayers(), player => player.activePlot)),
+            new ActionWindow(this.game, 'After plots revealed'),
             new SimpleStep(game, () => this.recyclePlots())
         ]);
     }
