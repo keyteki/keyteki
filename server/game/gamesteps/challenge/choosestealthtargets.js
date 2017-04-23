@@ -1,3 +1,5 @@
+const _ = require('underscore');
+
 const BaseStep = require('../basestep.js');
 
 class ChooseStealthTargets extends BaseStep {
@@ -9,9 +11,11 @@ class ChooseStealthTargets extends BaseStep {
 
     continue() {
         if(this.stealthCharacters.length > 0) {
-            var character = this.stealthCharacters.shift();
+            let character = this.stealthCharacters.shift();
+            let title = character.stealthLimit === 1 ? 'Select stealth target for ' + character.name : 'Select up to ' + character.stealthLimit + ' stealth targets for ' + character.name;
             this.game.promptForSelect(character.controller, {
-                activePromptTitle: 'Select stealth target for ' + character.name,
+                numCards: character.stealthLimit,
+                activePromptTitle: title,
                 waitingPromptTitle: 'Waiting for opponent to choose stealth target for ' + character.name,
                 cardCondition: card => card.controller === this.challenge.defendingPlayer && card.getType() === 'character' && character.canUseStealthToBypass(card),
                 onSelect: (player, target) => this.selectStealthTarget(character, target)
@@ -21,14 +25,19 @@ class ChooseStealthTargets extends BaseStep {
         return this.stealthCharacters.length === 0;
     }
 
-    selectStealthTarget(character, target) {
-        if(!character.useStealthToBypass(target)) {
-            return false;
+    selectStealthTarget(character, targets) {
+        if(!_.isArray(targets)) {
+            targets = [targets];
         }
+        _.each(targets, target => {
+            if(!character.useStealthToBypass(target)) {
+                return false;
+            }
 
-        this.game.addMessage('{0} has chosen {1} as the stealth target for {2}', this.challenge.attackingPlayer, target, character);
+            this.game.raiseEvent('onBypassedByStealth', this.challenge, character, target);
+        });
 
-        this.game.raiseEvent('onBypassedByStealth', this.challenge, character, target);
+        this.game.addMessage('{0} has chosen {1} as the stealth target for {2}', this.challenge.attackingPlayer, targets, character);
 
         return true;
     }
