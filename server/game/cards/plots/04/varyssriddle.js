@@ -15,7 +15,7 @@ class VaryssRiddle extends PlotCard {
                     return;
                 }
 
-                this.game.addMessage('{0} uses {1} to initiate the when resolved effect of {2}', player, this, plot);
+                this.game.addMessage('{0} uses {1} to initiate the When Revealed ability of {2}', player, this, plot);
                 plot.controller = player;
                 this.resolving = true;
 
