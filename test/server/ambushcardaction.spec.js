@@ -1,14 +1,12 @@
 /* global describe, it, beforeEach, expect, jasmine */
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
-const _ = require('underscore');
-
 const AmbushCardAction = require('../../server/game/ambushcardaction.js');
 
 describe('AmbushCardAction', function () {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'on', 'removeListener']);
-        this.playerSpy = jasmine.createSpyObj('player', ['canPutIntoPlay', 'putIntoPlay']);
+        this.playerSpy = jasmine.createSpyObj('player', ['canPutIntoPlay', 'isCardInPlayableLocation', 'putIntoPlay']);
         this.cardSpy = jasmine.createSpyObj('card', ['getType', 'isAmbush']);
         this.context = {
             costs: {},
@@ -22,7 +20,7 @@ describe('AmbushCardAction', function () {
     describe('meetsRequirements()', function() {
         beforeEach(function() {
             this.gameSpy.currentPhase = 'challenge';
-            this.playerSpy.hand = _([this.cardSpy]);
+            this.playerSpy.isCardInPlayableLocation.and.returnValue(true);
             this.playerSpy.canPutIntoPlay.and.returnValue(true);
             this.cardSpy.getType.and.returnValue('character');
             this.cardSpy.isAmbush.and.returnValue(true);
@@ -44,9 +42,9 @@ describe('AmbushCardAction', function () {
             });
         });
 
-        describe('when the card is not in hand', function() {
+        describe('when the card is not in a playable location', function() {
             beforeEach(function() {
-                this.playerSpy.hand = _([]);
+                this.playerSpy.isCardInPlayableLocation.and.returnValue(false);
             });
 
             it('should return false', function() {

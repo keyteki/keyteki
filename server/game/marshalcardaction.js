@@ -19,7 +19,7 @@ class MarshalCardAction extends BaseAbility {
             game.currentPhase === 'marshal' &&
             !source.cannotMarshal &&
             source.getType() !== 'event' &&
-            player.isCardInMarshalLocation(source) &&
+            player.isCardInPlayableLocation(source, 'marshal') &&
             player.canPutIntoPlay(source)
         );
     }

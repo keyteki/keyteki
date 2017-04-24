@@ -1,5 +1,6 @@
-class MarshalLocation {
-    constructor(player, location) {
+class PlayableLocation {
+    constructor(playingType, player, location) {
+        this.playingType = playingType;
         this.player = player;
         this.location = location;
     }
@@ -10,4 +11,4 @@ class MarshalLocation {
     }
 }
 
-module.exports = MarshalLocation;
+module.exports = PlayableLocation;

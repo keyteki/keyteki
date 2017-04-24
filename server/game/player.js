@@ -6,7 +6,7 @@ const Deck = require('./deck.js');
 const AttachmentPrompt = require('./gamesteps/attachmentprompt.js');
 const BestowPrompt = require('./gamesteps/bestowprompt.js');
 const ChallengeTracker = require('./challengetracker.js');
-const MarshalLocation = require('./marshallocation.js');
+const PlayableLocation = require('./playablelocation.js');
 const PlayActionPrompt = require('./gamesteps/playactionprompt.js');
 
 const StartingHandSize = 7;
@@ -35,7 +35,7 @@ class Player extends Spectator {
         this.challenges = new ChallengeTracker();
         this.minReserve = 0;
         this.costReducers = [];
-        this.marshalLocations = [new MarshalLocation(this, 'hand')];
+        this.playableLocations = _.map(['marshal', 'play', 'ambush'], playingType => new PlayableLocation(playingType, this, 'hand'));
         this.usedPlotsModifier = 0;
 
         this.createAdditionalPile('out of game', { title: 'Out of Game', area: 'player row' });
@@ -130,8 +130,8 @@ class Player extends Spectator {
         }, 0);
     }
 
-    isCardInMarshalLocation(card) {
-        return _.any(this.marshalLocations, location => location.contains(card));
+    isCardInPlayableLocation(card, playingType) {
+        return _.any(this.playableLocations, location => location.playingType === playingType && location.contains(card));
     }
 
     getDuplicateInPlay(card) {
@@ -965,6 +965,10 @@ class Player extends Spectator {
 
         if(targetLocation === 'hand') {
             this.game.raiseEvent('onCardEntersHand', card);
+        }
+
+        if(['dead pile', 'discard pile'].includes(targetLocation)) {
+            this.game.raiseMergedEvent('onCardPlaced', { card: card, location: targetLocation });
         }
     }
 

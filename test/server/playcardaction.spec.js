@@ -1,14 +1,12 @@
 /* global describe, it, beforeEach, expect, jasmine */
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
-const _ = require('underscore');
-
 const PlayCardAction = require('../../server/game/playcardaction.js');
 
 describe('PlayCardAction', function () {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'on', 'raiseEvent', 'removeListener']);
-        this.playerSpy = jasmine.createSpyObj('player', ['moveCard']);
+        this.playerSpy = jasmine.createSpyObj('player', ['isCardInPlayableLocation', 'moveCard']);
         this.cardSpy = jasmine.createSpyObj('card', ['canPlay', 'getType', 'play']);
         this.context = {
             costs: {},
@@ -22,7 +20,7 @@ describe('PlayCardAction', function () {
     describe('meetsRequirements()', function() {
         beforeEach(function() {
             this.gameSpy.currentPhase = 'marshal';
-            this.playerSpy.hand = _([this.cardSpy]);
+            this.playerSpy.isCardInPlayableLocation.and.returnValue(true);
             this.cardSpy.getType.and.returnValue('event');
             this.cardSpy.canPlay.and.returnValue(true);
             this.cardSpy.abilities = { actions: [] };
@@ -44,9 +42,9 @@ describe('PlayCardAction', function () {
             });
         });
 
-        describe('when the card is not in hand', function() {
+        describe('when the card is not in a playable location', function() {
             beforeEach(function() {
-                this.playerSpy.hand = _([]);
+                this.playerSpy.isCardInPlayableLocation.and.returnValue(false);
             });
 
             it('should return false', function() {

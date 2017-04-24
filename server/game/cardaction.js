@@ -105,7 +105,11 @@ class CardAction extends BaseAbility {
             return false;
         }
 
-        if(this.location !== this.card.location) {
+        if(this.card.getType() === 'event' && !context.player.isCardInPlayableLocation(this.card, 'play')) {
+            return false;
+        }
+
+        if(this.card.getType() !== 'event' && this.location !== this.card.location) {
             return false;
         }
 

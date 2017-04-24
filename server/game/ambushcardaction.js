@@ -16,7 +16,7 @@ class AmbushCardAction extends BaseAbility {
         return (
             context.game.currentPhase === 'challenge' &&
             context.source.isAmbush() &&
-            context.player.hand.contains(context.source) &&
+            context.player.isCardInPlayableLocation(context.source, 'ambush') &&
             context.player.canPutIntoPlay(context.source) &&
             context.source.getType() !== 'event'
         );

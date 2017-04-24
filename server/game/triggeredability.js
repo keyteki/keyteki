@@ -64,7 +64,11 @@ class TriggeredAbility extends BaseAbility {
             return false;
         }
 
-        if(this.card.location !== this.location) {
+        if(this.card.getType() === 'event' && !context.player.isCardInPlayableLocation(this.card, 'play')) {
+            return false;
+        }
+
+        if(this.card.getType() !== 'event' && this.card.location !== this.location) {
             return false;
         }
 

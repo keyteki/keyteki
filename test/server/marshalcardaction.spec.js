@@ -6,7 +6,7 @@ const MarshalCardAction = require('../../server/game/marshalcardaction.js');
 describe('MarshalCardAction', function () {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'on', 'removeListener']);
-        this.playerSpy = jasmine.createSpyObj('player', ['canPutIntoPlay', 'isCardInMarshalLocation', 'putIntoPlay']);
+        this.playerSpy = jasmine.createSpyObj('player', ['canPutIntoPlay', 'isCardInPlayableLocation', 'putIntoPlay']);
         this.cardSpy = jasmine.createSpyObj('card', ['getType']);
         this.cardSpy.controller = this.playerSpy;
         this.cardSpy.owner = this.playerSpy;
@@ -23,7 +23,7 @@ describe('MarshalCardAction', function () {
         beforeEach(function() {
             this.gameSpy.currentPhase = 'marshal';
             this.playerSpy.canPutIntoPlay.and.returnValue(true);
-            this.playerSpy.isCardInMarshalLocation.and.returnValue(true);
+            this.playerSpy.isCardInPlayableLocation.and.returnValue(true);
             this.cardSpy.getType.and.returnValue('character');
         });
 
@@ -45,7 +45,7 @@ describe('MarshalCardAction', function () {
 
         describe('when the card is not in a valid marshal location', function() {
             beforeEach(function() {
-                this.playerSpy.isCardInMarshalLocation.and.returnValue(false);
+                this.playerSpy.isCardInPlayableLocation.and.returnValue(false);
             });
 
             it('should return false', function() {

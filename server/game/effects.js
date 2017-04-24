@@ -2,7 +2,7 @@ const _ = require('underscore');
 
 const AbilityLimit = require('./abilitylimit.js');
 const CostReducer = require('./costreducer.js');
-const MarshalLocation = require('./marshallocation.js');
+const PlayableLocation = require('./playablelocation.js');
 
 const Effects = {
     all: function(effects) {
@@ -514,13 +514,26 @@ const Effects = {
         };
     },
     canMarshalFrom: function(p, location) {
-        var marshalLocation = new MarshalLocation(p, location);
+        var playableLocation = new PlayableLocation('marshal', p, location);
         return {
             apply: function(player) {
-                player.marshalLocations.push(marshalLocation);
+                player.playableLocations.push(playableLocation);
             },
             unapply: function(player) {
-                player.marshalLocations = _.reject(player.marshalLocations, l => l === marshalLocation);
+                player.playableLocations = _.reject(player.playableLocations, l => l === playableLocation);
+            }
+        };
+    },
+    canPlayFromOwn: function(location) {
+        return {
+            apply: function(player, context) {
+                let playableLocation = new PlayableLocation('play', player, location);
+                context.canPlayFromOwn = playableLocation;
+                player.playableLocations.push(playableLocation);
+            },
+            unapply: function(player, context) {
+                player.playableLocations = _.reject(player.playableLocations, l => l === context.canPlayFromOwn);
+                delete context.canPlayFromOwn;
             }
         };
     },
