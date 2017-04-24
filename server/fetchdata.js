@@ -42,6 +42,8 @@ request.get(apiUrl + 'cards', function(error, res, body) {
         db.collection('cards').insert(cards, function() {
             fs.writeFile('got-cards.json', JSON.stringify(cards), function() {
                 console.info(cards.length + ' cards fetched');
+
+                db.close();
             });
         });
     });
