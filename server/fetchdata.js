@@ -33,7 +33,6 @@ request.get(apiUrl + 'cards', function(error, res, body) {
         var imagePath = path.join(imageDir, card.code + '.png');
 
         if(card.imagesrc && !fs.existsSync(imagePath)) {
-            console.info(card.imagesrc, card.code, imagePath);
             fetchImage(card.imagesrc, card.code, imagePath, i++ * 200);
         }
     });
