@@ -211,7 +211,7 @@ class PendingGame {
 
             playerSummaries[player.name] = {
                 agenda: this.started && player.agenda ? player.agenda.cardData.code : undefined,
-                deck: deck,
+                deck: activePlayer ? deck : undefined,
                 emailHash: player.emailHash,
                 faction: this.started && player.faction ? player.faction.cardData.code : undefined,
                 id: player.id,
@@ -226,7 +226,7 @@ class PendingGame {
             createdAt: this.createdAt,
             gameType: this.gameType,
             id: this.id,
-            messages: this.gameChat.messages,
+            messages: activePlayer ? this.gameChat.messages : undefined,
             name: this.name,
             node: this.node ? this.node.identity : undefined,
             owner: this.owner,
