@@ -356,7 +356,7 @@ class Player extends Spectator {
     getReducedCost(playingType, card) {
         var baseCost = playingType === 'ambush' ? card.getAmbushCost() : card.getCost();
         var matchingReducers = _.filter(this.costReducers, reducer => reducer.canReduce(playingType, card));
-        var reducedCost = _.reduce(matchingReducers, (cost, reducer) => cost - reducer.amount, baseCost);
+        var reducedCost = _.reduce(matchingReducers, (cost, reducer) => cost - reducer.getAmount(card), baseCost);
         return Math.max(reducedCost, 0);
     }
 

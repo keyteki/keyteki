@@ -22,6 +22,14 @@ class CostReducer {
         return this.playingTypes.includes(playingType) && !!this.match(card);
     }
 
+    getAmount(card) {
+        if(_.isFunction(this.amount)) {
+            return this.amount(card);
+        }
+
+        return this.amount;
+    }
+
     markUsed() {
         if(this.limit) {
             this.limit.increment();

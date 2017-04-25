@@ -9,9 +9,9 @@ describe('Player', function () {
 
         this.player = new Player('1', 'Test 1', true, this.gameSpy);
 
-        this.reducerSpy = jasmine.createSpyObj('reducer', ['canReduce', 'markUsed', 'isExpired', 'unregisterEvents']);
-        this.reducerSpy.amount = 1;
-        this.reducer2Spy = jasmine.createSpyObj('reducer2', ['canReduce', 'markUsed', 'isExpired', 'unregisterEvents']);
+        this.reducerSpy = jasmine.createSpyObj('reducer', ['canReduce', 'getAmount', 'markUsed', 'isExpired', 'unregisterEvents']);
+        this.reducerSpy.getAmount.and.returnValue(1);
+        this.reducer2Spy = jasmine.createSpyObj('reducer2', ['canReduce', 'getAmount', 'markUsed', 'isExpired', 'unregisterEvents']);
         this.cardSpy = jasmine.createSpyObj('card', ['getCost', 'getAmbushCost']);
     });
 
@@ -42,6 +42,11 @@ describe('Player', function () {
                 beforeEach(function() {
                     this.reducerSpy.canReduce.and.returnValue(true);
                     this.player.addCostReducer(this.reducerSpy);
+                });
+
+                it('should calculate the reduction amount using the card', function() {
+                    this.player.getReducedCost('marshal', this.cardSpy);
+                    expect(this.reducerSpy.getAmount).toHaveBeenCalledWith(this.cardSpy);
                 });
 
                 it('should return the reduced cost of the card', function() {
