@@ -22,7 +22,7 @@ class GameChat {
         args = _.reduce(args, (argList, arg) => {
             if(arg instanceof Spectator) {
                 argList.push(arg.name);
-            } else if(arg.emailHash) {
+            } else if(arg && arg.emailHash) {
                 argList.push({ name: arg.name, emailHash: arg.emailHash });
             } else {
                 argList.push(arg);
