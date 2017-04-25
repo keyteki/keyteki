@@ -23,7 +23,7 @@ class WinterFestival extends PlotCard {
             handler: () => {
                 this.game.addPower(this.controller, 2);
 
-                this.game.addMessage('{0} gains 2 power from {1}', this.controller, this, this.pendingCard);
+                this.game.addMessage('{0} gains 2 power from {1}', this.controller, this);
             }
         });
     }
