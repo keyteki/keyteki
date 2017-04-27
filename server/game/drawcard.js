@@ -167,7 +167,19 @@ class DrawCard extends BaseCard {
     }
 
     getNumberOfIcons() {
-        return _.size(this.icons);
+        let count = 0;
+
+        if(this.hasIcon('military')) {
+            count += 1;
+        }
+        if(this.hasIcon('intrigue')) {
+            count += 1;
+        }
+        if(this.hasIcon('power')) {
+            count += 1;
+        }
+
+        return count;
     }
 
     addIcon(icon) {
