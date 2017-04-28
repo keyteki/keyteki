@@ -108,6 +108,10 @@ class App extends React.Component {
             this.props.receiveLobbyMessages(messages);
         });
 
+        socket.on('passworderror', message => {
+            this.props.receivePasswordError(message);
+        });
+
         socket.on('handoff', server => {
             var url = '//' + server.address;
             if(server.port && server.port !== 80 && server.port !== 443) {
@@ -270,6 +274,7 @@ App.propTypes = {
     receiveLobbyMessage: React.PropTypes.func,
     receiveLobbyMessages: React.PropTypes.func,
     receiveNewGame: React.PropTypes.func,
+    receivePasswordError: React.PropTypes.func,
     receiveUsers: React.PropTypes.func,
     sendGameSocketConnectFailed: React.PropTypes.func,
     socketConnected: React.PropTypes.func,

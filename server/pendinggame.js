@@ -1,6 +1,8 @@
 const uuid = require('uuid');
 const _ = require('underscore');
+const bcrypt = require('bcrypt');
 
+const logger = require('./log.js');
 const GameChat = require('./game/gamechat.js');
 
 class PendingGame {
@@ -69,11 +71,7 @@ class PendingGame {
         this.gameChat.addMessage(...arguments);
     }
 
-    join(id, user) {
-        if(_.size(this.players) === 2) {
-            return false;
-        }
-
+    addPlayer(id, user) {
         this.players[user.username] = {
             id: id,
             name: user.username,
@@ -81,29 +79,93 @@ class PendingGame {
             emailHash: user.emailHash,
             owner: this.owner === user.username
         };
-
-        return true;
     }
 
-    watch(id, user) {
-        if(!this.allowSpectators) {
-            return false;
-        }
-
+    addSpectator(id, user) {
         this.spectators[user.username] = {
             id: id,
-            name: user.username,
-            emailHash: user.emailHash,
-            user: user
+            name: user.userame,
+            user: user,
+            emailHash: user.emailHash
         };
+    }
 
-        if(this.started) {
-            return true;
+    newGame(id, user, password, callback) {
+        if(password) {
+            bcrypt.hash(password, 10, (err, hash) => {
+                if(err) {
+                    logger.info(err);
+
+                    callback(err);
+
+                    return;
+                }
+
+                this.password = hash;
+                this.addPlayer(id, user);
+
+                callback();
+            });
+        } else {
+            this.addPlayer(id, user);
+
+            callback();
+        }
+    }
+
+    join(id, user, password, callback) {
+        if(_.size(this.players) === 2) {
+            callback(new Error('Too many players'), 'Too many players');
         }
 
-        this.addMessage('{0} has joined the game as a spectator', user.username);
+        if(this.password) {
+            bcrypt.compare(password, this.password, (err, valid) => {
+                if(err) {
+                    return callback(new Error('Bad password'), 'Incorrect game password');
+                }
 
-        return true;
+                if(!valid) {
+                    return callback(new Error('Bad password'), 'Incorrect game password');
+                }
+
+                this.addPlayer(id, user);
+
+                callback();
+            });
+        } else {
+            this.addPlayer(id, user);
+
+            callback();
+        }
+    }
+
+    watch(id, user, password, callback) {
+        if(!this.allowSpectators || this.started) {
+            callback(new Error('Join not permitted'));
+        }
+
+        if(this.password) {
+            bcrypt.compare(password, this.password, (err, valid) => {
+                if(err) {
+                    return callback(new Error('Bad password'), 'Incorrect game password');
+                }
+
+                if(!valid) {
+                    return callback(new Error('Bad password'), 'Incorrect game password');
+                }
+
+                this.addSpectator(id, user);
+
+                this.addMessage('{0} has joined the game as a spectator', user.username);
+                callback();
+            });
+        } else {
+            this.addSpectator(id, user);
+
+            this.addMessage('{0} has joined the game as a spectator', user.username);
+
+            callback();
+        }
     }
 
     leave(playerName) {
@@ -228,6 +290,7 @@ class PendingGame {
             id: this.id,
             messages: activePlayer ? this.gameChat.messages : undefined,
             name: this.name,
+            needsPassword: !!this.password,
             node: this.node ? this.node.identity : undefined,
             owner: this.owner,
             players: playerSummaries,

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import NewGame from './NewGame.jsx';
 import GameList from './GameList.jsx';
 import PendingGame from './PendingGame.jsx';
+import PasswordGame from './PasswordGame.jsx';
 
 import * as actions from './actions';
 
@@ -47,6 +48,14 @@ class InnerGameLobby extends React.Component {
     }
 
     render() {
+        var rightside = null;
+
+        if(this.props.passwordGame) {
+            rightside = <PasswordGame />;
+        } else if(this.props.currentGame) {
+            rightside = <PendingGame />;
+        }
+
         return (
             <div>
                 { this.props.bannerNotice ? <div className='alert alert-danger'>{ this.props.bannerNotice }</div> : null }
@@ -59,7 +68,7 @@ class InnerGameLobby extends React.Component {
                 </div>
                 <div className='col-sm-5'>
                     { (!this.props.currentGame && this.props.newGame) ? <NewGame defaultGameName={ this.props.username + '\'s game' } /> : null }
-                    { this.props.currentGame ? <PendingGame /> : null }
+                    { rightside }
                 </div>
             </div>);
     }
@@ -72,6 +81,7 @@ InnerGameLobby.propTypes = {
     games: React.PropTypes.array,
     isAdmin: React.PropTypes.bool,
     newGame: React.PropTypes.bool,
+    passwordGame: React.PropTypes.object,
     setContextMenu: React.PropTypes.func,
     startNewGame: React.PropTypes.func,
     username: React.PropTypes.string
@@ -84,6 +94,7 @@ function mapStateToProps(state) {
         isAdmin: state.auth.isAdmin,
         games: state.games.games,
         newGame: state.games.newGame,
+        passwordGame: state.games.passwordGame,
         socket: state.socket.socket,
         username: state.auth.username
     };

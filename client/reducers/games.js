@@ -52,10 +52,31 @@ function games(state = {
                 retState.newGame = false;
             }
 
+            if(currentState) {
+                delete retState.passwordGame;
+                delete retState.passwordJoinType;
+                delete retState.passwordError;
+            }
+
             return retState;
         case 'RECEIVE_USERS':
             return Object.assign({}, state, {
                 users: action.users
+            });
+        case 'JOIN_PASSWORD_GAME':
+            return Object.assign({}, state, {
+                passwordGame: action.game,
+                passwordJoinType: action.joinType
+            });
+        case 'RECEIVE_PASSWORD_ERROR':
+            return Object.assign({}, state, {
+                passwordError: action.message 
+            });
+        case 'CANCEL_PASSWORD_JOIN':
+            return Object.assign({}, state, {
+                passwordGame: undefined,
+                passwordError: undefined,
+                passwordJoinType: undefined
             });
         default:
             return state;

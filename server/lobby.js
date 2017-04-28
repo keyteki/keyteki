@@ -285,17 +285,22 @@ class Lobby {
         }
 
         var game = new PendingGame(socket.user, gameDetails);
-        game.join(socket.id, socket.user);
+        game.newGame(socket.id, socket.user, gameDetails.password, (err, message) => {
+            if(err) {
+                logger.info('game failed to create', err, message);
 
-        socket.joinChannel(game.id);
-        this.sendGameState(game);
+                return;
+            }
 
-        this.games[game.id] = game;
+            socket.joinChannel(game.id);
+            this.sendGameState(game);
 
-        this.broadcastGameList();
+            this.games[game.id] = game;
+            this.broadcastGameList();
+        });
     }
 
-    onJoinGame(socket, gameId) {
+    onJoinGame(socket, gameId, password) {
         var existingGame = this.findGameForUser(socket.user.username);
         if(existingGame) {
             return;
@@ -306,13 +311,19 @@ class Lobby {
             return;
         }
 
-        if(game.join(socket.id, socket.user)) {
+        game.join(socket.id, socket.user, password, (err, message) => {
+            if(err) {
+                socket.send('passworderror', message);
+
+                return;
+            }
+
             socket.joinChannel(game.id);
 
             this.sendGameState(game);
-        }
 
-        this.broadcastGameList();
+            this.broadcastGameList();
+        });
     }
 
     onStartGame(socket, gameId) {
@@ -345,7 +356,7 @@ class Lobby {
         this.io.to(game.id).emit('handoff', { address: gameNode.address, port: gameNode.port, protocol: game.node.protocol, name: game.node.identity });
     }
 
-    onWatchGame(socket, gameId) {
+    onWatchGame(socket, gameId, password) {
         var existingGame = this.findGameForUser(socket.user.username);
         if(existingGame) {
             return;
@@ -356,7 +367,13 @@ class Lobby {
             return;
         }
 
-        if(game.watch(socket.id, socket.user)) {
+        game.watch(socket.id, socket.user, password, (err, message) => {
+            if(err) {
+                socket.send('passworderror', message);
+
+                return;
+            }
+
             socket.joinChannel(game.id);
 
             if(game.started) {
@@ -365,7 +382,7 @@ class Lobby {
             } else {
                 this.sendGameState(game);
             }
-        }
+        });
     }
 
     onLeaveGame(socket) {
@@ -494,6 +511,7 @@ class Lobby {
             syncGame.createdAt = game.startedAt;
             syncGame.started = game.started;
             syncGame.gameType = game.gameType;
+            syncGame.password = game.password;
 
             _.each(game.players, player => {
                 syncGame.players[player.name] = {

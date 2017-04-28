@@ -11,10 +11,12 @@ class InnerNewGame extends React.Component {
         this.onSubmitClick = this.onSubmitClick.bind(this);
         this.onNameChange = this.onNameChange.bind(this);
         this.onSpecatorsClick = this.onSpecatorsClick.bind(this);
+        this.onPasswordChange = this.onPasswordChange.bind(this);
 
         this.state = {
             spectators: true,
-            selectedGameType: 'casual'
+            selectedGameType: 'casual',
+            password: ''
         };
     }
 
@@ -32,6 +34,10 @@ class InnerNewGame extends React.Component {
         this.setState({ gameName: event.target.value.substr(0, 140) });
     }
 
+    onPasswordChange(event) {
+        this.setState({ password: event.target.value });
+    }
+
     onSpecatorsClick(event) {
         this.setState({ spectators: event.target.checked });
     }
@@ -42,7 +48,8 @@ class InnerNewGame extends React.Component {
         this.props.socket.emit('newgame', {
             name: this.state.gameName,
             spectators: this.state.spectators,
-            gameType: this.state.selectedGameType
+            gameType: this.state.selectedGameType,
+            password: this.state.password
         });
     }
 
@@ -79,7 +86,6 @@ class InnerNewGame extends React.Component {
                             <b>Game Type</b>
                         </div>
                         <div className='col-sm-9'>
-
                             <label className='radio-inline'>
                                 <input type='radio' onChange={ this.onRadioChange.bind(this, 'beginner') } checked={ this.isGameTypeSelected('beginner') } />
                                 Beginner
@@ -92,6 +98,12 @@ class InnerNewGame extends React.Component {
                                 <input type='radio' onChange={ this.onRadioChange.bind(this, 'competitive') } checked={ this.isGameTypeSelected('competitive') } />
                                 Competitive
                             </label>
+                        </div>
+                    </div>
+                    <div className='row game-password'>
+                        <div className='col-sm-5'>
+                            <label>Password</label>
+                            <input className='form-control' type='password' onChange={ this.onPasswordChange } value={ this.state.password }/>
                         </div>
                     </div>
                     <div className='button-row'>

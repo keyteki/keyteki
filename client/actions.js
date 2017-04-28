@@ -274,3 +274,24 @@ export function receiveNews(news) {
         news: news
     };
 }
+
+export function joinPasswordGame(game, type) {
+    return {
+        type: 'JOIN_PASSWORD_GAME',
+        game: game,
+        joinType: type
+    };
+}
+
+export function receivePasswordError(message) {
+    return {
+        type: 'RECEIVE_PASSWORD_ERROR',
+        message: message
+    };
+}
+
+export function cancelPasswordJoin() {
+    return {
+        type: 'CANCEL_PASSWORD_JOIN'
+    };
+}

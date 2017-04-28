@@ -15,7 +15,11 @@ class InnerGameList extends React.Component {
     joinGame(event, game) {
         event.preventDefault();
 
-        this.props.socket.emit('joingame', game.id);
+        if(game.needsPassword) {
+            this.props.joinPasswordGame(game, 'Join');
+        } else {
+            this.props.socket.emit('joingame', game.id);
+        }
     }
 
     canWatch(game) {
@@ -25,7 +29,11 @@ class InnerGameList extends React.Component {
     watchGame(event, game) {
         event.preventDefault();
 
-        this.props.socket.emit('watchgame', game.id);
+        if(game.needsPassword) {
+            this.props.joinPasswordGame(game, 'Watch');
+        } else {
+            this.props.socket.emit('watchgame', game.id);
+        }
     }
 
     removeGame(event, game) {
@@ -70,19 +78,31 @@ class InnerGameList extends React.Component {
                 gameLayout = <span>{ sides[0] }</span>;
             }
 
+            var gameTitle = '';
+
+            if(game.needsPassword) {
+                gameTitle += '[Private] ';
+            }
+
+            if(game.gameType) {
+                gameTitle += '[' + game.gameType + '] ';
+            }
+
+            gameTitle += game.name;
+
             return (
                 <div key={ game.id } className='game-row'>
-                    <div><b>[{ game.gameType }] { game.name }</b>{ this.props.isAdmin && this.props.showNodes ? <span className='game-node'>Node: { game.node }</span> : null}</div>
+                    <div><b>{ gameTitle }</b>{ this.props.isAdmin && this.props.showNodes ? <span className='game-node'>Node: { game.node }</span> : null}</div>
                     { gameLayout }
                     <span className='pull-right'>
                         { (this.props.currentGame || _.size(game.players) === 2 || game.started) ?
                             null :
                             <button className='btn btn-primary' onClick={ event => this.joinGame(event, game) }>Join</button>
                         }
-                        {this.canWatch(game) ?
-                            <button className='btn btn-primary' onClick={event => this.watchGame(event, game)}>Watch</button> : null}
-                        {this.props.isAdmin ?
-                            <button className='btn btn-primary' onClick={event => this.removeGame(event, game)}>Remove</button> : null}
+                        { this.canWatch(game) ?
+                            <button className='btn btn-primary' onClick={event => this.watchGame(event, game)}>Watch</button> : null }
+                        { this.props.isAdmin ?
+                            <button className='btn btn-primary' onClick={event => this.removeGame(event, game)}>Remove</button> : null }
                     </span>
                 </div>
             );
@@ -100,7 +120,7 @@ InnerGameList.propTypes = {
     currentGame: React.PropTypes.object,
     games: React.PropTypes.array,
     isAdmin: React.PropTypes.bool,
-    joinGame: React.PropTypes.func,
+    joinPasswordGame: React.PropTypes.func,
     showNodes: React.PropTypes.bool,
     socket: React.PropTypes.object
 };

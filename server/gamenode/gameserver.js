@@ -55,8 +55,6 @@ class GameServer {
 
         if(process.env.NODE_ENV !== 'production') {
             options.path = '/' + (process.env.SERVER || config.nodeIdentity) + '/socket.io';
-
-            logger.info('listening on', options.path);
         }
 
         this.io = socketio(server, options);
@@ -191,7 +189,10 @@ class GameServer {
 
     onGameSync(callback) {
         var gameSummaries = _.map(this.games, game => {
-            return game.getSummary();
+            var retGame = game.getSummary();
+            retGame.password = game.password;
+
+            return retGame;
         });
 
         logger.info('syncing', _.size(gameSummaries), ' games');
