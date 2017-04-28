@@ -15,16 +15,16 @@ describe('the SelectCardPrompt', function() {
     beforeEach(function() {
         this.game = jasmine.createSpyObj('game', ['getPlayers']);
 
-        this.player = jasmine.createSpyObj('player1', ['setPrompt', 'cancelPrompt']);
+        this.player = jasmine.createSpyObj('player1', ['setPrompt', 'cancelPrompt', 'clearSelectableCards', 'clearSelectedCards', 'setSelectableCards', 'setSelectedCards']);
         this.player.cardsInPlay = _([]);
-        this.otherPlayer = jasmine.createSpyObj('player2', ['setPrompt', 'cancelPrompt']);
+        this.otherPlayer = jasmine.createSpyObj('player2', ['setPrompt', 'cancelPrompt', 'clearSelectableCards', 'clearSelectedCards', 'setSelectableCards', 'setSelectedCards']);
         this.card = createCardSpy({ controller: this.player });
 
 
         this.player.cardsInPlay.push(this.card);
 
         this.previousCard = createCardSpy({ selected: true, controller: this.player });
-        this.game.allCards = _([this.previousCard]);
+        this.player.selectedCards = [this.previousCard];
 
         this.properties = {
             cardCondition: function() {
@@ -74,7 +74,7 @@ describe('the SelectCardPrompt', function() {
         });
 
         it('should unselect the cards when the prompt starts', function() {
-            expect(this.previousCard.selected).toBe(false);
+            expect(this.player.clearSelectedCards).toHaveBeenCalled();
         });
 
         describe('the onCardClicked() function', function() {
@@ -116,17 +116,6 @@ describe('the SelectCardPrompt', function() {
                     expect(this.properties.onSelect).toHaveBeenCalledWith(this.player, this.card);
                 });
 
-                describe('when the card is selected from a previous prompt', function() {
-                    beforeEach(function() {
-                        this.card.selected = true;
-                    });
-
-                    it('should not fire the onSelect event', function() {
-                        this.prompt.onCardClicked(this.player, this.card);
-                        expect(this.properties.onSelect).not.toHaveBeenCalled();
-                    });
-                });
-
                 describe('when onSelect returns true', function() {
                     beforeEach(function() {
                         this.properties.onSelect.and.returnValue(true);
@@ -141,7 +130,7 @@ describe('the SelectCardPrompt', function() {
                         this.prompt.onCardClicked(this.player, this.card);
                         this.prompt.continue();
 
-                        expect(this.previousCard.selected).toBe(true);
+                        expect(this.player.setSelectedCards).toHaveBeenCalledWith([this.previousCard]);
                     });
                 });
 
@@ -263,22 +252,17 @@ describe('the SelectCardPrompt', function() {
 
                     it('should select the card if it is not selected', function() {
                         this.prompt.onCardClicked(this.player, this.card);
-                        expect(this.card.selected).toBe(true);
+                        expect(this.player.setSelectedCards).toHaveBeenCalledWith([this.card]);
                         expect(this.prompt.selectedCards).toContain(this.card);
                         expect(this.prompt.selectedCards.length).toBe(1);
                     });
 
                     it('should unselect the card if it is selected', function() {
-                        this.card.selected = true;
+                        this.prompt.selectedCards = [this.card];
                         this.prompt.onCardClicked(this.player, this.card);
-                        expect(this.card.selected).toBe(false);
+                        expect(this.player.setSelectedCards).toHaveBeenCalledWith([]);
                         expect(this.prompt.selectedCards).not.toContain(this.card);
                         expect(this.prompt.selectedCards.length).toBe(0);
-                    });
-
-                    it('should not opponent select the card if it is not selected', function() {
-                        this.prompt.onCardClicked(this.player, this.card);
-                        expect(this.card.opponentSelected).toBeFalsy();
                     });
 
                     it('should not call onSelect', function() {
@@ -294,7 +278,7 @@ describe('the SelectCardPrompt', function() {
 
                     it('should select the card if it is not selected', function() {
                         this.prompt.onCardClicked(this.player, this.card);
-                        expect(this.card.opponentSelected).toBe(true);
+                        expect(this.player.setSelectedCards).toHaveBeenCalledWith([this.card]);
                         expect(this.prompt.selectedCards).toContain(this.card);
                         expect(this.prompt.selectedCards.length).toBe(1);
                     });
@@ -302,7 +286,7 @@ describe('the SelectCardPrompt', function() {
                     it('should unselect the card if it is selected', function() {
                         this.prompt.onCardClicked(this.player, this.card);
                         this.prompt.onCardClicked(this.player, this.card);
-                        expect(this.card.opponentSelected).toBeFalsy();
+                        expect(this.player.setSelectedCards).toHaveBeenCalledWith([]);
                         expect(this.prompt.selectedCards).not.toContain(this.card);
                         expect(this.prompt.selectedCards.length).toBe(0);
                     });
@@ -325,7 +309,7 @@ describe('the SelectCardPrompt', function() {
 
                 it('should select the card', function() {
                     this.prompt.onCardClicked(this.player, this.card3);
-                    expect(this.card3.selected).toBe(true);
+                    expect(this.player.setSelectedCards).toHaveBeenCalledWith([this.card, this.card2, this.card3]);
                 });
             });
 
@@ -401,8 +385,7 @@ describe('the SelectCardPrompt', function() {
 
                     it('should clear selection of the cards', function() {
                         this.prompt.onMenuCommand(this.player, 'done');
-                        expect(this.card.selected).toBe(false);
-                        expect(this.card2.selected).toBe(false);
+                        expect(this.player.clearSelectedCards).toHaveBeenCalled();
                     });
                 });
 
@@ -417,8 +400,7 @@ describe('the SelectCardPrompt', function() {
                     });
 
                     it('should clear selections', function() {
-                        expect(this.card.selected).toBe(false);
-                        expect(this.card2.selected).toBe(false);
+                        expect(this.player.clearSelectedCards).toHaveBeenCalled();
                     });
 
                     it('should remove select cards on the prompt', function() {
@@ -438,60 +420,6 @@ describe('the SelectCardPrompt', function() {
                 it('should call the onSelect event with only the cards still selected', function() {
                     this.prompt.onMenuCommand(this.player, 'done');
                     expect(this.properties.onSelect).toHaveBeenCalledWith(this.player, [this.card2]);
-                });
-            });
-        });
-    });
-
-    describe('multiple prompts', function() {
-        beforeEach(function() {
-            this.card2 = createCardSpy({ controller: this.player });
-            this.card3 = createCardSpy({ controller: this.player });
-            this.game.allCards = _([this.card, this.card2, this.card3]);
-            this.properties = {
-                cardCondition: () => true,
-                onSelect: () => true,
-                onMenuCommand: () => true,
-                onCancel: () => true,
-                numCards: 3
-            };
-            this.prompt = new SelectCardPrompt(this.game, this.player, this.properties);
-        });
-
-        describe('creating a new prompt in the middle of an existing prompt', function() {
-            beforeEach(function() {
-                this.prompt.onCardClicked(this.player, this.card);
-                this.prompt.onCardClicked(this.player, this.card2);
-                this.prompt2 = new SelectCardPrompt(this.game, this.otherPlayer, this.properties);
-            });
-
-            it('should clear existing selection', function() {
-                expect(this.prompt2.selectedCards.length).toBe(0);
-                expect(this.card.selected).toBe(false);
-                expect(this.card2.selected).toBe(false);
-            });
-
-            describe('when the new prompt is completed', function() {
-                beforeEach(function() {
-                    this.prompt2.onCardClicked(this.otherPlayer, this.card);
-                    this.prompt2.onCardClicked(this.otherPlayer, this.card2);
-                    this.prompt2.onCardClicked(this.otherPlayer, this.card3);
-                    this.prompt2.onMenuCommand(this.otherPlayer, 'done');
-                });
-
-                it('should restore selection for original prompt', function() {
-                    expect(this.prompt.selectedCards.length).toBe(2);
-                    expect(this.card.selected).toBe(true);
-                    expect(this.card2.selected).toBe(true);
-                    expect(this.card3.selected).toBe(false);
-                });
-
-                it('should handle clicking after restoration properly', function() {
-                    this.prompt.onCardClicked(this.player, this.card);
-                    expect(this.prompt.selectedCards.length).toBe(1);
-                    expect(this.card.selected).toBe(false);
-                    expect(this.card2.selected).toBe(true);
-                    expect(this.card3.selected).toBe(false);
                 });
             });
         });

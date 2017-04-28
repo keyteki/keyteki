@@ -8,7 +8,8 @@ describe('BaseCard', function () {
         this.testCard = { code: '111', label: 'test 1(some pack)', name: 'test 1' };
         this.limitedCard = { code: '1234', text: 'Limited.' };
         this.nonLimitedCard = { code: '2222', text: 'Stealth.' };
-        this.card = new BaseCard({}, this.testCard);
+        this.owner = jasmine.createSpyObj('owner', ['isCardSelectable', 'isCardSelected']);
+        this.card = new BaseCard(this.owner, this.testCard);
     });
 
     describe('when new instance created', function() {
@@ -51,7 +52,7 @@ describe('BaseCard', function () {
     describe('getSummary', function() {
         describe('when is active player', function() {
             beforeEach(function () {
-                this.summary = this.card.getSummary(true);
+                this.summary = this.card.getSummary(this.owner);
             });
 
             describe('and card is faceup', function() {
@@ -69,7 +70,7 @@ describe('BaseCard', function () {
             describe('and card is facedown', function() {
                 beforeEach(function () {
                     this.card.facedown = true;
-                    this.summary = this.card.getSummary(true);
+                    this.summary = this.card.getSummary(this.owner);
                 });
 
                 it('should return card data', function() {
@@ -86,13 +87,14 @@ describe('BaseCard', function () {
 
         describe('when is not active player', function() {
             beforeEach(function () {
-                this.summary = this.card.getSummary(false);
+                this.anotherPlayer = jasmine.createSpyObj('owner', ['isCardSelectable', 'isCardSelected']);
+                this.summary = this.card.getSummary(this.anotherPlayer);
             });
 
             describe('and card is faceup', function() {
                 describe('and hiding facedown cards', function() {
                     beforeEach(function() {
-                        this.summary = this.card.getSummary(false, true);
+                        this.summary = this.card.getSummary(this.anotherPlayer, true);
                     });
 
                     it('should return no card data', function () {
@@ -120,7 +122,7 @@ describe('BaseCard', function () {
             describe('and card is facedown', function() {
                 beforeEach(function () {
                     this.card.facedown = true;
-                    this.summary = this.card.getSummary(false);
+                    this.summary = this.card.getSummary(this.anotherPlayer);
                 });
 
                 it('should return no card data', function() {

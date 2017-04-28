@@ -37,6 +37,8 @@ class Player extends Spectator {
         this.costReducers = [];
         this.playableLocations = _.map(['marshal', 'play', 'ambush'], playingType => new PlayableLocation(playingType, this, 'hand'));
         this.usedPlotsModifier = 0;
+        this.selectedCards = [];
+        this.selectableCards = [];
 
         this.createAdditionalPile('out of game', { title: 'Out of Game', area: 'player row' });
     }
@@ -1033,9 +1035,33 @@ class Player extends Spectator {
         return this.hand.size() <= this.getTotalReserve();
     }
 
-    getSummaryForCardList(list, isActivePlayer, hideWhenFaceup) {
+    isCardSelected(card) {
+        return this.selectedCards.includes(card);
+    }
+
+    setSelectedCards(cards) {
+        this.selectedCards = cards;
+    }
+
+    clearSelectedCards() {
+        this.selectedCards = [];
+    }
+
+    isCardSelectable(card) {
+        return this.selectableCards.includes(card);
+    }
+
+    setSelectableCards(cards) {
+        this.selectableCards = cards;
+    }
+
+    clearSelectableCards() {
+        this.selectableCards = [];
+    }
+
+    getSummaryForCardList(list, activePlayer, hideWhenFaceup) {
         return list.map(card => {
-            return card.getSummary(isActivePlayer, hideWhenFaceup);
+            return card.getSummary(activePlayer, hideWhenFaceup);
         });
     }
 
@@ -1068,26 +1094,27 @@ class Player extends Spectator {
         this.buttons = [];
     }
 
-    getState(isActivePlayer) {
-        var state = {
-            activePlot: this.activePlot ? this.activePlot.getSummary(isActivePlayer) : undefined,
+    getState(activePlayer) {
+        let isActivePlayer = activePlayer === this;
+        let state = {
+            activePlot: this.activePlot ? this.activePlot.getSummary(activePlayer) : undefined,
             additionalPiles: _.mapObject(this.additionalPiles, pile => ({
                 title: pile.title,
                 area: pile.area,
                 isPrivate: pile.isPrivate,
-                cards: this.getSummaryForCardList(pile.cards, isActivePlayer, pile.isPrivate)
+                cards: this.getSummaryForCardList(pile.cards, activePlayer, pile.isPrivate)
             })),
-            agenda: this.agenda ? this.agenda.getSummary() : undefined,
+            agenda: this.agenda ? this.agenda.getSummary(activePlayer) : undefined,
             buttons: isActivePlayer ? this.buttons : undefined,
-            cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, isActivePlayer),
+            cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
             claim: this.getClaim(),
-            deadPile: this.getSummaryForCardList(this.deadPile, isActivePlayer),
-            discardPile: this.getSummaryForCardList(this.discardPile, isActivePlayer),
+            deadPile: this.getSummaryForCardList(this.deadPile, activePlayer),
+            discardPile: this.getSummaryForCardList(this.discardPile, activePlayer),
             disconnected: this.disconnected,
-            faction: this.faction.getSummary(),
+            faction: this.faction.getSummary(activePlayer),
             firstPlayer: this.firstPlayer,
             gold: !isActivePlayer && this.phase === 'setup' ? 0 : this.gold,
-            hand: this.getSummaryForCardList(this.hand, isActivePlayer, true),
+            hand: this.getSummaryForCardList(this.hand, activePlayer, true),
             id: this.id,
             left: this.left,
             menuTitle: isActivePlayer ? this.menuTitle : undefined,
@@ -1095,8 +1122,8 @@ class Player extends Spectator {
             name: this.name,
             numPlotCards: this.plotDeck.size(),
             phase: this.phase,
-            plotDeck: this.getSummaryForCardList(this.plotDeck, isActivePlayer, true),
-            plotDiscard: this.getSummaryForCardList(this.plotDiscard, isActivePlayer),
+            plotDeck: this.getSummaryForCardList(this.plotDeck, activePlayer, true),
+            plotDiscard: this.getSummaryForCardList(this.plotDiscard, activePlayer),
             plotSelected: !!this.selectedPlot,
             promptTitle: isActivePlayer ? this.promptTitle : undefined,
             reserve: this.getTotalReserve(),
@@ -1107,7 +1134,7 @@ class Player extends Spectator {
 
         if(this.showDeck) {
             state.showDeck = true;
-            state.drawDeck = this.getSummaryForCardList(this.drawDeck, isActivePlayer);
+            state.drawDeck = this.getSummaryForCardList(this.drawDeck, activePlayer);
         }
 
         return state;

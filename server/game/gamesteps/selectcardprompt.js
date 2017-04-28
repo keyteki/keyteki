@@ -86,18 +86,8 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     savePreviouslySelectedCards() {
-        this.previouslySelectedCards = _.map(
-            this.game.allCards.filter(card => card.selected || card.opponentSelected),
-            card => ({
-                card: card,
-                selected: card.selected,
-                opponentSelected: card.opponentSelected
-            })
-        );
-        _.each(this.previouslySelectedCards, selection => {
-            selection.card.selected = false;
-            selection.card.opponentSelected = false;
-        });
+        this.previouslySelectedCards = this.choosingPlayer.selectedCards;
+        this.choosingPlayer.clearSelectedCards();
     }
 
     continue() {
@@ -109,11 +99,10 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     highlightSelectableCards() {
-        this.game.allCards.each(card => {
-            if(this.properties.cardType.includes(card.getType())) {
-                card.selectable = !!this.cardCondition(card);
-            }
+        let selectableCards = this.game.allCards.filter(card => {
+            return this.properties.cardType.includes(card.getType()) && this.cardCondition(card);
         });
+        this.choosingPlayer.setSelectableCards(selectableCards);
     }
 
     activeCondition(player) {
@@ -166,17 +155,12 @@ class SelectCardPrompt extends UiPrompt {
             return false;
         }
 
-        if(this.choosingPlayer !== card.controller) {
-            card.opponentSelected = !card.opponentSelected;
-        } else {
-            card.selected = !card.selected;
-        }
-
-        if(card.selected || card.opponentSelected) {
+        if(!this.selectedCards.includes(card)) {
             this.selectedCards.push(card);
         } else {
             this.selectedCards = _.reject(this.selectedCards, c => c === card);
         }
+        this.choosingPlayer.setSelectedCards(this.selectedCards);
 
         if(this.properties.onCardToggle) {
             this.properties.onCardToggle(this.choosingPlayer, card);
@@ -220,20 +204,12 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     clearSelection() {
-        _.each(this.selectedCards, card => {
-            card.selected = false;
-            card.opponentSelected = false;
-        });
         this.selectedCards = [];
-        this.game.allCards.each(card => {
-            card.selectable = false;
-        });
+        this.choosingPlayer.clearSelectedCards();
+        this.choosingPlayer.clearSelectableCards();
 
         // Restore previous selections.
-        _.each(this.previouslySelectedCards, selection => {
-            selection.card.selected = selection.selected;
-            selection.card.opponentSelected = selection.opponentSelected;
-        });
+        this.choosingPlayer.setSelectedCards(this.previouslySelectedCards);
     }
 }
 

@@ -792,12 +792,13 @@ class Game extends EventEmitter {
         };
     }
 
-    getState(activePlayer) {
-        var playerState = {};
+    getState(activePlayerName) {
+        let activePlayer = this.playersAndSpectators[activePlayerName];
+        let playerState = {};
 
         if(this.started) {
             _.each(this.getPlayers(), player => {
-                playerState[player.name] = player.getState(activePlayer === player.name);
+                playerState[player.name] = player.getState(activePlayer);
             });
 
             return {
@@ -817,10 +818,10 @@ class Game extends EventEmitter {
             };
         }
 
-        return this.getSummary(activePlayer);
+        return this.getSummary(activePlayerName);
     }
 
-    getSummary(activePlayer) {
+    getSummary(activePlayerName) {
         var playerSummaries = {};
 
         _.each(this.getPlayers(), player => {
@@ -829,7 +830,7 @@ class Game extends EventEmitter {
                 return;
             }
 
-            if(activePlayer === player.name && player.deck) {
+            if(activePlayerName === player.name && player.deck) {
                 deck = { name: player.deck.name, selected: player.deck.selected };
             } else if(player.deck) {
                 deck = { selected: player.deck.selected };

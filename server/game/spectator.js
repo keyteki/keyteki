@@ -8,6 +8,14 @@ class Spectator {
         this.buttons = [];
         this.menuTitle = 'Spectator mode';
     }
+
+    isCardSelected() {
+        return false;
+    }
+
+    isCardSelectable() {
+        return false;
+    }
 }
 
 module.exports = Spectator;
