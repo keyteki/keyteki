@@ -6,18 +6,12 @@ class ValarMorghulis extends PlotCard {
     setupCardAbilities() {
         this.whenRevealed({
             handler: () => {
-                _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
-                    this.killAllCharacters(player);
-                });
+                let characters = _.chain(this.game.getPlayersInFirstPlayerOrder())
+                    .map(player => player.filterCardsInPlay(card => card.getType() === 'character'))
+                    .flatten()
+                    .value();
+                this.game.killCharacters(characters);
             }
-        });
-    }
-
-    killAllCharacters(player) {
-        var characters = player.filterCardsInPlay(card => card.getType() === 'character');
-
-        _.each(characters, character => {
-            player.killCharacter(character);
         });
     }
 }

@@ -7,7 +7,7 @@ class TheBoyKing extends DrawCard {
         });
         this.reaction({
             when: {
-                onCharacterKilled: (event, player, card) => card.getCost() <= 3
+                onCharacterKilled: event => event.card.getCost() <= 3
             },
             cost: ability.costs.kneelSelf(),
             handler: () => {

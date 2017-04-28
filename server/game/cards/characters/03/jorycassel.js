@@ -6,18 +6,18 @@ class JoryCassel extends DrawCard {
     setupCardAbilities() {
         this.interrupt({
             when: {
-                onCharacterKilled: (event, player, card, allowSave) => (
-                    allowSave &&
-                    card.controller === this.controller &&
-                    card.isUnique() &&
-                    card.isFaction('stark')
+                onCharacterKilled: event => (
+                    event.allowSave &&
+                    event.card.controller === this.controller &&
+                    event.card.isUnique() &&
+                    event.card.isFaction('stark')
                 )
             },
             canCancel: true,
             handler: context => {
                 context.cancel();
                 var message = '{0} uses {1} to save {2}';
-                var toKill = context.event.params[2];
+                var toKill = context.event.card;
 
                 this.controller.sacrificeCard(this);
 

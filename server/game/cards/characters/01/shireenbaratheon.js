@@ -4,7 +4,7 @@ class ShireenBaratheon extends DrawCard {
     setupCardAbilities() {
         this.interrupt({
             when: {
-                onCharacterKilled: (event, player, card) => card === this
+                onCharacterKilled: event => event.card === this
             },
             handler: () => {
                 this.game.promptForSelect(this.controller, {

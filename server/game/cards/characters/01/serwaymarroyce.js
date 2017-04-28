@@ -4,13 +4,7 @@ class SerWaymarRoyce extends DrawCard {
     setupCardAbilities() {
         this.interrupt({
             when: {
-                onCharacterKilled: (event, player, card) => {
-                    if(card !== this || player !== card.controller) {
-                        return false;
-                    }
-
-                    return true;
-                }
+                onCharacterKilled: event => event.card === this
             },
             handler: () => {
                 var otherPlayer = this.game.getOtherPlayer(this.controller);

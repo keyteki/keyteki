@@ -4,9 +4,9 @@ class VictarionGreyjoy extends DrawCard {
     setupCardAbilities() {
         this.interrupt({
             when: {
-                onCharacterKilled: (event, player, card, allowSave) => (
-                    allowSave &&
-                    card === this &&
+                onCharacterKilled: event => (
+                    event.allowSave &&
+                    event.card === this &&
                     this.power >= 2
                 )
             },

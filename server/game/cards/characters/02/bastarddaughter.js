@@ -4,9 +4,9 @@ class BastardDaughter extends DrawCard {
     setupCardAbilities() {
         this.interrupt({
             when: {
-                onCharacterKilled: (event, player, card) => (
-                    this.controller === card.controller &&
-                    (card === this || card.name === 'The Red Viper')
+                onCharacterKilled: event => (
+                    this.controller === event.card.controller &&
+                    (event.card === this || event.card.name === 'The Red Viper')
                 )
             },
             handler: () => {

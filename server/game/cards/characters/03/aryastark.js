@@ -4,15 +4,15 @@ class AryaStark extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCharacterKilled: (event, player, card) => (
-                    this.controller === card.controller &&
-                    card.isFaction('stark'))
+                onCharacterKilled: event => (
+                    this.controller === event.card.controller &&
+                    event.card.isFaction('stark'))
             },
             cost: ability.costs.sacrificeSelf(),
             handler: () => {
                 this.game.promptForSelect(this.controller, {
                     cardCondition: card => (
-                        card.location === 'play area' && 
+                        card.location === 'play area' &&
                         card.getType() === 'character' &&
                         card.getStrength() <= 3),
                     activePromptTitle: 'Select a character',

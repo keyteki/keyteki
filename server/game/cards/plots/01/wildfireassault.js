@@ -30,13 +30,13 @@ class WildfireAssault extends PlotCard {
     }
 
     doDiscard() {
-        _.each(this.selections, selection => {
-            var player = selection.player;
-            var toKill = _.difference(player.filterCardsInPlay(card => card.getType() === 'character'), selection.cards);
+        let characters = [];
 
-            _.each(toKill, card => {
-                player.killCharacter(card, false);
-            });
+        _.each(this.selections, selection => {
+            let player = selection.player;
+            let toKill = _.difference(player.filterCardsInPlay(card => card.getType() === 'character'), selection.cards);
+
+            characters = characters.concat(toKill);
 
             if(_.isEmpty(toKill)) {
                 this.game.addMessage('{0} does not kill any characters with {1}', player, this);
@@ -44,6 +44,8 @@ class WildfireAssault extends PlotCard {
                 this.game.addMessage('{0} uses {1} to kill {2}', player, this, toKill);
             }
         });
+
+        this.game.killCharacters(characters, false);
 
         this.selections = [];
     }

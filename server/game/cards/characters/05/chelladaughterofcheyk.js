@@ -18,7 +18,7 @@ class ChellaDaughterOfCheyk extends DrawCard {
 
         this.reaction({
             when: {
-                onCharacterKilled: (event, player, card) => this.game.currentChallenge && this.game.currentChallenge.isAttacking(this) && card !== this
+                onCharacterKilled: event => this.game.currentChallenge && this.game.currentChallenge.isAttacking(this) && event.card !== this
             },
             handler: () => {
                 this.addToken('ear', 1);

@@ -5,8 +5,8 @@ const FulfillMilitaryClaim = require('../../../server/game/gamesteps/challenge/f
 
 describe('FulfillMilitaryClaim', function() {
     beforeEach(function() {
-        this.game = jasmine.createSpyObj('game', ['promptForSelect', 'addMessage']);
-        this.loser = jasmine.createSpyObj('loser', ['killCharacter', 'getNumberOfCardsInPlay']);
+        this.game = jasmine.createSpyObj('game', ['killCharacters', 'promptForSelect', 'addMessage']);
+        this.loser = jasmine.createSpyObj('loser', ['getNumberOfCardsInPlay']);
         this.loser.getNumberOfCardsInPlay.and.returnValue(0);
 
         this.step = new FulfillMilitaryClaim(this.game, this.loser, 1);
@@ -47,7 +47,7 @@ describe('FulfillMilitaryClaim', function() {
             });
 
             it('should kill the character', function() {
-                expect(this.loser.killCharacter).toHaveBeenCalledWith(this.card1);
+                expect(this.game.killCharacters).toHaveBeenCalledWith([this.card1]);
             });
 
             it('should return true', function() {
@@ -67,7 +67,7 @@ describe('FulfillMilitaryClaim', function() {
                     });
 
                     it('should not kill the character', function() {
-                        expect(this.loser.killCharacter).not.toHaveBeenCalled();
+                        expect(this.game.killCharacters).not.toHaveBeenCalled();
                     });
 
                     it('should return false', function() {
@@ -81,8 +81,7 @@ describe('FulfillMilitaryClaim', function() {
                     });
 
                     it('should kill the characters', function() {
-                        expect(this.loser.killCharacter).toHaveBeenCalledWith(this.card1);
-                        expect(this.loser.killCharacter).toHaveBeenCalledWith(this.card2);
+                        expect(this.game.killCharacters).toHaveBeenCalledWith([this.card1, this.card2]);
                     });
 
                     it('should return true', function() {
@@ -103,7 +102,7 @@ describe('FulfillMilitaryClaim', function() {
                     });
 
                     it('should not kill the character', function() {
-                        expect(this.loser.killCharacter).not.toHaveBeenCalled();
+                        expect(this.game.killCharacters).not.toHaveBeenCalled();
                     });
 
                     it('should return false', function() {
@@ -117,8 +116,7 @@ describe('FulfillMilitaryClaim', function() {
                     });
 
                     it('should kill the characters', function() {
-                        expect(this.loser.killCharacter).toHaveBeenCalledWith(this.card1);
-                        expect(this.loser.killCharacter).toHaveBeenCalledWith(this.card2);
+                        expect(this.game.killCharacters).toHaveBeenCalledWith([this.card1, this.card2]);
                     });
 
                     it('should return true', function() {

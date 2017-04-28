@@ -4,10 +4,10 @@ class SerBarristanSelmy extends DrawCard {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onCharacterKilled: (event, player, card, allowSave) => (
-                    allowSave
-                    && (card.hasTrait('Lord') || card.hasTrait('Lady'))
-                    && card.controller === this.controller
+                onCharacterKilled: event => (
+                    event.allowSave
+                    && (event.card.hasTrait('Lord') || event.card.hasTrait('Lady'))
+                    && event.card.controller === this.controller
                 )
             },
             cost: ability.costs.standSelf(),
@@ -16,7 +16,7 @@ class SerBarristanSelmy extends DrawCard {
                 context.cancel();
 
                 this.game.addMessage('{0} stands {1} to save {2}',
-                                     this.controller, this, context.event.params[2]);
+                                     this.controller, this, context.event.card);
             }
         });
     }

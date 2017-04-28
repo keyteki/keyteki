@@ -41,9 +41,7 @@ class FulfillMilitaryClaim extends BaseStep {
 
         this.game.addMessage('{0} chooses {1} for claim', this.player, cards);
 
-        _.each(cards, card => {
-            card.controller.killCharacter(card);
-        });
+        this.game.killCharacters(cards);
 
         return true;
     }

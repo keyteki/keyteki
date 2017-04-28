@@ -4,9 +4,9 @@ class CrossroadsSellsword extends DrawCard {
     setupCardAbilities() {
         this.interrupt({
             when: {
-                onCharacterKilled: (event, player, card) => (
-                    card === this &&
-                    this.controller === card.controller &&
+                onCharacterKilled: event => (
+                    event.card === this &&
+                    this.controller === event.card.controller &&
                     this.game.currentPhase === 'challenge')
             },
             handler: () => {

@@ -34,10 +34,7 @@ class TheWatcherOnTheWalls extends ChallengeEvent {
 
     onSelect(player, cards) {
         _.each(cards, card => player.kneelCard(card));
-        _.each(this.game.currentChallenge.attackers, attacker => {
-            attacker.controller.killCharacter(attacker);
-        });
-
+        this.game.killCharacters(this.game.currentChallenge.attackers);
         this.game.addMessage('{0} uses {1} to kill each attacking character',
                              player, this);
 

@@ -8,7 +8,7 @@ class BenjenStark extends DrawCard {
         });
         this.interrupt({
             when: {
-                onCharacterKilled: (event, player, card) => card === this
+                onCharacterKilled: event => event.card === this
             },
             handler: (context) => {
                 context.skipHandler();

@@ -4,7 +4,7 @@ class JoffreyBaratheon extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCharacterKilled: (event, player, card) => card.getType() === 'character' && (card.hasTrait('Lord') || card.hasTrait('Lady'))
+                onCharacterKilled: event => event.card.getType() === 'character' && (event.card.hasTrait('Lord') || event.card.hasTrait('Lady'))
             },
             limit: ability.limit.perRound(3),
             handler: () => {
