@@ -68,9 +68,9 @@ describe('DeckSearchPrompt', function() {
             });
 
             it('should generate buttons for each unique card by title', function() {
-                expect(this.result.buttons).toContain(jasmine.objectContaining({ text: 'Foo', arg: '1111' }));
-                expect(this.result.buttons).toContain(jasmine.objectContaining({ text: 'Bar', arg: '2222' }));
-                expect(this.result.buttons).not.toContain(jasmine.objectContaining({ arg: '3333' }));
+                expect(this.result.buttons).toContain(jasmine.objectContaining({ text: 'Foo', card: jasmine.objectContaining({ uuid: '1111' }) }));
+                expect(this.result.buttons).toContain(jasmine.objectContaining({ text: 'Bar', card: jasmine.objectContaining({ uuid: '2222' }) }));
+                expect(this.result.buttons).not.toContain(jasmine.objectContaining({ card: jasmine.objectContaining({ uuid: '3333' }) }));
             });
 
             it('should include a Done button', function() {
@@ -190,9 +190,9 @@ describe('DeckSearchPrompt', function() {
             });
 
             it('should generate buttons for each unique card by title', function() {
-                expect(this.result.buttons).toContain(jasmine.objectContaining({ text: 'Foo', arg: '1111' }));
-                expect(this.result.buttons).toContain(jasmine.objectContaining({ text: 'Bar', arg: '2222' }));
-                expect(this.result.buttons).not.toContain(jasmine.objectContaining({ arg: '3333' }));
+                expect(this.result.buttons).toContain(jasmine.objectContaining({ text: 'Foo', card: jasmine.objectContaining({ uuid: '1111' }) }));
+                expect(this.result.buttons).toContain(jasmine.objectContaining({ text: 'Bar', card: jasmine.objectContaining({ uuid: '2222' }) }));
+                expect(this.result.buttons).not.toContain(jasmine.objectContaining({ card: jasmine.objectContaining({ uuid: '3333' }) }));
             });
 
             it('should include a Done button', function() {

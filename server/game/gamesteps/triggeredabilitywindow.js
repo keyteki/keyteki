@@ -56,7 +56,7 @@ class TriggeredAbilityWindow extends BaseStep {
             if(abilityChoice.text !== 'default') {
                 title += ' - ' + abilityChoice.text;
             }
-            return { text: title, method: 'chooseAbility', arg: abilityChoice.id, card: abilityChoice.card.getSummary(true) };
+            return { text: title, method: 'chooseAbility', arg: abilityChoice.id, card: abilityChoice.card };
         });
         buttons.push({ text: 'Pass', method: 'pass' });
         this.game.promptWithMenu(player, this, {

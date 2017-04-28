@@ -26,7 +26,7 @@ class INeverBetAgainstMyFamily extends DrawCard {
 
     promptToChooseCharacter() {
         var buttons = _.map(this.uniqueCharacters, card => ({
-            text: card.name, method: 'selectCharacter', arg: card.uuid, card: card.getSummary(true)
+            method: 'selectCharacter', card: card
         }));
 
         buttons.push({ text: 'None', method: 'promptToPlaceNextCard' });
@@ -67,7 +67,7 @@ class INeverBetAgainstMyFamily extends DrawCard {
         }
 
         var buttons = _.map(this.remainingCards, card => ({
-            text: card.name, method: 'selectCardForBottom', arg: card.uuid, card: card.getSummary(true)
+            method: 'selectCardForBottom', card: card
         }));
 
         this.game.promptWithMenu(this.controller, this, {

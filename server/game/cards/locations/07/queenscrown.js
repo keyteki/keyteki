@@ -29,7 +29,7 @@ class Queenscrown extends DrawCard {
 
     promptToDiscardCharacter(characters) {
         let buttons = _.map(characters, card => {
-            return { text: card.name, method: 'placeCharacterInDiscard', arg: card.uuid, card: card.getSummary(true) };
+            return { method: 'placeCharacterInDiscard', card: card };
         });
         buttons.push({ text: 'Done', method: 'promptToPlaceOnBottom' });
         this.game.promptWithMenu(this.controller, this, {
@@ -63,7 +63,7 @@ class Queenscrown extends DrawCard {
         }
 
         let buttons = _.map(this.remainingCards, card => {
-            return { text: card.name, method: 'placeCardOnBottom', arg: card.uuid, card: card.getSummary(true) };
+            return { method: 'placeCardOnBottom', card: card };
         });
 
         this.game.promptWithMenu(this.controller, this, {

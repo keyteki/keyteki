@@ -39,7 +39,7 @@ class HisViperEyes extends DrawCard {
     revealHand() {
         var otherPlayer = this.game.getOtherPlayer(this.controller);
         var buttons = otherPlayer.hand.map(card => {
-            return { text: card.name, method: 'cardSelected', arg: card.uuid, card: card.getSummary(true) };
+            return { method: 'cardSelected', card: card };
         });
 
         buttons.push({ text: 'Cancel', method: 'cancel' });

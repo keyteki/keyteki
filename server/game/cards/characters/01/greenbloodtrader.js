@@ -12,7 +12,7 @@ class GreenbloodTrader extends DrawCard {
                 this.top2Cards = this.controller.drawDeck.first(2);
 
                 var buttons = _.map(this.top2Cards, card => {
-                    return { text: card.name, method: 'cardSelected', arg: card.uuid, card: card.getSummary(true) };
+                    return { method: 'cardSelected', card: card };
                 });
 
                 buttons.push({ text: 'Continue', method: 'continueWithoutSelecting' });
@@ -76,7 +76,7 @@ class GreenbloodTrader extends DrawCard {
 
     continueWithoutSelecting(player) {
         var buttons = _.map(this.top2Cards, card => {
-            return { text: card.name, method: 'moveToBottom', arg: card.uuid, card: card.getSummary(true) };
+            return { method: 'moveToBottom', card: card };
         });
 
         buttons.push({ text: 'Cancel', method: 'cancel' });

@@ -20,7 +20,7 @@ class AGiftOfArborRed extends DrawCard {
                 }
 
                 var buttons = _.map(this.thisPlayerCards, card => ({
-                    text: card.name, method: 'selectThisPlayerCardForHand', arg: card.uuid, card: card.getSummary(true)
+                    method: 'selectThisPlayerCardForHand', card: card
                 }));
 
                 this.game.promptWithMenu(this.controller, this, {
@@ -46,7 +46,7 @@ class AGiftOfArborRed extends DrawCard {
         }
 
         var buttons = _.map(this.otherPlayerCards, card => ({
-            text: card.name, method: 'selectOtherPlayerCardForHand', arg: card.uuid, card: card.getSummary(true)
+            method: 'selectOtherPlayerCardForHand', card: card
         }));
 
         this.game.promptWithMenu(this.controller, this, {

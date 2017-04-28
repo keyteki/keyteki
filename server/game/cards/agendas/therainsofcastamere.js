@@ -70,7 +70,7 @@ class TheRainsOfCastamere extends AgendaCard {
 
     menuButtons() {
         var buttons = _.map(this.schemes, scheme => {
-            return { text: scheme.name, method: 'revealScheme', arg: scheme.uuid, card: scheme.getSummary(true) };
+            return { method: 'revealScheme', card: scheme };
         });
 
         buttons.push({ text: 'Done', method: 'cancelScheme' });

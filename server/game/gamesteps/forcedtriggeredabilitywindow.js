@@ -42,7 +42,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         let buttons = _.chain(this.abilityChoices)
             .map(abilityChoice => {
                 let title = abilityChoice.player.name + ' - ' + abilityChoice.card.name;
-                return { text: title, method: 'chooseAbility', arg: abilityChoice.id, card: abilityChoice.card.getSummary(true) };
+                return { text: title, method: 'chooseAbility', arg: abilityChoice.id, card: abilityChoice.card };
             })
             .sortBy('text')
             .value();

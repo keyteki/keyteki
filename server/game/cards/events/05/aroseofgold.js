@@ -13,7 +13,7 @@ class ARoseOfGold extends DrawCard {
                 this.remainingCards = this.controller.searchDrawDeck(3);
 
                 var buttons = _.map(this.remainingCards, card => ({
-                    text: card.name, method: 'selectCardForHand', arg: card.uuid, card: card.getSummary(true)
+                    method: 'selectCardForHand', card: card
                 }));
 
                 this.game.promptWithMenu(this.controller, this, {
@@ -44,7 +44,7 @@ class ARoseOfGold extends DrawCard {
 
     promptToPlaceNextCard() {
         var buttons = _.map(this.remainingCards, card => ({
-            text: card.name, method: 'selectCardForBottom', arg: card.uuid, card: card.getSummary(true)
+            method: 'selectCardForBottom', card: card
         }));
 
         this.game.promptWithMenu(this.controller, this, {

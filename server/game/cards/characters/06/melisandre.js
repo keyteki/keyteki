@@ -26,7 +26,7 @@ class Melisandre extends DrawCard {
     revealHand() {
         let otherPlayer = this.game.getOtherPlayer(this.controller);
         let buttons = otherPlayer.hand.map(card => {
-            return { text: card.name, method: 'cardSelected', arg: card.uuid, card: card.getSummary(true) };
+            return { method: 'cardSelected', card: card };
         });
 
         buttons.push({ text: 'Cancel', method: 'cancel' });

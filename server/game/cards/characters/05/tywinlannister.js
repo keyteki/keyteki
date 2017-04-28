@@ -14,7 +14,7 @@ class TywinLannister extends DrawCard {
 
                 var top2Cards = this.discardingPlayer.drawDeck.first(2);
                 var buttons = _.map(top2Cards, card => {
-                    return { text: card.name, method: 'cardSelected', arg: card.uuid, card: card.getSummary(true) };
+                    return { method: 'cardSelected', card: card };
                 });
 
                 this.game.promptWithMenu(this.controller, this, {

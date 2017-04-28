@@ -443,6 +443,15 @@ class BaseCard {
         return false;
     }
 
+    getShortSummary() {
+        return {
+            code: this.cardData.code,
+            label: this.cardData.label,
+            name: this.cardData.name,
+            type: this.getType()
+        };
+    }
+
     getSummary(isActivePlayer, hideWhenFaceup) {
         return isActivePlayer || (!this.facedown && !hideWhenFaceup) ? {
             code: this.cardData.code,

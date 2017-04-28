@@ -73,7 +73,7 @@ class SummonedToCourt extends PlotCard {
             activePrompt: {
                 menuTitle: 'Put ' + card.name + ' into play?',
                 buttons: [
-                    { text: 'Yes', method: 'putChoiceIntoPlay', arg: card.uuid, card: card.getSummary(true) },
+                    { text: 'Yes', method: 'putChoiceIntoPlay', card: card },
                     { text: 'No', method: 'declinePutIntoPlay', arg: card.uuid }
                 ]
             },

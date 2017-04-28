@@ -36,7 +36,7 @@ class CaswellsKeep extends DrawCard {
         this.topCards = this.selectedPlayer.searchDrawDeck(2);
 
         var buttons = _.map(this.topCards, card => ({
-            text: card.name, method: 'selectCard', arg: card.uuid, card: card.getSummary(true)
+            method: 'selectCard', card: card
         }));
 
         this.game.promptWithMenu(this.controller, this, {

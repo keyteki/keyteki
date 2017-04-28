@@ -41,7 +41,7 @@ class TheBearAndTheMaidenFair extends DrawCard {
 
     promptToPlaceNextCard() {
         var buttons = _.map(this.remainingCards, card => ({
-            text: card.name, method: 'selectCard', arg: card.uuid, card: card.getSummary(true)
+            method: 'selectCard', card: card
         }));
 
         if(this.mode === 'bottom') {

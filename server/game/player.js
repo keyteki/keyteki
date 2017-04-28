@@ -1051,7 +1051,15 @@ class Player extends Spectator {
         this.selectCard = prompt.selectCard || false;
         this.menuTitle = prompt.menuTitle || '';
         this.promptTitle = prompt.promptTitle;
-        this.buttons = prompt.buttons || [];
+        this.buttons = _.map(prompt.buttons || [], button => {
+            if(button.card) {
+                let card = button.card;
+                let properties = _.omit(button, 'card');
+                return _.extend({ text: card.name, arg: card.uuid, card: card.getShortSummary() }, properties);
+            }
+
+            return button;
+        });
     }
 
     cancelPrompt() {

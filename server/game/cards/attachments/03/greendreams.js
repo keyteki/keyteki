@@ -14,8 +14,8 @@ class GreenDreams extends DrawCard {
                     activePrompt: {
                         menuTitle: 'Put ' + this.topCard.name + ' on bottom of your deck?',
                         buttons: [
-                            { text: 'Yes', method: 'placeOnBottom', arg: 'yes', card: this.topCard.getSummary(true) },
-                            { text: 'No', method: 'placeOnBottom', arg: 'no', card: this.topCard.getSummary(true) }
+                            { text: 'Yes', method: 'placeOnBottom', arg: 'yes', card: this.topCard },
+                            { text: 'No', method: 'placeOnBottom', arg: 'no', card: this.topCard }
                         ]
                     },
                     source: this

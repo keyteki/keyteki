@@ -66,7 +66,7 @@ class DeckSearchPrompt extends UiPrompt {
     buttons() {
         let uniqueCardsByTitle = _.uniq(this.searchCards(), card => card.cardData.label);
         let buttons = _.map(uniqueCardsByTitle, card => {
-            return { text: card.cardData.label, arg: card.uuid, card: card.getSummary(true) };
+            return { text: card.cardData.label, card: card };
         });
         buttons.push({ text: 'Done', arg: 'done' });
         return buttons;
