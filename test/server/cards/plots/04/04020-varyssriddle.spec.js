@@ -60,6 +60,60 @@ describe('Varys\'s Riddle', function() {
             });
         });
 
+        describe('when played against Calm Over Westeros', function() {
+            integration(function() {
+                beforeEach(function() {
+                    const deck = this.buildDeck('lannister', [
+                        'Calm Over Westeros', 'Varys\'s Riddle',
+                        'The Tickler'
+                    ]);
+                    this.player1.selectDeck(deck);
+                    this.player2.selectDeck(deck);
+                    this.startGame();
+                    this.keepStartingHands();
+
+                    this.player2.clickCard('The Tickler', 'hand');
+                    this.completeSetup();
+
+                    this.player1.selectPlot('Varys\'s Riddle');
+                    this.player2.selectPlot('Calm Over Westeros');
+                    this.selectFirstPlayer(this.player2);
+
+                    this.selectPlotOrder(this.player1);
+
+                    // Reduce Intrigue claim using Varys's Riddle
+                    this.player1.clickPrompt('Intrigue');
+
+                    // Reduce claim on Military this round.
+                    this.player2.clickPrompt('Military');
+
+                    this.skipActionWindow();
+
+                    this.completeMarshalPhase();
+
+                    this.skipActionWindow();
+
+                    this.player2.clickPrompt('Intrigue');
+                    this.player2.clickCard('The Tickler', 'play area');
+                    this.player2.clickPrompt('Done');
+
+                    this.skipActionWindow();
+
+                    this.player1.clickPrompt('Done');
+
+                    this.skipActionWindow();
+                    this.skipActionWindow();
+
+                    this.player2.clickPrompt('Apply Claim');
+                });
+
+                it('should reduce the claim', function() {
+                    expect(this.player1Object.discardPile.size()).toBe(0);
+                });
+            });
+        });
+
+
         describe('when played against something that reacts to plots being revealed', function() {
             beforeEach(function() {
                 const deck2 = this.buildDeck('stark', [
