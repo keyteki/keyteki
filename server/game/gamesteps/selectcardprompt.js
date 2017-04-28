@@ -15,6 +15,11 @@ const UiPrompt = require('./uiprompt.js');
  *                      choosing player.
  * waitingPromptTitle - the title that should be used in the prompt for the
  *                      opponent players.
+ * maxStat            - a function that returns the maximum value that cards
+ *                      selected by the prompt cannot exceed. If not specified,
+ *                      then no stat limiting is done on the prompt.
+ * cardStat           - a function that takes a card and returns a stat value.
+ *                      Used for prompts that have a maximum stat value.
  * cardCondition      - a function that takes a card and should return a boolean
  *                      on whether that card is elligible to be selected.
  * cardType           - a string or array of strings listing which types of
@@ -47,6 +52,11 @@ class SelectCardPrompt extends UiPrompt {
         if(!_.isArray(this.properties.cardType)) {
             this.properties.cardType = [this.properties.cardType];
         }
+        if(properties.maxStat && properties.cardStat) {
+            this.cardCondition = this.createMaxStatCardCondition(properties);
+        } else {
+            this.cardCondition = properties.cardCondition;
+        }
         this.selectedCards = [];
         this.savePreviouslySelectedCards();
     }
@@ -60,6 +70,18 @@ class SelectCardPrompt extends UiPrompt {
             onSelect: () => true,
             onMenuCommand: () => true,
             onCancel: () => true
+        };
+    }
+
+    createMaxStatCardCondition(properties) {
+        return card => {
+            if(!properties.cardCondition(card)) {
+                return false;
+            }
+
+            let currentStatSum = _.reduce(this.selectedCards, (sum, c) => sum + properties.cardStat(c), 0);
+
+            return properties.cardStat(card) + currentStatSum <= properties.maxStat() || this.selectedCards.includes(card);
         };
     }
 
@@ -89,7 +111,7 @@ class SelectCardPrompt extends UiPrompt {
     highlightSelectableCards() {
         this.game.allCards.each(card => {
             if(this.properties.cardType.includes(card.getType())) {
-                card.selectable = !!this.properties.cardCondition(card);
+                card.selectable = !!this.cardCondition(card);
             }
         });
     }
@@ -136,7 +158,7 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     checkCardCondition(card) {
-        return this.properties.cardType.includes(card.getType()) && this.properties.cardCondition(card);
+        return this.properties.cardType.includes(card.getType()) && this.cardCondition(card);
     }
 
     selectCard(card) {

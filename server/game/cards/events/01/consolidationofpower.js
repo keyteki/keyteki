@@ -16,22 +16,13 @@ class ConsolidationOfPower extends DrawCard {
     }
 
     play(player) {
-        this.selectedStrength = 0;
-
         this.game.promptForSelect(player, {
             numCards: 99,
             activePromptTitle: 'Select characters',
             source: this,
-            cardCondition: card => {
-                return !card.kneeled && (card.getStrength() + this.selectedStrength <= 4 || card.opponentSelected || card.selected);
-            },
-            onCardToggle: (player, card) => {
-                if(card.opponentSelected || card.selected) {
-                    this.selectedStrength += card.getStrength();
-                } else {
-                    this.selectedStrength -= card.getStrength();
-                }
-            },
+            maxStat: () => 4,
+            cardStat: card => card.getStrength(),
+            cardCondition: card => card.location === 'play area' && card.getType() === 'character' && !card.kneeled,
             onSelect: (player, cards) => this.onSelect(player, cards),
             onCancel: (player) => this.cancelSelection(player)
         });
@@ -63,14 +54,10 @@ class ConsolidationOfPower extends DrawCard {
         this.game.addMessage('{0} uses {1} to kneel {2}', player, this, this.cards);
         this.game.addMessage('{0} uses {1} to have {2} gain 1 power', player, this, card);
 
-        this.selectedStrength = 0;
-
         return true;
     }
 
     cancelSelection(player) {
-        this.selectedStrength = 0;
-
         this.game.addMessage('{0} cancels the resolution of {1}', player, this);
     }
 }

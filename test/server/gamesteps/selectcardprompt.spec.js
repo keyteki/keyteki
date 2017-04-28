@@ -496,4 +496,74 @@ describe('the SelectCardPrompt', function() {
             });
         });
     });
+
+    describe('for stat-based prompts', function() {
+        beforeEach(function() {
+            this.maxStatSpy = jasmine.createSpy('maxStat');
+            this.maxStatSpy.and.returnValue(1);
+            this.cardStatSpy = jasmine.createSpy('cardStat');
+            this.properties.maxStat = this.maxStatSpy;
+            this.properties.cardStat = this.cardStatSpy;
+            this.prompt = new SelectCardPrompt(this.game, this.player, this.properties);
+        });
+
+        describe('checkCardCondition()', function() {
+            beforeEach(function() {
+                this.properties.cardCondition.and.returnValue(true);
+                this.card.getType.and.returnValue('character');
+            });
+
+            describe('when the card is not selected', function() {
+                beforeEach(function() {
+                    this.prompt.selectedCards = [];
+                });
+
+                describe('and the card will not put it past the max', function() {
+                    beforeEach(function() {
+                        this.cardStatSpy.and.returnValue(1);
+                    });
+
+                    it('should return true', function() {
+                        expect(this.prompt.checkCardCondition(this.card)).toBe(true);
+                    });
+                });
+
+                describe('and the card will put it past the max', function() {
+                    beforeEach(function() {
+                        this.cardStatSpy.and.returnValue(2);
+                    });
+
+                    it('should return false', function() {
+                        expect(this.prompt.checkCardCondition(this.card)).toBe(false);
+                    });
+                });
+            });
+
+            describe('when the card is already selected and is therefore being unselected', function() {
+                beforeEach(function() {
+                    this.prompt.selectedCards = [this.card];
+                });
+
+                describe('and the card will not put it past the max', function() {
+                    beforeEach(function() {
+                        this.cardStatSpy.and.returnValue(1);
+                    });
+
+                    it('should return true', function() {
+                        expect(this.prompt.checkCardCondition(this.card)).toBe(true);
+                    });
+                });
+
+                describe('and the card will put it past the max', function() {
+                    beforeEach(function() {
+                        this.cardStatSpy.and.returnValue(2);
+                    });
+
+                    it('should return true', function() {
+                        expect(this.prompt.checkCardCondition(this.card)).toBe(true);
+                    });
+                });
+            });
+        });
+    });
 });
