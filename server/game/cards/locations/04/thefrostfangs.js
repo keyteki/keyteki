@@ -4,7 +4,7 @@ class TheFrostfangs extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onCardEntersPlay: (event, card) => card === this && card.controller.phase !== 'setup'
+                onCardEntersPlay: event => event.card === this
             },
             handler: () => {
                 var otherPlayer = this.game.getOtherPlayer(this.controller);

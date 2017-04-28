@@ -4,12 +4,12 @@ class BrandonsGift extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardEntersPlay: (event, card) => (
-                    card.controller === this.controller && 
-                    this.game.currentPhase === 'marshal' &&
-                    card.hasTrait('Builder') && 
-                    card.getType() === 'character')
-                    
+                onCardEntersPlay: event => (
+                    event.card.controller === this.controller &&
+                    event.playingType === 'marshal' &&
+                    event.card.hasTrait('Builder') &&
+                    event.card.getType() === 'character')
+
             },
             limit: ability.limit.perPhase(3),
             handler: () => {

@@ -4,7 +4,7 @@ class Yoren extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onCardEntersPlay: (event, card) => card === this && card.controller.phase !== 'setup'
+                onCardEntersPlay: event => event.card === this && event.playingType === 'marshal'
             },
             handler: () => {
                 this.game.promptForSelect(this.controller, {

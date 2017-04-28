@@ -8,7 +8,7 @@ class ShaggaSonOfDolf extends DrawCard {
             phase: 'challenge',
             condition: () => this.hasClansmanOrTyrion(),
             handler: () => {
-                this.controller.putIntoPlay(this);
+                this.controller.putIntoPlay(this, 'ambush');
                 this.wasAmbush = true;
                 this.game.addMessage('{0} ambushes {1} into play for free', this.controller, this);
             }
@@ -16,7 +16,7 @@ class ShaggaSonOfDolf extends DrawCard {
 
         this.forcedReaction({
             when: {
-                onCardEntersPlay: (event, card) => card === this && this.wasAmbush
+                onCardEntersPlay: event => event.card === this && event.playingType === 'ambush'
             },
             target: {
                 activePromptTitle: 'Select a character to kill',

@@ -9,7 +9,7 @@ class AryaStark extends DrawCard {
         });
         this.reaction({
             when: {
-                onCardEntersPlay: (event, card) => card === this
+                onCardEntersPlay: event => event.card === this
             },
             handler: () => {
                 var dupe = this.controller.drawDeck.first();

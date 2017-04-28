@@ -4,7 +4,8 @@ class UlfSonOfUmar extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardEntersPlay: (event, card) => {
+                onCardEntersPlay: event => {
+                    let card = event.card;
                     if(!card.hasTrait('Clansman') || card.getType() !== 'character' || card.controller !== this.controller || card.getStrength(true) === 0) {
                         return false;
                     }

@@ -4,7 +4,7 @@ class RiverrunMinstrel extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onCardEntersPlay: (e, card) => card === this
+                onCardEntersPlay: event => event.card === this
             },
             handler: () => {
                 this.game.promptForSelect(this.controller, {

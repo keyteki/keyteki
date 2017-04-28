@@ -5,8 +5,8 @@ class QuaitheOfTheShadow extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onCardEntersPlay: (event, card) => (
-                    card === this &&
+                onCardEntersPlay: event => (
+                    event.card === this &&
                     this.game.currentChallenge &&
                     this.game.currentPhase === 'challenge'
                 )

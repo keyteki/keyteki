@@ -14,7 +14,8 @@ class Esgred extends DrawCard {
         });
     }
 
-    onCardEntersPlay(event, card) {
+    onCardEntersPlay(event) {
+        let card = event.card;
         if(card !== this && card.name !== 'Asha Greyjoy') {
             return;
         }

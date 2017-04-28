@@ -5,7 +5,7 @@ class HouseFlorentKnight extends DrawCard {
     setupCardAbilities() {
         this.forcedReaction({
             when: {
-                onCardEntersPlay: (event, card) => card === this
+                onCardEntersPlay: event => event.card === this
             },
             target: {
                 activePromptTitle: 'Select a character with the lowest strength in play',

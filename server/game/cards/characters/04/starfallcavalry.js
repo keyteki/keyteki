@@ -4,7 +4,7 @@ class StarfallCavalry extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onCardEntersPlay: (event, card) => card === this
+                onCardEntersPlay: event => event.card === this
             },
             handler: () => {
                 var numCards = this.controller.getNumberOfUsedPlots() >= 3 ? 3 : 1;

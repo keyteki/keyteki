@@ -4,8 +4,9 @@ class JoffreyBaratheon extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardEntersPlay: (event, card) => {
-                    if(this.controller !== card.controller || this.controller.phase !== 'marshal' || card.getType() !== 'character' || !card.isLoyal()) {
+                onCardEntersPlay: event => {
+                    let card = event.card;
+                    if(this.controller !== card.controller || event.playingType !== 'marshal' || card.getType() !== 'character' || !card.isLoyal()) {
                         return false;
                     }
 

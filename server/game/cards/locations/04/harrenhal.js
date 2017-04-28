@@ -4,7 +4,8 @@ class Harrenhal extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardEntersPlay: (event, card) => {
+                onCardEntersPlay: event => {
+                    let card = event.card;
                     if(this.controller === card.controller || this.controller.phase === 'setup' || card.getType() !== 'character') {
                         return false;
                     }

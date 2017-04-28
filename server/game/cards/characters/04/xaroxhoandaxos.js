@@ -5,7 +5,7 @@ class XaroXhoanDaxos extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onCardEntersPlay: (event, card) => card.getType() === 'attachment' && card.isUnique() && this.game.currentPhase === 'marshal'
+                onCardEntersPlay: event => event.card.getType() === 'attachment' && event.card.isUnique() && event.playingType === 'marshal'
             },
             limit: AbilityLimit.perPhase(1),
             handler: () => {

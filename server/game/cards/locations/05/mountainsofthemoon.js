@@ -6,7 +6,8 @@ class MountainsOfTheMoon extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onCardEntersPlay: (event, card) => {
+                onCardEntersPlay: event => {
+                    let card = event.card;
                     if(!card.hasTrait('Clansman') || !card.getType() === 'character') {
                         return false;
                     }

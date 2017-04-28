@@ -5,7 +5,7 @@ class LannisportGuard extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onCardEntersPlay: (e, card) => card === this && this.game.currentPhase === 'marshal'
+                onCardEntersPlay: event => event.card === this && event.playingType === 'marshal'
             },
             handler: () => {
                 _.each(this.game.getPlayers(), player => {

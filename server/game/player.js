@@ -424,7 +424,7 @@ class Player extends Spectator {
         var dupeCard = this.getDuplicateInPlay(card);
 
         if(card.getType() === 'attachment' && playingType !== 'setup' && !dupeCard) {
-            this.promptForAttachment(card);
+            this.promptForAttachment(card, playingType);
             return;
         }
 
@@ -445,7 +445,7 @@ class Player extends Spectator {
                 this.game.queueStep(new BestowPrompt(this.game, this, card));
             }
 
-            this.game.raiseEvent('onCardEntersPlay', card);
+            this.game.raiseMergedEvent('onCardEntersPlay', { card: card, playingType: playingType });
         }
     }
 
@@ -503,7 +503,7 @@ class Player extends Spectator {
         this.selectedPlot.play();
         this.moveCard(this.selectedPlot, 'active plot');
 
-        this.game.raiseEvent('onCardEntersPlay', this.activePlot);
+        this.game.raiseMergedEvent('onCardEntersPlay', { card: this.activePlot, playingType: 'plot' });
 
         this.selectedPlot = undefined;
     }
@@ -564,7 +564,7 @@ class Player extends Spectator {
         return attachment.canAttach(this, card);
     }
 
-    attach(player, attachment, cardId) {
+    attach(player, attachment, cardId, playingType) {
         var card = this.findCardInPlayByUuid(cardId);
 
         if(!card || !attachment) {
@@ -575,7 +575,7 @@ class Player extends Spectator {
 
         attachment.parent = card;
         attachment.moveTo('play area');
-        this.game.raiseEvent('onCardEntersPlay', attachment);
+        this.game.raiseMergedEvent('onCardEntersPlay', { card: attachment, playingType: playingType });
         card.attachments.push(attachment);
 
         attachment.attach(player, card);
@@ -721,9 +721,9 @@ class Player extends Spectator {
         return true;
     }
 
-    promptForAttachment(card) {
+    promptForAttachment(card, playingType) {
         // TODO: Really want to move this out of here.
-        this.game.queueStep(new AttachmentPrompt(this.game, this, card));
+        this.game.queueStep(new AttachmentPrompt(this.game, this, card, playingType));
     }
 
     beginChallenge() {

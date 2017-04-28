@@ -4,9 +4,7 @@ class TheQueensAssassin extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onCardEntersPlay: (event, card) => {
-                    return this.wasAmbush && this === card;
-                }
+                onCardEntersPlay: event => event.card === this && event.playingType === 'ambush'
             },
             handler: () => {
                 var otherPlayer = this.game.getOtherPlayer(this.controller);

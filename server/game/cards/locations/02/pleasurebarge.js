@@ -6,10 +6,10 @@ class PleasureBarge extends DrawCard {
         this.plotModifiers({
             gold: -1
         });
-        
+
         this.reaction({
             when: {
-                onCardEntersPlay: (e, card) => card === this && this.game.currentPhase === 'marshal'
+                onCardEntersPlay: event => event.card === this && event.playingType === 'marshal'
             },
             handler: () => {
                 this.controller.drawCardsToHand(3);

@@ -4,9 +4,9 @@ class RedKeepSpy extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onCardEntersPlay: (event, card) => (
-                    this.wasAmbush && 
-                    this === card &&
+                onCardEntersPlay: event => (
+                    event.playingType === 'ambush' &&
+                    this === event.card &&
                     this.hasMoreCardsInHand()
                 )
             },

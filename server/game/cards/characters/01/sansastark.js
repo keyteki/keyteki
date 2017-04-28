@@ -7,8 +7,8 @@ class SansaStark extends DrawCard {
         this.registerEvents(['onCardEntersPlay']);
     }
 
-    onCardEntersPlay(event, card) {
-        if(card !== this || this.controller.phase === 'setup') {
+    onCardEntersPlay(event) {
+        if(event.card !== this || this.controller.phase === 'setup') {
             return;
         }
 

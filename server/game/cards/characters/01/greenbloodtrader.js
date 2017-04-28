@@ -6,7 +6,7 @@ class GreenbloodTrader extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onCardEntersPlay: (e, card) => card === this
+                onCardEntersPlay: event => event.card === this
             },
             handler: () => {
                 this.top2Cards = this.controller.drawDeck.first(2);

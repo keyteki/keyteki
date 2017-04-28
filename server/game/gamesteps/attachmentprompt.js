@@ -1,10 +1,11 @@
 const UiPrompt = require('./uiprompt.js');
 
 class AttachmentPrompt extends UiPrompt {
-    constructor(game, player, attachmentCard) {
+    constructor(game, player, attachmentCard, playingType) {
         super(game);
         this.player = player;
         this.attachmentCard = attachmentCard;
+        this.playingType = playingType;
     }
 
     activeCondition(player) {
@@ -24,7 +25,7 @@ class AttachmentPrompt extends UiPrompt {
         }
 
         var targetPlayer = this.game.getPlayerByName(targetCard.controller.name);
-        targetPlayer.attach(player, attachment, targetCard.uuid);
+        targetPlayer.attach(player, attachment, targetCard.uuid, this.playingType);
 
         player.selectCard = false;
         this.complete();

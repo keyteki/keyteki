@@ -4,7 +4,7 @@ class SerArysOakheart extends DrawCard {
     setupCardAbilities() {  
         this.reaction({
             when: {
-                onCardEntersPlay: (e, card) => card === this && this.controller.gold >= 2
+                onCardEntersPlay: event => event.card === this && this.controller.gold >= 2
             },
             handler: () => {
                 this.game.promptForSelect(this.controller, {

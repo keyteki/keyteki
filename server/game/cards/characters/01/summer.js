@@ -9,9 +9,7 @@ class Summer extends DrawCard {
 
         this.reaction({
             when: {
-                onCardEntersPlay: (event, card) => {
-                    return card === this;
-                }
+                onCardEntersPlay: event => event.card === this
             },
             handler: () => {
                 this.game.promptForSelect(this.controller, {

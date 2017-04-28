@@ -30,8 +30,8 @@ class EffectEngine {
         });
     }
 
-    onCardEntersPlay(e, card) {
-        this.addTargetForPersistentEffects(card, 'play area');
+    onCardEntersPlay(event) {
+        this.addTargetForPersistentEffects(event.card, 'play area');
     }
 
     onCardLeftPlay(e, player, card) {

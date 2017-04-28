@@ -4,7 +4,7 @@ class OlennasInformant extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onCardEntersPlay: (e, card) => card === this && this.game.currentPhase === 'challenge'
+                onCardEntersPlay: event => event.card === this && this.game.currentPhase === 'challenge'
             },
             handler: () => {
                 this.game.promptWithMenu(this.controller, this, {

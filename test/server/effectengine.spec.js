@@ -83,7 +83,7 @@ describe('EffectEngine', function () {
             beforeEach(function() {
                 this.effectSpy.duration = 'persistent';
                 this.cardEnteringPlay = { location: 'play area' };
-                this.engine.onCardEntersPlay({}, this.cardEnteringPlay);
+                this.engine.onCardEntersPlay({ card: this.cardEnteringPlay });
             });
 
             it('should add the card entering play as a target', function() {
@@ -95,7 +95,7 @@ describe('EffectEngine', function () {
             beforeEach(function() {
                 this.effectSpy.duration = 'untilEndOfChallenge';
                 this.cardEnteringPlay = { location: 'play area' };
-                this.engine.onCardEntersPlay({}, this.cardEnteringPlay);
+                this.engine.onCardEntersPlay({ card: this.cardEnteringPlay });
             });
 
             it('should not add the card entering play as a target', function() {

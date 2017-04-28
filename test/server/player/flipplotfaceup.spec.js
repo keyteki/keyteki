@@ -6,7 +6,7 @@ const Player = require('../../../server/game/player.js');
 
 describe('Player', function() {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['on', 'getOtherPlayer', 'raiseEvent', 'playerDecked']);
+        this.gameSpy = jasmine.createSpyObj('game', ['on', 'getOtherPlayer', 'raiseEvent', 'raiseMergedEvent', 'playerDecked']);
 
         this.player = new Player('1', 'Player 1', true, this.gameSpy);
         this.player.initialise();

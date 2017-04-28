@@ -4,8 +4,8 @@ class Melisandre extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardEntersPlay: (event, card) =>
-                    card.controller === this.controller && card.hasTrait('R\'hllor'),
+                onCardEntersPlay: event =>
+                    event.playingType === 'marshal' && event.card.controller === this.controller && event.card.hasTrait('R\'hllor'),
                 onCardPlayed: (event, player, card) =>
                     card.controller === this.controller && card.hasTrait('R\'hllor')
             },

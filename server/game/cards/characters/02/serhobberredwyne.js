@@ -4,7 +4,7 @@ class SerHobberRedwyne extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onCardEntersPlay: (event, card) => card === this && this.game.currentPhase === 'marshal'
+                onCardEntersPlay: event => event.card === this && event.playingType === 'marshal'
             },
             handler: () => {
                 this.game.promptForDeckSearch(this.controller, {
