@@ -463,8 +463,8 @@ class BaseCard {
             new: this.new,
             // The `this.selected` property here is a hack for plot selection,
             // which we do differently from normal card selection.
-            selected: this.selected || activePlayer.isCardSelected(this),
-            selectable: activePlayer.isCardSelectable(this),
+            selected: this.selected || (activePlayer && activePlayer.isCardSelected(this)),
+            selectable: activePlayer && activePlayer.isCardSelectable(this),
             tokens: this.tokens,
             type: this.getType(),
             uuid: this.uuid
