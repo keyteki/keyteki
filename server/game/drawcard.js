@@ -61,10 +61,16 @@ class DrawCard extends BaseCard {
         card.moveTo('duplicate');
     }
 
-    removeDuplicate() {
-        var firstDupe = _.first(this.dupes.filter(dupe => {
-            return dupe.owner === this.controller;
-        }));
+    removeDuplicate(force = false) {
+        var firstDupe = undefined;
+        
+        if(!force) {
+            firstDupe = _.first(this.dupes.filter(dupe => {
+                return dupe.owner === this.controller;
+            }));
+        } else {
+            firstDupe = this.dupes.first();
+        }    
 
         this.dupes = _(this.dupes.reject(dupe => {
             return dupe === firstDupe;

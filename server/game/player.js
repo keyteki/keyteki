@@ -912,7 +912,7 @@ class Player extends Spectator {
             });
 
             while(card.dupes.size() > 0 && targetLocation !== 'play area') {
-                this.removeDuplicate(card);
+                this.removeDuplicate(card, true);
             }
 
             card.leavesPlay();
@@ -968,12 +968,12 @@ class Player extends Spectator {
         }
     }
 
-    removeDuplicate(card) {
+    removeDuplicate(card, force = false) {
         if(card.dupes.isEmpty()) {
             return false;
         }
 
-        var dupe = card.removeDuplicate();
+        var dupe = card.removeDuplicate(force);
         if(!dupe) {
             return false;
         }
