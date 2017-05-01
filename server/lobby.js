@@ -105,6 +105,21 @@ class Lobby {
         });
     }
 
+    getUserList() {
+        let userList = _.map(this.users, function(user) {
+            return {
+                name: user.username,
+                emailHash: user.emailHash
+            };
+        });
+
+        userList = _.sortBy(userList, user => {
+            return user.name.toLowerCase();
+        });
+
+        return userList;
+    }
+
     handshake(socket, next) {
         var versionInfo = undefined;
 
@@ -160,18 +175,7 @@ class Lobby {
 
         this.lastUserBroadcast = moment();
 
-        var userList = _.map(this.users, function(user) {
-            return {
-                name: user.username,
-                emailHash: user.emailHash
-            };
-        });
-
-        userList = _.sortBy(userList, user => {
-            return user.name.toLowerCase();
-        });
-
-        this.broadcastMessage('users', userList);
+        this.broadcastMessage('users', this.getUserList());
     }
 
     sendGameState(game) {
@@ -220,6 +224,8 @@ class Lobby {
 
         if(socket.user) {
             this.users[socket.user.username] = socket.user;
+
+            socket.send('users', this.getUserList());
             this.broadcastUserList();
         }
 
