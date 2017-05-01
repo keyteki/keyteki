@@ -56,7 +56,15 @@ class DrawCard extends BaseCard {
         this.stealthLimit = 1;
     }
 
+    canBeDuplicated() {
+        return this.controller === this.owner;
+    }
+
     addDuplicate(card) {
+        if(!this.canBeDuplicated()) {
+            return;
+        }
+
         this.dupes.push(card);
         card.moveTo('duplicate');
     }
