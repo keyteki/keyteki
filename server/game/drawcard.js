@@ -47,6 +47,7 @@ class DrawCard extends BaseCard {
         this.challengeOptions = {
             allowAsAttacker: true,
             allowAsDefender: true,
+            cannotParticipate: false,
             doesNotKneelAs: {
                 attacker: false,
                 defender: false
@@ -300,11 +301,11 @@ class DrawCard extends BaseCard {
     }
 
     canAddAsAttacker(challengeType) {
-        return this.challengeOptions.allowAsAttacker && this.canAddAsParticipant(challengeType);
+        return this.challengeOptions.allowAsAttacker && !this.challengeOptions.cannotParticipate && this.canAddAsParticipant(challengeType);
     }
 
     canAddAsDefender(challengeType) {
-        return this.challengeOptions.allowAsDefender && this.canAddAsParticipant(challengeType);
+        return this.challengeOptions.allowAsDefender && !this.challengeOptions.cannotParticipate && this.canAddAsParticipant(challengeType);
     }
 
     canAddAsParticipant(challengeType) {
