@@ -57,7 +57,7 @@ class WildfireAssault extends PlotCard {
                 numCards: 3,
                 activePromptTitle: 'Select up to 3 characters to save',
                 source: this,
-                cardCondition: card => card.controller === currentPlayer && card.getType() === 'character',
+                cardCondition: card => card.location === 'play area' && card.controller === currentPlayer && card.getType() === 'character',
                 onSelect: (player, cards) => this.onSelect(player, cards),
                 onCancel: (player) => this.cancelSelection(player)
             });

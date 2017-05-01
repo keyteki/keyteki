@@ -257,6 +257,10 @@ class Card extends React.Component {
             imageClass += ' vertical';
         }
 
+        if(this.props.card.unselectable) {
+            cardClass += ' unselectable';
+        }
+
         if(this.props.card.selected) {
             cardClass += ' selected';
         } else if(this.props.card.selectable) {
@@ -333,7 +337,8 @@ Card.propTypes = {
         stealth: React.PropTypes.bool,
         strength: React.PropTypes.number,
         tokens: React.PropTypes.object,
-        type: React.PropTypes.string
+        type: React.PropTypes.string,
+        unselectable: React.PropTypes.bool
     }).isRequired,
     className: React.PropTypes.string,
     disableMouseOver: React.PropTypes.bool,

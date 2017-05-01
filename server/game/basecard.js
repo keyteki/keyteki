@@ -467,6 +467,7 @@ class BaseCard {
             selectable: activePlayer && activePlayer.isCardSelectable(this),
             tokens: this.tokens,
             type: this.getType(),
+            unselectable: activePlayer.selectCard && !activePlayer.isCardSelectable(this),
             uuid: this.uuid
         } : { facedown: true };
     }
