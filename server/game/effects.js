@@ -457,6 +457,16 @@ const Effects = {
             }
         };
     },
+    cannotGainChallengeBonus: function() {
+        return {
+            apply: function(player) {
+                player.cannotGainChallengeBonus = true;
+            },
+            unapply: function(player) {
+                player.cannotGainChallengeBonus = false;
+            }
+        };
+    },
     modifyChallengeTypeLimit: function(challengeType, value) {
         return {
             apply: function(player) {

@@ -39,6 +39,7 @@ class Player extends Spectator {
         this.usedPlotsModifier = 0;
         this.selectedCards = [];
         this.selectableCards = [];
+        this.cannotGainChallengeBonus = false;
 
         this.createAdditionalPile('out of game', { title: 'Out of Game', area: 'player row' });
     }
