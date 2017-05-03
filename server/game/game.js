@@ -607,6 +607,10 @@ class Game extends EventEmitter {
             return;
         }
 
+        _.each(killable, card => {
+            card.markAsInDanger();
+        });
+
         this.raiseSimultaneousEvent(killable, {
             eventName: 'onCharactersKilled',
             params: {
@@ -614,6 +618,11 @@ class Game extends EventEmitter {
             },
             perCardEventName: 'onCharacterKilled',
             perCardHandler: event => this.doKill(event)
+        });
+        this.queueSimpleStep(() => {
+            _.each(killable, card => {
+                card.clearDanger();
+            });
         });
     }
 

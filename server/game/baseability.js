@@ -118,7 +118,7 @@ class BaseAbility {
                     return false;
                 }
 
-                return target.cardCondition(card);
+                return target.cardCondition(card, context);
             });
         });
     }
@@ -135,9 +135,12 @@ class BaseAbility {
     }
 
     resolveTarget(context, name, targetProperties) {
-        var result = { resolved: false, name: name, value: null };
-        var promptProperties = {
+        let cardCondition = targetProperties.cardCondition;
+        let otherProperties = _.omit(targetProperties, 'cardCondition');
+        let result = { resolved: false, name: name, value: null };
+        let promptProperties = {
             source: context.source,
+            cardCondition: card => cardCondition(card, context),
             onSelect: (player, card) => {
                 result.resolved = true;
                 result.value = card;
@@ -148,7 +151,7 @@ class BaseAbility {
                 return true;
             }
         };
-        context.game.promptForSelect(context.player, _.extend(promptProperties, targetProperties));
+        context.game.promptForSelect(context.player, _.extend(promptProperties, otherProperties));
         return result;
     }
 

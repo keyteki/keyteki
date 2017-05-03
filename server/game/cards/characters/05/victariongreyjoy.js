@@ -1,20 +1,15 @@
 const DrawCard = require('../../../drawcard.js');
 
 class VictarionGreyjoy extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.interrupt({
-            when: {
-                onCharacterKilled: event => (
-                    event.allowSave &&
-                    event.card === this &&
-                    this.power >= 2
-                )
-            },
             canCancel: true,
-            handler: (context) => {
-                context.cancel();
-                this.modifyPower(-2);
-
+            when: {
+                onCharactersKilled: event => event.allowSave && event.cards.includes(this)
+            },
+            cost: ability.costs.discardPowerFromSelf(2),
+            handler: context => {
+                context.event.saveCard(this);
                 this.game.addMessage('{0} uses {1} to save {2}', this.controller, this, this);
             }
         });

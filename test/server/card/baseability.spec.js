@@ -214,8 +214,8 @@ describe('BaseAbility', function () {
             });
 
             it('should not call card condition on that card', function() {
-                expect(this.cardCondition).not.toHaveBeenCalledWith(this.card1);
-                expect(this.cardCondition).toHaveBeenCalledWith(this.card2);
+                expect(this.cardCondition).not.toHaveBeenCalledWith(this.card1, this.context);
+                expect(this.cardCondition).toHaveBeenCalledWith(this.card2, this.context);
             });
         });
 
@@ -261,8 +261,8 @@ describe('BaseAbility', function () {
 
         it('should prompt the player to select each target', function() {
             this.ability.resolveTargets(this.context);
-            expect(this.gameSpy.promptForSelect).toHaveBeenCalledWith(this.player, { source: this.source, target: 1, onSelect: jasmine.any(Function), onCancel: jasmine.any(Function)});
-            expect(this.gameSpy.promptForSelect).toHaveBeenCalledWith(this.player, { source: this.source, target: 2, onSelect: jasmine.any(Function), onCancel: jasmine.any(Function)});
+            expect(this.gameSpy.promptForSelect).toHaveBeenCalledWith(this.player, { source: this.source, target: 1, onSelect: jasmine.any(Function), onCancel: jasmine.any(Function), cardCondition: jasmine.any(Function) });
+            expect(this.gameSpy.promptForSelect).toHaveBeenCalledWith(this.player, { source: this.source, target: 2, onSelect: jasmine.any(Function), onCancel: jasmine.any(Function), cardCondition: jasmine.any(Function) });
         });
 
         describe('the select prompt', function() {

@@ -265,6 +265,10 @@ class Card extends React.Component {
             cardClass += ' selected';
         } else if(this.props.card.selectable) {
             cardClass += ' selectable';
+        } else if(this.props.card.inDanger) {
+            cardClass += ' in-danger';
+        } else if(this.props.card.saved) {
+            cardClass += ' saved';
         } else if(this.props.card.inChallenge) {
             cardClass += ' challenge';
         } else if(this.props.card.stealth) {
@@ -327,11 +331,13 @@ Card.propTypes = {
         iconsAdded: React.PropTypes.array,
         iconsRemoved: React.PropTypes.array,
         inChallenge: React.PropTypes.bool,
+        inDanger: React.PropTypes.bool,
         kneeled: React.PropTypes.bool,
         menu: React.PropTypes.array,
         name: React.PropTypes.string,
         new: React.PropTypes.bool,
         power: React.PropTypes.number,
+        saved: React.PropTypes.bool,
         selectable: React.PropTypes.bool,
         selected: React.PropTypes.bool,
         stealth: React.PropTypes.bool,

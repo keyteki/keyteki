@@ -48,6 +48,7 @@ describe('Valar Morghulis', function() {
 
             // Aemon saves Sam but dies
             this.player2.clickPrompt('Maester Aemon');
+            this.player2.clickCard('Samwell Tarly', 'play area');
             expect(this.samwell.location).toBe('play area');
             expect(this.aemon.location).toBe('dead pile');
 

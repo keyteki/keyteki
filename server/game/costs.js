@@ -264,6 +264,19 @@ const Costs = {
         };
     },
     /**
+     * Cost that will discard a fixed amount of power from the current card.
+     */
+    discardPowerFromSelf: function(amount = 1) {
+        return {
+            canPay: function(context) {
+                return context.source.power >= amount;
+            },
+            pay: function(context) {
+                context.source.modifyPower(-amount);
+            }
+        };
+    },
+    /**
      * Cost that will discard faction power matching the passed amount.
      */
     discardFactionPower: function(amount) {

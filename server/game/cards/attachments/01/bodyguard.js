@@ -3,14 +3,14 @@ const DrawCard = require('../../../drawcard.js');
 class BodyGuard extends DrawCard {
     setupCardAbilities() {
         this.interrupt({
-            when: {
-                onCharacterKilled: event => this.parent === event.card && event.allowSave,
-                onCardDiscarded: event => event.card === this.parent && event.allowSave
-            },
             canCancel: true,
-            handler: (context) => {
-                context.cancel();
-                this.game.addMessage('{0} uses {1} to save {2}', this.controller, this, this.parent);
+            when: {
+                onCharactersKilled: event => event.cards.includes(this.parent) && event.allowSave,
+                onCardsDiscarded: event => event.cards.includes(this.parent) && event.allowSave
+            },
+            handler: context => {
+                context.event.saveCard(this.parent);
+                this.game.addMessage('{0} sacrifices {1} to save {2}', this.controller, this, this.parent);
                 this.controller.sacrificeCard(this);
             }
         });

@@ -42,7 +42,9 @@ class DrawCard extends BaseCard {
         this.contributesToDominance = true;
         this.kneeled = false;
         this.inChallenge = false;
+        this.inDanger = false;
         this.wasAmbush = false;
+        this.saved = false;
         this.standsDuringStanding = true;
         this.challengeOptions = {
             allowAsAttacker: true,
@@ -321,6 +323,20 @@ class DrawCard extends BaseCard {
         return !this.cannotBeKilled;
     }
 
+    markAsInDanger() {
+        this.inDanger = true;
+    }
+
+    markAsSaved() {
+        this.inDanger = false;
+        this.saved = true;
+    }
+
+    clearDanger() {
+        this.inDanger = false;
+        this.saved = false;
+    }
+
     getSummary(activePlayer, hideWhenFaceup) {
         let baseSummary = super.getSummary(activePlayer, hideWhenFaceup);
 
@@ -340,8 +356,10 @@ class DrawCard extends BaseCard {
             iconsAdded: this.getIconsAdded(),
             iconsRemoved: this.getIconsRemoved(),
             inChallenge: this.inChallenge,
+            inDanger: this.inDanger,
             kneeled: this.kneeled,
             power: this.power,
+            saved: this.saved,
             strength: !_.isNull(this.cardData.strength) ? this.getStrength() : 0,
             stealth: this.stealth
         });

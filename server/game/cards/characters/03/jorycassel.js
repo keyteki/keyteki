@@ -5,20 +5,24 @@ const DrawCard = require('../../../drawcard.js');
 class JoryCassel extends DrawCard {
     setupCardAbilities() {
         this.interrupt({
+            canCancel: true,
             when: {
-                onCharacterKilled: event => (
-                    event.allowSave &&
-                    event.card.controller === this.controller &&
-                    event.card.isUnique() &&
-                    event.card.isFaction('stark')
+                onCharactersKilled: event => event.allowSave
+            },
+            target: {
+                activePromptTitle: 'Select a character to save',
+                cardCondition: (card, context) => (
+                    context.event.cards.includes(card) &&
+                    card.controller === this.controller &&
+                    card.isUnique() &&
+                    card.isFaction('stark')
                 )
             },
-            canCancel: true,
             handler: context => {
-                context.cancel();
-                var message = '{0} uses {1} to save {2}';
-                var toKill = context.event.card;
+                let message = '{0} uses {1} to save {2}';
+                let toKill = context.target;
 
+                context.event.saveCard(toKill);
                 this.controller.sacrificeCard(this);
 
                 if(_.any(this.game.getPlayers(), player => {
