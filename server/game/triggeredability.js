@@ -48,6 +48,8 @@ class TriggeredAbility extends BaseAbility {
     }
 
     meetsRequirements(context) {
+        let isPlayableEventAbility = this.card.getType() === 'event' && this.location === 'hand';
+
         if(this.game.currentPhase === 'setup') {
             return false;
         }
@@ -64,11 +66,11 @@ class TriggeredAbility extends BaseAbility {
             return false;
         }
 
-        if(this.card.getType() === 'event' && !context.player.isCardInPlayableLocation(this.card, 'play')) {
+        if(isPlayableEventAbility && !context.player.isCardInPlayableLocation(this.card, 'play')) {
             return false;
         }
 
-        if(this.card.getType() !== 'event' && this.card.location !== this.location) {
+        if(!isPlayableEventAbility && this.card.location !== this.location) {
             return false;
         }
 
