@@ -868,11 +868,13 @@ class Player extends Spectator {
     }
 
     removeAttachment(attachment, allowSave = true) {
+        if(allowSave && !attachment.dupes.isEmpty() && this.removeDuplicate(attachment)) {
+            this.game.addMessage('{0} discards a duplicate to save {1}', this, attachment);
+            return;
+        }
+
         while(attachment.dupes.size() > 0) {
-            var dupeRemoved = this.removeDuplicate(attachment);
-            if(dupeRemoved && allowSave) {
-                return;
-            }
+            this.removeDuplicate(attachment, true);
         }
 
         if(attachment.isTerminal()) {
