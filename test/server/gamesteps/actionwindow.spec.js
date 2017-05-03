@@ -15,7 +15,9 @@ describe('ActionWindow', function() {
         this.game.playersAndSpectators[this.player1.name] = this.player1;
         this.game.playersAndSpectators[this.player2.name] = this.player2;
 
-        this.prompt = new ActionWindow(this.game);
+        this.player1.promptedActionWindows['test'] = true;
+
+        this.prompt = new ActionWindow(this.game, 'Test Window', 'test');
     });
 
     it('should prompt in first player order', function() {

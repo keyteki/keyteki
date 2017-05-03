@@ -24,14 +24,10 @@ describe('effects', function() {
                 this.player2.selectPlot('Sneak Attack');
                 this.selectFirstPlayer(this.player1);
 
-                this.skipActionWindow();
-
                 // Explicitly set power to 13 so that Winter Festival will win the game
                 this.character.power = 13;
 
                 this.completeMarshalPhase();
-
-                this.skipActionWindow();
 
                 this.player1.clickPrompt('Done');
 

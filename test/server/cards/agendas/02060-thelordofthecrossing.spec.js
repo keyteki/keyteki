@@ -28,15 +28,11 @@ describe('The Lord of the Crossing', function() {
             this.player2.selectPlot('A Noble Cause');
             this.selectFirstPlayer(this.player1);
 
-            this.skipActionWindow();
-
             this.completeMarshalPhase();
         });
 
         describe('on challenge 1', function() {
             beforeEach(function() {
-                this.skipActionWindow();
-
                 this.player1.clickPrompt('Military');
                 this.player1.clickCard(this.followers);
                 this.player1.clickPrompt('Done');
@@ -49,7 +45,6 @@ describe('The Lord of the Crossing', function() {
 
         describe('on challenge 2', function() {
             beforeEach(function() {
-                this.skipActionWindow();
                 this.player1.clickPrompt('Military');
                 this.player1.clickCard(this.followers);
                 this.player1.clickPrompt('Done');
@@ -72,7 +67,6 @@ describe('The Lord of the Crossing', function() {
 
         describe('on challenge 3', function() {
             beforeEach(function() {
-                this.skipActionWindow();
                 this.player1.clickPrompt('Military');
                 this.player1.clickCard(this.followers);
                 this.player1.clickPrompt('Done');

@@ -87,11 +87,7 @@ describe('Varys\'s Riddle', function() {
                     // Reduce claim on Military this round.
                     this.player2.clickPrompt('Military');
 
-                    this.skipActionWindow();
-
                     this.completeMarshalPhase();
-
-                    this.skipActionWindow();
 
                     this.player2.clickPrompt('Intrigue');
                     this.player2.clickCard('The Tickler', 'play area');

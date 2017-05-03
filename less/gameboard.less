@@ -256,6 +256,37 @@
   text-align: center;
   text-transform: uppercase;
   width: 200px !important;
+  position: relative; 
+}
+
+span.up-arrow {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+
+  border-right: 8px solid transparent;
+  border-left: 8px solid transparent;
+  border-bottom: 8px solid @brand-primary;
+  left: 90px;
+
+  top: -9px;    
+}
+
+span.down-arrow {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+
+  border-right: 8px solid transparent;
+  border-left: 8px solid transparent;
+  border-top: 8px solid @brand-primary;
+  left: 90px;
+
+  top: -9px;    
 }
 
 .schemes-pane {

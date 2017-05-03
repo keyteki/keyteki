@@ -28,8 +28,6 @@ describe('Jhogo', function() {
             this.player2.selectPlot('Marching Orders');
             this.selectFirstPlayer(this.player1);
 
-            this.skipActionWindow();
-
             this.player1.clickCard(this.aggo);
 
             this.completeMarshalPhase();
@@ -40,8 +38,6 @@ describe('Jhogo', function() {
 
         describe('when attacking', function() {
             beforeEach(function() {
-                this.skipActionWindow();
-
                 this.player1.clickPrompt('Military');
                 this.player1.clickCard(this.jhogo);
                 this.player1.clickPrompt('Done');

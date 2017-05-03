@@ -18,8 +18,6 @@ describe('Renly Baratheon (TtB)', function() {
             this.player1.selectPlot('Sneak Attack');
             this.player2.selectPlot('Sneak Attack');
             this.selectFirstPlayer(this.player1);
-
-            this.skipActionWindow();
         });
 
         it('should reduce the first non Baratheon character marshalled.', function() {

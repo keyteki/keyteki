@@ -12,6 +12,7 @@ import Messages from './GameComponents/Messages.jsx';
 import AdditionalCardPile from './GameComponents/AdditionalCardPile.jsx';
 import Card from './GameComponents/Card.jsx';
 import CardCollection from './GameComponents/CardCollection.jsx';
+import ActionWindowsMenu from './GameComponents/ActionWindowsMenu.jsx';
 import {tryParseJSON} from './util.js';
 
 import * as actions from './actions';
@@ -42,6 +43,7 @@ export class InnerGameBoard extends React.Component {
             showDrawDeck: false,
             spectating: true,
             message: '',
+            showActionWindowsMenu: false,
             showCardMenu: {}
         };
     }
@@ -319,6 +321,14 @@ export class InnerGameBoard extends React.Component {
         this.props.sendGameMessage('menuItemClick', card.uuid, menuItem);
     }
 
+    onMenuTitleClick() {
+        this.setState({ showActionWindowsMenu: !this.state.showActionWindowsMenu });
+    }
+
+    onPromptedActionWindowToggle(option, value) {
+        this.props.sendGameMessage('togglePromptedActionWindow', option, value);
+    }
+
     render() {
         if(!this.props.currentGame) {
             return <div>Waiting for server...</div>;
@@ -405,9 +415,16 @@ export class InnerGameBoard extends React.Component {
                             </div>
                             <div className='middle-right'>
                                 <div className='inset-pane'>
-                                    <div className={'phase-indicator ' + thisPlayer.phase}>{thisPlayer.phase} phase</div>
-                                    <MenuPane title={thisPlayer.menuTitle} buttons={thisPlayer.buttons} promptTitle={thisPlayer.promptTitle} onButtonClick={this.onCommand}
-                                                onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} />
+                                    { this.state.showActionWindowsMenu ?
+                                        <ActionWindowsMenu options={ thisPlayer.promptedActionWindows }
+                                            onToggle={ this.onPromptedActionWindowToggle.bind(this) } />
+                                        : null }
+                                    <div className={ 'phase-indicator ' + thisPlayer.phase } onClick={ this.onMenuTitleClick.bind(this) }>
+                                        { <span className={ this.state.showActionWindowsMenu ? 'down-arrow' : 'up-arrow' } /> }
+                                        { thisPlayer.phase } phase
+                                    </div>
+                                    <MenuPane title={ thisPlayer.menuTitle } buttons={ thisPlayer.buttons } promptTitle={ thisPlayer.promptTitle } onButtonClick={ this.onCommand }
+                                                onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } onTitleClick={ this.onMenuTitleClick.bind(this) } />
                                 </div>
                                 <div className='schemes-pane' />
                             </div>

@@ -24,13 +24,9 @@ describe('Dolorous Edd', function() {
             this.player2.selectPlot('Sneak Attack');
             this.selectFirstPlayer(this.player2);
 
-            this.skipActionWindow();
-
             this.completeMarshalPhase();
 
             this.edd = this.player1.findCardByName('Dolorous Edd', 'hand');
-
-            this.skipActionWindow();
 
             this.player2.clickPrompt('Intrigue');
         });

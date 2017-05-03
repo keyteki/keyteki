@@ -16,10 +16,10 @@ class ChallengeFlow extends BaseStep {
             new SimpleStep(this.game, () => this.announceChallenge()),
             new SimpleStep(this.game, () => this.promptForAttackers()),
             new SimpleStep(this.game, () => this.announceAttackerStrength()),
-            new ActionWindow(this.game, 'After attackers declared'),
+            new ActionWindow(this.game, 'After attackers declared', 'attackersDeclared'),
             new SimpleStep(this.game, () => this.promptForDefenders()),
             new SimpleStep(this.game, () => this.announceDefenderStrength()),
-            new ActionWindow(this.game, 'After defenders declared'),
+            new ActionWindow(this.game, 'After defenders declared', 'defendersDeclared'),
             new SimpleStep(this.game, () => this.determineWinner()),
             new SimpleStep(this.game, () => this.unopposedPower()),
             new SimpleStep(this.game, () => this.beforeClaim()),
@@ -133,7 +133,7 @@ class ChallengeFlow extends BaseStep {
 
         // Only open a winner action window if a winner / loser was determined.
         if(this.challenge.winner) {
-            this.game.queueStep(new ActionWindow(this.game, 'After winner determined'));
+            this.game.queueStep(new ActionWindow(this.game, 'After winner determined', 'winnerDetermined'));
         }
     }
 

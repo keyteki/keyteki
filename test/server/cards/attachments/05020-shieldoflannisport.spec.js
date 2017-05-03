@@ -23,8 +23,6 @@ describe('Shield of Lannisport', function() {
             this.player2.selectPlot('A Noble Cause');
             this.selectFirstPlayer(this.player1);
 
-            this.skipActionWindow();
-
             // Attach Shield to Tyrion
             this.player1.clickCard('Shield of Lannisport', 'hand');
             this.player1.clickCard(this.tyrion);

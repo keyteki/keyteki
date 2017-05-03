@@ -23,8 +23,6 @@ describe('Benjen Stark', function() {
             this.player2.selectPlot('A Feast for Crows');
             this.selectFirstPlayer(this.player2);
 
-            this.skipActionWindow();
-
             this.benjen = this.player1.findCardByName('Benjen Stark', 'play area');
 
             this.completeMarshalPhase();

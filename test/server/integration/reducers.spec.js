@@ -26,8 +26,6 @@ describe('reducer cards', function() {
 
             // Resolve plot order
             this.selectPlotOrder(this.player1);
-
-            this.skipActionWindow();
         });
 
         it('should allow reducers to activate', function() {

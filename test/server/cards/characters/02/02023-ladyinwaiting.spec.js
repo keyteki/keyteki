@@ -17,8 +17,6 @@ describe('Lady-in-Waiting', function() {
             this.player2.selectPlot('A Noble Cause');
             this.selectFirstPlayer(this.player1);
 
-            this.skipActionWindow();
-
             this.ladyInWaiting = this.player1.findCardByName('Lady-in-Waiting');
             this.margaery = this.player1.findCardByName('Margaery Tyrell');
         });

@@ -1,10 +1,11 @@
 const PlayerOrderPrompt = require('./playerorderprompt.js');
 
 class ActionWindow extends PlayerOrderPrompt {
-    constructor(game, title) {
+    constructor(game, title, windowName) {
         super(game);
 
         this.title = title;
+        this.windowName = windowName;
     }
 
     activePrompt() {
@@ -15,6 +16,10 @@ class ActionWindow extends PlayerOrderPrompt {
             ],
             promptTitle: this.title
         };
+    }
+
+    skipCondition(player) {
+        return !this.forceWindow && !player.promptedActionWindows[this.windowName];
     }
 
     onMenuCommand(player) {
@@ -37,6 +42,7 @@ class ActionWindow extends PlayerOrderPrompt {
         // For now, assume ANY card click means that the player has taken an
         // action and re-prompt all players in rotated first player order.
         this.tookAction = true;
+        this.forceWindow = true;
 
         return false;
     }

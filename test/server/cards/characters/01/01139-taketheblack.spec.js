@@ -13,6 +13,8 @@ describe('Take the Black', function() {
             this.startGame();
             this.keepStartingHands();
 
+            this.player1.togglePromptedActionWindow('dominance', true);
+
             this.tooExpensive = this.player2.findCardByName('Dothraki Outriders', 'hand');
             this.unique = this.player2.findCardByName('Maester Aemon', 'hand');
             this.eligible = this.player2.findCardByName('Wildling Horde', 'hand');
@@ -23,8 +25,6 @@ describe('Take the Black', function() {
             this.player2.selectPlot('Trading with the Pentoshi');
             this.selectFirstPlayer(this.player1);
             this.selectPlotOrder(this.player1);
-
-            this.skipActionWindow();
 
             this.player1.clickPrompt('Done');
             this.player2.clickCard(this.unique);
@@ -39,7 +39,7 @@ describe('Take the Black', function() {
         it('should allow take control of non-unique, 6-gold-or-less characters', function() {
             this.player1.clickCard(this.eligible);
 
-            expect(this.eligible.controller).toBe(this.player1Object);
+            expect(this.eligible.controller.name).toBe(this.player1Object.name);
         });
 
         it('should not allow take control of unique characters', function() {

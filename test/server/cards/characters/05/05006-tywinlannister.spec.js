@@ -25,8 +25,6 @@ describe('Tywin Lannister (LoCR)', function() {
             this.player2.selectPlot('Sneak Attack');
             this.selectFirstPlayer(this.player1);
 
-            this.skipActionWindow();
-
             // Move remaining cards back to draw deck so we have something to discard
             this.player1Object.hand.each(card => this.player1Object.moveCard(card, 'draw deck'));
             this.player2Object.hand.each(card => this.player2Object.moveCard(card, 'draw deck'));
@@ -36,6 +34,8 @@ describe('Tywin Lannister (LoCR)', function() {
             beforeEach(function() {
                 this.cersei = this.player1.findCardByName('Cersei Lannister');
                 this.knight = this.player1.findCardByName('Hedge Knight');
+
+                this.player1.togglePromptedActionWindow('dominance', true);
 
                 this.completeMarshalPhase();
                 this.completeChallengesPhase();
@@ -56,9 +56,6 @@ describe('Tywin Lannister (LoCR)', function() {
                 this.knight = this.player1.findCardByName('Hedge Knight');
 
                 this.completeMarshalPhase();
-
-                // Pre-challenge action window
-                this.skipActionWindow();
 
                 // Challenge prompt for Player 1
                 this.player1.clickPrompt('Done');
@@ -90,9 +87,6 @@ describe('Tywin Lannister (LoCR)', function() {
                 this.knight = this.player2.findCardByName('Hedge Knight');
 
                 this.completeMarshalPhase();
-
-                // Pre-challenge action window
-                this.skipActionWindow();
 
                 // Challenge prompt for Player 1
                 this.player1.clickPrompt('Power');

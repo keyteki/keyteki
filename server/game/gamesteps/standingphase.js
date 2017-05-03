@@ -8,7 +8,7 @@ class StandingPhase extends Phase {
         super(game, 'standing');
         this.initialise([
             new SimpleStep(game, () => this.standCards()),
-            new ActionWindow(this.game, 'After cards stand')
+            new ActionWindow(this.game, 'After cards stand', 'standing')
         ]);
     }
 

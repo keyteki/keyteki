@@ -22,8 +22,6 @@ describe('Ser Lancel Lannister', function() {
             this.player2.selectPlot('Trading with the Pentoshi');
             this.selectFirstPlayer(this.player1);
             this.selectPlotOrder(this.player1);
-
-            this.skipActionWindow();
         });
 
         describe('when there are no lords or ladies out', function() {
@@ -68,11 +66,6 @@ describe('Ser Lancel Lannister', function() {
             it('should not crash', function() {
                 expect(this.gregor.location).toBe('play area');
                 expect(this.lancel.getStrength()).toBe(0);
-
-                // Skip pre-challenge action window.
-                this.player1.clickPrompt('Done');
-                this.player2.clickPrompt('Done');
-                this.player1.clickPrompt('Done');
 
                 // No challenges from either player
                 this.player1.clickPrompt('Done');

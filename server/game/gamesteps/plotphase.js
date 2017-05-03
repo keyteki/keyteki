@@ -13,7 +13,7 @@ class PlotPhase extends Phase {
             new SelectPlotPrompt(game),
             new SimpleStep(game, () => this.flipPlotsFaceup()),
             () => new RevealPlots(game, _.map(this.game.getPlayers(), player => player.activePlot)),
-            new ActionWindow(this.game, 'After plots revealed'),
+            new ActionWindow(this.game, 'After plots revealed', 'plot'),
             new SimpleStep(game, () => this.recyclePlots())
         ]);
     }

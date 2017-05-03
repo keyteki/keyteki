@@ -31,7 +31,6 @@ describe('take control', function() {
                 this.player1.selectPlot('Sneak Attack');
                 this.player2.selectPlot('Sneak Attack');
                 this.selectFirstPlayer(this.player1);
-                this.skipActionWindow();
                 this.player1.clickCard(this.ward);
                 this.player1.clickCard(this.paxter);
             });
@@ -45,8 +44,6 @@ describe('take control', function() {
                     // Complete round 1
                     this.completeMarshalPhase();
                     this.completeChallengesPhase();
-                    this.completeDominancePhase();
-                    this.skipActionWindow();
                     this.completeTaxationPhase();
 
                     // Select plots for round 2
@@ -73,8 +70,6 @@ describe('take control', function() {
                         // Remove the Ward via Confiscation
                         this.player2.clickCard(this.ward);
 
-                        this.skipActionWindow();
-
                         // Complete marshal phase to ensure both players have collected their gold
                         this.completeMarshalPhase();
                     });
@@ -85,7 +80,7 @@ describe('take control', function() {
                     });
 
                     it('should return the character', function() {
-                        expect(this.paxter.controller).toBe(this.player2Object);
+                        expect(this.paxter.controller.name).toBe(this.player2Object.name);
                     });
 
                     it('should properly calculate any effects from the returned character', function() {
@@ -105,8 +100,6 @@ describe('take control', function() {
                     // Complete round 1
                     this.completeMarshalPhase();
                     this.completeChallengesPhase();
-                    this.completeDominancePhase();
-                    this.skipActionWindow();
                     this.completeTaxationPhase();
 
                     // Select plots for round 2
@@ -117,14 +110,12 @@ describe('take control', function() {
                     // Remove the Ward via Confiscation
                     this.player2.clickCard(this.ward);
 
-                    this.skipActionWindow();
-
                     // Complete marshal phase to ensure both players have collected their gold
                     this.completeMarshalPhase();
                 });
 
                 it('should return the character', function() {
-                    expect(this.paxter.controller).toBe(this.player2Object);
+                    expect(this.paxter.controller.name).toBe(this.player2Object.name);
                 });
 
                 it('should properly calculate any effects from the returned character', function() {
@@ -161,21 +152,18 @@ describe('take control', function() {
                 this.player2.selectPlot('Sneak Attack');
 
                 this.selectFirstPlayer(this.player1);
-                this.skipActionWindow();
 
                 // Move Kingsroad back into draw deck for Euron's pillage.
                 this.kingsroad.controller.moveCard(this.kingsroad, 'draw deck');
 
                 this.completeMarshalPhase();
 
-                this.skipActionWindow();
-
                 this.player1.clickPrompt('Power');
                 this.player1.clickCard(this.euron);
                 this.player1.clickPrompt('Done');
-
+                
                 this.skipActionWindow();
-
+                
                 this.player2.clickPrompt('Done');
 
                 this.skipActionWindow();
@@ -195,16 +183,12 @@ describe('take control', function() {
                 this.player2.clickPrompt('Done');
 
                 // Complete round
-                this.completeDominancePhase();
-                this.skipActionWindow();
                 this.completeTaxationPhase();
 
                 // Round 2
                 this.player1.selectPlot('Sneak Attack');
                 this.player2.selectPlot('Sneak Attack');
                 this.selectFirstPlayer(this.player1);
-
-                this.skipActionWindow();
             });
 
             it('should allow card abilities to be used', function() {
@@ -216,7 +200,7 @@ describe('take control', function() {
                 expect(this.player1Object.gold).toBe(4);
                 expect(reduceableCard.location).toBe('play area');
                 expect(this.kingsroad.location).toBe('discard pile');
-                expect(this.kingsroad.controller).toBe(this.player2Object);
+                expect(this.kingsroad.controller.name).toBe(this.player2Object.name);
             });
         });
     });

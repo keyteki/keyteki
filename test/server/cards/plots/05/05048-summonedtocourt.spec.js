@@ -21,8 +21,6 @@ describe('Summoned to Court', function() {
                 this.player2.selectPlot('A Noble Cause');
                 this.selectFirstPlayer(this.player2);
 
-                this.skipActionWindow();
-
                 this.player2.clickCard('Aeron Damphair', 'hand');
                 this.player1.clickCard('Balon Greyjoy', 'hand');
             });
@@ -43,8 +41,6 @@ describe('Summoned to Court', function() {
                 this.player1.selectPlot('Summoned to Court');
                 this.player2.selectPlot('A Noble Cause');
                 this.selectFirstPlayer(this.player2);
-
-                this.skipActionWindow();
 
                 this.player2.clickCard('Balon Greyjoy', 'hand');
                 this.player1.clickCard('Balon Greyjoy', 'hand');
@@ -67,8 +63,6 @@ describe('Summoned to Court', function() {
                 this.player2.selectPlot('A Noble Cause');
                 this.selectFirstPlayer(this.player2);
 
-                this.skipActionWindow();
-
                 this.player2.clickCard('The Roseroad', 'hand');
                 this.player1.clickCard('Balon Greyjoy', 'hand');
             });
@@ -89,8 +83,6 @@ describe('Summoned to Court', function() {
                 this.player1.selectPlot('Summoned to Court');
                 this.player2.selectPlot('A Noble Cause');
                 this.selectFirstPlayer(this.player2);
-
-                this.skipActionWindow();
             });
 
             it('should only prompt the player with cards', function() {
@@ -117,8 +109,6 @@ describe('Summoned to Court', function() {
                 this.player1.selectPlot('Summoned to Court');
                 this.player2.selectPlot('A Noble Cause');
                 this.selectFirstPlayer(this.player2);
-
-                this.skipActionWindow();
             });
 
             it('should not prompt either player', function() {

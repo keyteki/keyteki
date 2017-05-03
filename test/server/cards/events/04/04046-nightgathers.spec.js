@@ -21,8 +21,6 @@ describe('Night Gathers...', function() {
             this.player2.selectPlot('Sneak Attack');
             this.selectFirstPlayer(this.player1);
 
-            this.skipActionWindow();
-
             this.steward = this.player1.findCardByName('Steward at the Wall');
             this.tyrion = this.player2.findCardByName('Tyrion Lannister (Core)');
             this.goldCloaks = this.player2.findCardByName('Gold Cloaks');

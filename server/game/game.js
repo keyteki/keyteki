@@ -500,6 +500,15 @@ class Game extends EventEmitter {
         }
     }
 
+    togglePromptedActionWindow(playerName, windowName, toggle) {
+        var player = this.getPlayerByName(playerName);
+        if(!player) {
+            return;
+        }
+
+        player.promptedActionWindows[windowName] = toggle;
+    }
+
     initialise() {
         var players = {};
 

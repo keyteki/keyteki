@@ -25,8 +25,6 @@ describe('Maester Aemon (WotW)', function() {
             this.player2.selectPlot('Sneak Attack');
             this.selectFirstPlayer(this.player2);
 
-            this.skipActionWindow();
-
             this.completeMarshalPhase();
 
             this.unopposedChallenge(this.player2, 'Intrigue', this.intrigueCharacter);

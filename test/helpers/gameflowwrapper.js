@@ -62,15 +62,12 @@ class GameFlowWrapper {
 
     completeChallengesPhase() {
         this.guardCurrentPhase('challenge');
-        // Pre challenge action window
-        this.skipActionWindow();
         // Each player clicks 'Done' when challenge initiation prompt shows up.
         this.eachPlayerInFirstPlayerOrder(player => player.clickPrompt('Done'));
     }
 
     completeDominancePhase() {
         this.guardCurrentPhase('dominance');
-        this.skipActionWindow();
     }
 
     completeTaxationPhase() {
@@ -107,8 +104,6 @@ class GameFlowWrapper {
 
     unopposedChallenge(player, type, participant, reactionExpected) {
         var opponent = this.allPlayers.find(p => p !== player);
-
-        this.skipActionWindow();
 
         player.clickPrompt(type);
         player.clickCard(participant, 'play area');

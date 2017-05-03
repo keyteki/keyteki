@@ -122,6 +122,10 @@ class PlayerInteractionWrapper {
         this.game.drop(this.player.name, card.uuid, card.location, targetLocation);
         this.game.continue();
     }
+
+    togglePromptedActionWindow(window, value) {
+        this.player.promptedActionWindows[window] = value;
+    }
 }
 
 module.exports = PlayerInteractionWrapper;

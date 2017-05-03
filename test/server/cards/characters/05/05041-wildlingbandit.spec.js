@@ -24,15 +24,11 @@ describe('Wildling Bandit', function() {
             this.player2.selectPlot('Time of Plenty');
             this.selectFirstPlayer(this.player1);
 
-            this.skipActionWindow();
-
             this.completeMarshalPhase();
         });
 
         describe('when attacking a more wealthy opponent', function() {
             beforeEach(function() {
-                this.skipActionWindow();
-
                 this.player1.clickPrompt('Military');
                 this.player1.clickCard(this.bandit);
                 this.player1.clickPrompt('Done');

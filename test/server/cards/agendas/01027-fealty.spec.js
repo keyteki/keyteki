@@ -18,8 +18,6 @@ describe('Fealty', function() {
             this.player2.selectPlot('Sneak Attack');
             this.selectFirstPlayer(this.player1);
 
-            this.skipActionWindow();
-
             this.balon = this.player1.findCardByName('Balon Greyjoy (Core)', 'hand');
             this.theon = this.player1.findCardByName('Theon Greyjoy', 'hand');
 

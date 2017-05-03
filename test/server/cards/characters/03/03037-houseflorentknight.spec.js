@@ -24,8 +24,6 @@ describe('House Florent Knight', function() {
                 this.selectFirstPlayer(this.player1);
                 this.selectPlotOrder(this.player1);
 
-                this.skipActionWindow();
-
                 this.hedgeKnight = this.player1.findCardByName('Hedge Knight', 'hand');
 
                 this.player1.clickCard(this.hedgeKnight);
@@ -45,8 +43,6 @@ describe('House Florent Knight', function() {
             beforeEach(function() {
                 this.selectFirstPlayer(this.player2);
                 this.selectPlotOrder(this.player2);
-
-                this.skipActionWindow();
 
                 this.player2.clickCard(this.florentKnight);
             });

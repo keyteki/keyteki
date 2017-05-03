@@ -34,15 +34,12 @@ describe('nested ability sequences', function() {
             // Resolve plot order
             this.selectPlotOrder(this.player1);
 
-            this.skipActionWindow();
-
             this.player1.clickCard(this.steward1);
             this.player1.clickCard(this.steward2);
             this.player1.clickCard(this.arya);
             this.player1.clickCard(this.cat);
             this.completeMarshalPhase();
 
-            this.skipActionWindow();
             this.player1.clickPrompt('Done');
 
             // Initiate a military challenge vs player 1

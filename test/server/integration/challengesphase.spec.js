@@ -21,11 +21,7 @@ describe('challenges phase', function() {
                 this.player2.selectPlot('Sneak Attack');
                 this.selectFirstPlayer(this.player1);
 
-                this.skipActionWindow();
-
                 this.completeMarshalPhase();
-
-                this.skipActionWindow();
 
                 this.player1.clickPrompt('Intrigue');
                 this.player1.clickCard('Tyrion Lannister', 'play area');
@@ -64,12 +60,8 @@ describe('challenges phase', function() {
                 this.player2.selectPlot('Sneak Attack');
                 this.selectFirstPlayer(this.player1);
 
-                this.skipActionWindow();
-
                 this.completeMarshalPhase();
-
-                this.skipActionWindow();
-
+                
                 this.player1.clickPrompt('Intrigue');
                 this.player1.clickCard('Steward at the Wall', 'play area');
                 this.player1.clickPrompt('Done');

@@ -17,8 +17,6 @@ describe('marshal phase', function() {
                 this.player2.selectPlot('Sneak Attack');
                 this.selectFirstPlayer(this.player1);
 
-                this.skipActionWindow();
-
                 this.arya = this.player1.findCardByName('Arya Stark (Core)');
                 [this.ned1, this.ned2] = this.player1.filterCardsByName('Eddard Stark (Core)');
                 this.wotnNed = this.player1.findCardByName('Eddard Stark (WotN)');
@@ -101,8 +99,6 @@ describe('marshal phase', function() {
                 this.player2.selectPlot('Sneak Attack');
                 this.selectFirstPlayer(this.player1);
 
-                this.skipActionWindow();
-
                 this.roseroad = this.player1.findCardByName('The Roseroad');
                 [this.arbor1, this.arbor2] = this.player1.filterCardsByName('The Arbor');
             });
@@ -134,8 +130,6 @@ describe('marshal phase', function() {
                 this.player1.selectPlot('Sneak Attack');
                 this.player2.selectPlot('Sneak Attack');
                 this.selectFirstPlayer(this.player1);
-
-                this.skipActionWindow();
 
                 this.character = this.player1.findCardByName('Dragonstone Faithful');
                 this.attachment = this.player1.findCardByName('Red God\'s Blessing');

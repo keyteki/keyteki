@@ -16,14 +16,15 @@ describe('The Tickler', function() {
             this.player2.selectDeck(deck2);
             this.startGame();
             this.keepStartingHands();
+
+            this.player1.togglePromptedActionWindow('dominance', true);
+
             this.player1.clickCard('The Tickler', 'hand');
             this.player2.clickCard('The Roseroad', 'hand');
             this.completeSetup();
             this.player1.selectPlot('Sneak Attack');
             this.player2.selectPlot('Sneak Attack');
             this.selectFirstPlayer(this.player1);
-
-            this.skipActionWindow();
 
             // Move remaining cards back to draw deck.
             this.player2Object.hand.each(card => {

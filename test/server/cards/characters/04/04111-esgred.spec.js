@@ -29,8 +29,6 @@ describe('Esgred', function() {
             this.player2.selectPlot('Trading with the Pentoshi');
             this.selectFirstPlayer(this.player1);
             this.selectPlotOrder(this.player1);
-
-            this.skipActionWindow();
         });
 
         describe('when declaring Esgred as an attacker', function() {
@@ -38,8 +36,6 @@ describe('Esgred', function() {
                 this.player1.clickCard(this.esgred);
                 this.player1.clickPrompt('Done');
                 this.player2.clickPrompt('Done');
-
-                this.skipActionWindow();
 
                 this.player1.clickPrompt('Military');
                 this.player1.clickCard(this.esgred);

@@ -23,11 +23,7 @@ describe('Calm Over Westeros', function() {
             // Reduce claim on Military this round.
             this.player1.clickPrompt('Military');
 
-            this.skipActionWindow();
-
             this.completeMarshalPhase();
-
-            this.skipActionWindow();
         });
 
         describe('when applying claim to the reduced challenge type', function() {

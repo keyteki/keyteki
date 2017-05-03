@@ -18,8 +18,6 @@ describe('Arya Stark (Core)', function() {
             this.selectFirstPlayer(this.player1);
             this.selectPlotOrder(this.player1);
 
-            this.skipActionWindow();
-
             [this.arya1, this.arya2] = this.player1.filterCardsByName('Arya Stark', 'hand');
             this.cardInDeck = this.player1.findCardByName('Hedge Knight', 'hand');
             this.player1Object.moveCard(this.cardInDeck, 'draw deck');

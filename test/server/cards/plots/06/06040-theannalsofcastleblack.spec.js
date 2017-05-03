@@ -29,8 +29,6 @@ describe('The Annals of Castle Black', function() {
                 this.player2.selectPlot('A Noble Cause');
                 this.selectFirstPlayer(this.player1);
 
-                this.skipActionWindow();
-
                 this.player1.clickCard(this.eventCard);
                 this.player1.clickCard(this.character);
             });
@@ -52,8 +50,6 @@ describe('The Annals of Castle Black', function() {
                 this.player2.selectPlot('A Noble Cause');
                 this.selectFirstPlayer(this.player1);
 
-                this.skipActionWindow();
-
                 this.player1.clickCard(this.eventCard);
                 expect(this.player1).toHavePrompt('Select character');
                 this.player1.clickCard(this.character);
@@ -74,8 +70,6 @@ describe('The Annals of Castle Black', function() {
                 this.player2.selectPlot('A Noble Cause');
                 this.selectFirstPlayer(this.player1);
 
-                this.skipActionWindow();
-
                 this.player1.dragCard(this.eventCard, 'discard pile');
             });
 
@@ -90,13 +84,9 @@ describe('The Annals of Castle Black', function() {
                 this.player2.selectPlot('A Noble Cause');
                 this.selectFirstPlayer(this.player1);
 
-                this.skipActionWindow();
-
                 this.player2Object.moveCard(this.opponentEventCard, 'draw deck');
 
                 this.completeMarshalPhase();
-
-                this.skipActionWindow();
 
                 this.player1.clickPrompt('Power');
                 this.player1.clickCard('Wildling Horde', 'play area');
