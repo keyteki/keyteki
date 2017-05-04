@@ -22,8 +22,6 @@ describe('The Prince\'s Plan', function() {
             this.player2.selectPlot('A Noble Cause');
             this.selectFirstPlayer(this.player1);
 
-            this.skipActionWindow();
-
             this.completeMarshalPhase();
 
             this.event = this.player1.findCardByName('The Prince\'s Plan');
@@ -33,7 +31,6 @@ describe('The Prince\'s Plan', function() {
             beforeEach(function() {
                 this.player1Object.moveCard(this.event, 'discard pile');
 
-                this.skipActionWindow();
                 this.player1.clickPrompt('Military');
                 this.player1.clickCard('Obara Sand', 'play area');
                 this.player1.clickPrompt('Done');
