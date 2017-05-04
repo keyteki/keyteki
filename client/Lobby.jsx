@@ -104,9 +104,12 @@ class InnerLobby extends React.Component {
                 <div className='alert alert-success'>
                     <a href='https://gist.github.com/cryogen/6f8accf082546c2e523bf1a4737def37#file-3-ironthrone-report-mar-md' target='_blank'>March Report</a> is now live!
                 </div>
+                <div className='alert alert-warning'>
+                    There has been a fairly major change deployed to action windows.  Some of them are now "opt in".  If you click the menu title (where the green arrow is), you will get a pop out menu that lets you select which windows you are interested in.  If you click the checkbox next to a window, you will be prompted for actions in that window.  You can change these options at any point during the game.  In the future you will be able to select in your profile which of these windows are defatuled to on for you.
+                </div>
                 <div className='alert alert-info'>
-                {this.props.newsLoading ? <div>News loading...</div> : null}
-                <News news={this.props.news} />
+                    {this.props.newsLoading ? <div>News loading...</div> : null}
+                    <News news={this.props.news} />
                 </div>
                 <div className='row'>
                     <span className='col-sm-9 text-center'><h1>Play A Game Of Thrones 2nd Edition</h1></span>
