@@ -255,7 +255,7 @@ class Lobby {
         this.broadcastUserList();
     }
 
-    onSocketDisconnected(socket) {
+    onSocketDisconnected(socket, reason) {
         if(!socket) {
             return;
         }
@@ -267,6 +267,8 @@ class Lobby {
         }
 
         delete this.users[socket.user.username];
+
+        logger.info('user \'%s\' disconnected from the lobby: %s', socket.user.username, reason);
 
         var game = this.findGameForUser(socket.user.username);
         if(!game) {
@@ -454,6 +456,7 @@ class Lobby {
             return;
         }
 
+        logger.info('user \'%s\' failed to handoff to game server', socket.user.username);
         this.router.notifyFailedConnect(game, socket.user.username);
     }
 

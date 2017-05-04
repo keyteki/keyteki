@@ -249,6 +249,7 @@ class GameServer {
         player.lobbyId = player.id;
         player.id = socket.id;
         if(player.disconnected) {
+            logger.info('user \'%s\' reconnected to game', socket.user.username);
             game.reconnect(socket, player.name);
         }
 
@@ -266,11 +267,13 @@ class GameServer {
         socket.on('disconnect', this.onSocketDisconnected.bind(this));
     }
 
-    onSocketDisconnected(socket) {
+    onSocketDisconnected(socket, reason) {
         var game = this.findGameForUser(socket.user.username);
         if(!game) {
             return;
         }
+
+        logger.info('user \'%s\' disconnected from a game: %s', socket.user.username, reason);
 
         var isSpectator = game.isSpectator(game.playersAndSpectators[socket.user.username]);
 

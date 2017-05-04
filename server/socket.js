@@ -68,8 +68,8 @@ class Socket extends EventEmitter {
         });
     }
 
-    onDisconnect() {
-        this.emit('disconnect', this);
+    onDisconnect(reason) {
+        this.emit('disconnect', this, reason);
     }
 
     onError(err) {
