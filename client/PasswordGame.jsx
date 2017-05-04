@@ -33,6 +33,10 @@ class InnerPasswordGame extends React.Component {
     }
 
     render() {
+        if(!this.props.passwordGame) {
+            return null;
+        }
+
         return (
             <div>
                 <div className='col-sm-12'>
