@@ -415,12 +415,12 @@ export class InnerGameBoard extends React.Component {
                             </div>
                             <div className='middle-right'>
                                 <div className='inset-pane'>
-                                    { this.state.showActionWindowsMenu ?
+                                    { !this.state.spectating && this.state.showActionWindowsMenu ?
                                         <ActionWindowsMenu options={ thisPlayer.promptedActionWindows }
                                             onToggle={ this.onPromptedActionWindowToggle.bind(this) } />
                                         : null }
                                     <div className={ 'phase-indicator ' + thisPlayer.phase } onClick={ this.onMenuTitleClick.bind(this) }>
-                                        { <span className={ this.state.showActionWindowsMenu ? 'down-arrow' : 'up-arrow' } /> }
+                                        { <span className={ this.state.spectating ? '' : this.state.showActionWindowsMenu ? 'down-arrow' : 'up-arrow' } /> }
                                         { thisPlayer.phase } phase
                                     </div>
                                     <MenuPane title={ thisPlayer.menuTitle } buttons={ thisPlayer.buttons } promptTitle={ thisPlayer.promptTitle } onButtonClick={ this.onCommand }
