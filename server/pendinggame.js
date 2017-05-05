@@ -279,7 +279,8 @@ class PendingGame {
                 id: player.id,
                 left: player.left,
                 name: player.name,
-                owner: player.owner
+                owner: player.owner,
+                settings: player.user.settings
             };
         });
 
@@ -299,7 +300,8 @@ class PendingGame {
                 return {
                     id: spectator.id,
                     name: spectator.name,
-                    emailHash: spectator.emailHash
+                    emailHash: spectator.emailHash,
+                    settings: spectator.settings
                 };
             })
         };

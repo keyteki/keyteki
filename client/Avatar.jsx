@@ -8,14 +8,15 @@ class Avatar extends React.Component {
             className += ' pull-left';
         }
 
-        return (<img className={className} src={'https://www.gravatar.com/avatar/' + this.props.emailHash + '?d=identicon&s=24}'} />);
+        return (<img className={ className } src={ 'https://www.gravatar.com/avatar/' + this.props.emailHash + '?d=identicon&s=24' + (this.props.forceDefault ? '&f=y' : '') } />);
     }
 }
 
 Avatar.displayName = 'Avatar';
 Avatar.propTypes = {
     emailHash: React.PropTypes.string,
-    float: React.PropTypes.bool
+    float: React.PropTypes.bool,
+    forceDefault: React.PropTypes.bool
 };
 
 export default Avatar;

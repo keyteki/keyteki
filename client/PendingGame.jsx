@@ -106,7 +106,7 @@ class InnerPendingGame extends React.Component {
 
         return (
             <div className='player-row' key={player.name}>
-                <Avatar emailHash={player.emailHash} /><span>{player.name}</span>{deck} {selectLink}
+                <Avatar emailHash={ player.emailHash } forceDefault={ player.settings.disableGravatar } /><span>{ player.name }</span>{ deck } { selectLink }
             </div>);
     }
 

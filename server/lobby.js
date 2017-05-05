@@ -109,7 +109,8 @@ class Lobby {
         let userList = _.map(this.users, function(user) {
             return {
                 name: user.username,
-                emailHash: user.emailHash
+                emailHash: user.emailHash,
+                noAvatar: user.settings ? user.settings.disableGravatar : false
             };
         });
 
@@ -225,9 +226,10 @@ class Lobby {
         if(socket.user) {
             this.users[socket.user.username] = socket.user;
 
-            socket.send('users', this.getUserList());
             this.broadcastUserList();
         }
+
+        socket.send('users', this.getUserList());
 
         this.messageRepository.getLastMessages((err, messages) => {
             if(err) {
@@ -423,7 +425,7 @@ class Lobby {
     }
 
     onLobbyChat(socket, message) {
-        var chatMessage = { user: { username: socket.user.username, emailHash: socket.user.emailHash }, message: message, time: new Date() };
+        var chatMessage = { user: { username: socket.user.username, emailHash: socket.user.emailHash, noAvatar: socket.user.settings ? socket.user.settings.disableGravatar : false }, message: message, time: new Date() };
 
         this.messageRepository.addMessage(chatMessage);
         this.broadcastMessage('lobbychat', chatMessage);

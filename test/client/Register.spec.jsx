@@ -332,7 +332,7 @@ describe('the <InnerRegister /> component', function () {
             });
 
             it('should raise the register event with the returned username and token', function () {
-                expect(registerSpy.register).toHaveBeenCalledWith('testuser', 'token');
+                expect(registerSpy.register).toHaveBeenCalledWith({ username: 'testuser' }, 'token');
             });
 
             it('should navigate to the home page', function () {

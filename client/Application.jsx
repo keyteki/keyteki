@@ -17,6 +17,7 @@ import GameBoard from './GameBoard.jsx';
 import About from './About.jsx';
 import ForgotPassword from './ForgotPassword.jsx';
 import ResetPassword from './ResetPassword.jsx';
+import Profile from './Profile.jsx';
 
 import {toastr} from 'react-redux-toastr';
 
@@ -30,6 +31,7 @@ var notAuthedMenu = [
 ];
 
 var authedMenu = [
+    { name: 'Profile', path: '/profile' },
     { name: 'Logout', path: '/logout' }
 ];
 
@@ -48,6 +50,7 @@ var gameBoard = <GameBoard />;
 var gameLobby = <GameLobby />;
 var about = <About />;
 var forgot = <ForgotPassword />;
+var profile = <Profile />;
 
 class App extends React.Component {
     componentWillMount() {
@@ -243,6 +246,9 @@ class App extends React.Component {
                 break;
             case '/reset-password':
                 component = <ResetPassword id={ idArg } token={ tokenArg } />;
+                break;
+            case '/profile':
+                component = profile;
                 break;
             default:
                 component = <NotFound />;

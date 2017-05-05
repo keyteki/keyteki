@@ -46,6 +46,30 @@ class UserRepository extends BaseRepository {
         });
     }
 
+    update(user, callback) {
+        var toSet = {
+            email: user.email,
+            settings: user.settings, 
+            promptedActionWindows: user.promptedActionWindows             
+        };
+
+        if(user.password && user.password !== '') {
+            toSet.password = user.password;
+        }
+
+        this.db.collection('users').update({ username: user.username }, { '$set': toSet }, (err, result) => {
+            if(err) {
+                logger.error(err);
+
+                this.callCallbackIfPresent(callback, err);
+
+                return;
+            }
+
+            this.callCallbackIfPresent(callback, err, result);
+        });        
+    }
+
     setResetToken(user, token, tokenExpiration, callback) {
         this.db.collection('users').update({ username: user.username }, { '$set': { resetToken: token, tokenExpires: tokenExpiration } }, (err, result) => {
             if(err) {

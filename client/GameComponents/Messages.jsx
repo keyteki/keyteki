@@ -60,7 +60,7 @@ class InnerMessages extends React.Component {
             } else if(fragment.name) {
                 return (
                     <div key={index++}>
-                        <Avatar emailHash={fragment.emailHash} float />
+                        <Avatar emailHash={ fragment.emailHash } forceDefault={ fragment.noAvatar } float />
                         <span key={index++}>
                             <b>{fragment.name}</b>
                         </span>

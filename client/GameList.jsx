@@ -52,7 +52,7 @@ class InnerGameList extends React.Component {
                 if(firstPlayer) {
                     playerElement = (
                     <span>
-                        <span><Avatar emailHash={ player.emailHash } /></span>
+                        <span><Avatar emailHash={ player.emailHash } forceDefault={ player.settings.disableGravatar } /></span>
                         <span className='player-name'>{ player.name }</span>
                         <span className={' game-icon icon-' + player.faction} />
                     </span>);
@@ -63,7 +63,7 @@ class InnerGameList extends React.Component {
                     <span>
                         <span className={' game-icon icon-' + player.faction} />
                         <span className='player-name'>{ player.name }</span>
-                        <span><Avatar emailHash={player.emailHash} /></span>
+                        <span><Avatar emailHash={ player.emailHash } forceDefault={ player.settings.disableGravatar } /></span>
                     </span>);
                 }
 

@@ -15,18 +15,18 @@ export function setContextMenu(menu) {
     };
 }
 
-export function register(username, token) {
+export function register(user, token) {
     return {
         type: 'AUTH_REGISTER',
-        username: username,
+        user: user,
         token: token
     };
 }
 
-export function login(username, token, isAdmin) {
+export function login(user, token, isAdmin) {
     return {
         type: 'AUTH_LOGIN',
-        username: username,
+        user: user,
         token: token,
         isAdmin: isAdmin
     };
@@ -299,5 +299,13 @@ export function receivePasswordError(message) {
 export function cancelPasswordJoin() {
     return {
         type: 'CANCEL_PASSWORD_JOIN'
+    };
+}
+
+export function refreshUser(user, token) {
+    return {
+        type: 'REFRESH_USER',
+        user: user,
+        token: token
     };
 }

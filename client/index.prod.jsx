@@ -17,7 +17,7 @@ const store = configureStore();
 store.dispatch(navigate(window.location.pathname, window.location.search));
 
 if(typeof user !== 'undefined') {
-    store.dispatch(login(user.username, authToken, user.admin));
+    store.dispatch(login(user, authToken, user.admin));
 }
 
 render(

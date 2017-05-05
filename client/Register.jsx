@@ -119,7 +119,7 @@ export class InnerRegister extends React.Component {
                 return;
             }
 
-            this.props.register(data.user.username, data.token);
+            this.props.register(data.user, data.token);
             this.props.socket.emit('authenticate', data.token);
             this.props.navigate('/');
         }).fail(() => {

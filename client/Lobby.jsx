@@ -83,7 +83,7 @@ class InnerLobby extends React.Component {
             var timestamp = moment(message.time).format('MMM Do H:mm:ss');
             return (
                 <div key={timestamp + message.user.username + (index++).toString()}>
-                    <Avatar emailHash={message.user.emailHash} float />
+                    <Avatar emailHash={ message.user.emailHash } float forceDefault={ message.user.noAvatar } />
                     <span className='username'>{message.user.username}</span><span>{timestamp}</span>
                     <div className='message'>{message.message}</div>
                 </div>);
@@ -92,7 +92,7 @@ class InnerLobby extends React.Component {
         var users = _.map(this.props.users, user => {
             return (
                 <div>
-                    <Avatar emailHash={user.emailHash} />
+                    <Avatar emailHash={ user.emailHash } forceDefault={ user.noAvatar } />
                     <span>{user.name}</span>
                 </div>
             );

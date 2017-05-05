@@ -229,12 +229,14 @@ class GameServer {
 
     onConnection(ioSocket) {
         if(!ioSocket.request.user) {
+            logger.info('socket connected with no user, disconnecting');
             ioSocket.disconnect();
             return;
         }
 
         var game = this.findGameForUser(ioSocket.request.user.username);
         if(!game) {
+            logger.info('No game for', ioSocket.request.user.username, 'disconnecting');
             ioSocket.disconnect();
             return;
         }

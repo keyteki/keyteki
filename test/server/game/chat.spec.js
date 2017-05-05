@@ -10,8 +10,8 @@ describe('the Game', function() {
         this.gameRepository = jasmine.createSpyObj('gameRepository', ['save']);
         this.game = new Game('1', 'Test Game', { gameRepository: this.gameRepository });
 
-        this.player1 = new Player('1', { username: 'Player 1' }, true, this.game);
-        this.spectator = new Spectator('3', { username: 'Spectator 1' }, this.game);
+        this.player1 = new Player('1', { username: 'Player 1', settings: {} }, true, this.game);
+        this.spectator = new Spectator('3', { username: 'Spectator 1', settings: {} }, this.game);
 
         this.game.playersAndSpectators[this.player1.id] = this.player1;
         this.game.playersAndSpectators[this.spectator.id] = this.spectator;

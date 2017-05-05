@@ -81,7 +81,7 @@ class InnerLogin extends React.Component {
                 return;
             }
 
-            this.props.login(data.user.username, data.token);
+            this.props.login(data.user, data.token);
             if(this.props.socket) {
                 this.props.socket.emit('authenticate', data.token);
             }
