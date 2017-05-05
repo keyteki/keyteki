@@ -12,6 +12,7 @@ class AbilityResolver extends BaseStep {
         this.context = context;
         this.pipeline = new GamePipeline();
         this.pipeline.initialise([
+            new SimpleStep(game, () => this.markActionAsTaken()),
             new SimpleStep(game, () => this.resolveCosts()),
             new SimpleStep(game, () => this.waitForCostResolution()),
             new SimpleStep(game, () => this.payCosts()),
@@ -43,6 +44,12 @@ class AbilityResolver extends BaseStep {
 
     continue() {
         return this.pipeline.continue();
+    }
+
+    markActionAsTaken() {
+        if(this.ability.isAction()) {
+            this.game.markActionAsTaken();
+        }
     }
 
     resolveCosts() {

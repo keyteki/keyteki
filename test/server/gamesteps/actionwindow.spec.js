@@ -46,33 +46,32 @@ describe('ActionWindow', function() {
         });
     });
 
-    describe('onCardClicked()', function() {
+    describe('markActionAsTaken()', function() {
         describe('when a player takes an action', function() {
             beforeEach(function() {
                 // Complete the window for player 2
                 this.prompt.onMenuCommand(this.player2);
 
-                // Player 1 clicks something
-                this.prompt.onCardClicked(this.player1);
+                // Player 1 takes an action
+                this.prompt.markActionAsTaken();
             });
 
-            it('should not change the current player', function() {
-                expect(this.prompt.currentPlayer).toBe(this.player1);
-            });
-
-            it('should re-prompt other players once the current player is done', function() {
-                this.prompt.onMenuCommand(this.player1);
+            it('should rotate the current player', function() {
                 expect(this.prompt.currentPlayer).toBe(this.player2);
             });
 
+            it('should re-prompt other players once the current player is done', function() {
+                this.prompt.onMenuCommand(this.player2);
+                expect(this.prompt.currentPlayer).toBe(this.player1);
+                expect(this.prompt.isComplete()).toBe(false);
+            });
+
             it('should require two consecutive passes before completing', function() {
-                // Complete after taking action
-                this.prompt.onMenuCommand(this.player1);
                 // Complete without taking action
                 this.prompt.onMenuCommand(this.player2);
+                this.prompt.onMenuCommand(this.player1);
 
-                expect(this.prompt.isComplete()).toBe(false);
-                expect(this.prompt.currentPlayer).toBe(this.player1);
+                expect(this.prompt.isComplete()).toBe(true);
             });
         });
     });

@@ -8,6 +8,18 @@ class ActionWindow extends PlayerOrderPrompt {
         this.windowName = windowName;
     }
 
+    continue() {
+        let completed = super.continue();
+
+        if(!completed) {
+            this.game.currentActionWindow = this;
+        } else {
+            this.game.currentActionWindow = null;
+        }
+
+        return completed;
+    }
+
     activePrompt() {
         return {
             menuTitle: 'Any actions or reactions?',
@@ -27,24 +39,14 @@ class ActionWindow extends PlayerOrderPrompt {
             return false;
         }
 
-        if(this.tookAction) {
-            this.setPlayers(this.rotatedPlayerOrder(this.currentPlayer));
-        } else {
-            this.completePlayer();
-        }
-
-        this.tookAction = false;
+        this.completePlayer();
 
         return true;
     }
 
-    onCardClicked() {
-        // For now, assume ANY card click means that the player has taken an
-        // action and re-prompt all players in rotated first player order.
-        this.tookAction = true;
+    markActionAsTaken() {
+        this.setPlayers(this.rotatedPlayerOrder(this.currentPlayer));
         this.forceWindow = true;
-
-        return false;
     }
 
     rotatedPlayerOrder(player) {

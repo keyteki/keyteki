@@ -5,13 +5,24 @@ const AbilityResolver = require('../../../server/game/gamesteps/abilityresolver.
 
 describe('AbilityResolver', function() {
     beforeEach(function() {
-        this.game = jasmine.createSpyObj('game', ['']);
-        this.ability = jasmine.createSpyObj('ability', ['resolveCosts', 'payCosts', 'resolveTargets', 'executeHandler']);
+        this.game = jasmine.createSpyObj('game', ['markActionAsTaken']);
+        this.ability = jasmine.createSpyObj('ability', ['isAction', 'resolveCosts', 'payCosts', 'resolveTargets', 'executeHandler']);
         this.context = { foo: 'bar' };
         this.resolver = new AbilityResolver(this.game, this.ability, this.context);
     });
 
     describe('continue()', function() {
+        describe('when the ability is an action', function() {
+            beforeEach(function() {
+                this.ability.isAction.and.returnValue(true);
+                this.resolver.continue();
+            });
+
+            it('should mark that an action is being taken', function() {
+                expect(this.game.markActionAsTaken).toHaveBeenCalled();
+            });
+        });
+
         describe('when all costs can be paid', function() {
             beforeEach(function() {
                 this.ability.resolveCosts.and.returnValue([{ resolved: true, value: true }, { resolved: true, value: true }]);

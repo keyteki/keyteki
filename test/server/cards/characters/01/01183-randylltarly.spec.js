@@ -93,7 +93,6 @@ describe('Randyll Tarly', function() {
                 this.player2.clickCard(this.randyll);
 
                 // Complete action window
-                this.player2.clickPrompt('Done');
                 this.player1.clickPrompt('Done');
                 this.player2.clickPrompt('Done');
 

@@ -88,6 +88,10 @@ class TriggeredAbility extends BaseAbility {
         return this.location === location;
     }
 
+    isAction() {
+        return false;
+    }
+
     registerEvents() {
         if(this.events) {
             return;

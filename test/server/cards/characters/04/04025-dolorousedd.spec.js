@@ -55,8 +55,7 @@ describe('Dolorous Edd', function() {
 
                 this.player1.clickCard('Dolorous Edd', 'hand');
 
-                // Complete player 1's action window
-                this.player1.clickPrompt('Done');
+                // Complete the action window
                 this.player2.clickPrompt('Done');
                 this.player1.clickPrompt('Done');
 
@@ -92,8 +91,7 @@ describe('Dolorous Edd', function() {
 
                 this.player1.clickCard('Dolorous Edd', 'hand');
 
-                // Complete player 1's action window
-                this.player1.clickPrompt('Done');
+                // Complete the action window
                 this.player2.clickPrompt('Done');
                 this.player1.clickPrompt('Done');
 

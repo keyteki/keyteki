@@ -560,8 +560,14 @@ class Game extends EventEmitter {
         this.pipeline.queueStep(new SimpleStep(this, handler));
     }
 
+    markActionAsTaken() {
+        if(this.currentActionWindow) {
+            this.currentActionWindow.markActionAsTaken();
+        }
+    }
+
     resolveAbility(ability, context) {
-        this.queueStep(new AbilityResolver(this.game, ability, context));
+        this.queueStep(new AbilityResolver(this, ability, context));
     }
 
     openAbilityWindow(properties) {

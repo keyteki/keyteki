@@ -162,6 +162,10 @@ class BaseAbility {
      */
     executeHandler(context) { // eslint-disable-line no-unused-vars
     }
+
+    isAction() {
+        return true;
+    }
 }
 
 module.exports = BaseAbility;
