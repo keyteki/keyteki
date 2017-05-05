@@ -53,7 +53,7 @@ class GameChat {
                     } else if(arg instanceof BaseCard) {
                         return { code: arg.code, label: arg.name, type: arg.getType() };
                     } else if(arg instanceof Spectator) {
-                        return { name: arg.user.username, emailHash: arg.user.emailHash, noAvatar: arg.user.settings.disableGravatar };
+                        return { name: arg.user.username, emailHash: arg.user.emailHash, noAvatar: arg.user.settings ? arg.user.settings.disableGravatar : false };
                     }
 
                     return arg;
