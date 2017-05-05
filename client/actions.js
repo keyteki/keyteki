@@ -127,6 +127,12 @@ export function receiveGameState(game, username) {
     };
 }
 
+export function clearGameState() {
+    return {
+        type: 'CLEAR_GAMESTATE'
+    };
+}
+
 export function receiveLobbyMessage(message) {
     return {
         type: 'RECEIVE_LOBBY_MSG',

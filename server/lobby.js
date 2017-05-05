@@ -400,7 +400,7 @@ class Lobby {
         }
 
         game.leave(socket.user.username);
-        socket.send('gamestate', game.getSummary(socket.user.username));
+        socket.send('cleargamestate');
         socket.leaveChannel(game.id);
 
         if(game.isEmpty()) {

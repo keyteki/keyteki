@@ -100,6 +100,10 @@ class App extends React.Component {
             this.props.receiveGameState(game, this.props.username);
         });
 
+        socket.on('cleargamestate', () => {
+            this.props.clearGameState();
+        });
+
         socket.on('lobbychat', message => {
             this.props.receiveLobbyMessage(message);
         });
@@ -161,6 +165,10 @@ class App extends React.Component {
 
             gameSocket.on('gamestate', game => {
                 this.props.receiveGameState(game, this.props.username);
+            });
+
+            gameSocket.on('cleargamestate', () => {
+                this.props.clearGameState();
             });
         });
 
@@ -254,6 +262,7 @@ App.displayName = 'Application';
 App.propTypes = {
     agendas: React.PropTypes.array,
     cards: React.PropTypes.array,
+    clearGameState: React.PropTypes.func,
     currentGame: React.PropTypes.object,
     fetchCards: React.PropTypes.func,
     fetchPacks: React.PropTypes.func,

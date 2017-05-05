@@ -307,7 +307,7 @@ class GameServer {
             spectator: isSpectator
         });
 
-        socket.send('gamestate', game.getState(socket.user.username));
+        socket.send('cleargamestate');
         socket.leaveChannel(game.id);
 
         if(game.isEmpty()) {

@@ -3,6 +3,7 @@ import _ from 'underscore';
 function games(state = {
     games: []
 }, action) {
+    let retState = {};
     switch(action.type) {
         case 'START_NEWGAME':
             return Object.assign({}, state, {
@@ -31,7 +32,7 @@ function games(state = {
                 newGame: false
             });
         case 'RECEIVE_GAMESTATE':
-            var retState = Object.assign({}, state, {
+            retState = Object.assign({}, state, {
                 currentGame: action.currentGame
             });
 
@@ -78,6 +79,10 @@ function games(state = {
                 passwordError: undefined,
                 passwordJoinType: undefined
             });
+        case 'CLEAR_GAMESTATE':
+            retState = _.omit(state, 'currentGame');
+            retState.newGame = false;
+            return retState;
         default:
             return state;
     }
