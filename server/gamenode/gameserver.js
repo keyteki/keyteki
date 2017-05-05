@@ -103,7 +103,7 @@ class GameServer {
         debugData.game = game.getState();
 
         _.each(game.getPlayers(), player => {
-            debugData[player.name] = player.getState(player.name);
+            debugData[player.name] = player.getState(player);
         });
 
         Raven.captureException(e, { extra: debugData });
