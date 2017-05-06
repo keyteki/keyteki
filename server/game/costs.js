@@ -239,6 +239,43 @@ const Costs = {
         };
     },
     /**
+     * Cost that requires discarding a card from hand.
+     */
+    discardFromHand: function() {
+        return {
+            canPay: function(context) {
+                return context.player.hand.size() >= 1;
+            },
+            resolve: function(context) {
+                var result = {
+                    resolved: false
+                };
+
+                context.game.promptForSelect(context.player, {
+                    cardCondition: card => card.location === 'hand',
+                    activePromptTitle: 'Select card to discard',
+                    source: context.source,
+                    onSelect: (player, card) => {
+                        context.discardCostCard = card;
+                        result.value = true;
+                        result.resolved = true;
+
+                        return true;
+                    },
+                    onCancel: () => {
+                        result.value = false;
+                        result.resolved = true;
+                    }
+                });
+
+                return result;
+            },
+            pay: function(context) {
+                context.player.discardCard(context.discardCostCard);
+            }
+        };
+    },
+    /**
      * Cost that will pay the reduceable gold cost associated with an event card
      * and place it in discard.
      */
