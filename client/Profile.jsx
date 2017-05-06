@@ -12,6 +12,10 @@ class InnerProfile extends React.Component {
     constructor(props) {
         super(props);
 
+        if(!this.props.user) {
+            return;
+        }
+
         this.windowDefaults = {
             plot: false,
             draw: false,
@@ -46,6 +50,10 @@ class InnerProfile extends React.Component {
     }
 
     componentWillReceiveProps(props) {
+        if(!props.user) {
+            return;
+        }
+        
         this.setState({ email: props.user.email, disableGravatar: props.user.settings.disableGravatar || false, promptedActionWindows: props.user.promptedActionWindows || this.windowDefaults });
     }
 
@@ -145,6 +153,10 @@ class InnerProfile extends React.Component {
     }
 
     render() {
+        if(!this.props.user) {
+            return <div className='alert alert-danger'>You must be logged in to update your profile</div>;
+        }
+
         let windows = _.map(this.windows, window => {
             return (<Checkbox key={ window.name } name={ 'promptedActionWindows.' + window.name } label={ window.label } fieldClass='col-sm-offset-3 col-sm-4'
                 type='checkbox' onChange={ (this.onWindowToggle.bind(this, window.name)) } checked={ this.state.promptedActionWindows[window.name] } />);             
