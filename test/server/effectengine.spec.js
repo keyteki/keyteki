@@ -118,7 +118,7 @@ describe('EffectEngine', function () {
             describe('and the card leaving play is the source for an effect', function() {
                 beforeEach(function() {
                     this.effectSpy.source = this.cardLeavingPlay;
-                    this.engine.onCardLeftPlay({}, {}, this.cardLeavingPlay);
+                    this.engine.onCardLeftPlay({ card: this.cardLeavingPlay });
                 });
 
                 it('should remove the target from all effects', function() {
@@ -137,7 +137,7 @@ describe('EffectEngine', function () {
             describe('and the card leaving play is not the source for an effect', function() {
                 beforeEach(function() {
                     this.effectSpy.source = {};
-                    this.engine.onCardLeftPlay({}, {}, this.cardLeavingPlay);
+                    this.engine.onCardLeftPlay({ card: this.cardLeavingPlay });
                 });
 
                 it('should remove the target from all effects', function() {
@@ -162,7 +162,7 @@ describe('EffectEngine', function () {
             describe('and the card leaving play is the source for an effect', function() {
                 beforeEach(function() {
                     this.effectSpy.source = this.cardLeavingPlay;
-                    this.engine.onCardLeftPlay({}, {}, this.cardLeavingPlay);
+                    this.engine.onCardLeftPlay({ card: this.cardLeavingPlay });
                 });
 
                 it('should remove the target from all effects', function() {
@@ -181,7 +181,7 @@ describe('EffectEngine', function () {
             describe('and the card leaving play is not the source for an effect', function() {
                 beforeEach(function() {
                     this.effectSpy.source = {};
-                    this.engine.onCardLeftPlay({}, {}, this.cardLeavingPlay);
+                    this.engine.onCardLeftPlay({ card: this.cardLeavingPlay });
                 });
 
                 it('should remove the target from all effects', function() {

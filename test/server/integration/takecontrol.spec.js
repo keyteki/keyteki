@@ -26,7 +26,7 @@ describe('take control', function() {
                 this.player2.clickCard(this.dupe);
 
                 this.completeSetup();
-                expect(this.paxter.dupes.size()).toBe(1);
+                expect(this.paxter.dupes.size()).toBe(1);                
 
                 this.player1.selectPlot('Sneak Attack');
                 this.player2.selectPlot('Sneak Attack');

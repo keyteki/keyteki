@@ -650,7 +650,7 @@ class Game extends EventEmitter {
             event.cancel();
             return;
         }
-
+        
         if(!card.canBeKilled()) {
             this.addMessage('{0} controlled by {1} cannot be killed',
                                  card, player);

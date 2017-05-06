@@ -13,6 +13,11 @@ describe('Player', function() {
             this.player.initialise();
             this.player.phase = 'marshal';
 
+            this.gameSpy.raiseMergedEvent.and.callFake((name, params, handler) => {
+                if(handler) {
+                    handler(params);
+                }
+            });
             this.card = new DrawCard(this.player, { code: '1', name: 'Test' });
             spyOn(this.card, 'leavesPlay');
         });
@@ -85,7 +90,7 @@ describe('Player', function() {
 
             it('should raise the left play event', function() {
                 this.player.moveCard(this.card, 'dead pile');
-                expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onCardLeftPlay', this.player, this.card);
+                expect(this.gameSpy.raiseMergedEvent).toHaveBeenCalled();
             });
 
             describe('when the card has attachments', function() {

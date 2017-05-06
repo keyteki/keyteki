@@ -37,7 +37,7 @@ class JaqenHGhar extends DrawCard {
         });
         this.forcedReaction({
             when: {
-                onCardLeftPlay: (event, player, card) => card === this
+                onCardLeftPlay: event => event.card === this
             },
             handler: () => {
                 if(this.selectedCards) {

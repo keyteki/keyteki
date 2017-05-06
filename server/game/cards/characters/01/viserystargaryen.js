@@ -4,7 +4,7 @@ class ViserysTargaryen extends DrawCard {
     setupCardAbilities() {
         this.interrupt({
             when: {
-                onCardLeftPlay: (e, player, card) => card === this
+                onCardLeftPlay: event => event.card === this
             },
             handler: () => {
                 this.game.promptForSelect(this.controller, {

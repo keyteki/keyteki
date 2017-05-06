@@ -222,9 +222,9 @@ class Challenge {
         return this.attackingPlayer === player ? this.defenders : this.attackers;
     }
 
-    onCardLeftPlay(e, player, card) {
+    onCardLeftPlay(event) {
         if(!this.winnerDetermined) {
-            this.removeFromChallenge(card);
+            this.removeFromChallenge(event.card);
         }
     }
 

@@ -34,9 +34,9 @@ class EffectEngine {
         this.addTargetForPersistentEffects(event.card, 'play area');
     }
 
-    onCardLeftPlay(e, player, card) {
-        this.removeTargetFromPersistentEffects(card, 'play area');
-        this.unapplyAndRemove(effect => effect.duration === 'persistent' && effect.source === card);
+    onCardLeftPlay(event) {
+        this.removeTargetFromPersistentEffects(event.card, 'play area');
+        this.unapplyAndRemove(effect => effect.duration === 'persistent' && effect.source === event.card);
     }
 
     onCardEntersHand(e, card) {

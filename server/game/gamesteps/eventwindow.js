@@ -87,6 +87,7 @@ class EventWindow extends BaseStep {
                 return;
             }
         }
+        
         this.game.emit(this.eventName, ...this.event.params);
         if(this.eventName === 'onPlotsWhenRevealed') {
             this.game.openAbilityWindow({

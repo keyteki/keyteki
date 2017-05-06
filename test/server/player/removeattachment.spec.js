@@ -17,6 +17,12 @@ describe('Player', function() {
         this.card = new DrawCard(this.player, {});
         this.player.cardsInPlay.push(this.card);
         this.player.attach(this.player, this.attachment, this.card.uuid);
+
+        this.gameSpy.raiseMergedEvent.and.callFake((name, params, handler) => {
+            if(handler) {
+                handler(params);
+            }
+        });
     });
 
     describe('removeAttachment', function() {

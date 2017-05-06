@@ -8,7 +8,7 @@ class MarriagePact extends DrawCard {
 
         this.forcedInterrupt({
             when: {
-                onCardLeftPlay: (e, player, card) => card === this.parent
+                onCardLeftPlay: event => event.card === this.parent
             },
             target: {
                 activePromptTitle: 'Select a character',

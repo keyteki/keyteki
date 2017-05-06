@@ -928,13 +928,21 @@ class Player extends Spectator {
                 this.removeDuplicate(card, true);
             }
 
-            card.leavesPlay();
-            this.game.raiseEvent('onCardLeftPlay', this, card);
+            var params = {
+                player: this,
+                card: card
+            };
+            
+            this.game.raiseMergedEvent('onCardLeftPlay', params, event => {
+                event.card.leavesPlay();
 
-            if(card.parent && card.parent.attachments) {
-                card.parent.attachments = this.removeCardByUuid(card.parent.attachments, card.uuid);
-                card.parent = undefined;
-            }
+                if(event.card.parent && event.card.parent.attachments) {
+                    event.card.parent.attachments = this.removeCardByUuid(event.card.parent.attachments, event.card.uuid);
+                    event.card.parent = undefined;
+                }
+                
+                card.moveTo(targetLocation);
+            });
         }
 
         if(card.location === 'hand') {
@@ -946,7 +954,9 @@ class Player extends Spectator {
             this.game.raiseEvent('onCardLeftPlay', this, card);
         }
 
-        card.moveTo(targetLocation);
+        if(card.location !== 'play area') {
+            card.moveTo(targetLocation);
+        }    
 
         if(targetLocation === 'active plot') {
             this.activePlot = card;
