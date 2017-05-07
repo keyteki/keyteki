@@ -765,8 +765,10 @@ class Player extends Spectator {
     }
 
     sacrificeCard(card) {
-        this.game.raiseEvent('onSacrificed', this, card, () => {
-            this.moveCard(card, 'discard pile');
+        this.game.applyGameAction('sacrifice', card, card => {
+            this.game.raiseEvent('onSacrificed', this, card, () => {
+                this.moveCard(card, 'discard pile');
+            });
         });
     }
 
@@ -782,22 +784,20 @@ class Player extends Spectator {
     }
 
     discardCards(cards, allowSave = true, callback = () => true) {
-        if(cards.length === 0) {
-            return;
-        }
-
-        var params = {
-            player: this,
-            cards: cards,
-            allowSave: allowSave,
-            originalLocation: cards[0].location
-        };
-        this.game.raiseMergedEvent('onCardsDiscarded', params, event => {
-            _.each(event.cards, card => {
-                this.doSingleCardDiscard(card, allowSave);
-            });
-            this.game.queueSimpleStep(() => {
-                callback(event.cards);
+        this.game.applyGameAction('discard', cards, cards => {
+            var params = {
+                player: this,
+                cards: cards,
+                allowSave: allowSave,
+                originalLocation: cards[0].location
+            };
+            this.game.raiseMergedEvent('onCardsDiscarded', params, event => {
+                _.each(event.cards, card => {
+                    this.doSingleCardDiscard(card, allowSave);
+                });
+                this.game.queueSimpleStep(() => {
+                    callback(event.cards);
+                });
             });
         });
     }
@@ -815,15 +815,17 @@ class Player extends Spectator {
     }
 
     returnCardToHand(card, allowSave = true) {
-        if(!card.dupes.isEmpty() && allowSave) {
-            if(!this.removeDuplicate(card)) {
-                this.moveCard(card, 'hand');
+        this.game.applyGameAction('returnToHand', card, card => {
+            if(!card.dupes.isEmpty() && allowSave) {
+                if(!this.removeDuplicate(card)) {
+                    this.moveCard(card, 'hand');
+                } else {
+                    this.game.addMessage('{0} discards a duplicate to save {1}', this, card);
+                }
             } else {
-                this.game.addMessage('{0} discards a duplicate to save {1}', this, card);
+                this.moveCard(card, 'hand');
             }
-        } else {
-            this.moveCard(card, 'hand');
-        }
+        });
     }
 
     /**
@@ -932,7 +934,7 @@ class Player extends Spectator {
                 player: this,
                 card: card
             };
-            
+
             this.game.raiseMergedEvent('onCardLeftPlay', params, event => {
                 event.card.leavesPlay();
 
@@ -940,7 +942,7 @@ class Player extends Spectator {
                     event.card.parent.attachments = this.removeCardByUuid(event.card.parent.attachments, event.card.uuid);
                     event.card.parent = undefined;
                 }
-                
+
                 card.moveTo(targetLocation);
             });
         }
@@ -956,7 +958,7 @@ class Player extends Spectator {
 
         if(card.location !== 'play area') {
             card.moveTo(targetLocation);
-        }    
+        }
 
         if(targetLocation === 'active plot') {
             this.activePlot = card;
@@ -976,19 +978,27 @@ class Player extends Spectator {
     }
 
     kneelCard(card) {
-        if(!card.kneeled) {
+        if(card.kneeled) {
+            return;
+        }
+
+        this.game.applyGameAction('kneel', card, card => {
             card.kneeled = true;
 
             this.game.raiseEvent('onCardKneeled', this, card);
-        }
+        });
     }
 
     standCard(card) {
-        if(card.kneeled) {
+        if(!card.kneeled) {
+            return;
+        }
+
+        this.game.applyGameAction('stand', card, card => {
             card.kneeled = false;
 
             this.game.raiseEvent('onCardStood', this, card);
-        }
+        });
     }
 
     removeDuplicate(card, force = false) {

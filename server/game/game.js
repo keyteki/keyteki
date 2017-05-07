@@ -47,6 +47,7 @@ class Game extends EventEmitter {
         this.createdAt = new Date();
         this.savedGameId = details.savedGameId;
         this.gameType = details.gameType;
+        this.abilityCardStack = [];
         this.abilityWindowStack = [];
         this.password = details.password;
 
@@ -61,6 +62,8 @@ class Game extends EventEmitter {
         this.setMaxListeners(0);
 
         this.router = options.router;
+
+        this.pushAbilityContext('framework', null, 'framework');
     }
 
     addMessage() {
@@ -566,6 +569,18 @@ class Game extends EventEmitter {
         }
     }
 
+    get currentAbilityContext() {
+        return _.last(this.abilityCardStack);
+    }
+
+    pushAbilityContext(source, card, stage) {
+        this.abilityCardStack.push({ source: source, card: card, stage: stage });
+    }
+
+    popAbilityContext() {
+        this.abilityCardStack.pop();
+    }
+
     resolveAbility(ability, context) {
         this.queueStep(new AbilityResolver(this, ability, context));
     }
@@ -613,31 +628,23 @@ class Game extends EventEmitter {
 
     killCharacters(cards, allowSave = true) {
         let cardsInPlay = _.filter(cards, card => card.location === 'play area');
-        let [killable, unkillable] = _.partition(cardsInPlay, card => card.canBeKilled());
-
-        if(!_.isEmpty(unkillable)) {
-            this.addMessage('{0} controlled cannot be killed', unkillable);
-        }
-
-        if(_.isEmpty(killable)) {
-            return;
-        }
-
-        _.each(killable, card => {
-            card.markAsInDanger();
-        });
-
-        this.raiseSimultaneousEvent(killable, {
-            eventName: 'onCharactersKilled',
-            params: {
-                allowSave: allowSave
-            },
-            perCardEventName: 'onCharacterKilled',
-            perCardHandler: event => this.doKill(event)
-        });
-        this.queueSimpleStep(() => {
+        this.applyGameAction('killed', cardsInPlay, killable => {
             _.each(killable, card => {
-                card.clearDanger();
+                card.markAsInDanger();
+            });
+
+            this.raiseSimultaneousEvent(killable, {
+                eventName: 'onCharactersKilled',
+                params: {
+                    allowSave: allowSave
+                },
+                perCardEventName: 'onCharacterKilled',
+                perCardHandler: event => this.doKill(event)
+            });
+            this.queueSimpleStep(() => {
+                _.each(killable, card => {
+                    card.clearDanger();
+                });
             });
         });
     }
@@ -678,19 +685,43 @@ class Game extends EventEmitter {
             return;
         }
 
-        oldController.removeCardFromPile(card);
-        oldController.allCards = _(oldController.allCards.reject(c => c === card));
-        newController.cardsInPlay.push(card);
-        newController.allCards.push(card);
-        card.controller = newController;
+        this.applyGameAction('takeControl', card, card => {
+            oldController.removeCardFromPile(card);
+            oldController.allCards = _(oldController.allCards.reject(c => c === card));
+            newController.cardsInPlay.push(card);
+            newController.allCards.push(card);
+            card.controller = newController;
 
-        if(card.location !== 'play area') {
-            card.play(newController, false);
-            card.moveTo('play area');
-            this.raiseMergedEvent('onCardEntersPlay', { card: card, playingType: 'play' });
+            if(card.location !== 'play area') {
+                card.play(newController, false);
+                card.moveTo('play area');
+                this.raiseMergedEvent('onCardEntersPlay', { card: card, playingType: 'play' });
+            }
+
+            this.raiseEvent('onCardTakenControl', card);
+        });
+    }
+
+    applyGameAction(actionType, cards, func) {
+        let wasArray = _.isArray(cards);
+        if(!wasArray) {
+            cards = [cards];
+        }
+        let [allowed, disallowed] = _.partition(cards, card => card.allowGameAction(actionType));
+
+        if(!_.isEmpty(disallowed)) {
+            // TODO: add a cannot / immunity message.
         }
 
-        this.raiseEvent('onCardTakenControl', card);
+        if(_.isEmpty(allowed)) {
+            return;
+        }
+
+        if(wasArray) {
+            func(allowed);
+        } else {
+            func(allowed[0]);
+        }
     }
 
     watch(socketId, user) {

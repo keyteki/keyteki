@@ -5,7 +5,7 @@ const AbilityResolver = require('../../../server/game/gamesteps/abilityresolver.
 
 describe('AbilityResolver', function() {
     beforeEach(function() {
-        this.game = jasmine.createSpyObj('game', ['markActionAsTaken']);
+        this.game = jasmine.createSpyObj('game', ['markActionAsTaken', 'popAbilityContext', 'pushAbilityContext']);
         this.ability = jasmine.createSpyObj('ability', ['isAction', 'resolveCosts', 'payCosts', 'resolveTargets', 'executeHandler']);
         this.context = { foo: 'bar' };
         this.resolver = new AbilityResolver(this.game, this.ability, this.context);

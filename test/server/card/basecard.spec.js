@@ -8,7 +8,9 @@ describe('BaseCard', function () {
         this.testCard = { code: '111', label: 'test 1(some pack)', name: 'test 1' };
         this.limitedCard = { code: '1234', text: 'Limited.' };
         this.nonLimitedCard = { code: '2222', text: 'Stealth.' };
+        this.game = {};
         this.owner = jasmine.createSpyObj('owner', ['isCardSelectable', 'isCardSelected']);
+        this.owner.game = this.game;
         this.card = new BaseCard(this.owner, this.testCard);
     });
 
@@ -133,6 +135,46 @@ describe('BaseCard', function () {
 
                 it('should return facedown', function() {
                     expect(this.summary.facedown).toBe(true);
+                });
+            });
+        });
+    });
+
+    describe('allowGameAction()', function() {
+        describe('when there are no restrictions', function() {
+            it('should return true', function() {
+                expect(this.card.allowGameAction('kill')).toBe(true);
+            });
+        });
+
+        describe('when there are restrictions', function() {
+            beforeEach(function() {
+                this.game.currentAbilityContext = { context: 1 };
+                this.restrictionSpy1 = jasmine.createSpyObj('restriction', ['isMatch']);
+                this.restrictionSpy2 = jasmine.createSpyObj('restriction', ['isMatch']);
+                this.card.addAbilityRestriction(this.restrictionSpy1);
+                this.card.addAbilityRestriction(this.restrictionSpy2);
+            });
+
+            it('should check each restriction', function() {
+                this.card.allowGameAction('kill');
+                expect(this.restrictionSpy1.isMatch).toHaveBeenCalledWith('kill', this.game.currentAbilityContext);
+                expect(this.restrictionSpy2.isMatch).toHaveBeenCalledWith('kill', this.game.currentAbilityContext);
+            });
+
+            describe('and there are no matching restrictions', function() {
+                it('should return true', function() {
+                    expect(this.card.allowGameAction('kill')).toBe(true);
+                });
+            });
+
+            describe('and at least one matches', function() {
+                beforeEach(function() {
+                    this.restrictionSpy2.isMatch.and.returnValue(true);
+                });
+
+                it('should return false', function() {
+                    expect(this.card.allowGameAction('kill')).toBe(false);
                 });
             });
         });

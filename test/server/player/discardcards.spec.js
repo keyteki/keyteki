@@ -8,7 +8,7 @@ const Player = require('../../../server/game/player.js');
 describe('Player', function () {
 
     function createCardSpy(num, owner) {
-        var spy = jasmine.createSpyObj('card', ['moveTo', 'removeDuplicate']);
+        let spy = jasmine.createSpyObj('card', ['moveTo', 'removeDuplicate']);
         spy.num = num;
         spy.location = 'loc';
         spy.dupes = _([]);
@@ -17,7 +17,12 @@ describe('Player', function () {
     }
 
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['raiseEvent', 'raiseMergedEvent', 'queueSimpleStep', 'addMessage']);
+        this.gameSpy = jasmine.createSpyObj('game', ['applyGameAction', 'raiseEvent', 'raiseMergedEvent', 'queueSimpleStep', 'addMessage']);
+        this.gameSpy.applyGameAction.and.callFake((type, cards, handler) => {
+            if(cards.length > 0) {
+                handler(cards);
+            }
+        });
 
         this.player = new Player('1', 'Test 1', true, this.gameSpy);
         spyOn(this.player, 'moveCard');

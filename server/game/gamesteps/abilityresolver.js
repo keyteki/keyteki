@@ -13,12 +13,16 @@ class AbilityResolver extends BaseStep {
         this.pipeline = new GamePipeline();
         this.pipeline.initialise([
             new SimpleStep(game, () => this.markActionAsTaken()),
+            new SimpleStep(game, () => this.game.pushAbilityContext('card', context.source, 'cost')),
             new SimpleStep(game, () => this.resolveCosts()),
             new SimpleStep(game, () => this.waitForCostResolution()),
             new SimpleStep(game, () => this.payCosts()),
+            new SimpleStep(game, () => this.game.popAbilityContext()),
+            new SimpleStep(game, () => this.game.pushAbilityContext('card', context.source, 'effect')),
             new SimpleStep(game, () => this.resolveTargets()),
             new SimpleStep(game, () => this.waitForTargetResolution()),
-            new SimpleStep(game, () => this.executeHandler())
+            new SimpleStep(game, () => this.executeHandler()),
+            new SimpleStep(game, () => this.game.popAbilityContext())
         ]);
     }
 

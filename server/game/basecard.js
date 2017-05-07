@@ -46,6 +46,7 @@ class BaseCard {
             initiative: true,
             reserve: true
         };
+        this.abilityRestrictions = [];
         this.menu = _([]);
         this.events = new EventRegistrar(this.game, this);
 
@@ -355,6 +356,19 @@ class BaseCard {
         if(!before && after) {
             this.game.raiseEvent('onCardBlankToggled', this, after);
         }
+    }
+
+    allowGameAction(actionType) {
+        let currentAbilityContext = this.game.currentAbilityContext;
+        return !_.any(this.abilityRestrictions, restriction => restriction.isMatch(actionType, currentAbilityContext));
+    }
+
+    addAbilityRestriction(restriction) {
+        this.abilityRestrictions.push(restriction);
+    }
+
+    removeAbilityRestriction(restriction) {
+        this.abilityRestrictions = _.reject(this.abilityRestrictions, r => r === restriction);
     }
 
     addKeyword(keyword) {
