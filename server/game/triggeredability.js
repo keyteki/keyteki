@@ -1,6 +1,7 @@
 const _ = require('underscore');
 
 const BaseAbility = require('./baseability.js');
+const Costs = require('./costs.js');
 
 class TriggeredAbilityContext {
     constructor(event, game, source) {
@@ -35,6 +36,10 @@ class TriggeredAbility extends BaseAbility {
         this.when = properties.when;
         this.eventType = eventType;
         this.location = properties.location || DefaultLocationForType[card.getType()] || 'play area';
+
+        if(card.getType() === 'event') {
+            this.cost.push(Costs.playEvent());
+        }        
     }
 
     eventHandler(event) {
