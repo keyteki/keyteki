@@ -29,6 +29,7 @@ class ThePrincesPlan extends DrawCard {
             when: {
                 afterChallenge: (event, challenge) => challenge.loser === this.controller
             },
+            ignoreEventCosts: true,
             cost: ability.costs.payGold(1),
             handler: () => {
                 this.game.addMessage('{0} pays 1 gold to move {1} back to their hand', this.controller, this);

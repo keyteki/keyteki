@@ -37,7 +37,7 @@ class TriggeredAbility extends BaseAbility {
         this.eventType = eventType;
         this.location = properties.location || DefaultLocationForType[card.getType()] || 'play area';
 
-        if(card.getType() === 'event') {
+        if(card.getType() === 'event' && !properties.ignoreEventCosts) {
             this.cost.push(Costs.playEvent());
         }        
     }
