@@ -490,7 +490,9 @@ class Game extends EventEmitter {
     }
 
     promptForDeckSearch(player, properties) {
-        this.queueStep(new DeckSearchPrompt(this, player, properties));
+        this.raiseMergedEvent('onBeforeDeckSearch', { source: properties.source, player: player }, event => {
+            this.queueStep(new DeckSearchPrompt(this, event.player, properties));
+        });
     }
 
     menuButton(playerName, arg, method) {
