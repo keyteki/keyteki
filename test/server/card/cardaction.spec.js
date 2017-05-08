@@ -447,6 +447,7 @@ describe('CardAction', function () {
             this.context = {
                 game: this.gameSpy,
                 player: this.player,
+                source: this.cardSpy,
                 arg: 'arg'
             };
             this.handler = jasmine.createSpy('handler');

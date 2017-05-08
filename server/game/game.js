@@ -614,12 +614,12 @@ class Game extends EventEmitter {
         this.queueStep(new EventWindow(this, eventName, params, handler));
     }
 
-    raiseMergedEvent(eventName, params, handler) {
+    raiseMergedEvent(eventName, params, handler, onCancelled) {
         if(!handler) {
             handler = () => true;
         }
 
-        this.queueStep(new EventWindow(this, eventName, params, handler, true));
+        this.queueStep(new EventWindow(this, eventName, params, handler, onCancelled, true));
     }
 
     raiseSimultaneousEvent(cards, properties) {

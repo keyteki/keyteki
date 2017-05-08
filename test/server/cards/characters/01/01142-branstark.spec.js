@@ -26,6 +26,7 @@ describe('Bran Stark', function() {
             this.selectFirstPlayer(this.player2);
 
             this.bran = this.player1.findCardByName('Bran Stark', 'play area');
+            this.seenInFlames = this.player2.findCardByName('Seen In Flames', 'hand');
 
             this.completeMarshalPhase();
         });
@@ -38,13 +39,19 @@ describe('Bran Stark', function() {
             it('should cancel the event', function() {
                 this.player1.clickPrompt('Bran Stark');
 
-                expect(this.player2).toHavePromptButton('Military');
+                expect(this.player2).toHavePromptButton('Melisandre');
             });
 
             it('should sacrifice bran', function() {
                 this.player1.clickPrompt('Bran Stark');
                 
                 expect(this.bran.location).toBe('discard pile');
+            });
+
+            it('should still discard the event', function() {
+                this.player1.clickPrompt('Bran Stark');
+                
+                expect(this.seenInFlames.location).toBe('discard pile');                
             });
         });
     });

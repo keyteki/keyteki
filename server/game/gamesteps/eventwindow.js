@@ -4,11 +4,12 @@ const SimpleStep = require('./simplestep.js');
 const Event = require('../event.js');
 
 class EventWindow extends BaseStep {
-    constructor(game, eventName, params, handler, merged = false) {
+    constructor(game, eventName, params, handler, onCancelled, merged = false) {
         super(game);
 
         this.eventName = eventName;
         this.handler = handler;
+        this.onCancelled = onCancelled;
 
         this.event = new Event(eventName, params, merged);
         this.pipeline = new GamePipeline();
@@ -77,6 +78,10 @@ class EventWindow extends BaseStep {
 
     executeHandler() {
         if(this.event.cancelled) {
+            if(this.onCancelled) {
+                this.onCancelled(...this.event.params);
+            }
+
             return;
         }
 

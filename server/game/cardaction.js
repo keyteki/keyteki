@@ -143,9 +143,13 @@ class CardAction extends BaseAbility {
             var success = this.handler(context);
             if(success !== false && this.limit) {
                 this.limit.increment();
-            } else if(success !== false) {
+            } else if(success !== false && context.source.getType() === 'event') {
                 context.game.raiseEvent('onCardPlayed', event.player, event.source);
             }
+        }, (event) => {
+            if(event.source.getType() === 'event') {
+                context.game.raiseEvent('onCardPlayed', event.player, event.source);
+            }            
         });
     }
 
