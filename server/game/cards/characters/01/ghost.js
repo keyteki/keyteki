@@ -16,7 +16,7 @@ class Ghost extends DrawCard {
                 this.game.addMessage('{0} uses {1} to make {2} unable to be declared as a defender', this.controller, this, this.bypassed);
                 this.untilEndOfPhase(ability => ({
                     match: this.bypassed,
-                    effect: ability.effects.allowAsDefender(false)
+                    effect: ability.effects.cannotBeDeclaredAsDefender()
                 }));
             }
         });

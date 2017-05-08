@@ -3,7 +3,7 @@ const DrawCard = require('../../../drawcard.js');
 class FishingNet extends DrawCard {
     setupCardAbilities(ability) {
         this.whileAttached({
-            effect: ability.effects.allowAsDefender(false)
+            effect: ability.effects.cannotBeDeclaredAsDefender()
         });
     }
     canAttach(player, card) {

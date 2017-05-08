@@ -13,7 +13,7 @@ class SaltWife extends DrawCard {
             handler: context => {
                 this.untilEndOfPhase(ability => ({
                     match: context.target,
-                    effect: ability.effects.allowAsDefender(false)
+                    effect: ability.effects.cannotBeDeclaredAsDefender()
                 }));
                 this.game.addMessage('{0} sacrifices {1} to make {2} unable to be declared as a defender', 
                                       context.player, this, context.target);

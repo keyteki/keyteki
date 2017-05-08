@@ -47,15 +47,11 @@ class DrawCard extends BaseCard {
         this.saved = false;
         this.standsDuringStanding = true;
         this.challengeOptions = {
-            allowAsAttacker: true,
-            allowAsDefender: true,
-            cannotParticipate: false,
             doesNotKneelAs: {
                 attacker: false,
                 defender: false
             }
         };
-        this.cannotBeKilled = false;
         this.stealthLimit = 1;
     }
 
@@ -226,11 +222,7 @@ class DrawCard extends BaseCard {
     }
 
     canUseStealthToBypass(targetCard) {
-        if(!this.isStealth() || targetCard.isStealth() || targetCard.cannotBeBypassedByStealth) {
-            return false;
-        }
-
-        return true;
+        return this.isStealth() && targetCard.canBeBypassedByStealth();
     }
 
     useStealthToBypass(targetCard) {
@@ -302,16 +294,17 @@ class DrawCard extends BaseCard {
         this.inChallenge = false;
     }
 
-    canAddAsAttacker(challengeType) {
-        return this.challengeOptions.allowAsAttacker && !this.challengeOptions.cannotParticipate && this.canAddAsParticipant(challengeType);
+    canDeclareAsAttacker(challengeType) {
+        return this.allowGameAction('declareAsAttacker') && this.canDeclareAsParticipant(challengeType);
     }
 
-    canAddAsDefender(challengeType) {
-        return this.challengeOptions.allowAsDefender && !this.challengeOptions.cannotParticipate && this.canAddAsParticipant(challengeType);
+    canDeclareAsDefender(challengeType) {
+        return this.allowGameAction('declareAsDefender') && this.canDeclareAsParticipant(challengeType);
     }
 
-    canAddAsParticipant(challengeType) {
+    canDeclareAsParticipant(challengeType) {
         return (
+            this.canParticipateInChallenge() &&
             this.location === 'play area' &&
             !this.stealth &&
             (!this.kneeled || this.challengeOptions.canBeDeclaredWhileKneeling) &&
@@ -319,8 +312,24 @@ class DrawCard extends BaseCard {
         );
     }
 
+    canParticipateInChallenge() {
+        return this.allowGameAction('participateInChallenge');
+    }
+
+    canBeBypassedByStealth() {
+        return !this.isStealth() && this.allowGameAction('bypassByStealth');
+    }
+
     canBeKilled() {
-        return !this.cannotBeKilled;
+        return this.allowGameAction('kill');
+    }
+
+    canBeMarshaled() {
+        return this.allowGameAction('marshal');
+    }
+
+    canBePlayed() {
+        return this.allowGameAction('play');
     }
 
     markAsInDanger() {

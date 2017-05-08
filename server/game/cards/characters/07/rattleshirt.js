@@ -11,7 +11,7 @@ class Rattleshirt extends DrawCard {
                 card.getType() === 'character'
                 && card.attachments.size() === 0,
             targetController: 'opponent',
-            effect: ability.effects.allowAsDefender(false)
+            effect: ability.effects.cannotBeDeclaredAsDefender()
         });
     }
 }

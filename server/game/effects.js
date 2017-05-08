@@ -3,6 +3,21 @@ const _ = require('underscore');
 const AbilityLimit = require('./abilitylimit.js');
 const CostReducer = require('./costreducer.js');
 const PlayableLocation = require('./playablelocation.js');
+const CannotRestriction = require('./cannotrestriction.js');
+
+function cannotEffect(type) {
+    return function(predicate) {
+        let restriction = new CannotRestriction(type, predicate);
+        return {
+            apply: function(card) {
+                card.addAbilityRestriction(restriction);
+            },
+            unapply: function(card) {
+                card.removeAbilityRestriction(restriction);
+            }
+        };
+    };
+}
 
 const Effects = {
     all: function(effects) {
@@ -27,42 +42,9 @@ const Effects = {
             isStateDependent: (stateDependentEffects.length !== 0)
         };
     },
-    allowAsAttacker: function(value) {
-        return {
-            apply: function(card, context) {
-                context.allowAsAttacker = context.allowAsAttacker || {};
-                context.allowAsAttacker[card.uuid] = card.challengeOptions.allowAsAttacker;
-                card.challengeOptions.allowAsAttacker = value;
-            },
-            unapply: function(card, context) {
-                card.challengeOptions.allowAsAttacker = context.allowAsAttacker[card.uuid];
-                delete context.allowAsAttacker[card.uuid];
-            }
-        };
-    },
-    allowAsDefender: function(value) {
-        return {
-            apply: function(card, context) {
-                context.allowAsDefender = context.allowAsDefender || {};
-                context.allowAsDefender[card.uuid] = card.challengeOptions.allowAsDefender;
-                card.challengeOptions.allowAsDefender = value;
-            },
-            unapply: function(card, context) {
-                card.challengeOptions.allowAsDefender = context.allowAsDefender[card.uuid];
-                delete context.allowAsDefender[card.uuid];
-            }
-        };
-    },
-    cannotParticipate: function() {
-        return {
-            apply: function(card) {
-                card.challengeOptions.cannotParticipate = true;
-            },
-            unapply: function(card) {
-                card.challengeOptions.cannotParticipate = false;
-            }
-        };
-    },
+    cannotBeDeclaredAsAttacker: cannotEffect('declareAsAttacker'),
+    cannotBeDeclaredAsDefender: cannotEffect('declareAsDefender'),
+    cannotParticipate: cannotEffect('participateInChallenge'),
     doesNotKneelAsAttacker: function() {
         return {
             apply: function(card) {
@@ -417,46 +399,11 @@ const Effects = {
             }
         };
     },
-    cannotMarshal: function() {
-        return {
-            apply: function(card) {
-                card.cannotMarshal = true;
-            },
-            unapply: function(card) {
-                card.cannotMarshal = false;
-            }
-        };
-    },
-    cannotPlay: function() {
-        return {
-            apply: function(card) {
-                card.cannotPlay = true;
-            },
-            unapply: function(card) {
-                card.cannotPlay = false;
-            }
-        };
-    },
-    cannotBeBypassedByStealth: function() {
-        return {
-            apply: function(card) {
-                card.cannotBeBypassedByStealth = true;
-            },
-            unapply: function(card) {
-                card.cannotBeBypassedByStealth = false;
-            }
-        };
-    },
-    cannotBeKilled: function() {
-        return {
-            apply: function(card) {
-                card.cannotBeKilled = true;
-            },
-            unapply: function(card) {
-                card.cannotBeKilled = false;
-            }
-        };
-    },
+    cannotMarshal: cannotEffect('marshal'),
+    cannotPlay: cannotEffect('play'),
+    cannotBeBypassedByStealth: cannotEffect('bypassByStealth'),
+    cannotBeKneeled: cannotEffect('kneel'),
+    cannotBeKilled: cannotEffect('kill'),
     cannotGainChallengeBonus: function() {
         return {
             apply: function(player) {

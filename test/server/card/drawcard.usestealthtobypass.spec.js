@@ -1,14 +1,20 @@
-/*global describe, it, beforeEach, expect*/
+/*global describe, it, beforeEach, expect, spyOn*/
 /*eslint camelcase: 0, no-invalid-this: 0 */
 
 const DrawCard = require('../../../server/game/drawcard.js');
 
 describe('the DrawCard', function() {
     describe('the useStealthToBypass() function', function() {
+        function createCard() {
+            let card = new DrawCard({}, {});
+            spyOn(card, 'canBeBypassedByStealth').and.returnValue(true);
+            return card;
+        }
+
         describe('when the card does not have stealth', function() {
             beforeEach(function() {
-                this.source = new DrawCard({}, {});
-                this.target = new DrawCard({}, {});
+                this.source = createCard();
+                this.target = createCard();
             });
 
             it('should return false.', function() {
@@ -18,9 +24,9 @@ describe('the DrawCard', function() {
 
         describe('when the card has stealth and the target does not', function() {
             beforeEach(function() {
-                this.source = new DrawCard({}, {});
+                this.source = createCard();
                 this.source.addKeyword('Stealth');
-                this.target = new DrawCard({}, {});
+                this.target = createCard();
             });
 
             it('should return true.', function() {
@@ -38,12 +44,12 @@ describe('the DrawCard', function() {
             });
         });
 
-        describe('when both cards have stealth', function() {
+        describe('when the target cannot be bypassed', function() {
             beforeEach(function() {
-                this.source = new DrawCard({}, {});
+                this.source = createCard();
                 this.source.addKeyword('Stealth');
-                this.target = new DrawCard({}, {});
-                this.target.addKeyword('Stealth');
+                this.target = createCard();
+                this.target.canBeBypassedByStealth.and.returnValue(false);
             });
 
             it('should return false', function() {

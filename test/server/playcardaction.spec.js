@@ -7,7 +7,8 @@ describe('PlayCardAction', function () {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'on', 'raiseEvent', 'raiseMergedEvent', 'removeListener']);
         this.playerSpy = jasmine.createSpyObj('player', ['isCardInPlayableLocation', 'moveCard']);
-        this.cardSpy = jasmine.createSpyObj('card', ['canPlay', 'getType', 'play']);
+        this.cardSpy = jasmine.createSpyObj('card', ['canBePlayed', 'canPlay', 'getType', 'play']);
+        this.cardSpy.canBePlayed.and.returnValue(true);
         this.context = {
             costs: {},
             game: this.gameSpy,
@@ -71,7 +72,7 @@ describe('PlayCardAction', function () {
 
         describe('when the card is forbidden from being played', function() {
             beforeEach(function() {
-                this.cardSpy.cannotPlay = true;
+                this.cardSpy.canBePlayed.and.returnValue(false);
             });
 
             it('should return false', function() {

@@ -5,7 +5,7 @@ class Hodor extends DrawCard {
         this.persistentEffect({
             condition: () => !this.controller.anyCardsInPlay(card => card.name === 'Bran Stark'),
             match: this,
-            effect: ability.effects.allowAsAttacker(false)
+            effect: ability.effects.cannotBeDeclaredAsAttacker()
         });
         this.persistentEffect({
             match: this,

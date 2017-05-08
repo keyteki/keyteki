@@ -231,7 +231,7 @@ const Costs = {
     expendEvent: function() {
         return {
             canPay: function(context) {
-                return context.player.isCardInPlayableLocation(context.source, 'play') && !context.source.cannotPlay;
+                return context.player.isCardInPlayableLocation(context.source, 'play') && context.source.canBePlayed();
             },
             pay: function(context) {
                 context.source.controller.moveCard(context.source, 'discard pile');

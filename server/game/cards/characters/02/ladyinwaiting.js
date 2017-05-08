@@ -18,7 +18,7 @@ class LadyInWaiting extends DrawCard {
     canMarshalAsDupe() {
         return (
             this.game.currentPhase === 'marshal' &&
-            !this.cannotMarshal &&
+            this.canBeMarshaled() &&
             this.controller.isCardInPlayableLocation(this, 'marshal') &&
             this.controller.anyCardsInPlay(card => card.getType() === 'character' && card.hasTrait('Lady'))
         );

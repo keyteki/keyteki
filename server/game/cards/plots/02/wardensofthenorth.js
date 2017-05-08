@@ -7,7 +7,7 @@ class WardensOfTheNorth extends PlotCard {
             phase: 'challenge',
             limit: ability.limit.perRound(2),
             condition: () => this.isStarkCardParticipatingInChallenge(),
-            cost: ability.costs.kneel(card => card.getType() === 'character' && card.isFaction('stark') && !card.challengeOptions.cannotParticipate),
+            cost: ability.costs.kneel(card => card.getType() === 'character' && card.isFaction('stark') && card.canParticipateInChallenge()),
             handler: context => {
                 var card = context.kneelingCostCard;
                 if(this.game.currentChallenge.attackingPlayer === context.player) {

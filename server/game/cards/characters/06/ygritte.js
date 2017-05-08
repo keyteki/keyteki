@@ -2,7 +2,10 @@ const DrawCard = require('../../../drawcard.js');
 
 class Ygritte extends DrawCard {
     setupCardAbilities(ability) {
-        // TODO: Cannot be knelt by card effects.
+        this.persistentEffect({
+            match: this,
+            effect: ability.effects.cannotBeKneeled(context => context.stage === 'effect')
+        });
         this.persistentEffect({
             condition: () => this.controlsAnotherWildling(),
             match: this,

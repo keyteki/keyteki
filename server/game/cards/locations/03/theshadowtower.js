@@ -16,9 +16,9 @@ class TheShadowTower extends DrawCard {
                         this.game.addMessage('{0} kneels {1} to make {2} unable to be declared as attacker', player, this, card);
                         this.untilEndOfPhase(ability => ({
                             match: card,
-                            effect: ability.effects.allowAsAttacker(false)
+                            effect: ability.effects.cannotBeDeclaredAsAttacker()
                         }));
-                        
+
                         return true;
                     }
                 });

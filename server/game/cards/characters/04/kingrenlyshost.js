@@ -13,7 +13,7 @@ class KingRenlySHost extends DrawCard {
         this.persistentEffect({  // cannot attack while Winter
             condition: () => this.anyPlotHasTrait('Winter'),
             match: this,
-            effect: ability.effects.allowAsAttacker(false)
+            effect: ability.effects.cannotBeDeclaredAsAttacker()
         });
     }
 

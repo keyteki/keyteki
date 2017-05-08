@@ -54,7 +54,7 @@ class ChallengeFlow extends BaseStep {
     }
 
     allowAsAttacker(card) {
-        return this.challenge.attackingPlayer === card.controller && card.canAddAsAttacker(this.challenge.challengeType);
+        return this.challenge.attackingPlayer === card.controller && card.canDeclareAsAttacker(this.challenge.challengeType);
     }
 
     chooseAttackers(player, attackers) {
@@ -98,7 +98,7 @@ class ChallengeFlow extends BaseStep {
     }
 
     allowAsDefender(card) {
-        return this.challenge.defendingPlayer === card.controller && card.canAddAsDefender(this.challenge.challengeType);
+        return this.challenge.defendingPlayer === card.controller && card.canDeclareAsDefender(this.challenge.challengeType);
     }
 
     chooseDefenders(defenders) {
