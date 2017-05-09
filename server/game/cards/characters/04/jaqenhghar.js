@@ -3,19 +3,30 @@ const _ = require('underscore');
 const DrawCard = require('../../../drawcard.js');
 
 class JaqenHGhar extends DrawCard {
+    constructor(owner, cardData) {
+        super(owner, cardData);
+
+        this.registerEvents([{ 'onCardLeftPlay:forcedinterrupt': 'onCardLeftPlay' }]);
+    }
+
     setupCardAbilities() {
         this.reaction({
             when: {
                 onCardEntersPlay: event => event.card === this
             },
-            handler: () => {
-                this.game.promptForSelect(this.controller, {
-                    numCards: 3,
-                    activePromptTitle: 'Select up to 3 characters',
-                    source: this,
-                    cardCondition: card => card.location === 'play area' && card.getType() === 'character' && card.isUnique(),
-                    onSelect: (player, cards) => this.onSelect(player, cards)
+            target: {
+                numCards: 3,
+                activePromptTitle: 'Select up to 3 characters',
+                cardCondition: card => card.location === 'play area' && card.getType() === 'character' && card.isUnique()
+            },
+            handler: context => {
+                this.selectedCards = context.target;
+                _.each(this.selectedCards, card => {
+                    card.addToken('valarmorghulis', 1);
                 });
+
+                this.game.addMessage('{0} uses {1} to add Valar Morghulis tokens to {2}',
+                                    this.controller, this, this.selectedCards);
             }
         });
         this.reaction({
@@ -26,52 +37,31 @@ class JaqenHGhar extends DrawCard {
                     challenge.attackers.length === 1
                 )
             },
-            handler: () => {
-                this.game.promptForSelect(this.controller, {
-                    activePromptTitle: 'Select a character to kill',
-                    source: this,
-                    cardCondition: card => card.location === 'play area' && card.getType() === 'character' && card.hasToken('valarmorghulis'),
-                    onSelect: (p, card) => this.onCardSelected(p, card)
-                });
-            }
-        });
-        this.forcedReaction({
-            when: {
-                onCardLeftPlay: event => event.card === this
+            target: {
+                activePromptTitle: 'Select a character to kill',
+                cardCondition: card => card.location === 'play area' && card.getType() === 'character' && card.hasToken('valarmorghulis')
             },
-            handler: () => {
-                if(this.selectedCards) {
-                    _.each(this.selectedCards, card => {
-                        card.removeToken('valarmorghulis', 1);
-                    });
-
-                    this.selectedCards = undefined;
-                }
+            handler: context => {
+                this.game.killCharacter(context.target);
+                this.game.addMessage('{0} uses {1} to kill {2}', context.player, this, context.target);
             }
         });
     }
 
-    onCardSelected(player, card) {
-        card.controller.killCharacter(card);
+    onCardLeftPlay(event) {
+        if(event.card !== this) {
+            return;
+        }
 
-        this.game.addMessage('{0} uses {1} to kill {2}', player, this, card);
+        if(!this.selectedCards) {
+            return;
+        }
 
-        return true;
-    }
-
-    onSelect(player, cards) {
-        this.selectedCards = cards;
-
-        var addedTokens = 0;
-        _.each(cards, card => {
-            card.addToken('valarmorghulis', 1);
-            addedTokens++;
+        _.each(this.selectedCards, card => {
+            card.removeToken('valarmorghulis', 1);
         });
 
-        this.game.addMessage('{0} uses {1} to add {2} Valar Morghulis token(s)',
-                             player, this, addedTokens);
-
-        return true;
+        this.selectedCards = null;
     }
 }
 

@@ -7,11 +7,7 @@ class TheRainsOfCastamere extends AgendaCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        // TODO: This is a hack - should not be considered an interrupt but
-        //       should fire approx at that timeframe.
-        this['onPlotFlip:forcedinterrupt'] = () => this.onPlotFlip();
-
-        this.registerEvents(['onDecksPrepared', 'onPlotFlip:forcedinterrupt']);
+        this.registerEvents(['onDecksPrepared', { 'onPlotFlip:forcedinterrupt': 'onPlotFlip' }]);
     }
 
     setupCardAbilities(ability) {
