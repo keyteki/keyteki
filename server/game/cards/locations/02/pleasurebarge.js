@@ -1,12 +1,15 @@
 const DrawCard = require('../../../drawcard.js');
 
-// TODO: Immunity to card effects; "have not yet drawn cards this phase" check
+// TODO: "have not yet drawn cards this phase" check
 class PleasureBarge extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.plotModifiers({
             gold: -1
         });
-
+        this.persistentEffect({
+            match: this,
+            effect: ability.effects.immuneTo(() => true)
+        });
         this.reaction({
             when: {
                 onCardEntersPlay: event => event.card === this && event.playingType === 'marshal'

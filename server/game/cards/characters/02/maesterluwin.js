@@ -12,10 +12,10 @@ class MaesterLuwin extends DrawCard {
             effect: ability.effects.addKeyword('Stealth')
         });
 
-//      this.persistentEffect({
-//          match: (card) => card.name === 'Bran Stark',
-//          effect: //To do: immune to opponents' plot effects
-//      });
+        this.persistentEffect({
+            match: (card) => card.name === 'Bran Stark',
+            effect: ability.effects.immuneTo(card => card.controller !== this.controller && card.getType() === 'plot')
+        });
 
         this.persistentEffect({
             match: (card) => card.name === 'Rickon Stark',

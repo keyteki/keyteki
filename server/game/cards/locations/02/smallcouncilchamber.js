@@ -1,8 +1,11 @@
 const DrawCard = require('../../../drawcard.js');
 
 class SmallCouncilChamber extends DrawCard {
-    setupCardAbilities() {
-        // TODO: Immune to effects.
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            match: this,
+            effect: ability.effects.immuneTo(card => card.getType() === 'event')
+        });
         this.reaction({
             when: {
                 afterChallenge: (e, challenge) => challenge.winner === this.controller && challenge.challengeType === 'intrigue'

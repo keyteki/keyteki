@@ -4,6 +4,7 @@ const AbilityLimit = require('./abilitylimit.js');
 const CostReducer = require('./costreducer.js');
 const PlayableLocation = require('./playablelocation.js');
 const CannotRestriction = require('./cannotrestriction.js');
+const ImmunityRestriction = require('./immunityrestriction.js');
 
 function cannotEffect(type) {
     return function(predicate) {
@@ -382,6 +383,17 @@ const Effects = {
             },
             unapply: function(card) {
                 card.standsDuringStanding = true;
+            }
+        };
+    },
+    immuneTo: function(cardCondition) {
+        let restriction = new ImmunityRestriction(cardCondition);
+        return {
+            apply: function(card) {
+                card.addAbilityRestriction(restriction);
+            },
+            unapply: function(card) {
+                card.removeAbilityRestriction(restriction);
             }
         };
     },

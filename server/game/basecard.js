@@ -363,6 +363,11 @@ class BaseCard {
         return !_.any(this.abilityRestrictions, restriction => restriction.isMatch(actionType, currentAbilityContext));
     }
 
+    allowEffectFrom(sourceCard) {
+        let currentAbilityContext = { source: 'card', card: sourceCard, stage: 'effect' };
+        return !_.any(this.abilityRestrictions, restriction => restriction.isMatch('applyEffect', currentAbilityContext));
+    }
+
     addAbilityRestriction(restriction) {
         this.abilityRestrictions.push(restriction);
     }

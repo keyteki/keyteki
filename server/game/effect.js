@@ -89,6 +89,10 @@ class Effect {
             if(this.targetLocation === 'hand' && target.location !== 'hand') {
                 return false;
             }
+
+            if(!target.allowEffectFrom(this.source)) {
+                return false;
+            }
         }
 
         if(!_.isFunction(this.match)) {

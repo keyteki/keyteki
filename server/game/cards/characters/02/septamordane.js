@@ -12,8 +12,10 @@ class SeptaMordane extends DrawCard {
 
         this.persistentEffect({
             match: (card) => card.name === 'Arya Stark',
-            effect: ability.effects.addIcon('intrigue')
-                    //To do: immune to opponents' plot effects
+            effect: [
+                ability.effects.addIcon('intrigue'),
+                ability.effects.immuneTo(card => card.controller !== this.controller && card.getType() === 'plot')
+            ]
         });
     }
 }

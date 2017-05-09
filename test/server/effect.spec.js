@@ -1,8 +1,17 @@
 /*global describe, it, beforeEach, expect, jasmine */
 /*eslint camelcase: 0, no-invalid-this: 0 */
 
+const _ = require('underscore');
+
 const Effect = require('../../server/game/effect.js');
 const Player = require('../../server/game/player.js');
+
+function createTarget(properties = {}) {
+    let card = jasmine.createSpyObj('card', ['allowEffectFrom']);
+    card.allowEffectFrom.and.returnValue(true);
+    _.extend(card, properties);
+    return card;
+}
 
 describe('Effect', function () {
     beforeEach(function () {
@@ -24,8 +33,8 @@ describe('Effect', function () {
 
     describe('addTargets()', function() {
         beforeEach(function() {
-            this.matchingCard = { good: true, location: 'play area' };
-            this.nonMatchingCard = { bad: true, location: 'play area' };
+            this.matchingCard = createTarget({ good: true, location: 'play area' });
+            this.nonMatchingCard = createTarget({ bad: true, location: 'play area' });
 
             this.properties.match.and.callFake((card) => card === this.matchingCard);
         });
@@ -124,6 +133,17 @@ describe('Effect', function () {
                 this.anotherPlayer = {};
                 this.sourceSpy.controller = this.player;
                 this.matchingCard.controller = this.player;
+            });
+
+            describe('when the source cannot apply an effect to the target', function() {
+                beforeEach(function() {
+                    this.matchingCard.allowEffectFrom.and.returnValue(false);
+                });
+
+                it('should reject the target', function() {
+                    this.effect.addTargets([this.matchingCard]);
+                    expect(this.effect.targets).not.toContain(this.matchingCard);
+                });
             });
 
             describe('when the target controller is current', function() {
@@ -345,7 +365,7 @@ describe('Effect', function () {
 
     describe('removeTarget()', function() {
         beforeEach(function() {
-            this.target = { good: true, location: 'play area' };
+            this.target = createTarget({ good: true, location: 'play area' });
 
             this.effect.addTargets([this.target]);
         });
@@ -505,8 +525,8 @@ describe('Effect', function () {
 
     describe('reapply()', function() {
         beforeEach(function() {
-            this.target = { target: 1, location: 'play area' };
-            this.newTarget = { target: 2, location: 'play area' };
+            this.target = createTarget({ target: 1, location: 'play area' });
+            this.newTarget = createTarget({ target: 2, location: 'play area' });
             this.effect.targets = [this.target];
             this.newTargets = [this.target, this.newTarget];
         });
@@ -644,7 +664,7 @@ describe('Effect', function () {
 
             describe('when the condition is true', function() {
                 beforeEach(function() {
-                    this.matchingTarget = { target: 3, location: 'play area' };
+                    this.matchingTarget = createTarget({ target: 3, location: 'play area' });
                     this.effect.targets = [this.target, this.matchingTarget];
                     this.effect.active = true;
                     this.effect.condition.and.returnValue(true);
