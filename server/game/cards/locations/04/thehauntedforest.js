@@ -1,22 +1,17 @@
 const DrawCard = require('../../../drawcard.js');
 
 class TheHauntedForest extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onDefendersDeclared']);
-    }
-
-    onDefendersDeclared(event, challenge) {
-        if(challenge.defendingPlayer !== this.controller || this.isBlank() || this.kneeled) {
-            return;
-        }
-
-        challenge.modifyDefenderStrength(1);
-        this.game.addMessage('{0} uses {1} to add 1 to the strength of this {2} challenge', this.controller, this, challenge.challengeType);
-    }
-
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            condition: () => (
+                !this.kneeled &&
+                this.game.currentChallenge &&
+                this.game.currentChallenge.defendingPlayer === this.controller
+            ),
+            targetType: 'player',
+            targetController: 'current',
+            effect: ability.effects.contributeChallengeStrength(1)
+        });
         this.forcedReaction({
             when: {
                 afterChallenge: (e, challenge) => this.controller === challenge.loser && !this.kneeled

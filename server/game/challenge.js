@@ -90,6 +90,11 @@ class Challenge {
         return this.isAttacking(card) || this.isDefending(card);
     }
 
+    anyParticipants(predicate) {
+        let participants = this.attackers.concat(this.defenders);
+        return _.any(participants, predicate);
+    }
+
     getNumberOfParticipants(predicate) {
         let participants = this.attackers.concat(this.defenders);
         return _.reduce(participants, (count, card) => {

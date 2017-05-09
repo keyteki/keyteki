@@ -1,13 +1,17 @@
 const DrawCard = require('../../../drawcard.js');
 
 class TheRedKeep extends DrawCard {
-    constructor(owner, cardData) {
-        super(owner, cardData);
-
-        this.registerEvents(['onAttackersDeclared', 'onDefendersDeclared']);
-    }
-
     setupCardAbilities(ability) {
+        this.persistentEffect({
+            condition: () => (
+                this.game.currentChallenge &&
+                this.game.currentChallenge.challengeType === 'power' &&
+                this.game.currentChallenge.anyParticipants(card => card.controller === this.controller)
+            ),
+            targetType: 'player',
+            targetController: 'current',
+            effect: ability.effects.contributeChallengeStrength(2)
+        });
         this.interrupt({
             when: {
                 onPhaseEnded: (event, phase) => phase === 'challenge' &&

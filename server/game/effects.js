@@ -469,6 +469,36 @@ const Effects = {
             }
         };
     },
+    contributeChallengeStrength: function(value) {
+        return {
+            apply: function(player, context) {
+                let challenge = context.game.currentChallenge;
+                if(!challenge) {
+                    return;
+                }
+
+                if(challenge.attackingPlayer === player) {
+                    challenge.modifyAttackerStrength(value);
+                    context.game.addMessage('{0} uses {1} to add {2} to the strength of this challenge for a total of {3}', player, context.source, value, challenge.attackerStrength);
+                } else if(challenge.defendingPlayer === player) {
+                    challenge.modifyDefenderStrength(value);
+                    context.game.addMessage('{0} uses {1} to add {2} to the strength of this challenge for a total of {3}', player, context.source, value, challenge.defenderStrength);
+                }
+            },
+            unapply: function(player, context) {
+                let challenge = context.game.currentChallenge;
+                if(!challenge) {
+                    return;
+                }
+
+                if(challenge.attackingPlayer === player) {
+                    challenge.modifyAttackerStrength(-value);
+                } else if(challenge.defendingPlayer === player) {
+                    challenge.modifyDefenderStrength(-value);
+                }
+            }
+        };
+    },
     setChallengerLimit: function(value) {
         return {
             apply: function(player, context) {
