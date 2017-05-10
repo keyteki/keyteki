@@ -28,8 +28,11 @@ class PlayCardAction extends BaseAbility {
             context.game.addMessage('{0} plays {1} costing {2}', event.player, event.source, context.costs.gold);
             context.source.play(event.player);
             context.player.moveCard(event.source, 'discard pile');
-            context.game.raiseEvent('onCardPlayed', event.player, event.source);
         });
+    }
+
+    isPlayableEventAbility() {
+        return true;
     }
 }
 

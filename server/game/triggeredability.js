@@ -53,7 +53,7 @@ class TriggeredAbility extends BaseAbility {
     }
 
     meetsRequirements(context) {
-        let isPlayableEventAbility = this.card.getType() === 'event' && this.location === 'hand';
+        let isPlayableEventAbility = this.isPlayableEventAbility();
 
         if(this.game.currentPhase === 'setup') {
             return false;
@@ -95,6 +95,10 @@ class TriggeredAbility extends BaseAbility {
 
     isAction() {
         return false;
+    }
+
+    isPlayableEventAbility() {
+        return this.card.getType() === 'event' && this.location === 'hand';
     }
 
     registerEvents() {

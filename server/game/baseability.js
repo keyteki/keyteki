@@ -166,6 +166,10 @@ class BaseAbility {
     isAction() {
         return true;
     }
+
+    isPlayableEventAbility() {
+        return false;
+    }
 }
 
 module.exports = BaseAbility;
