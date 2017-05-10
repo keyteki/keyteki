@@ -16,7 +16,7 @@ class Confiscation extends PlotCard {
     }
 
     cardCondition(card) {
-        return card.getType() === 'attachment';
+        return card.location === 'play area' && card.getType() === 'attachment';
     }
 }
 
