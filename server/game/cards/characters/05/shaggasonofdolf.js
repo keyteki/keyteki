@@ -24,8 +24,8 @@ class ShaggaSonOfDolf extends DrawCard {
                     card.location === 'play area'
                     && card.controller === this.controller
                     && card.isFaction('lannister')
-                    && card.getType() === 'character'
-                    && card.canBeKilled()
+                    && card.getType() === 'character',
+                gameAction: 'kill'
             },
             handler: context => {
                 this.game.addMessage('{0} is forced by {1} to kill a character', this.controller, this);

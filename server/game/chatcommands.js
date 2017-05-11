@@ -76,7 +76,8 @@ class ChatCommands {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a character',
             waitingPromptTitle: 'Waiting for opponent to kill character',
-            cardCondition: card => card.location === 'play area' && card.controller === player,
+            cardCondition: card => card.location === 'play area' && card.controller === player && card.getType() === 'character',
+            gameAction: 'kill',
             onSelect: (p, card) => {
                 card.controller.killCharacter(card);
 

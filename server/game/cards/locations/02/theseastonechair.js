@@ -20,6 +20,7 @@ class TheSeastoneChair extends DrawCard {
                         card.getType() === 'character' && 
                         card.controller !== this.controller &&
                         card.attachments.size() === 0),
+                    gameAction: 'kill',
                     onSelect: (p, card) => this.onCardSelected(p, card)
                 });
             }

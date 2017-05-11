@@ -18,6 +18,7 @@ class SerIlynPayne extends DrawCard {
             activePromptTitle: 'Select a character',
             source: this,
             cardCondition: card => card.location === 'play area' && card.getType() === 'character' && card.getCost() <= 3,
+            gameAction: 'kill',
             onSelect: (p, card) => this.onCardSelected(p, card)
         });
 

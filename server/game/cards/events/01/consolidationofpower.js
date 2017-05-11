@@ -23,6 +23,7 @@ class ConsolidationOfPower extends DrawCard {
             maxStat: () => 4,
             cardStat: card => card.getStrength(),
             cardCondition: card => card.location === 'play area' && card.getType() === 'character' && !card.kneeled,
+            gameAction: 'kneel',
             onSelect: (player, cards) => this.onSelect(player, cards),
             onCancel: (player) => this.cancelSelection(player)
         });

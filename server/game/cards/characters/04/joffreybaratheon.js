@@ -30,6 +30,7 @@ class JoffreyBaratheon extends DrawCard {
                         !card.hasTrait('King') &&
                         card.getType() === 'character' && 
                         card.getCost() < this.pendingCard.getCost()),
+                    gameAction: 'kill',
                     onSelect: (p, card) => {
                         card.controller.killCharacter(card);
                         this.game.addMessage('{0} uses {1} to kneel {2} and their faction card to kill {3}', this.controller, this, this.pendingCard, card);

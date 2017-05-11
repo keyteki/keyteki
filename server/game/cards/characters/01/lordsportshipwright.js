@@ -15,6 +15,7 @@ class LordsportShipright extends DrawCard {
             cardCondition: card => this.cardCondition(card),
             activePromptTitle: 'Select location',
             source: this,
+            gameAction: 'kneel',
             onSelect: (player, card) => this.onCardSelected(player, card)
         });
 

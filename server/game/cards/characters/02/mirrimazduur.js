@@ -16,6 +16,7 @@ class MirriMazDuur extends DrawCard {
                     activePromptTitle: 'Select a character to kill',
                     source: this,
                     cardCondition: card => card.location === 'play area' && card.getType() === 'character' && card.controller !== this.controller,
+                    gameAction: 'kill',
                     onSelect: (p, card) => this.onCardSelected(p, card)
                 });
             }

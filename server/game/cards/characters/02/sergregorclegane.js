@@ -19,6 +19,7 @@ class SerGregorClegane extends DrawCard {
                     cardCondition: card => this.cardCondition(discarded, card),
                     activePromptTitle: 'Select a character to kill',
                     source: this,
+                    gameAction: 'kill',
                     onSelect: (player, card) => this.onCardSelected(player, card)
                 });
             }

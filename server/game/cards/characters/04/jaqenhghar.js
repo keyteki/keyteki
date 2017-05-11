@@ -39,7 +39,8 @@ class JaqenHGhar extends DrawCard {
             },
             target: {
                 activePromptTitle: 'Select a character to kill',
-                cardCondition: card => card.location === 'play area' && card.getType() === 'character' && card.hasToken('valarmorghulis')
+                cardCondition: card => card.location === 'play area' && card.getType() === 'character' && card.hasToken('valarmorghulis'),
+                gameAction: 'kill'
             },
             handler: context => {
                 this.game.killCharacter(context.target);

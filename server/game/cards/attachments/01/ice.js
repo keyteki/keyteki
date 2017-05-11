@@ -16,7 +16,8 @@ class Ice extends DrawCard {
             cost: ability.costs.sacrificeSelf(),
             target: {
                 activePromptTitle: 'Select a character to kill',
-                cardCondition: card => card.location === 'play area' && card.controller !== this.controller && card.getType() === 'character'
+                cardCondition: card => card.location === 'play area' && card.controller !== this.controller && card.getType() === 'character',
+                gameAction: 'kill'
             },
             handler: context => {
                 context.target.owner.killCharacter(context.target);

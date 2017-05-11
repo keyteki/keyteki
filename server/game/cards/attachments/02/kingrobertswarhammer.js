@@ -19,6 +19,7 @@ class KingRobertsWarhammer extends DrawCard {
                     maxStat: () => this.parent.getStrength(),
                     cardStat: card => card.getStrength(),
                     cardCondition: card => card.location === 'play area' && card.getType() === 'character' && !card.kneeled,
+                    gameAction: 'kneel',
                     onSelect: (player, cards) => this.onSelect(player, cards),
                     onCancel: (player) => this.cancelSelection(player)
                 });

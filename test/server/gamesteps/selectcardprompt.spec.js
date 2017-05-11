@@ -6,8 +6,9 @@ const SelectCardPrompt = require('../../../server/game/gamesteps/selectcardpromp
 
 describe('the SelectCardPrompt', function() {
     function createCardSpy(properties = {}) {
-        let card = jasmine.createSpyObj('card', ['getType']);
+        let card = jasmine.createSpyObj('card', ['allowGameAction', 'getType']);
         card.getType.and.returnValue('character');
+        card.allowGameAction.and.returnValue(true);
         _.extend(card, properties);
         return card;
     }
@@ -87,6 +88,16 @@ describe('the SelectCardPrompt', function() {
             describe('when the card does not match the allowed condition', function() {
                 beforeEach(function() {
                     this.properties.cardCondition.and.returnValue(false);
+                });
+
+                it('should return false', function() {
+                    expect(this.prompt.onCardClicked(this.player, this.card)).toBe(false);
+                });
+            });
+
+            describe('when the specified game action is not allowed for the target', function() {
+                beforeEach(function() {
+                    this.card.allowGameAction.and.returnValue(false);
                 });
 
                 it('should return false', function() {

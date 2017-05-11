@@ -28,6 +28,7 @@ class EvenHandedJustice extends DrawCard {
                 !card.kneeled
                 && card.getType() === 'character'
                 && card.controller !== this.controller,  // not event controller
+            gameAction: 'kneel',
             onSelect: (player, card) => this.onFirstCardSelected(player, card)
         });
 
@@ -45,6 +46,7 @@ class EvenHandedJustice extends DrawCard {
                 !card.kneeled
                 && card.getType() === 'character'
                 && card.controller === this.controller,  // event controller
+            gameAction: 'kneel',
             onSelect: (player, card) => this.onSecondCardSelected(player, card)
         });
 

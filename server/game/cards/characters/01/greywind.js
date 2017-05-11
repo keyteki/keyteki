@@ -8,7 +8,8 @@ class GreyWind extends DrawCard {
             phase: 'challenge',
             target: {
                 activePromptTitle: 'Select a character',
-                cardCondition: card => this.cardCondition(card)
+                cardCondition: card => this.cardCondition(card),
+                gameAction: 'kill'
             },
             handler: context => {
                 context.target.controller.killCharacter(context.target);

@@ -12,6 +12,7 @@ class ThrowingAxe extends DrawCard {
                     activePromptTitle: 'Select a character to kill',
                     source: this,
                     cardCondition: card => card.location === 'play area' && this.game.currentChallenge.isDefending(card),
+                    gameAction: 'kill',
                     onSelect: (p, card) => this.onCardSelected(p, card)
                 });
             }

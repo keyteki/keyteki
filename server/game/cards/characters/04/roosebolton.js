@@ -18,6 +18,7 @@ class RooseBolton extends DrawCard {
                     cardCondition: card => {
                         return card.location === 'play area' && card.getType() === 'character' && card.controller !== this.controller;
                     },
+                    gameAction: 'kill',
                     onSelect: (player, cards) => this.onSelect(player, cards),
                     onCancel: (player) => this.cancelSelection(player)
                 });

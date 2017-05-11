@@ -8,6 +8,7 @@ class FilthyAccusations extends PlotCard {
                     cardCondition: card => this.cardCondition(card),
                     activePromptTitle: 'Select character to kneel',
                     source: this,
+                    gameAction: 'kneel',
                     onSelect: (player, card) => this.onCardSelected(player, card)
                 });
             }

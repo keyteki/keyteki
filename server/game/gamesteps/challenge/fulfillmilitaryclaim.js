@@ -18,8 +18,8 @@ class FulfillMilitaryClaim extends BaseStep {
             cardCondition: card =>
                 card.location === 'play area'
                 && card.controller === this.player
-                && card.getType() === 'character'
-                && card.canBeKilled(),
+                && card.getType() === 'character',
+            gameAction: 'kill',
             onSelect: (p, cards) => this.fulfillClaim(p, cards),
             onCancel: () => this.cancelClaim()
         });

@@ -19,6 +19,7 @@ class QuentynMartell extends DrawCard {
                     cardCondition: card => this.cardCondition(card),
                     activePromptTitle: 'Select a character to kill',
                     source: this,
+                    gameAction: 'kill',
                     onSelect: (player, card) => this.onCardSelected(player, card)
                 });
             }

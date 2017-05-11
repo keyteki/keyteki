@@ -17,6 +17,7 @@ class AryaStark extends DrawCard {
                         card.getStrength() <= 3),
                     activePromptTitle: 'Select a character',
                     source: this,
+                    gameAction: 'kill',
                     onSelect: (player, card) => this.onCardSelected(player, card)
                 });
             }

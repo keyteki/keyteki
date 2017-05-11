@@ -28,6 +28,7 @@ class TheWatcherOnTheWalls extends ChallengeEvent {
                 && !card.kneeled
                 && card.controller === this.controller
                 && card.hasTrait('Ranger'),
+            gameAction: 'kneel',
             onSelect: (player, cards) => this.onSelect(player, cards)
         });
     }
