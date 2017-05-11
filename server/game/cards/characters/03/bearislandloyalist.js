@@ -4,7 +4,7 @@ class BearIslandLoyalist extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: () => this.game.currentChallenge && this.game.currentChallenge.isParticipating(this),
-            match: card => this.isOtherParticipating(card),
+            match: card => this.isOtherParticipatingStark(card),
             effect: ability.effects.immuneTo(card => card.controller !== this.controller && card.getType() === 'event')
         });
     }
