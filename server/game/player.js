@@ -953,7 +953,7 @@ class Player extends Spectator {
 
         if(card.location === 'active plot') {
             card.leavesPlay();
-            this.game.raiseEvent('onCardLeftPlay', this, card);
+            this.game.raiseMergedEvent('onCardLeftPlay', { player: this, card: card });
         }
 
         if(card.location !== 'play area') {

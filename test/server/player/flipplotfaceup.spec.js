@@ -72,7 +72,7 @@ describe('Player', function() {
             });
 
             it('should raise the onCardLeftPlay event', function() {
-                expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onCardLeftPlay', this.player, this.activePlotSpy);
+                expect(this.gameSpy.raiseMergedEvent).toHaveBeenCalledWith('onCardLeftPlay', { player: this.player, card: this.activePlotSpy });
             });
         });
     });

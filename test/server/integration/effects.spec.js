@@ -122,5 +122,54 @@ describe('effects', function() {
                 expect(this.player1Object.getTotalPower()).toBe(2);
             });
         });
+
+        describe('persistant effects on plots', function() {
+            beforeEach(function() {
+                const deck = this.buildDeck('stark', [
+                    'Sneak Attack', 'Famine',
+                    'Eddard Stark (WotN)', 'Tyene Sand', 'Winterfell Steward', 'Winterfell Steward'
+                ]);
+                this.player1.selectDeck(deck);
+                this.player2.selectDeck(deck);
+                this.startGame();
+                this.keepStartingHands();
+
+                this.character = this.player1.findCardByName('Eddard Stark', 'hand');
+
+                this.player1.clickCard(this.character);
+                this.player2.clickCard('Tyene Sand', 'hand');
+                this.completeSetup();
+
+                this.player1.selectPlot('Famine');
+                this.player2.selectPlot('Sneak Attack');
+                this.selectFirstPlayer(this.player2);
+
+                this.player2.clickCard('Winterfell Steward', 'hand');
+            });
+
+            describe('when the plot is active', function() {
+                it('should apply the effect', function() {
+                    expect(this.player2.player.gold).toBe(3);
+                });
+            });
+
+            describe('when the plot is not active', function() {
+                beforeEach(function() {
+                    this.completeMarshalPhase();
+                    this.completeChallengesPhase();
+                    this.completeTaxationPhase();
+
+                    this.player2.selectPlot('Famine');
+                    this.player1.selectPlot('Sneak Attack');
+
+                    this.selectFirstPlayer(this.player2);
+                    this.player2.clickCard('Winterfell Steward', 'hand');
+                });
+
+                it('should not apply the effect', function() {
+                    expect(this.player2.player.gold).toBe(1);
+                });                
+            });
+        });
     });
 });
