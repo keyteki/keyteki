@@ -28,7 +28,7 @@ class InnerProfile extends React.Component {
         };
 
         this.state = {
-            disableGravatar: this.props.user.settings.disableGravatar || false,
+            disableGravatar: this.props.user.settings ? this.props.user.settings.disableGravatar : false,
             email: this.props.user ? this.props.user.email : '',
             loading: false,
             newPassword: '',
@@ -54,7 +54,7 @@ class InnerProfile extends React.Component {
             return;
         }
         
-        this.setState({ email: props.user.email, disableGravatar: props.user.settings.disableGravatar || false, promptedActionWindows: props.user.promptedActionWindows || this.windowDefaults });
+        this.setState({ email: props.user.email, disableGravatar: props.user.settings ? props.user.settings.disableGravatar : false, promptedActionWindows: props.user.promptedActionWindows || this.windowDefaults });
     }
 
     onChange(field, event) {
