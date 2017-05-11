@@ -216,8 +216,8 @@ describe('EffectEngine', function () {
                     this.engine.onCardBlankToggled({}, this.cardBeingToggled, false);
                 });
 
-                it('should set the active value for the effect', function() {
-                    expect(this.effectSpy.setActive).toHaveBeenCalledWith(true);
+                it('should set the active value for the effect along with cards to target', function() {
+                    expect(this.effectSpy.setActive).toHaveBeenCalledWith(true, [this.handCard, this.playAreaCard]);
                 });
             });
 

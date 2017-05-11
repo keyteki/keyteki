@@ -3,6 +3,64 @@
 
 describe('effects', function() {
     integration(function() {
+        describe('when blanking / unblanking a dynamically calculated conditional effect', function() {
+            beforeEach(function() {
+                const deck = this.buildDeck('targaryen', [
+                    'Sneak Attack',
+                    'Jhogo', 'Hedge Knight', 'Nightmares'
+                ]);
+                this.player1.selectDeck(deck);
+                this.player2.selectDeck(deck);
+                this.startGame();
+                this.keepStartingHands();
+
+                this.jhogo = this.player1.findCardByName('Jhogo', 'hand');
+
+                this.player1.clickCard(this.jhogo);
+                this.completeSetup();
+
+                this.player1.selectPlot('Sneak Attack');
+                this.player2.selectPlot('Sneak Attack');
+                this.selectFirstPlayer(this.player1);
+
+                this.completeMarshalPhase();
+
+                // Move a character to the opponent's dead pile so Jhogo gets a
+                // strength boost
+                let character = this.player2.findCardByName('Hedge Knight', 'hand');
+                this.player2.dragCard(character, 'dead pile');
+
+                this.player1.clickPrompt('Power');
+                this.player1.clickCard(this.jhogo);
+                this.player1.clickPrompt('Done');
+
+                expect(this.jhogo.getStrength()).toBe(4);
+
+                this.player1.clickPrompt('Done');
+                this.player2.clickCard('Nightmares', 'hand');
+                this.player2.clickCard(this.jhogo);
+                this.player1.clickPrompt('Done');
+                this.player2.clickPrompt('Done');
+
+                expect(this.jhogo.getStrength()).toBe(3);
+
+                // Declare no defenders
+                this.player2.clickPrompt('Done');
+
+                this.skipActionWindow();
+                this.skipActionWindow();
+                this.player1.clickPrompt('Apply Claim');
+            });
+
+            it('should not crash when the blank wears off', function() {
+                expect(() => {
+                    // Complete challenges, so that Nightmares wears off.
+                    this.player1.clickPrompt('Done');
+                    this.player2.clickPrompt('Done');
+                }).not.toThrow();
+            });
+        });
+
         describe('when/until phase ends vs at end of phase', function() {
             beforeEach(function() {
                 const deck = this.buildDeck('stark', [

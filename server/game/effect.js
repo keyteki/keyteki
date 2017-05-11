@@ -64,7 +64,7 @@ class Effect {
     }
 
     addTargets(targets) {
-        if(!this.condition()) {
+        if(!this.active || !this.condition()) {
             return;
         }
 
@@ -73,9 +73,7 @@ class Effect {
         _.each(newTargets, target => {
             if(this.isValidTarget(target)) {
                 this.targets.push(target);
-                if(this.active) {
-                    this.effect.apply(target, this.context);
-                }
+                this.effect.apply(target, this.context);
             }
         });
     }
@@ -133,9 +131,7 @@ class Effect {
             return;
         }
 
-        if(this.active) {
-            this.effect.unapply(card, this.context);
-        }
+        this.effect.unapply(card, this.context);
 
         this.targets = _.reject(this.targets, target => target === card);
     }
@@ -144,22 +140,22 @@ class Effect {
         return this.targets.includes(card);
     }
 
-    setActive(newActive) {
-        if(this.active && !newActive) {
-            _.each(this.targets, target => this.effect.unapply(target, this.context));
-        }
-
-        if(!this.active && newActive) {
-            _.each(this.targets, target => this.effect.apply(target, this.context));
-        }
+    setActive(newActive, newTargets) {
+        let oldActive = this.active;
 
         this.active = newActive;
+
+        if(oldActive && !newActive) {
+            this.cancel();
+        }
+
+        if(!oldActive && newActive) {
+            this.addTargets(newTargets);
+        }
     }
 
     cancel() {
-        if(this.active) {
-            _.each(this.targets, target => this.effect.unapply(target, this.context));
-        }
+        _.each(this.targets, target => this.effect.unapply(target, this.context));
         this.targets = [];
     }
 

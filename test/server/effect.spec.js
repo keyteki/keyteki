@@ -106,8 +106,8 @@ describe('Effect', function () {
                 this.effect.addTargets([this.nonMatchingCard, this.matchingCard]);
             });
 
-            it('should add the matching cards to the target list', function() {
-                expect(this.effect.targets).toContain(this.matchingCard);
+            it('should not add the matching cards to the target list', function() {
+                expect(this.effect.targets).not.toContain(this.matchingCard);
             });
 
             it('should not apply the effect to the matching card', function() {
@@ -380,24 +380,8 @@ describe('Effect', function () {
             });
         });
 
-        describe('when the effect is inactive', function() {
+        describe('when the card is an existing target', function() {
             beforeEach(function() {
-                this.effect.active = false;
-                this.effect.removeTarget(this.target);
-            });
-
-            it('should remove the card from the target list', function() {
-                expect(this.effect.targets).not.toContain(this.target);
-            });
-
-            it('should not unapply the effect', function() {
-                expect(this.properties.effect.unapply).not.toHaveBeenCalledWith(this.target, jasmine.any(Object));
-            });
-        });
-
-        describe('when the effect is active', function() {
-            beforeEach(function() {
-                this.effect.setActive(true);
                 this.effect.removeTarget(this.target);
             });
 
@@ -413,18 +397,19 @@ describe('Effect', function () {
 
     describe('setActive()', function() {
         beforeEach(function() {
-            this.target = {};
-            this.effect.targets = [this.target];
+            this.target = createTarget({ target: 1, location: 'play area' });
+            this.newTarget = createTarget({ target: 2, location: 'play area' });
         });
 
         describe('when the effect is active', function() {
             beforeEach(function() {
                 this.effect.active = true;
+                this.effect.targets = [this.target];
             });
 
             describe('and is set to inactive', function() {
                 beforeEach(function() {
-                    this.effect.setActive(false);
+                    this.effect.setActive(false, [this.newTarget]);
                 });
 
                 it('should unapply the effect from existing targets', function() {
@@ -434,11 +419,19 @@ describe('Effect', function () {
                 it('should not apply the effect to anything', function() {
                     expect(this.properties.effect.apply).not.toHaveBeenCalled();
                 });
+
+                it('should remove all old targets', function() {
+                    expect(this.effect.targets).not.toContain(this.target);
+                });
+
+                it('should not add new targets', function() {
+                    expect(this.effect.targets).not.toContain(this.newTarget);
+                });
             });
 
             describe('and is set to active', function() {
                 beforeEach(function() {
-                    this.effect.setActive(true);
+                    this.effect.setActive(true, [this.newTarget]);
                 });
 
                 it('should not unapply the effect from existing targets', function() {
@@ -448,17 +441,26 @@ describe('Effect', function () {
                 it('should not apply the effect to anything', function() {
                     expect(this.properties.effect.apply).not.toHaveBeenCalled();
                 });
+
+                it('should not modify existing targets', function() {
+                    expect(this.effect.targets).toContain(this.target);
+                });
+
+                it('should not add new targets', function() {
+                    expect(this.effect.targets).not.toContain(this.newTarget);
+                });
             });
         });
 
         describe('when the effect is inactive', function() {
             beforeEach(function() {
                 this.effect.active = false;
+                this.effect.targets = [];
             });
 
             describe('and is set to inactive', function() {
                 beforeEach(function() {
-                    this.effect.setActive(false);
+                    this.effect.setActive(false, [this.newTarget]);
                 });
 
                 it('should not unapply the effect', function() {
@@ -468,19 +470,27 @@ describe('Effect', function () {
                 it('should not apply the effect', function() {
                     expect(this.properties.effect.apply).not.toHaveBeenCalled();
                 });
+
+                it('should not add new targets', function() {
+                    expect(this.effect.targets).not.toContain(this.newTarget);
+                });
             });
 
             describe('and is set to active', function() {
                 beforeEach(function() {
-                    this.effect.setActive(true);
+                    this.effect.setActive(true, [this.newTarget]);
                 });
 
                 it('should not unapply the effect', function() {
                     expect(this.properties.effect.unapply).not.toHaveBeenCalled();
                 });
 
-                it('should apply the effect to existing targets', function() {
-                    expect(this.properties.effect.apply).toHaveBeenCalledWith(this.target, { game: this.gameSpy, source: this.sourceSpy });
+                it('should apply the effect to new targets', function() {
+                    expect(this.properties.effect.apply).toHaveBeenCalledWith(this.newTarget, { game: this.gameSpy, source: this.sourceSpy });
+                });
+
+                it('should add new targets', function() {
+                    expect(this.effect.targets).toContain(this.newTarget);
                 });
             });
         });
@@ -490,36 +500,15 @@ describe('Effect', function () {
         beforeEach(function() {
             this.target = {};
             this.effect.targets = [this.target];
+            this.effect.cancel();
         });
 
-        describe('when the effect is active', function() {
-            beforeEach(function() {
-                this.effect.active = true;
-                this.effect.cancel();
-            });
-
-            it('should unapply the effect from existing targets', function() {
-                expect(this.properties.effect.unapply).toHaveBeenCalledWith(this.target, { game: this.gameSpy, source: this.sourceSpy });
-            });
-
-            it('should remove all targets', function() {
-                expect(this.effect.targets.length).toBe(0);
-            });
+        it('should unapply the effect from existing targets', function() {
+            expect(this.properties.effect.unapply).toHaveBeenCalledWith(this.target, { game: this.gameSpy, source: this.sourceSpy });
         });
 
-        describe('when the effect is inactive', function() {
-            beforeEach(function() {
-                this.effect.active = false;
-                this.effect.cancel();
-            });
-
-            it('should not unapply the effect from existing targets', function() {
-                expect(this.properties.effect.unapply).not.toHaveBeenCalled();
-            });
-
-            it('should remove all targets', function() {
-                expect(this.effect.targets.length).toBe(0);
-            });
+        it('should remove all targets', function() {
+            expect(this.effect.targets.length).toBe(0);
         });
     });
 
