@@ -1,41 +1,26 @@
 const DrawCard = require('../../../drawcard.js');
 
 class PutToTheSword extends DrawCard {
-    canPlay(player, card) {
-        if(player !== this.controller || this !== card) {
-            return false;
-        }
+    setupCardAbilities() {
+        this.reaction({
+            when: {
+                afterChallenge: (event, challenge) => (
+                    challenge.challengeType === 'military' &&
+                    challenge.winner === this.controller &&
+                    challenge.strengthDifference >= 5
+                )
+            },
+            target: {
+                activePromptTitle: 'Select a character to kill',
+                cardCondition: card => card.location === 'play area' && card.controller !== this.controller && card.getType() === 'character',
+                gameAction: 'kill'
 
-        var currentChallenge = this.game.currentChallenge;
-
-        if(!currentChallenge || currentChallenge.winner !== this.controller || currentChallenge.attackingPlayer !== this.controller || currentChallenge.strengthDifference < 5 ||
-                currentChallenge.challengeType !== 'military') {
-            return false;
-        }
-
-        return true;
-    }
-
-    play(player) {
-        if(this.controller !== player) {
-            return;
-        }
-
-        this.game.promptForSelect(player, {
-            activePromptTitle: 'Select a character to kill',
-            source: this,
-            cardCondition: card => card.location === 'play area' && card.controller !== player && card.getType() === 'character',
-            gameAction: 'kill',
-            onSelect: (p, card) => this.onCardSelected(p, card)
+            },
+            handler: (context) => {
+                this.game.killCharacter(context.target);
+                this.game.addMessage('{0} uses {1} to kill {2}', context.player, this, context.target);
+            }
         });
-    }
-
-    onCardSelected(player, card) {
-        card.controller.killCharacter(card);
-
-        this.game.addMessage('{0} uses {1} to kill {2}', player, this, card);
-
-        return true;
     }
 }
 
