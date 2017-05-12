@@ -70,14 +70,14 @@ class DrawCard extends BaseCard {
 
     removeDuplicate(force = false) {
         var firstDupe = undefined;
-        
+
         if(!force) {
             firstDupe = _.first(this.dupes.filter(dupe => {
                 return dupe.owner === this.controller;
             }));
         } else {
             firstDupe = this.dupes.first();
-        }    
+        }
 
         this.dupes = _(this.dupes.reject(dupe => {
             return dupe === firstDupe;
