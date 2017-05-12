@@ -4,11 +4,11 @@ class WhiteTree extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onIncomeCollected: (event, player) => player !== this.controller
+                onIncomeCollected: event => event.player !== this.controller
             },
             cost: ability.costs.kneelSelf(),
-            handler: () => {
-                var otherPlayer = this.game.getOtherPlayer(this.controller);
+            handler: context => {
+                let otherPlayer = context.event.player;
 
                 if(!otherPlayer) {
                     return;

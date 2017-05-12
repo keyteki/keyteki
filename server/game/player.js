@@ -548,7 +548,7 @@ class Player extends Spectator {
     beginMarshal() {
         this.game.addGold(this, this.getTotalIncome());
 
-        this.game.raiseEvent('onIncomeCollected', this);
+        this.game.raiseMergedEvent('onIncomeCollected', { player: this });
 
         this.limitedPlayed = 0;
     }
