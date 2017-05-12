@@ -14,7 +14,6 @@ class PutToTheSword extends DrawCard {
                 activePromptTitle: 'Select a character to kill',
                 cardCondition: card => card.location === 'play area' && card.controller !== this.controller && card.getType() === 'character',
                 gameAction: 'kill'
-
             },
             handler: (context) => {
                 this.game.killCharacter(context.target);

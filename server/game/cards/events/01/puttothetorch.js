@@ -14,7 +14,6 @@ class PutToTheTorch extends DrawCard {
                 activePromptTitle: 'Select a location to discard',
                 cardCondition: card => card.location === 'play area' && card.controller !== this.controller && card.getType() === 'location',
                 gameAction: 'discard'
-
             },
             handler: (context) => {
                 context.target.controller.discardCard(context.target);
