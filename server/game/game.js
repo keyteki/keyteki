@@ -371,7 +371,7 @@ class Game extends EventEmitter {
         if(otherPlayer) {
             this.addMessage('{0}\'s draw deck is empty', player);
 
-            this.recordWinner(player, 'decked');
+            this.recordWinner(otherPlayer, 'decked');
         }
     }
 
@@ -650,7 +650,7 @@ class Game extends EventEmitter {
             event.cancel();
             return;
         }
-        
+
         if(!card.canBeKilled()) {
             this.addMessage('{0} controlled by {1} cannot be killed',
                                  card, player);
