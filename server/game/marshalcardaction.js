@@ -32,6 +32,10 @@ class MarshalCardAction extends BaseAbility {
         }
         context.player.putIntoPlay(context.source, 'marshal');
     }
+
+    isCardAbility() {
+        return false;
+    }
 }
 
 module.exports = MarshalCardAction;

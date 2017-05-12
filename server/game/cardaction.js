@@ -139,12 +139,10 @@ class CardAction extends BaseAbility {
     }
 
     executeHandler(context) {
-        context.game.raiseMergedEvent('onBeforeCardPlayed', { player: context.player, source: context.source }, () => {
-            var success = this.handler(context);
-            if(success !== false && this.limit) {
-                this.limit.increment();
-            }
-        });
+        var success = this.handler(context);
+        if(success !== false && this.limit) {
+            this.limit.increment();
+        }
     }
 
     getMenuItem(arg) {

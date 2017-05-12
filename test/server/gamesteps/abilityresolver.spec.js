@@ -5,8 +5,14 @@ const AbilityResolver = require('../../../server/game/gamesteps/abilityresolver.
 
 describe('AbilityResolver', function() {
     beforeEach(function() {
-        this.game = jasmine.createSpyObj('game', ['markActionAsTaken', 'popAbilityContext', 'pushAbilityContext', 'raiseEvent']);
-        this.ability = jasmine.createSpyObj('ability', ['isAction', 'isPlayableEventAbility', 'resolveCosts', 'payCosts', 'resolveTargets', 'executeHandler']);
+        this.game = jasmine.createSpyObj('game', ['markActionAsTaken', 'popAbilityContext', 'pushAbilityContext', 'raiseEvent', 'raiseMergedEvent']);
+        this.game.raiseMergedEvent.and.callFake((name, params, handler) => {
+            if(handler) {
+                handler(params);
+            }
+        });
+        this.ability = jasmine.createSpyObj('ability', ['isAction', 'isCardAbility', 'isPlayableEventAbility', 'resolveCosts', 'payCosts', 'resolveTargets', 'executeHandler']);
+        this.ability.isCardAbility.and.returnValue(true);
         this.source = { source: 1 };
         this.player = { player: 1 };
         this.context = { foo: 'bar', player: this.player, source: this.source };
@@ -41,6 +47,32 @@ describe('AbilityResolver', function() {
 
             it('should not raise the onCardPlayed event', function() {
                 expect(this.game.raiseEvent).not.toHaveBeenCalledWith('onCardPlayed', jasmine.any(Object), jasmine.any(Object));
+            });
+        });
+
+        describe('when the ability is a card ability', function() {
+            beforeEach(function() {
+                this.ability.resolveCosts.and.returnValue([{ resolved: true, value: true }, { resolved: true, value: true }]);
+                this.ability.isPlayableEventAbility.and.returnValue(true);
+                this.ability.isCardAbility.and.returnValue(true);
+                this.resolver.continue();
+            });
+
+            it('should raise the onCardAbilityInitiated event', function() {
+                expect(this.game.raiseMergedEvent).toHaveBeenCalledWith('onCardAbilityInitiated', { player: this.player, source: this.source }, jasmine.any(Function));
+            });
+        });
+
+        describe('when the ability is not a card ability', function() {
+            beforeEach(function() {
+                this.ability.resolveCosts.and.returnValue([{ resolved: true, value: true }, { resolved: true, value: true }]);
+                this.ability.isPlayableEventAbility.and.returnValue(true);
+                this.ability.isCardAbility.and.returnValue(false);
+                this.resolver.continue();
+            });
+
+            it('should not raise the onCardAbilityInitiated event', function() {
+                expect(this.game.raiseMergedEvent).not.toHaveBeenCalledWith('onCardAbilityInitiated', jasmine.any(Object), jasmine.any(Function));
             });
         });
 

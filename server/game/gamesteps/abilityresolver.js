@@ -111,7 +111,16 @@ class AbilityResolver extends BaseStep {
             return;
         }
 
-        this.ability.executeHandler(this.context);
+        // Check to make sure the ability is actually a card ability. For
+        // instance, marshaling does not count as initiating a card ability and
+        // thus is not subject to cancels such as Treachery.
+        if(this.ability.isCardAbility()) {
+            this.game.raiseMergedEvent('onCardAbilityInitiated', { player: this.context.player, source: this.context.source }, () => {
+                this.ability.executeHandler(this.context);
+            });
+        } else {
+            this.ability.executeHandler(this.context);
+        }
     }
 
     raiseCardPlayedIfEvent() {

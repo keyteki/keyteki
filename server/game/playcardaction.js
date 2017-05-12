@@ -24,11 +24,9 @@ class PlayCardAction extends BaseAbility {
     }
 
     executeHandler(context) {
-        context.game.raiseMergedEvent('onBeforeCardPlayed', { player: context.player, source: context.source }, (event) => {
-            context.game.addMessage('{0} plays {1} costing {2}', event.player, event.source, context.costs.gold);
-            context.source.play(event.player);
-            context.player.moveCard(event.source, 'discard pile');
-        });
+        context.game.addMessage('{0} plays {1} costing {2}', context.player, context.source, context.costs.gold);
+        context.source.play(context.player);
+        context.player.moveCard(context.source, 'discard pile');
     }
 
     isPlayableEventAbility() {

@@ -170,6 +170,10 @@ class BaseAbility {
     isPlayableEventAbility() {
         return false;
     }
+
+    isCardAbility() {
+        return true;
+    }
 }
 
 module.exports = BaseAbility;

@@ -5,7 +5,7 @@ class TheHandsJudgment extends DrawCard {
         this.interrupt({
             canCancel: true,
             when: {
-                onBeforeCardPlayed: event => {
+                onCardAbilityInitiated: event => {
                     if(event.source.getType() !== 'event' || event.player === this.controller) {
                         return false;
                     }
