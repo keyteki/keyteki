@@ -5,6 +5,7 @@ const SimpleStep = require('../simplestep.js');
 const ChooseStealthTargets = require('./choosestealthtargets.js');
 const ApplyClaim = require('./applyclaim.js');
 const ActionWindow = require('../actionwindow.js');
+const GameKeywords = require('../../gamekeywords.js');
 
 class ChallengeFlow extends BaseStep {
     constructor(game, challenge) {
@@ -191,59 +192,29 @@ class ChallengeFlow extends BaseStep {
     }
 
     applyKeywords() {
-        var appliedIntimidate = false;
         var winnerCards = this.challenge.getWinnerCards();
 
         _.each(winnerCards, card => {
+            let context = { game: this.game, challenge: this.challenge, source: card };
+
             if(card.hasKeyword('Insight')) {
-                var drawn = this.challenge.winner.drawCardsToHand(1);
-
-                this.game.raiseEvent('onInsight', this.challenge, card, drawn);
-
-                this.game.addMessage('{0} draws a card from Insight on {1}', this.challenge.winner, card);
+                this.game.resolveAbility(GameKeywords.insight, context);
             }
 
-            if(card.hasKeyword('Intimidate') && !appliedIntimidate && this.challenge.isAttackerTheWinner()) {
-                var strength = this.challenge.strengthDifference;
-                this.game.promptForSelect(this.challenge.winner, {
-                    activePromptTitle: 'Choose and kneel a character with ' + strength + ' strength or less',
-                    cardCondition: card => this.canIntimidate(card, strength),
-                    onSelect: (player, targetCard) => this.intimidate(card, targetCard)
-                });
-                appliedIntimidate = true;
+            if(card.hasKeyword('Intimidate')) {
+                this.game.resolveAbility(GameKeywords.intimidate, context);
             }
 
             if(card.hasKeyword('Pillage')) {
-                this.game.queueSimpleStep(() => {
-                    this.challenge.loser.discardFromDraw(1, cards => {
-                        var discarded = cards[0];
-                        this.game.raiseEvent('onPillage', this.challenge, card, discarded);
-
-                        this.game.addMessage('{0} discards {1} from the top of their deck due to Pillage from {2}', this.challenge.loser, discarded, card);
-                    });
-                });
+                this.game.resolveAbility(GameKeywords.pillage, context);
             }
 
             if(card.isRenown()) {
-                card.modifyPower(1);
-
-                this.game.raiseEvent('onRenown', this.challenge, card);
-
-                this.game.addMessage('{0} gains 1 power on {1} from Renown', this.challenge.winner, card);
+                this.game.resolveAbility(GameKeywords.renown, context);
             }
 
             this.game.checkWinCondition(this.challenge.winner);
         });
-    }
-
-    canIntimidate(card, strength) {
-        return !card.kneeled && card.controller === this.challenge.loser && card.getStrength() <= strength;
-    }
-
-    intimidate(sourceCard, targetCard) {
-        targetCard.controller.kneelCard(targetCard);
-        this.game.addMessage('{0} uses intimidate from {1} to kneel {2}', sourceCard.controller, sourceCard, targetCard);
-        return true;
     }
 
     completeChallenge() {
