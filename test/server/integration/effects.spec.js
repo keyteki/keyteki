@@ -65,14 +65,22 @@ describe('effects', function() {
             beforeEach(function() {
                 const deck = this.buildDeck('stark', [
                     'Sneak Attack', 'Winter Festival',
-                    'Eddard Stark (WotN)', 'Tyene Sand'
+                    'Eddard Stark (WotN)', 'Tyene Sand',
+                    // Add enough cards to prevent being decked to make the
+                    // winner assertion in the test reliable.
+                    'Hedge Knight', 'Hedge Knight', 'Hedge Knight', 'Hedge Knight',
+                    'Hedge Knight', 'Hedge Knight', 'Hedge Knight', 'Hedge Knight',
+                    'Hedge Knight', 'Hedge Knight', 'Hedge Knight', 'Hedge Knight'
                 ]);
                 this.player1.selectDeck(deck);
                 this.player2.selectDeck(deck);
                 this.startGame();
                 this.keepStartingHands();
 
-                this.character = this.player1.findCardByName('Eddard Stark', 'hand');
+                this.character = this.player1.findCardByName('Eddard Stark');
+                this.player1Object.moveCard(this.character, 'hand');
+                let tyene = this.player2.findCardByName('Tyene Sand');
+                this.player2Object.moveCard(tyene, 'hand');
 
                 this.player1.clickCard(this.character);
                 this.player2.clickCard('Tyene Sand', 'hand');
@@ -117,7 +125,7 @@ describe('effects', function() {
                 // Since Winter Festival should have brought Player 1's total
                 // power up to 15 just before the character dies, a winner should
                 // be recorded.
-                expect(this.game.winner).toBe(this.player1Object);
+                expect(this.game.winner.name).toBe(this.player1Object.name);
                 expect(this.character.location).toBe('dead pile');
                 expect(this.player1Object.getTotalPower()).toBe(2);
             });
