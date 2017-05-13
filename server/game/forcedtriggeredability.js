@@ -28,6 +28,10 @@ class ForcedTriggeredAbility extends TriggeredAbility {
         this.handler = properties.handler;
     }
 
+    isForcedAbility() {
+        return true;
+    }
+
     executeReaction(context) {
         this.game.registerAbility(this, context);
     }

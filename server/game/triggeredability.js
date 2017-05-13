@@ -39,7 +39,7 @@ class TriggeredAbility extends BaseAbility {
 
         if(card.getType() === 'event' && !properties.ignoreEventCosts) {
             this.cost.push(Costs.playEvent());
-        }        
+        }
     }
 
     eventHandler(event) {
@@ -56,6 +56,10 @@ class TriggeredAbility extends BaseAbility {
         let isPlayableEventAbility = this.isPlayableEventAbility();
 
         if(this.game.currentPhase === 'setup') {
+            return false;
+        }
+
+        if(!this.isForcedAbility() && context.player && context.player.cannotTriggerCardAbilities) {
             return false;
         }
 
@@ -99,6 +103,10 @@ class TriggeredAbility extends BaseAbility {
 
     isPlayableEventAbility() {
         return this.card.getType() === 'event' && this.location === 'hand';
+    }
+
+    isForcedAbility() {
+        return false;
     }
 
     registerEvents() {

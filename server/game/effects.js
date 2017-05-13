@@ -426,6 +426,16 @@ const Effects = {
             }
         };
     },
+    cannotTriggerCardAbilities: function() {
+        return {
+            apply: function(player) {
+                player.cannotTriggerCardAbilities = true;
+            },
+            unapply: function(player) {
+                player.cannotTriggerCardAbilities = false;
+            }
+        };
+    },
     modifyChallengeTypeLimit: function(challengeType, value) {
         return {
             apply: function(player) {

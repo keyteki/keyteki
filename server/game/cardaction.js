@@ -97,6 +97,10 @@ class CardAction extends BaseAbility {
             return false;
         }
 
+        if(context.player.cannotTriggerCardAbilities) {
+            return false;
+        }
+
         if(this.limit && this.limit.isAtMax()) {
             return false;
         }

@@ -40,6 +40,7 @@ class Player extends Spectator {
         this.selectedCards = [];
         this.selectableCards = [];
         this.cannotGainChallengeBonus = false;
+        this.cannotTriggerCardAbilities = false;
         this.promptedActionWindows = user.promptedActionWindows || {
             plot: false,
             draw: false,
