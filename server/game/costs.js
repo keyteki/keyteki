@@ -212,6 +212,19 @@ const Costs = {
         };
     },
     /**
+     * Cost that will return to hand the card that initiated the ability.
+     */
+    returnSelfToHand: function() {
+        return {
+            canPay: function() {
+                return true;
+            },
+            pay: function(context) {
+                context.source.controller.returnCardToHand(context.source, false);
+            }
+        };
+    },
+    /**
      * Cost that will stand the card that initiated the ability (e.g.,
      * Barristan Selmy (TS)).
      */
