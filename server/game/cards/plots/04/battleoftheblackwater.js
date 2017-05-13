@@ -9,6 +9,9 @@ class BattleOfTheBlackwater extends PlotCard {
                 _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
                     this.removeAllDupes(player);
                 });
+
+                this.game.addMessage('{0} uses {1} to have both players discard each duplicate they control', 
+                                      this.controller, this);
             }
         });
     }
