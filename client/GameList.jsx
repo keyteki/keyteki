@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {toastr} from 'react-redux-toastr';
 import _ from 'underscore';
 
 import Avatar from './Avatar.jsx';
@@ -15,6 +16,11 @@ class InnerGameList extends React.Component {
     joinGame(event, game) {
         event.preventDefault();
 
+        if(!this.props.username) {
+	    toastr.error('Please login before trying to join a game');
+	    return;
+	}
+
         if(game.needsPassword) {
             this.props.joinPasswordGame(game, 'Join');
         } else {
@@ -28,6 +34,11 @@ class InnerGameList extends React.Component {
 
     watchGame(event, game) {
         event.preventDefault();
+
+        if(!this.props.username) {
+	    toastr.error('Please login before trying to watch a game');
+	    return;
+	}
 
         if(game.needsPassword) {
             this.props.joinPasswordGame(game, 'Watch');
@@ -129,7 +140,8 @@ function mapStateToProps(state) {
     return {
         currentGame: state.games.currentGame,
         isAdmin: state.auth.isAdmin,
-        socket: state.socket.socket
+        socket: state.socket.socket,
+        username: state.auth.username
     };
 }
 
