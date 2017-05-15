@@ -9,12 +9,8 @@ class Spectator {
         this.menuTitle = 'Spectator mode';
     }
 
-    isCardSelected() {
-        return false;
-    }
-
-    isCardSelectable() {
-        return false;
+    getCardSelectionState() {
+        return {};
     }
 }
 

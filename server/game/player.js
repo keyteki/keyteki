@@ -8,6 +8,7 @@ const BestowPrompt = require('./gamesteps/bestowprompt.js');
 const ChallengeTracker = require('./challengetracker.js');
 const PlayableLocation = require('./playablelocation.js');
 const PlayActionPrompt = require('./gamesteps/playactionprompt.js');
+const PlayerPromptState = require('./playerpromptstate.js');
 
 const StartingHandSize = 7;
 const DrawPhaseCards = 2;
@@ -37,8 +38,6 @@ class Player extends Spectator {
         this.costReducers = [];
         this.playableLocations = _.map(['marshal', 'play', 'ambush'], playingType => new PlayableLocation(playingType, this, 'hand'));
         this.usedPlotsModifier = 0;
-        this.selectedCards = [];
-        this.selectableCards = [];
         this.cannotGainChallengeBonus = false;
         this.cannotTriggerCardAbilities = false;
         this.promptedActionWindows = user.promptedActionWindows || {
@@ -53,6 +52,8 @@ class Player extends Spectator {
         };
 
         this.createAdditionalPile('out of game', { title: 'Out of Game', area: 'player row' });
+
+        this.promptState = new PlayerPromptState();
     }
 
     isCardUuidInList(list, card) {
@@ -744,7 +745,6 @@ class Player extends Spectator {
         this.cardsInPlay.each(card => {
             card.resetForChallenge();
         });
-        this.selectCard = false;
     }
 
     initiateChallenge(challengeType) {
@@ -1069,28 +1069,20 @@ class Player extends Spectator {
         return this.hand.size() <= this.getTotalReserve();
     }
 
-    isCardSelected(card) {
-        return this.selectedCards.includes(card);
-    }
-
     setSelectedCards(cards) {
-        this.selectedCards = cards;
+        this.promptState.setSelectedCards(cards);
     }
 
     clearSelectedCards() {
-        this.selectedCards = [];
-    }
-
-    isCardSelectable(card) {
-        return this.selectableCards.includes(card);
+        this.promptState.clearSelectedCards();
     }
 
     setSelectableCards(cards) {
-        this.selectableCards = cards;
+        this.promptState.setSelectableCards(cards);
     }
 
     clearSelectableCards() {
-        this.selectableCards = [];
+        this.promptState.clearSelectableCards();
     }
 
     getSummaryForCardList(list, activePlayer, hideWhenFaceup) {
@@ -1099,37 +1091,25 @@ class Player extends Spectator {
         });
     }
 
+    getCardSelectionState(card) {
+        return this.promptState.getCardSelectionState(card);
+    }
+
     currentPrompt() {
-        return {
-            selectCard: this.selectCard,
-            menuTitle: this.menuTitle,
-            buttons: this.buttons
-        };
+        return this.promptState.getState();
     }
 
     setPrompt(prompt) {
-        this.selectCard = prompt.selectCard || false;
-        this.menuTitle = prompt.menuTitle || '';
-        this.promptTitle = prompt.promptTitle;
-        this.buttons = _.map(prompt.buttons || [], button => {
-            if(button.card) {
-                let card = button.card;
-                let properties = _.omit(button, 'card');
-                return _.extend({ text: card.name, arg: card.uuid, card: card.getShortSummary() }, properties);
-            }
-
-            return button;
-        });
+        this.promptState.setPrompt(prompt);
     }
 
     cancelPrompt() {
-        this.selectCard = false;
-        this.menuTitle = '';
-        this.buttons = [];
+        this.promptState.cancelPrompt();
     }
 
     getState(activePlayer) {
         let isActivePlayer = activePlayer === this;
+        let promptState = isActivePlayer ? this.promptState.getState() : {};
         let state = {
             activePlot: this.activePlot ? this.activePlot.getSummary(activePlayer) : undefined,
             additionalPiles: _.mapObject(this.additionalPiles, pile => ({
@@ -1140,7 +1120,6 @@ class Player extends Spectator {
             })),
             agenda: this.agenda ? this.agenda.getSummary(activePlayer) : undefined,
             promptedActionWindows: this.promptedActionWindows,
-            buttons: isActivePlayer ? this.buttons : undefined,
             cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
             claim: this.getClaim(),
             deadPile: this.getSummaryForCardList(this.deadPile, activePlayer),
@@ -1152,7 +1131,6 @@ class Player extends Spectator {
             hand: this.getSummaryForCardList(this.hand, activePlayer, true),
             id: this.id,
             left: this.left,
-            menuTitle: isActivePlayer ? this.menuTitle : undefined,
             numDrawCards: this.drawDeck.size(),
             name: this.name,
             numPlotCards: this.plotDeck.size(),
@@ -1160,9 +1138,7 @@ class Player extends Spectator {
             plotDeck: this.getSummaryForCardList(this.plotDeck, activePlayer, true),
             plotDiscard: this.getSummaryForCardList(this.plotDiscard, activePlayer),
             plotSelected: !!this.selectedPlot,
-            promptTitle: isActivePlayer ? this.promptTitle : undefined,
             reserve: this.getTotalReserve(),
-            selectCard: this.selectCard,
             totalPower: this.getTotalPower(),
             user: _.omit(this.user, ['password', 'email'])
         };
@@ -1172,7 +1148,7 @@ class Player extends Spectator {
             state.drawDeck = this.getSummaryForCardList(this.drawDeck, activePlayer);
         }
 
-        return state;
+        return _.extend(state, promptState);
     }
 }
 

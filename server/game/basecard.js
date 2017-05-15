@@ -473,22 +473,25 @@ class BaseCard {
 
     getSummary(activePlayer, hideWhenFaceup) {
         let isActivePlayer = activePlayer === this.owner;
-        return isActivePlayer || (!this.facedown && !hideWhenFaceup) ? {
+
+        if(!isActivePlayer && (this.facedown || hideWhenFaceup)) {
+            return { facedown: true };
+        }
+
+        let selectionState = activePlayer.getCardSelectionState(this);
+        let state = {
             code: this.cardData.code,
             controlled: this.owner !== this.controller,
             facedown: this.facedown,
             menu: this.getMenu(),
             name: this.cardData.label,
             new: this.new,
-            // The `this.selected` property here is a hack for plot selection,
-            // which we do differently from normal card selection.
-            selected: this.selected || activePlayer.isCardSelected(this),
-            selectable: activePlayer.isCardSelectable(this),
             tokens: this.tokens,
             type: this.getType(),
-            unselectable: activePlayer.selectCard && !activePlayer.isCardSelectable(this),
             uuid: this.uuid
-        } : { facedown: true };
+        };
+
+        return _.extend(state, selectionState);
     }
 }
 
