@@ -5,6 +5,7 @@ class WeirwoodBow extends DrawCard {
         this.action({
             title: 'Kneel Weirwood Bow to give -2 STR',
             cost: ability.costs.kneelSelf(),
+            condition: () => this.game.currentChallenge,
             target: {
                 activePromptTitle: 'Select a defending character',
                 cardCondition: card => (

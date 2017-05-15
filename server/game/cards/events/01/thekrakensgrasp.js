@@ -4,7 +4,7 @@ class TheKrakensGrasp extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Block character strength',
-            condition: () => this.controller.firstPlayer,
+            condition: () => this.controller.firstPlayer && this.game.currentChallenge,
             phase: 'challenge',
             target: {
                 activePromptTitle: 'Select a character',
