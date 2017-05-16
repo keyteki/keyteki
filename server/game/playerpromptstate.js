@@ -3,6 +3,7 @@ const _ = require('underscore');
 class PlayerPromptState {
     constructor() {
         this.selectCard = false;
+        this.selectOrder = false;
         this.menuTitle = '';
         this.promptTitle = '';
         this.buttons = [];
@@ -29,6 +30,7 @@ class PlayerPromptState {
 
     setPrompt(prompt) {
         this.selectCard = prompt.selectCard || false;
+        this.selectOrder = prompt.selectOrder || false;
         this.menuTitle = prompt.menuTitle || '';
         this.promptTitle = prompt.promptTitle;
         this.buttons = _.map(prompt.buttons || [], button => {
@@ -59,12 +61,17 @@ class PlayerPromptState {
             unselectable: this.selectCard && !selectable
         };
 
+        if(index !== -1 && this.selectOrder) {
+            return _.extend({ order: index + 1 }, result);
+        }
+
         return result;
     }
 
     getState() {
         return {
             selectCard: this.selectCard,
+            selectOrder: this.selectOrder,
             menuTitle: this.menuTitle,
             promptTitle: this.promptTitle,
             buttons: this.buttons

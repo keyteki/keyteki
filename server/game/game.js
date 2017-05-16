@@ -26,6 +26,7 @@ const SimultaneousEventWindow = require('./gamesteps/simultaneouseventwindow.js'
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const ForcedTriggeredAbilityWindow = require('./gamesteps/forcedtriggeredabilitywindow.js');
 const TriggeredAbilityWindow = require('./gamesteps/triggeredabilitywindow.js');
+const KillCharacters = require('./gamesteps/killcharacters.js');
 
 class Game extends EventEmitter {
     constructor(details, options = {}) {
@@ -620,50 +621,7 @@ class Game extends EventEmitter {
     }
 
     killCharacters(cards, allowSave = true) {
-        let cardsInPlay = _.filter(cards, card => card.location === 'play area');
-        this.applyGameAction('killed', cardsInPlay, killable => {
-            _.each(killable, card => {
-                card.markAsInDanger();
-            });
-
-            this.raiseSimultaneousEvent(killable, {
-                eventName: 'onCharactersKilled',
-                params: {
-                    allowSave: allowSave
-                },
-                perCardEventName: 'onCharacterKilled',
-                perCardHandler: event => this.doKill(event)
-            });
-            this.queueSimpleStep(() => {
-                _.each(killable, card => {
-                    card.clearDanger();
-                });
-            });
-        });
-    }
-
-    doKill(event) {
-        let {card, allowSave} = event;
-        let player = card.controller;
-
-        if(card.location !== 'play area') {
-            event.cancel();
-            return;
-        }
-
-        if(!card.canBeKilled()) {
-            this.addMessage('{0} controlled by {1} cannot be killed',
-                                 card, player);
-        } else if(!card.dupes.isEmpty() && allowSave) {
-            if(!player.removeDuplicate(card)) {
-                player.moveCard(card, 'dead pile');
-            } else {
-                this.addMessage('{0} discards a duplicate to save {1}', player, card);
-            }
-        } else {
-            player.moveCard(card, 'dead pile');
-            this.addMessage('{0} kills {1}', player, card);
-        }
+        this.queueStep(new KillCharacters(this, cards, allowSave));
     }
 
     killCharacter(card, allowSave = true) {

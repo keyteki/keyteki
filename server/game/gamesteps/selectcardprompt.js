@@ -39,6 +39,8 @@ const UiPrompt = require('./uiprompt.js');
  *                      used to provide a default waitingPromptTitle, if missing
  * gameAction         - a string representing the game action to be checked on
  *                      target cards.
+ * ordered            - an optional boolean indicating whether or not to display
+ *                      the order of the selection during the prompt.
  */
 class SelectCardPrompt extends UiPrompt {
     constructor(game, choosingPlayer, properties) {
@@ -115,6 +117,7 @@ class SelectCardPrompt extends UiPrompt {
     activePrompt() {
         return {
             selectCard: true,
+            selectOrder: this.properties.ordered,
             menuTitle: this.properties.activePromptTitle || this.defaultActivePromptTitle(),
             buttons: this.properties.additionalButtons.concat([
                 { text: 'Done', arg: 'done' }

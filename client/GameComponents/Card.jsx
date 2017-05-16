@@ -208,6 +208,14 @@ class Card extends React.Component {
         return dupes;
     }
 
+    getCardOrder() {
+        if(!this.props.card.order) {
+            return null;
+        }
+
+        return (<div className='card-order'>{this.props.card.order}</div>);
+    }
+
     showMenu() {
         if(!this.isAllowedMenuSource()) {
             return false;
@@ -288,6 +296,7 @@ class Card extends React.Component {
                     onTouchMove={ev => this.onTouchMove(ev)}
                     onTouchEnd={ev => this.onTouchEnd(ev)}
                     onTouchStart={ev => this.onTouchStart(ev)}>
+                    {this.getCardOrder()}
                     <div className={cardClass}
                         onMouseOver={this.props.disableMouseOver ? null : this.onMouseOver.bind(this, this.props.card)}
                         onMouseOut={this.props.disableMouseOver ? null : this.onMouseOut}
@@ -336,6 +345,7 @@ Card.propTypes = {
         menu: React.PropTypes.array,
         name: React.PropTypes.string,
         new: React.PropTypes.bool,
+        order: React.PropTypes.number,
         power: React.PropTypes.number,
         saved: React.PropTypes.bool,
         selectable: React.PropTypes.bool,

@@ -12,7 +12,7 @@ class SimultaneousEventWindow extends BaseStep {
         this.handler = properties.handler || (() => true);
 
         this.event = new Event(properties.eventName, _.extend({ cards: cards }, properties.params), true);
-        this.perCardEvents = this.buildPerCardEvents(cards, properties);
+        this.perCardEventMap = this.buildPerCardEvents(cards, properties);
         this.perCardHandler = properties.perCardHandler || (() => true);
         this.pipeline = new GamePipeline();
         this.pipeline.initialise([
@@ -23,6 +23,7 @@ class SimultaneousEventWindow extends BaseStep {
             new SimpleStep(game, () => this.openWindow('interrupt')),
             new SimpleStep(game, () => this.perCardWindow('interrupt')),
             new SimpleStep(game, () => this.executeHandler()),
+            new SimpleStep(game, () => this.executePerCardHandlers()),
             new SimpleStep(game, () => this.openWindow('forcedreaction')),
             new SimpleStep(game, () => this.perCardWindow('forcedreaction')),
             new SimpleStep(game, () => this.openWindow('reaction')),
@@ -31,10 +32,12 @@ class SimultaneousEventWindow extends BaseStep {
     }
 
     buildPerCardEvents(cards, properties) {
-        return _.map(cards, card => {
+        let eventMap = {};
+        _.each(cards, card => {
             let perCardParams = _.extend({ card: card }, properties.params);
-            return new Event(properties.perCardEventName, perCardParams, true);
+            eventMap[card.uuid] = new Event(properties.perCardEventName, perCardParams, true);
         });
+        return eventMap;
     }
 
     queueStep(step) {
@@ -78,7 +81,8 @@ class SimultaneousEventWindow extends BaseStep {
         }
 
         this.filterOutCancelledEvents();
-        _.each(this.perCardEvents, event => {
+        _.each(this.event.cards, card => {
+            let event = this.perCardEventMap[card.uuid];
             this.game.openAbilityWindow({
                 abilityType: abilityType,
                 event: event
@@ -87,7 +91,7 @@ class SimultaneousEventWindow extends BaseStep {
     }
 
     filterOutCancelledEvents() {
-        this.perCardEvents = _.filter(this.perCardEvents, event => this.event.cards.includes(event.card) && !event.cancelled);
+        this.perCardEventMap = _.pick(this.perCardEventMap, event => this.event.cards.includes(event.card) && !event.cancelled);
     }
 
     executeHandler() {
@@ -96,10 +100,22 @@ class SimultaneousEventWindow extends BaseStep {
         }
 
         this.executeEventHandler(this.event, this.handler);
+    }
+
+    executePerCardHandlers() {
+        if(this.event.cancelled) {
+            return;
+        }
 
         this.filterOutCancelledEvents();
 
-        _.each(this.perCardEvents, event => {
+        _.each(this.event.cards, card => {
+            let event = this.perCardEventMap[card.uuid];
+
+            if(!event) {
+                return;
+            }
+
             this.game.queueSimpleStep(() => {
                 this.executeEventHandler(event, this.perCardHandler);
             });
