@@ -1,6 +1,13 @@
 const DrawCard = require('../../../drawcard.js');
 
+// XXX Restrict to one effect per card title (ie multiple madames should not trigger)
 class BrothelMadame extends DrawCard {
+    constructor(owner, cardData) {
+        super(owner, cardData);
+
+        this.registerEvents(['onGoldTransferred']);
+    }
+
     setupCardAbilities() {
         this.reaction({
             when: {
@@ -12,6 +19,8 @@ class BrothelMadame extends DrawCard {
                     return false;
                 }
 
+                this.hasPaidGoldThisPhase = false;
+
                 this.game.promptWithMenu(otherPlayer, this, {
                     activePrompt: {
                         menuTitle: 'Pay 1 gold to initiate military challenges this phase?',
@@ -22,8 +31,28 @@ class BrothelMadame extends DrawCard {
                     },
                     source: this
                 });
+
+                this.untilEndOfPhase(ability => ({
+                    targetType: 'player',
+                    targetController: 'opponent',
+                    condition: () => !this.hasPaidGoldThisPhase,
+                    effect: ability.effects.cannotInitiateChallengeType('military')
+                }));
             }
         });
+    }
+
+    onGoldTransferred(event) {
+        if(event.target !== this.controller || event.amount <= 0) {
+            return false;
+        }
+
+        if(this.hasPaidGoldThisPhase) {
+            return true;
+        }
+
+        this.hasPaidGoldThisPhase = true;
+        this.game.addMessage('{0} has now paid {1} and can initiate {2} challenges this phase', event.source, event.target, 'military');
     }
 
     payOneGold(player) {
@@ -33,19 +62,7 @@ class BrothelMadame extends DrawCard {
 
         this.game.transferGold(this.controller, player, 1);
 
-        this.game.addMessage('{0} uses {1} to make {2} pay 1 gold to be able to initiate {3} challenges this phase', this.controller, this, player, 'military');
-
-        return true;
-    }
-
-    doNotPay(player) {
-        this.untilEndOfPhase(ability => ({
-            targetType: 'player',
-            targetController: 'opponent',
-            effect: ability.effects.cannotInitiateChallengeType('military')
-        }));
-
-        this.game.addMessage('{0} does not pay 1 gold because of {1} and cannot initiate {2} challenges this phase', player, this, 'military');
+        this.game.addMessage('{0} uses {1} to make {2} pay 1 gold', this.controller, this, player);
 
         return true;
     }

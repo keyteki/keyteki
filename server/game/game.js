@@ -358,6 +358,8 @@ class Game extends EventEmitter {
 
         this.raiseEvent('onStatChanged', from, 'gold');
         this.raiseEvent('onStatChanged', to, 'gold');
+
+        this.raiseMergedEvent('onGoldTransferred', { source: from, target: to, amonut: gold });
     }
 
     checkWinCondition(player) {
