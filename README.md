@@ -1,16 +1,18 @@
-# Throneteki
+# Eggteki
 
-Web based implementation of A Game Of Thrones LCG 2nd Edition
+Web based implementation of The Legend of the Five Rings LCG
 
 ## FAQ
 
 ### What is it?
 
-This is the respository for the code internally known as throneteki which is running on [theironthrone.net](https://theironthrone.net/) allowing people to play AGoT 2nd edition online using only their browser
+This is the respository for the code internally known as eggteki which is running on TBA allowing people to play L5R LCG online using only their browser
 
-### Does't this look a lot like Jinteki? The Android netrunner online experience?
+### Does't this look a lot like Jinteki/Throneteki? The Android netrunner/AGOT online experience?
 
 Glad you noticed!  Yes, jinteki was a huge inspiration for this project, as the interface is clean and user friendly, so I've tried to make this similar in a lot of ways
+
+Eggteki is a fork of the throneteki sourcecode
 
 ### Can I contribute?
 
@@ -18,7 +20,7 @@ Sure!  The code is written in node.js(server) and react.js(client).  Feel free t
 
 If you are going to contribute code, try and follow the style of the existing code as much as possible and talk to me before engaging in any big refactors.  Also bear in mind there is an .eslintrc file in the project so try to follow those rules.
 
-[Documentation for implementing cards](https://github.com/cryogen/throneteki/blob/master/docs/implementing-cards.md)
+[Documentation for implementing cards](https://github.com/gryffon/eggteki/blob/master/docs/implementing-cards.md)
 
 The biggest help at the moment would be in terms of CSS, as that's a bit of a weakness of mine, feel free to pick up any of the issues tagged 'CSS' in the issue list.
 
@@ -31,7 +33,7 @@ See this document for features I have planned and a link to the currently implem
 
 ### How do I do X Y Z?
 
-Check out the [About page](https://theironthrone.net/about) of a Throneteki live deployment.
+Check out the TBA of a Eggteki live deployment.
 
 ## Development
 
@@ -115,5 +117,4 @@ If you are making any game engine changes, these will not be accepted without un
 
 ### Build Status
 
-[![CircleCI](https://circleci.com/gh/cryogen/throneteki.svg?style=svg)](https://circleci.com/gh/cryogen/throneteki)
-[![Travis Build](https://travis-ci.org/cryogen/throneteki.svg?branch=master)](https://travis-ci.org/cryogen/throneteki)
+TBA
