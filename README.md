@@ -29,7 +29,7 @@ If you're not coding inclined, then just playing games on the site, and reportin
 ### X Y Z doesn't work
 That's not a question, but that still sucks, sorry :(  First, bear in mind the site is in its infancy so a lot of things aren't implemented yet, but you should be able to do most things with a bit of manual input.  If there's anything you can't do that you need to be able to do, let me know by raising an issue.
 
-See this document for features I have planned and a link to the currently implemented cards:  http://bit.ly/throneteki
+See this document for features I have planned and a link to the currently implemented cards:  http://bit.ly/eggteki
 
 ### How do I do X Y Z?
 
@@ -58,7 +58,7 @@ For the lobby server, you'll need a file called server/config.js that should loo
 ```javascript
 var config = {
   secret: 'somethingverysecret',
-  dbPath: 'mongodb://127.0.0.1:27017/throneteki',
+  dbPath: 'mongodb://127.0.0.1:27017/eggteki',
   mqUrl: 'tcp://127.0.0.1:6000' // This is the host/port of the Zero MQ server which does the node load balancing
 };
 
@@ -96,7 +96,7 @@ PORT={port} SERVER={node-name} node server/gamenode
 
 ### Coding Guidelines
 
-All JavaScript code included in Throneteki should pass (no errors, no warnings)
+All JavaScript code included in Eggteki should pass (no errors, no warnings)
 linting by [ESLint](http://eslint.org/), according to the rules defined in
 `.eslintrc` at the root of this repo. To manually check that that is indeed the
 case install ESLint and run

@@ -6,23 +6,23 @@ class About extends React.Component {
     render() {
         return (
             <div>
-                <a className='btn btn-danger btn-lg pull-right' href='https://github.com/cryogen/throneteki/issues'>Report Problems</a>
+                <a className='btn btn-danger btn-lg pull-right' href='https://github.com/gryffon/eggteki/issues'>Report Problems</a>
                 <h2>Help and Information</h2>
                 <h3>What is this?</h3>
-                <p>This site was setup to allow you to play A Game Of Thrones 2.0, an LCG from Fantasy Flight Games (FFG) in your browser.</p>
+                <p>This site was setup to allow you to play the Legend of the Five Rings, an LCG from Fantasy Flight Games (FFG) in your browser.</p>
                 <h3>That's pretty cool!  How do I play?</h3>
                 <p>That's kind of you to say.  Start by registering for an account or logging in if you already have one.  You must be logged in to play games or spectate on them.
-                Once you're logged in, go to the <Link href='/decks'>decks page.</Link>  You can create a deck by going to <a href='http://www.thronesdb.com' target='_blank'>Thrones DB</a>,
+                Once you're logged in, go to the <Link href='/decks'>decks page.</Link>  You can create a deck by going to <a href='http://www.fiveringsdb.com' target='_blank'>L5R DB</a>,
                  clicking on the button to download your deck to a TXT file and copy/pasting it into the deck builder.  Then either join or create a game and you're good to go.</p>
 
                 <h3>Everyone has a shiny avatar, how do I get one?</h3>
                 <p>This is handled by the good people at <a href='http://gravatar.com' target='_blank'>Gravatar</a>.  Sign up there with the same email address you did there and it should appear on the site after a short while.
                 It will also use the avatar on any site that uses gravatar.  Examples include github and jinteki.</p>
                 <h3>Why doesn't xyz work?</h3>
-                <p>While the site has come on a lot recently, there are still some missing cards and things that aren't implemented. See <a href='http://bit.ly/throneteki'>This Link</a> for a list of the cards and their current implementation
+                <p>While the site has come on a lot recently, there are still some missing cards and things that aren't implemented. See <a href='http://bit.ly/eggteki'>This Link</a> for a list of the cards and their current implementation
                 status.  If it says 'Done' on that list, it should work and if it doesn't then it's a bug.</p>
                 <p>If you do encounter a bug or issue which is not related to a missing or not implemented card
-                then please do report it.  There is an <a href='http://github.com/cryogen/throneteki'>Issue Tracker</a> on the GitHub page where you can make your report.  Please include as
+                then please do report it.  There is an <a href='http://github.com/gryffon/eggteki'>Issue Tracker</a> on the GitHub page where you can make your report.  Please include as
                 much information as possible, including what the problem is, what you were expecting, what you did leading up to it, and if possible include a screenshot.  We are a very small
                 development team and if bugs are not reported, it is unlikely they will get fixed.</p>
 
@@ -46,7 +46,7 @@ class About extends React.Component {
 
                 <h3>Can I help?</h3>
                 <p>Sure!  The project is all written in Javascript.  The server is node.js and the client is React.js.  The source code can be found in the&nbsp;
-                <a href='http://github.com/cryogen/throneteki'>GitHub Repository</a>.  Check out the code and instructions on there on how to get started and hack away!  See the card implementation
+                <a href='http://github.com/gryffon/eggteki'>GitHub Repository</a>.  Check out the code and instructions on there on how to get started and hack away!  See the card implementation
                 status list above to have a look at what needs to be done.  If you want to join the dev discord, or ask any other question, send me a note on here, over at&nbsp;
                 <a href='http://www.twitter.com/cryogen'>Twitter</a> or post in the AGoT Facebook group.  I'll likely find it.
                 </p>
@@ -72,7 +72,7 @@ class About extends React.Component {
                 </p>
 
                 <h2>Additional Notes</h2>
-                <p>The Game of Thrones living card game, the artwork and many other things are all copyright Fantasy Flight Games and I make no claims of ownership or otherwise of any of the
+                <p>The Legend of the Five Rings living card game, the artwork and many other things are all copyright Fantasy Flight Games and I make no claims of ownership or otherwise of any of the
                 artwork or trademarks.  This site exists for passionate fans to play a game they enjoy and augment, rather than replace, the in person LCG.  FFG does not endorse, support, and is not
                 involved with, this site in any way.
                 </p>

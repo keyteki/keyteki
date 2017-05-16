@@ -1,7 +1,7 @@
 {
-  "name": "throneteki",
-  "version": "1.0.1",
-  "description": "A Game of Throne Second Edition Card Game Server",
+  "name": "eggteki",
+  "version": "0.1",
+  "description": "A Legend of the Five Rings Card Game Server",
   "main": "index.js",
   "scripts": {
     "test": "cross-env JASMINE_CONFIG_PATH=./jasmine.json jasmine && karma start karma.config.js --single-run",
@@ -11,21 +11,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cryogen/throneteki.git"
+    "url": "git+https://github.com/gryffon/eggteki.git"
   },
   "keywords": [
-    "got",
-    "game",
+    "l5r",
+    "legend",
     "of",
-    "thrones",
+    "the",
+    "five",
+    "rings",
     "cardgame"
   ],
   "author": "Stuart Walsh <stu@ipng.org.uk>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cryogen/throneteki/issues"
+    "url": "https://github.com/gryffon/eggteki/issues"
   },
-  "homepage": "https://github.com/cryogen/throneteki#readme",
+  "homepage": "https://github.com/gryffon/eggteki#readme",
   "dependencies": {
     "bcrypt": "^0.8.7",
     "bootstrap": "^3.3.7",
