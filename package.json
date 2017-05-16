@@ -1,6 +1,6 @@
 {
   "name": "eggteki",
-  "version": "0.1",
+  "version": "1.0.1",
   "description": "A Legend of the Five Rings Card Game Server",
   "main": "index.js",
   "scripts": {
@@ -22,14 +22,14 @@
     "rings",
     "cardgame"
   ],
-  "author": "Stuart Walsh <stu@ipng.org.uk>",
+  "author": "Ryan Karetas <ryan@karetas.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/gryffon/eggteki/issues"
   },
   "homepage": "https://github.com/gryffon/eggteki#readme",
   "dependencies": {
-    "bcrypt": "^0.8.7",
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^3.3.7",
     "connect-mongo": "^1.3.2",
     "cookie-parser": "^1.4.3",
