@@ -104,9 +104,5 @@ describe('PlayCardAction', function () {
         it('should play the card', function() {
             expect(this.cardSpy.play).toHaveBeenCalledWith(this.playerSpy);
         });
-
-        it('should place the card in discard', function() {
-            expect(this.playerSpy.moveCard).toHaveBeenCalledWith(this.cardSpy, 'discard pile');
-        });
     });
 });
