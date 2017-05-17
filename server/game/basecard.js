@@ -11,13 +11,8 @@ const CustomPlayAction = require('./customplayaction.js');
 const EventRegistrar = require('./eventregistrar.js');
 
 const ValidKeywords = [
-    'ambush',
-    'insight',
-    'intimidate',
-    'pillage',
-    'renown',
-    'stealth',
-    'terminal',
+    'ancestral',
+    'restricted',
     'limited'
 ];
 const LocationsWithEventHandling = ['play area', 'active plot', 'faction', 'agenda'];
@@ -36,15 +31,23 @@ class BaseCard {
         this.blankCount = 0;
 
         this.tokens = {};
-        this.plotModifierValues = {
-            gold: 0,
-            initiative: 0,
-            reserve: 0
+        this.strongholdModifierValues = {
+            honor: 0,
+            fate: 0,
+            influence: 0,
+            strength: 0
         };
-        this.canProvidePlotModifier = {
-            gold: true,
-            initiative: true,
-            reserve: true
+        this.canProvideStrongholdModifier = {
+            honor: true,
+            fate: true,
+            influence: true,
+            strength: true
+        };
+        this.provinceModifierValues = {
+            strength: 0
+        };
+        this.canProvideProvinceModifier = {
+            strength: true
         };
         this.abilityRestrictions = [];
         this.menu = _([]);
@@ -70,23 +73,6 @@ class BaseCard {
         _.each(potentialKeywords, keyword => {
             if(_.contains(ValidKeywords, keyword)) {
                 this.printedKeywords.push(keyword);
-            } else if(keyword.indexOf('no attachment') === 0) {
-                var match = keyword.match(/no attachments except <[bi]>(.*)<\/[bi]>/);
-                if(match) {
-                    this.allowedAttachmentTrait = match[1];
-                } else {
-                    this.allowedAttachmentTrait = 'none';
-                }
-            } else if(keyword.indexOf('ambush') === 0) {
-                match = keyword.match(/ambush \((.*)\)/);
-                if(match) {
-                    this.ambushCost = parseInt(match[1]);
-                }
-            } else if(keyword.indexOf('bestow') === 0) {
-                match = keyword.match(/bestow \((.*)\)/);
-                if(match) {
-                    this.bestowMax = parseInt(match[1]);
-                }
             }
         });
 
@@ -113,30 +99,14 @@ class BaseCard {
     setupCardAbilities() {
     }
 
-    plotModifiers(modifiers) {
-        this.plotModifierValues = _.extend(this.plotModifierValues, modifiers);
-        if(modifiers.gold) {
+    provinceModifiers(modifiers) {
+        this.provincetModifierValues = _.extend(this.provinceModifierValues, modifiers);
+        if(modifiers.strength) {
             this.persistentEffect({
-                condition: () => this.canProvidePlotModifier['gold'],
-                match: card => card.controller.activePlot === card,
+                condition: () => this.canProvideProvinceModifier['strength'],
+                match: card => card.controller.activeProvince === card,
                 targetController: 'current',
-                effect: AbilityDsl.effects.modifyGold(modifiers.gold)
-            });
-        }
-        if(modifiers.initiative) {
-            this.persistentEffect({
-                condition: () => this.canProvidePlotModifier['initiative'],
-                match: card => card.controller.activePlot === card,
-                targetController: 'current',
-                effect: AbilityDsl.effects.modifyInitiative(modifiers.initiative)
-            });
-        }
-        if(modifiers.reserve) {
-            this.persistentEffect({
-                condition: () => this.canProvidePlotModifier['reserve'],
-                match: card => card.controller.activePlot === card,
-                targetController: 'current',
-                effect: AbilityDsl.effects.modifyReserve(modifiers.reserve)
+                effect: AbilityDsl.effects.modifyStrength(modifiers.strength)
             });
         }
     }
@@ -208,9 +178,9 @@ class BaseCard {
      * Applies an immediate effect which lasts until the end of the current
      * challenge.
      */
-    untilEndOfChallenge(propertyFactory) {
+    untilEndOfConflict(propertyFactory) {
         var properties = propertyFactory(AbilityDsl);
-        this.game.addEffect(this, _.extend({ duration: 'untilEndOfChallenge' }, properties));
+        this.game.addEffect(this, _.extend({ duration: 'untilEndOfConflict' }, properties));
     }
 
     /**
@@ -308,8 +278,8 @@ class BaseCard {
         this.location = targetLocation;
     }
 
-    modifyDominance(player, strength) {
-        return strength;
+    modifyFavor(player, glory) {
+        return glory;
     }
 
     canPlay() {
