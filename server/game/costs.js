@@ -15,18 +15,18 @@ const Costs = {
         };
     },
     /**
-     * Cost that will kneel the card that initiated the ability.
+     * Cost that will bow the card that initiated the ability.
      */
-    kneelSelf: function() {
+    bowSelf: function() {
         return {
             canPay: function(context) {
-                return !context.source.kneeled;
+                return !context.source.bowed;
             },
             pay: function(context) {
-                context.source.controller.kneelCard(context.source);
+                context.source.controller.bowCard(context.source);
             },
             canUnpay: function(context) {
-                return context.source.kneeled;
+                return context.source.bowed;
             },
             unpay: function(context) {
                 context.source.controller.standCard(context.source);
@@ -34,25 +34,25 @@ const Costs = {
         };
     },
     /**
-     * Cost that will kneel the player's faction card.
+     * Cost that will bow the player's faction card.
      */
-    kneelFactionCard: function() {
+    bowFactionCard: function() {
         return {
             canPay: function(context) {
-                return !context.player.faction.kneeled;
+                return !context.player.faction.bowed;
             },
             pay: function(context) {
-                context.player.kneelCard(context.player.faction);
+                context.player.bowCard(context.player.faction);
             }
         };
     },
     /**
-     * Cost that requires kneeling a card that matches the passed condition
+     * Cost that requires bowing a card that matches the passed condition
      * predicate function.
      */
-    kneel: function(condition) {
+    bow: function(condition) {
         var fullCondition = (card, context) => (
-            !card.kneeled &&
+            !card.bowed &&
             card.location === 'play area' &&
             card.controller === context.player &&
             condition(card)
@@ -68,10 +68,10 @@ const Costs = {
 
                 context.game.promptForSelect(context.player, {
                     cardCondition: card => fullCondition(card, context),
-                    activePromptTitle: 'Select card to kneel',
+                    activePromptTitle: 'Select card to bow',
                     source: context.source,
                     onSelect: (player, card) => {
-                        context.kneelingCostCard = card;
+                        context.bowingCostCard = card;
                         result.value = true;
                         result.resolved = true;
 
@@ -86,17 +86,17 @@ const Costs = {
                 return result;
             },
             pay: function(context) {
-                context.player.kneelCard(context.kneelingCostCard);
+                context.player.bowCard(context.bowingCostCard);
             }
         };
     },
     /**
-     * Cost that requires kneeling a certain number of cards that match the
+     * Cost that requires bowing a certain number of cards that match the
      * passed condition predicate function.
      */
-    kneelMultiple: function(number, condition) {
+    bowMultiple: function(number, condition) {
         var fullCondition = (card, context) => (
-            !card.kneeled &&
+            !card.bowed &&
             card.location === 'play area' &&
             card.controller === context.player &&
             condition(card)
@@ -112,7 +112,7 @@ const Costs = {
 
                 context.game.promptForSelect(context.player, {
                     cardCondition: card => fullCondition(card, context),
-                    activePromptTitle: 'Select ' + number + ' cards to kneel',
+                    activePromptTitle: 'Select ' + number + ' cards to bow',
                     numCards: number,
                     multiSelect: true,
                     source: context.source,
@@ -121,7 +121,7 @@ const Costs = {
                             return false;
                         }
 
-                        context.kneelingCostCards = cards;
+                        context.bowingCostCards = cards;
                         result.value = true;
                         result.resolved = true;
 
@@ -136,8 +136,8 @@ const Costs = {
                 return result;
             },
             pay: function(context) {
-                _.each(context.kneelingCostCards, card => {
-                    context.player.kneelCard(card);
+                _.each(context.bowingCostCards, card => {
+                    context.player.bowCard(card);
                 });
             }
         };
@@ -231,7 +231,7 @@ const Costs = {
     standSelf: function() {
         return {
             canPay: function(context) {
-                return context.source.kneeled;
+                return context.source.bowed;
             },
             pay: function(context) {
                 context.source.controller.standCard(context.source);
