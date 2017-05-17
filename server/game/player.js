@@ -33,17 +33,17 @@ class Player extends Spectator {
         this.game = game;
 
         this.deck = {};
-        this.challenges = new ChallengeTracker();
+        this.conflicts = new ConflictTracker();
         this.minReserve = 0;
         this.costReducers = [];
         this.playableLocations = _.map(['marshal', 'play', 'ambush'], playingType => new PlayableLocation(playingType, this, 'hand'));
         this.usedPlotsModifier = 0;
-        this.cannotGainChallengeBonus = false;
+        this.cannotGainConflictBonus = false;
         this.cannotTriggerCardAbilities = false;
         this.promptedActionWindows = user.promptedActionWindows || {
             plot: false,
             draw: false,
-            challengeBegin: false,
+            conflictBegin: false,
             attackersDeclared: true,
             defendersDeclared: true,
             winnerDetermined: true,
@@ -159,20 +159,20 @@ class Player extends Spectator {
         });
     }
 
-    getNumberOfChallengesWon(challengeType) {
-        return this.challenges.getWon(challengeType);
+    getNumberOfConflictsWon(conflictType) {
+        return this.conflicts.getWon(conflictType);
     }
 
-    getNumberOfChallengesLost(challengeType) {
-        return this.challenges.getLost(challengeType);
+    getNumberOfConflictsLost(conflictType) {
+        return this.conflicts.getLost(conflictType);
     }
 
-    getNumberOfChallengesInitiatedByType(challengeType) {
-        return this.challenges.getPerformed(challengeType);
+    getNumberOfConflictsInitiatedByType(conflictType) {
+        return this.conflicts.getPerformed(conflictType);
     }
 
-    getNumberOfChallengesInitiated() {
-        return this.challenges.complete;
+    getNumberOfConflictsInitiated() {
+        return this.conflicts.complete;
     }
 
     getNumberOfUsedPlots() {
@@ -184,10 +184,10 @@ class Player extends Spectator {
         this.game.raiseEvent('onUsedPlotsModified', this);
     }
 
-    modifyClaim(winner, challengeType, claim) {
-        claim = this.activePlot.modifyClaim(winner, challengeType, claim);
+    modifyClaim(winner, conflictType, claim) {
+        claim = this.activePlot.modifyClaim(winner, conflictType, claim);
         this.cardsInPlay.each(card => {
-            claim = card.modifyClaim(winner, challengeType, claim);
+            claim = card.modifyClaim(winner, conflictType, claim);
         });
 
         return claim;
@@ -274,8 +274,8 @@ class Player extends Spectator {
         });
     }
 
-    canInitiateChallenge(challengeType) {
-        return !this.challenges.isAtMax(challengeType);
+    canInitiateConflict(conflictType) {
+        return !this.conflicts.isAtMax(conflictType);
     }
 
     canSelectAsFirstPlayer(player) {
@@ -286,20 +286,20 @@ class Player extends Spectator {
         return true;
     }
 
-    addChallenge(type, number) {
-        this.challenges.modifyMaxForType(type, number);
+    addConflict(type, number) {
+        this.conflicts.modifyMaxForType(type, number);
     }
 
-    setMaxChallenge(number) {
-        this.challenges.setMax(number);
+    setMaxConflict(number) {
+        this.conflicts.setMax(number);
     }
 
-    clearMaxChallenge() {
-        this.challenges.clearMax();
+    clearMaxConflict() {
+        this.conflicts.clearMax();
     }
 
-    setCannotInitiateChallengeForType(type, value) {
-        this.challenges.setCannotInitiateForType(type, value);
+    setCannotInitiateConflictForType(type, value) {
+        this.conflicts.setCannotInitiateForType(type, value);
     }
 
     initDrawDeck() {
@@ -498,9 +498,9 @@ class Player extends Spectator {
         this.selectedPlot = undefined;
         this.roundDone = false;
 
-        this.challenges.reset();
+        this.conflicts.reset();
 
-        this.challengerLimit = 0;
+        this.conflictrLimit = 0;
         this.drawPhaseCards = DrawPhaseCards;
 
         this.cardsInPlay.each(card => {
@@ -741,27 +741,27 @@ class Player extends Spectator {
         this.game.queueStep(new AttachmentPrompt(this.game, this, card, playingType));
     }
 
-    beginChallenge() {
+    beginConflict() {
         this.cardsInPlay.each(card => {
-            card.resetForChallenge();
+            card.resetForConflict();
         });
     }
 
-    initiateChallenge(challengeType) {
-        this.challenges.perform(challengeType);
+    initiateConflict(conflictType) {
+        this.conflicts.perform(conflictType);
     }
 
-    winChallenge(challengeType, wasAttacker) {
-        this.challenges.won(challengeType, wasAttacker);
+    winConflict(conflictType, wasAttacker) {
+        this.conflicts.won(conflictType, wasAttacker);
     }
 
-    loseChallenge(challengeType, wasAttacker) {
-        this.challenges.lost(challengeType, wasAttacker);
+    loseConflict(conflictType, wasAttacker) {
+        this.conflicts.lost(conflictType, wasAttacker);
     }
 
-    resetForChallenge() {
+    resetForConflict() {
         this.cardsInPlay.each(card => {
-            card.resetForChallenge();
+            card.resetForConflict();
         });
     }
 
