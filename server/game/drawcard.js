@@ -17,37 +17,21 @@ class DrawCard extends BaseCard {
     constructor(owner, cardData) {
         super(owner, cardData);
 
-        this.dupes = _([]);
         this.attachments = _([]);
-        this.icons = {
-            military: 0,
-            intrigue: 0,
-            power: 0
-        };
 
-        if(cardData.is_military) {
-            this.icons.military++;
-        }
-
-        if(cardData.is_intrigue) {
-            this.icons.intrigue++;
-        }
-
-        if(cardData.is_power) {
-            this.icons.power++;
-        }
-
-        this.power = 0;
-        this.strengthModifier = 0;
-        this.contributesToDominance = true;
-        this.kneeled = false;
-        this.inChallenge = false;
+        this.fate = 0;
+        this.militaryskill = 0;
+        this.politicalskill = 0;
+        this.glory = 0;
+        this.contributesToFavor = true;
+        this.bowed = false;
+        this.inConflict = false;
         this.inDanger = false;
         this.wasAmbush = false;
         this.saved = false;
         this.standsDuringStanding = true;
         this.challengeOptions = {
-            doesNotKneelAs: {
+            doesNotBowAs: {
                 attacker: false,
                 defender: false
             }
