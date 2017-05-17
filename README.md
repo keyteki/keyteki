@@ -6,7 +6,7 @@ Web based implementation of The Legend of the Five Rings LCG
 
 ### What is it?
 
-This is the respository for the code internally known as eggteki which is running on TBA allowing people to play L5R LCG online using only their browser
+This is the respository for the code internally known as eggteki which is running on [eggofpanku.net](https://eggofpanku.net/) allowing people to play L5R LCG online using only their browser
 
 ### Does't this look a lot like Jinteki/Throneteki? The Android netrunner/AGOT online experience?
 
@@ -33,7 +33,7 @@ See this document for features I have planned and a link to the currently implem
 
 ### How do I do X Y Z?
 
-Check out the TBA of a Eggteki live deployment.
+Check out the [About page](https://eggofpanku.net/about)  of a Eggteki live deployment.
 
 ## Development
 
