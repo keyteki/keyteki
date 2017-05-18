@@ -5,6 +5,3 @@ checkout:
 machine:
   node:
     version: 6.1.0
-notify:
-  webhooks:
-  - url: https://discordapp.com/api/webhooks/246693973463269376/Vd84YvKrMU0cHGYMkz91XOTfiePb5fvIacmctmC3wT9Z_qKnA2Kr6K0WsK_TBv33gf6H
