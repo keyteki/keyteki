@@ -1,11 +1,11 @@
 const DrawCard = require('../drawcard.js');
 
-class ChallengeEvent extends DrawCard {
-    // event card that can only be played during a challenge
+class ConflictEvent extends DrawCard {
+    // event card that can only be played during a conflict
 
-    constructor(owner, cardData, challengeType, participatingAs) {
-        // - challengeType (optional): make the event playable only on a
-        //   challenge of the given type
+    constructor(owner, cardData, conflictType, participatingAs) {
+        // - conflictType (optional): make the event playable only on a
+        //   conflict of the given type
         //
         // - participatingAs (optional): make the event playable only when the
         //   event controller is participating as either 'attacker' or
@@ -13,7 +13,7 @@ class ChallengeEvent extends DrawCard {
         //
         super(owner, cardData);
 
-        this.challengeType = challengeType;
+        this.conflictType = conflictType;
         this.participatingAs = participatingAs;
     }
 
@@ -22,11 +22,11 @@ class ChallengeEvent extends DrawCard {
             return false;
         }
 
-        var challenge = this.game.currentChallenge;
-        if(!challenge) {
+        var conflict = this.game.currentConflict;
+        if(!conflict) {
             return false;
         }
-        if(this.challengeType && challenge.challengeType !== this.challengeType) {
+        if(this.conflictType && conflict.conflictType !== this.conflictType) {
             return false;
         }
         if((this.participatingAs === 'attacker' && challenge.attackingPlayer !== this.controller) ||
@@ -39,4 +39,4 @@ class ChallengeEvent extends DrawCard {
 
 }
 
-module.exports = ChallengeEvent;
+module.exports = ConflictEvent;
