@@ -55,7 +55,7 @@ class ConflictTracker {
                 max: 1,
                 won: 0,
                 lost: 0
-            },
+            }
         };
     }
 

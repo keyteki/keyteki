@@ -9,6 +9,7 @@ const Player = require('./player.js');
 const Spectator = require('./spectator.js');
 const AnonymousSpectator = require('./anonymousspectator.js');
 const GamePipeline = require('./gamepipeline.js');
+const SetupPhase = require('./gamesteps/setupphase.js');
 const DynastyPhase = require('./gamesteps/dynastyphase.js');
 const DrawPhase = require('./gamesteps/drawphase.js');
 const ConflictPhase = require('./gamesteps/conflictphase.js');
@@ -538,13 +539,11 @@ class Game extends EventEmitter {
 
     beginRound() {
         this.raiseEvent('onBeginRound');
-        this.queueStep(new PlotPhase(this));
+        this.queueStep(new DynastyPhase(this));
         this.queueStep(new DrawPhase(this));
-        this.queueStep(new MarshalingPhase(this));
-        this.queueStep(new ChallengePhase(this));
-        this.queueStep(new DominancePhase(this));
-        this.queueStep(new StandingPhase(this));
-        this.queueStep(new TaxationPhase(this));
+        this.queueStep(new ConflictPhase(this));
+        this.queueStep(new FatePhase(this));
+        this.queueStep(new RegroupPhase(this));
         this.queueStep(new SimpleStep(this, () => this.beginRound()));
     }
 

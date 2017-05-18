@@ -29,8 +29,8 @@ class ConflictEvent extends DrawCard {
         if(this.conflictType && conflict.conflictType !== this.conflictType) {
             return false;
         }
-        if((this.participatingAs === 'attacker' && challenge.attackingPlayer !== this.controller) ||
-           (this.participatingAs === 'defender' && challenge.defendingPlayer !== this.controller)) {
+        if((this.participatingAs === 'attacker' && conflict.attackingPlayer !== this.controller) ||
+           (this.participatingAs === 'defender' && conflict.defendingPlayer !== this.controller)) {
             return false;
         }
 
