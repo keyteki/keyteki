@@ -1,12 +1,12 @@
-const ChallengeEvent = require('../../challengeevent.js');
+const ConflictEvent = require('../../conflictevent.js');
 
-class WinterIsComing extends ChallengeEvent {
+class WinterIsComing extends ConflictEvent {
 
     // TODO implement restriction "(Max 1 per challenge.)"
     setupCardAbilities() {
         this.action({
             title: 'Raise claim by 1',
-            condition: () => this.game.currentChallenge,
+            condition: () => this.game.currentConflict,
             handler: () => {
                 this.untilEndOfChallenge(ability => ({
                     match: card => card === this.controller.activePlot,

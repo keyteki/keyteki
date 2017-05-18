@@ -1,6 +1,6 @@
-const ChallengeEvent = require('../../challengeevent.js');
+const ConflictEvent = require('../../conflictevent.js');
 
-class ThereIsMyClaim extends ChallengeEvent {
+class ThereIsMyClaim extends ConflictEvent {
 
     // TODO implement restriction "(Max 1 per challenge.)"
 

@@ -1,8 +1,8 @@
 const _ = require('underscore');
 
-const ChallengeEvent = require('../../challengeevent.js');
+const ConflictEvent = require('../../conflictevent.js');
 
-class TheWatcherOnTheWalls extends ChallengeEvent {
+class TheWatcherOnTheWalls extends ConflictEvent {
 
     constructor(owner, cardData) {
         super(owner, cardData, 'military');
@@ -35,7 +35,7 @@ class TheWatcherOnTheWalls extends ChallengeEvent {
 
     onSelect(player, cards) {
         _.each(cards, card => player.kneelCard(card));
-        this.game.killCharacters(this.game.currentChallenge.attackers);
+        this.game.killCharacters(this.game.currentConflict.attackers);
         this.game.addMessage('{0} uses {1} to kill each attacking character',
                              player, this);
 
