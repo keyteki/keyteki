@@ -110,24 +110,24 @@ describe('the <Card /> component', function() {
             expect(cardLabel.innerText).toBe(this.card.name);
         });
 
-        describe('that is kneeled', function() {
+        describe('that is bowed', function() {
             beforeEach(function() {
-                this.card.kneeled = true;
+                this.card.bowed = true;
 
                 this.component = ReactDOM.render(<Card card={this.card} source='hand' />, this.node);
             });
 
             afterEach(function() {
-                this.card.kneeled = undefined;
+                this.card.bowed = undefined;
             });
 
-            it('should add the kneeled styling to the card', function() {
+            it('should add the bowed styling to the card', function() {
                 var card = TestUtils.findRenderedDOMComponentWithClass(this.component, 'card');
                 var cardImage = TestUtils.findRenderedDOMComponentWithClass(this.component, 'card-image');
                 expect(card.className).toContain('horizontal');
                 expect(card.className).not.toContain('vertical');
                 expect(cardImage.className).toContain('vertical');
-                expect(cardImage.className).toContain('kneeled');
+                expect(cardImage.className).toContain('bowed');
             });
         });
     });

@@ -181,33 +181,6 @@ class Card extends React.Component {
         return attachments;
     }
 
-    getDupes() {
-        if(this.props.source !== 'play area') {
-            return null;
-        }
-
-        var facedownDupes = _.filter(this.props.card.dupes, card => {
-            return card.facedown;
-        });
-
-        if(!facedownDupes || facedownDupes.length === 0) {
-            return;
-        }
-
-        var index = 1;
-        var dupes = _.map(facedownDupes, dupe => {
-            var returnedDupe = (<Card key={dupe.uuid} className={'card-dupe card-dupe-' + index} source={this.props.source} card={dupe} wrapped={false}
-                            onMouseOver={this.props.disableMouseOver ? null : this.onMouseOver.bind(this, dupe)}
-                            onMouseOut={this.props.disableMouseOver ? null : this.onMouseOut} />);
-
-            index += 1;
-
-            return returnedDupe;
-        });
-
-        return dupes;
-    }
-
     getCardOrder() {
         if(!this.props.card.order) {
             return null;
@@ -247,6 +220,7 @@ class Card extends React.Component {
     getCard() {
         var cardClass = 'card';
         var imageClass = 'card-image';
+        var cardBack = 'cardback.jpg';
 
         if(!this.props.card) {
             return <div />;
@@ -254,9 +228,9 @@ class Card extends React.Component {
 
         cardClass += ' card-type-' + this.props.card.type;
 
-        if(this.props.orientation === 'kneeled' || this.props.card.kneeled || this.props.orientation === 'horizontal' && this.props.card.type !== 'plot') {
+        if(this.props.orientation === 'bowed' || this.props.card.bowed || this.props.orientation === 'horizontal' && this.props.card.type !== 'plot') {
             cardClass += ' horizontal';
-            imageClass += ' vertical kneeled';
+            imageClass += ' vertical bowed';
         } else if(this.props.orientation === 'horizontal') {
             cardClass += ' horizontal';
             imageClass += ' horizontal';
@@ -291,6 +265,16 @@ class Card extends React.Component {
             cardClass += ' ' + this.props.className;
         }
 
+        if(this.props.card.isConflict) {
+            cardBack = 'conflictcardback.jpg'
+        } else if(this.props.card.isDynasty) {
+            cardBack = 'dynastycardback.jpg'
+        } else if(this.props.card.isProvince) {
+            cardBack = 'provincecardback.jpg'
+        } else {
+            cardBack = 'cardback.jpg'
+        }
+
         return (
                 <div className='card-frame' ref='cardFrame'
                     onTouchMove={ev => this.onTouchMove(ev)}
@@ -305,7 +289,7 @@ class Card extends React.Component {
                         draggable>
                         <div>
                             <span className='card-name'>{this.props.card.name}</span>
-                            <img className={imageClass} src={'/img/cards/' + (!this.isFacedown() ? (this.props.card.code + '.png') : 'cardback.jpg')} />
+                            <img className={imageClass} src={'/img/cards/' + (!this.isFacedown() ? (this.props.card.code + '.png') : cardBack)} />
                         </div>
                         { this.showCounters() ? <CardCounters counters={ this.getCountersForCard(this.props.card) } /> : null }
                     </div>
@@ -332,26 +316,28 @@ Card.propTypes = {
     card: React.PropTypes.shape({
         attached: React.PropTypes.bool,
         attachments: React.PropTypes.array,
-        baseStrength: React.PropTypes.number,
+        baseMilitarySkill: React.PropTypes.number,
+        basePoliticalSkill: React.PropTypes.number,
         code: React.PropTypes.string,
         controlled: React.PropTypes.bool,
-        dupes: React.PropTypes.array,
         facedown: React.PropTypes.bool,
-        iconsAdded: React.PropTypes.array,
-        iconsRemoved: React.PropTypes.array,
-        inChallenge: React.PropTypes.bool,
+        inConflict: React.PropTypes.bool,
         inDanger: React.PropTypes.bool,
-        kneeled: React.PropTypes.bool,
+        isConflict: React.PropTypes.bool,
+        isDynastay: React.PropTypes.bool,
+        isProvince: React.PropTypes.bool,
+        bowed: React.PropTypes.bool,
         menu: React.PropTypes.array,
+        militarySkill: React.PropTypes.number,
         name: React.PropTypes.string,
         new: React.PropTypes.bool,
         order: React.PropTypes.number,
+        politicalSkill: React.PropTypes.number,
         power: React.PropTypes.number,
         saved: React.PropTypes.bool,
         selectable: React.PropTypes.bool,
         selected: React.PropTypes.bool,
         stealth: React.PropTypes.bool,
-        strength: React.PropTypes.number,
         tokens: React.PropTypes.object,
         type: React.PropTypes.string,
         unselectable: React.PropTypes.bool
@@ -363,8 +349,8 @@ Card.propTypes = {
     onMenuItemClick: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
-    orientation: React.PropTypes.oneOf(['horizontal', 'kneeled', 'vertical']),
-    source: React.PropTypes.oneOf(['hand', 'discard pile', 'play area', 'dead pile', 'draw deck', 'plot deck', 'revealed plots', 'selected plot', 'attachment', 'agenda', 'faction', 'additional']).isRequired,
+    orientation: React.PropTypes.oneOf(['horizontal', 'bowed', 'vertical']),
+    source: React.PropTypes.oneOf(['hand', 'dynasty discard pile', 'conflict discard pile', 'play area', 'dead pile', 'dynasty draw deck', 'conflict draw deck', 'province deck', 'revealed provinces',  'attachment', 'agenda', 'stronghold', 'additional']).isRequired,
     style: React.PropTypes.object,
     wrapped: React.PropTypes.bool
 };
