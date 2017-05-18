@@ -1,6 +1,6 @@
 const UiPrompt = require('../uiprompt.js');
 
-class MarshalCardsPrompt extends UiPrompt {
+class DynastyCardsPrompt extends UiPrompt {
     constructor(game, player) {
         super(game);
         this.player = player;
@@ -12,7 +12,7 @@ class MarshalCardsPrompt extends UiPrompt {
 
     activePrompt() {
         return {
-            menuTitle: 'Marshal your cards',
+            menuTitle: 'Take an action',
             buttons: [
                 { text: 'Done' }
             ]
@@ -20,7 +20,7 @@ class MarshalCardsPrompt extends UiPrompt {
     }
 
     waitingPrompt() {
-        return { menuTitle: 'Waiting for opponent to finish marshalling' };
+        return { menuTitle: 'Waiting for opponent to take an action' };
     }
 
     onMenuCommand(player) {
@@ -28,9 +28,9 @@ class MarshalCardsPrompt extends UiPrompt {
             return false;
         }
 
-        this.game.addMessage('{0} has finished marshalling', player);
+        this.game.addMessage('{0} has taken an action', player);
         this.complete();
     }
 }
 
-module.exports = MarshalCardsPrompt;
+module.exports = DynastyCardsPrompt;
