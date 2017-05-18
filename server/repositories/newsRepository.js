@@ -1,6 +1,6 @@
 const _ = require('underscore');
 
-const news = require('throneteki-data').news;
+const news = require('eggteki-data').news;
 
 class NewsRepository {
     getNewsItems() {
