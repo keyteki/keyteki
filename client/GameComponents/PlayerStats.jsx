@@ -26,38 +26,20 @@ export class InnerPlayerStats extends React.Component {
             <div className='panel player-stats'>
                 {playerAvatar}
                 <div className='state'>
-                    <span><img src='/img/Gold.png' title='Gold' alt='Gold' /> {this.props.gold}</span>
+                    <span><img src='/img/Fate.png' title='Fate' alt='Fate' /> {this.props.fate}</span>
                     {this.props.isMe ?
                         <div className='pull-right'>
-                            <button className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'gold', 'down')}><img src='/img/Minus.png' title='-' alt='-' /></button>
-                            <button className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'gold', 'up')}><img src='/img/Plus.png' title='+' alt='+' /></button>
+                            <button className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'fate', 'down')}><img src='/img/Minus.png' title='-' alt='-' /></button>
+                            <button className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'fate', 'up')}><img src='/img/Plus.png' title='+' alt='+' /></button>
                         </div> :
                         null}
                 </div>
                 <div className='state'>
-                    <span><img src='/img/Power.png' title='Power' alt='Power' /> {this.props.power}</span>
+                    <span><img src='/img/Honor.png' title='Honor' alt='Honor' /> {this.props.power}</span>
                     {this.props.isMe ?
                         <div className='pull-right'>
-                            <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'power', 'down')}><img src='/img/Minus.png' title='-' alt='-' /></span>
+                            <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'honor', 'down')}><img src='/img/Minus.png' title='-' alt='-' /></span>
                             <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'power', 'up')}><img src='/img/Plus.png' title='+' alt='+' /></span>
-                        </div> :
-                        null}
-                </div>
-                <div className='state'>
-                    <span><img src='/img/Reserve.png' title='Reserve' alt='Reserve' /> {this.props.reserve}</span>
-                    {this.props.isMe ?
-                        <div className='pull-right'>
-                            <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'reserve', 'down')}><img src='/img/Minus.png' title='-' alt='-' /></span>
-                            <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'reserve', 'up')}><img src='/img/Plus.png' title='+' alt='+' /></span>
-                        </div> :
-                        null}
-                </div>
-                <div className='state'>
-                    <span><img src='/img/Claim.png' title='Claim' alt='Claim' /> {this.props.claim}</span>
-                    {this.props.isMe ?
-                        <div className='pull-right'>
-                            <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'claim', 'down')}><img src='/img/Minus.png' title='-' alt='-' /></span>
-                            <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'claim', 'up')}><img src='/img/Plus.png' title='+' alt='+' /></span>
                         </div> :
                         null}
                 </div>
@@ -68,12 +50,10 @@ export class InnerPlayerStats extends React.Component {
 
 InnerPlayerStats.displayName = 'PlayerStats';
 InnerPlayerStats.propTypes = {
-    claim: React.PropTypes.number,
-    gold: React.PropTypes.number,
+    fate: React.PropTypes.number,
     isMe: React.PropTypes.bool,
     playerName: React.PropTypes.string,
-    power: React.PropTypes.number,
-    reserve: React.PropTypes.number,
+    honor: React.PropTypes.number,
     sendGameMessage: React.PropTypes.func,
     user: React.PropTypes.object
 };
