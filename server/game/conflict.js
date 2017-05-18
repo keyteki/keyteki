@@ -2,13 +2,13 @@ const _ = require('underscore');
 const Player = require('./player.js');
 const EventRegistrar = require('./eventregistrar.js');
 
-class Challenge {
-    constructor(game, attackingPlayer, defendingPlayer, challengeType) {
+class Conflict {
+    constructor(game, attackingPlayer, defendingPlayer, conflictType) {
         this.game = game;
         this.attackingPlayer = attackingPlayer;
         this.isSinglePlayer = !defendingPlayer;
         this.defendingPlayer = defendingPlayer || this.singlePlayerDefender();
-        this.challengeType = challengeType;
+        this.conflictType = conflictType;
         this.attackers = [];
         this.attackerStrength = 0;
         this.attackerStrengthModifier = 0;
@@ -27,12 +27,12 @@ class Challenge {
     }
 
     resetCards() {
-        this.attackingPlayer.resetForChallenge();
-        this.defendingPlayer.resetForChallenge();
+        this.attackingPlayer.resetForConflict();
+        this.defendingPlayer.resetForConflict();
     }
 
-    initiateChallenge() {
-        this.attackingPlayer.initiateChallenge(this.challengeType);
+    initiateConflict() {
+        this.attackingPlayer.initiateConflict(this.conflictType);
     }
 
     addAttackers(attackers) {
@@ -59,22 +59,22 @@ class Challenge {
         this.calculateStrength();
     }
 
-    removeFromChallenge(card) {
+    removeFromConflict(card) {
         this.attackers = _.reject(this.attackers, c => c === card);
         this.defenders = _.reject(this.defenders, c => c === card);
 
-        card.inChallenge = false;
+        card.inConflict = false;
 
         this.calculateStrength();
     }
 
     markAsParticipating(cards, participantType) {
         _.each(cards, card => {
-            if(!card.kneeled && !card.challengeOptions.doesNotKneelAs[participantType]) {
+            if(!card.kneeled && !card.conflictOptions.doesNotKneelAs[participantType]) {
                 card.controller.kneelCard(card);
             }
 
-            card.inChallenge = true;
+            card.inConflict = true;
         });
     }
 
@@ -163,8 +163,8 @@ class Challenge {
             this.winnerStrength = this.defenderStrength;
         }
 
-        this.winner.winChallenge(this.challengeType, this.attackingPlayer === this.winner);
-        this.loser.loseChallenge(this.challengeType, this.attackingPlayer === this.loser);
+        this.winner.winConflict(this.conflictType, this.attackingPlayer === this.winner);
+        this.loser.loseConflict(this.conflictType, this.attackingPlayer === this.loser);
         this.strengthDifference = this.winnerStrength - this.loserStrength;
     }
 
@@ -172,23 +172,23 @@ class Challenge {
         const noWinnerRules = [
             {
                 condition: () => this.attackerStrength === 0 && this.defenderStrength === 0,
-                message: 'There is no winner or loser for this challenge because the attacker strength is 0'
+                message: 'There is no winner or loser for this conflict because the attacker strength is 0'
             },
             {
-                condition: () => this.attackerStrength >= this.defenderStrength && this.attackingPlayer.cannotWinChallenge,
-                message: 'There is no winner or loser for this challenge because the attacker cannot win'
+                condition: () => this.attackerStrength >= this.defenderStrength && this.attackingPlayer.cannotWinConflict,
+                message: 'There is no winner or loser for this conflict because the attacker cannot win'
             },
             {
                 condition: () => this.attackerStrength >= this.defenderStrength && this.attackers.length === 0,
-                message: 'There is no winner or loser for this challenge because the attacker has no participants'
+                message: 'There is no winner or loser for this conflict because the attacker has no participants'
             },
             {
-                condition: () => this.defenderStrength > this.attackerStrength && this.defendingPlayer.cannotWinChallenge,
-                message: 'There is no winner or loser for this challenge because the defender cannot win'
+                condition: () => this.defenderStrength > this.attackerStrength && this.defendingPlayer.cannotWinConflict,
+                message: 'There is no winner or loser for this conflict because the defender cannot win'
             },
             {
                 condition: () => this.defenderStrength > this.attackerStrength && this.defenders.length === 0,
-                message: 'There is no winner or loser for this challenge because the defender has no participants'
+                message: 'There is no winner or loser for this conflict because the defender has no participants'
             }
         ];
 
@@ -208,10 +208,10 @@ class Challenge {
 
     getClaim() {
         var claim = this.winner.getClaim();
-        claim = this.winner.modifyClaim(this.winner, this.challengeType, claim);
+        claim = this.winner.modifyClaim(this.winner, this.conflictType, claim);
 
         if(!this.isSinglePlayer) {
-            claim = this.loser.modifyClaim(this.winner, this.challengeType, claim);
+            claim = this.loser.modifyClaim(this.winner, this.conflictType, claim);
         }
 
         return claim;
@@ -233,7 +233,7 @@ class Challenge {
 
     onCardLeftPlay(event) {
         if(!this.winnerDetermined) {
-            this.removeFromChallenge(event.card);
+            this.removeFromConflict(event.card);
         }
     }
 
@@ -246,17 +246,17 @@ class Challenge {
     }
 
     finish() {
-        _.each(this.attackers, card => card.inChallenge = false);
-        _.each(this.defenders, card => card.inChallenge = false);
+        _.each(this.attackers, card => card.inConflict = false);
+        _.each(this.defenders, card => card.inConflict = false);
     }
 
-    cancelChallenge() {
+    cancelConflict() {
         this.cancelled = true;
 
         this.resetCards();
 
-        this.game.addMessage('{0}\'s {1} challenge is cancelled', this.attackingPlayer, this.challengeType);
+        this.game.addMessage('{0}\'s {1} conflict is cancelled', this.attackingPlayer, this.conflictType);
     }
 }
 
-module.exports = Challenge;
+module.exports = Conflict;
