@@ -10,7 +10,7 @@ import ReduxToastr from 'react-redux-toastr';
 
 import version from '../version.js';
 
-Raven.config('https://f5286cd580bf46898e7180c7a46de2f6@sentry.io/123019', { release: version}).install();
+Raven.config('https://6338b02af9114903bb47e5b4dee79d0e@sentry.io/169735', { release: version}).install();
 
 const store = configureStore();
 
