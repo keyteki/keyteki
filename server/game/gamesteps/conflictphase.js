@@ -2,7 +2,7 @@ const _ = require('underscore');
 const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
 const Conflict = require('../conflict.js');
-const ConflictFlow = require('./challenge/conflictflow.js');
+const ConflictFlow = require('./conflict/conflictflow.js');
 const ActionWindow = require('./actionwindow.js');
 
 class ConflictPhase extends Phase {
