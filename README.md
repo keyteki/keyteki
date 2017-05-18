@@ -117,4 +117,5 @@ If you are making any game engine changes, these will not be accepted without un
 
 ### Build Status
 
-TBA
+[![CircleCI](https://circleci.com/gh/gryffon/eggteki.svg?style=svg)](https://circleci.com/gh/gryffon/eggteki)
+[![Travis Build](https://travis-ci.org/gryffon/eggteki.svg?branch=master)](https://travis-ci.org/gryffon/eggteki)
