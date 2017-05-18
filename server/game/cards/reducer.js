@@ -10,10 +10,10 @@ class FactionCostReducer extends DrawCard {
 
     setupCardAbilities(ability) {
         this.action({
-            title: 'Kneel to reduce',
+            title: 'Bow to reduce',
             clickToActivate: true,
-            phase: 'marshal',
-            cost: ability.costs.kneelSelf(),
+            phase: 'dynasty',
+            cost: ability.costs.bowSelf(),
             handler: context => {
                 this.game.addMessage('{0} uses {1} to reduce the cost of the next {2} card by {3}',
                     this.controller, this, this.faction, this.reduceBy);
@@ -38,9 +38,9 @@ class FactionCharacterCostReducer extends DrawCard {
 
     setupCardAbilities(ability) {
         this.action({
-            title: 'Kneel to reduce',
+            title: 'Bow to reduce',
             clickToActivate: true,
-            phase: 'marshal',
+            phase: 'dynasty',
             cost: ability.costs.kneelSelf(),
             handler: context => {
                 this.game.addMessage('{0} uses {1} to reduce the cost of the next {2} character by {3}',
