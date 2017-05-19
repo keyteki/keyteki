@@ -289,53 +289,27 @@ const Costs = {
         };
     },
     /**
-     * Cost that will pay the reduceable gold cost associated with an event card
+     * Cost that will pay the reduceable fate cost associated with an event card
      * and place it in discard.
      */
     playEvent: function() {
         return Costs.all(
-            Costs.payReduceableGoldCost('play'),
+            Costs.payReduceableFateCost('play'),
             Costs.expendEvent(),
             Costs.playLimited()
         );
     },
     /**
-     * Cost that will discard a gold from the card. Used mainly by cards
+     * Cost that will discard a fate from the card. Used mainly by cards
      * having the bestow keyword.
      */
-    discardGold: function() {
+    discardFate: function() {
         return {
             canPay: function(context) {
-                return context.source.hasToken('gold');
+                return context.source.hasToken('fate');
             },
             pay: function(context) {
-                context.source.removeToken('gold', 1);
-            }
-        };
-    },
-    /**
-     * Cost that will discard a fixed amount of power from the current card.
-     */
-    discardPowerFromSelf: function(amount = 1) {
-        return {
-            canPay: function(context) {
-                return context.source.power >= amount;
-            },
-            pay: function(context) {
-                context.source.modifyPower(-amount);
-            }
-        };
-    },
-    /**
-     * Cost that will discard faction power matching the passed amount.
-     */
-    discardFactionPower: function(amount) {
-        return {
-            canPay: function(context) {
-                return context.player.faction.power >= amount;
-            },
-            pay: function(context) {
-                context.source.game.addPower(context.player, -amount);
+                context.source.removeToken('fate', 1);
             }
         };
     },
@@ -356,66 +330,63 @@ const Costs = {
         };
     },
     /**
-     * Cost that will pay the exact printed gold cost for the card.
+     * Cost that will pay the exact printed fate cost for the card.
      */
-    payPrintedGoldCost: function() {
+    payPrintedFateCost: function() {
         return {
             canPay: function(context) {
-                var hasDupe = context.player.getDuplicateInPlay(context.source);
-                if(hasDupe) {
-                    return true;
-                }
 
-                return context.player.gold >= context.source.getCost();
+                return context.player.fate >= context.source.getCost();
             },
             pay: function(context) {
-                var hasDupe = context.player.getDuplicateInPlay(context.source);
-                if(hasDupe) {
-                    return;
-                }
 
-                context.player.gold -= context.source.getCost();
+                context.player.fate -= context.source.getCost();
             }
         };
     },
     /**
-     * Cost that will pay the printed gold cost on the card minus any active
+     * Cost that will pay the printed fate cost on the card minus any active
      * reducer effects the play has activated. Upon playing the card, all
      * matching reducer effects will expire, if applicable.
      */
-    payReduceableGoldCost: function(playingType) {
+    payReduceableFateCost: function(playingType) {
         return {
             canPay: function(context) {
-                var hasDupe = context.player.getDuplicateInPlay(context.source);
-                if(hasDupe && playingType === 'marshal') {
-                    return true;
-                }
 
-                return context.player.gold >= context.player.getReducedCost(playingType, context.source);
+                return context.player.fate >= context.player.getReducedCost(playingType, context.source);
             },
             pay: function(context) {
-                var hasDupe = context.player.getDuplicateInPlay(context.source);
-                context.costs.isDupe = !!hasDupe;
-                if(hasDupe && playingType === 'marshal') {
-                    context.costs.gold = 0;
-                } else {
-                    context.costs.gold = context.player.getReducedCost(playingType, context.source);
-                    context.player.gold -= context.costs.gold;
+
+                    context.costs.fate = context.player.getReducedCost(playingType, context.source);
+                    context.player.fate -= context.costs.fate;
                     context.player.markUsedReducers(playingType, context.source);
-                }
+
             }
         };
     },
     /**
-     * Cost in which the player must pay a fixed, non-reduceable amount of gold.
+     * Cost in which the player must pay a fixed, non-reduceable amount of fate.
      */
-    payGold: function(amount) {
+    payFate: function(amount) {
         return {
             canPay: function(context) {
-                return context.player.gold >= amount;
+                return context.player.fate >= amount;
             },
             pay: function(context) {
-                context.game.addGold(context.player, -amount);
+                context.game.addFate(context.player, -amount);
+            }
+        };
+    }
+    /**
+     * Cost in which the player must pay a fixed, non-reduceable amount of honor.
+     */
+    payHonor: function(amount) {
+        return {
+            canPay: function(context) {
+                return context.player.honor >= amount;
+            },
+            pay: function(context) {
+                context.game.addHonor(context.player, -amount);
             }
         };
     }

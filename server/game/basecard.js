@@ -15,7 +15,7 @@ const ValidKeywords = [
     'restricted',
     'limited'
 ];
-const LocationsWithEventHandling = ['play area', 'active plot', 'faction', 'agenda'];
+const LocationsWithEventHandling = ['play area', 'province'];
 
 class BaseCard {
     constructor(owner, cardData) {
@@ -313,10 +313,6 @@ class BaseCard {
 
     getPrintedFaction() {
         return this.cardData.faction_code;
-    }
-
-    modifyClaim(player, type, claim) {
-        return claim;
     }
 
     setBlank() {

@@ -2,13 +2,13 @@ const _ = require('underscore');
 
 const BaseCard = require('./basecard.js');
 const SetupCardAction = require('./setupcardaction.js');
-const MarshalCardAction = require('./marshalcardaction.js');
+const DynastyCardAction = require('./dynastycardaction.js');
 const AmbushCardAction = require('./ambushcardaction.js');
 const PlayCardAction = require('./playcardaction.js');
 
 const StandardPlayActions = [
     new SetupCardAction(),
-    new MarshalCardAction(),
+    new DynastyCardAction(),
     new AmbushCardAction(),
     new PlayCardAction()
 ];
@@ -29,7 +29,7 @@ class DrawCard extends BaseCard {
         this.inDanger = false;
         this.wasAmbush = false;
         this.saved = false;
-        this.standsDuringStanding = true;
+        this.readysDuringReadying = true;
         this.challengeOptions = {
             doesNotBowAs: {
                 attacker: false,
@@ -37,37 +37,6 @@ class DrawCard extends BaseCard {
             }
         };
         this.stealthLimit = 1;
-    }
-
-    canBeDuplicated() {
-        return this.controller === this.owner;
-    }
-
-    addDuplicate(card) {
-        if(!this.canBeDuplicated()) {
-            return;
-        }
-
-        this.dupes.push(card);
-        card.moveTo('duplicate');
-    }
-
-    removeDuplicate(force = false) {
-        var firstDupe = undefined;
-
-        if(!force) {
-            firstDupe = _.first(this.dupes.filter(dupe => {
-                return dupe.owner === this.controller;
-            }));
-        } else {
-            firstDupe = this.dupes.first();
-        }
-
-        this.dupes = _(this.dupes.reject(dupe => {
-            return dupe === firstDupe;
-        }));
-
-        return firstDupe;
     }
 
     isLimited() {
@@ -94,8 +63,12 @@ class DrawCard extends BaseCard {
         return this.hasKeyword('renown');
     }
 
-    hasIcon(icon) {
-        return this.icons[icon.toLowerCase()] > 0;
+    isRestricted() {
+        return this.hasKeyword('restricted');
+    }
+
+    isAncestral() {
+        return this.hasKeyword('ancestral');
     }
 
     getCost() {
@@ -106,99 +79,38 @@ class DrawCard extends BaseCard {
         return this.ambushCost;
     }
 
-    getPower() {
-        return this.power;
-    }
-
-    modifyStrength(amount, applying = true) {
-        this.strengthModifier += amount;
-        this.game.raiseMergedEvent('onCardStrengthChanged', {
+    modifyMilitarySkill(amount, applying = true) {
+        this.militarySkillModifier += amount;
+        this.game.raiseMergedEvent('onCardMilitarySkillChanged', {
             card: this,
             amount: amount,
             applying: applying
         });
     }
 
-    getStrength(printed = false) {
+    modifyPoliticalSkill(amount, applying = true) {
+        this.politicalSkillModifier += amount;
+        this.game.raiseMergedEvent('onCardPoliticalSkillChanged', {
+            card: this,
+            amount: amount,
+            applying: applying
+        });
+    }
+
+    getMilitarySkill(printed = false) {
         if(this.controller.phase === 'setup' || printed) {
-            return this.cardData.strength || undefined;
+            return this.cardData.militaryskill || undefined;
         }
 
-        return Math.max(0, this.strengthModifier + (this.cardData.strength || 0));
+        return Math.max(0, this.militarySkillModifier + (this.cardData.militaryskill || 0));
     }
 
-    getIconsAdded() {
-        var icons = [];
-
-        if(this.hasIcon('military') && !this.cardData.is_military) {
-            icons.push('military');
+    getPoliticalSkill(printed = false) {
+        if(this.controller.phase === 'setup' || printed) {
+            return this.cardData.politicalskill || undefined;
         }
 
-        if(this.hasIcon('intrigue') && !this.cardData.is_intrigue) {
-            icons.push('intrigue');
-        }
-
-        if(this.hasIcon('power') && !this.cardData.is_power) {
-            icons.push('power');
-        }
-
-        return icons;
-    }
-
-    getIconsRemoved() {
-        var icons = [];
-
-        if(!this.hasIcon('military') && this.cardData.is_military) {
-            icons.push('military');
-        }
-
-        if(!this.hasIcon('intrigue') && this.cardData.is_intrigue) {
-            icons.push('intrigue');
-        }
-
-        if(!this.hasIcon('power') && this.cardData.is_power) {
-            icons.push('power');
-        }
-
-        return icons;
-    }
-
-    getNumberOfIcons() {
-        let count = 0;
-
-        if(this.hasIcon('military')) {
-            count += 1;
-        }
-        if(this.hasIcon('intrigue')) {
-            count += 1;
-        }
-        if(this.hasIcon('power')) {
-            count += 1;
-        }
-
-        return count;
-    }
-
-    addIcon(icon) {
-        this.icons[icon]++;
-    }
-
-    removeIcon(icon) {
-        this.icons[icon]--;
-    }
-
-    modifyPower(power) {
-        var oldPower = this.power;
-
-        this.power += power;
-
-        if(this.power < 0) {
-            this.power = 0;
-        }
-
-        this.game.raiseEvent('onCardPowerChanged', this, this.power - oldPower);
-
-        this.game.checkWinCondition(this.controller);
+        return Math.max(0, this.politicalSkillModifier + (this.cardData.politicalskill || 0));
     }
 
     needsStealthTarget() {
@@ -272,10 +184,10 @@ class DrawCard extends BaseCard {
         super.leavesPlay();
     }
 
-    resetForChallenge() {
+    resetForConflict() {
         this.stealth = false;
         this.stealthTarget = undefined;
-        this.inChallenge = false;
+        this.inConflict = false;
     }
 
     canDeclareAsAttacker(challengeType) {
@@ -291,7 +203,7 @@ class DrawCard extends BaseCard {
             this.canParticipateInChallenge() &&
             this.location === 'play area' &&
             !this.stealth &&
-            (!this.kneeled || this.challengeOptions.canBeDeclaredWhileKneeling) &&
+            (!this.bowed || this.challengeOptions.canBeDeclaredWhileBowing) &&
             (this.hasIcon(challengeType) || this.challengeOptions.canBeDeclaredWithoutIcon)
         );
     }
@@ -338,22 +250,15 @@ class DrawCard extends BaseCard {
             attachments: this.attachments.map(attachment => {
                 return attachment.getSummary(activePlayer, hideWhenFaceup);
             }),
-            baseStrength: _.isNull(this.cardData.strength) ? 0 : this.cardData.strength,
-            dupes: this.dupes.map(dupe => {
-                if(dupe.dupes.size() !== 0) {
-                    throw new Error('A dupe should not have dupes! ' + dupe.name);
-                }
-
-                return dupe.getSummary(activePlayer, hideWhenFaceup);
-            }),
+            baseSkill: _.isNull(this.cardData.skill) ? 0 : this.cardData.skill,
             iconsAdded: this.getIconsAdded(),
             iconsRemoved: this.getIconsRemoved(),
             inChallenge: this.inChallenge,
             inDanger: this.inDanger,
-            kneeled: this.kneeled,
-            power: this.power,
+            bowed: this.bowed,
             saved: this.saved,
-            strength: !_.isNull(this.cardData.strength) ? this.getStrength() : 0,
+            militaryskill: !_.isNull(this.cardData.militaryskill) ? this.getMilitarySkill() : 0,
+            politicalskill: !_.isNull(this.cardData.politicalskill) ? this.getPoliticalSkill() : 0,
             stealth: this.stealth
         });
     }

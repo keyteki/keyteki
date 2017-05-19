@@ -12,8 +12,9 @@ class Deck {
 
     prepare(player) {
         var result = {
-            drawCards: [],
-            plotCards: []
+            conflictdrawCards: [],
+            dynastydrawCards: [],
+            provinceCards: []
         };
 
         this.eachRepeatedCard(this.data.drawCards, cardData => {
@@ -32,26 +33,18 @@ class Deck {
             }
         });
 
-        if(this.data.faction) {
-            result.faction = new DrawCard(player, _.extend({
-                code: this.data.faction.value,
-                type_code: 'faction',
-                faction_code: this.data.faction.value
-            }, this.data.faction));
+        if(this.data.stronghold) {
+            result.stronghold = new DrawCard(player, _.extend({
+                code: this.data.stronghold.value,
+                type_code: 'stronghold',
+                stronghold_code: this.data.stronghold.value
+            }, this.data.stronghold));
         } else {
-            result.faction = new DrawCard(player, { type_code: 'faction' });
+            result.stronghold = new DrawCard(player, { type_code: 'stronghold' });
         }
-        result.faction.moveTo('faction');
+        result.stronghold.moveTo('stronghold');
 
-        result.allCards = [result.faction].concat(result.drawCards).concat(result.plotCards);
-
-        if(this.data.agenda) {
-            result.agenda = this.createCard(AgendaCard, player, this.data.agenda);
-            result.agenda.moveTo('agenda');
-            result.allCards.push(result.agenda);
-        } else {
-            result.agenda = undefined;
-        }
+        result.allCards = [result.stronghold].concat(result.drawCards).concat(result.plotCards);
 
         return result;
     }
