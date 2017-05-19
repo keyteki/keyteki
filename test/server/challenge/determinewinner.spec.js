@@ -26,10 +26,10 @@ describe('Conflict', function() {
     });
 
     describe('determineWinner()', function() {
-        describe('when the attacker has higher strength', function() {
+        describe('when the attacker has higher skill', function() {
             beforeEach(function() {
-                spyOn(this.attackerCard, 'getStrength').and.returnValue(5);
-                spyOn(this.defenderCard, 'getStrength').and.returnValue(4);
+                spyOn(this.attackerCard, 'getSkill').and.returnValue(5);
+                spyOn(this.defenderCard, 'getSkill').and.returnValue(4);
                 this.conflict.addAttackers([this.attackerCard]);
                 this.conflict.addDefenders([this.defenderCard]);
                 this.conflict.determineWinner();
@@ -53,10 +53,10 @@ describe('Conflict', function() {
         });
 
 
-        describe('when the attacker and defender have equal strength', function() {
+        describe('when the attacker and defender have equal skill', function() {
             beforeEach(function() {
-                spyOn(this.attackerCard, 'getStrength').and.returnValue(5);
-                spyOn(this.defenderCard, 'getStrength').and.returnValue(5);
+                spyOn(this.attackerCard, 'getSkill').and.returnValue(5);
+                spyOn(this.defenderCard, 'getSkill').and.returnValue(5);
                 this.conflict.addAttackers([this.attackerCard]);
                 this.conflict.addDefenders([this.defenderCard]);
                 this.conflict.determineWinner();
@@ -79,10 +79,10 @@ describe('Conflict', function() {
             });
         });
 
-        describe('when the defender has higher strength', function() {
+        describe('when the defender has higher skill', function() {
             beforeEach(function() {
-                spyOn(this.attackerCard, 'getStrength').and.returnValue(4);
-                spyOn(this.defenderCard, 'getStrength').and.returnValue(5);
+                spyOn(this.attackerCard, 'getSkill').and.returnValue(4);
+                spyOn(this.defenderCard, 'getSkill').and.returnValue(5);
                 this.conflict.addAttackers([this.attackerCard]);
                 this.conflict.addDefenders([this.defenderCard]);
                 this.conflict.determineWinner();
