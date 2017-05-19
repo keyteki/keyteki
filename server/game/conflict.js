@@ -10,11 +10,11 @@ class Conflict {
         this.defendingPlayer = defendingPlayer || this.singlePlayerDefender();
         this.conflictType = conflictType;
         this.attackers = [];
-        this.attackerStrength = 0;
-        this.attackerStrengthModifier = 0;
+        this.attackerSkill = 0;
+        this.attackerSkillModifier = 0;
         this.defenders = [];
-        this.defenderStrength = 0;
-        this.defenderStrengthModifier = 0;
+        this.defenderSkill = 0;
+        this.defenderSkillModifier = 0;
         this.events = new EventRegistrar(game, this);
         this.registerEvents(['onCardLeftPlay']);
     }
@@ -38,25 +38,25 @@ class Conflict {
     addAttackers(attackers) {
         this.attackers = this.attackers.concat(attackers);
         this.markAsParticipating(attackers, 'attacker');
-        this.calculateStrength();
+        this.calculateSkill();
     }
 
     addAttacker(attacker) {
         this.attackers.push(attacker);
         this.markAsParticipating([attacker], 'attacker');
-        this.calculateStrength();
+        this.calculateSkill();
     }
 
     addDefenders(defenders) {
         this.defenders = this.defenders.concat(defenders);
         this.markAsParticipating(defenders, 'defender');
-        this.calculateStrength();
+        this.calculateSkill();
     }
 
     addDefender(defender) {
         this.defenders.push(defender);
         this.markAsParticipating([defender], 'defender');
-        this.calculateStrength();
+        this.calculateSkill();
     }
 
     removeFromConflict(card) {
@@ -65,7 +65,7 @@ class Conflict {
 
         card.inConflict = false;
 
-        this.calculateStrength();
+        this.calculateSkill();
     }
 
     markAsParticipating(cards, participantType) {
@@ -106,29 +106,29 @@ class Conflict {
         }, 0);
     }
 
-    calculateStrength() {
+    calculateSkill() {
         if(this.winnerDetermined) {
             return;
         }
 
-        this.attackerStrength = this.calculateStrengthFor(this.attackers) + this.attackerStrengthModifier;
-        this.defenderStrength = this.calculateStrengthFor(this.defenders) + this.defenderStrengthModifier;
+        this.attackerSkill = this.calculateSkillFor(this.attackers) + this.attackerSkillModifier;
+        this.defenderSkill = this.calculateSkillFor(this.defenders) + this.defenderSkillModifier;
     }
 
-    calculateStrengthFor(cards) {
+    calculateSkillFor(cards) {
         return _.reduce(cards, (sum, card) => {
-            return sum + card.getStrength();
+            return sum + card.getSkill();
         }, 0);
     }
 
-    modifyAttackerStrength(value) {
-        this.attackerStrengthModifier += value;
-        this.calculateStrength();
+    modifyAttackerSkill(value) {
+        this.attackerSkillModifier += value;
+        this.calculateSkill();
     }
 
-    modifyDefenderStrength(value) {
-        this.defenderStrengthModifier += value;
-        this.calculateStrength();
+    modifyDefenderSkill(value) {
+        this.defenderSkillModifier += value;
+        this.calculateSkill();
     }
 
     getStealthAttackers() {
@@ -138,56 +138,56 @@ class Conflict {
     determineWinner() {
         this.winnerDetermined = true;
 
-        this.calculateStrength();
+        this.calculateSkill();
 
         let result = this.checkNoWinnerOrLoser();
         if(result.noWinner) {
             this.noWinnerMessage = result.message;
             this.loser = undefined;
             this.winner = undefined;
-            this.loserStrength = this.winnerStrength = 0;
-            this.strengthDifference = 0;
+            this.loserSkill = this.winnerSkill = 0;
+            this.skillDifference = 0;
 
             return;
         }
 
-        if(this.attackerStrength >= this.defenderStrength) {
+        if(this.attackerSkill >= this.defenderSkill) {
             this.loser = this.defendingPlayer;
-            this.loserStrength = this.defenderStrength;
+            this.loserSkill = this.defenderSkill;
             this.winner = this.attackingPlayer;
-            this.winnerStrength = this.attackerStrength;
+            this.winnerSkill = this.attackerSkill;
         } else {
             this.loser = this.attackingPlayer;
-            this.loserStrength = this.attackerStrength;
+            this.loserSkill = this.attackerSkill;
             this.winner = this.defendingPlayer;
-            this.winnerStrength = this.defenderStrength;
+            this.winnerSkill = this.defenderSkill;
         }
 
         this.winner.winConflict(this.conflictType, this.attackingPlayer === this.winner);
         this.loser.loseConflict(this.conflictType, this.attackingPlayer === this.loser);
-        this.strengthDifference = this.winnerStrength - this.loserStrength;
+        this.skillDifference = this.winnerSkill - this.loserSkill;
     }
 
     checkNoWinnerOrLoser() {
         const noWinnerRules = [
             {
-                condition: () => this.attackerStrength === 0 && this.defenderStrength === 0,
-                message: 'There is no winner or loser for this conflict because the attacker strength is 0'
+                condition: () => this.attackerSkill === 0 && this.defenderSkill === 0,
+                message: 'There is no winner or loser for this conflict because the attacker skill is 0'
             },
             {
-                condition: () => this.attackerStrength >= this.defenderStrength && this.attackingPlayer.cannotWinConflict,
+                condition: () => this.attackerSkill >= this.defenderSkill && this.attackingPlayer.cannotWinConflict,
                 message: 'There is no winner or loser for this conflict because the attacker cannot win'
             },
             {
-                condition: () => this.attackerStrength >= this.defenderStrength && this.attackers.length === 0,
+                condition: () => this.attackerSkill >= this.defenderSkill && this.attackers.length === 0,
                 message: 'There is no winner or loser for this conflict because the attacker has no participants'
             },
             {
-                condition: () => this.defenderStrength > this.attackerStrength && this.defendingPlayer.cannotWinConflict,
+                condition: () => this.defenderSkill > this.attackerSkill && this.defendingPlayer.cannotWinConflict,
                 message: 'There is no winner or loser for this conflict because the defender cannot win'
             },
             {
-                condition: () => this.defenderStrength > this.attackerStrength && this.defenders.length === 0,
+                condition: () => this.defenderSkill > this.attackerSkill && this.defenders.length === 0,
                 message: 'There is no winner or loser for this conflict because the defender has no participants'
             }
         ];
@@ -203,7 +203,7 @@ class Conflict {
     }
 
     isUnopposed() {
-        return this.loserStrength <= 0 && this.winnerStrength > 0;
+        return this.loserSkill <= 0 && this.winnerSkill > 0;
     }
 
     getClaim() {
