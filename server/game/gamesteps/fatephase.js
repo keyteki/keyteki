@@ -1,17 +1,14 @@
 const _ = require('underscore');
 const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
-const DiscardToReservePrompt = require('./taxation/discardtoreserveprompt.js');
-const EndRoundPrompt = require('./taxation/endroundprompt.js');
+const DiscardToReservePrompt = require('./fate/discardtoreserveprompt.js');
 
-class TaxationPhase extends Phase {
+class FatePhase extends Phase {
     constructor(game) {
-        super(game, 'taxation');
+        super(game, 'fate');
         this.initialise([
             new SimpleStep(game, () => this.returnGold()),
-            new DiscardToReservePrompt(game),
-            new EndRoundPrompt(game),
-            new SimpleStep(game, () => this.roundEnded())
+            new DiscardToReservePrompt(game)
         ]);
     }
 
@@ -28,4 +25,4 @@ class TaxationPhase extends Phase {
     }
 }
 
-module.exports = TaxationPhase;
+module.exports = FatePhase;
