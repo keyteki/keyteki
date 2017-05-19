@@ -1,11 +1,11 @@
 /*global describe, it, beforeEach, expect, spyOn, jasmine*/
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
-const Challenge = require('../../../server/game/challenge.js');
+const Conflict = require('../../../server/game/conflict.js');
 const Player = require('../../../server/game/player.js');
 const DrawCard = require('../../../server/game/drawcard.js');
 
-describe('Challenge', function() {
+describe('Conflict', function() {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['applyGameAction', 'on', 'raiseEvent']);
         this.gameSpy.applyGameAction.and.callFake((type, card, handler) => {
@@ -13,16 +13,16 @@ describe('Challenge', function() {
         });
 
         this.attackingPlayer = new Player('1', 'Player 1', true, this.gameSpy);
-        spyOn(this.attackingPlayer, 'winChallenge');
-        spyOn(this.attackingPlayer, 'loseChallenge');
+        spyOn(this.attackingPlayer, 'winConflict');
+        spyOn(this.attackingPlayer, 'loseConflict');
         this.defendingPlayer = new Player('2', 'Player 2', true, this.gameSpy);
-        spyOn(this.defendingPlayer, 'winChallenge');
-        spyOn(this.defendingPlayer, 'loseChallenge');
+        spyOn(this.defendingPlayer, 'winConflict');
+        spyOn(this.defendingPlayer, 'loseConflict');
 
         this.attackerCard = new DrawCard(this.attackingPlayer, {});
         this.defenderCard = new DrawCard(this.defendingPlayer, {});
 
-        this.challenge = new Challenge(this.gameSpy, this.attackingPlayer, this.defendingPlayer, 'military');
+        this.conflict = new Conflict(this.gameSpy, this.attackingPlayer, this.defendingPlayer, 'military');
     });
 
     describe('determineWinner()', function() {
@@ -30,25 +30,25 @@ describe('Challenge', function() {
             beforeEach(function() {
                 spyOn(this.attackerCard, 'getStrength').and.returnValue(5);
                 spyOn(this.defenderCard, 'getStrength').and.returnValue(4);
-                this.challenge.addAttackers([this.attackerCard]);
-                this.challenge.addDefenders([this.defenderCard]);
-                this.challenge.determineWinner();
+                this.conflict.addAttackers([this.attackerCard]);
+                this.conflict.addDefenders([this.defenderCard]);
+                this.conflict.determineWinner();
             });
 
             it('should have the attacking player be the winner', function() {
-                expect(this.challenge.winner).toBe(this.attackingPlayer);
+                expect(this.conflict.winner).toBe(this.attackingPlayer);
             });
 
             it('should mark the win for the attacking player', function() {
-                expect(this.attackingPlayer.winChallenge).toHaveBeenCalledWith('military', true);
+                expect(this.attackingPlayer.winConflict).toHaveBeenCalledWith('military', true);
             });
 
             it('should have the defending player be the loser', function() {
-                expect(this.challenge.loser).toBe(this.defendingPlayer);
+                expect(this.conflict.loser).toBe(this.defendingPlayer);
             });
 
             it('should mark the loss for the defending player', function() {
-                expect(this.defendingPlayer.loseChallenge).toHaveBeenCalledWith('military', false);
+                expect(this.defendingPlayer.loseConflict).toHaveBeenCalledWith('military', false);
             });
         });
 
@@ -57,25 +57,25 @@ describe('Challenge', function() {
             beforeEach(function() {
                 spyOn(this.attackerCard, 'getStrength').and.returnValue(5);
                 spyOn(this.defenderCard, 'getStrength').and.returnValue(5);
-                this.challenge.addAttackers([this.attackerCard]);
-                this.challenge.addDefenders([this.defenderCard]);
-                this.challenge.determineWinner();
+                this.conflict.addAttackers([this.attackerCard]);
+                this.conflict.addDefenders([this.defenderCard]);
+                this.conflict.determineWinner();
             });
 
             it('should have the attacking player be the winner', function() {
-                expect(this.challenge.winner).toBe(this.attackingPlayer);
+                expect(this.conflict.winner).toBe(this.attackingPlayer);
             });
 
             it('should mark the win for the attacking player', function() {
-                expect(this.attackingPlayer.winChallenge).toHaveBeenCalledWith('military', true);
+                expect(this.attackingPlayer.winConflict).toHaveBeenCalledWith('military', true);
             });
 
             it('should have the defending player be the loser', function() {
-                expect(this.challenge.loser).toBe(this.defendingPlayer);
+                expect(this.conflict.loser).toBe(this.defendingPlayer);
             });
 
             it('should mark the loss for the defending player', function() {
-                expect(this.defendingPlayer.loseChallenge).toHaveBeenCalledWith('military', false);
+                expect(this.defendingPlayer.loseConflict).toHaveBeenCalledWith('military', false);
             });
         });
 
@@ -83,25 +83,25 @@ describe('Challenge', function() {
             beforeEach(function() {
                 spyOn(this.attackerCard, 'getStrength').and.returnValue(4);
                 spyOn(this.defenderCard, 'getStrength').and.returnValue(5);
-                this.challenge.addAttackers([this.attackerCard]);
-                this.challenge.addDefenders([this.defenderCard]);
-                this.challenge.determineWinner();
+                this.conflict.addAttackers([this.attackerCard]);
+                this.conflict.addDefenders([this.defenderCard]);
+                this.conflict.determineWinner();
             });
 
             it('should have the defending player be the winner', function() {
-                expect(this.challenge.winner).toBe(this.defendingPlayer);
+                expect(this.conflict.winner).toBe(this.defendingPlayer);
             });
 
             it('should mark the win for the defending player', function() {
-                expect(this.defendingPlayer.winChallenge).toHaveBeenCalledWith('military', false);
+                expect(this.defendingPlayer.winConflict).toHaveBeenCalledWith('military', false);
             });
 
             it('should have the attacking player be the loser', function() {
-                expect(this.challenge.loser).toBe(this.attackingPlayer);
+                expect(this.conflict.loser).toBe(this.attackingPlayer);
             });
 
             it('should mark the loss for the attacking player', function() {
-                expect(this.attackingPlayer.loseChallenge).toHaveBeenCalledWith('military', true);
+                expect(this.attackingPlayer.loseConflict).toHaveBeenCalledWith('military', true);
             });
         });
     });
