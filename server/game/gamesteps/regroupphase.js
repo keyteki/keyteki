@@ -2,7 +2,7 @@ const _ = require('underscore');
 const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
 const ActionWindow = require('./actionwindow.js');
-const EndRoundPrompt = require('./regroup/endroundprompt.js')
+const EndRoundPrompt = require('./regroup/endroundprompt.js');
 
 class RegroupPhase extends Phase {
     constructor(game) {

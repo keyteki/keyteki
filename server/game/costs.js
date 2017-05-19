@@ -376,7 +376,7 @@ const Costs = {
                 context.game.addFate(context.player, -amount);
             }
         };
-    }
+    },
     /**
      * Cost in which the player must pay a fixed, non-reduceable amount of honor.
      */
