@@ -5,7 +5,7 @@ class SetupCardAction extends BaseAbility {
     constructor() {
         super({
             cost: [
-                Costs.payPrintedGoldCost(),
+                Costs.payPrintedFateCost(),
                 Costs.playLimited()
             ]
         });
