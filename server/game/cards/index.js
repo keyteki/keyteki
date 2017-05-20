@@ -11,12 +11,6 @@ const events = require('./events');
 
 var cards = {};
 
-_.each(fs.readdirSync(path.join(__dirname, 'agendas')), file => {
-    var card = require('./agendas/' + file);
-
-    cards[card.code] = card;
-});
-
 cards = _.extend(cards, strongholds, provinces, holdings, characters, attachments, events);
 
 module.exports = cards;
