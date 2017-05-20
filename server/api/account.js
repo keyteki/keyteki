@@ -166,18 +166,18 @@ module.exports.init = function(server) {
                     logger.error(err);
                 });
 
-                var url = 'https://theironthrone.net/reset-password?id=' + user._id + '&token=' + resetToken;
-                var emailText = 'Hi,\n\nSomeone, hopefully you, has requested their password on The Iron Throne (https://theironthrone.net) to be reset.  If this was you, click this link ' + url + ' to complete the process.\n\n' +
+                var url = 'https://eggofpanku.net/reset-password?id=' + user._id + '&token=' + resetToken;
+                var emailText = 'Hi,\n\nSomeone, hopefully you, has requested their password on Egg of P\'an Ku (https://eggofpanku.net) to be reset.  If this was you, click this link ' + url + ' to complete the process.\n\n' +
                     'If you did not request this reset, do not worry, your account has not been affected and your password has not been changed, just ignore this email.\n' +
                     'Kind regards,\n\n' +
-                    'The Iron Throne team';
+                    'The Egg of P\'an Ku team';
 
                 var emailTransport = nodemailer.createTransport(config.emailPath);
 
                 emailTransport.sendMail({
-                    from: 'The Iron Throne <noreply@theironthrone.net>',
+                    from: 'Egg of P\'an Ku <noreply@eggofpanku.net>',
                     to: user.email,
-                    subject: 'Your account at The Iron Throne',
+                    subject: 'Your account at Egg of P\'an Ku',
                     text: emailText
                 }, function(error) {
                     if(error) {
