@@ -376,16 +376,10 @@ export class InnerGameBoard extends React.Component {
                 <div className='main-window'>
                     <div className='left-side'>
                         <div className='player-info'>
-                            <PlayerStats gold={otherPlayer ? otherPlayer.gold : 0} claim={otherPlayer ? otherPlayer.claim : 0}
-                                reserve={otherPlayer ? otherPlayer.reserve : 0} power={otherPlayer ? otherPlayer.totalPower : 0} user={otherPlayer ? otherPlayer.user : null} />
+                            <PlayerStats fate={otherPlayer ? otherPlayer.fate : 0} honor={otherPlayer ? otherPlayer.totalHonor : 0} user={otherPlayer ? otherPlayer.user : null} />
                             <div className='deck-info'>
                                 <div className='deck-type'>
-                                    <CardCollection className='faction' source='faction' cards={[]} topCard={otherPlayer ? otherPlayer.faction : undefined} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
-                                    {otherPlayer && otherPlayer.agenda && otherPlayer.agenda.code !== '' ?
-                                        <CardCollection className='agenda' source='agenda' cards={[]} topCard={otherPlayer ? otherPlayer.agenda : undefined} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut}
-                                              onCardClick={this.onCardClick} disablePopup onMenuItemClick={this.onMenuItemClick} />
-                                        : <div className='agenda card-pile vertical panel' />
-                                    }
+                                    <CardCollection className='stronghold' source='stronghold' cards={[]} topCard={otherPlayer ? otherPlayer.stronghold : undefined} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
                                 </div>
                                 { otherPlayer ? <div className={'first-player-indicator ' + (!thisPlayer.firstPlayer ? '' : 'hidden')}>First player</div> : ''}
                             </div>
@@ -430,17 +424,12 @@ export class InnerGameBoard extends React.Component {
                             </div>
                         </div>
                         <div className='player-info our-side'>
-                            <PlayerStats gold={thisPlayer.gold || 0} claim={thisPlayer.claim || 0} reserve={thisPlayer.reserve || 0}
-                                        power={thisPlayer.totalPower} isMe={!this.state.spectating} user={thisPlayer.user} />
+                            <PlayerStats fate={thisPlayer.fate || 0} 
+                                        honor={thisPlayer.totalHonor} isMe={!this.state.spectating} user={thisPlayer.user} />
                             <div className='deck-info'>
                                 <div className={'first-player-indicator ' + (thisPlayer.firstPlayer ? '' : 'hidden')}>First player</div>
                                 <div className='deck-type'>
-                                    <CardCollection className='faction' source='faction' cards={[]} topCard={thisPlayer.faction} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup onCardClick={this.onFactionCardClick} />
-                                    {thisPlayer.agenda && thisPlayer.agenda.code !== '' ?
-                                        <CardCollection className='agenda' source='agenda' cards={[]} topCard={thisPlayer.agenda} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut}
-                                              onCardClick={this.onCardClick} disablePopup onMenuItemClick={this.onMenuItemClick} />
-                                        : <div className='agenda card-pile vertical panel' />
-                                    }
+                                    <CardCollection className='stronghold' source='stronghold' cards={[]} topCard={thisPlayer.stronghold} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup onCardClick={this.onFactionCardClick} />
                                 </div>
                             </div>
                         </div>
