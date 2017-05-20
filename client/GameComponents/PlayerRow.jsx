@@ -196,16 +196,13 @@ class PlayerRow extends React.Component {
                         {hand}
                     </div>
 
-                <CardCollection className='draw' title='Draw' source='draw deck' cards={this.props.drawDeck}
+                <CardCollection className='draw' title='Conflict' source='conflict draw deck' cards={this.props.conflictDrawDeck}
                                 onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
                                 popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop}
                                 menu={drawDeckMenu} hiddenTopCard cardCount={this.props.numDrawCards} popupMenu={drawDeckPopupMenu} />
-                <CardCollection className='discard' title='Discard' source='discard pile' cards={this.props.discardPile}
+                <CardCollection className='discard' title='Conflict Discard' source='conflict discard pile' cards={this.props.conflictDiscardPile}
                                 onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
                                 popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} />
-                <CardCollection className='dead' title='Dead' source='dead pile' cards={this.props.deadPile}
-                                onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
-                                popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} orientation='kneeled' />
                   {additionalPiles}
                 </div>
             </div>
@@ -216,9 +213,8 @@ class PlayerRow extends React.Component {
 PlayerRow.displayName = 'PlayerRow';
 PlayerRow.propTypes = {
     additionalPiles: React.PropTypes.object,
-    deadPile: React.PropTypes.array,
-    discardPile: React.PropTypes.array,
-    drawDeck: React.PropTypes.array,
+    conflictDiscardPile: React.PropTypes.array,
+    conflictDrawDeck: React.PropTypes.array,
     hand: React.PropTypes.array,
     isMe: React.PropTypes.bool,
     numDrawCards: React.PropTypes.number,
@@ -231,7 +227,7 @@ PlayerRow.propTypes = {
     onMouseOver: React.PropTypes.func,
     onShuffleClick: React.PropTypes.func,
     plotDeck: React.PropTypes.array,
-    power: React.PropTypes.number,
+    honor: React.PropTypes.number,
     showDrawDeck: React.PropTypes.bool,
     spectating: React.PropTypes.bool
 };
