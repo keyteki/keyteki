@@ -10,8 +10,8 @@ const PlayableLocation = require('./playablelocation.js');
 const PlayActionPrompt = require('./gamesteps/playactionprompt.js');
 const PlayerPromptState = require('./playerpromptstate.js');
 
-const StartingHandSize = 7;
-const DrawPhaseCards = 2;
+const StartingHandSize = 4;
+const DrawPhaseCards = 1;
 
 class Player extends Spectator {
     constructor(id, user, owner, game) {
@@ -27,7 +27,7 @@ class Player extends Spectator {
         this.conflictDiscardPile = _([]);
         this.additionalPiles = {};
 
-        this.faction = new DrawCard(this, {});
+        this.stronghold = new DrawCard(this, {});
 
         this.owner = owner;
         this.takenMulligan = false;
@@ -343,7 +343,7 @@ class Player extends Spectator {
             return;
         }
 
-        this.fate = 0;
+        this.honor = this.stronghold.honor;
     }
 
     mulligan() {
