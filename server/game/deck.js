@@ -11,24 +11,34 @@ class Deck {
 
     prepare(player) {
         var result = {
-            conflictdrawCards: [],
-            dynastydrawCards: [],
+            conflictDrawCards: [],
+            dynastyDrawCards: [],
             provinceCards: []
         };
 
+        //conflict
         this.eachRepeatedCard(this.data.drawCards, cardData => {
-            if(['attachment', 'character', 'event', 'location'].includes(cardData.type_code)) {
+            if(['conflict'].includes(cardData.deck)) {
                 var drawCard = this.createCard(DrawCard, player, cardData);
-                drawCard.location = 'draw deck';
-                result.drawCards.push(drawCard);
+                drawCard.location = 'conflict draw deck';
+                result.conflictDrawCards.push(drawCard);
+            }
+        });
+
+        //dynasty
+        this.eachRepeatedCard(this.data.drawCards, cardData => {
+            if(['dynsaty'].includes(cardData.deck)) {
+                var drawCard = this.createCard(DrawCard, player, cardData);
+                drawCard.location = 'dynasty draw deck';
+                result.dynastyDrawCards.push(drawCard);
             }
         });
 
         this.eachRepeatedCard(this.data.plotCards, cardData => {
-            if(cardData.type_code === 'plot') {
-                var plotCard = this.createCard(PlotCard, player, cardData);
-                plotCard.location = 'plot deck';
-                result.plotCards.push(plotCard);
+            if(cardData.type_code === 'province') {
+                var provinceCard = this.createCard(ProvinceCard, player, cardData);
+                provinceCard.location = 'province deck';
+                result.provinceCards.push(provinceCard);
             }
         });
 
