@@ -33,8 +33,7 @@ class Player extends Spectator {
         this.takenMulligan = false;
         this.game = game;
 
-        this.dynastyDeck = {};
-        this.conflictDeck = {};
+        this.deck = {};
         this.conflicts = new ConflictTracker();
         this.minReserve = 0;
         this.costReducers = [];
@@ -320,7 +319,7 @@ class Player extends Spectator {
     prepareDecks() {
         var deck = new Deck(this.deck);
         var preparedDeck = deck.prepare(this);
-        this.provinceDeck = _(preparedDeck.plotCards);
+        this.provinceDeck = _(preparedDeck.provinceCards);
         this.stronghold = preparedDeck.stronghold;
         this.conflictdrawDeck = _(preparedDeck.conflictdrawCards);
         this.dynastydrawDeck = _(preparedDeck.dynastydrawCards);
