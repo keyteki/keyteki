@@ -3,7 +3,7 @@ const _ = require('underscore');
 /**
  * Base class representing an ability that can be done by the player. This
  * includes card actions, reactions, interrupts, playing a card, marshaling a
- * card, or ambushing a card.
+ * card.
  *
  * Most of the methods take a context object. While the structure will vary from
  * inheriting classes, it is guaranteed to have at least the `game` object, the

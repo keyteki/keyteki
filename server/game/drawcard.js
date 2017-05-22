@@ -3,13 +3,11 @@ const _ = require('underscore');
 const BaseCard = require('./basecard.js');
 const SetupCardAction = require('./setupcardaction.js');
 const DynastyCardAction = require('./dynastycardaction.js');
-const AmbushCardAction = require('./ambushcardaction.js');
 const PlayCardAction = require('./playcardaction.js');
 
 const StandardPlayActions = [
     new SetupCardAction(),
     new DynastyCardAction(),
-    new AmbushCardAction(),
     new PlayCardAction()
 ];
 
@@ -27,7 +25,6 @@ class DrawCard extends BaseCard {
         this.bowed = false;
         this.inConflict = false;
         this.inDanger = false;
-        this.wasAmbush = false;
         this.saved = false;
         this.readysDuringReadying = true;
         this.challengeOptions = {
@@ -51,10 +48,6 @@ class DrawCard extends BaseCard {
         return this.hasKeyword('Terminal');
     }
 
-    isAmbush() {
-        return !_.isUndefined(this.ambushCost);
-    }
-
     isBestow() {
         return !_.isUndefined(this.bestowMax);
     }
@@ -73,10 +66,6 @@ class DrawCard extends BaseCard {
 
     getCost() {
         return this.cardData.cost;
-    }
-
-    getAmbushCost() {
-        return this.ambushCost;
     }
 
     modifyMilitarySkill(amount, applying = true) {
@@ -169,16 +158,13 @@ class DrawCard extends BaseCard {
             .concat(_.filter(this.abilities.actions, action => !action.allowMenu()));
     }
 
-    play(player, isAmbush) {
-        this.wasAmbush = isAmbush;
-
+    play(player) {
         super.play();
     }
 
     leavesPlay() {
         this.kneeled = false;
         this.power = 0;
-        this.wasAmbush = false;
         this.inChallenge = false;
 
         super.leavesPlay();

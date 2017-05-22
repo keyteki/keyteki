@@ -228,13 +228,9 @@ const Effects = {
     },
     removeAllKeywords: function() {
         return [
-            this.removeKeyword('Ambush'),
             this.removeKeyword('Insight'),
             this.removeKeyword('Intimidate'),
-            this.removeKeyword('Pillage'),
-            this.removeKeyword('Renown'),
             this.removeKeyword('Stealth'),
-            this.removeKeyword('Terminal'),
             this.removeKeyword('Limited')
         ];
     },
@@ -292,19 +288,6 @@ const Effects = {
                 context.game.addMessage('{0} uses {1} to kill {2} at the end of the phase', context.source.controller, context.source, card);
             }
         }
-    },
-    gainAmbush: function(costModifier = 0) {
-        return {
-            apply: function(card, context) {
-                context.gainAmbush = context.gainAmbush || {};
-                context.gainAmbush[card.uuid] = card.ambushCost;
-                card.ambushCost = card.cardData.cost + costModifier;
-            },
-            unapply: function(card, context) {
-                card.ambushCost = context.gainAmbush[card.uuid];
-                delete context.gainAmbush[card.uuid];
-            }
-        };
     },
     discardIfStillInPlay: function(allowSave = false) {
         return {
@@ -614,13 +597,6 @@ const Effects = {
     },
     reduceFirstMarshalledOrPlayedCardCostEachRound: function(amount, match) {
         return this.reduceFirstCardCostEachRound(['marshal', 'play'], amount, match);
-    },
-    reduceAmbushCardCost: function(amount, match) {
-        return this.reduceCost({
-            playingTypes: 'ambush',
-            amount: amount,
-            match: match
-        });
     },
     increaseCost: function(properties) {
         properties.amount = -properties.amount;

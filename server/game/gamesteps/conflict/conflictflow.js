@@ -134,22 +134,6 @@ class ConflictFlow extends BaseStep {
         _.each(winnerCards, card => {
             let context = { game: this.game, conflict: this.conflict, source: card };
 
-            if(card.hasKeyword('Insight')) {
-                this.game.resolveAbility(GameKeywords.insight, context);
-            }
-
-            if(card.hasKeyword('Intimidate')) {
-                this.game.resolveAbility(GameKeywords.intimidate, context);
-            }
-
-            if(card.hasKeyword('Pillage')) {
-                this.game.resolveAbility(GameKeywords.pillage, context);
-            }
-
-            if(card.isRenown()) {
-                this.game.resolveAbility(GameKeywords.renown, context);
-            }
-
             this.game.checkWinCondition(this.conflict.winner);
         });
     }

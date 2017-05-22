@@ -51,7 +51,7 @@ describe('CostReducer', function () {
         beforeEach(function() {
             this.card = {};
             this.properties.match.and.returnValue(true);
-            this.properties.playingTypes = ['marshal', 'ambush'];
+            this.properties.playingTypes = ['marshal'];
             this.properties.limit = this.limitSpy;
             this.limitSpy.isAtMax.and.returnValue(false);
             this.reducer = new CostReducer(this.gameSpy, this.source, this.properties);

@@ -37,7 +37,7 @@ class Player extends Spectator {
         this.conflicts = new ConflictTracker();
         this.minReserve = 0;
         this.costReducers = [];
-        this.playableLocations = _.map(['marshal', 'play', 'ambush'], playingType => new PlayableLocation(playingType, this, 'hand'));
+        this.playableLocations = _.map(['marshal', 'play'], playingType => new PlayableLocation(playingType, this, 'hand'));
         this.usedPlotsModifier = 0;
         this.cannotGainConflictBonus = false;
         this.cannotTriggerCardAbilities = false;
@@ -373,7 +373,7 @@ class Player extends Spectator {
     }
 
     getReducedCost(playingType, card) {
-        var baseCost = playingType === 'ambush' ? card.getAmbushCost() : card.getCost();
+        var baseCost = card.getCost();
         var matchingReducers = _.filter(this.costReducers, reducer => reducer.canReduce(playingType, card));
         var reducedCost = _.reduce(matchingReducers, (cost, reducer) => cost - reducer.getAmount(card), baseCost);
         return Math.max(reducedCost, 0);
@@ -453,7 +453,7 @@ class Player extends Spectator {
         } else {
             card.facedown = this.game.currentPhase === 'setup';
             if(!dupeCard) {
-                card.play(this, playingType === 'ambush');
+                card.play(this);
             }
 
             card.new = true;

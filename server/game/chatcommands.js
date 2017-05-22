@@ -14,7 +14,6 @@ class ChatCommands {
             '/add-keyword': this.addKeyword,
             '/remove-keyword': this.removeKeyword,
             '/discard': this.discard,
-            '/pillage': this.pillage,
             '/strength': this.strength,
             '/str': this.strength,
             '/give-icon': this.addIcon,
@@ -198,14 +197,6 @@ class ChatCommands {
         this.game.addMessage('{0} uses the /discard command to discard {1} card{2} at random', player, num, num > 1 ? 's' : '');
 
         player.discardAtRandom(num);
-    }
-
-    pillage(player) {
-        this.game.addMessage('{0} uses the /pillage command to discard 1 card from the top of their draw deck', player);
-
-        player.discardFromDraw(1, discarded => {
-            this.game.addMessage('{0} discards {1} due to Pillage', player, discarded);
-        });
     }
 
     strength(player, args) {

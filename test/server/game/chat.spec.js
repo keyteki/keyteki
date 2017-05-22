@@ -159,20 +159,6 @@ describe('the Game', function() {
                 });
             });
 
-            describe('with a /pillage command', function() {
-                beforeEach(function() {
-                    spyOn(this.player1, 'discardFromDraw');
-                });
-
-                describe('with no arguments', function() {
-                    it('should discard 1 card', function () {
-                        this.game.chat(this.player1.name, '/pillage');
-
-                        expect(this.player1.discardFromDraw).toHaveBeenCalledWith(1, jasmine.any(Function));
-                    });
-                });
-            });
-
         });
 
         describe('when called by a spectator in the game', function() {
