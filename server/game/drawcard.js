@@ -18,8 +18,8 @@ class DrawCard extends BaseCard {
         this.attachments = _([]);
 
         this.fate = 0;
-        this.militaryskill = 0;
-        this.politicalskill = 0;
+        this.militaryskill = null;
+        this.politicalskill = null;
         this.glory = 0;
         this.contributesToFavor = true;
         this.bowed = false;
@@ -224,13 +224,12 @@ class DrawCard extends BaseCard {
             attachments: this.attachments.map(attachment => {
                 return attachment.getSummary(activePlayer, hideWhenFaceup);
             }),
-            baseSkill: _.isNull(this.cardData.skill) ? 0 : this.cardData.skill,
             inConflict: this.inConflict,
             inDanger: this.inDanger,
             bowed: this.bowed,
             saved: this.saved,
-            militaryskill: !_.isNull(this.cardData.militaryskill) ? this.getMilitarySkill() : 0,
-            politicalskill: !_.isNull(this.cardData.politicalskill) ? this.getPoliticalSkill() : 0,
+            militaryskill: this.cardData.militaryskill,
+            politicalskill: this.cardData.politicalskill,
             stealth: this.stealth
         });
     }
