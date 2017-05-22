@@ -2,7 +2,7 @@ const _ = require('underscore');
 
 const cards = require('./cards');
 const DrawCard = require('./drawcard.js');
-const PlotCard = require('./plotcard.js');
+const ProvinceCard = require('./provincecard.js');
 
 class Deck {
     constructor(data) {
@@ -34,7 +34,7 @@ class Deck {
             }
         });
 
-        this.eachRepeatedCard(this.data.plotCards, cardData => {
+        this.eachRepeatedCard(this.data.provinceCards, cardData => {
             if(cardData.type_code === 'province') {
                 var provinceCard = this.createCard(ProvinceCard, player, cardData);
                 provinceCard.location = 'province deck';

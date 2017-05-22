@@ -357,9 +357,9 @@ const Costs = {
             },
             pay: function(context) {
 
-                    context.costs.fate = context.player.getReducedCost(playingType, context.source);
-                    context.player.fate -= context.costs.fate;
-                    context.player.markUsedReducers(playingType, context.source);
+                context.costs.fate = context.player.getReducedCost(playingType, context.source);
+                context.player.fate -= context.costs.fate;
+                context.player.markUsedReducers(playingType, context.source);
 
             }
         };

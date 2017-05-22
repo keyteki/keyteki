@@ -35,22 +35,22 @@ export function validateDeck(deck) {
     var combined = _.union(deck.plotCards, deck.drawCards);
 
     
-    if(conflictdrawCount < minDraw) {
+    if(conflictDrawCount < minDraw) {
         status = 'Invalid';
         extendedStatus.push('Too few conflict cards');
     }
 
-    if(dynastydrawCount < minDraw) {
+    if(dynastyDrawCount < minDraw) {
         status = 'Invalid';
         extendedStatus.push('Too few dynasty cards');
     }
 
-    if(conflictdrawCount > maxDraw) {
+    if(conflictDrawCount > maxDraw) {
         status = 'Invalid';
         extendedStatus.push('Too many conflict cards');
     }
 
-    if(dynastydrawCount > maxDraw) {
+    if(dynastyDrawCount > maxDraw) {
         status = 'Invalid';
         extendedStatus.push('Too many dynasty cards');
     }
