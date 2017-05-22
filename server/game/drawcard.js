@@ -24,8 +24,6 @@ class DrawCard extends BaseCard {
         this.contributesToFavor = true;
         this.bowed = false;
         this.inConflict = false;
-        this.inDanger = false;
-        this.saved = false;
         this.readysDuringReadying = true;
         this.challengeOptions = {
             doesNotBowAs: {
@@ -88,25 +86,6 @@ class DrawCard extends BaseCard {
         }
 
         return Math.max(0, this.politicalSkillModifier + (this.cardData.politicalskill || 0));
-    }
-
-    needsStealthTarget() {
-        return this.isStealth() && !this.stealthTarget;
-    }
-
-    canUseStealthToBypass(targetCard) {
-        return this.isStealth() && targetCard.canBeBypassedByStealth();
-    }
-
-    useStealthToBypass(targetCard) {
-        if(!this.canUseStealthToBypass(targetCard)) {
-            return false;
-        }
-
-        targetCard.stealth = true;
-        this.stealthTarget = targetCard;
-
-        return true;
     }
 
     clearBlank() {
@@ -182,38 +161,16 @@ class DrawCard extends BaseCard {
         );
     }
 
-    canParticipateInChallenge() {
+    canParticipateInConflict() {
         return this.allowGameAction('participateInChallenge');
-    }
-
-    canBeBypassedByStealth() {
-        return !this.isStealth() && this.allowGameAction('bypassByStealth');
     }
 
     canBeKilled() {
         return this.allowGameAction('kill');
     }
 
-    canBeMarshaled() {
-        return this.allowGameAction('marshal');
-    }
-
     canBePlayed() {
         return this.allowGameAction('play');
-    }
-
-    markAsInDanger() {
-        this.inDanger = true;
-    }
-
-    markAsSaved() {
-        this.inDanger = false;
-        this.saved = true;
-    }
-
-    clearDanger() {
-        this.inDanger = false;
-        this.saved = false;
     }
 
     getSummary(activePlayer, hideWhenFaceup) {
@@ -225,7 +182,6 @@ class DrawCard extends BaseCard {
                 return attachment.getSummary(activePlayer, hideWhenFaceup);
             }),
             inConflict: this.inConflict,
-            inDanger: this.inDanger,
             bowed: this.bowed,
             saved: this.saved,
             militaryskill: this.cardData.militaryskill,
