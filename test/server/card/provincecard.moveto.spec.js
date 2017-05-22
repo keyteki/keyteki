@@ -1,12 +1,12 @@
 /*global describe, it, beforeEach, expect, spyOn*/
 /*eslint camelcase: 0, no-invalid-this: 0 */
 
-const PlotCard = require('../../../server/game/plotcard.js');
+const ProvinceCard = require('../../../server/game/provincecard.js');
 
-describe('PlotCard', function () {
+describe('ProvinceCard', function () {
     beforeEach(function () {
         this.testCard = { code: '111', label: 'test 1(some pack)', name: 'test 1' };
-        this.card = new PlotCard({}, this.testCard);
+        this.card = new ProvinceCard({}, this.testCard);
         spyOn(this.card.events, 'register');
         spyOn(this.card.events, 'unregisterAll');
     });
