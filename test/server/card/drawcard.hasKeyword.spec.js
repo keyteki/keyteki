@@ -76,7 +76,7 @@ describe('the DrawCard', function() {
 
             describe('when the card has a keyword line', function() {
                 beforeEach(function() {
-                    this.card = new DrawCard(this.player, { type_code: 'attachment', cost: 0, text: 'Ancestral. Notarealkeyword.\n' });
+                    this.card = new DrawCard(this.player, { type_code: 'attachment', cost: 0, text: 'Ancestral. Notarealkeyword.\n Extra text because we need stuff here.' });
                     this.card.location = 'hand';
                     this.player.hand = _([this.card]);
                     this.player.playCard(this.card, true);
