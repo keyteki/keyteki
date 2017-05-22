@@ -35,11 +35,11 @@ export class InnerPlayerStats extends React.Component {
                         null}
                 </div>
                 <div className='state'>
-                    <span><img src='/img/Honor.png' title='Honor' alt='Honor' /> {this.props.power}</span>
+                    <span><img src='/img/Honor.png' title='Honor' alt='Honor' /> {this.props.honor}</span>
                     {this.props.isMe ?
                         <div className='pull-right'>
                             <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'honor', 'down')}><img src='/img/Minus.png' title='-' alt='-' /></span>
-                            <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'power', 'up')}><img src='/img/Plus.png' title='+' alt='+' /></span>
+                            <span className='btn btn-stat' onClick={this.sendUpdate.bind(this, 'honor', 'up')}><img src='/img/Plus.png' title='+' alt='+' /></span>
                         </div> :
                         null}
                 </div>
