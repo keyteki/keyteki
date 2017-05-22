@@ -44,18 +44,6 @@ class DrawCard extends BaseCard {
         return this.hasKeyword('Stealth');
     }
 
-    isTerminal() {
-        return this.hasKeyword('Terminal');
-    }
-
-    isBestow() {
-        return !_.isUndefined(this.bestowMax);
-    }
-
-    isRenown() {
-        return this.hasKeyword('renown');
-    }
-
     isRestricted() {
         return this.hasKeyword('restricted');
     }
@@ -237,9 +225,7 @@ class DrawCard extends BaseCard {
                 return attachment.getSummary(activePlayer, hideWhenFaceup);
             }),
             baseSkill: _.isNull(this.cardData.skill) ? 0 : this.cardData.skill,
-            iconsAdded: this.getIconsAdded(),
-            iconsRemoved: this.getIconsRemoved(),
-            inChallenge: this.inChallenge,
+            inConflict: this.inConflict,
             inDanger: this.inDanger,
             bowed: this.bowed,
             saved: this.saved,
