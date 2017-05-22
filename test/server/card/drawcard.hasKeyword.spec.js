@@ -76,7 +76,7 @@ describe('the DrawCard', function() {
 
             describe('when the card has a keyword line', function() {
                 beforeEach(function() {
-                    this.card = new DrawCard(this.player, { type_code: 'character', cost: 0, text: 'Intimidate. Renown. Notarealkeyword.\nRobert Baratheon gets +1 STR for each other kneeling character in play.' });
+                    this.card = new DrawCard(this.player, { type_code: 'attachment', cost: 0, text: 'Ancestral. Notarealkeyword.\n' });
                     this.card.location = 'hand';
                     this.player.hand = _([this.card]);
                     this.player.playCard(this.card, true);
@@ -85,8 +85,7 @@ describe('the DrawCard', function() {
                 });
 
                 it('should return true for each keyword', function() {
-                    expect(this.card.hasKeyword('Intimidate')).toBe(true);
-                    expect(this.card.hasKeyword('Renown')).toBe(true);
+                    expect(this.card.hasKeyword('Ancestral')).toBe(true);
                 });
 
                 it('should reject non-valid keywords', function() {
@@ -94,13 +93,12 @@ describe('the DrawCard', function() {
                 });
 
                 it('should not blank externally given keywords', function() {
-                    this.card.addKeyword('Stealth');
+                    this.card.addKeyword('Restricted');
                     this.card.setBlank();
                     // Resolve events in pipeline.
                     this.game.continue();
-                    expect(this.card.hasKeyword('Intimidate')).toBe(false);
-                    expect(this.card.hasKeyword('Renown')).toBe(false);
-                    expect(this.card.hasKeyword('Stealth')).toBe(true);
+                    expect(this.card.hasKeyword('Ancestral')).toBe(false);
+                    expect(this.card.hasKeyword('Restricteds')).toBe(true);
                 });
             });
         });
