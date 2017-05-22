@@ -226,7 +226,7 @@ PlayerRow.propTypes = {
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
     onShuffleClick: React.PropTypes.func,
-    plotDeck: React.PropTypes.array,
+    provinceDeck: React.PropTypes.array,
     honor: React.PropTypes.number,
     showDrawDeck: React.PropTypes.bool,
     spectating: React.PropTypes.bool
