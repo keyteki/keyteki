@@ -73,6 +73,13 @@ class BaseCard {
         _.each(potentialKeywords, keyword => {
             if(_.contains(ValidKeywords, keyword)) {
                 this.printedKeywords.push(keyword);
+            } else if(keyword.indexOf('no attachment') === 0) {
+                var match = keyword.match(/no attachments except <[bi]>(.*)<\/[bi]>/);
+                if(match) {
+                    this.allowedAttachmentTrait = match[1];
+                } else {
+                    this.allowedAttachmentTrait = 'none';
+                }
             }
         });
 
