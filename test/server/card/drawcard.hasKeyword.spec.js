@@ -98,7 +98,7 @@ describe('the DrawCard', function() {
                     // Resolve events in pipeline.
                     this.game.continue();
                     expect(this.card.hasKeyword('Ancestral')).toBe(false);
-                    expect(this.card.hasKeyword('Restricteds')).toBe(true);
+                    expect(this.card.hasKeyword('Restricted')).toBe(true);
                 });
             });
         });
