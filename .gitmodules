@@ -2,3 +2,6 @@
 	path = thronesdb-json-data
 	url = https://github.com/Alsciende/thronesdb-json-data.git
 
+[submodule "card-json"]
+	path = card-json
+	url = https://github.com/gryffon/card-json.git
