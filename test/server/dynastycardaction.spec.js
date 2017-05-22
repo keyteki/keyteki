@@ -1,9 +1,9 @@
 /* global describe, it, beforeEach, expect, jasmine */
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
-const MarshalCardAction = require('../../server/game/marshalcardaction.js');
+const DynastyCardAction = require('../../server/game/dynastycardaction.js');
 
-describe('MarshalCardAction', function () {
+describe('DynastyCardAction', function () {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'on', 'removeListener']);
         this.playerSpy = jasmine.createSpyObj('player', ['canPutIntoPlay', 'isCardInPlayableLocation', 'putIntoPlay']);
