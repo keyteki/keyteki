@@ -13,8 +13,6 @@ class ProvinceCard extends BaseCard {
         return this.cardData.strength + this.strengthModifier;
     }
 
-
-
     flipFaceup() {
         this.facedown = false;
     }
@@ -23,4 +21,4 @@ class ProvinceCard extends BaseCard {
     }
 }
 
-module.exports = PlotCard;
+module.exports = ProvinceCard;
