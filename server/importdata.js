@@ -4,14 +4,14 @@ const db = mongoskin.db('mongodb://127.0.0.1:27017/eggteki');
 const fs = require('fs');
 const _ = require('underscore');
 
-let files = fs.readdirSync('card-data/pack');
+let files = fs.readdirSync('card-json/pack');
 let totalCards = [];
-let packs = JSON.parse(fs.readFileSync('card-data/packs.json'));
-let types = JSON.parse(fs.readFileSync('card-data/types.json'));
-let factions = JSON.parse(fs.readFileSync('card-data/factions.json'));
+let packs = JSON.parse(fs.readFileSync('card-json/packs.json'));
+let types = JSON.parse(fs.readFileSync('card-json/types.json'));
+let factions = JSON.parse(fs.readFileSync('card-json/factions.json'));
 
 _.each(files, file => {
-    let cards = JSON.parse(fs.readFileSync('card-data/pack/' + file));
+    let cards = JSON.parse(fs.readFileSync('card-json/pack/' + file));
 
     totalCards = totalCards.concat(cards);
 });
