@@ -6,6 +6,7 @@ import {toastr} from 'react-redux-toastr';
 
 import PlayerStats from './GameComponents/PlayerStats.jsx';
 import PlayerRow from './GameComponents/PlayerRow.jsx';
+import DynastyRow from './GameComponents/DynastyRow.jsx';
 import MenuPane from './GameComponents/MenuPane.jsx';
 import CardZoom from './GameComponents/CardZoom.jsx';
 import Messages from './GameComponents/Messages.jsx';
@@ -385,7 +386,7 @@ export class InnerGameBoard extends React.Component {
                             </div>
                         </div>
                         <div className='middle'>
-                             <div className='plots-pane'>
+                             <div className='rings-pane'>
                                 <div className='plot-group'>
                                     {this.getAdditionalPlotPiles(otherPlayer, false)}
                                     <CardCollection className={otherPlayer && otherPlayer.plotSelected ? 'plot plot-selected' : 'plot'}
