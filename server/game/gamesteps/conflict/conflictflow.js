@@ -3,7 +3,6 @@ const BaseStep = require('../basestep.js');
 const GamePipeline = require('../../gamepipeline.js');
 const SimpleStep = require('../simplestep.js');
 const ActionWindow = require('../actionwindow.js');
-const GameKeywords = require('../../gamekeywords.js');
 
 class ConflictFlow extends BaseStep {
     constructor(game, conflict) {
@@ -14,13 +13,12 @@ class ConflictFlow extends BaseStep {
             new SimpleStep(this.game, () => this.resetCards()),
             new SimpleStep(this.game, () => this.announceConflict()),
             new SimpleStep(this.game, () => this.promptForAttackers()),
-            new SimpleStep(this.game, () => this.announceAttackerStrength()),
+            new SimpleStep(this.game, () => this.announceAttackerSkill()),
             new ActionWindow(this.game, 'After attackers declared', 'attackersDeclared'),
             new SimpleStep(this.game, () => this.promptForDefenders()),
-            new SimpleStep(this.game, () => this.announceDefenderStrength()),
+            new SimpleStep(this.game, () => this.announceDefenderSskill()),
             new ActionWindow(this.game, 'After defenders declared', 'defendersDeclared'),
             new SimpleStep(this.game, () => this.determineWinner()),
-            new SimpleStep(this.game, () => this.unopposedPower()),
             new SimpleStep(this.game, () => this.applyKeywords()),
             new SimpleStep(this.game, () => this.completeConflict())
         ]);
@@ -61,7 +59,7 @@ class ConflictFlow extends BaseStep {
         return true;
     }
 
-    announceAttackerStrength() {
+    announceAttackerSkill() {
         // Explicitly recalculate strength in case an effect has modified character strength.
         this.conflict.calculateStrength();
         this.game.addMessage('{0} has initiated a {1} conflict with strength {2}', this.conflict.attackingPlayer, this.conflict.conflictType, this.conflict.attackerStrength);
@@ -100,7 +98,7 @@ class ConflictFlow extends BaseStep {
         return true;
     }
 
-    announceDefenderStrength() {
+    announceDefenderSkill() {
         // Explicitly recalculate strength in case an effect has modified character strength.
         this.conflict.calculateStrength();
         if(this.conflict.defenderStrength > 0) {
