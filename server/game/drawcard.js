@@ -38,10 +38,6 @@ class DrawCard extends BaseCard {
         return this.hasKeyword('Limited') || this.hasPrintedKeyword('Limited');
     }
 
-    isStealth() {
-        return this.hasKeyword('Stealth');
-    }
-
     isRestricted() {
         return this.hasKeyword('restricted');
     }
@@ -61,10 +57,10 @@ class DrawCard extends BaseCard {
          * @param  {string}   type - The type of the skill; military or political
          * @param  {boolean}  applying -  [description]
          */
-        if (type == "military") {
-            this.modifyMilitarySkill(amount, applying = true)
-        } else if (type == "political") {
-            this.modifyPoliticalSkill(amount, applying = true)
+        if(type === 'military') {
+            this.modifyMilitarySkill(amount, applying);
+        } else if(type === 'political') {
+            this.modifyPoliticalSkill(amount, applying);
         }
     }
 
@@ -75,10 +71,10 @@ class DrawCard extends BaseCard {
          * @param  {boolean} printed - Use the printed value of the skill; default false
          * @return {integer} The chosen skill value
          */
-        if (type == "military") {
-            return this.getMilitarySkill(printed)
-        } else if (type == "political") {
-            return this.getPoliticalSkill(printed)
+        if(type === 'military') {
+            return this.getMilitarySkill(printed);
+        } else if(type === 'political') {
+            return this.getPoliticalSkill(printed);
         }
     }    
 

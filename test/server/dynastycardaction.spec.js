@@ -17,7 +17,7 @@ describe('DynastyCardAction', function () {
             player: this.playerSpy,
             source: this.cardSpy
         };
-        this.action = new MarshalCardAction();
+        this.action = new DynastyCardAction();
     });
 
     describe('meetsRequirements()', function() {
