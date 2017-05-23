@@ -54,7 +54,40 @@ class DrawCard extends BaseCard {
         return this.cardData.cost;
     }
 
+    modifySkill(amount, type, applying = true) {
+        /**
+         * Direct the skill modification to the correct sub function.
+         * @param  {integer} amount - The amount to modify the skill by.
+         * @param  {string}   type - The type of the skill; military or political
+         * @param  {boolean}  applying -  [description]
+         */
+        if (type == "military") {
+            this.modifyMilitarySkill(amount, applying = true)
+        } else if (type == "political") {
+            this.modifyPoliticalSkill(amount, applying = true)
+        }
+    }
+
+    getSkill(type, printed = false) {
+        /**
+         * Direct the skill query to the correct sub function.
+         * @param  {string} type - The type of the skill; military or political
+         * @param  {boolean} printed - Use the printed value of the skill; default false
+         * @return {integer} The chosen skill value
+         */
+        if (type == "military") {
+            return this.getMilitarySkill(printed)
+        } else if (type == "political") {
+            return this.getPoliticalSkill(printed)
+        }
+    }    
+
     modifyMilitarySkill(amount, applying = true) {
+        /**
+         * Modify the military skill.
+         * @param  {integer} amount - The amount to modify the skill by.
+         * @param  {boolean}  applying -  [description]
+         */
         this.militarySkillModifier += amount;
         this.game.raiseMergedEvent('onCardMilitarySkillChanged', {
             card: this,
@@ -64,6 +97,11 @@ class DrawCard extends BaseCard {
     }
 
     modifyPoliticalSkill(amount, applying = true) {
+        /**
+         * Modify the political skill.
+         * @param  {integer} amount - The amount to modify the skill by.
+         * @param  {boolean}  applying -  [description]
+         */
         this.politicalSkillModifier += amount;
         this.game.raiseMergedEvent('onCardPoliticalSkillChanged', {
             card: this,
@@ -73,6 +111,11 @@ class DrawCard extends BaseCard {
     }
 
     getMilitarySkill(printed = false) {
+        /**
+         * Get the military skill.
+         * @param  {boolean} printed - Use the printed value of the skill; default false
+         * @return {integer} The military skill value
+         */
         if(this.controller.phase === 'setup' || printed) {
             return this.cardData.militaryskill || undefined;
         }
@@ -81,6 +124,11 @@ class DrawCard extends BaseCard {
     }
 
     getPoliticalSkill(printed = false) {
+        /**
+         * Get the political skill.
+         * @param  {boolean} printed - Use the printed value of the skill; default false
+         * @return {integer} The political skill value
+         */
         if(this.controller.phase === 'setup' || printed) {
             return this.cardData.politicalskill || undefined;
         }

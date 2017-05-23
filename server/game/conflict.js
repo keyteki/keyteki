@@ -117,7 +117,7 @@ class Conflict {
 
     calculateSkillFor(cards) {
         return _.reduce(cards, (sum, card) => {
-            return sum + card.getSkill();
+            return sum + card.getSkill(conflictType);
         }, 0);
     }
 
@@ -129,10 +129,6 @@ class Conflict {
     modifyDefenderSkill(value) {
         this.defenderSkillModifier += value;
         this.calculateSkill();
-    }
-
-    getStealthAttackers() {
-        return _.filter(this.attackers, card => card.needsStealthTarget());
     }
 
     determineWinner() {
