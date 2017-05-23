@@ -25,7 +25,7 @@ export class InnerAddDeck extends React.Component {
             deckName: deck.name,
             faction: deck.selectedFaction,
             agenda: deck.selectedAgenda,
-            plotCards: deck.plotCards,
+            provinceCards: deck.provinceCards,
             drawCards: deck.drawCards
         });
 
@@ -51,7 +51,7 @@ export class InnerAddDeck extends React.Component {
             deckName: deck.name,
             faction: deck.selectedFaction,
             agenda: deck.selectedAgenda,
-            plotCards: deck.plotCards,
+            provinceCards: deck.provinceCards,
             drawCards: deck.drawCards
         });
     }
@@ -65,7 +65,7 @@ export class InnerAddDeck extends React.Component {
                 <DeckEditor agendas={this.props.agendas} cards={this.props.cards} packs={this.props.packs} mode='Add'
                     onDeckChange={this.onDeckChange} onDeckSave={this.onAddDeck} />
                 <DeckSummary className='col-sm-6 right-pane' cards={this.props.cards} name={this.state.deckName} agenda={this.state.agenda}
-                    faction={this.state.faction} plotCards={this.state.plotCards} drawCards={this.state.drawCards} />
+                    faction={this.state.faction} provinceCards={this.state.provinceCards} drawCards={this.state.drawCards} />
             </div >);
     }
 }

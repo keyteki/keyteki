@@ -12,13 +12,12 @@ class DeckEditor extends React.Component {
         super(props);
 
         this.onFactionChange = this.onFactionChange.bind(this);
-        this.onAgendaChange = this.onAgendaChange.bind(this);
-        this.onBannerChange = this.onBannerChange.bind(this);
+        this.onAllyChange = this.onAllyChange.bind(this);
         this.onAddCard = this.onAddCard.bind(this);
-        this.onAddBanner = this.onAddBanner.bind(this);
+        this.onAddAlly = this.onAddAlly.bind(this);
         this.addCardChange = this.addCardChange.bind(this);
         this.onCardListChange = this.onCardListChange.bind(this);
-        this.onBannerListChange = this.onBannerListChange.bind(this);
+        this.onAllyListChange = this.onAllyListChange.bind(this);
         this.onSaveClick = this.onSaveClick.bind(this);
 
         this.state = {
@@ -27,34 +26,19 @@ class DeckEditor extends React.Component {
             deckName: props.deckName || 'New Deck',
             drawCards: props.drawCards || [],
             factions: [
-                { name: 'House Baratheon', value: 'baratheon' },
-                { name: 'House Greyjoy', value: 'greyjoy' },
-                { name: 'House Lannister', value: 'lannister' },
-                { name: 'House Martell', value: 'martell' },
-                { name: 'The Night\'s Watch', value: 'thenightswatch' },
-                { name: 'House Stark', value: 'stark' },
-                { name: 'House Targaryen', value: 'targaryen' },
-                { name: 'House Tyrell', value: 'tyrell' }
-            ],
-            banners: [
-                { name: 'Banner of the Dragon', value: 'Banner of the Dragon'},
-                { name: 'Banner of the Kraken', value:  'Banner of the Kraken'},
-                { name: 'Banner of the Lion', value: 'Banner of the Lion'},
-                { name: 'Banner of the Rose', value: 'Banner of the Rose'},
-                { name: 'Banner of the Stag', value: 'Banner of the Stag'},
-                { name: 'Banner of the Sun', value: 'Banner of the Sun'},
-                { name: 'Banner of the Watch', value: 'Banner of the Watch'},
-                { name: 'Banner of the Wolf', value: 'Banner of the Wolf'}
+                { name: 'Crab Clan', value: 'crab' },
+                { name: 'Crane Clan', value: 'crane' },
+                { name: 'Dragon Clan', value: 'dragon' },
+                { name: 'Lion Clan', value: 'lion' },
+                { name: 'Phoenix Clan', value: 'phoenix' },
+                { name: 'Scorpion Clan', value: 'scorpion' },
+                { name: 'Unicorn Clan', value: 'unicorn' }
             ],
             numberToAdd: 1,
-            plotCards: props.plotCards || [],
-            bannerCards: props.bannerCards || [],
-            selectedAgenda: props.agenda || {},
-            selectedBanner: {},
-            bannersVisible: (props.agenda && props.agenda.name === 'Alliance') || false,
+            provinceCards: props.provinceCards || [],
             selectedFaction: props.faction || {
-                name: 'House Baratheon',
-                value: 'baratheon'
+                name: 'Crab Clan',
+                value: 'crab'
             },
             validation: {
                 deckname: '',
@@ -66,18 +50,18 @@ class DeckEditor extends React.Component {
     componentWillMount() {
         var cardList = '';
         var bannerList = '';
-        if(this.props.bannerCards) {
-            _.each(this.props.bannerCards, card => {
-                bannerList += ' ' + card.label + '\n';
+        if(this.props.allyCards) {
+            _.each(this.props.allyCards, card => {
+                allyList += ' ' + card.label + '\n';
             });
-            this.setState({bannerList: bannerList});
+            this.setState({allyList: allysList});
         }
-        if(this.props.drawCards || this.props.plotCards) {
+        if(this.props.drawCards || this.props.provinceCards) {
             _.each(this.props.drawCards, card => {
                 cardList += card.count + ' ' + card.card.label + '\n';
             });
 
-            _.each(this.props.plotCards, card => {
+            _.each(this.props.provinceCards, card => {
                 cardList += card.count + ' ' + card.card.label + '\n';
             });
 
@@ -97,10 +81,8 @@ class DeckEditor extends React.Component {
         return {
             name: this.state.deckName,
             selectedFaction: this.state.selectedFaction,
-            selectedAgenda: this.state.selectedAgenda,
-            plotCards: this.state.plotCards,
+            provinceCards: this.state.provinceCards,
             drawCards: this.state.drawCards,
-            bannerCards: this.state.bannerCards
         };
     }
 
@@ -119,43 +101,30 @@ class DeckEditor extends React.Component {
         this.setState({ selectedFaction: faction }, () => this.raiseDeckChanged());
     }
 
-    onAgendaChange(event) {
+    onAllyChange(event) {
         if(!event.target.value || event.target.value === '') {
-            this.setState({ selectedAgenda: { code: '' } }, () => this.raiseDeckChanged());
-            return;
-        }
-
-        var agenda = _.find(this.props.agendas, function(agenda) {
-            return agenda.code === event.target.value;
-        });
-        this.setState({ bannersVisible: agenda.name === 'Alliance'});
-        this.setState({ selectedAgenda: agenda }, () => this.raiseDeckChanged());
-    }
-
-    onBannerChange(event) {
-        if(!event.target.value || event.target.value === '') {
-            this.setState({ selectedBanner: { code: '' } }, () => this.raiseDeckChanged());
+            this.setState({ selectedAlly: { code: '' } }, () => this.raiseDeckChanged());
             return;
         }
 
         var banner = _.find(this.props.agendas, function(agenda) {
             return agenda.name === event.target.value;
         });      
-        this.setState({ selectedBanner: banner }, () => this.raiseDeckChanged());
+        this.setState({ selectedAlly: banner }, () => this.raiseDeckChanged());
     }
 
-    addBanner(card) {
-        var list = this.state.bannerCards;
+    addAlly(card) {
+        var list = this.state.allyCards;
         list.push(card);
-        this.setState({bannerCards: list});
+        this.setState({allyCards: list});
     }
     
-    onAddBanner(event) {
+    onAddAlly(event) {
         event.preventDefault();
-        this.addBanner(this.state.selectedBanner);
-        var bannerList = this.state.bannerList;
-        bannerList += this.state.selectedBanner.label + '\n';
-        this.setState({ bannerList: bannerList }, () => this.raiseDeckChanged());
+        this.addAlly(this.state.selectedAlly);
+        var allyList = this.state.allyList;
+        allyList += this.state.selectedAlly.label + '\n';
+        this.setState({ allyList: allyList }, () => this.raiseDeckChanged());
     }
 
     addCardChange(selectedCards) {
@@ -176,21 +145,21 @@ class DeckEditor extends React.Component {
         this.setState({ cardList: cardList }, () => this.raiseDeckChanged());
     }
 
-    onBannerListChange(event) {
+    onAllyListChange(event) {
        
         var split = event.target.value.split('\n');
-        this.setState({bannerCards: []}, () => {
+        this.setState({allyCards: []}, () => {
             _.each(split, line => {
                 line = line.trim();
                 var card = _.find(this.props.cards, function(card) {
                     return card.label.toLowerCase() === line.toLowerCase();
                 });
                 if(card) {
-                    this.addBanner(card);
+                    this.addAlly(card);
                 }
             });
         });
-        this.setState({ bannerList: event.target.value }, () => this.raiseDeckChanged());
+        this.setState({ allyList: event.target.value }, () => this.raiseDeckChanged());
     }
 
     onCardListChange(event) {
@@ -232,7 +201,7 @@ class DeckEditor extends React.Component {
             }
         }
 
-        this.setState({ drawCards: [], plotCards: [] }, () => {
+        this.setState({ drawCards: [], provinceCards: [] }, () => {
             _.each(split, line => {
                 line = line.trim();
                 var index = 2;
@@ -272,13 +241,13 @@ class DeckEditor extends React.Component {
     }
 
     addCard(card, number) {
-        var plots = this.state.plotCards;
+        var provinces = this.state.provinceCards;
         var draw = this.state.drawCards;
 
         var list;
 
-        if(card.type_code === 'plot') {
-            list = plots;
+        if(card.type_code === 'province') {
+            list = provinces;
         } else {
             list = draw;
         }
@@ -289,7 +258,7 @@ class DeckEditor extends React.Component {
             list.push({ count: number, card: card });
         }
 
-        this.setState({ plotCards: plots, drawCards: draw }, () => this.raiseDeckChanged());
+        this.setState({ provinceCards: provinces, drawCards: draw }, () => this.raiseDeckChanged());
     }
 
     onSaveClick(event) {
@@ -308,20 +277,9 @@ class DeckEditor extends React.Component {
                 <form className='form form-horizontal'>
                     <Input name='deckName' label='Deck Name' labelClass='col-sm-3' fieldClass='col-sm-9' placeholder='Deck Name'
                         type='text' onChange={this.onChange.bind(this, 'deckName')} value={this.state.deckName} />
-                    <Select name='faction' label='Faction' labelClass='col-sm-3' fieldClass='col-sm-9' options={this.state.factions}
+                    <Select name='faction' label='Clan' labelClass='col-sm-3' fieldClass='col-sm-9' options={this.state.factions}
                         onChange={this.onFactionChange} value={this.state.selectedFaction.value} />
-                    <Select name='agenda' label='Agenda' labelClass='col-sm-3' fieldClass='col-sm-9' options={this.props.agendas}
-                        onChange={this.onAgendaChange} value={this.state.selectedAgenda.code}
-                        valueKey='code' nameKey='label' blankOption={{ label: '- Select -', code: '' }} />
 
-                    {this.state.bannersVisible &&
-                    <div>
-                        <Select name='banners' label ='Banners' labelClass='col-sm-3' fieldClass='col-sm-9' options={this.state.banners}
-                            onChange={this.onBannerChange} value={this.state.selectedBanner.name} blankOption={{ name: '- Select -', code: '' }} button={{ text:'Add', onClick: this.onAddBanner}} />
-                        <TextArea label='Banners' labelClass='col-sm-3' fieldClass='col-sm-9' disabled='disabled' rows='2' value={this.state.bannerList}
-                            onChange={this.onBannerListChange} />
-                    </div>
-                    }
                     <Typeahead label='Card' labelClass={'col-sm-3'} fieldClass='col-sm-4' labelKey={'label'} options={this.props.cards}
                         onChange={this.addCardChange}>
                         <Input name='numcards' type='text' label='Num' labelClass='col-sm-1' fieldClass='col-sm-2'
@@ -348,7 +306,7 @@ DeckEditor.displayName = 'DeckEditor';
 DeckEditor.propTypes = {
     agenda: React.PropTypes.object,
     agendas: React.PropTypes.array,
-    bannerCards: React.PropTypes.array,
+    allyCards: React.PropTypes.array,
     cards: React.PropTypes.array,
     deckName: React.PropTypes.string,
     drawCards: React.PropTypes.array,
@@ -357,7 +315,7 @@ DeckEditor.propTypes = {
     onDeckChange: React.PropTypes.func,
     onDeckSave: React.PropTypes.func,
     packs: React.PropTypes.array,
-    plotCards: React.PropTypes.array
+    provinceCards: React.PropTypes.array
 };
 
 export default DeckEditor;

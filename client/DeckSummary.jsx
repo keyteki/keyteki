@@ -16,7 +16,7 @@ class DeckSummary extends React.Component {
         this.state = {
             status: '',
             cardToShow: '',
-            plotCount: 0,
+            provinceCount: 0,
             drawCount: 0
         };
     }
@@ -47,7 +47,7 @@ class DeckSummary extends React.Component {
     }
 
     updateDeck(status) {
-        this.setState({ status: status.status, drawCount: status.drawCount, plotCount: status.plotCount, extendedStatus: status.extendedStatus }, this.updateStatus);
+        this.setState({ status: status.status, drawCount: status.drawCount, provinceCount: status.provinceCount, extendedStatus: status.extendedStatus }, this.updateStatus);
     }
 
     onCardMouseOver(event) {
@@ -62,18 +62,18 @@ class DeckSummary extends React.Component {
         this.setState({ cardToShow: undefined });
     }
 
-    getBannersToRender() {
-        var banners = [];
-        _.each(this.props.bannerCards, (card) => {
-            banners.push(<div key={ card.code ? card.code : card }><span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ card.label }</span></div>);
+    getAlliesToRender() {
+        var allies = [];
+        _.each(this.props.allyCards, (card) => {
+            allies.push(<div key={ card.code ? card.code : card }><span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ card.label }</span></div>);
         });
-        return banners;
+        return allies;
     }
 
     getCardsToRender() {
         var cardsToRender = [];
         var groupedCards = {};
-        var combinedCards = _.union(this.props.plotCards, this.props.drawCards);
+        var combinedCards = _.union(this.props.provinceCards, this.props.drawCards);
 
         _.each(combinedCards, (card) => {
             if(!groupedCards[card.card.type_name]) {
@@ -100,24 +100,19 @@ class DeckSummary extends React.Component {
 
     render() {
         var cardsToRender = this.getCardsToRender();
-        var banners = this.getBannersToRender();
+        var allies = this.getAlliesToRender();
 
         return (
             <div>
                 { this.state.cardToShow ? <img className='hover-image' src={ '/img/cards/' + this.state.cardToShow.code + '.png' } /> : null }
                 <h3>{ this.props.name }</h3>
                 <div className='decklist'>
-                    <img className='pull-left' src={ '/img/cards/' + this.props.faction.value + '.png' } />
-                    { this.props.agenda && this.props.agenda.code ? <img className='pull-right' src={ '/img/cards/' + this.props.agenda.code + '.png' } /> : null }
+                    <img className='pull-left' src={ '/img/mons/' + this.props.faction.value + '.png' } />
                     <div>
                         <h4>{ this.props.faction.name }</h4>
-                        <div ref='agenda'>Agenda: { this.props.agenda && this.props.agenda.label ? <span className='card-link' onMouseOver={ this.onCardMouseOver }
-                            onMouseOut={ this.onCardMouseOut }>{ this.props.agenda.label }</span> : <span>None</span> }</div>
-                   
-                       {(this.props.agenda && this.props.agenda.label === 'Alliance') ? banners : null}
                         
                         <div ref='drawCount'>Draw deck: { this.state.drawCount } cards</div>
-                        <div ref='plotCount'>Plot deck: { this.state.plotCount } cards</div>
+                        <div ref='provinceCount'>Province deck: { this.state.provinceCount } cards</div>
                         <div className={this.state.status === 'Valid' ? 'text-success' : 'text-danger'}>
                             <span ref='popover'>{ this.state.status }</span>
                             <StatusPopOver ref='popoverContent' list={this.state.extendedStatus} />
@@ -145,7 +140,7 @@ DeckSummary.propTypes = {
         value: React.PropTypes.string
     }).isRequired,
     name: React.PropTypes.string,
-    plotCards: React.PropTypes.array
+    provinceCards: React.PropTypes.array
 };
 
 export default DeckSummary;

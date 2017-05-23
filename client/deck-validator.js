@@ -32,7 +32,7 @@ export function validateDeck(deck) {
         
         return { status: status, provinceCount: provinceCount, conflictDrawCount: conflictDrawCount, dynastyDrawCount: dynastyDrawCount, extendedStatus: extendedStatus };
     }
-    var combined = _.union(deck.plotCards, deck.drawCards);
+    var combined = _.union(deck.provinceCards, deck.drawCards);
 
     
     if(conflictDrawCount < minDraw) {

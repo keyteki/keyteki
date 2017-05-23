@@ -132,7 +132,7 @@ class InnerDecks extends React.Component {
                             null}
                     </div>
                     <DeckSummary name={selectedDeck.name} faction={selectedDeck.faction} bannerCards={selectedDeck.bannerCards}
-                        plotCards={selectedDeck.plotCards} drawCards={selectedDeck.drawCards} agenda={selectedDeck.agenda}
+                        provinceCards={selectedDeck.provinceCards} drawCards={selectedDeck.drawCards} agenda={selectedDeck.agenda}
                         cards={this.props.cards} />
                 </div>);
             } else {

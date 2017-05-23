@@ -210,8 +210,8 @@ class DynastyRow extends React.Component {
     }
 }
 
-PlayerRow.displayName = 'PlayerRow';
-PlayerRow.propTypes = {
+DynastyRow.displayName = 'DynastyRow';
+DynastyRow.propTypes = {
     additionalPiles: React.PropTypes.object,
     conflictDiscardPile: React.PropTypes.array,
     conflictDrawDeck: React.PropTypes.array,
