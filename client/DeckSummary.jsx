@@ -17,7 +17,9 @@ class DeckSummary extends React.Component {
             status: '',
             cardToShow: '',
             provinceCount: 0,
-            drawCount: 0
+            drawCount: 0,
+            conflictDrawCount: 0,
+            dynastyDrawCount: 0
         };
     }
 
@@ -47,7 +49,7 @@ class DeckSummary extends React.Component {
     }
 
     updateDeck(status) {
-        this.setState({ status: status.status, drawCount: status.drawCount, provinceCount: status.provinceCount, extendedStatus: status.extendedStatus }, this.updateStatus);
+        this.setState({ status: status.status, conflictDrawCount: status.conflictDrawCount, dynastyDrawCount: status.dynastyDrawCount, provinceCount: status.provinceCount, extendedStatus: status.extendedStatus }, this.updateStatus);
     }
 
     onCardMouseOver(event) {
@@ -73,7 +75,7 @@ class DeckSummary extends React.Component {
     getCardsToRender() {
         var cardsToRender = [];
         var groupedCards = {};
-        var combinedCards = _.union(this.props.provinceCards, this.props.drawCards);
+        var combinedCards = _.union(this.props.provinceCards, this.props.drawCards, this.props.conflictDrawCards, this.props.dynastyDrawCards);
 
         _.each(combinedCards, (card) => {
             if(!groupedCards[card.card.type_name]) {
@@ -111,8 +113,10 @@ class DeckSummary extends React.Component {
                     <div>
                         <h4>{ this.props.faction.name }</h4>
                         
-                        <div ref='drawCount'>Draw deck: { this.state.drawCount } cards</div>
                         <div ref='provinceCount'>Province deck: { this.state.provinceCount } cards</div>
+                        <div ref='dynastyDrawCount'>Dynasty Draw deck: { this.state.dynastyDrawCount } cards</div>
+                        <div ref='conflictDrawCount'>Conflict Draw deck: { this.state.conflictDrawCount } cards</div>
+                                              
                         <div className={this.state.status === 'Valid' ? 'text-success' : 'text-danger'}>
                             <span ref='popover'>{ this.state.status }</span>
                             <StatusPopOver ref='popoverContent' list={this.state.extendedStatus} />
@@ -135,6 +139,8 @@ DeckSummary.propTypes = {
     bannerCards: React.PropTypes.array,
     cards: React.PropTypes.array,
     drawCards: React.PropTypes.array,
+    conflictDrawCards: React.PropTypes.array,
+    dynastyDrawCards: React.PropTypes.array,
     faction: React.PropTypes.shape({
         name: React.PropTypes.string,
         value: React.PropTypes.string

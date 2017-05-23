@@ -36,6 +36,8 @@ class DeckEditor extends React.Component {
             ],
             numberToAdd: 1,
             provinceCards: props.provinceCards || [],
+            conflictDrawCards: props.conflictDrawCards || [],
+            dynastyDrawCards: props.dynastyDrawCards || [],
             selectedFaction: props.faction || {
                 name: 'Crab Clan',
                 value: 'crab'
@@ -56,8 +58,16 @@ class DeckEditor extends React.Component {
             });
             this.setState({allyList: allysList});
         }
-        if(this.props.drawCards || this.props.provinceCards) {
+        if(this.props.drawCards || this.props.provinceCards || this.props.conflictDrawCards || this.props.dynastyDrawCards) {
             _.each(this.props.drawCards, card => {
+                cardList += card.count + ' ' + card.card.label + '\n';
+            });
+
+             _.each(this.props.conflictDrawCards, card => {
+                cardList += card.count + ' ' + card.card.label + '\n';
+            });
+
+              _.each(this.props.dynastyDrawCards, card => {
                 cardList += card.count + ' ' + card.card.label + '\n';
             });
 
@@ -83,6 +93,8 @@ class DeckEditor extends React.Component {
             selectedFaction: this.state.selectedFaction,
             provinceCards: this.state.provinceCards,
             drawCards: this.state.drawCards,
+            conflictDrawCards: this.state.conflictDrawCards,
+            dynastyDrawCards: this.state.dynastyDrawCards
         };
     }
 
@@ -102,15 +114,11 @@ class DeckEditor extends React.Component {
     }
 
     onAllyChange(event) {
-        if(!event.target.value || event.target.value === '') {
-            this.setState({ selectedAlly: { code: '' } }, () => this.raiseDeckChanged());
-            return;
-        }
+        var ally = _.find(this.state.factions, (faction) => {
+            return faction.value === event.target.value;
+        });
 
-        var banner = _.find(this.props.agendas, function(agenda) {
-            return agenda.name === event.target.value;
-        });      
-        this.setState({ selectedAlly: banner }, () => this.raiseDeckChanged());
+        this.setState({ selectedAlly: ally }, () => this.raiseDeckChanged());
     }
 
     addAlly(card) {
@@ -201,7 +209,7 @@ class DeckEditor extends React.Component {
             }
         }
 
-        this.setState({ drawCards: [], provinceCards: [] }, () => {
+        this.setState({ drawCards: [], provinceCards: [], conflictDrawCards: [], dynastyDrawCards: [] }, () => {
             _.each(split, line => {
                 line = line.trim();
                 var index = 2;
@@ -243,11 +251,17 @@ class DeckEditor extends React.Component {
     addCard(card, number) {
         var provinces = this.state.provinceCards;
         var draw = this.state.drawCards;
+        var conflict = this.state.conflictDrawCards;
+        var dynasty = this.state.dynastyDrawCards;
 
         var list;
 
         if(card.type_code === 'province') {
             list = provinces;
+        } else if(card.deck === 'dynasty') {
+            list = dynasty;
+        } else if(card.deck === 'conflict') {
+            list = conflict;
         } else {
             list = draw;
         }
@@ -258,7 +272,7 @@ class DeckEditor extends React.Component {
             list.push({ count: number, card: card });
         }
 
-        this.setState({ provinceCards: provinces, drawCards: draw }, () => this.raiseDeckChanged());
+        this.setState({ provinceCards: provinces, drawCards: draw, conflictDrawCards: conflict, dynastyDrawCards: dynasty }, () => this.raiseDeckChanged());
     }
 
     onSaveClick(event) {
@@ -279,6 +293,9 @@ class DeckEditor extends React.Component {
                         type='text' onChange={this.onChange.bind(this, 'deckName')} value={this.state.deckName} />
                     <Select name='faction' label='Clan' labelClass='col-sm-3' fieldClass='col-sm-9' options={this.state.factions}
                         onChange={this.onFactionChange} value={this.state.selectedFaction.value} />
+                    <Select name='ally' label='Ally' labelClass='col-sm-3' fieldClass='col-sm-9' options={this.state.factions}
+                        onChange={this.onAllyChange} value={this.state.selectedFaction.value} />
+
 
                     <Typeahead label='Card' labelClass={'col-sm-3'} fieldClass='col-sm-4' labelKey={'label'} options={this.props.cards}
                         onChange={this.addCardChange}>
@@ -310,6 +327,8 @@ DeckEditor.propTypes = {
     cards: React.PropTypes.array,
     deckName: React.PropTypes.string,
     drawCards: React.PropTypes.array,
+    conflictDrawCards: React.PropTypes.array,
+    dynastyDrawCards: React.PropTypes.array,
     faction: React.PropTypes.object,
     mode: React.PropTypes.string,
     onDeckChange: React.PropTypes.func,

@@ -26,7 +26,9 @@ export class InnerAddDeck extends React.Component {
             faction: deck.selectedFaction,
             agenda: deck.selectedAgenda,
             provinceCards: deck.provinceCards,
-            drawCards: deck.drawCards
+            drawCards: deck.drawCards,
+            conflictDrawCards: deck.conflictDrawCards,
+            dynastyDrawCards: deck.dynastyDrawCards
         });
 
         $.ajax({
@@ -52,7 +54,9 @@ export class InnerAddDeck extends React.Component {
             faction: deck.selectedFaction,
             agenda: deck.selectedAgenda,
             provinceCards: deck.provinceCards,
-            drawCards: deck.drawCards
+            drawCards: deck.drawCards,
+            conflictDrawCards: deck.conflictDrawCards,
+            dynastyDrawCards: deck.dynastyDrawCards
         });
     }
 
@@ -65,7 +69,7 @@ export class InnerAddDeck extends React.Component {
                 <DeckEditor agendas={this.props.agendas} cards={this.props.cards} packs={this.props.packs} mode='Add'
                     onDeckChange={this.onDeckChange} onDeckSave={this.onAddDeck} />
                 <DeckSummary className='col-sm-6 right-pane' cards={this.props.cards} name={this.state.deckName} agenda={this.state.agenda}
-                    faction={this.state.faction} provinceCards={this.state.provinceCards} drawCards={this.state.drawCards} />
+                    faction={this.state.faction} provinceCards={this.state.provinceCards} drawCards={this.state.drawCards} conflictDrawCards={this.state.conflictDrawCards} dynastyDrawCards={this.state.dynastyDrawCards}/>
             </div >);
     }
 }

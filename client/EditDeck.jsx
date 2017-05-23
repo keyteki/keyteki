@@ -38,6 +38,8 @@ class InnerEditDeck extends React.Component {
                     agenda: deck.agenda,
                     provinceCards: deck.provinceCards,
                     drawCards: deck.drawCards,
+                    conflictDrawCards: deck.conflictDrawCards,
+                    dynastyDrawCards: deck.dynastyDrawCards,
                     bannerCards: deck.bannerCards
                 });
             })
@@ -94,10 +96,10 @@ class InnerEditDeck extends React.Component {
                         <DeckEditor agendas={this.props.agendas} cards={this.props.cards} packs={this.props.packs}
                             deckName={this.state.deckName} mode='Save'
                             faction={this.state.faction} agenda={this.state.agenda}
-                            provinceCards={this.state.provinceCards} drawCards={this.state.drawCards} bannerCards={this.state.bannerCards}
+                            provinceCards={this.state.provinceCards} drawCards={this.state.drawCards} conflictDrawCards={this.state.conflictDrawCards} dynastyDrawCards={this.state.dynastyDrawCards} bannerCards={this.state.bannerCards}
                             onDeckChange={this.onDeckChange} onDeckSave={this.onEditDeck} />
                         <DeckSummary className='col-sm-6 right-pane' cards={this.props.cards} name={this.state.deckName} agenda={this.state.agenda}
-                            faction={this.state.faction} provinceCards={this.state.provinceCards} drawCards={this.state.drawCards} bannerCards={this.state.bannerCards} />
+                            faction={this.state.faction} provinceCards={this.state.provinceCards} drawCards={this.state.drawCards} conflictDrawCards={this.state.conflictDrawCards} dynastyDrawCards={this.state.dynastyDrawCards} bannerCards={this.state.bannerCards} />
                     </div> :
                     <div>Loading deck...</div>}
             </div>);
