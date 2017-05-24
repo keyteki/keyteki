@@ -107,8 +107,8 @@ class Conflict {
             return;
         }
 
-        this.attackerSkill = this.calculateSkillFor(conflictType, this.attackers) + this.attackerSkillModifier;
-        this.defenderSkill = this.calculateSkillFor(conflictType, this.defenders) + this.defenderSkillModifier;
+        this.attackerSkill = this.calculateSkillFor(this.attackers) + this.attackerSkillModifier;
+        this.defenderSkill = this.calculateSkillFor(this.defenders) + this.defenderSkillModifier;
     }
 
     calculateSkillFor(cards) {
