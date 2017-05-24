@@ -70,10 +70,6 @@ class Conflict {
 
     markAsParticipating(cards, participantType) {
         _.each(cards, card => {
-            if(!card.kneeled && !card.conflictOptions.doesNotKneelAs[participantType]) {
-                card.controller.kneelCard(card);
-            }
-
             card.inConflict = true;
         });
     }
