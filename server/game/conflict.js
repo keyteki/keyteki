@@ -102,7 +102,7 @@ class Conflict {
         }, 0);
     }
 
-    calculateSkill(conflictType) {
+    calculateSkill() {
         if(this.winnerDetermined) {
             return;
         }
@@ -111,9 +111,9 @@ class Conflict {
         this.defenderSkill = this.calculateSkillFor(conflictType, this.defenders) + this.defenderSkillModifier;
     }
 
-    calculateSkillFor(conflictType, cards) {
+    calculateSkillFor(cards) {
         return _.reduce(cards, (sum, card) => {
-            return sum + card.getSkill(conflictType);
+            return sum + card.getSkill(this.conflictType);
         }, 0);
     }
 
@@ -130,7 +130,7 @@ class Conflict {
     determineWinner() {
         this.winnerDetermined = true;
 
-        this.calculateSkill(this.conflictType);
+        this.calculateSkill();
 
         let result = this.checkNoWinnerOrLoser();
         if(result.noWinner) {
