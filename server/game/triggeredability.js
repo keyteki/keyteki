@@ -42,13 +42,25 @@ class TriggeredAbility extends BaseAbility {
     }
 
     eventHandler(event) {
-        var context = new TriggeredAbilityContext(event, this.game, this.card);
-
-        if(!this.meetsRequirements(context)) {
+        if(!this.isTriggeredByEvent(event)) {
             return;
         }
 
-        this.executeReaction(context);
+        this.game.registerAbility(this);
+    }
+
+    createContext(event) {
+        return new TriggeredAbilityContext(event, this.game, this.card);
+    }
+
+    isTriggeredByEvent(event) {
+        let listener = this.when[event.name];
+
+        if(!listener) {
+            return false;
+        }
+
+        return listener(...event.params);
     }
 
     meetsRequirements(context) {
@@ -70,7 +82,7 @@ class TriggeredAbility extends BaseAbility {
             return false;
         }
 
-        if(!this.when[context.event.name](...context.event.params)) {
+        if(!this.isTriggeredByEvent(context.event)) {
             return false;
         }
 
@@ -87,9 +99,6 @@ class TriggeredAbility extends BaseAbility {
         }
 
         return true;
-    }
-
-    executeReaction() {
     }
 
     isEventListeningLocation(location) {

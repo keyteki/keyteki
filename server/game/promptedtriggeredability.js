@@ -56,10 +56,6 @@ class PromptedTriggeredAbility extends TriggeredAbility {
         });
     }
 
-    executeReaction(context) {
-        this.game.registerAbility(this, context);
-    }
-
     executeHandler(context) {
         var handler = this.choices[context.choice];
 
