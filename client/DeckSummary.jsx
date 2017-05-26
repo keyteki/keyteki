@@ -110,14 +110,14 @@ class DeckSummary extends React.Component {
                 <h3>{ this.props.name }</h3>
                 <div className='decklist'>
                     <img className='pull-left' src={ '/img/mons/' + this.props.faction.value + '.png' } />
-                     { this.props.allianceFaction && this.props.allianceFaction.value !== 'none' ? <img className='pull-right' src={ '/img/mons/' + this.props.allianceFaction.value + '-sm.png' } /> : null }
+                     { this.props.allianceFaction && this.props.allianceFaction.value !== 'none' ? <img className='pull-right' src={ '/img/mons/' + this.props.allianceFaction.value + '.png' } /> : null }
                     <div>
                         <h4>{ this.props.faction.name }</h4>
                         <div ref='allianceFaction'>Alliance: { this.props.allianceFaction && this.props.allianceFaction.name ? <span> {this.props.allianceFaction.name} </span> : <span> None </span> } </div>
                    
                         <div ref='provinceCount'>Province deck: { this.state.provinceCount } cards</div>
-                        <div ref='dynastyDrawCount'>Dynasty Draw deck: { this.state.dynastyDrawCount } cards</div>
-                        <div ref='conflictDrawCount'>Conflict Draw deck: { this.state.conflictDrawCount } cards</div>
+                        <div ref='dynastyDrawCount'>Dynasty Deck: { this.state.dynastyDrawCount } cards</div>
+                        <div ref='conflictDrawCount'>Conflict Deck: { this.state.conflictDrawCount } cards</div>
                                               
                         <div className={this.state.status === 'Valid' ? 'text-success' : 'text-danger'}>
                             <span ref='popover'>{ this.state.status }</span>
