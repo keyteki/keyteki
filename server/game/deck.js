@@ -53,7 +53,7 @@ class Deck {
         }
         result.stronghold.moveTo('stronghold');
 
-        result.allCards = [result.stronghold].concat(result.drawCards).concat(result.plotCards);
+        result.allCards = [result.stronghold].concat(result.drawCards).concat(result.provinceCards).concat(result.conflictDrawCards).concat(result.dynastyDrawCards);
 
         return result;
     }

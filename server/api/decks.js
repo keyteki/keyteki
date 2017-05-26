@@ -73,11 +73,12 @@ module.exports.init = function(server) {
                 {
                     '$set': {
                         name: data.deckName,
-                        plotCards: data.plotCards,
+                        provinceCards: data.provinceCards,
                         drawCards: data.drawCards,
-                        bannerCards: data.bannerCards,
+                        conflictDrawCards: data.conflictDrawCards,
+                        dynastyDrawCards: data.dynastyDrawCards,
                         faction: data.faction,
-                        agenda: data.agenda,
+                        allianceFaction: data.allianceFaction,
                         lastUpdated: new Date()
                     }
                 });
@@ -96,11 +97,12 @@ module.exports.init = function(server) {
         db.collection('decks').insert({
             username: req.user.username,
             name: data.deckName,
-            plotCards: data.plotCards,
-            bannerCards: data.bannerCards,
+            provinceCards: data.provinceCards,
             drawCards: data.drawCards,
+            conflictDrawCards: data.conflictDrawCards,
+            dynastyDrawCards: data.dynastyDrawCards,
             faction: data.faction,
-            agenda: data.agenda,
+            allianceFaction: data.allianceFaction,
             lastUpdated: new Date()
         }, function(err) {
             if(err) {

@@ -131,8 +131,8 @@ class InnerDecks extends React.Component {
                             <button className='btn btn-danger' onClick={this.onConfirmDeleteClick}>Delete</button> :
                             null}
                     </div>
-                    <DeckSummary name={selectedDeck.name} faction={selectedDeck.faction} bannerCards={selectedDeck.bannerCards}
-                        provinceCards={selectedDeck.provinceCards} drawCards={selectedDeck.drawCards} conflictDrawCards={selectedDeck.conflictdrawCards} dynastyDrawCards={selectedDeck.dynastyDrawCards} agenda={selectedDeck.agenda}
+                    <DeckSummary name={selectedDeck.name} faction={selectedDeck.faction} 
+                        provinceCards={selectedDeck.provinceCards} drawCards={selectedDeck.drawCards} conflictDrawCards={selectedDeck.conflictDrawCards} dynastyDrawCards={selectedDeck.dynastyDrawCards} allianceFaction={selectedDeck.allianceFaction}
                         cards={this.props.cards} />
                 </div>);
             } else {

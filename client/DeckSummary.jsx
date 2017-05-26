@@ -110,9 +110,11 @@ class DeckSummary extends React.Component {
                 <h3>{ this.props.name }</h3>
                 <div className='decklist'>
                     <img className='pull-left' src={ '/img/mons/' + this.props.faction.value + '.png' } />
+                     { this.props.allianceFaction && this.props.allianceFaction.value !== 'none' ? <img className='pull-right' src={ '/img/mons/' + this.props.allianceFaction.value + '-sm.png' } /> : null }
                     <div>
                         <h4>{ this.props.faction.name }</h4>
-                        
+                        <div ref='allianceFaction'>Alliance: { this.props.allianceFaction && this.props.allianceFaction.name ? <span> {this.props.allianceFaction.name} </span> : <span> None </span> } </div>
+                   
                         <div ref='provinceCount'>Province deck: { this.state.provinceCount } cards</div>
                         <div ref='dynastyDrawCount'>Dynasty Draw deck: { this.state.dynastyDrawCount } cards</div>
                         <div ref='conflictDrawCount'>Conflict Draw deck: { this.state.conflictDrawCount } cards</div>
@@ -132,16 +134,15 @@ class DeckSummary extends React.Component {
 
 DeckSummary.displayName = 'DeckSummary';
 DeckSummary.propTypes = {
-    agenda: React.PropTypes.shape({
-        code: React.PropTypes.string,
-        label: React.PropTypes.string
-    }),
-    bannerCards: React.PropTypes.array,
     cards: React.PropTypes.array,
     drawCards: React.PropTypes.array,
     conflictDrawCards: React.PropTypes.array,
     dynastyDrawCards: React.PropTypes.array,
     faction: React.PropTypes.shape({
+        name: React.PropTypes.string,
+        value: React.PropTypes.string
+    }).isRequired,
+    allianceFaction: React.PropTypes.shape({
         name: React.PropTypes.string,
         value: React.PropTypes.string
     }).isRequired,

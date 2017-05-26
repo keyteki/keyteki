@@ -23,6 +23,11 @@ export function validateDeck(deck) {
     var extendedStatus = [];
     var minDraw = 40;
     var maxDraw = 45;
+    var airCount = 0;
+    var earthCount = 0;
+    var fireCount = 0;
+    var waterCount = 0;
+    var voidCount = 0;
     //Update for influence
     if(_.any(deck.drawCards, card => {
         return !card.card.faction_code;
@@ -62,6 +67,46 @@ export function validateDeck(deck) {
     
     if(provinceCount > requiredProvinces) {
         extendedStatus.push('Too many provinces');
+        status = 'Invalid';
+    }
+
+    //Ensure one province of each element
+    _.each(deck.provinceCards, card => {
+                if(card.card.element === 'air'){
+                    airCount++;
+                } else if(card.card.element === 'earth'){
+                    earthCount++;
+                } else if(card.card.element === 'fire'){
+                    fireCount++;
+                } else if(card.card.element === 'water'){
+                    waterCount++;
+                } else if(card.card.element === 'void'){
+                    voidCount++;
+                }
+            });
+
+    if(airCount > 1) {
+        extendedStatus.push('Too many air provinces');
+        status = 'Invalid';
+    }
+
+    if(earthCount > 1) {
+        extendedStatus.push('Too many earth provinces');
+        status = 'Invalid';
+    }
+
+    if(fireCount > 1) {
+        extendedStatus.push('Too many fire provinces');
+        status = 'Invalid';
+    }
+
+    if(waterCount > 1) {
+        extendedStatus.push('Too many water provinces');
+        status = 'Invalid';
+    }
+
+    if(voidCount > 1) {
+        extendedStatus.push('Too many void provinces');
         status = 'Invalid';
     }
 

@@ -13,16 +13,12 @@ class DeckEditor extends React.Component {
 
         this.onFactionChange = this.onFactionChange.bind(this);
         this.onAllyChange = this.onAllyChange.bind(this);
-        this.onAddCard = this.onAddCard.bind(this);
-        this.onAddAlly = this.onAddAlly.bind(this);
         this.addCardChange = this.addCardChange.bind(this);
         this.onCardListChange = this.onCardListChange.bind(this);
-        this.onAllyListChange = this.onAllyListChange.bind(this);
         this.onSaveClick = this.onSaveClick.bind(this);
 
         this.state = {
             cardList: '',
-            bannerList: '',
             deckName: props.deckName || 'New Deck',
             drawCards: props.drawCards || [],
             factions: [
@@ -34,6 +30,16 @@ class DeckEditor extends React.Component {
                 { name: 'Scorpion Clan', value: 'scorpion' },
                 { name: 'Unicorn Clan', value: 'unicorn' }
             ],
+            allianceFactions: [
+                { name: 'None', value: 'none' },
+                { name: 'Crab Clan', value: 'crab' },
+                { name: 'Crane Clan', value: 'crane' },
+                { name: 'Dragon Clan', value: 'dragon' },
+                { name: 'Lion Clan', value: 'lion' },
+                { name: 'Phoenix Clan', value: 'phoenix' },
+                { name: 'Scorpion Clan', value: 'scorpion' },
+                { name: 'Unicorn Clan', value: 'unicorn' }
+            ],            
             numberToAdd: 1,
             provinceCards: props.provinceCards || [],
             conflictDrawCards: props.conflictDrawCards || [],
@@ -41,6 +47,10 @@ class DeckEditor extends React.Component {
             selectedFaction: props.faction || {
                 name: 'Crab Clan',
                 value: 'crab'
+            },
+            selectedAlly: props.allianceFaction || {
+                name: 'None',
+                value: 'none'
             },
             validation: {
                 deckname: '',
@@ -51,13 +61,6 @@ class DeckEditor extends React.Component {
 
     componentWillMount() {
         var cardList = '';
-        var bannerList = '';
-        if(this.props.allyCards) {
-            _.each(this.props.allyCards, card => {
-                allyList += ' ' + card.label + '\n';
-            });
-            this.setState({allyList: allysList});
-        }
         if(this.props.drawCards || this.props.provinceCards || this.props.conflictDrawCards || this.props.dynastyDrawCards) {
             _.each(this.props.drawCards, card => {
                 cardList += card.count + ' ' + card.card.label + '\n';
@@ -91,6 +94,7 @@ class DeckEditor extends React.Component {
         return {
             name: this.state.deckName,
             selectedFaction: this.state.selectedFaction,
+            selectedAlly: this.state.selectedAlly,
             provinceCards: this.state.provinceCards,
             drawCards: this.state.drawCards,
             conflictDrawCards: this.state.conflictDrawCards,
@@ -114,25 +118,11 @@ class DeckEditor extends React.Component {
     }
 
     onAllyChange(event) {
-        var ally = _.find(this.state.factions, (faction) => {
-            return faction.value === event.target.value;
+        var alliance = _.find(this.state.allianceFactions, (alliance) => {
+            return alliance.value === event.target.value;
         });
 
-        this.setState({ selectedAlly: ally }, () => this.raiseDeckChanged());
-    }
-
-    addAlly(card) {
-        var list = this.state.allyCards;
-        list.push(card);
-        this.setState({allyCards: list});
-    }
-    
-    onAddAlly(event) {
-        event.preventDefault();
-        this.addAlly(this.state.selectedAlly);
-        var allyList = this.state.allyList;
-        allyList += this.state.selectedAlly.label + '\n';
-        this.setState({ allyList: allyList }, () => this.raiseDeckChanged());
+        this.setState({ selectedAlly: alliance }, () => this.raiseDeckChanged());
     }
 
     addCardChange(selectedCards) {
@@ -153,23 +143,6 @@ class DeckEditor extends React.Component {
         this.setState({ cardList: cardList }, () => this.raiseDeckChanged());
     }
 
-    onAllyListChange(event) {
-       
-        var split = event.target.value.split('\n');
-        this.setState({allyCards: []}, () => {
-            _.each(split, line => {
-                line = line.trim();
-                var card = _.find(this.props.cards, function(card) {
-                    return card.label.toLowerCase() === line.toLowerCase();
-                });
-                if(card) {
-                    this.addAlly(card);
-                }
-            });
-        });
-        this.setState({ allyList: event.target.value }, () => this.raiseDeckChanged());
-    }
-
     onCardListChange(event) {
         var split = event.target.value.split('\n');
 
@@ -187,25 +160,11 @@ class DeckEditor extends React.Component {
                     this.setState({ selectedFaction: faction }, () => this.raiseDeckChanged());
                 }
 
-                header = _.rest(header, 2);
-                if(header.length >= 1) {
-                    var rawAgenda = undefined;
-                    if(_.contains(header, 'Alliance')) {
-                        rawAgenda = 'Alliance';
-                        var rawBanners = _.filter(header, line => line !== 'Alliance');
-                    } else {
-                        rawAgenda = header[0];
-                    }
-
-                    var agenda = _.find(this.props.agendas, agenda => agenda.name === rawAgenda);
-                    if(agenda) {
-                        this.setState({ bannersVisible: agenda.name === 'Alliance'});
-                        this.setState({ selectedAgenda: agenda }, () => this.raiseDeckChanged());
-                    }
-                    if(rawBanners) {
-                        this.setState({ bannerList: rawBanners.join('\n') }, () => this.raiseDeckChanged());
-                    }
+                var alliance = _.find(this.state.allianceFactions, alliance => alliance.name === header[2]);
+                if(alliance) {
+                    this.setState({ selectedAlly: alliance }, () => this.raiseDeckChanged());
                 }
+
             }
         }
 
@@ -293,8 +252,8 @@ class DeckEditor extends React.Component {
                         type='text' onChange={this.onChange.bind(this, 'deckName')} value={this.state.deckName} />
                     <Select name='faction' label='Clan' labelClass='col-sm-3' fieldClass='col-sm-9' options={this.state.factions}
                         onChange={this.onFactionChange} value={this.state.selectedFaction.value} />
-                    <Select name='ally' label='Ally' labelClass='col-sm-3' fieldClass='col-sm-9' options={this.state.factions}
-                        onChange={this.onAllyChange} value={this.state.selectedFaction.value} />
+                    <Select name='alliance' label='Alliance' labelClass='col-sm-3' fieldClass='col-sm-9' options={this.state.allianceFactions}
+                        onChange={this.onAllyChange} value={this.state.selectedAlly.value} />
 
 
                     <Typeahead label='Card' labelClass={'col-sm-3'} fieldClass='col-sm-4' labelKey={'label'} options={this.props.cards}
@@ -321,15 +280,13 @@ class DeckEditor extends React.Component {
 
 DeckEditor.displayName = 'DeckEditor';
 DeckEditor.propTypes = {
-    agenda: React.PropTypes.object,
-    agendas: React.PropTypes.array,
-    allyCards: React.PropTypes.array,
     cards: React.PropTypes.array,
     deckName: React.PropTypes.string,
     drawCards: React.PropTypes.array,
     conflictDrawCards: React.PropTypes.array,
     dynastyDrawCards: React.PropTypes.array,
     faction: React.PropTypes.object,
+    allianceFaction: React.PropTypes.object,
     mode: React.PropTypes.string,
     onDeckChange: React.PropTypes.func,
     onDeckSave: React.PropTypes.func,

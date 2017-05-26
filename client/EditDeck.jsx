@@ -35,12 +35,11 @@ class InnerEditDeck extends React.Component {
                     loaded: true,
                     deckName: deck.name,
                     faction: deck.faction,
-                    agenda: deck.agenda,
+                    allianceFaction: deck.allianceFaction,
                     provinceCards: deck.provinceCards,
                     drawCards: deck.drawCards,
                     conflictDrawCards: deck.conflictDrawCards,
-                    dynastyDrawCards: deck.dynastyDrawCards,
-                    bannerCards: deck.bannerCards
+                    dynastyDrawCards: deck.dynastyDrawCards
                 });
             })
             .fail(() => {
@@ -52,10 +51,11 @@ class InnerEditDeck extends React.Component {
         var str = JSON.stringify({
             deckName: deck.name,
             faction: deck.selectedFaction,
-            agenda: deck.selectedAgenda,
+            allianceFaction: deck.selectedAlly,
             provinceCards: deck.provinceCards,
             drawCards: deck.drawCards,
-            bannerCards: deck.bannerCards
+            conflictDrawCards: deck.conflictDrawCards,
+            dynastyDrawCards: deck.dynastyDrawCards
         });
 
         $.ajax({
@@ -78,10 +78,11 @@ class InnerEditDeck extends React.Component {
         this.setState({
             deckName: deck.name,
             faction: deck.selectedFaction,
-            agenda: deck.selectedAgenda,
+            allianceFaction: deck.selectedAlly,
             provinceCards: deck.provinceCards,
             drawCards: deck.drawCards,
-            bannerCards: deck.bannerCards
+            conflictDrawCards: deck.conflictDrawCards,
+            dynastyDrawCards: deck.dynastyDrawCards
         });
     }
 
@@ -93,13 +94,13 @@ class InnerEditDeck extends React.Component {
                 {errorBar}
                 {this.state.loaded ?
                     <div>
-                        <DeckEditor agendas={this.props.agendas} cards={this.props.cards} packs={this.props.packs}
+                        <DeckEditor cards={this.props.cards} packs={this.props.packs}
                             deckName={this.state.deckName} mode='Save'
-                            faction={this.state.faction} agenda={this.state.agenda}
-                            provinceCards={this.state.provinceCards} drawCards={this.state.drawCards} conflictDrawCards={this.state.conflictDrawCards} dynastyDrawCards={this.state.dynastyDrawCards} bannerCards={this.state.bannerCards}
+                            faction={this.state.faction} allianceFaction={this.state.allianceFaction}
+                            provinceCards={this.state.provinceCards} drawCards={this.state.drawCards} conflictDrawCards={this.state.conflictDrawCards} dynastyDrawCards={this.state.dynastyDrawCards}
                             onDeckChange={this.onDeckChange} onDeckSave={this.onEditDeck} />
-                        <DeckSummary className='col-sm-6 right-pane' cards={this.props.cards} name={this.state.deckName} agenda={this.state.agenda}
-                            faction={this.state.faction} provinceCards={this.state.provinceCards} drawCards={this.state.drawCards} conflictDrawCards={this.state.conflictDrawCards} dynastyDrawCards={this.state.dynastyDrawCards} bannerCards={this.state.bannerCards} />
+                        <DeckSummary className='col-sm-6 right-pane' cards={this.props.cards} name={this.state.deckName} allianceFaction={this.state.allianceFaction}
+                            faction={this.state.faction} provinceCards={this.state.provinceCards} drawCards={this.state.drawCards} conflictDrawCards={this.state.conflictDrawCards} dynastyDrawCards={this.state.dynastyDrawCards} />
                     </div> :
                     <div>Loading deck...</div>}
             </div>);
@@ -108,7 +109,6 @@ class InnerEditDeck extends React.Component {
 
 InnerEditDeck.displayName = 'InnerEditDeck';
 InnerEditDeck.propTypes = {
-    agendas: React.PropTypes.array,
     cards: React.PropTypes.array,
     deckId: React.PropTypes.string.isRequired,
     navigate: React.PropTypes.func,
