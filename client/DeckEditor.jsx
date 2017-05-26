@@ -13,6 +13,7 @@ class DeckEditor extends React.Component {
 
         this.onFactionChange = this.onFactionChange.bind(this);
         this.onAllyChange = this.onAllyChange.bind(this);
+        this.onAddCard = this.onAddCard.bind(this);
         this.addCardChange = this.addCardChange.bind(this);
         this.onCardListChange = this.onCardListChange.bind(this);
         this.onSaveClick = this.onSaveClick.bind(this);

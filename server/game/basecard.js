@@ -13,7 +13,9 @@ const EventRegistrar = require('./eventregistrar.js');
 const ValidKeywords = [
     'ancestral',
     'restricted',
-    'limited'
+    'limited',
+    'sincerity',
+    'pride'
 ];
 const LocationsWithEventHandling = ['play area', 'province'];
 

@@ -14,12 +14,25 @@ function hasTrait(card, trait) {
     return card.card.traits && card.card.traits.toLowerCase().indexOf(trait.toLowerCase() + '.') !== -1;
 }
 
+function getStronghold(deck) {
+    var stronghold;
+    _.each(deck, card => {
+        if(card.card.type_code === 'stronghold') {
+            stronghold = card.card;
+        }
+    });
+
+    return stronghold;
+}
+
 export function validateDeck(deck) {
     var provinceCount = getDeckCount(deck.provinceCards);
     var conflictDrawCount = getDeckCount(deck.conflictDrawCards);
     var dynastyDrawCount = getDeckCount(deck.dynastyDrawCards);
     var status = 'Valid';
     var requiredProvinces = 5;
+    var stronghold = getStronghold(deck.drawCards);
+    var influenceTotal = 0;
     var extendedStatus = [];
     var minDraw = 40;
     var maxDraw = 45;
@@ -28,7 +41,9 @@ export function validateDeck(deck) {
     var fireCount = 0;
     var waterCount = 0;
     var voidCount = 0;
-    //Update for influence
+
+
+
     if(_.any(deck.drawCards, card => {
         return !card.card.faction_code;
     })) {
@@ -39,6 +54,7 @@ export function validateDeck(deck) {
     }
     var combined = _.union(deck.provinceCards, deck.drawCards, deck.conflictDrawCards, deck.dynastyDrawCards);
 
+    var combined_clan = _.union(deck.provinceCards, deck.drawCards, deck.dynastyDrawCards);    
     
     if(conflictDrawCount < minDraw) {
         status = 'Invalid';
@@ -83,7 +99,7 @@ export function validateDeck(deck) {
                 } else if(card.card.element === 'void'){
                     voidCount++;
                 }
-            });
+    });
 
     if(airCount > 1) {
         extendedStatus.push('Too many air provinces');
@@ -119,6 +135,44 @@ export function validateDeck(deck) {
 
         return false;
     })) {
+        status = 'Invalid';
+    }
+
+    //Check for out of faction cards in stronghold, provinces, dynasty
+    if(_.any(combined_clan, card => {
+        if(!(_.contains([deck.faction.value,'neutral'],card.card.faction_code))) {
+
+            console.log(card.card.label + ' has faction ' + card.card.faction_code);
+            return true;
+        }
+
+        return false;
+    })) {
+        status = 'Invalid';
+    }
+
+    //Check for out of faction cards in conflict
+    if(_.any(deck.conflictDrawCards, card => {
+        if(!(_.contains([deck.faction.value, deck.allianceFaction.value, 'neutral'],card.card.faction_code))) {
+
+            return true;
+        }
+
+        return false;
+    })) {
+        status = 'Invalid';
+    }
+
+    //Total up influence count
+    _.each(deck.conflictDrawCards, card => {
+        if(card.card.faction_code === deck.allianceFaction.value) {
+            influenceTotal = influenceTotal + (card.card.influence_cost * card.count);
+        }
+    });
+
+    console.log(influenceTotal + ':' + stronghold.influence)
+    if(influenceTotal > stronghold.influence) {
+        extendedStatus.push('Not enough influence');
         status = 'Invalid';
     }
 
