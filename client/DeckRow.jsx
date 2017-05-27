@@ -12,7 +12,7 @@ class DeckRow extends React.Component {
                 <img className='pull-left' src={ '/img/mons/' + this.props.deck.faction.value + '.png' } />
                 <div>{ this.props.deck.name }<span className='pull-right'>{ validation.status === 'Valid' ? 'Valid' : 'Invalid' }</span></div>
                 <div>{ this.props.deck.faction.name }
-                    { this.props.deck.agenda && this.props.deck.agenda.label ? <span>/{ this.props.deck.agenda.label }</span> : null }
+                    { this.props.deck.allianceFaction && this.props.deck.allianceFaction.value !== 'none' ? <span>/{ this.props.deck.allianceFaction.name }</span> : null }
                     <span className='pull-right'>{ moment(this.props.deck.lastUpdated).format('Do MMMM YYYY') }</span>
                 </div>
             </div>);

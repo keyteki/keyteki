@@ -31,7 +31,7 @@ export function validateDeck(deck) {
     var dynastyDrawCount = getDeckCount(deck.dynastyDrawCards);
     var status = 'Valid';
     var requiredProvinces = 5;
-    var stronghold = getStronghold(deck.drawCards);
+    var stronghold = getStronghold(deck.stronghold);
     var influenceTotal = 0;
     var extendedStatus = [];
     var minDraw = 40;
@@ -44,7 +44,7 @@ export function validateDeck(deck) {
 
 
 
-    if(_.any(deck.drawCards, card => {
+    if(_.any(deck.stronghold, card => {
         return !card.card.faction_code;
     })) {
         status = 'Invalid';
@@ -52,9 +52,9 @@ export function validateDeck(deck) {
         
         return { status: status, provinceCount: provinceCount, conflictDrawCount: conflictDrawCount, dynastyDrawCount: dynastyDrawCount, extendedStatus: extendedStatus };
     }
-    var combined = _.union(deck.provinceCards, deck.drawCards, deck.conflictDrawCards, deck.dynastyDrawCards);
+    var combined = _.union(deck.provinceCards, deck.stronghold, deck.conflictDrawCards, deck.dynastyDrawCards);
 
-    var combined_clan = _.union(deck.provinceCards, deck.drawCards, deck.dynastyDrawCards);    
+    var combined_clan = _.union(deck.provinceCards, deck.stronghold, deck.dynastyDrawCards);    
     
     if(conflictDrawCount < minDraw) {
         status = 'Invalid';
@@ -163,19 +163,24 @@ export function validateDeck(deck) {
         status = 'Invalid';
     }
 
-    //Total up influence count
-    _.each(deck.conflictDrawCards, card => {
-        if(card.card.faction_code === deck.allianceFaction.value) {
-            influenceTotal = influenceTotal + (card.card.influence_cost * card.count);
-        }
-    });
+    if(stronghold) {
 
-    console.log(influenceTotal + ':' + stronghold.influence)
-    if(influenceTotal > stronghold.influence) {
-        extendedStatus.push('Not enough influence');
+        //Total up influence count
+        _.each(deck.conflictDrawCards, card => {
+            if(card.card.faction_code === deck.allianceFaction.value) {
+                influenceTotal = influenceTotal + (card.card.influence_cost * card.count);
+            }
+        });
+
+        console.log(influenceTotal + ':' + stronghold.influence)
+        if(influenceTotal > stronghold.influence) {
+            extendedStatus.push('Not enough influence');
+            status = 'Invalid';
+        }
+    } else {
+        extendedStatus.push('No stronghold chosen');
         status = 'Invalid';
     }
-
 
     return { status: status, provinceCount: provinceCount, conflictDrawCount: conflictDrawCount, dynastyDrawCount: dynastyDrawCount, extendedStatus: extendedStatus };
 }

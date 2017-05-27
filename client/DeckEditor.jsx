@@ -21,7 +21,7 @@ class DeckEditor extends React.Component {
         this.state = {
             cardList: '',
             deckName: props.deckName || 'New Deck',
-            drawCards: props.drawCards || [],
+            stronghold: props.stronghold || [],
             factions: [
                 { name: 'Crab Clan', value: 'crab' },
                 { name: 'Crane Clan', value: 'crane' },
@@ -62,8 +62,8 @@ class DeckEditor extends React.Component {
 
     componentWillMount() {
         var cardList = '';
-        if(this.props.drawCards || this.props.provinceCards || this.props.conflictDrawCards || this.props.dynastyDrawCards) {
-            _.each(this.props.drawCards, card => {
+        if(this.props.stronghold || this.props.provinceCards || this.props.conflictDrawCards || this.props.dynastyDrawCards) {
+            _.each(this.props.stronghold, card => {
                 cardList += card.count + ' ' + card.card.label + '\n';
             });
 
@@ -97,7 +97,7 @@ class DeckEditor extends React.Component {
             selectedFaction: this.state.selectedFaction,
             selectedAlly: this.state.selectedAlly,
             provinceCards: this.state.provinceCards,
-            drawCards: this.state.drawCards,
+            stronghold: this.state.stronghold,
             conflictDrawCards: this.state.conflictDrawCards,
             dynastyDrawCards: this.state.dynastyDrawCards
         };
@@ -169,7 +169,7 @@ class DeckEditor extends React.Component {
             }
         }
 
-        this.setState({ drawCards: [], provinceCards: [], conflictDrawCards: [], dynastyDrawCards: [] }, () => {
+        this.setState({ stronghold: [], provinceCards: [], conflictDrawCards: [], dynastyDrawCards: [] }, () => {
             _.each(split, line => {
                 line = line.trim();
                 var index = 2;
@@ -210,7 +210,7 @@ class DeckEditor extends React.Component {
 
     addCard(card, number) {
         var provinces = this.state.provinceCards;
-        var draw = this.state.drawCards;
+        var stronghold = this.state.stronghold;
         var conflict = this.state.conflictDrawCards;
         var dynasty = this.state.dynastyDrawCards;
 
@@ -223,7 +223,7 @@ class DeckEditor extends React.Component {
         } else if(card.deck === 'conflict') {
             list = conflict;
         } else {
-            list = draw;
+            list = stronghold;
         }
 
         if(list[card.code]) {
@@ -232,7 +232,7 @@ class DeckEditor extends React.Component {
             list.push({ count: number, card: card });
         }
 
-        this.setState({ provinceCards: provinces, drawCards: draw, conflictDrawCards: conflict, dynastyDrawCards: dynasty }, () => this.raiseDeckChanged());
+        this.setState({ provinceCards: provinces, stronghold: stronghold, conflictDrawCards: conflict, dynastyDrawCards: dynasty }, () => this.raiseDeckChanged());
     }
 
     onSaveClick(event) {
@@ -283,7 +283,7 @@ DeckEditor.displayName = 'DeckEditor';
 DeckEditor.propTypes = {
     cards: React.PropTypes.array,
     deckName: React.PropTypes.string,
-    drawCards: React.PropTypes.array,
+    stronghold: React.PropTypes.array,
     conflictDrawCards: React.PropTypes.array,
     dynastyDrawCards: React.PropTypes.array,
     faction: React.PropTypes.object,

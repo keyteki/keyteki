@@ -26,7 +26,7 @@ export class InnerAddDeck extends React.Component {
             faction: deck.selectedFaction,
             allianceFaction: deck.selectedAlly,
             provinceCards: deck.provinceCards,
-            drawCards: deck.drawCards,
+            stronghold: deck.stronghold,
             conflictDrawCards: deck.conflictDrawCards,
             dynastyDrawCards: deck.dynastyDrawCards
         });
@@ -54,7 +54,7 @@ export class InnerAddDeck extends React.Component {
             faction: deck.selectedFaction,
             allianceFaction: deck.selectedAlly,
             provinceCards: deck.provinceCards,
-            drawCards: deck.drawCards,
+            stronghold: deck.stronghold,
             conflictDrawCards: deck.conflictDrawCards,
             dynastyDrawCards: deck.dynastyDrawCards
         });
@@ -69,7 +69,7 @@ export class InnerAddDeck extends React.Component {
                 <DeckEditor alliance={this.state.allianceFaction} cards={this.props.cards} packs={this.props.packs} mode='Add'
                     onDeckChange={this.onDeckChange} onDeckSave={this.onAddDeck} />
                 <DeckSummary className='col-sm-6 right-pane' cards={this.props.cards} name={this.state.deckName} alliance={this.state.allianceFaction}
-                    faction={this.state.faction} provinceCards={this.state.provinceCards} drawCards={this.state.drawCards} conflictDrawCards={this.state.conflictDrawCards} dynastyDrawCards={this.state.dynastyDrawCards}/>
+                    faction={this.state.faction} provinceCards={this.state.provinceCards} stronghold={this.state.stronghold} conflictDrawCards={this.state.conflictDrawCards} dynastyDrawCards={this.state.dynastyDrawCards}/>
             </div >);
     }
 }

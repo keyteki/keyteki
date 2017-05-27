@@ -74,7 +74,7 @@ module.exports.init = function(server) {
                     '$set': {
                         name: data.deckName,
                         provinceCards: data.provinceCards,
-                        drawCards: data.drawCards,
+                        stronghold: data.stronghold,
                         conflictDrawCards: data.conflictDrawCards,
                         dynastyDrawCards: data.dynastyDrawCards,
                         faction: data.faction,
@@ -98,7 +98,7 @@ module.exports.init = function(server) {
             username: req.user.username,
             name: data.deckName,
             provinceCards: data.provinceCards,
-            drawCards: data.drawCards,
+            stronghold: data.stronghold,
             conflictDrawCards: data.conflictDrawCards,
             dynastyDrawCards: data.dynastyDrawCards,
             faction: data.faction,

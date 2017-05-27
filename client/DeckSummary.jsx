@@ -64,18 +64,10 @@ class DeckSummary extends React.Component {
         this.setState({ cardToShow: undefined });
     }
 
-    getAlliesToRender() {
-        var allies = [];
-        _.each(this.props.allyCards, (card) => {
-            allies.push(<div key={ card.code ? card.code : card }><span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ card.label }</span></div>);
-        });
-        return allies;
-    }
-
     getCardsToRender() {
         var cardsToRender = [];
         var groupedCards = {};
-        var combinedCards = _.union(this.props.provinceCards, this.props.drawCards, this.props.conflictDrawCards, this.props.dynastyDrawCards);
+        var combinedCards = _.union(this.props.provinceCards, this.props.stronghold, this.props.conflictDrawCards, this.props.dynastyDrawCards);
 
         _.each(combinedCards, (card) => {
             if(!groupedCards[card.card.type_name]) {
@@ -102,7 +94,6 @@ class DeckSummary extends React.Component {
 
     render() {
         var cardsToRender = this.getCardsToRender();
-        var allies = this.getAlliesToRender();
 
         return (
             <div>
@@ -135,7 +126,7 @@ class DeckSummary extends React.Component {
 DeckSummary.displayName = 'DeckSummary';
 DeckSummary.propTypes = {
     cards: React.PropTypes.array,
-    drawCards: React.PropTypes.array,
+    stronghold: React.PropTypes.array,
     conflictDrawCards: React.PropTypes.array,
     dynastyDrawCards: React.PropTypes.array,
     faction: React.PropTypes.shape({

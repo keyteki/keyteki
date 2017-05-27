@@ -37,7 +37,7 @@ class InnerEditDeck extends React.Component {
                     faction: deck.faction,
                     allianceFaction: deck.allianceFaction,
                     provinceCards: deck.provinceCards,
-                    drawCards: deck.drawCards,
+                    stronghold: deck.stronghold,
                     conflictDrawCards: deck.conflictDrawCards,
                     dynastyDrawCards: deck.dynastyDrawCards
                 });
@@ -53,7 +53,7 @@ class InnerEditDeck extends React.Component {
             faction: deck.selectedFaction,
             allianceFaction: deck.selectedAlly,
             provinceCards: deck.provinceCards,
-            drawCards: deck.drawCards,
+            stronghold: deck.stronghold,
             conflictDrawCards: deck.conflictDrawCards,
             dynastyDrawCards: deck.dynastyDrawCards
         });
@@ -80,7 +80,7 @@ class InnerEditDeck extends React.Component {
             faction: deck.selectedFaction,
             allianceFaction: deck.selectedAlly,
             provinceCards: deck.provinceCards,
-            drawCards: deck.drawCards,
+            stronghold: deck.stronghold,
             conflictDrawCards: deck.conflictDrawCards,
             dynastyDrawCards: deck.dynastyDrawCards
         });
@@ -97,10 +97,10 @@ class InnerEditDeck extends React.Component {
                         <DeckEditor cards={this.props.cards} packs={this.props.packs}
                             deckName={this.state.deckName} mode='Save'
                             faction={this.state.faction} allianceFaction={this.state.allianceFaction}
-                            provinceCards={this.state.provinceCards} drawCards={this.state.drawCards} conflictDrawCards={this.state.conflictDrawCards} dynastyDrawCards={this.state.dynastyDrawCards}
+                            provinceCards={this.state.provinceCards} stronghold={this.state.stronghold} conflictDrawCards={this.state.conflictDrawCards} dynastyDrawCards={this.state.dynastyDrawCards}
                             onDeckChange={this.onDeckChange} onDeckSave={this.onEditDeck} />
                         <DeckSummary className='col-sm-6 right-pane' cards={this.props.cards} name={this.state.deckName} allianceFaction={this.state.allianceFaction}
-                            faction={this.state.faction} provinceCards={this.state.provinceCards} drawCards={this.state.drawCards} conflictDrawCards={this.state.conflictDrawCards} dynastyDrawCards={this.state.dynastyDrawCards} />
+                            faction={this.state.faction} provinceCards={this.state.provinceCards} stronghold={this.state.stronghold} conflictDrawCards={this.state.conflictDrawCards} dynastyDrawCards={this.state.dynastyDrawCards} />
                     </div> :
                     <div>Loading deck...</div>}
             </div>);

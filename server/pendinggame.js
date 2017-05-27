@@ -38,7 +38,6 @@ class PendingGame {
     getSaveState() {
         var players = _.map(this.getPlayers(), player => {
             return {
-                agenda: player.agenda ? player.agenda.cardData.name : undefined,
                 faction: player.faction.cardData.name,
                 name: player.name
             };
@@ -59,11 +58,6 @@ class PendingGame {
         player.faction.cardData.code = faction.value;
         player.faction.cardData.type_code = 'faction';
         player.faction.cardData.strength = 0;
-    }
-
-    setupAgenda(player, agenda) {
-        player.agenda = {};
-        player.agenda.cardData = agenda;
     }
 
     // Actions
@@ -233,7 +227,6 @@ class PendingGame {
         player.deck.selected = true;
 
         this.setupFaction(player, deck.faction);
-        this.setupAgenda(player, deck.agenda);
     }
 
     // interrogators
