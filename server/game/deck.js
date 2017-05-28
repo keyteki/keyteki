@@ -3,6 +3,7 @@ const _ = require('underscore');
 const cards = require('./cards');
 const DrawCard = require('./drawcard.js');
 const ProvinceCard = require('./provincecard.js');
+const StrongholdCard = require('./strongholdcard.js');
 
 class Deck {
     constructor(data) {

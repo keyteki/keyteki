@@ -9,6 +9,7 @@ const ConflictTracker = require('./conflicttracker.js');
 const PlayableLocation = require('./playablelocation.js');
 const PlayActionPrompt = require('./gamesteps/playactionprompt.js');
 const PlayerPromptState = require('./playerpromptstate.js');
+const StrongholdCard = require('./strongholdcard.js');
 
 const StartingHandSize = 4;
 const DrawPhaseCards = 1;
@@ -30,7 +31,7 @@ class Player extends Spectator {
         this.additionalPiles = {};
 
         this.faction = null;
-        this.stronghold = new DrawCard(this, {});
+        this.stronghold = new StrongholdCard(this, {});
 
         this.owner = owner;
         this.takenMulligan = false;
@@ -333,7 +334,7 @@ class Player extends Spectator {
         var preparedDeck = deck.prepare(this);
         this.faction = deck.faction;
         this.provinceDeck = _(preparedDeck.provinceCards);
-        this.stronghold = preparedDeck.stronghold;
+        this.stronghold = preparedDeck.stronghold[0];
         this.conflictdrawDeck = _(preparedDeck.conflictdrawCards);
         this.dynastydrawDeck = _(preparedDeck.dynastydrawCards);
         this.allCards = _(preparedDeck.allCards);
@@ -1026,6 +1027,10 @@ class Player extends Spectator {
         return this.stronghold.fate;
     }
 
+    getTotalHonor() {
+        return this.honor;
+    }
+
     setSelectedCards(cards) {
         this.promptState.setSelectedCards(cards);
     }
@@ -1076,11 +1081,10 @@ class Player extends Spectator {
             })),
             promptedActionWindows: this.promptedActionWindows,
             cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
-            claim: this.getClaim(),
-            deadPile: this.getSummaryForCardList(this.deadPile, activePlayer),
-            discardPile: this.getSummaryForCardList(this.discardPile, activePlayer),
+            conflictDiscardPile: this.getSummaryForCardList(this.conflictDiscardPile, activePlayer),
+            dynastyDiscardPile: this.getSummaryForCardList(this.dynastyDiscardPile, activePlayer),
             disconnected: this.disconnected,
-            faction: this.faction.getSummary(activePlayer),
+            faction: this.faction,
             stronghold: this.stronghold.getSummary(activePlayer),
             firstPlayer: this.firstPlayer,
             fate: !isActivePlayer && this.phase === 'setup' ? 0 : this.gold,
