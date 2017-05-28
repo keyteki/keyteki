@@ -198,17 +198,6 @@ class Conflict {
         return this.loserSkill <= 0 && this.winnerSkill > 0;
     }
 
-    getClaim() {
-        var claim = this.winner.getClaim();
-        claim = this.winner.modifyClaim(this.winner, this.conflictType, claim);
-
-        if(!this.isSinglePlayer) {
-            claim = this.loser.modifyClaim(this.winner, this.conflictType, claim);
-        }
-
-        return claim;
-    }
-
     getWinnerCards() {
         if(this.winner === this.attackingPlayer) {
             return this.attackers;

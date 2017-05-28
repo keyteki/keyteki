@@ -5,8 +5,8 @@ class ChatCommands {
         this.game = game;
         this.commands = {
             '/draw': this.draw,
-            '/power': this.power,
-            '/kill': this.kill,
+            '/honor': this.honor,
+            '/dishonor': this.dishonor,
             '/blank': this.blank,
             '/unblank': this.unblank,
             '/add-trait': this.addTrait,
@@ -14,8 +14,6 @@ class ChatCommands {
             '/add-keyword': this.addKeyword,
             '/remove-keyword': this.removeKeyword,
             '/discard': this.discard,
-            '/strength': this.strength,
-            '/str': this.strength,
             '/give-icon': this.addIcon,
             '/add-icon': this.addIcon,
             '/take-icon': this.removeIcon,
@@ -28,15 +26,9 @@ class ChatCommands {
             '/disconnectme': this.disconnectMe
         };
         this.tokens = [
-            'power',
-            'gold',
-            'valarmorghulis',
-            'stand',
-            'poison',
-            'betrayal',
-            'vengeance',
-            'ear',
-            'venom'
+            'honor',
+            'fate',
+            'ready'
         ];
     }
 
@@ -56,31 +48,31 @@ class ChatCommands {
         player.drawCardsToHand(num);
     }
 
-    power(player, args) {
+    honor(player, args) {
         var num = this.getNumberOrDefault(args[1], 1);
         this.game.promptForSelect(player, {
-            activePromptTitle: 'Select a card to set power for',
-            waitingPromptTitle: 'Waiting for opponent to set power',
+            activePromptTitle: 'Select a card to honor',
+            waitingPromptTitle: 'Waiting for opponent to honor',
             cardCondition: card => card.location === 'play area' && card.controller === player,
             onSelect: (p, card) => {
-                card.modifyPower(num - card.power);
+                //honor card
 
-                this.game.addMessage('{0} uses the /power command to set the power of {1} to {2}', p, card, num);
+                this.game.addMessage('{0} uses the /honor command to honor {1}', p, card);
                 return true;
             }
         });
     }
 
-    kill(player) {
+    dishonor(player, args) {
+        var num = this.getNumberOrDefault(args[1], 1);
         this.game.promptForSelect(player, {
-            activePromptTitle: 'Select a character',
-            waitingPromptTitle: 'Waiting for opponent to kill character',
-            cardCondition: card => card.location === 'play area' && card.controller === player && card.getType() === 'character',
-            gameAction: 'kill',
+            activePromptTitle: 'Select a card to dishonor',
+            waitingPromptTitle: 'Waiting for opponent to dishonor',
+            cardCondition: card => card.location === 'play area' && card.controller === player,
             onSelect: (p, card) => {
-                card.controller.killCharacter(card);
+                //dishonor card
 
-                this.game.addMessage('{0} uses the /kill command to kill {1}', p, card);
+                this.game.addMessage('{0} uses the /dishonor command to honor {1}', p, card);
                 return true;
             }
         });

@@ -46,6 +46,14 @@ class DrawCard extends BaseCard {
         return this.hasKeyword('ancestral');
     }
 
+    hasSincerity() {
+        return this.hasKeyword('sincerity');
+    }
+
+    hasPride() {
+        return this.hasKeyword('pride');
+    }
+
     getCost() {
         return this.cardData.cost;
     }

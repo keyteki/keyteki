@@ -38,8 +38,7 @@ class CardAction extends BaseAbility {
 
         const DefaultLocationForType = {
             event: 'hand',
-            agenda: 'agenda',
-            plot: 'active plot'
+            plot: 'province'
         };
 
         this.game = game;
@@ -80,7 +79,7 @@ class CardAction extends BaseAbility {
     }
 
     allowMenu() {
-        return ['play area', 'agenda', 'active plot'].includes(this.location);
+        return ['play area', 'province'].includes(this.location);
     }
 
     createContext(player, arg) {

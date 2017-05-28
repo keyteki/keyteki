@@ -3,7 +3,7 @@ const _ = require('underscore');
 const Effects = require('./effects.js');
 const Player = require('./player.js');
 
-const PlayAreaLocations = ['play area', 'active plot'];
+const PlayAreaLocations = ['play area', 'province'];
 
 /**
  * Represents a card based effect applied to one or more targets.

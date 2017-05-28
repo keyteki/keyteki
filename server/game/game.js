@@ -143,44 +143,24 @@ class Game extends EventEmitter {
         return foundCards;
     }
 
-    anyPlotHasTrait(trait) {
-        return _.any(this.getPlayers(), player =>
-            player.activePlot &&
-            player.activePlot.hasTrait(trait));
-    }
-
     addEffect(source, properties) {
         this.effectEngine.add(new Effect(this, source, properties));
     }
 
-    selectPlot(player, plotId) {
-        var plot = player.findCardByUuid(player.plotDeck, plotId);
-
-        if(!plot) {
-            return;
-        }
-
-        player.plotDeck.each(p => {
-            p.selected = false;
-        });
-
-        plot.selected = true;
-    }
-
-    factionCardClicked(sourcePlayer) {
+    strongholdCardClicked(sourcePlayer) {
         var player = this.getPlayerByName(sourcePlayer);
 
         if(!player) {
             return;
         }
 
-        if(player.faction.kneeled) {
-            player.standCard(player.faction);
+        if(player.stronghold.bowed) {
+            player.readyCard(player.stronghold);
         } else {
-            player.kneelCard(player.faction);
+            player.bowCard(player.stronghold);
         }
 
-        this.addMessage('{0} {1} their faction card', player, player.faction.kneeled ? 'kneels' : 'stands');
+        this.addMessage('{0} {1} their stronghold', player, player.stronghold.bowed ? 'bows' : 'readies');
     }
 
     cardClicked(sourcePlayer, cardId) {
@@ -196,17 +176,12 @@ class Game extends EventEmitter {
             return;
         }
 
-        if(card.location === 'plot deck') {
-            this.selectPlot(player, cardId);
-            return;
-        }
-
         if(this.pipeline.handleCardClicked(player, card)) {
             return;
         }
 
         // Attempt to play cards that are not already in the play area.
-        if(['hand', 'discard pile', 'dead pile'].includes(card.location) && player.playCard(card)) {
+        if(['hand', 'discard pile'].includes(card.location) && player.playCard(card)) {
             return;
         }
 
@@ -215,13 +190,13 @@ class Game extends EventEmitter {
         }
 
         if(!card.facedown && card.location === 'play area' && card.controller === player) {
-            if(card.kneeled) {
-                player.standCard(card);
+            if(card.bowed) {
+                player.readyCard(card);
             } else {
-                player.kneelCard(card);
+                player.bowCard(card);
             }
 
-            this.addMessage('{0} {1} {2}', player, card.kneeled ? 'kneels' : 'stands', card);
+            this.addMessage('{0} {1} {2}', player, card.bowed ? 'bows' : 'readies', card);
         }
     }
 
@@ -258,11 +233,8 @@ class Game extends EventEmitter {
         }
 
         switch(card.location) {
-            case 'active plot':
+            case 'province':
                 this.callCardMenuCommand(player.activePlot, player, menuItem);
-                break;
-            case 'agenda':
-                this.callCardMenuCommand(player.agenda, player, menuItem);
                 break;
             case 'play area':
                 if(card.controller !== player && !menuItem.anyPlayer) {

@@ -86,6 +86,7 @@ describe('the DrawCard', function() {
 
                 it('should return true for each keyword', function() {
                     expect(this.card.hasKeyword('Ancestral')).toBe(true);
+                    expect(this.card.hasKeyword('Restricted')).toBe(true);
                 });
 
                 it('should reject non-valid keywords', function() {
@@ -98,6 +99,7 @@ describe('the DrawCard', function() {
                     // Resolve events in pipeline.
                     this.game.continue();
                     expect(this.card.hasKeyword('Ancestral')).toBe(false);
+                    expect(this.card.hasKeyword('Restricted')).toBe(true);
                     expect(this.card.hasKeyword('Sincerity')).toBe(true);
                 });
             });

@@ -13,8 +13,8 @@ describe('ProvinceCard', function () {
 
     describe('moveTo()', function() {
         it('should set the location', function() {
-            this.card.moveTo('revealed plots');
-            expect(this.card.location).toBe('revealed plots');
+            this.card.moveTo('stronghold province');
+            expect(this.card.location).toBe('stronghold province');
         });
 
         describe('when the card is facedown', function() {
@@ -50,12 +50,12 @@ describe('ProvinceCard', function () {
 
             describe('when in a non-event handling area', function() {
                 beforeEach(function() {
-                    this.card.location = 'plot deck';
+                    this.card.location = 'province deck';
                 });
 
                 describe('and moving to another non-event handling area', function() {
                     beforeEach(function() {
-                        this.card.moveTo('revealed plots');
+                        this.card.moveTo('stronghold province');
                     });
 
                     it('should not register events', function() {

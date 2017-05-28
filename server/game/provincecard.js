@@ -17,8 +17,6 @@ class ProvinceCard extends BaseCard {
         this.facedown = false;
     }
 
-    onBeginChallengePhase() {
-    }
 }
 
 module.exports = ProvinceCard;
