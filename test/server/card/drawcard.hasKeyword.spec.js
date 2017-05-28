@@ -76,7 +76,7 @@ describe('the DrawCard', function() {
 
             describe('when the card has a keyword line', function() {
                 beforeEach(function() {
-                    this.card = new DrawCard(this.player, { type_code: 'attachment', cost: 0, text: 'Ancestral. Notarealkeyword.\n Extra text because we need stuff here.' });
+                    this.card = new DrawCard(this.player, { type_code: 'attachment', cost: 0, text: 'Ancestral. Restricted. Notarealkeyword.\n Extra text because we need stuff here.' });
                     this.card.location = 'hand';
                     this.player.hand = _([this.card]);
                     this.player.playCard(this.card, true);
@@ -93,12 +93,12 @@ describe('the DrawCard', function() {
                 });
 
                 it('should not blank externally given keywords', function() {
-                    this.card.addKeyword('Restricted');
+                    this.card.addKeyword('Sincerity');
                     this.card.setBlank();
                     // Resolve events in pipeline.
                     this.game.continue();
                     expect(this.card.hasKeyword('Ancestral')).toBe(false);
-                    expect(this.card.hasKeyword('Restricted')).toBe(true);
+                    expect(this.card.hasKeyword('Sincerity')).toBe(true);
                 });
             });
         });
