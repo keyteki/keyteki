@@ -315,55 +315,59 @@ class Game extends EventEmitter {
         }
     }
 
-    addPower(player, power) {
-        player.faction.power += power;
+    addHonor(player, honor) {
+        player.honor += honor;
 
-        if(player.faction.power < 0) {
-            player.faction.power = 0;
+        if(player.honor < 0) {
+            player.honor = 0;
         }
 
-        this.raiseEvent('onStatChanged', player, 'power');
+        this.raiseEvent('onStatChanged', player, 'honor');
 
         this.checkWinCondition(player);
     }
 
-    addGold(player, gold) {
-        player.gold += gold;
+    addFate(player, gold) {
+        player.fate += fate;
 
-        if(player.gold < 0) {
-            player.gold = 0;
+        if(player.fate < 0) {
+            player.fate = 0;
         }
 
-        this.raiseEvent('onStatChanged', player, 'gold');
+        this.raiseEvent('onStatChanged', player, 'fate');
     }
 
-    transferPower(winner, loser, power) {
-        var appliedPower = Math.min(loser.faction.power, power);
-        loser.faction.power -= appliedPower;
-        winner.faction.power += appliedPower;
+    transferHonor(winner, loser, honor) {
+        var appliedHonor = Math.min(loser.faction.honor, honor);
+        loser.faction.honor -= appliedHonor;
+        winner.faction.honor += appliedHonor;
 
-        this.raiseEvent('onStatChanged', loser, 'power');
-        this.raiseEvent('onStatChanged', winner, 'power');
+        this.raiseEvent('onStatChanged', loser, 'honor');
+        this.raiseEvent('onStatChanged', winner, 'honor');
 
         this.checkWinCondition(winner);
     }
 
-    transferGold(to, from, gold) {
-        var appliedGold = Math.min(from.gold, gold);
+    transferFate(to, from, fate) {
+        var appliedFate = Math.min(from.fate, fate);
 
-        from.gold -= appliedGold;
-        to.gold += appliedGold;
+        from.fate -= appliedFate;
+        to.fate += appliedFate;
 
-        this.raiseEvent('onStatChanged', from, 'gold');
-        this.raiseEvent('onStatChanged', to, 'gold');
+        this.raiseEvent('onStatChanged', from, 'fate');
+        this.raiseEvent('onStatChanged', to, 'fate');
 
-        this.raiseMergedEvent('onGoldTransferred', { source: from, target: to, amount: gold });
+        this.raiseMergedEvent('onFateTransferred', { source: from, target: to, amount: fate });
     }
 
     checkWinCondition(player) {
-        if(player.getTotalPower() >= 15) {
-            this.recordWinner(player, 'power');
+        if(player.getTotalPower() >= 25) {
+            this.recordWinner(player, 'honor');
+        } else if(player .getTotalPower() == 0) {
+            var opponent = this.getOtherPlayer(player);
+            this.recordWinner(opponent, 'dishonor');
         }
+        
     }
 
     playerDecked(player) {

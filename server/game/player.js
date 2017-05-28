@@ -23,10 +23,13 @@ class Player extends Spectator {
         this.hand = _([]);
         this.cardsInPlay = _([]);
         this.deadPile = _([]);
+        this.strongholdProvince = _([]);
+        this.provinces = _([], [], [], []);
         this.dynastyDiscardPile = _([]);
         this.conflictDiscardPile = _([]);
         this.additionalPiles = {};
 
+        this.faction = null;
         this.stronghold = new DrawCard(this, {});
 
         this.owner = owner;
@@ -306,7 +309,7 @@ class Player extends Spectator {
         this.conflicts.setCannotInitiateForType(type, value);
     }
 
-    initDrawDeck() {
+    initConflictDeck() {
         this.hand.each(card => {
             card.moveTo('conflict draw deck');
             this.conflictDrawDeck.push(card);
@@ -316,9 +319,19 @@ class Player extends Spectator {
         this.drawCardsToHand(StartingHandSize);
     }
 
+    initDynastyDeck() {
+        this.hand.each(card => {
+            card.moveTo('dynasty draw deck');
+            this.dynastyDrawDeck.push(card);
+        });
+        this.hand = _([]);
+        this.shuffleDynastyDrawDeck();
+    }
+
     prepareDecks() {
         var deck = new Deck(this.deck);
         var preparedDeck = deck.prepare(this);
+        this.faction = deck.faction;
         this.provinceDeck = _(preparedDeck.provinceCards);
         this.stronghold = preparedDeck.stronghold;
         this.conflictdrawDeck = _(preparedDeck.conflictdrawCards);
@@ -328,7 +341,8 @@ class Player extends Spectator {
 
     initialise() {
         this.prepareDecks();
-        this.initDrawDeck();
+        this.initConflictDeck();
+        this.initDynastyDeck();
 
         this.fate = 0;
         this.honor = 0;
@@ -350,7 +364,8 @@ class Player extends Spectator {
             return false;
         }
 
-        this.initDrawDeck();
+        this.initConflictDeck();
+        this.initDynastyDeck();
         this.takenMulligan = true;
         this.readyToStart = true;
 
@@ -551,8 +566,8 @@ class Player extends Spectator {
         this.drawCardsToHand(this.drawPhaseCards);
     }
 
-    beginMarshal() {
-        this.game.addGold(this, this.getTotalIncome());
+    beginDynasty() {
+        this.game.addFate(this, this.getTotalIncome());
 
         this.game.raiseMergedEvent('onIncomeCollected', { player: this });
 
@@ -892,10 +907,7 @@ class Player extends Spectator {
         this.deck = deck;
         this.deck.selected = true;
 
-        this.stronghold.cardData = deck.stronghold;
-        this.stronghold.cardData.code = deck.stronghold.value;
-        this.stronghold.cardData.type_code = 'stronghold';
-        this.stronghold.cardData.strength = 0;
+        this.stronghold.cardData = deck.stronghold[0];
     }
 
     moveCard(card, targetLocation, options = {}) {
@@ -1010,36 +1022,8 @@ class Player extends Spectator {
         }
     }
 
-    getTotalInitiative() {
-        if(!this.activePlot) {
-            return 0;
-        }
-
-        return this.activePlot.getInitiative();
-    }
-
     getTotalIncome() {
-        if(!this.activePlot) {
-            return 0;
-        }
-
-        return this.activePlot.getIncome();
-    }
-
-    getTotalReserve() {
-        if(!this.activePlot) {
-            return 0;
-        }
-
-        return Math.max(this.activePlot.getReserve(), this.minReserve);
-    }
-
-    getClaim() {
-        return this.activePlot ? this.activePlot.getClaim() : 0;
-    }
-
-    isBelowReserve() {
-        return this.hand.size() <= this.getTotalReserve();
+        return this.stronghold.fate;
     }
 
     setSelectedCards(cards) {
@@ -1084,14 +1068,12 @@ class Player extends Spectator {
         let isActivePlayer = activePlayer === this;
         let promptState = isActivePlayer ? this.promptState.getState() : {};
         let state = {
-            activePlot: this.activePlot ? this.activePlot.getSummary(activePlayer) : undefined,
             additionalPiles: _.mapObject(this.additionalPiles, pile => ({
                 title: pile.title,
                 area: pile.area,
                 isPrivate: pile.isPrivate,
                 cards: this.getSummaryForCardList(pile.cards, activePlayer, pile.isPrivate)
             })),
-            agenda: this.agenda ? this.agenda.getSummary(activePlayer) : undefined,
             promptedActionWindows: this.promptedActionWindows,
             cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
             claim: this.getClaim(),
@@ -1099,20 +1081,19 @@ class Player extends Spectator {
             discardPile: this.getSummaryForCardList(this.discardPile, activePlayer),
             disconnected: this.disconnected,
             faction: this.faction.getSummary(activePlayer),
+            stronghold: this.stronghold.getSummary(activePlayer),
             firstPlayer: this.firstPlayer,
-            gold: !isActivePlayer && this.phase === 'setup' ? 0 : this.gold,
+            fate: !isActivePlayer && this.phase === 'setup' ? 0 : this.gold,
             hand: this.getSummaryForCardList(this.hand, activePlayer, true),
             id: this.id,
             left: this.left,
-            numDrawCards: this.drawDeck.size(),
+            numConfilctCards: this.conflictDrawDeck.size(),
+            numDynastyCards: this.dynastyDrawDeck.size(),
             name: this.name,
-            numPlotCards: this.plotDeck.size(),
+            numProvinceCards: this.provinceDeck.size(),
             phase: this.phase,
-            plotDeck: this.getSummaryForCardList(this.plotDeck, activePlayer, true),
-            plotDiscard: this.getSummaryForCardList(this.plotDiscard, activePlayer),
-            plotSelected: !!this.selectedPlot,
-            reserve: this.getTotalReserve(),
-            totalPower: this.getTotalPower(),
+            provinceDeck: this.getSummaryForCardList(this.provinceDeck, activePlayer, true),
+            totalHonor: this.getTotalHonor(),
             user: _.omit(this.user, ['password', 'email'])
         };
 
