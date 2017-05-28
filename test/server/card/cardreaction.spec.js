@@ -32,16 +32,10 @@ describe('CardReaction', function () {
                 expect(this.action.location).toBe('play area');
             });
 
-            it('should default to agenda for cards with type agenda', function() {
-                this.cardSpy.getType.and.returnValue('agenda');
+            it('should default to province for cards with type province', function() {
+                this.cardSpy.getType.and.returnValue('province');
                 this.action = new CardReaction(this.gameSpy, this.cardSpy, this.properties);
-                expect(this.action.location).toBe('agenda');
-            });
-
-            it('should default to active plot for cards with type plot', function() {
-                this.cardSpy.getType.and.returnValue('plot');
-                this.action = new CardReaction(this.gameSpy, this.cardSpy, this.properties);
-                expect(this.action.location).toBe('active plot');
+                expect(this.action.location).toBe('province');
             });
 
             it('should default to hand for cards with type event', function() {
