@@ -13,11 +13,12 @@ class Deck {
         var result = {
             conflictDrawCards: [],
             dynastyDrawCards: [],
-            provinceCards: []
+            provinceCards: [],
+            stronghold: []
         };
 
         //conflict
-        this.eachRepeatedCard(this.data.drawCards, cardData => {
+        this.eachRepeatedCard(this.data.conflictDrawCards, cardData => {
             if(['conflict'].includes(cardData.deck)) {
                 var drawCard = this.createCard(DrawCard, player, cardData);
                 drawCard.location = 'conflict draw deck';
@@ -26,7 +27,7 @@ class Deck {
         });
 
         //dynasty
-        this.eachRepeatedCard(this.data.drawCards, cardData => {
+        this.eachRepeatedCard(this.data.dynastyDrawCards, cardData => {
             if(['dynsaty'].includes(cardData.deck)) {
                 var drawCard = this.createCard(DrawCard, player, cardData);
                 drawCard.location = 'dynasty draw deck';
@@ -42,18 +43,15 @@ class Deck {
             }
         });
 
-        if(this.data.stronghold) {
-            result.stronghold = new DrawCard(player, _.extend({
-                code: this.data.stronghold.value,
-                type_code: 'stronghold',
-                stronghold_code: this.data.stronghold.value
-            }, this.data.stronghold));
-        } else {
-            result.stronghold = new DrawCard(player, { type_code: 'stronghold' });
-        }
-        result.stronghold.moveTo('stronghold');
+        this.eachRepeatedCard(this.data.stronghold, cardData => {
+            if(cardData.type_code === 'stronghold') {
+                var strongholdCard = this.createCard(StrongholdCard, player, cardData);
+                strongholdCard.location = 'stronghold deck';
+                result.stronghold.push(strongholdCard);
+            }
+        });
 
-        result.allCards = [result.stronghold].concat(result.drawCards).concat(result.provinceCards).concat(result.conflictDrawCards).concat(result.dynastyDrawCards);
+        result.allCards = [result.stronghold].concat(result.provinceCards).concat(result.conflictDrawCards).concat(result.dynastyDrawCards);
 
         return result;
     }
