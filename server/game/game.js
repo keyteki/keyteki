@@ -310,9 +310,9 @@ class Game extends EventEmitter {
     }
 
     transferHonor(winner, loser, honor) {
-        var appliedHonor = Math.min(loser.faction.honor, honor);
-        loser.faction.honor -= appliedHonor;
-        winner.faction.honor += appliedHonor;
+        var appliedHonor = Math.min(loser.honor, honor);
+        loser.honor -= appliedHonor;
+        winner.honor += appliedHonor;
 
         this.raiseEvent('onStatChanged', loser, 'honor');
         this.raiseEvent('onStatChanged', winner, 'honor');
@@ -821,10 +821,9 @@ class Game extends EventEmitter {
             }
 
             playerSummaries[player.name] = {
-                agenda: player.agenda ? player.agenda.code : undefined,
                 deck: deck,
                 emailHash: player.emailHash,
-                faction: player.faction.code,
+                faction: player.faction.value,
                 id: player.id,
                 lobbyId: player.lobbyId,
                 left: player.left,
