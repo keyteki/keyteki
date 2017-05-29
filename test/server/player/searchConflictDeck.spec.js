@@ -8,7 +8,7 @@ describe('the Player', () => {
     var game = jasmine.createSpyObj('game', ['getOtherPlayer', 'playerDecked']);
 
     var player = new Player('1', 'Player 1', true, game);
-    var drawDeck = _([
+    var conflictDeck = _([
       { name: 'foo' },
       { name: 'bar' },
       { name: 'baz' },
@@ -16,10 +16,10 @@ describe('the Player', () => {
     ]);
 
     beforeEach(() => {
-        player.deck = drawDeck;
+        player.deck = conflictDeck;
         player.initialise();
 
-        player.drawDeck = drawDeck;
+        player.conflictDeck = conflictDeck;
     });
 
     describe('the searchConflictDeck() function', () => {
@@ -28,7 +28,7 @@ describe('the Player', () => {
                 var cards = player.searchConflictDeck(() => {
                     return true;
                 });
-                expect(cards.length).toBe(drawDeck.size());
+                expect(cards.length).toBe(conflictDeck.size());
             });
 
             it('should filter the results using the predicate', () => {
