@@ -332,7 +332,7 @@ class Player extends Spectator {
     prepareDecks() {
         var deck = new Deck(this.deck);
         var preparedDeck = deck.prepare(this);
-        this.faction = deck.faction;
+        this.faction = this.deck.faction;
         this.provinceDeck = _(preparedDeck.provinceCards);
         this.stronghold = preparedDeck.stronghold[0];
         this.conflictdrawDeck = _(preparedDeck.conflictdrawCards);
