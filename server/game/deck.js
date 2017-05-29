@@ -22,7 +22,7 @@ class Deck {
         this.eachRepeatedCard(this.data.conflictDrawCards, cardData => {
             if(['conflict'].includes(cardData.deck)) {
                 var drawCard = this.createCard(DrawCard, player, cardData);
-                drawCard.location = 'conflict draw deck';
+                drawCard.location = 'conflict deck';
                 result.conflictDrawCards.push(drawCard);
             }
         });
@@ -31,7 +31,7 @@ class Deck {
         this.eachRepeatedCard(this.data.dynastyDrawCards, cardData => {
             if(['dynsaty'].includes(cardData.deck)) {
                 var drawCard = this.createCard(DrawCard, player, cardData);
-                drawCard.location = 'dynasty draw deck';
+                drawCard.location = 'dynasty deck';
                 result.dynastyDrawCards.push(drawCard);
             }
         });
@@ -47,7 +47,7 @@ class Deck {
         this.eachRepeatedCard(this.data.stronghold, cardData => {
             if(cardData.type_code === 'stronghold') {
                 var strongholdCard = this.createCard(StrongholdCard, player, cardData);
-                strongholdCard.location = 'stronghold deck';
+                strongholdCard.location = 'stronghold province';
                 result.stronghold.push(strongholdCard);
             }
         });

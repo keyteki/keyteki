@@ -248,7 +248,7 @@ class Player extends Spectator {
                 var otherPlayer = this.game.getOtherPlayer(this);
 
                 if(otherPlayer) {
-                    this.game.addMessage('{0}\'s conflict draw deck is empty', this);
+                    this.game.addMessage('{0}\'s conflict deck is empty', this);
                     this.game.addMessage('{0} wins the game', otherPlayer);
                 }
             }
@@ -257,7 +257,7 @@ class Player extends Spectator {
 
     moveFromTopToBottomOfConflictDrawDeck(number) {
         while(number > 0) {
-            this.moveCard(this.conflictDrawDeck.first(), 'conflict draw deck', { bottom: true });
+            this.moveCard(this.conflictDrawDeck.first(), 'conflict deck', { bottom: true });
 
             number--;
         }
@@ -312,7 +312,7 @@ class Player extends Spectator {
 
     initConflictDeck() {
         this.hand.each(card => {
-            card.moveTo('conflict draw deck');
+            card.moveTo('conflict deck');
             this.conflictDrawDeck.push(card);
         });
         this.hand = _([]);
@@ -322,7 +322,7 @@ class Player extends Spectator {
 
     initDynastyDeck() {
         this.hand.each(card => {
-            card.moveTo('dynasty draw deck');
+            card.moveTo('dynasty deck');
             this.dynastyDrawDeck.push(card);
         });
         this.hand = _([]);
@@ -644,9 +644,9 @@ class Player extends Spectator {
         switch(source) {
             case 'hand':
                 return this.hand;
-            case 'conflict draw deck':
+            case 'conflict deck':
                 return this.conflictDrawDeck;
-            case 'dynasty draw deck':
+            case 'dynasty deck':
                 return this.dynastyDrawDeck;
             case 'conflict discard pile':
                 return this.conflictDiscardPile;
@@ -656,6 +656,16 @@ class Player extends Spectator {
                 return this.deadPile;
             case 'play area':
                 return this.cardsInPlay;
+            case 'province 1':
+                return this.provinces[0];
+            case 'province 2':
+                return this.provinces[1];
+            case 'province 3':
+                return this.provinces[2];
+            case 'province 4':
+                return this.provinces[3];
+            case 'stronghold province':
+                return this.strongholdProvince;
             default:
                 if(this.additionalPiles[source]) {
                     return this.additionalPiles[source].cards;
@@ -672,10 +682,10 @@ class Player extends Spectator {
             case 'hand':
                 this.hand = targetList;
                 break;
-            case 'conflict draw deck':
+            case 'conflict deck':
                 this.conflictDrawDeck = targetList;
                 break;
-            case 'dynasty draw deck':
+            case 'dynasty deck':
                 this.dynastyDrawDeck = targetList;
                 break;
             case 'conflict discard pile':
@@ -684,11 +694,23 @@ class Player extends Spectator {
             case 'dynasty discard pile':
                 this.dynastyDiscardPile = targetList;
                 break;
-            case 'dead pile':
-                this.deadPile = targetList;
-                break;
             case 'play area':
                 this.cardsInPlay = targetList;
+                break;
+            case 'province 1':
+                this.provinces[0] = targetList;
+                break;
+            case 'province 2':
+                this.provinces[1] = targetList;
+                break;
+            case 'province 3':
+                this.provinces[2] = targetList;
+                break;
+            case 'province 4':
+                this.provinces[3] = targetList;
+                break;
+            case 'stronghold province':
+                this.strongholdProvince = targetList;
                 break;
             default:
                 if(this.additionalPiles[source]) {

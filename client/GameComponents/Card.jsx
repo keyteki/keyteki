@@ -350,7 +350,7 @@ Card.propTypes = {
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
     orientation: React.PropTypes.oneOf(['horizontal', 'bowed', 'vertical']),
-    source: React.PropTypes.oneOf(['hand', 'dynasty discard pile', 'conflict discard pile', 'play area', 'dead pile', 'dynasty draw deck', 'conflict draw deck', 'province deck', 'revealed provinces',  'attachment', 'agenda', 'stronghold', 'additional']).isRequired,
+    source: React.PropTypes.oneOf(['hand', 'dynasty discard pile', 'conflict discard pile', 'play area', 'dynasty deck', 'conflict deck', 'province deck', 'province 1', 'province 2', 'province 3', 'province 4',  'attachment', 'stronghold province', 'additional']).isRequired,
     style: React.PropTypes.object,
     wrapped: React.PropTypes.bool
 };
