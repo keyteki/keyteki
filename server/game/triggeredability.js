@@ -26,8 +26,7 @@ class TriggeredAbility extends BaseAbility {
 
         const DefaultLocationForType = {
             event: 'hand',
-            agenda: 'agenda',
-            plot: 'active plot'
+            province: 'province'
         };
 
         this.game = game;
