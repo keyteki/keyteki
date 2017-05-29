@@ -28,7 +28,6 @@ describe('Player', function() {
 
             this.cardSpy.facedown = true;
             this.cardSpy.name = 'Card';
-            this.duplicateSpy.facedown = true;
 
             this.player.cardsInPlay.push(this.cardSpy);
             this.player.fate = 8;
@@ -76,6 +75,7 @@ describe('Player', function() {
             });
         });
 
+        /* Don't have these steps in L5R setup
         it('should turn all cards faceup', function() {
             expect(_.any(this.player.cardsInPlay, card => {
                 return card.facedown;
@@ -85,6 +85,7 @@ describe('Player', function() {
         it('should return unspent setup fate', function() {
             expect(this.player.fate).toBe(0);
         });
+        */
 
     });
 });
