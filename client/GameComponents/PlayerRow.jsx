@@ -196,7 +196,7 @@ class PlayerRow extends React.Component {
                         {hand}
                     </div>
 
-                <CardCollection className='draw' title='Conflict' source='conflict deck' cards={this.props.conflictDrawDeck}
+                <CardCollection className='draw' title='Conflict' source='conflict deck' cards={this.props.conflictDeck}
                                 onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
                                 popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop}
                                 menu={drawDeckMenu} hiddenTopCard cardCount={this.props.numDrawCards} popupMenu={drawDeckPopupMenu} />

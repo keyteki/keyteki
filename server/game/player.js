@@ -18,8 +18,8 @@ class Player extends Spectator {
     constructor(id, user, owner, game) {
         super(id, user);
 
-        this.dynastyDrawDeck = _([]);
-        this.conflictDrawDeck = _([]);
+        this.dynastyDeck = _([]);
+        this.conflictDeck = _([]);
         this.provinceDeck = _([]);
         this.hand = _([]);
         this.cardsInPlay = _([]);
@@ -181,16 +181,16 @@ class Player extends Spectator {
     }
 
     drawCardsToHand(numCards) {
-        if(numCards > this.conflictDrawDeck.size()) {
-            numCards = this.conflictDrawDeck.size();
+        if(numCards > this.conflictDeck.size()) {
+            numCards = this.conflictDeck.size();
         }
 
-        var cards = this.conflictDrawDeck.first(numCards);
+        var cards = this.conflictDeck.first(numCards);
         _.each(cards, card => {
             this.moveCard(card, 'hand');
         });
 
-        if(this.conflictDrawDeck.size() === 0) {
+        if(this.conflictDeck.size() === 0) {
             this.game.playerDecked(this);
         }
 
@@ -198,15 +198,15 @@ class Player extends Spectator {
     }
 
     searchConflictDeck(limit, predicate) {
-        var cards = this.conflictDrawDeck;
+        var cards = this.conflictDeck;
 
         if(_.isFunction(limit)) {
             predicate = limit;
         } else {
             if(limit > 0) {
-                cards = _(this.conflictDrawDeck.first(limit));
+                cards = _(this.conflictDeck.first(limit));
             } else {
-                cards = _(this.conflictDrawDeck.last(-limit));
+                cards = _(this.conflictDeck.last(-limit));
             }
         }
 
@@ -230,21 +230,21 @@ class Player extends Spectator {
     }
 
     shuffleConflictDeck() {
-        this.conflictDrawDeck = _(this.conflictDrawDeck.shuffle());
+        this.conflictDeck = _(this.conflictDeck.shuffle());
     }
 
     shuffleDynastyDeck() {
-        this.dynastyDrawDeck = _(this.dynastyDrawDeck.shuffle());
+        this.dynastyDeck = _(this.dynastyDeck.shuffle());
     }
 
 
     discardFromConflict(number, callback = () => true) {
-        number = Math.min(number, this.conflictDrawDeck.size());
+        number = Math.min(number, this.conflictDeck.size());
 
-        var cards = this.conflictDrawDeck.first(number);
+        var cards = this.conflictDeck.first(number);
         this.discardCards(cards, false, discarded => {
             callback(discarded);
-            if(this.conflictDrawDeck.size() === 0) {
+            if(this.conflictDeck.size() === 0) {
                 var otherPlayer = this.game.getOtherPlayer(this);
 
                 if(otherPlayer) {
@@ -257,7 +257,7 @@ class Player extends Spectator {
 
     moveFromTopToBottomOfConflictDrawDeck(number) {
         while(number > 0) {
-            this.moveCard(this.conflictDrawDeck.first(), 'conflict deck', { bottom: true });
+            this.moveCard(this.conflictDeck.first(), 'conflict deck', { bottom: true });
 
             number--;
         }
@@ -313,7 +313,7 @@ class Player extends Spectator {
     initConflictDeck() {
         this.hand.each(card => {
             card.moveTo('conflict deck');
-            this.conflictDrawDeck.push(card);
+            this.conflictDeck.push(card);
         });
         this.hand = _([]);
         this.shuffleConflictDeck();
@@ -335,8 +335,8 @@ class Player extends Spectator {
         this.faction = preparedDeck.faction;
         this.provinceDeck = _(preparedDeck.provinceCards);
         this.stronghold = preparedDeck.stronghold[0];
-        this.conflictdrawDeck = _(preparedDeck.conflictdrawCards);
-        this.dynastydrawDeck = _(preparedDeck.dynastydrawCards);
+        this.conflictDeck = _(preparedDeck.conflictdrawCards);
+        this.dynastyDeck = _(preparedDeck.dynastydrawCards);
         this.allCards = _(preparedDeck.allCards);
     }
 
@@ -645,9 +645,9 @@ class Player extends Spectator {
             case 'hand':
                 return this.hand;
             case 'conflict deck':
-                return this.conflictDrawDeck;
+                return this.conflictDeck;
             case 'dynasty deck':
-                return this.dynastyDrawDeck;
+                return this.dynastyDeck;
             case 'conflict discard pile':
                 return this.conflictDiscardPile;
             case 'dynasty discard pile':
@@ -683,10 +683,10 @@ class Player extends Spectator {
                 this.hand = targetList;
                 break;
             case 'conflict deck':
-                this.conflictDrawDeck = targetList;
+                this.conflictDeck = targetList;
                 break;
             case 'dynasty deck':
-                this.dynastyDrawDeck = targetList;
+                this.dynastyDeck = targetList;
                 break;
             case 'conflict discard pile':
                 this.conflictDiscardPile = targetList;
@@ -1113,8 +1113,8 @@ class Player extends Spectator {
             hand: this.getSummaryForCardList(this.hand, activePlayer, true),
             id: this.id,
             left: this.left,
-            numConfilctCards: this.conflictDrawDeck.size(),
-            numDynastyCards: this.dynastyDrawDeck.size(),
+            numConfilctCards: this.conflictDeck.size(),
+            numDynastyCards: this.dynastyDeck.size(),
             name: this.name,
             numProvinceCards: this.provinceDeck.size(),
             phase: this.phase,

@@ -199,7 +199,7 @@ class DynastyRow extends React.Component {
                 <CardCollection className='discard' title='Dynasty Discard' source='dynasty discard pile' cards={this.props.dynastyDiscardPile}
                                 onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
                                 popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} />
-                <CardCollection className='draw' title='Dynasty' source='dynasty draw deck' cards={this.props.dynastyDrawDeck}
+                <CardCollection className='draw' title='Dynasty' source='dynasty draw deck' cards={this.props.dynastyDeck}
                                 onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
                                 popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop}
                                 menu={drawDeckMenu} hiddenTopCard cardCount={this.props.numDrawCards} popupMenu={drawDeckPopupMenu} />
@@ -214,7 +214,8 @@ DynastyRow.displayName = 'DynastyRow';
 DynastyRow.propTypes = {
     additionalPiles: React.PropTypes.object,
     conflictDiscardPile: React.PropTypes.array,
-    conflictDrawDeck: React.PropTypes.array,
+    conflictDeck: React.PropTypes.array,
+    dynastyDeck: React.PropTypes.array,
     hand: React.PropTypes.array,
     isMe: React.PropTypes.bool,
     numDrawCards: React.PropTypes.number,
