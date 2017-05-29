@@ -197,7 +197,7 @@ class Player extends Spectator {
         return (cards.length > 1) ? cards : cards[0];
     }
 
-    searchConflictDrawDeck(limit, predicate) {
+    searchConflictDeck(limit, predicate) {
         var cards = this.conflictDrawDeck;
 
         if(_.isFunction(limit)) {
@@ -213,7 +213,7 @@ class Player extends Spectator {
         return cards.filter(predicate);
     }
 
-    searchDynastyDrawDeck(limit, predicate) {
+    searchDynastyDeck(limit, predicate) {
         var cards = this.dynastyDrawDeck;
 
         if(_.isFunction(limit)) {
@@ -229,16 +229,16 @@ class Player extends Spectator {
         return cards.filter(predicate);
     }
 
-    shuffleConflictDrawDeck() {
+    shuffleConflictDeck() {
         this.conflictDrawDeck = _(this.conflictDrawDeck.shuffle());
     }
 
-    shuffleDynastyDrawDeck() {
+    shuffleDynastyDeck() {
         this.dynastyDrawDeck = _(this.dynastyDrawDeck.shuffle());
     }
 
 
-    discardFromDraw(number, callback = () => true) {
+    discardFromConflict(number, callback = () => true) {
         number = Math.min(number, this.conflictDrawDeck.size());
 
         var cards = this.conflictDrawDeck.first(number);
@@ -316,7 +316,7 @@ class Player extends Spectator {
             this.conflictDrawDeck.push(card);
         });
         this.hand = _([]);
-        this.shuffleConflictDrawDeck();
+        this.shuffleConflictDeck();
         this.drawCardsToHand(StartingHandSize);
     }
 
@@ -326,7 +326,7 @@ class Player extends Spectator {
             this.dynastyDrawDeck.push(card);
         });
         this.hand = _([]);
-        this.shuffleDynastyDrawDeck();
+        this.shuffleDynastyDeck();
     }
 
     prepareDecks() {
