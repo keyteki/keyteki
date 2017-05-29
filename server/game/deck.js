@@ -12,7 +12,7 @@ class Deck {
 
     prepare(player) {
         var result = {
-            faction: null,
+            faction: {},
             conflictDrawCards: [],
             dynastyDrawCards: [],
             provinceCards: [],

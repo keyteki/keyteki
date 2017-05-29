@@ -30,7 +30,7 @@ class Player extends Spectator {
         this.conflictDiscardPile = _([]);
         this.additionalPiles = {};
 
-        this.faction = null;
+        this.faction = {};
         this.stronghold = new StrongholdCard(this, {});
 
         this.owner = owner;
