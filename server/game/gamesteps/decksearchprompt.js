@@ -74,9 +74,9 @@ class DeckSearchPrompt extends UiPrompt {
 
     searchCards() {
         if(this.properties.numCards) {
-            return this.choosingPlayer.searchDrawDeck(this.properties.numCards, card => this.checkCardCondition(card));
+            return this.choosingPlayer.searchConflictDeck(this.properties.numCards, card => this.checkCardCondition(card));
         }
-        return this.choosingPlayer.searchDrawDeck(card => this.checkCardCondition(card));
+        return this.choosingPlayer.searchConflictDeck(card => this.checkCardCondition(card));
     }
 
     waitingPrompt() {

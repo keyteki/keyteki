@@ -22,17 +22,17 @@ describe('the Player', () => {
         player.drawDeck = drawDeck;
     });
 
-    describe('the searchDrawDeck() function', () => {
+    describe('the searchConflictDeck() function', () => {
         describe('when no limit is passed', () => {
             it('should search all cards in the deck', () => {
-                var cards = player.searchDrawDeck(() => {
+                var cards = player.searchConflictDeck(() => {
                     return true;
                 });
                 expect(cards.length).toBe(drawDeck.size());
             });
 
             it('should filter the results using the predicate', () => {
-                var cards = player.searchDrawDeck((card) => {
+                var cards = player.searchConflictDeck((card) => {
                     return card.name === 'bar';
                 });
 
@@ -43,7 +43,7 @@ describe('the Player', () => {
         describe('when a limit is passed but no predicate', () => {
             describe('when the limit is positive', () => {
                 it('should return from the top of the deck', () => {
-                    var cards = player.searchDrawDeck(2);
+                    var cards = player.searchConflictDeck(2);
 
                     expect(cards.length).toBe(2);
                     expect(cards[0].name).toBe('foo');
@@ -53,7 +53,7 @@ describe('the Player', () => {
 
             describe('when the limit is negative', () => {
                 it('should return from the bottom of the deck', () => {
-                    var cards = player.searchDrawDeck(-2);
+                    var cards = player.searchConflictDeck(-2);
 
                     expect(cards.length).toBe(2);
                     expect(cards[0].name).toBe('baz');
@@ -64,7 +64,7 @@ describe('the Player', () => {
 
         describe('when both a limit and a predicate are passed', () => {
             it('should limit and filter', () => {
-                var cards = player.searchDrawDeck(3, (card) => {
+                var cards = player.searchConflictDeck(3, (card) => {
                     return card.name[0] === 'b';
                 });
 

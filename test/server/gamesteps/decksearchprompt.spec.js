@@ -14,7 +14,7 @@ describe('DeckSearchPrompt', function() {
     beforeEach(function() {
         this.game = jasmine.createSpyObj('game', ['addMessage', 'getPlayers']);
 
-        this.player = jasmine.createSpyObj('player1', ['cancelPrompt', 'setPrompt', 'findCardByUuid', 'searchDrawDeck', 'shuffleDrawDeck']);
+        this.player = jasmine.createSpyObj('player1', ['cancelPrompt', 'setPrompt', 'findCardByUuid', 'searchConflictDeck', 'shuffleDrawDeck']);
         this.player.drawDeck = _([]);
         this.otherPlayer = jasmine.createSpyObj('player2', ['setPrompt', 'cancelPrompt']);
 
@@ -55,7 +55,7 @@ describe('DeckSearchPrompt', function() {
 
         describe('activePrompt()', function() {
             beforeEach(function() {
-                this.player.searchDrawDeck.and.returnValue([
+                this.player.searchConflictDeck.and.returnValue([
                     createCardSpy({ uuid: '1111', cardData: { label: 'Foo' } }),
                     createCardSpy({ uuid: '2222', cardData: { label: 'Bar' } }),
                     createCardSpy({ uuid: '3333', cardData: { label: 'Foo' } })
@@ -64,7 +64,7 @@ describe('DeckSearchPrompt', function() {
             });
 
             it('should search the deck with appropriate parameters', function() {
-                expect(this.player.searchDrawDeck).toHaveBeenCalledWith(10, jasmine.any(Function));
+                expect(this.player.searchConflictDeck).toHaveBeenCalledWith(10, jasmine.any(Function));
             });
 
             it('should generate buttons for each unique card by title', function() {
@@ -177,7 +177,7 @@ describe('DeckSearchPrompt', function() {
 
         describe('activePrompt()', function() {
             beforeEach(function() {
-                this.player.searchDrawDeck.and.returnValue([
+                this.player.searchConflictDeck.and.returnValue([
                     createCardSpy({ uuid: '1111', cardData: { label: 'Foo' } }),
                     createCardSpy({ uuid: '2222', cardData: { label: 'Bar' } }),
                     createCardSpy({ uuid: '3333', cardData: { label: 'Foo' } })
@@ -186,7 +186,7 @@ describe('DeckSearchPrompt', function() {
             });
 
             it('should search the deck with appropriate parameters', function() {
-                expect(this.player.searchDrawDeck).toHaveBeenCalledWith(jasmine.any(Function));
+                expect(this.player.searchConflictDeck).toHaveBeenCalledWith(jasmine.any(Function));
             });
 
             it('should generate buttons for each unique card by title', function() {
