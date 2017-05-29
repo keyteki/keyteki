@@ -6,7 +6,7 @@ const CardAction = require('../../../server/game/cardaction.js');
 describe('CardAction', function () {
     beforeEach(function () {
         this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'raiseEvent', 'raiseMergedEvent', 'resolveAbility']);
-        this.gameSpy.currentPhase = 'marshal';
+        this.gameSpy.currentPhase = 'dynasty';
 
         this.cardSpy = jasmine.createSpyObj('card', ['getType', 'isBlank']);
         this.cardSpy.handler = function() {};
@@ -73,16 +73,11 @@ describe('CardAction', function () {
                 expect(this.action.location).toBe('play area');
             });
 
-            it('should default to agenda for cards with type agenda', function() {
-                this.cardSpy.getType.and.returnValue('agenda');
-                this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
-                expect(this.action.location).toBe('agenda');
-            });
 
-            it('should default to active plot for cards with type plot', function() {
-                this.cardSpy.getType.and.returnValue('plot');
+            it('should default to province for cards with type province', function() {
+                this.cardSpy.getType.and.returnValue('province');
                 this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
-                expect(this.action.location).toBe('active plot');
+                expect(this.action.location).toBe('province');
             });
 
             it('should default to hand for cards with type event', function() {

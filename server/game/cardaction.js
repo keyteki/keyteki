@@ -38,7 +38,7 @@ class CardAction extends BaseAbility {
 
         const DefaultLocationForType = {
             event: 'hand',
-            plot: 'province'
+            province: 'province'
         };
 
         this.game = game;
