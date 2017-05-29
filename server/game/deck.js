@@ -12,11 +12,15 @@ class Deck {
 
     prepare(player) {
         var result = {
+            faction: null,
             conflictDrawCards: [],
             dynastyDrawCards: [],
             provinceCards: [],
             stronghold: []
         };
+
+        //faction
+        result.faction = this.data.faction;
 
         //conflict
         this.eachRepeatedCard(this.data.conflictDrawCards, cardData => {
