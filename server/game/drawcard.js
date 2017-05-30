@@ -58,6 +58,10 @@ class DrawCard extends BaseCard {
         return this.cardData.cost;
     }
 
+    getFate() {
+        return this.fate;
+    }
+
     modifySkill(amount, type, applying = true) {
         /**
          * Direct the skill modification to the correct sub function.
@@ -138,6 +142,22 @@ class DrawCard extends BaseCard {
         }
 
         return Math.max(0, this.politicalSkillModifier + (this.cardData.politicalskill || 0));
+    }
+
+    modifyFate(fate) {
+        /**
+         * @param  {integer} fate - the amount of fate to modify this card's fate total by
+         */
+        var oldFate = this.fate;
+
+        this.fate += fate;
+
+        if(this.fate < 0) {
+            this.fate = 0;
+        }
+
+        this.game.raiseEvent('onCardFateChanged', this, this.fate - oldFate);
+
     }
 
     clearBlank() {
