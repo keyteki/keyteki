@@ -23,7 +23,6 @@ class Player extends Spectator {
         this.provinceDeck = _([]);
         this.hand = _([]);
         this.cardsInPlay = _([]);
-        this.deadPile = _([]);
         this.strongholdProvince = _([]);
         this.provinces = _([], [], [], []);
         this.dynastyDiscardPile = _([]);
@@ -41,8 +40,7 @@ class Player extends Spectator {
         this.conflicts = new ConflictTracker();
         this.minReserve = 0;
         this.costReducers = [];
-        this.playableLocations = _.map(['marshal', 'play'], playingType => new PlayableLocation(playingType, this, 'hand'));
-        this.usedPlotsModifier = 0;
+        this.playableLocations = _.map(['dynasty', 'play'], playingType => new PlayableLocation(playingType, this, 'hand'));
         this.cannotGainConflictBonus = false;
         this.cannotTriggerCardAbilities = false;
         this.promptedActionWindows = user.promptedActionWindows || {
@@ -652,8 +650,6 @@ class Player extends Spectator {
                 return this.conflictDiscardPile;
             case 'dynasty discard pile':
                 return this.dynastyDiscardPile;
-            case 'dead pile':
-                return this.deadPile;
             case 'play area':
                 return this.cardsInPlay;
             case 'province 1':
@@ -909,19 +905,11 @@ class Player extends Spectator {
     }
 
     removeAttachment(attachment, allowSave = true) {
-        if(allowSave && !attachment.dupes.isEmpty() && this.removeDuplicate(attachment)) {
-            this.game.addMessage('{0} discards a duplicate to save {1}', this, attachment);
-            return;
-        }
 
-        while(attachment.dupes.size() > 0) {
-            this.removeDuplicate(attachment, true);
-        }
-
-        if(attachment.isTerminal()) {
-            attachment.owner.moveCard(attachment, 'discard pile');
-        } else {
+        if(attachment.isAncestral()) {
             attachment.owner.moveCard(attachment, 'hand');
+        } else {
+            attachment.owner.moveCard(attachment, 'conflict discard pile');
         }
     }
 
@@ -952,10 +940,12 @@ class Player extends Spectator {
                 this.removeAttachment(attachment, false);
             });
 
+            /* Ignore dupe mechanic
             while(card.dupes.size() > 0 && targetLocation !== 'play area') {
                 this.removeDuplicate(card, true);
             }
-
+            */
+           
             var params = {
                 player: this,
                 card: card
@@ -977,7 +967,7 @@ class Player extends Spectator {
             this.game.raiseEvent('onCardLeftHand', card);
         }
 
-        if(card.location === 'active plot') {
+        if(card.location === 'province') {
             card.leavesPlay();
             this.game.raiseMergedEvent('onCardLeftPlay', { player: this, card: card });
         }
@@ -986,9 +976,11 @@ class Player extends Spectator {
             card.moveTo(targetLocation);
         }
 
-        if(targetLocation === 'active plot') {
+        if(targetLocation === 'province') {
             this.activePlot = card;
-        } else if(targetLocation === 'draw deck' && !options.bottom) {
+        } else if(targetLocation === 'conflict deck' && !options.bottom) {
+            targetPile.unshift(card);
+        } else if(targetLocation === 'dynasty deck' && !options.bottom) {
             targetPile.unshift(card);
         } else {
             targetPile.push(card);
@@ -998,7 +990,7 @@ class Player extends Spectator {
             this.game.raiseEvent('onCardEntersHand', card);
         }
 
-        if(['dead pile', 'discard pile'].includes(targetLocation)) {
+        if(['conflict discard pile', 'dynasty discard pile'].includes(targetLocation)) {
             this.game.raiseMergedEvent('onCardPlaced', { card: card, location: targetLocation });
         }
     }
