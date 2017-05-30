@@ -441,8 +441,7 @@ export class InnerGameBoard extends React.Component {
                             additionalPiles={otherPlayer ? otherPlayer.additionalPiles : {}}
                             hand={otherPlayer ? otherPlayer.hand : []} isMe={false}
                             numDrawCards={otherPlayer ? otherPlayer.numDrawCards : 0}
-                            discardPile={otherPlayer ? otherPlayer.discardPile : []}
-                            deadPile={otherPlayer ? otherPlayer.deadPile : []}
+                            conflictDiscardPile={otherPlayer ? otherPlayer.conflictDiscardPile : []}
                             onCardClick={this.onCardClick}
                             onMouseOver={this.onMouseOver}
                             onMouseOut={this.onMouseOut}
@@ -468,8 +467,7 @@ export class InnerGameBoard extends React.Component {
                             showDrawDeck={this.state.showDrawDeck}
                             drawDeck={thisPlayer.drawDeck}
                             onDragDrop={this.onDragDrop}
-                            discardPile={thisPlayer.discardPile}
-                            deadPile={thisPlayer.deadPile}
+                            conflictDiscardPile={thisPlayer.conflictDiscardPile}
                             spectating={this.state.spectating}
                             onMenuItemClick={this.onMenuItemClick}/>
                     </div>

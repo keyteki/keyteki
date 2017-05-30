@@ -247,7 +247,7 @@ const Costs = {
                 return context.player.isCardInPlayableLocation(context.source, 'play') && context.source.canBePlayed();
             },
             pay: function(context) {
-                context.source.controller.moveCard(context.source, 'discard pile');
+                context.source.controller.moveCard(context.source, 'conflict discard pile');
             }
         };
     },
