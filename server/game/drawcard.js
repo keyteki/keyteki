@@ -182,16 +182,15 @@ class DrawCard extends BaseCard {
     }
 
     leavesPlay() {
-        this.kneeled = false;
-        this.power = 0;
-        this.inChallenge = false;
+        this.bowed = false;
+        this.inConflict = false;
 
         super.leavesPlay();
     }
 
     resetForConflict() {
-        this.stealth = false;
-        this.stealthTarget = undefined;
+        //this.stealth = false;
+        //this.stealthTarget = undefined;
         this.inConflict = false;
     }
 
