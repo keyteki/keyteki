@@ -456,16 +456,16 @@ class Player extends Spectator {
 
         var dupeCard = this.getDuplicateInPlay(card);
 
-        if(card.getType() === 'attachment' && playingType !== 'setup' && !dupeCard) {
+        if(card.getType() === 'attachment') {
             this.promptForAttachment(card, playingType);
             return;
         }
 
-        if(dupeCard && playingType !== 'setup') {
+        if(dupeCard) {
             this.removeCardFromPile(card);
-            dupeCard.addDuplicate(card);
+            dupeCard.modifyFate(1);
         } else {
-            card.facedown = this.game.currentPhase === 'setup';
+            card.facedown = false;
             if(!dupeCard) {
                 card.play(this);
             }
@@ -473,10 +473,6 @@ class Player extends Spectator {
             card.new = true;
             this.moveCard(card, 'play area', { isDupe: !!dupeCard });
             card.controller = this;
-
-            if(this.game.currentPhase !== 'setup' && card.isBestow()) {
-                this.game.queueStep(new BestowPrompt(this.game, this, card));
-            }
 
             this.game.raiseMergedEvent('onCardEntersPlay', { card: card, playingType: playingType });
         }
@@ -487,28 +483,8 @@ class Player extends Spectator {
             this.drawCardsToHand(StartingHandSize - this.hand.size());
         }
 
-        var processedCards = _([]);
-
-        this.cardsInPlay.each(card => {
-            card.facedown = false;
-
-            if(!card.isUnique()) {
-                processedCards.push(card);
-                return;
-            }
-
-            var duplicate = this.findCardByName(processedCards, card.name);
-
-            if(duplicate) {
-                duplicate.addDuplicate(card);
-            } else {
-                processedCards.push(card);
-            }
-
-        });
-
         this.cardsInPlay = processedCards;
-        this.gold = 0;
+        this.fate = 0;
     }
 
     startPlotPhase() {
@@ -1101,7 +1077,7 @@ class Player extends Spectator {
             faction: this.faction,
             stronghold: this.stronghold.getSummary(activePlayer),
             firstPlayer: this.firstPlayer,
-            fate: !isActivePlayer && this.phase === 'setup' ? 0 : this.gold,
+            fate: this.fate,
             hand: this.getSummaryForCardList(this.hand, activePlayer, true),
             id: this.id,
             left: this.left,
