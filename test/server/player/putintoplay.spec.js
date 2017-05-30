@@ -12,8 +12,6 @@ describe('Player', function() {
         this.player.initialise();
 
         spyOn(this.player, 'getDuplicateInPlay');
-        spyOn(this.player, 'isCharacterDead');
-        spyOn(this.player, 'canResurrect');
 
         this.cardSpy = jasmine.createSpyObj('card', ['getType', 'getCost', 'isBestow', 'play', 'moveTo']);
         this.cardSpy.controller = this.player;
@@ -43,31 +41,6 @@ describe('Player', function() {
                 });
             });
 
-            describe('and the character is dead', function() {
-                beforeEach(function() {
-                    this.player.isCharacterDead.and.returnValue(true);
-                });
-
-                describe('and the character can be resurrected', function() {
-                    beforeEach(function() {
-                        this.player.canResurrect.and.returnValue(true);
-                    });
-
-                    it('should return true', function() {
-                        expect(this.player.canPutIntoPlay(this.cardSpy)).toBe(true);
-                    });
-                });
-
-                describe('and the character cannot be resurrected', function() {
-                    beforeEach(function() {
-                        this.player.canResurrect.and.returnValue(false);
-                    });
-
-                    it('should return false', function() {
-                        expect(this.player.canPutIntoPlay(this.cardSpy)).toBe(false);
-                    });
-                });
-            });
         });
 
         describe('when the player is not the owner of the card', function() {
@@ -95,31 +68,6 @@ describe('Player', function() {
                 });
             });
 
-            describe('and the character is dead for the owner', function() {
-                beforeEach(function() {
-                    this.ownerSpy.isCharacterDead.and.returnValue(true);
-                });
-
-                describe('and the character can be resurrected', function() {
-                    beforeEach(function() {
-                        this.ownerSpy.canResurrect.and.returnValue(true);
-                    });
-
-                    it('should return true', function() {
-                        expect(this.player.canPutIntoPlay(this.cardSpy)).toBe(true);
-                    });
-                });
-
-                describe('and the character cannot be resurrected', function() {
-                    beforeEach(function() {
-                        this.ownerSpy.canResurrect.and.returnValue(false);
-                    });
-
-                    it('should return false', function() {
-                        expect(this.player.canPutIntoPlay(this.cardSpy)).toBe(false);
-                    });
-                });
-            });
         });
     });
 
@@ -241,79 +189,6 @@ describe('Player', function() {
 
                 it('should not add a new card to play', function() {
                     expect(this.player.cardsInPlay).not.toContain(this.cardSpy);
-                });
-            });
-        });
-
-        describe('when the playing type is setup', function() {
-            describe('and the card is not a duplicate', function() {
-                beforeEach(function() {
-                    this.player.getDuplicateInPlay.and.returnValue(null);
-                    this.gameSpy.currentPhase = 'setup';
-                    this.player.putIntoPlay(this.cardSpy, 'setup');
-                });
-
-                it('should add the card to cards in play', function() {
-                    expect(this.player.cardsInPlay).toContain(this.cardSpy);
-                });
-
-                it('should be placed face down', function() {
-                    expect(this.cardSpy.facedown).toBe(true);
-                });
-
-                it('should be marked as new', function() {
-                    expect(this.cardSpy.new).toBe(true);
-                });
-
-                it('should play the card as non-ambush', function() {
-                    expect(this.cardSpy.play).toHaveBeenCalledWith(this.player, false);
-                });
-
-                it('should raise the onCardEntersPlay event', function() {
-                    expect(this.gameSpy.raiseMergedEvent).toHaveBeenCalledWith('onCardEntersPlay', jasmine.objectContaining({ card: this.cardSpy, playingType: 'setup' }));
-                });
-
-                describe('when it has the Bestow keyword', function() {
-                    beforeEach(function() {
-                        this.cardSpy.isBestow.and.returnValue(true);
-                        this.player.putIntoPlay(this.cardSpy, 'setup');
-                    });
-
-                    it('should not queue the bestow prompt', function() {
-                        expect(this.gameSpy.queueStep).not.toHaveBeenCalled();
-                    });
-                });
-            });
-
-            describe('and the card is a duplicate', function() {
-                beforeEach(function() {
-                    this.player.getDuplicateInPlay.and.returnValue(this.dupeCardSpy);
-                    this.gameSpy.currentPhase = 'setup';
-                    this.player.putIntoPlay(this.cardSpy, 'setup');
-                });
-
-                it('should add the card to cards in play', function() {
-                    expect(this.player.cardsInPlay).toContain(this.cardSpy);
-                });
-
-                it('should be placed face down', function() {
-                    expect(this.cardSpy.facedown).toBe(true);
-                });
-
-                it('should be marked as new', function() {
-                    expect(this.cardSpy.new).toBe(true);
-                });
-
-                it('should not play the card', function() {
-                    expect(this.cardSpy.play).not.toHaveBeenCalled();
-                });
-
-                it('should raise the onCardEntersPlay event', function() {
-                    expect(this.gameSpy.raiseMergedEvent).toHaveBeenCalledWith('onCardEntersPlay', jasmine.objectContaining({ card: this.cardSpy, playingType: 'setup' }));
-                });
-
-                it('should not add as a duplicate', function() {
-                    expect(this.dupeCardSpy.addDuplicate).not.toHaveBeenCalledWith(this.cardSpy);
                 });
             });
         });
