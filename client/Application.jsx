@@ -256,7 +256,7 @@ class App extends React.Component {
         }
 
         return (<div>
-            <NavBar leftMenu={leftMenu} rightMenu={rightMenu} title='Egg of P&apos;an Ku' currentPath={this.props.path} numGames={this.props.games.length} />
+            <NavBar leftMenu={leftMenu} rightMenu={rightMenu} title='Jigoku Online' currentPath={this.props.path} numGames={this.props.games.length} />
             <div className='container'>
                 {component}
             </div>

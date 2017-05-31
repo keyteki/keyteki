@@ -1,6 +1,6 @@
 /*eslint no-console:0 */
 const mongoskin = require('mongoskin');
-const db = mongoskin.db('mongodb://127.0.0.1:27017/eggteki');
+const db = mongoskin.db('mongodb://127.0.0.1:27017/ringteki');
 const fs = require('fs');
 const _ = require('underscore');
 

@@ -1,4 +1,4 @@
-# Eggteki
+# Ringteki
 
 Web based implementation of The Legend of the Five Rings LCG
 
@@ -6,13 +6,13 @@ Web based implementation of The Legend of the Five Rings LCG
 
 ### What is it?
 
-This is the respository for the code internally known as eggteki which is running on [eggofpanku.net](https://eggofpanku.net/) allowing people to play L5R LCG online using only their browser
+This is the respository for the code internally known as ringteki which is running on [jigoku.online](https://jigoku.online/) allowing people to play L5R LCG online using only their browser
 
 ### Does't this look a lot like Jinteki/Throneteki? The Android netrunner/AGOT online experience?
 
 Glad you noticed!  Yes, jinteki was a huge inspiration for this project, as the interface is clean and user friendly, so I've tried to make this similar in a lot of ways
 
-Eggteki is a fork of the throneteki sourcecode
+Ringteki is a fork of the throneteki sourcecode
 
 ### Can I contribute?
 
@@ -20,7 +20,7 @@ Sure!  The code is written in node.js(server) and react.js(client).  Feel free t
 
 If you are going to contribute code, try and follow the style of the existing code as much as possible and talk to me before engaging in any big refactors.  Also bear in mind there is an .eslintrc file in the project so try to follow those rules.
 
-[Documentation for implementing cards](https://github.com/gryffon/eggteki/blob/master/docs/implementing-cards.md)
+[Documentation for implementing cards](https://github.com/gryffon/ringteki/blob/master/docs/implementing-cards.md)
 
 The biggest help at the moment would be in terms of CSS, as that's a bit of a weakness of mine, feel free to pick up any of the issues tagged 'CSS' in the issue list.
 
@@ -29,11 +29,11 @@ If you're not coding inclined, then just playing games on the site, and reportin
 ### X Y Z doesn't work
 That's not a question, but that still sucks, sorry :(  First, bear in mind the site is in its infancy so a lot of things aren't implemented yet, but you should be able to do most things with a bit of manual input.  If there's anything you can't do that you need to be able to do, let me know by raising an issue.
 
-See this document for features I have planned and a link to the currently implemented cards:  http://bit.ly/eggteki
+See this document for features I have planned and a link to the currently implemented cards:  
 
 ### How do I do X Y Z?
 
-Check out the [About page](https://eggofpanku.net/about)  of a Eggteki live deployment.
+Check out the [About page](https://jigoku.online/about)  of a Ringteki live deployment.
 
 ## Development
 
@@ -58,7 +58,7 @@ For the lobby server, you'll need a file called server/config.js that should loo
 ```javascript
 var config = {
   secret: 'somethingverysecret',
-  dbPath: 'mongodb://127.0.0.1:27017/eggteki',
+  dbPath: 'mongodb://127.0.0.1:27017/ringteki',
   mqUrl: 'tcp://127.0.0.1:6000' // This is the host/port of the Zero MQ server which does the node load balancing
 };
 
@@ -96,7 +96,7 @@ PORT={port} SERVER={node-name} node server/gamenode
 
 ### Coding Guidelines
 
-All JavaScript code included in Eggteki should pass (no errors, no warnings)
+All JavaScript code included in Ringteki should pass (no errors, no warnings)
 linting by [ESLint](http://eslint.org/), according to the rules defined in
 `.eslintrc` at the root of this repo. To manually check that that is indeed the
 case install ESLint and run
@@ -117,5 +117,5 @@ If you are making any game engine changes, these will not be accepted without un
 
 ### Build Status
 
-[![CircleCI](https://circleci.com/gh/gryffon/eggteki.svg?style=svg)](https://circleci.com/gh/gryffon/eggteki)
-[![Travis Build](https://travis-ci.org/gryffon/eggteki.svg?branch=master)](https://travis-ci.org/gryffon/eggteki)
+[![CircleCI](https://circleci.com/gh/gryffon/ringteki.svg?style=svg)](https://circleci.com/gh/gryffon/ringteki)
+[![Travis Build](https://travis-ci.org/gryffon/ringteki.svg?branch=master)](https://travis-ci.org/gryffon/ringteki)

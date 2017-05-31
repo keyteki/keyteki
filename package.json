@@ -1,5 +1,5 @@
 {
-  "name": "eggteki",
+  "name": "ringteki",
   "version": "1.0.1",
   "description": "A Legend of the Five Rings Card Game Server",
   "main": "index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gryffon/eggteki.git"
+    "url": "git+https://github.com/gryffon/ringteki.git"
   },
   "keywords": [
     "l5r",
@@ -25,9 +25,9 @@
   "author": "Ryan Karetas <ryan@karetas.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gryffon/eggteki/issues"
+    "url": "https://github.com/gryffon/ringteki/issues"
   },
-  "homepage": "https://github.com/gryffon/eggteki#readme",
+  "homepage": "https://github.com/gryffon/ringteki#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "bootstrap": "^3.3.7",
@@ -62,7 +62,7 @@
     "sass-loader": "^6.0.3",
     "socket.io": "^1.4.8",
     "socket.io-client": "^1.4.8",
-    "eggteki-data": "^1.0.0",
+    "ringteki-data": "^1.0.0",
     "underscore": "^1.8.3",
     "uuid": "^3.0.1",
     "webpack": "^2.2.1",
