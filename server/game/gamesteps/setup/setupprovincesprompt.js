@@ -1,6 +1,6 @@
 const AllPlayerPrompt = require('../allplayerprompt.js');
 
-class SetupProvincessPrompt extends AllPlayerPrompt {
+class SetupProvincesPrompt extends AllPlayerPrompt {
     completionCondition(player) {
         return player.setupprovinces;
     }
