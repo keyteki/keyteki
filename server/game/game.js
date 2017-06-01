@@ -246,21 +246,39 @@ class Game extends EventEmitter {
         }
     }
 
-    showDrawDeck(playerName) {
+    showConflictDeck(playerName) {
         var player = this.getPlayerByName(playerName);
 
         if(!player) {
             return;
         }
 
-        if(!player.showDeck) {
-            player.showDrawDeck();
+        if(!player.showConflictDeck) {
+            player.showConflictDeck();
 
-            this.addMessage('{0} is looking at their deck', player);
+            this.addMessage('{0} is looking at their conflict deck', player);
+        } else {
+            player.showConflictDeck = false;
+
+            this.addMessage('{0} stops looking at their conflict deck', player);
+        }
+    }
+
+    showDynastyDeck(playerName) {
+        var player = this.getPlayerByName(playerName);
+
+        if(!player) {
+            return;
+        }
+
+        if(!player.showDynastyDeck) {
+            player.showDynastyDeck();
+
+            this.addMessage('{0} is looking at their dynasty deck', player);
         } else {
             player.showDeck = false;
 
-            this.addMessage('{0} stops looking at their deck', player);
+            this.addMessage('{0} stops looking at their dynasty deck', player);
         }
     }
 
@@ -299,7 +317,7 @@ class Game extends EventEmitter {
         this.checkWinCondition(player);
     }
 
-    addFate(player, gold) {
+    addFate(player, fate) {
         player.fate += fate;
 
         if(player.fate < 0) {
@@ -333,9 +351,9 @@ class Game extends EventEmitter {
     }
 
     checkWinCondition(player) {
-        if(player.getTotalPower() >= 25) {
+        if(player.getTotalHonor() >= 25) {
             this.recordWinner(player, 'honor');
-        } else if(player .getTotalPower() == 0) {
+        } else if(player .getTotalHonor() == 0) {
             var opponent = this.getOtherPlayer(player);
             this.recordWinner(opponent, 'dishonor');
         }
@@ -759,7 +777,7 @@ class Game extends EventEmitter {
                 name: player.name,
                 faction: player.faction.name,
                 agenda: player.agenda ? player.agenda.name : undefined,
-                power: player.getTotalPower()
+                power: player.getTotalHonor()
             };
         });
 
