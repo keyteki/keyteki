@@ -132,17 +132,7 @@ class Card extends React.Component {
     getCountersForCard(card) {
         var counters = {};
 
-        counters['card-power'] = card.power ? { count: card.power, fade: card.type === 'attachment', shortName: 'P' } : undefined;
-        counters['strength'] = card.baseStrength !== card.strength ? { count: card.strength, fade: card.type === 'attachment', shortName: 'S' } : undefined;
-        counters['dupe'] = card.dupes && card.dupes.length > 0 ? { count: card.dupes.length, fade: card.type === 'attachment', shortName: 'D' } : undefined;
-
-        _.map(card.iconsAdded, icon => {
-            counters[icon] = { count: 0, cancel: false };
-        });
-
-        _.map(card.iconsRemoved, icon => {
-            counters[icon] = { count: 0, cancel: true };
-        });
+        counters['card-fate'] = card.fate ? { count: card.fate, fade: card.type === 'attachment', shortName: 'P' } : undefined;
 
         _.each(card.tokens, (token, key) => {
             counters[key] = { count: token, fade: card.type === 'attachment', shortName: this.shortNames[key] };
@@ -228,7 +218,7 @@ class Card extends React.Component {
 
         cardClass += ' card-type-' + this.props.card.type;
 
-        if(this.props.orientation === 'bowed' || this.props.card.bowed || this.props.orientation === 'horizontal' && this.props.card.type !== 'plot') {
+        if(this.props.orientation === 'bowed' || this.props.card.bowed || this.props.orientation === 'horizontal') {
             cardClass += ' horizontal';
             imageClass += ' vertical bowed';
         } else if(this.props.orientation === 'horizontal') {
@@ -247,14 +237,8 @@ class Card extends React.Component {
             cardClass += ' selected';
         } else if(this.props.card.selectable) {
             cardClass += ' selectable';
-        } else if(this.props.card.inDanger) {
-            cardClass += ' in-danger';
-        } else if(this.props.card.saved) {
-            cardClass += ' saved';
-        } else if(this.props.card.inChallenge) {
-            cardClass += ' challenge';
-        } else if(this.props.card.stealth) {
-            cardClass += ' stealth';
+        } else if(this.props.card.inConflict) {
+            cardClass += ' conflict';
         } else if(this.props.card.controlled) {
             cardClass += ' controlled';
         } else if(this.props.card.new) {
@@ -265,9 +249,9 @@ class Card extends React.Component {
             cardClass += ' ' + this.props.className;
         }
 
-        if(this.props.card.deck === 'conflict') {
+        if(this.props.card.isConflict) {
             cardBack = 'conflictcardback.jpg'
-        } else if(this.props.card.deck === 'dynasty') {
+        } else if(this.props.card.isDynasty) {
             cardBack = 'dynastycardback.jpg'
         } else if(this.props.card.type === 'province') {
             cardBack = 'provincecardback.jpg'
@@ -322,7 +306,6 @@ Card.propTypes = {
         deck: React.PropTypes.string,
         facedown: React.PropTypes.bool,
         inConflict: React.PropTypes.bool,
-        inDanger: React.PropTypes.bool,
         isConflict: React.PropTypes.bool,
         isDynasty: React.PropTypes.bool,
         isProvince: React.PropTypes.bool,
@@ -337,7 +320,6 @@ Card.propTypes = {
         saved: React.PropTypes.bool,
         selectable: React.PropTypes.bool,
         selected: React.PropTypes.bool,
-        stealth: React.PropTypes.bool,
         tokens: React.PropTypes.object,
         type: React.PropTypes.string,
         unselectable: React.PropTypes.bool
