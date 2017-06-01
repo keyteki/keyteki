@@ -24,6 +24,8 @@ class DrawCard extends BaseCard {
         this.contributesToFavor = true;
         this.bowed = false;
         this.inConflict = false;
+        this.isConflict = false;
+        this.isDynasty = false;
         this.readysDuringReadying = true;
         this.challengeOptions = {
             doesNotBowAs: {
@@ -32,6 +34,12 @@ class DrawCard extends BaseCard {
             }
         };
         this.stealthLimit = 1;
+
+        if(cardData.deck === 'conflict') {
+            this.isConflict = true;
+        } else if(cardData.deck === 'dynasty') {
+            this.isDynasty = true;
+        }
     }
 
     isLimited() {
