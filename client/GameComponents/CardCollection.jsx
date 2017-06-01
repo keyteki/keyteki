@@ -157,7 +157,7 @@ class CardCollection extends React.Component {
         var cardCount = this.props.cardCount || (this.props.cards ? this.props.cards.length : '0');
         var headerText = this.props.title ? this.props.title + ' (' + (cardCount) + ')' : '';
         var topCard = this.props.topCard || _.last(this.props.cards);
-        var cardOrientation = this.props.orientation === 'horizontal' && topCard && topCard.facedown ? 'kneeled' : this.props.orientation;
+        var cardOrientation = this.props.orientation === 'horizontal' && topCard && topCard.facedown ? 'bowed' : this.props.orientation;
 
         if(this.props.hiddenTopCard && topCard) {
             topCard.facedown = true;
@@ -165,7 +165,7 @@ class CardCollection extends React.Component {
             topCard = { facedown: true };
         }
 
-        if(this.props.orientation === 'horizontal' || this.props.orientation === 'kneeled') {
+        if(this.props.orientation === 'horizontal' || this.props.orientation === 'bowed') {
             className += ' horizontal';
         } else {
             className += ' vertical';
@@ -209,7 +209,7 @@ CardCollection.propTypes = {
     orientation: React.PropTypes.string,
     popupLocation: React.PropTypes.string,
     popupMenu: React.PropTypes.array,
-    source: React.PropTypes.oneOf(['hand', 'conflict discard pile', 'dynasty discard pile', 'play area', 'conflict deck', 'dynasty deck', 'province deck', 'attachment', 'faction', 'additional']).isRequired,
+    source: React.PropTypes.oneOf(['hand', 'conflict discard pile', 'dynasty discard pile', 'play area', 'conflict deck', 'dynasty deck', 'province deck', 'attachment', 'faction', 'stronghold province', 'additional']).isRequired,
     title: React.PropTypes.string,
     topCard: React.PropTypes.object
 };
