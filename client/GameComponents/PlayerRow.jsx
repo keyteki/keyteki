@@ -11,16 +11,8 @@ class PlayerRow extends React.Component {
     constructor() {
         super();
 
-        this.onDrawClick = this.onDrawClick.bind(this);
-        this.onShuffleClick = this.onShuffleClick.bind(this);
-        this.onShowDeckClick = this.onShowDeckClick.bind(this);
-        this.onCloseClick = this.onCloseClick.bind(this);
-        this.onCloseAndShuffleClick = this.onCloseAndShuffleClick.bind(this);
         this.onDragDrop = this.onDragDrop.bind(this);
 
-        this.state = {
-            showDrawMenu: false
-        };
     }
 
     onDragOver(event) {
@@ -54,31 +46,6 @@ class PlayerRow extends React.Component {
         }
     }
 
-    onCloseClick() {
-        if(this.props.onDrawClick) {
-            this.props.onDrawClick();
-        }
-    }
-
-    onCloseAndShuffleClick() {
-        if(this.props.onDrawClick) {
-            this.props.onDrawClick();
-        }
-
-        if(this.props.onShuffleClick) {
-            this.props.onShuffleClick();
-        }
-    }
-
-    onDiscardedCardClick(event, cardId) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        if(this.props.onDiscardedCardClick) {
-            this.props.onDiscardedCardClick(cardId);
-        }
-    }
-
     getHand(needsSquish) {
         var cardIndex = 0;
         var handLength = this.props.hand ? this.props.hand.length : 0;
@@ -104,48 +71,6 @@ class PlayerRow extends React.Component {
         });
 
         return hand;
-    }
-
-    getDrawDeck() {
-        var drawDeckPopup = undefined;
-
-        if(this.props.showDrawDeck && this.props.drawDeck) {
-            var drawDeck = _.map(this.props.drawDeck, card => {
-                return (<Card key={card.uuid} card={card} source='draw deck'
-                             onMouseOver={this.props.onMouseOver}
-                             onMouseOut={this.props.onMouseOut}
-                             onClick={this.props.onCardClick} />);
-            });
-
-            drawDeckPopup = (
-                <div className='popup panel' onClick={event => event.stopPropagation() }>
-                    <div>
-                        <a onClick={this.onCloseClick}>Close</a>
-                        <a onClick={this.onCloseAndShuffleClick}>Close and shuffle</a>
-                    </div>
-                    <div className='inner'>
-                        {drawDeck}
-                    </div>
-                </div>);
-        }
-
-        return drawDeckPopup;
-    }
-
-    onDrawClick() {
-        this.setState({ showDrawMenu: !this.state.showDrawMenu });
-    }
-
-    onShuffleClick() {
-        if(this.props.onShuffleClick) {
-            this.props.onShuffleClick();
-        }
-    }
-
-    onShowDeckClick() {
-        if(this.props.onDrawClick) {
-            this.props.onDrawClick();
-        }
     }
 
     getAdditionalPiles() {
@@ -208,18 +133,12 @@ PlayerRow.propTypes = {
     additionalPiles: React.PropTypes.object,
     hand: React.PropTypes.array,
     isMe: React.PropTypes.bool,
-    numDrawCards: React.PropTypes.number,
-    onCardClick: React.PropTypes.func,
-    onDiscardedCardClick: React.PropTypes.func,
     onDragDrop: React.PropTypes.func,
-    onDrawClick: React.PropTypes.func,
     onMenuItemClick: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
-    onShuffleClick: React.PropTypes.func,
     provinceDeck: React.PropTypes.array,
     honor: React.PropTypes.number,
-    showDrawDeck: React.PropTypes.bool,
     spectating: React.PropTypes.bool
 };
 
