@@ -261,11 +261,12 @@ class DrawCard extends BaseCard {
                 return attachment.getSummary(activePlayer, hideWhenFaceup);
             }),
             inConflict: this.inConflict,
+            isConflict: this.isConflict,
+            isDynasty: this.isDynasty,
             bowed: this.bowed,
             saved: this.saved,
             militaryskill: this.cardData.militaryskill,
             politicalskill: this.cardData.politicalskill,
-            stealth: this.stealth
         });
     }
 }
