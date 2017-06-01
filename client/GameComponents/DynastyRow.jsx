@@ -211,19 +211,25 @@ class DynastyRow extends React.Component {
                 <div className='deck-cards'>
 
                 
-                <CardCollection className='discard' title='Dynasty Discard' source='dynasty discard pile' cards={this.props.dynastyDiscardPile}
+                <CardCollection className='dynasty discard pile' title='Dynasty Discard' source='dynasty discard pile' cards={this.props.dynastyDiscardPile}
                                 onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
                                 popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} />
-                <CardCollection className='draw' title='Dynasty' source='dynasty deck' cards={this.props.dynastyDeck}
+                <CardCollection className='dynasty deck' title='Dynasty' source='dynasty deck' cards={this.props.dynastyDeck}
                                 onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
                                 popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop}
                                 menu={dynastyDeckMenu} hiddenTopCard cardCount={this.props.numDynastyCards} popupMenu={dynastyDeckPopupMenu} />
                 {/* Add Provinces in here */}
-                <CardCollection className='draw' title='Conflict' source='conflict deck' cards={this.props.conflictDeck}
+
+                <CardCollection className='province' source='province 1' cards={[]} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
+                <CardCollection className='province' source='province 2' cards={[]} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
+                <CardCollection className='province' source='province 3' cards={[]} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
+                <CardCollection className='province' source='province 4' cards={[]} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
+
+                <CardCollection className='conflict deck' title='Conflict' source='conflict deck' cards={this.props.conflictDeck}
                                 onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
                                 popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop}
                                 menu={conflictDeckMenu} hiddenTopCard cardCount={this.props.numConflictCards} popupMenu={conflictDeckPopupMenu} />
-                <CardCollection className='discard' title='Conflict Discard' source='conflict discard pile' cards={this.props.conflictDiscardPile}
+                <CardCollection className='conflict discard pile' title='Conflict Discard' source='conflict discard pile' cards={this.props.conflictDiscardPile}
                                 onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
                                 popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} />                    
                   {additionalPiles}
