@@ -319,11 +319,6 @@ class Player extends Spectator {
     }
 
     initDynastyDeck() {
-        this.hand.each(card => {
-            card.moveTo('dynasty deck');
-            this.dynastyDeck.push(card);
-        });
-        this.hand = _([]);
         this.shuffleDynastyDeck();
     }
 
