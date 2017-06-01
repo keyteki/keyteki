@@ -7,9 +7,9 @@ class AdditionalCardPile extends React.Component {
     render() {
         var topCard = _.last(this.props.pile.cards);
         if(this.props.pile.isPrivate) {
-            topCard = { facedown: true, kneeled: true };
+            topCard = { facedown: true, bowed: true };
         } else if(topCard.facedown) {
-            topCard.kneeled = true;
+            topCard.bowed = true;
         }
 
         return (
