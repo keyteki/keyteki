@@ -380,33 +380,14 @@ export class InnerGameBoard extends React.Component {
                             <PlayerStats fate={otherPlayer ? otherPlayer.fate : 0} honor={otherPlayer ? otherPlayer.totalHonor : 0} user={otherPlayer ? otherPlayer.user : null} />
                             <div className='deck-info'>
                                 <div className='deck-type'>
-                                    <CardCollection className='stronghold' source='stronghold' cards={[]} topCard={otherPlayer ? otherPlayer.stronghold : undefined} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
+                                    <CardCollection className='stronghold province' source='stronghold province' cards={[]} topCard={otherPlayer ? otherPlayer.stronghold : undefined} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
                                 </div>
                                 { otherPlayer ? <div className={'first-player-indicator ' + (!thisPlayer.firstPlayer ? '' : 'hidden')}>First player</div> : ''}
                             </div>
                         </div>
                         <div className='middle'>
                              <div className='rings-pane'>
-                                <div className='plot-group'>
-                                    {this.getAdditionalPlotPiles(otherPlayer, false)}
-                                    <CardCollection className={otherPlayer && otherPlayer.plotSelected ? 'plot plot-selected' : 'plot'}
-                                                    title='Plots' source='plot deck' cards={otherPlayer ? otherPlayer.plotDeck : []}
-                                                    topCard={{ facedown: true, kneeled: true }} orientation='horizontal'
-                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disableMouseOver disablePopup
-                                                    onCardClick={this.onCardClick} orientation='horizontal' />
-                                    <CardCollection className='plot' title='Used Plots' source='revealed plots' cards={otherPlayer ? otherPlayer.plotDiscard : []}
-                                                    topCard={otherPlayer ? otherPlayer.activePlot : undefined} orientation='horizontal' onMouseOver={this.onMouseOver}
-                                                    onMouseOut={this.onMouseOut} onCardClick={this.onCardClick} />
-                                </div>
-                                <div className='plot-group our-side'>
-                                    <CardCollection className='plot' title='Used Plots' source='revealed plots' cards={thisPlayer.plotDiscard} topCard={thisPlayer.activePlot}
-                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} orientation='horizontal' onMenuItemClick={this.onMenuItemClick}
-                                                    onCardClick={this.onCardClick} onDragDrop={this.onDragDrop} />
-                                    <CardCollection className={thisPlayer.plotSelected ? 'plot plot-selected' : 'plot'}
-                                                    title='Plots' source='plot deck' cards={thisPlayer.plotDeck} topCard={{ facedown: true, kneeled: true }} orientation='horizontal'
-                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onCardClick={this.onCardClick} onDragDrop={this.onDragDrop} />
-                                    {this.getAdditionalPlotPiles(thisPlayer, !this.state.spectating)}
-                                </div>
+                                
                             </div>
                             <div className='middle-right'>
                                 <div className='inset-pane'>
@@ -430,7 +411,7 @@ export class InnerGameBoard extends React.Component {
                             <div className='deck-info'>
                                 <div className={'first-player-indicator ' + (thisPlayer.firstPlayer ? '' : 'hidden')}>First player</div>
                                 <div className='deck-type'>
-                                    <CardCollection className='stronghold' source='stronghold' cards={[]} topCard={thisPlayer.stronghold} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup onCardClick={this.onFactionCardClick} />
+                                    <CardCollection className='stronghold province' source='stronghold province' cards={[]} topCard={thisPlayer.stronghold} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup onCardClick={this.onFactionCardClick} />
                                 </div>
                             </div>
                         </div>
