@@ -172,7 +172,6 @@ export function validateDeck(deck) {
             }
         });
 
-        console.log(influenceTotal + ':' + stronghold.influence)
         if(influenceTotal > stronghold.influence) {
             extendedStatus.push('Not enough influence');
             status = 'Invalid';

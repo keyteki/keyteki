@@ -321,7 +321,7 @@ class Player extends Spectator {
     initDynastyDeck() {
         this.hand.each(card => {
             card.moveTo('dynasty deck');
-            this.dynastyDrawDeck.push(card);
+            this.dynastyDeck.push(card);
         });
         this.hand = _([]);
         this.shuffleDynastyDeck();
@@ -333,8 +333,8 @@ class Player extends Spectator {
         this.faction = preparedDeck.faction;
         this.provinceDeck = _(preparedDeck.provinceCards);
         this.stronghold = preparedDeck.stronghold[0];
-        this.conflictDeck = _(preparedDeck.conflictdrawCards);
-        this.dynastyDeck = _(preparedDeck.dynastydrawCards);
+        this.conflictDeck = _(preparedDeck.conflictDrawCards);
+        this.dynastyDeck = _(preparedDeck.dynastyDrawCards);
         this.allCards = _(preparedDeck.allCards);
     }
 
@@ -355,7 +355,8 @@ class Player extends Spectator {
             return;
         }
 
-        this.honor = this.stronghold.honor;
+        this.honor = this.stronghold.cardData.honor;
+        this.game.raiseEvent('onStatChanged', this, 'honor');
     }
 
     mulligan() {
@@ -483,7 +484,7 @@ class Player extends Spectator {
             this.drawCardsToHand(StartingHandSize - this.hand.size());
         }
 
-        this.cardsInPlay = processedCards;
+        //this.cardsInPlay = processedCards;
         this.fate = 0;
     }
 
@@ -590,8 +591,12 @@ class Player extends Spectator {
         attachment.attach(player, card);
     }
 
-    showDrawDeck() {
-        this.showDeck = true;
+    showConflictDeck() {
+        this.showConflictDeck = true;
+    }
+
+    showDynastyDeck() {
+        this.showDynastyDeck = true;
     }
 
     isValidDropCombination(source, target) {
@@ -1014,7 +1019,7 @@ class Player extends Spectator {
     }
 
     getTotalIncome() {
-        return this.stronghold.fate;
+        return this.stronghold.cardData.fate;
     }
 
     getTotalHonor() {
@@ -1071,6 +1076,8 @@ class Player extends Spectator {
             })),
             promptedActionWindows: this.promptedActionWindows,
             cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
+            conflictDeck: this.getSummaryForCardList(this.conflictDeck, activePlayer),
+            dynastyDeck: this.getSummaryForCardList(this.dynastyDeck, activePlayer),
             conflictDiscardPile: this.getSummaryForCardList(this.conflictDiscardPile, activePlayer),
             dynastyDiscardPile: this.getSummaryForCardList(this.dynastyDiscardPile, activePlayer),
             disconnected: this.disconnected,
@@ -1091,9 +1098,14 @@ class Player extends Spectator {
             user: _.omit(this.user, ['password', 'email'])
         };
 
-        if(this.showDeck) {
-            state.showDeck = true;
-            state.drawDeck = this.getSummaryForCardList(this.drawDeck, activePlayer);
+        if(this.showConflictDeck) {
+            state.showConflictDeck = true;
+            state.conflictDeck = this.getSummaryForCardList(this.conflictDeck, activePlayer);
+        }
+
+        if(this.showDynastyDeck) {
+            state.showDynastyDeck = true;
+            state.dynastyDeck = this.getSummaryForCardList(this.dynastyDeck, activePlayer);
         }
 
         return _.extend(state, promptState);

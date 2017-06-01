@@ -8,9 +8,9 @@ class SetupPhase extends Phase {
     constructor(game) {
         super(game, 'setup');
         this.initialise([
-            new SetupProvincesPrompt(game),
             new SimpleStep(game, () => this.prepareDecks()),
-            //Attach stronghold
+            new SetupProvincesPrompt(game),
+                        //Attach stronghold
             new KeepOrMulliganPrompt(game),
             new SimpleStep(game, () => this.startGame()),
             new SimpleStep(game, () => this.setupDone()),
