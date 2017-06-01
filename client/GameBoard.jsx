@@ -25,7 +25,8 @@ export class InnerGameBoard extends React.Component {
         this.onMouseOut = this.onMouseOut.bind(this);
         this.onMouseOver = this.onMouseOver.bind(this);
         this.onCardClick = this.onCardClick.bind(this);
-        this.onDrawClick = this.onDrawClick.bind(this);
+        this.onConflictClick = this.onConflictClick.bind(this);
+        this.onDynastyClick = this.onDynastyClick.bind(this);
         this.onDragDrop = this.onDragDrop.bind(this);
         this.onCommand = this.onCommand.bind(this);
         this.onConcedeClick = this.onConcedeClick.bind(this);
@@ -193,10 +194,16 @@ export class InnerGameBoard extends React.Component {
         this.props.sendGameMessage('factionCardClicked');
     }
 
-    onDrawClick() {
-        this.props.sendGameMessage('showDrawDeck');
+    onConflictClick() {
+        this.props.sendGameMessage('showConflictDeck');
 
-        this.setState({ showDrawDeck: !this.state.showDrawDeck });
+        this.setState({ showConflictDeck: !this.state.showConflictDeck });
+    }
+
+    onDynastyClick() {
+        this.props.sendGameMessage('showDynastyDeck');
+
+        this.setState({ showDynastyDeck: !this.state.showDynastyDeck });
     }
 
     sendMessage() {
@@ -459,12 +466,8 @@ export class InnerGameBoard extends React.Component {
                         <PlayerRow isMe={!this.state.spectating}
                             additionalPiles={thisPlayer.additionalPiles}
                             hand={thisPlayer.hand}
-                            onCardClick={this.onCardClick}
                             onMouseOver={this.onMouseOver}
                             onMouseOut={this.onMouseOut}
-                            onDrawClick={this.onDrawClick}
-                            onShuffleClick={this.onShuffleClick}
-                            showDrawDeck={this.state.showDrawDeck}
                             onDragDrop={this.onDragDrop}
                             spectating={this.state.spectating}
                             onMenuItemClick={this.onMenuItemClick}/>
