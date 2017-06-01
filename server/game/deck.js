@@ -33,7 +33,7 @@ class Deck {
 
         //dynasty
         this.eachRepeatedCard(this.data.dynastyDrawCards, cardData => {
-            if(['dynsaty'].includes(cardData.deck)) {
+            if(['dynasty'].includes(cardData.deck)) {
                 var drawCard = this.createCard(DrawCard, player, cardData);
                 drawCard.location = 'dynasty deck';
                 result.dynastyDrawCards.push(drawCard);
