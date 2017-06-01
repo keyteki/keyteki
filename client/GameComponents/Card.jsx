@@ -302,7 +302,6 @@ class Card extends React.Component {
             return (
                     <div className='card-wrapper' style={this.props.style}>
                         {this.getCard()}
-                        {this.getDupes()}
                         {this.getAttachments()}
                     </div>);
         }
