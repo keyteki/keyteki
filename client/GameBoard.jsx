@@ -41,7 +41,8 @@ export class InnerGameBoard extends React.Component {
         this.state = {
             canScroll: true,
             cardToZoom: undefined,
-            showDrawDeck: false,
+            showConflictDeck: false,
+            showDynastyDeck: false,
             spectating: true,
             message: '',
             showActionWindowsMenu: false,
@@ -436,19 +437,35 @@ export class InnerGameBoard extends React.Component {
                                 {thisPlayerCards}
                             </div>
                         </div>
+                        <DynastyRow isMe={!this.state.spectating}
+                            additionalPiles={thisPlayer.additionalPiles}
+                            hand={thisPlayer.hand}
+                            conflictDiscardPile={thisPlayer.conflictDiscardPile}
+                            conflictDeck={thisPlayer.conflictDeck}
+                            dynastyDiscardPile={thisPlayer.dynastyDiscardPile}
+                            dynastyDeck={thisPlayer.dynastyDeck}
+                            onCardClick={this.onCardClick}
+                            onMouseOver={this.onMouseOver}
+                            onMouseOut={this.onMouseOut}
+                            numConflictCards={thisPlayer.numConflictCards}
+                            numDynastyCards={thisPlayer.numDynastyCards}
+                            onDrawClick={this.onDrawClick}
+                            onShuffleClick={this.onShuffleClick}
+                            showConflictDeck={this.state.showConflictDeck}
+                            showDynastyDeck={this.state.showDynastyDeck}
+                            onDragDrop={this.onDragDrop}
+                            spectating={this.state.spectating}
+                            onMenuItemClick={this.onMenuItemClick}/>                        
                         <PlayerRow isMe={!this.state.spectating}
                             additionalPiles={thisPlayer.additionalPiles}
                             hand={thisPlayer.hand}
                             onCardClick={this.onCardClick}
                             onMouseOver={this.onMouseOver}
                             onMouseOut={this.onMouseOut}
-                            numDrawCards={thisPlayer.numDrawCards}
                             onDrawClick={this.onDrawClick}
                             onShuffleClick={this.onShuffleClick}
                             showDrawDeck={this.state.showDrawDeck}
-                            drawDeck={thisPlayer.drawDeck}
                             onDragDrop={this.onDragDrop}
-                            conflictDiscardPile={thisPlayer.conflictDiscardPile}
                             spectating={this.state.spectating}
                             onMenuItemClick={this.onMenuItemClick}/>
                     </div>

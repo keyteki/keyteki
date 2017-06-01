@@ -11,15 +11,18 @@ class DynastyRow extends React.Component {
     constructor() {
         super();
 
-        this.onDrawClick = this.onDrawClick.bind(this);
+        this.onConflictClick = this.onConflictClick.bind(this);
+        this.onDynastyClick = this.onDynastyClick.bind(this);
         this.onShuffleClick = this.onShuffleClick.bind(this);
-        this.onShowDeckClick = this.onShowDeckClick.bind(this);
+        this.onShowConflictDeckClick = this.onShowConflictDeckClick.bind(this);
+        this.onShowDynastyDeckClick = this.onShowDynastyDeckClick.bind(this);
         this.onCloseClick = this.onCloseClick.bind(this);
         this.onCloseAndShuffleClick = this.onCloseAndShuffleClick.bind(this);
         this.onDragDrop = this.onDragDrop.bind(this);
 
         this.state = {
-            showDrawMenu: false
+            showConflictMenu: false,
+            showDynastyMenu: false
         };
     }
 
@@ -79,61 +82,64 @@ class DynastyRow extends React.Component {
         }
     }
 
-    getHand(needsSquish) {
-        var cardIndex = 0;
-        var handLength = this.props.hand ? this.props.hand.length : 0;
-        var requiredWidth = handLength * 64;
-        var overflow = requiredWidth - 342;
-        var offset = overflow / (handLength - 1);
+    getConflictDeck() {
+        var conflictDeckPopup = undefined;
 
-        var hand = _.map(this.props.hand, card => {
-            var left = (64 - offset) * cardIndex++;
-
-            var style = {};
-            if(needsSquish) {
-                style = {
-                    left: left + 'px'
-                };
-            }
-
-            return (<Card key={card.uuid} card={card} style={style} disableMouseOver={!this.props.isMe} source='hand'
-                         onMouseOver={this.props.onMouseOver}
-                         onMouseOut={this.props.onMouseOut}
-                         onClick={this.props.onCardClick}
-                         onDragDrop={this.props.onDragDrop} />);
-        });
-
-        return hand;
-    }
-
-    getDrawDeck() {
-        var drawDeckPopup = undefined;
-
-        if(this.props.showDrawDeck && this.props.drawDeck) {
-            var drawDeck = _.map(this.props.drawDeck, card => {
-                return (<Card key={card.uuid} card={card} source='draw deck'
+        if(this.props.showConflictDeck && this.props.conflictDeck) {
+            var conflictDeck = _.map(this.props.conflictDeck, card => {
+                return (<Card key={card.uuid} card={card} source='conflict deck'
                              onMouseOver={this.props.onMouseOver}
                              onMouseOut={this.props.onMouseOut}
                              onClick={this.props.onCardClick} />);
             });
 
-            drawDeckPopup = (
+            conflictDeckPopup = (
                 <div className='popup panel' onClick={event => event.stopPropagation() }>
                     <div>
                         <a onClick={this.onCloseClick}>Close</a>
                         <a onClick={this.onCloseAndShuffleClick}>Close and shuffle</a>
                     </div>
                     <div className='inner'>
-                        {drawDeck}
+                        {conflictDeck}
                     </div>
                 </div>);
         }
 
-        return drawDeckPopup;
+        return conflictDeckPopup;
     }
 
-    onDrawClick() {
-        this.setState({ showDrawMenu: !this.state.showDrawMenu });
+    getDynastyDeck() {
+        var dynastyDeckPopup = undefined;
+
+        if(this.props.showDynastyDeck && this.props.dynastyDeck) {
+            var dynastyDeck = _.map(this.props.dynastyDeck, card => {
+                return (<Card key={card.uuid} card={card} source='dynasty deck'
+                             onMouseOver={this.props.onMouseOver}
+                             onMouseOut={this.props.onMouseOut}
+                             onClick={this.props.onCardClick} />);
+            });
+
+            dynastyDeckPopup = (
+                <div className='popup panel' onClick={event => event.stopPropagation() }>
+                    <div>
+                        <a onClick={this.onCloseClick}>Close</a>
+                        <a onClick={this.onCloseAndShuffleClick}>Close and shuffle</a>
+                    </div>
+                    <div className='inner'>
+                        {dynastyDeck}
+                    </div>
+                </div>);
+        }
+
+        return dynastyDeckPopup;
+    }
+
+    onConflictClick() {
+        this.setState({ showConflictMenu: !this.state.showConflictMenu });
+    }
+
+    onDynastyClick() {
+        this.setState({ showDynastyMenu: !this.state.showDynastyMenu });
     }
 
     onShuffleClick() {
@@ -142,9 +148,15 @@ class DynastyRow extends React.Component {
         }
     }
 
-    onShowDeckClick() {
-        if(this.props.onDrawClick) {
-            this.props.onDrawClick();
+    onShowConflictDeckClick() {
+        if(this.props.onConflictClick) {
+            this.props.onConflictClick();
+        }
+    }
+
+    onShowDynastyDeckClick() {
+        if(this.props.onDynastyClick) {
+            this.props.onDynastyClick();
         }
     }
 
@@ -172,16 +184,24 @@ class DynastyRow extends React.Component {
             className += ' squish';
         }
 
-        var hand = this.getHand(needsSquish);
-
         var additionalPiles = this.getAdditionalPiles();
 
-        var drawDeckMenu = [
-            { text: 'Show', handler: this.onShowDeckClick, showPopup: true },
+        var conflictDeckMenu = [
+            { text: 'Show', handler: this.onShowConflictDeckClick, showPopup: true },
             { text: 'Shuffle', handler: this.onShuffleClick}
         ];
 
-        var drawDeckPopupMenu = [
+        var dynastyDeckMenu = [
+            { text: 'Show', handler: this.onShowDynastyDeckClick, showPopup: true },
+            { text: 'Shuffle', handler: this.onShuffleClick}
+        ];
+
+        var conflictDeckPopupMenu = [
+            { text: 'Close', handler: this.onCloseClick},
+            { text: 'Close and Shuffle', handler: this.onCloseAndShuffleClick}
+        ];
+
+        var dynastyDeckPopupMenu = [
             { text: 'Close', handler: this.onCloseClick},
             { text: 'Close and Shuffle', handler: this.onCloseAndShuffleClick}
         ];
@@ -189,20 +209,23 @@ class DynastyRow extends React.Component {
         return (
             <div className='dynasty-row'>
                 <div className='deck-cards'>
-                    <div className={className} onDragLeave={this.onDragLeave} onDragOver={this.onDragOver} onDrop={(event) => this.onDragDrop(event, 'hand')}>
-                        <div className='panel-header'>
-                            {'Hand (' + hand.length + ')'}
-                        </div>
-                        {hand}
-                    </div>
+
                 
                 <CardCollection className='discard' title='Dynasty Discard' source='dynasty discard pile' cards={this.props.dynastyDiscardPile}
                                 onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
                                 popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} />
-                <CardCollection className='draw' title='Dynasty' source='dynasty draw deck' cards={this.props.dynastyDeck}
+                <CardCollection className='draw' title='Dynasty' source='dynasty deck' cards={this.props.dynastyDeck}
                                 onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
                                 popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop}
-                                menu={drawDeckMenu} hiddenTopCard cardCount={this.props.numDrawCards} popupMenu={drawDeckPopupMenu} />
+                                menu={dynastyDeckMenu} hiddenTopCard cardCount={this.props.numDynastyCards} popupMenu={dynastyDeckPopupMenu} />
+                {/* Add Provinces in here */}
+                <CardCollection className='draw' title='Conflict' source='conflict deck' cards={this.props.conflictDeck}
+                                onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
+                                popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop}
+                                menu={conflictDeckMenu} hiddenTopCard cardCount={this.props.numConflictCards} popupMenu={conflictDeckPopupMenu} />
+                <CardCollection className='discard' title='Conflict Discard' source='conflict discard pile' cards={this.props.conflictDiscardPile}
+                                onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
+                                popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} />                    
                   {additionalPiles}
                 </div>
             </div>
@@ -215,10 +238,12 @@ DynastyRow.propTypes = {
     additionalPiles: React.PropTypes.object,
     conflictDiscardPile: React.PropTypes.array,
     conflictDeck: React.PropTypes.array,
+    dynastyDiscardPile: React.PropTypes.array,
     dynastyDeck: React.PropTypes.array,
     hand: React.PropTypes.array,
     isMe: React.PropTypes.bool,
-    numDrawCards: React.PropTypes.number,
+    numConflictCards: React.PropTypes.number,
+    numDynastyCards: React.PropTypes.number,
     onCardClick: React.PropTypes.func,
     onDiscardedCardClick: React.PropTypes.func,
     onDragDrop: React.PropTypes.func,
@@ -229,7 +254,8 @@ DynastyRow.propTypes = {
     onShuffleClick: React.PropTypes.func,
     provinceDeck: React.PropTypes.array,
     honor: React.PropTypes.number,
-    showDrawDeck: React.PropTypes.bool,
+    showConflictDeck: React.PropTypes.bool,
+    showDynastyDeck: React.PropTypes.bool,
     spectating: React.PropTypes.bool
 };
 

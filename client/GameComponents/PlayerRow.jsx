@@ -196,13 +196,6 @@ class PlayerRow extends React.Component {
                         {hand}
                     </div>
 
-                <CardCollection className='draw' title='Conflict' source='conflict deck' cards={this.props.conflictDeck}
-                                onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
-                                popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop}
-                                menu={drawDeckMenu} hiddenTopCard cardCount={this.props.numDrawCards} popupMenu={drawDeckPopupMenu} />
-                <CardCollection className='discard' title='Conflict Discard' source='conflict discard pile' cards={this.props.conflictDiscardPile}
-                                onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick}
-                                popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'} onDragDrop={this.props.onDragDrop} />
                   {additionalPiles}
                 </div>
             </div>
@@ -213,8 +206,6 @@ class PlayerRow extends React.Component {
 PlayerRow.displayName = 'PlayerRow';
 PlayerRow.propTypes = {
     additionalPiles: React.PropTypes.object,
-    conflictDiscardPile: React.PropTypes.array,
-    conflictDrawDeck: React.PropTypes.array,
     hand: React.PropTypes.array,
     isMe: React.PropTypes.bool,
     numDrawCards: React.PropTypes.number,
