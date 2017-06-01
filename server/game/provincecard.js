@@ -7,6 +7,7 @@ class ProvinceCard extends BaseCard {
         super(owner, cardData);
 
         this.strengthModifier = 0;
+        this.isProvince = true;
     }
 
     getStrength() {
