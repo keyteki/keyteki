@@ -387,9 +387,6 @@ export class InnerGameBoard extends React.Component {
                         <div className='player-info'>
                             <PlayerStats fate={otherPlayer ? otherPlayer.fate : 0} honor={otherPlayer ? otherPlayer.totalHonor : 0} user={otherPlayer ? otherPlayer.user : null} />
                             <div className='deck-info'>
-                                <div className='deck-type'>
-                                    <CardCollection className='stronghold province' source='stronghold province' cards={[]} topCard={otherPlayer ? otherPlayer.stronghold : undefined} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
-                                </div>
                                 { otherPlayer ? <div className={'first-player-indicator ' + (!thisPlayer.firstPlayer ? '' : 'hidden')}>First player</div> : ''}
                             </div>
                         </div>
@@ -418,9 +415,6 @@ export class InnerGameBoard extends React.Component {
                                         honor={thisPlayer.totalHonor} isMe={!this.state.spectating} user={thisPlayer.user} />
                             <div className='deck-info'>
                                 <div className={'first-player-indicator ' + (thisPlayer.firstPlayer ? '' : 'hidden')}>First player</div>
-                                <div className='deck-type'>
-                                    <CardCollection className='stronghold province' source='stronghold province' cards={[]} topCard={thisPlayer.stronghold} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup onCardClick={this.onFactionCardClick} />
-                                </div>
                             </div>
                         </div>
                     </div>
