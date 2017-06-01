@@ -265,11 +265,11 @@ class Card extends React.Component {
             cardClass += ' ' + this.props.className;
         }
 
-        if(this.props.card.isConflict) {
+        if(this.props.card.deck === 'conflict') {
             cardBack = 'conflictcardback.jpg'
-        } else if(this.props.card.isDynasty) {
+        } else if(this.props.card.deck === 'dynasty') {
             cardBack = 'dynastycardback.jpg'
-        } else if(this.props.card.isProvince) {
+        } else if(this.props.card.type === 'province') {
             cardBack = 'provincecardback.jpg'
         } else {
             cardBack = 'cardback.jpg'
@@ -319,11 +319,12 @@ Card.propTypes = {
         basePoliticalSkill: React.PropTypes.number,
         code: React.PropTypes.string,
         controlled: React.PropTypes.bool,
+        deck: React.PropTypes.string,
         facedown: React.PropTypes.bool,
         inConflict: React.PropTypes.bool,
         inDanger: React.PropTypes.bool,
         isConflict: React.PropTypes.bool,
-        isDynastay: React.PropTypes.bool,
+        isDynasty: React.PropTypes.bool,
         isProvince: React.PropTypes.bool,
         bowed: React.PropTypes.bool,
         menu: React.PropTypes.array,
