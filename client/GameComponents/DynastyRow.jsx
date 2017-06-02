@@ -177,13 +177,6 @@ class DynastyRow extends React.Component {
     }
 
     render() {
-        var className = 'panel hand';
-        var needsSquish = this.props.hand && this.props.hand.length * 64 > 342;
-
-        if(needsSquish) {
-            className += ' squish';
-        }
-
         var additionalPiles = this.getAdditionalPiles();
 
         var conflictDeckMenu = [
