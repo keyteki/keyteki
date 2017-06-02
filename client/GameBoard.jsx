@@ -7,6 +7,8 @@ import {toastr} from 'react-redux-toastr';
 import PlayerStats from './GameComponents/PlayerStats.jsx';
 import PlayerRow from './GameComponents/PlayerRow.jsx';
 import DynastyRow from './GameComponents/DynastyRow.jsx';
+import HonorFan from './GameComponents/HonorFan.jsx';
+import Ring from './GameComponents/Ring.jsx';
 import MenuPane from './GameComponents/MenuPane.jsx';
 import CardZoom from './GameComponents/CardZoom.jsx';
 import Messages from './GameComponents/Messages.jsx';
@@ -391,9 +393,14 @@ export class InnerGameBoard extends React.Component {
                             </div>
                         </div>
                         <div className='middle'>
-                             <div className='rings-pane'>
-                                
+                             <div className='panel ring-pane'>
+                                <Ring conflictType='Military' ringType='Air' />
+                                <Ring conflictType='Political' ringType='Earth' />
+                                <Ring conflictType='Military' ringType='Fire' />
+                                <Ring conflictType='Political' ringType='Water' />
+                                <Ring conflictType='Military' ringType='Void' />
                             </div>
+
                             <div className='middle-right'>
                                 <div className='inset-pane'>
                                     { !this.state.spectating && this.state.showActionWindowsMenu ?
@@ -407,7 +414,6 @@ export class InnerGameBoard extends React.Component {
                                     <MenuPane title={ thisPlayer.menuTitle } buttons={ thisPlayer.buttons } promptTitle={ thisPlayer.promptTitle } onButtonClick={ this.onCommand }
                                                 onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } onTitleClick={ this.onMenuTitleClick.bind(this) } />
                                 </div>
-                                <div className='schemes-pane' />
                             </div>
                         </div>
                         <div className='player-info our-side'>
@@ -415,6 +421,8 @@ export class InnerGameBoard extends React.Component {
                                         honor={thisPlayer.totalHonor} isMe={!this.state.spectating} user={thisPlayer.user} />
                             <div className='deck-info'>
                                 <div className={'first-player-indicator ' + (thisPlayer.firstPlayer ? '' : 'hidden')}>First player</div>
+                                <HonorFan value='0' />
+                                
                             </div>
                         </div>
                     </div>
@@ -429,6 +437,18 @@ export class InnerGameBoard extends React.Component {
                             onMouseOver={this.onMouseOver}
                             onMouseOut={this.onMouseOut}
                             />
+                        <DynastyRow 
+                            additionalPiles={otherPlayer ? otherPlayer.additionalPiles : {}}
+                            conflictDiscardPile={otherPlayer ? otherPlayer.conflictDiscardPile : []}
+                            conflictDeck={otherPlayer ? otherPlayer.conflictDeck : []}
+                            dynastyDiscardPile={otherPlayer ? otherPlayer.dynastyDiscardPile : []}
+                            dynastyDeck={otherPlayer ? otherPlayer.dynastyDeck : []}
+                            numConflictCards={otherPlayer ? otherPlayer.numConflictCards : 0}
+                            numDynastyCards={otherPlayer ? otherPlayer.numDynastyCards : 0}
+                            onCardClick={this.onCardClick}
+                            onMouseOver={this.onMouseOver}
+                            onMouseOut={this.onMouseOut}
+                        />
                         <div className='play-area'>
                             <div className='player-board'>
                                 {otherPlayerCards}
@@ -440,7 +460,6 @@ export class InnerGameBoard extends React.Component {
                         </div>
                         <DynastyRow isMe={!this.state.spectating}
                             additionalPiles={thisPlayer.additionalPiles}
-                            hand={thisPlayer.hand}
                             conflictDiscardPile={thisPlayer.conflictDiscardPile}
                             conflictDeck={thisPlayer.conflictDeck}
                             dynastyDiscardPile={thisPlayer.dynastyDiscardPile}
