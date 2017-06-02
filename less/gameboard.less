@@ -483,7 +483,6 @@ img.honor-fan-value {
   height: 300px;
   padding: 0px;
   display: flex;
-  flex: 1;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -503,4 +502,29 @@ div.placeholder {
 div.placeholder .panel-header {
   background: #efeade;
   padding: 0px;
+}
+
+province-deck {
+  margin: 5px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  &.our-side {
+    justify-content: flex-start;
+  }
+ 
+  .popup.panel {
+    position: absolute;
+    width: 200px;
+    min-height: 92px;
+    left: 75px;
+    top: 0;
+    transform: translateY(-50%);
+    background-color: black;
+    &.hidden {
+      display: none;
+    }
+  }
 }
