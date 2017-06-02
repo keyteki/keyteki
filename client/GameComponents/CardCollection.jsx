@@ -209,7 +209,7 @@ CardCollection.propTypes = {
     orientation: React.PropTypes.string,
     popupLocation: React.PropTypes.string,
     popupMenu: React.PropTypes.array,
-    source: React.PropTypes.oneOf(['hand', 'conflict discard pile', 'dynasty discard pile', 'play area', 'conflict deck', 'dynasty deck', 'province deck', 'attachment', 'faction', 'stronghold province', 'province 1', 'province 2', 'province 3', 'province 4', 'additional']).isRequired,
+    source: React.PropTypes.oneOf(['none', 'hand', 'conflict discard pile', 'dynasty discard pile', 'play area', 'conflict deck', 'dynasty deck', 'province deck', 'attachment', 'faction', 'stronghold province', 'province 1', 'province 2', 'province 3', 'province 4', 'additional']).isRequired,
     title: React.PropTypes.string,
     topCard: React.PropTypes.object
 };

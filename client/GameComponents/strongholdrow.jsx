@@ -16,13 +16,31 @@ class StrongholdRow extends React.Component {
 
     render() {
 
-        return (
-            <div className='stronghold-row'>
-                <div className='deck-cards'>
-                    <CardCollection className='stronghold-province' source='stronghold province' cards={[]} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
+        if(this.props.isMe) {
+
+            return (
+                <div className='stronghold-row'>
+                    <div className='deck-cards'>
+                        <CardCollection className='placeholder' source='none' />
+                        <CardCollection className='stronghold-province' source='stronghold province' cards={[]} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        } else {
+            return (
+                <div className='stronghold-row'>
+                    <div className='deck-cards'>
+                        <CardCollection className='placeholder' source='none' />
+                        <CardCollection className='placeholder' source='none' />
+                        <CardCollection className='placeholder' source='none' />
+                        <CardCollection className='placeholder' source='none' />
+                        <CardCollection className='placeholder' source='none' />
+                        <CardCollection className='placeholder' source='none' />
+                        <CardCollection className='stronghold-province' source='stronghold province' cards={[]} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
+                    </div>
+                </div>
+            );
+        }
     }
 }
 

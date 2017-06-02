@@ -471,10 +471,19 @@ img.honor-fan-value {
 }
 
 .ring-pane {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.ring-panel {
   width: @card-height;
   height: 300px;
   padding: 0px;
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -483,4 +492,15 @@ img.honor-fan-value {
 
 img.ring {
   padding: 5px;
+}
+
+div.placeholder {
+  background-color: #efeade;
+  border: 0px;
+  box-shadow: none;
+}
+
+div.placeholder .panel-header {
+  background: #efeade;
+  padding: 0px;
 }

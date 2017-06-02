@@ -395,14 +395,15 @@ export class InnerGameBoard extends React.Component {
                             </div>
                         </div>
                         <div className='middle'>
-                             <div className='panel ring-pane'>
-                                <Ring conflictType='Military' ringType='Air' />
-                                <Ring conflictType='Political' ringType='Earth' />
-                                <Ring conflictType='Military' ringType='Fire' />
-                                <Ring conflictType='Political' ringType='Water' />
-                                <Ring conflictType='Military' ringType='Void' />
+                            <div className="ring-pane">             
+                                 <div className='panel ring-panel'>
+                                    <Ring conflictType='Military' ringType='Air' />
+                                    <Ring conflictType='Political' ringType='Earth' />
+                                    <Ring conflictType='Military' ringType='Fire' />
+                                    <Ring conflictType='Political' ringType='Water' />
+                                    <Ring conflictType='Military' ringType='Void' />
+                                </div>
                             </div>
-
                             <div className='middle-right'>
                                 <div className='inset-pane'>
                                     { !this.state.spectating && this.state.showActionWindowsMenu ?
