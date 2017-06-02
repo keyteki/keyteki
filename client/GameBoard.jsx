@@ -7,6 +7,7 @@ import {toastr} from 'react-redux-toastr';
 import PlayerStats from './GameComponents/PlayerStats.jsx';
 import PlayerRow from './GameComponents/PlayerRow.jsx';
 import DynastyRow from './GameComponents/DynastyRow.jsx';
+import StrongholdRow from './GameComponents/StrongholdRow.jsx';
 import HonorFan from './GameComponents/HonorFan.jsx';
 import Ring from './GameComponents/Ring.jsx';
 import MenuPane from './GameComponents/MenuPane.jsx';
@@ -390,6 +391,7 @@ export class InnerGameBoard extends React.Component {
                             <PlayerStats fate={otherPlayer ? otherPlayer.fate : 0} honor={otherPlayer ? otherPlayer.totalHonor : 0} user={otherPlayer ? otherPlayer.user : null} />
                             <div className='deck-info'>
                                 { otherPlayer ? <div className={'first-player-indicator ' + (!thisPlayer.firstPlayer ? '' : 'hidden')}>First player</div> : ''}
+                                <HonorFan value='0' />
                             </div>
                         </div>
                         <div className='middle'>
@@ -449,6 +451,7 @@ export class InnerGameBoard extends React.Component {
                             onMouseOver={this.onMouseOver}
                             onMouseOut={this.onMouseOut}
                         />
+                        <StrongholdRow />
                         <div className='play-area'>
                             <div className='player-board'>
                                 {otherPlayerCards}
@@ -458,6 +461,9 @@ export class InnerGameBoard extends React.Component {
                                 {thisPlayerCards}
                             </div>
                         </div>
+                        <StrongholdRow isMe={!this.state.spectating}
+                            spectating={this.state.spectating}
+                        />
                         <DynastyRow isMe={!this.state.spectating}
                             additionalPiles={thisPlayer.additionalPiles}
                             conflictDiscardPile={thisPlayer.conflictDiscardPile}
