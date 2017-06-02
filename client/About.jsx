@@ -35,21 +35,16 @@ class About extends React.Component {
                     <li>/draw x - Draws x cards from your deck to your hand</li>
                     <li>/give-control - Give control of a card to your opponent.  Use with caution</li>
                     <li>/give-icon x - Give a character an x icon; where 'x' is one of 'military', 'intrigue', 'power'</li>
-                    <li>/kill - Manually kill a character.  Use with caution</li>
-                    <li>/power x - Sets the power of a card to x</li>
-                    <li>/strength x - Sets the strength of a card to x</li>
-                    <li>/take-icon x - Take an x icon from a character; where 'x' is as per '/give-icon'</li>
                     <li>/token t x - Set the token count of a card of type 't' to 'x'. Currently used token types are: 'betrayal', 'gold', 'poison', 'vengeance'.</li>
-                    <li>/bestow x - Adds x gold to the selected card. You must have enough gold to add.</li>
                 </ul>
 
-                <h3>Can I help?</h3>
+                {/*<h3>Can I help?</h3>
                 <p>Sure!  The project is all written in Javascript.  The server is node.js and the client is React.js.  The source code can be found in the&nbsp;
                 <a href='http://github.com/gryffon/ringteki'>GitHub Repository</a>.  Check out the code and instructions on there on how to get started and hack away!  See the card implementation
                 status list above to have a look at what needs to be done.  If you want to join the dev discord, or ask any other question, send me a note on here, over at&nbsp;
-                <a href='http://www.twitter.com/cryogen'>Twitter</a> or post in the AGoT Facebook group.  I'll likely find it.
-                </p>
-                <h4>Donations</h4>
+                <a href='http://www.twitter.com/cryogen'>Twitter</a> or post in the L5R Facebook group.  I'll likely find it.
+                </p> */}
+                {/*<h4>Donations</h4>
                 I was always reluctant to accept donations but since I've been asked a few times I thought I'd put up a small section about it here.
 
                 <form action='https://www.paypal.com/cgi-bin/webscr' method='post' target='_top'>
@@ -63,12 +58,13 @@ class About extends React.Component {
                 If, after the annnual bills for that are paid up, there is any money left over, I'll put it towards the following years expenses.
                 Also, this is not required to continue to use and enjoy the site and will not give anything in return (other than my sincerce gratitude and potentially better hardware for the site to run on).
                 I will also put a donation report in with the monthly reports that I'm publishing so that you know where your donations are going.
-
+                */}
 
                 <h2>Special Thanks</h2>
                 <p>I'd like to thank mtgred, and the whole of the jinteki.net development team(except whoever decided to write the code in clojure, not you. - just kidding!) as without their
                 work to use as a guide and as inspiration, this site would not be where it is today.  To say jinteki is an inspiration is an understatement.
                 </p>
+                <p>I'd also like to thank cryogen for his work on creating throneteki, which i've based this particular application off of.</p>
 
                 <h2>Additional Notes</h2>
                 <p>The Legend of the Five Rings living card game, the artwork and many other things are all copyright Fantasy Flight Games and I make no claims of ownership or otherwise of any of the
