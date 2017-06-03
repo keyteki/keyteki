@@ -63,7 +63,7 @@ HonorFan.propTypes = {
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
     socket: React.PropTypes.object,
-    value: React.PropTypes.number
+    value: React.PropTypes.string
 };
 
 export default HonorFan;
