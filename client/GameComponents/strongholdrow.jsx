@@ -5,6 +5,8 @@ import $ from 'jquery';
 import AdditionalCardPile from './AdditionalCardPile.jsx';
 import Card from './Card.jsx';
 import CardCollection from './CardCollection.jsx';
+import Province from './Province.jsx';
+import Placeholder from './Placeholder.jsx';
 import {tryParseJSON} from '../util.js';
 
 class StrongholdRow extends React.Component {
@@ -21,8 +23,8 @@ class StrongholdRow extends React.Component {
             return (
                 <div className='stronghold-row'>
                     <div className='deck-cards'>
-                        <CardCollection className='placeholder' source='none' />
-                        <CardCollection className='stronghold-province' source='stronghold province' cards={[]} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
+                        <Placeholder />
+                        <Province source='stronghold province' cards={[]} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
                     </div>
                 </div>
             );
@@ -30,13 +32,13 @@ class StrongholdRow extends React.Component {
             return (
                 <div className='stronghold-row'>
                     <div className='deck-cards'>
-                        <CardCollection className='placeholder' source='none' />
-                        <CardCollection className='placeholder' source='none' />
-                        <CardCollection className='placeholder' source='none' />
-                        <CardCollection className='placeholder' source='none' />
-                        <CardCollection className='placeholder' source='none' />
-                        <CardCollection className='placeholder' source='none' />
-                        <CardCollection className='stronghold-province' source='stronghold province' cards={[]} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
+                        <Placeholder />
+                        <Placeholder />
+                        <Placeholder />
+                        <Placeholder />
+                        <Placeholder />
+                        <Placeholder />
+                        <Province source='stronghold province' cards={[]} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
                     </div>
                 </div>
             );
