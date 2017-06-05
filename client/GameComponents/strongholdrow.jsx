@@ -24,7 +24,7 @@ class StrongholdRow extends React.Component {
                 <div className='stronghold-row'>
                     <div className='deck-cards'>
                         <Placeholder />
-                        <Province source='stronghold province' cards={[]} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
+                        <Province source='stronghold province' cards={this.props.strongholdProvinceCards} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onDragDrop={this.props.onDragDrop} disablePopup />
                     </div>
                 </div>
             );
@@ -38,7 +38,7 @@ class StrongholdRow extends React.Component {
                         <Placeholder />
                         <Placeholder />
                         <Placeholder />
-                        <Province source='stronghold province' cards={[]} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
+                        <Province source='stronghold province' cards={this.props.strongholdProvinceCards} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
                     </div>
                 </div>
             );
@@ -49,7 +49,11 @@ class StrongholdRow extends React.Component {
 StrongholdRow.displayName = 'StrongholdRow';
 StrongholdRow.propTypes = {
     isMe: React.PropTypes.bool,
-    spectating: React.PropTypes.bool
+    onDragDrop: React.PropTypes.func,
+    onMouseOut: React.PropTypes.func,
+    onMouseOver: React.PropTypes.func,
+    spectating: React.PropTypes.bool,
+    strongholdProvinceCards: React.PropTypes.array
 };
 
 export default StrongholdRow;

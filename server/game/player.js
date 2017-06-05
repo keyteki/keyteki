@@ -24,7 +24,10 @@ class Player extends Spectator {
         this.hand = _([]);
         this.cardsInPlay = _([]);
         this.strongholdProvince = _([]);
-        this.provinces = _([], [], [], []);
+        this.provinceOne = _([]);
+        this.provinceTwo = _([]);
+        this.provinceThree = _([]);
+        this.provinceFour = _([]);
         this.dynastyDiscardPile = _([]);
         this.conflictDiscardPile = _([]);
         this.additionalPiles = {};
@@ -595,21 +598,15 @@ class Player extends Spectator {
     }
 
     isValidDropCombination(source, target) {
-        if(source === 'plot deck' && target !== 'revealed plots') {
+        if(source === 'province deck' && !_.isEmpty(_.intersection(['stronghold province', 'province 1', 'province 2', 'province 3', 'province 4'], target))) {
             return false;
         }
 
-        if(source === 'revealed plots' && target !== 'plot deck') {
+        if(target === 'province deck' && !_.isEmpty(_.intersection(['stronghold province', 'province 1', 'province 2', 'province 3', 'province 4'], source))) {
             return false;
         }
 
-        if(target === 'plot deck' && source !== 'revealed plots') {
-            return false;
-        }
 
-        if(target === 'revealed plots' && source !== 'plot deck') {
-            return false;
-        }
 
         return source !== target;
     }
@@ -629,15 +626,17 @@ class Player extends Spectator {
             case 'play area':
                 return this.cardsInPlay;
             case 'province 1':
-                return this.provinces[0];
+                return this.provinceOne;
             case 'province 2':
-                return this.provinces[1];
+                return this.provinceTwo;
             case 'province 3':
-                return this.provinces[2];
+                return this.provinceThree;
             case 'province 4':
-                return this.provinces[3];
+                return this.provinceFour;
             case 'stronghold province':
                 return this.strongholdProvince;
+            case 'province deck':
+                return this.provinceDeck;
             default:
                 if(this.additionalPiles[source]) {
                     return this.additionalPiles[source].cards;
@@ -670,19 +669,22 @@ class Player extends Spectator {
                 this.cardsInPlay = targetList;
                 break;
             case 'province 1':
-                this.provinces[0] = targetList;
+                this.provinceOne = targetList;
                 break;
             case 'province 2':
-                this.provinces[1] = targetList;
+                this.provinceTwo = targetList;
                 break;
             case 'province 3':
-                this.provinces[2] = targetList;
+                this.provinceThree = targetList;
                 break;
             case 'province 4':
-                this.provinces[3] = targetList;
+                this.provinceFour = targetList;
                 break;
             case 'stronghold province':
                 this.strongholdProvince = targetList;
+                break;
+            case 'province deck':
+                this.provinceDeck = targetList;
                 break;
             default:
                 if(this.additionalPiles[source]) {
@@ -721,10 +723,6 @@ class Player extends Spectator {
             return false;
         }
 
-        if(target === 'dead pile' && card.getType() !== 'character') {
-            return false;
-        }
-
         if(target === 'play area' && card.getType() === 'event') {
             return false;
         }
@@ -732,11 +730,6 @@ class Player extends Spectator {
         if(target === 'play area') {
             this.putIntoPlay(card);
         } else {
-            if(target === 'dead pile' && card.location === 'play area') {
-                this.killCharacter(card, false);
-                return true;
-            }
-
             if(target === 'conflict discard pile') {
                 this.discardCard(card, false);
                 return true;
@@ -898,6 +891,7 @@ class Player extends Spectator {
     }
 
     moveCard(card, targetLocation, options = {}) {
+
         this.removeCardFromPile(card);
 
         var targetPile = this.getSourceList(targetLocation);
@@ -1089,6 +1083,13 @@ class Player extends Spectator {
             numProvinceCards: this.provinceDeck.size(),
             phase: this.phase,
             provinceDeck: this.getSummaryForCardList(this.provinceDeck, activePlayer, true),
+            provinces: {
+                one: this.getSummaryForCardList(this.provinceOne, activePlayer),
+                two: this.getSummaryForCardList(this.provinceTwo, activePlayer),
+                three: this.getSummaryForCardList(this.provinceThree, activePlayer),
+                four: this.getSummaryForCardList(this.provinceFour, activePlayer)
+            },
+            strongholdProvince: this.getSummaryForCardList(this.strongholdProvince, activePlayer),
             totalHonor: this.getTotalHonor(),
             user: _.omit(this.user, ['password', 'email'])
         };

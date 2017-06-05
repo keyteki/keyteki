@@ -457,11 +457,19 @@ export class InnerGameBoard extends React.Component {
                             dynastyDeck={otherPlayer ? otherPlayer.dynastyDeck : []}
                             numConflictCards={otherPlayer ? otherPlayer.numConflictCards : 0}
                             numDynastyCards={otherPlayer ? otherPlayer.numDynastyCards : 0}
+                            province1Cards={otherPlayer ? otherPlayer.provinces.one : []}
+                            province2Cards={otherPlayer ? otherPlayer.provinces.two : []}
+                            province3Cards={otherPlayer ? otherPlayer.provinces.three : []}
+                            province4Cards={otherPlayer ? otherPlayer.provinces.four : []}
                             onCardClick={this.onCardClick}
                             onMouseOver={this.onMouseOver}
                             onMouseOut={this.onMouseOut}
                         />
-                        <StrongholdRow />
+                        <StrongholdRow 
+                            onMouseOver={this.onMouseOver}
+                            onMouseOut={this.onMouseOut}
+                            strongholdProvinceCards={otherPlayer ? otherPlayer.strongholdProvince : []}
+                        />
                         <div className='play-area'>
                             <div className='player-board'>
                                 {otherPlayerCards}
@@ -473,6 +481,10 @@ export class InnerGameBoard extends React.Component {
                         </div>
                         <StrongholdRow isMe={!this.state.spectating}
                             spectating={this.state.spectating}
+                            onDragDrop={this.onDragDrop}
+                            onMouseOver={this.onMouseOver}
+                            onMouseOut={this.onMouseOut}
+                            strongholdProvinceCards={thisPlayer.strongholdProvince}
                         />
                         <DynastyRow isMe={!this.state.spectating}
                             additionalPiles={thisPlayer.additionalPiles}
@@ -487,6 +499,10 @@ export class InnerGameBoard extends React.Component {
                             numDynastyCards={thisPlayer.numDynastyCards}
                             onDrawClick={this.onDrawClick}
                             onShuffleClick={this.onShuffleClick}
+                            province1Cards={thisPlayer.provinces.one}
+                            province2Cards={thisPlayer.provinces.two}
+                            province3Cards={thisPlayer.provinces.three}
+                            province4Cards={thisPlayer.provinces.four}
                             showConflictDeck={this.state.showConflictDeck}
                             showDynastyDeck={this.state.showDynastyDeck}
                             onDragDrop={this.onDragDrop}
