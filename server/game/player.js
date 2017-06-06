@@ -133,6 +133,21 @@ class Player extends Spectator {
         return cardsToReturn;
     }
 
+    attachStronghold(){
+        this.moveCard(this.stronghold, 'stronghold province');
+    }
+
+    fillProvinces(){
+        var provinces = ['province 1', 'province 2', 'province 3', 'province 4'];
+        _.each(provinces, province => {
+            if(_.find(this.getSourceList(province), card => { return card.isDynasty })) {
+                //Noop              
+            } else {
+                this.moveCard(this.dynastyDeck.first(), province);
+            }
+        });
+    }
+
     anyCardsInPlay(predicate) {
         return this.allCards.any(card => card.location === 'play area' && predicate(card));
     }
@@ -402,10 +417,6 @@ class Player extends Spectator {
         });
     }
 
-    isCharacterDead(card) {
-        return card.getType() === 'character' && card.isUnique() && this.isCardNameInList(this.deadPile, card);
-    }
-
     playCard(card) {
         if(!card) {
             return false;
@@ -433,15 +444,7 @@ class Player extends Spectator {
 
     canPutIntoPlay(card) {
         var owner = card.owner;
-        return (
-            (!this.isCharacterDead(card) || this.canResurrect(card)) &&
-            (
-                owner === this ||
-                !this.getDuplicateInPlay(card) &&
-                !owner.getDuplicateInPlay(card) &&
-                (!owner.isCharacterDead(card) || owner.canResurrect(card))
-            )
-        );
+        return true;
     }
 
     canResurrect(card) {
