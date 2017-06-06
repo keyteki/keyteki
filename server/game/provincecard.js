@@ -18,6 +18,15 @@ class ProvinceCard extends BaseCard {
         this.facedown = false;
     }
 
+    getSummary(activePlayer, hideWhenFaceup) {
+        let baseSummary = super.getSummary(activePlayer, hideWhenFaceup);
+
+        return _.extend(baseSummary, {
+            isProvince: this.isProvince,
+            strength: this.getStrength
+        });
+    }
+
 }
 
 module.exports = ProvinceCard;
