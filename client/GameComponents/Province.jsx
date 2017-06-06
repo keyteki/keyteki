@@ -156,13 +156,16 @@ class Province extends React.Component {
         var className = 'panel province ' + this.props.className;
         var cardCount = this.props.cardCount || (this.props.cards ? this.props.cards.length : '0');
         var headerText = this.props.title ? this.props.title + ' (' + (cardCount) + ')' : '';
-        var provinceCard = this.props.provinceCard || _.last(this.props.cards);
+        var provinceCard = this.props.provinceCard || _.find(this.props.cards, card => { return card.isProvince });
+        var dynastyCard = this.props.dynastyCard || _.find(this.props.cards, card => { return card.isDynasty });
         var cardOrientation = this.props.orientation === 'horizontal' && provinceCard && provinceCard.facedown ? 'bowed' : this.props.orientation;
 
         if(this.props.hiddenProvinceCard && provinceCard) {
             provinceCard.facedown = true;
-        } else if(this.props.hiddenProvinceCard) {
-            provinceCard = { facedown: true };
+        }
+    
+        if(this.props.hiddenDynastyCard && dynastyCard) {
+            dynastyCard.facedown = true;
         }
 
         if(this.props.orientation === 'horizontal' || this.props.orientation === 'bowed') {
@@ -178,6 +181,14 @@ class Province extends React.Component {
                     {headerText}
                 </div>
                 {provinceCard ? <Card card={provinceCard} source={this.props.source}
+                         onMouseOver={this.props.onMouseOver}
+                         onMouseOut={this.props.onMouseOut}
+                         disableMouseOver={provinceCard.facedown}
+                         onClick={this.onProvinceCardClick}
+                         onMenuItemClick={this.props.onMenuItemClick}
+                         onDragDrop={this.props.onDragDrop}
+                         orientation={cardOrientation} /> : null}
+                {dynastyCard ? <Card className='province-dynasty' card={dynastyCard} source={this.props.source}
                          onMouseOver={this.props.onMouseOver}
                          onMouseOut={this.props.onMouseOut}
                          disableMouseOver={provinceCard.facedown}

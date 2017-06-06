@@ -399,7 +399,7 @@ export class InnerGameBoard extends React.Component {
                             <div className="ring-pane">      
                                 <CardCollection className='province-deck'
                                                     title='Province Deck' source='province deck' cards={otherPlayer ? otherPlayer.provinceDeck : []}
-                                                    topCard={{ facedown: true }} 
+                                                    hiddenTopCard 
                                                     onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disableMouseOver disablePopup
                                                     onCardClick={this.onCardClick}  />
                                  <div className='panel ring-panel'>
@@ -410,7 +410,7 @@ export class InnerGameBoard extends React.Component {
                                     <Ring conflictType='Military' ringType='Void' />
                                 </div>
                                 <CardCollection className='province-deck our-side'
-                                                    title='Province Deck' source='province deck' cards={thisPlayer.provinceDeck} topCard={{ facedown: true }} 
+                                                    title='Province Deck' source='province deck' cards={thisPlayer.provinceDeck} hiddenTopCard 
                                                     onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onCardClick={this.onCardClick} onDragDrop={this.onDragDrop} />
                             </div>
                             <div className='middle-right'>

@@ -345,3 +345,16 @@
 .plot-selected {
   box-shadow: 0 0 1px 2px @brand-danger;
 }
+
+.province-dynasty {
+  margin-top: @attachment-offset - @card-height;
+}
+
+.generate-province-dynasty(@n, @i: 1) when (@i =< @n) {
+  .province-dynasty-@{i} {
+    z-index: @layer-cards - @i;
+  }
+  .generate-province-dynasty(@n, (@i + 1));
+}
+
+.generate-province-dynasty(5, 1);

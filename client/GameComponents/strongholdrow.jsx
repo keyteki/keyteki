@@ -24,7 +24,7 @@ class StrongholdRow extends React.Component {
                 <div className='stronghold-row'>
                     <div className='deck-cards'>
                         <Placeholder />
-                        <Province source='stronghold province' cards={this.props.strongholdProvinceCards} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onDragDrop={this.props.onDragDrop} disablePopup />
+                        <Province source='stronghold province' cards={this.props.strongholdProvinceCards} onMouseOver={this.props.onMouseOver} onMouseOut={this.onMouseOut} onDragDrop={this.props.onDragDrop} hiddenProvinceCard='true' />
                     </div>
                 </div>
             );
@@ -38,7 +38,7 @@ class StrongholdRow extends React.Component {
                         <Placeholder />
                         <Placeholder />
                         <Placeholder />
-                        <Province source='stronghold province' cards={this.props.strongholdProvinceCards} onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disablePopup />
+                        <Province source='stronghold province' cards={this.props.strongholdProvinceCards} onMouseOver={this.props.onMouseOver} onMouseOut={this.onMouseOut} hiddenProvinceCard='true' />
                     </div>
                 </div>
             );
