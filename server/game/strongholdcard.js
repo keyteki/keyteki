@@ -10,6 +10,8 @@ class StrongholdCard extends BaseCard {
         this.fateModifier = 0;
         this.honorModifier = 0;
         this.influenceModifier = 0;
+
+        this.isStronghold = true;
     }
 
     getFate() {
@@ -31,6 +33,16 @@ class StrongholdCard extends BaseCard {
     flipFaceup() {
         this.facedown = false;
     }
+
+    getSummary(activePlayer, hideWhenFaceup) {
+        let baseSummary = super.getSummary(activePlayer, hideWhenFaceup);
+
+        return _.extend(baseSummary, {
+            isStronghold: this.isStronghold,
+            strengthModifer: this.getStrengthModifier
+        });
+    }
+
 
 }
 
