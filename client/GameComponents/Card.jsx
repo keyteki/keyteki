@@ -249,14 +249,14 @@ class Card extends React.Component {
             cardClass += ' ' + this.props.className;
         }
 
-        if(this.props.card.isConflict) {
-            cardBack = 'conflictcardback.jpg'
-        } else if(this.props.card.isDynasty) {
-            cardBack = 'dynastycardback.jpg'
-        } else if(this.props.card.type === 'province') {
-            cardBack = 'provincecardback.jpg'
+        if(this.props.card.isConflict || this.props.source === 'conflict deck') {
+            cardBack = 'conflictcardback.jpg';
+        } else if(this.props.card.isDynasty || this.props.source === 'dynasty deck') {
+            cardBack = 'dynastycardback.jpg';
+        } else if(this.props.card.isProvince || this.props.source === 'province deck') {
+            cardBack = 'provincecardback.jpg';
         } else {
-            cardBack = 'cardback.jpg'
+            cardBack = 'cardback.jpg';
         }
 
         return (
