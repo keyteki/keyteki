@@ -158,6 +158,7 @@ class Province extends React.Component {
         var headerText = this.props.title ? this.props.title + ' (' + (cardCount) + ')' : '';
         var provinceCard = this.props.provinceCard || _.find(this.props.cards, card => { return card.isProvince });
         var dynastyCard = this.props.dynastyCard || _.find(this.props.cards, card => { return card.isDynasty });
+        var strongholdCard = this.props.strongholdCard || _.find(this.props.cards, card => { return card.isStronghold });
         var cardOrientation = this.props.orientation === 'horizontal' && provinceCard && provinceCard.facedown ? 'bowed' : this.props.orientation;
 
         if(this.props.hiddenProvinceCard && provinceCard) {
@@ -188,7 +189,15 @@ class Province extends React.Component {
                          onMenuItemClick={this.props.onMenuItemClick}
                          onDragDrop={this.props.onDragDrop}
                          orientation={cardOrientation} /> : null}
-                {dynastyCard ? <Card className='province-dynasty' card={dynastyCard} source={this.props.source}
+                {dynastyCard ? <Card className='province-attachment' card={dynastyCard} source={this.props.source}
+                         onMouseOver={this.props.onMouseOver}
+                         onMouseOut={this.props.onMouseOut}
+                         disableMouseOver={provinceCard.facedown}
+                         onClick={this.onProvinceCardClick}
+                         onMenuItemClick={this.props.onMenuItemClick}
+                         onDragDrop={this.props.onDragDrop}
+                         orientation={cardOrientation} /> : null}
+                {strongholdCard ? <Card className='province-attachment' card={strongholdCard} source={this.props.source}
                          onMouseOver={this.props.onMouseOver}
                          onMouseOut={this.props.onMouseOut}
                          disableMouseOver={provinceCard.facedown}
@@ -225,6 +234,7 @@ Province.propTypes = {
     popupMenu: React.PropTypes.array,
     provinceCard: React.PropTypes.object,
     source: React.PropTypes.oneOf(['stronghold province', 'province 1', 'province 2', 'province 3', 'province 4']).isRequired,
+    strongholdCard: React.PropTypes.object,
     title: React.PropTypes.string
 };
 Province.defaultProps = {
