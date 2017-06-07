@@ -86,7 +86,7 @@ class Province extends React.Component {
                 {dynastyCard ? <Card className='province-attachment' card={dynastyCard} source={this.props.source}
                          onMouseOver={this.props.onMouseOver}
                          onMouseOut={this.props.onMouseOut}
-                         disableMouseOver={provinceCard.facedown}
+                         disableMouseOver={dynastyCard.facedown}
                          onClick={this.props.onCardClick}
                          onMenuItemClick={this.props.onMenuItemClick}
                          onDragDrop={this.props.onDragDrop}
@@ -94,7 +94,7 @@ class Province extends React.Component {
                 {strongholdCard ? <Card className='province-attachment' card={strongholdCard} source={this.props.source}
                          onMouseOver={this.props.onMouseOver}
                          onMouseOut={this.props.onMouseOut}
-                         disableMouseOver={provinceCard.facedown}
+                         disableMouseOver={strongholdCard.facedown}
                          onClick={this.props.onCardClick}
                          onMenuItemClick={this.props.onMenuItemClick}
                          onDragDrop={this.props.onDragDrop}
