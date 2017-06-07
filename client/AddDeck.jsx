@@ -66,9 +66,9 @@ export class InnerAddDeck extends React.Component {
         return (
             <div >
                 {errorBar}
-                <DeckEditor alliance={this.state.allianceFaction} cards={this.props.cards} packs={this.props.packs} mode='Add'
+                <DeckEditor allianceFaction={this.state.allianceFaction} cards={this.props.cards} packs={this.props.packs} mode='Add'
                     onDeckChange={this.onDeckChange} onDeckSave={this.onAddDeck} />
-                <DeckSummary className='col-sm-6 right-pane' cards={this.props.cards} name={this.state.deckName} alliance={this.state.allianceFaction}
+                <DeckSummary className='col-sm-6 right-pane' cards={this.props.cards} name={this.state.deckName} allianceFaction={this.state.allianceFaction}
                     faction={this.state.faction} provinceCards={this.state.provinceCards} stronghold={this.state.stronghold} conflictDrawCards={this.state.conflictDrawCards} dynastyDrawCards={this.state.dynastyDrawCards}/>
             </div >);
     }
