@@ -818,7 +818,11 @@ class Player extends Spectator {
             originalLocation: card.location
         };
         this.game.raiseMergedEvent('onCardDiscarded', params, event => {
-            this.moveCard(event.card, 'conflict discard pile');
+            if(event.card.isConflict) {
+                this.moveCard(event.card, 'conflict discard pile');
+            } else if (event.card.isDynasty) {
+                this.moveCard(event.card, 'dynasty discard pile');
+            }
         });
     }
 
