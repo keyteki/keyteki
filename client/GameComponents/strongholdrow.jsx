@@ -24,7 +24,7 @@ class StrongholdRow extends React.Component {
                 <div className='stronghold-row'>
                     <div className='deck-cards'>
                         <Placeholder />
-                        <Province source='stronghold province' cards={this.props.strongholdProvinceCards} onMouseOver={this.props.onMouseOver} onMouseOut={this.onMouseOut} onDragDrop={this.props.onDragDrop} hiddenProvinceCard='true' />
+                        <Province source='stronghold province' cards={this.props.strongholdProvinceCards} onMouseOver={this.props.onMouseOver} onMouseOut={this.onMouseOut} onDragDrop={this.props.onDragDrop} onCardClick={this.props.onCardClick} />
                     </div>
                 </div>
             );
@@ -38,7 +38,7 @@ class StrongholdRow extends React.Component {
                         <Placeholder />
                         <Placeholder />
                         <Placeholder />
-                        <Province source='stronghold province' cards={this.props.strongholdProvinceCards} onMouseOver={this.props.onMouseOver} onMouseOut={this.onMouseOut} hiddenProvinceCard='true' />
+                        <Province source='stronghold province' cards={this.props.strongholdProvinceCards} onMouseOver={this.props.onMouseOver} onMouseOut={this.onMouseOut} onCardClick={this.props.onCardClick} />
                     </div>
                 </div>
             );
@@ -49,6 +49,7 @@ class StrongholdRow extends React.Component {
 StrongholdRow.displayName = 'StrongholdRow';
 StrongholdRow.propTypes = {
     isMe: React.PropTypes.bool,
+    onCardClick: React.PropTypes.func,
     onDragDrop: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,

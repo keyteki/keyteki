@@ -466,6 +466,7 @@ export class InnerGameBoard extends React.Component {
                             onMouseOut={this.onMouseOut}
                         />
                         <StrongholdRow 
+                            onCardClick={this.onCardClick}
                             onMouseOver={this.onMouseOver}
                             onMouseOut={this.onMouseOut}
                             strongholdProvinceCards={otherPlayer ? otherPlayer.strongholdProvince : []}
@@ -481,6 +482,7 @@ export class InnerGameBoard extends React.Component {
                         </div>
                         <StrongholdRow isMe={!this.state.spectating}
                             spectating={this.state.spectating}
+                            onCardClick={this.onCardClick}
                             onDragDrop={this.onDragDrop}
                             onMouseOver={this.onMouseOver}
                             onMouseOut={this.onMouseOut}

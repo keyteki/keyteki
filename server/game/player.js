@@ -949,8 +949,11 @@ class Player extends Spectator {
             card.moveTo(targetLocation);
         }
 
-        if(targetLocation === 'province') {
-            this.activePlot = card;
+        if(['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(targetLocation)) {
+            if(!card.isStronghold) {
+                card.facedown = true;
+            }
+            targetPile.push(card);
         } else if(targetLocation === 'conflict deck' && !options.bottom) {
             targetPile.unshift(card);
         } else if(targetLocation === 'dynasty deck' && !options.bottom) {

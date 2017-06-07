@@ -198,6 +198,26 @@ class Game extends EventEmitter {
 
             this.addMessage('{0} {1} {2}', player, card.bowed ? 'bows' : 'readies', card);
         }
+
+        if(!card.facedown && card.location === 'stronghold province' && card.controller === player) {
+            if(card.bowed) {
+                player.readyCard(card);
+            } else {
+                player.bowCard(card);
+            }
+
+            this.addMessage('{0} {1} {2}', player, card.bowed ? 'bows' : 'readies', card);
+        }
+
+        if(['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(card.location) && card.controller === player && (card.isDynasty || card.isProvince)) {
+            if(card.facedown) {
+                card.facedown = false;
+            } else {
+                card.facedown = true;
+            }
+
+            this.addMessage('{0} {1} {2}', player, card.facedown ? 'hides' : 'reveals', card);
+        }
     }
 
     cardHasMenuItem(card, menuItem) {
@@ -295,7 +315,7 @@ class Game extends EventEmitter {
                                          [source, target]))) {
                 // log the moved card only if it moved from/to a public place
                 var card = this.findAnyCardInAnyList(cardId);
-                if(card && this.currentPhase !== 'setup') {
+                if(card && !(['dynasty deck', 'province deck'].includes(source) && ['province 1', 'province 2', 'province 3', 'province 4'].includes(target))) {
                     movedCard = card;
                 }
             }

@@ -9,58 +9,8 @@ class Province extends React.Component {
     constructor() {
         super();
 
-        this.onCollectionClick = this.onCollectionClick.bind(this);
         this.onDragDrop = this.onDragDrop.bind(this);
-        this.onProvinceCardClick = this.onProvinceCardClick.bind(this);
 
-        this.state = {
-            showPopup: false,
-            showMenu: false
-        };
-    }
-
-    onCollectionClick(event) {
-        event.preventDefault();
-
-        if(this.props.menu) {
-            this.setState({ showMenu: !this.state.showMenu });
-            return;
-        }
-
-        if(!this.props.disablePopup) {
-            this.setState({ showPopup: !this.state.showPopup });
-        }
-    }
-
-    onMenuItemClick(menuItem) {
-        if(menuItem.showPopup) {
-            this.setState({ showPopup: !this.state.showPopup });
-        }
-
-        menuItem.handler();
-    }
-
-    onPopupMenuItemClick(menuItem) {
-        menuItem.handler();
-
-        this.setState({ showPopup: !this.state.showPopup });
-    }
-
-    onProvinceCardClick() {
-        if(this.props.menu) {
-            this.setState({ showMenu: !this.state.showMenu });
-            return;
-        }
-
-        if(this.props.disablePopup) {
-            if(this.props.onCardClick) {
-                this.props.onCardClick(this.props.provinceCard);
-            }
-
-            return;
-        }
-
-        this.setState({showPopup: !this.state.showPopup});
     }
 
     onDragOver(event) {
@@ -96,62 +46,6 @@ class Province extends React.Component {
         }
     }
 
-    getPopup() {
-        let popup = null;
-        let cardIndex = 0;
-
-        let cardList = _.map(this.props.cards, card => {
-            let cardKey = card.uuid || cardIndex++;
-            return (<Card key={ cardKey } card={ card } source={ this.props.source }
-                            disableMouseOver={ this.props.disableMouseOver }
-                            onMouseOver={ this.props.onMouseOver }
-                            onMouseOut={ this.props.onMouseOut }
-                            onTouchMove={ this.props.onTouchMove }
-                            onClick={ this.props.onCardClick }
-                            onDragDrop={ this.props.onDragDrop }
-                            orientation={ this.props.orientation } />);
-        });
-
-        let popupClass = 'popup panel';
-
-        if(this.props.popupLocation === 'top') {
-            popupClass += ' our-side';
-        }
-
-        let linkIndex = 0;
-
-        var popupMenu = this.props.popupMenu ? (<div>{_.map(this.props.popupMenu, menuItem => {
-            return <a key={ linkIndex++ } onClick={() => this.onPopupMenuItemClick(menuItem)}>{menuItem.text}</a>;
-        })}</div>) : (
-            <div>
-                <a onClick={this.onCollectionClick}>Close</a>
-            </div>);
-
-        popup = (
-            <div className={popupClass + (this.state.showPopup ? '' : ' hidden')} onClick={event => event.stopPropagation() }>
-                {popupMenu}
-                <div className='inner'>
-                    {cardList}
-                </div>
-                <div className='arrow-indicator' />
-            </div>);
-
-        return popup;
-    }
-
-    getMenu() {
-        var menuIndex = 0;
-
-        var menu = _.map(this.props.menu, item => {
-            return <div key={(menuIndex++).toString()} onClick={this.onMenuItemClick.bind(this, item)}>{item.text}</div>;
-        });
-
-        return (
-            <div className='panel menu'>
-                {menu}
-            </div>);
-    }
-
     render() {
         var className = 'panel province ' + this.props.className;
         var cardCount = this.props.cardCount || (this.props.cards ? this.props.cards.length : '0');
@@ -185,7 +79,7 @@ class Province extends React.Component {
                          onMouseOver={this.props.onMouseOver}
                          onMouseOut={this.props.onMouseOut}
                          disableMouseOver={provinceCard.facedown}
-                         onClick={this.onProvinceCardClick}
+                         onClick={this.props.onCardClick}
                          onMenuItemClick={this.props.onMenuItemClick}
                          onDragDrop={this.props.onDragDrop}
                          orientation={cardOrientation} /> : null}
@@ -193,7 +87,7 @@ class Province extends React.Component {
                          onMouseOver={this.props.onMouseOver}
                          onMouseOut={this.props.onMouseOut}
                          disableMouseOver={provinceCard.facedown}
-                         onClick={this.onProvinceCardClick}
+                         onClick={this.props.onCardClick}
                          onMenuItemClick={this.props.onMenuItemClick}
                          onDragDrop={this.props.onDragDrop}
                          orientation={cardOrientation} /> : null}
@@ -201,12 +95,10 @@ class Province extends React.Component {
                          onMouseOver={this.props.onMouseOver}
                          onMouseOut={this.props.onMouseOut}
                          disableMouseOver={provinceCard.facedown}
-                         onClick={this.onProvinceCardClick}
+                         onClick={this.props.onCardClick}
                          onMenuItemClick={this.props.onMenuItemClick}
                          onDragDrop={this.props.onDragDrop}
                          orientation={cardOrientation} /> : null}
-                {this.state.showMenu ? this.getMenu() : null}
-                {this.getPopup()}
             </div>);
     }
 }
