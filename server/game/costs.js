@@ -1,4 +1,5 @@
 const _ = require('underscore');
+const ChooseCost = require('./costs/choosecost.js');
 
 const Costs = {
     /**
@@ -13,6 +14,15 @@ const Costs = {
                 _.each(costs, cost => cost.pay(context));
             }
         };
+    },
+    /**
+     * Cost that allows the player to choose between multiple costs. The
+     * `choices` object should have string keys representing the button text
+     * that will be used to prompt the player, with the values being the cost
+     * associated with that choice.
+     */
+    choose: function(choices) {
+        return new ChooseCost(choices);
     },
     /**
      * Cost that will bow the card that initiated the ability.
@@ -61,11 +71,7 @@ const Costs = {
             canPay: function(context) {
                 return context.player.anyCardsInPlay(card => fullCondition(card, context));
             },
-            resolve: function(context) {
-                var result = {
-                    resolved: false
-                };
-
+            resolve: function(context, result = { resolved: false }) {
                 context.game.promptForSelect(context.player, {
                     cardCondition: card => fullCondition(card, context),
                     activePromptTitle: 'Select card to bow',
@@ -105,11 +111,7 @@ const Costs = {
             canPay: function(context) {
                 return context.player.getNumberOfCardsInPlay(card => fullCondition(card, context)) >= number;
             },
-            resolve: function(context) {
-                var result = {
-                    resolved: false
-                };
-
+            resolve: function(context, result = { resolved: false }) {
                 context.game.promptForSelect(context.player, {
                     cardCondition: card => fullCondition(card, context),
                     activePromptTitle: 'Select ' + number + ' cards to bow',
@@ -156,6 +158,48 @@ const Costs = {
         };
     },
     /**
+<<<<<<< HEAD
+=======
+     * Cost that requires sacrificing a card that matches the passed condition
+     * predicate function.
+     */
+    sacrifice: function(condition) {
+        var fullCondition = (card, context) => (
+            card.location === 'play area' &&
+            card.controller === context.player &&
+            condition(card)
+        );
+        return {
+            canPay: function(context) {
+                return context.player.anyCardsInPlay(card => fullCondition(card, context));
+            },
+            resolve: function(context, result = { resolved: false }) {
+                context.game.promptForSelect(context.player, {
+                    cardCondition: card => fullCondition(card, context),
+                    activePromptTitle: 'Select card to sacrifice',
+                    source: context.source,
+                    onSelect: (player, card) => {
+                        context.sacrificeCostCard = card;
+                        result.value = true;
+                        result.resolved = true;
+
+                        return true;
+                    },
+                    onCancel: () => {
+                        result.value = false;
+                        result.resolved = true;
+                    }
+                });
+
+                return result;
+            },
+            pay: function(context) {
+                context.player.sacrificeCard(context.sacrificeCostCard);
+            }
+        };
+    },
+    /**
+>>>>>>> 1c426fd2... Implement `choose` cost. (#1034)
      * Cost that will remove from game the card that initiated the ability.
      */
     removeSelfFromGame: function() {
@@ -182,11 +226,7 @@ const Costs = {
             canPay: function(context) {
                 return context.player.anyCardsInPlay(card => fullCondition(card, context));
             },
-            resolve: function(context) {
-                var result = {
-                    resolved: false
-                };
-
+            resolve: function(context, result = { resolved: false }) {
                 context.game.promptForSelect(context.player, {
                     cardCondition: card => fullCondition(card, context),
                     activePromptTitle: 'Select card to return to hand',
@@ -225,6 +265,55 @@ const Costs = {
         };
     },
     /**
+<<<<<<< HEAD
+=======
+     * Cost that requires revealing a certain number of cards in hand that match
+     * the passed condition predicate function.
+     */
+    revealCards: function(number, condition) {
+        var fullCondition = (card, context) => (
+            card.location === 'hand' &&
+            card.controller === context.player &&
+            condition(card)
+        );
+        return {
+            canPay: function(context) {
+                let potentialCards = context.player.findCards(context.player.hand, card => fullCondition(card, context));
+                return _.size(potentialCards) >= number;
+            },
+            resolve: function(context, result = { resolved: false }) {
+                context.game.promptForSelect(context.player, {
+                    cardCondition: card => fullCondition(card, context),
+                    activePromptTitle: 'Select ' + number + ' cards to reveal',
+                    numCards: number,
+                    multiSelect: true,
+                    source: context.source,
+                    onSelect: (player, cards) => {
+                        if(cards.length !== number) {
+                            return false;
+                        }
+
+                        context.revealingCostCards = cards;
+                        result.value = true;
+                        result.resolved = true;
+
+                        return true;
+                    },
+                    onCancel: () => {
+                        result.value = false;
+                        result.resolved = true;
+                    }
+                });
+
+                return result;
+            },
+            pay: function(context) {
+                context.game.addMessage('{0} reveals {1} from their hand', context.player, context.revealingCostCards);
+            }
+        };
+    },
+    /**
+>>>>>>> 1c426fd2... Implement `choose` cost. (#1034)
      * Cost that will stand the card that initiated the ability (e.g.,
      * Barristan Selmy (TS)).
      */
@@ -259,11 +348,7 @@ const Costs = {
             canPay: function(context) {
                 return context.player.hand.size() >= 1;
             },
-            resolve: function(context) {
-                var result = {
-                    resolved: false
-                };
-
+            resolve: function(context, result = { resolved: false }) {
                 context.game.promptForSelect(context.player, {
                     cardCondition: card => card.location === 'hand',
                     activePromptTitle: 'Select card to discard',
@@ -306,7 +391,31 @@ const Costs = {
     discardFate: function() {
         return {
             canPay: function(context) {
+<<<<<<< HEAD
                 return context.source.hasToken('fate');
+=======
+                return context.player.anyCardsInPlay(card => fullCondition(card, context));
+            },
+            resolve: function(context, result = { resolved: false }) {
+                context.game.promptForSelect(context.player, {
+                    cardCondition: card => fullCondition(card, context),
+                    activePromptTitle: 'Select card to discard ' + amount + ' power from',
+                    source: context.source,
+                    onSelect: (player, card) => {
+                        context.discardPowerCostCard = card;
+                        result.value = true;
+                        result.resolved = true;
+
+                        return true;
+                    },
+                    onCancel: () => {
+                        result.value = false;
+                        result.resolved = true;
+                    }
+                });
+
+                return result;
+>>>>>>> 1c426fd2... Implement `choose` cost. (#1034)
             },
             pay: function(context) {
                 context.source.removeToken('fate', 1);
