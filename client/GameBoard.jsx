@@ -34,7 +34,8 @@ export class InnerGameBoard extends React.Component {
         this.onCommand = this.onCommand.bind(this);
         this.onConcedeClick = this.onConcedeClick.bind(this);
         this.onLeaveClick = this.onLeaveClick.bind(this);
-        this.onShuffleClick = this.onShuffleClick.bind(this);
+        this.onConflictShuffleClick = this.onConflictShuffleClick.bind(this);
+        this.onDynastyShuffleClick = this.onDynastyShuffleClick.bind(this);
         this.onKeyPress = this.onKeyPress.bind(this);
         this.onSendClick = this.onSendClick.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -237,8 +238,12 @@ export class InnerGameBoard extends React.Component {
         this.sendMessage();
     }
 
-    onShuffleClick() {
-        this.props.sendGameMessage('shuffleDeck');
+    onConflictShuffleClick() {
+        this.props.sendGameMessage('shuffleConflictDeck');
+    }
+
+    onDynastyShuffleClick() {
+        this.props.sendGameMessage('shuffleDynastyDeck');
     }
 
     onDragDrop(card, source, target) {
@@ -495,12 +500,14 @@ export class InnerGameBoard extends React.Component {
                             dynastyDiscardPile={thisPlayer.dynastyDiscardPile}
                             dynastyDeck={thisPlayer.dynastyDeck}
                             onCardClick={this.onCardClick}
+                            onConflictClick={this.onConflictClick}
+                            onDynastyClick={this.onDynastyClick}
                             onMouseOver={this.onMouseOver}
                             onMouseOut={this.onMouseOut}
                             numConflictCards={thisPlayer.numConflictCards}
                             numDynastyCards={thisPlayer.numDynastyCards}
-                            onDrawClick={this.onDrawClick}
-                            onShuffleClick={this.onShuffleClick}
+                            onConflictShuffleClick={this.onConflictShuffleClick}
+                            onDynastyShuffleClick={this.onDynastyShuffleClick}
                             province1Cards={thisPlayer.provinces.one}
                             province2Cards={thisPlayer.provinces.two}
                             province3Cards={thisPlayer.provinces.three}

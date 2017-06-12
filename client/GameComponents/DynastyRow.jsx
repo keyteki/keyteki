@@ -14,11 +14,14 @@ class DynastyRow extends React.Component {
 
         this.onConflictClick = this.onConflictClick.bind(this);
         this.onDynastyClick = this.onDynastyClick.bind(this);
-        this.onShuffleClick = this.onShuffleClick.bind(this);
+        this.onConflictShuffleClick = this.onConflictShuffleClick.bind(this);
+        this.onDynastyShuffleClick = this.onDynastyShuffleClick.bind(this);
         this.onShowConflictDeckClick = this.onShowConflictDeckClick.bind(this);
         this.onShowDynastyDeckClick = this.onShowDynastyDeckClick.bind(this);
-        this.onCloseClick = this.onCloseClick.bind(this);
-        this.onCloseAndShuffleClick = this.onCloseAndShuffleClick.bind(this);
+        this.onConflictCloseClick = this.onConflictCloseClick.bind(this);
+        this.onConflictCloseAndShuffleClick = this.onConflictCloseAndShuffleClick.bind(this);
+        this.onDynastyCloseClick = this.onDynastyCloseClick.bind(this);
+        this.onDynastyCloseAndShuffleClick = this.onDynastyCloseAndShuffleClick.bind(this);
         this.onDragDrop = this.onDragDrop.bind(this);
 
         this.state = {
@@ -58,19 +61,35 @@ class DynastyRow extends React.Component {
         }
     }
 
-    onCloseClick() {
-        if(this.props.onDrawClick) {
-            this.props.onDrawClick();
+    onConflictCloseClick() {
+        if(this.props.onConflictClick) {
+            this.props.onConflictClick();
         }
     }
 
-    onCloseAndShuffleClick() {
-        if(this.props.onDrawClick) {
-            this.props.onDrawClick();
+    onConflictCloseAndShuffleClick() {
+        if(this.props.onConflictClick) {
+            this.props.onConflictClick();
         }
 
-        if(this.props.onShuffleClick) {
-            this.props.onShuffleClick();
+        if(this.props.onConflictShuffleClick) {
+            this.props.onConflictShuffleClick();
+        }
+    }
+
+    onDynastyCloseClick() {
+        if(this.props.onDynastyClick) {
+            this.props.onDynastyClick();
+        }
+    }
+
+    onDynastyCloseAndShuffleClick() {
+        if(this.props.onDynastyClick) {
+            this.props.onDynastyClick();
+        }
+
+        if(this.props.onDynastyShuffleClick) {
+            this.props.onDynastyShuffleClick();
         }
     }
 
@@ -97,8 +116,8 @@ class DynastyRow extends React.Component {
             conflictDeckPopup = (
                 <div className='popup panel' onClick={event => event.stopPropagation() }>
                     <div>
-                        <a onClick={this.onCloseClick}>Close</a>
-                        <a onClick={this.onCloseAndShuffleClick}>Close and shuffle</a>
+                        <a onClick={this.onConflictCloseClick}>Close</a>
+                        <a onClick={this.onConflictCloseAndShuffleClick}>Close and shuffle</a>
                     </div>
                     <div className='inner'>
                         {conflictDeck}
@@ -123,8 +142,8 @@ class DynastyRow extends React.Component {
             dynastyDeckPopup = (
                 <div className='popup panel' onClick={event => event.stopPropagation() }>
                     <div>
-                        <a onClick={this.onCloseClick}>Close</a>
-                        <a onClick={this.onCloseAndShuffleClick}>Close and shuffle</a>
+                        <a onClick={this.onDynastyCloseClick}>Close</a>
+                        <a onClick={this.onDynastyCloseAndShuffleClick}>Close and shuffle</a>
                     </div>
                     <div className='inner'>
                         {dynastyDeck}
@@ -143,11 +162,18 @@ class DynastyRow extends React.Component {
         this.setState({ showDynastyMenu: !this.state.showDynastyMenu });
     }
 
-    onShuffleClick() {
-        if(this.props.onShuffleClick) {
-            this.props.onShuffleClick();
+    onConflictShuffleClick() {
+        if(this.props.onConflictShuffleClick) {
+            this.props.onConflictShuffleClick();
         }
     }
+
+    onDynastyShuffleClick() {
+        if(this.props.onDynastyShuffleClick) {
+            this.props.onDynastyShuffleClick();
+        }
+    }
+
 
     onShowConflictDeckClick() {
         if(this.props.onConflictClick) {
@@ -182,22 +208,22 @@ class DynastyRow extends React.Component {
 
         var conflictDeckMenu = [
             { text: 'Show', handler: this.onShowConflictDeckClick, showPopup: true },
-            { text: 'Shuffle', handler: this.onShuffleClick}
+            { text: 'Shuffle', handler: this.onConflictShuffleClick}
         ];
 
         var dynastyDeckMenu = [
             { text: 'Show', handler: this.onShowDynastyDeckClick, showPopup: true },
-            { text: 'Shuffle', handler: this.onShuffleClick}
+            { text: 'Shuffle', handler: this.onDynastyShuffleClick}
         ];
 
         var conflictDeckPopupMenu = [
-            { text: 'Close', handler: this.onCloseClick},
-            { text: 'Close and Shuffle', handler: this.onCloseAndShuffleClick}
+            { text: 'Close', handler: this.onConflictCloseClick},
+            { text: 'Close and Shuffle', handler: this.onConflictCloseAndShuffleClick}
         ];
 
         var dynastyDeckPopupMenu = [
-            { text: 'Close', handler: this.onCloseClick},
-            { text: 'Close and Shuffle', handler: this.onCloseAndShuffleClick}
+            { text: 'Close', handler: this.onDynastyCloseClick},
+            { text: 'Close and Shuffle', handler: this.onDynastyCloseAndShuffleClick}
         ];
 
         if(this.props.isMe) {
@@ -272,13 +298,16 @@ DynastyRow.propTypes = {
     numConflictCards: React.PropTypes.number,
     numDynastyCards: React.PropTypes.number,
     onCardClick: React.PropTypes.func,
+    onConflictClick: React.PropTypes.func,
+    onDynastyClick: React.PropTypes.func,
     onDiscardedCardClick: React.PropTypes.func,
     onDragDrop: React.PropTypes.func,
     onDrawClick: React.PropTypes.func,
     onMenuItemClick: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
-    onShuffleClick: React.PropTypes.func,
+    onConflictShuffleClick: React.PropTypes.func,
+    onDynastyShuffleClick: React.PropTypes.func,
     provinceDeck: React.PropTypes.array,
     province1Cards: React.PropTypes.array,
     province2Cards: React.PropTypes.array,
