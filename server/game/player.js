@@ -348,6 +348,7 @@ class Player extends Spectator {
         this.stronghold = preparedDeck.stronghold[0];
         this.conflictDeck = _(preparedDeck.conflictDrawCards);
         this.dynastyDeck = _(preparedDeck.dynastyDrawCards);
+        this.allPlayableCards = _(preparedDeck.allPlayableCards);
         this.allCards = _(preparedDeck.allCards);
     }
 
@@ -593,11 +594,11 @@ class Player extends Spectator {
     }
 
     showConflictDeck() {
-        this.showConflictDeck = true;
+        this.showConflict = true;
     }
 
     showDynastyDeck() {
-        this.showDynastyDeck = true;
+        this.showDynasty = true;
     }
 
     isValidDropCombination(source, target) {
