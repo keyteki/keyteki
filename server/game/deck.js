@@ -27,18 +27,18 @@ class Deck {
         //conflict
         this.eachRepeatedCard(this.data.conflictDrawCards, cardData => {
             if(['conflict'].includes(cardData.deck)) {
-                var drawCard = this.createCard(DrawCard, player, cardData);
-                drawCard.location = 'conflict deck';
-                result.conflictDrawCards.push(drawCard);
+                var conflictCard = this.createCard(DrawCard, player, cardData);
+                conflictCard.location = 'conflict deck';
+                result.conflictDrawCards.push(conflictCard);
             }
         });
 
         //dynasty
         this.eachRepeatedCard(this.data.dynastyDrawCards, cardData => {
             if(['dynasty'].includes(cardData.deck)) {
-                var drawCard = this.createCard(DrawCard, player, cardData);
-                drawCard.location = 'dynasty deck';
-                result.dynastyDrawCards.push(drawCard);
+                var dynastyCard = this.createCard(DrawCard, player, cardData);
+                dynastyCard.location = 'dynasty deck';
+                result.dynastyDrawCards.push(dynastyCard);
             }
         });
 
