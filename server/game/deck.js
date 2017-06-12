@@ -12,11 +12,9 @@ class Deck {
 
     prepare(player) {
         var result = {
-            allCards: [],
-            allPlayableCards: [],
             faction: {},
-            conflictDrawCards: [],
-            dynastyDrawCards: [],
+            conflictCards: [],
+            dynastyCards: [],
             provinceCards: [],
             stronghold: []
         };
@@ -29,7 +27,7 @@ class Deck {
             if(['conflict'].includes(cardData.deck)) {
                 var conflictCard = this.createCard(DrawCard, player, cardData);
                 conflictCard.location = 'conflict deck';
-                result.conflictDrawCards.push(conflictCard);
+                result.conflictCards.push(conflictCard);
             }
         });
 
@@ -38,7 +36,7 @@ class Deck {
             if(['dynasty'].includes(cardData.deck)) {
                 var dynastyCard = this.createCard(DrawCard, player, cardData);
                 dynastyCard.location = 'dynasty deck';
-                result.dynastyDrawCards.push(dynastyCard);
+                result.dynastyCards.push(dynastyCard);
             }
         });
 
@@ -58,8 +56,8 @@ class Deck {
             }
         });
 
-        result.allCards = [result.stronghold].concat(result.provinceCards).concat(result.conflictDrawCards).concat(result.dynastyDrawCards);
-        result.allPlayableCards = [result.conflictDrawCards].concat(result.dynastyDrawCards);
+        result.allCards = [result.stronghold].concat(result.provinceCards).concat(result.conflictCards).concat(result.dynastyCards);
+        result.allPlayableCards = [result.conflictCards].concat(result.dynastyCards);
 
         return result;
     }
