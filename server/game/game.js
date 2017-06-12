@@ -273,12 +273,12 @@ class Game extends EventEmitter {
             return;
         }
 
-        if(!player.showConflictDeck) {
+        if(!player.showConflict) {
             player.showConflictDeck();
 
             this.addMessage('{0} is looking at their conflict deck', player);
         } else {
-            player.showConflictDeck = false;
+            player.showConflict = false;
 
             this.addMessage('{0} stops looking at their conflict deck', player);
         }
@@ -291,12 +291,12 @@ class Game extends EventEmitter {
             return;
         }
 
-        if(!player.showDynastyDeck) {
+        if(!player.showDynasty) {
             player.showDynastyDeck();
 
             this.addMessage('{0} is looking at their dynasty deck', player);
         } else {
-            player.showDeck = false;
+            player.showDynasty = false;
 
             this.addMessage('{0} stops looking at their dynasty deck', player);
         }
@@ -476,15 +476,26 @@ class Game extends EventEmitter {
         player.selectDeck(deck);
     }
 
-    shuffleDeck(playerName) {
+    shuffleConflictDeck(playerName) {
         var player = this.getPlayerByName(playerName);
         if(!player) {
             return;
         }
 
-        this.addMessage('{0} shuffles their deck', player);
+        this.addMessage('{0} shuffles their conflict deck', player);
 
-        player.shuffleDrawDeck();
+        player.shuffleConflictDeck();
+    }
+
+    shuffleDynastyDeck(playerName) {
+        var player = this.getPlayerByName(playerName);
+        if(!player) {
+            return;
+        }
+
+        this.addMessage('{0} shuffles their dynasty deck', player);
+
+        player.shuffleDynastyDeck();
     }
 
     promptWithMenu(player, contextObj, properties) {
@@ -538,6 +549,10 @@ class Game extends EventEmitter {
 
         this.allCards = _(_.reduce(this.getPlayers(), (cards, player) => {
             return cards.concat(player.allCards.toArray());
+        }, []));
+
+        this.allPlayableCards = _(_.reduce(this.getPlayers(), (cards, player) => {
+            return cards.concat(player.allPlayableCards.toArray());
         }, []));
 
         this.pipeline.initialise([

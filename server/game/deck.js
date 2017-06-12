@@ -12,6 +12,8 @@ class Deck {
 
     prepare(player) {
         var result = {
+            allCards: [],
+            allPlayableCards: [],
             faction: {},
             conflictDrawCards: [],
             dynastyDrawCards: [],
@@ -57,6 +59,7 @@ class Deck {
         });
 
         result.allCards = [result.stronghold].concat(result.provinceCards).concat(result.conflictDrawCards).concat(result.dynastyDrawCards);
+        result.allPlayableCards = [result.conflictDrawCards].concat(result.dynastyDrawCards);
 
         return result;
     }
