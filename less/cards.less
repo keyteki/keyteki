@@ -151,7 +151,8 @@
 }
 
 .attachment {
-  margin-left: @attachment-offset - @card-height;
+  margin-left: -(@attachment-offset);
+  margin-top: -(@card-height);
 }
 
 .generate-attachments(@n, @i: 1) when (@i =< @n) {
