@@ -551,10 +551,6 @@ class Game extends EventEmitter {
             return cards.concat(player.allCards.toArray());
         }, []));
 
-        this.allPlayableCards = _(_.reduce(this.getPlayers(), (cards, player) => {
-            return cards.concat(player.allPlayableCards.toArray());
-        }, []));
-
         this.pipeline.initialise([
             new SetupPhase(this),
             new SimpleStep(this, () => this.beginRound())
