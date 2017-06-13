@@ -11,7 +11,7 @@ class SetupPhase extends Phase {
             new SimpleStep(game, () => this.prepareDecks()),
             new SetupProvincesPrompt(game),
             new SimpleStep(game, () => this.attachStronghold()),
-            //new SimpleStep(game, () => this.fillProvinces()),
+            new SimpleStep(game, () => this.fillProvinces()),
             new KeepOrMulliganPrompt(game),
             new SimpleStep(game, () => this.startGame()),
             new SimpleStep(game, () => this.setupDone()),
