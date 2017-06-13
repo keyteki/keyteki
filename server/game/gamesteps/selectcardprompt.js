@@ -153,6 +153,7 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     checkCardCondition(card) {
+
         return this.properties.cardType.includes(card.getType()) && this.cardCondition(card) && card.allowGameAction(this.properties.gameAction);
     }
 

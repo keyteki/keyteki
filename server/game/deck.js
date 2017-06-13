@@ -16,7 +16,7 @@ class Deck {
             conflictCards: [],
             dynastyCards: [],
             provinceCards: [],
-            stronghold: []
+            stronghold: undefined
         };
 
         //faction
@@ -52,11 +52,12 @@ class Deck {
             if(cardData.type_code === 'stronghold') {
                 var strongholdCard = this.createCard(StrongholdCard, player, cardData);
                 strongholdCard.location = 'stronghold province';
-                result.stronghold.push(strongholdCard);
+                result.stronghold = strongholdCard;
             }
         });
 
-        result.allCards = [result.stronghold].concat(result.provinceCards).concat(result.conflictCards).concat(result.dynastyCards);
+        result.allCards = result.provinceCards.concat(result.conflictCards).concat(result.dynastyCards);
+        result.allCards.push(result.stronghold)
 
         return result;
     }
