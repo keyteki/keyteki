@@ -701,10 +701,11 @@ class Game extends EventEmitter {
             card.controller = newController;
 
             if(card.location !== 'play area') {
+                let originalLocation = card.location;
                 card.play(newController, false);
                 card.moveTo('play area');
                 card.applyPersistentEffects();
-                this.raiseEvent('onCardEntersPlay', { card: card, playingType: 'play' });
+                this.raiseEvent('onCardEntersPlay', { card: card, playingType: 'play', originalLocation: originalLocation });
             }
 
             this.raiseEvent('onCardTakenControl', { card: card });

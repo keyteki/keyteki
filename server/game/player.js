@@ -520,8 +520,8 @@ class Player extends Spectator {
         }
 
         this.selectedPlot.flipFaceup();
-        this.selectedPlot.play();
         this.moveCard(this.selectedPlot, 'active plot');
+        this.selectedPlot.applyPersistentEffects();
 
         this.game.raiseEvent('onCardEntersPlay', { card: this.activePlot, playingType: 'plot' });
 
@@ -599,6 +599,7 @@ class Player extends Spectator {
         card.attachments.push(attachment);
 
         attachment.attach(player, card);
+        attachment.applyPersistentEffects();
     }
 
     showConflictDeck() {

@@ -213,12 +213,6 @@ class DrawCard extends BaseCard {
         return card.allowAttachment(this);
     }
 
-    attach() {
-        _.each(this.abilities.persistentEffects, effect => {
-            this.game.addEffect(this, effect);
-        });
-    }
-
     getPlayActions() {
         return StandardPlayActions
             .concat(this.abilities.playActions)
