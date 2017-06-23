@@ -1,0 +1,3 @@
+[submodule "fiveringsdb-data"]
+	path = fiveringsdb-data
+	url = https://github.com/Alsciende/fiveringsdb-data.git
