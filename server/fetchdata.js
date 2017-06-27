@@ -6,12 +6,12 @@ const fs = require('fs');
 const mkdirp = require('mkdirp');
 const path = require('path');
 
-var apiUrl = 'https://thronesdb.com/api/public/';
+var apiUrl = 'https://fiveringsdb.com/api/v1/';
 
 function fetchImage(urlPath, code, imagePath, timeout) {
     setTimeout(function() {
         console.log('Downloading image for ' + code);
-        var url = 'https://thronesdb.com/' + urlPath;
+        var url = 'https://fiveringsdb.com/' + urlPath;
         request(url).pipe(fs.createWriteStream(imagePath));
     }, timeout);
 }
