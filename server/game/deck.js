@@ -24,7 +24,7 @@ class Deck {
 
         //conflict
         this.eachRepeatedCard(this.data.conflictDrawCards, cardData => {
-            if(['conflict'].includes(cardData.deck)) {
+            if(['conflict'].includes(cardData.side)) {
                 var conflictCard = this.createCard(DrawCard, player, cardData);
                 conflictCard.location = 'conflict deck';
                 result.conflictCards.push(conflictCard);
@@ -33,7 +33,7 @@ class Deck {
 
         //dynasty
         this.eachRepeatedCard(this.data.dynastyDrawCards, cardData => {
-            if(['dynasty'].includes(cardData.deck)) {
+            if(['dynasty'].includes(cardData.side)) {
                 var dynastyCard = this.createCard(DrawCard, player, cardData);
                 dynastyCard.location = 'dynasty deck';
                 result.dynastyCards.push(dynastyCard);
@@ -41,7 +41,7 @@ class Deck {
         });
 
         this.eachRepeatedCard(this.data.provinceCards, cardData => {
-            if(cardData.type_code === 'province') {
+            if(cardData.type === 'province') {
                 var provinceCard = this.createCard(ProvinceCard, player, cardData);
                 provinceCard.location = 'province deck';
                 result.provinceCards.push(provinceCard);
@@ -49,7 +49,7 @@ class Deck {
         });
 
         this.eachRepeatedCard(this.data.stronghold, cardData => {
-            if(cardData.type_code === 'stronghold') {
+            if(cardData.type === 'stronghold') {
                 var strongholdCard = this.createCard(StrongholdCard, player, cardData);
                 strongholdCard.location = 'stronghold province';
                 result.stronghold = strongholdCard;

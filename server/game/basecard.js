@@ -57,11 +57,11 @@ class BaseCard {
 
         this.abilities = { actions: [], reactions: [], persistentEffects: [], playActions: [] };
         this.parseKeywords(cardData.text || '');
-        this.parseTraits(cardData.traits || '');
+        this.parseTraits(cardData.keywords || '');
         this.setupCardAbilities(AbilityDsl);
 
         this.factions = {};
-        this.addFaction(cardData.faction_code);
+        this.addFaction(cardData.clan);
     }
 
     parseKeywords(text) {
@@ -313,11 +313,11 @@ class BaseCard {
     }
 
     getType() {
-        return this.cardData.type_code;
+        return this.cardData.type;
     }
 
     getPrintedFaction() {
-        return this.cardData.faction_code;
+        return this.cardData.clan;
     }
 
     setBlank() {
@@ -436,7 +436,7 @@ class BaseCard {
     getShortSummary() {
         return {
             code: this.cardData.code,
-            label: this.cardData.label,
+            //label: this.cardData.label,
             name: this.cardData.name,
             type: this.getType()
         };
@@ -455,7 +455,7 @@ class BaseCard {
             controlled: this.owner !== this.controller,
             facedown: this.facedown,
             menu: this.getMenu(),
-            name: this.cardData.label,
+            name: this.cardData.name,
             new: this.new,
             tokens: this.tokens,
             type: this.getType(),
