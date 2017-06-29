@@ -436,7 +436,7 @@ class BaseCard {
     getShortSummary() {
         return {
             code: this.cardData.code,
-            //label: this.cardData.label,
+            label: this.cardData.name,
             name: this.cardData.name,
             type: this.getType()
         };
