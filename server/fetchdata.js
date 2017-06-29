@@ -11,7 +11,7 @@ var apiUrl = 'https://fiveringsdb.com/api/v1/';
 function fetchImage(urlPath, code, imagePath, timeout) {
     setTimeout(function() {
         console.log('Downloading image for ' + code);
-        var url = 'https://fiveringsdb.com/' + urlPath + code;
+        var url = 'https://fiveringsdb.com/' + urlPath + code + '.png';
         request(url).pipe(fs.createWriteStream(imagePath));
     }, timeout);
 }
