@@ -64,19 +64,19 @@ class DeckEditor extends React.Component {
         var cardList = '';
         if(this.props.stronghold || this.props.provinceCards || this.props.conflictDrawCards || this.props.dynastyDrawCards) {
             _.each(this.props.stronghold, card => {
-                cardList += card.count + ' ' + card.card.label + '\n';
+                cardList += card.count + ' ' + card.card.name + '\n';
             });
 
              _.each(this.props.conflictDrawCards, card => {
-                cardList += card.count + ' ' + card.card.label + '\n';
+                cardList += card.count + ' ' + card.card.name + '\n';
             });
 
               _.each(this.props.dynastyDrawCards, card => {
-                cardList += card.count + ' ' + card.card.label + '\n';
+                cardList += card.count + ' ' + card.card.name + '\n';
             });
 
             _.each(this.props.provinceCards, card => {
-                cardList += card.count + ' ' + card.card.label + '\n';
+                cardList += card.count + ' ' + card.card.name + '\n';
             });
 
             this.setState({ cardList: cardList });
@@ -133,12 +133,12 @@ class DeckEditor extends React.Component {
     onAddCard(event) {
         event.preventDefault();
 
-        if(!this.state.cardToAdd || !this.state.cardToAdd.label) {
+        if(!this.state.cardToAdd || !this.state.cardToAdd.name) {
             return;
         }
 
         var cardList = this.state.cardList;
-        cardList += this.state.numberToAdd + ' ' + this.state.cardToAdd.label + '\n';
+        cardList += this.state.numberToAdd + ' ' + this.state.cardToAdd.name + '\n';
 
         this.addCard(this.state.cardToAdd, parseInt(this.state.numberToAdd));
         this.setState({ cardList: cardList }, () => this.raiseDeckChanged());
@@ -193,10 +193,10 @@ class DeckEditor extends React.Component {
 
                 var card = _.find(this.props.cards, function(card) {
                     if(pack) {
-                        return card.label.toLowerCase() === cardName.toLowerCase() || card.label.toLowerCase() === (cardName + ' (' + pack.code + ')').toLowerCase();
+                        return card.name.toLowerCase() === cardName.toLowerCase() || card.name.toLowerCase() === (cardName + ' (' + pack.code + ')').toLowerCase();
                     }
 
-                    return card.label.toLowerCase() === cardName.toLowerCase();
+                    return card.name.toLowerCase() === cardName.toLowerCase();
                 });
 
                 if(card) {
@@ -216,11 +216,11 @@ class DeckEditor extends React.Component {
 
         var list;
 
-        if(card.type_code === 'province') {
+        if(card.type === 'province') {
             list = provinces;
-        } else if(card.deck === 'dynasty') {
+        } else if(card.side === 'dynasty') {
             list = dynasty;
-        } else if(card.deck === 'conflict') {
+        } else if(card.side === 'conflict') {
             list = conflict;
         } else {
             list = stronghold;
@@ -257,7 +257,7 @@ class DeckEditor extends React.Component {
                         onChange={this.onAllyChange} value={this.state.selectedAlly.value} />
 
 
-                    <Typeahead label='Card' labelClass={'col-sm-3'} fieldClass='col-sm-4' labelKey={'label'} options={this.props.cards}
+                    <Typeahead label='Card' labelClass={'col-sm-3'} fieldClass='col-sm-4' labelKey={'name'} options={this.props.cards}
                         onChange={this.addCardChange}>
                         <Input name='numcards' type='text' label='Num' labelClass='col-sm-1' fieldClass='col-sm-2'
                             value={this.state.numberToAdd.toString()} onChange={this.onChange.bind(this, 'numberToAdd')}>

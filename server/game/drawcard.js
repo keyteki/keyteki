@@ -35,9 +35,9 @@ class DrawCard extends BaseCard {
         };
         this.stealthLimit = 1;
 
-        if(cardData.deck === 'conflict') {
+        if(cardData.side === 'conflict') {
             this.isConflict = true;
-        } else if(cardData.deck === 'dynasty') {
+        } else if(cardData.side === 'dynasty') {
             this.isDynasty = true;
         }
     }
@@ -133,10 +133,10 @@ class DrawCard extends BaseCard {
          * @return {integer} The military skill value
          */
         if(this.controller.phase === 'setup' || printed) {
-            return this.cardData.militaryskill || undefined;
+            return this.cardData.military_strength || undefined;
         }
 
-        return Math.max(0, this.militarySkillModifier + (this.cardData.militaryskill || 0));
+        return Math.max(0, this.militarySkillModifier + (this.cardData.military_strength || 0));
     }
 
     getPoliticalSkill(printed = false) {
@@ -146,10 +146,10 @@ class DrawCard extends BaseCard {
          * @return {integer} The political skill value
          */
         if(this.controller.phase === 'setup' || printed) {
-            return this.cardData.politicalskill || undefined;
+            return this.cardData.political_strength || undefined;
         }
 
-        return Math.max(0, this.politicalSkillModifier + (this.cardData.politicalskill || 0));
+        return Math.max(0, this.politicalSkillModifier + (this.cardData.political_strength || 0));
     }
 
     modifyFate(fate) {
@@ -265,8 +265,8 @@ class DrawCard extends BaseCard {
             isDynasty: this.isDynasty,
             bowed: this.bowed,
             saved: this.saved,
-            militaryskill: this.cardData.militaryskill,
-            politicalskill: this.cardData.politicalskill,
+            militaryskill: this.cardData.military_strength,
+            politicalskill: this.cardData.political_strength,
         });
     }
 }

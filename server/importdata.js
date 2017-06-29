@@ -4,41 +4,41 @@ const db = mongoskin.db('mongodb://127.0.0.1:27017/ringteki');
 const fs = require('fs');
 const _ = require('underscore');
 
-let files = fs.readdirSync('card-json/pack');
+let files = fs.readdirSync('fiveringdsdb-data/Card');
 let totalCards = [];
-let packs = JSON.parse(fs.readFileSync('card-json/packs.json'));
-let types = JSON.parse(fs.readFileSync('card-json/types.json'));
-let factions = JSON.parse(fs.readFileSync('card-json/factions.json'));
+let packs = JSON.parse(fs.readFileSync('fiveringdsdb-data/Pack.json'));
+let types = JSON.parse(fs.readFileSync('fiveringdsdb-data/Type.json'));
+let clans = JSON.parse(fs.readFileSync('fiveringdsdb-data/Clan.json'));
 
 _.each(files, file => {
-    let cards = JSON.parse(fs.readFileSync('card-json/pack/' + file));
+    let card = JSON.parse(fs.readFileSync('fiveringdsdb-data/Card/' + file));
 
-    totalCards = totalCards.concat(cards);
+    totalCards = totalCards.concat(card);
 });
 
 _.each(totalCards, card => {
     let cardsByName = _.filter(totalCards, filterCard => {
-        return filterCard.name === card.name;
+        return filterCard.name === card.code;
     });
 
     if(cardsByName.length > 1) {
-        card.label = card.name + ' (' + card.pack_code + ')';
+        card.label = card.code + ' (' + card.pack_code + ')';
     } else {
-        card.label = card.name;
+        card.label = card.code;
     }
 
-    let faction = _.find(factions, faction => {
-        return faction.code === card.faction_code;
+    let clan = _.find(clans, clan => {
+        return clan.code === card.clan_code;
     });
 
     let type = _.find(types, type => {
         return type.code === card.type_code;
     });
 
-    if(faction) {
-        card.faction_name = faction.name;
+    if(clan) {
+        card.clan_name = clan.name;
     } else {
-        console.info(faction, card.faction_code);
+        console.info(clan, card.clan_code);
     }
 
     if(type) {

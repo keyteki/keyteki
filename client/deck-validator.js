@@ -17,7 +17,7 @@ function hasTrait(card, trait) {
 function getStronghold(deck) {
     var stronghold;
     _.each(deck, card => {
-        if(card.card.type_code === 'stronghold') {
+        if(card.card.type === 'stronghold') {
             stronghold = card.card;
         }
     });
@@ -45,7 +45,7 @@ export function validateDeck(deck) {
 
 
     if(_.any(deck.stronghold, card => {
-        return !card.card.faction_code;
+        return !card.card.faction;
     })) {
         status = 'Invalid';
         extendedStatus.push('Deck contains invalid cards');
@@ -140,9 +140,9 @@ export function validateDeck(deck) {
 
     //Check for out of faction cards in stronghold, provinces, dynasty
     if(_.any(combined_clan, card => {
-        if(!(_.contains([deck.faction.value,'neutral'],card.card.faction_code))) {
+        if(!(_.contains([deck.faction.value,'neutral'],card.card.clan))) {
 
-            console.log(card.card.label + ' has faction ' + card.card.faction_code);
+            console.log(card.card.label + ' has clan ' + card.card.clan);
             return true;
         }
 
@@ -153,7 +153,7 @@ export function validateDeck(deck) {
 
     //Check for out of faction cards in conflict
     if(_.any(deck.conflictDrawCards, card => {
-        if(!(_.contains([deck.faction.value, deck.allianceFaction.value, 'neutral'],card.card.faction_code))) {
+        if(!(_.contains([deck.faction.value, deck.allianceFaction.value, 'neutral'],card.card.clan))) {
 
             return true;
         }
@@ -167,7 +167,7 @@ export function validateDeck(deck) {
 
         //Total up influence count
         _.each(deck.conflictDrawCards, card => {
-            if(card.card.faction_code === deck.allianceFaction.value) {
+            if(card.card.clan === deck.allianceFaction.value) {
                 influenceTotal = influenceTotal + (card.card.influence_cost * card.count);
             }
         });

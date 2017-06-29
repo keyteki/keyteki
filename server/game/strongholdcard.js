@@ -23,11 +23,11 @@ class StrongholdCard extends BaseCard {
     }
 
     getInfluence() {
-        return this.cardData.influence + this.influenceModifier;
+        return this.cardData.influence_pool + this.influenceModifier;
     }
 
     getStrengthModifier() {
-        return this.cardData.strength_modifier + this.strengthModifier;
+        return this.cardData.province_strength_mod + this.strengthModifier;
     }
 
     flipFaceup() {

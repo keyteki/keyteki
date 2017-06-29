@@ -11,7 +11,7 @@ class ProvinceCard extends BaseCard {
     }
 
     getStrength() {
-        return this.cardData.strength + this.strengthModifier;
+        return this.cardData.province_strength + this.strengthModifier;
     }
 
     flipFaceup() {

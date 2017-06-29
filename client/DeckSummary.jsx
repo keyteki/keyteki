@@ -54,7 +54,7 @@ class DeckSummary extends React.Component {
 
     onCardMouseOver(event) {
         var cardToDisplay = _.filter(this.props.cards, card => {
-            return event.target.innerText === card.label;
+            return event.target.innerText === card.name;
         });
 
         this.setState({ cardToShow: cardToDisplay[0] });
@@ -70,10 +70,10 @@ class DeckSummary extends React.Component {
         var combinedCards = _.union(this.props.provinceCards, this.props.stronghold, this.props.conflictDrawCards, this.props.dynastyDrawCards);
 
         _.each(combinedCards, (card) => {
-            if(!groupedCards[card.card.type_name]) {
-                groupedCards[card.card.type_name] = [card];
+            if(!groupedCards[card.card.type]) {
+                groupedCards[card.card.type] = [card];
             } else {
-                groupedCards[card.card.type_name].push(card);
+                groupedCards[card.card.type].push(card);
             }
         });
 
@@ -82,7 +82,7 @@ class DeckSummary extends React.Component {
             var count = 0;
 
             _.each(cardList, card => {
-                cards.push(<div key={ card.card.code }><span>{card.count + 'x '}</span><span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ card.card.label }</span></div>);
+                cards.push(<div key={ card.card.code }><span>{card.count + 'x '}</span><span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ card.card.name }</span></div>);
                 count += parseInt(card.count);
             });
 

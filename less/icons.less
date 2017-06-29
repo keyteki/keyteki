@@ -1,115 +1,68 @@
 @font-face {
-  font-family: thronesdb;
-  src: url('/fonts/thronesdb.ttf');
+  font-family: 'fiveringsdb';
+  src:  url('/fonts/fiveringsdb.eot?yn5wqh');
+  src:  url('/fonts/fiveringsdb.eot?yn5wqh#iefix') format('embedded-opentype'),
+    url('/fonts/fiveringsdb.ttf?yn5wqh') format('truetype'),
+    url('/fonts/fiveringsdb.woff?yn5wqh') format('woff'),
+    url('/fonts/fiveringsdb.svg?yn5wqh#fiveringsdb') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
 
-.game-icon {
-  padding-left: 5px;
-  padding-right: 5px;
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'fiveringsdb' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
 
-  font-size: 1.6em;
-
-  vertical-align: middle;
-
-  max-width: 24px;
-  max-height: 24px;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-military {
-  font-family: 'thronesdb';
-
-  &:before {
-    content: "\e605";
-    color: @military-icon-color;
-  }
+.icon-conflict-military:before {
+  content: "\e900";
 }
-
-.icon-intrigue {
-  font-family: 'thronesdb';
-
-  &:before {
-    content: "\e602";
-    color: @intrigue-icon-color;
-  }
+.icon-conflict-political:before {
+  content: "\e901";
 }
-
-.icon-power {
-  font-family: 'thronesdb';
-
-  &:before {
-    content: "\e607";
-    color: @power-icon-color;
-  }
+.icon-element-air:before {
+  content: "\e902";
 }
-
-.icon-baratheon {
-  font-family: 'thronesdb';
-
-  &:before {
-    content: "\e600";
-    color: grey;
-  }
+.icon-element-earth:before {
+  content: "\e903";
 }
-
-.icon-greyjoy {
-  font-family: 'thronesdb';
-
-  &:before {
-    content: "\e601";
-    color: #EAA428;
-  }
+.icon-element-fire:before {
+  content: "\e904";
 }
-
-.icon-lannister {
-  font-family: 'thronesdb';
-
-  &:before {
-    content: "\e603";
-    color: #F1B62C;
-  }
+.icon-element-void:before {
+  content: "\e905";
 }
-
-.icon-martell {
-  font-family: 'thronesdb';
-
-  &:before {
-    content: "\e604";
-    color: #A20000;
-  }
+.icon-element-water:before {
+  content: "\e906";
 }
-
-.icon-thenightswatch {
-  font-family: 'thronesdb';
-
-  &:before {
-    content: "\e606";
-    color: black;
-  }
+.icon-clan-crab:before {
+  content: "\e907";
 }
-
-.icon-stark {
-  font-family: 'thronesdb';
-
-  &:before {
-    content: "\e608";
-    color: grey;
-  }
+.icon-clan-crane:before {
+  content: "\e908";
 }
-
-.icon-targaryen {
-  font-family: 'thronesdb';
-
-  &:before {
-    content: "\e609";
-    color: #AA171F;
-  }
+.icon-clan-dragon:before {
+  content: "\e909";
 }
-
-.icon-tyrell {
-  font-family: 'thronesdb';
-
-  &:before {
-    content: "\e60a";
-    color: #F0D210;
-  }
+.icon-clan-lion:before {
+  content: "\e90a";
+}
+.icon-clan-phoenix:before {
+  content: "\e90b";
+}
+.icon-clan-scorpion:before {
+  content: "\e90c";
+}
+.icon-clan-unicorn:before {
+  content: "\e90d";
 }
