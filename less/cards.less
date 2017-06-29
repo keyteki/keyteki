@@ -151,12 +151,18 @@
 }
 
 .attachment {
-  margin-left: -(@attachment-offset);
   margin-top: -(@card-height);
+
 }
 
 .generate-attachments(@n, @i: 1) when (@i =< @n) {
   .attachment-@{i} {
+    margin-left: -(@attachment-offset)*@i;
+    z-index: @layer-cards - @i;
+  }
+  .attachment-@{i}.horizontal {
+    margin-left: -(@attachment-offset)*@i;
+    margin-top: -(@card-height)-(@attachment-offset);
     z-index: @layer-cards - @i;
   }
   .generate-attachments(@n, (@i + 1));
