@@ -54,7 +54,7 @@ class DeckSummary extends React.Component {
 
     onCardMouseOver(event) {
         var cardToDisplay = _.filter(this.props.cards, card => {
-            return event.target.innerText === card.label;
+            return event.target.innerText === card.name;
         });
 
         this.setState({ cardToShow: cardToDisplay[0] });
