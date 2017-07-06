@@ -22,11 +22,14 @@ class ChatCommands {
             '/reset-challenges-count': this.resetChallengeCount,
             '/cancel-prompt': this.cancelPrompt,
             '/token': this.setToken,
+            '/add-fate': this.addFate,
+            '/rem-fate': this.remFate,
             '/bestow': this.bestow,
             '/disconnectme': this.disconnectMe
         };
         this.tokens = [
-            'honor',
+            'honored',
+            'dishonored',
             'fate',
             'ready'
         ];
@@ -292,6 +295,40 @@ class ChatCommands {
 
                 card.addToken(token, num - numTokens);
                 this.game.addMessage('{0} uses the /token command to set the {1} token count of {2} to {3}', p, token, card, num - numTokens);
+
+                return true;
+            }
+        });
+    }
+
+    addFate(player, args) {
+        var num = this.getNumberOrDefault(args[1], 1);
+
+        this.game.promptForSelect(player, {
+            activePromptTitle: 'Select a card',
+            waitingPromptTitle: 'Waiting for opponent to set fate',
+            cardCondition: card => (card.location === 'play area') && card.controller === player,
+            onSelect: (p, card) => {
+
+                card.modifyFate(num);
+                this.game.addMessage('{0} uses the /fate command to set the fate count of {1} to {2}', p, card, card.getFate());
+
+                return true;
+            }
+        });
+    }
+
+    remFate(player, args) {
+        var num = this.getNumberOrDefault(args[1], 1);
+
+        this.game.promptForSelect(player, {
+            activePromptTitle: 'Select a card',
+            waitingPromptTitle: 'Waiting for opponent to set fate',
+            cardCondition: card => (card.location === 'play area') && card.controller === player,
+            onSelect: (p, card) => {
+
+                card.modifyFate(-num);
+                this.game.addMessage('{0} uses the /fate command to set the fate count of {1} to {2}', p, card, card.getFate());
 
                 return true;
             }

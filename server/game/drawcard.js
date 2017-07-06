@@ -265,6 +265,7 @@ class DrawCard extends BaseCard {
             isDynasty: this.isDynasty,
             bowed: this.bowed,
             saved: this.saved,
+            fate: this.fate,
             militaryskill: this.cardData.military,
             politicalskill: this.cardData.political,
         });

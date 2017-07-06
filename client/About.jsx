@@ -34,8 +34,8 @@ class About extends React.Component {
                     <li>/discard x - Discards x cards randomly from your hand</li>
                     <li>/draw x - Draws x cards from your deck to your hand</li>
                     <li>/give-control - Give control of a card to your opponent.  Use with caution</li>
-                    <li>/give-icon x - Give a character an x icon; where 'x' is one of 'military', 'intrigue', 'power'</li>
-                    <li>/token t x - Set the token count of a card of type 't' to 'x'. Currently used token types are: 'betrayal', 'gold', 'poison', 'vengeance'.</li>
+                    <li>/add-fate x - Add 'x' fate to a card.</li>
+                    <li>/rem-fate x - Remove 'x' fate to a card.</li>
                 </ul>
 
                 {/*<h3>Can I help?</h3>

@@ -15,16 +15,19 @@ class InnerMessages extends React.Component {
 
         this.icons = [
             'military',
-            'power',
-            'intrigue',
-            'stark',
-            'baratheon',
-            'tyrell',
-            'martell',
-            'lannister',
-            'thenightswatch',
-            'targaryen',
-            'greyjoy'
+            'political',
+            'air',
+            'earth',
+            'fire',
+            'water',
+            'void',
+            'crab',
+            'crane',
+            'dragon',
+            'lion',
+            'phoenix',
+            'scorpion',
+            'unicorn'
         ];
 
         this.formatMessageText = this.formatMessageText.bind(this);
