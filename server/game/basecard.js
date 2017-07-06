@@ -96,9 +96,7 @@ class BaseCard {
     parseTraits(traits) {
         this.traits = {};
 
-        var firstLine = traits.split('\n')[0];
-
-        _.each(firstLine.split('.'), trait => this.addTrait(trait.toLowerCase().trim()));
+        this.traits = traits;
     }
 
     registerEvents(events) {
