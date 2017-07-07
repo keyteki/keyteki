@@ -14,17 +14,12 @@ class ChatCommands {
             '/add-keyword': this.addKeyword,
             '/remove-keyword': this.removeKeyword,
             '/discard': this.discard,
-            '/give-icon': this.addIcon,
-            '/add-icon': this.addIcon,
-            '/take-icon': this.removeIcon,
-            '/remove-icon': this.removeIcon,
             '/give-control': this.giveControl,
             '/reset-challenges-count': this.resetChallengeCount,
             '/cancel-prompt': this.cancelPrompt,
             '/token': this.setToken,
             '/add-fate': this.addFate,
             '/rem-fate': this.remFate,
-            '/bestow': this.bestow,
             '/disconnectme': this.disconnectMe
         };
         this.tokens = [
@@ -209,46 +204,6 @@ class ChatCommands {
         });
     }
 
-    addIcon(player, args) {
-        var icon = args[1];
-
-        if(!this.isValidIcon(icon)) {
-            return false;
-        }
-
-        this.game.promptForSelect(player, {
-            activePromptTitle: 'Select a character',
-            waitingPromptTitle: 'Waiting for opponent to give icon',
-            cardCondition: card => card.location === 'play area' && card.controller === player && card.getType() === 'character',
-            onSelect: (p, card) => {
-                card.addIcon(icon);
-                this.game.addMessage('{0} uses the /give-icon command to give {1} a {2} icon', p, card, icon);
-
-                return true;
-            }
-        });
-    }
-
-    removeIcon(player, args) {
-        var icon = args[1];
-
-        if(!this.isValidIcon(icon)) {
-            return false;
-        }
-
-        this.game.promptForSelect(player, {
-            activePromptTitle: 'Select a character',
-            waitingPromptTitle: 'Waiting for opponent to remove icon',
-            cardCondition: card => card.location === 'play area' && card.controller === player && card.getType() === 'character',
-            onSelect: (p, card) => {
-                card.removeIcon(icon);
-                this.game.addMessage('{0} uses the /take-icon command to remove a {1} icon from {2}', p, icon, card);
-
-                return true;
-            }
-        });
-    }
-
     giveControl(player) {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a character',
@@ -329,28 +284,6 @@ class ChatCommands {
 
                 card.modifyFate(-num);
                 this.game.addMessage('{0} uses the /fate command to set the fate count of {1} to {2}', p, card, card.getFate());
-
-                return true;
-            }
-        });
-    }
-
-    bestow(player, args) {
-        var num = this.getNumberOrDefault(args[1], 1);
-
-        if(player.gold < num) {
-            return false;
-        }
-
-        this.game.promptForSelect(player, {
-            activePromptTitle: 'Select a card to bestow ' + num + ' gold',
-            waitingPromptTitle: 'Waiting for opponent to bestow',
-            cardCondition: card => card.location === 'play area' && card.controller === player,
-            onSelect: (p, card) => {
-                player.gold -= num;
-
-                card.addToken('gold', num);
-                this.game.addMessage('{0} uses the /bestow command to add {1} gold to {2}', p, num, card);
 
                 return true;
             }
