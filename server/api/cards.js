@@ -1,7 +1,7 @@
 const config = require('../config.js');
 const CardService = require('../repositories/cardService.js');
 
-var cardService = new CardService(config.dbPath);
+var cardService = new CardService({ dbPath: config.dbPath });
 
 module.exports.init = function(server) {
     server.get('/api/cards', function(req, res, next) {
