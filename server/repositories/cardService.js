@@ -1,13 +1,17 @@
 const _ = require('underscore');
 
-const db = require('monk')('mongodb://127.0.0.1:27017/throneteki');
-const cards = db.get('cards');
-const packs = db.get('packs');
+const monk = require('monk');
 const logger = require('../log.js');
 
 class CardService {
+    constructor(options) {
+        let db = monk(options.dbPath);
+        this.cards = db.get('cards');
+        this.packs = db.get('packs');
+    }
+    
     getAllCards(options) {
-        return cards.find({})
+        return this.cards.find({})
             .then(result => {
                 let cards = {};
                 
@@ -26,7 +30,7 @@ class CardService {
     }
 
     getAllPacks() {
-        return packs.find({}).catch(err => {
+        return this.packs.find({}).catch(err => {
             logger.info(err);
         });
     }
