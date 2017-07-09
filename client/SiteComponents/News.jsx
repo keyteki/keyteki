@@ -13,7 +13,7 @@ class News extends React.Component {
         let iconIndex = 0;
 
         let news = _.map(this.props.news, newsItem => {
-            let retNews = <NewsItem icon={icons[iconIndex++]} date={newsItem.datePublished} text={newsItem.text} />;
+            let retNews = <NewsItem key={ newsItem.datePublished } icon={ icons[iconIndex++] } date={ newsItem.datePublished } text={ newsItem.text } />;
             if(iconIndex === 3) {
                 iconIndex = 0;
             }
@@ -23,7 +23,7 @@ class News extends React.Component {
 
         return (
             <div>
-                {news}
+                { news }
             </div>);        
     }
 }

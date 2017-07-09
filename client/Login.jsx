@@ -4,6 +4,7 @@ import $ from 'jquery';
 import {connect} from 'react-redux';
 
 import Link from './Link.jsx';
+import AlertPanel from './SiteComponents/AlertPanel.jsx';
 
 import * as actions from './actions';
 
@@ -115,7 +116,7 @@ class InnerLogin extends React.Component {
         ];
 
         var fieldsToRender = [];
-        var errorBar = this.state.error ? <div className='alert alert-danger' role='alert'>{ this.state.error }</div> : null;
+        var errorBar = this.state.error ? <AlertPanel type='error' message={ this.state.error } /> : null;
 
         _.each(fields, (field) => {
             var className = 'form-group';

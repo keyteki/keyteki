@@ -1,5 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
 
@@ -41,21 +42,31 @@ var leftMenu = [
     { name: 'About', path: '/about' }
 ];
 
-var lobby = <Lobby />;
-var login = <Login />;
-var logout = <Logout />;
-var register = <Register />;
-var decks = <Decks />;
-var gameBoard = <GameBoard />;
-var gameLobby = <GameLobby />;
-var about = <About />;
-var forgot = <ForgotPassword />;
-var profile = <Profile />;
-
 class App extends React.Component {
+    constructor(props) {
+        super(props);
+
+        let boundActionCreators = bindActionCreators(actions, this.props.dispatch);
+
+        this.paths = {
+            '/': () => <Lobby />,
+            '/login': () => <Login />,
+            '/register': () => <Register />,
+            '/decks': () => <Decks { ...boundActionCreators } />,
+            '/decks/add': () => <AddDeck />,
+            '/decks/edit': params => <EditDeck deckId={ params.deckId }/>,
+            '/play': () => (this.props.currentGame && this.props.currentGame.started) ? <GameBoard /> : <GameLobby />,
+            '/about': () => <About />,
+            '/forgot': () => <ForgotPassword />,
+            '/reset-password': params => <ResetPassword id={ params.id } token={ params.token } />,
+            '/profile': () => <Profile />
+        };
+    }
+
     componentWillMount() {
-        this.props.fetchCards();
-        this.props.fetchPacks();
+        this.props.loadCards();
+        this.props.loadPacks();
+        this.props.loadFactions();
 
         $(document).ajaxError((event, xhr) => {
             if(xhr.status === 401) {
@@ -191,64 +202,80 @@ class App extends React.Component {
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     }
 
+    isNumeric(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+
     render() {
-        var rightMenu = this.props.loggedIn ? authedMenu : notAuthedMenu;
-        var component = {};
+        let rightMenu = this.props.loggedIn ? authedMenu : notAuthedMenu;
+        let component = {};
 
-        var path = this.props.path;
-        var pathArg = undefined;
-        var idArg = undefined;
-        var tokenArg = undefined;
-        var index = path.indexOf('/decks/edit');
+        let path = this.props.path;
+        let argIndex = path.lastIndexOf('/');
+        let arg;
 
-        if(index !== -1) {
-            path = path.substr(index, 11);
-            pathArg = this.props.path.substr(11 + 1);
+        let page = this.paths[path];
+        if(!page) {
+            if(argIndex !== -1 && argIndex !== 0) {
+                arg = path.substring(argIndex + 1);
+                path = path.substring(0, argIndex);
+            }
+
+            let page = this.paths[path];
+            if(!page) {
+                page = this.paths[this.props.path];
+                arg = undefined;
+            }
         }
+
+        let idArg;
+        let tokenArg;
+        let index;
 
         index = path.indexOf('/reset-password');
         if(index !== -1) {
-            path = path.substr(index, 15);
             idArg = this.getUrlParameter('id');
             tokenArg = this.getUrlParameter('token');
         }
 
+        let boundActionCreators = bindActionCreators(actions, this.props.dispatch);
+
         switch(path) {
             case '/':
-                component = lobby;
+                component = <Lobby />;
                 break;
             case '/login':
-                component = login;
+                component = <Login />;
                 break;
             case '/logout':
-                component = logout;
+                component = <Logout />;
                 break;
             case '/register':
-                component = register;
+                component = <Register />;
                 break;
             case '/decks':
-                component = decks;
+                component = <Decks { ...boundActionCreators } />;
                 break;
             case '/decks/add':
-                component = <AddDeck cards={this.props.cards} packs={this.props.packs} agendas={this.props.agendas} />;
+                component = <AddDeck />;
                 break;
             case '/decks/edit':
-                component = <EditDeck cards={this.props.cards} packs={this.props.packs} agendas={this.props.agendas} deckId={pathArg} />;
+                component = <EditDeck deckId={ arg }/>;
                 break;
             case '/play':
-                component = (this.props.currentGame && this.props.currentGame.started) ? gameBoard : gameLobby;
+                component = (this.props.currentGame && this.props.currentGame.started) ? <GameBoard /> : <GameLobby />;
                 break;
             case '/about':
-                component = about;
+                component = <About />;
                 break;
             case '/forgot':
-                component = forgot;
+                component = <ForgotPassword />;
                 break;
             case '/reset-password':
                 component = <ResetPassword id={ idArg } token={ tokenArg } />;
                 break;
             case '/profile':
-                component = profile;
+                component = <Profile />;
                 break;
             default:
                 component = <NotFound />;
@@ -266,21 +293,20 @@ class App extends React.Component {
 
 App.displayName = 'Application';
 App.propTypes = {
-    agendas: React.PropTypes.array,
-    cards: React.PropTypes.array,
     clearGameState: React.PropTypes.func,
     currentGame: React.PropTypes.object,
-    fetchCards: React.PropTypes.func,
-    fetchPacks: React.PropTypes.func,
+    dispatch: React.PropTypes.func,
     gameSocketConnectError: React.PropTypes.func,
     gameSocketConnected: React.PropTypes.func,
     gameSocketConnecting: React.PropTypes.func,
     gameSocketDisconnect: React.PropTypes.func,
     gameSocketReconnecting: React.PropTypes.func,
     games: React.PropTypes.array,
+    loadCards: React.PropTypes.func,
+    loadFactions: React.PropTypes.func,
+    loadPacks: React.PropTypes.func,
     loggedIn: React.PropTypes.bool,
     navigate: React.PropTypes.func,
-    packs: React.PropTypes.array,
     path: React.PropTypes.string,
     receiveBannerNotice: React.PropTypes.func,
     receiveGameState: React.PropTypes.func,
@@ -299,11 +325,8 @@ App.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        agendas: state.cards.agendas,
-        cards: state.cards.cards,
         currentGame: state.games.currentGame,
         games: state.games.games,
-        packs: state.cards.packs,
         path: state.navigation.path,
         loggedIn: state.auth.loggedIn,
         token: state.auth.token,
@@ -311,6 +334,13 @@ function mapStateToProps(state) {
     };
 }
 
-const Application = connect(mapStateToProps, actions)(App);
+function mapDispatchToProps(dispatch) {
+    let boundActions = bindActionCreators(actions, dispatch);
+    boundActions.dispatch = dispatch;
+
+    return boundActions;
+}
+
+const Application = connect(mapStateToProps, mapDispatchToProps)(App);
 
 export default Application;

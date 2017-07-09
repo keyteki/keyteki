@@ -5,6 +5,8 @@ import _ from 'underscore';
 import $ from 'jquery';
 import {connect} from 'react-redux';
 
+import AlertPanel from './SiteComponents/AlertPanel.jsx';
+
 import * as actions from './actions';
 
 class InnerForgotPassword extends React.Component {
@@ -133,9 +135,7 @@ class InnerForgotPassword extends React.Component {
         return (
             <div>
                 { errorBar }
-                <div className='alert alert-info'>
-                To start the password recovery process, please enter your username and click the submit button.
-                </div>
+                <AlertPanel type='info' message='To start the password recovery process, please enter your username and click the submit button.' />
                 <form className='form form-horizontal'>
                     { fieldsToRender }
                     <div className='form-group'>

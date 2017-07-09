@@ -3,6 +3,7 @@ import $ from 'jquery';
 import _ from 'underscore';
 import {connect} from 'react-redux';
 
+import AlertPanel from './SiteComponents/AlertPanel.jsx';
 import * as actions from './actions';
 
 export class InnerRegister extends React.Component {
@@ -159,7 +160,7 @@ export class InnerRegister extends React.Component {
             }
         ];
         var fieldsToRender = [];
-        var errorBar = this.state.error ? <div className='alert alert-danger' role='alert'>{ this.state.error }</div> : null;
+        var errorBar = this.state.error ? <AlertPanel type='error' message={ this.state.error } /> : null;
 
         _.each(fields, (field) => {
             var className = 'form-group';

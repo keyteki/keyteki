@@ -1,7 +1,8 @@
-import _ from 'underscore';
+const _ = require('underscore');
+const moment = require('moment');
 
 function getDeckCount(deck) {
-    var count = 0;
+    let count = 0;
 
     _.each(deck, function(card) {
         count += card.count;
@@ -25,7 +26,28 @@ function getStronghold(deck) {
     return stronghold;
 }
 
-export function validateDeck(deck) {
+function isCardInReleasedPack(packs, card) {
+    let pack = _.find(packs, pack => {
+        return card.card.pack_code === pack.code;
+    });
+
+    if(!pack) {
+        return false;
+    }
+
+    let releaseDate = pack.available || pack.date_release;
+
+    if(!releaseDate) {
+        return false;
+    }
+
+    releaseDate = moment(releaseDate, 'YYYY-MM-DD');
+    let now = moment();
+
+    return releaseDate <= now;
+}
+
+export function validateDeck(deck, packs) {
     var provinceCount = getDeckCount(deck.provinceCards);
     var conflictDrawCount = getDeckCount(deck.conflictDrawCards);
     var dynastyDrawCount = getDeckCount(deck.dynastyDrawCards);
@@ -41,8 +63,7 @@ export function validateDeck(deck) {
     var fireCount = 0;
     var waterCount = 0;
     var voidCount = 0;
-
-
+    var isValid = true;
 
     if(_.any(deck.stronghold, card => {
         return !card.card.faction;
@@ -58,72 +79,83 @@ export function validateDeck(deck) {
     
     if(conflictDrawCount < minDraw) {
         status = 'Invalid';
+        isValid = false;
         extendedStatus.push('Too few conflict cards');
     }
 
     if(dynastyDrawCount < minDraw) {
         status = 'Invalid';
+        isValid = false;
         extendedStatus.push('Too few dynasty cards');
     }
 
     if(conflictDrawCount > maxDraw) {
         status = 'Invalid';
+        isValid = false;
         extendedStatus.push('Too many conflict cards');
     }
 
     if(dynastyDrawCount > maxDraw) {
         status = 'Invalid';
+        isValid = false;
         extendedStatus.push('Too many dynasty cards');
     }
 
     if(provinceCount < requiredProvinces) {
         status = 'Invalid';
+        isValid = false;
         extendedStatus.push('Too few province cards');
     }  
     
     if(provinceCount > requiredProvinces) {
         extendedStatus.push('Too many provinces');
         status = 'Invalid';
+        isValid = false;
     }
 
     //Ensure one province of each element
     _.each(deck.provinceCards, card => {
-                if(card.card.element === 'air'){
-                    airCount++;
-                } else if(card.card.element === 'earth'){
-                    earthCount++;
-                } else if(card.card.element === 'fire'){
-                    fireCount++;
-                } else if(card.card.element === 'water'){
-                    waterCount++;
-                } else if(card.card.element === 'void'){
-                    voidCount++;
-                }
+        if(card.card.element === 'air') {
+            airCount++;
+        } else if(card.card.element === 'earth') {
+            earthCount++;
+        } else if(card.card.element === 'fire') {
+            fireCount++;
+        } else if(card.card.element === 'water') {
+            waterCount++;
+        } else if(card.card.element === 'void') {
+            voidCount++;
+        }
     });
 
     if(airCount > 1) {
         extendedStatus.push('Too many air provinces');
         status = 'Invalid';
+        isValid = false;
     }
 
     if(earthCount > 1) {
         extendedStatus.push('Too many earth provinces');
         status = 'Invalid';
+        isValid = false;
     }
 
     if(fireCount > 1) {
         extendedStatus.push('Too many fire provinces');
         status = 'Invalid';
+        isValid = false;
     }
 
     if(waterCount > 1) {
         extendedStatus.push('Too many water provinces');
         status = 'Invalid';
+        isValid = false;
     }
 
     if(voidCount > 1) {
         extendedStatus.push('Too many void provinces');
         status = 'Invalid';
+        isValid = false;
     }
 
     if(_.any(combined, card => {
@@ -136,19 +168,21 @@ export function validateDeck(deck) {
         return false;
     })) {
         status = 'Invalid';
+        isValid = false;
     }
 
     //Check for out of faction cards in stronghold, provinces, dynasty
     if(_.any(combined_clan, card => {
         if(!(_.contains([deck.faction.value,'neutral'],card.card.clan))) {
 
-            console.log(card.card.label + ' has clan ' + card.card.clan);
+            //console.log(card.card.label + ' has clan ' + card.card.clan);
             return true;
         }
 
         return false;
     })) {
         status = 'Invalid';
+        isValid = false;
     }
 
     //Check for out of faction cards in conflict
@@ -161,6 +195,7 @@ export function validateDeck(deck) {
         return false;
     })) {
         status = 'Invalid';
+        isValid = false;
     }
 
     if(stronghold) {
@@ -175,11 +210,27 @@ export function validateDeck(deck) {
         if(influenceTotal > stronghold.influence) {
             extendedStatus.push('Not enough influence');
             status = 'Invalid';
+            isValid = false;
         }
     } else {
         extendedStatus.push('No stronghold chosen');
         status = 'Invalid';
+        isValid = false;
     }
 
-    return { status: status, provinceCount: provinceCount, conflictDrawCount: conflictDrawCount, dynastyDrawCount: dynastyDrawCount, extendedStatus: extendedStatus };
+    if(isValid) {
+        let unreleasedCards = _.reject(combined, card => {
+            return isCardInReleasedPack(packs, card);
+        });
+
+        if(_.size(unreleasedCards) !== 0) {
+            status = 'Unreleased Cards';
+
+            _.each(unreleasedCards, card => {
+                extendedStatus.push(card.card.label + ' is not yet released');
+            });
+        }
+    }
+
+    return { status: status, provinceCount: provinceCount, conflictDrawCount: conflictDrawCount, dynastyDrawCount: dynastyDrawCount, extendedStatus: extendedStatus, isValid: isValid };
 }

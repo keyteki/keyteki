@@ -13,6 +13,9 @@ export default function(state = {}, action) {
                 context: action.menu
             });
             break;
+        case 'SET_URL':
+            history.replaceState({}, '', action.path);
+            break;
     }
 
     return state;

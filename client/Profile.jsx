@@ -3,6 +3,7 @@ import _ from 'underscore';
 import $ from 'jquery';
 import {connect} from 'react-redux';
 
+import AlertPanel from './SiteComponents/AlertPanel.jsx';
 import Input from './FormComponents/Input.jsx';
 import Checkbox from './FormComponents/Checkbox.jsx';
 
@@ -154,7 +155,7 @@ class InnerProfile extends React.Component {
 
     render() {
         if(!this.props.user) {
-            return <div className='alert alert-danger'>You must be logged in to update your profile</div>;
+            return <AlertPanel type='error' message='You must be logged in to update your profile' />;
         }
 
         let windows = _.map(this.windows, window => {
@@ -165,8 +166,8 @@ class InnerProfile extends React.Component {
         return (
             <div>
                 <h2>User profile for { this.props.user.username }</h2>
-                { this.state.errorMessage ? <div className='alert alert-danger'>{ this.state.errorMessage }</div> : null }
-                { this.state.successMessage ? <div className='alert alert-success'>{ this.state.successMessage }</div> : null }
+                { this.state.errorMessage ? <AlertPanel type='error' message={ this.state.errorMessage } /> : null }
+                { this.state.successMessage ? <AlertPanel type='success' message={ this.state.successMessage } /> : null }
                 <form className='form form-horizontal'>
                     <h3>User details</h3>
                     <Input name='email' label='Email Address' labelClass='col-sm-3' fieldClass='col-sm-4' placeholder='Enter email address'

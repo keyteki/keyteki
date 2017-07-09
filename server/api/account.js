@@ -1,7 +1,7 @@
-const logger = require('./../log.js');
-const bcrypt = require('bcryptjs');
+const logger = require('../log.js');
+const bcrypt = require('bcrypt');
 const passport = require('passport');
-const config = require('./../config.js');
+const config = require('../config.js');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const util = require('../util.js');
@@ -195,7 +195,7 @@ module.exports.init = function(server) {
             }
 
             res.send({ success: true, user: user, token: jwt.sign(user, config.secret) });
-        });        
+        });
     }
 
     server.put('/api/account/:username', (req, res) => {
@@ -226,7 +226,7 @@ module.exports.init = function(server) {
                 });
             } else {
                 updateUser(res, existingUser);
-            }             
+            }
         });
     });
 };
