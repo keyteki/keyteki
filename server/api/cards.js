@@ -1,30 +1,27 @@
 const config = require('../config.js');
-const logger = require('../log.js');
-const CardRepository = require('../repositories/cardRepository.js');
+const CardService = require('../repositories/cardService.js');
 
-var cardRepository = new CardRepository(config.dbPath);
+var cardService = new CardService(config.dbPath);
 
 module.exports.init = function(server) {
     server.get('/api/cards', function(req, res, next) {
-        cardRepository.getCards({ shortForm: true }, (err, cards) => {
-            if(err) {
-                logger.info(err);
+        cardService.getAllCards({ shortForm: true })
+            .then(cards => {
+                res.send({ success: true, cards: cards });
+            })
+            .catch(err => {
                 return next(err);
-            }
-
-            res.send({ success: true, cards: cards });
-        });
+            });
     });
 
     server.get('/api/packs', function(req, res, next) {
-        cardRepository.getPacks((err, data) => {
-            if(err) {
-                logger.info(err);
+        cardService.getAllPacks()
+            .then(packs => {
+                res.send({ success: true, packs: packs });
+            })
+            .catch(err => {
                 return next(err);
-            }
-
-            res.send({ success: true, packs: data });
-        });
+            });
     });
 
     server.get('/api/factions', function(req, res) {

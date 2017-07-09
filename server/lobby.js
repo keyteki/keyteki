@@ -10,7 +10,7 @@ const PendingGame = require('./pendinggame.js');
 const GameRouter = require('./gamerouter.js');
 const MessageRepository = require('./repositories/messageRepository.js');
 const DeckRepository = require('./repositories/deckRepository.js');
-const CardRepository = require('./repositories/cardRepository.js');
+const CardService = require('./repositories/cardService.js');
 const validateDeck = require('../client/deck-validator.js'); // XXX Move this to a common location
 
 class Lobby {
@@ -21,7 +21,7 @@ class Lobby {
         this.config = options.config;
         this.messageRepository = options.messageRepository || new MessageRepository(this.config.dbPath);
         this.deckRepository = options.deckRepository || new DeckRepository(this.config.dbPath);
-        this.cardRepository = options.cardRepository || new CardRepository(this.config.dbPath);
+        this.cardService = options.cardService || new CardService({ dbPath: this.config.dbPath });
         this.router = options.router || new GameRouter(this.config);
 
         this.router.on('onGameClosed', this.onGameClosed.bind(this));
@@ -444,20 +444,19 @@ class Lobby {
             return;
         }
 
-        this.deckRepository.getById(deckId, (err, deck) => {
-            if(err) {
-                return;
-            }
+        let cards = {};
+        let packs = {};
 
-            this.cardRepository.getCards({}, (err, cards) => {
-                if(err) {
-                    return;
-                }
+        this.cardService.getAllCards()
+            .then(result => {
+                cards = result;
 
-                this.cardRepository.getPacks((err, packs) => {
-                    if(err) {
-                        return;
-                    }
+                return this.cardService.getAllPacks();
+            })
+            .then(result => {
+                packs = result;
+
+                this.deckRepository.getById(deckId, (err, deck) => {
 
                     _.each(deck.plotCards, plot => {
                         plot.card = cards[plot.card.code];
@@ -478,8 +477,12 @@ class Lobby {
 
                     this.sendGameState(game);
                 });
+            })
+            .catch(err => {
+                logger.info(err);
+
+                return;
             });
-        });
     }
 
     onConnectFailed(socket) {
