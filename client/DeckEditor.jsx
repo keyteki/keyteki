@@ -88,6 +88,10 @@ class InnerDeckEditor extends React.Component {
         this.props.updateDeck(deck);
     }
 
+    onNumberToAddChange(event) {
+        this.setState({ numberToAdd: event.target.value });
+    }
+
     onFactionChange(selectedFaction) {
         let deck = this.copyDeck(this.state.deck);
 
@@ -126,6 +130,11 @@ class InnerDeckEditor extends React.Component {
 
         this.addCard(this.state.cardToAdd, parseInt(this.state.numberToAdd));
         this.setState({ cardList: cardList });
+        let deck = this.state.deck;
+
+        deck = this.copyDeck(deck);
+        
+        this.props.updateDeck(deck);
     }
 
     onCardListChange(event) {
@@ -270,7 +279,7 @@ class InnerDeckEditor extends React.Component {
                     <Typeahead label='Card' labelClass={'col-sm-3'} fieldClass='col-sm-4' labelKey={'label'} options={ _.toArray(this.props.cards) }
                         onChange={this.addCardChange.bind(this) }>
                         <Input name='numcards' type='text' label='Num' labelClass='col-sm-1' fieldClass='col-sm-2'
-                            value={ this.state.numberToAdd.toString() } onChange={ this.onChange.bind(this, 'numberToAdd') }>
+                            value={ this.state.numberToAdd.toString() } onChange={ this.onNumberToAddChange.bind(this) }>
                             <div className='col-sm-1'>
                                 <button className='btn btn-default' onClick={ this.onAddCard.bind(this) }>Add</button>
                             </div>
