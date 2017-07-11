@@ -193,6 +193,11 @@ export default function(state = {}, action) {
             newState.selectedDeck = _.first(newState.decks);
 
             return newState;
+        case 'CLEAR_DECK_STATUS':
+            return Object.assign({}, state, {
+                deckDeleted: false,
+                deckSaved: false
+            });
         default:
             return state;
     }

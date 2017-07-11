@@ -85,8 +85,11 @@ class InnerDecks extends React.Component {
         let successPanel = null;
         
         if(this.props.deckDeleted) {
+            setTimeout(() => {
+                this.props.clearDeckStatus();
+            }, 5000);
             successPanel = (
-                <AlertPanel message='Deck deleted successfully' type={ 'success' } timeout={ 5 } />
+                <AlertPanel message='Deck deleted successfully' type={ 'success' } />
             );
         }    
 
@@ -114,6 +117,7 @@ InnerDecks.displayName = 'Decks';
 InnerDecks.propTypes = {
     apiError: React.PropTypes.string,
     cards: React.PropTypes.object,
+    clearDeckStatus: React.PropTypes.func,
     deckDeleted: React.PropTypes.bool,
     decks: React.PropTypes.array,
     deleteDeck: React.PropTypes.func,

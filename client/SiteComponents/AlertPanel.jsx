@@ -1,13 +1,6 @@
 import React from 'react';
-import $ from 'jquery';
 
 class AlertPanel extends React.Component {
-    componentDidMount() {
-        if(this.props.timeout) {
-            setTimeout(() => $(this.refs.alertPanel).alert('close'), this.props.timeout * 1000);
-        }
-    }
-
     render() {
         var icon = 'glyphicon';
         var alertClass = 'alert fade in';
@@ -44,7 +37,6 @@ AlertPanel.displayName = 'AlertPanel';
 AlertPanel.propTypes = {
     children: React.PropTypes.any,
     message: React.PropTypes.string,
-    timeout: React.PropTypes.number,
     title: React.PropTypes.string,
     type: React.PropTypes.oneOf(['warning', 'info', 'success', 'error'])
 };

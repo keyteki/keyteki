@@ -79,6 +79,12 @@ export function saveDeck(deck) {
     };
 }
 
+export function clearDeckStatus() {
+    return {
+        type: 'CLEAR_DECK_STATUS'
+    };
+}
+
 function formatCards(cards) {
     return _.map(cards, card => {
         return { card: { code: card.card.code }, count: card.count };
