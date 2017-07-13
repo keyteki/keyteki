@@ -50,6 +50,29 @@ class Game extends EventEmitter {
         this.abilityWindowStack = [];
         this.password = details.password;
 
+        this.rings = {
+            Air: {
+                type: "Military",
+                fate: 0
+            },
+            Earth: {
+                type: "Political",
+                fate: 0
+            },
+            Fire: {
+                type: "Military",
+                fate: 0
+            },
+            Water: {
+                type: "Political",
+                fate: 0
+            },
+            Void: {
+                type: "Military",
+                fate: 0
+            }
+        };
+
         _.each(details.players, player => {
             this.playersAndSpectators[player.user.username] = new Player(player.id, player.user, this.owner === player.user.username, this);
         });
@@ -651,6 +674,17 @@ class Game extends EventEmitter {
         this.killCharacters([card], allowSave);
     }
 
+    flipRing(ring) {
+        console.log(ring)
+        var currentConflict = this.rings[ring].type;
+
+        if(currentConflict === 'Military') {
+            this.rings[ring].type = 'Political';
+        } else {
+            this.rings[ring].type = 'Military';
+        }
+    }
+
     takeControl(player, card) {
         var oldController = card.controller;
         var newController = player;
@@ -837,6 +871,7 @@ class Game extends EventEmitter {
                 name: this.name,
                 owner: this.owner,
                 players: playerState,
+                rings: this.rings,
                 messages: this.gameChat.messages,
                 spectators: _.map(this.getSpectators(), spectator => {
                     return {
@@ -890,6 +925,7 @@ class Game extends EventEmitter {
             name: this.name,
             owner: this.owner,
             players: playerSummaries,
+            rings: this.rings,
             started: this.started,
             startedAt: this.startedAt,
             spectators: _.map(this.getSpectators(), spectator => {
