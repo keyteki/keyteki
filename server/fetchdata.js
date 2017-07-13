@@ -6,7 +6,7 @@ const fs = require('fs');
 const mkdirp = require('mkdirp');
 const path = require('path');
 
-var apiUrl = 'https://fiveringsdb.com/api/v1/';
+var apiUrl = 'https://fiveringsdb.com/';
 
 function fetchImage(urlPath, code, imagePath, timeout) {
     setTimeout(function() {
