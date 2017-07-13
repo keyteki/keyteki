@@ -1,6 +1,6 @@
 const UiPrompt = require('../uiprompt.js');
 
-class DynastyCardsPrompt extends UiPrompt {
+class DynastyActionPrompt extends UiPrompt {
     constructor(game, player) {
         super(game);
         this.player = player;
@@ -33,4 +33,4 @@ class DynastyCardsPrompt extends UiPrompt {
     }
 }
 
-module.exports = DynastyCardsPrompt;
+module.exports = DynastyActionPrompt;
