@@ -143,14 +143,15 @@ class Server {
                     return done(null, false, { message: 'Invalid username/password' });
                 }
 
-                return done(null, { 
-                    username: user.username, 
-                    email: user.email, 
-                    emailHash: user.emailHash, 
-                    _id: user._id, 
+                return done(null, {
+                    username: user.username,
+                    email: user.email,
+                    emailHash: user.emailHash,
+                    _id: user._id,
                     admin: user.admin,
                     settings: user.settings || {},
-                    promptedActionWindows: user.promptedActionWindows 
+                    promptedActionWindows: user.promptedActionWindows,
+                    permissions: user.permissions || {}
                 });
             });
         });
@@ -168,14 +169,15 @@ class Server {
                 return done(err);
             }
 
-            done(null, { 
+            done(null, {
                 username: user.username,
-                email: user.email, 
-                emailHash: user.emailHash, 
-                _id: user._id, 
-                admin: user.admin, 
+                email: user.email,
+                emailHash: user.emailHash,
+                _id: user._id,
+                admin: user.admin,
                 settings: user.settings || {},
-                promptedActionWindows: user.promptedActionWindows 
+                promptedActionWindows: user.promptedActionWindows,
+                permissions: user.permissions || {}
             });
         });
     }

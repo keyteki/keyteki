@@ -1,12 +1,13 @@
 import React from 'react';
+import moment from 'moment';
 
 class NewsItem extends React.Component {
     render() {
         return (
             <div>
-                <span className={'icon-' + this.props.icon} />
-                &nbsp;{this.props.date + ' - ' + this.props.text}
-            </div>);        
+                <span className={ 'icon-' + this.props.icon } />
+                &nbsp;{ moment(this.props.date).format('YYYY-MM-DD') + ' - ' + this.props.text }
+            </div>);
     }
 }
 

@@ -25,32 +25,50 @@ class InnerNavBar extends React.Component {
         });
     }
 
-    render() {
-        var leftMenuToRender = [];
-        var rightMenuToRender = [];
+    renderMenuItem(menuItem) {
 
-        _.each(this.props.leftMenu, item => {
-            var active = item.path === this.props.currentPath ? 'active' : '';
+        if(menuItem.childItems) {
+            let className = 'dropdown';
 
-            leftMenuToRender.push(<li key={item.name} className={active}><Link href={item.path}>{item.name}</Link></li>);
-        });
+            if(_.any(menuItem.childItems, item => {
+                return item.path === this.props.currentPath;
+            })) {
+                className += ' active';
+            }
 
-        _.each(this.props.rightMenu, item => {
-            var active = item.path === this.props.currentPath ? 'active' : '';
+            let childItems = _.map(menuItem.childItems, item => {
+                return <li key={ item.name }><Link href={ item.path }>{ item.name }</Link></li>;
+            });
 
-            rightMenuToRender.push(<li key={item.name} className={active}><Link href={item.path}>{item.name}</Link></li>);
-        });
-
-        var numGames = !_.isUndefined(this.props.numGames) ? <li><span>{this.props.numGames + ' Games'}</span></li> : null;
-
-        var contextMenu = _.map(this.props.context, menuItem => {
             return (
-                <li key={menuItem.text}><a href='javascript:void(0)' onMouseOver={this.onMenuItemMouseOver.bind(this, menuItem)}
-                                           onMouseOut={this.onMenuItemMouseOut.bind(this)}
-                                           onClick={menuItem.onClick ? event => {
+                <li key={ menuItem.name } className={ className }>
+                    <a href='#' className='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>{ menuItem.name }<span className='caret' /></a>
+                    <ul className='dropdown-menu'>
+                        { childItems }
+                    </ul>
+                </li>);
+
+        }
+
+        let active = menuItem.path === this.props.currentPath ? 'active' : '';
+
+        return <li key={ menuItem.name } className={ active }><Link href={ menuItem.path }>{ menuItem.name }</Link></li>;
+    }
+
+    render() {
+        let leftMenuToRender = _.map(this.props.leftMenu, this.renderMenuItem.bind(this));
+        let rightMenuToRender = _.map(this.props.rightMenu, this.renderMenuItem.bind(this));
+
+        let numGames = !_.isUndefined(this.props.numGames) ? <li><span>{ this.props.numGames + ' Games' }</span></li> : null;
+
+        let contextMenu = _.map(this.props.context, menuItem => {
+            return (
+                <li key={menuItem.text}><a href='javascript:void(0)' onMouseOver={ this.onMenuItemMouseOver.bind(this, menuItem) }
+                                           onMouseOut={ this.onMenuItemMouseOut.bind(this) }
+                                           onClick={ menuItem.onClick ? event => {
                                                event.preventDefault();
                                                menuItem.onClick();
-                                           } : null}>{menuItem.text}</a>{(this.state.showPopup === menuItem) ? this.state.showPopup.popup : null}</li>
+                                           } : null }>{ menuItem.text }</a>{ (this.state.showPopup === menuItem) ? this.state.showPopup.popup : null }</li>
             );
         });
 
@@ -68,12 +86,12 @@ class InnerNavBar extends React.Component {
                     </div>
                     <div id='navbar' className='collapse navbar-collapse'>
                         <ul className='nav navbar-nav'>
-                            {leftMenuToRender}
+                            { leftMenuToRender }
                         </ul>
                         <ul className='nav navbar-nav navbar-right'>
-                            {contextMenu}
-                            {numGames}
-                            {rightMenuToRender}
+                            { contextMenu }
+                            { numGames }
+                            { rightMenuToRender }
                         </ul>
                     </div>
                 </div>

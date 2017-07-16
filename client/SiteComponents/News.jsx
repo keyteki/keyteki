@@ -24,7 +24,7 @@ class News extends React.Component {
         return (
             <div>
                 { news }
-            </div>);        
+            </div>);
     }
 }
 

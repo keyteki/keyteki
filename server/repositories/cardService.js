@@ -6,6 +6,7 @@ const logger = require('../log.js');
 class CardService {
     constructor(options) {
         let db = monk(options.dbPath);
+
         this.cards = db.get('cards');
         this.packs = db.get('packs');
     }

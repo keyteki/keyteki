@@ -25,7 +25,7 @@ class InnerLobby extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchNews();
+        this.props.loadNews({ limit: 3 });
     }
 
     componentDidUpdate() {
@@ -103,8 +103,8 @@ class InnerLobby extends React.Component {
             <div>
                 { this.props.bannerNotice ? <AlertPanel message={ this.props.bannerNotice } type='error' /> : null }
                 <AlertPanel type='info' message='Latest Site News'>
-                    {this.props.newsLoading ? <div>News loading...</div> : null}
-                    <News news={this.props.news} />
+                    { this.props.loading ? <div>News loading...</div> : null }
+                    <News news={ this.props.news } />
                 </AlertPanel>
                 <div className='row'>
                     <span className='col-sm-9 text-center'><h1>Play Legend of the Five Rings</h1></span>
@@ -139,9 +139,10 @@ InnerLobby.displayName = 'Lobby';
 InnerLobby.propTypes = {
     bannerNotice: React.PropTypes.string,
     fetchNews: React.PropTypes.func,
+    loadNews: React.PropTypes.func,
+    loading: React.PropTypes.bool,
     messages: React.PropTypes.array,
     news: React.PropTypes.array,
-    newsLoading: React.PropTypes.bool,
     socket: React.PropTypes.object,
     users: React.PropTypes.array
 };
@@ -149,6 +150,7 @@ InnerLobby.propTypes = {
 function mapStateToProps(state) {
     return {
         bannerNotice: state.chat.notice,
+        loading: state.api.loading,
         messages: state.chat.messages,
         news: state.news.news,
         newsLoading: state.news.newsLoading,
