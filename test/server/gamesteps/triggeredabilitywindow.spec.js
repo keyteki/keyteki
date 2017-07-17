@@ -54,11 +54,38 @@ describe('TriggeredAbilityWindow', function() {
 
     describe('registerAbility()', function() {
         beforeEach(function() {
-            this.abilityCard = { card: 1, name: 'The Card', controller: this.player1Spy };
-            this.abilitySpy = jasmine.createSpyObj('ability', ['getChoices']);
+            this.context = { context: 1, player: this.player1Spy };
+            this.abilityCard = { card: 1, name: 'The Card' };
+            this.abilitySpy = jasmine.createSpyObj('ability', ['createContext', 'getChoices', 'hasMax']);
+            this.abilitySpy.createContext.and.returnValue(this.context);
             this.abilitySpy.getChoices.and.returnValue([{ text: 'Choice 1', choice: 'choice1' }, { text: 'Choice 2', choice: 'choice2' }]);
             this.abilitySpy.card = this.abilityCard;
-            this.context = { context: 1 };
+        });
+
+        describe('when a normal ability is registered', function() {
+            beforeEach(function() {
+                this.window.registerAbility(this.abilitySpy, this.context);
+            });
+
+            it('should add each choice for the ability', function() {
+                expect(this.window.abilityChoices.length).toBe(2);
+                expect(this.window.abilityChoices).toContain(jasmine.objectContaining({
+                    ability: this.abilitySpy,
+                    card: this.abilityCard,
+                    choice: 'choice1',
+                    context: this.context,
+                    player: this.player1Spy,
+                    text: 'Choice 1'
+                }));
+                expect(this.window.abilityChoices).toContain(jasmine.objectContaining({
+                    ability: this.abilitySpy,
+                    card: this.abilityCard,
+                    choice: 'choice2',
+                    context: this.context,
+                    player: this.player1Spy,
+                    text: 'Choice 2'
+                }));
+            });
 
             this.window.registerAbility(this.abilitySpy, this.context);
         });

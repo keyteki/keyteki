@@ -1,18 +1,12 @@
 const _ = require('underscore');
 const uuid = require('uuid');
 
-const BaseStep = require('./basestep.js');
+const BaseAbilityWindow = require('./baseabilitywindow.js');
 const TriggeredAbilityWindowTitles = require('./triggeredabilitywindowtitles.js');
 
-class ForcedTriggeredAbilityWindow extends BaseStep {
-    constructor(game, properties) {
-        super(game);
-        this.abilityChoices = [];
-        this.event = properties.event;
-        this.abilityType = properties.abilityType;
-    }
-
-    registerAbility(ability, context) {
+class ForcedTriggeredAbilityWindow extends BaseAbilityWindow {
+    registerAbility(ability, event) {
+        let context = ability.createContext(event);
         let player = ability.card.controller;
         this.abilityChoices.push({
             id: uuid.v1(),
@@ -49,7 +43,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
         this.game.promptWithMenu(this.game.getFirstPlayer(), this, {
             activePrompt: {
-                menuTitle: TriggeredAbilityWindowTitles.getTitle(this.abilityType, this.event),
+                menuTitle: TriggeredAbilityWindowTitles.getTitle(this.abilityType, this.events[0]),
                 buttons: buttons
             },
             waitingPromptTitle: 'Waiting for opponents to resolve forced abilities'

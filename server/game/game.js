@@ -20,6 +20,7 @@ const DeckSearchPrompt = require('./gamesteps/decksearchprompt.js');
 const MenuPrompt = require('./gamesteps/menuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 const EventWindow = require('./gamesteps/eventwindow.js');
+const AtomicEventWindow = require('./gamesteps/atomiceventwindow.js');
 const SimultaneousEventWindow = require('./gamesteps/simultaneouseventwindow.js');
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const ForcedTriggeredAbilityWindow = require('./gamesteps/forcedtriggeredabilitywindow.js');
@@ -621,22 +622,24 @@ class Game extends EventEmitter {
         let windowClass = ['forcedreaction', 'forcedinterrupt', 'whenrevealed'].includes(properties.abilityType) ? ForcedTriggeredAbilityWindow : TriggeredAbilityWindow;
         let window = new windowClass(this, { abilityType: properties.abilityType, event: properties.event });
         this.abilityWindowStack.push(window);
-        this.emit(properties.event.name + ':' + properties.abilityType, ...properties.event.params);
+        window.emitEvents();
         this.queueStep(window);
         this.queueSimpleStep(() => this.abilityWindowStack.pop());
     }
 
-    registerAbility(ability) {
-        let windowIndex = _.findLastIndex(this.abilityWindowStack, window => ability.isTriggeredByEvent(window.event));
+    registerAbility(ability, event) {
+        let windowIndex = _.findLastIndex(this.abilityWindowStack, window => window.canTriggerAbility(ability));
 
         if(windowIndex === -1) {
             return;
         }
 
         let window = this.abilityWindowStack[windowIndex];
-        let context = ability.createContext(window.event);
-
-        window.registerAbility(ability, context);
+        if(event) {
+            window.registerAbility(ability, event);
+        } else {
+            window.registerAbilityForEachEvent(ability);
+        }
     }
 
     raiseEvent(eventName, params, handler) {
@@ -647,6 +650,19 @@ class Game extends EventEmitter {
         this.queueStep(new EventWindow(this, eventName, params || {}, handler, true));
     }
 
+    /**
+     * Raises multiple events whose resolution is performed atomically. Any
+     * abilities triggered by these events will appear within the same prompt
+     * for the player.
+     */
+    raiseAtomicEvent(events, handler = () => true) {
+        this.queueStep(new AtomicEventWindow(this, events, handler));
+    }
+
+    /**
+     * Raises the same event across multiple cards as well as a wrapping plural
+     * version of the event that lists all cards.
+     */
     raiseSimultaneousEvent(cards, properties) {
         this.queueStep(new SimultaneousEventWindow(this, cards, properties));
     }

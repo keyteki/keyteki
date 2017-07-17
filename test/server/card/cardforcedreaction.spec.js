@@ -57,7 +57,7 @@ describe('CardForcedReaction', function () {
             });
 
             it('should register the ability', function() {
-                expect(this.gameSpy.registerAbility).toHaveBeenCalledWith(this.reaction);
+                expect(this.gameSpy.registerAbility).toHaveBeenCalledWith(this.reaction, this.event);
             });
         });
     });
