@@ -6,3 +6,4 @@ export * from './ReduxActions/misc';
 export * from './ReduxActions/news';
 export * from './ReduxActions/socket';
 export * from './ReduxActions/deck';
+export * from './ReduxActions/admin';
