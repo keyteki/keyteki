@@ -174,6 +174,7 @@ export class InnerGameBoard extends React.Component {
             toastr.confirm('Your game is not finished, are you sure you want to leave?', {
                 onOk: () => {
                     this.props.sendGameMessage('leavegame');
+                    this.props.closeGameSocket();
                 }
             });
 
@@ -181,6 +182,7 @@ export class InnerGameBoard extends React.Component {
         }
 
         this.props.sendGameMessage('leavegame');
+        this.props.closeGameSocket();
     }
 
     onMouseOver(card) {
@@ -554,6 +556,7 @@ InnerGameBoard.displayName = 'GameBoard';
 InnerGameBoard.propTypes = {
     cardToZoom: React.PropTypes.object,
     clearZoom: React.PropTypes.func,
+    closeGameSocket: React.PropTypes.func,
     currentGame: React.PropTypes.object,
     sendGameMessage: React.PropTypes.func,
     setContextMenu: React.PropTypes.func,

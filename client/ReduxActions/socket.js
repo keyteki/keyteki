@@ -94,3 +94,15 @@ export function gameSocketClose() {
         return dispatch(gameSocketClosed());
     };
 }
+
+export function closeGameSocket() {
+    return (dispatch, getState) => {
+        var state = getState();
+
+        if(state.socket.gameSocket) {
+            state.socket.gameSocket.close();
+        }
+
+        return dispatch(gameSocketClosed());
+    };
+}

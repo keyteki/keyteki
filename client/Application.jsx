@@ -143,7 +143,7 @@ class App extends React.Component {
             });
 
             gameSocket.on('disconnect', () => {
-                toastr.error('Connection lost', 'You have been disconnected from the game server, attempting reconnect..');
+                toastr.error('Connection lost', 'You have been disconnected from the game server');
 
                 this.props.gameSocketDisconnect();
             });
