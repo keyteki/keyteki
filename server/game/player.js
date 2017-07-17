@@ -902,6 +902,13 @@ class Player extends Spectator {
         this.deck.selected = true;
 
         this.stronghold.cardData = deck.stronghold[0];
+        /* Do more with this later
+        this.faction.cardData = deck.faction;
+        this.faction.cardData.name = deck.faction.name;
+        this.faction.cardData.code = deck.faction.value;
+        this.faction.cardData.type_code = 'faction';
+        this.faction.cardData.strength = 0;
+        */
     }
 
     moveCard(card, targetLocation, options = {}) {

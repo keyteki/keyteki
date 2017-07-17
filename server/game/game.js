@@ -842,7 +842,7 @@ class Game extends EventEmitter {
         var players = _.map(this.getPlayers(), player => {
             return {
                 name: player.name,
-                faction: player.faction.name,
+                faction: player.faction.name || player.faction.value,
                 agenda: player.agenda ? player.agenda.name : undefined,
                 power: player.getTotalHonor()
             };

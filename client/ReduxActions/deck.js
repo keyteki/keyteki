@@ -59,8 +59,7 @@ export function deleteDeck(deck) {
 export function saveDeck(deck) {
     let str = JSON.stringify({
         deckName: deck.name,
-        faction: { value: deck.faction.value },
-        agenda: { code: deck.agenda.code },
+        faction: { name: deck.faction.name, value: deck.faction.value },
         plotCards: formatCards(deck.plotCards),
         drawCards: formatCards(deck.drawCards),
         bannerCards: _.map(deck.bannerCards, card => {
