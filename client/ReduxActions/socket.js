@@ -26,7 +26,9 @@ export function sendGameMessage(message, ...args) {
     return (dispatch, getState) => {
         var state = getState();
 
-        state.socket.gameSocket.emit('game', message, ...args);
+        if(state.socket.gameSocket) {
+            state.socket.gameSocket.emit('game', message, ...args);
+        }
 
         return dispatch(socketMessageSent(message));
     };
