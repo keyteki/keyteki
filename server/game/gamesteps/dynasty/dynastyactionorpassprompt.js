@@ -31,9 +31,11 @@ class DynastyActionOrPassPrompt extends UiPrompt {
 
         if(choice === 'action') {
             this.game.addMessage('{0} is taking an action.', player);
+            this.player.dynastyStep = 'action';
         } else if(choice === 'pass') {
             this.game.addMessage('{0} has chosen to pass.', player);
-            //Update player, set pass = true
+            this.player.dynastyStep = 'pass';
+            this.player.passDynasty();
         }
 
         this.complete();

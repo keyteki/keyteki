@@ -1,3 +1,5 @@
+const _ = require('underscore');
+
 const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
 const DynastyActionPrompt = require('./dynasty/dynastyactionprompt.js');
@@ -8,20 +10,54 @@ class DynastyPhase extends Phase {
         super(game, 'dynasty');
         this.initialise([
             new SimpleStep(game, () => this.beginDynasty()),
-            new SimpleStep(game, () => this.promptForDynastyActionOrPass())
+            new SimpleStep(game, () => this.cyclePlayers()),
+            new SimpleStep(game, () => this.dynastyActionOrPassStep())
+            //new SimpleStep(game, () => this.dynastyEvaluatePrompt())
         ]);
     }
 
     beginDynasty() {
-        this.remainingPlayers = this.game.getPlayersInFirstPlayerOrder();
+        this.allPlayers = this.game.getPlayersInFirstPlayerOrder();
+        this.remainingPlayers = this.allPlayers;
+
+        _.each(this.allPlayers, player => {
+            player.beginDynasty();
+            this.game.raiseEvent('onBeginDynasty', player);
+        });
+
     }
 
-    promptForDynastyActionOrPass() {
-        var currentPlayer = this.remainingPlayers.shift();
-        this.game.raiseEvent('onBeginDynasty', currentPlayer);
-        currentPlayer.beginDynasty();
-        this.game.queueStep(new DynastyActionOrPassPrompt(this.game, currentPlayer));
-        return this.remainingPlayers.length === 0;
+    cyclePlayers () {
+
+        if (typeof this.currentPlayer == 'undefined') {
+            //Get First Player
+            this.currentPlayer = this.remainingPlayers.shift();
+        }
+
+
+    }
+
+    dynastyActionOrPassStep() {
+
+        if (this.currentPlayer.passedDynasty != true ) {
+
+            if (this.currentPlayer.passedDynasty == false) {
+                this.game.queueStep(new DynastyActionOrPassPrompt(this.game, this.currentPlayer));
+            }
+
+        this.queueStep(this.dynastyEvaluatePrompt());
+        }
+
+    }
+
+    dynastyEvaluatePrompt() {
+
+        if (this.currentPlayer.dynastyStep == 'action'){
+            this.game.queueStep(new DynastyActionPrompt(this.game, this.currentPlayer));
+        } else {
+            console.log("Passed action");
+        }
+
     }
 }
 

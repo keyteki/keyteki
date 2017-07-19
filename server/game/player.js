@@ -37,6 +37,8 @@ class Player extends Spectator {
 
         this.owner = owner;
         this.takenMulligan = false;
+        this.dynastyStep;
+        this.passedDynasty = false;
         this.game = game;
 
         this.deck = {};
@@ -1061,6 +1063,10 @@ class Player extends Spectator {
 
     cancelPrompt() {
         this.promptState.cancelPrompt();
+    }
+
+    passDynasty() {
+        this.passedDynasty = true;
     }
 
     getState(activePlayer) {
