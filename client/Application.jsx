@@ -143,7 +143,9 @@ class App extends React.Component {
             });
 
             gameSocket.on('disconnect', () => {
-                toastr.error('Connection lost', 'You have been disconnected from the game server');
+                if(!gameSocket.gameClosing) {
+                    toastr.error('Connection lost', 'You have been disconnected from the game server');
+                }
 
                 this.props.gameSocketDisconnect();
             });
@@ -184,6 +186,9 @@ class App extends React.Component {
 
     componentDidUpdate() {
         this.props.receiveLobbyMessage({});
+        if(!this.props.currentGame) {
+            this.props.setContextMenu([]);
+        }
     }
 
     getUrlParameter(name) {
@@ -341,6 +346,7 @@ App.displayName = 'Application';
 App.propTypes = {
     clearGameState: React.PropTypes.func,
     currentGame: React.PropTypes.object,
+    disconnecting: React.PropTypes.bool,
     dispatch: React.PropTypes.func,
     gameSocketConnectError: React.PropTypes.func,
     gameSocketConnected: React.PropTypes.func,
@@ -364,6 +370,7 @@ App.propTypes = {
     receivePasswordError: React.PropTypes.func,
     receiveUsers: React.PropTypes.func,
     sendGameSocketConnectFailed: React.PropTypes.func,
+    setContextMenu: React.PropTypes.func,
     socketConnected: React.PropTypes.func,
     token: React.PropTypes.string,
     user: React.PropTypes.object,
@@ -373,6 +380,7 @@ App.propTypes = {
 function mapStateToProps(state) {
     return {
         currentGame: state.games.currentGame,
+        disconnecting: state.socket.gameDisconnecting,
         games: state.games.games,
         path: state.navigation.path,
         loggedIn: state.auth.loggedIn,

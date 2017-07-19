@@ -102,6 +102,7 @@ export function closeGameSocket() {
         var state = getState();
 
         if(state.socket.gameSocket) {
+            state.socket.gameSocket.gameClosing = true;
             state.socket.gameSocket.close();
         }
 
