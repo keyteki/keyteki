@@ -17,9 +17,9 @@ class InnerGameList extends React.Component {
         event.preventDefault();
 
         if(!this.props.username) {
-	    toastr.error('Please login before trying to join a game');
-	    return;
-	}
+            toastr.error('Please login before trying to join a game');
+            return;
+        }
 
         if(game.needsPassword) {
             this.props.joinPasswordGame(game, 'Join');
@@ -36,9 +36,9 @@ class InnerGameList extends React.Component {
         event.preventDefault();
 
         if(!this.props.username) {
-	    toastr.error('Please login before trying to watch a game');
-	    return;
-	}
+            toastr.error('Please login before trying to watch a game');
+            return;
+        }
 
         if(game.needsPassword) {
             this.props.joinPasswordGame(game, 'Watch');
@@ -133,7 +133,8 @@ InnerGameList.propTypes = {
     isAdmin: React.PropTypes.bool,
     joinPasswordGame: React.PropTypes.func,
     showNodes: React.PropTypes.bool,
-    socket: React.PropTypes.object
+    socket: React.PropTypes.object,
+    username: React.PropTypes.string
 };
 
 function mapStateToProps(state) {
