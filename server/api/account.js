@@ -85,7 +85,16 @@ module.exports.init = function(server) {
             return Promise.reject('No username');
         }
 
-        userService.getUserByUsername(req.body.username)
+        userService.getUserByEmail(req.body.email)
+            .then(user => {
+                if(user) {
+                    res.send({ success: false, message: 'An account with that email already exists, please use another' });
+
+                    return Promise.reject('Account email exists');
+                }
+
+                return userService.getUserByUsername(req.body.username);
+            })
             .then(user => {
                 if(user) {
                     res.send({ success: false, message: 'An account with that name already exists, please choose another' });

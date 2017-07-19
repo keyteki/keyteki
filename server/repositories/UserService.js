@@ -21,6 +21,18 @@ class UserService {
             });
     }
 
+    getUserByEmail(email) {
+        return this.users.find({ email: {'$regex': new RegExp('^' + escapeRegex(email.toLowerCase()) + '$', 'i') }})
+            .then(users => {
+                return users[0];
+            })
+            .catch(err => {
+                logger.error('Error fetching users', err);
+
+                throw new Error('Error occured fetching users');
+            });
+    }
+
     getUserById(id) {
         return this.users.find({ _id: id })
             .then(users => {
