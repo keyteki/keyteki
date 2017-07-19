@@ -67,6 +67,24 @@ function sendEmail(address, email) {
 
 module.exports.init = function(server) {
     server.post('/api/account/register', function(req, res) {
+        if(!req.body.password) {
+            res.send({ success: false, message: 'No password specified' });
+
+            return Promise.reject('No password');
+        }
+
+        if(!req.body.email) {
+            res.send({ success: false, message: 'No email specified' });
+
+            return Promise.reject('No email');
+        }
+
+        if(!req.body.username) {
+            res.send({ success: false, message: 'No username specified' });
+
+            return Promise.reject('No username');
+        }
+
         userService.getUserByUsername(req.body.username)
             .then(user => {
                 if(user) {
@@ -83,6 +101,7 @@ module.exports.init = function(server) {
                     password: passwordHash,
                     registered: new Date(),
                     username: req.body.username,
+                    email: req.body.email,
                     emailHash: crypto.createHash('md5').update(req.body.email).digest('hex')
                 };
 
