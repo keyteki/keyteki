@@ -32,7 +32,9 @@ describe('DrawCard', function() {
                 expect(this.attachment.canAttach(this.player, this.targetCard)).toBe(false);
             });
         });
+    });
 
+    describe('allowAttachment()', function() {
         describe('when the target card does not allow attachments', function() {
             beforeEach(function() {
                 this.targetCard = new DrawCard(this.owner, { text: 'No attachments.' });
@@ -40,7 +42,7 @@ describe('DrawCard', function() {
             });
 
             it('should return false', function() {
-                expect(this.attachment.canAttach(this.player, this.targetCard)).toBe(false);
+                expect(this.targetCard.allowAttachment(this.attachment)).toBe(false);
             });
 
             describe('but the target card is blank', function() {
@@ -49,7 +51,7 @@ describe('DrawCard', function() {
                 });
 
                 it('should return true', function() {
-                    expect(this.attachment.canAttach(this.player, this.targetCard)).toBe(true);
+                    expect(this.targetCard.allowAttachment(this.attachment)).toBe(true);
                 });
             });
         });
@@ -70,7 +72,7 @@ describe('DrawCard', function() {
                     });
 
                     it('should return true', function() {
-                        expect(this.attachment.canAttach(this.player, this.targetCard)).toBe(true);
+                        expect(this.targetCard.allowAttachment(this.attachment)).toBe(true);
                     });
                 });
             });
@@ -81,7 +83,7 @@ describe('DrawCard', function() {
                 });
 
                 it('should return true', function() {
-                    expect(this.attachment.canAttach(this.player, this.targetCard)).toBe(true);
+                    expect(this.targetCard.allowAttachment(this.attachment)).toBe(true);
                 });
             });
 
@@ -91,7 +93,7 @@ describe('DrawCard', function() {
                 });
 
                 it('should return false', function() {
-                    expect(this.attachment.canAttach(this.player, this.targetCard)).toBe(false);
+                    expect(this.targetCard.allowAttachment(this.attachment)).toBe(false);
                 });
 
                 describe('but the target card is blank', function() {
@@ -100,7 +102,7 @@ describe('DrawCard', function() {
                     });
 
                     it('should return true', function() {
-                        expect(this.attachment.canAttach(this.player, this.targetCard)).toBe(true);
+                        expect(this.targetCard.allowAttachment(this.attachment)).toBe(true);
                     });
                 });
             });
@@ -113,7 +115,7 @@ describe('DrawCard', function() {
             });
 
             it('should return true', function() {
-                expect(this.attachment.canAttach(this.player, this.targetCard)).toBe(true);
+                expect(this.targetCard.allowAttachment(this.attachment)).toBe(true);
             });
         });
     });

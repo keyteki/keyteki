@@ -15,7 +15,9 @@ describe('Player', function() {
         this.attachmentOwner = new Player('2', 'Player 2', false, this.gameSpy);
         this.attachmentOwner.initialise();
         this.attachment = new DrawCard(this.attachmentOwner, {});
+        spyOn(this.attachment, 'canAttach').and.returnValue(true);
         this.card = new DrawCard(this.player, {});
+        this.card.location = 'play area';
         this.player.cardsInPlay.push(this.card);
         this.player.attach(this.player, this.attachment, this.card.uuid);
 

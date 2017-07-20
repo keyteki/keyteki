@@ -197,6 +197,10 @@ class DrawCard extends BaseCard {
         });
     }
 
+    /**
+     * Checks 'no attachment' restrictions for this card when attempting to
+     * attach the passed attachment card.
+     */
     allowAttachment(attachment) {
         return (
             this.isBlank() ||
@@ -205,12 +209,12 @@ class DrawCard extends BaseCard {
         );
     }
 
+    /**
+     * Checks whether the passed card meets the attachment restrictions (e.g.
+     * Opponent cards only, specific factions, etc) for this card.
+     */
     canAttach(player, card) {
-        if(this.getType() !== 'attachment') {
-            return false;
-        }
-
-        return card.allowAttachment(this);
+        return card && this.getType() === 'attachment';
     }
 
     getPlayActions() {
