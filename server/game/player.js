@@ -1,10 +1,8 @@
 const _ = require('underscore');
 
 const Spectator = require('./spectator.js');
-const DrawCard = require('./drawcard.js');
 const Deck = require('./deck.js');
 const AttachmentPrompt = require('./gamesteps/attachmentprompt.js');
-const BestowPrompt = require('./gamesteps/bestowprompt.js');
 const ConflictTracker = require('./conflicttracker.js');
 const PlayableLocation = require('./playablelocation.js');
 const PlayActionPrompt = require('./gamesteps/playactionprompt.js');
@@ -36,10 +34,15 @@ class Player extends Spectator {
         this.stronghold = new StrongholdCard(this, {});
 
         this.owner = owner;
+        this.game = game;
+
+        //Phase Values
         this.takenMulligan = false;
         this.dynastyStep;
         this.passedDynasty = false;
-        this.game = game;
+        this.drawBid = 0;
+        this.duelBid = 0;
+        
 
         this.deck = {};
         this.conflicts = new ConflictTracker();
