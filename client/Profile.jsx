@@ -16,6 +16,17 @@ class InnerProfile extends React.Component {
         if(!this.props.user) {
             return;
         }
+        
+        this.windowDefaults = {
+            plot: false,
+            draw: false,
+            challengeBegin: false,
+            attackersDeclared: true,
+            defendersDeclared: true,
+            winnerDetermined: false,
+            dominance: false,
+            standing: false
+        };
 
         this.state = {
             disableGravatar: this.props.user.settings ? this.props.user.settings.disableGravatar : false,
@@ -23,7 +34,7 @@ class InnerProfile extends React.Component {
             loading: false,
             newPassword: '',
             newPasswordAgain: '',
-            promptedActionWindows: this.props.user ? this.props.user.promptedActionWindows : {},
+            promptedActionWindows: this.props.user ? this.props.user.promptedActionWindows || this.windowDefaults : this.windowDefaults,
             validation: {}
         };
 
@@ -44,7 +55,11 @@ class InnerProfile extends React.Component {
             return;
         }
 
-        this.setState({ email: props.user.email, disableGravatar: props.user.settings ? props.user.settings.disableGravatar : false, promptedActionWindows: props.user ? props.user.promptedActionWindows : {} });
+        this.setState({
+            email: props.user.email,
+            disableGravatar: props.user.settings ? props.user.settings.disableGravatar : false,
+            promptedActionWindows: props.user ? props.user.promptedActionWindows || this.windowDefaults : this.windowDefaults
+        });
     }
 
     onChange(field, event) {
