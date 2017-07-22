@@ -62,20 +62,20 @@ class InnerGameList extends React.Component {
 
                 if(firstPlayer) {
                     playerElement = (
-                    <span>
-                        <span><Avatar emailHash={ player.emailHash } forceDefault={ player.settings ? player.settings.disableGravatar : false } /></span>
-                        <span className='player-name'>{ player.name }</span>
-                        <span className={' game-icon icon-' + player.faction} />
-                    </span>);
+                        <span>
+                            <span><Avatar emailHash={ player.emailHash } forceDefault={ player.settings ? player.settings.disableGravatar : false } /></span>
+                            <span className='player-name'>{ player.name }</span>
+                            <span className={ ' game-icon icon-' + player.faction } />
+                        </span>);
 
                     firstPlayer = false;
                 } else {
                     playerElement = (
-                    <span>
-                        <span className={' game-icon icon-' + player.faction} />
-                        <span className='player-name'>{ player.name }</span>
-                        <span><Avatar emailHash={ player.emailHash } forceDefault={ player.settings ? player.settings.disableGravatar : false } /></span>
-                    </span>);
+                        <span>
+                            <span className={ ' game-icon icon-' + player.faction } />
+                            <span className='player-name'>{ player.name }</span>
+                            <span><Avatar emailHash={ player.emailHash } forceDefault={ player.settings ? player.settings.disableGravatar : false } /></span>
+                        </span>);
                 }
 
                 return playerElement;
@@ -103,7 +103,7 @@ class InnerGameList extends React.Component {
 
             return (
                 <div key={ game.id } className='game-row'>
-                    <div><b>{ gameTitle }</b>{ this.props.isAdmin && this.props.showNodes ? <span className='game-node'>Node: { game.node }</span> : null}</div>
+                    <div><b>{ gameTitle }</b>{ this.props.isAdmin && this.props.showNodes ? <span className='game-node'>Node: { game.node }</span> : null }</div>
                     { gameLayout }
                     <span className='pull-right'>
                         { (this.props.currentGame || _.size(game.players) === 2 || game.started) ?
@@ -111,9 +111,9 @@ class InnerGameList extends React.Component {
                             <button className='btn btn-primary' onClick={ event => this.joinGame(event, game) }>Join</button>
                         }
                         { this.canWatch(game) ?
-                            <button className='btn btn-primary' onClick={event => this.watchGame(event, game)}>Watch</button> : null }
+                            <button className='btn btn-primary' onClick={ event => this.watchGame(event, game) }>Watch</button> : null }
                         { this.props.isAdmin ?
-                            <button className='btn btn-primary' onClick={event => this.removeGame(event, game)}>Remove</button> : null }
+                            <button className='btn btn-primary' onClick={ event => this.removeGame(event, game) }>Remove</button> : null }
                     </span>
                 </div>
             );

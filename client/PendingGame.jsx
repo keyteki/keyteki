@@ -227,11 +227,11 @@ class InnerPendingGame extends React.Component {
                     <source src='/sound/charge.ogg' type='audio/ogg' />
                 </audio>
                 <div className='btn-group'>
-                    <button className='btn btn-primary' disabled={!this.isGameReady() || this.props.connecting || this.state.waiting } onClick={this.onStartClick}>Start</button>
-                    <button className='btn btn-primary' onClick={this.onLeaveClick}>Leave</button>
+                    <button className='btn btn-primary' disabled={ !this.isGameReady() || this.props.connecting || this.state.waiting } onClick={ this.onStartClick }>Start</button>
+                    <button className='btn btn-primary' onClick={ this.onLeaveClick }>Leave</button>
                 </div>
-                <h3>{this.props.currentGame.name}</h3>
-                <div>{this.getGameStatus()}</div>
+                <h3>{ this.props.currentGame.name }</h3>
+                <div>{ this.getGameStatus() }</div>
                 <div className='players'>
                     <h3>Players</h3>
                     {
@@ -241,27 +241,27 @@ class InnerPendingGame extends React.Component {
                     }
                 </div>
                 <div className='spectators'>
-                    <h3>Spectators({this.props.currentGame.spectators.length})</h3>
-                    {_.map(this.props.currentGame.spectators, spectator => {
-                        return <div key={spectator.name}>{spectator.name}</div>;
-                    })}
+                    <h3>Spectators({ this.props.currentGame.spectators.length })</h3>
+                    { _.map(this.props.currentGame.spectators, spectator => {
+                        return <div key={ spectator.name }>{ spectator.name }</div>;
+                    }) }
                 </div>
                 <div className='chat-box'>
                     <h3>Chat</h3>
                     <div className='message-list'>
-                        <Messages messages={this.props.currentGame.messages} onCardMouseOver={this.onMouseOver} onCardMouseOut={this.onMouseOut} />
+                        <Messages messages={ this.props.currentGame.messages } onCardMouseOver={ this.onMouseOver } onCardMouseOut={ this.onMouseOut } />
                     </div>
-                        <form className='form form-hozitontal'>
-                            <div className='form-group'>
-                                <div className='col-sm-10'>
-                                    <input className='form-control' type='text' placeholder='Chat...' value={this.state.message}
-                                        onKeyPress={this.onKeyPress} onChange={this.onChange} />
-                                </div>
-                                <button type='button' className='btn btn-primary col-sm-2' onClick={this.onSendClick}>Send</button>
+                    <form className='form form-hozitontal'>
+                        <div className='form-group'>
+                            <div className='col-sm-10'>
+                                <input className='form-control' type='text' placeholder='Chat...' value={ this.state.message }
+                                    onKeyPress={ this.onKeyPress } onChange={ this.onChange } />
                             </div>
-                        </form>
+                            <button type='button' className='btn btn-primary col-sm-2' onClick={ this.onSendClick }>Send</button>
+                        </div>
+                    </form>
                 </div>
-                {popup}
+                { popup }
             </div>);
     }
 }

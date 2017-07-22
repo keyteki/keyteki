@@ -112,10 +112,10 @@ class InnerNewGame extends React.Component {
                     </div>
                 </form>
             </div>) : (
-                <div>
+            <div>
                     Connecting to the server, please wait...
-                </div>
-            );
+            </div>
+        );
     }
 }
 

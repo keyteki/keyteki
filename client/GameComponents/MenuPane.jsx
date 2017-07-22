@@ -54,10 +54,10 @@ class MenuPane extends React.Component {
         }
 
         return (<div>
-            {promptTitle}
+            { promptTitle }
             <div className='menu-pane'>
                 <div className='panel'>
-                    <h4>{this.props.title}</h4>
+                    <h4>{ this.props.title }</h4>
                     { this.getButtons() }
                 </div>
             </div>

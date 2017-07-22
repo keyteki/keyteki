@@ -108,7 +108,7 @@ class InnerForgotPassword extends React.Component {
 
             if(this.state.validation[field.name]) {
                 className += ' has-error';
-                validation = <span className='help-block'>{ this.state.validation[field.name]}</span>;
+                validation = <span className='help-block'>{ this.state.validation[field.name] }</span>;
             }
 
             fieldsToRender.push(
@@ -120,7 +120,7 @@ class InnerForgotPassword extends React.Component {
                             className='form-control'
                             id={ field.name }
                             placeholder={ field.placeholder }
-                            value={ this.state[field.name]}
+                            value={ this.state[field.name] }
                             onChange={ this.onChange.bind(this, field.name) }
                             onBlur={ field.blurCallback } />
                         { validation }
@@ -141,11 +141,11 @@ class InnerForgotPassword extends React.Component {
                     <div className='form-group'>
                         <div id='captcha' className='g-recaptcha col-sm-offset-2 col-sm-3' />
                     </div>
-                        <div className='form-group'>
-                            <div className='col-sm-offset-2 col-sm-3'>
-                    {this.state.submitting ? <button type='submit' className='btn btn-primary' disabled>Submitting...</button> :
+                    <div className='form-group'>
+                        <div className='col-sm-offset-2 col-sm-3'>
+                            { this.state.submitting ? <button type='submit' className='btn btn-primary' disabled>Submitting...</button> :
                                 <button ref='submit' type='submit' className='btn btn-primary' onClick={ this.onSubmit }>Submit</button>
-                    }
+                            }
                         </div>
                     </div>
 

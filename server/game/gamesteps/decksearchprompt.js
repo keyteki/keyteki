@@ -103,6 +103,14 @@ class DeckSearchPrompt extends UiPrompt {
             return false;
         }
 
+        if(this.properties.numToSelect !== undefined && this.properties.numToSelect > 1) {
+            this.properties.onSelect(player, card);
+            this.properties.numToSelect--;
+            this.properties.numCards--; // to avoid peaking into one *extra* card
+
+            return;
+        }
+
         this.selectAndShuffle(player, card);
     }
 

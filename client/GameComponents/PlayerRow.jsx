@@ -63,11 +63,11 @@ class PlayerRow extends React.Component {
                 };
             }
 
-            return (<Card key={card.uuid} card={card} style={style} disableMouseOver={!this.props.isMe} source='hand'
-                         onMouseOver={this.props.onMouseOver}
-                         onMouseOut={this.props.onMouseOut}
-                         onClick={this.props.onCardClick}
-                         onDragDrop={this.props.onDragDrop} />);
+            return (<Card key={ card.uuid } card={ card } style={ style } disableMouseOver={ !this.props.isMe } source='hand'
+                onMouseOver={ this.props.onMouseOver }
+                onMouseOut={ this.props.onMouseOut }
+                onClick={ this.props.onCardClick }
+                onDragDrop={ this.props.onDragDrop } />);
         });
 
         return hand;
@@ -78,13 +78,13 @@ class PlayerRow extends React.Component {
         var index = 0;
         return _.map(piles, pile => {
             return (
-                <AdditionalCardPile key={'additional-pile-' + index++}
+                <AdditionalCardPile key={ 'additional-pile-' + index++ }
                     className='additional-cards'
-                    isMe={this.props.isMe}
-                    onMouseOut={this.props.onMouseOut}
-                    onMouseOver={this.props.onMouseOver}
-                    pile={pile}
-                    spectating={this.props.spectating} />
+                    isMe={ this.props.isMe } 
+                    onMouseOut={ this.props.onMouseOut }
+                    onMouseOver={t his.props.onMouseOver }
+                    pile={ pile }
+                    spectating={ this.props.spectating } />
             );
         });
     }
@@ -114,14 +114,14 @@ class PlayerRow extends React.Component {
         return (
             <div className='player-home-row'>
                 <div className='deck-cards'>
-                    <div className={className} onDragLeave={this.onDragLeave} onDragOver={this.onDragOver} onDrop={(event) => this.onDragDrop(event, 'hand')}>
+                    <div className={ className } onDragLeave={ this.onDragLeave } onDragOver={ this.onDragOver } onDrop={ (event) => this.onDragDrop(event, 'hand') }>
                         <div className='panel-header'>
-                            {'Hand (' + hand.length + ')'}
+                            { 'Hand (' + hand.length + ')' }
                         </div>
-                        {hand}
+                        { hand }
                     </div>
 
-                  {additionalPiles}
+                  { additionalPiles }
                 </div>
             </div>
         );

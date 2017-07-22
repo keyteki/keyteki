@@ -51,8 +51,8 @@ class InnerDecks extends React.Component {
 
         var decks = _.map(this.props.decks, deck => {
             var row = (<DeckRow key={ deck.name + index.toString() } deck={ deck }
-                                onClick={ () => this.props.selectDeck(deck) }
-                                active={ this.props.selectedDeck && deck._id === this.props.selectedDeck._id } />);
+                onClick={ () => this.props.selectDeck(deck) }
+                active={ this.props.selectedDeck && deck._id === this.props.selectedDeck._id } />);
 
             index++;
 
@@ -72,9 +72,9 @@ class InnerDecks extends React.Component {
                 <div className='btn-group'>
                     <button className='btn btn-primary' onClick={ this.onEditClick.bind(this) }>Edit</button>
                     <button className='btn btn-primary' onClick={ this.onDeleteClick }>Delete</button>
-                    {this.state.showDelete ?
+                    { this.state.showDelete ?
                         <button className='btn btn-danger' onClick={ this.onConfirmDeleteClick }>Delete</button> :
-                        null}
+                        null }
                 </div>
                 <DeckSummary deck={ this.props.selectedDeck } cards={ this.props.cards } />
             </div>);

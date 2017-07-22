@@ -9,10 +9,10 @@ describe('the Player', () => {
 
     var player = new Player('1', 'Player 1', true, game);
     var conflictDeck = _([
-      { name: 'foo' },
-      { name: 'bar' },
-      { name: 'baz' },
-      { name: 'ball' }
+        { name: 'foo' },
+        { name: 'bar' },
+        { name: 'baz' },
+        { name: 'ball' }
     ]);
 
     beforeEach(() => {

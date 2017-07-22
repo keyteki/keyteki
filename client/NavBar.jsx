@@ -63,12 +63,12 @@ class InnerNavBar extends React.Component {
 
         let contextMenu = _.map(this.props.context, menuItem => {
             return (
-                <li key={menuItem.text}><a href='javascript:void(0)' onMouseOver={ this.onMenuItemMouseOver.bind(this, menuItem) }
-                                           onMouseOut={ this.onMenuItemMouseOut.bind(this) }
-                                           onClick={ menuItem.onClick ? event => {
-                                               event.preventDefault();
-                                               menuItem.onClick();
-                                           } : null }>{ menuItem.text }</a>{ (this.state.showPopup === menuItem) ? this.state.showPopup.popup : null }</li>
+                <li key={ menuItem.text }><a href='javascript:void(0)' onMouseOver={ this.onMenuItemMouseOver.bind(this, menuItem) }
+                    onMouseOut={ this.onMenuItemMouseOut.bind(this) }
+                    onClick={ menuItem.onClick ? event => {
+                        event.preventDefault();
+                        menuItem.onClick();
+                    } : null }>{ menuItem.text }</a>{ (this.state.showPopup === menuItem) ? this.state.showPopup.popup : null }</li>
             );
         });
 
@@ -82,7 +82,7 @@ class InnerNavBar extends React.Component {
                             <span className='icon-bar' />
                             <span className='icon-bar' />
                         </button>
-                        <Link href='/' className='navbar-brand'>{this.props.title}</Link>
+                        <Link href='/' className='navbar-brand'>{ this.props.title }</Link>
                     </div>
                     <div id='navbar' className='collapse navbar-collapse'>
                         <ul className='nav navbar-nav'>

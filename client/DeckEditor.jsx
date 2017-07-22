@@ -143,7 +143,7 @@ class InnerDeckEditor extends React.Component {
 
         let headerMark = _.findIndex(split, line => line.match(/^Packs:/));
         if(headerMark >= 0) { // FiveringssDB-style deck header found
-                              // extract deck title, faction, agenda, and banners
+            // extract deck title, faction, agenda, and banners
             let header = _.filter(_.first(split, headerMark), line => line !== '');
             split = _.rest(split, headerMark);
 
@@ -270,11 +270,11 @@ class InnerDeckEditor extends React.Component {
                 <form className='form form-horizontal'>
                     <Input name='deckName' label='Deck Name' labelClass='col-sm-3' fieldClass='col-sm-9' placeholder='Deck Name'
                         type='text' onChange={this.onChange.bind(this, 'name')} value={ this.state.deck.name } />
-                    <Select name='faction' label='Clan' labelClass='col-sm-3' fieldClass='col-sm-9' options={this.state.factions}
+                    <Select name='faction' label='Clan' labelClass='col-sm-3' fieldClass='col-sm-9' options={ _.toArray(this.props.factions) }
                         onChange={this.onFactionChange.bind(this)} value={ this.state.deck.faction ? this.state.deck.faction.value : undefined } />
-                    <Select name='alliance' label='Alliance' labelClass='col-sm-3' fieldClass='col-sm-9' options={this.state.allianceFactions}
-                        onChange={this.onAllianceChange.bind(this)} value={ this.state.deck.alliance ? this.state.deck.alliance.code : undefined } />
-
+                    <Select name='alliance' label='Alliance' labelClass='col-sm-3' fieldClass='col-sm-9' options={ _.toArray(this.props.alliances) }
+                        onChange={this.onAllianceChange.bind(this)} value={ this.state.deck.alliance ? this.state.deck.alliance.code : undefined } 
+                        valueKey='code' nameKey='label' blankOption={ { label: '- Select -', code: '' } } />
 
                     <Typeahead label='Card' labelClass={'col-sm-3'} fieldClass='col-sm-4' labelKey={'label'} options={ _.toArray(this.props.cards) }
                         onChange={this.addCardChange.bind(this) }>

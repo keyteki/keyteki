@@ -36,7 +36,7 @@ class InnerMessages extends React.Component {
     getMessage() {
         var index = 0;
         var messages = _.map(this.props.messages, message => {
-            return <div key={'message' + index++} className='message'>{this.formatMessageText(message.message)}</div>;
+            return <div key={ 'message' + index++ } className='message'>{ this.formatMessageText(message.message) }</div>;
         });
 
         return messages;
@@ -53,25 +53,25 @@ class InnerMessages extends React.Component {
                 return this.formatMessageText(fragment.message);
             } else if(fragment.code && fragment.label) {
                 return (
-                    <span key={index++}
+                    <span key={ index++ }
                         className='card-link'
-                        onMouseOver={this.props.onCardMouseOver.bind(this, fragment)}
-                        onMouseOut={this.props.onCardMouseOut.bind(this)}>
-                        {fragment.label}
+                        onMouseOver={ this.props.onCardMouseOver.bind(this, fragment) }
+                        onMouseOut={ this.props.onCardMouseOut.bind(this) }>
+                        { fragment.label }
                     </span>
                 );
             } else if(fragment.name) {
                 return (
-                    <div key={index++}>
+                    <div key={ index++ }>
                         <Avatar emailHash={ fragment.emailHash } forceDefault={ fragment.noAvatar } float />
-                        <span key={index++}>
-                            <b>{fragment.name}</b>
+                        <span key={ index++ }>
+                            <b>{ fragment.name }</b>
                         </span>
                     </div>
                 );
             } else if(_.contains(this.icons, fragment)) {
                 return (
-                    <span className={'icon-' + fragment} key={index++} />
+                    <span className={ 'icon-' + fragment } key={ index++ } />
                 );
             }
 
@@ -80,7 +80,7 @@ class InnerMessages extends React.Component {
     }
 
     render() {
-        return <div>{this.getMessage()}</div>;
+        return <div>{ this.getMessage() }</div>;
     }
 }
 

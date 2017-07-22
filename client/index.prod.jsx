@@ -25,10 +25,10 @@ if(typeof user !== 'undefined') {
 }
 
 render(
-    <Provider store={store}>
+    <Provider store={ store }>
         <div>
             <ReduxToastr
-                timeOut={4000}
+                timeOut={ 4000 }
                 newestOnTop
                 preventDuplicates
                 position='top-right'

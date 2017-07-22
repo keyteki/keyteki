@@ -45,7 +45,7 @@ class DeckSummary extends React.Component {
             var count = 0;
 
             _.each(cardList, card => {
-                cards.push(<div key={ card.card.code }><span>{card.count + 'x '}</span><span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ card.card.name }</span></div>);
+                cards.push(<div key={ card.card.code }><span>{ card.count + 'x ' }</span><span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ card.card.name }</span></div>);
                 count += parseInt(card.count);
             });
 
@@ -79,7 +79,7 @@ class DeckSummary extends React.Component {
                                               
                         <div className={ this.props.deck.validation.status === 'Valid' ? 'text-success' : 'text-danger' }>
                             <StatusPopOver status={ this.props.deck.validation.status } list={ this.props.deck.validation.extendedStatus }
-                                            show={ this.props.deck.validation.status !== 'Valid' } />
+                                show={ this.props.deck.validation.status !== 'Valid' } />
                         </div>
                     </div>
                 </div>

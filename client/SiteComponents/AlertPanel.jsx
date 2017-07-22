@@ -25,11 +25,11 @@ class AlertPanel extends React.Component {
         }
 
         return (<div className={ alertClass } ref='alertPanel' role='alert'>
-                    <span className={ icon } aria-hidden='true' />
-                    <span className='sr-only'>{ this.props.title }</span>
+            <span className={ icon } aria-hidden='true' />
+            <span className='sr-only'>{ this.props.title }</span>
                     &nbsp;{ this.props.message }
                     &nbsp;{ this.props.children }
-                </div>);        
+        </div>);        
     }
 }
 

@@ -38,9 +38,9 @@ class Select extends React.Component {
 
         return (
             <div className='form-group'>
-                <label htmlFor={ this.props.name } className={ this.props.labelClass + ' control-label'}>{ this.props.label }</label>
+                <label htmlFor={ this.props.name } className={ this.props.labelClass + ' control-label' }>{ this.props.label }</label>
                 <div className={ this.props.fieldClass }>
-                    <select ref={ this.props.name } style={selectStyle} className='form-control' id={ this.props.name } value={ this.props.value }
+                    <select ref={ this.props.name } style={ selectStyle } className='form-control' id={ this.props.name } value={ this.props.value }
                         onChange={ this.onChange.bind(this) } onBlur={ this.props.onBlur }>
                         { options }
                     </select>
