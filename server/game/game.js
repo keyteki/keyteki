@@ -88,6 +88,10 @@ class Game extends EventEmitter {
         this.pushAbilityContext('framework', null, 'framework');
     }
 
+    reportError(e) {
+        this.router.handleError(this, e);
+    }
+
     addMessage() {
         this.gameChat.addMessage(...arguments);
     }

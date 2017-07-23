@@ -5,7 +5,7 @@ const AbilityResolver = require('../../../server/game/gamesteps/abilityresolver.
 
 describe('AbilityResolver', function() {
     beforeEach(function() {
-        this.game = jasmine.createSpyObj('game', ['markActionAsTaken', 'popAbilityContext', 'pushAbilityContext', 'raiseEvent', 'raiseMergedEvent']);
+        this.game = jasmine.createSpyObj('game', ['markActionAsTaken', 'popAbilityContext', 'pushAbilityContext', 'raiseEvent', 'raiseMergedEvent', 'reportError']);
         this.game.raiseMergedEvent.and.callFake((name, params, handler) => {
             if(handler) {
                 handler(params);
@@ -229,6 +229,39 @@ describe('AbilityResolver', function() {
                     it('should not execute the handler', function() {
                         expect(this.ability.executeHandler).not.toHaveBeenCalled();
                     });
+                });
+            });
+        });
+
+        describe('when an exception occurs', function() {
+            beforeEach(function() {
+                this.error = new Error('something bad');
+                this.ability.resolveCosts.and.callFake(() => {
+                    throw this.error;
+                });
+            });
+
+            it('should not propogate the error', function() {
+                expect(() => this.resolver.continue()).not.toThrow();
+            });
+
+            it('should return true to complete the resolver pipeline', function() {
+                expect(this.resolver.continue()).toBe(true);
+            });
+
+            it('should report the error', function() {
+                this.resolver.continue();
+                expect(this.game.reportError).toHaveBeenCalledWith(jasmine.any(Error));
+            });
+
+            describe('when the current ability context is for this ability', function() {
+                beforeEach(function() {
+                    this.game.currentAbilityContext = { source: 'card', card: this.context.source };
+                });
+
+                it('should pop the current context', function() {
+                    this.resolver.continue();
+                    expect(this.game.popAbilityContext).toHaveBeenCalled();
                 });
             });
         });

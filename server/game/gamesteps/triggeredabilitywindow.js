@@ -68,6 +68,21 @@ class TriggeredAbilityWindow extends BaseStep {
         });
     }
 
+    getChoicesForPlayer(player) {
+        let choices = _.filter(this.abilityChoices, abilityChoice => {
+            try {
+                return this.eligibleChoiceForPlayer(abilityChoice, player);
+            } catch(e) {
+                this.abilityChoices = _.reject(this.abilityChoices, a => a === abilityChoice);
+                this.game.reportError(e);
+                return false;
+            }
+        });
+        // Cards that have a maximum should only display a single choice by
+        // title even if multiple copies are available to be triggered.
+        return _.uniq(choices, choice => choice.ability.hasMax() ? choice.card.name : choice);
+    }
+
     chooseAbility(player, id) {
         let choice = _.find(this.abilityChoices, ability => ability.id === id);
 

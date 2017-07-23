@@ -48,7 +48,18 @@ class AbilityResolver extends BaseStep {
     }
 
     continue() {
-        return this.pipeline.continue();
+        try {
+            return this.pipeline.continue();
+        } catch(e) {
+            this.game.reportError(e);
+
+            let currentAbilityContext = this.game.currentAbilityContext;
+            if(currentAbilityContext && currentAbilityContext.source === 'card' && currentAbilityContext.card === this.context.source) {
+                this.game.popAbilityContext();
+            }
+
+            return true;
+        }
     }
 
     markActionAsTaken() {
