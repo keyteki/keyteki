@@ -544,6 +544,7 @@ class Player extends Spectator {
     }
 
     drawPhase() {
+        this.drawPhaseCards = this.drawBid;
         this.game.addMessage('{0} draws {1} cards for the draw phase', this, this.drawPhaseCards);
         this.drawCardsToHand(this.drawPhaseCards);
     }
