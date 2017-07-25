@@ -77,7 +77,7 @@ class GameFlowWrapper {
     }
 
     skipActionWindow() {
-        this.eachPlayerInFirstPlayerOrder(player => player.clickPrompt('Done'));
+        this.eachPlayerInFirstPlayerOrder(player => player.clickPrompt('Pass'));
     }
 
     getPromptedPlayer(title) {

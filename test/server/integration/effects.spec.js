@@ -36,11 +36,11 @@ describe('effects', function() {
 
                 expect(this.jhogo.getStrength()).toBe(4);
 
-                this.player1.clickPrompt('Done');
+                this.player1.clickPrompt('Pass');
                 this.player2.clickCard('Nightmares', 'hand');
                 this.player2.clickCard(this.jhogo);
-                this.player1.clickPrompt('Done');
-                this.player2.clickPrompt('Done');
+                this.player1.clickPrompt('Pass');
+                this.player2.clickPrompt('Pass');
 
                 expect(this.jhogo.getStrength()).toBe(3);
 
