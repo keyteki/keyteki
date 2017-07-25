@@ -1,3 +1,4 @@
+const _ = require('underscore');
 const UiPrompt = require('../uiprompt.js');
 
 class DynastyActionOrPassPrompt extends UiPrompt {
@@ -12,16 +13,15 @@ class DynastyActionOrPassPrompt extends UiPrompt {
 
     activePrompt() {
         return {
-            menuTitle: 'Take an action or pass',
+            menuTitle: 'Click pass when done',
             buttons: [
-                { text: 'Take an action', arg: 'action' },
                 { text: 'Pass', arg: 'pass' }
             ]
         };
     }
 
     waitingPrompt() {
-        return { menuTitle: 'Waiting for opponent to choose take an action or pass.' };
+        return { menuTitle: 'Waiting for opponent to finish taking actions or pass.' };
     }
 
     onMenuCommand(player, choice) {
@@ -29,13 +29,17 @@ class DynastyActionOrPassPrompt extends UiPrompt {
             return false;
         }
 
-        if(choice === 'action') {
-            this.game.addMessage('{0} is taking an action.', player);
-            this.player.dynastyStep = 'action';
-        } else if(choice === 'pass') {
+        if(choice === 'pass') {
             this.game.addMessage('{0} has chosen to pass.', player);
-            this.player.dynastyStep = 'pass';
-            this.player.passDynasty();
+
+            if(_.all(this.game.getPlayers(), player => {
+                return player.passedDynasty === false;
+            })) {
+                this.game.addFate(this.player, 1);
+                this.player.passDynasty();
+            } else {
+                this.player.passDynasty();
+            }
         }
 
         this.complete();
