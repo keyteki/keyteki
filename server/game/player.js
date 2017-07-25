@@ -1072,6 +1072,10 @@ class Player extends Spectator {
         this.passedDynasty = true;
     }
 
+    setDrawBid(bid) {
+        this.drawBid = bid;
+    }
+
     getState(activePlayer) {
         let isActivePlayer = activePlayer === this;
         let promptState = isActivePlayer ? this.promptState.getState() : {};
