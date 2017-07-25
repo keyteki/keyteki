@@ -1,18 +1,35 @@
 const _ = require('underscore');
 const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
-const ActionWindow = require('./actionwindow.js');
+const DrawBidPrompt = require('./draw/drawbidprompt.js');
 
 class DrawPhase extends Phase {
     constructor(game) {
         super(game, 'draw');
         this.initialise([
-            new SimpleStep(game, () => this.draw()),
-            new ActionWindow(this.game, 'After cards drawn', 'draw')
+            new SimpleStep(game, () => this.bidPrompt()),
+            new SimpleStep(game, () => this.showBids()),
+            new SimpleStep(game, () => this.tradeHonor()),
+            new SimpleStep(game, () => this.drawConflict())
         ]);
     }
 
-    draw() {
+    bidPrompt() {
+        _.each(this.game.getPlayers(), p => {
+            this.game.raiseEvent('beginDrawPhase', this, p);
+            this.queueStep(new DrawBidPrompt(this.game, p));
+        });
+    }
+
+    showids() {
+
+    }
+
+    tradeHonor() {
+
+    }
+
+    drawConflict() {
         _.each(this.game.getPlayers(), p => {
             this.game.raiseEvent('beginDrawPhase', this, p);
             p.drawPhase();
