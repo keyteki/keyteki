@@ -21,7 +21,7 @@ class DrawPhase extends Phase {
         });
     }
 
-    showids() {
+    showBids() {
 
     }
 
