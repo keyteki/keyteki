@@ -307,7 +307,7 @@ describe('EffectEngine', function () {
         describe('when an effect has untilEndOfPhase duration', function() {
             beforeEach(function() {
                 this.effectSpy.duration = 'untilEndOfPhase';
-                this.engine.onPhaseEnded({}, 'marshal');
+                this.engine.onPhaseEnded({ phase: 'marshal' });
             });
 
             it('should cancel the effect', function() {
@@ -323,7 +323,7 @@ describe('EffectEngine', function () {
         describe('when an effect has a non-untilEndOfPhase duration', function() {
             beforeEach(function() {
                 this.effectSpy.duration = 'persistent';
-                this.engine.onPhaseEnded({}, 'marshal');
+                this.engine.onPhaseEnded({ phase: 'marshal' });
             });
 
             it('should not cancel the effect', function() {
