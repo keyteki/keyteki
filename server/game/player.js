@@ -530,8 +530,6 @@ class Player extends Spectator {
             this.plotDiscard.each(plot => {
                 this.moveCard(plot, 'plot deck');
             });
-
-            this.game.raiseEvent('onPlotsRecycled', this);
         }
     }
 
@@ -954,10 +952,6 @@ class Player extends Spectator {
             });
         }
 
-        if(card.location === 'hand') {
-            this.game.raiseEvent('onCardLeftHand', card);
-        }
-
         if(card.location === 'province') {
             card.leavesPlay();
             this.game.raiseMergedEvent('onCardLeftPlay', { player: this, card: card });
@@ -978,10 +972,6 @@ class Player extends Spectator {
             targetPile.unshift(card);
         } else {
             targetPile.push(card);
-        }
-
-        if(targetLocation === 'hand') {
-            this.game.raiseEvent('onCardEntersHand', card);
         }
 
         if(['conflict discard pile', 'dynasty discard pile'].includes(targetLocation)) {

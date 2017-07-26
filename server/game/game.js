@@ -359,8 +359,6 @@ class Game extends EventEmitter {
             player.honor = 0;
         }
 
-        this.raiseEvent('onStatChanged', player, 'honor');
-
         this.checkWinCondition(player);
     }
 
@@ -370,17 +368,12 @@ class Game extends EventEmitter {
         if(player.fate < 0) {
             player.fate = 0;
         }
-
-        this.raiseEvent('onStatChanged', player, 'fate');
     }
 
     transferHonor(winner, loser, honor) {
         var appliedHonor = Math.min(loser.honor, honor);
         loser.honor -= appliedHonor;
         winner.honor += appliedHonor;
-
-        this.raiseEvent('onStatChanged', loser, 'honor');
-        this.raiseEvent('onStatChanged', winner, 'honor');
 
         this.checkWinCondition(winner);
     }
@@ -390,9 +383,6 @@ class Game extends EventEmitter {
 
         from.fate -= appliedFate;
         to.fate += appliedFate;
-
-        this.raiseEvent('onStatChanged', from, 'fate');
-        this.raiseEvent('onStatChanged', to, 'fate');
 
         this.raiseMergedEvent('onFateTransferred', { source: from, target: to, amount: fate });
     }
@@ -450,8 +440,6 @@ class Game extends EventEmitter {
         }
 
         target[stat] += value;
-
-        this.raiseEvent('onStatChanged', player, stat, value);
 
         if(target[stat] < 0) {
             target[stat] = 0;
