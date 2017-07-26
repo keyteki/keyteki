@@ -212,7 +212,8 @@ class DrawCard extends BaseCard {
     leavesPlay() {
         this.bowed = false;
         this.inConflict = false;
-
+        this.new = false;
+        this.resetForConflict();
         super.leavesPlay();
     }
 
