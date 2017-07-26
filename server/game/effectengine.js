@@ -6,7 +6,7 @@ class EffectEngine {
     constructor(game) {
         this.game = game;
         this.events = new EventRegistrar(game, this);
-        this.events.register(['onCardEntersPlay', 'onCardLeftPlay', 'onCardEntersHand', 'onCardLeftHand', 'onCardTakenControl', 'onCardBlankToggled', 'onChallengeFinished', 'onPhaseEnded', 'onAtEndOfPhase', 'onRoundEnded']);
+        this.events.register(['onCardMoved', 'onCardTraitChanged', 'onCardFactionChanged', 'onCardTakenControl', 'onCardBlankToggled', 'onChallengeFinished', 'onPhaseEnded', 'onAtEndOfPhase', 'onRoundEnded']);
         this.effects = [];
         this.recalculateEvents = {};
     }
@@ -55,8 +55,34 @@ class EffectEngine {
                 // the new controller from scratch.
                 effect.cancel();
                 effect.addTargets(this.getTargets());
+            } else if(effect.duration === 'persistent' && effect.hasTarget(card) && !effect.isValidTarget(card)) {
+                // Evict the card from any effects applied on it that are no
+                // longer valid under the new controller.
+                effect.removeTarget(card);
             }
         });
+
+        // Reapply all relevant persistent effects given the card's new
+        // controller.
+        this.addTargetForPersistentEffects(card, 'play area');
+    }
+
+    onCardTraitChanged(event) {
+        this.recalculateTargetingChange(event.card);
+    }
+
+    onCardFactionChanged(event) {
+        this.recalculateTargetingChange(event.card);
+    }
+
+    recalculateTargetingChange(card) {
+        _.each(this.effects, effect => {
+            if(effect.duration === 'persistent' && effect.hasTarget(card) && !effect.isValidTarget(card)) {
+                effect.removeTarget(card);
+            }
+        });
+
+        this.addTargetForPersistentEffects(card, 'play area');
     }
 
     addTargetForPersistentEffects(card, targetLocation) {

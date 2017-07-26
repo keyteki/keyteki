@@ -3,12 +3,23 @@
 
 const DrawCard = require('../../../server/game/drawcard.js');
 
-describe('the DrawCard', function() {
-    describe('the canAttach() function', function() {
-        beforeEach(function() {
-            this.owner = {
-                game: jasmine.createSpyObj('game', ['raiseEvent'])
-            };
+describe('DrawCard', function() {
+    beforeEach(function() {
+        this.owner = {
+            game: jasmine.createSpyObj('game', ['raiseEvent', 'raiseMergedEvent'])
+        };
+    });
+
+    describe('canAttach()', function() {
+        describe('when the card is an attachment', function() {
+            beforeEach(function() {
+                this.targetCard = new DrawCard(this.owner, { text: '' });
+                this.attachment = new DrawCard(this.owner, { type_code: 'attachment' });
+            });
+
+            it('should return true', function() {
+                expect(this.attachment.canAttach(this.player, this.targetCard)).toBe(true);
+            });
         });
 
         describe('when the card is not an attachment', function() {
