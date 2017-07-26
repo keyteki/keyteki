@@ -2,6 +2,7 @@ const _ = require('underscore');
 const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
 const DrawBidPrompt = require('./draw/drawbidprompt.js');
+const DrawRevealPrompt = require('./draw/drawrevealprompt.js');
 
 class DrawPhase extends Phase {
     constructor(game) {
@@ -23,6 +24,10 @@ class DrawPhase extends Phase {
 
     showBids() {
 
+
+        _.each(this.game.getPlayers(), p => {
+            this.queueStep(new DrawRevealPrompt(this.game, p));
+        });
     }
 
     tradeHonor() {
