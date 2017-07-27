@@ -165,7 +165,26 @@ class DrawCard extends BaseCard {
         }
 
         this.game.raiseEvent('onCardFateChanged', this, this.fate - oldFate);
+    
+    }
 
+    needsCovertTarget() {
+        return this.isCovert() && !this.covertTarget;
+    }
+
+    canUseCovertToBypass(targetCard) {
+        return this.isCovert() && targetCard.canBeBypassedByCovert();
+    }
+
+    useCovertToBypass(targetCard) {
+        if(!this.canUseCovertToBypass(targetCard)) {
+            return false;
+        }
+
+        targetCard.covert = true;
+        this.covertTarget = targetCard;
+
+        return true;
     }
 
     clearBlank() {

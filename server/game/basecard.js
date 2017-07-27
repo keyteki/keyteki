@@ -326,7 +326,7 @@ class BaseCard {
         this.blankCount++;
         var after = this.isBlank();
         if(!before && after) {
-            this.game.raiseEvent('onCardBlankToggled', this, after);
+            this.game.raiseMergedEvent('onCardBlankToggled', { card: this, isBlank: after });
         }
     }
 
@@ -400,7 +400,7 @@ class BaseCard {
         this.blankCount--;
         var after = this.isBlank();
         if(before && !after) {
-            this.game.raiseEvent('onCardBlankToggled', this, after);
+            this.game.raiseMergedEvent('onCardBlankToggled', { card: this, isBlank: after });
         }
     }
 

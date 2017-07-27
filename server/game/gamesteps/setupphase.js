@@ -31,7 +31,7 @@ class SetupPhase extends Phase {
     }
 
     prepareDecks() {
-        this.game.raiseEvent('onDecksPrepared');
+        this.game.raiseMergedEvent('onDecksPrepared');
     }
 
     startGame() {

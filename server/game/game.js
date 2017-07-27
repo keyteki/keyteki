@@ -578,7 +578,7 @@ class Game extends EventEmitter {
     }
 
     beginRound() {
-        this.raiseEvent('onBeginRound');
+        this.raiseMergedEvent('onBeginRound');
         this.queueStep(new DynastyPhase(this));
         this.queueStep(new DrawPhase(this));
         this.queueStep(new ConflictPhase(this));
@@ -654,7 +654,7 @@ class Game extends EventEmitter {
             handler = () => true;
         }
 
-        this.queueStep(new EventWindow(this, eventName, params, handler, true));
+        this.queueStep(new EventWindow(this, eventName, params || {}, handler, true));
     }
 
     raiseSimultaneousEvent(cards, properties) {
@@ -700,7 +700,7 @@ class Game extends EventEmitter {
                 this.raiseMergedEvent('onCardEntersPlay', { card: card, playingType: 'play' });
             }
 
-            this.raiseEvent('onCardTakenControl', card);
+            this.raiseMergedEvent('onCardTakenControl', { card: card });
         });
     }
 

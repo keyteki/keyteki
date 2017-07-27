@@ -47,7 +47,8 @@ class EffectEngine {
         this.removeTargetFromPersistentEffects(card, 'hand');
     }
 
-    onCardTakenControl(e, card) {
+    onCardTakenControl(event) {
+        let card = event.card;
         _.each(this.effects, effect => {
             if(effect.duration === 'persistent' && effect.source === card) {
                 // Since the controllers have changed, explicitly cancel the
@@ -101,7 +102,8 @@ class EffectEngine {
         });
     }
 
-    onCardBlankToggled(event, card, isBlank) {
+    onCardBlankToggled(event) {
+        let {card, isBlank} = event;
         let targets = this.getTargets();
         let matchingEffects = _.filter(this.effects, effect => effect.duration === 'persistent' && effect.source === card);
         _.each(matchingEffects, effect => {

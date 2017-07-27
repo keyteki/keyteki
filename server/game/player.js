@@ -785,7 +785,7 @@ class Player extends Spectator {
 
     sacrificeCard(card) {
         this.game.applyGameAction('sacrifice', card, card => {
-            this.game.raiseEvent('onSacrificed', this, card, () => {
+            this.game.raiseMergedEvent('onSacrificed', { player: this, card: card }, () => {
                 this.moveCard(card, 'discard pile');
             });
         });
@@ -987,7 +987,11 @@ class Player extends Spectator {
         this.game.applyGameAction('bow', card, card => {
             card.bowed = true;
 
+<<<<<<< HEAD
             this.game.raiseEvent('onCardbowed', this, card);
+=======
+            this.game.raiseMergedEvent('onCardKneeled', { player: this, card: card });
+>>>>>>> 036be430... Convert most events to merged style (#1251)
         });
     }
 
@@ -999,7 +1003,7 @@ class Player extends Spectator {
         this.game.applyGameAction('ready', card, card => {
             card.bowed = false;
 
-            this.game.raiseEvent('onCardStood', this, card);
+            this.game.raiseMergedEvent('onCardStood', { player: this, card: card });
         });
     }
 
