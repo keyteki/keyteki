@@ -1,6 +1,7 @@
 const EventToTitleFunc = {
     onCardAbilityInitiated: event => 'the effects of ' + event.source.name,
     onCardPowerChanged: event => event.card.name + ' gaining power',
+    onClaimApplied: () => 'to claim effects being applied',
     onCharacterKilled: event => event.card.name + ' being killed',
     onCharactersKilled: () => 'characters being killed',
     onPhaseEnded: event => event.phase + ' phase ending',

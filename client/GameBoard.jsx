@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'underscore';
 import $ from 'jquery';
-import {toastr} from 'react-redux-toastr';
+import { toastr } from 'react-redux-toastr';
 
 import PlayerStats from './GameComponents/PlayerStats.jsx';
 import PlayerRow from './GameComponents/PlayerRow.jsx';
@@ -10,14 +10,14 @@ import DynastyRow from './GameComponents/DynastyRow.jsx';
 import StrongholdRow from './GameComponents/StrongholdRow.jsx';
 import HonorFan from './GameComponents/HonorFan.jsx';
 import Ring from './GameComponents/Ring.jsx';
-import MenuPane from './GameComponents/MenuPane.jsx';
+import ActivePlayerPrompt from './GameComponents/ActivePlayerPrompt.jsx';
 import CardZoom from './GameComponents/CardZoom.jsx';
 import Messages from './GameComponents/Messages.jsx';
 import AdditionalCardPile from './GameComponents/AdditionalCardPile.jsx';
 import Card from './GameComponents/Card.jsx';
 import CardCollection from './GameComponents/CardCollection.jsx';
 import ActionWindowsMenu from './GameComponents/ActionWindowsMenu.jsx';
-import {tryParseJSON} from './util.js';
+import { tryParseJSON } from './util.js';
 
 import * as actions from './actions';
 
@@ -333,6 +333,10 @@ export class InnerGameBoard extends React.Component {
         this.props.sendGameMessage('togglePromptedActionWindow', option, value);
     }
 
+    onTimerExpired() {
+        this.props.sendGameMessage('menuButton', null, 'pass');
+    }
+
     render() {
         if(!this.props.currentGame) {
             return <div>Waiting for server...</div>;
@@ -411,12 +415,17 @@ export class InnerGameBoard extends React.Component {
                                         <ActionWindowsMenu options={ thisPlayer.promptedActionWindows }
                                             onToggle={ this.onPromptedActionWindowToggle.bind(this) } />
                                         : null }
-                                    <div className={ 'phase-indicator ' + thisPlayer.phase } onClick={ this.onMenuTitleClick.bind(this) }>
-                                        { <span className={ this.state.spectating ? '' : this.state.showActionWindowsMenu ? 'down-arrow' : 'up-arrow' } /> }
-                                        { thisPlayer.phase } phase
-                                    </div>
-                                    <MenuPane title={ thisPlayer.menuTitle } buttons={ thisPlayer.buttons } promptTitle={ thisPlayer.promptTitle } onButtonClick={ this.onCommand }
-                                        onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } onTitleClick={ this.onMenuTitleClick.bind(this) } />
+                                    <ActivePlayerPrompt title={ thisPlayer.menuTitle }
+                                        arrowDirection={ this.state.spectating ? 'none' : this.state.showActionWindowsMenu ? 'down' : 'up' }
+                                        buttons={ thisPlayer.buttons }
+                                        promptTitle={ thisPlayer.promptTitle }
+                                        onButtonClick={ this.onCommand }
+                                        onMouseOver={ this.onMouseOver }
+                                        onMouseOut={ this.onMouseOut }
+                                        onTitleClick={ this.onMenuTitleClick.bind(this) }
+                                        user={ this.props.user }
+                                        onTimerExpired={ this.onTimerExpired.bind(this) }
+                                        phase={ thisPlayer.phase } />
                                 </div>
                             </div>
                         </div>
@@ -503,7 +512,7 @@ export class InnerGameBoard extends React.Component {
                             showDynastyDeck={this.state.showDynastyDeck}
                             onDragDrop={this.onDragDrop}
                             spectating={this.state.spectating}
-                            onMenuItemClick={this.onMenuItemClick}/>                        
+                            onMenuItemClick={this.onMenuItemClick} />                        
                         <PlayerRow isMe={!this.state.spectating}
                             additionalPiles={thisPlayer.additionalPiles}
                             hand={thisPlayer.hand}
@@ -511,7 +520,7 @@ export class InnerGameBoard extends React.Component {
                             onMouseOut={this.onMouseOut}
                             onDragDrop={this.onDragDrop}
                             spectating={this.state.spectating}
-                            onMenuItemClick={this.onMenuItemClick}/>
+                            onMenuItemClick={this.onMenuItemClick} />
                     </div>
                 </div>
                 <div className='right-side'>
@@ -541,6 +550,7 @@ InnerGameBoard.propTypes = {
     sendGameMessage: React.PropTypes.func,
     setContextMenu: React.PropTypes.func,
     socket: React.PropTypes.object,
+    user: React.PropTypes.object,
     username: React.PropTypes.string,
     zoomCard: React.PropTypes.func
 };
@@ -550,6 +560,7 @@ function mapStateToProps(state) {
         cardToZoom: state.cards.zoomCard,
         currentGame: state.games.currentGame,
         socket: state.socket.socket,
+        user: state.auth.user,
         username: state.auth.username
     };
 }

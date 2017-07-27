@@ -500,6 +500,10 @@ class Player extends Spectator {
         this.selectedPlot = undefined;
         this.roundDone = false;
 
+        if(this.resetTimerAtEndOfRound) {
+            this.noTimer = false;
+        }
+
         this.conflicts.reset();
 
         this.conflictrLimit = 0;
@@ -987,11 +991,7 @@ class Player extends Spectator {
         this.game.applyGameAction('bow', card, card => {
             card.bowed = true;
 
-<<<<<<< HEAD
-            this.game.raiseEvent('onCardbowed', this, card);
-=======
-            this.game.raiseMergedEvent('onCardKneeled', { player: this, card: card });
->>>>>>> 036be430... Convert most events to merged style (#1251)
+            this.game.raiseMergedEvent('onCardBowed', { player: this, card: card });
         });
     }
 
