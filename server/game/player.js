@@ -1009,8 +1009,11 @@ class Player extends Spectator {
 
     removeCardFromPile(card) {
         if(card.controller !== this) {
-            card.controller.removeCardFromPile(card);
+            let oldController = card.controller;
+            oldController.removeCardFromPile(card);
 
+            oldController.allCards = _(oldController.allCards.reject(c => c === card));
+            this.allCards.push(card);
             card.controller = card.owner;
 
             return;
