@@ -228,7 +228,7 @@ class InnerProfile extends React.Component {
                                 Action window defaults
                             </div>
                             <div className='panel'>
-                                <p className='help-block small'>If an option is selected here, you will always be prompted if you want to take an action in that window.  If an option is not selected, you will receive no prompts for that window.  For some windows (e.g. dominance) this could mean the whole window is skipped</p>
+                                <p className='help-block small'>If an option is selected here, you will always be prompted if you want to take an action in that window.  If an option is not selected, you will receive no prompts for that window.  For some windows (e.g. dominance) this could mean the whole window is skipped.</p>
                                 <div className='form-group'>
                                     { windows }
                                 </div>
@@ -241,7 +241,7 @@ class InnerProfile extends React.Component {
                                 Action window timing
                             </div>
                             <div className='panel'>
-                                <p className='help-block small'>Every time a game event occurs after which you could possibly have an action, reaction or interrupt which would allow you to cancel it, a timer will count down.  At the end of that timer, the window will automatically pass.  This options controls how fast that timer counts down</p>
+                                <p className='help-block small'>Every time a game event occurs that you could possibly interrupt to cancel it, a timer will count down.  At the end of that timer, the window will automatically pass.  This option controls the duration of the timer.</p>
                                 <div className='form-group'>
                                     <label className='col-sm-3 control-label'>Window timeout</label>
                                     <div className='col-sm-5'>
