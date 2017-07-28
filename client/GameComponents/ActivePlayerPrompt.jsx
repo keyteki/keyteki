@@ -23,7 +23,7 @@ class ActivePlayerPrompt extends React.Component {
             return;
         }
 
-        if(newProps.user.settings.windowTimer === 0) {
+        if(newProps.user.settings && newProps.user.settings.windowTimer === 0) {
             return;
         }
 
@@ -35,7 +35,7 @@ class ActivePlayerPrompt extends React.Component {
             }
 
             this.timer.started = new Date();
-            this.timer.timerTime = _.isUndefined(newProps.user.settings.windowTimer) ? 10 : newProps.user.settings.windowTimer;
+            this.timer.timerTime = (_.isUndefined(newProps.user.settings) || _.isUndefined(newProps.user.settings.windowTimer)) ? 10 : newProps.user.settings.windowTimer;
 
             let handle = setInterval(() => {
                 let now = new Date();
