@@ -52,23 +52,23 @@ class Game extends EventEmitter {
 
         this.rings = {
             Air: {
-                type: "Military",
+                type: 'Military',
                 fate: 0
             },
             Earth: {
-                type: "Political",
+                type: 'Political',
                 fate: 0
             },
             Fire: {
-                type: "Military",
+                type: 'Military',
                 fate: 0
             },
             Water: {
-                type: "Political",
+                type: 'Political',
                 fate: 0
             },
             Void: {
-                type: "Military",
+                type: 'Military',
                 fate: 0
             }
         };
@@ -396,7 +396,7 @@ class Game extends EventEmitter {
     checkWinCondition(player) {
         if(player.getTotalHonor() >= 25) {
             this.recordWinner(player, 'honor');
-        } else if(player .getTotalHonor() == 0) {
+        } else if(player .getTotalHonor() === 0) {
             var opponent = this.getOtherPlayer(player);
             this.recordWinner(opponent, 'dishonor');
         }
@@ -675,7 +675,6 @@ class Game extends EventEmitter {
     }
 
     flipRing(ring) {
-        console.log(ring)
         var currentConflict = this.rings[ring].type;
 
         if(currentConflict === 'Military') {
