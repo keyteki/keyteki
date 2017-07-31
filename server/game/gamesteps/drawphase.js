@@ -34,6 +34,21 @@ class DrawPhase extends Phase {
 
     tradeHonor() {
 
+        var honorDifference = 0;
+        var remainingPlayers = this.game.getPlayersInFirstPlayerOrder();
+        let currentPlayer = remainingPlayers.shift();
+        if(remainingPlayers.length > 0) {
+
+            var otherPlayer = this.game.getOtherPlayer(currentPlayer);
+            if(currentPlayer.drawBid > otherPlayer.drawBid) {
+                honorDifference = currentPlayer.drawBid - otherPlayer.drawBid;
+                this.game.transferHonor(otherPlayer, currentPlayer, honorDifference);
+            } else if(otherPlayer.drawBid > currentPlayer.drawBid) {
+                honorDifference = otherPlayer.drawBid - currentPlayer.drawBid;
+                this.game.transferHonor(currentPlayer, otherPlayer, honorDifference);
+            }
+        }
+
     }
 
     drawConflict() {
