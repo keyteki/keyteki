@@ -401,17 +401,17 @@ export class InnerGameBoard extends React.Component {
                             <PlayerStats fate={otherPlayer ? otherPlayer.fate : 0} honor={otherPlayer ? otherPlayer.totalHonor : 0} user={otherPlayer ? otherPlayer.user : null} />
                             <div className='deck-info'>
                                 { otherPlayer ? <div className={'first-player-indicator ' + (!thisPlayer.firstPlayer ? '' : 'hidden')}>First player</div> : ''}
-                                <HonorFan value='0' />
+                                <HonorFan value={otherPlayer ? otherPlayer.showBid : 0} />
                             </div>
                         </div>
                         <div className='middle'>
                             
-                            <div className="ring-pane">      
+                            <div className='ring-pane'>      
                                 <CardCollection className='province-deck'
                                                     title='Province Deck' source='province deck' cards={otherPlayer ? otherPlayer.provinceDeck : []}
                                                     hiddenTopCard 
                                                     onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disableMouseOver disablePopup
-                                                    onCardClick={this.onCardClick}  />
+                                                    onCardClick={this.onCardClick} />
                                  <div className='panel ring-panel'>
                                     <Ring conflictType={this.props.currentGame.rings['Air'].type} ringType='Air' onClick={this.onRingClick} />
                                     <Ring conflictType={this.props.currentGame.rings['Earth'].type} ringType='Earth' onClick={this.onRingClick} />
@@ -443,7 +443,7 @@ export class InnerGameBoard extends React.Component {
                                         honor={thisPlayer.totalHonor} isMe={!this.state.spectating} user={thisPlayer.user} />
                             <div className='deck-info'>
                                 <div className={'first-player-indicator ' + (thisPlayer.firstPlayer ? '' : 'hidden')}>First player</div>
-                                <HonorFan value='0' />
+                                <HonorFan value={thisPlayer.showBid} />
                                 
                             </div>
                         </div>

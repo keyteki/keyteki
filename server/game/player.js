@@ -42,6 +42,7 @@ class Player extends Spectator {
         this.passedDynasty = false;
         this.drawBid = 0;
         this.duelBid = 0;
+        this.showBid = 0;
         
 
         this.deck = {};
@@ -1113,6 +1114,7 @@ class Player extends Spectator {
                 three: this.getSummaryForCardList(this.provinceThree, activePlayer),
                 four: this.getSummaryForCardList(this.provinceFour, activePlayer)
             },
+            showBid: this.showBid,
             strongholdProvince: this.getSummaryForCardList(this.strongholdProvince, activePlayer),
             totalHonor: this.getTotalHonor(),
             user: _.omit(this.user, ['password', 'email'])
