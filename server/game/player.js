@@ -267,12 +267,7 @@ class Player extends Spectator {
         this.discardCards(cards, false, discarded => {
             callback(discarded);
             if(this.conflictDeck.size() === 0) {
-                var otherPlayer = this.game.getOtherPlayer(this);
-
-                if(otherPlayer) {
-                    this.game.addMessage('{0}\'s conflict deck is empty', this);
-                    this.game.addMessage('{0} wins the game', otherPlayer);
-                }
+                this.game.playerDecked(this);
             }
         });
     }
