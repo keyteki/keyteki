@@ -5,7 +5,7 @@ const CardAction = require('../../../server/game/cardaction.js');
 
 describe('CardAction', function () {
     beforeEach(function () {
-        this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'raiseEvent', 'raiseMergedEvent', 'resolveAbility']);
+        this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'raiseEvent', 'resolveAbility']);
         this.gameSpy.currentPhase = 'dynasty';
 
         this.cardSpy = jasmine.createSpyObj('card', ['getType', 'isBlank']);
@@ -14,7 +14,7 @@ describe('CardAction', function () {
 
         this.limitSpy = jasmine.createSpyObj('limit', ['increment', 'isAtMax', 'registerEvents', 'unregisterEvents']);
 
-        this.gameSpy.raiseMergedEvent.and.callFake((name, params, handler) => {
+        this.gameSpy.raiseEvent.and.callFake((name, params, handler) => {
             if(handler) {
                 handler(params);
             }

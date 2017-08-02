@@ -7,7 +7,7 @@ const DrawCard = require('../../../server/game/drawcard.js');
 describe('Player', function() {
     describe('getDuplicateInPlay', function() {
         beforeEach(function() {
-            this.game = jasmine.createSpyObj('game', ['getOtherPlayer', 'playerDecked']);
+            this.game = jasmine.createSpyObj('game', ['getOtherPlayer', 'playerDecked', 'raiseEvent']);
             this.player = new Player('1', 'Player 1', true, this.game);
             this.player.initialise();
 

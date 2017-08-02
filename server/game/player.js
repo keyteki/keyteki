@@ -212,6 +212,10 @@ class Player extends Spectator {
             this.moveCard(card, 'hand');
         });
 
+        if(this.game.currentPhase !== 'setup') {
+            this.game.raiseEvent('onCardsDrawn', { cards: cards, player: this });
+        }
+
         if(this.conflictDeck.size() === 0) {
             this.game.playerDecked(this);
         }
@@ -477,7 +481,7 @@ class Player extends Spectator {
             this.moveCard(card, 'play area', { isDupe: !!dupeCard });
             card.controller = this;
 
-            this.game.raiseMergedEvent('onCardEntersPlay', { card: card, playingType: playingType });
+            this.game.raiseEvent('onCardEntersPlay', { card: card, playingType: playingType });
         }
     }
 
@@ -519,7 +523,7 @@ class Player extends Spectator {
         this.selectedPlot.play();
         this.moveCard(this.selectedPlot, 'active plot');
 
-        this.game.raiseMergedEvent('onCardEntersPlay', { card: this.activePlot, playingType: 'plot' });
+        this.game.raiseEvent('onCardEntersPlay', { card: this.activePlot, playingType: 'plot' });
 
         this.selectedPlot = undefined;
     }
@@ -534,8 +538,9 @@ class Player extends Spectator {
 
     removeActivePlot(targetLocation) {
         if(this.activePlot) {
-            var plot = this.activePlot;
-            this.moveCard(this.activePlot, targetLocation);
+            let plot = this.activePlot;
+            this.moveCard(this.activePlot, 'revealed plots');
+            this.game.raiseEvent('onPlotDiscarded', { player: this, card: plot });
             this.activePlot = undefined;
             return plot;
         }
@@ -550,7 +555,7 @@ class Player extends Spectator {
     beginDynasty() {
         this.game.addFate(this, this.getTotalIncome());
 
-        this.game.raiseMergedEvent('onIncomeCollected', { player: this });
+        this.game.raiseEvent('onIncomeCollected', { player: this });
 
         this.limitedPlayed = 0;
     }
@@ -784,14 +789,13 @@ class Player extends Spectator {
 
     sacrificeCard(card) {
         this.game.applyGameAction('sacrifice', card, card => {
-            this.game.raiseMergedEvent('onSacrificed', { player: this, card: card }, () => {
+            this.game.raiseEvent('onSacrificed', { player: this, card: card }, () => {
                 this.moveCard(card, 'discard pile');
             });
         });
     }
 
     discardCard(card, allowSave = true) {
-
         this.discardCards([card], allowSave);
     }
 
@@ -803,7 +807,7 @@ class Player extends Spectator {
                 allowSave: allowSave,
                 originalLocation: cards[0].location
             };
-            this.game.raiseMergedEvent('onCardsDiscarded', params, event => {
+            this.game.raiseEvent('onCardsDiscarded', params, event => {
                 _.each(event.cards, card => {
                     this.doSingleCardDiscard(card, allowSave);
                 });
@@ -821,7 +825,7 @@ class Player extends Spectator {
             allowSave: allowSave,
             originalLocation: card.location
         };
-        this.game.raiseMergedEvent('onCardDiscarded', params, event => {
+        this.game.raiseEvent('onCardDiscarded', params, event => {
             if(event.card.isConflict) {
                 this.moveCard(event.card, 'conflict discard pile');
             } else if (event.card.isDynasty) {
@@ -939,7 +943,7 @@ class Player extends Spectator {
                 card: card
             };
 
-            this.game.raiseMergedEvent('onCardLeftPlay', params, event => {
+            this.game.raiseEvent('onCardLeftPlay', params, event => {
                 event.card.leavesPlay();
 
                 if(event.card.parent && event.card.parent.attachments) {
@@ -953,7 +957,7 @@ class Player extends Spectator {
 
         if(card.location === 'province') {
             card.leavesPlay();
-            this.game.raiseMergedEvent('onCardLeftPlay', { player: this, card: card });
+            this.game.raiseEvent('onCardLeftPlay', { player: this, card: card });
         }
 
         if(card.location !== 'play area') {
@@ -974,7 +978,7 @@ class Player extends Spectator {
         }
 
         if(['conflict discard pile', 'dynasty discard pile'].includes(targetLocation)) {
-            this.game.raiseMergedEvent('onCardPlaced', { card: card, location: targetLocation });
+            this.game.raiseEvent('onCardPlaced', { card: card, location: targetLocation });
         }
     }
 
@@ -986,7 +990,7 @@ class Player extends Spectator {
         this.game.applyGameAction('bow', card, card => {
             card.bowed = true;
 
-            this.game.raiseMergedEvent('onCardBowed', { player: this, card: card });
+            this.game.raiseEvent('onCardBowed', { player: this, card: card });
         });
     }
 
@@ -998,7 +1002,7 @@ class Player extends Spectator {
         this.game.applyGameAction('ready', card, card => {
             card.bowed = false;
 
-            this.game.raiseMergedEvent('onCardStood', { player: this, card: card });
+            this.game.raiseEvent('onCardStood', { player: this, card: card });
         });
     }
 

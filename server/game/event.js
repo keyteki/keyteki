@@ -29,6 +29,7 @@ class Event {
 
         card.markAsSaved();
         this.cards = _.reject(this.cards, c => c === card);
+        card.game.raiseEvent('onCardSaved', { card: card });
 
         if(_.isEmpty(this.cards)) {
             this.cancel();

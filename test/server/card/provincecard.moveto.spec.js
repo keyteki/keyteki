@@ -6,7 +6,8 @@ const ProvinceCard = require('../../../server/game/provincecard.js');
 describe('ProvinceCard', function () {
     beforeEach(function () {
         this.testCard = { code: '111', label: 'test 1(some pack)', name: 'test 1' };
-        this.card = new ProvinceCard({}, this.testCard);
+        this.gameSpy = jasmine.createSpyObj('game', ['raiseEvent']);
+        this.card = new ProvinceCard({ game: this.gameSpy }, this.testCard);
         spyOn(this.card.events, 'register');
         spyOn(this.card.events, 'unregisterAll');
     });

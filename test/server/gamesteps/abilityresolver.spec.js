@@ -5,8 +5,8 @@ const AbilityResolver = require('../../../server/game/gamesteps/abilityresolver.
 
 describe('AbilityResolver', function() {
     beforeEach(function() {
-        this.game = jasmine.createSpyObj('game', ['markActionAsTaken', 'popAbilityContext', 'pushAbilityContext', 'raiseEvent', 'raiseMergedEvent', 'reportError']);
-        this.game.raiseMergedEvent.and.callFake((name, params, handler) => {
+        this.game = jasmine.createSpyObj('game', ['markActionAsTaken', 'popAbilityContext', 'pushAbilityContext', 'raiseEvent', 'reportError']);
+        this.game.raiseEvent.and.callFake((name, params, handler) => {
             if(handler) {
                 handler(params);
             }
@@ -46,7 +46,7 @@ describe('AbilityResolver', function() {
             });
 
             it('should not raise the onCardPlayed event', function() {
-                expect(this.game.raiseEvent).not.toHaveBeenCalledWith('onCardPlayed', jasmine.any(Object), jasmine.any(Object));
+                expect(this.game.raiseEvent).not.toHaveBeenCalledWith('onCardPlayed', jasmine.any(Object));
             });
         });
 
@@ -59,7 +59,7 @@ describe('AbilityResolver', function() {
             });
 
             it('should raise the onCardAbilityInitiated event', function() {
-                expect(this.game.raiseMergedEvent).toHaveBeenCalledWith('onCardAbilityInitiated', { player: this.player, source: this.source }, jasmine.any(Function));
+                expect(this.game.raiseEvent).toHaveBeenCalledWith('onCardAbilityInitiated', { player: this.player, source: this.source }, jasmine.any(Function));
             });
         });
 
@@ -72,7 +72,7 @@ describe('AbilityResolver', function() {
             });
 
             it('should not raise the onCardAbilityInitiated event', function() {
-                expect(this.game.raiseMergedEvent).not.toHaveBeenCalledWith('onCardAbilityInitiated', jasmine.any(Object), jasmine.any(Function));
+                expect(this.game.raiseEvent).not.toHaveBeenCalledWith('onCardAbilityInitiated', jasmine.any(Object), jasmine.any(Function));
             });
         });
 
@@ -84,7 +84,11 @@ describe('AbilityResolver', function() {
             });
 
             it('should raise the onCardPlayed event', function() {
+<<<<<<< HEAD
                 expect(this.game.raiseEvent).toHaveBeenCalledWith('onCardPlayed', this.player, this.source);
+=======
+                expect(this.game.raiseEvent).toHaveBeenCalledWith('onCardPlayed', jasmine.any(Object));
+>>>>>>> 3e9fc186... Remove legacy raiseEvent and rename raiseMergedEvent (#1284)
             });
         });
 

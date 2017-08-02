@@ -384,7 +384,7 @@ class Game extends EventEmitter {
         from.fate -= appliedFate;
         to.fate += appliedFate;
 
-        this.raiseMergedEvent('onFateTransferred', { source: from, target: to, amount: fate });
+        this.raiseEvent('onFateTransferred', { source: from, target: to, amount: fate });
     }
 
     checkWinCondition(player) {
@@ -522,7 +522,7 @@ class Game extends EventEmitter {
     }
 
     promptForDeckSearch(player, properties) {
-        this.raiseMergedEvent('onBeforeDeckSearch', { source: properties.source, player: player }, event => {
+        this.raiseEvent('onBeforeDeckSearch', { source: properties.source, player: player }, event => {
             this.queueStep(new DeckSearchPrompt(this, event.player, properties));
         });
     }
@@ -578,7 +578,7 @@ class Game extends EventEmitter {
     }
 
     beginRound() {
-        this.raiseMergedEvent('onBeginRound');
+        this.raiseEvent('onBeginRound');
         this.queueStep(new DynastyPhase(this));
         this.queueStep(new DrawPhase(this));
         this.queueStep(new ConflictPhase(this));
@@ -639,17 +639,7 @@ class Game extends EventEmitter {
         window.registerAbility(ability, context);
     }
 
-    raiseEvent(eventName, ...params) {
-        var handler = () => true;
-
-        if(_.isFunction(_.last(params))) {
-            handler = params.pop();
-        }
-
-        this.queueStep(new EventWindow(this, eventName, params, handler));
-    }
-
-    raiseMergedEvent(eventName, params, handler) {
+    raiseEvent(eventName, params, handler) {
         if(!handler) {
             handler = () => true;
         }
@@ -697,10 +687,11 @@ class Game extends EventEmitter {
             if(card.location !== 'play area') {
                 card.play(newController, false);
                 card.moveTo('play area');
-                this.raiseMergedEvent('onCardEntersPlay', { card: card, playingType: 'play' });
+                card.applyPersistentEffects();
+                this.raiseEvent('onCardEntersPlay', { card: card, playingType: 'play' });
             }
 
-            this.raiseMergedEvent('onCardTakenControl', { card: card });
+            this.raiseEvent('onCardTakenControl', { card: card });
         });
     }
 

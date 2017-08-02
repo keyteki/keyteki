@@ -21,7 +21,7 @@ class FatePhase extends Phase {
     }
 
     roundEnded() {
-        this.game.raiseMergedEvent('onRoundEnded');
+        this.game.raiseEvent('onRoundEnded');
     }
 }
 

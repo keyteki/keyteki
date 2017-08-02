@@ -105,7 +105,7 @@ class DrawCard extends BaseCard {
          * @param  {boolean}  applying -  [description]
          */
         this.militarySkillModifier += amount;
-        this.game.raiseMergedEvent('onCardMilitarySkillChanged', {
+        this.game.raiseEvent('onCardMilitarySkillChanged', {
             card: this,
             amount: amount,
             applying: applying
@@ -119,7 +119,7 @@ class DrawCard extends BaseCard {
          * @param  {boolean}  applying -  [description]
          */
         this.politicalSkillModifier += amount;
-        this.game.raiseMergedEvent('onCardPoliticalSkillChanged', {
+        this.game.raiseEvent('onCardPoliticalSkillChanged', {
             card: this,
             amount: amount,
             applying: applying
@@ -164,7 +164,8 @@ class DrawCard extends BaseCard {
             this.fate = 0;
         }
 
-        this.game.raiseEvent('onCardFateChanged', this, this.fate - oldFate);
+
+        this.game.raiseEvent('onCardFateChanged', { card: this, fate: card.fate - oldFate });
     
     }
 
