@@ -634,14 +634,17 @@ class Game extends EventEmitter {
         this.queueSimpleStep(() => this.abilityWindowStack.pop());
     }
 
-    registerAbility(ability, context) {
-        var currentReaction = _.last(this.abilityWindowStack);
+    registerAbility(ability) {
+        let windowIndex = _.findLastIndex(this.abilityWindowStack, window => ability.isTriggeredByEvent(window.event));
 
-        if(!currentReaction) {
-            return false;
+        if(windowIndex === -1) {
+            return;
         }
 
-        currentReaction.registerAbility(ability, context);
+        let window = this.abilityWindowStack[windowIndex];
+        let context = ability.createContext(window.event);
+
+        window.registerAbility(ability, context);
     }
 
     raiseEvent(eventName, ...params) {

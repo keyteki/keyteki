@@ -80,7 +80,10 @@ class TriggeredAbilityWindow extends BaseStep {
 
         this.abilityChoices = _.reject(this.abilityChoices, ability => ability.card === choice.card);
 
-        this.players = this.filterChoicelessPlayers(this.rotatedPlayerOrder(player));
+        // Always rotate player order without filtering, in case an ability is
+        // triggered that could then make another ability eligible after it is
+        // resolved: e.g. Rains of Castamere into Wardens of the West
+        this.players = this.rotatedPlayerOrder(player);
 
         return true;
     }

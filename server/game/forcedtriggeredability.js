@@ -32,10 +32,6 @@ class ForcedTriggeredAbility extends TriggeredAbility {
         return true;
     }
 
-    executeReaction(context) {
-        this.game.registerAbility(this, context);
-    }
-
     executeHandler(context) {
         if(this.handler(context) !== false && this.limit) {
             this.limit.increment();

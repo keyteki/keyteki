@@ -8,16 +8,24 @@ class About extends React.Component {
             <div>
                 <a className='btn btn-danger btn-lg pull-right' href='https://github.com/gryffon/ringteki/issues'>Report Problems</a>
                 <h2>Help and Information</h2>
+
                 <h3>What is this?</h3>
+
                 <p>This site was setup to allow you to play the Legend of the Five Rings, an LCG from Fantasy Flight Games (FFG) in your browser.</p>
+
                 <h3>That's pretty cool!  How do I play?</h3>
                 <p>That's kind of you to say.  Start by registering for an account or logging in if you already have one.  You must be logged in to play games or spectate on them.
                 Once you're logged in, go to the <Link href='/decks'>decks page.</Link>  You can create a deck by going to <a href='http://www.fiveringsdb.com' target='_blank'>L5R DB</a>,
                  clicking on the button to download your deck to a TXT file and copy/pasting it into the deck builder.  Then either join or create a game and you're good to go.</p>
 
+
                 <h3>Everyone has a shiny avatar, how do I get one?</h3>
                 <p>This is handled by the good people at <a href='http://gravatar.com' target='_blank'>Gravatar</a>.  Sign up there with the same email address you did there and it should appear on the site after a short while.
                 It will also use the avatar on any site that uses gravatar.  Examples include github and jinteki.</p>
+
+                <h3>Action windows</h3>
+                <p>Players will be prompted about whether they have actions or not during game <a href="https://thronesdb.com/rulesreference#Action_Windows">action windows</a>. By default, however, not all action windows are enabled. For example: you will be prompted by default after challenge attackers are declared, but not before the end of the dominance pahse. You can choose which action windows to be prompted for in your <a href="/profile">user profile</a> as well as override that while in-game by clicking on the small green triangle above the various dialog windows.</p>
+
                 <h3>Why doesn't xyz work?</h3>
                 <p>While the site has come on a lot recently, there are still some missing cards and things that aren't implemented. See <a href='http://bit.ly/ringteki'>This Link</a> for a list of the cards and their current implementation
                 status.  If it says 'Done' on that list, it should work and if it doesn't then it's a bug.</p>
@@ -30,6 +38,7 @@ class About extends React.Component {
                 <p>The following manual commands have been implemented in order to allow for a smoother gameplay experience:
                 </p>
                 <ul>
+                    <li>/bestow x - Adds x gold to the selected card. You must have enough gold to add.</li>
                     <li>/cancel-prompt - Clear the current prompt and resume the game flow.  Use with caution and only when the prompt is 'stuck' and you are unable to continue</li>
                     <li>/discard x - Discards x cards randomly from your hand</li>
                     <li>/draw x - Draws x cards from your deck to your hand</li>
@@ -58,6 +67,7 @@ class About extends React.Component {
                 If, after the annnual bills for that are paid up, there is any money left over, I'll put it towards the following years expenses.
                 Also, this is not required to continue to use and enjoy the site and will not give anything in return (other than my sincerce gratitude and potentially better hardware for the site to run on).
                 I will also put a donation report in with the monthly reports that I'm publishing so that you know where your donations are going.
+
                 */}
 
                 <h2>Special Thanks</h2>

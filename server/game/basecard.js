@@ -253,23 +253,28 @@ class BaseCard {
     }
 
     moveTo(targetLocation) {
-        if(LocationsWithEventHandling.includes(targetLocation) && !LocationsWithEventHandling.includes(this.location)) {
+        let originalLocation = this.location;
+
+        this.location = targetLocation;
+
+        if(LocationsWithEventHandling.includes(targetLocation) && !LocationsWithEventHandling.includes(originalLocation)) {
             this.events.register(this.eventsForRegistration);
-        } else if(LocationsWithEventHandling.includes(this.location) && !LocationsWithEventHandling.includes(targetLocation)) {
+        } else if(LocationsWithEventHandling.includes(originalLocation) && !LocationsWithEventHandling.includes(targetLocation)) {
             this.events.unregisterAll();
         }
 
         _.each(this.abilities.actions, action => {
-            if(action.isEventListeningLocation(targetLocation) && !action.isEventListeningLocation(this.location)) {
+            if(action.isEventListeningLocation(targetLocation) && !action.isEventListeningLocation(originalLocation)) {
                 action.registerEvents();
-            } else if(action.isEventListeningLocation(this.location) && !action.isEventListeningLocation(targetLocation)) {
+            } else if(action.isEventListeningLocation(originalLocation) && !action.isEventListeningLocation(targetLocation)) {
                 action.unregisterEvents();
             }
         });
         _.each(this.abilities.reactions, reaction => {
-            if(reaction.isEventListeningLocation(targetLocation) && !reaction.isEventListeningLocation(this.location)) {
+            if(reaction.isEventListeningLocation(targetLocation) && !reaction.isEventListeningLocation(originalLocation)) {
                 reaction.registerEvents();
-            } else if(reaction.isEventListeningLocation(this.location) && !reaction.isEventListeningLocation(targetLocation)) {
+                this.game.registerAbility(reaction);
+            } else if(reaction.isEventListeningLocation(originalLocation) && !reaction.isEventListeningLocation(targetLocation)) {
                 reaction.unregisterEvents();
             }
         });
@@ -277,8 +282,6 @@ class BaseCard {
         if(targetLocation !== 'play area') {
             this.facedown = false;
         }
-
-        this.location = targetLocation;
     }
 
     modifyFavor(player, glory) {

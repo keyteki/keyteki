@@ -66,28 +66,6 @@ describe('CardReaction', function () {
             expect(this.properties.when.onSomething).toHaveBeenCalledWith(this.event, 1, 2, 3);
         });
 
-        describe('when in the setup phase', function() {
-            beforeEach(function() {
-                this.gameSpy.currentPhase = 'setup';
-                this.executeEventHandler(1, 2, 3);
-            });
-
-            it('should not register the ability', function() {
-                expect(this.gameSpy.registerAbility).not.toHaveBeenCalled();
-            });
-        });
-
-        describe('when the card has been blanked', function() {
-            beforeEach(function() {
-                this.cardSpy.isBlank.and.returnValue(true);
-                this.executeEventHandler(1, 2, 3);
-            });
-
-            it('should not register the ability', function() {
-                expect(this.gameSpy.registerAbility).not.toHaveBeenCalled();
-            });
-        });
-
         describe('when the when condition returns false', function() {
             beforeEach(function() {
                 this.properties.when.onSomething.and.returnValue(false);
@@ -99,14 +77,70 @@ describe('CardReaction', function () {
             });
         });
 
-        describe('when the card is not in the proper location', function() {
+        describe('when the when condition returns true', function() {
             beforeEach(function() {
-                this.cardSpy.location = 'foo';
+                this.properties.when.onSomething.and.returnValue(true);
                 this.executeEventHandler(1, 2, 3);
             });
 
-            it('should not register the ability', function() {
-                expect(this.gameSpy.registerAbility).not.toHaveBeenCalled();
+            it('should register the ability', function() {
+                expect(this.gameSpy.registerAbility).toHaveBeenCalledWith(this.reaction);
+            });
+        });
+    });
+
+    describe('meetsRequirements()', function() {
+        beforeEach(function() {
+            this.meetsRequirements = () => {
+                this.event = new Event('onSomething', [1, 2, 3]);
+                this.reaction = new CardReaction(this.gameSpy, this.cardSpy, this.properties);
+                this.context = this.reaction.createContext(this.event);
+                return this.reaction.meetsRequirements(this.context);
+            };
+        });
+
+        it('should call the when handler with the appropriate arguments', function() {
+            this.meetsRequirements();
+            expect(this.properties.when.onSomething).toHaveBeenCalledWith(this.event, 1, 2, 3);
+        });
+
+        describe('when in the setup phase', function() {
+            beforeEach(function() {
+                this.gameSpy.currentPhase = 'setup';
+            });
+
+            it('should return false', function() {
+                expect(this.meetsRequirements()).toBe(false);
+            });
+        });
+
+        describe('when the card has been blanked', function() {
+            beforeEach(function() {
+                this.cardSpy.isBlank.and.returnValue(true);
+            });
+
+            it('should return false', function() {
+                expect(this.meetsRequirements()).toBe(false);
+            });
+        });
+
+        describe('when the when condition returns false', function() {
+            beforeEach(function() {
+                this.properties.when.onSomething.and.returnValue(false);
+            });
+
+            it('should return false', function() {
+                expect(this.meetsRequirements()).toBe(false);
+            });
+        });
+
+        describe('when the card is not in the proper location', function() {
+            beforeEach(function() {
+                this.cardSpy.location = 'foo';
+            });
+
+            it('should return false', function() {
+                expect(this.meetsRequirements()).toBe(false);
             });
         });
 
@@ -118,22 +152,20 @@ describe('CardReaction', function () {
             describe('and the limit has been reached', function() {
                 beforeEach(function() {
                     this.limitSpy.isAtMax.and.returnValue(true);
-                    this.executeEventHandler(1, 2, 3);
                 });
 
-                it('should not register the ability', function() {
-                    expect(this.gameSpy.registerAbility).not.toHaveBeenCalled();
+                it('should return false', function() {
+                    expect(this.meetsRequirements()).toBe(false);
                 });
             });
 
             describe('and the limit has not been reached', function() {
                 beforeEach(function() {
                     this.limitSpy.isAtMax.and.returnValue(false);
-                    this.executeEventHandler(1, 2, 3);
                 });
 
-                it('should register the ability', function() {
-                    expect(this.gameSpy.registerAbility).toHaveBeenCalledWith(this.reaction, jasmine.any(Object));
+                it('should return true', function() {
+                    expect(this.meetsRequirements()).toBe(true);
                 });
             });
         });
@@ -147,22 +179,20 @@ describe('CardReaction', function () {
             describe('and the cost can be paid', function() {
                 beforeEach(function() {
                     this.cost.canPay.and.returnValue(true);
-                    this.executeEventHandler(1, 2, 3);
                 });
 
-                it('should register the ability', function() {
-                    expect(this.gameSpy.registerAbility).toHaveBeenCalledWith(this.reaction, jasmine.any(Object));
+                it('should return true', function() {
+                    expect(this.meetsRequirements()).toBe(true);
                 });
             });
 
             describe('and the cost cannot be paid', function() {
                 beforeEach(function() {
                     this.cost.canPay.and.returnValue(false);
-                    this.executeEventHandler(1, 2, 3);
                 });
 
-                it('should not register the ability', function() {
-                    expect(this.gameSpy.registerAbility).not.toHaveBeenCalled();
+                it('should return false', function() {
+                    expect(this.meetsRequirements()).toBe(false);
                 });
             });
         });
