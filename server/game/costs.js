@@ -158,8 +158,6 @@ const Costs = {
         };
     },
     /**
-<<<<<<< HEAD
-=======
      * Cost that requires sacrificing a card that matches the passed condition
      * predicate function.
      */
@@ -199,7 +197,6 @@ const Costs = {
         };
     },
     /**
->>>>>>> 1c426fd2... Implement `choose` cost. (#1034)
      * Cost that will remove from game the card that initiated the ability.
      */
     removeSelfFromGame: function() {
@@ -265,8 +262,6 @@ const Costs = {
         };
     },
     /**
-<<<<<<< HEAD
-=======
      * Cost that requires revealing a certain number of cards in hand that match
      * the passed condition predicate function.
      */
@@ -313,7 +308,6 @@ const Costs = {
         };
     },
     /**
->>>>>>> 1c426fd2... Implement `choose` cost. (#1034)
      * Cost that will stand the card that initiated the ability (e.g.,
      * Barristan Selmy (TS)).
      */
@@ -391,31 +385,7 @@ const Costs = {
     discardFate: function() {
         return {
             canPay: function(context) {
-<<<<<<< HEAD
                 return context.source.hasToken('fate');
-=======
-                return context.player.anyCardsInPlay(card => fullCondition(card, context));
-            },
-            resolve: function(context, result = { resolved: false }) {
-                context.game.promptForSelect(context.player, {
-                    cardCondition: card => fullCondition(card, context),
-                    activePromptTitle: 'Select card to discard ' + amount + ' power from',
-                    source: context.source,
-                    onSelect: (player, card) => {
-                        context.discardPowerCostCard = card;
-                        result.value = true;
-                        result.resolved = true;
-
-                        return true;
-                    },
-                    onCancel: () => {
-                        result.value = false;
-                        result.resolved = true;
-                    }
-                });
-
-                return result;
->>>>>>> 1c426fd2... Implement `choose` cost. (#1034)
             },
             pay: function(context) {
                 context.source.removeToken('fate', 1);
