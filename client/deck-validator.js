@@ -47,7 +47,7 @@ function isCardInReleasedPack(packs, card) {
     return releaseDate <= now;
 }
 
-export function validateDeck(deck, packs) {
+module.exports = function validateDeck(deck, packs) {
     var provinceCount = getDeckCount(deck.provinceCards);
     var conflictDrawCount = getDeckCount(deck.conflictDrawCards);
     var dynastyDrawCount = getDeckCount(deck.dynastyDrawCards);
