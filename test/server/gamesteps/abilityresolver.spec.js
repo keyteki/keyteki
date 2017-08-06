@@ -84,11 +84,7 @@ describe('AbilityResolver', function() {
             });
 
             it('should raise the onCardPlayed event', function() {
-<<<<<<< HEAD
-                expect(this.game.raiseEvent).toHaveBeenCalledWith('onCardPlayed', this.player, this.source);
-=======
                 expect(this.game.raiseEvent).toHaveBeenCalledWith('onCardPlayed', jasmine.any(Object));
->>>>>>> 3e9fc186... Remove legacy raiseEvent and rename raiseMergedEvent (#1284)
             });
         });
 

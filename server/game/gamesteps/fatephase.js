@@ -14,7 +14,7 @@ class FatePhase extends Phase {
 
     returnGold() {
         _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
-            this.game.raiseMergedEvent('onUnspentGoldReturned', { player: player }, () => {
+            this.game.raiseEvent('onUnspentGoldReturned', { player: player }, () => {
                 player.taxation();
             });
         });

@@ -595,7 +595,7 @@ class Player extends Spectator {
 
         attachment.parent = card;
         attachment.moveTo('play area');
-        this.game.raiseMergedEvent('onCardEntersPlay', { card: attachment, playingType: playingType });
+        this.game.raiseEvent('onCardEntersPlay', { card: attachment, playingType: playingType });
         card.attachments.push(attachment);
 
         attachment.attach(player, card);

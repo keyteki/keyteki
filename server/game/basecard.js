@@ -315,7 +315,7 @@ class BaseCard {
         }
 
         if(originalLocation !== targetLocation) {
-            this.game.raiseMergedEvent('onCardMoved', { card: this, originalLocation: originalLocation, newLocation: targetLocation });
+            this.game.raiseEvent('onCardMoved', { card: this, originalLocation: originalLocation, newLocation: targetLocation });
         }
     }
 
