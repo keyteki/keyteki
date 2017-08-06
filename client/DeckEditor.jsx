@@ -150,10 +150,10 @@ class InnerDeckEditor extends React.Component {
                     let rawAlliance;
                     
                     let alliance = _.find(this.props.allianceFactions, alliance => alliance.name === header[2]);
-                        if(alliance) {
-                            deck.alliance = alliance;
+                    if(alliance) {
+                        deck.alliance = alliance;
+                    }
                 }
-
             }
         }
 
@@ -254,46 +254,21 @@ class InnerDeckEditor extends React.Component {
             return <div>Waiting for deck...</div>;
         }
 
-        let banners = this.getBannerList();
-
         return (
             <div className='col-sm-6'>
                 <h2>Deck Editor</h2>
                 <h4>Either type the cards manually into the box below, add the cards one by one using the card box and autocomplete or for best results, copy and paste a decklist from <a href='http://fiveringsdb.com' target='_blank'>FiveRings DB</a> into the box below.</h4>
                 <form className='form form-horizontal'>
                     <Input name='deckName' label='Deck Name' labelClass='col-sm-3' fieldClass='col-sm-9' placeholder='Deck Name'
-<<<<<<< HEAD
-                        type='text' onChange={this.onChange.bind(this, 'deckName')} value={this.state.deckName} />
-                    <Select name='faction' label='Clan' labelClass='col-sm-3' fieldClass='col-sm-9' options={this.state.factions}
-                        onChange={this.onFactionChange} value={this.state.selectedFaction.value} />
-                    <Select name='alliance' label='Alliance' labelClass='col-sm-3' fieldClass='col-sm-9' options={this.state.allianceFactions}
-                        onChange={this.onAllyChange} value={this.state.selectedAlly.value} />
-
-
-                    <Typeahead label='Card' labelClass={'col-sm-3'} fieldClass='col-sm-4' labelKey={'name'} options={this.props.cards}
-                        onChange={this.addCardChange}>
-=======
                         type='text' onChange={this.onChange.bind(this, 'name')} value={ this.state.deck.name } />
-                    <Select name='faction' label='Faction' labelClass='col-sm-3' fieldClass='col-sm-9' options={ _.toArray(this.props.factions) }
-                        onChange={ this.onFactionChange.bind(this) } value={ this.state.deck.faction ? this.state.deck.faction.value : undefined } />
-                    <Select name='agenda' label='Agenda' labelClass='col-sm-3' fieldClass='col-sm-9' options={ _.toArray(this.props.agendas) }
-                        onChange={ this.onAgendaChange.bind(this) } value={ this.state.deck.agenda ? this.state.deck.agenda.code : undefined }
-                        valueKey='code' nameKey='label' blankOption={ { label: '- Select -', code: '' } } />
+                    <Select name='faction' label='Clan' labelClass='col-sm-3' fieldClass='col-sm-9' options={this.state.factions}
+                        onChange={this.onFactionChange.bind(this)} value={ this.state.deck.faction ? this.state.deck.faction.value : undefined } />
+                    <Select name='alliance' label='Alliance' labelClass='col-sm-3' fieldClass='col-sm-9' options={this.state.allianceFactions}
+                        onChange={this.onAllianceChange.bind(this)} value={ this.state.deck.alliance ? this.state.deck.alliance.code : undefined } />
 
-                    { this.state.showBanners &&
-                    <div>
-                        <Select name='banners' label ='Banners' labelClass='col-sm-3' fieldClass='col-sm-9' options={ this.props.banners }
-                            onChange={ this.onBannerChange.bind(this) } value={ this.state.selectedBanner ? this.state.selectedBanner.code : undefined }
-                            valueKey='code' nameKey='label'
-                            blankOption={ { label: '- Select -', code: '' } } button={ { text:'Add', onClick: this.onAddBanner.bind(this) } } />
-                        <div className='col-sm-9 col-sm-offset-3 banner-list'>
-                            { banners }
-                        </div>
-                    </div>
-                    }
+
                     <Typeahead label='Card' labelClass={'col-sm-3'} fieldClass='col-sm-4' labelKey={'label'} options={ _.toArray(this.props.cards) }
-                        onChange={ this.addCardChange.bind(this) }>
->>>>>>> a9ca41a4... Refactor the deck builder to make better use of redux, and to only send (#1137)
+                        onChange={this.addCardChange.bind(this) }>
                         <Input name='numcards' type='text' label='Num' labelClass='col-sm-1' fieldClass='col-sm-2'
                             value={ this.state.numberToAdd.toString() } onChange={ this.onChange.bind(this, 'numberToAdd') }>
                             <div className='col-sm-1'>
