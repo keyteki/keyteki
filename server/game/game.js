@@ -830,6 +830,10 @@ class Game extends EventEmitter {
         this.addMessage('{0} has reconnected', player);
     }
 
+    reapplyStateDependentEffects() {
+        this.effectEngine.reapplyStateDependentEffects();
+    }
+ 
     continue() {
         this.effectEngine.reapplyStateDependentEffects();
         this.pipeline.continue();
