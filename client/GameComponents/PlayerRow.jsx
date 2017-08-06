@@ -82,7 +82,7 @@ class PlayerRow extends React.Component {
                     className='additional-cards'
                     isMe={ this.props.isMe } 
                     onMouseOut={ this.props.onMouseOut }
-                    onMouseOver={t his.props.onMouseOver }
+                    onMouseOver={ this.props.onMouseOver }
                     pile={ pile }
                     spectating={ this.props.spectating } />
             );
