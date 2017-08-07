@@ -101,17 +101,13 @@ class InnerDeckEditor extends React.Component {
         this.props.updateDeck(deck);
     }
 
-    onAgendaChange(selectedAgenda) {
+    onAllianceChange(selectedAlliance) {
         let deck = this.copyDeck(this.state.deck);
 
-        deck.agenda = selectedAgenda;
+        deck.alliance = selectedAlliance;
 
-        this.setState({ deck: deck, showBanners: deck.agenda && deck.agenda.code === '06018' }); // Alliance
+        this.setState({ deck: deck, showAlliance: deck.alliance }); // Alliance
         this.props.updateDeck(deck);
-    }
-
-    onAllianceChange(event) {
-        this.setState({ selectedAlliance: selectedAlliance });
     }
 
     addCardChange(selectedCards) {
@@ -245,19 +241,6 @@ class InnerDeckEditor extends React.Component {
         }
     }
 
-    getBannerList() {
-        if(_.size(this.props.deck.bannerCards) === 0) {
-            return null;
-        }
-
-        return _.map(this.props.deck.bannerCards, card => {
-            return (<div>
-                <span key={ card.code } className='card-link col-sm-10'>{ card.label }</span>
-                <span className='glyphicon glyphicon-remove icon-danger btn col-sm-1' aria-hidden='true' onClick={ this.onRemoveBanner.bind(this, card) } />
-            </div>);
-        });
-    }
-
     render() {
         if(!this.props.deck || this.props.loading) {
             return <div>Waiting for deck...</div>;
@@ -273,8 +256,8 @@ class InnerDeckEditor extends React.Component {
                     <Select name='faction' label='Clan' labelClass='col-sm-3' fieldClass='col-sm-9' options={ _.toArray(this.props.factions) }
                         onChange={ this.onFactionChange.bind(this) } value={ this.state.deck.faction ? this.state.deck.faction.value : undefined } />
                     <Select name='alliance' label='Alliance' labelClass='col-sm-3' fieldClass='col-sm-9' options={ _.toArray(this.props.alliances) }
-                        onChange={ this.onAllianceChange.bind(this) } value={ this.state.deck.alliance ? this.state.deck.alliance.code : undefined } 
-                        valueKey='code' nameKey='label' blankOption={ { label: '- Select -', code: '' } } />
+                        onChange={ this.onAllianceChange.bind(this) } value={ this.state.deck.alliance ? this.state.deck.alliance.value : undefined } 
+                        valueKey='value' nameKey='label' blankOption={ { label: '- Select -', code: '' } } />
 
                     <Typeahead label='Card' labelClass={ 'col-sm-3' } fieldClass='col-sm-4' labelKey={ 'label' } options={ _.toArray(this.props.cards) }
                         onChange={ this.addCardChange.bind(this) }>
