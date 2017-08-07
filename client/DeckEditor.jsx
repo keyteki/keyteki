@@ -43,11 +43,11 @@ class InnerDeckEditor extends React.Component {
                 cardList += card.count + ' ' + card.card.name + '\n';
             });
 
-             _.each(this.props.deck.conflictDrawCards, card => {
+            _.each(this.props.deck.conflictDrawCards, card => {
                 cardList += card.count + ' ' + card.card.name + '\n';
             });
 
-              _.each(this.props.deck.dynastyDrawCards, card => {
+            _.each(this.props.deck.dynastyDrawCards, card => {
                 cardList += card.count + ' ' + card.card.name + '\n';
             });
 
@@ -269,15 +269,15 @@ class InnerDeckEditor extends React.Component {
                 <h4>Either type the cards manually into the box below, add the cards one by one using the card box and autocomplete or for best results, copy and paste a decklist from <a href='http://fiveringsdb.com' target='_blank'>FiveRings DB</a> into the box below.</h4>
                 <form className='form form-horizontal'>
                     <Input name='deckName' label='Deck Name' labelClass='col-sm-3' fieldClass='col-sm-9' placeholder='Deck Name'
-                        type='text' onChange={this.onChange.bind(this, 'name')} value={ this.state.deck.name } />
+                        type='text' onChange={ this.onChange.bind(this, 'name') } value={ this.state.deck.name } />
                     <Select name='faction' label='Clan' labelClass='col-sm-3' fieldClass='col-sm-9' options={ _.toArray(this.props.factions) }
-                        onChange={this.onFactionChange.bind(this)} value={ this.state.deck.faction ? this.state.deck.faction.value : undefined } />
+                        onChange={ this.onFactionChange.bind(this) } value={ this.state.deck.faction ? this.state.deck.faction.value : undefined } />
                     <Select name='alliance' label='Alliance' labelClass='col-sm-3' fieldClass='col-sm-9' options={ _.toArray(this.props.alliances) }
-                        onChange={this.onAllianceChange.bind(this)} value={ this.state.deck.alliance ? this.state.deck.alliance.code : undefined } 
+                        onChange={ this.onAllianceChange.bind(this) } value={ this.state.deck.alliance ? this.state.deck.alliance.code : undefined } 
                         valueKey='code' nameKey='label' blankOption={ { label: '- Select -', code: '' } } />
 
-                    <Typeahead label='Card' labelClass={'col-sm-3'} fieldClass='col-sm-4' labelKey={'label'} options={ _.toArray(this.props.cards) }
-                        onChange={this.addCardChange.bind(this) }>
+                    <Typeahead label='Card' labelClass={ 'col-sm-3' } fieldClass='col-sm-4' labelKey={ 'label' } options={ _.toArray(this.props.cards) }
+                        onChange={ this.addCardChange.bind(this) }>
                         <Input name='numcards' type='text' label='Num' labelClass='col-sm-1' fieldClass='col-sm-2'
                             value={ this.state.numberToAdd.toString() } onChange={ this.onNumberToAddChange.bind(this) }>
                             <div className='col-sm-1'>
