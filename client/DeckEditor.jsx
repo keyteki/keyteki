@@ -301,7 +301,7 @@ class InnerDeckEditor extends React.Component {
 InnerDeckEditor.displayName = 'DeckEditor';
 InnerDeckEditor.propTypes = {
     alliances: React.PropTypes.object,
-    cards: React.PropTypes.array,
+    cards: React.PropTypes.object,
     deck: React.PropTypes.object,
     factions: React.PropTypes.object,
     loading: React.PropTypes.bool,
