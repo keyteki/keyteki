@@ -516,11 +516,11 @@ export class InnerGameBoard extends React.Component {
                         <PlayerRow isMe={!this.state.spectating}
                             additionalPiles={thisPlayer.additionalPiles}
                             hand={thisPlayer.hand}
+                            onCardClick={this.onCardClick}
                             onMouseOver={this.onMouseOver}
                             onMouseOut={this.onMouseOut}
                             onDragDrop={this.onDragDrop}
-                            spectating={this.state.spectating}
-                            onMenuItemClick={this.onMenuItemClick} />
+                            spectating={this.state.spectating} />
                     </div>
                 </div>
                 <div className='right-side'>
