@@ -27,7 +27,7 @@ class BaseCard {
         this.cardData = cardData;
 
         this.uuid = uuid.v1();
-        this.code = cardData.code;
+        this.id = cardData.id;
         this.name = cardData.name;
         this.facedown = false;
         this.blankCount = 0;
@@ -477,7 +477,7 @@ class BaseCard {
 
     getShortSummary() {
         return {
-            code: this.cardData.code,
+            id: this.cardData.id,
             label: this.cardData.name,
             name: this.cardData.name,
             type: this.getType()
@@ -493,7 +493,7 @@ class BaseCard {
 
         let selectionState = activePlayer.getCardSelectionState(this);
         let state = {
-            code: this.cardData.code,
+            id: this.cardData.id,
             controlled: this.owner !== this.controller,
             facedown: this.facedown,
             menu: this.getMenu(),

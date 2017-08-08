@@ -18,7 +18,7 @@ module.exports = {
             _.each(fs.readdirSync(normalisedPath), file => {
                 var card = require('./cards/' + basePath + '/' + dir + '/' + file);
 
-                cards[card.code] = card;
+                cards[card.id] = card;
             });
         });
 

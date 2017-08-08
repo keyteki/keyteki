@@ -567,8 +567,7 @@ class Lobby {
                     name: player.name,
                     emailHash: player.emailHash,
                     owner: game.owner === player.name,
-                    faction: { cardData: { code: player.faction } },
-                    agenda: { cardData: { code: player.agenda } }
+                    faction: player.faction 
                 };
             });
 

@@ -387,7 +387,7 @@ export class InnerGameBoard extends React.Component {
                             <PlayerStats fate={otherPlayer ? otherPlayer.fate : 0} honor={otherPlayer ? otherPlayer.totalHonor : 0} user={otherPlayer ? otherPlayer.user : null} />
                             <div className='deck-info'>
                                 { otherPlayer ? <div className={'first-player-indicator ' + (!thisPlayer.firstPlayer ? '' : 'hidden')}>First player</div> : ''}
-                                <HonorFan value={otherPlayer ? otherPlayer.showBid : 0} />
+                                <HonorFan value={otherPlayer ? otherPlayer.showBid : '0'} />
                             </div>
                         </div>
                         <div className='middle'>
@@ -524,7 +524,7 @@ export class InnerGameBoard extends React.Component {
                     </div>
                 </div>
                 <div className='right-side'>
-                    <CardZoom imageUrl={ this.props.cardToZoom ? '/img/cards/' + this.props.cardToZoom.code + '.png' : '' }
+                    <CardZoom imageUrl={ this.props.cardToZoom ? '/img/cards/' + this.props.cardToZoom.id + '.png' : '' }
                         orientation={ this.props.cardToZoom ? this.props.cardToZoom.type === 'plot' ? 'horizontal' : 'vertical' : 'vertical' }
                         show={ !!this.props.cardToZoom } cardName={ this.props.cardToZoom ? this.props.cardToZoom.name : null } />
                     <div className='chat'>

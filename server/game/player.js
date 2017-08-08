@@ -182,7 +182,7 @@ class Player extends Spectator {
         }
 
         return this.findCard(this.cardsInPlay, playCard => {
-            return playCard !== card && (playCard.code === card.code || playCard.name === card.name);
+            return playCard !== card && (playCard.id === card.id || playCard.name === card.name);
         });
     }
 
