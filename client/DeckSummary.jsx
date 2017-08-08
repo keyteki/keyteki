@@ -30,7 +30,7 @@ class DeckSummary extends React.Component {
     getCardsToRender() {
         var cardsToRender = [];
         var groupedCards = {};
-        var combinedCards = _.union(this.props.deck.provinceCards, this.props.deck.stronghold, this.props.deck.conflictDrawCards, this.props.deck.dynastyDrawCards);
+        var combinedCards = _.union(this.props.deck.provinceCards, this.props.deck.stronghold, this.props.deck.conflictCards, this.props.deck.dynastyCards);
 
         _.each(combinedCards, (card) => {
             if(!groupedCards[card.card.type]) {
@@ -68,14 +68,14 @@ class DeckSummary extends React.Component {
                 <h3>{ this.props.deck.name }</h3>
                 <div className='decklist'>
                     <img className='pull-left' src={ '/img/mons/' + this.props.deck.faction.value + '.png' } />
-                     { this.props.deck.allianceFaction && this.props.deck.allianceFaction.value !== 'none' ? <img className='pull-right' src={ '/img/mons/' + this.props.deck.allianceFaction.value + '.png' } /> : null }
+                    { this.props.deck.alliance && this.props.deck.alliance.value !== 'none' ? <img className='pull-right' src={ '/img/mons/' + this.props.deck.alliance.value + '.png' } /> : null }
                     <div>
                         <h4>{ this.props.deck.faction.name }</h4>
-                        <div ref='allianceFaction'>Alliance: { this.props.deck.allianceFaction && this.props.deck.allianceFaction.name ? <span> {this.props.deck.allianceFaction.name} </span> : <span> None </span> } </div>
+                        <div ref='alliance'>Alliance: { this.props.deck.alliance && this.props.deck.alliance.name ? <span> { this.props.deck.alliance.name } </span> : <span> None </span> } </div>
                    
-                        <div ref='provinceCount'>Province deck: { this.props.deck.provinceCount } cards</div>
-                        <div ref='dynastyDrawCount'>Dynasty Deck: { this.props.deck.dynastyDrawCount } cards</div>
-                        <div ref='conflictDrawCount'>Conflict Deck: { this.props.deck.conflictDrawCount } cards</div>
+                        <div ref='provinceCount'>Province deck: { this.props.deck.validation.provinceCount } cards</div>
+                        <div ref='dynastyDrawCount'>Dynasty Deck: { this.props.deck.validation.dynastyCount } cards</div>
+                        <div ref='conflictDrawCount'>Conflict Deck: { this.props.deck.validation.conflictCount } cards</div>
                                               
                         <div className={ this.props.deck.validation.status === 'Valid' ? 'text-success' : 'text-danger' }>
                             <StatusPopOver status={ this.props.deck.validation.status } list={ this.props.deck.validation.extendedStatus }

@@ -60,11 +60,11 @@ export function saveDeck(deck) {
     let str = JSON.stringify({
         deckName: deck.name,
         faction: { name: deck.faction.name, value: deck.faction.value },
-        plotCards: formatCards(deck.plotCards),
-        drawCards: formatCards(deck.drawCards),
-        bannerCards: _.map(deck.bannerCards, card => {
-            return { code: card.code };
-        })
+        alliance: { name: deck.alliance.name, value: deck.alliance.value },
+        stronghold: formatCards(deck.stronghold),
+        provinceCards: formatCards(deck.provinceCards),
+        conflictCards: formatCards(deck.conflictCards),
+        dynastyCards: formatCards(deck.dynastyCards)
     });
 
     return {

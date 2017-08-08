@@ -8,7 +8,7 @@ class DeckRow extends React.Component {
                 <img className='pull-left' src={ '/img/mons/' + this.props.deck.faction.value + '.png' } />
                 <div>{ this.props.deck.name }<span className='pull-right'>{ this.props.deck.validation.status }</span></div>
                 <div>{ this.props.deck.faction.name }
-                    { this.props.deck.allianceFaction && this.props.deck.allianceFaction.value !== 'none' ? <span>/{ this.props.deck.allianceFaction.name }</span> : null }
+                    { this.props.deck.alliance && this.props.deck.alliance.value !== 'none' ? <span>/{ this.props.deck.alliance.name }</span> : null }
                     <span className='pull-right'>{ moment(this.props.deck.lastUpdated).format('Do MMMM YYYY') }</span>
                 </div>
             </div>);

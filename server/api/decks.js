@@ -79,10 +79,10 @@ module.exports.init = function(server) {
                         name: data.deckName,
                         provinceCards: data.provinceCards,
                         stronghold: data.stronghold,
-                        conflictDrawCards: data.conflictDrawCards,
-                        dynastyDrawCards: data.dynastyDrawCards,
+                        conflictCards: data.conflictCards,
+                        dynastyCards: data.dynastyCards,
                         faction: data.faction,
-                        allianceFaction: data.allianceFaction,
+                        alliance: data.alliance,
                         lastUpdated: new Date()
                     }
                 });
@@ -103,10 +103,10 @@ module.exports.init = function(server) {
             name: data.deckName,
             provinceCards: data.provinceCards,
             stronghold: data.stronghold,
-            conflictDrawCards: data.conflictDrawCards,
-            dynastyDrawCards: data.dynastyDrawCards,
+            conflictCards: data.conflictCards,
+            dynastyCards: data.dynastyCards,
             faction: data.faction,
-            allianceFaction: data.allianceFaction,
+            alliance: data.alliance,
             lastUpdated: new Date()
         }, function(err) {
             if(err) {

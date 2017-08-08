@@ -58,6 +58,7 @@ class InnerEditDeck extends React.Component {
 
 InnerEditDeck.displayName = 'InnerEditDeck';
 InnerEditDeck.propTypes = {
+    alliances: React.PropTypes.object,
     apiError: React.PropTypes.string,
     banners: React.PropTypes.array,
     cards: React.PropTypes.object,
@@ -75,6 +76,7 @@ InnerEditDeck.propTypes = {
 
 function mapStateToProps(state) {
     return {
+        alliances: state.cards.factions,
         apiError: state.api.message,
         banners: state.cards.banners,
         cards: state.cards.cards,

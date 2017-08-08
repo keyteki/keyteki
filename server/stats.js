@@ -24,6 +24,7 @@ gameRepository.getAllGames(args[0], args[1], (err, games) => {
 
     let players = {};
     let factions = {};
+    let alliances = {};
     let factionAgendas = {};
 
     _.each(games, game => {
@@ -48,21 +49,28 @@ gameRepository.getAllGames(args[0], args[1], (err, games) => {
                 factions[player.faction] = { name: player.faction, wins: 0, losses: 0 };
             }
 
+            if(!alliances[player.alliance]) {
+                alliance[player.alliance] = { name: player.alliance, wins: 0, losses: 0 };
+            }
+
             if(!factionAgendas[player.faction + player.agenda]) {
                 factionAgendas[player.faction + player.agenda] = { name: player.faction + ' / ' + player.agenda, wins: 0, losses: 0 };
             }
 
             var playerStat = players[player.name];
             var factionStat = factions[player.faction];
+            var allianceStat = alliances[player.alliance];
             var factionAgendaStat = factionAgendas[player.faction + player.agenda];
 
             if(player.name === game.winner) {
                 playerStat.wins++;
                 factionStat.wins++;
+                allianceStat.wins++;
                 factionAgendaStat.wins++;
             } else {
                 playerStat.losses++;
                 factionStat.losses++;
+                allianceStat.losses++;
                 factionAgendaStat.losses++;
             }
         });
@@ -88,6 +96,12 @@ gameRepository.getAllGames(args[0], args[1], (err, games) => {
 
     let factionWinRates = _.map(factions, faction => {
         let games = faction.wins + faction.losses;
+
+        return { name: faction.name, wins: faction.wins, losses: faction.losses, winRate: Math.round(((faction.wins / games) * 100)) };
+    });
+
+    let allianceWinRates = _.map(alliances, faction => {
+        let games = alliance.wins + alliance.losses;
 
         return { name: faction.name, wins: faction.wins, losses: faction.losses, winRate: Math.round(((faction.wins / games) * 100)) };
     });

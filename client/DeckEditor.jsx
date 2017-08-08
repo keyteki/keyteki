@@ -38,16 +38,16 @@ class InnerDeckEditor extends React.Component {
         }
         let cardList = '';
 
-        if(this.props.deck && (this.props.deck.stronghold || this.props.deck.provinceCards || this.props.deck.conflictDrawCards || this.props.deck.dynastyDrawCards)) {
+        if(this.props.deck && (this.props.deck.stronghold || this.props.deck.provinceCards || this.props.deck.conflictCards || this.props.deck.dynastyCards)) {
             _.each(this.props.deck.stronghold, card => {
                 cardList += card.count + ' ' + card.card.name + '\n';
             });
 
-            _.each(this.props.deck.conflictDrawCards, card => {
+            _.each(this.props.deck.conflictCards, card => {
                 cardList += card.count + ' ' + card.card.name + '\n';
             });
 
-            _.each(this.props.deck.dynastyDrawCards, card => {
+            _.each(this.props.deck.dynastyCards, card => {
                 cardList += card.count + ' ' + card.card.name + '\n';
             });
 
@@ -70,9 +70,8 @@ class InnerDeckEditor extends React.Component {
             name: deck.name,
             stronghold: deck.stronghold,
             provinceCards: deck.provinceCards,
-            conflictDrawCards: deck.conflictDrawCards,
-            dynastyDrawCards: deck.dynastyDrawCards,
-            drawCards: deck.drawCards,
+            conflictCards: deck.conflictCards,
+            dynastyCards: deck.dynastyCards,
             faction: deck.faction,
             alliance: deck.alliance,
             validation: deck.validation
@@ -164,8 +163,8 @@ class InnerDeckEditor extends React.Component {
 
         deck.stronghold = [];
         deck.provinceCards = [];
-        deck.conflictDrawCards = [];
-        deck.dynastyDrawCards = [];
+        deck.conflictCards = [];
+        deck.dynastyCards = [];
         
         _.each(split, line => {
             line = line.trim();
@@ -211,8 +210,8 @@ class InnerDeckEditor extends React.Component {
         let deck = this.copyDeck(this.state.deck);
         let provinces = deck.provinceCards;
         let stronghold = deck.stronghold;
-        let conflict = deck.conflictDrawCards;
-        let dynasty = deck.dynastyDrawCards;
+        let conflict = deck.conflictCards;
+        let dynasty = deck.dynastyCards;
 
         let list;
 
@@ -257,9 +256,9 @@ class InnerDeckEditor extends React.Component {
                         onChange={ this.onFactionChange.bind(this) } value={ this.state.deck.faction ? this.state.deck.faction.value : undefined } />
                     <Select name='alliance' label='Alliance' labelClass='col-sm-3' fieldClass='col-sm-9' options={ _.toArray(this.props.alliances) }
                         onChange={ this.onAllianceChange.bind(this) } value={ this.state.deck.alliance ? this.state.deck.alliance.value : undefined } 
-                        valueKey='value' nameKey='label' blankOption={ { label: '- Select -', code: '' } } />
+                        valueKey='value' nameKey='name' blankOption={ { name: '- Select -', value: '' } } />
 
-                    <Typeahead label='Card' labelClass={ 'col-sm-3' } fieldClass='col-sm-4' labelKey={ 'label' } options={ _.toArray(this.props.cards) }
+                    <Typeahead label='Card' labelClass={ 'col-sm-3' } fieldClass='col-sm-4' labelKey={ 'name' } options={ _.toArray(this.props.cards) }
                         onChange={ this.addCardChange.bind(this) }>
                         <Input name='numcards' type='text' label='Num' labelClass='col-sm-1' fieldClass='col-sm-2'
                             value={ this.state.numberToAdd.toString() } onChange={ this.onNumberToAddChange.bind(this) }>
@@ -297,7 +296,7 @@ InnerDeckEditor.propTypes = {
 function mapStateToProps(state) {
     return {
         apiError: state.api.message,
-        alliances: state.cards.alliances,
+        alliances: state.cards.factions,
         cards: state.cards.cards,
         deck: state.cards.selectedDeck,
         decks: state.cards.decks,

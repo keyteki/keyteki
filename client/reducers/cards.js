@@ -19,15 +19,23 @@ function processDecks(decks, state) {
         }
 
         deck.faction = state.factions[deck.faction.value];
-        if(deck.agenda) {
-            deck.agenda = state.agendas[deck.agenda.code];
+        if(deck.alliance) {
+            deck.alliance = state.factions[deck.alliance.value];
         }
 
-        deck.plotCards = _.map(deck.plotCards, card => {
+        deck.stronghold = _.map(deck.stronghold, card => {
             return { count: card.count, card: state.cards[card.card.code] };
         });
 
-        deck.drawCards = _.map(deck.drawCards, card => {
+        deck.provinceCards = _.map(deck.provinceCards, card => {
+            return { count: card.count, card: state.cards[card.card.code] };
+        });
+
+        deck.conflictCards = _.map(deck.conflictCards, card => {
+            return { count: card.count, card: state.cards[card.card.code] };
+        });
+
+        deck.dynastyCards = _.map(deck.dynastyCards, card => {
             return { count: card.count, card: state.cards[card.card.code] };
         });
 

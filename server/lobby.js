@@ -458,17 +458,21 @@ class Lobby {
 
                 this.deckRepository.getById(deckId, (err, deck) => {
 
-                    _.each(deck.plotCards, plot => {
-                        plot.card = cards[plot.card.code];
+                    _.each(deck.stronghold, stronghold => {
+                        stronghold.card = cards[stronghold.card.code];
                     });
 
-                    _.each(deck.drawCards, draw => {
-                        draw.card = cards[draw.card.code];
+                    _.each(deck.provinceCards, province => {
+                        province.card = cards[province.card.code];
                     });
 
-                    if(deck.agenda) {
-                        deck.agenda = cards[deck.agenda.code];
-                    }
+                    _.each(deck.conflictCards, conflict => {
+                        conflict.card = cards[conflict.card.code];
+                    });
+
+                    _.each(deck.dynastyCards, dynasty => {
+                        dynasty.card = cards[dynasty.card.code];
+                    });
 
                     let validation = validateDeck(deck, packs);
                     deck.status = validation.status;

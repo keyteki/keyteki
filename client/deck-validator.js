@@ -49,8 +49,8 @@ function isCardInReleasedPack(packs, card) {
 
 module.exports = function validateDeck(deck, packs) {
     var provinceCount = getDeckCount(deck.provinceCards);
-    var conflictDrawCount = getDeckCount(deck.conflictDrawCards);
-    var dynastyDrawCount = getDeckCount(deck.dynastyDrawCards);
+    var conflictCount = getDeckCount(deck.conflictCards);
+    var dynastyCount = getDeckCount(deck.dynastyCards);
     var status = 'Valid';
     var requiredProvinces = 5;
     var stronghold = getStronghold(deck.stronghold);
@@ -71,31 +71,31 @@ module.exports = function validateDeck(deck, packs) {
         status = 'Invalid';
         extendedStatus.push('Deck contains invalid cards');
         
-        return { status: status, provinceCount: provinceCount, conflictDrawCount: conflictDrawCount, dynastyDrawCount: dynastyDrawCount, extendedStatus: extendedStatus };
+        return { status: status, provinceCount: provinceCount, conflictCount: conflictCount, dynastyCount: dynastyCount, extendedStatus: extendedStatus };
     }
-    var combined = _.union(deck.provinceCards, deck.stronghold, deck.conflictDrawCards, deck.dynastyDrawCards);
+    var combined = _.union(deck.provinceCards, deck.stronghold, deck.conflictCards, deck.dynastyCards);
 
-    var combined_clan = _.union(deck.provinceCards, deck.stronghold, deck.dynastyDrawCards);    
+    var combined_clan = _.union(deck.provinceCards, deck.stronghold, deck.dynastyCards);    
     
-    if(conflictDrawCount < minDraw) {
+    if(conflictCount < minDraw) {
         status = 'Invalid';
         isValid = false;
         extendedStatus.push('Too few conflict cards');
     }
 
-    if(dynastyDrawCount < minDraw) {
+    if(dynastyCount < minDraw) {
         status = 'Invalid';
         isValid = false;
         extendedStatus.push('Too few dynasty cards');
     }
 
-    if(conflictDrawCount > maxDraw) {
+    if(conflictCount > maxDraw) {
         status = 'Invalid';
         isValid = false;
         extendedStatus.push('Too many conflict cards');
     }
 
-    if(dynastyDrawCount > maxDraw) {
+    if(dynastyCount > maxDraw) {
         status = 'Invalid';
         isValid = false;
         extendedStatus.push('Too many dynasty cards');
@@ -186,8 +186,8 @@ module.exports = function validateDeck(deck, packs) {
     }
 
     //Check for out of faction cards in conflict
-    if(_.any(deck.conflictDrawCards, card => {
-        if(!(_.contains([deck.faction.value, deck.allianceFaction.value, 'neutral'],card.card.clan))) {
+    if(_.any(deck.conflictCards, card => {
+        if(!(_.contains([deck.faction.value, deck.alliance.value, 'neutral'],card.card.clan))) {
 
             return true;
         }
@@ -201,8 +201,8 @@ module.exports = function validateDeck(deck, packs) {
     if(stronghold) {
 
         //Total up influence count
-        _.each(deck.conflictDrawCards, card => {
-            if(card.card.clan === deck.allianceFaction.value) {
+        _.each(deck.conflictCards, card => {
+            if(card.card.clan === deck.alliance.value) {
                 influenceTotal = influenceTotal + (card.card.influence_cost * card.count);
             }
         });
@@ -232,5 +232,5 @@ module.exports = function validateDeck(deck, packs) {
         }
     }
 
-    return { status: status, provinceCount: provinceCount, conflictDrawCount: conflictDrawCount, dynastyDrawCount: dynastyDrawCount, extendedStatus: extendedStatus, isValid: isValid };
+    return { status: status, provinceCount: provinceCount, conflictCount: conflictCount, dynastyCount: dynastyCount, extendedStatus: extendedStatus, isValid: isValid };
 }
