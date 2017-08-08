@@ -86,6 +86,6 @@ export function clearDeckStatus() {
 
 function formatCards(cards) {
     return _.map(cards, card => {
-        return { card: { code: card.card.code }, count: card.count };
+        return { card: { id: card.card.id }, count: card.count };
     });
 }

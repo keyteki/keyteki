@@ -18,8 +18,6 @@ class InnerDeckEditor extends React.Component {
             cardList: '',
             deck: this.copyDeck(props.deck),
             numberToAdd: 1,
-            showAlliance: false,
-            selectedAlliance: {},
             validation: {
                 deckname: '',
                 cardToAdd: ''
@@ -32,6 +30,7 @@ class InnerDeckEditor extends React.Component {
             let deck = this.copyDeck(this.state.deck);
 
             deck.faction = this.props.factions['crab'];
+            deck.alliance = { name: '', value: '' };
 
             this.setState({ deck: deck });
             this.props.updateDeck(deck);
@@ -103,7 +102,11 @@ class InnerDeckEditor extends React.Component {
     onAllianceChange(selectedAlliance) {
         let deck = this.copyDeck(this.state.deck);
 
-        deck.alliance = selectedAlliance;
+        if(!selectedAlliance) {
+            deck.alliance = { name: '', value: '' };
+        } else {
+            deck.alliance = selectedAlliance;
+        }
 
         this.setState({ deck: deck, showAlliance: deck.alliance }); // Alliance
         this.props.updateDeck(deck);
@@ -150,14 +153,11 @@ class InnerDeckEditor extends React.Component {
                     deck.faction = faction;
                 }
 
-                if(header.length >= 1) {
-                    let rawAlliance;
-                    
-                    let alliance = _.find(this.props.allianceFactions, alliance => alliance.name === header[2]);
-                    if(alliance) {
-                        deck.alliance = alliance;
-                    }
+                let alliance = _.find(this.props.factions, faction => faction.name === header[2].trim());
+                if(alliance) {
+                    deck.alliance = alliance;
                 }
+
             }
         }
 
@@ -202,7 +202,7 @@ class InnerDeckEditor extends React.Component {
 
         deck = this.copyDeck(deck);
 
-        this.setState({ cardList: event.target.value, deck: deck, showBanners: deck.agenda && deck.agenda.code === '06018' }); // Alliance
+        this.setState({ cardList: event.target.value, deck: deck, showAlliance: deck.alliance }); // Alliance
         this.props.updateDeck(deck);
     }
 
@@ -215,7 +215,6 @@ class InnerDeckEditor extends React.Component {
 
         let list;
 
-        console.log(card);
         if(card.type === 'province') {
             list = provinces;
         } else if(card.side === 'dynasty') {
@@ -226,8 +225,8 @@ class InnerDeckEditor extends React.Component {
             list = stronghold;
         }
 
-        if(list[card.code]) {
-            list[card.code].count += number;
+        if(list[card.id]) {
+            list[card.id].count += number;
         } else {
             list.push({ count: number, card: card });
         }

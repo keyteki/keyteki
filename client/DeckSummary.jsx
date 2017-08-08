@@ -45,7 +45,7 @@ class DeckSummary extends React.Component {
             var count = 0;
 
             _.each(cardList, card => {
-                cards.push(<div key={ card.card.code }><span>{ card.count + 'x ' }</span><span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ card.card.name }</span></div>);
+                cards.push(<div key={ card.card.id }><span>{ card.count + 'x ' }</span><span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ card.card.name }</span></div>);
                 count += parseInt(card.count);
             });
 
@@ -64,7 +64,7 @@ class DeckSummary extends React.Component {
 
         return (
             <div>
-                { this.state.cardToShow ? <img className='hover-image' src={ '/img/cards/' + this.state.cardToShow.code + '.png' } /> : null }
+                { this.state.cardToShow ? <img className='hover-image' src={ '/img/cards/' + this.state.cardToShow.id + '.png' } /> : null }
                 <h3>{ this.props.deck.name }</h3>
                 <div className='decklist'>
                     <img className='pull-left' src={ '/img/mons/' + this.props.deck.faction.value + '.png' } />

@@ -20,23 +20,27 @@ function processDecks(decks, state) {
 
         deck.faction = state.factions[deck.faction.value];
         if(deck.alliance) {
-            deck.alliance = state.factions[deck.alliance.value];
+            if(deck.alliance.value === '') {
+                deck.alliance = { name: '', value: '' };
+            } else {
+                deck.alliance = state.factions[deck.alliance.value];
+            }
         }
 
         deck.stronghold = _.map(deck.stronghold, card => {
-            return { count: card.count, card: state.cards[card.card.code] };
+            return { count: card.count, card: state.cards[card.card.id] };
         });
 
         deck.provinceCards = _.map(deck.provinceCards, card => {
-            return { count: card.count, card: state.cards[card.card.code] };
+            return { count: card.count, card: state.cards[card.card.id] };
         });
 
         deck.conflictCards = _.map(deck.conflictCards, card => {
-            return { count: card.count, card: state.cards[card.card.code] };
+            return { count: card.count, card: state.cards[card.card.id] };
         });
 
         deck.dynastyCards = _.map(deck.dynastyCards, card => {
-            return { count: card.count, card: state.cards[card.card.code] };
+            return { count: card.count, card: state.cards[card.card.id] };
         });
 
         deck.validation = validateDeck(deck, state.packs);
@@ -50,8 +54,8 @@ export default function(state = {}, action) {
             var agendas = {};
 
             _.each(action.response.cards, card => {
-                if(card.type_code === 'agenda' && card.pack_code !== 'VDS') {
-                    agendas[card.code] = card;
+                if(card.type === 'agenda' && card.pack_code !== 'VDS') {
+                    agendas[card.id] = card;
                 }
             });
 
