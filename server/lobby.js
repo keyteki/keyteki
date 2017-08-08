@@ -459,19 +459,19 @@ class Lobby {
                 this.deckRepository.getById(deckId, (err, deck) => {
 
                     _.each(deck.stronghold, stronghold => {
-                        stronghold.card = cards[stronghold.card.code];
+                        stronghold.card = cards[stronghold.card.id];
                     });
 
                     _.each(deck.provinceCards, province => {
-                        province.card = cards[province.card.code];
+                        province.card = cards[province.card.id];
                     });
 
                     _.each(deck.conflictCards, conflict => {
-                        conflict.card = cards[conflict.card.code];
+                        conflict.card = cards[conflict.card.id];
                     });
 
                     _.each(deck.dynastyCards, dynasty => {
-                        dynasty.card = cards[dynasty.card.code];
+                        dynasty.card = cards[dynasty.card.id];
                     });
 
                     let validation = validateDeck(deck, packs);

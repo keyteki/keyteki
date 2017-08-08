@@ -301,7 +301,7 @@ Card.propTypes = {
         attachments: React.PropTypes.array,
         baseMilitarySkill: React.PropTypes.number,
         basePoliticalSkill: React.PropTypes.number,
-        code: React.PropTypes.string,
+        id: React.PropTypes.string,
         controlled: React.PropTypes.bool,
         deck: React.PropTypes.string,
         facedown: React.PropTypes.bool,
