@@ -121,7 +121,7 @@ class InnerDeckEditor extends React.Component {
         }
 
         let cardList = this.state.cardList;
-        cardList += this.state.numberToAdd + ' ' + this.state.cardToAdd.label + '\n';
+        cardList += this.state.numberToAdd + ' ' + this.state.cardToAdd.name + '\n';
 
         this.addCard(this.state.cardToAdd, parseInt(this.state.numberToAdd));
         this.setState({ cardList: cardList });
@@ -189,10 +189,10 @@ class InnerDeckEditor extends React.Component {
 
             let card = _.find(this.props.cards, function(card) {
                 if(pack) {
-                    return card.label.toLowerCase() === cardName.toLowerCase() || card.label.toLowerCase() === (cardName + ' (' + pack.code + ')').toLowerCase();
+                    return card.name.toLowerCase() === cardName.toLowerCase() || card.label.toLowerCase() === (cardName + ' (' + pack.code + ')').toLowerCase();
                 }
 
-                return card.label.toLowerCase() === cardName.toLowerCase();
+                return card.name.toLowerCase() === cardName.toLowerCase();
             });
 
             if(card) {
@@ -215,6 +215,7 @@ class InnerDeckEditor extends React.Component {
 
         let list;
 
+        console.log(card);
         if(card.type === 'province') {
             list = provinces;
         } else if(card.side === 'dynasty') {
