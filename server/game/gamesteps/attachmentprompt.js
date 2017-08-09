@@ -14,7 +14,7 @@ class AttachmentPrompt extends UiPrompt {
             cardCondition: card => this.attachmentCard.owner.canAttach(this.attachmentCard, card),
             onSelect: (player, card) => {
                 let targetPlayer = card.controller;
-                targetPlayer.attach(player, this.attachmentCard, card.uuid, this.playingType);
+                targetPlayer.attach(player, this.attachmentCard, card, this.playingType);
                 return true;
             }
         });

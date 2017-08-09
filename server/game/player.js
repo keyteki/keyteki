@@ -604,8 +604,6 @@ class Player extends Spectator {
             return false;
         }
 
-
-
         return source !== target;
     }
 
