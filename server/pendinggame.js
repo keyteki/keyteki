@@ -38,7 +38,7 @@ class PendingGame {
     getSaveState() {
         var players = _.map(this.getPlayers(), player => {
             return {
-                faction: player.faction.cardData.name,
+                faction: player.faction.name,
                 name: player.name
             };
         });
@@ -54,10 +54,7 @@ class PendingGame {
     // Helpers
     setupFaction(player, faction) {
         player.faction = {};
-        player.faction.cardData = faction;
-        player.faction.cardData.code = faction.value;
-        player.faction.cardData.type_code = 'faction';
-        player.faction.cardData.strength = 0;
+        player.faction = faction;
     }
 
     // Actions
@@ -257,18 +254,17 @@ class PendingGame {
             var deck = undefined;
 
             if(activePlayer === player.name && player.deck) {
-                deck = { name: player.deck.name, selected: player.deck.selected };
+                deck = { name: player.deck.name, selected: player.deck.selected, status: player.deck.status };
             } else if(player.deck) {
-                deck = { selected: player.deck.selected };
+                deck = { selected: player.deck.selected, status: player.deck.status };
             } else {
                 deck = {};
             }
 
             playerSummaries[player.name] = {
-                agenda: this.started && player.agenda ? player.agenda.cardData.code : undefined,
                 deck: activePlayer ? deck : undefined,
                 emailHash: player.emailHash,
-                faction: this.started && player.faction ? player.faction.cardData.code : undefined,
+                faction: this.started && player.faction ? player.faction.value : undefined,
                 id: player.id,
                 left: player.left,
                 name: player.name,

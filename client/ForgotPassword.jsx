@@ -5,6 +5,8 @@ import _ from 'underscore';
 import $ from 'jquery';
 import {connect} from 'react-redux';
 
+import AlertPanel from './SiteComponents/AlertPanel.jsx';
+
 import * as actions from './actions';
 
 class InnerForgotPassword extends React.Component {
@@ -106,7 +108,7 @@ class InnerForgotPassword extends React.Component {
 
             if(this.state.validation[field.name]) {
                 className += ' has-error';
-                validation = <span className='help-block'>{ this.state.validation[field.name]}</span>;
+                validation = <span className='help-block'>{ this.state.validation[field.name] }</span>;
             }
 
             fieldsToRender.push(
@@ -118,7 +120,7 @@ class InnerForgotPassword extends React.Component {
                             className='form-control'
                             id={ field.name }
                             placeholder={ field.placeholder }
-                            value={ this.state[field.name]}
+                            value={ this.state[field.name] }
                             onChange={ this.onChange.bind(this, field.name) }
                             onBlur={ field.blurCallback } />
                         { validation }
@@ -133,19 +135,17 @@ class InnerForgotPassword extends React.Component {
         return (
             <div>
                 { errorBar }
-                <div className='alert alert-info'>
-                To start the password recovery process, please enter your username and click the submit button.
-                </div>
+                <AlertPanel type='info' message='To start the password recovery process, please enter your username and click the submit button.' />
                 <form className='form form-horizontal'>
                     { fieldsToRender }
                     <div className='form-group'>
                         <div id='captcha' className='g-recaptcha col-sm-offset-2 col-sm-3' />
                     </div>
-                        <div className='form-group'>
-                            <div className='col-sm-offset-2 col-sm-3'>
-                    {this.state.submitting ? <button type='submit' className='btn btn-primary' disabled>Submitting...</button> :
+                    <div className='form-group'>
+                        <div className='col-sm-offset-2 col-sm-3'>
+                            { this.state.submitting ? <button type='submit' className='btn btn-primary' disabled>Submitting...</button> :
                                 <button ref='submit' type='submit' className='btn btn-primary' onClick={ this.onSubmit }>Submit</button>
-                    }
+                            }
                         </div>
                     </div>
 

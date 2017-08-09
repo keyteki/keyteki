@@ -51,7 +51,7 @@ class KillCharacters extends BaseStep {
             this.event.saveCard(card);
         } else if(!card.canBeKilled()) {
             this.game.addMessage('{0} controlled by {1} cannot be killed',
-                                    card, card.controller);
+                card, card.controller);
             this.event.saveCard(card);
         } else if(!card.dupes.isEmpty() && this.event.allowSave) {
             if(card.controller.removeDuplicate(card)) {

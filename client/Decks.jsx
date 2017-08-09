@@ -1,8 +1,8 @@
 import React from 'react';
-import $ from 'jquery';
 import _ from 'underscore';
 import {connect} from 'react-redux';
 
+import AlertPanel from './SiteComponents/AlertPanel.jsx';
 import DeckSummary from './DeckSummary.jsx';
 import Link from './Link.jsx';
 import DeckRow from './DeckRow.jsx';
@@ -13,44 +13,17 @@ class InnerDecks extends React.Component {
     constructor() {
         super();
 
-        this.onSelectionChanged = this.onSelectionChanged.bind(this);
         this.onDeleteClick = this.onDeleteClick.bind(this);
         this.onConfirmDeleteClick = this.onConfirmDeleteClick.bind(this);
-        this.onEditClick = this.onEditClick.bind(this);
 
         this.state = {
-            loaded: false,
             decks: [],
-            error: '',
             showDelete: false
         };
     }
 
     componentWillMount() {
-        $.ajax({
-            url: '/api/decks',
-            type: 'GET',
-            cache: false
-        }).done((data) => {
-            this.setState({ loaded: true });
-
-            if(!data.success) {
-                this.setState({ error: data.message });
-                return;
-            }
-
-            this.setState({ decks: data.decks });
-
-            if(data.decks.length !== 0) {
-                this.setState({ selectedDeck: 0 });
-            }
-        }).fail(() => {
-            this.setState({ loaded: true, error: 'Could not communicate with the server.  Please try again later.' });
-        });
-    }
-
-    onSelectionChanged(newIndex) {
-        this.setState({ selectedDeck: newIndex });
+        this.props.loadDecks();
     }
 
     onDeleteClick(event) {
@@ -62,48 +35,24 @@ class InnerDecks extends React.Component {
     onEditClick(event) {
         event.preventDefault();
 
-        var selectedDeck = this.state.decks[this.state.selectedDeck];
-
-
-        this.props.navigate('/decks/edit/' + selectedDeck._id);
+        this.props.navigate('/decks/edit');
     }
 
     onConfirmDeleteClick(event) {
         event.preventDefault();
 
-        var selectedDeck = undefined;
-
-        if(this.state.selectedDeck !== undefined) {
-            selectedDeck = this.state.decks[this.state.selectedDeck];
-        }
-
-        $.ajax({
-            url: '/api/decks/' + selectedDeck._id,
-            type: 'DELETE'
-        }).done(data => {
-            if(!data.success) {
-                this.setState({ error: data.message });
-                return;
-            }
-
-            this.setState({
-                decks: _.reject(this.state.decks, deck => {
-                    return deck._id === selectedDeck._id;
-                })
-            });
-        }).fail(() => {
-            this.setState({ error: 'Could not communicate with the server.  Please try again later.' });
-        });
+        this.props.deleteDeck(this.props.selectedDeck);
 
         this.setState({ showDelete: false });
     }
 
     render() {
-        var errorBar = this.state.error ? <div className='alert alert-danger' role='alert'>{this.state.error}</div> : null;
         var index = 0;
 
-        var decks = _.map(this.state.decks, deck => {
-            var row = <DeckRow key={deck.name + index.toString()} deck={deck} onClick={this.onSelectionChanged.bind(this, index)} active={index === this.state.selectedDeck} />;
+        var decks = _.map(this.props.decks, deck => {
+            var row = (<DeckRow key={ deck.name + index.toString() } deck={ deck }
+                onClick={ () => this.props.selectDeck(deck) }
+                active={ this.props.selectedDeck && deck._id === this.props.selectedDeck._id } />);
 
             index++;
 
@@ -112,59 +61,81 @@ class InnerDecks extends React.Component {
 
         var deckList = (
             <div>
-                {decks}
+                { decks }
             </div>
         );
 
         var deckInfo = null;
 
-        if(this.state.selectedDeck !== undefined) {
-            var selectedDeck = undefined;
-            selectedDeck = this.state.decks[this.state.selectedDeck];
-
-            if(selectedDeck) {
-                deckInfo = (<div className='col-sm-6'>
-                    <div className='btn-group'>
-                        <button className='btn btn-primary' onClick={this.onEditClick}>Edit</button>
-                        <button className='btn btn-primary' onClick={this.onDeleteClick}>Delete</button>
-                        {this.state.showDelete ?
-                            <button className='btn btn-danger' onClick={this.onConfirmDeleteClick}>Delete</button> :
-                            null}
-                    </div>
-                    <DeckSummary name={selectedDeck.name} faction={selectedDeck.faction} 
-                        provinceCards={selectedDeck.provinceCards} stronghold={selectedDeck.stronghold} conflictDrawCards={selectedDeck.conflictDrawCards} dynastyDrawCards={selectedDeck.dynastyDrawCards} allianceFaction={selectedDeck.allianceFaction}
-                        cards={this.props.cards} />
-                </div>);
-            } else {
-                deckInfo = null;
-            }
+        if(this.props.selectedDeck) {
+            deckInfo = (<div className='col-sm-6'>
+                <div className='btn-group'>
+                    <button className='btn btn-primary' onClick={ this.onEditClick.bind(this) }>Edit</button>
+                    <button className='btn btn-primary' onClick={ this.onDeleteClick }>Delete</button>
+                    { this.state.showDelete ?
+                        <button className='btn btn-danger' onClick={ this.onConfirmDeleteClick }>Delete</button> :
+                        null }
+                </div>
+                <DeckSummary deck={ this.props.selectedDeck } cards={ this.props.cards } />
+            </div>);
         }
 
-        return (
-            <div>
-                {this.state.loaded ?
+        let content = null;
+
+        let successPanel = null;
+        
+        if(this.props.deckDeleted) {
+            setTimeout(() => {
+                this.props.clearDeckStatus();
+            }, 5000);
+            successPanel = (
+                <AlertPanel message='Deck deleted successfully' type={ 'success' } />
+            );
+        }    
+
+        if(this.props.loading) {
+            content = <div>Loading decks from the server...</div>;
+        } else if(this.props.apiError) {
+            content = <AlertPanel type='error' message={ this.props.apiError } />;
+        } else {
+            content = (
                 <div>
-                    {errorBar}
+                    { successPanel }
                     <div className='col-sm-6'>
                         <Link className='btn btn-primary' href='/decks/add'>Add new deck</Link>
-                        <div className='deck-list'>{this.state.decks.length === 0 ? 'You have no decks, try adding one.' : deckList}</div>
+                        <div className='deck-list'>{ !this.props.decks || this.props.decks.length === 0 ? 'You have no decks, try adding one.' : deckList }</div>
                     </div>
-                    {deckInfo}
-                </div>
-                : <div>Loading decks from the server...</div>}
-            </div>);
+                    { deckInfo }
+                </div>);
+        }
+
+        return content;
     }
 }
 
 InnerDecks.displayName = 'Decks';
 InnerDecks.propTypes = {
-    cards: React.PropTypes.array,
-    navigate: React.PropTypes.func
+    apiError: React.PropTypes.string,
+    cards: React.PropTypes.object,
+    clearDeckStatus: React.PropTypes.func,
+    deckDeleted: React.PropTypes.bool,
+    decks: React.PropTypes.array,
+    deleteDeck: React.PropTypes.func,
+    loadDecks: React.PropTypes.func,
+    loading: React.PropTypes.bool,
+    navigate: React.PropTypes.func,
+    selectDeck: React.PropTypes.func,
+    selectedDeck: React.PropTypes.object
 };
 
 function mapStateToProps(state) {
     return {
-        cards: state.cards.cards
+        apiError: state.api.message,
+        cards: state.cards.cards,
+        deckDeleted: state.cards.deckDeleted,
+        decks: state.cards.decks,
+        loading: state.api.loading,
+        selectedDeck: state.cards.selectedDeck
     };
 }
 

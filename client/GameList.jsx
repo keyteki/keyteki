@@ -17,9 +17,9 @@ class InnerGameList extends React.Component {
         event.preventDefault();
 
         if(!this.props.username) {
-	    toastr.error('Please login before trying to join a game');
-	    return;
-	}
+            toastr.error('Please login before trying to join a game');
+            return;
+        }
 
         if(game.needsPassword) {
             this.props.joinPasswordGame(game, 'Join');
@@ -36,9 +36,9 @@ class InnerGameList extends React.Component {
         event.preventDefault();
 
         if(!this.props.username) {
-	    toastr.error('Please login before trying to watch a game');
-	    return;
-	}
+            toastr.error('Please login before trying to watch a game');
+            return;
+        }
 
         if(game.needsPassword) {
             this.props.joinPasswordGame(game, 'Watch');
@@ -62,20 +62,20 @@ class InnerGameList extends React.Component {
 
                 if(firstPlayer) {
                     playerElement = (
-                    <span>
-                        <span><Avatar emailHash={ player.emailHash } forceDefault={ player.settings ? player.settings.disableGravatar : false } /></span>
-                        <span className='player-name'>{ player.name }</span>
-                        <span className={' game-icon icon-' + player.faction} />
-                    </span>);
+                        <span>
+                            <span><Avatar emailHash={ player.emailHash } forceDefault={ player.settings ? player.settings.disableGravatar : false } /></span>
+                            <span className='player-name'>{ player.name }</span>
+                            <span className={ ' game-icon icon-' + player.faction } />
+                        </span>);
 
                     firstPlayer = false;
                 } else {
                     playerElement = (
-                    <span>
-                        <span className={' game-icon icon-' + player.faction} />
-                        <span className='player-name'>{ player.name }</span>
-                        <span><Avatar emailHash={ player.emailHash } forceDefault={ player.settings ? player.settings.disableGravatar : false } /></span>
-                    </span>);
+                        <span>
+                            <span className={ ' game-icon icon-' + player.faction } />
+                            <span className='player-name'>{ player.name }</span>
+                            <span><Avatar emailHash={ player.emailHash } forceDefault={ player.settings ? player.settings.disableGravatar : false } /></span>
+                        </span>);
                 }
 
                 return playerElement;
@@ -103,7 +103,7 @@ class InnerGameList extends React.Component {
 
             return (
                 <div key={ game.id } className='game-row'>
-                    <div><b>{ gameTitle }</b>{ this.props.isAdmin && this.props.showNodes ? <span className='game-node'>Node: { game.node }</span> : null}</div>
+                    <div><b>{ gameTitle }</b>{ this.props.isAdmin && this.props.showNodes ? <span className='game-node'>Node: { game.node }</span> : null }</div>
                     { gameLayout }
                     <span className='pull-right'>
                         { (this.props.currentGame || _.size(game.players) === 2 || game.started) ?
@@ -111,9 +111,9 @@ class InnerGameList extends React.Component {
                             <button className='btn btn-primary' onClick={ event => this.joinGame(event, game) }>Join</button>
                         }
                         { this.canWatch(game) ?
-                            <button className='btn btn-primary' onClick={event => this.watchGame(event, game)}>Watch</button> : null }
+                            <button className='btn btn-primary' onClick={ event => this.watchGame(event, game) }>Watch</button> : null }
                         { this.props.isAdmin ?
-                            <button className='btn btn-primary' onClick={event => this.removeGame(event, game)}>Remove</button> : null }
+                            <button className='btn btn-primary' onClick={ event => this.removeGame(event, game) }>Remove</button> : null }
                     </span>
                 </div>
             );
@@ -133,7 +133,8 @@ InnerGameList.propTypes = {
     isAdmin: React.PropTypes.bool,
     joinPasswordGame: React.PropTypes.func,
     showNodes: React.PropTypes.bool,
-    socket: React.PropTypes.object
+    socket: React.PropTypes.object,
+    username: React.PropTypes.string
 };
 
 function mapStateToProps(state) {

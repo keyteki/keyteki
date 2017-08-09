@@ -5,14 +5,14 @@ const _ = require('underscore');
 const Player = require('../../../server/game/player.js');
 
 describe('the Player', () => {
-    var game = jasmine.createSpyObj('game', ['getOtherPlayer', 'playerDecked']);
+    var game = jasmine.createSpyObj('game', ['getOtherPlayer', 'playerDecked', 'raiseEvent']);
 
     var player = new Player('1', 'Player 1', true, game);
     var conflictDeck = _([
-      { name: 'foo' },
-      { name: 'bar' },
-      { name: 'baz' },
-      { name: 'ball' }
+        { name: 'foo' },
+        { name: 'bar' },
+        { name: 'baz' },
+        { name: 'ball' }
     ]);
 
     beforeEach(() => {

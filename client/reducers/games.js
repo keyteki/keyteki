@@ -60,6 +60,10 @@ function games(state = {
             }
 
             return retState;
+        case 'GAME_SOCKET_CLOSED':
+            return Object.assign({}, state, {
+                currentGame: undefined
+            });
         case 'RECEIVE_USERS':
             return Object.assign({}, state, {
                 users: action.users
@@ -71,7 +75,7 @@ function games(state = {
             });
         case 'RECEIVE_PASSWORD_ERROR':
             return Object.assign({}, state, {
-                passwordError: action.message 
+                passwordError: action.message
             });
         case 'CANCEL_PASSWORD_JOIN':
             return Object.assign({}, state, {

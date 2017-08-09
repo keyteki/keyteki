@@ -43,6 +43,7 @@ class Effect {
         this.match = properties.match || (() => true);
         this.duration = properties.duration;
         this.condition = properties.condition || (() => true);
+        this.location = properties.location || 'play area';
         this.targetController = properties.targetController || 'current';
         this.targetType = properties.targetType || 'card';
         this.targetLocation = properties.targetLocation || 'play area';
@@ -61,6 +62,10 @@ class Effect {
         }
 
         return effect;
+    }
+
+    isInActiveLocation() {
+        return ['any', this.source.location].includes(this.location);
     }
 
     addTargets(targets) {

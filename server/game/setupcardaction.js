@@ -12,6 +12,10 @@ class SetupCardAction extends BaseAbility {
         this.title = 'Setup';
     }
 
+    isCardAbility() {
+        return false;
+    }
+
     meetsRequirements(context) {
         return (
             context.game.currentPhase === 'setup' &&

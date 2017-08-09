@@ -564,6 +564,25 @@ const Effects = {
             }
         };
     },
+    reduceSelfCost: function(playingTypes, amount) {
+        return {
+            apply: function(player, context) {
+                context.reducers = context.reducers || [];
+                let reducer = new CostReducer(context.game, context.source, {
+                    playingTypes: playingTypes,
+                    amount: amount,
+                    match: card => card === context.source
+                });
+                context.reducers.push(reducer);
+                player.addCostReducer(reducer);
+            },
+            unapply: function(player, context) {
+                if(context.reducers.length > 0) {
+                    _.each(context.reducers, reducer => player.removeCostReducer(reducer));
+                }
+            }
+        };
+    },
     reduceNextCardCost: function(playingTypes, amount, match) {
         return this.reduceCost({
             playingTypes: playingTypes,

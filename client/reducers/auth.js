@@ -1,12 +1,18 @@
 export default function(state = {}, action) {
     switch(action.type) {
         case 'AUTH_REGISTER':
-            return Object.assign({}, state, {
+            var retState = Object.assign({}, state, {
                 user: action.user,
                 username: action.user.username,
                 token: action.token,
                 loggedIn: true
             });
+
+            if(!retState.user.permissions) {
+                retState.user.permissions = {};
+            }
+
+            return retState;
         case 'AUTH_LOGIN':
             return Object.assign({}, state, {
                 user: action.user,
@@ -23,7 +29,6 @@ export default function(state = {}, action) {
                 isAdmin: false,
                 loggedIn: false
             });
-
         case 'REFRESH_USER':
             return Object.assign({}, state, {
                 user: action.user,

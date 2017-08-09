@@ -14,15 +14,15 @@ class AdditionalCardPile extends React.Component {
 
         return (
             <CardCollection
-                className={this.props.className}
-                title={this.props.pile.title}
+                className={ this.props.className }
+                title={ this.props.pile.title }
                 source='additional'
-                cards={this.props.pile.cards}
-                topCard={topCard}
-                onMouseOver={this.props.onMouseOver}
-                onMouseOut={this.props.onMouseOut}
-                popupLocation={this.props.isMe || this.props.spectating ? 'top' : 'bottom'}
-                disablePopup={this.props.pile.isPrivate && !(this.props.isMe || this.props.spectating)}
+                cards={ this.props.pile.cards }
+                topCard={ topCard }
+                onMouseOver={ this.props.onMouseOver }
+                onMouseOut={ this.props.onMouseOut }
+                popupLocation={ this.props.isMe || this.props.spectating ? 'top' : 'bottom' }
+                disablePopup={ this.props.pile.isPrivate && !(this.props.isMe || this.props.spectating) }
                 orientation='horizontal' />
         );
     }

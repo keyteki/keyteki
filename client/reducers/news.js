@@ -4,12 +4,20 @@ function news(state = {
     switch(action.type) {
         case 'REQUEST_NEWS':
             return Object.assign({}, state, {
-                newsLoading: true
+                newsSaved: false
             });
         case 'RECEIVE_NEWS':
             return Object.assign({}, state, {
-                news: action.news,
-                newsLoading: false
+                newsSaved: false,
+                news: action.response.news
+            });
+        case 'NEWS_ADDED':
+            return Object.assign({}, state, {
+                newsSaved: true
+            });
+        case 'CLEAR_NEWS_STATUS':
+            return Object.assign({}, state, {
+                newsSaved: false
             });
         default:
             return state;

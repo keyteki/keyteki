@@ -1,12 +1,16 @@
 const mongoskin = require('mongoskin');
 const db = mongoskin.db('mongodb://127.0.0.1:27017/ringteki');
 const ObjectId = mongoskin.ObjectId;
-const logger = require('./../log.js');
+const logger = require('../log.js');
 
 module.exports.init = function(server) {
     server.get('/api/decks/:id', function(req, res, next) {
         if(!req.user) {
             return res.status(401).send({ message: 'Unauthorized' });
+        }
+
+        if(!req.params.id || req.params.id === '') {
+            return res.status(404).send({ message: 'No such deck' });
         }
 
         db.collection('decks').findOne({ _id: ObjectId.createFromHexString(req.params.id) }, function(err, deck) {
@@ -75,10 +79,10 @@ module.exports.init = function(server) {
                         name: data.deckName,
                         provinceCards: data.provinceCards,
                         stronghold: data.stronghold,
-                        conflictDrawCards: data.conflictDrawCards,
-                        dynastyDrawCards: data.dynastyDrawCards,
+                        conflictCards: data.conflictCards,
+                        dynastyCards: data.dynastyCards,
                         faction: data.faction,
-                        allianceFaction: data.allianceFaction,
+                        alliance: data.alliance,
                         lastUpdated: new Date()
                     }
                 });
@@ -99,10 +103,10 @@ module.exports.init = function(server) {
             name: data.deckName,
             provinceCards: data.provinceCards,
             stronghold: data.stronghold,
-            conflictDrawCards: data.conflictDrawCards,
-            dynastyDrawCards: data.dynastyDrawCards,
+            conflictCards: data.conflictCards,
+            dynastyCards: data.dynastyCards,
             faction: data.faction,
-            allianceFaction: data.allianceFaction,
+            alliance: data.alliance,
             lastUpdated: new Date()
         }, function(err) {
             if(err) {
@@ -143,7 +147,7 @@ module.exports.init = function(server) {
                     return next(err);
                 }
 
-                res.send({ success: true, message: 'Deck deleted successfully' });
+                res.send({ success: true, message: 'Deck deleted successfully', deckId: req.params.id });
             });
         });
     });

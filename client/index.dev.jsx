@@ -13,6 +13,10 @@ const store = configureStore();
 
 store.dispatch(navigate(window.location.pathname, window.location.search));
 
+window.onpopstate = function(e) {
+    store.dispatch(navigate(e.target.location.pathname));
+};
+
 if(typeof user !== 'undefined') {
     store.dispatch(login(user, authToken, user.admin));
 }
@@ -20,10 +24,10 @@ if(typeof user !== 'undefined') {
 const render = () => {
     const Application = require('./Application.jsx').default;
     ReactDOM.render(<AppContainer>
-        <Provider store={store}>
+        <Provider store={ store }>
             <div>
                 <ReduxToastr
-                    timeOut={4000}
+                    timeOut={ 4000 }
                     newestOnTop
                     preventDuplicates
                     position='top-right'

@@ -182,7 +182,7 @@ class Player extends Spectator {
         }
 
         return this.findCard(this.cardsInPlay, playCard => {
-            return playCard !== card && (playCard.code === card.code || playCard.name === card.name);
+            return playCard !== card && (playCard.id === card.id || playCard.name === card.name);
         });
     }
 
@@ -211,6 +211,10 @@ class Player extends Spectator {
         _.each(cards, card => {
             this.moveCard(card, 'hand');
         });
+
+        if(this.game.currentPhase !== 'setup') {
+            this.game.raiseEvent('onCardsDrawn', { cards: cards, player: this });
+        }
 
         if(this.conflictDeck.size() === 0) {
             this.game.playerDecked(this);
@@ -267,12 +271,7 @@ class Player extends Spectator {
         this.discardCards(cards, false, discarded => {
             callback(discarded);
             if(this.conflictDeck.size() === 0) {
-                var otherPlayer = this.game.getOtherPlayer(this);
-
-                if(otherPlayer) {
-                    this.game.addMessage('{0}\'s conflict deck is empty', this);
-                    this.game.addMessage('{0} wins the game', otherPlayer);
-                }
+                this.game.playerDecked(this);
             }
         });
     }
@@ -375,7 +374,7 @@ class Player extends Spectator {
         }
 
         this.honor = this.stronghold.cardData.honor;
-        this.game.raiseEvent('onStatChanged', this, 'honor');
+        //this.game.raiseEvent('onStatChanged', this, 'honor');
     }
 
     mulligan() {
@@ -464,25 +463,35 @@ class Player extends Spectator {
 
         var dupeCard = this.getDuplicateInPlay(card);
 
-        if(card.getType() === 'attachment') {
+        if(card.getType() === 'attachment' && playingType !== 'setup' && !dupeCard) {
             this.promptForAttachment(card, playingType);
             return;
         }
 
-        if(dupeCard) {
+        if(dupeCard && playingType !== 'setup') {
             this.removeCardFromPile(card);
-            dupeCard.modifyFate(1);
+            dupeCard.addDuplicate(card);
         } else {
-            card.facedown = false;
-            if(!dupeCard) {
-                card.play(this);
-            }
+            // Attachments placed in setup should not be considered to be 'played',
+            // as it will cause then to double their effects when attached later.
+            let isSetupAttachment = playingType === 'setup' && card.getType() === 'attachment';
 
+            let originalLocation = card.location;
+
+            card.facedown = this.game.currentPhase === 'setup';
             card.new = true;
             this.moveCard(card, 'play area', { isDupe: !!dupeCard });
+            if(card.controller !== this) {
+                card.controller.allCards = _(card.controller.allCards.reject(c => c === card));
+                this.allCards.push(card);
+            }
             card.controller = this;
 
-            this.game.raiseMergedEvent('onCardEntersPlay', { card: card, playingType: playingType });
+            if(!dupeCard && !isSetupAttachment) {
+                card.applyPersistentEffects();
+            }
+
+            this.game.raiseEvent('onCardEntersPlay', { card: card, playingType: playingType, originalLocation: originalLocation });
         }
     }
 
@@ -500,6 +509,10 @@ class Player extends Spectator {
         this.selectedPlot = undefined;
         this.roundDone = false;
 
+        if(this.resetTimerAtEndOfRound) {
+            this.noTimer = false;
+        }
+
         this.conflicts.reset();
 
         this.conflictrLimit = 0;
@@ -508,40 +521,6 @@ class Player extends Spectator {
         this.cardsInPlay.each(card => {
             card.new = false;
         });
-    }
-
-    flipPlotFaceup() {
-        if(this.activePlot) {
-            var previousPlot = this.removeActivePlot('revealed plots');
-            this.game.raiseEvent('onPlotDiscarded', this, previousPlot);
-        }
-
-        this.selectedPlot.flipFaceup();
-        this.selectedPlot.play();
-        this.moveCard(this.selectedPlot, 'active plot');
-
-        this.game.raiseMergedEvent('onCardEntersPlay', { card: this.activePlot, playingType: 'plot' });
-
-        this.selectedPlot = undefined;
-    }
-
-    recyclePlots() {
-        if(this.plotDeck.isEmpty()) {
-            this.plotDiscard.each(plot => {
-                this.moveCard(plot, 'plot deck');
-            });
-
-            this.game.raiseEvent('onPlotsRecycled', this);
-        }
-    }
-
-    removeActivePlot(targetLocation) {
-        if(this.activePlot) {
-            var plot = this.activePlot;
-            this.moveCard(this.activePlot, targetLocation);
-            this.activePlot = undefined;
-            return plot;
-        }
     }
 
     drawPhase() {
@@ -553,7 +532,7 @@ class Player extends Spectator {
     beginDynasty() {
         this.game.addFate(this, this.getTotalIncome());
 
-        this.game.raiseMergedEvent('onIncomeCollected', { player: this });
+        this.game.raiseEvent('onIncomeCollected', { player: this });
 
         this.limitedPlayed = 0;
     }
@@ -564,39 +543,48 @@ class Player extends Spectator {
         });
     }
 
-    canAttach(attachmentId, card) {
-        var attachment = this.findCardByUuidInAnyList(attachmentId);
-
-        if(!attachment) {
+    canAttach(attachment, card) {
+        if(!attachment || !card) {
             return false;
         }
 
-        if(card.location !== 'play area') {
-            return false;
-        }
-
-        if(card === attachment) {
-            return false;
-        }
-
-        return attachment.canAttach(this, card);
+        return (
+            card.location === 'play area' &&
+            card !== attachment &&
+            card.allowAttachment(attachment) &&
+            attachment.canAttach(this, card)
+        );
     }
 
-    attach(player, attachment, cardId, playingType) {
-        var card = this.findCardInPlayByUuid(cardId);
 
+    attach(player, attachment, card, playingType) {
         if(!card || !attachment) {
             return;
         }
 
-        attachment.owner.removeCardFromPile(attachment);
+        if(!this.canAttach(attachment, card)) {
+            return;
+        }
 
-        attachment.parent = card;
-        attachment.moveTo('play area');
-        this.game.raiseMergedEvent('onCardEntersPlay', { card: attachment, playingType: playingType });
+        let originalLocation = attachment.location;
+        let originalParent = attachment.parent;
+
+        attachment.owner.removeCardFromPile(attachment);
+        if(originalParent) {
+            originalParent.removeAttachment(attachment);
+        }
+        attachment.moveTo('play area', card);
         card.attachments.push(attachment);
 
-        attachment.attach(player, card);
+        this.game.queueSimpleStep(() => {
+            attachment.applyPersistentEffects();
+        });
+
+        if(originalLocation !== 'play area') {
+            this.game.raiseEvent('onCardEntersPlay', { card: attachment, playingType: playingType, originalLocation: originalLocation });
+        }
+
+        this.game.raiseEvent('onCardAttached', { card: attachment, parent: card });
     }
 
     showConflictDeck() {
@@ -615,8 +603,6 @@ class Player extends Spectator {
         if(target === 'province deck' && !_.isEmpty(_.intersection(['stronghold province', 'province 1', 'province 2', 'province 3', 'province 4'], source))) {
             return false;
         }
-
-
 
         return source !== target;
     }
@@ -787,14 +773,13 @@ class Player extends Spectator {
 
     sacrificeCard(card) {
         this.game.applyGameAction('sacrifice', card, card => {
-            this.game.raiseEvent('onSacrificed', this, card, () => {
+            this.game.raiseEvent('onSacrificed', { player: this, card: card }, () => {
                 this.moveCard(card, 'discard pile');
             });
         });
     }
 
     discardCard(card, allowSave = true) {
-
         this.discardCards([card], allowSave);
     }
 
@@ -806,7 +791,7 @@ class Player extends Spectator {
                 allowSave: allowSave,
                 originalLocation: cards[0].location
             };
-            this.game.raiseMergedEvent('onCardsDiscarded', params, event => {
+            this.game.raiseEvent('onCardsDiscarded', params, event => {
                 _.each(event.cards, card => {
                     this.doSingleCardDiscard(card, allowSave);
                 });
@@ -824,7 +809,7 @@ class Player extends Spectator {
             allowSave: allowSave,
             originalLocation: card.location
         };
-        this.game.raiseMergedEvent('onCardDiscarded', params, event => {
+        this.game.raiseEvent('onCardDiscarded', params, event => {
             if(event.card.isConflict) {
                 this.moveCard(event.card, 'conflict discard pile');
             } else if (event.card.isDynasty) {
@@ -902,6 +887,7 @@ class Player extends Spectator {
         this.deck.selected = true;
 
         this.stronghold.cardData = deck.stronghold[0];
+        this.faction = deck.faction;
     }
 
     moveCard(card, targetLocation, options = {}) {
@@ -935,7 +921,7 @@ class Player extends Spectator {
                 card: card
             };
 
-            this.game.raiseMergedEvent('onCardLeftPlay', params, event => {
+            this.game.raiseEvent('onCardLeftPlay', params, event => {
                 event.card.leavesPlay();
 
                 if(event.card.parent && event.card.parent.attachments) {
@@ -947,13 +933,9 @@ class Player extends Spectator {
             });
         }
 
-        if(card.location === 'hand') {
-            this.game.raiseEvent('onCardLeftHand', card);
-        }
-
         if(card.location === 'province') {
             card.leavesPlay();
-            this.game.raiseMergedEvent('onCardLeftPlay', { player: this, card: card });
+            this.game.raiseEvent('onCardLeftPlay', { player: this, card: card });
         }
 
         if(card.location !== 'play area') {
@@ -973,12 +955,8 @@ class Player extends Spectator {
             targetPile.push(card);
         }
 
-        if(targetLocation === 'hand') {
-            this.game.raiseEvent('onCardEntersHand', card);
-        }
-
         if(['conflict discard pile', 'dynasty discard pile'].includes(targetLocation)) {
-            this.game.raiseMergedEvent('onCardPlaced', { card: card, location: targetLocation });
+            this.game.raiseEvent('onCardPlaced', { card: card, location: targetLocation });
         }
     }
 
@@ -990,7 +968,7 @@ class Player extends Spectator {
         this.game.applyGameAction('bow', card, card => {
             card.bowed = true;
 
-            this.game.raiseEvent('onCardbowed', this, card);
+            this.game.raiseEvent('onCardBowed', { player: this, card: card });
         });
     }
 
@@ -1002,14 +980,17 @@ class Player extends Spectator {
         this.game.applyGameAction('ready', card, card => {
             card.bowed = false;
 
-            this.game.raiseEvent('onCardStood', this, card);
+            this.game.raiseEvent('onCardStood', { player: this, card: card });
         });
     }
 
     removeCardFromPile(card) {
         if(card.controller !== this) {
-            card.controller.removeCardFromPile(card);
+            let oldController = card.controller;
+            oldController.removeCardFromPile(card);
 
+            oldController.allCards = _(oldController.allCards.reject(c => c === card));
+            this.allCards.push(card);
             card.controller = card.owner;
 
             return;

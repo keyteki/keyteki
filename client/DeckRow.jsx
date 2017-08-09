@@ -1,18 +1,14 @@
 import React from 'react';
 import moment from 'moment';
 
-import {validateDeck} from './deck-validator';
-
 class DeckRow extends React.Component {
     render() {
-        var validation = validateDeck(this.props.deck);
-
         return (
             <div className={ this.props.active ? 'deck-row active' : 'deck-row' } key={ this.props.deck.name } onClick={ this.props.onClick }>
                 <img className='pull-left' src={ '/img/mons/' + this.props.deck.faction.value + '.png' } />
-                <div>{ this.props.deck.name }<span className='pull-right'>{ validation.status === 'Valid' ? 'Valid' : 'Invalid' }</span></div>
+                <div>{ this.props.deck.name }<span className='pull-right'>{ this.props.deck.validation.status }</span></div>
                 <div>{ this.props.deck.faction.name }
-                    { this.props.deck.allianceFaction && this.props.deck.allianceFaction.value !== 'none' ? <span>/{ this.props.deck.allianceFaction.name }</span> : null }
+                    { this.props.deck.alliance && this.props.deck.alliance.value !== 'none' ? <span>/{ this.props.deck.alliance.name }</span> : null }
                     <span className='pull-right'>{ moment(this.props.deck.lastUpdated).format('Do MMMM YYYY') }</span>
                 </div>
             </div>);

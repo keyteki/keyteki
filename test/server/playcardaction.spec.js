@@ -5,7 +5,7 @@ const PlayCardAction = require('../../server/game/playcardaction.js');
 
 describe('PlayCardAction', function () {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'on', 'raiseEvent', 'raiseMergedEvent', 'removeListener']);
+        this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'on', 'raiseEvent', 'raiseEvent', 'removeListener']);
         this.playerSpy = jasmine.createSpyObj('player', ['isCardInPlayableLocation', 'moveCard']);
         this.cardSpy = jasmine.createSpyObj('card', ['canBePlayed', 'canPlay', 'getType', 'play']);
         this.cardSpy.canBePlayed.and.returnValue(true);
@@ -16,7 +16,7 @@ describe('PlayCardAction', function () {
             source: this.cardSpy
         };
 
-        this.gameSpy.raiseMergedEvent.and.callFake((name, params, handler) => {
+        this.gameSpy.raiseEvent.and.callFake((name, params, handler) => {
             if(handler) {
                 handler(params);
             }

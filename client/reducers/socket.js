@@ -3,7 +3,7 @@ export default function(state = {}, action) {
         case 'SOCKET_CONNECTED':
             return Object.assign({}, state, {
                 socket: action.socket
-            });        
+            });
         case 'GAME_SOCKET_CONNECTED':
             return Object.assign({}, state, {
                 gameSocket: action.socket,
@@ -16,13 +16,14 @@ export default function(state = {}, action) {
             });
         case 'GAME_SOCKET_CONNECT_FAILED':
             return Object.assign({}, state, {
-                gameConnecting: false,                
+                gameConnecting: false,
                 gameHost: undefined
             });
         case 'GAME_SOCKET_CLOSED':
             return Object.assign({}, state, {
                 gameConnecting: false,
-                gameHost: undefined
+                gameHost: undefined,
+                gameSocket: undefined
             });
     }
 

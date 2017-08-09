@@ -20,12 +20,23 @@ const webpack = require('webpack');
 const webpackConfig = require('../webpack.config.js');
 const pug = require('pug');
 
-const UserRepository = require('./repositories/userRepository.js');
+const UserService = require('./repositories/UserService.js');
 const version = require('../version.js');
+
+const defaultWindows = {
+    plot: false,
+    draw: false,
+    challengeBegin: false,
+    attackersDeclared: true,
+    defendersDeclared: true,
+    winnerDetermined: false,
+    dominance: false,
+    standing: false
+};
 
 class Server {
     constructor(isDeveloping) {
-        this.userRepository = new UserRepository(config.dbPath);
+        this.userService = new UserService({ dbPath: config.dbPath });
         this.isDeveloping = isDeveloping;
         this.server = http.Server(app);
     }
@@ -127,33 +138,42 @@ class Server {
     }
 
     verifyUser(username, password, done) {
-        this.userRepository.getUserByUsername(username, (err, user) => {
-            if(!user) {
-                return done(null, false, { message: 'Invalid username/password' });
-            }
+        this.userService.getUserByUsername(username)
+            .then(user => {
+                if(!user) {
+                    done(null, false, { message: 'Invalid username/password' });
 
-            bcrypt.compare(password, user.password, function(err, valid) {
-                if(err) {
-                    logger.info(err.message);
-
-                    return done(err);
+                    return Promise.reject('Failed auth');
                 }
 
-                if(!valid) {
-                    return done(null, false, { message: 'Invalid username/password' });
-                }
+                bcrypt.compare(password, user.password, function(err, valid) {
+                    if(err) {
+                        logger.info(err.message);
 
-                return done(null, { 
-                    username: user.username, 
-                    email: user.email, 
-                    emailHash: user.emailHash, 
-                    _id: user._id, 
-                    admin: user.admin,
-                    settings: user.settings || {},
-                    promptedActionWindows: user.promptedActionWindows 
+                        return done(err);
+                    }
+
+                    if(!valid) {
+                        return done(null, false, { message: 'Invalid username/password' });
+                    }
+
+                    return done(null, {
+                        username: user.username,
+                        email: user.email,
+                        emailHash: user.emailHash,
+                        _id: user._id,
+                        admin: user.admin,
+                        settings: user.settings || {},
+                        promptedActionWindows: user.promptedActionWindows || defaultWindows,
+                        permissions: user.permissions || {}
+                    });
                 });
+            })
+            .catch(err => {
+                done(err);
+
+                logger.info(err);
             });
-        });
     }
 
     serializeUser(user, done) {
@@ -163,21 +183,23 @@ class Server {
     }
 
     deserializeUser(id, done) {
-        this.userRepository.getUserById(id, (err, user) => {
-            if(!user) {
-                return done(err);
-            }
+        this.userService.getUserById(id)
+            .then(user => {
+                if(!user) {
+                    return done(new Error('user not found'));
+                }
 
-            done(null, { 
-                username: user.username,
-                email: user.email, 
-                emailHash: user.emailHash, 
-                _id: user._id, 
-                admin: user.admin, 
-                settings: user.settings || {},
-                promptedActionWindows: user.promptedActionWindows 
+                done(null, {
+                    username: user.username,
+                    email: user.email,
+                    emailHash: user.emailHash,
+                    _id: user._id,
+                    admin: user.admin,
+                    settings: user.settings || {},
+                    promptedActionWindows: user.promptedActionWindows || defaultWindows,
+                    permissions: user.permissions || {}
+                });
             });
-        });
     }
 }
 

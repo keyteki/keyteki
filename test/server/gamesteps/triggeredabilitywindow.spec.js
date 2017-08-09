@@ -7,14 +7,13 @@ const TriggeredAbilityWindow = require('../../../server/game/gamesteps/triggered
 
 describe('TriggeredAbilityWindow', function() {
     beforeEach(function() {
-        this.player1Spy = jasmine.createSpyObj('player', ['setPrompt', 'cancelPrompt']);
-        this.player2Spy = jasmine.createSpyObj('player', ['setPrompt', 'cancelPrompt']);
+        this.player1Spy = jasmine.createSpyObj('player', ['setPrompt', 'cancelPrompt', 'user']);
+        this.player2Spy = jasmine.createSpyObj('player', ['setPrompt', 'cancelPrompt', 'user']);
 
         this.gameSpy = jasmine.createSpyObj('game', ['getPlayersInFirstPlayerOrder', 'promptWithMenu', 'resolveAbility']);
         this.gameSpy.getPlayersInFirstPlayerOrder.and.returnValue([this.player1Spy, this.player2Spy]);
 
         this.event = { name: 'onFoo', params: [] };
-
 
         this.window = new TriggeredAbilityWindow(this.gameSpy, {
             event: this.event,
@@ -34,12 +33,12 @@ describe('TriggeredAbilityWindow', function() {
             this.context1 = { context: 1 };
 
             this.abilityCard2 = createCard({ card: 2, name: 'The Card 2', controller: this.player1Spy });
-            this.ability2Spy = jasmine.createSpyObj('ability', ['meetsRequirements']);
+            this.ability2Spy = jasmine.createSpyObj('ability', ['hasMax', 'meetsRequirements']);
             this.ability2Spy.meetsRequirements.and.returnValue(true);
             this.context2 = { context: 2 };
 
             this.abilityCard3 = createCard({ card: 3, name: 'Their Card', controller: this.player2Spy });
-            this.ability3Spy = jasmine.createSpyObj('ability', ['meetsRequirements']);
+            this.ability3Spy = jasmine.createSpyObj('ability', ['hasMax', 'meetsRequirements']);
             this.ability3Spy.meetsRequirements.and.returnValue(true);
             this.context3 = { context: 3 };
 
@@ -55,11 +54,38 @@ describe('TriggeredAbilityWindow', function() {
 
     describe('registerAbility()', function() {
         beforeEach(function() {
-            this.abilityCard = { card: 1, name: 'The Card', controller: this.player1Spy };
-            this.abilitySpy = jasmine.createSpyObj('ability', ['getChoices']);
+            this.context = { context: 1, player: this.player1Spy };
+            this.abilityCard = { card: 1, name: 'The Card' };
+            this.abilitySpy = jasmine.createSpyObj('ability', ['createContext', 'getChoices', 'hasMax']);
+            this.abilitySpy.createContext.and.returnValue(this.context);
             this.abilitySpy.getChoices.and.returnValue([{ text: 'Choice 1', choice: 'choice1' }, { text: 'Choice 2', choice: 'choice2' }]);
             this.abilitySpy.card = this.abilityCard;
-            this.context = { context: 1 };
+        });
+
+        describe('when a normal ability is registered', function() {
+            beforeEach(function() {
+                this.window.registerAbility(this.abilitySpy, this.context);
+            });
+
+            it('should add each choice for the ability', function() {
+                expect(this.window.abilityChoices.length).toBe(2);
+                expect(this.window.abilityChoices).toContain(jasmine.objectContaining({
+                    ability: this.abilitySpy,
+                    card: this.abilityCard,
+                    choice: 'choice1',
+                    context: this.context,
+                    player: this.player1Spy,
+                    text: 'Choice 1'
+                }));
+                expect(this.window.abilityChoices).toContain(jasmine.objectContaining({
+                    ability: this.abilitySpy,
+                    card: this.abilityCard,
+                    choice: 'choice2',
+                    context: this.context,
+                    player: this.player1Spy,
+                    text: 'Choice 2'
+                }));
+            });
 
             this.window.registerAbility(this.abilitySpy, this.context);
         });

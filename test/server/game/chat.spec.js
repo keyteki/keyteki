@@ -2,182 +2,93 @@
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
 const Game = require('../../../server/game/game.js');
-const Player = require('../../../server/game/player.js');
 const Spectator = require('../../../server/game/spectator.js');
 
-describe('the Game', function() {
+describe('Game', function() {
     beforeEach(function() {
         this.gameRepository = jasmine.createSpyObj('gameRepository', ['save']);
         this.game = new Game('1', 'Test Game', { gameRepository: this.gameRepository });
 
-        this.player1 = new Player('1', { username: 'Player 1', settings: {} }, true, this.game);
-        this.spectator = new Spectator('3', { username: 'Spectator 1', settings: {} }, this.game);
+        this.player = jasmine.createSpyObj('player', ['']);
+        this.player.name = 'Player 1';
 
-        this.game.playersAndSpectators[this.player1.id] = this.player1;
-        this.game.playersAndSpectators[this.spectator.id] = this.spectator;
-
-        this.game.initialise();
+        this.game.playersAndSpectators[this.player.name] = this.player;
 
         this.chatCommands = this.game.chatCommands;
+        this.gameChat = this.game.gameChat;
+        spyOn(this.chatCommands, 'executeCommand').and.returnValue(false);
+        spyOn(this.gameChat, 'addChatMessage');
     });
 
-    describe('the getNumberOrDefault() function', function() {
-        describe('with no arguments', function() {
-            it('should return the default', function () {
-                expect(this.chatCommands.getNumberOrDefault('', 1)).toBe(1);
-            });
-        });
-
-        describe('with a string argument', function() {
-            it('should return the default', function () {
-                expect(this.chatCommands.getNumberOrDefault('test', 1)).toBe(1);
-            });
-        });
-
-        describe('with a negative argument', function() {
-            it('should return the default', function () {
-                expect(this.chatCommands.getNumberOrDefault('-1', 1)).toBe(1);
-            });
-        });
-
-        describe('with a valid argument', function() {
-            it('should return the parsed value', function () {
-                expect(this.chatCommands.getNumberOrDefault('3', 1)).toBe(3);
-            });
-        });
-    });
-
-    describe('the chat() function', function() {
+    describe('chat()', function() {
         describe('when called by a player not in the game', function() {
             it('should not add any chat messages', function() {
                 this.game.chat('notinthegame', 'Test Message');
 
-                expect(this.game.messages.length).toBe(0);
+                expect(this.gameChat.addChatMessage).not.toHaveBeenCalled();
             });
         });
 
         describe('when called by a player in the game', function() {
-            describe('with no slashes', function() {
-                it('should add their chat message', function() {
-                    this.game.chat(this.player1.name, 'Test Message');
-
-                    expect(this.game.messages.length).toBe(1);
-                    expect(this.game.messages[0].message[1].name).toBe(this.player1.name);
-                    expect(this.game.messages[0].message.join('')).toContain('Test Message');
-                });
-            });
-
-            describe('with a /draw command', function() {
+            describe('and the message is a command', function() {
                 beforeEach(function() {
-                    spyOn(this.player1, 'drawCardsToHand');
+                    this.chatCommands.executeCommand.and.returnValue(true);
+
+                    this.game.chat(this.player.name, '/this is a command');
                 });
 
-                describe('with no arguments', function() {
-                    it('should draw 1 card', function () {
-                        this.game.chat(this.player1.name, '/draw');
-
-                        expect(this.game.messages.length).toBe(1);
-                        expect(this.player1.drawCardsToHand).toHaveBeenCalledWith(1);
-                    });
+                it('should execute the command', function() {
+                    expect(this.chatCommands.executeCommand).toHaveBeenCalledWith(this.player, '/this', ['/this', 'is', 'a', 'command']);
                 });
 
-                describe('with a string argument', function() {
-                    it('should draw 1 card', function () {
-                        this.game.chat(this.player1.name, '/draw test');
-
-                        expect(this.game.messages.length).toBe(1);
-                        expect(this.player1.drawCardsToHand).toHaveBeenCalledWith(1);
-                    });
-                });
-
-                describe('with a negative argument', function() {
-                    it('should draw 1 card', function () {
-                        this.game.chat(this.player1.name, '/draw -1');
-
-                        expect(this.game.messages.length).toBe(1);
-                        expect(this.player1.drawCardsToHand).toHaveBeenCalledWith(1);
-                    });
-                });
-
-                describe('with a valid argument', function() {
-                    it('should draw 4 cards', function () {
-                        this.game.chat(this.player1.name, '/draw 4');
-
-                        expect(this.game.messages.length).toBe(1);
-                        expect(this.player1.drawCardsToHand).toHaveBeenCalledWith(4);
-                    });
-                });
-
-                describe('half way through a message', function() {
-                    it('should not trigger the /draw command', function() {
-                        this.game.chat(this.player1.name, 'test test /draw test');
-
-                        expect(this.player1.drawCardsToHand).not.toHaveBeenCalled();
-                    });
+                it('should not add any chat messages', function() {
+                    expect(this.gameChat.addChatMessage).not.toHaveBeenCalled();
                 });
             });
 
-            describe('with a /discard command', function() {
+            describe('and the message is a not a valid command', function() {
                 beforeEach(function() {
-                    spyOn(this.player1, 'discardAtRandom');
+                    this.chatCommands.executeCommand.and.returnValue(false);
+
+                    this.game.chat(this.player.name, 'this is a message');
                 });
 
-                describe('with no arguments', function() {
-                    it('should discard 1 card', function () {
-                        this.game.chat(this.player1.name, '/discard');
-
-                        expect(this.game.messages.length).toBe(1);
-                        expect(this.player1.discardAtRandom).toHaveBeenCalledWith(1);
-                    });
-                });
-
-                describe('with a string argument', function() {
-                    it('should discard 1 card', function () {
-                        this.game.chat(this.player1.name, '/discard test');
-
-                        expect(this.game.messages.length).toBe(1);
-                        expect(this.player1.discardAtRandom).toHaveBeenCalledWith(1);
-                    });
-                });
-
-                describe('with a negative argument', function() {
-                    it('should discard 1 card', function () {
-                        this.game.chat(this.player1.name, '/discard -1');
-
-                        expect(this.game.messages.length).toBe(1);
-                        expect(this.player1.discardAtRandom).toHaveBeenCalledWith(1);
-                    });
-                });
-
-                describe('with a valid argument', function() {
-                    it('should discard 3 cards', function () {
-                        this.game.chat(this.player1.name, '/discard 3');
-
-                        expect(this.game.messages.length).toBe(1);
-                        expect(this.player1.discardAtRandom).toHaveBeenCalledWith(3);
-                    });
+                it('should add the chat messages', function() {
+                    expect(this.gameChat.addChatMessage).toHaveBeenCalledWith(jasmine.any(String), this.player, 'this is a message');
                 });
             });
-
         });
 
         describe('when called by a spectator in the game', function() {
-            describe('with no slashes', function () {
-                it('should add their chat message', function() {
-                    this.game.chat(this.spectator.name, 'Test Message');
+            beforeEach(function() {
+                this.player.constructor = Spectator;
+            });
 
-                    expect(this.game.messages.length).toBe(1);
-                    expect(this.game.messages[0].message[1].name).toBe(this.spectator.name);
-                    expect(this.game.messages[0].message.join('')).toContain('Test Message');
+            describe('and the message is a command', function() {
+                beforeEach(function() {
+                    this.chatCommands.executeCommand.and.returnValue(true);
+
+                    this.game.chat(this.player.name, '/this is a command');
+                });
+
+                it('should not execute the command', function() {
+                    expect(this.chatCommands.executeCommand).not.toHaveBeenCalled();
+                });
+
+                it('should add it as a chat messages', function() {
+                    expect(this.gameChat.addChatMessage).toHaveBeenCalledWith(jasmine.any(String), this.player, '/this is a command');
                 });
             });
 
-            describe('with a /power command', function() {
-                it('should add the message to the messages', function() {
-                    this.game.chat(this.spectator.name, '/power');
+            describe('and the message is a not a valid command', function() {
+                beforeEach(function() {
+                    this.chatCommands.executeCommand.and.returnValue(false);
 
-                    expect(this.game.messages.length).toBe(1);
-                    expect(this.player1.setPower).toBe(undefined);
+                    this.game.chat(this.player.name, 'this is a message');
+                });
+
+                it('should add the chat messages', function() {
+                    expect(this.gameChat.addChatMessage).toHaveBeenCalledWith(jasmine.any(String), this.player, 'this is a message');
                 });
             });
         });

@@ -105,7 +105,7 @@ class DrawCard extends BaseCard {
          * @param  {boolean}  applying -  [description]
          */
         this.militarySkillModifier += amount;
-        this.game.raiseMergedEvent('onCardMilitarySkillChanged', {
+        this.game.raiseEvent('onCardMilitarySkillChanged', {
             card: this,
             amount: amount,
             applying: applying
@@ -119,7 +119,7 @@ class DrawCard extends BaseCard {
          * @param  {boolean}  applying -  [description]
          */
         this.politicalSkillModifier += amount;
-        this.game.raiseMergedEvent('onCardPoliticalSkillChanged', {
+        this.game.raiseEvent('onCardPoliticalSkillChanged', {
             card: this,
             amount: amount,
             applying: applying
@@ -164,8 +164,28 @@ class DrawCard extends BaseCard {
             this.fate = 0;
         }
 
-        this.game.raiseEvent('onCardFateChanged', this, this.fate - oldFate);
 
+        this.game.raiseEvent('onCardFateChanged', { card: this, fate: card.fate - oldFate });
+    
+    }
+
+    needsCovertTarget() {
+        return this.isCovert() && !this.covertTarget;
+    }
+
+    canUseCovertToBypass(targetCard) {
+        return this.isCovert() && targetCard.canBeBypassedByCovert();
+    }
+
+    useCovertToBypass(targetCard) {
+        if(!this.canUseCovertToBypass(targetCard)) {
+            return false;
+        }
+
+        targetCard.covert = true;
+        this.covertTarget = targetCard;
+
+        return true;
     }
 
     clearBlank() {
@@ -177,6 +197,10 @@ class DrawCard extends BaseCard {
         });
     }
 
+    /**
+     * Checks 'no attachment' restrictions for this card when attempting to
+     * attach the passed attachment card.
+     */
     allowAttachment(attachment) {
         return (
             this.isBlank() ||
@@ -185,18 +209,12 @@ class DrawCard extends BaseCard {
         );
     }
 
+    /**
+     * Checks whether the passed card meets the attachment restrictions (e.g.
+     * Opponent cards only, specific factions, etc) for this card.
+     */
     canAttach(player, card) {
-        if(this.getType() !== 'attachment') {
-            return false;
-        }
-
-        return card.allowAttachment(this);
-    }
-
-    attach() {
-        _.each(this.abilities.persistentEffects, effect => {
-            this.game.addEffect(this, effect);
-        });
+        return card && this.getType() === 'attachment';
     }
 
     getPlayActions() {
@@ -205,14 +223,11 @@ class DrawCard extends BaseCard {
             .concat(_.filter(this.abilities.actions, action => !action.allowMenu()));
     }
 
-    play(player) {
-        super.play();
-    }
-
     leavesPlay() {
         this.bowed = false;
         this.inConflict = false;
-
+        this.new = false;
+        this.resetForConflict();
         super.leavesPlay();
     }
 

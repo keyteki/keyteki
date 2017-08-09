@@ -2,35 +2,25 @@ function escapeRegex(regex) {
     return regex.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&');
 }
 
-function httpRequest(url, callback) {
-    const lib = url.startsWith('https') ? require('https') : require('http');
-    const request = lib.get(url, response => {
-        if(response.statusCode < 200 || response.statusCode > 299) {
-            if(callback) { 
-                callback(new Error('Failed to request, status code: ' + response.statusCode));
-
-                return;
+function httpRequest(url) {
+    return new Promise((resolve, reject) => {
+        const lib = url.startsWith('https') ? require('https') : require('http');
+        const request = lib.get(url, response => {
+            if(response.statusCode < 200 || response.statusCode > 299) {
+                return reject(new Error('Failed to request, status code: ' + response.statusCode));
             }
-        }
 
-        const body = [];
-        
-        response.on('data', chunk => {
-            body.push(chunk);
-        });
+            const body = [];
 
-        response.on('end', () => {
-            if(callback) {
-                callback(null, body.join(''));
-            }
-        });
+            response.on('data', chunk => {
+                body.push(chunk);
+            });
 
-        request.on('error', err => {
-            if(callback) {
-                callback(err);
+            response.on('end', () => {
+                resolve(body.join(''));
+            });
 
-                return;
-            }
+            request.on('error', err => reject(err));
         });
     });
 }

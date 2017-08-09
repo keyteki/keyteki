@@ -6,7 +6,8 @@ const DrawCard = require('../../../server/game/drawcard.js');
 
 describe('Player', function() {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'raiseEvent', 'raiseMergedEvent', 'getOtherPlayer', 'playerDecked']);
+        this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'queueSimpleStep', 'raiseEvent', 'getOtherPlayer', 'playerDecked']);
+        this.gameSpy.queueSimpleStep.and.callFake(step => step());
         this.player = new Player('1', 'Player 1', true, this.gameSpy);
         this.player.deck = {};
         this.player.initialise();
@@ -14,11 +15,13 @@ describe('Player', function() {
         this.attachmentOwner = new Player('2', 'Player 2', false, this.gameSpy);
         this.attachmentOwner.initialise();
         this.attachment = new DrawCard(this.attachmentOwner, {});
+        spyOn(this.attachment, 'canAttach').and.returnValue(true);
         this.card = new DrawCard(this.player, {});
+        this.card.location = 'play area';
         this.player.cardsInPlay.push(this.card);
         this.player.attach(this.player, this.attachment, this.card.uuid);
 
-        this.gameSpy.raiseMergedEvent.and.callFake((name, params, handler) => {
+        this.gameSpy.raiseEvent.and.callFake((name, params, handler) => {
             if(handler) {
                 handler(params);
             }

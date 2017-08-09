@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import AlertPanel from './SiteComponents/AlertPanel.jsx';
 import * as actions from './actions';
 
 class InnerPasswordGame extends React.Component {
@@ -48,9 +49,7 @@ class InnerPasswordGame extends React.Component {
                 <div className='row' />
                 { this.props.passwordError ?
                     <div className='col-sm-6'>
-                        <div className='alert alert-danger'>
-                            {this.props.passwordError}
-                        </div>
+                        <AlertPanel type='error' message={ this.props.passwordError } />
                     </div>
                     : null }    
                 <div className='col-sm-12'>

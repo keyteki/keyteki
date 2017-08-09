@@ -55,11 +55,14 @@ describe('ForcedTriggeredAbilityWindow', function() {
 
     describe('registerAbility()', function() {
         beforeEach(function() {
-            this.abilityCard = { card: 1, name: 'The Card', controller: this.player1Spy };
-            this.abilitySpy = { card: this.abilityCard };
             this.context = { context: 1 };
+            this.abilityCard = { card: 1, name: 'The Card', controller: this.player1Spy };
+            this.abilitySpy = jasmine.createSpyObj('ability', ['createContext']);
+            this.abilitySpy.createContext.and.returnValue(this.context);
+            this.abilitySpy.card = this.abilityCard;
 
-            this.window.registerAbility(this.abilitySpy, this.context);
+
+            this.window.registerAbility(this.abilitySpy);
         });
 
         it('should add the ability to the list of choices', function() {

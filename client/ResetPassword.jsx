@@ -3,6 +3,7 @@ import _ from 'underscore';
 import $ from 'jquery';
 
 import {connect} from 'react-redux';
+import AlertPanel from './SiteComponents/AlertPanel.jsx';
 
 import * as actions from './actions';
 
@@ -79,7 +80,7 @@ class InnerResetPassword extends React.Component {
 
     render() {
         if(!this.props.id || !this.props.token) {
-            return <div className='alert alert-danger'>This page is not intended to be viewed directly.  Please click on the link in your email to reset your password</div>;
+            return <AlertPanel type='error' message='This page is not intended to be viewed directly.  Please click on the link in your email to reset your password' />;
         }
 
         var fields = [
@@ -99,7 +100,7 @@ class InnerResetPassword extends React.Component {
             }
         ];
         var fieldsToRender = [];
-        var errorBar = this.state.error ? <div className='alert alert-danger' role='alert'>{ this.state.error }</div> : null;
+        var errorBar = this.state.error ? <AlertPanel type='error' message={ this.state.error } /> : null;
 
         _.each(fields, (field) => {
             var className = 'form-group';
@@ -107,7 +108,7 @@ class InnerResetPassword extends React.Component {
 
             if(this.state.validation[field.name]) {
                 className += ' has-error';
-                validation = <span className='help-block'>{ this.state.validation[field.name]}</span>;
+                validation = <span className='help-block'>{ this.state.validation[field.name] }</span>;
             }
 
             fieldsToRender.push(
@@ -119,7 +120,7 @@ class InnerResetPassword extends React.Component {
                             className='form-control'
                             id={ field.name }
                             placeholder={ field.placeholder }
-                            value={ this.state[field.name]}
+                            value={ this.state[field.name] }
                             onChange={ this.onChange.bind(this, field.name) }
                             onBlur={ field.blurCallback } />
                         { validation }

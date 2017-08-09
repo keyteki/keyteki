@@ -8,12 +8,12 @@ const DrawCard = require('../../../server/game/drawcard.js');
 describe('Player', function() {
     describe('moveCard', function() {
         beforeEach(function() {
-            this.gameSpy = jasmine.createSpyObj('game', ['raiseEvent', 'raiseMergedEvent', 'getOtherPlayer', 'playerDecked']);
+            this.gameSpy = jasmine.createSpyObj('game', ['raiseEvent', 'getOtherPlayer', 'playerDecked']);
             this.player = new Player('1', 'Player 1', true, this.gameSpy);
             this.player.initialise();
             this.player.phase = 'dynasty';
 
-            this.gameSpy.raiseMergedEvent.and.callFake((name, params, handler) => {
+            this.gameSpy.raiseEvent.and.callFake((name, params, handler) => {
                 if(handler) {
                     handler(params);
                 }
@@ -90,7 +90,7 @@ describe('Player', function() {
 
             it('should raise the left play event', function() {
                 this.player.moveCard(this.card, 'conflict discard pile');
-                expect(this.gameSpy.raiseMergedEvent).toHaveBeenCalled();
+                expect(this.gameSpy.raiseEvent).toHaveBeenCalled();
             });
 
             describe('when the card has attachments', function() {

@@ -23,7 +23,7 @@ class Deck {
         result.faction = this.data.faction;
 
         //conflict
-        this.eachRepeatedCard(this.data.conflictDrawCards, cardData => {
+        this.eachRepeatedCard(this.data.conflictCards, cardData => {
             if(['conflict'].includes(cardData.side)) {
                 var conflictCard = this.createCard(DrawCard, player, cardData);
                 conflictCard.location = 'conflict deck';
@@ -32,7 +32,7 @@ class Deck {
         });
 
         //dynasty
-        this.eachRepeatedCard(this.data.dynastyDrawCards, cardData => {
+        this.eachRepeatedCard(this.data.dynastyCards, cardData => {
             if(['dynasty'].includes(cardData.side)) {
                 var dynastyCard = this.createCard(DrawCard, player, cardData);
                 dynastyCard.location = 'dynasty deck';
@@ -57,7 +57,7 @@ class Deck {
         });
 
         result.allCards = result.provinceCards.concat(result.conflictCards).concat(result.dynastyCards);
-        result.allCards.push(result.stronghold)
+        result.allCards.push(result.stronghold);
 
         return result;
     }
@@ -71,7 +71,7 @@ class Deck {
     }
 
     createCard(baseClass, player, cardData) {
-        var cardClass = cards[cardData.code] || baseClass;
+        var cardClass = cards[cardData.id] || baseClass;
         return new cardClass(player, cardData);
     }
 }

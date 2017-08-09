@@ -19,7 +19,6 @@ class DrawPhase extends Phase {
 
     bidPrompt() {
         _.each(this.game.getPlayers(), p => {
-            this.game.raiseEvent('beginDrawPhase', this, p);
             this.queueStep(new DrawBidPrompt(this.game, p));
         });
     }
@@ -53,7 +52,6 @@ class DrawPhase extends Phase {
 
     drawConflict() {
         _.each(this.game.getPlayers(), p => {
-            this.game.raiseEvent('beginDrawPhase', this, p);
             p.drawPhase();
         });
     }

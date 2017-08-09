@@ -5,13 +5,13 @@ class Input extends React.Component {
     render() {
         return (
             <div className='form-group'>
-                <label htmlFor={ this.props.name } className={ this.props.labelClass + ' control-label'}>{ this.props.label }</label>
+                <label htmlFor={ this.props.name } className={ this.props.labelClass + ' control-label' }>{ this.props.label }</label>
                 <div className={ this.props.fieldClass }>
                     <Typeahead ref={ this.props.name }
                         options={ this.props.options }
                         labelKey={ this.props.labelKey }
                         onChange={ this.props.onChange } />
-                    { this.props.validationMessage ? <span className='help-block'>{ this.props.validationMessage} </span> : null }
+                    { this.props.validationMessage ? <span className='help-block'>{ this.props.validationMessage } </span> : null }
                 </div>
                 { this.props.children }
             </div>

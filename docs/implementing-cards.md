@@ -702,3 +702,50 @@ To limit an ability per phase, use `ability.limit.perPhase(x)`.
 To limit an ability per challenge, use `ability.limit.perRound(x)`.
 
 In each case, `x` should be the number of times the ability is allowed to be used.
+
+### Language
+
+#### Game messages should begin with the player doing the action
+
+Game messages should begin with the name of the player to ensure a uniform format and make it easy to see who triggered an ability.
+
+* **Bad**: Tyrion Lannister triggers to gain 2 gold for Player1
+* **Good**: Player1 uses Tyrion Lannister to gain 2 gold
+
+#### Game messages should not end in punctuation
+
+No game messages should end in a period, exclaimation point or question mark.
+
+* **Bad**: Player1 draws 2 cards.
+* **Good**: Player1 draws 2 cards
+
+#### Game messages should use present tense.
+
+All game messages should use present tense.
+
+* **Bad**: Player1 has used Ser Gregor Clegane to kill The Red Viper
+* **Bad**: Player1 killed The Red Viper
+* **Good**: Player1 uses Ser Gregor Clegane to kill The Red Viper
+* **Good**: Player1 kills The Red Viper
+
+#### Targeting prompts should use the format "Select a \<card type\>" where possible.
+
+Targeting prompts should ask the player to select a card or a card of particular type to keep prompt titles relatively short, without specifying the final goal of card selection.
+
+* **Bad**: Select a character to return to hand
+* **Good**: Select a character
+
+**Exception:** If a card requires the player to select multiple cards, such as Renly's Pavillion, you can add context about which one they should be selecting. Just keep it as short as reasonably possible.
+
+As valid selections are already presented to the user via visual clues, targeting prompts should not repeat selection rules in excessive details. Specifying nothing more and nothing less than the eligible card type (if any) is the good middle ground.
+
+* **Bad**: Select a Knight
+* **Good**: Select a character
+
+* **Bad**: Select a defending Night's Watch character
+* **Good**: Select a character
+
+* **Bad**: Select a card from your discard pile
+* **Good**: Select a card
+
+* **Good**: Select an attachment or location

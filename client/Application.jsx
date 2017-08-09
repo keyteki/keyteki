@@ -1,5 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
+import _ from 'underscore';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
 
@@ -18,6 +20,9 @@ import About from './About.jsx';
 import ForgotPassword from './ForgotPassword.jsx';
 import ResetPassword from './ResetPassword.jsx';
 import Profile from './Profile.jsx';
+import NewsAdmin from './NewsAdmin.jsx';
+import Unauthorised from './Unauthorised.jsx';
+import UserAdmin from './UserAdmin.jsx';
 
 import {toastr} from 'react-redux-toastr';
 
@@ -25,48 +30,45 @@ import version from '../version.js';
 
 import * as actions from './actions';
 
-var notAuthedMenu = [
-    { name: 'Login', path: '/login' },
-    { name: 'Register', path: '/register' }
-];
-
-var authedMenu = [
-    { name: 'Profile', path: '/profile' },
-    { name: 'Logout', path: '/logout' }
-];
-
-var leftMenu = [
-    { name: 'Decks', path: '/decks' },
-    { name: 'Play', path: '/play' },
-    { name: 'About', path: '/about' }
-];
-
-var lobby = <Lobby />;
-var login = <Login />;
-var logout = <Logout />;
-var register = <Register />;
-var decks = <Decks />;
-var gameBoard = <GameBoard />;
-var gameLobby = <GameLobby />;
-var about = <About />;
-var forgot = <ForgotPassword />;
-var profile = <Profile />;
-
 class App extends React.Component {
+    constructor(props) {
+        super(props);
+
+        let boundActionCreators = bindActionCreators(actions, this.props.dispatch);
+
+        this.paths = {
+            '/': () => <Lobby />,
+            '/login': () => <Login />,
+            '/register': () => <Register />,
+            '/decks': () => <Decks { ...boundActionCreators } />,
+            '/decks/add': () => <AddDeck />,
+            '/decks/edit': params => <EditDeck deckId={ params.deckId }/>,
+            '/play': () => (this.props.currentGame && this.props.currentGame.started) ? <GameBoard /> : <GameLobby />,
+            '/about': () => <About />,
+            '/forgot': () => <ForgotPassword />,
+            '/reset-password': params => <ResetPassword id={ params.id } token={ params.token } />,
+            '/profile': () => <Profile />,
+            '/news': () => <NewsAdmin />
+        };
+    }
+
     componentWillMount() {
-        this.props.fetchCards();
-        this.props.fetchPacks();
+        this.props.loadCards();
+        this.props.loadPacks();
+        this.props.loadFactions();
 
         $(document).ajaxError((event, xhr) => {
             if(xhr.status === 401) {
                 this.props.navigate('/login');
+            } else if(xhr.status === 403) {
+                this.props.navigate('/unauth');
             }
         });
 
-        var queryString = this.props.token ? 'token=' + this.props.token + '&' : '';
+        let queryString = this.props.token ? 'token=' + this.props.token + '&' : '';
         queryString += 'version=' + version;
 
-        var socket = io.connect(window.location.origin, {
+        let socket = io.connect(window.location.origin, {
             reconnection: true,
             reconnectionDelay: 1000,
             reconnectionDelayMax : 5000,
@@ -120,14 +122,14 @@ class App extends React.Component {
         });
 
         socket.on('handoff', server => {
-            var url = '//' + server.address;
+            let url = '//' + server.address;
             if(server.port && server.port !== 80 && server.port !== 443) {
                 url += ':' + server.port;
             }
 
             this.props.gameSocketConnecting(url + '/' + server.name);
 
-            var gameSocket = io.connect(url, {
+            let gameSocket = io.connect(url, {
                 path: '/' + server.name + '/socket.io',
                 reconnection: true,
                 reconnectionDelay: 1000,
@@ -141,7 +143,9 @@ class App extends React.Component {
             });
 
             gameSocket.on('disconnect', () => {
-                toastr.error('Connection lost', 'You have been disconnected from the game server, attempting reconnect..');
+                if(!gameSocket.gameClosing) {
+                    toastr.error('Connection lost', 'You have been disconnected from the game server');
+                }
 
                 this.props.gameSocketDisconnect();
             });
@@ -182,73 +186,147 @@ class App extends React.Component {
 
     componentDidUpdate() {
         this.props.receiveLobbyMessage({});
+        if(!this.props.currentGame) {
+            this.props.setContextMenu([]);
+        }
     }
 
     getUrlParameter(name) {
         name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
-        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-        var results = regex.exec(location.search);
+        let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        let results = regex.exec(location.search);
+
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     }
 
+    isNumeric(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+
     render() {
-        var rightMenu = this.props.loggedIn ? authedMenu : notAuthedMenu;
-        var component = {};
+        let notAuthedMenu = [
+            { name: 'Login', path: '/login' },
+            { name: 'Register', path: '/register' }
+        ];
 
-        var path = this.props.path;
-        var pathArg = undefined;
-        var idArg = undefined;
-        var tokenArg = undefined;
-        var index = path.indexOf('/decks/edit');
+        let authedMenu = [
+            { name: 'Profile', path: '/profile' },
+            { name: 'Logout', path: '/logout' }
+        ];
 
-        if(index !== -1) {
-            path = path.substr(index, 11);
-            pathArg = this.props.path.substr(11 + 1);
+        let leftMenu = [
+            { name: 'Decks', path: '/decks' },
+            { name: 'Play', path: '/play' },
+            { name: 'About', path: '/about' }
+        ];
+
+        let adminMenuItems = [];
+        let permissions = {};
+
+        if(this.props.user && this.props.user.permissions) {
+            permissions = this.props.user.permissions;
+
+            if(permissions.canEditNews) {
+                adminMenuItems.push({ name: 'News', path: '/news' });
+            }
+
+            if(permissions.canManageUsers) {
+                adminMenuItems.push({ name: 'Users', path: '/users' });
+            }
         }
+
+        if(_.size(adminMenuItems) > 0) {
+            leftMenu.push({ name: 'Admin', childItems: adminMenuItems });
+        }
+
+        let rightMenu = this.props.loggedIn ? authedMenu : notAuthedMenu;
+        let component = {};
+
+        let path = this.props.path;
+        let argIndex = path.lastIndexOf('/');
+        let arg;
+
+        let page = this.paths[path];
+        if(!page) {
+            if(argIndex !== -1 && argIndex !== 0) {
+                arg = path.substring(argIndex + 1);
+                path = path.substring(0, argIndex);
+            }
+
+            let page = this.paths[path];
+            if(!page) {
+                page = this.paths[this.props.path];
+                arg = undefined;
+            }
+        }
+
+        let idArg;
+        let tokenArg;
+        let index;
 
         index = path.indexOf('/reset-password');
         if(index !== -1) {
-            path = path.substr(index, 15);
             idArg = this.getUrlParameter('id');
             tokenArg = this.getUrlParameter('token');
         }
 
+        let boundActionCreators = bindActionCreators(actions, this.props.dispatch);
+
         switch(path) {
             case '/':
-                component = lobby;
+                component = <Lobby />;
                 break;
             case '/login':
-                component = login;
+                component = <Login />;
                 break;
             case '/logout':
-                component = logout;
+                component = <Logout />;
                 break;
             case '/register':
-                component = register;
+                component = <Register />;
                 break;
             case '/decks':
-                component = decks;
+                component = <Decks { ...boundActionCreators } />;
                 break;
             case '/decks/add':
-                component = <AddDeck cards={this.props.cards} packs={this.props.packs} agendas={this.props.agendas} />;
+                component = <AddDeck />;
                 break;
             case '/decks/edit':
-                component = <EditDeck cards={this.props.cards} packs={this.props.packs} agendas={this.props.agendas} deckId={pathArg} />;
+                component = <EditDeck deckId={ arg }/>;
                 break;
             case '/play':
-                component = (this.props.currentGame && this.props.currentGame.started) ? gameBoard : gameLobby;
+                component = (this.props.currentGame && this.props.currentGame.started) ? <GameBoard /> : <GameLobby />;
                 break;
             case '/about':
-                component = about;
+                component = <About />;
                 break;
             case '/forgot':
-                component = forgot;
+                component = <ForgotPassword />;
                 break;
             case '/reset-password':
                 component = <ResetPassword id={ idArg } token={ tokenArg } />;
                 break;
             case '/profile':
-                component = profile;
+                component = <Profile />;
+                break;
+            case '/news':
+                if(!permissions.canEditNews) {
+                    component = <Unauthorised />;
+                } else {
+                    component = <NewsAdmin />;
+                }
+
+                break;
+            case '/unauth':
+                component = <Unauthorised />;
+                break;
+            case '/users':
+                if(!permissions.canManageUsers) {
+                    component = <Unauthorised />;
+                } else {
+                    component = <UserAdmin />;
+                }
+
                 break;
             default:
                 component = <NotFound />;
@@ -256,9 +334,9 @@ class App extends React.Component {
         }
 
         return (<div>
-            <NavBar leftMenu={leftMenu} rightMenu={rightMenu} title='Jigoku Online' currentPath={this.props.path} numGames={this.props.games.length} />
+            <NavBar leftMenu={ leftMenu } rightMenu={ rightMenu } title='Jigoku Online' currentPath={ this.props.path } numGames={ this.props.games.length } />
             <div className='container'>
-                {component}
+                { component }
             </div>
         </div>);
     }
@@ -266,21 +344,21 @@ class App extends React.Component {
 
 App.displayName = 'Application';
 App.propTypes = {
-    agendas: React.PropTypes.array,
-    cards: React.PropTypes.array,
     clearGameState: React.PropTypes.func,
     currentGame: React.PropTypes.object,
-    fetchCards: React.PropTypes.func,
-    fetchPacks: React.PropTypes.func,
+    disconnecting: React.PropTypes.bool,
+    dispatch: React.PropTypes.func,
     gameSocketConnectError: React.PropTypes.func,
     gameSocketConnected: React.PropTypes.func,
     gameSocketConnecting: React.PropTypes.func,
     gameSocketDisconnect: React.PropTypes.func,
     gameSocketReconnecting: React.PropTypes.func,
     games: React.PropTypes.array,
+    loadCards: React.PropTypes.func,
+    loadFactions: React.PropTypes.func,
+    loadPacks: React.PropTypes.func,
     loggedIn: React.PropTypes.bool,
     navigate: React.PropTypes.func,
-    packs: React.PropTypes.array,
     path: React.PropTypes.string,
     receiveBannerNotice: React.PropTypes.func,
     receiveGameState: React.PropTypes.func,
@@ -292,25 +370,33 @@ App.propTypes = {
     receivePasswordError: React.PropTypes.func,
     receiveUsers: React.PropTypes.func,
     sendGameSocketConnectFailed: React.PropTypes.func,
+    setContextMenu: React.PropTypes.func,
     socketConnected: React.PropTypes.func,
     token: React.PropTypes.string,
+    user: React.PropTypes.object,
     username: React.PropTypes.string
 };
 
 function mapStateToProps(state) {
     return {
-        agendas: state.cards.agendas,
-        cards: state.cards.cards,
         currentGame: state.games.currentGame,
+        disconnecting: state.socket.gameDisconnecting,
         games: state.games.games,
-        packs: state.cards.packs,
         path: state.navigation.path,
         loggedIn: state.auth.loggedIn,
         token: state.auth.token,
+        user: state.auth.user,
         username: state.auth.username
     };
 }
 
-const Application = connect(mapStateToProps, actions)(App);
+function mapDispatchToProps(dispatch) {
+    let boundActions = bindActionCreators(actions, dispatch);
+    boundActions.dispatch = dispatch;
+
+    return boundActions;
+}
+
+const Application = connect(mapStateToProps, mapDispatchToProps)(App);
 
 export default Application;

@@ -9,6 +9,7 @@ var LESS_DIR = path.resolve(__dirname, 'less');
 var config = {
     devtool: 'source-map',
     entry: [
+        'babel-polyfill',
         path.join(__dirname, 'client/index.jsx'),
         LESS_DIR + '/site.less'
     ],

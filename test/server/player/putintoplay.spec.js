@@ -7,7 +7,7 @@ const Player = require('../../../server/game/player.js');
 
 describe('Player', function() {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['queueStep', 'raiseEvent', 'raiseMergedEvent', 'playerDecked']);
+        this.gameSpy = jasmine.createSpyObj('game', ['queueStep', 'raiseEvent', 'playerDecked']);
         this.player = new Player('1', 'Player 1', true, this.gameSpy);
         this.player.initialise();
 
@@ -96,7 +96,7 @@ describe('Player', function() {
                 });
 
                 it('should raise the onCardEntersPlay event', function() {
-                    expect(this.gameSpy.raiseMergedEvent).toHaveBeenCalledWith('onCardEntersPlay', jasmine.objectContaining({ card: this.cardSpy, playingType: 'marshal' }));
+                    expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onCardEntersPlay', jasmine.objectContaining({ card: this.cardSpy, playingType: 'marshal' }));
                 });
 
                 describe('when it has the Bestow keyword', function() {
@@ -127,7 +127,7 @@ describe('Player', function() {
                 });
 
                 it('should not raise the onCardEntersPlay event', function() {
-                    expect(this.gameSpy.raiseMergedEvent).not.toHaveBeenCalledWith('onCardEntersPlay', jasmine.objectContaining({ card: this.cardSpy }));
+                    expect(this.gameSpy.raiseEvent).not.toHaveBeenCalledWith('onCardEntersPlay', jasmine.objectContaining({ card: this.cardSpy }));
                 });
 
                 it('should add as a duplicate', function() {
@@ -217,7 +217,7 @@ describe('Player', function() {
                 });
 
                 it('should raise the onCardEntersPlay event', function() {
-                    expect(this.gameSpy.raiseMergedEvent).toHaveBeenCalledWith('onCardEntersPlay', jasmine.objectContaining({ card: this.cardSpy, playingType: 'ambush' }));
+                    expect(this.gameSpy.raiseEvent).toHaveBeenCalledWith('onCardEntersPlay', jasmine.objectContaining({ card: this.cardSpy, playingType: 'ambush' }));
                 });
             });
 
@@ -236,7 +236,7 @@ describe('Player', function() {
                 });
 
                 it('should not raise the onCardEntersPlay event', function() {
-                    expect(this.gameSpy.raiseMergedEvent).not.toHaveBeenCalledWith('onCardEntersPlay', jasmine.objectContaining({ card: this.cardSpy }));
+                    expect(this.gameSpy.raiseEvent).not.toHaveBeenCalledWith('onCardEntersPlay', jasmine.objectContaining({ card: this.cardSpy }));
                 });
 
                 it('should add as a duplicate', function() {

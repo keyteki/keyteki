@@ -5,8 +5,8 @@ const AbilityResolver = require('../../../server/game/gamesteps/abilityresolver.
 
 describe('AbilityResolver', function() {
     beforeEach(function() {
-        this.game = jasmine.createSpyObj('game', ['markActionAsTaken', 'popAbilityContext', 'pushAbilityContext', 'raiseEvent', 'raiseMergedEvent']);
-        this.game.raiseMergedEvent.and.callFake((name, params, handler) => {
+        this.game = jasmine.createSpyObj('game', ['markActionAsTaken', 'popAbilityContext', 'pushAbilityContext', 'raiseEvent', 'reportError']);
+        this.game.raiseEvent.and.callFake((name, params, handler) => {
             if(handler) {
                 handler(params);
             }
@@ -46,7 +46,7 @@ describe('AbilityResolver', function() {
             });
 
             it('should not raise the onCardPlayed event', function() {
-                expect(this.game.raiseEvent).not.toHaveBeenCalledWith('onCardPlayed', jasmine.any(Object), jasmine.any(Object));
+                expect(this.game.raiseEvent).not.toHaveBeenCalledWith('onCardPlayed', jasmine.any(Object));
             });
         });
 
@@ -59,7 +59,7 @@ describe('AbilityResolver', function() {
             });
 
             it('should raise the onCardAbilityInitiated event', function() {
-                expect(this.game.raiseMergedEvent).toHaveBeenCalledWith('onCardAbilityInitiated', { player: this.player, source: this.source }, jasmine.any(Function));
+                expect(this.game.raiseEvent).toHaveBeenCalledWith('onCardAbilityInitiated', { player: this.player, source: this.source }, jasmine.any(Function));
             });
         });
 
@@ -72,7 +72,7 @@ describe('AbilityResolver', function() {
             });
 
             it('should not raise the onCardAbilityInitiated event', function() {
-                expect(this.game.raiseMergedEvent).not.toHaveBeenCalledWith('onCardAbilityInitiated', jasmine.any(Object), jasmine.any(Function));
+                expect(this.game.raiseEvent).not.toHaveBeenCalledWith('onCardAbilityInitiated', jasmine.any(Object), jasmine.any(Function));
             });
         });
 
@@ -84,7 +84,7 @@ describe('AbilityResolver', function() {
             });
 
             it('should raise the onCardPlayed event', function() {
-                expect(this.game.raiseEvent).toHaveBeenCalledWith('onCardPlayed', this.player, this.source);
+                expect(this.game.raiseEvent).toHaveBeenCalledWith('onCardPlayed', jasmine.any(Object));
             });
         });
 
@@ -229,6 +229,39 @@ describe('AbilityResolver', function() {
                     it('should not execute the handler', function() {
                         expect(this.ability.executeHandler).not.toHaveBeenCalled();
                     });
+                });
+            });
+        });
+
+        describe('when an exception occurs', function() {
+            beforeEach(function() {
+                this.error = new Error('something bad');
+                this.ability.resolveCosts.and.callFake(() => {
+                    throw this.error;
+                });
+            });
+
+            it('should not propogate the error', function() {
+                expect(() => this.resolver.continue()).not.toThrow();
+            });
+
+            it('should return true to complete the resolver pipeline', function() {
+                expect(this.resolver.continue()).toBe(true);
+            });
+
+            it('should report the error', function() {
+                this.resolver.continue();
+                expect(this.game.reportError).toHaveBeenCalledWith(jasmine.any(Error));
+            });
+
+            describe('when the current ability context is for this ability', function() {
+                beforeEach(function() {
+                    this.game.currentAbilityContext = { source: 'card', card: this.context.source };
+                });
+
+                it('should pop the current context', function() {
+                    this.resolver.continue();
+                    expect(this.game.popAbilityContext).toHaveBeenCalled();
                 });
             });
         });

@@ -49,9 +49,9 @@ class About extends React.Component {
 
                 {/*<h3>Can I help?</h3>
                 <p>Sure!  The project is all written in Javascript.  The server is node.js and the client is React.js.  The source code can be found in the&nbsp;
-                <a href='http://github.com/gryffon/ringteki'>GitHub Repository</a>.  Check out the code and instructions on there on how to get started and hack away!  See the card implementation
+                    <a href='http://github.com/gryffon/ringteki'>GitHub Repository</a>.  Check out the code and instructions on there on how to get started and hack away!  See the card implementation
                 status list above to have a look at what needs to be done.  If you want to join the dev discord, or ask any other question, send me a note on here, over at&nbsp;
-                <a href='http://www.twitter.com/cryogen'>Twitter</a> or post in the L5R Facebook group.  I'll likely find it.
+                    <a href='http://www.twitter.com/cryogen'>Twitter</a> or post in the L5R Facebook group.  I'll likely find it.
                 </p> */}
                 {/*<h4>Donations</h4>
                 I was always reluctant to accept donations but since I've been asked a few times I thought I'd put up a small section about it here.

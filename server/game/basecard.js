@@ -27,7 +27,7 @@ class BaseCard {
         this.cardData = cardData;
 
         this.uuid = uuid.v1();
-        this.code = cardData.code;
+        this.id = cardData.id;
         this.name = cardData.name;
         this.facedown = false;
         this.blankCount = 0;
@@ -161,7 +161,19 @@ class BaseCard {
      * is both in play and not blank.
      */
     persistentEffect(properties) {
-        this.abilities.persistentEffects.push(_.extend({ duration: 'persistent' }, properties));
+        const allowedLocations = ['active plot', 'agenda', 'any', 'play area'];
+        const defaultLocationForType = {
+            agenda: 'agenda',
+            plot: 'active plot'
+        };
+
+        let location = properties.location || defaultLocationForType[this.getType()] || 'play area';
+
+        if(!allowedLocations.includes(location)) {
+            throw new Error(`'${location}' is not a supported effect location.`);
+        }
+
+        this.abilities.persistentEffects.push(_.extend({ duration: 'persistent', location: location }, properties));
     }
 
     /**
@@ -187,7 +199,7 @@ class BaseCard {
      */
     untilEndOfConflict(propertyFactory) {
         var properties = propertyFactory(AbilityDsl);
-        this.game.addEffect(this, _.extend({ duration: 'untilEndOfConflict' }, properties));
+        this.game.addEffect(this, _.extend({ duration: 'untilEndOfConflict', location: 'any' }, properties));
     }
 
     /**
@@ -195,7 +207,7 @@ class BaseCard {
      */
     untilEndOfPhase(propertyFactory) {
         var properties = propertyFactory(AbilityDsl);
-        this.game.addEffect(this, _.extend({ duration: 'untilEndOfPhase' }, properties));
+        this.game.addEffect(this, _.extend({ duration: 'untilEndOfPhase', location: 'any' }, properties));
     }
 
     /**
@@ -204,7 +216,7 @@ class BaseCard {
      */
     atEndOfPhase(propertyFactory) {
         var properties = propertyFactory(AbilityDsl);
-        this.game.addEffect(this, _.extend({ duration: 'atEndOfPhase' }, properties));
+        this.game.addEffect(this, _.extend({ duration: 'atEndOfPhase', location: 'any' }, properties));
     }
 
     /**
@@ -212,7 +224,16 @@ class BaseCard {
      */
     untilEndOfRound(propertyFactory) {
         var properties = propertyFactory(AbilityDsl);
-        this.game.addEffect(this, _.extend({ duration: 'untilEndOfRound' }, properties));
+        this.game.addEffect(this, _.extend({ duration: 'untilEndOfRound', location: 'any' }, properties));
+    }
+
+    /**
+     * Applies a lasting effect which lasts until an event contained in the
+     * `until` property for the effect has occurred.
+     */
+    lastingEffect(propertyFactory) {
+        let properties = propertyFactory(AbilityDsl);
+        this.game.addEffect(this, _.extend({ duration: 'custom', location: 'any' }, properties));
     }
 
     doAction(player, arg) {
@@ -242,9 +263,19 @@ class BaseCard {
         return !!this.factions[faction.toLowerCase()];
     }
 
-    play() {
+    applyAnyLocationPersistentEffects() {
         _.each(this.abilities.persistentEffects, effect => {
-            this.game.addEffect(this, effect);
+            if(effect.location === 'any') {
+                this.game.addEffect(this, effect);
+            }
+        });
+    }
+
+    applyPersistentEffects() {
+        _.each(this.abilities.persistentEffects, effect => {
+            if(effect.location !== 'any') {
+                this.game.addEffect(this, effect);
+            }
         });
     }
 
@@ -281,6 +312,10 @@ class BaseCard {
 
         if(targetLocation !== 'play area') {
             this.facedown = false;
+        }
+
+        if(originalLocation !== targetLocation) {
+            this.game.raiseEvent('onCardMoved', { card: this, originalLocation: originalLocation, newLocation: targetLocation });
         }
     }
 
@@ -326,7 +361,7 @@ class BaseCard {
         this.blankCount++;
         var after = this.isBlank();
         if(!before && after) {
-            this.game.raiseEvent('onCardBlankToggled', this, after);
+            this.game.raiseEvent('onCardBlankToggled', { card: this, isBlank: after });
         }
     }
 
@@ -355,7 +390,7 @@ class BaseCard {
     }
 
     addTrait(trait) {
-        var lowerCaseTrait = trait.toLowerCase();
+        let lowerCaseTrait = trait.toLowerCase();
 
         if(!lowerCaseTrait || lowerCaseTrait === '') {
             return;
@@ -366,6 +401,8 @@ class BaseCard {
         } else {
             this.traits[lowerCaseTrait]++;
         }
+
+        this.game.raiseEvent('onCardTraitChanged', { card: this });
     }
 
     addFaction(faction) {
@@ -376,6 +413,8 @@ class BaseCard {
         var lowerCaseFaction = faction.toLowerCase();
         this.factions[lowerCaseFaction] = this.factions[lowerCaseFaction] || 0;
         this.factions[lowerCaseFaction]++;
+
+        this.game.raiseEvent('onCardFactionChanged', { card: this });
     }
 
     removeKeyword(keyword) {
@@ -386,10 +425,12 @@ class BaseCard {
 
     removeTrait(trait) {
         this.traits[trait.toLowerCase()]--;
+        this.game.raiseEvent('onCardTraitChanged', { card: this });
     }
 
     removeFaction(faction) {
         this.factions[faction.toLowerCase()]--;
+        this.game.raiseEvent('onCardFactionChanged', { card: this });
     }
 
     clearBlank() {
@@ -397,7 +438,7 @@ class BaseCard {
         this.blankCount--;
         var after = this.isBlank();
         if(before && !after) {
-            this.game.raiseEvent('onCardBlankToggled', this, after);
+            this.game.raiseEvent('onCardBlankToggled', { card: this, isBlank: after });
         }
     }
 
@@ -436,7 +477,7 @@ class BaseCard {
 
     getShortSummary() {
         return {
-            code: this.cardData.code,
+            id: this.cardData.id,
             label: this.cardData.name,
             name: this.cardData.name,
             type: this.getType()
@@ -452,7 +493,7 @@ class BaseCard {
 
         let selectionState = activePlayer.getCardSelectionState(this);
         let state = {
-            code: this.cardData.code,
+            id: this.cardData.id,
             controlled: this.owner !== this.controller,
             facedown: this.facedown,
             menu: this.getMenu(),

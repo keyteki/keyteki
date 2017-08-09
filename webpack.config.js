@@ -10,6 +10,7 @@ var LESS_DIR = path.resolve(__dirname, 'less');
 var config = {
     devtool: 'inline-source-map',
     entry: [
+        'babel-polyfill',
         'react-hot-loader/patch',
         'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=2000',
         'webpack/hot/only-dev-server',

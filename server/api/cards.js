@@ -1,28 +1,39 @@
-const mongoskin = require('mongoskin');
-const db = mongoskin.db('mongodb://127.0.0.1:27017/ringteki');
-const logger = require('./../log.js');
+const config = require('../config.js');
+const CardService = require('../repositories/cardService.js');
+
+var cardService = new CardService({ dbPath: config.dbPath });
 
 module.exports.init = function(server) {
     server.get('/api/cards', function(req, res, next) {
-        db.collection('cards').find({}).toArray(function(err, data) {
-            if(err) {
-                logger.info(err);
+        cardService.getAllCards({ shortForm: true })
+            .then(cards => {
+                res.send({ success: true, cards: cards });
+            })
+            .catch(err => {
                 return next(err);
-            }
-
-            res.send({ success: true, cards: data });
-        });
+            });
     });
 
     server.get('/api/packs', function(req, res, next) {
-        db.collection('packs').find({}).toArray(function(err, data) {
-            if(err) {
-                logger.info(err);
+        cardService.getAllPacks()
+            .then(packs => {
+                res.send({ success: true, packs: packs });
+            })
+            .catch(err => {
                 return next(err);
-            }
-
-            res.send({ success: true, packs: data });
-        });
+            });
     });
 
+    server.get('/api/factions', function(req, res) {
+        let factions = [
+            { name: 'Crab Clan', value: 'crab' },
+            { name: 'Crane Clan', value: 'crane' },
+            { name: 'Dragon Clan', value: 'dragon' },
+            { name: 'Lion Clan', value: 'lion' },
+            { name: 'Phoenix Clan', value: 'phoenix' },
+            { name: 'Scorpion Clan', value: 'scorpion' },
+            { name: 'Unicorn Clan', value: 'unicorn' }
+        ];
+        res.send({ success: true, factions: factions });
+    });
 };

@@ -1,11 +1,13 @@
 const EventToTitleFunc = {
     onCardAbilityInitiated: event => 'the effects of ' + event.source.name,
-    onCardPowerChanged: event => event.params[1].name + ' gaining power',
+    onCardPowerChanged: event => event.card.name + ' gaining power',
+    onClaimApplied: () => 'to claim effects being applied',
     onCharacterKilled: event => event.card.name + ' being killed',
     onCharactersKilled: () => 'characters being killed',
-    onPhaseEnded: event => event.params[1] + ' phase ending',
-    onPhaseStarted: event => event.params[1] + ' phase starting',
-    onSacrificed: event => event.params[2].name + ' being sacrificed'
+    onPhaseEnded: event => event.phase + ' phase ending',
+    onPhaseStarted: event => event.phase + ' phase starting',
+    onSacrificed: event => event.card.name + ' being sacrificed',
+    onRemovedFromChallenge: event => event.card.name + ' being removed from the challenge'
 };
 
 const AbilityTypeToWord = {

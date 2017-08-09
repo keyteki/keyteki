@@ -8,10 +8,10 @@ const path = require('path');
 
 var apiUrl = 'https://fiveringsdb.com/';
 
-function fetchImage(urlPath, code, imagePath, timeout) {
+function fetchImage(urlPath, id, imagePath, timeout) {
     setTimeout(function() {
-        console.log('Downloading image for ' + code);
-        var url = 'https://fiveringsdb.com/' + urlPath + code + '.png';
+        console.log('Downloading image for ' + id);
+        var url = 'https://fiveringsdb.com/' + urlPath + id + '.png';
         request(url).pipe(fs.createWriteStream(imagePath));
     }, timeout);
 }
@@ -22,8 +22,8 @@ request.get(apiUrl + 'cards', function(error, res, body) {
         return;
     }
 
-    var cards_data = JSON.parse(body);
-    var cards = cards_data.records;
+    var cardsData = JSON.parse(body);
+    var cards = cardsData.records;
 
     var imageDir = path.join(__dirname, '..', 'public', 'img', 'cards');
     mkdirp(imageDir);
@@ -31,18 +31,18 @@ request.get(apiUrl + 'cards', function(error, res, body) {
     var i = 0;
 
     cards.forEach(function(card) {
-        var imagePath = path.join(imageDir, card.code + '.png');
-        var imagesrc = 'bundles/card_images/'
+        var imagePath = path.join(imageDir, card.id + '.png');
+        var imagesrc = 'bundles/card_images/';
 
         if(imagesrc && !fs.existsSync(imagePath)) {
-            fetchImage(imagesrc, card.code, imagePath, i++ * 200);
+            fetchImage(imagesrc, card.id, imagePath, i++ * 200);
         }
     });
 
     db.collection('cards').remove({}, function() {
         db.collection('cards').insert(cards, function() {
             fs.writeFile('got-cards.json', JSON.stringify(cards), function() {
-                console.info(cards_data.size + ' cards fetched');
+                console.info(cardsData.size + ' cards fetched');
 
                 db.close();
             });
@@ -56,13 +56,13 @@ request.get(apiUrl + 'packs', function(error, res, body) {
         return;
     }
 
-    var packs_data = JSON.parse(body);
-    var packs = packs_data.records;
+    var packsData = JSON.parse(body);
+    var packs = packsData.records;
 
     db.collection('packs').remove({}, function() {
         db.collection('packs').insert(packs, function() {
             fs.writeFile('got-packs.json', JSON.stringify(packs), function() {
-                console.info(packs_data.size + ' packs fetched');
+                console.info(packsData.size + ' packs fetched');
             });
         });
     });

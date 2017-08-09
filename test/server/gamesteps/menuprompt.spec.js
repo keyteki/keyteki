@@ -6,7 +6,7 @@ const Player = require('../../../server/game/player.js');
 
 describe('the MenuPrompt', function() {
     beforeEach(function() {
-        var game = new jasmine.createSpyObj('game', ['playerDecked']);
+        var game = new jasmine.createSpyObj('game', ['playerDecked', 'raiseEvent']);
 
         this.player = new Player('1', 'Player 1', true, game);
         this.player.initialise();

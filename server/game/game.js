@@ -20,6 +20,7 @@ const DeckSearchPrompt = require('./gamesteps/decksearchprompt.js');
 const MenuPrompt = require('./gamesteps/menuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 const EventWindow = require('./gamesteps/eventwindow.js');
+const AtomicEventWindow = require('./gamesteps/atomiceventwindow.js');
 const SimultaneousEventWindow = require('./gamesteps/simultaneouseventwindow.js');
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const ForcedTriggeredAbilityWindow = require('./gamesteps/forcedtriggeredabilitywindow.js');
@@ -86,6 +87,10 @@ class Game extends EventEmitter {
         this.router = options.router;
 
         this.pushAbilityContext('framework', null, 'framework');
+    }
+
+    reportError(e) {
+        this.router.handleError(this, e);
     }
 
     addMessage() {
@@ -335,7 +340,7 @@ class Game extends EventEmitter {
         if(player.drop(cardId, source, target)) {
             var movedCard = 'a card';
             if(!_.isEmpty(_.intersection(['conflict discard pile', 'dynasty discard pile', 'out of game', 'play area', 'stronghold province', 'province 1', 'province 2', 'province 3', 'province 4'],
-                                         [source, target]))) {
+                [source, target]))) {
                 // log the moved card only if it moved from/to a public place
                 var card = this.findAnyCardInAnyList(cardId);
                 if(card && !(['dynasty deck', 'province deck'].includes(source) && ['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(target))) {
@@ -344,7 +349,7 @@ class Game extends EventEmitter {
             }
 
             this.addMessage('{0} has moved {1} from their {2} to their {3}',
-                            player, movedCard, source, target);
+                player, movedCard, source, target);
         }
     }
 
@@ -355,8 +360,6 @@ class Game extends EventEmitter {
             player.honor = 0;
         }
 
-        this.raiseEvent('onStatChanged', player, 'honor');
-
         this.checkWinCondition(player);
     }
 
@@ -366,17 +369,12 @@ class Game extends EventEmitter {
         if(player.fate < 0) {
             player.fate = 0;
         }
-
-        this.raiseEvent('onStatChanged', player, 'fate');
     }
 
     transferHonor(winner, loser, honor) {
         var appliedHonor = Math.min(loser.honor, honor);
         loser.honor -= appliedHonor;
         winner.honor += appliedHonor;
-
-        this.raiseEvent('onStatChanged', loser, 'honor');
-        this.raiseEvent('onStatChanged', winner, 'honor');
 
         this.checkWinCondition(winner);
     }
@@ -387,10 +385,7 @@ class Game extends EventEmitter {
         from.fate -= appliedFate;
         to.fate += appliedFate;
 
-        this.raiseEvent('onStatChanged', from, 'fate');
-        this.raiseEvent('onStatChanged', to, 'fate');
-
-        this.raiseMergedEvent('onFateTransferred', { source: from, target: to, amount: fate });
+        this.raiseEvent('onFateTransferred', { source: from, target: to, amount: fate });
     }
 
     checkWinCondition(player) {
@@ -404,11 +399,11 @@ class Game extends EventEmitter {
     }
 
     playerDecked(player) {
-        var otherPlayer = this.getOtherPlayer(player);
+        let otherPlayer = this.getOtherPlayer(player);
+
+        this.addMessage('{0} loses the game because their draw deck is empty', player);
 
         if(otherPlayer) {
-            this.addMessage('{0}\'s draw deck is empty', player);
-
             this.recordWinner(otherPlayer, 'decked');
         }
     }
@@ -446,8 +441,6 @@ class Game extends EventEmitter {
         }
 
         target[stat] += value;
-
-        this.raiseEvent('onStatChanged', player, stat, value);
 
         if(target[stat] < 0) {
             target[stat] = 0;
@@ -530,7 +523,7 @@ class Game extends EventEmitter {
     }
 
     promptForDeckSearch(player, properties) {
-        this.raiseMergedEvent('onBeforeDeckSearch', { source: properties.source, player: player }, event => {
+        this.raiseEvent('onBeforeDeckSearch', { source: properties.source, player: player }, event => {
             this.queueStep(new DeckSearchPrompt(this, event.player, properties));
         });
     }
@@ -629,42 +622,47 @@ class Game extends EventEmitter {
         let windowClass = ['forcedreaction', 'forcedinterrupt', 'whenrevealed'].includes(properties.abilityType) ? ForcedTriggeredAbilityWindow : TriggeredAbilityWindow;
         let window = new windowClass(this, { abilityType: properties.abilityType, event: properties.event });
         this.abilityWindowStack.push(window);
-        this.emit(properties.event.name + ':' + properties.abilityType, ...properties.event.params);
+        window.emitEvents();
         this.queueStep(window);
         this.queueSimpleStep(() => this.abilityWindowStack.pop());
     }
 
-    registerAbility(ability) {
-        let windowIndex = _.findLastIndex(this.abilityWindowStack, window => ability.isTriggeredByEvent(window.event));
+    registerAbility(ability, event) {
+        let windowIndex = _.findLastIndex(this.abilityWindowStack, window => window.canTriggerAbility(ability));
 
         if(windowIndex === -1) {
             return;
         }
 
         let window = this.abilityWindowStack[windowIndex];
-        let context = ability.createContext(window.event);
-
-        window.registerAbility(ability, context);
-    }
-
-    raiseEvent(eventName, ...params) {
-        var handler = () => true;
-
-        if(_.isFunction(_.last(params))) {
-            handler = params.pop();
+        if(event) {
+            window.registerAbility(ability, event);
+        } else {
+            window.registerAbilityForEachEvent(ability);
         }
-
-        this.queueStep(new EventWindow(this, eventName, params, handler));
     }
 
-    raiseMergedEvent(eventName, params, handler) {
+    raiseEvent(eventName, params, handler) {
         if(!handler) {
             handler = () => true;
         }
 
-        this.queueStep(new EventWindow(this, eventName, params, handler, true));
+        this.queueStep(new EventWindow(this, eventName, params || {}, handler, true));
     }
 
+    /**
+     * Raises multiple events whose resolution is performed atomically. Any
+     * abilities triggered by these events will appear within the same prompt
+     * for the player.
+     */
+    raiseAtomicEvent(events, handler = () => true) {
+        this.queueStep(new AtomicEventWindow(this, events, handler));
+    }
+
+    /**
+     * Raises the same event across multiple cards as well as a wrapping plural
+     * version of the event that lists all cards.
+     */
     raiseSimultaneousEvent(cards, properties) {
         this.queueStep(new SimultaneousEventWindow(this, cards, properties));
     }
@@ -703,12 +701,14 @@ class Game extends EventEmitter {
             card.controller = newController;
 
             if(card.location !== 'play area') {
+                let originalLocation = card.location;
                 card.play(newController, false);
                 card.moveTo('play area');
-                this.raiseMergedEvent('onCardEntersPlay', { card: card, playingType: 'play' });
+                card.applyPersistentEffects();
+                this.raiseEvent('onCardEntersPlay', { card: card, playingType: 'play', originalLocation: originalLocation });
             }
 
-            this.raiseEvent('onCardTakenControl', card);
+            this.raiseEvent('onCardTakenControl', { card: card });
         });
     }
 
@@ -830,6 +830,10 @@ class Game extends EventEmitter {
         this.addMessage('{0} has reconnected', player);
     }
 
+    reapplyStateDependentEffects() {
+        this.effectEngine.reapplyStateDependentEffects();
+    }
+ 
     continue() {
         this.effectEngine.reapplyStateDependentEffects();
         this.pipeline.continue();
@@ -842,7 +846,7 @@ class Game extends EventEmitter {
         var players = _.map(this.getPlayers(), player => {
             return {
                 name: player.name,
-                faction: player.faction.name,
+                faction: player.faction.name || player.faction.value,
                 agenda: player.agenda ? player.agenda.name : undefined,
                 power: player.getTotalHonor()
             };

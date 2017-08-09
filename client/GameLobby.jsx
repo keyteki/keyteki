@@ -5,6 +5,7 @@ import NewGame from './NewGame.jsx';
 import GameList from './GameList.jsx';
 import PendingGame from './PendingGame.jsx';
 import PasswordGame from './PasswordGame.jsx';
+import AlertPanel from './SiteComponents/AlertPanel.jsx';
 
 import * as actions from './actions';
 
@@ -58,8 +59,8 @@ class InnerGameLobby extends React.Component {
 
         return (
             <div>
-                { this.props.bannerNotice ? <div className='alert alert-danger'>{ this.props.bannerNotice }</div> : null }
-                { this.state.errorMessage ? <div className='alert alert-danger'>{ this.state.errorMessage }</div> : null }
+                { this.props.bannerNotice ? <AlertPanel type='error' message={ this.props.bannerNotice } /> : null }
+                { this.state.errorMessage ? <AlertPanel type='error' message={ this.state.errorMessage } /> : null }
 
                 <div className='col-sm-7'>
                     <button className='btn btn-primary' onClick={ this.onNewGameClick } disabled={ !!this.props.currentGame }>New Game</button>

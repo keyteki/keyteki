@@ -28,6 +28,9 @@ class SetupPhase extends Phase {
         _.each(this.game.getPlayers(), player => {
             player.fillProvinces();
         });
+        this.game.allCards.each(card => {
+            card.applyAnyLocationPersistentEffects();
+        });
     }
 
     prepareDecks() {
