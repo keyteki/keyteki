@@ -463,25 +463,35 @@ class Player extends Spectator {
 
         var dupeCard = this.getDuplicateInPlay(card);
 
-        if(card.getType() === 'attachment') {
+        if(card.getType() === 'attachment' && playingType !== 'setup' && !dupeCard) {
             this.promptForAttachment(card, playingType);
             return;
         }
 
-        if(dupeCard) {
+        if(dupeCard && playingType !== 'setup') {
             this.removeCardFromPile(card);
-            dupeCard.modifyFate(1);
+            dupeCard.addDuplicate(card);
         } else {
-            card.facedown = false;
-            if(!dupeCard) {
-                card.play(this);
-            }
+            // Attachments placed in setup should not be considered to be 'played',
+            // as it will cause then to double their effects when attached later.
+            let isSetupAttachment = playingType === 'setup' && card.getType() === 'attachment';
 
+            let originalLocation = card.location;
+
+            card.facedown = this.game.currentPhase === 'setup';
             card.new = true;
             this.moveCard(card, 'play area', { isDupe: !!dupeCard });
+            if(card.controller !== this) {
+                card.controller.allCards = _(card.controller.allCards.reject(c => c === card));
+                this.allCards.push(card);
+            }
             card.controller = this;
 
-            this.game.raiseEvent('onCardEntersPlay', { card: card, playingType: playingType });
+            if(!dupeCard && !isSetupAttachment) {
+                card.applyPersistentEffects();
+            }
+
+            this.game.raiseEvent('onCardEntersPlay', { card: card, playingType: playingType, originalLocation: originalLocation });
         }
     }
 
@@ -533,40 +543,48 @@ class Player extends Spectator {
         });
     }
 
-    canAttach(attachmentId, card) {
-        var attachment = this.findCardByUuidInAnyList(attachmentId);
-
-        if(!attachment) {
+    canAttach(attachment, card) {
+        if(!attachment || !card) {
             return false;
         }
 
-        if(card.location !== 'play area') {
-            return false;
-        }
-
-        if(card === attachment) {
-            return false;
-        }
-
-        return attachment.canAttach(this, card);
+        return (
+            card.location === 'play area' &&
+            card !== attachment &&
+            card.allowAttachment(attachment) &&
+            attachment.canAttach(this, card)
+        );
     }
 
-    attach(player, attachment, cardId, playingType) {
-        var card = this.findCardInPlayByUuid(cardId);
 
+    attach(player, attachment, card, playingType) {
         if(!card || !attachment) {
             return;
         }
 
-        attachment.owner.removeCardFromPile(attachment);
+        if(!this.canAttach(attachment, card)) {
+            return;
+        }
 
-        attachment.parent = card;
-        attachment.moveTo('play area');
-        this.game.raiseEvent('onCardEntersPlay', { card: attachment, playingType: playingType });
+        let originalLocation = attachment.location;
+        let originalParent = attachment.parent;
+
+        attachment.owner.removeCardFromPile(attachment);
+        if(originalParent) {
+            originalParent.removeAttachment(attachment);
+        }
+        attachment.moveTo('play area', card);
         card.attachments.push(attachment);
 
-        attachment.attach(player, card);
-        attachment.applyPersistentEffects();
+        this.game.queueSimpleStep(() => {
+            attachment.applyPersistentEffects();
+        });
+
+        if(originalLocation !== 'play area') {
+            this.game.raiseEvent('onCardEntersPlay', { card: attachment, playingType: playingType, originalLocation: originalLocation });
+        }
+
+        this.game.raiseEvent('onCardAttached', { card: attachment, parent: card });
     }
 
     showConflictDeck() {

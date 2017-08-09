@@ -184,14 +184,13 @@ class InnerDeckEditor extends React.Component {
             let packName = line.substr(packOffset + 1, line.length - packOffset - 2);
 
             let pack = _.find(this.props.packs, function(pack) {
-                return pack.code.toLowerCase() === packName.toLowerCase() || pack.name.toLowerCase() === packName.toLowerCase();
+                return pack.id.toLowerCase() === packName.toLowerCase() || pack.name.toLowerCase() === packName.toLowerCase();
             });
 
             let card = _.find(this.props.cards, function(card) {
                 if(pack) {
-                    return card.name.toLowerCase() === cardName.toLowerCase() || card.label.toLowerCase() === (cardName + ' (' + pack.code + ')').toLowerCase();
+                    return card.name.toLowerCase() === cardName.toLowerCase() || card.label.toLowerCase() === (cardName + ' (' + pack.id + ')').toLowerCase();
                 }
-
                 return card.name.toLowerCase() === cardName.toLowerCase();
             });
 

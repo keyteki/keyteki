@@ -219,10 +219,6 @@ class DrawCard extends BaseCard {
             .concat(_.filter(this.abilities.actions, action => !action.allowMenu()));
     }
 
-    play(player) {
-        super.play();
-    }
-
     leavesPlay() {
         this.bowed = false;
         this.inConflict = false;
