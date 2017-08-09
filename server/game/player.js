@@ -374,7 +374,7 @@ class Player extends Spectator {
         }
 
         this.honor = this.stronghold.cardData.honor;
-        this.game.raiseEvent('onStatChanged', this, 'honor');
+        //this.game.raiseEvent('onStatChanged', this, 'honor');
     }
 
     mulligan() {
@@ -511,39 +511,6 @@ class Player extends Spectator {
         this.cardsInPlay.each(card => {
             card.new = false;
         });
-    }
-
-    flipPlotFaceup() {
-        if(this.activePlot) {
-            var previousPlot = this.removeActivePlot('revealed plots');
-            this.game.raiseEvent('onPlotDiscarded', this, previousPlot);
-        }
-
-        this.selectedPlot.flipFaceup();
-        this.moveCard(this.selectedPlot, 'active plot');
-        this.selectedPlot.applyPersistentEffects();
-
-        this.game.raiseEvent('onCardEntersPlay', { card: this.activePlot, playingType: 'plot' });
-
-        this.selectedPlot = undefined;
-    }
-
-    recyclePlots() {
-        if(this.plotDeck.isEmpty()) {
-            this.plotDiscard.each(plot => {
-                this.moveCard(plot, 'plot deck');
-            });
-        }
-    }
-
-    removeActivePlot(targetLocation) {
-        if(this.activePlot) {
-            let plot = this.activePlot;
-            this.moveCard(this.activePlot, 'revealed plots');
-            this.game.raiseEvent('onPlotDiscarded', { player: this, card: plot });
-            this.activePlot = undefined;
-            return plot;
-        }
     }
 
     drawPhase() {

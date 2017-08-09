@@ -20,7 +20,6 @@ class DynastyPhase extends Phase {
 
         _.each(this.allPlayers, player => {
             player.beginDynasty();
-            this.game.raiseEvent('onBeginDynasty', player);
         });
 
     }
