@@ -44,7 +44,7 @@ The game uses mongodb as storage so you'll need that installed and running.
 Clone the repository
 git submodule init
 git submodule update
-Run npm install
+npm install # See https://github.com/JustinTulloss/zeromq.node/issues/283 for zmq errors on OS X
 mkdir server/logs
 cd server
 node fetchdata.js
