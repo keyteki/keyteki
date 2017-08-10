@@ -74,10 +74,46 @@ class InnerLobby extends React.Component {
         }, 500);
     }
 
-    render() {
-        var index = 0;
-        var messages = _.map(this.props.messages, message => {
+    onBurgerClick() {
+        this.setState({ showUsers: !this.state.showUsers });
+    }
+
+    getMessages() {
+        let groupedMessages = {};
+        let index = 0;
+        let today = moment();
+        let yesterday = moment().add(-1, 'days');
+        let lastUser;
+        let currentGroup = 0;
+
+        _.each(this.props.messages, message => {
             if(!message.user) {
+                return;
+            }
+
+            let formattedTime = moment(message.time).format('YYYYMMDDHHmm');
+            if(lastUser && message.user && lastUser !== message.user.username) {
+                currentGroup++;
+            }
+
+            let key = message.user.username + formattedTime + currentGroup;
+
+            console.info(key);
+
+            if(!groupedMessages[key]) {
+                groupedMessages[key] = [];
+            }
+
+            groupedMessages[key].push(message);
+
+            lastUser = message.user.username;
+        });
+
+        return _.map(groupedMessages, messages => {
+            let timestamp = '';
+            let firstMessage = _.first(messages);
+
+            if(!firstMessage.user) {
                 return;
             }
 
@@ -89,6 +125,10 @@ class InnerLobby extends React.Component {
                     <div className='message'>{ message.message }</div>
                 </div>);
         });
+    }
+
+    render() {
+        let messages = this.getMessages();
 
         var users = _.map(this.props.users, user => {
             return (
