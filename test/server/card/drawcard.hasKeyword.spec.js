@@ -3,7 +3,7 @@ const DrawCard = require('../../../server/game/drawcard.js');
 describe('the DrawCard', function() {
     describe('the hasKeyword() function', function() {
         beforeEach(function() {
-            this.owner = {};
+            this.owner = { noTimer: true };
             this.card = new DrawCard(this.owner, {});
         });
 
@@ -47,7 +47,7 @@ describe('the DrawCard', function() {
             this.game = new Game({}, { gameRepository: this.gameRepository });
 
             this.player = new Player(1, { username: 'foo' }, false, this.game);
-            this.player2 = new Player(2, { username: 'bar' }, false, this.game);
+            this.player.noTimer = true;
 
             this.game.playersAndSpectators['foo'] = this.player;
             this.game.playersAndSpectators['bar'] = this.player2;

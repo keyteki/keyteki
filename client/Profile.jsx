@@ -18,32 +18,16 @@ class InnerProfile extends React.Component {
             return;
         }
 
-        this.windowDefaults = {
-            plot: false,
-            draw: false,
-            challengeBegin: false,
-            attackersDeclared: true,
-            defendersDeclared: true,
-            winnerDetermined: false,
-            dominance: false,
-            standing: false
-        };
-
-        this.timerSettingsDefaults = {
-            events: true,
-            abilities: false
-        };
-
         this.state = {
-            disableGravatar: this.props.user.settings ? this.props.user.settings.disableGravatar : false,
-            email: this.props.user ? this.props.user.email : '',
+            disableGravatar: this.props.user.settings.disableGravatar,
+            email: this.props.user.email,
             loading: false,
             newPassword: '',
             newPasswordAgain: '',
-            promptedActionWindows: this.props.user ? this.props.user.promptedActionWindows || this.windowDefaults : this.windowDefaults,
+            promptedActionWindows: this.props.user.promptedActionWindows,
             validation: {},
-            windowTimer: this.props.user.settings ? _.isUndefined(this.props.user.settings.windowTimer) ? 10 : this.props.user.settings.windowTimer : 10,
-            timerSettings: this.props.user.settings ? this.props.user.settings.timerSettings || this.timerSettingsDefaults : this.timerSettingsDefaults
+            windowTimer: this.props.user.settings.windowTimer,
+            timerSettings: this.props.user.settings.timerSettings
         };
 
         this.windows = [
@@ -65,8 +49,8 @@ class InnerProfile extends React.Component {
 
         this.setState({
             email: props.user.email,
-            disableGravatar: props.user.settings ? props.user.settings.disableGravatar : false,
-            promptedActionWindows: props.user ? props.user.promptedActionWindows || this.windowDefaults : this.windowDefaults
+            disableGravatar: props.user.settings.disableGravatar,
+            promptedActionWindows: props.user.promptedActionWindows
         });
     }
 

@@ -11,17 +11,6 @@ const UserService = require('../repositories/UserService.js');
 
 let userService = new UserService({ dbPath: config.dbPath });
 
-const defaultWindows = {
-    plot: false,
-    draw: false,
-    challengeBegin: false,
-    attackersDeclared: true,
-    defendersDeclared: true,
-    winnerDetermined: false,
-    dominance: false,
-    standing: false
-};
-
 function hashPassword(password, rounds) {
     return new Promise((resolve, reject) => {
         bcrypt.hash(password, rounds, function(err, hash) {
@@ -276,9 +265,9 @@ module.exports.init = function(server) {
                     emailHash: user.emailHash,
                     _id: user._id,
                     admin: user.admin,
-                    settings: user.settings || {},
-                    promptedActionWindows: user.promptedActionWindows || defaultWindows,
-                    permissions: user.permissions || {}
+                    settings: user.settings,
+                    promptedActionWindows: user.promptedActionWindows,
+                    permissions: user.permissions
                 }, token: jwt.sign(user, config.secret) });
             })
             .catch(() => {
@@ -314,12 +303,16 @@ module.exports.init = function(server) {
                     return hashPassword(userToSet.password, 10);
                 }
 
-                updateUser(res, user);
+                return updateUser(res, user);
             })
             .then(passwordHash => {
+                if(!passwordHash) {
+                    return;
+                }
+
                 existingUser.password = passwordHash;
 
-                updateUser(res, existingUser);
+                return updateUser(res, existingUser);
             })
             .catch(() => {
                 return res.send({ success: false, message: 'An error occured updating your user profile' });

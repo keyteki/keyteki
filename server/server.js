@@ -156,8 +156,12 @@ class Server {
                         admin: user.admin,
                         settings: user.settings,
                         promptedActionWindows: user.promptedActionWindows,
+<<<<<<< HEAD
                         permissions: user.permissions,
                         blockList: user.blockList
+=======
+                        permissions: user.permissions
+>>>>>>> d07d5c73... Unify all of the user logic so that defaults are in one place  (#1316)
                     };
 
                     userObj = Settings.getUserWithDefaultsSet(userObj);
@@ -193,8 +197,12 @@ class Server {
                     admin: user.admin,
                     settings: user.settings,
                     promptedActionWindows: user.promptedActionWindows,
+<<<<<<< HEAD
                     permissions: user.permissions,
                     blockList: user.blockList
+=======
+                    permissions: user.permissions
+>>>>>>> d07d5c73... Unify all of the user logic so that defaults are in one place  (#1316)
                 };
 
                 done(null, userObj);

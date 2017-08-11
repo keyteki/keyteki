@@ -48,7 +48,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
     }
 
     isTimerEnabled(player) {
-        return !player.noTimer && (!player.user.settings || player.user.settings.windowTimer !== 0);
+        return !player.noTimer && player.user.settings.windowTimer !== 0;
     }
 
     isWindowEnabledForEvent(player, event) {
