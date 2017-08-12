@@ -495,6 +495,10 @@ class Player extends Spectator {
         }
     }
 
+    setupBegin() {
+        this.firstPlayer = false;
+    }
+
     setupDone() {
         if(this.hand.size() < StartingHandSize) {
             this.drawCardsToHand(StartingHandSize - this.hand.size());
@@ -504,9 +508,13 @@ class Player extends Spectator {
         this.fate = 0;
     }
 
-    startPlotPhase() {
-        this.firstPlayer = false;
-        this.selectedPlot = undefined;
+    drawPhase() {
+        this.drawPhaseCards = this.drawBid;
+        this.game.addMessage('{0} draws {1} cards for the draw phase', this, this.drawPhaseCards);
+        this.drawCardsToHand(this.drawPhaseCards);
+    }
+
+    beginDynasty() {
         this.roundDone = false;
 
         if(this.resetTimerAtEndOfRound) {
@@ -515,21 +523,13 @@ class Player extends Spectator {
 
         this.conflicts.reset();
 
-        this.conflictrLimit = 0;
+        this.conflictLimit = 0;
         this.drawPhaseCards = DrawPhaseCards;
 
         this.cardsInPlay.each(card => {
             card.new = false;
         });
-    }
 
-    drawPhase() {
-        this.drawPhaseCards = this.drawBid;
-        this.game.addMessage('{0} draws {1} cards for the draw phase', this, this.drawPhaseCards);
-        this.drawCardsToHand(this.drawPhaseCards);
-    }
-
-    beginDynasty() {
         this.game.addFate(this, this.getTotalIncome());
 
         this.game.raiseEvent('onIncomeCollected', { player: this });
