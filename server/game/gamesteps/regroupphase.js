@@ -19,8 +19,9 @@ class RegroupPhase extends Phase {
     constructor(game) {
         super(game, 'regroup');
         this.initialise([
+            new ActionWindow(this.game, 'After regroup phase begins', 'beginning'),
             new SimpleStep(game, () => this.readyCards()),
-            new ActionWindow(this.game, 'After cards ready', 'readying'),
+            new SimpleStep(game, () => this.passFirstPlayer()),
             new EndRoundPrompt(game),
             new SimpleStep(game, () => this.roundEnded())
         ]);
@@ -33,6 +34,20 @@ class RegroupPhase extends Phase {
             });
         });
     }
+
+    passFirstPlayer() {
+        this.allPlayers = this.game.getPlayersInFirstPlayerOrder();
+        let firstPlayer = this.allPlayers.shift();
+        let secondPlayer = this.allPlayers.shift();
+
+        firstPlayer.firstPlayer = false;
+        secondPlayer.firstPlayer = true;
+    }
+
+    roundEnded() {
+        this.game.raiseEvent('onRoundEnded');
+    }
+
 }
 
 module.exports = RegroupPhase;

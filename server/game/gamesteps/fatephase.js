@@ -1,7 +1,7 @@
 const _ = require('underscore');
 const Phase = require('./phase.js');
-const SimpleStep = require('./simplestep.js');
-const DiscardToReservePrompt = require('./fate/discardtoreserveprompt.js');
+const ActionWindow = require('./actionwindow.js');
+//const SimpleStep = require('./simplestep.js');
 
 /*
 IV Fate Phase
@@ -17,22 +17,11 @@ class FatePhase extends Phase {
     constructor(game) {
         super(game, 'fate');
         this.initialise([
-            new SimpleStep(game, () => this.returnGold()),
-            new DiscardToReservePrompt(game)
+            new ActionWindow(this.game, 'After place fate on rings', 'placing')
         ]);
     }
 
-    returnGold() {
-        _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
-            this.game.raiseEvent('onUnspentGoldReturned', { player: player }, () => {
-                player.taxation();
-            });
-        });
-    }
 
-    roundEnded() {
-        this.game.raiseEvent('onRoundEnded');
-    }
 }
 
 module.exports = FatePhase;
