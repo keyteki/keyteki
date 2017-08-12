@@ -3,7 +3,17 @@ const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
 const ActionWindow = require('./actionwindow.js');
 const DrawBidPrompt = require('./draw/drawbidprompt.js');
-//const DrawRevealPrompt = require('./draw/drawrevealprompt.js');
+
+/*
+II Draw Phase
+2.1 Draw phase begins.
+2.2 Honor bid.
+2.3 Reveal honor dials.
+2.4 Transfer honor.
+2.5 Draw cards.
+    ACTION WINDOW
+2.6 Draw phase ends.
+ */
 
 class DrawPhase extends Phase {
     constructor(game) {
