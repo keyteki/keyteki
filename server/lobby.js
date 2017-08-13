@@ -256,7 +256,7 @@ class Lobby {
     }
 
     onAuthenticated(user) {
-        this.users[user.username] = user;
+        this.users[user.username] = Settings.getUserWithDefaultsSet(user);
 
         this.broadcastUserList();
     }
@@ -558,7 +558,7 @@ class Lobby {
 
     onNodeReconnected(nodeName, games) {
         _.each(games, game => {
-            var syncGame = new PendingGame({ username: game.owner }, {spectators: game.allowSpectators, name: game.name});
+            var syncGame = new PendingGame({ username: game.owner }, { spectators: game.allowSpectators, name: game.name });
             syncGame.id = game.id;
             syncGame.node = this.router.workers[nodeName];
             syncGame.createdAt = game.startedAt;
