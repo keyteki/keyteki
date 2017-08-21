@@ -1,11 +1,14 @@
 /*eslint no-console:0 */
-const mongoskin = require('mongoskin');
 const config = require('config');
-const db = mongoskin.db(config.dbPath);
+const monk = require('monk');
 const fs = require('fs');
 const _ = require('underscore');
 
-let files = fs.readdirSync('fiveringdsdb-data/Card');
+const CardService = require('./services/CardService.js');
+
+let db = monk('mongodb://127.0.0.1:27017/throneteki');
+let cardService = new CardService(db);
+let files = fs.readdirSync('thronesdb-json-data/pack');
 let totalCards = [];
 let packs = JSON.parse(fs.readFileSync('fiveringdsdb-data/Pack.json'));
 let types = JSON.parse(fs.readFileSync('fiveringdsdb-data/Type.json'));
@@ -49,20 +52,16 @@ _.each(totalCards, card => {
     }
 });
 
-db.collection('packs').remove({}, function() {
-    db.collection('packs').insert(packs, function() {
-        fs.writeFile('got-packs.json', JSON.stringify(packs), function() {
-            console.info(packs.length + ' packs imported');
-        });
+let replacePacks = cardService.replaceCards(packs)
+    .then(packs => {
+        console.info(packs.length + ' packs imported');
     });
-});
 
-db.collection('cards').remove({}, function() {
-    db.collection('cards').insert(totalCards, function() {
-        fs.writeFile('got-cards.json', JSON.stringify(totalCards), function() {
-            console.info(totalCards.length + ' cards imported');
-
-            db.close();
-        });
+let replaceCards = cardService.replaceCards(totalCards)
+    .then(cards => {
+        console.info(cards.length + ' cards imported');
     });
-});
+
+Promise.all([replacePacks, replaceCards])
+    .then(() => db.close())
+    .catch(() => db.close());

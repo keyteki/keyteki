@@ -10,7 +10,7 @@ const PendingGame = require('./pendinggame.js');
 const GameRouter = require('./gamerouter.js');
 const MessageRepository = require('./repositories/messageRepository.js');
 const DeckRepository = require('./repositories/deckRepository.js');
-const CardService = require('./repositories/cardService.js');
+const CardService = require('./services/CardService.js');
 const validateDeck = require('../client/deck-validator.js'); // XXX Move this to a common location
 const Settings = require('./settings.js');
 
@@ -22,7 +22,7 @@ class Lobby {
         this.config = options.config;
         this.messageRepository = options.messageRepository || new MessageRepository(this.config.dbPath);
         this.deckRepository = options.deckRepository || new DeckRepository(this.config.dbPath);
-        this.cardService = options.cardService || new CardService({ dbPath: this.config.dbPath });
+        this.cardService = options.cardService || new CardService(options.db);
         this.router = options.router || new GameRouter(this.config);
 
         this.router.on('onGameClosed', this.onGameClosed.bind(this));

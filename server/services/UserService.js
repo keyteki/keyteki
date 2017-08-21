@@ -1,11 +1,8 @@
-const monk = require('monk');
 const escapeRegex = require('../util.js').escapeRegex;
 const logger = require('../log.js');
 
 class UserService {
-    constructor(options) {
-        let db = monk(options.dbPath);
-
+    constructor(db) {
         this.users = db.get('users');
     }
 

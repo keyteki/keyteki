@@ -1,8 +1,10 @@
-const UserService = require('../repositories/UserService.js');
+const monk = require('monk');
+const UserService = require('../services/UserService.js');
 const logger = require('../log.js');
 const config = require('config');
 
-let userService = new UserService({ dbPath: config.dbPath });
+let db = monk(config.dbPath);
+let userService = new UserService(db);
 
 module.exports.init = function(server) {
     server.get('/api/user/:username', function(req, res) {

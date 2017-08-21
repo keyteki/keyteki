@@ -16,14 +16,21 @@ const jwt = require('jsonwebtoken');
 const http = require('http');
 const Raven = require('raven');
 const helmet = require('helmet');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const webpack = require('webpack');
+const webpackConfig = require('../webpack.config.js');
+const pug = require('pug');
+const monk = require('monk');
 
-const UserService = require('./repositories/UserService.js');
+const UserService = require('./services/UserService.js');
 const version = require('../version.js');
 const Settings = require('./settings.js');
 
 class Server {
     constructor(isDeveloping) {
-        this.userService = new UserService({ dbPath: config.dbPath });
+        let db = monk(config.dbPath);
+        this.userService = new UserService(db);
         this.isDeveloping = isDeveloping;
         this.server = http.Server(app);
     }
@@ -156,12 +163,8 @@ class Server {
                         admin: user.admin,
                         settings: user.settings,
                         promptedActionWindows: user.promptedActionWindows,
-<<<<<<< HEAD
                         permissions: user.permissions,
                         blockList: user.blockList
-=======
-                        permissions: user.permissions
->>>>>>> d07d5c73... Unify all of the user logic so that defaults are in one place  (#1316)
                     };
 
                     userObj = Settings.getUserWithDefaultsSet(userObj);
@@ -197,12 +200,8 @@ class Server {
                     admin: user.admin,
                     settings: user.settings,
                     promptedActionWindows: user.promptedActionWindows,
-<<<<<<< HEAD
                     permissions: user.permissions,
                     blockList: user.blockList
-=======
-                    permissions: user.permissions
->>>>>>> d07d5c73... Unify all of the user logic so that defaults are in one place  (#1316)
                 };
 
                 done(null, userObj);

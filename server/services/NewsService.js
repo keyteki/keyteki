@@ -1,9 +1,5 @@
-const monk = require('monk');
-
 class NewsService {
-    constructor(options) {
-        let db = monk(options.dbPath);
-
+    constructor(db) {
         this.news = db.get('news');
     }
 

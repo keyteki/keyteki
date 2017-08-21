@@ -1,7 +1,9 @@
+const monk = require('monk');
 const config = require('config');
-const CardService = require('../repositories/cardService.js');
+const CardService = require('../services/CardService.js');
 
-var cardService = new CardService({ dbPath: config.dbPath });
+let db = monk(config.dbPath);
+let cardService = new CardService(db);
 
 module.exports.init = function(server) {
     server.get('/api/cards', function(req, res, next) {
