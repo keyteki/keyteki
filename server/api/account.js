@@ -9,6 +9,7 @@ const nodemailer = require('nodemailer');
 const moment = require('moment');
 const monk = require('monk');
 const UserService = require('../services/UserService.js');
+const Settings = require('../settings.js');
 
 let db = monk(config.dbPath);
 let userService = new UserService(db);
@@ -111,7 +112,7 @@ module.exports.init = function(server) {
                 return loginUser(req, user);
             })
             .then(() => {
-                res.send({ success: true, user: req.body, token: jwt.sign(req.user, config.secret)});
+                res.send({ success: true, user: Settings.getUserWithDefaultsSet(req.body), token: jwt.sign(req.user, config.secret)});
             })
             .catch(() => {
                 res.send({ success: false, message: 'An error occured registering your account' });
