@@ -165,7 +165,7 @@ class DrawCard extends BaseCard {
         }
 
 
-        this.game.raiseEvent('onCardFateChanged', { card: this, fate: card.fate - oldFate });
+        this.game.raiseEvent('onCardFateChanged', { card: this, fate: this.fate - oldFate });
     
     }
 
@@ -282,7 +282,7 @@ class DrawCard extends BaseCard {
             saved: this.saved,
             fate: this.fate,
             militaryskill: this.cardData.military,
-            politicalskill: this.cardData.political,
+            politicalskill: this.cardData.political
         });
     }
 }

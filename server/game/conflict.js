@@ -68,7 +68,7 @@ class Conflict {
         this.calculateSkill();
     }
 
-    markAsParticipating(cards, participantType) {
+    markAsParticipating(cards) {
         _.each(cards, card => {
             card.inConflict = true;
         });
