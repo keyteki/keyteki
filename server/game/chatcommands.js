@@ -46,8 +46,7 @@ class ChatCommands {
         player.drawCardsToHand(num);
     }
 
-    honor(player, args) {
-        var num = this.getNumberOrDefault(args[1], 1);
+    honor(player) {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a card to honor',
             waitingPromptTitle: 'Waiting for opponent to honor',
@@ -61,8 +60,7 @@ class ChatCommands {
         });
     }
 
-    dishonor(player, args) {
-        var num = this.getNumberOrDefault(args[1], 1);
+    dishonor(player) {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a card to dishonor',
             waitingPromptTitle: 'Waiting for opponent to dishonor',

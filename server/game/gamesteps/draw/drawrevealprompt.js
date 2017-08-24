@@ -23,7 +23,7 @@ class DrawRevealPrompt extends UiPrompt {
         return { menuTitle: 'Waiting for opponent to finish.' };
     }
 
-    onMenuCommand(player, bid) {
+    onMenuCommand(player) {
         if(this.player !== player) {
             return false;
         }

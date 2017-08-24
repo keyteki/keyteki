@@ -100,7 +100,7 @@ gameRepository.getAllGames(args[0], args[1], (err, games) => {
         return { name: faction.name, wins: faction.wins, losses: faction.losses, winRate: Math.round(((faction.wins / games) * 100)) };
     });
 
-    let allianceWinRates = _.map(alliances, faction => {
+    let allianceWinRates = _.map(alliances, faction => { // eslint-disable-line no-unused-vars
         let games = alliance.wins + alliance.losses;
 
         return { name: faction.name, wins: faction.wins, losses: faction.losses, winRate: Math.round(((faction.wins / games) * 100)) };

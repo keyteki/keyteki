@@ -139,14 +139,19 @@ class Player extends Spectator {
         return cardsToReturn;
     }
 
-    attachStronghold(){
+    attachStronghold() {
         this.moveCard(this.stronghold, 'stronghold province');
     }
 
-    fillProvinces(){
+    fillProvinces() {
         var provinces = ['province 1', 'province 2', 'province 3', 'province 4'];
+
+        const isDynastyCard = card => {
+            return card.isDynasty;
+        };
+
         _.each(provinces, province => {
-            if(_.find(this.getSourceList(province), card => { return card.isDynasty })) {
+            if(_.find(this.getSourceList(province), isDynastyCard)) {
                 //Noop              
             } else {
                 this.moveCard(this.dynastyDeck.first(), province);
@@ -447,8 +452,7 @@ class Player extends Spectator {
         return true;
     }
 
-    canPutIntoPlay(card) {
-        var owner = card.owner;
+    canPutIntoPlay(card) { // eslint-disable-line no-unused-vars
         return true;
     }
 
@@ -812,7 +816,7 @@ class Player extends Spectator {
         this.game.raiseEvent('onCardDiscarded', params, event => {
             if(event.card.isConflict) {
                 this.moveCard(event.card, 'conflict discard pile');
-            } else if (event.card.isDynasty) {
+            } else if(event.card.isDynasty) {
                 this.moveCard(event.card, 'dynasty discard pile');
             }
         });
@@ -872,7 +876,7 @@ class Player extends Spectator {
         this.stronghold.bowed = false;
     }
 
-    removeAttachment(attachment, allowSave = true) {
+    removeAttachment(attachment) {
 
         if(attachment.isAncestral()) {
             attachment.owner.moveCard(attachment, 'hand');

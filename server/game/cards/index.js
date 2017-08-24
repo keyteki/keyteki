@@ -1,6 +1,4 @@
 const _ = require('underscore');
-const path = require('path');
-const fs = require('fs');
 
 const strongholds = require('./strongholds');
 const provinces = require('./provinces');

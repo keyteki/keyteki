@@ -129,9 +129,7 @@ class ConflictFlow extends BaseStep {
     applyKeywords() {
         var winnerCards = this.conflict.getWinnerCards();
 
-        _.each(winnerCards, card => {
-            let context = { game: this.game, conflict: this.conflict, source: card };
-
+        _.each(winnerCards, () => {
             this.game.checkWinCondition(this.conflict.winner);
         });
     }

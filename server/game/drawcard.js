@@ -282,7 +282,7 @@ class DrawCard extends BaseCard {
             saved: this.saved,
             fate: this.fate,
             militaryskill: this.cardData.military,
-            politicalskill: this.cardData.political,
+            politicalskill: this.cardData.political
         });
     }
 }
