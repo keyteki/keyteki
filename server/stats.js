@@ -50,7 +50,7 @@ gameRepository.getAllGames(args[0], args[1], (err, games) => {
             }
 
             if(!alliances[player.alliance]) {
-                alliance[player.alliance] = { name: player.alliance, wins: 0, losses: 0 };
+                alliances[player.alliance] = { name: player.alliance, wins: 0, losses: 0 };
             }
 
             if(!factionAgendas[player.faction + player.agenda]) {
@@ -101,7 +101,7 @@ gameRepository.getAllGames(args[0], args[1], (err, games) => {
     });
 
     let allianceWinRates = _.map(alliances, faction => { // eslint-disable-line no-unused-vars
-        let games = alliance.wins + alliance.losses;
+        let games = alliances.wins + alliances.losses;
 
         return { name: faction.name, wins: faction.wins, losses: faction.losses, winRate: Math.round(((faction.wins / games) * 100)) };
     });

@@ -165,7 +165,7 @@ class DrawCard extends BaseCard {
         }
 
 
-        this.game.raiseEvent('onCardFateChanged', { card: this, fate: card.fate - oldFate });
+        this.game.raiseEvent('onCardFateChanged', { card: this, fate: this.fate - oldFate });
     
     }
 
