@@ -37,13 +37,14 @@ class Player extends Spectator {
         this.game = game;
 
         //Phase Values
-        this.takenMulligan = false;
+        this.takenDynastyMulligan = false;
+        this.takenConflictMulligan = false;
         this.dynastyStep;
         this.passedDynasty = false;
         this.drawBid = 0;
         this.duelBid = 0;
         this.showBid = 0;
-        
+
 
         this.deck = {};
         this.conflicts = new ConflictTracker();
@@ -151,8 +152,9 @@ class Player extends Spectator {
         };
 
         _.each(provinces, province => {
-            if(_.find(this.getSourceList(province), isDynastyCard)) {
-                //Noop              
+            // Because all player locations are wrapped on creation we need to unwrap them
+            if(_.find(this.getSourceList(province)._wrapped, card => { return card.isDynasty; })) {
+                //Noop
             } else {
                 this.moveCard(this.dynastyDeck.first(), province);
             }
@@ -382,21 +384,69 @@ class Player extends Spectator {
         //this.game.raiseEvent('onStatChanged', this, 'honor');
     }
 
-    mulligan() {
-        if(this.takenMulligan) {
-            return false;
+    // mulligan() {
+    //     if(this.takenMulligan) {
+    //         return false;
+    //     }
+    //
+    //     this.initConflictDeck();
+    //     this.initDynastyDeck();
+    //     this.takenMulligan = true;
+    //     this.readyToStart = true;
+    //
+    //     return true;
+    // }
+
+    dynastyMulligan(cards) {
+        if(this.takenDynastyMulligan){
+          return false;
         }
 
-        this.initConflictDeck();
-        this.initDynastyDeck();
-        this.takenMulligan = true;
-        this.readyToStart = true;
+        _.each(cards, card => {
+          this.removeCardFromPile(card);
+        });
 
-        return true;
+        this.fillProvinces();
+
+        _.each(cards, card => {
+          card.moveTo('dynasty deck');
+          this.dynastyDeck.push(card);
+        });
+
+        this.shuffleDynastyDeck();
+
+        this.takenDynastyMulligan == true;
     }
 
-    keep() {
+    dynastyKeep() {
+        this.takenDynastyMulligan = true;
+    }
+
+    conflictMulligan(cards){
+        if(this.takenConflictMulligan){
+          return false;
+        }
+
+        _.each(cards, card => {
+          this.removeCardFromPile(card);
+        });
+
+        this.drawCardsToHand(StartingHandSize - cards.length);
+
+        _.each(cards, card => {
+          card.moveTo('conflict deck');
+          this.conflictDeck.push(card);
+        });
+
+        this.shuffleConflictDeck();
+
+        this.takenConflictMulligan = true;
         this.readyToStart = true;
+    }
+
+    conflictKeep(){
+      this.takenConflictMulligan = true;
+      this.readyToStart = true;
     }
 
     addCostReducer(reducer) {
@@ -919,7 +969,7 @@ class Player extends Spectator {
                 this.removeDuplicate(card, true);
             }
             */
-           
+
             var params = {
                 player: this,
                 card: card
