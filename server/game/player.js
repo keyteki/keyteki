@@ -147,13 +147,11 @@ class Player extends Spectator {
     fillProvinces() {
         var provinces = ['province 1', 'province 2', 'province 3', 'province 4'];
 
-        const isDynastyCard = card => {
-            return card.isDynasty;
-        };
-
         _.each(provinces, province => {
             // Because all player locations are wrapped on creation we need to unwrap them
-            if(_.find(this.getSourceList(province)._wrapped, card => { return card.isDynasty; })) {
+            if(_.find(this.getSourceList(province)._wrapped, card => {
+                return card.isDynasty;
+            })) {
                 //Noop
             } else {
                 this.moveCard(this.dynastyDeck.first(), province);
@@ -398,44 +396,44 @@ class Player extends Spectator {
     // }
 
     dynastyMulligan(cards) {
-        if(this.takenDynastyMulligan){
-          return false;
+        if(this.takenDynastyMulligan) {
+            return false;
         }
 
         _.each(cards, card => {
-          this.removeCardFromPile(card);
+            this.removeCardFromPile(card);
         });
 
         this.fillProvinces();
 
         _.each(cards, card => {
-          card.moveTo('dynasty deck');
-          this.dynastyDeck.push(card);
+            card.moveTo('dynasty deck');
+            this.dynastyDeck.push(card);
         });
 
         this.shuffleDynastyDeck();
 
-        this.takenDynastyMulligan == true;
+        this.takenDynastyMulligan = true;
     }
 
     dynastyKeep() {
         this.takenDynastyMulligan = true;
     }
 
-    conflictMulligan(cards){
-        if(this.takenConflictMulligan){
-          return false;
+    conflictMulligan(cards) {
+        if(this.takenConflictMulligan) {
+            return false;
         }
 
         _.each(cards, card => {
-          this.removeCardFromPile(card);
+            this.removeCardFromPile(card);
         });
 
         this.drawCardsToHand(cards.length);
 
         _.each(cards, card => {
-          card.moveTo('conflict deck');
-          this.conflictDeck.push(card);
+            card.moveTo('conflict deck');
+            this.conflictDeck.push(card);
         });
 
         this.shuffleConflictDeck();
@@ -444,9 +442,9 @@ class Player extends Spectator {
         this.readyToStart = true;
     }
 
-    conflictKeep(){
-      this.takenConflictMulligan = true;
-      this.readyToStart = true;
+    conflictKeep() {
+        this.takenConflictMulligan = true;
+        this.readyToStart = true;
     }
 
     addCostReducer(reducer) {
