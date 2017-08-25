@@ -52,7 +52,7 @@ _.each(totalCards, card => {
     }
 });
 
-let replacePacks = cardService.replaceCards(packs)
+let replacePacks = cardService.replacePacks(packs)
     .then(packs => {
         console.info(packs.length + ' packs imported');
     });
