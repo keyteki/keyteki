@@ -431,7 +431,7 @@ class Player extends Spectator {
           this.removeCardFromPile(card);
         });
 
-        this.drawCardsToHand(StartingHandSize - cards.length);
+        this.drawCardsToHand(cards.length);
 
         _.each(cards, card => {
           card.moveTo('conflict deck');
