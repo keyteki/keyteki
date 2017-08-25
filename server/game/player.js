@@ -382,19 +382,6 @@ class Player extends Spectator {
         //this.game.raiseEvent('onStatChanged', this, 'honor');
     }
 
-    // mulligan() {
-    //     if(this.takenMulligan) {
-    //         return false;
-    //     }
-    //
-    //     this.initConflictDeck();
-    //     this.initDynastyDeck();
-    //     this.takenMulligan = true;
-    //     this.readyToStart = true;
-    //
-    //     return true;
-    // }
-
     dynastyMulligan(cards) {
         if(this.takenDynastyMulligan) {
             return false;
@@ -413,10 +400,12 @@ class Player extends Spectator {
 
         this.shuffleDynastyDeck();
 
+        this.game.addMessage('{0} has mulliganed {1} cards from the dynasty deck', this.name, cards.length)
         this.takenDynastyMulligan = true;
     }
 
     dynastyKeep() {
+        this.game.addMessage('{0} has kept all dynasty cards', this.name)
         this.takenDynastyMulligan = true;
     }
 
@@ -438,11 +427,13 @@ class Player extends Spectator {
 
         this.shuffleConflictDeck();
 
+        this.game.addMessage('{0} has mulliganed {1} cards from the conflict deck', this.name, cards.length)
         this.takenConflictMulligan = true;
         this.readyToStart = true;
     }
 
     conflictKeep() {
+        this.game.addMessage('{0} has kept all conflict cards', this.name)
         this.takenConflictMulligan = true;
         this.readyToStart = true;
     }
