@@ -8,3 +8,4 @@ coverage
 config.js
 nodeconfig.js
 server/events.txt
+.DS_Store

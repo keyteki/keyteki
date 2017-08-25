@@ -4,7 +4,7 @@ const _ = require('underscore');
 
 const {matchCardByNameAndPack} = require('./cardutil.js');
 
-const PathToSubModulePacks = path.join(__dirname, '../../card-json/pack');
+const PathToSubModulePacks = path.join(__dirname, '../../fiveringsdb-data/PackCard');
 
 class DeckBuilder {
     constructor() {
