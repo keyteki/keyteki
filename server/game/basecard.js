@@ -62,6 +62,11 @@ class BaseCard {
 
         this.factions = {};
         this.addFaction(cardData.clan);
+
+        this.isProvince = false;
+        this.isConflict = false;
+        this.isDynasty = false;
+        this.isStronghold = false;
     }
 
     parseKeywords(text) {

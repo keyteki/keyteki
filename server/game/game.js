@@ -33,7 +33,6 @@ class Game extends EventEmitter {
 
         this.effectEngine = new EffectEngine(this);
         this.playersAndSpectators = {};
-        this.playerPlots = {};
         this.playerCards = {};
         this.gameChat = new GameChat();
         this.chatCommands = new ChatCommands(this);
@@ -395,7 +394,7 @@ class Game extends EventEmitter {
             var opponent = this.getOtherPlayer(player);
             this.recordWinner(opponent, 'dishonor');
         }
-        
+
     }
 
     playerDecked(player) {
@@ -833,7 +832,7 @@ class Game extends EventEmitter {
     reapplyStateDependentEffects() {
         this.effectEngine.reapplyStateDependentEffects();
     }
- 
+
     continue() {
         this.effectEngine.reapplyStateDependentEffects();
         this.pipeline.continue();

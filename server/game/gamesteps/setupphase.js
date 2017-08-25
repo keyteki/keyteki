@@ -1,19 +1,24 @@
 const _ = require('underscore');
 const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
-const KeepOrMulliganPrompt = require('./setup/keepormulliganprompt.js');
+const MulliganDynastyPrompt = require('./setup/mulligandynastyprompt.js');
+const MulliganConflictPrompt = require('./setup/mulliganconflictprompt.js');
 const SetupProvincesPrompt = require('./setup/setupprovincesprompt.js');
 
 class SetupPhase extends Phase {
     constructor(game) {
         super(game, 'setup');
+        var players = _.filter(game.getPlayers(), player => !game.isSpectator(player));
         this.initialise([
             new SimpleStep(game, () => this.setupBegin()),
             new SimpleStep(game, () => this.prepareDecks()),
             new SetupProvincesPrompt(game),
             new SimpleStep(game, () => this.attachStronghold()),
             new SimpleStep(game, () => this.fillProvinces()),
-            new KeepOrMulliganPrompt(game),
+            new MulliganDynastyPrompt(game, players[0]),
+            new MulliganDynastyPrompt(game, players[1]),
+            new MulliganConflictPrompt(game, players[0]),
+            new MulliganConflictPrompt(game, players[1]),
             new SimpleStep(game, () => this.startGame()),
             new SimpleStep(game, () => this.setupDone())
         ]);
