@@ -10,7 +10,7 @@ describe('the Game', () => {
 
     beforeEach(() => {
         var gameRepository = jasmine.createSpyObj('gameRepository', ['save']);
-        var router = jasmine.createSpyObj('router', ['gameWon'])
+        var router = jasmine.createSpyObj('router', ['gameWon']);
         game = new Game('1', 'Test Game', { gameRepository: gameRepository, router: router });
         winner = new Player('1', 'Player 1', true, game);
         loser = new Player('2', 'Player 2', true, game);
@@ -56,7 +56,7 @@ describe('the Game', () => {
 
             it('should declare the player who dropped to 0 honor the loser', () => {
                 expect(game.winner).toEqual(winner);
-            })
+            });
         });
     });
 });

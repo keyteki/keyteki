@@ -59,7 +59,7 @@ describe('BaseCard', function () {
             });
 
             describe('and card is faceup', function() {
-                it('should return card data', function(){
+                it('should return card data', function() {
                     // TODO: Come back and check that this.testCard.name shouldn't be this.testCard.label
                     expect(this.summary.uuid).toEqual(this.card.uuid);
                     expect(this.summary.name).toEqual(this.testCard.name);

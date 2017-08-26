@@ -90,10 +90,10 @@ describe('TriggeredAbilityWindow', function() {
                 }));
             });
 
-          it('should generate unique IDs for each choice', function() {
-              let ids = _.pluck(this.window.abilityChoices, 'id');
-              expect(_.uniq(ids)).toEqual(ids);
-          });
+            it('should generate unique IDs for each choice', function() {
+                let ids = _.pluck(this.window.abilityChoices, 'id');
+                expect(_.uniq(ids)).toEqual(ids);
+            });
         });
     });
 
