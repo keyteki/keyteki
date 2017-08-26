@@ -64,7 +64,7 @@ class DeckSummary extends React.Component {
 
         return (
             <div>
-                { this.state.cardToShow ? <img className='hover-image' src={ '/img/cards/' + this.state.cardToShow.id + '.png' } /> : null }
+                { this.state.cardToShow ? <img className='hover-image' src={ '/img/cards/' + this.state.cardToShow.id + '.jpg' } /> : null }
                 <h3>{ this.props.deck.name }</h3>
                 <div className='decklist'>
                     <img className='pull-left' src={ '/img/mons/' + this.props.deck.faction.value + '.png' } />
