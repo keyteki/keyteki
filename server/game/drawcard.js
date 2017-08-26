@@ -96,7 +96,7 @@ class DrawCard extends BaseCard {
         } else if(type === 'political') {
             return this.getPoliticalSkill(printed);
         }
-    }    
+    }
 
     modifyMilitarySkill(amount, applying = true) {
         /**
@@ -166,7 +166,7 @@ class DrawCard extends BaseCard {
 
 
         this.game.raiseEvent('onCardFateChanged', { card: this, fate: this.fate - oldFate });
-    
+
     }
 
     needsCovertTarget() {
@@ -202,6 +202,9 @@ class DrawCard extends BaseCard {
      * attach the passed attachment card.
      */
     allowAttachment(attachment) {
+        console.log("New test");
+        console.log(this.allowedAttachmentTrait);
+        console.log(attachment.hasTrait(this.allowedAttachmentTrait));
         return (
             this.isBlank() ||
             this.allowedAttachmentTrait === 'any' ||

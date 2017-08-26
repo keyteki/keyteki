@@ -32,6 +32,8 @@ class BaseCard {
         this.facedown = false;
         this.blankCount = 0;
 
+        this.type = cardData.type;
+
         this.tokens = {};
         this.strongholdModifierValues = {
             honor: 0,

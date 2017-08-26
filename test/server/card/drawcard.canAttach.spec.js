@@ -14,7 +14,7 @@ describe('DrawCard', function() {
         describe('when the card is an attachment', function() {
             beforeEach(function() {
                 this.targetCard = new DrawCard(this.owner, { text: '' });
-                this.attachment = new DrawCard(this.owner, { type_code: 'attachment' });
+                this.attachment = new DrawCard(this.owner, { type: 'attachment' });
             });
 
             it('should return true', function() {
@@ -25,7 +25,7 @@ describe('DrawCard', function() {
         describe('when the card is not an attachment', function() {
             beforeEach(function() {
                 this.targetCard = new DrawCard(this.owner, { text: '' });
-                this.attachment = new DrawCard(this.owner, { type_code: 'event' });
+                this.attachment = new DrawCard(this.owner, { type: 'event' });
             });
 
             it('should return false', function() {
@@ -38,7 +38,7 @@ describe('DrawCard', function() {
         describe('when the target card does not allow attachments', function() {
             beforeEach(function() {
                 this.targetCard = new DrawCard(this.owner, { text: 'No attachments.' });
-                this.attachment = new DrawCard(this.owner, { type_code: 'attachment' });
+                this.attachment = new DrawCard(this.owner, { type: 'attachment' });
             });
 
             it('should return false', function() {
@@ -68,7 +68,7 @@ describe('DrawCard', function() {
 
                 describe('and the attachment has that trait', function() {
                     beforeEach(function() {
-                        this.attachment = new DrawCard(this.owner, { type_code: 'attachment', traits: 'Condition. Weapon.' });
+                        this.attachment = new DrawCard(this.owner, { type: 'attachment', traits: 'Condition. Weapon.' });
                     });
 
                     it('should return true', function() {
@@ -79,7 +79,7 @@ describe('DrawCard', function() {
 
             describe('and the attachment has that trait', function() {
                 beforeEach(function() {
-                    this.attachment = new DrawCard(this.owner, { type_code: 'attachment', traits: 'Condition. Weapon.' });
+                    this.attachment = new DrawCard(this.owner, { type: 'attachment', traits: 'Condition. Weapon.' });
                 });
 
                 it('should return true', function() {
@@ -89,7 +89,7 @@ describe('DrawCard', function() {
 
             describe('and the attachment does not have that trait', function() {
                 beforeEach(function() {
-                    this.attachment = new DrawCard(this.owner, { type_code: 'attachment', traits: 'Condition.' });
+                    this.attachment = new DrawCard(this.owner, { type: 'attachment', traits: 'Condition.' });
                 });
 
                 it('should return false', function() {
@@ -111,7 +111,7 @@ describe('DrawCard', function() {
         describe('when there are no restrictions', function() {
             beforeEach(function() {
                 this.targetCard = new DrawCard(this.owner, { text: '' });
-                this.attachment = new DrawCard(this.owner, { type_code: 'attachment', traits: '' });
+                this.attachment = new DrawCard(this.owner, { type: 'attachment', traits: '' });
             });
 
             it('should return true', function() {
