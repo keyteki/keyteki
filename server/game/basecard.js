@@ -59,7 +59,7 @@ class BaseCard {
 
         this.abilities = { actions: [], reactions: [], persistentEffects: [], playActions: [] };
         this.parseKeywords(cardData.text || '');
-        this.parseTraits(cardData.keywords || '');
+        this.parseTraits(cardData.traits || '');
         this.setupCardAbilities(AbilityDsl);
 
         this.factions = {};
@@ -263,7 +263,7 @@ class BaseCard {
     }
 
     hasTrait(trait) {
-        return !!this.traits[trait.toLowerCase()];
+        return _.contains(this.traits, trait);
     }
 
     isFaction(faction) {

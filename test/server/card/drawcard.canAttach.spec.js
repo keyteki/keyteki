@@ -68,7 +68,7 @@ describe('DrawCard', function() {
 
                 describe('and the attachment has that trait', function() {
                     beforeEach(function() {
-                        this.attachment = new DrawCard(this.owner, { type: 'attachment', traits: 'Condition. Weapon.' });
+                        this.attachment = new DrawCard(this.owner, { type: 'attachment', traits: ['condition', 'weapon'] });
                     });
 
                     it('should return true', function() {
@@ -79,7 +79,7 @@ describe('DrawCard', function() {
 
             describe('and the attachment has that trait', function() {
                 beforeEach(function() {
-                    this.attachment = new DrawCard(this.owner, { type: 'attachment', traits: 'Condition. Weapon.' });
+                    this.attachment = new DrawCard(this.owner, { type: 'attachment', traits: ['condition', 'weapon'] });
                 });
 
                 it('should return true', function() {
@@ -89,7 +89,7 @@ describe('DrawCard', function() {
 
             describe('and the attachment does not have that trait', function() {
                 beforeEach(function() {
-                    this.attachment = new DrawCard(this.owner, { type: 'attachment', traits: 'Condition.' });
+                    this.attachment = new DrawCard(this.owner, { type: 'attachment', traits: ['condition'] });
                 });
 
                 it('should return false', function() {
@@ -111,7 +111,7 @@ describe('DrawCard', function() {
         describe('when there are no restrictions', function() {
             beforeEach(function() {
                 this.targetCard = new DrawCard(this.owner, { text: '' });
-                this.attachment = new DrawCard(this.owner, { type: 'attachment', traits: '' });
+                this.attachment = new DrawCard(this.owner, { type: 'attachment', traits: [] });
             });
 
             it('should return true', function() {
