@@ -1,6 +1,3 @@
-/*global describe, it, beforeEach, expect, jasmine*/
-/* eslint camelcase: 0 */
-
 const _ = require('underscore');
 const Player = require('../../../server/game/player.js');
 

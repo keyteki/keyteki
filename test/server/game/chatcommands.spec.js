@@ -1,6 +1,3 @@
-/*global describe, it, beforeEach, expect, jasmine*/
-/* eslint camelcase: 0, no-invalid-this: 0 */
-
 const ChatCommands = require('../../../server/game/chatcommands.js');
 
 describe('ChatCommands', function() {

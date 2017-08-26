@@ -1,6 +1,3 @@
-/* global describe, it, expect, beforeEach, integration */
-/* eslint camelcase: 0, no-invalid-this: 0 */
-
 describe('effects', function() {
     integration(function() {
         describe('when blanking / unblanking a dynamically calculated conditional effect', function() {

@@ -1,6 +1,3 @@
-/*global describe, it, beforeEach, expect, spyOn */
-/* eslint no-invalid-this: 0 */
-
 const GamePipeline = require('../../../server/game/gamepipeline.js');
 
 describe('the GamePipeline', function() {

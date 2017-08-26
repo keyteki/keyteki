@@ -1,6 +1,3 @@
-/*global describe, it, beforeEach, expect, jasmine */
-/*eslint camelcase: 0, no-invalid-this: 0 */
-
 const CostReducer = require('../../server/game/costreducer.js');
 
 describe('CostReducer', function () {

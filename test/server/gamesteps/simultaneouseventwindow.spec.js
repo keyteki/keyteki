@@ -1,6 +1,3 @@
-/*global describe, it, beforeEach, expect, jasmine*/
-/* eslint no-invalid-this: 0 */
-
 const _ = require('underscore');
 
 const SimultaneousEventWindow = require('../../../server/game/gamesteps/simultaneouseventwindow.js');

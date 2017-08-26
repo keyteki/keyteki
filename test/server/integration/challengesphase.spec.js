@@ -1,6 +1,3 @@
-/* global describe, it, expect, beforeEach, integration */
-/* eslint camelcase: 0, no-invalid-this: 0 */
-
 describe('challenges phase', function() {
     integration(function() {
         describe('when a character has stealth', function() {

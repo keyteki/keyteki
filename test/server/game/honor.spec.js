@@ -1,5 +1,3 @@
-/*global describe, it, beforeEach, expect, jasmine*/
-
 const Game = require('../../../server/game/game.js');
 const Player = require('../../../server/game/player.js');
 

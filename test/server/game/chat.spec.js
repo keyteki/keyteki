@@ -1,6 +1,3 @@
-/*global describe, it, beforeEach, expect, spyOn, jasmine*/
-/* eslint camelcase: 0, no-invalid-this: 0 */
-
 const Game = require('../../../server/game/game.js');
 const Spectator = require('../../../server/game/spectator.js');
 
