@@ -5,6 +5,5 @@ typings
 coverage
 *.log
 *.json
-config.js
-nodeconfig.js
 server/events.txt
+config/local*

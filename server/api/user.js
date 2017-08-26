@@ -1,6 +1,6 @@
 const UserService = require('../repositories/UserService.js');
 const logger = require('../log.js');
-const config = require('../config.js');
+const config = require('config');
 
 let userService = new UserService({ dbPath: config.dbPath });
 
