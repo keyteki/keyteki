@@ -4,7 +4,9 @@
     "no-invalid-this": 0
   },
   "env": {
-    "jasmine": true
+    "jasmine": true,
+    "node": true,
+    "es6": true
   },
   "globals": {
     "integration": true
