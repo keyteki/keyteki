@@ -50,9 +50,15 @@ class Province extends React.Component {
         var className = 'panel province ' + this.props.className;
         var cardCount = this.props.cardCount || (this.props.cards ? this.props.cards.length : '0');
         var headerText = this.props.title ? this.props.title + ' (' + (cardCount) + ')' : '';
-        var provinceCard = this.props.provinceCard || _.find(this.props.cards, card => { return card.isProvince });
-        var dynastyCard = this.props.dynastyCard || _.find(this.props.cards, card => { return card.isDynasty });
-        var strongholdCard = this.props.strongholdCard || _.find(this.props.cards, card => { return card.isStronghold });
+        var provinceCard = this.props.provinceCard || _.find(this.props.cards, card => {
+            return card.isProvince; 
+        });
+        var dynastyCard = this.props.dynastyCard || _.find(this.props.cards, card => {
+            return card.isDynasty; 
+        });
+        var strongholdCard = this.props.strongholdCard || _.find(this.props.cards, card => {
+            return card.isStronghold; 
+        });
         var cardOrientation = this.props.orientation === 'horizontal' && provinceCard && provinceCard.facedown ? 'bowed' : this.props.orientation;
 
         if(this.props.hiddenProvinceCard && provinceCard) {
@@ -70,35 +76,35 @@ class Province extends React.Component {
         }
 
         return (
-            <div className={className} onDragLeave={this.onDragLeave} onDragOver={this.onDragOver} onDrop={event => this.onDragDrop(event, this.props.source)}
-                    onClick={this.onCollectionClick}>
+            <div className={ className } onDragLeave={ this.onDragLeave } onDragOver={ this.onDragOver } onDrop={ event => this.onDragDrop(event, this.props.source) }
+                onClick={ this.onCollectionClick }>
                 <div className='panel-header'>
-                    {headerText}
+                    { headerText }
                 </div>
-                {provinceCard ? <Card card={provinceCard} source={this.props.source}
-                         onMouseOver={this.props.onMouseOver}
-                         onMouseOut={this.props.onMouseOut}
-                         disableMouseOver={provinceCard.facedown}
-                         onClick={this.props.onCardClick}
-                         onMenuItemClick={this.props.onMenuItemClick}
-                         onDragDrop={this.props.onDragDrop}
-                         orientation={cardOrientation} /> : null}
-                {dynastyCard ? <Card className='province-attachment' card={dynastyCard} source={this.props.source}
-                         onMouseOver={this.props.onMouseOver}
-                         onMouseOut={this.props.onMouseOut}
-                         disableMouseOver={dynastyCard.facedown}
-                         onClick={this.props.onCardClick}
-                         onMenuItemClick={this.props.onMenuItemClick}
-                         onDragDrop={this.props.onDragDrop}
-                         orientation={cardOrientation} /> : null}
-                {strongholdCard ? <Card className='province-attachment' card={strongholdCard} source={this.props.source}
-                         onMouseOver={this.props.onMouseOver}
-                         onMouseOut={this.props.onMouseOut}
-                         disableMouseOver={strongholdCard.facedown}
-                         onClick={this.props.onCardClick}
-                         onMenuItemClick={this.props.onMenuItemClick}
-                         onDragDrop={this.props.onDragDrop}
-                         orientation={cardOrientation} /> : null}
+                { provinceCard ? <Card card={ provinceCard } source={ this.props.source }
+                    onMouseOver={ this.props.onMouseOver }
+                    onMouseOut={ this.props.onMouseOut }
+                    disableMouseOver={ provinceCard.facedown }
+                    onClick={ this.props.onCardClick }
+                    onMenuItemClick={ this.props.onMenuItemClick }
+                    onDragDrop={ this.props.onDragDrop }
+                    orientation={ cardOrientation } /> : null }
+                { dynastyCard ? <Card className='province-attachment' card={ dynastyCard } source={ this.props.source }
+                    onMouseOver={ this.props.onMouseOver }
+                    onMouseOut={ this.props.onMouseOut }
+                    disableMouseOver={ dynastyCard.facedown }
+                    onClick={ this.props.onCardClick }
+                    onMenuItemClick={ this.props.onMenuItemClick }
+                    onDragDrop={ this.props.onDragDrop }
+                    orientation={ cardOrientation } /> : null }
+                { strongholdCard ? <Card className='province-attachment' card={ strongholdCard } source={ this.props.source }
+                    onMouseOver={ this.props.onMouseOver }
+                    onMouseOut={ this.props.onMouseOut }
+                    disableMouseOver={ strongholdCard.facedown }
+                    onClick={ this.props.onCardClick }
+                    onMenuItemClick={ this.props.onMenuItemClick }
+                    onDragDrop={ this.props.onDragDrop }
+                    orientation={ cardOrientation } /> : null }
             </div>);
     }
 }

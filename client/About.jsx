@@ -24,7 +24,7 @@ class About extends React.Component {
                 It will also use the avatar on any site that uses gravatar.  Examples include github and jinteki.</p>
 
                 <h3>Action windows</h3>
-                <p>Players will be prompted about whether they have actions or not during game <a href="https://thronesdb.com/rulesreference#Action_Windows">action windows</a>. By default, however, not all action windows are enabled. For example: you will be prompted by default after challenge attackers are declared, but not before the end of the dominance pahse. You can choose which action windows to be prompted for in your <a href="/profile">user profile</a> as well as override that while in-game by clicking on the small green triangle above the various dialog windows.</p>
+                <p>Players will be prompted about whether they have actions or not during game <a href='https://thronesdb.com/rulesreference#Action_Windows'>action windows</a>. By default, however, not all action windows are enabled. For example: you will be prompted by default after challenge attackers are declared, but not before the end of the dominance pahse. You can choose which action windows to be prompted for in your <a href='/profile'>user profile</a> as well as override that while in-game by clicking on the small green triangle above the various dialog windows.</p>
 
                 <h3>Why doesn't xyz work?</h3>
                 <p>While the site has come on a lot recently, there are still some missing cards and things that aren't implemented. See <a href='http://bit.ly/ringteki'>This Link</a> for a list of the cards and their current implementation
@@ -47,13 +47,13 @@ class About extends React.Component {
                     <li>/rem-fate x - Remove 'x' fate to a card.</li>
                 </ul>
 
-                {/*<h3>Can I help?</h3>
+                { /*<h3>Can I help?</h3>
                 <p>Sure!  The project is all written in Javascript.  The server is node.js and the client is React.js.  The source code can be found in the&nbsp;
                     <a href='http://github.com/gryffon/ringteki'>GitHub Repository</a>.  Check out the code and instructions on there on how to get started and hack away!  See the card implementation
                 status list above to have a look at what needs to be done.  If you want to join the dev discord, or ask any other question, send me a note on here, over at&nbsp;
                     <a href='http://www.twitter.com/cryogen'>Twitter</a> or post in the L5R Facebook group.  I'll likely find it.
-                </p> */}
-                {/*<h4>Donations</h4>
+                </p> */ }
+                { /*<h4>Donations</h4>
                 I was always reluctant to accept donations but since I've been asked a few times I thought I'd put up a small section about it here.
 
                 <form action='https://www.paypal.com/cgi-bin/webscr' method='post' target='_top'>
@@ -68,7 +68,7 @@ class About extends React.Component {
                 Also, this is not required to continue to use and enjoy the site and will not give anything in return (other than my sincerce gratitude and potentially better hardware for the site to run on).
                 I will also put a donation report in with the monthly reports that I'm publishing so that you know where your donations are going.
 
-                */}
+                */ }
 
                 <h2>Special Thanks</h2>
                 <p>I'd like to thank mtgred, and the whole of the jinteki.net development team(except whoever decided to write the code in clojure, not you. - just kidding!) as without their

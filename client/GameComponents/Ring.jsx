@@ -20,8 +20,8 @@ class Ring extends React.Component {
     render() {
 
         return (<div>
-            <div className='ring' onClick={ event => this.onClick(event, this.props.ringType)} >
-                <img className='ring' src={'/img/' + this.props.conflictType + '-' + this.props.ringType +'.png'} />
+            <div className='ring' onClick={ event => this.onClick(event, this.props.ringType) } >
+                <img className='ring' src={ '/img/' + this.props.conflictType + '-' + this.props.ringType + '.png' } />
             </div>
         </div>);
     }

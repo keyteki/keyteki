@@ -264,8 +264,8 @@ class Card extends React.Component {
                 onTouchMove={ ev => this.onTouchMove(ev) }
                 onTouchEnd={ ev => this.onTouchEnd(ev) }
                 onTouchStart={ ev => this.onTouchStart(ev) }>
-                {this.getCardOrder()}
-                <div className={cardClass}
+                { this.getCardOrder() }
+                <div className={ cardClass }
                     onMouseOver={ this.props.disableMouseOver ? null : this.onMouseOver.bind(this, this.props.card) }
                     onMouseOut={ this.props.disableMouseOver ? null : this.onMouseOut }
                     onClick={ ev => this.onClick(ev, this.props.card) }
@@ -284,10 +284,10 @@ class Card extends React.Component {
     render() {
         if(this.props.wrapped) {
             return (
-                    <div className='card-wrapper' style={ this.props.style }>
-                        { this.getCard() }
-                        { this.getAttachments() }
-                    </div>);
+                <div className='card-wrapper' style={ this.props.style }>
+                    { this.getCard() }
+                    { this.getAttachments() }
+                </div>);
         }
 
         return this.getCard();
@@ -332,7 +332,7 @@ Card.propTypes = {
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
     orientation: React.PropTypes.oneOf(['horizontal', 'bowed', 'vertical']),
-    source: React.PropTypes.oneOf(['hand', 'dynasty discard pile', 'conflict discard pile', 'play area', 'dynasty deck', 'conflict deck', 'province deck', 'province 1', 'province 2', 'province 3', 'province 4',  'attachment', 'stronghold province', 'additional']).isRequired,
+    source: React.PropTypes.oneOf(['hand', 'dynasty discard pile', 'conflict discard pile', 'play area', 'dynasty deck', 'conflict deck', 'province deck', 'province 1', 'province 2', 'province 3', 'province 4', 'attachment', 'stronghold province', 'additional']).isRequired,
     style: React.PropTypes.object,
     wrapped: React.PropTypes.bool
 };

@@ -16,16 +16,15 @@ class Placeholder extends React.Component {
         var className = 'panel placeholder ' + this.props.className;
         var cardOrientation = this.props.orientation;
 
-        if(this.props.orientation === 'horizontal' ) {
+        if(this.props.orientation === 'horizontal') {
             className += ' horizontal';
         } else {
             className += ' vertical';
         }
 
         return (
-            <div className={className} onDragLeave={this.onDragLeave} onDragOver={this.onDragOver} onDrop={event => this.onDragDrop(event, this.props.source)}
-                    onClick={this.onCollectionClick}>
-            </div>);
+            <div className={ className } onDragLeave={ this.onDragLeave } onDragOver={ this.onDragOver } onDrop={ event => this.onDragDrop(event, this.props.source) }
+                onClick={ this.onCollectionClick } />);
     }
 }
 

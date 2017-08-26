@@ -384,30 +384,30 @@ export class InnerGameBoard extends React.Component {
                 <div className='main-window'>
                     <div className='left-side'>
                         <div className='player-info'>
-                            <PlayerStats fate={otherPlayer ? otherPlayer.fate : 0} honor={otherPlayer ? otherPlayer.totalHonor : 0} user={otherPlayer ? otherPlayer.user : null} />
+                            <PlayerStats fate={ otherPlayer ? otherPlayer.fate : 0 } honor={ otherPlayer ? otherPlayer.totalHonor : 0 } user={ otherPlayer ? otherPlayer.user : null } />
                             <div className='deck-info'>
-                                { otherPlayer ? <div className={'first-player-indicator ' + (!thisPlayer.firstPlayer ? '' : 'hidden')}>First player</div> : ''}
-                                <HonorFan value={otherPlayer ? otherPlayer.showBid : '0'} />
+                                { otherPlayer ? <div className={ 'first-player-indicator ' + (!thisPlayer.firstPlayer ? '' : 'hidden') }>First player</div> : '' }
+                                <HonorFan value={ otherPlayer ? otherPlayer.showBid : '0' } />
                             </div>
                         </div>
                         <div className='middle'>
                             
                             <div className='ring-pane'>      
                                 <CardCollection className='province-deck'
-                                                    title='Province Deck' source='province deck' cards={otherPlayer ? otherPlayer.provinceDeck : []}
-                                                    hiddenTopCard 
-                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} disableMouseOver disablePopup
-                                                    onCardClick={this.onCardClick} />
-                                 <div className='panel ring-panel'>
-                                    <Ring conflictType={this.props.currentGame.rings['Air'].type} ringType='Air' onClick={this.onRingClick} />
-                                    <Ring conflictType={this.props.currentGame.rings['Earth'].type} ringType='Earth' onClick={this.onRingClick} />
-                                    <Ring conflictType={this.props.currentGame.rings['Fire'].type} ringType='Fire' onClick={this.onRingClick} />
-                                    <Ring conflictType={this.props.currentGame.rings['Water'].type} ringType='Water' onClick={this.onRingClick} />
-                                    <Ring conflictType={this.props.currentGame.rings['Void'].type} ringType='Void' onClick={this.onRingClick} />
+                                    title='Province Deck' source='province deck' cards={ otherPlayer ? otherPlayer.provinceDeck : [] }
+                                    hiddenTopCard 
+                                    onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } disableMouseOver disablePopup
+                                    onCardClick={ this.onCardClick } />
+                                <div className='panel ring-panel'>
+                                    <Ring conflictType={ this.props.currentGame.rings['Air'].type } ringType='Air' onClick={ this.onRingClick } />
+                                    <Ring conflictType={ this.props.currentGame.rings['Earth'].type } ringType='Earth' onClick={ this.onRingClick } />
+                                    <Ring conflictType={ this.props.currentGame.rings['Fire'].type } ringType='Fire' onClick={ this.onRingClick } />
+                                    <Ring conflictType={ this.props.currentGame.rings['Water'].type } ringType='Water' onClick={ this.onRingClick } />
+                                    <Ring conflictType={ this.props.currentGame.rings['Void'].type } ringType='Void' onClick={ this.onRingClick } />
                                 </div>
                                 <CardCollection className='province-deck our-side'
-                                                    title='Province Deck' source='province deck' cards={thisPlayer.provinceDeck} hiddenTopCard 
-                                                    onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onCardClick={this.onCardClick} onDragDrop={this.onDragDrop} />
+                                    title='Province Deck' source='province deck' cards={ thisPlayer.provinceDeck } hiddenTopCard 
+                                    onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } onCardClick={ this.onCardClick } onDragDrop={ this.onDragDrop } />
                             </div>
                             <div className='middle-right'>
                                 <div className='inset-pane'>
@@ -430,11 +430,11 @@ export class InnerGameBoard extends React.Component {
                             </div>
                         </div>
                         <div className='player-info our-side'>
-                            <PlayerStats fate={thisPlayer.fate || 0} 
-                                        honor={thisPlayer.totalHonor} isMe={!this.state.spectating} user={thisPlayer.user} />
+                            <PlayerStats fate={ thisPlayer.fate || 0 } 
+                                honor={ thisPlayer.totalHonor } isMe={ !this.state.spectating } user={ thisPlayer.user } />
                             <div className='deck-info'>
-                                <div className={'first-player-indicator ' + (thisPlayer.firstPlayer ? '' : 'hidden')}>First player</div>
-                                <HonorFan value={thisPlayer.showBid} />
+                                <div className={ 'first-player-indicator ' + (thisPlayer.firstPlayer ? '' : 'hidden') }>First player</div>
+                                <HonorFan value={ thisPlayer.showBid } />
                                 
                             </div>
                         </div>
@@ -442,35 +442,35 @@ export class InnerGameBoard extends React.Component {
 
                     <div className='center'>
                         <PlayerRow
-                            additionalPiles={otherPlayer ? otherPlayer.additionalPiles : {}}
-                            hand={otherPlayer ? otherPlayer.hand : []} isMe={false}
-                            numDrawCards={otherPlayer ? otherPlayer.numDrawCards : 0}
-                            conflictDiscardPile={otherPlayer ? otherPlayer.conflictDiscardPile : []}
-                            onCardClick={this.onCardClick}
-                            onMouseOver={this.onMouseOver}
-                            onMouseOut={this.onMouseOut}
-                            />
+                            additionalPiles={ otherPlayer ? otherPlayer.additionalPiles : {} }
+                            hand={ otherPlayer ? otherPlayer.hand : [] } isMe={ false }
+                            numDrawCards={ otherPlayer ? otherPlayer.numDrawCards : 0 }
+                            conflictDiscardPile={ otherPlayer ? otherPlayer.conflictDiscardPile : [] }
+                            onCardClick={ this.onCardClick }
+                            onMouseOver={ this.onMouseOver }
+                            onMouseOut={ this.onMouseOut }
+                        />
                         <DynastyRow 
-                            additionalPiles={otherPlayer ? otherPlayer.additionalPiles : {}}
-                            conflictDiscardPile={otherPlayer ? otherPlayer.conflictDiscardPile : []}
-                            conflictDeck={otherPlayer ? otherPlayer.conflictDeck : []}
-                            dynastyDiscardPile={otherPlayer ? otherPlayer.dynastyDiscardPile : []}
-                            dynastyDeck={otherPlayer ? otherPlayer.dynastyDeck : []}
-                            numConflictCards={otherPlayer ? otherPlayer.numConflictCards : 0}
-                            numDynastyCards={otherPlayer ? otherPlayer.numDynastyCards : 0}
-                            province1Cards={otherPlayer ? otherPlayer.provinces.one : []}
-                            province2Cards={otherPlayer ? otherPlayer.provinces.two : []}
-                            province3Cards={otherPlayer ? otherPlayer.provinces.three : []}
-                            province4Cards={otherPlayer ? otherPlayer.provinces.four : []}
-                            onCardClick={this.onCardClick}
-                            onMouseOver={this.onMouseOver}
-                            onMouseOut={this.onMouseOut}
+                            additionalPiles={ otherPlayer ? otherPlayer.additionalPiles : {} }
+                            conflictDiscardPile={ otherPlayer ? otherPlayer.conflictDiscardPile : [] }
+                            conflictDeck={ otherPlayer ? otherPlayer.conflictDeck : [] }
+                            dynastyDiscardPile={ otherPlayer ? otherPlayer.dynastyDiscardPile : [] }
+                            dynastyDeck={ otherPlayer ? otherPlayer.dynastyDeck : [] }
+                            numConflictCards={ otherPlayer ? otherPlayer.numConflictCards : 0 }
+                            numDynastyCards={ otherPlayer ? otherPlayer.numDynastyCards : 0 }
+                            province1Cards={ otherPlayer ? otherPlayer.provinces.one : [] }
+                            province2Cards={ otherPlayer ? otherPlayer.provinces.two : [] }
+                            province3Cards={ otherPlayer ? otherPlayer.provinces.three : [] }
+                            province4Cards={ otherPlayer ? otherPlayer.provinces.four : [] }
+                            onCardClick={ this.onCardClick }
+                            onMouseOver={ this.onMouseOver }
+                            onMouseOut={ this.onMouseOut }
                         />
                         <StrongholdRow 
-                            onCardClick={this.onCardClick}
-                            onMouseOver={this.onMouseOver}
-                            onMouseOut={this.onMouseOut}
-                            strongholdProvinceCards={otherPlayer ? otherPlayer.strongholdProvince : []}
+                            onCardClick={ this.onCardClick }
+                            onMouseOver={ this.onMouseOver }
+                            onMouseOut={ this.onMouseOut }
+                            strongholdProvinceCards={ otherPlayer ? otherPlayer.strongholdProvince : [] }
                         />
                         <div className='play-area'>
                             <div className='player-board'>
@@ -481,46 +481,46 @@ export class InnerGameBoard extends React.Component {
                                 { thisPlayerCards }
                             </div>
                         </div>
-                        <StrongholdRow isMe={!this.state.spectating}
-                            spectating={this.state.spectating}
-                            onCardClick={this.onCardClick}
-                            onDragDrop={this.onDragDrop}
-                            onMouseOver={this.onMouseOver}
-                            onMouseOut={this.onMouseOut}
-                            strongholdProvinceCards={thisPlayer.strongholdProvince}
+                        <StrongholdRow isMe={ !this.state.spectating }
+                            spectating={ this.state.spectating }
+                            onCardClick={ this.onCardClick }
+                            onDragDrop={ this.onDragDrop }
+                            onMouseOver={ this.onMouseOver }
+                            onMouseOut={ this.onMouseOut }
+                            strongholdProvinceCards={ thisPlayer.strongholdProvince }
                         />
-                        <DynastyRow isMe={!this.state.spectating}
-                            additionalPiles={thisPlayer.additionalPiles}
-                            conflictDiscardPile={thisPlayer.conflictDiscardPile}
-                            conflictDeck={thisPlayer.conflictDeck}
-                            dynastyDiscardPile={thisPlayer.dynastyDiscardPile}
-                            dynastyDeck={thisPlayer.dynastyDeck}
-                            onCardClick={this.onCardClick}
-                            onConflictClick={this.onConflictClick}
-                            onDynastyClick={this.onDynastyClick}
-                            onMouseOver={this.onMouseOver}
-                            onMouseOut={this.onMouseOut}
-                            numConflictCards={thisPlayer.numConflictCards}
-                            numDynastyCards={thisPlayer.numDynastyCards}
-                            onConflictShuffleClick={this.onConflictShuffleClick}
-                            onDynastyShuffleClick={this.onDynastyShuffleClick}
-                            province1Cards={thisPlayer.provinces.one}
-                            province2Cards={thisPlayer.provinces.two}
-                            province3Cards={thisPlayer.provinces.three}
-                            province4Cards={thisPlayer.provinces.four}
-                            showConflictDeck={this.state.showConflictDeck}
-                            showDynastyDeck={this.state.showDynastyDeck}
-                            onDragDrop={this.onDragDrop}
-                            spectating={this.state.spectating}
-                            onMenuItemClick={this.onMenuItemClick} />                        
-                        <PlayerRow isMe={!this.state.spectating}
-                            additionalPiles={thisPlayer.additionalPiles}
-                            hand={thisPlayer.hand}
-                            onCardClick={this.onCardClick}
-                            onMouseOver={this.onMouseOver}
-                            onMouseOut={this.onMouseOut}
-                            onDragDrop={this.onDragDrop}
-                            spectating={this.state.spectating} />
+                        <DynastyRow isMe={ !this.state.spectating }
+                            additionalPiles={ thisPlayer.additionalPiles }
+                            conflictDiscardPile={ thisPlayer.conflictDiscardPile }
+                            conflictDeck={ thisPlayer.conflictDeck }
+                            dynastyDiscardPile={ thisPlayer.dynastyDiscardPile }
+                            dynastyDeck={ thisPlayer.dynastyDeck }
+                            onCardClick={ this.onCardClick }
+                            onConflictClick={ this.onConflictClick }
+                            onDynastyClick={ this.onDynastyClick }
+                            onMouseOver={ this.onMouseOver }
+                            onMouseOut={ this.onMouseOut }
+                            numConflictCards={ thisPlayer.numConflictCards }
+                            numDynastyCards={ thisPlayer.numDynastyCards }
+                            onConflictShuffleClick={ this.onConflictShuffleClick }
+                            onDynastyShuffleClick={ this.onDynastyShuffleClick }
+                            province1Cards={ thisPlayer.provinces.one }
+                            province2Cards={ thisPlayer.provinces.two }
+                            province3Cards={ thisPlayer.provinces.three }
+                            province4Cards={ thisPlayer.provinces.four }
+                            showConflictDeck={ this.state.showConflictDeck }
+                            showDynastyDeck={ this.state.showDynastyDeck }
+                            onDragDrop={ this.onDragDrop }
+                            spectating={ this.state.spectating }
+                            onMenuItemClick={ this.onMenuItemClick } />                        
+                        <PlayerRow isMe={ !this.state.spectating }
+                            additionalPiles={ thisPlayer.additionalPiles }
+                            hand={ thisPlayer.hand }
+                            onCardClick={ this.onCardClick }
+                            onMouseOver={ this.onMouseOver }
+                            onMouseOut={ this.onMouseOut }
+                            onDragDrop={ this.onDragDrop }
+                            spectating={ this.state.spectating } />
                     </div>
                 </div>
                 <div className='right-side'>
