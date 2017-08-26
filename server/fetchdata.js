@@ -11,7 +11,7 @@ var apiUrl = 'https://fiveringsdb.com/';
 function fetchImage(urlPath, id, imagePath, timeout) {
     setTimeout(function() {
         console.log('Downloading image for ' + id);
-        var url = 'https://fiveringsdb.com/' + urlPath + id + '.png';
+        var url = 'https://fiveringsdb.com/' + urlPath + id + '.jpg';
         request(url).pipe(fs.createWriteStream(imagePath));
     }, timeout);
 }
@@ -31,7 +31,7 @@ request.get(apiUrl + 'cards', function(error, res, body) {
     var i = 0;
 
     cards.forEach(function(card) {
-        var imagePath = path.join(imageDir, card.id + '.png');
+        var imagePath = path.join(imageDir, card.id + '.jpg');
         var imagePack = card.pack_cards[0].pack.id;
         var imagesrc = 'bundles/card_images/' + imagePack + '/';
 
