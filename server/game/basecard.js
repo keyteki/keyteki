@@ -15,7 +15,8 @@ const ValidKeywords = [
     'restricted',
     'limited',
     'sincerity',
-    'pride'
+    'pride',
+    'covert'
 ];
 const LocationsWithEventHandling = ['play area', 'province'];
 
@@ -168,14 +169,13 @@ class BaseCard {
      * is both in play and not blank.
      */
     persistentEffect(properties) {
-        const allowedLocations = ['active plot', 'agenda', 'any', 'play area'];
+        const allowedLocations = ['any', 'play area'];
         const defaultLocationForType = {
             agenda: 'agenda',
             plot: 'active plot'
         };
 
         let location = properties.location || defaultLocationForType[this.getType()] || 'play area';
-
         if(!allowedLocations.includes(location)) {
             throw new Error(`'${location}' is not a supported effect location.`);
         }
