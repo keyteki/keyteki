@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const Phase = require('./phase.js');
 const ActionWindow = require('./actionwindow.js');
 //const SimpleStep = require('./simplestep.js');
