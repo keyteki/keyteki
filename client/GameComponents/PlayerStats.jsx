@@ -51,9 +51,9 @@ export class InnerPlayerStats extends React.Component {
 InnerPlayerStats.displayName = 'PlayerStats';
 InnerPlayerStats.propTypes = {
     fate: React.PropTypes.number,
+    honor: React.PropTypes.number,
     isMe: React.PropTypes.bool,
     playerName: React.PropTypes.string,
-    honor: React.PropTypes.number,
     sendGameMessage: React.PropTypes.func,
     user: React.PropTypes.object
 };

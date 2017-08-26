@@ -204,8 +204,6 @@ class DynastyRow extends React.Component {
     }
 
     render() {
-        var additionalPiles = this.getAdditionalPiles();
-
         var conflictDeckMenu = [
             { text: 'Show', handler: this.onShowConflictDeckClick, showPopup: true },
             { text: 'Shuffle', handler: this.onConflictShuffleClick}
@@ -289,30 +287,30 @@ class DynastyRow extends React.Component {
 DynastyRow.displayName = 'DynastyRow';
 DynastyRow.propTypes = {
     additionalPiles: React.PropTypes.object,
-    conflictDiscardPile: React.PropTypes.array,
     conflictDeck: React.PropTypes.array,
-    dynastyDiscardPile: React.PropTypes.array,
+    conflictDiscardPile: React.PropTypes.array,
     dynastyDeck: React.PropTypes.array,
+    dynastyDiscardPile: React.PropTypes.array,
     hand: React.PropTypes.array,
+    honor: React.PropTypes.number,
     isMe: React.PropTypes.bool,
     numConflictCards: React.PropTypes.number,
     numDynastyCards: React.PropTypes.number,
     onCardClick: React.PropTypes.func,
     onConflictClick: React.PropTypes.func,
-    onDynastyClick: React.PropTypes.func,
+    onConflictShuffleClick: React.PropTypes.func,
     onDiscardedCardClick: React.PropTypes.func,
     onDragDrop: React.PropTypes.func,
+    onDynastyClick: React.PropTypes.func,
+    onDynastyShuffleClick: React.PropTypes.func,
     onMenuItemClick: React.PropTypes.func,
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
-    onConflictShuffleClick: React.PropTypes.func,
-    onDynastyShuffleClick: React.PropTypes.func,
-    provinceDeck: React.PropTypes.array,
     province1Cards: React.PropTypes.array,
     province2Cards: React.PropTypes.array,
     province3Cards: React.PropTypes.array,
     province4Cards: React.PropTypes.array,
-    honor: React.PropTypes.number,
+    provinceDeck: React.PropTypes.array,
     showConflictDeck: React.PropTypes.bool,
     showDynastyDeck: React.PropTypes.bool,
     spectating: React.PropTypes.bool

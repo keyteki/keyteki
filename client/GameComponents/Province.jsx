@@ -111,7 +111,6 @@ class Province extends React.Component {
 
 Province.displayName = 'Province';
 Province.propTypes = {
-    isBroken: React.PropTypes.bool,
     cardCount: React.PropTypes.number,
     cards: React.PropTypes.array,
     className: React.PropTypes.string,
@@ -120,6 +119,7 @@ Province.propTypes = {
     dynastyCard: React.PropTypes.object,
     hiddenDynastyCard: React.PropTypes.bool,
     hiddenProvinceCard: React.PropTypes.bool,
+    isBroken: React.PropTypes.bool,
     menu: React.PropTypes.array,
     onCardClick: React.PropTypes.func,
     onDragDrop: React.PropTypes.func,

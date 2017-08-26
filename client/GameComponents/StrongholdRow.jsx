@@ -1,20 +1,9 @@
 import React from 'react';
-import _ from 'underscore';
-import $ from 'jquery';
 
-import AdditionalCardPile from './AdditionalCardPile.jsx';
-import Card from './Card.jsx';
-import CardCollection from './CardCollection.jsx';
 import Province from './Province.jsx';
 import Placeholder from './Placeholder.jsx';
-import {tryParseJSON} from '../util.js';
 
 class StrongholdRow extends React.Component {
-    constructor() {
-        super();
-
-
-    }
 
     render() {
 
