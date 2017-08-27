@@ -14,10 +14,6 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const http = require('http');
 const Raven = require('raven');
-const webpackDevMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
-const webpack = require('webpack');
-const webpackConfig = require('../webpack.config.js');
 const pug = require('pug');
 
 const UserService = require('./repositories/UserService.js');
@@ -75,6 +71,11 @@ class Server {
         app.set('views', path.join(__dirname, '..', 'views'));
 
         if(this.isDeveloping) {
+            const webpackDevMiddleware = require('webpack-dev-middleware');
+            const webpackHotMiddleware = require('webpack-hot-middleware');
+            const webpackConfig = require('../webpack.config.js');
+            const webpack = require('webpack');
+
             const compiler = webpack(webpackConfig);
             const middleware = webpackDevMiddleware(compiler, {
                 hot: true,
