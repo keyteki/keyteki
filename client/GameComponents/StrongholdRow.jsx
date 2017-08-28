@@ -1,20 +1,9 @@
 import React from 'react';
-import _ from 'underscore';
-import $ from 'jquery';
 
-import AdditionalCardPile from './AdditionalCardPile.jsx';
-import Card from './Card.jsx';
-import CardCollection from './CardCollection.jsx';
 import Province from './Province.jsx';
 import Placeholder from './Placeholder.jsx';
-import {tryParseJSON} from '../util.js';
 
 class StrongholdRow extends React.Component {
-    constructor() {
-        super();
-
-
-    }
 
     render() {
 
@@ -24,25 +13,25 @@ class StrongholdRow extends React.Component {
                 <div className='stronghold-row'>
                     <div className='deck-cards'>
                         <Placeholder />
-                        <Province source='stronghold province' cards={this.props.strongholdProvinceCards} onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onDragDrop={this.props.onDragDrop} onCardClick={this.props.onCardClick} />
+                        <Province source='stronghold province' cards={ this.props.strongholdProvinceCards } onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onDragDrop={ this.props.onDragDrop } onCardClick={ this.props.onCardClick } />
                     </div>
                 </div>
             );
-        } else {
-            return (
-                <div className='stronghold-row'>
-                    <div className='deck-cards'>
-                        <Placeholder />
-                        <Placeholder />
-                        <Placeholder />
-                        <Placeholder />
-                        <Placeholder />
-                        <Placeholder />
-                        <Province source='stronghold province' cards={this.props.strongholdProvinceCards} onMouseOver={this.props.onMouseOver} onMouseOut={this.props.onMouseOut} onCardClick={this.props.onCardClick} />
-                    </div>
+        } 
+        return (
+            <div className='stronghold-row'>
+                <div className='deck-cards'>
+                    <Placeholder />
+                    <Placeholder />
+                    <Placeholder />
+                    <Placeholder />
+                    <Placeholder />
+                    <Placeholder />
+                    <Province source='stronghold province' cards={ this.props.strongholdProvinceCards } onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick } />
                 </div>
-            );
-        }
+            </div>
+        );
+        
     }
 }
 

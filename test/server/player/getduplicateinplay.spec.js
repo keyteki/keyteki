@@ -1,6 +1,3 @@
-/* global describe, it, beforeEach, expect, jasmine */
-/* eslint camelcase: 0, no-invalid-this: 0 */
-
 const Player = require('../../../server/game/player.js');
 const DrawCard = require('../../../server/game/drawcard.js');
 
@@ -60,7 +57,7 @@ describe('Player', function() {
 
         describe('when there is a matching attached card in play', function() {
             beforeEach(function() {
-                this.attachedCard = new DrawCard(this.player, { code: '3', name: 'Attached', type_code: 'attachment' });
+                this.attachedCard = new DrawCard(this.player, { code: '3', name: 'Attached', type: 'attachment' });
                 this.dupeCard.attachments.push(this.attachedCard);
 
                 this.cardSpy.code = '3';

@@ -1,9 +1,9 @@
 /*eslint no-console: 0*/
 
 const _ = require('underscore');
+const config = require('config');
 
 const GameRepository = require('./repositories/gameRepository.js');
-const config = require('./config.js');
 
 let gameRepository = new GameRepository(config.dbPath);
 

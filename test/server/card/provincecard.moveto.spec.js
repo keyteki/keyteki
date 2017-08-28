@@ -1,6 +1,3 @@
-/*global describe, it, beforeEach, expect, spyOn, jasmine*/
-/*eslint camelcase: 0, no-invalid-this: 0 */
-
 const ProvinceCard = require('../../../server/game/provincecard.js');
 
 describe('ProvinceCard', function () {
@@ -70,7 +67,7 @@ describe('ProvinceCard', function () {
 
                 describe('and moving to an event handling area', function() {
                     beforeEach(function() {
-                        this.card.moveTo('active plot');
+                        this.card.moveTo('province');
                     });
 
                     it('should register events', function() {
@@ -85,12 +82,12 @@ describe('ProvinceCard', function () {
 
             describe('when in an event handling area', function() {
                 beforeEach(function() {
-                    this.card.location = 'active plot';
+                    this.card.location = 'province';
                 });
 
                 describe('and moving to another event handling area', function() {
                     beforeEach(function() {
-                        this.card.moveTo('active plot');
+                        this.card.moveTo('province');
                     });
 
                     it('should not register events', function() {
@@ -104,7 +101,7 @@ describe('ProvinceCard', function () {
 
                 describe('and moving to a non-event handling area', function() {
                     beforeEach(function() {
-                        this.card.moveTo('revealed plots');
+                        this.card.moveTo('province deck');
                     });
 
                     it('should not register events', function() {

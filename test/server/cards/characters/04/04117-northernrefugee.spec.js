@@ -1,6 +1,3 @@
-/* global describe, it, expect, beforeEach, integration */
-/* eslint camelcase: 0, no-invalid-this: 0 */
-
 describe('Northern Refugee', function() {
     integration(function() {
         beforeEach(function() {

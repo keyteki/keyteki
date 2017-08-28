@@ -1,6 +1,3 @@
-/*global describe, it, beforeEach, expect, jasmine */
-/*eslint camelcase: 0, no-invalid-this: 0 */
-
 const _ = require('underscore');
 
 const Effect = require('../../server/game/effect.js');
@@ -211,8 +208,8 @@ describe('Effect', function () {
                     expect(this.effect.targets).toContain(this.matchingCard);
                 });
 
-                it('should add targets from active plot', function() {
-                    this.matchingCard.location = 'active plot';
+                it('should add targets from province', function() {
+                    this.matchingCard.location = 'province';
                     this.effect.addTargets([this.matchingCard]);
                     expect(this.effect.targets).toContain(this.matchingCard);
                 });
@@ -235,8 +232,8 @@ describe('Effect', function () {
                     expect(this.effect.targets).not.toContain(this.matchingCard);
                 });
 
-                it('should reject targets from active plot', function() {
-                    this.matchingCard.location = 'active plot';
+                it('should reject targets from province', function() {
+                    this.matchingCard.location = 'province';
                     this.effect.addTargets([this.matchingCard]);
                     expect(this.effect.targets).not.toContain(this.matchingCard);
                 });
@@ -264,8 +261,8 @@ describe('Effect', function () {
                         expect(this.effect.targets).toContain(this.matchingCard);
                     });
 
-                    it('should add targets from active plot', function() {
-                        this.matchingCard.location = 'active plot';
+                    it('should add targets from province', function() {
+                        this.matchingCard.location = 'province';
                         this.effect.addTargets([this.matchingCard]);
                         expect(this.effect.targets).toContain(this.matchingCard);
                     });
@@ -288,8 +285,8 @@ describe('Effect', function () {
                         expect(this.effect.targets).not.toContain(this.matchingCard);
                     });
 
-                    it('should reject targets from active plot', function() {
-                        this.matchingCard.location = 'active plot';
+                    it('should reject targets from province', function() {
+                        this.matchingCard.location = 'province';
                         this.effect.addTargets([this.matchingCard]);
                         expect(this.effect.targets).not.toContain(this.matchingCard);
                     });

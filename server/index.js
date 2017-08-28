@@ -1,7 +1,7 @@
 const Server = require('./server.js');
 const Lobby = require('./lobby.js');
 const pmx = require('pmx');
-const config = require('./config.js');
+const config = require('config');
 
 function runServer() {
     var server = new Server(process.env.NODE_ENV !== 'production');

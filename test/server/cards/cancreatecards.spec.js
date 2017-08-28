@@ -1,6 +1,3 @@
-/* global describe, it, beforeEach, jasmine */
-/* eslint camelcase: 0, no-invalid-this: 0 */
-
 const _ = require('underscore');
 
 const cards = require('../../../server/game/cards');

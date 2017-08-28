@@ -1,6 +1,3 @@
-/*global describe, it, beforeEach, expect, spyOn, jasmine*/
-/* eslint camelcase: 0, no-invalid-this: 0 */
-
 const MenuPrompt = require('../../../server/game/gamesteps/menuprompt.js');
 const Player = require('../../../server/game/player.js');
 

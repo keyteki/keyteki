@@ -4,7 +4,7 @@ const _ = require('underscore');
 
 const {matchCardByNameAndPack} = require('./cardutil.js');
 
-const PathToSubModulePacks = path.join(__dirname, '../../card-json/pack');
+const PathToSubModulePacks = path.join(__dirname, '../../fiveringsdb-data/PackCard');
 
 class DeckBuilder {
     constructor() {
@@ -43,8 +43,8 @@ class DeckBuilder {
 
         return {
             faction: { value: faction },
-            drawCards: _.filter(cardCounts, cardCount => ['character', 'holding', 'attachment', 'event'].includes(cardCount.card.type_code)),
-            provinceCards: _.filter(cardCounts, cardCount => cardCount.card.type_code === 'province')
+            drawCards: _.filter(cardCounts, cardCount => ['character', 'holding', 'attachment', 'event'].includes(cardCount.card.type)),
+            provinceCards: _.filter(cardCounts, cardCount => cardCount.card.type === 'province')
         };
     }
 

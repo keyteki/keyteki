@@ -1,6 +1,7 @@
 /*eslint no-console:0 */
 const mongoskin = require('mongoskin');
-const db = mongoskin.db('mongodb://127.0.0.1:27017/ringteki');
+const config = require('config');
+const db = mongoskin.db(config.dbPath);
 const fs = require('fs');
 const _ = require('underscore');
 
@@ -32,7 +33,7 @@ _.each(totalCards, card => {
     });
 
     let type = _.find(types, type => {
-        return type.code === card.type_code;
+        return type.code === card.type;
     });
 
     if(clan) {
@@ -44,7 +45,7 @@ _.each(totalCards, card => {
     if(type) {
         card.type_name = type.name;
     } else {
-        console.info(card.type_code);
+        console.info(card.type);
     }
 });
 
@@ -65,4 +66,3 @@ db.collection('cards').remove({}, function() {
         });
     });
 });
-

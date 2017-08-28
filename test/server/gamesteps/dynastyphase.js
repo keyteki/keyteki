@@ -1,6 +1,5 @@
-/*global describe, it, beforeEach, expect, spyOn, jasmine*/
-
-const DominancePhase = require('../../../server/game/gamesteps/dominancephase.js');
+// TODO: Make this make sense
+const DynastyPhase = require('../../../server/game/gamesteps/dynastyphase.js');
 const Game = require('../../../server/game/game.js');
 const Player = require('../../../server/game/player.js');
 
@@ -18,7 +17,7 @@ describe('the DominancePhase', () => {
         player2.firstPlayer = true;
         game.playersAndSpectators['Player 1'] = player1;
         game.playersAndSpectators['Player 2'] = player2;
-        phase = new DominancePhase(game);
+        phase = new DynastyPhase(game);
         spyOn(game, 'addPower');
         spyOn(player1, 'getDominance');
         spyOn(player2, 'getDominance');

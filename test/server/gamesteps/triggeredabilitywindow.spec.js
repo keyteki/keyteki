@@ -1,6 +1,3 @@
-/*global describe, it, beforeEach, expect, jasmine*/
-/* eslint no-invalid-this: 0 */
-
 const _ = require('underscore');
 
 const TriggeredAbilityWindow = require('../../../server/game/gamesteps/triggeredabilitywindow.js');
@@ -9,6 +6,9 @@ describe('TriggeredAbilityWindow', function() {
     beforeEach(function() {
         this.player1Spy = jasmine.createSpyObj('player', ['setPrompt', 'cancelPrompt', 'user']);
         this.player2Spy = jasmine.createSpyObj('player', ['setPrompt', 'cancelPrompt', 'user']);
+
+        this.player1Spy.noTimer = true;
+        this.player2Spy.noTimer = true;
 
         this.gameSpy = jasmine.createSpyObj('game', ['getPlayersInFirstPlayerOrder', 'promptWithMenu', 'resolveAbility']);
         this.gameSpy.getPlayersInFirstPlayerOrder.and.returnValue([this.player1Spy, this.player2Spy]);
@@ -87,32 +87,10 @@ describe('TriggeredAbilityWindow', function() {
                 }));
             });
 
-            this.window.registerAbility(this.abilitySpy, this.context);
-        });
-
-        it('should add each choice for the ability', function() {
-            expect(this.window.abilityChoices.length).toBe(2);
-            expect(this.window.abilityChoices).toContain(jasmine.objectContaining({
-                ability: this.abilitySpy,
-                card: this.abilityCard,
-                choice: 'choice1',
-                context: this.context,
-                player: this.player1Spy,
-                text: 'Choice 1'
-            }));
-            expect(this.window.abilityChoices).toContain(jasmine.objectContaining({
-                ability: this.abilitySpy,
-                card: this.abilityCard,
-                choice: 'choice2',
-                context: this.context,
-                player: this.player1Spy,
-                text: 'Choice 2'
-            }));
-        });
-
-        it('should generate unique IDs for each choice', function() {
-            let ids = _.pluck(this.window.abilityChoices, 'id');
-            expect(_.uniq(ids)).toEqual(ids);
+            it('should generate unique IDs for each choice', function() {
+                let ids = _.pluck(this.window.abilityChoices, 'id');
+                expect(_.uniq(ids)).toEqual(ids);
+            });
         });
     });
 

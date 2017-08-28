@@ -1,6 +1,3 @@
-/* global describe, it, expect, beforeEach, jasmine */
-/* eslint camelcase: 0, no-invalid-this: 0 */
-
 const Lobby = require('../../../server/lobby.js');
 const _ = require('underscore');
 

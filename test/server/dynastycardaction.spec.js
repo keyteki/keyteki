@@ -1,14 +1,11 @@
-/* global describe, it, beforeEach, expect, jasmine */
-/* eslint camelcase: 0, no-invalid-this: 0 */
-
 const DynastyCardAction = require('../../server/game/dynastycardaction.js');
 
 describe('DynastyCardAction', function () {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'on', 'removeListener']);
         this.playerSpy = jasmine.createSpyObj('player', ['canPutIntoPlay', 'isCardInPlayableLocation', 'putIntoPlay']);
-        this.cardSpy = jasmine.createSpyObj('card', ['canBeMarshaled', 'getType']);
-        this.cardSpy.canBeMarshaled.and.returnValue(true);
+        this.cardSpy = jasmine.createSpyObj('card', ['canBeDynastyed', 'getType']);
+        this.cardSpy.canBeDynastyed.and.returnValue(true);
         this.cardSpy.controller = this.playerSpy;
         this.cardSpy.owner = this.playerSpy;
         this.context = {
@@ -22,7 +19,7 @@ describe('DynastyCardAction', function () {
 
     describe('meetsRequirements()', function() {
         beforeEach(function() {
-            this.gameSpy.currentPhase = 'marshal';
+            this.gameSpy.currentPhase = 'dynasty';
             this.playerSpy.canPutIntoPlay.and.returnValue(true);
             this.playerSpy.isCardInPlayableLocation.and.returnValue(true);
             this.cardSpy.getType.and.returnValue('character');
@@ -34,9 +31,9 @@ describe('DynastyCardAction', function () {
             });
         });
 
-        describe('when the phase not marshal', function() {
+        describe('when the phase not dynasty', function() {
             beforeEach(function() {
-                this.gameSpy.currentPhase = 'dominance';
+                this.gameSpy.currentPhase = 'conflict';
             });
 
             it('should return false', function() {
@@ -44,7 +41,7 @@ describe('DynastyCardAction', function () {
             });
         });
 
-        describe('when the card is not in a valid marshal location', function() {
+        describe('when the card is not in a valid dynasty location', function() {
             beforeEach(function() {
                 this.playerSpy.isCardInPlayableLocation.and.returnValue(false);
             });
@@ -64,9 +61,9 @@ describe('DynastyCardAction', function () {
             });
         });
 
-        describe('when the card is forbidden from being marshalled', function() {
+        describe('when the card is forbidden from being played in dynasty', function() {
             beforeEach(function() {
-                this.cardSpy.canBeMarshaled.and.returnValue(false);
+                this.cardSpy.canBeDynastyed.and.returnValue(false);
             });
 
             it('should return false', function() {
@@ -91,7 +88,7 @@ describe('DynastyCardAction', function () {
         });
 
         it('should put the card into play', function() {
-            expect(this.playerSpy.putIntoPlay).toHaveBeenCalledWith(this.cardSpy, 'marshal');
+            expect(this.playerSpy.putIntoPlay).toHaveBeenCalledWith(this.cardSpy, 'dynasty');
         });
     });
 });

@@ -1,6 +1,3 @@
-/* global describe, it, expect, beforeEach, integration */
-/* eslint camelcase: 0, no-invalid-this: 0 */
-
 describe('take control', function() {
     integration(function() {
         describe('when using an attachment to take control', function() {

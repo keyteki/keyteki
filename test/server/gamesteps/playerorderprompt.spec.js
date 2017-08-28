@@ -1,6 +1,3 @@
-/*global describe, it, beforeEach, expect, spyOn, jasmine*/
-/* eslint camelcase: 0, no-invalid-this: 0 */
-
 const PlayerOrderPrompt = require('../../../server/game/gamesteps/playerorderprompt.js');
 
 describe('the PlayerOrderPrompt', function() {

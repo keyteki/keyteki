@@ -50,7 +50,7 @@ class HonorFan extends React.Component {
 
         return (<div>
             <div className='honor-fan'>
-                <img className='honor-fan-value' src={'/img/honorfan-' + this.props.value +'.png'} />
+                <img className='honor-fan-value' src={ '/img/honorfan-' + this.props.value + '.png' } />
             </div>
         </div>);
     }

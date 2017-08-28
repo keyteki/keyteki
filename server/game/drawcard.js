@@ -96,7 +96,7 @@ class DrawCard extends BaseCard {
         } else if(type === 'political') {
             return this.getPoliticalSkill(printed);
         }
-    }    
+    }
 
     modifyMilitarySkill(amount, applying = true) {
         /**
@@ -166,7 +166,7 @@ class DrawCard extends BaseCard {
 
 
         this.game.raiseEvent('onCardFateChanged', { card: this, fate: this.fate - oldFate });
-    
+
     }
 
     needsCovertTarget() {

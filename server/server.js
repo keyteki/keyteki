@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
-const config = require('./config.js');
+const config = require('config');
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const logger = require('./log.js');
@@ -14,10 +14,6 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const http = require('http');
 const Raven = require('raven');
-const webpackDevMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
-const webpack = require('webpack');
-const webpackConfig = require('../webpack.config.js');
 const pug = require('pug');
 
 const UserService = require('./repositories/UserService.js');
@@ -75,6 +71,11 @@ class Server {
         app.set('views', path.join(__dirname, '..', 'views'));
 
         if(this.isDeveloping) {
+            const webpackDevMiddleware = require('webpack-dev-middleware');
+            const webpackHotMiddleware = require('webpack-hot-middleware');
+            const webpackConfig = require('../webpack.config.js');
+            const webpack = require('webpack');
+
             const compiler = webpack(webpackConfig);
             const middleware = webpackDevMiddleware(compiler, {
                 hot: true,
@@ -126,7 +127,7 @@ class Server {
     }
 
     run() {
-        var port = this.isDeveloping ? 4000 : process.env.PORT;
+        var port = config.lobby.port;
 
         this.server.listen(port, '0.0.0.0', function onStart(err) {
             if(err) {

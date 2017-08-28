@@ -11,10 +11,6 @@ function getDeckCount(deck) {
     return count;
 }
 
-function hasTrait(card, trait) {
-    return card.card.traits && card.card.traits.toLowerCase().indexOf(trait.toLowerCase() + '.') !== -1;
-}
-
 function getStronghold(deck) {
     var stronghold;
     _.each(deck, card => {
@@ -75,7 +71,7 @@ module.exports = function validateDeck(deck, packs) {
     }
     var combined = _.union(deck.provinceCards, deck.stronghold, deck.conflictCards, deck.dynastyCards);
 
-    var combined_clan = _.union(deck.provinceCards, deck.stronghold, deck.dynastyCards);    
+    var combinedClan = _.union(deck.provinceCards, deck.stronghold, deck.dynastyCards);
     
     if(conflictCount < minDraw) {
         status = 'Invalid';
@@ -172,7 +168,7 @@ module.exports = function validateDeck(deck, packs) {
     }
 
     //Check for out of faction cards in stronghold, provinces, dynasty
-    if(_.any(combined_clan, card => {
+    if(_.any(combinedClan, card => {
         if(!(_.contains([deck.faction.value,'neutral'],card.clan))) {
 
             //console.log(card.card.label + ' has clan ' + card.card.clan);
@@ -233,4 +229,4 @@ module.exports = function validateDeck(deck, packs) {
     }
 
     return { status: status, provinceCount: provinceCount, conflictCount: conflictCount, dynastyCount: dynastyCount, extendedStatus: extendedStatus, isValid: isValid };
-}
+};

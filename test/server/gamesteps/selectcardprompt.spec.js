@@ -1,6 +1,3 @@
-/*global describe, it, beforeEach, expect,spyOn, jasmine*/
-/* eslint camelcase: 0, no-invalid-this: 0 */
-
 const _ = require('underscore');
 const SelectCardPrompt = require('../../../server/game/gamesteps/selectcardprompt.js');
 
@@ -51,7 +48,7 @@ describe('the SelectCardPrompt', function() {
         describe('cardType', function() {
             it('should default to a list of draw card types', function() {
                 let prompt = new SelectCardPrompt(this.game, this.player, this.properties);
-                expect(prompt.properties.cardType).toEqual(['attachment', 'character', 'event', 'location']);
+                expect(prompt.properties.cardType).toEqual(['attachment', 'character', 'event', 'location', 'holding']);
             });
 
             it('should let a custom array be set', function() {

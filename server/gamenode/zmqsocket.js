@@ -1,6 +1,6 @@
 const EventEmitter = require('events');
 const zmq = require('zmq');
-const config = require('./nodeconfig.js');
+const config = require('config');
 const logger = require('../log.js');
 
 class ZmqSocket extends EventEmitter {
@@ -11,7 +11,7 @@ class ZmqSocket extends EventEmitter {
         this.protocol = protocol;
 
         this.socket = zmq.socket('dealer');
-        this.socket.identity = process.env.SERVER || config.nodeIdentity;
+        this.socket.identity = config.gameNode.name;
         this.socket.monitor(500, 0);
 
         this.socket.connect(config.mqUrl, err => {
@@ -36,7 +36,7 @@ class ZmqSocket extends EventEmitter {
         this.send('HELLO', {
             maxGames: config.maxGames,
             address: this.listenAddress,
-            port: process.env.NODE_ENV === 'production' ? 80 : (process.env.PORT || config.socketioPort),
+            port: config.gameNode.socketioPort,
             protocol: this.protocol,
             games: games });
     }
