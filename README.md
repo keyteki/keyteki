@@ -87,7 +87,12 @@ npm test
 
 If you are making any game engine changes, these will not be accepted without unit tests to cover them.
 
+### Sentry.io Project
+[Sentry.io - RingTeki](https://sentry.io/ringteki-team/ringteki/)
+
 ### Build Status
 
 [![CircleCI](https://circleci.com/gh/gryffon/ringteki.svg?style=svg)](https://circleci.com/gh/gryffon/ringteki)
 [![Travis Build](https://travis-ci.org/gryffon/ringteki.svg?branch=master)](https://travis-ci.org/gryffon/ringteki)
+
+
