@@ -27,7 +27,7 @@ export class InnerPlayerStats extends React.Component {
                 { playerAvatar }
                 <div className='state'>
                     <span><img src='/img/Fate.png' title='Fate' alt='Fate' /> { this.props.fate }</span>
-                    {this.props.isMe ?
+                    { this.props.isMe ?
                         <div className='pull-right'>
                             <button className='btn btn-stat' onClick={ this.sendUpdate.bind(this, 'fate', 'down') }><img src='/img/Minus.png' title='-' alt='-' /></button>
                             <button className='btn btn-stat' onClick={ this.sendUpdate.bind(this, 'fate', 'up') }><img src='/img/Plus.png' title='+' alt='+' /></button>
@@ -36,7 +36,7 @@ export class InnerPlayerStats extends React.Component {
                 </div>
                 <div className='state'>
                     <span><img src='/img/Honor.png' title='Honor' alt='Honor' /> { this.props.honor }</span>
-                    {this.props.isMe ?
+                    { this.props.isMe ?
                         <div className='pull-right'>
                             <span className='btn btn-stat' onClick={ this.sendUpdate.bind(this, 'honor', 'down') }><img src='/img/Minus.png' title='-' alt='-' /></span>
                             <span className='btn btn-stat' onClick={ this.sendUpdate.bind(this, 'honor', 'up') }><img src='/img/Plus.png' title='+' alt='+' /></span>
@@ -51,9 +51,9 @@ export class InnerPlayerStats extends React.Component {
 InnerPlayerStats.displayName = 'PlayerStats';
 InnerPlayerStats.propTypes = {
     fate: React.PropTypes.number,
+    honor: React.PropTypes.number,
     isMe: React.PropTypes.bool,
     playerName: React.PropTypes.string,
-    honor: React.PropTypes.number,
     sendGameMessage: React.PropTypes.func,
     user: React.PropTypes.object
 };

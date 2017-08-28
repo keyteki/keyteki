@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'underscore';
 
 class Ring extends React.Component {
     constructor() {
@@ -20,8 +19,8 @@ class Ring extends React.Component {
     render() {
 
         return (<div>
-            <div className='ring' onClick={ event => this.onClick(event, this.props.ringType)} >
-                <img className='ring' src={'/img/' + this.props.conflictType + '-' + this.props.ringType +'.png'} />
+            <div className='ring' onClick={ event => this.onClick(event, this.props.ringType) } >
+                <img className='ring' src={ '/img/' + this.props.conflictType + '-' + this.props.ringType + '.png' } />
             </div>
         </div>);
     }
@@ -30,11 +29,11 @@ class Ring extends React.Component {
 Ring.displayName = 'Ring';
 Ring.propTypes = {
     buttons: React.PropTypes.array,
-    onClick: React.PropTypes.func,
-    socket: React.PropTypes.object,
     conflictType: React.PropTypes.string,
+    fate: React.PropTypes.number,
+    onClick: React.PropTypes.func,
     ringType: React.PropTypes.string,
-    fate: React.PropTypes.number
+    socket: React.PropTypes.object
 };
 
 export default Ring;

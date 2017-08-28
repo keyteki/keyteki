@@ -1,5 +1,3 @@
-/*global describe, it, beforeEach, expect, spyOn, jasmine*/
-
 // TODO: Make this make sense
 const DynastyPhase = require('../../../server/game/gamesteps/dynastyphase.js');
 const Game = require('../../../server/game/game.js');

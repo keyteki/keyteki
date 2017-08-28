@@ -1,5 +1,3 @@
-/*global describe, it, beforeEach, expect, jasmine*/
-
 const _ = require('underscore');
 
 const Game = require('../../../server/game/game.js');

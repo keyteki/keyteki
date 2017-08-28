@@ -4,11 +4,6 @@ import AdditionalCardPile from './AdditionalCardPile.jsx';
 import PlayerHand from './PlayerHand.jsx';
 
 class PlayerRow extends React.Component {
-    constructor() {
-        super();
-
-
-    }
 
     getOutOfGamePile() {
         let pile = this.props.additionalPiles['out of game'];

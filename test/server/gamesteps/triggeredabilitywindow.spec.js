@@ -1,6 +1,3 @@
-/*global describe, it, beforeEach, expect, jasmine*/
-/* eslint no-invalid-this: 0 */
-
 const _ = require('underscore');
 
 const TriggeredAbilityWindow = require('../../../server/game/gamesteps/triggeredabilitywindow.js');
@@ -90,10 +87,10 @@ describe('TriggeredAbilityWindow', function() {
                 }));
             });
 
-          it('should generate unique IDs for each choice', function() {
-              let ids = _.pluck(this.window.abilityChoices, 'id');
-              expect(_.uniq(ids)).toEqual(ids);
-          });
+            it('should generate unique IDs for each choice', function() {
+                let ids = _.pluck(this.window.abilityChoices, 'id');
+                expect(_.uniq(ids)).toEqual(ids);
+            });
         });
     });
 

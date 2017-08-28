@@ -1,6 +1,3 @@
-/*global describe, it, beforeEach, expect*/
-/* eslint camelcase: 0, no-invalid-this: 0 */
-
 const GameChat = require('../../../server/game/gamechat.js');
 
 describe('GameChat', function() {

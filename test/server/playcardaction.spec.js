@@ -1,6 +1,3 @@
-/* global describe, it, beforeEach, expect, jasmine */
-/* eslint camelcase: 0, no-invalid-this: 0 */
-
 const PlayCardAction = require('../../server/game/playcardaction.js');
 
 describe('PlayCardAction', function () {

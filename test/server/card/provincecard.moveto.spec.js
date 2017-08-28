@@ -1,6 +1,3 @@
-/*global describe, it, beforeEach, expect, spyOn, jasmine*/
-/*eslint camelcase: 0, no-invalid-this: 0 */
-
 const ProvinceCard = require('../../../server/game/provincecard.js');
 
 describe('ProvinceCard', function () {

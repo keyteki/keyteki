@@ -1,6 +1,3 @@
-/*global describe, it, beforeEach, expect, jasmine*/
-/* eslint no-invalid-this: 0 */
-
 const ActionWindow = require('../../../server/game/gamesteps/actionwindow.js');
 const Game = require('../../../server/game/game.js');
 const Player = require('../../../server/game/player.js');

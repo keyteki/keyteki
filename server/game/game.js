@@ -397,7 +397,7 @@ class Game extends EventEmitter {
 
     }
 
-    playerDecked(player) {
+    playerDecked(/* player */) {
         // TODO: Fix this so honor is lost and we reshuffle and draw
         // let otherPlayer = this.getOtherPlayer(player);
         //

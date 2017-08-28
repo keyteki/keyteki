@@ -1,5 +1,3 @@
-/*global describe, it, beforeEach, expect, spyOn*/
-
 const BaseStep = require('../../../server/game/gamesteps/basestep.js');
 const GamePipeline = require('../../../server/game/gamepipeline.js');
 
