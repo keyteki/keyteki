@@ -62,7 +62,7 @@ class ConflictPhase extends Phase {
                 menuTitle: '',
                 buttons: [
                     { text: 'Military', method: 'initiateConflict', arg: 'military' },
-                    { text: 'Political', method: 'initiateConflict', arg: 'intrigue' },
+                    { text: 'Political', method: 'initiateConflict', arg: 'political' },
                     { text: 'Done', method: 'completeConflicts' }
                 ]
             },
