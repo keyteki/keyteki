@@ -5,7 +5,6 @@ typings
 coverage
 *.log
 *.json
-config.js
-nodeconfig.js
 server/events.txt
 .DS_Store
+config/local*

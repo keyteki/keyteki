@@ -1,0 +1,9 @@
+{
+    lobby: {
+        port: 4000
+    },
+
+    gameNode: {
+        socketioPort: 80
+    }
+}

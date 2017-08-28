@@ -5,8 +5,8 @@ const Raven = require('raven');
 const http = require('http');
 const https = require('https');
 const fs = require('fs');
+const config = require('config');
 
-const config = require('./nodeconfig.js');
 const logger = require('../log.js');
 const ZmqSocket = require('./zmqsocket.js');
 const Game = require('../game/game.js');
@@ -24,13 +24,13 @@ class GameServer {
         this.protocol = 'https';
 
         try {
-            var privateKey = fs.readFileSync(config.keyPath).toString();
-            var certificate = fs.readFileSync(config.certPath).toString();
+            var privateKey = fs.readFileSync(config.gameNode.keyPath).toString();
+            var certificate = fs.readFileSync(config.gameNode.certPath).toString();
         } catch(e) {
             this.protocol = 'http';
         }
 
-        this.host = process.env.HOST || config.host;
+        this.host = config.gameNode.host;
 
         this.zmqSocket = new ZmqSocket(this.host, this.protocol);
         this.zmqSocket.on('onStartGame', this.onStartGame.bind(this));
@@ -47,21 +47,21 @@ class GameServer {
             server = https.createServer({ key: privateKey, cert: certificate });
         }
 
-        server.listen(process.env.PORT || config.socketioPort);
+        server.listen(config.gameNode.socketioPort);
 
         var options = {
             perMessageDeflate: false
         };
 
-        if(process.env.NODE_ENV !== 'production') {
-            options.path = '/' + (process.env.SERVER || config.nodeIdentity) + '/socket.io';
+        if(config.env !== 'production') {
+            options.path = '/' + (config.gameNode.name) + '/socket.io';
         }
 
         this.io = socketio(server, options);
         this.io.set('heartbeat timeout', 30000);
         this.io.use(this.handshake.bind(this));
 
-        if(process.env.NODE_ENV === 'production') {
+        if(config.env === 'production') {
             this.io.set('origins', 'http://www.jigoku.online:* https://www.jigoku.online:* ');
         }
 
