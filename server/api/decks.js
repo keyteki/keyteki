@@ -1,5 +1,6 @@
 const mongoskin = require('mongoskin');
-const db = mongoskin.db('mongodb://127.0.0.1:27017/ringteki');
+const config = require('config');
+const db = mongoskin.db(config.dbPath);
 const ObjectId = mongoskin.ObjectId;
 const logger = require('../log.js');
 

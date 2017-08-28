@@ -60,7 +60,7 @@ describe('Player', function() {
 
         describe('when there is a matching attached card in play', function() {
             beforeEach(function() {
-                this.attachedCard = new DrawCard(this.player, { code: '3', name: 'Attached', type_code: 'attachment' });
+                this.attachedCard = new DrawCard(this.player, { code: '3', name: 'Attached', type: 'attachment' });
                 this.dupeCard.attachments.push(this.attachedCard);
 
                 this.cardSpy.code = '3';

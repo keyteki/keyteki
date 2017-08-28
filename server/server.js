@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
-const config = require('./config.js');
+const config = require('config');
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const logger = require('./log.js');
@@ -127,7 +127,7 @@ class Server {
     }
 
     run() {
-        var port = this.isDeveloping ? 4000 : process.env.PORT;
+        var port = config.lobby.port;
 
         this.server.listen(port, '0.0.0.0', function onStart(err) {
             if(err) {
