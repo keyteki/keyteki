@@ -15,7 +15,8 @@ const ValidKeywords = [
     'restricted',
     'limited',
     'sincerity',
-    'pride'
+    'pride',
+    'covert'
 ];
 const LocationsWithEventHandling = ['play area', 'province'];
 
@@ -31,6 +32,8 @@ class BaseCard {
         this.name = cardData.name;
         this.facedown = false;
         this.blankCount = 0;
+
+        this.type = cardData.type;
 
         this.tokens = {};
         this.strongholdModifierValues = {
@@ -57,7 +60,7 @@ class BaseCard {
 
         this.abilities = { actions: [], reactions: [], persistentEffects: [], playActions: [] };
         this.parseKeywords(cardData.text || '');
-        this.parseTraits(cardData.keywords || '');
+        this.parseTraits(cardData.traits || '');
         this.setupCardAbilities(AbilityDsl);
 
         this.factions = {};
@@ -166,14 +169,13 @@ class BaseCard {
      * is both in play and not blank.
      */
     persistentEffect(properties) {
-        const allowedLocations = ['active plot', 'agenda', 'any', 'play area'];
+        const allowedLocations = ['any', 'play area'];
         const defaultLocationForType = {
             agenda: 'agenda',
             plot: 'active plot'
         };
 
         let location = properties.location || defaultLocationForType[this.getType()] || 'play area';
-
         if(!allowedLocations.includes(location)) {
             throw new Error(`'${location}' is not a supported effect location.`);
         }
@@ -261,7 +263,7 @@ class BaseCard {
     }
 
     hasTrait(trait) {
-        return !!this.traits[trait.toLowerCase()];
+        return _.contains(this.traits, trait);
     }
 
     isFaction(faction) {

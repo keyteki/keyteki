@@ -6,4 +6,5 @@ coverage
 *.log
 *.json
 server/events.txt
+.DS_Store
 config/local*

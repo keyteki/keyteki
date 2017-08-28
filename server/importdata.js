@@ -33,7 +33,7 @@ _.each(totalCards, card => {
     });
 
     let type = _.find(types, type => {
-        return type.code === card.type_code;
+        return type.code === card.type;
     });
 
     if(clan) {
@@ -45,7 +45,7 @@ _.each(totalCards, card => {
     if(type) {
         card.type_name = type.name;
     } else {
-        console.info(card.type_code);
+        console.info(card.type);
     }
 });
 
@@ -66,4 +66,3 @@ db.collection('cards').remove({}, function() {
         });
     });
 });
-

@@ -51,7 +51,7 @@ describe('the SelectCardPrompt', function() {
         describe('cardType', function() {
             it('should default to a list of draw card types', function() {
                 let prompt = new SelectCardPrompt(this.game, this.player, this.properties);
-                expect(prompt.properties.cardType).toEqual(['attachment', 'character', 'event', 'location']);
+                expect(prompt.properties.cardType).toEqual(['attachment', 'character', 'event', 'location', 'holding']);
             });
 
             it('should let a custom array be set', function() {

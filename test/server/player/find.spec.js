@@ -8,11 +8,11 @@ describe('the Player', function() {
     beforeEach(function() {
         this.game = jasmine.createSpyObj('game', ['getOtherPlayer', 'playerDecked', 'raiseEvent']);
         this.player = new Player('1', 'Player 1', true, this.game);
-        this.attachment = new DrawCard(this.player, { code: '1', label: 'Attachment', type_code: 'attachment' });
+        this.attachment = new DrawCard(this.player, { code: '1', label: 'Attachment', type: 'attachment' });
         this.attachment.uuid = '1111';
-        this.cardWithNoAttachments = new DrawCard(this.player, { code: '2', label: 'Character', type_code: 'character' });
+        this.cardWithNoAttachments = new DrawCard(this.player, { code: '2', label: 'Character', type: 'character' });
         this.cardWithNoAttachments.uuid = '2222';
-        this.cardWithAttachment = new DrawCard(this.player, { code: '3', label: 'Character', type_code: 'character' });
+        this.cardWithAttachment = new DrawCard(this.player, { code: '3', label: 'Character', type: 'character' });
         this.cardWithAttachment.uuid = '3333';
         this.cardWithAttachment.attachments.push(this.attachment);
 

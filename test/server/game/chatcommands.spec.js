@@ -5,7 +5,7 @@ const ChatCommands = require('../../../server/game/chatcommands.js');
 
 describe('ChatCommands', function() {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['addMessage']);
+        this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'promptForSelect']);
 
         this.playerSpy = jasmine.createSpyObj('player', ['drawCardsToHand', 'discardAtRandom', 'discardFromDraw']);
         this.chatCommands = new ChatCommands(this.gameSpy);
@@ -48,7 +48,7 @@ describe('ChatCommands', function() {
 
         describe('with a valid command', function() {
             it('should return true', function() {
-                let result = this.chatCommands.executeCommand(this.playerSpy, '/pillage', ['/pillage']);
+                let result = this.chatCommands.executeCommand(this.playerSpy, '/dishonor', ['/dishonor']);
 
                 expect(result).toBe(true);
             });
@@ -118,16 +118,6 @@ describe('ChatCommands', function() {
                     this.chatCommands.executeCommand(this.playerSpy, '/discard', ['/discard', '3']);
 
                     expect(this.playerSpy.discardAtRandom).toHaveBeenCalledWith(3);
-                });
-            });
-        });
-
-        describe('with a /pillage command', function() {
-            describe('with no arguments', function() {
-                it('should discard 1 card', function () {
-                    this.chatCommands.executeCommand(this.playerSpy, '/pillage', ['/pillage']);
-
-                    expect(this.playerSpy.discardFromDraw).toHaveBeenCalledWith(1, jasmine.any(Function));
                 });
             });
         });
