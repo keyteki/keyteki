@@ -1,4 +1,4 @@
-const config = require('../config.js');
+const config = require('config');
 const CardService = require('../repositories/cardService.js');
 
 var cardService = new CardService({ dbPath: config.dbPath });

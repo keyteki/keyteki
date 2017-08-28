@@ -1,0 +1,37 @@
+{
+    env: 'development',
+
+    secret: 'somethingverysecret',
+    dbPath: 'mongodb://127.0.0.1:27017/ringteki',
+    mqUrl: 'tcp://127.0.0.1:6000',
+
+    /*
+     * Other global configurations used, but not specified, include:
+     *  - sentryDsn (for development only)
+     */
+
+    lobby: {
+        port: 4000
+
+        /*
+         * Other server configurations used, but not specified, include:
+         *  - cookieLifetime
+         *  - emailPath
+         *  - hmacSecret
+         *  - captchaKey
+         */
+    },
+
+    gameNode: {
+        name: 'test1',
+        host: 'localhost',
+        socketioPort: 9500
+
+        /*
+         * Other game node configurations used, but not specified, include:
+         *  - keyPath
+         *  - certPath
+         *  - maxGames
+         */
+    }
+}

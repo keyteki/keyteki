@@ -46,41 +46,12 @@ git submodule init
 git submodule update
 npm install # See https://github.com/JustinTulloss/zeromq.node/issues/283 for zmq errors on OS X
 mkdir server/logs
-cd server
-node fetchdata.js
-cd ..
+node server/fetchdata.js
 node .
 node server/gamenode
 ```
 
-There are two exectuable components and you'll need to configure/run both to run a local server.  First is the lobby server and then there are game nodes.
-
-For the lobby server, you'll need a file called server/config.js that should look like this:
-```javascript
-var config = {
-  secret: 'somethingverysecret',
-  dbPath: 'mongodb://127.0.0.1:27017/ringteki',
-  mqUrl: 'tcp://127.0.0.1:6000' // This is the host/port of the Zero MQ server which does the node load balancing
-};
-
-module.exports = config;
-```
-
-For the game nodes you will need a file called server/gamenode/nodeconfig.js that looks like this:
-
-```javascript
-var config = {
-  secret: 'somethingverysecret', // This needs to match the config above
-  mqUrl: 'tcp://127.0.0.1:6000', // This is the host/port of the Zero MQ server which does the node load balancing and needs to match the config above
-  socketioPort: 9500, // This is the port for the game node to listen on
-  nodeIdentity: 'test1', // This is the identity of the node,
-  host: 'localhost'
-};
-
-module.exports = config;
-```
-
-This will get you up and running in development mode.
+There are two exectuable components and you'll need to configure/run both to run a local server.  First is the lobby server and then there are game nodes. The default configurations assume you are running mongo locally on the default port. If you need to change any configurations, edit `config/default.json5` or create a `config/local.json5` configuration that overrides any desired settings.   
 
 For production:
 
