@@ -59,8 +59,8 @@ class GameServer {
         this.io.set('heartbeat timeout', 30000);
         this.io.use(this.handshake.bind(this));
 
-        if(config.env === 'production') {
-            this.io.set('origins', 'http://www.jigoku.online:* https://www.jigoku.online:* ');
+        if(config.gameNode.origin) {
+            this.io.set('origins', config.gameNode.origin);
         }
 
         this.io.on('connection', this.onConnection.bind(this));
