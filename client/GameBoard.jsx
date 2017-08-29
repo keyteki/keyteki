@@ -398,11 +398,11 @@ export class InnerGameBoard extends React.Component {
                                     onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } disableMouseOver disablePopup
                                     onCardClick={ this.onCardClick } />
                                 <div className='panel ring-panel'>
-                                    <Ring conflictType={ this.props.currentGame.rings['Air'].type } ringType='Air' onClick={ this.onRingClick } />
-                                    <Ring conflictType={ this.props.currentGame.rings['Earth'].type } ringType='Earth' onClick={ this.onRingClick } />
-                                    <Ring conflictType={ this.props.currentGame.rings['Fire'].type } ringType='Fire' onClick={ this.onRingClick } />
-                                    <Ring conflictType={ this.props.currentGame.rings['Water'].type } ringType='Water' onClick={ this.onRingClick } />
-                                    <Ring conflictType={ this.props.currentGame.rings['Void'].type } ringType='Void' onClick={ this.onRingClick } />
+                                    <Ring conflictType={ this.props.currentGame.rings.air.conflictType } ringType='air' onClick={ this.onRingClick } />
+                                    <Ring conflictType={ this.props.currentGame.rings.earth.conflictType } ringType='earth' onClick={ this.onRingClick } />
+                                    <Ring conflictType={ this.props.currentGame.rings.fire.conflictType } ringType='fire' onClick={ this.onRingClick } />
+                                    <Ring conflictType={ this.props.currentGame.rings.void.conflictType } ringType='void' onClick={ this.onRingClick } />
+                                    <Ring conflictType={ this.props.currentGame.rings.water.conflictType } ringType='water' onClick={ this.onRingClick } />
                                 </div>
                                 <CardCollection className='province-deck our-side'
                                     title='Province Deck' source='province deck' cards={ thisPlayer.provinceDeck } hiddenTopCard 

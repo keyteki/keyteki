@@ -26,6 +26,7 @@ const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const ForcedTriggeredAbilityWindow = require('./gamesteps/forcedtriggeredabilitywindow.js');
 const TriggeredAbilityWindow = require('./gamesteps/triggeredabilitywindow.js');
 const KillCharacters = require('./gamesteps/killcharacters.js');
+const Ring = require('./ring.js');
 
 class Game extends EventEmitter {
     constructor(details, options = {}) {
@@ -51,26 +52,11 @@ class Game extends EventEmitter {
         this.password = details.password;
 
         this.rings = {
-            Air: {
-                type: 'Military',
-                fate: 0
-            },
-            Earth: {
-                type: 'Political',
-                fate: 0
-            },
-            Fire: {
-                type: 'Military',
-                fate: 0
-            },
-            Water: {
-                type: 'Political',
-                fate: 0
-            },
-            Void: {
-                type: 'Military',
-                fate: 0
-            }
+            air: new Ring('air','military'),
+            earth: new Ring('earth','political'),
+            fire: new Ring('fire','military'),
+            void: new Ring('void','political'),
+            water: new Ring('water','military')
         };
 
         _.each(details.players, player => {
@@ -931,7 +917,13 @@ class Game extends EventEmitter {
             name: this.name,
             owner: this.owner,
             players: playerSummaries,
-            rings: this.rings,
+            rings: {
+                air: this.rings.air.getState(),
+                earth: this.rings.earth.getState(),
+                fire: this.rings.fire.getState(),
+                void: this.rings.void.getState(),
+                water: this.rings.water.getState(),
+            },
             started: this.started,
             startedAt: this.startedAt,
             spectators: _.map(this.getSpectators(), spectator => {
