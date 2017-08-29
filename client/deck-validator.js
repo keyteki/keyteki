@@ -14,7 +14,7 @@ function getDeckCount(deck) {
 function getStronghold(deck) {
     var stronghold;
     _.each(deck, card => {
-        if(card.type === 'stronghold') {
+        if(card.card.type === 'stronghold') {
             stronghold = card;
         }
     });
@@ -62,7 +62,7 @@ module.exports = function validateDeck(deck, packs) {
     var isValid = true;
 
     if(_.any(deck.stronghold, card => {
-        return !card.clan;
+        return !card.card.clan;
     })) {
         status = 'Invalid';
         extendedStatus.push('Deck contains invalid cards');
@@ -155,8 +155,8 @@ module.exports = function validateDeck(deck, packs) {
     }
 
     if(_.any(combined, card => {
-        if(card.count > card.deck_limit) {
-            extendedStatus.push(card.name + ' has limit ' + card.deck_limit);
+        if(card.count > card.card.deck_limit) {
+            extendedStatus.push(card.card.name + ' has limit ' + card.card.deck_limit);
 
             return true;
         }
@@ -169,8 +169,8 @@ module.exports = function validateDeck(deck, packs) {
 
     //Check for out of faction cards in stronghold, provinces, dynasty
     if(_.any(combinedClan, card => {
-        if(!(_.contains([deck.faction.value,'neutral'],card.clan))) {
-
+        if(!(_.contains([deck.faction.value,'neutral'],card.card.clan))) {
+            extendedStatus.push(card.card.name + ' is not in faction ' + deck.faction.value);
             //console.log(card.card.label + ' has clan ' + card.card.clan);
             return true;
         }
@@ -183,8 +183,8 @@ module.exports = function validateDeck(deck, packs) {
 
     //Check for out of faction cards in conflict
     if(_.any(deck.conflictCards, card => {
-        if(!(_.contains([deck.faction.value, deck.alliance.value, 'neutral'],card.clan))) {
-
+        if(!(_.contains([deck.faction.value, deck.alliance.value, 'neutral'],card.card.clan))) {
+            extendedStatus.push(card.card.name + ' is not in faction ' + deck.faction.value);
             return true;
         }
 
@@ -198,8 +198,8 @@ module.exports = function validateDeck(deck, packs) {
 
         //Total up influence count
         _.each(deck.conflictCards, card => {
-            if(card.clan === deck.alliance.value) {
-                influenceTotal = influenceTotal + (card.influence_cost * card.count);
+            if(card.card.clan === deck.alliance.value) {
+                influenceTotal = influenceTotal + (card.card.influence_cost * card.count);
             }
         });
 
@@ -223,7 +223,7 @@ module.exports = function validateDeck(deck, packs) {
             status = 'Unreleased Cards';
 
             _.each(unreleasedCards, card => {
-                extendedStatus.push(card.name + ' is not yet released');
+                extendedStatus.push(card.card.name + ' is not yet released');
             });
         }
     }
