@@ -662,13 +662,7 @@ class Game extends EventEmitter {
     }
 
     flipRing(ring) {
-        var currentConflict = this.rings[ring].type;
-
-        if(currentConflict === 'Military') {
-            this.rings[ring].type = 'Political';
-        } else {
-            this.rings[ring].type = 'Military';
-        }
+        console.log(ring);
     }
 
     takeControl(player, card) {
