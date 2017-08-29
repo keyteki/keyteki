@@ -34,7 +34,7 @@ request.get(apiUrl + 'cards', function(error, res, body) {
     cards.forEach(function(card) {
         var imagePath = path.join(imageDir, card.id + '.jpg');
         var imagePack = card.pack_cards[0].pack.id;
-        var imagesrc = 'bundles/card_images/' + imagePack + '/';
+        var imagesrc = 'static/cards/' + imagePack + '/';
 
 
         if(imagesrc && !fs.existsSync(imagePath)) {
