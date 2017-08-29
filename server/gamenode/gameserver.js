@@ -53,9 +53,7 @@ class GameServer {
             perMessageDeflate: false
         };
 
-        if(config.env !== 'production') {
-            options.path = '/' + (config.gameNode.name) + '/socket.io';
-        }
+        options.path = '/' + (config.gameNode.name) + '/socket.io';
 
         this.io = socketio(server, options);
         this.io.set('heartbeat timeout', 30000);
