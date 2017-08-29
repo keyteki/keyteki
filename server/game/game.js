@@ -661,8 +661,9 @@ class Game extends EventEmitter {
         this.killCharacters([card], allowSave);
     }
 
-    flipRing(ring) {
+    flipRing(sourcePlayer, ring) {
         console.log(ring);
+        this.rings[ring].flipConflictType();
     }
 
     takeControl(player, card) {
