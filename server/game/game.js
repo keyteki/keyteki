@@ -662,7 +662,6 @@ class Game extends EventEmitter {
     }
 
     flipRing(sourcePlayer, ring) {
-        console.log(ring);
         this.rings[ring].flipConflictType();
     }
 
