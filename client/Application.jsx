@@ -321,11 +321,11 @@ class App extends React.Component {
                 component = <Unauthorised />;
                 break;
             case '/users':
-                if(!permissions.canManageUsers) {
-                    component = <Unauthorised />;
-                } else {
+                //if(!permissions.canManageUsers) {
+                //    component = <Unauthorised />;
+                //} else {
                     component = <UserAdmin />;
-                }
+                //}
 
                 break;
             default:

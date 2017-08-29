@@ -10,9 +10,9 @@ module.exports.init = function(server) {
             return res.status(401);
         }
 
-        if(!req.user.permissions || !req.user.permissions.canManageUsers) {
-            return res.status(403);
-        }
+        //if(!req.user.permissions || !req.user.permissions.canManageUsers) {
+        //    return res.status(403);
+        //}
 
         userService.getUserByUsername(req.params.username)
             .then(user => {
@@ -34,9 +34,9 @@ module.exports.init = function(server) {
             return res.status(401);
         }
 
-        if(!req.user.permissions || !req.user.permissions.canManageUsers) {
-            return res.status(403);
-        }
+        //if(!req.user.permissions || !req.user.permissions.canManageUsers) {
+        //    return res.status(403);
+        //}
 
         let userToSet = JSON.parse(req.body.data);
 
