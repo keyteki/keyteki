@@ -47,9 +47,9 @@ class Ring extends React.Component {
                 <img className='ring' src={ '/img/' + this.props.conflictType + '-' + this.props.ringType + '.png' } />
                 { this.showCounters() ? <CardCounters counters={ this.getCountersForRing(this.props.ringType) } /> : null }
             </div>
-            <div className='ring-claim' >
+            <!--div className='ring-claim' >
                 {this.props.claimed ? 'Claimed By ' + this.props.claimedBy : 'Unclaimed' }
-            </div>
+            </div-->
         </div>);
     }
 }
