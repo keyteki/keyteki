@@ -362,6 +362,7 @@ class Game extends EventEmitter {
         winner.honor += appliedHonor;
 
         this.checkWinCondition(winner);
+        this.checkWinCondition(loser);
     }
 
     transferFate(to, from, fate) {
