@@ -362,6 +362,7 @@ class Game extends EventEmitter {
         winner.honor += appliedHonor;
 
         this.checkWinCondition(winner);
+        this.checkWinCondition(loser);
     }
 
     transferFate(to, from, fate) {
@@ -662,7 +663,6 @@ class Game extends EventEmitter {
     }
 
     flipRing(sourcePlayer, ring) {
-        console.log(ring);
         this.rings[ring].flipConflictType();
     }
 
@@ -917,7 +917,7 @@ class Game extends EventEmitter {
                 earth: this.rings.earth.getState(),
                 fire: this.rings.fire.getState(),
                 void: this.rings.void.getState(),
-                water: this.rings.water.getState(),
+                water: this.rings.water.getState()
             },
             started: this.started,
             startedAt: this.startedAt,

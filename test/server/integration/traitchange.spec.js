@@ -1,4 +1,4 @@
-describe('trait change', function() {
+xdescribe('trait change', function() {
     integration(function() {
         describe('effect recalculation', function() {
             beforeEach(function() {

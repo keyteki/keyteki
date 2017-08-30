@@ -17,7 +17,7 @@ class DynastyCardAction extends BaseAbility {
 
         return (
             game.currentPhase === 'dynasty' &&
-            source.canBedynastyed() &&
+            source.canBeDynastyed() &&
             source.getType() !== 'event' &&
             player.isCardInPlayableLocation(source, 'dynasty') &&
             player.canPutIntoPlay(source)

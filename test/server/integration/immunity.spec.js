@@ -1,4 +1,4 @@
-describe('immunity', function() {
+xdescribe('immunity', function() {
     integration(function() {
         describe('when a card has immunity', function() {
             beforeEach(function() {

@@ -1,4 +1,4 @@
-describe('forced reaction order', function() {
+xdescribe('forced reaction order', function() {
     integration(function() {
         beforeEach(function() {
             const deck1 = this.buildDeck('lannister', [

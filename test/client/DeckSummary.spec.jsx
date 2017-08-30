@@ -4,7 +4,7 @@ import DeckSummary from '../../client/DeckSummary.jsx';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 
-describe('the <DeckSummary /> component', function() {
+xdescribe('the <DeckSummary /> component', function() {
     var component;
 
     describe('when initially rendered', function() {

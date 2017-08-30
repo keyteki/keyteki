@@ -1,6 +1,6 @@
 const DrawCard = require('../../../server/game/drawcard.js');
 
-describe('the DrawCard', function() {
+xdescribe('the DrawCard', function() {
     describe('the hasKeyword() function', function() {
         beforeEach(function() {
             this.owner = {};

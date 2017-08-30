@@ -1,4 +1,4 @@
-describe('challenges phase', function() {
+xdescribe('challenges phase', function() {
     integration(function() {
         describe('when a character has stealth', function() {
             beforeEach(function() {
