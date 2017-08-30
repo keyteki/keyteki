@@ -1,4 +1,4 @@
-describe('playing events', function() {
+xdescribe('playing events', function() {
     integration(function() {
         beforeEach(function() {
             const deck1 = this.buildDeck('baratheon', [

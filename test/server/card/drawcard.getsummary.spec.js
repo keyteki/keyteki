@@ -1,6 +1,6 @@
 const DrawCard = require('../../../server/game/drawcard.js');
 
-describe('DrawCard', function () {
+xdescribe('DrawCard', function () {
     beforeEach(function () {
         this.testCard = { code: '111', label: 'test 1(some pack)', name: 'test 1' };
         this.card = new DrawCard({}, this.testCard);

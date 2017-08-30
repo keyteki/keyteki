@@ -2,7 +2,7 @@ const _ = require('underscore');
 
 const Player = require('../../../server/game/player.js');
 
-describe('Player', function() {
+xdescribe('Player', function() {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['queueStep', 'raiseEvent', 'playerDecked']);
         this.player = new Player('1', 'Player 1', true, this.gameSpy);

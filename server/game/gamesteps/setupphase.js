@@ -8,7 +8,6 @@ const SetupProvincesPrompt = require('./setup/setupprovincesprompt.js');
 class SetupPhase extends Phase {
     constructor(game) {
         super(game, 'setup');
-        var players = _.filter(game.getPlayers(), player => !game.isSpectator(player));
         this.initialise([
             new SimpleStep(game, () => this.setupBegin()),
             new SimpleStep(game, () => this.prepareDecks()),
@@ -54,13 +53,13 @@ class SetupPhase extends Phase {
 
     doDynastyMulligan() {
         _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
-            this.game.queueStep(new MulliganDynastyPrompt(this.game, player));    
+            this.game.queueStep(new MulliganDynastyPrompt(this.game, player));
         });
     }
 
     doConflictMulligan() {
         _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
-            this.game.queueStep(new MulliganMulliganPrompt(this.game, player));    
+            this.game.queueStep(new MulliganConflictPrompt(this.game, player));
         });
     }
 

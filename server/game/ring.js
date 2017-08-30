@@ -23,7 +23,7 @@ class Ring {
             conflictType: this.conflictType,
             element: this.element,
             fate: this.fate
-        }
+        };
 
         return state;
     }

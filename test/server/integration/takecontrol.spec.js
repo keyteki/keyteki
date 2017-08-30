@@ -1,4 +1,4 @@
-describe('take control', function() {
+xdescribe('take control', function() {
     integration(function() {
         describe('when using an attachment to take control', function() {
             beforeEach(function() {
