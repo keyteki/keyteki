@@ -53,14 +53,14 @@ class SetupPhase extends Phase {
     }
 
     doDynastyMulligan() {
-        _.each(this.game.getPlayersInFirstPlayerOrder()(), player => {
-            this.game.queueStep(new MulliganDynastyPrompt(this.game, player));    
+        _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
+            this.game.queueStep(new MulliganDynastyPrompt(this.game, player));
         });
     }
 
     doConflictMulligan() {
-        _.each(this.game.getPlayersInFirstPlayerOrder()(), player => {
-            this.game.queueStep(new MulliganMulliganPrompt(this.game, player));    
+        _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
+            this.game.queueStep(new MulliganConflictPrompt(this.game, player));
         });
     }
 

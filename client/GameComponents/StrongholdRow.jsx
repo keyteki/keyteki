@@ -13,11 +13,11 @@ class StrongholdRow extends React.Component {
                 <div className='stronghold-row'>
                     <div className='deck-cards'>
                         <Placeholder />
-                        <Province source='stronghold province' cards={ this.props.strongholdProvinceCards } onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onDragDrop={ this.props.onDragDrop } onCardClick={ this.props.onCardClick } />
+                        <Province isMe={ this.props.isMe } source='stronghold province' cards={ this.props.strongholdProvinceCards } onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onDragDrop={ this.props.onDragDrop } onCardClick={ this.props.onCardClick } />
                     </div>
                 </div>
             );
-        } 
+        }
         return (
             <div className='stronghold-row'>
                 <div className='deck-cards'>
@@ -27,11 +27,11 @@ class StrongholdRow extends React.Component {
                     <Placeholder />
                     <Placeholder />
                     <Placeholder />
-                    <Province source='stronghold province' cards={ this.props.strongholdProvinceCards } onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick } />
+                    <Province isMe={ this.props.isMe } source='stronghold province' cards={ this.props.strongholdProvinceCards } onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick } />
                 </div>
             </div>
         );
-        
+
     }
 }
 
