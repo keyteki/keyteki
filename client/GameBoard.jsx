@@ -398,11 +398,11 @@ export class InnerGameBoard extends React.Component {
                                     onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } disableMouseOver disablePopup
                                     onCardClick={ this.onCardClick } />
                                 <div className='panel ring-panel'>
-                                    <Ring conflictType={ this.props.currentGame.rings.air.conflictType } ringType='air' claimed={this.props.currentGame.rings.air.claimed } onClick={ this.onRingClick } />
-                                    <Ring conflictType={ this.props.currentGame.rings.earth.conflictType } ringType='earth' claimed={this.props.currentGame.rings.earth.claimed } onClick={ this.onRingClick } />
-                                    <Ring conflictType={ this.props.currentGame.rings.fire.conflictType } ringType='fire' claimed={this.props.currentGame.rings.fire.claimed } onClick={ this.onRingClick } />
-                                    <Ring conflictType={ this.props.currentGame.rings.void.conflictType } ringType='void' claimed={this.props.currentGame.rings.void.claimed } onClick={ this.onRingClick } />
-                                    <Ring conflictType={ this.props.currentGame.rings.water.conflictType } ringType='water' claimed={this.props.currentGame.rings.water.claimed } onClick={ this.onRingClick } />
+                                    <Ring conflictType={ this.props.currentGame.rings.air.conflictType } ringType='air' claimed={ this.props.currentGame.rings.air.claimed } onClick={ this.onRingClick } />
+                                    <Ring conflictType={ this.props.currentGame.rings.earth.conflictType } ringType='earth' claimed={ this.props.currentGame.rings.earth.claimed } onClick={ this.onRingClick } />
+                                    <Ring conflictType={ this.props.currentGame.rings.fire.conflictType } ringType='fire' claimed={ this.props.currentGame.rings.fire.claimed } onClick={ this.onRingClick } />
+                                    <Ring conflictType={ this.props.currentGame.rings.void.conflictType } ringType='void' claimed={ this.props.currentGame.rings.void.claimed } onClick={ this.onRingClick } />
+                                    <Ring conflictType={ this.props.currentGame.rings.water.conflictType } ringType='water' claimed={ this.props.currentGame.rings.water.claimed } onClick={ this.onRingClick } />
                                 </div>
                                 <CardCollection className='province-deck our-side'
                                     title='Province Deck' source='province deck' cards={ thisPlayer.provinceDeck } hiddenTopCard
