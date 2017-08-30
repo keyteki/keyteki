@@ -51,20 +51,20 @@ class Province extends React.Component {
         var cardCount = this.props.cardCount || (this.props.cards ? this.props.cards.length : '0');
         var headerText = this.props.title ? this.props.title + ' (' + (cardCount) + ')' : '';
         var provinceCard = this.props.provinceCard || _.find(this.props.cards, card => {
-            return card.isProvince; 
+            return card.isProvince;
         });
         var dynastyCard = this.props.dynastyCard || _.find(this.props.cards, card => {
-            return card.isDynasty; 
+            return card.isDynasty;
         });
         var strongholdCard = this.props.strongholdCard || _.find(this.props.cards, card => {
-            return card.isStronghold; 
+            return card.isStronghold;
         });
         var cardOrientation = this.props.orientation === 'horizontal' && provinceCard && provinceCard.facedown ? 'bowed' : this.props.orientation;
 
         if(this.props.hiddenProvinceCard && provinceCard) {
             provinceCard.facedown = true;
         }
-    
+
         if(this.props.hiddenDynastyCard && dynastyCard) {
             dynastyCard.facedown = true;
         }
@@ -84,7 +84,7 @@ class Province extends React.Component {
                 { provinceCard ? <Card card={ provinceCard } source={ this.props.source }
                     onMouseOver={ this.props.onMouseOver }
                     onMouseOut={ this.props.onMouseOut }
-                    disableMouseOver={ provinceCard.facedown }
+                    disableMouseOver={ !this.props.isMe }
                     onClick={ this.props.onCardClick }
                     onMenuItemClick={ this.props.onMenuItemClick }
                     onDragDrop={ this.props.onDragDrop }
@@ -92,7 +92,7 @@ class Province extends React.Component {
                 { dynastyCard ? <Card className='province-attachment' card={ dynastyCard } source={ this.props.source }
                     onMouseOver={ this.props.onMouseOver }
                     onMouseOut={ this.props.onMouseOut }
-                    disableMouseOver={ dynastyCard.facedown }
+                    disableMouseOver={ !this.props.isMe }
                     onClick={ this.props.onCardClick }
                     onMenuItemClick={ this.props.onMenuItemClick }
                     onDragDrop={ this.props.onDragDrop }
@@ -111,6 +111,7 @@ class Province extends React.Component {
 
 Province.displayName = 'Province';
 Province.propTypes = {
+    isMe: React.PropTypes.bool,
     cardCount: React.PropTypes.number,
     cards: React.PropTypes.array,
     className: React.PropTypes.string,

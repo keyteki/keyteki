@@ -390,11 +390,11 @@ export class InnerGameBoard extends React.Component {
                             </div>
                         </div>
                         <div className='middle'>
-                            
-                            <div className='ring-pane'>      
+
+                            <div className='ring-pane'>
                                 <CardCollection className='province-deck'
                                     title='Province Deck' source='province deck' cards={ otherPlayer ? otherPlayer.provinceDeck : [] }
-                                    hiddenTopCard 
+                                    hiddenTopCard
                                     onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } disableMouseOver disablePopup
                                     onCardClick={ this.onCardClick } />
                                 <div className='panel ring-panel'>
@@ -405,7 +405,7 @@ export class InnerGameBoard extends React.Component {
                                     <Ring conflictType={ this.props.currentGame.rings.water.conflictType } ringType='water' onClick={ this.onRingClick } />
                                 </div>
                                 <CardCollection className='province-deck our-side'
-                                    title='Province Deck' source='province deck' cards={ thisPlayer.provinceDeck } hiddenTopCard 
+                                    title='Province Deck' source='province deck' cards={ thisPlayer.provinceDeck } hiddenTopCard
                                     onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } onCardClick={ this.onCardClick } onDragDrop={ this.onDragDrop } />
                             </div>
                             <div className='middle-right'>
@@ -429,12 +429,12 @@ export class InnerGameBoard extends React.Component {
                             </div>
                         </div>
                         <div className='player-info our-side'>
-                            <PlayerStats fate={ thisPlayer.fate || 0 } 
+                            <PlayerStats fate={ thisPlayer.fate || 0 }
                                 honor={ thisPlayer.totalHonor } isMe={ !this.state.spectating } user={ thisPlayer.user } />
                             <div className='deck-info'>
                                 <div className={ 'first-player-indicator ' + (thisPlayer.firstPlayer ? '' : 'hidden') }>First player</div>
                                 <HonorFan value={ thisPlayer.showBid } />
-                                
+
                             </div>
                         </div>
                     </div>
@@ -449,7 +449,7 @@ export class InnerGameBoard extends React.Component {
                             onMouseOver={ this.onMouseOver }
                             onMouseOut={ this.onMouseOut }
                         />
-                        <DynastyRow 
+                        <DynastyRow
                             additionalPiles={ otherPlayer ? otherPlayer.additionalPiles : {} }
                             conflictDiscardPile={ otherPlayer ? otherPlayer.conflictDiscardPile : [] }
                             conflictDeck={ otherPlayer ? otherPlayer.conflictDeck : [] }
@@ -465,7 +465,7 @@ export class InnerGameBoard extends React.Component {
                             onMouseOver={ this.onMouseOver }
                             onMouseOut={ this.onMouseOut }
                         />
-                        <StrongholdRow 
+                        <StrongholdRow
                             onCardClick={ this.onCardClick }
                             onMouseOver={ this.onMouseOver }
                             onMouseOut={ this.onMouseOut }
@@ -511,7 +511,7 @@ export class InnerGameBoard extends React.Component {
                             showDynastyDeck={ this.state.showDynastyDeck }
                             onDragDrop={ this.onDragDrop }
                             spectating={ this.state.spectating }
-                            onMenuItemClick={ this.onMenuItemClick } />                        
+                            onMenuItemClick={ this.onMenuItemClick } />
                         <PlayerRow isMe={ !this.state.spectating }
                             additionalPiles={ thisPlayer.additionalPiles }
                             hand={ thisPlayer.hand }
