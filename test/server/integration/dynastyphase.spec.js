@@ -1,27 +1,27 @@
-describe('marshal phase', function() {
+describe('dynasty phase', function() {
     integration(function() {
-        describe('marshaling normal cards', function() {
+        describe('purchasing normal cards', function() {
             beforeEach(function() {
-                const deck = this.buildDeck('stark', [
-                    'Trading with the Pentoshi', 'Sneak Attack',
-                    'Arya Stark (Core)', 'Eddard Stark (Core)', 'Eddard Stark (Core)', 'Eddard Stark (WotN)', 'The Kingsroad', 'Hear Me Roar!', 'Gold Cloaks'
+                const deck = this.buildDeck('phoenix', [
+                    'Adept of the Waves', 'Against the Waves',
+                    'Asako Diplomat', 'Shiba Tsukune', 'Shiba Tsukune', 'Naive Student', 'Solemn Scholar',
+                    'Forgotten Library', 'Display of Power'
                 ]);
                 this.player1.selectDeck(deck);
                 this.player2.selectDeck(deck);
                 this.startGame();
                 this.skipSetupPhase();
-                this.player1.selectPlot('Trading with the Pentoshi');
-                this.player2.selectPlot('Sneak Attack');
+                // this.player1.selectPlot('Trading with the Pentoshi');
+                // this.player2.selectPlot('Sneak Attack');
                 this.selectFirstPlayer(this.player1);
 
-                this.arya = this.player1.findCardByName('Arya Stark (Core)');
-                [this.ned1, this.ned2] = this.player1.filterCardsByName('Eddard Stark (Core)');
-                this.wotnNed = this.player1.findCardByName('Eddard Stark (WotN)');
-                this.kingsroad = this.player1.findCardByName('The Kingsroad');
-                this.hearMeRoar = this.player1.findCardByName('Hear Me Roar!');
+                this.adeptOfTheWaves = this.player1.findCardByName('Adept of the Waves');
+                this.shibaTsukune = this.player1.findCardByName('Shiba Tsukune');
+                this.solemnScholer = this.player1.findCardByName('Solemn Scholar');
+                this.displayOfPower = this.player1.findCardByName('Display of Power');
             });
 
-            it('should limit marshaling to the amount of plot gold', function() {
+            it('should limit purchasing to the amount of fate', function() {
                 this.player1.clickCard(this.kingsroad); // 9 remaining
                 this.player1.clickCard(this.ned1); // 2 remaining
                 this.player1.clickCard(this.arya); // not enough gold
@@ -58,11 +58,11 @@ describe('marshal phase', function() {
                 expect(this.hearMeRoar.location).toBe('discard pile');
             });
 
-            describe('when marshaling dupes', function() {
+            describe('when playing dupes', function() {
                 beforeEach(function() {
                     this.player1.clickCard(this.ned1);
                 });
-
+                // TODO: Update these test for L5R rules
                 it('should allow the same card to be marshalled as a dupe for free', function() {
                     expect(this.player1Object.gold).toBe(3);
 
@@ -117,7 +117,7 @@ describe('marshal phase', function() {
             });
         });
 
-        describe('when attachments are marshalled', function() {
+        describe('when attachments are purchased', function() {
             beforeEach(function() {
                 const deck = this.buildDeck('baratheon', ['Sneak Attack', 'Red God\'s Blessing', 'Dragonstone Faithful']);
                 this.player1.selectDeck(deck);
