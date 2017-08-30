@@ -8,7 +8,6 @@ const SetupProvincesPrompt = require('./setup/setupprovincesprompt.js');
 class SetupPhase extends Phase {
     constructor(game) {
         super(game, 'setup');
-        var players = _.filter(game.getPlayers(), player => !game.isSpectator(player));
         this.initialise([
             new SimpleStep(game, () => this.setupBegin()),
             new SimpleStep(game, () => this.prepareDecks()),
