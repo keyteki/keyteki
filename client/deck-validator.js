@@ -66,13 +66,13 @@ module.exports = function validateDeck(deck, packs) {
     })) {
         status = 'Invalid';
         extendedStatus.push('Deck contains invalid cards');
-        
+
         return { status: status, provinceCount: provinceCount, conflictCount: conflictCount, dynastyCount: dynastyCount, extendedStatus: extendedStatus };
     }
     var combined = _.union(deck.provinceCards, deck.stronghold, deck.conflictCards, deck.dynastyCards);
 
     var combinedClan = _.union(deck.provinceCards, deck.stronghold, deck.dynastyCards);
-    
+
     if(conflictCount < minDraw) {
         status = 'Invalid';
         isValid = false;
@@ -101,8 +101,8 @@ module.exports = function validateDeck(deck, packs) {
         status = 'Invalid';
         isValid = false;
         extendedStatus.push('Too few province cards');
-    }  
-    
+    }
+
     if(provinceCount > requiredProvinces) {
         extendedStatus.push('Too many provinces');
         status = 'Invalid';
