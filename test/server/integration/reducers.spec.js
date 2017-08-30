@@ -1,4 +1,4 @@
-describe('reducer cards', function() {
+xdescribe('reducer cards', function() {
     integration(function() {
         beforeEach(function() {
             const deck = this.buildDeck('stark', [

@@ -1,7 +1,7 @@
 const Player = require('../../../server/game/player.js');
 const DrawCard = require('../../../server/game/drawcard.js');
 
-describe('Player', function() {
+xdescribe('Player', function() {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'queueSimpleStep', 'raiseEvent', 'getOtherPlayer', 'playerDecked']);
         this.gameSpy.queueSimpleStep.and.callFake(step => step());

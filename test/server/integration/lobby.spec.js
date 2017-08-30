@@ -1,7 +1,7 @@
 const Lobby = require('../../../server/lobby.js');
 const _ = require('underscore');
 
-describe('lobby', function() {
+xdescribe('lobby', function() {
     beforeEach(function() {
         this.socketSpy = jasmine.createSpyObj('socket', ['joinChannel', 'send']);
         this.ioSpy = jasmine.createSpyObj('io', ['set', 'use', 'on', 'emit']);

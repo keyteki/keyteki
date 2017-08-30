@@ -1,7 +1,7 @@
 const Player = require('../../../server/game/player.js');
 const DrawCard = require('../../../server/game/drawcard.js');
 
-describe('the Player', function() {
+xdescribe('the Player', function() {
     beforeEach(function() {
         this.game = jasmine.createSpyObj('game', ['getOtherPlayer', 'playerDecked', 'raiseEvent']);
         this.player = new Player('1', 'Player 1', true, this.game);

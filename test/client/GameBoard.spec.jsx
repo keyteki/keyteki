@@ -22,7 +22,7 @@ const store = {
     }
 };
 
-describe('the <GameBoard /> component', function() {
+xdescribe('the <GameBoard /> component', function() {
     var node, component;
 
     stubComponent(PlayerStats);

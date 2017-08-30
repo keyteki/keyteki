@@ -1,4 +1,4 @@
-describe('setup phase', function() {
+xdescribe('setup phase', function() {
     integration(function() {
         describe('setting up normal cards', function() {
             beforeEach(function() {
