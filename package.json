@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-env JASMINE_CONFIG_PATH=./jasmine.json jasmine && karma start karma.config.js --single-run",
-    "cover": "cross-env JASMINE_CONFIG_PATH=./jasmine.json istanbul cover --include-all-sources jasmine",
+    "cover": "cross-env JASMINE_CONFIG_PATH=./jasmine.json nyc jasmine && nyc report",
     "lint": "eslint server/ test/server/ client/ --ext=js --ext=jsx",
     "build": "cross-env NODE_ENV=production webpack -p --config webpack.config.production.js"
   },
@@ -87,7 +87,6 @@
     "eslint-plugin-react": "^7.1.0",
     "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.29.0",
-    "istanbul": "^0.4.5",
     "jasmine": "^2.6.0",
     "jasmine-core": "^2.6.4",
     "json-loader": "^0.5.4",
@@ -99,6 +98,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
+    "nyc": "^11.1.0",
     "phantomjs": "^2.1.7",
     "precss": "^2.0.0",
     "react-addons-test-utils": "^15.6.0",
@@ -112,5 +112,13 @@
     "webpack-dev-middleware": "^1.11.0",
     "webpack-dev-server": "^2.5.1",
     "webpack-hot-middleware": "^2.18.2"
+  },
+  "nyc": {
+    "all": true,
+    "reporter": [
+      "lcov",
+      "html"
+    ],
+    "reportDir": "./coverage/server"
   }
 }
