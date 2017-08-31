@@ -266,7 +266,7 @@ class ChatCommands {
             onSelect: (p, card) => {
 
                 card.modifyFate(num);
-                this.game.addMessage('{0} uses the /fate command to set the fate count of {1} to {2}', p, card, card.getFate());
+                this.game.addMessage('{0} uses the /add-fate command to set the fate count of {1} to {2}', p, card, card.getFate());
 
                 return true;
             }
@@ -283,7 +283,7 @@ class ChatCommands {
             onSelect: (p, card) => {
 
                 card.modifyFate(-num);
-                this.game.addMessage('{0} uses the /fate command to set the fate count of {1} to {2}', p, card, card.getFate());
+                this.game.addMessage('{0} uses the /rem-fate command to set the fate count of {1} to {2}', p, card, card.getFate());
 
                 return true;
             }
@@ -294,11 +294,12 @@ class ChatCommands {
         let ringElement = (args[1]);
         let num = this.getNumberOrDefault(args[2], 1);
 
-        if( _.contains(['air','earth','fire','void','water'], ringElement)) {
+        if(_.contains(['air','earth','fire','void','water'], ringElement)) {
             let ring = this.game.rings[ringElement];
 
             ring.modifyFate(num);
-            this.game.addMessage('{0} uses the /fate command to set the fate count of the ring of {1} to {2}', player, ring.getElement(), ring.getFate());
+            console.log(ring.getElement());
+            this.game.addMessage('{0} uses the /add-fate-ring command to set the fate count of the ring of {1} to {2}', player, ring.getElement(), ring.getFate());
         }
 
         return true;
@@ -308,11 +309,11 @@ class ChatCommands {
         let ringElement = (args[1]);
         let num = this.getNumberOrDefault(args[2], 1);
 
-        if( _.contains(['air','earth','fire','void','water'], ringElement)) {
+        if(_.contains(['air','earth','fire','void','water'], ringElement)) {
             let ring = this.game.rings[ringElement];
 
             ring.modifyFate(-num);
-            this.game.addMessage('{0} uses the /fate command to set the fate count of the ring of {1} to {2}', player, ring.getElement(), ring.getFate());
+            this.game.addMessage('{0} uses the /rem-fate-ring command to set the fate count of the ring of {1} to {2}', player, ring.getElement(), ring.getFate());
         }
 
         return true;
