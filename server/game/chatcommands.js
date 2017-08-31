@@ -20,6 +20,8 @@ class ChatCommands {
             '/token': this.setToken,
             '/add-fate': this.addFate,
             '/rem-fate': this.remFate,
+            '/add-fate-ring': this.addRingFate,
+            '/rem-fate-ring': this.remRingFate,
             '/disconnectme': this.disconnectMe
         };
         this.tokens = [
@@ -286,6 +288,26 @@ class ChatCommands {
                 return true;
             }
         });
+    }
+
+    addRingFate(player, args) {
+        var ring = (args[1]);
+        var num = this.getNumberOrDefault(args[2], 1);
+
+        this.game.rings[ring].modifyFate(num);
+        this.game.addMessage('{0} uses the /fate command to set the fate count of the ring of {1} to {2}', p, ring, this.game.rings[ring].getFate());
+
+        return true;
+    }
+
+    remRingFate(player, args) {
+        var ring = (args[1]);
+        var num = this.getNumberOrDefault(args[2], 1);
+
+        this.game.rings[ring].modifyFate(-num);
+        this.game.addMessage('{0} uses the /fate command to set the fate count of the ring of {1} to {2}', p, ring, this.game.rings[ring].getFate());
+
+        return true;
     }
 
     disconnectMe(player) {
