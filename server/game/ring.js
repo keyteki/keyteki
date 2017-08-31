@@ -25,7 +25,7 @@ class Ring {
         /**
          * @param  {integer} fate - the amount of fate to modify this card's fate total by
          */
-        var oldFate = this.fate;
+        //var oldFate = this.fate;
 
         this.fate += fate;
 
