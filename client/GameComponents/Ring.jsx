@@ -23,7 +23,7 @@ class Ring extends React.Component {
     getCountersForRing(ring) {
         var counters = {};
 
-        counters['ring-fate'] = ring.fate ? { count: ring.fate, fade: ring.type === 'attachment', shortName: 'F' } : undefined;
+        counters['ring-fate'] = this.props.fate ? { count: this.props.fate, shortName: 'F' } : undefined;
 
         _.each(ring.tokens, (token, key) => {
             counters[key] = { count: token, fade: ring.type === 'attachment', shortName: this.shortNames[key] };
