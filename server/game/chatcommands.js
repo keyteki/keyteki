@@ -291,21 +291,29 @@ class ChatCommands {
     }
 
     addRingFate(player, args) {
-        let ring = (args[1]);
+        let ringElement = (args[1]);
         let num = this.getNumberOrDefault(args[2], 1);
 
-        this.game.rings[ring].modifyFate(num);
-        this.game.addMessage('{0} uses the /fate command to set the fate count of the ring of {1} to {2}', player, ring.element, this.game.rings[ring].getFate());
+        if( _.contains(['air','earth','fire','void','water'], ring)) {
+            let ring = this.game.rings[ringElement];
+
+            ring.modifyFate(num);
+            this.game.addMessage('{0} uses the /fate command to set the fate count of the ring of {1} to {2}', player, ring.element, this.game.rings[ring].getFate());
+        }
 
         return true;
     }
 
     remRingFate(player, args) {
-        let ring = (args[1]);
+        let ringElement = (args[1]);
         let num = this.getNumberOrDefault(args[2], 1);
 
-        this.game.rings[ring].modifyFate(-num);
-        this.game.addMessage('{0} uses the /fate command to set the fate count of the ring of {1} to {2}', player, ring.element, this.game.rings[ring].getFate());
+        if( _.contains(['air','earth','fire','void','water'], ring)) {
+            let ring = this.game.rings[ringElement];
+
+            ring.modifyFate(-num);
+            this.game.addMessage('{0} uses the /fate command to set the fate count of the ring of {1} to {2}', player, ring.element, this.game.rings[ring].getFate());
+        }
 
         return true;
     }
