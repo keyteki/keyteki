@@ -17,6 +17,27 @@ class Ring {
         }
     }
 
+    getFate() {
+        return this.fate;
+    }
+
+    modifyFate(fate) {
+        /**
+         * @param  {integer} fate - the amount of fate to modify this card's fate total by
+         */
+        var oldFate = this.fate;
+
+        this.fate += fate;
+
+        if(this.fate < 0) {
+            this.fate = 0;
+        }
+
+
+        this.game.raiseEvent('onRingFateChanged', { ring: this, fate: this.fate - oldFate });
+
+    }
+
     claimRing(player) {
         this.claimed = true;
         this.claimedBy = player;
