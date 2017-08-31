@@ -13,14 +13,20 @@ class InnerMessages extends React.Component {
             message: ''
         };
 
-        this.icons = [
+        this.iconsConflict = [
             'military',
-            'political',
+            'political'
+        ];
+
+        this.iconsElement = [
             'air',
             'earth',
             'fire',
             'water',
-            'void',
+            'void'
+        ];
+
+        this.iconsClan = [
             'crab',
             'crane',
             'dragon',
@@ -28,7 +34,7 @@ class InnerMessages extends React.Component {
             'phoenix',
             'scorpion',
             'unicorn'
-        ];
+        ];        
 
         this.formatMessageText = this.formatMessageText.bind(this);
     }
@@ -69,9 +75,17 @@ class InnerMessages extends React.Component {
                         </span>
                     </div>
                 );
-            } else if(_.contains(this.icons, fragment)) {
+            } else if(_.contains(this.iconsConflict, fragment)) {
                 return (
-                    <span className={ 'icon-' + fragment } key={ index++ } />
+                    <span className={ 'icon-conflict' + fragment } key={ index++ } />
+                );
+            } else if(_.contains(this.iconsElement, fragment)) {
+                return (
+                    <span className={ 'icon-element' + fragment } key={ index++ } />
+                );
+            } else if(_.contains(this.iconsClan, fragment)) {
+                return (
+                    <span className={ 'icon-clan' + fragment } key={ index++ } />
                 );
             }
 
