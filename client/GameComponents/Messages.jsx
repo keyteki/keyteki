@@ -77,15 +77,15 @@ class InnerMessages extends React.Component {
                 );
             } else if(_.contains(this.iconsConflict, fragment)) {
                 return (
-                    <span className={ 'icon-conflict' + fragment } key={ index++ } />
+                    <span className={ 'icon-conflict-' + fragment } key={ index++ } />
                 );
             } else if(_.contains(this.iconsElement, fragment)) {
                 return (
-                    <span className={ 'icon-element' + fragment } key={ index++ } />
+                    <span className={ 'icon-element-' + fragment } key={ index++ } />
                 );
             } else if(_.contains(this.iconsClan, fragment)) {
                 return (
-                    <span className={ 'icon-clan' + fragment } key={ index++ } />
+                    <span className={ 'icon-clan-' + fragment } key={ index++ } />
                 );
             }
 
