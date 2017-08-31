@@ -294,7 +294,7 @@ class ChatCommands {
         let ringElement = (args[1]);
         let num = this.getNumberOrDefault(args[2], 1);
 
-        if( _.contains(['air','earth','fire','void','water'], ring)) {
+        if( _.contains(['air','earth','fire','void','water'], ringElement)) {
             let ring = this.game.rings[ringElement];
 
             ring.modifyFate(num);
@@ -308,7 +308,7 @@ class ChatCommands {
         let ringElement = (args[1]);
         let num = this.getNumberOrDefault(args[2], 1);
 
-        if( _.contains(['air','earth','fire','void','water'], ring)) {
+        if( _.contains(['air','earth','fire','void','water'], ringElement)) {
             let ring = this.game.rings[ringElement];
 
             ring.modifyFate(-num);
