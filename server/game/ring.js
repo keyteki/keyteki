@@ -34,7 +34,7 @@ class Ring {
         }
 
 
-        this.game.raiseEvent('onRingFateChanged', { ring: this, fate: this.fate - oldFate });
+        //this.game.raiseEvent('onRingFateChanged', { ring: this, fate: this.fate - oldFate });
 
     }
 
