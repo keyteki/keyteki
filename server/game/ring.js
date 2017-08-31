@@ -17,6 +17,10 @@ class Ring {
         }
     }
 
+    getElement() {
+        return this.element;
+    }
+
     getFate() {
         return this.fate;
     }
