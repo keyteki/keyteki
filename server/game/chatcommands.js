@@ -295,7 +295,7 @@ class ChatCommands {
         let num = this.getNumberOrDefault(args[2], 1);
 
         this.game.rings[ring].modifyFate(num);
-        this.game.addMessage('{0} uses the /fate command to set the fate count of the ring of {1} to {2}', player, ring, this.game.rings[ring].getFate());
+        this.game.addMessage('{0} uses the /fate command to set the fate count of the ring of {1} to {2}', player, ring.element, this.game.rings[ring].getFate());
 
         return true;
     }
@@ -305,7 +305,7 @@ class ChatCommands {
         let num = this.getNumberOrDefault(args[2], 1);
 
         this.game.rings[ring].modifyFate(-num);
-        this.game.addMessage('{0} uses the /fate command to set the fate count of the ring of {1} to {2}', player, ring, this.game.rings[ring].getFate());
+        this.game.addMessage('{0} uses the /fate command to set the fate count of the ring of {1} to {2}', player, ring.element, this.game.rings[ring].getFate());
 
         return true;
     }
