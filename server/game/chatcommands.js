@@ -291,6 +291,7 @@ class ChatCommands {
     }
 
     addRingFate(player, args) {
+        console.log(args);
         var ring = (args[1]);
         var num = this.getNumberOrDefault(args[2], 1);
 
