@@ -22,6 +22,8 @@ class ChatCommands {
             '/rem-fate': this.remFate,
             '/add-fate-ring': this.addRingFate,
             '/rem-fate-ring': this.remRingFate,
+            '/claim-ring' : this.claimRing,
+            '/unclaim-ring': this.unclaimRing,
             '/disconnectme': this.disconnectMe
         };
         this.tokens = [
@@ -316,6 +318,28 @@ class ChatCommands {
         }
 
         return true;
+    }
+
+    claimRing(player, args) {
+        let ringElement = (args[1]);
+
+        if(_.contains(['air','earth','fire','void','water'], ringElement)) {
+            let ring = this.game.rings[ringElement];
+
+            ring.claimRing(player);
+            this.game.addMessage('{0} uses the /claim-ring command to claim the ring of {1}', player, ringElement);
+        }
+    }
+
+    unclaimRing(player, args) {
+        let ringElement = (args[1]);
+
+        if(_.contains(['air','earth','fire','void','water'], ringElement)) {
+            let ring = this.game.rings[ringElement];
+
+            ring.resetRing();
+            this.game.addMessage('{0} uses the /unclaim-ring command to set the ring of {1} as unclaimed', player, ringElement);
+        }
     }
 
     disconnectMe(player) {

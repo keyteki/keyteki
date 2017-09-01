@@ -46,6 +46,8 @@ class About extends React.Component {
                     <li>/rem-fate x - Remove 'x' fate from a card.</li>
                     <li>/add-fate-ring ring x - Add 'x' fate to 'ring'.</li>
                     <li>/rem-fate-ring ring x - Remove 'x' fate from 'ring'.</li>
+                    <li>/claim-ring ring - Claim 'ring'.</li>
+                    <li>/unclaim-ring ring - Set 'ring' as unclaimed.</li>
                 </ul>
 
                 { /*<h3>Can I help?</h3>
