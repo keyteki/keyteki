@@ -498,8 +498,19 @@ class Player extends Spectator {
         return true;
     }
 
-    canPutIntoPlay(card) { // eslint-disable-line no-unused-vars
-        return true;
+    canPutIntoPlay(card) {
+        if(!card.isUnique()) {
+            return true;
+        }
+
+        return !_.any(this.game.getPlayers(), player => {
+            return player.anyCardsInPlay(c => (
+                c.name === card.name
+                && ((c.owner === this || c.controller === this)
+                    || (c.owner === card.owner))
+                && c !== card
+            ));
+        });
     }
 
     canResurrect(card) {
@@ -511,38 +522,24 @@ class Player extends Spectator {
             return;
         }
 
-        var dupeCard = this.getDuplicateInPlay(card);
-
-        if(card.getType() === 'attachment' && playingType !== 'setup' && !dupeCard) {
+        if(card.getType() === 'attachment') {
             this.promptForAttachment(card, playingType);
             return;
         }
 
-        if(dupeCard && playingType !== 'setup') {
-            this.removeCardFromPile(card);
-            dupeCard.addDuplicate(card);
-        } else {
-            // Attachments placed in setup should not be considered to be 'played',
-            // as it will cause then to double their effects when attached later.
-            let isSetupAttachment = playingType === 'setup' && card.getType() === 'attachment';
+        let originalLocation = card.location;
 
-            let originalLocation = card.location;
-
-            card.facedown = this.game.currentPhase === 'setup';
-            card.new = true;
-            this.moveCard(card, 'play area', { isDupe: !!dupeCard });
-            if(card.controller !== this) {
-                card.controller.allCards = _(card.controller.allCards.reject(c => c === card));
-                this.allCards.push(card);
-            }
-            card.controller = this;
-
-            if(!dupeCard && !isSetupAttachment) {
-                card.applyPersistentEffects();
-            }
-
-            this.game.raiseEvent('onCardEntersPlay', { card: card, playingType: playingType, originalLocation: originalLocation });
+        card.new = true;
+        this.moveCard(card, 'play area');
+        if(card.controller !== this) {
+            card.controller.allCards = _(card.controller.allCards.reject(c => c === card));
+            this.allCards.push(card);
         }
+        card.controller = this;
+
+        card.applyPersistentEffects();
+
+        this.game.raiseEvent('onCardEntersPlay', { card: card, playingType: playingType, originalLocation: originalLocation });
     }
 
     setupBegin() {
