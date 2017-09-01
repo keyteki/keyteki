@@ -2,7 +2,7 @@ const _ = require('underscore');
 
 const Player = require('../../../server/game/player.js');
 
-xdescribe('Player', function () {
+describe('Player', function () {
 
     function createCardSpy(num, owner) {
         let spy = jasmine.createSpyObj('card', ['moveTo', 'removeDuplicate']);
@@ -27,6 +27,7 @@ xdescribe('Player', function () {
         this.callbackSpy = jasmine.createSpy('callback');
 
         this.card1 = createCardSpy(1, this.player);
+        this.card1.isConflict = true;
         this.card2 = createCardSpy(2, this.player);
     });
 
