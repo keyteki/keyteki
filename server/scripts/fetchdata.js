@@ -6,7 +6,7 @@ const fs = require('fs');
 const mkdirp = require('mkdirp');
 const path = require('path');
 
-const CardService = require('./services/CardService.js');
+const CardService = require('../services/CardService.js');
 
 function apiRequest(path) {
     const apiUrl = 'https://api.fiveringsdb.com/';
@@ -38,7 +38,7 @@ let fetchCards = apiRequest('cards')
     .then(cards => {
         console.info(cards.length + ' cards fetched');
 
-        let imageDir = path.join(__dirname, '..', 'public', 'img', 'cards');
+        let imageDir = path.join(__dirname, '..', '..', 'public', 'img', 'cards');
         mkdirp(imageDir);
 
         var i = 0;

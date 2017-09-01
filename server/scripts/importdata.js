@@ -4,7 +4,7 @@ const monk = require('monk');
 const fs = require('fs');
 const _ = require('underscore');
 
-const CardService = require('./services/CardService.js');
+const CardService = require('../services/CardService.js');
 
 let db = monk('mongodb://127.0.0.1:27017/throneteki');
 let cardService = new CardService(db);
