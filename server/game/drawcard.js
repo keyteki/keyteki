@@ -17,9 +17,9 @@ class DrawCard extends BaseCard {
 
         this.attachments = _([]);
 
+        this.militarySkillModifier = 0;
+        this.politicalSkillModifier = 0;
         this.fate = 0;
-        this.militaryskill = null;
-        this.politicalskill = null;
         this.glory = 0;
         this.contributesToFavor = true;
         this.bowed = false;
@@ -136,7 +136,11 @@ class DrawCard extends BaseCard {
             return this.cardData.military || undefined;
         }
 
-        return Math.max(0, this.militarySkillModifier + (this.cardData.military || 0));
+        if(this.cardData.military !== null && this.cardData.military !== undefined) {
+            return Math.max(0, this.militarySkillModifier + this.cardData.military);
+        }
+
+        return null;
     }
 
     getPoliticalSkill(printed = false) {
@@ -149,7 +153,11 @@ class DrawCard extends BaseCard {
             return this.cardData.political || undefined;
         }
 
-        return Math.max(0, this.politicalSkillModifier + (this.cardData.political || 0));
+        if(this.cardData.political !== null && this.cardData.political !== undefined) {
+            return Math.max(0, this.politicalSkillModifier + this.cardData.political);
+        }
+
+        return null;
     }
 
     modifyFate(fate) {
@@ -281,8 +289,8 @@ class DrawCard extends BaseCard {
             bowed: this.bowed,
             saved: this.saved,
             fate: this.fate,
-            militaryskill: this.cardData.military,
-            politicalskill: this.cardData.political
+            militaryskill: this.getMilitarySkill(),
+            politicalskill: this.getPoliticalSkill()
         });
     }
 }

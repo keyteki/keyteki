@@ -1,14 +1,14 @@
 const Player = require('../../../server/game/player.js');
 const DrawCard = require('../../../server/game/drawcard.js');
 
-xdescribe('Player', function() {
+describe('Player', function() {
     describe('getDuplicateInPlay', function() {
         beforeEach(function() {
             this.game = jasmine.createSpyObj('game', ['getOtherPlayer', 'playerDecked', 'raiseEvent']);
             this.player = new Player('1', 'Player 1', true, this.game);
             this.player.initialise();
 
-            this.dupeCard = new DrawCard(this.player, { code: '1', name: 'Test' });
+            this.dupeCard = new DrawCard(this.player, { id: '1', name: 'Test' });
 
             this.player.cardsInPlay.push(this.dupeCard);
 
@@ -31,7 +31,7 @@ xdescribe('Player', function() {
 
         describe('when there is a matching card in play by code', function() {
             beforeEach(function() {
-                this.cardSpy.code = '1';
+                this.cardSpy.id = '1';
                 this.cardSpy.name = 'Other';
 
                 this.dupe = this.player.getDuplicateInPlay(this.cardSpy);
@@ -44,7 +44,7 @@ xdescribe('Player', function() {
 
         describe('when there is a matching card in play by name', function() {
             beforeEach(function() {
-                this.cardSpy.code = '2';
+                this.cardSpy.id = '2';
                 this.cardSpy.name = 'Test';
 
                 this.dupe = this.player.getDuplicateInPlay(this.cardSpy);
@@ -60,7 +60,7 @@ xdescribe('Player', function() {
                 this.attachedCard = new DrawCard(this.player, { code: '3', name: 'Attached', type: 'attachment' });
                 this.dupeCard.attachments.push(this.attachedCard);
 
-                this.cardSpy.code = '3';
+                this.cardSpy.id = '3';
                 this.cardSpy.name = 'Attached';
 
                 this.dupe = this.player.getDuplicateInPlay(this.cardSpy);
@@ -73,7 +73,7 @@ xdescribe('Player', function() {
 
         describe('when there is a card that doesnt match by name or code', function() {
             beforeEach(function() {
-                this.cardSpy.code = '6';
+                this.cardSpy.id = '6';
                 this.cardSpy.name = 'Other';
 
                 this.dupe = this.player.getDuplicateInPlay(this.cardSpy);

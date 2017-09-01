@@ -2,7 +2,7 @@ const Player = require('../../../server/game/player.js');
 
 const PlayActionPrompt = require('../../../server/game/gamesteps/playactionprompt.js');
 
-xdescribe('Player', function() {
+describe('Player', function() {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'getOtherPlayer', 'playerDecked', 'resolveAbility', 'queueStep', 'raiseEvent']);
         this.player = new Player('1', 'Player 1', true, this.gameSpy);
