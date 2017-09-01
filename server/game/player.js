@@ -50,7 +50,13 @@ class Player extends Spectator {
         this.conflicts = new ConflictTracker();
         this.minReserve = 0;
         this.costReducers = [];
-        this.playableLocations = _.map(['dynasty', 'play'], playingType => new PlayableLocation(playingType, this, 'hand'));
+        this.playableLocations = [
+            new PlayableLocation('play', this, 'hand'),
+            new PlayableLocation('dynasty', this, 'province 1'),
+            new PlayableLocation('dynasty', this, 'province 2'),
+            new PlayableLocation('dynasty', this, 'province 3'),
+            new PlayableLocation('dynasty', this, 'province 4')
+        ];
         this.cannotGainConflictBonus = false;
         this.cannotTriggerCardAbilities = false;
         this.promptedActionWindows = user.promptedActionWindows || {

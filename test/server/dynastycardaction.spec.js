@@ -4,8 +4,8 @@ describe('DynastyCardAction', function () {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'on', 'removeListener']);
         this.playerSpy = jasmine.createSpyObj('player', ['canPutIntoPlay', 'isCardInPlayableLocation', 'putIntoPlay']);
-        this.cardSpy = jasmine.createSpyObj('card', ['canBeDynastyed', 'getType']);
-        this.cardSpy.canBeDynastyed.and.returnValue(true);
+        this.cardSpy = jasmine.createSpyObj('card', ['getType']);
+        this.cardSpy.isDynasty = true;
         this.cardSpy.controller = this.playerSpy;
         this.cardSpy.owner = this.playerSpy;
         this.context = {
@@ -63,7 +63,7 @@ describe('DynastyCardAction', function () {
 
         describe('when the card is forbidden from being played in dynasty', function() {
             beforeEach(function() {
-                this.cardSpy.canBeDynastyed.and.returnValue(false);
+                this.cardSpy.isDynasty = false;
             });
 
             it('should return false', function() {
