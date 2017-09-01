@@ -329,6 +329,8 @@ class ChatCommands {
             ring.claimRing(player);
             this.game.addMessage('{0} uses the /claim-ring command to claim the ring of {1}', player, ringElement);
         }
+
+        return true;
     }
 
     unclaimRing(player, args) {
@@ -340,6 +342,8 @@ class ChatCommands {
             ring.resetRing();
             this.game.addMessage('{0} uses the /unclaim-ring command to set the ring of {1} as unclaimed', player, ringElement);
         }
+
+        return true;
     }
 
     disconnectMe(player) {
