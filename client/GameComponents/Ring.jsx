@@ -48,7 +48,7 @@ class Ring extends React.Component {
                 { this.showCounters() ? <CardCounters counters={ this.getCountersForRing(this.props.ringType) } /> : null }
             </div>
             <div className='ring-info' >
-                { this.props.claimed ? 'Unclaimed' : 'Claimed: ' + this.props.claimedBy }
+                { this.props.claimed ? 'Claimed: ' + this.props.claimedBy : 'Unclaimed' }
             </div>
         </div>);
     }
