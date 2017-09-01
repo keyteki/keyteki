@@ -1,6 +1,6 @@
 const DrawCard = require('../../../server/game/drawcard.js');
 
-xdescribe('the DrawCard', function() {
+describe('the DrawCard', function() {
     describe('the hasKeyword() function', function() {
         beforeEach(function() {
             this.owner = {};
@@ -53,7 +53,7 @@ xdescribe('the DrawCard', function() {
             this.game.playersAndSpectators['bar'] = this.player2;
             this.game.initialise();
 
-            this.game.currentPhase = 'dyansty';
+            this.game.currentPhase = 'dynasty';
             this.player.phase = 'dynasty';
         });
 
@@ -75,9 +75,9 @@ xdescribe('the DrawCard', function() {
 
             describe('when the card has a keyword line', function() {
                 beforeEach(function() {
-                    this.card = new DrawCard(this.player, { type: 'attachment', cost: 0, text: 'covert. Restricted. Notarealkeyword.\n Extra text because we need stuff here.' });
-                    this.card.location = 'hand';
-                    this.player.hand = _([this.card]);
+                    this.card = new DrawCard(this.player, { type: 'character', cost: 0, side: 'dynasty', text: 'covert. Restricted. Notarealkeyword.\n Extra text because we need stuff here.' });
+                    this.card.location = 'province 1';
+                    this.player.provinceOne = _([this.card]);
                     this.player.playCard(this.card);
                     // Resolve events in pipeline.
                     this.game.continue();
@@ -98,7 +98,7 @@ xdescribe('the DrawCard', function() {
                     // Resolve events in pipeline.
                     this.game.continue();
                     expect(this.card.hasKeyword('covert')).toBe(false);
-                    expect(this.card.hasKeyword('Restricted')).toBe(true);
+                    expect(this.card.hasKeyword('Restricted')).toBe(false);
                     expect(this.card.hasKeyword('Sincerity')).toBe(true);
                 });
             });

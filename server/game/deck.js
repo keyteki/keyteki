@@ -57,7 +57,10 @@ class Deck {
         });
 
         result.allCards = result.provinceCards.concat(result.conflictCards).concat(result.dynastyCards);
-        result.allCards.push(result.stronghold);
+
+        if(result.stronghold) {
+            result.allCards.push(result.stronghold);
+        }
 
         return result;
     }
