@@ -8,9 +8,7 @@ const GameFlowWrapper = require('./gameflowwrapper.js');
 
 const ProxiedGameFlowWrapperMethods = [
     'startGame', 'keepStartingHands', 'skipSetupPhase', 'selectFirstPlayer',
-    'completeMarshalPhase', 'completeChallengesPhase', 'completeDominancePhase',
-    'completeTaxationPhase', 'selectPlotOrder', 'completeSetup',
-    'skipActionWindow', 'unopposedChallenge'
+    'completeSetup', 'skipActionWindow', 'selectProvinces'
 ];
 
 const deckBuilder = new DeckBuilder();

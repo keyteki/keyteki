@@ -21,10 +21,6 @@ class PlayerInteractionWrapper {
         return this.player.firstPlayer;
     }
 
-    get activePlot() {
-        return this.player.activePlot;
-    }
-
     currentPrompt() {
         return this.player.currentPrompt();
     }
@@ -76,15 +72,6 @@ class PlayerInteractionWrapper {
 
     selectDeck(deck) {
         this.game.selectDeck(this.player.name, deck);
-    }
-
-    selectPlot(plot) {
-        if(_.isString(plot)) {
-            plot = this.findCardByName(plot);
-        }
-
-        this.player.selectedPlot = plot;
-        this.clickPrompt('Done');
     }
 
     clickPrompt(text) {
