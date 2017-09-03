@@ -156,6 +156,9 @@ class Player extends Spectator {
         _.each(provinces, province => {
             // Because all player locations are wrapped on creation we need to unwrap them
             if(_.find(this.getSourceList(province)._wrapped, card => {
+                if(card.isDynasty) {
+                    card.facedown = true;
+                }
                 return card.isDynasty;
             })) {
                 //Noop
@@ -397,6 +400,8 @@ class Player extends Spectator {
             this.removeCardFromPile(card);
         });
 
+        this.takenDynastyMulligan = true;
+
         this.fillProvinces();
 
         _.each(cards, card => {
@@ -407,7 +412,6 @@ class Player extends Spectator {
         this.shuffleDynastyDeck();
 
         this.game.addMessage('{0} has mulliganed {1} cards from the dynasty deck', this.name, cards.length);
-        this.takenDynastyMulligan = true;
     }
 
     dynastyKeep() {
@@ -993,6 +997,9 @@ class Player extends Spectator {
             if(!card.isStronghold) {
                 card.facedown = true;
             }
+            if(!this.takenDynastyMulligan && card.isDynasty) {
+                card.facedown = false;
+            }
             targetPile.push(card);
         } else if(targetLocation === 'conflict deck' && !options.bottom) {
             targetPile.unshift(card);
@@ -1137,10 +1144,10 @@ class Player extends Spectator {
             phase: this.phase,
             provinceDeck: this.getSummaryForCardList(this.provinceDeck, activePlayer, true),
             provinces: {
-                one: this.getSummaryForCardList(this.provinceOne, activePlayer),
-                two: this.getSummaryForCardList(this.provinceTwo, activePlayer),
-                three: this.getSummaryForCardList(this.provinceThree, activePlayer),
-                four: this.getSummaryForCardList(this.provinceFour, activePlayer)
+                one: this.getSummaryForCardList(this.provinceOne, activePlayer, !this.takenDynastyMulligan),
+                two: this.getSummaryForCardList(this.provinceTwo, activePlayer, !this.takenDynastyMulligan),
+                three: this.getSummaryForCardList(this.provinceThree, activePlayer, !this.takenDynastyMulligan),
+                four: this.getSummaryForCardList(this.provinceFour, activePlayer, !this.takenDynastyMulligan)
             },
             showBid: this.showBid,
             strongholdProvince: this.getSummaryForCardList(this.strongholdProvince, activePlayer),

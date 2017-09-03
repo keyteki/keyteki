@@ -92,7 +92,7 @@ class Province extends React.Component {
                 { dynastyCard ? <Card className='province-attachment' card={ dynastyCard } source={ this.props.source }
                     onMouseOver={ this.props.onMouseOver }
                     onMouseOut={ this.props.onMouseOut }
-                    disableMouseOver={ !this.props.isMe }
+                    disableMouseOver={ dynastyCard.facedown }
                     onClick={ this.props.onCardClick }
                     onMenuItemClick={ this.props.onMenuItemClick }
                     onDragDrop={ this.props.onDragDrop }
@@ -132,6 +132,7 @@ Province.propTypes = {
     popupLocation: React.PropTypes.string,
     popupMenu: React.PropTypes.array,
     provinceCard: React.PropTypes.object,
+    showDynastyRow: React.PropTypes.bool,
     source: React.PropTypes.oneOf(['stronghold province', 'province 1', 'province 2', 'province 3', 'province 4']).isRequired,
     strongholdCard: React.PropTypes.object,
     title: React.PropTypes.string
