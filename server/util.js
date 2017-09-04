@@ -19,9 +19,9 @@ function httpRequest(url) {
             response.on('end', () => {
                 resolve(body.join(''));
             });
-
-            request.on('error', err => reject(err));
         });
+
+        request.on('error', err => reject(err));
     });
 }
 
