@@ -44,7 +44,7 @@ class DeckBuilder {
             conflictCards: _.filter(cardCounts, count => count.card.side === 'conflict'),
             dynastyCards: _.filter(cardCounts, count => count.card.side === 'dynasty'),
             provinceCards: _.filter(cardCounts, count => count.card.type === 'province'),
-            stronghold: _.filter(cardCounts, count => count.card.type === 'stronghold')[0]
+            stronghold: _.filter(cardCounts, count => count.card.type === 'stronghold')
         };
     }
 

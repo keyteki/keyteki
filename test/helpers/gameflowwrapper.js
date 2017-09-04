@@ -50,30 +50,26 @@ class GameFlowWrapper {
         }
     }
 
+    selectProvinces() {
+        const provinceLocations = [
+            'province 1',
+            'province 2',
+            'province 3',
+            'province 4',
+            'stronghold province'
+        ];
+        _.each(this.allPlayers, player => {
+            _.each(provinceLocations, (loc) => {
+                let card = player.player.provinceDeck.value()[0];
+                player.dragCard(card, loc);
+            });
+            player.clickPrompt('Done');
+        });
+    }
+
     completeSetup() {
         this.guardCurrentPhase('setup');
         _.each(this.allPlayers, player => player.clickPrompt('Done'));
-    }
-
-    completeMarshalPhase() {
-        this.guardCurrentPhase('marshal');
-        this.eachPlayerInFirstPlayerOrder(player => player.clickPrompt('Done'));
-    }
-
-    completeChallengesPhase() {
-        this.guardCurrentPhase('challenge');
-        // Each player clicks 'Done' when challenge initiation prompt shows up.
-        this.eachPlayerInFirstPlayerOrder(player => player.clickPrompt('Done'));
-    }
-
-    completeDominancePhase() {
-        this.guardCurrentPhase('dominance');
-    }
-
-    completeTaxationPhase() {
-        this.guardCurrentPhase('taxation');
-        // TODO: Discard down to reserve in case of tests that fill up the player's hand
-        this.eachPlayerInFirstPlayerOrder(player => player.clickPrompt('End Round'));
     }
 
     skipActionWindow() {
@@ -94,30 +90,6 @@ class GameFlowWrapper {
     selectFirstPlayer(player) {
         var promptedPlayer = this.getPromptedPlayer('Select first player');
         promptedPlayer.clickPrompt(player.name);
-    }
-
-    selectPlotOrder(player) {
-        let promptedPlayer = this.getPromptedPlayer('Choose when revealed order');
-        let buttonText = player.name + ' - ' + player.activePlot.name;
-        promptedPlayer.clickPrompt(buttonText);
-    }
-
-    unopposedChallenge(player, type, participant, reactionExpected) {
-        var opponent = this.allPlayers.find(p => p !== player);
-
-        player.clickPrompt(type);
-        player.clickCard(participant, 'play area');
-        player.clickPrompt('Done');
-
-        this.skipActionWindow();
-
-        opponent.clickPrompt('Done');
-
-        this.skipActionWindow();
-
-        if(!reactionExpected) {
-            this.skipActionWindow();
-        }
     }
 }
 
