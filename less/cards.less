@@ -103,6 +103,32 @@
   }
 }
 
+honor .card-image {
+  left: left: 53px;;
+  position: absolute;
+  top: 0;
+
+  &.vertical {
+    height: @card-height;
+    width: @card-width;
+  }
+
+  &.horizontal {
+    height: @card-width;
+    width: @card-height;
+  }
+
+  &.bowed {
+    left: 9px;
+    top: -10px;
+    transform: rotate(90deg);
+
+    &.honor {
+      left: 53px;
+    }
+  }
+}
+
 .honored {
   position: absolute;
   width: @card-width;
