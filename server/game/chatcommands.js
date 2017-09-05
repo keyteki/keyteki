@@ -321,6 +321,8 @@ class ChatCommands {
     }
 
     claimRing(player, args) {
+        console.log(player);
+        console.log(args);
         let ringElement = (args[1]);
 
         if(_.contains(['air','earth','fire','void','water'], ringElement)) {

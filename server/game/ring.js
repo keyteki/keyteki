@@ -43,6 +43,7 @@ class Ring {
     }
 
     claimRing(player) {
+        console.log(player);
         this.claimed = true;
         this.claimedBy = player;
     }
