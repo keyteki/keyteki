@@ -222,12 +222,15 @@ class Card extends React.Component {
 
         if(this.props.orientation === 'bowed' || this.props.card.bowed || this.props.orientation === 'horizontal') {
             cardClass += ' horizontal';
+            honorClass += ' vertical bowed';
             imageClass += ' vertical bowed';
         } else if(this.props.orientation === 'horizontal') {
             cardClass += ' horizontal';
+            honorClass += ' horizontal';
             imageClass += ' horizontal';
         } else {
             cardClass += ' vertical';
+            honorClass += ' vertical';
             imageClass += ' vertical';
         }
 
