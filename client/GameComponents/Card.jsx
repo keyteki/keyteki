@@ -245,9 +245,9 @@ class Card extends React.Component {
             cardClass += ' new';
         }
 
-        if(this.props.isHonored) {
+        if(this.props.card.isHonored) {
             cardClass += ' honored';
-        } else if(this.props.isDishonored) {
+        } else if(this.props.card.isDishonored) {
             cardClass += ' dishonored';
         }
 
