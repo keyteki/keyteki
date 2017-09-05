@@ -232,6 +232,10 @@
     margin-left: -(@attachment-offset)*@i;
     margin-top: -(@card-height)-(@attachment-offset);
     z-index: @layer-cards - @i;
+
+    &.honor {
+      margin-left: 53px-(@attachment-offset)*@i;
+    }
   }
   .generate-attachments(@n, (@i + 1));
 }
