@@ -274,8 +274,7 @@ class Card extends React.Component {
                     <div>
                         <span className='card-name'>{ this.props.card.name }</span>
                         <img className={ imageClass } src={ '/img/cards/' + (!this.isFacedown() ? (this.props.card.id + '.jpg') : cardBack) } />
-                        {this.props.card.isHonored ? '<img className="honored" src="" >' : null}
-                        {this.props.card.isDishonored ? '<img className="dishonored" src="" >' : null}
+                        <img className={this.props.card.isHonored ? 'honored' : null } {this.props.card.isDishonored ? 'dishonored' : null } src='' />
                     </div>
                     { this.showCounters() ? <CardCounters counters={ this.getCountersForCard(this.props.card) } /> : null }
                 </div>
