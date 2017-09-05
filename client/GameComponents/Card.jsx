@@ -208,9 +208,10 @@ class Card extends React.Component {
     }
 
     getCard() {
-        var cardClass = 'card';
-        var imageClass = 'card-image';
-        var cardBack = 'cardback.jpg';
+        let cardClass = 'card';
+        let honorClass = '';
+        let imageClass = 'card-image';
+        let cardBack = 'cardback.jpg';
 
         if(!this.props.card) {
             return <div />;
@@ -259,6 +260,12 @@ class Card extends React.Component {
             cardBack = 'cardback.jpg';
         }
 
+        if(this.props.card.isHonored) {
+            honorClass = 'honored';
+        } else if(this.props.card.isDishonored) {
+            honorClass = 'dishonored';
+        }
+
         return (
             <div className='card-frame' ref='cardFrame'
                 onTouchMove={ ev => this.onTouchMove(ev) }
@@ -274,7 +281,7 @@ class Card extends React.Component {
                     <div>
                         <span className='card-name'>{ this.props.card.name }</span>
                         <img className={ imageClass } src={ '/img/cards/' + (!this.isFacedown() ? (this.props.card.id + '.jpg') : cardBack) } />
-                        <img className={this.props.card.isHonored ? 'honored' : null } {this.props.card.isDishonored ? 'dishonored' : null } src='' />
+                        <img className={ honorClass } src='' />
                     </div>
                     { this.showCounters() ? <CardCounters counters={ this.getCountersForCard(this.props.card) } /> : null }
                 </div>
