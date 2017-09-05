@@ -22,6 +22,11 @@
 
     &.honor {
       height: @card-height-honor;
+
+      &.attachment {
+        height: @card-height;
+        width: @card-width;
+      }
     }
   }
 
@@ -184,8 +189,6 @@
 
   &.honor {
     margin-top: -(@card-height-honor);
-    height: @card-height;
-    width: @card-width;
   }
 
 }
@@ -197,7 +200,7 @@
   }
   .attachment-@{i}.horizontal {
     margin-left: -(@attachment-offset)*@i;
-    margin-top: -(@card-height-honor)-(@attachment-offset);
+    margin-top: -(@card-height)-(@attachment-offset);
     z-index: @layer-cards - @i;
   }
   .generate-attachments(@n, (@i + 1));
