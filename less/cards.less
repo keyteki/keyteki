@@ -268,19 +268,6 @@
 
 .generate-attachments(5, 1);
 
-.card-dupe {
-  margin-bottom: @attachment-offset;
-  margin-top: -(@attachment-offset + @card-height);
-}
-
-.generate-card-dupes(@n, @i: 1) when (@i =< @n) {
-  .card-dupe-@{i} {
-    z-index: @layer-cards - @i;
-  }
-  .generate-card-dupes(@n, (@i + 1));
-}
-.generate-card-dupes(5, 1);
-
 .card-type-faction.horizontal {
     margin: 10px 0 0 -10px;
 }
