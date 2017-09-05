@@ -2,7 +2,7 @@
 class Ring {
     constructor(element, type) {
         this.claimed = false;
-        this.claimedBy = '';
+        this.claimedBy = {};
         this.conflictType = type;
         this.element = element;
         this.fate = 0;
