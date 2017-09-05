@@ -59,7 +59,7 @@ class ChatCommands {
                 //honor card
                 card.honor();
 
-                this.game.addMessage('{0} uses the /honor command to honor {1}', p, card);
+                this.game.addMessage('{0} uses the /honor command to honor {1}', p, card.cardData.name);
                 return true;
             }
         });
@@ -74,7 +74,7 @@ class ChatCommands {
                 //dishonor card
                 card.dishonor();
 
-                this.game.addMessage('{0} uses the /dishonor command to honor {1}', p, card);
+                this.game.addMessage('{0} uses the /dishonor command to honor {1}', p, card.cardData.name);
                 return true;
             }
         });
