@@ -134,9 +134,8 @@ class GameServer {
     }
 
     sendGameState(game) {
-        console.log(game);
         _.each(game.getPlayersAndSpectators(), player => {
-            console.log(player);
+            console.log(player)
             if(player.left || player.disconnected || !player.socket) {
                 return;
             }
