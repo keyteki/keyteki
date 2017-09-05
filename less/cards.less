@@ -128,7 +128,33 @@
     transform: rotate(90deg);
 
     &.honor {
-      left: 0px;
+      left: 53px;
+    }
+  }
+}
+
+.honor.attachment .card-image {
+  left: 0px;
+  position: absolute;
+  top: 0;
+
+  &.vertical {
+    height: @card-height;
+    width: @card-width;
+  }
+
+  &.horizontal {
+    height: @card-width;
+    width: @card-height;
+  }
+
+  &.bowed {
+    left: 0px;
+    top: -10px;
+    transform: rotate(90deg);
+
+    &.honor {
+      left: 53px;
     }
   }
 }
