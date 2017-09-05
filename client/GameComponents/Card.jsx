@@ -256,6 +256,7 @@ class Card extends React.Component {
 
         if(this.props.card.isHonored || this.props.card.isDishonored) {
             cardClass += ' honor';
+            imageClass += ' honor';
         }
 
         if(this.props.card.isConflict || this.props.source === 'conflict deck') {
