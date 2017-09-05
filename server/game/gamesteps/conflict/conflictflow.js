@@ -4,6 +4,20 @@ const GamePipeline = require('../../gamepipeline.js');
 const SimpleStep = require('../simplestep.js');
 const ActionWindow = require('../actionwindow.js');
 
+/**
+Conflict Resolution
+3.2 Declare Conflict
+3.2.1 Declare defenders
+3.2.2 CONFLICT ACTION WINDOW
+    (Defender has first opportunity)
+3.2.3 Compare skill values.
+3.2.4 Apply unopposed.
+3.2.5 Break province.
+3.2.6 Resolve Ring effects.
+3.2.7 Claim ring.
+3.2.8 Return home. Go to (3.3).
+ */
+
 class ConflictFlow extends BaseStep {
     constructor(game, conflict) {
         super(game);
@@ -13,11 +27,11 @@ class ConflictFlow extends BaseStep {
             new SimpleStep(this.game, () => this.resetCards()),
             new SimpleStep(this.game, () => this.announceConflict()),
             new SimpleStep(this.game, () => this.promptForAttackers()),
+            //Reveal province
             new SimpleStep(this.game, () => this.announceAttackerSkill()),
-            new ActionWindow(this.game, 'After attackers declared', 'attackersDeclared'),
             new SimpleStep(this.game, () => this.promptForDefenders()),
             new SimpleStep(this.game, () => this.announceDefenderSskill()),
-            new ActionWindow(this.game, 'After defenders declared', 'defendersDeclared'),
+            new ActionWindow(this.game, 'Conflict Action Window', 'conflictAction'),
             new SimpleStep(this.game, () => this.determineWinner()),
             new SimpleStep(this.game, () => this.applyKeywords()),
             new SimpleStep(this.game, () => this.completeConflict())

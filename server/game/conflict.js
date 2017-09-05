@@ -3,12 +3,14 @@ const Player = require('./player.js');
 const EventRegistrar = require('./eventregistrar.js');
 
 class Conflict {
-    constructor(game, attackingPlayer, defendingPlayer, conflictType) {
+    constructor(game, attackingPlayer, defendingPlayer, conflictType, conflictRing, conflictProvince) {
         this.game = game;
         this.attackingPlayer = attackingPlayer;
         this.isSinglePlayer = !defendingPlayer;
         this.defendingPlayer = defendingPlayer || this.singlePlayerDefender();
         this.conflictType = conflictType;
+        this.conflictRing = conflictRing;
+        this.conflictProvince = conflictProvince;
         this.attackers = [];
         this.attackerSkill = 0;
         this.attackerSkillModifier = 0;
@@ -22,7 +24,6 @@ class Conflict {
     singlePlayerDefender() {
         var dummyPlayer = new Player('', { name: 'Dummy Player' }, false, this.game);
         dummyPlayer.initialise();
-        dummyPlayer.startPlotPhase();
         return dummyPlayer;
     }
 

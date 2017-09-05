@@ -21,17 +21,6 @@ III Conflict Phase
 3.4.2 Claim Imperial Favor.
 3.5 Conflict phase ends.
 
-Conflict Resolution
-3.2 Declare Conflict
-3.2.1 Declare defenders
-3.2.2 CONFLICT ACTION WINDOW
-    (Defender has first opportunity)
-3.2.3 Compare skill values.
-3.2.4 Apply unopposed.
-3.2.5 Break province.
-3.2.6 Resolve Ring effects.
-3.2.7 Claim ring.
-3.2.8 Return home. Go to (3.3).
  */
 
 class ConflictPhase extends Phase {
@@ -40,30 +29,38 @@ class ConflictPhase extends Phase {
         this.initialise([
             new SimpleStep(this.game, () => this.beginPhase()),
             new ActionWindow(this.game, 'Before conflicts', 'conflictBegin'),
-            new SimpleStep(this.game, () => this.promptForConflict())
+            new SimpleStep(this.game, () => this.startConflictChoice())
         ]);
     }
 
     beginPhase() {
         this.remainingPlayers = this.game.getPlayersInFirstPlayerOrder();
-        _.each(this.remainingPlayers, player => {
-            player.activePlot.onBeginConflictPhase();
-        });
+        this.currentPlayer = this.remainingPlayers[0];
     }
 
-    promptForConflict() {
+    startConflictChoice(attackingPlayer = null) {
+        let attacker = attackingPlayer;
+        if(attacker == null) {
+            attacker = this.currentPlayer;
+        }
+
+        this.game.queueStep(new SimpleStep(this.game, () => this.promptForConflictType(attacker)));
+
+    }
+
+    promptForConflictType(attackingPlayer) {
         if(this.remainingPlayers.length === 0) {
             return true;
         }
 
-        var currentPlayer = this.remainingPlayers[0];
+        let currentPlayer = attackingPlayer;
         this.game.promptWithMenu(currentPlayer, this, {
             activePrompt: {
                 menuTitle: '',
                 buttons: [
-                    { text: 'Military', method: 'initiateConflict', arg: 'military' },
-                    { text: 'Political', method: 'initiateConflict', arg: 'political' },
-                    { text: 'Done', method: 'completeConflicts' }
+                    { text: 'Military', method: 'promptForConflictRing', arg: 'military' },
+                    { text: 'Political', method: 'promptForConflictRing', arg: 'political' },
+                    { text: 'Pass', method: 'passConflict' }
                 ]
             },
             waitingPromptTitle: 'Waiting for opponent to initiate conflict'
@@ -72,23 +69,58 @@ class ConflictPhase extends Phase {
         return false;
     }
 
-    initiateConflict(attackingPlayer, conflictType) {
+    promptForConflictRing(attackingPlayer, conflictType) {
+        let currentPlayer = attackingPlayer;
+
+        this.conflictType = conflictType;
+        this.game.promptWithMenu(currentPlayer, this, {
+            activePrompt: {
+                menuTitle: '',
+                buttons: [
+                    { text: 'Air', method: 'promptForConflictProvince', arg: 'air' },
+                    { text: 'Earth', method: 'promptForConflictProvince', arg: 'earth' },
+                    { text: 'Fire', method: 'promptForConflictProvince', arg: 'fire' },
+                    { text: 'Void', method: 'promptForConflictProvince', arg: 'void' },
+                    { text: 'Water', method: 'promptForConflictProvince', arg: 'water' }
+                ]
+            },
+            waitingPromptTitle: 'Waiting for opponent to choose conflict ring'
+        });
+
+        return false;
+    }
+
+    promptForConflictProvince(attackingPlayer, conflictRing) {
+        var currentPlayer = attackingPlayer;
+
+        this.conflictRing = conflictRing;
+        this.game.promptWithMenu(currentPlayer, this, {
+            activePrompt: {
+                menuTitle: '',
+                buttons: [
+                    { text: 'Stronghold', method: 'initiateConflict', arg: 'stronghold province' },
+                    { text: 'One', method: 'initiateConflict', arg: 'province 1' },
+                    { text: 'Two', method: 'initiateConflict', arg: 'province 2' },
+                    { text: 'Three', method: 'initiateConflict', arg: 'province 3' },
+                    { text: 'Four', method: 'initiateConflict', arg: 'province 4' }
+                ]
+            },
+            waitingPromptTitle: 'Waiting for opponent to choose province'
+        });
+
+        return false;
+    }
+
+    initiateConflict(attackingPlayer, conflictProvince) {
         if(!attackingPlayer.canInitiateConflict(conflictType)) {
             return;
         }
 
         attackingPlayer.conflictType = conflictType;
 
-        if(!attackingPlayer.activePlot.canConflict(attackingPlayer, conflictType)) {
-            return;
-        }
+        let defendingPlayer = this.chooseOpponent(attackingPlayer);
 
-        var defendingPlayer = this.chooseOpponent(attackingPlayer);
-        if(defendingPlayer && !defendingPlayer.activePlot.canConflict(attackingPlayer, conflictType)) {
-            return;
-        }
-
-        var conflict = new Conflict(this.game, attackingPlayer, defendingPlayer, conflictType);
+        var conflict = new Conflict(this.game, attackingPlayer, defendingPlayer, this.conflictType, this.conflictRing, conflictProvince);
         this.game.currentConflict = conflict;
         this.game.queueStep(new ConflictFlow(this.game, conflict));
         this.game.queueStep(new SimpleStep(this.game, () => this.cleanupConflict()));
@@ -101,6 +133,20 @@ class ConflictPhase extends Phase {
 
     chooseOpponent(attackingPlayer) {
         return this.game.getOtherPlayer(attackingPlayer);
+    }
+
+    passConflict(player) {
+        let otherPlayer = this.game.getOtherPlayer(player);
+        let attacker = otherPlayer;
+
+        if(typeof otherplayer == 'undefined') {
+            attacker = player;
+        }
+        
+        this.game.addMessage('{0} has passed the opportunity to declare a conflict', player);
+
+        this.game.queueStep(new SimpleStep(this.game, () => this.startConflictChoice(attacker)))
+        return true;
     }
 
     completeConflicts(player) {
