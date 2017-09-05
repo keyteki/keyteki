@@ -245,6 +245,12 @@ class Card extends React.Component {
             cardClass += ' new';
         }
 
+        if(this.props.isHonored) {
+            cardClass += ' honored';
+        } else if(this.props.isDishonored) {
+            cardClass += ' dishonored';
+        }
+
         if(this.props.className) {
             cardClass += ' ' + this.props.className;
         }
@@ -308,6 +314,8 @@ Card.propTypes = {
         inConflict: React.PropTypes.bool,
         isConflict: React.PropTypes.bool,
         isDynasty: React.PropTypes.bool,
+        isDishonored: React.PropTypes.bool,
+        isHonored: React.PropTypes.bool,
         isProvince: React.PropTypes.bool,
         bowed: React.PropTypes.bool,
         menu: React.PropTypes.array,

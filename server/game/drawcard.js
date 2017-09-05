@@ -26,6 +26,8 @@ class DrawCard extends BaseCard {
         this.inConflict = false;
         this.isConflict = false;
         this.isDynasty = false;
+        this.isHonored = false;
+        this.isDishonored = false;
         this.readysDuringReadying = true;
         this.challengeOptions = {
             doesNotBowAs: {
@@ -177,6 +179,23 @@ class DrawCard extends BaseCard {
 
     }
 
+    honor() {
+        if(this.isDishonored) {
+            this.isDishonored = false;
+        } else if(!this.isHonored) {
+            this.isHonored = true;
+        }
+    }
+
+    dishonor() {
+        if(this.isHonored) {
+            this.isHonored = false;
+        } else if(!this.isDishonored) {
+            this.isDishonored = true;
+        }
+    }
+
+
     needsCovertTarget() {
         return this.isCovert() && !this.covertTarget;
     }
@@ -286,6 +305,8 @@ class DrawCard extends BaseCard {
             inConflict: this.inConflict,
             isConflict: this.isConflict,
             isDynasty: this.isDynasty,
+            isDishonored: this.isDishonored,
+            isHonored: this.isHonored,
             bowed: this.bowed,
             saved: this.saved,
             fate: this.fate,

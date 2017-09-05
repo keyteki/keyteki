@@ -57,6 +57,7 @@ class ChatCommands {
             cardCondition: card => card.location === 'play area' && card.controller === player,
             onSelect: (p, card) => {
                 //honor card
+                card.honor();
 
                 this.game.addMessage('{0} uses the /honor command to honor {1}', p, card);
                 return true;
@@ -71,6 +72,7 @@ class ChatCommands {
             cardCondition: card => card.location === 'play area' && card.controller === player,
             onSelect: (p, card) => {
                 //dishonor card
+                card.dishonor();
 
                 this.game.addMessage('{0} uses the /dishonor command to honor {1}', p, card);
                 return true;
