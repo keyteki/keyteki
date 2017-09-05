@@ -847,6 +847,7 @@ class Game extends EventEmitter {
     getState(activePlayerName) {
         let activePlayer = this.playersAndSpectators[activePlayerName] || new AnonymousSpectator();
         let playerState = {};
+        let ringState = {};
 
         if(this.started) {
             _.each(this.getPlayers(), player => {
