@@ -48,6 +48,8 @@ class About extends React.Component {
                     <li>/rem-fate-ring ring x - Remove 'x' fate from 'ring'.</li>
                     <li>/claim-ring ring - Claim 'ring'.</li>
                     <li>/unclaim-ring ring - Set 'ring' as unclaimed.</li>
+                    <li>/honor - Move the state of a character towards honored.</li>
+                    <li>/dishonor - Move the state of a character towards dishonored.</li>
                 </ul>
 
                 { /*<h3>Can I help?</h3>
