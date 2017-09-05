@@ -27,10 +27,7 @@ class ChatCommands {
             '/disconnectme': this.disconnectMe
         };
         this.tokens = [
-            'honored',
-            'dishonored',
-            'fate',
-            'ready'
+            'fate'
         ];
     }
 
@@ -59,7 +56,7 @@ class ChatCommands {
                 //honor card
                 card.honor();
 
-                this.game.addMessage('{0} uses the /honor command to honor {1}', p, card.cardData.name);
+                this.game.addMessage('{0} uses the /honor command to honor {1}', p, card);
                 return true;
             }
         });
@@ -74,7 +71,7 @@ class ChatCommands {
                 //dishonor card
                 card.dishonor();
 
-                this.game.addMessage('{0} uses the /dishonor command to honor {1}', p, card.cardData.name);
+                this.game.addMessage('{0} uses the /dishonor command to honor {1}', p, card);
                 return true;
             }
         });
