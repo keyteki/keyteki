@@ -19,21 +19,20 @@
   &.vertical {
     height: @card-height;
     width: @card-width;
+
+    &.honor {
+      height: @card-height-honor;
+    }
   }
 
   &.horizontal {
     height: @card-width;
     width: @card-height;
-  }
 
-  &.vertical-honor {
-    height: @card-height-honor;
-    width: @card-width;
-  }
+    &.honor {
+      width: @card-height-honor;
+    }
 
-  &.horizontal-honor {
-    height: @card-width;
-    width: @card-height-honor;
   }
 
   &.selectable {
