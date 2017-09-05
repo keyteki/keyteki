@@ -182,6 +182,10 @@
 .attachment {
   margin-top: -(@card-height);
 
+  &.honor {
+    margin-top: -(@card-height-honor);  
+  }
+
 }
 
 .generate-attachments(@n, @i: 1) when (@i =< @n) {
@@ -191,7 +195,7 @@
   }
   .attachment-@{i}.horizontal {
     margin-left: -(@attachment-offset)*@i;
-    margin-top: -(@card-height)-(@attachment-offset);
+    margin-top: -(@card-height-honor)-(@attachment-offset);
     z-index: @layer-cards - @i;
   }
   .generate-attachments(@n, (@i + 1));

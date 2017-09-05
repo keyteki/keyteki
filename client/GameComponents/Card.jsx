@@ -150,13 +150,19 @@ class Card extends React.Component {
     }
 
     getAttachments() {
+        let honorClass = '';
+
         if(this.props.source !== 'play area') {
             return null;
         }
 
+        if(this.props.card.isHonored || this.props.card.isDishonored) {
+            honorClass += ' honor';
+        }
+
         var index = 1;
         var attachments = _.map(this.props.card.attachments, attachment => {
-            var returnedAttachment = (<Card key={ attachment.uuid } source={ this.props.source } card={ attachment } className={ 'attachment attachment-' + index } wrapped={ false }
+            var returnedAttachment = (<Card key={ attachment.uuid } source={ this.props.source } card={ attachment } className={ 'attachment attachment-' + index + honorClass } wrapped={ false }
                 onMouseOver={ this.props.disableMouseOver ? null : this.onMouseOver.bind(this, attachment) }
                 onMouseOut={ this.props.disableMouseOver ? null : this.onMouseOut }
                 onClick={ this.props.onClick }
