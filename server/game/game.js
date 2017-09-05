@@ -853,12 +853,16 @@ class Game extends EventEmitter {
                 playerState[player.name] = player.getState(activePlayer);
             });
 
+            _.each(this.rings, ring => {
+                ringState[ring.element] = ring.getState();
+            });
+
             return {
                 id: this.id,
                 name: this.name,
                 owner: this.owner,
                 players: playerState,
-                rings: this.rings,
+                rings: ringState,
                 messages: this.gameChat.messages,
                 spectators: _.map(this.getSpectators(), spectator => {
                     return {
