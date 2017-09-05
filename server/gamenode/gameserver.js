@@ -139,7 +139,7 @@ class GameServer {
             if(player.left || player.disconnected || !player.socket) {
                 return;
             }
-
+            console.log(game.getState);
             player.socket.send('gamestate', game.getState(player.name));
         });
     }
