@@ -209,6 +209,14 @@ class Card extends React.Component {
         return true;
     }
 
+    showHonor() {
+        if(this.props.card.isHonored || this.props.card.isDishonored) {
+            return true;
+        }
+
+        return false;
+    }
+
     isFacedown() {
         return this.props.card.facedown || !this.props.card.id;
     }
@@ -298,7 +306,7 @@ class Card extends React.Component {
                     <div>
                         <span className='card-name'>{ this.props.card.name }</span>
                         <img className={ imageClass } src={ '/img/cards/' + (!this.isFacedown() ? (this.props.card.id + '.jpg') : cardBack) } />
-                        <img className={ honorClass } src={ '/img/' + honorImage } />
+                        { this.showHonor() ? <img className={ honorClass } src={ '/img/' + honorImage } /> : null }
                     </div>
                     { this.showCounters() ? <CardCounters counters={ this.getCountersForCard(this.props.card) } /> : null }
                 </div>
