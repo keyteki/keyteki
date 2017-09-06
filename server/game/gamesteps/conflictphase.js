@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
 const Conflict = require('../conflict.js');
@@ -40,7 +39,7 @@ class ConflictPhase extends Phase {
 
     startConflictChoice(attackingPlayer = null) {
         let attacker = attackingPlayer;
-        if(attacker == null) {
+        if(attacker === null) {
             attacker = this.currentPlayer;
         }
 
@@ -112,11 +111,11 @@ class ConflictPhase extends Phase {
     }
 
     initiateConflict(attackingPlayer, conflictProvince) {
-        if(!attackingPlayer.canInitiateConflict(conflictType)) {
+        if(!attackingPlayer.canInitiateConflict(this.conflictType)) {
             return;
         }
 
-        attackingPlayer.conflictType = conflictType;
+        attackingPlayer.conflictType = this.conflictType;
 
         let defendingPlayer = this.chooseOpponent(attackingPlayer);
 
@@ -139,13 +138,13 @@ class ConflictPhase extends Phase {
         let otherPlayer = this.game.getOtherPlayer(player);
         let attacker = otherPlayer;
 
-        if(typeof otherplayer == 'undefined') {
+        if(typeof otherplayer === 'undefined') {
             attacker = player;
         }
         
         this.game.addMessage('{0} has passed the opportunity to declare a conflict', player);
 
-        this.game.queueStep(new SimpleStep(this.game, () => this.startConflictChoice(attacker)))
+        this.game.queueStep(new SimpleStep(this.game, () => this.startConflictChoice(attacker)));
         return true;
     }
 
