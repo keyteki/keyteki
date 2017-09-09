@@ -223,7 +223,7 @@ class Card extends React.Component {
     
     isInPopup() {
         if(this.props.isInPopup) {
-            return true
+            return true;
         }
     }
 
