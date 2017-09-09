@@ -960,6 +960,10 @@ class Player extends Spectator {
             card.attachments.each(attachment => {
                 this.removeAttachment(attachment, false);
             });
+            
+            // Disassociate this card with all its attachmsnts
+            // They should have all been discarded and any relevant events triggered by the previous loop
+            card.attachments = _([]); 
 
             /* Ignore dupe mechanic
             while(card.dupes.size() > 0 && targetLocation !== 'play area') {
