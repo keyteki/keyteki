@@ -220,6 +220,12 @@ class Card extends React.Component {
     isFacedown() {
         return this.props.card.facedown || !this.props.card.id;
     }
+    
+    isInPopup() {
+        if(this.props.isInPopup) {
+            return true
+        }
+    }
 
     getCard() {
         let cardClass = 'card';
@@ -305,7 +311,7 @@ class Card extends React.Component {
                     draggable>
                     <div>
                         <span className='card-name'>{ this.props.card.name }</span>
-                        <img className={ imageClass } src={ '/img/cards/' + (!this.isFacedown() ? (this.props.card.id + '.jpg') : cardBack) } />
+                        <img className={ imageClass } src={ '/img/cards/' + ((!this.isFacedown() || this.isInPopup()) ? (this.props.card.id + '.jpg') : cardBack) } />
                         { this.showHonor() ? <img className={ honorClass } src={ '/img/' + honorImage } /> : null }
                     </div>
                     { this.showCounters() ? <CardCounters counters={ this.getCountersForCard(this.props.card) } /> : null }
@@ -361,6 +367,7 @@ Card.propTypes = {
     }).isRequired,
     className: React.PropTypes.string,
     disableMouseOver: React.PropTypes.bool,
+    isInPopup: React.PropTypes.bool,
     onClick: React.PropTypes.func,
     onDragDrop: React.PropTypes.func,
     onMenuItemClick: React.PropTypes.func,
