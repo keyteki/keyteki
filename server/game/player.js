@@ -960,7 +960,7 @@ class Player extends Spectator {
             card.attachments.each(attachment => {
                 this.removeAttachment(attachment, false);
             });
-           
+            
             /* Ignore dupe mechanic
             while(card.dupes.size() > 0 && targetLocation !== 'play area') {
                 this.removeDuplicate(card, true);
