@@ -845,8 +845,6 @@ class Game extends EventEmitter {
     }
 
     getState(activePlayerName) {
-        console.log('getting state');
-        console.log(this.gameChat.messages);
         let activePlayer = this.playersAndSpectators[activePlayerName] || new AnonymousSpectator();
         let playerState = {};
         let ringState = {};
