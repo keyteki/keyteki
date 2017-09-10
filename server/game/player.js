@@ -1112,6 +1112,10 @@ class Player extends Spectator {
     setDrawBid(bid) {
         this.drawBid = bid;
     }
+    
+    playDynastyCardWithFate(card, fate = 0) {
+        
+    }
 
     getState(activePlayer) {
         let isActivePlayer = activePlayer === this;
