@@ -103,9 +103,10 @@ class InnerGameList extends React.Component {
 
             return (
                 <div key={ game.id } className={ 'game-row' + (game.node && this.props.isAdmin ? ' ' + game.node : '') }>
-                    { this.props.isAdmin ?
-                        <div className='remove-container'><button className='btn btn-primary remove-button' onClick={ event => this.removeGame(event, game) }>Remove</button></div> : null }
-                    <span className='col-xs-12 game-title'><b>{ gameTitle }</b></span>
+                    <span className='col-xs-12 game-title'>
+                        { this.props.isAdmin ? <a href='#' className='glyphicon glyphicon-remove' onClick={ event => this.removeGame(event, game) } /> : null }
+                        <b>{ gameTitle }</b>
+                    </span>
                     <div>{ gameRow }</div>
                     <div className='col-xs-3 game-row-buttons pull-right'>
                         { (this.props.currentGame || _.size(game.players) === 2 || game.started) ?
