@@ -3,8 +3,8 @@ const Spectator = require('../../../server/game/spectator.js');
 
 describe('Game', function() {
     beforeEach(function() {
-        this.gameRepository = jasmine.createSpyObj('gameRepository', ['save']);
-        this.game = new Game('1', 'Test Game', { gameRepository: this.gameRepository });
+        this.gameService = jasmine.createSpyObj('gameService', ['save']);
+        this.game = new Game('1', 'Test Game', { gameService: this.gameService });
 
         this.player = jasmine.createSpyObj('player', ['']);
         this.player.name = 'Player 1';

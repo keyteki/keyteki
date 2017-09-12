@@ -43,8 +43,8 @@ describe('the DrawCard', function() {
         const Player = require('../../../server/game/player.js');
 
         beforeEach(function() {
-            this.gameRepository = jasmine.createSpyObj('gameRepository', ['save']);
-            this.game = new Game({}, { gameRepository: this.gameRepository });
+            this.gameService = jasmine.createSpyObj('gameService', ['save']);
+            this.game = new Game({}, { gameService: this.gameService });
 
             this.player = new Player(1, { username: 'foo' }, false, this.game);
             this.player.noTimer = true;

@@ -25,7 +25,14 @@ function httpRequest(url) {
     });
 }
 
+function wrapAsync(fn) {
+    return function(req, res, next) {
+        fn(req, res, next).catch(next);
+    };
+}
+
 module.exports = {
     escapeRegex: escapeRegex,
-    httpRequest: httpRequest
+    httpRequest: httpRequest,
+    wrapAsync: wrapAsync
 };
