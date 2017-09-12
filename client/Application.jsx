@@ -23,6 +23,7 @@ import Profile from './Profile.jsx';
 import NewsAdmin from './NewsAdmin.jsx';
 import Unauthorised from './Unauthorised.jsx';
 import UserAdmin from './UserAdmin.jsx';
+import BlockList from './BlockList.jsx';
 
 import {toastr} from 'react-redux-toastr';
 
@@ -204,15 +205,22 @@ class App extends React.Component {
     }
 
     render() {
-        let notAuthedMenu = [
-            { name: 'Login', path: '/login' },
-            { name: 'Register', path: '/register' }
-        ];
+        let rightMenu;
 
-        let authedMenu = [
-            { name: 'Profile', path: '/profile' },
-            { name: 'Logout', path: '/logout' }
-        ];
+        if(!this.props.user) {
+            rightMenu = [
+                { name: 'Login', path: '/login' },
+                { name: 'Register', path: '/register' }
+            ];
+        } else {
+            rightMenu = [
+                { name: this.props.user.username, childItems: [
+                    { name: 'Profile', path: '/profile' },
+                    { name: 'Block List', path: '/blocklist' },
+                    { name: 'Logout', path: '/logout' }
+                ], avatar: true, emailHash: this.props.user.emailHash, disableGravatar: this.props.user.settings.disableGravatar }
+            ];
+        }
 
         let leftMenu = [
             { name: 'Decks', path: '/decks' },
@@ -239,7 +247,6 @@ class App extends React.Component {
             leftMenu.push({ name: 'Admin', childItems: adminMenuItems });
         }
 
-        let rightMenu = this.props.loggedIn ? authedMenu : notAuthedMenu;
         let component = {};
 
         let path = this.props.path;
@@ -327,6 +334,9 @@ class App extends React.Component {
                     component = <UserAdmin />;
                 }
 
+                break;
+            case '/blocklist':
+                component = <BlockList />;
                 break;
             default:
                 component = <NotFound />;

@@ -39,11 +39,3 @@ export function receiveBannerNotice(notice) {
         notice: notice
     };
 }
-
-export function refreshUser(user, token) {
-    return {
-        type: 'REFRESH_USER',
-        user: user,
-        token: token
-    };
-}

@@ -22,6 +22,7 @@ const webpack = require('webpack');
 const webpackConfig = require('../webpack.config.js');
 const pug = require('pug');
 const monk = require('monk');
+const _ = require('underscore');
 
 const UserService = require('./services/UserService.js');
 const version = require('../version.js');

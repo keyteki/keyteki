@@ -2,8 +2,8 @@ import React from 'react';
 
 class Input extends React.Component {
     render() {
-        return (
-            <div className='form-group'>
+        let inputControl = (
+            <div>
                 <label htmlFor={ this.props.name } className={ this.props.labelClass + ' control-label' }>{ this.props.label }</label>
                 <div className={ this.props.fieldClass }>
                     <input type={ this.props.type }
@@ -19,6 +19,16 @@ class Input extends React.Component {
                 { this.props.children }
             </div>
         );
+
+        if(this.props.noGroup) {
+            return inputControl;
+        }
+
+        return (
+            <div className='form-group'>
+                { inputControl }
+            </div>
+        );
     }
 }
 
@@ -29,6 +39,7 @@ Input.propTypes = {
     label: React.PropTypes.string,
     labelClass: React.PropTypes.string,
     name: React.PropTypes.string,
+    noGroup: React.PropTypes.bool,
     onBlur: React.PropTypes.func,
     onChange: React.PropTypes.func,
     placeholder: React.PropTypes.string,

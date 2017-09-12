@@ -109,6 +109,10 @@ class PendingGame {
             callback(new Error('Too many players'), 'Too many players');
         }
 
+        if(_.contains(this.owner.blockList, user.username.toLowerCase())) {
+            return;
+        }
+
         if(this.password) {
             bcrypt.compare(password, this.password, (err, valid) => {
                 if(err) {
@@ -133,6 +137,12 @@ class PendingGame {
     watch(id, user, password, callback) {
         if(!this.allowSpectators || this.started) {
             callback(new Error('Join not permitted'));
+
+            return;
+        }
+
+        if(_.contains(this.owner.blockList, user.name.toLowerCase())) {
+            return;
         }
 
         if(this.password) {

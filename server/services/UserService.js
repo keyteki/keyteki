@@ -66,12 +66,21 @@ class UserService {
             toSet.password = user.password;
         }
 
-        return this.users.update({ username: user.username }, { '$set': toSet })
-            .catch(err => {
-                logger.error(err);
+        return this.users.update({ username: user.username }, { '$set': toSet }).catch(err => {
+            logger.error(err);
 
-                throw new Error('Error setting user details');
-            });
+            throw new Error('Error setting user details');
+        });
+    }
+
+    updateBlockList(user) {
+        return this.users.update({ username: user.username }, { '$set': {
+            blockList: user.blockList
+        } }).catch(err => {
+            logger.error(err);
+
+            throw new Error('Error setting user details');
+        });
     }
 
     setResetToken(user, token, tokenExpiration) {

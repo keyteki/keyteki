@@ -58,3 +58,126 @@
   position: relative;
   top: 5px;
 }
+
+.main-header {
+  font-family: agot;
+  background-color: fade(@brand-primary, 50%);
+  height: 100%;
+  vertical-align: center;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding-top: 1px;
+  padding-bottom: 2px;
+  border-radius: 4px;
+}
+
+.military-container {
+  color: @brand-primary;
+  font-weight: bolder;
+
+  .icon-military {
+    float: left;
+  }
+}
+
+.intrigue-container, .power-container {
+  color: @brand-secondary;
+  .icon-power {
+    float: left;
+  }
+
+  .icon-intrigue {
+    float: left;
+  }
+}
+
+.news-container {
+  max-height: 130px;
+  min-height: 130px;
+  overflow-y: auto;
+}
+
+.sidebar {
+  position: absolute;
+  left: 0;
+  top: 50px;
+  bottom: 0;
+  background-color: fade(@navbar-inverse-bg, 80%);
+
+  & a {
+    color: @brand-primary;
+
+    &:active {
+      color: @brand-primary;
+    }
+  }
+
+  &.expanded {
+    width: 200px;
+  }
+
+  z-index: 999;
+  overflow-y: auto;
+}
+
+.userlist {
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 20px;
+  font-weight: bold;
+}
+
+.user-row {
+  text-align: left;
+  font-weight: normal;
+  padding-top: 5px;
+  padding-left: 10px;
+
+  &:hover {
+    background-color: fade(@brand-info, 20%);;
+  }
+}
+
+.glyphicon-menu-hamburger {
+  font-size: 16px;
+}
+
+.selected {
+  box-shadow: 0 0 1px 4px @brand-secondary;
+}
+
+.bg-label {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+
+ul.htp-main-list, ul.htp-sub-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.htp-main-list {
+  font-weight: bold;
+}
+
+ul.htp-sub-list {
+  font-weight: normal;
+  margin-left: 20px;
+}
+
+.no-x-padding {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.blocklist {
+  td {
+    vertical-align: middle !important;
+  }
+
+  a {
+    color: @brand-danger;
+  }
+}
