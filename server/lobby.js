@@ -152,7 +152,7 @@ class Lobby {
 
     // Actions
     sendGameListFilteredWithBlockList(socket, gameList) {
-        let filteredGames = gameList;
+        let filteredGames = [];
 
         if(socket.user) {
             _.each(gameList, game => {
@@ -162,6 +162,8 @@ class Lobby {
                     filteredGames.push(game);
                 }
             });
+        } else {
+            filteredGames = gameList;
         }
 
         socket.send('games', filteredGames);
