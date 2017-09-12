@@ -105,7 +105,7 @@ class InnerBlockList extends React.Component {
                                 </p>
 
                                 <div className='form-group'>
-                                    <Input name='username' label='Username' labelClass='col-sm-4' fieldClass='col-sm-4' placeholder='Enter username to block'
+                                    <Input name='blockee' label='Username' labelClass='col-sm-4' fieldClass='col-sm-4' placeholder='Enter username to block'
                                         type='text' onChange={ this.onUsernameChange.bind(this) } value={ this.state.username } noGroup />
                                     <button className='btn btn-primary col-sm-1' onClick={ this.onAddClick.bind(this) }>Add</button>
                                 </div>

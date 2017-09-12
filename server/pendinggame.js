@@ -141,7 +141,7 @@ class PendingGame {
             return;
         }
 
-        if(_.contains(this.owner.blockList, user.name.toLowerCase())) {
+        if(_.contains(this.owner.blockList, user.username.toLowerCase())) {
             return;
         }
 
