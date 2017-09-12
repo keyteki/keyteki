@@ -283,8 +283,9 @@ class Lobby {
         }
     }
 
-    onAuthenticated(user) {
-        this.users[user.username] = Settings.getUserWithDefaultsSet(user);
+    onAuthenticated(socket, user) {
+        let userWithDefaults = Settings.getUserWithDefaultsSet(user);
+        this.users[user.username] = userWithDefaults;
 
         this.broadcastUserList();
     }

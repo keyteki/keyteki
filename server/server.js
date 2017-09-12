@@ -20,7 +20,6 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpack = require('webpack');
 const webpackConfig = require('../webpack.config.js');
-const pug = require('pug');
 const monk = require('monk');
 const _ = require('underscore');
 
@@ -120,7 +119,6 @@ class Server {
             res.render('index', { basedir: path.join(__dirname, '..', 'views'), user: Settings.getUserWithDefaultsSet(req.user), token: token, production: !this.isDeveloping });
         });
 
-
         // Define error middleware last
         app.use(function(err, req, res, next) { // eslint-disable-line no-unused-vars
             res.status(500).send({ success: false });
@@ -138,7 +136,7 @@ class Server {
                 logger.error(err);
             }
 
-            logger.info('==> 🌎 Listening on port %s. Open up http://0.0.0.0:%s/ in your browser.', port, port);
+            logger.info('==> ?? Listening on port %s. Open up http://0.0.0.0:%s/ in your browser.', port, port);
         });
     }
 
