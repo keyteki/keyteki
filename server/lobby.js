@@ -462,7 +462,7 @@ class Lobby {
     onLobbyChat(socket, message) {
         var chatMessage = { user: { username: socket.user.username, emailHash: socket.user.emailHash, noAvatar: socket.user.settings.disableGravatar }, message: message, time: new Date() };
 
-        this.messageRepository.addMessage(chatMessage);
+        this.messageService.addMessage(chatMessage);
 
         _.each(this.sockets, s => {
             if(s.user && _.contains(s.user.blockList, chatMessage.user.username.toLowerCase())) {
