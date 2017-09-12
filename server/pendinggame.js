@@ -105,8 +105,8 @@ class PendingGame {
     }
 
     join(id, user, password, callback) {
-        if(_.size(this.players) === 2) {
-            callback(new Error('Too many players'), 'Too many players');
+        if(_.size(this.players) === 2 || this.started) {
+            return;
         }
 
         if(_.contains(this.owner.blockList, user.username.toLowerCase())) {
@@ -135,7 +135,7 @@ class PendingGame {
     }
 
     watch(id, user, password, callback) {
-        if(!this.allowSpectators || this.started) {
+        if(!this.allowSpectators) {
             callback(new Error('Join not permitted'));
 
             return;
