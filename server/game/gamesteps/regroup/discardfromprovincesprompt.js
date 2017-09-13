@@ -1,3 +1,4 @@
+const _ = require('underscore');
 const SelectCardPrompt = require('../selectcardprompt.js');
 
 class DiscardFromProvincesPrompt extends SelectCardPrompt {
@@ -11,7 +12,7 @@ class DiscardFromProvincesPrompt extends SelectCardPrompt {
                         choosingPlayer === card.owner && !card.facedown);
             },
             onSelect: (player, cards) => {
-                _.each(cards, card => player.moveTo(card, 'dynasty discard pile');
+                _.each(cards, card => player.moveTo(card, 'dynasty discard pile'));
                 this.complete();
                 return true;
             }
