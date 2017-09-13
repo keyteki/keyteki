@@ -39,7 +39,8 @@ class StrongholdCard extends BaseCard {
 
         return _.extend(baseSummary, {
             isStronghold: this.isStronghold,
-            strengthModifer: this.getStrengthModifier
+            strengthModifer: this.getStrengthModifier,
+            bowed: this.bowed
         });
     }
 
