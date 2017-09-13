@@ -2,7 +2,7 @@ import React from 'react';
 
 class Counter extends React.Component {
     render() {
-        var className = 'counter ' + this.props.name;
+        var className = 'fatecounter ' + this.props.name;
 
         if(this.props.cancel) {
             className += ' cancel';
@@ -10,11 +10,11 @@ class Counter extends React.Component {
 
         if(this.props.fade) {
             className += ' fade-out';
-        }
+        }            
         
         return (<div key={ this.props.name } className={ className }>
-            { this.props.shortName ? <span>{ this.props.shortName }</span> : null }
-            <span>{ this.props.value }</span>
+            <img src='/img/Fate.png' title='Fate' alt='Fate' />
+            <div className='fatecountertext'> { this.props.value } </div>
         </div>);
     }
 }

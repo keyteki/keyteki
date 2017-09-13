@@ -329,7 +329,7 @@ class Game extends EventEmitter {
                 // log the moved card only if it moved from/to a public place
                 var card = this.findAnyCardInAnyList(cardId);
                 if(card && !(['dynasty deck', 'province deck'].includes(source) && ['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(target))) {
-                    movedCard = card;
+                    movedCard = card.name;
                 }
             }
 
