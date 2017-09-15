@@ -348,7 +348,7 @@ class BaseCard {
     }
 
     isUnique() {
-        return this.cardData.is_unique;
+        return this.cardData.unicity;
     }
 
     isBlank() {
