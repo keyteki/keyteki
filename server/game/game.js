@@ -666,6 +666,14 @@ class Game extends EventEmitter {
         this.rings[ring].flipConflictType();
     }
 
+    placeFateOnUnclaimedRings() {
+        _.each(this.rings, ring => {
+            if(!ring.claimed) {
+                ring.modifyFate(1);
+            }
+        });
+     }
+
     takeControl(player, card) {
         var oldController = card.controller;
         var newController = player;
