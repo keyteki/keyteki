@@ -3,7 +3,6 @@ const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
 const ActionWindow = require('./actionwindow.js');
 const EndRoundPrompt = require('./regroup/endroundprompt.js');
-const DiscardFromProvincesPrompt = require('./regroup/discardfromprovincesprompt.js');
 
 /*
 V Regroup Phase
@@ -31,7 +30,7 @@ class RegroupPhase extends Phase {
     }
 
     readyCards() {
-        this.game.raiseEvent('onReadyAllCards', () => {
+        this.game.raiseEvent('onReadyAllCards', this, () => {
             _.each(this.game.getPlayers(), player => {
                 player.readyCards();
             });
@@ -39,14 +38,32 @@ class RegroupPhase extends Phase {
     }
     
     discardFromProvinces() {
-        _.each(this.game.getPlayers(), player => {
-            player.discardFromBrokenProvinces();
-            this.game.queueStep(new DiscardFromProvincesPrompt(this.game, player));
-        });
+        _.each(this.game.getPlayersInFirstPlayerOrder(), player => player.discardFromBrokenProvinces());
+        _.each(this.game.getPlayersInFirstPlayerOrder(), player => this.game.promptForSelect(player, {
+            numCards: 0,
+            multiSelect: true,
+            activePromptTitle: 'Select dynasty cards to discard',
+            waitingPromptTitle: 'Waiting for opponent to discard dynasty cards',
+            cardCondition: card => {
+                return (['province 1', 'province 2', 'province 3', 'province 4'].includes(card.location) && 
+                        player === card.owner && !card.facedown);
+            },
+            onSelect: (player, cards) => {
+                _.each(cards, card => {
+                    let location = card.location;
+                    player.moveCard(card, 'dynasty discard pile');
+                    player.moveCard(player.dynastyDeck.first(), location);
+                });
+                this.complete();
+                return true;
+            }
+        }));
     }
     
     returnRings() {
-        this.game.raiseEvent('onReturnRings', this.game, this.game.returnRings);
+        this.game.raiseEvent('onReturnRings', this.game, () => {
+            this.game.returnRings();
+        });
     }
 
     passFirstPlayer() {
