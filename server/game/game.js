@@ -672,7 +672,7 @@ class Game extends EventEmitter {
                 ring.modifyFate(1);
             }
         });
-     }
+    }
 
     takeControl(player, card) {
         var oldController = card.controller;
