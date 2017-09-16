@@ -437,7 +437,7 @@ export class InnerGameBoard extends React.Component {
                             <img className={'imperial-favor ' + (thisPlayer.imperialFavor ? '' : 'hidden')}
                                 src={'/img/' + (thisPlayer.imperialFavor ? thisPlayer.imperialFavor : 'political') + '-favor.png'} />
                             <div className='deck-info'>
-                                <img className={ 'first-player-indicator ' + (!!thisPlayer.firstPlayer ? '' : 'hidden') }
+                                <img className={ 'first-player-indicator ' + (thisPlayer.firstPlayer ? '' : 'hidden') }
                                     src='/img/first-player.png' />
                                 <HonorFan value={ thisPlayer.showBid } />
 
