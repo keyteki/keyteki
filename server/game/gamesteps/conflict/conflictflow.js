@@ -120,10 +120,10 @@ class ConflictFlow extends BaseStep {
     announceDefenderSkill() {
         // Explicitly recalculate strength in case an effect has modified character strength.
         this.conflict.calculateSkill();
-        if(this.conflict.defenders.length > 0) {
-            this.game.addMessage('{0} has defended with skill {1}', this.conflict.defendingPlayer, this.conflict.defenderSkill);
-        } else {
+        if(this.conflict.defenders === []) {
             this.game.addMessage('{0} does not defend the conflict', this.conflict.defendingPlayer);
+        } else {
+            this.game.addMessage('{0} has defended with skill {1}', this.conflict.defendingPlayer, this.conflict.defenderSkill);
         }
     }
 
