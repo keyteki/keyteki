@@ -54,7 +54,6 @@ class RegroupPhase extends Phase {
                     player.moveCard(card, 'dynasty discard pile');
                     player.moveCard(player.dynastyDeck.first(), location);
                 });
-                this.complete();
                 return true;
             }
         }));
