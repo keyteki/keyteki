@@ -128,6 +128,10 @@ class App extends React.Component {
                 url += ':' + server.port;
             }
 
+            if(this.props.gameSocket) {
+                this.props.closeGameSocket();
+            }
+
             this.props.gameSocketConnecting(url + '/' + server.name);
 
             let gameSocket = io.connect(url, {
@@ -214,11 +218,13 @@ class App extends React.Component {
             ];
         } else {
             rightMenu = [
-                { name: this.props.user.username, childItems: [
-                    { name: 'Profile', path: '/profile' },
-                    { name: 'Block List', path: '/blocklist' },
-                    { name: 'Logout', path: '/logout' }
-                ], avatar: true, emailHash: this.props.user.emailHash, disableGravatar: this.props.user.settings.disableGravatar }
+                {
+                    name: this.props.user.username, childItems: [
+                        { name: 'Profile', path: '/profile' },
+                        { name: 'Block List', path: '/blocklist' },
+                        { name: 'Logout', path: '/logout' }
+                    ], avatar: true, emailHash: this.props.user.emailHash, disableGravatar: this.props.user.settings.disableGravatar
+                }
             ];
         }
 
@@ -355,9 +361,11 @@ class App extends React.Component {
 App.displayName = 'Application';
 App.propTypes = {
     clearGameState: React.PropTypes.func,
+    closeGameSocket: React.PropTypes.func,
     currentGame: React.PropTypes.object,
     disconnecting: React.PropTypes.bool,
     dispatch: React.PropTypes.func,
+    gameSocket: React.PropTypes.object,
     gameSocketConnectError: React.PropTypes.func,
     gameSocketConnected: React.PropTypes.func,
     gameSocketConnecting: React.PropTypes.func,
@@ -391,6 +399,7 @@ function mapStateToProps(state) {
     return {
         currentGame: state.games.currentGame,
         disconnecting: state.socket.gameDisconnecting,
+        gameSocket: state.socket.gameSocket,
         games: state.games.games,
         path: state.navigation.path,
         loggedIn: state.auth.loggedIn,
