@@ -155,7 +155,7 @@ class ConflictFlow extends BaseStep {
             return;
         }
 
-        if(this.conflict.winner === this.conflict.attackingPlayer && this.conflict.defenders.length === 0) {
+        if(this.conflict.winner === this.conflict.attackingPlayer && this.conflict.defenders === []) {
             this.game.addHonor(this.conflict.loser, -1);
         }
     }
