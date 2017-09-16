@@ -44,7 +44,7 @@ class Ring {
 
     claimRing(player) {
         this.claimed = true;
-        this.claimedBy = player;
+        this.claimedBy = player.name;
     }
 
     resetRing() {
