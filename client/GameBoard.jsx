@@ -384,9 +384,12 @@ export class InnerGameBoard extends React.Component {
                     <div className='left-side'>
                         <div className='player-info'>
                             <PlayerStats fate={ otherPlayer ? otherPlayer.fate : 0 } honor={ otherPlayer ? otherPlayer.totalHonor : 0 } user={ otherPlayer ? otherPlayer.user : null } />
+                            { otherPlayer ? <img className={'imperial-favor ' + (otherPlayer.imperialFavor ? '' : 'hidden')}
+                                src={'/img/' + (otherPlayer.imperialFavor ? otherPlayer.imperialFavor : 'political') + '-favor.png'} /> : '' }
                             <div className='deck-info'>
-                                { otherPlayer ? <div className={ 'first-player-indicator ' + (!thisPlayer.firstPlayer ? '' : 'hidden') }>First player</div> : '' }
                                 <HonorFan value={ otherPlayer ? otherPlayer.showBid : '0' } />
+                                { otherPlayer ? <img className={ 'first-player-indicator ' + (otherPlayer.firstPlayer ? '' : 'hidden') }
+                                    src='/img/first-player.png' title='first-player-indicator' /> : '' }
                             </div>
                         </div>
                         <div className='middle'>
@@ -431,8 +434,11 @@ export class InnerGameBoard extends React.Component {
                         <div className='player-info our-side'>
                             <PlayerStats fate={ thisPlayer.fate || 0 }
                                 honor={ thisPlayer.totalHonor } isMe={ !this.state.spectating } user={ thisPlayer.user } />
+                            <img className={'imperial-favor ' + (thisPlayer.imperialFavor ? '' : 'hidden')}
+                                src={'/img/' + (thisPlayer.imperialFavor ? thisPlayer.imperialFavor : 'political') + '-favor.png'} />
                             <div className='deck-info'>
-                                <div className={ 'first-player-indicator ' + (thisPlayer.firstPlayer ? '' : 'hidden') }>First player</div>
+                                <img className={ 'first-player-indicator ' + (!!thisPlayer.firstPlayer ? '' : 'hidden') }
+                                    src='/img/first-player.png' />
                                 <HonorFan value={ thisPlayer.showBid } />
 
                             </div>

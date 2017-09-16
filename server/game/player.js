@@ -44,6 +44,7 @@ class Player extends Spectator {
         this.drawBid = 0;
         this.duelBid = 0;
         this.showBid = 0;
+        this.imperialFavor = '';
 
 
         this.deck = {};
@@ -1136,6 +1137,7 @@ class Player extends Spectator {
             fate: this.fate,
             hand: this.getSummaryForCardList(this.hand, activePlayer, true),
             id: this.id,
+            imperialFavor: this.imperialFavor,
             left: this.left,
             numConflictCards: this.conflictDeck.size(),
             numDynastyCards: this.dynastyDeck.size(),
