@@ -21,9 +21,9 @@ class DrawPhase extends Phase {
         this.initialise([
             new SimpleStep(game, () => this.bidPrompt()),
             new SimpleStep(game, () => this.showBids()),
-            new ActionWindow(this.game, 'After bids revealed', 'draw'),
             new SimpleStep(game, () => this.tradeHonor()),
-            new SimpleStep(game, () => this.drawConflict())
+            new SimpleStep(game, () => this.drawConflict()),
+            new ActionWindow(this.game, 'Action Window', 'draw')
         ]);
     }
 
@@ -38,6 +38,7 @@ class DrawPhase extends Phase {
 
         _.each(this.game.getPlayers(), p => {
             p.showBid = p.drawBid;
+            this.game.addMessage('{0} draws {1} cards', p.name, p.drawBid);
         });
     }
 
@@ -52,9 +53,11 @@ class DrawPhase extends Phase {
             if(currentPlayer.drawBid > otherPlayer.drawBid) {
                 honorDifference = currentPlayer.drawBid - otherPlayer.drawBid;
                 this.game.transferHonor(otherPlayer, currentPlayer, honorDifference);
+                this.game.addMessage('{0} gives {1} {2} honor', currentPlayer, otherPlayer, honorDifference);
             } else if(otherPlayer.drawBid > currentPlayer.drawBid) {
                 honorDifference = otherPlayer.drawBid - currentPlayer.drawBid;
                 this.game.transferHonor(currentPlayer, otherPlayer, honorDifference);
+                this.game.addMessage('{0} gives {1} {2} honor', otherPlayer, currentPlayer, honorDifference);
             }
         }
 
