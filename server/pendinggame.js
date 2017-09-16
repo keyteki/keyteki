@@ -272,7 +272,7 @@ class PendingGame {
             }
 
             playerSummaries[player.name] = {
-                deck: activePlayer ? deck : undefined,
+                deck: activePlayer ? deck : {},
                 emailHash: player.emailHash,
                 faction: this.started && player.faction ? player.faction.value : undefined,
                 id: player.id,
