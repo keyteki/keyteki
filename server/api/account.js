@@ -11,7 +11,7 @@ const monk = require('monk');
 const UserService = require('../services/UserService.js');
 const Settings = require('../settings.js');
 const _ = require('underscore');
-const {wrapAsync} = require('../util.js');
+const { wrapAsync } = require('../util.js');
 
 let db = monk(config.dbPath);
 let userService = new UserService(db);
@@ -114,7 +114,7 @@ module.exports.init = function(server) {
                 return loginUser(req, user);
             })
             .then(() => {
-                res.send({ success: true, user: Settings.getUserWithDefaultsSet(req.body), token: jwt.sign(req.user, config.secret)});
+                res.send({ success: true, user: Settings.getUserWithDefaultsSet(req.body), token: jwt.sign(req.user, config.secret) });
             })
             .catch(() => {
                 res.send({ success: false, message: 'An error occured registering your account' });
@@ -138,7 +138,7 @@ module.exports.init = function(server) {
     server.post('/api/account/logout', function(req, res) {
         req.logout();
 
-        res.send({ success: true});
+        res.send({ success: true });
     });
 
     server.post('/api/account/login', passport.authenticate('local'), function(req, res) {
@@ -182,7 +182,7 @@ module.exports.init = function(server) {
                 if(resetToken !== req.body.token) {
                     logger.error('Invalid reset token', user.username, req.body.token);
 
-                    res.send({ success: false, message: 'An error occured resetting your password, check the url you have entered and try again'});
+                    res.send({ success: false, message: 'An error occured resetting your password, check the url you have entered and try again' });
 
                     return Promise.reject('Invalid token');
                 }
@@ -203,7 +203,7 @@ module.exports.init = function(server) {
             .catch(err => {
                 logger.error(err);
 
-                res.send({ success: false, message: 'An error occured resetting your password, check the url you have entered and try again'});
+                res.send({ success: false, message: 'An error occured resetting your password, check the url you have entered and try again' });
             });
     });
 
@@ -264,16 +264,18 @@ module.exports.init = function(server) {
     function updateUser(res, user) {
         return userService.update(user)
             .then(() => {
-                res.send({ success: true, user: {
-                    username: user.username,
-                    email: user.email,
-                    emailHash: user.emailHash,
-                    _id: user._id,
-                    admin: user.admin,
-                    settings: user.settings,
-                    promptedActionWindows: user.promptedActionWindows,
-                    permissions: user.permissions
-                }, token: jwt.sign(user, config.secret) });
+                res.send({
+                    success: true, user: {
+                        username: user.username,
+                        email: user.email,
+                        emailHash: user.emailHash,
+                        _id: user._id,
+                        admin: user.admin,
+                        settings: user.settings,
+                        promptedActionWindows: user.promptedActionWindows,
+                        permissions: user.permissions || {}
+                    }, token: jwt.sign(user, config.secret)
+                });
             })
             .catch(() => {
                 return res.send({ success: false, message: 'An error occured updating your user profile' });
@@ -295,7 +297,7 @@ module.exports.init = function(server) {
         userService.getUserByUsername(req.params.username)
             .then(user => {
                 if(!user) {
-                    return res.status(404).send({ message: 'Not found'});
+                    return res.status(404).send({ message: 'Not found' });
                 }
 
                 user.email = userToSet.email;
@@ -348,7 +350,7 @@ module.exports.init = function(server) {
         if(_.find(user.blockList, user => {
             return user === req.body.username.toLowerCase();
         })) {
-            return res.send({ success: false, message: 'Entry already on block list'});
+            return res.send({ success: false, message: 'Entry already on block list' });
         }
 
         user.blockList.push(req.body.username.toLowerCase());
@@ -376,7 +378,7 @@ module.exports.init = function(server) {
         if(!_.find(user.blockList, user => {
             return user === req.params.entry.toLowerCase();
         })) {
-            return res.status(404).send({ message: 'Not found'});
+            return res.status(404).send({ message: 'Not found' });
         }
 
         user.blockList = _.reject(user.blockList, user => {
@@ -405,7 +407,7 @@ async function checkAuth(req, res) {
     }
 
     if(!user) {
-        res.status(404).send({ message: 'Not found'});
+        res.status(404).send({ message: 'Not found' });
 
         return null;
     }
