@@ -54,24 +54,21 @@ class ZmqSocket extends EventEmitter {
         switch(message.command) {
             case 'PING':
                 this.send('PONG');
-
                 break;
             case 'STARTGAME':
                 this.emit('onStartGame', message.arg);
-
                 break;
             case 'SPECTATOR':
                 this.emit('onSpectator', message.arg.game, message.arg.user);
-
                 break;
             case 'CONNECTFAILED':
                 this.emit('onFailedConnect', message.arg.gameId, message.arg.username);
-
                 break;
-
             case 'CLOSEGAME':
                 this.emit('onCloseGame', message.arg.gameId);
-
+                break;
+            case 'CARDDATA':
+                this.emit('onCardData', message.arg);
                 break;
         }
     }
