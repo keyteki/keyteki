@@ -23,16 +23,14 @@ class PlayAttachmentAction extends BaseAbility {
 
     meetsRequirements(context) {
         var {game, player, source} = context;
-        let currentPrompt = player.currentPrompt();
-        if(currentPrompt.promptTitle === undefined) {
-            return false;
-        }
 
         return (
             game.currentPhase !== 'dynasty' &&
             source.getType() === 'attachment' &&
             source.location === 'hand' &&
-            currentPrompt.promptTitle.includes('Action Window')
+            game.currentActionWindow &&
+            game.currentActionWindow.currentPlayer === player &&
+            game.abilityCardStack.length === 1
         );
     }
 
