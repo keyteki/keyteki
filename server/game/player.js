@@ -44,6 +44,8 @@ class Player extends Spectator {
         this.drawBid = 0;
         this.duelBid = 0;
         this.showBid = 0;
+        this.imperialFavor = '';
+        this.totalGloryForFavor = 0;
 
 
         this.deck = {};
@@ -335,7 +337,8 @@ class Player extends Spectator {
     }
 
     canInitiateConflict(conflictType) {
-        return !this.conflicts.isAtMax(conflictType);
+        return (!this.conflicts.isAtMax(conflictType) && 
+                this.conflicts.conflictOpportunitiesRemaining > 0);
     }
 
     canSelectAsFirstPlayer(player) {
@@ -911,7 +914,7 @@ class Player extends Spectator {
     getFavor() {
         var cardGlory = this.cardsInPlay.reduce((memo, card) => {
             if(!card.bowed && card.getType() === 'character' && card.contributesToFavor) {
-                return memo + card.getGlory();
+                return memo + card.glory;
             }
 
             return memo;
@@ -920,8 +923,24 @@ class Player extends Spectator {
         this.cardsInPlay.each(card => {
             cardGlory = card.modifyFavor(this, cardGlory);
         });
+        
+        let rings = this.getClaimedRings();
+        
+        this.totalGloryForFavor = cardGlory + _.size(rings);
 
-        return cardGlory;
+        return this.totalGloryForFavor;
+    }
+
+    getClaimedRings() {
+        return _.filter(this.game.rings, ring => ring.claimedby === this.name);
+    }
+ 
+    claimImperialFavor(conflictType) {
+        this.imperialFavor = conflictType;
+    }
+
+    loseImperialFavor() {
+        this.imperialFavor = '';
     }
 
     readyCards(notCharacters = false) {
