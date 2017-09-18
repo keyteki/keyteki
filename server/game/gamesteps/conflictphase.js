@@ -54,7 +54,7 @@ class ConflictPhase extends Phase {
             }
         }
         if(conflictOpportunityRemaining) {
-            this.currentPlayer.conflicts.usedOpportunity();
+            this.currentPlayer.conflicts.usedConflictOpportunity();
             var conflict = new Conflict(this.game, this.currentPlayer, this.game.getOtherPlayer(this.currentPlayer));
             this.game.currentConflict = conflict;
             this.game.queueStep(new SimpleStep(this.game, () => this.promptForConflictType(this.currentPlayer)));
