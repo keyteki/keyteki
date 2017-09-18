@@ -338,7 +338,7 @@ class Player extends Spectator {
 
     canInitiateConflict(conflictType) {
         return (!this.conflicts.isAtMax(conflictType) && 
-                this.conflicts.conflictOpportunitiesRemaining > 0);
+                this.conflicts.conflictOpportunities > 0);
     }
 
     canSelectAsFirstPlayer(player) {
