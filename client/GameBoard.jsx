@@ -197,7 +197,7 @@ export class InnerGameBoard extends React.Component {
     }
 
     onRingClick(ring) {
-        this.props.sendGameMessage('flipRing', ring);
+        this.props.sendGameMessage('ringClicked', ring);
     }
 
     onFactionCardClick() {

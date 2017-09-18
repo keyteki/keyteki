@@ -495,7 +495,9 @@ class BaseCard {
         let isActivePlayer = activePlayer === this.owner;
 
         if(!isActivePlayer && (this.facedown || hideWhenFaceup)) {
-            return { facedown: true };
+            return { 
+                uuid: this.uuid,
+                facedown: true};
         }
 
         let selectionState = activePlayer.getCardSelectionState(this);

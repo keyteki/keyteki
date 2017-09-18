@@ -55,6 +55,10 @@ class DrawCard extends BaseCard {
     isAncestral() {
         return this.hasKeyword('ancestral');
     }
+    
+    isCovert() {
+        return this.hasKeyword('covert');
+    }
 
     hasSincerity() {
         return this.hasKeyword('sincerity');
@@ -203,6 +207,10 @@ class DrawCard extends BaseCard {
     canUseCovertToBypass(targetCard) {
         return this.isCovert() && targetCard.canBeBypassedByCovert();
     }
+    
+    canBeBypassedByCovert() {
+        return !this.isCovert();
+    }
 
     useCovertToBypass(targetCard) {
         if(!this.canUseCovertToBypass(targetCard)) {
@@ -277,8 +285,7 @@ class DrawCard extends BaseCard {
             this.canParticipateInConflict() &&
             this.location === 'play area' &&
             !this.stealth &&
-            (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowing) &&
-            (this.hasIcon(conflictType) || this.conflictOptions.canBeDeclaredWithoutIcon)
+            (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowing)
         );
     }
 
@@ -295,7 +302,7 @@ class DrawCard extends BaseCard {
     }
 
     returnHomeFromConflict(side) {
-        if(!this.card.conflictOptions.doesNotBowAs[side] && !this.bowed) {
+        if(!this.conflictOptions.doesNotBowAs[side] && !this.bowed) {
             this.controller.bowCard(this);
         }
         this.inConflict = false;

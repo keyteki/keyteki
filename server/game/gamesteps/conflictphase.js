@@ -43,21 +43,24 @@ class ConflictPhase extends Phase {
             this.currentPlayer = attackingPlayer;
         }
         let conflictOpportunityRemaining = true;
+        let otherPlayer = this.game.getOtherPlayer(this.currentPlayer);
         
         if(_.all(['military', 'political'], type => !this.currentPlayer.canInitiateConflict(type))) {
-            this.currentPlayer = this.game.getOtherPlayer(this.currentPlayer);
-            //Quick fix, feel like there is a better way to check this(or there should be)
-            if(typeof(this.currentPlayer) !== undefined) {
-                if(_.all(['military', 'political'], type => !this.currentPlayer.canInitiateConflict(type))) {
+            if(otherPlayer) {
+                this.currentPlayer = otherPlayer; 
+                if(!this.currentPlayer || _.all(['military', 'political'], type => !this.currentPlayer.canInitiateConflict(type))) {
                     conflictOpportunityRemaining = false;
                 }
+            } else {
+                conflictOpportunityRemaining = false;
             }
         }
         if(conflictOpportunityRemaining) {
-            this.currentPlayer.conflicts.usedOpportunity();
+            this.currentPlayer.conflicts.usedConflictOpportunity();
             var conflict = new Conflict(this.game, this.currentPlayer, this.game.getOtherPlayer(this.currentPlayer));
             this.game.currentConflict = conflict;
-            this.game.queueStep(new SimpleStep(this.game, () => this.promptForConflictType(this.currentPlayer)));
+            this.game.queueStep(new ConflictFlow(this.game, conflict));
+            this.game.queueStep(new SimpleStep(this.game, () => this.cleanupConflict()));
         } else {
             this.game.queueStep(new SimpleStep(this.game, () => this.determineImperialFavor()));
             this.game.queueStep(new SimpleStep(this.game, () => this.countGlory()));
@@ -75,13 +78,15 @@ class ConflictPhase extends Phase {
     
     claimImperialFavor() {
         let otherPlayer = this.game.getOtherPlayer(this.currentPlayer);
-        let winner = otherPlayer;
-        if(this.currentPlayer.totalGloryForFavor === otherPlayer.totalGloryForFavor) {
-            this.game.addMessage('Both players are tied in glory at {0}.  The imperial favor remains in its current state', this.currentPlayer.totalGloryForFavor);
-            this.game.raiseEvent('onFavorGloryTied', this.conflict);
-            return;
-        } else if(this.currentPlayer.totalGloryForFavor > otherPlayer.totalGloryForFavor) {
-            winner = this.currentPlayer;
+        let winner = this.currentPlayer;
+        if(otherPlayer) {
+            if(this.currentPlayer.totalGloryForFavor === otherPlayer.totalGloryForFavor) {
+                this.game.addMessage('Both players are tied in glory at {0}.  The imperial favor remains in its current state', this.currentPlayer.totalGloryForFavor);
+                this.game.raiseEvent('onFavorGloryTied', this.conflict);
+                return;
+            } else if(this.currentPlayer.totalGloryForFavor < otherPlayer.totalGloryForFavor) {
+                winner = otherPlayer;
+            }
         }
         this.game.promptWithMenu(winner, this, {
             activePrompt: {
@@ -96,11 +101,11 @@ class ConflictPhase extends Phase {
     
     giveImperialFavorToPlayer(winner, arg) {
         let loser = this.game.getOtherPlayer(winner);
-        this.game.raiseEvent('onClaimImperialFavor', arg, conflictType => {
-            winner.claimImperialFavor(conflictType);
+        winner.claimImperialFavor(arg);
+        if(loser) {
             loser.loseImperialFavor();
-        });
-        this.game.addMessage('{0} succesfully claims the Emperor\'s {1} favor with total glory of {2} vs {3}', winner, arg, winner.totalGloryForFavor, loser.totalGloryForFavor);
+            this.game.addMessage('{0} succesfully claims the Emperor\'s {1} favor with total glory of {2} vs {3}', winner, arg, winner.totalGloryForFavor, loser.totalGloryForFavor);
+        }
         return true;
     }
 
@@ -183,9 +188,11 @@ class ConflictPhase extends Phase {
     }
 
     cleanupConflict() {
+        if(!this.game.currentConflict.isSinglePlayer) {
+            this.currentPlayer = this.game.getOtherPlayer(this.currentPlayer);
+        }
         this.game.currentConflict.unregisterEvents();
         this.game.currentConflict = null;
-        this.currentPlayer = this.game.getOtherPlayer(this.currentPlayer);
         this.game.queueStep(new SimpleStep(this.game, () => this.startConflictChoice(this.currentPlayer)));
     }
 
