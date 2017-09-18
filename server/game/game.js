@@ -232,6 +232,10 @@ class Game extends EventEmitter {
             this.addMessage('{0} {1} {2}', player, card.facedown ? 'hides' : 'reveals', card);
         }
     }
+   
+    returnRings() {
+        _.each(this.rings, ring => ring.resetRing());
+    }
 
     cardHasMenuItem(card, menuItem) {
         return card.menu && card.menu.any(m => {
@@ -664,6 +668,14 @@ class Game extends EventEmitter {
 
     flipRing(sourcePlayer, ring) {
         this.rings[ring].flipConflictType();
+    }
+
+    placeFateOnUnclaimedRings() {
+        _.each(this.rings, ring => {
+            if(!ring.claimed) {
+                ring.modifyFate(1);
+            }
+        });
     }
 
     takeControl(player, card) {

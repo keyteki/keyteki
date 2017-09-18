@@ -30,10 +30,15 @@ class ConflictFlow extends BaseStep {
             //Reveal province
             new SimpleStep(this.game, () => this.announceAttackerSkill()),
             new SimpleStep(this.game, () => this.promptForDefenders()),
-            new SimpleStep(this.game, () => this.announceDefenderSskill()),
+            new SimpleStep(this.game, () => this.announceDefenderSkill()),
             new ActionWindow(this.game, 'Conflict Action Window', 'conflictAction'),
             new SimpleStep(this.game, () => this.determineWinner()),
-            new SimpleStep(this.game, () => this.applyKeywords()),
+            //new SimpleStep(this.game, () => this.applyKeywords()),
+            new SimpleStep(this.game, () => this.applyUnopposed()),
+            //Check for Province Break
+            new SimpleStep(this.game, () => this.resolveRingEffects()),
+            new SimpleStep(this.game, () => this.claimRing()),
+            new SimpleStep(this.game, () => this.returnHome()),
             new SimpleStep(this.game, () => this.completeConflict())
         ]);
     }
@@ -75,8 +80,8 @@ class ConflictFlow extends BaseStep {
 
     announceAttackerSkill() {
         // Explicitly recalculate strength in case an effect has modified character strength.
-        this.conflict.calculateStrength();
-        this.game.addMessage('{0} has initiated a {1} conflict with strength {2}', this.conflict.attackingPlayer, this.conflict.conflictType, this.conflict.attackerStrength);
+        this.conflict.calculateSkill();
+        this.game.addMessage('{0} has initiated a {1} conflict with skill {2}', this.conflict.attackingPlayer, this.conflict.conflictType, this.conflict.attackerSkill);
     }
 
     promptForDefenders() {
@@ -114,11 +119,11 @@ class ConflictFlow extends BaseStep {
 
     announceDefenderSkill() {
         // Explicitly recalculate strength in case an effect has modified character strength.
-        this.conflict.calculateStrength();
-        if(this.conflict.defenderStrength > 0) {
-            this.game.addMessage('{0} has defended with strength {1}', this.conflict.defendingPlayer, this.conflict.defenderStrength);
-        } else {
+        this.conflict.calculateSkill();
+        if(this.conflict.defenders === []) {
             this.game.addMessage('{0} does not defend the conflict', this.conflict.defendingPlayer);
+        } else {
+            this.game.addMessage('{0} has defended with skill {1}', this.conflict.defendingPlayer, this.conflict.defenderSkill);
         }
     }
 
@@ -126,18 +131,15 @@ class ConflictFlow extends BaseStep {
         this.conflict.determineWinner();
 
         if(!this.conflict.winner && !this.conflict.loser) {
-            this.game.addMessage(this.conflict.noWinnerMessage);
+            this.game.addMessage('There is no winner or loser for this conflict because both sides have 0 skill');
         } else {
             this.game.addMessage('{0} won a {1} conflict {2} vs {3}',
-                this.conflict.winner, this.conflict.conflictType, this.conflict.winnerStrength, this.conflict.loserStrength);
+                this.conflict.winner, this.conflict.conflictType, this.conflict.winnerSkill, this.conflict.loserSkill);
+            this.conflict.winner.conflicts.won(this.conflict.conflictType, this.conflict.winner === this.conflict.attackingPlayer);
+            this.conflict.loser.conflicts.lost(this.conflict.conflictType, this.conflict.loser === this.conflict.attackingPlayer);
         }
 
         this.game.raiseEvent('afterConflict', this.conflict);
-
-        // Only open a winner action window if a winner / loser was determined.
-        if(this.conflict.winner) {
-            this.game.queueStep(new ActionWindow(this.game, 'After winner determined', 'winnerDetermined'));
-        }
     }
 
     applyKeywords() {
@@ -148,6 +150,70 @@ class ConflictFlow extends BaseStep {
         });
     }
 
+    applyUnopposed() {
+        if(this.conflict.cancelled) {
+            return;
+        }
+
+        if(this.conflict.winner === this.conflict.attackingPlayer && this.conflict.defenders === []) {
+            this.game.addHonor(this.conflict.loser, -1);
+        }
+    }
+    
+    resolveRingEffects() {
+        if(this.conflict.cancelled) {
+            return;
+        }
+
+        if(this.conflict.isAttackerTheWinner()) {
+            let menuTitle = 'Do you want to resolve the ' + this.conflict.conflictRing + ' ring?';
+            let waitingPromptTitle = 'Waiting for opponent to use decide whether to resolve the ' + this.conflict.conflictRing + ' ring';
+            this.game.promptWithMenu(this.conflict.winner, this, {
+                activePrompt: {
+                    promptTitle: 'Resolve Ring',
+                    menuTitle: menuTitle,
+                    buttons: [
+                        { text: 'Yes', arg: 'Yes', method: 'triggerRingResolutionEvent' },
+                        { text: 'No', arg: 'No', method: 'triggerRingResolutionEvent' }
+                    ]
+                },
+                waitingPromptTitle: waitingPromptTitle
+            });
+        }       
+    }
+    
+    triggerRingResolutionEvent(player, arg) {
+        if(arg !== 'No') {
+            this.game.raiseEvent('onResolveRingEffects', this.conflict, () => {
+                player.resolveRingEffects(this.conflict.conflictRing);
+            });
+        }
+        return true;
+    }
+    
+    claimRing() {
+        if(this.conflict.cancelled) {
+            return;
+        }
+
+        if(this.conflict.winner) {
+            let ring = _.find(this.game.rings, ring => {
+                return ring.element === this.conflict.conflictRing;
+            });
+            this.game.raiseEvent('onClaimRing', this.conflict, ring.claimRing(this.conflict.winner));
+        }
+    }
+
+    returnHome() {
+        if(this.conflict.cancelled) {
+            return;
+        }
+
+        this.game.raiseEvent('onReturnHome', this.conflict);
+        _.each(this.conflict.attackers, card => card.returnHomeFromConflict('attacker'));
+        _.each(this.conflict.defenders, card => card.returnHomeFromConflict('defender'));
+    }
+    
     completeConflict() {
         this.game.raiseEvent('onConflictFinished', this.conflict);
 
