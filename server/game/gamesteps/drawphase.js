@@ -38,7 +38,7 @@ class DrawPhase extends Phase {
 
         _.each(this.game.getPlayers(), p => {
             p.showBid = p.drawBid;
-            this.game.raiseEvent('onHonorDialsRevealed', this);
+            this.game.raiseEvent('onHonorDialsRevealed', p.drawBid);
         });
     }
 
