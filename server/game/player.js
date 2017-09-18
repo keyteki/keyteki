@@ -1130,6 +1130,10 @@ class Player extends Spectator {
         this.drawBid = bid;
     }
 
+    discardCharactersWithNoFate() {
+        this.discardCards(this.filterCardsInPlay(card => card.type === 'character' && card.fate === 0));
+    }
+
     getState(activePlayer) {
         let isActivePlayer = activePlayer === this;
         let promptState = isActivePlayer ? this.promptState.getState() : {};
