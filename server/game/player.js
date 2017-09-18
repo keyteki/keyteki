@@ -168,6 +168,23 @@ class Player extends Spectator {
         });
     }
 
+    discardFromBrokenProvinces() {
+        var provinces = ['province 1', 'province 2', 'province 3', 'province 4'];
+
+        _.each(provinces, province => {
+            let provinceCard = _.find(this.getSourceList(province)._wrapped, card => card.isProvince);
+            if(provinceCard.isBroken) {
+                _.find(this.getSourceList(province)._wrapped, card => {
+                    if(card.isDynasty && !card.facedown) {
+                        this.movecard(card,'dynasty discard pile');
+                        this.movecard(this.dynastyDeck.first(), province);
+                    }
+                    return card.isDynasty;
+                });
+            }
+        });        
+    }
+    
     anyCardsInPlay(predicate) {
         return this.allCards.any(card => card.location === 'play area' && predicate(card));
     }
