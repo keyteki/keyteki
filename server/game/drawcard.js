@@ -139,7 +139,8 @@ class DrawCard extends BaseCard {
         }
 
         if(this.cardData.military !== null && this.cardData.military !== undefined) {
-            return Math.max(0, this.militarySkillModifier + this.cardData.military);
+            let skillFromAttachments = _.reduce(this.attachments, (skill, card) => skill += card.cardData.military_bonus); 
+            return Math.max(0, this.militarySkillModifier + this.cardData.military + skillFromAttachments);
         }
 
         return null;
@@ -156,7 +157,8 @@ class DrawCard extends BaseCard {
         }
 
         if(this.cardData.political !== null && this.cardData.political !== undefined) {
-            return Math.max(0, this.politicalSkillModifier + this.cardData.political);
+            let skillFromAttachments = _.reduce(this.attachments, (skill, card) => skill += card.cardData.political_bonus); 
+            return Math.max(0, this.politicalSkillModifier + this.cardData.political + skillFromAttachments);
         }
 
         return null;
