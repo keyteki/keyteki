@@ -119,6 +119,8 @@
 .deck-info {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .player-info.our-side .deck-info {
@@ -132,12 +134,32 @@
 }
 
 .first-player-indicator {
-  margin: 5px 7px;
+  margin: 5px;
   padding: 5px;
-  text-align: center;
-  background: rgba(183, 183, 183, 0.12);
-  border-radius: 0.25rem;
-  border: 1px solid rgba(128, 128, 128, 0.53);
+  height: 84px;
+  width: 64px;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  
+  &.hidden {
+      display: none;
+    }
+}
+
+.imperial-favor {
+ 
+  margin: 5px;
+  padding: 5px;
+  height: 150px;
+  width: 100px;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  
+  &.hidden {
+      display: none;
+    }
 }
 
 .middle {
@@ -475,7 +497,6 @@ img.honor-fan-value {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
 }
 
 .ring-panel {

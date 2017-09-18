@@ -1294,6 +1294,7 @@ class Player extends Spectator {
             fate: this.fate,
             hand: this.getSummaryForCardList(this.hand, activePlayer, true),
             id: this.id,
+            imperialFavor: this.imperialFavor,
             left: this.left,
             numConflictCards: this.conflictDeck.size(),
             numDynastyCards: this.dynastyDeck.size(),
