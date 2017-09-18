@@ -46,8 +46,11 @@ class ConflictPhase extends Phase {
         
         if(_.all(['military', 'political'], type => !this.currentPlayer.canInitiateConflict(type))) {
             this.currentPlayer = this.game.getOtherPlayer(this.currentPlayer);
-            if(_.all(['military', 'political'], type => !this.currentPlayer.canInitiateConflict(type))) {
-                conflictOpportunityRemaining = false;
+            //Quick fix, feel like there is a better way to check this(or there should be)
+            if(typeof(this.currentPlayer) !== undefined) {
+                if(_.all(['military', 'political'], type => !this.currentPlayer.canInitiateConflict(type))) {
+                    conflictOpportunityRemaining = false;
+                }
             }
         }
         if(conflictOpportunityRemaining) {
