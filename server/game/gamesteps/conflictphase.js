@@ -1,3 +1,4 @@
+const _ = require('underscore');
 const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
 const Conflict = require('../conflict.js');
@@ -27,7 +28,7 @@ class ConflictPhase extends Phase {
         super(game, 'conflict');
         this.initialise([
             new SimpleStep(this.game, () => this.beginPhase()),
-            new ActionWindow(this.game, 'Before conflicts', 'conflictBegin'),
+            new ActionWindow(this.game, 'Action Window', 'conflictBegin'),
             new SimpleStep(this.game, () => this.startConflictChoice())
         ]);
     }
@@ -38,13 +39,66 @@ class ConflictPhase extends Phase {
     }
 
     startConflictChoice(attackingPlayer = null) {
-        let attacker = attackingPlayer;
-        if(attacker === null) {
-            attacker = this.currentPlayer;
+        if(attackingPlayer) {
+            this.currentPlayer = attackingPlayer;
         }
-
-        this.game.queueStep(new SimpleStep(this.game, () => this.promptForConflictType(attacker)));
-
+        let conflictOpportunityRemaining = true;
+        
+        if(_.all(['military', 'political'], type => !this.currentPlayer.canInitiateConflict(type))) {
+            this.currentPlayer = this.game.getOtherPlayer(this.currentPlayer);
+            if(_.all(['military', 'political'], type => !this.currentPlayer.canInitiateConflict(type))) {
+                conflictOpportunityRemaining = false;
+            }
+        }
+        if(conflictOpportunityRemaining) {
+            this.currentPlayer.conflicts.usedOpportunity();
+            var conflict = new Conflict(this.game, this.currentPlayer, this.game.getOtherPlayer(this.currentPlayer));
+            this.game.currentConflict = conflict;
+            this.game.queueStep(new SimpleStep(this.game, () => this.promptForConflictType(this.currentPlayer)));
+        } else {
+            this.game.queueStep(new SimpleStep(this.game, () => this.determineImperialFavor()));
+            this.game.queueStep(new SimpleStep(this.game, () => this.countGlory()));
+            this.game.queueStep(new SimpleStep(this.game, () => this.claimImperialFavor()));            
+        }
+    }
+   
+    determineImperialFavor() {
+        this.game.raiseEvent('onDetermineImperialFavor');
+    }
+    
+    countGlory() {
+        _.each(this.game.getPlayersInFirstPlayerOrder(), player => player.getFavor());
+    }
+    
+    claimImperialFavor() {
+        let otherPlayer = this.game.getOtherPlayer(this.currentPlayer);
+        let winner = otherPlayer;
+        if(this.currentPlayer.totalGloryForFavor === otherPlayer.totalGloryForFavor) {
+            this.game.addMessage('Both players are tied in glory at {0}.  The imperial favor remains in its current state', this.currentPlayer.totalGloryForFavor);
+            this.game.raiseEvent('onFavorGloryTied', this.conflict);
+            return;
+        } else if(this.currentPlayer.totalGloryForFavor > otherPlayer.totalGloryForFavor) {
+            winner = this.currentPlayer;
+        }
+        this.game.promptWithMenu(winner, this, {
+            activePrompt: {
+                menuTitle: 'Which side of the Imperial Favor would you like to claim?',
+                buttons: [
+                    { text: 'Military', method: 'giveImperialFavorToPlayer', arg: 'military' },
+                    { text: 'Political', method: 'giveImperialFavorToPlayer', arg: 'political' }
+                ]
+            }
+        });
+    }
+    
+    giveImperialFavorToPlayer(winner, arg) {
+        let loser = this.game.getOtherPlayer(winner);
+        this.game.raiseEvent('onClaimImperialFavor', arg, conflictType => {
+            winner.claimImperialFavor(conflictType);
+            loser.loseImperialFavor();
+        });
+        this.game.addMessage('{0} succesfully claims the Emperor\'s {1} favor with total glory of {2} vs {3}', winner, arg, winner.totalGloryForFavor, loser.totalGloryForFavor);
+        return true;
     }
 
     promptForConflictType(attackingPlayer) {
@@ -86,7 +140,7 @@ class ConflictPhase extends Phase {
             waitingPromptTitle: 'Waiting for opponent to choose conflict ring'
         });
 
-        return false;
+        return true;
     }
 
     promptForConflictProvince(attackingPlayer, conflictRing) {
@@ -107,7 +161,7 @@ class ConflictPhase extends Phase {
             waitingPromptTitle: 'Waiting for opponent to choose province'
         });
 
-        return false;
+        return true;
     }
 
     initiateConflict(attackingPlayer, conflictProvince) {
@@ -128,6 +182,8 @@ class ConflictPhase extends Phase {
     cleanupConflict() {
         this.game.currentConflict.unregisterEvents();
         this.game.currentConflict = null;
+        this.currentPlayer = this.game.getOtherPlayer(this.currentPlayer);
+        this.game.queueStep(new SimpleStep(this.game, () => this.startConflictChoice(this.currentPlayer)));
     }
 
     chooseOpponent(attackingPlayer) {

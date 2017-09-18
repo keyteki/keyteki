@@ -29,7 +29,7 @@ class DrawCard extends BaseCard {
         this.isHonored = false;
         this.isDishonored = false;
         this.readysDuringReadying = true;
-        this.challengeOptions = {
+        this.conflictOptions = {
             doesNotBowAs: {
                 attacker: false,
                 defender: false
@@ -264,26 +264,26 @@ class DrawCard extends BaseCard {
         this.inConflict = false;
     }
 
-    canDeclareAsAttacker(challengeType) {
-        return this.allowGameAction('declareAsAttacker') && this.canDeclareAsParticipant(challengeType);
+    canDeclareAsAttacker(conflictType) {
+        return this.allowGameAction('declareAsAttacker') && this.canDeclareAsParticipant(conflictType);
     }
 
-    canDeclareAsDefender(challengeType) {
-        return this.allowGameAction('declareAsDefender') && this.canDeclareAsParticipant(challengeType);
+    canDeclareAsDefender(conflictType) {
+        return this.allowGameAction('declareAsDefender') && this.canDeclareAsParticipant(conflictType);
     }
 
-    canDeclareAsParticipant(challengeType) {
+    canDeclareAsParticipant(conflictType) {
         return (
-            this.canParticipateInChallenge() &&
+            this.canParticipateInConflict() &&
             this.location === 'play area' &&
             !this.stealth &&
-            (!this.bowed || this.challengeOptions.canBeDeclaredWhileBowing) &&
-            (this.hasIcon(challengeType) || this.challengeOptions.canBeDeclaredWithoutIcon)
+            (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowing) &&
+            (this.hasIcon(conflictType) || this.conflictOptions.canBeDeclaredWithoutIcon)
         );
     }
 
     canParticipateInConflict() {
-        return this.allowGameAction('participateInChallenge');
+        return this.allowGameAction('participateInConflict');
     }
 
     canBeKilled() {
@@ -294,6 +294,13 @@ class DrawCard extends BaseCard {
         return this.allowGameAction('play');
     }
 
+    returnHomeFromConflict(side) {
+        if(!this.card.conflictOptions.doesNotBowAs[side] && !this.bowed) {
+            this.controller.bowCard(this);
+        }
+        this.inConflict = false;
+    }
+ 
     getSummary(activePlayer, hideWhenFaceup) {
         let baseSummary = super.getSummary(activePlayer, hideWhenFaceup);
 
