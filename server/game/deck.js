@@ -60,7 +60,7 @@ class Deck {
 
         this.eachRepeatedCard(this.data.role, cardData => {
             if(cardData.type === 'role') {
-               var roleCard = this.createCard(RoleCard, player, cardData);
+                var roleCard = this.createCard(RoleCard, player, cardData);
                 result.role = roleCard;
             }
         });
