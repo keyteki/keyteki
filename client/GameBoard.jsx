@@ -470,6 +470,7 @@ export class InnerGameBoard extends React.Component {
                             onMouseOver={ this.onMouseOver }
                             onMouseOut={ this.onMouseOut }
                             strongholdProvinceCards={ otherPlayer ? otherPlayer.strongholdProvince : [] }
+                            role={ otherPlayer ? otherPlayer.role : null }
                         />
                         <div className='play-area'>
                             <div className='player-board'>
@@ -487,6 +488,7 @@ export class InnerGameBoard extends React.Component {
                             onMouseOver={ this.onMouseOver }
                             onMouseOut={ this.onMouseOut }
                             strongholdProvinceCards={ thisPlayer.strongholdProvince }
+                            role={ thisPlayer.role }
                         />
                         <DynastyRow isMe={ !this.state.spectating }
                             additionalPiles={ thisPlayer.additionalPiles }

@@ -2,6 +2,7 @@ import React from 'react';
 
 import Province from './Province.jsx';
 import Placeholder from './Placeholder.jsx';
+import CardCollection from './CardCollection.jsx';
 
 class StrongholdRow extends React.Component {
 
@@ -12,7 +13,9 @@ class StrongholdRow extends React.Component {
             return (
                 <div className='stronghold-row'>
                     <div className='deck-cards'>
-                        <Placeholder />
+                        { this.props.role ? <CardCollection className='rolecard' source='role card' cards={ [] } topCard={ this.props.role } disablePopup
+                        onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick }
+                        onDragDrop={ this.props.onDragDrop } /> : <Placeholder /> }
                         <Province isMe={ this.props.isMe } source='stronghold province' cards={ this.props.strongholdProvinceCards } onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onDragDrop={ this.props.onDragDrop } onCardClick={ this.props.onCardClick } />
                     </div>
                 </div>
@@ -28,6 +31,9 @@ class StrongholdRow extends React.Component {
                     <Placeholder />
                     <Placeholder />
                     <Province isMe={ this.props.isMe } source='stronghold province' cards={ this.props.strongholdProvinceCards } onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick } />
+                    { this.props.role ? <CardCollection className='rolecard' source='role card' cards={ [] } topCard={ this.props.role } disablePopup
+                    onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick }
+                    onDragDrop={ this.props.onDragDrop } /> : '' }
                 </div>
             </div>
         );
@@ -43,7 +49,8 @@ StrongholdRow.propTypes = {
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
     spectating: React.PropTypes.bool,
-    strongholdProvinceCards: React.PropTypes.array
+    strongholdProvinceCards: React.PropTypes.array,
+    role: React.PropTypes.object
 };
 
 export default StrongholdRow;
