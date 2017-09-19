@@ -247,7 +247,7 @@ class Game extends EventEmitter {
     
         if(!conflict) {
             this.flipRing(player, ring);
-        } else if(conflict && !conflict.conflictDeclared) {
+        } else if(conflict && !conflict.conflictDeclared && player === conflict.attackingPlayer) {
             if((conflict.conflictRing === ring.element && canInitiateOtherConflictType) ||
                     (conflict.conflictRing !== ring.element && !canInitiateThisConflictType)) {
                 this.flipRing(player, ring);

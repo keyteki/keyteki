@@ -494,9 +494,14 @@ class BaseCard {
     getSummary(activePlayer, hideWhenFaceup) {
         let isActivePlayer = activePlayer === this.owner;
 
-        if(!isActivePlayer && (this.facedown || hideWhenFaceup)) {
+        if(!isActivePlayer && (this.facedown || hideWhenFaceup) && this.isProvince) {
             return { 
                 uuid: this.uuid,
+                facedown: true};
+        }
+
+        if(!isActivePlayer && (this.facedown || hideWhenFaceup)) {
+            return { 
                 facedown: true};
         }
 
