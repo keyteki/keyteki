@@ -33,6 +33,10 @@ class DrawCard extends BaseCard {
             doesNotBowAs: {
                 attacker: false,
                 defender: false
+            },
+            cannotParticipateIn: {
+                military: false,
+                political: false
             }
         };
         this.stealthLimit = 1;
@@ -285,7 +289,8 @@ class DrawCard extends BaseCard {
             this.canParticipateInConflict() &&
             this.location === 'play area' &&
             !this.stealth &&
-            (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowing)
+            (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowing) &&
+            !this.conflictOptions.cannotParticipateIn[conflictType]
         );
     }
 

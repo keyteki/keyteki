@@ -436,6 +436,16 @@ class Game extends EventEmitter {
 
         this.router.gameWon(this, reason, winner);
     }
+    
+    setFirstPlayer(firstPlayer) {
+        _.each(this.getPlayers(), player => {
+            if(player === firstPlayer) {
+                player.firstPlayer = true;
+            } else {
+                player.firstPlayer = false;
+            }
+        });
+    }
 
     changeStat(playerName, stat, value) {
         var player = this.getPlayerByName(playerName);
