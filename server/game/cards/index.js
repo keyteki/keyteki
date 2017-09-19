@@ -1,6 +1,7 @@
 const _ = require('underscore');
 
 const strongholds = require('./strongholds');
+const roles = require('./roles');
 const provinces = require('./provinces');
 const holdings = require('./holdings');
 const characters = require('./characters');
@@ -9,6 +10,6 @@ const events = require('./events');
 
 var cards = {};
 
-cards = _.extend(cards, strongholds, provinces, holdings, characters, attachments, events);
+cards = _.extend(cards, strongholds, roles, provinces, holdings, characters, attachments, events);
 
 module.exports = cards;

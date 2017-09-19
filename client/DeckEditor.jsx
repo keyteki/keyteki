@@ -37,8 +37,13 @@ class InnerDeckEditor extends React.Component {
         }
         let cardList = '';
 
-        if(this.props.deck && (this.props.deck.stronghold || this.props.deck.provinceCards || this.props.deck.conflictCards || this.props.deck.dynastyCards)) {
+        if(this.props.deck && (this.props.deck.stronghold || this.props.deck.role || this.props.deck.provinceCards || 
+                this.props.deck.conflictCards || this.props.deck.dynastyCards)) {
             _.each(this.props.deck.stronghold, card => {
+                cardList += card.count + ' ' + card.card.name + '\n';
+            });
+
+            _.each(this.props.deck.role, card => {
                 cardList += card.count + ' ' + card.card.name + '\n';
             });
 
@@ -68,6 +73,7 @@ class InnerDeckEditor extends React.Component {
             _id: deck._id,
             name: deck.name,
             stronghold: deck.stronghold,
+            role: deck.role,
             provinceCards: deck.provinceCards,
             conflictCards: deck.conflictCards,
             dynastyCards: deck.dynastyCards,
@@ -162,6 +168,7 @@ class InnerDeckEditor extends React.Component {
         }
 
         deck.stronghold = [];
+        deck.role = [];
         deck.provinceCards = [];
         deck.conflictCards = [];
         deck.dynastyCards = [];
@@ -209,6 +216,7 @@ class InnerDeckEditor extends React.Component {
         let deck = this.copyDeck(this.state.deck);
         let provinces = deck.provinceCards;
         let stronghold = deck.stronghold;
+        let role = deck.role;
         let conflict = deck.conflictCards;
         let dynasty = deck.dynastyCards;
 
@@ -220,8 +228,10 @@ class InnerDeckEditor extends React.Component {
             list = dynasty;
         } else if(card.side === 'conflict') {
             list = conflict;
-        } else {
+        } else if(card.type === 'stronghold') {
             list = stronghold;
+        } else {
+            list = role;
         }
 
         if(list[card.id]) {
