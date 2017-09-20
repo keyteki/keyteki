@@ -40,6 +40,7 @@
     "css-loader": "^0.27.3",
     "express": "^4.15.3",
     "express-session": "^1.15.4",
+    "helmet": "^3.8.1",
     "jquery": "^3.1.0",
     "jquery-migrate": "^3.0.0",
     "jquery-nearest": "^1.4.0",

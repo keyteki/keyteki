@@ -15,6 +15,7 @@ const jwt = require('jsonwebtoken');
 const http = require('http');
 const Raven = require('raven');
 const pug = require('pug');
+const helmet = require('helmet');
 
 const UserService = require('./repositories/UserService.js');
 const version = require('../version.js');
@@ -44,6 +45,8 @@ class Server {
             app.use(Raven.requestHandler());
             app.use(Raven.errorHandler());
         }
+
+        app.use(helmet());
 
         app.use(session({
             store: new MongoStore({ url: config.dbPath }),
