@@ -31,6 +31,10 @@ function processDecks(decks, state) {
             return { count: card.count, card: state.cards[card.card.id] };
         });
 
+        deck.role = _.map(deck.role, card => {
+            return { count: card.count, card: state.cards[card.card.id] };
+        });
+
         deck.provinceCards = _.map(deck.provinceCards, card => {
             return { count: card.count, card: state.cards[card.card.id] };
         });

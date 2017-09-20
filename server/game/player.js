@@ -385,6 +385,7 @@ class Player extends Spectator {
         this.faction = preparedDeck.faction;
         this.provinceDeck = _(preparedDeck.provinceCards);
         this.stronghold = preparedDeck.stronghold;
+        this.role = preparedDeck.role;
         this.conflictDeck = _(preparedDeck.conflictCards);
         this.dynastyDeck = _(preparedDeck.dynastyCards);
         this.allCards = _(preparedDeck.allCards);
@@ -1322,6 +1323,10 @@ class Player extends Spectator {
         if(this.showDynastyDeck) {
             state.showDynastyDeck = true;
             state.dynastyDeck = this.getSummaryForCardList(this.dynastyDeck, activePlayer);
+        }
+        
+        if(this.role) {
+            state.role = this.role.getSummary(activePlayer);
         }
 
         return _.extend(state, promptState);
