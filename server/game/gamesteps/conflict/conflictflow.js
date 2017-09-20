@@ -3,6 +3,7 @@ const BaseStep = require('../basestep.js');
 const GamePipeline = require('../../gamepipeline.js');
 const SimpleStep = require('../simplestep.js');
 const ActionWindow = require('../actionwindow.js');
+const InitiateConflictPrompt = require('./initiateconflictprompt.js');
 
 /**
 Conflict Resolution
@@ -25,15 +26,20 @@ class ConflictFlow extends BaseStep {
         this.pipeline = new GamePipeline();
         this.pipeline.initialise([
             new SimpleStep(this.game, () => this.resetCards()),
-            new SimpleStep(this.game, () => this.announceConflict()),
-            new SimpleStep(this.game, () => this.promptForAttackers()),
-            //Reveal province
+            new InitiateConflictPrompt(this.game, this.conflict, this.conflict.attackingPlayer),
+            new SimpleStep(this.game, () => this.initiateConflict()),
+            new SimpleStep(this.game, () => this.checkRevealProvince()),
             new SimpleStep(this.game, () => this.announceAttackerSkill()),
             new SimpleStep(this.game, () => this.promptForDefenders()),
-            new SimpleStep(this.game, () => this.announceDefenderSskill()),
+            new SimpleStep(this.game, () => this.announceDefenderSkill()),
             new ActionWindow(this.game, 'Conflict Action Window', 'conflictAction'),
             new SimpleStep(this.game, () => this.determineWinner()),
-            new SimpleStep(this.game, () => this.applyKeywords()),
+            //new SimpleStep(this.game, () => this.applyKeywords()),
+            new SimpleStep(this.game, () => this.applyUnopposed()),
+            new SimpleStep(this.game, () => this.checkBreakProvince()),
+            new SimpleStep(this.game, () => this.resolveRingEffects()),
+            new SimpleStep(this.game, () => this.claimRing()),
+            new SimpleStep(this.game, () => this.returnHome()),
             new SimpleStep(this.game, () => this.completeConflict())
         ]);
     }
@@ -42,8 +48,18 @@ class ConflictFlow extends BaseStep {
         this.conflict.resetCards();
     }
 
-    announceConflict() {
-        this.game.addMessage('{0} is initiating a {1} conflict', this.conflict.attackingPlayer, this.conflict.conflictType);
+    initiateConflict() {
+        if(this.conflict.cancelled) {
+            return;
+        }
+
+        let ring = this.game.rings[this.conflict.conflictRing];
+        this.conflict.attackingPlayer.conflicts.perform(this.conflict.conflictType);
+        _.each(this.conflict.attackers, card => card.inConflict = true);
+        this.game.addFate(this.conflict.attackingPlayer, ring.fate);
+        ring.removeFate();
+
+        this.game.addMessage('{0} is initiating a {1} conflict, contesting the {2} ring', this.conflict.attackingPlayer, this.conflict.conflictType, this.conflict.conflictRing);
     }
 
     promptForAttackers() {
@@ -72,14 +88,34 @@ class ConflictFlow extends BaseStep {
 
         return true;
     }
+    
+    checkRevealProvince() {
+        if(this.conflict.cancelled || this.conflict.isSinglePlayer) {
+            return;
+        }
+        
+        if(this.conflict.conflictProvince.facedown) {
+            this.conflict.conflictProvince.facedown = false;
+            this.conflict.provinceRevealedDuringConflict = true;
+        }
+        this.game.raiseEvent('onConflictDeclared', this.conflict);
+    }
 
     announceAttackerSkill() {
+        if(this.conflict.cancelled) {
+            return;
+        }
+
         // Explicitly recalculate strength in case an effect has modified character strength.
-        this.conflict.calculateStrength();
-        this.game.addMessage('{0} has initiated a {1} conflict with strength {2}', this.conflict.attackingPlayer, this.conflict.conflictType, this.conflict.attackerStrength);
+        this.conflict.calculateSkill();
+        this.game.addMessage('{0} has initiated a {1} conflict with skill {2}', this.conflict.attackingPlayer, this.conflict.conflictType, this.conflict.attackerSkill);
     }
 
     promptForDefenders() {
+        if(this.conflict.cancelled) {
+            return;
+        }
+
         if(this.conflict.isSinglePlayer) {
             return;
         }
@@ -96,7 +132,8 @@ class ConflictFlow extends BaseStep {
             waitingPromptTitle: 'Waiting for opponent to defend',
             cardCondition: card => this.allowAsDefender(card),
             onSelect: (player, defenders) => this.chooseDefenders(defenders),
-            onCancel: () => this.chooseDefenders([])
+            onCancel: () => this.chooseDefenders([]),
+            cardType: 'character'
         });
     }
 
@@ -113,31 +150,37 @@ class ConflictFlow extends BaseStep {
     }
 
     announceDefenderSkill() {
+        if(this.conflict.cancelled) {
+            return;
+        }
+
         // Explicitly recalculate strength in case an effect has modified character strength.
-        this.conflict.calculateStrength();
-        if(this.conflict.defenderStrength > 0) {
-            this.game.addMessage('{0} has defended with strength {1}', this.conflict.defendingPlayer, this.conflict.defenderStrength);
+        _.each(this.conflict.defenders, card => card.inConflict = true);
+        this.conflict.calculateSkill();
+        if(this.conflict.defenders.length > 0) {
+            this.game.addMessage('{0} has defended with skill {1}', this.conflict.defendingPlayer, this.conflict.defenderSkill);
         } else {
             this.game.addMessage('{0} does not defend the conflict', this.conflict.defendingPlayer);
         }
     }
 
     determineWinner() {
+        if(this.conflict.cancelled) {
+            return;
+        }
+
         this.conflict.determineWinner();
 
         if(!this.conflict.winner && !this.conflict.loser) {
-            this.game.addMessage(this.conflict.noWinnerMessage);
+            this.game.addMessage('There is no winner or loser for this conflict because both sides have 0 skill');
         } else {
             this.game.addMessage('{0} won a {1} conflict {2} vs {3}',
-                this.conflict.winner, this.conflict.conflictType, this.conflict.winnerStrength, this.conflict.loserStrength);
+                this.conflict.winner, this.conflict.conflictType, this.conflict.winnerSkill, this.conflict.loserSkill);
+            this.conflict.winner.conflicts.won(this.conflict.conflictType, this.conflict.winner === this.conflict.attackingPlayer);
+            this.conflict.loser.conflicts.lost(this.conflict.conflictType, this.conflict.loser === this.conflict.attackingPlayer);
         }
 
         this.game.raiseEvent('afterConflict', this.conflict);
-
-        // Only open a winner action window if a winner / loser was determined.
-        if(this.conflict.winner) {
-            this.game.queueStep(new ActionWindow(this.game, 'After winner determined', 'winnerDetermined'));
-        }
     }
 
     applyKeywords() {
@@ -148,7 +191,87 @@ class ConflictFlow extends BaseStep {
         });
     }
 
+    applyUnopposed() {
+        if(this.conflict.cancelled) {
+            return;
+        }
+
+        if(this.conflict.winner === this.conflict.attackingPlayer && this.conflict.defenders === []) {
+            this.game.addHonor(this.conflict.loser, -1);
+        }
+    }
+    
+    checkBreakProvince() {
+        if(this.conflict.cancelled || this.conflict.isSinglePlayer) {
+            return;
+        }
+
+        let province = this.conflict.conflictProvince;
+        if(this.conflict.isAttackerTheWinner() && this.conflict.skillDifference >= province.getStrength()) {
+            this.game.raiseEvent('onBreakProvince', province, province.breakProvince());
+            this.game.addMessage('{0} has broken the province!', this.conflict.winner.name);
+        }
+    }
+    
+    resolveRingEffects() {
+        if(this.conflict.cancelled) {
+            return;
+        }
+
+        if(this.conflict.isAttackerTheWinner()) {
+            let menuTitle = 'Do you want to resolve the ' + this.conflict.conflictRing + ' ring?';
+            let waitingPromptTitle = 'Waiting for opponent to use decide whether to resolve the ' + this.conflict.conflictRing + ' ring';
+            this.game.promptWithMenu(this.conflict.winner, this, {
+                activePrompt: {
+                    promptTitle: 'Resolve Ring',
+                    menuTitle: menuTitle,
+                    buttons: [
+                        { text: 'Yes', arg: 'Yes', method: 'triggerRingResolutionEvent' },
+                        { text: 'No', arg: 'No', method: 'triggerRingResolutionEvent' }
+                    ]
+                },
+                waitingPromptTitle: waitingPromptTitle
+            });
+        }       
+    }
+    
+    triggerRingResolutionEvent(player, arg) {
+        if(arg !== 'No') {
+            this.game.raiseEvent('onResolveRingEffects', this.conflict, () => {
+                player.resolveRingEffects(this.conflict.conflictRing);
+            });
+        }
+        return true;
+    }
+    
+    claimRing() {
+        if(this.conflict.cancelled) {
+            return;
+        }
+
+        if(this.conflict.winner) {
+            let ring = _.find(this.game.rings, ring => {
+                return ring.element === this.conflict.conflictRing;
+            });
+            this.game.raiseEvent('onClaimRing', this.conflict, ring.claimRing(this.conflict.winner));
+        }
+    }
+
+    returnHome() {
+        if(this.conflict.cancelled) {
+            return;
+        }
+
+        this.game.raiseEvent('onReturnHome', this.conflict);
+        _.each(this.conflict.attackers, card => card.returnHomeFromConflict('attacker'));
+        _.each(this.conflict.defenders, card => card.returnHomeFromConflict('defender'));
+    }
+    
     completeConflict() {
+        if(this.conflict.cancelled) {
+            return;
+        }
+
         this.game.raiseEvent('onConflictFinished', this.conflict);
 
         this.resetCards();

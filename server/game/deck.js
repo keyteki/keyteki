@@ -4,6 +4,7 @@ const cards = require('./cards');
 const DrawCard = require('./drawcard.js');
 const ProvinceCard = require('./provincecard.js');
 const StrongholdCard = require('./strongholdcard.js');
+const RoleCard = require('./rolecard.js');
 
 class Deck {
     constructor(data) {
@@ -16,7 +17,8 @@ class Deck {
             conflictCards: [],
             dynastyCards: [],
             provinceCards: [],
-            stronghold: undefined
+            stronghold: undefined,
+            role: undefined
         };
 
         //faction
@@ -56,10 +58,21 @@ class Deck {
             }
         });
 
+        this.eachRepeatedCard(this.data.role, cardData => {
+            if(cardData.type === 'role') {
+                var roleCard = this.createCard(RoleCard, player, cardData);
+                result.role = roleCard;
+            }
+        });
+
         result.allCards = result.provinceCards.concat(result.conflictCards).concat(result.dynastyCards);
 
         if(result.stronghold) {
             result.allCards.push(result.stronghold);
+        }
+
+        if(result.role) {
+            result.allCards.push(result.role);
         }
 
         return result;

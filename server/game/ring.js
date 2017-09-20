@@ -41,10 +41,14 @@ class Ring {
         //this.game.raiseEvent('onRingFateChanged', { ring: this, fate: this.fate - oldFate });
 
     }
+    
+    removeFate() {
+        this.fate = 0;
+    }
 
     claimRing(player) {
         this.claimed = true;
-        this.claimedBy = player;
+        this.claimedBy = player.name;
     }
 
     resetRing() {

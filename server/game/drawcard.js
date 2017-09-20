@@ -5,11 +5,13 @@ const SetupCardAction = require('./setupcardaction.js');
 const DynastyCardAction = require('./dynastycardaction.js');
 const PlayCardAction = require('./playcardaction.js');
 const PlayAttachmentAction = require('./playattachmentaction.js');
+const DuplicateUniqueAction = require('./duplicateuniqueaction.js');
 
 const StandardPlayActions = [
     new SetupCardAction(),
     new DynastyCardAction(),
     new PlayAttachmentAction(),
+    new DuplicateUniqueAction(),
     new PlayCardAction()
 ];
 
@@ -31,10 +33,14 @@ class DrawCard extends BaseCard {
         this.isHonored = false;
         this.isDishonored = false;
         this.readysDuringReadying = true;
-        this.challengeOptions = {
+        this.conflictOptions = {
             doesNotBowAs: {
                 attacker: false,
                 defender: false
+            },
+            cannotParticipateIn: {
+                military: false,
+                political: false
             }
         };
         this.stealthLimit = 1;
@@ -56,6 +62,10 @@ class DrawCard extends BaseCard {
 
     isAncestral() {
         return this.hasKeyword('ancestral');
+    }
+    
+    isCovert() {
+        return this.hasKeyword('covert');
     }
 
     hasSincerity() {
@@ -205,6 +215,10 @@ class DrawCard extends BaseCard {
     canUseCovertToBypass(targetCard) {
         return this.isCovert() && targetCard.canBeBypassedByCovert();
     }
+    
+    canBeBypassedByCovert() {
+        return !this.isCovert();
+    }
 
     useCovertToBypass(targetCard) {
         if(!this.canUseCovertToBypass(targetCard)) {
@@ -266,26 +280,26 @@ class DrawCard extends BaseCard {
         this.inConflict = false;
     }
 
-    canDeclareAsAttacker(challengeType) {
-        return this.allowGameAction('declareAsAttacker') && this.canDeclareAsParticipant(challengeType);
+    canDeclareAsAttacker(conflictType) {
+        return this.allowGameAction('declareAsAttacker') && this.canDeclareAsParticipant(conflictType);
     }
 
-    canDeclareAsDefender(challengeType) {
-        return this.allowGameAction('declareAsDefender') && this.canDeclareAsParticipant(challengeType);
+    canDeclareAsDefender(conflictType) {
+        return this.allowGameAction('declareAsDefender') && this.canDeclareAsParticipant(conflictType);
     }
 
-    canDeclareAsParticipant(challengeType) {
+    canDeclareAsParticipant(conflictType) {
         return (
-            this.canParticipateInChallenge() &&
+            this.canParticipateInConflict() &&
             this.location === 'play area' &&
             !this.stealth &&
-            (!this.bowed || this.challengeOptions.canBeDeclaredWhileBowing) &&
-            (this.hasIcon(challengeType) || this.challengeOptions.canBeDeclaredWithoutIcon)
+            (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowing) &&
+            !this.conflictOptions.cannotParticipateIn[conflictType]
         );
     }
 
     canParticipateInConflict() {
-        return this.allowGameAction('participateInChallenge');
+        return this.allowGameAction('participateInConflict');
     }
 
     canBeKilled() {
@@ -296,6 +310,13 @@ class DrawCard extends BaseCard {
         return this.allowGameAction('play');
     }
 
+    returnHomeFromConflict(side) {
+        if(!this.conflictOptions.doesNotBowAs[side] && !this.bowed) {
+            this.controller.bowCard(this);
+        }
+        this.inConflict = false;
+    }
+ 
     getSummary(activePlayer, hideWhenFaceup) {
         let baseSummary = super.getSummary(activePlayer, hideWhenFaceup);
 

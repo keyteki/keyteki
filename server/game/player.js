@@ -44,6 +44,9 @@ class Player extends Spectator {
         this.drawBid = 0;
         this.duelBid = 0;
         this.showBid = 0;
+        this.imperialFavor = '';
+        this.totalGloryForFavor = 0;
+        this.passedDynasty = false;
 
 
         this.deck = {};
@@ -168,6 +171,23 @@ class Player extends Spectator {
         });
     }
 
+    discardFromBrokenProvinces() {
+        var provinces = ['province 1', 'province 2', 'province 3', 'province 4'];
+
+        _.each(provinces, province => {
+            let provinceCard = _.find(this.getSourceList(province)._wrapped, card => card.isProvince);
+            if(provinceCard.isBroken) {
+                _.find(this.getSourceList(province)._wrapped, card => {
+                    if(card.isDynasty && !card.facedown) {
+                        this.movecard(card,'dynasty discard pile');
+                        this.movecard(this.dynastyDeck.first(), province);
+                    }
+                    return card.isDynasty;
+                });
+            }
+        });        
+    }
+    
     anyCardsInPlay(predicate) {
         return this.allCards.any(card => card.location === 'play area' && predicate(card));
     }
@@ -312,13 +332,14 @@ class Player extends Spectator {
         }
 
         this.discardCards(cards, false, discarded => {
-            this.game.addMessage('{0} discards {1} at random', this, discarded);
+            this.game.addMessage('{0} discards {1} at random', this, discarded[0]);
             callback(discarded);
         });
     }
 
     canInitiateConflict(conflictType) {
-        return !this.conflicts.isAtMax(conflictType);
+        return (!this.conflicts.isAtMax(conflictType) && 
+                this.conflicts.conflictOpportunities > 0);
     }
 
     canSelectAsFirstPlayer(player) {
@@ -365,6 +386,7 @@ class Player extends Spectator {
         this.faction = preparedDeck.faction;
         this.provinceDeck = _(preparedDeck.provinceCards);
         this.stronghold = preparedDeck.stronghold;
+        this.role = preparedDeck.role;
         this.conflictDeck = _(preparedDeck.conflictCards);
         this.dynastyDeck = _(preparedDeck.dynastyCards);
         this.allCards = _(preparedDeck.allCards);
@@ -585,6 +607,7 @@ class Player extends Spectator {
 
         this.game.raiseEvent('onIncomeCollected', { player: this });
 
+        this.passedDynasty = false;
         this.limitedPlayed = 0;
     }
 
@@ -894,7 +917,7 @@ class Player extends Spectator {
     getFavor() {
         var cardGlory = this.cardsInPlay.reduce((memo, card) => {
             if(!card.bowed && card.getType() === 'character' && card.contributesToFavor) {
-                return memo + card.getGlory();
+                return memo + card.glory;
             }
 
             return memo;
@@ -903,8 +926,24 @@ class Player extends Spectator {
         this.cardsInPlay.each(card => {
             cardGlory = card.modifyFavor(this, cardGlory);
         });
+        
+        let rings = this.getClaimedRings();
+        
+        this.totalGloryForFavor = cardGlory + _.size(rings);
 
-        return cardGlory;
+        return this.totalGloryForFavor;
+    }
+
+    getClaimedRings() {
+        return _.filter(this.game.rings, ring => ring.claimedby === this.name);
+    }
+ 
+    claimImperialFavor(conflictType) {
+        this.imperialFavor = conflictType;
+    }
+
+    loseImperialFavor() {
+        this.imperialFavor = '';
     }
 
     readyCards(notCharacters = false) {
@@ -1014,6 +1053,14 @@ class Player extends Spectator {
         }
     }
 
+    honorCard(card) {
+        this.game.raiseEvent('onCardHonored', card, card.honor());
+    }
+
+    dishonorCard(card) {
+        this.game.raiseEvent('onCardDishonored', card, card.dishonor());
+    }
+    
     bowCard(card) {
         if(card.bowed) {
             return;
@@ -1112,6 +1159,120 @@ class Player extends Spectator {
     setDrawBid(bid) {
         this.drawBid = bid;
     }
+    
+    resolveRingEffects(element) {
+        if(element === '') {
+            return;
+        }
+
+        let otherPlayer = this.game.getOtherPlayer(this);
+       
+        switch(element) {
+            case 'air':
+                this.game.promptWithMenu(this, this, {
+                    activePrompt: {
+                        promptTitle: 'Air Ring',
+                        menuTitle: 'Choose an effect to resolve',
+                        buttons: [
+                            { text: 'Gain 2 Honor', arg: 'Gain 2 Honor', method: 'resolveAirRing' },
+                            { text: 'Take 1 Honor from Opponent', arg: 'Take 1 Honor from Opponent', method: 'resolveAirRing' }
+                        ]
+                    },
+                    waitingPromptTitle: 'Waiting for opponent to use Air Ring'
+                });
+                break;
+            case 'earth':
+                this.drawCardsToHand(1);
+                otherPlayer.discardAtRandom(1);
+                break;
+            case 'void':
+                this.game.promptForSelect(this, {
+                    activePromptTitle: 'Choose character to remove a Fate from',
+                    waitingPromptTitle: 'Waiting for opponent to use Void Ring',
+                    cardCondition: card => {
+                        return (card.location === 'play area' && card.fate > 0);
+                    },
+                    cardType: 'character',
+                    onSelect: (player, card) => {
+                        card.modifyFate(-1);
+                        return true;
+                    }
+                });
+                break;
+            case 'water':
+                this.game.promptForSelect(this, {
+                    activePromptTitle: 'Choose character to bow or unbow',
+                    waitingPromptTitle: 'Waiting for opponent to use Water Ring',
+                    cardCondition: card => {
+                        return ((card.fate === 0 || card.bowed) && card.location === 'play area');
+                    },
+                    cardType: 'character',
+                    onSelect: (player, card) => {
+                        if(card.bowed) {
+                            this.readyCard(card);
+                        } else {
+                            this.bowCard(card);
+                        }
+                        return true;
+                    }
+                });
+                break;
+            case 'fire':
+                this.game.promptWithMenu(this, this, {
+                    activePrompt: {
+                        promptTitle: 'Fire Ring',
+                        menuTitle: 'Choose an effect to resolve',
+                        buttons: [
+                            { text: 'Honor a character', arg: 'honor', method: 'resolveFireRing' },
+                            { text: 'Dishonor a character', arg: 'sihonor', method: 'resolveFireRing' }
+                        ]
+                    },
+                    waitingPromptTitle: 'Waiting for opponent to use Fire Ring'
+                });
+                break;
+        }
+        this.game.addMessage('{0} resolved the {1} ring', this.name, element);        
+    }
+    
+    resolveAirRing(player, choice) {
+        if(choice === 'Gain 2 Honor') {
+            this.game.addHonor(this, 2);
+        } else {
+            this.game.transferHonor(this, this.game.getOtherPlayer(this), 1);
+        }
+        return true;
+    }
+    
+    resolveFireRing(player, choice) {
+        if(choice === 'honor') {
+            this.game.promptForSelect(this, {
+                activePromptTitle: 'Choose character to '.concat(choice),
+                waitingPromptTitle: 'Waiting for opponent to use Fire Ring',
+                cardCondition: card => !card.isHonored,
+                cardType: 'character',
+                onSelect: (player, card) => {
+                    this.honorCard(card);
+                    return true;
+                }
+            });
+        } else {
+            this.game.promptForSelect(this, {
+                activePromptTitle: 'Choose character to '.concat(choice),
+                waitingPromptTitle: 'Waiting for opponent to use Fire Ring',
+                cardCondition: card => !card.isdishonored,
+                cardType: 'character',
+                onSelect: (player, card) => {
+                    this.dishonorCard(card);
+                    return true;
+                }
+            });
+        }
+        return true;
+    }
+
+    discardCharactersWithNoFate() {
+        this.discardCards(this.filterCardsInPlay(card => card.type === 'character' && card.fate === 0));
+    }
 
     getState(activePlayer) {
         let isActivePlayer = activePlayer === this;
@@ -1136,6 +1297,7 @@ class Player extends Spectator {
             fate: this.fate,
             hand: this.getSummaryForCardList(this.hand, activePlayer, true),
             id: this.id,
+            imperialFavor: this.imperialFavor,
             left: this.left,
             numConflictCards: this.conflictDeck.size(),
             numDynastyCards: this.dynastyDeck.size(),
@@ -1163,6 +1325,10 @@ class Player extends Spectator {
         if(this.showDynastyDeck) {
             state.showDynastyDeck = true;
             state.dynastyDeck = this.getSummaryForCardList(this.dynastyDeck, activePlayer);
+        }
+        
+        if(this.role) {
+            state.role = this.role.getSummary(activePlayer);
         }
 
         return _.extend(state, promptState);

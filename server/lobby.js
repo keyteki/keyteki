@@ -462,6 +462,10 @@ class Lobby {
                         stronghold.card = cards[stronghold.card.id];
                     });
 
+                    _.each(deck.role, role => {
+                        role.card = cards[role.card.id];
+                    });
+
                     _.each(deck.provinceCards, province => {
                         province.card = cards[province.card.id];
                     });
