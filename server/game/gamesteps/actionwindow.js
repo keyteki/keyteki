@@ -74,10 +74,10 @@ class ActionWindow extends UiPrompt {
     nextPlayer() {
         let otherplayer = this.game.getOtherPlayer(this.currentPlayer);
         
-        if(!otherplayer && this.prevPlayerPassed) {
-            this.complete();
-        } else {
+        if(otherplayer) {
             this.currentPlayer = otherplayer;
+        } else if(this.prevPlayerPassed) {
+            this.complete();
         }
     }
 
