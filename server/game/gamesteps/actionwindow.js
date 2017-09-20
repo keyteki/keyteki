@@ -77,7 +77,7 @@ class ActionWindow extends UiPrompt {
         if(otherplayer) {
             this.currentPlayer = otherplayer;
         } else if(this.prevPlayerPassed) {
-           this.complete();
+            this.complete();
         }
     }
 
