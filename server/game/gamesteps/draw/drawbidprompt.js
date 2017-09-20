@@ -1,13 +1,12 @@
-const UiPrompt = require('../uiprompt.js');
+const AllPlayerPrompt = require('../allplayerprompt.js');
 
-class DrawBidPrompt extends UiPrompt {
-    constructor(game, player) {
-        super(game);
-        this.player = player;
-    }
-
+class DrawBidPrompt extends AllPlayerPrompt {
     activeCondition(player) {
-        return this.player === player;
+        return player.drawBid === 0;
+    }
+    
+    completionCondition(player) {
+        return player.drawBid > 0;
     }
 
     activePrompt() {
@@ -28,13 +27,9 @@ class DrawBidPrompt extends UiPrompt {
     }
 
     onMenuCommand(player, bid) {
-        if(this.player !== player) {
-            return false;
-        }
-
         this.game.addMessage('{0} has chosen a bid.', player);
 
-        this.player.setDrawBid(bid);
+        player.setDrawBid(bid);
 
         this.complete();
     }
