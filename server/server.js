@@ -20,6 +20,7 @@ const helmet = require('helmet');
 
 const UserService = require('./repositories/UserService.js');
 const version = require('../version.js');
+const Settings = require('./settings.js');
 
 const defaultWindows = {
     plot: false,
@@ -159,16 +160,21 @@ class Server {
                         return done(null, false, { message: 'Invalid username/password' });
                     }
 
-                    return done(null, {
+                    let userObj = {
                         username: user.username,
                         email: user.email,
                         emailHash: user.emailHash,
                         _id: user._id,
                         admin: user.admin,
-                        settings: user.settings || {},
-                        promptedActionWindows: user.promptedActionWindows || defaultWindows,
-                        permissions: user.permissions || {}
-                    });
+                        settings: user.settings,
+                        promptedActionWindows: user.promptedActionWindows,
+                        permissions: user.permissions,
+                        blockList: user.blockList
+                    };
+
+                    userObj = Settings.getUserWithDefaultsSet(userObj);
+
+                    return done(null, userObj);
                 });
             })
             .catch(err => {
@@ -191,18 +197,20 @@ class Server {
                     return done(new Error('user not found'));
                 }
 
-                done(null, {
+                let userObj = {
                     username: user.username,
                     email: user.email,
                     emailHash: user.emailHash,
                     _id: user._id,
                     admin: user.admin,
-                    settings: user.settings || {},
-                    promptedActionWindows: user.promptedActionWindows || defaultWindows,
-                    permissions: user.permissions || {}
-                });
+                    settings: user.settings,
+                    promptedActionWindows: user.promptedActionWindows,
+                    permissions: user.permissions,
+                    blockList: user.blockList
+                };
+
+                done(null, userObj);
             });
     }
 }
-
 module.exports = Server;
