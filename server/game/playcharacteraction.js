@@ -44,7 +44,7 @@ class PlayCharacterAction extends BaseAbility {
                 waitingPromptTitle: 'Waiting for opponent to take an action or pass.'
             });
         } else {
-            this.playCharacterWithFate(context.player, 'home')
+            this.playCharacterWithFate(context.player, 'home');
         }
     }
     
