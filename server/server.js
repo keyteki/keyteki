@@ -109,30 +109,19 @@ class Server {
                 path: '/__webpack_hmr',
                 heartbeat: 2000
             }));
-
-            app.get('*', function response(req, res) {
-                var token = undefined;
-
-                if(req.user) {
-                    token = jwt.sign(req.user, config.secret);
-                }
-
-                var html = pug.renderFile('views/index.pug', { basedir: path.join(__dirname, '..', 'views'), user: req.user, token: token });
-                middleware.fileSystem.writeFileSync(path.join(__dirname, '..', 'public/index.html'), html);
-                res.write(middleware.fileSystem.readFileSync(path.join(__dirname, '..', 'public/index.html')));
-                res.end();
-            });
-        } else {
-            app.get('*', (req, res) => {
-                var token = undefined;
-
-                if(req.user) {
-                    token = jwt.sign(req.user, config.secret);
-                }
-
-                res.render('index', { basedir: path.join(__dirname, '..', 'views'), user: req.user, token: token, production: !this.isDeveloping });
-            });
         }
+
+        app.get('*', (req, res) => {
+        let token = undefined;
+
+            if(req.user) {
+                token = jwt.sign(req.user, config.secret);
+                req.user = _.omit(req.user, 'blockList');
+            }
+
+            res.render('index', { basedir: path.join(__dirname, '..', 'views'), user: Settings.getUserWithDefaultsSet(req.user), token: token, production: !this.isDeveloping });
+        });
+
 
         return this.server;
     }
