@@ -48,12 +48,20 @@ class Server {
 
         app.use(helmet());
 
+        app.set('trust proxy', 1);
         app.use(session({
             store: new MongoStore({ url: config.dbPath }),
             saveUninitialized: false,
             resave: false,
             secret: config.secret,
-            cookie: { maxAge: config.cookieLifetime }
+            cookie: { 
+                maxAge: config.cookieLifetime,
+                secure: config.https,
+                httpOnly: true,
+                domain: config.domain
+             },
+            name: 'sessionId',
+            
         }));
 
         app.use(passport.initialize());

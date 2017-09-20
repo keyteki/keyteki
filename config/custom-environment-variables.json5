@@ -2,6 +2,8 @@
     env: 'NODE_ENV',
     dbPath: 'DB_PATH',
     mqUrl: 'ZMQ_URL',
+    domain: 'jigoku.online',
+    https: 'false',
 
     lobby: {
         port: 'PORT'
