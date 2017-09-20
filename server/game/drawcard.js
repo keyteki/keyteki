@@ -314,6 +314,10 @@ class DrawCard extends BaseCard {
         }
         this.inConflict = false;
     }
+    
+    play() {
+    //empty function so playcardaction doesn't crash the game
+    }
  
     getSummary(activePlayer, hideWhenFaceup) {
         let baseSummary = super.getSummary(activePlayer, hideWhenFaceup);
