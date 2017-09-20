@@ -194,7 +194,7 @@ class Game extends EventEmitter {
         }
 
         // Attempt to play cards that are not already in the play area.
-        if(['hand', 'conflict discard pile', 'dynasty discard pile'].includes(card.location) && player.playCard(card)) {
+        if(['hand', 'province 1', 'province 2', 'province 3', 'province 4'].includes(card.location) && player.playCard(card)) {
             return;
         }
 

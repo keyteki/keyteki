@@ -2,7 +2,7 @@ const _ = require('underscore');
 
 const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
-const DynastyActionOrPassPrompt = require('./dynasty/dynastyactionorpassprompt.js');
+const DynastyActionWindow = require('./dynasty/dynastyactionwindow.js');
 
 /*
 I Dynasty Phase
@@ -21,7 +21,7 @@ class DynastyPhase extends Phase {
         this.initialise([
             new SimpleStep(game, () => this.beginDynasty()),
             new SimpleStep(game, () => this.cyclePlayers()),
-            new SimpleStep(game, () => this.dynastyActionOrPassStep())
+            new SimpleStep(game, () => this.dynastyActionWindowStep())
         ]);
     }
 
@@ -45,16 +45,8 @@ class DynastyPhase extends Phase {
 
     }
 
-    dynastyActionOrPassStep() {
-
-        if(this.currentPlayer.passedDynasty !== true) {
-
-            if(this.currentPlayer.passedDynasty === false) {
-                this.game.queueStep(new DynastyActionOrPassPrompt(this.game, this.currentPlayer));
-            }
-
-        }
-
+    dynastyActionWindowStep() {
+        this.game.queueStep(new DynastyActionWindow(this.game));
     }
 
 }

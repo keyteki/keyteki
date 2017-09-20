@@ -46,6 +46,7 @@ class Player extends Spectator {
         this.showBid = 0;
         this.imperialFavor = '';
         this.totalGloryForFavor = 0;
+        this.passedDynasty = false;
 
 
         this.deck = {};
@@ -606,6 +607,7 @@ class Player extends Spectator {
 
         this.game.raiseEvent('onIncomeCollected', { player: this });
 
+        this.passedDynasty = false;
         this.limitedPlayed = 0;
     }
 
