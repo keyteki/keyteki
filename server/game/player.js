@@ -332,7 +332,7 @@ class Player extends Spectator {
         }
 
         this.discardCards(cards, false, discarded => {
-            this.game.addMessage('{0} discards {1} at random', this, discarded);
+            this.game.addMessage('{0} discards {1} at random', this, discarded[0]);
             callback(discarded);
         });
     }
