@@ -194,7 +194,7 @@ class Game extends EventEmitter {
         }
 
         // Attempt to play cards that are not already in the play area.
-        if(['hand', 'conflict discard pile', 'dynasty discard pile'].includes(card.location) && player.playCard(card)) {
+        if(['hand', 'province 1', 'province 2', 'province 3', 'province 4'].includes(card.location) && player.playCard(card)) {
             return;
         }
 
@@ -233,6 +233,30 @@ class Game extends EventEmitter {
         }
     }
    
+    ringClicked(sourcePlayer, ringindex) {
+        var ring = this.rings[ringindex];
+        var player = this.getPlayerByName(sourcePlayer);
+
+        if(!player || ring.claimed) {
+            return;
+        }
+
+        var canInitiateThisConflictType = !player.conflicts.isAtMax(ring.conflictType);        
+        var canInitiateOtherConflictType = !player.conflicts.isAtMax(ring.conflictType === 'military' ? 'political' : 'military');        
+        var conflict = this.currentConflict;
+    
+        if(!conflict) {
+            this.flipRing(player, ring);
+        } else if(conflict && !conflict.conflictDeclared && player === conflict.attackingPlayer) {
+            if((conflict.conflictRing === ring.element && canInitiateOtherConflictType) ||
+                    (conflict.conflictRing !== ring.element && !canInitiateThisConflictType)) {
+                this.flipRing(player, ring);
+            }
+            this.currentConflict.conflictRing = ring.element;
+            this.currentConflict.conflictType = ring.conflictType;
+        }
+    }
+
     returnRings() {
         _.each(this.rings, ring => ring.resetRing());
     }
@@ -411,6 +435,16 @@ class Game extends EventEmitter {
         this.winReason = reason;
 
         this.router.gameWon(this, reason, winner);
+    }
+    
+    setFirstPlayer(firstPlayer) {
+        _.each(this.getPlayers(), player => {
+            if(player === firstPlayer) {
+                player.firstPlayer = true;
+            } else {
+                player.firstPlayer = false;
+            }
+        });
     }
 
     changeStat(playerName, stat, value) {
@@ -667,7 +701,7 @@ class Game extends EventEmitter {
     }
 
     flipRing(sourcePlayer, ring) {
-        this.rings[ring].flipConflictType();
+        ring.flipConflictType();
     }
 
     placeFateOnUnclaimedRings() {

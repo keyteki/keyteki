@@ -46,6 +46,7 @@ class Player extends Spectator {
         this.showBid = 0;
         this.imperialFavor = '';
         this.totalGloryForFavor = 0;
+        this.passedDynasty = false;
 
 
         this.deck = {};
@@ -331,7 +332,7 @@ class Player extends Spectator {
         }
 
         this.discardCards(cards, false, discarded => {
-            this.game.addMessage('{0} discards {1} at random', this, discarded);
+            this.game.addMessage('{0} discards {1} at random', this, discarded[0]);
             callback(discarded);
         });
     }
@@ -385,6 +386,7 @@ class Player extends Spectator {
         this.faction = preparedDeck.faction;
         this.provinceDeck = _(preparedDeck.provinceCards);
         this.stronghold = preparedDeck.stronghold;
+        this.role = preparedDeck.role;
         this.conflictDeck = _(preparedDeck.conflictCards);
         this.dynastyDeck = _(preparedDeck.dynastyCards);
         this.allCards = _(preparedDeck.allCards);
@@ -605,6 +607,7 @@ class Player extends Spectator {
 
         this.game.raiseEvent('onIncomeCollected', { player: this });
 
+        this.passedDynasty = false;
         this.limitedPlayed = 0;
     }
 
@@ -1330,6 +1333,10 @@ class Player extends Spectator {
         if(this.showDynastyDeck) {
             state.showDynastyDeck = true;
             state.dynastyDeck = this.getSummaryForCardList(this.dynastyDeck, activePlayer);
+        }
+        
+        if(this.role) {
+            state.role = this.role.getSummary(activePlayer);
         }
 
         return _.extend(state, promptState);

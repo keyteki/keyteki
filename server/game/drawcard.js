@@ -5,11 +5,13 @@ const SetupCardAction = require('./setupcardaction.js');
 const DynastyCardAction = require('./dynastycardaction.js');
 const PlayCardAction = require('./playcardaction.js');
 const PlayCharacterAction = require('./playcharacteraction.js');
+const DuplicateUniqueAction = require('./duplicateuniqueaction.js');
 
 const StandardPlayActions = [
     new SetupCardAction(),
     new DynastyCardAction(),
     new PlayCharacterAction(),
+    new DuplicateUniqueAction(),
     new PlayCardAction()
 ];
 
@@ -35,6 +37,10 @@ class DrawCard extends BaseCard {
             doesNotBowAs: {
                 attacker: false,
                 defender: false
+            },
+            cannotParticipateIn: {
+                military: false,
+                political: false
             }
         };
         this.stealthLimit = 1;
@@ -56,6 +62,10 @@ class DrawCard extends BaseCard {
 
     isAncestral() {
         return this.hasKeyword('ancestral');
+    }
+    
+    isCovert() {
+        return this.hasKeyword('covert');
     }
 
     hasSincerity() {
@@ -205,6 +215,10 @@ class DrawCard extends BaseCard {
     canUseCovertToBypass(targetCard) {
         return this.isCovert() && targetCard.canBeBypassedByCovert();
     }
+    
+    canBeBypassedByCovert() {
+        return !this.isCovert();
+    }
 
     useCovertToBypass(targetCard) {
         if(!this.canUseCovertToBypass(targetCard)) {
@@ -280,7 +294,7 @@ class DrawCard extends BaseCard {
             this.location === 'play area' &&
             !this.stealth &&
             (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowing) &&
-            (this.hasIcon(conflictType) || this.conflictOptions.canBeDeclaredWithoutIcon)
+            !this.conflictOptions.cannotParticipateIn[conflictType]
         );
     }
 
@@ -297,7 +311,7 @@ class DrawCard extends BaseCard {
     }
 
     returnHomeFromConflict(side) {
-        if(!this.card.conflictOptions.doesNotBowAs[side] && !this.bowed) {
+        if(!this.conflictOptions.doesNotBowAs[side] && !this.bowed) {
             this.controller.bowCard(this);
         }
         this.inConflict = false;

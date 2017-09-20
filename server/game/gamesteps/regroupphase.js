@@ -66,12 +66,11 @@ class RegroupPhase extends Phase {
     }
 
     passFirstPlayer() {
-        this.allPlayers = this.game.getPlayersInFirstPlayerOrder();
-        let firstPlayer = this.allPlayers.shift();
-        let secondPlayer = this.allPlayers.shift();
-
-        firstPlayer.firstPlayer = false;
-        secondPlayer.firstPlayer = true;
+        let firstPlayer = this.game.getFirstPlayer();
+        let otherPlayer = this.game.getOtherPlayer(firstPlayer);
+        if(otherPlayer) {
+            this.game.raiseEvent('onPassFirstPlayer', otherPlayer, this.game.setFirstPlayer(otherPlayer));
+        }
     }
 
     roundEnded() {
