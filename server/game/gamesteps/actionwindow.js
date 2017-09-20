@@ -6,7 +6,7 @@ class ActionWindow extends UiPrompt {
 
         this.title = title;
         this.windowName = windowName;
-        if(this.game.currentConflict) {
+        if(this.game.currentConflict && !this.game.currentConflict.isSinglePlayer) {
             this.currentPlayer = this.game.currentConflict.defendingPlayer;
         } else {
             this.currentPlayer = game.getFirstPlayer();
