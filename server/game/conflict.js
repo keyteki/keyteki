@@ -113,6 +113,12 @@ class Conflict {
 
         this.attackerSkill = this.calculateSkillFor(this.attackers) + this.attackerSkillModifier;
         this.defenderSkill = this.calculateSkillFor(this.defenders) + this.defenderSkillModifier;
+        
+        if(this.attackingPlayer.imperialFavor === this.conflictType && this.attackers !== []) {
+            this.attackerSkill++;
+        } else if(this.defendingPlayer.imperialFavor === this.conflictType && this.defenders !== []) {
+            this.defenderSkill++;
+        }
     }
 
     calculateSkillFor(cards) {
