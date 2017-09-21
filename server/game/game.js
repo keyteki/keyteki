@@ -584,6 +584,24 @@ class Game extends EventEmitter {
         player.promptedActionWindows[windowName] = toggle;
     }
 
+    toggleTimerSetting(playerName, settingName, toggle) {
+        var player = this.getPlayerByName(playerName);
+        if(!player) {
+            return;
+        }
+
+        player.timerSettings[settingName] = toggle;
+    }
+
+    toggleKeywordSetting(playerName, settingName, toggle) {
+        var player = this.getPlayerByName(playerName);
+        if(!player) {
+            return;
+        }
+
+        player.keywordSettings[settingName] = toggle;
+    }
+
     initialise() {
         var players = {};
 

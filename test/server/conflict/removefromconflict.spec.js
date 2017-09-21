@@ -9,9 +9,9 @@ describe('Conflict', function() {
             handler(card);
         });
 
-        this.attackingPlayer = new Player('1', 'Player 1', true, this.gameSpy);
+        this.attackingPlayer = new Player('1', { username: 'Player 1', settings: {} }, true, this.gameSpy);
         spyOn(this.attackingPlayer, 'winConflict');
-        this.defendingPlayer = new Player('2', 'Player 2', true, this.gameSpy);
+        this.defendingPlayer = new Player('2', { username: 'Player 2', settings: {} }, true, this.gameSpy);
         spyOn(this.defendingPlayer, 'winConflict');
 
         this.attackerCard = new DrawCard(this.attackingPlayer, {});

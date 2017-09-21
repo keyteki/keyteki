@@ -6,7 +6,7 @@ describe('Player', () => {
         beforeEach(function() {
             this.gameSpy = jasmine.createSpyObj('game', ['getOtherPlayer', 'raiseEvent', 'playerDecked']);
 
-            this.player = new Player('1', 'Player 1', true, this.gameSpy);
+            this.player = new Player('1', { username: 'Player 1', settings: {} }, true, this.gameSpy);
             this.player.initialise();
             spyOn(this.player, 'discardCard');
             spyOn(this.player, 'putIntoPlay');

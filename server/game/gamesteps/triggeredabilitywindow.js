@@ -52,8 +52,8 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
     }
 
     isWindowEnabledForEvent(player, event) {
-        let eventsEnabled = player.user.settings.timerSettings ? player.user.settings.timerSettings.events : true;
-        let abilitiesEnabled = player.user.settings.timerSettings ? player.user.settings.timerSettings.abilities : false;
+        let eventsEnabled = player.timerSettings.events;
+        let abilitiesEnabled = player.timerSettings.abilities;
 
         if(event.name === 'onCardAbilityInitiated') {
             if(event.source.getType() === 'event') {

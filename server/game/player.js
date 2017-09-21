@@ -1326,6 +1326,7 @@ class Player extends Spectator {
             showBid: this.showBid,
             strongholdProvince: this.getSummaryForCardList(this.strongholdProvince, activePlayer),
             totalHonor: this.getTotalHonor(),
+            timerSettings: this.timerSettings,
             user: _.omit(this.user, ['password', 'email'])
         };
 

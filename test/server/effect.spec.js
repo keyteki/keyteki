@@ -10,8 +10,8 @@ function createTarget(properties = {}) {
     return card;
 }
 
-describe('Effect', function () {
-    beforeEach(function () {
+describe('Effect', function() {
+    beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['']);
         this.sourceSpy = jasmine.createSpyObj('source', ['getType', 'isBlank']);
         this.properties = {
@@ -305,8 +305,8 @@ describe('Effect', function () {
                 this.properties.match.and.returnValue(true);
                 this.effect.targetType = 'player';
                 this.effect.active = true;
-                this.player = new Player(1, {}, true, {});
-                this.anotherPlayer = new Player(2, {}, false, {});
+                this.player = new Player(1, { settings: {} }, true, {});
+                this.anotherPlayer = new Player(2, { settings: {} }, false, {});
                 this.sourceSpy.controller = this.player;
             });
 

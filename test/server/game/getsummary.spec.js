@@ -6,8 +6,8 @@ const Spectator = require('../../../server/game/spectator.js');
 
 describe('the Game', () => {
     var game = {};
-    var player1 = new Player('1', { username: 'Player 1' }, true, game);
-    var player2 = new Player('2', { username: 'Player 2' }, false, game);
+    var player1 = new Player('1', { username: 'Player 1', settings: {} }, true, game);
+    var player2 = new Player('2', { username: 'Player 2', settings: {} }, false, game);
     var spectator = new Spectator('3', 'Spectator 1');
 
     beforeEach(() => {
@@ -57,7 +57,7 @@ describe('the Game', () => {
 
         describe('when a player has a deck selected', () => {
             beforeEach(() => {
-                player1.deck = { name: 'Test Deck'};
+                player1.deck = { name: 'Test Deck' };
                 game.playersAndSpectators[player1.name] = player1;
                 game.playersAndSpectators[player2.name] = player2;
             });
