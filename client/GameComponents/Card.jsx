@@ -345,6 +345,7 @@ Card.propTypes = {
         deck: React.PropTypes.string,
         facedown: React.PropTypes.bool,
         inConflict: React.PropTypes.bool,
+        isBroken: React.PropTypes.bool,
         isConflict: React.PropTypes.bool,
         isDynasty: React.PropTypes.bool,
         isDishonored: React.PropTypes.bool,
