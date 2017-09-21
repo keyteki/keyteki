@@ -168,6 +168,22 @@ class ConflictFlow extends BaseStep {
         if(this.conflict.cancelled) {
             return;
         }
+        
+        if(this.game.manualMode && !this.conflict.isSinglePlayer) {
+            this.game.promptWithMenu(this.conflict.attackingPlayer, this, {
+                activePrompt: {
+                    promptTitle: 'Conflict Result',
+                    menuTitle: 'How did the conflict resolve?',
+                    buttons: [
+                        { text: 'Attacker Won', arg: 'attacker', method: 'manuallyDetermineWinner' },
+                        { text: 'Defender Won', arg: 'defender', method: 'manuallyDetermineWinner' },
+                        { text: 'No Winnder', arg: 'nowinner', method: 'manuallyDetermineWinner' }
+                    ]
+                },
+                waitingPromptTitle: 'Waiting for opponent to resolve conflict'
+            });
+            return;
+        } 
 
         this.conflict.determineWinner();
 
@@ -182,6 +198,26 @@ class ConflictFlow extends BaseStep {
 
         this.game.raiseEvent('afterConflict', this.conflict);
     }
+    
+    manuallyDetermineWinner(player, choice) {
+        if(choice === 'attacker') {
+            this.conflict.winner = player;
+            this.conflict.loser = this.conflict.defendingPlayer;
+        } else if(choice === 'defender') {
+            this.conflict.winner = this.conflict.defendingPlayer;
+            this.conflict.loser = player;
+        }
+        if(!this.conflict.winner && !this.conflict.loser) {
+            this.game.addMessage('There is no winner or loser for this conflict because both sides have 0 skill');
+        } else {
+            this.game.addMessage('{0} won a {1} conflict', this.conflict.winner, this.conflict.conflictType);
+            this.conflict.winner.conflicts.won(this.conflict.conflictType, this.conflict.winner === this.conflict.attackingPlayer);
+            this.conflict.loser.conflicts.lost(this.conflict.conflictType, this.conflict.loser === this.conflict.attackingPlayer);
+        }
+
+        this.game.raiseEvent('afterConflict', this.conflict);        
+        return true;
+    }
 
     applyKeywords() {
         var winnerCards = this.conflict.getWinnerCards();
@@ -192,7 +228,7 @@ class ConflictFlow extends BaseStep {
     }
 
     applyUnopposed() {
-        if(this.conflict.cancelled) {
+        if(this.conflict.cancelled || this.game.manualMode) {
             return;
         }
 
@@ -202,7 +238,7 @@ class ConflictFlow extends BaseStep {
     }
     
     checkBreakProvince() {
-        if(this.conflict.cancelled || this.conflict.isSinglePlayer) {
+        if(this.conflict.cancelled || this.conflict.isSinglePlayer || this.game.manualMode) {
             return;
         }
 

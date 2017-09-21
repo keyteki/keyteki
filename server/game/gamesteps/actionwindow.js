@@ -38,11 +38,15 @@ class ActionWindow extends UiPrompt {
     }
 
     activePrompt() {
+        let buttons = [
+            { text: 'Pass', arg: 'pass' }
+        ];
+        if(this.game.manualMode) {
+            buttons.unshift({ text: 'Mannual Action', arg: 'manual'});
+        }
         return {
             menuTitle: 'Initiate an action',
-            buttons: [
-                { text: 'Pass' }
-            ],
+            buttons: buttons,
             promptTitle: this.title
         };
     }
@@ -55,9 +59,22 @@ class ActionWindow extends UiPrompt {
         return !this.forceWindow && !player.promptedActionWindows[this.windowName];
     }
 
-    onMenuCommand(player) {
+    onMenuCommand(player, choice) {
         if(this.currentPlayer !== player) {
             return false;
+        }
+        
+        if(choice === 'manual') {
+            this.game.promptForSelect(this.currentPlayer, {
+                activePrompt: 'Which ability are you using?',
+                cardCondition: card => (card.controller === this.currentPlayer || card === this.currentPlayer.stronghold),
+                onSelect: (player, card) => {
+                    this.game.addMessage('{0} uses {1}\'s ability', player, card);
+                    this.markActionAsTaken();
+                    return true;
+                }
+            });
+            return true;
         }
         
         if(this.prevPlayerPassed) {
