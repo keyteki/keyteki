@@ -50,7 +50,6 @@ describe('the DrawCard', function() {
             this.player.noTimer = true;
 
             this.game.playersAndSpectators['foo'] = this.player;
-            this.game.playersAndSpectators['bar'] = this.player2;
             this.game.initialise();
 
             this.game.currentPhase = 'dynasty';
