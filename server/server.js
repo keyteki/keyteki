@@ -15,23 +15,11 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const http = require('http');
 const Raven = require('raven');
-const pug = require('pug');
 const helmet = require('helmet');
 
 const UserService = require('./repositories/UserService.js');
 const version = require('../version.js');
 const Settings = require('./settings.js');
-
-const defaultWindows = {
-    plot: false,
-    draw: false,
-    challengeBegin: false,
-    attackersDeclared: true,
-    defendersDeclared: true,
-    winnerDetermined: false,
-    dominance: false,
-    standing: false
-};
 
 class Server {
     constructor(isDeveloping) {
@@ -61,8 +49,8 @@ class Server {
                 secure: config.https,
                 httpOnly: true,
                 domain: config.domain
-             },
-            name: 'sessionId',
+            },
+            name: 'sessionId'
             
         }));
 
