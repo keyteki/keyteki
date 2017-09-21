@@ -102,7 +102,7 @@ class Server {
         }
 
         app.get('*', (req, res) => {
-        let token = undefined;
+            let token = undefined;
 
             if(req.user) {
                 token = jwt.sign(req.user, config.secret);
