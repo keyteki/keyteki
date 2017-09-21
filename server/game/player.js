@@ -71,6 +71,9 @@ class Player extends Spectator {
             fate: false,
             regroup: false
         };
+        this.timerSettings = user.settings.timerSettings || {};
+        this.timerSettings.windowTimer = user.settings.windowTimer;
+        this.keywordSettings = user.settings.keywordSettings;
 
         this.createAdditionalPile('out of game', { title: 'Out of Game', area: 'player row' });
 
