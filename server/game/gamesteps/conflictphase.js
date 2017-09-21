@@ -193,6 +193,7 @@ class ConflictPhase extends Phase {
         }
         this.game.currentConflict.unregisterEvents();
         this.game.currentConflict = null;
+        this.game.queueStep(new ActionWindow(this.game, 'Action Window', 'conflictBegin'));
         this.game.queueStep(new SimpleStep(this.game, () => this.startConflictChoice(this.currentPlayer)));
     }
 
@@ -200,18 +201,8 @@ class ConflictPhase extends Phase {
         return this.game.getOtherPlayer(attackingPlayer);
     }
 
-    passConflict(player) {
-        let otherPlayer = this.game.getOtherPlayer(player);
-        let attacker = otherPlayer;
-
-        if(typeof otherplayer === 'undefined') {
-            attacker = player;
-        }
-        
+    passConflict(player) {      
         this.game.addMessage('{0} has passed the opportunity to declare a conflict', player);
-
-        this.game.queueStep(new SimpleStep(this.game, () => this.startConflictChoice(attacker)));
-        return true;
     }
 
     completeConflicts(player) {
