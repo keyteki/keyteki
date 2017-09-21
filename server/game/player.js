@@ -649,6 +649,7 @@ class Player extends Spectator {
         }
         attachment.moveTo('play area', card);
         card.attachments.push(attachment);
+        attachment.parent = card;
 
         this.game.queueSimpleStep(() => {
             attachment.applyPersistentEffects();

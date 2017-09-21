@@ -26,7 +26,7 @@ class DrawCard extends BaseCard {
         this.militarySkillModifier = 0;
         this.politicalSkillModifier = 0;
         this.fate = 0;
-        this.glory = 0;
+        this.glory = cardData.glory;
         this.contributesToFavor = true;
         this.bowed = false;
         this.inConflict = false;
@@ -153,7 +153,9 @@ class DrawCard extends BaseCard {
         }
 
         if(this.cardData.military !== null && this.cardData.military !== undefined) {
-            return Math.max(0, this.militarySkillModifier + this.cardData.military);
+            let skillFromAttachments = _.reduce(this.attachments._wrapped, (skill, card) => skill + parseInt(card.cardData.military_bonus), 0);
+            let skillFromGlory = (this.isHonored ? this.glory : 0) - (this.isDishonored ? this.glory : 0);
+            return Math.max(0, this.cardData.military + this.militarySkillModifier + skillFromAttachments + skillFromGlory);
         }
 
         return null;
@@ -170,7 +172,9 @@ class DrawCard extends BaseCard {
         }
 
         if(this.cardData.political !== null && this.cardData.political !== undefined) {
-            return Math.max(0, this.politicalSkillModifier + this.cardData.political);
+            let skillFromAttachments = _.reduce(this.attachments._wrapped, (skill, card) => skill + parseInt(card.cardData.political_bonus), 0);
+            let skillFromGlory = (this.isHonored ? this.glory : 0) - (this.isDishonored ? this.glory : 0);
+            return Math.max(0, this.cardData.political + this.politicalSkillModifier + skillFromAttachments + skillFromGlory);
         }
 
         return null;
@@ -272,6 +276,7 @@ class DrawCard extends BaseCard {
         this.bowed = false;
         this.inConflict = false;
         this.new = false;
+        this.fate = 0;
         this.resetForConflict();
         super.leavesPlay();
     }
