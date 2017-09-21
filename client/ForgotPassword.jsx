@@ -144,7 +144,7 @@ class InnerForgotPassword extends React.Component {
                             { fieldsToRender }
                             <div className='form-group'>
                                 <div className='col-sm-offset-2 col-sm-3'>
-                                    <ReCAPTCHA ref='recaptcha' sitekey='6LfELhMUAAAAAKbD2kLd6OtbsBbrZJFs7grwOREZ' theme='dark' onChange={ this.onCaptchaChange.bind(this) } />
+                                    <ReCAPTCHA ref='recaptcha' sitekey='6LdioDEUAAAAAH1lkMBCcE7mW3vRudleb9weuT8U' theme='dark' onChange={ this.onCaptchaChange.bind(this) } />
                                 </div>
                             </div>
                             <div className='form-group'>
