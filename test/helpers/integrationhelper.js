@@ -3,6 +3,8 @@
 
 const _ = require('underscore');
 
+require('./objectformatters.js');
+
 const DeckBuilder = require('./deckbuilder.js');
 const GameFlowWrapper = require('./gameflowwrapper.js');
 

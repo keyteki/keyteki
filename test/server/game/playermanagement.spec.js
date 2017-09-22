@@ -178,7 +178,7 @@ describe('Game', function() {
 
     describe('reconnect()', function() {
         beforeEach(function() {
-            this.game.join('1', { username: 'foo' });
+            this.game.join('1', { username: 'foo', settings: {} });
             this.game.disconnect('foo');
             this.game.reconnect({ id: '2' }, 'foo');
         });
@@ -237,7 +237,7 @@ describe('Game', function() {
 
     describe('hasActivePlayer()', function() {
         beforeEach(function() {
-            this.game.join('1', { username: 'foo' });
+            this.game.join('1', { username: 'foo', settings: {} });
         });
 
         it('should return falsy if the player is not in the game', function() {

@@ -4,6 +4,7 @@ const _ = require('underscore');
 
 const Game = require('../../server/game/game.js');
 const PlayerInteractionWrapper = require('./playerinteractionwrapper.js');
+const Settings = require('../../server/settings.js');
 
 class GameFlowWrapper {
     constructor() {
@@ -14,8 +15,8 @@ class GameFlowWrapper {
             owner: 'player1',
             saveGameId: 12345,
             players: [
-                { id: '111', user: { username: 'player1' } },
-                { id: '222', user: { username: 'player2' } }
+                { id: '111', user: Settings.getUserWithDefaultsSet({ username: 'player1' }) },
+                { id: '222', user: Settings.getUserWithDefaultsSet({ username: 'player2' }) }
             ]
         };
         this.game = new Game(details, { router: gameRouter });

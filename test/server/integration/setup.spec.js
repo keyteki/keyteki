@@ -18,7 +18,7 @@ describe('setup phase', function() {
                 };
             });
 
-            it('should start with no cards in hand or on provinces', function () {
+            it('should start with no cards in hand or on provinces', function() {
                 const locations = [
                     'hand',
                     'provinceOne',

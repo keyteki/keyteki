@@ -2,24 +2,26 @@ const fs = require('fs');
 const path = require('path');
 const _ = require('underscore');
 
-const CardDbRootDirectory = path.join(__dirname, '../../fiveringsdb-data');
+const {matchCardByNameAndPack} = require('./cardutil.js');
+
+const PathToSubModulePacks = path.join(__dirname,  '../../fiveringsdb-data');
 
 class DeckBuilder {
     constructor() {
-        this.cards = this.loadCards(CardDbRootDirectory);
+        this.cards = this.loadCards(PathToSubModulePacks);
     }
 
     loadCards(directory) {
-        const cards = {};
-        const cardFiles = fs.readdirSync(path.join(directory, 'Card'))
-            .filter(file => file.endsWith('.json'));
+        var cards = {};
 
-        _.each(cardFiles, file => {
-            let card = require(path.join(directory, 'Card', file));
-            if(card.length !== 1) {
-                throw new Error('Multiple card versions found');
-            }
-            cards[card[0].id] = card[0];
+        var jsonPacks = fs.readdirSync(directory).filter(file => file.endsWith('.json'));
+
+        _.each(jsonPacks, file => {
+            var cardsInPack = require(path.join(PathToSubModulePacks, file));
+
+            _.each(cardsInPack, card => {
+                cards[card.code] = card;
+            });
         });
 
         return cards;
@@ -29,10 +31,10 @@ class DeckBuilder {
         var cardCounts = {};
         _.each(cardLabels, label => {
             var cardData = this.getCard(label);
-            if(cardCounts[cardData.id]) {
-                cardCounts[cardData.id].count++;
+            if(cardCounts[cardData.code]) {
+                cardCounts[cardData.code].count++;
             } else {
-                cardCounts[cardData.id] = {
+                cardCounts[cardData.code] = {
                     count: 1,
                     card: cardData
                 };
@@ -41,20 +43,31 @@ class DeckBuilder {
 
         return {
             faction: { value: faction },
+            stronghold: _.filter(cardCounts, count => count.card.type === 'stronghold'),
+            role: _.filter(cardCounts, count => count.card.type === 'role'),
             conflictCards: _.filter(cardCounts, count => count.card.side === 'conflict'),
             dynastyCards: _.filter(cardCounts, count => count.card.side === 'dynasty'),
-            provinceCards: _.filter(cardCounts, count => count.card.type === 'province'),
-            stronghold: _.filter(cardCounts, count => count.card.type === 'stronghold'),
-            role: _.filter(cardCounts, count => count.card.type === 'role')
+            provinceCards: _.filter(cardCounts, count => count.card.type === 'province')
         };
     }
 
-    getCard(id) {
-        if(this.cards[id]) {
-            return this.cards[id];
+    getCard(codeOrLabelOrName) {
+        if(this.cards[codeOrLabelOrName]) {
+            return this.cards[codeOrLabelOrName];
         }
 
-        throw new Error(`Unable to find any card matching ${id}`);
+        var cardsByName = _.filter(this.cards, matchCardByNameAndPack(codeOrLabelOrName));
+
+        if(cardsByName.length === 0) {
+            throw new Error(`Unable to find any card matching ${codeOrLabelOrName}`);
+        }
+
+        if(cardsByName.length > 1) {
+            var matchingLabels = _.map(cardsByName, card => `${card.name} (${card.pack_code})`).join('\n');
+            throw new Error(`Multiple cards match the name ${codeOrLabelOrName}. Use one of these instead:\n${matchingLabels}`);
+        }
+
+        return cardsByName[0];
     }
 }
 
