@@ -78,6 +78,10 @@ class DrawCard extends BaseCard {
         return this.hasKeyword('pride');
     }
 
+    hasCourtesy() {
+        return this.hasKeyword('courtesy');
+    }
+    
     getCost() {
         return this.cardData.cost;
     }

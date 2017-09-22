@@ -654,6 +654,16 @@ class Player extends Spectator {
         this.game.queueSimpleStep(() => {
             attachment.applyPersistentEffects();
         });
+        
+        if(_.size(_.filter(card.attachments, card => card.isRestricted())) > 2) {
+            this.game.promptForSelect(this, {
+                activePromptTitle: 'Choose a card to discard',
+                waitingPromptTitle: 'Waiting for opponent to choose a card to discard',
+                cardCondition: c => c.parent === card && c.isRestricted(),
+                onSelect: (player, card) => player.discardCard(card),
+                source: 'Too many Restricted attachments'
+            })
+        }
 
         if(originalLocation !== 'play area') {
             this.game.raiseEvent('onCardEntersPlay', { card: attachment, playingType: playingType, originalLocation: originalLocation });
@@ -991,7 +1001,7 @@ class Player extends Spectator {
             return;
         }
 
-        if(card.location === 'play area') {
+        if(card.location === 'play area' && (card.isConflict || card.isDynasty)) {
             if(card.owner !== this) {
                 card.owner.moveCard(card, targetLocation);
                 return;
@@ -1014,12 +1024,19 @@ class Player extends Spectator {
 
             this.game.raiseEvent('onCardLeftPlay', params, event => {
                 event.card.leavesPlay();
+                
+                if(card.hasSincerity()) {
+                    this.drawCardsToHand(1);
+                }
+                if(card.hasCourtesy()) {
+                    this.game.addFate(this, 1);
+                }
 
                 if(event.card.parent && event.card.parent.attachments) {
                     event.card.parent.attachments = this.removeCardByUuid(event.card.parent.attachments, event.card.uuid);
                     event.card.parent = undefined;
                 }
-
+                
                 card.moveTo(targetLocation);
             });
         }
