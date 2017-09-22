@@ -183,7 +183,7 @@ class ConflictFlow extends BaseStep {
                     buttons: [
                         { text: 'Attacker Won', arg: 'attacker', method: 'manuallyDetermineWinner' },
                         { text: 'Defender Won', arg: 'defender', method: 'manuallyDetermineWinner' },
-                        { text: 'No Winnder', arg: 'nowinner', method: 'manuallyDetermineWinner' }
+                        { text: 'No Winner', arg: 'nowinner', method: 'manuallyDetermineWinner' }
                     ]
                 },
                 waitingPromptTitle: 'Waiting for opponent to resolve conflict'
