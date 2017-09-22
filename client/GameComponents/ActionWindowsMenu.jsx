@@ -6,14 +6,12 @@ class ActionWindowsMenu extends React.Component {
         super();
 
         this.windows = [
-            { name: 'plot', label: 'Plots revealed' },
+            { name: 'dynasty', label: 'Dynasty phase' },
             { name: 'draw', label: 'Draw phase' },
-            { name: 'challengeBegin', label: 'Challenge phase begins' },
-            { name: 'attackersDeclared', label: 'Attackers declared' },
-            { name: 'defendersDeclared', label: 'Defenders declared' },
-            { name: 'winnerDetermined', label: 'Winner determined' },
-            { name: 'dominance', label: 'Dominance phase' },
-            { name: 'standing', label: 'Standing phase' }
+            { name: 'preConflict', label: 'Conflict phase' },
+            { name: 'conflict', label: 'During conflict' },
+            { name: 'fate', label: 'Fate phase' },
+            { name: 'regroup', label: 'Regroup phase' }
         ];
     }
 

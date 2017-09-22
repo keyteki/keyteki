@@ -62,14 +62,12 @@ class Player extends Spectator {
         this.cannotGainConflictBonus = false;
         this.cannotTriggerCardAbilities = false;
         this.promptedActionWindows = user.promptedActionWindows || {
-            dynasty: false,
-            draw: false,
-            conflictBegin: false,
-            attackersDeclared: true,
-            defendersDeclared: true,
-            winnerDetermined: true,
-            fate: false,
-            regroup: false
+            dynasty: true,
+            draw: true,
+            preConflict: true,
+            conflict: true,
+            fate: true,
+            regroup: true
         };
 
         this.createAdditionalPile('out of game', { title: 'Out of Game', area: 'player row' });

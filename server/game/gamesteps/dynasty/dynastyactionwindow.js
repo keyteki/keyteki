@@ -4,6 +4,12 @@ const ActionWindow = require('../actionwindow.js');
 class DynastyActionWindow extends ActionWindow {
     constructor(game) {
         super(game, 'Play cards from provinces', 'DynastyActionWindow');
+        if(!this.currentPlayer.promptedActionWindows[this.windowName]) {
+            this.game.addFate(this.currentPlayer, 1);
+            this.game.addMessage('{0} is the first to pass, and gains 1 fate.', this.currentPlayer);
+            this.currentPlayer.passedDynasty = true;
+            this.nextPlayer();
+        }
     }
 
     activePrompt() {
@@ -39,12 +45,15 @@ class DynastyActionWindow extends ActionWindow {
         }
         
         if(choice === 'pass') {
-            this.game.addMessage('{0} has chosen to pass.', player);
 
             if(_.all(this.game.getPlayers(), player => {
                 return player.passedDynasty === false;
             })) {
                 this.game.addFate(this.currentPlayer, 1);
+                this.game.addMessage('{0} is the first to pass, and gains 1 fate.', player);
+            } else {
+                this.game.addMessage('{0} has chosen to pass.', player);
+
             }
 
             this.currentPlayer.passDynasty();
@@ -54,9 +63,13 @@ class DynastyActionWindow extends ActionWindow {
     }
     
     nextPlayer() {
-        let otherplayer = this.game.getOtherPlayer(this.currentPlayer);
-        if(otherplayer && !otherplayer.passedDynasty) {
-            this.currentPlayer = otherplayer;
+        let otherPlayer = this.game.getOtherPlayer(this.currentPlayer);
+        if(otherPlayer && !otherPlayer.passedDynasty) {
+            if(!otherPlayer.promptedActionWindow[this.windowName]) {
+                otherPlayer.passedDynasty = true;
+            } else {
+                this.currentPlayer = otherPlayer;
+            }
         }
         
         if(this.currentPlayer.passedDynasty) {

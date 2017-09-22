@@ -13,12 +13,12 @@ class ActionWindow extends UiPrompt {
         }
         this.prevPlayerPassed = false;
         this.game.actionWindow = this;
-        /*
-        if (!this.currentPlayer.promptedActionWindows[this.windowName]) {
+        
+        if(!this.currentPlayer.promptedActionWindows[this.windowName]) {
             this.prevPlayerPassed = true;
             this.nextPlayer();
         }
-        */
+        
     }
     
     activeCondition(player) {
@@ -89,10 +89,18 @@ class ActionWindow extends UiPrompt {
     }
     
     nextPlayer() {
-        let otherplayer = this.game.getOtherPlayer(this.currentPlayer);
+        let otherPlayer = this.game.getOtherPlayer(this.currentPlayer);
         
-        if(otherplayer) {
-            this.currentPlayer = otherplayer;
+        if(otherPlayer) {
+            if(!otherPlayer.promptedActionWindows[this.windowName]) {
+                if(this.prevPlayerPassed) {
+                    this.complete();
+                } else {
+                    this.prevPlayerPassed = true;
+                }
+            } else {
+                this.currentPlayer = otherPlayer;
+            }
         } else if(this.prevPlayerPassed) {
             this.complete();
         }

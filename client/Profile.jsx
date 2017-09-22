@@ -41,14 +41,12 @@ class InnerProfile extends React.Component {
         };
 
         this.windows = [
-            { name: 'plot', label: 'Plots revealed', style: 'col-sm-4' },
+            { name: 'dynasty', label: 'Dynasty phase', style: 'col-sm-4' },
             { name: 'draw', label: 'Draw phase', style: 'col-sm-4' },
-            { name: 'challengeBegin', label: 'Challenge phase begins', style: 'col-sm-4' },
-            { name: 'attackersDeclared', label: 'Attackers declared', style: 'col-sm-4' },
-            { name: 'defendersDeclared', label: 'Defenders declared', style: 'col-sm-4' },
-            { name: 'winnerDetermined', label: 'Winner determined', style: 'col-sm-4' },
-            { name: 'dominance', label: 'Dominance phase', style: 'col-sm-4' },
-            { name: 'standing', label: 'Standing phase', style: 'col-sm-4' }
+            { name: 'preConflict', label: 'Conflict phase', style: 'col-sm-4' },
+            { name: 'conflict', label: 'During conflict', style: 'col-sm-4' },
+            { name: 'fate', label: 'Fate phase', style: 'col-sm-4' },
+            { name: 'regroup', label: 'Regroup phase', style: 'col-sm-4' }
         ];
     }
 
