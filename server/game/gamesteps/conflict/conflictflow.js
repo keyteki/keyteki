@@ -34,7 +34,7 @@ class ConflictFlow extends BaseStep {
             new SimpleStep(this.game, () => this.announceDefenderSkill()),
             new ActionWindow(this.game, 'Conflict Action Window', 'conflictAction'),
             new SimpleStep(this.game, () => this.determineWinner()),
-            //new SimpleStep(this.game, () => this.applyKeywords()),
+            new SimpleStep(this.game, () => this.applyKeywords()),
             new SimpleStep(this.game, () => this.applyUnopposed()),
             new SimpleStep(this.game, () => this.checkBreakProvince()),
             new SimpleStep(this.game, () => this.resolveRingEffects()),
@@ -226,11 +226,29 @@ class ConflictFlow extends BaseStep {
     }
 
     applyKeywords() {
-        var winnerCards = this.conflict.getWinnerCards();
-
-        _.each(winnerCards, () => {
-            this.game.checkWinCondition(this.conflict.winner);
-        });
+        if(this.conflict.isAttackerTheWinner()) {
+            _.each(this.conflict.attackers, card => {
+                if(card.hasPride()) {
+                    this.conflict.attackingPlayer.honorCard(card);
+                }
+            });
+            _.each(this.conflict.defenders, card => {
+                if(card.hasPride()) {
+                    this.conflict.defendingPlayer.dishonorCard(card);
+                }
+            });
+        } else if(this.conflict.winner === this.conflict.defendingPlayer) {
+            _.each(this.conflict.attackers, card => {
+                if(card.hasPride()) {
+                    this.conflict.attackingPlayer.dishonorCard(card);
+                }
+            });
+            _.each(this.conflict.defenders, card => {
+                if(card.hasPride()) {
+                    this.conflict.defendingPlayer.honorCard(card);
+                }
+            });
+        }
     }
 
     applyUnopposed() {

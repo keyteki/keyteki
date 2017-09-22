@@ -16,6 +16,7 @@ describe('Player', function() {
                 }
             });
             this.card = new DrawCard(this.player, { code: '1', name: 'Test' });
+            this.card.isConflict = true;
             spyOn(this.card, 'leavesPlay');
         });
 
@@ -109,6 +110,7 @@ describe('Player', function() {
             describe('when the card is an attachment', function() {
                 beforeEach(function() {
                     this.attachment = new DrawCard(this.player, {});
+                    this.attachment.isConflict = true;
                     this.attachment.parent = this.card;
                     this.attachment.location = 'play area';
                     this.card.attachments.push(this.attachment);
