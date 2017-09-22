@@ -255,10 +255,13 @@ class DrawCard extends BaseCard {
      * attach the passed attachment card.
      */
     allowAttachment(attachment) {
+        if(_.any(this.allowedAttachmentTraits, trait => attachment.hasTrait(trait))) {
+            return true;
+        }
+        
         return (
             this.isBlank() ||
-            this.allowedAttachmentTrait === 'any' ||
-            this.allowedAttachmentTrait !== 'none' && attachment.hasTrait(this.allowedAttachmentTrait)
+            this.allowedAttachmentTraits.length === 0
         );
     }
 

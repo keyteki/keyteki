@@ -76,22 +76,24 @@ class BaseCard {
 
     parseKeywords(text) {
         var lines = text.split('\n');
-        var potentialKeywords = _.map(lines, k => k.split('.')[0]);
+        var potentialKeywords = [];
+        _.each(lines, line => {
+            line = line.slice(0, -1);
+            _.each(line.split('. '), k => potentialKeywords.push(k));
+        });
 
         this.keywords = {};
         this.printedKeywords = [];
-        this.allowedAttachmentTrait = 'any';
+        this.allowedAttachmentTraits = [];
 
         _.each(potentialKeywords, keyword => {
             if(_.contains(ValidKeywords, keyword)) {
                 this.printedKeywords.push(keyword);
-            } else if(keyword.indexOf('no attachment') === 0) {
-                var match = keyword.match(/no attachments except <[bi]>(.*)<\/[bi]>/);
-                if(match) {
-                    this.allowedAttachmentTrait = match[1];
-                } else {
-                    this.allowedAttachmentTrait = 'none';
-                }
+            } else if(keyword.startsWith('no attachments except')) {
+                var traits = keyword.replace('no attachments except ', '');
+                this.allowedAttachmentTraits = traits.split(' or ');
+            } else if(keyword.startsWith('no attachments')) {
+                this.allowedAttachmentTraits = ['none'];
             }
         });
 
