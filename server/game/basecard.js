@@ -32,6 +32,7 @@ class BaseCard {
         this.name = cardData.name;
         this.facedown = false;
         this.blankCount = 0;
+        this.inConflict = false;
 
         this.type = cardData.type;
 

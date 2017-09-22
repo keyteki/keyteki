@@ -59,7 +59,6 @@ class Province extends React.Component {
         var strongholdCard = this.props.strongholdCard || _.find(this.props.cards, card => {
             return card.isStronghold;
         });
-        var cardOrientation = this.props.orientation === 'horizontal' && provinceCard && provinceCard.facedown ? 'bowed' : this.props.orientation;
 
         if(this.props.hiddenProvinceCard && provinceCard) {
             provinceCard.facedown = true;
@@ -87,24 +86,21 @@ class Province extends React.Component {
                     disableMouseOver={ provinceCard.facedown && !this.props.isMe }
                     onClick={ this.props.onCardClick }
                     onMenuItemClick={ this.props.onMenuItemClick }
-                    onDragDrop={ this.props.onDragDrop }
-                    orientation={ cardOrientation } /> : null }
+                    onDragDrop={ this.props.onDragDrop } /> : null }
                 { dynastyCard ? <Card className='province-attachment' card={ dynastyCard } source={ this.props.source }
                     onMouseOver={ this.props.onMouseOver }
                     onMouseOut={ this.props.onMouseOut }
                     disableMouseOver={ dynastyCard.facedown }
                     onClick={ this.props.onCardClick }
                     onMenuItemClick={ this.props.onMenuItemClick }
-                    onDragDrop={ this.props.onDragDrop }
-                    orientation={ cardOrientation } /> : null }
+                    onDragDrop={ this.props.onDragDrop } /> : null }
                 { strongholdCard ? <Card className='province-attachment' card={ strongholdCard } source={ this.props.source }
                     onMouseOver={ this.props.onMouseOver }
                     onMouseOut={ this.props.onMouseOut }
                     disableMouseOver={ strongholdCard.facedown }
                     onClick={ this.props.onCardClick }
                     onMenuItemClick={ this.props.onMenuItemClick }
-                    onDragDrop={ this.props.onDragDrop }
-                    orientation={ cardOrientation } /> : null }
+                    onDragDrop={ this.props.onDragDrop } /> : null }
             </div>);
     }
 }

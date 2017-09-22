@@ -245,6 +245,9 @@ class Conflict {
         this.cancelled = true;
 
         this.resetCards();
+        if(this.conflictProvince) {
+            this.conflictProvince.inConflict = false;
+        }
 
         this.game.addMessage('{0}\'s {1} conflict is cancelled', this.attackingPlayer, this.conflictType);
     }

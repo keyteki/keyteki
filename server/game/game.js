@@ -211,6 +211,16 @@ class Game extends EventEmitter {
 
             this.addMessage('{0} {1} {2}', player, card.bowed ? 'bows' : 'readies', card);
         }
+        
+        if(!card.facedown && card.isProvince && card.controller === player) {
+            if(card.isBroken) {
+                card.isBroken = false;
+            } else {
+                card.isBroken = true;
+            }
+            
+            this.addMessage('{0} {1} {2}', player, card.isBroken ? 'breaks' : 'unbreaks', card);
+        }
 
         if(!card.facedown && card.location === 'stronghold province' && card.controller === player) {
             if(card.bowed) {
@@ -225,11 +235,8 @@ class Game extends EventEmitter {
         if(['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(card.location) && card.controller === player && (card.isDynasty || card.isProvince)) {
             if(card.facedown) {
                 card.facedown = false;
-            } else {
-                card.facedown = true;
+                this.addMessage('{0} reveals {1}', player, card);
             }
-
-            this.addMessage('{0} {1} {2}', player, card.facedown ? 'hides' : 'reveals', card);
         }
     }
    

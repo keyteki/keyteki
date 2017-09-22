@@ -7,11 +7,15 @@ class DynastyActionWindow extends ActionWindow {
     }
 
     activePrompt() {
+        let buttons = [
+            { text: 'Pass', arg: 'pass' }
+        ];
+        if(this.game.manualMode) {
+            buttons.unshift({ text: 'Mannual Action', arg: 'manual'});
+        }
         return {
             menuTitle: 'Click pass when done',
-            buttons: [
-                { text: 'Pass', arg: 'pass' }
-            ],
+            buttons: buttons,
             promptTitle: this.title
         };
     }
@@ -21,6 +25,19 @@ class DynastyActionWindow extends ActionWindow {
             return false;
         }
 
+        if(choice === 'manual') {
+            this.game.promptForSelect(this.currentPlayer, {
+                activePrompt: 'Which ability are you using?',
+                cardCondition: card => (card.controller === this.currentPlayer || card === this.currentPlayer.stronghold),
+                onSelect: (player, card) => {
+                    this.game.addMessage('{0} uses {1}\'s ability', player, card);
+                    this.markActionAsTaken();
+                    return true;
+                }
+            });
+            return true;
+        }
+        
         if(choice === 'pass') {
             this.game.addMessage('{0} has chosen to pass.', player);
 
