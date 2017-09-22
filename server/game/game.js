@@ -385,13 +385,13 @@ class Game extends EventEmitter {
         }
     }
 
-    transferHonor(winner, loser, honor) {
-        var appliedHonor = Math.min(loser.honor, honor);
-        loser.honor -= appliedHonor;
-        winner.honor += appliedHonor;
+    transferHonor(source, target, honor) {
+        var appliedHonor = Math.min(source.honor, honor);
+        source.honor -= appliedHonor;
+        target.honor += appliedHonor;
 
-        this.checkWinCondition(winner);
-        this.checkWinCondition(loser);
+        this.checkWinCondition(target);
+        this.checkWinCondition(source);
     }
 
     transferFate(to, from, fate) {
