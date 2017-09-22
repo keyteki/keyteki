@@ -44,7 +44,7 @@ class Ring extends React.Component {
 
         return (<div className='ring-display'>
             <div className='ring' onClick={ event => this.onClick(event, this.props.ringType) } >
-                <img className='ring' title={ this.props.ringType } src={ '/img/' + this.props.conflictType + '-' + this.props.ringType + '.png' } />
+                <img className='ring' src={ '/img/' + this.props.conflictType + '-' + this.props.ringType + '.png' } />
                 { this.showCounters() ? <CardCounters counters={ this.getCountersForRing(this.props.ringType) } /> : null }
             </div>
             <div className='ring-info' >
