@@ -28,7 +28,7 @@ class ConflictPhase extends Phase {
         super(game, 'conflict');
         this.initialise([
             new SimpleStep(this.game, () => this.beginPhase()),
-            new ActionWindow(this.game, 'Action Window', 'conflictBegin'),
+            new ActionWindow(this.game, 'Action Window', 'preConflict'),
             new SimpleStep(this.game, () => this.startConflictChoice())
         ]);
     }
@@ -193,7 +193,7 @@ class ConflictPhase extends Phase {
         }
         this.game.currentConflict.unregisterEvents();
         this.game.currentConflict = null;
-        this.game.queueStep(new ActionWindow(this.game, 'Action Window', 'conflictBegin'));
+        this.game.queueStep(new ActionWindow(this.game, 'Action Window', 'preConflict'));
         this.game.queueStep(new SimpleStep(this.game, () => this.startConflictChoice(this.currentPlayer)));
     }
 

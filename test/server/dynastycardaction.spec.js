@@ -2,12 +2,16 @@ const DynastyCardAction = require('../../server/game/dynastycardaction.js');
 
 describe('DynastyCardAction', function () {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'on', 'removeListener']);
+        this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'on', 'removeListener', 'abilityCardStack']);
         this.playerSpy = jasmine.createSpyObj('player', ['canPutIntoPlay', 'isCardInPlayableLocation', 'putIntoPlay']);
         this.cardSpy = jasmine.createSpyObj('card', ['getType']);
+        this.windowSpy = jasmine.createSpyObj('window', ['markActionAsTaken']);
         this.cardSpy.isDynasty = true;
         this.cardSpy.controller = this.playerSpy;
         this.cardSpy.owner = this.playerSpy;
+        this.gameSpy.actionWindow = this.windowSpy;
+        this.windowSpy.currentPlayer = this.playerSpy;
+        this.gameSpy.abilityCardStack = ['framework'];
         this.context = {
             costs: {},
             game: this.gameSpy,

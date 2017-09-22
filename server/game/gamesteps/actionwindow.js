@@ -13,12 +13,13 @@ class ActionWindow extends UiPrompt {
         }
         this.prevPlayerPassed = false;
         this.game.actionWindow = this;
-        /*
-        if (!this.currentPlayer.promptedActionWindows[this.windowName]) {
+        
+        if(!this.currentPlayer.promptedActionWindows[this.windowName]) {
+            this.game.addMessage('{0} has chosen to pass', this.currentPlayer);
             this.prevPlayerPassed = true;
             this.nextPlayer();
         }
-        */
+        
     }
     
     activeCondition(player) {
@@ -77,6 +78,8 @@ class ActionWindow extends UiPrompt {
             return true;
         }
         
+        this.game.addMessage('{0} has chosen to pass', this.currentPlayer);
+        
         if(this.prevPlayerPassed) {
             this.complete();
             return true;
@@ -89,10 +92,19 @@ class ActionWindow extends UiPrompt {
     }
     
     nextPlayer() {
-        let otherplayer = this.game.getOtherPlayer(this.currentPlayer);
+        let otherPlayer = this.game.getOtherPlayer(this.currentPlayer);
         
-        if(otherplayer) {
-            this.currentPlayer = otherplayer;
+        if(otherPlayer) {
+            if(!otherPlayer.promptedActionWindows[this.windowName]) {
+                this.game.addMessage('{0} has chosen to pass', this.currentPlayer);
+                if(this.prevPlayerPassed) {
+                    this.complete();
+                } else {
+                    this.prevPlayerPassed = true;
+                }
+            } else {
+                this.currentPlayer = otherPlayer;
+            }
         } else if(this.prevPlayerPassed) {
             this.complete();
         }
