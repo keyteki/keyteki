@@ -1,13 +1,13 @@
 const Game = require('../../../server/game/game.js');
+const Player = require('../../../server/game/player.js');
 
 describe('Game', function() {
     beforeEach(function() {
         let gameService = jasmine.createSpyObj('gameService', ['save']);
         this.game = new Game('1', 'Test Game', { gameService: gameService });
 
-        this.source = jasmine.createSpyObj('source', ['allowGameAction']);
-        this.source.allowGameAction.and.returnValue(true);
-        this.target = { controller: jasmine.createSpyObj('controller', ['getTotalHonor']) };
+        this.source = new Player('1', { username: 'Player 1', settings: {} }, true, this.game);
+        this.target = new Player('1', { username: 'Player 2', settings: {} }, true, this.game);
         
         this.target.honor = 1;
         this.source.honor = 2;

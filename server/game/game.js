@@ -406,7 +406,7 @@ class Game extends EventEmitter {
     checkWinCondition(player) {
         if(player.getTotalHonor() >= 25) {
             this.recordWinner(player, 'honor');
-        } else if(player .getTotalHonor() === 0) {
+        } else if(player.getTotalHonor() === 0) {
             var opponent = this.getOtherPlayer(player);
             this.recordWinner(opponent, 'dishonor');
         }
