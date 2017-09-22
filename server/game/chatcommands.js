@@ -24,7 +24,8 @@ class ChatCommands {
             '/rem-fate-ring': this.remRingFate,
             '/claim-ring' : this.claimRing,
             '/unclaim-ring': this.unclaimRing,
-            '/disconnectme': this.disconnectMe
+            '/disconnectme': this.disconnectMe,
+            '/manual': this.manual
         };
         this.tokens = [
             'fate'
@@ -347,6 +348,16 @@ class ChatCommands {
 
     disconnectMe(player) {
         player.socket.disconnect();
+    }
+    
+    manual(player) {
+        if(this.game.manualMode) {
+            this.game.manualMode = false;
+            this.game.addMessage('{0} switches manual mode off', player);
+        } else {
+            this.game.manualMode = true;
+            this.game.addMessage('{0} switches manual mode on', player);
+        }
     }
 
     getNumberOrDefault(string, defaultNumber) {
