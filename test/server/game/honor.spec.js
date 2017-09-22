@@ -4,7 +4,9 @@ const Player = require('../../../server/game/player.js');
 describe('Game', function() {
     beforeEach(function() {
         let gameService = jasmine.createSpyObj('gameService', ['save']);
+        let router = jasmine.createSpyObj('router', ['gameWon']);
         this.game = new Game('1', 'Test Game', { gameService: gameService });
+        this.game.router = router;
 
         this.source = new Player('1', { username: 'Player 1', settings: {} }, true, this.game);
         this.target = new Player('1', { username: 'Player 2', settings: {} }, true, this.game);
