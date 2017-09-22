@@ -18,6 +18,7 @@ class ChatCommands {
             '/reset-challenges-count': this.resetChallengeCount,
             '/cancel-prompt': this.cancelPrompt,
             '/token': this.setToken,
+            '/reveal': this.reveal,
             '/add-fate': this.addFate,
             '/rem-fate': this.remFate,
             '/add-fate-ring': this.addRingFate,
@@ -253,6 +254,18 @@ class ChatCommands {
                 card.addToken(token, num - numTokens);
                 this.game.addMessage('{0} uses the /token command to set the {1} token count of {2} to {3}', p, token, card, num - numTokens);
 
+                return true;
+            }
+        });
+    }
+    
+    reveal(player) {
+        this.game.promptForSelect(player, {
+            activePromptTitle: 'Select a card',
+            cardCondition: card => card.facedown & card.controller === player,
+            onSelect: (player, card) => {
+                card.facedown = false;
+                this.game.addMessage('{0} reveals {1}', player, card);
                 return true;
             }
         });
