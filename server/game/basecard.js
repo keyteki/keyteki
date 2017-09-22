@@ -15,6 +15,7 @@ const ValidKeywords = [
     'restricted',
     'limited',
     'sincerity',
+    'courtesy',
     'pride',
     'covert'
 ];
@@ -60,7 +61,7 @@ class BaseCard {
         this.events = new EventRegistrar(this.game, this);
 
         this.abilities = { actions: [], reactions: [], persistentEffects: [], playActions: [] };
-        this.parseKeywords(cardData.text || '');
+        this.parseKeywords(cardData.text_canonical || '');
         this.parseTraits(cardData.traits || '');
         this.setupCardAbilities(AbilityDsl);
 
@@ -74,8 +75,8 @@ class BaseCard {
     }
 
     parseKeywords(text) {
-        var firstLine = text.split('\n')[0];
-        var potentialKeywords = _.map(firstLine.split('.'), k => k.toLowerCase().trim());
+        var lines = text.split('\n');
+        var potentialKeywords = _.map(lines, k => k.split('.')[0]);
 
         this.keywords = {};
         this.printedKeywords = [];

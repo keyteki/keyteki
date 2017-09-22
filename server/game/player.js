@@ -655,14 +655,17 @@ class Player extends Spectator {
             attachment.applyPersistentEffects();
         });
         
-        if(_.size(_.filter(card.attachments, card => card.isRestricted())) > 2) {
+        if(attachment.printedKeywords.includes('restricted') && _.size(_.filter(card.attachments._wrapped, card => card.isRestricted())) > 1) {
             this.game.promptForSelect(this, {
                 activePromptTitle: 'Choose a card to discard',
                 waitingPromptTitle: 'Waiting for opponent to choose a card to discard',
                 cardCondition: c => c.parent === card && c.isRestricted(),
-                onSelect: (player, card) => player.discardCard(card),
+                onSelect: (player, card) => {
+                    player.discardCard(card);
+                    return true;
+                },
                 source: 'Too many Restricted attachments'
-            })
+            });
         }
 
         if(originalLocation !== 'play area') {
@@ -1027,9 +1030,11 @@ class Player extends Spectator {
                 
                 if(card.hasSincerity()) {
                     this.drawCardsToHand(1);
+                    this.game.addMessage('{0} draws a card due to {1}\'s Sincerity', this, card);
                 }
                 if(card.hasCourtesy()) {
                     this.game.addFate(this, 1);
+                    this.game.addMessage('{0} gains a fate due to {1}\'s Courtesy', this, card);
                 }
 
                 if(event.card.parent && event.card.parent.attachments) {
