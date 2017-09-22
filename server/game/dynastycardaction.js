@@ -16,7 +16,7 @@ class DynastyCardAction extends BaseAbility {
 
     meetsRequirements(context) {
         var {game, player, source} = context;
-        
+
         return (
             game.currentPhase === 'dynasty' &&
             !source.facedown &&
