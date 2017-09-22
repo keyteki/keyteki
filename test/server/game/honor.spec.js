@@ -5,12 +5,15 @@ describe('Game', function() {
     beforeEach(function() {
         let gameService = jasmine.createSpyObj('gameService', ['save']);
         let router = jasmine.createSpyObj('router', ['gameWon']);
-        this.game = new Game('1', 'Test Game', { gameService: gameService });
+        this.game = new Game('1', 'Test Game', { gameService: gameService, router: router });
         this.game.router = router;
 
         this.source = new Player('1', { username: 'Player 1', settings: {} }, true, this.game);
         this.target = new Player('1', { username: 'Player 2', settings: {} }, true, this.game);
         
+        this.game.playersAndSpectators[this.target.id] = this.target;
+        this.game.playersAndSpectators[this.source.id] = this.source;
+
         this.target.honor = 1;
         this.source.honor = 2;
     });
