@@ -62,14 +62,12 @@ class Player extends Spectator {
         this.cannotGainConflictBonus = false;
         this.cannotTriggerCardAbilities = false;
         this.promptedActionWindows = user.promptedActionWindows || {
-            dynasty: false,
-            draw: false,
-            conflictBegin: false,
-            attackersDeclared: true,
-            defendersDeclared: true,
-            winnerDetermined: true,
-            fate: false,
-            regroup: false
+            dynasty: true,
+            draw: true,
+            preConflict: true,
+            conflict: true,
+            fate: true,
+            regroup: true
         };
 
         this.createAdditionalPile('out of game', { title: 'Out of Game', area: 'player row' });
@@ -178,8 +176,8 @@ class Player extends Spectator {
             if(provinceCard.isBroken) {
                 _.find(this.getSourceList(province)._wrapped, card => {
                     if(card.isDynasty && !card.facedown) {
-                        this.movecard(card,'dynasty discard pile');
-                        this.movecard(this.dynastyDeck.first(), province);
+                        this.moveCard(card,'dynasty discard pile');
+                        this.moveCard(this.dynastyDeck.first(), province);
                     }
                     return card.isDynasty;
                 });

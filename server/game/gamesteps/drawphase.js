@@ -66,7 +66,6 @@ class DrawPhase extends Phase {
     drawConflict() {
         _.each(this.game.getPlayers(), p => {
             p.drawPhase();
-            this.game.addMessage('{0} draws {1} cards', p.name, p.drawBid);
         });
     }
 }

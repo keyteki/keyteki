@@ -13,6 +13,7 @@ describe('ActionWindow', function() {
         this.game.playersAndSpectators[this.player2.name] = this.player2;
 
         this.player1.promptedActionWindows['test'] = true;
+        this.player2.promptedActionWindows['test'] = true;
 
         this.prompt = new ActionWindow(this.game, 'Test Window', 'test');
     });
