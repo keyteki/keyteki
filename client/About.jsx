@@ -34,16 +34,6 @@ class About extends React.Component {
                 much information as possible, including what the problem is, what you were expecting, what you did leading up to it, and if possible include a screenshot.  We are a very small
                 development team and if bugs are not reported, it is unlikely they will get fixed.</p>
 
-                <h3>Manual Mode</h3>    
-                <p>At this stage in development, it is recommended that you make use of manual mode.  As cards are not yet implemented, the game is not able to 
-                correctly determine who will win conflicts, as you will probably make use of card abilities during the combat which will change skill levels, 
-                or add or remove participants from the conflict.  In addition, you may want to use an as-yet-unimplemented ability during an action window, 
-                and the game isn't currently able to recognise them.</p>  
-                <p>Manual mode means that instead of attempting to resolve conflicts automatically, the attacking player will be asked to indicate who won
-                the conflict.  It also means that during action windows, there is an additional 'Manual Action' button available to you.  Use this when you
-                want to use a non implemented card action, and the game will know to pass priority to your opponent.</p>
-                <p>You can activate or deactivate manual mode by using the /manual command in chat.</p>
-
                 <h3>Manual Commands</h3>
                 <p>The following manual commands have been implemented in order to allow for a smoother gameplay experience:
                 </p>
@@ -60,7 +50,6 @@ class About extends React.Component {
                     <li>/unclaim-ring ring - Set 'ring' as unclaimed.</li>
                     <li>/honor - Move the state of a character towards honored.</li>
                     <li>/dishonor - Move the state of a character towards dishonored.</li>
-                    <li>/manual - Activate or deactivate manual mode (see above).</li>
                 </ul>
 
                 { /*<h3>Can I help?</h3>
