@@ -20,7 +20,7 @@ class FatePhase extends Phase {
             new SimpleStep(game, () => this.discardCharactersWithNoFate()),
             new SimpleStep(game, () => this.removeFateFromCharacters()),
             new SimpleStep(game, () => this.placeFateOnUnclaimedRings()),
-            new ActionWindow(this.game, 'Action Window', 'FatePhaseActionWindow')
+            new ActionWindow(this.game, 'Action Window', 'fate')
         ]);
     }
 

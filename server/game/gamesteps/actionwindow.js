@@ -15,6 +15,7 @@ class ActionWindow extends UiPrompt {
         this.game.actionWindow = this;
         
         if(!this.currentPlayer.promptedActionWindows[this.windowName]) {
+            this.game.addMessage('{0} has chosen to pass', this.currentPlayer);
             this.prevPlayerPassed = true;
             this.nextPlayer();
         }
@@ -77,6 +78,8 @@ class ActionWindow extends UiPrompt {
             return true;
         }
         
+        this.game.addMessage('{0} has chosen to pass', this.currentPlayer);
+        
         if(this.prevPlayerPassed) {
             this.complete();
             return true;
@@ -93,6 +96,7 @@ class ActionWindow extends UiPrompt {
         
         if(otherPlayer) {
             if(!otherPlayer.promptedActionWindows[this.windowName]) {
+                this.game.addMessage('{0} has chosen to pass', this.currentPlayer);
                 if(this.prevPlayerPassed) {
                     this.complete();
                 } else {

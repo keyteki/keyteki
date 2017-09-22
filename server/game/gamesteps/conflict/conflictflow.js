@@ -32,7 +32,7 @@ class ConflictFlow extends BaseStep {
             new SimpleStep(this.game, () => this.announceAttackerSkill()),
             new SimpleStep(this.game, () => this.promptForDefenders()),
             new SimpleStep(this.game, () => this.announceDefenderSkill()),
-            new ActionWindow(this.game, 'Conflict Action Window', 'conflictAction'),
+            new ActionWindow(this.game, 'Conflict Action Window', 'conflict'),
             new SimpleStep(this.game, () => this.determineWinner()),
             //new SimpleStep(this.game, () => this.applyKeywords()),
             new SimpleStep(this.game, () => this.applyUnopposed()),

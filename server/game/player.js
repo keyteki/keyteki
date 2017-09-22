@@ -176,8 +176,8 @@ class Player extends Spectator {
             if(provinceCard.isBroken) {
                 _.find(this.getSourceList(province)._wrapped, card => {
                     if(card.isDynasty && !card.facedown) {
-                        this.movecard(card,'dynasty discard pile');
-                        this.movecard(this.dynastyDeck.first(), province);
+                        this.moveCard(card,'dynasty discard pile');
+                        this.moveCard(this.dynastyDeck.first(), province);
                     }
                     return card.isDynasty;
                 });
