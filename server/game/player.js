@@ -1026,15 +1026,6 @@ class Player extends Spectator {
             this.game.raiseEvent('onCardLeftPlay', params, event => {
                 event.card.leavesPlay();
                 
-                if(card.hasSincerity()) {
-                    this.drawCardsToHand(1);
-                    this.game.addMessage('{0} draws a card due to {1}\'s Sincerity', this, card);
-                }
-                if(card.hasCourtesy()) {
-                    this.game.addFate(this, 1);
-                    this.game.addMessage('{0} gains a fate due to {1}\'s Courtesy', this, card);
-                }
-
                 if(event.card.parent && event.card.parent.attachments) {
                     event.card.parent.attachments = this.removeCardByUuid(event.card.parent.attachments, event.card.uuid);
                     event.card.parent = undefined;
