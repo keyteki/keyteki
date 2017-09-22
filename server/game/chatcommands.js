@@ -71,7 +71,7 @@ class ChatCommands {
                 //dishonor card
                 card.dishonor();
 
-                this.game.addMessage('{0} uses the /dishonor command to honor {1}', p, card);
+                this.game.addMessage('{0} uses the /dishonor command to dishonor {1}', p, card);
                 return true;
             }
         });
