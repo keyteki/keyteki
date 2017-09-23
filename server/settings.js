@@ -1,12 +1,10 @@
 const defaultWindows = {
-    plot: false,
-    draw: false,
-    challengeBegin: false,
-    attackersDeclared: true,
-    defendersDeclared: true,
-    dominance: false,
-    standing: false,
-    taxation: false
+    dynasty: true,
+    draw: true,
+    preConflict: true,
+    conflict: true,
+    fate: true,
+    regroup: true
 };
 
 const defaultKeywordSettings = {
