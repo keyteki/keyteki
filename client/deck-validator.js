@@ -214,6 +214,7 @@ module.exports = function validateDeck(deck, packs) {
         isValid = false;
     }
 
+    /* Ignore Release Status for now
     if(isValid) {
         let unreleasedCards = _.reject(combined, card => {
             return isCardInReleasedPack(packs, card);
@@ -227,6 +228,7 @@ module.exports = function validateDeck(deck, packs) {
             });
         }
     }
+    */
 
     return { status: status, provinceCount: provinceCount, conflictCount: conflictCount, dynastyCount: dynastyCount, extendedStatus: extendedStatus, isValid: isValid };
 };
