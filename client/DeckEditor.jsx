@@ -196,7 +196,7 @@ class InnerDeckEditor extends React.Component {
 
             let card = _.find(this.props.cards, function(card) {
                 if(pack) {
-                    return card.name.toLowerCase() === cardName.toLowerCase() || card.label.toLowerCase() === (cardName + ' (' + pack.id + ')').toLowerCase();
+                    return card.name.toLowerCase() === cardName.toLowerCase() || card.name.toLowerCase() === (cardName + ' (' + pack.id + ')').toLowerCase();
                 }
                 return card.name.toLowerCase() === cardName.toLowerCase();
             });

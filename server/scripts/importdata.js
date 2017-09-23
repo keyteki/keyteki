@@ -25,9 +25,9 @@ _.each(totalCards, card => {
     });
 
     if(cardsByName.length > 1) {
-        card.label = card.code + ' (' + card.pack_code + ')';
+        card.name = card.code + ' (' + card.pack_code + ')';
     } else {
-        card.label = card.code;
+        card.name = card.code;
     }
 
     let clan = _.find(clans, clan => {
