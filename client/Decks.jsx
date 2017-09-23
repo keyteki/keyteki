@@ -103,6 +103,7 @@ class InnerDecks extends React.Component {
                     { successPanel }
                     <div className='col-sm-6'>
                         <Link className='btn btn-primary' href='/decks/add'>Add new deck</Link>
+                        <Link className='btn btn-primary' href='/decks/add'>Import deck</Link>
                         <div className='deck-list'>{ !this.props.decks || this.props.decks.length === 0 ? 'You have no decks, try adding one.' : deckList }</div>
                     </div>
                     { deckInfo }

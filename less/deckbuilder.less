@@ -26,10 +26,7 @@
   height: 200px;
 }
 
-.decklist > img {
-  height: 100%;
-  padding-right: 10px;
-}
+
 
 .hover-image {
   position: fixed;
@@ -39,7 +36,24 @@
 }
 
 .card-group {
-  break-inside: avoid;
+  position: relative;
+  background-color: fade(@brand-info, 5%);
+  margin: 5px 5px 5px 0;
+  padding: 10px;
+  border: 1px solid rgba(71, 58, 56, 0.65);
+}
+
+.card-group-title {
+  background-color: @header-background;
+  color: white;
+  margin: 5px 5px 0 0;
+  padding: 5px 1px;
+  border: 1px solid @header-border;
+  border-radius: 4px 4px 0 0;
+  border-bottom: none;
+  text-align: center;
+  position: relative;
+  top: 5px;
 }
 
 .cards {
@@ -47,7 +61,26 @@
 }
 
 .deck-list {
-  margin-top: 20px;
+  position: absolute;
+  top: 55px;
+  bottom: 0px;
+  left: 10px;
+  right: 10px;
+  /* Making deck row now show up
+  overflow-y: auto;
+  overflow-x: hidden;
+  */
+}
+
+.decklist > img {
+  height: 100%;
+  padding-right: 10px;
+}
+
+.decklist > img.pull-right {
+  width:25%;
+  height: auto;
+  padding-right: 10px;
 }
 
 .deck-row {
@@ -78,6 +111,64 @@
   margin-left: 10px;
 }
 
-.banner-list {
+.deck-summary {
+  padding-top: 10px;
+}
+
+.deck-date {
+  padding-left: 0px;
+  font-size: smaller;
+}
+
+.deck-name {
+  padding-left: 5px;
+  padding-right: 0px;
+}
+
+.deck-status-label {
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+.deck-factionalliance {
+  padding-left: 5px;
+  padding-right: 0px;
+  font-size: smaller;
+}
+
+.deck-image {
+  padding-left: 0px;
+  padding-right: 0px;
+  min-width: 30px;
+}
+
+.deck-card-image {
+  width: 100%;
+}
+
+.deck-card {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.info-row {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.deck-status-button {
+  margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.deck-list-container {
+  position: absolute;
+  top: 33px;
+  bottom: 0px;
+  left: 15px;
+  right: 15px;
+}
+
+.deck-mon {
+  max-width: 40px;
 }
