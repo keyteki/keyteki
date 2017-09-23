@@ -5,9 +5,9 @@ const _ = require('underscore');
 
 const CardService = require('../services/CardService.js');
 
-let db = monk('mongodb://127.0.0.1:27017/throneteki');
+let db = monk('mongodb://127.0.0.1:27017/ringteki');
 let cardService = new CardService(db);
-let files = fs.readdirSync('thronesdb-json-data/pack');
+let files = fs.readdirSync('fiveringdsdb-data/Pack');
 let totalCards = [];
 let packs = JSON.parse(fs.readFileSync('fiveringdsdb-data/Pack.json'));
 let types = JSON.parse(fs.readFileSync('fiveringdsdb-data/Type.json'));
