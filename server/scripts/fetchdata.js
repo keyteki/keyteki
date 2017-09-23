@@ -21,19 +21,18 @@ function apiRequest(path) {
     });
 }
 
-function fetchImage(urlPath, id, imagePath, timeout) {
+function fetchImage(url, id, imagePath, timeout) {
     setTimeout(function() {
         console.log('Downloading image for ' + id);
-        var url = 'https://fiveringsdb.com/' + urlPath + id + '.jpg';
         request(url).pipe(fs.createWriteStream(imagePath));
     }, timeout);
 }
 
-let db = monk('mongodb://127.0.0.1:27017/throneteki');
+let db = monk('mongodb://127.0.0.1:27017/ringteki');
 let cardService = new CardService(db);
 
 let fetchCards = apiRequest('cards')
-    .then(cards => cardService.replaceCards(cards))
+    .then(cards => cardService.replaceCards(cards.records))
     .then(cards => {
         console.info(cards.length + ' cards fetched');
 
@@ -44,11 +43,11 @@ let fetchCards = apiRequest('cards')
 
         cards.forEach(function(card) {
             var imagePath = path.join(imageDir, card.id + '.jpg');
-            //var imagePack = card.pack_cards[0].pack.id;
-            //var imagesrc = 'static/cards/' + imagePack + '/';
+            var imagesrc = card.pack_cards[0].image_url;
 
-            if(card.imagesrc && !fs.existsSync(imagePath)) {
-                fetchImage(card.imagesrc, card.code, imagePath, i++ * 200);
+
+            if(imagesrc && !fs.existsSync(imagePath)) {
+                fetchImage(imagesrc, card.id, imagePath, i++ * 200);
             }
         });
 
@@ -59,7 +58,7 @@ let fetchCards = apiRequest('cards')
     });
 
 let fetchPacks = apiRequest('packs')
-    .then(packs => cardService.replacePacks(packs))
+    .then(packs => cardService.replacePacks(packs.records))
     .then(packs => {
         console.info(packs.length + ' packs fetched');
     })
