@@ -13,11 +13,9 @@ describe('Game', function() {
         
         this.source.name = 'Player 1';
         this.target.name = 'Player 2';
-        this.game.playersAndSpectators[this.target.id] = this.target;
-        this.game.playersAndSpectators[this.source.id] = this.source;
+        this.game.playersAndSpectators[this.target.name] = this.target;
+        this.game.playersAndSpectators[this.source.name] = this.source;
 
-        this.game.initialise();
-        
         this.target.honor = 1;
         this.source.honor = 2;
 
