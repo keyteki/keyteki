@@ -293,7 +293,7 @@ class Card extends React.Component {
             honorClass += ' honored';
             honorImage = 'honored.png';
         } else if(this.props.card.isDishonored) {
-            honorClass += ' dishonored';
+            honorClass += ' honored';
             honorImage = 'dishonored.png';
         }
 
