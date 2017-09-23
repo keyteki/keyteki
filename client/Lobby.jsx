@@ -115,13 +115,28 @@ class InnerLobby extends React.Component {
                 return;
             }
 
-            var timestamp = moment(message.time).format('MMM Do H:mm:ss');
+            if(today.isSame(firstMessage.time, 'd')) {
+                timestamp = moment(firstMessage.time).format('H:mm');
+            } else if(yesterday.isSame(firstMessage.time, 'd')) {
+                timestamp = 'yesterday ' + moment(firstMessage.time).format('H:mm');
+            } else {
+                timestamp = moment(firstMessage.time).format('MMM Do H:mm');
+            }
+
+            let renderedMessages = _.map(messages, message => {
+                if(!message.user) {
+                    return;
+                }
+                return (<div className='lobby-message'>{ message.message }</div>);
+            });
+
             return (
-                <div key={ timestamp + message.user.username + (index++).toString() }>
-                    <Avatar emailHash={ message.user.emailHash } float forceDefault={ message.user.noAvatar } />
-                    <span className='username'>{ message.user.username }</span><span>{ timestamp }</span>
-                    <div className='message'>{ message.message }</div>
-                </div>);
+                <div key={ timestamp + firstMessage.user.username + (index++).toString() }>
+                    <Avatar emailHash={ firstMessage.user.emailHash } float forceDefault={ firstMessage.user.noAvatar } />
+                    <span className='username'>{ firstMessage.user.username }</span><span>{ timestamp }</span>
+                    { renderedMessages }
+                </div>
+            );
         });
     }
 
