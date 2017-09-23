@@ -1,5 +1,4 @@
 /*eslint no-console:0 */
-const config = require('config');
 const monk = require('monk');
 const fs = require('fs');
 const _ = require('underscore');

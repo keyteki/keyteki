@@ -1,6 +1,5 @@
 /*eslint no-console:0 */
 const request = require('request');
-const config = require('config');
 const monk = require('monk');
 const fs = require('fs');
 const mkdirp = require('mkdirp');

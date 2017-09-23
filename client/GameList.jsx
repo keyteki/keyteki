@@ -54,42 +54,41 @@ class InnerGameList extends React.Component {
     }
 
     render() {
-        var gameList = _.map(this.props.games, game => {
-            var firstPlayer = true;
+        let gameList = _.map(this.props.games, game => {
+            let firstPlayer = true;
+            let gameRow = [];
 
-            var sides = _.map(game.players, player => {
-                var playerElement = null;
+            _.each(game.players, player => {
+                let playerElement = null;
 
                 if(firstPlayer) {
-                    playerElement = (
-                        <span>
-                            <span><Avatar emailHash={ player.emailHash } forceDefault={ player.settings ? player.settings.disableGravatar : false } /></span>
-                            <span className='player-name'>{ player.name }</span>
-                            <span className={ ' game-icon icon-' + player.faction } />
+                    gameRow.push(
+                        <span className='col-xs-4 col-sm-3 game-row-avatar'>
+                            <span className='hidden-xs col-sm-3 game-row-avatar'>
+                                <Avatar emailHash={ player.emailHash } forceDefault={ player.settings ? player.settings.disableGravatar : false } />
+                            </span>
+                            <span className='player-name col-sm-8'>{ player.name }</span>
                         </span>);
+                    gameRow.push();
+                    gameRow.push(<span className={ 'hidden-xs col-xs-1 game-icon icon-' + player.faction } />);
 
                     firstPlayer = false;
                 } else {
-                    playerElement = (
-                        <span>
-                            <span className={ ' game-icon icon-' + player.faction } />
-                            <span className='player-name'>{ player.name }</span>
-                            <span><Avatar emailHash={ player.emailHash } forceDefault={ player.settings ? player.settings.disableGravatar : false } /></span>
+                    gameRow.push(<span className='col-xs-1 game-row-vs text-center'><b> vs </b></span>);
+                    gameRow.push(<span className={ 'hidden-xs col-xs-1 game-icon icon-' + player.faction } />);
+                    gameRow.push(
+                        <span className='col-xs-4 col-sm-3 game-row-avatar'>
+                            <span className='player-name col-sm-8'>{ player.name }</span>
+                            <span className='hidden-xs game-row-avatar pull-right col-sm-3'>
+                                <Avatar emailHash={ player.emailHash } forceDefault={ player.settings ? player.settings.disableGravatar : false } />
+                            </span>
                         </span>);
                 }
 
                 return playerElement;
             });
 
-            var gameLayout = undefined;
-
-            if(sides.length === 2) {
-                gameLayout = <span>{ sides[0] }<span><b> vs </b></span>{ sides[1] }</span>;
-            } else {
-                gameLayout = <span>{ sides[0] }</span>;
-            }
-
-            var gameTitle = '';
+            let gameTitle = '';
 
             if(game.needsPassword) {
                 gameTitle += '[Private] ';
@@ -111,7 +110,7 @@ class InnerGameList extends React.Component {
                     <div className='col-xs-3 game-row-buttons pull-right'>
                         { (this.props.currentGame || _.size(game.players) === 2 || game.started) ?
                             null :
-                            <button className='btn btn-primary' onClick={ event => this.joinGame(event, game) }>Join</button>
+                            <button className='btn btn-primary pull-right' onClick={ event => this.joinGame(event, game) }>Join</button>
                         }
                         { this.canWatch(game) ?
                             <button className='btn btn-primary pull-right' onClick={ event => this.watchGame(event, game) }>Watch</button> : null }
