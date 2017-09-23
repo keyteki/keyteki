@@ -289,7 +289,7 @@ class DrawCard extends BaseCard {
     }
 
     resetForConflict() {
-        //this.stealth = false;
+        this.stealth = false;
         //this.stealthTarget = undefined;
         this.inConflict = false;
     }
