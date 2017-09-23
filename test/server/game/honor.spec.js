@@ -16,8 +16,11 @@ describe('Game', function() {
         this.game.playersAndSpectators[this.target.id] = this.target;
         this.game.playersAndSpectators[this.source.id] = this.source;
 
+        this.game.initialise();
+        
         this.target.honor = 1;
         this.source.honor = 2;
+
     });
 
     describe('transferHonor()', function() {

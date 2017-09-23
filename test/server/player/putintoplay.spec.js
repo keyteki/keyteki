@@ -24,7 +24,7 @@ describe('Player', function() {
             owner: this.player
         };
 
-        this.opponent = new Player('2', 'Player 2', true, this.gameSpy);
+        this.opponent = new Player('2', {username: 'Player 2', settings: {}}, true, this.gameSpy);
         this.opponent.initialise();
         this.gameSpy.getPlayers.and.returnValue([this.player, this.opponent]);
     });

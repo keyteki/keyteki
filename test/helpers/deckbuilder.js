@@ -4,7 +4,7 @@ const _ = require('underscore');
 
 const {matchCardByNameAndPack} = require('./cardutil.js');
 
-const PathToSubModulePacks = path.join(__dirname,  '../../fiveringsdb-data');
+const PathToSubModulePacks = path.join(__dirname,  '../../fiveringsdb-data/Card');
 
 class DeckBuilder {
     constructor() {
@@ -14,13 +14,13 @@ class DeckBuilder {
     loadCards(directory) {
         var cards = {};
 
-        var jsonPacks = fs.readdirSync(directory).filter(file => file.endsWith('.json'));
+        var jsonCards = fs.readdirSync(directory).filter(file => file.endsWith('.json'));
 
-        _.each(jsonPacks, file => {
+        _.each(jsonCards, file => {
             var cardsInPack = require(path.join(PathToSubModulePacks, file));
 
             _.each(cardsInPack, card => {
-                cards[card.code] = card;
+                cards[card.id] = card;
             });
         });
 
@@ -31,10 +31,10 @@ class DeckBuilder {
         var cardCounts = {};
         _.each(cardLabels, label => {
             var cardData = this.getCard(label);
-            if(cardCounts[cardData.code]) {
-                cardCounts[cardData.code].count++;
+            if(cardCounts[cardData.id]) {
+                cardCounts[cardData.id].count++;
             } else {
-                cardCounts[cardData.code] = {
+                cardCounts[cardData.id] = {
                     count: 1,
                     card: cardData
                 };
@@ -51,20 +51,20 @@ class DeckBuilder {
         };
     }
 
-    getCard(codeOrLabelOrName) {
-        if(this.cards[codeOrLabelOrName]) {
-            return this.cards[codeOrLabelOrName];
+    getCard(idOrLabelOrName) {
+        if(this.cards[idOrLabelOrName]) {
+            return this.cards[idOrLabelOrName];
         }
 
-        var cardsByName = _.filter(this.cards, matchCardByNameAndPack(codeOrLabelOrName));
+        var cardsByName = _.filter(this.cards, matchCardByNameAndPack(idOrLabelOrName));
 
         if(cardsByName.length === 0) {
-            throw new Error(`Unable to find any card matching ${codeOrLabelOrName}`);
+            throw new Error(`Unable to find any card matching ${idOrLabelOrName}`);
         }
 
         if(cardsByName.length > 1) {
             var matchingLabels = _.map(cardsByName, card => `${card.name} (${card.pack_code})`).join('\n');
-            throw new Error(`Multiple cards match the name ${codeOrLabelOrName}. Use one of these instead:\n${matchingLabels}`);
+            throw new Error(`Multiple cards match the name ${idOrLabelOrName}. Use one of these instead:\n${matchingLabels}`);
         }
 
         return cardsByName[0];
