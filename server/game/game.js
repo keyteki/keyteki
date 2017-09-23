@@ -231,14 +231,13 @@ class Game extends EventEmitter {
 
             this.addMessage('{0} {1} {2}', player, card.bowed ? 'bows' : 'readies', card);
         }
-        /*
-        if(['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(card.location) && card.controller === player && (card.isDynasty || card.isProvince)) {
+        
+        if(['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(card.location) && card.controller === player && card.isDynasty) {
             if(card.facedown) {
                 card.facedown = false;
                 this.addMessage('{0} reveals {1}', player, card);
             }
-        }
-        */
+        }        
     }
    
     ringClicked(sourcePlayer, ringindex) {
