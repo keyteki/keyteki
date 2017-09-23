@@ -32,9 +32,9 @@ class ConflictFlow extends BaseStep {
             new SimpleStep(this.game, () => this.announceAttackerSkill()),
             new SimpleStep(this.game, () => this.promptForDefenders()),
             new SimpleStep(this.game, () => this.announceDefenderSkill()),
-            new ActionWindow(this.game, 'Conflict Action Window', 'conflictAction'),
+            new ActionWindow(this.game, 'Conflict Action Window', 'conflict'),
             new SimpleStep(this.game, () => this.determineWinner()),
-            //new SimpleStep(this.game, () => this.applyKeywords()),
+            new SimpleStep(this.game, () => this.applyKeywords()),
             new SimpleStep(this.game, () => this.applyUnopposed()),
             new SimpleStep(this.game, () => this.checkBreakProvince()),
             new SimpleStep(this.game, () => this.resolveRingEffects()),
@@ -56,10 +56,16 @@ class ConflictFlow extends BaseStep {
         let ring = this.game.rings[this.conflict.conflictRing];
         this.conflict.attackingPlayer.conflicts.perform(this.conflict.conflictType);
         _.each(this.conflict.attackers, card => card.inConflict = true);
-        this.game.addFate(this.conflict.attackingPlayer, ring.fate);
-        ring.removeFate();
+        if(!this.conflict.isSinglePlayer) {
+            this.conflict.conflictProvince.inConflict = true;
+        }
+        if(ring.fate > 0) {
+            this.game.raiseEvent('onTakeFateFromRing', ring);
+            this.game.addFate(this.conflict.attackingPlayer, ring.fate);
+            ring.removeFate();
+        }
 
-        this.game.addMessage('{0} is initiating a {1} conflict, contesting the {2} ring', this.conflict.attackingPlayer, this.conflict.conflictType, this.conflict.conflictRing);
+        this.game.addMessage('{0} is initiating a {1} conflict at {2}, contesting the {3} ring', this.conflict.attackingPlayer, this.conflict.conflictType, this.conflict.conflictProvince, this.conflict.conflictRing);
     }
 
     promptForAttackers() {
@@ -168,6 +174,22 @@ class ConflictFlow extends BaseStep {
         if(this.conflict.cancelled) {
             return;
         }
+        
+        if(this.game.manualMode && !this.conflict.isSinglePlayer) {
+            this.game.promptWithMenu(this.conflict.attackingPlayer, this, {
+                activePrompt: {
+                    promptTitle: 'Conflict Result',
+                    menuTitle: 'How did the conflict resolve?',
+                    buttons: [
+                        { text: 'Attacker Won', arg: 'attacker', method: 'manuallyDetermineWinner' },
+                        { text: 'Defender Won', arg: 'defender', method: 'manuallyDetermineWinner' },
+                        { text: 'No Winner', arg: 'nowinner', method: 'manuallyDetermineWinner' }
+                    ]
+                },
+                waitingPromptTitle: 'Waiting for opponent to resolve conflict'
+            });
+            return;
+        } 
 
         this.conflict.determineWinner();
 
@@ -182,17 +204,55 @@ class ConflictFlow extends BaseStep {
 
         this.game.raiseEvent('afterConflict', this.conflict);
     }
+    
+    manuallyDetermineWinner(player, choice) {
+        if(choice === 'attacker') {
+            this.conflict.winner = player;
+            this.conflict.loser = this.conflict.defendingPlayer;
+        } else if(choice === 'defender') {
+            this.conflict.winner = this.conflict.defendingPlayer;
+            this.conflict.loser = player;
+        }
+        if(!this.conflict.winner && !this.conflict.loser) {
+            this.game.addMessage('There is no winner or loser for this conflict because both sides have 0 skill');
+        } else {
+            this.game.addMessage('{0} won a {1} conflict', this.conflict.winner, this.conflict.conflictType);
+            this.conflict.winner.conflicts.won(this.conflict.conflictType, this.conflict.winner === this.conflict.attackingPlayer);
+            this.conflict.loser.conflicts.lost(this.conflict.conflictType, this.conflict.loser === this.conflict.attackingPlayer);
+        }
+
+        this.game.raiseEvent('afterConflict', this.conflict);        
+        return true;
+    }
 
     applyKeywords() {
-        var winnerCards = this.conflict.getWinnerCards();
-
-        _.each(winnerCards, () => {
-            this.game.checkWinCondition(this.conflict.winner);
-        });
+        if(this.conflict.isAttackerTheWinner()) {
+            _.each(this.conflict.attackers, card => {
+                if(card.hasPride()) {
+                    this.conflict.attackingPlayer.honorCard(card);
+                }
+            });
+            _.each(this.conflict.defenders, card => {
+                if(card.hasPride()) {
+                    this.conflict.defendingPlayer.dishonorCard(card);
+                }
+            });
+        } else if(this.conflict.winner === this.conflict.defendingPlayer) {
+            _.each(this.conflict.attackers, card => {
+                if(card.hasPride()) {
+                    this.conflict.attackingPlayer.dishonorCard(card);
+                }
+            });
+            _.each(this.conflict.defenders, card => {
+                if(card.hasPride()) {
+                    this.conflict.defendingPlayer.honorCard(card);
+                }
+            });
+        }
     }
 
     applyUnopposed() {
-        if(this.conflict.cancelled) {
+        if(this.conflict.cancelled || this.game.manualMode) {
             return;
         }
 
@@ -202,7 +262,7 @@ class ConflictFlow extends BaseStep {
     }
     
     checkBreakProvince() {
-        if(this.conflict.cancelled || this.conflict.isSinglePlayer) {
+        if(this.conflict.cancelled || this.conflict.isSinglePlayer || this.game.manualMode) {
             return;
         }
 
@@ -275,6 +335,9 @@ class ConflictFlow extends BaseStep {
         this.game.raiseEvent('onConflictFinished', this.conflict);
 
         this.resetCards();
+        if(!this.conflict.isSinglePlayer) {
+            this.conflict.conflictProvince.inConflict = false;
+        }
 
         this.conflict.finish();
     }

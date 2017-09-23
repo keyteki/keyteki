@@ -62,14 +62,12 @@ class Player extends Spectator {
         this.cannotGainConflictBonus = false;
         this.cannotTriggerCardAbilities = false;
         this.promptedActionWindows = user.promptedActionWindows || {
-            dynasty: false,
-            draw: false,
-            conflictBegin: false,
-            attackersDeclared: true,
-            defendersDeclared: true,
-            winnerDetermined: true,
-            fate: false,
-            regroup: false
+            dynasty: true,
+            draw: true,
+            preConflict: true,
+            conflict: true,
+            fate: true,
+            regroup: true
         };
         this.timerSettings = user.settings.timerSettings || {};
         this.timerSettings.windowTimer = user.settings.windowTimer;
@@ -181,8 +179,8 @@ class Player extends Spectator {
             if(provinceCard.isBroken) {
                 _.find(this.getSourceList(province)._wrapped, card => {
                     if(card.isDynasty && !card.facedown) {
-                        this.movecard(card,'dynasty discard pile');
-                        this.movecard(this.dynastyDeck.first(), province);
+                        this.moveCard(card,'dynasty discard pile');
+                        this.moveCard(this.dynastyDeck.first(), province);
                     }
                     return card.isDynasty;
                 });
@@ -657,6 +655,19 @@ class Player extends Spectator {
         this.game.queueSimpleStep(() => {
             attachment.applyPersistentEffects();
         });
+        
+        if(attachment.printedKeywords.includes('restricted') && _.size(_.filter(card.attachments._wrapped, card => card.isRestricted())) > 1) {
+            this.game.promptForSelect(this, {
+                activePromptTitle: 'Choose a card to discard',
+                waitingPromptTitle: 'Waiting for opponent to choose a card to discard',
+                cardCondition: c => c.parent === card && c.isRestricted(),
+                onSelect: (player, card) => {
+                    player.discardCard(card);
+                    return true;
+                },
+                source: 'Too many Restricted attachments'
+            });
+        }
 
         if(originalLocation !== 'play area') {
             this.game.raiseEvent('onCardEntersPlay', { card: attachment, playingType: playingType, originalLocation: originalLocation });
@@ -994,7 +1005,7 @@ class Player extends Spectator {
             return;
         }
 
-        if(card.location === 'play area') {
+        if(card.location === 'play area' && (card.isConflict || card.isDynasty)) {
             if(card.owner !== this) {
                 card.owner.moveCard(card, targetLocation);
                 return;
@@ -1017,12 +1028,12 @@ class Player extends Spectator {
 
             this.game.raiseEvent('onCardLeftPlay', params, event => {
                 event.card.leavesPlay();
-
+                
                 if(event.card.parent && event.card.parent.attachments) {
                     event.card.parent.attachments = this.removeCardByUuid(event.card.parent.attachments, event.card.uuid);
                     event.card.parent = undefined;
                 }
-
+                
                 card.moveTo(targetLocation);
             });
         }

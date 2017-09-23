@@ -74,10 +74,10 @@ describe('the DrawCard', function() {
 
             describe('when the card has a keyword line', function() {
                 beforeEach(function() {
-                    this.card = new DrawCard(this.player, { type: 'character', cost: 0, side: 'dynasty', text: 'covert. Restricted. Notarealkeyword.\n Extra text because we need stuff here.' });
+                    this.card = new DrawCard(this.player, { type: 'character', cost: 0, side: 'dynasty', text_canonical: 'covert.\nsomestuff. restricted.\nnotarealkeyword.\nextra text because we need stuff here.' });
                     this.card.location = 'province 1';
                     this.player.provinceOne = _([this.card]);
-                    this.player.playCard(this.card);
+                    this.player.putIntoPlay(this.card);
                     // Resolve events in pipeline.
                     this.game.continue();
                 });

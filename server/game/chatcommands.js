@@ -18,13 +18,15 @@ class ChatCommands {
             '/reset-challenges-count': this.resetChallengeCount,
             '/cancel-prompt': this.cancelPrompt,
             '/token': this.setToken,
+            '/reveal': this.reveal,
             '/add-fate': this.addFate,
             '/rem-fate': this.remFate,
             '/add-fate-ring': this.addRingFate,
             '/rem-fate-ring': this.remRingFate,
             '/claim-ring' : this.claimRing,
             '/unclaim-ring': this.unclaimRing,
-            '/disconnectme': this.disconnectMe
+            '/disconnectme': this.disconnectMe,
+            '/manual': this.manual
         };
         this.tokens = [
             'fate'
@@ -256,6 +258,18 @@ class ChatCommands {
             }
         });
     }
+    
+    reveal(player) {
+        this.game.promptForSelect(player, {
+            activePromptTitle: 'Select a card',
+            cardCondition: card => card.facedown & card.controller === player,
+            onSelect: (player, card) => {
+                card.facedown = false;
+                this.game.addMessage('{0} reveals {1}', player, card);
+                return true;
+            }
+        });
+    }
 
     addFate(player, args) {
         var num = this.getNumberOrDefault(args[1], 1);
@@ -347,6 +361,16 @@ class ChatCommands {
 
     disconnectMe(player) {
         player.socket.disconnect();
+    }
+    
+    manual(player) {
+        if(this.game.manualMode) {
+            this.game.manualMode = false;
+            this.game.addMessage('{0} switches manual mode off', player);
+        } else {
+            this.game.manualMode = true;
+            this.game.addMessage('{0} switches manual mode on', player);
+        }
     }
 
     getNumberOrDefault(string, defaultNumber) {

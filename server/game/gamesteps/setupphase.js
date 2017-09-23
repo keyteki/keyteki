@@ -30,6 +30,10 @@ class SetupPhase extends Phase {
 
         let firstPlayer = allPlayersShuffled.shift();
         firstPlayer.firstPlayer = true;
+        let otherPlayer = allPlayersShuffled.shift();
+        if(otherPlayer) {
+            this.game.addFate(otherPlayer, 1);
+        }
     }
 
     attachStronghold() {

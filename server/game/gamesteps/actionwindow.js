@@ -13,12 +13,13 @@ class ActionWindow extends UiPrompt {
         }
         this.prevPlayerPassed = false;
         this.game.actionWindow = this;
-        /*
-        if (!this.currentPlayer.promptedActionWindows[this.windowName]) {
+        
+        if(!this.currentPlayer.promptedActionWindows[this.windowName]) {
+            this.game.addMessage('{0} has chosen to pass', this.currentPlayer);
             this.prevPlayerPassed = true;
             this.nextPlayer();
         }
-        */
+        
     }
     
     activeCondition(player) {
@@ -38,11 +39,15 @@ class ActionWindow extends UiPrompt {
     }
 
     activePrompt() {
+        let buttons = [
+            { text: 'Pass', arg: 'pass' }
+        ];
+        if(this.game.manualMode) {
+            buttons.unshift({ text: 'Mannual Action', arg: 'manual'});
+        }
         return {
             menuTitle: 'Initiate an action',
-            buttons: [
-                { text: 'Pass' }
-            ],
+            buttons: buttons,
             promptTitle: this.title
         };
     }
@@ -55,10 +60,25 @@ class ActionWindow extends UiPrompt {
         return !this.forceWindow && !player.promptedActionWindows[this.windowName];
     }
 
-    onMenuCommand(player) {
+    onMenuCommand(player, choice) {
         if(this.currentPlayer !== player) {
             return false;
         }
+        
+        if(choice === 'manual') {
+            this.game.promptForSelect(this.currentPlayer, {
+                activePrompt: 'Which ability are you using?',
+                cardCondition: card => (card.controller === this.currentPlayer && !card.facedown),
+                onSelect: (player, card) => {
+                    this.game.addMessage('{0} uses {1}\'s ability', player, card);
+                    this.markActionAsTaken();
+                    return true;
+                }
+            });
+            return true;
+        }
+        
+        this.game.addMessage('{0} has chosen to pass', this.currentPlayer);
         
         if(this.prevPlayerPassed) {
             this.complete();
@@ -72,10 +92,19 @@ class ActionWindow extends UiPrompt {
     }
     
     nextPlayer() {
-        let otherplayer = this.game.getOtherPlayer(this.currentPlayer);
+        let otherPlayer = this.game.getOtherPlayer(this.currentPlayer);
         
-        if(otherplayer) {
-            this.currentPlayer = otherplayer;
+        if(otherPlayer) {
+            if(!otherPlayer.promptedActionWindows[this.windowName]) {
+                this.game.addMessage('{0} has chosen to pass', this.currentPlayer);
+                if(this.prevPlayerPassed) {
+                    this.complete();
+                } else {
+                    this.prevPlayerPassed = true;
+                }
+            } else {
+                this.currentPlayer = otherPlayer;
+            }
         } else if(this.prevPlayerPassed) {
             this.complete();
         }

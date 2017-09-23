@@ -78,6 +78,10 @@ class DrawCard extends BaseCard {
         return this.hasKeyword('pride');
     }
 
+    hasCourtesy() {
+        return this.hasKeyword('courtesy');
+    }
+    
     getCost() {
         return this.cardData.cost;
     }
@@ -251,10 +255,13 @@ class DrawCard extends BaseCard {
      * attach the passed attachment card.
      */
     allowAttachment(attachment) {
+        if(_.any(this.allowedAttachmentTraits, trait => attachment.hasTrait(trait))) {
+            return true;
+        }
+        
         return (
             this.isBlank() ||
-            this.allowedAttachmentTrait === 'any' ||
-            this.allowedAttachmentTrait !== 'none' && attachment.hasTrait(this.allowedAttachmentTrait)
+            this.allowedAttachmentTraits.length === 0
         );
     }
 
@@ -277,6 +284,23 @@ class DrawCard extends BaseCard {
         this.inConflict = false;
         this.new = false;
         this.fate = 0;
+        if(this.isHonored) {
+            this.game.addHonor(this.controller, 1);
+            this.game.addMessage('{0} gains 1 honor due to {1}\'s personal honor', this.controller, this);
+            this.isHonored = false;
+        } else if(this.isDishonored) {
+            this.game.addHonor(this.controller, -1);
+            this.game.addMessage('{0} loses 1 honor due to {1}\'s personal honor', this.controller, this);
+            this.isDishonored = false;
+        }
+        if(this.hasSincerity()) {
+            this.controller.drawCardsToHand(1);
+            this.game.addMessage('{0} draws a card due to {1}\'s Sincerity', this.controller, this);
+        }
+        if(this.hasCourtesy()) {
+            this.game.addFate(this.controller, 1);
+            this.game.addMessage('{0} gains a fate due to {1}\'s Courtesy', this.controller, this);
+        }
         this.resetForConflict();
         super.leavesPlay();
     }

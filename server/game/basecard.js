@@ -15,6 +15,7 @@ const ValidKeywords = [
     'restricted',
     'limited',
     'sincerity',
+    'courtesy',
     'pride',
     'covert'
 ];
@@ -32,6 +33,7 @@ class BaseCard {
         this.name = cardData.name;
         this.facedown = false;
         this.blankCount = 0;
+        this.inConflict = false;
 
         this.type = cardData.type;
 
@@ -59,7 +61,7 @@ class BaseCard {
         this.events = new EventRegistrar(this.game, this);
 
         this.abilities = { actions: [], reactions: [], persistentEffects: [], playActions: [] };
-        this.parseKeywords(cardData.text || '');
+        this.parseKeywords(cardData.text_canonical || '');
         this.parseTraits(cardData.traits || '');
         this.setupCardAbilities(AbilityDsl);
 
@@ -73,23 +75,25 @@ class BaseCard {
     }
 
     parseKeywords(text) {
-        var firstLine = text.split('\n')[0];
-        var potentialKeywords = _.map(firstLine.split('.'), k => k.toLowerCase().trim());
+        var lines = text.split('\n');
+        var potentialKeywords = [];
+        _.each(lines, line => {
+            line = line.slice(0, -1);
+            _.each(line.split('. '), k => potentialKeywords.push(k));
+        });
 
         this.keywords = {};
         this.printedKeywords = [];
-        this.allowedAttachmentTrait = 'any';
+        this.allowedAttachmentTraits = [];
 
         _.each(potentialKeywords, keyword => {
             if(_.contains(ValidKeywords, keyword)) {
                 this.printedKeywords.push(keyword);
-            } else if(keyword.indexOf('no attachment') === 0) {
-                var match = keyword.match(/no attachments except <[bi]>(.*)<\/[bi]>/);
-                if(match) {
-                    this.allowedAttachmentTrait = match[1];
-                } else {
-                    this.allowedAttachmentTrait = 'none';
-                }
+            } else if(keyword.startsWith('no attachments except')) {
+                var traits = keyword.replace('no attachments except ', '');
+                this.allowedAttachmentTraits = traits.split(' or ');
+            } else if(keyword.startsWith('no attachments')) {
+                this.allowedAttachmentTraits = ['none'];
             }
         });
 
