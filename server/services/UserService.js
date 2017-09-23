@@ -1,11 +1,8 @@
-const monk = require('monk');
 const escapeRegex = require('../util.js').escapeRegex;
 const logger = require('../log.js');
 
 class UserService {
-    constructor(options) {
-        let db = monk(options.dbPath);
-
+    constructor(db) {
         this.users = db.get('users');
     }
 
@@ -69,12 +66,21 @@ class UserService {
             toSet.password = user.password;
         }
 
-        return this.users.update({ username: user.username }, { '$set': toSet })
-            .catch(err => {
-                logger.error(err);
+        return this.users.update({ username: user.username }, { '$set': toSet }).catch(err => {
+            logger.error(err);
 
-                throw new Error('Error setting user details');
-            });
+            throw new Error('Error setting user details');
+        });
+    }
+
+    updateBlockList(user) {
+        return this.users.update({ username: user.username }, { '$set': {
+            blockList: user.blockList
+        } }).catch(err => {
+            logger.error(err);
+
+            throw new Error('Error setting user details');
+        });
     }
 
     setResetToken(user, token, tokenExpiration) {

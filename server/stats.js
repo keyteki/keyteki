@@ -1,23 +1,26 @@
 /*eslint no-console: 0*/
 
 const _ = require('underscore');
+const monk = require('monk');
+
+const GameService = require('./services/GameService.js');
 const config = require('config');
 
-const GameRepository = require('./repositories/gameRepository.js');
-
-let gameRepository = new GameRepository(config.dbPath);
+let db = monk(config.dbPath);
+let gameService = new GameService(db);
 
 let args = process.argv.slice(2);
 
 if(_.size(args) < 2) {
     console.error('Must provide start and end date');
 
+    db.close();
     return;
 }
 
 console.info('Running stats between', args[0], 'and', args[1]);
 
-gameRepository.getAllGames(args[0], args[1], (err, games) => {
+gameService.getAllGames(args[0], args[1]).then(games => {
     let rejected = { singlePlayer: 0, noWinner: 0 };
 
     console.info('' + _.size(games), 'total games');
@@ -149,4 +152,6 @@ gameRepository.getAllGames(args[0], args[1], (err, games) => {
     });
 
     console.info(rejected);
-});
+})
+    .then(() => db.close())
+    .catch(() => db.close());

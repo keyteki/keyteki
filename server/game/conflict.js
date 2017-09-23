@@ -1,6 +1,7 @@
 const _ = require('underscore');
 const Player = require('./player.js');
 const EventRegistrar = require('./eventregistrar.js');
+const Settings = require('../settings.js');
 
 class Conflict {
     constructor(game, attackingPlayer, defendingPlayer, conflictType = '', conflictRing = '', conflictProvince = null) {
@@ -25,7 +26,7 @@ class Conflict {
     }
 
     singlePlayerDefender() {
-        var dummyPlayer = new Player('', { name: 'Dummy Player' }, false, this.game);
+        let dummyPlayer = new Player('', Settings.getUserWithDefaultsSet({ name: 'Dummy Player' }), false, this.game);
         dummyPlayer.initialise();
         return dummyPlayer;
     }

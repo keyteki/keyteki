@@ -1,13 +1,14 @@
 const ActionWindow = require('../../../server/game/gamesteps/actionwindow.js');
 const Game = require('../../../server/game/game.js');
 const Player = require('../../../server/game/player.js');
+const Settings = require('../../../server/settings.js');
 
 describe('ActionWindow', function() {
     beforeEach(function() {
-        this.gameRepository = jasmine.createSpyObj('gameRepository', ['save']);
-        this.game = new Game('1', 'Test Game', { gameRepository: this.gameRepository });
-        this.player1 = new Player('1', { username: 'Player 1' }, true, this.game);
-        this.player2 = new Player('2', { username: 'Player 2' }, false, this.game);
+        this.gameService = jasmine.createSpyObj('gameService', ['save']);
+        this.game = new Game('1', 'Test Game', { gameService: this.gameService });
+        this.player1 = new Player('1', Settings.getUserWithDefaultsSet({ username: 'Player 1' }), true, this.game);
+        this.player2 = new Player('2', Settings.getUserWithDefaultsSet({ username: 'Player 2' }), false, this.game);
         this.player2.firstPlayer = true;
         this.game.playersAndSpectators[this.player1.name] = this.player1;
         this.game.playersAndSpectators[this.player2.name] = this.player2;

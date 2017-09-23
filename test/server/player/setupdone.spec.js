@@ -10,7 +10,7 @@ describe('Player', function() {
     describe('setupDone', function() {
         beforeEach(function() {
             this.game = jasmine.createSpyObj('game', ['getOtherPlayer', 'playerDecked', 'raiseEvent']);
-            this.player = new Player('1', 'Player 1', true, this.game);
+            this.player = new Player('1', { username: 'Player 1', settings: {}}, true, this.game);
             this.player.deck = {};
             this.player.initialise();
 

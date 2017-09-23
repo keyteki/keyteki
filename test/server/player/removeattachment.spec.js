@@ -5,11 +5,11 @@ xdescribe('Player', function() {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'queueSimpleStep', 'raiseEvent', 'getOtherPlayer', 'playerDecked']);
         this.gameSpy.queueSimpleStep.and.callFake(step => step());
-        this.player = new Player('1', 'Player 1', true, this.gameSpy);
+        this.player = new Player('1', {username: 'Player 1', settings: {}}, true, this.gameSpy);
         this.player.deck = {};
         this.player.initialise();
         this.player.phase = 'dynasty';
-        this.attachmentOwner = new Player('2', 'Player 2', false, this.gameSpy);
+        this.attachmentOwner = new Player('2', {username: 'Player 2', settings: {}}, false, this.gameSpy);
         this.attachmentOwner.initialise();
         this.attachment = new DrawCard(this.attachmentOwner, {});
         spyOn(this.attachment, 'canAttach').and.returnValue(true);

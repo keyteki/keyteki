@@ -2,7 +2,7 @@ const _ = require('underscore');
 
 const Player = require('../../../server/game/player.js');
 
-describe('Player', function () {
+describe('Player', function() {
 
     function createCardSpy(num, owner) {
         let spy = jasmine.createSpyObj('card', ['moveTo', 'removeDuplicate']);
@@ -21,7 +21,7 @@ describe('Player', function () {
             }
         });
 
-        this.player = new Player('1', 'Test 1', true, this.gameSpy);
+        this.player = new Player('1', { username: 'Test 1', settings: {} }, true, this.gameSpy);
         spyOn(this.player, 'moveCard');
 
         this.callbackSpy = jasmine.createSpy('callback');
@@ -31,7 +31,7 @@ describe('Player', function () {
         this.card2 = createCardSpy(2, this.player);
     });
 
-    describe('discardCards()', function () {
+    describe('discardCards()', function() {
         describe('when no cards are passed', function() {
             beforeEach(function() {
                 this.player.discardCards([], false, this.callbackSpy);
@@ -72,10 +72,10 @@ describe('Player', function () {
                     expect(this.gameSpy.queueSimpleStep).toHaveBeenCalled();
                 });
 
-                describe('the simple step callback', function () {
+                describe('the simple step callback', function() {
                     it('should call the original callback', function() {
                         this.simpleStepCallback();
-                        expect(this.callbackSpy).toHaveBeenCalledWith([this.card1,this.card2]);
+                        expect(this.callbackSpy).toHaveBeenCalledWith([this.card1, this.card2]);
                     });
                 });
 
@@ -93,7 +93,7 @@ describe('Player', function () {
         });
     });
 
-    describe('discardCard()', function () {
+    describe('discardCard()', function() {
         describe('when the card has no dupes(needs better wording)', function() {
             beforeEach(function() {
                 this.eventOuterParams = { player: this.player, cards: [this.card1], allowSave: false, originalLocation: 'loc' };

@@ -5,9 +5,9 @@ describe('the MenuPrompt', function() {
     beforeEach(function() {
         var game = new jasmine.createSpyObj('game', ['playerDecked', 'raiseEvent']);
 
-        this.player = new Player('1', 'Player 1', true, game);
+        this.player = new Player('1', { username: 'Player 1', settings: {} }, true, game);
         this.player.initialise();
-        this.otherPlayer = new Player('2', 'Player 2', false, game);
+        this.otherPlayer = new Player('2', { username: 'Player 2', settings: {} }, false, game);
         this.otherPlayer.initialise();
         game.playersAndSpectators = {};
         game.playersAndSpectators[this.player.name] = this.player;

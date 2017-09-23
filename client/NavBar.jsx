@@ -3,6 +3,7 @@ import _ from 'underscore';
 import { connect } from 'react-redux';
 
 import Link from './Link.jsx';
+import Avatar from './Avatar.jsx';
 
 import * as actions from './actions';
 
@@ -42,7 +43,7 @@ class InnerNavBar extends React.Component {
 
             return (
                 <li key={ menuItem.name } className={ className }>
-                    <a href='#' className='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>{ menuItem.name }<span className='caret' /></a>
+                    <a href='#' className='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>{ menuItem.avatar ? <Avatar emailHash={ menuItem.emailHash } forceDefault={ menuItem.disableGravatar } /> : null }{ menuItem.name }<span className='caret' /></a>
                     <ul className='dropdown-menu'>
                         { childItems }
                     </ul>

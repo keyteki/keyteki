@@ -7,20 +7,14 @@ const crypto = require('crypto');
 const util = require('../util.js');
 const nodemailer = require('nodemailer');
 const moment = require('moment');
-const UserService = require('../repositories/UserService.js');
+const monk = require('monk');
+const UserService = require('../services/UserService.js');
+const Settings = require('../settings.js');
+const _ = require('underscore');
+const { wrapAsync } = require('../util.js');
 
-let userService = new UserService({ dbPath: config.dbPath });
-
-const defaultWindows = {
-    plot: false,
-    draw: false,
-    challengeBegin: false,
-    attackersDeclared: true,
-    defendersDeclared: true,
-    winnerDetermined: false,
-    dominance: false,
-    standing: false
-};
+let db = monk(config.dbPath);
+let userService = new UserService(db);
 
 function hashPassword(password, rounds) {
     return new Promise((resolve, reject) => {
@@ -120,7 +114,7 @@ module.exports.init = function(server) {
                 return loginUser(req, user);
             })
             .then(() => {
-                res.send({ success: true, user: req.body, token: jwt.sign(req.user, config.secret)});
+                res.send({ success: true, user: Settings.getUserWithDefaultsSet(req.body), token: jwt.sign(req.user, config.secret) });
             })
             .catch(() => {
                 res.send({ success: false, message: 'An error occured registering your account' });
@@ -144,7 +138,7 @@ module.exports.init = function(server) {
     server.post('/api/account/logout', function(req, res) {
         req.logout();
 
-        res.send({ success: true});
+        res.send({ success: true });
     });
 
     server.post('/api/account/login', passport.authenticate('local'), function(req, res) {
@@ -188,7 +182,7 @@ module.exports.init = function(server) {
                 if(resetToken !== req.body.token) {
                     logger.error('Invalid reset token', user.username, req.body.token);
 
-                    res.send({ success: false, message: 'An error occured resetting your password, check the url you have entered and try again'});
+                    res.send({ success: false, message: 'An error occured resetting your password, check the url you have entered and try again' });
 
                     return Promise.reject('Invalid token');
                 }
@@ -209,7 +203,7 @@ module.exports.init = function(server) {
             .catch(err => {
                 logger.error(err);
 
-                res.send({ success: false, message: 'An error occured resetting your password, check the url you have entered and try again'});
+                res.send({ success: false, message: 'An error occured resetting your password, check the url you have entered and try again' });
             });
     });
 
@@ -270,16 +264,18 @@ module.exports.init = function(server) {
     function updateUser(res, user) {
         return userService.update(user)
             .then(() => {
-                res.send({ success: true, user: {
-                    username: user.username,
-                    email: user.email,
-                    emailHash: user.emailHash,
-                    _id: user._id,
-                    admin: user.admin,
-                    settings: user.settings || {},
-                    promptedActionWindows: user.promptedActionWindows || defaultWindows,
-                    permissions: user.permissions || {}
-                }, token: jwt.sign(user, config.secret) });
+                res.send({
+                    success: true, user: {
+                        username: user.username,
+                        email: user.email,
+                        emailHash: user.emailHash,
+                        _id: user._id,
+                        admin: user.admin,
+                        settings: user.settings,
+                        promptedActionWindows: user.promptedActionWindows,
+                        permissions: user.permissions || {}
+                    }, token: jwt.sign(user, config.secret)
+                });
             })
             .catch(() => {
                 return res.send({ success: false, message: 'An error occured updating your user profile' });
@@ -301,7 +297,7 @@ module.exports.init = function(server) {
         userService.getUserByUsername(req.params.username)
             .then(user => {
                 if(!user) {
-                    return res.status(404).send({ message: 'Not found'});
+                    return res.status(404).send({ message: 'Not found' });
                 }
 
                 user.email = userToSet.email;
@@ -314,15 +310,107 @@ module.exports.init = function(server) {
                     return hashPassword(userToSet.password, 10);
                 }
 
-                updateUser(res, user);
+                return updateUser(res, user);
             })
             .then(passwordHash => {
+                if(!passwordHash) {
+                    return;
+                }
+
                 existingUser.password = passwordHash;
 
-                updateUser(res, existingUser);
+                return updateUser(res, existingUser);
             })
             .catch(() => {
                 return res.send({ success: false, message: 'An error occured updating your user profile' });
             });
     });
+
+    server.get('/api/account/:username/blocklist', wrapAsync(async (req, res) => {
+        let user = await checkAuth(req, res);
+
+        if(!user) {
+            return;
+        }
+
+        res.send({ success: true, blockList: user.blockList });
+    }));
+
+    server.post('/api/account/:username/blocklist', wrapAsync(async (req, res) => {
+        let user = await checkAuth(req, res);
+
+        if(!user) {
+            return;
+        }
+
+        if(!user.blockList) {
+            user.blockList = [];
+        }
+
+        if(_.find(user.blockList, user => {
+            return user === req.body.username.toLowerCase();
+        })) {
+            return res.send({ success: false, message: 'Entry already on block list' });
+        }
+
+        user.blockList.push(req.body.username.toLowerCase());
+
+        await userService.updateBlockList(user);
+
+        res.send({ success: true, message: 'Block list entry added successfully', username: req.body.username.toLowerCase() });
+    }));
+
+    server.delete('/api/account/:username/blocklist/:entry', wrapAsync(async (req, res) => {
+        let user = await checkAuth(req, res);
+
+        if(!user) {
+            return;
+        }
+
+        if(!req.params.entry) {
+            return res.send({ success: false, message: 'Parameter "entry" is required' });
+        }
+
+        if(!user.blockList) {
+            user.blockList = [];
+        }
+
+        if(!_.find(user.blockList, user => {
+            return user === req.params.entry.toLowerCase();
+        })) {
+            return res.status(404).send({ message: 'Not found' });
+        }
+
+        user.blockList = _.reject(user.blockList, user => {
+            return user === req.params.entry.toLowerCase();
+        });
+
+        await userService.updateBlockList(user);
+
+        res.send({ success: true, message: 'Block list entry removed successfully', username: req.params.entry.toLowerCase() });
+    }));
 };
+
+async function checkAuth(req, res) {
+    let user = await userService.getUserByUsername(req.params.username);
+
+    if(!req.user) {
+        res.status(401).send({ message: 'Unauthorized' });
+
+        return null;
+    }
+
+    if(req.user.username !== req.params.username) {
+        res.status(403).send({ message: 'Unauthorized' });
+
+        return null;
+    }
+
+    if(!user) {
+        res.status(404).send({ message: 'Not found' });
+
+        return null;
+    }
+
+    return user;
+}

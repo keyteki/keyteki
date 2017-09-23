@@ -1,8 +1,10 @@
-const NewsService = require('../repositories/newsService.js');
+const monk = require('monk');
+const NewsService = require('../services/NewsService.js');
 const logger = require('../log.js');
 const config = require('config');
 
-let newsService = new NewsService({ dbPath: config.dbPath });
+let db = monk(config.dbPath);
+let newsService = new NewsService(db);
 
 module.exports.init = function(server) {
     server.get('/api/news', function(req, res) {

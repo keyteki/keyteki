@@ -4,7 +4,7 @@ const Player = require('../../../server/game/player.js');
 describe('the Player', () => {
     var game = jasmine.createSpyObj('game', ['getOtherPlayer', 'playerDecked', 'raiseEvent']);
 
-    var player = new Player('1', 'Player 1', true, game);
+    var player = new Player('1', {username: 'Player 1', settings: {}}, true, game);
     var conflictDeck = _([
         { name: 'foo' },
         { name: 'bar' },

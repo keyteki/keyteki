@@ -6,7 +6,7 @@ describe('Player', function() {
     describe('moveCard', function() {
         beforeEach(function() {
             this.gameSpy = jasmine.createSpyObj('game', ['raiseEvent', 'getOtherPlayer', 'playerDecked']);
-            this.player = new Player('1', 'Player 1', true, this.gameSpy);
+            this.player = new Player('1', {username: 'Player 1', settings: {}}, true, this.gameSpy);
             this.player.initialise();
             this.player.phase = 'dynasty';
 

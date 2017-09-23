@@ -2,15 +2,16 @@ const zmq = require('zmq');
 const router = zmq.socket('router');
 const logger = require('./log.js');
 const _ = require('underscore');
+const monk = require('monk');
 const EventEmitter = require('events');
-const GameRepository = require('./repositories/gameRepository.js');
+const GameService = require('./services/GameService.js');
 
 class GameRouter extends EventEmitter {
     constructor(config) {
         super();
 
         this.workers = {};
-        this.gameRepository = new GameRepository(config.dbPath);
+        this.gameService = new GameService(monk(config.dbPath));
 
         router.bind(config.mqUrl, err => {
             if(err) {
@@ -32,7 +33,7 @@ class GameRouter extends EventEmitter {
             return;
         }
 
-        this.gameRepository.create(game.getSaveState());
+        this.gameService.create(game.getSaveState());
 
         node.numGames++;
 
@@ -149,7 +150,7 @@ class GameRouter extends EventEmitter {
                 }
                 break;
             case 'GAMEWIN':
-                this.gameRepository.update(message.arg.game);
+                this.gameService.update(message.arg.game);
                 break;
             case 'GAMECLOSED':
                 if(worker) {
@@ -163,7 +164,7 @@ class GameRouter extends EventEmitter {
                 break;
             case 'PLAYERLEFT':
                 if(!message.arg.spectator) {
-                    this.gameRepository.update(message.arg.game);
+                    this.gameService.update(message.arg.game);
                 }
 
                 this.emit('onPlayerLeft', message.arg.gameId, message.arg.player);

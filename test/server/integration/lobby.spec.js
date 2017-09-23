@@ -10,7 +10,10 @@ describe('lobby', function() {
         this.socketSpy.user = { username: 'test'};
         this.socketSpy.id = 'socket1';
 
-        this.lobby = new Lobby({}, { io: this.ioSpy, cardService: {}, messageRepository: {}, deckRepository: {}, router: this.routerSpy, config: {} });
+        this.cardService = jasmine.createSpyObj('cardService', ['getTitleCards', 'getAllCards']);
+        this.cardService.getAllCards.and.returnValue(Promise.resolve([]));
+
+        this.lobby = new Lobby({}, { io: this.ioSpy, messageService: {}, cardService: this.cardService, deckService: {}, router: this.routerSpy, config: {} });
         this.lobby.sockets[this.socketSpy.id] = this.socketSpy;
     });
 

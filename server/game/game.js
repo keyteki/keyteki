@@ -58,6 +58,7 @@ class Game extends EventEmitter {
             void: new Ring('void','political'),
             water: new Ring('water','military')
         };
+        this.shortCardData = options.shortCardData || [];
 
         _.each(details.players, player => {
             this.playersAndSpectators[player.user.username] = new Player(player.id, player.user, this.owner === player.user.username, this);
@@ -391,13 +392,13 @@ class Game extends EventEmitter {
         }
     }
 
-    transferHonor(winner, loser, honor) {
-        var appliedHonor = Math.min(loser.honor, honor);
-        loser.honor -= appliedHonor;
-        winner.honor += appliedHonor;
+    transferHonor(source, target, honor) {
+        var appliedHonor = Math.min(source.honor, honor);
+        source.honor -= appliedHonor;
+        target.honor += appliedHonor;
 
-        this.checkWinCondition(winner);
-        this.checkWinCondition(loser);
+        this.checkWinCondition(target);
+        this.checkWinCondition(source);
     }
 
     transferFate(to, from, fate) {
@@ -412,7 +413,7 @@ class Game extends EventEmitter {
     checkWinCondition(player) {
         if(player.getTotalHonor() >= 25) {
             this.recordWinner(player, 'honor');
-        } else if(player .getTotalHonor() === 0) {
+        } else if(player.getTotalHonor() === 0) {
             var opponent = this.getOtherPlayer(player);
             this.recordWinner(opponent, 'dishonor');
         }
@@ -491,6 +492,16 @@ class Game extends EventEmitter {
 
         if(!this.isSpectator(player)) {
             if(this.chatCommands.executeCommand(player, args[0], args)) {
+                return;
+            }
+
+            let card = _.find(this.shortCardData, c => {
+                return c.label.toLowerCase() === message.toLowerCase() || c.name.toLowerCase() === message.toLowerCase();
+            });
+
+            if(card) {
+                this.gameChat.addChatMessage('{0} {1}', player, card);
+
                 return;
             }
         }
@@ -578,6 +589,24 @@ class Game extends EventEmitter {
         }
 
         player.promptedActionWindows[windowName] = toggle;
+    }
+
+    toggleTimerSetting(playerName, settingName, toggle) {
+        var player = this.getPlayerByName(playerName);
+        if(!player) {
+            return;
+        }
+
+        player.timerSettings[settingName] = toggle;
+    }
+
+    toggleKeywordSetting(playerName, settingName, toggle) {
+        var player = this.getPlayerByName(playerName);
+        if(!player) {
+            return;
+        }
+
+        player.keywordSettings[settingName] = toggle;
     }
 
     initialise() {

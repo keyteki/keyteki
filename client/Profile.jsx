@@ -18,26 +18,16 @@ class InnerProfile extends React.Component {
             return;
         }
 
-        this.windowDefaults = {
-            plot: false,
-            draw: false,
-            challengeBegin: false,
-            attackersDeclared: true,
-            defendersDeclared: true,
-            winnerDetermined: false,
-            dominance: false,
-            standing: false
-        };
-
         this.state = {
-            disableGravatar: this.props.user.settings ? this.props.user.settings.disableGravatar : false,
-            email: this.props.user ? this.props.user.email : '',
+            disableGravatar: this.props.user.settings.disableGravatar,
+            email: this.props.user.email,
             loading: false,
             newPassword: '',
             newPasswordAgain: '',
-            promptedActionWindows: this.props.user ? this.props.user.promptedActionWindows || this.windowDefaults : this.windowDefaults,
+            promptedActionWindows: this.props.user.promptedActionWindows,
             validation: {},
-            windowTimer: this.props.user.settings ? _.isUndefined(this.props.user.settings.windowTimer) ? 10 : this.props.user.settings.windowTimer : 10
+            windowTimer: this.props.user.settings.windowTimer,
+            timerSettings: this.props.user.settings.timerSettings
         };
 
         this.windows = [
@@ -57,8 +47,8 @@ class InnerProfile extends React.Component {
 
         this.setState({
             email: props.user.email,
-            disableGravatar: props.user.settings ? props.user.settings.disableGravatar : false,
-            promptedActionWindows: props.user ? props.user.promptedActionWindows || this.windowDefaults : this.windowDefaults
+            disableGravatar: props.user.settings.disableGravatar,
+            promptedActionWindows: props.user.promptedActionWindows
         });
     }
 
@@ -74,6 +64,14 @@ class InnerProfile extends React.Component {
         newState.promptedActionWindows = this.state.promptedActionWindows;
 
         newState.promptedActionWindows[field] = event.target.checked;
+        this.setState(newState);
+    }
+
+    onTimerSettingToggle(field, event) {
+        var newState = {};
+        newState.timerSettings = this.state.timerSettings;
+
+        newState.timerSettings[field] = event.target.checked;
         this.setState(newState);
     }
 
@@ -104,14 +102,15 @@ class InnerProfile extends React.Component {
                         promptedActionWindows: this.state.promptedActionWindows,
                         settings: {
                             disableGravatar: this.state.disableGravatar,
-                            windowTimer: this.state.windowTimer
+                            windowTimer: this.state.windowTimer,
+                            timerSettings: this.state.timerSettings
                         }
                     })
                 }
             })
             .done((data) => {
                 if(data.success) {
-                    this.setState({ successMessage: 'Profile saved successfully' });
+                    this.setState({ successMessage: 'Profile saved successfully.  Please note settings changed here will only apply at the start of your next game' });
 
                     this.props.socket.emit('authenticate', data.token);
                     this.props.refreshUser(data.user, data.token);
@@ -196,14 +195,13 @@ class InnerProfile extends React.Component {
 
         return (
             <div>
-                <h3 className='text-center'>Profile for { this.props.user.username }</h3>
                 { this.state.errorMessage ? <AlertPanel type='error' message={ this.state.errorMessage } /> : null }
                 { this.state.successMessage ? <AlertPanel type='success' message={ this.state.successMessage } /> : null }
                 <form className='form form-horizontal'>
                     <div className='row'>
                         <div className='col-sm-8 col-sm-offset-2'>
                             <div className='panel-title text-center'>
-                                User
+                                Profile
                             </div>
                             <div className='panel'>
                                 <Input name='email' label='Email Address' labelClass='col-sm-4' fieldClass='col-sm-8' placeholder='Enter email address'
@@ -239,7 +237,8 @@ class InnerProfile extends React.Component {
                                 Action window timing
                             </div>
                             <div className='panel'>
-                                <p className='help-block small'>Every time a game event occurs that you could possibly interrupt to cancel it, a timer will count down.  At the end of that timer, the window will automatically pass.  This option controls the duration of the timer.</p>
+                                <p className='help-block small'>Every time a game event occurs that you could possibly interrupt to cancel it, a timer will count down.  At the end of that timer, the window will automatically pass.
+                                This option controls the duration of the timer.  The timer can be configure to show when events are played (useful if you play cards like The Hand's Judgement) and to show when card abilities are triggered (useful if you play a lot of Treachery).</p>
                                 <div className='form-group'>
                                     <label className='col-sm-3 control-label'>Window timeout</label>
                                     <div className='col-sm-5'>
@@ -253,11 +252,16 @@ class InnerProfile extends React.Component {
                                         <input className='form-control text-center' name='timer' value={ this.state.windowTimer } onChange={ this.onSlideStop.bind(this) } />
                                     </div>
                                     <label className='col-sm-1 control-label'>seconds</label>
+
+                                    <Checkbox name='timerSettings.events' noGroup label={ 'Show timer for events' } fieldClass='col-sm-6'
+                                        onChange={ this.onTimerSettingToggle.bind(this, 'events') } checked={ this.state.timerSettings.events } />
+                                    <Checkbox name='timerSettings.abilities' noGroup label={ 'Show timer for card abilities' } fieldClass='col-sm-6'
+                                        onChange={ this.onTimerSettingToggle.bind(this, 'abilities') } checked={ this.state.timerSettings.abilities } />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className='col-sm-offset-8 col-sm-2'>
+                    <div className='col-sm-offset-9 col-sm-2'>
                         <button className='btn btn-primary' type='button' disabled={ this.state.loading } onClick={ this.onSaveClick.bind(this) }>Save</button>
                     </div>
                 </form>

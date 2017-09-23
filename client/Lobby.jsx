@@ -74,21 +74,74 @@ class InnerLobby extends React.Component {
         }, 500);
     }
 
-    render() {
-        var index = 0;
-        var messages = _.map(this.props.messages, message => {
+    onBurgerClick() {
+        this.setState({ showUsers: !this.state.showUsers });
+    }
+
+    getMessages() {
+        let groupedMessages = {};
+        let index = 0;
+        let today = moment();
+        let yesterday = moment().add(-1, 'days');
+        let lastUser;
+        let currentGroup = 0;
+
+        _.each(this.props.messages, message => {
             if(!message.user) {
                 return;
             }
 
-            var timestamp = moment(message.time).format('MMM Do H:mm:ss');
-            return (
-                <div key={ timestamp + message.user.username + (index++).toString() }>
-                    <Avatar emailHash={ message.user.emailHash } float forceDefault={ message.user.noAvatar } />
-                    <span className='username'>{ message.user.username }</span><span>{ timestamp }</span>
-                    <div className='message'>{ message.message }</div>
-                </div>);
+            let formattedTime = moment(message.time).format('YYYYMMDDHHmm');
+            if(lastUser && message.user && lastUser !== message.user.username) {
+                currentGroup++;
+            }
+
+            let key = message.user.username + formattedTime + currentGroup;
+
+            if(!groupedMessages[key]) {
+                groupedMessages[key] = [];
+            }
+
+            groupedMessages[key].push(message);
+
+            lastUser = message.user.username;
         });
+
+        return _.map(groupedMessages, messages => {
+            let timestamp = '';
+            let firstMessage = _.first(messages);
+
+            if(!firstMessage.user) {
+                return;
+            }
+
+            if(today.isSame(firstMessage.time, 'd')) {
+                timestamp = moment(firstMessage.time).format('H:mm');
+            } else if(yesterday.isSame(firstMessage.time, 'd')) {
+                timestamp = 'yesterday ' + moment(firstMessage.time).format('H:mm');
+            } else {
+                timestamp = moment(firstMessage.time).format('MMM Do H:mm');
+            }
+
+            let renderedMessages = _.map(messages, message => {
+                if(!message.user) {
+                    return;
+                }
+                return (<div className='lobby-message'>{ message.message }</div>);
+            });
+
+            return (
+                <div key={ timestamp + firstMessage.user.username + (index++).toString() }>
+                    <Avatar emailHash={ firstMessage.user.emailHash } float forceDefault={ firstMessage.user.noAvatar } />
+                    <span className='username'>{ firstMessage.user.username }</span><span>{ timestamp }</span>
+                    { renderedMessages }
+                </div>
+            );
+        });
+    }
+
+    render() {
+        let messages = this.getMessages();
 
         var users = _.map(this.props.users, user => {
             return (

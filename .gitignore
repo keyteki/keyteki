@@ -8,3 +8,4 @@ coverage
 server/events.txt
 .DS_Store
 config/local*
+server/logs/*.gz

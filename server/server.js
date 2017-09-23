@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
@@ -16,14 +15,21 @@ const jwt = require('jsonwebtoken');
 const http = require('http');
 const Raven = require('raven');
 const helmet = require('helmet');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const webpack = require('webpack');
+const webpackConfig = require('../webpack.config.js');
+const monk = require('monk');
+const _ = require('underscore');
 
-const UserService = require('./repositories/UserService.js');
+const UserService = require('./services/UserService.js');
 const version = require('../version.js');
 const Settings = require('./settings.js');
 
 class Server {
     constructor(isDeveloping) {
-        this.userService = new UserService({ dbPath: config.dbPath });
+        let db = monk(config.dbPath);
+        this.userService = new UserService(db);
         this.isDeveloping = isDeveloping;
         this.server = http.Server(app);
     }
@@ -72,11 +78,6 @@ class Server {
         app.set('views', path.join(__dirname, '..', 'views'));
 
         if(this.isDeveloping) {
-            const webpackDevMiddleware = require('webpack-dev-middleware');
-            const webpackHotMiddleware = require('webpack-hot-middleware');
-            const webpackConfig = require('../webpack.config.js');
-            const webpack = require('webpack');
-
             const compiler = webpack(webpackConfig);
             const middleware = webpackDevMiddleware(compiler, {
                 hot: true,
@@ -112,6 +113,11 @@ class Server {
             res.render('index', { basedir: path.join(__dirname, '..', 'views'), user: Settings.getUserWithDefaultsSet(req.user), token: token, production: !this.isDeveloping });
         });
 
+        // Define error middleware last
+        app.use(function(err, req, res, next) { // eslint-disable-line no-unused-vars
+            res.status(500).send({ success: false });
+            logger.error(err);
+        });
 
         return this.server;
     }
@@ -124,7 +130,7 @@ class Server {
                 logger.error(err);
             }
 
-            logger.info('==> 🌎 Listening on port %s. Open up http://0.0.0.0:%s/ in your browser.', port, port);
+            logger.info('==> ?? Listening on port %s. Open up http://0.0.0.0:%s/ in your browser.', port, port);
         });
     }
 

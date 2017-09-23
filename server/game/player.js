@@ -69,6 +69,9 @@ class Player extends Spectator {
             fate: true,
             regroup: true
         };
+        this.timerSettings = user.settings.timerSettings || {};
+        this.timerSettings.windowTimer = user.settings.windowTimer;
+        this.keywordSettings = user.settings.keywordSettings;
 
         this.createAdditionalPile('out of game', { title: 'Out of Game', area: 'player row' });
 
@@ -1334,6 +1337,7 @@ class Player extends Spectator {
             showBid: this.showBid,
             strongholdProvince: this.getSummaryForCardList(this.strongholdProvince, activePlayer),
             totalHonor: this.getTotalHonor(),
+            timerSettings: this.timerSettings,
             user: _.omit(this.user, ['password', 'email'])
         };
 

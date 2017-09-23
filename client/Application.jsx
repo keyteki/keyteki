@@ -23,6 +23,7 @@ import Profile from './Profile.jsx';
 import NewsAdmin from './NewsAdmin.jsx';
 import Unauthorised from './Unauthorised.jsx';
 import UserAdmin from './UserAdmin.jsx';
+import BlockList from './BlockList.jsx';
 
 import {toastr} from 'react-redux-toastr';
 
@@ -127,6 +128,10 @@ class App extends React.Component {
                 url += ':' + server.port;
             }
 
+            if(this.props.gameSocket) {
+                this.props.closeGameSocket();
+            }
+
             this.props.gameSocketConnecting(url + '/' + server.name);
 
             let gameSocket = io.connect(url, {
@@ -204,15 +209,24 @@ class App extends React.Component {
     }
 
     render() {
-        let notAuthedMenu = [
-            { name: 'Login', path: '/login' },
-            { name: 'Register', path: '/register' }
-        ];
+        let rightMenu;
 
-        let authedMenu = [
-            { name: 'Profile', path: '/profile' },
-            { name: 'Logout', path: '/logout' }
-        ];
+        if(!this.props.user) {
+            rightMenu = [
+                { name: 'Login', path: '/login' },
+                { name: 'Register', path: '/register' }
+            ];
+        } else {
+            rightMenu = [
+                {
+                    name: this.props.user.username, childItems: [
+                        { name: 'Profile', path: '/profile' },
+                        { name: 'Block List', path: '/blocklist' },
+                        { name: 'Logout', path: '/logout' }
+                    ], avatar: true, emailHash: this.props.user.emailHash, disableGravatar: this.props.user.settings.disableGravatar
+                }
+            ];
+        }
 
         let leftMenu = [
             { name: 'Decks', path: '/decks' },
@@ -239,7 +253,6 @@ class App extends React.Component {
             leftMenu.push({ name: 'Admin', childItems: adminMenuItems });
         }
 
-        let rightMenu = this.props.loggedIn ? authedMenu : notAuthedMenu;
         let component = {};
 
         let path = this.props.path;
@@ -328,6 +341,9 @@ class App extends React.Component {
                 }
 
                 break;
+            case '/blocklist':
+                component = <BlockList />;
+                break;
             default:
                 component = <NotFound />;
                 break;
@@ -345,9 +361,11 @@ class App extends React.Component {
 App.displayName = 'Application';
 App.propTypes = {
     clearGameState: React.PropTypes.func,
+    closeGameSocket: React.PropTypes.func,
     currentGame: React.PropTypes.object,
     disconnecting: React.PropTypes.bool,
     dispatch: React.PropTypes.func,
+    gameSocket: React.PropTypes.object,
     gameSocketConnectError: React.PropTypes.func,
     gameSocketConnected: React.PropTypes.func,
     gameSocketConnecting: React.PropTypes.func,
@@ -381,6 +399,7 @@ function mapStateToProps(state) {
     return {
         currentGame: state.games.currentGame,
         disconnecting: state.socket.gameDisconnecting,
+        gameSocket: state.socket.gameSocket,
         games: state.games.games,
         path: state.navigation.path,
         loggedIn: state.auth.loggedIn,

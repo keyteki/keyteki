@@ -3,7 +3,7 @@ const DrawCard = require('../../../server/game/drawcard.js');
 describe('the DrawCard', function() {
     describe('the hasKeyword() function', function() {
         beforeEach(function() {
-            this.owner = {};
+            this.owner = { noTimer: true };
             this.card = new DrawCard(this.owner, {});
         });
 
@@ -43,14 +43,13 @@ describe('the DrawCard', function() {
         const Player = require('../../../server/game/player.js');
 
         beforeEach(function() {
-            this.gameRepository = jasmine.createSpyObj('gameRepository', ['save']);
-            this.game = new Game({}, { gameRepository: this.gameRepository });
+            this.gameService = jasmine.createSpyObj('gameService', ['save']);
+            this.game = new Game({}, { gameService: this.gameService });
 
-            this.player = new Player(1, { username: 'foo' }, false, this.game);
-            this.player2 = new Player(2, { username: 'bar' }, false, this.game);
+            this.player = new Player(1, { username: 'foo', settings: {} }, false, this.game);
+            this.player.noTimer = true;
 
             this.game.playersAndSpectators['foo'] = this.player;
-            this.game.playersAndSpectators['bar'] = this.player2;
             this.game.initialise();
 
             this.game.currentPhase = 'dynasty';

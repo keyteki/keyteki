@@ -47,14 +47,34 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
         return false;
     }
 
+    isTimerEnabled(player) {
+        return !player.noTimer && player.user.settings.windowTimer !== 0;
+    }
+
+    isWindowEnabledForEvent(player, event) {
+        let eventsEnabled = player.timerSettings.events;
+        let abilitiesEnabled = player.timerSettings.abilities;
+
+        if(event.name === 'onCardAbilityInitiated') {
+            if(event.source.getType() === 'event') {
+                return eventsEnabled;
+            }
+
+            return abilitiesEnabled;
+        }
+
+        // Must be onClaimApplied, which we tie to events setting
+        return eventsEnabled;
+    }
+
     isCancellableEvent(player) {
         let cancellableEvents = {
             onCardAbilityInitiated: 'cancelinterrupt',
             onClaimApplied: 'interrupt'
         };
 
-        return !player.noTimer && (!player.user.settings || player.user.settings.windowTimer !== 0) && _.any(this.events, event => {
-            return event.player !== player && cancellableEvents[event.name] && cancellableEvents[event.name] === this.abilityType;
+        return this.isTimerEnabled(player) && _.any(this.events, event => {
+            return event.player !== player && cancellableEvents[event.name] && cancellableEvents[event.name] === this.abilityType && this.isWindowEnabledForEvent(player, event);
         });
     }
 

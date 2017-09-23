@@ -14,7 +14,7 @@ var stubComponent = function(componentClass) {
 
         componentClass.propTypes = {};
 
-        spyOn(componentClass.prototype, 'render').and.returnValue(<div></div>);
+        spyOn(componentClass.prototype, 'render').and.returnValue(<div />);
         if(componentClass.prototype.componentWillMount) {
             spyOn(componentClass.prototype, 'componentWillMount').and.returnValue(null);
         }

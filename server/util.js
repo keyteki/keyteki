@@ -19,13 +19,20 @@ function httpRequest(url) {
             response.on('end', () => {
                 resolve(body.join(''));
             });
-
-            request.on('error', err => reject(err));
         });
+
+        request.on('error', err => reject(err));
     });
+}
+
+function wrapAsync(fn) {
+    return function(req, res, next) {
+        fn(req, res, next).catch(next);
+    };
 }
 
 module.exports = {
     escapeRegex: escapeRegex,
-    httpRequest: httpRequest
+    httpRequest: httpRequest,
+    wrapAsync: wrapAsync
 };

@@ -9,7 +9,7 @@ describe('Game', function() {
     describe('join()', function() {
         describe('when the game has not started and there are not enough players', function() {
             beforeEach(function() {
-                this.result = this.game.join('1', { username: 'foo' });
+                this.result = this.game.join('1', { username: 'foo', settings: {} });
             });
 
             it('should add the player', function() {
@@ -25,7 +25,7 @@ describe('Game', function() {
         describe('when the game has started', function() {
             beforeEach(function() {
                 this.game.started = true;
-                this.result = this.game.join('1', { username: 'foo' });
+                this.result = this.game.join('1', { username: 'foo', settings: {} });
             });
 
             it('should not add the player', function() {
@@ -39,9 +39,9 @@ describe('Game', function() {
 
         describe('when the game already has two players', function() {
             beforeEach(function() {
-                this.game.join('1', { username: 'foo' });
-                this.game.join('2', { username: 'bar' });
-                this.result = this.game.join('3', { username: 'baz' });
+                this.game.join('1', { username: 'foo', settings: {} });
+                this.game.join('2', { username: 'bar', settings: {} });
+                this.result = this.game.join('3', { username: 'baz', settings: {} });
             });
 
             it('should not add the player', function() {
@@ -58,7 +58,7 @@ describe('Game', function() {
         describe('when spectators are allowed', function() {
             beforeEach(function() {
                 this.game.allowSpectators = true;
-                this.result = this.game.watch('1', { username: 'foo' });
+                this.result = this.game.watch('1', { username: 'foo', settings: {} });
             });
 
             it('should add the spectator', function() {
@@ -75,7 +75,7 @@ describe('Game', function() {
         describe('when spectators are forbidden', function() {
             beforeEach(function() {
                 this.game.allowSpectators = false;
-                this.result = this.game.watch('1', { username: 'foo' });
+                this.result = this.game.watch('1', { username: 'foo', settings: {} });
             });
 
             it('should not add the spectator', function() {
@@ -97,7 +97,7 @@ describe('Game', function() {
 
         describe('when the user is a player', function() {
             beforeEach(function() {
-                this.game.join('1', { username: 'foo' });
+                this.game.join('1', { username: 'foo', settings: {} });
             });
 
             describe('when the game has not started', function() {
@@ -132,7 +132,7 @@ describe('Game', function() {
 
         describe('when the user is a spectator', function() {
             beforeEach(function() {
-                this.game.watch('1', { username: 'foo' });
+                this.game.watch('1', { username: 'foo', settings: {} });
                 this.game.leave('foo');
             });
 
@@ -155,7 +155,7 @@ describe('Game', function() {
 
         describe('when the user is a player', function() {
             beforeEach(function() {
-                this.game.join('1', { username: 'foo' });
+                this.game.join('1', { username: 'foo', settings: {} });
             });
 
             it('should mark the player as disconnected', function() {
@@ -166,7 +166,7 @@ describe('Game', function() {
 
         describe('when the user is a spectator', function() {
             beforeEach(function() {
-                this.game.watch('1', { username: 'foo' });
+                this.game.watch('1', { username: 'foo', settings: {} });
                 this.game.disconnect('foo');
             });
 
@@ -178,7 +178,7 @@ describe('Game', function() {
 
     describe('reconnect()', function() {
         beforeEach(function() {
-            this.game.join('1', { username: 'foo' });
+            this.game.join('1', { username: 'foo', settings: {} });
             this.game.disconnect('foo');
             this.game.reconnect({ id: '2' }, 'foo');
         });
@@ -205,16 +205,16 @@ describe('Game', function() {
 
         describe('when there are players and spectators', function() {
             beforeEach(function() {
-                this.game.join('1', { username: 'foo' });
-                this.game.join('2', { username: 'bar' });
-                this.game.watch('3', { username: 'baz' });
+                this.game.join('1', { username: 'foo', settings: {} });
+                this.game.join('2', { username: 'bar', settings: {} });
+                this.game.watch('3', { username: 'baz', settings: {} });
             });
 
             it('should return false', function() {
                 expect(this.game.isEmpty()).toBe(false);
             });
 
-            it('should return false if there is at least one player', function () {
+            it('should return false if there is at least one player', function() {
                 this.game.disconnect('foo');
                 this.game.leave('baz');
                 expect(this.game.isEmpty()).toBe(false);
@@ -237,7 +237,7 @@ describe('Game', function() {
 
     describe('hasActivePlayer()', function() {
         beforeEach(function() {
-            this.game.join('1', { username: 'foo' });
+            this.game.join('1', { username: 'foo', settings: {} });
         });
 
         it('should return falsy if the player is not in the game', function() {
