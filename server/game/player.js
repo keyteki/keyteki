@@ -1119,7 +1119,7 @@ class Player extends Spectator {
     }
 
     removeCardFromPile(card) {
-        if(card.controller && card.controller !== this) {
+        if(card.controller !== this) {
             let oldController = card.controller;
             oldController.removeCardFromPile(card);
 
