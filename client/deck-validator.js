@@ -1,5 +1,7 @@
+const $ = require('jquery');
 const _ = require('underscore');
 const moment = require('moment');
+
 
 function getDeckCount(deck) {
     let count = 0;
@@ -43,7 +45,7 @@ function isCardInReleasedPack(packs, card) {
     return releaseDate <= now;
 }
 
-module.exports = function validateDeck(deck, packs) {
+module.exports = function validateDeckOld(deck, packs) {
     var provinceCount = getDeckCount(deck.provinceCards);
     var conflictCount = getDeckCount(deck.conflictCards);
     var dynastyCount = getDeckCount(deck.dynastyCards);
@@ -230,5 +232,120 @@ module.exports = function validateDeck(deck, packs) {
     }
     */
 
+    return { status: status, provinceCount: provinceCount, conflictCount: conflictCount, dynastyCount: dynastyCount, extendedStatus: extendedStatus, isValid: isValid };
+};
+
+module.exports = function validateDeck(deck, packs) {
+    let provinceCount = getDeckCount(deck.provinceCards);
+    let conflictCount = getDeckCount(deck.conflictCards);
+    let dynastyCount = getDeckCount(deck.dynastyCards);
+    let status = 'Valid';
+    let extendedStatus = [];
+    let isValid = true;
+
+    let deckList = {};
+
+    let apiUrl = 'https://api.fiveringsdb.com/';
+    let path = 'deck-validation';
+    let format = 'standard';
+
+    let combined = _.union(deck.stronghold, deck.role, deck.provinceCards, deck.conflictCards, deck.dynastyCards);
+
+    _.each(combined, card => {
+        deckList[card.card.id] = card.count;
+    });
+
+    let JSONDeckList = JSON.stringify(deckList);
+
+    let response = {};
+
+
+    $.ajax({
+        type: 'POST',
+        url: apiUrl + path + '/' + format,
+        data: JSONDeckList,
+        dataType: 'json',
+        async: false,
+        success: function(data) {
+            response = data;
+        }
+    });
+
+    if(response.success) {
+        let responseStatus = parseInt(response.status);
+        if(responseStatus === 0) {
+            extendedStatus.push('Deck is valid');
+        } else if(responseStatus === 1) {
+            status = 'Invalid';
+            isValid = false;
+            extendedStatus.push('Deck has too many copies of one or more cards');
+        } else if(responseStatus === 2) {
+            status = 'Invalid';
+            isValid = false;
+            extendedStatus.push('Deck has too few Strongholds');
+        } else if(responseStatus === 3) {
+            status = 'Invalid';
+            isValid = false;
+            extendedStatus.push('Deck has too many Strongholds');
+        } else if(responseStatus === 4) {
+            status = 'Invalid';
+            isValid = false;
+            extendedStatus.push('Deck has too many Roles');
+        } else if(responseStatus === 5) {
+            status = 'Invalid';
+            isValid = false;
+            extendedStatus.push('Deck has too few Dynasty cards');
+        } else if(responseStatus === 6) {
+            status = 'Invalid';
+            isValid = false;
+            extendedStatus.push('Deck has too many Dynasty cards');
+        } else if(responseStatus === 7) {
+            status = 'Invalid';
+            isValid = false;
+            extendedStatus.push('Deck has off-clan Dynasty cards');
+        } else if(responseStatus === 8) {
+            status = 'Invalid';
+            isValid = false;
+            extendedStatus.push('Deck has too few Conflict cards');
+        } else if(responseStatus === 9) {
+            status = 'Invalid';
+            isValid = false;
+            extendedStatus.push('Deck has too many Conflict cards');
+        } else if(responseStatus === 10) {
+            status = 'Invalid';
+            isValid = false;
+            extendedStatus.push('Deck does not have enough influence for its off-clan Conflict cards');
+        } else if(responseStatus === 11) {
+            status = 'Invalid';
+            isValid = false;
+            extendedStatus.push('Deck has more than one off-clan in its Conflict deck');
+        } else if(responseStatus === 12) {
+            status = 'Invalid';
+            isValid = false;
+            extendedStatus.push('Deck has too many Character cards in its Conflict deck');
+        } else if(responseStatus === 13) {
+            status = 'Invalid';
+            isValid = false;
+            extendedStatus.push('Deck has too few Provinces');
+        } else if(responseStatus === 14) {
+            status = 'Invalid';
+            isValid = false;
+            extendedStatus.push('Deck has too many Provinces');
+        } else if(responseStatus === 15) {
+            status = 'Invalid';
+            isValid = false;
+            extendedStatus.push('Deck has too many Provinces of one Element');
+        } else if(responseStatus === 16) {
+            status = 'Invalid';
+            isValid = false;
+            extendedStatus.push('Deck has an off-clan Province');
+        } else if(responseStatus === 17) {
+            status = 'Invalid';
+            isValid = false;
+            extendedStatus.push('Deck has an off-clan Conflict card with no influence cost');
+        }
+    }
+
+    console.log({ status: status, provinceCount: provinceCount, conflictCount: conflictCount, dynastyCount: dynastyCount, extendedStatus: extendedStatus, isValid: isValid });
     return { status: status, provinceCount: provinceCount, conflictCount: conflictCount, dynastyCount: dynastyCount, extendedStatus: extendedStatus, isValid: isValid };
 };
