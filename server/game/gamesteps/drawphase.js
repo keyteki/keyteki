@@ -19,7 +19,7 @@ class DrawPhase extends Phase {
     constructor(game) {
         super(game, 'draw');
         this.initialise([
-            new HonorBidPrompt(this.game),
+            new HonorBidPrompt(this.game, 'Choose how many cards to draw'),
             new SimpleStep(game, () => this.tradeHonor()),
             new SimpleStep(game, () => this.drawConflict()),
             new ActionWindow(this.game, 'Action Window', 'draw')
