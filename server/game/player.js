@@ -41,8 +41,7 @@ class Player extends Spectator {
         this.takenConflictMulligan = false;
         this.dynastyStep;
         this.passedDynasty = false;
-        this.drawBid = 0;
-        this.duelBid = 0;
+        this.honorBid = 0;
         this.showBid = 0;
         this.imperialFavor = '';
         this.totalGloryForFavor = 0;
@@ -582,7 +581,7 @@ class Player extends Spectator {
     }
 
     drawPhase() {
-        this.drawPhaseCards = this.drawBid;
+        this.drawPhaseCards = this.honorBid;
         this.game.addMessage('{0} draws {1} cards for the draw phase', this, this.drawPhaseCards);
         this.drawCardsToHand(this.drawPhaseCards);
     }
@@ -608,7 +607,6 @@ class Player extends Spectator {
         this.game.raiseEvent('onIncomeCollected', { player: this });
 
         this.passedDynasty = false;
-        this.drawBid = 0;
         this.limitedPlayed = 0;
     }
 
@@ -1171,8 +1169,9 @@ class Player extends Spectator {
         this.passedDynasty = true;
     }
 
-    setDrawBid(bid) {
-        this.drawBid = bid;
+    setShowBid() {
+        this.showBid = this.honorBid;
+        this.game.addMessage('{0} reveals a bid of {1}', this, this.showBid);
     }
     
     playCharacterWithFate(card, fate, inConflict = false) {
