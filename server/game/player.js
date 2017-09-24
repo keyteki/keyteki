@@ -255,7 +255,9 @@ class Player extends Spectator {
 
         if(remainingCards > 0) {
             this.deckRanOutOfCards('conflict');
-            cards = _.extend(cards, this.drawCardsToHand(remainingCards));
+            let moreCards = this.conflictDeck.first(remainingCards);
+            _.each(moreCards, card => this.moveCard(card, 'hand'));
+            cards = _.extend(cards, moreCards);
         }
 
         return (cards.length > 1) ? cards : cards[0];
@@ -385,12 +387,10 @@ class Player extends Spectator {
     }
 
     initConflictDeck() {
-        this.hand.each(card => {
-            card.moveTo('conflict deck');
-            this.conflictDeck.push(card);
-        });
-        this.hand = _([]);
         this.shuffleConflictDeck();
+    }
+    
+    drawStartingHand() {
         this.drawCardsToHand(StartingHandSize);
     }
 
