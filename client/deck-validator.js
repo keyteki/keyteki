@@ -24,7 +24,7 @@ function getStronghold(deck) {
     return stronghold;
 }
 
-function isCardInReleasedPack(packs, card) { // eslint-disable-line no-use-before-define
+function isCardInReleasedPack(packs, card) { // eslint-disable-line no-unused-vars
     let pack = _.find(packs, pack => {
         return card.pack_code === pack.code;
     });
@@ -45,7 +45,7 @@ function isCardInReleasedPack(packs, card) { // eslint-disable-line no-use-befor
     return releaseDate <= now;
 }
 
-module.exports = function validateDeckOld(deck, packs) { // eslint-disable-line no-use-before-define
+module.exports = function validateDeckOld(deck, packs) { // eslint-disable-line no-unused-vars
     var provinceCount = getDeckCount(deck.provinceCards);
     var conflictCount = getDeckCount(deck.conflictCards);
     var dynastyCount = getDeckCount(deck.dynastyCards);
@@ -235,7 +235,7 @@ module.exports = function validateDeckOld(deck, packs) { // eslint-disable-line 
     return { status: status, provinceCount: provinceCount, conflictCount: conflictCount, dynastyCount: dynastyCount, extendedStatus: extendedStatus, isValid: isValid };
 };
 
-module.exports = function validateDeck(deck, packs) { // eslint-disable-line no-use-before-define
+module.exports = function validateDeck(deck, packs) { // eslint-disable-line no-unused-vars
     let provinceCount = getDeckCount(deck.provinceCards);
     let conflictCount = getDeckCount(deck.conflictCards);
     let dynastyCount = getDeckCount(deck.dynastyCards);
