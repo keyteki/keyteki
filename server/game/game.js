@@ -420,17 +420,6 @@ class Game extends EventEmitter {
 
     }
 
-    playerDecked(/* player */) {
-        // TODO: Fix this so honor is lost and we reshuffle and draw
-        // let otherPlayer = this.getOtherPlayer(player);
-        //
-        // this.addMessage('{0} loses the game because their draw deck is empty', player);
-        //
-        // if(otherPlayer) {
-        //     this.recordWinner(otherPlayer, 'decked');
-        // }
-    }
-
     recordWinner(winner, reason) {
         if(this.winner) {
             return;
