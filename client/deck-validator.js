@@ -24,7 +24,7 @@ function getStronghold(deck) {
     return stronghold;
 }
 
-function isCardInReleasedPack(packs, card) {
+function isCardInReleasedPack(packs, card) { // eslint-disable-line no-use-before-define
     let pack = _.find(packs, pack => {
         return card.pack_code === pack.code;
     });
@@ -45,7 +45,7 @@ function isCardInReleasedPack(packs, card) {
     return releaseDate <= now;
 }
 
-module.exports = function validateDeckOld(deck, packs) {
+module.exports = function validateDeckOld(deck, packs) { // eslint-disable-line no-use-before-define
     var provinceCount = getDeckCount(deck.provinceCards);
     var conflictCount = getDeckCount(deck.conflictCards);
     var dynastyCount = getDeckCount(deck.dynastyCards);
@@ -235,7 +235,7 @@ module.exports = function validateDeckOld(deck, packs) {
     return { status: status, provinceCount: provinceCount, conflictCount: conflictCount, dynastyCount: dynastyCount, extendedStatus: extendedStatus, isValid: isValid };
 };
 
-module.exports = function validateDeck(deck, packs) {
+module.exports = function validateDeck(deck, packs) { // eslint-disable-line no-use-before-define
     let provinceCount = getDeckCount(deck.provinceCards);
     let conflictCount = getDeckCount(deck.conflictCards);
     let dynastyCount = getDeckCount(deck.dynastyCards);
@@ -346,6 +346,5 @@ module.exports = function validateDeck(deck, packs) {
         }
     }
 
-    console.log({ status: status, provinceCount: provinceCount, conflictCount: conflictCount, dynastyCount: dynastyCount, extendedStatus: extendedStatus, isValid: isValid });
     return { status: status, provinceCount: provinceCount, conflictCount: conflictCount, dynastyCount: dynastyCount, extendedStatus: extendedStatus, isValid: isValid };
 };
