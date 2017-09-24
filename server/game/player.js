@@ -950,7 +950,7 @@ class Player extends Spectator {
     }
 
     getClaimedRings() {
-        return _.filter(this.game.rings, ring => ring.claimedby === this.name);
+        return _.filter(this.game.rings, ring => ring.claimedBy === this.name);
     }
  
     claimImperialFavor(conflictType) {
