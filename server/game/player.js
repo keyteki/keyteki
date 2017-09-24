@@ -237,7 +237,10 @@ class Player extends Spectator {
     }
 
     drawCardsToHand(numCards) {
+        let remainingCards = 0;
+        
         if(numCards > this.conflictDeck.size()) {
+            remainingCards = numCards - this.conflictDeck.size();
             numCards = this.conflictDeck.size();
         }
 
@@ -250,11 +253,26 @@ class Player extends Spectator {
             this.game.raiseEvent('onCardsDrawn', { cards: cards, player: this });
         }
 
-        if(this.conflictDeck.size() === 0) {
-            this.game.playerDecked(this);
+        if(remainingCards > 0) {
+            this.deckRanOutOfCards('conflict');
+            cards = _.extend(cards, this.drawCardsToHand(remainingCards));
         }
 
         return (cards.length > 1) ? cards : cards[0];
+    }
+    
+    deckRanOutOfCards(deck) {
+        this.game.addMessage('{0}\'s {1} deck has run out of cards and is being reshuffled. {0} loses 5 honor', this, deck);
+        _.each(this.getSourceList(deck + ' discard pile')._wrapped, card => this.moveCard(card, deck + ' deck'));
+        _.shuffle(this.getSourceList(deck + ' deck'));
+        this.game.addHonor(this, -5);
+    }
+
+    replaceDynastyCard(location) {
+        if(this.dynastyDeck.size() === 0) {
+            this.deckRanOutOfCards('dynasty');
+        }
+        this.moveCard(this.dynastyDeck.first(), location);        
     }
 
     searchConflictDeck(limit, predicate) {
@@ -1101,7 +1119,7 @@ class Player extends Spectator {
     }
 
     removeCardFromPile(card) {
-        if(card.controller !== this) {
+        if(card.controller && card.controller !== this) {
             let oldController = card.controller;
             oldController.removeCardFromPile(card);
 
