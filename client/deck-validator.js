@@ -273,76 +273,95 @@ module.exports = function validateDeck(deck, packs) { // eslint-disable-line no-
 
     if(response.success) {
         let responseStatus = parseInt(response.status);
-        if(responseStatus === 0) {
-            extendedStatus.push('Deck is valid');
-        } else if(responseStatus === 1) {
-            status = 'Invalid';
-            isValid = false;
-            extendedStatus.push('Deck has too many copies of one or more cards');
-        } else if(responseStatus === 2) {
-            status = 'Invalid';
-            isValid = false;
-            extendedStatus.push('Deck has too few Strongholds');
-        } else if(responseStatus === 3) {
-            status = 'Invalid';
-            isValid = false;
-            extendedStatus.push('Deck has too many Strongholds');
-        } else if(responseStatus === 4) {
-            status = 'Invalid';
-            isValid = false;
-            extendedStatus.push('Deck has too many Roles');
-        } else if(responseStatus === 5) {
-            status = 'Invalid';
-            isValid = false;
-            extendedStatus.push('Deck has too few Dynasty cards');
-        } else if(responseStatus === 6) {
-            status = 'Invalid';
-            isValid = false;
-            extendedStatus.push('Deck has too many Dynasty cards');
-        } else if(responseStatus === 7) {
-            status = 'Invalid';
-            isValid = false;
-            extendedStatus.push('Deck has off-clan Dynasty cards');
-        } else if(responseStatus === 8) {
-            status = 'Invalid';
-            isValid = false;
-            extendedStatus.push('Deck has too few Conflict cards');
-        } else if(responseStatus === 9) {
-            status = 'Invalid';
-            isValid = false;
-            extendedStatus.push('Deck has too many Conflict cards');
-        } else if(responseStatus === 10) {
-            status = 'Invalid';
-            isValid = false;
-            extendedStatus.push('Deck does not have enough influence for its off-clan Conflict cards');
-        } else if(responseStatus === 11) {
-            status = 'Invalid';
-            isValid = false;
-            extendedStatus.push('Deck has more than one off-clan in its Conflict deck');
-        } else if(responseStatus === 12) {
-            status = 'Invalid';
-            isValid = false;
-            extendedStatus.push('Deck has too many Character cards in its Conflict deck');
-        } else if(responseStatus === 13) {
-            status = 'Invalid';
-            isValid = false;
-            extendedStatus.push('Deck has too few Provinces');
-        } else if(responseStatus === 14) {
-            status = 'Invalid';
-            isValid = false;
-            extendedStatus.push('Deck has too many Provinces');
-        } else if(responseStatus === 15) {
-            status = 'Invalid';
-            isValid = false;
-            extendedStatus.push('Deck has too many Provinces of one Element');
-        } else if(responseStatus === 16) {
-            status = 'Invalid';
-            isValid = false;
-            extendedStatus.push('Deck has an off-clan Province');
-        } else if(responseStatus === 17) {
-            status = 'Invalid';
-            isValid = false;
-            extendedStatus.push('Deck has an off-clan Conflict card with no influence cost');
+        switch(responseStatus) {
+            case 0:
+                extendedStatus.push('Deck is valid');
+                break;
+            case 1:
+                status = 'Invalid';
+                isValid = false;
+                extendedStatus.push('Deck has too many copies of one or more cards');
+                break;
+            case 2:
+                status = 'Invalid';
+                isValid = false;
+                extendedStatus.push('Deck has too few Strongholds');
+                break;
+            case 3:
+                status = 'Invalid';
+                isValid = false;
+                extendedStatus.push('Deck has too many Strongholds');
+                break;
+            case 4:
+                status = 'Invalid';
+                isValid = false;
+                extendedStatus.push('Deck has too many Roles');
+                break;
+            case 5:
+                status = 'Invalid';
+                isValid = false;
+                extendedStatus.push('Deck has too few Dynasty cards');
+                break;
+            case 6:
+                status = 'Invalid';
+                isValid = false;
+                extendedStatus.push('Deck has too many Dynasty cards');
+                break;
+            case 7:
+                status = 'Invalid';
+                isValid = false;
+                extendedStatus.push('Deck has off-clan Dynasty cards');
+                break;
+            case 8:
+                status = 'Invalid';
+                isValid = false;
+                extendedStatus.push('Deck has too few Conflict cards');
+                break;
+            case 9:
+                status = 'Invalid';
+                isValid = false;
+                extendedStatus.push('Deck has too many Conflict cards');
+                break;
+            case 10:
+                status = 'Invalid';
+                isValid = false;
+                extendedStatus.push('Deck does not have enough influence for its off-clan Conflict cards');
+                break;
+            case 11:
+                status = 'Invalid';
+                isValid = false;
+                extendedStatus.push('Deck has more than one off-clan in its Conflict deck');
+                break;
+            case 12:
+                status = 'Invalid';
+                isValid = false;
+                extendedStatus.push('Deck has too many Character cards in its Conflict deck');
+                break;
+            case 13:
+                status = 'Invalid';
+                isValid = false;
+                extendedStatus.push('Deck has too few Provinces');
+                break;
+            case 14:
+                status = 'Invalid';
+                isValid = false;
+                extendedStatus.push('Deck has too many Provinces');
+                break;
+            case 15:
+                status = 'Invalid';
+                isValid = false;
+                extendedStatus.push('Deck has too many Provinces of one Element');
+                break;
+            case 16:
+                status = 'Invalid';
+                isValid = false;
+                extendedStatus.push('Deck has an off-clan Province');
+                break;
+            case 17:
+                status = 'Invalid';
+                isValid = false;
+                extendedStatus.push('Deck has an off-clan Conflict card with no influence cost');
+                break;
         }
     }
 
