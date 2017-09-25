@@ -1319,6 +1319,7 @@ class Player extends Spectator {
             numDynastyCards: this.dynastyDeck.size(),
             name: this.name,
             numProvinceCards: this.provinceDeck.size(),
+            phase: this.game.currentPhase,
             provinceDeck: this.getSummaryForCardList(this.provinceDeck, activePlayer, true),
             provinces: {
                 one: this.getSummaryForCardList(this.provinceOne, activePlayer, !this.takenDynastyMulligan),
