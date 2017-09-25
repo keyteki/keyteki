@@ -1165,7 +1165,13 @@ class Player extends Spectator {
     playCharacterWithFate(card, fate, inConflict = false) {
         this.putIntoPlay(card);
         card.fate = fate;
-        card.inConflict = inConflict;
+        if(this.game.currentConflict && inConflict) {
+            if(this.game.currentConflict.attackingPlayer === this) {
+                this.game.currentConflict.addAttacker(card);
+            } else {
+                this.game.currentConflict.addDefender(card);
+            }
+        }
         
         this.game.addMessage('{0} plays {1} {2}with {3} additional fate', this, card, inConflict ? 'into the conflict ' : '', fate);
     }
