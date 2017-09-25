@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'underscore';
 import $ from 'jquery';
 import {connect} from 'react-redux';
+import { findDOMNode } from 'react-dom';
 
 import Input from './FormComponents/Input.jsx';
 import Select from './FormComponents/Select.jsx';
@@ -13,6 +14,8 @@ import * as actions from './actions';
 class InnerDeckEditor extends React.Component {
     constructor(props) {
         super(props);
+
+        this.onImportDeckClick = this.onImportDeckClick.bind(this);
 
         this.state = {
             cardList: '',
@@ -249,13 +252,95 @@ class InnerDeckEditor extends React.Component {
         }
     }
 
+    onImportDeckClick() {
+        $(findDOMNode(this.refs.modal)).modal('show');
+    }
+
+    importDeck() {
+        $(findDOMNode(this.refs.modal)).modal('hide');
+
+        let strainUrl = document.getElementById('strainUrl').value;
+
+        let apiUrl = 'https://api.fiveringsdb.com/';
+        let path = 'strains';
+        let deckResponse = {};
+        
+        let strainId = String(strainUrl).split('/')[4];
+
+        $.ajax({
+            type: 'GET',
+            url: apiUrl + path + '/' + strainId,
+            dataType: 'json',
+            async: false,
+            success: function(data) {
+                deckResponse = data;
+            }
+        });
+
+        if(deckResponse.success) {
+            let deckRecord = deckResponse.record;
+            let deckClan = deckRecord.head.clan;
+            let deckName = deckRecord.head.name;
+            let deckList = deckRecord.head.cards;
+            let cardList = '';
+
+            let deck = this.copyDeck(this.state.deck);
+
+            deck.name = deckName;
+            deck.faction = this.props.factions[deckClan];
+
+            _.each(deckList, (count, card) => {
+                cardList += count + ' ' + this.props.cards[card].name + '\n';
+                let allianceClan = this.props.cards[card].clan;
+                if(allianceClan !== 'neutral' && allianceClan !== deckClan) {
+                    deck.alliance = this.props.factions[this.props.cards[card].clan];
+                }
+            });
+
+            this.setState({ cardList: cardList });
+
+            let event = { 
+                target: {
+                    value: cardList
+                }
+            };
+
+            this.onCardListChange(event);
+
+            this.setState({ deck: deck, showAlliance: deck.alliance });
+            this.props.updateDeck(deck);
+
+        }
+    }    
+
     render() {
         if(!this.props.deck || this.props.loading) {
             return <div>Waiting for deck...</div>;
         }
 
+        let popup = (
+            <div id='decks-modal' ref='modal' className='modal fade' tabIndex='-1' role='dialog'>
+                <div className='modal-dialog' role='document'>
+                    <div className='modal-content deck-popup'>
+                        <div className='modal-header'>
+                            <button type='button' className='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>×</span></button>
+                            <h4 className='modal-title'>Provide Permalink</h4>
+                        </div>
+                        <div className='modal-body'>
+                            <Input name='strainUrl' fieldClass='col-sm-9' placeholder='Permalink' type='text' >
+                                <div className='col-sm-1'>
+                                    <button className='btn btn-default' onClick={ this.importDeck.bind(this) }>Import</button>
+                                </div>
+                            </Input>
+                        </div>
+                    </div>
+                </div>
+            </div>);
+
         return (
             <div className='col-sm-6'>
+                { popup }
+                <span className='btn btn-primary' data-toggle='modal' data-target='#decks-modal'>Import deck</span>
                 <h2>Deck Editor</h2>
                 <h4>Either type the cards manually into the box below, add the cards one by one using the card box and autocomplete or for best results, copy and paste a decklist from <a href='http://fiveringsdb.com' target='_blank'>FiveRings DB</a> into the box below.</h4>
                 <form className='form form-horizontal'>
@@ -295,6 +380,9 @@ InnerDeckEditor.propTypes = {
     cards: React.PropTypes.object,
     deck: React.PropTypes.object,
     factions: React.PropTypes.object,
+    import: React.PropTypes.bool,
+    importedCardList: React.PropTypes.object,
+    importedDeck: React.PropTypes.object,
     loading: React.PropTypes.bool,
     mode: React.PropTypes.string,
     onDeckSave: React.PropTypes.func,
