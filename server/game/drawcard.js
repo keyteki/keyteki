@@ -154,6 +154,10 @@ class DrawCard extends BaseCard {
          * @param  {boolean} printed - Use the printed value of the skill; default false
          * @return {integer} The military skill value
          */
+        if(printed) {
+            return this.cardData.military;
+        }
+
         if(this.cardData.military !== null && this.cardData.military !== undefined) {
             let skillFromAttachments = _.reduce(this.attachments._wrapped, (skill, card) => skill + parseInt(card.cardData.military_bonus), 0);
             let skillFromGlory = (this.isHonored ? this.glory : 0) - (this.isDishonored ? this.glory : 0);
@@ -169,6 +173,10 @@ class DrawCard extends BaseCard {
          * @param  {boolean} printed - Use the printed value of the skill; default false
          * @return {integer} The political skill value
          */
+        if(printed) {
+            return this.cardData.military;
+        }
+
         if(this.cardData.political !== null && this.cardData.political !== undefined) {
             let skillFromAttachments = _.reduce(this.attachments._wrapped, (skill, card) => skill + parseInt(card.cardData.political_bonus), 0);
             let skillFromGlory = (this.isHonored ? this.glory : 0) - (this.isDishonored ? this.glory : 0);
