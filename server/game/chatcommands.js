@@ -1,4 +1,6 @@
 const _ = require('underscore');
+const SimpleStep = require('./gamesteps/simplestep.js');
+const HonorBidPrompt = require('./gamesteps/honorbidprompt.js');
 
 class ChatCommands {
     constructor(game) {
@@ -19,6 +21,7 @@ class ChatCommands {
             '/cancel-prompt': this.cancelPrompt,
             '/token': this.setToken,
             '/reveal': this.reveal,
+            '/duel': this.duel,
             '/add-fate': this.addFate,
             '/rem-fate': this.remFate,
             '/add-fate-ring': this.addRingFate,
@@ -105,6 +108,12 @@ class ChatCommands {
                 return true;
             }
         });
+    }
+    
+    duel(player) {
+        this.game.addMessage('{0} initiates a duel', player);
+        this.game.queueStep(new HonorBidPrompt(this.game, 'Choose your bid for the duel'));
+        this.game.queueStep(new SimpleStep(this.game, () => this.game.tradeHonorAfterBid()));
     }
 
     addTrait(player, args) {
