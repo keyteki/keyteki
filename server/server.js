@@ -53,7 +53,7 @@ class Server {
             cookie: { 
                 maxAge: config.cookieLifetime,
                 secure: config.https,
-                httpOnly: true,
+                httpOnly: false,
                 domain: config.domain
             },
             name: 'sessionId'
