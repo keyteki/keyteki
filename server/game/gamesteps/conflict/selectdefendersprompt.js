@@ -16,23 +16,7 @@ class SelectDefendersPrompt extends UiPrompt {
         super(game);
 
         this.player = player;
-        this.selectedCards = [];
         this.conflict = conflict;
-    }
-
-    continue() {
-        if(!this.isComplete()) {
-            this.highlightSelectableCards();
-        }
-
-        return super.continue();
-    }
-
-    highlightSelectableCards() {
-        let selectableCards = this.player.cardsInPlay.filter(card => {
-            return this.checkCardCondition(card);
-        });
-        this.player.setSelectableCards(selectableCards);
     }
 
     activeCondition(player) {
@@ -44,7 +28,6 @@ class SelectDefendersPrompt extends UiPrompt {
         let promptTitle = (capitalize[this.conflict.conflictType] + ' ' + capitalize[this.conflict.conflictRing] + ' Conflict: ' 
             + this.conflict.attackerSkill + ' vs ' + this.conflict.defenderSkill);
         return {
-            selectCard: true,
             menuTitle: 'Choose defenders',
             buttons: [{ text: 'Done', arg: 'done' }],
             promptTitle: promptTitle
@@ -77,39 +60,26 @@ class SelectDefendersPrompt extends UiPrompt {
     }
 
     selectCard(card) {
-        if(this.conflict.maxAllowedDefenders !==0 && this.selectedCards.length >= this.conflict.maxAllowedDefenders && !_.contains(this.selectedCards, card)) {
+        if(this.conflict.maxAllowedDefenders !== 0 && this.conflict.defenders.length >= this.conflict.maxAllowedDefenders && !_.contains(this.conflict.defenders, card)) {
             return false;
         }
 
-        if(!this.selectedCards.includes(card)) {
-            this.selectedCards.push(card);
+        if(!this.conflict.defenders.includes(card)) {
+            this.conflict.addDefender(card);
         } else {
-            this.selectedCards = _.reject(this.selectedCards, c => c === card);
+            this.conflict.removeFromConflict(card);
         }
-        this.player.setSelectedCards(this.selectedCards);
 
         return true;
     }
 
-    onMenuCommand(player, arg) {
+    onMenuCommand(player) {
         if(player !== this.player) {
             return false;
         }
 
+        _.each(this.conflict.defenders, card => card.stealth = false);
         this.complete();
-    }
-
-    complete() {
-        this.conflict.addDefenders(this.selectedCards);
-        this.clearSelection();
-        return super.complete();
-    }
-
-    clearSelection() {
-        this.selectedCards = [];
-        this.player.clearSelectedCards();
-        this.player.clearSelectableCards();
-
     }
 }
 

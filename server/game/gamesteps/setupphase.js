@@ -16,7 +16,7 @@ class SetupPhase extends Phase {
             new SimpleStep(game, () => this.fillProvinces()),
             new SimpleStep(game, () => this.doDynastyMulligan()),
             new SimpleStep(game, () => this.doConflictMulligan()),
-            new SimpleStep(game, () => this.startGame()),
+            new SimpleStep(game, () => this.startGame())
         ]);
     }
 

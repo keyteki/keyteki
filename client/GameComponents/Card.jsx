@@ -262,6 +262,8 @@ class Card extends React.Component {
             cardClass += ' selected';
         } else if(this.props.card.selectable) {
             cardClass += ' selectable';
+        } else if(this.props.card.stealth) {
+            cardClass += ' stealth';
         } else if(this.props.card.inConflict) {
             cardClass += ' conflict';
         } else if(this.props.card.controlled) {
@@ -362,6 +364,7 @@ Card.propTypes = {
         saved: React.PropTypes.bool,
         selectable: React.PropTypes.bool,
         selected: React.PropTypes.bool,
+        stealth: React.PropTypes.bool,
         tokens: React.PropTypes.object,
         type: React.PropTypes.string,
         unselectable: React.PropTypes.bool
