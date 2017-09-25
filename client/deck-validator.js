@@ -235,6 +235,8 @@ module.exports = function validateDeck(deck, packs) { // eslint-disable-line no-
     return { status: status, provinceCount: provinceCount, conflictCount: conflictCount, dynastyCount: dynastyCount, extendedStatus: extendedStatus, isValid: isValid };
 };
 
+
+/*
 module.exports = function validateDeckNew(deck, packs) { // eslint-disable-line no-unused-vars
     let provinceCount = getDeckCount(deck.provinceCards);
     let conflictCount = getDeckCount(deck.conflictCards);
@@ -367,3 +369,4 @@ module.exports = function validateDeckNew(deck, packs) { // eslint-disable-line 
 
     return { status: status, provinceCount: provinceCount, conflictCount: conflictCount, dynastyCount: dynastyCount, extendedStatus: extendedStatus, isValid: isValid };
 };
+*/
