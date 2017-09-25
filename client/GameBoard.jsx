@@ -261,13 +261,15 @@ export class InnerGameBoard extends React.Component {
         event.dataTransfer.setData('Text', JSON.stringify(dragData));
     }
 
-    getCardsInPlay(player, isMe) {
+    getCardsInPlay(player) {
         if(!player) {
             return [];
         }
         
         var cardsInPlay = _.map(player.cardsInPlay, card => {
-            return(<Card key={ card.uuid } source='play area' card={ card } disableMouseOver={ card.facedown && !card.id} onMenuItemClick={ this.onMenuItemClick }
+            let right = (_.size(card.attachments) * 13) + 5;
+            let style = { margin: '5px 5px 5px ' + right.toString() + 'px' };
+            return (<Card key={ card.uuid } source='play area' style={ style } card={ card } disableMouseOver={ card.facedown && !card.id } onMenuItemClick={ this.onMenuItemClick }
                 onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } onClick ={ this.onCardClick } onDragDrop={ this.onDragDrop } />);
         });
 
@@ -340,8 +342,7 @@ export class InnerGameBoard extends React.Component {
 
         var index = 0;
 
-        var thisCardsInPlay = this.getCardsInPlay(thisPlayer, true);
-        thisPlayerCards.push(<div className='card-row' key={ 'this-loc' + index++ }>{ thisCardsInPlay }</div>);
+        thisPlayerCards.push(<div className='card-row' key={ 'this-loc' + index++ }>{ this.getCardsInPlay(thisPlayer) }</div>);
 
         var otherPlayerCards = [];
 
