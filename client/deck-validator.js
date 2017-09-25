@@ -1,4 +1,4 @@
-const $ = require('jquery');
+const $ = require('jquery'); // eslint-disable-line no-unused-vars
 const _ = require('underscore');
 const moment = require('moment');
 
