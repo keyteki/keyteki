@@ -572,15 +572,6 @@ class Player extends Spectator {
         this.firstPlayer = false;
     }
 
-    setupDone() {
-        if(this.hand.size() < StartingHandSize) {
-            this.drawCardsToHand(StartingHandSize - this.hand.size());
-        }
-
-        //this.cardsInPlay = processedCards;
-        this.fate = 0;
-    }
-
     drawPhase() {
         this.drawPhaseCards = this.drawBid;
         this.game.addMessage('{0} draws {1} cards for the draw phase', this, this.drawPhaseCards);
