@@ -379,7 +379,6 @@ class DrawCard extends BaseCard {
             attachments: this.attachments.map(attachment => {
                 return attachment.getSummary(activePlayer, hideWhenFaceup);
             }),
-            inConflict: this.inConflict,
             isConflict: this.isConflict,
             isDynasty: this.isDynasty,
             isDishonored: this.isDishonored,
@@ -388,6 +387,7 @@ class DrawCard extends BaseCard {
             saved: this.saved,
             fate: this.fate,
             new: this.new,
+            stealth: this.stealth,
             militaryskill: this.getMilitarySkill(),
             politicalskill: this.getPoliticalSkill()
         });

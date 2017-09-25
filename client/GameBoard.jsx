@@ -261,35 +261,22 @@ export class InnerGameBoard extends React.Component {
         event.dataTransfer.setData('Text', JSON.stringify(dragData));
     }
 
-    getCardsInPlay(player, isMe) {
+    getCardsInPlay(player) {
         if(!player) {
             return [];
         }
-
-        var sortedCards = _.sortBy(player.cardsInPlay, card => {
-            return card.type;
+        
+        var cardsInPlay = _.map(player.cardsInPlay, card => {
+            let wrapperClassName = '';
+            let attachments = _.size(card.attachments);
+            if(attachments > 0) {
+                wrapperClassName = 'wrapper-' + attachments.toString();
+            }
+            return (<Card key={ card.uuid } source='play area' card={ card } disableMouseOver={ card.facedown && !card.id } onMenuItemClick={ this.onMenuItemClick }
+                wrapperClassName={ wrapperClassName } onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } onClick ={ this.onCardClick } onDragDrop={ this.onDragDrop } />);
         });
 
-        if(!isMe) {
-            // we want locations on the bottom, other side wants locations on top
-            sortedCards = sortedCards.reverse();
-        }
-
-        var cardsByType = _.groupBy(sortedCards, card => {
-            return card.type;
-        });
-
-        var cardsByLocation = [];
-
-        _.each(cardsByType, cards => {
-            var cardsInPlay = _.map(cards, card => {
-                return (<Card key={ card.uuid } source='play area' card={ card } disableMouseOver={ card.facedown && !card.id } onMenuItemClick={ this.onMenuItemClick }
-                    onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } onClick={ this.onCardClick } onDragDrop={ this.onDragDrop } />);
-            });
-            cardsByLocation.push(cardsInPlay);
-        });
-
-        return cardsByLocation;
+        return cardsInPlay;
     }
 
     onCommand(command, arg, method) {
@@ -358,24 +345,12 @@ export class InnerGameBoard extends React.Component {
 
         var index = 0;
 
-        var thisCardsInPlay = this.getCardsInPlay(thisPlayer, true);
-        _.each(thisCardsInPlay, cards => {
-            thisPlayerCards.push(<div className='card-row' key={ 'this-loc' + index++ }>{ cards }</div>);
-        });
+        thisPlayerCards.push(<div className='card-row' key={ 'this-loc' + index++ }>{ this.getCardsInPlay(thisPlayer) }</div>);
+
         var otherPlayerCards = [];
 
         if(otherPlayer) {
-            _.each(this.getCardsInPlay(otherPlayer, false), cards => {
-                otherPlayerCards.push(<div className='card-row' key={ 'other-loc' + index++ }>{ cards }</div>);
-            });
-        }
-
-        for(var i = thisPlayerCards.length; i < 2; i++) {
-            thisPlayerCards.push(<div className='card-row' key={ 'this-empty' + i } />);
-        }
-
-        for(i = otherPlayerCards.length; i < 2; i++) {
-            thisPlayerCards.push(<div className='card-row' key={ 'other-empty' + i } />);
+            otherPlayerCards.push(<div className='card-row' key={ 'other-loc' + index++ }>{ this.getCardsInPlay(otherPlayer) }</div>);
         }
 
         return (

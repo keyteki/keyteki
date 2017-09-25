@@ -484,6 +484,7 @@ class BaseCard {
         if(!isActivePlayer && (this.facedown || hideWhenFaceup) && this.isProvince) {
             return { 
                 uuid: this.uuid,
+                inConflict: this.inConflict,
                 facedown: true};
         }
 
@@ -496,6 +497,7 @@ class BaseCard {
         let state = {
             id: this.cardData.id,
             controlled: this.owner !== this.controller,
+            inConflict: this.inConflict,
             facedown: this.facedown,
             menu: this.getMenu(),
             name: this.cardData.name,

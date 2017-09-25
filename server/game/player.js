@@ -576,15 +576,6 @@ class Player extends Spectator {
         this.firstPlayer = false;
     }
 
-    setupDone() {
-        if(this.hand.size() < StartingHandSize) {
-            this.drawCardsToHand(StartingHandSize - this.hand.size());
-        }
-
-        //this.cardsInPlay = processedCards;
-        this.fate = 0;
-    }
-
     drawPhase() {
         this.drawPhaseCards = this.honorBid;
         this.game.addMessage('{0} draws {1} cards for the draw phase', this, this.drawPhaseCards);
@@ -1202,7 +1193,9 @@ class Player extends Spectator {
                 break;
             case 'earth':
                 this.drawCardsToHand(1);
-                otherPlayer.discardAtRandom(1);
+                if(otherPlayer) {
+                    otherPlayer.discardAtRandom(1);
+                }
                 break;
             case 'void':
                 this.game.promptForSelect(this, {
@@ -1257,7 +1250,11 @@ class Player extends Spectator {
         if(choice === 'Gain 2 Honor') {
             this.game.addHonor(this, 2);
         } else {
-            this.game.transferHonor(this, this.game.getOtherPlayer(this), 1);
+            if(this.game.getOtherPlayer(this)) {
+                this.game.transferHonor(this.game.getOtherPlayer(this), this, 1);
+            } else {
+                this.game.addHonor(this, 1);
+            }
         }
         return true;
     }

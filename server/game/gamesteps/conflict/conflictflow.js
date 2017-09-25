@@ -4,6 +4,7 @@ const GamePipeline = require('../../gamepipeline.js');
 const SimpleStep = require('../simplestep.js');
 const ActionWindow = require('../actionwindow.js');
 const InitiateConflictPrompt = require('./initiateconflictprompt.js');
+const SelectDefendersPrompt = require('./selectdefendersprompt.js');
 
 /**
 Conflict Resolution
@@ -122,25 +123,7 @@ class ConflictFlow extends BaseStep {
             return;
         }
 
-        if(this.conflict.isSinglePlayer) {
-            return;
-        }
-
-        var title = 'Select defenders';
-        if(this.conflict.defendingPlayer.conflictrLimit !== 0) {
-            title += ' (limit ' + this.conflict.defendingPlayer.conflictrLimit + ')';
-        }
-
-        this.game.promptForSelect(this.conflict.defendingPlayer, {
-            numCards: this.conflict.defendingPlayer.conflictrLimit,
-            multiSelect: true,
-            activePromptTitle: title,
-            waitingPromptTitle: 'Waiting for opponent to defend',
-            cardCondition: card => this.allowAsDefender(card),
-            onSelect: (player, defenders) => this.chooseDefenders(defenders),
-            onCancel: () => this.chooseDefenders([]),
-            cardType: 'character'
-        });
+        this.game.queueStep(new SelectDefendersPrompt(this.game, this.conflict.defendingPlayer, this.conflict));
     }
 
     allowAsDefender(card) {
