@@ -24,7 +24,7 @@ class About extends React.Component {
                 It will also use the avatar on any site that uses gravatar.  Examples include github and jinteki.</p>
 
                 <h3>Action windows</h3>
-                <p>Players will be prompted about whether they have actions or not during game <a href='https://thronesdb.com/rulesreference#Action_Windows'>action windows</a>. By default, however, not all action windows are enabled. For example: you will be prompted by default after challenge attackers are declared, but not before the end of the dominance pahse. You can choose which action windows to be prompted for in your <a href='/profile'>user profile</a> as well as override that while in-game by clicking on the small green triangle above the various dialog windows.</p>
+                <p>Players will be prompted about whether they have actions or not during game <a href='https://fiveringsdb.com/rules/reference#action-windows'>action windows</a>. By default, however, not all action windows are enabled. For example: you will be prompted by default after challenge attackers are declared, but not before the end of the dominance pahse. You can choose which action windows to be prompted for in your <a href='/profile'>user profile</a> as well as override that while in-game by clicking on the small green triangle above the various dialog windows.</p>
 
                 <h3>Why doesn't xyz work?</h3>
                 <p>While the site has come on a lot recently, there are still some missing cards and things that aren't implemented. See <a href='http://bit.ly/ringteki'>This Link</a> for a list of the cards and their current implementation
