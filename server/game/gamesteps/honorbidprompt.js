@@ -53,6 +53,8 @@ class HonorBidPrompt extends AllPlayerPrompt {
         this.game.addMessage('{0} has chosen a bid.', player);
         
         player.honorBid = bid;
+        
+        return true;
     }
 }
 

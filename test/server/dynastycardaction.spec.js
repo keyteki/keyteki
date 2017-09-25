@@ -9,7 +9,7 @@ describe('DynastyCardAction', function () {
         this.cardSpy.isDynasty = true;
         this.cardSpy.controller = this.playerSpy;
         this.cardSpy.owner = this.playerSpy;
-        this.gameSpy.actionWindow = this.windowSpy;
+        this.gameSpy.currentActionWindow = this.windowSpy;
         this.windowSpy.currentPlayer = this.playerSpy;
         this.gameSpy.abilityCardStack = ['framework'];
         this.context = {

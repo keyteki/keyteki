@@ -11,7 +11,7 @@ class SimpleStep extends BaseStep {
     }
 
     getDebugInfo() {
-        return { SimpleStep: this.continueFunc.toString() };
+        return this.continueFunc.toString();
     }
 }
 

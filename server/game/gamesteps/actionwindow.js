@@ -12,7 +12,7 @@ class ActionWindow extends UiPrompt {
             this.currentPlayer = game.getFirstPlayer();
         }
         this.prevPlayerPassed = false;
-        this.game.actionWindow = this;
+        this.game.currentActionWindow = this;
         
         if(!this.currentPlayer.promptedActionWindows[this.windowName]) {
             this.game.addMessage('{0} has chosen to pass', this.currentPlayer);
@@ -54,10 +54,6 @@ class ActionWindow extends UiPrompt {
 
     waitingPrompt() {
         return { menuTitle: 'Waiting for opponent to take an action or pass.' };
-    }
-
-    skipCondition(player) {
-        return !this.forceWindow && !player.promptedActionWindows[this.windowName];
     }
 
     onMenuCommand(player, choice) {
@@ -113,14 +109,6 @@ class ActionWindow extends UiPrompt {
     markActionAsTaken() {
         this.prevPlayerPassed = false;
         this.nextPlayer();
-    }
-
-    rotatedPlayerOrder(player) {
-        var players = this.game.getPlayersInFirstPlayerOrder();
-        var splitIndex = players.indexOf(player);
-        var beforePlayer = players.slice(0, splitIndex);
-        var afterPlayer = players.slice(splitIndex + 1);
-        return afterPlayer.concat(beforePlayer).concat([player]);
     }
 }
 

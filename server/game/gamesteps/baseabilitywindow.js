@@ -26,6 +26,10 @@ class BaseAbilityWindow extends BaseStep {
             this.registerAbility(ability, event);
         });
     }
+    
+    registerAbility(ability, event) { // eslint-disable-line no-unused-vars
+        
+    }
 }
 
 module.exports = BaseAbilityWindow;

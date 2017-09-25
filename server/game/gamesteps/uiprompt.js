@@ -25,7 +25,7 @@ class UiPrompt extends BaseStep {
         });
     }
 
-    activeCondition() {
+    activeCondition(player) { // eslint-disable-line no-unused-vars
         return true;
     }
 

@@ -36,6 +36,8 @@ class SetupProvincesPrompt extends AllPlayerPrompt {
 
         player.setupprovinces = true;
         this.game.addMessage('{0} has finished placing provinces', player);
+        
+        return true;
     }
 }
 

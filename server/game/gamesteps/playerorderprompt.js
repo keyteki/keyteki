@@ -24,7 +24,7 @@ class PlayerOrderPrompt extends UiPrompt {
         this.players = _.reject(this.players, p => this.skipCondition(p));
     }
 
-    skipCondition() {
+    skipCondition(player) { // eslint-disable-line no-unused-vars
         return false;
     }
 
