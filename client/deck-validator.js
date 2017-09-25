@@ -59,8 +59,17 @@ module.exports = function validateDeck(deck, packs) { // eslint-disable-line no-
     var airCount = 0;
     var earthCount = 0;
     var fireCount = 0;
-    var waterCount = 0;
     var voidCount = 0;
+    var waterCount = 0;
+    let provinceMax = {
+        air: 1,
+        earth: 1,
+        fire: 1,
+        void: 1,
+        water: 1
+    };
+    let roleType = undefined;
+    let roleElement = undefined;
     var isValid = true;
 
     if(_.any(deck.stronghold, card => {
@@ -126,32 +135,42 @@ module.exports = function validateDeck(deck, packs) { // eslint-disable-line no-
         }
     });
 
-    if(airCount > 1) {
+    if(deck.role) {
+        let roleIdArray = deck.role['0'].card.id.split('-');
+        roleType = roleIdArray[0];
+        roleElement = roleIdArray[2];
+
+        if(roleType === 'seeker') {
+            provinceMax[roleElement] = 2;
+        }
+    }
+
+    if(airCount > provinceMax['air']) {
         extendedStatus.push('Too many air provinces');
         status = 'Invalid';
         isValid = false;
     }
 
-    if(earthCount > 1) {
+    if(earthCount > provinceMax['earth']) {
         extendedStatus.push('Too many earth provinces');
         status = 'Invalid';
         isValid = false;
     }
 
-    if(fireCount > 1) {
+    if(fireCount > provinceMax['fire']) {
         extendedStatus.push('Too many fire provinces');
         status = 'Invalid';
         isValid = false;
     }
 
-    if(waterCount > 1) {
-        extendedStatus.push('Too many water provinces');
+    if(voidCount > provinceMax['void']) {
+        extendedStatus.push('Too many void provinces');
         status = 'Invalid';
         isValid = false;
     }
 
-    if(voidCount > 1) {
-        extendedStatus.push('Too many void provinces');
+    if(waterCount > provinceMax['water']) {
+        extendedStatus.push('Too many water provinces');
         status = 'Invalid';
         isValid = false;
     }
@@ -197,7 +216,11 @@ module.exports = function validateDeck(deck, packs) { // eslint-disable-line no-
     }
 
     if(stronghold) {
+        let influenceMax = stronghold.card.influence_pool;
 
+        if(roleType === 'keeper') {
+            influenceMax = influenceMax + 3;
+        }
         //Total up influence count
         _.each(deck.conflictCards, card => {
             if(card.card.clan === deck.alliance.value) {
@@ -205,7 +228,7 @@ module.exports = function validateDeck(deck, packs) { // eslint-disable-line no-
             }
         });
 
-        if(influenceTotal > stronghold.influence) {
+        if(influenceTotal > influenceMax) {
             extendedStatus.push('Not enough influence');
             status = 'Invalid';
             isValid = false;
