@@ -5,6 +5,15 @@
   vertical-align: middle;
 }
 
+.generate-wrappers(@n, @i: 1) when (@i =< @n) {
+  .wrapper-@{i} {
+    margin-left: @attachment-offset*@i;
+  }
+  .generate-wrappers(@n, (@i + 1));
+}
+
+.generate-wrappers(10, 1);
+
 .card-frame {
   position: relative;
 }
