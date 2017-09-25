@@ -115,7 +115,7 @@ class BaseCard {
         this.eventsForRegistration = events;
     }
 
-    setupCardAbilities() { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
     }
 
     provinceModifiers(modifiers) {
