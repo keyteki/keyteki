@@ -2,7 +2,7 @@ const BaseAbility = require('./baseability.js');
 
 class DuplicateUniqueAction extends BaseAbility {
     constructor() {
-        super([]);
+        super({ cost: null });
         this.title = 'DuplicateUniqueAction';
     }
 

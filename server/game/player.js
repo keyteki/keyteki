@@ -39,7 +39,6 @@ class Player extends Spectator {
         //Phase Values
         this.takenDynastyMulligan = false;
         this.takenConflictMulligan = false;
-        this.dynastyStep;
         this.passedDynasty = false;
         this.honorBid = 0;
         this.showBid = 0;
@@ -293,15 +292,15 @@ class Player extends Spectator {
     }
 
     searchDynastyDeck(limit, predicate) {
-        var cards = this.dynastyDrawDeck;
+        var cards = this.dynastyDeck;
 
         if(_.isFunction(limit)) {
             predicate = limit;
         } else {
             if(limit > 0) {
-                cards = _(this.dynastyDrawDeck.first(limit));
+                cards = _(this.dynastyDeck.first(limit));
             } else {
-                cards = _(this.dynastyDrawDeck.last(-limit));
+                cards = _(this.dynastyDeck.last(-limit));
             }
         }
 
@@ -359,14 +358,6 @@ class Player extends Spectator {
     canInitiateConflict(conflictType) {
         return (!this.conflicts.isAtMax(conflictType) && 
                 this.conflicts.conflictOpportunities > 0);
-    }
-
-    canSelectAsFirstPlayer(player) {
-        if(this.firstPlayerSelectCondition) {
-            return this.firstPlayerSelectCondition(player);
-        }
-
-        return true;
     }
 
     addConflict(type, number) {
@@ -554,10 +545,6 @@ class Player extends Spectator {
                 && c !== card
             ));
         });
-    }
-
-    canResurrect(card) {
-        return this.deadPile.includes(card) && (!card.isUnique() || this.deadPile.filter(c => c.name === card.name).length === 1);
     }
 
     putIntoPlay(card, playingType = 'play') {
@@ -915,17 +902,9 @@ class Player extends Spectator {
     }
 
 
-    returnCardToHand(card, allowSave = true) {
+    returnCardToHand(card) {
         this.game.applyGameAction('returnToHand', card, card => {
-            if(!card.dupes.isEmpty() && allowSave) {
-                if(!this.removeDuplicate(card)) {
-                    this.moveCard(card, 'hand');
-                } else {
-                    this.game.addMessage('{0} discards a duplicate to save {1}', this, card);
-                }
-            } else {
-                this.moveCard(card, 'hand');
-            }
+            this.moveCard(card, 'hand');
         });
     }
 
@@ -984,9 +963,9 @@ class Player extends Spectator {
         this.stronghold.bowed = false;
     }
 
-    removeAttachment(attachment) {
+    removeAttachment(attachment, parentLeftPlay = false) {
 
-        if(attachment.isAncestral()) {
+        if(attachment.isAncestral() && parentLeftPlay) {
             attachment.owner.moveCard(attachment, 'hand');
         } else {
             attachment.owner.moveCard(attachment, 'conflict discard pile');
@@ -1340,7 +1319,6 @@ class Player extends Spectator {
             numDynastyCards: this.dynastyDeck.size(),
             name: this.name,
             numProvinceCards: this.provinceDeck.size(),
-            phase: this.phase,
             provinceDeck: this.getSummaryForCardList(this.provinceDeck, activePlayer, true),
             provinces: {
                 one: this.getSummaryForCardList(this.provinceOne, activePlayer, !this.takenDynastyMulligan),

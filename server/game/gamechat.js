@@ -53,7 +53,7 @@ class GameChat {
                     if(_.isArray(arg)) {
                         return this.formatArray(arg);
                     } else if(arg instanceof BaseCard) {
-                        return { code: arg.code, label: arg.name, type: arg.getType() };
+                        return { code: arg.id, label: arg.name, type: arg.getType() };
                     } else if(arg instanceof Spectator) {
                         return { name: arg.user.username, emailHash: arg.user.emailHash, noAvatar: arg.user.settings.disableGravatar };
                     }

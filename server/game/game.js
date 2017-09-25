@@ -47,6 +47,8 @@ class Game extends EventEmitter {
         this.createdAt = new Date();
         this.savedGameId = details.savedGameId;
         this.gameType = details.gameType;
+        this.currentActionWindow = null;
+        this.currentConflict = null;
         this.abilityCardStack = [];
         this.abilityWindowStack = [];
         this.password = details.password;

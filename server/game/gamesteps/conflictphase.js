@@ -82,7 +82,7 @@ class ConflictPhase extends Phase {
         if(otherPlayer) {
             if(this.currentPlayer.totalGloryForFavor === otherPlayer.totalGloryForFavor) {
                 this.game.addMessage('Both players are tied in glory at {0}.  The imperial favor remains in its current state', this.currentPlayer.totalGloryForFavor);
-                this.game.raiseEvent('onFavorGloryTied', this.conflict);
+                this.game.raiseEvent('onFavorGloryTied');
                 return;
             } else if(this.currentPlayer.totalGloryForFavor < otherPlayer.totalGloryForFavor) {
                 winner = otherPlayer;

@@ -34,7 +34,7 @@ class ConflictEvent extends DrawCard {
             return false;
         }
 
-        return super.canPlay(player, card);
+        return super.canPlay();
     }
 
 }

@@ -1,0 +1,20 @@
+{
+  "include": [
+    "server/**/*"
+  ],
+  "compilerOptions": {
+    "module": "es6",
+    "moduleResolution": "node",
+    "target": "es6",
+    "sourceMap": true,
+    "outDir": "build",
+    "allowJs": true,
+    "checkJs": true,
+    "lib": [
+      "es2016"
+    ]
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

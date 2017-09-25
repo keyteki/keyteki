@@ -271,7 +271,7 @@ class ChatCommands {
     reveal(player) {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a card',
-            cardCondition: card => card.facedown & card.controller === player,
+            cardCondition: card => card.facedown && card.controller === player,
             onSelect: (player, card) => {
                 card.facedown = false;
                 this.game.addMessage('{0} reveals {1}', player, card);

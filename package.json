@@ -78,6 +78,7 @@
     "zmq": "^2.15.3"
   },
   "devDependencies": {
+    "@types/node": "^6.0.0",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
@@ -110,6 +111,8 @@
     "redux-devtools-dock-monitor": "^1.1.2",
     "redux-devtools-log-monitor": "^1.3.0",
     "style-loader": "^0.18.2",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.5.2",
     "url-loader": "^0.5.9",
     "webpack": "^2.7.0",
     "webpack-dev-middleware": "^1.11.0",

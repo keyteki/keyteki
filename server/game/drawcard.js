@@ -22,6 +22,7 @@ class DrawCard extends BaseCard {
         super(owner, cardData);
 
         this.attachments = _([]);
+        this.parent = null;
 
         this.militarySkillModifier = 0;
         this.politicalSkillModifier = 0;
@@ -29,6 +30,7 @@ class DrawCard extends BaseCard {
         this.glory = cardData.glory;
         this.contributesToFavor = true;
         this.bowed = false;
+        this.saved = false;
         this.inConflict = false;
         this.isConflict = false;
         this.isDynasty = false;
@@ -266,6 +268,23 @@ class DrawCard extends BaseCard {
     }
 
     /**
+     * Applies an effect with the specified properties while the current card is
+     * attached to another card. By default the effect will target the parent
+     * card, but you can provide a match function to narrow down whether the
+     * effect is applied (for cases where the effect only applies to specific
+     * characters).
+     */
+    whileAttached(properties) {
+        this.persistentEffect({
+            condition: properties.condition,
+            match: (card, context) => card === this.parent && (!properties.match || properties.match(card, context)),
+            targetController: 'any',
+            effect: properties.effect,
+            recalculateWhen: properties.recalculateWhen
+        });
+    }
+
+    /**
      * Checks whether the passed card meets the attachment restrictions (e.g.
      * Opponent cards only, specific factions, etc) for this card.
      */
@@ -367,6 +386,7 @@ class DrawCard extends BaseCard {
             bowed: this.bowed,
             saved: this.saved,
             fate: this.fate,
+            new: this.new,
             stealth: this.stealth,
             militaryskill: this.getMilitarySkill(),
             politicalskill: this.getPoliticalSkill()

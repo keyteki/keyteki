@@ -43,25 +43,25 @@ class Conflict {
 
     addAttackers(attackers) {
         this.attackers = this.attackers.concat(attackers);
-        this.markAsParticipating(attackers, 'attacker');
+        this.markAsParticipating(attackers);
         this.calculateSkill();
     }
 
     addAttacker(attacker) {
         this.attackers.push(attacker);
-        this.markAsParticipating([attacker], 'attacker');
+        this.markAsParticipating([attacker]);
         this.calculateSkill();
     }
 
     addDefenders(defenders) {
         this.defenders = this.defenders.concat(defenders);
-        this.markAsParticipating(defenders, 'defender');
+        this.markAsParticipating(defenders);
         this.calculateSkill();
     }
 
     addDefender(defender) {
         this.defenders.push(defender);
-        this.markAsParticipating([defender], 'defender');
+        this.markAsParticipating([defender]);
         this.calculateSkill();
     }
 
