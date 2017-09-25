@@ -37,9 +37,7 @@ class DynastyCardAction extends BaseAbility {
         
         context.source.fate = additionalFate;
         context.player.putIntoPlay(context.source, 'dynasty');
-        if(['province 1', 'province 2', 'province 3', 'province 4'].includes(location)) {
-            context.player.moveCard(context.player.dynastyDeck.first(), location);
-        }
+        context.player.replaceDynastyCard(location);
         
         context.game.addMessage('{0} plays {1} with {2} additional fate', context.player, context.source.name, additionalFate);
     }

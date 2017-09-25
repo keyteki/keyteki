@@ -41,8 +41,7 @@ class Player extends Spectator {
         this.takenConflictMulligan = false;
         this.dynastyStep;
         this.passedDynasty = false;
-        this.drawBid = 0;
-        this.duelBid = 0;
+        this.honorBid = 0;
         this.showBid = 0;
         this.imperialFavor = '';
         this.totalGloryForFavor = 0;
@@ -237,7 +236,10 @@ class Player extends Spectator {
     }
 
     drawCardsToHand(numCards) {
+        let remainingCards = 0;
+        
         if(numCards > this.conflictDeck.size()) {
+            remainingCards = numCards - this.conflictDeck.size();
             numCards = this.conflictDeck.size();
         }
 
@@ -250,11 +252,28 @@ class Player extends Spectator {
             this.game.raiseEvent('onCardsDrawn', { cards: cards, player: this });
         }
 
-        if(this.conflictDeck.size() === 0) {
-            this.game.playerDecked(this);
+        if(remainingCards > 0) {
+            this.deckRanOutOfCards('conflict');
+            let moreCards = this.conflictDeck.first(remainingCards);
+            _.each(moreCards, card => this.moveCard(card, 'hand'));
+            cards = _.extend(cards, moreCards);
         }
 
         return (cards.length > 1) ? cards : cards[0];
+    }
+    
+    deckRanOutOfCards(deck) {
+        this.game.addMessage('{0}\'s {1} deck has run out of cards and is being reshuffled. {0} loses 5 honor', this, deck);
+        _.each(this.getSourceList(deck + ' discard pile')._wrapped, card => this.moveCard(card, deck + ' deck'));
+        _.shuffle(this.getSourceList(deck + ' deck'));
+        this.game.addHonor(this, -5);
+    }
+
+    replaceDynastyCard(location) {
+        if(this.dynastyDeck.size() === 0) {
+            this.deckRanOutOfCards('dynasty');
+        }
+        this.moveCard(this.dynastyDeck.first(), location);        
     }
 
     searchConflictDeck(limit, predicate) {
@@ -367,12 +386,10 @@ class Player extends Spectator {
     }
 
     initConflictDeck() {
-        this.hand.each(card => {
-            card.moveTo('conflict deck');
-            this.conflictDeck.push(card);
-        });
-        this.hand = _([]);
         this.shuffleConflictDeck();
+    }
+    
+    drawStartingHand() {
         this.drawCardsToHand(StartingHandSize);
     }
 
@@ -582,7 +599,7 @@ class Player extends Spectator {
     }
 
     drawPhase() {
-        this.drawPhaseCards = this.drawBid;
+        this.drawPhaseCards = this.honorBid;
         this.game.addMessage('{0} draws {1} cards for the draw phase', this, this.drawPhaseCards);
         this.drawCardsToHand(this.drawPhaseCards);
     }
@@ -608,7 +625,6 @@ class Player extends Spectator {
         this.game.raiseEvent('onIncomeCollected', { player: this });
 
         this.passedDynasty = false;
-        this.drawBid = 0;
         this.limitedPlayed = 0;
     }
 
@@ -950,7 +966,7 @@ class Player extends Spectator {
     }
 
     getClaimedRings() {
-        return _.filter(this.game.rings, ring => ring.claimedby === this.name);
+        return _.filter(this.game.rings, ring => ring.claimedBy === this.name);
     }
  
     claimImperialFavor(conflictType) {
@@ -1171,8 +1187,9 @@ class Player extends Spectator {
         this.passedDynasty = true;
     }
 
-    setDrawBid(bid) {
-        this.drawBid = bid;
+    setShowBid() {
+        this.showBid = this.honorBid;
+        this.game.addMessage('{0} reveals a bid of {1}', this, this.showBid);
     }
     
     playCharacterWithFate(card, fate, inConflict = false) {

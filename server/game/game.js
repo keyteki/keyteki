@@ -420,17 +420,6 @@ class Game extends EventEmitter {
 
     }
 
-    playerDecked(/* player */) {
-        // TODO: Fix this so honor is lost and we reshuffle and draw
-        // let otherPlayer = this.getOtherPlayer(player);
-        //
-        // this.addMessage('{0} loses the game because their draw deck is empty', player);
-        //
-        // if(otherPlayer) {
-        //     this.recordWinner(otherPlayer, 'decked');
-        // }
-    }
-
     recordWinner(winner, reason) {
         if(this.winner) {
             return;
@@ -748,6 +737,25 @@ class Game extends EventEmitter {
         });
     }
 
+    tradeHonorAfterBid() {
+        var honorDifference = 0;
+        var remainingPlayers = this.getPlayersInFirstPlayerOrder();
+        let currentPlayer = remainingPlayers.shift();
+        if(remainingPlayers.length > 0) {
+
+            var otherPlayer = remainingPlayers.shift();
+            if(currentPlayer.honorBid > otherPlayer.honorBid) {
+                honorDifference = currentPlayer.honorBid - otherPlayer.honorBid;
+                this.transferHonor(currentPlayer, otherPlayer, honorDifference);
+                this.addMessage('{0} gives {1} {2} honor', currentPlayer, otherPlayer, honorDifference);
+            } else if(otherPlayer.honorBid > currentPlayer.honorBid) {
+                honorDifference = otherPlayer.honorBid - currentPlayer.honorBid;
+                this.transferHonor(otherPlayer, currentPlayer, honorDifference);
+                this.addMessage('{0} gives {1} {2} honor', otherPlayer, currentPlayer, honorDifference);
+            }
+        }
+    }
+    
     takeControl(player, card) {
         var oldController = card.controller;
         var newController = player;

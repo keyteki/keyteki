@@ -28,7 +28,7 @@ class DuplicateUniqueAction extends BaseAbility {
         let location = context.source.location;
         context.player.discardCard(context.source);
         if(['province 1', 'province 2', 'province 3', 'province 4'].includes(location)) {
-            context.player.moveCard(context.player.dynastyDeck.first(), location);
+            context.player.replaceDynastyCard(location);
         }
         
         context.game.addMessage('{0} discards a duplicate to add 1 fate to {1}', context.player, context.source.name);
