@@ -1263,7 +1263,7 @@ class Player extends Spectator {
         if(choice === 'Gain 2 Honor') {
             this.game.addHonor(this, 2);
         } else {
-            if (this.game.getOtherPlayer(this)) {
+            if(this.game.getOtherPlayer(this)) {
                 this.game.transferHonor(this.game.getOtherPlayer(this), this, 1);
             } else {
                 this.game.addHonor(this, 1);
