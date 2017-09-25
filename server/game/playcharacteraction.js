@@ -54,6 +54,7 @@ class PlayCharacterAction extends BaseAbility {
             inConflict = true;
         }
         player.playCharacterWithFate(this.card, this.cost[0].fate, inConflict);
+        return true;
     }
 
     isCardAbility() {
