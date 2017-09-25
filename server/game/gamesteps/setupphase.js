@@ -16,8 +16,7 @@ class SetupPhase extends Phase {
             new SimpleStep(game, () => this.fillProvinces()),
             new SimpleStep(game, () => this.doDynastyMulligan()),
             new SimpleStep(game, () => this.doConflictMulligan()),
-            new SimpleStep(game, () => this.startGame()),
-            new SimpleStep(game, () => this.setupDone())
+            new SimpleStep(game, () => this.startGame())
         ]);
     }
 
@@ -71,12 +70,6 @@ class SetupPhase extends Phase {
     startGame() {
         _.each(this.game.getPlayers(), player => {
             player.startGame();
-        });
-    }
-
-    setupDone() {
-        _.each(this.game.getPlayers(), p => {
-            p.setupDone();
         });
     }
 }

@@ -19,6 +19,7 @@ class Conflict {
         this.attackerSkillModifier = 0;
         this.defenders = [];
         this.defenderSkill = 0;
+        this.maxAllowedDefenders = 0;
         this.defenderSkillModifier = 0;
         this.provinceRevealedDuringConflict = false;
         this.events = new EventRegistrar(game, this);
