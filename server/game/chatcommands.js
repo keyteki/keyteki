@@ -348,7 +348,7 @@ class ChatCommands {
         if(_.contains(['air','earth','fire','void','water'], ringElement)) {
             let ring = this.game.rings[ringElement];
 
-            ring.claimRing(player.user.username);
+            ring.claimRing(player);
             this.game.addMessage('{0} uses the /claim-ring command to claim the ring of {1}', player, ringElement);
         }
 

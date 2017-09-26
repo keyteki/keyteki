@@ -8,7 +8,7 @@ class HonorBidPrompt extends AllPlayerPrompt {
         this.menuTitle = menuTitle || 'Choose a bid';
         _.each(game.getPlayers(), player => {
             player.honorBid = 0;
-            player.setShowBid();
+            player.showBid = 0;
         });
     }
     
