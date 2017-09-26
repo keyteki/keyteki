@@ -154,8 +154,8 @@ class DrawCard extends BaseCard {
          * @param  {boolean} printed - Use the printed value of the skill; default false
          * @return {integer} The military skill value
          */
-        if(this.controller.phase === 'setup' || printed) {
-            return this.cardData.military || undefined;
+        if(printed) {
+            return this.cardData.military;
         }
 
         if(this.cardData.military !== null && this.cardData.military !== undefined) {
@@ -173,8 +173,8 @@ class DrawCard extends BaseCard {
          * @param  {boolean} printed - Use the printed value of the skill; default false
          * @return {integer} The political skill value
          */
-        if(this.controller.phase === 'setup' || printed) {
-            return this.cardData.political || undefined;
+        if(printed) {
+            return this.cardData.military;
         }
 
         if(this.cardData.political !== null && this.cardData.political !== undefined) {
