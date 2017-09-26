@@ -679,7 +679,7 @@ class Player extends Spectator {
     }
 
     isValidDropCombination(card, source, target) {
-        if (!card) {
+        if(!card) {
             return false;
         }
         
