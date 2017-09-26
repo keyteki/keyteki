@@ -135,7 +135,7 @@ module.exports = function validateDeck(deck, packs) { // eslint-disable-line no-
         }
     });
 
-    if(deck.role) {
+    if(deck.role && deck.role['0'] && deck.role['0'].card) {
         let roleIdArray = deck.role['0'].card.id.split('-');
         roleType = roleIdArray[0];
         roleElement = roleIdArray[2];
