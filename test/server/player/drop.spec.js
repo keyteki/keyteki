@@ -19,6 +19,7 @@ describe('Player', () => {
             this.cardSpy.controller = this.cardSpy.owner = this.player;
             this.cardSpy.attachments = _([]);
             this.cardSpy.dupes = _([]);
+            this.cardSpy.isProvince = false;
         });
 
         describe('when dragging a card from hand to play area', function() {
