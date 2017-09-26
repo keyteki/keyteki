@@ -679,6 +679,10 @@ class Player extends Spectator {
     }
 
     isValidDropCombination(card, source, target) {
+        if (!card) {
+            return false;
+        }
+        
         let provinceLocations = ['stronghold province', 'province 1', 'province 2', 'province 3', 'province 4'];
         
         if(card.isProvince && target !== 'province deck') {
