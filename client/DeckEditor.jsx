@@ -11,6 +11,8 @@ import TextArea from './FormComponents/TextArea.jsx';
 
 import * as actions from './actions';
 
+const noop = () => {}; 
+
 class InnerDeckEditor extends React.Component {
     constructor(props) {
         super(props);
@@ -148,28 +150,6 @@ class InnerDeckEditor extends React.Component {
         let deck = this.state.deck;
         let split = event.target.value.split('\n');
 
-        let headerMark = _.findIndex(split, line => line.match(/^Packs:/));
-        if(headerMark >= 0) { // FiveringssDB-style deck header found
-            // extract deck title, faction, agenda, and banners
-            let header = _.filter(_.first(split, headerMark), line => line !== '');
-            split = _.rest(split, headerMark);
-
-            if(header.length >= 2) {
-                deck.name = header[0];
-
-                let faction = _.find(this.props.factions, faction => faction.name === header[1].trim());
-                if(faction) {
-                    deck.faction = faction;
-                }
-
-                let alliance = _.find(this.props.factions, faction => faction.name === header[2].trim());
-                if(alliance) {
-                    deck.alliance = alliance;
-                }
-
-            }
-        }
-
         deck.stronghold = [];
         deck.role = [];
         deck.provinceCards = [];
@@ -211,7 +191,7 @@ class InnerDeckEditor extends React.Component {
 
         deck = this.copyDeck(deck);
 
-        this.setState({ cardList: event.target.value, deck: deck, showAlliance: deck.alliance }); // Alliance
+        this.setState({ cardList: event.target.value, deck: deck }); // Alliance
         this.props.updateDeck(deck);
     }
 
@@ -287,7 +267,11 @@ class InnerDeckEditor extends React.Component {
             let deck = this.copyDeck(this.state.deck);
 
             deck.name = deckName;
-            deck.faction = this.props.factions[deckClan];
+            if(deckClan) {
+                deck.faction = this.props.factions[deckClan];
+            } else {
+                deck.faction = this.props.factions['crab'];
+            }
 
             _.each(deckList, (count, card) => {
                 cardList += count + ' ' + this.props.cards[card].name + '\n';
@@ -297,17 +281,68 @@ class InnerDeckEditor extends React.Component {
                 }
             });
 
-            this.setState({ cardList: cardList });
+            //Duplicate onCardListChange to get this working correctly
+            let split = cardList.split('\n');
+            _.each(split, line => {
+                line = line.trim();
+                let index = 2;
 
-            let event = { 
-                target: {
-                    value: cardList
+                if(!$.isNumeric(line[0])) {
+                    return;
                 }
-            };
 
-            this.onCardListChange(event);
+                let num = parseInt(line[0]);
+                if(line[1] === 'x') {
+                    index++;
+                }
 
-            this.setState({ deck: deck, showAlliance: deck.alliance });
+                let packOffset = line.indexOf('(');
+                let cardName = line.substr(index, packOffset === -1 ? line.length : packOffset - index - 1);
+                let packName = line.substr(packOffset + 1, line.length - packOffset - 2);
+
+                let pack = _.find(this.props.packs, function(pack) {
+                    return pack.id.toLowerCase() === packName.toLowerCase() || pack.name.toLowerCase() === packName.toLowerCase();
+                });
+
+                let card = _.find(this.props.cards, function(card) {
+                    if(pack) {
+                        return card.name.toLowerCase() === cardName.toLowerCase() || card.name.toLowerCase() === (cardName + ' (' + pack.id + ')').toLowerCase();
+                    }
+                    return card.name.toLowerCase() === cardName.toLowerCase();
+                });
+
+                if(card) {
+                    //Duplicate addCard as well
+                    let provinces = deck.provinceCards;
+                    let stronghold = deck.stronghold;
+                    let role = deck.role;
+                    let conflict = deck.conflictCards;
+                    let dynasty = deck.dynastyCards;
+
+                    let list;
+
+                    if(card.type === 'province') {
+                        list = provinces;
+                    } else if(card.side === 'dynasty') {
+                        list = dynasty;
+                    } else if(card.side === 'conflict') {
+                        list = conflict;
+                    } else if(card.type === 'stronghold') {
+                        list = stronghold;
+                    } else {
+                        list = role;
+                    }
+
+                    if(list[card.id]) {
+                        list[card.id].count += num;
+                    } else {
+                        list.push({ count: num, card: card });
+                    }
+                }
+            });
+
+            
+            this.setState({cardList: cardList, deck: deck, showAlliance: deck.alliance });
             this.props.updateDeck(deck);
 
         }
