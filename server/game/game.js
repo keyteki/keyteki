@@ -215,7 +215,7 @@ class Game extends EventEmitter {
             this.addMessage('{0} {1} {2}', player, card.bowed ? 'bows' : 'readies', card);
         }
         
-        if(!card.facedown && card.isProvince && card.controller === player) {
+        if(!card.facedown && card.isProvince && card.controller === player && this.currentPhase === 'conflict') {
             if(card.isBroken) {
                 card.isBroken = false;
             } else {

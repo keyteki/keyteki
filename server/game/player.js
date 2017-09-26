@@ -678,12 +678,16 @@ class Player extends Spectator {
         this.showDynasty = true;
     }
 
-    isValidDropCombination(source, target) {
-        if(source === 'province deck' && !_.isEmpty(_.intersection(['stronghold province', 'province 1', 'province 2', 'province 3', 'province 4'], target))) {
-            return false;
+    isValidDropCombination(card, source, target) {
+        let provinceLocations = ['stronghold province', 'province 1', 'province 2', 'province 3', 'province 4'];
+        
+        if(card.isProvince && target !== 'province deck') {
+            if(!provinceLocations.includes(target) || _.any(this.getSourceList(target)._wrapped, card => card.isProvince)) {
+                return false;
+            }
         }
-
-        if(target === 'province deck' && !_.isEmpty(_.intersection(['stronghold province', 'province 1', 'province 2', 'province 3', 'province 4'], source))) {
+    
+        if(target === 'province deck' && !card.isProvince) {
             return false;
         }
 
@@ -773,12 +777,13 @@ class Player extends Spectator {
     }
 
     drop(cardId, source, target) {
-        if(!this.isValidDropCombination(source, target)) {
+        var sourceList = this.getSourceList(source);
+        var card = this.findCardByUuid(sourceList, cardId);
+        
+        if(!this.isValidDropCombination(card, source, target)) {
             return false;
         }
 
-        var sourceList = this.getSourceList(source);
-        var card = this.findCardByUuid(sourceList, cardId);
 
         if(!card) {
             if(source === 'play area') {
@@ -982,7 +987,6 @@ class Player extends Spectator {
     }
 
     moveCard(card, targetLocation, options = {}) {
-
         this.removeCardFromPile(card);
 
         var targetPile = this.getSourceList(targetLocation);
