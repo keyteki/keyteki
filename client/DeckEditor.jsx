@@ -11,8 +11,6 @@ import TextArea from './FormComponents/TextArea.jsx';
 
 import * as actions from './actions';
 
-const noop = () => {}; 
-
 class InnerDeckEditor extends React.Component {
     constructor(props) {
         super(props);
