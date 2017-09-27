@@ -927,7 +927,7 @@ class Player extends Spectator {
     getFavor() {
         var cardGlory = this.cardsInPlay.reduce((memo, card) => {
             if(!card.bowed && card.getType() === 'character' && card.contributesToFavor) {
-                return memo + card.glory;
+                return memo + card.getGlory();
             }
 
             return memo;
