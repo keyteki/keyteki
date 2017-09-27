@@ -38,7 +38,11 @@ Check out the [About page](https://jigoku.online/about)  of a Ringteki live depl
 
 ## Development
 
-The game uses mongodb as storage so you'll need that installed and running.
+#### Required Software
+Git
+Node.js 8
+MongoDB
+ZeroMQ Libraries
 
 ```
 Clone the repository
