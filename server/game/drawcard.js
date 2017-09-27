@@ -289,7 +289,7 @@ class DrawCard extends BaseCard {
      * Opponent cards only, specific factions, etc) for this card.
      */
     canAttach(player, card) {
-        return card && this.getType() === 'attachment';
+        return card && card.getType() === 'character' && this.getType() === 'attachment';
     }
 
     getPlayActions() {
