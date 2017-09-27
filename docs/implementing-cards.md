@@ -88,7 +88,6 @@ this.persistentEffect({
 
 Some effects have a 'when', 'while' or 'if' clause within their text. These cards can be implemented by passing a `condition` function into the persistent effect declaration. The effect will only be applied when the function returns `true`. If the function returns `false` later on, the effect will be automatically unapplied from the cards it matched.
 
-TODO
 ```javascript
 // During a conflict in which this character is participating, each other participating Lion character you control gets +1M.
 this.persistentEffect({
@@ -393,9 +392,6 @@ this.action({
 });
 ```
 
-#### Opponent's choices
-TODO: 
-
 #### Cancelling an action
 
 If after checking play requirements and paying costs an action needs to be cancelled for some reason, simply return `false` from the handler. **Note**: This should be very rare.
@@ -503,7 +499,6 @@ this.forcedReaction({
 
 To declare a forced interrupt, use the `forcedInterrupt` method.
 
-TODO: Steadfast Samurai?
 ```javascript
 // After the fate phase begins, if you have at least 5 more honor than an opponent – this character cannot be discarded or lose fate this phase.
 this.forcedInterrupt({
