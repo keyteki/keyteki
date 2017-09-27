@@ -1,6 +1,6 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {toastr} from 'react-redux-toastr';
+import { connect } from 'react-redux';
+import { toastr } from 'react-redux-toastr';
 import _ from 'underscore';
 
 import Avatar from './Avatar.jsx';
@@ -149,4 +149,3 @@ function mapStateToProps(state) {
 const GameList = connect(mapStateToProps, actions)(InnerGameList);
 
 export default GameList;
-
