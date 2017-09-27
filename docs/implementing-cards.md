@@ -335,7 +335,7 @@ Cards that specify to 'choose' or otherwise target a specific card can be implem
 this.action({
 	title: 'Sacrifice to discard an attachment'
 	target: {
-		activePromptTitle: 'Select an attachment',
+		activePromptTitle: 'Choose an attachment',
 		cardType: 'attachment',
 		cardCondition: card => card.location === 'play area'
 	},
@@ -362,11 +362,11 @@ this.action({
     title: 'Kneel this card to modify the strength of two characters',
     targets: {
         toLower: {
-            activePromptTitle: 'Select a character to get -1 STR',
+            activePromptTitle: 'Choose a character to get -1 STR',
             cardCondition: card => this.cardCondition(card)
         },
         toRaise: {
-            activePromptTitle: 'Select a character to get +1 STR',
+            activePromptTitle: 'Choose a character to get +1 STR',
             cardCondition: card => this.cardCondition(card)
         }
     },
@@ -543,7 +543,7 @@ this.interrupt({
     },
     handler: context => {
         context.skipHandler();
-        // prompt the player to select a character to honor or dishonor
+        // prompt the player to choose a character to honor or dishonor
     }
 });
 ```
@@ -713,24 +713,24 @@ All game messages should use present tense.
 * **Good**: Player1 uses Isawa Masahiro to discard Miya Mystic
 * **Good**: Player1 kills Miya Mystic
 
-#### Targeting prompts should use the format "Select a \<card type\>" where possible.
+#### Targeting prompts should use the format "Choose a \<card type\>" where possible.
 
-Targeting prompts should ask the player to select a card or a card of particular type to keep prompt titles relatively short, without specifying the final goal of card selection.
+Targeting prompts should ask the player to choose a card or a card of particular type to keep prompt titles relatively short, without specifying the final goal of card selection.
 
-* **Bad**: Select a character to return to hand
-* **Good**: Select a character
+* **Bad**: Choose a character to return to hand
+* **Good**: Choose a character
 
-**Exception:** If a card requires the player to select multiple cards, such as Shameful Display, you can add context about which one they should be selecting. Just keep it as short as reasonably possible.
+**Exception:** If a card requires the player to choose multiple cards, such as Shameful Display, you can add context about which one they should be selecting. Just keep it as short as reasonably possible.
 
 As valid selections are already presented to the user via visual clues, targeting prompts should not repeat selection rules in excessive details. Specifying nothing more and nothing less than the eligible card type (if any) is the good middle ground.
 
-* **Bad**: Select a Bushi
-* **Good**: Select a character
+* **Bad**: Choose a Bushi
+* **Good**: Choose a character
 
-* **Bad**: Select a defending Crab character
-* **Good**: Select a character
+* **Bad**: Choose a defending Crab character
+* **Good**: Choose a character
 
-* **Bad**: Select a card from your discard pile
-* **Good**: Select a card
+* **Bad**: Choose a card from your discard pile
+* **Good**: Choose a card
 
-* **Good**: Select an attachment or location
+* **Good**: Choose an attachment or location
