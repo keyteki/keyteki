@@ -42,7 +42,7 @@
     "express-session": "^1.15.4",
     "helmet": "^3.8.1",
     "jquery": "^3.1.0",
-    "jquery-migrate": "^3.0.0",
+    "jquery-migrate": "3.0.0",
     "jquery-nearest": "^1.4.0",
     "jsonwebtoken": "^7.4.1",
     "karma-webpack": "^2.0.4",
