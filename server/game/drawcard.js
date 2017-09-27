@@ -107,8 +107,8 @@ class DrawCard extends BaseCard {
 
     modifyGlory(amount, applying = true) {
         /**
-         * Modify the military skill.
-         * @param  {integer} amount - The amount to modify the skill by.
+         * Modify glory.
+         * @param  {integer} amount - The amount to modify glory by.
          * @param  {boolean}  applying -  [description]
          */
         this.gloryModifier += amount;
