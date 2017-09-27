@@ -39,13 +39,10 @@ Check out the [About page](https://jigoku.online/about)  of a Ringteki live depl
 ## Development
 
 #### Required Software
-Git
-
-Node.js 8
-
-MongoDB
-
-ZeroMQ Libraries
+* Git
+* Node.js 8
+* MongoDB
+* ZeroMQ Libraries
 
 ```
 Clone the repository
