@@ -15,7 +15,7 @@ class InnerNewGame extends React.Component {
 
         this.state = {
             spectators: true,
-            selectedGameFormat: 'joust',
+            selectedGameFormat: 'duel',
             selectedGameType: 'casual',
             password: ''
         };
@@ -67,30 +67,6 @@ class InnerNewGame extends React.Component {
         return this.state.selectedGameType === gameType;
     }
 
-    getMeleeOptions() {
-        if(!this.props.allowMelee) {
-            return;
-        }
-
-        return (
-            <div className='row'>
-                <div className='col-sm-12'>
-                    <b>Game Format</b>
-                </div>
-                <div className='col-sm-10'>
-                    <label className='radio-inline'>
-                        <input type='radio' onChange={ this.onGameFormatChange.bind(this, 'joust') } checked={ this.state.selectedGameFormat === 'joust' } />
-                        Joust
-                    </label>
-                    <label className='radio-inline'>
-                        <input type='radio' onChange={ this.onGameFormatChange.bind(this, 'melee') } checked={ this.state.selectedGameFormat === 'melee' } />
-                        Melee
-                    </label>
-                </div>
-            </div>
-        );
-    }
-
     render() {
         let charsLeft = 140 - this.state.gameName.length;
         return this.props.socket ? (
@@ -115,7 +91,6 @@ class InnerNewGame extends React.Component {
                                 </label>
                             </div>
                         </div>
-                        { this.getMeleeOptions() }
                         <div className='row'>
                             <div className='col-sm-12'>
                                 <b>Game Type</b>
