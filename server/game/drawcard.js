@@ -134,7 +134,7 @@ class DrawCard extends BaseCard {
     }
     
     getGlory(printed = false) {
-         /**
+        /**
          * Get this card's glory.
          * @param  {boolean} printed - Use the printed value of the skill; default false
          * @return {integer} The military skill value
