@@ -14,11 +14,9 @@ class InnerGameLobby extends React.Component {
         super();
 
         this.onNewGameClick = this.onNewGameClick.bind(this);
-        this.onShowNodesChecked = this.onShowNodesChecked.bind(this);
 
         this.state = {
-            newGame: false,
-            showNodes: false
+            newGame: false
         };
     }
 
@@ -44,10 +42,6 @@ class InnerGameLobby extends React.Component {
         this.props.startNewGame();
     }
 
-    onShowNodesChecked() {
-        this.setState({ showNodes: !this.state.showNodes });
-    }
-
     render() {
         var rightside = null;
 
@@ -58,14 +52,18 @@ class InnerGameLobby extends React.Component {
         }
 
         return (
-            <div>
+            <div className='full-height'>
                 { this.props.bannerNotice ? <AlertPanel type='error' message={ this.props.bannerNotice } /> : null }
                 { this.state.errorMessage ? <AlertPanel type='error' message={ this.state.errorMessage } /> : null }
 
-                <div className='col-sm-7'>
-                    <button className='btn btn-primary' onClick={ this.onNewGameClick } disabled={ !!this.props.currentGame }>New Game</button>
-                    { this.props.isAdmin ? <span className='pull-right'><input type='checkbox' checked={ this.state.showNodes } onChange={ this.onShowNodesChecked } />Show Nodes</span> : null }
-                    { this.props.games.length === 0 ? <h4>No games are currently in progress</h4> : <GameList games={ this.props.games } showNodes={ this.state.showNodes } /> }
+                <div className='col-sm-7 full-height'>
+                    <div className='panel-title text-center'>
+                        Current Games
+                    </div>
+                    <div className='panel game-list-container'>
+                        <button className='btn btn-primary' onClick={ this.onNewGameClick } disabled={ !!this.props.currentGame }>New Game</button>
+                        { this.props.games.length === 0 ? <h4>No games are currently in progress</h4> : <GameList games={ this.props.games } /> }
+                    </div>
                 </div>
                 <div className='col-sm-5'>
                     { (!this.props.currentGame && this.props.newGame) ? <NewGame defaultGameName={ this.props.username + '\'s game' } /> : null }
@@ -104,4 +102,3 @@ function mapStateToProps(state) {
 const GameLobby = connect(mapStateToProps, actions)(InnerGameLobby);
 
 export default GameLobby;
-
