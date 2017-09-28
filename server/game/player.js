@@ -1022,9 +1022,9 @@ class Player extends Spectator {
                 return;
             }
             if(card.isConflict || card.isDynasty) {
-                // This shouldn't do anything as all attachments should have been removed, but just in case...
+                // In normal play, all attachments should already have been removed, but in manual play we may need to remove them
                 card.attachments.each(attachment => {
-                    this.removeAttachment(attachment, false);
+                    this.removeAttachment(attachment);
                 });
 
             }
