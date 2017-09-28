@@ -9,9 +9,11 @@ class CardLeavesPlayEventWindow extends BaseStep {
     constructor(game, card, destination, isSacrifice) {
         super(game);
 
-        let name = isSacrifice ? 'onCardSacrificed' : 'onCardLeavesPlay'; 
-        this.characterEvent = new Event(name, { card: card }, true, () => card.owner.moveCard(card, destination));
+        this.characterEvent = new Event('onCardLeavesPlay', { card: card }, true, () => card.owner.moveCard(card, destination));
         this.attachmentEvents = _.map(card.getEventsForDiscardingAttachments(), event => new Event(event.name, event.params, true, event.handler));
+        if(isSacrifice) {
+            this.sacrificeEvent = new Event('onCardSacrificed', { card: card }, true);
+        }
 
         this.pipeline = new GamePipeline();
         this.pipeline.initialise([
@@ -53,10 +55,13 @@ class CardLeavesPlayEventWindow extends BaseStep {
             return;
         }
         
-        // Only the character event can be interrupted, but reactions can be played to attachment events
+        // Only the character event can be interrupted, but reactions can be played to attachment (and sacrifice) events
         let event = [this.characterEvent];
         if(abilityType.includes('reaction')) {
             event = event.concat(this.attachmentEvents);
+            if(this.sacrificeEvent) {
+                event = event.concat([this.sacrificeEvent]);
+            }
         }
 
         this.game.openAbilityWindow({
@@ -87,6 +92,10 @@ class CardLeavesPlayEventWindow extends BaseStep {
         });
 
         this.game.emit(this.characterEvent.name, ...this.characterEvent.params);
+        
+        if(this.sacrificeEvent) {
+            this.game.emit(this.sacrificeEvent.name, ...this.sacrificeEvent.params);
+        }
     }
 }
 
