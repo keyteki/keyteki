@@ -112,7 +112,7 @@ class InnerForgotPassword extends React.Component {
             fieldsToRender.push(
                 <div key={ field.name } className={ className }>
                     <label htmlFor={ field.name } className='col-sm-2 control-label'>{ field.label }</label>
-                    <div className='col-sm-3'>
+                    <div className='col-sm-6'>
                         <input type={ field.inputType }
                             ref={ field.name }
                             className='form-control'
@@ -134,10 +134,9 @@ class InnerForgotPassword extends React.Component {
             <div>
                 { errorBar }
                 <AlertPanel type='info' message='To start the password recovery process, please enter your username and click the submit button.' />
-                <form className='form form-horizontal'>
-                    { fieldsToRender }
-                    <div className='form-group'>
-                        <div id='captcha' className='g-recaptcha col-sm-offset-2 col-sm-3' />
+                <div className='col-sm-6 col-sm-offset-3'>
+                    <div className='panel-title'>
+                    Forgot password
                     </div>
                     <div className='panel'>
                         <form className='form form-horizontal'>
@@ -156,8 +155,7 @@ class InnerForgotPassword extends React.Component {
                             </div>
                         </form>
                     </div>
-
-                </form>
+                </div>
             </div>);
     }
 }
