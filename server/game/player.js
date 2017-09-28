@@ -1021,13 +1021,14 @@ class Player extends Spectator {
                 card.owner.moveCard(card, targetLocation);
                 return;
             }
+            
             if(card.isConflict || card.isDynasty) {
                 // In normal play, all attachments should already have been removed, but in manual play we may need to remove them
                 card.attachments.each(attachment => {
                     this.removeAttachment(attachment);
                 });
-
             }
+            
             card.leavesPlay();
             card.moveTo(targetLocation);
         }
