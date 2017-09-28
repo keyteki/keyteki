@@ -1298,7 +1298,7 @@ class Player extends Spectator {
 
     discardCharactersWithNoFate() {
         _.each(this.filterCardsInPlay(card => card.type === 'character' && card.fate === 0), character => {
-            this.discardfromPlay(character);
+            this.discardCardFromPlay(character);
         });
     }
 
