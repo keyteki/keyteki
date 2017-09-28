@@ -225,7 +225,7 @@ class Game extends EventEmitter {
             this.addMessage('{0} {1} {2}', player, card.isBroken ? 'breaks' : 'unbreaks', card);
         }
 
-        if(!card.facedown && card.location === 'stronghold province' && card.controller === player) {
+        if(!card.facedown && card.location === 'stronghold province' && card.controller === player && card.isStronghold) {
             if(card.bowed) {
                 player.readyCard(card);
             } else {
