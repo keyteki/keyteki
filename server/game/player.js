@@ -336,7 +336,7 @@ class Player extends Spectator {
         }
     }
 
-    discardAtRandom(number, callback = () => true) {
+    discardAtRandom(number) {
         var toDiscard = Math.min(number, this.hand.size());
         var cards = [];
 
@@ -349,10 +349,7 @@ class Player extends Spectator {
             }
         }
 
-        this.discardCards(cards, false, discarded => {
-            this.game.addMessage('{0} discards {1} at random', this, discarded[0]);
-            callback(discarded);
-        });
+        this.discardCardsFromHand(cards, true);
     }
 
     canInitiateConflict(conflictType) {
@@ -817,7 +814,7 @@ class Player extends Spectator {
 
         if(target === 'play area') {
             this.putIntoPlay(card);
-        } else {
+        } else { // TODO: remove these or change them to discardCardFromPlay
             if(target === 'conflict discard pile') {
                 this.discardCard(card, false);
                 return true;
@@ -874,11 +871,35 @@ class Player extends Spectator {
             this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', false);
         }
     }
+    
+    discardCardsFromHand(cards, atRandom = false) {
+        this.game.raiseSimultaneousEvent(cards, {
+            eventName: 'onCardsDiscardedFromHand',
+            perCardEventName: 'onDiscardFromHand',
+            perCardHandler: (params) => {
+                this.moveCard(params.card, params.card.isConflict ? 'conflict discard pile' : 'dynasty discard pile');
+                this.game.addMessage('{0} discards {1}{2}', this, params.card, atRandom ? ' at random' : '');
+            },
+            params: {player: this}
+        });
+    }
+    
+    discardCardFromHand(card) {
+        this.discardCardsFromHand([card]);
+    }
 
+    /**
+     * @deprecated
+     * Use discardFromHand or discardFromPlay
+     */
     discardCard(card, allowSave = true) {
         this.discardCards([card], allowSave);
     }
 
+    /**
+     * @deprecated
+     * Use discardFromHand or discardFromPlay
+     */
     discardCards(cards, allowSave = true, callback = () => true) {
         this.game.applyGameAction('discard', cards, cards => {
             var params = {
@@ -898,6 +919,10 @@ class Player extends Spectator {
         });
     }
 
+    /**
+     * @deprecated
+     * Use discardFromHand or discardFromPlay
+     */
     doSingleCardDiscard(card, allowSave = true) {
         var params = {
             player: this,

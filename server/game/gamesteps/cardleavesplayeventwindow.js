@@ -8,15 +8,10 @@ const Event = require('../event.js');
 class CardLeavesPlayEventWindow extends BaseStep {
     constructor(game, card, destination, isSacrifice) {
         super(game);
-        
-        let eventProperties = card.getEventsForDiscardingAttachments();
-        eventProperties.push({
-            name: isSacrifice ? 'onCardSacrificed' : 'onCardLeavesPlay',
-            params: { card: card },
-            handler: () => card.owner.moveCard(card, destination)
-        });
 
-        this.events = _.map(eventProperties, event => new Event(event.name, event.params, true, event.handler));
+        let name = isSacrifice ? 'onCardSacrificed' : 'onCardLeavesPlay'; 
+        this.characterEvent = new Event(name, { card: card }, true, () => card.owner.moveCard(card, destination));
+        this.attachmentEvents = _.map(card.getEventsForDiscardingAttachments(), event => new Event(event.name, event.params, true, event.handler));
 
         this.pipeline = new GamePipeline();
         this.pipeline.initialise([
@@ -54,38 +49,44 @@ class CardLeavesPlayEventWindow extends BaseStep {
     }
 
     openWindow(abilityType) {
-        this.filterOutCancelledEvents();
-
-        if(_.isEmpty(this.events)) {
+        if(this.characterEvent.cancelled) {
             return;
+        }
+        
+        // Only the character event can be interrupted, but reactions can be played to attachment events
+        let event = [this.characterEvent];
+        if(abilityType.includes('reaction')) {
+            event = event.concat(this.attachmentEvents);
         }
 
         this.game.openAbilityWindow({
             abilityType: abilityType,
-            event: this.events
+            event: event
         });
-    }
-
-    filterOutCancelledEvents() {
-        this.events = _.reject(this.events, event => event.cancelled);
     }
 
     executeHandler() {
-        this.filterOutCancelledEvents();
-
-        if(_.isEmpty(this.events)) {
+        if(this.characterEvent.cancelled) {
             return;
         }
         
-        _.each(this.events, event => {
-            if(event.handler && !event.shouldSkipHandler) {
-                event.handler();
-            }
-        });
+        if(!this.characterEvent.shouldSkipHandler) {
+            _.each(this.attachmentEvents, event => {
+                if(event.handler && !event.shouldSkipHandler) {
+                    event.handler();
+                }
+            });
 
-        _.each(this.events, event => {
+            if(this.characterEvent.handler) {
+                this.characterEvent.handler();
+            }
+        }
+        
+        _.each(this.attachmentEvents, event => {
             this.game.emit(event.name, ...event.params);
         });
+
+        this.game.emit(this.characterEvent.name, ...this.characterEvent.params);
     }
 }
 
