@@ -1,6 +1,5 @@
 const _ = require('underscore');
 const Player = require('./player.js');
-const EventRegistrar = require('./eventregistrar.js');
 const Settings = require('../settings.js');
 
 class Conflict {
@@ -22,8 +21,6 @@ class Conflict {
         this.maxAllowedDefenders = 0;
         this.defenderSkillModifier = 0;
         this.provinceRevealedDuringConflict = false;
-        this.events = new EventRegistrar(game, this);
-        this.registerEvents(['onCardLeftPlay']);
     }
 
     singlePlayerDefender() {
@@ -224,19 +221,6 @@ class Conflict {
         return this.attackingPlayer === player ? this.defenders : this.attackers;
     }
 
-    onCardLeftPlay(event) {
-        if(!this.winnerDetermined) {
-            this.removeFromConflict(event.card);
-        }
-    }
-
-    registerEvents(events) {
-        this.events.register(events);
-    }
-
-    unregisterEvents() {
-        this.events.unregisterAll();
-    }
 
     finish() {
         _.each(this.attackers, card => card.inConflict = false);

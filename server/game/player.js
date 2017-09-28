@@ -1032,11 +1032,6 @@ class Player extends Spectator {
             card.moveTo(targetLocation);
         }
 
-        if(card.location === 'province') {
-            card.leavesPlay();
-            this.game.raiseEvent('onCardLeftPlay', { player: this, card: card });
-        }
-
         if(card.location !== 'play area') {
             card.moveTo(targetLocation);
         }
