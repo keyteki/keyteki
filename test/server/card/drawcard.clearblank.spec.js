@@ -3,7 +3,7 @@ const DrawCard = require('../../../server/game/drawcard.js');
 describe('DrawCard', function() {
     beforeEach(function() {
         this.game = jasmine.createSpyObj('game', ['raiseEvent']);
-        this.player = jasmine.createSpyObj('player', ['discardCard']);
+        this.player = jasmine.createSpyObj('player', ['discardCardFromPlay']);
         this.player.game = this.game;
         this.card = new DrawCard(this.player, {});
         this.card.setBlank();
@@ -28,7 +28,7 @@ describe('DrawCard', function() {
 
                 it('should not discard the attachment', function() {
                     this.card.clearBlank();
-                    expect(this.player.discardCard).not.toHaveBeenCalled();
+                    expect(this.player.discardCardFromPlay).not.toHaveBeenCalled();
                 });
             });
 
@@ -39,7 +39,7 @@ describe('DrawCard', function() {
 
                 it('should discard the attachment without allowing saves', function() {
                     this.card.clearBlank();
-                    expect(this.player.discardCard).toHaveBeenCalledWith(this.attachment, false);
+                    expect(this.player.discardCardFromPlay).toHaveBeenCalledWith(this.attachment, false);
                 });
             });
         });

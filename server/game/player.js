@@ -656,7 +656,7 @@ class Player extends Spectator {
                 waitingPromptTitle: 'Waiting for opponent to choose a card to discard',
                 cardCondition: c => c.parent === card && c.isRestricted(),
                 onSelect: (player, card) => {
-                    player.discardCard(card);
+                    player.discardCardFromPlay(card);
                     return true;
                 },
                 source: 'Too many Restricted attachments'
@@ -970,7 +970,7 @@ class Player extends Spectator {
     }
 
     removeAttachment(attachment) {
-        this.game.raiseCardLeavesPlayEvent(attachment, 'conflict discard pile')
+        this.game.raiseCardLeavesPlayEvent(attachment, 'conflict discard pile');
     }
 
     selectDeck(deck) {
@@ -1276,7 +1276,9 @@ class Player extends Spectator {
     }
 
     discardCharactersWithNoFate() {
-        this.discardCards(this.filterCardsInPlay(card => card.type === 'character' && card.fate === 0));
+        _.each(this.filterCardsInPlay(card => card.type === 'character' && card.fate === 0), character => {
+            this.discardfromPlay(character);
+        });
     }
 
     getState(activePlayer) {

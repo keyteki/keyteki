@@ -247,7 +247,7 @@ class DrawCard extends BaseCard {
         super.clearBlank();
         this.attachments.each(attachment => {
             if(!this.allowAttachment(attachment)) {
-                this.controller.discardCard(attachment, false);
+                this.controller.discardCardFromPlay(attachment, false);
             }
         });
     }
@@ -300,7 +300,7 @@ class DrawCard extends BaseCard {
         if(this.attachments.size() > 0) {
             return this.attachments.map(attachment => {
                 let destination = attachment.isDynasty ? 'dynasty discard pile' : 'conflict discard pile';
-                destination = attachment.isAncestral ? 'hand' : destination;
+                destination = attachment.isAncestral() ? 'hand' : destination;
                 return {
                     name: 'onCardLeavesPlay',
                     params: { card: attachment },
@@ -318,8 +318,9 @@ class DrawCard extends BaseCard {
     }
 
     leavesPlay() {
+        // If this is an attachment and is attached to another card, we need to remove all links between them
         if(this.parent && this.parent.attachments) {
-            this.parent.attachments = this.parent.attachments.reject(card => card.uuid === this.uuid);
+            this.parent.attachments = _(this.parent.attachments.reject(card => card.uuid === this.uuid));
             this.parent = null;
         }
 
