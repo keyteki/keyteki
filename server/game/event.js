@@ -22,21 +22,6 @@ class Event {
     skipHandler() {
         this.shouldSkipHandler = true;
     }
-
-    // TODO: remove this
-    saveCard(card) {
-        if(!this.cards) {
-            return;
-        }
-
-        card.markAsSaved();
-        this.cards = _.reject(this.cards, c => c === card);
-        card.game.raiseEvent('onCardSaved', { card: card });
-
-        if(_.isEmpty(this.cards)) {
-            this.cancel();
-        }
-    }
 }
 
 module.exports = Event;
