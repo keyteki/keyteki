@@ -7,10 +7,10 @@ To implement a card, follow these steps:
 
 ##### 1. Create a file named after the card.
 
-Cards are organized under the `/server/game/cards` directory by grouping them by type (characters, events, etc), then by pack number.
+Cards are organized under the `/server/game/cards` directory by grouping them by pack number and name.
 
 ```
-/server/game/cards/attachments/01/cloudthemind.js
+/server/game/cards/attachments/01 - Core/cloudthemind.js
 ```
 
 #### 2. Create a class for the card and export it.
@@ -21,16 +21,16 @@ Province cards should be derived from the `ProvinceCard` class.
 
 Stronghold cards should be derived from the `StrongholdCard` class.
 
-The card class should have its `code` property set to the unique card identifier for that card. You can find these combining the 2-digit pack number (01) and 3-digit card number (036).
+The card class should have its `id` property set to the unique card identifier for that card. You can find these at https://api.fiveringsdb.com/cards
 
 ```javascript
-const DrawCard = require('../../../drawcard.js');
+const DrawCard = require('../../drawcard.js');
 
 class CloudTheMind extends DrawCard {
     // Card definition
 }
 
-CloudTheMind.code = '01202';
+CloudTheMind.id = 'cloud-the-mind';
 
 module.exports = CloudTheMind;
 ```
