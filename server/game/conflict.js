@@ -64,7 +64,23 @@ class Conflict {
         this.markAsParticipating([defender]);
         this.calculateSkill();
     }
+    
+    moveToConflict(cards, isAttacking) {
+        this.game.raiseSimultaneousEvent(cards, {
+            eventName: 'onMoveCharactersToConflict',
+            perCardEventName: 'OnMoveToConflict',
+            perCardHandler: isAttacking ? (params) => this.addAttacker(params.card) : (params) => this.addDefender(params.card), 
+            params: { conflict: this.conflict }
+        });
+    }
 
+    sendHome(card) {
+        this.game.raiseEvent('onSendHome', {
+            conflict: this.conflict,
+            card: card
+        }, () => this.removeFromConflict(card));
+    }
+    
     removeFromConflict(card) {
         this.attackers = _.reject(this.attackers, c => c === card);
         this.defenders = _.reject(this.defenders, c => c === card);

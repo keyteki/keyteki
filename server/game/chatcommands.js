@@ -22,6 +22,8 @@ class ChatCommands {
             '/token': this.setToken,
             '/reveal': this.reveal,
             '/duel': this.duel,
+            '/move-to-conflict': this.moveToConflict,
+            '/send-home': this.sendHome,
             '/add-fate': this.addFate,
             '/rem-fate': this.remFate,
             '/add-fate-ring': this.addRingFate,
@@ -114,6 +116,48 @@ class ChatCommands {
         this.game.addMessage('{0} initiates a duel', player);
         this.game.queueStep(new HonorBidPrompt(this.game, 'Choose your bid for the duel'));
         this.game.queueStep(new SimpleStep(this.game, () => this.game.tradeHonorAfterBid()));
+    }
+    
+    moveToConflict(player) {
+        if(this.game.currentConflict) {
+            this.game.promptForSelect(player, {
+                activePromptTitle: 'Select cards to move into the conflict',
+                waitingPromptTitle: 'Waiting for opponent to choose cards to move',
+                cardCondition: card => card.location === 'play area' && card.controller === player && !card.inConflict,
+                cardType: 'character',
+                numCards: 0,
+                multiSelect: true,
+                onSelect: (p, cards) => {
+                    //send home card
+                    this.game.currentConflict.moveToConflict(cards, this.game.currentConflict.attackingPlayer === p);
+
+                    this.game.addMessage('{0} uses the /move-to-conflict command', p);
+                    return true;
+                }
+            });
+        } else {
+            this.game.addMessage('/move-to-conflict can only be used during a conflict');
+        }
+    }
+
+    sendHome(player) {
+        if(this.game.currentConflict) {
+            this.game.promptForSelect(player, {
+                activePromptTitle: 'Select a card to send home',
+                waitingPromptTitle: 'Waiting for opponent to send home',
+                cardCondition: card => card.location === 'play area' && card.controller === player && card.inConflict,
+                cardType: 'character',
+                onSelect: (p, card) => {
+                    //send home card
+                    this.game.currentConflict.sendHome(card);
+
+                    this.game.addMessage('{0} uses the /send-home command to send {1} home', p, card);
+                    return true;
+                }
+            });
+        } else {
+            this.game.addMessage('/move-to-conflict can only be used during a conflict');
+        }
     }
 
     addTrait(player, args) {
