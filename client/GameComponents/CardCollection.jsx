@@ -104,7 +104,7 @@ class CardCollection extends React.Component {
             let cardKey = card.uuid || cardIndex++;
             return (<Card key={ cardKey } card={ card } source={ this.props.source }
                 disableMouseOver={ this.props.disableMouseOver }
-                isInPopup={ true }
+                isInPopup
                 onMouseOver={ this.props.onMouseOver }
                 onMouseOut={ this.props.onMouseOut }
                 onTouchMove={ this.props.onTouchMove }
