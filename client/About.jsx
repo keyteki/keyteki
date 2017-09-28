@@ -10,7 +10,7 @@ class About extends React.Component {
                     About Jigoku Online - Help and information
                 </div>
                 <div className='panel about-container'>
-                    <a className='btn btn-danger btn-lg pull-right' target='_blank' href='https://github.com/cryogen/throneteki/issues'>Report Problems</a>
+                    <a className='btn btn-danger btn-lg pull-right' target='_blank' href='https://github.com/gryffon/ringteki/issues'>Report Problems</a>
                     <h3>What is this?</h3>
 
                     <p>This site was setup to allow you to play Legend of the Five Rings, an LCG from Fantasy Flight Games (FFG) in your browser.</p>
