@@ -45,7 +45,7 @@ class DeckSearchPrompt extends UiPrompt {
     defaultProperties() {
         return {
             cardCondition: () => true,
-            cardType: ['attachment', 'character', 'event', 'location'],
+            cardType: ['attachment', 'character', 'event'],
             onSelect: () => true,
             onCancel: () => true
         };
