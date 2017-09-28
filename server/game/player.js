@@ -864,11 +864,15 @@ class Player extends Spectator {
     }
 
     sacrificeCard(card) {
-        this.game.applyGameAction('sacrifice', card, card => {
-            this.game.raiseEvent('onSacrificed', { player: this, card: card }, () => {
-                this.moveCard(card, 'discard pile');
-            });
-        });
+        if(card.allowGameAction('sacrifice')) {
+            this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', true);
+        }
+    }
+    
+    discardCardFromPlay(card) {
+        if(card.allowGameAction('discard')) {
+            this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', false);
+        }
     }
 
     discardCard(card, allowSave = true) {
@@ -912,16 +916,9 @@ class Player extends Spectator {
 
 
     returnCardToHand(card) {
-        this.game.applyGameAction('returnToHand', card, card => {
-            this.moveCard(card, 'hand');
-        });
-    }
-
-    /**
-     * @deprecated Use `Game.killCharacter` instead.
-     */
-    killCharacter(card, allowSave = true) {
-        this.game.killCharacter(card, allowSave);
+        if(card.allowGameAction('returnToHand')) {
+            this.game.raiseCardLeavesPlayEvent(card, 'hand', false);
+        }
     }
 
     getFavor() {
@@ -972,13 +969,8 @@ class Player extends Spectator {
         this.stronghold.bowed = false;
     }
 
-    removeAttachment(attachment, parentLeftPlay = false) {
-
-        if(attachment.isAncestral() && parentLeftPlay) {
-            attachment.owner.moveCard(attachment, 'hand');
-        } else {
-            attachment.owner.moveCard(attachment, 'conflict discard pile');
-        }
+    removeAttachment(attachment) {
+        this.game.raiseCardLeavesPlayEvent(attachment, 'conflict discard pile')
     }
 
     selectDeck(deck) {
@@ -999,37 +991,20 @@ class Player extends Spectator {
             return;
         }
 
-        if(card.location === 'play area' && (card.isConflict || card.isDynasty)) {
+        if(card.location === 'play area') {
             if(card.owner !== this) {
                 card.owner.moveCard(card, targetLocation);
                 return;
             }
+            if(card.isConflict || card.isDynasty) {
+                // This shouldn't do anything as all attachments should have been removed, but just in case...
+                card.attachments.each(attachment => {
+                    this.removeAttachment(attachment, false);
+                });
 
-            card.attachments.each(attachment => {
-                this.removeAttachment(attachment, false);
-            });
-
-            /* Ignore dupe mechanic
-            while(card.dupes.size() > 0 && targetLocation !== 'play area') {
-                this.removeDuplicate(card, true);
             }
-            */
-
-            var params = {
-                player: this,
-                card: card
-            };
-
-            this.game.raiseEvent('onCardLeftPlay', params, event => {
-                event.card.leavesPlay();
-                
-                if(event.card.parent && event.card.parent.attachments) {
-                    event.card.parent.attachments = this.removeCardByUuid(event.card.parent.attachments, event.card.uuid);
-                    event.card.parent = undefined;
-                }
-                
-                card.moveTo(targetLocation);
-            });
+            card.leavesPlay();
+            card.moveTo(targetLocation);
         }
 
         if(card.location === 'province') {

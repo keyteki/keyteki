@@ -22,6 +22,7 @@ const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 const EventWindow = require('./gamesteps/eventwindow.js');
 const AtomicEventWindow = require('./gamesteps/atomiceventwindow.js');
 const SimultaneousEventWindow = require('./gamesteps/simultaneouseventwindow.js');
+const CardLeavesPlayEventWindow = require('./gamesteps/cardleavesplayeventwindow.js');
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const ForcedTriggeredAbilityWindow = require('./gamesteps/forcedtriggeredabilitywindow.js');
 const TriggeredAbilityWindow = require('./gamesteps/triggeredabilitywindow.js');
@@ -725,6 +726,10 @@ class Game extends EventEmitter {
 
     killCharacter(card, allowSave = true) {
         this.killCharacters([card], allowSave);
+    }
+    
+    raiseCardLeavesPlayEvent(card, destination, isSacrifice = false) {
+        this.queueStep(new CardLeavesPlayEventWindow(this, card, destination, isSacrifice));
     }
 
     flipRing(sourcePlayer, ring) {
