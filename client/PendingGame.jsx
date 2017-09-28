@@ -85,8 +85,7 @@ class InnerPendingGame extends React.Component {
 
         if(player && player.deck && player.deck.selected) {
             if(playerIsMe) {
-                deck = <span className='deck-selection'>{ player.deck.name }</span>;
-                selectLink = <span className='deck-link' data-toggle='modal' data-target='#decks-modal'>Select deck...</span>;
+                deck = <span className='deck-selection clickable' data-toggle='modal' data-target='#decks-modal'>{ player.deck.name }</span>;
             } else {
                 deck = <span className='deck-selection'>Deck Selected</span>;
             }
@@ -102,7 +101,7 @@ class InnerPendingGame extends React.Component {
 
             status = <span className={ statusClass }>{ player.deck.status }</span>;
         } else if(player && playerIsMe) {
-            selectLink = <span className='deck-link' data-toggle='modal' data-target='#decks-modal'>Select deck...</span>;
+            selectLink = <span className='card-link' data-toggle='modal' data-target='#decks-modal'>Select deck...</span>;
         }
 
         return (
@@ -226,43 +225,49 @@ class InnerPendingGame extends React.Component {
                     <source src='/sound/charge.mp3' type='audio/mpeg' />
                     <source src='/sound/charge.ogg' type='audio/ogg' />
                 </audio>
-                <div className='btn-group'>
-                    <button className='btn btn-primary' disabled={ !this.isGameReady() || this.props.connecting || this.state.waiting } onClick={ this.onStartClick }>Start</button>
-                    <button className='btn btn-primary' onClick={ this.onLeaveClick }>Leave</button>
+                <div className='panel-title text-center'>
+                    { this.props.currentGame.name }
                 </div>
-                <h3>{ this.props.currentGame.name }</h3>
-                <div>{ this.getGameStatus() }</div>
-                <div className='players'>
-                    <h3>Players</h3>
+                <div className='panel'>
+                    <div className='btn-group'>
+                        <button className='btn btn-primary' disabled={ !this.isGameReady() || this.props.connecting || this.state.waiting } onClick={ this.onStartClick }>Start</button>
+                        <button className='btn btn-primary' onClick={ this.onLeaveClick }>Leave</button>
+                    </div>
+                    <div className='game-status'>{ this.getGameStatus() }</div>
+                </div>
+                <div className='panel-title text-center'>
+                    Players
+                </div>
+                <div className='players panel'>
                     {
                         _.map(this.props.currentGame.players, player => {
                             return this.getPlayerStatus(player, this.props.username);
                         })
                     }
                 </div>
-                <div className='spectators'>
-                    <h3>Spectators({ this.props.currentGame.spectators.length })</h3>
+                <div className='panel-title text-center'>
+                    Spectators({ this.props.currentGame.spectators.length })
+                </div>
+                <div className='spectators panel'>
                     { _.map(this.props.currentGame.spectators, spectator => {
                         return <div key={ spectator.name }>{ spectator.name }</div>;
                     }) }
                 </div>
-                <div className='chat-box'>
-                    <h3>Chat</h3>
+                <div className='panel-title text-center'>
+                    Chat</div>
+                <div className='chat-box panel'>
                     <div className='message-list'>
                         <Messages messages={ this.props.currentGame.messages } onCardMouseOver={ this.onMouseOver } onCardMouseOut={ this.onMouseOut } />
                     </div>
                     <form className='form form-hozitontal'>
                         <div className='form-group'>
-                            <div className='col-sm-10'>
-                                <input className='form-control' type='text' placeholder='Chat...' value={ this.state.message }
-                                    onKeyPress={ this.onKeyPress } onChange={ this.onChange } />
-                            </div>
-                            <button type='button' className='btn btn-primary col-sm-2' onClick={ this.onSendClick }>Send</button>
+                            <input className='form-control' type='text' placeholder='Enter a message...' value={ this.state.message }
+                                onKeyPress={ this.onKeyPress } onChange={ this.onChange } />
                         </div>
                     </form>
                 </div>
                 { popup }
-            </div>);
+            </div >);
     }
 }
 
@@ -299,4 +304,3 @@ function mapStateToProps(state) {
 const PendingGame = connect(mapStateToProps, actions)(InnerPendingGame);
 
 export default PendingGame;
-

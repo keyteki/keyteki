@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import * as actions from './actions';
 
@@ -15,6 +15,7 @@ class InnerNewGame extends React.Component {
 
         this.state = {
             spectators: true,
+            selectedGameFormat: 'duel',
             selectedGameType: 'casual',
             password: ''
         };
@@ -49,12 +50,17 @@ class InnerNewGame extends React.Component {
             name: this.state.gameName,
             spectators: this.state.spectators,
             gameType: this.state.selectedGameType,
+            isMelee: this.state.selectedGameFormat === 'melee',
             password: this.state.password
         });
     }
 
     onRadioChange(gameType) {
         this.setState({ selectedGameType: gameType });
+    }
+
+    onGameFormatChange(format) {
+        this.setState({ selectedGameFormat: format });
     }
 
     isGameTypeSelected(gameType) {
@@ -65,52 +71,57 @@ class InnerNewGame extends React.Component {
         let charsLeft = 140 - this.state.gameName.length;
         return this.props.socket ? (
             <div>
-                <form className='form'>
-                    <div className='row'>
-                        <div className='col-sm-5'>
-                            <label htmlFor='gameName'>Name</label>
-                            <label className='game-name-char-limit'>{ charsLeft >= 0 ? charsLeft : 0 }</label>
-                            <input className='form-control' placeholder='Game Name' type='text' onChange={ this.onNameChange } value={ this.state.gameName }/>
+                <div className='panel-title text-center'>
+                    New game
+                </div>
+                <div className='panel'>
+                    <form className='form'>
+                        <div className='row'>
+                            <div className='col-sm-8'>
+                                <label htmlFor='gameName'>Name</label>
+                                <label className='game-name-char-limit'>{ charsLeft >= 0 ? charsLeft : 0 }</label>
+                                <input className='form-control' placeholder='Game Name' type='text' onChange={ this.onNameChange } value={ this.state.gameName } />
+                            </div>
                         </div>
-                    </div>
-                    <div className='row'>
-                        <div className='checkbox col-sm-5'>
-                            <label>
-                                <input type='checkbox' onChange={ this.onSpecatorsClick } checked={ this.state.spectators } />
-                                Allow spectators
-                            </label>
+                        <div className='row'>
+                            <div className='checkbox col-sm-8'>
+                                <label>
+                                    <input type='checkbox' onChange={ this.onSpecatorsClick } checked={ this.state.spectators } />
+                                    Allow spectators
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div className='row'>
-                        <div className='col-sm-12'>
-                            <b>Game Type</b>
+                        <div className='row'>
+                            <div className='col-sm-12'>
+                                <b>Game Type</b>
+                            </div>
+                            <div className='col-sm-10'>
+                                <label className='radio-inline'>
+                                    <input type='radio' onChange={ this.onRadioChange.bind(this, 'beginner') } checked={ this.isGameTypeSelected('beginner') } />
+                                    Beginner
+                                </label>
+                                <label className='radio-inline'>
+                                    <input type='radio' onChange={ this.onRadioChange.bind(this, 'casual') } checked={ this.isGameTypeSelected('casual') } />
+                                    Casual
+                                </label>
+                                <label className='radio-inline'>
+                                    <input type='radio' onChange={ this.onRadioChange.bind(this, 'competitive') } checked={ this.isGameTypeSelected('competitive') } />
+                                    Competitive
+                                </label>
+                            </div>
                         </div>
-                        <div className='col-sm-9'>
-                            <label className='radio-inline'>
-                                <input type='radio' onChange={ this.onRadioChange.bind(this, 'beginner') } checked={ this.isGameTypeSelected('beginner') } />
-                                Beginner
-                            </label>
-                            <label className='radio-inline'>
-                                <input type='radio' onChange={ this.onRadioChange.bind(this, 'casual') } checked={ this.isGameTypeSelected('casual') } />
-                                Casual
-                            </label>
-                            <label className='radio-inline'>
-                                <input type='radio' onChange={ this.onRadioChange.bind(this, 'competitive') } checked={ this.isGameTypeSelected('competitive') } />
-                                Competitive
-                            </label>
+                        <div className='row game-password'>
+                            <div className='col-sm-8'>
+                                <label>Password</label>
+                                <input className='form-control' type='password' onChange={ this.onPasswordChange } value={ this.state.password } />
+                            </div>
                         </div>
-                    </div>
-                    <div className='row game-password'>
-                        <div className='col-sm-5'>
-                            <label>Password</label>
-                            <input className='form-control' type='password' onChange={ this.onPasswordChange } value={ this.state.password }/>
+                        <div className='button-row'>
+                            <button className='btn btn-primary' onClick={ this.onSubmitClick }>Submit</button>
+                            <button className='btn btn-primary' onClick={ this.onCancelClick }>Cancel</button>
                         </div>
-                    </div>
-                    <div className='button-row'>
-                        <button className='btn btn-primary' onClick={ this.onSubmitClick }>Submit</button>
-                        <button className='btn btn-primary' onClick={ this.onCancelClick }>Cancel</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>) : (
             <div>
                     Connecting to the server, please wait...
@@ -121,6 +132,7 @@ class InnerNewGame extends React.Component {
 
 InnerNewGame.displayName = 'NewGame';
 InnerNewGame.propTypes = {
+    allowMelee: React.PropTypes.bool,
     cancelNewGame: React.PropTypes.func,
     defaultGameName: React.PropTypes.string,
     socket: React.PropTypes.object
@@ -128,6 +140,7 @@ InnerNewGame.propTypes = {
 
 function mapStateToProps(state) {
     return {
+        allowMelee: state.auth.user ? state.auth.user.permissions.allowMelee : false,
         socket: state.socket.socket
     };
 }
@@ -135,4 +148,3 @@ function mapStateToProps(state) {
 const NewGame = connect(mapStateToProps, actions)(InnerNewGame);
 
 export default NewGame;
-
