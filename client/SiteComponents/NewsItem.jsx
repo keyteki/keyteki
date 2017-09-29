@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 
 class NewsItem extends React.Component {
@@ -13,9 +14,9 @@ class NewsItem extends React.Component {
 
 NewsItem.displayName = 'NewsItem';
 NewsItem.propTypes = {
-    date: React.PropTypes.string,
-    icon: React.PropTypes.oneOf(['military', 'political']),
-    text: React.PropTypes.string
+    date: PropTypes.string,
+    icon: PropTypes.oneOf(['military', 'intrigue', 'power']),
+    text: PropTypes.string
 };
 
 export default NewsItem;
