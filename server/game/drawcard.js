@@ -334,7 +334,7 @@ class DrawCard extends BaseCard {
                 destination = attachment.isAncestral() ? 'hand' : destination;
                 return {
                     name: 'onCardLeavesPlay',
-                    params: { card: attachment },
+                    params: { card: attachment, destination: destination },
                     handler: () => attachment.owner.moveCard(attachment, destination)
                 };
             });

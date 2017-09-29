@@ -9,7 +9,7 @@ class CardLeavesPlayEventWindow extends BaseStep {
     constructor(game, card, destination, isSacrifice) {
         super(game);
 
-        this.characterEvent = new Event('onCardLeavesPlay', { card: card }, true, () => card.owner.moveCard(card, destination));
+        this.characterEvent = new Event('onCardLeavesPlay', { card: card, destination: destination }, true, () => card.owner.moveCard(card, destination));
         this.attachmentEvents = _.map(card.getEventsForDiscardingAttachments(), event => new Event(event.name, event.params, true, event.handler));
         if(isSacrifice) {
             this.sacrificeEvent = new Event('onCardSacrificed', { card: card }, true);
