@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'underscore';
 import $ from 'jquery';
@@ -217,14 +218,14 @@ class InnerLobby extends React.Component {
 
 InnerLobby.displayName = 'Lobby';
 InnerLobby.propTypes = {
-    bannerNotice: React.PropTypes.string,
-    fetchNews: React.PropTypes.func,
-    loadNews: React.PropTypes.func,
-    loading: React.PropTypes.bool,
-    messages: React.PropTypes.array,
-    news: React.PropTypes.array,
-    socket: React.PropTypes.object,
-    users: React.PropTypes.array
+    bannerNotice: PropTypes.string,
+    fetchNews: PropTypes.func,
+    loadNews: PropTypes.func,
+    loading: PropTypes.bool,
+    messages: PropTypes.array,
+    news: PropTypes.array,
+    socket: PropTypes.object,
+    users: PropTypes.array
 };
 
 function mapStateToProps(state) {
