@@ -23,6 +23,8 @@ If you are going to contribute code, try and follow the style of the existing co
 
 [Documentation for implementing cards](https://github.com/gryffon/ringteki/blob/master/docs/implementing-cards.md)
 
+There is also a list of events raised by the code [here](https://docs.google.com/spreadsheets/d/1gJEGGwZcbVoUZnuc0zkKNblleVP0qoMWUQOvI_8G3mQ/edit?usp=sharing). If you're writing abilities which listen for these events, it tells you what parameters the event has and whether it has a handler.  If you're writing code which calls any of these events, please make sure you pass the same parameters.
+
 The biggest help at the moment would be in terms of CSS, as that's a bit of a weakness of mine, feel free to pick up any of the issues tagged 'CSS' in the issue list.
 
 If you're not coding inclined, then just playing games on the site, and reporting bugs and issues that you find is a big help
