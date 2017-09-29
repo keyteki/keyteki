@@ -4,7 +4,7 @@ class VengefulOathkeeper extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                afterConflict: (event, conflict) => conflict.loser === this.controller && conflict.conflictType === 'military'
+                afterConflict: (event, params) => params.conflict.loser === this.controller && params.conflict.conflictType === 'military'
             },
             location: 'hand',
             handler: () => this.controller.putIntoPlay(this)
