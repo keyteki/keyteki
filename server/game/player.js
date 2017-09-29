@@ -59,6 +59,7 @@ class Player extends Spectator {
         ];
         this.cannotGainConflictBonus = false;
         this.cannotTriggerCardAbilities = false;
+        this.canInitiateAction = false;
         this.promptedActionWindows = user.promptedActionWindows || {
             dynasty: true,
             draw: true,

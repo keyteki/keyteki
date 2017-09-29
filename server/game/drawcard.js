@@ -322,6 +322,10 @@ class DrawCard extends BaseCard {
     canAttach(player, card) {
         return card && card.getType() === 'character' && this.getType() === 'attachment';
     }
+    
+    canPlay() {
+        return this.owner.canInitiateAction;
+    }
 
     getPlayActions() {
         return StandardPlayActions

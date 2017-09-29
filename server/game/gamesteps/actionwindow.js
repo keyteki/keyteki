@@ -31,6 +31,7 @@ class ActionWindow extends UiPrompt {
 
         if(!completed) {
             this.game.currentActionWindow = this;
+            this.currentPlayer.canInitiateAction = true;
         } else {
             this.game.currentActionWindow = null;
         }
