@@ -107,7 +107,7 @@ describe('CardAction', function () {
 
     describe('execute()', function() {
         beforeEach(function() {
-            this.player = {};
+            this.player = {canInitiateAction: true};
             this.cardSpy.controller = this.player;
             this.cardSpy.location = 'play area';
         });
@@ -143,7 +143,7 @@ describe('CardAction', function () {
 
         describe('when executed with a player other than the card controller', function() {
             beforeEach(function() {
-                this.otherPlayer = {};
+                this.otherPlayer = {canInitiateAction: true};
             });
 
             describe('and the anyPlayer property is not set', function() {
