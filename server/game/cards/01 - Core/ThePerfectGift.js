@@ -2,7 +2,7 @@ const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 
 class ThePerfectGift extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'The Perfect Gift',
             handler: () => {
@@ -11,13 +11,13 @@ class ThePerfectGift extends DrawCard {
                 let myTopFour = this.controller.conflictDeck.first(4);
                 let n = myTopFour.length;
                 let formatted = this.formatTopFour(myTopFour);
-                this.game.addMessage('{0) reveals the top {1} from their conflict deck: {2}', this.controller, n > 1 ? n + ' ' + 'cards' : 'card', formatted);
+                this.game.addMessage('{0) reveals the top {1} from their conflict deck: {2}', this.controller, n > 1 ? n + ' cards' : 'card', formatted);
                 if(otherPlayer) {
                     opponentTopFour = otherPlayer.conflictDeck.first(4);
                     n = opponentTopFour.length;
                     formatted = this.formatTopFour(opponentTopFour);
                     if(formatted) {
-                        this.game.addMessage('{0) reveals the top {1} from their conflict deck: {2}', otherPlayer, n > 1 ? n + ' ' + 'cards' : 'card', formatted);
+                        this.game.addMessage('{0) reveals the top {1} from their conflict deck: {2}', otherPlayer, n > 1 ? n + ' cards' : 'card', formatted);
                         this.game.promptWithMenu(this.controller, this, {
                             source: this,
                             activePrompt: { 
