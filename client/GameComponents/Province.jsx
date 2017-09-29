@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'underscore';
 import $ from 'jquery';
 
@@ -107,31 +108,31 @@ class Province extends React.Component {
 
 Province.displayName = 'Province';
 Province.propTypes = {
-    cardCount: React.PropTypes.number,
-    cards: React.PropTypes.array,
-    className: React.PropTypes.string,
-    disableMouseOver: React.PropTypes.bool,
-    disablePopup: React.PropTypes.bool,
-    dynastyCard: React.PropTypes.object,
-    hiddenDynastyCard: React.PropTypes.bool,
-    hiddenProvinceCard: React.PropTypes.bool,
-    isBroken: React.PropTypes.bool,
-    isMe: React.PropTypes.bool,
-    menu: React.PropTypes.array,
-    onCardClick: React.PropTypes.func,
-    onDragDrop: React.PropTypes.func,
-    onMenuItemClick: React.PropTypes.func,
-    onMouseOut: React.PropTypes.func,
-    onMouseOver: React.PropTypes.func,
-    onTouchMove: React.PropTypes.func,
-    orientation: React.PropTypes.string,
-    popupLocation: React.PropTypes.string,
-    popupMenu: React.PropTypes.array,
-    provinceCard: React.PropTypes.object,
-    showDynastyRow: React.PropTypes.bool,
-    source: React.PropTypes.oneOf(['stronghold province', 'province 1', 'province 2', 'province 3', 'province 4']).isRequired,
-    strongholdCard: React.PropTypes.object,
-    title: React.PropTypes.string
+    cardCount: PropTypes.number,
+    cards: PropTypes.array,
+    className: PropTypes.string,
+    disableMouseOver: PropTypes.bool,
+    disablePopup: PropTypes.bool,
+    dynastyCard: PropTypes.object,
+    hiddenDynastyCard: PropTypes.bool,
+    hiddenProvinceCard: PropTypes.bool,
+    isBroken: PropTypes.bool,
+    isMe: PropTypes.bool,
+    menu: PropTypes.array,
+    onCardClick: PropTypes.func,
+    onDragDrop: PropTypes.func,
+    onMenuItemClick: PropTypes.func,
+    onMouseOut: PropTypes.func,
+    onMouseOver: PropTypes.func,
+    onTouchMove: PropTypes.func,
+    orientation: PropTypes.string,
+    popupLocation: PropTypes.string,
+    popupMenu: PropTypes.array,
+    provinceCard: PropTypes.object,
+    showDynastyRow: PropTypes.bool,
+    source: PropTypes.oneOf(['stronghold province', 'province 1', 'province 2', 'province 3', 'province 4']).isRequired,
+    strongholdCard: PropTypes.object,
+    title: PropTypes.string
 };
 Province.defaultProps = {
     orientation: 'vertical'
