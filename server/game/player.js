@@ -1063,11 +1063,11 @@ class Player extends Spectator {
     }
 
     honorCard(card) {
-        this.game.raiseEvent('onCardHonored', { player: this, card: card }, card.honor());
+        this.game.raiseEvent('onCardHonored', { player: this, card: card }, () => card.honor());
     }
 
     dishonorCard(card) {
-        this.game.raiseEvent('onCardDishonored', { player: this, card: card }, card.dishonor());
+        this.game.raiseEvent('onCardDishonored', { player: this, card: card }, () => card.dishonor());
     }
     
     bowCard(card) {

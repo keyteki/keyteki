@@ -69,7 +69,7 @@ class RegroupPhase extends Phase {
         let firstPlayer = this.game.getFirstPlayer();
         let otherPlayer = this.game.getOtherPlayer(firstPlayer);
         if(otherPlayer) {
-            this.game.raiseEvent('onPassFirstPlayer', { player: otherPlayer }, this.game.setFirstPlayer(otherPlayer));
+            this.game.raiseEvent('onPassFirstPlayer', { player: otherPlayer }, () => this.game.setFirstPlayer(otherPlayer));
         }
     }
 
