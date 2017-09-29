@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class Counter extends React.Component {
+class FateCounter extends Counter {
     render() {
-        var className = 'counter ' + this.props.name;
+        var className = 'fatecounter ' + this.props.name;
 
         if(this.props.cancel) {
             className += ' cancel';
@@ -14,8 +14,8 @@ class Counter extends React.Component {
         }
         
         return (<div key={ this.props.name } className={ className }>
-            { this.props.shortName ? <span>{ this.props.shortName }</span> : null }
-            <span>{ this.props.value }</span>
+            <img src='/img/Fate.png' title='Fate' alt='Fate' />
+            <div className='fatecountertext'> { this.props.value } </div>
         </div>);
     }
 }
@@ -29,4 +29,4 @@ Counter.propTypes = {
     value: PropTypes.number
 };
 
-export default Counter;
+export default FateCounter;
