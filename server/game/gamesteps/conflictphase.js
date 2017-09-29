@@ -191,7 +191,6 @@ class ConflictPhase extends Phase {
         if(!this.game.currentConflict.isSinglePlayer) {
             this.currentPlayer = this.game.getOtherPlayer(this.currentPlayer);
         }
-        this.game.currentConflict.unregisterEvents();
         this.game.currentConflict = null;
         this.game.queueStep(new ActionWindow(this.game, 'Action Window', 'preConflict'));
         this.game.queueStep(new SimpleStep(this.game, () => this.startConflictChoice(this.currentPlayer)));

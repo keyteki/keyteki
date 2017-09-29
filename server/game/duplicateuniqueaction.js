@@ -26,7 +26,7 @@ class DuplicateUniqueAction extends BaseAbility {
         duplicate.modifyFate(1);
         
         let location = context.source.location;
-        context.player.discardCard(context.source);
+        context.player.moveCard(context.source, context.source.isDynasty ? 'dynasty discard pile' : 'conflict discard pile');
         if(['province 1', 'province 2', 'province 3', 'province 4'].includes(location)) {
             context.player.replaceDynastyCard(location);
         }

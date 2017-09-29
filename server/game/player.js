@@ -336,7 +336,7 @@ class Player extends Spectator {
         }
     }
 
-    discardAtRandom(number, callback = () => true) {
+    discardAtRandom(number) {
         var toDiscard = Math.min(number, this.hand.size());
         var cards = [];
 
@@ -349,10 +349,7 @@ class Player extends Spectator {
             }
         }
 
-        this.discardCards(cards, false, discarded => {
-            this.game.addMessage('{0} discards {1} at random', this, discarded[0]);
-            callback(discarded);
-        });
+        this.discardCardsFromHand(cards, true);
     }
 
     canInitiateConflict(conflictType) {
@@ -656,7 +653,7 @@ class Player extends Spectator {
                 waitingPromptTitle: 'Waiting for opponent to choose a card to discard',
                 cardCondition: c => c.parent === card && c.isRestricted(),
                 onSelect: (player, card) => {
-                    player.discardCard(card);
+                    player.discardCardFromPlay(card);
                     return true;
                 },
                 source: 'Too many Restricted attachments'
@@ -817,7 +814,7 @@ class Player extends Spectator {
 
         if(target === 'play area') {
             this.putIntoPlay(card);
-        } else {
+        } else { // TODO: remove these or change them to discardCardFromPlay
             if(target === 'conflict discard pile') {
                 this.discardCard(card, false);
                 return true;
@@ -864,17 +861,45 @@ class Player extends Spectator {
     }
 
     sacrificeCard(card) {
-        this.game.applyGameAction('sacrifice', card, card => {
-            this.game.raiseEvent('onSacrificed', { player: this, card: card }, () => {
-                this.moveCard(card, 'discard pile');
-            });
+        if(card.allowGameAction('sacrifice')) {
+            this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', true);
+        }
+    }
+    
+    discardCardFromPlay(card) {
+        if(card.allowGameAction('discard')) {
+            this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', false);
+        }
+    }
+    
+    discardCardsFromHand(cards, atRandom = false) {
+        this.game.raiseSimultaneousEvent(cards, {
+            eventName: 'onCardsDiscardedFromHand',
+            perCardEventName: 'onDiscardFromHand',
+            perCardHandler: (params) => {
+                this.moveCard(params.card, params.card.isConflict ? 'conflict discard pile' : 'dynasty discard pile');
+                this.game.addMessage('{0} discards {1}{2}', this, params.card, atRandom ? ' at random' : '');
+            },
+            params: {player: this}
         });
     }
+    
+    discardCardFromHand(card) {
+        this.discardCardsFromHand([card]);
+    }
 
+    /**
+     * @deprecated
+     * Use discardFromHand or discardFromPlay
+     */
     discardCard(card, allowSave = true) {
         this.discardCards([card], allowSave);
     }
 
+    /**
+     * @deprecated
+     * Use discardFromHand or discardFromPlay
+     */
     discardCards(cards, allowSave = true, callback = () => true) {
         this.game.applyGameAction('discard', cards, cards => {
             var params = {
@@ -894,6 +919,10 @@ class Player extends Spectator {
         });
     }
 
+    /**
+     * @deprecated
+     * Use discardFromHand or discardFromPlay
+     */
     doSingleCardDiscard(card, allowSave = true) {
         var params = {
             player: this,
@@ -912,16 +941,9 @@ class Player extends Spectator {
 
 
     returnCardToHand(card) {
-        this.game.applyGameAction('returnToHand', card, card => {
-            this.moveCard(card, 'hand');
-        });
-    }
-
-    /**
-     * @deprecated Use `Game.killCharacter` instead.
-     */
-    killCharacter(card, allowSave = true) {
-        this.game.killCharacter(card, allowSave);
+        if(card.allowGameAction('returnToHand')) {
+            this.game.raiseCardLeavesPlayEvent(card, 'hand', false);
+        }
     }
 
     getFavor() {
@@ -972,13 +994,8 @@ class Player extends Spectator {
         this.stronghold.bowed = false;
     }
 
-    removeAttachment(attachment, parentLeftPlay = false) {
-
-        if(attachment.isAncestral() && parentLeftPlay) {
-            attachment.owner.moveCard(attachment, 'hand');
-        } else {
-            attachment.owner.moveCard(attachment, 'conflict discard pile');
-        }
+    removeAttachment(attachment) {
+        this.game.raiseCardLeavesPlayEvent(attachment, 'conflict discard pile');
     }
 
     selectDeck(deck) {
@@ -999,42 +1016,21 @@ class Player extends Spectator {
             return;
         }
 
-        if(card.location === 'play area' && (card.isConflict || card.isDynasty)) {
+        if(card.location === 'play area') {
             if(card.owner !== this) {
                 card.owner.moveCard(card, targetLocation);
                 return;
             }
-
-            card.attachments.each(attachment => {
-                this.removeAttachment(attachment, false);
-            });
-
-            /* Ignore dupe mechanic
-            while(card.dupes.size() > 0 && targetLocation !== 'play area') {
-                this.removeDuplicate(card, true);
+            
+            if(card.isConflict || card.isDynasty) {
+                // In normal play, all attachments should already have been removed, but in manual play we may need to remove them
+                card.attachments.each(attachment => {
+                    this.removeAttachment(attachment);
+                });
             }
-            */
-
-            var params = {
-                player: this,
-                card: card
-            };
-
-            this.game.raiseEvent('onCardLeftPlay', params, event => {
-                event.card.leavesPlay();
-                
-                if(event.card.parent && event.card.parent.attachments) {
-                    event.card.parent.attachments = this.removeCardByUuid(event.card.parent.attachments, event.card.uuid);
-                    event.card.parent = undefined;
-                }
-                
-                card.moveTo(targetLocation);
-            });
-        }
-
-        if(card.location === 'province') {
+            
             card.leavesPlay();
-            this.game.raiseEvent('onCardLeftPlay', { player: this, card: card });
+            card.moveTo(targetLocation);
         }
 
         if(card.location !== 'play area') {
@@ -1301,7 +1297,9 @@ class Player extends Spectator {
     }
 
     discardCharactersWithNoFate() {
-        this.discardCards(this.filterCardsInPlay(card => card.type === 'character' && card.fate === 0));
+        _.each(this.filterCardsInPlay(card => card.type === 'character' && card.fate === 0), character => {
+            this.discardCardFromPlay(character);
+        });
     }
 
     getState(activePlayer) {

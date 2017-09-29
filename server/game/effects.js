@@ -205,7 +205,7 @@ const Effects = {
             unapply: function(card, context) {
                 if(card.location === 'play area' && context.discardIfStillInPlay.includes(card)) {
                     context.discardIfStillInPlay = _.reject(context.discardIfStillInPlay, c => c === card);
-                    card.controller.discardCard(card);
+                    card.controller.discardCardFromPlay(card);
                     context.game.addMessage('{0} discards {1} at the end of the phase because of {2}', context.source.controller, card, context.source);
                 }
             }

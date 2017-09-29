@@ -363,7 +363,7 @@ const Costs = {
                 return result;
             },
             pay: function(context) {
-                context.player.discardCard(context.discardCostCard);
+                context.player.discardCardFromHand(context.discardCostCard);
             }
         };
     },

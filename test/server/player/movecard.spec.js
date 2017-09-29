@@ -69,10 +69,6 @@ describe('Player', function() {
             it('should not make the card leave play', function() {
                 expect(this.card.leavesPlay).not.toHaveBeenCalled();
             });
-
-            it('should not to raise the left play event', function() {
-                expect(this.gameSpy.raiseEvent).not.toHaveBeenCalledWith('onCardLeftPlay', jasmine.any(Object), jasmine.any(Object));
-            });
         });
 
         describe('when the card is in the play area', function() {
@@ -103,7 +99,7 @@ describe('Player', function() {
                 });
 
                 it('should remove the attachments', function() {
-                    expect(this.player.removeAttachment).toHaveBeenCalledWith(this.attachment, false);
+                    expect(this.player.removeAttachment).toHaveBeenCalledWith(this.attachment);
                 });
             });
 
