@@ -136,7 +136,7 @@ class InitiateConflictPrompt extends UiPrompt {
             this.conflict.conflictDeclared = true;
         } else if(arg === 'pass') {
             this.conflict.passed = true;
-            this.game.raiseEvent('onConflictPass', this.conflict, () => {
+            this.game.raiseEvent('onConflictPass', { conflict: this.conflict }, () => {
                 this.conflict.cancelConflict();
             });
         }

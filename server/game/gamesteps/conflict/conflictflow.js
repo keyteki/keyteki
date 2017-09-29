@@ -133,7 +133,7 @@ class ConflictFlow extends BaseStep {
     chooseDefenders(defenders) {
         this.conflict.addDefenders(defenders);
 
-        this.game.raiseEvent('onDefendersDeclared', this.conflict);
+        this.game.raiseEvent('onDefendersDeclared', { conflict: this.conflict });
 
         return true;
     }
@@ -185,7 +185,7 @@ class ConflictFlow extends BaseStep {
             this.conflict.loser.conflicts.lost(this.conflict.conflictType, this.conflict.loser === this.conflict.attackingPlayer);
         }
 
-        this.game.raiseEvent('afterConflict', this.conflict);
+        this.game.raiseEvent('afterConflict', { conflict: this.conflict });
     }
     
     manuallyDetermineWinner(player, choice) {
@@ -204,7 +204,7 @@ class ConflictFlow extends BaseStep {
             this.conflict.loser.conflicts.lost(this.conflict.conflictType, this.conflict.loser === this.conflict.attackingPlayer);
         }
 
-        this.game.raiseEvent('afterConflict', this.conflict);        
+        this.game.raiseEvent('afterConflict', { conflict: this.conflict });        
         return true;
     }
 
@@ -251,7 +251,7 @@ class ConflictFlow extends BaseStep {
 
         let province = this.conflict.conflictProvince;
         if(this.conflict.isAttackerTheWinner() && this.conflict.skillDifference >= province.getStrength()) {
-            this.game.raiseEvent('onBreakProvince', province, province.breakProvince());
+            this.game.raiseEvent('onBreakProvince', { conflict: this.conflict, province: province }, province.breakProvince());
             this.game.addMessage('{0} has broken the province!', this.conflict.winner.name);
         }
     }
@@ -280,7 +280,7 @@ class ConflictFlow extends BaseStep {
     
     triggerRingResolutionEvent(player, arg) {
         if(arg !== 'No') {
-            this.game.raiseEvent('onResolveRingEffects', this.conflict, () => {
+            this.game.raiseEvent('onResolveRingEffects', { conflict: this.conflict }, () => {
                 player.resolveRingEffects(this.conflict.conflictRing);
             });
         }
@@ -296,7 +296,7 @@ class ConflictFlow extends BaseStep {
             let ring = _.find(this.game.rings, ring => {
                 return ring.element === this.conflict.conflictRing;
             });
-            this.game.raiseEvent('onClaimRing', this.conflict, ring.claimRing(this.conflict.winner));
+            this.game.raiseEvent('onClaimRing', { conflict: this.conflict }, ring.claimRing(this.conflict.winner));
         }
     }
 
@@ -315,7 +315,7 @@ class ConflictFlow extends BaseStep {
             return;
         }
 
-        this.game.raiseEvent('onConflictFinished', this.conflict);
+        this.game.raiseEvent('onConflictFinished', { conflict: this.conflict });
 
         this.resetCards();
         if(!this.conflict.isSinglePlayer) {
