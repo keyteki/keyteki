@@ -44,23 +44,22 @@
 }
 
 .panel-title {
-  background-color: @brand-primary;
+  background-color: @header-background;
   color: white;
   font-weight: bold;
   margin: 5px;
   margin-bottom: 0;
-  padding: 1px;
+  padding: 5px 0;
   border: 1px solid @header-border;
   border-radius: 4px 4px 0 0;
   border-bottom: none;
   text-align: center;
   text-transform: uppercase;
   position: relative;
-  top: 5px;
 }
 
 .main-header {
-  font-family: agot;
+  /* font-family: agot; */
   background-color: fade(@brand-primary, 50%);
   height: 100%;
   vertical-align: center;
@@ -76,6 +75,13 @@
   font-weight: bolder;
 
   .icon-military {
+    float: left;
+  }
+}
+
+.political-container {
+  color: @brand-secondary;
+  .icon-political {
     float: left;
   }
 }
@@ -169,4 +175,11 @@ ul.htp-sub-list {
   a {
     color: @brand-danger;
   }
+}
+
+.card-settings {
+  display: inline-block;
+
+  margin-left: 5px;
+  margin-right: 5px;
 }

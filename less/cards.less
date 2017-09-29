@@ -1,8 +1,7 @@
-@import "variables";
-
 .card-wrapper {
   margin: 0px 4px 0px 0px;
   vertical-align: middle;
+  display: inline-block;
 }
 
 .generate-wrappers(@n, @i: 1) when (@i =< @n) {
@@ -65,12 +64,8 @@
     box-shadow: 0 0 1px 2px red;
   }
 
-  &.saved {
-    box-shadow: 0 0 1px 2px green;
-  }
-
   &.selected {
-    box-shadow: 0 0 1px 4px @brand-primary;
+    box-shadow: 0 0 1px 4px @brand-secondary;
   }
 
   &.new {
@@ -85,8 +80,8 @@
     box-shadow: 0 0 1px 2px @brand-danger;
   }
 
-  &.stealth {
-    box-shadow: 0 0 1px 2px #9400D3;
+  &.covert {
+    box-shadow: 0 0 1px 2px #c14e15;
   }
 }
 
@@ -221,6 +216,12 @@
   line-height: 14px;
 }
 
+.custom-card:hover .card-name {
+  background: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  z-index: @layer-card-menu;
+}
+
 .card-large {
   width: 220px;
   height: 307px;
@@ -330,6 +331,8 @@
   width: 25px;
   height: 25px;
 }
+
+/* Don't think we actually need this
 .counter {
   padding: 0;
   font-size: 12px;
@@ -389,7 +392,7 @@
 
   &.fade-out {
     opacity: 0.4;
-  }  
+  }
 
   &.cancel {
     position: relative;
@@ -406,21 +409,7 @@
   }
 }
 
-.dupe {
-  background-color: @dupe-color;
-}
-
-.attachment-dupe {
-  background-color: fade(@dupe-color, 50%);
-}
-
-.card-power {
-  background-color: @power-color;
-}
-
-.attachment-power {
-  background-color: fade(@power-color, 50%);
-}
+*/
 
 .strength {
   background-color: @strength-color;
@@ -428,42 +417,6 @@
 
 .stand {
   background-color: rgba(128,128,128,0.85);
-}
-
-.poison {
-  background-color: rgba(43,43, 0, 0.85);
-}
-
-.gold {
-    background-color: rgba(255, 215, 0, 0.85);
-}
-
-.valarmorghulis {
-  background-color: rgba(192, 192, 192, 0.85);
-}
-
-.betrayal {
-  background-color: rgba(153, 77, 0, 0.85);
-}
-
-.vengeance {
-  background-color: rgba(87, 17, 124, 0.85);
-}
-
-.ear {
-  background-color: rgba(162, 255, 81, 0.85);
-}
-
-.venom {
-  background-color: @venom-color;
-}
-
-.attachment-venom {
-  background-color: fade(@venom-color, 50%);
-}
-
-.plot-selected {
-  box-shadow: 0 0 1px 2px @brand-danger;
 }
 
 .province-attachment {

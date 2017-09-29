@@ -11,18 +11,44 @@
 @import "gameboard";
 @import "cards";
 
+/*
+@font-face {
+  font-family: 'fiveringsdb';
+  src:  url('fonts/fiveringsdb.eot?yn5wqh');
+  src:  url('fonts/fiveringsdb.eot?yn5wqh#iefix') format('embedded-opentype'),
+    url('fonts/fiveringsdb.ttf?yn5wqh') format('truetype'),
+    url('fonts/fiveringsdb.woff?yn5wqh') format('woff'),
+    url('fonts/fiveringsdb.svg?yn5wqh#fiveringsdb') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+*/
+
 *, *:before, *:after {
   box-sizing: border-box;
 }
 
+html {
+  height: 100%;
+}
+
 body {
-  padding-top: 75px;
+  height: 100%;
   background-color: @background-color;
   color: @foreground-color
 }
 
+.body, .container, #component {
+  height: 100%;
+}
+
+.full-height {
+  height: 100%;
+}
+
 h1 {
   font-size: 24px;
+  color: white;
 }
 
 h3 {
@@ -31,4 +57,86 @@ h3 {
 
 h4 {
   font-size: 14px;
+}
+
+.bg {
+  padding-top: 75px;
+  /* background-image: url("/img/background2.png");*/
+
+  height: 100%;
+
+  /*
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; */
+}
+
+.bg-board {
+  padding-top: 75px;
+  /*
+  background-image: url("/img/background.png");*/
+
+  height: 100%;
+
+  /*
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; */
+}
+
+.bg-board2 {
+  padding-top: 75px;
+  /*
+  background-image: url("/img/background3.png");*/
+
+  height: 100%;
+  /*
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; */
+}
+
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.about-container {
+    position: absolute;
+    top: 33px;
+    bottom: 0px;
+    left: 15px;
+    right: 15px;
+    overflow-y: auto;
+}
+
+a {
+  color: @brand-primary;
+
+  &:hover {
+    color: @brand-info;
+    text-decoration: none;
+  }
+
+  text-decoration: none;
+}
+
+.rbt-input {
+ & > div {
+   width: 100%;
+
+   & > div {
+     width: 100%;
+
+     & > input {
+       width: 100% !important;
+     }
+   }
+ }
+}
+
+.btn-transparent {
+  background-color: transparent;
 }

@@ -4,24 +4,15 @@
 @brand-secondary: #79B473;
 @brand-tertiary: #414073;
 
-@navbar-inverse-color: #000000;
-@navbar-inverse-bg: #efeade;
-@navbar-inverse-border: #4b0709;
+@navbar-inverse-bg: rgba(34, 34, 34, 0.75);
 
-@navbar-inverse-link-color:                 #000000;
-@navbar-inverse-link-hover-color:           #fff;
-@navbar-inverse-link-active-color:          @navbar-inverse-link-hover-color;
-@navbar-inverse-link-disabled-color:        #444;
-
-
-@header-background: rgba(71, 58, 56, 0.95);
+@header-background: fade(@brand-tertiary, 90%);
 @header-border: rgba(71, 58, 56, 0.95);
 
 @table-bg-accent: fade(@brand-primary, 45%);
 
-@power-icon-color: #2A2E5E;
 @military-icon-color: #C72229;
-@intrigue-icon-color: #05552F;
+@political-icon-color: #05552F;
 
 @dupe-color: rgba(0,128,0,0.85);
 @power-color: rgba(0,0,128,0.85);
@@ -34,6 +25,10 @@
 
 @attachment-offset: 13px;
 
+@btn-default-bg: @brand-primary;
+@btn-default-border: darken(@btn-default-bg, 5%);
+@btn-default-color: white;
+
 // Z-index layers
 @layer-cards: 10;
 @layer-pile-header: 20;
@@ -41,3 +36,17 @@
 @layer-prompt: 110;
 @layer-card-menu: 120;
 @layer-top: 9999;
+
+@scrollbar-width: 20px;
+
+
+@navbar-inverse-color: #000000;
+@navbar-inverse-bg: #efeade;
+@navbar-inverse-border: #4b0709;
+
+@navbar-inverse-link-color:                 #000000;
+@navbar-inverse-link-hover-color:           #fff;
+@navbar-inverse-link-active-color:          @navbar-inverse-link-hover-color;
+@navbar-inverse-link-disabled-color:        #444;
+
+@power-icon-color: #2A2E5E;

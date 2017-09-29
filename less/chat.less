@@ -1,5 +1,3 @@
-@import "variables";
-
 .messages {
   flex: 1;
   overflow: auto;
@@ -13,15 +11,34 @@
   overflow-y: auto;
 }
 
+.lobby-chat {
+  position: absolute;
+  top: 33px;
+  bottom: 45px;
+  left: 15px;
+  right: 15px;
+}
+
 .message {
   margin-bottom: 4px;
   margin-top: 2px;
   word-wrap: break-word;
 }
 
+.lobby-message {
+  margin-bottom: 4px;
+  margin-top: 2px;
+  word-wrap: break-word;
+  padding-left: 30px;
+}
+
 .lobby-messages {
-  height: 400px;
-  font-size: 12px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 11px;
   overflow-y: auto;
 }
 
@@ -29,7 +46,7 @@
   width: 307px;
   position: absolute;
   top: 317px;
-  bottom: 0;
+  bottom: 0px;
 }
 
 .chat > form {
@@ -66,4 +83,17 @@
 
 .chat-box {
   margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
+.chat-container {
+  flex: 1;
+}
+
+.chat-box-container {
+  position: absolute;
+  bottom: 0px;
+  left: 15px;
+  right: 15px;
 }
