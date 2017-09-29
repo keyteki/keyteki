@@ -173,8 +173,8 @@ export class InnerRegister extends React.Component {
 
             fieldsToRender.push(
                 <div key={ field.name } className={ className }>
-                    <label htmlFor={ field.name } className='col-sm-2 control-label'>{ field.label }</label>
-                    <div className='col-sm-3'>
+                    <label htmlFor={ field.name } className='col-sm-4 control-label'>{ field.label }</label>
+                    <div className='col-sm-7'>
                         <input type={ field.inputType }
                             ref={ field.name }
                             className='form-control'
@@ -189,16 +189,21 @@ export class InnerRegister extends React.Component {
         });
 
         return (
-            <div>
+            <div className='col-sm-6 col-sm-offset-3'>
                 { errorBar }
-                <form className='form form-horizontal'>
-                    { fieldsToRender }
-                    <div className='form-group'>
-                        <div className='col-sm-offset-2 col-sm-3'>
-                            <button ref='submit' type='submit' className='btn btn-primary' onClick={ this.onRegister }>Register</button>
+                <div className='panel-title'>
+                    Register an account
+                </div>
+                <div className='panel'>
+                    <form className='form form-horizontal'>
+                        { fieldsToRender }
+                        <div className='form-group'>
+                            <div className='col-sm-offset-4 col-sm-3'>
+                                <button ref='submit' type='submit' className='btn btn-primary' onClick={ this.onRegister }>Register</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>);
     }
 }

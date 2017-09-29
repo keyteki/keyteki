@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'underscore';
 import $ from 'jquery';
 import ReactDOMServer from 'react-dom/server';
@@ -59,9 +60,9 @@ class StatusPopOver extends React.Component {
 
 StatusPopOver.displayName = 'StatusPopOver';
 StatusPopOver.propTypes = {
-    list: React.PropTypes.array,
-    show: React.PropTypes.bool,
-    status: React.PropTypes.string
+    list: PropTypes.array,
+    show: PropTypes.bool,
+    status: PropTypes.string
 };
 
 export default StatusPopOver;

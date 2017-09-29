@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'underscore';
 import { connect } from 'react-redux';
 
@@ -102,12 +103,12 @@ class InnerNavBar extends React.Component {
 
 InnerNavBar.displayName = 'Decks';
 InnerNavBar.propTypes = {
-    context: React.PropTypes.array,
-    currentPath: React.PropTypes.string,
-    leftMenu: React.PropTypes.array,
-    numGames: React.PropTypes.number,
-    rightMenu: React.PropTypes.array,
-    title: React.PropTypes.string
+    context: PropTypes.array,
+    currentPath: PropTypes.string,
+    leftMenu: PropTypes.array,
+    numGames: PropTypes.number,
+    rightMenu: PropTypes.array,
+    title: PropTypes.string
 };
 
 function mapStateToProps(state) {
@@ -119,4 +120,3 @@ function mapStateToProps(state) {
 const NavBar = connect(mapStateToProps, actions)(InnerNavBar);
 
 export default NavBar;
-

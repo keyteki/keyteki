@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'underscore';
 import $ from 'jquery';
 import {connect} from 'react-redux';
@@ -130,7 +131,7 @@ class InnerLogin extends React.Component {
             fieldsToRender.push(
                 <div key={ field.name } className={ className }>
                     <label htmlFor={ field.name } className='col-sm-2 control-label'>{ field.label }</label>
-                    <div className='col-sm-3'>
+                    <div className='col-sm-8'>
                         <input type={ field.inputType }
                             ref={ field.name }
                             className='form-control'
@@ -145,30 +146,35 @@ class InnerLogin extends React.Component {
         });
 
         return (
-            <div>
+            <div className='col-sm-6 col-sm-offset-3'>
                 { errorBar }
-                <form className='form form-horizontal'>
-                    { fieldsToRender }
-                    <div className='form-group'>
-                        <div className='col-sm-offset-2 col-sm-3'>
-                            <Link href='/forgot' >Forgot your password?</Link>
+                <div className='panel-title'>
+                    Login
+                </div>
+                <div className='panel'>
+                    <form className='form form-horizontal'>
+                        { fieldsToRender }
+                        <div className='form-group'>
+                            <div className='col-sm-offset-2 col-sm-10'>
+                                <Link href='/forgot' >Forgot your password?</Link>
+                            </div>
                         </div>
-                    </div>
-                    <div className='form-group'>
-                        <div className='col-sm-offset-2 col-sm-3'>
-                            <button ref='submit' type='submit' className='btn btn-primary' onClick={ this.onLogin }>Login</button>
+                        <div className='form-group'>
+                            <div className='col-sm-offset-2 col-sm-3'>
+                                <button ref='submit' type='submit' className='btn btn-primary' onClick={ this.onLogin }>Login</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>);
     }
 }
 
 InnerLogin.displayName = 'Login';
 InnerLogin.propTypes = {
-    login: React.PropTypes.func,
-    navigate: React.PropTypes.func,
-    socket: React.PropTypes.object
+    login: PropTypes.func,
+    navigate: PropTypes.func,
+    socket: PropTypes.object
 };
 
 function mapStateToProps(state) {
