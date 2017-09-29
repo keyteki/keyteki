@@ -29,7 +29,6 @@ class ConflictFlow extends BaseStep {
             new SimpleStep(this.game, () => this.resetCards()),
             new InitiateConflictPrompt(this.game, this.conflict, this.conflict.attackingPlayer),
             new SimpleStep(this.game, () => this.initiateConflict()),
-            new SimpleStep(this.game, () => this.checkRevealProvince()),
             new SimpleStep(this.game, () => this.announceAttackerSkill()),
             new SimpleStep(this.game, () => this.promptForDefenders()),
             new SimpleStep(this.game, () => this.announceDefenderSkill()),
@@ -53,20 +52,44 @@ class ConflictFlow extends BaseStep {
         if(this.conflict.cancelled) {
             return;
         }
-
+        
+        let events = [{
+            name: 'onConflictDeclared',
+            params: { conflict: this.conflict }
+        }];
+        
         let ring = this.game.rings[this.conflict.conflictRing];
         this.conflict.attackingPlayer.conflicts.perform(this.conflict.conflictType);
         _.each(this.conflict.attackers, card => card.inConflict = true);
-        if(!this.conflict.isSinglePlayer) {
-            this.conflict.conflictProvince.inConflict = true;
-        }
         if(ring.fate > 0) {
-            this.game.raiseEvent('onTakeFateFromRing', ring);
+            events.push({
+                name: 'onSelectRingWithFate',
+                params: {
+                    conflict: this.conflict,
+                    ring: ring,
+                    fate: ring.fate
+                }
+            });
             this.game.addFate(this.conflict.attackingPlayer, ring.fate);
             ring.removeFate();
         }
 
         this.game.addMessage('{0} is initiating a {1} conflict at {2}, contesting the {3} ring', this.conflict.attackingPlayer, this.conflict.conflictType, this.conflict.conflictProvince, this.conflict.conflictRing);
+ 
+        if(!this.conflict.isSinglePlayer) {
+            this.conflict.conflictProvince.inConflict = true;
+            if(this.conflict.conflictProvince.facedown) {
+                this.conflict.conflictProvince.facedown = false;
+                events.push({
+                    name: 'onProvinceRevealed',
+                    params: {
+                        conflict: this.conflict,
+                        province: this.conflict.conflictProvince
+                    }
+                });
+            }
+        }
+        this.game.raiseAtomicEvent(events);
     }
 
     promptForAttackers() {
@@ -96,18 +119,6 @@ class ConflictFlow extends BaseStep {
         return true;
     }
     
-    checkRevealProvince() {
-        if(this.conflict.cancelled || this.conflict.isSinglePlayer) {
-            return;
-        }
-        
-        if(this.conflict.conflictProvince.facedown) {
-            this.conflict.conflictProvince.facedown = false;
-            this.conflict.provinceRevealedDuringConflict = true;
-        }
-        this.game.raiseEvent('onConflictDeclared', this.conflict);
-    }
-
     announceAttackerSkill() {
         if(this.conflict.cancelled) {
             return;
@@ -305,9 +316,12 @@ class ConflictFlow extends BaseStep {
             return;
         }
 
-        this.game.raiseEvent('onReturnHome', this.conflict);
-        _.each(this.conflict.attackers, card => card.returnHomeFromConflict('attacker'));
-        _.each(this.conflict.defenders, card => card.returnHomeFromConflict('defender'));
+        this.game.raiseSimultaneousEvent(this.conflict.attackers.concat(this.conflict.defenders), {
+            eventName: 'onParticipantsReturnHome',
+            perCardEventName: 'OnReturnHome',
+            perCardHandler: (params) => params.card.controller.bowCard(params.card), 
+            params: { conflict: this.conflict }
+        });
     }
     
     completeConflict() {

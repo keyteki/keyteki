@@ -76,6 +76,8 @@ class HowToPlay extends React.Component {
                         <li>/give-control - Give control of a card to your opponent.  Use with caution</li>
                         <li>/reveal - Reveal a facedown card.</li>
                         <li>/duel - Initiates an honor bid for a duel.</li>
+                        <li>/move-to-conflict - Moves one or more characters into a conflict.</li>
+                        <li>/send-home - Sends a character home from a conflict.</li>
                         <li>/add-fate x - Add 'x' fate to a card.</li>
                         <li>/rem-fate x - Remove 'x' fate from a card.</li>
                         <li>/add-fate-ring ring x - Add 'x' fate to 'ring'.</li>
