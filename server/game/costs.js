@@ -382,13 +382,13 @@ const Costs = {
      * Cost that will discard a fate from the card. Used mainly by cards
      * having the bestow keyword.
      */
-    discardFate: function() {
+    discardFate: function(amount) {
         return {
             canPay: function(context) {
-                return context.source.hasToken('fate');
+                return context.source.fate >= amount;
             },
             pay: function(context) {
-                context.source.removeToken('fate', 1);
+                context.source.modifyFate(-amount);
             }
         };
     },
