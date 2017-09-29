@@ -30,7 +30,7 @@ class RegroupPhase extends Phase {
     }
 
     readyCards() {
-        this.game.raiseEvent('onReadyAllCards', this, () => {
+        this.game.raiseEvent('onReadyAllCards', {}, () => {
             _.each(this.game.getPlayers(), player => {
                 player.readyCards();
             });
@@ -60,7 +60,7 @@ class RegroupPhase extends Phase {
     }
     
     returnRings() {
-        this.game.raiseEvent('onReturnRings', this.game, () => {
+        this.game.raiseEvent('onReturnRings', {}, () => {
             this.game.returnRings();
         });
     }
@@ -69,7 +69,7 @@ class RegroupPhase extends Phase {
         let firstPlayer = this.game.getFirstPlayer();
         let otherPlayer = this.game.getOtherPlayer(firstPlayer);
         if(otherPlayer) {
-            this.game.raiseEvent('onPassFirstPlayer', otherPlayer, this.game.setFirstPlayer(otherPlayer));
+            this.game.raiseEvent('onPassFirstPlayer', { player: otherPlayer }, () => this.game.setFirstPlayer(otherPlayer));
         }
     }
 
