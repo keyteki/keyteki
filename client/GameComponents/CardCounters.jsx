@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'underscore';
 
 import Counter from './Counter.jsx';
@@ -34,7 +35,7 @@ class CardCounters extends React.Component {
 
 CardCounters.displayName = 'CardCounters';
 CardCounters.propTypes = {
-    counters: React.PropTypes.object.isRequired
+    counters: PropTypes.object.isRequired
 };
 
 export default CardCounters;
