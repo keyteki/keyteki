@@ -3,6 +3,7 @@ const _ = require('underscore');
 const BaseAbility = require('./baseability.js');
 const Costs = require('./costs.js');
 const EventRegistrar = require('./eventregistrar.js');
+const AbilityLimit = require('./abilitylimit.js');
 
 /**
  * Represents an action ability provided by card text.
@@ -44,7 +45,7 @@ class CardAction extends BaseAbility {
         this.game = game;
         this.card = card;
         this.title = properties.title;
-        this.limit = properties.limit;
+        this.limit = properties.limit || AbilityLimit.perRound(1);
         this.phase = properties.phase || 'any';
         this.anyPlayer = properties.anyPlayer || false;
         this.condition = properties.condition;

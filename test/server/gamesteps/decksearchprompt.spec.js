@@ -11,8 +11,8 @@ describe('DeckSearchPrompt', function() {
     beforeEach(function() {
         this.game = jasmine.createSpyObj('game', ['addMessage', 'getPlayers']);
 
-        this.player = jasmine.createSpyObj('player1', ['cancelPrompt', 'setPrompt', 'findCardByUuid', 'searchConflictDeck', 'shuffleDrawDeck']);
-        this.player.drawDeck = _([]);
+        this.player = jasmine.createSpyObj('player1', ['cancelPrompt', 'setPrompt', 'findCardByUuid', 'searchConflictDeck', 'shuffleConflictDeck']);
+        this.player.conflictDeck = _([]);
         this.otherPlayer = jasmine.createSpyObj('player2', ['setPrompt', 'cancelPrompt']);
 
         this.properties = {
@@ -27,7 +27,7 @@ describe('DeckSearchPrompt', function() {
         describe('cardType', function() {
             it('should default to a list of draw card types', function() {
                 let prompt = new DeckSearchPrompt(this.game, this.player, this.properties);
-                expect(prompt.properties.cardType).toEqual(['attachment', 'character', 'event', 'location']);
+                expect(prompt.properties.cardType).toEqual(['attachment', 'character', 'event']);
             });
 
             it('should let a custom array be set', function() {
@@ -53,9 +53,9 @@ describe('DeckSearchPrompt', function() {
         describe('activePrompt()', function() {
             beforeEach(function() {
                 this.player.searchConflictDeck.and.returnValue([
-                    createCardSpy({ uuid: '1111', cardData: { label: 'Foo' } }),
-                    createCardSpy({ uuid: '2222', cardData: { label: 'Bar' } }),
-                    createCardSpy({ uuid: '3333', cardData: { label: 'Foo' } })
+                    createCardSpy({ uuid: '1111', name: 'Foo' }),
+                    createCardSpy({ uuid: '2222', name: 'Bar' }),
+                    createCardSpy({ uuid: '3333', name: 'Foo' })
                 ]);
                 this.result = this.prompt.activePrompt();
             });
@@ -65,9 +65,9 @@ describe('DeckSearchPrompt', function() {
             });
 
             it('should generate buttons for each unique card by title', function() {
-                expect(this.result.buttons).toContain(jasmine.objectContaining({ text: 'Foo', card: jasmine.objectContaining({ uuid: '1111' }) }));
-                expect(this.result.buttons).toContain(jasmine.objectContaining({ text: 'Bar', card: jasmine.objectContaining({ uuid: '2222' }) }));
-                expect(this.result.buttons).not.toContain(jasmine.objectContaining({ card: jasmine.objectContaining({ uuid: '3333' }) }));
+                expect(this.result.buttons).toContain(jasmine.objectContaining({ text: 'Foo', arg: '1111' }));
+                expect(this.result.buttons).toContain(jasmine.objectContaining({ text: 'Bar', arg: '2222' }));
+                expect(this.result.buttons).not.toContain(jasmine.objectContaining({ arg: '3333' }));
             });
 
             it('should include a Done button', function() {
@@ -100,7 +100,7 @@ describe('DeckSearchPrompt', function() {
                 });
 
                 it('should not shuffle the deck', function() {
-                    expect(this.player.shuffleDrawDeck).not.toHaveBeenCalled();
+                    expect(this.player.shuffleConflictDeck).not.toHaveBeenCalled();
                 });
             });
 
@@ -118,7 +118,7 @@ describe('DeckSearchPrompt', function() {
                 });
 
                 it('should shuffle the deck', function() {
-                    expect(this.player.shuffleDrawDeck).toHaveBeenCalled();
+                    expect(this.player.shuffleConflictDeck).toHaveBeenCalled();
                 });
             });
 
@@ -142,7 +142,7 @@ describe('DeckSearchPrompt', function() {
                 });
 
                 it('should not shuffle the deck', function() {
-                    expect(this.player.shuffleDrawDeck).not.toHaveBeenCalled();
+                    expect(this.player.shuffleConflictDeck).not.toHaveBeenCalled();
                 });
             });
 
@@ -160,7 +160,7 @@ describe('DeckSearchPrompt', function() {
                 });
 
                 it('should shuffle the deck', function() {
-                    expect(this.player.shuffleDrawDeck).toHaveBeenCalled();
+                    expect(this.player.shuffleConflictDeck).toHaveBeenCalled();
                 });
             });
         });
@@ -175,9 +175,9 @@ describe('DeckSearchPrompt', function() {
         describe('activePrompt()', function() {
             beforeEach(function() {
                 this.player.searchConflictDeck.and.returnValue([
-                    createCardSpy({ uuid: '1111', cardData: { label: 'Foo' } }),
-                    createCardSpy({ uuid: '2222', cardData: { label: 'Bar' } }),
-                    createCardSpy({ uuid: '3333', cardData: { label: 'Foo' } })
+                    createCardSpy({ uuid: '1111', name: 'Foo' }),
+                    createCardSpy({ uuid: '2222', name: 'Bar' }),
+                    createCardSpy({ uuid: '3333', name: 'Foo' })
                 ]);
                 this.result = this.prompt.activePrompt();
             });
@@ -187,9 +187,9 @@ describe('DeckSearchPrompt', function() {
             });
 
             it('should generate buttons for each unique card by title', function() {
-                expect(this.result.buttons).toContain(jasmine.objectContaining({ text: 'Foo', card: jasmine.objectContaining({ uuid: '1111' }) }));
-                expect(this.result.buttons).toContain(jasmine.objectContaining({ text: 'Bar', card: jasmine.objectContaining({ uuid: '2222' }) }));
-                expect(this.result.buttons).not.toContain(jasmine.objectContaining({ card: jasmine.objectContaining({ uuid: '3333' }) }));
+                expect(this.result.buttons).toContain(jasmine.objectContaining({ text: 'Foo', arg: '1111' }));
+                expect(this.result.buttons).toContain(jasmine.objectContaining({ text: 'Bar', arg: '2222' }));
+                expect(this.result.buttons).not.toContain(jasmine.objectContaining({ arg: '3333' }));
             });
 
             it('should include a Done button', function() {

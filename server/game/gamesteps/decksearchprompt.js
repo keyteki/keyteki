@@ -45,7 +45,7 @@ class DeckSearchPrompt extends UiPrompt {
     defaultProperties() {
         return {
             cardCondition: () => true,
-            cardType: ['attachment', 'character', 'event', 'location'],
+            cardType: ['attachment', 'character', 'event'],
             onSelect: () => true,
             onCancel: () => true
         };
@@ -64,9 +64,9 @@ class DeckSearchPrompt extends UiPrompt {
     }
 
     buttons() {
-        let uniqueCardsByTitle = _.uniq(this.searchCards(), card => card.cardData.label);
+        let uniqueCardsByTitle = _.uniq(this.searchCards(), card => card.name);
         let buttons = _.map(uniqueCardsByTitle, card => {
-            return { text: card.cardData.label, card: card };
+            return { text: card.name, arg: card.uuid };
         });
         buttons.push({ text: 'Done', arg: 'done' });
         return buttons;
@@ -97,7 +97,7 @@ class DeckSearchPrompt extends UiPrompt {
             return;
         }
 
-        let card = player.findCardByUuid(player.drawDeck, arg);
+        let card = player.findCardByUuid(player.conflictDeck, arg);
 
         if(!card) {
             return false;
@@ -112,18 +112,19 @@ class DeckSearchPrompt extends UiPrompt {
         }
 
         this.selectAndShuffle(player, card);
+        return true;
     }
 
     cancelAndShuffle(player) {
         this.properties.onCancel(player);
-        player.shuffleDrawDeck();
+        player.shuffleConflictDeck();
         this.game.addMessage('{0} shuffles their deck', player);
         this.complete();
     }
 
     selectAndShuffle(player, card) {
         this.properties.onSelect(player, card);
-        player.shuffleDrawDeck();
+        player.shuffleConflictDeck();
         this.game.addMessage('{0} shuffles their deck', player);
         this.complete();
     }

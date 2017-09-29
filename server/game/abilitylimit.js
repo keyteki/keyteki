@@ -60,8 +60,8 @@ AbilityLimit.repeatable = function(max, eventName) {
     return new RepeatableAbilityLimit(max, eventName);
 };
 
-AbilityLimit.perChallenge = function(max) {
-    return new RepeatableAbilityLimit(max, 'onChallengeFinished');
+AbilityLimit.perConflict = function(max) {
+    return new RepeatableAbilityLimit(max, 'onConflictFinished');
 };
 
 AbilityLimit.perPhase = function(max) {
