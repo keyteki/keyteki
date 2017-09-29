@@ -1,16 +1,19 @@
 /*global user, authToken, Raven */
 import React from 'react';
-import {render} from 'react-dom';
+import { render } from 'react-dom';
 import Application from './Application.jsx';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import configureStore from './configureStore';
-import {navigate, login} from './actions';
+import { navigate, login } from './actions';
 import 'bootstrap/dist/js/bootstrap';
 import ReduxToastr from 'react-redux-toastr';
 
 import version from '../version.js';
 
-Raven.config('https://6338b02af9114903bb47e5b4dee79d0e@sentry.io/169735', { release: version}).install();
+Raven.config('https://6338b02af9114903bb47e5b4dee79d0e@sentry.io/169735', {
+    ignoreErrors: ['/recaptcha/api2'],
+    release: version
+}).install();
 
 const store = configureStore();
 
@@ -26,14 +29,14 @@ if(typeof user !== 'undefined') {
 
 render(
     <Provider store={ store }>
-        <div>
+        <div className='body'>
             <ReduxToastr
                 timeOut={ 4000 }
                 newestOnTop
                 preventDuplicates
                 position='top-right'
                 transitionIn='fadeIn'
-                transitionOut='fadeOut'/>
+                transitionOut='fadeOut' />
             <Application />
         </div>
     </Provider>, document.getElementById('component'));

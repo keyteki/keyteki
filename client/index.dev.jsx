@@ -1,9 +1,9 @@
 /*global user, authToken */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import configureStore from './configureStore';
-import {navigate, login} from './actions';
+import { navigate, login } from './actions';
 import DevTools from './DevTools';
 import 'bootstrap/dist/js/bootstrap';
 import ReduxToastr from 'react-redux-toastr';
@@ -25,14 +25,14 @@ const render = () => {
     const Application = require('./Application.jsx').default;
     ReactDOM.render(<AppContainer>
         <Provider store={ store }>
-            <div>
+            <div className='body'>
                 <ReduxToastr
                     timeOut={ 4000 }
                     newestOnTop
                     preventDuplicates
                     position='top-right'
                     transitionIn='fadeIn'
-                    transitionOut='fadeOut'/>  
+                    transitionOut='fadeOut' />
                 <Application />
                 <DevTools />
             </div>
