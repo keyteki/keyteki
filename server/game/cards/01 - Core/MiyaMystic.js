@@ -1,4 +1,4 @@
-const DrawCard = require('../../../drawcard.js');
+const DrawCard = require('../../drawcard.js');
 
 class MiyaMystic extends DrawCard {
     setupCardAbilities(ability) {
@@ -12,14 +12,14 @@ class MiyaMystic extends DrawCard {
                 cardCondition: card => card.location === 'play area'
             },
             handler: context => {
-                this.game.addMessage({0} sacrifices {1} to discard {2}, this.controller, this, context.target);
+                this.game.addMessage('(0} sacrifices {1} to discard {2)', this.controller, this, context.target);
                 this.controller.removeAttachment(context.target);
             }
-        })
+        });
     }
 }
 
-MiyaMystic.code = '01125';
+MiyaMystic.id = 'miya-mystic';
 
 module.exports = MiyaMystic;
 
