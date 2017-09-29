@@ -1,4 +1,4 @@
-const DrawCard = require('../../../drawcard.js');
+const DrawCard = require('../../drawcard.js');
 
 class BorderRider extends DrawCard {
     setupCardAbilities() {
@@ -6,14 +6,14 @@ class BorderRider extends DrawCard {
             title: 'Ready this character',
             condition: () => this.bowed,
             handler: () => {
-                this.addMessage('{0} readies {1} using its ability', this.controller, this);
+                this.game.addMessage('{0} readies {1} using its ability', this.controller, this);
                 this.controller.readyCard(this);
             }
         });
     }
 }
 
-BorderRider.code = '01112';
+BorderRider.id = 'border-rider';
 
 module.exports = BorderRider;
 
