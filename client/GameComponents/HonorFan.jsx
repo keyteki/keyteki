@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'underscore';
 
 class HonorFan extends React.Component {
@@ -58,12 +59,12 @@ class HonorFan extends React.Component {
 
 HonorFan.displayName = 'HonorFan';
 HonorFan.propTypes = {
-    buttons: React.PropTypes.array,
-    onButtonClick: React.PropTypes.func,
-    onMouseOut: React.PropTypes.func,
-    onMouseOver: React.PropTypes.func,
-    socket: React.PropTypes.object,
-    value: React.PropTypes.string
+    buttons: PropTypes.array,
+    onButtonClick: PropTypes.func,
+    onMouseOut: PropTypes.func,
+    onMouseOver: PropTypes.func,
+    socket: PropTypes.object,
+    value: PropTypes.string
 };
 
 export default HonorFan;

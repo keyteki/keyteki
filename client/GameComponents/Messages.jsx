@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'underscore';
 
@@ -34,7 +35,7 @@ class InnerMessages extends React.Component {
             'phoenix',
             'scorpion',
             'unicorn'
-        ];        
+        ]; 
 
         this.formatMessageText = this.formatMessageText.bind(this);
     }
@@ -50,12 +51,46 @@ class InnerMessages extends React.Component {
 
     formatMessageText(message) {
         var index = 0;
-        return _.map(message, fragment => {
+        return _.map(message, (fragment, key) => {
             if(_.isNull(fragment) || _.isUndefined(fragment)) {
                 return '';
             }
 
-            if(fragment.message) {
+            if(key === 'alert') {
+                let message = this.formatMessageText(fragment.message);
+
+                switch(fragment.type) {
+                    case 'endofround':
+                        return (
+                            <div className='seperator'>
+                                <hr />
+                                { message }
+                                <hr />
+                            </div>
+                        );
+                    case 'success':
+                        return (<div className='alert alert-success'>
+                            <span className='glyphicon glyphicon-ok-sign' />&nbsp;
+                            { message }
+                        </div>);
+                    case 'info':
+                        return (<div className='alert alert-info'>
+                            <span className='glyphicon glyphicon-info-sign' />&nbsp;
+                            { message }
+                        </div>);
+                    case 'danger':
+                        return (<div className='alert alert-danger'>
+                            <span className='glyphicon glyphicon-exclamation-sign' />&nbsp;
+                            { message }
+                        </div>);
+                    case 'warning':
+                        return (<div className='alert alert-warning'>
+                            <span className='glyphicon glyphicon-warning-sign' />&nbsp;
+                            { message }
+                        </div>);
+                }
+                return message;
+            } else if(fragment.message) {
                 return this.formatMessageText(fragment.message);
             } else if(fragment.code && fragment.label) {
                 return (
@@ -88,7 +123,6 @@ class InnerMessages extends React.Component {
                     <span className={ 'icon-clan-' + fragment } key={ index++ } />
                 );
             }
-
             return fragment;
         });
     }
@@ -100,10 +134,10 @@ class InnerMessages extends React.Component {
 
 InnerMessages.displayName = 'Messages';
 InnerMessages.propTypes = {
-    messages: React.PropTypes.array,
-    onCardMouseOut: React.PropTypes.func,
-    onCardMouseOver: React.PropTypes.func,
-    socket: React.PropTypes.object
+    messages: PropTypes.array,
+    onCardMouseOut: PropTypes.func,
+    onCardMouseOver: PropTypes.func,
+    socket: PropTypes.object
 };
 
 function mapStateToProps(state) {
