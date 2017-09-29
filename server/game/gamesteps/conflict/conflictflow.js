@@ -119,7 +119,7 @@ class ConflictFlow extends BaseStep {
     }
 
     promptForDefenders() {
-        if(this.conflict.cancelled) {
+        if(this.conflict.cancelled || this.conflict.isSinglePlayer) {
             return;
         }
 
@@ -139,7 +139,7 @@ class ConflictFlow extends BaseStep {
     }
 
     announceDefenderSkill() {
-        if(this.conflict.cancelled) {
+        if(this.conflict.cancelled || this.conflict.isSinglePlayer) {
             return;
         }
 
