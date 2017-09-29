@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'underscore';
 
 import Checkbox from '../FormComponents/Checkbox.jsx';
@@ -112,12 +113,12 @@ class GameConfiguration extends React.Component {
 
 GameConfiguration.displayName = 'GameConfiguration';
 GameConfiguration.propTypes = {
-    actionWindows: React.PropTypes.object,
-    keywordSettings: React.PropTypes.object,
-    onKeywordSettingToggle: React.PropTypes.func,
-    onTimerSettingToggle: React.PropTypes.func,
-    onToggle: React.PropTypes.func,
-    timerSettings: React.PropTypes.object
+    actionWindows: PropTypes.object,
+    keywordSettings: PropTypes.object,
+    onKeywordSettingToggle: PropTypes.func,
+    onTimerSettingToggle: PropTypes.func,
+    onToggle: PropTypes.func,
+    timerSettings: PropTypes.object
 };
 
 export default GameConfiguration;
