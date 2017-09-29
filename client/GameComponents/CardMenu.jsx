@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'underscore';
 
 class CardMenu extends React.Component {
@@ -24,8 +25,8 @@ class CardMenu extends React.Component {
 
 CardMenu.displayName = 'CardMenu';
 CardMenu.propTypes = {
-    menu: React.PropTypes.array.isRequired,
-    onMenuItemClick: React.PropTypes.func
+    menu: PropTypes.array.isRequired,
+    onMenuItemClick: PropTypes.func
 };
 
 export default CardMenu;
