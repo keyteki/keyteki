@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Placeholder extends React.Component {
 
@@ -19,9 +20,9 @@ class Placeholder extends React.Component {
 
 Placeholder.displayName = 'Placeholder';
 Placeholder.propTypes = {
-    className: React.PropTypes.string,
-    orientation: React.PropTypes.oneOf(['horizontal', 'bowed', 'vertical']),
-    source: React.PropTypes.oneOf(['hand', 'dynasty discard pile', 'conflict discard pile', 'play area', 'dynasty deck', 'conflict deck', 'province deck', 'province 1', 'province 2', 'province 3', 'province 4', 'attachment', 'stronghold province', 'additional']).isRequired
+    className: PropTypes.string,
+    orientation: PropTypes.oneOf(['horizontal', 'bowed', 'vertical']),
+    source: PropTypes.oneOf(['hand', 'dynasty discard pile', 'conflict discard pile', 'play area', 'dynasty deck', 'conflict deck', 'province deck', 'province 1', 'province 2', 'province 3', 'province 4', 'attachment', 'stronghold province', 'additional']).isRequired
 };
 Placeholder.defaultProps = {
     orientation: 'vertical'
