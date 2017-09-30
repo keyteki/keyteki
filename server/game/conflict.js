@@ -13,6 +13,9 @@ class Conflict {
         this.conflictType = conflictType;
         this.conflictRing = conflictRing;
         this.conflictProvince = conflictProvince;
+        this.conflictTypeSwitched = false;
+        this.elementsToResolve = 1;
+        this.elements = [];
         this.attackers = [];
         this.attackerSkill = 0;
         this.attackerSkillModifier = 0;
@@ -20,7 +23,6 @@ class Conflict {
         this.defenderSkill = 0;
         this.maxAllowedDefenders = 0;
         this.defenderSkillModifier = 0;
-        this.provinceRevealedDuringConflict = false;
     }
 
     singlePlayerDefender() {

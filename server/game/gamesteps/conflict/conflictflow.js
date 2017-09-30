@@ -59,6 +59,7 @@ class ConflictFlow extends BaseStep {
         }];
         
         let ring = this.game.rings[this.conflict.conflictRing];
+        this.conflict.elements.push(this.conflict.conflictRing);
         this.conflict.attackingPlayer.conflicts.perform(this.conflict.conflictType);
         _.each(this.conflict.attackers, card => card.inConflict = true);
         if(ring.fate > 0) {
