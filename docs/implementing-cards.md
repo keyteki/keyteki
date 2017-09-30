@@ -238,7 +238,7 @@ this.untilEndOfConflict(ability => ({
 To apply an effect that will expire 'at the end of the conflict', use `atEndOfConflict`:
 ```javascript
 // If that character is still in play at the end of the conflict, return it to the bottom of its deck.
-this.atEndOfPhase(ability => ({
+this.atEndOfConflict(ability => ({
     match: card,
     effect: ability.effects.returnToBottomOfDeckIfStillInPlay())
 }));
@@ -441,8 +441,8 @@ Certain actions, such as that of Ancestral Guidance, can only be activated while
 
 ```javascript
 this.action({
-    title: 'Add Dolorous Edd as a defender',
-    location: 'hand',
+    title: 'Play from discard pile',
+    location: 'conflict discard pile',
     // ...
 })
 ```
@@ -459,7 +459,7 @@ Each triggered ability has an associated triggering condition. This is done usin
 this.reaction({
 	// When this card enters play, honor it
 	when: {
-		onCardEntersPlay: (card, playingType, originalLocation) => card === this
+		onCardEntersPlay: (event, params) => params.card === this
 	},
 	handler: () => this.controller.honorCard(this)
 });
@@ -503,7 +503,7 @@ To declare a forced interrupt, use the `forcedInterrupt` method.
 // After the fate phase begins, if you have at least 5 more honor than an opponent – this character cannot be discarded or lose fate this phase.
 this.forcedInterrupt({
 	when: {
-		onPhaseStarted: context => context.phase === 'fate'
+		onPhaseStarted: (event, context) => context.phase === 'fate'
 	},
 	handler: () => {
 		this.untilEndOfPhase(ability => ({
@@ -669,7 +669,7 @@ Certain abilities, such as that of Vengeful Oathkeeper can only be activated in 
 ```javascript
 this.reaction({
 	when: {
-		afterConflict: conflict => conflict.loser === this.controller && conflict.conflictType === 'military'
+		afterConflict: (event, context) => context.conflict.loser === this.controller && context.conflict.conflictType === 'military'
 	},
 	location: 'hand',
 	handler: () => this.controller.putIntoPlay(this)
