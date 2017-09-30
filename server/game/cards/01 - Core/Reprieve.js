@@ -10,6 +10,7 @@ class Reprieve extends DrawCard {
             handler: (context) => {
                 context.cancel();
                 this.controller.discardCard(this);
+                this.game.addMessage('{0} uses {1} to save {2}', this.controller, this, this.parent);
             }
         });
     }
