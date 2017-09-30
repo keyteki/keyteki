@@ -206,7 +206,7 @@ class Player extends Spectator {
     
     getNumberOfHoldingsInPlay() {
         return _.reduce(['province 1', 'province 2', 'province 3', 'province 4'], (n, province) => {
-            if(this.getSourceList(province).any(card => card.getType() === 'holding')) {
+            if(this.getSourceList(province).any(card => card.getType() === 'holding' && !card.facedown)) {
                 return n + 1;
             }
             return n;
