@@ -28,6 +28,8 @@ class DynastyActionWindow extends ActionWindow {
         if(this.currentPlayer !== player) {
             return false;
         }
+        
+        player.canInitiateAction = false;
 
         if(choice === 'manual') {
             this.game.promptForSelect(this.currentPlayer, {
@@ -45,6 +47,7 @@ class DynastyActionWindow extends ActionWindow {
         if(choice === 'pass') {
             this.pass(player);
             this.nextPlayer();
+            return true;
         }
 
     }

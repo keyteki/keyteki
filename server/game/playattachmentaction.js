@@ -22,15 +22,11 @@ class PlayAttachmentAction extends BaseAbility {
     }
 
     meetsRequirements(context) {
-        var {game, player, source} = context;
-
         return (
-            game.currentPhase !== 'dynasty' &&
-            source.getType() === 'attachment' &&
-            source.location === 'hand' &&
-            game.currentActionWindow &&
-            game.currentActionWindow.currentPlayer === player &&
-            game.abilityCardStack.length === 1
+            context.game.currentPhase !== 'dynasty' &&
+            context.source.getType() === 'attachment' &&
+            context.source.location === 'hand' &&
+            context.source.canPlay()
         );
     }
 

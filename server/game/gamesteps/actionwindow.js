@@ -31,6 +31,7 @@ class ActionWindow extends UiPrompt {
 
         if(!completed) {
             this.game.currentActionWindow = this;
+            this.currentPlayer.canInitiateAction = true;
         } else {
             this.game.currentActionWindow = null;
         }
@@ -61,6 +62,8 @@ class ActionWindow extends UiPrompt {
             return false;
         }
         
+        player.canInitiateAction = false;
+
         if(choice === 'manual') {
             this.game.promptForSelect(this.currentPlayer, {
                 activePrompt: 'Which ability are you using?',
