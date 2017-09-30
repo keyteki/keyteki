@@ -13,9 +13,6 @@ class TattooedWanderer extends DrawCard {
             location: 'hand',
             handler: () => {
                 this.type = 'attachment';
-                this.whileAttached({
-                    effect: ability.effects.addKeyword('covert')
-                });
                 let context = {
                     game: this.game,
                     player: this.controller,
@@ -23,6 +20,10 @@ class TattooedWanderer extends DrawCard {
                 };
                 this.game.resolveAbility(new PlayAttachmentAction(), context);
             }
+        });
+
+        this.whileAttached({
+            effect: ability.effects.addKeyword('covert')
         });
     }
     
