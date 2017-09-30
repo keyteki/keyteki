@@ -343,7 +343,7 @@ class BaseCard {
     }
 
     getType() {
-        return this.cardData.type;
+        return this.type;
     }
 
     getPrintedFaction() {
