@@ -186,6 +186,24 @@
   flex: 1;
 }
 
+.province-pane {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.provinces-group {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  &.our-side {
+    justify-content: flex-end;
+  }
+}
+
 .arrow {
   content: '';
   display: block;
@@ -264,6 +282,22 @@
 }
 
 .province {
+  padding: 0px;
+  position: relative;
+  margin: 5px 7px;
+
+  &.vertical {
+    height: @card-height;
+    width: @card-width;
+  }
+
+  &.horizontal {
+    height: @card-width;
+    width: @card-height;
+  }
+}
+
+.province-merge {
   margin: 5px;
 
   .popup {
@@ -473,6 +507,26 @@ span.down-arrow {
   display: flex;
 }
 
+.player-deck-row {
+  display: flex;
+  margin-top: 5px;
+
+  &.our-side {
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+}
+
+.player-stronghold-row {
+  display: flex;
+  margin-top: 5px;
+
+  &.our-side {
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+}
+
 .deck-cards {
   display: flex;
 }
@@ -560,9 +614,7 @@ span.down-arrow {
 }
 
 .honor-fan {
-  position: relative;
-  margin: 5px;
-  padding: 5px 10px;
+  padding: 0px 10px;
 }
 
 img.honor-fan-value {
@@ -636,4 +688,23 @@ div.placeholder {
 div.placeholder .panel-header {
   background: #efeade;
   padding: 0px;
+}
+
+.placeholder {
+  background-color: #efeade;
+  border: 0px;
+  box-shadow: none;
+  padding: 0px;
+  position: relative;
+  margin: 5px 7px;
+
+  &.vertical {
+    height: @card-height;
+    width: @card-width;
+  }
+
+  &.horizontal {
+    height: @card-width;
+    width: @card-height;
+  }
 }
