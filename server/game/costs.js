@@ -379,8 +379,7 @@ const Costs = {
         );
     },
     /**
-     * Cost that will discard a fate from the card. Used mainly by cards
-     * having the bestow keyword.
+     * Cost that will discard a fate from the card
      */
     discardFate: function(amount) {
         return {
@@ -466,6 +465,76 @@ const Costs = {
             },
             pay: function(context) {
                 context.game.addHonor(context.player, -amount);
+            }
+        };
+    },
+    /**
+     * Player must dishonor a character (possible with some condition
+     */
+    dishonorCharacter: function(condition) {
+        var fullCondition = (card, context) => (
+            card.location === 'play area' &&
+            card.controller === context.player &&
+            !card.isDishonored &&
+            condition(card)
+        );
+        return {
+            canPay: function(context) {
+                return context.player.anyCardsInPlay(card => fullCondition(card, context));
+            },
+            resolve: function(context, result = { resolved: false }) {
+                context.game.promptForSelect(context.player, {
+                    cardCondition: card => fullCondition(card, context),
+                    activePromptTitle: 'Choose a character to dishonor',
+                    source: context.source,
+                    onSelect: (player, card) => {
+                        context.costs.dishonorCharacter = card;
+                        result.value = true;
+                        result.resolved = true;
+
+                        return true;
+                    },
+                    onCancel: () => {
+                        result.value = false;
+                        result.resolved = true;
+                    }
+                });
+
+                return result;
+            },
+            pay: function(context) {
+                context.player.dishonorCard(context.costs.dishonorCharacter);
+            }
+        };
+    },
+    /**
+     * Cost where a character must spend fate to an unclaimed ring
+     */
+    payFateToRing: function(amount) {
+        return {
+            canPay: function(context) {
+                return context.player.fate >= amount;
+            },
+            resolve: function(context, result = { resolved: false }) {
+                context.game.promptForRingChoice(context.player, {
+                    condition: ring => !ring.claimed && (!context.game.currentConflict || context.game.currentConflict.conflictRing !== ring.element),
+                    activePromptTitle: 'Choose a ring to place fate on',
+                    source: context.source,
+                    onSelect: (player, ring) => {
+                        context.costs.payFateToRing.ring = ring;
+                        result.value = true;
+                        result.resolved = true;
+                        return true;
+                    },
+                    onCancel: () => {
+                        result.value = false;
+                        result.resolved = true;
+                    }
+                });
+            },
+            pay: function(context) {
+                context.game.addFate(context.player, -amount);
+                context.costs.payFateToRing.ring.modifyFate(amount);
             }
         };
     }
