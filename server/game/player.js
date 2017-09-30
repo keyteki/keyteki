@@ -1304,37 +1304,37 @@ class Player extends Spectator {
         this.discardCards(this.filterCardsInPlay(card => card.type === 'character' && card.fate === 0));
     }
 
+    getStats() {
+        return {
+            fate: this.fate,
+            totalHonor: this.getTotalHonor()
+        };
+    }    
+
     getState(activePlayer) {
         let isActivePlayer = activePlayer === this;
         let promptState = isActivePlayer ? this.promptState.getState() : {};
         let state = {
-            additionalPiles: _.mapObject(this.additionalPiles, pile => ({
-                title: pile.title,
-                area: pile.area,
-                isPrivate: pile.isPrivate,
-                cards: this.getSummaryForCardList(pile.cards, activePlayer, pile.isPrivate)
-            })),
-            promptedActionWindows: this.promptedActionWindows,
-            cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
-            conflictDeck: this.getSummaryForCardList(this.conflictDeck, activePlayer),
-            dynastyDeck: this.getSummaryForCardList(this.dynastyDeck, activePlayer),
-            conflictDiscardPile: this.getSummaryForCardList(this.conflictDiscardPile, activePlayer),
-            dynastyDiscardPile: this.getSummaryForCardList(this.dynastyDiscardPile, activePlayer),
+            cardPiles: {
+                cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
+                conflictDiscardPile: this.getSummaryForCardList(this.conflictDiscardPile, activePlayer),
+                dynastyDiscardPile: this.getSummaryForCardList(this.dynastyDiscardPile, activePlayer), 
+                hand: this.getSummaryForCardList(this.hand, activePlayer, true),
+                /* outOfGamePile: this.getSummaryForCardList(this.outOfGamePile, activePlayer, false), */
+                provinceDeck: this.getSummaryForCardList(this.provinceDeck, activePlayer, true)
+            },
             disconnected: this.disconnected,
             faction: this.faction,
-            stronghold: this.stronghold.getSummary(activePlayer),
             firstPlayer: this.firstPlayer,
-            fate: this.fate,
-            hand: this.getSummaryForCardList(this.hand, activePlayer, true),
             id: this.id,
             imperialFavor: this.imperialFavor,
             left: this.left,
+            name: this.name,
             numConflictCards: this.conflictDeck.size(),
             numDynastyCards: this.dynastyDeck.size(),
-            name: this.name,
             numProvinceCards: this.provinceDeck.size(),
             phase: this.game.currentPhase,
-            provinceDeck: this.getSummaryForCardList(this.provinceDeck, activePlayer, true),
+            promptedActionWindows: this.promptedActionWindows,
             provinces: {
                 one: this.getSummaryForCardList(this.provinceOne, activePlayer, !this.takenDynastyMulligan),
                 two: this.getSummaryForCardList(this.provinceTwo, activePlayer, !this.takenDynastyMulligan),
@@ -1342,20 +1342,21 @@ class Player extends Spectator {
                 four: this.getSummaryForCardList(this.provinceFour, activePlayer, !this.takenDynastyMulligan)
             },
             showBid: this.showBid,
+            stats: this.getStats(),            
+            stronghold: this.stronghold.getSummary(activePlayer),
             strongholdProvince: this.getSummaryForCardList(this.strongholdProvince, activePlayer),
-            totalHonor: this.getTotalHonor(),
             timerSettings: this.timerSettings,
             user: _.omit(this.user, ['password', 'email'])
         };
 
         if(this.showConflictDeck) {
             state.showConflictDeck = true;
-            state.conflictDeck = this.getSummaryForCardList(this.conflictDeck, activePlayer);
+            state.cardPiles.conflictDeck = this.getSummaryForCardList(this.conflictDeck, activePlayer);
         }
 
         if(this.showDynastyDeck) {
             state.showDynastyDeck = true;
-            state.dynastyDeck = this.getSummaryForCardList(this.dynastyDeck, activePlayer);
+            state.cardPiles.dynastyDeck = this.getSummaryForCardList(this.dynastyDeck, activePlayer);
         }
         
         if(this.role) {
