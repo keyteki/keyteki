@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import HonorFan from './HonorFan.jsx';
 import PlayerHand from './PlayerHand.jsx';
 
 class PlayerRow extends React.Component {
@@ -47,7 +46,6 @@ class PlayerRow extends React.Component {
                     onMouseOut={ this.props.onMouseOut }
                     onMouseOver={ this.props.onMouseOver }
                     cardSize={ this.props.cardSize } />
-                <HonorFan value={ this.props.showBid } />
             </div>
         );
     }
@@ -66,7 +64,6 @@ PlayerRow.propTypes = {
     onMouseOver: PropTypes.func,
     /* outOfGamePile: PropTypes.array, */
     provinceDeck: PropTypes.array,
-    showBid: PropTypes.number,
     spectating: PropTypes.bool,
     title: PropTypes.object
 };
