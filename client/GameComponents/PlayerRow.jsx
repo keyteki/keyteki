@@ -1,43 +1,51 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import AdditionalCardPile from './AdditionalCardPile.jsx';
 import PlayerHand from './PlayerHand.jsx';
 
 class PlayerRow extends React.Component {
+    constructor() {
+        super();
 
+    }
+
+    /*
     getOutOfGamePile() {
-        let pile = this.props.additionalPiles['out of game'];
+        let pile = this.props.outOfGamePile;
 
-        if(!pile || pile.cards.length === 0) {
+        if(pile.length === 0) {
             return;
         }
 
         return (
-            <AdditionalCardPile
+            <CardPile
+                cards={ pile }
                 className='additional-cards'
-                isMe={ this.props.isMe }
+                onCardClick={ this.props.onCardClick }
+                onDragDrop={ this.props.onDragDrop }
+                onMenuItemClick={ this.props.onMenuItemClick }
                 onMouseOut={ this.props.onMouseOut }
                 onMouseOver={ this.props.onMouseOver }
-                pile={ pile }
-                spectating={ this.props.spectating }
-                title='Out of Game' />
+                orientation='bowed'
+                popupLocation={ this.props.isMe || this.props.spectating ? 'top' : 'bottom' }
+                source='out of game'
+                title='Out of Game'
+                size={ this.props.cardSize } />
         );
     }
-
+*/
     render() {
+        
         return (
-            <div className='player-home-row'>
-                <div className='deck-cards'>
-                    <PlayerHand
-                        cards={ this.props.hand }
-                        isMe={ this.props.isMe }
-                        onCardClick={ this.props.onCardClick }
-                        onDragDrop={ this.props.onDragDrop }
-                        onMouseOut={ this.props.onMouseOut }
-                        onMouseOver={ this.props.onMouseOver } />
-
-                    { this.getOutOfGamePile() }
-                </div>
+            <div className='player-home-row-container'>
+                <PlayerHand
+                    cards={ this.props.hand }
+                    isMe={ this.props.isMe }
+                    onCardClick={ this.props.onCardClick }
+                    onDragDrop={ this.props.onDragDrop }
+                    onMouseOut={ this.props.onMouseOut }
+                    onMouseOver={ this.props.onMouseOver }
+                    cardSize={ this.props.cardSize } />
             </div>
         );
     }
@@ -45,16 +53,19 @@ class PlayerRow extends React.Component {
 
 PlayerRow.displayName = 'PlayerRow';
 PlayerRow.propTypes = {
-    additionalPiles: React.PropTypes.object,
-    hand: React.PropTypes.array,
-    honor: React.PropTypes.number,
-    isMe: React.PropTypes.bool,
-    onCardClick: React.PropTypes.func,
-    onDragDrop: React.PropTypes.func,
-    onMouseOut: React.PropTypes.func,
-    onMouseOver: React.PropTypes.func,
-    provinceDeck: React.PropTypes.array,
-    spectating: React.PropTypes.bool
+    cardSize: PropTypes.string,
+    hand: PropTypes.array,
+    honor: PropTypes.number,
+    isMe: PropTypes.bool,
+    onCardClick: PropTypes.func,
+    onDragDrop: PropTypes.func,
+    onMenuItemClick: PropTypes.func,
+    onMouseOut: PropTypes.func,
+    onMouseOver: PropTypes.func,
+    /* outOfGamePile: PropTypes.array, */
+    provinceDeck: PropTypes.array,
+    spectating: PropTypes.bool,
+    title: PropTypes.object
 };
 
 export default PlayerRow;
