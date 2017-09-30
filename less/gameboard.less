@@ -708,3 +708,27 @@ div.placeholder .panel-header {
     width: @card-height;
   }
 }
+
+.province-deck {
+  margin: 5px;
+  //display: flex;
+  //flex: 1;
+  //flex-direction: column;
+  //justify-content: flex-end;
+
+  &.our-side {
+    justify-content: flex-start;
+  }
+ 
+  .popup {
+    position: absolute;
+    width: 210px;
+    min-height: 92px;
+    left: -25px;
+    top: 0;
+    transform: translateY(-50%);
+    &.hidden {
+      display: none;
+    }
+  }
+}
