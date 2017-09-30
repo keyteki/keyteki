@@ -1307,7 +1307,7 @@ class Player extends Spectator {
     getStats() {
         return {
             fate: this.fate,
-            totalHonor: this.getTotalHonor()
+            honor: this.getTotalHonor()
         };
     }    
 
