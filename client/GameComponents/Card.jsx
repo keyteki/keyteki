@@ -240,8 +240,6 @@ class Card extends React.Component {
             return <div />;
         }
 
-        console.log(this.props.card);
-
         if(this.props.size !== 'normal') {
             cardClass += ' ' + this.props.size;
             imageClass += ' ' + this.props.size;
