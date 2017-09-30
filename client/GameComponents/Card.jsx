@@ -279,10 +279,10 @@ class Card extends React.Component {
             cardClass += ' in-danger';
         } else if(this.props.card.saved) {
             cardClass += ' saved';
-        } else if(this.props.card.inChallenge) {
-            cardClass += ' challenge';
-        } else if(this.props.card.stealth) {
-            cardClass += ' stealth';
+        } else if(this.props.card.inConfilct) {
+            cardClass += ' confilct';
+        } else if(this.props.card.covert) {
+            cardClass += ' covert';
         } else if(this.props.card.controlled) {
             cardClass += ' controlled';
         } else if(this.props.card.new) {
@@ -291,6 +291,29 @@ class Card extends React.Component {
 
         if(this.props.className) {
             cardClass += ' ' + this.props.className;
+        }
+
+        if(this.props.card.isHonored || this.props.card.isDishonored) {
+            cardClass += ' honor';
+            imageClass += ' honor';
+        }
+
+        if(this.props.card.isConflict || this.props.source === 'conflict deck') {
+            cardBack = 'conflictcardback.jpg';
+        } else if(this.props.card.isDynasty || this.props.source === 'dynasty deck') {
+            cardBack = 'dynastycardback.jpg';
+        } else if(this.props.card.isProvince || this.props.source === 'province deck') {
+            cardBack = 'provincecardback.jpg';
+        } else {
+            cardBack = 'cardback.jpg';
+        }
+
+        if(this.props.card.isHonored) {
+            honorClass += ' honored';
+            honorImage = 'honored.png';
+        } else if(this.props.card.isDishonored) {
+            honorClass += ' honored';
+            honorImage = 'dishonored.png';
         }
 
         return (
@@ -308,6 +331,7 @@ class Card extends React.Component {
                     <div>
                         <span className='card-name'>{ this.props.card.name }</span>
                         <img className={ imageClass } src={ '/img/cards/' + (!this.isFacedown() ? (this.props.card.code + '.png') : 'cardback.jpg') } />
+                        { this.showHonor() ? <img className={ honorClass } src={ '/img/' + honorImage } /> : null }
                     </div>
                     { this.showCounters() ? <CardCounters counters={ this.getCountersForCard(this.props.card) } /> : null }
                 </div>
