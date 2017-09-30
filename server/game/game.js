@@ -964,7 +964,8 @@ class Game extends EventEmitter {
                     };
                 }),
                 started: this.started,
-                winner: this.winner ? this.winner.name : undefined
+                winner: this.winner ? this.winner.name : undefined,
+                cancelPromptUsed: this.cancelPromptUsed
             };
         }
 
