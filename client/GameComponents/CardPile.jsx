@@ -255,7 +255,7 @@ CardPile.propTypes = {
     popupLocation: PropTypes.string,
     popupMenu: PropTypes.array,
     size: PropTypes.string,
-    source: PropTypes.oneOf(['none', 'hand', 'conflict discard pile', 'dynasty discard pile', 'play area', 'conflict deck', 'dynasty deck', 'province deck', 'attachment', 'faction', 'stronghold province', 'province 1', 'province 2', 'province 3', 'province 4', 'additional']).isRequired,
+    source: PropTypes.oneOf(['none', 'hand', 'conflict discard pile', 'dynasty discard pile', 'play area', 'conflict deck', 'dynasty deck', 'province deck', 'attachment', 'faction', 'stronghold province', 'role card', 'province 1', 'province 2', 'province 3', 'province 4', 'additional']).isRequired,
     title: PropTypes.string,
     topCard: PropTypes.object
 };
