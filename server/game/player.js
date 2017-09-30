@@ -171,17 +171,16 @@ class Player extends Spectator {
     }
 
     discardFromBrokenProvinces() {
-        var provinces = ['province 1', 'province 2', 'province 3', 'province 4'];
+        var locations = ['province 1', 'province 2', 'province 3', 'province 4'];
 
-        _.each(provinces, province => {
-            let provinceCard = _.find(this.getSourceList(province)._wrapped, card => card.isProvince);
+        _.each(locations, location => {
+            let province = this.getSourceList(location);
+            let provinceCard = province.find(card => card.isProvince);
             if(provinceCard.isBroken) {
-                _.find(this.getSourceList(province)._wrapped, card => {
+                province.each(card => {
                     if(card.isDynasty && !card.facedown) {
                         this.moveCard(card,'dynasty discard pile');
-                        this.moveCard(this.dynastyDeck.first(), province);
                     }
-                    return card.isDynasty;
                 });
             }
         });        
@@ -272,10 +271,14 @@ class Player extends Spectator {
     }
     
     deckRanOutOfCards(deck) {
-        this.game.addMessage('{0}\'s {1} deck has run out of cards and is being reshuffled. {0} loses 5 honor', this, deck);
-        _.each(this.getSourceList(deck + ' discard pile')._wrapped, card => this.moveCard(card, deck + ' deck'));
-        _.shuffle(this.getSourceList(deck + ' deck'));
+        this.game.addMessage('{0}\'s {1} deck has run out of cards and loses 5 honor', this, deck);
         this.game.addHonor(this, -5);
+        this.getSourceList(deck + ' discard pile').each(card => this.moveCard(card, deck + ' deck'));
+        if(deck === 'dynasty') {
+            this.shuffleDynastyDeck();
+        } else {
+            this.shuffleConflictDeck();
+        }
     }
 
     replaceDynastyCard(location) {
@@ -318,10 +321,12 @@ class Player extends Spectator {
     }
 
     shuffleConflictDeck() {
+        this.game.addMessage('{0} is shuffling their conflict deck', this);
         this.conflictDeck = _(this.conflictDeck.shuffle());
     }
 
     shuffleDynastyDeck() {
+        this.game.addMessage('{0} is shuffling their dynasty deck', this);
         this.dynastyDeck = _(this.dynastyDeck.shuffle());
     }
 
@@ -554,13 +559,14 @@ class Player extends Spectator {
         });
     }
 
-    putIntoPlay(card, playingType = 'play') {
+    putIntoPlay(card, intoConflict = false) {
         if(!this.canPutIntoPlay(card)) {
             return;
         }
 
+        // this is deprecated, as this function should never be called for attachments, unless they get dragged into play
         if(card.getType() === 'attachment') {
-            this.promptForAttachment(card, playingType);
+            this.promptForAttachment(card);
             return;
         }
 
@@ -574,9 +580,17 @@ class Player extends Spectator {
         }
         card.controller = this;
 
+        if(intoConflict && this.game.currentConflict && card.allowGameAction('play into conflict')) {
+            if(this.game.currentConflict.attackingPlayer === this) {
+                this.game.currentConflict.addAttacker(card);
+            } else {
+                this.game.currentConflict.addDefender(card);
+            }
+        }
+
         card.applyPersistentEffects();
 
-        this.game.raiseEvent('onCardEntersPlay', { card: card, playingType: playingType, originalLocation: originalLocation });
+        this.game.raiseEvent('onCardEntersPlay', { card: card, originalLocation: originalLocation });
     }
 
     setupBegin() {
@@ -633,7 +647,7 @@ class Player extends Spectator {
     }
 
 
-    attach(player, attachment, card, playingType) {
+    attach(player, attachment, card) {
         if(!card || !attachment) {
             return;
         }
@@ -657,7 +671,7 @@ class Player extends Spectator {
             attachment.applyPersistentEffects();
         });
         
-        if(attachment.printedKeywords.includes('restricted') && _.size(_.filter(card.attachments._wrapped, card => card.isRestricted())) > 1) {
+        if(attachment.printedKeywords.includes('restricted') && _.size(card.attachments.filter(card => card.isRestricted())) > 1) {
             this.game.promptForSelect(this, {
                 activePromptTitle: 'Choose a card to discard',
                 waitingPromptTitle: 'Waiting for opponent to choose a card to discard',
@@ -670,11 +684,19 @@ class Player extends Spectator {
             });
         }
 
+        let events = [{
+            name: 'onCardAttached',
+            params: { card: attachment, parent: card }
+        }];
+
         if(originalLocation !== 'play area') {
-            this.game.raiseEvent('onCardEntersPlay', { card: attachment, playingType: playingType, originalLocation: originalLocation });
+            events.push({
+                name: 'onCardEntersPlay',
+                params: { card: attachment, originalLocation: originalLocation }
+            });
         }
 
-        this.game.raiseEvent('onCardAttached', { card: attachment, parent: card });
+        this.game.raiseAtomicEvent(events);
     }
 
     showConflictDeck() {
@@ -693,7 +715,7 @@ class Player extends Spectator {
         let provinceLocations = ['stronghold province', 'province 1', 'province 2', 'province 3', 'province 4'];
         
         if(card.isProvince && target !== 'province deck') {
-            if(!provinceLocations.includes(target) || _.any(this.getSourceList(target)._wrapped, card => card.isProvince)) {
+            if(!provinceLocations.includes(target) || this.getSourceList(target).any(card => card.isProvince)) {
                 return false;
             }
         }
@@ -841,6 +863,11 @@ class Player extends Spectator {
         return true;
     }
 
+    /**
+     * This is only used when an attachment is dragged into play.  Usually,
+     * attachments are played by playCard()
+     * @deprecated
+     */
     promptForAttachment(card, playingType) {
         // TODO: Really want to move this out of here.
         this.game.queueStep(new AttachmentPrompt(this.game, this, card, playingType));
@@ -1019,14 +1046,21 @@ class Player extends Spectator {
 
     moveCard(card, targetLocation, options = {}) {
         this.removeCardFromPile(card);
+        
+        if(targetLocation.endsWith(' bottom')) {
+            options.bottom = true;
+            targetLocation = targetLocation.replace(' bottom', '');
+        }
 
         var targetPile = this.getSourceList(targetLocation);
 
         if(!targetPile || targetPile.contains(card)) {
             return;
         }
+        
+        let location = card.location;
 
-        if(card.location === 'play area') {
+        if(location === 'play area') {
             if(card.owner !== this) {
                 card.owner.moveCard(card, targetLocation);
                 return;
@@ -1043,7 +1077,7 @@ class Player extends Spectator {
             card.moveTo(targetLocation);
         }
 
-        if(card.location !== 'play area') {
+        if(location !== 'play area') {
             card.moveTo(targetLocation);
         }
 
@@ -1065,6 +1099,11 @@ class Player extends Spectator {
 
         if(['conflict discard pile', 'dynasty discard pile'].includes(targetLocation)) {
             this.game.raiseEvent('onCardPlaced', { card: card, location: targetLocation });
+        }
+        
+        // Replace a card which has been played, put into play or discarded from a province
+        if(card.isDynasty && ['province 1', 'province 2', 'province 3', 'province 4'].includes(location) && targetLocation !== 'dynasty deck' && this.dynastyDeck.size() > 0) {
+            this.moveCard(this.dynastyDeck.first(), location);
         }
     }
 
@@ -1177,15 +1216,8 @@ class Player extends Spectator {
     }
     
     playCharacterWithFate(card, fate, inConflict = false) {
-        this.putIntoPlay(card);
         card.fate = fate;
-        if(this.game.currentConflict && inConflict) {
-            if(this.game.currentConflict.attackingPlayer === this) {
-                this.game.currentConflict.addAttacker(card);
-            } else {
-                this.game.currentConflict.addDefender(card);
-            }
-        }
+        this.putIntoPlay(card, inConflict);
         
         this.game.addMessage('{0} plays {1} {2}with {3} additional fate', this, card, inConflict ? 'into the conflict ' : '', fate);
     }
