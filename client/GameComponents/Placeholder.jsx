@@ -13,16 +13,14 @@ class Placeholder extends React.Component {
         }
 
         return (
-            <div className={ className } onDragLeave={ this.onDragLeave } onDragOver={ this.onDragOver } onDrop={ event => this.onDragDrop(event, this.props.source) }
-                onClick={ this.onCollectionClick } />);
+            <div className={ className } />);
     }
 }
 
 Placeholder.displayName = 'Placeholder';
 Placeholder.propTypes = {
     className: PropTypes.string,
-    orientation: PropTypes.oneOf(['horizontal', 'bowed', 'vertical']),
-    source: PropTypes.oneOf(['hand', 'dynasty discard pile', 'conflict discard pile', 'play area', 'dynasty deck', 'conflict deck', 'province deck', 'province 1', 'province 2', 'province 3', 'province 4', 'attachment', 'stronghold province', 'additional']).isRequired
+    orientation: PropTypes.oneOf(['horizontal', 'bowed', 'vertical'])
 };
 Placeholder.defaultProps = {
     orientation: 'vertical'
