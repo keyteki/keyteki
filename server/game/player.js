@@ -1327,6 +1327,7 @@ class Player extends Spectator {
             faction: this.faction,
             firstPlayer: this.firstPlayer,
             id: this.id,
+            keywordSettings: this.keywordSettings,
             imperialFavor: this.imperialFavor,
             left: this.left,
             name: this.name,
