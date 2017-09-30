@@ -189,7 +189,7 @@ class ActivePlayerPrompt extends React.Component {
         }
 
         return (<Draggable
-            defaultPosition={ { x: 800, y: 700 } } >
+            defaultPosition={ { x: 800, y: 500 } } >
             <div>
                 { timer }
                 <div className={ 'phase-indicator ' + this.props.phase } onClick={ this.props.onTitleClick }>
