@@ -57,20 +57,24 @@ export class PlayerStats extends React.Component {
             <div className='panel player-stats'>
                 { playerAvatar }
 
+                { this.getButton('fate', 'Fate') }
+                { this.getButton('honor', 'Honor') }
 
+                { this.props.firstPlayer ? <div className='state'><img className='first-player-indicator' src='/img/first-player.png' title='First Player' /></div> : null }
+
+                { this.props.showControls ? <div className='state'>
+                    <button className='btn btn-transparent' onClick={ this.onSettingsClick.bind(this) }><span className='glyphicon glyphicon-cog' />Settings</button>
+                </div> : null }
             </div>
         );
     }
 }
 
-InnerPlayerStats.displayName = 'PlayerStats';
-InnerPlayerStats.propTypes = {
-    fate: React.PropTypes.number,
-    honor: React.PropTypes.number,
-    isMe: React.PropTypes.bool,
-    playerName: React.PropTypes.string,
-    sendGameMessage: React.PropTypes.func,
-    user: React.PropTypes.object
+PlayerStats.displayName = 'PlayerStats';
+PlayerStats.propTypes = {
+    fate: PropTypes.number,
+    firstPlayer: PropTypes.bool,
+    honor: PropTypes.number,
     onSettingsClick: PropTypes.func,
     playerName: PropTypes.string,
     sendGameMessage: PropTypes.func,
