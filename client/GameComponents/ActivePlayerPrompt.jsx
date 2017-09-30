@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Draggable from 'react-draggable';
 import _ from 'underscore';
 
 import AbilityTargeting from './AbilityTargeting.jsx';
@@ -187,20 +188,23 @@ class ActivePlayerPrompt extends React.Component {
                 </div>);
         }
 
-        return (<div>
-            { timer }
-            <div className={ 'phase-indicator ' + this.props.phase } onClick={ this.props.onTitleClick }>
-                { this.props.phase } phase
-            </div>
-            { promptTitle }
-            <div className='menu-pane'>
-                <div className='panel'>
-                    <h4>{ this.props.title }</h4>
-                    { this.getControls() }
-                    { this.getButtons() }
+        return (<Draggable
+            defaultPosition={ { x: 800, y: 700 } } >
+            <div>
+                { timer }
+                <div className={ 'phase-indicator ' + this.props.phase } onClick={ this.props.onTitleClick }>
+                    { this.props.phase } phase
+                </div>
+                { promptTitle }
+                <div className='menu-pane'>
+                    <div className='panel'>
+                        <h4>{ this.props.title }</h4>
+                        { this.getControls() }
+                        { this.getButtons() }
+                    </div>
                 </div>
             </div>
-        </div>);
+        </Draggable>);
     }
 }
 
