@@ -148,6 +148,16 @@ class Card extends React.Component {
         return filteredCounters;
     }
 
+    getWrapper() {
+        let wrapperClassName = '';
+        let attachments = _.size(this.props.card.attachments);
+        if(attachments > 0) {
+            wrapperClassName = 'wrapper-' + attachments.toString();
+        }
+
+        return wrapperClassName;
+    }
+
     getAttachments() {
         let honorClass = '';
 
@@ -342,7 +352,7 @@ class Card extends React.Component {
     render() {
         if(this.props.wrapped) {
             return (
-                <div className='card-wrapper' style={ this.props.style }>
+                <div className={ 'card-wrapper ' + this.getWrapper() } style={ this.props.style }>
                     { this.getCard() }
                     { this.getAttachments() }
                 </div>);
