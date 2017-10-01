@@ -63,6 +63,9 @@ class Conflict {
     }
     
     moveToConflict(cards, isAttacking) {
+        if(!_.isArray(cards)) {
+            cards = [cards];
+        }
         this.game.raiseSimultaneousEvent(cards, {
             eventName: 'onMoveCharactersToConflict',
             perCardEventName: 'OnMoveToConflict',
