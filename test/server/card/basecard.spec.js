@@ -4,7 +4,7 @@ describe('BaseCard', function () {
     beforeEach(function () {
         this.testCard = { id: '111', label: 'test 1(some pack)', name: 'test 1' };
         this.limitedCard = { id: '1234', text: 'Limited.' };
-        this.nonLimitedCard = { id: '2222', text: 'Stealth.' };
+        this.nonLimitedCard = { id: '2222', text: 'Covert.' };
         this.game = jasmine.createSpyObj('game', ['raiseEvent']);
         this.owner = jasmine.createSpyObj('owner', ['getCardSelectionState']);
         this.owner.getCardSelectionState.and.returnValue({});
