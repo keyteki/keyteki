@@ -23,7 +23,8 @@ class ChatCommands {
             '/reveal': this.reveal,
             '/duel': this.duel,
             '/move-to-conflict': this.moveToConflict,
-            '/send-home': this.sendHome,
+            '/send-home': this.sendHome,            
+            '/claim-favor': this.claimFavor,
             '/add-fate': this.addFate,
             '/rem-fate': this.remFate,
             '/add-fate-ring': this.addRingFate,
@@ -52,6 +53,16 @@ class ChatCommands {
         this.game.addMessage('{0} uses the /draw command to draw {1} cards to their hand', player, num);
 
         player.drawCardsToHand(num);
+    }
+    
+    claimFavor(player, args) {
+        let type = args[1] || 'military';
+        this.game.addMessage('{0} uses /claim-favor to claim the emperor\'s {1} favor', player, type);
+        player.claimImperialFavor(type);
+        let otherPlayer = this.game.getOtherPlayer(player);
+        if(otherPlayer) {
+            otherPlayer.loseImperialFavor();
+        }
     }
 
     honor(player) {
