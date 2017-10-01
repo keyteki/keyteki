@@ -61,6 +61,7 @@ export class PlayerStats extends React.Component {
                 { this.getButton('honor', 'Honor') }
 
                 { this.props.firstPlayer ? <div className='state'><img className='first-player-indicator' src='/img/first-player.png' title='First Player' /></div> : null }
+                { this.props.otherPlayer ? <div className='state'><div className='hand-size'>Hand Size: { this.props.handSize }</div></div> : null }
 
                 { this.props.showControls ? <div className='state'>
                     <button className='btn btn-transparent' onClick={ this.onSettingsClick.bind(this) }><span className='glyphicon glyphicon-cog' />Settings</button>
@@ -74,8 +75,10 @@ PlayerStats.displayName = 'PlayerStats';
 PlayerStats.propTypes = {
     fate: PropTypes.number,
     firstPlayer: PropTypes.bool,
+    handSize: PropTypes.number,
     honor: PropTypes.number,
     onSettingsClick: PropTypes.func,
+    otherPlayer: PropTypes.bool,
     playerName: PropTypes.string,
     sendGameMessage: PropTypes.func,
     showControls: PropTypes.bool,

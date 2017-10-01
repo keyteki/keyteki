@@ -99,17 +99,17 @@ class PlayerHand extends React.Component {
 
         let cards = this.getCards(needsSquish);
 
-        return (
+        return (<div>
+            <div className={ 'hand-title-bar ' } >
+                { 'Hand (' + cards.length + ')' } 
+            </div>
             <div className={ className }
                 onDragLeave={ this.onDragLeave }
                 onDragOver={ this.onDragOver }
                 onDrop={ event => this.onDragDrop(event, 'hand') }>
-                <div className='panel-header'>
-                    { 'Hand (' + cards.length + ')' }
-                </div>
                 { cards }
             </div>
-        );
+        </div>);
     }
 }
 

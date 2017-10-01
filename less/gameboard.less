@@ -442,6 +442,21 @@
   font-weight: bold;
 }
 
+.hand-title-bar {
+  margin: 5px;
+  margin-bottom: 0;
+  padding: 5px 0;
+  border: 1px solid @header-border;
+  border-radius: 4px 4px 0 0;
+  border-bottom: none;
+  background: @header-background;
+  text-align: center;
+  text-transform: uppercase;
+  width: 480px !important;
+  position: relative;
+  font-weight: bold;
+}
+
 span.up-arrow {
   content: '';
   display: block;
@@ -492,6 +507,15 @@ span.down-arrow {
   margin-top: auto;
 }
 
+.player-stats-row {
+  position: absolute;
+  width: 100%;
+
+  &.our-side {
+    position: relative;
+  }
+}
+
 .player-home-row {
   display: flex;
   margin-top: 5px;
@@ -504,6 +528,7 @@ span.down-arrow {
 
 .player-home-row-container {
   display: flex;
+  z-index: 4999;
 }
 
 .player-deck-row {
@@ -512,7 +537,7 @@ span.down-arrow {
 
   &.our-side {
     margin-top: 0;
-    margin-bottom: 5px;
+    margin-bottom: 18px;
   }
 }
 
@@ -522,7 +547,7 @@ span.down-arrow {
 
   &.our-side {
     margin-top: 0;
-    margin-bottom: 5px;
+    margin-bottom: 18px;
   }
 }
 
