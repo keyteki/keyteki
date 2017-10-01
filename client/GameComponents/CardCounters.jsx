@@ -14,7 +14,7 @@ class CardCounters extends React.Component {
         var countersClass = 'counters ignore-mouse-events';
 
         var counterDivs = _.map(this.props.counters, (counter, key) => {
-            if(key === 'card-fate') {
+            if(key === 'card-fate' || key === 'ring-fate') {
                 return (<FateCounter key={ key } 
                     name={ key } 
                     value={ counter.count } 
