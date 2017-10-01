@@ -68,7 +68,7 @@ class AbilityResolver extends BaseStep {
     }
 
     markActionAsTaken() {
-        if(this.ability.isAction()) {
+        if(this.ability.isAction() && !this.cancelled) {
             this.game.markActionAsTaken();
         }
     }
