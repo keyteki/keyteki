@@ -2,7 +2,7 @@ const DrawCard = require('../../drawcard.js');
 const PlayAttachmentAction = require('../../playattachmentaction.js');
 
 class TogashiKazue extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Play Togashi Kazue as an attachment',
             condition: () => {
