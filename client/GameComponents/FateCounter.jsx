@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Counter from './Counter.jsx';
+
 class FateCounter extends Counter {
     render() {
         var className = 'fatecounter ' + this.props.name;
@@ -20,8 +22,8 @@ class FateCounter extends Counter {
     }
 }
 
-Counter.displayName = 'Counter';
-Counter.propTypes = {
+FateCounter.displayName = 'FateCounter';
+FateCounter.propTypes = {
     cancel: PropTypes.bool,
     fade: PropTypes.bool,
     name: PropTypes.string.isRequired,
