@@ -14,6 +14,7 @@
   display: flex;
   flex-direction: row;
   flex: 1;
+  min-height: calc(~"100vh - 170px");
 }
 
 .card-pile {
@@ -505,15 +506,6 @@ span.down-arrow {
 
 .player-board.our-side > div:first-child {
   margin-top: auto;
-}
-
-.player-stats-row {
-  position: absolute;
-  width: 100%;
-
-  &.our-side {
-    position: relative;
-  }
 }
 
 .player-home-row {
