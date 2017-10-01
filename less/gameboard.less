@@ -4,29 +4,36 @@
   bottom: 0;
   left: 0;
   right: 0;
-  top: 55px;
+  top: 50px;
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
 }
 
 .main-window {
   display: flex;
   flex-direction: row;
+  flex: 1;
+  min-height: calc(~"100vh - 170px");
 }
 
 .card-pile {
   padding: 0px;
   position: relative;
-  margin: 5px 7px;
+  margin: 0px 5px;
 
   &.vertical {
     height: @card-height;
-    width: @card-width;
+    min-width: @card-width;
   }
 
   &.horizontal {
     height: @card-width;
     width: @card-height;
+  }
+
+  .card-placeholder {
+    height: @card-height;
   }
 }
 
@@ -37,15 +44,11 @@
 
 .popup {
   z-index: @layer-card-menu;
-
-  .inner {
-    display: flex;
-    flex-wrap: wrap;
-  }
+  background-color: rgba(0, 0, 0, 0.85);
 
   a {
     display: inline-block;
-    margin: 0 10px 8px 4px;
+    margin: 0 10px 8px 0;
     text-decoration: none;
 
     &:hover {
@@ -53,18 +56,24 @@
       cursor: pointer;
     }
   }
+
+  .panel {
+    margin-bottom: 0;
+  }
+
+  .panel-title {
+    margin: 5px 5px;
+  }
 }
 
 .select-cursor {
   cursor: url(/img/crosshairs.cur), default;
 }
 
-// LEFT SIDE
-.left-side {
-  width: 360px;
+.prompt-area {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .player-info {
@@ -74,23 +83,39 @@
 }
 
 .player-stats {
-  width: 144px;
+  display: flex;
+
+  &.panel {
+    margin: 0;
+    border-radius: 0;
+    padding: 10px 0 10px 5px;
+    position: initial;
+  }
+
+  display: flex;
+  align-items: center;
 }
 
-.player-stats b {
-  max-width: calc(~"100% - 40px");
-  display: inline-block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  vertical-align: middle;
-}
 
 .state {
   height: 27px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-right: solid 2px;
+  display: flex;
+  align-items: center;
 
   span {
-    padding-right: 5px;
+    padding-right: 3px;
+    padding-left: 3px;
+  }
+
+  &:last-of-type {
+    border-right: none;
+  }
+
+  .glyphicon {
+    color: @brand-primary;
   }
 }
 
@@ -101,26 +126,20 @@
   height: 22px;
   width: 22px;
   background-color: transparent;
-  //border-color: black;
-  color: white;
 }
 
 .btn-stat:hover {
-  background-color: rgba(0,128,0,0.35);
-  border-color: @brand-primary;
-  color: white;
+  background-color: @brand-info;
+  border-color: @brand-info;
 }
 
 .btn-stat:focus {
   outline: 0px;
-  color: white;
 }
 
 .deck-info {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .player-info.our-side .deck-info {
@@ -136,8 +155,8 @@
 .first-player-indicator {
   margin: 5px;
   padding: 5px;
-  height: 84px;
-  width: 64px;
+  height: 48px;
+  width: auto;
   position: relative;
   justify-content: center;
   align-items: center;
@@ -159,7 +178,7 @@
   
   &.hidden {
       display: none;
-    }
+  }
 }
 
 .middle {
@@ -168,57 +187,199 @@
   flex: 1;
 }
 
-.plots-pane {
+.province-pane {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.plot-group {
+.provinces-group {
   display: flex;
   flex: 1;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
 
   &.our-side {
-    justify-content: flex-start;
+    justify-content: flex-end;
   }
 }
 
-.plot {
-  margin: 5px;
- 
-  .popup.panel {
-    position: absolute;
-    width: 200px;
-    min-height: 92px;
-    left: 75px;
-    top: 0;
-    transform: translateY(-50%);
-    background-color: black;
-    &.hidden {
-      display: none;
+.arrow {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  border: 8px solid transparent;
+
+  &.left {
+    border-right-color: black;
+  }
+
+  &.right {
+    border-left-color: black;
+  }
+
+  &.up {
+    border-bottom-color: black;
+  }
+
+  &.down {
+    border-top-color: black;
+  }
+
+  &.lg {
+    border-width: 12px;
+  }
+}
+
+.our-side {
+  .province {
+    .popup {
+      bottom: -2px;
+      top: initial;
+
+      .arrow {
+        bottom: 15px;
+        top: initial;
+      }
     }
   }
 
-  // &:hover > .popup.panel.hidden, .popup.panel.hidden:hover {
-  //   display: block !important;
-  // }
+  .discard {
+    .popup {
+      bottom: 95px;
+      top: initial;
+
+      .arrow {
+        bottom: -30px;
+        top: initial;
+      }
+    }
+  }
 }
 
-.arrow-indicator {
-  position: absolute;
-  left: -10px;
-  top: calc(~"50% + 10px");
-  display: inline-block;
-  height: 20px;
-  width: 20px;
-  background-color: black;
-  transform: rotate(45deg);
-  border: 1px solid rgba(71, 58, 56, 0.95);
-  border-top: none;
-  border-right: none;
+.additional-cards {
+  .popup {
+    position: absolute;
+    bottom: 75px;
+    right: 0;
+
+    .inner {
+      min-width: @card-height * 2 + (2 * 5px);
+      min-height: @card-width * 2 + (2 * 5px);
+
+      .card-wrapper {
+        margin: 5px 5px 0 0;
+      }
+    }
+
+    .arrow {
+      bottom: -30px;
+      right: 20px;
+    }
+  }
+}
+
+.province {
+  padding: 0px;
+  position: relative;
+  margin: 5px 7px;
+
+  &.vertical {
+    height: @card-height;
+    width: @card-width;
+  }
+
+  &.horizontal {
+    height: @card-width;
+    width: @card-height;
+  }
+}
+
+.province-merge {
+  margin: 5px;
+
+  .popup {
+    position: absolute;
+    min-height: 92px;
+    min-width: 168px;
+    left: 90px;
+    top: -75px;
+
+    .inner {
+      columns: 2;
+      min-height: 128px;
+
+      .card-wrapper {
+        margin: 5px 0 0 0;
+      }
+    }
+
+    .arrow {
+      left: -25px;
+      top: 55px;
+      bottom: initial;
+    }
+  }
+}
+
+.discard {
+  .popup {
+    position: absolute;
+    min-height: 146px;
+    bottom: initial;
+    top: 95px;
+
+    .inner {
+      min-height: @card-height;
+      width: @card-width * 5 + (5 * 5px) + @scrollbar-width;
+      max-height: @card-height * 4 + (4 * 5px);
+      overflow-y: auto;
+
+      .card-wrapper {
+        margin: 5px 5px 0 0;
+      }
+    }
+
+    .arrow {
+      bottom: initial;
+      top: -63px;
+      left: 10px;
+    }
+  }
+}
+
+.hand {
+  .card-wrapper {
+    margin: 0 5px 0 0;
+  }
+}
+
+.draw {
+  .popup {
+    position: absolute;
+    left: 0;
+    bottom: 95px;
+
+    .inner {
+      width: @card-width * 7 + (7 * 5px) + @scrollbar-width;
+      min-height: @card-height;
+      max-height: @card-height * 4 + (4 * 5px);
+
+      overflow-y: auto;
+
+      .card-wrapper {
+        margin: 5px 5px 0 0;
+      }
+    }
+  }
+
+  .arrow {
+    bottom: -30px;
+    left: 10px;
+  }
 }
 
 .middle-right {
@@ -228,10 +389,9 @@
 }
 
 .inset-pane {
-  display: flex;
-  flex-direction: column;
+  position: absolute;
   width: 210px;
-  justify-content: space-between;
+  z-index: 5000;
 }
 
 .inset-pane > div {
@@ -241,7 +401,8 @@
 }
 
 .menu-pane-source {
-  background: rgba(160, 160, 160, 0.25);
+  background: rgba(160, 160, 160, 1);
+  border: 1px solid @header-border;
   font-size: 14px;
   font-weight: normal;
   margin: 0 5px;
@@ -270,7 +431,7 @@
 .phase-indicator {
   margin: 5px;
   margin-bottom: 0;
-  padding: 1px;
+  padding: 5px 0;
   border: 1px solid @header-border;
   border-radius: 4px 4px 0 0;
   border-bottom: none;
@@ -278,7 +439,23 @@
   text-align: center;
   text-transform: uppercase;
   width: 200px !important;
-  position: relative; 
+  position: relative;
+  font-weight: bold;
+}
+
+.hand-title-bar {
+  margin: 5px;
+  margin-bottom: 0;
+  padding: 5px 0;
+  border: 1px solid @header-border;
+  border-radius: 4px 4px 0 0;
+  border-bottom: none;
+  background: @header-background;
+  text-align: center;
+  text-transform: uppercase;
+  width: 480px !important;
+  position: relative;
+  font-weight: bold;
 }
 
 span.up-arrow {
@@ -293,7 +470,7 @@ span.up-arrow {
   border-bottom: 8px solid @brand-primary;
   left: 90px;
 
-  top: -9px;    
+  top: -9px;
 }
 
 span.down-arrow {
@@ -308,14 +485,7 @@ span.down-arrow {
   border-top: 8px solid @brand-primary;
   left: 90px;
 
-  top: -9px;    
-}
-
-.schemes-pane {
-  display: flex;
-  flex-direction: row;
-  margin: 5px;
-  margin-top: 0;
+  top: -9px;
 }
 
 // CENTER
@@ -340,120 +510,52 @@ span.down-arrow {
 
 .player-home-row {
   display: flex;
-  height: 100px;
+  margin-top: 5px;
+
+  &.our-side {
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+}
+
+.player-home-row-container {
+  display: flex;
+  z-index: 4999;
+}
+
+.player-deck-row {
+  display: flex;
+  margin-top: 5px;
+
+  &.our-side {
+    margin-top: 0;
+    margin-bottom: 18px;
+  }
+}
+
+.player-stronghold-row {
+  display: flex;
+  margin-top: 5px;
+
+  &.our-side {
+    margin-top: 0;
+    margin-bottom: 18px;
+  }
 }
 
 .deck-cards {
   display: flex;
-  height: 100px;
 }
 
 .hand {
   height: @card-height;
   width: 480px;
   padding: 0px;
+  margin: 0px 5px;
 }
 
 .hand.squish .card-wrapper {
   position: absolute;
-}
-
-.discard .popup {
-  position: absolute;
-  left: -100px;
-  top: 85px;
-  bottom: initial;
-  width: 500px;
-  min-height: 92px;
-  
-  .arrow-indicator {
-    transform: rotate(135deg);
-    top: -11px;
-    left: 110px;
-  }
-
-  &.our-side {
-    top: initial;
-    bottom: 85px;
-
-    .arrow-indicator {
-      transform: rotate(-45deg);
-      top: inherit;
-      bottom: -11px;
-    }
-  }
-}
-
-.player-home-row .additional-cards .popup {
-  position: absolute;
-  left: -380px;
-  top: 65px;
-  bottom: initial;
-  width: 465px;
-  min-height: 92px;
-
-  .arrow-indicator {
-    transform: rotate(135deg);
-    top: -11px;
-    left: 400px;
-  }
-
-  &.our-side {
-    top: initial;
-    bottom: 70px;
-
-    .arrow-indicator {
-      transform: rotate(-45deg);
-      top: inherit;
-      bottom: -11px;
-    }
-  }
-}
-
-.dead .popup {
-  position: absolute;
-  left: -90px;
-  top: 65px;
-  bottom: initial;
-  width: 465px;
-  min-height: 92px;
-  
-  .arrow-indicator {
-    transform: rotate(135deg);
-    top: -11px;
-    left: 100px;
-  }
-
-  &.our-side {
-    top: initial;
-    bottom: 70px;
-
-    .arrow-indicator {
-      transform: rotate(-45deg);
-      top: inherit;
-      bottom: -11px;
-    }
-  }
-}
-
-
-.draw {
-  .popup {
-    left: -271px;
-    position: absolute;
-    bottom: 85px;
-    width: 590px;
-    min-height: 92px;
-
-    .card {
-      margin: 2px;
-    }
-  }
-
-  .inner {
-    height: 450px;
-    overflow-y: scroll;
-  }
 }
 
 .card-row, .hand {
@@ -482,8 +584,52 @@ span.down-arrow {
   width: 100%;
 }
 
+.game-status {
+  margin-top: 10px;
+}
+
+.player-avatar {
+  padding-right: 10px;
+}
+
+.board-middle {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.board-inner {
+  flex: 1;
+  display: flex;
+}
+
+.close-button {
+  color: @foreground-color;
+  margin-bottom: 0 !important;
+  vertical-align: middle !important;
+}
+
+.settings-popup {
+  background: @background-color;
+
+  .modal-header {
+    background: @brand-tertiary;
+  }
+}
+
+.close {
+  color: @foreground-color;
+
+  :hover {
+    color: @brand-info;
+  }
+}
+
+.modal-title {
+  text-align: center;
+}
+
 .honor-fan {
-  position: relative;
   margin: 5px;
   padding: 5px 10px;
 }
@@ -531,42 +677,10 @@ img.ring {
   padding: 5px;
 }
 
-div.placeholder {
+.placeholder {
   background-color: #efeade;
   border: 0px;
   box-shadow: none;
-}
-
-div.placeholder .panel-header {
-  background: #efeade;
-  padding: 0px;
-}
-
-.province-deck {
-  margin: 5px;
-  //display: flex;
-  //flex: 1;
-  //flex-direction: column;
-  //justify-content: flex-end;
-
-  &.our-side {
-    justify-content: flex-start;
-  }
- 
-  .popup.panel {
-    position: absolute;
-    width: 230px;
-    min-height: 92px;
-    left: 75px;
-    top: 0;
-    transform: translateY(-50%);
-    &.hidden {
-      display: none;
-    }
-  }
-}
-
-.province {
   padding: 0px;
   position: relative;
   margin: 5px 7px;
@@ -580,6 +694,17 @@ div.placeholder .panel-header {
     height: @card-width;
     width: @card-height;
   }
+}
+
+div.placeholder {
+  background-color: #efeade;
+  border: 0px;
+  box-shadow: none;
+}
+
+div.placeholder .panel-header {
+  background: #efeade;
+  padding: 0px;
 }
 
 .placeholder {
@@ -598,5 +723,29 @@ div.placeholder .panel-header {
   &.horizontal {
     height: @card-width;
     width: @card-height;
+  }
+}
+
+.province-deck {
+  margin: 5px;
+  //display: flex;
+  //flex: 1;
+  //flex-direction: column;
+  //justify-content: flex-end;
+
+  &.our-side {
+    justify-content: flex-start;
+  }
+ 
+  .popup {
+    position: absolute;
+    width: 210px;
+    min-height: 92px;
+    left: -25px;
+    top: 0;
+    transform: translateY(-50%);
+    &.hidden {
+      display: none;
+    }
   }
 }

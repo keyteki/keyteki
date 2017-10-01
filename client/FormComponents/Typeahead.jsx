@@ -1,5 +1,6 @@
 import { Typeahead } from 'react-bootstrap-typeahead';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Input extends React.Component {
     clear() {
@@ -26,24 +27,24 @@ class Input extends React.Component {
 
 Input.displayName = 'TypeAhead';
 Input.propTypes = {
-    autoFocus: React.PropTypes.bool,
-    children: React.PropTypes.object,
-    dropup: React.PropTypes.bool,
-    emptyLabel: React.PropTypes.string,
-    fieldClass: React.PropTypes.string,
-    label: React.PropTypes.string,
-    labelClass: React.PropTypes.string,
-    labelKey: React.PropTypes.string,
-    minLength: React.PropTypes.number,
-    name: React.PropTypes.string,
-    onChange: React.PropTypes.func,
-    onInputChange: React.PropTypes.func,
-    onKeyDown: React.PropTypes.func,
-    options: React.PropTypes.array,
-    placeholder: React.PropTypes.string,
-    submitFormOnEnter: React.PropTypes.bool,
-    validationMessage: React.PropTypes.string,
-    value: React.PropTypes.string
+    autoFocus: PropTypes.bool,
+    children: PropTypes.object,
+    dropup: PropTypes.bool,
+    emptyLabel: PropTypes.string,
+    fieldClass: PropTypes.string,
+    label: PropTypes.string,
+    labelClass: PropTypes.string,
+    labelKey: PropTypes.string,
+    minLength: PropTypes.number,
+    name: PropTypes.string,
+    onChange: PropTypes.func,
+    onInputChange: PropTypes.func,
+    onKeyDown: PropTypes.func,
+    options: PropTypes.array,
+    placeholder: PropTypes.string,
+    submitFormOnEnter: PropTypes.bool,
+    validationMessage: PropTypes.string,
+    value: PropTypes.string
 };
 
 export default Input;

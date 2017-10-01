@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'underscore';
 
 class Select extends React.Component {
@@ -54,19 +55,19 @@ class Select extends React.Component {
 
 Select.displayName = 'Select';
 Select.propTypes = {
-    blankOption: React.PropTypes.object,
-    button: React.PropTypes.object,
-    fieldClass: React.PropTypes.string,
-    label: React.PropTypes.string,
-    labelClass: React.PropTypes.string,
-    name: React.PropTypes.string,
-    nameKey: React.PropTypes.string,
-    onBlur: React.PropTypes.func,
-    onChange: React.PropTypes.func,
-    options: React.PropTypes.array,
-    validationMessage: React.PropTypes.string,
-    value: React.PropTypes.string,
-    valueKey: React.PropTypes.string
+    blankOption: PropTypes.object,
+    button: PropTypes.object,
+    fieldClass: PropTypes.string,
+    label: PropTypes.string,
+    labelClass: PropTypes.string,
+    name: PropTypes.string,
+    nameKey: PropTypes.string,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+    options: PropTypes.array,
+    validationMessage: PropTypes.string,
+    value: PropTypes.string,
+    valueKey: PropTypes.string
 };
 
 export default Select;

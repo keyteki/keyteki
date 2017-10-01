@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'underscore';
 import $ from 'jquery';
 import 'jquery-migrate';
@@ -25,9 +26,7 @@ class Card extends React.Component {
             gold: 'G',
             valarmorghulis: 'V',
             betrayal: 'B',
-            vengeance: 'N',
-            ear: 'E',
-            venom: 'M'
+            vengeance: 'N'
         };
     }
 
@@ -99,7 +98,7 @@ class Card extends React.Component {
             }
         }
 
-        target.css({left: this.state.touchStart.left + 'px', top: this.state.touchStart.top + 'px'});
+        target.css({ left: this.state.touchStart.left + 'px', top: this.state.touchStart.top + 'px' });
         event.currentTarget.style.position = 'initial';
     }
 
@@ -112,7 +111,7 @@ class Card extends React.Component {
         event.stopPropagation();
 
         if(this.isAllowedMenuSource() && !_.isEmpty(this.props.card.menu)) {
-            this.setState({showMenu: !this.state.showMenu});
+            this.setState({ showMenu: !this.state.showMenu });
 
             return;
         }
@@ -125,7 +124,7 @@ class Card extends React.Component {
     onMenuItemClick(menuItem) {
         if(this.props.onMenuItemClick) {
             this.props.onMenuItemClick(this.props.card, menuItem);
-            this.setState({showMenu: !this.state.showMenu});
+            this.setState({ showMenu: !this.state.showMenu });
         }
     }
 
@@ -149,6 +148,16 @@ class Card extends React.Component {
         return filteredCounters;
     }
 
+    getWrapper() {
+        let wrapperClassName = '';
+        let attachments = _.size(this.props.card.attachments);
+        if(attachments > 0) {
+            wrapperClassName = 'wrapper-' + attachments.toString();
+        }
+
+        return wrapperClassName;
+    }
+
     getAttachments() {
         let honorClass = '';
 
@@ -162,12 +171,14 @@ class Card extends React.Component {
 
         var index = 1;
         var attachments = _.map(this.props.card.attachments, attachment => {
-            var returnedAttachment = (<Card key={ attachment.uuid } source={ this.props.source } card={ attachment } className={ 'attachment attachment-' + index + honorClass } wrapped={ false }
+            var returnedAttachment = (<Card key={ attachment.uuid } source={ this.props.source } card={ attachment }
+                className={ 'attachment attachment-' + index + honorClass } wrapped={ false }
                 onMouseOver={ this.props.disableMouseOver ? null : this.onMouseOver.bind(this, attachment) }
                 onMouseOut={ this.props.disableMouseOver ? null : this.onMouseOut }
                 onClick={ this.props.onClick }
                 onMenuItemClick={ this.props.onMenuItemClick }
-                onDragStart={ ev => this.onCardDragStart(ev, attachment, this.props.source) } />);
+                onDragStart={ ev => this.onCardDragStart(ev, attachment, this.props.source) }
+                size={ this.props.size } />);
 
             index += 1;
 
@@ -220,23 +231,35 @@ class Card extends React.Component {
     isFacedown() {
         return this.props.card.facedown || !this.props.card.id;
     }
-    
+
     isInPopup() {
         if(this.props.isInPopup) {
             return true;
         }
+        return this.props.card.facedown || !this.props.card.id;
     }
 
     getCard() {
-        let cardClass = 'card';
-        let honorClass = '';
-        let honorImage = '';
-        let imageClass = 'card-image';
-        let cardBack = 'cardback.jpg';
+        var cardClass = 'card';
+        var honorClass = '';
+        var honorImage = '';
+        var imageClass = 'card-image';
+        var cardBack = 'cardback.jpg';
 
         if(!this.props.card) {
             return <div />;
         }
+
+        if(this.props.size !== 'normal') {
+            cardClass += ' ' + this.props.size;
+            imageClass += ' ' + this.props.size;
+        }
+
+        /* No custom cards currently
+        if(this.props.card.code && this.props.card.code.startsWith('custom')) {
+            cardClass += ' custom-card';
+        }
+        */
 
         cardClass += ' card-type-' + this.props.card.type;
 
@@ -262,10 +285,14 @@ class Card extends React.Component {
             cardClass += ' selected';
         } else if(this.props.card.selectable) {
             cardClass += ' selectable';
-        } else if(this.props.card.stealth) {
-            cardClass += ' stealth';
-        } else if(this.props.card.inConflict) {
-            cardClass += ' conflict';
+        } else if(this.props.card.inDanger) {
+            cardClass += ' in-danger';
+        } else if(this.props.card.saved) {
+            cardClass += ' saved';
+        } else if(this.props.card.inConfilct) {
+            cardClass += ' confilct';
+        } else if(this.props.card.covert) {
+            cardClass += ' covert';
         } else if(this.props.card.controlled) {
             cardClass += ' controlled';
         } else if(this.props.card.new) {
@@ -313,7 +340,7 @@ class Card extends React.Component {
                     draggable>
                     <div>
                         <span className='card-name'>{ this.props.card.name }</span>
-                        <img className={ imageClass } src={ '/img/cards/' + ((!this.isFacedown() || this.isInPopup()) ? (this.props.card.id + '.jpg') : cardBack) } />
+                        <img className={ imageClass } src={ '/img/cards/' + (!this.isFacedown() ? (this.props.card.id + '.jpg') : cardBack) } />
                         { this.showHonor() ? <img className={ honorClass } src={ '/img/' + honorImage } /> : null }
                     </div>
                     { this.showCounters() ? <CardCounters counters={ this.getCountersForCard(this.props.card) } /> : null }
@@ -324,9 +351,8 @@ class Card extends React.Component {
 
     render() {
         if(this.props.wrapped) {
-            let className = 'card-wrapper ' + this.props.wrapperClassName;
             return (
-                <div className={ className } style={ this.props.style }>
+                <div className={ 'card-wrapper ' + this.getWrapper() } style={ this.props.style }>
                     { this.getCard() }
                     { this.getAttachments() }
                 </div>);
@@ -338,51 +364,51 @@ class Card extends React.Component {
 
 Card.displayName = 'Card';
 Card.propTypes = {
-    card: React.PropTypes.shape({
-        attached: React.PropTypes.bool,
-        attachments: React.PropTypes.array,
-        baseMilitarySkill: React.PropTypes.number,
-        basePoliticalSkill: React.PropTypes.number,
-        id: React.PropTypes.string,
-        controlled: React.PropTypes.bool,
-        deck: React.PropTypes.string,
-        facedown: React.PropTypes.bool,
-        inConflict: React.PropTypes.bool,
-        isBroken: React.PropTypes.bool,
-        isConflict: React.PropTypes.bool,
-        isDynasty: React.PropTypes.bool,
-        isDishonored: React.PropTypes.bool,
-        isHonored: React.PropTypes.bool,
-        isProvince: React.PropTypes.bool,
-        bowed: React.PropTypes.bool,
-        menu: React.PropTypes.array,
-        militarySkill: React.PropTypes.number,
-        name: React.PropTypes.string,
-        new: React.PropTypes.bool,
-        order: React.PropTypes.number,
-        politicalSkill: React.PropTypes.number,
-        power: React.PropTypes.number,
-        saved: React.PropTypes.bool,
-        selectable: React.PropTypes.bool,
-        selected: React.PropTypes.bool,
-        stealth: React.PropTypes.bool,
-        tokens: React.PropTypes.object,
-        type: React.PropTypes.string,
-        unselectable: React.PropTypes.bool
+    card: PropTypes.shape({
+        attached: PropTypes.bool,
+        attachments: PropTypes.array,
+        baseMilitarySkill: PropTypes.number,
+        basePoliticalSkill: PropTypes.number,
+        id: PropTypes.string,
+        controlled: PropTypes.bool,
+        facedown: PropTypes.bool,
+        inConflict: PropTypes.bool,
+        isBroken: PropTypes.bool,
+        isConflict: PropTypes.bool,
+        isDynasty: PropTypes.bool,
+        isDishonored: PropTypes.bool,
+        isHonored: PropTypes.bool,
+        isProvince: PropTypes.bool,
+        bowed: PropTypes.bool,
+        covert: PropTypes.bool,
+        menu: PropTypes.array,
+        militarySkill: PropTypes.number,
+        name: PropTypes.string,
+        new: PropTypes.bool,
+        order: PropTypes.number,
+        politicalSkill: PropTypes.number,
+        power: PropTypes.number,
+        saved: PropTypes.bool,
+        selectable: PropTypes.bool,
+        selected: PropTypes.bool,
+        strength: PropTypes.number,
+        tokens: PropTypes.object,
+        type: PropTypes.string,
+        unselectable: PropTypes.bool
     }).isRequired,
-    className: React.PropTypes.string,
-    disableMouseOver: React.PropTypes.bool,
-    isInPopup: React.PropTypes.bool,
-    onClick: React.PropTypes.func,
-    onDragDrop: React.PropTypes.func,
-    onMenuItemClick: React.PropTypes.func,
-    onMouseOut: React.PropTypes.func,
-    onMouseOver: React.PropTypes.func,
-    orientation: React.PropTypes.oneOf(['horizontal', 'bowed', 'vertical']),
-    source: React.PropTypes.oneOf(['hand', 'dynasty discard pile', 'conflict discard pile', 'play area', 'dynasty deck', 'conflict deck', 'province deck', 'province 1', 'province 2', 'province 3', 'province 4', 'attachment', 'stronghold province', 'additional', 'role card']).isRequired,
-    style: React.PropTypes.object,
-    wrapped: React.PropTypes.bool,
-    wrapperClassName: React.PropTypes.string
+    className: PropTypes.string,
+    disableMouseOver: PropTypes.bool,
+    isInPopup: PropTypes.bool,
+    onClick: PropTypes.func,
+    onDragDrop: PropTypes.func,
+    onMenuItemClick: PropTypes.func,
+    onMouseOut: PropTypes.func,
+    onMouseOver: PropTypes.func,
+    orientation: PropTypes.oneOf(['horizontal', 'bowed', 'vertical']),
+    size: PropTypes.string,
+    source: PropTypes.oneOf(['hand', 'dynasty discard pile', 'conflict discard pile', 'play area', 'dynasty deck', 'conflict deck', 'province deck', 'province 1', 'province 2', 'province 3', 'province 4', 'attachment', 'stronghold province', 'additional', 'role card']).isRequired,
+    style: PropTypes.object,
+    wrapped: PropTypes.bool
 };
 Card.defaultProps = {
     orientation: 'vertical',

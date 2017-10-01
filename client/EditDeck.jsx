@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import DeckSummary from './DeckSummary.jsx';
@@ -46,10 +47,25 @@ class InnerEditDeck extends React.Component {
         } else if(!this.props.deck) {
             content = <AlertPanel message='The specified deck was not found' type='error' />;
         } else {
-            content = (<div>
-                { <DeckEditor mode='Save' onDeckSave={ this.onEditDeck } /> }
-                <DeckSummary className='col-sm-6 right-pane' cards={ this.props.cards } deck={ this.props.deck } />
-            </div>);
+            content = (
+                <div>
+                    <div className='col-sm-6'>
+                        <div className='panel-title text-center'>
+                            Deck Editor
+                        </div>
+                        <div className='panel'>
+                            <DeckEditor mode='Save' onDeckSave={ this.onEditDeck } />
+                        </div>
+                    </div>
+                    <div className='col-sm-6'>
+                        <div className='panel-title text-center col-xs-12'>
+                            { this.props.deck.name }
+                        </div>
+                        <div className='panel col-xs-12'>
+                            <DeckSummary cards={ this.props.cards } deck={ this.props.deck } />
+                        </div>
+                    </div>
+                </div>);
         }
 
         return content;
@@ -58,25 +74,25 @@ class InnerEditDeck extends React.Component {
 
 InnerEditDeck.displayName = 'InnerEditDeck';
 InnerEditDeck.propTypes = {
-    alliances: React.PropTypes.object,
-    apiError: React.PropTypes.string,
-    banners: React.PropTypes.array,
-    cards: React.PropTypes.object,
-    deck: React.PropTypes.object,
-    deckId: React.PropTypes.string,
-    deckSaved: React.PropTypes.bool,
-    factions: React.PropTypes.object,
-    loadDeck: React.PropTypes.func,
-    loading: React.PropTypes.bool,
-    navigate: React.PropTypes.func,
-    packs: React.PropTypes.array,
-    saveDeck: React.PropTypes.func,
-    setUrl: React.PropTypes.func
+    agendas: PropTypes.object,
+    apiError: PropTypes.string,
+    banners: PropTypes.array,
+    cards: PropTypes.object,
+    deck: PropTypes.object,
+    deckId: PropTypes.string,
+    deckSaved: PropTypes.bool,
+    factions: PropTypes.object,
+    loadDeck: PropTypes.func,
+    loading: PropTypes.bool,
+    navigate: PropTypes.func,
+    packs: PropTypes.array,
+    saveDeck: PropTypes.func,
+    setUrl: PropTypes.func
 };
 
 function mapStateToProps(state) {
     return {
-        alliances: state.cards.factions,
+        agendas: state.cards.agendas,
         apiError: state.api.message,
         banners: state.cards.banners,
         cards: state.cards.cards,

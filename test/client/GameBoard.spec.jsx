@@ -3,9 +3,8 @@
 
 import GameBoard, { InnerGameBoard } from '../../client/GameBoard.jsx';
 import PlayerStats, { InnerPlayerStats } from '../../client/GameComponents/PlayerStats.jsx';
-import PlayerRow from '../../client/GameComponents/PlayerRow.jsx';
 import Card from '../../client/GameComponents/Card.jsx';
-import CardCollection from '../../client/GameComponents/CardCollection.jsx';
+import CardCollection from '../../client/GameComponents/CardPile.jsx';
 import GameConfiguration from '../../client/GameComponents/GameConfiguration.jsx';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';

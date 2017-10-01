@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'underscore';
 
-import CardCollection from './CardCollection.jsx';
+import CardPile from './CardPile.jsx';
 
 class AdditionalCardPile extends React.Component {
     render() {
@@ -13,7 +13,7 @@ class AdditionalCardPile extends React.Component {
         }
 
         return (
-            <CardCollection
+            <CardPile
                 className={ this.props.className }
                 title={ this.props.pile.title }
                 source='additional'

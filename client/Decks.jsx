@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'underscore';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import AlertPanel from './SiteComponents/AlertPanel.jsx';
 import DeckSummary from './DeckSummary.jsx';
@@ -68,15 +69,20 @@ class InnerDecks extends React.Component {
         var deckInfo = null;
 
         if(this.props.selectedDeck) {
-            deckInfo = (<div className='col-sm-6'>
-                <div className='btn-group'>
-                    <button className='btn btn-primary' onClick={ this.onEditClick.bind(this) }>Edit</button>
-                    <button className='btn btn-primary' onClick={ this.onDeleteClick }>Delete</button>
-                    { this.state.showDelete ?
-                        <button className='btn btn-danger' onClick={ this.onConfirmDeleteClick }>Delete</button> :
-                        null }
+            deckInfo = (<div className='col-sm-7'>
+                <div className='panel-title text-center col-xs-12'>
+                    { this.props.selectedDeck.name }
                 </div>
-                <DeckSummary deck={ this.props.selectedDeck } cards={ this.props.cards } />
+                <div className='panel col-xs-12'>
+                    <div className='btn-group col-xs-12'>
+                        <button className='btn btn-primary' onClick={ this.onEditClick.bind(this) }>Edit</button>
+                        <button className='btn btn-primary' onClick={ this.onDeleteClick }>Delete</button>
+                        { this.state.showDelete ?
+                            <button className='btn btn-danger' onClick={ this.onConfirmDeleteClick }>Delete</button> :
+                            null }
+                    </div>
+                    <DeckSummary deck={ this.props.selectedDeck } cards={ this.props.cards } />
+                </div>
             </div>);
         }
 
@@ -99,33 +105,37 @@ class InnerDecks extends React.Component {
             content = <AlertPanel type='error' message={ this.props.apiError } />;
         } else {
             content = (
-                <div>
+                <div className='full-height'>
                     { successPanel }
-                    <div className='col-sm-6'>
-                        <Link className='btn btn-primary' href='/decks/add'>Add new deck</Link>
-                        <div className='deck-list'>{ !this.props.decks || this.props.decks.length === 0 ? 'You have no decks, try adding one.' : deckList }</div>
+                    <div className='col-sm-5 full-height'>
+                        <div className='panel-title text-center'>
+                            Your decks
+                        </div>
+                        <div className='panel deck-list-container'>
+                            <Link className='btn btn-primary' href='/decks/add'>New Deck</Link>
+                            <div className='deck-list'>{ !this.props.decks || this.props.decks.length === 0 ? 'You have no decks, try adding one.' : deckList }</div>
+                        </div>
                     </div>
                     { deckInfo }
                 </div>);
         }
-
         return content;
     }
 }
 
 InnerDecks.displayName = 'Decks';
 InnerDecks.propTypes = {
-    apiError: React.PropTypes.string,
-    cards: React.PropTypes.object,
-    clearDeckStatus: React.PropTypes.func,
-    deckDeleted: React.PropTypes.bool,
-    decks: React.PropTypes.array,
-    deleteDeck: React.PropTypes.func,
-    loadDecks: React.PropTypes.func,
-    loading: React.PropTypes.bool,
-    navigate: React.PropTypes.func,
-    selectDeck: React.PropTypes.func,
-    selectedDeck: React.PropTypes.object
+    apiError: PropTypes.string,
+    cards: PropTypes.object,
+    clearDeckStatus: PropTypes.func,
+    deckDeleted: PropTypes.bool,
+    decks: PropTypes.array,
+    deleteDeck: PropTypes.func,
+    loadDecks: PropTypes.func,
+    loading: PropTypes.bool,
+    navigate: PropTypes.func,
+    selectDeck: PropTypes.func,
+    selectedDeck: PropTypes.object
 };
 
 function mapStateToProps(state) {

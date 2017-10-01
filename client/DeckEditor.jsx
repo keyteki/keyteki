@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'underscore';
 import $ from 'jquery';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { findDOMNode } from 'react-dom';
 
 import Input from './FormComponents/Input.jsx';
@@ -371,30 +372,29 @@ class InnerDeckEditor extends React.Component {
             </div>);
 
         return (
-            <div className='col-sm-6'>
+            <div>
                 { popup }
                 <span className='btn btn-primary' data-toggle='modal' data-target='#decks-modal'>Import deck</span>
-                <h2>Deck Editor</h2>
-                <h4>Either type the cards manually into the box below, add the cards one by one using the card box and autocomplete or for best results, copy and paste a decklist from <a href='http://fiveringsdb.com' target='_blank'>FiveRings DB</a> into the box below.</h4>
+                <h4>Either type the cards manually into the box below, add the cards one by one using the card box and autocomplete or for best results, copy the permalink url from <a href='http://fiveringsdb.com' target='_blank'>Five Rings DB</a> and paste it into the popup from clicking the "Import Deck" button.</h4>
                 <form className='form form-horizontal'>
                     <Input name='deckName' label='Deck Name' labelClass='col-sm-3' fieldClass='col-sm-9' placeholder='Deck Name'
                         type='text' onChange={ this.onChange.bind(this, 'name') } value={ this.state.deck.name } />
                     <Select name='faction' label='Clan' labelClass='col-sm-3' fieldClass='col-sm-9' options={ _.toArray(this.props.factions) }
                         onChange={ this.onFactionChange.bind(this) } value={ this.state.deck.faction ? this.state.deck.faction.value : undefined } />
                     <Select name='alliance' label='Alliance' labelClass='col-sm-3' fieldClass='col-sm-9' options={ _.toArray(this.props.alliances) }
-                        onChange={ this.onAllianceChange.bind(this) } value={ this.state.deck.alliance ? this.state.deck.alliance.value : undefined } 
+                        onChange={ this.onAllianceChange.bind(this) } value={ this.state.deck.alliance ? this.state.deck.alliance.value : undefined }
                         valueKey='value' nameKey='name' blankOption={ { name: '- Select -', value: '' } } />
 
-                    <Typeahead label='Card' labelClass={ 'col-sm-3' } fieldClass='col-sm-4' labelKey={ 'name' } options={ _.toArray(this.props.cards) }
+                    <Typeahead label='Card' labelClass={ 'col-sm-3' } fieldClass='col-sm-4' labelKey={ 'label' } options={ _.toArray(this.props.cards) }
                         onChange={ this.addCardChange.bind(this) }>
                         <Input name='numcards' type='text' label='Num' labelClass='col-sm-1' fieldClass='col-sm-2'
                             value={ this.state.numberToAdd.toString() } onChange={ this.onNumberToAddChange.bind(this) }>
                             <div className='col-sm-1'>
-                                <button className='btn btn-default' onClick={ this.onAddCard.bind(this) }>Add</button>
+                                <button className='btn btn-primary' onClick={ this.onAddCard.bind(this) }>Add</button>
                             </div>
                         </Input>
                     </Typeahead>
-                    <TextArea label='Cards' labelClass='col-sm-3' fieldClass='col-sm-9' rows='25' value={ this.state.cardList }
+                    <TextArea label='Cards' labelClass='col-sm-3' fieldClass='col-sm-9' rows='10' value={ this.state.cardList }
                         onChange={ this.onCardListChange.bind(this) } />
                     <div className='form-group'>
                         <div className='col-sm-offset-3 col-sm-8'>
@@ -409,18 +409,15 @@ class InnerDeckEditor extends React.Component {
 
 InnerDeckEditor.displayName = 'DeckEditor';
 InnerDeckEditor.propTypes = {
-    alliances: React.PropTypes.object,
-    cards: React.PropTypes.object,
-    deck: React.PropTypes.object,
-    factions: React.PropTypes.object,
-    import: React.PropTypes.bool,
-    importedCardList: React.PropTypes.object,
-    importedDeck: React.PropTypes.object,
-    loading: React.PropTypes.bool,
-    mode: React.PropTypes.string,
-    onDeckSave: React.PropTypes.func,
-    packs: React.PropTypes.array,
-    updateDeck: React.PropTypes.func
+    alliances: PropTypes.object,
+    cards: PropTypes.object,
+    deck: PropTypes.object,
+    factions: PropTypes.object,
+    loading: PropTypes.bool,
+    mode: PropTypes.string,
+    onDeckSave: PropTypes.func,
+    packs: PropTypes.array,
+    updateDeck: PropTypes.func
 };
 
 function mapStateToProps(state) {

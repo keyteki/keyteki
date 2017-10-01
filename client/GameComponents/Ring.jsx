@@ -1,6 +1,7 @@
 const _ = require('underscore');
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import CardCounters from './CardCounters.jsx';
 
@@ -56,14 +57,14 @@ class Ring extends React.Component {
 
 Ring.displayName = 'Ring';
 Ring.propTypes = {
-    buttons: React.PropTypes.array,
-    claimed: React.PropTypes.bool,
-    claimedBy: React.PropTypes.string,
-    conflictType: React.PropTypes.string,
-    fate: React.PropTypes.number,
-    onClick: React.PropTypes.func,
-    ringType: React.PropTypes.string,
-    socket: React.PropTypes.object
+    buttons: PropTypes.array,
+    claimed: PropTypes.bool,
+    claimedBy: PropTypes.string,
+    conflictType: PropTypes.string,
+    fate: PropTypes.number,
+    onClick: PropTypes.func,
+    ringType: PropTypes.string,
+    socket: PropTypes.object
 };
 
 export default Ring;

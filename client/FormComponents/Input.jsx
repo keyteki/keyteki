@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Input extends React.Component {
     render() {
@@ -34,18 +35,18 @@ class Input extends React.Component {
 
 Input.displayName = 'Input';
 Input.propTypes = {
-    children: React.PropTypes.object,
-    fieldClass: React.PropTypes.string,
-    label: React.PropTypes.string,
-    labelClass: React.PropTypes.string,
-    name: React.PropTypes.string,
-    noGroup: React.PropTypes.bool,
-    onBlur: React.PropTypes.func,
-    onChange: React.PropTypes.func,
-    placeholder: React.PropTypes.string,
-    type: React.PropTypes.oneOf(['text', 'password']),
-    validationMessage: React.PropTypes.string,
-    value: React.PropTypes.string
+    children: PropTypes.object,
+    fieldClass: PropTypes.string,
+    label: PropTypes.string,
+    labelClass: PropTypes.string,
+    name: PropTypes.string,
+    noGroup: PropTypes.bool,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+    placeholder: PropTypes.string,
+    type: PropTypes.oneOf(['text', 'password']),
+    validationMessage: PropTypes.string,
+    value: PropTypes.string
 };
 
 export default Input;

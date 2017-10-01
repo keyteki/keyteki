@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'underscore';
 
 import Checkbox from '../FormComponents/Checkbox.jsx';
@@ -8,14 +9,12 @@ class GameConfiguration extends React.Component {
         super(props);
 
         this.windows = [
-            { name: 'plot', label: 'Plots revealed', style: 'col-sm-4' },
+            { name: 'dynasty', label: 'Dynasty phase', style: 'col-sm-4' },
             { name: 'draw', label: 'Draw phase', style: 'col-sm-4' },
-            { name: 'challengeBegin', label: 'Before challenge', style: 'col-sm-4' },
-            { name: 'attackersDeclared', label: 'Attackers declared', style: 'col-sm-4' },
-            { name: 'defendersDeclared', label: 'Defenders declared', style: 'col-sm-4' },
-            { name: 'dominance', label: 'Dominance phase', style: 'col-sm-4' },
-            { name: 'standing', label: 'Standing phase', style: 'col-sm-4' },
-            { name: 'taxation', label: 'Taxation phase', style: 'col-sm-4' }
+            { name: 'preConflict', label: 'Conflict phase', style: 'col-sm-4' },
+            { name: 'conflict', label: 'During conflict', style: 'col-sm-4' },
+            { name: 'fate', label: 'Fate phase', style: 'col-sm-4' },
+            { name: 'regroup', label: 'Regroup phase', style: 'col-sm-4' }
         ];
 
         this.state = {
@@ -112,12 +111,12 @@ class GameConfiguration extends React.Component {
 
 GameConfiguration.displayName = 'GameConfiguration';
 GameConfiguration.propTypes = {
-    actionWindows: React.PropTypes.object,
-    keywordSettings: React.PropTypes.object,
-    onKeywordSettingToggle: React.PropTypes.func,
-    onTimerSettingToggle: React.PropTypes.func,
-    onToggle: React.PropTypes.func,
-    timerSettings: React.PropTypes.object
+    actionWindows: PropTypes.object,
+    keywordSettings: PropTypes.object,
+    onKeywordSettingToggle: PropTypes.func,
+    onTimerSettingToggle: PropTypes.func,
+    onToggle: PropTypes.func,
+    timerSettings: PropTypes.object
 };
 
 export default GameConfiguration;

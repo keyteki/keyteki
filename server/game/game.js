@@ -454,16 +454,6 @@ class Game extends EventEmitter {
 
         var target = player;
 
-        if(stat === 'power') {
-            target = player.faction;
-        } else if(stat === 'reserve' || stat === 'claim') {
-            if(!player.activePlot) {
-                return;
-            }
-
-            target = player.activePlot.cardData;
-        }
-
         target[stat] += value;
 
         if(target[stat] < 0) {
@@ -960,7 +950,8 @@ class Game extends EventEmitter {
                     };
                 }),
                 started: this.started,
-                winner: this.winner ? this.winner.name : undefined
+                winner: this.winner ? this.winner.name : undefined,
+                cancelPromptUsed: this.cancelPromptUsed
             };
         }
 

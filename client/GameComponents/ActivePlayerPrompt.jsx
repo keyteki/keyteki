@@ -1,5 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import Draggable from 'react-draggable';
 import _ from 'underscore';
+
+import AbilityTargeting from './AbilityTargeting.jsx';
+
 
 class ActivePlayerPrompt extends React.Component {
     constructor() {
@@ -13,7 +18,8 @@ class ActivePlayerPrompt extends React.Component {
 
     shouldComponentUpdate(newProps, newState) {
         return newProps.phase !== this.props.phase || newProps.promptTitle !== this.props.promptTitle ||
-            newProps.title !== this.props.title || newProps.arrowDirection !== this.props.arrowDirection ||
+            newProps.title !== this.props.title ||
+            !this.buttonsAreEqual(this.props.buttons, newProps.buttons) ||
             newState.showTimer !== this.state.showTimer ||
             newState.timeLeft !== this.state.timeLeft || newState.timerClass !== this.state.timerClass;
     }
@@ -64,6 +70,20 @@ class ActivePlayerPrompt extends React.Component {
 
             this.setState({ showTimer: true, timerClass: '100%', timerHandle: handle });
         }
+    }
+
+    buttonsAreEqual(oldButtons, newButtons) {
+        if(!oldButtons || !newButtons || oldButtons.length !== newButtons.length) {
+            return false;
+        }
+
+        for(let i = 0; i < oldButtons.length; ++i) {
+            if(!_.isEqual(oldButtons[i], newButtons[i])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     onButtonClick(event, command, arg, method) {
@@ -121,7 +141,7 @@ class ActivePlayerPrompt extends React.Component {
 
             let option = (
                 <button key={ button.command + buttonIndex.toString() }
-                    className='btn btn-primary'
+                    className='btn btn-default'
                     onClick={ clickCallback }
                     onMouseOver={ event => this.onMouseOver(event, button.card) }
                     onMouseOut={ event => this.onMouseOut(event, button.card) }
@@ -133,6 +153,20 @@ class ActivePlayerPrompt extends React.Component {
         });
 
         return buttons;
+    }
+
+    getControls() {
+        return _.map(this.props.controls, control => {
+            switch(control.type) {
+                case 'targeting':
+                    return (
+                        <AbilityTargeting
+                            onMouseOut={ this.props.onMouseOut }
+                            onMouseOver={ this.props.onMouseOver }
+                            source={ control.source }
+                            targets={ control.targets } />);
+            }
+        });
     }
 
     render() {
@@ -154,48 +188,40 @@ class ActivePlayerPrompt extends React.Component {
                 </div>);
         }
 
-        var arrow = null;
-        if(this.props.arrowDirection === 'up') {
-            arrow = <span className='up-arrow' />;
-        } else if(this.props.arrowDirection === 'down') {
-            arrow = <span className='down-arrow' />;
-        }
-
-        return (<div>
-            { timer }
-            <div className={ 'phase-indicator ' + this.props.phase } onClick={ this.props.onTitleClick }>
-                { arrow }
-                { this.props.phase } phase
-            </div>
-            { promptTitle }
-            <div className='menu-pane'>
-                <div className='panel'>
-                    <h4>{ this.props.title }</h4>
-                    { this.getButtons() }
+        return (<Draggable
+            defaultPosition={ { x: 800, y: 500 } } >
+            <div>
+                { timer }
+                <div className={ 'phase-indicator ' + this.props.phase } onClick={ this.props.onTitleClick }>
+                    { this.props.phase } phase
+                </div>
+                { promptTitle }
+                <div className='menu-pane'>
+                    <div className='panel'>
+                        <h4>{ this.props.title }</h4>
+                        { this.getControls() }
+                        { this.getButtons() }
+                    </div>
                 </div>
             </div>
-        </div>);
+        </Draggable>);
     }
 }
 
 ActivePlayerPrompt.displayName = 'ActivePlayerPrompt';
 ActivePlayerPrompt.propTypes = {
-    arrowDirection: React.PropTypes.oneOf([
-        'up',
-        'down',
-        'none'
-    ]),
-    buttons: React.PropTypes.array,
-    onButtonClick: React.PropTypes.func,
-    onMouseOut: React.PropTypes.func,
-    onMouseOver: React.PropTypes.func,
-    onTimerExpired: React.PropTypes.func,
-    onTitleClick: React.PropTypes.func,
-    phase: React.PropTypes.string,
-    promptTitle: React.PropTypes.string,
-    socket: React.PropTypes.object,
-    title: React.PropTypes.string,
-    user: React.PropTypes.object
+    buttons: PropTypes.array,
+    controls: PropTypes.array,
+    onButtonClick: PropTypes.func,
+    onMouseOut: PropTypes.func,
+    onMouseOver: PropTypes.func,
+    onTimerExpired: PropTypes.func,
+    onTitleClick: PropTypes.func,
+    phase: PropTypes.string,
+    promptTitle: PropTypes.string,
+    socket: PropTypes.object,
+    title: PropTypes.string,
+    user: PropTypes.object
 };
 
 export default ActivePlayerPrompt;

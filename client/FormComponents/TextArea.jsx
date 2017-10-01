@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class TextArea extends React.Component {
     render() {
@@ -25,17 +26,17 @@ class TextArea extends React.Component {
 
 TextArea.displayName = 'TextArea';
 TextArea.propTypes = {
-    children: React.PropTypes.object,
-    fieldClass: React.PropTypes.string,
-    label: React.PropTypes.string,
-    labelClass: React.PropTypes.string,
-    name: React.PropTypes.string,
-    onBlur: React.PropTypes.func,
-    onChange: React.PropTypes.func,
-    placeholder: React.PropTypes.string,
-    rows: React.PropTypes.string,
-    validationMessage: React.PropTypes.string,
-    value: React.PropTypes.string
+    children: PropTypes.object,
+    fieldClass: PropTypes.string,
+    label: PropTypes.string,
+    labelClass: PropTypes.string,
+    name: PropTypes.string,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+    placeholder: PropTypes.string,
+    rows: PropTypes.string,
+    validationMessage: PropTypes.string,
+    value: PropTypes.string
 };
 
 export default TextArea;

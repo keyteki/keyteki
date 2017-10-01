@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import $ from 'jquery';
 import _ from 'underscore';
 import { bindActionCreators } from 'redux';
@@ -26,7 +27,7 @@ import Unauthorised from './Unauthorised.jsx';
 import UserAdmin from './UserAdmin.jsx';
 import BlockList from './BlockList.jsx';
 
-import {toastr} from 'react-redux-toastr';
+import { toastr } from 'react-redux-toastr';
 
 import version from '../version.js';
 
@@ -44,7 +45,7 @@ class App extends React.Component {
             '/register': () => <Register />,
             '/decks': () => <Decks { ...boundActionCreators } />,
             '/decks/add': () => <AddDeck />,
-            '/decks/edit': params => <EditDeck deckId={ params.deckId }/>,
+            '/decks/edit': params => <EditDeck deckId={ params.deckId } />,
             '/play': () => (this.props.currentGame && this.props.currentGame.started) ? <GameBoard /> : <GameLobby />,
             '/how-to-play': () => <HowToPlay />,
             '/about': () => <About />,
@@ -74,7 +75,7 @@ class App extends React.Component {
         let socket = io.connect(window.location.origin, {
             reconnection: true,
             reconnectionDelay: 1000,
-            reconnectionDelayMax : 5000,
+            reconnectionDelayMax: 5000,
             reconnectionAttempts: Infinity,
             query: queryString
         });
@@ -140,7 +141,7 @@ class App extends React.Component {
                 path: '/' + server.name + '/socket.io',
                 reconnection: true,
                 reconnectionDelay: 1000,
-                reconnectionDelayMax : 5000,
+                reconnectionDelayMax: 5000,
                 reconnectionAttempts: 5,
                 query: this.props.token ? 'token=' + this.props.token : undefined
             });
@@ -283,6 +284,7 @@ class App extends React.Component {
         let idArg;
         let tokenArg;
         let index;
+        let gameBoardVisible = false;
 
         index = path.indexOf('/reset-password');
         if(index !== -1) {
@@ -312,10 +314,16 @@ class App extends React.Component {
                 component = <AddDeck />;
                 break;
             case '/decks/edit':
-                component = <EditDeck deckId={ arg }/>;
+                component = <EditDeck deckId={ arg } />;
                 break;
             case '/play':
-                component = (this.props.currentGame && this.props.currentGame.started) ? <GameBoard /> : <GameLobby />;
+                if(this.props.currentGame && this.props.currentGame.started) {
+                    component = <GameBoard />;
+                    gameBoardVisible = true;
+                } else {
+                    component = <GameLobby />;
+                }
+
                 break;
             case '/how-to-play':
                 component = <HowToPlay />;
@@ -358,8 +366,23 @@ class App extends React.Component {
                 component = <NotFound />;
                 break;
         }
+        
+        let backgroundClass = 'bg';
+        if(gameBoardVisible && this.props.user) {
+            switch(this.props.user.settings.background) {
+                case 'BG1':
+                    backgroundClass = 'bg-board';
+                    break;
+                case 'BG2':
+                    backgroundClass = 'bg-board2';
+                    break;
+                default:
+                    backgroundClass = '';
+                    break;
+            }
+        }
 
-        return (<div>
+        return (<div className={ backgroundClass }>
             <NavBar leftMenu={ leftMenu } rightMenu={ rightMenu } title='Jigoku Online' currentPath={ this.props.path } numGames={ this.props.games.length } />
             <div className='container'>
                 { component }
@@ -370,39 +393,39 @@ class App extends React.Component {
 
 App.displayName = 'Application';
 App.propTypes = {
-    clearGameState: React.PropTypes.func,
-    closeGameSocket: React.PropTypes.func,
-    currentGame: React.PropTypes.object,
-    disconnecting: React.PropTypes.bool,
-    dispatch: React.PropTypes.func,
-    gameSocket: React.PropTypes.object,
-    gameSocketConnectError: React.PropTypes.func,
-    gameSocketConnected: React.PropTypes.func,
-    gameSocketConnecting: React.PropTypes.func,
-    gameSocketDisconnect: React.PropTypes.func,
-    gameSocketReconnecting: React.PropTypes.func,
-    games: React.PropTypes.array,
-    loadCards: React.PropTypes.func,
-    loadFactions: React.PropTypes.func,
-    loadPacks: React.PropTypes.func,
-    loggedIn: React.PropTypes.bool,
-    navigate: React.PropTypes.func,
-    path: React.PropTypes.string,
-    receiveBannerNotice: React.PropTypes.func,
-    receiveGameState: React.PropTypes.func,
-    receiveGames: React.PropTypes.func,
-    receiveJoinGame: React.PropTypes.func,
-    receiveLobbyMessage: React.PropTypes.func,
-    receiveLobbyMessages: React.PropTypes.func,
-    receiveNewGame: React.PropTypes.func,
-    receivePasswordError: React.PropTypes.func,
-    receiveUsers: React.PropTypes.func,
-    sendGameSocketConnectFailed: React.PropTypes.func,
-    setContextMenu: React.PropTypes.func,
-    socketConnected: React.PropTypes.func,
-    token: React.PropTypes.string,
-    user: React.PropTypes.object,
-    username: React.PropTypes.string
+    clearGameState: PropTypes.func,
+    closeGameSocket: PropTypes.func,
+    currentGame: PropTypes.object,
+    disconnecting: PropTypes.bool,
+    dispatch: PropTypes.func,
+    gameSocket: PropTypes.object,
+    gameSocketConnectError: PropTypes.func,
+    gameSocketConnected: PropTypes.func,
+    gameSocketConnecting: PropTypes.func,
+    gameSocketDisconnect: PropTypes.func,
+    gameSocketReconnecting: PropTypes.func,
+    games: PropTypes.array,
+    loadCards: PropTypes.func,
+    loadFactions: PropTypes.func,
+    loadPacks: PropTypes.func,
+    loggedIn: PropTypes.bool,
+    navigate: PropTypes.func,
+    path: PropTypes.string,
+    receiveBannerNotice: PropTypes.func,
+    receiveGameState: PropTypes.func,
+    receiveGames: PropTypes.func,
+    receiveJoinGame: PropTypes.func,
+    receiveLobbyMessage: PropTypes.func,
+    receiveLobbyMessages: PropTypes.func,
+    receiveNewGame: PropTypes.func,
+    receivePasswordError: PropTypes.func,
+    receiveUsers: PropTypes.func,
+    sendGameSocketConnectFailed: PropTypes.func,
+    setContextMenu: PropTypes.func,
+    socketConnected: PropTypes.func,
+    token: PropTypes.string,
+    user: PropTypes.object,
+    username: PropTypes.string
 };
 
 function mapStateToProps(state) {
