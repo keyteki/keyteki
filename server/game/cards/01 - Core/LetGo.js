@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class LetGo extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Choose an attachment – discard it.',
             target: {
