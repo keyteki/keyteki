@@ -33,8 +33,9 @@ class ShrewdYasuki extends DrawCard {
     takeCardToHand(player, arg) {
         this.game.addMessage('{0} takes one card to their hand and puts the other on the bottom of their deck', this.controller);
         let card = player.findCardByUuid(player.conflictDeck, arg);
+        let otherCard = _.find(player.conflictDeck.first(2), c => c !== card);
         player.moveCard(card, 'hand');
-        player.moveFromTopToBottomOfConflictDrawDeck(1);
+        player.moveCard(otherCard, 'conflict deck', { bottom: true });
         return true;
     }
 }
