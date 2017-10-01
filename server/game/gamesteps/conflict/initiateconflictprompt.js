@@ -115,10 +115,10 @@ class InitiateConflictPrompt extends UiPrompt {
             } else {
                 if(!this.selectedDefenders.includes(card)) {
                     this.selectedDefenders.push(card);
-                    card.stealth = true;
+                    card.covert = true;
                 } else {
                     this.selectedDefenders = _.reject(this.selectedDefenders, c => c === card);
-                    card.stealth = false;
+                    card.covert = false;
                 }         
             }
             this.recalculateCovert();

@@ -46,7 +46,7 @@ class DrawCard extends BaseCard {
                 political: false
             }
         };
-        this.stealthLimit = 1;
+        this.covertLimit = 1;
 
         if(cardData.side === 'conflict') {
             this.isConflict = true;
@@ -384,8 +384,8 @@ class DrawCard extends BaseCard {
     }
 
     resetForConflict() {
-        this.stealth = false;
-        //this.stealthTarget = undefined;
+        this.covert = false;
+        //this.covertTarget = undefined;
         this.inConflict = false;
     }
 
@@ -401,7 +401,7 @@ class DrawCard extends BaseCard {
         return (
             this.canParticipateInConflict() &&
             this.location === 'play area' &&
-            !this.stealth &&
+            !this.covert &&
             (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowing) &&
             !this.conflictOptions.cannotParticipateIn[conflictType]
         );
@@ -446,7 +446,7 @@ class DrawCard extends BaseCard {
             saved: this.saved,
             fate: this.fate,
             new: this.new,
-            stealth: this.stealth,
+            covert: this.covert,
             militaryskill: this.getMilitarySkill(),
             politicalskill: this.getPoliticalSkill()
         });

@@ -78,7 +78,7 @@ class SelectDefendersPrompt extends UiPrompt {
             return false;
         }
 
-        _.each(this.conflict.defenders, card => card.stealth = false);
+        _.each(this.conflict.defenders, card => card.covert = false);
         this.complete();
     }
 }
