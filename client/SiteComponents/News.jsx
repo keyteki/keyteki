@@ -8,8 +8,7 @@ class News extends React.Component {
     render() {
         let icons = [
             'military',
-            'intrigue',
-            'power'
+            'political'
         ];
         let iconIndex = 0;
 
