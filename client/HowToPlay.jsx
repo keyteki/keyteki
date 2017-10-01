@@ -78,7 +78,7 @@ class HowToPlay extends React.Component {
                         <li>/duel - Initiates an honor bid for a duel.</li>
                         <li>/move-to-conflict - Moves one or more characters into a conflict.</li>
                         <li>/send-home - Sends a character home from a conflict.</li>
-			<li>/claim-favor x - Claims the Imperial favor. x should be 'military' or 'political'.</li>
+                        <li>/claim-favor x - Claims the Imperial favor. x should be 'military' or 'political'.</li>
                         <li>/add-fate x - Add 'x' fate to a card.</li>
                         <li>/rem-fate x - Remove 'x' fate from a card.</li>
                         <li>/add-fate-ring ring x - Add 'x' fate to 'ring'.</li>
