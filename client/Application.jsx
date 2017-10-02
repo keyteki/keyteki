@@ -370,11 +370,32 @@ class App extends React.Component {
         let backgroundClass = 'bg';
         if(gameBoardVisible && this.props.user) {
             switch(this.props.user.settings.background) {
-                case 'BG1':
-                    backgroundClass = 'bg-board';
+                case 'CRAB':
+                    backgroundClass = 'bg-board-crab';
                     break;
-                case 'BG2':
-                    backgroundClass = 'bg-board2';
+                case 'CRANE':
+                    backgroundClass = 'bg-board-crane';
+                    break;
+                case 'DRAGON':
+                    backgroundClass = 'bg-board-dragon';
+                    break;
+                case 'LION':
+                    backgroundClass = 'bg-board-lion';
+                    break;
+                case 'MANTIS':
+                    backgroundClass = 'bg-board-mantis';
+                    break;
+                case 'PHOENIX':
+                    backgroundClass = 'bg-board-phoenix';
+                    break;
+                case 'SCORPION':
+                    backgroundClass = 'bg-board-scorpion';
+                    break;
+                case 'SPIDER':
+                    backgroundClass = 'bg-board-spider';
+                    break;
+                case 'UNICORN':
+                    backgroundClass = 'bg-board-unicorn';
                     break;
                 default:
                     backgroundClass = '';

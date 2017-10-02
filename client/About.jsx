@@ -23,11 +23,11 @@ class About extends React.Component {
                     <p>This is handled by the good people at <a href='http://gravatar.com' target='_blank'>Gravatar</a>.  Sign up there with the same email address you did there and it should appear on the site after a short while.
                 It will also use the avatar on any site that uses gravatar.  Examples include github and jinteki.</p>
 
-                    { /*<h3>The artwork on this site is pretty cool, where's that from?</h3>
+                    <h3>The artwork on this site is pretty cool, where's that from?</h3>
                     <p>You're right, it is pretty nice isn't it?</p>
 
-                    <p>The background of the site is by an artist named <a href='http://dumaker.deviantart.com/' target='_blank'>Dumaker</a> and can be found <a href='http://dumaker.deviantart.com/art/Looking-for-the-Iron-Throne-Game-of-Thrones-9-364330141' target='_blank'>here</a>.</p>
-                    <p>The in game backgrounds are by <a href='http://www.thomastanart.com/' target='_blank'>Thomas Tan</a>.  He's very talented, you should check out his work!</p>
+                    <p>The background of the site is by an artist named <a href='https://speeh.deviantart.com/' target='_blank'>Speeh</a> and can be found <a href='https://speeh.deviantart.com/art/L5R-Fu-Leng-575822238' target='_blank'>here</a>.</p>
+                    <p>The in game backgrounds are by <a href='https://alayna.deviantart.com/' target='_blank'>Alayna Lemmer-Danner</a>.  She's very talented, you should check out her work!</p>
                     <p>Don't want to be distracted by beautiful art during your games? In-game backgrounds can be disabled from your <Link href='/profile'>Profile</Link>.</p>*/ }
 
                     <h3>Can I help?</h3>
