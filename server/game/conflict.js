@@ -13,6 +13,10 @@ class Conflict {
         this.conflictType = conflictType;
         this.conflictRing = conflictRing;
         this.conflictProvince = conflictProvince;
+        this.conflictTypeSwitched = false;
+        this.conflictUnopposed = false;
+        this.elementsToResolve = 1;
+        this.elements = [];
         this.attackers = [];
         this.attackerSkill = 0;
         this.attackerSkillModifier = 0;
@@ -20,7 +24,6 @@ class Conflict {
         this.defenderSkill = 0;
         this.maxAllowedDefenders = 0;
         this.defenderSkillModifier = 0;
-        this.provinceRevealedDuringConflict = false;
     }
 
     singlePlayerDefender() {
@@ -32,6 +35,9 @@ class Conflict {
     resetCards() {
         this.attackingPlayer.resetForConflict();
         this.defendingPlayer.resetForConflict();
+        if(this.conflictProvince) {
+            this.conflictProvince.inConflict = false;
+        }
     }
 
     initiateConflict() {
@@ -79,6 +85,15 @@ class Conflict {
             conflict: this.conflict,
             card: card
         }, () => this.removeFromConflict(card));
+    }
+    
+    hasElement(element) {
+        return this.elements.includes(element);
+    }
+    
+    switchType() {
+        this.conflictType = this.conflictType === 'military' ? 'political' : 'military';
+        this.conflictTypeSwitched = true;
     }
     
     removeFromConflict(card) {
@@ -250,9 +265,6 @@ class Conflict {
         this.cancelled = true;
 
         this.resetCards();
-        if(this.conflictProvince) {
-            this.conflictProvince.inConflict = false;
-        }
 
         this.game.addMessage('{0} has chosen to pass his conflict opportunity', this.attackingPlayer);
     }
