@@ -55,7 +55,7 @@ class ConflictFlow extends BaseStep {
         
         let events = [{
             name: 'onConflictDeclared',
-            params: { conflict: this.conflict }
+            params: { conflict: this.conflict, conflictType: this.conflict.conflictType }
         }];
         
         let ring = this.game.rings[this.conflict.conflictRing];
@@ -196,8 +196,6 @@ class ConflictFlow extends BaseStep {
             this.conflict.winner.conflicts.won(this.conflict.conflictType, this.conflict.winner === this.conflict.attackingPlayer);
             this.conflict.loser.conflicts.lost(this.conflict.conflictType, this.conflict.loser === this.conflict.attackingPlayer);
         }
-
-        this.game.raiseEvent('afterConflict', { conflict: this.conflict });
     }
     
     manuallyDetermineWinner(player, choice) {
@@ -215,12 +213,14 @@ class ConflictFlow extends BaseStep {
             this.conflict.winner.conflicts.won(this.conflict.conflictType, this.conflict.winner === this.conflict.attackingPlayer);
             this.conflict.loser.conflicts.lost(this.conflict.conflictType, this.conflict.loser === this.conflict.attackingPlayer);
         }
-
-        this.game.raiseEvent('afterConflict', { conflict: this.conflict });        
         return true;
     }
 
     applyKeywords() {
+        if(this.conflict.isAttackerTheWinner() && this.conflict.defenders.length === 0) {
+            this.conflict.conflictUnopposed = true;
+        }
+                
         if(this.conflict.isAttackerTheWinner()) {
             _.each(this.conflict.attackers, card => {
                 if(card.hasPride()) {
@@ -244,14 +244,16 @@ class ConflictFlow extends BaseStep {
                 }
             });
         }
+        
+        this.game.raiseEvent('afterConflict', { conflict: this.conflict });
     }
 
     applyUnopposed() {
         if(this.conflict.cancelled || this.game.manualMode) {
             return;
         }
-
-        if(this.conflict.winner === this.conflict.attackingPlayer && this.conflict.defenders === []) {
+        
+        if(this.conflict.conflictUnopposed) {
             this.game.addHonor(this.conflict.loser, -1);
         }
     }
@@ -333,8 +335,11 @@ class ConflictFlow extends BaseStep {
         this.game.raiseEvent('onConflictFinished', { conflict: this.conflict });
 
         this.resetCards();
-        if(!this.conflict.isSinglePlayer) {
-            this.conflict.conflictProvince.inConflict = false;
+        if(!this.game.militaryConflictCompleted && (this.conflictType === 'military' || this.conflictTypeSwitched)) {
+            this.game.militaryConflictCompleted = true;
+        }
+        if(!this.game.politicalConflictCompleted && (this.conflictType === 'political' || this.conflictTypeSwitched)) {
+            this.game.politicalConflictCompleted = true;
         }
 
         this.conflict.finish();
