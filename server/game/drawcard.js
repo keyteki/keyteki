@@ -441,6 +441,7 @@ class DrawCard extends BaseCard {
             attachments: this.attachments.map(attachment => {
                 return attachment.getSummary(activePlayer, hideWhenFaceup);
             }),
+            inConflict: this.inConflict,
             isConflict: this.isConflict,
             isDynasty: this.isDynasty,
             isDishonored: this.isDishonored,

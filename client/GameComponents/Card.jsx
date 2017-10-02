@@ -289,8 +289,8 @@ class Card extends React.Component {
             cardClass += ' in-danger';
         } else if(this.props.card.saved) {
             cardClass += ' saved';
-        } else if(this.props.card.inConfilct) {
-            cardClass += ' confilct';
+        } else if(this.props.card.inConflict) {
+            cardClass += ' conflict';
         } else if(this.props.card.covert) {
             cardClass += ' covert';
         } else if(this.props.card.controlled) {

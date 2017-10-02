@@ -142,6 +142,12 @@
   flex-direction: column;
 }
 
+.card-pile {
+  &.panel {
+    top: 0px;
+  }
+}
+
 .player-info.our-side .deck-info {
   justify-content: flex-end;
 }
@@ -168,10 +174,8 @@
 
 .imperial-favor {
  
-  margin: 5px;
-  padding: 5px;
-  height: 150px;
-  width: 100px;
+  height: @card-height;
+  width: @card-width;
   position: relative;
   justify-content: center;
   align-items: center;
@@ -285,7 +289,7 @@
 .province {
   padding: 0px;
   position: relative;
-  margin: 5px 7px;
+  margin: 10px 7px;
 
   &.vertical {
     height: @card-height;
@@ -295,6 +299,11 @@
   &.horizontal {
     height: @card-width;
     width: @card-height;
+  }
+
+  &.panel {
+    margin-top: 0px;
+    top: 0px;
   }
 }
 

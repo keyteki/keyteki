@@ -48,7 +48,7 @@ class Province extends React.Component {
     }
 
     render() {
-        var className = 'panel province ' + this.props.className;
+        var className = 'panel province ';
         var cardCount = this.props.cardCount || (this.props.cards ? this.props.cards.length : '0');
         var headerText = this.props.title ? this.props.title + ' (' + (cardCount) + ')' : '';
         var provinceCard = this.props.provinceCard || _.find(this.props.cards, card => {
@@ -110,7 +110,6 @@ Province.displayName = 'Province';
 Province.propTypes = {
     cardCount: PropTypes.number,
     cards: PropTypes.array,
-    className: PropTypes.string,
     disableMouseOver: PropTypes.bool,
     disablePopup: PropTypes.bool,
     dynastyCard: PropTypes.object,
