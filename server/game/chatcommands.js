@@ -378,7 +378,7 @@ class ChatCommands {
 
             ring.modifyFate(num);
             this.game.addMessage('{0} uses the /add-fate-ring command to set the fate count of the ring of {1} to {2}', player, ringElement, ring.getFate());
-       } else {
+        } else {
             this.game.promptForRingSelect(player, {
                 onSelect: (player, ring) => {
                     ring.modifyFate(num);
