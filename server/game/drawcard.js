@@ -26,6 +26,7 @@ class DrawCard extends BaseCard {
 
         this.militarySkillModifier = 0;
         this.politicalSkillModifier = 0;
+        this.gloryModifier = 0;
         this.fate = 0;
         this.contributesToFavor = true;
         this.bowed = false;
