@@ -16,6 +16,7 @@ class EventWindow extends BaseStep {
             new SimpleStep(game, () => this.cancelInterrupts()),
             new SimpleStep(game, () => this.forcedInterrupts()),
             new SimpleStep(game, () => this.interrupts()),
+            new SimpleStep(game, () => this.checkForOtherEffects()),
             new SimpleStep(game, () => this.executeHandler()),
             new SimpleStep(game, () => this.forcedReactions()),
             new SimpleStep(game, () => this.reactions())
@@ -77,6 +78,14 @@ class EventWindow extends BaseStep {
             abilityType: 'interrupt',
             event: this.event
         });
+    }
+    
+    checkForOtherEffects() {
+        if(this.event.cancelled) {
+            return;
+        }
+        
+        this.game.emit(this.eventName + 'OtherEffects', ...this.event.params);
     }
 
     executeHandler() {

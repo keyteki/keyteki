@@ -294,7 +294,7 @@ class ConflictFlow extends BaseStep {
     
     triggerRingResolutionEvent(player, arg) {
         if(arg !== 'No') {
-            this.game.raiseEvent('onResolveRingEffects', { conflict: this.conflict }, () => {
+            this.game.raiseEvent('onResolveRingEffects', { player: player, conflict: this.conflict }, () => {
                 player.resolveRingEffects(this.conflict.conflictRing);
             });
         }
@@ -310,7 +310,7 @@ class ConflictFlow extends BaseStep {
             let ring = _.find(this.game.rings, ring => {
                 return ring.element === this.conflict.conflictRing;
             });
-            this.game.raiseEvent('onClaimRing', { conflict: this.conflict }, ring.claimRing(this.conflict.winner));
+            this.game.raiseEvent('onClaimRing', { player: this.conflict.winner, conflict: this.conflict }, () => ring.claimRing(this.conflict.winner));
         }
     }
 
