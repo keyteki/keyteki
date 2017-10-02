@@ -78,7 +78,7 @@ describe('Player', function() {
         describe('when the playing type is dynasty', function() {
             describe('and the card is not a duplicate', function() {
                 beforeEach(function() {
-                    this.player.putIntoPlay(this.cardSpy, 'dynasty');
+                    this.player.putIntoPlay(this.cardSpy);
                 });
 
                 it('should add the card to cards in play', function() {
@@ -97,7 +97,7 @@ describe('Player', function() {
             describe('and the card is a duplicate', function() {
                 beforeEach(function() {
                     this.player.allCards.push(this.existingCard);
-                    this.player.putIntoPlay(this.cardSpy, 'dynasty');
+                    this.player.putIntoPlay(this.cardSpy);
                 });
 
                 it('should not add the card to cards in play', function() {
@@ -119,7 +119,7 @@ describe('Player', function() {
 
             describe('and there is no duplicate out', function() {
                 beforeEach(function() {
-                    this.player.putIntoPlay(this.cardSpy, 'play');
+                    this.player.putIntoPlay(this.cardSpy);
                 });
 
                 it('should prompt for attachment target', function() {
@@ -134,7 +134,7 @@ describe('Player', function() {
             describe('and there is a duplicate out', function() {
                 beforeEach(function() {
                     this.player.allCards.push(this.existingCard);
-                    this.player.putIntoPlay(this.cardSpy, 'dynasty');
+                    this.player.putIntoPlay(this.cardSpy);
                 });
 
                 it('should not prompt for attachment target', function() {
@@ -158,7 +158,7 @@ describe('Player', function() {
                 this.opponent.hand.push(this.cardSpy);
                 this.player.hand = _([]);
 
-                this.player.putIntoPlay(this.cardSpy, 'play');
+                this.player.putIntoPlay(this.cardSpy);
             });
 
             it('should add the card to cards in play', function() {

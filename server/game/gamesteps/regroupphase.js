@@ -50,7 +50,6 @@ class RegroupPhase extends Phase {
             },
             onSelect: (player, cards) => {
                 _.each(cards, card => {
-                    let location = card.location;
                     player.moveCard(card, 'dynasty discard pile');
                 });
                 return true;

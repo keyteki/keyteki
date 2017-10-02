@@ -25,7 +25,7 @@ class SetupCardAction extends BaseAbility {
     }
 
     executeHandler(context) {
-        context.player.putIntoPlay(context.source, 'setup');
+        context.player.putIntoPlay(context.source);
     }
 }
 

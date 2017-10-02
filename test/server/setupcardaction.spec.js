@@ -62,7 +62,7 @@ describe('SetupCardAction', function () {
     describe('executeHandler()', function() {
         it('should put the card in play for the player', function() {
             this.action.executeHandler(this.context);
-            expect(this.playerSpy.putIntoPlay).toHaveBeenCalledWith(this.cardSpy, 'setup');
+            expect(this.playerSpy.putIntoPlay).toHaveBeenCalledWith(this.cardSpy);
         });
     });
 });
