@@ -7,6 +7,13 @@ import CardPile from './CardPile.jsx';
 
 class StrongholdRow extends React.Component {
 
+    getFavor(player) {
+        return (<div className='card-wrapper imperial-favor'>
+            { player ? <img className={ 'imperial-favor ' + (player.imperialFavor ? '' : 'hidden') }
+                src={ '/img/' + (player.imperialFavor ? player.imperialFavor : 'political') + '-favor.png' } /> : '' }
+        </div>);
+    }
+
     render() {
 
         if(this.props.isMe) {
@@ -17,6 +24,7 @@ class StrongholdRow extends React.Component {
                         { this.props.role ? <CardPile className='rolecard' source='role card' cards={ [] } topCard={ this.props.role } disablePopup
                             onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick } /> : <Placeholder /> }
                         <Province isMe={ this.props.isMe } source='stronghold province' cards={ this.props.strongholdProvinceCards } onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onDragDrop={ this.props.onDragDrop } onCardClick={ this.props.onCardClick } />
+                        { this.getFavor(this.props.thisPlayer) }
                     </div>
                 </div>
             );
@@ -29,7 +37,7 @@ class StrongholdRow extends React.Component {
                     <Placeholder />
                     <Placeholder />
                     <Placeholder />
-                    <Placeholder />
+                    { this.getFavor(this.props.otherPlayer) }
                     <Province isMe={ this.props.isMe } source='stronghold province' cards={ this.props.strongholdProvinceCards } onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick } />
                     { this.props.role ? <CardPile className='rolecard' source='role card' cards={ [] } topCard={ this.props.role } disablePopup
                         onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick } /> : '' }
@@ -47,9 +55,11 @@ StrongholdRow.propTypes = {
     onDragDrop: PropTypes.func,
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
+    otherPlayer: PropTypes.object,
     role: PropTypes.object,
     spectating: PropTypes.bool,
-    strongholdProvinceCards: PropTypes.array
+    strongholdProvinceCards: PropTypes.array,
+    thisPlayer: PropTypes.object
 };
 
 export default StrongholdRow;
