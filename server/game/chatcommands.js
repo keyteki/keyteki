@@ -378,6 +378,14 @@ class ChatCommands {
 
             ring.modifyFate(num);
             this.game.addMessage('{0} uses the /add-fate-ring command to set the fate count of the ring of {1} to {2}', player, ringElement, ring.getFate());
+        } else {
+            this.game.promptForRingSelect(player, {
+                onSelect: (player, ring) => {
+                    ring.modifyFate(num);
+                    this.game.addMessage('{0} uses the /add-fate-ring command to set the fate count of the ring of {1} to {2}', player, ring.element, ring.getFate());
+                    return true;
+                }
+            });
         }
 
         return true;
@@ -392,6 +400,14 @@ class ChatCommands {
 
             ring.modifyFate(-num);
             this.game.addMessage('{0} uses the /rem-fate-ring command to set the fate count of the ring of {1} to {2}', player, ringElement, ring.getFate());
+        } else {
+            this.game.promptForRingSelect(player, {
+                onSelect: (player, ring) => {
+                    ring.modifyFate(-num);
+                    this.game.addMessage('{0} uses the /rem-fate-ring command to set the fate count of the ring of {1} to {2}', player, ring.element, ring.getFate());
+                    return true;
+                }
+            });
         }
 
         return true;
@@ -405,6 +421,14 @@ class ChatCommands {
 
             ring.claimRing(player);
             this.game.addMessage('{0} uses the /claim-ring command to claim the ring of {1}', player, ringElement);
+        } else {
+            this.game.promptForRingSelect(player, {
+                onSelect: (player, ring) => {
+                    ring.claimRing(player);
+                    this.game.addMessage('{0} uses the /claim-ring command to claim the ring of {1}', player, ring.element);
+                    return true;
+                }
+            });
         }
 
         return true;
@@ -418,6 +442,15 @@ class ChatCommands {
 
             ring.resetRing();
             this.game.addMessage('{0} uses the /unclaim-ring command to set the ring of {1} as unclaimed', player, ringElement);
+        } else {
+            this.game.promptForRingSelect(player, {
+                ringCondition: ring => ring.claimed,
+                onSelect: (player, ring) => {
+                    ring.resetRing();
+                    this.game.addMessage('{0} uses the /unclaim-ring command to set the ring of {1} as unclaimed', player, ring.element);
+                    return true;
+                }
+            });
         }
 
         return true;

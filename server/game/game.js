@@ -19,6 +19,7 @@ const SimpleStep = require('./gamesteps/simplestep.js');
 const DeckSearchPrompt = require('./gamesteps/decksearchprompt.js');
 const MenuPrompt = require('./gamesteps/menuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
+const SelectRingPrompt = require('./gamesteps/selectringprompt.js');
 const EventWindow = require('./gamesteps/eventwindow.js');
 const AtomicEventWindow = require('./gamesteps/atomiceventwindow.js');
 const SimultaneousEventWindow = require('./gamesteps/simultaneouseventwindow.js');
@@ -49,6 +50,7 @@ class Game extends EventEmitter {
         this.gameType = details.gameType;
         this.currentActionWindow = null;
         this.currentConflict = null;
+        this.currentPhase = '';
         this.abilityCardStack = [];
         this.abilityWindowStack = [];
         this.password = details.password;
@@ -247,23 +249,16 @@ class Game extends EventEmitter {
         var ring = this.rings[ringindex];
         var player = this.getPlayerByName(sourcePlayer);
 
-        if(!player || ring.claimed) {
+        if(!player) {
             return;
         }
-
-        var canInitiateThisConflictType = !player.conflicts.isAtMax(ring.conflictType);        
-        var canInitiateOtherConflictType = !player.conflicts.isAtMax(ring.conflictType === 'military' ? 'political' : 'military');        
-        var conflict = this.currentConflict;
-    
-        if(!conflict) {
+        
+        if(this.pipeline.handleRingClicked(player, ring)) {
+            return;
+        }
+        
+        if(this.currentPhase !== 'conflict' && !ring.claimed) {
             this.flipRing(player, ring);
-        } else if(conflict && !conflict.conflictDeclared && player === conflict.attackingPlayer) {
-            if((conflict.conflictRing === ring.element && canInitiateOtherConflictType) ||
-                    (conflict.conflictRing !== ring.element && !canInitiateThisConflictType)) {
-                this.flipRing(player, ring);
-            }
-            this.currentConflict.conflictRing = ring.element;
-            this.currentConflict.conflictType = ring.conflictType;
         }
     }
 
@@ -544,6 +539,10 @@ class Game extends EventEmitter {
 
     promptForSelect(player, properties) {
         this.queueStep(new SelectCardPrompt(this, player, properties));
+    }
+
+    promptForRingSelect(player, properties) {
+        this.queueStep(new SelectRingPrompt(this, player, properties));
     }
 
     promptForDeckSearch(player, properties) {
