@@ -29,7 +29,11 @@ class FatePhase extends Phase {
     }
     
     removeFateFromCharacters() {
-        _.each(this.game.findAnyCardsInPlay(card => card.type === 'character'), card => card.modifyFate(-1));
+        _.each(this.game.findAnyCardsInPlay(card => card.type === 'character'), card => {
+            if(card.allowGameAction('removeFate')) {
+                card.modifyFate(-1);
+            }
+        });
     }
     
     placeFateOnUnclaimedRings() {

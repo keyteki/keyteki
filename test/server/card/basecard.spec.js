@@ -158,8 +158,8 @@ describe('BaseCard', function () {
 
             it('should check each restriction', function() {
                 this.card.allowGameAction('kill');
-                expect(this.restrictionSpy1.isMatch).toHaveBeenCalledWith('kill', this.game.currentAbilityContext);
-                expect(this.restrictionSpy2.isMatch).toHaveBeenCalledWith('kill', this.game.currentAbilityContext);
+                expect(this.restrictionSpy1.isMatch).toHaveBeenCalledWith('kill', this.card, this.game.currentAbilityContext);
+                expect(this.restrictionSpy2.isMatch).toHaveBeenCalledWith('kill', this.card, this.game.currentAbilityContext);
             });
 
             describe('and there are no matching restrictions', function() {
