@@ -81,12 +81,14 @@ class InitiateConflictPrompt extends UiPrompt {
 
         var canInitiateThisConflictType = !player.conflicts.isAtMax(ring.conflictType);        
         var canInitiateOtherConflictType = !player.conflicts.isAtMax(ring.conflictType === 'military' ? 'political' : 'military');        
+
         if((this.conflict.conflictRing === ring.element && canInitiateOtherConflictType) ||
                 (this.conflict.conflictRing !== ring.element && !canInitiateThisConflictType)) {
-            this.flipRing(player, ring);
+            this.game.flipRing(player, ring);
         }
-        this.currentConflict.conflictRing = ring.element;
-        this.currentConflict.conflictType = ring.conflictType;
+
+        this.conflict.conflictRing = ring.element;
+        this.conflict.conflictType = ring.conflictType;
         return true;
     }
 
