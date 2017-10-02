@@ -30,14 +30,10 @@ class DynastyCardAction extends BaseAbility {
 
     executeHandler(context) {
         
-        let additionalFate = this.cost[0].fate;
-        let location = context.source.location;
+        context.source.fate = this.cost[0].fate;
+        context.player.putIntoPlay(context.source);
         
-        context.source.fate = additionalFate;
-        context.player.putIntoPlay(context.source, 'dynasty');
-        context.player.replaceDynastyCard(location);
-        
-        context.game.addMessage('{0} plays {1} with {2} additional fate', context.player, context.source.name, additionalFate);
+        context.game.addMessage('{0} plays {1} with {2} additional fate', context.player, context.source.name, this.cost[0].fate);
     }
 
     isCardAbility() {
