@@ -5,8 +5,15 @@ class ShrewdYasuki extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Look at top 2 cards of conflict deck',
-            // TODO condition doesn't work
-            condition: () => this.game.currentConflict && this.game.currentConflict.isParticipating(this) && this.controller.getNumberOfHoldingsInPlay() > 0,
+            condition: () => {
+                let otherPlayer = this.game.getOtherPlayer(this.controller);
+                return (
+                    this.game.currentConflict && 
+                    this.game.currentConflict.isParticipating(this) && 
+                    (this.controller.getNumberOfHoldingsInPlay() > 0 ||
+                    (otherPlayer && otherPlayer.getNumberOfHoldingsInPlay() > 0))
+                ); 
+            },
             handler: () => {
                 this.game.addMessage('{0} uses {1} to look at the top two cards of their conflict deck', this.controller, this);
                 let buttons = _.map(this.controller.conflictDeck.first(2), card => {
@@ -26,8 +33,9 @@ class ShrewdYasuki extends DrawCard {
     takeCardToHand(player, arg) {
         this.game.addMessage('{0} takes one card to their hand and puts the other on the bottom of their deck', this.controller);
         let card = player.findCardByUuid(player.conflictDeck, arg);
+        let otherCard = _.find(player.conflictDeck.first(2), c => c !== card);
         player.moveCard(card, 'hand');
-        player.moveFromTopToBottomOfConflictDrawDeck(1);
+        player.moveCard(otherCard, 'conflict deck', { bottom: true });
         return true;
     }
 }
