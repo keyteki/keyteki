@@ -74,6 +74,22 @@ class InitiateConflictPrompt extends UiPrompt {
 
     }
 
+    onRingClicked(player, ring) {
+        if(player !== this.choosingPlayer) {
+            return false;
+        }
+
+        var canInitiateThisConflictType = !player.conflicts.isAtMax(ring.conflictType);        
+        var canInitiateOtherConflictType = !player.conflicts.isAtMax(ring.conflictType === 'military' ? 'political' : 'military');        
+        if((this.conflict.conflictRing === ring.element && canInitiateOtherConflictType) ||
+                (this.conflict.conflictRing !== ring.element && !canInitiateThisConflictType)) {
+            this.flipRing(player, ring);
+        }
+        this.currentConflict.conflictRing = ring.element;
+        this.currentConflict.conflictType = ring.conflictType;
+        return true;
+    }
+
     checkCardCondition(card) {
         if(card.isProvince && card.controller !== this.choosingPlayer && !card.isBroken) {
             if(!this.conflict.conflictProvince || card === this.conflict.conflictProvince) {

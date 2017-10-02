@@ -35,6 +35,10 @@ class AtomicEventWindow extends BaseStep {
         return this.pipeline.handleCardClicked(player, card);
     }
 
+    onRingClicked(player, ring) {
+        return this.pipeline.handleRingClicked(player, ring);
+    }
+
     onMenuCommand(player, arg, method) {
         return this.pipeline.handleMenuCommand(player, arg, method);
     }
