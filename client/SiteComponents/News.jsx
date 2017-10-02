@@ -14,7 +14,7 @@ class News extends React.Component {
 
         let news = _.map(this.props.news, newsItem => {
             let retNews = <NewsItem key={ newsItem.datePublished } icon={ icons[iconIndex++] } date={ newsItem.datePublished } text={ newsItem.text } />;
-            if(iconIndex === 3) {
+            if(iconIndex === 2) {
                 iconIndex = 0;
             }
 
