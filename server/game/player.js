@@ -1102,8 +1102,8 @@ class Player extends Spectator {
         }
         
         // Replace a card which has been played, put into play or discarded from a province
-        if(card.isDynasty && ['province 1', 'province 2', 'province 3', 'province 4'].includes(location) && targetLocation !== 'dynasty deck' && this.dynastyDeck.size() > 0) {
-            this.moveCard(this.dynastyDeck.first(), location);
+        if(card.isDynasty && ['province 1', 'province 2', 'province 3', 'province 4'].includes(location) && targetLocation !== 'dynasty deck') {
+            this.replaceDynastyCard(location);
         }
     }
 

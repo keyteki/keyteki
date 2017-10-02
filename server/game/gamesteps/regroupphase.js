@@ -52,7 +52,6 @@ class RegroupPhase extends Phase {
                 _.each(cards, card => {
                     let location = card.location;
                     player.moveCard(card, 'dynasty discard pile');
-                    player.moveCard(player.dynastyDeck.first(), location);
                 });
                 return true;
             }
