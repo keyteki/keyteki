@@ -38,7 +38,7 @@ class ConflictPhase extends Phase {
         this.currentPlayer = this.remainingPlayers[0];
         this.game.militaryConflictCompleted = false;
         this.game.politicalConflictCompleted = false;
-     }
+    }
 
     startConflictChoice(attackingPlayer = null) {
         if(attackingPlayer) {

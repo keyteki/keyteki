@@ -53,8 +53,8 @@ class Game extends EventEmitter {
         this.abilityWindowStack = [];
         this.password = details.password;
 
-        this.game.militaryConflictCompleted = false;
-        this.game.politicalConflictCompleted = false;
+        this.militaryConflictCompleted = false;
+        this.politicalConflictCompleted = false;
         this.rings = {
             air: new Ring('air','military'),
             earth: new Ring('earth','political'),
