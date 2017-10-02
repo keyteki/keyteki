@@ -361,12 +361,15 @@ class BaseCard {
 
     allowGameAction(actionType) {
         let currentAbilityContext = this.game.currentAbilityContext;
-        return !_.any(this.abilityRestrictions, restriction => restriction.isMatch(actionType, currentAbilityContext));
+        if(_.any(this.controller.abilityRestrictions, restriction => restriction.isMatch(actionType, this, currentAbilityContext))) {
+            return false;
+        }
+        return !_.any(this.abilityRestrictions, restriction => restriction.isMatch(actionType, this, currentAbilityContext));
     }
 
     allowEffectFrom(sourceCard) {
         let currentAbilityContext = { source: 'card', card: sourceCard, stage: 'effect' };
-        return !_.any(this.abilityRestrictions, restriction => restriction.isMatch('applyEffect', currentAbilityContext));
+        return !_.any(this.abilityRestrictions, restriction => restriction.isMatch('applyEffect', this, currentAbilityContext));
     }
 
     addAbilityRestriction(restriction) {

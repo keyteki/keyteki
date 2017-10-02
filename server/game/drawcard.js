@@ -324,7 +324,7 @@ class DrawCard extends BaseCard {
     }
     
     canPlay() {
-        return this.owner.canInitiateAction;
+        return this.owner.canInitiateAction && this.allowGameAction('play');
     }
 
     /**
@@ -390,25 +390,28 @@ class DrawCard extends BaseCard {
     }
 
     canDeclareAsAttacker(conflictType) {
-        return this.allowGameAction('declareAsAttacker') && this.canDeclareAsParticipant(conflictType);
+        return this.allowGameAction('declareAsAttacker') && this.canParticipateAsAttacker(conflictType);
     }
 
     canDeclareAsDefender(conflictType) {
-        return this.allowGameAction('declareAsDefender') && this.canDeclareAsParticipant(conflictType);
+        return this.allowGameAction('declareAsDefender') && this.canParticipateAsDefender(conflictType);
     }
 
-    canDeclareAsParticipant(conflictType) {
+    canParticipateInConflict(conflictType) {
         return (
-            this.canParticipateInConflict() &&
             this.location === 'play area' &&
             !this.covert &&
-            (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowing) &&
+            (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowed) &&
             !this.conflictOptions.cannotParticipateIn[conflictType]
         );
     }
 
-    canParticipateInConflict() {
-        return this.allowGameAction('participateInConflict');
+    canParticipateAsAttacker(conflictType) {
+        return this.allowGameAction('participateAsAttacker') && this.canParticipateInConflict(conflictType);
+    }
+
+    canParticipateAsDefender(conflictType) {
+        return this.allowGameAction('participateAsDefender') && this.canParticipateInConflict(conflictType);
     }
 
     canBeKilled() {

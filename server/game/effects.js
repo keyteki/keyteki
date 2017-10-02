@@ -6,7 +6,7 @@ const PlayableLocation = require('./playablelocation.js');
 const CannotRestriction = require('./cannotrestriction.js');
 const ImmunityRestriction = require('./immunityrestriction.js');
 
-function cannotEffect(type) {
+function cardCannotEffect(type) {
     return function(predicate) {
         let restriction = new CannotRestriction(type, predicate);
         return {
@@ -15,6 +15,20 @@ function cannotEffect(type) {
             },
             unapply: function(card) {
                 card.removeAbilityRestriction(restriction);
+            }
+        };
+    };
+}
+
+function playerCannotEffect(type) {
+    return function(predicate) {
+        let restriction = new CannotRestriction(type, predicate);
+        return {
+            apply: function(player) {
+                player.abilityRestrictions.push(restriction);
+            },
+            unapply: function(player) {
+                player.abilityRestrictions = _.reject(player.abilityRestrictions, r => r === restriction);
             }
         };
     };
@@ -43,9 +57,10 @@ const Effects = {
             isStateDependent: (stateDependentEffects.length !== 0)
         };
     },
-    cannotBeDeclaredAsAttacker: cannotEffect('declareAsAttacker'),
-    cannotBeDeclaredAsDefender: cannotEffect('declareAsDefender'),
-    cannotParticipate: cannotEffect('participateInConflict'),
+    cannotBeDeclaredAsAttacker: cardCannotEffect('declareAsAttacker'),
+    cannotBeDeclaredAsDefender: cardCannotEffect('declareAsDefender'),
+    cannotParticipateAsAttacker: cardCannotEffect('participateAsAttacker'),
+    cannotParticipateAsDefender: cardCannotEffect('participateAsDefender'),
     modifyMilitarySkill: function(value) {
         return {
             apply: function(card) {
@@ -266,18 +281,17 @@ const Effects = {
             }
         };
     },
-    cannotBeDiscarded: cannotEffect('discard'),
-    cannotPlay: cannotEffect('play'),
-    cannotTriggerCardAbilities: function() {
-        return {
-            apply: function(player) {
-                player.cannotTriggerCardAbilities = true;
-            },
-            unapply: function(player) {
-                player.cannotTriggerCardAbilities = false;
-            }
-        };
-    },
+    cannotBeDiscarded: cardCannotEffect('discardFromPlay'),
+    cannotRemoveFate: cardCannotEffect('removeFate'),
+    cannotPlay: playerCannotEffect('play'),
+    cardCannotTriggerAbilities: cardCannotEffect('triggerAbilities'),
+    cannotBeTargeted: cardCannotEffect('target'),
+    cannotBeBowed: cardCannotEffect('bow'),
+    cannotBeMovedIntoConflict: cardCannotEffect('moveToConflict'),
+    cannotBeSentHome: cardCannotEffect('sendHome'),
+    cannotMoveCharactersIntoConflict: playerCannotEffect('moveToConflict'),
+    playerCannotTriggerCardAbilities: playerCannotEffect('triggerAbilities'),
+    cannotBecomeDishonored: cardCannotEffect('becomeDishonored'),
     canPlayFromOwn: function(location) {
         return {
             apply: function(player, context) {

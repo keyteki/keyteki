@@ -58,7 +58,7 @@ class Player extends Spectator {
             new PlayableLocation('dynasty', this, 'province 4')
         ];
         this.cannotGainConflictBonus = false;
-        this.cannotTriggerCardAbilities = false;
+        this.abilityRestrictions = [];
         this.canInitiateAction = false;
         this.promptedActionWindows = user.promptedActionWindows || {
             dynasty: true,
@@ -877,7 +877,7 @@ class Player extends Spectator {
     }
     
     discardCardFromPlay(card) {
-        if(card.allowGameAction('discard')) {
+        if(card.allowGameAction('discardFromPlay')) {
             this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', false);
         }
     }

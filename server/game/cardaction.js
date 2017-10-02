@@ -97,7 +97,7 @@ class CardAction extends BaseAbility {
             return false;
         }
 
-        if(context.player.cannotTriggerCardAbilities || !context.player.canInitiateAction) {
+        if(!context.player.canInitiateAction) {
             return false;
         }
 
