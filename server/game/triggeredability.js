@@ -69,11 +69,11 @@ class TriggeredAbility extends BaseAbility {
         if(this.game.currentPhase === 'setup') {
             return false;
         }
-
+        /*
         if(!this.isForcedAbility() && context.player) {
             return false;
         }
-
+        */
         if(this.limit && this.limit.isAtMax()) {
             return false;
         }
