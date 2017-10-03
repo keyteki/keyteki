@@ -33,12 +33,21 @@ class ZmqSocket extends EventEmitter {
     }
 
     onGameSync(games) {
-        this.send('HELLO', {
-            maxGames: config.maxGames,
-            address: this.listenAddress,
-            port: config.gameNode.socketioPort,
-            protocol: this.protocol,
-            games: games });
+        if(config.gameNode.proxyPort) {
+            this.send('HELLO', {
+                maxGames: config.maxGames,
+                address: this.listenAddress,
+                port: config.gameNode.proxyPort,
+                protocol: this.protocol,
+                games: games });
+        } else {
+            this.send('HELLO', {
+                maxGames: config.maxGames,
+                address: this.listenAddress,
+                port: config.gameNode.socketioPort,
+                protocol: this.protocol,
+                games: games });
+        }
     }
 
     onMessage(x, msg) {
