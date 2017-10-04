@@ -7,6 +7,10 @@ class FixedAbilityLimit {
     isRepeatable() {
         return false;
     }
+    
+    modifyMax(amount) {
+        this.max = this.max + amount;
+    }
 
     isAtMax() {
         return this.useCount >= this.max;
