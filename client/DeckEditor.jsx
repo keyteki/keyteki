@@ -238,17 +238,26 @@ class InnerDeckEditor extends React.Component {
     importDeck() {
         $(findDOMNode(this.refs.modal)).modal('hide');
 
-        let strainUrl = document.getElementById('strainUrl').value;
+        let importUrl = document.getElementById('importUrl').value;
 
         let apiUrl = 'https://api.fiveringsdb.com/';
-        let path = 'strains';
+        let strainPath = 'strains';
+        let deckPath = 'decks';
         let deckResponse = {};
         
-        let strainId = String(strainUrl).split('/')[4];
+        let importId = String(importUrl).split('/')[4];
+        let selector = String(importUrl).split('/')[3];
+
+        let path = '';
+        if(selector === 'decks') {
+            path = deckPath;
+        } else if(selector === 'strains') {
+            path = strainPath;
+        }
 
         $.ajax({
             type: 'GET',
-            url: apiUrl + path + '/' + strainId,
+            url: apiUrl + path + '/' + importId,
             dataType: 'json',
             async: false,
             success: function(data) {
@@ -256,12 +265,26 @@ class InnerDeckEditor extends React.Component {
             }
         });
 
+        let deckClan = '';
+        let deckAlliance = '';
+        let deckName = '';
+        let deckList = '';
+        let cardList = '';
+
+
         if(deckResponse.success) {
             let deckRecord = deckResponse.record;
-            let deckClan = deckRecord.head.clan;
-            let deckName = deckRecord.head.name;
-            let deckList = deckRecord.head.cards;
-            let cardList = '';
+            if(selector === 'decks') {
+                deckClan = deckRecord.primary_clan;
+                deckAlliance = deckRecord.secondary_clan;
+                deckName = deckRecord.name;
+                deckList = deckRecord.cards;
+            } else if(selector === 'strains') {
+                deckClan = deckRecord.head.primary_clan;
+                deckAlliance = deckRecord.head.secondary_clan;
+                deckName = deckRecord.head.name;
+                deckList = deckRecord.head.cards; 
+            }
 
             let deck = this.copyDeck(this.state.deck);
 
@@ -272,12 +295,14 @@ class InnerDeckEditor extends React.Component {
                 deck.faction = this.props.factions['crab'];
             }
 
+            if(deckAlliance) {
+                deck.alliance = this.props.factions[deckAlliance];
+            } else {
+                deck.alliance = this.props.factions['crab'];
+            }
+
             _.each(deckList, (count, card) => {
                 cardList += count + ' ' + this.props.cards[card].name + '\n';
-                let allianceClan = this.props.cards[card].clan;
-                if(allianceClan !== 'neutral' && allianceClan !== deckClan) {
-                    deck.alliance = this.props.factions[this.props.cards[card].clan];
-                }
             });
 
             //Duplicate onCardListChange to get this working correctly
@@ -361,7 +386,7 @@ class InnerDeckEditor extends React.Component {
                             <h4 className='modal-title'>Provide Permalink</h4>
                         </div>
                         <div className='modal-body'>
-                            <Input name='strainUrl' fieldClass='col-sm-9' placeholder='Permalink' type='text' >
+                            <Input name='importUrl' fieldClass='col-sm-9' placeholder='Permalink' type='text' >
                                 <div className='col-sm-1'>
                                     <button className='btn btn-default' onClick={ this.importDeck.bind(this) }>Import</button>
                                 </div>
@@ -385,7 +410,7 @@ class InnerDeckEditor extends React.Component {
                         onChange={ this.onAllianceChange.bind(this) } value={ this.state.deck.alliance ? this.state.deck.alliance.value : undefined }
                         valueKey='value' nameKey='name' blankOption={ { name: '- Select -', value: '' } } />
 
-                    <Typeahead label='Card' labelClass={ 'col-sm-3' } fieldClass='col-sm-4' labelKey={ 'label' } options={ _.toArray(this.props.cards) }
+                    <Typeahead label='Card' labelClass={ 'col-sm-3' } fieldClass='col-sm-4' labelKey={ 'name' } options={ _.toArray(this.props.cards) }
                         onChange={ this.addCardChange.bind(this) }>
                         <Input name='numcards' type='text' label='Num' labelClass='col-sm-1' fieldClass='col-sm-2'
                             value={ this.state.numberToAdd.toString() } onChange={ this.onNumberToAddChange.bind(this) }>
@@ -398,7 +423,7 @@ class InnerDeckEditor extends React.Component {
                         onChange={ this.onCardListChange.bind(this) } />
                     <div className='form-group'>
                         <div className='col-sm-offset-3 col-sm-8'>
-                            <button ref='submit' type='submit' className='btn btn-primary' onClick={ this.onSaveClick.bind(this) }>{ this.props.mode }</button>
+                            <button ref='submit' type='submit' className='btn btn-primary' onClick={ this.onSaveClick.bind(this) }>Save Deck</button>
                         </div>
                     </div>
                 </form>
