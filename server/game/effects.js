@@ -292,6 +292,34 @@ const Effects = {
     cannotMoveCharactersIntoConflict: playerCannotEffect('moveToConflict'),
     playerCannotTriggerCardAbilities: playerCannotEffect('triggerAbilities'),
     cannotBecomeDishonored: cardCannotEffect('becomeDishonored'),
+    increaseLimitOnAbilities: function(amount) {
+        return {
+            apply: function(card) {
+                _.each(card.abilities.actions, ability => {
+                    if(ability.limit) {
+                        ability.limit.modifyMax(amount);
+                    }
+                });
+                _.each(card.abilities.actions, ability => {
+                    if(ability.limit) {
+                        ability.limit.modifyMax(amount);
+                    }
+                });
+            },
+            unapply: function(card) {
+                _.each(card.abilities.actions, ability => {
+                    if(ability.limit) {
+                        ability.limit.modifyMax(-amount);
+                    }
+                });
+                _.each(card.abilities.actions, ability => {
+                    if(ability.limit) {
+                        ability.limit.modifyMax(-amount);
+                    }
+                });
+            }
+        };
+    },
     canPlayFromOwn: function(location) {
         return {
             apply: function(player, context) {
