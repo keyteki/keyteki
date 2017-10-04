@@ -115,17 +115,17 @@ class BaseAbility {
         return _.all(this.targets, (targetProperties, name) => {
             if(name === 'select') {
                 return true;
-            } else if(name === 'ring') {
-                return _.any(context.game.rings, ring => targetProperties.ringCondition(ring, context));
-            } else {
-                return context.game.allCards.any(card => {
-                    if(!ValidTypes.includes(card.getType())) {
-                        return false;
-                    }
-
-                    return targetProperties.cardCondition(card, context);
-                });
             }
+            if(name === 'ring') {
+                return _.any(context.game.rings, ring => targetProperties.ringCondition(ring, context));
+            }
+            return context.game.allCards.any(card => {
+                if(!ValidTypes.includes(card.getType())) {
+                    return false;
+                }
+
+                return targetProperties.cardCondition(card, context);
+            });
         });
     }
 
@@ -152,7 +152,7 @@ class BaseAbility {
                     return true;                    
                 };
             });
-            handlers.push( () => {
+            handlers.push(() => {
                 result.resolved = true;
                 return true;
             });
