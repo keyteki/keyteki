@@ -18,6 +18,7 @@ const RegroupPhase = require('./gamesteps/regroupphase.js');
 const SimpleStep = require('./gamesteps/simplestep.js');
 const DeckSearchPrompt = require('./gamesteps/decksearchprompt.js');
 const MenuPrompt = require('./gamesteps/menuprompt.js');
+const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 const SelectRingPrompt = require('./gamesteps/selectringprompt.js');
 const EventWindow = require('./gamesteps/eventwindow.js');
@@ -537,6 +538,10 @@ class Game extends EventEmitter {
 
     promptWithMenu(player, contextObj, properties) {
         this.queueStep(new MenuPrompt(this, player, contextObj, properties));
+    }
+
+    promptWithHandlerMenu(player, properties) {
+        this.queueStep(new HandlerMenuPrompt(this, player, properties));
     }
 
     promptForSelect(player, properties) {
