@@ -112,13 +112,19 @@ class BaseAbility {
      */
     canResolveTargets(context) {
         const ValidTypes = ['character', 'attachment', 'location', 'event'];
-        return _.all(this.targets, target => {
+        return _.all(this.targets, (targetProperties, name) => {
+            if(name === 'select') {
+                return true;
+            }
+            if(name === 'ring') {
+                return _.any(context.game.rings, ring => targetProperties.ringCondition(ring, context));
+            }
             return context.game.allCards.any(card => {
                 if(!ValidTypes.includes(card.getType())) {
                     return false;
                 }
 
-                return target.cardCondition(card, context);
+                return targetProperties.cardCondition(card, context);
             });
         });
     }
@@ -135,23 +141,66 @@ class BaseAbility {
     }
 
     resolveTarget(context, name, targetProperties) {
-        let cardCondition = targetProperties.cardCondition;
-        let otherProperties = _.omit(targetProperties, 'cardCondition');
         let result = { resolved: false, name: name, value: null };
-        let promptProperties = {
-            source: context.source,
-            cardCondition: card => cardCondition(card, context),
-            onSelect: (player, card) => {
-                result.resolved = true;
-                result.value = card;
-                return true;
-            },
-            onCancel: () => {
-                result.resolved = true;
-                return true;
+        if(name === 'select') {
+            let player = targetProperties.player === 'opponent' ? context.game.getOtherPlayer(context.player) : context.player;
+            let choices = targetProperties.choices;
+            let handlers = _.map(choices, choice => {
+                return () => {
+                    result.resolved = true;
+                    result.value = choice;
+                    return true;                    
+                };
+            });
+            if(targetProperties.player !== 'opponent') {
+                choices.push('Cancel');
+                handlers.push(() => {
+                    result.resolved = true;
+                    return true;
+                });
             }
-        };
-        context.game.promptForSelect(context.player, _.extend(promptProperties, otherProperties));
+            let promptProperties = {
+                activePromptTitle: targetProperties.activePromptTitle,
+                source: context.source,
+                choices: choices,
+                handlers: handlers
+            };
+            context.game.promptWithHandlerMenu(player, promptProperties);
+        } else if(name === 'ring') {
+            let ringCondition = targetProperties.ringCondition;
+            let otherProperties = _.omit(targetProperties, 'ringCondition');
+            let promptProperties = {
+                source: context.source,
+                ringCondition: ring => ringCondition(ring, context),
+                onSelect: (player, ring) => {
+                    result.resolved = true;
+                    result.value = ring;
+                    return true;
+                },
+                onCancel: () => {
+                    result.resolved = true;
+                    return true;
+                }
+            };
+            context.game.promptForRingSelect(context.player, _.extend(promptProperties, otherProperties));
+        } else {
+            let cardCondition = targetProperties.cardCondition;
+            let otherProperties = _.omit(targetProperties, 'cardCondition');
+            let promptProperties = {
+                source: context.source,
+                cardCondition: card => cardCondition(card, context),
+                onSelect: (player, card) => {
+                    result.resolved = true;
+                    result.value = card;
+                    return true;
+                },
+                onCancel: () => {
+                    result.resolved = true;
+                    return true;
+                }
+            };
+            context.game.promptForSelect(context.player, _.extend(promptProperties, otherProperties));
+        }
         return result;
     }
 
