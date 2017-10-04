@@ -357,7 +357,7 @@ export class InnerGameBoard extends React.Component {
         return (<div className='province-pane'>
             <HonorFan value={ otherPlayer ? otherPlayer.showBid : '0' } />
             <div className='province-group'>
-                <CardPile className='province-deck'
+                <CardPile className={ otherPlayer && otherPlayer.provinceSelected ? 'province-deck province-selected' : 'province-deck' }
                     title='Province Deck' source='province deck' 
                     cards={ otherPlayer ? otherPlayer.cardPiles.provinceDeck : [] }
                     hiddenTopCard
@@ -368,14 +368,15 @@ export class InnerGameBoard extends React.Component {
             </div>
             { this.getRings() }
             <div className='province-group our-side'>
-                <CardPile className='province-deck our-side'
+                <CardPile className={ thisPlayer.provinceSelected ? 'province-deck province-selected' : 'province-deck' }
                     title='Province Deck' source='province deck' 
                     cards={ thisPlayer.cardPiles.provinceDeck } 
                     hiddenTopCard
                     onMouseOver={ this.onMouseOver } 
                     onMouseOut={ this.onMouseOut } 
                     onCardClick={ this.onCardClick } 
-                    onDragDrop={ this.onDragDrop } />
+                    onDragDrop={ this.onDragDrop } 
+                    closeOnClick />
             </div>
             <HonorFan value={ thisPlayer.showBid } />
         </div>);
