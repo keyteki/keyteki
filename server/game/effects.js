@@ -300,7 +300,7 @@ const Effects = {
                         ability.limit.modifyMax(amount);
                     }
                 });
-                _.each(card.abilities.actions, ability => {
+                _.each(card.abilities.reactions, ability => {
                     if(ability.limit) {
                         ability.limit.modifyMax(amount);
                     }
@@ -312,7 +312,7 @@ const Effects = {
                         ability.limit.modifyMax(-amount);
                     }
                 });
-                _.each(card.abilities.actions, ability => {
+                _.each(card.abilities.reactions, ability => {
                     if(ability.limit) {
                         ability.limit.modifyMax(-amount);
                     }
