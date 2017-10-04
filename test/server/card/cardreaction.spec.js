@@ -13,7 +13,7 @@ describe('CardReaction', function () {
             when: {
                 onSomething: jasmine.createSpy('when condition')
             },
-            handler: jasmine.createSpy('handler'),
+            handler: jasmine.createSpy('handler')
         };
 
         this.properties.when.onSomething.and.returnValue(true);

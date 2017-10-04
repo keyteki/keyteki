@@ -104,7 +104,7 @@ class CardAction extends BaseAbility {
             return false;
         }
 
-       if(!this.card.canTriggerAbilities(this.location)) {
+        if(!this.card.canTriggerAbilities(this.location)) {
             return false;
         }
         
@@ -181,7 +181,7 @@ class CardAction extends BaseAbility {
         if(type === 'character' || type === 'attachment') {
             return (location === 'play area');
         } else if(type === 'event') {
-             return (location === 'hand');
+            return (location === 'hand');
         } else if(type === 'role' || location.includes('province')) {
             return true;
         }

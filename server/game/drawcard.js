@@ -333,11 +333,11 @@ class DrawCard extends BaseCard {
             if(this.location !== location && this.location !== 'play area') {
                 return false;
             }
-        } else if(type === 'event') {
+        } else if(this.type === 'event') {
             if(this.location !== location && this.location !== 'hand') {
                 return false;
             }
-        } else if(!location.includes('province') || this.facedown) {
+        } else if(!this.location.includes('province') || this.facedown) {
             return false;
         }
         return super.canTriggerAbilities();
