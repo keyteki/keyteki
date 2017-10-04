@@ -11,3 +11,4 @@ config/local*
 server/logs/*.gz
 build/
 !tsconfig.json
+/nbproject/private/

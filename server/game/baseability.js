@@ -144,18 +144,21 @@ class BaseAbility {
         let result = { resolved: false, name: name, value: null };
         if(name === 'select') {
             let player = targetProperties.player === 'opponent' ? context.game.getOtherPlayer(context.player) : context.player;
-            let choices = targetProperties.choices.concat(['Cancel']);
-            let handlers = _.map(targetProperties.choices, choice => {
+            let choices = targetProperties.choices;
+            let handlers = _.map(choices, choice => {
                 return () => {
                     result.resolved = true;
                     result.value = choice;
                     return true;                    
                 };
             });
-            handlers.push(() => {
-                result.resolved = true;
-                return true;
-            });
+            if(targetProperties.player !== 'opponent') {
+                choices.push('Cancel');
+                handlers.push(() => {
+                    result.resolved = true;
+                    return true;
+                });
+            }
             let promptProperties = {
                 activePromptTitle: targetProperties.activePromptTitle,
                 source: context.source,
