@@ -328,6 +328,21 @@ class DrawCard extends BaseCard {
         return this.owner.canInitiateAction && this.allowGameAction('play');
     }
 
+    canTriggerAbilities(location) {
+        if(this.type === 'character' || this.type === 'attachment') {
+            if(this.location !== location && this.location !== 'play area') {
+                return false;
+            }
+        } else if(type === 'event') {
+            if(this.location !== location && this.location !== 'hand') {
+                return false;
+            }
+        } else if(!location.includes('province') || this.facedown) {
+            return false;
+        }
+        return super.canTriggerAbilities();
+    }
+    
     /**
      * When this card is about to leave play, gets events required to pass
      * to a CardLeavesPlayEventWindow

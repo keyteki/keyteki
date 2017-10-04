@@ -645,7 +645,7 @@ class Game extends EventEmitter {
         }
     }
 
-    get currentAbilityContext() {
+    getCurrentAbilityContext() {
         return _.last(this.abilityCardStack);
     }
 

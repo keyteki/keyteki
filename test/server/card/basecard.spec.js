@@ -5,7 +5,7 @@ describe('BaseCard', function () {
         this.testCard = { id: '111', label: 'test 1(some pack)', name: 'test 1' };
         this.limitedCard = { id: '1234', text: 'Limited.' };
         this.nonLimitedCard = { id: '2222', text: 'Covert.' };
-        this.game = jasmine.createSpyObj('game', ['raiseEvent']);
+        this.game = jasmine.createSpyObj('game', ['raiseEvent', 'getCurrentAbilityContext']);
         this.owner = jasmine.createSpyObj('owner', ['getCardSelectionState']);
         this.owner.getCardSelectionState.and.returnValue({});
         this.owner.game = this.game;
@@ -149,7 +149,7 @@ describe('BaseCard', function () {
 
         describe('when there are restrictions', function() {
             beforeEach(function() {
-                this.game.currentAbilityContext = { context: 1 };
+                this.game.getCurrentAbilityContext.and.returnValue({ context: 1 });
                 this.restrictionSpy1 = jasmine.createSpyObj('restriction', ['isMatch']);
                 this.restrictionSpy2 = jasmine.createSpyObj('restriction', ['isMatch']);
                 this.card.addAbilityRestriction(this.restrictionSpy1);
@@ -158,8 +158,8 @@ describe('BaseCard', function () {
 
             it('should check each restriction', function() {
                 this.card.allowGameAction('kill');
-                expect(this.restrictionSpy1.isMatch).toHaveBeenCalledWith('kill', this.card, this.game.currentAbilityContext);
-                expect(this.restrictionSpy2.isMatch).toHaveBeenCalledWith('kill', this.card, this.game.currentAbilityContext);
+                expect(this.restrictionSpy1.isMatch).toHaveBeenCalledWith('kill', this.card, { context: 1 });
+                expect(this.restrictionSpy2.isMatch).toHaveBeenCalledWith('kill', this.card, { context: 1 });
             });
 
             describe('and there are no matching restrictions', function() {

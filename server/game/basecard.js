@@ -320,7 +320,11 @@ class BaseCard {
     canPlay() {
         return true;
     }
-
+    
+    canTriggerAbilities() {
+        return this.allowGameAction('triggerAbilities');
+    }
+    
     getMenu() {
         var menu = [];
 
@@ -360,7 +364,7 @@ class BaseCard {
     }
 
     allowGameAction(actionType) {
-        let currentAbilityContext = this.game.currentAbilityContext;
+        let currentAbilityContext = this.game.getCurrentAbilityContext();
         if(_.any(this.controller.abilityRestrictions, restriction => restriction.isMatch(actionType, this, currentAbilityContext))) {
             return false;
         }

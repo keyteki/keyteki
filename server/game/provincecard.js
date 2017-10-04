@@ -23,6 +23,13 @@ class ProvinceCard extends BaseCard {
         this.isBroken = true;
     }
 
+    canTriggerAbilities() {
+        if(!this.location.includes('province') || this.facedown) {
+            return false;
+        }
+        return super.canTriggerAbilities();
+    }
+    
     getSummary(activePlayer, hideWhenFaceup) {
         let baseSummary = super.getSummary(activePlayer, hideWhenFaceup);
 

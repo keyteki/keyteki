@@ -4,15 +4,16 @@ const Event = require('../../../server/game/event.js');
 describe('CardReaction', function () {
     beforeEach(function () {
         this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'registerAbility']);
-        this.cardSpy = jasmine.createSpyObj('card', ['getType', 'isBlank']);
+        this.cardSpy = jasmine.createSpyObj('card', ['getType', 'isBlank', 'canTriggerAbilities']);
         this.cardSpy.location = 'play area';
+        this.cardSpy.canTriggerAbilities.and.returnValue(true);
         this.limitSpy = jasmine.createSpyObj('limit', ['increment', 'isAtMax', 'registerEvents', 'unregisterEvents']);
 
         this.properties = {
             when: {
                 onSomething: jasmine.createSpy('when condition')
             },
-            handler: jasmine.createSpy('handler')
+            handler: jasmine.createSpy('handler'),
         };
 
         this.properties.when.onSomething.and.returnValue(true);
@@ -24,23 +25,6 @@ describe('CardReaction', function () {
 
     describe('constructor', function() {
         describe('location', function() {
-            it('should default to play area', function() {
-                this.action = new CardReaction(this.gameSpy, this.cardSpy, this.properties);
-                expect(this.action.location).toBe('play area');
-            });
-
-            it('should default to province for cards with type province', function() {
-                this.cardSpy.getType.and.returnValue('province');
-                this.action = new CardReaction(this.gameSpy, this.cardSpy, this.properties);
-                expect(this.action.location).toBe('province');
-            });
-
-            it('should default to hand for cards with type event', function() {
-                this.cardSpy.getType.and.returnValue('event');
-                this.action = new CardReaction(this.gameSpy, this.cardSpy, this.properties);
-                expect(this.action.location).toBe('hand');
-            });
-
             it('should use the location sent via properties', function() {
                 this.properties.location = 'foo';
                 this.action = new CardReaction(this.gameSpy, this.cardSpy, this.properties);
@@ -134,6 +118,7 @@ describe('CardReaction', function () {
         describe('when the card is not in the proper location', function() {
             beforeEach(function() {
                 this.cardSpy.location = 'foo';
+                this.cardSpy.canTriggerAbilities.and.returnValue(false);
             });
 
             it('should return false', function() {
