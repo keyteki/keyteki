@@ -94,6 +94,18 @@ class Conflict {
     switchType() {
         this.conflictType = this.conflictType === 'military' ? 'political' : 'military';
         this.conflictTypeSwitched = true;
+        _.each(this.attackers, card => {
+            if(!card.canParticipateAsAttacker(this.conflictType)) {
+                this.removeFromConflict(card);
+                card.bowed = true;
+            }
+        });
+        _.each(this.defenders, card => {
+            if(!card.canParticipateAsDefender(this.conflictType)) {
+                this.removeFromConflict(card);
+                card.bowed = true;
+            }
+        });
     }
     
     removeFromConflict(card) {

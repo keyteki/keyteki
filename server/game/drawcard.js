@@ -54,6 +54,15 @@ class DrawCard extends BaseCard {
         } else if(cardData.side === 'dynasty') {
             this.isDynasty = true;
         }
+        
+        if(cardData.type === 'character') {
+            if(cardData.military === undefined || cardData.military === null) {
+                this.conflictOptions.cannotParticipateIn.military = true;
+            }
+            if(cardData.political === undefined || cardData.political === null) {
+                this.conflictOptions.cannotParticipateIn.political = true;
+            }
+        }
     }
 
     isLimited() {

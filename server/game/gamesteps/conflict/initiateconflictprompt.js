@@ -85,10 +85,16 @@ class InitiateConflictPrompt extends UiPrompt {
         if((this.conflict.conflictRing === ring.element && canInitiateOtherConflictType) ||
                 (this.conflict.conflictRing !== ring.element && !canInitiateThisConflictType)) {
             this.game.flipRing(player, ring);
+            _.each(this.conflict.attackers, card => {
+                if(!card.canDeclareAsAttacker(ring.conflictType)) {
+                    this.conflict.removeFromConflict(card);
+                }
+            });
         }
 
         this.conflict.conflictRing = ring.element;
         this.conflict.conflictType = ring.conflictType;
+        this.conflict.calculateSkill();
         return true;
     }
 
