@@ -148,6 +148,29 @@ class Player extends Spectator {
         return cardsToReturn;
     }
 
+    placeProvinces() {
+        let provinceId = ['1', '2', '3', '4'];
+        // Fisher-Yates shuffle the array
+        var i = provinceId.length, t, j;
+        provinceId = provinceId.slice();
+        while (--i) t = provinceId[i], provinceId[i] = provinceId[j = ~~(Math.random() * (i+1))], provinceId[j] = t; //eslint-disable-line 
+
+        let provinceIterator = 0;
+        this.provinceDeck.each(card => {
+            if(card.selected) {
+                card.selected = false;
+                this.moveCard(card, 'stronghold province');
+            } else {
+                var province = 'province ' + provinceId[provinceIterator];
+                this.moveCard(card, province);
+                provinceIterator = provinceIterator + 1;
+            }
+
+            
+
+        });
+    }
+
     attachStronghold() {
         this.moveCard(this.stronghold, 'stronghold province');
     }
