@@ -358,9 +358,9 @@ describe('CardReaction', function () {
         });
 
         it('should not reregister events already registered', function() {
-            expect(this.gameSpy.on.calls.count()).toBe(2);
+            expect(this.gameSpy.on.calls.count()).toBe(3);
             this.reaction.registerEvents();
-            expect(this.gameSpy.on.calls.count()).toBe(2);
+            expect(this.gameSpy.on.calls.count()).toBe(3);
         });
     });
 
@@ -392,9 +392,9 @@ describe('CardReaction', function () {
         it('should not unregister events already unregistered', function() {
             this.reaction.registerEvents();
             this.reaction.unregisterEvents();
-            expect(this.gameSpy.removeListener.calls.count()).toBe(2);
+            expect(this.gameSpy.removeListener.calls.count()).toBe(3);
             this.reaction.unregisterEvents();
-            expect(this.gameSpy.removeListener.calls.count()).toBe(2);
+            expect(this.gameSpy.removeListener.calls.count()).toBe(3);
         });
     });
 });

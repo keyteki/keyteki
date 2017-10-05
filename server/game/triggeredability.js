@@ -2,6 +2,7 @@ const _ = require('underscore');
 
 const BaseAbility = require('./baseability.js');
 const Costs = require('./costs.js');
+const AbilityLimit = require('./abilitylimit.js');
 
 class TriggeredAbilityContext {
     constructor(event, game, source) {
@@ -31,7 +32,7 @@ class TriggeredAbility extends BaseAbility {
 
         this.game = game;
         this.card = card;
-        this.limit = properties.limit;
+        this.limit = properties.limit || AbilityLimit.perRound(1);
         this.when = properties.when;
         this.eventType = eventType;
         this.location = properties.location || DefaultLocationForType[card.getType()] || 'play area';
