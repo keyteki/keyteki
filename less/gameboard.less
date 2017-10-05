@@ -748,13 +748,23 @@ div.placeholder .panel-header {
  
   .popup {
     position: absolute;
-    width: 210px;
     min-height: 92px;
-    left: -25px;
-    top: 0;
-    transform: translateY(-50%);
+    min-width: 168px;
+    left: 90px;
+    top: -75px;
+
+    .inner {
+      columns: 2;
+      min-height: 128px;
+
+      .card-wrapper {
+        margin: 5px 0 0 0;
+      }
+    }
+
     &.hidden {
       display: none;
     }
+
   }
 }

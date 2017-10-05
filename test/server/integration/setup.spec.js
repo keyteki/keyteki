@@ -31,57 +31,17 @@ describe('setup phase', function() {
             });
 
             it('should present both players with a prompt to set up provinces', function() {
-                expect(this.player1.currentPrompt().menuTitle).toBe('Place provinces');
-                expect(this.player2.currentPrompt().menuTitle).toBe('Place provinces');
-            });
-
-            it('should not allow proceeding before all provinces have been set up', function() {
-                this.player1.dragCard(this.nextProvinceCard(), 'province 1');
-                this.player1.dragCard(this.nextProvinceCard(), 'province 2');
-                this.player1.dragCard(this.nextProvinceCard(), 'province 3');
-                this.player1.dragCard(this.nextProvinceCard(), 'province 4');
-                this.player1.clickPrompt('Done');
-                expect(this.player1.currentPrompt().menuTitle).toBe('Place provinces');
+                expect(this.player1.currentPrompt().menuTitle).toBe('Select stronghold province');
+                expect(this.player2.currentPrompt().menuTitle).toBe('Select stronghold province');
             });
 
             it('should allow proceeding once all provinces have been set up', function() {
-                this.player1.dragCard(this.nextProvinceCard(), 'province 1');
-                this.player1.dragCard(this.nextProvinceCard(), 'province 2');
-                this.player1.dragCard(this.nextProvinceCard(), 'province 3');
-                this.player1.dragCard(this.nextProvinceCard(), 'province 4');
-                this.player1.dragCard(this.nextProvinceCard(), 'stronghold province');
+                let strongholdProvince = this.nextProvinceCard();
+                strongholdProvince.selected = true;
                 this.player1.clickPrompt('Done');
-                expect(this.player1.currentPrompt().menuTitle).toBe('Waiting for opponent to finish placing provinces');
+                expect(this.player1.currentPrompt().menuTitle).toBe('Waiting for opponent to finish selecting a stronghold province');
             });
 
-            it('should not allow proceeding if two provinces are in one pile', function() {
-                this.player1.dragCard(this.nextProvinceCard(), 'province 1');
-                this.player1.dragCard(this.nextProvinceCard(), 'province 1');
-                this.player1.dragCard(this.nextProvinceCard(), 'province 3');
-                this.player1.dragCard(this.nextProvinceCard(), 'province 4');
-                this.player1.dragCard(this.nextProvinceCard(), 'stronghold province');
-                this.player1.clickPrompt('Done');
-                expect(this.player1.currentPrompt().menuTitle).toBe('Place provinces');
-            });
-
-            it('should place provinces face-down', function() {
-                let card = this.nextProvinceCard();
-                this.player1.dragCard(card, 'province 1');
-                expect(card.facedown).toBe(true);
-            });
-
-            it('should allow provinces to be moved around', function() {
-                let card1 = this.nextProvinceCard();
-                this.player1.dragCard(card1, 'province 1');
-                this.player1.dragCard(card1, 'province 2');
-                this.player1.dragCard(this.nextProvinceCard(), 'province 1');
-                this.player1.dragCard(this.nextProvinceCard(), 'province 3');
-                this.player1.dragCard(this.nextProvinceCard(), 'province 4');
-                this.player1.dragCard(this.nextProvinceCard(), 'stronghold province');
-                this.player1.clickPrompt('Done');
-                expect(this.player1.currentPrompt().menuTitle).toBe('Waiting for opponent to finish placing provinces');
-                expect(card1.location).toBe('province 2');
-            });
         });
 
     });

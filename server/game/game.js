@@ -184,6 +184,20 @@ class Game extends EventEmitter {
         this.addMessage('{0} {1} their stronghold', player, player.stronghold.bowed ? 'bows' : 'readies');
     }
 
+    selectProvince(player, provinceId) {
+        var province = player.findCardByUuid(player.provinceDeck, provinceId);
+
+        if(!province) {
+            return;
+        }
+
+        player.provinceDeck.each(p => {
+            p.selected = false;
+        });
+
+        province.selected = true;
+    }
+
     cardClicked(sourcePlayer, cardId) {
         var player = this.getPlayerByName(sourcePlayer);
 
@@ -198,6 +212,11 @@ class Game extends EventEmitter {
         }
 
         if(this.pipeline.handleCardClicked(player, card)) {
+            return;
+        }
+
+        if(card.location === 'province deck') {
+            this.selectProvince(player, cardId);
             return;
         }
 

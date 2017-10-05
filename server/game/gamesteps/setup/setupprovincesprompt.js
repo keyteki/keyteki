@@ -1,43 +1,48 @@
-const _ = require('underscore');
-
 const AllPlayerPrompt = require('../allplayerprompt.js');
 
 class SetupProvincesPrompt extends AllPlayerPrompt {
     completionCondition(player) {
-        return player.setupprovinces;
+        return !!player.selectedProvince;
     }
 
     activePrompt() {
         return {
-            menuTitle: 'Place provinces',
+            menuTitle: 'Select stronghold province',
             buttons: [
-                { arg: 'setupprovincesdone', text: 'Done' }
+                { arg: 'provincesselected', text: 'Done' }
             ]
         };
     }
 
     waitingPrompt() {
-        return { menuTitle: 'Waiting for opponent to finish placing provinces' };
+        return { 
+            menuTitle: 'Waiting for opponent to finish selecting a stronghold province',
+            buttons: [
+                { arg: 'changeprovince', text: 'Change Province' }
+            ] 
+        };
     }
 
-    onMenuCommand(player) {
-        const provinceLocations = [
-            'provinceOne',
-            'provinceTwo',
-            'provinceThree',
-            'provinceFour',
-            'strongholdProvince'
-        ];
+    onMenuCommand(player, arg) {
+        if(arg === 'changeprovince') {
+            player.selectedProvince = undefined;
+            this.game.addMessage('{0} has cancelled their province selection', player);
 
-        if(player.provinceDeck.value().length !== 0
-            || _.any(provinceLocations, loc => player[loc].value().length !== 1)) {
             return;
         }
 
-        player.setupprovinces = true;
-        this.game.addMessage('{0} has finished placing provinces', player);
+        var province = player.findCard(player.provinceDeck, card => {
+            return card.selected;
+        });
+
+        if(!province) {
+            return;
+        }
+
+        player.selectedProvince = province;
+
+        this.game.addMessage('{0} has finished selecting a stronghold province', player);
         
-        return true;
     }
 }
 

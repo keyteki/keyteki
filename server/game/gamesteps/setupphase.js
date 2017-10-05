@@ -12,6 +12,7 @@ class SetupPhase extends Phase {
             new SimpleStep(game, () => this.setupBegin()),
             new SimpleStep(game, () => this.prepareDecks()),
             new SetupProvincesPrompt(game),
+            new SimpleStep(game, () => this.placeProvinces()),
             new SimpleStep(game, () => this.attachStronghold()),
             new SimpleStep(game, () => this.fillProvinces()),
             new SimpleStep(game, () => this.doDynastyMulligan()),
@@ -38,6 +39,12 @@ class SetupPhase extends Phase {
     attachStronghold() {
         _.each(this.game.getPlayers(), player => {
             player.attachStronghold();
+        });
+    }
+
+    placeProvinces() {
+        _.each(this.game.getPlayers(), player => {
+            player.placeProvinces();
         });
     }
 
