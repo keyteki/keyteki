@@ -166,8 +166,6 @@ class Player extends Spectator {
                 provinceIterator = provinceIterator + 1;
             }
 
-            
-
         });
     }
 
