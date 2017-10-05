@@ -49,13 +49,6 @@ describe('setup phase', function() {
                 expect(this.player1.currentPrompt().menuTitle).toBe('Waiting for opponent to finish selecting a stronghold province');
             });
 
-            it('should not allow proceeding if two provinces are in one pile', function() {
-                let strongholdProvince = this.nextProvinceCard();
-                strongholdProvince.selected = true;
-                this.player1.clickPrompt('Done');
-                expect(this.player1.currentPrompt().menuTitle).toBe('Select stronghold province');
-            });
-
             it('should place provinces face-down', function() {
                 let strongholdProvince = this.nextProvinceCard();
                 strongholdProvince.selected = true;
