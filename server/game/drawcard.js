@@ -201,8 +201,7 @@ class DrawCard extends BaseCard {
 
         if(this.cardData.military !== null && this.cardData.military !== undefined) {
             let skillFromAttachments = _.reduce(this.attachments._wrapped, (skill, card) => skill + parseInt(card.cardData.military_bonus), 0);
-            let skillFromGlory = (this.isHonored ? this.getGlory() : 0) - (this.isDishonored ? this.getGlory() : 0);
-            return Math.max(0, this.cardData.military + this.militarySkillModifier + skillFromAttachments + skillFromGlory);
+            return Math.max(0, this.getSkillWithGlory(this.cardData.military + this.militarySkillModifier + skillFromAttachments));
         }
 
         return null;
@@ -220,11 +219,19 @@ class DrawCard extends BaseCard {
 
         if(this.cardData.political !== null && this.cardData.political !== undefined) {
             let skillFromAttachments = _.reduce(this.attachments._wrapped, (skill, card) => skill + parseInt(card.cardData.political_bonus), 0);
-            let skillFromGlory = (this.isHonored ? this.getGlory() : 0) - (this.isDishonored ? this.getGlory() : 0);
-            return Math.max(0, this.cardData.political + this.politicalSkillModifier + skillFromAttachments + skillFromGlory);
+            return Math.max(0, this.getSkillWithGlory(this.cardData.political + this.politicalSkillModifier + skillFromAttachments));
         }
 
         return null;
+    }
+    
+    getSkillWithGlory(skill) {
+        if(this.isHonored) {
+            return skill + this.getGlory();
+        } else if(this.isDishonored) {
+            return skill - this.getGlory();
+        }
+        return skill;
     }
 
     modifyFate(fate) {
