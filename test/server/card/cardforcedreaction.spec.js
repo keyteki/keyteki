@@ -4,8 +4,9 @@ const Event = require('../../../server/game/event.js');
 describe('CardForcedReaction', function () {
     beforeEach(function () {
         this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'registerAbility']);
-        this.cardSpy = jasmine.createSpyObj('card', ['getType', 'isBlank']);
+        this.cardSpy = jasmine.createSpyObj('card', ['getType', 'isBlank', 'canTriggerAbilities']);
         this.cardSpy.location = 'play area';
+        this.cardSpy.canTriggerAbilities.and.returnValue(true);
         this.limitSpy = jasmine.createSpyObj('limit', ['increment', 'isAtMax', 'registerEvents', 'unregisterEvents']);
 
         this.properties = {
@@ -107,6 +108,7 @@ describe('CardForcedReaction', function () {
         describe('when the card is not in the proper location', function() {
             beforeEach(function() {
                 this.cardSpy.location = 'foo';
+                this.cardSpy.canTriggerAbilities.and.returnValue(false);
             });
 
             it('should return false', function() {

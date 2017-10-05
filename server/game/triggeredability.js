@@ -25,17 +25,12 @@ class TriggeredAbility extends BaseAbility {
     constructor(game, card, eventType, properties) {
         super(properties);
 
-        const DefaultLocationForType = {
-            event: 'hand',
-            province: 'province'
-        };
-
         this.game = game;
         this.card = card;
         this.limit = properties.limit || AbilityLimit.perRound(1);
         this.when = properties.when;
         this.eventType = eventType;
-        this.location = properties.location || DefaultLocationForType[card.getType()] || 'play area';
+        this.location = properties.location;
 
         if(card.getType() === 'event' && !properties.ignoreEventCosts) {
             this.cost.push(Costs.playEvent());
@@ -65,8 +60,6 @@ class TriggeredAbility extends BaseAbility {
     }
 
     meetsRequirements(context) {
-        let isPlayableEventAbility = this.isPlayableEventAbility();
-
         if(this.game.currentPhase === 'setup') {
             return false;
         }
@@ -87,14 +80,10 @@ class TriggeredAbility extends BaseAbility {
             return false;
         }
 
-        if(isPlayableEventAbility && !context.player.isCardInPlayableLocation(this.card, 'play')) {
+        if(!this.card.canTriggerAbilities(this.location)) {
             return false;
         }
-
-        if(!isPlayableEventAbility && this.card.location !== this.location) {
-            return false;
-        }
-
+        
         if(!this.canPayCosts(context) || !this.canResolveTargets(context)) {
             return false;
         }
@@ -103,7 +92,19 @@ class TriggeredAbility extends BaseAbility {
     }
 
     isEventListeningLocation(location) {
-        return this.location === location;
+        if(location === this.location) {
+            return true;
+        }
+        
+        let type = this.card.getType();
+        if(type === 'character' || type === 'attachment') {
+            return (location === 'play area');
+        } else if(type === 'event') {
+            return (location === 'hand');
+        } else if(type === 'role' || location.includes('province')) {
+            return true;
+        }
+        return false;
     }
 
     isAction() {
@@ -111,7 +112,7 @@ class TriggeredAbility extends BaseAbility {
     }
 
     isPlayableEventAbility() {
-        return this.card.getType() === 'event' && this.location === 'hand';
+        return this.card.getType() === 'event';
     }
 
     isForcedAbility() {

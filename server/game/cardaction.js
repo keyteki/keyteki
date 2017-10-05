@@ -37,11 +37,6 @@ class CardAction extends BaseAbility {
     constructor(game, card, properties) {
         super(properties);
 
-        const DefaultLocationForType = {
-            event: 'hand',
-            province: 'province'
-        };
-
         this.game = game;
         this.card = card;
         this.title = properties.title;
@@ -50,7 +45,7 @@ class CardAction extends BaseAbility {
         this.anyPlayer = properties.anyPlayer || false;
         this.condition = properties.condition;
         this.clickToActivate = !!properties.clickToActivate;
-        this.location = properties.location || DefaultLocationForType[card.getType()] || 'play area';
+        this.location = properties.location;
         this.events = new EventRegistrar(game, this);
         this.activationContexts = [];
 
@@ -80,7 +75,7 @@ class CardAction extends BaseAbility {
     }
 
     allowMenu() {
-        return ['play area', 'province'].includes(this.location);
+        return true;
     }
 
     createContext(player, arg) {
@@ -109,14 +104,10 @@ class CardAction extends BaseAbility {
             return false;
         }
 
-        if(this.card.getType() === 'event' && !context.player.isCardInPlayableLocation(this.card, 'play')) {
+        if(!this.card.canTriggerAbilities(this.location)) {
             return false;
         }
-
-        if(this.card.getType() !== 'event' && this.location !== this.card.location) {
-            return false;
-        }
-
+        
         if(this.card.isBlank()) {
             return false ;
         }
@@ -158,7 +149,7 @@ class CardAction extends BaseAbility {
     }
 
     isPlayableEventAbility() {
-        return this.card.getType() === 'event' && this.location === 'hand';
+        return this.card.getType() === 'event';
     }
 
     deactivate(player) {
@@ -182,7 +173,19 @@ class CardAction extends BaseAbility {
     }
 
     isEventListeningLocation(location) {
-        return this.location === location;
+        if(location === this.location) {
+            return true;
+        }
+        
+        let type = this.card.getType();
+        if(type === 'character' || type === 'attachment') {
+            return (location === 'play area');
+        } else if(type === 'event') {
+            return (location === 'hand');
+        } else if(type === 'role' || location.includes('province')) {
+            return true;
+        }
+        return false;
     }
 
     registerEvents() {

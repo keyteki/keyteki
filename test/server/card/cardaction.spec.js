@@ -5,7 +5,8 @@ describe('CardAction', function () {
         this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'raiseEvent', 'resolveAbility']);
         this.gameSpy.currentPhase = 'dynasty';
 
-        this.cardSpy = jasmine.createSpyObj('card', ['getType', 'isBlank']);
+        this.cardSpy = jasmine.createSpyObj('card', ['getType', 'isBlank', 'canTriggerAbilities']);
+        this.cardSpy.canTriggerAbilities.and.returnValue(true);
         this.cardSpy.handler = function() {};
         spyOn(this.cardSpy, 'handler').and.returnValue(true);
 
@@ -65,24 +66,6 @@ describe('CardAction', function () {
         });
 
         describe('location', function() {
-            it('should default to play area', function() {
-                this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
-                expect(this.action.location).toBe('play area');
-            });
-
-
-            it('should default to province for cards with type province', function() {
-                this.cardSpy.getType.and.returnValue('province');
-                this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
-                expect(this.action.location).toBe('province');
-            });
-
-            it('should default to hand for cards with type event', function() {
-                this.cardSpy.getType.and.returnValue('event');
-                this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
-                expect(this.action.location).toBe('hand');
-            });
-
             it('should use the location sent via properties', function() {
                 this.properties.location = 'foo';
                 this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
@@ -173,6 +156,7 @@ describe('CardAction', function () {
         describe('when the card is not in a location for the action', function() {
             beforeEach(function() {
                 this.cardSpy.location = 'hand';
+                this.cardSpy.canTriggerAbilities.and.returnValue(false);
                 this.properties.location = 'play area';
                 this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
                 this.action.execute(this.player, 'arg');
