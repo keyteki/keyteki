@@ -168,6 +168,9 @@ class Conflict {
 
     calculateSkillFor(cards) {
         return _.reduce(cards, (sum, card) => {
+            if(card.bowed) {
+                return sum;
+            }
             return sum + card.getSkill(this.conflictType);
         }, 0);
     }

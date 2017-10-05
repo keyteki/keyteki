@@ -23,10 +23,12 @@ class ConflictActionWindow extends ActionWindow {
         if(this.game.manualMode) {
             buttons.unshift({ text: 'Manual Action', arg: 'manual'});
         }
+        
+        this.conflict.calculateSkill();
         let conflictText = capitalize[this.conflict.conflictType] + ' ' + capitalize[this.conflict.conflictRing] + ' conflict';
         let skillText = 'Attacker: ' + this.conflict.attackerSkill + ' Defender: ' + this.conflict.defenderSkill;
         return {
-            menuTitle: [conflictText, skillText, 'Initiate an action'].join('\n'),
+            menuTitle: [conflictText, skillText].join('\n'),
             buttons: buttons,
             promptTitle: this.title
         };
