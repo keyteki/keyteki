@@ -21,9 +21,10 @@ class AbilityResolver extends BaseStep {
             new SimpleStep(game, () => this.game.pushAbilityContext('card', context.source, 'effect')),
             new SimpleStep(game, () => this.resolveTargets()),
             new SimpleStep(game, () => this.waitForTargetResolution()),
-            new SimpleStep(game, () => this.executeHandler()),
             new SimpleStep(game, () => this.markActionAsTaken()),
-            new SimpleStep(game, () => this.raiseCardPlayedIfEvent()),
+            new SimpleStep(game, () => this.initiateAbility()),
+            new SimpleStep(game, () => this.executeHandler()),
+            //new SimpleStep(game, () => this.raiseCardPlayedIfEvent()),
             new SimpleStep(game, () => this.game.popAbilityContext())
         ]);
     }
@@ -126,21 +127,20 @@ class AbilityResolver extends BaseStep {
         });
     }
 
+    initiateAbility() {
+        if(this.cancelled) {
+            return;
+        }
+        
+        this.game.raiseInitiateAbilityEvent({ player: this.context.player, source: this.context.source, resolver: this });
+    }
+
     executeHandler() {
         if(this.cancelled) {
             return;
         }
 
-        // Check to make sure the ability is actually a card ability. For
-        // instance, marshaling does not count as initiating a card ability and
-        // thus is not subject to cancels such as Treachery.
-        if(this.ability.isCardAbility()) {
-            this.game.raiseEvent('onCardAbilityInitiated', { player: this.context.player, source: this.context.source }, () => {
-                this.ability.executeHandler(this.context);
-            });
-        } else {
-            this.ability.executeHandler(this.context);
-        }
+        this.ability.executeHandler(this.context);
     }
 
     raiseCardPlayedIfEvent() {

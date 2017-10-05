@@ -9,10 +9,10 @@ class CardLeavesPlayEventWindow extends BaseStep {
     constructor(game, card, destination, isSacrifice) {
         super(game);
 
-        this.characterEvent = new Event('onCardLeavesPlay', { card: card, destination: destination }, true, () => card.owner.moveCard(card, destination));
-        this.attachmentEvents = _.map(card.getEventsForDiscardingAttachments(), event => new Event(event.name, event.params, true, event.handler));
+        this.characterEvent = new Event('onCardLeavesPlay', { card: card, destination: destination }, () => card.owner.moveCard(card, destination));
+        this.attachmentEvents = _.map(card.getEventsForDiscardingAttachments(), event => new Event(event.name, event.params, event.handler));
         if(isSacrifice) {
-            this.sacrificeEvent = new Event('onCardSacrificed', { card: card }, true);
+            this.sacrificeEvent = new Event('onCardSacrificed', { card: card });
         }
 
         this.pipeline = new GamePipeline();
@@ -79,16 +79,14 @@ class CardLeavesPlayEventWindow extends BaseStep {
             return;
         }
         
-        if(!this.characterEvent.shouldSkipHandler) {
-            _.each(this.attachmentEvents, event => {
-                if(event.handler && !event.shouldSkipHandler) {
-                    event.handler();
-                }
-            });
-
-            if(this.characterEvent.handler) {
-                this.characterEvent.handler();
+        _.each(this.attachmentEvents, event => {
+            if(event.handler) {
+                event.handler(...event.params);
             }
+        });
+
+        if(this.characterEvent.handler) {
+            this.characterEvent.handler(...this.characterEvent.params);
         }
         
         _.each(this.attachmentEvents, event => {

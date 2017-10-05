@@ -2,7 +2,7 @@ const AbilityResolver = require('../../../server/game/gamesteps/abilityresolver.
 
 describe('AbilityResolver', function() {
     beforeEach(function() {
-        this.game = jasmine.createSpyObj('game', ['getPlayers', 'markActionAsTaken', 'popAbilityContext', 'pushAbilityContext', 'raiseEvent', 'reportError']);
+        this.game = jasmine.createSpyObj('game', ['getPlayers', 'markActionAsTaken', 'popAbilityContext', 'pushAbilityContext', 'raiseEvent', 'reportError', 'raiseInitiateAbilityEvent']);
         this.game.raiseEvent.and.callFake((name, params, handler) => {
             if(handler) {
                 handler(params);
@@ -56,8 +56,8 @@ describe('AbilityResolver', function() {
                 this.resolver.continue();
             });
 
-            it('should raise the onCardAbilityInitiated event', function() {
-                expect(this.game.raiseEvent).toHaveBeenCalledWith('onCardAbilityInitiated', { player: this.player, source: this.source }, jasmine.any(Function));
+            it('should raise the InitiateAbility event', function() {
+                expect(this.game.raiseInitiateAbilityEvent).toHaveBeenCalledWith({ player: this.player, source: this.source, resolver: jasmine.any(Object) });
             });
         });
 
@@ -73,7 +73,7 @@ describe('AbilityResolver', function() {
                 expect(this.game.raiseEvent).not.toHaveBeenCalledWith('onCardAbilityInitiated', jasmine.any(Object), jasmine.any(Function));
             });
         });
-
+        /*
         describe('when the ability is an event being played', function() {
             beforeEach(function() {
                 this.ability.resolveCosts.and.returnValue([{ resolved: true, value: true }, { resolved: true, value: true }]);
@@ -85,7 +85,7 @@ describe('AbilityResolver', function() {
                 expect(this.game.raiseEvent).toHaveBeenCalledWith('onCardPlayed', jasmine.any(Object));
             });
         });
-
+        */
         describe('when not all costs can be paid', function() {
             beforeEach(function() {
                 this.ability.resolveCosts.and.returnValue([{ resolved: true, value: true }, { resolved: true, value: false }]);

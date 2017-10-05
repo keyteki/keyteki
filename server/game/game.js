@@ -25,6 +25,7 @@ const EventWindow = require('./gamesteps/eventwindow.js');
 const AtomicEventWindow = require('./gamesteps/atomiceventwindow.js');
 const SimultaneousEventWindow = require('./gamesteps/simultaneouseventwindow.js');
 const CardLeavesPlayEventWindow = require('./gamesteps/cardleavesplayeventwindow.js');
+const InitateAbilityEventWindow = require('./gamesteps/initiateabilityeventwindow.js');
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const ForcedTriggeredAbilityWindow = require('./gamesteps/forcedtriggeredabilitywindow.js');
 const TriggeredAbilityWindow = require('./gamesteps/triggeredabilitywindow.js');
@@ -709,12 +710,8 @@ class Game extends EventEmitter {
         }
     }
 
-    raiseEvent(eventName, params, handler) {
-        if(!handler) {
-            handler = () => true;
-        }
-
-        this.queueStep(new EventWindow(this, eventName, params || {}, handler, true));
+    raiseEvent(eventName, params, handler = () => true) {
+        this.queueStep(new EventWindow(this, eventName, params || {}, handler));
     }
 
     /**
@@ -736,6 +733,10 @@ class Game extends EventEmitter {
 
     raiseCardLeavesPlayEvent(card, destination, isSacrifice = false) {
         this.queueStep(new CardLeavesPlayEventWindow(this, card, destination, isSacrifice));
+    }
+
+    raiseInitiateAbilityEvent(properties) {
+        this.queueStep(new InitateAbilityEventWindow(this, properties));
     }
 
     flipRing(sourcePlayer, ring) {

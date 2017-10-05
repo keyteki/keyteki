@@ -4,7 +4,7 @@ class AsakoDiplomat extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                afterConflict: (event, params) => params.conflict.winner === this.controller && params.conflict.isParticipating(this)
+                afterConflict: event => event.conflict.winner === this.controller && event.conflict.isParticipating(this)
             },
             choices: {
                 'Honor a character': () => {
