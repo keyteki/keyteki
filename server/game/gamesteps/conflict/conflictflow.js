@@ -2,7 +2,7 @@ const _ = require('underscore');
 const BaseStep = require('../basestep.js');
 const GamePipeline = require('../../gamepipeline.js');
 const SimpleStep = require('../simplestep.js');
-const ActionWindow = require('../actionwindow.js');
+const ConflictActionWindow = require('../conflictactionwindow.js');
 const InitiateConflictPrompt = require('./initiateconflictprompt.js');
 const SelectDefendersPrompt = require('./selectdefendersprompt.js');
 
@@ -32,7 +32,7 @@ class ConflictFlow extends BaseStep {
             new SimpleStep(this.game, () => this.announceAttackerSkill()),
             new SimpleStep(this.game, () => this.promptForDefenders()),
             new SimpleStep(this.game, () => this.announceDefenderSkill()),
-            new ActionWindow(this.game, 'Conflict Action Window', 'conflict'),
+            new ConflictActionWindow(this.game, 'Conflict Action Window', this.conflict),
             new SimpleStep(this.game, () => this.determineWinner()),
             new SimpleStep(this.game, () => this.applyKeywords()),
             new SimpleStep(this.game, () => this.applyUnopposed()),
