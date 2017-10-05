@@ -7,6 +7,7 @@ class PlayerPromptState {
         this.menuTitle = '';
         this.promptTitle = '';
         this.buttons = [];
+        this.controls = [];
 
         this.selectableCards = [];
         this.selectedCards = [];
@@ -42,12 +43,14 @@ class PlayerPromptState {
 
             return button;
         });
+        this.controls = prompt.controls || [];
     }
 
     cancelPrompt() {
         this.selectCard = false;
         this.menuTitle = '';
         this.buttons = [];
+        this.controls = [];
     }
 
     getCardSelectionState(card) {
@@ -74,7 +77,8 @@ class PlayerPromptState {
             selectOrder: this.selectOrder,
             menuTitle: this.menuTitle,
             promptTitle: this.promptTitle,
-            buttons: this.buttons
+            buttons: this.buttons,
+            controls: this.controls
         };
     }
 }
