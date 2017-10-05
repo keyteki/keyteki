@@ -35,25 +35,11 @@ describe('setup phase', function() {
                 expect(this.player2.currentPrompt().menuTitle).toBe('Select stronghold province');
             });
 
-            it('should not allow proceeding before all provinces have been set up', function() {
-                let strongholdProvince = this.nextProvinceCard();
-                strongholdProvince.selected = true;
-                this.player1.clickPrompt('Done');
-                expect(this.player1.currentPrompt().menuTitle).toBe('Select stronghold province');
-            });
-
             it('should allow proceeding once all provinces have been set up', function() {
                 let strongholdProvince = this.nextProvinceCard();
                 strongholdProvince.selected = true;
                 this.player1.clickPrompt('Done');
                 expect(this.player1.currentPrompt().menuTitle).toBe('Waiting for opponent to finish selecting a stronghold province');
-            });
-
-            it('should place provinces face-down', function() {
-                let strongholdProvince = this.nextProvinceCard();
-                strongholdProvince.selected = true;
-                this.player1.clickPrompt('Done');
-                expect(strongholdProvince.facedown).toBe(true);
             });
 
         });
