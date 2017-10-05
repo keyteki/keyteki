@@ -15,7 +15,7 @@ class DynastyActionWindow extends ActionWindow {
             { text: 'Pass', arg: 'pass' }
         ];
         if(this.game.manualMode) {
-            buttons.unshift({ text: 'Mannual Action', arg: 'manual'});
+            buttons.unshift({ text: 'Manual Action', arg: 'manual'});
         }
         return {
             menuTitle: 'Click pass when done',
