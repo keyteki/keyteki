@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class AgainstTheWaves extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             target: {
                 cardType: 'character',
