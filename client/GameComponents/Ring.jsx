@@ -24,7 +24,7 @@ class Ring extends React.Component {
     getCountersForRing(ring) {
         var counters = {};
 
-        counters['ring-fate'] = this.props.fate ? { count: this.props.fate, shortName: 'F' } : undefined;
+        counters['ring-fate'] = this.props.ring.fate ? { count: this.props.ring.fate, shortName: 'F' } : undefined;
 
         _.each(ring.tokens, (token, key) => {
             counters[key] = { count: token, fade: ring.type === 'attachment', shortName: this.shortNames[key] };
@@ -44,12 +44,12 @@ class Ring extends React.Component {
     render() {
 
         return (<div className='ring-display'>
-            <div className='ring' onClick={ event => this.onClick(event, this.props.ringType) } >
-                <img className='ring' title={ this.props.ringType } src={ '/img/' + this.props.conflictType + '-' + this.props.ringType + '.png' } />
-                { this.showCounters() ? <CardCounters counters={ this.getCountersForRing(this.props.ringType) } /> : null }
+            <div className='ring' onClick={ event => this.onClick(event, this.props.ring.element) } >
+                <img className='ring' title={ this.props.ring.element } src={ '/img/' + this.props.ring.conflictType + '-' + this.props.ring.element + '.png' } />
+                { this.showCounters() ? <CardCounters counters={ this.getCountersForRing(this.props.ring.element) } /> : null }
             </div>
-            <div className={ this.props.claimedBy.length > 12 ? 'ring-info-xs ' : 'ring-info ' } >
-                { this.props.claimed ? 'Claimed: ' + this.props.claimedBy : 'Unclaimed' }
+            <div className={ this.props.ring.claimedBy.length > 12 ? 'ring-info-xs ' : 'ring-info ' } >
+                { this.props.ring.claimed ? 'Claimed: ' + this.props.ring.claimedBy : this.props.ring.contested ? 'Contested' : 'Unclaimed' }
             </div>
         </div>);
     }
@@ -58,12 +58,8 @@ class Ring extends React.Component {
 Ring.displayName = 'Ring';
 Ring.propTypes = {
     buttons: PropTypes.array,
-    claimed: PropTypes.bool,
-    claimedBy: PropTypes.string,
-    conflictType: PropTypes.string,
-    fate: PropTypes.number,
     onClick: PropTypes.func,
-    ringType: PropTypes.string,
+    ring: PropTypes.object,
     socket: PropTypes.object
 };
 

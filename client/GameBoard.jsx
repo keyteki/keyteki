@@ -345,11 +345,6 @@ export class InnerGameBoard extends React.Component {
 
     getRings() {
         return (<div className='panel ring-panel'>
-            <Ring ringType='air' conflictType={ this.props.currentGame.rings.air.conflictType } claimed={ this.props.currentGame.rings.air.claimed } claimedBy={ this.props.currentGame.rings.air.claimedBy } fate={ this.props.currentGame.rings.air.fate } onClick={ this.onRingClick } />
-            <Ring ringType='earth' conflictType={ this.props.currentGame.rings.earth.conflictType } claimed={ this.props.currentGame.rings.earth.claimed } claimedBy={ this.props.currentGame.rings.earth.claimedBy } fate={ this.props.currentGame.rings.earth.fate } onClick={ this.onRingClick } />
-            <Ring ringType='fire' conflictType={ this.props.currentGame.rings.fire.conflictType } claimed={ this.props.currentGame.rings.fire.claimed } claimedBy={ this.props.currentGame.rings.fire.claimedBy } fate={ this.props.currentGame.rings.fire.fate } onClick={ this.onRingClick } />
-            <Ring ringType='void' conflictType={ this.props.currentGame.rings.void.conflictType } claimed={ this.props.currentGame.rings.void.claimed } claimedBy={ this.props.currentGame.rings.void.claimedBy } fate={ this.props.currentGame.rings.void.fate } onClick={ this.onRingClick } />
-            <Ring ringType='water' conflictType={ this.props.currentGame.rings.water.conflictType } claimed={ this.props.currentGame.rings.water.claimed } claimedBy={ this.props.currentGame.rings.water.claimedBy } fate={ this.props.currentGame.rings.water.fate } onClick={ this.onRingClick } />
         </div>);
     }
 

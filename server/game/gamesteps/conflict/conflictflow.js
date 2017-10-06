@@ -73,6 +73,7 @@ class ConflictFlow extends BaseStep {
             });
             this.game.addFate(this.conflict.attackingPlayer, ring.fate);
             ring.removeFate();
+            ring.contested = true;
         }
 
         this.game.addMessage('{0} is initiating a {1} conflict at {2}, contesting the {3} ring', this.conflict.attackingPlayer, this.conflict.conflictType, this.conflict.conflictProvince, this.conflict.conflictRing);
@@ -306,12 +307,15 @@ class ConflictFlow extends BaseStep {
             return;
         }
 
+        let ring = _.find(this.game.rings, ring => {
+            return ring.element === this.conflict.conflictRing;
+        });
         if(this.conflict.winner) {
-            let ring = _.find(this.game.rings, ring => {
-                return ring.element === this.conflict.conflictRing;
-            });
             this.game.raiseEvent('onClaimRing', { player: this.conflict.winner, conflict: this.conflict }, () => ring.claimRing(this.conflict.winner));
+
         }
+        //Do this lazily for now
+        ring.contested = false;
     }
 
     returnHome() {
