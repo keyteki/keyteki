@@ -15,21 +15,17 @@ class TriggeredAbilityContext {
     cancel() {
         this.event.cancel();
     }
-
-    skipHandler() {
-        this.event.skipHandler();
-    }
 }
 
 class TriggeredAbility extends BaseAbility {
-    constructor(game, card, eventType, properties) {
+    constructor(game, card, abilityType, properties) {
         super(properties);
 
         this.game = game;
         this.card = card;
         this.limit = properties.limit || AbilityLimit.perRound(1);
         this.when = properties.when;
-        this.eventType = eventType;
+        this.abilityType = abilityType;
         this.location = properties.location;
 
         if(card.getType() === 'event' && !properties.ignoreEventCosts) {
@@ -129,7 +125,7 @@ class TriggeredAbility extends BaseAbility {
         this.events = [];
         _.each(eventNames, eventName => {
             var event = {
-                name: eventName + ':' + this.eventType,
+                name: eventName + ':' + this.abilityType,
                 handler: event => this.eventHandler(event)
             };
             this.game.on(event.name, event.handler);

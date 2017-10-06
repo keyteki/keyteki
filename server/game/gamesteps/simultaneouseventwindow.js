@@ -9,11 +9,8 @@ class SimultaneousEventWindow extends BaseStep {
     constructor(game, cards, properties) {
         super(game);
 
-        this.handler = properties.handler || (() => true);
-
-        this.event = new Event(properties.eventName, _.extend({ cards: cards }, properties.params), true);
+        this.event = new Event(properties.eventName, _.extend({ cards: cards }, properties.params), properties.handler || (() => true));
         this.perCardEventMap = this.buildPerCardEvents(cards, properties);
-        this.perCardHandler = properties.perCardHandler || (() => true);
         this.pipeline = new GamePipeline();
         this.pipeline.initialise([
             new SimpleStep(game, () => this.openWindow('cancelinterrupt')),
@@ -35,7 +32,7 @@ class SimultaneousEventWindow extends BaseStep {
         let eventMap = {};
         _.each(cards, card => {
             let perCardParams = _.extend({ card: card }, properties.params);
-            eventMap[card.uuid] = new Event(properties.perCardEventName, perCardParams, true);
+            eventMap[card.uuid] = new Event(properties.perCardEventName, perCardParams, properties.perCardHandler || (() => true));
         });
         return eventMap;
     }
@@ -103,7 +100,7 @@ class SimultaneousEventWindow extends BaseStep {
             return;
         }
 
-        this.executeEventHandler(this.event, this.handler);
+        this.executeEventHandler(this.event);
     }
 
     executePerCardHandlers() {
@@ -121,18 +118,15 @@ class SimultaneousEventWindow extends BaseStep {
             }
 
             this.game.queueSimpleStep(() => {
-                this.executeEventHandler(event, this.perCardHandler);
+                this.executeEventHandler(event);
             });
         });
     }
 
-    executeEventHandler(event, handler) {
-        if(!event.shouldSkipHandler) {
-            handler(...event.params);
-
-            if(event.cancelled) {
-                return;
-            }
+    executeEventHandler(event) {
+        event.handler(...event.params);
+        if(event.cancelled) {
+            return;
         }
         this.game.emit(event.name, ...event.params);
     }
