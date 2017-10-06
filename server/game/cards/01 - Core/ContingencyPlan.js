@@ -6,7 +6,7 @@ class ContingencyPlan extends DrawCard {
             when: {
                 onHonorDialsRevealed: () => true
             },
-           handler: () => {
+            handler: () => {
                 this.game.promptWithHandlerMenu(this.controller, {
                     source: this,
                     choices: ['Increase your bid', 'Decrease your bid'],
