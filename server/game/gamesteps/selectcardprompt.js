@@ -120,7 +120,7 @@ class SelectCardPrompt extends UiPrompt {
             selectOrder: this.properties.ordered,
             menuTitle: this.properties.activePromptTitle || this.defaultActivePromptTitle(),
             buttons: this.properties.additionalButtons.concat([
-                { text: 'Done', arg: 'done' }
+                { text: 'Cancel', arg: 'done' }
             ]),
             promptTitle: this.properties.source ? this.properties.source.name : undefined
         };
