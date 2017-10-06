@@ -11,9 +11,8 @@ class WayOfTheScorpion extends DrawCard {
                 cardType: 'character',
                 cardCondition: card => card.location === 'play area' && !card.isFaction('scorpion') && this.game.currentConflict.isParticipating(card)
             },
-
             handler: context => {
-                this.game.addMessage('{0} Uses {1} to dishonor {2}', this.controller, this, context.target);
+                this.game.addMessage('{0} uses {1} to dishonor {2}', this.controller, this, context.target);
                 this.controller.dishonorCard(context.target);
             }
         });
