@@ -4,6 +4,7 @@ class Ring {
         this.claimed = false;
         this.claimedBy = '';
         this.conflictType = type;
+        this.contested = false;
         this.element = element;
         this.fate = 0;
 
@@ -62,6 +63,7 @@ class Ring {
             claimed: this.claimed,
             claimedBy: this.claimedBy,
             conflictType: this.conflictType,
+            contested: this.contested,
             element: this.element,
             fate: this.fate
         };
