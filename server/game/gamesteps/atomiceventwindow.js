@@ -9,7 +9,7 @@ class AtomicEventWindow extends BaseStep {
     constructor(game, eventProperties, handler) {
         super(game);
 
-        this.events = _.map(eventProperties, event => new Event(event.name, event.params, true));
+        this.events = _.map(eventProperties, event => new Event(event.name, event.params));
         this.handler = handler || (() => true);
 
         this.pipeline = new GamePipeline();
@@ -75,9 +75,7 @@ class AtomicEventWindow extends BaseStep {
             return;
         }
 
-        if(_.all(this.events, event => !event.shouldSkipHandler)) {
-            this.handler();
-        }
+        this.handler();
 
         _.each(this.events, event => {
             this.game.emit(event.name, ...event.params);

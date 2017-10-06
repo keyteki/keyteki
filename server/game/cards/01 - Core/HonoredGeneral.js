@@ -9,9 +9,7 @@ class HonoredGeneral extends DrawCard {
         });
         this.reaction({
             when: {
-                onCardEntersPlay: (event, params) => {
-                    return params.card === this;
-                }
+                onCardEntersPlay: event => event.card === this
             },
             handler: () => this.controller.honorCard(this)
         });

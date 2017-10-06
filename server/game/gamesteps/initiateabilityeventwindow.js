@@ -3,22 +3,18 @@ const GamePipeline = require('../gamepipeline.js');
 const SimpleStep = require('./simplestep.js');
 const Event = require('../event.js');
 
-class EventWindow extends BaseStep {
-    constructor(game, eventName, params, handler) {
+class InitiateAbilityEventWindow extends BaseStep {
+    constructor(game, params) {
         super(game);
 
-        this.eventName = eventName;
+        this.eventName = 'onCardAbilityInitated';
 
-        this.event = new Event(eventName, params, handler);
+        this.event = new Event(this.eventName, params);
         this.pipeline = new GamePipeline();
         this.pipeline.initialise([
             new SimpleStep(game, () => this.cancelInterrupts()),
-            new SimpleStep(game, () => this.forcedInterrupts()),
-            new SimpleStep(game, () => this.interrupts()),
-            new SimpleStep(game, () => this.checkForOtherEffects()),
-            new SimpleStep(game, () => this.executeHandler()),
-            new SimpleStep(game, () => this.forcedReactions()),
-            new SimpleStep(game, () => this.reactions())
+            new SimpleStep(game, () => this.reactions()),
+            new SimpleStep(game, () => this.checkForOtherEffects())
         ]);
     }
 
@@ -87,23 +83,7 @@ class EventWindow extends BaseStep {
         this.game.emit(this.eventName + 'OtherEffects', ...this.event.params);
     }
 
-    executeHandler() {
-        if(this.event.cancelled) {
-            return;
-        }
-
-        this.event.handler(...this.event.params);
-
-        if(!this.event.cancelled) {
-            this.game.emit(this.eventName, ...this.event.params);
-        }
-    }
-
     forcedReactions() {
-        if(this.event.cancelled) {
-            return;
-        }
-
         this.game.openAbilityWindow({
             abilityType: 'forcedreaction',
             event: this.event
@@ -111,10 +91,6 @@ class EventWindow extends BaseStep {
     }
 
     reactions() {
-        if(this.event.cancelled) {
-            return;
-        }
-
         this.game.openAbilityWindow({
             abilityType: 'reaction',
             event: this.event
@@ -122,4 +98,4 @@ class EventWindow extends BaseStep {
     }
 }
 
-module.exports = EventWindow;
+module.exports = InitiateAbilityEventWindow;

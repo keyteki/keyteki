@@ -11,7 +11,7 @@ class BaseAbilityWindow extends BaseStep {
     }
 
     canTriggerAbility(ability) {
-        return ability.eventType === this.abilityType && _.any(this.events, event => ability.isTriggeredByEvent(event));
+        return ability.abilityType === this.abilityType && _.any(this.events, event => ability.isTriggeredByEvent(event));
     }
 
     emitEvents() {

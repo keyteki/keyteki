@@ -119,7 +119,7 @@ describe('SimultaneousEventWindow', function() {
                 });
             });
         });
-
+        /*
         describe('when an event has its handler skipped', function() {
             beforeEach(function() {
                 this.eventWindow.event.skipHandler();
@@ -139,7 +139,7 @@ describe('SimultaneousEventWindow', function() {
                 expect(this.handler).not.toHaveBeenCalled();
             });
         });
-
+        */
         describe('when an event handler cancels the event', function() {
             beforeEach(function() {
                 this.handler.and.callFake(event => event.cancel());

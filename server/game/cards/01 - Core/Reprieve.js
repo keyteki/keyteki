@@ -4,7 +4,7 @@ class Reprieve extends DrawCard {
     setupCardAbilities() {
         this.interrupt({
             when: {
-                onCardLeavesPlay: params => params.card === this.parent
+                onCardLeavesPlay: event => event.card === this.parent
             },
             canCancel: true,
             handler: (context) => {
