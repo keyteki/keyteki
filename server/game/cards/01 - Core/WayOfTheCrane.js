@@ -10,9 +10,8 @@ class WayOfTheCrane extends DrawCard {
                 cardType: 'character',
                 cardCondition: card => card.location === 'play area' && card.isFaction('crane') && card.controller === this.controller
             },
-
             handler: context => {
-                this.game.addMessage('{0} Uses {1} to honor {2}', this.controller, this, context.target);
+                this.game.addMessage('{0} uses {1} to honor {2}', this.controller, this, context.target);
                 this.controller.honorCard(context.target);
             }
         });
