@@ -363,6 +363,10 @@ class Player extends Spectator {
             }
         });
     }
+    
+    moveCardToBottomOfDeck(card) {
+        this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty deck bottom' : 'conflict deck bottom');
+    }
 
     moveFromTopToBottomOfConflictDrawDeck(number) {
         while(number > 0) {
@@ -449,7 +453,8 @@ class Player extends Spectator {
         if(!this.readyToStart) {
             return;
         }
-
+        
+        this.opponent = this.game.getOtherPlayer(this);
         this.honor = this.stronghold.cardData.honor;
         //this.game.raiseEvent('onStatChanged', this, 'honor');
     }
@@ -925,7 +930,7 @@ class Player extends Spectator {
     }
     
     discardCardFromPlay(card) {
-        if(card.allowGameAction('discardFromPlay')) {
+        if(card.allowGameAction('discardCardFromPlay')) {
             this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', false);
         }
     }
@@ -948,7 +953,7 @@ class Player extends Spectator {
 
     /**
      * @deprecated
-     * Use discardFromHand or discardFromPlay
+     * Use discardCardFromHand or discardCardFromPlay
      */
     discardCard(card, allowSave = true) {
         this.discardCards([card], allowSave);
@@ -956,7 +961,7 @@ class Player extends Spectator {
 
     /**
      * @deprecated
-     * Use discardFromHand or discardFromPlay
+     * Use discardCardFromHand or discardCardFromPlay
      */
     discardCards(cards, allowSave = true, callback = () => true) {
         this.game.applyGameAction('discard', cards, cards => {
@@ -979,7 +984,7 @@ class Player extends Spectator {
 
     /**
      * @deprecated
-     * Use discardFromHand or discardFromPlay
+     * Use discardCardFromHand or discardCardFromPlay
      */
     doSingleCardDiscard(card, allowSave = true) {
         var params = {
