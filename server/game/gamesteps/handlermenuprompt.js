@@ -49,9 +49,8 @@ class HandlerMenuPrompt extends UiPrompt {
             return false;
         }
 
-        if(this.properties.handlers[arg]()) {
-            this.complete();
-        }
+        this.properties.handlers[arg]();
+        this.complete();
 
         return true;
     }
