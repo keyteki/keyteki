@@ -8,7 +8,13 @@ class SingleCardSelector extends BaseCardSelector {
     }
 
     defaultActivePromptTitle() {
-        return 'Select a character';
+        if(this.cardType.length === 1) {
+            if(this.cardType === ['attachment']) {
+                return 'Choose an attachment';
+            }
+            return 'Choose a ' + this.cardType[0];
+        }
+        return 'Choose a card';
     }
 
     automaticFireOnSelect() {

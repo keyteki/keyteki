@@ -36,12 +36,13 @@ class AbilityTarget {
         } else if(this.properties.mode !== 'select') {
             context.game.promptForSelect(context.player, _.extend(promptProperties, otherProperties));
             return result;
-        otherProperties.choices = _.keys(_.filter(otherProperties.choices, condition => condition()));
+        }
+        otherProperties.choices = _.filter(_.keys(otherProperties.choices), key => otherProperties.choices[key]());
         otherProperties.handlers = _.map(otherProperties.choices, choice => {
-            return () => {
+            return (() => {
                 result.resolved = true;
                 result.value = choice;
-            }
+            });
         });
         let player = context.player.opponent;
         if(otherProperties.player === 'self') {

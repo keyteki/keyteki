@@ -3,6 +3,7 @@ const BaseCardSelector = require('./BaseCardSelector.js');
 
 class RingSelector extends BaseCardSelector {
     constructor(properties) {
+        super(properties);
         this.ringCondition = properties.ringCondition;
         this.gameAction = properties.gameAction;
     }

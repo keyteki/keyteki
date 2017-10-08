@@ -26,7 +26,7 @@ class BaseCardSelector {
     }
 
     defaultActivePromptTitle() {
-        return 'Select characters';
+        return 'Choose cards';
     }
 
     automaticFireOnSelect() {

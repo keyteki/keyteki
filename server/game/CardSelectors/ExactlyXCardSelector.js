@@ -8,7 +8,10 @@ class ExactlyXCardSelector extends BaseCardSelector {
     }
 
     defaultActivePromptTitle() {
-        return this.numCards === 1 ? 'Select a character' : `Select ${this.numCards} characters`;
+        if(this.cardType.length === 1) {
+            return this.numCards === 1 ? 'Choose a ' + this.cardType[0] : `Choose ${this.numCards} ${this.cardType[0]}`;
+        }
+        return this.numCards === 1 ? 'Select a card' : `Select ${this.numCards} cards`;
     }
 
     hasEnoughSelected(selectedCards) {

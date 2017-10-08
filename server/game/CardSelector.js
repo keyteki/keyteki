@@ -1,5 +1,7 @@
 const ExactlyXCardSelector = require('./CardSelectors/ExactlyXCardSelector');
 const MaxStatCardSelector = require('./CardSelectors/MaxStatCardSelector');
+const RingSelector = require('./CardSelectors/RingSelector');
+const SelectSelector = require('./CardSelectors/SelectSelector');
 const SingleCardSelector = require('./CardSelectors/SingleCardSelector');
 const UnlimitedCardSelector = require('./CardSelectors/UnlimitedCardSelector');
 const UpToXCardSelector = require('./CardSelectors/UpToXCardSelector');

@@ -11,7 +11,8 @@ const CardSelector = require('../CardSelector.js');
  *                      of cards that can be selected.
  * multiSelect        - boolean that ensures that the selected cards are sent as
  *                      an array, even if the numCards limit is 1.
- * additionalButtons  - array of additional buttons for the prompt.
+ * buttons            - array of buttons for the prompt. Defaults to a single 
+ *                      'Done' button
  * activePromptTitle  - the title that should be used in the prompt for the
  *                      choosing player.
  * waitingPromptTitle - the title that should be used in the prompt for the
@@ -62,7 +63,7 @@ class SelectCardPrompt extends UiPrompt {
 
     defaultProperties() {
         return {
-            additionalButtons: [],
+            buttons: [{ text: 'Done', arg: 'done' }],
             onSelect: () => true,
             onMenuCommand: () => true,
             onCancel: () => true
@@ -98,9 +99,7 @@ class SelectCardPrompt extends UiPrompt {
             selectCard: true,
             selectOrder: this.properties.ordered,
             menuTitle: this.properties.activePromptTitle || this.selector.defaultActivePromptTitle(),
-            buttons: this.properties.additionalButtons.concat([
-                { text: 'Done', arg: 'done' }
-            ]),
+            buttons: this.properties.buttons,
             promptTitle: this.properties.source ? this.properties.source.name : undefined
         };
     }
