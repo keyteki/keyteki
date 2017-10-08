@@ -147,12 +147,7 @@ class Game extends EventEmitter {
     }
 
     findAnyCardInAnyList(cardId) {
-        return _.reduce(this.getPlayers(), (card, player) => {
-            if(card) {
-                return card;
-            }
-            return player.findCardByUuidInAnyList(cardId);
-        }, null);
+        return this.allCards.find(card => card.uuid === cardId);
     }
 
     findAnyCardsInPlay(predicate) {
@@ -632,7 +627,7 @@ class Game extends EventEmitter {
         });
 
         this.allCards = _(_.reduce(this.getPlayers(), (cards, player) => {
-            return cards.concat(player.allCards.toArray());
+            return cards.concat(player.preparedDeck.allCards);
         }, []));
 
         this.pipeline.initialise([
@@ -771,30 +766,20 @@ class Game extends EventEmitter {
     }
     
     takeControl(player, card) {
-        var oldController = card.controller;
-        var newController = player;
-
-        if(oldController === newController) {
+        if(card.controller === player || !card.allowGameAction('takeControl')) {
             return;
         }
 
-        this.applyGameAction('takeControl', card, card => {
-            oldController.removeCardFromPile(card);
-            oldController.allCards = _(oldController.allCards.reject(c => c === card));
-            newController.cardsInPlay.push(card);
-            newController.allCards.push(card);
-            card.controller = newController;
+        if(card.location !== 'play area') {
+            player.putIntoPlay(card);
+            return;
+        }
 
-            if(card.location !== 'play area') {
-                let originalLocation = card.location;
-                card.play(newController, false);
-                card.moveTo('play area');
-                card.applyPersistentEffects();
-                this.raiseEvent('onCardEntersPlay', { card: card, playingType: 'play', originalLocation: originalLocation });
-            }
-
-            this.raiseEvent('onCardTakenControl', { card: card });
-        });
+        card.controller.removeCardFromPile(card);
+        player.cardsInPlay.push(card);
+        card.controller = player;
+        card.applyPersistentEffects();
+        this.raiseEvent('onCardTakenControl', { card: card });
     }
 
     applyGameAction(actionType, cards, func) {

@@ -105,10 +105,6 @@ class Player extends Spectator {
         return this.findCard(list, card => card.name === name);
     }
 
-    findCardByUuidInAnyList(uuid) {
-        return this.findCardByUuid(this.allCards, uuid);
-    }
-
     findCardByUuid(list, uuid) {
         return this.findCard(list, card => card.uuid === uuid);
     }
@@ -208,16 +204,16 @@ class Player extends Spectator {
     }
     
     anyCardsInPlay(predicate) {
-        return this.allCards.any(card => card.location === 'play area' && predicate(card));
+        return this.game.allCards.any(card => card.controller === this && card.location === 'play area' && predicate(card));
     }
 
     filterCardsInPlay(predicate) {
-        return this.allCards.filter(card => card.location === 'play area' && predicate(card));
+        return this.game.allCards.filter(card => card.controller === this && card.location === 'play area' && predicate(card));
     }
 
     getNumberOfCardsInPlay(predicate) {
-        return this.allCards.reduce((num, card) => {
-            if(card.location === 'play area' && predicate(card)) {
+        return this.game.allCards.reduce((num, card) => {
+            if(card.controller === this && card.location === 'play area' && predicate(card)) {
                 return num + 1;
             }
 
@@ -430,7 +426,7 @@ class Player extends Spectator {
         this.role = preparedDeck.role;
         this.conflictDeck = _(preparedDeck.conflictCards);
         this.dynastyDeck = _(preparedDeck.dynastyCards);
-        this.allCards = _(preparedDeck.allCards);
+        this.preparedDeck = preparedDeck;
     }
 
     initialise() {
@@ -450,6 +446,7 @@ class Player extends Spectator {
             return;
         }
 
+        this.opponent = this.game.getOtherPlayer(this);
         this.honor = this.stronghold.cardData.honor;
         //this.game.raiseEvent('onStatChanged', this, 'honor');
     }
@@ -595,10 +592,6 @@ class Player extends Spectator {
 
         card.new = true;
         this.moveCard(card, 'play area');
-        if(card.controller !== this) {
-            card.controller.allCards = _(card.controller.allCards.reject(c => c === card));
-            this.allCards.push(card);
-        }
         card.controller = this;
 
         if(intoConflict && this.game.currentConflict && card.allowGameAction('play into conflict')) {
@@ -668,7 +661,7 @@ class Player extends Spectator {
     }
 
 
-    attach(player, attachment, card) {
+    attach(attachment, card) {
         if(!card || !attachment) {
             return;
         }
@@ -684,7 +677,8 @@ class Player extends Spectator {
         if(originalParent) {
             originalParent.removeAttachment(attachment);
         }
-        attachment.moveTo('play area', card);
+        attachment.controller = this;
+        attachment.moveTo('play area');
         card.attachments.push(attachment);
         attachment.parent = card;
 
@@ -1083,7 +1077,7 @@ class Player extends Spectator {
 
         if(location === 'play area') {
             if(card.owner !== this) {
-                card.owner.moveCard(card, targetLocation);
+                card.owner.moveCard(card, targetLocation, options);
                 return;
             }
             
@@ -1114,14 +1108,13 @@ class Player extends Spectator {
             targetPile.unshift(card);
         } else if(targetLocation === 'dynasty deck' && !options.bottom) {
             targetPile.unshift(card);
+        } else if(['conflict discard pile', 'dynasty discard pile'].includes(targetLocation)) {
+            targetPile.unshift(card);
+            this.game.raiseEvent('onCardPlaced', { card: card, location: targetLocation });
         } else {
             targetPile.push(card);
         }
 
-        if(['conflict discard pile', 'dynasty discard pile'].includes(targetLocation)) {
-            this.game.raiseEvent('onCardPlaced', { card: card, location: targetLocation });
-        }
-        
         // Replace a card which has been played, put into play or discarded from a province
         if(card.isDynasty && ['province 1', 'province 2', 'province 3', 'province 4'].includes(location) && targetLocation !== 'dynasty deck') {
             this.replaceDynastyCard(location);
@@ -1162,13 +1155,8 @@ class Player extends Spectator {
 
     removeCardFromPile(card) {
         if(card.controller !== this) {
-            let oldController = card.controller;
-            oldController.removeCardFromPile(card);
-
-            oldController.allCards = _(oldController.allCards.reject(c => c === card));
-            this.allCards.push(card);
+            card.controller.removeCardFromPile(card);
             card.controller = card.owner;
-
             return;
         }
 

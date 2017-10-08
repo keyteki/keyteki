@@ -18,7 +18,7 @@ class PlayAttachmentAction extends BaseAbility {
     }
     
     cardCondition(card, context) {
-        return context.source.owner.canAttach(context.source, card);
+        return context.player.canAttach(context.source, card);
     }
 
     meetsRequirements(context) {
@@ -31,8 +31,7 @@ class PlayAttachmentAction extends BaseAbility {
     }
 
     executeHandler(context) {
-        let targetPlayer = context.target.controller;
-        targetPlayer.attach(context.player, context.source, context.target, 'play');
+        context.player.attach(context.source, context.target);
     }
 
     isCardAbility() {
