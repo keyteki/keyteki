@@ -30,7 +30,26 @@ class AbilityTarget {
                 return true;
             }
         };
-        context.game.promptForSelect(context.player, _.extend(promptProperties, otherProperties));
+        if(this.properties.mode === 'ring') {
+            context.game.promptForRingSelect(context.player, _.extend(promptProperties, otherProperties));
+            return result;
+        } else if(this.properties.mode !== 'select') {
+            context.game.promptForSelect(context.player, _.extend(promptProperties, otherProperties));
+            return result;
+        otherProperties.choices = _.keys(_.filter(otherProperties.choices, condition => condition()));
+        otherProperties.handlers = _.map(otherProperties.choices, choice => {
+            return () => {
+                result.resolved = true;
+                result.value = choice;
+            }
+        });
+        let player = context.player.opponent;
+        if(otherProperties.player === 'self') {
+            otherProperties.choices.push('Cancel');
+            otherProperties.handlers.push(() => result.resolved = true);
+            player = context.player;
+        }
+        context.game.promptWithHandlerMenu(player, _.extend(promptProperties, otherProperties));
         return result;
     }
 }
