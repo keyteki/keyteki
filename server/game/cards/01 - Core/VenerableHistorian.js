@@ -11,7 +11,6 @@ class VenerableHistorian extends DrawCard {
             }
         });
     }
-
     isMoreHonorableThanOpponent() {
         let otherPlayer = this.game.getOtherPlayer(this.controller);
         if(otherPlayer && otherPlayer.honor < this.controller.honor) {
