@@ -64,6 +64,7 @@ const Effects = {
     doesNotBowAsAttacker: function () {
         return {
             apply: function(card, context) {
+                context.doesNotBowAsAttacker = context.doesNotBowAsAttacker || {};
                 context.doesNotBowAsAttacker[card.uuid] = card.conflictOptions.doesNotBowAs.attacker;
                 card.conflictOptions.doesNotBowAs.attacker = true;
             },
@@ -76,6 +77,7 @@ const Effects = {
     doesNotBowAsDefender: function () {
         return {
             apply: function(card, context) {
+                context.doesNotBowAsDefender = context.doesNotBowAsDefender || {};
                 context.doesNotBowAsDefender[card.uuid] = card.conflictOptions.doesNotBowAs.defender;
                 card.conflictOptions.doesNotBowAs.defender = true;
             },
