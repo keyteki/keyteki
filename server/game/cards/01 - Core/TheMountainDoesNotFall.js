@@ -5,7 +5,7 @@ class TheMountainDoesNotFall extends DrawCard {
         this.action({
             title: 'Chooes a character to not bow when defending',
             clickToActivate: true,
-            limit: ability.limit.perRound(1),
+            max: ability.limit.perRound(1),
             target: {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',
