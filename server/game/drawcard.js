@@ -54,7 +54,7 @@ class DrawCard extends BaseCard {
         } else if(cardData.side === 'dynasty') {
             this.isDynasty = true;
         }
-        
+
         if(cardData.type === 'character') {
             if(cardData.military === undefined || cardData.military === null) {
                 this.conflictOptions.cannotParticipateIn.military = true;
@@ -76,7 +76,7 @@ class DrawCard extends BaseCard {
     isAncestral() {
         return this.hasKeyword('ancestral');
     }
-    
+
     isCovert() {
         return this.hasKeyword('covert');
     }
@@ -92,7 +92,7 @@ class DrawCard extends BaseCard {
     hasCourtesy() {
         return this.hasKeyword('courtesy');
     }
-    
+
     getCost() {
         return this.cardData.cost;
     }
@@ -142,7 +142,7 @@ class DrawCard extends BaseCard {
             return this.getPoliticalSkill(printed);
         }
     }
-    
+
     getGlory(printed = false) {
         /**
          * Get this card's glory.
@@ -158,7 +158,7 @@ class DrawCard extends BaseCard {
         }
 
         return null;
-       
+
     }
 
     modifyMilitarySkill(amount, applying = true) {
@@ -224,7 +224,7 @@ class DrawCard extends BaseCard {
 
         return null;
     }
-    
+
     getSkillWithGlory(skill) {
         if(this.isHonored) {
             return skill + this.getGlory();
@@ -275,7 +275,7 @@ class DrawCard extends BaseCard {
     canUseCovertToBypass(targetCard) {
         return this.isCovert() && targetCard.canBeBypassedByCovert();
     }
-    
+
     canBeBypassedByCovert() {
         return !this.isCovert();
     }
@@ -308,7 +308,7 @@ class DrawCard extends BaseCard {
         if(_.any(this.allowedAttachmentTraits, trait => attachment.hasTrait(trait))) {
             return true;
         }
-        
+
         return (
             this.isBlank() ||
             this.allowedAttachmentTraits.length === 0
@@ -339,7 +339,7 @@ class DrawCard extends BaseCard {
     canAttach(player, card) {
         return card && card.getType() === 'character' && this.getType() === 'attachment';
     }
-    
+
     canPlay() {
         return this.owner.canInitiateAction && this.allowGameAction('play');
     }
@@ -358,7 +358,7 @@ class DrawCard extends BaseCard {
         }
         return super.canTriggerAbilities();
     }
-    
+
     /**
      * When this card is about to leave play, gets events required to pass
      * to a CardLeavesPlayEventWindow
@@ -455,17 +455,17 @@ class DrawCard extends BaseCard {
     }
 
     returnHomeFromConflict() {
-        let side = this.game.currentConflict.isAttacker(this) ? 'attacker' : 'defender';
+        let side = this.game.currentConflict.isAttacking(this) ? 'attacker' : 'defender';
         if(!this.conflictOptions.doesNotBowAs[side] && !this.bowed) {
             this.controller.bowCard(this);
         }
         this.inConflict = false;
     }
-    
+
     play() {
     //empty function so playcardaction doesn't crash the game
     }
- 
+
     getSummary(activePlayer, hideWhenFaceup) {
         let baseSummary = super.getSummary(activePlayer, hideWhenFaceup);
 
