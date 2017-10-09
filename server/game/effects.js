@@ -61,6 +61,26 @@ const Effects = {
     cannotBeDeclaredAsDefender: cardCannotEffect('declareAsDefender'),
     cannotParticipateAsAttacker: cardCannotEffect('participateAsAttacker'),
     cannotParticipateAsDefender: cardCannotEffect('participateAsDefender'),
+    doesNotBowAsAttacker: function () {
+        return {
+            apply: function(card) {
+                card.conflictOptions.doesNotBowAs.attacker = true;
+            },
+            unapply: function(card) {
+                card.conflictOptions.doesNotBowAs.attacker = false;
+            }
+        };
+    },
+    doesNotBowAsDefender: function () {
+        return {
+            apply: function(card) {
+                card.conflictOptions.doesNotBowAs.defender = true;
+            },
+            unapply: function(card) {
+                card.conflictOptions.doesNotBowAs.defender = false;
+            }
+        };
+    },
     modifyMilitarySkill: function(value) {
         return {
             apply: function(card) {
@@ -89,7 +109,7 @@ const Effects = {
             unapply: function(card) {
                 card.modifyGlory(-value, false);
             }
-        };        
+        };
     },
     dynamicMilitarySkill: function(calculate) {
         return {
