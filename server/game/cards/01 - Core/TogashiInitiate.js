@@ -6,8 +6,8 @@ class TogashiInitiate extends DrawCard {
             title: 'Honor this character',
             condition: () => this.game.currentConflict && this.game.currentConflict.isAttacking(this),
             cost: ability.costs.payFateToRing(1),
-            handler: () => {
-                this.game.addMessage('{0} uses {1} to honor itself', this.controller, this);
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to honor itself by paying 1 fate to the {2} ring', this.controller,this, context.costs.payFateToRing.element);
                 this.controller.honorCard(this);
             }
         });
