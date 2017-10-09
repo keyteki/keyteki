@@ -64,7 +64,7 @@ const Effects = {
     doesNotBowAsAttacker: function () {
         return {
             apply: function(card, context) {
-                context.doesNotBowAsDefender[card.uuid] = card.conflictOptions.doesNotBowAs.attacker;
+                context.doesNotBowAsAttacker[card.uuid] = card.conflictOptions.doesNotBowAs.attacker;
                 card.conflictOptions.doesNotBowAs.attacker = true;
             },
             unapply: function(card, context) {
