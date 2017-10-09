@@ -21,7 +21,7 @@ class SupernaturalStorm extends DrawCard {
                         ability.effects.modifyPoliticalSkill(numOfShugenja)
                     ]
                 }));
-                this.game.addMessage('{0} uses {1} to increase the political and military skill of {2} with {3}', this.controller, this, context.target,numOfShugenja);
+                this.game.addMessage('{0} uses {1} to increase the political and military skill of {2} by {3}', this.controller, this, context.target, numOfShugenja);
             }
         });
     }
