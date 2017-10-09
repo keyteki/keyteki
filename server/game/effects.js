@@ -63,21 +63,25 @@ const Effects = {
     cannotParticipateAsDefender: cardCannotEffect('participateAsDefender'),
     doesNotBowAsAttacker: function () {
         return {
-            apply: function(card) {
+            apply: function(card, context) {
+                context.doesNotBowAsDefender[card.uuid] = card.conflictOptions.doesNotBowAs.attacker;
                 card.conflictOptions.doesNotBowAs.attacker = true;
             },
-            unapply: function(card) {
-                card.conflictOptions.doesNotBowAs.attacker = false;
+            unapply: function(card, context) {
+                card.conflictOptions.doesNotBowAs.attacker = context.doesNotBowAsAttacker[card.uuid];
+                delete context.doesNotBowAsAttacker[card.uuid];
             }
         };
     },
     doesNotBowAsDefender: function () {
         return {
-            apply: function(card) {
+            apply: function(card, context) {
+                context.doesNotBowAsDefender[card.uuid] = card.conflictOptions.doesNotBowAs.defender;
                 card.conflictOptions.doesNotBowAs.defender = true;
             },
-            unapply: function(card) {
-                card.conflictOptions.doesNotBowAs.defender = false;
+            unapply: function(card, context) {
+                card.conflictOptions.doesNotBowAs.defender = context.doesNotBowAsDefender[card.uuid];
+                delete context.doesNotBowAsDefender[card.uuid];
             }
         };
     },
