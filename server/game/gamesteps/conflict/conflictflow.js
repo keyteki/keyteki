@@ -326,7 +326,7 @@ class ConflictFlow extends BaseStep {
         this.game.raiseSimultaneousEvent(this.conflict.attackers.concat(this.conflict.defenders), {
             eventName: 'onParticipantsReturnHome',
             perCardEventName: 'OnReturnHome',
-            perCardHandler: (params) => params.card.controller.bowCard(params.card), 
+            perCardHandler: (params) => params.card.returnHomeFromConflict(), 
             params: { conflict: this.conflict }
         });
     }

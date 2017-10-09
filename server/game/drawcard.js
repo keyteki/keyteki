@@ -454,7 +454,8 @@ class DrawCard extends BaseCard {
         return this.allowGameAction('play');
     }
 
-    returnHomeFromConflict(side) {
+    returnHomeFromConflict() {
+        let side = this.game.currentConflict.isAttacker(this) ? 'attacker' : 'defender';
         if(!this.conflictOptions.doesNotBowAs[side] && !this.bowed) {
             this.controller.bowCard(this);
         }
