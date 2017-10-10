@@ -3,7 +3,6 @@ const DrawCard = require('../../drawcard.js');
 class WayOfTheLion extends DrawCard {
     setupCardAbilities() {
         this.action({
-            clickToActivate: true,
             condition: () => this.game.currentConflict,
             target: {
                 cardType: 'character',
