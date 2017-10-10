@@ -545,13 +545,14 @@ const Costs = {
             }
         };
     },
-    breakProvince: function(card) {
+    breakProvince: function(province) {
         return {
             canPay: function() {
-                return !card.isBroken;
+                return !province.isBroken;
             },
-            pay: function() {
-                card.breakProvince();
+            pay: function(context) {
+                context.costs.breakProvince = province;
+                this.game.raiseEvent('onBreakProvince', { conflict: this.conflict, province: province }, province.breakProvince());
             }
         };
     }
