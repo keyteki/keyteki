@@ -250,7 +250,7 @@ class ConflictFlow extends BaseStep {
     }
 
     applyUnopposed() {
-        if(this.conflict.cancelled || this.game.manualMode) {
+        if(this.conflict.cancelled || this.game.manualMode || this.conflict.isSinglePlayer) {
             return;
         }
         
@@ -326,7 +326,7 @@ class ConflictFlow extends BaseStep {
         this.game.raiseSimultaneousEvent(this.conflict.attackers.concat(this.conflict.defenders), {
             eventName: 'onParticipantsReturnHome',
             perCardEventName: 'OnReturnHome',
-            perCardHandler: (params) => params.card.controller.bowCard(params.card), 
+            perCardHandler: (params) => params.card.returnHomeFromConflict(), 
             params: { conflict: this.conflict }
         });
     }
@@ -337,6 +337,7 @@ class ConflictFlow extends BaseStep {
         }
 
         this.game.raiseEvent('onConflictFinished', { conflict: this.conflict });
+        this.game.raiseEvent('onAtEndOfConflict');
 
         this.resetCards();
         if(!this.game.militaryConflictCompleted && (this.conflictType === 'military' || this.conflictTypeSwitched)) {

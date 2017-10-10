@@ -4,7 +4,6 @@ class WayOfTheCrane extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Honor a character',
-            clickToActivate: true,
             target: {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',

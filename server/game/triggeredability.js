@@ -92,6 +92,10 @@ class TriggeredAbility extends BaseAbility {
             return true;
         }
         
+        if(location.includes('deck')) {
+            return false;
+        }
+        
         let type = this.card.getType();
         if(type === 'character' || type === 'attachment') {
             return (location === 'play area');

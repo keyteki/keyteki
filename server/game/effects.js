@@ -81,6 +81,26 @@ const Effects = {
             }
         };
     },
+    modifyBaseMilitarySkill: function(value) {
+        return {
+            apply: function(card) {
+                card.modifyBaseMilitarySkill(value);
+            },
+            unapply: function(card) {
+                card.modifyBaseMilitarySkill(-value);
+            }
+        };
+    },
+    modifyBasePoliticalSkill: function(value) {
+        return {
+            apply: function(card) {
+                card.modifyBasePoliticalSkill(value);
+            },
+            unapply: function(card) {
+                card.modifyBasePoliticalSkill(-value);
+            }
+        };
+    },
     modifyGlory: function(value) {
         return {
             apply: function(card) {
@@ -88,6 +108,16 @@ const Effects = {
             },
             unapply: function(card) {
                 card.modifyGlory(-value, false);
+            }
+        };        
+    },
+    modifyProvinceStrength: function(value) {
+        return {
+            apply: function(card) {
+                card.modifyProvinceStrength(value, true);
+            },
+            unapply: function(card) {
+                card.modifyProvinceStrength(-value, false);
             }
         };        
     },
@@ -135,7 +165,7 @@ const Effects = {
         apply: function(card, context) {
             if(card.getPoliticalSkill() <= 0) {
                 card.controller.discardCardFromPlay(card);
-                context.game.addMessage('{0} is killed as its political is 0', card);
+                context.game.addMessage('{0} is killed as its political skill is 0', card);
             }
         },
         unapply: function() {
@@ -281,7 +311,7 @@ const Effects = {
             }
         };
     },
-    cannotBeDiscarded: cardCannotEffect('discardFromPlay'),
+    cannotBeDiscarded: cardCannotEffect('discardCardFromPlay'),
     cannotRemoveFate: cardCannotEffect('removeFate'),
     cannotPlay: playerCannotEffect('play'),
     cardCannotTriggerAbilities: cardCannotEffect('triggerAbilities'),

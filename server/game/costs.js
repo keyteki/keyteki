@@ -116,13 +116,9 @@ const Costs = {
                     cardCondition: card => fullCondition(card, context),
                     activePromptTitle: 'Select ' + number + ' cards to bow',
                     numCards: number,
-                    multiSelect: true,
+                    mode: 'exactly',
                     source: context.source,
                     onSelect: (player, cards) => {
-                        if(cards.length !== number) {
-                            return false;
-                        }
-
                         context.bowingCostCards = cards;
                         result.value = true;
                         result.resolved = true;
@@ -281,13 +277,9 @@ const Costs = {
                     cardCondition: card => fullCondition(card, context),
                     activePromptTitle: 'Select ' + number + ' cards to reveal',
                     numCards: number,
-                    multiSelect: true,
+                    mode: 'exactly',
                     source: context.source,
                     onSelect: (player, cards) => {
-                        if(cards.length !== number) {
-                            return false;
-                        }
-
                         context.revealingCostCards = cards;
                         result.value = true;
                         result.resolved = true;
@@ -516,12 +508,12 @@ const Costs = {
                 return context.player.fate >= amount;
             },
             resolve: function(context, result = { resolved: false }) {
-                context.game.promptForRingChoice(context.player, {
-                    condition: ring => !ring.claimed && (!context.game.currentConflict || context.game.currentConflict.conflictRing !== ring.element),
+                context.game.promptForRingSelect(context.player, {
+                    condition: ring => !ring.claimed && !ring.contested,
                     activePromptTitle: 'Choose a ring to place fate on',
                     source: context.source,
                     onSelect: (player, ring) => {
-                        context.costs.payFateToRing.ring = ring;
+                        context.costs.payFateToRing = ring;
                         result.value = true;
                         result.resolved = true;
                         return true;
@@ -531,10 +523,35 @@ const Costs = {
                         result.resolved = true;
                     }
                 });
+                return result;
             },
             pay: function(context) {
                 context.game.addFate(context.player, -amount);
-                context.costs.payFateToRing.ring.modifyFate(amount);
+                context.costs.payFateToRing.modifyFate(amount);
+            }
+        };
+    },
+    giveFateToOpponent: function(amount) {
+        return {
+            canPay: function(context) {
+                return context.player.fate >= amount;
+            },
+            pay: function(context) {
+                context.game.addFate(context.player, -amount);
+                let otherPlayer = context.game.getOtherPlayer(context.player);
+                if(otherPlayer) {
+                    context.game.addFate(otherPlayer, amount);
+                }
+            }
+        };
+    },
+    breakProvince: function(card) {
+        return {
+            canPay: function() {
+                return !card.isBroken;
+            },
+            pay: function() {
+                card.breakProvince();
             }
         };
     }

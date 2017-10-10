@@ -59,6 +59,7 @@ class Player extends Spectator {
         ];
         this.cannotGainConflictBonus = false;
         this.abilityRestrictions = [];
+        this.abilityMaxByTitle = {};
         this.canInitiateAction = false;
         this.promptedActionWindows = user.promptedActionWindows || {
             dynasty: true,
@@ -149,7 +150,7 @@ class Player extends Spectator {
         // Fisher-Yates shuffle the array
         var i = provinceId.length, t, j;
         provinceId = provinceId.slice();
-        while (--i) t = provinceId[i], provinceId[i] = provinceId[j = ~~(Math.random() * (i+1))], provinceId[j] = t; //eslint-disable-line 
+        while (--i) t = provinceId[i], provinceId[i] = provinceId[j = ~~(Math.random() * (i+1))], provinceId[j] = t; //eslint-disable-line
 
         let provinceIterator = 0;
         this.provinceDeck.each(card => {
@@ -200,9 +201,9 @@ class Player extends Spectator {
                     }
                 });
             }
-        });        
+        });
     }
-    
+
     anyCardsInPlay(predicate) {
         return this.game.allCards.any(card => card.controller === this && card.location === 'play area' && predicate(card));
     }
@@ -220,7 +221,7 @@ class Player extends Spectator {
             return num;
         }, 0);
     }
-    
+
     getNumberOfHoldingsInPlay() {
         return _.reduce(['province 1', 'province 2', 'province 3', 'province 4'], (n, province) => {
             if(this.getSourceList(province).any(card => card.getType() === 'holding' && !card.facedown)) {
@@ -262,7 +263,7 @@ class Player extends Spectator {
 
     drawCardsToHand(numCards) {
         let remainingCards = 0;
-        
+
         if(numCards > this.conflictDeck.size()) {
             remainingCards = numCards - this.conflictDeck.size();
             numCards = this.conflictDeck.size();
@@ -286,7 +287,7 @@ class Player extends Spectator {
 
         return (cards.length > 1) ? cards : cards[0];
     }
-    
+
     deckRanOutOfCards(deck) {
         this.game.addMessage('{0}\'s {1} deck has run out of cards and loses 5 honor', this, deck);
         this.game.addHonor(this, -5);
@@ -302,7 +303,7 @@ class Player extends Spectator {
         if(this.dynastyDeck.size() === 0) {
             this.deckRanOutOfCards('dynasty');
         }
-        this.moveCard(this.dynastyDeck.first(), location);        
+        this.moveCard(this.dynastyDeck.first(), location);
     }
 
     searchConflictDeck(limit, predicate) {
@@ -359,6 +360,10 @@ class Player extends Spectator {
             }
         });
     }
+    
+    moveCardToBottomOfDeck(card) {
+        this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty deck bottom' : 'conflict deck bottom');
+    }
 
     moveFromTopToBottomOfConflictDrawDeck(number) {
         while(number > 0) {
@@ -385,7 +390,7 @@ class Player extends Spectator {
     }
 
     canInitiateConflict(conflictType) {
-        return (!this.conflicts.isAtMax(conflictType) && 
+        return (!this.conflicts.isAtMax(conflictType) &&
                 this.conflicts.conflictOpportunities > 0);
     }
 
@@ -408,7 +413,7 @@ class Player extends Spectator {
     initConflictDeck() {
         this.shuffleConflictDeck();
     }
-    
+
     drawStartingHand() {
         this.drawCardsToHand(StartingHandSize);
     }
@@ -534,6 +539,33 @@ class Player extends Spectator {
                 this.removeCostReducer(reducer);
             }
         });
+    }
+
+    registerAbilityMax(cardName, limit) {
+        if(this.abilityMaxByTitle[cardName]) {
+            return;
+        }
+
+        this.abilityMaxByTitle[cardName] = limit;
+        limit.registerEvents(this.game);
+    }
+
+    isAbilityAtMax(cardName) {
+        let limit = this.abilityMaxByTitle[cardName];
+
+        if(!limit) {
+            return false;
+        }
+
+        return limit.isAtMax();
+    }
+
+    incrementAbilityMax(cardName) {
+        let limit = this.abilityMaxByTitle[cardName];
+
+        if(limit) {
+            limit.increment();
+        }
     }
 
     playCard(card) {
@@ -685,7 +717,7 @@ class Player extends Spectator {
         this.game.queueSimpleStep(() => {
             attachment.applyPersistentEffects();
         });
-        
+
         if(attachment.printedKeywords.includes('restricted') && _.size(card.attachments.filter(card => card.isRestricted())) > 1) {
             this.game.promptForSelect(this, {
                 activePromptTitle: 'Choose a card to discard',
@@ -726,15 +758,15 @@ class Player extends Spectator {
         if(!card) {
             return false;
         }
-        
+
         let provinceLocations = ['stronghold province', 'province 1', 'province 2', 'province 3', 'province 4'];
-        
+
         if(card.isProvince && target !== 'province deck') {
             if(!provinceLocations.includes(target) || this.getSourceList(target).any(card => card.isProvince)) {
                 return false;
             }
         }
-    
+
         if(target === 'province deck' && !card.isProvince) {
             return false;
         }
@@ -827,7 +859,7 @@ class Player extends Spectator {
     drop(cardId, source, target) {
         var sourceList = this.getSourceList(source);
         var card = this.findCardByUuid(sourceList, cardId);
-        
+
         if(!this.isValidDropCombination(card, source, target)) {
             return false;
         }
@@ -917,13 +949,13 @@ class Player extends Spectator {
             this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', true);
         }
     }
-    
+
     discardCardFromPlay(card) {
-        if(card.allowGameAction('discardFromPlay')) {
+        if(card.allowGameAction('discardCardFromPlay')) {
             this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', false);
         }
     }
-    
+
     discardCardsFromHand(cards, atRandom = false) {
         this.game.raiseSimultaneousEvent(cards, {
             eventName: 'onCardsDiscardedFromHand',
@@ -935,14 +967,14 @@ class Player extends Spectator {
             params: {player: this}
         });
     }
-    
+
     discardCardFromHand(card) {
         this.discardCardsFromHand([card]);
     }
 
     /**
      * @deprecated
-     * Use discardFromHand or discardFromPlay
+     * Use discardCardFromHand or discardCardFromPlay
      */
     discardCard(card, allowSave = true) {
         this.discardCards([card], allowSave);
@@ -950,7 +982,7 @@ class Player extends Spectator {
 
     /**
      * @deprecated
-     * Use discardFromHand or discardFromPlay
+     * Use discardCardFromHand or discardCardFromPlay
      */
     discardCards(cards, allowSave = true, callback = () => true) {
         this.game.applyGameAction('discard', cards, cards => {
@@ -973,7 +1005,7 @@ class Player extends Spectator {
 
     /**
      * @deprecated
-     * Use discardFromHand or discardFromPlay
+     * Use discardCardFromHand or discardCardFromPlay
      */
     doSingleCardDiscard(card, allowSave = true) {
         var params = {
@@ -1010,9 +1042,9 @@ class Player extends Spectator {
         this.cardsInPlay.each(card => {
             cardGlory = card.modifyFavor(this, cardGlory);
         });
-        
+
         let rings = this.getClaimedRings();
-        
+
         this.totalGloryForFavor = cardGlory + _.size(rings);
 
         return this.totalGloryForFavor;
@@ -1021,7 +1053,7 @@ class Player extends Spectator {
     getClaimedRings() {
         return _.filter(this.game.rings, ring => ring.claimedBy === this.name);
     }
- 
+
     claimImperialFavor(conflictType) {
         this.imperialFavor = conflictType;
     }
@@ -1061,7 +1093,7 @@ class Player extends Spectator {
 
     moveCard(card, targetLocation, options = {}) {
         this.removeCardFromPile(card);
-        
+
         if(targetLocation.endsWith(' bottom')) {
             options.bottom = true;
             targetLocation = targetLocation.replace(' bottom', '');
@@ -1072,7 +1104,7 @@ class Player extends Spectator {
         if(!targetPile || targetPile.contains(card)) {
             return;
         }
-        
+
         let location = card.location;
 
         if(location === 'play area') {
@@ -1080,14 +1112,14 @@ class Player extends Spectator {
                 card.owner.moveCard(card, targetLocation, options);
                 return;
             }
-            
+
             if(card.isConflict || card.isDynasty) {
                 // In normal play, all attachments should already have been removed, but in manual play we may need to remove them
                 card.attachments.each(attachment => {
                     this.removeAttachment(attachment);
                 });
             }
-            
+
             card.leavesPlay();
             card.moveTo(targetLocation);
         }
@@ -1115,6 +1147,10 @@ class Player extends Spectator {
             targetPile.push(card);
         }
 
+        if(['conflict discard pile', 'dynasty discard pile'].includes(targetLocation)) {
+            this.game.raiseEvent('onCardPlaced', { card: card, location: targetLocation });
+        }
+
         // Replace a card which has been played, put into play or discarded from a province
         if(card.isDynasty && ['province 1', 'province 2', 'province 3', 'province 4'].includes(location) && targetLocation !== 'dynasty deck') {
             this.replaceDynastyCard(location);
@@ -1128,7 +1164,7 @@ class Player extends Spectator {
     dishonorCard(card) {
         this.game.raiseEvent('onCardDishonored', { player: this, card: card }, () => card.dishonor());
     }
-    
+
     bowCard(card) {
         if(card.bowed) {
             return;
@@ -1223,21 +1259,21 @@ class Player extends Spectator {
         this.showBid = this.honorBid;
         this.game.addMessage('{0} reveals a bid of {1}', this, this.showBid);
     }
-    
+
     playCharacterWithFate(card, fate, inConflict = false) {
         card.fate = fate;
         this.putIntoPlay(card, inConflict);
-        
+
         this.game.addMessage('{0} plays {1} {2}with {3} additional fate', this, card, inConflict ? 'into the conflict ' : '', fate);
     }
-    
+
     resolveRingEffects(element) {
         if(element === '') {
             return;
         }
 
         let otherPlayer = this.game.getOtherPlayer(this);
-       
+
         switch(element) {
             case 'air':
                 this.game.promptWithMenu(this, this, {
@@ -1304,9 +1340,9 @@ class Player extends Spectator {
                 });
                 break;
         }
-        this.game.addMessage('{0} resolved the {1} ring', this.name, element);        
+        this.game.addMessage('{0} resolved the {1} ring', this.name, element);
     }
-    
+
     resolveAirRing(player, choice) {
         if(choice === 'Gain 2 Honor') {
             this.game.addHonor(this, 2);
@@ -1319,13 +1355,13 @@ class Player extends Spectator {
         }
         return true;
     }
-    
+
     resolveFireRing(player, choice) {
         if(choice === 'honor') {
             this.game.promptForSelect(this, {
                 activePromptTitle: 'Choose character to '.concat(choice),
                 waitingPromptTitle: 'Waiting for opponent to use Fire Ring',
-                cardCondition: card => !card.isHonored,
+                cardCondition: card => !card.isHonored && card.location === 'play area',
                 cardType: 'character',
                 onSelect: (player, card) => {
                     this.honorCard(card);
@@ -1336,7 +1372,7 @@ class Player extends Spectator {
             this.game.promptForSelect(this, {
                 activePromptTitle: 'Choose character to '.concat(choice),
                 waitingPromptTitle: 'Waiting for opponent to use Fire Ring',
-                cardCondition: card => !card.isdishonored,
+                cardCondition: card => !card.isdishonored && card.location === 'play area',
                 cardType: 'character',
                 onSelect: (player, card) => {
                     this.dishonorCard(card);
@@ -1358,7 +1394,7 @@ class Player extends Spectator {
             fate: this.fate,
             honor: this.getTotalHonor()
         };
-    }    
+    }
 
     getState(activePlayer) {
         let isActivePlayer = activePlayer === this;
@@ -1367,7 +1403,7 @@ class Player extends Spectator {
             cardPiles: {
                 cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
                 conflictDiscardPile: this.getSummaryForCardList(this.conflictDiscardPile, activePlayer),
-                dynastyDiscardPile: this.getSummaryForCardList(this.dynastyDiscardPile, activePlayer), 
+                dynastyDiscardPile: this.getSummaryForCardList(this.dynastyDiscardPile, activePlayer),
                 hand: this.getSummaryForCardList(this.hand, activePlayer, true),
                 /* outOfGamePile: this.getSummaryForCardList(this.outOfGamePile, activePlayer, false), */
                 provinceDeck: this.getSummaryForCardList(this.provinceDeck, activePlayer, true)
@@ -1392,7 +1428,7 @@ class Player extends Spectator {
                 four: this.getSummaryForCardList(this.provinceFour, activePlayer, !this.takenDynastyMulligan)
             },
             showBid: this.showBid,
-            stats: this.getStats(),            
+            stats: this.getStats(),
             stronghold: this.stronghold.getSummary(activePlayer),
             strongholdProvince: this.getSummaryForCardList(this.strongholdProvince, activePlayer),
             timerSettings: this.timerSettings,
@@ -1408,7 +1444,7 @@ class Player extends Spectator {
             state.showDynastyDeck = true;
             state.cardPiles.dynastyDeck = this.getSummaryForCardList(this.dynastyDeck, activePlayer);
         }
-        
+
         if(this.role) {
             state.role = this.role.getSummary(activePlayer);
         }

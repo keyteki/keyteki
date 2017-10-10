@@ -26,6 +26,8 @@ class DrawCard extends BaseCard {
 
         this.militarySkillModifier = 0;
         this.politicalSkillModifier = 0;
+        this.baseMilitarySkill = cardData.military;
+        this.basePoliticalSkill = cardData.political;
         this.gloryModifier = 0;
         this.fate = 0;
         this.contributesToFavor = true;
@@ -54,7 +56,7 @@ class DrawCard extends BaseCard {
         } else if(cardData.side === 'dynasty') {
             this.isDynasty = true;
         }
-        
+
         if(cardData.type === 'character') {
             if(cardData.military === undefined || cardData.military === null) {
                 this.conflictOptions.cannotParticipateIn.military = true;
@@ -76,7 +78,7 @@ class DrawCard extends BaseCard {
     isAncestral() {
         return this.hasKeyword('ancestral');
     }
-    
+
     isCovert() {
         return this.hasKeyword('covert');
     }
@@ -92,7 +94,7 @@ class DrawCard extends BaseCard {
     hasCourtesy() {
         return this.hasKeyword('courtesy');
     }
-    
+
     getCost() {
         return this.cardData.cost;
     }
@@ -142,7 +144,7 @@ class DrawCard extends BaseCard {
             return this.getPoliticalSkill(printed);
         }
     }
-    
+
     getGlory(printed = false) {
         /**
          * Get this card's glory.
@@ -158,7 +160,14 @@ class DrawCard extends BaseCard {
         }
 
         return null;
-       
+
+    }
+    
+    getProvinceStrengthBonus() {
+        if(this.cardData.strength_bonus && !this.facedown) {
+            return parseInt(this.cardData.strength_bonus);
+        }
+        return 0;
     }
 
     modifyMilitarySkill(amount, applying = true) {
@@ -189,6 +198,34 @@ class DrawCard extends BaseCard {
         });
     }
 
+    modifyBaseMilitarySkill(amount) {
+        /**
+         * Modify the military skill.
+         * @param  {integer} amount - The amount to modify the skill by.
+         * @param  {boolean}  applying -  [description]
+         */
+        this.baseMilitarySkill += amount;
+        this.game.raiseEvent('onCardMilitarySkillChanged', {
+            card: this,
+            amount: amount,
+            applying: false
+        });
+    }
+
+    modifyBasePoliticalSkill(amount) {
+        /**
+         * Modify the political skill.
+         * @param  {integer} amount - The amount to modify the skill by.
+         * @param  {boolean}  applying -  [description]
+         */
+        this.basePoliticalSkill += amount;
+        this.game.raiseEvent('onCardPoliticalSkillChanged', {
+            card: this,
+            amount: amount,
+            applying: false
+        });
+    }
+
     getMilitarySkill(printed = false) {
         /**
          * Get the military skill.
@@ -200,8 +237,13 @@ class DrawCard extends BaseCard {
         }
 
         if(this.cardData.military !== null && this.cardData.military !== undefined) {
-            let skillFromAttachments = _.reduce(this.attachments._wrapped, (skill, card) => skill + parseInt(card.cardData.military_bonus), 0);
-            return Math.max(0, this.getSkillWithGlory(this.cardData.military + this.militarySkillModifier + skillFromAttachments));
+            let skillFromAttachments = _.reduce(this.attachments._wrapped, (skill, card) => {
+                if(parseInt(card.cardData.military_bonus)) {
+                    return skill + parseInt(card.cardData.military_bonus);
+                }
+                return skill;
+            }, 0);
+            return Math.max(0, this.getSkillWithGlory(this.baseMilitarySkill + this.militarySkillModifier + skillFromAttachments));
         }
 
         return null;
@@ -218,13 +260,18 @@ class DrawCard extends BaseCard {
         }
 
         if(this.cardData.political !== null && this.cardData.political !== undefined) {
-            let skillFromAttachments = _.reduce(this.attachments._wrapped, (skill, card) => skill + parseInt(card.cardData.political_bonus), 0);
-            return Math.max(0, this.getSkillWithGlory(this.cardData.political + this.politicalSkillModifier + skillFromAttachments));
+            let skillFromAttachments = _.reduce(this.attachments._wrapped, (skill, card) => {
+                if(parseInt(card.cardData.political_bonus)) {
+                    return skill + parseInt(card.cardData.political_bonus);
+                }
+                return skill;
+            }, 0);
+            return Math.max(0, this.getSkillWithGlory(this.basePoliticalSkill + this.politicalSkillModifier + skillFromAttachments));
         }
 
         return null;
     }
-    
+
     getSkillWithGlory(skill) {
         if(this.isHonored) {
             return skill + this.getGlory();
@@ -238,6 +285,10 @@ class DrawCard extends BaseCard {
         /**
          * @param  {integer} fate - the amount of fate to modify this card's fate total by
          */
+        if(fate < 0 && !this.allowGameAction('removeFate')) {
+            return;
+        }
+
         var oldFate = this.fate;
 
         this.fate += fate;
@@ -275,7 +326,7 @@ class DrawCard extends BaseCard {
     canUseCovertToBypass(targetCard) {
         return this.isCovert() && targetCard.canBeBypassedByCovert();
     }
-    
+
     canBeBypassedByCovert() {
         return !this.isCovert();
     }
@@ -308,7 +359,7 @@ class DrawCard extends BaseCard {
         if(_.any(this.allowedAttachmentTraits, trait => attachment.hasTrait(trait))) {
             return true;
         }
-        
+
         return (
             this.isBlank() ||
             this.allowedAttachmentTraits.length === 0
@@ -339,7 +390,7 @@ class DrawCard extends BaseCard {
     canAttach(player, card) {
         return card && card.getType() === 'character' && this.getType() === 'attachment';
     }
-    
+
     canPlay() {
         return this.owner.canInitiateAction && this.allowGameAction('play');
     }
@@ -358,7 +409,7 @@ class DrawCard extends BaseCard {
         }
         return super.canTriggerAbilities();
     }
-    
+
     /**
      * When this card is about to leave play, gets events required to pass
      * to a CardLeavesPlayEventWindow
@@ -381,7 +432,7 @@ class DrawCard extends BaseCard {
     getPlayActions() {
         return StandardPlayActions
             .concat(this.abilities.playActions)
-            .concat(_.filter(this.abilities.actions, action => !action.allowMenu()));
+            .concat(super.getPlayActions());
     }
     
     removeAttachment(attachment) {
@@ -415,7 +466,9 @@ class DrawCard extends BaseCard {
             this.game.addFate(this.controller, 1);
             this.game.addMessage('{0} gains a fate due to {1}\'s Courtesy', this.controller, this);
         }
-        this.resetForConflict();
+        if(this.isParticipating()) {
+            this.game.currentConflict.removeFromConflict(this);
+        }
         super.leavesPlay();
     }
 
@@ -423,6 +476,18 @@ class DrawCard extends BaseCard {
         this.covert = false;
         //this.covertTarget = undefined;
         this.inConflict = false;
+    }
+    
+    isAttacking() {
+        return this.game.currentConflict && this.game.currentConflict.isAttacking(this);
+    }
+
+    isDefending() {
+        return this.game.currentConflict && this.game.currentConflict.isDefending(this);
+    }
+
+    isParticipating() {
+        return this.game.currentConflict && this.game.currentConflict.isParticipating(this);
     }
 
     canDeclareAsAttacker(conflictType) {
@@ -458,17 +523,18 @@ class DrawCard extends BaseCard {
         return this.allowGameAction('play');
     }
 
-    returnHomeFromConflict(side) {
+    returnHomeFromConflict() {
+        let side = this.game.currentConflict.isAttacking(this) ? 'attacker' : 'defender';
         if(!this.conflictOptions.doesNotBowAs[side] && !this.bowed) {
             this.controller.bowCard(this);
         }
         this.inConflict = false;
     }
-    
+
     play() {
     //empty function so playcardaction doesn't crash the game
     }
- 
+
     getSummary(activePlayer, hideWhenFaceup) {
         let baseSummary = super.getSummary(activePlayer, hideWhenFaceup);
 
