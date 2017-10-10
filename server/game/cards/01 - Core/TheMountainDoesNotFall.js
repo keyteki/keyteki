@@ -4,7 +4,6 @@ class TheMountainDoesNotFall extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Chooes a character to not bow when defending',
-            clickToActivate: true,
             max: ability.limit.perRound(1),
             target: {
                 activePromptTitle: 'Choose a character',
