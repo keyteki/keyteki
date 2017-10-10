@@ -1370,7 +1370,7 @@ class Player extends Spectator {
             this.game.promptForSelect(this, {
                 activePromptTitle: 'Choose character to '.concat(choice),
                 waitingPromptTitle: 'Waiting for opponent to use Fire Ring',
-                cardCondition: card => !card.isHonored,
+                cardCondition: card => !card.isHonored && card.location === 'play area',
                 cardType: 'character',
                 onSelect: (player, card) => {
                     this.honorCard(card);
@@ -1381,7 +1381,7 @@ class Player extends Spectator {
             this.game.promptForSelect(this, {
                 activePromptTitle: 'Choose character to '.concat(choice),
                 waitingPromptTitle: 'Waiting for opponent to use Fire Ring',
-                cardCondition: card => !card.isdishonored,
+                cardCondition: card => !card.isdishonored && card.location === 'play area',
                 cardType: 'character',
                 onSelect: (player, card) => {
                     this.dishonorCard(card);
