@@ -116,13 +116,9 @@ const Costs = {
                     cardCondition: card => fullCondition(card, context),
                     activePromptTitle: 'Select ' + number + ' cards to bow',
                     numCards: number,
-                    multiSelect: true,
+                    mode: 'exactly',
                     source: context.source,
                     onSelect: (player, cards) => {
-                        if(cards.length !== number) {
-                            return false;
-                        }
-
                         context.bowingCostCards = cards;
                         result.value = true;
                         result.resolved = true;
@@ -281,13 +277,9 @@ const Costs = {
                     cardCondition: card => fullCondition(card, context),
                     activePromptTitle: 'Select ' + number + ' cards to reveal',
                     numCards: number,
-                    multiSelect: true,
+                    mode: 'exactly',
                     source: context.source,
                     onSelect: (player, cards) => {
-                        if(cards.length !== number) {
-                            return false;
-                        }
-
                         context.revealingCostCards = cards;
                         result.value = true;
                         result.resolved = true;
