@@ -16,7 +16,6 @@ class CourtGames extends DrawCard {
                     })
                 }
             },
-            clickToActivate: true,
             handler: context => {
                 if(context.target === 'Honor a character you control') {
                     this.game.promptForSelect(this.controller, {
