@@ -4,7 +4,6 @@ class MeditationsOnTheTao extends ProvinceCard {
     setupCardAbilities() {
         this.action({
             title: 'Remove a fate from a character',
-            clickToActivate: true,
             condition: () => this.game.currentConflict && this.game.currentConflict.conflictProvince === this,
             target: {
                 cardType: 'character',
