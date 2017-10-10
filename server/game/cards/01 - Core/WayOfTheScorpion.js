@@ -4,7 +4,6 @@ class WayOfTheScorpion extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Dishonor a participating character',
-            clickToActivate: true,
             condition: () => this.game.currentConflict,
             target: {
                 activePromptTitle: 'Choose a character',
