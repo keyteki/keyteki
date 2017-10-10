@@ -4,7 +4,6 @@ class CityOfTheOpenHand extends StrongholdCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Steal an honor',
-            clickToActivate: true,
             cost: ability.costs.bowSelf(),
             condition: () => this.controller.opponent && this.controller.honor < this.controller.opponent.honor,
             handler: () => {
