@@ -462,7 +462,9 @@ class DrawCard extends BaseCard {
             this.game.addFate(this.controller, 1);
             this.game.addMessage('{0} gains a fate due to {1}\'s Courtesy', this.controller, this);
         }
-        this.resetForConflict();
+        if(this.isParticipating()) {
+            this.game.currentConflict.removeFromConflict(this);
+        }
         super.leavesPlay();
     }
 
