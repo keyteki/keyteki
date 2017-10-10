@@ -4,7 +4,6 @@ class BorderlandsFortifications extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Switch this card with another',
-            clickToActivate: true,
             target: {
                 cardCondition: card => card.isDynasty && ['province 1', 'province 2', 'province 3', 'province 4'].includes(card.location)
             },
