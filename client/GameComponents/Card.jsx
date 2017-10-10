@@ -253,6 +253,7 @@ class Card extends React.Component {
         if(this.props.size !== 'normal') {
             cardClass += ' ' + this.props.size;
             imageClass += ' ' + this.props.size;
+            honorClass += ' ' + this.props.size;
         }
 
         /* No custom cards currently
