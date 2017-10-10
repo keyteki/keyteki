@@ -4,7 +4,6 @@ class YojinNoShiro extends StrongholdCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Give attacking characters +1/+0',
-            clickToActivate: true,
             cost: ability.costs.bowSelf(),
             condition: () => this.game.currentConflict && this.controller.anyCardsInPlay(card => card.isAttacking()),
             handler: () => {
