@@ -6,7 +6,6 @@ class StrengthInNumbers extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Send home defending character',
-            clickToActivate: true,
             condition: () => this.game.currentConflict && this.game.currentConflict.attackingPlayer === this.controller,
             target: {
                 activePromptTitle: 'Choose a character',
