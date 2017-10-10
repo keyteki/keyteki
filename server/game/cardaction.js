@@ -75,7 +75,7 @@ class CardAction extends BaseAbility {
     }
 
     allowMenu() {
-        return true;
+        return this.card.location === 'play area';
     }
 
     createContext(player, arg) {
