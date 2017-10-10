@@ -5,7 +5,6 @@ class IsawaMoriSeido extends StrongholdCard {
         this.action({
             title: 'Bow this stronghold',
             cost: ability.costs.bowSelf(),
-            clickToActivate: true,
             target: {
                 activePromptTitle: 'Select a character',
                 cardType: 'character',
