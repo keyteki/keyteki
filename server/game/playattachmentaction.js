@@ -7,20 +7,14 @@ class PlayAttachmentAction extends BaseAbility {
             cost: [
                 Costs.payReduceableFateCost('play'),
                 Costs.playLimited()
-            ] 
+            ],
+            target: {
+                cardCondition: (card, context) => context.source.owner.canAttach(context.source, card)
+            }
         });
         this.title = 'PlayAttachmentAction';
-        this.targets = { 
-            target: {
-                cardCondition: this.cardCondition
-            }
-        };
     }
     
-    cardCondition(card, context) {
-        return context.player.canAttach(context.source, card);
-    }
-
     meetsRequirements(context) {
         return (
             context.game.currentPhase !== 'dynasty' &&
