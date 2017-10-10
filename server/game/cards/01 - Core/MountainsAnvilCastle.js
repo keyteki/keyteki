@@ -4,7 +4,6 @@ class MountainsAnvilCastle extends StrongholdCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Give a character with attachments bonus skill',
-            clickToActivate: true,
             cost: ability.costs.bowSelf(),
             condition: () => this.game.currentConflict,
             target: {
