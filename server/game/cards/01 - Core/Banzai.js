@@ -5,7 +5,6 @@ class Banzai extends DrawCard {
         this.action({
             condition: () => this.game.currentConflict,
             max: ability.limit.perConflict(1),
-            clickToActivate: true,
             target: {
                 cardType: 'character',
                 cardCondition: card => this.game.currentConflict.isParticipating(card)
