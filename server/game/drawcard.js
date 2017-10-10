@@ -413,7 +413,7 @@ class DrawCard extends BaseCard {
         }
         if(this.isParticipating()) {
             this.game.currentConflict.removeFromConflict(this);
-        };
+        }
         super.leavesPlay();
     }
 
