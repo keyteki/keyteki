@@ -131,8 +131,8 @@ class AbilityResolver extends BaseStep {
         if(this.cancelled) {
             return;
         }
-        
-        this.game.raiseInitiateAbilityEvent({ player: this.context.player, source: this.context.source, resolver: this });
+        let targets = _.flatten(_.values(this.context.targets));
+        this.game.raiseInitiateAbilityEvent({ player: this.context.player, source: this.context.source, resolver: this, targets: targets });
     }
 
     executeHandler() {

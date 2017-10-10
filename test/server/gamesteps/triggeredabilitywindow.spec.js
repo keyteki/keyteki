@@ -137,7 +137,7 @@ describe('TriggeredAbilityWindow', function() {
 
                 it('should prompt the first player', function() {
                     expect(this.gameSpy.promptWithMenu).toHaveBeenCalledWith(this.player1Spy, this.window, jasmine.objectContaining({
-                        activePrompt: {
+                        activePrompt: jasmine.objectContaining({
                             menuTitle: jasmine.any(String),
                             buttons: [
                                 jasmine.objectContaining({ text: 'The Card - My Choice 1', arg: '1', method: 'chooseAbility' }),
@@ -145,7 +145,7 @@ describe('TriggeredAbilityWindow', function() {
                                 jasmine.objectContaining({ text: 'The Card 2', arg: '3', method: 'chooseAbility' }),
                                 jasmine.objectContaining({ text: 'Pass', method: 'pass' })
                             ]
-                        }
+                        })
                     }));
                 });
 
@@ -162,13 +162,13 @@ describe('TriggeredAbilityWindow', function() {
 
                 it('should filter out choices for that ability', function() {
                     expect(this.gameSpy.promptWithMenu).toHaveBeenCalledWith(this.player1Spy, this.window, jasmine.objectContaining({
-                        activePrompt: {
+                        activePrompt: jasmine.objectContaining({
                             menuTitle: jasmine.any(String),
                             buttons: [
                                 jasmine.objectContaining({ text: 'The Card 2', arg: '3', method: 'chooseAbility' }),
                                 jasmine.objectContaining({ text: 'Pass', method: 'pass' })
                             ]
-                        }
+                        })
                     }));
                 });
             });
@@ -182,13 +182,13 @@ describe('TriggeredAbilityWindow', function() {
 
                 it('should prompt the next player', function() {
                     expect(this.gameSpy.promptWithMenu).toHaveBeenCalledWith(this.player2Spy, this.window, jasmine.objectContaining({
-                        activePrompt: {
+                        activePrompt: jasmine.objectContaining({
                             menuTitle: jasmine.any(String),
                             buttons: [
                                 jasmine.objectContaining({ text: 'Their Card', arg: '4', method: 'chooseAbility' }),
                                 jasmine.objectContaining({ text: 'Pass', method: 'pass' })
                             ]
-                        }
+                        })
                     }));
                 });
             });
