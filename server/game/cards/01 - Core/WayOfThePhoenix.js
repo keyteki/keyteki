@@ -4,7 +4,6 @@ class WayOfThePhoenix extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Prevent an opponent contesting a ring',
-            clickToActivate: true,
             target: {
                 mode: 'ring',
                 ringCondition: () => true
