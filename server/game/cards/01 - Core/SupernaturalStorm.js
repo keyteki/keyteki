@@ -4,7 +4,6 @@ class SupernaturalStorm extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Increase the skill of one character',
-            clickToActivate: true,
             condition: () => this.game.currentConflict,
             target: {
                 activePromptTitle: 'Choose a character',
