@@ -12,7 +12,25 @@ class ProvinceCard extends BaseCard {
     }
 
     getStrength() {
-        return this.cardData.strength + this.strengthModifier;
+        return this.cardData.strength + this.strengthModifier + this.getDynastyCardModifier();
+    }
+    
+    getDynastyCardModifier() {
+        let province = this.controller.getSourceList(this.location);
+        let dynastyCard = province.find(card => card.isDynasty);
+        if(dynastyCard) {
+            return dynastyCard.getProvinceStrengthBonus();
+        }
+        return 0;
+    }
+
+    modifyProvinceStrength(amount, applying = true) {
+        this.strengthModifier += amount;
+        this.game.raiseEvent('onProvinceStrengthChanged', {
+            card: this,
+            amount: amount,
+            applying: applying
+        });
     }
 
     flipFaceup() {
