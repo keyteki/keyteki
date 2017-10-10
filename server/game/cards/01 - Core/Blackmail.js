@@ -3,7 +3,6 @@ const DrawCard = require('../../drawcard.js');
 class Blackmail extends DrawCard {
     setupCardAbilities() {
         this.action({
-            clickToActivate: true,
             condition: () => this.controller.opponent && this.controller.honor < this.controller.opponent.honor && this.game.currentConflict,
             target: {
                 cardType: 'character',
