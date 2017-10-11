@@ -26,6 +26,7 @@ const AtomicEventWindow = require('./gamesteps/atomiceventwindow.js');
 const SimultaneousEventWindow = require('./gamesteps/simultaneouseventwindow.js');
 const CardLeavesPlayEventWindow = require('./gamesteps/cardleavesplayeventwindow.js');
 const InitateAbilityEventWindow = require('./gamesteps/initiateabilityeventwindow.js');
+const MultipleEventWindow = require('./gamesteps/multipleeventwindow.js');
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const ForcedTriggeredAbilityWindow = require('./gamesteps/forcedtriggeredabilitywindow.js');
 const TriggeredAbilityWindow = require('./gamesteps/triggeredabilitywindow.js');
@@ -732,6 +733,16 @@ class Game extends EventEmitter {
 
     raiseInitiateAbilityEvent(properties) {
         this.queueStep(new InitateAbilityEventWindow(this, properties));
+    }
+
+    /**
+     * Raises multiple events whose resolution is performed atomically. Any
+     * abilities triggered by these events will appear within the same prompt
+     * for the player. Allows each event to take its own handler which will
+     * all execute in the same step
+     */
+    raiseMultipleEvents(events) {
+        this.queueStep(new MultipleEventWindow(this, events));
     }
 
     flipRing(sourcePlayer, ring) {
