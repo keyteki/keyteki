@@ -4,7 +4,7 @@ class SolemnScholar extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Bow an attacking character',
-            condition: this.game.currentConflict && this.game.rings.earth.claimedby === this.controller.name,
+            condition: this.game.currentConflict && this.game.rings.earth.claimedBy === this.controller.name,
             target: {
                 activePromptTitle: 'Select a character',
                 cardType: 'character',
