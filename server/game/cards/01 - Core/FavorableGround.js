@@ -4,7 +4,6 @@ class FavorableGround extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Use Favorable Ground',
-            clickToActivate: true,
             condition: () => this.game.currentConflict,
             cost: ability.costs.sacrificeSelf(),
             target: {
