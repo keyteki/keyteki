@@ -4,7 +4,7 @@ class ShinjoOutrider extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Move this character to conflict',
-            condition: () => this.game.currentConflict && this.allowGameAction('moveToConflict'),
+            condition: () => this.game.currentConflict,
             handler: () => {
                 this.game.addMessage('{0} moves {1} to the conflict by using its ability', this.controller, this);
                 this.game.currentConflict.moveToConflict(this);
@@ -13,6 +13,6 @@ class ShinjoOutrider extends DrawCard {
     }
 }
 
-ShinjoOutrider.id = 'shinjo-outider';
+ShinjoOutrider.id = 'shinjo-outrider';
 
 module.exports = ShinjoOutrider;
