@@ -7,14 +7,15 @@ class InitiateAbilityEventWindow extends BaseStep {
     constructor(game, params) {
         super(game);
 
-        this.eventName = 'onCardAbilityInitated';
+        this.eventName = 'onCardAbilityInitiated';
 
         this.event = new Event(this.eventName, params);
         this.pipeline = new GamePipeline();
         this.pipeline.initialise([
             new SimpleStep(game, () => this.cancelInterrupts()),
             new SimpleStep(game, () => this.reactions()),
-            new SimpleStep(game, () => this.checkForOtherEffects())
+            new SimpleStep(game, () => this.checkForOtherEffects()),
+            new SimpleStep(game, () => this.passCancelThroughToResolver())
         ]);
     }
 
@@ -95,6 +96,12 @@ class InitiateAbilityEventWindow extends BaseStep {
             abilityType: 'reaction',
             event: this.event
         });
+    }
+    
+    passCancelThroughToResolver() {
+        if(this.event.cancelled) {
+            this.event.resolver.cancelled = true;
+        }
     }
 }
 
