@@ -83,7 +83,7 @@ class CardAction extends BaseAbility {
     }
 
     allowMenu() {
-        return this.card.type === 'character';
+        return this.card.type === 'character' || this.card.type === 'attachment';
     }
 
     createContext(player, arg) {
