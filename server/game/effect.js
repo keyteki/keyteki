@@ -102,7 +102,7 @@ class Effect {
             return target === this.match;
         }
 
-        if(this.targetType === 'card' && (target instanceof Player) || this.targetType === 'player' && !(target instanceof Player)) {
+        if((this.targetType === 'card' && (target instanceof Player)) || (this.targetType === 'player' && !(target instanceof Player))) {
             return false;
         }
 

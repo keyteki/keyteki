@@ -107,7 +107,8 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
         this.game.promptWithMenu(player, this, {
             activePrompt: {
                 menuTitle: TriggeredAbilityWindowTitles.getTitle(this.abilityType, this.events[0]),
-                buttons: buttons
+                buttons: buttons,
+                controls: this.getAdditionalPromptControls()
             },
             waitingPromptTitle: 'Waiting for opponents'
         });
@@ -115,6 +116,20 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
         this.forceWindowPerPlayer[player.name] = false;
     }
 
+    getAdditionalPromptControls() {
+        let controls = [];
+        for(let event of this.events) {
+            if(event.name === 'onCardAbilityInitiated' && event.targets.length > 0) {
+                controls.push({
+                    type: 'targeting',
+                    source: event.source.getShortSummary(),
+                    targets: event.targets.map(target => target.getShortSummary())
+                });
+            }
+        }
+        return controls;
+    }
+    
     getChoicesForPlayer(player) {
         let choices = _.filter(this.abilityChoices, abilityChoice => {
             try {

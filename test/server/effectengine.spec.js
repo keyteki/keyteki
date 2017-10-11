@@ -111,7 +111,7 @@ describe('EffectEngine', function () {
 
             describe('when an effect has a non-persistent duration', function() {
                 beforeEach(function() {
-                    this.effectSpy.duration = 'untilEndOfChallenge';
+                    this.effectSpy.duration = 'untilEndOfConflict';
                     this.engine.onCardMoved({ card: this.cardEnteringPlay, originalLocation: 'hand', newLocation: 'play area' });
                 });
 
@@ -209,7 +209,7 @@ describe('EffectEngine', function () {
 
             describe('when an effect has a non-persistent duration', function() {
                 beforeEach(function() {
-                    this.effectSpy.duration = 'untilEndOfChallenge';
+                    this.effectSpy.duration = 'untilEndOfConflict';
                 });
 
                 describe('and the card leaving play is the source for an effect', function() {
@@ -289,7 +289,7 @@ describe('EffectEngine', function () {
 
         describe('when an effect has a non-persistent duration', function() {
             beforeEach(function() {
-                this.effectSpy.duration = 'untilEndOfChallenge';
+                this.effectSpy.duration = 'untilEndOfConflict';
             });
 
             describe('and the card being blanked is the source for an effect', function() {
@@ -316,15 +316,15 @@ describe('EffectEngine', function () {
         });
     });
 
-    describe('onChallengeFinished()', function() {
+    describe('onConflictFinished()', function() {
         beforeEach(function() {
             this.engine.effects = [this.effectSpy];
         });
 
-        describe('when an effect has untilEndOfChallenge duration', function() {
+        describe('when an effect has untilEndOfConflict duration', function() {
             beforeEach(function() {
-                this.effectSpy.duration = 'untilEndOfChallenge';
-                this.engine.onChallengeFinished({ challenge: {} });
+                this.effectSpy.duration = 'untilEndOfConflict';
+                this.engine.onConflictFinished({ challenge: {} });
             });
 
             it('should cancel the effect', function() {
@@ -337,10 +337,10 @@ describe('EffectEngine', function () {
         });
 
 
-        describe('when an effect has a non-untilEndOfChallenge duration', function() {
+        describe('when an effect has a non-untilEndOfConflict duration', function() {
             beforeEach(function() {
                 this.effectSpy.duration = 'persistent';
-                this.engine.onChallengeFinished({ challenge: {} });
+                this.engine.onConflictFinished({ challenge: {} });
             });
 
             it('should not cancel the effect', function() {

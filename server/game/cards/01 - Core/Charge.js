@@ -8,7 +8,6 @@ class Charge extends DrawCard {
                 cardType: 'character',
                 cardCondition: card => ['province 1', 'province 2', 'province 3', 'province 4'].includes(card.location) && card.controller === this.controller
             },
-            clickToActivate: true,
             handler: context => {
                 this.game.addMessage('{0} uses {1} to bring {2} into the conflict!', this.controller, this, context.target);
                 this.controller.putIntoPlay(context.target, true);
