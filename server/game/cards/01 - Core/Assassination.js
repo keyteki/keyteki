@@ -6,7 +6,6 @@ class Assassination extends DrawCard {
             cost: ability.costs.payHonor(3),
             condition: this.game.currentConflict,
             max: ability.limit.perRound(1),
-            clickToActivate: true,
             target: {
                 cardType: 'character',
                 cardCondition: card => card.location === 'play area' && card.getCost() < 3 && card.allowGameAction('discardCardFromPlay')

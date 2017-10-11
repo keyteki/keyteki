@@ -475,6 +475,10 @@ class BaseCard {
 
         return false;
     }
+    
+    getPlayActions() {
+        return _.filter(this.abilities.actions, action => !action.allowMenu());
+    }
 
     getShortSummary() {
         return {

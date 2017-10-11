@@ -5,7 +5,6 @@ class Banzai extends DrawCard {
         this.action({
             condition: () => this.game.currentConflict,
             max: ability.limit.perConflict(1),
-            clickToActivate: true,
             target: {
                 cardType: 'character',
                 cardCondition: card => this.game.currentConflict.isParticipating(card)
@@ -28,7 +27,7 @@ class Banzai extends DrawCard {
                                 cardCondition: card => this.game.currentConflict.isParticipating(card),
                                 onSelect: (player, card) => {
                                     this.game.addMessage('{0} loses 1 honor resolve {1} again, granting 2 military skill to {2}', player, this, card);
-                                    this.game.raiseEvent('onCardAbilityInitiated', { player: player, source: this }, () => {
+                                    this.game.raiseEvent('onCardAbilityInitiated', { player: player, source: this, targets: [card] }, () => {
                                         this.untilEndOfConflict(ability => ({
                                             match: card,
                                             effect: ability.effects.modifyMilitarySkill(2)
