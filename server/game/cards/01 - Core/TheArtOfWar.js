@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const ProvinceCard = require('../../provincecard.js');
 
 class TheArtOfWar extends ProvinceCard {
