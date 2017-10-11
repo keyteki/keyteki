@@ -110,20 +110,40 @@ const Effects = {
     modifyBaseMilitarySkill: function(value) {
         return {
             apply: function(card) {
-                card.modifyBaseMilitarySkill(value);
+                card.modifyBaseMilitarySkill(value, true);
             },
             unapply: function(card) {
-                card.modifyBaseMilitarySkill(-value);
+                card.modifyBaseMilitarySkill(-value, false);
             }
         };
     },
     modifyBasePoliticalSkill: function(value) {
         return {
             apply: function(card) {
-                card.modifyBasePoliticalSkill(value);
+                card.modifyBasePoliticalSkill(value, true);
             },
             unapply: function(card) {
-                card.modifyBasePoliticalSkill(-value);
+                card.modifyBasePoliticalSkill(-value, false);
+            }
+        };
+    },
+    modifyMilitarySkillMultiplier: function(value) {
+        return {
+            apply: function(card) {
+                card.modifyMilitarySkillMultiplier(value, true);
+            },
+            unapply: function(card) {
+                card.modifyMilitarySkillMultiplier(1.0 / value, false);
+            }
+        };
+    },
+    modifyPoliticalSkillMultiplier: function(value) {
+        return {
+            apply: function(card) {
+                card.modifyPoliticalSkillMultiplier(value, true);
+            },
+            unapply: function(card) {
+                card.modifyPoliticalSkillMultiplier(1.0 / value, false);
             }
         };
     },
@@ -307,7 +327,7 @@ const Effects = {
                 if(card.location === 'play area' && context.moveToBottomOfDeckIfStillInPlay.includes(card)) {
                     context.moveToBottomOfDeckIfStillInPlay = _.reject(context.moveToBottomOfDeckIfStillInPlay, c => c === card);
                     card.owner.moveCardToBottomOfDeck(card);
-                    context.game.addMessage('{0} moves {1} to the bottom of its owner\'s deck at the end of the phase because of {2}', context.source.controller, card, context.source);
+                    context.game.addMessage('{0} moves {1} to the bottom of his deck as {2}\'s effect ends', context.source.controller, card, context.source);
                 }
             }
         };
