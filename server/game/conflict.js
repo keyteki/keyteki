@@ -92,7 +92,7 @@ class Conflict {
     }
     
     switchType() {
-        let ring = this.game.rings.find(ring => ring.element === this.conflictRing);
+        let ring = _.find(this.game.rings, ring => ring.element === this.conflictRing);
         ring.flipConflictType();
         this.conflictType = ring.conflictType;
         this.conflictTypeSwitched = true;
@@ -115,7 +115,7 @@ class Conflict {
         oldRing.contested = false;
         this.elements = _.reject(this.elements, element => element === oldRing.element);
         this.conflictRing = element;
-        let newRing = this.game.rings.find(ring => ring.element === element);
+        let newRing = _.find(this.game.rings, ring => ring.element === element);
         this.game.addFate(this.attackingPlayer, newRing.fate);
         newRing.fate = 0;
         newRing.contested = true;
