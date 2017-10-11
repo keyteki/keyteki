@@ -552,7 +552,7 @@ const Costs = {
             },
             pay: function(context) {
                 context.costs.breakProvince = province;
-                this.game.raiseEvent('onBreakProvince', { conflict: this.conflict, province: province }, province.breakProvince());
+                context.game.raiseEvent('onBreakProvince', { conflict: context.game.currentConflict, province: province }, province.breakProvince());
             }
         };
     }
