@@ -9,8 +9,8 @@ class StandYourGround extends DrawCard {
             canCancel: true,
             handler: context => {
                 context.cancel();
-                context.event.source.card.isHonored = false;
-                this.game.addMessage('{0} uses {1} to stop {2} from leaving play', this.controller, this, context.event.source);
+                context.event.card.isHonored = false;
+                this.game.addMessage('{0} uses {1} to stop {2} from leaving play', this.controller, this, context.event.card);
             }
         });
     }
