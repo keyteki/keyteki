@@ -9,7 +9,7 @@ class MultipleEventWindow extends BaseStep {
     constructor(game, eventProperties) {
         super(game);
 
-        this.events = _.map(eventProperties, event => new Event(event.name, event.params, true, event.handler));
+        this.events = _.map(eventProperties, event => new Event(event.name, event.params, event.handler));
 
         this.pipeline = new GamePipeline();
         this.pipeline.initialise([
