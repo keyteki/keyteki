@@ -28,6 +28,8 @@ class DrawCard extends BaseCard {
         this.politicalSkillModifier = 0;
         this.baseMilitarySkill = cardData.military;
         this.basePoliticalSkill = cardData.political;
+        this.militarySkillMultiplier = 1;
+        this.politicalSkillMultiplier = 1;
         this.gloryModifier = 0;
         this.fate = 0;
         this.contributesToFavor = true;
@@ -127,6 +129,28 @@ class DrawCard extends BaseCard {
         this.game.raiseEvent('onCardGloryChanged', {
             card: this,
             amount: amount,
+            applying: applying
+        });
+    }
+
+    modifyMilitarySkillMultiplier(amount, applying = true) {
+        let militarySkillBefore = this.getMilitarySkill();
+
+        this.militarySkillMultiplier *= amount;
+        this.game.raiseEvent('onCardMilitarySkillChanged', {
+            card: this,
+            amount: this.getMilitarySkill() - militarySkillBefore,
+            applying: applying
+        });
+    }
+
+    modifyPoliticalSkillMultiplier(amount, applying = true) {
+        let politicalSkillBefore = this.getPoliticalSkill();
+
+        this.politicalSkillMultiplier *= amount;
+        this.game.raiseEvent('onCardPoliticalSkillChanged', {
+            card: this,
+            amount: this.getPoliticalSkill() - politicalSkillBefore,
             applying: applying
         });
     }
@@ -243,7 +267,10 @@ class DrawCard extends BaseCard {
                 }
                 return skill;
             }, 0);
-            return Math.max(0, this.getSkillWithGlory(this.baseMilitarySkill + this.militarySkillModifier + skillFromAttachments));
+            
+            let modifiedMilitarySkill = this.baseMilitarySkill + this.militarySkillModifier + skillFromAttachments + this.getSkillFromGlory();
+            let multipliedMilitarySkill = Math.round(modifiedMilitarySkill * this.militarySkillMultiplier);
+            return Math.max(0, multipliedMilitarySkill);
         }
 
         return null;
@@ -266,19 +293,21 @@ class DrawCard extends BaseCard {
                 }
                 return skill;
             }, 0);
-            return Math.max(0, this.getSkillWithGlory(this.basePoliticalSkill + this.politicalSkillModifier + skillFromAttachments));
+            let modifiedPoliticalSkill = this.basePoliticalSkill + this.politicalSkillModifier + skillFromAttachments + this.getSkillFromGlory();
+            let multipliedPoliticalSkill = Math.round(modifiedPoliticalSkill * this.politicalSkillMultiplier);
+            return Math.max(0, multipliedPoliticalSkill);
         }
 
         return null;
     }
-
-    getSkillWithGlory(skill) {
+    
+    getSkillFromGlory() {
         if(this.isHonored) {
-            return skill + this.getGlory();
+            return this.getGlory();
         } else if(this.isDishonored) {
-            return skill - this.getGlory();
+            return 0 - this.getGlory();
         }
-        return skill;
+        return 0;
     }
 
     modifyFate(fate) {
@@ -437,7 +466,7 @@ class DrawCard extends BaseCard {
             .concat(this.abilities.playActions)
             .concat(super.getPlayActions());
     }
-    
+
     removeAttachment(attachment) {
         this.attachments = _(this.attachments.reject(card => card.uuid === attachment.uuid));
     }
