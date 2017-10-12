@@ -92,7 +92,9 @@ class Conflict {
     }
     
     switchType() {
-        this.conflictType = this.conflictType === 'military' ? 'political' : 'military';
+        let ring = _.find(this.game.rings, ring => ring.element === this.conflictRing);
+        ring.flipConflictType();
+        this.conflictType = ring.conflictType;
         this.conflictTypeSwitched = true;
         _.each(this.attackers, card => {
             if(!card.canParticipateAsAttacker(this.conflictType)) {
@@ -106,6 +108,18 @@ class Conflict {
                 card.bowed = true;
             }
         });
+    }
+    
+    switchElement(element) {
+        let oldRing = _.find(this.game.rings, ring => ring.element === this.conflictRing);
+        oldRing.contested = false;
+        this.elements = _.reject(this.elements, element => element === oldRing.element);
+        this.conflictRing = element;
+        let newRing = _.find(this.game.rings, ring => ring.element === element);
+        this.game.addFate(this.attackingPlayer, newRing.fate);
+        newRing.fate = 0;
+        newRing.contested = true;
+        this.elements.push(element);
     }
     
     removeFromConflict(card) {

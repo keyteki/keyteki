@@ -88,8 +88,15 @@ class TriggeredAbility extends BaseAbility {
     }
 
     isEventListeningLocation(location) {
+        if(!location) {
+            return false;
+        }
         if(location === this.location) {
             return true;
+        }
+        
+        if(location.includes('deck')) {
+            return false;
         }
         
         let type = this.card.getType();

@@ -57,7 +57,7 @@ describe('AbilityResolver', function() {
             });
 
             it('should raise the InitiateAbility event', function() {
-                expect(this.game.raiseInitiateAbilityEvent).toHaveBeenCalledWith({ player: this.player, source: this.source, resolver: jasmine.any(Object) });
+                expect(this.game.raiseInitiateAbilityEvent).toHaveBeenCalledWith({ player: this.player, source: this.source, resolver: jasmine.any(Object), targets: [] });
             });
         });
 

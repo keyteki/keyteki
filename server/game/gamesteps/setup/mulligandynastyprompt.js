@@ -6,6 +6,7 @@ class MulliganDynastyPrompt extends SelectCardPrompt {
             numCards: 0,
             multiSelect: true,
             activePromptTitle: 'Select dynasty cards to mulligan',
+            cardType: ['holding','character'],
             cardCondition: card => {
                 return ['province 1', 'province 2', 'province 3', 'province 4'].includes(card.location) && choosingPlayer === card.owner; 
             },

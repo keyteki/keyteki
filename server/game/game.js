@@ -26,6 +26,7 @@ const AtomicEventWindow = require('./gamesteps/atomiceventwindow.js');
 const SimultaneousEventWindow = require('./gamesteps/simultaneouseventwindow.js');
 const CardLeavesPlayEventWindow = require('./gamesteps/cardleavesplayeventwindow.js');
 const InitateAbilityEventWindow = require('./gamesteps/initiateabilityeventwindow.js');
+const MultipleEventWindow = require('./gamesteps/multipleeventwindow.js');
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const ForcedTriggeredAbilityWindow = require('./gamesteps/forcedtriggeredabilitywindow.js');
 const TriggeredAbilityWindow = require('./gamesteps/triggeredabilitywindow.js');
@@ -147,12 +148,7 @@ class Game extends EventEmitter {
     }
 
     findAnyCardInAnyList(cardId) {
-        return _.reduce(this.getPlayers(), (card, player) => {
-            if(card) {
-                return card;
-            }
-            return player.findCardByUuidInAnyList(cardId);
-        }, null);
+        return this.allCards.find(card => card.uuid === cardId);
     }
 
     findAnyCardsInPlay(predicate) {
@@ -222,7 +218,7 @@ class Game extends EventEmitter {
         }
 
         // Attempt to play cards that are not already in the play area.
-        if(['hand', 'province 1', 'province 2', 'province 3', 'province 4'].includes(card.location) && card.getType() !== 'province' && player.playCard(card)) {
+        if(['hand', 'province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(card.location) && player.playCard(card)) {
             return;
         }
 
@@ -632,7 +628,7 @@ class Game extends EventEmitter {
         });
 
         this.allCards = _(_.reduce(this.getPlayers(), (cards, player) => {
-            return cards.concat(player.allCards.toArray());
+            return cards.concat(player.preparedDeck.allCards);
         }, []));
 
         this.pipeline.initialise([
@@ -739,6 +735,16 @@ class Game extends EventEmitter {
         this.queueStep(new InitateAbilityEventWindow(this, properties));
     }
 
+    /**
+     * Raises multiple events whose resolution is performed atomically. Any
+     * abilities triggered by these events will appear within the same prompt
+     * for the player. Allows each event to take its own handler which will
+     * all execute in the same step
+     */
+    raiseMultipleEvents(events) {
+        this.queueStep(new MultipleEventWindow(this, events));
+    }
+
     flipRing(sourcePlayer, ring) {
         ring.flipConflictType();
     }
@@ -771,30 +777,20 @@ class Game extends EventEmitter {
     }
     
     takeControl(player, card) {
-        var oldController = card.controller;
-        var newController = player;
-
-        if(oldController === newController) {
+        if(card.controller === player || !card.allowGameAction('takeControl')) {
             return;
         }
 
-        this.applyGameAction('takeControl', card, card => {
-            oldController.removeCardFromPile(card);
-            oldController.allCards = _(oldController.allCards.reject(c => c === card));
-            newController.cardsInPlay.push(card);
-            newController.allCards.push(card);
-            card.controller = newController;
+        if(card.location !== 'play area') {
+            player.putIntoPlay(card);
+            return;
+        }
 
-            if(card.location !== 'play area') {
-                let originalLocation = card.location;
-                card.play(newController, false);
-                card.moveTo('play area');
-                card.applyPersistentEffects();
-                this.raiseEvent('onCardEntersPlay', { card: card, playingType: 'play', originalLocation: originalLocation });
-            }
-
-            this.raiseEvent('onCardTakenControl', { card: card });
-        });
+        card.controller.removeCardFromPile(card);
+        player.cardsInPlay.push(card);
+        card.controller = player;
+        card.applyPersistentEffects();
+        this.raiseEvent('onCardTakenControl', { card: card });
     }
 
     applyGameAction(actionType, cards, func) {
