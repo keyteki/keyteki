@@ -345,11 +345,11 @@ export class InnerGameBoard extends React.Component {
 
     getRings() {
         return (<div className='panel ring-panel'>
-            <Ring ring={ this.props.currentGame.rings.air } onClick={ this.onRingClick } />
-            <Ring ring={ this.props.currentGame.rings.earth } onClick={ this.onRingClick } />
-            <Ring ring={ this.props.currentGame.rings.fire } onClick={ this.onRingClick } />
-            <Ring ring={ this.props.currentGame.rings.void } onClick={ this.onRingClick } />
-            <Ring ring={ this.props.currentGame.rings.water } onClick={ this.onRingClick } />
+            <Ring ring={ this.props.currentGame.rings.air } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } />
+            <Ring ring={ this.props.currentGame.rings.earth } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } />
+            <Ring ring={ this.props.currentGame.rings.fire } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } />
+            <Ring ring={ this.props.currentGame.rings.void } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } />
+            <Ring ring={ this.props.currentGame.rings.water } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } />
         </div>);
     }
 
