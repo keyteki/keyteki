@@ -15,10 +15,6 @@ class ShosuroActress extends DrawCard {
             handler: context => {
                 this.game.addMessage('{0} sacrifices {1} to put {2} into play under their control', this.controller, this, context.target);
                 context.player.putIntoPlay(context.target, true);
-                this.atEndOfConflict(ability => ({
-                    match: context.target,
-                    effect: ability.effects.discardIfStillInPlay()
-                }));
             }
         });
     }
