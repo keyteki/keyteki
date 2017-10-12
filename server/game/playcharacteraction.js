@@ -53,6 +53,10 @@ class PlayCharacterAction extends BaseAbility {
         return true;
     }
 
+    isCardPlayed() {
+        return true;
+    }
+
     isCardAbility() {
         return false;
     }

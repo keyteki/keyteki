@@ -13,7 +13,7 @@ class InitiateAbilityEventWindow extends BaseStep {
         this.pipeline = new GamePipeline();
         this.pipeline.initialise([
             new SimpleStep(game, () => this.cancelInterrupts()),
-            new SimpleStep(game, () => this.reactions()),
+            new SimpleStep(game, () => this.raiseCardPlayed()),
             new SimpleStep(game, () => this.checkForOtherEffects()),
             new SimpleStep(game, () => this.passCancelThroughToResolver())
         ]);
@@ -98,6 +98,12 @@ class InitiateAbilityEventWindow extends BaseStep {
         });
     }
     
+    raiseCardPlayed() {
+        if(this.event.resolver.ability.isCardPlayed()) {
+            this.game.raiseEvent('onCardPlayed', { player: this.event.resolver.context.player, card: this.event.resolver.context.source });
+        }
+    }
+
     passCancelThroughToResolver() {
         if(this.event.cancelled) {
             this.event.resolver.cancelled = true;

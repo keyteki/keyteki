@@ -153,7 +153,7 @@ class CardAction extends BaseAbility {
         return this.clickToActivate;
     }
 
-    isPlayableEventAbility() {
+    isCardPlayed() {
         return this.card.getType() === 'event';
     }
 

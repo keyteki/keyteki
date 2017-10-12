@@ -27,6 +27,10 @@ class PlayAttachmentAction extends BaseAbility {
     executeHandler(context) {
         context.player.attach(context.source, context.target);
     }
+    
+    isCardPlayed() {
+        return true;
+    }
 
     isCardAbility() {
         return false;

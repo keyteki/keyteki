@@ -114,7 +114,7 @@ class TriggeredAbility extends BaseAbility {
         return false;
     }
 
-    isPlayableEventAbility() {
+    isCardPlayed() {
         return this.card.getType() === 'event';
     }
 
