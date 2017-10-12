@@ -104,6 +104,15 @@ class DrawCard extends BaseCard {
     getFate() {
         return this.fate;
     }
+    
+    allowGameAction(actionType) {
+        if(actionType === 'dishonor') {
+            if(this.isDishonored || (!super.allowGameAction('becomeDishonored') && !this.isHonored)) {
+                return false;
+            }
+        }
+        return super.allowGameAction(actionType);
+    }
 
     modifySkill(amount, type, applying = true) {
         /**
