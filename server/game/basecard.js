@@ -189,11 +189,20 @@ class BaseCard {
 
     /**
      * Applies an immediate effect which lasts until the end of the current
-     * challenge.
+     * conflict.
      */
     untilEndOfConflict(propertyFactory) {
         var properties = propertyFactory(AbilityDsl);
         this.game.addEffect(this, _.extend({ duration: 'untilEndOfConflict', location: 'any' }, properties));
+    }
+
+    /**
+     * Applies an immediate effect which expires at the end of the current 
+     * conflict. Per game rules this duration is outside of the phase.
+     */
+    atEndOfConflict(propertyFactory) {
+        var properties = propertyFactory(AbilityDsl);
+        this.game.addEffect(this, _.extend({ duration: 'atEndOfConflict', location: 'any' }, properties));
     }
 
     /**
