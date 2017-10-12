@@ -132,9 +132,13 @@ class AbilityResolver extends BaseStep {
         if(this.cancelled) {
             return;
         }
-        let targets = _.flatten(_.values(this.context.targets));
-        targets = _.filter(targets, target => target instanceof BaseCard);
-        this.game.raiseInitiateAbilityEvent({ player: this.context.player, source: this.context.source, resolver: this, targets: targets });
+        if(this.ability.isCardAbility) {
+            let targets = _.flatten(_.values(this.context.targets));
+            targets = _.filter(targets, target => target instanceof BaseCard);
+            this.game.raiseInitiateAbilityEvent({ player: this.context.player, source: this.context.source, resolver: this, targets: targets });
+        } else if(this.ability.isCardPlayed) {
+            this.game.raiseEvent('onCardPlayed', { player: this.context.player, card: this.context.source });
+        }
     }
 
     executeHandler() {

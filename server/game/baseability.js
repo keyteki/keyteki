@@ -221,7 +221,7 @@ class BaseAbility {
         return true;
     }
 
-    isPlayableEventAbility() {
+    isCardPlayed() {
         return false;
     }
 
