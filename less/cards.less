@@ -189,38 +189,6 @@
   }
 }
 
-  &.large {
-    &.vertical {
-    }
-
-    &.bowed {
-      width: @card-lg-height;
-    }
-  }
-
-  &.x-large {
-    &.vertical {
-    }
-
-    &.bowed {
-      width: @card-xl-height;
-    }
-  }
-}
-
-.dishonored {
-  position: absolute;
-  width: @card-width;
-  top: @card-height;
-  left: 0px;
-
-  &.bowed {
-    left: @card-height-honor;
-    top: -10px;
-    transform: rotate(90deg);
-  }
-}
-
 .card-order {
   background: rgba(0, 0, 0, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.9);
@@ -351,6 +319,7 @@
     flex-direction: column;
   }
 }
+
 .fatecountertext {
   position: relative;
   left: 0px;
@@ -362,6 +331,12 @@
 }
 
 .fatecounter {
+  box-sizing: border-box;
+  width: 25px;
+  height: 25px;
+}
+
+.honorcounter {
   box-sizing: border-box;
   width: 25px;
   height: 25px;
