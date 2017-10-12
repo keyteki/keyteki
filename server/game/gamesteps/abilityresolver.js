@@ -96,6 +96,9 @@ class AbilityResolver extends BaseStep {
         if(this.cancelled) {
             return;
         }
+        if(this.ability.limit) {
+            this.ability.limit.increment();
+        }
 
         this.ability.payCosts(this.context);
     }

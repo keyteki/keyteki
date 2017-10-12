@@ -33,9 +33,7 @@ class ForcedTriggeredAbility extends TriggeredAbility {
     }
 
     executeHandler(context) {
-        if(this.handler(context) !== false && this.limit) {
-            this.limit.increment();
-        }
+        this.handler(context);
     }
 }
 

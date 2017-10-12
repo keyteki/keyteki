@@ -473,10 +473,6 @@ describe('CardAction', function () {
                 it('should call the handler', function() {
                     expect(this.handler).toHaveBeenCalledWith(this.context);
                 });
-
-                it('should count towards the limit', function() {
-                    expect(this.limitSpy.increment).toHaveBeenCalled();
-                });
             });
         });
     });
