@@ -132,6 +132,13 @@ class Card extends React.Component {
         var counters = {};
 
         counters['card-fate'] = card.fate ? { count: card.fate, fade: card.type === 'attachment', shortName: 'F' } : undefined;
+        if(card.isHonored) {
+            counters['honor-status'] = { count: 1, fade: card.type === 'attachment', shortName: 'H' };
+        } else if(card.isDishonored) {
+            counters['honor-status'] = { count: 2, fade: card.type === 'attachment', shortName: 'D' };
+        } else {
+            counters['honor-status'] = undefined;    
+        }
 
         _.each(card.tokens, (token, key) => {
             counters[key] = { count: token, fade: card.type === 'attachment', shortName: this.shortNames[key] };
@@ -159,20 +166,15 @@ class Card extends React.Component {
     }
 
     getAttachments() {
-        let honorClass = '';
 
         if(this.props.source !== 'play area') {
             return null;
         }
 
-        if(this.props.card.isHonored || this.props.card.isDishonored) {
-            honorClass += ' honor';
-        }
-
         var index = 1;
         var attachments = _.map(this.props.card.attachments, attachment => {
             var returnedAttachment = (<Card key={ attachment.uuid } source={ this.props.source } card={ attachment }
-                className={ 'attachment attachment-' + index + honorClass } wrapped={ false }
+                className={ 'attachment attachment-' + index } wrapped={ false }
                 onMouseOver={ this.props.disableMouseOver ? null : this.onMouseOver.bind(this, attachment) }
                 onMouseOut={ this.props.disableMouseOver ? null : this.onMouseOut }
                 onClick={ this.props.onClick }
@@ -220,14 +222,6 @@ class Card extends React.Component {
         return true;
     }
 
-    showHonor() {
-        if(this.props.card.isHonored || this.props.card.isDishonored) {
-            return true;
-        }
-
-        return false;
-    }
-
     isFacedown() {
         return this.props.card.facedown || !this.props.card.id;
     }
@@ -241,8 +235,6 @@ class Card extends React.Component {
 
     getCard() {
         var cardClass = 'card';
-        var honorClass = '';
-        var honorImage = '';
         var imageClass = 'card-image';
         var cardBack = 'cardback.jpg';
 
@@ -253,7 +245,6 @@ class Card extends React.Component {
         if(this.props.size !== 'normal') {
             cardClass += ' ' + this.props.size;
             imageClass += ' ' + this.props.size;
-            honorClass += ' ' + this.props.size;
         }
 
         /* No custom cards currently
@@ -266,15 +257,12 @@ class Card extends React.Component {
 
         if(this.props.orientation === 'bowed' || this.props.card.bowed) {
             cardClass += ' horizontal';
-            honorClass += ' vertical bowed';
             imageClass += ' vertical bowed';
         } else if(this.props.card.isBroken) {
             cardClass += ' vertical';
-            honorClass += ' vertical';
             imageClass += ' vertical broken';
         } else {
             cardClass += ' vertical';
-            honorClass += ' vertical';
             imageClass += ' vertical';
         }
 
@@ -304,11 +292,6 @@ class Card extends React.Component {
             cardClass += ' ' + this.props.className;
         }
 
-        if(this.props.card.isHonored || this.props.card.isDishonored) {
-            cardClass += ' honor';
-            imageClass += ' honor';
-        }
-
         if(this.props.card.isConflict || this.props.source === 'conflict deck') {
             cardBack = 'conflictcardback.jpg';
         } else if(this.props.card.isDynasty || this.props.source === 'dynasty deck') {
@@ -317,14 +300,6 @@ class Card extends React.Component {
             cardBack = 'provincecardback.jpg';
         } else {
             cardBack = 'cardback.jpg';
-        }
-
-        if(this.props.card.isHonored) {
-            honorClass += ' honored';
-            honorImage = 'honored.png';
-        } else if(this.props.card.isDishonored) {
-            honorClass += ' honored';
-            honorImage = 'dishonored.png';
         }
 
         return (
@@ -342,7 +317,6 @@ class Card extends React.Component {
                     <div>
                         <span className='card-name'>{ this.props.card.name }</span>
                         <img className={ imageClass } src={ '/img/cards/' + (!this.isFacedown() ? (this.props.card.id + '.jpg') : cardBack) } />
-                        { this.showHonor() ? <img className={ honorClass } src={ '/img/' + honorImage } /> : null }
                     </div>
                     { this.showCounters() ? <CardCounters counters={ this.getCountersForCard(this.props.card) } /> : null }
                 </div>
