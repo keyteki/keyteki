@@ -8,7 +8,7 @@ class MatsuBeiona extends DrawCard {
             },
             handler: () => {
                 this.game.addMessage('{0} uses {1}\'s ability to put 2 fate on {1}', this.controller, this);
-                this.fate += 2;
+                this.modifyFate(2);
             }
         });
     }
