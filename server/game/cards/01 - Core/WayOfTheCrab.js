@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class WayOfTheCrab extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
+            condition: () => this.controller.opponent,
             cost: ability.costs.sacrifice(card => card.type === 'character'),
             handler: context => {
                 this.game.promptForSelect(this.controller.opponent, {
