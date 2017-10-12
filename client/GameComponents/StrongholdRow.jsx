@@ -21,7 +21,7 @@ class StrongholdRow extends React.Component {
             return (
                 <div className='stronghold-row'>
                     <div className='deck-cards'>
-                        { this.props.role ? <CardPile className='rolecard' source='role card' cards={ [] } topCard={ this.props.role } disablePopup
+                        { this.props.role && this.props.role.location ? <CardPile className='rolecard' source='role card' cards={ [] } topCard={ this.props.role } disablePopup
                             onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick } /> : <Placeholder /> }
                         <Province isMe={ this.props.isMe } source='stronghold province' cards={ this.props.strongholdProvinceCards } onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onDragDrop={ this.props.onDragDrop } onCardClick={ this.props.onCardClick } />
                         { this.getFavor(this.props.thisPlayer) }
@@ -39,7 +39,7 @@ class StrongholdRow extends React.Component {
                     <Placeholder />
                     { this.getFavor(this.props.otherPlayer) }
                     <Province isMe={ this.props.isMe } source='stronghold province' cards={ this.props.strongholdProvinceCards } onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick } />
-                    { this.props.role ? <CardPile className='rolecard' source='role card' cards={ [] } topCard={ this.props.role } disablePopup
+                    { this.props.role && this.props.role.location ? <CardPile className='rolecard' source='role card' cards={ [] } topCard={ this.props.role } disablePopup
                         onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick } /> : '' }
                 </div>
             </div>

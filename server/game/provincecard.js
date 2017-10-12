@@ -23,6 +23,10 @@ class ProvinceCard extends BaseCard {
         }
         return 0;
     }
+    
+    getElement() {
+        return this.cardData.element;
+    }
 
     modifyProvinceStrength(amount, applying = true) {
         this.strengthModifier += amount;
