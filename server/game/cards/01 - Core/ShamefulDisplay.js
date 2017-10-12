@@ -57,7 +57,7 @@ class ShamefulDisplay extends ProvinceCard {
         let condition = card => cards.includes(card) && card.allowGameAction('dishonor');            
         if(choice === 'Honor') {
             promptTitle = 'Choose a character to honor';
-            condition = card => cards.include(card) && !card.isHonored;
+            condition = card => cards.includes(card) && !card.isHonored;
         }
         this.game.promptForSelect(this.controller, {
             activePromptTitle: promptTitle,
