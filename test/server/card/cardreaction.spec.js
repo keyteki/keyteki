@@ -226,17 +226,6 @@ describe('CardReaction', function () {
                     this.reaction = this.createReaction();
                 });
 
-                describe('and the handler returns a non-false value', function() {
-                    beforeEach(function() {
-                        this.properties.handler.and.returnValue(undefined);
-                        this.reaction.executeHandler(this.context);
-                    });
-
-                    it('should increment the limit', function() {
-                        expect(this.limitSpy.increment).toHaveBeenCalled();
-                    });
-                });
-
                 describe('and the handler returns false', function() {
                     beforeEach(function() {
                         this.properties.handler.and.returnValue(false);
@@ -303,10 +292,6 @@ describe('CardReaction', function () {
                     beforeEach(function() {
                         this.properties.choices['Baz'].and.returnValue(undefined);
                         this.reaction.executeHandler(this.context);
-                    });
-
-                    it('should increment the limit', function() {
-                        expect(this.limitSpy.increment).toHaveBeenCalled();
                     });
                 });
 
