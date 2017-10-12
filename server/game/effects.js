@@ -165,7 +165,7 @@ const Effects = {
             unapply: function(card) {
                 card.modifyProvinceStrength(-value, false);
             }
-        };        
+        };
     },
     dynamicMilitarySkill: function(calculate) {
         return {
@@ -218,6 +218,17 @@ const Effects = {
             // nothing happens when this effect expires.
         },
         isStateDependent: true
+    },
+    discardCardFromPlayEffect: function() {
+        return {
+            apply: function(card, context) {
+                card.controller.discardCardFromPlay(card);
+                context.game.addMessage('{0} is discarded from play', card);
+            },
+            unapply: function() {
+                // nothing happens when this effect expires.
+            }
+        };
     },
     addKeyword: function(keyword) {
         return {
