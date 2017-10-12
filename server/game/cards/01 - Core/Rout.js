@@ -10,7 +10,7 @@ class Rout extends DrawCard {
             target: {
                 activePromptTitle: 'Select a character',
                 cardType: 'character',
-                cardCondition: card => card.location === 'play area' && card.controller !== this.controller && card.getMilitarySkill() < this.getStrongestBushi()
+                cardCondition: card => card.location === 'play area' && this.game.currentConflict.isParticipating(card) && card.controller !== this.controller && card.getMilitarySkill() < this.getStrongestBushi()
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to send {2} home', this.controller, this, context.target);
