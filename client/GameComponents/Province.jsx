@@ -48,7 +48,7 @@ class Province extends React.Component {
     }
 
     render() {
-        var className = 'panel province ';
+        var className = 'panel province ' + this.props.size;
         var cardCount = this.props.cardCount || (this.props.cards ? this.props.cards.length : '0');
         var headerText = this.props.title ? this.props.title + ' (' + (cardCount) + ')' : '';
         var provinceCard = this.props.provinceCard || _.find(this.props.cards, card => {
