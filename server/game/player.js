@@ -602,8 +602,7 @@ class Player extends Spectator {
         return !_.any(this.game.getPlayers(), player => {
             return player.anyCardsInPlay(c => (
                 c.name === card.name
-                && ((c.owner === this || c.controller === this)
-                    || (c.owner === card.owner))
+                && (c.owner === this || c.controller === this)
                 && c !== card
             ));
         });
