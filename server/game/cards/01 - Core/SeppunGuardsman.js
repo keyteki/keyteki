@@ -3,7 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class SeppunGuardsman extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            condition: () => this.game.getOtherPlayer(this.controller).imperialFavor !== '',
+            condition: () => this.controller.opponent && this.controller.opponent.imperialFavor !== '',
             match: this,
             effect: ability.effects.cannotParticipateAsAttacker()
         });
