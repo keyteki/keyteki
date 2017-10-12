@@ -50,11 +50,13 @@ class Ring {
     claimRing(player) {
         this.claimed = true;
         this.claimedBy = player.name;
+        this.contested = false;
     }
 
     resetRing() {
         this.claimed = false;
         this.claimedBy = '';
+        this.contested = false;
     }
 
     getState() {
