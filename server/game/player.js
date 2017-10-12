@@ -168,6 +168,7 @@ class Player extends Spectator {
 
     attachStronghold() {
         this.moveCard(this.stronghold, 'stronghold province');
+        this.role.moveTo('role');
     }
 
     fillProvinces() {
