@@ -11,6 +11,18 @@
 .generate-wrappers(@n, @i: 1) when (@i =< @n) {
   .wrapper-@{i} {
     margin-left: @attachment-offset*@i;
+
+  &.small {
+      margin-left: -(@attachment-offset-sm)*@i;
+    }
+
+    &.large {
+      margin-left: -(@attachment-offset-lg)*@i;
+    }
+
+    &.x-large {
+      margin-left: -(@attachment-offset-xl)*@i;
+    }
   }
   .generate-wrappers(@n, (@i + 1));
 }
@@ -28,31 +40,58 @@
   overflow: hidden;
   z-index: @layer-cards;
 
+  &.small {
+    &.vertical {
+      height: @card-sm-height;
+      width: @card-sm-width;
+
+    }
+
+    &.horizontal {
+      height: @card-sm-width;
+      width: @card-sm-height;
+
+    }
+  }
+
+  &.large {
+    &.vertical {
+      height: @card-lg-height;
+      width: @card-lg-width;
+
+    }
+
+    &.horizontal {
+      height: @card-lg-width;
+      width: @card-lg-height;
+
+    }
+  }
+
+  &.x-large {
+    &.vertical {
+      height: @card-xl-height;
+      width: @card-xl-width;
+
+    }
+
+    &.horizontal {
+      height: @card-xl-width;
+      width: @card-xl-height;
+
+    }
+  }
+
   &.vertical {
     height: @card-height;
     width: @card-width;
 
-    &.honor {
-      height: @card-height-honor;
-
-      &.attachment {
-        height: @card-height;
-        width: @card-width;
-      }
-    }
   }
 
   &.horizontal {
     height: @card-width;
     width: @card-height;
 
-    &.honor {
-      width: @card-height-honor;
-
-      &.attachment {
-        width: @card-height;      
-      }
-    }
 
   }
 
@@ -94,6 +133,18 @@
   position: absolute;
   top: 0;
 
+  &.small {
+    &.vertical {
+      height: @card-sm-height;
+      width: @card-sm-width;      
+    }
+
+    &.horizontal {
+      height: @card-sm-width;
+      width: @card-sm-height;
+    }
+  }
+
   &.vertical {
     height: @card-height;
     width: @card-width;
@@ -104,96 +155,49 @@
     width: @card-height;
   }
 
+  &.large {
+    &.vertical {
+      height: @card-lg-height;
+      width: @card-lg-width;      
+    }
+
+    &.horizontal {
+      height: @card-lg-width;
+      width: @card-lg-height;
+    }
+
+    &.bowed {
+      left: 19px;
+      top: -20px;
+    }
+  }
+
+  &.x-large {
+    &.vertical {
+      height: @card-xl-height;
+      width: @card-xl-width;      
+    }
+
+    &.horizontal {
+      height: @card-xl-width;
+      width: @card-xl-height;
+    }
+
+    &.bowed {
+      left: 24px;
+      top: -26px;
+    }
+  }
+
   &.bowed {
     left: 9px;
     top: -10px;
     transform: rotate(90deg);
 
-    &.honor {
-      left: 53px;
-    }
   }
   
   &.broken {
       transform: rotate(180deg);
-  }
-}
-
-.honor .card-image {
-  left: 0px;
-  position: absolute;
-  top: 0;
-
-  &.vertical {
-    height: @card-height;
-    width: @card-width;
-  }
-
-  &.horizontal {
-    height: @card-width;
-    width: @card-height;
-  }
-
-  &.bowed {
-    left: 53px;
-    top: -10px;
-    transform: rotate(90deg);
-
-    &.honor {
-      left: 53px;
-    }
-  }
-}
-
-.honor.attachment .card-image {
-  left: 0px;
-  position: absolute;
-  top: 0;
-
-  &.vertical {
-    height: @card-height;
-    width: @card-width;
-  }
-
-  &.horizontal {
-    height: @card-width;
-    width: @card-height;
-  }
-
-  &.bowed {
-    left: 9px;
-    top: -10px;
-    transform: rotate(90deg);
-
-    &.honor {
-      left: 53px;
-    }
-  }
-}
-
-.honored {
-  position: absolute;
-  width: @card-width;
-  top: @card-height;
-  left: 0px;
-
-  &.bowed {
-    left: -10px;
-    top: 11px;
-    transform: rotate(90deg);
-  } 
-}
-
-.dishonored {
-  position: absolute;
-  width: @card-width;
-  top: @card-height;
-  left: 0px;
-
-  &.bowed {
-    left: @card-height-honor;
-    top: -10px;
-    transform: rotate(90deg);
   }
 }
 
@@ -261,9 +265,19 @@
 .attachment {
   margin-top: -(@card-height);
 
-  &.honor {
-    margin-top: -(@card-height-honor);
-    margin-bottom: 43px;
+  &.small {
+    margin-top: -(@card-sm-height); 
+
+  }
+
+  &.large {
+    margin-top: -(@card-lg-height);  
+
+  }
+
+  &.x-large {
+    margin-top: -(@card-xl-height); 
+
   }
 
 }
@@ -272,15 +286,40 @@
   .attachment-@{i} {
     margin-left: -(@attachment-offset)*@i;
     z-index: @layer-cards - @i;
+
+    &.small {
+      margin-left: -(@attachment-offset-sm)*@i;
+    }
+
+    &.large {
+      margin-left: -(@attachment-offset-lg)*@i;
+    }
+
+    &.x-large {
+      margin-left: -(@attachment-offset-xl)*@i;
+    }
   }
+
   .attachment-@{i}.horizontal {
     margin-left: -(@attachment-offset)*@i;
     margin-top: -(@card-height)-(@attachment-offset);
     z-index: @layer-cards - @i;
 
-    &.honor {
-      margin-left: 53px-((@attachment-offset)*@i);
+    &.small {
+      margin-left: -(@attachment-offset-sm)*@i;
+      margin-top: -(@card-sm-height)-(@attachment-offset-sm);
     }
+
+    &.large {
+      margin-left: -(@attachment-offset-lg)*@i;
+      margin-top: -(@card-lg-height)-(@attachment-offset-lg);
+    }
+
+    &.x-large {
+      margin-left: -(@attachment-offset-xl)*@i;
+      margin-top: -(@card-xl-height)-(@attachment-offset-xl);
+    }
+
   }
   .generate-attachments(@n, (@i + 1));
 }
@@ -320,6 +359,7 @@
     flex-direction: column;
   }
 }
+
 .fatecountertext {
   position: relative;
   left: 0px;
@@ -331,6 +371,12 @@
 }
 
 .fatecounter {
+  box-sizing: border-box;
+  width: 25px;
+  height: 25px;
+}
+
+.honorcounter {
   box-sizing: border-box;
   width: 25px;
   height: 25px;

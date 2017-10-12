@@ -345,11 +345,11 @@ export class InnerGameBoard extends React.Component {
 
     getRings() {
         return (<div className='panel ring-panel'>
-            <Ring ring={ this.props.currentGame.rings.air } onClick={ this.onRingClick } />
-            <Ring ring={ this.props.currentGame.rings.earth } onClick={ this.onRingClick } />
-            <Ring ring={ this.props.currentGame.rings.fire } onClick={ this.onRingClick } />
-            <Ring ring={ this.props.currentGame.rings.void } onClick={ this.onRingClick } />
-            <Ring ring={ this.props.currentGame.rings.water } onClick={ this.onRingClick } />
+            <Ring ring={ this.props.currentGame.rings.air } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } />
+            <Ring ring={ this.props.currentGame.rings.earth } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } />
+            <Ring ring={ this.props.currentGame.rings.fire } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } />
+            <Ring ring={ this.props.currentGame.rings.void } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } />
+            <Ring ring={ this.props.currentGame.rings.water } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } />
         </div>);
     }
 
@@ -364,7 +364,8 @@ export class InnerGameBoard extends React.Component {
                     onMouseOver={ this.onMouseOver } 
                     onMouseOut={ this.onMouseOut } 
                     disableMouseOver disablePopup
-                    onCardClick={ this.onCardClick } />
+                    onCardClick={ this.onCardClick } 
+                    size={ this.props.user.settings.cardSize } />
             </div>
             { this.getRings() }
             <div className='province-group our-side'>
@@ -376,7 +377,8 @@ export class InnerGameBoard extends React.Component {
                     onMouseOut={ this.onMouseOut } 
                     onCardClick={ this.onCardClick } 
                     onDragDrop={ this.onDragDrop } 
-                    closeOnClick />
+                    closeOnClick 
+                    size={ this.props.user.settings.cardSize } />
             </div>
             <HonorFan value={ thisPlayer.showBid } />
         </div>);
@@ -499,7 +501,8 @@ export class InnerGameBoard extends React.Component {
                                 province4Cards={ otherPlayer ? otherPlayer.provinces.four : [] }
                                 onCardClick={ this.onCardClick }
                                 onMouseOver={ this.onMouseOver }
-                                onMouseOut={ this.onMouseOut } />
+                                onMouseOut={ this.onMouseOut } 
+                                cardSize={ this.props.user.settings.cardSize } />
                         </div>
                         <div className='player-stronghold-row'>
                             <StrongholdRow
@@ -509,6 +512,7 @@ export class InnerGameBoard extends React.Component {
                                 otherPlayer= { otherPlayer }
                                 strongholdProvinceCards={ otherPlayer ? otherPlayer.strongholdProvince : [] }
                                 role={ otherPlayer ? otherPlayer.role : null }
+                                cardSize={ this.props.user.settings.cardSize }
                             />
                         </div>
                         <div className='board-inner'>
@@ -531,7 +535,8 @@ export class InnerGameBoard extends React.Component {
                                 onMouseOut={ this.onMouseOut }
                                 strongholdProvinceCards={ thisPlayer.strongholdProvince }
                                 role={ thisPlayer.role }
-                                thisPlayer ={ thisPlayer } />
+                                thisPlayer ={ thisPlayer } 
+                                cardSize={ this.props.user.settings.cardSize } />
                         </div>
                         <div className='player-deck-row our-side'>
                             <DynastyRow isMe={ !this.state.spectating }
@@ -556,7 +561,8 @@ export class InnerGameBoard extends React.Component {
                                 showDynastyDeck={ this.state.showDynastyDeck }
                                 onDragDrop={ this.onDragDrop }
                                 spectating={ this.state.spectating }
-                                onMenuItemClick={ this.onMenuItemClick } />
+                                onMenuItemClick={ this.onMenuItemClick } 
+                                cardSize={ this.props.user.settings.cardSize } />
                         </div>
                     </div>
                     <div className='right-side'>

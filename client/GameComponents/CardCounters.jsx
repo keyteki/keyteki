@@ -4,6 +4,7 @@ import _ from 'underscore';
 
 import Counter from './Counter.jsx';
 import FateCounter from './FateCounter.jsx';
+import HonorCounter from './HonorCounter.jsx';
 
 class CardCounters extends React.Component {
     render() {
@@ -18,6 +19,28 @@ class CardCounters extends React.Component {
                 return (<FateCounter key={ key } 
                     name={ key } 
                     value={ counter.count } 
+                    fade={ counter.fade } 
+                    cancel={ counter.cancel } 
+                    shortName={ counter.shortName } />);
+            }
+
+            if(key === 'honor-status' && counter.count === 1) {
+                return (<HonorCounter key={ key } 
+                    name={ key } 
+                    value={ counter.count } 
+                    honored={ true }
+                    dishonored={ false }
+                    fade={ counter.fade } 
+                    cancel={ counter.cancel } 
+                    shortName={ counter.shortName } />);
+            }
+
+            if(key === 'honor-status' && counter.count === 2) {
+                return (<HonorCounter key={ key } 
+                    name={ key } 
+                    value={ counter.count } 
+                    honored={ false }
+                    dishonored={ true }
                     fade={ counter.fade } 
                     cancel={ counter.cancel } 
                     shortName={ counter.shortName } />);
