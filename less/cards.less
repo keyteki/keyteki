@@ -11,6 +11,18 @@
 .generate-wrappers(@n, @i: 1) when (@i =< @n) {
   .wrapper-@{i} {
     margin-left: @attachment-offset*@i;
+
+  &.small {
+      margin-left: -(@attachment-offset-sm)*@i;
+    }
+
+    &.large {
+      margin-left: -(@attachment-offset-lg)*@i;
+    }
+
+    &.x-large {
+      margin-left: -(@attachment-offset-xl)*@i;
+    }
   }
   .generate-wrappers(@n, (@i + 1));
 }
@@ -254,17 +266,17 @@
   margin-top: -(@card-height);
 
   &.small {
-    margin-top: @attachment-offset - @card-sm-height; 
+    margin-top: -(@card-sm-height); 
 
   }
 
   &.large {
-    margin-top: @attachment-offset - @card-lg-height;  
+    margin-top: -(@card-lg-height);  
 
   }
 
   &.x-large {
-    margin-top: @attachment-offset - @card-xl-height; 
+    margin-top: -(@card-xl-height); 
 
   }
 
@@ -274,11 +286,39 @@
   .attachment-@{i} {
     margin-left: -(@attachment-offset)*@i;
     z-index: @layer-cards - @i;
+
+    &.small {
+      margin-left: -(@attachment-offset-sm)*@i;
+    }
+
+    &.large {
+      margin-left: -(@attachment-offset-lg)*@i;
+    }
+
+    &.x-large {
+      margin-left: -(@attachment-offset-xl)*@i;
+    }
   }
+
   .attachment-@{i}.horizontal {
     margin-left: -(@attachment-offset)*@i;
     margin-top: -(@card-height)-(@attachment-offset);
     z-index: @layer-cards - @i;
+
+    &.small {
+      margin-left: -(@attachment-offset-sm)*@i;
+      margin-top: -(@card-sm-height)-(@attachment-offset-sm);
+    }
+
+    &.large {
+      margin-left: -(@attachment-offset-lg)*@i;
+      margin-top: -(@card-lg-height)-(@attachment-offset-lg);
+    }
+
+    &.x-large {
+      margin-left: -(@attachment-offset-xl)*@i;
+      margin-top: -(@card-xl-height)-(@attachment-offset-xl);
+    }
 
   }
   .generate-attachments(@n, (@i + 1));
