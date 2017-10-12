@@ -1,10 +1,12 @@
+const _ = require('underscore');
+
 const DrawCard = require('../../drawcard.js');
 
 class Rout extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Choose a character – send it home.',
-            condition: () => this.game.currentConflict,
+            condition: () => this.game.currentConflict && this.hasBushiPresent(),
             target: {
                 activePromptTitle: 'Select a character',
                 cardType: 'character',
@@ -18,12 +20,36 @@ class Rout extends DrawCard {
     }
 
     hasBushiPresent() {
+        if(this.game.currentConflict.attackingPlayer === this.controller) {
+            let present = _.size(_.filter(this.game.currentConflict.attackers, card => card.hasTrait('bushi')));
+            if(present > 0) {
+                return true;
+            }
+        }
+        if(this.game.currentConflict.defendingPlayer === this.controller) {
+            let present = _.size(_.filter(this.game.currentConflict.attackers, card => card.hasTrait('bushi')));
+            if(present > 0) {
+                return true;
+            }
+        }
         return false;
     }
 
     getStrongestBushi() {
-        return 10;
-        //TODO: Get the strongest bushi character in the conflict.
+        if(this.game.currentConflict.attackingPlayer === this.controller) {
+            let characters = _.filter(this.game.currentConflict.attackers, card => card.hasTrait('bushi'));
+            let highestSkilledCharacter = _.max(characters, function(character) {
+                return character.getMilitarySkill();
+            });
+            return highestSkilledCharacter.getMilitarySkill();
+        }
+        if(this.game.currentConflict.defendingPlayer === this.controller) {
+            let characters = _.filter(this.game.currentConflict.attackers, card => card.hasTrait('bushi'));
+            let highestSkilledCharacter = _.max(characters, function(character) {
+                return character.getMilitarySkill();
+            });
+            return highestSkilledCharacter.getMilitarySkill();
+        }
     }
 }
 
