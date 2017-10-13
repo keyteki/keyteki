@@ -31,7 +31,6 @@ gameService.getAllGames(args[0], args[1]).then(games => {
     let factionAlliances = {};
 
     _.each(games, game => {
-        console.log(game);
         if(_.size(game.players) !== 2) {
             rejected.singlePlayer++;
 
