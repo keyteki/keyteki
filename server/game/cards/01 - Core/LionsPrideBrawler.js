@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const DrawCard = require('../../drawcard.js');
 
 class LionsPrideBrawler extends DrawCard {
@@ -10,6 +8,7 @@ class LionsPrideBrawler extends DrawCard {
             target: {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',
+                gameAction: 'bow',
                 cardCondition: card => !card.bowed && card.getMilitarySkill() <= this.getMilitarySkill()
             },
             handler: context => {
