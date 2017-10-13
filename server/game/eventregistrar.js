@@ -53,6 +53,7 @@ class EventRegistrar {
         if(!method) {
             throw new Error(`Cannot bind event handler for ${eventName}`);
         }
+
         let boundHandler = method.bind(this.context);
         this.game.on(eventName, boundHandler);
         this.events.push({ name: eventName, handler: boundHandler });
