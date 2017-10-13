@@ -13,7 +13,7 @@ class LionsPrideBrawler extends DrawCard {
                 cardCondition: card => !card.bowed && card.getMilitarySkill() <= this.getMilitarySkill()
             },
             handler: context => {
-                this.game.addMessage('{0} uses {1} to bow {2}', this.controller, this), context.target.getGlory();
+                this.game.addMessage('{0} uses {1} to bow {2}', this.controller, this, context.target);
                 this.controller.bowCard(context.target);
             }
         });
