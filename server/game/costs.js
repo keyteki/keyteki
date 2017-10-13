@@ -466,6 +466,7 @@ const Costs = {
     dishonorCharacter: function(condition) {
         var fullCondition = (card, context) => (
             card.location === 'play area' &&
+            card.type === 'character' &&
             card.controller === context.player &&
             card.allowGameAction('dishonor') &&
             condition(card)
