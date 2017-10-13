@@ -6,7 +6,7 @@ class CaptiveAudience extends DrawCard {
             cost: ability.costs.payHonor(1),
             condition: () => this.game.currentConflict && this.game.currentConflict.conflictType === 'political',
             handler: () => {
-                this.game.addMessage('{0} uses {1} to switch the conflict type to military', this.controller, this);
+                this.game.addMessage('{0} plays {1}, losing 1 honor to switch the conflict type to military', this.controller, this);
                 this.game.currentConflict.switchType();
             }
         });

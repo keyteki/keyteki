@@ -628,7 +628,7 @@ class Player extends Spectator {
         this.moveCard(card, 'play area');
         card.controller = this;
 
-        if(intoConflict && this.game.currentConflict && card.allowGameAction('play into conflict')) {
+        if(intoConflict && this.game.currentConflict && card.allowGameAction('playIntoConflict')) {
             if(this.game.currentConflict.attackingPlayer === this) {
                 this.game.currentConflict.addAttacker(card);
             } else {
