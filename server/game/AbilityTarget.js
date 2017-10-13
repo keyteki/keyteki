@@ -16,6 +16,10 @@ class AbilityTarget {
     resolve(context) {
         let otherProperties = _.omit(this.properties, 'cardCondition');
         let result = { resolved: false, name: this.name, value: null };
+        let player = context.player;
+        if(this.properties.player && this.properties.player === 'opponent') {
+            player = player.opponent;
+        }
         let promptProperties = {
             context: context,
             source: context.source,
@@ -31,10 +35,10 @@ class AbilityTarget {
             }
         };
         if(this.properties.mode === 'ring') {
-            context.game.promptForRingSelect(context.player, _.extend(promptProperties, otherProperties));
+            context.game.promptForRingSelect(player, _.extend(promptProperties, otherProperties));
             return result;
         } else if(this.properties.mode !== 'select') {
-            context.game.promptForSelect(context.player, _.extend(promptProperties, otherProperties));
+            context.game.promptForSelect(player, _.extend(promptProperties, otherProperties));
             return result;
         }
         otherProperties.choices = _.filter(_.keys(otherProperties.choices), key => otherProperties.choices[key]());
@@ -44,11 +48,9 @@ class AbilityTarget {
                 result.value = choice;
             });
         });
-        let player = context.player.opponent;
-        if(otherProperties.player === 'self') {
+        if(otherProperties.player !== 'opponent') {
             otherProperties.choices.push('Cancel');
             otherProperties.handlers.push(() => result.resolved = true);
-            player = context.player;
         }
         context.game.promptWithHandlerMenu(player, _.extend(promptProperties, otherProperties));
         return result;
