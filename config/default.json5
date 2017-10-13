@@ -7,7 +7,7 @@
 
     /*
      * Other global configurations used, but not specified, include:
-     *  - sentryDsn (for development only)
+     *  - sentryDsn (for production only)
      */
 
     lobby: {
