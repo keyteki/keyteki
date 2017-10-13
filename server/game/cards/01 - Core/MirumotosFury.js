@@ -13,7 +13,7 @@ class MirumotosFury extends DrawCard {
                 cardCondition: card => this.game.currentConflict.isParticipating(card) && card.getGlory() <= _.size(this.game.allCards.filter(card => card.isProvince && card.facedown && card.controller === this.controller))
             },
             handler: context => {
-                this.game.addMessage('{0} uses {1} to bow {2}', this.controller, this);
+                this.game.addMessage('{0} uses {1} to bow {2}', this.controller, this, context.target);
                 this.controller.bowCard(context.target);
             }
         });
