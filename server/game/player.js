@@ -1268,8 +1268,31 @@ class Player extends Spectator {
 
         this.game.addMessage('{0} plays {1} {2}with {3} additional fate', this, card, inConflict ? 'into the conflict ' : '', fate);
     }
-
-    resolveRingEffects(element) {
+    
+    resolveRingEffects(elements, message = '') {
+        if(!_.isArray(elements)) {
+            this.resolveRingEffectForElement(elements);
+            return;
+        } else if(elements.length === 1) {
+            this.game.addMessage('{0} chooses that the rings will resolve in the following order: ' + message + elements[0], this.game.getFirstPlayer());
+            this.game.queueSimpleStep(() => this.resolveRingEffectForElement(elements[0]));
+            return;
+        } 
+        let handlers = _.map(elements, element => {
+            return () => {
+                this.game.queueSimpleStep(() => this.resolveRingEffects(_.without(elements, element), message + element + ', '));
+                this.game.queueSimpleStep(() => this.resolveRingEffectForElement(element));
+            };
+        });
+        this.game.promptWithHandlerMenu(this.game.getFirstPlayer(), {
+            activePromptTitle: 'Choose ring resolution order',
+            source: 'Ring resolution order',
+            choices: elements,
+            handlers: handlers
+        });
+    }
+    
+    resolveRingEffectForElement(element) {
         if(element === '') {
             return;
         }

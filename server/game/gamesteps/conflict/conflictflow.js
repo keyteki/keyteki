@@ -59,7 +59,7 @@ class ConflictFlow extends BaseStep {
         }];
         
         let ring = this.game.rings[this.conflict.conflictRing];
-        this.conflict.elements.push(this.conflict.conflictRing);
+        this.conflict.addElement(this.conflict.conflictRing);
         this.conflict.attackingPlayer.conflicts.perform(this.conflict.conflictType);
         _.each(this.conflict.attackers, card => card.inConflict = true);
         if(ring.fate > 0) {
@@ -277,29 +277,14 @@ class ConflictFlow extends BaseStep {
         }
 
         if(this.conflict.isAttackerTheWinner()) {
-            let menuTitle = 'Do you want to resolve the ' + this.conflict.conflictRing + ' ring?';
-            let waitingPromptTitle = 'Waiting for opponent to use decide whether to resolve the ' + this.conflict.conflictRing + ' ring';
-            this.game.promptWithMenu(this.conflict.winner, this, {
-                activePrompt: {
-                    promptTitle: 'Resolve Ring',
-                    menuTitle: menuTitle,
-                    buttons: [
-                        { text: 'Yes', arg: 'Yes', method: 'triggerRingResolutionEvent' },
-                        { text: 'No', arg: 'No', method: 'triggerRingResolutionEvent' }
-                    ]
-                },
-                waitingPromptTitle: waitingPromptTitle
+            this.game.promptWithHandlerMenu(this.conflict.winner, this, {
+                activePromptTitle: 'Do you want to resolve the conflict ring?',
+                waitingPromptTitle: 'Waiting for opponent to use decide whether to resolve the conflict ring',
+                source: 'Resolve Ring Effects',
+                choices: ['Yes', 'No'],
+                handlers: [() => this.conflict.resolveRingEffects(this.conflict.winner), () => true]
             });
         }       
-    }
-    
-    triggerRingResolutionEvent(player, arg) {
-        if(arg !== 'No') {
-            this.game.raiseEvent('onResolveRingEffects', { player: player, conflict: this.conflict }, () => {
-                player.resolveRingEffects(this.conflict.conflictRing);
-            });
-        }
-        return true;
     }
     
     claimRing() {

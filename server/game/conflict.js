@@ -91,6 +91,35 @@ class Conflict {
         return this.elements.includes(element);
     }
     
+    getElements() {
+        return _.uniq(this.elements);
+    }
+    
+    addElement(element) {
+        this.elements.push(element);
+    }
+    
+    removeElement(element) {
+        let index = _.indexOf(this.elements, element);
+        this.elements.splice(index, 1);
+    }
+    
+    resolveRingEffects(player) {
+        let elements = this.getElements();
+        if(this.elementsToResolve >= elements.length) {
+            player.resolveRingEffects(elements);
+            return;
+        }
+        this.game.promptForRingSelect(player, {
+            activePromptTitle: 'Choose a ring effect to resolve',
+            ringCondition: ring => elements.includes(ring.element),
+            onSelect: (player, ring) => {
+                player.resolveRingEffectForElement(ring.element);
+                return true;
+            }
+        });
+    }
+    
     switchType() {
         let ring = _.find(this.game.rings, ring => ring.element === this.conflictRing);
         ring.flipConflictType();
