@@ -1,10 +1,11 @@
 const DrawCard = require('../../drawcard.js');
 
 class KitsukiInvestigator extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Look at opponent\'s hand',
             condition: () => this.game.currentConflict && this.game.currentConflict.isParticipating(this) && this.game.currentConflict.conflictType === 'political',
+            limit: ability.limit.perConflict(1),
             handler: () => {
                 this.game.promptWithHandlerMenu(this.controller, {
                     activePromptTitle: 'Choose card to discard',
