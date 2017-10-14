@@ -282,7 +282,7 @@ class ConflictFlow extends BaseStep {
                 waitingPromptTitle: 'Waiting for opponent to use decide whether to resolve the conflict ring',
                 source: 'Resolve Ring Effects',
                 choices: ['Yes', 'No'],
-                handlers: [() => this.conflict.resolveRingEffects(this.conflict.winner), () => true]
+                handlers: [() => this.conflict.resolveRingEffects(), () => true]
             });
         }       
     }

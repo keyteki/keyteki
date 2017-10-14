@@ -104,7 +104,7 @@ class Conflict {
         this.elements.splice(index, 1);
     }
     
-    resolveRingEffects(player) {
+    resolveRingEffects(player = this.attackingPlayer) {
         let elements = this.getElements();
         if(this.elementsToResolve >= elements.length) {
             player.resolveRingEffects(elements);
