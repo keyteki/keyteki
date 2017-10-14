@@ -11,7 +11,7 @@ class SecretCache extends ProvinceCard {
                 let myTopFive = this.controller.conflictDeck.first(5);
                 if(myTopFive.length > 0) {
                     this.game.addMessage('{0} uses {1} to look at the top {2} of their conflict deck', 
-                        this.controller, this, myTopFive.length > 1 ? myTopFive + ' cards' : 'card');
+                        this.controller, this, myTopFive.length > 1 ? myTopFive.length + ' cards' : 'card');
                     this.game.promptWithMenu(this.controller, this, {
                         source: this,
                         activePrompt: { 
