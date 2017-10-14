@@ -1269,19 +1269,20 @@ class Player extends Spectator {
         this.game.addMessage('{0} plays {1} {2}with {3} additional fate', this, card, inConflict ? 'into the conflict ' : '', fate);
     }
     
-    resolveRingEffects(elements, message = '') {
+    resolveRingEffects(elements, queue = []) {
         if(!_.isArray(elements)) {
             this.resolveRingEffectForElement(elements);
             return;
         } else if(elements.length === 1) {
-            this.game.addMessage('{0} chooses that the rings will resolve in the following order: ' + message + elements[0], this.game.getFirstPlayer());
-            this.game.queueSimpleStep(() => this.resolveRingEffectForElement(elements[0]));
+            queue.push(elements[0]);
+            this.game.addMessage('{0} chooses that the rings will resolve in the following order: {1}', this.game.getFirstPlayer(), queue);
+            _.each(queue, element => this.game.queueSimpleStep(() => this.resolveRingEffectForElement(element)));
             return;
         } 
         let handlers = _.map(elements, element => {
             return () => {
-                this.game.queueSimpleStep(() => this.resolveRingEffects(_.without(elements, element), message + element + ', '));
-                this.game.queueSimpleStep(() => this.resolveRingEffectForElement(element));
+                queue.push(element);
+                this.game.queueSimpleStep(() => this.resolveRingEffects(_.without(elements, element), queue));
             };
         });
         this.game.promptWithHandlerMenu(this.game.getFirstPlayer(), {
