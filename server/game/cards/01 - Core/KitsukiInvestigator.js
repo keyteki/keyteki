@@ -4,8 +4,9 @@ class KitsukiInvestigator extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Look at opponent\'s hand',
+            max: ability.limit.perConflict(1),
             condition: () => this.game.currentConflict && this.game.currentConflict.isParticipating(this) && this.game.currentConflict.conflictType === 'political',
-            limit: ability.limit.perConflict(1),
+            cost: ability.costs.payFateToRing(1),
             handler: () => {
                 this.game.promptWithHandlerMenu(this.controller, {
                     activePromptTitle: 'Choose card to discard',
