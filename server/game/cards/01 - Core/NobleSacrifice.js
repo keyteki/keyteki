@@ -8,6 +8,7 @@ class NobleSacrifice extends DrawCard {
             target: {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',
+                gameAction: 'discardCardFromPlay',
                 cardCondition: card => card.location === 'play area' && card.isDishonored
             },
             handler: context => {

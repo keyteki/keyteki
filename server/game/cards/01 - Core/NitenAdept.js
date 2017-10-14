@@ -9,6 +9,7 @@ class NitenAdept extends DrawCard {
             target: {
                 activePromptTitle: 'Choose a character to bow',
                 cardType: 'character',
+                gameAction: 'bow',
                 cardCondition: card => card.attachments && card.attachments.size() === 0 && card.isParticipating() && !card.bowed
             },
             handler: context => {

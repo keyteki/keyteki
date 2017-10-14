@@ -8,7 +8,8 @@ class Assassination extends DrawCard {
             max: ability.limit.perRound(1),
             target: {
                 cardType: 'character',
-                cardCondition: card => card.location === 'play area' && card.getCost() < 3 && card.allowGameAction('discardCardFromPlay')
+                gameAction: 'discardCardFromPlay',
+                cardCondition: card => card.location === 'play area' && card.getCost() < 3
             },
             handler: context => {
                 this.game.addMessage('{0} pays 3 honor to use {1} to discard {2}', this.controller, this, context.target);

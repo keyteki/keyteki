@@ -10,6 +10,7 @@ class Outwit extends DrawCard {
             target: {
                 activePromptTitle: 'Select a character',
                 cardType: 'character',
+                gameAction: 'sendHome',
                 cardCondition: card => card.location === 'play area' && this.game.currentConflict.isParticipating(card) && card.controller !== this.controller && card.getPoliticalSkill() < this.getStrongestCourtier()
             },
             handler: context => {

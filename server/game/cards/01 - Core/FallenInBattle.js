@@ -10,6 +10,7 @@ class FallenInBattle extends DrawCard {
             clickToActivate: true,
             target: {
                 cardType: 'character',
+                gameAction: 'discardCardFromPlay',
                 cardCondition: card => this.game.currentConflict.isParticipating(card)
             },
             handler: context => {
