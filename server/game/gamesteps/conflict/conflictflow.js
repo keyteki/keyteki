@@ -277,7 +277,7 @@ class ConflictFlow extends BaseStep {
         }
 
         if(this.conflict.isAttackerTheWinner()) {
-            this.game.promptWithHandlerMenu(this.conflict.winner, this, {
+            this.game.promptWithHandlerMenu(this.conflict.winner, {
                 activePromptTitle: 'Do you want to resolve the conflict ring?',
                 waitingPromptTitle: 'Waiting for opponent to use decide whether to resolve the conflict ring',
                 source: 'Resolve Ring Effects',
