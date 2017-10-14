@@ -8,6 +8,7 @@ class SolemnScholar extends DrawCard {
             target: {
                 activePromptTitle: 'Select a character',
                 cardType: 'character',
+                gameAction: 'bow',
                 cardCondition: card => card.location === 'play area' && this.game.currentConflict && this.game.currentConflict.isAttacking(card)
             },
             handler: context => {

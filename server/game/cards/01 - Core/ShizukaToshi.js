@@ -8,10 +8,10 @@ class ShizukaToshi extends StrongholdCard {
             condition: () => this.game.currentConflict && this.game.currentConflict.conflictType === 'political',
             target: {
                 cardType: 'character',
+                gameAction: 'bow',
                 cardCondition: card => {
                     return (card.isParticipating() &&
-                            card.getPoliticalSkill() < 3 &&
-                            card.allowGameAction('bow'));
+                            card.getPoliticalSkill() < 3);
                 }
             },
             handler: context => {

@@ -10,6 +10,7 @@ class StrengthInNumbers extends DrawCard {
             target: {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',
+                gameAction: 'sendHome',
                 cardCondition: card => card.location === 'play area' && this.game.currentConflict.isDefending(card) && card.getGlory() <= _.size(_.filter(this.game.currentConflict.attackers))
             },
             handler: context => {
