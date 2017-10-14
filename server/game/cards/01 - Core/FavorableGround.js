@@ -9,6 +9,7 @@ class FavorableGround extends DrawCard {
             target: {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',
+                gameAction: 'moveToConflict',
                 cardCondition: card => card.location === 'play area' && card.controller === this.controller
             },
             handler: context => {

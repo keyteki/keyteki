@@ -928,8 +928,8 @@ class Game extends EventEmitter {
             return {
                 name: player.name,
                 faction: player.faction.name || player.faction.value,
-                agenda: player.agenda ? player.agenda.name : undefined,
-                power: player.getTotalHonor()
+                alliance: player.alliance ? player.alliance.name : undefined,
+                honor: player.getTotalHonor()
             };
         });
 

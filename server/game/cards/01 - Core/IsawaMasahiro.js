@@ -9,6 +9,7 @@ class IsawaMasahiro extends DrawCard {
             target: {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',
+                gameAction: 'discardCardFromPlay',
                 cardCondition: card => card.location === 'play area' && card.getCost() <= 2 && this.game.currentConflict.isParticipating(card)
             },
             handler: context => {

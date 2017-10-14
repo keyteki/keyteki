@@ -59,6 +59,7 @@ class ConflictFlow extends BaseStep {
         }];
         
         let ring = this.game.rings[this.conflict.conflictRing];
+        ring.contested = true;
         this.conflict.addElement(this.conflict.conflictRing);
         this.conflict.attackingPlayer.conflicts.perform(this.conflict.conflictType);
         _.each(this.conflict.attackers, card => card.inConflict = true);
@@ -73,7 +74,6 @@ class ConflictFlow extends BaseStep {
             });
             this.game.addFate(this.conflict.attackingPlayer, ring.fate);
             ring.removeFate();
-            ring.contested = true;
         }
 
         this.game.addMessage('{0} is initiating a {1} conflict at {2}, contesting the {3} ring', this.conflict.attackingPlayer, this.conflict.conflictType, this.conflict.conflictProvince, this.conflict.conflictRing);
