@@ -74,7 +74,7 @@ class Conflict {
         }
         this.game.raiseSimultaneousEvent(cards, {
             eventName: 'onMoveCharactersToConflict',
-            perCardEventName: 'OnMoveToConflict',
+            perCardEventName: 'onMoveToConflict',
             perCardHandler: isAttacking ? (params) => this.addAttacker(params.card) : (params) => this.addDefender(params.card), 
             params: { conflict: this.conflict }
         });
