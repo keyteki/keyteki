@@ -381,14 +381,14 @@ const Effects = {
     cannotBecomeDishonored: cardCannotEffect('becomeDishonored'),
     restrictNumberOfDefenders: function(amount) {
         return {
-            apply: function() {
+            apply: function(card, context) {
                 if(context.game.currentConflict) {
                     context.restrictNumberOfDefenders = context.restrictNumberOfDefenders || {};
                     context.restrictNumberOfDefenders[card.uuid] = context.game.currentConflict.maxAllowedDefenders;
                     context.game.currentConflict.maxAllowedDefenders = amount;
                 }
             },
-            unapply: function() {
+            unapply: function(card, context) {
                 if(context.game.currentConflict) {
                     context.game.currentConflict.maxAllowedDefenders = context.restrictNumberOfDefenders[card.uuid];
                 }
