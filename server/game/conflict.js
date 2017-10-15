@@ -15,6 +15,7 @@ class Conflict {
         this.conflictProvince = conflictProvince;
         this.conflictTypeSwitched = false;
         this.conflictUnopposed = false;
+        this.winnerGoesStraightToNextConflict = false;
         this.elementsToResolve = 1;
         this.elements = [];
         this.attackers = [];
