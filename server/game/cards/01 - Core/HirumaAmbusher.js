@@ -4,10 +4,7 @@ class HirumaAmbusher extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                'onCardEntersPlay': event => {
-                    console.log(this.name, event.card === this, this.isDefending())
-                    return event.card === this && this.isDefending();
-                }
+                'onCardEntersPlay': event => event.card === this && this.isDefending()
             },
             target: {
                 cardType: 'character',
