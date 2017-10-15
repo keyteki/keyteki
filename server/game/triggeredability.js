@@ -28,7 +28,7 @@ class TriggeredAbility extends BaseAbility {
         this.abilityType = abilityType;
         this.location = properties.location || [];
         if(!_.isArray(this.location)) {
-            this.location = [this.location]
+            this.location = [this.location];
         }
 
         if(card.getType() === 'event' && !properties.ignoreEventCosts) {
