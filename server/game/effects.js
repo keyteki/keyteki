@@ -379,6 +379,23 @@ const Effects = {
     cannotMoveCharactersIntoConflict: playerCannotEffect('moveToConflict'),
     playerCannotTriggerCardAbilities: playerCannotEffect('triggerAbilities'),
     cannotBecomeDishonored: cardCannotEffect('becomeDishonored'),
+    restrictNumberOfDefenders: function(amount) {
+        return {
+            apply: function() {
+                if(context.game.currentConflict) {
+                    context.restrictNumberOfDefenders = context.restrictNumberOfDefenders || {};
+                    context.restrictNumberOfDefenders[card.uuid] = context.game.currentConflict.maxAllowedDefenders;
+                    context.game.currentConflict.maxAllowedDefenders = amount;
+                }
+            },
+            unapply: function() {
+                if(context.game.currentConflict) {
+                    context.game.currentConflict.maxAllowedDefenders = context.restrictNumberOfDefenders[card.uuid];
+                }
+                delete context.restrictNumberOfDefenders[card.uuid];
+            }
+        };
+    },
     increaseLimitOnAbilities: function(amount) {
         return {
             apply: function(card) {
