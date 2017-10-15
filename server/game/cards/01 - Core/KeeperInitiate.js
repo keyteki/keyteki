@@ -4,10 +4,7 @@ class KeeperInitiate extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onClaimRing: event => {
-                    console.log(event.conflict.winner === this.controller, this.controller.role.hasTrait(event.conflict.conflictRing), !this.facedown)
-                    return (event.conflict.winner === this.controller && this.controller.role.hasTrait(event.conflict.conflictRing) && !this.facedown);
-                }
+                onClaimRing: event => event.conflict.winner === this.controller && this.controller.role.hasTrait(event.conflict.conflictRing) && !this.facedown
             },
             location: ['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile'],
             handler: () => {
