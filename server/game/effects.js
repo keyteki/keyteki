@@ -290,6 +290,16 @@ const Effects = {
             }
         };
     },
+    addConflictElement: function(element) {
+        return {
+            apply: function(card, context) {
+                context.game.currentConflict.addElement(element);
+            },
+            unapply: function(card, context) {
+                context.game.currentConflict.removeElement(element);
+            }
+        };
+    },
     blank: {
         apply: function(card) {
             card.setBlank();
