@@ -28,7 +28,7 @@ describe('CardReaction', function () {
             it('should use the location sent via properties', function() {
                 this.properties.location = 'foo';
                 this.action = new CardReaction(this.gameSpy, this.cardSpy, this.properties);
-                expect(this.action.location).toBe('foo');
+                expect(this.action.location).toContain('foo');
             });
         });
     });
