@@ -15,6 +15,7 @@ class Conflict {
         this.conflictProvince = conflictProvince;
         this.conflictTypeSwitched = false;
         this.conflictUnopposed = false;
+        this.winnerGoesStraightToNextConflict = false;
         this.elementsToResolve = 1;
         this.elements = [];
         this.attackers = [];
@@ -74,7 +75,7 @@ class Conflict {
         }
         this.game.raiseSimultaneousEvent(cards, {
             eventName: 'onMoveCharactersToConflict',
-            perCardEventName: 'OnMoveToConflict',
+            perCardEventName: 'onMoveToConflict',
             perCardHandler: isAttacking ? (params) => this.addAttacker(params.card) : (params) => this.addDefender(params.card), 
             params: { conflict: this.conflict }
         });
@@ -91,8 +92,39 @@ class Conflict {
         return this.elements.includes(element);
     }
     
+    getElements() {
+        return _.uniq(this.elements);
+    }
+    
+    addElement(element) {
+        this.elements.push(element);
+    }
+    
+    removeElement(element) {
+        let index = _.indexOf(this.elements, element);
+        this.elements.splice(index, 1);
+    }
+    
+    resolveRingEffects(player = this.attackingPlayer) {
+        let elements = this.getElements();
+        if(this.elementsToResolve >= elements.length) {
+            player.resolveRingEffects(elements);
+            return;
+        }
+        this.game.promptForRingSelect(player, {
+            activePromptTitle: 'Choose a ring effect to resolve',
+            ringCondition: ring => elements.includes(ring.element),
+            onSelect: (player, ring) => {
+                player.resolveRingEffectForElement(ring.element);
+                return true;
+            }
+        });
+    }
+    
     switchType() {
-        this.conflictType = this.conflictType === 'military' ? 'political' : 'military';
+        let ring = _.find(this.game.rings, ring => ring.element === this.conflictRing);
+        ring.flipConflictType();
+        this.conflictType = ring.conflictType;
         this.conflictTypeSwitched = true;
         _.each(this.attackers, card => {
             if(!card.canParticipateAsAttacker(this.conflictType)) {
@@ -106,6 +138,18 @@ class Conflict {
                 card.bowed = true;
             }
         });
+    }
+    
+    switchElement(element) {
+        let oldRing = _.find(this.game.rings, ring => ring.element === this.conflictRing);
+        oldRing.contested = false;
+        this.elements = _.reject(this.elements, element => element === oldRing.element);
+        this.conflictRing = element;
+        let newRing = _.find(this.game.rings, ring => ring.element === element);
+        this.game.addFate(this.attackingPlayer, newRing.fate);
+        newRing.fate = 0;
+        newRing.contested = true;
+        this.elements.push(element);
     }
     
     removeFromConflict(card) {

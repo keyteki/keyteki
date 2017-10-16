@@ -4,7 +4,6 @@ class ImperialStorehouse extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Draw a card',
-            clickToActivate: true,
             cost: ability.costs.sacrificeSelf(),
             handler: () => {
                 this.controller.drawCardsToHand(1);

@@ -1,5 +1,6 @@
 const _ = require('underscore');
-
+const AbilityTarget = require('./AbilityTarget.js');
+const Costs = require('./costs.js');
 /**
  * Base class representing an ability that can be done by the player. This
  * includes card actions, reactions, interrupts, playing a card, marshaling a
@@ -22,6 +23,9 @@ class BaseAbility {
     constructor(properties) {
         this.cost = this.buildCost(properties.cost);
         this.targets = this.buildTargets(properties);
+        if(properties.max) {
+            this.cost.push(Costs.playMax());
+        }
     }
 
     buildCost(cost) {
@@ -38,16 +42,15 @@ class BaseAbility {
 
     buildTargets(properties) {
         if(properties.target) {
-            return {
-                target: properties.target
-            };
+            return [new AbilityTarget('target', properties.target)];
         }
 
         if(properties.targets) {
-            return properties.targets;
+            let targetPairs = Object.entries(properties.targets);
+            return targetPairs.map(([name, properties]) => new AbilityTarget(name, properties));
         }
 
-        return {};
+        return [];
     }
 
     /**
@@ -111,6 +114,7 @@ class BaseAbility {
      * @returns {Boolean}
      */
     canResolveTargets(context) {
+        /*
         const ValidTypes = ['character', 'attachment', 'location', 'event'];
         return _.all(this.targets, (targetProperties, name) => {
             if(name === 'select') {
@@ -127,6 +131,8 @@ class BaseAbility {
                 return targetProperties.cardCondition(card, context);
             });
         });
+        */
+        return this.targets.every(target => target.canResolve(context));
     }
 
     /**
@@ -135,9 +141,12 @@ class BaseAbility {
      * @returns {Array} An array of target resolution objects.
      */
     resolveTargets(context) {
+        /*
         return _.map(this.targets, (targetProperties, name) => {
             return this.resolveTarget(context, name, targetProperties);
         });
+        */
+        return this.targets.map(target => target.resolve(context));
     }
 
     resolveTarget(context, name, targetProperties) {
@@ -149,7 +158,7 @@ class BaseAbility {
                 return () => {
                     result.resolved = true;
                     result.value = choice;
-                    return true;                    
+                    return true;
                 };
             });
             if(targetProperties.player !== 'opponent') {
@@ -216,7 +225,7 @@ class BaseAbility {
         return true;
     }
 
-    isPlayableEventAbility() {
+    isCardPlayed() {
         return false;
     }
 

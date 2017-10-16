@@ -69,7 +69,7 @@ describe('CardAction', function () {
             it('should use the location sent via properties', function() {
                 this.properties.location = 'foo';
                 this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
-                expect(this.action.location).toBe('foo');
+                expect(this.action.location).toContain('foo');
             });
         });
 
@@ -472,10 +472,6 @@ describe('CardAction', function () {
 
                 it('should call the handler', function() {
                     expect(this.handler).toHaveBeenCalledWith(this.context);
-                });
-
-                it('should count towards the limit', function() {
-                    expect(this.limitSpy.increment).toHaveBeenCalled();
                 });
             });
         });

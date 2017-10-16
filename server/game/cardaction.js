@@ -28,6 +28,9 @@ const AbilityLimit = require('./abilitylimit.js');
  *                to activate the action. Defaults to 'play area'.
  * limit        - optional AbilityLimit object that represents the max number of
  *                uses for the action as well as when it resets.
+ * max          - optional AbilityLimit object that represents the max number of
+ *                times the ability by card title can be used. Contrast with
+ *                `limit` which limits per individual card.
  * anyPlayer    - boolean indicating that the action may be executed by a player
  *                other than the card's controller. Defaults to false.
  * clickToActivate - boolean that indicates the action should be activated when
@@ -41,18 +44,27 @@ class CardAction extends BaseAbility {
         this.card = card;
         this.title = properties.title;
         this.limit = properties.limit || AbilityLimit.perRound(1);
+        this.max = properties.max;
         this.phase = properties.phase || 'any';
         this.anyPlayer = properties.anyPlayer || false;
         this.condition = properties.condition;
         this.clickToActivate = !!properties.clickToActivate;
-        this.location = properties.location;
+        this.location = properties.location || [];
         this.events = new EventRegistrar(game, this);
         this.activationContexts = [];
+
+        if(!_.isArray(this.location)) {
+            this.location = [properties.location];
+        }
 
         this.handler = this.buildHandler(card, properties);
 
         if(card.getType() === 'event') {
             this.cost.push(Costs.playEvent());
+        }
+
+        if(this.max) {
+            this.card.owner.registerAbilityMax(this.card.name, this.max);
         }
     }
 
@@ -75,7 +87,7 @@ class CardAction extends BaseAbility {
     }
 
     allowMenu() {
-        return true;
+        return (this.card.type === 'character' || this.card.type === 'attachment') && this.location.length === 0;
     }
 
     createContext(player, arg) {
@@ -107,7 +119,7 @@ class CardAction extends BaseAbility {
         if(!this.card.canTriggerAbilities(this.location)) {
             return false;
         }
-        
+
         if(this.card.isBlank()) {
             return false ;
         }
@@ -134,10 +146,7 @@ class CardAction extends BaseAbility {
     }
 
     executeHandler(context) {
-        var success = this.handler(context);
-        if(success !== false && this.limit) {
-            this.limit.increment();
-        }
+        this.handler(context);
     }
 
     getMenuItem(arg) {
@@ -148,7 +157,7 @@ class CardAction extends BaseAbility {
         return this.clickToActivate;
     }
 
-    isPlayableEventAbility() {
+    isCardPlayed() {
         return this.card.getType() === 'event';
     }
 
@@ -173,10 +182,14 @@ class CardAction extends BaseAbility {
     }
 
     isEventListeningLocation(location) {
-        if(location === this.location) {
+        if(this.location.includes(location)) {
             return true;
         }
-        
+
+        if(location.includes('deck')) {
+            return false;
+        }
+
         let type = this.card.getType();
         if(type === 'character' || type === 'attachment') {
             return (location === 'play area');

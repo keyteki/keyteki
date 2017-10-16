@@ -25,7 +25,7 @@ class PlayCardAction extends BaseAbility {
         context.source.play(context.player);
     }
 
-    isPlayableEventAbility() {
+    isCardPlayed() {
         return true;
     }
 }

@@ -48,7 +48,7 @@ class Province extends React.Component {
     }
 
     render() {
-        var className = 'panel province ';
+        var className = 'panel province ' + this.props.size;
         var cardCount = this.props.cardCount || (this.props.cards ? this.props.cards.length : '0');
         var headerText = this.props.title ? this.props.title + ' (' + (cardCount) + ')' : '';
         var provinceCard = this.props.provinceCard || _.find(this.props.cards, card => {
@@ -87,21 +87,21 @@ class Province extends React.Component {
                     disableMouseOver={ provinceCard.facedown && !this.props.isMe }
                     onClick={ this.props.onCardClick }
                     onMenuItemClick={ this.props.onMenuItemClick }
-                    onDragDrop={ this.props.onDragDrop } /> : null }
+                    onDragDrop={ this.props.onDragDrop } size={ this.props.size } /> : null }
                 { dynastyCard ? <Card className='province-attachment' card={ dynastyCard } source={ this.props.source }
                     onMouseOver={ this.props.onMouseOver }
                     onMouseOut={ this.props.onMouseOut }
                     disableMouseOver={ dynastyCard.facedown }
                     onClick={ this.props.onCardClick }
                     onMenuItemClick={ this.props.onMenuItemClick }
-                    onDragDrop={ this.props.onDragDrop } /> : null }
+                    onDragDrop={ this.props.onDragDrop } size={ this.props.size } /> : null }
                 { strongholdCard ? <Card className='province-attachment' card={ strongholdCard } source={ this.props.source }
                     onMouseOver={ this.props.onMouseOver }
                     onMouseOut={ this.props.onMouseOut }
                     disableMouseOver={ strongholdCard.facedown }
                     onClick={ this.props.onCardClick }
                     onMenuItemClick={ this.props.onMenuItemClick }
-                    onDragDrop={ this.props.onDragDrop } /> : null }
+                    onDragDrop={ this.props.onDragDrop } size={ this.props.size } /> : null }
             </div>);
     }
 }
@@ -129,6 +129,7 @@ Province.propTypes = {
     popupMenu: PropTypes.array,
     provinceCard: PropTypes.object,
     showDynastyRow: PropTypes.bool,
+    size: PropTypes.string,
     source: PropTypes.oneOf(['stronghold province', 'province 1', 'province 2', 'province 3', 'province 4']).isRequired,
     strongholdCard: PropTypes.object,
     title: PropTypes.string

@@ -26,7 +26,10 @@ class TriggeredAbility extends BaseAbility {
         this.limit = properties.limit || AbilityLimit.perRound(1);
         this.when = properties.when;
         this.abilityType = abilityType;
-        this.location = properties.location;
+        this.location = properties.location || [];
+        if(!_.isArray(this.location)) {
+            this.location = [this.location];
+        }
 
         if(card.getType() === 'event' && !properties.ignoreEventCosts) {
             this.cost.push(Costs.playEvent());
@@ -88,8 +91,15 @@ class TriggeredAbility extends BaseAbility {
     }
 
     isEventListeningLocation(location) {
-        if(location === this.location) {
+        if(!location) {
+            return false;
+        }
+        if(this.location.includes(location)) {
             return true;
+        }
+        
+        if(location.includes('deck')) {
+            return false;
         }
         
         let type = this.card.getType();
@@ -107,7 +117,7 @@ class TriggeredAbility extends BaseAbility {
         return false;
     }
 
-    isPlayableEventAbility() {
+    isCardPlayed() {
         return this.card.getType() === 'event';
     }
 

@@ -116,13 +116,9 @@ const Costs = {
                     cardCondition: card => fullCondition(card, context),
                     activePromptTitle: 'Select ' + number + ' cards to bow',
                     numCards: number,
-                    multiSelect: true,
+                    mode: 'exactly',
                     source: context.source,
                     onSelect: (player, cards) => {
-                        if(cards.length !== number) {
-                            return false;
-                        }
-
                         context.bowingCostCards = cards;
                         result.value = true;
                         result.resolved = true;
@@ -281,13 +277,9 @@ const Costs = {
                     cardCondition: card => fullCondition(card, context),
                     activePromptTitle: 'Select ' + number + ' cards to reveal',
                     numCards: number,
-                    multiSelect: true,
+                    mode: 'exactly',
                     source: context.source,
                     onSelect: (player, cards) => {
-                        if(cards.length !== number) {
-                            return false;
-                        }
-
                         context.revealingCostCards = cards;
                         result.value = true;
                         result.resolved = true;
@@ -408,6 +400,20 @@ const Costs = {
         };
     },
     /**
+     * Cost that ensures that the player has not exceeded the maximum usage for
+     * an ability.
+     */
+    playMax: function() {
+        return {
+            canPay: function(context) {
+                return !context.player.isAbilityAtMax(context.source.name);
+            },
+            pay: function(context) {
+                context.player.incrementAbilityMax(context.source.name);
+            }
+        };
+    },
+    /**
      * Cost that will pay the exact printed fate cost for the card.
      */
     payPrintedFateCost: function() {
@@ -474,8 +480,9 @@ const Costs = {
     dishonorCharacter: function(condition) {
         var fullCondition = (card, context) => (
             card.location === 'play area' &&
+            card.type === 'character' &&
             card.controller === context.player &&
-            !card.isDishonored &&
+            card.allowGameAction('dishonor') &&
             condition(card)
         );
         return {
@@ -517,7 +524,7 @@ const Costs = {
             },
             resolve: function(context, result = { resolved: false }) {
                 context.game.promptForRingSelect(context.player, {
-                    condition: ring => !ring.claimed && !ring.contested,
+                    ringCondition: ring => !ring.claimed && !ring.contested,
                     activePromptTitle: 'Choose a ring to place fate on',
                     source: context.source,
                     onSelect: (player, ring) => {
@@ -553,13 +560,14 @@ const Costs = {
             }
         };
     },
-    breakProvince: function(card) {
+    breakProvince: function(province) {
         return {
             canPay: function() {
-                return !card.isBroken;
+                return !province.isBroken;
             },
-            pay: function() {
-                card.breakProvince();
+            pay: function(context) {
+                context.costs.breakProvince = province;
+                context.game.raiseEvent('onBreakProvince', { conflict: context.game.currentConflict, province: province }, province.breakProvince());
             }
         };
     }

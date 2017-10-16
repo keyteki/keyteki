@@ -53,7 +53,7 @@ class Deck {
         this.eachRepeatedCard(this.data.stronghold, cardData => {
             if(cardData.type === 'stronghold') {
                 var strongholdCard = this.createCard(StrongholdCard, player, cardData);
-                strongholdCard.location = 'stronghold province';
+                strongholdCard.location = '';
                 result.stronghold = strongholdCard;
             }
         });

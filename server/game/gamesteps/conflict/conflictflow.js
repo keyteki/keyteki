@@ -59,7 +59,8 @@ class ConflictFlow extends BaseStep {
         }];
         
         let ring = this.game.rings[this.conflict.conflictRing];
-        this.conflict.elements.push(this.conflict.conflictRing);
+        ring.contested = true;
+        this.conflict.addElement(this.conflict.conflictRing);
         this.conflict.attackingPlayer.conflicts.perform(this.conflict.conflictType);
         _.each(this.conflict.attackers, card => card.inConflict = true);
         if(ring.fate > 0) {
@@ -73,7 +74,6 @@ class ConflictFlow extends BaseStep {
             });
             this.game.addFate(this.conflict.attackingPlayer, ring.fate);
             ring.removeFate();
-            ring.contested = true;
         }
 
         this.game.addMessage('{0} is initiating a {1} conflict at {2}, contesting the {3} ring', this.conflict.attackingPlayer, this.conflict.conflictType, this.conflict.conflictProvince, this.conflict.conflictRing);
@@ -250,7 +250,7 @@ class ConflictFlow extends BaseStep {
     }
 
     applyUnopposed() {
-        if(this.conflict.cancelled || this.game.manualMode) {
+        if(this.conflict.cancelled || this.game.manualMode || this.conflict.isSinglePlayer) {
             return;
         }
         
@@ -277,29 +277,14 @@ class ConflictFlow extends BaseStep {
         }
 
         if(this.conflict.isAttackerTheWinner()) {
-            let menuTitle = 'Do you want to resolve the ' + this.conflict.conflictRing + ' ring?';
-            let waitingPromptTitle = 'Waiting for opponent to use decide whether to resolve the ' + this.conflict.conflictRing + ' ring';
-            this.game.promptWithMenu(this.conflict.winner, this, {
-                activePrompt: {
-                    promptTitle: 'Resolve Ring',
-                    menuTitle: menuTitle,
-                    buttons: [
-                        { text: 'Yes', arg: 'Yes', method: 'triggerRingResolutionEvent' },
-                        { text: 'No', arg: 'No', method: 'triggerRingResolutionEvent' }
-                    ]
-                },
-                waitingPromptTitle: waitingPromptTitle
+            this.game.promptWithHandlerMenu(this.conflict.winner, {
+                activePromptTitle: 'Do you want to resolve the conflict ring?',
+                waitingPromptTitle: 'Waiting for opponent to use decide whether to resolve the conflict ring',
+                source: 'Resolve Ring Effects',
+                choices: ['Yes', 'No'],
+                handlers: [() => this.conflict.resolveRingEffects(), () => true]
             });
         }       
-    }
-    
-    triggerRingResolutionEvent(player, arg) {
-        if(arg !== 'No') {
-            this.game.raiseEvent('onResolveRingEffects', { player: player, conflict: this.conflict }, () => {
-                player.resolveRingEffects(this.conflict.conflictRing);
-            });
-        }
-        return true;
     }
     
     claimRing() {
@@ -337,6 +322,7 @@ class ConflictFlow extends BaseStep {
         }
 
         this.game.raiseEvent('onConflictFinished', { conflict: this.conflict });
+        this.game.raiseEvent('onAtEndOfConflict');
 
         this.resetCards();
         if(!this.game.militaryConflictCompleted && (this.conflictType === 'military' || this.conflictTypeSwitched)) {

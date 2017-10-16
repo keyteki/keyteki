@@ -7,7 +7,6 @@ class AgainstTheWaves extends DrawCard {
                 cardType: 'character',
                 cardCondition: card => card.location === 'play area' && card.hasTrait('shugenja') && (card.bowed || card.allowGameAction('bow'))
             },
-            clickToActivate: true,
             handler: context => {
                 this.game.addMessage('{0} uses {1} to {2} {3}', this.controller, this, context.target.bowed ? 'unbow' : 'bow', context.target);
                 if(context.target.bowed) {
