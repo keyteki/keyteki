@@ -1274,7 +1274,9 @@ class Player extends Spectator {
             return;
         } else if(elements.length === 1) {
             queue.push(elements[0]);
-            this.game.addMessage('{0} chooses that the rings will resolve in the following order: {1}', this.game.getFirstPlayer(), queue);
+            if(queue.length > 1) {
+                this.game.addMessage('{0} chooses that the rings will resolve in the following order: {1}', this.game.getFirstPlayer(), queue);
+            }
             _.each(queue, element => this.game.queueSimpleStep(() => this.resolveRingEffectForElement(element)));
             return;
         } 
