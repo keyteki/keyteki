@@ -3,9 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class AdmitDefeat extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
-            cost: ability.costs.payHonor(1),
-            condition: this.game.currentConflict && this.game.currentConflict.defenders.length === 1,
-            clickToActivate: true,
+            condition: () => this.game.currentConflict && this.game.currentConflict.defenders.length === 1,
             target: {
                 cardType: 'character',
                 cardCondition: card => this.game.currentConflict.isDefending(card)
