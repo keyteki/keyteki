@@ -400,6 +400,20 @@ const Costs = {
         };
     },
     /**
+     * Cost that ensures that the player has not exceeded the maximum usage for
+     * an ability.
+     */
+    playMax: function() {
+        return {
+            canPay: function(context) {
+                return !context.player.isAbilityAtMax(context.source.name);
+            },
+            pay: function(context) {
+                context.player.incrementAbilityMax(context.source.name);
+            }
+        };
+    },
+    /**
      * Cost that will pay the exact printed fate cost for the card.
      */
     payPrintedFateCost: function() {

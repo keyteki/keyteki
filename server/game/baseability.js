@@ -1,5 +1,6 @@
 const _ = require('underscore');
 const AbilityTarget = require('./AbilityTarget.js');
+const Costs = require('./costs.js');
 /**
  * Base class representing an ability that can be done by the player. This
  * includes card actions, reactions, interrupts, playing a card, marshaling a
@@ -22,6 +23,9 @@ class BaseAbility {
     constructor(properties) {
         this.cost = this.buildCost(properties.cost);
         this.targets = this.buildTargets(properties);
+        if(properties.max) {
+            this.cost.push(Costs.playMax());
+        }
     }
 
     buildCost(cost) {
@@ -154,7 +158,7 @@ class BaseAbility {
                 return () => {
                     result.resolved = true;
                     result.value = choice;
-                    return true;                    
+                    return true;
                 };
             });
             if(targetProperties.player !== 'opponent') {

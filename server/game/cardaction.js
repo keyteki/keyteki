@@ -52,7 +52,7 @@ class CardAction extends BaseAbility {
         this.location = properties.location || [];
         this.events = new EventRegistrar(game, this);
         this.activationContexts = [];
-        
+
         if(!_.isArray(this.location)) {
             this.location = [properties.location];
         }
@@ -189,7 +189,7 @@ class CardAction extends BaseAbility {
         if(location.includes('deck')) {
             return false;
         }
-        
+
         let type = this.card.getType();
         if(type === 'character' || type === 'attachment') {
             return (location === 'play area');
