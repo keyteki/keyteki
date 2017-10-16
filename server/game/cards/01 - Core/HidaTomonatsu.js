@@ -9,11 +9,11 @@ class HidaTomonatsu extends DrawCard {
             cost: ability.costs.sacrificeSelf(),
             target: {
                 cardType: 'character',
-                cardCondition: card => card.location === 'play area' && card.isAttacking() && !card.isUnique() && card.allowGameAction('discardCardFromPlay')
+                cardCondition: card => card.isAttacking() && !card.isUnique()
             },
             handler: context => {
                 this.game.addMessage('{0} activates {1} to move {2} to the top of {3}\'s deck', this.controller, this, context.target, context.target.controller);
-                context.target.controller.moveCardToTopOfDeck(context.target);
+                context.target.owner.moveCardToTopOfDeck(context.target);
             }
         });
     }
