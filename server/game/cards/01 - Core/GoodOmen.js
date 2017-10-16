@@ -3,8 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class GoodOmen extends DrawCard {
     setupCardAbilities() {
         this.action({
-            condition: () => this.controller.honorBid < this.game.getOtherPlayer(this.controller).honorBid,
-            clickToActivate: true,
+            condition: () => this.controller.showBid < this.game.getOtherPlayer(this.controller).showBid,
             target: {
                 cardType: 'character',
                 cardCondition: card => card.location === 'play area' && card.getCost() >= 3
