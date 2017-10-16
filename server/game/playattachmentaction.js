@@ -26,6 +26,7 @@ class PlayAttachmentAction extends BaseAbility {
 
     executeHandler(context) {
         context.player.attach(context.source, context.target);
+        context.game.addMessage('0} plays {1}, attaching it to {2}', context.player, context.source, context.target);
     }
     
     isCardPlayed() {
