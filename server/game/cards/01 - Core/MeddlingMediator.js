@@ -9,7 +9,7 @@ class MeddlingMediator extends DrawCard {
                 mode: 'select',
                 choices: {
                     'Take 1 fate': () => this.controller.opponent.fate > 0,
-                    'Take 1 honor': () => this.controller.opponent.honor >0
+                    'Take 1 honor': () => this.controller.opponent.honor > 0
                 }
             },
             handler: context => {
