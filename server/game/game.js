@@ -17,6 +17,7 @@ const FatePhase = require('./gamesteps/fatephase.js');
 const RegroupPhase = require('./gamesteps/regroupphase.js');
 const SimpleStep = require('./gamesteps/simplestep.js');
 const DeckSearchPrompt = require('./gamesteps/decksearchprompt.js');
+const HonorBidPrompt = require('./gamesteps/honorbidprompt.js');
 const MenuPrompt = require('./gamesteps/menuprompt.js');
 const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
@@ -791,6 +792,26 @@ class Game extends EventEmitter {
         card.controller = player;
         card.applyPersistentEffects();
         this.raiseEvent('onCardTakenControl', { card: card });
+    }
+    
+    initiateDuel(source, target, resolutionHandler, costHandler = () => this.tradeHonorAfterBid()) {
+        this.queueStep(new HonorBidPrompt(this, 'Choose your bid for the duel'));
+        this.queueStep(new SimpleStep(this, costHandler));                
+        this.queueStep(new SimpleStep(this, () => {
+            let myTotal = parseInt(source.getMilitarySkill()) + parseInt(source.controller.honorBid);
+            let oppTotal = parseInt(target.getMilitarySkill()) + parseInt(target.controller.honorBid);
+            let winner = source;
+            let loser = target;
+            if(myTotal === oppTotal) {
+                this.addMessage('The duel ends in a draw');
+                return;
+            } else if(myTotal < oppTotal) {
+                winner = target;
+                loser = source;
+            }
+            this.addMessage('{0}: {1} vs {2}: {3}', source, myTotal, oppTotal, target);
+            resolutionHandler(winner, loser);
+        }));
     }
 
     applyGameAction(actionType, cards, func) {
