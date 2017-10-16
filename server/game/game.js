@@ -268,7 +268,7 @@ class Game extends EventEmitter {
         var ring = this.rings[ringindex];
         var player = this.getPlayerByName(sourcePlayer);
 
-        if(!player) {
+        if(!player || !ring) {
             return;
         }
         
