@@ -92,7 +92,7 @@ class InnerMessages extends React.Component {
                 return message;
             } else if(fragment.message) {
                 return this.formatMessageText(fragment.message);
-            } else if(fragment.code && fragment.label) {
+            } else if(fragment.id && fragment.label) {
                 return (
                     <span key={ index++ }
                         className='card-link'
