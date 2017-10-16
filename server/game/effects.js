@@ -399,10 +399,12 @@ const Effects = {
                 }
             },
             unapply: function(card, context) {
-                if(context.game.currentConflict) {
-                    context.game.currentConflict.maxAllowedDefenders = context.restrictNumberOfDefenders[card.uuid];
+                if(context.restrictNumberOfDefenders && context.restrictNumberOfDefenders[card.uuid]) {
+                    if(context.game.currentConflict) {
+                        context.game.currentConflict.maxAllowedDefenders = context.restrictNumberOfDefenders[card.uuid];
+                    }
+                    delete context.restrictNumberOfDefenders[card.uuid];
                 }
-                delete context.restrictNumberOfDefenders[card.uuid];
             }
         };
     },
