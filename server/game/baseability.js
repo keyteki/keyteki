@@ -154,7 +154,7 @@ class BaseAbility {
                 return () => {
                     result.resolved = true;
                     result.value = choice;
-                    return true;                    
+                    return true;
                 };
             });
             if(targetProperties.player !== 'opponent') {
@@ -227,6 +227,9 @@ class BaseAbility {
 
     isCardAbility() {
         return true;
+    }
+    hasMax() {
+        return false;
     }
 }
 

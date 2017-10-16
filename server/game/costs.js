@@ -367,7 +367,8 @@ const Costs = {
         return Costs.all(
             Costs.payReduceableFateCost('play'),
             Costs.expendEvent(),
-            Costs.playLimited()
+            Costs.playLimited(),
+            Costs.playMax()
         );
     },
     /**
@@ -396,6 +397,20 @@ const Costs = {
                 if(context.source.isLimited()) {
                     context.player.limitedPlayed += 1;
                 }
+            }
+        };
+    },
+    /**
+     * Cost that ensures that the player has not exceeded the maximum usage for
+     * an ability.
+     */
+    playMax: function() {
+        return {
+            canPay: function(context) {
+                return !context.player.isAbilityAtMax(context.source.name);
+            },
+            pay: function(context) {
+                context.player.incrementAbilityMax(context.source.name);
             }
         };
     },
