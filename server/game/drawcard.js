@@ -104,6 +104,15 @@ class DrawCard extends BaseCard {
     getFate() {
         return this.fate;
     }
+    
+    allowGameAction(actionType) {
+        if(actionType === 'dishonor') {
+            if(this.isDishonored || (!super.allowGameAction('becomeDishonored') && !this.isHonored)) {
+                return false;
+            }
+        }
+        return super.allowGameAction(actionType);
+    }
 
     modifySkill(amount, type, applying = true) {
         /**
@@ -429,11 +438,11 @@ class DrawCard extends BaseCard {
 
     canTriggerAbilities(location) {
         if(this.type === 'character' || this.type === 'attachment') {
-            if(this.location !== location && this.location !== 'play area') {
+            if(!location.includes(this.location) && this.location !== 'play area') {
                 return false;
             }
         } else if(this.type === 'event') {
-            if(this.location !== location && this.location !== 'hand') {
+            if(!location.includes(this.location) && this.location !== 'hand') {
                 return false;
             }
         } else if(!this.location.includes('province') || this.facedown) {

@@ -177,32 +177,31 @@ class Player extends Spectator {
         var provinces = ['province 1', 'province 2', 'province 3', 'province 4'];
 
         _.each(provinces, province => {
-            // Because all player locations are wrapped on creation we need to unwrap them
-            if(_.find(this.getSourceList(province)._wrapped, card => {
-                if(card.isDynasty) {
-                    card.facedown = true;
-                }
-                return card.isDynasty;
-            })) {
-                //Noop
+            let card = this.getDynastyCardInProvince(province);
+            if(card) {
+                card.facedown = true;
             } else {
                 this.moveCard(this.dynastyDeck.first(), province);
             }
         });
+    }
+    
+    getDynastyCardInProvince(location) {
+        let province = this.getSourceList(location);
+        return province.find(card => card.isDynasty);
+    }
+
+    getProvinceCardInProvince(location) {
+        let province = this.getSourceList(location);
+        return province.find(card => card.isProvince);
     }
 
     discardFromBrokenProvinces() {
         var locations = ['province 1', 'province 2', 'province 3', 'province 4'];
 
         _.each(locations, location => {
-            let province = this.getSourceList(location);
-            let provinceCard = province.find(card => card.isProvince);
-            if(provinceCard.isBroken) {
-                province.each(card => {
-                    if(card.isDynasty && !card.facedown) {
-                        this.moveCard(card,'dynasty discard pile');
-                    }
-                });
+            if(this.getProvinceCardInProvince(location).isBroken) {
+                this.moveCard(this.getDynastyCardInProvince(location),'dynasty discard pile');
             }
         });
     }
@@ -1268,8 +1267,32 @@ class Player extends Spectator {
 
         this.game.addMessage('{0} plays {1} {2}with {3} additional fate', this, card, inConflict ? 'into the conflict ' : '', fate);
     }
-
-    resolveRingEffects(element) {
+    
+    resolveRingEffects(elements, queue = []) {
+        if(!_.isArray(elements)) {
+            this.resolveRingEffectForElement(elements);
+            return;
+        } else if(elements.length === 1) {
+            queue.push(elements[0]);
+            this.game.addMessage('{0} chooses that the rings will resolve in the following order: {1}', this.game.getFirstPlayer(), queue);
+            _.each(queue, element => this.game.queueSimpleStep(() => this.resolveRingEffectForElement(element)));
+            return;
+        } 
+        let handlers = _.map(elements, element => {
+            return () => {
+                queue.push(element);
+                this.game.queueSimpleStep(() => this.resolveRingEffects(_.without(elements, element), queue));
+            };
+        });
+        this.game.promptWithHandlerMenu(this.game.getFirstPlayer(), {
+            activePromptTitle: 'Choose ring resolution order',
+            source: 'Ring resolution order',
+            choices: elements,
+            handlers: handlers
+        });
+    }
+    
+    resolveRingEffectForElement(element) {
         if(element === '') {
             return;
         }

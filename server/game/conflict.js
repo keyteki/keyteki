@@ -15,6 +15,7 @@ class Conflict {
         this.conflictProvince = conflictProvince;
         this.conflictTypeSwitched = false;
         this.conflictUnopposed = false;
+        this.winnerGoesStraightToNextConflict = false;
         this.elementsToResolve = 1;
         this.elements = [];
         this.attackers = [];
@@ -74,7 +75,7 @@ class Conflict {
         }
         this.game.raiseSimultaneousEvent(cards, {
             eventName: 'onMoveCharactersToConflict',
-            perCardEventName: 'OnMoveToConflict',
+            perCardEventName: 'onMoveToConflict',
             perCardHandler: isAttacking ? (params) => this.addAttacker(params.card) : (params) => this.addDefender(params.card), 
             params: { conflict: this.conflict }
         });
@@ -89,6 +90,35 @@ class Conflict {
     
     hasElement(element) {
         return this.elements.includes(element);
+    }
+    
+    getElements() {
+        return _.uniq(this.elements);
+    }
+    
+    addElement(element) {
+        this.elements.push(element);
+    }
+    
+    removeElement(element) {
+        let index = _.indexOf(this.elements, element);
+        this.elements.splice(index, 1);
+    }
+    
+    resolveRingEffects(player = this.attackingPlayer) {
+        let elements = this.getElements();
+        if(this.elementsToResolve >= elements.length) {
+            player.resolveRingEffects(elements);
+            return;
+        }
+        this.game.promptForRingSelect(player, {
+            activePromptTitle: 'Choose a ring effect to resolve',
+            ringCondition: ring => elements.includes(ring.element),
+            onSelect: (player, ring) => {
+                player.resolveRingEffectForElement(ring.element);
+                return true;
+            }
+        });
     }
     
     switchType() {

@@ -196,7 +196,9 @@ export class InnerGameBoard extends React.Component {
     }
 
     onCardClick(card) {
-        this.props.sendGameMessage('cardClicked', card.uuid);
+        if(card && card.uuid) {
+            this.props.sendGameMessage('cardClicked', card.uuid);
+        }
     }
 
     onRingClick(ring) {

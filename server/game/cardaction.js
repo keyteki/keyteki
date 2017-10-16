@@ -49,9 +49,13 @@ class CardAction extends BaseAbility {
         this.anyPlayer = properties.anyPlayer || false;
         this.condition = properties.condition;
         this.clickToActivate = !!properties.clickToActivate;
-        this.location = properties.location;
+        this.location = properties.location || [];
         this.events = new EventRegistrar(game, this);
         this.activationContexts = [];
+        
+        if(!_.isArray(this.location)) {
+            this.location = [properties.location];
+        }
 
         this.handler = this.buildHandler(card, properties);
 
@@ -83,7 +87,7 @@ class CardAction extends BaseAbility {
     }
 
     allowMenu() {
-        return (this.card.type === 'character' || this.card.type === 'attachment') && !this.location;
+        return (this.card.type === 'character' || this.card.type === 'attachment') && this.location.length === 0;
     }
 
     createContext(player, arg) {
@@ -178,7 +182,7 @@ class CardAction extends BaseAbility {
     }
 
     isEventListeningLocation(location) {
-        if(location === this.location) {
+        if(this.location.includes(location)) {
             return true;
         }
 

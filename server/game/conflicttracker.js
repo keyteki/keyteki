@@ -118,7 +118,9 @@ class ConflictTracker {
     }
 
     perform(conflictType) {
-        this.conflictTypes[conflictType].performed++;
+        if(this.conflictTypes[conflictType] !== undefined) {
+            this.conflictTypes[conflictType].performed++;
+        }
         this.complete++;
     }
 
