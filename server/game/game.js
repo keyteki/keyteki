@@ -801,7 +801,7 @@ class Game extends EventEmitter {
             let myTotal = parseInt(source.getMilitarySkill()) + parseInt(source.controller.honorBid);
             let oppTotal = parseInt(target.getMilitarySkill()) + parseInt(target.controller.honorBid);
             let winner = source;
-            let loser  = target;
+            let loser = target;
             if(myTotal === oppTotal) {
                 this.addMessage('The duel ends in a draw');
                 return;
