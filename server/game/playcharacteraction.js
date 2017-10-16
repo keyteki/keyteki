@@ -11,7 +11,7 @@ class PlayCharacterAction extends BaseAbility {
                 Costs.playLimited()
             ]
         });
-        this.title = 'PlayCharacterAction';
+        this.title = 'Play this character';
         this.card = undefined;
     }
 
