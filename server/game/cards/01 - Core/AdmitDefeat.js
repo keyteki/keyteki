@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class AdmitDefeat extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             condition: () => this.game.currentConflict && this.game.currentConflict.defenders.length === 1,
             target: {
