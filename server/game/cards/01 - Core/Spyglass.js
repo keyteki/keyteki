@@ -10,7 +10,7 @@ class Spyglass extends DrawCard {
                 onMoveToConflict: event => event.card === this.parent
             },
             limit: ability.limit.perRound(2),
-            hander: () => {
+            handler: () => {
                 this.game.addMessage('{0} uses {1} to draw a card', this.controller, this);
                 this.controller.drawCardsToHand(1);
             }
