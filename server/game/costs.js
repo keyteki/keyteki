@@ -367,8 +367,7 @@ const Costs = {
         return Costs.all(
             Costs.payReduceableFateCost('play'),
             Costs.expendEvent(),
-            Costs.playLimited(),
-            Costs.playMax()
+            Costs.playLimited()
         );
     },
     /**

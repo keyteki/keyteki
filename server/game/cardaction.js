@@ -161,10 +161,6 @@ class CardAction extends BaseAbility {
         return this.card.getType() === 'event';
     }
 
-    hasMax() {
-        return !!this.max;
-    }
-
     deactivate(player) {
         var context = _.last(this.activationContexts);
 
