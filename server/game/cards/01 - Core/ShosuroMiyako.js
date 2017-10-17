@@ -7,7 +7,7 @@ class ShosuroMiyako extends DrawCard {
                 onCardPlayed: event => {
                     return (event.player === this.controller && 
                             event.card.type === 'character' && 
-                            event.card.location === 'hand' && 
+                            event.originalLocation === 'hand' && 
                             this.controller.opponent);
                 }
             },
