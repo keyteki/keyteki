@@ -13,7 +13,7 @@ class GoldenPlainsOutpost extends StrongholdCard {
                             card.controller === this.controller &&
                             !this.game.currentConflict.isParticipating(card) &&
                             card.allowGameAction('moveToConflict') &&
-                            card.location === 'play area';)
+                            card.location === 'play area');
                 }
             },
             handler: context => {
