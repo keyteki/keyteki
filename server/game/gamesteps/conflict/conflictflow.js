@@ -55,7 +55,7 @@ class ConflictFlow extends BaseStep {
         
         let events = [{
             name: 'onConflictDeclared',
-            params: { conflict: this.conflict, conflictType: this.conflict.conflictType }
+            params: { conflict: this.conflict, conflictType: this.conflict.conflictType, conflictRing: this.conflict.conflictRing }
         }];
         
         let ring = this.game.rings[this.conflict.conflictRing];
