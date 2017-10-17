@@ -11,7 +11,7 @@ class PlayCharacterAction extends BaseAbility {
                 Costs.playLimited()
             ]
         });
-        this.title = 'PlayCharacterAction';
+        this.title = 'Play this character';
         this.card = undefined;
     }
 
@@ -27,6 +27,7 @@ class PlayCharacterAction extends BaseAbility {
     executeHandler(context) {
         
         this.card = context.source;
+        this.originalLocation = this.card.location;
         if(context.game.currentConflict) {
             context.game.promptWithMenu(context.player, this, {
                 activePrompt: {
@@ -50,6 +51,10 @@ class PlayCharacterAction extends BaseAbility {
             inConflict = true;
         }
         player.playCharacterWithFate(this.card, this.cost[0].fate, inConflict);
+        return true;
+    }
+
+    isCardPlayed() {
         return true;
     }
 

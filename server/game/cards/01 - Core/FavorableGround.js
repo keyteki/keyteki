@@ -4,12 +4,12 @@ class FavorableGround extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Use Favorable Ground',
-            clickToActivate: true,
             condition: () => this.game.currentConflict,
             cost: ability.costs.sacrificeSelf(),
             target: {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',
+                gameAction: 'moveToConflict',
                 cardCondition: card => card.location === 'play area' && card.controller === this.controller
             },
             handler: context => {

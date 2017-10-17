@@ -7,16 +7,17 @@ class DynastyCardAction extends BaseAbility {
         super({
             cost: [
                 new ChooseFate(),
-                Costs.payReduceableFateCost('dynasty'),
+                Costs.payReduceableFateCost('play'),
                 Costs.playLimited()
             ]
         });
-        this.title = 'Dynasty';
+        this.title = 'Play this character';
     }
 
     meetsRequirements(context) {
         var {game, player, source} = context;
 
+        this.originalLocation = source.location;
         return (
             game.currentPhase === 'dynasty' &&
             source.isDynasty &&
@@ -33,7 +34,11 @@ class DynastyCardAction extends BaseAbility {
         context.source.fate = this.cost[0].fate;
         context.player.putIntoPlay(context.source);
         
-        context.game.addMessage('{0} plays {1} with {2} additional fate', context.player, context.source.name, this.cost[0].fate);
+        context.game.addMessage('{0} plays {1} with {2} additional fate', context.player, context.source, this.cost[0].fate);
+    }
+
+    isCardPlayed() {
+        return true;
     }
 
     isCardAbility() {

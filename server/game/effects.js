@@ -61,6 +61,32 @@ const Effects = {
     cannotBeDeclaredAsDefender: cardCannotEffect('declareAsDefender'),
     cannotParticipateAsAttacker: cardCannotEffect('participateAsAttacker'),
     cannotParticipateAsDefender: cardCannotEffect('participateAsDefender'),
+    doesNotBowAsAttacker: function () {
+        return {
+            apply: function(card, context) {
+                context.doesNotBowAsAttacker = context.doesNotBowAsAttacker || {};
+                context.doesNotBowAsAttacker[card.uuid] = card.conflictOptions.doesNotBowAs.attacker;
+                card.conflictOptions.doesNotBowAs.attacker = true;
+            },
+            unapply: function(card, context) {
+                card.conflictOptions.doesNotBowAs.attacker = context.doesNotBowAsAttacker[card.uuid];
+                delete context.doesNotBowAsAttacker[card.uuid];
+            }
+        };
+    },
+    doesNotBowAsDefender: function () {
+        return {
+            apply: function(card, context) {
+                context.doesNotBowAsDefender = context.doesNotBowAsDefender || {};
+                context.doesNotBowAsDefender[card.uuid] = card.conflictOptions.doesNotBowAs.defender;
+                card.conflictOptions.doesNotBowAs.defender = true;
+            },
+            unapply: function(card, context) {
+                card.conflictOptions.doesNotBowAs.defender = context.doesNotBowAsDefender[card.uuid];
+                delete context.doesNotBowAsDefender[card.uuid];
+            }
+        };
+    },
     modifyMilitarySkill: function(value) {
         return {
             apply: function(card) {
@@ -81,6 +107,46 @@ const Effects = {
             }
         };
     },
+    modifyBaseMilitarySkill: function(value) {
+        return {
+            apply: function(card) {
+                card.modifyBaseMilitarySkill(value, true);
+            },
+            unapply: function(card) {
+                card.modifyBaseMilitarySkill(-value, false);
+            }
+        };
+    },
+    modifyBasePoliticalSkill: function(value) {
+        return {
+            apply: function(card) {
+                card.modifyBasePoliticalSkill(value, true);
+            },
+            unapply: function(card) {
+                card.modifyBasePoliticalSkill(-value, false);
+            }
+        };
+    },
+    modifyMilitarySkillMultiplier: function(value) {
+        return {
+            apply: function(card) {
+                card.modifyMilitarySkillMultiplier(value, true);
+            },
+            unapply: function(card) {
+                card.modifyMilitarySkillMultiplier(1.0 / value, false);
+            }
+        };
+    },
+    modifyPoliticalSkillMultiplier: function(value) {
+        return {
+            apply: function(card) {
+                card.modifyPoliticalSkillMultiplier(value, true);
+            },
+            unapply: function(card) {
+                card.modifyPoliticalSkillMultiplier(1.0 / value, false);
+            }
+        };
+    },
     modifyGlory: function(value) {
         return {
             apply: function(card) {
@@ -89,7 +155,17 @@ const Effects = {
             unapply: function(card) {
                 card.modifyGlory(-value, false);
             }
-        };        
+        };
+    },
+    modifyProvinceStrength: function(value) {
+        return {
+            apply: function(card) {
+                card.modifyProvinceStrength(value, true);
+            },
+            unapply: function(card) {
+                card.modifyProvinceStrength(-value, false);
+            }
+        };
     },
     dynamicMilitarySkill: function(calculate) {
         return {
@@ -135,13 +211,24 @@ const Effects = {
         apply: function(card, context) {
             if(card.getPoliticalSkill() <= 0) {
                 card.controller.discardCardFromPlay(card);
-                context.game.addMessage('{0} is killed as its political is 0', card);
+                context.game.addMessage('{0} is killed as its political skill is 0', card);
             }
         },
         unapply: function() {
             // nothing happens when this effect expires.
         },
         isStateDependent: true
+    },
+    discardCardFromPlayEffect: function() {
+        return {
+            apply: function(card, context) {
+                card.controller.discardCardFromPlay(card);
+                context.game.addMessage('{0} is discarded from play', card);
+            },
+            unapply: function() {
+                // nothing happens when this effect expires.
+            }
+        };
     },
     addKeyword: function(keyword) {
         return {
@@ -203,6 +290,18 @@ const Effects = {
             }
         };
     },
+    addConflictElement: function(element) {
+        return {
+            apply: function(card, context) {
+                context.game.currentConflict.addElement(element);
+            },
+            unapply: function(card, context) {
+                if(context.game.currentConflict) {
+                    context.game.currentConflict.removeElement(element);
+                }
+            }
+        };
+    },
     blank: {
         apply: function(card) {
             card.setBlank();
@@ -251,7 +350,7 @@ const Effects = {
                 if(card.location === 'play area' && context.moveToBottomOfDeckIfStillInPlay.includes(card)) {
                     context.moveToBottomOfDeckIfStillInPlay = _.reject(context.moveToBottomOfDeckIfStillInPlay, c => c === card);
                     card.owner.moveCardToBottomOfDeck(card);
-                    context.game.addMessage('{0} moves {1} to the bottom of its owner\'s deck at the end of the phase because of {2}', context.source.controller, card, context.source);
+                    context.game.addMessage('{0} moves {1} to the bottom of his deck as {2}\'s effect ends', context.source.controller, card, context.source);
                 }
             }
         };
@@ -281,7 +380,7 @@ const Effects = {
             }
         };
     },
-    cannotBeDiscarded: cardCannotEffect('discardFromPlay'),
+    cannotBeDiscarded: cardCannotEffect('discardCardFromPlay'),
     cannotRemoveFate: cardCannotEffect('removeFate'),
     cannotPlay: playerCannotEffect('play'),
     cardCannotTriggerAbilities: cardCannotEffect('triggerAbilities'),
@@ -290,8 +389,27 @@ const Effects = {
     cannotBeMovedIntoConflict: cardCannotEffect('moveToConflict'),
     cannotBeSentHome: cardCannotEffect('sendHome'),
     cannotMoveCharactersIntoConflict: playerCannotEffect('moveToConflict'),
-    playerCannotTriggerCardAbilities: playerCannotEffect('triggerAbilities'),
+    playerCannotTriggerAbilities: playerCannotEffect('triggerAbilities'),
     cannotBecomeDishonored: cardCannotEffect('becomeDishonored'),
+    restrictNumberOfDefenders: function(amount) {
+        return {
+            apply: function(card, context) {
+                if(context.game.currentConflict) {
+                    context.restrictNumberOfDefenders = context.restrictNumberOfDefenders || {};
+                    context.restrictNumberOfDefenders[card.uuid] = context.game.currentConflict.maxAllowedDefenders;
+                    context.game.currentConflict.maxAllowedDefenders = amount;
+                }
+            },
+            unapply: function(card, context) {
+                if(context.restrictNumberOfDefenders && context.restrictNumberOfDefenders[card.uuid]) {
+                    if(context.game.currentConflict) {
+                        context.game.currentConflict.maxAllowedDefenders = context.restrictNumberOfDefenders[card.uuid];
+                    }
+                    delete context.restrictNumberOfDefenders[card.uuid];
+                }
+            }
+        };
+    },
     increaseLimitOnAbilities: function(amount) {
         return {
             apply: function(card) {

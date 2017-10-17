@@ -17,6 +17,7 @@ const FatePhase = require('./gamesteps/fatephase.js');
 const RegroupPhase = require('./gamesteps/regroupphase.js');
 const SimpleStep = require('./gamesteps/simplestep.js');
 const DeckSearchPrompt = require('./gamesteps/decksearchprompt.js');
+const HonorBidPrompt = require('./gamesteps/honorbidprompt.js');
 const MenuPrompt = require('./gamesteps/menuprompt.js');
 const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
@@ -26,6 +27,7 @@ const AtomicEventWindow = require('./gamesteps/atomiceventwindow.js');
 const SimultaneousEventWindow = require('./gamesteps/simultaneouseventwindow.js');
 const CardLeavesPlayEventWindow = require('./gamesteps/cardleavesplayeventwindow.js');
 const InitateAbilityEventWindow = require('./gamesteps/initiateabilityeventwindow.js');
+const MultipleEventWindow = require('./gamesteps/multipleeventwindow.js');
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const ForcedTriggeredAbilityWindow = require('./gamesteps/forcedtriggeredabilitywindow.js');
 const TriggeredAbilityWindow = require('./gamesteps/triggeredabilitywindow.js');
@@ -147,12 +149,7 @@ class Game extends EventEmitter {
     }
 
     findAnyCardInAnyList(cardId) {
-        return _.reduce(this.getPlayers(), (card, player) => {
-            if(card) {
-                return card;
-            }
-            return player.findCardByUuidInAnyList(cardId);
-        }, null);
+        return this.allCards.find(card => card.uuid === cardId);
     }
 
     findAnyCardsInPlay(predicate) {
@@ -222,7 +219,7 @@ class Game extends EventEmitter {
         }
 
         // Attempt to play cards that are not already in the play area.
-        if(['hand', 'province 1', 'province 2', 'province 3', 'province 4'].includes(card.location) && card.getType() !== 'province' && player.playCard(card)) {
+        if(['hand', 'province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(card.location) && player.playCard(card)) {
             return;
         }
 
@@ -272,7 +269,7 @@ class Game extends EventEmitter {
         var ring = this.rings[ringindex];
         var player = this.getPlayerByName(sourcePlayer);
 
-        if(!player) {
+        if(!player || !ring) {
             return;
         }
         
@@ -385,7 +382,7 @@ class Game extends EventEmitter {
                 // log the moved card only if it moved from/to a public place
                 var card = this.findAnyCardInAnyList(cardId);
                 if(card && !(['dynasty deck', 'province deck'].includes(source) && ['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(target))) {
-                    movedCard = card.name;
+                    movedCard = card;
                 }
             }
 
@@ -632,7 +629,7 @@ class Game extends EventEmitter {
         });
 
         this.allCards = _(_.reduce(this.getPlayers(), (cards, player) => {
-            return cards.concat(player.allCards.toArray());
+            return cards.concat(player.preparedDeck.allCards);
         }, []));
 
         this.pipeline.initialise([
@@ -739,6 +736,16 @@ class Game extends EventEmitter {
         this.queueStep(new InitateAbilityEventWindow(this, properties));
     }
 
+    /**
+     * Raises multiple events whose resolution is performed atomically. Any
+     * abilities triggered by these events will appear within the same prompt
+     * for the player. Allows each event to take its own handler which will
+     * all execute in the same step
+     */
+    raiseMultipleEvents(events) {
+        this.queueStep(new MultipleEventWindow(this, events));
+    }
+
     flipRing(sourcePlayer, ring) {
         ring.flipConflictType();
     }
@@ -771,30 +778,40 @@ class Game extends EventEmitter {
     }
     
     takeControl(player, card) {
-        var oldController = card.controller;
-        var newController = player;
-
-        if(oldController === newController) {
+        if(card.controller === player || !card.allowGameAction('takeControl')) {
             return;
         }
 
-        this.applyGameAction('takeControl', card, card => {
-            oldController.removeCardFromPile(card);
-            oldController.allCards = _(oldController.allCards.reject(c => c === card));
-            newController.cardsInPlay.push(card);
-            newController.allCards.push(card);
-            card.controller = newController;
+        if(card.location !== 'play area') {
+            player.putIntoPlay(card);
+            return;
+        }
 
-            if(card.location !== 'play area') {
-                let originalLocation = card.location;
-                card.play(newController, false);
-                card.moveTo('play area');
-                card.applyPersistentEffects();
-                this.raiseEvent('onCardEntersPlay', { card: card, playingType: 'play', originalLocation: originalLocation });
+        card.controller.removeCardFromPile(card);
+        player.cardsInPlay.push(card);
+        card.controller = player;
+        card.applyPersistentEffects();
+        this.raiseEvent('onCardTakenControl', { card: card });
+    }
+    
+    initiateDuel(source, target, resolutionHandler, costHandler = () => this.tradeHonorAfterBid()) {
+        this.queueStep(new HonorBidPrompt(this, 'Choose your bid for the duel'));
+        this.queueStep(new SimpleStep(this, costHandler));                
+        this.queueStep(new SimpleStep(this, () => {
+            let myTotal = parseInt(source.getMilitarySkill()) + parseInt(source.controller.honorBid);
+            let oppTotal = parseInt(target.getMilitarySkill()) + parseInt(target.controller.honorBid);
+            let winner = source;
+            let loser = target;
+            if(myTotal === oppTotal) {
+                this.addMessage('The duel ends in a draw');
+                return;
+            } else if(myTotal < oppTotal) {
+                winner = target;
+                loser = source;
             }
-
-            this.raiseEvent('onCardTakenControl', { card: card });
-        });
+            this.addMessage('{0}: {1} vs {2}: {3}', source, myTotal, oppTotal, target);
+            resolutionHandler(winner, loser);
+        }));
     }
 
     applyGameAction(actionType, cards, func) {
@@ -932,8 +949,8 @@ class Game extends EventEmitter {
             return {
                 name: player.name,
                 faction: player.faction.name || player.faction.value,
-                agenda: player.agenda ? player.agenda.name : undefined,
-                power: player.getTotalHonor()
+                alliance: player.alliance ? player.alliance.name : undefined,
+                honor: player.getTotalHonor()
             };
         });
 

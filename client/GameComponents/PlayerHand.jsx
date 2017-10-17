@@ -44,7 +44,7 @@ class PlayerHand extends React.Component {
         let cardWidth = this.getCardWidth();
 
         let requiredWidth = handLength * cardWidth;
-        let overflow = requiredWidth - (cardWidth * 5);
+        let overflow = requiredWidth - 480;
         let offset = overflow / (handLength - 1);
 
         let hand = _.map(this.props.cards, card => {
@@ -91,7 +91,7 @@ class PlayerHand extends React.Component {
 
         let cardWidth = this.getCardWidth();
 
-        let needsSquish = this.props.cards && this.props.cards.length * cardWidth > (cardWidth * 5);
+        let needsSquish = this.props.cards && this.props.cards.length * cardWidth > 480;
 
         if(needsSquish) {
             className += ' squish';
