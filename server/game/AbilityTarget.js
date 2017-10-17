@@ -34,6 +34,17 @@ class AbilityTarget {
                 return true;
             }
         };
+        if(this.properties.optional) {
+            promptProperties.buttons = [
+                { text: 'No more targets', arg: 'noMoreTargets' },
+                { text: 'Cancel', arg: 'done' }
+            ];
+            promptProperties.onMenuCommand = () => {
+                result.resolved = true;
+                result.value = 'noMoreTargets';
+                return true;
+            };
+        }
         if(this.properties.mode === 'ring') {
             context.game.promptForRingSelect(player, _.extend(promptProperties, otherProperties));
             return result;
