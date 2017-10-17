@@ -296,7 +296,9 @@ const Effects = {
                 context.game.currentConflict.addElement(element);
             },
             unapply: function(card, context) {
-                context.game.currentConflict.removeElement(element);
+                if(context.game.currentConflict) {
+                    context.game.currentConflict.removeElement(element);
+                }
             }
         };
     },
@@ -387,7 +389,7 @@ const Effects = {
     cannotBeMovedIntoConflict: cardCannotEffect('moveToConflict'),
     cannotBeSentHome: cardCannotEffect('sendHome'),
     cannotMoveCharactersIntoConflict: playerCannotEffect('moveToConflict'),
-    playerCannotTriggerCardAbilities: playerCannotEffect('triggerAbilities'),
+    playerCannotTriggerAbilities: playerCannotEffect('triggerAbilities'),
     cannotBecomeDishonored: cardCannotEffect('becomeDishonored'),
     restrictNumberOfDefenders: function(amount) {
         return {

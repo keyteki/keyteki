@@ -102,7 +102,9 @@ class Conflict {
     
     removeElement(element) {
         let index = _.indexOf(this.elements, element);
-        this.elements.splice(index, 1);
+        if(index > -1) {
+            this.elements.splice(index, 1);
+        }
     }
     
     resolveRingEffects(player = this.attackingPlayer) {
