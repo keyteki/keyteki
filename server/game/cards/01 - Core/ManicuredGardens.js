@@ -1,6 +1,6 @@
 const ProvinceCard = require('../../provincecard.js');
 
-class ManicuredGardens extends ProvinceCard {
+class ManicuredGarden extends ProvinceCard {
     setupCardAbilities() {
         this.action({
             title: 'Gain 1 fate',
@@ -13,6 +13,6 @@ class ManicuredGardens extends ProvinceCard {
     }
 }
 
-ManicuredGardens.id = 'manicured-gardens';
+ManicuredGarden.id = 'manicured-garden';
 
-module.exports = ManicuredGardens;
+module.exports = ManicuredGarden;
