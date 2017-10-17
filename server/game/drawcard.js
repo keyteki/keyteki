@@ -472,10 +472,10 @@ class DrawCard extends BaseCard {
         return [];
     }
 
-    getPlayActions() {
+    getActions() {
         return StandardPlayActions
             .concat(this.abilities.playActions)
-            .concat(super.getPlayActions());
+            .concat(super.getActions());
     }
 
     removeAttachment(attachment) {
