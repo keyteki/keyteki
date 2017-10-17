@@ -4,7 +4,7 @@ class AkodoGunso extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                'onCardEntersPlay': event => event.card === this
+                onCardEntersPlay: event => event.card === this && ['province 1', 'province 2', 'province 3', 'province 4'].includes(event.originalLocation)
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1}\'s ability to refill the province face up', this.controller, this);
