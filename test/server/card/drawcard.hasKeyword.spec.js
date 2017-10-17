@@ -62,7 +62,7 @@ describe('the DrawCard', function() {
                     this.card = new DrawCard(this.player, { text: 'Each <i>Covert</i> character you control cannot be bypassed by covert.' });
                     this.card.location = 'hand';
                     this.player.hand = _([this.card]);
-                    this.player.playCard(this.card);
+                    this.player.findAndUseAction(this.card);
                     // Resolve events in pipeline.
                     this.game.continue();
                 });

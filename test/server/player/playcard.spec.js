@@ -9,10 +9,10 @@ describe('Player', function() {
         this.player.initialise();
     });
 
-    describe('playCard', function() {
+    describe('findAndUseAction', function() {
         beforeEach(function() {
             this.playActionSpy = jasmine.createSpyObj('playAction', ['meetsRequirements', 'canPayCosts', 'canResolveTargets']);
-            this.cardSpy = jasmine.createSpyObj('card', ['getPlayActions']);
+            this.cardSpy = jasmine.createSpyObj('card', ['getActions']);
 
             this.player.hand.push(this.cardSpy);
             this.cardSpy.location = 'hand';
@@ -22,7 +22,7 @@ describe('Player', function() {
         describe('when card is undefined', function() {
             beforeEach(function() {
                 this.player.hand.pop();
-                this.canPlay = this.player.playCard(undefined);
+                this.canPlay = this.player.findAndUseAction(undefined);
             });
 
             it('should return false', function() {
@@ -36,7 +36,7 @@ describe('Player', function() {
 
         describe('when card has play actions', function() {
             beforeEach(function() {
-                this.cardSpy.getPlayActions.and.returnValue([this.playActionSpy]);
+                this.cardSpy.getActions.and.returnValue([this.playActionSpy]);
             });
 
             describe('when the requirements are met and the costs can be paid', function() {
@@ -47,12 +47,12 @@ describe('Player', function() {
                 });
 
                 it('should resolve the play action', function() {
-                    this.player.playCard(this.cardSpy);
+                    this.player.findAndUseAction(this.cardSpy);
                     expect(this.gameSpy.resolveAbility).toHaveBeenCalledWith(this.playActionSpy, { game: this.gameSpy, player: this.player, source: this.cardSpy });
                 });
 
                 it('should return true', function() {
-                    expect(this.player.playCard(this.cardSpy)).toBe(true);
+                    expect(this.player.findAndUseAction(this.cardSpy)).toBe(true);
                 });
             });
 
@@ -64,12 +64,12 @@ describe('Player', function() {
                 });
 
                 it('should not resolve the play action', function() {
-                    this.player.playCard(this.cardSpy);
+                    this.player.findAndUseAction(this.cardSpy);
                     expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
                 });
 
                 it('should return false', function() {
-                    expect(this.player.playCard(this.cardSpy)).toBe(false);
+                    expect(this.player.findAndUseAction(this.cardSpy)).toBe(false);
                 });
             });
 
@@ -81,12 +81,12 @@ describe('Player', function() {
                 });
 
                 it('should not resolve the play action', function() {
-                    this.player.playCard(this.cardSpy);
+                    this.player.findAndUseAction(this.cardSpy);
                     expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
                 });
 
                 it('should return false', function() {
-                    expect(this.player.playCard(this.cardSpy)).toBe(false);
+                    expect(this.player.findAndUseAction(this.cardSpy)).toBe(false);
                 });
             });
 
@@ -98,12 +98,12 @@ describe('Player', function() {
                 });
 
                 it('should not resolve the play action', function() {
-                    this.player.playCard(this.cardSpy);
+                    this.player.findAndUseAction(this.cardSpy);
                     expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
                 });
 
                 it('should return false', function() {
-                    expect(this.player.playCard(this.cardSpy)).toBe(false);
+                    expect(this.player.findAndUseAction(this.cardSpy)).toBe(false);
                 });
             });
         });
@@ -117,16 +117,16 @@ describe('Player', function() {
                 this.playActionSpy2.meetsRequirements.and.returnValue(true);
                 this.playActionSpy2.canPayCosts.and.returnValue(true);
                 this.playActionSpy2.canResolveTargets.and.returnValue(true);
-                this.cardSpy.getPlayActions.and.returnValue([this.playActionSpy, this.playActionSpy2]);
+                this.cardSpy.getActions.and.returnValue([this.playActionSpy, this.playActionSpy2]);
             });
 
             it('should prompt the player to choose a play action', function() {
-                this.player.playCard(this.cardSpy);
+                this.player.findAndUseAction(this.cardSpy);
                 expect(this.gameSpy.queueStep).toHaveBeenCalledWith(jasmine.any(PlayActionPrompt));
             });
 
             it('should return true', function() {
-                expect(this.player.playCard(this.cardSpy)).toBe(true);
+                expect(this.player.findAndUseAction(this.cardSpy)).toBe(true);
             });
         });
     });
