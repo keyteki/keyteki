@@ -3,6 +3,7 @@ class BaseCardSelector {
         this.cardCondition = properties.cardCondition;
         this.cardType = properties.cardType;
         this.gameAction = properties.gameAction;
+        this.optional = properties.optional;
 
         if(!Array.isArray(properties.cardType)) {
             this.cardType = [properties.cardType];
@@ -22,7 +23,7 @@ class BaseCardSelector {
     }
 
     hasEnoughTargets(context) {
-        return context.game.allCards.any(card => this.canTarget(card, context));
+        return (this.optional || context.game.allCards.any(card => this.canTarget(card, context)));
     }
 
     defaultActivePromptTitle() {
