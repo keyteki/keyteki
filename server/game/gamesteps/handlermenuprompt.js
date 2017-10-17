@@ -21,6 +21,7 @@ class HandlerMenuPrompt extends UiPrompt {
         super(game);
         this.player = player;
         if(properties.source instanceof BaseCard) {
+            properties.card = properties.source;
             properties.source = properties.source.name;
         }
         if(properties.source && !properties.waitingPromptTitle) {
@@ -40,8 +41,21 @@ class HandlerMenuPrompt extends UiPrompt {
         return {
             menuTitle: this.properties.activePromptTitle || 'Select one',
             buttons: buttons,
+            controls: this.getAdditionalPromptControls(),
             promptTitle: this.properties.source ? this.properties.source : undefined
         };
+    }
+
+    getAdditionalPromptControls() {
+        let controls = [];
+        if(this.properties.controls && this.properties.controls.type === 'targeting') {
+            controls.push({
+                type: 'targeting',
+                source: this.properties.card.getShortSummary(),
+                targets: this.properties.controls.targets.map(target => target.getShortSummary())
+            });
+        }
+        return controls;
     }
 
     waitingPrompt() {
