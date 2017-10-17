@@ -25,7 +25,12 @@ class YogoHiroue extends DrawCard {
             this.game.promptWithHandlerMenu(this.controller, {
                 activePromptTitle: 'Dishonor ' + this.delayedEffectTarget.name + '?',
                 choices: ['Yes', 'No'],
-                handlers: [() => this.controller.dishonorCard(this.delayedEffectTarget), () => true],
+                handlers: [
+                    () => {
+                        this.controller.dishonorCard(this.delayedEffectTarget);
+                        this.game.addMessage('{0} chooses to dishonor {1} due to {2}\'s delayed effect', this.controller, this.delayedEffectTarget, this);
+                    }, () => true
+                ],
                 source: this
             });
         }
