@@ -7,7 +7,6 @@ class FallenInBattle extends DrawCard {
                 afterConflict: event => event.conflict.winner === this.controller && event.conflict.conflictType === 'military' && event.conflict.skillDifference > 4
             },
             max: ability.limit.perConflict(1),
-            clickToActivate: true,
             target: {
                 cardType: 'character',
                 gameAction: 'discardCardFromPlay',
