@@ -5,7 +5,8 @@ class Breakthrough extends DrawCard {
         this.reaction({
             when: {
                 onConflictFinished: event => {
-                    return (event.conflict.conflictProvince.isBroken && 
+                    return (event.conflict.conflictProvince &&
+                            event.conflict.conflictProvince.isBroken && 
                             event.conflict.winner === this.controller &&
                             this.controller.conflicts.conflictOpportunities > 0);
                 }
