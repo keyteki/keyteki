@@ -362,6 +362,10 @@ class Player extends Spectator {
             }
         });
     }
+
+    moveCardToTopOfDeck(card) {
+        this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty deck' : 'conflict deck');
+    }
     
     moveCardToBottomOfDeck(card) {
         this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty deck bottom' : 'conflict deck bottom');
