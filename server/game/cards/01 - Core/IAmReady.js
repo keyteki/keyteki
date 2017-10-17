@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class IAmReady extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Ready a character',
             target: {
@@ -16,7 +16,7 @@ class IAmReady extends DrawCard {
             //TODO: Fate payment should be a cost here, but we can't pay costs until we have chosen a target
             handler: context => {
                 this.game.addMessage('{0} uses {1} to ready {2}', this.controller, this, context.target);
-                context.target.modifyFate(-1)
+                context.target.modifyFate(-1);
                 this.controller.readyCard(context.target);
             }
         });
