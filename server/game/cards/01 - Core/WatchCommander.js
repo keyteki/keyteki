@@ -5,11 +5,8 @@ class WatchCommander extends DrawCard {
         this.reaction({
             limit: ability.limit.unlimitedPerConflict(),
             when: {
-                onCardAbilityInitiated: event => (
+                onCardPlayed: event => (
                     event.player !== this.controller && this.game.currentConflict && this.game.currentConflict.isParticipating(this.parent)
-                ),
-                onCardEntersPlay: event => (
-                    event.card.owner !== this.owner && this.game.currentConflict && this.game.currentConflict.isParticipating(this.parent)
                 )
             },
             handler: () => {
