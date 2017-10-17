@@ -4,7 +4,6 @@ class IntimidatingHida extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                //'onConflictPass': event => event.conflict.passed && event.conflict.attackingPlayer !== this.controller
                 onConflictPass: event => event.conflict.attackingPlayer !== this.controller
             },
             handler: () => {
