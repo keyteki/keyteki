@@ -1,9 +1,10 @@
 const DrawCard = require('../../drawcard.js');
 
 class IAmReady extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Ready a character',
+            cost: ability.costs.discardFate(1),
             target: {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',
@@ -15,7 +16,6 @@ class IAmReady extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to ready {2}', this.controller, this, context.target);
-                context.target.modifyFate(-1);
                 this.controller.readyCard(context.target);
             }
         });
