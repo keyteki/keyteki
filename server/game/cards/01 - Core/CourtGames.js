@@ -1,9 +1,10 @@
 const DrawCard = require('../../drawcard.js');
 
 class CourtGames extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             condition: () => this.game.currentConflict && this.game.currentConflict.conflictType === 'political',
+            max: ability.limit.perRound(1),
             target: {
                 player: 'self',
                 mode: 'select',
