@@ -19,6 +19,7 @@ class TogashiKazue extends DrawCard {
                     source: this
                 };
                 this.game.resolveAbility(new PlayAttachmentAction(), context);
+                this.game.markActionAsTaken(); // both this ability and resolving the action ability above mark the action as taken, so give priority to the other player
             }
         });
     }
