@@ -27,6 +27,7 @@ class PlayCharacterAction extends BaseAbility {
     executeHandler(context) {
         
         this.card = context.source;
+        this.originalLocation = this.card.location;
         if(context.game.currentConflict) {
             context.game.promptWithMenu(context.player, this, {
                 activePrompt: {

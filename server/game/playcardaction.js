@@ -21,6 +21,7 @@ class PlayCardAction extends BaseAbility {
     }
 
     executeHandler(context) {
+        this.originalLocation = context.source.location;
         context.game.addMessage('{0} plays {1} costing {2}', context.player, context.source, context.costs.gold);
         context.source.play(context.player);
     }

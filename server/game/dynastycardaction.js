@@ -17,6 +17,7 @@ class DynastyCardAction extends BaseAbility {
     meetsRequirements(context) {
         var {game, player, source} = context;
 
+        this.originalLocation = source.location;
         return (
             game.currentPhase === 'dynasty' &&
             source.isDynasty &&
