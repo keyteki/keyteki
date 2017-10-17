@@ -10,14 +10,12 @@ class ThePerfectGift extends DrawCard {
                 let opponentTopFour = [];
                 let myTopFour = this.controller.conflictDeck.first(4);
                 let n = myTopFour.length;
-                let formatted = this.formatTopFour(myTopFour);
-                this.game.addMessage('{0) reveals the top {1} from their conflict deck: {2}', this.controller, n > 1 ? n + ' cards' : 'card', formatted);
+                this.game.addMessage('{0) reveals the top {1} from their conflict deck: {2}', this.controller, n > 1 ? n + ' cards' : 'card', myTopFour);
                 if(otherPlayer) {
                     opponentTopFour = otherPlayer.conflictDeck.first(4);
                     n = opponentTopFour.length;
-                    formatted = this.formatTopFour(opponentTopFour);
-                    if(formatted) {
-                        this.game.addMessage('{0) reveals the top {1} from their conflict deck: {2}', otherPlayer, n > 1 ? n + ' cards' : 'card', formatted);
+                    if(n > 0) {
+                        this.game.addMessage('{0) reveals the top {1} from their conflict deck: {2}', otherPlayer, n > 1 ? n + ' cards' : 'card', opponentTopFour);
                         this.game.promptWithMenu(this.controller, this, {
                             source: this,
                             activePrompt: { 
@@ -64,17 +62,6 @@ class ThePerfectGift extends DrawCard {
         this.game.addMessage('{0} chooses {1} to give themself', player, card);
         player.shuffleConflictDeck();
         return true;
-    }
-    
-    formatTopFour(cards) {
-        return _.reduce(cards, (string, card, index) => {
-            if(index === 0) {
-                return card.name;
-            } else if(index === 1) {
-                return card.name + ' and ' + string;
-            }
-            return card.name + ', ' + string;
-        },'');
     }
 }
 
