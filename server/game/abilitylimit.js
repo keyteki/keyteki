@@ -7,7 +7,7 @@ class FixedAbilityLimit {
     isRepeatable() {
         return false;
     }
-    
+
     modifyMax(amount) {
         this.max = this.max + amount;
     }
@@ -74,6 +74,10 @@ AbilityLimit.perPhase = function(max) {
 
 AbilityLimit.perRound = function(max) {
     return new RepeatableAbilityLimit(max, 'onRoundEnded');
+};
+
+AbilityLimit.unlimitedPerConflict = function() {
+    return new RepeatableAbilityLimit(Infinity, 'onConflictFinished');
 };
 
 module.exports = AbilityLimit;
