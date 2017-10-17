@@ -6,6 +6,9 @@ class TattooedWanderer extends DrawCard {
         this.action({
             title: 'Play Tattooed Wanderer as an attachment',
             condition: () => {
+                if(this.game.currentPhase === 'dynasty') {
+                    return false;
+                }
                 let clone = new TattooedWanderer(this.owner, this.cardData);
                 clone.type = 'attachment';
                 return this.controller.fate >= this.controller.getReducedCost('play', clone);
@@ -19,6 +22,7 @@ class TattooedWanderer extends DrawCard {
                     source: this
                 };
                 this.game.resolveAbility(new PlayAttachmentAction(), context);
+                this.game.markActionAsTaken(); // both this ability and resolving the action ability above mark the action as taken, so give priority to the other player
             }
         });
 
