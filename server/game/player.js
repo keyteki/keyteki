@@ -197,11 +197,15 @@ class Player extends Spectator {
     }
 
     discardFromBrokenProvinces() {
-        var locations = ['province 1', 'province 2', 'province 3', 'province 4'];
-
-        _.each(locations, location => {
-            if(this.getProvinceCardInProvince(location).isBroken) {
-                this.moveCard(this.getDynastyCardInProvince(location),'dynasty discard pile');
+        _.each(['province 1', 'province 2', 'province 3', 'province 4'], location => {
+            let provinceCard = this.getProvinceCardInProvince(location);
+            let dynastyCard = this.getDynastyCardInProvince(location);
+            if(dynastyCard) {
+                if(provinceCard && provinceCard.isBroken && !dynastyCard.facedown) {
+                    this.moveCard(dynastyCard,'dynasty discard pile');
+                }
+            } else {
+                this.replaceDynastyCard(location);
             }
         });
     }
