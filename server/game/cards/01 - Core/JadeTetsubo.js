@@ -20,7 +20,6 @@ class JadeTetsubo extends DrawCard {
                 let fateToAdd = context.target.getFate();
                 context.target.modifyFate(-fateToAdd);
                 this.game.addFate(context.target.controller, fateToAdd);
-                this.controller.bowCard(this);
             }
         });
     }
