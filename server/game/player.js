@@ -1295,6 +1295,12 @@ class Player extends Spectator {
     }
     
     resolveRingEffectForElement(element) {
+        this.game.queueSimpleStep(() => this.game.pushAbilityContext('ring', element, 'effect'));
+        this.game.queueSimpleStep(() => this.resolveRing(element));
+        this.game.queueSimpleStep(() => this.game.popAbilityContext());
+    }
+    
+    resolveRing(element) {
         if(element === '') {
             return;
         }
