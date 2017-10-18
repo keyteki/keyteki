@@ -578,7 +578,7 @@ class Player extends Spectator {
         }
     }
 
-    playCard(card) {
+    findAndUseAction(card) {
         if(!card) {
             return false;
         }
@@ -589,16 +589,16 @@ class Player extends Spectator {
             source: card
         };
 
-        var playActions = _.filter(card.getPlayActions(), action => action.meetsRequirements(context) && action.canPayCosts(context) && action.canResolveTargets(context));
+        var actions = _.filter(card.getActions(), action => action.meetsRequirements(context) && action.canPayCosts(context) && action.canResolveTargets(context));
 
-        if(playActions.length === 0) {
+        if(actions.length === 0) {
             return false;
         }
 
-        if(playActions.length === 1) {
-            this.game.resolveAbility(playActions[0], context);
+        if(actions.length === 1) {
+            this.game.resolveAbility(actions[0], context);
         } else {
-            this.game.queueStep(new PlayActionPrompt(this.game, this, playActions, context));
+            this.game.queueStep(new PlayActionPrompt(this.game, this, actions, context));
         }
 
         return true;

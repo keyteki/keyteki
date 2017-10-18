@@ -218,14 +218,15 @@ class Game extends EventEmitter {
             return;
         }
 
-        // Attempt to play cards that are not already in the play area.
-        if(['hand', 'province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(card.location) && player.playCard(card)) {
-            return;
-        }
-
         if(card.onClick(player)) {
             return;
         }
+
+        //Look for actions or play actions.
+        if(player.findAndUseAction(card)) {
+            return;
+        }
+
 
         if(!card.facedown && card.location === 'play area' && card.controller === player) {
             if(card.bowed) {

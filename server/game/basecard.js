@@ -132,11 +132,11 @@ class BaseCard {
 
     action(properties) {
         var action = new CardAction(this.game, this, properties);
-
+        /*
         if(!action.isClickToActivate() && action.allowMenu()) {
             var index = this.abilities.actions.length;
             this.menu.push(action.getMenuItem(index));
-        }
+        }*/
         this.abilities.actions.push(action);
     }
 
@@ -487,8 +487,8 @@ class BaseCard {
         return false;
     }
     
-    getPlayActions() {
-        return _.filter(this.abilities.actions, action => !action.allowMenu());
+    getActions() {
+        return this.abilities.actions;
     }
 
     getShortSummary() {
