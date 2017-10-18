@@ -205,9 +205,9 @@ class Conflict {
         this.attackerSkill = this.calculateSkillFor(this.attackers) + this.attackerSkillModifier;
         this.defenderSkill = this.calculateSkillFor(this.defenders) + this.defenderSkillModifier;
         
-        if(this.attackingPlayer.imperialFavor === this.conflictType && this.attackers !== []) {
+        if(this.attackingPlayer.imperialFavor === this.conflictType && this.attackers.length > 0) {
             this.attackerSkill++;
-        } else if(this.defendingPlayer.imperialFavor === this.conflictType && this.defenders !== []) {
+        } else if(this.defendingPlayer.imperialFavor === this.conflictType && this.defenders.length > 0) {
             this.defenderSkill++;
         }
     }
