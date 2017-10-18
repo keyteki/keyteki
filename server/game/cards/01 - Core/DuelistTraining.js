@@ -18,7 +18,7 @@ class DuelistTraining extends DrawCard {
                     let outcome = (winner, loser) => {
                         this.game.addMessage('{0} wins the duel, and bows {1}', winner, loser);
                         this.parent.controller.bowCard(loser);
-                    }
+                    };
                     this.game.initiateDuel(this.parent, context.target, outcome, () => {
                         let difference = this.parent.controller.honorBid - context.target.controller.honorBid;
                         let lowBidder = this.parent.controller;
