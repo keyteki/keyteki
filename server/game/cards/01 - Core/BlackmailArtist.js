@@ -7,8 +7,8 @@ class BlackmailArtist extends DrawCard {
             when: {
                 afterConflict: event => event.conflict.isParticipating(this) && event.conflict.winner === this.controller && this.controller.opponent
             },
-            handler: context => {
-                this.game.addMessage('{0} uses {1} to make {2} lose one honor after losing the conflict', this.controller, this, this.controller.opponent);
+            handler: () => {
+                this.game.addMessage('{0} uses {1} to take 1 honor from {2}', this.controller, this, this.controller.opponent);
                 this.game.transferHonor(this.controller.opponent, this.controller, -1);
             }
         });
