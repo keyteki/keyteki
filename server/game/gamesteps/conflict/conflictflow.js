@@ -257,6 +257,7 @@ class ConflictFlow extends BaseStep {
         }
         
         if(this.conflict.conflictUnopposed) {
+            this.game.addMessage('{0} loses 1 honor for not defending the conflict', this.conflict.loser);
             this.game.addHonor(this.conflict.loser, -1);
         }
     }
