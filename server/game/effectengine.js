@@ -27,7 +27,7 @@ class EffectEngine {
     }
 
     getTargets() {
-        var validTargets = this.game.allCards.filter(card => card.location === 'play area' || card.location === 'hand');
+        var validTargets = this.game.allCards.filter(card => ['province 1', 'province 2', 'province 3', 'province 4', 'play area', 'hand'].includes(card.location));
         return validTargets.concat(_.values(this.game.getPlayers()));
     }
 

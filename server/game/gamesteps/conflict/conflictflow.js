@@ -91,6 +91,7 @@ class ConflictFlow extends BaseStep {
                 });
             }
         }
+        this.game.reapplyStateDependentEffects();
         this.game.raiseAtomicEvent(events);
     }
 
