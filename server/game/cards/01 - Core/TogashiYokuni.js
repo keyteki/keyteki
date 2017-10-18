@@ -7,7 +7,7 @@ class TogashiYokuni extends DrawCard {
             title: 'Copy another character\'s ability', //need to protect this title
             max: ability.limit.perRound(1),
             target: {
-                activePromptTitle: 'Select a character',
+                activePromptTitle: 'Select a character to copy from',
                 cardType: 'character',
                 cardCondition: card => card.location === 'play area' && card !== this && _.any(card.abilities.actions.concat(card.abilities.reactions), ability => ability.printedAbility)
             },
@@ -19,6 +19,7 @@ class TogashiYokuni extends DrawCard {
                 //let choices = _.map(abilities, ability => ability.title);
                 let handlers = _.map(abilities, a => {
                     return () => {
+                        this.game.addMessage('{0} uses {1} to gain {2}\'s \'{3}\' ability', this.controller, this, context.target, a.title);
                         if(a.methods) {
                             _.each(a.methods, name => this[name] = context.target[name].bind(this));
                         }
@@ -27,8 +28,8 @@ class TogashiYokuni extends DrawCard {
                         newAbility.registerEvents();
                         newAbility.printedAbility = false;
                         this.abilities.actions = _.reject(this.abilities.actions, action => action.cannotBeCopied);
-                        this.abilities.actions = _.reject(this.abilities.actions, action => action.printedAbility && action !== newAbility && action.title !== 'Copy another character\'s ability');
-                        this.abilities.reactions = _.reject(this.abilities.reactions, reaction => reaction.printedAbility && reaction !== newAbility);
+                        this.abilities.actions = _.reject(this.abilities.actions, action => action.printedAbility && action.title !== 'Copy another character\'s ability');
+                        this.abilities.reactions = _.reject(this.abilities.reactions, reaction => reaction.printedAbility);
                         this.untilEndOfPhase(ability => ({
                             match: this,
                             effect: this.abilities.actions.includes(newAbility) ? ability.effects.removeAction(newAbility) : ability.effects.removeReaction(newAbility)
