@@ -164,6 +164,8 @@ class ConflictFlow extends BaseStep {
         } else {
             this.game.addMessage('{0} does not defend the conflict', this.conflict.defendingPlayer);
         }
+
+        this.game.raiseEvent('onDefendersDeclared', { conflict: this.conflict });
     }
 
     determineWinner() {
