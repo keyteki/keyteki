@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class IuchiWayfinder extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Reveal a province',
             when: {
                 onCardEntersPlay: event => event.card === this
             },

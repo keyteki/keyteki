@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class YoungRumormonger extends DrawCard {
     setupCardAbilities() {
         this.interrupt({
+            title: 'Honor/dishonor a different character',
             when: {
                 onCardHonored: () => true,
                 onCardDishonored: () => true

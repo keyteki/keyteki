@@ -4,6 +4,7 @@ const DrawCard = require('../../drawcard.js');
 class ShibaYojimbo extends DrawCard {
     setupCardAbilities() {
         this.interrupt({
+            title: 'Cancel ability',
             when: {
                 onCardAbilityInitiated: event => _.any(event.targets, card => card.hasTrait('shugenja') && card.controller === this.controller)
             },

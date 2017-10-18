@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class SavvyPolitician extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Honor a character',
             when: {
                 'onCardHonored': event => event.card === this
             },

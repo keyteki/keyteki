@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class IkomaEiji extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Put a character into play',
             when: {
                 afterConflict: event => event.conflict.loser === this.controller && event.conflict.conflictType === 'political'
             },

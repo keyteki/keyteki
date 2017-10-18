@@ -4,6 +4,7 @@ const DrawCard = require('../../drawcard.js');
 class ShibaTsukune extends DrawCard {
     setupCardAbilities() {
         this.interrupt({
+            title: 'Resolve 2 rings',
             when : {
                 onPhaseEnded: event => event.phase === 'conflict'
             },

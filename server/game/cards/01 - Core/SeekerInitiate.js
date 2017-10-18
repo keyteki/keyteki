@@ -4,6 +4,7 @@ const DrawCard = require('../../drawcard.js');
 class SeekerInitiate extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Look at top 5 cards',
             when: {
                 onClaimRing: event => this.controller.role.hasTrait(event.conflict.conflictRing)
             },

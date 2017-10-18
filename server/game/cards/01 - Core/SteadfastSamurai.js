@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class SteadfastSamurai extends DrawCard {
     setupCardAbilities() {
         this.forcedReaction({
+            title: 'Can\'t be discarded or remove fate',
             when: {
                 onPhaseStarted: event => event.phase === 'fate' && this.controller.opponent && this.controller.honor > this.controller.opponent.honor + 4
             },

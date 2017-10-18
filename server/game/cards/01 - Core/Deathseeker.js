@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class Deathseeker extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
+            title: 'Remove fate/discard character',
             when: {
                 afterConflict: event => event.conflict.loser === this.controller && event.conflict.isAttacking(this)
             },

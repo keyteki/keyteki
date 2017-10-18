@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class AkodoGunso extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Refill province faceup',
             when: {
                 onCardEntersPlay: event => event.card === this && ['province 1', 'province 2', 'province 3', 'province 4'].includes(event.originalLocation)
             },

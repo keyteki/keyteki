@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class EnlightenedWarrior extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Gain 1 fate',
             when: {
                 onSelectRingWithFate: () => true
             },

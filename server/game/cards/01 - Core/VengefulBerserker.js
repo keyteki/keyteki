@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class VengefulBerserker extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Double military skill',
             when: {
                 onCardLeavesPlay: event => event.card.type === 'character' && event.card.controller === this.controller && this.game.currentConflict
             },

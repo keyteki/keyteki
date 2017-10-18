@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class ShosuroMiyako extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Opponent discards or dishonors',
             when: {
                 onCardPlayed: event => {
                     return (event.player === this.controller && 

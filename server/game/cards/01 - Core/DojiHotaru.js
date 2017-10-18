@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class DojiHotaru extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Resolve ring effect',
             when: {
                 onClaimRing: event => event.conflict && event.conflict.isParticipating(this) && event.conflict.conflictType === 'political'
             },

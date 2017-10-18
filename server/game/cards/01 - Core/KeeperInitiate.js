@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class KeeperInitiate extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Put this into play',
             when: {
                 onClaimRing: event => event.conflict.winner === this.controller && this.controller.role && this.controller.role.hasTrait(event.conflict.conflictRing) && !this.facedown
             },

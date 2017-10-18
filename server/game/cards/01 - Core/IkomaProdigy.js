@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class IkomaProdigy extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Gain 1 honor',
             when: {
                 onCardEntersPlay: event => event.card === this && this.fate > 0,
                 onCardFateChanged: event => event.card === this && event.fate > 0

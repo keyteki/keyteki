@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class HirumaAmbusher extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Disable a character',
             when: {
                 'onCardEntersPlay': event => event.card === this && this.isDefending()
             },
