@@ -8,6 +8,7 @@ class HonoredGeneral extends DrawCard {
             effect: ability.effects.modifyMilitarySkill(1)
         });
         this.reaction({
+            title: 'Honor this character',
             when: {
                 onCardEntersPlay: event => event.card === this
             },

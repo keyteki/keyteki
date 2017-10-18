@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class ShinjoAltansarnai extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Discard a character',
             when: {
                 onBreakProvince: event => event.conflict.conflictType === 'military' && this.isAttacking()
             },

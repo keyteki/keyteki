@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class HidaTomonatsu extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
+            title: 'Return a character to deck',
             when: {
                 afterConflict: event => event.conflict.winner === this.controller && event.conflict.isDefending(this)
             },

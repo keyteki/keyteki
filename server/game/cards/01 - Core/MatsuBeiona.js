@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class MatsuBeiona extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Gain 2 fate',
             when: {
                 'onCardEntersPlay': event => event.card === this && this.controller.filterCardsInPlay(card => card.hasTrait('bushi') && card.getType() === 'character' && card !== this).length >= 3
             },

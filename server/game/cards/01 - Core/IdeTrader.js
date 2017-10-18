@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class IdeTrader extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
+            title: 'Gain a fate/card',
             when: {
                 onMoveCharactersToConflict: () => this.isParticipating()
             },

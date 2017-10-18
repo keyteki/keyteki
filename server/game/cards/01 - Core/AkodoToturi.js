@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class AkodoToturi extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Resolve ring effect',
             when: {
                 onClaimRing: event => event.conflict && event.conflict.isParticipating(this) && event.conflict.conflictType === 'military'
             },

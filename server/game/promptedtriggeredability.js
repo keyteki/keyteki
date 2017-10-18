@@ -34,7 +34,7 @@ class PromptedTriggeredAbility extends TriggeredAbility {
         super(game, card, type, properties);
 
         this.choices = this.createChoices(properties);
-        this.title = properties.title;
+        this.prompt = properties.prompt;
     }
 
     createChoices(properties) {
@@ -50,9 +50,9 @@ class PromptedTriggeredAbility extends TriggeredAbility {
     }
 
     getChoices(context) {
-        return _.map(this.choices, (handler, title) => {
-            var text = title === 'default' && this.title ? this.title(context) : title;
-            return { text: text, choice: title };
+        return _.map(this.choices, (handler, prompt) => {
+            var text = prompt === 'default' && this.prompt ? this.prompt(context) : prompt;
+            return { text: text, choice: prompt };
         });
     }
 

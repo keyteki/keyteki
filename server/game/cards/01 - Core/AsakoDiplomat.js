@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class AsakoDiplomat extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Honor or dishonor a character',
             when: {
                 afterConflict: event => event.conflict.winner === this.controller && event.conflict.isParticipating(this)
             },

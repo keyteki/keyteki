@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class ForgottenLibrary extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Draw a card',
             when: {
                 onPhaseStarted: event => event.phase === 'draw'
             },

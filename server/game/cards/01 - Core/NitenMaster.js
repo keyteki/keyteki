@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class NitenMaster extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
+            title: 'Ready this character',
             when: {
                 onCardAttached: event => this.bowed && event.parent === this && event.card.hasTrait('weapon')
             },
