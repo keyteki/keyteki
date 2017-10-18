@@ -4,15 +4,18 @@ const DrawCard = require('../../drawcard.js');
 class TogashiYokuni extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
-            title: 'Copy another card\'s ability',
+            title: 'Copy another character\'s ability', //need to protect this title
             max: ability.limit.perRound(1),
             target: {
                 activePromptTitle: 'Select a character',
                 cardType: 'character',
-                cardCondition: card => card.location === 'play area' && _.any(card.abilities.actions.concat(card.abilities.reactions), ability => ability.printedAbility)
+                cardCondition: card => card.location === 'play area' && card !== this && _.any(card.abilities.actions.concat(card.abilities.reactions), ability => ability.printedAbility)
             },
             handler: (context) => {
-                let abilities = _.filter(context.target.abilities.actions.concat(context.target.abilities.reactions), ability => ability.printedAbility);
+                let abilities = _.filter(context.target.abilities.actions.concat(context.target.abilities.reactions), ability => ability.printedAbility && ability.title !== 'Copy another character\'s ability');
+                if(abilities.length === 0) {
+                    return;
+                }
                 //let choices = _.map(abilities, ability => ability.title);
                 let handlers = _.map(abilities, a => {
                     return () => {
@@ -20,12 +23,15 @@ class TogashiYokuni extends DrawCard {
                             _.each(a.methods, name => this[name] = context.target[name].bind(this));
                         }
                         context.target.setupCardAbilities.call(this, ability);
-                        // TODO: add code to remove any other non-chosen abilities
-                        let newAbility = _.find(context.target.abilities.actions.concat(context.target.abilities.reactions), ability => ability.title === a.title);
+                        let newAbility = _.find(this.abilities.actions.concat(this.abilities.reactions), ability => ability.title === a.title && ability.printedAbility);
                         newAbility.registerEvents();
+                        newAbility.printedAbility = false;
+                        this.abilities.actions = _.reject(this.abilities.actions, action => action.cannotBeCopied);
+                        this.abilities.actions = _.reject(this.abilities.actions, action => action.printedAbility && action !== newAbility && action.title !== 'Copy another character\'s ability');
+                        this.abilities.reactions = _.reject(this.abilities.reactions, reaction => reaction.printedAbility && reaction !== newAbility);
                         this.untilEndOfPhase(ability => ({
                             match: this,
-                            effect: ability.effects.removeAbility(newAbility)
+                            effect: this.abilities.actions.includes(newAbility) ? ability.effects.removeAction(newAbility) : ability.effects.removeReaction(newAbility)
                         }));
                     };
                 });
