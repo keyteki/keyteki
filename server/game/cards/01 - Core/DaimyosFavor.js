@@ -10,7 +10,7 @@ class DaimyosFavor extends DrawCard {
                 this.untilEndOfPhase(ability => ({
                     //TODO: need to make this only work on cards which are played on the same character
                     targetType: 'player',
-                    effect: ability.effects.reduceNextPlayedCardCost(1, card => card.type === 'attachments')
+                    effect: ability.effects.reduceNextPlayedCardCost(1, card => card.type === 'attachment')
                 }));
             }
         });
