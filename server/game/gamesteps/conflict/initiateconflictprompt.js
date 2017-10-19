@@ -31,7 +31,7 @@ class InitiateConflictPrompt extends UiPrompt {
         let promptTitle = '';
         
         if(this.conflict.conflictRing === '') {
-            menuTitle = 'Choose an elemental ring';
+            menuTitle = 'Choose an elemental ring\n(click the ring again to change conflict type)';
             promptTitle = 'Initiate Conflict';
         } else {
             promptTitle = capitalize[this.conflict.conflictType] + ' ' + capitalize[this.conflict.conflictRing] + ' Conflict';
