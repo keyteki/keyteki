@@ -492,6 +492,10 @@ class BaseCard {
         return this.abilities.actions;
     }
 
+    getProvinceStrengthBonus() {
+        return 0;
+    }
+
     getShortSummary() {
         return {
             id: this.cardData.id,
