@@ -391,6 +391,31 @@ const Effects = {
     cannotMoveCharactersIntoConflict: playerCannotEffect('moveToConflict'),
     playerCannotTriggerAbilities: playerCannotEffect('triggerAbilities'),
     cannotBecomeDishonored: cardCannotEffect('becomeDishonored'),
+    gainAbility: function(abilityType, properties) {
+        return {
+            apply: function(card, context) {
+                abilityType = abilityType === 'cancelinterrupt' ? 'interrupt' : abilityType;
+                abilityType = abilityType === 'forcedinterrupt' ? 'forcedInterrupt' : abilityType;
+                abilityType = abilityType === 'forcedreaction' ? 'forcedReaction' : abilityType;
+                card[abilityType](properties);
+                let ability = _.last(card.abilities[abilityType === 'action' ? 'actions' : 'reactions']);
+                if(context.source.grantedAbilityLimits[card.uuid]) {
+                    ability.limit = context.source.grantedAbilityLimits[card.uuid];
+                } else {
+                    context.source.grantedAbilityLimits[card.uuid] = ability.limit;
+                }
+                context.gainAbility = context.gainAbility || {};
+                context.gainAbility[card.uuid] = ability;
+            },
+            unapply: function(card, context) {
+                if(context.gainAbility && context.gainAbility[card.uuid]) {
+                    let list = abilityType === 'action' ? 'actions' : 'reactions';
+                    card.abilities[list] = _.reject(card.abilities[list], ability => ability === context.gainAbility[card.uuid]);
+                    delete context.gainAbility[card.uuid];
+                }
+            }
+        };
+    },
     restrictNumberOfDefenders: function(amount) {
         return {
             apply: function(card, context) {
