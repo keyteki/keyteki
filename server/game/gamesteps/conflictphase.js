@@ -194,9 +194,11 @@ class ConflictPhase extends Phase {
             this.currentPlayer = this.game.getOtherPlayer(this.currentPlayer);
         }
         if(!this.game.currentConflict.winnerGoesStraightToNextConflict) {
+            this.game.currentConflict = null;
             this.game.queueStep(new ActionWindow(this.game, 'Action Window', 'preConflict'));            
+        } else {
+            this.game.currentConflict = null;
         }
-        this.game.currentConflict = null;
         this.game.queueStep(new SimpleStep(this.game, () => this.startConflictChoice(this.currentPlayer)));
     }
 
