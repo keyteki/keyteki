@@ -286,6 +286,7 @@ class BaseCard {
         this.tokens = {};
         _.each(this.abilities.actions, action => action.limit.reset());
         _.each(this.abilities.reactions, reaction => reaction.limit.reset());
+        this.controller = this.owner;
     }
 
     moveTo(targetLocation) {
