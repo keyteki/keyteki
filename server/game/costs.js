@@ -77,7 +77,7 @@ const Costs = {
                 return context.source.bowed;
             },
             unpay: function(context) {
-                context.source.controller.standCard(context.source);
+                context.source.controller.readyCard(context.source);
             }
         };
     },
