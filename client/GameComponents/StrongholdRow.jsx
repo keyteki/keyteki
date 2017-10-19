@@ -37,7 +37,7 @@ class StrongholdRow extends React.Component {
                     <Placeholder size={ this.props.cardSize } />
                     <Placeholder size={ this.props.cardSize } />
                     <Placeholder size={ this.props.cardSize } />
-                    { this.getFavor(this.props.otherPlayer) }
+                    { (!this.props.isMe && this.props.thisPlayer) ? this.getFavor(this.props.thisPlayer) : this.getFavor(this.props.otherPlayer) }
                     <Province isMe={ this.props.isMe } source='stronghold province' cards={ this.props.strongholdProvinceCards } onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick } size={ this.props.cardSize } />
                     { this.props.role && this.props.role.location ? <CardPile className='rolecard' source='role card' cards={ [] } topCard={ this.props.role } disablePopup
                         onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick } size={ this.props.cardSize } /> : '' }
