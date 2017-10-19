@@ -28,7 +28,7 @@ class Outwit extends DrawCard {
             }
         }
         if(this.game.currentConflict.defendingPlayer === this.controller) {
-            let present = _.size(_.filter(this.game.currentConflict.attackers, card => card.hasTrait('courtier')));
+            let present = _.size(_.filter(this.game.currentConflict.defenders, card => card.hasTrait('courtier')));
             if(present > 0) {
                 return true;
             }
@@ -45,7 +45,7 @@ class Outwit extends DrawCard {
             return highestSkilledCharacter.getPoliticalSkill();
         }
         if(this.game.currentConflict.defendingPlayer === this.controller) {
-            let characters = _.filter(this.game.currentConflict.attackers, card => card.hasTrait('courtier'));
+            let characters = _.filter(this.game.currentConflict.defenders, card => card.hasTrait('courtier'));
             let highestSkilledCharacter = _.max(characters, function(character) {
                 return character.getPoliticalSkill();
             });
