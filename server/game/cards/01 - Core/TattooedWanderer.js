@@ -14,6 +14,8 @@ class TattooedWanderer extends DrawCard {
                 return this.controller.fate >= this.controller.getReducedCost('play', clone);
             },
             location: 'hand',
+            printedAbility: false,
+            cannotBeCopied: true,
             handler: () => {
                 this.type = 'attachment';
                 let context = {
