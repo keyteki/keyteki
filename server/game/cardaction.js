@@ -42,6 +42,7 @@ class CardAction extends BaseAbility {
 
         this.game = game;
         this.card = card;
+        this.abilityType = 'action';
         this.title = properties.title;
         this.limit = properties.limit || AbilityLimit.perRound(1);
         this.max = properties.max;

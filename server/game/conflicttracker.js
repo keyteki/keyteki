@@ -100,6 +100,10 @@ class ConflictTracker {
     getLost(conflictType) {
         return this.conflictTypes[conflictType].lost;
     }
+    
+    getTotalLost() {
+        return this.getLost('military') + this.getLost('political');
+    }
 
     getPerformed(conflictType) {
         return this.conflictTypes[conflictType].performed;
