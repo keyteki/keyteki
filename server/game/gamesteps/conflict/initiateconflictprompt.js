@@ -26,7 +26,7 @@ class InitiateConflictPrompt extends UiPrompt {
     }
 
     activePrompt() {
-        let buttons = [{ text: 'Pass', arg: 'pass' }];
+        let buttons = [{ text: 'Pass Conflict', arg: 'pass' }];
         let menuTitle = '';
         let promptTitle = '';
         
@@ -156,16 +156,14 @@ class InitiateConflictPrompt extends UiPrompt {
             return false;
         }
 
+        this.complete();
         if(arg === 'done') {
             this.conflict.conflictDeclared = true;
         } else if(arg === 'pass') {
             this.conflict.passed = true;
-            this.game.raiseEvent('onConflictPass', { conflict: this.conflict }, () => {
-                this.conflict.cancelConflict();
-            });
+            this.game.raiseEvent('onConflictPass', { conflict: this.conflict });
+            this.game.queueSimpleStep(() => this.conflict.cancelConflict());
         }
-        
-        this.complete();
     }
 }
 
