@@ -26,7 +26,7 @@ class InitiateConflictPrompt extends UiPrompt {
     }
 
     activePrompt() {
-        let buttons = [{ text: 'Pass', arg: 'pass' }];
+        let buttons = [{ text: 'Pass Conflict', arg: 'pass' }];
         let menuTitle = '';
         let promptTitle = '';
         
