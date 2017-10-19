@@ -4,7 +4,7 @@ class CourtGames extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             condition: () => this.game.currentConflict && this.game.currentConflict.conflictType === 'political',
-            max: ability.limit.perRound(1),
+            max: ability.limit.perConflict(1),
             target: {
                 player: 'self',
                 mode: 'select',
