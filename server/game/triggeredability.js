@@ -24,9 +24,11 @@ class TriggeredAbility extends BaseAbility {
         this.game = game;
         this.card = card;
         this.limit = properties.limit || AbilityLimit.perRound(1);
+        this.max = properties.max;
         this.when = properties.when;
         this.abilityType = abilityType;
         this.printedAbility = properties.printedAbility === false ? false : true;
+        this.methods = properties.methods || [];
         this.location = properties.location || [];
         if(!_.isArray(this.location)) {
             this.location = [this.location];

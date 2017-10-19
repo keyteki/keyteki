@@ -53,6 +53,7 @@ class CardAction extends BaseAbility {
         this.events = new EventRegistrar(game, this);
         this.printedAbility = properties.printedAbility === false ? false : true;
         this.cannotBeCopied = properties.cannotBeCopied;
+        this.methods = properties.methods || [];
         this.activationContexts = [];
 
         if(!_.isArray(this.location)) {
