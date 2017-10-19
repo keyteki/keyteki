@@ -1,12 +1,11 @@
 const BaseAbility = require('./baseability.js');
 const Costs = require('./costs.js');
-const ChooseFate = require('./costs/choosefate.js');
 
 class PlayCharacterAction extends BaseAbility {
     constructor() {
         super({
             cost: [
-                new ChooseFate(),
+                Costs.chooseFate(),
                 Costs.payReduceableFateCost('play'),
                 Costs.playLimited()
             ]
@@ -27,6 +26,7 @@ class PlayCharacterAction extends BaseAbility {
     executeHandler(context) {
         
         this.card = context.source;
+        this.card.fate = context.chooseFate;
         this.originalLocation = this.card.location;
         if(context.game.currentConflict) {
             context.game.promptWithMenu(context.player, this, {
@@ -50,7 +50,8 @@ class PlayCharacterAction extends BaseAbility {
         if(arg === 'conflict') {
             inConflict = true;
         }
-        player.playCharacterWithFate(this.card, this.cost[0].fate, inConflict);
+        player.game.addMessage('{0} plays {1} {2}with {3} additional fate', player, this.card, inConflict ? 'into the conflict ' : '', this.card.fate);
+        player.putIntoPlay(this.card, inConflict);
         return true;
     }
 

@@ -24,6 +24,44 @@ const Costs = {
     choose: function(choices) {
         return new ChooseCost(choices);
     },
+    chooseFate: function () {
+        return {
+            canPay: function() {
+                return true;
+            },
+            resolve: function(context, result = { resolved: false }) {
+                let extrafate = Math.min(context.player.fate - context.player.getReducedCost('play', context.source), 3);
+                let choices = [];
+                for(let i = 0; i <= extrafate; i++) {
+                    choices.push(i);
+                }
+                let handlers = _.map(choices, fate => {
+                    return () => {
+                        context.chooseFate = fate;
+                        result.value = true;
+                        result.resolved = true;
+                    };
+                });
+                
+                choices.push('Cancel');
+                handlers.push(() => {
+                    result.value = false;
+                    result.resolved = true;
+                });
+                
+                context.game.promptWithHandlerMenu(context.player, {
+                    activePromptTitle: 'Choose additional fate',
+                    source: context.source,
+                    choices: choices,
+                    handlers: handlers
+                });
+                return result;
+            },
+            pay: function(context) {
+                context.player.fate -= context.chooseFate;
+            }
+        };
+    },
     /**
      * Cost that will bow the card that initiated the ability.
      */
