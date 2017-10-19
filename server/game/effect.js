@@ -3,8 +3,6 @@ const _ = require('underscore');
 const Effects = require('./effects.js');
 const Player = require('./player.js');
 
-const PlayAreaLocations = ['play area', 'province'];
-
 /**
  * Represents a card based effect applied to one or more targets.
  *
@@ -85,11 +83,15 @@ class Effect {
 
     isValidTarget(target) {
         if(this.targetType === 'card') {
-            if(this.targetLocation === 'play area' && !PlayAreaLocations.includes(target.location)) {
+            if(this.targetLocation === 'play area' && target.location !== 'play area') {
                 return false;
             }
 
             if(this.targetLocation === 'hand' && target.location !== 'hand') {
+                return false;
+            }
+
+            if(this.targetLocation === 'province' && !['province 1', 'province 1', 'province 1', 'province 1'].includes(target.location)) {
                 return false;
             }
 

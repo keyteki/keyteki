@@ -208,10 +208,10 @@ describe('Effect', function() {
                     expect(this.effect.targets).toContain(this.matchingCard);
                 });
 
-                it('should add targets from province', function() {
-                    this.matchingCard.location = 'province';
+                it('should reject targets from province', function() {
+                    this.matchingCard.location = 'province 1';
                     this.effect.addTargets([this.matchingCard]);
-                    expect(this.effect.targets).toContain(this.matchingCard);
+                    expect(this.effect.targets).not.toContain(this.matchingCard);
                 });
 
                 it('should reject targets from hand', function() {
@@ -233,7 +233,7 @@ describe('Effect', function() {
                 });
 
                 it('should reject targets from province', function() {
-                    this.matchingCard.location = 'province';
+                    this.matchingCard.location = 'province 1';
                     this.effect.addTargets([this.matchingCard]);
                     expect(this.effect.targets).not.toContain(this.matchingCard);
                 });
@@ -262,9 +262,9 @@ describe('Effect', function() {
                     });
 
                     it('should add targets from province', function() {
-                        this.matchingCard.location = 'province';
+                        this.matchingCard.location = 'province 1';
                         this.effect.addTargets([this.matchingCard]);
-                        expect(this.effect.targets).toContain(this.matchingCard);
+                        expect(this.effect.targets).not.toContain(this.matchingCard);
                     });
 
                     it('should reject targets from hand', function() {
@@ -286,7 +286,7 @@ describe('Effect', function() {
                     });
 
                     it('should reject targets from province', function() {
-                        this.matchingCard.location = 'province';
+                        this.matchingCard.location = 'province 1';
                         this.effect.addTargets([this.matchingCard]);
                         expect(this.effect.targets).not.toContain(this.matchingCard);
                     });
