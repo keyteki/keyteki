@@ -6,17 +6,16 @@ class Rout extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Send a character home.',
-            condition: () => this.player.anyCardsInPlay(card => card.isParticipating() && card.hasTrait('bushi')),
+            condition: () => this.controller.anyCardsInPlay(card => card.isParticipating() && card.hasTrait('bushi')),
             target: {
-                activePromptTitle: 'Select a character',
                 cardType: 'character',
                 gameAction: 'sendHome',
-                cardCondition: card => card.isParticipating() && card.controller !== this.controller && card.getMilitarySkill() < this.controller.cardsInPlay.max(card => {
+                cardCondition: card => card.isParticipating() && card.controller !== this.controller && card.getMilitarySkill() < _.max(this.controller.cardsInPlay.map(card => {
                     if(card.hasTrait('bushi') && card.isParticipating) {
                         return card.getMilitarySkill();
                     }
                     return 0;
-                })
+                }))
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to send {2} home', this.controller, this, context.target);
