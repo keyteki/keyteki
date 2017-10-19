@@ -26,7 +26,7 @@ class StrongholdCard extends BaseCard {
         return this.cardData.influence_pool + this.influenceModifier;
     }
 
-    getStrengthModifier() {
+    getProvinceStrengthBonus() {
         return this.cardData.province_strength_mod + this.strengthModifier;
     }
 
