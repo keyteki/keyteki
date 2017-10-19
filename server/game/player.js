@@ -1130,10 +1130,14 @@ class Player extends Spectator {
             }
 
             card.leavesPlay();
-            card.moveTo(targetLocation);
-        }
 
-        if(location !== 'play area') {
+            card.moveTo(targetLocation);
+        } else {
+            if(targetLocation === 'play area') {
+                card.controller = this;
+            } else {
+                card.controller = card.owner;
+            }
             card.moveTo(targetLocation);
         }
 
@@ -1201,7 +1205,6 @@ class Player extends Spectator {
     removeCardFromPile(card) {
         if(card.controller !== this) {
             card.controller.removeCardFromPile(card);
-            card.controller = card.owner;
             return;
         }
 
