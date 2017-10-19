@@ -1269,13 +1269,6 @@ class Player extends Spectator {
         this.game.addMessage('{0} reveals a bid of {1}', this, this.showBid);
     }
 
-    playCharacterWithFate(card, fate, inConflict = false) {
-        card.fate = fate;
-        this.putIntoPlay(card, inConflict);
-
-        this.game.addMessage('{0} plays {1} {2}with {3} additional fate', this, card, inConflict ? 'into the conflict ' : '', fate);
-    }
-    
     resolveRingEffects(elements, queue = []) {
         if(!_.isArray(elements)) {
             this.resolveRingEffectForElement(elements);
