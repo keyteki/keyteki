@@ -8,11 +8,11 @@ class GoldenPlainsOutpost extends StrongholdCard {
             condition: () => this.game.currentConflict && this.game.currentConflict.conflictType === 'military',
             target: {
                 cardType: 'character',
+                gameAction: 'moveToConflict',
                 cardCondition: card => {
                     return (card.hasTrait('cavalry') &&
                             card.controller === this.controller &&
-                            !this.game.currentConflict.isParticipating(card) &&
-                            card.allowGameAction('moveToConflict') &&
+                            !card.isParticipating() &&
                             card.location === 'play area');
                 }
             },
