@@ -17,7 +17,7 @@ class MountainsAnvilCastle extends StrongholdCard {
             handler: context => {
                 this.game.addMessage('{0} bows {1} to give {2} {3}', this.controller, this, context.target, context.target.attachments.size > 1 ? '+2/+2' : '+1/+1');
                 let modifier = 1;
-                if(context.target.attachments.size > 1) {
+                if(context.target.attachments.size() > 1) {
                     modifier = 2;
                 }
                 this.untilEndOfConflict(ability => ({
