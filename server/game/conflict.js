@@ -128,18 +128,8 @@ class Conflict {
         ring.flipConflictType();
         this.conflictType = ring.conflictType;
         this.conflictTypeSwitched = true;
-        _.each(this.attackers, card => {
-            if(!card.canParticipateAsAttacker(this.conflictType)) {
-                this.removeFromConflict(card);
-                card.bowed = true;
-            }
-        });
-        _.each(this.defenders, card => {
-            if(!card.canParticipateAsDefender(this.conflictType)) {
-                this.removeFromConflict(card);
-                card.bowed = true;
-            }
-        });
+        this.game.reapplyStateDependentEffects();
+        this.checkForIllegalParticipants();
     }
     
     switchElement(element) {
@@ -154,6 +144,21 @@ class Conflict {
         this.elements.push(element);
     }
     
+    checkForIllegalParticipants() {
+        _.each(this.attackers, card => {
+            if(!card.canParticipateAsAttacker(this.conflictType)) {
+                this.removeFromConflict(card);
+                card.bowed = true;
+            }
+        });
+        _.each(this.defenders, card => {
+            if(!card.canParticipateAsDefender(this.conflictType)) {
+                this.removeFromConflict(card);
+                card.bowed = true;
+            }
+        });
+    }
+
     removeFromConflict(card) {
         this.attackers = _.reject(this.attackers, c => c === card);
         this.defenders = _.reject(this.defenders, c => c === card);
