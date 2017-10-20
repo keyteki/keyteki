@@ -15,7 +15,7 @@ class AsakoDiplomat extends DrawCard {
                         cardCondition: card => card.location === 'play area',
                         onSelect: (player, card) => {
                             player.honorCard(card);
-                            this.game.addMessage('0} uses {1} to honor {2', this.controller, this, card);
+                            this.game.addMessage('{0} uses {1} to honor {2}', this.controller, this, card);
                             return true;
                         },
                         source: this
@@ -28,7 +28,7 @@ class AsakoDiplomat extends DrawCard {
                         cardCondition: card => card.location === 'play area',
                         onSelect: (player, card) => {
                             player.dishonorCard(card);
-                            this.game.addMessage('0} uses {1} to dishonor {2', this.controller, this, card);
+                            this.game.addMessage('{0} uses {1} to dishonor {2}', this.controller, this, card);
                             return true;
                         },
                         source: this
