@@ -108,7 +108,7 @@ class BaseCard {
     parseTraits(traits) {
         this.traits = {};
 
-        this.traits = traits;
+        _.each(traits, trait => this.addTrait(trait));
     }
 
     registerEvents(events) {
@@ -259,7 +259,12 @@ class BaseCard {
     }
 
     hasTrait(trait) {
-        return _.contains(this.traits, trait);
+        let traitCount = this.traits[trait.toLowerCase()] || 0;
+        return traitCount > 0;
+    }
+
+    getTraits() {
+        return _.keys(_.omit(this.traits, trait => trait < 1));
     }
 
     isFaction(faction) {
@@ -437,7 +442,9 @@ class BaseCard {
     }
 
     removeTrait(trait) {
-        this.traits[trait.toLowerCase()]--;
+        let lowerCaseTrait = trait.toLowerCase();
+        this.traits[lowerCaseTrait] = this.traits[lowerCaseTrait] || 0;
+        this.traits[lowerCaseTrait]--;
         this.game.raiseEvent('onCardTraitChanged', { card: this });
     }
 
