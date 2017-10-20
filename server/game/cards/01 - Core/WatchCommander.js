@@ -17,6 +17,12 @@ class WatchCommander extends DrawCard {
             }
         });
     }
+    canAttach(player, card) {
+        if(card.attachments && card.attachments.any(card => card instanceof WatchCommander)) {
+            return false;
+        }
+        return super.canAttach(player, card);
+    }
 }
 
 WatchCommander.id = 'watch-commander';
