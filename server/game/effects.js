@@ -211,7 +211,7 @@ const Effects = {
         apply: function(card, context) {
             if(card.getPoliticalSkill() <= 0) {
                 card.controller.discardCardFromPlay(card);
-                context.game.addMessage('{0} is killed as its political skill is 0', card);
+                context.game.addMessage('{0} is killed as their political skill is 0', card);
             }
         },
         unapply: function() {
