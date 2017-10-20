@@ -4,7 +4,7 @@ class Assassination extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             cost: ability.costs.payHonor(3),
-            condition: this.game.currentConflict,
+            condition: () => this.game.currentConflict,
             max: ability.limit.perRound(1),
             target: {
                 cardType: 'character',
