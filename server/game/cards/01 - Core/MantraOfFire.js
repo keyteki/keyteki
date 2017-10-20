@@ -4,7 +4,7 @@ class MantraOfFire extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onConflictDeclared: event => event.conflictRing === 'fire'
+                onConflictDeclared: event => event.conflictRing === 'fire' && event.conflict.attackingPlayer !== this.controller
             },
             target: {
                 cardType: 'character',
