@@ -14,7 +14,7 @@ class Ambush extends DrawCard {
                 multiSelect: true,
                 cardType: 'character',
                 cardCondition: card => {
-                    return (card.isFaction('scorpion') && 
+                    return (card.isFaction('scorpion') && !card.facedown &&
                             ['hand', 'province 1', 'province 2', 'province 3', 'province 4'].includes(card.location) &&
                             this.controller.canPutIntoPlay(card));
                 }
