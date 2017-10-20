@@ -75,7 +75,7 @@ class InitiateConflictPrompt extends UiPrompt {
     }
 
     onRingClicked(player, ring) {
-        if(player !== this.choosingPlayer) {
+        if(player !== this.choosingPlayer || ring.claimed) {
             return false;
         }
 
