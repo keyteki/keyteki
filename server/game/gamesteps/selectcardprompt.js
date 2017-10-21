@@ -54,7 +54,7 @@ class SelectCardPrompt extends UiPrompt {
         }
 
         this.properties = properties;
-        this.context = properties.context;
+        this.context = properties.context || { game: game, player: choosingPlayer, source: properties.source };
         _.defaults(this.properties, this.defaultProperties());
         this.selector = properties.selector || CardSelector.for(properties);
         this.selectedCards = [];
