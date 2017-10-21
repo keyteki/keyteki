@@ -100,6 +100,9 @@ class InitiateConflictPrompt extends UiPrompt {
 
     checkCardCondition(card) {
         if(card.isProvince && card.controller !== this.choosingPlayer && !card.isBroken) {
+            if(card.location === 'stronghold province' && _.size(this.game.allCards.filter(card => card.isProvince && card.isBroken && card.controller !== this.choosingPlayer)) < 3) {
+                return false;
+            }
             if(!this.conflict.conflictProvince || card === this.conflict.conflictProvince) {
                 return true;
             }
