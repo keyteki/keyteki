@@ -75,7 +75,7 @@ class PendingGame {
     addSpectator(id, user) {
         this.spectators[user.username] = {
             id: id,
-            name: user.userame,
+            name: user.username,
             user: user,
             emailHash: user.emailHash
         };
