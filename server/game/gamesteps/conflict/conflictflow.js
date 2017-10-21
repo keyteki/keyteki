@@ -329,10 +329,10 @@ class ConflictFlow extends BaseStep {
         this.game.raiseEvent('onAtEndOfConflict');
 
         this.resetCards();
-        if(!this.game.militaryConflictCompleted && (this.conflictType === 'military' || this.conflictTypeSwitched)) {
+        if(!this.game.militaryConflictCompleted && (this.conflict.conflictType === 'military' || this.conflict.conflictTypeSwitched)) {
             this.game.militaryConflictCompleted = true;
         }
-        if(!this.game.politicalConflictCompleted && (this.conflictType === 'political' || this.conflictTypeSwitched)) {
+        if(!this.game.politicalConflictCompleted && (this.conflict.conflictType === 'political' || this.conflict.conflictTypeSwitched)) {
             this.game.politicalConflictCompleted = true;
         }
 
