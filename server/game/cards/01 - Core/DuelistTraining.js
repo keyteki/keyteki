@@ -11,7 +11,7 @@ class DuelistTraining extends DrawCard {
                 target: {
                     activePromptTitle: 'Choose a character',
                     cardType: 'character',
-                    cardCondition: card => card.isParticipating() && card.controller !== this.parent.controller
+                    cardCondition: card => card.isParticipating() && card.controller !== this.parent.controller && card.getMilitarySkill(true) !== undefined
                 },
                 handler: context => {
                     this.game.addMessage('{0} uses {1} to challenge {2} to a duel', this.parent.controller, this, context.target);
