@@ -13,7 +13,7 @@ class SteadfastWitchHunter extends DrawCard {
                     && card.getType() === 'character'
             },
             handler: context => {
-                this.game.addMessage('{0} uses {1} and sacrifices {2} to stand {3}', this.controller, this, context.sacrificeCostCard, context.target);
+                this.game.addMessage('{0} uses {1} and sacrifices {2} to ready {3}', this.controller, this, context.sacrificeCostCard, context.target);
                 context.target.controller.readyCard(context.target);
             }
         });
