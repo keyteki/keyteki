@@ -38,7 +38,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
     continue() {
         this.players = this.filterChoicelessPlayers(this.players || this.game.getPlayersInFirstPlayerOrder());
 
-        if(this.players.length === 0 || _.size(this.abilityChoices) === 0 && !this.forceWindowPerPlayer[this.players[0].name]) {
+        if(_.all(this.events, event => event.cancelled) || this.players.length === 0 || _.size(this.abilityChoices) === 0 && !this.forceWindowPerPlayer[this.players[0].name]) {
             return true;
         }
 
