@@ -20,6 +20,8 @@ class WatchCommander extends DrawCard {
     canAttach(player, card) {
         if(card.attachments && card.attachments.any(card => card instanceof WatchCommander)) {
             return false;
+        } else if(card.controller !== player) {
+            return false;
         }
         return super.canAttach(player, card);
     }
