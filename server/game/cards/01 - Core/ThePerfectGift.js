@@ -10,12 +10,12 @@ class ThePerfectGift extends DrawCard {
                 let opponentTopFour = [];
                 let myTopFour = this.controller.conflictDeck.first(4);
                 let n = myTopFour.length;
-                this.game.addMessage('{0) reveals the top {1} from their conflict deck: {2}', this.controller, n > 1 ? n + ' cards' : 'card', myTopFour);
+                this.game.addMessage('{0} reveals the top {1} from their conflict deck: {2}', this.controller, n > 1 ? n + ' cards' : 'card', myTopFour);
                 if(otherPlayer) {
                     opponentTopFour = otherPlayer.conflictDeck.first(4);
                     n = opponentTopFour.length;
                     if(n > 0) {
-                        this.game.addMessage('{0) reveals the top {1} from their conflict deck: {2}', otherPlayer, n > 1 ? n + ' cards' : 'card', opponentTopFour);
+                        this.game.addMessage('{0} reveals the top {1} from their conflict deck: {2}', otherPlayer, n > 1 ? n + ' cards' : 'card', opponentTopFour);
                         this.game.promptWithMenu(this.controller, this, {
                             source: this,
                             activePrompt: { 
