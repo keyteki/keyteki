@@ -1,9 +1,10 @@
 const DrawCard = require('../../drawcard.js');
 
 class WayOfThePhoenix extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Prevent an opponent contesting a ring',
+            max: ability.limit.perPhase(1),
             target: {
                 mode: 'ring',
                 ringCondition: () => true
