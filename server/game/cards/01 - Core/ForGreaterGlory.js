@@ -2,11 +2,12 @@ const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 
 class ForGreaterGlory extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             when: {
                 onBreakProvince: event => event.conflict.conflictType === 'military' && this.controller.anyCardsInPlay(card => card.isAttacking() && card.hasTrait('bushi'))
             },
+            max: ability.limit.perConflict(1),
             handler: context => {
                 this.game.addMessage('{0} uses {1} to add fate to each of their participating Bushi', this.controller, this);
                 _.each(context.event.conflict.attackers, card => {
