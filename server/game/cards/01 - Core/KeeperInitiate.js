@@ -5,7 +5,7 @@ class KeeperInitiate extends DrawCard {
         this.reaction({
             title: 'Put this into play',
             when: {
-                onClaimRing: event => (event.conflict.winner === this.controller && 
+                onClaimRing: event => (event.conflict.winner === this.controller && this.controller.role && 
                         this.controller.role.hasTrait(event.conflict.conflictRing) && !this.facedown && this.location !== 'play area')
             },
             location: ['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile'],
