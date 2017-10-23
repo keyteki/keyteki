@@ -28,7 +28,7 @@ class About extends React.Component {
 
                     <p>The background of the site is by an artist named <a href='https://speeh.deviantart.com/' target='_blank'>Speeh</a> and can be found <a href='https://speeh.deviantart.com/art/L5R-Fu-Leng-575822238' target='_blank'>here</a>.</p>
                     <p>The in game backgrounds are by <a href='https://alayna.deviantart.com/' target='_blank'>Alayna Lemmer-Danner</a>.  She's very talented, you should check out her work!</p>
-                    <p>Don't want to be distracted by beautiful art during your games? In-game backgrounds can be disabled from your <Link href='/profile'>Profile</Link>.</p>*/ }
+                    <p>Don't want to be distracted by beautiful art during your games? In-game backgrounds can be disabled from your <Link href='/profile'>Profile</Link>.</p>
 
                     <h3>Can I help?</h3>
                     <p>Sure!  The project is all written in Javascript.  The server is node.js and the client is React.js.  The source code can be found in the&nbsp;
