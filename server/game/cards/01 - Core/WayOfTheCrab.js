@@ -5,11 +5,12 @@ class WayOfTheCrab extends DrawCard {
         this.action({
             condition: () => this.controller.opponent,
             cost: ability.costs.sacrifice(card => card.type === 'character'),
+            max: ability.limit.perRound(1),
             handler: context => {
                 this.game.promptForSelect(this.controller.opponent, {
                     activePromptTitle: 'Choose a character to sacrifice',
                     source: this,
-                    cardCondition: card => card.location === 'play area',
+                    cardCondition: card => card.location === 'play area' && card.controller === this.controller.opponent,
                     cardType: 'character',
                     buttons: [],
                     onSelect: (player, card) => {

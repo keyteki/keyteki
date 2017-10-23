@@ -1116,7 +1116,7 @@ class Player extends Spectator {
 
         let location = card.location;
 
-        if(location === 'play area') {
+        if(location === 'play area' || (card.type === 'holding' && ['province 1', 'province 2', 'province 3', 'province 4'].includes(location))) {
             if(card.owner !== this) {
                 card.owner.moveCard(card, targetLocation, options);
                 return;
