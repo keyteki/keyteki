@@ -338,16 +338,16 @@ const Costs = {
         };
     },
     /**
-     * Cost that will stand the card that initiated the ability (e.g.,
+     * Cost that will ready the card that initiated the ability (e.g.,
      * Barristan Selmy (TS)).
      */
-    standSelf: function() {
+    readySelf: function() {
         return {
             canPay: function(context) {
                 return context.source.bowed;
             },
             pay: function(context) {
-                context.source.controller.standCard(context.source);
+                context.source.controller.readyCard(context.source);
             }
         };
     },
