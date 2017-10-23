@@ -26,7 +26,6 @@ function getStronghold(deck) {
 
 function isCardInReleasedPack(packs, card) { // eslint-disable-line no-unused-vars
     let cardPack = card.pack_cards[0].pack.id;
-    console.log(cardPack);
     let pack = _.find(packs, pack => {
         return cardPack === pack.id;
     });
@@ -243,7 +242,7 @@ module.exports = function validateDeck(deck, packs) { // eslint-disable-line no-
 
     if(isValid) {
         let unreleasedCards = _.reject(combined, card => {
-            return isCardInReleasedPack(packs, card);
+            return isCardInReleasedPack(packs, card.card);
         });
 
         if(_.size(unreleasedCards) !== 0) {
@@ -253,6 +252,7 @@ module.exports = function validateDeck(deck, packs) { // eslint-disable-line no-
                 extendedStatus.push(card.card.name + ' is not yet released');
             });
         }
+
     }
 
     return { status: status, provinceCount: provinceCount, conflictCount: conflictCount, dynastyCount: dynastyCount, extendedStatus: extendedStatus, isValid: isValid };
