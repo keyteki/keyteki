@@ -25,15 +25,16 @@ function getStronghold(deck) {
 }
 
 function isCardInReleasedPack(packs, card) { // eslint-disable-line no-unused-vars
+    let cardPack = card.pack_cards[0].pack.id;
     let pack = _.find(packs, pack => {
-        return card.pack_code === pack.code;
+        return cardPack === pack.id;
     });
 
     if(!pack) {
         return false;
     }
 
-    let releaseDate = pack.available || pack.date_release;
+    let releaseDate = pack.available || pack.released_at;
 
     if(!releaseDate) {
         return false;
@@ -239,10 +240,9 @@ module.exports = function validateDeck(deck, packs) { // eslint-disable-line no-
         isValid = false;
     }
 
-    /* Ignore Release Status for now
     if(isValid) {
         let unreleasedCards = _.reject(combined, card => {
-            return isCardInReleasedPack(packs, card);
+            return isCardInReleasedPack(packs, card.card);
         });
 
         if(_.size(unreleasedCards) !== 0) {
@@ -252,8 +252,8 @@ module.exports = function validateDeck(deck, packs) { // eslint-disable-line no-
                 extendedStatus.push(card.card.name + ' is not yet released');
             });
         }
+
     }
-    */
 
     return { status: status, provinceCount: provinceCount, conflictCount: conflictCount, dynastyCount: dynastyCount, extendedStatus: extendedStatus, isValid: isValid };
 };
