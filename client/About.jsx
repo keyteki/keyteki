@@ -36,20 +36,15 @@ class About extends React.Component {
                 status list above to have a look at what needs to be done.  If you want to join the dev discord, or ask any other question, send me a note on here, or post in the L5R Facebook group.  I'll likely find it.
                     </p>
 
-                    { /*<h4>Donations</h4>
-                I was always reluctant to accept donations but since I've been asked a few times I thought I'd put up a small section about it here.
+                    <h3>Donations</h3>
+                    <p>Since I've been asked a few times about where people can donate to the project, I thought I'd put up a small section about it here.</p>
+                    <p>You can use this link: <a target='_blank' href='https://paypal.me/ringteki'>Paypal</a> to donate to the project. Note: The account uses my name, but is completely separate from my personal Paypal account.</p>
+                    <p>We may also look into creating a Patreon in the future, for those people who wish to make recurring donations.</p>
 
-                    <form action='https://www.paypal.com/cgi-bin/webscr' method='post' target='_top'>
-                        <input type='hidden' name='cmd' value='_s-xclick' />
-                        <input type='hidden' name='hosted_button_id' value='5SB6UZEGFSD58' />
-                        <input type='image' src='https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif' name='submit' alt='PayPal – The safer, easier way to pay online!' />
-                        <img alt='' src='https://www.paypalobjects.com/en_GB/i/scr/pixel.gif' width='1' height='1' />
-                    </form>
+                    <p>Just to make things clear, I'm not doing this for any personal gain whatsoever, I'm happy to run the servers at my own expense, but any money raised via this link will be used towards paying the hosting fees for the server and related services such as error tracking. All money in this account will only go towards these expenses.</p>
+                    <p>Also, this is not required to continue to use and enjoy the site and will not give anything of substance in return. I will also create an expense report that I will publish, so that you know where your donations are going.</p>
 
-                Just to make things clear, I'm not doing this for any personal gain whatsoever, I'm happy to run the servers at my own expense, but any money raised via this link will be used towards paying the hosting fees for the server and related services (error tracking, load balancing etc).
-                If, after the annnual bills for that are paid up, there is any money left over, I'll put it towards the following years expenses.
-                Also, this is not required to continue to use and enjoy the site and will not give anything in return (other than my sincerce gratitude and potentially better hardware for the site to run on).
-                I will also put a donation report in with the monthly reports that I'm publishing so that you know where your donations are going.*/ }
+                    <p>If you wish to reward the devs in particular, feel free to thank them when you see them out at events. Sharing a cold beverage is always appreciated!</p>
 
                     <h2>Special Thanks</h2>
                     <p>I'd like to thank mtgred, and the whole of the jinteki.net development team(except whoever decided to write the code in clojure, not you. - just kidding!) as without their
