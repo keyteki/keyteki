@@ -6,12 +6,11 @@ class MirumotosFury extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Bow attacking character',
-            condition: () => this.game.currentConflict,
             target: {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',
                 gameAction: 'bow',
-                cardCondition: card => this.game.currentConflict.isParticipating(card) && card.getGlory() <= _.size(this.game.allCards.filter(card => card.isProvince && card.facedown && card.controller === this.controller))
+                cardCondition: card => card.isAttacking() && card.getGlory() <= _.size(this.game.allCards.filter(card => card.isProvince && card.facedown && card.controller === this.controller))
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to bow {2}', this.controller, this, context.target);
