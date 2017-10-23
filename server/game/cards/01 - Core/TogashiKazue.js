@@ -13,6 +13,7 @@ class TogashiKazue extends DrawCard {
             location: 'hand',
             printedAbility: false,
             cannotBeCopied: true,
+            cannotBeCancelled: true,
             handler: () => {
                 this.type = 'attachment';
                 let context = {

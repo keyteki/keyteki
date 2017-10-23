@@ -77,9 +77,11 @@ class InitiateAbilityEventWindow extends BaseStep {
     }
     
     checkForOtherEffects() {
+        // Kisada needs to see the cancelled event so he knows that he can't cancel the next one
+        /* 
         if(this.event.cancelled) {
             return;
-        }
+        }*/
         
         this.game.emit(this.eventName + 'OtherEffects', ...this.event.params);
     }
