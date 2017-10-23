@@ -296,9 +296,7 @@ class ConflictFlow extends BaseStep {
             return;
         }
 
-        let ring = _.find(this.game.rings, ring => {
-            return ring.element === this.conflict.conflictRing;
-        });
+        let ring = this.game.rings[this.conflict.conflictRing];
         if(this.conflict.winner) {
             this.game.raiseEvent('onClaimRing', { player: this.conflict.winner, conflict: this.conflict }, () => ring.claimRing(this.conflict.winner));
 
