@@ -9,6 +9,8 @@ class WayOfTheDragon extends DrawCard {
     canAttach(player, card) {
         if(card.attachments && card.attachments.any(card => card instanceof WayOfTheDragon)) {
             return false;
+        } else if(card.controller !== player) {
+            return false;
         }
         return super.canAttach(player, card);
     }

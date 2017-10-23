@@ -15,6 +15,13 @@ class DaimyosFavor extends DrawCard {
             }
         });
     }
+    
+    canAttach(player, card) {
+        if(card.controller !== player) {
+            return false;
+        }
+        return super.canAttach(player, card);
+    }
 }
 
 DaimyosFavor.id = 'daimyo-s-favor';
