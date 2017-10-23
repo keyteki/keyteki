@@ -175,8 +175,7 @@ class BaseCard {
     persistentEffect(properties) {
         const allowedLocations = ['any', 'play area'];
         const defaultLocationForType = {
-            agenda: 'agenda',
-            plot: 'active plot'
+            province: 'any',
         };
 
         let location = properties.location || defaultLocationForType[this.getType()] || 'play area';

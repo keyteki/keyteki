@@ -91,7 +91,7 @@ class Effect {
                 return false;
             }
 
-            if(this.targetLocation === 'province' && !['province 1', 'province 1', 'province 1', 'province 1'].includes(target.location)) {
+            if(this.targetLocation === 'province' && !['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(target.location)) {
                 return false;
             }
 
