@@ -4,7 +4,9 @@ class IndomitableWill extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                afterConflict: event => (event.conflict.attackingPlayer === this.controller && event.conflict.attackers.length === 1) || (event.conflict.defendingPlayer === this.controller && event.conflict.defenders.length === 1)
+                afterConflict: event => (event.conflict.winner === this.controller && 
+                        ((event.conflict.attackingPlayer === this.controller && event.conflict.attackers.length === 1) || 
+                        (event.conflict.defendingPlayer === this.controller && event.conflict.defenders.length === 1)))
             },
             handler: context => {
                 if(context.event.conflict.attackingPlayer === this.controller) {
