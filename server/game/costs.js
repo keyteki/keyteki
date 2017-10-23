@@ -24,13 +24,13 @@ const Costs = {
     choose: function(choices) {
         return new ChooseCost(choices);
     },
-    chooseFate: function () {
+    chooseFate: function (maxfate = 3) {
         return {
             canPay: function() {
                 return true;
             },
             resolve: function(context, result = { resolved: false }) {
-                let extrafate = Math.min(context.player.fate - context.player.getReducedCost('play', context.source), 3);
+                let extrafate = Math.min(context.player.fate - context.player.getReducedCost('play', context.source), maxfate);
                 let choices = [];
                 for(let i = 0; i <= extrafate; i++) {
                     choices.push(i);

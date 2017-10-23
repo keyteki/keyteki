@@ -59,7 +59,11 @@ class CardAction extends BaseAbility {
         this.activationContexts = [];
 
         if(!_.isArray(this.location)) {
-            this.location = [properties.location];
+            if(this.location === 'province') {
+                this.location = ['province 1', 'province 2', 'province 3', 'province 4'];
+            } else {
+                this.location = [properties.location];
+            }
         }
 
         this.handler = this.buildHandler(card, properties);
