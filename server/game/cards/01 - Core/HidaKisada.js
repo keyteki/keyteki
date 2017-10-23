@@ -9,8 +9,8 @@ class HidaKisada extends DrawCard {
     }
     
     onCardAbilityInitiatedOtherEffects(event) {
-        if(this.canCancel && event.resolver && event.resolver.ability.abilityType === 'action' && event.player !== this.controller) {
-            if(this.location === 'play area' && !this.isBlank() && (this.controller.conflicts.getTotalLost() === 0)) {
+        if(this.canCancel && event.resolver && event.resolver.ability.abilityType === 'action' && !event.resolver.ability.cannotCancel && event.player !== this.controller) {
+            if(!event.cancelled && this.location === 'play area' && !this.isBlank() && (this.controller.conflicts.getTotalLost() === 0)) {
                 event.cancel();
                 this.game.addMessage('{0} attempts to initiate {1}{2}, but {3} cancels it', event.player, event.source, event.source.type === 'event' ? '' : '\'s ability', this);
             }
