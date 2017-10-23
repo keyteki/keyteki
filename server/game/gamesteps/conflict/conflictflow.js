@@ -37,6 +37,7 @@ class ConflictFlow extends BaseStep {
             new SimpleStep(this.game, () => this.applyKeywords()),
             new SimpleStep(this.game, () => this.applyUnopposed()),
             new SimpleStep(this.game, () => this.checkBreakProvince()),
+            new SimpleStep(this.game, () => this.brokenProvinceEffect()),
             new SimpleStep(this.game, () => this.resolveRingEffects()),
             new SimpleStep(this.game, () => this.claimRing()),
             new SimpleStep(this.game, () => this.returnHome()),
@@ -269,9 +270,15 @@ class ConflictFlow extends BaseStep {
         }
 
         let province = this.conflict.conflictProvince;
-        if(this.conflict.isAttackerTheWinner() && this.conflict.skillDifference >= province.getStrength()) {
+        if(this.conflict.isAttackerTheWinner() && this.conflict.skillDifference >= province.getStrength() && !province.isBroken) {
             this.game.raiseEvent('onBreakProvince', { conflict: this.conflict, province: province }, province.breakProvince());
-            this.game.addMessage('{0} has broken the province!', this.conflict.winner.name);
+            this.game.addMessage('{0} has broken {1}!', this.conflict.winner, province);
+        }
+    }
+    
+    brokenProvinceEffect() {
+        let province = this.conflict.conflictProvince;
+        if(province.isBroken) {
             if(province.location === 'stronghold province') {
                 this.game.recordWinner(this.conflict.winner, 'conquest');
             } else {
