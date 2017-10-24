@@ -482,6 +482,11 @@ class Player extends Spectator {
             card.moveTo('dynasty deck');
             this.dynastyDeck.push(card);
         });
+        
+        _.each(['province 1', 'province 2', 'province 3', 'province 4'], location => {
+            let card = this.getDynastyCardInProvince(location);
+            card.facedown = true;
+        });
 
         this.shuffleDynastyDeck();
 
@@ -491,6 +496,10 @@ class Player extends Spectator {
     dynastyKeep() {
         this.game.addMessage('{0} has kept all dynasty cards', this.name);
         this.takenDynastyMulligan = true;
+        _.each(['province 1', 'province 2', 'province 3', 'province 4'], location => {
+            let card = this.getDynastyCardInProvince(location);
+            card.facedown = true;
+        });
     }
 
     conflictMulligan(cards) {
