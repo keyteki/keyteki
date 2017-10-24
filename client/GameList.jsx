@@ -70,12 +70,12 @@ class InnerGameList extends React.Component {
                             <span className='player-name col-sm-8'>{ player.name }</span>
                         </span>);
                     gameRow.push();
-                    gameRow.push(<span className={ 'hidden-xs col-xs-1 game-icon icon-' + player.faction } />);
+                    gameRow.push(<span className={ 'hidden-xs col-xs-1 game-icon icon-clan-' + player.faction } />);
 
                     firstPlayer = false;
                 } else {
                     gameRow.push(<span className='col-xs-1 game-row-vs text-center'><b> vs </b></span>);
-                    gameRow.push(<span className={ 'hidden-xs col-xs-1 game-icon icon-' + player.faction } />);
+                    gameRow.push(<span className={ 'hidden-xs col-xs-1 game-icon icon-clan-' + player.faction } />);
                     gameRow.push(
                         <span className='col-xs-4 col-sm-3 game-row-avatar'>
                             <span className='player-name col-sm-8'>{ player.name }</span>

@@ -158,22 +158,25 @@ class Lobby {
     }
 
     // Actions
-    sendGameListFilteredWithBlockList(socket, gameList) {
-        let filteredGames = [];
-
-        if(socket.user) {
-            _.each(gameList, game => {
-                if(!_.any(game.players, player => {
-                    return _.contains(socket.user.blockList, player.name.toLowerCase());
-                })) {
-                    filteredGames.push(game);
-                }
-            });
-        } else {
-            filteredGames = gameList;
+    filterGameListWithBlockList(user) {
+        if(!user) {
+            return this.games;
         }
 
-        socket.send('games', filteredGames);
+        return _.filter(this.games, game => {
+            let userBlockedByOwner = game.isUserBlocked(user);
+            let userHasBlockedPlayer = _.any(game.players, player => _.contains(user.blockList, player.name.toLowerCase()));
+            return !userBlockedByOwner && !userHasBlockedPlayer;
+        });
+    }
+
+    mapGamesToGameSummaries(games) {
+        return _.chain(games)
+            .map(game => game.getSummary())
+            .sortBy('createdAt')
+            .sortBy('started')
+            .reverse()
+            .value();
     }
 
     sendUserListFilteredWithBlockList(socket, userList) {
@@ -189,21 +192,12 @@ class Lobby {
     }
 
     broadcastGameList(socket) {
-        var gameSummaries = [];
-
-        _.each(this.games, game => {
-            gameSummaries.push(game.getSummary());
+        let sockets = socket ? [socket] : this.sockets;
+        _.each(sockets, socket => {
+            let filteredGames = this.filterGameListWithBlockList(socket.user);
+            let gameSummaries = this.mapGamesToGameSummaries(filteredGames);
+            socket.send('games', gameSummaries);
         });
-
-        gameSummaries = _.sortBy(gameSummaries, 'createdAt').reverse();
-
-        if(socket) {
-            this.sendGameListFilteredWithBlockList(socket, gameSummaries);
-        } else {
-            _.each(this.sockets, socket => {
-                this.sendGameListFilteredWithBlockList(socket, gameSummaries);
-            });
-        }
     }
 
     broadcastUserList() {

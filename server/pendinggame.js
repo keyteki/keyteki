@@ -7,13 +7,14 @@ const GameChat = require('./game/gamechat.js');
 
 class PendingGame {
     constructor(owner, details) {
-        this.owner = owner.username;
+        this.owner = owner;
         this.players = {};
         this.spectators = {};
         this.id = uuid.v1();
         this.name = details.name;
         this.allowSpectators = details.spectators;
         this.gameType = details.gameType;
+        this.isMelee = details.isMelee;
         this.createdAt = new Date();
         this.gameChat = new GameChat();
     }
@@ -68,7 +69,7 @@ class PendingGame {
             name: user.username,
             user: user,
             emailHash: user.emailHash,
-            owner: this.owner === user.username
+            owner: this.owner.username === user.username
         };
     }
 
@@ -104,12 +105,16 @@ class PendingGame {
         }
     }
 
+    isUserBlocked(user) {
+        return _.contains(this.owner.blockList, user.username.toLowerCase());
+    }
+
     join(id, user, password, callback) {
         if(_.size(this.players) === 2 || this.started) {
             return;
         }
 
-        if(_.contains(this.owner.blockList, user.username.toLowerCase())) {
+        if(this.isUserBlocked(user)) {
             return;
         }
 
@@ -141,7 +146,7 @@ class PendingGame {
             return;
         }
 
-        if(_.contains(this.owner.blockList, user.username.toLowerCase())) {
+        if(this.isUserBlocked(user)) {
             return;
         }
 
@@ -272,6 +277,7 @@ class PendingGame {
             }
 
             playerSummaries[player.name] = {
+                agenda: this.started && player.agenda ? player.agenda.cardData.code : undefined,
                 deck: activePlayer ? deck : {},
                 emailHash: player.emailHash,
                 faction: this.started && player.faction ? player.faction.value : undefined,
@@ -292,7 +298,7 @@ class PendingGame {
             name: this.name,
             needsPassword: !!this.password,
             node: this.node ? this.node.identity : undefined,
-            owner: this.owner,
+            owner: this.owner.username,
             players: playerSummaries,
             started: this.started,
             spectators: _.map(this.spectators, spectator => {
