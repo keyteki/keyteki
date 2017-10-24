@@ -11,7 +11,7 @@ class Spyglass extends DrawCard {
             },
             limit: ability.limit.perRound(2),
             handler: () => {
-                this.game.addMessage('{0} uses {1} to draw a card', this.controller, this);
+                this.game.addMessage('{0} uses {1} to draw 1 card', this.controller, this);
                 this.controller.drawCardsToHand(1);
             }
         });
