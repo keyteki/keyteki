@@ -290,10 +290,10 @@ class ConflictFlow extends BaseStep {
                     choices: ['Yes', 'No'],
                     handlers: [
                         () => {
-                            this.game.addMessage('{0} chooses to discard {1}', this.conflict.winner, dynastyCard.facedown ? 'the facedown card' : dynastyCard.name);
+                            this.game.addMessage('{0} chooses to discard {1}', this.conflict.winner, dynastyCard.facedown ? 'the facedown card' : dynastyCard);
                             province.controller.moveCard(dynastyCard, 'dynasty discard pile');
                         },
-                        () => this.game.addMessage('{0} chooses not to discard {1}', this.conflict.winner, dynastyCard.facedown ? 'the facedown card' : dynastyCard.name)
+                        () => this.game.addMessage('{0} chooses not to discard {1}', this.conflict.winner, dynastyCard.facedown ? 'the facedown card' : dynastyCard)
                     ]
                 });
             }
