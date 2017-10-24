@@ -1,6 +1,6 @@
 const _ = require('underscore');
 
-describe('setup phase', function() {
+xdescribe('setup phase', function() {
     integration(function() {
         describe('setting up provinces', function() {
             beforeEach(function() {

@@ -10,10 +10,10 @@ class SetupPhase extends Phase {
         super(game, 'setup');
         this.initialise([
             new SimpleStep(game, () => this.setupBegin()),
-            new SimpleStep(game, () => this.prepareDecks()),
+            new SimpleStep(game, () => this.chooseFirstPlayer()),
+            new SimpleStep(game, () => this.attachStronghold()),
             new SetupProvincesPrompt(game),
             new SimpleStep(game, () => this.placeProvinces()),
-            new SimpleStep(game, () => this.attachStronghold()),
             new SimpleStep(game, () => this.fillProvinces()),
             new SimpleStep(game, () => this.doDynastyMulligan()),
             new SimpleStep(game, () => this.doConflictMulligan()),
@@ -30,9 +30,23 @@ class SetupPhase extends Phase {
 
         let firstPlayer = allPlayersShuffled.shift();
         firstPlayer.firstPlayer = true;
-        let otherPlayer = allPlayersShuffled.shift();
-        if(otherPlayer) {
-            this.game.addFate(otherPlayer, 1);
+    }
+    
+    chooseFirstPlayer() {
+        let firstPlayer = this.game.getFirstPlayer();
+        if(firstPlayer.opponent) {
+            this.game.promptWithHandlerMenu(firstPlayer, {
+                activePromptTitle: 'You won the flip. Do you want to be:',
+                source: 'Choose First Player',
+                choices: ['First Player', 'Second Player'],
+                handlers: [
+                    () => this.game.addFate(firstPlayer.opponent, 1), 
+                    () => {
+                        this.game.addFate(firstPlayer, 1);
+                        this.game.setFirstPlayer(firstPlayer.opponent);
+                    }
+                ]
+            });
         }
     }
 

@@ -68,6 +68,11 @@ class Province extends React.Component {
         if(this.props.hiddenDynastyCard && dynastyCard) {
             dynastyCard.facedown = true;
         }
+        
+        let cardClassName = '';
+        if(provinceCard) {
+            cardClassName = 'province-attachment';
+        }
 
         if(this.props.orientation === 'horizontal' || this.props.orientation === 'bowed') {
             className += ' horizontal';
@@ -88,14 +93,14 @@ class Province extends React.Component {
                     onClick={ this.props.onCardClick }
                     onMenuItemClick={ this.props.onMenuItemClick }
                     onDragDrop={ this.props.onDragDrop } size={ this.props.size } /> : null }
-                { dynastyCard ? <Card className='province-attachment' card={ dynastyCard } source={ this.props.source }
+                { dynastyCard ? <Card className={ cardClassName } card={ dynastyCard } source={ this.props.source }
                     onMouseOver={ this.props.onMouseOver }
                     onMouseOut={ this.props.onMouseOut }
                     disableMouseOver={ dynastyCard.facedown }
                     onClick={ this.props.onCardClick }
                     onMenuItemClick={ this.props.onMenuItemClick }
                     onDragDrop={ this.props.onDragDrop } size={ this.props.size } /> : null }
-                { strongholdCard ? <Card className='province-attachment' card={ strongholdCard } source={ this.props.source }
+                { strongholdCard ? <Card className={ cardClassName } card={ strongholdCard } source={ this.props.source }
                     onMouseOver={ this.props.onMouseOver }
                     onMouseOut={ this.props.onMouseOut }
                     disableMouseOver={ strongholdCard.facedown }
