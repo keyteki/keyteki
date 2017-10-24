@@ -46,7 +46,7 @@ class RegroupPhase extends Phase {
             waitingPromptTitle: 'Waiting for opponent to discard dynasty cards',
             cardCondition: card => {
                 return (['province 1', 'province 2', 'province 3', 'province 4'].includes(card.location) && 
-                        player === card.owner && !card.facedown);
+                        player === card.owner && !card.facedown && card.isDynasty);
             },
             onSelect: (player, cards) => {
                 _.each(cards, card => {
