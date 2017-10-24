@@ -461,7 +461,6 @@ class Player extends Spectator {
             return;
         }
 
-        this.opponent = this.game.getOtherPlayer(this);
         this.honor = this.stronghold.cardData.honor;
         //this.game.raiseEvent('onStatChanged', this, 'honor');
     }
@@ -650,6 +649,7 @@ class Player extends Spectator {
 
     setupBegin() {
         this.firstPlayer = false;
+        this.opponent = this.game.getOtherPlayer(this);
     }
 
     drawPhase() {
