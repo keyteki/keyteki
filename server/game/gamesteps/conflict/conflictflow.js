@@ -277,6 +277,10 @@ class ConflictFlow extends BaseStep {
     }
     
     brokenProvinceEffect() {
+        if(this.conflict.cancelled || this.conflict.isSinglePlayer || this.game.manualMode) {
+            return;
+        }
+
         let province = this.conflict.conflictProvince;
         if(province.isBroken) {
             if(province.location === 'stronghold province') {
