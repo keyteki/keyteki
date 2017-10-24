@@ -48,8 +48,10 @@ describe('the DrawCard', function() {
 
             this.player = new Player(1, { username: 'foo', settings: {} }, false, this.game);
             this.player.noTimer = true;
+            this.player2 = new Player(2, { username: 'bar', settings: {} }, false, this.game);
 
             this.game.playersAndSpectators['foo'] = this.player;
+            this.game.playersAndSpectators['bar'] = this.player2;
             this.game.initialise();
 
             this.game.currentPhase = 'dynasty';
