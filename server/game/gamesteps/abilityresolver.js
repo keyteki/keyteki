@@ -14,6 +14,8 @@ class AbilityResolver extends BaseStep {
         this.pipeline = new GamePipeline();
         this.pipeline.initialise([
             new SimpleStep(game, () => this.setNoNewActions()),
+            new SimpleStep(game, () => this.resolveEarlyTargets()),
+            new SimpleStep(game, () => this.waitForTargetResolution()),
             new SimpleStep(game, () => this.game.pushAbilityContext('card', context.source, 'cost')),
             new SimpleStep(game, () => this.resolveCosts()),
             new SimpleStep(game, () => this.waitForCostResolution()),
@@ -80,11 +82,17 @@ class AbilityResolver extends BaseStep {
     }
 
     resolveCosts() {
+        if(this.cancelled) {
+            return;
+        }
         this.context.costs = {};
         this.canPayResults = this.ability.resolveCosts(this.context);
     }
 
     waitForCostResolution() {
+        if(this.cancelled) {
+            return;
+        }
         this.cancelled = _.any(this.canPayResults, result => result.resolved && !result.value);
 
         if(!_.all(this.canPayResults, result => result.resolved)) {
@@ -103,13 +111,21 @@ class AbilityResolver extends BaseStep {
         this.ability.payCosts(this.context);
     }
 
-    resolveTargets() {
+    resolveEarlyTargets() {
         if(this.cancelled) {
             return;
         }
 
         this.context.targets = {};
         this.targetResults = this.ability.resolveTargets(this.context);
+    }
+
+    resolveTargets() {
+        if(this.cancelled) {
+            return;
+        }
+
+        this.targetResults = this.ability.resolveTargets(this.context, this.targetResults);
     }
 
     waitForTargetResolution() {
@@ -119,7 +135,7 @@ class AbilityResolver extends BaseStep {
 
         this.cancelled = _.any(this.targetResults, result => result.resolved && !result.value);
 
-        if(!_.all(this.targetResults, result => result.resolved)) {
+        if(!_.all(this.targetResults, result => result.resolved || result.costsFirst)) {
             return false;
         }
 

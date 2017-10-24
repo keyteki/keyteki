@@ -1,5 +1,7 @@
 const _ = require('underscore');
-const AbilityTarget = require('./AbilityTarget.js');
+const AbilityTargetCard = require('./AbilityTargets/AbilityTargetCard.js');
+const AbilityTargetRing = require('./AbilityTargets/AbilityTargetRing.js');
+const AbilityTargetSelect = require('./AbilityTargets/AbilityTargetSelect.js');
 const Costs = require('./costs.js');
 /**
  * Base class representing an ability that can be done by the player. This
@@ -42,15 +44,24 @@ class BaseAbility {
 
     buildTargets(properties) {
         if(properties.target) {
-            return [new AbilityTarget('target', properties.target)];
+            return [this.getAbilityTarget('target', properties.target)];
         }
 
         if(properties.targets) {
             let targetPairs = Object.entries(properties.targets);
-            return targetPairs.map(([name, properties]) => new AbilityTarget(name, properties));
+            return targetPairs.map(([name, properties]) => this.getAbilityTarget(name, properties));
         }
 
         return [];
+    }
+    
+    getAbilityTarget(name, properties) {
+        if(properties.mode === 'select') {
+            return new AbilityTargetSelect(name, properties);
+        } else if(properties.mode === 'ring') {
+            return new AbilityTargetRing(name, properties);
+        }
+        return new AbilityTargetCard(name, properties);
     }
 
     /**
@@ -140,13 +151,22 @@ class BaseAbility {
      *
      * @returns {Array} An array of target resolution objects.
      */
-    resolveTargets(context) {
+    resolveTargets(context, results = []) {
         /*
         return _.map(this.targets, (targetProperties, name) => {
             return this.resolveTarget(context, name, targetProperties);
         });
         */
-        return this.targets.map(target => target.resolve(context));
+        if(results.length === 0) {
+            return this.targets.map(target => target.resolve(context, true));
+        }
+        return _.map(_.zip(this.targets, results), array => {
+            let [target, result] = array;
+            if(!result.resolved || !target.checkTarget(context)) {
+                return target.resolve(context);
+            }
+            return result;
+        });
     }
 
     resolveTarget(context, name, targetProperties) {

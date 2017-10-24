@@ -25,6 +25,10 @@ class SingleCardSelector extends BaseCardSelector {
         return selectedCards.length >= this.numCards;
     }
 
+    hasExceededLimit(selectedCards) {
+        return selectedCards.length > this.numCards;
+    }
+
     formatSelectParam(cards) {
         return cards[0];
     }

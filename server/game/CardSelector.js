@@ -1,7 +1,5 @@
 const ExactlyXCardSelector = require('./CardSelectors/ExactlyXCardSelector');
 const MaxStatCardSelector = require('./CardSelectors/MaxStatCardSelector');
-const RingSelector = require('./CardSelectors/RingSelector');
-const SelectSelector = require('./CardSelectors/SelectSelector');
 const SingleCardSelector = require('./CardSelectors/SingleCardSelector');
 const UnlimitedCardSelector = require('./CardSelectors/UnlimitedCardSelector');
 const UpToXCardSelector = require('./CardSelectors/UpToXCardSelector');
@@ -17,8 +15,6 @@ const defaultProperties = {
 const ModeToSelector = {
     exactly: p => new ExactlyXCardSelector(p.numCards, p),
     maxStat: p => new MaxStatCardSelector(p),
-    ring: p => new RingSelector(p),
-    select: p => new SelectSelector(p),
     single: p => new SingleCardSelector(p),
     unlimited: p => new UnlimitedCardSelector(p),
     upTo: p => new UpToXCardSelector(p.numCards, p)
