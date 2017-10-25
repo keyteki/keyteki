@@ -5,7 +5,7 @@ class CourtMask extends DrawCard {
         this.action({
             title: 'Return court mask to hand',
             handler: () => {
-                this.game.addMessage('{0} returns {1} to their hand, dishonoring {2}');
+                this.game.addMessage('{0} returns {1} to their hand, dishonoring {2}', this.controller, this, this.parent);
                 // TODO: these effects should really be packaged in a multievent window
                 this.controller.dishonorCard(this.parent);
                 this.controller.returnCardToHand(this);
