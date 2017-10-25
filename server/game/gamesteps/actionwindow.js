@@ -54,7 +54,7 @@ class ActionWindow extends UiPrompt {
     }
 
     waitingPrompt() {
-        return { menuTitle: 'Waiting for opponent to take an action or pass.' };
+        return { menuTitle: 'Waiting for opponent to take an action or pass' };
     }
 
     onMenuCommand(player, choice) {

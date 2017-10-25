@@ -30,6 +30,7 @@ class TriggeredAbility extends BaseAbility {
         this.abilityType = abilityType;
         this.printedAbility = properties.printedAbility === false ? false : true;
         this.methods = properties.methods || [];
+        this.cannotTargetFirst = !!properties.cannotTargetFirst;
         this.location = properties.location || [];
         if(!_.isArray(this.location)) {
             this.location = [this.location];

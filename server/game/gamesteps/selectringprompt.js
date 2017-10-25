@@ -38,7 +38,7 @@ class SelectRingPrompt extends UiPrompt {
 
     defaultProperties() {
         return {
-            additionalButtons: [],
+            buttons: [{ text: 'Done', arg: 'done' }],
             ringCondition: () => true,
             onSelect: () => true,
             onMenuCommand: () => true,
@@ -52,12 +52,11 @@ class SelectRingPrompt extends UiPrompt {
 
     activePrompt() {
         return {
+            source: this.properties.source,
             selectCard: true,
             selectOrder: this.properties.ordered,
             menuTitle: this.properties.activePromptTitle || this.defaultActivePromptTitle(),
-            buttons: this.properties.additionalButtons.concat([
-                { text: 'Done', arg: 'done' }
-            ]),
+            buttons: this.properties.buttons,
             promptTitle: this.properties.source ? this.properties.source.name : undefined
         };
     }

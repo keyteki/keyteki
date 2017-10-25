@@ -110,7 +110,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
                 buttons: buttons,
                 controls: this.getAdditionalPromptControls()
             },
-            waitingPromptTitle: 'Waiting for opponents'
+            waitingPromptTitle: 'Waiting for opponent'
         });
 
         this.forceWindowPerPlayer[player.name] = false;

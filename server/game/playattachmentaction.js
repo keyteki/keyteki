@@ -13,6 +13,8 @@ class PlayAttachmentAction extends BaseAbility {
             }
         });
         this.title = 'PlayAttachmentAction';
+        this.cannotTargetFirst = false;
+        this.abilityType = 'action';
     }
     
     meetsRequirements(context) {

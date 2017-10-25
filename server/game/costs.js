@@ -361,7 +361,8 @@ const Costs = {
             },
             pay: function(context) {
                 context.source.controller.moveCard(context.source, 'conflict discard pile');
-            }
+            },
+            canIgnoreForTargeting: true
         };
     },
     /**
@@ -434,7 +435,8 @@ const Costs = {
                 if(context.source.isLimited()) {
                     context.player.limitedPlayed += 1;
                 }
-            }
+            },
+            canIgnoreForTargeting: true
         };
     },
     /**
@@ -448,7 +450,8 @@ const Costs = {
             },
             pay: function(context) {
                 context.player.incrementAbilityMax(context.source.name);
-            }
+            },
+            canIgnoreForTargeting: true
         };
     },
     /**
@@ -463,7 +466,8 @@ const Costs = {
             pay: function(context) {
 
                 context.player.fate -= context.source.getCost();
-            }
+            },
+            canIgnoreForTargeting: true
         };
     },
     /**
@@ -482,8 +486,8 @@ const Costs = {
                 context.costs.fate = context.player.getReducedCost(playingType, context.source);
                 context.player.fate -= context.costs.fate;
                 context.player.markUsedReducers(playingType, context.source);
-
-            }
+            },
+            canIgnoreForTargeting: true
         };
     },
     /**
@@ -496,7 +500,8 @@ const Costs = {
             },
             pay: function(context) {
                 context.game.addFate(context.player, -amount);
-            }
+            },
+            canIgnoreForTargeting: true
         };
     },
     /**

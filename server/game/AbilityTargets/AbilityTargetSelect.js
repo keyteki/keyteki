@@ -10,7 +10,7 @@ class AbilityTargetSelect {
         return _.any(this.properties.choices, condition => condition(context));
     }
 
-    resolve(context, pretarget = false) {
+    resolve(context, pretarget = false, noCostsFirstButton = false) {
         let result = { resolved: false, name: this.name, value: null, costsFirst: false };
         let player = context.player;
         if(this.properties.player && this.properties.player === 'opponent') {
@@ -22,19 +22,30 @@ class AbilityTargetSelect {
         }
         let promptTitle = this.properties.activePromptTitle || 'Select one';
         let choices = _.filter(_.keys(this.properties.choices), key => this.properties.choices[key]());
-        let handlers = _.map(this.properties.choices, choice => {
+        let handlers = _.map(choices, choice => {
             return (() => {
                 result.resolved = true;
                 result.value = choice;
             });
         });
         if(this.properties.player !== 'opponent' && pretarget) {
-            choices.push('Pay costs first');
-            handlers.push(() => result.costsFirst = true);
+            if(!noCostsFirstButton) {
+                choices.push('Pay costs first');
+                handlers.push(() => result.costsFirst = true);
+            }
             choices.push('Cancel');
             handlers.push(() => result.resolved = true);
         }
+        let waitingPromptTitle = '';
+        if(pretarget) {
+            if(context.ability.abilityType === 'action') {
+                waitingPromptTitle = 'Waiting for opponent to take an action or pass';
+            } else {
+                waitingPromptTitle = 'Waiting for opponent';
+            }
+        }
         context.game.promptWithHandlerMenu(player, {
+            waitingPromptTitle: waitingPromptTitle,
             activePromptTitle: promptTitle,
             context: context,
             source: context.source,

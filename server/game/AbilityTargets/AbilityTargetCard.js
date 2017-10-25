@@ -13,7 +13,7 @@ class AbilityTargetCard {
         return this.selector.hasEnoughTargets(context);
     }
 
-    resolve(context, pretarget = false) {
+    resolve(context, pretarget = false, noCostsFirstButton = false) {
         let otherProperties = _.omit(this.properties, 'cardCondition');
         let result = { resolved: false, name: this.name, value: null, costsFirst: false };
         let player = context.player;
@@ -29,12 +29,23 @@ class AbilityTargetCard {
             buttons.push({ text: 'No more targets', arg: 'noMoreTargets' });
         }
         if(pretarget) {
-            buttons.push({ text: 'Pay costs first', arg: 'costsFirst' });
+            if(!noCostsFirstButton) {
+                buttons.push({ text: 'Pay costs first', arg: 'costsFirst' });
+            }
             buttons.push({ text: 'Cancel', arg: 'done' });
         } else {
             buttons.push({ text: 'Done', arg: 'done' });
         }
+        let waitingPromptTitle = '';
+        if(pretarget) {
+            if(context.ability.abilityType === 'action') {
+                waitingPromptTitle = 'Waiting for opponent to take an action or pass';
+            } else {
+                waitingPromptTitle = 'Waiting for opponent';
+            }
+        }
         let promptProperties = {
+            waitingPromptTitle: waitingPromptTitle,
             context: context,
             source: context.source,
             selector: this.selector,

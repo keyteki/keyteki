@@ -11,6 +11,7 @@ class AbilityResolver extends BaseStep {
 
         this.ability = ability;
         this.context = context;
+        this.context.ability = ability;
         this.pipeline = new GamePipeline();
         this.pipeline.initialise([
             new SimpleStep(game, () => this.setNoNewActions()),
@@ -117,7 +118,13 @@ class AbilityResolver extends BaseStep {
         }
 
         this.context.targets = {};
-        this.targetResults = this.ability.resolveTargets(this.context);
+        if(this.ability.cannotTargetFirst) {
+            this.targetResults = _.map(this.ability.targets, (props, name) => {
+                return { resolved: false, name: name, value: null, costsFirst: true };
+            });
+        } else {
+            this.targetResults = this.ability.resolveTargets(this.context);
+        }
     }
 
     resolveTargets() {
