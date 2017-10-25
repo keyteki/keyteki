@@ -282,7 +282,7 @@ class ConflictFlow extends BaseStep {
         }
 
         let province = this.conflict.conflictProvince;
-        if(province && province.isBroken && this.conflict.winner) {
+        if(province && province.isBroken && this.conflict.isAttackerTheWinner()) {
             if(province.location === 'stronghold province') {
                 this.game.recordWinner(this.conflict.winner, 'conquest');
             } else {
