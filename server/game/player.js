@@ -485,7 +485,9 @@ class Player extends Spectator {
         
         _.each(['province 1', 'province 2', 'province 3', 'province 4'], location => {
             let card = this.getDynastyCardInProvince(location);
-            card.facedown = true;
+            if(card) {
+                card.facedown = true;
+            }
         });
 
         this.shuffleDynastyDeck();
@@ -498,7 +500,9 @@ class Player extends Spectator {
         this.takenDynastyMulligan = true;
         _.each(['province 1', 'province 2', 'province 3', 'province 4'], location => {
             let card = this.getDynastyCardInProvince(location);
-            card.facedown = true;
+            if(card) {
+                card.facedown = true;
+            }
         });
     }
 
