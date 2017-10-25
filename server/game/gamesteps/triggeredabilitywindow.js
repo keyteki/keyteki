@@ -88,6 +88,8 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
 
     promptPlayer(player) {
         let choicesForPlayer = _.filter(this.abilityChoices, abilityChoice => this.eligibleChoiceForPlayer(abilityChoice, player));
+        let cards = _.map(choicesForPlayer, abilityChoice => abilityChoice.card);
+        /*
         let buttons = _.map(choicesForPlayer, abilityChoice => {
             let title = abilityChoice.card.name;
             if(abilityChoice.text !== 'default') {
@@ -96,7 +98,8 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
 
             return { text: title, method: 'chooseAbility', arg: abilityChoice.id, card: abilityChoice.card };
         });
-
+        */
+        let buttons = [];
         if(this.isCancellableEvent(player)) {
             buttons.push({ timer: true, method: 'pass', id: uuid.v1() });
             buttons.push({ text: 'I need more time', timerCancel: true });
@@ -104,13 +107,39 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
         }
 
         buttons.push({ text: 'Pass', method: 'pass' });
-        this.game.promptWithMenu(player, this, {
-            activePrompt: {
-                menuTitle: TriggeredAbilityWindowTitles.getTitle(this.abilityType, this.events[0]),
-                buttons: buttons,
-                controls: this.getAdditionalPromptControls()
+        this.game.promptForSelect(player, {
+            activePromptTitle: TriggeredAbilityWindowTitles.getTitle(this.abilityType, this.events[0]),
+            buttons: buttons,
+            controls: this.getAdditionalPromptControls(),
+            waitingPromptTitle: 'Waiting for opponent',
+            cardCondition: card => cards.includes(card),
+            onMenuCommand: (player, arg) => {
+                this.pass(player, arg);
+                return true;
             },
-            waitingPromptTitle: 'Waiting for opponents'
+            onSelect: (player, card) => {
+                let cardChoices = _.filter(choicesForPlayer, abilityChoice => abilityChoice.card = card);
+                console.log(cardChoices);
+                if(cardChoices.length === 1) {
+                    let choice = _.find(this.abilityChoices, a => a.id === cardChoices[0].id);
+                    this.game.resolveAbility(choice.ability, choice.context);
+                    this.abilityChoices = _.reject(this.abilityChoices, a => a.id === cardChoices[0].id);
+                    this.players = this.rotatedPlayerOrder(player);
+                    return true;
+                }
+                this.game.promptWithHandlerMenu(player, {
+                    choices: _.map(cardChoices, abilityChoice => abilityChoice.ability.title),
+                    handlers: _.map(cardChoices, abilityChoice => {
+                        return () => {
+                            let choice = _.find(this.abilityChoices, a => a.id === abilityChoice.id);
+                            this.game.resolveAbility(choice.ability, choice.context);
+                            this.abilityChoices = _.reject(this.abilityChoices, a => a.id === abilityChoice.id);
+                            this.players = this.rotatedPlayerOrder(player);
+                        };
+                    })
+                });
+                return true;
+            }
         });
 
         this.forceWindowPerPlayer[player.name] = false;
