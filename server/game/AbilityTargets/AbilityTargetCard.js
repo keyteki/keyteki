@@ -32,7 +32,10 @@ class AbilityTargetCard {
             if(!noCostsFirstButton) {
                 buttons.push({ text: 'Pay costs first', arg: 'costsFirst' });
             }
-            buttons.push({ text: 'Cancel', arg: 'done' });
+            buttons.push({ text: 'Cancel', arg: 'cancel' });
+            if(!this.selector.automaticFireOnSelect()) {
+                buttons.push({ text: 'Done', arg: 'done' });
+            }
         } else {
             buttons.push({ text: 'Done', arg: 'done' });
         }
@@ -62,6 +65,9 @@ class AbilityTargetCard {
             onMenuCommand: (player, arg) => {
                 if(arg === 'costsFirst') {
                     result.costsFirst = true;
+                    return true;
+                } else if(arg === 'cancel') {
+                    result.resolved = true;
                     return true;
                 }
                 result.resolved = true;
