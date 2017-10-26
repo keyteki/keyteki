@@ -149,6 +149,9 @@ class Conflict {
         this.game.addFate(this.attackingPlayer, newRing.fate);
         newRing.fate = 0;
         newRing.contested = true;
+        if(newRing.conflictType !== this.conflictType) {
+            newRing.flipConflictType();
+        }
         this.elements.push(element);
     }
     
