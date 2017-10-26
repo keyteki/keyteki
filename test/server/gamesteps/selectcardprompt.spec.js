@@ -11,7 +11,8 @@ describe('the SelectCardPrompt', function() {
     }
 
     beforeEach(function() {
-        this.game = jasmine.createSpyObj('game', ['getPlayers']);
+        this.game = jasmine.createSpyObj('game', ['getPlayers', 'getCurrentAbilityContext']);
+        this.game.getCurrentAbilityContext.and.returnValue({ source: 'framework', card: null, stage: 'framework' })
 
         this.player = jasmine.createSpyObj('player1', ['setPrompt', 'cancelPrompt', 'clearSelectableCards', 'clearSelectedCards', 'setSelectableCards', 'setSelectedCards']);
         this.player.cardsInPlay = _([]);

@@ -21,6 +21,9 @@ describe('AbilityTarget', function () {
             this.card2.allowGameAction.and.returnValue(true);
             this.card2.getType.and.returnValue('holding');
             let game = { allCards: _([this.card1, this.card2]) };
+            game.getCurrentAbilityContext = () => {
+                return { source: 'framework', card: null, stage: 'framework' };
+            };
             this.context = { game: game };
         });
 
