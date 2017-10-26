@@ -32,7 +32,6 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
                 choice: choiceText.choice,
                 context: context
             });
-            console.log('abilityChoices', ability.title, ability.card.name);
         });
     }
 
@@ -74,7 +73,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
             onClaimApplied: 'interrupt'
         };
 
-        return this.isTimerEnabled(player) && _.any(this.events, event => {
+        return !_.any(this.abilityChoices, abilityChoice => this.eligibleChoiceForPlayer(abilityChoice, player)) && this.isTimerEnabled(player) && _.any(this.events, event => {
             return event.player !== player && cancellableEvents[event.name] && cancellableEvents[event.name] === this.abilityType && this.isWindowEnabledForEvent(player, event);
         });
     }
@@ -90,16 +89,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
     promptPlayer(player) {
         let choicesForPlayer = _.filter(this.abilityChoices, abilityChoice => this.eligibleChoiceForPlayer(abilityChoice, player));
         let cards = _.map(choicesForPlayer, abilityChoice => abilityChoice.card);
-        /*
-        let buttons = _.map(choicesForPlayer, abilityChoice => {
-            let title = abilityChoice.card.name;
-            if(abilityChoice.text !== 'default') {
-                title += ' - ' + abilityChoice.text;
-            }
 
-            return { text: title, method: 'chooseAbility', arg: abilityChoice.id, card: abilityChoice.card };
-        });
-        */
         let buttons = [];
         if(this.isCancellableEvent(player)) {
             buttons.push({ timer: true, method: 'pass', id: uuid.v1() });
@@ -108,7 +98,6 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
         }
 
         buttons.push({ text: 'Pass', method: 'pass' });
-        console.log(_.map(choicesForPlayer, choice => [choice.ability.title, choice.card.name]));
         this.game.promptForSelect(player, {
             activePromptTitle: TriggeredAbilityWindowTitles.getTitle(this.abilityType, this.events[0]),
             buttons: buttons,
@@ -120,11 +109,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
                 return true;
             },
             onSelect: (player, card) => {
-                console.log(card.name)
-                console.log(_.map(choicesForPlayer, choice => [choice.ability.title, choice.card.name]));
                 let cardChoices = _.filter(choicesForPlayer, abilityChoice => abilityChoice.card === card);
-                console.log(_.map(cardChoices, choice => choice.card.name));
-                console.log(_.map(cardChoices, choice => choice.ability.title));
                 if(cardChoices.length === 1) {
                     let choice = _.find(this.abilityChoices, a => a.id === cardChoices[0].id);
                     this.game.resolveAbility(choice.ability, choice.context);
@@ -164,41 +149,6 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
         return controls;
     }
     
-    getChoicesForPlayer(player) {
-        let choices = _.filter(this.abilityChoices, abilityChoice => {
-            try {
-                return this.eligibleChoiceForPlayer(abilityChoice, player);
-            } catch(e) {
-                this.abilityChoices = _.reject(this.abilityChoices, a => a === abilityChoice);
-                this.game.reportError(e);
-                return false;
-            }
-        });
-        // Cards that have a maximum should only display a single choice by
-        // title even if multiple copies are available to be triggered.
-        return _.uniq(choices, choice => choice.ability.hasMax() ? choice.card.name : choice);
-    }
-
-    chooseAbility(player, id) {
-        let choice = _.find(this.abilityChoices, ability => ability.id === id);
-
-        if(!choice || choice.player !== player) {
-            return false;
-        }
-
-        choice.context.choice = choice.choice;
-        this.game.resolveAbility(choice.ability, choice.context);
-
-        this.abilityChoices = _.reject(this.abilityChoices, ability => ability.card === choice.card);
-
-        // Always rotate player order without filtering, in case an ability is
-        // triggered that could then make another ability eligible after it is
-        // resolved: e.g. Rains of Castamere into Wardens of the West
-        this.players = this.rotatedPlayerOrder(player);
-
-        return true;
-    }
-
     pass(player, arg) {
         if(arg === 'pauseRound') {
             player.noTimer = true;
