@@ -225,7 +225,7 @@ class DynastyRow extends React.Component {
             { text: 'Close and Shuffle', handler: this.onDynastyCloseAndShuffleClick}
         ];
 
-        if(this.props.isMe) {
+        if(this.props.isMe || this.props.spectating && !this.props.otherPlayer) {
 
             return (
                 <div className='dynasty-row'>
