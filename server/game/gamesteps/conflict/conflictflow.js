@@ -282,24 +282,26 @@ class ConflictFlow extends BaseStep {
         }
 
         let province = this.conflict.conflictProvince;
-        if(province.isBroken) {
+        if(province && province.isBroken && this.conflict.isAttackerTheWinner()) {
             if(province.location === 'stronghold province') {
                 this.game.recordWinner(this.conflict.winner, 'conquest');
             } else {
                 let dynastyCard = province.controller.getDynastyCardInProvince(province.location);
-                let promptTitle = 'Do you wish to discard ' + (dynastyCard.facedown ? 'the facedown card' : dynastyCard.name) + '?';
-                this.game.promptWithHandlerMenu(this.conflict.winner, {
-                    activePromptTitle: promptTitle,
-                    source: 'Break ' + province.name,
-                    choices: ['Yes', 'No'],
-                    handlers: [
-                        () => {
-                            this.game.addMessage('{0} chooses to discard {1}', this.conflict.winner, dynastyCard.facedown ? 'the facedown card' : dynastyCard);
-                            province.controller.moveCard(dynastyCard, 'dynasty discard pile');
-                        },
-                        () => this.game.addMessage('{0} chooses not to discard {1}', this.conflict.winner, dynastyCard.facedown ? 'the facedown card' : dynastyCard)
-                    ]
-                });
+                if(dynastyCard) {
+                    let promptTitle = 'Do you wish to discard ' + (dynastyCard.facedown ? 'the facedown card' : dynastyCard.name) + '?';
+                    this.game.promptWithHandlerMenu(this.conflict.winner, {
+                        activePromptTitle: promptTitle,
+                        source: 'Break ' + province.name,
+                        choices: ['Yes', 'No'],
+                        handlers: [
+                            () => {
+                                this.game.addMessage('{0} chooses to discard {1}', this.conflict.winner, dynastyCard.facedown ? 'the facedown card' : dynastyCard);
+                                province.controller.moveCard(dynastyCard, 'dynasty discard pile');
+                            },
+                            () => this.game.addMessage('{0} chooses not to discard {1}', this.conflict.winner, dynastyCard.facedown ? 'the facedown card' : dynastyCard)
+                        ]
+                    });
+                }
             }
         }
     }

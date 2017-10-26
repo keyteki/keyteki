@@ -4,6 +4,7 @@ class BaseCardSelector {
         this.cardType = properties.cardType;
         this.gameAction = properties.gameAction;
         this.optional = properties.optional;
+        this.stage = properties.stage || 'effect';
 
         if(!Array.isArray(properties.cardType)) {
             this.cardType = [properties.cardType];
@@ -11,10 +12,14 @@ class BaseCardSelector {
     }
 
     canTarget(card, context) {
+        let abilityContext = context.game.getCurrentAbilityContext();
+        if((!abilityContext.card || abilityContext.card !== context.source) && context.source) {
+            abilityContext = { source: 'card', card: context.source, stage: this.stage };
+        } 
         return (
             this.cardType.includes(card.getType()) &&
             this.cardCondition(card, context) &&
-            card.allowGameAction(this.gameAction)
+            card.allowGameAction(this.gameAction, abilityContext)
         );
     }
 
@@ -39,6 +44,10 @@ class BaseCardSelector {
     }
 
     hasReachedLimit(selectedCards) { // eslint-disable-line no-unused-vars
+        return false;
+    }
+    
+    hasExceededLimit(selectedCards) { // eslint-disable-line no-unused-vars
         return false;
     }
 

@@ -21,7 +21,7 @@ class YogoHiroue extends DrawCard {
     
     yogoHiroueDelayedEffect(event) {
         this.events.unregisterAll();
-        if(event.conflict.winner === this.controller) {
+        if(event.conflict.winner === this.controller && this.delayedEffectTarget.location === 'play area') {
             this.game.promptWithHandlerMenu(this.controller, {
                 activePromptTitle: 'Dishonor ' + this.delayedEffectTarget.name + '?',
                 choices: ['Yes', 'No'],

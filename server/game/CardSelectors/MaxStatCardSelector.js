@@ -22,6 +22,11 @@ class MaxStatCardSelector extends BaseCardSelector {
         let currentStatSum = selectedCards.reduce((sum, c) => sum + this.cardStat(c), 0);
         return currentStatSum >= this.maxStat();
     }
+    
+    hasExceededLimit(selectedCards) {
+        let currentStatSum = selectedCards.reduce((sum, c) => sum + this.cardStat(c), 0);
+        return currentStatSum > this.maxStat();
+    }
 }
 
 module.exports = MaxStatCardSelector;

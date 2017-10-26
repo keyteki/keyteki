@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class Levy extends DrawCard {
     setupCardAbilities() {
         this.action({
+            condition: () => this.controller.opponent,
             target: {
                 player: 'opponent',
                 mode: 'select',

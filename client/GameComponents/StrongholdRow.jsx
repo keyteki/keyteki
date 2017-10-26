@@ -16,7 +16,7 @@ class StrongholdRow extends React.Component {
 
     render() {
 
-        if(this.props.isMe) {
+        if(this.props.isMe || this.props.spectating && !this.props.otherPlayer) {
 
             return (
                 <div className='stronghold-row'>
