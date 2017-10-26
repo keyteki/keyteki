@@ -19,19 +19,12 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
 
     registerAbility(ability, event) {
         let context = ability.createContext(event);
-        let player = context.player;
-        let choiceTexts = ability.getChoices(context);
-
-        _.each(choiceTexts, choiceText => {
-            this.abilityChoices.push({
-                id: uuid.v1(),
-                player: player,
-                ability: ability,
-                card: ability.card,
-                text: choiceText.text,
-                choice: choiceText.choice,
-                context: context
-            });
+        this.abilityChoices.push({
+            id: uuid.v1(),
+            player: context.player,
+            ability: ability,
+            card: ability.card,
+            context: context
         });
     }
 
