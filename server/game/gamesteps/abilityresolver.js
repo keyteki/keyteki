@@ -16,7 +16,7 @@ class AbilityResolver extends BaseStep {
         this.pipeline.initialise([
             new SimpleStep(game, () => this.setNoNewActions()),
             new SimpleStep(game, () => this.resolveEarlyTargets()),
-            new SimpleStep(game, () => this.waitForTargetResolution()),
+            new SimpleStep(game, () => this.waitForTargetResolution(true)),
             new SimpleStep(game, () => this.game.pushAbilityContext('card', context.source, 'cost')),
             new SimpleStep(game, () => this.resolveCosts()),
             new SimpleStep(game, () => this.waitForCostResolution()),
@@ -135,14 +135,14 @@ class AbilityResolver extends BaseStep {
         this.targetResults = this.ability.resolveTargets(this.context, this.targetResults);
     }
 
-    waitForTargetResolution() {
+    waitForTargetResolution(pretarget = false) {
         if(this.cancelled) {
             return;
         }
 
         this.cancelled = _.any(this.targetResults, result => result.resolved && !result.value);
 
-        if(!_.all(this.targetResults, result => result.resolved || result.costsFirst)) {
+        if(!_.all(this.targetResults, result => result.resolved || (pretarget && result.costsFirst))) {
             return false;
         }
 

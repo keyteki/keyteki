@@ -250,17 +250,17 @@ describe('BaseAbility', function () {
             this.properties.targets = { target1: this.target1, target2: this.target2 };
             this.ability = new BaseAbility(this.properties);
 
-            this.context = { game: this.gameSpy, player: this.player, source: this.source };
+            this.context = { game: this.gameSpy, player: this.player, source: this.source, ability: this.ability };
         });
 
         it('should return target results for each target', function() {
-            expect(this.ability.resolveTargets(this.context)).toEqual([{ resolved: false, name: 'target1', value: null }, { resolved: false, name: 'target2', value: null }]);
+            expect(this.ability.resolveTargets(this.context)).toEqual([{ resolved: false, name: 'target1', value: null, costsFirst: false }, { resolved: false, name: 'target2', value: null, costsFirst: false }]);
         });
 
         it('should prompt the player to select each target', function() {
             this.ability.resolveTargets(this.context);
-            expect(this.gameSpy.promptForSelect).toHaveBeenCalledWith(this.player, { source: this.source, target: 1, onSelect: jasmine.any(Function), onCancel: jasmine.any(Function), selector: jasmine.any(Object), context: this.context });
-            expect(this.gameSpy.promptForSelect).toHaveBeenCalledWith(this.player, { source: this.source, target: 2, onSelect: jasmine.any(Function), onCancel: jasmine.any(Function), selector: jasmine.any(Object), context: this.context });
+            expect(this.gameSpy.promptForSelect).toHaveBeenCalledWith(this.player, { source: this.source, target: 1, onSelect: jasmine.any(Function), onCancel: jasmine.any(Function), selector: jasmine.any(Object), context: this.context, waitingPromptTitle: jasmine.any(String), buttons: jasmine.any(Array), onMenuCommand: jasmine.any(Function) });
+            expect(this.gameSpy.promptForSelect).toHaveBeenCalledWith(this.player, { source: this.source, target: 1, onSelect: jasmine.any(Function), onCancel: jasmine.any(Function), selector: jasmine.any(Object), context: this.context, waitingPromptTitle: jasmine.any(String), buttons: jasmine.any(Array), onMenuCommand: jasmine.any(Function) });
         });
 
         describe('the select prompt', function() {

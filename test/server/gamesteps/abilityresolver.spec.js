@@ -31,6 +31,8 @@ describe('AbilityResolver', function() {
 
         describe('when all costs can be paid', function() {
             beforeEach(function() {
+                this.targetResult = { resolved: true, name: 'foo', value: 'foo', costsFirst: false };
+                this.ability.resolveTargets.and.returnValue([this.targetResult]);
                 this.ability.resolveCosts.and.returnValue([{ resolved: true, value: true }, { resolved: true, value: true }]);
                 this.resolver.continue();
             });
@@ -155,7 +157,7 @@ describe('AbilityResolver', function() {
 
         describe('when there are targets that need to be resolved', function() {
             beforeEach(function() {
-                this.targetResult = { resolved: false, name: 'foo', value: null };
+                this.targetResult = { resolved: false, name: 'foo', value: null, costsFirst: true };
                 this.ability.resolveTargets.and.returnValue([this.targetResult]);
                 this.resolver.continue();
             });
