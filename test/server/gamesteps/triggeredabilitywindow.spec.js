@@ -2,7 +2,7 @@ const _ = require('underscore');
 
 const TriggeredAbilityWindow = require('../../../server/game/gamesteps/triggeredabilitywindow.js');
 
-describe('TriggeredAbilityWindow', function() {
+xdescribe('TriggeredAbilityWindow', function() {
     beforeEach(function() {
         this.player1Spy = jasmine.createSpyObj('player', ['setPrompt', 'cancelPrompt', 'user']);
         this.player2Spy = jasmine.createSpyObj('player', ['setPrompt', 'cancelPrompt', 'user']);
