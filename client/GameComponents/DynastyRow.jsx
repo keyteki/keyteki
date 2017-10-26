@@ -249,7 +249,8 @@ class DynastyRow extends React.Component {
                             onMouseOver={ this.props.onMouseOver } 
                             onMouseOut={ this.props.onMouseOut } 
                             onCardClick={ this.props.onCardClick }
-                            popupLocation={ this.props.isMe || this.props.spectating ? 'top' : 'bottom' } 
+                            popupLocation='top'
+                            disablePopup={ this.props.spectating || !this.props.isMe }
                             onDragDrop={ this.props.onDragDrop }
                             menu={ dynastyDeckMenu } 
                             hiddenTopCard cardCount={ this.props.numDynastyCards } 
@@ -270,7 +271,8 @@ class DynastyRow extends React.Component {
                             onMouseOver={ this.props.onMouseOver } 
                             onMouseOut={ this.props.onMouseOut } 
                             onCardClick={ this.props.onCardClick }
-                            popupLocation={ this.props.isMe || this.props.spectating ? 'top' : 'bottom' } 
+                            popupLocation='top'
+                            disablePopup={ this.props.spectating || !this.props.isMe }
                             onDragDrop={ this.props.onDragDrop }
                             menu={ conflictDeckMenu } 
                             hiddenTopCard 
@@ -314,7 +316,8 @@ class DynastyRow extends React.Component {
                         onMouseOver={ this.props.onMouseOver } 
                         onMouseOut={ this.props.onMouseOut } 
                         onCardClick={ this.props.onCardClick }
-                        popupLocation={ this.props.isMe || this.props.spectating ? 'top' : 'bottom' } 
+                        popupLocation='top'
+                        disablePopup
                         onDragDrop={ this.props.onDragDrop }
                         menu={ conflictDeckMenu } 
                         hiddenTopCard 
@@ -334,7 +337,8 @@ class DynastyRow extends React.Component {
                         onMouseOver={ this.props.onMouseOver } 
                         onMouseOut={ this.props.onMouseOut } 
                         onCardClick={ this.props.onCardClick }
-                        popupLocation={ this.props.isMe || this.props.spectating ? 'top' : 'bottom' } 
+                        popupLocation='top'
+                        disablePopup
                         onDragDrop={ this.props.onDragDrop }
                         menu={ dynastyDeckMenu } 
                         hiddenTopCard 
