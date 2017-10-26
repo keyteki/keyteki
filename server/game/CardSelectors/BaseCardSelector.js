@@ -46,6 +46,10 @@ class BaseCardSelector {
     hasReachedLimit(selectedCards) { // eslint-disable-line no-unused-vars
         return false;
     }
+    
+    hasExceededLimit(selectedCards) { // eslint-disable-line no-unused-vars
+        return false;
+    }
 
     formatSelectParam(cards) {
         return cards;
