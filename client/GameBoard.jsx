@@ -402,19 +402,21 @@ export class InnerGameBoard extends React.Component {
     }
 
     getPlayerHand(thisPlayer) {
-        return (<Draggable
-            defaultPosition={ { x: 800, y: 700 } } >
-            <div className='player-home-row-container'>
-                <PlayerHand
-                    cards={ thisPlayer.cardPiles.hand }
-                    isMe={ !this.state.spectating }
-                    onCardClick={ this.onCardClick }
-                    onDragDrop={ this.onDragDrop }
-                    onMouseOut={ this.onMouseOut }
-                    onMouseOver={ this.onMouseOver }
-                    cardSize={ this.props.user.settings.cardSize } />
-            </div>
-        </Draggable>);
+        if(!this.state.spectating) {
+            return (<Draggable
+                defaultPosition={ { x: 800, y: 700 } } >
+                <div className='player-home-row-container'>
+                    <PlayerHand
+                        cards={ thisPlayer.cardPiles.hand }
+                        isMe={ !this.state.spectating }
+                        onCardClick={ this.onCardClick }
+                        onDragDrop={ this.onDragDrop }
+                        onMouseOut={ this.onMouseOut }
+                        onMouseOver={ this.onMouseOver }
+                        cardSize={ this.props.user.settings.cardSize } />
+                </div>
+            </Draggable>);
+        }
     }
 
     render() {
@@ -484,7 +486,7 @@ export class InnerGameBoard extends React.Component {
                 { this.getPlayerHand(thisPlayer) }
                 <div className='player-stats-row'>
                     <PlayerStats stats={ otherPlayer ? otherPlayer.stats : null }
-                        user={ otherPlayer ? otherPlayer.user : null } firstPlayer={ otherPlayer && otherPlayer.firstPlayer } otherPlayer={ true } handSize={ otherPlayer && otherPlayer.cardPiles.hand ? otherPlayer.cardPiles.hand.length : 0 }/>
+                        user={ otherPlayer ? otherPlayer.user : null } firstPlayer={ otherPlayer && otherPlayer.firstPlayer } otherPlayer={ true } handSize={ otherPlayer && otherPlayer.cardPiles.hand ? otherPlayer.cardPiles.hand.length : 0 } />
                 </div>
                 <div className='main-window'>
                     { this.getProvinces(thisPlayer, otherPlayer) }
@@ -584,7 +586,7 @@ export class InnerGameBoard extends React.Component {
                 </div>
                 <div className='player-stats-row our-side'>
                     <PlayerStats { ...boundActionCreators } stats={ thisPlayer.stats } showControls={ !this.state.spectating } user={ thisPlayer.user }
-                        firstPlayer={ thisPlayer.firstPlayer } otherPlayer={ false } onSettingsClick={ this.onSettingsClick.bind(this) } />
+                        firstPlayer={ thisPlayer.firstPlayer } otherPlayer={ false } onSettingsClick={ this.onSettingsClick.bind(this) } spectating={ this.state.spectating } handSize={ thisPlayer.cardPiles.hand ? thisPlayer.cardPiles.hand.length : 0 } />
                 </div>
             </div>);
     }
