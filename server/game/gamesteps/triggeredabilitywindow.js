@@ -32,6 +32,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
                 choice: choiceText.choice,
                 context: context
             });
+            console.log('abilityChoices', ability.title, ability.card.name);
         });
     }
 
@@ -107,6 +108,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
         }
 
         buttons.push({ text: 'Pass', method: 'pass' });
+        console.log(_.map(choicesForPlayer, choice => [choice.ability.title, choice.card.name]));
         this.game.promptForSelect(player, {
             activePromptTitle: TriggeredAbilityWindowTitles.getTitle(this.abilityType, this.events[0]),
             buttons: buttons,
@@ -118,8 +120,11 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
                 return true;
             },
             onSelect: (player, card) => {
-                let cardChoices = _.filter(choicesForPlayer, abilityChoice => abilityChoice.card = card);
-                console.log(cardChoices);
+                console.log(card.name)
+                console.log(_.map(choicesForPlayer, choice => [choice.ability.title, choice.card.name]));
+                let cardChoices = _.filter(choicesForPlayer, abilityChoice => abilityChoice.card === card);
+                console.log(_.map(cardChoices, choice => choice.card.name));
+                console.log(_.map(cardChoices, choice => choice.ability.title));
                 if(cardChoices.length === 1) {
                     let choice = _.find(this.abilityChoices, a => a.id === cardChoices[0].id);
                     this.game.resolveAbility(choice.ability, choice.context);

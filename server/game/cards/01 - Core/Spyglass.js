@@ -3,7 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class Spyglass extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
-            //title: 'Draw a card when commiting to conflict',
+            title: 'Draw a card',
             when: {
                 onConflictDeclared: event => event.conflict.isAttacking(this.parent),
                 onDefendersDeclared: event => event.conflict.isDefending(this.parent),
