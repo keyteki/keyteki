@@ -4,20 +4,40 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import CardCounters from './CardCounters.jsx';
+import CardMenu from './CardMenu.jsx';
 
 class Ring extends React.Component {
     constructor() {
         super();
 
         this.onClick = this.onClick.bind(this);
+        this.onMenuItemClick = this.onMenuItemClick.bind(this);
+
+        this.state = {
+            showMenu: false
+        };
+
     }
 
     onClick(event, ring) {
         event.preventDefault();
         event.stopPropagation();
 
+        if(!_.isEmpty(this.props.ring.menu)) {
+            this.setState({ showMenu: !this.state.showMenu });
+
+            return;
+        }
+
         if(this.props.onClick) {
             this.props.onClick(ring);
+        }
+    }
+
+    onMenuItemClick(menuItem) {
+        if(this.props.onMenuItemClick) {
+            this.props.onMenuItemClick(this.props.ring, menuItem);
+            this.setState({ showMenu: !this.state.showMenu });
         }
     }
 
@@ -41,6 +61,14 @@ class Ring extends React.Component {
         return true;
     }
 
+    showMenu() {
+        if(!this.props.ring.menu || !this.state.showMenu) {
+            return false;
+        }
+
+        return true;
+    }
+
     render() {
 
         return (<div className='ring-display'>
@@ -51,6 +79,7 @@ class Ring extends React.Component {
             <div className={ this.props.ring.claimedBy.length > 12 ? 'ring-info-xs ' : 'ring-info ' } >
                 { this.props.ring.claimed ? 'Claimed: ' + this.props.ring.claimedBy : this.props.ring.contested ? 'Contested' : 'Unclaimed' }
             </div>
+            { this.showMenu() ? <CardMenu menu={ this.props.ring.menu } onMenuItemClick={ this.onMenuItemClick } /> : null }
         </div>);
     }
 }
@@ -59,6 +88,7 @@ Ring.displayName = 'Ring';
 Ring.propTypes = {
     buttons: PropTypes.array,
     onClick: PropTypes.func,
+    onMenuItemClick: PropTypes.func,
     ring: PropTypes.object,
     size: PropTypes.string,
     socket: PropTypes.object

@@ -1,12 +1,25 @@
+const _ = require('underscore');
 
 class Ring {
-    constructor(element, type) {
+    constructor(game, element, type) {
+        this.game = game;
         this.claimed = false;
         this.claimedBy = '';
         this.conflictType = type;
         this.contested = false;
         this.element = element;
         this.fate = 0;
+        
+        this.menu = _([
+            { command: 'flip', text: 'Flip' },
+            { command: 'claim', text: 'Claim' },
+            { command: 'contested', text: 'Switch this ring to contested' },
+            { command: 'unclaimed', text: 'Set to unclaimed' },
+            { command: 'addfate', text: 'Add 1 fate' },
+            { command: 'remfate', text: 'Remove 1 fate' },
+            { command: 'takefate', text: 'Take all fate' },
+            { command: 'conflict', text: 'Initiate Conflict' }
+        ]);
 
     }
 
@@ -24,6 +37,19 @@ class Ring {
 
     getFate() {
         return this.fate;
+    }
+
+    getMenu() {
+        var menu = [];
+
+        if(this.menu.isEmpty() || !this.game.manualMode) { 
+            return undefined;
+        }
+        
+        menu.push({ command: 'click', text: 'Select Ring' });
+        menu = menu.concat(this.menu.value());
+        
+        return menu;
     }
 
     modifyFate(fate) {
@@ -67,7 +93,8 @@ class Ring {
             conflictType: this.conflictType,
             contested: this.contested,
             element: this.element,
-            fate: this.fate
+            fate: this.fate,
+            menu: this.getMenu()
         };
 
         return state;

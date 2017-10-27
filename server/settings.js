@@ -1,10 +1,10 @@
 const defaultWindows = {
     dynasty: true,
-    draw: true,
+    draw: false,
     preConflict: true,
     conflict: true,
-    fate: true,
-    regroup: true
+    fate: false,
+    regroup: false
 };
 
 const defaultKeywordSettings = {

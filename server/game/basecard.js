@@ -344,13 +344,20 @@ class BaseCard {
     getMenu() {
         var menu = [];
 
-        if(this.menu.isEmpty()) {
+        if(this.menu.isEmpty() || !this.game.manualMode || 
+                !['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province','play area'].includes(this.location)) {
             return undefined;
+        }
+        
+        if(this.facedown) {
+            return [{ command: 'reveal', text: 'Reveal' }];
         }
 
         menu.push({ command: 'click', text: 'Select Card' });
-        menu = menu.concat(this.menu.value());
-
+        if(this.location === 'play area' || this.isProvince || this.isStronghold) {
+            menu = menu.concat(this.menu.value());
+        }
+        
         return menu;
     }
 

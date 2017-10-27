@@ -23,7 +23,7 @@ class StrongholdRow extends React.Component {
                     <div className='deck-cards'>
                         { this.props.role && this.props.role.location ? <CardPile className='rolecard' source='role card' cards={ [] } topCard={ this.props.role } disablePopup
                             onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick } size={ this.props.cardSize } /> : <Placeholder size={ this.props.cardSize } /> }
-                        <Province isMe={ this.props.isMe } source='stronghold province' cards={ this.props.strongholdProvinceCards } onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onDragDrop={ this.props.onDragDrop } onCardClick={ this.props.onCardClick } size={ this.props.cardSize } />
+                        <Province isMe={ this.props.isMe } source='stronghold province' cards={ this.props.strongholdProvinceCards } onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onDragDrop={ this.props.onDragDrop } onCardClick={ this.props.onCardClick } size={ this.props.cardSize } onMenuItemClick={ this.props.onMenuItemClick } />
                         { this.getFavor(this.props.thisPlayer) }
                     </div>
                 </div>
@@ -40,7 +40,7 @@ class StrongholdRow extends React.Component {
                     { (!this.props.isMe && this.props.thisPlayer) ? this.getFavor(this.props.thisPlayer) : this.getFavor(this.props.otherPlayer) }
                     <Province isMe={ this.props.isMe } source='stronghold province' cards={ this.props.strongholdProvinceCards } onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick } size={ this.props.cardSize } />
                     { this.props.role && this.props.role.location ? <CardPile className='rolecard' source='role card' cards={ [] } topCard={ this.props.role } disablePopup
-                        onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick } size={ this.props.cardSize } /> : '' }
+                        onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick } size={ this.props.cardSize } onMenuItemClick={ this.props.onMenuItemClick } /> : '' }
                 </div>
             </div>
         );
@@ -54,6 +54,7 @@ StrongholdRow.propTypes = {
     isMe: PropTypes.bool,
     onCardClick: PropTypes.func,
     onDragDrop: PropTypes.func,
+    onMenuItemClick: PropTypes.func,
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
     otherPlayer: PropTypes.object,

@@ -9,6 +9,7 @@ class ProvinceCard extends BaseCard {
         this.strengthModifier = 0;
         this.isProvince = true;
         this.isBroken = false;
+        this.menu = _([{ command: 'break', text: 'Break/unbreak this province' }, { command: 'hide', text: 'Flip face down' }]);
     }
 
     getStrength() {

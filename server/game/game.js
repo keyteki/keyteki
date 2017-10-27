@@ -32,6 +32,8 @@ const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const ForcedTriggeredAbilityWindow = require('./gamesteps/forcedtriggeredabilitywindow.js');
 const TriggeredAbilityWindow = require('./gamesteps/triggeredabilitywindow.js');
 const Ring = require('./ring.js');
+const Conflict = require('./conflict.js');
+const ConflictFlow = require('./gamesteps/conflict/conflictflow.js');
 
 class Game extends EventEmitter {
     constructor(details, options = {}) {
@@ -54,6 +56,7 @@ class Game extends EventEmitter {
         this.gameType = details.gameType;
         this.currentActionWindow = null;
         this.currentConflict = null;
+        this.manualMode = false;
         this.currentPhase = '';
         this.abilityCardStack = [];
         this.abilityWindowStack = [];
@@ -62,11 +65,11 @@ class Game extends EventEmitter {
         this.militaryConflictCompleted = false;
         this.politicalConflictCompleted = false;
         this.rings = {
-            air: new Ring('air','military'),
-            earth: new Ring('earth','political'),
-            fire: new Ring('fire','military'),
-            void: new Ring('void','political'),
-            water: new Ring('water','military')
+            air: new Ring(this, 'air','military'),
+            earth: new Ring(this, 'earth','political'),
+            fire: new Ring(this, 'fire','military'),
+            void: new Ring(this, 'void','political'),
+            water: new Ring(this, 'water','military')
         };
         this.shortCardData = options.shortCardData || [];
 
@@ -227,39 +230,8 @@ class Game extends EventEmitter {
             return;
         }
 
-
-        if(!card.facedown && card.location === 'play area' && card.controller === player) {
-            if(card.bowed) {
-                player.readyCard(card);
-            } else {
-                player.bowCard(card);
-            }
-
-            this.addMessage('{0} {1} {2}', player, card.bowed ? 'bows' : 'readies', card);
-        }
-        
-        if(!card.facedown && card.isProvince && card.controller === player && this.currentPhase === 'conflict') {
-            if(card.isBroken) {
-                card.isBroken = false;
-            } else {
-                card.isBroken = true;
-            }
-            
-            this.addMessage('{0} {1} {2}', player, card.isBroken ? 'breaks' : 'unbreaks', card);
-        }
-
-        if(!card.facedown && card.location === 'stronghold province' && card.controller === player && card.isStronghold) {
-            if(card.bowed) {
-                player.readyCard(card);
-            } else {
-                player.bowCard(card);
-            }
-
-            this.addMessage('{0} {1} {2}', player, card.bowed ? 'bows' : 'readies', card);
-        }
-        
-        if(['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(card.location) && card.controller === player && card.isDynasty) {
-            if(card.facedown) {
+        if(['province 1', 'province 2', 'province 3', 'province 4'].includes(card.location) && card.controller === player && card.isDynasty) {
+            if(card.facedown && this.currentPhase === 'dynasty') {
                 card.facedown = false;
                 this.addMessage('{0} reveals {1}', player, card);
             }
@@ -303,7 +275,6 @@ class Game extends EventEmitter {
 
     menuItemClick(sourcePlayer, cardId, menuItem) {
         var player = this.getPlayerByName(sourcePlayer);
-
         if(!player) {
             return;
         }
@@ -312,13 +283,69 @@ class Game extends EventEmitter {
             this.cardClicked(sourcePlayer, cardId);
             return;
         }
-
         var card = this.findAnyCardInAnyList(cardId);
-
         if(!card) {
             return;
         }
 
+        switch(menuItem.command) {
+            case 'bow':
+                if(card.bowed) {
+                    this.addMessage('{0} readies {1}', player, card);
+                    player.readyCard(card);
+                } else {
+                    this.addMessage('{0} bows {1}', player, card);
+                    player.bowCard(card);
+                }
+                break;
+            case 'honor':
+                this.addMessage('{0} honors {1}', player, card);
+                player.honorCard(card);
+                break;
+            case 'dishonor':
+                this.addMessage('{0} dishonors {1}', player, card);
+                player.dishonorCard(card);
+                break;
+            case 'addfate':
+                this.addMessage('{0} adds a fate to {1}', player, card);
+                card.modifyFate(1);
+                break;
+            case 'remfate':
+                this.addMessage('{0} removes a fate from {1}', player, card);
+                card.modifyFate(-1);
+                break;
+            case 'move':
+                if(this.currentConflict) {
+                    if(card.isParticipating()) {
+                        this.addMessage('{0} moves {1} out of the conflict', player, card);
+                        this.currentConflict.sendHome(card);
+                    } else {
+                        this.addMessage('{0} moves {1} into the conflict', player, card);
+                        this.currentConflict.moveToConflict(card, this.currentConflict.attackingPlayer === player);
+                    }
+                }
+                break;
+            case 'control':
+                if(player.opponent) {
+                    this.addMessage('{0} gives {1} control of {2}', player, player.opponent, card);
+                    this.takeControl(player.opponent, card);
+                }
+                break;
+            case 'reveal':
+                this.addMessage('{0} reveals {1}', player, card);
+                card.facedown = false;
+                break;
+            case 'hide':
+                this.addMessage('{0} flips {1} facedown', player, card);
+                card.facedown = true;
+                break;
+            case 'break':
+                this.addMessage('{0} {1} {2}', player, card.isBroken ? 'unbreaks' : 'breaks', card);
+                card.isBroken = card.isBroken ? false : true;
+                break;
+        }
+        
+        /*
         switch(card.location) {
             case 'province':
                 this.callCardMenuCommand(player.activePlot, player, menuItem);
@@ -329,6 +356,76 @@ class Game extends EventEmitter {
                 }
 
                 this.callCardMenuCommand(card, player, menuItem);
+                break;
+        }
+        */
+    }
+
+    ringMenuItemClick(sourcePlayer, sourceRing, menuItem) {
+        var player = this.getPlayerByName(sourcePlayer);
+        if(!player) {
+            return;
+        }
+
+        let ringElement = sourceRing.element;
+        if(menuItem.command === 'click') {
+            this.ringClicked(sourcePlayer, ringElement);
+            return;
+        }
+        var ring = this.rings[ringElement];
+        if(!ring) {
+            return;
+        }
+        switch(menuItem.command) {
+            case 'flip':
+                if(this.currentConflict) {
+                    this.addMessage('{0} switches the conflict type', player);
+                    this.currentConflict.switchType();
+                } else {
+                    this.flipRing(player, ring);
+                }
+                break;
+            case 'claim':
+                this.addMessage('{0} claims the {1} ring', player, ringElement);
+                ring.claimRing(player);
+                break;
+            case 'unclaimed':
+                this.addMessage('{0} sets the {1} ring to unclaimed', player, ringElement);
+                ring.resetRing();
+                break;
+            case 'contested':
+                if(this.currentConflict) {
+                    if(!ring.claimed) {
+                        this.addMessage('{0} switches the conflict to contest the {1} ring', player, ringElement);
+                        this.currentConflict.switchElement(ringElement);
+                    } else {
+                        this.addMessage('{0} tried to switch the conflict to contest the {1} ring, but it\'s already claimed', player, ringElement);
+                    }
+                }
+                break;
+            case 'addfate':
+                this.addMessage('{0} adds a fate to the {1} ring', player, ringElement);
+                ring.modifyFate(1);
+                break;
+            case 'remfate':
+                this.addMessage('{0} removes a fate from the {1} ring', player, ringElement);
+                ring.modifyFate(-1);
+                break;
+            case 'takefate':
+                this.addMessage('{0} takes all the fate from the {1} ring and adds it to their pool', player, ringElement);
+                this.addFate(player, ring.fate);
+                ring.fate = 0;
+                break;
+            case 'conflict':
+                if(this.currentActionWindow && this.currentActionWindow.windowName === 'preConflict') {
+                    this.addMessage('{0} initiates a conflict', player);
+                    var conflict = new Conflict(this, player, player.opponent, ring.conflictType, ringElement);
+                    this.currentConflict = conflict;
+                    this.queueStep(new ConflictFlow(this, conflict));
+                    this.queueStep(new SimpleStep(this, () => this.currentConflict = null));
+                } else {
+                    this.addMessage('{0} tried to initiate a conflict, but this can only be done in a pre-conflict action window', player);
+                }
                 break;
         }
     }
@@ -747,7 +844,7 @@ class Game extends EventEmitter {
         this.queueStep(new MultipleEventWindow(this, events));
     }
 
-    flipRing(sourcePlayer, ring) {
+    flipRing(player, ring) {
         ring.flipConflictType();
     }
 
