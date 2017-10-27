@@ -19,40 +19,35 @@ class PlayCharacterAction extends BaseAbility {
             context.game.currentPhase !== 'dynasty' &&
             context.source.getType() === 'character' &&
             context.source.location === 'hand' &&
+            context.player.canPutIntoPlay(context.source) &&
             context.source.canPlay()
         );
     }
 
     executeHandler(context) {
         
-        this.card = context.source;
-        this.card.fate = context.chooseFate;
-        this.originalLocation = this.card.location;
+        context.source.fate = context.chooseFate;
+        this.originalLocation = context.source.location;
         if(context.game.currentConflict) {
-            context.game.promptWithMenu(context.player, this, {
-                activePrompt: {
-                    promptTitle: context.source.name,
-                    menuTitle: 'Where do you wish to play this character?',
-                    buttons: [
-                        { text: 'Conflict', arg: 'conflict', method: 'playCharacterWithFate' },
-                        { text: 'Home', arg: 'home', method: 'playCharacterWithFate' }
-                    ]
-                },
-                waitingPromptTitle: 'Waiting for opponent to take an action or pass.'
+            context.game.promptWithHandlerMenu(context.player, {
+                activePromptTitle: 'Where do you wish to play this character?',
+                source: context.source,
+                choices: ['Conflict', 'Home'],
+                handlers: [
+                    () => {
+                        context.game.addMessage('{0} plays {1} into the conflict with {2} additional fate', context.player, context.source, context.source.fate);
+                        context.player.putIntoPlay(context.source, true);
+                    },
+                    () => {
+                        context.game.addMessage('{0} plays {1} at home with {2} additional fate', context.player, context.source, context.source.fate);
+                        context.player.putIntoPlay(context.source, false);
+                    }
+                ]
             });
         } else {
-            this.playCharacterWithFate(context.player, 'home');
+            context.game.addMessage('{0} plays {1} with {2} additional fate', context.player, context.source, context.source.fate);
+            context.player.putIntoPlay(context.source);
         }
-    }
-    
-    playCharacterWithFate(player, arg) {
-        let inConflict = false;
-        if(arg === 'conflict') {
-            inConflict = true;
-        }
-        player.game.addMessage('{0} plays {1} {2}with {3} additional fate', player, this.card, inConflict ? 'into the conflict ' : '', this.card.fate);
-        player.putIntoPlay(this.card, inConflict);
-        return true;
     }
 
     isCardPlayed() {
