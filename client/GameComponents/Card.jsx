@@ -103,14 +103,14 @@ class Card extends React.Component {
     }
 
     isAllowedMenuSource() {
-        return this.props.source === 'play area' || this.props.source === 'agenda' || this.props.source === 'revealed plots';
+        return this.props.source === 'play area';
     }
 
     onClick(event, card) {
         event.preventDefault();
         event.stopPropagation();
 
-        if(this.isAllowedMenuSource() && !_.isEmpty(this.props.card.menu)) {
+        if(!_.isEmpty(this.props.card.menu)) {
             this.setState({ showMenu: !this.state.showMenu });
 
             return;
@@ -199,9 +199,10 @@ class Card extends React.Component {
     }
 
     showMenu() {
+        /*
         if(!this.isAllowedMenuSource()) {
             return false;
-        }
+        }*/
 
         if(!this.props.card.menu || !this.state.showMenu) {
             return false;

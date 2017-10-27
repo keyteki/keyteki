@@ -45,6 +45,7 @@ export class InnerGameBoard extends React.Component {
         this.onChange = this.onChange.bind(this);
         this.onScroll = this.onScroll.bind(this);
         this.onMenuItemClick = this.onMenuItemClick.bind(this);
+        this.onRingMenuItemClick = this.onRingMenuItemClick.bind(this);
 
         this.state = {
             canScroll: true,
@@ -325,6 +326,10 @@ export class InnerGameBoard extends React.Component {
         this.props.sendGameMessage('menuItemClick', card.uuid, menuItem);
     }
 
+    onRingMenuItemClick(ring, menuItem) {
+        this.props.sendGameMessage('ringMenuItemClick', ring, menuItem);
+    }
+
     onPromptedActionWindowToggle(option, value) {
         this.props.sendGameMessage('togglePromptedActionWindow', option, value);
     }
@@ -347,11 +352,11 @@ export class InnerGameBoard extends React.Component {
 
     getRings() {
         return (<div className='panel ring-panel'>
-            <Ring ring={ this.props.currentGame.rings.air } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } />
-            <Ring ring={ this.props.currentGame.rings.earth } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } />
-            <Ring ring={ this.props.currentGame.rings.fire } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } />
-            <Ring ring={ this.props.currentGame.rings.void } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } />
-            <Ring ring={ this.props.currentGame.rings.water } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } />
+            <Ring ring={ this.props.currentGame.rings.air } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } onMenuItemClick={ this.onRingMenuItemClick } />
+            <Ring ring={ this.props.currentGame.rings.earth } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } onMenuItemClick={ this.onRingMenuItemClick } />
+            <Ring ring={ this.props.currentGame.rings.fire } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } onMenuItemClick={ this.onRingMenuItemClick } />
+            <Ring ring={ this.props.currentGame.rings.void } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } onMenuItemClick={ this.onRingMenuItemClick } />
+            <Ring ring={ this.props.currentGame.rings.water } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } onMenuItemClick={ this.onRingMenuItemClick } />
         </div>);
     }
 
@@ -536,6 +541,7 @@ export class InnerGameBoard extends React.Component {
                                 spectating={ this.state.spectating }
                                 onCardClick={ this.onCardClick }
                                 onDragDrop={ this.onDragDrop }
+                                onMenuItemClick={ this.onMenuItemClick } 
                                 onMouseOver={ this.onMouseOver }
                                 onMouseOut={ this.onMouseOut }
                                 strongholdProvinceCards={ thisPlayer.strongholdProvince }

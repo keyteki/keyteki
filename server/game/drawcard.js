@@ -53,6 +53,16 @@ class DrawCard extends BaseCard {
         };
         this.covertLimit = 1;
 
+        this.menu = _([
+            { command: 'bow', text: 'Bow/Ready' },
+            { command: 'honor', text: 'Honor' },
+            { command: 'dishonor', text: 'Dishonor' },
+            { command: 'addfate', text: 'Add 1 fate' },
+            { command: 'remfate', text: 'Remove 1 fate' },
+            { command: 'move', text: 'Move into/out of conflict' },
+            { command: 'control', text: 'Give control' }
+        ]);
+
         if(cardData.side === 'conflict') {
             this.isConflict = true;
         } else if(cardData.side === 'dynasty') {

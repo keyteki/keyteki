@@ -10,6 +10,7 @@ class StrongholdCard extends BaseCard {
         this.fateModifier = 0;
         this.honorModifier = 0;
         this.influenceModifier = 0;
+        this.menu = _([{ command: 'bow', text: 'Bow/Ready' }]);
 
         this.isStronghold = true;
     }
