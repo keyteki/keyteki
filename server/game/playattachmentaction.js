@@ -22,6 +22,7 @@ class PlayAttachmentAction extends BaseAbility {
             context.game.currentPhase !== 'dynasty' &&
             context.source.getType() === 'attachment' &&
             context.source.location === 'hand' &&
+            context.player.canPutIntoPlay(context.source) &&
             context.source.canPlay()
         );
     }

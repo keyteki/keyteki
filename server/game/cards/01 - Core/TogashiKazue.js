@@ -8,6 +8,9 @@ class TogashiKazue extends DrawCard {
             condition: () => {
                 let clone = new TogashiKazue(this.owner, this.cardData);
                 clone.type = 'attachment';
+                if(!this.controller.canPutIntoPlay(this) || !this.controller.anyCardsInPlay(card => this.controller.canAttach(clone, card))) {
+                    return false;
+                }
                 return this.controller.fate >= this.controller.getReducedCost('play', clone);
             },
             location: 'hand',
