@@ -345,14 +345,14 @@ class Player extends Spectator {
     }
 
     shuffleConflictDeck() {
-        if(this.user) {
+        if(!this.name === 'Dummy Player') {
             this.game.addMessage('{0} is shuffling their conflict deck', this);
         }
         this.conflictDeck = _(this.conflictDeck.shuffle());
     }
 
     shuffleDynastyDeck() {
-        if(this.user) {
+        if(!this.name === 'Dummy Player') {
             this.game.addMessage('{0} is shuffling their dynasty deck', this);
         }
         this.dynastyDeck = _(this.dynastyDeck.shuffle());
