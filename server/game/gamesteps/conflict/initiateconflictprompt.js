@@ -75,12 +75,14 @@ class InitiateConflictPrompt extends UiPrompt {
     }
 
     onRingClicked(player, ring) {
-        if(player !== this.choosingPlayer || ring.claimed) {
+        if(player !== this.choosingPlayer || ring.claimed || _.any(player.abilityRestrictions, restriction => {
+            return restriction.isMatch('initiateConflict', null, { source: 'ring', card: ring.element, stage: 'effect' });
+        })) {
             return false;
         }
 
-        var canInitiateThisConflictType = !player.conflicts.isAtMax(ring.conflictType);        
-        var canInitiateOtherConflictType = !player.conflicts.isAtMax(ring.conflictType === 'military' ? 'political' : 'military');        
+        let canInitiateThisConflictType = !player.conflicts.isAtMax(ring.conflictType);        
+        let canInitiateOtherConflictType = !player.conflicts.isAtMax(ring.conflictType === 'military' ? 'political' : 'military');
 
         if((this.conflict.conflictRing === ring.element && canInitiateOtherConflictType) ||
                 (this.conflict.conflictRing !== ring.element && !canInitiateThisConflictType)) {
