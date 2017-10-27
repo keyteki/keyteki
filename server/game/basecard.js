@@ -380,7 +380,8 @@ class BaseCard {
     }
 
     allowGameAction(actionType, abilityContext = this.game.getCurrentAbilityContext()) {
-        return !_.any(this.abilityRestrictions, restriction => restriction.isMatch(actionType, this, abilityContext));
+        return (!_.any(this.abilityRestrictions, restriction => restriction.isMatch(actionType, this, abilityContext)) &&
+                !_.any(this.controller.abilityRestrictions, restriction => restriction.isMatch(actionType, this, abilityContext)));
     }
 
     allowEffectFrom(sourceCard) {
