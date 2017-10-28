@@ -7,6 +7,7 @@ class CostReducer {
         this.uses = 0;
         this.limit = properties.limit;
         this.match = properties.match;
+        this.targetCondition = properties.targetCondition;
         this.amount = properties.amount || 1;
         this.playingTypes = _.isArray(properties.playingTypes) ? properties.playingTypes : [properties.playingTypes];
         if(this.limit) {
@@ -14,12 +15,23 @@ class CostReducer {
         }
     }
 
-    canReduce(playingType, card) {
+    canReduce(playingType, card, target = null) {
         if(this.limit && this.limit.isAtMax()) {
             return false;
         }
 
-        return this.playingTypes.includes(playingType) && !!this.match(card);
+        return this.playingTypes.includes(playingType) && !!this.match(card) && this.checkTargetCondition(target);
+    }
+
+    checkTargetCondition(target) {
+        if(!this.targetCondition) {
+            return true;
+        }
+        if(!target) {
+            return false;
+        }
+
+        return this.targetCondition(target);
     }
 
     getAmount(card) {

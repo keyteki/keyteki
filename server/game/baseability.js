@@ -70,7 +70,17 @@ class BaseAbility {
      * @returns {Boolean}
      */
     canPayCosts(context) {
+        if(this.targets.length > 0) {
+            return true;
+        }
         return _.all(this.cost, cost => cost.canPay(context));
+    }
+    
+    canPayCostsForTarget(context, targets) {
+        if(!_.isArray(targets)) {
+            targets = [targets];
+        }
+        return _.all(this.cost, cost => cost.canPay(context, targets));
     }
 
     /**

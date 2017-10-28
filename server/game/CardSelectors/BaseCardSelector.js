@@ -11,15 +11,19 @@ class BaseCardSelector {
         }
     }
 
-    canTarget(card, context) {
+    canTarget(card, context, pretarget = false) {
         let abilityContext = context.game.getCurrentAbilityContext();
         if((!abilityContext.card || abilityContext.card !== context.source) && context.source) {
             abilityContext = { source: 'card', card: context.source, stage: this.stage };
-        } 
+        }
+        if(pretarget && context.ability && !context.ability.canPayCostsForTarget(context, card)) {
+            return false;
+        }
         return (
             this.cardType.includes(card.getType()) &&
             this.cardCondition(card, context) &&
-            card.allowGameAction(this.gameAction, abilityContext)
+            card.allowGameAction(this.gameAction, abilityContext) &&
+            card.allowGameAction('target', abilityContext)
         );
     }
 
@@ -27,8 +31,8 @@ class BaseCardSelector {
         return selectedCards.length > 0;
     }
 
-    hasEnoughTargets(context) {
-        return (this.optional || context.game.allCards.any(card => this.canTarget(card, context)));
+    hasEnoughTargets(context, pretarget = false) {
+        return (this.optional || context.game.allCards.any(card => this.canTarget(card, context, pretarget)));
     }
 
     defaultActivePromptTitle() {
