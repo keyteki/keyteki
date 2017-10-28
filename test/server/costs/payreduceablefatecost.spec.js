@@ -4,7 +4,7 @@ describe('Costs.payReduceableFateCost', function() {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['addMessage']);
         this.playerSpy = jasmine.createSpyObj('player', ['getDuplicateInPlay', 'getReducedCost', 'markUsedReducers']);
-        this.cardSpy = { card: 1 };
+        this.cardSpy = { card: 1, allowGameAction: () => true };
         this.context = {
             costs: {},
             game: this.gameSpy,
