@@ -19,6 +19,7 @@ import GameLobby from './GameLobby.jsx';
 import GameBoard from './GameBoard.jsx';
 import HowToPlay from './HowToPlay.jsx';
 import About from './About.jsx';
+import Community from './Community.jsx';
 import ForgotPassword from './ForgotPassword.jsx';
 import ResetPassword from './ResetPassword.jsx';
 import Profile from './Profile.jsx';
@@ -49,6 +50,7 @@ class App extends React.Component {
             '/play': () => (this.props.currentGame && this.props.currentGame.started) ? <GameBoard /> : <GameLobby />,
             '/how-to-play': () => <HowToPlay />,
             '/about': () => <About />,
+            '/community': () => <Community />,
             '/forgot': () => <ForgotPassword />,
             '/reset-password': params => <ResetPassword id={ params.id } token={ params.token } />,
             '/profile': () => <Profile />,
@@ -237,7 +239,8 @@ class App extends React.Component {
             {
                 name: 'Help', childItems: [
                     { name: 'How To Play', path: '/how-to-play' },
-                    { name: 'About', path: '/about' }
+                    { name: 'About', path: '/about' },
+                    { name: 'Community', path: '/community' }
                 ]
             }
         ];
@@ -330,6 +333,9 @@ class App extends React.Component {
                 break;
             case '/about':
                 component = <About />;
+                break;
+            case '/community':
+                component = <Community />;
                 break;
             case '/forgot':
                 component = <ForgotPassword />;

@@ -41,22 +41,20 @@ class PlayTogashiKazueAsAttachment extends PlayAttachmentAction {
 class TogashiKazue extends DrawCard {
     setupCardAbilities(ability) {
         this.abilities.playActions.push(new PlayTogashiKazueAsAttachment(this, this.owner, this.cardData));
-        this.whileAttached({
-            effect: ability.effects.gainAbility('action', {
-                title: 'Steal a fate',
-                condition: () => this.game.currentConflict && this.game.currentConflict.isParticipating(this.parent),
-                printedAbility: false,
-                target: {
-                    activePromptTitle: 'Choose a character',
-                    cardType: 'character',
-                    cardCondition: card => this.game.currentConflict.isParticipating(card) && card.fate > 0 && card !== this.parent
-                },
-                handler: context => {
-                    context.target.modifyFate(-1);
-                    this.parent.modifyFate(1);
-                    this.game.addMessage('{0} uses Togashi Kazue to steal a fate from {1} and place it on {2}', this.controller, context.target, this.parent);
-                }
-            })
+        this.action({
+            title: 'Steal a fate',
+            condition: () => this.game.currentConflict && this.game.currentConflict.isParticipating(this.parent) && this.type === 'attachment',
+            printedAbility: false,
+            target: {
+                activePromptTitle: 'Choose a character',
+                cardType: 'character',
+                cardCondition: card => this.game.currentConflict.isParticipating(card) && card.fate > 0 && card !== this.parent
+            },
+            handler: context => {
+                context.target.modifyFate(-1);
+                this.parent.modifyFate(1);
+                this.game.addMessage('{0} uses {1} to steal a fate from {2} and place it on {3}', this.controller, this, context.target, this.parent);
+            }
         });
     }
 

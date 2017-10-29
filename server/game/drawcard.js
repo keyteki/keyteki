@@ -122,6 +122,14 @@ class DrawCard extends BaseCard {
             }
         } else if(actionType === 'bow' && this.bowed) {
             return false;
+        } else if(actionType === 'moveToConflict' && this.game.currentConflict) {
+            if(this.controller === this.game.currentConflict.attackingPlayer) {
+                if(!this.canParticipateAsAttacker) {
+                    return false;
+                }
+            } else if(!this.canParticipateAsDefender) {
+                return false;
+            }
         }
         return super.allowGameAction(actionType, abilityContext);
     }

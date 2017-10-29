@@ -391,6 +391,7 @@ const Effects = {
     cannotMoveCharactersIntoConflict: playerCannotEffect('moveToConflict'),
     playerCannotTriggerAbilities: playerCannotEffect('triggerAbilities'),
     cannotBecomeDishonored: cardCannotEffect('becomeDishonored'),
+    playerCannotInitiateConflict: playerCannotEffect('initiateConflict'),
     gainAbility: function(abilityType, properties) {
         return {
             apply: function(card, context) {
