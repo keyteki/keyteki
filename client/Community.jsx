@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Link from './Link.jsx';
-
 class Community extends React.Component {
     render() {
         return (
