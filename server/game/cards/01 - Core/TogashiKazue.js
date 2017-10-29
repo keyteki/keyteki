@@ -39,7 +39,7 @@ class PlayTogashiKazueAsAttachment extends PlayAttachmentAction {
 }
 
 class TogashiKazue extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.abilities.playActions.push(new PlayTogashiKazueAsAttachment(this, this.owner, this.cardData));
         this.action({
             title: 'Steal a fate',
