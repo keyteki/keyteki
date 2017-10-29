@@ -10,7 +10,7 @@ class AbilityTargetCard {
     }
 
     canResolve(context) {
-        return this.selector.hasEnoughTargets(context);
+        return this.selector.hasEnoughTargets(context, true);
     }
 
     resolve(context, pretarget = false, noCostsFirstButton = false) {
@@ -53,6 +53,7 @@ class AbilityTargetCard {
             source: context.source,
             selector: this.selector,
             buttons: buttons,
+            pretarget: pretarget,
             onSelect: (player, card) => {
                 result.resolved = true;
                 result.value = card;

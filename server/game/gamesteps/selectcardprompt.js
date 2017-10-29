@@ -64,6 +64,7 @@ class SelectCardPrompt extends UiPrompt {
     defaultProperties() {
         return {
             buttons: [{ text: 'Done', arg: 'done' }],
+            pretarget: false,
             onSelect: () => true,
             onMenuCommand: () => true,
             onCancel: () => true
@@ -133,7 +134,7 @@ class SelectCardPrompt extends UiPrompt {
         }
 
         return (
-            this.selector.canTarget(card, this.context) &&
+            this.selector.canTarget(card, this.context, this.properties.pretarget) &&
             !this.selector.wouldExceedLimit(this.selectedCards, card)
         );
     }

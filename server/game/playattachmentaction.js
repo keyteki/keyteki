@@ -12,9 +12,10 @@ class PlayAttachmentAction extends BaseAbility {
                 cardCondition: (card, context) => context.source.owner.canAttach(context.source, card)
             }
         });
-        this.title = 'PlayAttachmentAction';
+        this.title = 'Play this attachment';
         this.cannotTargetFirst = false;
         this.abilityType = 'action';
+        this.cannotBeCancelled = true;
     }
     
     meetsRequirements(context) {

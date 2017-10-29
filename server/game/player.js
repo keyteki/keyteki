@@ -550,15 +550,15 @@ class Player extends Spectator {
         }
     }
 
-    getReducedCost(playingType, card) {
+    getReducedCost(playingType, card, target = null) {
         var baseCost = card.getCost();
-        var matchingReducers = _.filter(this.costReducers, reducer => reducer.canReduce(playingType, card));
+        var matchingReducers = _.filter(this.costReducers, reducer => reducer.canReduce(playingType, card, target));
         var reducedCost = _.reduce(matchingReducers, (cost, reducer) => cost - reducer.getAmount(card), baseCost);
         return Math.max(reducedCost, 0);
     }
 
-    markUsedReducers(playingType, card) {
-        var matchingReducers = _.filter(this.costReducers, reducer => reducer.canReduce(playingType, card));
+    markUsedReducers(playingType, card, target = null) {
+        var matchingReducers = _.filter(this.costReducers, reducer => reducer.canReduce(playingType, card, target));
         _.each(matchingReducers, reducer => {
             reducer.markUsed();
             if(reducer.isExpired()) {
