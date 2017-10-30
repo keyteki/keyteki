@@ -20,7 +20,7 @@ class PlayCharacterAction extends BaseAbility {
         return (
             context.game.currentPhase !== 'dynasty' &&
             context.source.getType() === 'character' &&
-            this.location.includes[context.source.location] &&
+            this.location.includes(context.source.location) &&
             context.player.canPutIntoPlay(context.source) &&
             context.source.canPlay()
         );

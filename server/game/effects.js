@@ -416,6 +416,16 @@ const Effects = {
             }
         };
     },
+    revealTopCardOfConflictDeck: function() {
+        return {
+            apply: function(player) {
+                player.conflictDeckTopCardHidden = false;
+            },
+            unapply: function(player) {
+                player.conflictDeckTopCardHidden = true;
+            }
+        };
+    },
     restrictNumberOfDefenders: function(amount) {
         return {
             apply: function(card, context) {

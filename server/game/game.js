@@ -256,7 +256,6 @@ class Game extends EventEmitter {
     }
     
     conflictTopCardClicked(sourcePlayer) {
-        console.log('conflictTopCard')
         let player = this.getPlayerByName(sourcePlayer);
 
         if(!player || player.conflictDeckTopCardHidden) {
@@ -268,7 +267,6 @@ class Game extends EventEmitter {
         if(this.pipeline.handleCardClicked(player, card)) {
             return;
         }
-        console.log('conflictTopCard - find')
 
         player.findAndUseAction(card);
     }
