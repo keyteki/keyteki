@@ -15,13 +15,14 @@ class PlayAttachmentAction extends BaseAbility {
         this.title = 'PlayAttachmentAction';
         this.cannotTargetFirst = false;
         this.abilityType = 'action';
+        this.location = ['hand'];
     }
     
     meetsRequirements(context) {
         return (
             context.game.currentPhase !== 'dynasty' &&
             context.source.getType() === 'attachment' &&
-            context.source.location === 'hand' &&
+            this.location.includes[context.source.location] &&
             context.player.canPutIntoPlay(context.source) &&
             context.source.canPlay()
         );

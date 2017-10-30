@@ -254,6 +254,24 @@ class Game extends EventEmitter {
             this.flipRing(player, ring);
         }
     }
+    
+    conflictTopCardClicked(sourcePlayer) {
+        console.log('conflictTopCard')
+        let player = this.getPlayerByName(sourcePlayer);
+
+        if(!player || player.conflictDeckTopCardHidden) {
+            return;
+        }
+        
+        let card = player.conflictDeck.first();
+        
+        if(this.pipeline.handleCardClicked(player, card)) {
+            return;
+        }
+        console.log('conflictTopCard - find')
+
+        player.findAndUseAction(card);
+    }
 
     returnRings() {
         _.each(this.rings, ring => ring.resetRing());
@@ -1079,6 +1097,7 @@ class Game extends EventEmitter {
 
             return {
                 id: this.id,
+                manualMode: this.manualMode,
                 name: this.name,
                 owner: this.owner,
                 players: playerState,
@@ -1133,6 +1152,7 @@ class Game extends EventEmitter {
             createdAt: this.createdAt,
             gameType: this.gameType,
             id: this.id,
+            manualMode: this.manualMode,
             messages: this.gameChat.messages,
             name: this.name,
             owner: this.owner,
