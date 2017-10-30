@@ -7,9 +7,9 @@ class ForgedEdict extends DrawCard {
                 onCardAbilityInitiated: event => event.source.type === 'event'
             },
             canCancel: true,
-            cost: ability.costs.dishonorCharacter(card => card.hasTrait('courtier')),
+            cost: ability.costs.dishonor(card => card.hasTrait('courtier')),
             handler: context => {
-                this.game.addMessage('{0} dishonors {1} to cancel {2} using {3}', this.controller, context.costs.dishonorCharacter, context.event.source, this);
+                this.game.addMessage('{0} dishonors {1} to cancel {2} using {3}', this.controller, context.costs.dishonor, context.event.source, this);
                 context.cancel();
             }
         });

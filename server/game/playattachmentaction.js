@@ -24,7 +24,8 @@ class PlayAttachmentAction extends BaseAbility {
             context.source.getType() === 'attachment' &&
             context.source.location === 'hand' &&
             context.player.canPutIntoPlay(context.source) &&
-            context.source.canPlay()
+            context.source.canPlay() &&
+            this.canResolveTargets(context)
         );
     }
 

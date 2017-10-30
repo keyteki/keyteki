@@ -101,11 +101,11 @@ class InitiateAbilityEventWindow extends BaseStep {
     }
     
     raiseCardPlayed() {
-        if(this.event.resolver.ability.isCardPlayed()) {
+        if(this.event.resolver.context.ability.isCardPlayed()) {
             this.game.raiseEvent('onCardPlayed', { 
                 player: this.event.resolver.context.player, 
                 card: this.event.resolver.context.source, 
-                originalLocation: this.event.resolver.ability.originalLocation
+                originalLocation: this.event.resolver.context.ability.originalLocation
             });
         }
     }

@@ -20,7 +20,8 @@ class PlayCharacterAction extends BaseAbility {
             context.source.getType() === 'character' &&
             context.source.location === 'hand' &&
             context.player.canPutIntoPlay(context.source) &&
-            context.source.canPlay()
+            context.source.canPlay() &&
+            this.canPayCosts(context)
         );
     }
 

@@ -6,12 +6,10 @@ const GamePipeline = require('../gamepipeline.js');
 const SimpleStep = require('./simplestep.js');
 
 class AbilityResolver extends BaseStep {
-    constructor(game, ability, context) {
+    constructor(game, context) {
         super(game);
 
-        this.ability = ability;
         this.context = context;
-        this.context.ability = ability;
         this.pipeline = new GamePipeline();
         this.pipeline.initialise([
             new SimpleStep(game, () => this.setNoNewActions()),
@@ -77,7 +75,7 @@ class AbilityResolver extends BaseStep {
     }
 
     markActionAsTaken() {
-        if(this.ability.isAction() && !this.cancelled) {
+        if(this.context.ability.isAction() && !this.cancelled) {
             this.game.markActionAsTaken();
         }
     }
@@ -86,8 +84,7 @@ class AbilityResolver extends BaseStep {
         if(this.cancelled) {
             return;
         }
-        this.context.costs = {};
-        this.canPayResults = this.ability.resolveCosts(this.context);
+        this.canPayResults = this.context.ability.resolveCosts(this.context);
     }
 
     waitForCostResolution() {
@@ -105,11 +102,11 @@ class AbilityResolver extends BaseStep {
         if(this.cancelled) {
             return;
         }
-        if(this.ability.limit) {
-            this.ability.limit.increment();
+        if(this.context.ability.limit) {
+            this.context.ability.limit.increment();
         }
 
-        this.ability.payCosts(this.context);
+        this.context.ability.payCosts(this.context);
     }
 
     resolveEarlyTargets() {
@@ -117,13 +114,12 @@ class AbilityResolver extends BaseStep {
             return;
         }
 
-        this.context.targets = {};
-        if(this.ability.cannotTargetFirst) {
-            this.targetResults = _.map(this.ability.targets, (props, name) => {
+        if(this.context.ability.cannotTargetFirst) {
+            this.targetResults = _.map(this.context.ability.targets, (props, name) => {
                 return { resolved: false, name: name, value: null, costsFirst: true };
             });
         } else {
-            this.targetResults = this.ability.resolveTargets(this.context);
+            this.targetResults = this.context.ability.resolveTargets(this.context);
         }
     }
 
@@ -132,7 +128,7 @@ class AbilityResolver extends BaseStep {
             return;
         }
 
-        this.targetResults = this.ability.resolveTargets(this.context, this.targetResults);
+        this.targetResults = this.context.ability.resolveTargets(this.context, this.targetResults);
     }
 
     waitForTargetResolution(pretarget = false) {
@@ -158,7 +154,7 @@ class AbilityResolver extends BaseStep {
         if(this.cancelled) {
             return;
         }
-        if(this.ability.isCardAbility()) {
+        if(this.context.ability.isCardAbility()) {
             let targets = _.flatten(_.values(this.context.targets));
             targets = _.filter(targets, target => target instanceof BaseCard);
             this.game.raiseInitiateAbilityEvent({ player: this.context.player, source: this.context.source, resolver: this, targets: targets });
@@ -170,12 +166,12 @@ class AbilityResolver extends BaseStep {
             return;
         }
 
-        this.ability.executeHandler(this.context);
+        this.context.ability.executeHandler(this.context);
     }
 
     raiseCardPlayedIfNotAbility() {
-        if(!this.ability.isCardAbility() && this.ability.isCardPlayed()) {
-            this.game.raiseEvent('onCardPlayed', { player: this.context.player, card: this.context.source, originalLocation: this.ability.originalLocation });
+        if(!this.context.ability.isCardAbility() && this.context.ability.isCardPlayed()) {
+            this.game.raiseEvent('onCardPlayed', { player: this.context.player, card: this.context.source, originalLocation: this.context.ability.originalLocation });
         }
     }
 }

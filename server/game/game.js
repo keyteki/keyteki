@@ -780,8 +780,8 @@ class Game extends EventEmitter {
         this.abilityCardStack.pop();
     }
 
-    resolveAbility(ability, context) {
-        this.queueStep(new AbilityResolver(this, ability, context));
+    resolveAbility(context) {
+        this.queueStep(new AbilityResolver(this, context));
     }
 
     openAbilityWindow(properties) {

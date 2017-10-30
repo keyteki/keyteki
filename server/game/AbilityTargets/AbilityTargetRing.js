@@ -7,7 +7,7 @@ class AbilityTargetCard {
     }
 
     canResolve(context) {
-        return _.any(context.game.rings, ring => this.properties.ringCondition(ring));
+        return _.any(context.game.rings, ring => this.properties.ringCondition(ring)) && context.ability.canPayCosts(context);
     }
 
     resolve(context, pretarget = false, noCostsFirstButton = false) {

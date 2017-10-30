@@ -76,7 +76,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
     }
 
     eligibleChoiceForPlayer(abilityChoice, player) {
-        return abilityChoice.player === player && abilityChoice.ability.meetsRequirements(abilityChoice.context);
+        return abilityChoice.player === player && abilityChoice.context.ability.meetsRequirements(abilityChoice.context);
     }
 
     promptPlayer(player) {
@@ -105,17 +105,17 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
                 let cardChoices = _.filter(choicesForPlayer, abilityChoice => abilityChoice.card === card);
                 if(cardChoices.length === 1) {
                     let choice = _.find(this.abilityChoices, a => a.id === cardChoices[0].id);
-                    this.game.resolveAbility(choice.ability, choice.context);
+                    this.game.resolveAbility(choice.context);
                     this.abilityChoices = _.reject(this.abilityChoices, a => a.id === cardChoices[0].id);
                     this.players = this.rotatedPlayerOrder(player);
                     return true;
                 }
                 this.game.promptWithHandlerMenu(player, {
-                    choices: _.map(cardChoices, abilityChoice => abilityChoice.ability.title),
+                    choices: _.map(cardChoices, abilityChoice => abilityChoice.context.ability.title),
                     handlers: _.map(cardChoices, abilityChoice => {
                         return () => {
                             let choice = _.find(this.abilityChoices, a => a.id === abilityChoice.id);
-                            this.game.resolveAbility(choice.ability, choice.context);
+                            this.game.resolveAbility(choice.context);
                             this.abilityChoices = _.reject(this.abilityChoices, a => a.id === abilityChoice.id);
                             this.players = this.rotatedPlayerOrder(player);
                         };

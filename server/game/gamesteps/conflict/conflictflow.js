@@ -37,7 +37,6 @@ class ConflictFlow extends BaseStep {
             new SimpleStep(this.game, () => this.applyKeywords()),
             new SimpleStep(this.game, () => this.applyUnopposed()),
             new SimpleStep(this.game, () => this.checkBreakProvince()),
-            new SimpleStep(this.game, () => this.brokenProvinceEffect()),
             new SimpleStep(this.game, () => this.resolveRingEffects()),
             new SimpleStep(this.game, () => this.claimRing()),
             new SimpleStep(this.game, () => this.returnHome()),
@@ -271,38 +270,8 @@ class ConflictFlow extends BaseStep {
 
         let province = this.conflict.conflictProvince;
         if(this.conflict.isAttackerTheWinner() && this.conflict.skillDifference >= province.getStrength() && !province.isBroken) {
-            this.game.raiseEvent('onBreakProvince', { conflict: this.conflict, province: province }, province.breakProvince());
-            this.game.addMessage('{0} has broken {1}!', this.conflict.winner, province);
-        }
-    }
-    
-    brokenProvinceEffect() {
-        if(this.conflict.cancelled || this.conflict.isSinglePlayer || this.game.manualMode) {
-            return;
-        }
-
-        let province = this.conflict.conflictProvince;
-        if(province && province.isBroken && this.conflict.isAttackerTheWinner()) {
-            if(province.location === 'stronghold province') {
-                this.game.recordWinner(this.conflict.winner, 'conquest');
-            } else {
-                let dynastyCard = province.controller.getDynastyCardInProvince(province.location);
-                if(dynastyCard) {
-                    let promptTitle = 'Do you wish to discard ' + (dynastyCard.facedown ? 'the facedown card' : dynastyCard.name) + '?';
-                    this.game.promptWithHandlerMenu(this.conflict.winner, {
-                        activePromptTitle: promptTitle,
-                        source: 'Break ' + province.name,
-                        choices: ['Yes', 'No'],
-                        handlers: [
-                            () => {
-                                this.game.addMessage('{0} chooses to discard {1}', this.conflict.winner, dynastyCard.facedown ? 'the facedown card' : dynastyCard);
-                                province.controller.moveCard(dynastyCard, 'dynasty discard pile');
-                            },
-                            () => this.game.addMessage('{0} chooses not to discard {1}', this.conflict.winner, dynastyCard.facedown ? 'the facedown card' : dynastyCard)
-                        ]
-                    });
-                }
-            }
+            this.conflict.defendingPlayer.breakProvince(province);
+            
         }
     }
     

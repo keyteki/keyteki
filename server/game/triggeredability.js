@@ -3,19 +3,7 @@ const _ = require('underscore');
 const BaseAbility = require('./baseability.js');
 const Costs = require('./costs.js');
 const AbilityLimit = require('./abilitylimit.js');
-
-class TriggeredAbilityContext {
-    constructor(event, game, source) {
-        this.event = event;
-        this.game = game;
-        this.source = source;
-        this.player = source.controller;
-    }
-
-    cancel() {
-        this.event.cancel();
-    }
-}
+const TriggeredAbilityContext = require('./TriggeredAbilityContext.js');
 
 class TriggeredAbility extends BaseAbility {
     constructor(game, card, abilityType, properties) {
@@ -50,7 +38,7 @@ class TriggeredAbility extends BaseAbility {
     }
 
     createContext(event) {
-        return new TriggeredAbilityContext(event, this.game, this.card);
+        return new TriggeredAbilityContext({ event: event, game: this.game, source: this.card, player: this.card.controller, ability: this });
     }
 
     isTriggeredByEvent(event) {
@@ -88,11 +76,7 @@ class TriggeredAbility extends BaseAbility {
             return false;
         }
         
-        if(!this.canPayCosts(context) || !this.canResolveTargets(context)) {
-            return false;
-        }
-
-        return true;
+        return this.canResolveTargets(context);
     }
 
     isEventListeningLocation(location) {

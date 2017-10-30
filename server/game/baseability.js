@@ -69,14 +69,7 @@ class BaseAbility {
      *
      * @returns {Boolean}
      */
-    canPayCosts(context) {
-        if(this.targets.length > 0) {
-            return true;
-        }
-        return _.all(this.cost, cost => cost.canPay(context));
-    }
-    
-    canPayCostsForTarget(context, targets) {
+    canPayCosts(context, targets = []) {
         if(!_.isArray(targets)) {
             targets = [targets];
         }
@@ -153,7 +146,10 @@ class BaseAbility {
             });
         });
         */
-        return this.targets.every(target => target.canResolve(context));
+        if(this.targets.length > 0) {
+            return this.targets.every(target => target.canResolve(context));
+        }
+        return this.canPayCosts(context);
     }
 
     /**
@@ -162,11 +158,6 @@ class BaseAbility {
      * @returns {Array} An array of target resolution objects.
      */
     resolveTargets(context, results = []) {
-        /*
-        return _.map(this.targets, (targetProperties, name) => {
-            return this.resolveTarget(context, name, targetProperties);
-        });
-        */
         if(results.length === 0) {
             let canIgnoreAllCosts = _.all(this.costs, cost => cost.canIgnoreForTargeting);
             return this.targets.map(target => target.resolve(context, true, canIgnoreAllCosts));
@@ -178,70 +169,6 @@ class BaseAbility {
             }
             return result;
         });
-    }
-
-    resolveTarget(context, name, targetProperties) {
-        let result = { resolved: false, name: name, value: null };
-        if(name === 'select') {
-            let player = targetProperties.player === 'opponent' ? context.game.getOtherPlayer(context.player) : context.player;
-            let choices = targetProperties.choices;
-            let handlers = _.map(choices, choice => {
-                return () => {
-                    result.resolved = true;
-                    result.value = choice;
-                    return true;
-                };
-            });
-            if(targetProperties.player !== 'opponent') {
-                choices.push('Cancel');
-                handlers.push(() => {
-                    result.resolved = true;
-                    return true;
-                });
-            }
-            let promptProperties = {
-                activePromptTitle: targetProperties.activePromptTitle,
-                source: context.source,
-                choices: choices,
-                handlers: handlers
-            };
-            context.game.promptWithHandlerMenu(player, promptProperties);
-        } else if(name === 'ring') {
-            let ringCondition = targetProperties.ringCondition;
-            let otherProperties = _.omit(targetProperties, 'ringCondition');
-            let promptProperties = {
-                source: context.source,
-                ringCondition: ring => ringCondition(ring, context),
-                onSelect: (player, ring) => {
-                    result.resolved = true;
-                    result.value = ring;
-                    return true;
-                },
-                onCancel: () => {
-                    result.resolved = true;
-                    return true;
-                }
-            };
-            context.game.promptForRingSelect(context.player, _.extend(promptProperties, otherProperties));
-        } else {
-            let cardCondition = targetProperties.cardCondition;
-            let otherProperties = _.omit(targetProperties, 'cardCondition');
-            let promptProperties = {
-                source: context.source,
-                cardCondition: card => cardCondition(card, context),
-                onSelect: (player, card) => {
-                    result.resolved = true;
-                    result.value = card;
-                    return true;
-                },
-                onCancel: () => {
-                    result.resolved = true;
-                    return true;
-                }
-            };
-            context.game.promptForSelect(context.player, _.extend(promptProperties, otherProperties));
-        }
-        return result;
     }
 
     /**
