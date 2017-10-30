@@ -9,6 +9,7 @@ class CallingInFavors extends DrawCard {
                 cardCondition: card => card.controller !== this.controller
             },
             handler: context => {
+                context.target.controller = this.controller;
                 if(this.controller.canAttach(context.target, context.costs.dishonorCharacter)) {
                     this.game.addMessage('{0} plays {1}, dishonoring {2} in order to take control of {3} and attach it to {2}', this.controller, this, context.costs.dishonorCharacter, context.target);
                     this.controller.attach(context.target, context.costs.dishonorCharacter);

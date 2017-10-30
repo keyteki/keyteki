@@ -724,6 +724,7 @@ class Player extends Spectator {
             return;
         }
 
+        attachment.controller = this;
         if(!this.canAttach(attachment, card)) {
             return;
         }
@@ -735,7 +736,6 @@ class Player extends Spectator {
         if(originalParent) {
             originalParent.removeAttachment(attachment);
         }
-        attachment.controller = this;
         attachment.moveTo('play area');
         card.attachments.push(attachment);
         attachment.parent = card;
