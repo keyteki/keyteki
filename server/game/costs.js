@@ -31,6 +31,9 @@ const Costs = {
             },
             resolve: function(context, result = { resolved: false }) {
                 let extrafate = Math.min(context.player.fate - context.player.getReducedCost('play', context.source), maxfate);
+                if(!context.source.allowGameAction('placeFate')) {
+                    extrafate = 0;
+                }
                 let choices = [];
                 for(let i = 0; i <= extrafate; i++) {
                     choices.push(i);
@@ -460,8 +463,8 @@ const Costs = {
     payPrintedFateCost: function() {
         return {
             canPay: function(context) {
-
-                return context.player.fate >= context.source.getCost();
+                let amount = context.source.getCost();
+                return context.player.fate >= amount && (context.source.allowGameAction('spendFate') || amount === 0);
             },
             pay: function(context) {
 
@@ -477,15 +480,24 @@ const Costs = {
      */
     payReduceableFateCost: function(playingType) {
         return {
-            canPay: function(context) {
-
-                return context.player.fate >= context.player.getReducedCost(playingType, context.source);
+            canPay: function(context, targets = []) {
+                let reducedCost = context.player.getReducedCost(playingType, context.source);
+                if(targets.length === 1) {
+                    reducedCost = context.player.getReducedCost(playingType, context.source, targets[0]);
+                } else if(context.target) {
+                    reducedCost = context.player.getReducedCost(playingType, context.source, context.target);
+                }
+                return context.player.fate >= reducedCost && (context.source.allowGameAction('spendFate') || reducedCost === 0);
             },
             pay: function(context) {
-
-                context.costs.fate = context.player.getReducedCost(playingType, context.source);
+                if(context.target) {
+                    context.costs.fate = context.player.getReducedCost(playingType, context.source, context.target);
+                    context.player.markUsedReducers(playingType, context.source, context.target);
+                } else {
+                    context.costs.fate = context.player.getReducedCost(playingType, context.source);
+                    context.player.markUsedReducers(playingType, context.source);
+                }
                 context.player.fate -= context.costs.fate;
-                context.player.markUsedReducers(playingType, context.source);
             },
             canIgnoreForTargeting: true
         };
@@ -496,7 +508,7 @@ const Costs = {
     payFate: function(amount) {
         return {
             canPay: function(context) {
-                return context.player.fate >= amount;
+                return context.player.fate >= amount && (context.source.allowGameAction('spendFate') || amount === 0);
             },
             pay: function(context) {
                 context.game.addFate(context.player, -amount);
@@ -563,7 +575,7 @@ const Costs = {
     payFateToRing: function(amount) {
         return {
             canPay: function(context) {
-                return context.player.fate >= amount;
+                return context.player.fate >= amount && (context.source.allowGameAction('spendFate') || amount === 0);
             },
             resolve: function(context, result = { resolved: false }) {
                 context.game.promptForRingSelect(context.player, {
@@ -592,7 +604,7 @@ const Costs = {
     giveFateToOpponent: function(amount) {
         return {
             canPay: function(context) {
-                return context.player.fate >= amount;
+                return context.player.fate >= amount && (context.source.allowGameAction('giveFate') || amount === 0);
             },
             pay: function(context) {
                 context.game.addFate(context.player, -amount);

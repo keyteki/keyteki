@@ -8,9 +8,14 @@ class DaimyosFavor extends DrawCard {
             handler: () => {
                 this.game.addMessage('{0} bows {1} to reduce the cost of the next attachment they play on {2} by 1', this.controller, this, this.parent);
                 this.untilEndOfPhase(ability => ({
-                    //TODO: need to make this only work on cards which are played on the same character
                     targetType: 'player',
-                    effect: ability.effects.reduceNextPlayedCardCost(1, card => card.type === 'attachment')
+                    effect: ability.effects.reduceCost({
+                        playingTypes: 'play',
+                        amount: 1,
+                        match: card => card.type === 'attachment',
+                        targetCondition: target => target === this.parent,
+                        limit: ability.limit.fixed(1)
+                    })
                 }));
             }
         });

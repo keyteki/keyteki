@@ -358,6 +358,9 @@ class Game extends EventEmitter {
             case 'break':
                 this.addMessage('{0} {1} {2}', player, card.isBroken ? 'unbreaks' : 'breaks', card);
                 card.isBroken = card.isBroken ? false : true;
+                if(card.location === 'stronghold province' && card.isBroken) {
+                    this.recordWinner(player.opponent, 'conquest');
+                }
                 break;
         }
         

@@ -1,50 +1,60 @@
+const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 const PlayAttachmentAction = require('../../playattachmentaction.js');
 
+class PlayTogashiKazueAsAttachment extends PlayAttachmentAction {
+    constructor(originalCard, owner, cardData) {
+        super();
+        this.clone = new DrawCard(owner, cardData);
+        this.clone.type = 'attachment';
+        this.originalCard = originalCard;
+        this.title = 'Play Togashi Kazue as an attachment';
+    }
+
+    meetsRequirements(context) {
+        return (
+            context.game.currentPhase !== 'dynasty' &&
+            this.originalCard.location === 'hand' &&
+            context.player.canPutIntoPlay(this.originalCard) &&
+            this.originalCard.canPlay()
+        );
+    }
+    
+    canResolveTargets(context) {
+        let clonedContext = _.clone(context);
+        clonedContext.source = this.clone;
+        return super.canResolveTargets(clonedContext);
+    }
+    
+    resolveTargets(context, results = []) {
+        context.source = this.clone;
+        return super.resolveTargets(context, results);
+    }
+    
+    executeHandler(context) {
+        context.source = this.originalCard;
+        context.source.type = 'attachment';
+        super.executeHandler(context);
+    }
+}
+
 class TogashiKazue extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
+        this.abilities.playActions.push(new PlayTogashiKazueAsAttachment(this, this.owner, this.cardData));
         this.action({
-            title: 'Play Togashi Kazue as an attachment',
-            condition: () => {
-                let clone = new TogashiKazue(this.owner, this.cardData);
-                clone.type = 'attachment';
-                if(!this.controller.canPutIntoPlay(this) || !this.controller.anyCardsInPlay(card => this.controller.canAttach(clone, card))) {
-                    return false;
-                }
-                return this.controller.fate >= this.controller.getReducedCost('play', clone);
-            },
-            location: 'hand',
+            title: 'Steal a fate',
+            condition: () => this.game.currentConflict && this.game.currentConflict.isParticipating(this.parent) && this.type === 'attachment',
             printedAbility: false,
-            cannotBeCopied: true,
-            cannotBeCancelled: true,
-            handler: () => {
-                this.type = 'attachment';
-                let context = {
-                    game: this.game,
-                    player: this.controller,
-                    source: this
-                };
-                this.game.resolveAbility(new PlayAttachmentAction(), context);
-                this.game.markActionAsTaken(); // both this ability and resolving the action ability above mark the action as taken, so give priority to the other player
+            target: {
+                activePromptTitle: 'Choose a character',
+                cardType: 'character',
+                cardCondition: card => this.game.currentConflict.isParticipating(card) && card.fate > 0 && card !== this.parent
+            },
+            handler: context => {
+                context.target.modifyFate(-1);
+                this.parent.modifyFate(1);
+                this.game.addMessage('{0} uses {1} to steal a fate from {2} and place it on {3}', this.controller, this, context.target, this.parent);
             }
-        });
-        this.grantedAbilityLimits = {};
-        this.whileAttached({
-            effect: ability.effects.gainAbility('action', {
-                title: 'Steal a fate',
-                condition: () => this.game.currentConflict && this.game.currentConflict.isParticipating(this.parent),
-                printedAbility: false,
-                target: {
-                    activePromptTitle: 'Choose a character',
-                    cardType: 'character',
-                    cardCondition: card => this.game.currentConflict.isParticipating(card) && card.fate > 0 && card !== this.parent
-                },
-                handler: context => {
-                    context.target.modifyFate(-1);
-                    this.parent.modifyFate(1);
-                    this.game.addMessage('{0} uses Togashi Kazue to steal a fate from {1} and place it on {2}', this.controller, context.target, this.parent);
-                }
-            })
         });
     }
 
