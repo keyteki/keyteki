@@ -1,3 +1,5 @@
+const _ = require('underscore');
+
 const EventToTitleFunc = {
     onCardAbilityInitiated: event => 'the effects of ' + event.source.name,
     onCardPowerChanged: event => event.card.name + ' gaining power',
@@ -22,21 +24,40 @@ const AbilityTypeToWord = {
     whenrevealed: 'when revealed'
 };
 
+function FormatTitles(titles) {
+    return _.reduce(titles, (string, title, index) => {
+        if(index === 0) {
+            return title;
+        } else if(index === 1) {
+            return title + ' or ' + string;
+        }
+        return title + ', ' + string;
+    },'');
+}
+
 const AbilityWindowTitles = {
-    getTitle: function(abilityType, event) {
+    getTitle: function(abilityType, events) {
+        if(!_.isArray(events)) {
+            events = [events];
+        }
         let abilityWord = AbilityTypeToWord[abilityType] || abilityType;
-        let titleFunc = EventToTitleFunc[event.name];
+        let titles = _.filter(_.map(events, event => {
+            let func = EventToTitleFunc[event.name];
+            if(func) {
+                return func(event);
+            }
+        }), string => string);
 
         if(['forcedreaction', 'forcedinterrupt', 'whenrevealed'].includes(abilityType)) {
-            if(titleFunc) {
-                return 'Choose ' + abilityWord + ' order for ' + titleFunc(event);
+            if(titles.length > 0) {
+                return 'Choose ' + abilityWord + ' order for ' + FormatTitles(titles);
             }
 
             return 'Choose ' + abilityWord + ' order';
         }
 
-        if(titleFunc) {
-            return 'Any ' + abilityWord + 's to ' + titleFunc(event) + '?';
+        if(titles.length > 0) {
+            return 'Any ' + abilityWord + 's to ' + FormatTitles(titles) + '?';
         }
 
         return 'Any ' + abilityWord + 's?';

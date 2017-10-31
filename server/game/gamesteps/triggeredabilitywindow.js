@@ -92,7 +92,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
 
         buttons.push({ text: 'Pass', method: 'pass' });
         this.game.promptForSelect(player, {
-            activePromptTitle: TriggeredAbilityWindowTitles.getTitle(this.abilityType, this.events[0]),
+            activePromptTitle: TriggeredAbilityWindowTitles.getTitle(this.abilityType, this.events),
             buttons: buttons,
             controls: this.getAdditionalPromptControls(),
             waitingPromptTitle: 'Waiting for opponent',
@@ -110,8 +110,12 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
                     this.players = this.rotatedPlayerOrder(player);
                     return true;
                 }
+                console.log(cardChoices[0].context.event.name);
                 this.game.promptWithHandlerMenu(player, {
-                    choices: _.map(cardChoices, abilityChoice => abilityChoice.ability.title),
+                    activePromptTitle: 'Which event do you want to respond to?',
+                    choices: _.map(cardChoices, abilityChoice =>  {
+                        return TriggeredAbilityWindowTitles.getTitle(this.abilityType, abilityChoice.context.event);
+                    }),
                     handlers: _.map(cardChoices, abilityChoice => {
                         return () => {
                             let choice = _.find(this.abilityChoices, a => a.id === abilityChoice.id);
