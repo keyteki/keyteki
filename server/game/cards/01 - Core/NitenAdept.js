@@ -13,7 +13,7 @@ class NitenAdept extends DrawCard {
                 cardCondition: card => card.attachments && card.attachments.size() === 0 && card.isParticipating() && !card.bowed
             },
             handler: context => {
-                this.game.addMessage('{0} uses {1} to bow {2} by bowing {3}', this.controller, this, context.target, context.bowingCostCard);
+                this.game.addMessage('{0} uses {1} to bow {2} by bowing {3}', this.controller, this, context.target, context.costs.bow);
                 this.controller.bowCard(context.target);
             }
         });

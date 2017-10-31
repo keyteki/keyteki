@@ -3,8 +3,8 @@ const DynastyCardAction = require('../../server/game/dynastycardaction.js');
 describe('DynastyCardAction', function () {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'on', 'removeListener', 'abilityCardStack']);
-        this.playerSpy = jasmine.createSpyObj('player', ['canPutIntoPlay', 'isCardInPlayableLocation', 'putIntoPlay', 'replaceDynastyCard']);
-        this.cardSpy = jasmine.createSpyObj('card', ['getType', 'canPlay']);
+        this.playerSpy = jasmine.createSpyObj('player', ['canPutIntoPlay', 'isCardInPlayableLocation', 'putIntoPlay', 'replaceDynastyCard', 'getReducedCost']);
+        this.cardSpy = jasmine.createSpyObj('card', ['getType', 'canPlay', 'isLimited', 'allowGameAction']);
         this.windowSpy = jasmine.createSpyObj('window', ['markActionAsTaken']);
         this.cardSpy.isDynasty = true;
         this.cardSpy.controller = this.playerSpy;
@@ -12,6 +12,7 @@ describe('DynastyCardAction', function () {
         this.gameSpy.currentActionWindow = this.windowSpy;
         this.windowSpy.currentPlayer = this.playerSpy;
         this.gameSpy.abilityCardStack = ['framework'];
+        this.playerSpy.fate = 10;
         this.context = {
             costs: {},
             game: this.gameSpy,
@@ -26,8 +27,11 @@ describe('DynastyCardAction', function () {
             this.gameSpy.currentPhase = 'dynasty';
             this.playerSpy.canPutIntoPlay.and.returnValue(true);
             this.playerSpy.isCardInPlayableLocation.and.returnValue(true);
+            this.playerSpy.getReducedCost.and.returnValue(0);
             this.cardSpy.getType.and.returnValue('character');
             this.cardSpy.canPlay.and.returnValue(true);
+            this.cardSpy.isLimited.and.returnValue(false);
+            this.cardSpy.allowGameAction.and.returnValue(true);
         });
 
         describe('when all conditions are met', function() {

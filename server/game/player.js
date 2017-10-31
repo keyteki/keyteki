@@ -2,6 +2,7 @@ const _ = require('underscore');
 
 const Spectator = require('./spectator.js');
 const Deck = require('./deck.js');
+const AbilityContext = require('./AbilityContext.js');
 const AttachmentPrompt = require('./gamesteps/attachmentprompt.js');
 const ConflictTracker = require('./conflicttracker.js');
 const PlayableLocation = require('./playablelocation.js');
@@ -602,20 +603,24 @@ class Player extends Spectator {
             return false;
         }
 
-        var context = {
+        var context = new AbilityContext({
             game: this.game,
             player: this,
             source: card
-        };
+        });
 
-        var actions = _.filter(card.getActions(), action => action.meetsRequirements(context) && action.canPayCosts(context) && action.canResolveTargets(context));
+        var actions = _.filter(card.getActions(), action => {
+            context.ability = action;
+            return action.meetsRequirements(context);
+        });
 
         if(actions.length === 0) {
             return false;
         }
 
         if(actions.length === 1) {
-            this.game.resolveAbility(actions[0], context);
+            context.ability = actions[0];
+            this.game.resolveAbility(context);
         } else {
             this.game.queueStep(new PlayActionPrompt(this.game, this, actions, context));
         }
@@ -1188,6 +1193,35 @@ class Player extends Spectator {
         if(card.isDynasty && ['province 1', 'province 2', 'province 3', 'province 4'].includes(location) && targetLocation !== 'dynasty deck') {
             this.replaceDynastyCard(location);
         }
+    }
+    
+    breakProvince(province) {
+        this.game.raiseEvent('onBreakProvince', { conflict: this.game.currentConflict, province: province }, () => {
+            province.breakProvince();
+            if(province.controller.opponent) {
+                this.game.addMessage('{0} has broken {1}!', province.controller.opponent, province);
+                if(province.location === 'stronghold province') {
+                    this.game.recordWinner(province.controller.opponent, 'conquest');
+                } else {
+                    let dynastyCard = province.controller.getDynastyCardInProvince(province.location);
+                    if(dynastyCard) {
+                        let promptTitle = 'Do you wish to discard ' + (dynastyCard.facedown ? 'the facedown card' : dynastyCard.name) + '?';
+                        this.game.promptWithHandlerMenu(province.controller.opponent, {
+                            activePromptTitle: promptTitle,
+                            source: 'Break ' + province.name,
+                            choices: ['Yes', 'No'],
+                            handlers: [
+                                () => {
+                                    this.game.addMessage('{0} chooses to discard {1}', province.controller.opponent, dynastyCard.facedown ? 'the facedown card' : dynastyCard);
+                                    province.controller.moveCard(dynastyCard, 'dynasty discard pile');
+                                },
+                                () => this.game.addMessage('{0} chooses not to discard {1}', province.controller.opponent, dynastyCard.facedown ? 'the facedown card' : dynastyCard)
+                            ]
+                        });
+                    }
+                }
+            }
+        });
     }
 
     honorCard(card) {

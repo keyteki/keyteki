@@ -6,7 +6,7 @@ class WanderingRonin extends DrawCard {
             title: 'Remove 1 fate',
             phase: 'conflict',
             condition: () => this.game.currentConflict,
-            cost: ability.costs.discardFate(1),
+            cost: ability.costs.discardFateFromSelf(),
             limit: ability.limit.perConflict(2),
             handler: () => {
                 this.game.addMessage('{0} removes a fate from {1} to give it +2 military and +2 political until the end of the conflict', this.controller, this);

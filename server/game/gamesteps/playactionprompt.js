@@ -26,8 +26,8 @@ class PlayActionPrompt extends BaseStep {
     }
 
     selectAction(player, index) {
-        var playAction = this.playActions[index];
-        this.game.resolveAbility(playAction, this.context);
+        this.context.ability = this.playActions[index];
+        this.game.resolveAbility(this.context);
         return true;
     }
 }

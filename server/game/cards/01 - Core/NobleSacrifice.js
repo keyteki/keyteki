@@ -12,7 +12,7 @@ class NobleSacrifice extends DrawCard {
                 cardCondition: card => card.location === 'play area' && card.isDishonored
             },
             handler: context => {
-                this.game.addMessage('{0} uses {1} to sacrifice {2} in order to discard {3}', this.controller, this, context.sacrificeCostCard, context.target);
+                this.game.addMessage('{0} uses {1} to sacrifice {2} in order to discard {3}', this.controller, this, context.costs.sacrifice, context.target);
                 this.controller.discardCardFromPlay(context.target);
             }
         });

@@ -103,8 +103,8 @@ describe('BaseAbility', function () {
 
             it('should call canPay with the context object', function() {
                 this.ability.canPayCosts(this.context);
-                expect(this.cost1.canPay).toHaveBeenCalledWith(this.context);
-                expect(this.cost2.canPay).toHaveBeenCalledWith(this.context);
+                expect(this.cost1.canPay).toHaveBeenCalledWith(this.context, []);
+                expect(this.cost2.canPay).toHaveBeenCalledWith(this.context, []);
             });
 
             it('should return true', function() {
