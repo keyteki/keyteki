@@ -61,6 +61,13 @@ const AbilityWindowTitles = {
         }
 
         return 'Any ' + abilityWord + 's?';
+    },
+    getAction: function(event) {
+        let func = EventToTitleFunc[event.name];
+        if(func) {
+            return func(event);
+        }
+        return event.name;
     }
 };
 
