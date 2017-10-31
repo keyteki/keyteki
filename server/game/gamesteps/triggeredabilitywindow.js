@@ -110,10 +110,9 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
                     this.players = this.rotatedPlayerOrder(player);
                     return true;
                 }
-                console.log(cardChoices[0].context.event.name);
                 this.game.promptWithHandlerMenu(player, {
                     activePromptTitle: 'Which event do you want to respond to?',
-                    choices: _.map(cardChoices, abilityChoice =>  {
+                    choices: _.map(cardChoices, abilityChoice => {
                         return TriggeredAbilityWindowTitles.getAction(abilityChoice.context.event);
                     }),
                     handlers: _.map(cardChoices, abilityChoice => {
