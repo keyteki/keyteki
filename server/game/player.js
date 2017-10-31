@@ -714,7 +714,7 @@ class Player extends Spectator {
             card.location === 'play area' &&
             card !== attachment &&
             card.allowAttachment(attachment) &&
-            attachment.canAttach(this, card)
+            attachment.canAttach(card)
         );
     }
 

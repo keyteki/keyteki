@@ -14,12 +14,12 @@ class Sashimono extends DrawCard {
         });
     }
 
-    canAttach(player, card) {
-        if(card.getType() !== 'character' || !card.hasTrait('bushi')) {
+    canAttach(card) {
+        if(!card.hasTrait('bushi')) {
             return false;
         }
 
-        return super.canAttach(player, card);
+        return super.canAttach(card);
     }
 }
 

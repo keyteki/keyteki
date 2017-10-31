@@ -17,7 +17,7 @@ describe('DrawCard', function() {
 
         describe('when the card has attachments', function() {
             beforeEach(function() {
-                this.attachment = {};
+                this.attachment = { canAttach: () => true };
                 this.card.attachments.push(this.attachment);
             });
 

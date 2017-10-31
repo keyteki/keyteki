@@ -891,7 +891,19 @@ class Game extends EventEmitter {
         card.controller.removeCardFromPile(card);
         player.cardsInPlay.push(card);
         card.controller = player;
-        card.applyPersistentEffects();
+        if(card.isParticipating()) {
+            if(player === this.currentConflict.attackingPlayer) {
+                this.currentConflict.defenders = _.reject(this.currentConflict.defenders, c => c === card);
+                this.currentConflict.attackers.push(card);
+            } else {
+                this.currentConflict.attackers = _.reject(this.currentConflict.attackers, c => c === card);
+                this.currentConflict.defenders.push(card);
+            }
+            card.applyPersistentEffects();
+            this.currentConflict.calculateSkill();
+        } else {
+            card.applyPersistentEffects();
+        }
         this.raiseEvent('onCardTakenControl', { card: card });
     }
     

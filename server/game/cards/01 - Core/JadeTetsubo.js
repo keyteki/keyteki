@@ -24,12 +24,12 @@ class JadeTetsubo extends DrawCard {
         });
     }
 
-    canAttach(player, card) {
-        if(player !== card.controller) {
+    canAttach(card) {
+        if(this.controller !== card.controller) {
             return false;
         }
 
-        return super.canAttach(player, card);
+        return super.canAttach(card);
     }
 }
 
