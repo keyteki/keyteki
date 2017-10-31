@@ -49,7 +49,10 @@ class CardLeavesPlayEventWindow extends BaseStepWithPipeline {
             return;
         }
         
+        this.characterEvent.cardStateWhenLeftPlay = this.characterEvent.card.createSnapshot();
+        
         _.each(this.attachmentEvents, event => {
+            event.cardStateWhenLeftPlay = event.card.createSnapshot();
             if(event.handler) {
                 event.handler(...event.params);
             }
@@ -66,6 +69,7 @@ class CardLeavesPlayEventWindow extends BaseStepWithPipeline {
         this.game.emit(this.characterEvent.name, ...this.characterEvent.params);
         
         if(this.sacrificeEvent) {
+            this.sacrificeEvent.cardStateWhenLeftPlay = this.characterEvent.cardStateWhenLeftPlay;
             this.game.emit(this.sacrificeEvent.name, ...this.sacrificeEvent.params);
         }
     }
