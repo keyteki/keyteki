@@ -34,6 +34,7 @@ export class InnerGameBoard extends React.Component {
         this.onCardClick = this.onCardClick.bind(this);
         this.onConflictClick = this.onConflictClick.bind(this);
         this.onDynastyClick = this.onDynastyClick.bind(this);
+        this.onConflictTopCardClick = this.onConflictTopCardClick.bind(this);
         this.onDragDrop = this.onDragDrop.bind(this);
         this.onCommand = this.onCommand.bind(this);
         this.onConcedeClick = this.onConcedeClick.bind(this);
@@ -216,6 +217,10 @@ export class InnerGameBoard extends React.Component {
         this.props.sendGameMessage('showDynastyDeck');
 
         this.setState({ showDynastyDeck: !this.state.showDynastyDeck });
+    }
+    
+    onConflictTopCardClick() {
+        this.props.sendGameMessage('conflictTopCardClicked');
     }
 
     sendMessage() {
@@ -429,6 +434,8 @@ export class InnerGameBoard extends React.Component {
         if(!this.props.currentGame) {
             return <div>Waiting for server...</div>;
         }
+        
+        let manualMode = this.props.currentGame.manualMode;
 
         let thisPlayer = this.props.currentGame.players[this.props.username];
         if(!thisPlayer) {
@@ -501,6 +508,7 @@ export class InnerGameBoard extends React.Component {
                             <DynastyRow
                                 conflictDiscardPile={ otherPlayer ? otherPlayer.cardPiles.conflictDiscardPile : [] }
                                 conflictDeck={ otherPlayer ? otherPlayer.cardPiles.conflictDeck : [] }
+                                conflictDeckTopCardHidden={ otherPlayer ? otherPlayer.conflictDeckTopCardHidden : true }
                                 dynastyDiscardPile={ otherPlayer ? otherPlayer.cardPiles.dynastyDiscardPile : [] }
                                 dynastyDeck={ otherPlayer ? otherPlayer.cardPiles.dynastyDeck : [] }
                                 numConflictCards={ otherPlayer ? otherPlayer.numConflictCards : 0 }
@@ -510,6 +518,7 @@ export class InnerGameBoard extends React.Component {
                                 province3Cards={ otherPlayer ? otherPlayer.provinces.three : [] }
                                 province4Cards={ otherPlayer ? otherPlayer.provinces.four : [] }
                                 onCardClick={ this.onCardClick }
+                                onConflictTopCardClick={ this.onConflictTopCardClick }
                                 onMouseOver={ this.onMouseOver }
                                 onMouseOut={ this.onMouseOut } 
                                 cardSize={ this.props.user.settings.cardSize } />
@@ -553,13 +562,16 @@ export class InnerGameBoard extends React.Component {
                             <DynastyRow isMe={ !this.state.spectating }
                                 conflictDiscardPile={ thisPlayer.cardPiles.conflictDiscardPile }
                                 conflictDeck={ thisPlayer.cardPiles.conflictDeck }
+                                conflictDeckTopCardHidden={ thisPlayer.conflictDeckTopCardHidden }
                                 dynastyDiscardPile={ thisPlayer.cardPiles.dynastyDiscardPile }
                                 dynastyDeck={ thisPlayer.cardPiles.dynastyDeck }
                                 onCardClick={ this.onCardClick }
                                 onConflictClick={ this.onConflictClick }
                                 onDynastyClick={ this.onDynastyClick }
+                                onConflictTopCardClick={ this.onConflictTopCardClick }
                                 onMouseOver={ this.onMouseOver }
                                 onMouseOut={ this.onMouseOut }
+                                manualMode={ manualMode }
                                 numConflictCards={ thisPlayer.numConflictCards }
                                 numDynastyCards={ thisPlayer.numDynastyCards }
                                 onConflictShuffleClick={ this.onConflictShuffleClick }

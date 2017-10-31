@@ -59,12 +59,17 @@ class CardPile extends React.Component {
     }
 
     onTopCardClick() {
-        if(this.props.menu) {
+        if(this.props.menu && !this.props.disablePopup) {
             this.setState({ showMenu: !this.state.showMenu });
             return;
         }
 
         if(this.props.disablePopup) {
+            if(this.props.onConflictTopCardClick) {
+                this.props.onConflictTopCardClick();
+                return;
+            }
+
             if(this.props.onCardClick) {
                 this.props.onCardClick(this.props.topCard);
             }
@@ -246,6 +251,7 @@ CardPile.propTypes = {
     menu: PropTypes.array,
     onCardClick: PropTypes.func,
     onCloseClick: PropTypes.func,
+    onConflictTopCardClick: PropTypes.func,
     onDragDrop: PropTypes.func,
     onMenuItemClick: PropTypes.func,
     onMouseOut: PropTypes.func,
