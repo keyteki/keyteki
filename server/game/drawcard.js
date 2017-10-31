@@ -155,7 +155,7 @@ class DrawCard extends BaseCard {
         clone.politicalSkillMultiplier = this.politicalSkillMultiplier;
         clone.gloryModifier = this.gloryModifier;
         clone.inConflict = this.inConflict;
-       return clone;
+        return clone;
     }
 
     modifySkill(amount, type, applying = true) {
