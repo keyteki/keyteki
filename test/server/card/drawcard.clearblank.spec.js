@@ -2,7 +2,7 @@ const DrawCard = require('../../../server/game/drawcard.js');
 
 describe('DrawCard', function() {
     beforeEach(function() {
-        this.game = jasmine.createSpyObj('game', ['raiseEvent']);
+        this.game = jasmine.createSpyObj('game', ['raiseEvent', 'addMessage']);
         this.player = jasmine.createSpyObj('player', ['discardCardFromPlay']);
         this.player.game = this.game;
         this.card = new DrawCard(this.player, {});
