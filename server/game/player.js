@@ -62,6 +62,7 @@ class Player extends Spectator {
         this.abilityRestrictions = [];
         this.abilityMaxByTitle = {};
         this.canInitiateAction = false;
+        this.conflictDeckTopCardHidden = true;
         this.promptedActionWindows = user.promptedActionWindows || {
             dynasty: true,
             draw: true,
@@ -349,6 +350,7 @@ class Player extends Spectator {
         if(!this.name === 'Dummy Player') {
             this.game.addMessage('{0} is shuffling their conflict deck', this);
         }
+        this.game.raiseEvent('onDeckShuffled', { player: this, deck: 'conflict deck' });
         this.conflictDeck = _(this.conflictDeck.shuffle());
     }
 
@@ -356,6 +358,7 @@ class Player extends Spectator {
         if(!this.name === 'Dummy Player') {
             this.game.addMessage('{0} is shuffling their dynasty deck', this);
         }
+        this.game.raiseEvent('onDeckShuffled', { player: this, deck: 'dynasty deck' });
         this.dynastyDeck = _(this.dynastyDeck.shuffle());
     }
 
@@ -729,6 +732,7 @@ class Player extends Spectator {
             return;
         }
 
+        attachment.controller = this;
         if(!this.canAttach(attachment, card)) {
             return;
         }
@@ -740,7 +744,6 @@ class Player extends Spectator {
         if(originalParent) {
             originalParent.removeAttachment(attachment);
         }
-        attachment.controller = this;
         attachment.moveTo('play area');
         card.attachments.push(attachment);
         attachment.parent = card;
@@ -1496,6 +1499,7 @@ class Player extends Spectator {
                 /* outOfGamePile: this.getSummaryForCardList(this.outOfGamePile, activePlayer, false), */
                 provinceDeck: this.getSummaryForCardList(this.provinceDeck, activePlayer, true)
             },
+            conflictDeckTopCardHidden: this.conflictDeckTopCardHidden,
             disconnected: this.disconnected,
             faction: this.faction,
             firstPlayer: this.firstPlayer,

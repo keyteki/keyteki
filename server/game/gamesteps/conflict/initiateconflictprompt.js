@@ -87,12 +87,13 @@ class InitiateConflictPrompt extends UiPrompt {
         if((this.conflict.conflictRing === ring.element && canInitiateOtherConflictType) ||
                 (this.conflict.conflictRing !== ring.element && !canInitiateThisConflictType)) {
             this.game.flipRing(player, ring);
-            _.each(this.conflict.attackers, card => {
-                if(!card.canDeclareAsAttacker(ring.conflictType)) {
-                    this.conflict.removeFromConflict(card);
-                }
-            });
         }
+
+        _.each(this.conflict.attackers, card => {
+            if(!card.canDeclareAsAttacker(ring.conflictType)) {
+                this.conflict.removeFromConflict(card);
+            }
+        });
 
         this.conflict.conflictRing = ring.element;
         this.conflict.conflictType = ring.conflictType;
@@ -156,11 +157,7 @@ class InitiateConflictPrompt extends UiPrompt {
         return true;
     }
 
-    onMenuCommand(player, arg) {
-        if(player !== this.choosingPlayer) {
-            return false;
-        }
-
+    menuCommand(player, arg) {
         this.complete();
         if(arg === 'done') {
             this.conflict.conflictDeclared = true;

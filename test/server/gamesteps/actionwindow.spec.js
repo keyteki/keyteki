@@ -26,7 +26,7 @@ describe('ActionWindow', function() {
     describe('onMenuCommand()', function() {
         describe('when it is the current player',function() {
             beforeEach(function() {
-                this.prompt.onMenuCommand(this.player2);
+                this.prompt.menuCommand(this.player2);
             });
 
             it('should make the next player be the current player', function() {
@@ -49,7 +49,7 @@ describe('ActionWindow', function() {
         describe('when a player takes an action', function() {
             beforeEach(function() {
                 // Complete the window for player 2
-                this.prompt.onMenuCommand(this.player2);
+                this.prompt.menuCommand(this.player2);
 
                 // Player 1 takes an action
                 this.prompt.markActionAsTaken();
@@ -60,15 +60,15 @@ describe('ActionWindow', function() {
             });
 
             it('should re-prompt other players once the current player is done', function() {
-                this.prompt.onMenuCommand(this.player2);
+                this.prompt.menuCommand(this.player2);
                 expect(this.prompt.currentPlayer).toBe(this.player1);
                 expect(this.prompt.isComplete()).toBe(false);
             });
 
             it('should require two consecutive passes before completing', function() {
                 // Complete without taking action
-                this.prompt.onMenuCommand(this.player2);
-                this.prompt.onMenuCommand(this.player1);
+                this.prompt.menuCommand(this.player2);
+                this.prompt.menuCommand(this.player1);
 
                 expect(this.prompt.isComplete()).toBe(true);
             });
@@ -78,7 +78,7 @@ describe('ActionWindow', function() {
     describe('continue()', function() {
         describe('when not all players are done', function() {
             beforeEach(function() {
-                this.prompt.onMenuCommand(this.player2);
+                this.prompt.menuCommand(this.player2);
             });
 
             it('should return false', function() {
@@ -88,8 +88,8 @@ describe('ActionWindow', function() {
 
         describe('when all players are done', function() {
             beforeEach(function() {
-                this.prompt.onMenuCommand(this.player2);
-                this.prompt.onMenuCommand(this.player1);
+                this.prompt.menuCommand(this.player2);
+                this.prompt.menuCommand(this.player1);
             });
 
             it('should return true', function() {

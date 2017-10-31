@@ -87,11 +87,7 @@ class DeckSearchPrompt extends UiPrompt {
         return this.properties.cardType.includes(card.getType()) && this.properties.cardCondition(card);
     }
 
-    onMenuCommand(player, arg) {
-        if(player !== this.choosingPlayer) {
-            return false;
-        }
-
+    menuCommand(player, arg) {
         if(arg === 'done') {
             this.cancelAndShuffle(player);
             return;
