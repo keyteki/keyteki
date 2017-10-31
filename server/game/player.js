@@ -1449,7 +1449,10 @@ class Player extends Spectator {
     getStats() {
         return {
             fate: this.fate,
-            honor: this.getTotalHonor()
+            honor: this.getTotalHonor(),
+            conflictsRemaining: this.conflicts.conflictOpportunities,
+            militaryRemaining: !this.conflicts.isAtMax('military'),
+            politicalRemaining: !this.conflicts.isAtMax('political')
         };
     }
 
