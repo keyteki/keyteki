@@ -891,13 +891,24 @@ class Game extends EventEmitter {
         card.controller.removeCardFromPile(card);
         player.cardsInPlay.push(card);
         card.controller = player;
-        if(card.isParticipating()) {
-            if(player === this.currentConflict.attackingPlayer) {
-                this.currentConflict.defenders = _.reject(this.currentConflict.defenders, c => c === card);
+        card.checkForIllegalAttachments();
+        if(card.isDefending()) {
+            this.currentConflict.defenders = _.reject(this.currentConflict.defenders, c => c === card);
+            if(card.canPartcipateAsAttacker(this.currentConflict.conflictType)) {
                 this.currentConflict.attackers.push(card);
             } else {
-                this.currentConflict.attackers = _.reject(this.currentConflict.attackers, c => c === card);
+                card.inConflict = false;
+                player.bowCard(card);
+            }
+            card.applyPersistentEffects();
+            this.currentConflict.calculateSkill();
+        } else if(card.isAttacking()) {
+            this.currentConflict.attackers = _.reject(this.currentConflict.attackers, c => c === card);
+            if(card.canPartcipateAsDefender(this.currentConflict.conflictType)) {
                 this.currentConflict.defenders.push(card);
+            } else {
+                card.inConflict = false;
+                player.bowCard(card);
             }
             card.applyPersistentEffects();
             this.currentConflict.calculateSkill();
