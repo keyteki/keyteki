@@ -909,7 +909,7 @@ class Game extends EventEmitter {
                 this.currentConflict.defenders.push(card);
             } else {
                 this.addMessage('{0} cannot participate in the conflict any more and is sent home bowed', card);
-                 card.inConflict = false;
+                card.inConflict = false;
                 player.bowCard(card);
             }
             card.applyPersistentEffects();
