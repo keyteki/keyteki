@@ -405,11 +405,7 @@ class DrawCard extends BaseCard {
 
     clearBlank() {
         super.clearBlank();
-        this.attachments.each(attachment => {
-            if(!this.allowAttachment(attachment)) {
-                this.controller.discardCardFromPlay(attachment, false);
-            }
-        });
+        this.checkForIllegalAttachments();
     }
 
     /**
@@ -448,7 +444,7 @@ class DrawCard extends BaseCard {
      * Checks whether the passed card meets the attachment restrictions (e.g.
      * Opponent cards only, specific factions, etc) for this card.
      */
-    canAttach(player, card) {
+    canAttach(card) {
         return card && card.getType() === 'character' && this.getType() === 'attachment';
     }
 
@@ -488,6 +484,15 @@ class DrawCard extends BaseCard {
             });
         }
         return [];
+    }
+    
+    checkForIllegalAttachments() {
+        this.attachments.each(attachment => {
+            if(!this.allowAttachment(attachment) || !attachment.canAttach(this)) {
+                this.controller.discardCardFromPlay(attachment, false);
+                this.game.addMessage('{0} is discarded from {1} as it is no longer legally attached', attachment, this);
+            }
+        });
     }
 
     getActions() {

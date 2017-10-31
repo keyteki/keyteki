@@ -29,12 +29,12 @@ class GraspOfEarth extends DrawCard {
         });      
     }
 
-    canAttach(player, card) {
-        if(card.hasTrait('shugenja') === false) {
+    canAttach(card) {
+        if(card.hasTrait('shugenja') === false || card.controller !== this.controller) {
             return false;
         }
 
-        return super.canAttach(player, card);
+        return super.canAttach(card);
     }
 }
 
