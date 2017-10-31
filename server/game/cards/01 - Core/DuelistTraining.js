@@ -63,6 +63,11 @@ class DuelistTraining extends DrawCard {
             })
         });
     }
+    
+    leavesPlay() {
+        this.grantedAbilityLimits = {};
+        super.leavesPlay();
+    }
 }
 
 DuelistTraining.id = 'duelist-training';
