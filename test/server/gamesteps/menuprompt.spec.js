@@ -38,22 +38,22 @@ describe('the MenuPrompt', function() {
     describe('the onMenuCommand() function', function() {
         describe('when the player is not the prompted player', function() {
             it('should return false', function() {
-                expect(this.prompt.onMenuCommand(this.otherPlayer, this.arg, 'doIt')).toBe(false);
+                expect(this.prompt.onMenuCommand(this.otherPlayer, this.arg, this.prompt.uuid, 'doIt')).toBe(false);
             });
 
             it('should not complete the prompt', function() {
-                this.prompt.onMenuCommand(this.otherPlayer, this.arg, 'doIt');
+                this.prompt.onMenuCommand(this.otherPlayer, this.arg, this.prompt.uuid, 'doIt');
                 expect(this.prompt.isComplete()).toBe(false);
             });
         });
 
         describe('when the method does not exist', function() {
             it('should return false', function() {
-                expect(this.prompt.onMenuCommand(this.player, this.arg, 'unknownMethod')).toBe(false);
+                expect(this.prompt.onMenuCommand(this.player, this.arg, this.prompt.uuid, 'unknownMethod')).toBe(false);
             });
 
             it('should not complete the prompt', function() {
-                this.prompt.onMenuCommand(this.player, this.arg, 'unknownMethod');
+                this.prompt.onMenuCommand(this.player, this.arg, this.prompt.uuid, 'unknownMethod');
                 expect(this.prompt.isComplete()).toBe(false);
             });
         });
@@ -61,23 +61,23 @@ describe('the MenuPrompt', function() {
         describe('when the method exists', function() {
             describe('when there is no button for the method', function() {
                 it('should not call the specified method on the context object', function() {
-                    this.prompt.onMenuCommand(this.player, this.arg, 'forbiddenMethod');
+                    this.prompt.onMenuCommand(this.player, this.arg, this.prompt.uuid, 'forbiddenMethod');
                     expect(this.contextObj.forbiddenMethod).not.toHaveBeenCalled();
                 });
 
                 it('should return false', function() {
-                    expect(this.prompt.onMenuCommand(this.player, this.arg, 'forbiddenMethod')).toBe(false);
+                    expect(this.prompt.onMenuCommand(this.player, this.arg, this.prompt.uuid, 'forbiddenMethod')).toBe(false);
                 });
 
                 it('should not complete the prompt', function() {
-                    this.prompt.onMenuCommand(this.player, this.arg, 'forbiddenMethod');
+                    this.prompt.onMenuCommand(this.player, this.arg, this.prompt.uuid, 'forbiddenMethod');
                     expect(this.prompt.isComplete()).toBe(false);
                 });
             });
 
             describe('when the method has a corresponding button', function() {
                 it('should call the specified method on the context object', function() {
-                    this.prompt.onMenuCommand(this.player, this.arg, 'doIt');
+                    this.prompt.onMenuCommand(this.player, this.arg, this.prompt.uuid, 'doIt');
                     expect(this.contextObj.doIt).toHaveBeenCalledWith(this.player, this.arg, 'doIt');
                 });
 
@@ -87,12 +87,12 @@ describe('the MenuPrompt', function() {
                     });
 
                     it('should not complete the prompt', function() {
-                        this.prompt.onMenuCommand(this.player, this.arg, 'doIt');
+                        this.prompt.onMenuCommand(this.player, this.arg, this.prompt.uuid, 'doIt');
                         expect(this.prompt.isComplete()).toBe(false);
                     });
 
                     it('should return true', function() {
-                        expect(this.prompt.onMenuCommand(this.player, this.arg, 'doIt')).toBe(true);
+                        expect(this.prompt.onMenuCommand(this.player, this.arg, this.prompt.uuid, 'doIt')).toBe(true);
                     });
                 });
 
@@ -102,12 +102,12 @@ describe('the MenuPrompt', function() {
                     });
 
                     it('should complete the prompt', function() {
-                        this.prompt.onMenuCommand(this.player, this.arg, 'doIt');
+                        this.prompt.onMenuCommand(this.player, this.arg, this.prompt.uuid, 'doIt');
                         expect(this.prompt.isComplete()).toBe(true);
                     });
 
                     it('should return true', function() {
-                        expect(this.prompt.onMenuCommand(this.player, this.arg, 'doIt')).toBe(true);
+                        expect(this.prompt.onMenuCommand(this.player, this.arg, this.prompt.uuid, 'doIt')).toBe(true);
                     });
                 });
             });

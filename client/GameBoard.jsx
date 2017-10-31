@@ -299,10 +299,11 @@ export class InnerGameBoard extends React.Component {
 
         return cardsByLocation;
     }
-    onCommand(command, arg, method) {
+    
+    onCommand(command, arg, uuid, method) {
         let commandArg = arg;
 
-        this.props.sendGameMessage(command, commandArg, method);
+        this.props.sendGameMessage(command, commandArg, uuid, method);
     }
 
     onDragOver(event) {

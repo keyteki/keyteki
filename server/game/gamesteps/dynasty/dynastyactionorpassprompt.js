@@ -24,11 +24,7 @@ class DynastyActionOrPassPrompt extends UiPrompt {
         return { menuTitle: 'Waiting for opponent to finish taking actions or pass.' };
     }
 
-    onMenuCommand(player, choice) {
-        if(this.player !== player) {
-            return false;
-        }
-
+    menuCommand(player, choice) {
         if(choice === 'pass') {
             this.game.addMessage('{0} has chosen to pass.', player);
 

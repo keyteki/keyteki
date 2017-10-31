@@ -37,11 +37,7 @@ class MenuPrompt extends UiPrompt {
         return { menuTitle: this.properties.waitingPromptTitle || 'Waiting for opponent' };
     }
 
-    onMenuCommand(player, arg, method) {
-        if(player !== this.player) {
-            return false;
-        }
-
+    menuCommand(player, arg, method) {
         if(!this.context[method] || !this.hasMethodButton(method)) {
             return false;
         }

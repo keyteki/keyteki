@@ -1,6 +1,5 @@
 const _ = require('underscore');
-const BaseStep = require('../basestep.js');
-const GamePipeline = require('../../gamepipeline.js');
+const BaseStepWithPipeline = require('../basestepwithpipeline.js');
 const SimpleStep = require('../simplestep.js');
 const ConflictActionWindow = require('../conflictactionwindow.js');
 const InitiateConflictPrompt = require('./initiateconflictprompt.js');
@@ -20,11 +19,10 @@ Conflict Resolution
 3.2.8 Return home. Go to (3.3).
  */
 
-class ConflictFlow extends BaseStep {
+class ConflictFlow extends BaseStepWithPipeline {
     constructor(game, conflict) {
         super(game);
         this.conflict = conflict;
-        this.pipeline = new GamePipeline();
         this.pipeline.initialise([
             new SimpleStep(this.game, () => this.resetCards()),
             new InitiateConflictPrompt(this.game, this.conflict, this.conflict.attackingPlayer),
@@ -367,30 +365,6 @@ class ConflictFlow extends BaseStep {
         }
 
         this.conflict.finish();
-    }
-
-    onCardClicked(player, card) {
-        return this.pipeline.handleCardClicked(player, card);
-    }
-
-    onRingClicked(player, ring) {
-        return this.pipeline.handleRingClicked(player, ring);
-    }
-
-    onMenuCommand(player, arg, method) {
-        return this.pipeline.handleMenuCommand(player, arg, method);
-    }
-
-    cancelStep() {
-        this.pipeline.cancelStep();
-    }
-
-    queueStep(step) {
-        this.pipeline.queueStep(step);
-    }
-
-    continue() {
-        return this.conflict.cancelled || this.pipeline.continue();
     }
 }
 

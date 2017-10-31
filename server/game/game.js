@@ -692,13 +692,13 @@ class Game extends EventEmitter {
         });
     }
 
-    menuButton(playerName, arg, method) {
+    menuButton(playerName, arg, uuid, method) {
         var player = this.getPlayerByName(playerName);
         if(!player) {
             return;
         }
 
-        if(this.pipeline.handleMenuCommand(player, arg, method)) {
+        if(this.pipeline.handleMenuCommand(player, arg, uuid, method)) {
             return true;
         }
     }
