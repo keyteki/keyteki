@@ -168,7 +168,7 @@ class BaseAbility {
         });
         */
         if(results.length === 0) {
-            let canIgnoreAllCosts = _.all(this.costs, cost => cost.canIgnoreForTargeting);
+            let canIgnoreAllCosts = _.all(this.cost, cost => cost.canIgnoreForTargeting);
             return this.targets.map(target => target.resolve(context, true, canIgnoreAllCosts));
         }
         return _.map(_.zip(this.targets, results), array => {
