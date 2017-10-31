@@ -5,11 +5,10 @@ const BaseStepWithPipeline = require('./basestepwithpipeline.js');
 const SimpleStep = require('./simplestep.js');
 
 class AbilityResolver extends BaseStepWithPipeline {
-    constructor(game, ability, context) {
+    constructor(game, context) {
         super(game);
 
         this.context = context;
-        this.context.ability = ability;
         this.pipeline.initialise([
             new SimpleStep(game, () => this.setNoNewActions()),
             new SimpleStep(game, () => this.resolveEarlyTargets()),

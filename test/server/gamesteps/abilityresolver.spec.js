@@ -14,7 +14,7 @@ describe('AbilityResolver', function() {
         this.source = { source: 1 };
         this.player = { player: 1 };
         this.game.getPlayers.and.returnValue([this.player]);
-        this.context = { foo: 'bar', player: this.player, source: this.source, ability: this.ability };
+        this.context = { foo: 'bar', player: this.player, source: this.source, ability: this.ability, targets: {} };
         this.resolver = new AbilityResolver(this.game, this.context);
     });
 
