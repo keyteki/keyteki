@@ -161,13 +161,25 @@ class InitiateConflictPrompt extends UiPrompt {
             return false;
         }
 
-        this.complete();
         if(arg === 'done') {
+            this.complete();
             this.conflict.conflictDeclared = true;
         } else if(arg === 'pass') {
-            this.conflict.passed = true;
-            this.game.raiseEvent('onConflictPass', { conflict: this.conflict });
-            this.game.queueSimpleStep(() => this.conflict.cancelConflict());
+            this.game.promptWithHandlerMenu(this.choosingPlayer, {
+                activePromptTitle: 'Are you sure you want to pass your conflict opportunity?',
+                source: 'Pass Conflict',
+                choices: ['Yes', 'No'],
+                handlers: [
+                    () => {
+                        this.complete();
+                        this.conflict.passed = true;
+                        this.game.queueSimpleStep(() => this.game.raiseEvent('onConflictPass', { conflict: this.conflict }));
+                        this.game.queueSimpleStep(() => this.conflict.cancelConflict());
+                    },
+                    () => true
+                ]
+            });
+            
         }
     }
 }
