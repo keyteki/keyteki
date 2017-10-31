@@ -61,7 +61,13 @@ class ConflictPhase extends Phase {
             this.currentPlayer.conflicts.usedConflictOpportunity();
             var conflict = new Conflict(this.game, this.currentPlayer, this.game.getOtherPlayer(this.currentPlayer));
             this.game.currentConflict = conflict;
-            this.game.queueStep(new ConflictFlow(this.game, conflict));
+            if(this.currentPlayer.anyCardsInPlay(card => !card.bowed)) {
+                this.game.queueStep(new ConflictFlow(this.game, conflict));
+            } else {
+                this.game.addMessage('{0} passes his conflict opportunity as he has no unbowed characters', this.currentPlayer);
+                conflict.passed = true;
+                this.game.queueSimpleStep(() => this.game.raiseEvent('onConflictPass', { conflict: conflict }));
+            }
             this.game.queueStep(new SimpleStep(this.game, () => this.cleanupConflict()));
         } else {
             this.game.queueStep(new SimpleStep(this.game, () => this.determineImperialFavor()));
@@ -109,84 +115,6 @@ class ConflictPhase extends Phase {
             this.game.addMessage('{0} succesfully claims the Emperor\'s {1} favor with total glory of {2} vs {3}', winner, arg, winner.totalGloryForFavor, loser.totalGloryForFavor);
         }
         return true;
-    }
-
-    promptForConflictType(attackingPlayer) {
-        if(this.remainingPlayers.length === 0) {
-            return true;
-        }
-
-        let currentPlayer = attackingPlayer;
-        this.game.promptWithMenu(currentPlayer, this, {
-            activePrompt: {
-                menuTitle: '',
-                buttons: [
-                    { text: 'Military', method: 'promptForConflictRing', arg: 'military' },
-                    { text: 'Political', method: 'promptForConflictRing', arg: 'political' },
-                    { text: 'Pass', method: 'passConflict' }
-                ]
-            },
-            waitingPromptTitle: 'Waiting for opponent to initiate conflict'
-        });
-
-        return false;
-    }
-
-    promptForConflictRing(attackingPlayer, conflictType) {
-        let currentPlayer = attackingPlayer;
-
-        this.conflictType = conflictType;
-        this.game.promptWithMenu(currentPlayer, this, {
-            activePrompt: {
-                menuTitle: '',
-                buttons: [
-                    { text: 'Air', method: 'promptForConflictProvince', arg: 'air' },
-                    { text: 'Earth', method: 'promptForConflictProvince', arg: 'earth' },
-                    { text: 'Fire', method: 'promptForConflictProvince', arg: 'fire' },
-                    { text: 'Void', method: 'promptForConflictProvince', arg: 'void' },
-                    { text: 'Water', method: 'promptForConflictProvince', arg: 'water' }
-                ]
-            },
-            waitingPromptTitle: 'Waiting for opponent to choose conflict ring'
-        });
-
-        return true;
-    }
-
-    promptForConflictProvince(attackingPlayer, conflictRing) {
-        var currentPlayer = attackingPlayer;
-
-        this.conflictRing = conflictRing;
-        this.game.promptWithMenu(currentPlayer, this, {
-            activePrompt: {
-                menuTitle: '',
-                buttons: [
-                    { text: 'Stronghold', method: 'initiateConflict', arg: 'stronghold province' },
-                    { text: 'One', method: 'initiateConflict', arg: 'province 1' },
-                    { text: 'Two', method: 'initiateConflict', arg: 'province 2' },
-                    { text: 'Three', method: 'initiateConflict', arg: 'province 3' },
-                    { text: 'Four', method: 'initiateConflict', arg: 'province 4' }
-                ]
-            },
-            waitingPromptTitle: 'Waiting for opponent to choose province'
-        });
-
-        return true;
-    }
-
-    initiateConflict(attackingPlayer, conflictProvince) {
-        if(!attackingPlayer.canInitiateConflict(this.conflictType)) {
-            return;
-        }
-
-        attackingPlayer.conflictType = this.conflictType;
-
-        let defendingPlayer = this.chooseOpponent(attackingPlayer);
-
-        var conflict = new Conflict(this.game, attackingPlayer, defendingPlayer, this.conflictType, this.conflictRing, conflictProvince);
-        this.game.currentConflict = conflict;
-        this.game.queueStep(new ConflictFlow(this.game, conflict));
-        this.game.queueStep(new SimpleStep(this.game, () => this.cleanupConflict()));
     }
 
     cleanupConflict() {
