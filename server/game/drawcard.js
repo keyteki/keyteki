@@ -490,6 +490,7 @@ class DrawCard extends BaseCard {
         this.attachments.each(attachment => {
             if(!this.allowAttachment(attachment) || !attachment.canAttach(this)) {
                 this.controller.discardCardFromPlay(attachment, false);
+                this.game.addMessage('{0} is discarded from {1} as it is no longer legally attached', attachment, this);
             }
         });
     }

@@ -894,9 +894,10 @@ class Game extends EventEmitter {
         card.checkForIllegalAttachments();
         if(card.isDefending()) {
             this.currentConflict.defenders = _.reject(this.currentConflict.defenders, c => c === card);
-            if(card.canPartcipateAsAttacker(this.currentConflict.conflictType)) {
+            if(card.canParticipateAsAttacker(this.currentConflict.conflictType)) {
                 this.currentConflict.attackers.push(card);
             } else {
+                this.addMessage('{0} cannot participate in the conflict any more and is sent home bowed', card);
                 card.inConflict = false;
                 player.bowCard(card);
             }
@@ -904,10 +905,11 @@ class Game extends EventEmitter {
             this.currentConflict.calculateSkill();
         } else if(card.isAttacking()) {
             this.currentConflict.attackers = _.reject(this.currentConflict.attackers, c => c === card);
-            if(card.canPartcipateAsDefender(this.currentConflict.conflictType)) {
+            if(card.canParticipateAsDefender(this.currentConflict.conflictType)) {
                 this.currentConflict.defenders.push(card);
             } else {
-                card.inConflict = false;
+                this.addMessage('{0} cannot participate in the conflict any more and is sent home bowed', card);
+                 card.inConflict = false;
                 player.bowCard(card);
             }
             card.applyPersistentEffects();
