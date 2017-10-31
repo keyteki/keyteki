@@ -1,16 +1,14 @@
-const BaseStep = require('./basestep.js');
-const GamePipeline = require('../gamepipeline.js');
+const BaseStepWithPipeline = require('./basestepwithpipeline.js');
 const SimpleStep = require('./simplestep.js');
 const Event = require('../event.js');
 
-class EventWindow extends BaseStep {
+class EventWindow extends BaseStepWithPipeline {
     constructor(game, eventName, params, handler) {
         super(game);
 
         this.eventName = eventName;
 
         this.event = new Event(eventName, params, handler);
-        this.pipeline = new GamePipeline();
         this.pipeline.initialise([
             new SimpleStep(game, () => this.cancelInterrupts()),
             new SimpleStep(game, () => this.forcedInterrupts()),
@@ -20,34 +18,6 @@ class EventWindow extends BaseStep {
             new SimpleStep(game, () => this.forcedReactions()),
             new SimpleStep(game, () => this.reactions())
         ]);
-    }
-
-    queueStep(step) {
-        this.pipeline.queueStep(step);
-    }
-
-    isComplete() {
-        return this.pipeline.length === 0;
-    }
-
-    onCardClicked(player, card) {
-        return this.pipeline.handleCardClicked(player, card);
-    }
-
-    onRingClicked(player, ring) {
-        return this.pipeline.handleRingClicked(player, ring);
-    }
-
-    onMenuCommand(player, arg, method) {
-        return this.pipeline.handleMenuCommand(player, arg, method);
-    }
-
-    cancelStep() {
-        this.pipeline.cancelStep();
-    }
-
-    continue() {
-        return this.pipeline.continue();
     }
 
     cancelInterrupts() {

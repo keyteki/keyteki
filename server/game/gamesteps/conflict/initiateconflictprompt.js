@@ -156,11 +156,7 @@ class InitiateConflictPrompt extends UiPrompt {
         return true;
     }
 
-    onMenuCommand(player, arg) {
-        if(player !== this.choosingPlayer) {
-            return false;
-        }
-
+    menuCommand(player, arg) {
         this.complete();
         if(arg === 'done') {
             this.conflict.conflictDeclared = true;

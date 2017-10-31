@@ -73,11 +73,7 @@ class SelectDefendersPrompt extends UiPrompt {
         return true;
     }
 
-    onMenuCommand(player) {
-        if(player !== this.player) {
-            return false;
-        }
-
+    menuCommand() {
         _.each(this.conflict.defenders, card => card.covert = false);
         this.complete();
     }

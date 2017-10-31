@@ -1,17 +1,15 @@
 const _ = require('underscore');
 
-const BaseStep = require('./basestep.js');
-const GamePipeline = require('../gamepipeline.js');
+const BaseStepWithPipeline = require('./basestepwithpipeline.js');
 const SimpleStep = require('./simplestep.js');
 const Event = require('../event.js');
 
-class SimultaneousEventWindow extends BaseStep {
+class SimultaneousEventWindow extends BaseStepWithPipeline {
     constructor(game, cards, properties) {
         super(game);
 
         this.event = new Event(properties.eventName, _.extend({ cards: cards }, properties.params), properties.handler || (() => true));
         this.perCardEventMap = this.buildPerCardEvents(cards, properties);
-        this.pipeline = new GamePipeline();
         this.pipeline.initialise([
             new SimpleStep(game, () => this.openWindow('cancelinterrupt')),
             new SimpleStep(game, () => this.perCardWindow('cancelinterrupt')),
@@ -35,34 +33,6 @@ class SimultaneousEventWindow extends BaseStep {
             eventMap[card.uuid] = new Event(properties.perCardEventName, perCardParams, properties.perCardHandler || (() => true));
         });
         return eventMap;
-    }
-
-    queueStep(step) {
-        this.pipeline.queueStep(step);
-    }
-
-    isComplete() {
-        return this.pipeline.length === 0;
-    }
-
-    onCardClicked(player, card) {
-        return this.pipeline.handleCardClicked(player, card);
-    }
-
-    onRingClicked(player, ring) {
-        return this.pipeline.handleRingClicked(player, ring);
-    }
-
-    onMenuCommand(player, arg, method) {
-        return this.pipeline.handleMenuCommand(player, arg, method);
-    }
-
-    cancelStep() {
-        this.pipeline.cancelStep();
-    }
-
-    continue() {
-        return this.pipeline.continue();
     }
 
     openWindow(abilityType) {
