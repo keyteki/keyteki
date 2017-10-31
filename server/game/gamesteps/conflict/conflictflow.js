@@ -68,6 +68,7 @@ class ConflictFlow extends BaseStep {
             events.push({
                 name: 'onSelectRingWithFate',
                 params: {
+                    player: this.conflict.attackingPlayer,
                     conflict: this.conflict,
                     ring: ring,
                     fate: ring.fate
