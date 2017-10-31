@@ -254,6 +254,22 @@ class Game extends EventEmitter {
             this.flipRing(player, ring);
         }
     }
+    
+    conflictTopCardClicked(sourcePlayer) {
+        let player = this.getPlayerByName(sourcePlayer);
+
+        if(!player || player.conflictDeckTopCardHidden) {
+            return;
+        }
+        
+        let card = player.conflictDeck.first();
+        
+        if(this.pipeline.handleCardClicked(player, card)) {
+            return;
+        }
+
+        player.findAndUseAction(card);
+    }
 
     returnRings() {
         _.each(this.rings, ring => ring.resetRing());
@@ -676,13 +692,13 @@ class Game extends EventEmitter {
         });
     }
 
-    menuButton(playerName, arg, method) {
+    menuButton(playerName, arg, uuid, method) {
         var player = this.getPlayerByName(playerName);
         if(!player) {
             return;
         }
 
-        if(this.pipeline.handleMenuCommand(player, arg, method)) {
+        if(this.pipeline.handleMenuCommand(player, arg, uuid, method)) {
             return true;
         }
     }
@@ -1082,6 +1098,7 @@ class Game extends EventEmitter {
 
             return {
                 id: this.id,
+                manualMode: this.manualMode,
                 name: this.name,
                 owner: this.owner,
                 players: playerState,
@@ -1136,6 +1153,7 @@ class Game extends EventEmitter {
             createdAt: this.createdAt,
             gameType: this.gameType,
             id: this.id,
+            manualMode: this.manualMode,
             messages: this.gameChat.messages,
             name: this.name,
             owner: this.owner,

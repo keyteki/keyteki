@@ -82,10 +82,10 @@ class GamePipeline {
         return false;
     }
 
-    handleMenuCommand(player, arg, method) {
+    handleMenuCommand(player, arg, uuid, method) {
         if(this.pipeline.length > 0) {
             var step = this.getCurrentStep();
-            if(step.onMenuCommand(player, arg, method) !== false) {
+            if(step.onMenuCommand(player, arg, uuid, method) !== false) {
                 return true;
             }
         }

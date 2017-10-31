@@ -1,18 +1,16 @@
 const _ = require('underscore');
 
 const BaseCard = require('../basecard.js');
-const BaseStep = require('./basestep.js');
-const GamePipeline = require('../gamepipeline.js');
+const BaseStepWithPipeline = require('./basestepwithpipeline.js');
 const SimpleStep = require('./simplestep.js');
 
-class AbilityResolver extends BaseStep {
+class AbilityResolver extends BaseStepWithPipeline {
     constructor(game, ability, context) {
         super(game);
 
         this.ability = ability;
         this.context = context;
         this.context.ability = ability;
-        this.pipeline = new GamePipeline();
         this.pipeline.initialise([
             new SimpleStep(game, () => this.setNoNewActions()),
             new SimpleStep(game, () => this.resolveEarlyTargets()),
@@ -33,45 +31,6 @@ class AbilityResolver extends BaseStep {
         ]);
     }
 
-    queueStep(step) {
-        this.pipeline.queueStep(step);
-    }
-
-    isComplete() {
-        return this.pipeline.length === 0;
-    }
-
-    onCardClicked(player, card) {
-        return this.pipeline.handleCardClicked(player, card);
-    }
-
-    onRingClicked(player, ring) {
-        return this.pipeline.handleRingClicked(player, ring);
-    }
-
-    onMenuCommand(player, arg, method) {
-        return this.pipeline.handleMenuCommand(player, arg, method);
-    }
-
-    cancelStep() {
-        this.pipeline.cancelStep();
-    }
-
-    continue() {
-        try {
-            return this.pipeline.continue();
-        } catch(e) {
-            this.game.reportError(e);
-
-            let currentAbilityContext = this.game.currentAbilityContext;
-            if(currentAbilityContext && currentAbilityContext.source === 'card' && currentAbilityContext.card === this.context.source) {
-                this.game.popAbilityContext();
-            }
-
-            return true;
-        }
-    }
-    
     setNoNewActions() {
         _.each(this.game.getPlayers(), player => player.canInitiateAction = false);
     }

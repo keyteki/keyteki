@@ -1,7 +1,7 @@
 const _ = require('underscore');
 const DeckSearchPrompt = require('../../../server/game/gamesteps/decksearchprompt.js');
 
-describe('DeckSearchPrompt', function() {
+xdescribe('DeckSearchPrompt', function() {
     function createCardSpy(properties = {}) {
         let card = jasmine.createSpyObj('card', ['getSummary', 'getType']);
         _.extend(card, properties);

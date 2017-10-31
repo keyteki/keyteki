@@ -62,11 +62,7 @@ class HandlerMenuPrompt extends UiPrompt {
         return { menuTitle: this.properties.waitingPromptTitle || 'Waiting for opponent' };
     }
 
-    onMenuCommand(player, arg) {
-        if(player !== this.player) {
-            return false;
-        }
-        
+    menuCommand(player, arg) {
         if(!this.properties.handlers[arg]) {
             return false;
         }

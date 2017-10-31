@@ -7,6 +7,7 @@ describe('the GamePipeline', function() {
     var player = {};
     var arg = {};
     var method = {};
+    var uuid = {};
 
     beforeEach(function() {
         pipeline = new GamePipeline();
@@ -19,7 +20,7 @@ describe('the GamePipeline', function() {
             });
 
             it('should return false', function() {
-                expect(pipeline.handleMenuCommand(player, arg, method)).toBe(false);
+                expect(pipeline.handleMenuCommand(player, arg, uuid, method)).toBe(false);
             });
         });
 
@@ -30,12 +31,12 @@ describe('the GamePipeline', function() {
             });
 
             it('should call the onMenuCommand handler', () => {
-                pipeline.handleMenuCommand(player, arg, method);
-                expect(step.onMenuCommand).toHaveBeenCalledWith(player, arg, method);
+                pipeline.handleMenuCommand(player, arg, uuid, method);
+                expect(step.onMenuCommand).toHaveBeenCalledWith(player, arg, uuid, method);
             });
 
             it('should return false', function() {
-                expect(pipeline.handleMenuCommand(player, arg, method)).toBe(false);
+                expect(pipeline.handleMenuCommand(player, arg, uuid, method)).toBe(false);
             });
         });
 
@@ -46,12 +47,12 @@ describe('the GamePipeline', function() {
             });
 
             it('should call the onMenuCommand handler', () => {
-                pipeline.handleMenuCommand(player, arg, method);
-                expect(step.onMenuCommand).toHaveBeenCalledWith(player, arg, method);
+                pipeline.handleMenuCommand(player, arg, uuid, method);
+                expect(step.onMenuCommand).toHaveBeenCalledWith(player, arg, uuid, method);
             });
 
             it('should return true', function() {
-                expect(pipeline.handleMenuCommand(player, arg, method)).toBe(true);
+                expect(pipeline.handleMenuCommand(player, arg, uuid, method)).toBe(true);
             });
         });
     });

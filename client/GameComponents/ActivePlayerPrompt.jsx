@@ -86,7 +86,7 @@ class ActivePlayerPrompt extends React.Component {
         return true;
     }
 
-    onButtonClick(event, command, arg, method) {
+    onButtonClick(event, command, arg, uuid, method) {
         event.preventDefault();
 
         if(this.state.timerHandle) {
@@ -96,7 +96,7 @@ class ActivePlayerPrompt extends React.Component {
         this.setState({ showTimer: false, timerHandle: undefined, timerCancelled: true });
 
         if(this.props.onButtonClick) {
-            this.props.onButtonClick(command, arg, method);
+            this.props.onButtonClick(command, arg, uuid, method);
         }
     }
 
@@ -137,7 +137,7 @@ class ActivePlayerPrompt extends React.Component {
             }
 
             let clickCallback = button.timerCancel ? event => this.onCancelTimerClick(event, button) :
-                event => this.onButtonClick(event, button.command, button.arg, button.method);
+                event => this.onButtonClick(event, button.command, button.arg, button.uuid, button.method);
 
             let option = (
                 <button key={ button.command + buttonIndex.toString() }

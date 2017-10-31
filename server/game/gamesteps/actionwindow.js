@@ -57,11 +57,7 @@ class ActionWindow extends UiPrompt {
         return { menuTitle: 'Waiting for opponent to take an action or pass' };
     }
 
-    onMenuCommand(player, choice) {
-        if(this.currentPlayer !== player) {
-            return false;
-        }
-        
+    menuCommand(player, choice) {
         player.canInitiateAction = false;
 
         if(choice === 'manual') {

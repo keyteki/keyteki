@@ -360,7 +360,7 @@ const Costs = {
     expendEvent: function() {
         return {
             canPay: function(context) {
-                return context.player.isCardInPlayableLocation(context.source, 'play') && context.source.canBePlayed();
+                return context.source.allowGameAction('play');
             },
             pay: function(context) {
                 context.source.controller.moveCard(context.source, 'conflict discard pile');
