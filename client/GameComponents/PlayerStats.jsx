@@ -62,7 +62,7 @@ export class PlayerStats extends React.Component {
 
                 { this.props.firstPlayer ? <div className='state'><img className='first-player-indicator' src='/img/first-player.png' title='First Player' /></div> : null }
                 { this.props.otherPlayer || this.props.spectating ? <div className='state'><div className='hand-size'>Hand Size: { this.props.handSize }</div></div> : null }
-                <div className='state'><div className ='hand-size'>Conflicts Remaining: { this.getStatValueOrDefault('conflictsRemaining') }  { this.getStatValueOrDefault('conflictsRemaining') ? <span className='icon-political'/> : null }{ this.getStatValueOrDefault('conflictsRemaining') ? <span className='icon-military'/> : null } </div></div>
+                <div className='state'><div className ='hand-size'>Conflicts Remaining: { this.getStatValueOrDefault('conflictsRemaining') }  { this.getStatValueOrDefault('politicalRemaining') ? <span className='icon-political'/> : null }{ this.getStatValueOrDefault('militaryRemaining') ? <span className='icon-military'/> : null } </div></div>
 
                 { this.props.showControls ? <div className='state'>
                     <button className='btn btn-transparent' onClick={ this.onSettingsClick.bind(this) }><span className='glyphicon glyphicon-cog' />Settings</button>
