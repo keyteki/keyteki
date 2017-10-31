@@ -34,7 +34,6 @@ class DrawCard extends BaseCard {
         this.fate = 0;
         this.contributesToFavor = true;
         this.bowed = false;
-        this.saved = false;
         this.inConflict = false;
         this.isConflict = false;
         this.isDynasty = false;
@@ -132,6 +131,31 @@ class DrawCard extends BaseCard {
             }
         }
         return super.allowGameAction(actionType, abilityContext);
+    }
+
+    createSnapshot() {
+        let clone = new DrawCard(this.owner, this.cardData);
+
+        clone.attachments = _(this.attachments.map(attachment => attachment.createSnapshot()));
+        clone.blankCount = this.blankCount;
+        clone.controller = this.controller;
+        clone.factions = Object.assign({}, this.factions);
+        clone.keywords = Object.assign({}, this.keywords);
+        clone.bowed = this.bowed;
+        clone.isHonored = this.isHonored;
+        clone.isDishonored = this.isDishonored;
+        clone.parent = this.parent;
+        clone.fate = this.power;
+        clone.traits = Object.assign({}, this.traits);
+        clone.militarySkillModifier = this.militarySkillModifier;
+        clone.politicalSkillModifier = this.politicalSkillModifier;
+        clone.baseMilitarySkill = this.baseMilitarySkill;
+        clone.basePoliticalSkill = this.basePoliticalSkill;
+        clone.militarySkillMultiplier = this.militarySkillMultiplier;
+        clone.politicalSkillMultiplier = this.politicalSkillMultiplier;
+        clone.gloryModifier = this.gloryModifier;
+        clone.inConflict = this.inConflict;
+        return clone;
     }
 
     modifySkill(amount, type, applying = true) {
