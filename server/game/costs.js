@@ -286,7 +286,7 @@ const Costs = {
                         context.chooseFate += 3;
                         let zip = _.zip(choices, handlers);
                         zip = _.filter(zip, array => {
-                            let [choice, handler] = array;
+                            let choice = array[0];
                             if(choice === 'Cancel') {
                                 return true;
                             } else if(choice === 'More') {
