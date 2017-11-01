@@ -55,7 +55,7 @@ class SelectDefendersPrompt extends UiPrompt {
         return (
             card.getType() === 'character' && 
             card.controller === this.player &&
-            card.canDeclareAsDefender()
+            card.canDeclareAsDefender(this.conflict.conflictType)
         );
     }
 
