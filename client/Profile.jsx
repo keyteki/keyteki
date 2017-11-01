@@ -28,7 +28,7 @@ class InnerProfile extends React.Component {
             promptedActionWindows: this.props.user.promptedActionWindows,
             validation: {},
             windowTimer: this.props.user.settings.windowTimer,
-            keywordSettings: this.props.user.settings.keywordSettings,
+            optionSettings: this.props.user.settings.optionSettings,
             timerSettings: this.props.user.settings.timerSettings,
             selectedBackground: this.props.user.settings.background,
             selectedCardSize: this.props.user.settings.cardSize
@@ -79,11 +79,11 @@ class InnerProfile extends React.Component {
         this.setState(newState);
     }
 
-    onKeywordSettingToggle(field, event) {
+    onOptionSettingToggle(field, event) {
         var newState = {};
-        newState.keywordSettings = this.state.keywordSettings;
+        newState.optionSettings = this.state.optionSettings;
 
-        newState.keywordSettings[field] = event.target.checked;
+        newState.optionSettings[field] = event.target.checked;
         this.setState(newState);
     }
 
@@ -115,7 +115,7 @@ class InnerProfile extends React.Component {
                         settings: {
                             disableGravatar: this.state.disableGravatar,
                             windowTimer: this.state.windowTimer,
-                            keywordSettings: this.state.keywordSettings,
+                            optionSettings: this.state.optionSettings,
                             timerSettings: this.state.timerSettings,
                             background: this.state.selectedBackground,
                             cardSize: this.state.selectedCardSize
@@ -253,7 +253,7 @@ class InnerProfile extends React.Component {
                             </div>
                             <div className='panel'>
                                 <p className='help-block small'>Every time a game event occurs that you could possibly interrupt to cancel it, a timer will count down.  At the end of that timer, the window will automatically pass.
-                                This option controls the duration of the timer.  The timer can be configure to show when events are played (useful if you play cards like The Hand's Judgement) and to show when card abilities are triggered (useful if you play a lot of Treachery).</p>
+                                This option controls the duration of the timer.  The timer will only show when you *don't* have an ability which can be used. The timer can be configure to show when events are played (useful if you play cards like Voice of Honor) and to show when card abilities are triggered.</p>
                                 <div className='form-group'>
                                     <label className='col-sm-3 control-label'>Window timeout</label>
                                     <div className='col-sm-5'>
@@ -275,14 +275,14 @@ class InnerProfile extends React.Component {
                                 </div>
                             </div>
                             <div className='panel-title'>
-                                Keywords
+                                Options
                             </div>
                             <div className='panel'>
                                 <div className='form-group'>
-                                    <Checkbox name='keywordSettings.chooseOrder' noGroup label={ 'Choose order of keywords' } fieldClass='col-sm-6'
-                                        onChange={ this.onKeywordSettingToggle.bind(this, 'chooseOrder') } checked={ this.state.keywordSettings.chooseOrder } />
-                                    <Checkbox name='keywordSettings.chooseCards' noGroup label={ 'Make keywords optional' } fieldClass='col-sm-6'
-                                        onChange={ this.onKeywordSettingToggle.bind(this, 'chooseCards') } checked={ this.state.keywordSettings.chooseCards } />
+                                    <Checkbox name='optionSettings.flipDynasty' noGroup label={ 'Automatically flip dynasty cards' } fieldClass='col-sm-6'
+                                        onChange={ this.onOptionSettingToggle.bind(this, 'flipDynasty') } checked={ this.state.optionSettings.flipDynasty } />
+                                    <Checkbox name='optionSettings.cancelOwnAbilites' noGroup label={ 'Prompt to cancel my own abilities' } fieldClass='col-sm-6'
+                                        onChange={ this.onOptionSettingToggle.bind(this, 'cancelOwnAbilites') } checked={ this.state.optionSettings.chooseCards } />
                                 </div>
                             </div>
                         </div>
