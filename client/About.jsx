@@ -39,7 +39,7 @@ class About extends React.Component {
                     <h3>Donations</h3>
                     <p>Since I've been asked a few times about where people can donate to the project, I thought I'd put up a small section about it here.</p>
                     <p>You can use this link: <a target='_blank' href='https://paypal.me/ringteki'>Paypal</a> to donate to the project. Note: The account uses my name, but is completely separate from my personal Paypal account.</p>
-                    <p>We may also look into creating a Patreon in the future, for those people who wish to make recurring donations.</p>
+                    <p>For those of you who wish to provide donations more regularly, we have created a Patreon available here: <a target='_blank' href='https://www.patreon.com/ringteki'>Ringteki Patreon</a>. The Patreon goals reflect current and/or expected expenses as well.</p>
 
                     <p>Just to make things clear, I'm not doing this for any personal gain whatsoever, I'm happy to run the servers at my own expense, but any money raised via this link will be used towards paying the hosting fees for the server and related services such as error tracking. All money in this account will only go towards these expenses.</p>
                     <p>Also, this is not required to continue to use and enjoy the site and will not give anything of substance in return. I will also create an expense report that I will publish, so that you know where your donations are going.</p>
