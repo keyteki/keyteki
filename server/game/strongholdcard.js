@@ -28,7 +28,7 @@ class StrongholdCard extends BaseCard {
     }
 
     getProvinceStrengthBonus() {
-        return this.cardData.province_strength_mod + this.strengthModifier;
+        return parseInt(this.cardData.strength_bonus) + this.strengthModifier;
     }
 
     flipFaceup() {
