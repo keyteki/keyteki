@@ -101,7 +101,8 @@ class SelectCardPrompt extends UiPrompt {
             selectOrder: this.properties.ordered,
             menuTitle: this.properties.activePromptTitle || this.selector.defaultActivePromptTitle(),
             buttons: this.properties.buttons,
-            promptTitle: this.properties.source ? this.properties.source.name : undefined
+            promptTitle: this.properties.source ? this.properties.source.name : undefined,
+            controls: this.properties.controls
         };
     }
 
