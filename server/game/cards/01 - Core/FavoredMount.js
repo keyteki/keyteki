@@ -16,11 +16,11 @@ class FavoredMount extends DrawCard {
         });
     }
 
-    canAttach(player, card) {
+    canAttach(card) {
         if(card.controller !== this.controller) {
             return false;
         }
-        return super.canAttach(player, card);
+        return super.canAttach(card);
     }
 }
 

@@ -16,7 +16,7 @@ class BaseCardSelector {
         if((!abilityContext.card || abilityContext.card !== context.source) && context.source) {
             abilityContext = { source: 'card', card: context.source, stage: this.stage };
         }
-        if(pretarget && context.ability && !context.ability.canPayCostsForTarget(context, card)) {
+        if(pretarget && context.ability && !context.ability.canPayCosts(context, card)) {
             return false;
         }
         return (

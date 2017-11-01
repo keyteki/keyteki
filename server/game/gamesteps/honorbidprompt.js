@@ -49,7 +49,7 @@ class HonorBidPrompt extends AllPlayerPrompt {
         return { menuTitle: 'Waiting for opponent to choose a bid.' };
     }
 
-    onMenuCommand(player, bid) {
+    menuCommand(player, bid) {
         this.game.addMessage('{0} has chosen a bid.', player);
         
         player.honorBid = bid;

@@ -167,11 +167,7 @@ class SelectCardPrompt extends UiPrompt {
         }
     }
 
-    onMenuCommand(player, arg) {
-        if(player !== this.choosingPlayer) {
-            return false;
-        }
-
+    menuCommand(player, arg) {
         if(arg !== 'done') {
             if(this.properties.onMenuCommand(player, arg)) {
                 this.complete();

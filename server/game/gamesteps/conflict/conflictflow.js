@@ -1,6 +1,5 @@
 const _ = require('underscore');
-const BaseStep = require('../basestep.js');
-const GamePipeline = require('../../gamepipeline.js');
+const BaseStepWithPipeline = require('../basestepwithpipeline.js');
 const SimpleStep = require('../simplestep.js');
 const ConflictActionWindow = require('../conflictactionwindow.js');
 const InitiateConflictPrompt = require('./initiateconflictprompt.js');
@@ -20,11 +19,10 @@ Conflict Resolution
 3.2.8 Return home. Go to (3.3).
  */
 
-class ConflictFlow extends BaseStep {
+class ConflictFlow extends BaseStepWithPipeline {
     constructor(game, conflict) {
         super(game);
         this.conflict = conflict;
-        this.pipeline = new GamePipeline();
         this.pipeline.initialise([
             new SimpleStep(this.game, () => this.resetCards()),
             new InitiateConflictPrompt(this.game, this.conflict, this.conflict.attackingPlayer),
@@ -37,7 +35,6 @@ class ConflictFlow extends BaseStep {
             new SimpleStep(this.game, () => this.applyKeywords()),
             new SimpleStep(this.game, () => this.applyUnopposed()),
             new SimpleStep(this.game, () => this.checkBreakProvince()),
-            new SimpleStep(this.game, () => this.brokenProvinceEffect()),
             new SimpleStep(this.game, () => this.resolveRingEffects()),
             new SimpleStep(this.game, () => this.claimRing()),
             new SimpleStep(this.game, () => this.returnHome()),
@@ -68,6 +65,7 @@ class ConflictFlow extends BaseStep {
             events.push({
                 name: 'onSelectRingWithFate',
                 params: {
+                    player: this.conflict.attackingPlayer,
                     conflict: this.conflict,
                     ring: ring,
                     fate: ring.fate
@@ -271,38 +269,8 @@ class ConflictFlow extends BaseStep {
 
         let province = this.conflict.conflictProvince;
         if(this.conflict.isAttackerTheWinner() && this.conflict.skillDifference >= province.getStrength() && !province.isBroken) {
-            this.game.raiseEvent('onBreakProvince', { conflict: this.conflict, province: province }, province.breakProvince());
-            this.game.addMessage('{0} has broken {1}!', this.conflict.winner, province);
-        }
-    }
-    
-    brokenProvinceEffect() {
-        if(this.conflict.cancelled || this.conflict.isSinglePlayer || this.game.manualMode) {
-            return;
-        }
-
-        let province = this.conflict.conflictProvince;
-        if(province && province.isBroken && this.conflict.isAttackerTheWinner()) {
-            if(province.location === 'stronghold province') {
-                this.game.recordWinner(this.conflict.winner, 'conquest');
-            } else {
-                let dynastyCard = province.controller.getDynastyCardInProvince(province.location);
-                if(dynastyCard) {
-                    let promptTitle = 'Do you wish to discard ' + (dynastyCard.facedown ? 'the facedown card' : dynastyCard.name) + '?';
-                    this.game.promptWithHandlerMenu(this.conflict.winner, {
-                        activePromptTitle: promptTitle,
-                        source: 'Break ' + province.name,
-                        choices: ['Yes', 'No'],
-                        handlers: [
-                            () => {
-                                this.game.addMessage('{0} chooses to discard {1}', this.conflict.winner, dynastyCard.facedown ? 'the facedown card' : dynastyCard);
-                                province.controller.moveCard(dynastyCard, 'dynasty discard pile');
-                            },
-                            () => this.game.addMessage('{0} chooses not to discard {1}', this.conflict.winner, dynastyCard.facedown ? 'the facedown card' : dynastyCard)
-                        ]
-                    });
-                }
-            }
+            this.conflict.defendingPlayer.breakProvince(province);
+            
         }
     }
     
@@ -366,30 +334,6 @@ class ConflictFlow extends BaseStep {
         }
 
         this.conflict.finish();
-    }
-
-    onCardClicked(player, card) {
-        return this.pipeline.handleCardClicked(player, card);
-    }
-
-    onRingClicked(player, ring) {
-        return this.pipeline.handleRingClicked(player, ring);
-    }
-
-    onMenuCommand(player, arg, method) {
-        return this.pipeline.handleMenuCommand(player, arg, method);
-    }
-
-    cancelStep() {
-        this.pipeline.cancelStep();
-    }
-
-    queueStep(step) {
-        this.pipeline.queueStep(step);
-    }
-
-    continue() {
-        return this.conflict.cancelled || this.pipeline.continue();
     }
 }
 

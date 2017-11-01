@@ -87,12 +87,13 @@ class InitiateConflictPrompt extends UiPrompt {
         if((this.conflict.conflictRing === ring.element && canInitiateOtherConflictType) ||
                 (this.conflict.conflictRing !== ring.element && !canInitiateThisConflictType)) {
             this.game.flipRing(player, ring);
-            _.each(this.conflict.attackers, card => {
-                if(!card.canDeclareAsAttacker(ring.conflictType)) {
-                    this.conflict.removeFromConflict(card);
-                }
-            });
         }
+
+        _.each(this.conflict.attackers, card => {
+            if(!card.canDeclareAsAttacker(ring.conflictType)) {
+                this.conflict.removeFromConflict(card);
+            }
+        });
 
         this.conflict.conflictRing = ring.element;
         this.conflict.conflictType = ring.conflictType;
@@ -156,18 +157,43 @@ class InitiateConflictPrompt extends UiPrompt {
         return true;
     }
 
-    onMenuCommand(player, arg) {
-        if(player !== this.choosingPlayer) {
-            return false;
-        }
-
-        this.complete();
+    menuCommand(player, arg) {
         if(arg === 'done') {
-            this.conflict.conflictDeclared = true;
+            if(this.covertRemaining && this.conflict.defendingPlayer.anyCardsInPlay(card => {
+                return card.canBeBypassedByCovert() && !card.covert && !card.bowed;
+            })) {
+                this.game.promptWithHandlerMenu(this.choosingPlayer, {
+                    activePromptTitle: 'You still have unused Covert - are you sure?',
+                    source: 'Declare Conflict',
+                    choices: ['Yes', 'No'],
+                    handlers: [
+                        () => {
+                            this.complete();
+                            this.conflict.conflictDeclared = true;
+                        },
+                        () => true
+                    ]
+                });
+            } else {
+                this.complete();
+                this.conflict.conflictDeclared = true;
+            }
         } else if(arg === 'pass') {
-            this.conflict.passed = true;
-            this.game.raiseEvent('onConflictPass', { conflict: this.conflict });
-            this.game.queueSimpleStep(() => this.conflict.cancelConflict());
+            this.game.promptWithHandlerMenu(this.choosingPlayer, {
+                activePromptTitle: 'Are you sure you want to pass your conflict opportunity?',
+                source: 'Pass Conflict',
+                choices: ['Yes', 'No'],
+                handlers: [
+                    () => {
+                        this.complete();
+                        this.conflict.passed = true;
+                        this.game.queueSimpleStep(() => this.game.raiseEvent('onConflictPass', { conflict: this.conflict }));
+                        this.game.queueSimpleStep(() => this.conflict.cancelConflict());
+                    },
+                    () => true
+                ]
+            });
+            
         }
     }
 }

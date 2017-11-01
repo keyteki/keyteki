@@ -5,7 +5,10 @@ class VengefulBerserker extends DrawCard {
         this.reaction({
             title: 'Double military skill',
             when: {
-                onCardLeavesPlay: event => event.card.type === 'character' && event.card.controller === this.controller && this.game.currentConflict
+                onCardLeavesPlay: event => {
+                    let card = event.cardStateWhenLeftPlay;
+                    return card.type === 'character' && card.controller === this.controller && this.game.currentConflict;
+                }
             },
             handler: () => {
                 this.game.addMessage('{0} uses {1}\'s ability to double his military skill until the end of the conflict', this.controller, this);

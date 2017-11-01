@@ -24,11 +24,7 @@ class DynastyActionWindow extends ActionWindow {
         };
     }
 
-    onMenuCommand(player, choice) {
-        if(this.currentPlayer !== player) {
-            return false;
-        }
-        
+    menuCommand(player, choice) {
         player.canInitiateAction = false;
 
         if(choice === 'manual') {

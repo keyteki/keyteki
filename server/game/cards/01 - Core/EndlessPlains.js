@@ -6,7 +6,7 @@ class EndlessPlains extends ProvinceCard {
             when: {
                 onConflictDeclared: event => event.conflict.conflictProvince === this && event.conflict.attackers.length > 0
             },
-            cost: ability.costs.breakProvince(this),
+            cost: ability.costs.breakSelf(),
             handler: () => {
                 let otherPlayer = this.game.getOtherPlayer(this.controller);
                 this.game.promptForSelect(otherPlayer, {

@@ -1,11 +1,10 @@
 const _ = require('underscore');
 
-const BaseStep = require('./basestep.js');
-const GamePipeline = require('../gamepipeline.js');
+const BaseStepWithPipeline = require('./basestepwithpipeline.js');
 const SimpleStep = require('./simplestep.js');
 const Event = require('../event.js');
 
-class CardLeavesPlayEventWindow extends BaseStep {
+class CardLeavesPlayEventWindow extends BaseStepWithPipeline {
     constructor(game, card, destination, isSacrifice) {
         super(game);
 
@@ -15,7 +14,6 @@ class CardLeavesPlayEventWindow extends BaseStep {
             this.sacrificeEvent = new Event('onCardSacrificed', { card: card });
         }
 
-        this.pipeline = new GamePipeline();
         this.pipeline.initialise([
             new SimpleStep(game, () => this.openWindow('cancelinterrupt')),
             new SimpleStep(game, () => this.openWindow('forcedinterrupt')),
@@ -24,34 +22,6 @@ class CardLeavesPlayEventWindow extends BaseStep {
             new SimpleStep(game, () => this.openWindow('forcedreaction')),
             new SimpleStep(game, () => this.openWindow('reaction'))
         ]);
-    }
-
-    queueStep(step) {
-        this.pipeline.queueStep(step);
-    }
-
-    isComplete() {
-        return this.pipeline.length === 0;
-    }
-
-    onCardClicked(player, card) {
-        return this.pipeline.handleCardClicked(player, card);
-    }
-
-    onRingClicked(player, ring) {
-        return this.pipeline.handleRingClicked(player, ring);
-    }
-
-    onMenuCommand(player, arg, method) {
-        return this.pipeline.handleMenuCommand(player, arg, method);
-    }
-
-    cancelStep() {
-        this.pipeline.cancelStep();
-    }
-
-    continue() {
-        return this.pipeline.continue();
     }
 
     openWindow(abilityType) {
@@ -79,7 +49,10 @@ class CardLeavesPlayEventWindow extends BaseStep {
             return;
         }
         
+        this.characterEvent.cardStateWhenLeftPlay = this.characterEvent.card.createSnapshot();
+        
         _.each(this.attachmentEvents, event => {
+            event.cardStateWhenLeftPlay = event.card.createSnapshot();
             if(event.handler) {
                 event.handler(...event.params);
             }
@@ -96,6 +69,7 @@ class CardLeavesPlayEventWindow extends BaseStep {
         this.game.emit(this.characterEvent.name, ...this.characterEvent.params);
         
         if(this.sacrificeEvent) {
+            this.sacrificeEvent.cardStateWhenLeftPlay = this.characterEvent.cardStateWhenLeftPlay;
             this.game.emit(this.sacrificeEvent.name, ...this.sacrificeEvent.params);
         }
     }

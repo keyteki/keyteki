@@ -21,11 +21,11 @@ class DaimyosFavor extends DrawCard {
         });
     }
     
-    canAttach(player, card) {
-        if(card.controller !== player) {
+    canAttach(card) {
+        if(card.controller !== this.controller) {
             return false;
         }
-        return super.canAttach(player, card);
+        return super.canAttach(card);
     }
 }
 

@@ -254,6 +254,22 @@ class Game extends EventEmitter {
             this.flipRing(player, ring);
         }
     }
+    
+    conflictTopCardClicked(sourcePlayer) {
+        let player = this.getPlayerByName(sourcePlayer);
+
+        if(!player || player.conflictDeckTopCardHidden) {
+            return;
+        }
+        
+        let card = player.conflictDeck.first();
+        
+        if(this.pipeline.handleCardClicked(player, card)) {
+            return;
+        }
+
+        player.findAndUseAction(card);
+    }
 
     returnRings() {
         _.each(this.rings, ring => ring.resetRing());
@@ -676,13 +692,13 @@ class Game extends EventEmitter {
         });
     }
 
-    menuButton(playerName, arg, method) {
+    menuButton(playerName, arg, uuid, method) {
         var player = this.getPlayerByName(playerName);
         if(!player) {
             return;
         }
 
-        if(this.pipeline.handleMenuCommand(player, arg, method)) {
+        if(this.pipeline.handleMenuCommand(player, arg, uuid, method)) {
             return true;
         }
     }
@@ -780,8 +796,8 @@ class Game extends EventEmitter {
         this.abilityCardStack.pop();
     }
 
-    resolveAbility(ability, context) {
-        this.queueStep(new AbilityResolver(this, ability, context));
+    resolveAbility(context) {
+        this.queueStep(new AbilityResolver(this, context));
     }
 
     openAbilityWindow(properties) {
@@ -891,7 +907,32 @@ class Game extends EventEmitter {
         card.controller.removeCardFromPile(card);
         player.cardsInPlay.push(card);
         card.controller = player;
-        card.applyPersistentEffects();
+        card.checkForIllegalAttachments();
+        if(card.isDefending()) {
+            this.currentConflict.defenders = _.reject(this.currentConflict.defenders, c => c === card);
+            if(card.canParticipateAsAttacker(this.currentConflict.conflictType)) {
+                this.currentConflict.attackers.push(card);
+            } else {
+                this.addMessage('{0} cannot participate in the conflict any more and is sent home bowed', card);
+                card.inConflict = false;
+                player.bowCard(card);
+            }
+            card.applyPersistentEffects();
+            this.currentConflict.calculateSkill();
+        } else if(card.isAttacking()) {
+            this.currentConflict.attackers = _.reject(this.currentConflict.attackers, c => c === card);
+            if(card.canParticipateAsDefender(this.currentConflict.conflictType)) {
+                this.currentConflict.defenders.push(card);
+            } else {
+                this.addMessage('{0} cannot participate in the conflict any more and is sent home bowed', card);
+                card.inConflict = false;
+                player.bowCard(card);
+            }
+            card.applyPersistentEffects();
+            this.currentConflict.calculateSkill();
+        } else {
+            card.applyPersistentEffects();
+        }
         this.raiseEvent('onCardTakenControl', { card: card });
     }
     
@@ -1082,6 +1123,7 @@ class Game extends EventEmitter {
 
             return {
                 id: this.id,
+                manualMode: this.manualMode,
                 name: this.name,
                 owner: this.owner,
                 players: playerState,
@@ -1136,6 +1178,7 @@ class Game extends EventEmitter {
             createdAt: this.createdAt,
             gameType: this.gameType,
             id: this.id,
+            manualMode: this.manualMode,
             messages: this.gameChat.messages,
             name: this.name,
             owner: this.owner,

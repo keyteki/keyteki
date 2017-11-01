@@ -7,7 +7,7 @@ class AbilityTargetSelect {
     }
 
     canResolve(context) {
-        return _.any(this.properties.choices, condition => condition(context));
+        return _.any(this.properties.choices, condition => condition(context)) && context.ability.canPayCosts(context);
     }
 
     resolve(context, pretarget = false, noCostsFirstButton = false) {

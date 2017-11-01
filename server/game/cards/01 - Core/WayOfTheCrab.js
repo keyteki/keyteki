@@ -4,7 +4,7 @@ class WayOfTheCrab extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             condition: () => this.controller.opponent,
-            cost: ability.costs.sacrifice(card => card.type === 'character'),
+            cost: ability.costs.sacrifice(card => card.type === 'character' && card.isFaction('crab')),
             max: ability.limit.perRound(1),
             handler: context => {
                 this.game.promptForSelect(this.controller.opponent, {
@@ -14,7 +14,7 @@ class WayOfTheCrab extends DrawCard {
                     cardType: 'character',
                     buttons: [],
                     onSelect: (player, card) => {
-                        this.game.addMessage('{0} sacrifices {1} using {2} to force {3} to sacrifice {4}', this.controller, context.sacrificeCostCard, this, player, card);
+                        this.game.addMessage('{0} sacrifices {1} using {2} to force {3} to sacrifice {4}', this.controller, context.costs.sacrifice, this, player, card);
                         player.sacrificeCard(card);
                         return true;
                     }

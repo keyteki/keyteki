@@ -11,16 +11,19 @@ class PlayCharacterAction extends BaseAbility {
             ]
         });
         this.title = 'Play this character';
-        this.card = undefined;
+        this.abilityType = 'action';
+        this.cannotBeCancelled = true;
+        this.location = ['hand'];
     }
 
     meetsRequirements(context) {
         return (
             context.game.currentPhase !== 'dynasty' &&
             context.source.getType() === 'character' &&
-            context.source.location === 'hand' &&
+            this.location.includes(context.source.location) &&
             context.player.canPutIntoPlay(context.source) &&
-            context.source.canPlay()
+            context.source.canPlay() &&
+            this.canPayCosts(context)
         );
     }
 

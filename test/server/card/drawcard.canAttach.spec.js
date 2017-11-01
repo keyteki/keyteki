@@ -15,7 +15,7 @@ describe('DrawCard', function() {
             });
 
             it('should return true', function() {
-                expect(this.attachment.canAttach(this.player, this.targetCard)).toBe(true);
+                expect(this.attachment.canAttach(this.targetCard)).toBe(true);
             });
         });
 
@@ -26,7 +26,7 @@ describe('DrawCard', function() {
             });
 
             it('should return false', function() {
-                expect(this.attachment.canAttach(this.player, this.targetCard)).toBe(false);
+                expect(this.attachment.canAttach(this.targetCard)).toBe(false);
             });
         });
     });

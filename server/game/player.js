@@ -2,6 +2,7 @@ const _ = require('underscore');
 
 const Spectator = require('./spectator.js');
 const Deck = require('./deck.js');
+const AbilityContext = require('./AbilityContext.js');
 const AttachmentPrompt = require('./gamesteps/attachmentprompt.js');
 const ConflictTracker = require('./conflicttracker.js');
 const PlayableLocation = require('./playablelocation.js');
@@ -61,6 +62,7 @@ class Player extends Spectator {
         this.abilityRestrictions = [];
         this.abilityMaxByTitle = {};
         this.canInitiateAction = false;
+        this.conflictDeckTopCardHidden = true;
         this.promptedActionWindows = user.promptedActionWindows || {
             dynasty: true,
             draw: true,
@@ -348,6 +350,7 @@ class Player extends Spectator {
         if(!this.name === 'Dummy Player') {
             this.game.addMessage('{0} is shuffling their conflict deck', this);
         }
+        this.game.raiseEvent('onDeckShuffled', { player: this, deck: 'conflict deck' });
         this.conflictDeck = _(this.conflictDeck.shuffle());
     }
 
@@ -355,6 +358,7 @@ class Player extends Spectator {
         if(!this.name === 'Dummy Player') {
             this.game.addMessage('{0} is shuffling their dynasty deck', this);
         }
+        this.game.raiseEvent('onDeckShuffled', { player: this, deck: 'dynasty deck' });
         this.dynastyDeck = _(this.dynastyDeck.shuffle());
     }
 
@@ -599,20 +603,24 @@ class Player extends Spectator {
             return false;
         }
 
-        var context = {
+        var context = new AbilityContext({
             game: this.game,
             player: this,
             source: card
-        };
+        });
 
-        var actions = _.filter(card.getActions(), action => action.meetsRequirements(context) && action.canPayCosts(context) && action.canResolveTargets(context));
+        var actions = _.filter(card.getActions(), action => {
+            context.ability = action;
+            return action.meetsRequirements(context);
+        });
 
         if(actions.length === 0) {
             return false;
         }
 
         if(actions.length === 1) {
-            this.game.resolveAbility(actions[0], context);
+            context.ability = actions[0];
+            this.game.resolveAbility(context);
         } else {
             this.game.queueStep(new PlayActionPrompt(this.game, this, actions, context));
         }
@@ -714,7 +722,7 @@ class Player extends Spectator {
             card.location === 'play area' &&
             card !== attachment &&
             card.allowAttachment(attachment) &&
-            attachment.canAttach(this, card)
+            attachment.canAttach(card)
         );
     }
 
@@ -724,6 +732,7 @@ class Player extends Spectator {
             return;
         }
 
+        attachment.controller = this;
         if(!this.canAttach(attachment, card)) {
             return;
         }
@@ -735,7 +744,6 @@ class Player extends Spectator {
         if(originalParent) {
             originalParent.removeAttachment(attachment);
         }
-        attachment.controller = this;
         attachment.moveTo('play area');
         card.attachments.push(attachment);
         attachment.parent = card;
@@ -1186,6 +1194,35 @@ class Player extends Spectator {
             this.replaceDynastyCard(location);
         }
     }
+    
+    breakProvince(province) {
+        this.game.raiseEvent('onBreakProvince', { conflict: this.game.currentConflict, province: province }, () => {
+            province.breakProvince();
+            if(province.controller.opponent) {
+                this.game.addMessage('{0} has broken {1}!', province.controller.opponent, province);
+                if(province.location === 'stronghold province') {
+                    this.game.recordWinner(province.controller.opponent, 'conquest');
+                } else {
+                    let dynastyCard = province.controller.getDynastyCardInProvince(province.location);
+                    if(dynastyCard) {
+                        let promptTitle = 'Do you wish to discard ' + (dynastyCard.facedown ? 'the facedown card' : dynastyCard.name) + '?';
+                        this.game.promptWithHandlerMenu(province.controller.opponent, {
+                            activePromptTitle: promptTitle,
+                            source: 'Break ' + province.name,
+                            choices: ['Yes', 'No'],
+                            handlers: [
+                                () => {
+                                    this.game.addMessage('{0} chooses to discard {1}', province.controller.opponent, dynastyCard.facedown ? 'the facedown card' : dynastyCard);
+                                    province.controller.moveCard(dynastyCard, 'dynasty discard pile');
+                                },
+                                () => this.game.addMessage('{0} chooses not to discard {1}', province.controller.opponent, dynastyCard.facedown ? 'the facedown card' : dynastyCard)
+                            ]
+                        });
+                    }
+                }
+            }
+        });
+    }
 
     honorCard(card) {
         this.game.raiseEvent('onCardHonored', { player: this, card: card }, () => card.honor());
@@ -1462,6 +1499,7 @@ class Player extends Spectator {
                 /* outOfGamePile: this.getSummaryForCardList(this.outOfGamePile, activePlayer, false), */
                 provinceDeck: this.getSummaryForCardList(this.provinceDeck, activePlayer, true)
             },
+            conflictDeckTopCardHidden: this.conflictDeckTopCardHidden,
             disconnected: this.disconnected,
             faction: this.faction,
             firstPlayer: this.firstPlayer,

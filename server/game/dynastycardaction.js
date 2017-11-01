@@ -24,7 +24,8 @@ class DynastyCardAction extends BaseAbility {
             source.getType() === 'character' &&
             player.isCardInPlayableLocation(source, 'dynasty') &&
             player.canPutIntoPlay(source) &&
-            source.canPlay()
+            source.canPlay() &&
+            this.canPayCosts(context)
         );
     }
 

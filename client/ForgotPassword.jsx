@@ -77,7 +77,7 @@ class InnerForgotPassword extends React.Component {
                 return;
             }
 
-            this.setState({ success: 'Your request was submitted, if you have an account, an email will have been sent to the address you used to register with more instructions' });
+            this.setState({ success: 'Your request was submitted, if you have an account, an email will have been sent to the address you used to register with more instructions. This request could end up in your Spam folder, so make sure to check there if you do not see it.' });
         }).fail(() => {
             this.setState({ submitting: false });
 
