@@ -30,7 +30,7 @@ class ConflictFlow extends BaseStepWithPipeline {
             new SimpleStep(this.game, () => this.announceAttackerSkill()),
             new SimpleStep(this.game, () => this.promptForDefenders()),
             new SimpleStep(this.game, () => this.announceDefenderSkill()),
-            new ConflictActionWindow(this.game, 'Conflict Action Window', this.conflict),
+            new SimpleStep(this.game, () => this.openConflictActionWindow()),
             new SimpleStep(this.game, () => this.determineWinner()),
             new SimpleStep(this.game, () => this.applyKeywords()),
             new SimpleStep(this.game, () => this.applyUnopposed()),
@@ -166,6 +166,13 @@ class ConflictFlow extends BaseStepWithPipeline {
         }
 
         this.game.raiseEvent('onDefendersDeclared', { conflict: this.conflict });
+    }
+    
+    openConflictActionWindow() {
+        if(this.conflict.cancelled) {
+            return;
+        }
+        this.queueStep(new ConflictActionWindow(this.game, 'Conflict Action Window', this.conflict));
     }
 
     determineWinner() {
