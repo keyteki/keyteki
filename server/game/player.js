@@ -1475,8 +1475,25 @@ class Player extends Spectator {
     }
 
     discardCharactersWithNoFate() {
-        _.each(this.filterCardsInPlay(card => card.type === 'character' && card.fate === 0), character => {
-            this.discardCardFromPlay(character);
+        if(!this.anyCardsInPlay(card => card.type === 'character' && card.fate === 0 && card.allowGameAction('discardCardFromPlay'))) {
+            return;
+        }
+        this.game.promptForSelect(this, {
+            activePromptTitle: 'Choose character to discard\n(or click Done to discard all characters with no fate)',
+            waitingPromptTitle: 'Waiting for opponent to discard characters with no fate',
+            cardCondition: card => card.fate === 0 && card.allowGameAction('discardCardFromPlay') && card.location === 'play area',
+            cardType: 'character',
+            onSelect: (player, card) => {
+                player.discardCardFromPlay(card);
+                this.game.queueSimpleStep(() => player.discardCharactersWithNoFate());
+                return true;
+            },
+            onCancel: () => {
+                _.each(this.filterCardsInPlay(card => card.type === 'character' && card.fate === 0), character => {
+                    this.discardCardFromPlay(character);
+                });
+                return true;
+            }
         });
     }
 

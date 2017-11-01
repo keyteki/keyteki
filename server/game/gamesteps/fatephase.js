@@ -25,7 +25,7 @@ class FatePhase extends Phase {
     }
 
     discardCharactersWithNoFate() {
-        _.each(this.game.getPlayersInFirstPlayerOrder(), player => player.discardCharactersWithNoFate());
+        _.each(this.game.getPlayersInFirstPlayerOrder(), player => this.game.queueSimpleStep(() => player.discardCharactersWithNoFate()));
     }
     
     removeFateFromCharacters() {
