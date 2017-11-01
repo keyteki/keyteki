@@ -25,7 +25,7 @@ export class PlayerStats extends React.Component {
     getButton(stat, name, statToSet = stat) {
         return (
             <div className='state'>
-                <span><img src={ '/img/' + name + '.png' } title={ name } alt={ name } /></span>
+                <span><img src={ '/img/' + name + '.png' } title={ name } alt={ name } className='statpng' /></span>
                 { this.props.showControls ? <button className='btn btn-stat' onClick={ this.sendUpdate.bind(this, statToSet, 'down') }>
                     <img src='/img/Minus.png' title='-' alt='-' />
                 </button> : null }
@@ -62,6 +62,7 @@ export class PlayerStats extends React.Component {
 
                 { this.props.firstPlayer ? <div className='state'><img className='first-player-indicator' src='/img/first-player.png' title='First Player' /></div> : null }
                 { this.props.otherPlayer || this.props.spectating ? <div className='state'><div className='hand-size'>Hand Size: { this.props.handSize }</div></div> : null }
+                <div className='state'><div className ='hand-size'>Conflicts Remaining: { this.getStatValueOrDefault('conflictsRemaining') }  { this.getStatValueOrDefault('politicalRemaining') ? <span className='icon-political'/> : null }{ this.getStatValueOrDefault('militaryRemaining') ? <span className='icon-military'/> : null } </div></div>
 
                 { this.props.showControls ? <div className='state'>
                     <button className='btn btn-transparent' onClick={ this.onSettingsClick.bind(this) }><span className='glyphicon glyphicon-cog' />Settings</button>
