@@ -344,8 +344,8 @@ export class InnerGameBoard extends React.Component {
         this.props.sendGameMessage('toggleTimerSetting', option, value);
     }
 
-    onKeywordSettingToggle(option, value) {
-        this.props.sendGameMessage('toggleKeywordSetting', option, value);
+    onOptionSettingToggle(option, value) {
+        this.props.sendGameMessage('toggleOptionSetting', option, value);
     }
 
     onTimerExpired() {
@@ -485,7 +485,7 @@ export class InnerGameBoard extends React.Component {
                         </div>
                         <div className='modal-body col-xs-12'>
                             <GameConfiguration actionWindows={ thisPlayer.promptedActionWindows } timerSettings={ thisPlayer.timerSettings }
-                                keywordSettings={ thisPlayer.keywordSettings } onKeywordSettingToggle={ this.onKeywordSettingToggle.bind(this) }
+                                optionSettings={ thisPlayer.optionSettings } onOptionSettingToggle={ this.onOptionSettingToggle.bind(this) }
                                 onToggle={ this.onPromptedActionWindowToggle.bind(this) } onTimerSettingToggle={ this.onTimerSettingToggle.bind(this) }
                             />
                         </div>

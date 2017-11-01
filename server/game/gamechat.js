@@ -15,7 +15,7 @@ class GameChat {
         this.messages.push({ date: new Date(), message: formattedMessage });
     }
 
-    addMessage(message) {
+    getFormattedMessage(message) {
         var args = Array.from(arguments).slice(1);
         var argList = [];
 
@@ -31,9 +31,19 @@ class GameChat {
             return argList;
         }, argList);
 
-        var formattedMessage = this.formatMessage(message, args);
+        return this.formatMessage(message, args);
+    }
+
+    addMessage(message, ...args) {
+        let formattedMessage = this.getFormattedMessage(message, ...args);
 
         this.messages.push({ date: new Date(), message: formattedMessage });
+    }
+
+    addAlert(type, message, ...args) {
+        let formattedMessage = this.getFormattedMessage(message, ...args);
+
+        this.messages.push({ date: new Date(), message: { alert: { type: type, message: formattedMessage } } });
     }
 
     formatMessage(format, args) {

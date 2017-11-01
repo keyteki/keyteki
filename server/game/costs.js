@@ -255,27 +255,60 @@ const Costs = {
             }
         };
     },
-    chooseFate: function (maxfate = 3) {
+    chooseFate: function () {
         return {
             canPay: function() {
                 return true;
             },
             resolve: function(context, result = { resolved: false }) {
-                let extrafate = Math.min(context.player.fate - context.player.getReducedCost('play', context.source), maxfate);
+                let extrafate = context.player.fate - context.player.getReducedCost('play', context.source);
                 if(!context.source.allowGameAction('placeFate')) {
                     extrafate = 0;
                 }
                 let choices = [];
-                for(let i = 0; i <= extrafate; i++) {
+                let max = 3;
+                context.chooseFate = 0;
+                for(let i = 0; i <= Math.min(extrafate, max); i++) {
                     choices.push(i);
                 }
                 let handlers = _.map(choices, fate => {
                     return () => {
-                        context.chooseFate = fate;
+                        context.chooseFate += fate;
                         result.value = true;
                         result.resolved = true;
                     };
                 });
+                
+                if(extrafate > max) {
+                    choices[3] = 'More';
+                    handlers[3] = () => {
+                        max += 3;
+                        context.chooseFate += 3;
+                        let zip = _.zip(choices, handlers);
+                        zip = _.filter(zip, array => {
+                            let choice = array[0];
+                            if(choice === 'Cancel') {
+                                return true;
+                            } else if(choice === 'More') {
+                                return extrafate >= max;
+                            }
+                            return extrafate >= choice + 3;
+                        });
+                        [choices, handlers] = _.unzip(_.map(zip, array => {
+                            let [choice, handler] = array;
+                            if(_.isNumber(choice)) {
+                                return [choice + 3, handler];
+                            }
+                            return [choice, handler];
+                        }));
+                        context.game.promptWithHandlerMenu(context.player, {
+                            activePromptTitle: 'Choose additional fate',
+                            source: context.source,
+                            choices: choices,
+                            handlers: handlers
+                        });
+                    };
+                }
                 
                 choices.push('Cancel');
                 handlers.push(() => {

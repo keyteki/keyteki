@@ -61,6 +61,7 @@ class Game extends EventEmitter {
         this.abilityCardStack = [];
         this.abilityWindowStack = [];
         this.password = details.password;
+        this.roundNumber = 0;
 
         this.militaryConflictCompleted = false;
         this.politicalConflictCompleted = false;
@@ -94,6 +95,10 @@ class Game extends EventEmitter {
 
     addMessage() {
         this.gameChat.addMessage(...arguments);
+    }
+    
+    addAlert() {
+        this.gameChat.addAlert(...arguments);
     }
 
     get messages() {
@@ -721,13 +726,13 @@ class Game extends EventEmitter {
         player.timerSettings[settingName] = toggle;
     }
 
-    toggleKeywordSetting(playerName, settingName, toggle) {
+    toggleOptionSetting(playerName, settingName, toggle) {
         var player = this.getPlayerByName(playerName);
         if(!player) {
             return;
         }
 
-        player.keywordSettings[settingName] = toggle;
+        player.optionSettings[settingName] = toggle;
     }
 
     initialise() {

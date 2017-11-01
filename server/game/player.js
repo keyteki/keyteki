@@ -73,7 +73,7 @@ class Player extends Spectator {
         };
         this.timerSettings = user.settings.timerSettings || {};
         this.timerSettings.windowTimer = user.settings.windowTimer;
-        this.keywordSettings = user.settings.keywordSettings;
+        this.optionSettings = user.settings.optionSettings;
 
         this.createAdditionalPile('out of game', { title: 'Out of Game', area: 'player row' });
 
@@ -186,6 +186,18 @@ class Player extends Spectator {
                 this.moveCard(this.dynastyDeck.first(), province);
             }
         });
+    }
+    
+    flipDynastyCards() {
+        let revealedCards = [];
+        _.each(['province 1', 'province 2', 'province 3', 'province 4'], province => {
+            let card = this.getDynastyCardInProvince(province);
+            if(card) {
+                card.facedown = false;
+                revealedCards.push(card);
+            }
+        });
+        this.game.addMessage('{0} reveals {1}', this, revealedCards);
     }
     
     getDynastyCardInProvince(location) {
@@ -1475,8 +1487,25 @@ class Player extends Spectator {
     }
 
     discardCharactersWithNoFate() {
-        _.each(this.filterCardsInPlay(card => card.type === 'character' && card.fate === 0), character => {
-            this.discardCardFromPlay(character);
+        if(!this.anyCardsInPlay(card => card.type === 'character' && card.fate === 0 && card.allowGameAction('discardCardFromPlay'))) {
+            return;
+        }
+        this.game.promptForSelect(this, {
+            activePromptTitle: 'Choose character to discard\n(or click Done to discard all characters with no fate)',
+            waitingPromptTitle: 'Waiting for opponent to discard characters with no fate',
+            cardCondition: card => card.fate === 0 && card.allowGameAction('discardCardFromPlay') && card.location === 'play area',
+            cardType: 'character',
+            onSelect: (player, card) => {
+                player.discardCardFromPlay(card);
+                this.game.queueSimpleStep(() => player.discardCharactersWithNoFate());
+                return true;
+            },
+            onCancel: () => {
+                _.each(this.filterCardsInPlay(card => card.type === 'character' && card.fate === 0), character => {
+                    this.discardCardFromPlay(character);
+                });
+                return true;
+            }
         });
     }
 
@@ -1507,7 +1536,7 @@ class Player extends Spectator {
             faction: this.faction,
             firstPlayer: this.firstPlayer,
             id: this.id,
-            keywordSettings: this.keywordSettings,
+            optionSettings: this.optionSettings,
             imperialFavor: this.imperialFavor,
             left: this.left,
             name: this.name,
