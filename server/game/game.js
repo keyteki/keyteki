@@ -61,6 +61,7 @@ class Game extends EventEmitter {
         this.abilityCardStack = [];
         this.abilityWindowStack = [];
         this.password = details.password;
+        this.roundNumber = 0;
 
         this.militaryConflictCompleted = false;
         this.politicalConflictCompleted = false;
@@ -94,6 +95,10 @@ class Game extends EventEmitter {
 
     addMessage() {
         this.gameChat.addMessage(...arguments);
+    }
+    
+    addAlert() {
+        this.gameChat.addAlert(...arguments);
     }
 
     get messages() {
