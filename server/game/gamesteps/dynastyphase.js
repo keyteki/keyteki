@@ -20,29 +20,23 @@ class DynastyPhase extends Phase {
         super(game, 'dynasty');
         this.initialise([
             new SimpleStep(game, () => this.beginDynasty()),
-            new SimpleStep(game, () => this.cyclePlayers()),
+            new SimpleStep(game, () => this.flipDynastyCards()),
             new SimpleStep(game, () => this.dynastyActionWindowStep())
         ]);
     }
 
     beginDynasty() {
-        this.allPlayers = this.game.getPlayersInFirstPlayerOrder();
-        this.remainingPlayers = this.allPlayers;
-
-        _.each(this.allPlayers, player => {
+        _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
             player.beginDynasty();
         });
-
     }
 
-    cyclePlayers () {
-
-        if(typeof this.currentPlayer === 'undefined') {
-            //Get First Player
-            this.currentPlayer = this.remainingPlayers.shift();
-        }
-
-
+    flipDynastyCards () {
+        _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
+            if(player.optionSettings['flipDynasty']) {
+                player.flipDynastyCards();
+            }
+        });
     }
 
     dynastyActionWindowStep() {

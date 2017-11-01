@@ -7,9 +7,9 @@ const defaultWindows = {
     regroup: false
 };
 
-const defaultKeywordSettings = {
-    chooseOrder: false,
-    chooseCards: false
+const defaultOptionSettings = {
+    flipDynasty: true,
+    cancelOwnAbilites: false
 };
 
 const defaultSettings = {
@@ -31,7 +31,7 @@ function getUserWithDefaultsSet(user) {
     }
 
     userToReturn.settings = Object.assign({}, defaultSettings, userToReturn.settings);
-    userToReturn.settings.keywordSettings = Object.assign({}, defaultKeywordSettings, userToReturn.settings.keywordSettings);
+    userToReturn.settings.optionSettings = Object.assign({}, defaultOptionSettings, userToReturn.settings.optionSettings);
     userToReturn.settings.timerSettings = Object.assign({}, defaultTimerSettings, userToReturn.settings.timerSettings);
     userToReturn.permissions = Object.assign({}, userToReturn.permissions);
     userToReturn.promptedActionWindows = Object.assign({}, defaultWindows, userToReturn.promptedActionWindows);

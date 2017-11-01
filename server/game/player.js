@@ -73,7 +73,7 @@ class Player extends Spectator {
         };
         this.timerSettings = user.settings.timerSettings || {};
         this.timerSettings.windowTimer = user.settings.windowTimer;
-        this.keywordSettings = user.settings.keywordSettings;
+        this.optionSettings = user.settings.optionSettings;
 
         this.createAdditionalPile('out of game', { title: 'Out of Game', area: 'player row' });
 
@@ -186,6 +186,18 @@ class Player extends Spectator {
                 this.moveCard(this.dynastyDeck.first(), province);
             }
         });
+    }
+    
+    flipDynastyCards() {
+        let revealedCards = [];
+        _.each(['province 1', 'province 2', 'province 3', 'province 4'], province => {
+            let card = this.getDynastyCardInProvince(province);
+            if(card) {
+                card.facedown = false;
+                revealedCards.push(card);
+            }
+        });
+        this.game.addMessage('{0} reveals {1}', this, revealedCards);
     }
     
     getDynastyCardInProvince(location) {
@@ -1504,7 +1516,7 @@ class Player extends Spectator {
             faction: this.faction,
             firstPlayer: this.firstPlayer,
             id: this.id,
-            keywordSettings: this.keywordSettings,
+            optionSettings: this.optionSettings,
             imperialFavor: this.imperialFavor,
             left: this.left,
             name: this.name,

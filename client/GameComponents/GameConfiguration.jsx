@@ -52,9 +52,9 @@ class GameConfiguration extends React.Component {
         }
     }
 
-    onKeywordSettingToggle(option, event) {
-        if(this.props.onKeywordSettingToggle) {
-            this.props.onKeywordSettingToggle(option, event.target.checked);
+    onOptionSettingToggle(option, event) {
+        if(this.props.onOptionSettingToggle) {
+            this.props.onOptionSettingToggle(option, event.target.checked);
         }
     }
 
@@ -93,14 +93,14 @@ class GameConfiguration extends React.Component {
                         </div>
                     </div>
                     <div className='panel-title text-center'>
-                        Keywords
+                        Options
                     </div>
                     <div className='panel'>
                         <div className='form-group'>
-                            <Checkbox name='keywordSettings.chooseOrder' noGroup label={ 'Choose order of keywords' } fieldClass='col-sm-6'
-                                onChange={ this.onKeywordSettingToggle.bind(this, 'chooseOrder') } checked={ this.props.keywordSettings.chooseOrder } />
-                            <Checkbox name='keywordSettings.chooseCards' noGroup label={ 'Make keywords optional' } fieldClass='col-sm-6'
-                                onChange={ this.onKeywordSettingToggle.bind(this, 'chooseCards') } checked={ this.props.keywordSettings.chooseCards } />
+                            <Checkbox name='optionSettings.flipDynasty' noGroup label={ 'Automatically flip dynasty cards' } fieldClass='col-sm-6'
+                                onChange={ this.onOptionSettingToggle.bind(this, 'flipDynasty') } checked={ this.props.optionSettings.flipDynasty } />
+                            <Checkbox name='optionSettings.cancelOwnAbilites' noGroup label={ 'Prompt to cancel my own abilities' } fieldClass='col-sm-6'
+                                onChange={ this.onOptionSettingToggle.bind(this, 'cancelOwnAbilites') } checked={ this.props.optionSettings.chooseCards } />
                         </div>
                     </div>
                 </form>
@@ -112,10 +112,10 @@ class GameConfiguration extends React.Component {
 GameConfiguration.displayName = 'GameConfiguration';
 GameConfiguration.propTypes = {
     actionWindows: PropTypes.object,
-    keywordSettings: PropTypes.object,
-    onKeywordSettingToggle: PropTypes.func,
+    onOptionSettingToggle: PropTypes.func,
     onTimerSettingToggle: PropTypes.func,
     onToggle: PropTypes.func,
+    optionSettings: PropTypes.object,
     timerSettings: PropTypes.object
 };
 

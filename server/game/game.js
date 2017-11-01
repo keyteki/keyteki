@@ -721,13 +721,13 @@ class Game extends EventEmitter {
         player.timerSettings[settingName] = toggle;
     }
 
-    toggleKeywordSetting(playerName, settingName, toggle) {
+    toggleOptionSetting(playerName, settingName, toggle) {
         var player = this.getPlayerByName(playerName);
         if(!player) {
             return;
         }
 
-        player.keywordSettings[settingName] = toggle;
+        player.optionSettings[settingName] = toggle;
     }
 
     initialise() {
