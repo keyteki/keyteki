@@ -1493,7 +1493,7 @@ class Player extends Spectator {
         this.game.promptForSelect(this, {
             activePromptTitle: 'Choose character to discard\n(or click Done to discard all characters with no fate)',
             waitingPromptTitle: 'Waiting for opponent to discard characters with no fate',
-            cardCondition: card => card.fate === 0 && card.allowGameAction('discardCardFromPlay') && card.location === 'play area',
+            cardCondition: card => card.fate === 0 && card.allowGameAction('discardCardFromPlay') && card.location === 'play area' && card.controller === this,
             cardType: 'character',
             onSelect: (player, card) => {
                 player.discardCardFromPlay(card);
