@@ -14,7 +14,6 @@ class PlayCardAction extends BaseAbility {
             context.game.currentPhase !== 'setup' &&
             context.source.getType() === 'event' &&
             context.source.abilities.actions.length === 0 &&
-            context.source.canBePlayed() &&
             context.player.isCardInPlayableLocation(context.source, 'play') &&
             context.source.canPlay(context.player, context.source)
         );
