@@ -16,7 +16,7 @@ class CavalryReserves extends DrawCard {
                 cardCondition: card => {
                     return (card.hasTrait('cavalry') && !card.facedown &&
                             card.location === 'dynasty discard pile' &&
-                            this.controller.canPutIntoPlay(card));
+                            this.controller.canPutIntoPlay(card, true));
                 }
             },
             handler: context => {
