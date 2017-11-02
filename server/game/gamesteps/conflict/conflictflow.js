@@ -287,13 +287,18 @@ class ConflictFlow extends BaseStepWithPipeline {
         }
 
         if(this.conflict.isAttackerTheWinner()) {
-            this.game.raiseEvent('onResolveRingEffects', { player: this.conflict.winner, conflict: this.conflict }, () => this.game.promptWithHandlerMenu(this.conflict.winner, {
-                activePromptTitle: 'Do you want to resolve the conflict ring?',
-                waitingPromptTitle: 'Waiting for opponent to use decide whether to resolve the conflict ring',
-                source: 'Resolve Ring Effects',
-                choices: ['Yes', 'No'],
-                handlers: [() => this.conflict.resolveRingEffects(), () => true]
-            }));
+            let elements = this.conflict.getElements();
+            if(elements.length === 1) {
+                this.game.promptWithHandlerMenu(this.conflict.winner, {
+                    activePromptTitle: 'Do you want to resolve the ' + elements[0] + ' ring?',
+                    waitingPromptTitle: 'Waiting for opponent to use decide whether to resolve the conflict ring',
+                    source: 'Resolve Ring Effects',
+                    choices: ['Yes', 'No'],
+                    handlers: [() => this.conflict.resolveConflictRing(), () => this.game.addMessage('(0) chooses not to resolve the {1} ring', this.conflict.winner, elements[0])]
+                });
+            } else {
+                this.conflict.resolveConflictRing();
+            }
         }       
     }
     
