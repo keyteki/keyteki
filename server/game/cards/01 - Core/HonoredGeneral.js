@@ -13,7 +13,7 @@ class HonoredGeneral extends DrawCard {
                 onCardEntersPlay: event => event.card === this
             },
             handler: () => {
-                this.controller.honorCard(this);
+                this.controller.honorCard(this, this);
                 this.game.addMessage('{0} uses {1} to honor himself', this.controller, this);
             }
         });

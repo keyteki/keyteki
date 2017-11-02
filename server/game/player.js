@@ -1236,15 +1236,15 @@ class Player extends Spectator {
         });
     }
 
-    honorCard(card) {
-        this.game.raiseEvent('onCardHonored', { player: this, card: card }, () => card.honor());
+    honorCard(card, source) {
+        this.game.raiseEvent('onCardHonored', { player: this, card: card, source: source }, () => card.honor());
     }
 
-    dishonorCard(card) {
-        this.game.raiseEvent('onCardDishonored', { player: this, card: card }, () => card.dishonor());
+    dishonorCard(card, source) {
+        this.game.raiseEvent('onCardDishonored', { player: this, card: card, source: source }, () => card.dishonor());
     }
 
-    bowCard(card) {
+    bowCard(card, source) {
         if(card.bowed) {
             return;
         }
@@ -1252,11 +1252,11 @@ class Player extends Spectator {
         this.game.applyGameAction('bow', card, card => {
             card.bowed = true;
 
-            this.game.raiseEvent('onCardBowed', { player: this, card: card });
+            this.game.raiseEvent('onCardBowed', { player: this, card: card, source: source });
         });
     }
 
-    readyCard(card) {
+    readyCard(card, source) {
         if(!card.bowed) {
             return;
         }
@@ -1264,7 +1264,7 @@ class Player extends Spectator {
         this.game.applyGameAction('ready', card, card => {
             card.bowed = false;
 
-            this.game.raiseEvent('onCardStood', { player: this, card: card });
+            this.game.raiseEvent('onCardStood', { player: this, card: card, source: source });
         });
     }
 

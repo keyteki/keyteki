@@ -14,7 +14,7 @@ class NitenAdept extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to bow {2} by bowing {3}', this.controller, this, context.target, context.costs.bow);
-                this.controller.bowCard(context.target);
+                this.controller.bowCard(context.target, context.source);
             }
         });
     }

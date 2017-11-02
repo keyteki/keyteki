@@ -21,23 +21,25 @@ class CourtGames extends DrawCard {
                 if(context.target === 'Honor a character you control') {
                     this.game.promptForSelect(this.controller, {
                         cardType: 'character',
-                        cardCondition: card => this.game.currentConflict.isParticipating(card) && card.controller === this.controller && !card.isHonored,
+                        cardCondition: card => (this.game.currentConflict.isParticipating(card) && 
+                                card.controller === this.controller && card.allowGameAction('honor')),
                         source: this,
                         onSelect: (player, card) => {
                             this.game.addMessage('{0} uses {1} to honor {2}', this.controller, this, card);
-                            player.honorCard(card);
+                            player.honorCard(card, context.source);
                             return true;
                         }
                     });
                 } else {
-                    let otherPlayer = this.game.getOtherPlayer(this.controller);
+                    let otherPlayer = this.controller.opponent;
                     this.game.promptForSelect(otherPlayer, {
                         cardType: 'character',
-                        cardCondition: card => this.game.currentConflict.isParticipating(card) && card.controller === otherPlayer && card.allowGameAction('dishonor'),
+                        cardCondition: card => (this.game.currentConflict.isParticipating(card) && card.controller === otherPlayer && 
+                                card.allowGameAction('dishonor') && card.allowGameAction('target')),
                         source: this,
                         onSelect: (player, card) => {
                             this.game.addMessage('{0} uses {1} to dishonor {2}', this.controller, this, card);
-                            player.dishonorCard(card);
+                            player.dishonorCard(card, context.source);
                             return true;
                         }
                     });

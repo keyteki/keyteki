@@ -16,7 +16,7 @@ class ShizukaToshi extends StrongholdCard {
             },
             handler: context => {
                 this.game.addMessage('{0} bows {1} to bow {2}', this.controller, this, context.target);
-                this.controller.bowCard(context.target);
+                this.controller.bowCard(context.target, context.source);
             }
         });
     }
