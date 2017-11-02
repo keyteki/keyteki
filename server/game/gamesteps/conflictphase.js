@@ -58,7 +58,6 @@ class ConflictPhase extends Phase {
             }
         }
         if(conflictOpportunityRemaining) {
-            this.currentPlayer.conflicts.usedConflictOpportunity();
             var conflict = new Conflict(this.game, this.currentPlayer, this.game.getOtherPlayer(this.currentPlayer));
             this.game.currentConflict = conflict;
             if(this.currentPlayer.anyCardsInPlay(card => !card.bowed)) {
@@ -66,6 +65,7 @@ class ConflictPhase extends Phase {
             } else {
                 this.game.addMessage('{0} passes his conflict opportunity as he has no unbowed characters', this.currentPlayer);
                 conflict.passed = true;
+                this.currentPlayer.conflicts.usedConflictOpportunity();
                 this.game.queueSimpleStep(() => this.game.raiseEvent('onConflictPass', { conflict: conflict }));
             }
             this.game.queueStep(new SimpleStep(this.game, () => this.cleanupConflict()));
