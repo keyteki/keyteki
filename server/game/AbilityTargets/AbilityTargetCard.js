@@ -29,13 +29,13 @@ class AbilityTargetCard {
             buttons.push({ text: 'No more targets', arg: 'noMoreTargets' });
         }
         if(pretarget) {
+            if(!this.selector.automaticFireOnSelect()) {
+                buttons.push({ text: 'Done', arg: 'done' });
+            }
             if(!noCostsFirstButton) {
                 buttons.push({ text: 'Pay costs first', arg: 'costsFirst' });
             }
             buttons.push({ text: 'Cancel', arg: 'cancel' });
-            if(!this.selector.automaticFireOnSelect()) {
-                buttons.push({ text: 'Done', arg: 'done' });
-            }
         } else {
             buttons.push({ text: 'Done', arg: 'done' });
         }

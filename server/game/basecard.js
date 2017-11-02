@@ -337,8 +337,8 @@ class BaseCard {
         return true;
     }
     
-    canTriggerAbilities() {
-        return this.allowGameAction('triggerAbilities');
+    canTriggerAbilities(context) {
+        return this.allowGameAction('triggerAbilities', context);
     }
     
     getMenu() {
@@ -386,14 +386,14 @@ class BaseCard {
         }
     }
 
-    allowGameAction(actionType, abilityContext = this.game.getCurrentAbilityContext()) {
-        return (!_.any(this.abilityRestrictions, restriction => restriction.isMatch(actionType, this, abilityContext)) &&
-                !_.any(this.controller.abilityRestrictions, restriction => restriction.isMatch(actionType, this, abilityContext)));
+    allowGameAction(actionType, context = null) {
+        return (!_.any(this.abilityRestrictions, restriction => restriction.isMatch(actionType, this, context)) &&
+                !_.any(this.controller.abilityRestrictions, restriction => restriction.isMatch(actionType, this, context)));
     }
 
-    allowEffectFrom(sourceCard) {
-        let currentAbilityContext = { source: 'card', card: sourceCard, stage: 'effect' };
-        return !_.any(this.abilityRestrictions, restriction => restriction.isMatch('applyEffect', this, currentAbilityContext));
+    allowEffectFrom(source) {
+        let context = { game: this.game, player: source.controller, source: source, stage: 'effect' };
+        return !_.any(this.abilityRestrictions, restriction => restriction.isMatch('applyEffect', this, context));
     }
 
     addAbilityRestriction(restriction) {

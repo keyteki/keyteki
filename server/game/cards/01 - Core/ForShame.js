@@ -7,13 +7,13 @@ class ForShame extends DrawCard {
             condition: () => this.controller.anyCardsInPlay(card => card.isParticipating() && card.hasTrait('courtier')),
             target: {
                 cardType: 'character',
-                cardCondition: card => card.controller !== this.controller && card.isParticipating() && (card.allowGameAction('bow') || card.allowGameAction('dishonor'))
+                cardCondition: (card, context) => card.controller !== this.controller && card.isParticipating() && (card.allowGameAction('bow', context) || card.allowGameAction('dishonor', context))
             },
             handler: context => {
-                if(!context.target.allowGameAction('bow')) {
+                if(!context.target.allowGameAction('bow', context)) {
                     this.game.addMessage('{0} uses {1} to dishonor {2}', context.player, this, context.target);
                     context.target.controller.dishonorCard(context.target);
-                } else if(!context.target.allowGameAction('dishonor')) {
+                } else if(!context.target.allowGameAction('dishonor', context)) {
                     this.game.addMessage('{0} uses {1} to bow {2}', context.player, this, context.target);
                     context.target.controller.bowCard(context.target);                    
                 } else {

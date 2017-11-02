@@ -134,7 +134,7 @@ class CardAction extends BaseAbility {
             return false ;
         }
 
-        if(this.condition && !this.condition()) {
+        if(this.condition && !this.condition(context)) {
             return false;
         }
 
