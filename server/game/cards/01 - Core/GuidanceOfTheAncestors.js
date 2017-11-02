@@ -10,9 +10,10 @@ class GuidanceOfTheAncestors extends DrawCard {
                 let context = {
                     game: this.game,
                     player: this.controller,
-                    source: this
+                    source: this,
+                    ability: new PlayAttachmentAction()
                 };
-                this.game.resolveAbility(new PlayAttachmentAction(), context);
+                this.game.resolveAbility(context);
                 this.game.markActionAsTaken();
             }
         });
