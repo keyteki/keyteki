@@ -642,7 +642,7 @@ class Player extends Spectator {
     }
 
     canPutIntoPlay(card, inConflict = false) {
-       if(inConflict && ((this.isAttackingPlayer() && !card.allowGameAction('participateAsAttacker')) || 
+        if(inConflict && ((this.isAttackingPlayer() && !card.allowGameAction('participateAsAttacker')) || 
                 (this.isDefendingPlayer() && !card.allowGameAction('participateAsDefender')) || 
                 card.conflictOptions.cannotParticipateIn[this.game.currentConflict.conflictType])) {
             return false;
