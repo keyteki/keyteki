@@ -170,15 +170,13 @@ class InitiateConflictPrompt extends UiPrompt {
                         () => {
                             this.complete();
                             this.conflict.conflictDeclared = true;
-                            this.conflict.attackingPlayer.conflicts.usedConflictOpportunity();
-                        },
+                       },
                         () => true
                     ]
                 });
             } else {
                 this.complete();
                 this.conflict.conflictDeclared = true;
-                this.conflict.attackingPlayer.conflicts.usedConflictOpportunity();
             }
         } else if(arg === 'pass') {
             this.game.promptWithHandlerMenu(this.choosingPlayer, {
