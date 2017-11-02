@@ -14,6 +14,14 @@ const ElementToEffect = {
     water: optional => new WaterRingEffect(optional)
 };
 
+const RingNames = {
+    air: 'Air Ring',
+    earth: 'Earth Ring',
+    fire: 'Fire Ring',
+    void: 'Void Ring',
+    water: 'Water Ring'
+};
+
 class RingEffects {
     static contextFor(player, element, optional = true) {
         let factory = ElementToEffect[element];
@@ -28,6 +36,10 @@ class RingEffects {
             source: new RingSource(player, player.game.rings[element]),
             ability: factory(optional)
         }));
+    }
+    
+    static getRingName(element) {
+        return RingNames[element];
     }
 }
 

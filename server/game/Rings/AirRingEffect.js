@@ -10,12 +10,12 @@ class AirRingEffect extends BaseAbility {
                 choices: {
                     'Gain 2 Honor': () => true,
                     'Take 1 Honor from Opponent': context => context.player.opponent,
-                    'Cancel': () => optional
                 }
             }
         });
         this.title = 'Resolve the Air Ring';
         this.optional = optional;
+        this.cannotTargetFirst = !optional;
     }
 
     meetsRequirements(context) {

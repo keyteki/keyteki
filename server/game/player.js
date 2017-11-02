@@ -1346,9 +1346,9 @@ class Player extends Spectator {
         } else if(elements.length === 1) {
             queue.push(elements[0]);
             if(queue.length > 1) {
-                this.game.addMessage('{0} chooses that the rings will resolve in the following order: {1}', this.game.getFirstPlayer(), false, queue);
+                this.game.addMessage('{0} chooses that the rings will resolve in the following order: {1}', this.game.getFirstPlayer(), queue);
             }
-            _.each(queue, element => this.game.queueSimpleStep(() => this.game.resolveAbility(RingEffects.contextFor(this, elements, false))));
+            _.each(queue, element => this.game.queueSimpleStep(() => this.game.resolveAbility(RingEffects.contextFor(this, element, false))));
             return;
         } 
         let handlers = _.map(elements, element => {
@@ -1357,10 +1357,11 @@ class Player extends Spectator {
                 this.game.queueSimpleStep(() => this.resolveRingEffects(_.without(elements, element), false, queue));
             };
         });
+        let choices = _.map(elements, element => RingEffects.getRingName(element));
         this.game.promptWithHandlerMenu(this.game.getFirstPlayer(), {
             activePromptTitle: 'Choose ring resolution order',
             source: 'Ring resolution order',
-            choices: elements,
+            choices: choices,
             handlers: handlers
         });
     }

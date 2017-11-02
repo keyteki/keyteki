@@ -144,6 +144,7 @@ class Conflict {
     chooseElementsToResolve(player, optional, elementsToResolve, elements, chosenElements = []) {
         if(elements.length === 0 || elementsToResolve === 0) {
             player.resolveRingEffects(chosenElements, optional);
+            return;
         }
         let activePromptTitle = 'Choose a ring effect to resolve';
         if(chosenElements.length > 0) {
@@ -155,7 +156,7 @@ class Conflict {
             onSelect: (player, ring) => {
                 elementsToResolve--;
                 chosenElements.push(ring.element);
-                this.chooseElementsToResolve(player, optional, elementsToResolve, _.reject(elements, e => e === ring.element), chosenElements);
+                this.chooseElementsToResolve(player, optional, elementsToResolve, _.without(elements, ring.element), chosenElements);
                 return true;
             },
             onCancel: () => player.resolveRingEffects(chosenElements, optional)
