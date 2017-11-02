@@ -4,7 +4,6 @@ class ShiroNishiyama extends StrongholdCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Give defending characters +1/+1',
-            clickToActivate: true,
             cost: ability.costs.bowSelf(),
             condition: () => this.game.currentConflict && this.controller.anyCardsInPlay(card => this.game.currentConflict.isDefending(card)),
             handler: () => {
