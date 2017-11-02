@@ -170,7 +170,7 @@ class InitiateConflictPrompt extends UiPrompt {
                         () => {
                             this.complete();
                             this.conflict.conflictDeclared = true;
-                       },
+                        },
                         () => true
                     ]
                 });
