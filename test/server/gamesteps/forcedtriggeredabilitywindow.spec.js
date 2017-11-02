@@ -29,17 +29,17 @@ describe('ForcedTriggeredAbilityWindow', function() {
             this.abilityCard1 = createCard({ card: 1, name: 'The Card', controller: this.player1Spy });
             this.ability1Spy = jasmine.createSpyObj('ability', ['meetsRequirements']);
             this.ability1Spy.meetsRequirements.and.returnValue(true);
-            this.context1 = { context: 1 };
+            this.context1 = { context: 1, ability: this.ability1Spy };
 
             this.abilityCard2 = createCard({ card: 2, name: 'The Card 2', controller: this.player1Spy });
             this.ability2Spy = jasmine.createSpyObj('ability', ['meetsRequirements']);
             this.ability2Spy.meetsRequirements.and.returnValue(true);
-            this.context2 = { context: 2 };
+            this.context2 = { context: 2, ability: this.ability2Spy };
 
             this.abilityCard3 = createCard({ card: 3, name: 'Their Card', controller: this.player2Spy });
             this.ability3Spy = jasmine.createSpyObj('ability', ['meetsRequirements']);
             this.ability3Spy.meetsRequirements.and.returnValue(true);
-            this.context3 = { context: 3 };
+            this.context3 = { context: 3, ability: this.ability3Spy };
 
             this.window.abilityChoices = [
                 { id: '1', ability: this.ability1Spy, card: this.abilityCard1, context: this.context1, player: this.player1Spy },
@@ -100,7 +100,7 @@ describe('ForcedTriggeredAbilityWindow', function() {
             });
 
             it('should resolve the ability', function() {
-                expect(this.gameSpy.resolveAbility).toHaveBeenCalledWith(this.ability1Spy, this.context1);
+                expect(this.gameSpy.resolveAbility).toHaveBeenCalledWith(this.context1);
             });
 
             it('should not prompt', function() {
@@ -195,7 +195,7 @@ describe('ForcedTriggeredAbilityWindow', function() {
             });
 
             it('should resolve the ability', function() {
-                expect(this.gameSpy.resolveAbility).toHaveBeenCalledWith(this.ability1Spy, this.context1);
+                expect(this.gameSpy.resolveAbility).toHaveBeenCalledWith(this.context1);
             });
 
             it('should remove all choices for that card', function() {
