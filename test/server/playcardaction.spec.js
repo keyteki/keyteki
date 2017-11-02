@@ -69,7 +69,7 @@ describe('PlayCardAction', function () {
 
         describe('when the card is forbidden from being played', function() {
             beforeEach(function() {
-                this.cardSpy.canBePlayed.and.returnValue(false);
+                this.cardSpy.canPlay.and.returnValue(false);
             });
 
             it('should return false', function() {
