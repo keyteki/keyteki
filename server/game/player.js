@@ -641,7 +641,13 @@ class Player extends Spectator {
         return true;
     }
 
-    canPutIntoPlay(card) {
+    canPutIntoPlay(card, inConflict = false) {
+        if(inConflict && ((this.isAttackingPlayer() && !card.allowGameAction('participateAsAttacker')) || 
+                (this.isDefendingPlayer() && !card.allowGameAction('participateAsDefender')) || 
+                card.conflictOptions.cannotParticipateIn[this.game.currentConflict.conflictType])) {
+            return false;
+        }
+        
         if(!card.isUnique()) {
             return true;
         }
@@ -975,6 +981,14 @@ class Player extends Spectator {
 
     initiateConflict(conflictType) {
         this.conflicts.perform(conflictType);
+    }
+    
+    isAttackingPlayer() {
+        return this.game.currentConflict && this.game.currentConflict.attackingPlayer === this;
+    }
+
+    isDefendingPlayer() {
+        return this.game.currentConflict && this.game.currentConflict.defendingPlayer === this;
     }
 
     winConflict(conflictType, wasAttacker) {

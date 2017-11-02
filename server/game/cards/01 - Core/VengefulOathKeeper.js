@@ -6,7 +6,8 @@ class VengefulOathkeeper extends DrawCard {
             title: 'Put this into play',
             when: {
                 afterConflict: (event => event.conflict.loser === this.controller && 
-                        event.conflict.conflictType === 'military' && this.location !== 'play area')
+                        event.conflict.conflictType === 'military' && this.location !== 'play area' &&
+                        this.controller.canPutIntoPlay(this))
             },
             location: 'hand',
             handler: () => {

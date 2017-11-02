@@ -9,7 +9,7 @@ class ShosuroActress extends DrawCard {
                 cardType: 'character',
                 cardCondition: card => {
                     return (card.owner !== this.controller && card.location.includes('discard pile') && 
-                            card.getCost() < 4 && !card.hasTrait('shinobi'));
+                            card.getCost() < 4 && !card.hasTrait('shinobi') && this.controller.canPutIntoPlay(card, true));
                 }
             },
             handler: context => {

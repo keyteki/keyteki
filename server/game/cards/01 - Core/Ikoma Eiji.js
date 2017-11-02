@@ -10,7 +10,7 @@ class IkomaEiji extends DrawCard {
             handler: () => this.game.promptForSelect(this.controller, {
                 cardType: 'character',
                 cardCondition: card => (['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile'].includes(card.location) &&
-                        card.hasTrait('bushi') && card.getCost() < 4 && card.controller === this.controller),
+                        card.hasTrait('bushi') && card.getCost() < 4 && card.controller === this.controller && this.controller.canPutIntoPlay(card)),
                 onSelect: (player, card) => {
                     this.game.addMessage('{0} uses {1} to put {2} into play', player, this, card);
                     player.putIntoPlay(card);

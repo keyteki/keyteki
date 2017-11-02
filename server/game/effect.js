@@ -95,7 +95,7 @@ class Effect {
                 return false;
             }
 
-            if(!target.allowEffectFrom(this.source)) {
+            if(!(target instanceof Player) && !target.allowEffectFrom(this.source)) {
                 return false;
             }
         }
