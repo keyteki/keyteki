@@ -746,13 +746,23 @@ class Game extends EventEmitter {
 
         this.playersAndSpectators = players;
 
+        let playerWithNoStronghold = null;
+
         _.each(this.getPlayers(), player => {
             player.initialise();
+            if(!player.stronghold) {
+                playerWithNoStronghold = player;
+            }
         });
-
+        
         this.allCards = _(_.reduce(this.getPlayers(), (cards, player) => {
             return cards.concat(player.preparedDeck.allCards);
         }, []));
+
+        if(playerWithNoStronghold) {
+            this.addMessage('{0} does not have a stronghold in their decklist', playerWithNoStronghold);
+            return;
+        }
 
         this.pipeline.initialise([
             new SetupPhase(this),

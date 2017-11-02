@@ -9,6 +9,7 @@ const RingEffects = require('./RingEffects.js');
 const PlayableLocation = require('./playablelocation.js');
 const PlayActionPrompt = require('./gamesteps/playactionprompt.js');
 const PlayerPromptState = require('./playerpromptstate.js');
+const RoleCard = require('./rolecard.js');
 const StrongholdCard = require('./strongholdcard.js');
 
 const StartingHandSize = 4;
@@ -33,7 +34,8 @@ class Player extends Spectator {
         this.additionalPiles = {};
 
         this.faction = {};
-        this.stronghold = new StrongholdCard(this, {});
+        this.stronghold = null;
+        this.role = null;
 
         this.owner = owner;
         this.game = game;
@@ -458,8 +460,12 @@ class Player extends Spectator {
         var preparedDeck = deck.prepare(this);
         this.faction = preparedDeck.faction;
         this.provinceDeck = _(preparedDeck.provinceCards);
-        this.stronghold = preparedDeck.stronghold;
-        this.role = preparedDeck.role;
+        if(preparedDeck.stronghold instanceof StrongholdCard) {
+            this.stronghold = preparedDeck.stronghold;
+        }
+        if(preparedDeck.role instanceof RoleCard) {
+            this.role = preparedDeck.role;
+        }
         this.conflictDeck = _(preparedDeck.conflictCards);
         this.dynastyDeck = _(preparedDeck.dynastyCards);
         this.preparedDeck = preparedDeck;
@@ -1147,8 +1153,9 @@ class Player extends Spectator {
         this.deck.selected = false;
         this.deck = deck;
         this.deck.selected = true;
-
-        this.stronghold.cardData = deck.stronghold[0];
+        if(deck.stronghold.length > 0) {
+            this.stronghold = new StrongholdCard(this, deck.stronghold[0]);
+        }
         this.faction = deck.faction;
     }
 
@@ -1447,7 +1454,6 @@ class Player extends Spectator {
             },
             showBid: this.showBid,
             stats: this.getStats(),
-            stronghold: this.stronghold.getSummary(activePlayer),
             strongholdProvince: this.getSummaryForCardList(this.strongholdProvince, activePlayer),
             timerSettings: this.timerSettings,
             user: _.omit(this.user, ['password', 'email'])
@@ -1465,6 +1471,10 @@ class Player extends Spectator {
 
         if(this.role) {
             state.role = this.role.getSummary(activePlayer);
+        }
+        
+        if(this.stronghold) {
+            state.stronghold = this.stronghold.getSummary(activePlayer);
         }
 
         return _.extend(state, promptState);
