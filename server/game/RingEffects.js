@@ -15,7 +15,7 @@ const ElementToEffect = {
 };
 
 class RingEffects {
-    static ContextFor(player, element, optional = true) {
+    static contextFor(player, element, optional = true) {
         let factory = ElementToEffect[element];
 
         if(!factory) {

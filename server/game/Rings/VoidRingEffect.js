@@ -22,7 +22,7 @@ class VoidRingEffect extends BaseAbility {
 
     executeHandler(context) {
         context.game.addMessage('{0} resolves the {1} ring, removing a fate from {2}', context.player, 'void', context.target);
-        context.target.modifyFate(-1);
+        context.target.modifyFate(-1, context.source);
     }
 
     isAction() {

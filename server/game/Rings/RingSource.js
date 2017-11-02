@@ -13,7 +13,7 @@ class RingSource {
         this.controller = player;
         this.ring = ring;
         this.element = ring.element;
-        this.name = capitalize(ring.element) + ' Ring';
+        this.name = capitalize[ring.element] + ' Ring';
         this.id = this.name;
         this.factions = {};
         this.type = 'ring';
