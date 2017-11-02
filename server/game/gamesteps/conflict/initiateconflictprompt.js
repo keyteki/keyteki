@@ -187,7 +187,7 @@ class InitiateConflictPrompt extends UiPrompt {
                     () => {
                         this.complete();
                         this.conflict.passed = true;
-                        this.currentPlayer.conflicts.usedConflictOpportunity();
+                        this.choosingPlayer.conflicts.usedConflictOpportunity();
                         this.game.queueSimpleStep(() => this.game.raiseEvent('onConflictPass', { conflict: this.conflict }));
                         this.game.queueSimpleStep(() => this.conflict.cancelConflict());
                     },
