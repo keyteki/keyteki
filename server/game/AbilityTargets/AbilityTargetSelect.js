@@ -48,7 +48,7 @@ class AbilityTargetSelect {
             waitingPromptTitle: waitingPromptTitle,
             activePromptTitle: promptTitle,
             context: context,
-            source: context.source,
+            source: this.properties.source || context.source,
             choices: choices,
             handlers: handlers
         });
