@@ -952,7 +952,8 @@ class Game extends EventEmitter {
     }
     
     initiateDuel(source, target, resolutionHandler, costHandler = () => this.tradeHonorAfterBid()) {
-        this.queueStep(new HonorBidPrompt(this, 'Choose your bid for the duel'));
+        let totals = source.name + ': ' + parseInt(source.getMilitarySkill()) + ' vs ' + parseInt(target.getMilitarySkill()) + ': ' + target.name;
+        this.queueStep(new HonorBidPrompt(this, 'Choose your bid for the duel\n' + totals));
         this.queueStep(new SimpleStep(this, costHandler));                
         this.queueStep(new SimpleStep(this, () => {
             let myTotal = parseInt(source.getMilitarySkill()) + parseInt(source.controller.honorBid);
