@@ -134,7 +134,7 @@ class CardAction extends BaseAbility {
             return false ;
         }
 
-        if(this.condition && !this.condition()) {
+        if(this.condition && !this.condition(context)) {
             return false;
         }
 
@@ -150,7 +150,7 @@ class CardAction extends BaseAbility {
 
         this.activationContexts.push(context);
 
-        this.game.resolveAbility(this, context);
+        this.game.resolveAbility(context);
 
         return true;
     }

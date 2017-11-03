@@ -13,12 +13,12 @@ class AsakoDiplomat extends DrawCard {
                 cardCondition: card => card.location === 'play area'
             },
             handler: context => {
-                if(!context.target.allowGameAction('dishonor')) {
+                if(!context.target.allowGameAction('dishonor', context)) {
                     this.game.addMessage('{0} uses {1} to honor {2}', this.controller, this, context.target);
-                    this.controller.honorCard(context.target);
-                } else if(context.target.isHonored) {
+                    this.controller.honorCard(context.target, context.source);
+                } else if(!context.target.allowGameAction('honor', context)) {
                     this.game.addMessage('{0} uses {1} to dishonor {2}', this.controller, this, context.target);
-                    this.controller.dishonorCard(context.target);                    
+                    this.controller.dishonorCard(context.target, context.source);                    
                 } else {
                     let choices = [];
                     choices.push('Honor ' + context.target.name);
@@ -28,11 +28,11 @@ class AsakoDiplomat extends DrawCard {
                         handlers: [
                             () => {
                                 this.game.addMessage('{0} uses {1} to honor {2}', this.controller, this, context.target);
-                                this.controller.honorCard(context.target);
+                                this.controller.honorCard(context.target, context.source);
                             },
                             () => {
                                 this.game.addMessage('{0} uses {1} to dishonor {2}', this.controller, this, context.target);
-                                this.controller.dishonorCard(context.target);                                
+                                this.controller.dishonorCard(context.target, context.source);                                
                             }
                         ]
                     });

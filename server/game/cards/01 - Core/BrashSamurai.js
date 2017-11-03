@@ -9,7 +9,7 @@ class BrashSamurai extends DrawCard {
                 (this.game.currentConflict.isDefending(this) && this.game.currentConflict.defenders.length === 1)),
             handler: () => {
                 this.game.addMessage('{0} uses {1} to honor himself', this.controller, this);
-                this.controller.honorCard(this);
+                this.controller.honorCard(this, this);
             } 
         });
     }

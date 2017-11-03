@@ -20,7 +20,7 @@ class WayOfThePhoenix extends DrawCard {
                 this.untilEndOfPhase(ability => ({
                     targetType: 'player',
                     targetController: 'opponent',
-                    effect: ability.effects.playerCannotInitiateConflict((card, context) => context.source === 'ring' && elements.includes(context.card))                    
+                    effect: ability.effects.playerCannotInitiateConflict((card, context) => context.source.type === 'ring' && elements.includes(context.source.element))                    
                 }));
             }
         });

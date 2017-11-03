@@ -42,6 +42,7 @@ class AbilityResolver extends BaseStepWithPipeline {
         if(this.cancelled) {
             return;
         }
+        this.context.stage = 'costs';
         this.canPayResults = this.context.ability.resolveCosts(this.context);
     }
 
@@ -85,7 +86,7 @@ class AbilityResolver extends BaseStepWithPipeline {
         if(this.cancelled) {
             return;
         }
-
+        this.context.stage = 'effect';
         this.targetResults = this.context.ability.resolveTargets(this.context, this.targetResults);
     }
 

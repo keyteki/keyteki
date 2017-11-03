@@ -157,7 +157,7 @@ describe('BaseCard', function () {
             });
 
             it('should check each restriction', function() {
-                this.card.allowGameAction('kill');
+                this.card.allowGameAction('kill', { context: 1 });
                 expect(this.restrictionSpy1.isMatch).toHaveBeenCalledWith('kill', this.card, { context: 1 });
                 expect(this.restrictionSpy2.isMatch).toHaveBeenCalledWith('kill', this.card, { context: 1 });
             });

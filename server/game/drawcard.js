@@ -114,12 +114,16 @@ class DrawCard extends BaseCard {
         return this.fate;
     }
     
-    allowGameAction(actionType, abilityContext = this.game.getCurrentAbilityContext()) {
+    allowGameAction(actionType, context = null) {
         if(actionType === 'dishonor') {
-            if(this.isDishonored || (!super.allowGameAction('becomeDishonored', abilityContext) && !this.isHonored)) {
+            if(this.isDishonored || (!super.allowGameAction('becomeDishonored', context) && !this.isHonored)) {
                 return false;
             }
+        } else if(actionType === 'honor' && this.isHonored) {
+            return false;
         } else if(actionType === 'bow' && this.bowed) {
+            return false;
+        } else if(actionType === 'ready' && !this.bowed) {
             return false;
         } else if(actionType === 'moveToConflict' && this.game.currentConflict) {
             if(this.controller === this.game.currentConflict.attackingPlayer) {
@@ -130,7 +134,7 @@ class DrawCard extends BaseCard {
                 return false;
             }
         }
-        return super.allowGameAction(actionType, abilityContext);
+        return super.allowGameAction(actionType, context);
     }
 
     createSnapshot() {

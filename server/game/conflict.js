@@ -115,6 +115,21 @@ class Conflict {
         }
     }
     
+    chooseWhetherToResolveRingEffect(player = this.attackingPlayer) {
+        let elements = this.getElements();
+        if(elements.length === 1) {
+            this.game.promptWithHandlerMenu(player, {
+                activePromptTitle: 'Do you want to resolve the ' + elements[0] + ' ring?',
+                waitingPromptTitle: 'Waiting for opponent to use decide whether to resolve the conflict ring',
+                source: 'Resolve Ring Effects',
+                choices: ['Yes', 'No'],
+                handlers: [() => this.resolveConflictRing(player), () => this.game.addMessage('(0) chooses not to resolve the {1} ring', player, elements[0])]
+            });
+        } else {
+            this.resolveConflictRing(player);
+        }
+    }
+    
     resolveConflictRing(player = this.attackingPlayer, optional = true) {
         let elements = this.getElements();
         if(elements.length === 0) {

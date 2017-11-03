@@ -12,18 +12,14 @@ class BaseCardSelector {
     }
 
     canTarget(card, context, pretarget = false) {
-        let abilityContext = context.game.getCurrentAbilityContext();
-        if((!abilityContext.card || abilityContext.card !== context.source) && context.source) {
-            abilityContext = { source: 'card', card: context.source, stage: this.stage };
-        }
         if(pretarget && context.ability && !context.ability.canPayCosts(context, card)) {
             return false;
         }
         return (
             this.cardType.includes(card.getType()) &&
             this.cardCondition(card, context) &&
-            card.allowGameAction(this.gameAction, abilityContext) &&
-            card.allowGameAction('target', abilityContext)
+            card.allowGameAction(this.gameAction, context) &&
+            card.allowGameAction('target', context)
         );
     }
 

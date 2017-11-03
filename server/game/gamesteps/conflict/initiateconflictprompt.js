@@ -76,7 +76,7 @@ class InitiateConflictPrompt extends UiPrompt {
 
     onRingClicked(player, ring) {
         if(player !== this.choosingPlayer || ring.claimed || _.any(player.abilityRestrictions, restriction => {
-            return restriction.isMatch('initiateConflict', null, { source: 'ring', card: ring.element, stage: 'effect' });
+            return restriction.isMatch('initiateConflict', null, { source: { type: 'ring', element: ring.element } });
         })) {
             return false;
         }

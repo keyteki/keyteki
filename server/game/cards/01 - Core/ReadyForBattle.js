@@ -4,12 +4,8 @@ class ReadyForBattle extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onCardBowed: event => {
-                    let context = this.game.getCurrentAbilityContext();
-                    return (event.card.controller === this.controller && event.card.bowed &&
-                            ((context.source === 'card' && context.card.controller !== this.controller) ||
-                            (context.source === 'ring' && context.card === 'water')));
-                }
+                onCardBowed: event => (event.card.bowed && event.card.controller === this.controller && event.source && 
+                        (event.source.type === 'ring' || (event.source.type === 'card' && event.source.controller !== this.controller)))
             },
             handler: context => {
                 this.game.addMessage('{0} plays {1} to ready {2}', this.controller, this, context.event.card);
