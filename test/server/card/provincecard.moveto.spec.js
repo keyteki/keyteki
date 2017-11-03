@@ -20,23 +20,13 @@ describe('ProvinceCard', function () {
                 this.card.facedown = true;
             });
 
-            describe('when moved to the play area', function() {
+            describe('when moved to a province', function() {
                 beforeEach(function() {
-                    this.card.moveTo('play area');
+                    this.card.moveTo('province 1');
                 });
 
                 it('should not flip the card', function() {
                     expect(this.card.facedown).toBe(true);
-                });
-            });
-
-            describe('when moved to somewhere other than the play area', function() {
-                beforeEach(function() {
-                    this.card.moveTo('hand');
-                });
-
-                it('should flip the card', function() {
-                    expect(this.card.facedown).toBe(false);
                 });
             });
         });
