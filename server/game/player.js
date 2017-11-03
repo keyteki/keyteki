@@ -1187,7 +1187,7 @@ class Player extends Spectator {
         }
 
         if(['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(targetLocation)) {
-            if(['dynasty deck', 'province deck'].includes(location)) {
+            if(!card.isStronghold) {
                 card.facedown = true;
             }
             if(!this.takenDynastyMulligan && card.isDynasty) {
