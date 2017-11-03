@@ -12,10 +12,10 @@ class ForShame extends DrawCard {
             handler: context => {
                 if(!context.target.allowGameAction('bow')) {
                     this.game.addMessage('{0} uses {1} to dishonor {2}', context.player, this, context.target);
-                    context.target.controller.dishonorCard(context.target);
+                    context.target.controller.dishonorCard(context.target, context.source);
                 } else if(!context.target.allowGameAction('dishonor')) {
                     this.game.addMessage('{0} uses {1} to bow {2}', context.player, this, context.target);
-                    context.target.controller.bowCard(context.target);                    
+                    context.target.controller.bowCard(context.target, context.source);                    
                 } else {
                     this.game.promptWithHandlerMenu(context.target.controller, {
                         source: this,
@@ -24,11 +24,11 @@ class ForShame extends DrawCard {
                         handlers: [
                             () => {
                                 this.game.addMessage('{0} uses {1} to dishonor {2}', context.player, this, context.target);
-                                this.controller.dishonorCard(context.target);                                
+                                this.controller.dishonorCard(context.target, context.source);                                
                             },
                             () => {
                                 this.game.addMessage('{0} uses {1} to bow {2}', context.player, this, context.target);
-                                this.controller.bowCard(context.target);                                
+                                this.controller.bowCard(context.target, context.source);                                
                             }
                         ]
                     });

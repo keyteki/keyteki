@@ -254,22 +254,6 @@ class Game extends EventEmitter {
         this.effectEngine.add(new Effect(this, source, properties));
     }
 
-    strongholdCardClicked(sourcePlayer) {
-        var player = this.getPlayerByName(sourcePlayer);
-
-        if(!player) {
-            return;
-        }
-
-        if(player.stronghold.bowed) {
-            player.readyCard(player.stronghold);
-        } else {
-            player.bowCard(player.stronghold);
-        }
-
-        this.addMessage('{0} {1} their stronghold', player, player.stronghold.bowed ? 'bows' : 'readies');
-    }
-
     /*
      * Marks a province as selected for choosing a stronghold provice at the
      * start of the game

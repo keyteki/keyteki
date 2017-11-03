@@ -15,10 +15,10 @@ class AsakoDiplomat extends DrawCard {
             handler: context => {
                 if(!context.target.allowGameAction('dishonor')) {
                     this.game.addMessage('{0} uses {1} to honor {2}', this.controller, this, context.target);
-                    this.controller.honorCard(context.target);
-                } else if(context.target.isHonored) {
+                    this.controller.honorCard(context.target, context.source);
+                } else if(!context.target.allowGameAction('honor')) {
                     this.game.addMessage('{0} uses {1} to dishonor {2}', this.controller, this, context.target);
-                    this.controller.dishonorCard(context.target);                    
+                    this.controller.dishonorCard(context.target, context.source);                    
                 } else {
                     let choices = [];
                     choices.push('Honor ' + context.target.name);
@@ -28,11 +28,11 @@ class AsakoDiplomat extends DrawCard {
                         handlers: [
                             () => {
                                 this.game.addMessage('{0} uses {1} to honor {2}', this.controller, this, context.target);
-                                this.controller.honorCard(context.target);
+                                this.controller.honorCard(context.target, context.source);
                             },
                             () => {
                                 this.game.addMessage('{0} uses {1} to dishonor {2}', this.controller, this, context.target);
-                                this.controller.dishonorCard(context.target);                                
+                                this.controller.dishonorCard(context.target, context.source);                                
                             }
                         ]
                     });
