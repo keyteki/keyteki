@@ -26,7 +26,7 @@ class ForcedTriggeredAbilityWindow extends BaseAbilityWindow {
         }
 
         _.each(this.abilityChoices, abilityChoice => {
-            this.game.resolveAbility(abilityChoice.ability, abilityChoice.context);
+            this.game.resolveAbility(abilityChoice.context);
         });
 
         return true;
@@ -61,7 +61,7 @@ class ForcedTriggeredAbilityWindow extends BaseAbilityWindow {
                 player, choice.player.name, choice.card.name);
         }
 
-        this.game.resolveAbility(choice.ability, choice.context);
+        this.game.resolveAbility(choice.context);
         this.abilityChoices = _.reject(this.abilityChoices, ability => ability.card === choice.card);
 
         return true;
