@@ -78,10 +78,9 @@ class RegroupPhase extends Phase {
                 }
             });
             return;
-        } else {
-            this.game.addMessage('{0} discards {1} from his provinces', player, cardsToDiscard);
-            _.each(cardsToDiscard, card => player.moveCard(card, 'dynasty discard pile'));
         }
+        this.game.addMessage('{0} discards {1} from his provinces', player, cardsToDiscard);
+        _.each(cardsToDiscard, card => player.moveCard(card, 'dynasty discard pile'));
     }
     
     returnRings() {
