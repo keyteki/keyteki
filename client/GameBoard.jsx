@@ -618,6 +618,7 @@ InnerGameBoard.propTypes = {
     clearZoom: PropTypes.func,
     closeGameSocket: PropTypes.func,
     currentGame: PropTypes.object,
+    dispatch: PropTypes.func,
     sendGameMessage: PropTypes.func,
     setContextMenu: PropTypes.func,
     socket: PropTypes.object,
