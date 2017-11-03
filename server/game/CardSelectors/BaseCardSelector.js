@@ -15,11 +15,13 @@ class BaseCardSelector {
         if(pretarget && context.ability && !context.ability.canPayCosts(context, card)) {
             return false;
         }
+        if(context.stage === 'target' && !card.allowGameAction('target', context)) {
+            return false;
+        }
         return (
             this.cardType.includes(card.getType()) &&
             this.cardCondition(card, context) &&
-            card.allowGameAction(this.gameAction, context) &&
-            card.allowGameAction('target', context)
+            card.allowGameAction(this.gameAction, context)
         );
     }
 
