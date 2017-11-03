@@ -25,8 +25,8 @@ describe('DrawCard', function () {
                     this.card.moveTo('play area');
                 });
 
-                it('should not flip the card', function() {
-                    expect(this.card.facedown).toBe(true);
+                it('should flip the card', function() {
+                    expect(this.card.facedown).toBe(false);
                 });
             });
 
