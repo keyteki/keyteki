@@ -150,7 +150,7 @@ class CardAction extends BaseAbility {
 
         this.activationContexts.push(context);
 
-        this.game.resolveAbility(this, context);
+        this.game.resolveAbility(context);
 
         return true;
     }

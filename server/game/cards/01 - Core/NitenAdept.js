@@ -4,7 +4,7 @@ class NitenAdept extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Bow character',
-            condition: this.attachments && this.attachments.size() !== 0 && this.isParticipating(),
+            condition: () => this.attachments.size() > 0 && this.isParticipating(),
             cost: ability.costs.bow(card => card.getType() === 'attachment' && card.parent === this),
             target: {
                 activePromptTitle: 'Choose a character to bow',
@@ -14,7 +14,7 @@ class NitenAdept extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to bow {2} by bowing {3}', this.controller, this, context.target, context.costs.bow);
-                this.controller.bowCard(context.target);
+                this.controller.bowCard(context.target, context.source);
             }
         });
     }

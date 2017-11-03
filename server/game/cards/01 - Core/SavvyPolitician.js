@@ -12,7 +12,7 @@ class SavvyPolitician extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1}\'s ability to honor {2}', this.controller, this, context.target);
-                this.controller.honorCard(context.target);
+                this.controller.honorCard(context.target, context.source);
             }
         });
     }

@@ -25,19 +25,19 @@ class CourtGames extends DrawCard {
                         source: this,
                         onSelect: (player, card) => {
                             this.game.addMessage('{0} uses {1} to honor {2}', this.controller, this, card);
-                            player.honorCard(card);
+                            player.honorCard(card, context.source);
                             return true;
                         }
                     });
                 } else {
-                    let otherPlayer = this.game.getOtherPlayer(this.controller);
+                    let otherPlayer = this.controller.opponent;
                     this.game.promptForSelect(otherPlayer, {
                         cardType: 'character',
-                        cardCondition: card => card.isParticipating() && card.controller === otherPlayer && card.allowGameAction('dishonor', context),
+                        cardCondition: card => card.isParticipating() && card.controller === otherPlayer && card.allowGameAction('dishonor', context) && card.allowGameAction('target', context),
                         source: this,
                         onSelect: (player, card) => {
                             this.game.addMessage('{0} uses {1} to dishonor {2}', this.controller, this, card);
-                            player.dishonorCard(card);
+                            player.dishonorCard(card, context.source);
                             return true;
                         }
                     });

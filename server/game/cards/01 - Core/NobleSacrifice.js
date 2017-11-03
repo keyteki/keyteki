@@ -4,7 +4,7 @@ class NobleSacrifice extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Sacrifice friendly character',
-            cost: ability.costs.sacrifice(card => card.isHonored),
+            cost: ability.costs.sacrifice(card => card.type === 'character' && card.isHonored),
             target: {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',

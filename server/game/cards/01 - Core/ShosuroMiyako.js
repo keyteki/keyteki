@@ -31,7 +31,7 @@ class ShosuroMiyako extends DrawCard {
                         cardCondition: card => card.controller === this.controller.opponent && card.location === 'play area' && card.allowGameAction('dishonor', context),
                         onSelect: (player, card) => {
                             this.game.addMessage('{0} uses {1} - {2} chose to dishonor {3}', this.controller, this, player, card);
-                            player.dishonorCard(card);
+                            player.dishonorCard(card, context.source);
                             return true;
                         }
                     });

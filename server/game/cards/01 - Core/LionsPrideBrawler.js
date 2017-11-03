@@ -13,7 +13,7 @@ class LionsPrideBrawler extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to bow {2}', this.controller, this, context.target);
-                this.controller.bowCard(context.target);
+                this.controller.bowCard(context.target, context.source);
             }
         });
     }

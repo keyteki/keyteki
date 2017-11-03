@@ -7,7 +7,7 @@ class VenerableHistorian extends DrawCard {
             condition: () => this.isParticipating() && this.controller.opponent && this.controller.opponent.honor < this.controller.honor,
             handler: () => {
                 this.game.addMessage('{0} uses {1} to honor itself', this.controller, this);
-                this.controller.honorCard(this);
+                this.controller.honorCard(this, this);
             }
         });
     }

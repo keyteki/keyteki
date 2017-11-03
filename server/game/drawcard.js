@@ -119,7 +119,11 @@ class DrawCard extends BaseCard {
             if(this.isDishonored || (!super.allowGameAction('becomeDishonored', context) && !this.isHonored)) {
                 return false;
             }
+        } else if(actionType === 'honor' && this.isHonored) {
+            return false;
         } else if(actionType === 'bow' && this.bowed) {
+            return false;
+        } else if(actionType === 'ready' && !this.bowed) {
             return false;
         } else if(actionType === 'moveToConflict' && this.game.currentConflict) {
             if(this.controller === this.game.currentConflict.attackingPlayer) {

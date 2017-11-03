@@ -28,10 +28,10 @@ class YoungRumormonger extends DrawCard {
                 context.cancel();
                 if(context.event.name === 'onCardHonored') {
                     this.game.addMessage('{0} uses {1} to honor {2} instead of {3}', this.controller, this, context.target, context.event.card);
-                    context.target.controller.honorCard(context.target);
+                    context.target.controller.honorCard(context.target, context.source);
                 } else {
                     this.game.addMessage('{0} uses {1} to dishonor {2} instead of {3}', this.controller, this, context.target, context.event.card);
-                    context.target.controller.dishonorCard(context.target);
+                    context.target.controller.dishonorCard(context.target, context.source);
                 }
             } 
         });

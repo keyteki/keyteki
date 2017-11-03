@@ -12,7 +12,7 @@ class AgainstTheWaves extends DrawCard {
                 if(context.target.bowed) {
                     this.controller.readyCard(context.target);
                 } else {
-                    this.controller.bowCard(context.target);
+                    this.controller.bowCard(context.target, context.source);
                 }
             }
         });

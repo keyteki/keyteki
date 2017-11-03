@@ -8,7 +8,7 @@ class TogashiInitiate extends DrawCard {
             cost: ability.costs.payFateToRing(1),
             handler: context => {
                 this.game.addMessage('{0} uses {1} to honor itself by paying 1 fate to the {2} ring', this.controller,this, context.costs.payFateToRing.element);
-                this.controller.honorCard(this);
+                this.controller.honorCard(this, context.source);
             }
         });
     }

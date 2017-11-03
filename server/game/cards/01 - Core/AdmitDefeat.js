@@ -10,7 +10,7 @@ class AdmitDefeat extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to bow {2}', this.controller, this, context.target);
-                context.target.owner.bowCard(context.target);
+                context.target.owner.bowCard(context.target, context.source);
             }
         });
     }
