@@ -144,7 +144,7 @@ const Costs = {
         return {
             canPay: function(context) {
                 let amount = context.source.getCost();
-                return context.player.fate >= amount && (context.source.allowGameAction('spendFate') || amount === 0);
+                return context.player.fate >= amount && (context.source.allowGameAction('spendFate', context) || amount === 0);
             },
             pay: function(context) {
 
@@ -167,7 +167,7 @@ const Costs = {
                 } else if(context.target) {
                     reducedCost = context.player.getReducedCost(playingType, context.source, context.target);
                 }
-                return context.player.fate >= reducedCost && (context.source.allowGameAction('spendFate') || reducedCost === 0);
+                return context.player.fate >= reducedCost && (context.source.allowGameAction('spendFate', context) || reducedCost === 0);
             },
             pay: function(context) {
                 if(context.target) {
@@ -188,7 +188,7 @@ const Costs = {
     payFate: function(amount) {
         return {
             canPay: function(context) {
-                return context.player.fate >= amount && (context.source.allowGameAction('spendFate') || amount === 0);
+                return context.player.fate >= amount && (context.source.allowGameAction('spendFate', context) || amount === 0);
             },
             pay: function(context) {
                 context.game.addFate(context.player, -amount);
@@ -215,7 +215,7 @@ const Costs = {
     payFateToRing: function(amount) {
         return {
             canPay: function(context) {
-                return context.player.fate >= amount && (context.source.allowGameAction('spendFate') || amount === 0);
+                return context.player.fate >= amount && (context.source.allowGameAction('spendFate', context) || amount === 0);
             },
             resolve: function(context, result = { resolved: false }) {
                 context.game.promptForRingSelect(context.player, {
@@ -244,7 +244,7 @@ const Costs = {
     giveFateToOpponent: function(amount) {
         return {
             canPay: function(context) {
-                return context.player.fate >= amount && (context.source.allowGameAction('giveFate') || amount === 0);
+                return context.player.fate >= amount && (context.source.allowGameAction('giveFate', context) || amount === 0);
             },
             pay: function(context) {
                 context.game.addFate(context.player, -amount);
@@ -262,7 +262,7 @@ const Costs = {
             },
             resolve: function(context, result = { resolved: false }) {
                 let extrafate = context.player.fate - context.player.getReducedCost('play', context.source);
-                if(!context.source.allowGameAction('placeFate')) {
+                if(!context.source.allowGameAction('placeFate', context)) {
                     extrafate = 0;
                 }
                 let choices = [];

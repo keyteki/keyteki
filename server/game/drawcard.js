@@ -114,9 +114,9 @@ class DrawCard extends BaseCard {
         return this.fate;
     }
     
-    allowGameAction(actionType, abilityContext = this.game.getCurrentAbilityContext()) {
+    allowGameAction(actionType, context = null) {
         if(actionType === 'dishonor') {
-            if(this.isDishonored || (!super.allowGameAction('becomeDishonored', abilityContext) && !this.isHonored)) {
+            if(this.isDishonored || (!super.allowGameAction('becomeDishonored', context) && !this.isHonored)) {
                 return false;
             }
         } else if(actionType === 'honor' && this.isHonored) {
@@ -134,7 +134,7 @@ class DrawCard extends BaseCard {
                 return false;
             }
         }
-        return super.allowGameAction(actionType, abilityContext);
+        return super.allowGameAction(actionType, context);
     }
 
     createSnapshot() {

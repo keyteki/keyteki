@@ -4,12 +4,12 @@ class IdeMessenger extends DrawCard {
     setupCardAbilities(ability) {
         this.action ({
             title: 'Move an ally to a conflict',
-            condition: () => this.game.currentConflict && this.controller.getStats().fate > 0,
+            condition: () => this.game.currentConflict,
             target: {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',
                 cardCondition: (
-                    card => card.allowGameAction('moveToConflict') &&
+                    (card, context) => card.allowGameAction('moveToConflict', context) &&
                     this.game.currentConflict.isParticipating(card) === false &&
                     card.location === 'play area' &&
                     card.controller === this.controller

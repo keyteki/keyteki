@@ -4,7 +4,7 @@ class ShinjoTatsuo extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Move this and another character to the conflict',
-            condition: () => this.game.currentConflict && !this.isParticipating() && this.allowGameAction('moveToConflict'),
+            condition: context => this.game.currentConflict && !this.isParticipating() && this.allowGameAction('moveToConflict', context),
             target: {
                 cardType: 'character',
                 optional: true,

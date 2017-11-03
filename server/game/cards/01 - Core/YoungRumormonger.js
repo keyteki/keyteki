@@ -16,12 +16,12 @@ class YoungRumormonger extends DrawCard {
                         return (card !== context.event.card && 
                                 card.location === 'play area' && 
                                 card.controller === context.event.card.controller &&
-                                !card.isHonored);
+                                card.allowGameAction('honor', context));
                     }
                     return (card !== context.event.card && 
                             card.location === 'play area' && 
                             card.controller === context.event.card.controller &&
-                            card.allowGameAction('dishonor'));
+                            card.allowGameAction('dishonor', context));
                 }
             },
             handler: context => {

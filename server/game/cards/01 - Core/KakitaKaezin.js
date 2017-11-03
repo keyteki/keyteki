@@ -21,7 +21,7 @@ class KakitaKaezin extends DrawCard {
                                     card.isParticipating() && 
                                     card !== loser &&
                                     card !== winner &&
-                                    card.allowGameAction('sendHome'));
+                                    card.allowGameAction('sendHome', context));
                         });
                         this.game.raiseSimultaneousEvent(cards, {
                             eventName: 'onSendCharactersHome',

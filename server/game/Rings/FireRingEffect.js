@@ -29,7 +29,7 @@ class FireRingEffect extends BaseAbility {
                 context.player.honorCard(context.target, context.source);
             });
         }
-        if(context.target.allowGameAction('dishonor')) {
+        if(context.target.allowGameAction('dishonor', context)) {
             choices.push('Dishonor ' + context.target.name);
             handlers.push(() => {
                 context.game.addMessage('{0} resolves the {1} ring, dishonoring {2}', context.player, 'fire', context.target);

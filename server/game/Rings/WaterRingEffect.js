@@ -7,7 +7,7 @@ class WaterRingEffect extends BaseAbility {
                 activePromptTitle: 'Choose character to bow or unbow',
                 source: 'Water Ring',
                 cardType: 'character',
-                cardCondition: card => card.location === 'play area' && ((card.fate === 0 && card.allowGameAction('bow')) || card.bowed)
+                cardCondition: (card, context) => card.location === 'play area' && ((card.fate === 0 && card.allowGameAction('bow', context)) || card.bowed)
             }
         });
         this.title = 'Resolve the Water Ring';

@@ -20,7 +20,7 @@ class ShamefulDisplay extends ProvinceCard {
                     this.game.promptForSelect(this.controller, {
                         activePromptTitle: 'Choose a character to dishonor',
                         source: this,
-                        cardCondition: card => context.target.includes(card) && card.allowGameAction('dishonor'),
+                        cardCondition: card => context.target.includes(card) && card.allowGameAction('dishonor', context),
                         onSelect: (player, card) => {
                             this.resolveShamefulDisplay(_.find(context.target, c => c !== card), card);
                             return true;
@@ -30,7 +30,7 @@ class ShamefulDisplay extends ProvinceCard {
                     this.game.promptForSelect(this.controller, {
                         activePromptTitle: 'Choose a character to honor',
                         source: this,
-                        cardCondition: card => context.target.includes(card) && !card.isHonored,
+                        cardCondition: card => context.target.includes(card) && card.allowGameAction('honor', context),
                         onSelect: (player, card) => {
                             this.resolveShamefulDisplay(card, _.find(context.target, c => c !== card));
                             return true;
@@ -39,7 +39,7 @@ class ShamefulDisplay extends ProvinceCard {
                 } else {
                     let choices = ['Honor', 'Dishonor'];
                     let handlers = _.map(choices, choice => {
-                        return () => this.chooseCharacter(choice, context.target);
+                        return () => this.chooseCharacter(choice, context.target, context);
                     });
                     this.game.promptWithHandlerMenu(this.controller, {
                         activePromptTitle: 'Choose a character to:',
@@ -52,12 +52,12 @@ class ShamefulDisplay extends ProvinceCard {
         });
     }
     
-    chooseCharacter(choice, cards) {
+    chooseCharacter(choice, cards, context) {
         let promptTitle = 'Choose a character to dishonor';
-        let condition = card => cards.includes(card) && card.allowGameAction('dishonor');            
+        let condition = card => cards.includes(card) && card.allowGameAction('dishonor', context);            
         if(choice === 'Honor') {
             promptTitle = 'Choose a character to honor';
-            condition = card => cards.includes(card) && !card.isHonored;
+            condition = card => cards.includes(card) && card.allowGameAction('honor', context);
         }
         this.game.promptForSelect(this.controller, {
             activePromptTitle: promptTitle,
