@@ -213,20 +213,6 @@ class Player extends Spectator {
         return province.find(card => card.isProvince);
     }
 
-    discardFromBrokenProvinces() {
-        _.each(['province 1', 'province 2', 'province 3', 'province 4'], location => {
-            let provinceCard = this.getProvinceCardInProvince(location);
-            let dynastyCard = this.getDynastyCardInProvince(location);
-            if(dynastyCard) {
-                if(provinceCard && provinceCard.isBroken && !dynastyCard.facedown) {
-                    this.moveCard(dynastyCard,'dynasty discard pile');
-                }
-            } else {
-                this.replaceDynastyCard(location);
-            }
-        });
-    }
-
     anyCardsInPlay(predicate) {
         return this.game.allCards.any(card => card.controller === this && card.location === 'play area' && predicate(card));
     }
@@ -1201,7 +1187,7 @@ class Player extends Spectator {
         }
 
         if(['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(targetLocation)) {
-            if(!card.isStronghold) {
+            if(['dynasty deck', 'province deck'].includes(location)) {
                 card.facedown = true;
             }
             if(!this.takenDynastyMulligan && card.isDynasty) {
