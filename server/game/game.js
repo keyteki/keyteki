@@ -854,8 +854,8 @@ class Game extends EventEmitter {
         this.queueStep(new CardLeavesPlayEventWindow(this, card, destination, isSacrifice));
     }
 
-    raiseInitiateAbilityEvent(properties) {
-        this.queueStep(new InitateAbilityEventWindow(this, properties));
+    raiseInitiateAbilityEvent(context, handler) {
+        this.queueStep(new InitateAbilityEventWindow(this, context, handler));
     }
 
     /**

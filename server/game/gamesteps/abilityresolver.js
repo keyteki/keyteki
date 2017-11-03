@@ -1,6 +1,5 @@
 const _ = require('underscore');
 
-const BaseCard = require('../basecard.js');
 const BaseStepWithPipeline = require('./basestepwithpipeline.js');
 const SimpleStep = require('./simplestep.js');
 
@@ -114,10 +113,9 @@ class AbilityResolver extends BaseStepWithPipeline {
         if(this.cancelled) {
             return;
         }
+        this.cancelledByAbility = false;
         if(this.context.ability.isCardAbility()) {
-            let targets = _.flatten(_.values(this.context.targets));
-            targets = _.filter(targets, target => target instanceof BaseCard);
-            this.cancelledByAbility = true
+            this.cancelledByAbility = true;
             this.game.raiseInitiateAbilityEvent(this.context, () => this.cancelledByAbility = false);
         }
     }
