@@ -28,7 +28,7 @@ describe('PlayCardAction', function () {
             this.playerSpy.isCardInPlayableLocation.and.returnValue(true);
             this.cardSpy.getType.and.returnValue('event');
             this.cardSpy.canPlay.and.returnValue(true);
-            this.cardSpy.abilities = { actions: [] };
+            this.cardSpy.abilities = { actions: [], reactions: [] };
         });
 
         describe('when all conditions are met', function() {
