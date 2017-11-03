@@ -126,6 +126,7 @@ class ConflictTracker {
             this.conflictTypes[conflictType].performed++;
         }
         this.complete++;
+        this.usedConflictOpportunity();
     }
 
     won(conflictType, wasAttacker) {

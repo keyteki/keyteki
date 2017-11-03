@@ -7,7 +7,7 @@ class Charge extends DrawCard {
             target: {
                 cardType: 'character',
                 cardCondition: card => (['province 1', 'province 2', 'province 3', 'province 4'].includes(card.location) && 
-                        card.controller === this.controller && !card.facedown && !card.conflictOptions.cannotParticipateIn['military'])
+                        card.controller === this.controller && !card.facedown && this.controller.canPutIntoPlay(card, true))
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to bring {2} into the conflict!', this.controller, this, context.target);

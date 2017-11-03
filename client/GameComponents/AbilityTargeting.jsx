@@ -25,9 +25,27 @@ class AbilityTargeting extends React.Component {
                     src={ '/img/cards/' + (!card.facedown ? (card.id + '.jpg') : 'cardback.jpg') } />
             </div>);
     }
+    
+    renderSimpleRing(ring) {
+        return (
+            <div className='target-card vertical'>    
+                <img className='target-card-image vertical'
+                    alt={ ring.name }
+                    src={ '/img/' + ring.conflictType + '-' + ring.element + '.png' } />
+            </div>);
+    }
+
+    renderStringChoice(string) {
+        return (
+            <div className='target-card vertical'>    
+                { string }
+            </div>);
+    }
 
     render() {
-        let targetCards = _.map(this.props.targets, target => this.renderSimpleCard(target));
+        let targetCards = _.map(this.props.targets, target => {
+            return _.isString(target) ? this.renderStringChoice(target) : target.type === 'ring' ? this.renderSimpleRing(target) : this.renderSimpleCard(target);
+        });
         return (
             <div className='prompt-control-targeting'>
                 { this.renderSimpleCard(this.props.source) }

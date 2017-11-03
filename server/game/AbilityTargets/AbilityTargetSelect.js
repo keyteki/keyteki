@@ -21,7 +21,7 @@ class AbilityTargetSelect {
             player = player.opponent;
         }
         let promptTitle = this.properties.activePromptTitle || 'Select one';
-        let choices = _.filter(_.keys(this.properties.choices), key => this.properties.choices[key]());
+        let choices = _.filter(_.keys(this.properties.choices), key => this.properties.choices[key](context));
         let handlers = _.map(choices, choice => {
             return (() => {
                 result.resolved = true;
@@ -48,7 +48,7 @@ class AbilityTargetSelect {
             waitingPromptTitle: waitingPromptTitle,
             activePromptTitle: promptTitle,
             context: context,
-            source: context.source,
+            source: this.properties.source || context.source,
             choices: choices,
             handlers: handlers
         });

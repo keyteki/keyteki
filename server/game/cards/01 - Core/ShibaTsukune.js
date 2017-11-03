@@ -27,13 +27,13 @@ class ShibaTsukune extends DrawCard {
                                 },
                                 onCancel: () => {
                                     this.game.addMessage('{0} uses {1} to resolve the {2} ring', this.controller, this, firstRing.element);
-                                    player.resolveRingEffectForElement(firstRing.element);
+                                    player.resolveRingEffects(firstRing.element);
                                     return true;
                                 }
                             });
                         } else {
                             this.game.addMessage('{0} uses {1} to resolve the {2} ring', this.controller, this, firstRing.element);
-                            player.resolveRingEffectForElement(firstRing.element);
+                            player.resolveRingEffects(firstRing.element);
                         }
                         return true;
                     }

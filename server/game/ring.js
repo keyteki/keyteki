@@ -84,6 +84,17 @@ class Ring {
         this.claimedBy = '';
         this.contested = false;
     }
+    
+    getShortSummary() {
+        return {
+            id: this.element,
+            label: this.element,
+            name: this.element,
+            type: 'ring',
+            element: this.element,
+            conflictType: this.conflictType
+        };
+    }
 
     getState() {
 

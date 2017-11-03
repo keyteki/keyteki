@@ -115,19 +115,66 @@ class Conflict {
         }
     }
     
-    resolveRingEffects(player = this.attackingPlayer) {
+    chooseWhetherToResolveRingEffect(player = this.attackingPlayer) {
         let elements = this.getElements();
-        if(this.elementsToResolve >= elements.length) {
-            player.resolveRingEffects(elements);
+        if(elements.length === 1) {
+            this.game.promptWithHandlerMenu(player, {
+                activePromptTitle: 'Do you want to resolve the ' + elements[0] + ' ring?',
+                waitingPromptTitle: 'Waiting for opponent to use decide whether to resolve the conflict ring',
+                source: 'Resolve Ring Effects',
+                choices: ['Yes', 'No'],
+                handlers: [() => this.resolveConflictRing(player), () => this.game.addMessage('(0) chooses not to resolve the {1} ring', player, elements[0])]
+            });
+        } else {
+            this.resolveConflictRing(player);
+        }
+    }
+    
+    resolveConflictRing(player = this.attackingPlayer, optional = true) {
+        let elements = this.getElements();
+        if(elements.length === 0) {
             return;
         }
+        if(elements.length === 1) {
+            player.resolveRingEffects(elements, optional);
+            return;
+        }
+        if(this.elementsToResolve >= elements.length) {
+            if(optional) {
+                this.game.promptWithHandlerMenu(player, {
+                    activePromptTitle: 'Do you want to resolve all the elements of the conflict ring?',
+                    waitingPromptTitle: 'Waiting for opponent to use decide whether to resolve the conflict ring',
+                    source: 'Resolve Ring Effects',
+                    choices: ['Resolve All Elements', 'Choose Elements to Resolve'],
+                    handlers: [() => player.resolveRingEffects(elements, optional), () => this.chooseElementsToResolve(player, optional, this.elementsToResolve, elements)]
+                });
+                return;
+            }
+            player.resolveRingEffects(elements, optional);
+            return;
+        }
+        this.chooseElementsToResolve(player, optional, this.elementsToResolve, elements);
+    }
+        
+    chooseElementsToResolve(player, optional, elementsToResolve, elements, chosenElements = []) {
+        if(elements.length === 0 || elementsToResolve === 0) {
+            player.resolveRingEffects(chosenElements, optional);
+            return;
+        }
+        let activePromptTitle = 'Choose a ring effect to resolve';
+        if(chosenElements.length > 0) {
+            activePromptTitle = _.reduce(chosenElements, (string, element) => string + ' ' + element, activePromptTitle + '\nChosen elements:');
+        }
         this.game.promptForRingSelect(player, {
-            activePromptTitle: 'Choose a ring effect to resolve',
+            activePromptTitle: activePromptTitle,
             ringCondition: ring => elements.includes(ring.element),
             onSelect: (player, ring) => {
-                player.resolveRingEffectForElement(ring.element);
+                elementsToResolve--;
+                chosenElements.push(ring.element);
+                this.chooseElementsToResolve(player, optional, elementsToResolve, _.without(elements, ring.element), chosenElements);
                 return true;
-            }
+            },
+            onCancel: () => player.resolveRingEffects(chosenElements, optional)
         });
     }
     

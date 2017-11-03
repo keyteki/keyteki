@@ -1,6 +1,5 @@
 const _ = require('underscore');
 
-const BaseCard = require('../basecard.js');
 const BaseStepWithPipeline = require('./basestepwithpipeline.js');
 const SimpleStep = require('./simplestep.js');
 
@@ -115,7 +114,6 @@ class AbilityResolver extends BaseStepWithPipeline {
         }
         if(this.context.ability.isCardAbility()) {
             let targets = _.flatten(_.values(this.context.targets));
-            targets = _.filter(targets, target => target instanceof BaseCard);
             this.game.raiseInitiateAbilityEvent({ player: this.context.player, source: this.context.source, resolver: this, targets: targets });
         }
     }

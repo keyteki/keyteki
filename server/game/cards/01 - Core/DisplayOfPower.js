@@ -23,7 +23,7 @@ class DisplayOfPower extends DrawCard {
             this.game.raiseEvent('onResolveRingEffects', { 
                 player: this.controller, 
                 conflict: event.conflict 
-            }, () => event.conflict.resolveRingEffects(this.controller));
+            }, () => event.conflict.chooseWhetherToResolveRingEffect(this.controller));
         }
     }
     
