@@ -3,17 +3,16 @@ const SimpleStep = require('./simplestep.js');
 const Event = require('../event.js');
 
 class InitiateAbilityEventWindow extends BaseStepWithPipeline {
-    constructor(game, params) {
+    constructor(game, params, handler) {
         super(game);
 
         this.eventName = 'onCardAbilityInitiated';
 
-        this.event = new Event(this.eventName, params);
+        this.event = new Event(this.eventName, params, handler);
         this.pipeline.initialise([
             new SimpleStep(game, () => this.cancelInterrupts()),
-            new SimpleStep(game, () => this.raiseCardPlayed()),
             new SimpleStep(game, () => this.checkForOtherEffects()),
-            new SimpleStep(game, () => this.passCancelThroughToResolver())
+            new SimpleStep(game, () => this.executeHandler())
         ]);
     }
 
@@ -24,28 +23,6 @@ class InitiateAbilityEventWindow extends BaseStepWithPipeline {
         });
     }
 
-    forcedInterrupts() {
-        if(this.event.cancelled) {
-            return;
-        }
-
-        this.game.openAbilityWindow({
-            abilityType: 'forcedinterrupt',
-            event: this.event
-        });
-    }
-
-    interrupts() {
-        if(this.event.cancelled) {
-            return;
-        }
-
-        this.game.openAbilityWindow({
-            abilityType: 'interrupt',
-            event: this.event
-        });
-    }
-    
     checkForOtherEffects() {
         // Kisada needs to see the cancelled event so he knows that he can't cancel the next one
         /* 
@@ -56,33 +33,15 @@ class InitiateAbilityEventWindow extends BaseStepWithPipeline {
         this.game.emit(this.eventName + 'OtherEffects', ...this.event.params);
     }
 
-    forcedReactions() {
-        this.game.openAbilityWindow({
-            abilityType: 'forcedreaction',
-            event: this.event
-        });
-    }
-
-    reactions() {
-        this.game.openAbilityWindow({
-            abilityType: 'reaction',
-            event: this.event
-        });
-    }
-    
-    raiseCardPlayed() {
-        if(this.event.resolver.context.ability.isCardPlayed()) {
-            this.game.raiseEvent('onCardPlayed', { 
-                player: this.event.resolver.context.player, 
-                card: this.event.resolver.context.source, 
-                originalLocation: this.event.resolver.context.ability.originalLocation
-            });
-        }
-    }
-
-    passCancelThroughToResolver() {
+    executeHandler() {
         if(this.event.cancelled) {
-            this.event.resolver.cancelled = true;
+            return;
+        }
+
+        this.event.handler(...this.event.params);
+
+        if(!this.event.cancelled) {
+            this.game.emit(this.eventName, ...this.event.params);
         }
     }
 }

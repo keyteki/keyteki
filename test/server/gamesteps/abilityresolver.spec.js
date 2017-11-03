@@ -8,9 +8,14 @@ describe('AbilityResolver', function() {
                 handler(params);
             }
         });
+        this.game.raiseInitiateAbilityEvent.and.callFake((params, handler) => {
+            if(handler) {
+                handler(params);
+            }
+        });
+
         this.ability = jasmine.createSpyObj('ability', ['isAction', 'isCardAbility', 'isCardPlayed', 'isPlayableEventAbility', 'resolveCosts', 'payCosts', 'resolveTargets', 'executeHandler']);
         this.ability.isCardAbility.and.returnValue(true);
-        this.ability.isCardPlayed.and.returnValue(true);
         this.source = { source: 1 };
         this.player = { player: 1 };
         this.game.getPlayers.and.returnValue([this.player]);
@@ -60,7 +65,7 @@ describe('AbilityResolver', function() {
             });
 
             it('should raise the InitiateAbility event', function() {
-                expect(this.game.raiseInitiateAbilityEvent).toHaveBeenCalledWith({ player: this.player, source: this.source, resolver: jasmine.any(Object), targets: [] });
+                expect(this.game.raiseInitiateAbilityEvent).toHaveBeenCalledWith(this.context, jasmine.any(Function));
             });
         });
 
@@ -76,11 +81,10 @@ describe('AbilityResolver', function() {
                 expect(this.game.raiseEvent).not.toHaveBeenCalledWith('onCardAbilityInitiated', jasmine.any(Object), jasmine.any(Function));
             });
         });
-        /*
         describe('when the ability is an event being played', function() {
             beforeEach(function() {
                 this.ability.resolveCosts.and.returnValue([{ resolved: true, value: true }, { resolved: true, value: true }]);
-                this.ability.isPlayableEventAbility.and.returnValue(true);
+                this.ability.isCardPlayed.and.returnValue(true);
                 this.resolver.continue();
             });
 
@@ -88,7 +92,6 @@ describe('AbilityResolver', function() {
                 expect(this.game.raiseEvent).toHaveBeenCalledWith('onCardPlayed', jasmine.any(Object));
             });
         });
-        */
         describe('when not all costs can be paid', function() {
             beforeEach(function() {
                 this.ability.resolveCosts.and.returnValue([{ resolved: true, value: true }, { resolved: true, value: false }]);
