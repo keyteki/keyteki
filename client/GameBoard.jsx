@@ -500,7 +500,7 @@ export class InnerGameBoard extends React.Component {
                 { this.getPlayerHand(thisPlayer) }
                 <div className='player-stats-row'>
                     <PlayerStats stats={ otherPlayer ? otherPlayer.stats : null }
-                        user={ otherPlayer ? otherPlayer.user : null } firstPlayer={ otherPlayer && otherPlayer.firstPlayer } otherPlayer={ true } handSize={ otherPlayer && otherPlayer.cardPiles.hand ? otherPlayer.cardPiles.hand.length : 0 } />
+                        user={ otherPlayer ? otherPlayer.user : null } firstPlayer={ otherPlayer && otherPlayer.firstPlayer } otherPlayer handSize={ otherPlayer && otherPlayer.cardPiles.hand ? otherPlayer.cardPiles.hand.length : 0 } />
                 </div>
                 <div className='main-window'>
                     { this.getProvinces(thisPlayer, otherPlayer) }
