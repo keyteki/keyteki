@@ -88,15 +88,32 @@ class Game extends EventEmitter {
 
         this.pushAbilityContext('framework', null, 'framework');
     }
-
+    /*
+     * Reports errors from the game engine back to the router
+     * @param {type} e
+     * @returns {undefined}
+     */
     reportError(e) {
         this.router.handleError(this, e);
     }
 
+    /*
+     * Adds a message to the in-game chat e.g 'Jadiel draws 1 card'
+     * @param {String} message to display (can include {i} references to args)
+     * @param {} args to match the references in @string
+     * @returns {undefined}
+     */
     addMessage() {
         this.gameChat.addMessage(...arguments);
     }
     
+    /*
+     * Adds a message to in-game chat with a graphical icon
+     * @param {String} one of: 'endofround', 'success', 'info', 'danger', 'warning'
+     * @param {String} message to display (can include {i} references to args)
+     * @param {} args to match the references in @string
+     * @returns {undefined}
+     */
     addAlert() {
         this.gameChat.addAlert(...arguments);
     }
@@ -104,41 +121,81 @@ class Game extends EventEmitter {
     get messages() {
         return this.gameChat.messages;
     }
-
+    
+    /*
+     * Checks if a player is a spectator
+     * @param {Object} player
+     * @returns {Boolean}
+     */
     isSpectator(player) {
         return player.constructor === Spectator;
     }
-
+    
+    /*
+     * Checks whether a player/spectator is still in the game
+     * @param {String} playerName
+     * @returns {Boolean}
+     */
     hasActivePlayer(playerName) {
         return this.playersAndSpectators[playerName] && !this.playersAndSpectators[playerName].left;
     }
 
+    /*
+     * Get all players (not spectators) in the game
+     * @returns {Object} {name1: Player, name2: Player}
+     */
     getPlayers() {
         return _.omit(this.playersAndSpectators, player => this.isSpectator(player));
     }
 
+    /*
+     * Returns the Player object (not spectator) for a name
+     * @param {String} playerName
+     * @returns {Player}
+     */
     getPlayerByName(playerName) {
         return this.getPlayers()[playerName];
     }
 
+    /*
+     * Get all players (not spectators) with the first player at index 0
+     * @returns {Array} Array of Player objects
+     */
     getPlayersInFirstPlayerOrder() {
         return _.sortBy(this.getPlayers(), player => !player.firstPlayer);
     }
 
+    /*
+     * Get all players and spectators in the game
+     * @returns {Object} {name1: Player, name2: Player, name3: Spectator}
+     */
     getPlayersAndSpectators() {
         return this.playersAndSpectators;
     }
 
+    /*
+     * Get all spectators in the game
+     * @returns {Object} {name1: Spectator, name2: Spectator}
+     */
     getSpectators() {
         return _.pick(this.playersAndSpectators, player => this.isSpectator(player));
     }
-
+    
+    /*
+     * Gets the current First Player
+     * @returns {Player}
+     */
     getFirstPlayer() {
         return _.find(this.getPlayers(), p => {
             return p.firstPlayer;
         });
     }
 
+    /*
+     * Gets a player other than the one passed (usually their opponent)
+     * @param {Player} player
+     * @returns {Player}
+     */
     getOtherPlayer(player) {
         var otherPlayer = _.find(this.getPlayers(), p => {
             return p.name !== player.name;
@@ -147,6 +204,12 @@ class Game extends EventEmitter {
         return otherPlayer;
     }
 
+    /*
+     * Returns the card (i.e. character) with matching uuid from either players
+     * 'in play' area. 
+     * @param {String} cardId
+     * @returns {DrawCard}
+     */
     findAnyCardInPlayByUuid(cardId) {
         return _.reduce(this.getPlayers(), (card, player) => {
             if(card) {
@@ -156,10 +219,21 @@ class Game extends EventEmitter {
         }, null);
     }
 
+    /*
+     * Returns the card with matching uuid from anywhere in the game
+     * @param {String} cardId
+     * @returns {BaseCard}
+     */
     findAnyCardInAnyList(cardId) {
         return this.allCards.find(card => card.uuid === cardId);
     }
 
+    /*
+     * Returns all cards (i.e. characters) which matching the passed predicated 
+     * function from either players 'in play' area.
+     * @param {Function} predicate - card => Boolean
+     * @returns {Array} Array of DrawCard objects
+     */
     findAnyCardsInPlay(predicate) {
         var foundCards = [];
 
@@ -170,6 +244,12 @@ class Game extends EventEmitter {
         return foundCards;
     }
 
+    /*
+     * Adds a persistent/lasting/delayed effect to the effect engine
+     * @param {BaseCard} source - card generating the effect
+     * @param {Object} properties - properties for the effect - see effect.js
+     * @returns {undefined}
+     */
     addEffect(source, properties) {
         this.effectEngine.add(new Effect(this, source, properties));
     }
@@ -190,6 +270,13 @@ class Game extends EventEmitter {
         this.addMessage('{0} {1} their stronghold', player, player.stronghold.bowed ? 'bows' : 'readies');
     }
 
+    /*
+     * Marks a province as selected for choosing a stronghold provice at the
+     * start of the game
+     * @param {Player} player
+     * @param {String} provinceId - uuid of the selected province
+     * @returns {undefined}
+     */
     selectProvince(player, provinceId) {
         var province = player.findCardByUuid(player.provinceDeck, provinceId);
 
@@ -204,6 +291,12 @@ class Game extends EventEmitter {
         province.selected = true;
     }
 
+    /*
+     * This function is called from the client whenever a card is clicked
+     * @param {String} sourcePlayer - name of the clicking player
+     * @param {String} cardId - uuid of the card clicked
+     * @returns {undefined}
+     */
     cardClicked(sourcePlayer, cardId) {
         var player = this.getPlayerByName(sourcePlayer);
 
@@ -217,24 +310,28 @@ class Game extends EventEmitter {
             return;
         }
 
+        // Check to see if the current step in the pipeline is waiting for input
         if(this.pipeline.handleCardClicked(player, card)) {
             return;
         }
 
+        // If the card is in the province deck, select it
         if(card.location === 'province deck') {
             this.selectProvince(player, cardId);
             return;
         }
 
+        // Check if the card itself is waiting for a click
         if(card.onClick(player)) {
             return;
         }
 
-        //Look for actions or play actions.
+        // Look for actions or play actions for this card
         if(player.findAndUseAction(card)) {
             return;
         }
 
+        // If it's the Dynasty phase, and this is a Dynasty card in a province, flip it face up
         if(['province 1', 'province 2', 'province 3', 'province 4'].includes(card.location) && card.controller === player && card.isDynasty) {
             if(card.facedown && this.currentPhase === 'dynasty') {
                 card.facedown = false;
@@ -243,6 +340,12 @@ class Game extends EventEmitter {
         }        
     }
    
+    /*
+     * This function is called from the client whenever a ring is clicked
+     * @param {String} sourcePlayer - name of the clicking player
+     * @param {String} ringindex - element of the ring clicked
+     * @returns {undefined}
+     */
     ringClicked(sourcePlayer, ringindex) {
         var ring = this.rings[ringindex];
         var player = this.getPlayerByName(sourcePlayer);
@@ -251,41 +354,72 @@ class Game extends EventEmitter {
             return;
         }
         
+        // Check to see if the current step in the pipeline is waiting for input
         if(this.pipeline.handleRingClicked(player, ring)) {
             return;
         }
         
+        // If it's not the conflict phase and the ring hasn't been claimed, flip it
         if(this.currentPhase !== 'conflict' && !ring.claimed) {
             this.flipRing(player, ring);
         }
     }
     
+    /*
+     * This function is called from the client whenever the conflict deck is 
+     * clicked. It's primary purpose is to support implementation of Arisan
+     * Academy
+     * @param {String} sourcePlayer - name of the clicking player
+     * @returns {undefined}
+     */
     conflictTopCardClicked(sourcePlayer) {
         let player = this.getPlayerByName(sourcePlayer);
 
+        // If the top card of the conflict deck is hidden, don't do anything
         if(!player || player.conflictDeckTopCardHidden) {
             return;
         }
         
         let card = player.conflictDeck.first();
         
+        // Check to see if the current step in the pipeline is waiting for input
         if(this.pipeline.handleCardClicked(player, card)) {
             return;
         }
 
+        // Look for actions or play actions for this card
         player.findAndUseAction(card);
     }
 
+    /*
+     * Resets all the rings to unclaimed
+     * @returns {undefined}
+     */
     returnRings() {
         _.each(this.rings, ring => ring.resetRing());
     }
-
+    
+    /*
+     * @deprecated
+     * @param {type} card
+     * @param {type} menuItem
+     * @returns {Boolean}
+     */
     cardHasMenuItem(card, menuItem) {
         return card.menu && card.menu.any(m => {
             return m.method === menuItem.method;
         });
     }
 
+    /* 
+     * Handles clicks on menu commands from in-play cards
+     * @deprecated
+     * @param {type} card
+     * @param {type} player
+     * @param {type} menuItem
+     * @returns {undefined}
+     * 
+     */
     callCardMenuCommand(card, player, menuItem) {
         if(!card || !card[menuItem.method] || !this.cardHasMenuItem(card, menuItem)) {
             return;
@@ -294,6 +428,14 @@ class Game extends EventEmitter {
         card[menuItem.method](player, menuItem.arg);
     }
 
+    /*
+     * This function is called by the client when a card menu item is clicked
+     * TO DO: handle this more elegantly with a separate class?
+     * @param {String} sourcePlayer - name of clicking player
+     * @param {String} cardId - uuid of card whose menu was clicked
+     * @param {Object} menuItem - { command: String, text: String, arg: String, method: String }
+     * @returns {undefined}
+     */
     menuItemClick(sourcePlayer, cardId, menuItem) {
         var player = this.getPlayerByName(sourcePlayer);
         if(!player) {
@@ -369,7 +511,7 @@ class Game extends EventEmitter {
                 break;
         }
         
-        /*
+        /* deprecated code
         switch(card.location) {
             case 'province':
                 this.callCardMenuCommand(player.activePlot, player, menuItem);
@@ -385,6 +527,14 @@ class Game extends EventEmitter {
         */
     }
 
+    /*
+     * This function is called by the client when a ring menu item is clicked
+     * TO DO: handle this more elegantly with a separate class?
+     * @param {String} sourcePlayer - name of clicking player
+     * @param {Object} sourceRing - not sure what this is, but it has an element!
+     * @param {Object} menuItem - { command: String, text: String, arg: String, method: String }
+     * @returns {undefined}
+     */
     ringMenuItemClick(sourcePlayer, sourceRing, menuItem) {
         var player = this.getPlayerByName(sourcePlayer);
         if(!player) {
@@ -454,6 +604,12 @@ class Game extends EventEmitter {
         }
     }
 
+    /*
+     * Sets a Player flag and displays a chat message to show that a popup with a
+     * player's conflict deck is open
+     * @param {String} playerName
+     * @returns {undefined}
+     */
     showConflictDeck(playerName) {
         var player = this.getPlayerByName(playerName);
 
@@ -472,6 +628,12 @@ class Game extends EventEmitter {
         }
     }
 
+    /*
+     * Sets a Player flag and displays a chat message to show that a popup with a
+     * player's dynasty deck is open
+     * @param {String} playerName
+     * @returns {undefined}
+     */
     showDynastyDeck(playerName) {
         var player = this.getPlayerByName(playerName);
 
@@ -489,7 +651,16 @@ class Game extends EventEmitter {
             this.addMessage('{0} stops looking at their dynasty deck', player);
         }
     }
-
+    
+    /*
+     * This function is called from the client whenever a card is dragged from
+     * one place to another
+     * @param {String} playerName
+     * @param {String} cardId - uuid of card
+     * @param {String} source - area where the card was dragged from
+     * @param {String} target - area where the card was dropped
+     * @returns {undefined}
+     */
     drop(playerName, cardId, source, target) {
         var player = this.getPlayerByName(playerName);
 
@@ -513,6 +684,12 @@ class Game extends EventEmitter {
         }
     }
 
+    /*
+     * Change a players total honor
+     * @param {Player} player
+     * @param {Int} honor
+     * @returns {undefined}
+     */
     addHonor(player, honor) {
         player.honor += honor;
 
@@ -523,6 +700,12 @@ class Game extends EventEmitter {
         this.checkWinCondition(player);
     }
 
+    /*
+     * Change a players total fate
+     * @param {Player} player
+     * @param {Int} fate
+     * @returns {undefined}
+     */
     addFate(player, fate) {
         player.fate += fate;
 
@@ -531,6 +714,14 @@ class Game extends EventEmitter {
         }
     }
 
+    /*
+     * Transfer honor from one player to another (NB: parameters for honor are
+     * the opposite way round to those for fate!)
+     * @param {Player} source
+     * @param {Player} target
+     * @param {Int} honor
+     * @returns {undefined}
+     */
     transferHonor(source, target, honor) {
         var appliedHonor = Math.min(source.honor, honor);
         source.honor -= appliedHonor;
@@ -540,6 +731,14 @@ class Game extends EventEmitter {
         this.checkWinCondition(source);
     }
 
+    /*
+     * Transfer fate from one player to another (NB: parameters for honor are
+     * the opposite way round to those for fate!)
+     * @param {Player} to
+     * @param {Player} from
+     * @param {Int} fate
+     * @returns {undefined}
+     */
     transferFate(to, from, fate) {
         var appliedFate = Math.min(from.fate, fate);
 
@@ -549,6 +748,12 @@ class Game extends EventEmitter {
         this.raiseEvent('onFateTransferred', { source: from, target: to, amount: fate });
     }
 
+    /*
+     * Check to see if this player has won/lost the game due to honor (NB: this
+     * function doesn't check to see if a conquest victory has been achieved) 
+     * @param {Player} player
+     * @returns {undefined}
+     */
     checkWinCondition(player) {
         if(player.getTotalHonor() >= 25) {
             this.recordWinner(player, 'honor');
@@ -559,6 +764,13 @@ class Game extends EventEmitter {
 
     }
 
+    /*
+     * Display message declaring victory for one player, and record stats for
+     * the game
+     * @param {Player} winner
+     * @param {String} reason
+     * @returns {undefined}
+     */
     recordWinner(winner, reason) {
         if(this.winner) {
             return;
@@ -573,6 +785,11 @@ class Game extends EventEmitter {
         this.router.gameWon(this, reason, winner);
     }
     
+    /*
+     * Designate a player as First Player
+     * @param {Player} firstPlayer
+     * @returns {undefined}
+     */
     setFirstPlayer(firstPlayer) {
         _.each(this.getPlayers(), player => {
             if(player === firstPlayer) {
@@ -583,6 +800,14 @@ class Game extends EventEmitter {
         });
     }
 
+    /*
+     * Changes a Player variable and displays a message in chat
+     * @deprecated
+     * @param {String} playerName
+     * @param {String} stat
+     * @param {Int} value
+     * @returns {undefined}
+     */
     changeStat(playerName, stat, value) {
         var player = this.getPlayerByName(playerName);
         if(!player) {
@@ -600,6 +825,12 @@ class Game extends EventEmitter {
         }
     }
 
+    /* 
+     * This function is called by the client every time a player enters a chat message
+     * @param {String} playerName
+     * @param {String} message
+     * @returns {undefined}
+     */
     chat(playerName, message) {
         var player = this.playersAndSpectators[playerName];
         var args = message.split(' ');
@@ -627,6 +858,11 @@ class Game extends EventEmitter {
         this.gameChat.addChatMessage('{0} {1}', player, message);
     }
 
+    /*
+     * This is called by the client when a player clicks 'Concede'
+     * @param {String} playerName
+     * @returns {undefined}
+     */
     concede(playerName) {
         var player = this.getPlayerByName(playerName);
 
@@ -653,61 +889,120 @@ class Game extends EventEmitter {
         player.selectDeck(deck);
     }
 
+    /*
+     * Called when a player clicks Shuffle Deck on the conflict deck menu in
+     * the client
+     * @param {String} playerName
+     * @returns {undefined}
+     */
     shuffleConflictDeck(playerName) {
         var player = this.getPlayerByName(playerName);
         if(!player) {
             return;
         }
 
-        this.addMessage('{0} shuffles their conflict deck', player);
-
         player.shuffleConflictDeck();
     }
 
+    /*
+     * Called when a player clicks Shuffle Deck on the dynasty deck menu in
+     * the client
+     * @param {String} playerName
+     * @returns {undefined}
+     */
     shuffleDynastyDeck(playerName) {
         var player = this.getPlayerByName(playerName);
         if(!player) {
             return;
         }
 
-        this.addMessage('{0} shuffles their dynasty deck', player);
-
         player.shuffleDynastyDeck();
     }
 
+    /*
+     * Prompts a player with a multiple choice menu
+     * @param {Player} player
+     * @param {Object} contextObj - the object which contains the methods that are referenced by the menubuttons
+     * @param {Object} properties - see menuprompt.js
+     * @returns {undefined}
+     */
     promptWithMenu(player, contextObj, properties) {
         this.queueStep(new MenuPrompt(this, player, contextObj, properties));
     }
 
+    /*
+     * Prompts a player with a multiple choice menu
+     * @param {Player} player
+     * @param {Object} properties - see handlermenuprompt.js
+     * @returns {undefined}
+     */
     promptWithHandlerMenu(player, properties) {
         this.queueStep(new HandlerMenuPrompt(this, player, properties));
     }
 
+    /*
+     * Prompts a player to click a card
+     * @param {Player} player
+     * @param {Object} properties - see selectcardprompt.js
+     * @returns {undefined}
+     */
     promptForSelect(player, properties) {
         this.queueStep(new SelectCardPrompt(this, player, properties));
     }
 
+    /*
+     * Prompts a player to click a ring
+     * @param {Player} player
+     * @param {Object} properties - see selectringprompt.js
+     * @returns {undefined}
+     */
     promptForRingSelect(player, properties) {
         this.queueStep(new SelectRingPrompt(this, player, properties));
     }
 
+    /*
+     * Prompts a player with a multiple choice menu which corresponds to cards
+     * in their conflict deck
+     * TO DO: this is basically deprecated - needs new functionality using popups
+     * @param {type} player
+     * @param {type} properties
+     * @returns {undefined}
+     */
     promptForDeckSearch(player, properties) {
         this.raiseEvent('onBeforeDeckSearch', { source: properties.source, player: player }, event => {
             this.queueStep(new DeckSearchPrompt(this, event.player, properties));
         });
     }
 
+    /*
+     * This function is called by the client whenever a player clicks a button
+     * in a prompt
+     * @param {String} playerName
+     * @param {String} arg - arg property of the button clicked
+     * @param {String} uuid - unique identifier of the prompt clicked
+     * @param {String} method - method property of the button clicked
+     * @returns {Boolean} no idea what this does...
+     */
     menuButton(playerName, arg, uuid, method) {
         var player = this.getPlayerByName(playerName);
         if(!player) {
-            return;
+            return false;
         }
 
+        // check to see if the current step in the pipeline is waiting for input
         if(this.pipeline.handleMenuCommand(player, arg, uuid, method)) {
             return true;
         }
     }
-
+    
+    /*
+     * This function is called by the client when a player clicks an action window
+     * toggle in the settings menu
+     * @param {String} playerName
+     * @param {String} windowName - the name of the action window being toggled
+     * @param {Boolean} toggle - the new setting of the toggle
+     * @returns {undefined}
+     */
     togglePromptedActionWindow(playerName, windowName, toggle) {
         var player = this.getPlayerByName(playerName);
         if(!player) {
@@ -717,6 +1012,14 @@ class Game extends EventEmitter {
         player.promptedActionWindows[windowName] = toggle;
     }
 
+    /*
+     * This function is called by the client when a player clicks an timer setting
+     * toggle in the settings menu
+     * @param {String} playerName
+     * @param {String} settingName - the name of the setting being toggled
+     * @param {Boolean} toggle - the new setting of the toggle
+     * @returns {undefined}
+     */
     toggleTimerSetting(playerName, settingName, toggle) {
         var player = this.getPlayerByName(playerName);
         if(!player) {
@@ -726,6 +1029,14 @@ class Game extends EventEmitter {
         player.timerSettings[settingName] = toggle;
     }
 
+    /*
+     * This function is called by the client when a player clicks an option setting
+     * toggle in the settings menu
+     * @param {String} playerName
+     * @param {String} settingName - the name of the setting being toggled
+     * @param {Boolean} toggle - the new setting of the toggle
+     * @returns {undefined}
+     */
     toggleOptionSetting(playerName, settingName, toggle) {
         var player = this.getPlayerByName(playerName);
         if(!player) {
@@ -735,6 +1046,11 @@ class Game extends EventEmitter {
         player.optionSettings[settingName] = toggle;
     }
 
+    /*
+     * Sets up Player objects, creates allCards, checks each player has a stronghold
+     * and starts the game pipeline
+     * @returns {undefined}
+     */
     initialise() {
         var players = {};
 
@@ -775,6 +1091,10 @@ class Game extends EventEmitter {
         this.continue();
     }
 
+    /*
+     * Adds each of the game's main phases to the pipeline
+     * @returns {undefined}
+     */
     beginRound() {
         this.raiseEvent('onBeginRound');
         this.queueStep(new DynastyPhase(this));
@@ -785,36 +1105,81 @@ class Game extends EventEmitter {
         this.queueStep(new SimpleStep(this, () => this.beginRound()));
     }
 
+    /*
+     * Adds a step to the pipeline queue
+     * @param {BaseStep} step
+     * @returns {undefined}
+     */
     queueStep(step) {
         this.pipeline.queueStep(step);
     }
 
+    /*
+     * Creates a step which calls a handler function
+     * @param {Function} handler - () => undefined
+     * @returns {undefined}
+     */
     queueSimpleStep(handler) {
         this.pipeline.queueStep(new SimpleStep(this, handler));
     }
 
+    /*
+     * Tells the current action window that the player with priority has taken
+     * an action (and so priority should pass to the other player)
+     * @returns {undefined}
+     */
     markActionAsTaken() {
         if(this.currentActionWindow) {
             this.currentActionWindow.markActionAsTaken();
         }
     }
 
+    /*
+     * Gets context on the card ability currently being resolved
+     * @deprecated
+     * @returns {Object} - { source: String, card: BaseCard, stage: String }
+     */
     getCurrentAbilityContext() {
         return _.last(this.abilityCardStack);
     }
 
+    /*
+     * Adds information of the card ability currently being resolved to the
+     * ability stack
+     * @deprecated
+     * @param {String} source
+     * @param {BaseCard} card
+     * @param {String} stage
+     * @returns {undefined}
+     */
     pushAbilityContext(source, card, stage) {
         this.abilityCardStack.push({ source: source, card: card, stage: stage });
     }
 
+    /*
+     * Remove information about the current card ability being resolved (because
+     * it has finished resolving, or moved to a different stage of resolution)
+     * @returns {undefined}
+     */
     popAbilityContext() {
         this.abilityCardStack.pop();
     }
 
+    /*
+     * Resolves a card ability or ring effect
+     * @param {AbilityContext} context - see AbilityContext.js
+     * @returns {undefined}
+     */
     resolveAbility(context) {
         this.queueStep(new AbilityResolver(this, context));
     }
 
+    /*
+     * Opens a window for triggered card abilities to respond to an Event and
+     * adds it to the window stack
+     * @param {Object} properties - { abilityType: String, event: Event or Array of Event }
+     * @returns {undefined}
+     */
     openAbilityWindow(properties) {
         let windowClass = ['forcedreaction', 'forcedinterrupt', 'whenrevealed'].includes(properties.abilityType) ? ForcedTriggeredAbilityWindow : TriggeredAbilityWindow;
         let window = new windowClass(this, { abilityType: properties.abilityType, event: properties.event });
@@ -824,6 +1189,14 @@ class Game extends EventEmitter {
         this.queueSimpleStep(() => this.abilityWindowStack.pop());
     }
 
+    /*
+     * Looks for any currently open event windows on the stack which might trigger
+     * a new ability (from a card which has e.g. come into play, and registers
+     * the ability in those windows so it can respond to those events
+     * @param {BaseAbility} ability
+     * @param {Event} event - event which triggers ability
+     * @returns {undefined}
+     */
     registerAbility(ability, event) {
         let windowIndex = _.findLastIndex(this.abilityWindowStack, window => window.canTriggerAbility(ability));
 
@@ -839,6 +1212,17 @@ class Game extends EventEmitter {
         }
     }
 
+    /*
+     * Creates a game Event, and creates an EventWindow which will open windows 
+     * for each kind of triggered ability which can respond to it, and execute 
+     * the passed handler.
+     * TODO: return something from this function to allow the code that called
+     * it to tell whether it resolved successfully
+     * @param {String} eventName
+     * @param {Object} params - parameters for this event
+     * @param {Function} handler - (Event + params) => undefined
+     * @returns {undefined}
+     */
     raiseEvent(eventName, params, handler = () => true) {
         this.queueStep(new EventWindow(this, eventName, params || {}, handler));
     }
@@ -846,7 +1230,11 @@ class Game extends EventEmitter {
     /**
      * Raises multiple events whose resolution is performed atomically. Any
      * abilities triggered by these events will appear within the same prompt
-     * for the player.
+     * for the player. NB: this doesn't execute any handlers on passed events
+     * TODO: refactor this into EventWindow
+     * @param {Array} events - Array of Event
+     * @param {Function} handler - () => undefined
+     * @returns {undefined}
      */
     raiseAtomicEvent(events, handler = () => true) {
         this.queueStep(new AtomicEventWindow(this, events, handler));
@@ -855,17 +1243,38 @@ class Game extends EventEmitter {
     /**
      * Raises the same event across multiple cards as well as a wrapping plural
      * version of the event that lists all cards.
+     * TODO: refactor this into EventWindow
+     * @param {Array} cards - Array of BaseCard
+     * @param {Object} properties - { eventName: String, handler: Function, perCardEventName: String, perCardHandler: Function, params: Object }
+     * @returns {undefined}
      */
     raiseSimultaneousEvent(cards, properties) {
         this.queueStep(new SimultaneousEventWindow(this, cards, properties));
     }
 
+    /**
+     * Raises a custom event window for dealing with cards leaving play. Creates
+     * separate contingent events for any attachments on the card leaving play,
+     * and creates a separate sacrifice event if required. Moves the card to the
+     * specified destination during execution
+     * TODO: refactor into EventWindow
+     * @param {DrawCard} card - card leaving play
+     * @param {String} destination
+     * @param {Boolean} isSacrifice
+     * @returns {undefined}
+     */
     raiseCardLeavesPlayEvent(card, destination, isSacrifice = false) {
         this.queueStep(new CardLeavesPlayEventWindow(this, card, destination, isSacrifice));
     }
 
-    raiseInitiateAbilityEvent(properties) {
-        this.queueStep(new InitateAbilityEventWindow(this, properties));
+    /**
+     * Raises a custom event window for checking for any cancels to a card 
+     * ability
+     * @param {AbilityContext} context -
+     * @returns {undefined}
+     */
+    raiseInitiateAbilityEvent(context) {
+        this.queueStep(new InitateAbilityEventWindow(this, context));
     }
 
     /**
@@ -873,15 +1282,28 @@ class Game extends EventEmitter {
      * abilities triggered by these events will appear within the same prompt
      * for the player. Allows each event to take its own handler which will
      * all execute in the same step
+     * TODO: refactor this into EventWindow
+     * @param {Array} events - Array of Event
+     * @returns {undefined}
      */
     raiseMultipleEvents(events) {
         this.queueStep(new MultipleEventWindow(this, events));
     }
 
+    /*
+     * Flips a ring to show the opposite side (military or political)
+     * @param {Player} player
+     * @param {Ring} ring
+     * @returns {undefined}
+     */
     flipRing(player, ring) {
         ring.flipConflictType();
     }
 
+    /*
+     * Puts 1 fate on all unclaimed rings
+     * @returns {undefined}
+     */
     placeFateOnUnclaimedRings() {
         _.each(this.rings, ring => {
             if(!ring.claimed) {
@@ -890,6 +1312,11 @@ class Game extends EventEmitter {
         });
     }
 
+    /*
+     * Transfers honor equal to the difference in bids from the high bidder to
+     * the low bidder
+     * @returns {undefined}
+     */
     tradeHonorAfterBid() {
         var honorDifference = 0;
         var remainingPlayers = this.getPlayersInFirstPlayerOrder();
@@ -909,6 +1336,14 @@ class Game extends EventEmitter {
         }
     }
     
+    /*
+     * Changes the controller of a card in play to the passed player, and cleans
+     * all the related stuff up (swapping sides in a conflict, checking for
+     * illegal attachments, etc)
+     * @param {Player} player
+     * @param {DrawCard} card
+     * @returns {undefined}
+     */
     takeControl(player, card) {
         if(card.controller === player || !card.allowGameAction('takeControl')) {
             return;
@@ -951,6 +1386,17 @@ class Game extends EventEmitter {
         this.raiseEvent('onCardTakenControl', { card: card });
     }
     
+    /*
+     * Starts a duel between two characters. Prompts for bids, deals with costs
+     * of bids, and then resolves the outcome
+     * @param {DrawCard} source - card which initiated the duel
+     * @param {DrawCard} target - other card partipating in duel
+     * @param {Function} resolutionHandler - (winner, loser) => undefined //
+     * function which deals with any effects due to winning/losing the duel
+     * @param {type} costHandler - () => undefined // function which resolves 
+     * costsas a result of bids (transfering honor is the default)
+     * @returns {undefined}
+     */
     initiateDuel(source, target, resolutionHandler, costHandler = () => this.tradeHonorAfterBid()) {
         this.queueStep(new HonorBidPrompt(this, 'Choose your bid for the duel'));
         this.queueStep(new SimpleStep(this, costHandler));                
@@ -971,6 +1417,15 @@ class Game extends EventEmitter {
         }));
     }
 
+    /*
+     * Checks whether a game action can be performed on a card or an array of 
+     * cards, and performs it on all legal targets.
+     * @deprecated
+     * @param {String} actionType
+     * @param {Array or BaseCard} cards - Array of BaseCard
+     * @param {Function} func - (Array or BaseCard) => undefined
+     * @returns {undefined}
+     */
     applyGameAction(actionType, cards, func) {
         let wasArray = _.isArray(cards);
         if(!wasArray) {
@@ -1101,6 +1556,9 @@ class Game extends EventEmitter {
         this.pipeline.continue();
     }
 
+    /*
+     * This information is all logged when a game is won
+     */
     getSaveState() {
         var players = _.map(this.getPlayers(), player => {
             return {
@@ -1122,6 +1580,9 @@ class Game extends EventEmitter {
         };
     }
 
+    /*
+     * This information is sent to the client
+     */
     getState(activePlayerName) {
         let activePlayer = this.playersAndSpectators[activePlayerName] || new AnonymousSpectator();
         let playerState = {};
@@ -1159,6 +1620,9 @@ class Game extends EventEmitter {
         return this.getSummary(activePlayerName);
     }
 
+    /*
+     * This is used for debugging?
+     */
     getSummary(activePlayerName) {
         var playerSummaries = {};
 
