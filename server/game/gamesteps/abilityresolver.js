@@ -117,7 +117,9 @@ class AbilityResolver extends BaseStepWithPipeline {
         this.cancelledByAbility = false;
         if(this.context.ability.isCardAbility()) {
             this.cancelledByAbility = true;
-            this.game.raiseInitiateAbilityEvent(this.context, () => this.cancelledByAbility = false);
+            let clonedContext = _.clone(this.context);
+            clonedContext.targets = _.flatten(_.values(this.context.targets));
+            this.game.raiseInitiateAbilityEvent(clonedContext, () => this.cancelledByAbility = false);
         }
     }
 
