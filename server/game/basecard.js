@@ -320,7 +320,7 @@ class BaseCard {
             }
         });
 
-        if(targetLocation !== 'play area') {
+        if(['play area', 'conflict discard pile', 'dynasty discard pile', 'hand'].includes(targetLocation)) {
             this.facedown = false;
         }
 

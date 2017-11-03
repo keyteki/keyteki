@@ -125,12 +125,15 @@ class DrawCard extends BaseCard {
             return false;
         } else if(actionType === 'ready' && !this.bowed) {
             return false;
-        } else if(actionType === 'moveToConflict' && this.game.currentConflict) {
-            if(this.controller === this.game.currentConflict.attackingPlayer) {
-                if(!this.canParticipateAsAttacker) {
+        } else if(actionType === 'moveToConflict') {
+            if(!this.game.currentConflict) {
+                return false;
+            }
+            if(this.controller.isAttackingPlayer()) {
+                if(!this.canParticipateAsAttacker()) {
                     return false;
                 }
-            } else if(!this.canParticipateAsDefender) {
+            } else if(!this.canParticipateAsDefender()) {
                 return false;
             }
         }
