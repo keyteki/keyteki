@@ -67,19 +67,19 @@ class RegroupPhase extends Phase {
                 cardCondition: card => cardsOnUnbrokenProvinces.includes(card),
                 onSelect: (player, cards) => {
                     _.extend(cardsToDiscard, cards);
-                    this.game.addMessage('{0} discards {1} from his provinces', player, cardsToDiscard);
+                    this.game.addMessage('{0} discards {1} from their provinces', player, cardsToDiscard);
                     _.each(cardsToDiscard, card => player.moveCard(card, 'dynasty discard pile'));
                     return true;
                 },
                 onCancel: () => {
-                    this.game.addMessage('{0} discards {1} from his provinces', player, cardsToDiscard);
+                    this.game.addMessage('{0} discards {1} from their provinces', player, cardsToDiscard);
                     _.each(cardsToDiscard, card => player.moveCard(card, 'dynasty discard pile'));
                     return true;                    
                 }
             });
             return;
         }
-        this.game.addMessage('{0} discards {1} from his provinces', player, cardsToDiscard);
+        this.game.addMessage('{0} discards {1} from their provinces', player, cardsToDiscard);
         _.each(cardsToDiscard, card => player.moveCard(card, 'dynasty discard pile'));
     }
     
