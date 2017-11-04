@@ -6,14 +6,12 @@ class TearsOfAmaterasu extends ProvinceCard {
             when: {
                 onProvinceRevealed: event => event.province === this
             },
-            target: {
-                ringCondition: ring => !ring.claimed && !ring.contested,
-                mode: 'ring'
-            },
-            source: this,
             handler: context => {
-                this.game.addMessage('{0} uses {1} to change the ring to {2}', this.controller, this, context.target.element);
-                this.game.currentConflict.switchElement(context.target.element);
+                let numberOfAttackers = context.event.conflict.attackers.length
+                if numberOfAttackers > 0 {
+                    this.game.addMessage('{0} uses {1} to gain {2} fate', this.controller, this, numberOfAttackers);
+                    this.game.addFate(this.controller, numberOfAttackers);
+                }
             }
         });
     }
