@@ -598,7 +598,7 @@ class DrawCard extends BaseCard {
     }
 
     canParticipateInConflict(conflictType) {
-        return this.location === 'play area' && !this.conflictOptions.cannotParticipateIn[conflictType]
+        return this.location === 'play area' && !this.conflictOptions.cannotParticipateIn[conflictType];
     }
 
     canParticipateAsAttacker(conflictType) {
