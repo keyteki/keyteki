@@ -32,6 +32,14 @@ class Banzai extends DrawCard {
                                             match: card,
                                             effect: ability.effects.modifyMilitarySkill(2)
                                         }));
+                                        this.game.promptWithHandlerMenu(player, {
+                                            source: this,
+                                            choices: ['Lose 1 honor for no effect', 'Done'],
+                                            handlers: [() => {
+                                                this.game.addHonor(player, -1);
+                                                this.game.addMessage('{0} loses 1 honor for no effect', player);
+                                            }, () => true]
+                                        });
                                     });
                                     return true;
                                 }
