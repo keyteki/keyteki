@@ -594,15 +594,11 @@ class DrawCard extends BaseCard {
 
     canDeclareAsDefender(conflictType) {
         return (this.allowGameAction('declareAsDefender') && this.canParticipateAsDefender(conflictType) && 
-                (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowed));
+                (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowed) && !this.covert);
     }
 
     canParticipateInConflict(conflictType) {
-        return (
-            this.location === 'play area' &&
-            !this.covert &&
-            !this.conflictOptions.cannotParticipateIn[conflictType]
-        );
+        return this.location === 'play area' && !this.conflictOptions.cannotParticipateIn[conflictType]
     }
 
     canParticipateAsAttacker(conflictType) {
