@@ -37,7 +37,7 @@ class Banzai extends DrawCard {
                                             choices: ['Lose 1 honor for no effect', 'Done'],
                                             handlers: [() => {
                                                 this.game.addHonor(player, -1);
-                                                this.game.addMessage('{0} loses 1 honot for no effect', player);
+                                                this.game.addMessage('{0} loses 1 honor for no effect', player);
                                             }, () => true]
                                         });
                                     });
