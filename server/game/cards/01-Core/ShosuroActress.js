@@ -5,6 +5,7 @@ class ShosuroActress extends DrawCard {
         this.action({
             title: 'Put an opponent\'s character into play',
             cost: ability.costs.sacrificeSelf(),
+            condition: () => this.game.currentConflict,
             target: {
                 cardType: 'character',
                 cardCondition: card => {
