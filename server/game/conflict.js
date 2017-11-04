@@ -96,6 +96,10 @@ class Conflict {
         }, () => this.removeFromConflict(card));
     }
     
+    modifyElementsToResolve(amount) {
+        this.elementsToResolve += amount;
+    }
+    
     hasElement(element) {
         return this.elements.includes(element);
     }
