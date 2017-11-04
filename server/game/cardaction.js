@@ -1,5 +1,6 @@
 const _ = require('underscore');
 
+const AbilityContext = require('./AbilityContext.js');
 const BaseAbility = require('./baseability.js');
 const Costs = require('./costs.js');
 const EventRegistrar = require('./eventregistrar.js');
@@ -101,12 +102,14 @@ class CardAction extends BaseAbility {
     }
 
     createContext(player, arg) {
-        return {
-            arg: arg,
+        let context = new AbilityContext({
+            ability: this,
             game: this.game,
             player: player,
             source: this.card
-        };
+        });
+        context.arg = arg;
+        return context;
     }
 
     meetsRequirements(context) {

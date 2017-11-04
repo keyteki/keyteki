@@ -6,6 +6,7 @@ const EventToTitleFunc = {
     onClaimApplied: () => 'to claim effects being applied',
     onCardLeavesPlay: event => event.card.name + ' leaving play',
     onCardEntersPlay: event => event.card.name + ' entering play',
+    onCardPlayed: event => event.card.name + ' being played',
     onCardHonored: event => event.card.name + ' being honored',
     onCardDishonored: event => event.card.name + ' being dishonored',
     onMoveCharactersToConflict: () => 'characters moving to the conflict',
