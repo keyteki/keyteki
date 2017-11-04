@@ -73,7 +73,7 @@ class AbilityResolver extends BaseStepWithPipeline {
         if(this.cancelled) {
             return;
         }
-
+        this.context.stage = 'target';
         if(this.context.ability.cannotTargetFirst) {
             this.targetResults = _.map(this.context.ability.targets, (props, name) => {
                 return { resolved: false, name: name, value: null, costsFirst: true };
@@ -87,7 +87,7 @@ class AbilityResolver extends BaseStepWithPipeline {
         if(this.cancelled) {
             return;
         }
-        this.context.stage = 'effect';
+        this.context.stage = 'target';
         this.targetResults = this.context.ability.resolveTargets(this.context, this.targetResults);
     }
 
@@ -137,7 +137,7 @@ class AbilityResolver extends BaseStepWithPipeline {
         if(this.cancelled || this.cancelledByAbility) {
             return;
         }
-
+        this.context.stage = 'effect';
         this.context.ability.executeHandler(this.context);
     }
 
