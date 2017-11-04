@@ -350,7 +350,7 @@ const Effects = {
                 if(card.location === 'play area' && context.moveToBottomOfDeckIfStillInPlay.includes(card)) {
                     context.moveToBottomOfDeckIfStillInPlay = _.reject(context.moveToBottomOfDeckIfStillInPlay, c => c === card);
                     card.owner.moveCardToBottomOfDeck(card);
-                    context.game.addMessage('{0} moves {1} to the bottom of his deck as {2}\'s effect ends', context.source.controller, card, context.source);
+                    context.game.addMessage('{0} moves {1} to the bottom of their deck as {2}\'s effect ends', context.source.controller, card, context.source);
                 }
             }
         };

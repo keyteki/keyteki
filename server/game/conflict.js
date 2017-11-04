@@ -390,7 +390,7 @@ class Conflict {
 
         this.resetCards();
 
-        this.game.addMessage('{0} has chosen to pass his conflict opportunity', this.attackingPlayer);
+        this.game.addMessage('{0} has chosen to pass their conflict opportunity', this.attackingPlayer);
     }
 }
 

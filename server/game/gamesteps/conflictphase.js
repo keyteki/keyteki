@@ -63,7 +63,7 @@ class ConflictPhase extends Phase {
             if(this.currentPlayer.anyCardsInPlay(card => !card.bowed)) {
                 this.game.queueStep(new ConflictFlow(this.game, conflict));
             } else {
-                this.game.addMessage('{0} passes his conflict opportunity as he has no unbowed characters', this.currentPlayer);
+                this.game.addMessage('{0} passes their conflict opportunity as they have no unbowed characters', this.currentPlayer);
                 conflict.passed = true;
                 this.currentPlayer.conflicts.usedConflictOpportunity();
                 this.game.queueSimpleStep(() => this.game.raiseEvent('onConflictPass', { conflict: conflict }));

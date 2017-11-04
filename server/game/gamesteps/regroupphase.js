@@ -68,14 +68,14 @@ class RegroupPhase extends Phase {
                 onSelect: (player, cards) => {
                     _.extend(cardsToDiscard, cards);
                     if(cardsToDiscard.length > 0) {
-                        this.game.addMessage('{0} discards {1} from his provinces', player, cardsToDiscard);
+                        this.game.addMessage('{0} discards {1} from their provinces', player, cardsToDiscard);
                         _.each(cardsToDiscard, card => player.moveCard(card, 'dynasty discard pile'));
                     }
                     return true;
                 },
                 onCancel: () => {
                     if(cardsToDiscard.length > 0) {
-                        this.game.addMessage('{0} discards {1} from his provinces', player, cardsToDiscard);
+                        this.game.addMessage('{0} discards {1} from their provinces', player, cardsToDiscard);
                         _.each(cardsToDiscard, card => player.moveCard(card, 'dynasty discard pile'));
                     }
                     return true;                    
@@ -84,7 +84,7 @@ class RegroupPhase extends Phase {
             return;
         }
         if(cardsToDiscard.length > 0) {
-            this.game.addMessage('{0} discards {1} from his provinces', player, cardsToDiscard);
+            this.game.addMessage('{0} discards {1} from their provinces', player, cardsToDiscard);
             _.each(cardsToDiscard, card => player.moveCard(card, 'dynasty discard pile'));
         }
     }
