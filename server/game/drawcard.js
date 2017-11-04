@@ -588,18 +588,19 @@ class DrawCard extends BaseCard {
     }
 
     canDeclareAsAttacker(conflictType) {
-        return this.allowGameAction('declareAsAttacker') && this.canParticipateAsAttacker(conflictType);
+        return (this.allowGameAction('declareAsAttacker') && this.canParticipateAsAttacker(conflictType) &&
+                (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowed));
     }
 
     canDeclareAsDefender(conflictType) {
-        return this.allowGameAction('declareAsDefender') && this.canParticipateAsDefender(conflictType);
+        return (this.allowGameAction('declareAsDefender') && this.canParticipateAsDefender(conflictType) && 
+                (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowed));
     }
 
     canParticipateInConflict(conflictType) {
         return (
             this.location === 'play area' &&
             !this.covert &&
-            (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowed) &&
             !this.conflictOptions.cannotParticipateIn[conflictType]
         );
     }
