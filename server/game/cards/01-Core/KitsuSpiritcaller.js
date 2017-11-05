@@ -4,7 +4,7 @@ class KitsuSpiritcaller extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Resurrect a character',
-            condition: this.game.currentConflict,
+            condition: () => this.game.currentConflict,
             cost: ability.costs.bowSelf(),
             target: {
                 activePrompt: 'Choose a character from a discard pile',
