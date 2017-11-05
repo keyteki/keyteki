@@ -1,6 +1,5 @@
 const _ = require('underscore');
 const UiPrompt = require('./uiprompt.js');
-const BaseCard = require('../basecard.js');
 
 /**
  * General purpose menu prompt. Takes a choices object with menu options and 
