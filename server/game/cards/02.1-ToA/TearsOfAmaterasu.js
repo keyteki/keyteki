@@ -8,7 +8,7 @@ class TearsOfAmaterasu extends ProvinceCard {
             },
             handler: context => {
                 let numberOfAttackers = context.event.conflict.attackers.length
-                if numberOfAttackers > 0 {
+                if (numberOfAttackers > 0) {
                     this.game.addMessage('{0} uses {1} to gain {2} fate', this.controller, this, numberOfAttackers);
                     this.game.addFate(this.controller, numberOfAttackers);
                 }
