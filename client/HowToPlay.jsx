@@ -57,14 +57,17 @@ class HowToPlay extends React.Component {
                     { /*<h3 id='interactions'>Specific Card Interactions</h3>*/ }
 
                     <h3 id='mmode'>Manual Mode</h3>    
-                    <p>At this stage in development, it is recommended that you make use of manual mode.  As cards are not yet implemented, the game is not able to 
-                    correctly determine who will win conflicts, as you will probably make use of card abilities during the combat which will change skill levels, 
-                    or add or remove participants from the conflict.  In addition, you may want to use an as-yet-unimplemented ability during an action window, 
-                    and the game isn't currently able to recognise them.</p>  
-                    <p>Manual mode means that instead of attempting to resolve conflicts automatically, the attacking player will be asked to indicate who won
-                    the conflict.  It also means that during action windows, there is an additional 'Manual Action' button available to you.  Use this when you
-                    want to use a non implemented card action, and the game will know to pass priority to your opponent.</p>
-                    <p>You can activate or deactivate manual mode by using the /manual command in chat.</p>
+                    <p>Most of the cards should be implemented, but if things go wrong, or someone misclicks, or you really hate automation, you can switch on
+                    Manual Mode by typing /manual in chat.</p>  
+                    <p>In Manual Mode, the game will no longer resolve conflicts automatically - the attacking player will be asked to indicate who won
+                    the conflict.  You will also get the option to use a Manual Action in action windows which puts an announcement in chat and passes priority
+                    to your opponent, but won't have any other in-game effect.</p>
+                    <p>In manual mode, clicking cards and rings will bring up a menu which allows you to easily change the game state. Most of the functions in
+                    these menus mirror the Manual Commands listed below, but there are a coupld of things which can only be done in menus.  The ring menu lets 
+                    you flip a ring, which you can use to change the conflict type during conflicts.  You can also change the contested ring by selecting the
+                    ring you want to switch to and choosing the appropriate menu button. Finally, there is also an option to initiate a conflict in case someone
+                    passed by accident. NB: Initiate Conflict can only be used during a pre-conflict action window, and it won't count against your conflict
+                    opportunities for the turn.</p>
 
                     <h3 id='commands'>Manual Commands</h3>
                     <p>The following manual commands have been implemented in order to allow for a smoother gameplay experience:
