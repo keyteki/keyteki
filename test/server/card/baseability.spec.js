@@ -262,8 +262,8 @@ describe('BaseAbility', function () {
 
         it('should prompt the player to select each target', function() {
             this.ability.resolveTargets(this.context);
-            expect(this.gameSpy.promptForSelect).toHaveBeenCalledWith(this.player, { source: this.source, target: 1, onSelect: jasmine.any(Function), onCancel: jasmine.any(Function), selector: jasmine.any(Object), context: this.context, waitingPromptTitle: jasmine.any(String), buttons: jasmine.any(Array), onMenuCommand: jasmine.any(Function), pretarget: true });
-            expect(this.gameSpy.promptForSelect).toHaveBeenCalledWith(this.player, { source: this.source, target: 1, onSelect: jasmine.any(Function), onCancel: jasmine.any(Function), selector: jasmine.any(Object), context: this.context, waitingPromptTitle: jasmine.any(String), buttons: jasmine.any(Array), onMenuCommand: jasmine.any(Function), pretarget: true });
+            expect(this.gameSpy.promptForSelect).toHaveBeenCalledWith(this.player, { source: this.source, target: 1, onSelect: jasmine.any(Function), onCancel: jasmine.any(Function), selector: jasmine.any(Object), context: this.context, waitingPromptTitle: jasmine.any(String), buttons: jasmine.any(Array), onMenuCommand: jasmine.any(Function), pretarget: true, mode: 'single' });
+            expect(this.gameSpy.promptForSelect).toHaveBeenCalledWith(this.player, { source: this.source, target: 1, onSelect: jasmine.any(Function), onCancel: jasmine.any(Function), selector: jasmine.any(Object), context: this.context, waitingPromptTitle: jasmine.any(String), buttons: jasmine.any(Array), onMenuCommand: jasmine.any(Function), pretarget: true, mode: 'single' });
         });
 
         describe('the select prompt', function() {
