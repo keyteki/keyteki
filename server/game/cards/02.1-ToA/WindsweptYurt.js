@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
-class WindseptYurt extends DrawCard {
-    setupCardAbilities() {
+class WindsweptYurt extends DrawCard {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Gain 2 fate or 2 honor',
             target: {
@@ -12,6 +12,7 @@ class WindseptYurt extends DrawCard {
                     'Each player gains 2 honor': () => true
                 }
             },
+            cost: ability.costs.sacrificeSelf(),
             source: this,
             handler: context => {
                 if(context.target === 'Each player gains 2 fate') {
@@ -23,8 +24,7 @@ class WindseptYurt extends DrawCard {
                     this.game.addHonor(this.controller, 2);
                     this.game.addHonor(this.controller.opponent, 2);
                 }
-                this.controller.discardCardFromPlay(this);
-                let province = this.controller.getSourceList(this.previousLocation);
+                let province = this.controller.getSourceList(context.event.card.previousLocation);
                 let card = province.find(card => card.isDynasty);
                 card.facedown = false;
             }
@@ -42,6 +42,6 @@ class WindseptYurt extends DrawCard {
     }
 }
 
-WindseptYurt.id = 'windswept-yurt';
+WindsweptYurt.id = 'windswept-yurt';
 
-module.exports = WindseptYurt;
+module.exports = WindsweptYurt;
