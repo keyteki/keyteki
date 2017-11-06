@@ -247,8 +247,8 @@ describe('BaseAbility', function () {
             this.player = { player: 1 };
             this.source = { source: 1 };
 
-            this.target1 = { target: 1 };
-            this.target2 = { target: 2 };
+            this.target1 = { target: 1, mode: 'single' };
+            this.target2 = { target: 2, mode: 'single' };
 
             this.properties.targets = { target1: this.target1, target2: this.target2 };
             this.ability = new BaseAbility(this.properties);
@@ -257,7 +257,7 @@ describe('BaseAbility', function () {
         });
 
         it('should return target results for each target', function() {
-            expect(this.ability.resolveTargets(this.context)).toEqual([{ resolved: false, name: 'target1', value: null, costsFirst: false }, { resolved: false, name: 'target2', value: null, costsFirst: false }]);
+            expect(this.ability.resolveTargets(this.context)).toEqual([{ resolved: false, name: 'target1', value: null, costsFirst: false, mode: 'single' }, { resolved: false, name: 'target2', value: null, costsFirst: false, mode: 'single' }]);
         });
 
         it('should prompt the player to select each target', function() {
