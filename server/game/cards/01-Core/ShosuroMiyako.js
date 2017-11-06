@@ -21,7 +21,7 @@ class ShosuroMiyako extends DrawCard {
                 }
             },
             handler: context => {
-                if(context.target === 'Discard at random') {
+                if(context.select === 'Discard at random') {
                     this.game.addMessage('{0} uses {1} - {2} chose to discard a card at random', this.controller, this, this.controller.opponent);
                     this.controller.opponent.discardAtRandom(1);
                 } else {
