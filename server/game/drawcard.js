@@ -34,6 +34,7 @@ class DrawCard extends BaseCard {
         this.fate = 0;
         this.contributesToFavor = true;
         this.bowed = false;
+        this.covert = false;
         this.inConflict = false;
         this.isConflict = false;
         this.isDynasty = false;
@@ -544,6 +545,7 @@ class DrawCard extends BaseCard {
         }
 
         this.bowed = false;
+        this.covert = false;
         this.new = false;
         this.fate = 0;
         if(this.isHonored) {
