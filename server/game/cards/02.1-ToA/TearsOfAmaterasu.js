@@ -4,7 +4,7 @@ class TearsOfAmaterasu extends ProvinceCard {
     setupCardAbilities() {
         this.reaction({
             when: {
-                onProvinceRevealed: event => event.province === this
+                onProvinceRevealed: event => event.province === this && event.conflict.attackers.length > 0
             },
             handler: context => {
                 let numberOfAttackers = context.event.conflict.attackers.length;
