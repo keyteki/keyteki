@@ -31,6 +31,7 @@ class TriggeredAbility extends BaseAbility {
         if(this.max) {
             this.card.owner.registerAbilityMax(this.card.name, this.max);
         }
+    }
 
     eventHandler(event) {
         if(!this.isTriggeredByEvent(event)) {
