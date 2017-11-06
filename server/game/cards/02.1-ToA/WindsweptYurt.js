@@ -24,7 +24,7 @@ class WindsweptYurt extends DrawCard {
                     this.game.addHonor(this.controller, 2);
                     this.game.addHonor(this.controller.opponent, 2);
                 }
-                let province = this.controller.getSourceList(context.event.card.previousLocation);
+                let province = this.controller.getSourceList(this.previousLocation);
                 let card = province.find(card => card.isDynasty);
                 card.facedown = false;
             }
