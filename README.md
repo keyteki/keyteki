@@ -101,3 +101,5 @@ If you are making any game engine changes, these will not be accepted without un
 
 ### Discord Discusson
 [Ringteki Discord Server](https://discord.gg/tMzhyND)
+
+[![Coverage Status](https://coveralls.io/repos/github/gryffon/ringteki/badge.svg?branch=develop)](https://coveralls.io/github/gryffon/ringteki?branch=develop)
