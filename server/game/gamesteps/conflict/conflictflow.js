@@ -158,6 +158,7 @@ class ConflictFlow extends BaseStepWithPipeline {
 
         // Explicitly recalculate strength in case an effect has modified character strength.
         _.each(this.conflict.defenders, card => card.inConflict = true);
+        this.conflict.defendingPlayer.cardsInPlay.each(card => card.covert = false);
         this.conflict.calculateSkill();
         if(this.conflict.defenders.length > 0) {
             this.game.addMessage('{0} has defended with skill {1}', this.conflict.defendingPlayer, this.conflict.defenderSkill);

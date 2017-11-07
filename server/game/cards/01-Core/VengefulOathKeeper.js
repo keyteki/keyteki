@@ -12,7 +12,7 @@ class VengefulOathkeeper extends DrawCard {
             location: 'hand',
             handler: () => {
                 this.controller.putIntoPlay(this);
-                this.game.addMessage('{0} puts {1} into play from his hand', this.controller, this);
+                this.game.addMessage('{0} puts {1} into play from their hand', this.controller, this);
             }
         });
     }

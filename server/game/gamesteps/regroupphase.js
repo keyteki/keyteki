@@ -38,23 +38,55 @@ class RegroupPhase extends Phase {
     }
     
     discardFromProvinces() {
-        _.each(this.game.getPlayersInFirstPlayerOrder(), player => player.discardFromBrokenProvinces());
-        _.each(this.game.getPlayersInFirstPlayerOrder(), player => this.game.promptForSelect(player, {
-            numCards: 0,
-            multiSelect: true,
-            activePromptTitle: 'Select dynasty cards to discard',
-            waitingPromptTitle: 'Waiting for opponent to discard dynasty cards',
-            cardCondition: card => {
-                return (['province 1', 'province 2', 'province 3', 'province 4'].includes(card.location) && 
-                        player === card.owner && !card.facedown && card.isDynasty);
-            },
-            onSelect: (player, cards) => {
-                _.each(cards, card => {
-                    player.moveCard(card, 'dynasty discard pile');
-                });
-                return true;
+        _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
+            this.game.queueSimpleStep(() => this.discardFromProvincesForPlayer(player));
+        });
+    }
+    
+    discardFromProvincesForPlayer(player) {
+        let cardsToDiscard = [];
+        let cardsOnUnbrokenProvinces = [];
+        _.each(['province 1', 'province 2', 'province 3', 'province 4'], location => {
+            let provinceCard = player.getProvinceCardInProvince(location);
+            let dynastyCard = player.getDynastyCardInProvince(location);
+            if(dynastyCard && provinceCard && !dynastyCard.facedown) {
+                if(provinceCard.isBroken) {
+                    cardsToDiscard.push(dynastyCard);
+                } else {
+                    cardsOnUnbrokenProvinces.push(dynastyCard);
+                }
             }
-        }));
+        });
+
+        if(cardsOnUnbrokenProvinces.length > 0) {
+            this.game.promptForSelect(player, {
+                numCards: 0,
+                multiSelect: true,
+                activePromptTitle: 'Select dynasty cards to discard',
+                waitingPromptTitle: 'Waiting for opponent to discard dynasty cards',
+                cardCondition: card => cardsOnUnbrokenProvinces.includes(card),
+                onSelect: (player, cards) => {
+                    _.extend(cardsToDiscard, cards);
+                    if(cardsToDiscard.length > 0) {
+                        this.game.addMessage('{0} discards {1} from their provinces', player, cardsToDiscard);
+                        _.each(cardsToDiscard, card => player.moveCard(card, 'dynasty discard pile'));
+                    }
+                    return true;
+                },
+                onCancel: () => {
+                    if(cardsToDiscard.length > 0) {
+                        this.game.addMessage('{0} discards {1} from their provinces', player, cardsToDiscard);
+                        _.each(cardsToDiscard, card => player.moveCard(card, 'dynasty discard pile'));
+                    }
+                    return true;                    
+                }
+            });
+            return;
+        }
+        if(cardsToDiscard.length > 0) {
+            this.game.addMessage('{0} discards {1} from their provinces', player, cardsToDiscard);
+            _.each(cardsToDiscard, card => player.moveCard(card, 'dynasty discard pile'));
+        }
     }
     
     returnRings() {

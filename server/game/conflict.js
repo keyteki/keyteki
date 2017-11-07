@@ -123,7 +123,7 @@ class Conflict {
                 waitingPromptTitle: 'Waiting for opponent to use decide whether to resolve the conflict ring',
                 source: 'Resolve Ring Effects',
                 choices: ['Yes', 'No'],
-                handlers: [() => this.resolveConflictRing(player), () => this.game.addMessage('(0) chooses not to resolve the {1} ring', player, elements[0])]
+                handlers: [() => this.resolveConflictRing(player), () => this.game.addMessage('{0} chooses not to resolve the {1} ring', player, elements[0])]
             });
         } else {
             this.resolveConflictRing(player);
@@ -390,7 +390,7 @@ class Conflict {
 
         this.resetCards();
 
-        this.game.addMessage('{0} has chosen to pass his conflict opportunity', this.attackingPlayer);
+        this.game.addMessage('{0} has chosen to pass their conflict opportunity', this.attackingPlayer);
     }
 }
 

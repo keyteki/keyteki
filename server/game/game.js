@@ -1254,11 +1254,13 @@ class Game extends EventEmitter {
     /**
      * Raises a custom event window for checking for any cancels to a card 
      * ability
-     * @param {AbilityContext} context -
+     * @param {AbilityContext} context
+     * @param {Function} handler - this is an arrow function which is called if
+     * nothing cancels the event
      * @returns {undefined}
      */
-    raiseInitiateAbilityEvent(context) {
-        this.queueStep(new InitateAbilityEventWindow(this, context));
+    raiseInitiateAbilityEvent(context, handler) {
+        this.queueStep(new InitateAbilityEventWindow(this, context, handler));
     }
 
     /**

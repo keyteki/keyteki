@@ -34,6 +34,7 @@ class DrawCard extends BaseCard {
         this.fate = 0;
         this.contributesToFavor = true;
         this.bowed = false;
+        this.covert = false;
         this.inConflict = false;
         this.isConflict = false;
         this.isDynasty = false;
@@ -125,12 +126,15 @@ class DrawCard extends BaseCard {
             return false;
         } else if(actionType === 'ready' && !this.bowed) {
             return false;
-        } else if(actionType === 'moveToConflict' && this.game.currentConflict) {
-            if(this.controller === this.game.currentConflict.attackingPlayer) {
-                if(!this.canParticipateAsAttacker) {
+        } else if(actionType === 'moveToConflict') {
+            if(!this.game.currentConflict) {
+                return false;
+            }
+            if(this.controller.isAttackingPlayer()) {
+                if(!this.canParticipateAsAttacker()) {
                     return false;
                 }
-            } else if(!this.canParticipateAsDefender) {
+            } else if(!this.canParticipateAsDefender()) {
                 return false;
             }
         }
@@ -541,6 +545,7 @@ class DrawCard extends BaseCard {
         }
 
         this.bowed = false;
+        this.covert = false;
         this.new = false;
         this.fate = 0;
         if(this.isHonored) {
@@ -585,20 +590,17 @@ class DrawCard extends BaseCard {
     }
 
     canDeclareAsAttacker(conflictType) {
-        return this.allowGameAction('declareAsAttacker') && this.canParticipateAsAttacker(conflictType);
+        return (this.allowGameAction('declareAsAttacker') && this.canParticipateAsAttacker(conflictType) &&
+                (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowed));
     }
 
     canDeclareAsDefender(conflictType) {
-        return this.allowGameAction('declareAsDefender') && this.canParticipateAsDefender(conflictType);
+        return (this.allowGameAction('declareAsDefender') && this.canParticipateAsDefender(conflictType) && 
+                (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowed) && !this.covert);
     }
 
     canParticipateInConflict(conflictType) {
-        return (
-            this.location === 'play area' &&
-            !this.covert &&
-            (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowed) &&
-            !this.conflictOptions.cannotParticipateIn[conflictType]
-        );
+        return this.location === 'play area' && !this.conflictOptions.cannotParticipateIn[conflictType];
     }
 
     canParticipateAsAttacker(conflictType) {

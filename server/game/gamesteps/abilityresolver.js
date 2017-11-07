@@ -22,6 +22,7 @@ class AbilityResolver extends BaseStepWithPipeline {
             new SimpleStep(game, () => this.waitForTargetResolution()),
             new SimpleStep(game, () => this.markActionAsTaken()),
             new SimpleStep(game, () => this.initiateAbility()),
+            new SimpleStep(game, () => this.raiseCardPlayedIfAbility()),
             new SimpleStep(game, () => this.executeHandler()),
             new SimpleStep(game, () => this.raiseCardPlayedIfNotAbility()),
             new SimpleStep(game, () => this.game.popAbilityContext())
@@ -72,7 +73,7 @@ class AbilityResolver extends BaseStepWithPipeline {
         if(this.cancelled) {
             return;
         }
-
+        this.context.stage = 'target';
         if(this.context.ability.cannotTargetFirst) {
             this.targetResults = _.map(this.context.ability.targets, (props, name) => {
                 return { resolved: false, name: name, value: null, costsFirst: true, mode: props.mode };
@@ -86,7 +87,7 @@ class AbilityResolver extends BaseStepWithPipeline {
         if(this.cancelled) {
             return;
         }
-        this.context.stage = 'effect';
+        this.context.stage = 'target';
         this.targetResults = this.context.ability.resolveTargets(this.context, this.targetResults);
     }
 
@@ -125,21 +126,38 @@ class AbilityResolver extends BaseStepWithPipeline {
         if(this.cancelled) {
             return;
         }
+        this.cancelledByAbility = false;
         if(this.context.ability.isCardAbility()) {
-            let targets = _.flatten(_.values(this.context.targets));
-            this.game.raiseInitiateAbilityEvent({ player: this.context.player, source: this.context.source, resolver: this, targets: targets });
+            this.cancelledByAbility = true;
+            let clonedContext = _.clone(this.context);
+            clonedContext.targets = _.flatten(_.values(this.context.targets));
+            this.game.raiseInitiateAbilityEvent(clonedContext, () => this.cancelledByAbility = false);
+        }
+    }
+
+    raiseCardPlayedIfAbility() {
+        if(this.cancelled) {
+            return;
+        }
+        
+        if(this.context.ability.isCardAbility() && this.context.ability.isCardPlayed()) {
+            this.game.raiseEvent('onCardPlayed', { player: this.context.player, card: this.context.source, originalLocation: this.context.ability.originalLocation });
         }
     }
 
     executeHandler() {
-        if(this.cancelled) {
+        if(this.cancelled || this.cancelledByAbility) {
             return;
         }
-
+        this.context.stage = 'effect';
         this.context.ability.executeHandler(this.context);
     }
 
     raiseCardPlayedIfNotAbility() {
+        if(this.cancelled) {
+            return;
+        }
+        
         if(!this.context.ability.isCardAbility() && this.context.ability.isCardPlayed()) {
             this.game.raiseEvent('onCardPlayed', { player: this.context.player, card: this.context.source, originalLocation: this.context.ability.originalLocation });
         }

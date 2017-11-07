@@ -27,6 +27,10 @@ class TriggeredAbility extends BaseAbility {
         if(card.getType() === 'event' && !properties.ignoreEventCosts) {
             this.cost.push(Costs.playEvent());
         }
+
+        if(this.max) {
+            this.card.owner.registerAbilityMax(this.card.name, this.max);
+        }
     }
 
     eventHandler(event) {

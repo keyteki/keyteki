@@ -1,6 +1,7 @@
 const _ = require('underscore');
 const UiPrompt = require('./uiprompt.js');
 const CardSelector = require('../CardSelector.js');
+const AbilityContext = require('../AbilityContext.js');
 
 /**
  * General purpose prompt that asks the user to select 1 or more cards.
@@ -49,12 +50,15 @@ class SelectCardPrompt extends UiPrompt {
         super(game);
 
         this.choosingPlayer = choosingPlayer;
+        if(_.isString(properties.source)) {
+            properties.source = { name: properties.source };
+        }
         if(properties.source && !properties.waitingPromptTitle) {
             properties.waitingPromptTitle = 'Waiting for opponent to use ' + properties.source.name;
         }
 
         this.properties = properties;
-        this.context = properties.context || { game: game, player: choosingPlayer, source: properties.source };
+        this.context = properties.context || new AbilityContext({ game: game, player: choosingPlayer, source: properties.source });
         _.defaults(this.properties, this.defaultProperties());
         this.selector = properties.selector || CardSelector.for(properties);
         this.selectedCards = [];
