@@ -25,6 +25,7 @@ class ArtisanAcademy extends DrawCard {
         this.action({
             title: 'Draw a card',
             phase: 'conflict',
+            condition: () => this.controller.conflictDeck.size() > 0,
             handler: () => {
                 this.topCard = this.controller.conflictDeck.first();
                 this.game.addMessage('{0} uses {1} to reveal the top card of their conflict deck: {2}', this.controller, this, this.topCard);
