@@ -125,7 +125,8 @@ class Conflict {
                 choices: ['Yes', 'No'],
                 handlers: [
                     () => this.game.raiseEvent('onResolveRingEffect', { player: this.winner, conflict: this }, () => this.resolveConflictRing(player)), 
-                    () => this.game.addMessage('{0} chooses not to resolve the {1} ring', player, elements[0])]
+                    () => this.game.addMessage('{0} chooses not to resolve the {1} ring', player, elements[0])
+                ]
             });
         } else {
             this.game.raiseEvent('onResolveRingEffect', { player: this.winner, conflict: this }, () => this.resolveConflictRing(player));
