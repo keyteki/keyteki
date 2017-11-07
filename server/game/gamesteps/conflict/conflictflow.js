@@ -288,7 +288,7 @@ class ConflictFlow extends BaseStepWithPipeline {
         }
 
         if(this.conflict.isAttackerTheWinner()) {
-            this.game.raiseEvent('onResolveRingEffects', { player: this.conflict.winner, conflict: this.conflict } , () => this.conflict.chooseWhetherToResolveRingEffect());
+            this.conflict.chooseWhetherToResolveRingEffect();
         }       
     }
     

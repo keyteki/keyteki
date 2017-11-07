@@ -10,17 +10,17 @@ class DisplayOfPower extends DrawCard {
             },
             handler: () => {
                 this.events = new EventRegistrar(this.game, this);
-                this.events.register(['onResolveRingEffectsOtherEffects','onClaimRingOtherEffects']);
+                this.events.register(['onResolveRingEffectOtherEffects','onClaimRingOtherEffects']);
                 this.game.addMessage('{0} uses {1} at {2}', this.controller, this, this.game.currentConflict.conflictProvince);
             }
         });
     }
     
-    onResolveRingEffectsOtherEffects(event) {
+    onResolveRingEffectOtherEffects(event) {
         if(event.player !== this.controller) {
             event.cancel();
             this.game.addMessage('{0} cancels the ring resolution and resolves it for {1}', this, this.controller);
-            this.game.raiseEvent('onResolveRingEffects', { 
+            this.game.raiseEvent('onResolveRingEffect', { 
                 player: this.controller, 
                 conflict: event.conflict 
             }, () => event.conflict.chooseWhetherToResolveRingEffect(this.controller));
