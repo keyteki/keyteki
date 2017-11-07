@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 import _ from 'underscore';
@@ -128,13 +129,13 @@ class InnerGameList extends React.Component {
 
 InnerGameList.displayName = 'GameList';
 InnerGameList.propTypes = {
-    currentGame: React.PropTypes.object,
-    games: React.PropTypes.array,
-    isAdmin: React.PropTypes.bool,
-    joinPasswordGame: React.PropTypes.func,
-    showNodes: React.PropTypes.bool,
-    socket: React.PropTypes.object,
-    username: React.PropTypes.string
+    currentGame: PropTypes.object,
+    games: PropTypes.array,
+    isAdmin: PropTypes.bool,
+    joinPasswordGame: PropTypes.func,
+    showNodes: PropTypes.bool,
+    socket: PropTypes.object,
+    username: PropTypes.string
 };
 
 function mapStateToProps(state) {

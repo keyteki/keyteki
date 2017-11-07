@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import _ from 'underscore';
 
@@ -124,14 +125,14 @@ class InnerUserAdmin extends React.Component {
 
 InnerUserAdmin.displayName = 'UserAdmin';
 InnerUserAdmin.propTypes = {
-    apiError: React.PropTypes.string,
-    apiStatus: React.PropTypes.number,
-    clearUserStatus: React.PropTypes.func,
-    currentUser: React.PropTypes.object,
-    findUser: React.PropTypes.func,
-    loading: React.PropTypes.bool,
-    saveUser: React.PropTypes.func,
-    userSaved: React.PropTypes.bool
+    apiError: PropTypes.string,
+    apiStatus: PropTypes.number,
+    clearUserStatus: PropTypes.func,
+    currentUser: PropTypes.object,
+    findUser: PropTypes.func,
+    loading: PropTypes.bool,
+    saveUser: PropTypes.func,
+    userSaved: PropTypes.bool
 };
 
 function mapStateToProps(state) {

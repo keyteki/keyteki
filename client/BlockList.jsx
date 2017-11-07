@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'underscore';
 
@@ -124,16 +125,16 @@ class InnerBlockList extends React.Component {
 
 InnerBlockList.displayName = 'BlockList';
 InnerBlockList.propTypes = {
-    addBlockListEntry: React.PropTypes.func,
-    apiError: React.PropTypes.string,
-    blockList: React.PropTypes.array,
-    blockListAdded: React.PropTypes.bool,
-    blockListDeleted: React.PropTypes.bool,
-    clearBlockListStatus: React.PropTypes.func,
-    loadBlockList: React.PropTypes.func,
-    loading: React.PropTypes.bool,
-    removeBlockListEntry: React.PropTypes.func,
-    user: React.PropTypes.object
+    addBlockListEntry: PropTypes.func,
+    apiError: PropTypes.string,
+    blockList: PropTypes.array,
+    blockListAdded: PropTypes.bool,
+    blockListDeleted: PropTypes.bool,
+    clearBlockListStatus: PropTypes.func,
+    loadBlockList: PropTypes.func,
+    loading: PropTypes.bool,
+    removeBlockListEntry: PropTypes.func,
+    user: PropTypes.object
 };
 
 function mapStateToProps(state) {

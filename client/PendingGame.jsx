@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
 import { connect } from 'react-redux';
 import $ from 'jquery';
@@ -273,18 +274,18 @@ class InnerPendingGame extends React.Component {
 
 InnerPendingGame.displayName = 'PendingGame';
 InnerPendingGame.propTypes = {
-    apiError: React.PropTypes.string,
-    connecting: React.PropTypes.bool,
-    currentGame: React.PropTypes.object,
-    decks: React.PropTypes.array,
-    gameSocketClose: React.PropTypes.func,
-    host: React.PropTypes.string,
-    loadDecks: React.PropTypes.func,
-    loading: React.PropTypes.bool,
-    sendSocketMessage: React.PropTypes.func,
-    socket: React.PropTypes.object,
-    username: React.PropTypes.string,
-    zoomCard: React.PropTypes.func
+    apiError: PropTypes.string,
+    connecting: PropTypes.bool,
+    currentGame: PropTypes.object,
+    decks: PropTypes.array,
+    gameSocketClose: PropTypes.func,
+    host: PropTypes.string,
+    loadDecks: PropTypes.func,
+    loading: PropTypes.bool,
+    sendSocketMessage: PropTypes.func,
+    socket: PropTypes.object,
+    username: PropTypes.string,
+    zoomCard: PropTypes.func
 };
 
 function mapStateToProps(state) {
