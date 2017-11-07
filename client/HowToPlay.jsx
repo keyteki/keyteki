@@ -63,7 +63,7 @@ class HowToPlay extends React.Component {
                     the conflict.  You will also get the option to use a Manual Action in action windows which puts an announcement in chat and passes priority
                     to your opponent, but won't have any other in-game effect.</p>
                     <p>In manual mode, clicking cards and rings will bring up a menu which allows you to easily change the game state. Most of the functions in
-                    these menus mirror the Manual Commands listed below, but there are a coupld of things which can only be done in menus.  The ring menu lets 
+                    these menus mirror the Manual Commands listed below, but there are a couple of things which can only be done in menus.  The ring menu lets 
                     you flip a ring, which you can use to change the conflict type during conflicts.  You can also change the contested ring by selecting the
                     ring you want to switch to and choosing the appropriate menu button. Finally, there is also an option to initiate a conflict in case someone
                     passed by accident. NB: Initiate Conflict can only be used during a pre-conflict action window, and it won't count against your conflict
