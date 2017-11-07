@@ -38,7 +38,7 @@ class ArtisanAcademy extends DrawCard {
                     if(action.location && action.location.includes('hand')) {
                         let clonedAction = _.clone(action);
                         clonedAction.location = ['conflict deck'];
-                        this.topCard.abilities.platActions.push(clonedAction);
+                        this.topCard.abilities.playActions.push(clonedAction);
                     }
                 });
                 if(this.topCard.type === 'event') {
