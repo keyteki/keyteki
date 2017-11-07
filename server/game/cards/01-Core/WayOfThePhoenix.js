@@ -11,8 +11,8 @@ class WayOfThePhoenix extends DrawCard {
                 ringCondition: () => true
             },
             handler: context => {
-                let elements = [context.target.element];
-                if(this.game.currentConflict && this.game.currentConflict.conflictRing === context.target.element) {
+                let elements = [context.ring.element];
+                if(this.game.currentConflict && this.game.currentConflict.conflictRing === context.ring.element) {
                     elements = this.game.currentConflict.getElements();
                 }
                 let otherPlayer = this.game.getOtherPlayer(context.player);

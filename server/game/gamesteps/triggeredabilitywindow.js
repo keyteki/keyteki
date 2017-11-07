@@ -138,7 +138,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
                 controls.push({
                     type: 'targeting',
                     source: event.source.getShortSummary(),
-                    targets: event.targets.map(target => _.isString(target) ? target : target.getShortSummary())
+                    targets: event.targets.map(target => target.getShortSummary())
                 });
             }
         }

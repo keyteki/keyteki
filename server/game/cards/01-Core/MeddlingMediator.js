@@ -4,7 +4,7 @@ class MeddlingMediator extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Take 1 fate or 1 honor',
-            condition: () => this.controller.opponent.conflicts.complete > 1,
+            condition: () => this.controller.opponent && this.controller.opponent.conflicts.complete > 1,
             target: {
                 mode: 'select',
                 choices: {
@@ -13,7 +13,7 @@ class MeddlingMediator extends DrawCard {
                 }
             },
             handler: context => {
-                if(context.target === 'Take 1 fate') {
+                if(context.select === 'Take 1 fate') {
                     this.game.addMessage('{0} uses {1} to take 1 fate from {2}', this.controller, this, this.controller.opponent);
                     this.game.transferFate(this.controller, this.controller.opponent, 1);
                 } else {

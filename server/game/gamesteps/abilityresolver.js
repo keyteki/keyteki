@@ -75,7 +75,7 @@ class AbilityResolver extends BaseStepWithPipeline {
 
         if(this.context.ability.cannotTargetFirst) {
             this.targetResults = _.map(this.context.ability.targets, (props, name) => {
-                return { resolved: false, name: name, value: null, costsFirst: true };
+                return { resolved: false, name: name, value: null, costsFirst: true, mode: props.mode };
             });
         } else {
             this.targetResults = this.context.ability.resolveTargets(this.context);
@@ -102,9 +102,21 @@ class AbilityResolver extends BaseStepWithPipeline {
         }
 
         _.each(this.targetResults, result => {
-            this.context.targets[result.name] = result.value;
-            if(result.name === 'target') {
-                this.context.target = result.value;
+            if(result.mode === 'ring') {
+                this.context.rings[result.name] = result.value;
+                if(result.name === 'target') {
+                    this.context.ring = result.value;
+                }
+            } else if(result.mode === 'select') {
+                this.context.selects[result.name] = result.value;
+                if(result.name === 'target') {
+                    this.context.select = result.value;
+                }
+            } else {
+                this.context.targets[result.name] = result.value;
+                if(result.name === 'target') {
+                    this.context.target = result.value;
+                }
             }
         });
     }
