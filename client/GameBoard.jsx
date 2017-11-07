@@ -500,7 +500,7 @@ export class InnerGameBoard extends React.Component {
                 { this.getPlayerHand(thisPlayer) }
                 <div className='player-stats-row'>
                     <PlayerStats stats={ otherPlayer ? otherPlayer.stats : null }
-                        user={ otherPlayer ? otherPlayer.user : null } firstPlayer={ otherPlayer && otherPlayer.firstPlayer } otherPlayer={ true } handSize={ otherPlayer && otherPlayer.cardPiles.hand ? otherPlayer.cardPiles.hand.length : 0 } />
+                        user={ otherPlayer ? otherPlayer.user : null } firstPlayer={ otherPlayer && otherPlayer.firstPlayer } otherPlayer handSize={ otherPlayer && otherPlayer.cardPiles.hand ? otherPlayer.cardPiles.hand.length : 0 } />
                 </div>
                 <div className='main-window'>
                     { this.getProvinces(thisPlayer, otherPlayer) }
@@ -522,6 +522,7 @@ export class InnerGameBoard extends React.Component {
                                 onConflictTopCardClick={ this.onConflictTopCardClick }
                                 onMouseOver={ this.onMouseOver }
                                 onMouseOut={ this.onMouseOut } 
+                                otherPlayer= { otherPlayer }
                                 cardSize={ this.props.user.settings.cardSize } />
                         </div>
                         <div className='player-stronghold-row'>
@@ -618,6 +619,7 @@ InnerGameBoard.propTypes = {
     clearZoom: PropTypes.func,
     closeGameSocket: PropTypes.func,
     currentGame: PropTypes.object,
+    dispatch: PropTypes.func,
     sendGameMessage: PropTypes.func,
     setContextMenu: PropTypes.func,
     socket: PropTypes.object,
