@@ -184,9 +184,11 @@ class Player extends Spectator {
         _.each(provinces, province => {
             let card = this.getDynastyCardInProvince(province);
             if(card) {
-                card.facedown = true;
+                card.facedown = false;
             } else {
                 this.moveCard(this.dynastyDeck.first(), province);
+                card = this.getDynastyCardInProvince(province);
+                card.facedown = false;
             }
         });
     }
@@ -195,12 +197,14 @@ class Player extends Spectator {
         let revealedCards = [];
         _.each(['province 1', 'province 2', 'province 3', 'province 4'], province => {
             let card = this.getDynastyCardInProvince(province);
-            if(card) {
+            if(card && card.facedown) {
                 card.facedown = false;
                 revealedCards.push(card);
             }
         });
-        this.game.addMessage('{0} reveals {1}', this, revealedCards);
+        if(revealedCards.length > 0) {
+            this.game.addMessage('{0} reveals {1}', this, revealedCards);
+        }
     }
     
     getDynastyCardInProvince(location) {
@@ -496,13 +500,6 @@ class Player extends Spectator {
             this.dynastyDeck.push(card);
         });
         
-        _.each(['province 1', 'province 2', 'province 3', 'province 4'], location => {
-            let card = this.getDynastyCardInProvince(location);
-            if(card) {
-                card.facedown = true;
-            }
-        });
-
         this.shuffleDynastyDeck();
 
         this.game.addMessage('{0} has mulliganed {1} cards from the dynasty deck', this.name, cards.length);
@@ -511,18 +508,19 @@ class Player extends Spectator {
     dynastyKeep() {
         this.game.addMessage('{0} has kept all dynasty cards', this.name);
         this.takenDynastyMulligan = true;
-        _.each(['province 1', 'province 2', 'province 3', 'province 4'], location => {
-            let card = this.getDynastyCardInProvince(location);
-            if(card) {
-                card.facedown = true;
-            }
-        });
     }
 
     conflictMulligan(cards) {
         if(this.takenConflictMulligan) {
             return false;
         }
+
+        _.each(['province 1', 'province 2', 'province 3', 'province 4'], location => {
+            let card = this.getDynastyCardInProvince(location);
+            if(card) {
+                card.facedown = true;
+            }
+        });
 
         _.each(cards, card => {
             this.removeCardFromPile(card);
@@ -543,6 +541,13 @@ class Player extends Spectator {
     }
 
     conflictKeep() {
+        _.each(['province 1', 'province 2', 'province 3', 'province 4'], location => {
+            let card = this.getDynastyCardInProvince(location);
+            if(card) {
+                card.facedown = true;
+            }
+        });
+
         this.game.addMessage('{0} has kept all conflict cards', this.name);
         this.takenConflictMulligan = true;
         this.readyToStart = true;
@@ -1434,10 +1439,10 @@ class Player extends Spectator {
             phase: this.game.currentPhase,
             promptedActionWindows: this.promptedActionWindows,
             provinces: {
-                one: this.getSummaryForCardList(this.provinceOne, activePlayer, !this.takenDynastyMulligan),
-                two: this.getSummaryForCardList(this.provinceTwo, activePlayer, !this.takenDynastyMulligan),
-                three: this.getSummaryForCardList(this.provinceThree, activePlayer, !this.takenDynastyMulligan),
-                four: this.getSummaryForCardList(this.provinceFour, activePlayer, !this.takenDynastyMulligan)
+                one: this.getSummaryForCardList(this.provinceOne, activePlayer, !this.readyToStart),
+                two: this.getSummaryForCardList(this.provinceTwo, activePlayer, !this.readyToStart),
+                three: this.getSummaryForCardList(this.provinceThree, activePlayer, !this.readyToStart),
+                four: this.getSummaryForCardList(this.provinceFour, activePlayer, !this.readyToStart)
             },
             showBid: this.showBid,
             stats: this.getStats(),
