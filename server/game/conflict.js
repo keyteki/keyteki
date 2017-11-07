@@ -73,20 +73,17 @@ class Conflict {
         if(!_.isArray(cards)) {
             cards = [cards];
         }
-        let events = [];
-        events.push({
-            name: 'onMoveCharactersToConflict',
-            params: { conflict: this },
-            handler: () => true
-        });
-        _.each(cards, card => {
-            events.push({
+        let events = _.map(cards, card => {
+            return {
                 name: 'onMoveToConflict',
                 params: { conflict: this, card: card },
                 handler: isAttacking ? () => this.addAttacker(card) : () => this.addDefender(card)
-            });
+            };
         });
-        this.game.raiseMultipleEvents(events);
+        this.game.raiseMultipleEvents(events, {
+            name: 'onMoveCharactersToConflict',
+            params: { conflict: this, cards: cards }
+        });
     }
 
     sendHome(card) {

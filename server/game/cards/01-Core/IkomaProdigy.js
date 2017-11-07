@@ -6,7 +6,7 @@ class IkomaProdigy extends DrawCard {
             title: 'Gain 1 honor',
             when: {
                 onCardEntersPlay: event => event.card === this && this.fate > 0,
-                onCardFateChanged: event => event.card === this && event.fate > 0
+                onCardAddFate: event => event.card === this && event.fate > 0
             },
             handler: () => {
                 this.game.addHonor(this.controller, 1);
