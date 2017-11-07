@@ -310,7 +310,7 @@ class ConflictFlow extends BaseStepWithPipeline {
             return;
         }
         
-        let cards = this.conflict.attackers.concat(this.conflict.defenders)
+        let cards = this.conflict.attackers.concat(this.conflict.defenders);
         
         let events = _.map(cards, card => {
             return {
