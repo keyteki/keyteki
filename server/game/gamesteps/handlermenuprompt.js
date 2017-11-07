@@ -1,5 +1,6 @@
 const _ = require('underscore');
 const UiPrompt = require('./uiprompt.js');
+const BaseCard = require('../basecard.js');
 
 /**
  * General purpose menu prompt. Takes a choices object with menu options and 
@@ -19,11 +20,12 @@ class HandlerMenuPrompt extends UiPrompt {
     constructor(game, player, properties) {
         super(game);
         this.player = player;
-        if(_.isString(properties.source)) {
-            properties.source = { name: properties.source };
+        if(properties.source instanceof BaseCard) {
+            properties.card = properties.source;
+            properties.source = properties.source.name;
         }
         if(properties.source && !properties.waitingPromptTitle) {
-            properties.waitingPromptTitle = 'Waiting for opponent to use ' + properties.source.name;
+            properties.waitingPromptTitle = 'Waiting for opponent to use ' + properties.source;
         }
         this.properties = properties;
     }
@@ -40,7 +42,7 @@ class HandlerMenuPrompt extends UiPrompt {
             menuTitle: this.properties.activePromptTitle || 'Select one',
             buttons: buttons,
             controls: this.getAdditionalPromptControls(),
-            promptTitle: this.properties.source.name
+            promptTitle: this.properties.source ? this.properties.source : undefined
         };
     }
 
@@ -49,7 +51,7 @@ class HandlerMenuPrompt extends UiPrompt {
         if(this.properties.controls && this.properties.controls.type === 'targeting') {
             controls.push({
                 type: 'targeting',
-                source: this.properties.source.getShortSummary(),
+                source: this.properties.card.getShortSummary(),
                 targets: this.properties.controls.targets.map(target => target.getShortSummary())
             });
         }
