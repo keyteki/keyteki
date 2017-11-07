@@ -15,7 +15,7 @@ class WindsweptYurt extends DrawCard {
             cost: ability.costs.sacrificeSelf(),
             source: this,
             handler: context => {
-                if(context.target === 'Each player gains 2 fate') {
+                if(context.select === 'Each player gains 2 fate') {
                     this.game.addMessage('{0} uses {1} to give each player 2 fate', this.controller, this);
                     this.game.addFate(this.controller, 2);
                     this.game.addFate(this.controller.opponent, 2);
