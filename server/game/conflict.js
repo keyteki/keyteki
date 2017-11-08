@@ -278,7 +278,7 @@ class Conflict {
 
     calculateSkillFor(cards) {
         return _.reduce(cards, (sum, card) => {
-            if(card.bowed) {
+            if(card.bowed || !card.allowGameAction('countForResolution')) {
                 return sum;
             }
             return sum + card.getSkill(this.conflictType);
