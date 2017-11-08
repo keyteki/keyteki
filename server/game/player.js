@@ -770,6 +770,7 @@ class Player extends Spectator {
                 waitingPromptTitle: 'Waiting for opponent to choose a card to discard',
                 cardCondition: c => c.parent === card && c.isRestricted(),
                 onSelect: (player, card) => {
+                    this.game.addMessage('{0} discards {1} from {2} due to too many Restricted attachments', player, card, card.parent);
                     player.discardCardFromPlay(card);
                     return true;
                 },
