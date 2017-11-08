@@ -230,6 +230,8 @@ class ConflictFlow extends BaseStepWithPipeline {
         if(this.conflict.isAttackerTheWinner() && this.conflict.defenders.length === 0) {
             this.conflict.conflictUnopposed = true;
         }
+        
+        this.game.reapplyStateDependentEffects();
                 
         if(this.conflict.isAttackerTheWinner()) {
             _.each(this.conflict.attackers, card => {
@@ -285,6 +287,8 @@ class ConflictFlow extends BaseStepWithPipeline {
         if(this.conflict.cancelled) {
             return;
         }
+
+        this.game.reapplyStateDependentEffects();
 
         if(this.conflict.isAttackerTheWinner()) {
             this.game.raiseEvent('onResolveRingEffects', { player: this.conflict.winner, conflict: this.conflict } , () => this.conflict.chooseWhetherToResolveRingEffect());
