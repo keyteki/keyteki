@@ -389,6 +389,7 @@ const Effects = {
     cannotBeMovedIntoConflict: cardCannotEffect('moveToConflict'),
     cannotBeSentHome: cardCannotEffect('sendHome'),
     cannotMoveCharactersIntoConflict: playerCannotEffect('moveToConflict'),
+    cannotCountForResolution: cardCannotEffect('countForResolution'),
     playerCannotTriggerAbilities: playerCannotEffect('triggerAbilities'),
     cannotBecomeDishonored: cardCannotEffect('becomeDishonored'),
     playerCannotInitiateConflict: playerCannotEffect('initiateConflict'),
