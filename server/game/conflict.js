@@ -116,7 +116,7 @@ class Conflict {
     }
     
     chooseWhetherToResolveRingEffect(player = this.attackingPlayer) {
-        this.game.raiseEvent('onResolveRingEffect', { player: this.winner, conflict: this }, () => {
+        this.game.raiseEvent('onResolveRingEffect', { player: player, conflict: this }, () => {
             let elements = this.getElements();
             if(elements.length === 1) {
                 this.game.promptWithHandlerMenu(player, {
