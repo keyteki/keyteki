@@ -38,7 +38,7 @@ class FatePhase extends Phase {
                     card.allowGameAction('removeFate') &&
                     card.fate > 0);
         });
-        this.game.raiseMultipleEvents(_.map(cards, card => {
+        this.game.openEventWindow(_.map(cards, card => {
             return new RemoveFateEvent({
                 card: card,
                 fate: 1
