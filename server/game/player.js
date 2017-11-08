@@ -1234,6 +1234,7 @@ class Player extends Spectator {
     breakProvince(province) {
         this.game.raiseEvent('onBreakProvince', { conflict: this.game.currentConflict, province: province }, () => {
             province.breakProvince();
+            this.game.reapplyStateDependentEffects();
             if(province.controller.opponent) {
                 this.game.addMessage('{0} has broken {1}!', province.controller.opponent, province);
                 if(province.location === 'stronghold province') {

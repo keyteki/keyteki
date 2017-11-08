@@ -407,6 +407,7 @@ const Effects = {
     playerCannotInitiateConflict: playerCannotEffect('initiateConflict'),
     cardCannotPlaceFate: cardCannotEffect('placeFate'),
     playerCannotPlaceFate: playerCannotEffect('placeFate'),
+    playerCannotSpendFate: playerCannotEffect('spendFate'),
     gainAbility: function(abilityType, properties) {
         return {
             apply: function(card, context) {
