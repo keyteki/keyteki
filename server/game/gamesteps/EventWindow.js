@@ -22,7 +22,7 @@ class EventWindow extends BaseStepWithPipeline {
     }
 
     addEvent(event) {
-        event.window = this;
+        event.setWindow(this);
         this.events.push(event);
     }
     
