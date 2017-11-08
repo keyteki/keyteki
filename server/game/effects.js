@@ -392,6 +392,7 @@ const Effects = {
     playerCannotTriggerAbilities: playerCannotEffect('triggerAbilities'),
     cannotBecomeDishonored: cardCannotEffect('becomeDishonored'),
     playerCannotInitiateConflict: playerCannotEffect('initiateConflict'),
+    cardCannotInitiateConflict: cardCannotEffect('initiateConflict'),
     cardCannotPlaceFate: cardCannotEffect('placeFate'),
     playerCannotPlaceFate: playerCannotEffect('placeFate'),
     gainAbility: function(abilityType, properties) {
