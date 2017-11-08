@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 
 class KakitaKaezin extends DrawCard {
@@ -24,16 +23,11 @@ class KakitaKaezin extends DrawCard {
                                     card !== winner &&
                                     card.allowGameAction('sendHome', context));
                         });
-                        let events = _.map(cards, card => {
-                            return {
-                                name: 'onSendHome',
-                                params: { card: card, conflict: this.game.currentConflict },
-                                handler: () => this.game.currentConflict.removeFromConflict(card)
-                            };
-                        });
-                        this.game.raiseMultipleEvents(events, { 
-                            name: 'onSendCharactersHome', 
-                            params: { cards: cards, conflict: this.game.currentConflict } 
+                        this.game.raiseSimultaneousEvent(cards, {
+                            eventName: 'onSendCharactersHome',
+                            perCardEventName: 'OnSendHome',
+                            perCardHandler: params => this.game.currentConflict.removeFromConflict(params.card), 
+                            params: { conflict: this.game.currentConflict }
                         });
                     } else {
                         this.game.addMessage('{0} wins the duel, and {1} is sent home', winner, loser);

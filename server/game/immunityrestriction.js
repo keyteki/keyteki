@@ -1,13 +1,13 @@
 class ImmunityRestriction {
-    constructor(condition) {
-        this.condition = condition;
+    constructor(cardCondition) {
+        this.cardCondition = cardCondition;
     }
 
-    isMatch(type, card, abilityContext) {
+    isMatch(type, abilityContext) {
         return (
-            abilityContext &&
-            abilityContext.stage !== 'cost' &&
-            this.condition(abilityContext)
+            abilityContext.stage === 'effect' &&
+            abilityContext.card &&
+            this.cardCondition(abilityContext.card)
         );
     }
 }

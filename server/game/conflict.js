@@ -73,17 +73,20 @@ class Conflict {
         if(!_.isArray(cards)) {
             cards = [cards];
         }
-        let events = _.map(cards, card => {
-            return {
+        let events = [];
+        events.push({
+            name: 'onMoveCharactersToConflict',
+            params: { conflict: this },
+            handler: () => true
+        });
+        _.each(cards, card => {
+            events.push({
                 name: 'onMoveToConflict',
                 params: { conflict: this, card: card },
                 handler: isAttacking ? () => this.addAttacker(card) : () => this.addDefender(card)
-            };
+            });
         });
-        this.game.raiseMultipleEvents(events, {
-            name: 'onMoveCharactersToConflict',
-            params: { conflict: this, cards: cards }
-        });
+        this.game.raiseMultipleEvents(events);
     }
 
     sendHome(card) {
@@ -91,10 +94,6 @@ class Conflict {
             conflict: this.conflict,
             card: card
         }, () => this.removeFromConflict(card));
-    }
-    
-    modifyElementsToResolve(amount) {
-        this.elementsToResolve += amount;
     }
     
     hasElement(element) {
@@ -283,7 +282,7 @@ class Conflict {
 
     calculateSkillFor(cards) {
         return _.reduce(cards, (sum, card) => {
-            if(card.bowed || !card.allowGameAction('countForResolution')) {
+            if(card.bowed) {
                 return sum;
             }
             return sum + card.getSkill(this.conflictType);

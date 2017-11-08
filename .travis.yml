@@ -15,4 +15,3 @@ addons:
 script:
   - npm test
   - npm run lint
-  - npm run coverage

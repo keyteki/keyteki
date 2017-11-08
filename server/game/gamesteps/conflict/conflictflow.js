@@ -91,7 +91,7 @@ class ConflictFlow extends BaseStepWithPipeline {
             }
         }
         this.game.reapplyStateDependentEffects();
-        this.game.raiseMultipleEvents(events);
+        this.game.raiseAtomicEvent(events);
     }
 
     promptForAttackers() {
@@ -231,8 +231,6 @@ class ConflictFlow extends BaseStepWithPipeline {
         if(this.conflict.isAttackerTheWinner() && this.conflict.defenders.length === 0) {
             this.conflict.conflictUnopposed = true;
         }
-        
-        this.game.reapplyStateDependentEffects();
                 
         if(this.conflict.isAttackerTheWinner()) {
             _.each(this.conflict.attackers, card => {
@@ -289,8 +287,6 @@ class ConflictFlow extends BaseStepWithPipeline {
             return;
         }
 
-        this.game.reapplyStateDependentEffects();
-
         if(this.conflict.isAttackerTheWinner()) {
             this.conflict.chooseWhetherToResolveRingEffect();
         }       
@@ -314,25 +310,12 @@ class ConflictFlow extends BaseStepWithPipeline {
         if(this.conflict.cancelled) {
             return;
         }
-        
-        let cards = this.conflict.attackers.concat(this.conflict.defenders);
-        
-        let events = _.map(cards, card => {
-            return {
-                name: 'OnReturnHome',
-                params: {
-                    card: card,
-                    conflict: this.conflict
-                },
-                handler: () => card.returnHomeFromConflict()
-            };
-        });
-        this.game.raiseMultipleEvents(events, {
-            name: 'onParticipantsReturnHome', 
-            params: { 
-                cards: cards, 
-                conflict: this.conflict
-            }
+
+        this.game.raiseSimultaneousEvent(this.conflict.attackers.concat(this.conflict.defenders), {
+            eventName: 'onParticipantsReturnHome',
+            perCardEventName: 'OnReturnHome',
+            perCardHandler: (params) => params.card.returnHomeFromConflict(), 
+            params: { conflict: this.conflict }
         });
     }
     

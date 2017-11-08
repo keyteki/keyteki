@@ -22,12 +22,12 @@ const MenuPrompt = require('./gamesteps/menuprompt.js');
 const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 const SelectRingPrompt = require('./gamesteps/selectringprompt.js');
-const Event = require('./Events/Event.js');
-const EventWindow = require('./gamesteps/EventWindow.js');
+const EventWindow = require('./gamesteps/eventwindow.js');
 const AtomicEventWindow = require('./gamesteps/atomiceventwindow.js');
 const SimultaneousEventWindow = require('./gamesteps/simultaneouseventwindow.js');
 const CardLeavesPlayEventWindow = require('./gamesteps/cardleavesplayeventwindow.js');
 const InitateAbilityEventWindow = require('./gamesteps/initiateabilityeventwindow.js');
+const MultipleEventWindow = require('./gamesteps/multipleeventwindow.js');
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const ForcedTriggeredAbilityWindow = require('./gamesteps/forcedtriggeredabilitywindow.js');
 const TriggeredAbilityWindow = require('./gamesteps/triggeredabilitywindow.js');
@@ -1197,36 +1197,25 @@ class Game extends EventEmitter {
     }
 
     /*
-     * Creates a game Event, and opens a window for it.
+     * Creates a game Event, and creates an EventWindow which will open windows 
+     * for each kind of triggered ability which can respond to it, and execute 
+     * the passed handler.
+     * TODO: return something from this function to allow the code that called
+     * it to tell whether it resolved successfully
      * @param {String} eventName
      * @param {Object} params - parameters for this event
      * @param {Function} handler - (Event + params) => undefined
-     * @returns {Event} - this allows the caller to track Event.resolved and
-     * tell whether or not the handler resolved successfully
-     */
-    raiseEvent(eventName, params, handler) {
-        let event = new Event(eventName, params, handler);
-        this.openEventWindow([event]);
-        return event;
-    }
-    
-    /* Creates an EventWindow which will open windows for each kind of triggered 
-     * ability which can respond any passed events, and execute their handlers.
-     * @param {type} events - Array of Event
      * @returns {undefined}
      */
-    openEventWindow(events) {
-        if(!_.isArray(events)) {
-            events = [events];
-        }
-        this.queueStep(new EventWindow(this, events));
+    raiseEvent(eventName, params, handler = () => true) {
+        this.queueStep(new EventWindow(this, eventName, params || {}, handler));
     }
 
     /**
      * Raises multiple events whose resolution is performed atomically. Any
      * abilities triggered by these events will appear within the same prompt
      * for the player. NB: this doesn't execute any handlers on passed events
-     * @deprecated
+     * TODO: refactor this into EventWindow
      * @param {Array} events - Array of Event
      * @param {Function} handler - () => undefined
      * @returns {undefined}
@@ -1238,7 +1227,7 @@ class Game extends EventEmitter {
     /**
      * Raises the same event across multiple cards as well as a wrapping plural
      * version of the event that lists all cards.
-     * @deprecated
+     * TODO: refactor this into EventWindow
      * @param {Array} cards - Array of BaseCard
      * @param {Object} properties - { eventName: String, handler: Function, perCardEventName: String, perCardHandler: Function, params: Object }
      * @returns {undefined}
@@ -1252,7 +1241,7 @@ class Game extends EventEmitter {
      * separate contingent events for any attachments on the card leaving play,
      * and creates a separate sacrifice event if required. Moves the card to the
      * specified destination during execution
-     * @deprecated
+     * TODO: refactor into EventWindow
      * @param {DrawCard} card - card leaving play
      * @param {String} destination
      * @param {Boolean} isSacrifice
@@ -1279,22 +1268,12 @@ class Game extends EventEmitter {
      * abilities triggered by these events will appear within the same prompt
      * for the player. Allows each event to take its own handler which will
      * all execute in the same step
-     * @param {Array} events - Array of { name: String, params: Object, handler: Function }
-     * @param {Object} conditionalEvent - { name: String, params: Object, handler: Function },
-     * this event should be made conditional on any of the others not having
-     * been cancelled
-     * @returns {Array} Array of Event
+     * TODO: refactor this into EventWindow
+     * @param {Array} events - Array of Event
+     * @returns {undefined}
      */
-    raiseMultipleEvents(events, conditionalEvent = null) {
-        events = events.map(event => new Event(event.name, event.params, event.handler));
-        if(conditionalEvent) {
-            conditionalEvent = new Event(conditionalEvent.name, conditionalEvent.params, conditionalEvent.handler);
-            conditionalEvent.condition = () => events.any(event => !event.cancelled);
-            this.openEventWindow(events.concat([conditionalEvent]));
-            return events.concat([conditionalEvent]);
-        }
-        this.openEventWindow(events);
-        return events;
+    raiseMultipleEvents(events) {
+        this.queueStep(new MultipleEventWindow(this, events));
     }
 
     /*

@@ -1,69 +1,94 @@
-const _ = require('underscore');
-
 const BaseStepWithPipeline = require('./basestepwithpipeline.js');
 const SimpleStep = require('./simplestep.js');
+const Event = require('../event.js');
 
 class EventWindow extends BaseStepWithPipeline {
-    constructor(game, events) {
+    constructor(game, eventName, params, handler) {
         super(game);
 
-        this.events = _([]);
-        _.each(events, event => this.addEvent(event));
+        this.eventName = eventName;
 
+        this.event = new Event(eventName, params, handler);
         this.pipeline.initialise([
-            new SimpleStep(game, () => this.openWindow('cancelinterrupt')),
-            new SimpleStep(game, () => this.openWindow('forcedinterrupt')),
-            new SimpleStep(game, () => this.openWindow('interrupt')),
+            new SimpleStep(game, () => this.cancelInterrupts()),
+            new SimpleStep(game, () => this.forcedInterrupts()),
+            new SimpleStep(game, () => this.interrupts()),
             new SimpleStep(game, () => this.checkForOtherEffects()),
             new SimpleStep(game, () => this.executeHandler()),
-            new SimpleStep(game, () => this.openWindow('forcedreaction')),
-            new SimpleStep(game, () => this.openWindow('reaction'))
+            new SimpleStep(game, () => this.forcedReactions()),
+            new SimpleStep(game, () => this.reactions())
         ]);
     }
 
-    addEvent(event) {
-        event.window = this;
-        this.events.push(event);
-    }
-    
-    removeEvent(events) {
-        if(!_.isArray(events)) {
-            events = [events];
-        }
-        let uuids = events.map(event => event.uuid);
-        events.each(event => event.setWindow(this));
-        this.events = this.events.reject(event => uuids.includes(event.uuid));
-        this.events.each(event => event.checkCondition());
+    cancelInterrupts() {
+        this.game.openAbilityWindow({
+            abilityType: 'cancelinterrupt',
+            event: this.event
+        });
     }
 
-    openWindow(abilityType) {
-        if(_.isEmpty(this.events)) {
+    forcedInterrupts() {
+        if(this.event.cancelled) {
             return;
         }
 
         this.game.openAbilityWindow({
-            abilityType: abilityType,
-            event: this.events.values()
+            abilityType: 'forcedinterrupt',
+            event: this.event
+        });
+    }
+
+    interrupts() {
+        if(this.event.cancelled) {
+            return;
+        }
+
+        this.game.openAbilityWindow({
+            abilityType: 'interrupt',
+            event: this.event
         });
     }
     
-    // This catches any persistent/delayed effect cancels
     checkForOtherEffects() {
-        if(_.isEmpty(this.events)) {
+        if(this.event.cancelled) {
             return;
         }
         
-        this.events.each(event => this.game.emit(event.name + 'OtherEffects', ...event.params));
+        this.game.emit(this.eventName + 'OtherEffects', ...this.event.params);
     }
-    
+
     executeHandler() {
-        if(_.isEmpty(this.events)) {
+        if(this.event.cancelled) {
             return;
         }
-        
-        this.events.sortBy(event => event.order);
-        this.events.each(event => event.executeHandler());
-        this.events.each(event => this.game.emit(event.name, ...event.params));
+
+        this.event.handler(...this.event.params);
+
+        if(!this.event.cancelled) {
+            this.game.emit(this.eventName, ...this.event.params);
+        }
+    }
+
+    forcedReactions() {
+        if(this.event.cancelled) {
+            return;
+        }
+
+        this.game.openAbilityWindow({
+            abilityType: 'forcedreaction',
+            event: this.event
+        });
+    }
+
+    reactions() {
+        if(this.event.cancelled) {
+            return;
+        }
+
+        this.game.openAbilityWindow({
+            abilityType: 'reaction',
+            event: this.event
+        });
     }
 }
 
