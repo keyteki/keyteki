@@ -1271,7 +1271,8 @@ class Game extends EventEmitter {
      * @returns {undefined}
      */
     raiseInitiateAbilityEvent(context, handler) {
-        this.queueStep(new InitateAbilityEventWindow(this, context, handler));
+        let event = new Event('onCardAbilityInitiated', { context: context }, handler);
+        this.queueStep(new InitateAbilityEventWindow(this, [event]));
     }
 
     /**

@@ -29,6 +29,7 @@ class Banzai extends DrawCard {
                                     this.game.addMessage('{0} loses 1 honor resolve {1} again, granting 2 military skill to {2}', player, this, card);
                                     context.targets.target = card;
                                     context.target = card;
+                                    context.dontRaiseCardPlayed = true;
                                     this.game.raiseEvent('onCardAbilityInitiated', context, () => {
                                         this.untilEndOfConflict(ability => ({
                                             match: card,
@@ -38,8 +39,8 @@ class Banzai extends DrawCard {
                                             source: this,
                                             choices: ['Lose 1 honor for no effect', 'Done'],
                                             handlers: [() => {
-                                                this.game.addHonor(player, -1);
                                                 this.game.addMessage('{0} loses 1 honor for no effect', player);
+                                                this.game.addHonor(player, -1);
                                             }, () => true]
                                         });
                                     });

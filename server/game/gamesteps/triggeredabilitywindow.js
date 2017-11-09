@@ -49,7 +49,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
         let abilitiesEnabled = player.timerSettings.abilities;
 
         if(event.name === 'onCardAbilityInitiated') {
-            if(event.source.getType() === 'event') {
+            if(event.context.source.getType() === 'event') {
                 return eventsEnabled;
             }
 
@@ -67,7 +67,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
         };
 
         return !_.any(this.abilityChoices, abilityChoice => this.eligibleChoiceForPlayer(abilityChoice, player)) && this.isTimerEnabled(player) && _.any(this.events, event => {
-            return event.player !== player && cancellableEvents[event.name] && cancellableEvents[event.name] === this.abilityType && this.isWindowEnabledForEvent(player, event);
+            return event.context.player !== player && cancellableEvents[event.name] && cancellableEvents[event.name] === this.abilityType && this.isWindowEnabledForEvent(player, event);
         });
     }
 
@@ -134,11 +134,11 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
     getAdditionalPromptControls() {
         let controls = [];
         for(let event of this.events) {
-            if(event.name === 'onCardAbilityInitiated' && event.targets.length > 0) {
+            if(event.name === 'onCardAbilityInitiated' && event.context.targets.length > 0) {
                 controls.push({
                     type: 'targeting',
-                    source: event.source.getShortSummary(),
-                    targets: event.targets.map(target => target.getShortSummary())
+                    source: event.context.source.getShortSummary(),
+                    targets: event.context.targets.map(target => target.getShortSummary())
                 });
             }
         }

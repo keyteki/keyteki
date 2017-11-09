@@ -1,48 +1,27 @@
-const BaseStepWithPipeline = require('./basestepwithpipeline.js');
+const EventWindow = require('./EventWindow.js');
 const SimpleStep = require('./simplestep.js');
-const Event = require('../event.js');
 
-class InitiateAbilityEventWindow extends BaseStepWithPipeline {
-    constructor(game, params, handler) {
-        super(game);
-
-        this.eventName = 'onCardAbilityInitiated';
-
-        this.event = new Event(this.eventName, params, handler);
+class InitiateAbilityEventWindow extends EventWindow {
+    initialise() {
         this.pipeline.initialise([
-            new SimpleStep(game, () => this.cancelInterrupts()),
-            new SimpleStep(game, () => this.checkForOtherEffects()),
-            new SimpleStep(game, () => this.executeHandler())
+            new SimpleStep(this.game, () => this.openWindow('cancelinterrupt')),
+            new SimpleStep(this.game, () => this.checkForOtherEffects()),
+            new SimpleStep(this.game, () => this.raiseCardPlayedIfEvent()),
+            new SimpleStep(this.game, () => this.executeHandler())
         ]);
-    }
-
-    cancelInterrupts() {
-        this.game.openAbilityWindow({
-            abilityType: 'cancelinterrupt',
-            event: this.event
-        });
     }
 
     checkForOtherEffects() {
         // Kisada needs to see the cancelled event so he knows that he can't cancel the next one
-        /* 
-        if(this.event.cancelled) {
-            return;
-        }*/
-        
-        this.game.emit(this.eventName + 'OtherEffects', ...this.event.params);
+        this.events.each(event => this.game.emit(event.name + 'OtherEffects', ...event.params));
     }
 
-    executeHandler() {
-        if(this.event.cancelled) {
-            return;
-        }
-
-        this.event.handler(...this.event.params);
-
-        if(!this.event.cancelled) {
-            this.game.emit(this.eventName, ...this.event.params);
-        }
+    raiseCardPlayedIfEvent() {
+        this.events.each(event => {
+            if(event.context.ability.isCardPlayed() && !event.context.dontRaiseCardPlayed) { //context.dontRaiseCardPlayed is a flag raised by events doing multiple resolutions
+                this.game.raiseEvent('onCardPlayed', { player: event.context.player, card: event.context.source, originalLocation: 'hand' });
+            }
+        });
     }
 }
 
