@@ -9,7 +9,7 @@ import GameConfiguration from '../../client/GameComponents/GameConfiguration.jsx
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 import stubComponent from './test-setup.jsx';
 
 var state = { cards: {}, games: { state: {}, currentGame: { players: {} } }, socket: {}, auth: {} };

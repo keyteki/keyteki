@@ -8,6 +8,7 @@ module.exports = function(config) {
         frameworks: ['jasmine'],
 
         files: [
+            'node_modules/babel-polyfill/dist/polyfill.js',
             'test/client/tests.webpack.js',
             'node_modules/jquery/dist/jquery.js',
             'node_modules/bootstrap/dist/js/bootstrap.js',
