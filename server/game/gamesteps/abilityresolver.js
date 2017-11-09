@@ -32,7 +32,7 @@ class AbilityResolver extends BaseStepWithPipeline {
     }
 
     createSnapshot() {
-        if(this.context.source.getType() === 'character' || this.context.source.getType() === 'holding' || this.context.source.getType() === 'attachment') {
+        if(['character', 'holding', 'attachment'].includes(this.context.source.getType())) {
             this.context.cardStateWhenInitiated = this.context.source.createSnapshot();
         }
     }
