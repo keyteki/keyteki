@@ -97,7 +97,7 @@ describe('DynastyCardAction', function () {
         });
 
         it('should put the card into play', function() {
-            expect(this.playerSpy.putIntoPlay).toHaveBeenCalledWith(this.cardSpy);
+            expect(this.playerSpy.putIntoPlay).toHaveBeenCalledWith(this.cardSpy, false, true);
         });
     });
 });
