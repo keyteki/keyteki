@@ -35,8 +35,8 @@ class EventWindow extends BaseStepWithPipeline {
             events = [events];
         }
         let uuids = events.map(event => event.uuid);
-        events.each(event => event.setWindow(this));
-        this.events = this.events.reject(event => uuids.includes(event.uuid));
+        _.each(events, event => event.unsetWindow());
+        this.events = _(this.events.reject(event => uuids.includes(event.uuid)));
         this.events.each(event => event.checkCondition());
     }
 

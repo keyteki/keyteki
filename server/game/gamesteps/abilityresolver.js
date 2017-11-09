@@ -131,7 +131,7 @@ class AbilityResolver extends BaseStepWithPipeline {
             return;
         }
         if(this.context.ability.isCardAbility()) {
-            this.game.raiseInitiateAbilityEvent(this.context, () => this.executeHandler());
+            this.game.raiseInitiateAbilityEvent({ card: this.context.source, context: this.context }, () => this.executeHandler());
         } else {
             this.executeHandler();
         }
