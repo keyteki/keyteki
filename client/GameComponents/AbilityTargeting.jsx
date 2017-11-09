@@ -44,7 +44,7 @@ class AbilityTargeting extends React.Component {
 
     render() {
         let targetCards = _.map(this.props.targets, target => {
-            return _.isString(target) ? this.renderStringChoice(target) : target.type === 'ring' ? this.renderSimpleRing(target) : this.renderSimpleCard(target);
+            return target.type === 'select' ? this.renderStringChoice(target.name) : target.type === 'ring' ? this.renderSimpleRing(target) : this.renderSimpleCard(target);
         });
         return (
             <div className='prompt-control-targeting'>

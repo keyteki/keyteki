@@ -69,7 +69,7 @@ class AbilityTargetCard {
     }
     
     checkTarget(context) {
-        return this.properties.ringCondition(context.targets[this.name]);
+        return this.properties.ringCondition(context.rings[this.name]);
     }
 }
 
