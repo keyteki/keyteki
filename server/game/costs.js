@@ -13,7 +13,8 @@ const Costs = {
             },
             pay: function(context) {
                 _.each(costs, cost => cost.pay(context));
-            }
+            },
+            canIgnoreForTargeting: _.all(costs, cost => cost.canIgnoreForTargeting)
         };
     },
     /**
