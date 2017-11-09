@@ -4,36 +4,33 @@ const ProvinceCard = require('../../provincecard.js');
 class SecretCache extends ProvinceCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Look at top 5 cards',
             when: {
                 onConflictDeclared: event => event.conflict.conflictProvince === this
             },
             handler: () => {
                 let myTopFive = this.controller.conflictDeck.first(5);
-                if(myTopFive.length > 0) {
-                    this.game.addMessage('{0} uses {1} to look at the top {2} of their conflict deck', 
-                        this.controller, this, myTopFive.length > 1 ? myTopFive.length + ' cards' : 'card');
-                    this.game.promptWithMenu(this.controller, this, {
+                if(myTopFive.length > 1) {
+                    this.game.addMessage('{0} uses {1} to look at the top {2} cards of their conflict deck', this.controller, this, myTopFive.length);
+                    let handlers = _.map(myTopFive, card => {
+                        return () => {
+                            this.game.addMessage('{0} takes a card into their hand', this.controller);
+                            this.controller.moveCard(card, 'hand');
+                            this.controller.shuffleConflictDeck();                    
+                        };
+                    });
+                    this.game.promptWithHandlerMenu(this.controller, {
                         source: this,
-                        activePrompt: { 
-                            menuTitle: 'Choose a card to take from your Secret Cache',
-                            buttons: _.map(myTopFive, card => {
-                                return { text: card.name, arg: card.uuid, method: 'pickMyCard' };
-                            })
-                        }
+                        activePromptTitle: 'Choose a card',
+                        cards: myTopFive,
+                        handlers: handlers
                     });
                 } else {
-                    this.game.addMessage('{0} uses {1}, but there are no more cards remaining in their conflict deck!', this.controller, this);
+                    this.game.addMessage('{0} uses {1} to take the last card from their conflict deck into their hand', this.controller, this);
+                    this.controller.drawCardsToHand(1);
                 }
             }
         });
-    }
-
-    pickMyCard (player, arg) {
-        let card = player.findCardByUuid(player.conflictDeck, arg);
-        player.moveCard(card, 'hand');
-        this.game.addMessage('{0} takes a card into their hand', player);
-        player.shuffleConflictDeck();
-        return true;
     }
 }
 
