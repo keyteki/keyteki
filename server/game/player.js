@@ -660,7 +660,7 @@ class Player extends Spectator {
         });
     }
 
-    putIntoPlay(card, intoConflict = false) {
+    putIntoPlay(card, intoConflict = false, raiseCardPlayed = false) {
         if(!this.canPutIntoPlay(card)) {
             return;
         }
@@ -687,7 +687,19 @@ class Player extends Spectator {
 
         card.applyPersistentEffects();
 
-        this.game.raiseEvent('onCardEntersPlay', { card: card, originalLocation: originalLocation });
+        let events = [{
+            name: 'onCardEntersPlay',
+            params: { card: card, originalLocation: originalLocation }
+        }];
+
+        if(raiseCardPlayed) {
+            events.push({
+                name: 'onCardPlayed',
+                params: { player: this, card: card, originalLocation: originalLocation }
+            });
+        }
+
+        this.game.raiseMultipleEvents(events);
     }
 
     setupBegin() {
@@ -745,7 +757,7 @@ class Player extends Spectator {
     }
 
 
-    attach(attachment, card) {
+    attach(attachment, card, raiseCardPlayed = false) {
         if(!card || !attachment) {
             return;
         }
@@ -792,6 +804,13 @@ class Player extends Spectator {
             events.push({
                 name: 'onCardEntersPlay',
                 params: { card: attachment, originalLocation: originalLocation }
+            });
+        }
+        
+        if(raiseCardPlayed) {
+            events.push({
+                name: 'onCardPlayed',
+                params: { player: this, card: attachment, originalLocation: originalLocation }
             });
         }
 

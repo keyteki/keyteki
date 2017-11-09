@@ -30,11 +30,9 @@ class DynastyCardAction extends BaseAbility {
     }
 
     executeHandler(context) {
-        
-        context.source.fate = context.chooseFate;
-        context.player.putIntoPlay(context.source);
-        
         context.game.addMessage('{0} plays {1} with {2} additional fate', context.player, context.source, context.chooseFate);
+        context.source.fate = context.chooseFate;
+        context.player.putIntoPlay(context.source, false, true);
     }
 
     isCardPlayed() {

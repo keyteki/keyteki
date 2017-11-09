@@ -39,17 +39,17 @@ class PlayCharacterAction extends BaseAbility {
                 handlers: [
                     () => {
                         context.game.addMessage('{0} plays {1} into the conflict with {2} additional fate', context.player, context.source, context.source.fate);
-                        context.player.putIntoPlay(context.source, true);
+                        context.player.putIntoPlay(context.source, true, true);
                     },
                     () => {
                         context.game.addMessage('{0} plays {1} at home with {2} additional fate', context.player, context.source, context.source.fate);
-                        context.player.putIntoPlay(context.source, false);
+                        context.player.putIntoPlay(context.source, false, true);
                     }
                 ]
             });
         } else {
             context.game.addMessage('{0} plays {1} with {2} additional fate', context.player, context.source, context.source.fate);
-            context.player.putIntoPlay(context.source);
+            context.player.putIntoPlay(context.source, false, true);
         }
     }
 
