@@ -56,7 +56,7 @@ class AbilityTargetSelect {
     }
     
     checkTarget(context) {
-        return this.properties.choices[context.targets[this.name]](context);
+        return this.properties.choices[context.selects[this.name].choice](context);
     }
 }
 

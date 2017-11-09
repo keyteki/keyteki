@@ -2,6 +2,7 @@ const _ = require('underscore');
 
 const BaseStepWithPipeline = require('./basestepwithpipeline.js');
 const SimpleStep = require('./simplestep.js');
+const SelectChoice = require('./SelectChoice.js');
 
 class AbilityResolver extends BaseStepWithPipeline {
     constructor(game, context) {
@@ -109,7 +110,7 @@ class AbilityResolver extends BaseStepWithPipeline {
                     this.context.ring = result.value;
                 }
             } else if(result.mode === 'select') {
-                this.context.selects[result.name] = result.value;
+                this.context.selects[result.name] = new SelectChoice(result.value);
                 if(result.name === 'target') {
                     this.context.select = result.value;
                 }
