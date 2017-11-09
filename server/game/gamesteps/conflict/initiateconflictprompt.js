@@ -159,6 +159,10 @@ class InitiateConflictPrompt extends UiPrompt {
 
     menuCommand(player, arg) {
         if(arg === 'done') {
+            let keys = _.keys(capitalize);
+            if(!keys.includes(this.conflict.conflictType) || !keys.includes(this.conflict.conflictRing) || (!this.conflict.isSinglePlayer && !this.conflict.conflictProvince)) {
+                return;
+            }
             if(this.covertRemaining && this.conflict.defendingPlayer.anyCardsInPlay(card => {
                 return card.canBeBypassedByCovert() && !card.covert && !card.bowed;
             })) {

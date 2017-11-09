@@ -352,7 +352,7 @@ class Player extends Spectator {
     }
 
     shuffleConflictDeck() {
-        if(!this.name === 'Dummy Player') {
+        if(this.name !== 'Dummy Player') {
             this.game.addMessage('{0} is shuffling their conflict deck', this);
         }
         this.game.raiseEvent('onDeckShuffled', { player: this, deck: 'conflict deck' });
@@ -360,7 +360,7 @@ class Player extends Spectator {
     }
 
     shuffleDynastyDeck() {
-        if(!this.name === 'Dummy Player') {
+        if(this.name !== 'Dummy Player') {
             this.game.addMessage('{0} is shuffling their dynasty deck', this);
         }
         this.game.raiseEvent('onDeckShuffled', { player: this, deck: 'dynasty deck' });
