@@ -36,6 +36,22 @@ class RingSource {
         return null;
     }
 
+    hasKeyword() {
+        return false;
+    }
+
+    hasTrait() {
+        return false;
+    }
+            
+    isFaction() {
+        return false;
+    }
+            
+    hasToken() {
+        return false;
+    }
+            
     getShortSummary() {
         return {
             id: this.id,
