@@ -16,6 +16,7 @@ class DisplayOfPower extends DrawCard {
     }
     
     displayOfPowerOnResolveRingEffect(event) {
+        this.eventRegistrar.unregisterAll();
         this.game.queueSimpleStep(() => this.displayOfPowerCancelRingEffect(event));
     }
 
