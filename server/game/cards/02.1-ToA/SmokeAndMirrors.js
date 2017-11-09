@@ -2,14 +2,12 @@ const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 
 class SmokeAndMirrors extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Move shinobi home',
-            condition: () => {
-                return (this.game.currentConflict && this.controller.anyCardsInPlay(card => card.controller === this.controller && card.isAttacking() && card.hasTrait('shinobi')));
-            },
+            condition: () => this.game.currentConflict,
             target: {
-                activePromptTitle: 'Choose shinobi',
+                activePromptTitle: 'Choose characters',
                 numCards: 0,
                 multiSelect: true,
                 cardType: 'character',
