@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class DojiRepresentative extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Move this character home',
             condition: () => this.game.currentConflict && this.isParticipating(),
