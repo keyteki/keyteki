@@ -1,7 +1,7 @@
 const _ = require('underscore');
 
 const EventToTitleFunc = {
-    onCardAbilityInitiated: event => 'the effects of ' + event.source.name,
+    onCardAbilityInitiated: event => 'the effects of ' + event.card.name,
     onCardPowerChanged: event => event.card.name + ' gaining power',
     onClaimApplied: () => 'to claim effects being applied',
     onCardLeavesPlay: event => event.card.name + ' leaving play',

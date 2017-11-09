@@ -49,7 +49,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
         let abilitiesEnabled = player.timerSettings.abilities;
 
         if(event.name === 'onCardAbilityInitiated') {
-            if(event.source.getType() === 'event') {
+            if(event.card.getType() === 'event') {
                 return eventsEnabled;
             }
 
@@ -67,7 +67,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
         };
 
         return !_.any(this.abilityChoices, abilityChoice => this.eligibleChoiceForPlayer(abilityChoice, player)) && this.isTimerEnabled(player) && _.any(this.events, event => {
-            return event.player !== player && cancellableEvents[event.name] && cancellableEvents[event.name] === this.abilityType && this.isWindowEnabledForEvent(player, event);
+            return event.context && event.context.player !== player && cancellableEvents[event.name] && cancellableEvents[event.name] === this.abilityType && this.isWindowEnabledForEvent(player, event);
         });
     }
 
@@ -76,6 +76,9 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
     }
 
     eligibleChoiceForPlayer(abilityChoice, player) {
+        if(!player.optionSettings.cancelOwnAbilities && _.all(this.events, event => event.name === 'onCardAbilityInitiated' && event.context.player === player)) {
+            return false;
+        }
         return abilityChoice.player === player && abilityChoice.context.ability.meetsRequirements(abilityChoice.context);
     }
 
@@ -141,7 +144,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
             if(event.name === 'onCardAbilityInitiated' && targets.length > 0) {
                 controls.push({
                     type: 'targeting',
-                    source: event.source.getShortSummary(),
+                    source: event.card.getShortSummary(),
                     targets: targets.map(target => target.getShortSummary())
                 });
             }

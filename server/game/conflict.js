@@ -86,11 +86,21 @@ class Conflict {
         });
     }
 
-    sendHome(card) {
-        this.game.raiseEvent('onSendHome', {
-            conflict: this.conflict,
-            card: card
-        }, () => this.removeFromConflict(card));
+    sendHome(cards) {
+        if(!_.isArray(cards)) {
+            cards = [cards];
+        }
+        let events = _.map(cards, card => {
+            return {
+                name: 'onSendHome',
+                params: { conflict: this, card: card },
+                handler: () => this.removeFromConflict(card)
+            };
+        });
+        this.game.raiseMultipleEvents(events, {
+            name: 'onSendCharactersHome',
+            params: { conflict: this, cards: cards }
+        });
     }
     
     modifyElementsToResolve(amount) {

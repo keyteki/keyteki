@@ -11,27 +11,31 @@ class AbilityResolver extends BaseStepWithPipeline {
         this.context = context;
         this.pipeline.initialise([
             new SimpleStep(game, () => this.setNoNewActions()),
+            new SimpleStep(game, () => this.createSnapshot()),
             new SimpleStep(game, () => this.resolveEarlyTargets()),
             new SimpleStep(game, () => this.waitForTargetResolution(true)),
             new SimpleStep(game, () => this.game.pushAbilityContext('card', context.source, 'cost')),
             new SimpleStep(game, () => this.resolveCosts()),
             new SimpleStep(game, () => this.waitForCostResolution()),
+            new SimpleStep(game, () => this.markActionAsTaken()),
             new SimpleStep(game, () => this.payCosts()),
             new SimpleStep(game, () => this.game.popAbilityContext()),
             new SimpleStep(game, () => this.game.pushAbilityContext('card', context.source, 'effect')),
             new SimpleStep(game, () => this.resolveTargets()),
             new SimpleStep(game, () => this.waitForTargetResolution()),
-            new SimpleStep(game, () => this.markActionAsTaken()),
             new SimpleStep(game, () => this.initiateAbility()),
-            new SimpleStep(game, () => this.raiseCardPlayedIfAbility()),
-            new SimpleStep(game, () => this.executeHandler()),
-            new SimpleStep(game, () => this.raiseCardPlayedIfNotAbility()),
             new SimpleStep(game, () => this.game.popAbilityContext())
         ]);
     }
 
     setNoNewActions() {
         _.each(this.game.getPlayers(), player => player.canInitiateAction = false);
+    }
+
+    createSnapshot() {
+        if(['character', 'holding', 'attachment'].includes(this.context.source.getType())) {
+            this.context.cardStateWhenInitiated = this.context.source.createSnapshot();
+        }
     }
 
     markActionAsTaken() {
@@ -127,41 +131,16 @@ class AbilityResolver extends BaseStepWithPipeline {
         if(this.cancelled) {
             return;
         }
-        this.cancelledByAbility = false;
         if(this.context.ability.isCardAbility()) {
-            this.cancelledByAbility = true;
-            let clonedContext = _.clone(this.context);
-            clonedContext.targets = _.flatten(_.values(this.context.targets));
-            this.game.raiseInitiateAbilityEvent(clonedContext, () => this.cancelledByAbility = false);
-        }
-    }
-
-    raiseCardPlayedIfAbility() {
-        if(this.cancelled) {
-            return;
-        }
-        
-        if(this.context.ability.isCardAbility() && this.context.ability.isCardPlayed()) {
-            this.game.raiseEvent('onCardPlayed', { player: this.context.player, card: this.context.source, originalLocation: this.context.ability.originalLocation });
+            this.game.raiseInitiateAbilityEvent({ card: this.context.source, context: this.context }, () => this.executeHandler());
+        } else {
+            this.executeHandler();
         }
     }
 
     executeHandler() {
-        if(this.cancelled || this.cancelledByAbility) {
-            return;
-        }
         this.context.stage = 'effect';
         this.context.ability.executeHandler(this.context);
-    }
-
-    raiseCardPlayedIfNotAbility() {
-        if(this.cancelled) {
-            return;
-        }
-        
-        if(!this.context.ability.isCardAbility() && this.context.ability.isCardPlayed()) {
-            this.game.raiseEvent('onCardPlayed', { player: this.context.player, card: this.context.source, originalLocation: this.context.ability.originalLocation });
-        }
     }
 }
 
