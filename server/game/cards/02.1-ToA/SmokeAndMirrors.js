@@ -17,7 +17,7 @@ class SmokeAndMirrors extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to send {2} home', this.controller, this, context.target);
-                _.each(context.target, card => this.game.currentConflict.sendHome(card));
+                this.game.currentConflict.sendHome(context.target);
             }
         });
     }
