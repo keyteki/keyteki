@@ -7,7 +7,8 @@ class PlayCharacterAction extends BaseAbility {
             cost: [
                 Costs.chooseFate(),
                 Costs.payReduceableFateCost('play'),
-                Costs.playLimited()
+                Costs.playLimited(),
+                Costs.useInitiateAction()                
             ]
         });
         this.title = 'Play this character';
@@ -30,7 +31,6 @@ class PlayCharacterAction extends BaseAbility {
     executeHandler(context) {
         
         context.source.fate = context.chooseFate;
-        this.originalLocation = context.source.location;
         if(context.game.currentConflict) {
             context.game.promptWithHandlerMenu(context.player, {
                 activePromptTitle: 'Where do you wish to play this character?',
@@ -55,10 +55,6 @@ class PlayCharacterAction extends BaseAbility {
 
     isCardPlayed() {
         return true;
-    }
-
-    isCardAbility() {
-        return false;
     }
 }
 
