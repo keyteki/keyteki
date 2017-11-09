@@ -1,4 +1,4 @@
-const EventWindow = require('../../../server/game/gamesteps/eventwindow.js');
+const EventWindow = require('../../../server/game/gamesteps/EventWindow.js');
 const Event = require('../../../server/game/event.js');
 
 xdescribe('EventWindow', function() {
