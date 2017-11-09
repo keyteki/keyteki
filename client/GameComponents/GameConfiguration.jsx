@@ -100,7 +100,7 @@ class GameConfiguration extends React.Component {
                             <Checkbox name='optionSettings.flipDynasty' noGroup label={ 'Automatically flip dynasty cards' } fieldClass='col-sm-6'
                                 onChange={ this.onOptionSettingToggle.bind(this, 'flipDynasty') } checked={ this.props.optionSettings.flipDynasty } />
                             <Checkbox name='optionSettings.cancelOwnAbilites' noGroup label={ 'Prompt to cancel my own abilities' } fieldClass='col-sm-6'
-                                onChange={ this.onOptionSettingToggle.bind(this, 'cancelOwnAbilites') } checked={ this.props.optionSettings.chooseCards } />
+                                onChange={ this.onOptionSettingToggle.bind(this, 'cancelOwnAbilites') } checked={ this.props.optionSettings.cancelOwnAbilities } />
                         </div>
                     </div>
                 </form>

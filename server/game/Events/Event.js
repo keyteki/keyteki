@@ -23,6 +23,10 @@ class Event {
     setWindow(window) {
         this.window = window;
     }
+
+    unsetWindow() {
+        this.window = null;
+    }
     
     checkCondition() {
         if(this.condition && this.window && !this.condition(this.window.events)) {

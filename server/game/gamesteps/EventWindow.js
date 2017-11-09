@@ -10,14 +10,18 @@ class EventWindow extends BaseStepWithPipeline {
         this.events = _([]);
         _.each(events, event => this.addEvent(event));
 
+        this.initialise();
+    }
+
+    initialise() {
         this.pipeline.initialise([
-            new SimpleStep(game, () => this.openWindow('cancelinterrupt')),
-            new SimpleStep(game, () => this.openWindow('forcedinterrupt')),
-            new SimpleStep(game, () => this.openWindow('interrupt')),
-            new SimpleStep(game, () => this.checkForOtherEffects()),
-            new SimpleStep(game, () => this.executeHandler()),
-            new SimpleStep(game, () => this.openWindow('forcedreaction')),
-            new SimpleStep(game, () => this.openWindow('reaction'))
+            new SimpleStep(this.game, () => this.openWindow('cancelinterrupt')),
+            new SimpleStep(this.game, () => this.openWindow('forcedinterrupt')),
+            new SimpleStep(this.game, () => this.openWindow('interrupt')),
+            new SimpleStep(this.game, () => this.checkForOtherEffects()),
+            new SimpleStep(this.game, () => this.executeHandler()),
+            new SimpleStep(this.game, () => this.openWindow('forcedreaction')),
+            new SimpleStep(this.game, () => this.openWindow('reaction'))
         ]);
     }
 
@@ -31,8 +35,8 @@ class EventWindow extends BaseStepWithPipeline {
             events = [events];
         }
         let uuids = events.map(event => event.uuid);
-        events.each(event => event.setWindow(this));
-        this.events = this.events.reject(event => uuids.includes(event.uuid));
+        _.each(events, event => event.unsetWindow());
+        this.events = _(this.events.reject(event => uuids.includes(event.uuid)));
         this.events.each(event => event.checkCondition());
     }
 

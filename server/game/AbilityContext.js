@@ -8,6 +8,8 @@ class AbilityContext {
         this.ability = properties.ability || new BaseAbility({});
         this.costs = {};
         this.targets = {};
+        this.rings = {};
+        this.selects = {};
         this.stage = 'pretarget';
     }
 }

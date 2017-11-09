@@ -27,7 +27,7 @@ const EventWindow = require('./gamesteps/EventWindow.js');
 const AtomicEventWindow = require('./gamesteps/atomiceventwindow.js');
 const SimultaneousEventWindow = require('./gamesteps/simultaneouseventwindow.js');
 const CardLeavesPlayEventWindow = require('./gamesteps/cardleavesplayeventwindow.js');
-const InitateAbilityEventWindow = require('./gamesteps/initiateabilityeventwindow.js');
+const InitateAbilityEventWindow = require('./gamesteps/InitiateAbilityEventWindow.js');
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const ForcedTriggeredAbilityWindow = require('./gamesteps/forcedtriggeredabilitywindow.js');
 const TriggeredAbilityWindow = require('./gamesteps/triggeredabilitywindow.js');
@@ -1270,8 +1270,9 @@ class Game extends EventEmitter {
      * nothing cancels the event
      * @returns {undefined}
      */
-    raiseInitiateAbilityEvent(context, handler) {
-        this.queueStep(new InitateAbilityEventWindow(this, context, handler));
+    raiseInitiateAbilityEvent(params, handler) {
+        let event = new Event('onCardAbilityInitiated', params, handler);
+        this.queueStep(new InitateAbilityEventWindow(this, [event]));
     }
 
     /**
