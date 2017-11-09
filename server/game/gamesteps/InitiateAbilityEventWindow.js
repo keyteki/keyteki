@@ -19,7 +19,7 @@ class InitiateAbilityEventWindow extends EventWindow {
     raiseCardPlayedIfEvent() {
         this.events.each(event => {
             if(event.context.ability.isCardPlayed() && !event.context.dontRaiseCardPlayed) { //context.dontRaiseCardPlayed is a flag raised by events doing multiple resolutions
-                this.game.raiseEvent('onCardPlayed', { player: event.context.player, card: event.context.source, originalLocation: 'hand' });
+                this.game.raiseEvent('onCardPlayed', { player: event.context.player, card: event.card, originalLocation: 'hand' });
             }
         });
     }
