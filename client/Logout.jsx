@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import $ from 'jquery';
 import {connect} from 'react-redux';
 import * as actions from './actions';
@@ -22,8 +23,8 @@ class InnerLogout extends React.Component {
 
 InnerLogout.displayName = 'Logout';
 InnerLogout.propTypes = {
-    logout: React.PropTypes.func,
-    navigate: React.PropTypes.func
+    logout: PropTypes.func,
+    navigate: PropTypes.func
 };
 
 const Logout = connect(function() {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Avatar extends React.Component {
     render() {
@@ -14,9 +15,9 @@ class Avatar extends React.Component {
 
 Avatar.displayName = 'Avatar';
 Avatar.propTypes = {
-    emailHash: React.PropTypes.string,
-    float: React.PropTypes.bool,
-    forceDefault: React.PropTypes.bool
+    emailHash: PropTypes.string,
+    float: PropTypes.bool,
+    forceDefault: PropTypes.bool
 };
 
 export default Avatar;

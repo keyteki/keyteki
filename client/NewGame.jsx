@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import * as actions from './actions';
@@ -132,10 +133,10 @@ class InnerNewGame extends React.Component {
 
 InnerNewGame.displayName = 'NewGame';
 InnerNewGame.propTypes = {
-    allowMelee: React.PropTypes.bool,
-    cancelNewGame: React.PropTypes.func,
-    defaultGameName: React.PropTypes.string,
-    socket: React.PropTypes.object
+    allowMelee: PropTypes.bool,
+    cancelNewGame: PropTypes.func,
+    defaultGameName: PropTypes.string,
+    socket: PropTypes.object
 };
 
 function mapStateToProps(state) {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import _ from 'underscore';
 import moment from 'moment';
@@ -92,13 +93,13 @@ class InnerNewsAdmin extends React.Component {
 
 InnerNewsAdmin.displayName = 'NewsAdmin';
 InnerNewsAdmin.propTypes = {
-    addNews: React.PropTypes.func,
-    apiError: React.PropTypes.string,
-    clearNewsStatus: React.PropTypes.func,
-    loadNews: React.PropTypes.func,
-    loading: React.PropTypes.bool,
-    news: React.PropTypes.array,
-    newsSaved: React.PropTypes.bool
+    addNews: PropTypes.func,
+    apiError: PropTypes.string,
+    clearNewsStatus: PropTypes.func,
+    loadNews: PropTypes.func,
+    loading: PropTypes.bool,
+    news: PropTypes.array,
+    newsSaved: PropTypes.bool
 };
 
 function mapStateToProps(state) {

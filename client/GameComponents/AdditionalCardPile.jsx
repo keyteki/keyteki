@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'underscore';
 
 import CardPile from './CardPile.jsx';
@@ -30,12 +31,12 @@ class AdditionalCardPile extends React.Component {
 
 AdditionalCardPile.displayName = 'AdditionalCardPile';
 AdditionalCardPile.propTypes = {
-    className: React.PropTypes.string,
-    isMe: React.PropTypes.bool,
-    onMouseOut: React.PropTypes.func,
-    onMouseOver: React.PropTypes.func,
-    pile: React.PropTypes.object,
-    spectating: React.PropTypes.bool
+    className: PropTypes.string,
+    isMe: PropTypes.bool,
+    onMouseOut: PropTypes.func,
+    onMouseOver: PropTypes.func,
+    pile: PropTypes.object,
+    spectating: PropTypes.bool
 };
 
 export default AdditionalCardPile;

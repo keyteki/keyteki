@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 
 class DeckRow extends React.Component {
@@ -17,9 +18,9 @@ class DeckRow extends React.Component {
 
 DeckRow.displayName = 'DeckRow';
 DeckRow.propTypes = {
-    active: React.PropTypes.bool,
-    deck: React.PropTypes.object,
-    onClick: React.PropTypes.func
+    active: PropTypes.bool,
+    deck: PropTypes.object,
+    onClick: PropTypes.func
 };
 
 export default DeckRow;

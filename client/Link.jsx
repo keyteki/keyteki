@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import * as actions from './actions';
 
@@ -27,10 +28,10 @@ class InnerLink extends React.Component {
 
 InnerLink.displayName = 'Link';
 InnerLink.propTypes = {
-    children: React.PropTypes.string,
-    className: React.PropTypes.string,
-    href: React.PropTypes.string,
-    navigate: React.PropTypes.func
+    children: PropTypes.string,
+    className: PropTypes.string,
+    href: PropTypes.string,
+    navigate: PropTypes.func
 };
 
 const Link = connect(mapStateToProps, actions)(InnerLink);

@@ -4,7 +4,7 @@
 import Card from '../../client/GameComponents/Card.jsx';
 import ReactDOM from 'react-dom';
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 
 xdescribe('the <Card /> component', function() {
     beforeEach(function() {

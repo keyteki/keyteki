@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import NewGame from './NewGame.jsx';
@@ -75,15 +76,15 @@ class InnerGameLobby extends React.Component {
 
 InnerGameLobby.displayName = 'GameLobby';
 InnerGameLobby.propTypes = {
-    bannerNotice: React.PropTypes.string,
-    currentGame: React.PropTypes.object,
-    games: React.PropTypes.array,
-    isAdmin: React.PropTypes.bool,
-    newGame: React.PropTypes.bool,
-    passwordGame: React.PropTypes.object,
-    setContextMenu: React.PropTypes.func,
-    startNewGame: React.PropTypes.func,
-    username: React.PropTypes.string
+    bannerNotice: PropTypes.string,
+    currentGame: PropTypes.object,
+    games: PropTypes.array,
+    isAdmin: PropTypes.bool,
+    newGame: PropTypes.bool,
+    passwordGame: PropTypes.object,
+    setContextMenu: PropTypes.func,
+    startNewGame: PropTypes.func,
+    username: PropTypes.string
 };
 
 function mapStateToProps(state) {
