@@ -1,7 +1,7 @@
 const EventWindow = require('../../../server/game/gamesteps/EventWindow.js');
 const Event = require('../../../server/game/event.js');
 
-describe('EventWindow', function() {
+xdescribe('EventWindow', function() {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['emit', 'openAbilityWindow']);
         this.params = ['foo', 'bar'];
