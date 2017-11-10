@@ -536,6 +536,33 @@ class DrawCard extends BaseCard {
         this.attachments = _(this.attachments.reject(card => card.uuid === attachment.uuid));
     }
 
+    /**
+     * Applies all the game effects of leaving play: honor gain/loss due to personal honor,
+     * Courtesy and Sincerity.  These are effects which trigger based on the state of the card,
+     * but don't change it.
+     */
+    leavesPlayEffects() {
+        if(this.isHonored) {
+            this.game.addMessage('{0} gains 1 honor due to {1}\'s personal honor', this.controller, this);
+            this.game.addHonor(this.controller, 1);
+        } else if(this.isDishonored) {
+            this.game.addMessage('{0} loses 1 honor due to {1}\'s personal honor', this.controller, this);
+            this.game.addHonor(this.controller, -1);
+        }
+        if(this.hasSincerity()) {
+            this.game.addMessage('{0} draws a card due to {1}\'s Sincerity', this.controller, this);
+            this.controller.drawCardsToHand(1);
+        }
+        if(this.hasCourtesy()) {
+            this.game.addMessage('{0} gains a fate due to {1}\'s Courtesy', this.controller, this);
+            this.game.addFate(this.controller, 1);
+        }
+    }
+
+    /**
+     * Deals with the engine effects of leaving play, making sure all statuses are removed. Anything which changes
+     * the state of the card should be here.
+     */
     leavesPlay() {
         // If this is an attachment and is attached to another card, we need to remove all links between them
         if(this.parent && this.parent.attachments) {
@@ -543,30 +570,16 @@ class DrawCard extends BaseCard {
             this.parent = null;
         }
 
+        if(this.isParticipating()) {
+            this.game.currentConflict.removeFromConflict(this);
+        }
+
+        this.isDishonored = false;
+        this.isHonored = false;
         this.bowed = false;
         this.covert = false;
         this.new = false;
         this.fate = 0;
-        if(this.isHonored) {
-            this.game.addHonor(this.controller, 1);
-            this.game.addMessage('{0} gains 1 honor due to {1}\'s personal honor', this.controller, this);
-            this.isHonored = false;
-        } else if(this.isDishonored) {
-            this.game.addHonor(this.controller, -1);
-            this.game.addMessage('{0} loses 1 honor due to {1}\'s personal honor', this.controller, this);
-            this.isDishonored = false;
-        }
-        if(this.hasSincerity()) {
-            this.controller.drawCardsToHand(1);
-            this.game.addMessage('{0} draws a card due to {1}\'s Sincerity', this.controller, this);
-        }
-        if(this.hasCourtesy()) {
-            this.game.addFate(this.controller, 1);
-            this.game.addMessage('{0} gains a fate due to {1}\'s Courtesy', this.controller, this);
-        }
-        if(this.isParticipating()) {
-            this.game.currentConflict.removeFromConflict(this);
-        }
         super.leavesPlay();
     }
 
