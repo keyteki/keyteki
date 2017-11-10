@@ -1,7 +1,6 @@
 const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 const PlayAttachmentAction = require('../../playattachmentaction.js');
-const RemoveFateEvent = require('../../Events/RemoveFateEvent.js');
 
 class PlayTogashiKazueAsAttachment extends PlayAttachmentAction {
     constructor(originalCard, owner, cardData) {
@@ -55,11 +54,11 @@ class TogashiKazue extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to steal a fate from {2} and place it on {3}', this.controller, this, context.target, this.parent);
-                this.game.openEventWindow(new RemoveFateEvent({
+                this.game.raiseEvent('onCardRemoveFate', {
                     card: context.target,
                     fate: 1,
                     recipient: this.parent
-                }));
+                });
             }
         });
     }

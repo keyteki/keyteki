@@ -22,11 +22,8 @@ const MenuPrompt = require('./gamesteps/menuprompt.js');
 const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 const SelectRingPrompt = require('./gamesteps/selectringprompt.js');
-const Event = require('./Events/Event.js');
+const EventBuilder = require('./Events/EventBuilder.js');
 const EventWindow = require('./gamesteps/EventWindow.js');
-const AtomicEventWindow = require('./gamesteps/atomiceventwindow.js');
-const SimultaneousEventWindow = require('./gamesteps/simultaneouseventwindow.js');
-const CardLeavesPlayEventWindow = require('./gamesteps/cardleavesplayeventwindow.js');
 const InitateAbilityEventWindow = require('./gamesteps/InitiateAbilityEventWindow.js');
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const ForcedTriggeredAbilityWindow = require('./gamesteps/forcedtriggeredabilitywindow.js');
@@ -1205,7 +1202,7 @@ class Game extends EventEmitter {
      * tell whether or not the handler resolved successfully
      */
     raiseEvent(eventName, params, handler) {
-        let event = new Event(eventName, params, handler);
+        let event = EventBuilder.for(eventName, params, handler);
         this.openEventWindow([event]);
         return event;
     }
@@ -1223,43 +1220,17 @@ class Game extends EventEmitter {
     }
 
     /**
-     * Raises multiple events whose resolution is performed atomically. Any
-     * abilities triggered by these events will appear within the same prompt
-     * for the player. NB: this doesn't execute any handlers on passed events
-     * @deprecated
-     * @param {Array} events - Array of Event
-     * @param {Function} handler - () => undefined
-     * @returns {undefined}
+     * Adds an event to an open EventWindow
+     * @param {EventWindow} window - window to add an event to
+     * @param {String} eventName
+     * @param {Object} params - event-specific parameters
+     * @param {Function} handler - (Event + params) => undefined
+     * @returns {Event} - as above
      */
-    raiseAtomicEvent(events, handler = () => true) {
-        this.queueStep(new AtomicEventWindow(this, events, handler));
-    }
-
-    /**
-     * Raises the same event across multiple cards as well as a wrapping plural
-     * version of the event that lists all cards.
-     * @deprecated
-     * @param {Array} cards - Array of BaseCard
-     * @param {Object} properties - { eventName: String, handler: Function, perCardEventName: String, perCardHandler: Function, params: Object }
-     * @returns {undefined}
-     */
-    raiseSimultaneousEvent(cards, properties) {
-        this.queueStep(new SimultaneousEventWindow(this, cards, properties));
-    }
-
-    /**
-     * Raises a custom event window for dealing with cards leaving play. Creates
-     * separate contingent events for any attachments on the card leaving play,
-     * and creates a separate sacrifice event if required. Moves the card to the
-     * specified destination during execution
-     * @deprecated
-     * @param {DrawCard} card - card leaving play
-     * @param {String} destination
-     * @param {Boolean} isSacrifice
-     * @returns {undefined}
-     */
-    raiseCardLeavesPlayEvent(card, destination, isSacrifice = false) {
-        this.queueStep(new CardLeavesPlayEventWindow(this, card, destination, isSacrifice));
+    addEventToWindow(window, eventName, params, handler) {
+        let event = EventBuilder.for(eventName, params, handler);
+        window.addEvent(event);
+        return event;
     }
 
     /**
@@ -1271,7 +1242,7 @@ class Game extends EventEmitter {
      * @returns {undefined}
      */
     raiseInitiateAbilityEvent(params, handler) {
-        let event = new Event('onCardAbilityInitiated', params, handler);
+        let event = EventBuilder.for('onCardAbilityInitiated', params, handler);
         this.queueStep(new InitateAbilityEventWindow(this, [event]));
     }
 
@@ -1282,15 +1253,15 @@ class Game extends EventEmitter {
      * all execute in the same step
      * @param {Array} events - Array of { name: String, params: Object, handler: Function }
      * @param {Object} conditionalEvent - { name: String, params: Object, handler: Function },
-     * this event should be made conditional on any of the others not having
+     * this event should be made conditional on at least one of the others not having
      * been cancelled
      * @returns {Array} Array of Event
      */
     raiseMultipleEvents(events, conditionalEvent = null) {
-        events = events.map(event => new Event(event.name, event.params, event.handler));
+        events = events.map(event => EventBuilder.for(event.name, event.params, event.handler));
         if(conditionalEvent) {
-            conditionalEvent = new Event(conditionalEvent.name, conditionalEvent.params, conditionalEvent.handler);
-            conditionalEvent.condition = () => events.any(event => !event.cancelled);
+            conditionalEvent = EventBuilder.for(conditionalEvent.name, conditionalEvent.params, conditionalEvent.handler);
+            conditionalEvent.condition = () => _.any(events, event => !event.cancelled);
             this.openEventWindow(events.concat([conditionalEvent]));
             return events.concat([conditionalEvent]);
         }

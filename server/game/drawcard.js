@@ -7,7 +7,6 @@ const PlayCardAction = require('./playcardaction.js');
 const PlayAttachmentAction = require('./playattachmentaction.js');
 const PlayCharacterAction = require('./playcharacteraction.js');
 const DuplicateUniqueAction = require('./duplicateuniqueaction.js');
-const RemoveFateEvent = require('./Events/RemoveFateEvent.js');
 
 const StandardPlayActions = [
     new SetupCardAction(),
@@ -380,10 +379,10 @@ class DrawCard extends BaseCard {
             if(!this.allowGameAction('removeFate')) {
                 return;
             }
-            this.game.openEventWindow(new RemoveFateEvent({
+            this.game.raiseEvent('onCardRemoveFate', {
                 card: this,
                 fate: -fate
-            }));
+            });
             return;
         }
         

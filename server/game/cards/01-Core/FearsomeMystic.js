@@ -1,6 +1,5 @@
 const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
-const RemoveFateEvent = require('../../Events/RemoveFateEvent.js');
 
 class FearsomeMystic extends DrawCard {
     setupCardAbilities(ability) {
@@ -21,11 +20,11 @@ class FearsomeMystic extends DrawCard {
                             card.fate > 0 &&
                             card.allowGameAction('removeFate', context));
                 });
-                this.game.openEventWindow(_.map(cards, card => {
-                    return new RemoveFateEvent({
-                        card: card,
-                        fate: 1
-                    });
+                this.game.raiseMultipleEvents(_.map(cards, card => {
+                    return {
+                        name: 'onCardRemoveFate',
+                        params: { card: card, fate: 1 }
+                    };
                 }));
             }
         });

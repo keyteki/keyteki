@@ -5,7 +5,6 @@ const Deck = require('./deck.js');
 const AbilityContext = require('./AbilityContext.js');
 const AttachmentPrompt = require('./gamesteps/attachmentprompt.js');
 const ConflictTracker = require('./conflicttracker.js');
-const LeavesPlayEvent = require('./Events/LeavesPlayEvent.js');
 const RingEffects = require('./RingEffects.js');
 const PlayableLocation = require('./playablelocation.js');
 const PlayActionPrompt = require('./gamesteps/playactionprompt.js');
@@ -382,11 +381,11 @@ class Player extends Spectator {
     }
 
     moveCardToTopOfDeck(card) {
-        this.game.openEventWindow(new LeavesPlayEvent({ card: card, destination: card.isDynasty ? 'dynasty deck' : 'conflict deck'}));
+        this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty deck' : 'conflict deck'});
     }
     
     moveCardToBottomOfDeck(card) {
-        this.game.openEventWindow(new LeavesPlayEvent({ card: card, destination: card.isDynasty ? 'dynasty deck bottom' : 'conflict deck bottom' }));
+        this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty deck bottom' : 'conflict deck bottom' });
     }
 
     moveFromTopToBottomOfConflictDrawDeck(number) {
@@ -1025,13 +1024,13 @@ class Player extends Spectator {
 
     sacrificeCard(card) {
         if(card.allowGameAction('sacrifice')) {
-            this.game.openEventWindow(new LeavesPlayEvent({ card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile' }, true));
+            this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', isSacrifice: true });
         }
     }
 
     discardCardFromPlay(card) {
         if(card.allowGameAction('discardCardFromPlay')) {
-            this.game.openEventWindow(new LeavesPlayEvent({ card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile' }, false));
+            this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile' });
         }
     }
 
@@ -1114,7 +1113,7 @@ class Player extends Spectator {
 
     returnCardToHand(card) {
         if(card.allowGameAction('returnToHand')) {
-            this.game.openEventWindow(new LeavesPlayEvent({ card: card, destination: 'hand' }));
+            this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: 'hand' });
         }
     }
 
@@ -1167,7 +1166,7 @@ class Player extends Spectator {
     }
 
     removeAttachment(attachment) {
-        this.game.openEventWindow(new LeavesPlayEvent({ card: attachment, destination: 'conflict discard pile' }));
+        this.game.raiseEvent('onCardLeavesPlay', { card: attachment, destination: 'conflict discard pile' });
     }
 
     selectDeck(deck) {

@@ -2,9 +2,8 @@ const Event = require('./Event.js');
 const RemoveFateEvent = require('./RemoveFateEvent.js');
 
 class LeavesPlayEvent extends Event {
-    constructor(params, isSacrifice = false) {
+    constructor(params) {
         super('onCardLeavesPlay', params);
-        this.isSacrifice = isSacrifice;
         this.destination = this.card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile';
         this.handler = this.leavesPlay;
         this.contigentEvents = [];
