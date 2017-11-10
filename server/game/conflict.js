@@ -73,17 +73,20 @@ class Conflict {
         if(!_.isArray(cards)) {
             cards = [cards];
         }
-        let events = _.map(cards, card => {
-            return {
+        let events = [];
+        events.push({
+            name: 'onMoveCharactersToConflict',
+            params: { conflict: this },
+            handler: () => true
+        });
+        _.each(cards, card => {
+            events.push({
                 name: 'onMoveToConflict',
                 params: { conflict: this, card: card },
                 handler: isAttacking ? () => this.addAttacker(card) : () => this.addDefender(card)
-            };
+            });
         });
-        this.game.raiseMultipleEvents(events, {
-            name: 'onMoveCharactersToConflict',
-            params: { conflict: this, cards: cards }
-        });
+        this.game.raiseMultipleEvents(events);
     }
 
     sendHome(cards) {
@@ -101,10 +104,6 @@ class Conflict {
             name: 'onSendCharactersHome',
             params: { conflict: this, cards: cards }
         });
-    }
-    
-    modifyElementsToResolve(amount) {
-        this.elementsToResolve += amount;
     }
     
     hasElement(element) {
@@ -127,18 +126,23 @@ class Conflict {
     }
     
     chooseWhetherToResolveRingEffect(player = this.attackingPlayer) {
-        let elements = this.getElements();
-        if(elements.length === 1) {
-            this.game.promptWithHandlerMenu(player, {
-                activePromptTitle: 'Do you want to resolve the ' + elements[0] + ' ring?',
-                waitingPromptTitle: 'Waiting for opponent to use decide whether to resolve the conflict ring',
-                source: 'Resolve Ring Effects',
-                choices: ['Yes', 'No'],
-                handlers: [() => this.resolveConflictRing(player), () => this.game.addMessage('{0} chooses not to resolve the {1} ring', player, elements[0])]
-            });
-        } else {
-            this.resolveConflictRing(player);
-        }
+        this.game.raiseEvent('onResolveRingEffect', { player: player, conflict: this }, () => {
+            let elements = this.getElements();
+            if(elements.length === 1) {
+                this.game.promptWithHandlerMenu(player, {
+                    activePromptTitle: 'Do you want to resolve the ' + elements[0] + ' ring?',
+                    waitingPromptTitle: 'Waiting for opponent to use decide whether to resolve the conflict ring',
+                    source: 'Resolve Ring Effects',
+                    choices: ['Yes', 'No'],
+                    handlers: [
+                        () => this.resolveConflictRing(player), 
+                        () => this.game.addMessage('{0} chooses not to resolve the {1} ring', player, elements[0])
+                    ]
+                });
+            } else {
+                this.resolveConflictRing(player);
+            }
+        });
     }
     
     resolveConflictRing(player = this.attackingPlayer, optional = true) {
@@ -288,7 +292,7 @@ class Conflict {
 
     calculateSkillFor(cards) {
         return _.reduce(cards, (sum, card) => {
-            if(card.bowed || !card.allowGameAction('countForResolution')) {
+            if(card.bowed) {
                 return sum;
             }
             return sum + card.getSkill(this.conflictType);

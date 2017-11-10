@@ -25,10 +25,16 @@ function getStronghold(deck) {
 }
 
 function isCardInReleasedPack(packs, card) { // eslint-disable-line no-unused-vars
-    let cardPack = card.pack_cards[0].pack.id;
-    let pack = _.find(packs, pack => {
-        return cardPack === pack.id;
-    });
+    let cardPack = '';
+    let pack = false;
+
+    if(card.pack_cards.length > 0) {
+        cardPack = card.pack_cards[0].pack.id;
+        pack = _.find(packs, pack => {
+            return cardPack === pack.id;
+        });
+    }
+
 
     if(!pack) {
         return false;

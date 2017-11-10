@@ -5,7 +5,6 @@ const Deck = require('./deck.js');
 const AbilityContext = require('./AbilityContext.js');
 const AttachmentPrompt = require('./gamesteps/attachmentprompt.js');
 const ConflictTracker = require('./conflicttracker.js');
-const LeavesPlayEvent = require('./Events/LeavesPlayEvent.js');
 const RingEffects = require('./RingEffects.js');
 const PlayableLocation = require('./playablelocation.js');
 const PlayActionPrompt = require('./gamesteps/playactionprompt.js');
@@ -353,7 +352,7 @@ class Player extends Spectator {
     }
 
     shuffleConflictDeck() {
-        if(!this.name === 'Dummy Player') {
+        if(this.name !== 'Dummy Player') {
             this.game.addMessage('{0} is shuffling their conflict deck', this);
         }
         this.game.raiseEvent('onDeckShuffled', { player: this, deck: 'conflict deck' });
@@ -361,7 +360,7 @@ class Player extends Spectator {
     }
 
     shuffleDynastyDeck() {
-        if(!this.name === 'Dummy Player') {
+        if(this.name !== 'Dummy Player') {
             this.game.addMessage('{0} is shuffling their dynasty deck', this);
         }
         this.game.raiseEvent('onDeckShuffled', { player: this, deck: 'dynasty deck' });
@@ -382,11 +381,11 @@ class Player extends Spectator {
     }
 
     moveCardToTopOfDeck(card) {
-        this.game.openEventWindow(new LeavesPlayEvent({ card: card, destination: card.isDynasty ? 'dynasty deck' : 'conflict deck'}));
+        this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty deck' : 'conflict deck');
     }
     
     moveCardToBottomOfDeck(card) {
-        this.game.openEventWindow(new LeavesPlayEvent({ card: card, destination: card.isDynasty ? 'dynasty deck bottom' : 'conflict deck bottom' }));
+        this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty deck bottom' : 'conflict deck bottom');
     }
 
     moveFromTopToBottomOfConflictDrawDeck(number) {
@@ -788,6 +787,7 @@ class Player extends Spectator {
                 waitingPromptTitle: 'Waiting for opponent to choose a card to discard',
                 cardCondition: c => c.parent === card && c.isRestricted(),
                 onSelect: (player, card) => {
+                    this.game.addMessage('{0} discards {1} from {2} due to too many Restricted attachments', player, card, card.parent);
                     player.discardCardFromPlay(card);
                     return true;
                 },
@@ -814,7 +814,7 @@ class Player extends Spectator {
             });
         }
 
-        this.game.raiseMultipleEvents(events);
+        this.game.raiseAtomicEvent(events);
     }
 
     showConflictDeck() {
@@ -1025,34 +1025,25 @@ class Player extends Spectator {
 
     sacrificeCard(card) {
         if(card.allowGameAction('sacrifice')) {
-            this.game.openEventWindow(new LeavesPlayEvent({ card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile' }, true));
+            this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', true);
         }
     }
 
     discardCardFromPlay(card) {
         if(card.allowGameAction('discardCardFromPlay')) {
-            this.game.openEventWindow(new LeavesPlayEvent({ card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile' }, false));
+            this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', false);
         }
     }
 
     discardCardsFromHand(cards, atRandom = false) {
-        let events = _.map(cards, card => {
-            return {
-                name: 'onDiscardFromHand',
-                params: {
-                    card: card,
-                    player: this
-                },
-                handler: () => this.moveCard(card, card.isConflict ? 'conflict discard pile' : 'dynasty discard pile')
-            };
-        });
-        this.game.raiseMultipleEvents(events, {
-            name: 'onCardsDiscardedFromHand',
-            params: {
-                cards: cards,
-                player: this
+        this.game.raiseSimultaneousEvent(cards, {
+            eventName: 'onCardsDiscardedFromHand',
+            perCardEventName: 'onDiscardFromHand',
+            perCardHandler: (params) => {
+                this.moveCard(params.card, params.card.isConflict ? 'conflict discard pile' : 'dynasty discard pile');
+                this.game.addMessage('{0} discards {1}{2}', this, params.card, atRandom ? ' at random' : '');
             },
-            handler: () => this.game.addMessage('{0} discards {1}{2}', this, cards, atRandom ? ' at random' : '')            
+            params: {player: this}
         });
     }
 
@@ -1114,7 +1105,7 @@ class Player extends Spectator {
 
     returnCardToHand(card) {
         if(card.allowGameAction('returnToHand')) {
-            this.game.openEventWindow(new LeavesPlayEvent({ card: card, destination: 'hand' }));
+            this.game.raiseCardLeavesPlayEvent(card, 'hand', false);
         }
     }
 
@@ -1167,7 +1158,7 @@ class Player extends Spectator {
     }
 
     removeAttachment(attachment) {
-        this.game.openEventWindow(new LeavesPlayEvent({ card: attachment, destination: 'conflict discard pile' }));
+        this.game.raiseCardLeavesPlayEvent(attachment, 'conflict discard pile');
     }
 
     selectDeck(deck) {

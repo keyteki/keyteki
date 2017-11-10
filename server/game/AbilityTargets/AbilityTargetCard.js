@@ -15,7 +15,7 @@ class AbilityTargetCard {
 
     resolve(context, pretarget = false, noCostsFirstButton = false) {
         let otherProperties = _.omit(this.properties, 'cardCondition');
-        let result = { resolved: false, name: this.name, value: null, costsFirst: false, mode: this.properties.mode };
+        let result = { resolved: false, name: this.name, value: null, costsFirst: false };
         let player = context.player;
         if(this.properties.player && this.properties.player === 'opponent') {
             if(pretarget) {

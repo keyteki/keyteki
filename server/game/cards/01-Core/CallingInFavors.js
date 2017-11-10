@@ -6,7 +6,7 @@ class CallingInFavors extends DrawCard {
             cost: ability.costs.dishonor(() => true),
             target: {
                 cardType: 'attachment',
-                cardCondition: card => card.controller !== this.controller
+                cardCondition: card => card.controller !== this.controller && card.location === 'play area'
             },
             handler: context => {
                 context.target.controller = this.controller;

@@ -349,7 +349,6 @@ Card.propTypes = {
         controlled: PropTypes.bool,
         facedown: PropTypes.bool,
         inConflict: PropTypes.bool,
-        inDanger: PropTypes.bool,
         isBroken: PropTypes.bool,
         isConflict: PropTypes.bool,
         isDynasty: PropTypes.bool,
