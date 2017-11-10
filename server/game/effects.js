@@ -302,6 +302,18 @@ const Effects = {
             }
         };
     },
+    modifyConflictElementsToResolve: function(amount) {
+        return {
+            apply: function(card, context) {
+                context.game.currentConflict.modifyElementsToResolve(amount);
+            },
+            unapply: function(card, context) {
+                if(context.game.currentConflict) {
+                    context.game.currentConflict.modifyElementsToResolve(-amount);
+                }
+            }
+        };
+    },
     blank: {
         apply: function(card) {
             card.setBlank();
@@ -389,6 +401,7 @@ const Effects = {
     cannotBeMovedIntoConflict: cardCannotEffect('moveToConflict'),
     cannotBeSentHome: cardCannotEffect('sendHome'),
     cannotMoveCharactersIntoConflict: playerCannotEffect('moveToConflict'),
+    cannotCountForResolution: cardCannotEffect('countForResolution'),
     playerCannotTriggerAbilities: playerCannotEffect('triggerAbilities'),
     cannotBecomeDishonored: cardCannotEffect('becomeDishonored'),
     playerCannotInitiateConflict: playerCannotEffect('initiateConflict'),
