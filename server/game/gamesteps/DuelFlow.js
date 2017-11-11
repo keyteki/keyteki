@@ -27,6 +27,7 @@ class DuelFlow extends BaseStepWithPipeline {
             new SimpleStep(this.game, () => this.determineResults()),
             new SimpleStep(this.game, () => this.announceResult()),
             new SimpleStep(this.game, () => this.applyDuelResults()),
+            new SimpleStep(this.game, () => this.cleanUpDuel())            
         ]);
     }
 
@@ -47,8 +48,12 @@ class DuelFlow extends BaseStepWithPipeline {
 
     applyDuelResults() {
         if(this.duel.winner) {
-            this.resolutionHandler(this.duel.winner, this.duel.loser)
+            this.game.raiseEvent('onDuelResolution', { duel: this.duel }, () => this.resolutionHandler(this.duel.winner, this.duel.loser));
         }
+    }
+
+    cleanUpDeul() {
+        this.game.currentDuel = null;
     }
 }
 
