@@ -417,6 +417,7 @@ const Effects = {
                 abilityType = abilityType === 'forcedreaction' ? 'forcedReaction' : abilityType;
                 card[abilityType](properties);
                 let ability = _.last(card.abilities[abilityType === 'action' ? 'actions' : 'reactions']);
+                ability.registerEvents();
                 if(context.source.grantedAbilityLimits[card.uuid]) {
                     ability.limit = context.source.grantedAbilityLimits[card.uuid];
                 } else {
@@ -428,6 +429,7 @@ const Effects = {
             unapply: function(card, context) {
                 if(context.gainAbility && context.gainAbility[card.uuid]) {
                     let list = abilityType === 'action' ? 'actions' : 'reactions';
+                    context.gainAbility[card.uuid].unregisterEvents();
                     card.abilities[list] = _.reject(card.abilities[list], ability => ability === context.gainAbility[card.uuid]);
                     delete context.gainAbility[card.uuid];
                 }
