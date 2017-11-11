@@ -35,7 +35,7 @@ class DuelFlow extends BaseStepWithPipeline {
     }
 
     determineResults() {
-        this.duel.determineResults();
+        this.duel.determineResult();
     }
 
     announceResult() {

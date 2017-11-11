@@ -11,11 +11,11 @@ class Duel {
 
     getSkillTotal(card) {
         this.game.reapplyStateDependentEffects();
-        return this.getSkill(card) + this.bidFinished ? parseInt(card.controller.honorBid) : 0;
+        return this.getSkill(card) + (this.bidFinished ? parseInt(card.controller.honorBid) : 0);
     }
 
     getTotalsForDisplay() {
-        return this.challenger.name + ': ' + this.getSkillTotal(this.challenger).toString() + ' vs ' + this.getSkillTotal(this.challenger).toString() + ': ' + this.target.name;
+        return this.challenger.name + ': ' + this.getSkillTotal(this.challenger).toString() + ' vs ' + this.getSkillTotal(this.target).toString() + ': ' + this.target.name;
     }
 
     setBidFinished() {
