@@ -6,7 +6,7 @@ class LeavesPlayEvent extends Event {
         super('onCardLeavesPlay', params);
         this.isSacrifice = isSacrifice;
         this.handler = this.leavesPlay;
-        this.contigentEvents = [];
+        this.contingentEvents = [];
         if(!this.destination) {
             this.destination = this.card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile';
         }
