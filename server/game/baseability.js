@@ -128,26 +128,26 @@ class BaseAbility {
      * @returns {Boolean}
      */
     canResolveTargets(context) {
-        /*
-        const ValidTypes = ['character', 'attachment', 'location', 'event'];
-        return _.all(this.targets, (targetProperties, name) => {
-            if(name === 'select') {
-                return true;
-            }
-            if(name === 'ring') {
-                return _.any(context.game.rings, ring => targetProperties.ringCondition(ring, context));
-            }
-            return context.game.allCards.any(card => {
-                if(!ValidTypes.includes(card.getType())) {
-                    return false;
-                }
-
-                return targetProperties.cardCondition(card, context);
-            });
-        });
-        */
         if(this.targets.length > 0) {
-            return this.targets.every(target => target.canResolve(context));
+            return this.targets.every(target => {
+                let dependsOn = target.properties.dependsOn;
+                if(!dependsOn) {
+                    return target.canResolve(context);
+                }
+                let dependsOnTarget = _.find(this.targets, t => t.name === dependsOn);
+                return _.any(dependsOnTarget.getAllLegalTargets(context), t => {
+                    if(dependsOnTarget.mode === 'select') {
+                        context.selects[dependsOn] = t;
+                        return target.canResolve(context);
+                    }
+                    if(dependsOnTarget.mode === 'ring') {
+                        context.rings[dependsOn] = t;
+                        return target.canResolve(context);
+                    }
+                    context.targets[dependsOn] = t;
+                    return target.canResolve(context);
+                });
+            });
         }
         return this.canPayCosts(context);
     }
