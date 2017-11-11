@@ -488,21 +488,10 @@ class Player extends Spectator {
             return false;
         }
 
-        _.each(cards, card => {
-            this.removeCardFromPile(card);
-        });
-
+        _.each(cards, card => this.moveCard(card, 'dynasty deck bottom'));
         this.takenDynastyMulligan = true;
-
         this.fillProvinces();
-
-        _.each(cards, card => {
-            card.moveTo('dynasty deck');
-            this.dynastyDeck.push(card);
-        });
-        
         this.shuffleDynastyDeck();
-
         this.game.addMessage('{0} has mulliganed {1} cards from the dynasty deck', this.name, cards.length);
     }
 
