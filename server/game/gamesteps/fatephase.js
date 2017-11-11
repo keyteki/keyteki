@@ -2,6 +2,7 @@ const _ = require('underscore');
 const Phase = require('./phase.js');
 const ActionWindow = require('./actionwindow.js');
 const SimpleStep = require('./simplestep.js');
+const RemoveFateEvent = require('../Events/RemoveFateEvent.js');
 
 /*
 IV Fate Phase
@@ -32,10 +33,10 @@ class FatePhase extends Phase {
     }
     
     removeFateFromCharacters() {
-        _.each(this.game.findAnyCardsInPlay(card => card.type === 'character'), card => {
-            if(card.allowGameAction('removeFate')) {
-                card.modifyFate(-1);
-            }
+        let cards = this.game.findAnyCardsInPlay(card => {
+            return (card.type === 'character' &&
+                    card.allowGameAction('removeFate') &&
+                    card.fate > 0);
         });
         this.game.openEventWindow(_.map(cards, card => {
             return new RemoveFateEvent({

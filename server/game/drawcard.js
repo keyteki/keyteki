@@ -7,6 +7,7 @@ const PlayCardAction = require('./playcardaction.js');
 const PlayAttachmentAction = require('./playattachmentaction.js');
 const PlayCharacterAction = require('./playcharacteraction.js');
 const DuplicateUniqueAction = require('./duplicateuniqueaction.js');
+const RemoveFateEvent = require('./Events/RemoveFateEvent.js');
 
 const StandardPlayActions = [
     new SetupCardAction(),
@@ -375,21 +376,19 @@ class DrawCard extends BaseCard {
         /**
          * @param  {integer} fate - the amount of fate to modify this card's fate total by
          */
-        if(fate < 0 && !this.allowGameAction('removeFate')) {
+        if(fate < 0) {
+            if(!this.allowGameAction('removeFate')) {
+                return;
+            }
+            this.game.openEventWindow(new RemoveFateEvent({
+                card: this,
+                fate: -fate
+            }));
             return;
         }
 
-        var oldFate = this.fate;
-
         this.fate += fate;
-
-        if(this.fate < 0) {
-            this.fate = 0;
-        }
-
-
-        this.game.raiseEvent('onCardFateChanged', { card: this, fate: this.fate - oldFate });
-
+        this.game.raiseEvent('onCardAddFate', { card: this, fate: fate });
     }
 
     honor() {

@@ -5,9 +5,11 @@ class LeavesPlayEvent extends Event {
     constructor(params, isSacrifice = false) {
         super('onCardLeavesPlay', params);
         this.isSacrifice = isSacrifice;
-        this.destination = this.card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile';
         this.handler = this.leavesPlay;
         this.contigentEvents = [];
+        if(!this.destination) {
+            this.destination = this.card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile';
+        }
     }
     
     setWindow(window) {

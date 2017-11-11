@@ -16,7 +16,7 @@ class KuroiMori extends ProvinceCard {
             },
             source: this,
             handler: context => {
-                if(context.target === 'Switch the contested ring') {
+                if(context.select === 'Switch the contested ring') {
                     this.game.promptForRingSelect(this.controller, {
                         ringCondition: ring => !ring.contested && !ring.claimed,
                         onSelect: (player, ring) => {

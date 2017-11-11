@@ -81,7 +81,7 @@ class AbilityResolver extends BaseStepWithPipeline {
         this.context.stage = 'target';
         if(this.context.ability.cannotTargetFirst) {
             this.targetResults = _.map(this.context.ability.targets, (props, name) => {
-                return { resolved: false, name: name, value: null, costsFirst: true };
+                return { resolved: false, name: name, value: null, costsFirst: true, mode: props.mode };
             });
         } else {
             this.targetResults = this.context.ability.resolveTargets(this.context);

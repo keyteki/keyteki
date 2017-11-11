@@ -1,4 +1,5 @@
 const DrawCard = require('../../drawcard.js');
+const RemoveFateEvent = require('../../Events/RemoveFateEvent.js');
 
 class JadeTetsubo extends DrawCard {
     setupCardAbilities(ability) {
@@ -17,9 +18,11 @@ class JadeTetsubo extends DrawCard {
             },
             handler: (context) => {
                 this.game.addMessage('{0} uses {1} to return all fate from {2}', this.controller, this, context.target);
-                let fateToAdd = context.target.getFate();
-                context.target.modifyFate(-fateToAdd);
-                this.game.addFate(context.target.controller, fateToAdd);
+                this.game.openEventWindow(new RemoveFateEvent({
+                    card: context.target,
+                    fate: context.target.getFate(),
+                    recipient: context.target.controller
+                }));
             }
         });
     }
