@@ -12,7 +12,7 @@ class KakitaKaezin extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to challenge {2} to a duel', this.controller, this, context.target);
-                this.game.initiateDuel(this, context.target, (winner, loser) => {
+                this.game.initiateDuel(this, context.target, card => parseInt(card.getMilitarySkill()), (winner, loser) => {
                     if(winner === this) {
                         this.game.addMessage('{0} wins the duel, and sends all characters except {0} and {1} home', winner, loser);
                         let cards = this.game.allCards.filter(card => {

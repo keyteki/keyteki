@@ -34,6 +34,8 @@ const TriggeredAbilityWindow = require('./gamesteps/triggeredabilitywindow.js');
 const Ring = require('./ring.js');
 const Conflict = require('./conflict.js');
 const ConflictFlow = require('./gamesteps/conflict/conflictflow.js');
+const Duel = require('./Duel.js');
+const DuelFlow = require('./gamesteps/DuelFlow.js');
 
 class Game extends EventEmitter {
     constructor(details, options = {}) {
@@ -56,6 +58,7 @@ class Game extends EventEmitter {
         this.gameType = details.gameType;
         this.currentActionWindow = null;
         this.currentConflict = null;
+        this.currentDuel = null;
         this.manualMode = false;
         this.currentPhase = '';
         this.abilityCardStack = [];
@@ -1398,31 +1401,16 @@ class Game extends EventEmitter {
      * of bids, and then resolves the outcome
      * @param {DrawCard} source - card which initiated the duel
      * @param {DrawCard} target - other card partipating in duel
+     * @param {Function} getSkill = card => Int // gets the skill to add to bid
      * @param {Function} resolutionHandler - (winner, loser) => undefined //
      * function which deals with any effects due to winning/losing the duel
      * @param {type} costHandler - () => undefined // function which resolves 
      * costsas a result of bids (transfering honor is the default)
      * @returns {undefined}
      */
-    initiateDuel(source, target, resolutionHandler, costHandler = () => this.tradeHonorAfterBid()) {
-        let totals = source.name + ': ' + parseInt(source.getMilitarySkill()) + ' vs ' + parseInt(target.getMilitarySkill()) + ': ' + target.name;
-        this.queueStep(new HonorBidPrompt(this, 'Choose your bid for the duel\n' + totals));
-        this.queueStep(new SimpleStep(this, costHandler));                
-        this.queueStep(new SimpleStep(this, () => {
-            let myTotal = parseInt(source.getMilitarySkill()) + parseInt(source.controller.honorBid);
-            let oppTotal = parseInt(target.getMilitarySkill()) + parseInt(target.controller.honorBid);
-            let winner = source;
-            let loser = target;
-            if(myTotal === oppTotal) {
-                this.addMessage('The duel ends in a draw');
-                return;
-            } else if(myTotal < oppTotal) {
-                winner = target;
-                loser = source;
-            }
-            this.addMessage('{0}: {1} vs {2}: {3}', source, myTotal, oppTotal, target);
-            resolutionHandler(winner, loser);
-        }));
+    initiateDuel(challenger, target, getSkill, resolutionHandler, costHandler = () => this.tradeHonorAfterBid()) {
+        this.currentDuel = new Duel(this, challenger, target, getSkill);
+        this.queueStep(new DuelFlow(this, this.currentDuel, costHandler, resolutionHandler));
     }
 
     /*
