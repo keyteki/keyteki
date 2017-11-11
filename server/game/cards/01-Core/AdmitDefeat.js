@@ -6,6 +6,7 @@ class AdmitDefeat extends DrawCard {
             condition: () => this.game.currentConflict && this.game.currentConflict.defenders.length === 1,
             target: {
                 cardType: 'character',
+                gameAction: 'bow',
                 cardCondition: card => this.game.currentConflict.isDefending(card)
             },
             handler: context => {
