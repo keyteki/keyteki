@@ -10,7 +10,7 @@ class LetGo extends DrawCard {
                 cardCondition: card => card.location === 'play area'
             },
             handler: context => {
-                this.game.addMessage('{0} Uses {1} to discard {2}', this.controller, this, context.target);
+                this.game.addMessage('{0} uses {1} to discard {2}', this.controller, this, context.target);
                 this.controller.removeAttachment(context.target);
             }
         });

@@ -4,7 +4,7 @@ class MirumotoRaitsugu extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Duel an opposing character',
-            condition: () => this.isParticipating,
+            condition: () => this.isParticipating(),
             target: {
                 cardType: 'character',
                 cardCondition: card => card.controller !== this.controller && card.isParticipating() && card.getMilitarySkill(true) !== undefined

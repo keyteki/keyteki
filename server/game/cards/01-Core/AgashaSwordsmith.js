@@ -9,7 +9,6 @@ class AgashaSwordsmith extends DrawCard {
             handler: (context) => {
                 this.game.addMessage('{0} uses {1} to look at the top five cards of their deck.', this.controller, this);
                 let attachments = _.filter(this.controller.conflictDeck.first(5), card => card.type === 'attachment');
-                let choices = _.map(attachments, card => card.name);
                 let handlers = _.map(attachments, card => {
                     return () => {
                         this.controller.moveCard(card, 'hand');
@@ -18,7 +17,7 @@ class AgashaSwordsmith extends DrawCard {
                         return true;
                     };
                 });
-                choices.push('Take nothing');
+                let choices = ['Take nothing'];
                 handlers.push(() => {
                     this.game.addMessage('{0} takes nothing', this.controller);                    
                     this.controller.shuffleConflictDeck();
@@ -27,6 +26,7 @@ class AgashaSwordsmith extends DrawCard {
                 this.game.promptWithHandlerMenu(this.controller, {
                     activePromptTitle: 'Choose a card',
                     source: context.source,
+                    cards: attachments,
                     choices: choices,
                     handlers: handlers
                 });

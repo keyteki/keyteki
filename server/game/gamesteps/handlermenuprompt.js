@@ -33,9 +33,16 @@ class HandlerMenuPrompt extends UiPrompt {
     }
 
     activePrompt() {
-        let buttons = _.map(this.properties.choices, (choice, index) => {
-            return { text: choice, arg: index };
-        });
+        let buttons = [];
+        if(this.properties.cards) {
+            buttons = _.map(this.properties.cards, (card, index) => {
+                return {text: card.name, arg: index, card: card};
+            });
+        }
+        let length = buttons.length;
+        buttons = buttons.concat(_.map(this.properties.choices, (choice, index) => {
+            return { text: choice, arg: index + length };
+        }));
         return {
             menuTitle: this.properties.activePromptTitle || 'Select one',
             buttons: buttons,

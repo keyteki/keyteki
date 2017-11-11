@@ -26,7 +26,7 @@ class FearsomeMystic extends DrawCard {
                         card: card,
                         fate: 1
                     });
-                }));
+                }));                
             }
         });
     }

@@ -1209,7 +1209,7 @@ class Game extends EventEmitter {
         this.openEventWindow([event]);
         return event;
     }
-    
+
     /* Creates an EventWindow which will open windows for each kind of triggered 
      * ability which can respond any passed events, and execute their handlers.
      * @param {type} events - Array of Event
@@ -1282,8 +1282,7 @@ class Game extends EventEmitter {
      * all execute in the same step
      * @param {Array} events - Array of { name: String, params: Object, handler: Function }
      * @param {Object} conditionalEvent - { name: String, params: Object, handler: Function },
-     * this event should be made conditional on any of the others not having
-     * been cancelled
+     * this event should be made conditional on any of the others not having been cancelled
      * @returns {Array} Array of Event
      */
     raiseMultipleEvents(events, conditionalEvent = null) {
@@ -1295,7 +1294,7 @@ class Game extends EventEmitter {
             return events.concat([conditionalEvent]);
         }
         this.openEventWindow(events);
-        return events;
+        return events;    
     }
 
     /*
