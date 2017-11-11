@@ -521,8 +521,8 @@ export class InnerGameBoard extends React.Component {
                                 onCardClick={ this.onCardClick }
                                 onConflictTopCardClick={ this.onConflictTopCardClick }
                                 onMouseOver={ this.onMouseOver }
-                                onMouseOut={ this.onMouseOut } 
-                                otherPlayer= { otherPlayer }
+                                onMouseOut={ this.onMouseOut }
+                                otherPlayer= { otherPlayer } 
                                 cardSize={ this.props.user.settings.cardSize } />
                         </div>
                         <div className='player-stronghold-row'>
