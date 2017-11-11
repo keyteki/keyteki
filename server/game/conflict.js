@@ -73,28 +73,40 @@ class Conflict {
         if(!_.isArray(cards)) {
             cards = [cards];
         }
-        let events = [];
-        events.push({
-            name: 'onMoveCharactersToConflict',
-            params: { conflict: this },
-            handler: () => true
-        });
-        _.each(cards, card => {
-            events.push({
+        let events = _.map(cards, card => {
+            return {
                 name: 'onMoveToConflict',
                 params: { conflict: this, card: card },
                 handler: isAttacking ? () => this.addAttacker(card) : () => this.addDefender(card)
-            });
+            };
         });
-        this.game.raiseMultipleEvents(events);
+        this.game.raiseMultipleEvents(events, {
+            name: 'onMoveCharactersToConflict',
+            params: { conflict: this, cards: cards },
+        });
     }
 
-    sendHome(card) {
-        this.game.raiseEvent('onSendHome', {
-            conflict: this.conflict,
-            card: card
-        }, () => this.removeFromConflict(card));
+    sendHome(cards) {
+        if(!_.isArray(cards)) {
+            cards = [cards];
+        }
+        let events = _.map(cards, card => {
+            return {
+                name: 'onSendHome',
+                params: { conflict: this, card: card },
+                handler: () => this.removeFromConflict(card)
+            };
+        });
+        this.game.raiseMultipleEvents(events, {
+            name: 'onSendCharactersHome',
+            params: { conflict: this, cards: cards }
+        });
     }
+
+    modifyElementsToResolve(amount) {
+        this.elementsToResolve += amount;
+    }
+        
     
     hasElement(element) {
         return this.elements.includes(element);
@@ -124,14 +136,11 @@ class Conflict {
                     waitingPromptTitle: 'Waiting for opponent to use decide whether to resolve the conflict ring',
                     source: 'Resolve Ring Effects',
                     choices: ['Yes', 'No'],
-                    handlers: [
-                        () => this.resolveConflictRing(player), 
-                        () => this.game.addMessage('{0} chooses not to resolve the {1} ring', player, elements[0])
-                    ]
+                    handlers: [() => this.resolveConflictRing(player), () => this.game.addMessage('{0} chooses not to resolve the {1} ring', player, elements[0])]
                 });
             } else {
                 this.resolveConflictRing(player);
-            }
+            }        
         });
     }
     
@@ -282,7 +291,7 @@ class Conflict {
 
     calculateSkillFor(cards) {
         return _.reduce(cards, (sum, card) => {
-            if(card.bowed) {
+            if(card.bowed || !card.allowGameAction('countForResolution')) {
                 return sum;
             }
             return sum + card.getSkill(this.conflictType);

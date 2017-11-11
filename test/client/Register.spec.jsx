@@ -3,7 +3,7 @@
 import { InnerRegister } from '../../client/Register.jsx';
 import ReactDOM from 'react-dom';
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 import $ from 'jquery';
 
 describe('the <InnerRegister /> component', function () {

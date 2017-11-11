@@ -390,6 +390,7 @@ DynastyRow.propTypes = {
     onMenuItemClick: PropTypes.func,
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
+    otherPlayer: PropTypes.object,
     province1Cards: PropTypes.array,
     province2Cards: PropTypes.array,
     province3Cards: PropTypes.array,

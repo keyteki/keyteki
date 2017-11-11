@@ -11,7 +11,7 @@ class AbilityTargetSelect {
     }
 
     resolve(context, pretarget = false, noCostsFirstButton = false) {
-        let result = { resolved: false, name: this.name, value: null, costsFirst: false };
+        let result = { resolved: false, name: this.name, value: null, costsFirst: false, mode: 'select' };
         let player = context.player;
         if(this.properties.player && this.properties.player === 'opponent') {
             if(pretarget) {
@@ -56,7 +56,7 @@ class AbilityTargetSelect {
     }
     
     checkTarget(context) {
-        return this.properties.choices[context.targets[this.name]](context);
+        return this.properties.choices[context.selects[this.name].choice](context);
     }
 }
 

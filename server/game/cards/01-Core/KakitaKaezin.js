@@ -23,12 +23,7 @@ class KakitaKaezin extends DrawCard {
                                     card !== winner &&
                                     card.allowGameAction('sendHome', context));
                         });
-                        this.game.raiseSimultaneousEvent(cards, {
-                            eventName: 'onSendCharactersHome',
-                            perCardEventName: 'OnSendHome',
-                            perCardHandler: params => this.game.currentConflict.removeFromConflict(params.card), 
-                            params: { conflict: this.game.currentConflict }
-                        });
+                        this.game.currentConflict.sendHome(cards);
                     } else {
                         this.game.addMessage('{0} wins the duel, and {1} is sent home', winner, loser);
                         this.game.currentConflict.sendHome(loser);

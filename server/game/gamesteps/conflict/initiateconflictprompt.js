@@ -97,12 +97,16 @@ class InitiateConflictPrompt extends UiPrompt {
 
         this.conflict.conflictRing = ring.element;
         this.conflict.conflictType = ring.conflictType;
+        if(this.conflict.conflictProvince && !this.conflict.conflictProvince.allowGameAction('initiateConflict')) {
+            this.conflict.conflictProvince.inConflict = false;
+            this.conflict.conflictProvince = null;
+        }
         this.conflict.calculateSkill();
         return true;
     }
 
     checkCardCondition(card) {
-        if(card.isProvince && card.controller !== this.choosingPlayer && !card.isBroken) {
+        if(card.isProvince && card.controller !== this.choosingPlayer && !card.isBroken && card.allowGameAction('initiateConflict')) {
             if(card.location === 'stronghold province' && _.size(this.game.allCards.filter(card => card.isProvince && card.isBroken && card.controller !== this.choosingPlayer)) < 3) {
                 return false;
             }

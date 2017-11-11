@@ -5,6 +5,7 @@ const Deck = require('./deck.js');
 const AbilityContext = require('./AbilityContext.js');
 const AttachmentPrompt = require('./gamesteps/attachmentprompt.js');
 const ConflictTracker = require('./conflicttracker.js');
+const LeavesPlayEvent = require('./Events/LeavesPlayEvent.js');
 const RingEffects = require('./RingEffects.js');
 const PlayableLocation = require('./playablelocation.js');
 const PlayActionPrompt = require('./gamesteps/playactionprompt.js');
@@ -381,11 +382,11 @@ class Player extends Spectator {
     }
 
     moveCardToTopOfDeck(card) {
-        this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty deck' : 'conflict deck');
+        this.game.openEventWindow(new LeavesPlayEvent({ card: card, destination: card.isDynasty ? 'dynasty deck' : 'conflict deck'}));
     }
     
     moveCardToBottomOfDeck(card) {
-        this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty deck bottom' : 'conflict deck bottom');
+        this.game.openEventWindow(new LeavesPlayEvent({ card: card, destination: card.isDynasty ? 'dynasty deck bottom' : 'conflict deck bottom' }));
     }
 
     moveFromTopToBottomOfConflictDrawDeck(number) {
@@ -659,7 +660,7 @@ class Player extends Spectator {
         });
     }
 
-    putIntoPlay(card, intoConflict = false) {
+    putIntoPlay(card, intoConflict = false, raiseCardPlayed = false) {
         if(!this.canPutIntoPlay(card)) {
             return;
         }
@@ -686,7 +687,19 @@ class Player extends Spectator {
 
         card.applyPersistentEffects();
 
-        this.game.raiseEvent('onCardEntersPlay', { card: card, originalLocation: originalLocation });
+        let events = [{
+            name: 'onCardEntersPlay',
+            params: { card: card, originalLocation: originalLocation }
+        }];
+
+        if(raiseCardPlayed) {
+            events.push({
+                name: 'onCardPlayed',
+                params: { player: this, card: card, originalLocation: originalLocation }
+            });
+        }
+
+        this.game.raiseMultipleEvents(events);
     }
 
     setupBegin() {
@@ -744,7 +757,7 @@ class Player extends Spectator {
     }
 
 
-    attach(attachment, card) {
+    attach(attachment, card, raiseCardPlayed = false) {
         if(!card || !attachment) {
             return;
         }
@@ -794,8 +807,15 @@ class Player extends Spectator {
                 params: { card: attachment, originalLocation: originalLocation }
             });
         }
+        
+        if(raiseCardPlayed) {
+            events.push({
+                name: 'onCardPlayed',
+                params: { player: this, card: attachment, originalLocation: originalLocation }
+            });
+        }
 
-        this.game.raiseAtomicEvent(events);
+        this.game.raiseMultipleEvents(events);
     }
 
     showConflictDeck() {
@@ -1006,25 +1026,34 @@ class Player extends Spectator {
 
     sacrificeCard(card) {
         if(card.allowGameAction('sacrifice')) {
-            this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', true);
+            this.game.openEventWindow(new LeavesPlayEvent({ card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile' }, true));
         }
     }
 
     discardCardFromPlay(card) {
         if(card.allowGameAction('discardCardFromPlay')) {
-            this.game.raiseCardLeavesPlayEvent(card, card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', false);
+            this.game.openEventWindow(new LeavesPlayEvent({ card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile' }, false));
         }
     }
 
     discardCardsFromHand(cards, atRandom = false) {
-        this.game.raiseSimultaneousEvent(cards, {
-            eventName: 'onCardsDiscardedFromHand',
-            perCardEventName: 'onDiscardFromHand',
-            perCardHandler: (params) => {
-                this.moveCard(params.card, params.card.isConflict ? 'conflict discard pile' : 'dynasty discard pile');
-                this.game.addMessage('{0} discards {1}{2}', this, params.card, atRandom ? ' at random' : '');
+        let events = _.map(cards, card => {
+            return {
+                name: 'onDiscardFromHand',
+                params: {
+                    card: card,
+                    player: this
+                },
+                handler: () => this.moveCard(card, card.isConflict ? 'conflict discard pile' : 'dynasty discard pile')
+            };
+        });
+        this.game.raiseMultipleEvents(events, {
+            name: 'onCardsDiscardedFromHand',
+            params: {
+                cards: cards,
+                player: this
             },
-            params: {player: this}
+            handler: () => this.game.addMessage('{0} discards {1}{2}', this, cards, atRandom ? ' at random' : '')
         });
     }
 
@@ -1086,7 +1115,7 @@ class Player extends Spectator {
 
     returnCardToHand(card) {
         if(card.allowGameAction('returnToHand')) {
-            this.game.raiseCardLeavesPlayEvent(card, 'hand', false);
+            this.game.openEventWindow(new LeavesPlayEvent({ card: card, destination: 'hand' }));
         }
     }
 
@@ -1139,7 +1168,7 @@ class Player extends Spectator {
     }
 
     removeAttachment(attachment) {
-        this.game.raiseCardLeavesPlayEvent(attachment, 'conflict discard pile');
+        this.game.openEventWindow(new LeavesPlayEvent({ card: attachment, destination: 'conflict discard pile' }));
     }
 
     selectDeck(deck) {
@@ -1225,6 +1254,7 @@ class Player extends Spectator {
     breakProvince(province) {
         this.game.raiseEvent('onBreakProvince', { conflict: this.game.currentConflict, province: province }, () => {
             province.breakProvince();
+            this.game.reapplyStateDependentEffects();
             if(province.controller.opponent) {
                 this.game.addMessage('{0} has broken {1}!', province.controller.opponent, province);
                 if(province.location === 'stronghold province') {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import $ from 'jquery';
 import _ from 'underscore';
 import {connect} from 'react-redux';
@@ -210,9 +211,9 @@ export class InnerRegister extends React.Component {
 
 InnerRegister.displayName = 'Register';
 InnerRegister.propTypes = {
-    navigate: React.PropTypes.func,
-    register: React.PropTypes.func,
-    socket: React.PropTypes.object
+    navigate: PropTypes.func,
+    register: PropTypes.func,
+    socket: PropTypes.object
 };
 
 function mapStateToProps(state) {

@@ -1,6 +1,7 @@
 const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 const PlayAttachmentAction = require('../../playattachmentaction.js');
+const RemoveFateEvent = require('../../Events/RemoveFateEvent.js');
 
 class PlayTogashiKazueAsAttachment extends PlayAttachmentAction {
     constructor(originalCard, owner, cardData) {
@@ -16,7 +17,8 @@ class PlayTogashiKazueAsAttachment extends PlayAttachmentAction {
             context.game.currentPhase !== 'dynasty' &&
             this.originalCard.location === 'hand' &&
             context.player.canPutIntoPlay(this.originalCard) &&
-            this.originalCard.canPlay()
+            this.originalCard.canPlay() &&
+            this.canResolveTargets(context)
         );
     }
     
@@ -43,17 +45,21 @@ class TogashiKazue extends DrawCard {
         this.abilities.playActions.push(new PlayTogashiKazueAsAttachment(this, this.owner, this.cardData));
         this.action({
             title: 'Steal a fate',
-            condition: () => this.game.currentConflict && this.game.currentConflict.isParticipating(this.parent) && this.type === 'attachment',
+            condition: () => this.parent.isParticipating() && this.type === 'attachment',
             printedAbility: false,
             target: {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',
-                cardCondition: card => this.game.currentConflict.isParticipating(card) && card.fate > 0 && card !== this.parent
+                gameAction: 'removeFate',
+                cardCondition: card => card.isParticipating() && card.fate > 0 && card !== this.parent
             },
             handler: context => {
-                context.target.modifyFate(-1);
-                this.parent.modifyFate(1);
                 this.game.addMessage('{0} uses {1} to steal a fate from {2} and place it on {3}', this.controller, this, context.target, this.parent);
+                this.game.openEventWindow(new RemoveFateEvent({
+                    card: context.target,
+                    fate: 1,
+                    recipient: this.parent
+                }));
             }
         });
     }

@@ -11,7 +11,7 @@ class AbilityTargetCard {
     }
 
     resolve(context, pretarget = false, noCostsFirstButton = false) {
-        let result = { resolved: false, name: this.name, value: null, costsFirst: false };
+        let result = { resolved: false, name: this.name, value: null, costsFirst: false, mode: 'ring' };
         let player = context.player;
         if(this.properties.player && this.properties.player === 'opponent') {
             if(pretarget) {
@@ -69,7 +69,7 @@ class AbilityTargetCard {
     }
     
     checkTarget(context) {
-        return this.properties.ringCondition(context.targets[this.name]);
+        return this.properties.ringCondition(context.rings[this.name]);
     }
 }
 

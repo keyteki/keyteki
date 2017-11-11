@@ -8,20 +8,22 @@ class IdeTrader extends DrawCard {
                 onMoveCharactersToConflict: () => this.isParticipating()
             },
             limit: ability.limit.perConflict(1),
-            handler: () => this.game.promptWithHandlerMenu(this.controller, {
-                source: this,
-                choices: ['Gain 1 fate', 'Draw 1 card'],
-                handlers: [
-                    () => {
-                        this.game.addMessage('{0} uses {1} to gain 1 fate', this.controller, this);
-                        this.game.addFate(this.controller, 1);
-                    },
-                    () => {
-                        this.game.addMessage('{0} uses {1} to draw 1 card', this.controller, this);
-                        this.controller.drawCardsToHand(1);
+            target: {
+                    mode: 'select',
+                    choices: {
+                        'Gain 1 fate': () => true,
+                        'Draw 1 card': () => true
                     }
-                ]
-            })
+            },
+            handler: context => {
+                if(context.select === 'Gain 1 fate') {
+                    this.game.addMessage('{0} uses {1} to gain 1 fate', this.controller, this);
+                    this.game.addFate(this.controller, 1);
+                } else {
+                    this.game.addMessage('{0} uses {1} to draw 1 card', this.controller, this);
+                    this.controller.drawCardsToHand(1);
+                }
+            }        
         });
     }
 }
