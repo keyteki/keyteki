@@ -14,6 +14,10 @@ class Duel {
         return this.getSkill(card) + (this.bidFinished ? parseInt(card.controller.honorBid) : 0);
     }
 
+    isInvolved(card) {
+        return card === this.challenger || card === this.target;
+    }
+
     getTotalsForDisplay() {
         return this.challenger.name + ': ' + this.getSkillTotal(this.challenger).toString() + ' vs ' + this.getSkillTotal(this.target).toString() + ': ' + this.target.name;
     }

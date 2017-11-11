@@ -52,7 +52,7 @@ class DuelFlow extends BaseStepWithPipeline {
         }
     }
 
-    cleanUpDeul() {
+    cleanUpDuel() {
         this.game.currentDuel = null;
     }
 }
