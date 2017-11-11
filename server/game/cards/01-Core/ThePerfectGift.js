@@ -4,7 +4,7 @@ const DrawCard = require('../../drawcard.js');
 class ThePerfectGift extends DrawCard {
     setupCardAbilities() {
         this.action({
-            title: 'The Perfect Gift',
+            title: 'Give each player a gift',
             handler: () => {
                 let otherPlayer = this.game.getOtherPlayer(this.controller);
                 let opponentTopFour = [];
@@ -16,52 +16,36 @@ class ThePerfectGift extends DrawCard {
                     n = opponentTopFour.length;
                     if(n > 0) {
                         this.game.addMessage('{0} reveals the top {1} from their conflict deck: {2}', otherPlayer, n > 1 ? n + ' cards' : 'card', opponentTopFour);
-                        this.game.promptWithMenu(this.controller, this, {
-                            source: this,
-                            activePrompt: { 
-                                menuTitle: 'Choose a card to give your opponent' ,
-                                buttons: _.map(opponentTopFour, card => {
-                                    return { text: card.name, arg: card.uuid, method: 'pickOppCard' };
-                                })
-                            }
+                        let oppHandlers = _.map(opponentTopFour, card => {
+                            return () => {
+                                this.game.addMessage('{0} chooses {1} to give {2}', this.controller, card, otherPlayer);
+                                otherPlayer.moveCard(card, 'hand');
+                                otherPlayer.shuffleConflictDeck();
+                            };
                         });
-                        return;
+                        this.game.promptWithHandlerMenu(this.controller, {
+                            activePromptTitle: 'Choose a card to give your opponent',
+                            source: this,
+                            cards: opponentTopFour,
+                            handlers: oppHandlers
+                        });
                     }
                 }
-                this.pickOppCard(this.controller, '');
+                let myHandlers = _.map(myTopFour, card => {
+                    return () => {
+                        this.game.addMessage('{0} chooses {1} to give themself', this.controller, card);
+                        this.controller.moveCard(card, 'hand');
+                        this.controller.shuffleConflictDeck();                    
+                    };
+                });
+                this.game.queueSimpleStep(() => this.game.promptWithHandlerMenu(this.controller, {
+                    activePromptTitle: 'Choose a card to give your yourself',
+                    source: this,
+                    cards: myTopFour,
+                    handlers: myHandlers
+                }));
             }
         });
-    }
-    
-    pickOppCard (player, arg) {
-        if(arg) {
-            let otherPlayer = this.game.getOtherPlayer(player);
-            let card = otherPlayer.findCardByUuid(otherPlayer.conflictDeck, arg);
-            otherPlayer.moveCard(card, 'hand');
-            this.game.addMessage('{0} chooses {1} to give {2}', player, card, otherPlayer);
-            otherPlayer.shuffleConflictDeck();
-        }
-        let myTopFour = this.controller.conflictDeck.first(4);
-        if(myTopFour.length > 0) {
-            this.game.promptWithMenu(this.controller, this, {
-                source: this,
-                activePrompt: { 
-                    menuTitle: 'Choose a card to give your yourself' ,
-                    buttons: _.map(myTopFour, card => {
-                        return { text: card.name, arg: card.uuid, method: 'pickMyCard' };
-                    })
-                }
-            });
-        }
-        return true;
-    }
-    
-    pickMyCard (player, arg) {
-        let card = player.findCardByUuid(player.conflictDeck, arg);
-        player.moveCard(card, 'hand');
-        this.game.addMessage('{0} chooses {1} to give themself', player, card);
-        player.shuffleConflictDeck();
-        return true;
     }
 }
 

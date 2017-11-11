@@ -352,7 +352,7 @@ class Player extends Spectator {
     }
 
     shuffleConflictDeck() {
-        if(!this.name === 'Dummy Player') {
+        if(this.name !== 'Dummy Player') {
             this.game.addMessage('{0} is shuffling their conflict deck', this);
         }
         this.game.raiseEvent('onDeckShuffled', { player: this, deck: 'conflict deck' });
@@ -360,7 +360,7 @@ class Player extends Spectator {
     }
 
     shuffleDynastyDeck() {
-        if(!this.name === 'Dummy Player') {
+        if(this.name !== 'Dummy Player') {
             this.game.addMessage('{0} is shuffling their dynasty deck', this);
         }
         this.game.raiseEvent('onDeckShuffled', { player: this, deck: 'dynasty deck' });
@@ -787,6 +787,7 @@ class Player extends Spectator {
                 waitingPromptTitle: 'Waiting for opponent to choose a card to discard',
                 cardCondition: c => c.parent === card && c.isRestricted(),
                 onSelect: (player, card) => {
+                    this.game.addMessage('{0} discards {1} from {2} due to too many Restricted attachments', player, card, card.parent);
                     player.discardCardFromPlay(card);
                     return true;
                 },
@@ -1051,7 +1052,7 @@ class Player extends Spectator {
                 cards: cards,
                 player: this
             },
-            handler: () => this.game.addMessage('{0} discards {1}{2}', this, cards, atRandom ? ' at random' : '')            
+            handler: () => this.game.addMessage('{0} discards {1}{2}', this, cards, atRandom ? ' at random' : '')
         });
     }
 

@@ -1206,7 +1206,7 @@ class Game extends EventEmitter {
         this.openEventWindow([event]);
         return event;
     }
-    
+
     /* Creates an EventWindow which will open windows for each kind of triggered 
      * ability which can respond any passed events, and execute their handlers.
      * @param {type} events - Array of Event
@@ -1266,7 +1266,7 @@ class Game extends EventEmitter {
             return events.concat([conditionalEvent]);
         }
         this.openEventWindow(events);
-        return events;
+        return events;    
     }
 
     /*

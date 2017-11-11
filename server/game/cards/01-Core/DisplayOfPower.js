@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 const EventRegistrar = require('../../eventregistrar.js');
 
@@ -9,34 +8,39 @@ class DisplayOfPower extends DrawCard {
                 afterConflict: event => event.conflict.loser === this.controller && event.conflict.conflictUnopposed
             },
             handler: () => {
-                this.events = new EventRegistrar(this.game, this);
-                this.events.register(['onResolveRingEffectsOtherEffects','onClaimRingOtherEffects']);
+                this.eventRegistrar = new EventRegistrar(this.game, this);
+                this.eventRegistrar.register([{ 'onResolveRingEffect:cancelinterrupt': 'displayOfPowerOnResolveRingEffect' }]);
                 this.game.addMessage('{0} uses {1} at {2}', this.controller, this, this.game.currentConflict.conflictProvince);
             }
         });
     }
     
-    onResolveRingEffectsOtherEffects(event) {
-        if(event.player !== this.controller) {
-            event.cancel();
-            this.game.addMessage('{0} cancels the ring resolution and resolves it for {1}', this, this.controller);
-            this.game.raiseEvent('onResolveRingEffects', { 
-                player: this.controller, 
-                conflict: event.conflict 
-            }, () => event.conflict.chooseWhetherToResolveRingEffect(this.controller));
-        }
+    displayOfPowerOnResolveRingEffect(event) {
+        this.eventRegistrar.unregisterAll();
+        this.game.queueSimpleStep(() => this.displayOfPowerCancelRingEffect(event));
     }
-    
-    onClaimRingOtherEffects(event) {
+
+    displayOfPowerCancelRingEffect(event) {
         if(event.player !== this.controller) {
+            if(event.cancelled) {
+                this.game.addMessage('{0} attempts to cancel the ring effect, but it has already been cancelled', this);
+                return;
+            }
             event.cancel();
-            this.events.unregisterAll();
-            let ring = _.find(this.game.rings, ring => ring.element === event.conflict.conflictRing);
-            this.game.addMessage('{0} claims the {1} ring for {2}', this, ring.element, this.controller);
-            this.game.raiseEvent('onClaimRing', { 
-                player: this.controller, 
-                conflict: event.conflict 
-            }, () => ring.claimRing(this.controller));
+            this.game.addMessage('{0} cancels the ring effect and {1} may resolve it and then claims it', this, this.controller);
+            let ring = this.game.rings[event.conflict.conflictRing];
+            this.game.raiseMultipleEvents([
+                {
+                    name: 'onResolveRingEffect',
+                    params: { player: this.controller, conflict: event.conflict, order: -1 },
+                    handler: () => event.conflict.chooseWhetherToResolveRingEffect(this.controller)
+                },
+                {
+                    name: 'onClaimRing',
+                    params: { player: this.controller, conflict: event.conflict },
+                    handler: () => ring.claimRing(this.controller)
+                }
+            ]);
         }
     }
 }

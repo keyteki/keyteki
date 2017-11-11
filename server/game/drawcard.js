@@ -385,7 +385,7 @@ class DrawCard extends BaseCard {
             });
             return;
         }
-        
+
         this.fate += fate;
         this.game.raiseEvent('onCardAddFate', { card: this, fate: fate });
     }
