@@ -16,6 +16,13 @@ class FingerOfJade extends DrawCard {
             }
         });
     }
+
+    canAttach(card) {
+        if(card.controller !== this.controller) {
+            return false;
+        }
+        return super.canAttach(card);
+    }
 }
 
 FingerOfJade.id = 'finger-of-jade';
