@@ -1,9 +1,11 @@
 const Event = require('./Event');
+const InitiateCardAbilityEvent = require('./InitiateCardAbilityEvent');
 const LeavesPlayEvent = require('./LeavesPlayEvent');
 const RemoveFateEvent = require('./RemoveFateEvent');
 
 const NameToEvent = {
     default: (name, params, handler) => new Event(name, params, handler),
+    onCardAbilityInitiated: (name, params, handler) => new InitiateCardAbilityEvent(params),
     onCardLeavesPlay: (name, params) => new LeavesPlayEvent(params),
     onCardRemoveFate: (name, params) => new RemoveFateEvent(params)
 };

@@ -6,7 +6,7 @@ class ShibaYojimbo extends DrawCard {
         this.interrupt({
             title: 'Cancel ability',
             when: {
-                onCardAbilityInitiated: event => _.any(event.context.targets, card => card.hasTrait('shugenja') && card.controller === this.controller)
+                onCardAbilityInitiated: event => _.any(event.cardTargets, card => card.hasTrait('shugenja') && card.controller === this.controller)
             },
             canCancel: true,
             handler: context => {

@@ -137,18 +137,12 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
     getAdditionalPromptControls() {
         let controls = [];
         for(let event of this.events) {
-            if(event.name === 'onCardAbilityInitiated') {
-                let targets = [];
-                _.each(['targets', 'rings', 'selects'], targetType => {
-                    _.extend(targets, _.flatten(_.values(event.context[targetType])));
+            if(event.name === 'onCardAbilityInitiated' && event.allTargets.length > 0) {
+                controls.push({
+                    type: 'targeting',
+                    source: event.card.getShortSummary(),
+                    targets: event.allTargets.map(target => target.getShortSummary())
                 });
-                if(targets.length > 0) {
-                    controls.push({
-                        type: 'targeting',
-                        source: event.card.getShortSummary(),
-                        targets: targets.map(target => target.getShortSummary())
-                    });
-                }
             }
         }
         return controls;
