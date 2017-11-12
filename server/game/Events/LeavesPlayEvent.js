@@ -36,7 +36,7 @@ class LeavesPlayEvent extends Event {
     }
     
     cancel() {
-        this.contingentEvents.each(event => event.cancelled = true);
+        _.each(this.contingentEvents, event => event.cancelled = true);
         this.window.removeEvent(this.contingentEvents);
         this.contingentEvents = [];
         super.cancel();

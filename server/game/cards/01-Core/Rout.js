@@ -11,7 +11,7 @@ class Rout extends DrawCard {
                 cardType: 'character',
                 gameAction: 'sendHome',
                 cardCondition: card => card.isParticipating() && card.controller !== this.controller && card.getMilitarySkill() < _.max(this.controller.cardsInPlay.map(card => {
-                    if(card.hasTrait('bushi') && card.isParticipating) {
+                    if(card.hasTrait('bushi') && card.isParticipating()) {
                         return card.getMilitarySkill();
                     }
                     return 0;
