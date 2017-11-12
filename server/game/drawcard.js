@@ -542,12 +542,14 @@ class DrawCard extends BaseCard {
      * but don't change it.
      */
     leavesPlayEffects() {
-        if(this.isHonored) {
-            this.game.addMessage('{0} gains 1 honor due to {1}\'s personal honor', this.controller, this);
-            this.game.addHonor(this.controller, 1);
-        } else if(this.isDishonored) {
-            this.game.addMessage('{0} loses 1 honor due to {1}\'s personal honor', this.controller, this);
-            this.game.addHonor(this.controller, -1);
+        if(this.allowGameAction('affectedByHonor')) {
+            if(this.isHonored) {
+                this.game.addMessage('{0} gains 1 honor due to {1}\'s personal honor', this.controller, this);
+                this.game.addHonor(this.controller, 1);
+            } else if(this.isDishonored) {
+                this.game.addMessage('{0} loses 1 honor due to {1}\'s personal honor', this.controller, this);
+                this.game.addHonor(this.controller, -1);
+            }
         }
         if(this.hasSincerity()) {
             this.game.addMessage('{0} draws a card due to {1}\'s Sincerity', this.controller, this);
