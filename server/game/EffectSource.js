@@ -1,6 +1,6 @@
 class EffectSource {
-    constructor() {
-        this.name = 'Framework efffect';
+    constructor(name = 'Framework effect') {
+        this.name = name;
         this.id = this.name;
         this.factions = {};
         this.traits = {};

@@ -1,4 +1,5 @@
 const _ = require('underscore');
+const EffectSource = require('../EffectSource.js');
 const UiPrompt = require('./uiprompt.js');
 
 /**
@@ -20,10 +21,12 @@ class HandlerMenuPrompt extends UiPrompt {
         super(game);
         this.player = player;
         if(_.isString(properties.source)) {
-            properties.source = { name: properties.source };
+            properties.source = new EffectSource(properties.source);
         }
         if(properties.source && !properties.waitingPromptTitle) {
             properties.waitingPromptTitle = 'Waiting for opponent to use ' + properties.source.name;
+        } else if(!properties.source) {
+            properties.source = new EffectSource();
         }
         this.properties = properties;
     }
