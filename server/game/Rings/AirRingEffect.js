@@ -23,10 +23,10 @@ class AirRingEffect extends BaseAbility {
     }
 
     executeHandler(context) {
-        if(context.target === 'Gain 2 Honor') {
+        if(context.select === 'Gain 2 Honor') {
             context.game.addMessage('{0} resolves the {1} ring, gaining 2 honor', context.player, 'air');
             context.game.addHonor(context.player, 2);
-        } else if(context.target === 'Take 1 Honor from Opponent') {
+        } else if(context.select === 'Take 1 Honor from Opponent') {
             context.game.addMessage('{0} resolves the {1} ring, taking 1 honor from {2}', context.player, 'air', context.player.opponent);
             context.game.transferHonor(context.player.opponent, context.player, 1);            
         }
