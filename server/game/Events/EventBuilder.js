@@ -5,7 +5,7 @@ const RemoveFateEvent = require('./RemoveFateEvent');
 
 const NameToEvent = {
     default: (name, params, handler) => new Event(name, params, handler),
-    onCardAbilityInitiated: (name, params, handler) => new InitiateCardAbilityEvent(params),
+    onCardAbilityInitiated: (name, params, handler) => new InitiateCardAbilityEvent(params, handler),
     onCardLeavesPlay: (name, params) => new LeavesPlayEvent(params),
     onCardRemoveFate: (name, params) => new RemoveFateEvent(params)
 };
