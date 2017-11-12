@@ -1,3 +1,5 @@
+const EffectSource = require('../EffectSource.js');
+
 const capitalize = {
     military: 'Military',
     political: 'Political',
@@ -8,8 +10,9 @@ const capitalize = {
     void: 'Void'
 };
 
-class RingSource {
+class RingSource extends EffectSource {
     constructor(player, ring) {
+        super();
         this.controller = player;
         this.ring = ring;
         this.element = ring.element;
@@ -19,48 +22,6 @@ class RingSource {
         this.factions = {};
         this.type = 'ring';
     }
-
-    isUnique() {
-        return false;
-    }
-
-    isBlank() {
-        return false;
-    }
-
-    getType() {
-        return this.type;
-    }
-
-    getPrintedFaction() {
-        return null;
-    }
-
-    hasKeyword() {
-        return false;
-    }
-
-    hasTrait() {
-        return false;
-    }
-            
-    isFaction() {
-        return false;
-    }
-            
-    hasToken() {
-        return false;
-    }
-            
-    getShortSummary() {
-        return {
-            id: this.id,
-            label: this.name,
-            name: this.name,
-            type: this.getType()
-        };
-    }
-
 }
 
 module.exports = RingSource;
