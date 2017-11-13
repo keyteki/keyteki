@@ -8,6 +8,7 @@ const CardForcedReaction = require('./cardforcedreaction.js');
 const CardInterrupt = require('./cardinterrupt.js');
 const CardReaction = require('./cardreaction.js');
 const CustomPlayAction = require('./customplayaction.js');
+const EffectSource = require('./EffectSource.js');
 const EventRegistrar = require('./eventregistrar.js');
 
 const ValidKeywords = [
@@ -21,8 +22,9 @@ const ValidKeywords = [
 ];
 const LocationsWithEventHandling = ['play area', 'province'];
 
-class BaseCard {
+class BaseCard extends EffectSource {
     constructor(owner, cardData) {
+        super();
         this.owner = owner;
         this.controller = owner;
         this.game = this.owner.game;
@@ -65,7 +67,6 @@ class BaseCard {
         this.parseTraits(cardData.traits || '');
         this.setupCardAbilities(AbilityDsl);
 
-        this.factions = {};
         this.addFaction(cardData.clan);
 
         this.isProvince = false;
@@ -257,19 +258,6 @@ class BaseCard {
         return this.printedKeywords.includes(keyword.toLowerCase());
     }
 
-    hasTrait(trait) {
-        let traitCount = this.traits[trait.toLowerCase()] || 0;
-        return traitCount > 0;
-    }
-
-    getTraits() {
-        return _.keys(_.omit(this.traits, trait => trait < 1));
-    }
-
-    isFaction(faction) {
-        return !!this.factions[faction.toLowerCase()];
-    }
-
     applyAnyLocationPersistentEffects() {
         _.each(this.abilities.persistentEffects, effect => {
             if(effect.location === 'any') {
@@ -368,10 +356,6 @@ class BaseCard {
 
     isBlank() {
         return this.blankCount > 0;
-    }
-
-    getType() {
-        return this.type;
     }
 
     getPrintedFaction() {
@@ -505,15 +489,6 @@ class BaseCard {
 
     getProvinceStrengthBonus() {
         return 0;
-    }
-
-    getShortSummary() {
-        return {
-            id: this.cardData.id,
-            label: this.cardData.name,
-            name: this.cardData.name,
-            type: this.getType()
-        };
     }
 
     getSummary(activePlayer, hideWhenFaceup) {

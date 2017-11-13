@@ -24,6 +24,7 @@ class AsakoDiplomat extends DrawCard {
                     choices.push('Honor ' + context.target.name);
                     choices.push('Dishonor ' + context.target.name);
                     this.game.promptWithHandlerMenu(this.controller, {
+                        source: this,
                         choices: choices,
                         handlers: [
                             () => {
