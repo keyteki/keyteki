@@ -1,3 +1,4 @@
+const _ = require('underscore');
 const Event = require('./Event.js');
 const RemoveFateEvent = require('./RemoveFateEvent.js');
 
