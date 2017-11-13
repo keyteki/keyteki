@@ -8,7 +8,9 @@ class Event {
         this.handler = handler;
         this.window = null;
         this.uuid = uuid.v1();
-        this.order = 0;
+        if(!this.order) {
+            this.order = 0;
+        }
 
         _.extend(this, params);
         this.params = [this].concat(params);
@@ -26,6 +28,10 @@ class Event {
 
     unsetWindow() {
         this.window = null;
+    }
+
+    preResolutionEffect() {
+        return;
     }
     
     checkCondition() {
