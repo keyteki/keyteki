@@ -27,6 +27,10 @@ class Event {
     unsetWindow() {
         this.window = null;
     }
+
+    preResolutionEffect() {
+        return;
+    }
     
     checkCondition() {
         if(this.condition && this.window && !this.condition(this.window.events)) {

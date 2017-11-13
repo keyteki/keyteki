@@ -8,6 +8,7 @@ class LeavesPlayEvent extends Event {
         this.isSacrifice = isSacrifice;
         this.handler = this.leavesPlay;
         this.contingentEvents = [];
+
         if(!this.destination) {
             this.destination = this.card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile';
         }
@@ -42,8 +43,12 @@ class LeavesPlayEvent extends Event {
         super.cancel();
     }
     
+    preResolutionEffect() {
+        this.cardStateWhenLeftPlay = this.card.createSnapshot();
+    }
+
     leavesPlay() {
-        this.cardStateWhenLeftPlay = this.card.createSnapshot(); 
+        this.cardStateWhenLeftPlay.leavesPlayEffects(); 
         this.card.owner.moveCard(this.card, this.destination);
         return true;
     }

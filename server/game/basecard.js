@@ -291,6 +291,7 @@ class BaseCard {
         _.each(this.abilities.actions, action => action.limit.reset());
         _.each(this.abilities.reactions, reaction => reaction.limit.reset());
         this.controller = this.owner;
+        this.inConflict = false;
     }
 
     moveTo(targetLocation) {
