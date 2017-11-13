@@ -29,6 +29,7 @@ class DynastyActionWindow extends ActionWindow {
 
         if(choice === 'manual') {
             this.game.promptForSelect(this.currentPlayer, {
+                source: 'Manual Action',
                 activePrompt: 'Which ability are you using?',
                 cardCondition: card => (card.controller === this.currentPlayer && !card.facedown),
                 onSelect: (player, card) => {

@@ -10,6 +10,7 @@ class EndlessPlains extends ProvinceCard {
             handler: () => {
                 let otherPlayer = this.game.getOtherPlayer(this.controller);
                 this.game.promptForSelect(otherPlayer, {
+                    source: this,
                     activePromptTitle: 'Choose a character to discard',
                     cardType: 'character',
                     cardCondition: card => this.game.currentConflict.isAttacking(card),

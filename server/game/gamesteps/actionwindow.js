@@ -62,6 +62,7 @@ class ActionWindow extends UiPrompt {
 
         if(choice === 'manual') {
             this.game.promptForSelect(this.currentPlayer, {
+                source: 'Play Action',
                 activePrompt: 'Which ability are you using?',
                 cardCondition: card => (card.controller === this.currentPlayer && !card.facedown),
                 onSelect: (player, card) => {

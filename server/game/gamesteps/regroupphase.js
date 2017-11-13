@@ -60,6 +60,7 @@ class RegroupPhase extends Phase {
 
         if(cardsOnUnbrokenProvinces.length > 0) {
             this.game.promptForSelect(player, {
+                source: 'Discard Dynasty Cards',
                 numCards: 0,
                 multiSelect: true,
                 activePromptTitle: 'Select dynasty cards to discard',
