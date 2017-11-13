@@ -6,7 +6,7 @@ class FearsomeMystic extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: this,
-            condition: () => this.game.currentConflict && this.game.currentConflict.conflictRing === 'air',
+            condition: () => this.game.currentConflict && this.game.currentConflict.hasElement('air'),
             effect: ability.effects.modifyGlory(2)
         });
         this.action({
