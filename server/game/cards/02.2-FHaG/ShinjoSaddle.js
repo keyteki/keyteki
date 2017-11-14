@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class ShinjoSaddle extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Move to another character',
             target: {
