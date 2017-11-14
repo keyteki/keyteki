@@ -7,13 +7,13 @@ class IkomaUjiaki extends DrawCard {
             title: 'Put 2 characters into play',
             cost: ability.costs.discardImperialFavor(),
             condition: () => _.any(['province 1', 'province 2', 'province 3', 'province 4'], location => {
-                let card = this.controller.getDynastyCardInProvince();
+                let card = this.controller.getDynastyCardInProvince(location);
                 return card.facedown;
             }),
             handler: () => {
                 let revealedCards = [];
                 _.each(['province 1', 'province 2', 'province 3', 'province 4'], location => {
-                    let card = this.controller.getDynastyCardInProvince();
+                    let card = this.controller.getDynastyCardInProvince(location);
                     if(card && card.facedown) {
                         revealedCards.push(card);
                         card.facedown = false;
@@ -34,6 +34,7 @@ class IkomaUjiaki extends DrawCard {
                         onSelect: (player, cards) => {
                             this.game.addMessage('{0} puts {1} into play', player, cards);
                             player.putIntoPlay(cards, true);
+                            return true;
                         }
                     });
                 }
@@ -42,6 +43,6 @@ class IkomaUjiaki extends DrawCard {
     }
 }
 
-IkomaUjiaki.id = 'ikoma-ujiaki';
+IkomaUjiaki.id = 'akodo-toturi';
 
 module.exports = IkomaUjiaki;
