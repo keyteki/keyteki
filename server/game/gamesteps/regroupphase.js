@@ -58,8 +58,6 @@ class RegroupPhase extends Phase {
             }
         });
 
-        console.log(_.map(cardsToDiscard, card => card.name))
-
         if(cardsOnUnbrokenProvinces.length > 0) {
             this.game.promptForSelect(player, {
                 numCards: 0,
@@ -68,9 +66,7 @@ class RegroupPhase extends Phase {
                 waitingPromptTitle: 'Waiting for opponent to discard dynasty cards',
                 cardCondition: card => cardsOnUnbrokenProvinces.includes(card),
                 onSelect: (player, cards) => {
-                    console.log(_.map(cardsToDiscard, card => card.name))
                     cardsToDiscard = cardsToDiscard.concat(cards);
-                    console.log(_.map(cardsToDiscard, card => card.name))
                     if(cardsToDiscard.length > 0) {
                         this.game.addMessage('{0} discards {1} from their provinces', player, cardsToDiscard);
                         _.each(cardsToDiscard, card => player.moveCard(card, 'dynasty discard pile'));
