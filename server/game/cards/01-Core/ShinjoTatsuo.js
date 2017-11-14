@@ -17,7 +17,7 @@ class ShinjoTatsuo extends DrawCard {
                     cards.push(context.target);
                 }
                 this.game.addMessage('{0} uses {1} to move {2} to the conflict', this.controller, this, cards);
-                this.game.currentConflict.moveToConflict(cards, this.controller === this.game.currentConflict.attackingPlayer);
+                this.game.currentConflict.moveToConflict(cards);
             }
         });
     }
