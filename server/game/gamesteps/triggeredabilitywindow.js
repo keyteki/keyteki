@@ -95,6 +95,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
 
         buttons.push({ text: 'Pass', method: 'pass' });
         this.game.promptForSelect(player, {
+            source: 'Triggered Abilites',
             activePromptTitle: TriggeredAbilityWindowTitles.getTitle(this.abilityType, this.events),
             buttons: buttons,
             controls: this.getAdditionalPromptControls(),
@@ -114,6 +115,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
                     return true;
                 }
                 this.game.promptWithHandlerMenu(player, {
+                    source: 'Triggered Abilites',
                     activePromptTitle: 'Which event do you want to respond to?',
                     source: 'Ability Window',
                     waitingPromptTitle: 'Waiting for opponent',

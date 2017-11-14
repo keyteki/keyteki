@@ -1023,21 +1023,21 @@ class Player extends Spectator {
 
         this.game.queueSimpleStep(() => {
             attachment.applyPersistentEffects();
+            if(_.size(card.attachments.filter(c => c.isRestricted())) > 2) {
+                this.game.promptForSelect(this, {
+                    activePromptTitle: 'Choose a card to discard',
+                    waitingPromptTitle: 'Waiting for opponent to choose a card to discard',
+                    cardCondition: c => c.parent === card && c.isRestricted(),
+                    onSelect: (player, card) => {
+                        this.game.addMessage('{0} discards {1} from {2} due to too many Restricted attachments', player, card, card.parent);
+                        player.discardCardFromPlay(card);
+                        return true;
+                    },
+                    source: 'Too many Restricted attachments'
+                });
+            }
         });
 
-        if(attachment.printedKeywords.includes('restricted') && _.size(card.attachments.filter(card => card.isRestricted())) > 1) {
-            this.game.promptForSelect(this, {
-                activePromptTitle: 'Choose a card to discard',
-                waitingPromptTitle: 'Waiting for opponent to choose a card to discard',
-                cardCondition: c => c.parent === card && c.isRestricted(),
-                onSelect: (player, card) => {
-                    this.game.addMessage('{0} discards {1} from {2} due to too many Restricted attachments', player, card, card.parent);
-                    player.discardCardFromPlay(card);
-                    return true;
-                },
-                source: 'Too many Restricted attachments'
-            });
-        }
 
         let events = [{
             name: 'onCardAttached',
@@ -1804,6 +1804,7 @@ class Player extends Spectator {
             return;
         }
         this.game.promptForSelect(this, {
+            source: 'Fate Phase',
             activePromptTitle: 'Choose character to discard\n(or click Done to discard all characters with no fate)',
             waitingPromptTitle: 'Waiting for opponent to discard characters with no fate',
             cardCondition: card => cardsToDiscard.includes(card),

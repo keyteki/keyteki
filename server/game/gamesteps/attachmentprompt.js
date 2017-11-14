@@ -10,6 +10,7 @@ class AttachmentPrompt extends UiPrompt {
 
     continue() {
         this.game.promptForSelect(this.player, {
+            source: 'Play Attachment',
             activePromptTitle: 'Select target for attachment',
             cardCondition: card => this.attachmentCard.owner.canAttach(this.attachmentCard, card),
             onSelect: (player, card) => {
