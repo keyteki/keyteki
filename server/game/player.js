@@ -400,7 +400,7 @@ class Player extends Spectator {
             this.deckRanOutOfCards('conflict');
             let moreCards = this.conflictDeck.first(remainingCards);
             _.each(moreCards, card => this.moveCard(card, 'hand'));
-            cards = _.extend(cards, moreCards);
+            cards = cards.concat(moreCards);
         }
 
         return (cards.length > 1) ? cards : cards[0];
