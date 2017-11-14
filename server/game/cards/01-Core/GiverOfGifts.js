@@ -9,6 +9,7 @@ class GiverOfGifts extends DrawCard {
                 cardCondition: card => card.controller === this.controller && card.location === 'play area'
             },
             handler: context => this.game.promptForSelect(this.controller, {
+                source: this,
                 cardType: 'character',
                 cardCondition: card => this.controller.canAttach(context.target, card) && card.controller === this.controller && card !== context.target.parent,
                 onSelect: (player, card) => {

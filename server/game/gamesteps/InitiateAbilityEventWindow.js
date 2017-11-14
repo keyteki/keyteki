@@ -2,26 +2,26 @@ const EventWindow = require('./EventWindow.js');
 const SimpleStep = require('./simplestep.js');
 
 class InitiateAbilityEventWindow extends EventWindow {
+    constructor(game, events) {
+        super(game, events);
+        this.events.each(event => {
+            if(event.context.ability.isCardPlayed() && !event.context.dontRaiseCardPlayed) { //context.dontRaiseCardPlayed is a flag raised by events doing multiple resolutions
+                game.addEventToWindow(this, 'onCardPlayed', { player: event.context.player, card: event.card, originalLocation: 'hand' })
+            }
+        });
+    }
+
     initialise() {
         this.pipeline.initialise([
             new SimpleStep(this.game, () => this.openWindow('cancelinterrupt')),
             new SimpleStep(this.game, () => this.checkForOtherEffects()),
-            new SimpleStep(this.game, () => this.raiseCardPlayedIfEvent()),
+            new SimpleStep(this.game, () => this.openWindow('reaction')), // Reactions to this event need to take place before the ability resolves
             new SimpleStep(this.game, () => this.executeHandler())
         ]);
     }
 
-    checkForOtherEffects() {
-        // Kisada needs to see the cancelled event so he knows that he can't cancel the next one
-        this.events.each(event => this.game.emit(event.name + 'OtherEffects', ...event.params));
-    }
-
-    raiseCardPlayedIfEvent() {
-        this.events.each(event => {
-            if(event.context.ability.isCardPlayed() && !event.context.dontRaiseCardPlayed) { //context.dontRaiseCardPlayed is a flag raised by events doing multiple resolutions
-                this.game.raiseEvent('onCardPlayed', { player: event.context.player, card: event.card, originalLocation: 'hand' });
-            }
-        });
+    removeEvent(events) { // Events shouldn't be removed from this window when cancelled, as other abilities can still react to them
+        this.events.each(event => event.checkCondition());
     }
 }
 

@@ -23,6 +23,7 @@ class Banzai extends DrawCard {
                         () => {
                             this.game.addHonor(this.controller, -1);
                             this.game.promptForSelect(this.controller, {
+                                source: this,
                                 cardType: 'character',
                                 cardCondition: card => this.game.currentConflict.isParticipating(card),
                                 onSelect: (player, card) => {
