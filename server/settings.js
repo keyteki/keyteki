@@ -9,7 +9,7 @@ const defaultWindows = {
 
 const defaultOptionSettings = {
     flipDynasty: true,
-    cancelOwnAbilites: false
+    cancelOwnAbilities: false
 };
 
 const defaultSettings = {
