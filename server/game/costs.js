@@ -82,6 +82,19 @@ const Costs = {
      */    
     breakSelf: () => CostBuilders.break.self(),
     /**
+     * Cost that discards the Imperial Favor
+     */
+    discardImperialFavor: function() {
+        return {
+            canPay: function(context) {
+                return context.player.imperialFavor !== '';
+            },
+            pay: function(context) {
+                context.player.loseImperialFavor();
+            }
+        };
+    },
+    /**
      * Cost that will pay the reduceable fate cost associated with an event card
      * and place it in discard.
      */
