@@ -43,6 +43,6 @@ class IkomaUjiaki extends DrawCard {
     }
 }
 
-IkomaUjiaki.id = 'akodo-toturi';
+IkomaUjiaki.id = 'ikoma-ujiaki';
 
 module.exports = IkomaUjiaki;
