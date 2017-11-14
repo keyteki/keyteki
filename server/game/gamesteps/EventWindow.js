@@ -54,25 +54,25 @@ class EventWindow extends BaseStepWithPipeline {
     
     // This catches any persistent/delayed effect cancels
     checkForOtherEffects() {
-        if(_.isEmpty(this.events)) {
-            return;
-        }
-        
         this.events.each(event => this.game.emit(event.name + 'OtherEffects', ...event.params));
     }
 
     preResolutionEffects() {
-        this.events.each(event => event.preResolutionEffect());
+        this.events.each(event => {
+            if(!event.cancelled) {
+                event.preResolutionEffect();
+            }
+        });
     }
     
     executeHandler() {
-        if(_.isEmpty(this.events)) {
-            return;
-        }
-        
         this.events.sortBy(event => event.order);
-        this.events.each(event => event.executeHandler());
-        this.events.each(event => this.game.emit(event.name, ...event.params));
+        this.events.each(event => {
+            if(!event.cancelled) {
+                event.executeHandler();
+                this.game.emit(event.name, ...event.params);
+            }
+        });
     }
 }
 
