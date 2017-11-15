@@ -8,6 +8,7 @@ describe('CardAction', function () {
         this.cardSpy = jasmine.createSpyObj('card', ['getType', 'isBlank', 'canTriggerAbilities']);
         this.cardSpy.canTriggerAbilities.and.returnValue(true);
         this.cardSpy.handler = function() {};
+        this.cardSpy.abilities = { actions: [] };
         spyOn(this.cardSpy, 'handler').and.returnValue(true);
 
         this.limitSpy = jasmine.createSpyObj('limit', ['increment', 'isAtMax', 'registerEvents', 'unregisterEvents']);
@@ -20,7 +21,7 @@ describe('CardAction', function () {
 
         this.properties = {
             title: 'Do the thing',
-            method: 'handler'
+            handler: this.cardSpy.handler
         };
     });
 
@@ -34,7 +35,8 @@ describe('CardAction', function () {
                 };
             });
 
-            describe('when passed a method reference', function() {
+            // method is deprecated
+            xdescribe('when passed a method reference', function() {
                 beforeEach(function() {
                     this.properties = {
                         title: 'Do the thing',
@@ -82,7 +84,7 @@ describe('CardAction', function () {
                 });
 
                 it('should add the play event cost', function() {
-                    expect(this.action.cost.length).toBe(2);
+                    expect(this.action.cost.length).toBe(4);
                 });
             });
         });
@@ -208,7 +210,8 @@ describe('CardAction', function () {
             });
         });
 
-        describe('when the current phase is setup', function() {
+        // this is unecessary as there are no action windows in setup
+        xdescribe('when the current phase is setup', function() {
             beforeEach(function() {
                 this.gameSpy.currentPhase = 'setup';
                 this.properties.phase = 'any';
@@ -263,7 +266,8 @@ describe('CardAction', function () {
         });
     });
 
-    describe('deactivate()', function() {
+    // clickToActivate is deprecated
+    xdescribe('deactivate()', function() {
         beforeEach(function() {
             this.player = { player: 1 };
             this.cardSpy.controller = this.player;
