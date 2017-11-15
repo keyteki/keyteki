@@ -410,17 +410,6 @@ describe('CardAction', function () {
         });
     });
 
-    describe('getMenuItem()', function() {
-        beforeEach(function() {
-            this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
-            this.menuItem = this.action.getMenuItem('arg');
-        });
-
-        it('returns the menu item format', function() {
-            expect(this.menuItem).toEqual({ text: 'Do the thing', method: 'doAction', anyPlayer: false, arg: 'arg' });
-        });
-    });
-
     describe('executeHandler()', function() {
         beforeEach(function() {
             this.player = { player: true };

@@ -1,6 +1,7 @@
 const _ = require('underscore');
 
 const CardAbility = require('./CardAbility.js');
+const Costs = require('./costs.js');
 const TriggeredAbilityContext = require('./TriggeredAbilityContext.js');
 
 class TriggeredAbility extends CardAbility {

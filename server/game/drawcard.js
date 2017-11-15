@@ -9,7 +9,6 @@ const PlayCharacterAction = require('./playcharacteraction.js');
 const DuplicateUniqueAction = require('./duplicateuniqueaction.js');
 
 const StandardPlayActions = [
-    new SetupCardAction(),
     new DynastyCardAction(),
     new PlayAttachmentAction(),
     new PlayCharacterAction(),
