@@ -35,7 +35,7 @@ describe('AbilityResolver', function() {
             });
         });
 
-        describe('when the ability is an action', function() {
+        xdescribe('when the ability is an action', function() {
             beforeEach(function() {
                 this.ability.isAction.and.returnValue(true);
                 this.targetResult = { resolved: true, name: 'foo', value: 'foo', costsFirst: false, mode: 'single' };

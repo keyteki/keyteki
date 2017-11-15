@@ -9,7 +9,6 @@ const PlayCharacterAction = require('./playcharacteraction.js');
 const DuplicateUniqueAction = require('./duplicateuniqueaction.js');
 
 const StandardPlayActions = [
-    new SetupCardAction(),
     new DynastyCardAction(),
     new PlayAttachmentAction(),
     new PlayCharacterAction(),
@@ -419,7 +418,7 @@ class DrawCard extends BaseCard {
     }
 
     canBeBypassedByCovert() {
-        return !this.isCovert();
+        return !this.isCovert() && this.type === 'character' && this.location === 'play area';
     }
 
     useCovertToBypass(targetCard) {
@@ -491,7 +490,7 @@ class DrawCard extends BaseCard {
             if(!location.includes(this.location) && this.location !== 'hand') {
                 return false;
             }
-        } else if(!this.location.includes('province') || this.facedown) {
+        } else if(!this.location.includes('province')) {
             return false;
         }
         return super.canTriggerAbilities();

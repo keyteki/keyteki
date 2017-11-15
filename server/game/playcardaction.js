@@ -4,7 +4,10 @@ const Costs = require('./costs.js');
 class PlayCardAction extends BaseAbility {
     constructor() {
         super({
-            cost: Costs.playEvent()
+            cost: [
+                Costs.playEvent(),
+                Costs.useInitiateAction()
+            ]         
         });
         this.title = 'Play';
     }
