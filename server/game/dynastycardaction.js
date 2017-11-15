@@ -7,10 +7,13 @@ class DynastyCardAction extends BaseAbility {
             cost: [
                 Costs.chooseFate(),
                 Costs.payReduceableFateCost('play'),
-                Costs.playLimited()
+                Costs.playLimited(),
+                Costs.useInitiateAction()
             ]
         });
         this.title = 'Play this character';
+        this.abilityType = 'action';
+        this.cannotBeCancelled = true;
     }
 
     meetsRequirements(context) {
@@ -37,10 +40,6 @@ class DynastyCardAction extends BaseAbility {
 
     isCardPlayed() {
         return true;
-    }
-
-    isCardAbility() {
-        return false;
     }
 }
 

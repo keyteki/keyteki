@@ -1,9 +1,12 @@
 const BaseAbility = require('./baseability.js');
+const Costs = require('./costs.js');
 
 class DuplicateUniqueAction extends BaseAbility {
     constructor() {
-        super({ cost: null });
+        super({ cost: Costs.useInitiateAction() });
         this.title = 'DuplicateUniqueAction';
+        this.abilityType = 'action';
+        this.cannotBeCancelled = true;
     }
 
     meetsRequirements(context) {
@@ -25,10 +28,6 @@ class DuplicateUniqueAction extends BaseAbility {
         
         context.game.addMessage('{0} discards a duplicate to add 1 fate to {1}', context.player, context.source.name);
         context.player.moveCard(context.source, context.source.isDynasty ? 'dynasty discard pile' : 'conflict discard pile');
-    }
-
-    isCardAbility() {
-        return false;
     }
 }
 

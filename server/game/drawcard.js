@@ -491,7 +491,7 @@ class DrawCard extends BaseCard {
             if(!location.includes(this.location) && this.location !== 'hand') {
                 return false;
             }
-        } else if(!this.location.includes('province') || this.facedown) {
+        } else if(!this.location.includes('province')) {
             return false;
         }
         return super.canTriggerAbilities();

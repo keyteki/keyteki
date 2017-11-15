@@ -1,35 +1,19 @@
 const _ = require('underscore');
 
-const BaseAbility = require('./baseability.js');
-const Costs = require('./costs.js');
-const AbilityLimit = require('./abilitylimit.js');
+const CardAbility = require('./CardAbility.js');
 const TriggeredAbilityContext = require('./TriggeredAbilityContext.js');
 
-class TriggeredAbility extends BaseAbility {
+class TriggeredAbility extends CardAbility {
     constructor(game, card, abilityType, properties) {
-        super(properties);
+        super(game, card, properties);
 
-        this.game = game;
-        this.card = card;
-        this.title = properties.title;
-        this.limit = properties.limit || AbilityLimit.perRound(1);
-        this.max = properties.max;
         this.when = properties.when;
         this.abilityType = abilityType;
-        this.printedAbility = properties.printedAbility === false ? false : true;
-        this.methods = properties.methods || [];
-        this.cannotTargetFirst = !!properties.cannotTargetFirst;
-        this.location = properties.location || [];
-        if(!_.isArray(this.location)) {
-            this.location = [this.location];
-        }
-
-        if(card.getType() === 'event' && !properties.ignoreEventCosts) {
-            this.cost.push(Costs.playEvent());
-        }
+        this.maxIdentifier = this.card.name + this.printedAbility ? this.card.id + this.card.abilities.reactions.length : '';
 
         if(this.max) {
-            this.card.owner.registerAbilityMax(this.card.name, this.max);
+            this.card.owner.registerAbilityMax(this.maxIdentifier, this.max);
+            this.cost.push(Costs.playMax());
         }
     }
 
@@ -56,62 +40,15 @@ class TriggeredAbility extends BaseAbility {
     }
 
     meetsRequirements(context) {
-        if(this.game.currentPhase === 'setup') {
-            return false;
-        }
-        /*
-        if(!this.isForcedAbility() && context.player) {
-            return false;
-        }
-        */
-        if(this.limit && this.limit.isAtMax()) {
-            return false;
-        }
-
-        if(this.card.isBlank() && this.printedAbility) {
-            return false;
-        }
-
         if(!this.isTriggeredByEvent(context.event)) {
             return false;
         }
 
-        if(!this.card.canTriggerAbilities(this.location)) {
-            return false;
-        }
-        
-        return this.canResolveTargets(context);
-    }
-
-    isEventListeningLocation(location) {
-        if(!location) {
-            return false;
-        }
-        if(this.location.includes(location)) {
-            return true;
-        }
-        
-        if(location.includes('deck')) {
-            return false;
-        }
-        
-        let type = this.card.getType();
-        if(type === 'character' || type === 'attachment') {
-            return (location === 'play area');
-        } else if(type === 'event') {
-            return (location === 'hand');
-        } else if(type === 'role' || location.includes('province')) {
-            return true;
-        }
-        return false;
+        return super.meetsRequirements(context);
     }
 
     isAction() {
         return false;
-    }
-
-    isCardPlayed() {
-        return this.card.getType() === 'event';
     }
 
     isForcedAbility() {

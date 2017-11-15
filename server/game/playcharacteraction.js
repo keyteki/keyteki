@@ -7,7 +7,8 @@ class PlayCharacterAction extends BaseAbility {
             cost: [
                 Costs.chooseFate(),
                 Costs.payReduceableFateCost('play'),
-                Costs.playLimited()
+                Costs.playLimited(),
+                Costs.useInitiateAction()                
             ]
         });
         this.title = 'Play this character';
@@ -55,10 +56,6 @@ class PlayCharacterAction extends BaseAbility {
 
     isCardPlayed() {
         return true;
-    }
-
-    isCardAbility() {
-        return false;
     }
 }
 

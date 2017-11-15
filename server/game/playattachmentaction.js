@@ -6,9 +6,10 @@ class PlayAttachmentAction extends BaseAbility {
         super({
             cost: [
                 Costs.payReduceableFateCost('play'),
-                Costs.playLimited()
+                Costs.playLimited(),
+                Costs.useInitiateAction()
             ],
-            target: {
+            target: { 
                 cardCondition: (card, context) => context.source.owner.canAttach(context.source, card)
             }
         });
@@ -38,10 +39,6 @@ class PlayAttachmentAction extends BaseAbility {
     
     isCardPlayed() {
         return true;
-    }
-
-    isCardAbility() {
-        return false;
     }
 }
 
