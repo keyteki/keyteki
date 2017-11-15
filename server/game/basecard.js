@@ -327,7 +327,7 @@ class BaseCard extends EffectSource {
     }
     
     canTriggerAbilities(context) {
-        return this.allowGameAction('triggerAbilities', context);
+        return !this.facedown && this.allowGameAction('triggerAbilities', context);
     }
     
     getMenu() {

@@ -14,17 +14,12 @@ class AbilityResolver extends BaseStepWithPipeline {
             new SimpleStep(game, () => this.createSnapshot()),
             new SimpleStep(game, () => this.resolveEarlyTargets()),
             new SimpleStep(game, () => this.waitForTargetResolution(true)),
-            new SimpleStep(game, () => this.game.pushAbilityContext('card', context.source, 'cost')),
             new SimpleStep(game, () => this.resolveCosts()),
             new SimpleStep(game, () => this.waitForCostResolution()),
-            new SimpleStep(game, () => this.markActionAsTaken()),
             new SimpleStep(game, () => this.payCosts()),
-            new SimpleStep(game, () => this.game.popAbilityContext()),
-            new SimpleStep(game, () => this.game.pushAbilityContext('card', context.source, 'effect')),
             new SimpleStep(game, () => this.resolveTargets()),
             new SimpleStep(game, () => this.waitForTargetResolution()),
-            new SimpleStep(game, () => this.initiateAbility()),
-            new SimpleStep(game, () => this.game.popAbilityContext())
+            new SimpleStep(game, () => this.initiateAbility())
         ]);
     }
 
@@ -35,12 +30,6 @@ class AbilityResolver extends BaseStepWithPipeline {
     createSnapshot() {
         if(['character', 'holding', 'attachment'].includes(this.context.source.getType())) {
             this.context.cardStateWhenInitiated = this.context.source.createSnapshot();
-        }
-    }
-
-    markActionAsTaken() {
-        if(this.context.ability.isAction() && !this.cancelled) {
-            this.game.markActionAsTaken();
         }
     }
 
@@ -67,10 +56,6 @@ class AbilityResolver extends BaseStepWithPipeline {
         if(this.cancelled) {
             return;
         }
-        if(this.context.ability.limit) {
-            this.context.ability.limit.increment();
-        }
-
         this.context.ability.payCosts(this.context);
     }
 

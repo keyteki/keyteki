@@ -1,10 +1,8 @@
 const _ = require('underscore');
 
-const AbilityContext = require('./AbilityContext.js');
-const BaseAbility = require('./baseability.js');
+const CardAbility = require('./CardAbility.js');
 const Costs = require('./costs.js');
 const EventRegistrar = require('./eventregistrar.js');
-const AbilityLimit = require('./abilitylimit.js');
 
 /**
  * Represents an action ability provided by card text.
@@ -18,10 +16,6 @@ const AbilityLimit = require('./abilitylimit.js');
  *                resolution in the rules).
  * cost         - object or array of objects representing the cost required to
  *                be paid before the action will activate. See Costs.
- * method       - string indicating the method on card that should be called
- *                when the action is executed. If this method returns an
- *                explicit `false` value then that execution of the action does
- *                not count toward the limit amount.
  * phase        - string representing which phases the action may be executed.
  *                Defaults to 'any' which allows the action to be executed in
  *                any phase.
@@ -37,92 +31,30 @@ const AbilityLimit = require('./abilitylimit.js');
  * clickToActivate - boolean that indicates the action should be activated when
  *                   the card is clicked.
  */
-class CardAction extends BaseAbility {
+class CardAction extends CardAbility {
     constructor(game, card, properties) {
-        super(properties);
+        super(game, card, properties);
 
-        this.game = game;
-        this.card = card;
         this.abilityType = 'action';
-        this.title = properties.title;
-        this.limit = properties.limit || AbilityLimit.perRound(1);
-        this.max = properties.max;
         this.phase = properties.phase || 'any';
         this.anyPlayer = properties.anyPlayer || false;
         this.condition = properties.condition;
         this.clickToActivate = !!properties.clickToActivate;
-        this.location = properties.location || [];
         this.events = new EventRegistrar(game, this);
-        this.printedAbility = properties.printedAbility === false ? false : true;
-        this.cannotBeCopied = properties.cannotBeCopied;
-        this.cannotBeCancelled = properties.cannotBeCancelled;
         this.doesNotTarget = properties.doesNotTarget;
-        this.cannotTargetFirst = !!properties.cannotTargetFirst;
-        this.methods = properties.methods || [];
         this.activationContexts = [];
+        this.abilityIdentifier = this.printedAbility ? this.card.id + this.card.abilities.actions.length : '';
+        this.maxIdentifier = this.card.name + this.abilityIdentifier;
 
-        if(!_.isArray(this.location)) {
-            if(this.location === 'province') {
-                this.location = ['province 1', 'province 2', 'province 3', 'province 4'];
-            } else {
-                this.location = [properties.location];
-            }
-        }
-
-        this.handler = this.buildHandler(card, properties);
-
-        if(card.getType() === 'event') {
-            this.cost.push(Costs.playEvent());
-        }
-
+        this.cost.push(Costs.useInitiateAction());
         if(this.max) {
-            this.card.owner.registerAbilityMax(this.card.name, this.max);
+            this.card.owner.registerAbilityMax(this.maxIdentifier, this.max);
+            this.cost.push(Costs.playMax());
         }
-    }
-
-    buildHandler(card, properties) {
-        if(!properties.handler && !card[properties.method]) {
-            throw new Error('Actions must have either a `handler` or `method` property.');
-        }
-
-        if(properties.handler) {
-            return properties.handler;
-        }
-
-        return function(context) {
-            // TODO: Method-based handlers need to have player and arg sent for
-            //       backwards compatibility. These actions should either be
-            //       converted to use the handler property, or rewritten to use
-            //       the context object directly.
-            return card[properties.method].call(card, context.player, context.arg, context);
-        };
-    }
-
-    allowMenu() {
-        return (this.card.type === 'character' || this.card.type === 'attachment') && this.location.length === 0;
-    }
-
-    createContext(player, arg) {
-        let context = new AbilityContext({
-            ability: this,
-            game: this.game,
-            player: player,
-            source: this.card
-        });
-        context.arg = arg;
-        return context;
     }
 
     meetsRequirements(context) {
-        if(this.phase !== 'any' && this.phase !== this.game.currentPhase || this.game.currentPhase === 'setup') {
-            return false;
-        }
-
-        if(!context.player.canInitiateAction) {
-            return false;
-        }
-
-        if(this.limit && this.limit.isAtMax()) {
+        if(this.phase !== 'any' && this.phase !== this.game.currentPhase) {
             return false;
         }
 
@@ -130,19 +62,15 @@ class CardAction extends BaseAbility {
             return false;
         }
 
-        if(!this.card.canTriggerAbilities(this.location)) {
-            return false;
-        }
-
-        if(this.card.isBlank()) {
-            return false ;
-        }
-
         if(this.condition && !this.condition(context)) {
             return false;
         }
 
-        return this.canPayCosts(context) && this.canResolveTargets(context);
+        if(!context.player.canInitiateAction) {
+            return false;
+        }
+
+        return super.meetsRequirements(context);
     }
 
     execute(player, arg) {
@@ -163,16 +91,8 @@ class CardAction extends BaseAbility {
         this.handler(context);
     }
 
-    getMenuItem(arg) {
-        return { text: this.title, method: 'doAction', anyPlayer: !!this.anyPlayer, arg: arg };
-    }
-
     isClickToActivate() {
         return this.clickToActivate;
-    }
-
-    isCardPlayed() {
-        return this.card.getType() === 'event';
     }
 
     deactivate(player) {
@@ -193,26 +113,6 @@ class CardAction extends BaseAbility {
 
     onBeginRound() {
         this.activationContexts = [];
-    }
-
-    isEventListeningLocation(location) {
-        if(this.location.includes(location)) {
-            return true;
-        }
-
-        if(location.includes('deck')) {
-            return false;
-        }
-
-        let type = this.card.getType();
-        if(type === 'character' || type === 'attachment') {
-            return (location === 'play area');
-        } else if(type === 'event') {
-            return (location === 'hand');
-        } else if(type === 'role' || location.includes('province')) {
-            return true;
-        }
-        return false;
     }
 
     registerEvents() {

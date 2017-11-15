@@ -130,10 +130,39 @@ const Costs = {
     playMax: function() {
         return {
             canPay: function(context) {
-                return !context.player.isAbilityAtMax(context.source.name);
+                return !context.player.isAbilityAtMax(context.ability.maxIdentifier);
             },
             pay: function(context) {
-                context.player.incrementAbilityMax(context.source.name);
+                context.player.incrementAbilityMax(context.ability.maxIdentifier);
+            },
+            canIgnoreForTargeting: true
+        };
+    },
+    /**
+     * Cost that represents using an ability's limit
+     */
+    useLimit: function() {
+        return {
+            canPay: function(context) {
+                return !context.ability.limit.isAtMax();
+            },
+            pay: function(context) {
+                context.ability.limit.increment();
+            },
+            canIgnoreForTargeting: true
+        };
+    },
+    /**
+     * Cost that represents using your action in an ActionWindow
+     */
+    useInitiateAction: function() {
+        return {
+            canPay: function(context) {
+                return true; // We have to check this condition in Ability.meetsRequirements(), or we risk players starting another ability while costs are resolving
+            },
+            pay: function(context) {
+                context.player.canInitiateAction = false;
+                context.game.markActionAsTaken();
             },
             canIgnoreForTargeting: true
         };
@@ -148,7 +177,6 @@ const Costs = {
                 return context.player.fate >= amount && (context.source.allowGameAction('spendFate', context) || amount === 0);
             },
             pay: function(context) {
-
                 context.player.fate -= context.source.getCost();
             },
             canIgnoreForTargeting: true
@@ -263,7 +291,7 @@ const Costs = {
             },
             resolve: function(context, result = { resolved: false }) {
                 let extrafate = context.player.fate - context.player.getReducedCost('play', context.source);
-                if(!context.source.allowGameAction('placeFate', context)) {
+                if(!context.source.allowGameAction('placeFate', context) || !context.source.allowGameAction('spendFate', context)) {
                     extrafate = 0;
                 }
                 let choices = [];

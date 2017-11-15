@@ -62,7 +62,7 @@ class Player extends Spectator {
         ];
         this.cannotGainConflictBonus = false; // I have no idea what this is for
         this.abilityRestrictions = []; // This stores player restrictions from e.g. Guest of Honor
-        this.abilityMaxByTitle = {}; // This records max limits for abilities
+        this.abilityMaxByIdentifier = {}; // This records max limits for abilities
         this.canInitiateAction = false; // This flag determines whether this player has priority in an action window
         this.conflictDeckTopCardHidden = true;
         this.promptedActionWindows = user.promptedActionWindows || { // these flags represent phase settings
@@ -775,24 +775,24 @@ class Player extends Spectator {
 
     /**
      * Registers a card ability max limit on this Player
-     * @param {String} cardName 
+     * @param {String} maxIdentifier 
      * @param {FixedAbilityLimit} limit 
      */
-    registerAbilityMax(cardName, limit) {
-        if(this.abilityMaxByTitle[cardName]) {
+    registerAbilityMax(maxIdentifier, limit) {
+        if(this.abilityMaxByIdentifier[maxIdentifier]) {
             return;
         }
 
-        this.abilityMaxByTitle[cardName] = limit;
+        this.abilityMaxByIdentifier[maxIdentifier] = limit;
         limit.registerEvents(this.game);
     }
 
     /**
      * Checks whether a max ability is at max
-     * @param {String} cardName 
+     * @param {String} maxIdentifier 
      */
-    isAbilityAtMax(cardName) {
-        let limit = this.abilityMaxByTitle[cardName];
+    isAbilityAtMax(maxIdentifier) {
+        let limit = this.abilityMaxByIdentifier[maxIdentifier];
 
         if(!limit) {
             return false;
@@ -803,10 +803,10 @@ class Player extends Spectator {
 
     /**
      * Marks the use of a max ability
-     * @param {String} cardName 
+     * @param {String} maxIdentifier 
      */
-    incrementAbilityMax(cardName) {
-        let limit = this.abilityMaxByTitle[cardName];
+    incrementAbilityMax(maxIdentifier) {
+        let limit = this.abilityMaxByIdentifier[maxIdentifier];
 
         if(limit) {
             limit.increment();
