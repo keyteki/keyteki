@@ -419,7 +419,7 @@ class DrawCard extends BaseCard {
     }
 
     canBeBypassedByCovert() {
-        return !this.isCovert();
+        return !this.isCovert() && this.type === 'character' && this.location === 'play area';
     }
 
     useCovertToBypass(targetCard) {
