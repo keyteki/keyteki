@@ -76,7 +76,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
     }
 
     eligibleChoiceForPlayer(abilityChoice, player) {
-        if(!player.optionSettings.cancelOwnAbilities && _.all(this.events, event => event.name === 'onCardAbilityInitiated' && event.context.player === player)) {
+        if(!player.optionSettings.cancelOwnAbilities && _.any(this.events, event => event.name === 'onCardAbilityInitiated' && event.context.player === player)) {
             return false;
         }
         return abilityChoice.player === player && abilityChoice.context.ability.meetsRequirements(abilityChoice.context);
@@ -95,6 +95,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
 
         buttons.push({ text: 'Pass', method: 'pass' });
         this.game.promptForSelect(player, {
+            source: 'Triggered Abilites',
             activePromptTitle: TriggeredAbilityWindowTitles.getTitle(this.abilityType, this.events),
             buttons: buttons,
             controls: this.getAdditionalPromptControls(),
@@ -114,7 +115,10 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
                     return true;
                 }
                 this.game.promptWithHandlerMenu(player, {
+                    source: 'Triggered Abilites',
                     activePromptTitle: 'Which event do you want to respond to?',
+                    source: 'Ability Window',
+                    waitingPromptTitle: 'Waiting for opponent',
                     choices: _.map(cardChoices, abilityChoice => {
                         return TriggeredAbilityWindowTitles.getAction(abilityChoice.context.event);
                     }),
@@ -137,18 +141,12 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
     getAdditionalPromptControls() {
         let controls = [];
         for(let event of this.events) {
-            if(event.name === 'onCardAbilityInitiated') {
-                let targets = [];
-                _.each(['targets', 'rings', 'selects'], targetType => {
-                    _.extend(targets, _.flatten(_.values(event.context[targetType])));
+            if(event.name === 'onCardAbilityInitiated' && event.allTargets.length > 0) {
+                controls.push({
+                    type: 'targeting',
+                    source: event.card.getShortSummary(),
+                    targets: event.allTargets.map(target => target.getShortSummary())
                 });
-                if(targets.length > 0) {
-                    controls.push({
-                        type: 'targeting',
-                        source: event.card.getShortSummary(),
-                        targets: targets.map(target => target.getShortSummary())
-                    });
-                }
             }
         }
         return controls;

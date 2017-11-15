@@ -1,12 +1,11 @@
 const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
-const RemoveFateEvent = require('../../Events/RemoveFateEvent.js');
 
 class FearsomeMystic extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: this,
-            condition: () => this.game.currentConflict && this.game.currentConflict.conflictRing === 'air',
+            condition: () => this.game.currentConflict && this.game.currentConflict.hasElement('air'),
             effect: ability.effects.modifyGlory(2)
         });
         this.action({
@@ -21,12 +20,12 @@ class FearsomeMystic extends DrawCard {
                             card.fate > 0 &&
                             card.allowGameAction('removeFate', context));
                 });
-                this.game.openEventWindow(_.map(cards, card => {
-                    return new RemoveFateEvent({
-                        card: card,
-                        fate: 1
-                    });
-                }));                
+                this.game.raiseMultipleEvents(_.map(cards, card => {
+                    return {
+                        name: 'onCardRemoveFate',
+                        params: { card: card, fate: 1 }
+                    };
+                }));
             }
         });
     }

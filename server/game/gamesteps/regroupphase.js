@@ -60,13 +60,14 @@ class RegroupPhase extends Phase {
 
         if(cardsOnUnbrokenProvinces.length > 0) {
             this.game.promptForSelect(player, {
+                source: 'Discard Dynasty Cards',
                 numCards: 0,
                 multiSelect: true,
                 activePromptTitle: 'Select dynasty cards to discard',
                 waitingPromptTitle: 'Waiting for opponent to discard dynasty cards',
                 cardCondition: card => cardsOnUnbrokenProvinces.includes(card),
                 onSelect: (player, cards) => {
-                    _.extend(cardsToDiscard, cards);
+                    cardsToDiscard = cardsToDiscard.concat(cards);
                     if(cardsToDiscard.length > 0) {
                         this.game.addMessage('{0} discards {1} from their provinces', player, cardsToDiscard);
                         _.each(cardsToDiscard, card => player.moveCard(card, 'dynasty discard pile'));

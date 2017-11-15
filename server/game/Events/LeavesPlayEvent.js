@@ -1,12 +1,13 @@
+const _ = require('underscore');
 const Event = require('./Event.js');
 const RemoveFateEvent = require('./RemoveFateEvent.js');
 
 class LeavesPlayEvent extends Event {
-    constructor(params, isSacrifice = false) {
+    constructor(params) {
         super('onCardLeavesPlay', params);
-        this.isSacrifice = isSacrifice;
         this.handler = this.leavesPlay;
-        this.contigentEvents = [];
+        this.contingentEvents = [];
+
         if(!this.destination) {
             this.destination = this.card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile';
         }
@@ -22,7 +23,7 @@ class LeavesPlayEvent extends Event {
                 let event = new LeavesPlayEvent({ card: attachment, destination: destination });
                 event.order = this.order - 1;
                 window.addEvent(event);
-                this.contigentEvents.push(event);
+                this.contingentEvents.push(event);
             });
         }
         // Add an imminent triggering condition for removing fate
@@ -30,19 +31,23 @@ class LeavesPlayEvent extends Event {
             let fateEvent = new RemoveFateEvent({ card: this.card, fate: this.card.fate });
             fateEvent.order = this.order - 1;
             window.addEvent(fateEvent);
-            this.contigentEvents.push(fateEvent);
+            this.contingentEvents.push(fateEvent);
         }
     }
     
     cancel() {
-        this.contingentEvents.each(event => event.cancelled = true);
+        _.each(this.contingentEvents, event => event.cancelled = true);
         this.window.removeEvent(this.contingentEvents);
         this.contingentEvents = [];
         super.cancel();
     }
     
+    preResolutionEffect() {
+        this.cardStateWhenLeftPlay = this.card.createSnapshot();
+    }
+
     leavesPlay() {
-        this.cardStateWhenLeftPlay = this.card.createSnapshot(); 
+        this.cardStateWhenLeftPlay.leavesPlayEffects(); 
         this.card.owner.moveCard(this.card, this.destination);
         return true;
     }

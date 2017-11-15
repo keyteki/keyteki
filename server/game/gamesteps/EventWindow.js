@@ -19,6 +19,7 @@ class EventWindow extends BaseStepWithPipeline {
             new SimpleStep(this.game, () => this.openWindow('forcedinterrupt')),
             new SimpleStep(this.game, () => this.openWindow('interrupt')),
             new SimpleStep(this.game, () => this.checkForOtherEffects()),
+            new SimpleStep(this.game, () => this.preResolutionEffects()),
             new SimpleStep(this.game, () => this.executeHandler()),
             new SimpleStep(this.game, () => this.openWindow('forcedreaction')),
             new SimpleStep(this.game, () => this.openWindow('reaction'))
@@ -53,21 +54,25 @@ class EventWindow extends BaseStepWithPipeline {
     
     // This catches any persistent/delayed effect cancels
     checkForOtherEffects() {
-        if(_.isEmpty(this.events)) {
-            return;
-        }
-        
         this.events.each(event => this.game.emit(event.name + 'OtherEffects', ...event.params));
+    }
+
+    preResolutionEffects() {
+        this.events.each(event => {
+            if(!event.cancelled) {
+                event.preResolutionEffect();
+            }
+        });
     }
     
     executeHandler() {
-        if(_.isEmpty(this.events)) {
-            return;
-        }
-        
         this.events.sortBy(event => event.order);
-        this.events.each(event => event.executeHandler());
-        this.events.each(event => this.game.emit(event.name, ...event.params));
+        this.events.each(event => {
+            if(!event.cancelled) {
+                event.executeHandler();
+                this.game.emit(event.name, ...event.params);
+            }
+        });
     }
 }
 

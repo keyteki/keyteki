@@ -8,6 +8,7 @@ class IkomaEiji extends DrawCard {
                 afterConflict: event => event.conflict.loser === this.controller && event.conflict.conflictType === 'political'
             },
             handler: () => this.game.promptForSelect(this.controller, {
+                source: this,
                 cardType: 'character',
                 cardCondition: card => (['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile'].includes(card.location) &&
                         card.hasTrait('bushi') && card.getCost() < 4 && card.controller === this.controller && 

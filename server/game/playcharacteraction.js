@@ -31,7 +31,8 @@ class PlayCharacterAction extends BaseAbility {
     executeHandler(context) {
         
         context.source.fate = context.chooseFate;
-        if(context.game.currentConflict) {
+        this.originalLocation = context.source.location;
+        if(context.game.currentConflict && context.player.canPutIntoPlay(context.source, true)) {
             context.game.promptWithHandlerMenu(context.player, {
                 activePromptTitle: 'Where do you wish to play this character?',
                 source: context.source,

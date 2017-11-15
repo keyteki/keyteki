@@ -12,8 +12,8 @@ class ElementalFury extends ProvinceCard {
             },
             source: this,
             handler: context => {
-                this.game.addMessage('{0} uses {1} to change the ring to {2}', this.controller, this, context.target.element);
-                this.game.currentConflict.switchElement(context.target.element);
+                this.game.addMessage('{0} uses {1} to change the ring to {2}', this.controller, this, context.ring.element);
+                this.game.currentConflict.switchElement(context.ring.element);
             }
         });
     }

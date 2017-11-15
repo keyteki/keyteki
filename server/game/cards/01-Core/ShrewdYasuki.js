@@ -16,27 +16,22 @@ class ShrewdYasuki extends DrawCard {
             },
             handler: () => {
                 this.game.addMessage('{0} uses {1} to look at the top two cards of their conflict deck', this.controller, this);
-                let buttons = _.map(this.controller.conflictDeck.first(2), card => {
-                    return { text: card.name, arg: card.uuid, method: 'takeCardToHand' };
+                let cards = this.controller.conflictDeck.first(2)
+                let handlers = _.map(cards, card => {
+                    return () => {
+                        this.game.addMessage('{0} takes one card to their hand and puts the other on the bottom of their deck', this.controller);
+                        this.controller.moveCard(card, 'hand');
+                        this.game.queueSimpleStep(() => this.controller.moveFromTopToBottomOfConflictDrawDeck(1));
+                    };
                 });
-                this.game.promptWithMenu(this.controller, this, {
-                    activePrompt: {
-                        menuTitle: 'Choose a card to put in your hand',
-                        buttons: buttons
-                    },
+                this.game.promptWithHandlerMenu(this.controller, {
+                    activePromptTitle: 'Choose a card to put in your hand',
+                    cards: cards,
+                    handlers: handlers,
                     source: this
                 });
             }
         });        
-    }
-    
-    takeCardToHand(player, arg) {
-        this.game.addMessage('{0} takes one card to their hand and puts the other on the bottom of their deck', this.controller);
-        let card = player.findCardByUuid(player.conflictDeck, arg);
-        let otherCard = _.find(player.conflictDeck.first(2), c => c !== card);
-        player.moveCard(card, 'hand');
-        player.moveCard(otherCard, 'conflict deck', { bottom: true });
-        return true;
     }
 }
 
