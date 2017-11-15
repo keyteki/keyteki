@@ -531,6 +531,13 @@ class DrawCard extends BaseCard {
             .concat(super.getActions());
     }
 
+    /**
+     * Removes all attachments from this card.
+     */
+    removeAllAttachments() {
+        this.attachments.each(attachment => this.removeAttachment(attachment))
+    }
+
     removeAttachment(attachment) {
         this.attachments = _(this.attachments.reject(card => card.uuid === attachment.uuid));
     }
