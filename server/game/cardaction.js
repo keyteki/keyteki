@@ -41,6 +41,7 @@ class CardAction extends CardAbility {
         this.condition = properties.condition;
         this.clickToActivate = !!properties.clickToActivate;
         this.events = new EventRegistrar(game, this);
+        this.doesNotTarget = properties.doesNotTarget;
         this.activationContexts = [];
         this.abilityIdentifier = this.printedAbility ? this.card.id + this.card.abilities.actions.length : '';
         this.maxIdentifier = this.card.name + this.abilityIdentifier;
