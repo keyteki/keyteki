@@ -23,12 +23,6 @@ class CardAbility extends BaseAbility {
         this.methods = properties.methods || [];
         this.handler = properties.handler;
 
-        if(this.printedAbility) {
-            this.maxIdentifier = this.card.id + this.card.abilities.actions.length;
-        } else {
-            this.maxIdentifier = this.card.name;
-        }
-
         if(!_.isArray(this.location)) {
             if(this.location === 'province') {
                 this.location = ['province 1', 'province 2', 'province 3', 'province 4'];
@@ -41,10 +35,6 @@ class CardAbility extends BaseAbility {
             this.cost.push(Costs.playEvent());
         }
 
-        if(this.max) {
-            this.card.owner.registerAbilityMax(this.maxIdentifier, this.max);
-            this.cost.push(Costs.playMax());
-        }
         this.cost.push(Costs.useLimit());
     }
 

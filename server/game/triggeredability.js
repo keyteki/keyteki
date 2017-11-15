@@ -9,6 +9,12 @@ class TriggeredAbility extends CardAbility {
 
         this.when = properties.when;
         this.abilityType = abilityType;
+        this.maxIdentifier = this.card.name + this.printedAbility ? this.card.id + this.card.abilities.reactions.length : '';
+
+        if(this.max) {
+            this.card.owner.registerAbilityMax(this.maxIdentifier, this.max);
+            this.cost.push(Costs.playMax());
+        }
     }
 
     eventHandler(event) {

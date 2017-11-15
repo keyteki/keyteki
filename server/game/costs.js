@@ -130,10 +130,10 @@ const Costs = {
     playMax: function() {
         return {
             canPay: function(context) {
-                return !context.player.isAbilityAtMax(context.source.name);
+                return !context.player.isAbilityAtMax(context.ability.maxIdentifier);
             },
             pay: function(context) {
-                context.player.incrementAbilityMax(context.source.name);
+                context.player.incrementAbilityMax(context.ability.maxIdentifier);
             },
             canIgnoreForTargeting: true
         };

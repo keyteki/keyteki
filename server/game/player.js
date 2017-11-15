@@ -64,7 +64,7 @@ class Player extends Spectator {
         ];
         this.cannotGainConflictBonus = false;
         this.abilityRestrictions = [];
-        this.abilityMaxByTitle = {};
+        this.abilityMaxByIdentifier = {};
         this.canInitiateAction = false;
         this.conflictDeckTopCardHidden = true;
         this.promptedActionWindows = user.promptedActionWindows || {
@@ -582,17 +582,17 @@ class Player extends Spectator {
         });
     }
 
-    registerAbilityMax(cardName, limit) {
-        if(this.abilityMaxByTitle[cardName]) {
+    registerAbilityMax(maxIdentifier, limit) {
+        if(this.abilityMaxByIdentifier[maxIdentifier]) {
             return;
         }
 
-        this.abilityMaxByTitle[cardName] = limit;
+        this.abilityMaxByIdentifier[maxIdentifier] = limit;
         limit.registerEvents(this.game);
     }
 
-    isAbilityAtMax(cardName) {
-        let limit = this.abilityMaxByTitle[cardName];
+    isAbilityAtMax(maxIdentifier) {
+        let limit = this.abilityMaxByIdentifier[maxIdentifier];
 
         if(!limit) {
             return false;
@@ -601,8 +601,8 @@ class Player extends Spectator {
         return limit.isAtMax();
     }
 
-    incrementAbilityMax(cardName) {
-        let limit = this.abilityMaxByTitle[cardName];
+    incrementAbilityMax(maxIdentifier) {
+        let limit = this.abilityMaxByIdentifier[maxIdentifier];
 
         if(limit) {
             limit.increment();
