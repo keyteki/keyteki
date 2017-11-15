@@ -4,7 +4,7 @@ class BowCost {
     }
 
     isEligible(card) {
-        return (card.location === 'play area' || card.isStronghold) && !card.kneeled;
+        return (card.location === 'play area' || card.isStronghold) && !card.bowed;
     }
 
     pay(cards, context) {
