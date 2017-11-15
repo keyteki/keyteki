@@ -75,7 +75,7 @@ describe('CardForcedReaction', function () {
             expect(this.properties.when.onSomething).toHaveBeenCalledWith(this.event, 1, 2, 3);
         });
 
-        describe('when in the setup phase', function() {
+        xdescribe('when in the setup phase', function() {
             beforeEach(function() {
                 this.gameSpy.currentPhase = 'setup';
             });
