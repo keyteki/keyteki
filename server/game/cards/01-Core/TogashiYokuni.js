@@ -11,6 +11,7 @@ class TogashiYokuni extends DrawCard {
                 cardType: 'character',
                 cardCondition: card => card.location === 'play area' && card !== this && _.any(card.abilities.actions.concat(card.abilities.reactions), ability => ability.printedAbility)
             },
+            doesNotTarget: true, // TODO: this solution works as long as no card which has both 'targeting targets' and 'non-targeting targets' is printed.  If that happens, we probably should backport throneteki ResolvedTargets
             handler: (context) => {
                 let abilities = _.filter(context.target.abilities.actions.concat(context.target.abilities.reactions), ability => ability.printedAbility && ability.title !== 'Copy another character\'s ability');
                 if(abilities.length === 0) {

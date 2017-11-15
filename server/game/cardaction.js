@@ -56,6 +56,7 @@ class CardAction extends BaseAbility {
         this.printedAbility = properties.printedAbility === false ? false : true;
         this.cannotBeCopied = properties.cannotBeCopied;
         this.cannotBeCancelled = properties.cannotBeCancelled;
+        this.doesNotTarget = properties.doesNotTarget;
         this.cannotTargetFirst = !!properties.cannotTargetFirst;
         this.methods = properties.methods || [];
         this.activationContexts = [];
