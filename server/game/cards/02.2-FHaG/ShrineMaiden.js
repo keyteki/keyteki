@@ -2,7 +2,7 @@ const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 
 class ShrineMaiden extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
             title: 'Reveal your top 3 conflict cards',
             when: {
