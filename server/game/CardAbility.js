@@ -19,6 +19,7 @@ class CardAbility extends BaseAbility {
         this.cannotBeCopied = properties.cannotBeCopied;
         this.cannotBeCancelled = properties.cannotBeCancelled;
         this.cannotTargetFirst = !!properties.cannotTargetFirst;
+        this.doesNotTarget = properties.doesNotTarget;
         this.methods = properties.methods || [];
         this.handler = properties.handler;
 
