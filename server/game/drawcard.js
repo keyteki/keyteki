@@ -533,6 +533,19 @@ class DrawCard extends BaseCard {
             .concat(super.getActions());
     }
 
+    /**
+     * Removes all attachments from this card.
+     */
+    removeAllAttachments() {
+        let events = this.attachments.map(attachment => {
+            return {
+                name: 'onCardLeavesPlay',
+                params: { card: attachment },
+            };
+        });
+        this.game.raiseMultipleEvents(events);
+    }
+
     removeAttachment(attachment) {
         this.attachments = _(this.attachments.reject(card => card.uuid === attachment.uuid));
     }
