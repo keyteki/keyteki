@@ -985,7 +985,7 @@ class Player extends Spectator {
     }
 
     /**
-     * Checks whether attaching passed attachments to passed card is legal
+     * Checks whether attaching passed attachment to passed card is legal
      * @param {DrawCard} attachment 
      * @param {DrawCard} card 
      */
