@@ -1,10 +1,10 @@
 const DrawCard = require('../../drawcard.js');
 
-class ProdigyOfTheWave extends DrawCard {
+class ProdigyOfTheWaves extends DrawCard {
     setupCardAbilities(ability) {
     }
 }
 
-ProdigyOfTheWave.id = 'prodigy-of-the-wave'; // This is a guess at what the id might be - please check it!!!
+ProdigyOfTheWaves.id = 'prodigy-of-the-waves'; // This is a guess at what the id might be - please check it!!!
 
-module.exports = ProdigyOfTheWave;
+module.exports = ProdigyOfTheWaves;
