@@ -14,6 +14,13 @@ class Kamayari extends DrawCard {
             }
         });
     }
+
+    canAttach(card) {
+        if(card.hasTrait('bushi')) {
+            return super.canAttach(card);
+        }
+        return false;
+    }
 }
 
 Kamayari.id = 'kamayari';
