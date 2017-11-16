@@ -44,7 +44,7 @@ class TogashiKazue extends DrawCard {
         this.abilities.playActions.push(new PlayTogashiKazueAsAttachment(this, this.owner, this.cardData));
         this.action({
             title: 'Steal a fate',
-            condition: () => this.parent.isParticipating() && this.type === 'attachment',
+            condition: () => this.type === 'attachment' && this.parent.isParticipating(),
             printedAbility: false,
             target: {
                 activePromptTitle: 'Choose a character',
