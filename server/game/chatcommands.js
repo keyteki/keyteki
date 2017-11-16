@@ -140,7 +140,7 @@ class ChatCommands {
                 multiSelect: true,
                 onSelect: (p, cards) => {
                     //send home card
-                    this.game.currentConflict.moveToConflict(cards, this.game.currentConflict.attackingPlayer === p);
+                    this.game.currentConflict.moveToConflict(cards);
 
                     this.game.addMessage('{0} uses the /move-to-conflict command', p);
                     return true;

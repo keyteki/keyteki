@@ -11,7 +11,7 @@ class FavoredMount extends DrawCard {
             condition: context => this.game.currentConflict && this.parent.allowGameAction('moveToConflict', context),
             handler: () => {
                 this.game.addMessage('{0} bows {1} to move {2} into the conflict', this.controller, this, this.parent);
-                this.game.currentConflict.moveToConflict(this.parent,this.game.currentConflict.attackingPlayer === this.controller);
+                this.game.currentConflict.moveToConflict(this.parent);
             }
         });
     }

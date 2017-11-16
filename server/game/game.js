@@ -468,7 +468,7 @@ class Game extends EventEmitter {
                         this.currentConflict.sendHome(card);
                     } else {
                         this.addMessage('{0} moves {1} into the conflict', player, card);
-                        this.currentConflict.moveToConflict(card, this.currentConflict.attackingPlayer === player);
+                        this.currentConflict.moveToConflict(card);
                     }
                 }
                 break;

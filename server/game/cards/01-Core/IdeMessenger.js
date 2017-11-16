@@ -18,7 +18,7 @@ class IdeMessenger extends DrawCard {
             cost: ability.costs.payFate(1),
             handler: context => {
                 this.game.addMessage('{0} uses {1} to move {2} to the conflict', this.controller, this, context.target);
-                this.game.currentConflict.moveToConflict(context.target, this.game.currentConflict.attackingPlayer === this.controller);
+                this.game.currentConflict.moveToConflict(context.target);
             }
 
         });
