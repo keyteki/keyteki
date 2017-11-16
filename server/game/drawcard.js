@@ -362,6 +362,9 @@ class DrawCard extends BaseCard {
     }
     
     getSkillFromGlory() {
+        if(!this.allowGameAction('affectedByHonor')) {
+            return 0;
+        }
         if(this.isHonored) {
             return this.getGlory();
         } else if(this.isDishonored) {
