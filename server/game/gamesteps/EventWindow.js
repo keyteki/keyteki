@@ -7,7 +7,7 @@ class EventWindow extends BaseStepWithPipeline {
     constructor(game, events) {
         super(game);
 
-        this.events = _([]);
+        this.events = [];
         _.each(events, event => this.addEvent(event));
 
         this.initialise();
@@ -37,8 +37,8 @@ class EventWindow extends BaseStepWithPipeline {
         }
         let uuids = events.map(event => event.uuid);
         _.each(events, event => event.unsetWindow());
-        this.events = _(this.events.reject(event => uuids.includes(event.uuid)));
-        this.events.each(event => event.checkCondition());
+        this.events = _.reject(this.events, event => uuids.includes(event.uuid));
+        _.each(this.events, event => event.checkCondition());
     }
 
     openWindow(abilityType) {
@@ -48,17 +48,17 @@ class EventWindow extends BaseStepWithPipeline {
 
         this.game.openAbilityWindow({
             abilityType: abilityType,
-            event: this.events.values()
+            event: this.events
         });
     }
     
     // This catches any persistent/delayed effect cancels
     checkForOtherEffects() {
-        this.events.each(event => this.game.emit(event.name + 'OtherEffects', ...event.params));
+        _.each(this.events, event => this.game.emit(event.name + 'OtherEffects', ...event.params));
     }
 
     preResolutionEffects() {
-        this.events.each(event => {
+        _.each(this.events, event => {
             if(!event.cancelled) {
                 event.preResolutionEffect();
             }
@@ -66,11 +66,14 @@ class EventWindow extends BaseStepWithPipeline {
     }
     
     executeHandler() {
-        this.events.sortBy(event => event.order);
-        this.events.each(event => {
+        this.events = _.sortBy(this.events, 'order');
+        
+        _.each(this.events, event => {
             if(!event.cancelled) {
-                event.executeHandler();
-                this.game.emit(event.name, ...event.params);
+                this.game.queueSimpleStep(() => {
+                    event.executeHandler();
+                    this.game.emit(event.name, ...event.params);
+                });
             }
         });
     }
