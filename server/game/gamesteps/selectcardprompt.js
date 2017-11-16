@@ -1,7 +1,9 @@
 const _ = require('underscore');
-const UiPrompt = require('./uiprompt.js');
-const CardSelector = require('../CardSelector.js');
+
 const AbilityContext = require('../AbilityContext.js');
+const CardSelector = require('../CardSelector.js');
+const EffectSource = require('../EffectSource.js');
+const UiPrompt = require('./uiprompt.js');
 
 /**
  * General purpose prompt that asks the user to select 1 or more cards.
@@ -51,10 +53,12 @@ class SelectCardPrompt extends UiPrompt {
 
         this.choosingPlayer = choosingPlayer;
         if(_.isString(properties.source)) {
-            properties.source = { name: properties.source };
+            properties.source = new EffectSource(properties.source);
         }
         if(properties.source && !properties.waitingPromptTitle) {
             properties.waitingPromptTitle = 'Waiting for opponent to use ' + properties.source.name;
+        } else if(!properties.source) {
+            properties.source = new EffectSource();
         }
 
         this.properties = properties;
@@ -167,24 +171,27 @@ class SelectCardPrompt extends UiPrompt {
         let cardParam = this.selector.formatSelectParam(this.selectedCards);
         if(this.properties.onSelect(this.choosingPlayer, cardParam)) {
             this.complete();
-        } else {
-            this.clearSelection();
+            return true;
         }
+        this.clearSelection();
+        return false;
     }
 
     menuCommand(player, arg) {
         if(arg !== 'done') {
             if(this.properties.onMenuCommand(player, arg)) {
                 this.complete();
+                return true;
             }
-            return;
+            return false;
         }
 
         if(this.selector.hasEnoughSelected(this.selectedCards)) {
-            this.fireOnSelect();
+            return this.fireOnSelect();
         } else if(this.selectedCards.length === 0) {
             this.properties.onCancel(player);
             this.complete();
+            return true;
         }
     }
 
