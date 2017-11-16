@@ -117,7 +117,6 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
                 this.game.promptWithHandlerMenu(player, {
                     source: 'Triggered Abilites',
                     activePromptTitle: 'Which event do you want to respond to?',
-                    source: 'Ability Window',
                     waitingPromptTitle: 'Waiting for opponent',
                     choices: _.map(cardChoices, abilityChoice => {
                         return TriggeredAbilityWindowTitles.getAction(abilityChoice.context.event);
