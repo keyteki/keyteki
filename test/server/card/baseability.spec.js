@@ -253,7 +253,7 @@ describe('BaseAbility', function () {
             this.properties.targets = { target1: this.target1, target2: this.target2 };
             this.ability = new BaseAbility(this.properties);
 
-            this.context = { game: this.gameSpy, player: this.player, source: this.source, ability: this.ability };
+            this.context = { game: this.gameSpy, player: this.player, source: this.source, ability: this.ability, targets: {} };
         });
 
         it('should return target results for each target', function() {

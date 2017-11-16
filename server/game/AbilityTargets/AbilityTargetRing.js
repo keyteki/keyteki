@@ -10,6 +10,10 @@ class AbilityTargetCard {
         return _.any(context.game.rings, ring => this.properties.ringCondition(ring)) && context.ability.canPayCosts(context);
     }
 
+    getAllLegalTargets(context, pretarget = true) {
+        return _.filter(context.game.rings, ring => this.properties.ringCondition(ring));
+    }
+
     resolve(context, pretarget = false, noCostsFirstButton = false) {
         let result = { resolved: false, name: this.name, value: null, costsFirst: false, mode: 'ring' };
         let player = context.player;
@@ -48,6 +52,7 @@ class AbilityTargetCard {
             onSelect: (player, ring) => {
                 result.resolved = true;
                 result.value = ring;
+                context.rings[this.name] = ring;
                 return true;
             },
             onCancel: () => {

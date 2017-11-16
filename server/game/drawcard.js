@@ -152,7 +152,7 @@ class DrawCard extends BaseCard {
         clone.isHonored = this.isHonored;
         clone.isDishonored = this.isDishonored;
         clone.parent = this.parent;
-        clone.fate = this.power;
+        clone.fate = this.fate;
         clone.traits = Object.assign({}, this.traits);
         clone.militarySkillModifier = this.militarySkillModifier;
         clone.politicalSkillModifier = this.politicalSkillModifier;
@@ -362,6 +362,9 @@ class DrawCard extends BaseCard {
     }
     
     getSkillFromGlory() {
+        if(!this.allowGameAction('affectedByHonor')) {
+            return 0;
+        }
         if(this.isHonored) {
             return this.getGlory();
         } else if(this.isDishonored) {
@@ -528,6 +531,19 @@ class DrawCard extends BaseCard {
         return StandardPlayActions
             .concat(this.abilities.playActions)
             .concat(super.getActions());
+    }
+
+    /**
+     * Removes all attachments from this card.
+     */
+    removeAllAttachments() {
+        let events = this.attachments.map(attachment => {
+            return {
+                name: 'onCardLeavesPlay',
+                params: { card: attachment },
+            };
+        });
+        this.game.raiseMultipleEvents(events);
     }
 
     removeAttachment(attachment) {

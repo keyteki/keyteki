@@ -54,6 +54,10 @@ class CardAction extends CardAbility {
     }
 
     meetsRequirements(context) {
+        if(!super.meetsRequirements(context)) {
+            return false;
+        }
+
         if(this.phase !== 'any' && this.phase !== this.game.currentPhase) {
             return false;
         }
@@ -66,11 +70,7 @@ class CardAction extends CardAbility {
             return false;
         }
 
-        if(!context.player.canInitiateAction) {
-            return false;
-        }
-
-        return super.meetsRequirements(context);
+        return context.player.canInitiateAction;
     }
 
     execute(player, arg) {

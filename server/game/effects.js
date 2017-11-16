@@ -367,8 +367,8 @@ const Effects = {
             }
         };
     },
-    immuneTo: function(cardCondition) {
-        let restriction = new ImmunityRestriction(cardCondition);
+    immuneTo: function(condition) {
+        let restriction = new ImmunityRestriction(condition);
         return {
             apply: function(card) {
                 card.addAbilityRestriction(restriction);
@@ -402,6 +402,7 @@ const Effects = {
     cannotBeSentHome: cardCannotEffect('sendHome'),
     cannotMoveCharactersIntoConflict: playerCannotEffect('moveToConflict'),
     cannotCountForResolution: cardCannotEffect('countForResolution'),
+    cannotBeAffectedByHonor: cardCannotEffect('affectedByHonor'),
     playerCannotTriggerAbilities: playerCannotEffect('triggerAbilities'),
     cannotBecomeDishonored: cardCannotEffect('becomeDishonored'),
     playerCannotInitiateConflict: playerCannotEffect('initiateConflict'),

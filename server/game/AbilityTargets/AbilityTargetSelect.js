@@ -1,4 +1,5 @@
 const _ = require('underscore');
+const SelectChoice = require('./SelectChoice.js');
 
 class AbilityTargetSelect {
     constructor(name, properties) {
@@ -8,6 +9,10 @@ class AbilityTargetSelect {
 
     canResolve(context) {
         return _.any(this.properties.choices, condition => condition(context)) && context.ability.canPayCosts(context);
+    }
+
+    getAllLegalTargets(context, pretarget = true) {
+        return _.filter(this.properties.choices, condition => condition(context));
     }
 
     resolve(context, pretarget = false, noCostsFirstButton = false) {
@@ -26,6 +31,7 @@ class AbilityTargetSelect {
             return (() => {
                 result.resolved = true;
                 result.value = choice;
+                context.selects[this.name] = new SelectChoice(result.value);
             });
         });
         if(this.properties.player !== 'opponent' && pretarget) {

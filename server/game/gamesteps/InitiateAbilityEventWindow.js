@@ -1,10 +1,12 @@
+const _ = require('underscore');
+
 const EventWindow = require('./EventWindow.js');
 const SimpleStep = require('./simplestep.js');
 
 class InitiateAbilityEventWindow extends EventWindow {
     constructor(game, events) {
         super(game, events);
-        this.events.each(event => {
+        _.each(this.events, event => {
             if(event.context.ability.isCardPlayed() && !event.context.dontRaiseCardPlayed) { //context.dontRaiseCardPlayed is a flag raised by events doing multiple resolutions
                 game.addEventToWindow(this, 'onCardPlayed', { player: event.context.player, card: event.card, originalLocation: 'hand' })
             }
@@ -21,7 +23,7 @@ class InitiateAbilityEventWindow extends EventWindow {
     }
 
     removeEvent(events) { // Events shouldn't be removed from this window when cancelled, as other abilities can still react to them
-        this.events.each(event => event.checkCondition());
+        _.each(this.events, event => event.checkCondition());
     }
 }
 

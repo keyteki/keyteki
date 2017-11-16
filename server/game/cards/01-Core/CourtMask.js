@@ -13,7 +13,7 @@ class CourtMask extends DrawCard {
                 };
                 let dishonorEvent = {
                     name: 'onCardDishonored',
-                    params: { player: this.controller, card: this.parent, source: this },
+                    params: { player: this.controller, card: this.parent, source: this, order: -1 },
                     handler: () => this.parent.dishonor()
                 };
                 this.game.raiseMultipleEvents([returnEvent, dishonorEvent]);

@@ -69,7 +69,7 @@ class Conflict {
         this.calculateSkill();
     }
     
-    moveToConflict(cards, isAttacking) {
+    moveToConflict(cards) {
         if(!_.isArray(cards)) {
             cards = [cards];
         }
@@ -77,7 +77,7 @@ class Conflict {
             return {
                 name: 'onMoveToConflict',
                 params: { conflict: this, card: card },
-                handler: isAttacking ? () => this.addAttacker(card) : () => this.addDefender(card)
+                handler: card.controller.isAttackingPlayer() ? () => this.addAttacker(card) : () => this.addDefender(card)
             };
         });
         this.game.raiseMultipleEvents(events, {

@@ -13,6 +13,10 @@ class AbilityTargetCard {
         return this.selector.hasEnoughTargets(context, true);
     }
 
+    getAllLegalTargets(context, pretarget = true) {
+        return this.selector.getAllLegalTargets(context, pretarget)
+    }
+
     resolve(context, pretarget = false, noCostsFirstButton = false) {
         let otherProperties = _.omit(this.properties, 'cardCondition');
         let result = { resolved: false, name: this.name, value: null, costsFirst: false, mode: this.properties.mode };
@@ -57,6 +61,7 @@ class AbilityTargetCard {
             onSelect: (player, card) => {
                 result.resolved = true;
                 result.value = card;
+                context.targets[this.name] = card;
                 return true;
             },
             onCancel: () => {
