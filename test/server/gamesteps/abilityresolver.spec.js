@@ -205,10 +205,6 @@ describe('AbilityResolver', function() {
                             this.resolver.continue();
                         });
 
-                        it('should add the target to context.targets', function() {
-                            expect(this.context.targets.foo).toBe(this.target);
-                        });
-
                         it('should not add the target directly to context', function() {
                             expect(this.context.target).toBeUndefined();
                         });
@@ -222,10 +218,6 @@ describe('AbilityResolver', function() {
                         beforeEach(function() {
                             this.targetResult.name = 'target';
                             this.resolver.continue();
-                        });
-
-                        it('should add the target to context.targets', function() {
-                            expect(this.context.targets.target).toBe(this.target);
                         });
 
                         it('should add the target directly to context', function() {

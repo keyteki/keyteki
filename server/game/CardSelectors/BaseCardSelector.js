@@ -25,6 +25,10 @@ class BaseCardSelector {
         );
     }
 
+    getAllLegalTargets(context, pretarget) {
+        return context.game.allCards.filter(card => this.canTarget(card, context, pretarget));
+    }
+
     hasEnoughSelected(selectedCards) {
         return selectedCards.length > 0;
     }
