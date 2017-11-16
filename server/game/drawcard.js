@@ -153,7 +153,7 @@ class DrawCard extends BaseCard {
         clone.isHonored = this.isHonored;
         clone.isDishonored = this.isDishonored;
         clone.parent = this.parent;
-        clone.fate = this.power;
+        clone.fate = this.fate;
         clone.traits = Object.assign({}, this.traits);
         clone.militarySkillModifier = this.militarySkillModifier;
         clone.politicalSkillModifier = this.politicalSkillModifier;
