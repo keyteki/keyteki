@@ -8,12 +8,12 @@ class Event {
         this.handler = handler;
         this.window = null;
         this.uuid = uuid.v1();
-        if(!this.order) {
-            this.order = 0;
-        }
 
         _.extend(this, params);
         this.params = [this].concat(params);
+        if(!this.order) {
+            this.order = 0;
+        }
     }
 
     cancel() {
