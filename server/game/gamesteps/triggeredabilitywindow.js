@@ -9,6 +9,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
         super(game, properties);
 
         this.forceWindowPerPlayer = {};
+        this.reopenThisWindow = false;
 
         _.each(game.getPlayersInFirstPlayerOrder(), player => {
             if(this.isCancellableEvent(player)) {
@@ -108,26 +109,19 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
             onSelect: (player, card) => {
                 let cardChoices = _.filter(choicesForPlayer, abilityChoice => abilityChoice.card === card);
                 if(cardChoices.length === 1) {
-                    let choice = _.find(this.abilityChoices, a => a.id === cardChoices[0].id);
-                    this.game.resolveAbility(choice.context);
-                    this.abilityChoices = _.reject(this.abilityChoices, a => a.id === cardChoices[0].id);
-                    this.players = this.rotatedPlayerOrder(player);
+                    this.resolveAbility(player, cardChoices[0]);
                     return true;
                 }
                 this.game.promptWithHandlerMenu(player, {
                     source: 'Triggered Abilites',
                     activePromptTitle: 'Which event do you want to respond to?',
-                    source: 'Ability Window',
                     waitingPromptTitle: 'Waiting for opponent',
                     choices: _.map(cardChoices, abilityChoice => {
                         return TriggeredAbilityWindowTitles.getAction(abilityChoice.context.event);
                     }),
                     handlers: _.map(cardChoices, abilityChoice => {
                         return () => {
-                            let choice = _.find(this.abilityChoices, a => a.id === abilityChoice.id);
-                            this.game.resolveAbility(choice.context);
-                            this.abilityChoices = _.reject(this.abilityChoices, a => a.id === abilityChoice.id);
-                            this.players = this.rotatedPlayerOrder(player);
+                            this.resolveAbility(player, abilityChoice)
                         };
                     })
                 });
@@ -136,6 +130,22 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
         });
 
         this.forceWindowPerPlayer[player.name] = false;
+    }
+
+    resolveAbility(player, abilityChoice) {
+        let choice = _.find(this.abilityChoices, a => a.id === abilityChoice.id);
+        let window = choice.context.event.window;
+        this.game.resolveAbility(choice.context);
+        // This is a ugly hack to make sure that any events which have been added to the window can be responded to
+        if(this.abilityType === 'cancelinterrupt' && choice.context.event.name !== 'onCardAbilityInitiated') {
+            this.game.queueSimpleStep(() => {
+                this.abilityChoices = [];
+                this.events = window.events;
+                this.emitEvents();
+            });
+        }
+        this.abilityChoices = _.reject(this.abilityChoices, a => a.id === abilityChoice.id);
+        this.players = this.rotatedPlayerOrder(player);
     }
 
     getAdditionalPromptControls() {
