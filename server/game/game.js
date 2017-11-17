@@ -1562,7 +1562,7 @@ class Game extends EventEmitter {
             });
 
             _.each(this.rings, ring => {
-                ringState[ring.element] = ring.getState();
+                ringState[ring.element] = ring.getState(activePlayer);
             });
 
             return {

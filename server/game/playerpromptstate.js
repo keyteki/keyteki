@@ -32,7 +32,6 @@ class PlayerPromptState {
     }
 
     setSelectableRings(rings) {
-        console.log('setting selectable rings', rings)
         this.selectableRings = rings;
     }
 
