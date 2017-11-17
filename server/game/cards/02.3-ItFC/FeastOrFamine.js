@@ -1,6 +1,6 @@
-const DrawCard = require('../../drawcard.js');
+const ProvinceCard = require('../../provincecard.js');
 
-class FeastOrFamine extends DrawCard {
+class FeastOrFamine extends ProvinceCard {
     setupCardAbilities(ability) {
     }
 }
