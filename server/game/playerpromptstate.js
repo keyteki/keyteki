@@ -4,12 +4,14 @@ class PlayerPromptState {
     constructor() {
         this.selectCard = false;
         this.selectOrder = false;
+        this.selectRing = false;
         this.menuTitle = '';
         this.promptTitle = '';
         this.buttons = [];
         this.controls = [];
 
         this.selectableCards = [];
+        this.selectableRings = [];
         this.selectedCards = [];
     }
 
@@ -29,9 +31,19 @@ class PlayerPromptState {
         this.selectableCards = [];
     }
 
+    setSelectableRings(rings) {
+        console.log('setting selectable rings', rings)
+        this.selectableRings = rings;
+    }
+
+    clearSelectableRings() {
+        this.selectableRings = [];
+    }
+
     setPrompt(prompt) {
         this.selectCard = prompt.selectCard || false;
         this.selectOrder = prompt.selectOrder || false;
+        this.selectRing = prompt.selectRing || false;
         this.menuTitle = prompt.menuTitle || '';
         this.promptTitle = prompt.promptTitle;
         this.buttons = _.map(prompt.buttons || [], button => {
@@ -48,6 +60,7 @@ class PlayerPromptState {
 
     cancelPrompt() {
         this.selectCard = false;
+        this.selectRing = false;
         this.menuTitle = '';
         this.buttons = [];
         this.controls = [];
@@ -71,10 +84,15 @@ class PlayerPromptState {
         return result;
     }
 
+    getRingSelectionState(ring) {
+        return { unselectable: this.selectRing && !this.selectableRings.includes(ring) };
+    }
+
     getState() {
         return {
             selectCard: this.selectCard,
             selectOrder: this.selectOrder,
+            selectRing: this.selectRing,
             menuTitle: this.menuTitle,
             promptTitle: this.promptTitle,
             buttons: this.buttons,

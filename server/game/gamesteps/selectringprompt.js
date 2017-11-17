@@ -50,10 +50,26 @@ class SelectRingPrompt extends UiPrompt {
         return player === this.choosingPlayer;
     }
 
+    continue() {
+        if(!this.isComplete()) {
+            this.highlightSelectableRings();
+        }
+
+        return super.continue();
+    }
+
+    highlightSelectableRings() {
+        let selectableRings = _.filter(this.game.rings, ring => {
+            return this.properties.ringCondition(ring);
+        });
+        this.choosingPlayer.setSelectableRings(selectableRings);
+    }
+
     activePrompt() {
         return {
             source: this.properties.source,
             selectCard: true,
+            selectRing: true,
             selectOrder: this.properties.ordered,
             menuTitle: this.properties.activePromptTitle || this.defaultActivePromptTitle(),
             buttons: this.properties.buttons,
@@ -93,6 +109,11 @@ class SelectRingPrompt extends UiPrompt {
 
         this.properties.onCancel(player);
         this.complete();
+    }
+
+    complete() {
+        this.choosingPlayer.clearSelectableRings();
+        return super.complete();
     }
 }
 
