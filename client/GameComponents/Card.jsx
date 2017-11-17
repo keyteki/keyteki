@@ -17,6 +17,7 @@ class Card extends React.Component {
         this.onMenuItemClick = this.onMenuItemClick.bind(this);
 
         this.state = {
+            showPopup: false,
             showMenu: false
         };
 
@@ -114,6 +115,10 @@ class Card extends React.Component {
             this.setState({ showMenu: !this.state.showMenu });
 
             return;
+        }
+
+        if(!this.props.disablePopup) {
+            this.setState({ showPopup: !this.state.showPopup });
         }
 
         if(this.props.onClick) {
@@ -325,6 +330,85 @@ class Card extends React.Component {
             </div>);
     }
 
+    onCloseClick(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        this.setState({ showPopup: !this.state.showPopup });
+
+        if(this.props.onCloseClick) {
+            this.props.onCloseClick();
+        }
+    }
+
+    onPopupCardClick(card) {
+        this.setState({ showPopup: false });
+
+        if(this.props.onClick) {
+            this.props.onClick(card);
+        }
+    }
+
+    getPopup() {
+        let popup = null;
+        let cardIndex = 0;
+
+        let cardList = _.map(this.props.card.popupCards, card => {
+            let cardKey = card.uuid || cardIndex++;
+            return (<Card key={ cardKey } card={ card } source={ this.props.source }
+                disableMouseOver={ this.props.disableMouseOver }
+                onMouseOver={ this.props.onMouseOver }
+                onMouseOut={ this.props.onMouseOut }
+                onTouchMove={ this.props.onTouchMove }
+                onClick={ this.onPopupCardClick.bind(this, card) }
+                onDragDrop={ this.props.onDragDrop }
+                orientation={ this.props.orientation === 'bowed' ? 'vertical' : this.props.orientation }
+                size={ this.props.size } />);
+        });
+
+        if(this.props.disablePopup || !this.state.showPopup) {
+            return null;
+        }
+
+        let popupClass = 'panel';
+        let arrowClass = 'arrow lg';
+
+        if(this.props.popupLocation === 'top') {
+            popupClass += ' our-side';
+            arrowClass += ' down';
+        } else {
+            arrowClass += ' up';
+        }
+
+        if(this.props.orientation === 'horizontal') {
+            arrowClass = 'arrow lg left';
+        }
+
+        let linkIndex = 0;
+        /*
+        let popupMenu = this.props.popupMenu ? (<div>{ _.map(this.props.popupMenu, menuItem => {
+            return <a className='btn btn-default' key={ linkIndex++ } onClick={ () => this.onPopupMenuItemClick(menuItem) }>{ menuItem.text }</a>;
+        }) }</div>) : null;
+        */
+        popup = (
+            <div className='popup'>
+                <div className='panel-title' onClick={ event => event.stopPropagation() }>
+                    <span className='text-center'>{ this.props.title }</span>
+                    <span className='pull-right'>
+                        <a className='close-button glyphicon glyphicon-remove' onClick={ this.onCloseClick.bind(this) } />
+                    </span>
+                </div>
+                <div className={ popupClass } onClick={ event => event.stopPropagation() }>
+                    <div className='inner'>
+                        { cardList }
+                    </div>
+                    <div className={ arrowClass } />
+                </div>
+            </div>);
+
+        return popup;
+    }
+
     render() {
         if(this.props.wrapped) {
             return (
@@ -347,6 +431,7 @@ Card.propTypes = {
         basePoliticalSkill: PropTypes.number,
         id: PropTypes.string,
         controlled: PropTypes.bool,
+        showPopup: PropTypes.bool,
         facedown: PropTypes.bool,
         inConflict: PropTypes.bool,
         inDanger: PropTypes.bool,
@@ -364,6 +449,7 @@ Card.propTypes = {
         new: PropTypes.bool,
         order: PropTypes.number,
         politicalSkill: PropTypes.number,
+        popupCards: PropTypes.array,
         power: PropTypes.number,
         saved: PropTypes.bool,
         selectable: PropTypes.bool,
@@ -375,6 +461,7 @@ Card.propTypes = {
     }).isRequired,
     className: PropTypes.string,
     disableMouseOver: PropTypes.bool,
+    disablePopup: PropTypes.bool,
     isInPopup: PropTypes.bool,
     onClick: PropTypes.func,
     onDragDrop: PropTypes.func,
@@ -382,6 +469,7 @@ Card.propTypes = {
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
     orientation: PropTypes.oneOf(['horizontal', 'bowed', 'vertical']),
+    popupLocation: PropTypes.string,
     size: PropTypes.string,
     source: PropTypes.oneOf(['hand', 'dynasty discard pile', 'conflict discard pile', 'play area', 'dynasty deck', 'conflict deck', 'province deck', 'province 1', 'province 2', 'province 3', 'province 4', 'attachment', 'stronghold province', 'additional', 'role card']).isRequired,
     style: PropTypes.object,
