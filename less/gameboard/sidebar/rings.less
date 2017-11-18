@@ -1,0 +1,66 @@
+.ring-pane {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ring-panel {
+    width: 150px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.ring-display {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+}
+
+.ring {
+    position: relative;
+    flex: 1;
+}
+
+.ring-info {
+    flex: 1;
+    font-size: 12px;
+}
+
+img.ring {
+    height: @ring-height;
+    width: @ring-width;
+    padding: 5px;
+
+    &.small {
+        height: @ring-sm-height;
+        width: @ring-sm-width;
+    }
+}
+
+@media (max-width: 1366px) {
+    .ring-panel {
+        width: 110px;
+        padding: 0 5px;
+    }
+
+    .ring-display {
+        width: 100px;
+        justify-content: flex-start;
+
+        img.ring {
+            width: @ring-sm-width;
+            height: @ring-sm-height;
+        }
+    }
+
+    .ring-info {
+        font-size: 10px;
+    }
+}

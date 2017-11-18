@@ -1,0 +1,29 @@
+div.placeholder {
+    background-color: rgba(0, 0, 0, 0.0);
+    border: 0px;
+    box-shadow: none;
+}
+
+div.placeholder .panel-header {
+    background: rgba(0, 0, 0, 0.0);
+    padding: 0px;
+}
+
+.placeholder {
+    background-color: rgba(0, 0, 0, 0.0);
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+    position: relative;
+    margin: 5px 7px;
+
+    &.vertical {
+        height: @card-height;
+        width: @card-width;
+    }
+
+    &.horizontal {
+        height: @card-width;
+        width: @card-height;
+    }
+}

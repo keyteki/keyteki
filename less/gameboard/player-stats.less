@@ -1,0 +1,85 @@
+.player-stats {
+    display: flex;
+
+    &.panel {
+        margin: 0;
+        border-radius: 0;
+        padding: 10px 0 10px 5px;
+        position: initial;
+    }
+
+    display: flex;
+    align-items: center;
+}
+
+.state {
+    height: 27px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-right: solid 2px;
+    display: flex;
+    align-items: center;
+
+    span {
+        padding-right: 3px;
+        padding-left: 3px;
+    }
+
+    &:last-of-type {
+        border-right: none;
+    }
+
+    .glyphicon {
+        color: @brand-primary;
+    }
+}
+
+.statpng {
+    transform: rotate(180deg);
+}
+
+.btn-stat {
+    padding: 0;
+    font-size: 12px;
+    line-height: 18px;
+    height: 22px;
+    width: 22px;
+    background-color: transparent;
+}
+
+.btn-stat:hover {
+    background-color: @brand-info;
+    border-color: @brand-info;
+}
+
+.btn-stat:focus {
+    outline: 0px;
+}
+
+.first-player-indicator {
+    margin: 5px;
+    padding: 5px;
+    height: 48px;
+    width: auto;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+
+    &.hidden {
+        display: none;
+    }
+}
+
+.player-avatar {
+    padding-right: 10px;
+}
+
+@media (max-width: 1366px) {
+    .player-stats {
+        font-size: 12px;
+
+        &.panel {
+            padding: 2px 0 2px 100px;
+        }
+    }
+}
