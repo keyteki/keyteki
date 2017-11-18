@@ -41,6 +41,7 @@ class Player extends Spectator {
         this.game = game;
 
         //Phase Values
+        this.hideProvinceDeck = false;
         this.takenDynastyMulligan = false;
         this.takenConflictMulligan = false;
         this.passedDynasty = false;
@@ -213,6 +214,7 @@ class Player extends Spectator {
             }
 
         });
+        this.hideProvinceDeck = true;
     }
 
     /**
@@ -1861,7 +1863,7 @@ class Player extends Spectator {
             disconnected: this.disconnected,
             faction: this.faction,
             firstPlayer: this.firstPlayer,
-            hideProvinceDeck: !!this.strongholdProvince.size(),
+            hideProvinceDeck: this.hideProvinceDeck,
             id: this.id,
             optionSettings: this.optionSettings,
             imperialFavor: this.imperialFavor,
