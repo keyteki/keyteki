@@ -84,8 +84,8 @@ class Player extends Spectator {
 
     /**
      * Checks whether a card with a uuid matching the passed card is in the passed _(Array)
-     * @param {_(Array)} list 
-     * @param {BaseCard} card 
+     * @param {_(Array)} list
+     * @param {BaseCard} card
      */
     isCardUuidInList(list, card) {
         return list.any(c => {
@@ -95,8 +95,8 @@ class Player extends Spectator {
 
     /**
      * Checks whether a card with a name matching the passed card is in the passed list
-     * @param {_(Array)} list 
-     * @param {BaseCard} card 
+     * @param {_(Array)} list
+     * @param {BaseCard} card
      */
     isCardNameInList(list, card) {
         return list.any(c => {
@@ -115,8 +115,8 @@ class Player extends Spectator {
 
     /**
      * Removes a card with the passed uuid from a list. Returns an _(Array)
-     * @param {_(Array)} list 
-     * @param {String} uuid 
+     * @param {_(Array)} list
+     * @param {String} uuid
      */
     removeCardByUuid(list, uuid) {
         return _(list.reject(card => {
@@ -126,8 +126,8 @@ class Player extends Spectator {
 
     /**
      * Returns a card with the passed name in the passed list
-     * @param {_(Array)} list 
-     * @param {String} name 
+     * @param {_(Array)} list
+     * @param {String} name
      */
     findCardByName(list, name) {
         return this.findCard(list, card => card.name === name);
@@ -135,8 +135,8 @@ class Player extends Spectator {
 
     /**
      * Returns a card with the passed uuid in the passed list
-     * @param {_(Array)} list 
-     * @param {String} uuid 
+     * @param {_(Array)} list
+     * @param {String} uuid
      */
     findCardByUuid(list, uuid) {
         return this.findCard(list, card => card.uuid === uuid);
@@ -144,7 +144,7 @@ class Player extends Spectator {
 
     /**
      * Returns a card with the passed uuid from cardsInPlay
-     * @param {String} uuid 
+     * @param {String} uuid
      */
     findCardInPlayByUuid(uuid) {
         return this.findCard(this.cardsInPlay, card => card.uuid === uuid);
@@ -152,7 +152,7 @@ class Player extends Spectator {
 
     /**
      * Returns a card which matches passed predicate in the passed list
-     * @param {_(Array)} cardList 
+     * @param {_(Array)} cardList
      * @param {Function} predicate - BaseCard => Boolean
      */
     findCard(cardList, predicate) {
@@ -166,7 +166,7 @@ class Player extends Spectator {
 
     /**
      * Returns an Array of BaseCard which match (or whose attachments match) passed predicate in the passed list
-     * @param {_(Array)} cardList 
+     * @param {_(Array)} cardList
      * @param {Function} predicate - BaseCard => Boolean
      */
     findCards(cardList, predicate) {
@@ -323,8 +323,8 @@ class Player extends Spectator {
     /**
      * Checks whether the passes card is in a legal location for the passed type of play
      * TODO: This isn't currently used by the code, but could be a better solution than what we're currently using for e.g. Artisan Academy
-     * @param {BaseCard} card 
-     * @param {String} playingType 
+     * @param {BaseCard} card
+     * @param {String} playingType
      */
     isCardInPlayableLocation(card, playingType) {
         return _.any(this.playableLocations, location => location.playingType === playingType && location.contains(card));
@@ -332,7 +332,7 @@ class Player extends Spectator {
 
     /**
      * Returns a card in play under this player's control which matches (for uniqueness) the passed card.
-     * @param {DrawCard} card 
+     * @param {DrawCard} card
      */
     getDuplicateInPlay(card) {
         if(!card.isUnique()) {
@@ -377,7 +377,7 @@ class Player extends Spectator {
 
     /**
      * Draws the passed number of cards from the top of the conflict deck into this players hand, shuffling and deducting honor if necessary
-     * @param {Int} numCards 
+     * @param {Int} numCards
      */
     drawCardsToHand(numCards) {
         let remainingCards = 0;
@@ -408,7 +408,7 @@ class Player extends Spectator {
 
     /**
      * Called when one of the players decks runs out of cards, removing 5 honor and shuffling the discard pile back into the deck
-     * @param {String} deck - one of 'conflict' or 'dynasty' 
+     * @param {String} deck - one of 'conflict' or 'dynasty'
      */
     deckRanOutOfCards(deck) {
         this.game.addMessage('{0}\'s {1} deck has run out of cards and loses 5 honor', this, deck);
@@ -500,8 +500,8 @@ class Player extends Spectator {
     /**
      * Discards a number of cards from the top of the conflict deck equal to the passed Int.  Calls the callback when finished.
      * @deprecated - there is no support for Game.playerDecked
-     * @param {Int} number 
-     * @param {Function} callback 
+     * @param {Int} number
+     * @param {Function} callback
      */
     discardFromConflict(number, callback = () => true) {
         number = Math.min(number, this.conflictDeck.size());
@@ -517,15 +517,15 @@ class Player extends Spectator {
 
     /**
      * Moves a card from the play area to the top of the relevant deck
-     * @param {DrawCard} card 
+     * @param {DrawCard} card
      */
     moveCardToTopOfDeck(card) {
         this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty deck' : 'conflict deck'});
     }
-    
+
     /**
      * Moves a card from the play area to the bottom of the relevant deck
-     * @param {DrawCard} card 
+     * @param {DrawCard} card
      */
     moveCardToBottomOfDeck(card) {
         this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty deck bottom' : 'conflict deck bottom' });
@@ -533,7 +533,7 @@ class Player extends Spectator {
 
     /**
      * Moves the passed number of cards from the top of the conflict deck to the bottom
-     * @param {Int} number 
+     * @param {Int} number
      */
     moveFromTopToBottomOfConflictDrawDeck(number) {
         while(number > 0) {
@@ -545,7 +545,7 @@ class Player extends Spectator {
 
     /**
      * Discards the passed number of randomly chosen cards from this players hand, and displays a message in chat will all discarded cards
-     * @param {Int} number 
+     * @param {Int} number
      */
     discardAtRandom(number) {
         var toDiscard = Math.min(number, this.hand.size());
@@ -575,7 +575,7 @@ class Player extends Spectator {
     /**
      * Increases the number of conflicts of the passed type that a player can initiate
      * @param {String} type - one of 'military', 'political'
-     * @param {Int} number 
+     * @param {Int} number
      */
     addConflict(type, number) {
         this.conflicts.modifyMaxForType(type, number);
@@ -727,7 +727,7 @@ class Player extends Spectator {
 
     /**
      * Adds the passed Cost Reducer to this Player
-     * @param {CostReducer} reducer 
+     * @param {CostReducer} reducer
      */
     addCostReducer(reducer) {
         this.costReducers.push(reducer);
@@ -735,7 +735,7 @@ class Player extends Spectator {
 
     /**
      * Unregisters and removes the passed Cost Reducer from this Player
-     * @param {CostReducer} reducer 
+     * @param {CostReducer} reducer
      */
     removeCostReducer(reducer) {
         if(_.contains(this.costReducers, reducer)) {
@@ -748,7 +748,7 @@ class Player extends Spectator {
      * Checks if any Cost Reducers on this Player apply to the passed card/target, and returns the cost to play the cost if they are used
      * @param {String} playingType - not sure what legal values for this are
      * @param {DrawCard} card
-     * @param {BaseCard} target 
+     * @param {BaseCard} target
      */
     getReducedCost(playingType, card, target = null) {
         var baseCost = card.getCost();
@@ -759,9 +759,9 @@ class Player extends Spectator {
 
     /**
      * Mark all cost reducers which are valid for this card/target/playingType as used, and remove thim if they have no uses remaining
-     * @param {String} playingType 
-     * @param {DrawCard} card 
-     * @param {BaseCard} target 
+     * @param {String} playingType
+     * @param {DrawCard} card
+     * @param {BaseCard} target
      */
     markUsedReducers(playingType, card, target = null) {
         var matchingReducers = _.filter(this.costReducers, reducer => reducer.canReduce(playingType, card, target));
@@ -775,8 +775,8 @@ class Player extends Spectator {
 
     /**
      * Registers a card ability max limit on this Player
-     * @param {String} maxIdentifier 
-     * @param {FixedAbilityLimit} limit 
+     * @param {String} maxIdentifier
+     * @param {FixedAbilityLimit} limit
      */
     registerAbilityMax(maxIdentifier, limit) {
         if(this.abilityMaxByIdentifier[maxIdentifier]) {
@@ -789,7 +789,7 @@ class Player extends Spectator {
 
     /**
      * Checks whether a max ability is at max
-     * @param {String} maxIdentifier 
+     * @param {String} maxIdentifier
      */
     isAbilityAtMax(maxIdentifier) {
         let limit = this.abilityMaxByIdentifier[maxIdentifier];
@@ -803,7 +803,7 @@ class Player extends Spectator {
 
     /**
      * Marks the use of a max ability
-     * @param {String} maxIdentifier 
+     * @param {String} maxIdentifier
      */
     incrementAbilityMax(maxIdentifier) {
         let limit = this.abilityMaxByIdentifier[maxIdentifier];
@@ -816,7 +816,7 @@ class Player extends Spectator {
     /**
      * Called when a card is clicked.  Gets all actions for that card (including standard actions), checks to see how many of them meet
      * their requirements.  If only one does, calls that ability, if more than one do, creates a PlayActionPrompt
-     * @param {BaseCard} card 
+     * @param {BaseCard} card
      */
     findAndUseAction(card) {
         if(!card) {
@@ -856,12 +856,12 @@ class Player extends Spectator {
      */
     canPutIntoPlay(card, inConflict = false) {
         if(inConflict && card.allowGameAction('playIntoConflict') && (!this.game.currentConflict ||
-                (this.isAttackingPlayer() && !card.allowGameAction('participateAsAttacker')) || 
-                (this.isDefendingPlayer() && !card.allowGameAction('participateAsDefender')) || 
+                (this.isAttackingPlayer() && !card.allowGameAction('participateAsAttacker')) ||
+                (this.isDefendingPlayer() && !card.allowGameAction('participateAsDefender')) ||
                 card.conflictOptions.cannotParticipateIn[this.game.currentConflict.conflictType])) {
             return false;
         }
-        
+
         if(!card.isUnique()) {
             return true;
         }
@@ -878,8 +878,8 @@ class Player extends Spectator {
     /**
      * Puts one or more characters into play, calling the onCardEntersPlay and onCardPlayed events if necessary
      * @param {DrawCard} card - can also pass an Array of DrawCard
-     * @param {Boolean} intoConflict 
-     * @param {Boolean} raiseCardPlayed 
+     * @param {Boolean} intoConflict
+     * @param {Boolean} raiseCardPlayed
      */
     putIntoPlay(cards, intoConflict = false, raiseCardPlayed = false) {
         if(!_.isArray(cards)) {
@@ -925,7 +925,7 @@ class Player extends Spectator {
                 });
             }
         });
-    
+
         _.each(cards, card => card.applyPersistentEffects());
 
         this.game.raiseMultipleEvents(events);
@@ -986,8 +986,8 @@ class Player extends Spectator {
 
     /**
      * Checks whether attaching passed attachment to passed card is legal
-     * @param {DrawCard} attachment 
-     * @param {DrawCard} card 
+     * @param {DrawCard} attachment
+     * @param {DrawCard} card
      */
     canAttach(attachment, card) {
         if(!attachment || !card) {
@@ -1004,9 +1004,9 @@ class Player extends Spectator {
 
     /**
      * Attaches passed attachment to passed card, transfering control if necessary, and raising relevant events
-     * @param {DrawCard} attachment 
-     * @param {DrawCard} card 
-     * @param {Boolean} raiseCardPlayed 
+     * @param {DrawCard} attachment
+     * @param {DrawCard} card
+     * @param {Boolean} raiseCardPlayed
      */
     attach(attachment, card, raiseCardPlayed = false) {
         if(!card || !attachment || !this.canPutIntoPlay(attachment)) {
@@ -1058,7 +1058,7 @@ class Player extends Spectator {
                 params: { card: attachment, originalLocation: originalLocation }
             });
         }
-        
+
         if(raiseCardPlayed) {
             events.push({
                 name: 'onCardPlayed',
@@ -1079,9 +1079,9 @@ class Player extends Spectator {
 
     /**
      * Checks whether drag-dropping passed card from passed source to passed target is legal
-     * @param {BaseCard} card 
-     * @param {String} source 
-     * @param {String} target 
+     * @param {BaseCard} card
+     * @param {String} source
+     * @param {String} target
      */
     isValidDropCombination(card, source, target) {
         if(!card) {
@@ -1105,7 +1105,7 @@ class Player extends Spectator {
 
     /**
      * Gets the appropriate list for the passed location
-     * @param {String} source 
+     * @param {String} source
      */
     getSourceList(source) {
         switch(source) {
@@ -1146,8 +1146,8 @@ class Player extends Spectator {
 
     /**
      * Assigns the passed _(Array) to the parameter matching the passed location
-     * @param {String} source 
-     * @param {_(Array)} targetList 
+     * @param {String} source
+     * @param {_(Array)} targetList
      */
     updateSourceList(source, targetList) {
         switch(source) {
@@ -1197,8 +1197,8 @@ class Player extends Spectator {
     /**
      * Called when a player drags and drops a card from one location on the client to another
      * @param {String} cardId - the uuid of the dropped card
-     * @param {String} source 
-     * @param {String} target 
+     * @param {String} source
+     * @param {String} target
      */
     drop(cardId, source, target) {
         var sourceList = this.getSourceList(source);
@@ -1280,7 +1280,7 @@ class Player extends Spectator {
     initiateConflict(conflictType) {
         this.conflicts.perform(conflictType);
     }
-    
+
     /**
      * Returns true if there is a conflict underway and this player is attacking
      */
@@ -1298,7 +1298,7 @@ class Player extends Spectator {
     /**
      * Tracks that this player won a conflict of the passed type
      * @param {String} conflictType - one of 'military', 'political'
-     * @param {Boolean} wasAttacker 
+     * @param {Boolean} wasAttacker
      */
     winConflict(conflictType, wasAttacker) {
         this.conflicts.won(conflictType, wasAttacker);
@@ -1307,7 +1307,7 @@ class Player extends Spectator {
     /**
      * Tracks that this player lost a conflict of the passed type
      * @param {String} conflictType - one of 'military', 'political'
-     * @param {Boolean} wasAttacker 
+     * @param {Boolean} wasAttacker
      */
     loseConflict(conflictType, wasAttacker) {
         this.conflicts.lost(conflictType, wasAttacker);
@@ -1321,7 +1321,7 @@ class Player extends Spectator {
 
     /**
      * Moves a card from in play to the relavent discard pile, and raises the appropriate events
-     * @param {DrawCard} card 
+     * @param {DrawCard} card
      */
     sacrificeCard(card) {
         if(card.allowGameAction('sacrifice')) {
@@ -1331,7 +1331,7 @@ class Player extends Spectator {
 
     /**
      * Moves a card from in play to the relavent discard pile, and raises the appropriate events
-     * @param {DrawCard} card 
+     * @param {DrawCard} card
      */
     discardCardFromPlay(card) {
         if(card.allowGameAction('discardCardFromPlay')) {
@@ -1341,8 +1341,8 @@ class Player extends Spectator {
 
     /**
      * Moves the passed cards from this players hand to the relevant discard pile, raising the appropriate events
-     * @param {Array of DrawCard} cards 
-     * @param {Boolean} atRandom 
+     * @param {Array of DrawCard} cards
+     * @param {Boolean} atRandom
      */
     discardCardsFromHand(cards, atRandom = false) {
         let events = _.map(cards, card => {
@@ -1422,7 +1422,7 @@ class Player extends Spectator {
 
     /**
      * Moves a card from the play area to this players hand, raising all relevant events
-     * @param {DrawCard} card 
+     * @param {DrawCard} card
      */
     returnCardToHand(card) {
         if(card.allowGameAction('returnToHand')) {
@@ -1462,7 +1462,7 @@ class Player extends Spectator {
 
     /**
      * Marks that this player controls the favor for the relevant conflict type
-     * @param {String} conflictType 
+     * @param {String} conflictType
      */
     claimImperialFavor(conflictType) {
         this.imperialFavor = conflictType;
@@ -1497,7 +1497,7 @@ class Player extends Spectator {
 
     /**
      * Moves an attachment from a character in play to the discard
-     * @param {*} attachment 
+     * @param {*} attachment
      */
     removeAttachment(attachment) {
         this.game.raiseEvent('onCardLeavesPlay', { card: attachment, destination: 'conflict discard pile' });
@@ -1505,7 +1505,7 @@ class Player extends Spectator {
 
     /**
      * Called by the game when the game starts, sets the players decklist
-     * @param {*} deck 
+     * @param {*} deck
      */
     selectDeck(deck) {
         this.deck.selected = false;
@@ -1520,9 +1520,9 @@ class Player extends Spectator {
     /**
      * Moves a card from one location to another. This involves removing in from the list it's currently in, calling DrawCard.move (which changes
      * its location property), and then adding it to the list it should now be in
-     * @param {BaseCard} card 
-     * @param {String} targetLocation 
-     * @param {Object} options 
+     * @param {BaseCard} card
+     * @param {String} targetLocation
+     * @param {Object} options
      */
     moveCard(card, targetLocation, options = {}) {
         this.removeCardFromPile(card);
@@ -1593,10 +1593,10 @@ class Player extends Spectator {
             this.replaceDynastyCard(location);
         }
     }
-    
+
     /**
      * Raises an event for breaking a province, checks to see if the breaking player wants to discard the card in the province, and checks conquer victory condition
-     * @param {ProvinceCard} province 
+     * @param {ProvinceCard} province
      */
     breakProvince(province) {
         this.game.raiseEvent('onBreakProvince', { conflict: this.game.currentConflict, province: province }, () => {
@@ -1630,8 +1630,8 @@ class Player extends Spectator {
 
     /**
      * Raises an avent for an effect honoring a card
-     * @param {DrawCard} card 
-     * @param {EffectSource} source 
+     * @param {DrawCard} card
+     * @param {EffectSource} source
      */
     honorCard(card, source) {
         this.game.raiseEvent('onCardHonored', { player: this, card: card, source: source }, () => card.honor());
@@ -1639,8 +1639,8 @@ class Player extends Spectator {
 
     /**
      * Raises an avent for an effect dishonoring a card
-     * @param {DrawCard} card 
-     * @param {EffectSource} source 
+     * @param {DrawCard} card
+     * @param {EffectSource} source
      */
     dishonorCard(card, source) {
         this.game.raiseEvent('onCardDishonored', { player: this, card: card, source: source }, () => card.dishonor());
@@ -1648,8 +1648,8 @@ class Player extends Spectator {
 
     /**
      * Raises an avent for an effect bowing a card
-     * @param {DrawCard} card 
-     * @param {EffectSource} source 
+     * @param {DrawCard} card
+     * @param {EffectSource} source
      */
     bowCard(card, source) {
         if(card.bowed) {
@@ -1665,8 +1665,8 @@ class Player extends Spectator {
 
     /**
      * Raises an avent for an effect readying a card
-     * @param {DrawCard} card 
-     * @param {EffectSource} source 
+     * @param {DrawCard} card
+     * @param {EffectSource} source
      */
     readyCard(card, source) {
         if(!card.bowed) {
@@ -1682,7 +1682,7 @@ class Player extends Spectator {
 
     /**
      * Removes a card from whichever list it's currently in
-     * @param {DrawCard} card 
+     * @param {DrawCard} card
      */
     removeCardFromPile(card) {
         if(card.controller !== this) {
@@ -1715,7 +1715,7 @@ class Player extends Spectator {
 
     /**
      * Sets the passed cards as selected
-     * @param {Array of BaseCard} cards 
+     * @param {Array of BaseCard} cards
      */
     setSelectedCards(cards) {
         this.promptState.setSelectedCards(cards);
@@ -1787,7 +1787,7 @@ class Player extends Spectator {
             }
             _.each(queue, element => this.game.queueSimpleStep(() => this.game.resolveAbility(RingEffects.contextFor(this, element, false))));
             return;
-        } 
+        }
         let handlers = _.map(elements, element => {
             return () => {
                 queue.push(element);
@@ -1861,6 +1861,7 @@ class Player extends Spectator {
             disconnected: this.disconnected,
             faction: this.faction,
             firstPlayer: this.firstPlayer,
+            hideProvinceDeck: !!this.strongholdProvince.size(),
             id: this.id,
             optionSettings: this.optionSettings,
             imperialFavor: this.imperialFavor,
@@ -1897,7 +1898,7 @@ class Player extends Spectator {
         if(this.role) {
             state.role = this.role.getSummary(activePlayer);
         }
-        
+
         if(this.stronghold) {
             state.stronghold = this.stronghold.getSummary(activePlayer);
         }

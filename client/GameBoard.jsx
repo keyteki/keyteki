@@ -218,7 +218,7 @@ export class InnerGameBoard extends React.Component {
 
         this.setState({ showDynastyDeck: !this.state.showDynastyDeck });
     }
-    
+
     onConflictTopCardClick() {
         this.props.sendGameMessage('conflictTopCardClicked');
     }
@@ -299,7 +299,7 @@ export class InnerGameBoard extends React.Component {
 
         return cardsByLocation;
     }
-    
+
     onCommand(command, arg, uuid, method) {
         let commandArg = arg;
 
@@ -370,28 +370,28 @@ export class InnerGameBoard extends React.Component {
         return (<div className='province-pane'>
             <HonorFan value={ otherPlayer ? otherPlayer.showBid : '0' } />
             <div className='province-group'>
-                <CardPile className={ otherPlayer && otherPlayer.provinceSelected ? 'province-deck province-selected' : 'province-deck' }
-                    title='Province Deck' source='province deck' 
+                <CardPile className={ otherPlayer && otherPlayer.hideProvinceDeck ? 'hidden' : 'province-deck' }
+                    title='Province Deck' source='province deck'
                     cards={ otherPlayer ? otherPlayer.cardPiles.provinceDeck : [] }
                     hiddenTopCard
-                    onMouseOver={ this.onMouseOver } 
-                    onMouseOut={ this.onMouseOut } 
+                    onMouseOver={ this.onMouseOver }
+                    onMouseOut={ this.onMouseOut }
                     disableMouseOver disablePopup
-                    onCardClick={ this.onCardClick } 
+                    onCardClick={ this.onCardClick }
                     size={ this.props.user.settings.cardSize } />
             </div>
             { this.getRings() }
             <div className='province-group our-side'>
-                <CardPile className={ thisPlayer.provinceSelected ? 'province-deck province-selected' : 'province-deck' }
-                    title='Province Deck' source='province deck' 
-                    cards={ thisPlayer.cardPiles.provinceDeck } 
+                <CardPile className={ thisPlayer.hideProvinceDeck ? 'hidden' : 'province-deck' }
+                    title='Province Deck' source='province deck'
+                    cards={ thisPlayer.cardPiles.provinceDeck }
                     hiddenTopCard
-                    onMouseOver={ this.onMouseOver } 
-                    onMouseOut={ this.onMouseOut } 
-                    onCardClick={ this.onCardClick } 
-                    onDragDrop={ this.onDragDrop } 
+                    onMouseOver={ this.onMouseOver }
+                    onMouseOut={ this.onMouseOut }
+                    onCardClick={ this.onCardClick }
+                    onDragDrop={ this.onDragDrop }
                     disablePopup={ this.state.spectating }
-                    closeOnClick 
+                    closeOnClick
                     size={ this.props.user.settings.cardSize } />
             </div>
             <HonorFan value={ thisPlayer.showBid } />
@@ -435,7 +435,7 @@ export class InnerGameBoard extends React.Component {
         if(!this.props.currentGame) {
             return <div>Waiting for server...</div>;
         }
-        
+
         let manualMode = this.props.currentGame.manualMode;
 
         let thisPlayer = this.props.currentGame.players[this.props.username];
@@ -491,7 +491,7 @@ export class InnerGameBoard extends React.Component {
                         </div>
                     </div>
                 </div>
-            </div>); 
+            </div>);
 
         return (
             <div className='game-board'>
@@ -522,7 +522,7 @@ export class InnerGameBoard extends React.Component {
                                 onConflictTopCardClick={ this.onConflictTopCardClick }
                                 onMouseOver={ this.onMouseOver }
                                 onMouseOut={ this.onMouseOut }
-                                otherPlayer= { otherPlayer } 
+                                otherPlayer= { otherPlayer }
                                 cardSize={ this.props.user.settings.cardSize } />
                         </div>
                         <div className='player-stronghold-row'>
@@ -552,12 +552,12 @@ export class InnerGameBoard extends React.Component {
                                 spectating={ this.state.spectating }
                                 onCardClick={ this.onCardClick }
                                 onDragDrop={ this.onDragDrop }
-                                onMenuItemClick={ this.onMenuItemClick } 
+                                onMenuItemClick={ this.onMenuItemClick }
                                 onMouseOver={ this.onMouseOver }
                                 onMouseOut={ this.onMouseOut }
                                 strongholdProvinceCards={ thisPlayer.strongholdProvince }
                                 role={ thisPlayer.role }
-                                thisPlayer ={ thisPlayer } 
+                                thisPlayer ={ thisPlayer }
                                 cardSize={ this.props.user.settings.cardSize } />
                         </div>
                         <div className='player-deck-row our-side'>
@@ -586,7 +586,7 @@ export class InnerGameBoard extends React.Component {
                                 showDynastyDeck={ this.state.showDynastyDeck }
                                 onDragDrop={ this.onDragDrop }
                                 spectating={ this.state.spectating }
-                                onMenuItemClick={ this.onMenuItemClick } 
+                                onMenuItemClick={ this.onMenuItemClick }
                                 cardSize={ this.props.user.settings.cardSize } />
                         </div>
                     </div>
