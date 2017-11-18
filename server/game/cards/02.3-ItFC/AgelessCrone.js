@@ -8,8 +8,7 @@ class AgelessCrone extends DrawCard {
             targetController: 'any',
             effect: ability.effects.increaseCost({
                 amount: 1,
-                match: card => card.type === 'event',
-                playingTypes: 'play'
+                match: card => card.type === 'event'
             })
         });
     }
