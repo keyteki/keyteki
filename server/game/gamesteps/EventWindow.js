@@ -83,12 +83,11 @@ class EventWindow extends BaseStepWithPipeline {
         });
 
         if(thenEvents.length > 0) {
-            this.queueStep(new ThenEventWindow(this.game, thenEvents));
+            let thenEventWindow = new ThenEventWindow(this.game, thenEvents);
+            this.queueStep(thenEventWindow);
             this.game.queueSimpleStep(() => {
-                _.each(thenEvents, event => {
-                    if(!event.cancelled) {
-                        this.addEvent(event);
-                    }
+                _.each(thenEventWindow.events, event => {
+                    this.addEvent(event);
                 });
             });
         }
