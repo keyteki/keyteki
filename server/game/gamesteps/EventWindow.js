@@ -1,6 +1,7 @@
 const _ = require('underscore');
 
 const BaseStepWithPipeline = require('./basestepwithpipeline.js');
+const ThenEventWindow = require('./ThenEventWindow.js');
 const SimpleStep = require('./simplestep.js');
 
 class EventWindow extends BaseStepWithPipeline {
@@ -68,14 +69,29 @@ class EventWindow extends BaseStepWithPipeline {
     executeHandler() {
         this.events = _.sortBy(this.events, 'order');
         
+        let thenEvents = [];
+
         _.each(this.events, event => {
             if(!event.cancelled) {
+                thenEvents = thenEvents.concat(event.thenEvents);
+
                 this.game.queueSimpleStep(() => {
                     event.executeHandler();
                     this.game.emit(event.name, ...event.params);
                 });
             }
         });
+
+        if(thenEvents.length > 0) {
+            this.queueStep(new ThenEventWindow(this.game, thenEvents));
+            this.game.queueSimpleStep(() => {
+                _.each(thenEvents, event => {
+                    if(!event.cancelled) {
+                        this.addEvent(event);
+                    }
+                });
+            });
+        }
     }
 }
 
