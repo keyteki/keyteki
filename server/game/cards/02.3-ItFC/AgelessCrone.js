@@ -2,9 +2,19 @@ const DrawCard = require('../../drawcard.js');
 
 class AgelessCrone extends DrawCard {
     setupCardAbilities(ability) {
+        this.persistentEffect({
+            condition: () => this.isParticipating(),
+            targetType: 'player',
+            targetController: 'any',
+            effect: ability.effects.increaseCost({
+                amount: 1,
+                match: card => card.type === 'event',
+                playingTypes: 'play'
+            })
+        });
     }
 }
 
-AgelessCrone.id = 'ageless-crone'; // This is a guess at what the id might be - please check it!!!
+AgelessCrone.id = 'ageless-crone';
 
 module.exports = AgelessCrone;
