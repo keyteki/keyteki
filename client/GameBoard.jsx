@@ -414,9 +414,14 @@ export class InnerGameBoard extends React.Component {
     }
 
     getPlayerHand(thisPlayer) {
+        let defaultPosition = {
+            x: (window.innerWidth / 2) - 240,
+            y: (window.innerHeight / 2)
+        };
+
         if(!this.state.spectating) {
             return (<Draggable
-                defaultPosition={ { x: 800, y: 700 } } >
+                defaultPosition={ defaultPosition } >
                 <div className='player-home-row-container'>
                     <PlayerHand
                         cards={ thisPlayer.cardPiles.hand }
