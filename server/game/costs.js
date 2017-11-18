@@ -29,6 +29,10 @@ const Costs = {
      */
     bowSelf: () => CostBuilders.bow.self(),
     /**
+     * Cost that will bow the card that the card that initiated the ability is attached to.
+     */
+    bowParent: () => CostBuilders.bow.parent(),
+    /**
      * Cost that requires bowing a card that matches the passed condition
      * predicate function.
      */
