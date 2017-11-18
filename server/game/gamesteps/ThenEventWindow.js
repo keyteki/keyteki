@@ -20,3 +20,5 @@ class ThenEventWindow extends EventWindow {
         this.events = _.filter(this.events, event => event.parentEvent.result.success);
     }
 }
+
+module.exports = ThenEventWindow;
