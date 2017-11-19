@@ -75,6 +75,15 @@
 }
 
 @media (max-width: 1366px) {
+    .player-stats-row {
+        position: absolute;
+        right: 0;
+
+        &.our-side {
+            bottom: 0;
+        }
+    }
+
     .first-player-indicator {
         margin: 0 5px;
         padding: 0 5px;
@@ -87,5 +96,12 @@
         &.panel {
             padding: 2px 0 2px 5px;
         }
+    }
+
+    .player-avatar {
+        max-width: 200px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 }
