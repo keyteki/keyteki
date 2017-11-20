@@ -7,7 +7,7 @@ class StoicGunso extends DrawCard {
             condition: () => this.game.currentConflict,
             cost: ability.costs.sacrifice(card => card.type === 'character'),
             handler: context => {
-                this.game.addMessage('{0} sacrifices {1} to give {2} +3/+0', context.cardStateWhenInitiated.controller, context.costs.sacrifice, this);
+                this.game.addMessage('{0} sacrifices {1} to give {2} +3/+0', this.controller, context.costs.sacrifice, this);
                 this.untilEndOfConflict(ability => ({
                     match: this,
                     effect: ability.effects.modifyMilitarySkill(3)

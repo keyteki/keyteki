@@ -12,7 +12,7 @@ class VanguardWarrior extends DrawCard {
             },
             handler: context => {
                 context.target.modifyFate(1);
-                this.game.addMessage('{0} sacrifices {1} to put one fate on {2}', context.cardStateWhenInitiated.controller, this, context.target);
+                this.game.addMessage('{0} sacrifices {1} to put one fate on {2}', this.controller, this, context.target);
             }
         });
     }
