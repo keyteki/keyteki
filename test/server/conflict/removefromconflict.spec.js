@@ -4,7 +4,7 @@ const DrawCard = require('../../../server/game/drawcard.js');
 
 describe('Conflict', function() {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['applyGameAction', 'on', 'raiseEvent', 'reapplyStateDependentEffects']);
+        this.gameSpy = jasmine.createSpyObj('game', ['applyGameAction', 'on', 'raiseEvent']);
         this.gameSpy.applyGameAction.and.callFake((type, card, handler) => {
             handler(card);
         });

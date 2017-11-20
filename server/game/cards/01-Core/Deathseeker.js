@@ -14,10 +14,10 @@ class Deathseeker extends DrawCard {
             },
             handler: context => {
                 if(context.target.fate === 0) {
-                    this.game.addMessage('{0} sacrifices {1} to discard {2}', context.cardStateWhenInitiated.controller, this, context.target);
+                    this.game.addMessage('{0} sacrifices {1} to discard {2}', this.controller, this, context.target);
                     context.target.owner.discardCardFromPlay(context.target);
                 } else {
-                    this.game.addMessage('{0} sacrifices {1} to remove 1 fate from {2}', context.cardStateWhenInitiated.controller, this, context.target);
+                    this.game.addMessage('{0} sacrifices {1} to remove 1 fate from {2}', this.controller, this, context.target);
                     context.target.modifyFate(-1);                    
                 }
             }

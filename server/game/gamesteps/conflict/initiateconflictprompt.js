@@ -145,8 +145,6 @@ class InitiateConflictPrompt extends UiPrompt {
                     this.conflict.addAttacker(card);
                 } else if(!card.isCovert() || this.covertRemaining) {
                     this.conflict.removeFromConflict(card);
-                } else {
-                    return false;
                 }
             } else {
                 if(!this.selectedDefenders.includes(card)) {
@@ -204,6 +202,7 @@ class InitiateConflictPrompt extends UiPrompt {
                     () => true
                 ]
             });
+            
         }
     }
 }
