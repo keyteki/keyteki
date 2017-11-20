@@ -47,16 +47,13 @@ class CardAbility extends BaseAbility {
         });
     }
 
-    meetsRequirements(context) {
-        if(!this.card.canTriggerAbilities(this.location)) {
-            return false;
-        }
-
+    meetsRequirements() {
+        // This doesn't check targets, so any classes inheriting from it need to
         if(this.card.isBlank() && this.printedAbility) {
             return false ;
         }
 
-        return this.canResolveTargets(context);
+        return this.card.canTriggerAbilities(this.location);
     }
 
     isEventListeningLocation(location) {
