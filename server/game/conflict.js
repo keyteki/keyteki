@@ -279,6 +279,8 @@ class Conflict {
             return;
         }
 
+        this.game.reapplyStateDependentEffects();
+
         this.attackerSkill = this.calculateSkillFor(this.attackers) + this.attackerSkillModifier;
         this.defenderSkill = this.calculateSkillFor(this.defenders) + this.defenderSkillModifier;
         
