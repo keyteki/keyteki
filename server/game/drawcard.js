@@ -343,7 +343,7 @@ class DrawCard extends BaseCard {
          * @return {integer} The political skill value
          */
         if(printed) {
-            return this.cardData.military;
+            return this.cardData.political;
         }
 
         if(this.cardData.political !== null && this.cardData.political !== undefined) {
