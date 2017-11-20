@@ -117,8 +117,9 @@ class Card extends React.Component {
             return;
         }
 
-        if(!this.props.disablePopup) {
+        if(this.props.showPopup) {
             this.setState({ showPopup: !this.state.showPopup });
+            return;
         }
 
         if(this.props.onClick) {
@@ -327,6 +328,7 @@ class Card extends React.Component {
                     { this.showCounters() ? <CardCounters counters={ this.getCountersForCard(this.props.card) } /> : null }
                 </div>
                 { this.showMenu() ? <CardMenu menu={ this.props.card.menu } onMenuItemClick={ this.onMenuItemClick } /> : null }
+                { this.getPopup() }
             </div>);
     }
 
@@ -349,11 +351,19 @@ class Card extends React.Component {
         }
     }
 
+    onPopupMenuItemClick() {
+        this.setState({ showPopup: false });
+        
+        if(this.props.onClick) {
+            this.props.onClick(this.props.card);
+        }
+    }
+    
     getPopup() {
         let popup = null;
         let cardIndex = 0;
 
-        let cardList = _.map(this.props.card.popupCards, card => {
+        let cardList = _.map(this.props.card.attachments, card => {
             let cardKey = card.uuid || cardIndex++;
             return (<Card key={ cardKey } card={ card } source={ this.props.source }
                 disableMouseOver={ this.props.disableMouseOver }
@@ -366,7 +376,7 @@ class Card extends React.Component {
                 size={ this.props.size } />);
         });
 
-        if(this.props.disablePopup || !this.state.showPopup) {
+        if(!this.props.card.showPopup || !this.state.showPopup) {
             return null;
         }
 
@@ -385,11 +395,9 @@ class Card extends React.Component {
         }
 
         let linkIndex = 0;
-        /*
-        let popupMenu = this.props.popupMenu ? (<div>{ _.map(this.props.popupMenu, menuItem => {
-            return <a className='btn btn-default' key={ linkIndex++ } onClick={ () => this.onPopupMenuItemClick(menuItem) }>{ menuItem.text }</a>;
-        }) }</div>) : null;
-        */
+        
+        let popupMenu = this.props.card.popupMenuText ? (<div>{ [<a className='btn btn-default' key={ linkIndex++ } onClick={ () => this.onPopupMenuItemClick() }>{ this.props.card.popupMenuText }</a>] }</div>) : null;
+        
         popup = (
             <div className='popup'>
                 <div className='panel-title' onClick={ event => event.stopPropagation() }>
@@ -431,7 +439,6 @@ Card.propTypes = {
         basePoliticalSkill: PropTypes.number,
         id: PropTypes.string,
         controlled: PropTypes.bool,
-        showPopup: PropTypes.bool,
         facedown: PropTypes.bool,
         inConflict: PropTypes.bool,
         inDanger: PropTypes.bool,
@@ -449,11 +456,12 @@ Card.propTypes = {
         new: PropTypes.bool,
         order: PropTypes.number,
         politicalSkill: PropTypes.number,
-        popupCards: PropTypes.array,
+        popupMenuText: PropTypes.array,
         power: PropTypes.number,
         saved: PropTypes.bool,
         selectable: PropTypes.bool,
         selected: PropTypes.bool,
+        showPopup: PropTypes.bool,
         strength: PropTypes.number,
         tokens: PropTypes.object,
         type: PropTypes.string,
@@ -461,7 +469,6 @@ Card.propTypes = {
     }).isRequired,
     className: PropTypes.string,
     disableMouseOver: PropTypes.bool,
-    disablePopup: PropTypes.bool,
     isInPopup: PropTypes.bool,
     onClick: PropTypes.func,
     onDragDrop: PropTypes.func,

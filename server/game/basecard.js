@@ -62,6 +62,9 @@ class BaseCard extends EffectSource {
         this.menu = _([]);
         this.events = new EventRegistrar(this.game, this);
 
+        this.showPopup = false;
+        this.popupMenuText = '';
+
         this.abilities = { actions: [], reactions: [], persistentEffects: [], playActions: [] };
         this.parseKeywords(cardData.text_canonical || '');
         this.parseTraits(cardData.traits || '');
@@ -514,6 +517,8 @@ class BaseCard extends EffectSource {
             facedown: this.facedown,
             menu: this.getMenu(),
             name: this.cardData.name,
+            popupMenuText: this.popupMenuText,
+            showPopup: this.showPopup,
             tokens: this.tokens,
             type: this.getType(),
             uuid: this.uuid

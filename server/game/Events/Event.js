@@ -45,6 +45,10 @@ class Event {
             this.resolved = this.handler(...this.params);
         }
     }
+
+    replaceHandler(newHandler) {
+        this.handler = newHandler;
+    }
 }
 
 module.exports = Event;

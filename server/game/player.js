@@ -1013,8 +1013,10 @@ class Player extends Spectator {
             return;
         }
 
+        let originalController = attachment.controller;
         attachment.controller = this;
         if(!this.canAttach(attachment, card)) {
+            attachment.controller = originalController;
             return;
         }
 
