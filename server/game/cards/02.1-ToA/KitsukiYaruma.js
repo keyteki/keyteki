@@ -16,9 +16,12 @@ class KitsukiYaruma extends DrawCard {
                 cardCondition: card => !card.isBroken && !card.facedown
             },
             handler: context => {
-                if(this.game.currentConflict && this.game.currentConflict.conflictProvince === context.target) {
+                let province = this.game.currentConflict.conflictProvince
+                if(this.game.currentConflict && province === context.target) {
                     this.game.addMessage('{0} uses {1} to turn {2} facedown, but it is immediately revealed again');
-                    this.game.raiseEvent('onProvinceRevealed', { conflict: this.game.currentConflict, province: context.target });
+                    province.leavesPlay();
+                    province.inConflict = true;
+                    this.game.raiseEvent('onProvinceRevealed', { conflict: this.game.currentConflict, province: province });
                     return;
                 }
                 this.game.addMessage('{0} uses {1} to turn {2} facedown', this.controller, this, context.target);

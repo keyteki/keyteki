@@ -521,7 +521,8 @@ const Effects = {
                         ability.limit.modifyMax(-amount);
                     }
                 });
-            }
+            },
+            isStateDependent: true
         };
     },
     canPlayFromOwn: function(location) {
