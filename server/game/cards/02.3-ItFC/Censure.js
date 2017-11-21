@@ -4,7 +4,7 @@ class Censure extends DrawCard {
     setupCardAbilities() {        
         this.interrupt({
             when: {
-                onCardAbilityInitiated: event => event.card.type === 'event' && this.controller.opponent && this.controller.imperialFavor !== ''
+                onCardAbilityInitiated: event => event.card.type === 'event' && this.controller.imperialFavor !== ''
             },
             canCancel: true,
             handler: context => {
