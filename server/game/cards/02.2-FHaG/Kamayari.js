@@ -6,7 +6,7 @@ class Kamayari extends DrawCard {
             title: 'Bow character who triggered ability',
             when: {
                 // TODO: Need to check for immunity and cannot restrictions - requires TriggeredAbility to pass context to this function
-                onCardAbilityInitiated: event => event.card.type === 'character' && this.parent.isParticipating() && !event.card.bowed
+                onCardAbilityInitiated: event => event.card.type === 'character' && this.parent.isParticipating() && !event.card.bowed && event.context.ability.isTriggeredAbility()
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to bow {2}', this.controller, this, context.event.card);
