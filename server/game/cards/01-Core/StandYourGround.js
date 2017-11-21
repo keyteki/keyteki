@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class StandYourGround extends DrawCard {
     setupCardAbilities() {
         this.interrupt({
+            title: 'Prevent a character from leaving play',
             when: {
                 onCardLeavesPlay: event => event.card.controller === this.controller && event.card.getType() === 'character' && event.card.isHonored
             },

@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class Reprieve extends DrawCard {
     setupCardAbilities() {
         this.interrupt({
+            title: 'Prevent a character from leaving play',
             when: {
                 onCardLeavesPlay: event => event.card === this.parent
             },
