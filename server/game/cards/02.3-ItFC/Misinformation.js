@@ -4,7 +4,7 @@ class Misinformation extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Give opponent\'s participating cards -1/-1',
-            condition: () => this.game.currentConflict && this.controller.opponent && this.controller.showBid > this.controller.opponent.showBid + 1 && 
+            condition: () => this.controller.opponent && this.controller.showBid > this.controller.opponent.showBid + 1 && 
                              this.controller.opponent.anyCardsInPlay(card => isParticipating()),
             handler: () => {
                 this.game.addMessage('{0} plays {1}, giving all {2}\'s participating characters -1/-1', this.controller, this, this.controller.opponent);
@@ -24,6 +24,6 @@ class Misinformation extends DrawCard {
     }
 }
 
-Misinformation.id = 'misinformation'; // This is a guess at what the id might be - please check it!!!
+Misinformation.id = 'misinformation';
 
 module.exports = Misinformation;
