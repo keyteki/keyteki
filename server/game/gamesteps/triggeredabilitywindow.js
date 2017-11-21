@@ -68,7 +68,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
         };
 
         return !_.any(this.abilityChoices, abilityChoice => this.eligibleChoiceForPlayer(abilityChoice, player)) && this.isTimerEnabled(player) && _.any(this.events, event => {
-            return event.context && event.context.player !== player && cancellableEvents[event.name] && cancellableEvents[event.name] === this.abilityType && this.isWindowEnabledForEvent(player, event);
+            return !event.cancelled && event.context && event.context.player !== player && cancellableEvents[event.name] && cancellableEvents[event.name] === this.abilityType && this.isWindowEnabledForEvent(player, event);
         });
     }
 
@@ -80,7 +80,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
         if(!player.optionSettings.cancelOwnAbilities && _.any(this.events, event => event.name === 'onCardAbilityInitiated' && event.context.player === player)) {
             return false;
         }
-        return abilityChoice.player === player && abilityChoice.context.ability.meetsRequirements(abilityChoice.context);
+        return abilityChoice.player === player && !abilityChoice.context.event.cancelled && abilityChoice.context.ability.meetsRequirements(abilityChoice.context);
     }
 
     promptPlayer(player) {
