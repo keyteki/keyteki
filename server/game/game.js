@@ -1239,14 +1239,22 @@ class Game extends EventEmitter {
     /**
      * Raises a custom event window for checking for any cancels to a card 
      * ability
-     * @param {AbilityContext} context
+     * @param {Object} params
      * @param {Function} handler - this is an arrow function which is called if
      * nothing cancels the event
-     * @returns {undefined}
      */
     raiseInitiateAbilityEvent(params, handler) {
-        let event = EventBuilder.for('onCardAbilityInitiated', params, handler);
-        this.queueStep(new InitateAbilityEventWindow(this, [event]));
+        this.raiseMultipleInitiateAbilityEvents([{ params: params, handler: handler}]);
+    }
+
+    /**
+     * Raises a custom event window for checking for any cancels to several card 
+     * abilities which initiate simultaneously
+     * @param {Array} eventProps
+     */
+    raiseMultipleInitiateAbilityEvents(eventProps) {
+        let events = _.map(eventProps, event => EventBuilder.for('onCardAbilityInitiated', event.params, event.handler));
+        this.queueStep(new InitateAbilityEventWindow(this, events));
     }
 
     /**
@@ -1254,14 +1262,14 @@ class Game extends EventEmitter {
      * abilities triggered by these events will appear within the same prompt
      * for the player. Allows each event to take its own handler which will
      * all execute in the same step
-     * @param {Array} events - Array of { name: String, params: Object, handler: Function }
+     * @param {Array} eventProps - Array of { name: String, params: Object, handler: Function }
      * @param {Object} conditionalEvent - { name: String, params: Object, handler: Function },
      * this event should be made conditional on at least one of the others not having
      * been cancelled
      * @returns {Array} Array of Event
      */
-    raiseMultipleEvents(events, conditionalEvent = null) {
-        events = events.map(event => EventBuilder.for(event.name, event.params, event.handler));
+    raiseMultipleEvents(eventProps, conditionalEvent = null) {
+        let events = eventProps.map(event => EventBuilder.for(event.name, event.params, event.handler));
         if(conditionalEvent) {
             conditionalEvent = EventBuilder.for(conditionalEvent.name, conditionalEvent.params, conditionalEvent.handler);
             conditionalEvent.condition = () => _.any(events, event => !event.cancelled);
