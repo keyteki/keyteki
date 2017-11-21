@@ -186,6 +186,10 @@ class BaseAbility {
     isCardAbility() {
         return false;
     }
+
+    isTriggeredAbility() {
+        return true;
+    }
 }
 
 module.exports = BaseAbility;
