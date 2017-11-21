@@ -41,6 +41,6 @@ class TatteredMissive extends DrawCard {
     }
 }
 
-TatteredMissive.id = 'tattered-missive'; // This is a guess at what the id might be - please check it!!!
+TatteredMissive.id = 'tattered-missive';
 
 module.exports = TatteredMissive;
