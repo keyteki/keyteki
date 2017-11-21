@@ -70,11 +70,13 @@ class ConflictFlow extends BaseStepWithPipeline {
 
         let targets = this.conflict.defendingPlayer.cardsInPlay.filter(card => card.covert);
         let sources = _.filter(this.conflict.attackers, card => card.isCovert());
+        _.each(targets, card => card.covert = false);
         if(sources.length > targets.length) {
             sources = _.first(sources, targets.length);
         }
 
-        let events = _.map(_.zip(sources, targets), (source, target) => {
+        let events = _.map(_.zip(sources, targets), array => {
+            let [source, target] = array;
             let context = new AbilityContext({ game: this.game, player: this.conflict.attackingPlayer, source: source, ability: new CovertAbility({}) });
             context.targets.target = target;
             return {
@@ -83,7 +85,7 @@ class ConflictFlow extends BaseStepWithPipeline {
             };
         });
 
-        this.game.raiseMultipleInitatiateAbilityEvents(events);
+        this.game.raiseMultipleInitiateAbilityEvents(events);
     }
 
     raiseDeclarationEvents() {
