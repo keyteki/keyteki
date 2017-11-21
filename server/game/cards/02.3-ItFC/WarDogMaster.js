@@ -21,6 +21,6 @@ class WarDogMaster extends DrawCard {
     }
 }
 
-WarDogMaster.id = 'war-dog-master'; // This is a guess at what the id might be - please check it!!!
+WarDogMaster.id = 'war-dog-master';
 
 module.exports = WarDogMaster;
