@@ -1,4 +1,8 @@
-// GENERAL
+.navbar-fixed-top {
+    z-index: 1060;
+}
+
+
 .game-board {
     position: absolute;
     bottom: 0;
@@ -14,10 +18,6 @@
     .game-board {
         top: 25px;
     }
-
-    .chat {
-        bottom: 50px;
-    }
 }
 
 .main-window {
@@ -25,6 +25,7 @@
     flex-direction: row;
     flex: 1;
     min-height: calc(~"100vh - 170px");
+    z-index: 1010;
 }
 
 .popup {
@@ -139,18 +140,6 @@
 .target-card-image {
     max-height: @card-height;
     object-fit: contain;
-    width: 100%;
-}
-
-//RIGHT SIDE
-.right-side {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-width: 312px;
-}
-
-.chat {
     width: 100%;
 }
 

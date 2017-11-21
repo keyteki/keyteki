@@ -38,28 +38,12 @@ export class PlayerStats extends React.Component {
         );
     }
 
-    onSettingsClick(event) {
-        event.preventDefault();
-
-        if(this.props.onSettingsClick) {
-            this.props.onSettingsClick();
-        }
-    }
-
     render() {
         var playerAvatar = (
             <div className='player-avatar'>
                 <Avatar emailHash={ this.props.user ? this.props.user.emailHash : 'unknown' } />
                 <b>{ this.props.user ? this.props.user.username : 'Noone' }</b>
             </div>);
-
-        let Controls = (
-            <div className='state'>
-                <button className='btn btn-transparent' onClick={ this.onSettingsClick.bind(this) }>
-                    <span className='glyphicon glyphicon-cog' />{ window.innerWidth <= 1366 ? '' : 'Settings' }
-                </button>
-            </div>
-        );
 
         return (
             <div className='panel player-stats'>
@@ -71,8 +55,6 @@ export class PlayerStats extends React.Component {
                 { this.props.firstPlayer ? <div className='state'><img className='first-player-indicator' src='/img/first-player.png' title='First Player' /></div> : null }
                 { this.props.otherPlayer || this.props.spectating ? <div className='state'><div className='hand-size'>Hand Size: { this.props.handSize }</div></div> : null }
                 <div className='state'><div className ='hand-size'>Conflicts Remaining: { this.getStatValueOrDefault('conflictsRemaining') }  { this.getStatValueOrDefault('politicalRemaining') ? <span className='icon-political'/> : null }{ this.getStatValueOrDefault('militaryRemaining') ? <span className='icon-military'/> : null } </div></div>
-
-                { this.props.showControls && Controls }
             </div>
         );
     }
@@ -84,7 +66,6 @@ PlayerStats.propTypes = {
     firstPlayer: PropTypes.bool,
     handSize: PropTypes.number,
     honor: PropTypes.number,
-    onSettingsClick: PropTypes.func,
     otherPlayer: PropTypes.bool,
     playerName: PropTypes.string,
     sendGameMessage: PropTypes.func,

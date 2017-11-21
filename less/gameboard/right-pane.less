@@ -1,0 +1,71 @@
+.right-side {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    height: 100%;
+    flex-direction: column;
+    min-width: 312px;
+    top: 0;
+    right: 0;
+    z-index: 1030;
+
+    .card-large {
+        position: relative;
+        top: auto;
+        right: auto;
+    }
+}
+
+.chat {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    top: auto;
+    bottom: auto;
+    margin: 5px 0;
+    right: 5px;
+    height: calc(~"100% - 360px");
+    -webkit-transition: width 1s ease, right 0.5s ease;
+    transition: width 1s ease, right 0.5s ease;
+    overflow: hidden;
+
+    &.collapsed {
+        width: 0;
+        right: 30px;
+    }
+
+    .messages {
+        position: relative;
+        top: auto;
+        bottom: auto;
+    }
+
+    form {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        left: auto;
+        right: auto;
+    }
+}
+
+.chat-controls {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 5px;
+
+    .btn {
+        vertical-align: middle;
+
+        &:hover .glyphicon {
+            color: #fff;
+        }
+    }
+
+    .glyphicon {
+        color: @brand-primary;
+    }
+}

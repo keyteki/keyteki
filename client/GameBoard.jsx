@@ -16,8 +16,9 @@ import Ring from './GameComponents/Ring.jsx';
 import HonorFan from './GameComponents/HonorFan.jsx';
 import ActivePlayerPrompt from './GameComponents/ActivePlayerPrompt.jsx';
 import CardZoom from './GameComponents/CardZoom.jsx';
-import Messages from './GameComponents/Messages.jsx';
 import Card from './GameComponents/Card.jsx';
+import Chat from './GameComponents/Chat.jsx';
+import ChatControls from './GameComponents/ChatControls.jsx';
 import CardPile from './GameComponents/CardPile.jsx';
 import GameConfiguration from './GameComponents/GameConfiguration.jsx';
 import { tryParseJSON } from './util.js';
@@ -41,20 +42,18 @@ export class InnerGameBoard extends React.Component {
         this.onLeaveClick = this.onLeaveClick.bind(this);
         this.onConflictShuffleClick = this.onConflictShuffleClick.bind(this);
         this.onDynastyShuffleClick = this.onDynastyShuffleClick.bind(this);
-        this.onKeyPress = this.onKeyPress.bind(this);
-        this.onSendClick = this.onSendClick.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.onScroll = this.onScroll.bind(this);
         this.onMenuItemClick = this.onMenuItemClick.bind(this);
         this.onRingMenuItemClick = this.onRingMenuItemClick.bind(this);
+        this.onSettingsClick = this.onSettingsClick.bind(this);
+        this.onToggleChatClick = this.onToggleChatClick.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);
 
         this.state = {
-            canScroll: true,
             cardToZoom: undefined,
+            showChat: true,
             showConflictDeck: false,
             showDynastyDeck: false,
             spectating: true,
-            message: '',
             showActionWindowsMenu: false,
             showCardMenu: {}
         };
@@ -66,12 +65,6 @@ export class InnerGameBoard extends React.Component {
 
     componentWillReceiveProps(props) {
         this.updateContextMenu(props);
-    }
-
-    componentDidUpdate() {
-        if(this.state.canScroll) {
-            $(this.refs.messagePanel).scrollTop(999999);
-        }
     }
 
     updateContextMenu(props) {
@@ -126,18 +119,6 @@ export class InnerGameBoard extends React.Component {
         if(this.props.setContextMenu) {
             this.props.setContextMenu(menu);
         }
-    }
-
-    onScroll() {
-        var messages = this.refs.messagePanel;
-
-        setTimeout(() => {
-            if(messages.scrollTop >= messages.scrollHeight - messages.offsetHeight - 20) {
-                this.setState({ canScroll: true });
-            } else {
-                this.setState({ canScroll: false });
-            }
-        }, 500);
     }
 
     onConcedeClick() {
@@ -223,32 +204,12 @@ export class InnerGameBoard extends React.Component {
         this.props.sendGameMessage('conflictTopCardClicked');
     }
 
-    sendMessage() {
-        if(this.state.message === '') {
+    sendMessage(message) {
+        if(message === '') {
             return;
         }
 
-        this.props.sendGameMessage('chat', this.state.message);
-
-        this.setState({ message: '' });
-    }
-
-    onChange(event) {
-        this.setState({ message: event.target.value });
-    }
-
-    onKeyPress(event) {
-        if(event.key === 'Enter') {
-            this.sendMessage();
-
-            event.preventDefault();
-        }
-    }
-
-    onSendClick(event) {
-        event.preventDefault();
-
-        this.sendMessage();
+        this.props.sendGameMessage('chat', message);
     }
 
     onConflictShuffleClick() {
@@ -352,8 +313,15 @@ export class InnerGameBoard extends React.Component {
         this.props.sendGameMessage('menuButton', null, 'pass');
     }
 
-    onSettingsClick() {
+    onSettingsClick(event) {
+        event.preventDefault();
+
         $(findDOMNode(this.refs.modal)).modal('show');
+    }
+
+    onToggleChatClick(event) {
+        event.preventDefault();
+        this.setState({ showChat: !this.state.showChat });
     }
 
     getRings() {
@@ -599,20 +567,22 @@ export class InnerGameBoard extends React.Component {
                         <CardZoom imageUrl={ this.props.cardToZoom ? '/img/cards/' + this.props.cardToZoom.id + '.jpg' : '' }
                             orientation={ this.props.cardToZoom ? this.props.cardToZoom.type === 'plot' ? 'horizontal' : 'vertical' : 'vertical' }
                             show={ !!this.props.cardToZoom } cardName={ this.props.cardToZoom ? this.props.cardToZoom.name : null } />
-                        <div className='chat'>
-                            <div className='messages panel' ref='messagePanel' onScroll={ this.onScroll }>
-                                <Messages messages={ this.props.currentGame.messages } onCardMouseOver={ this.onMouseOver } onCardMouseOut={ this.onMouseOut } />
-                            </div>
-                            <form>
-                                <input className='form-control' placeholder='Chat...' onKeyPress={ this.onKeyPress } onChange={ this.onChange }
-                                    value={ this.state.message } />
-                            </form>
-                        </div>
+                        <Chat
+                            visible={ this.state.showChat }
+                            messages={ this.props.currentGame.messages }
+                            onMouseOver={ this.onMouseOver }
+                            onMouseOut={ this.onMouseOut }
+                            sendMessage={ this.sendMessage }
+                        />
+                        <ChatControls
+                            onSettingsClick={ this.onSettingsClick }
+                            onToggleChatClick={ this.onToggleChatClick }
+                        />
                     </div>
                 </div>
                 <div className='player-stats-row our-side'>
                     <PlayerStats { ...boundActionCreators } stats={ thisPlayer.stats } showControls={ !this.state.spectating } user={ thisPlayer.user }
-                        firstPlayer={ thisPlayer.firstPlayer } otherPlayer={ false } onSettingsClick={ this.onSettingsClick.bind(this) } spectating={ this.state.spectating } handSize={ thisPlayer.cardPiles.hand ? thisPlayer.cardPiles.hand.length : 0 } />
+                        firstPlayer={ thisPlayer.firstPlayer } otherPlayer={ false } spectating={ this.state.spectating } handSize={ thisPlayer.cardPiles.hand ? thisPlayer.cardPiles.hand.length : 0 } />
                 </div>
             </div>);
     }
