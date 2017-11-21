@@ -14,7 +14,7 @@ class WarDogMaster extends DrawCard {
                 this.controller.moveCard(card, 'dynasty discard pile');
                 this.untilEndOfConflict(ability => ({
                     match: this,
-                    effect: ability.effects.modifyMillitarySkill(bonus)
+                    effect: ability.effects.modifyMilitarySkill(bonus)
                 }));
             }
         });
