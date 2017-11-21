@@ -15,6 +15,6 @@ class Censure extends DrawCard {
     }
 }
 
-Censure.id = 'censure'; // This is a guess at what the id might be - please check it!!!
+Censure.id = 'censure';
 
 module.exports = Censure;
