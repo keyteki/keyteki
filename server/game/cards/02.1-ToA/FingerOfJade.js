@@ -11,7 +11,7 @@ class FingerOfJade extends DrawCard {
             canCancel: true,
             cost: ability.costs.sacrificeSelf(),
             handler: context => {
-                this.game.addMessage('{0} sacrifices {1} to cancel the effects of {2}', context.cardStateWhenInitiated.controller, this, context.event.card);
+                this.game.addMessage('{0} sacrifices {1} to cancel the effects of {2}', this.controller, this, context.event.card);
                 context.cancel();
             }
         });

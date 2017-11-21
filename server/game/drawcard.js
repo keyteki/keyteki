@@ -151,7 +151,6 @@ class DrawCard extends BaseCard {
         clone.bowed = this.bowed;
         clone.isHonored = this.isHonored;
         clone.isDishonored = this.isDishonored;
-        clone.location = this.location;
         clone.parent = this.parent;
         clone.fate = this.fate;
         clone.traits = Object.assign({}, this.traits);
@@ -344,7 +343,7 @@ class DrawCard extends BaseCard {
          * @return {integer} The political skill value
          */
         if(printed) {
-            return this.cardData.political;
+            return this.cardData.military;
         }
 
         if(this.cardData.political !== null && this.cardData.political !== undefined) {

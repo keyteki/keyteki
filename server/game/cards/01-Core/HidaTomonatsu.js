@@ -13,7 +13,7 @@ class HidaTomonatsu extends DrawCard {
                 cardCondition: card => card.isAttacking() && !card.isUnique()
             },
             handler: context => {
-                this.game.addMessage('{0} activates {1} to move {2} to the top of {3}\'s deck', context.cardStateWhenInitiated.controller, this, context.target, context.target.controller);
+                this.game.addMessage('{0} activates {1} to move {2} to the top of {3}\'s deck', this.controller, this, context.target, context.target.controller);
                 context.target.owner.moveCardToTopOfDeck(context.target);
             }
         });
