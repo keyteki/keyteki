@@ -583,26 +583,6 @@ this.interrupt({
 });
 ```
 
-#### Multiple choice reactions and interrupts
-
-A few cards provide reactions or interrupts that have more than a yes or no choice. For example, Asako Diplomat can be used to honor or dishonor a character. In these cases, instead of sending a `handler` method, a `choices` object may be provided. Each property under the `choices` object will be used as the prompt button text, while the value will be the function to be executed if the player chooses that option. The option to decline / cancel the ability is provided automatically and does not need to be added to the `choices` object.
-
-```javascript
-this.reaction({
-    when: {
-        // conflict win
-    },
-    choices: {
-        'Honor a character': () => {
-            // code to honor a character
-        },
-        'Dishonor a character': () => {
-            // code to dishonor a character
-        }
-    }
-});
-```
-
 #### Paying additional costs for reactions and interrupts
 
 Some abilities have an additional cost, such as kneeling the card. In these cases, specify the `cost` parameter. The ability will check if the cost can be paid. If it can't, the ability will not prompt the player. If it can, costs will be paid automatically and then the ability will execute.
