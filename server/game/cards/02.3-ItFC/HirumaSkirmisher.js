@@ -10,7 +10,6 @@ class HirumaSkirmisher extends DrawCard {
             handler: context => {
                 this.game.addMessage('{0} uses {1}\'s ability to give {1} covert until the end of the phase', this.controller, this);
                 this.untilEndOfPhase(ability => ({
-                    match: context.target,
                     effect: ability.effects.addKeyword('covert')
                 }));
             }
