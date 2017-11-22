@@ -617,25 +617,25 @@ class DrawCard extends BaseCard {
         return this.game.currentConflict && this.game.currentConflict.isParticipating(this);
     }
 
-    canDeclareAsAttacker(conflictType) {
+    canDeclareAsAttacker(conflictType = this.game.currentConflict.conflictType) {
         return (this.allowGameAction('declareAsAttacker') && this.canParticipateAsAttacker(conflictType) &&
                 (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowed));
     }
 
-    canDeclareAsDefender(conflictType) {
+    canDeclareAsDefender(conflictType = this.game.currentConflict.conflictType) {
         return (this.allowGameAction('declareAsDefender') && this.canParticipateAsDefender(conflictType) && 
                 (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowed) && !this.covert);
     }
 
-    canParticipateInConflict(conflictType) {
+    canParticipateInConflict(conflictType = this.game.currentConflict.conflictType) {
         return this.location === 'play area' && !this.conflictOptions.cannotParticipateIn[conflictType];
     }
 
-    canParticipateAsAttacker(conflictType) {
+    canParticipateAsAttacker(conflictType = this.game.currentConflict.conflictType) {
         return this.allowGameAction('participateAsAttacker') && this.canParticipateInConflict(conflictType);
     }
 
-    canParticipateAsDefender(conflictType) {
+    canParticipateAsDefender(conflictType = this.game.currentConflict.conflictType) {
         return this.allowGameAction('participateAsDefender') && this.canParticipateInConflict(conflictType);
     }
 
