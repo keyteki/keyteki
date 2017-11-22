@@ -101,6 +101,7 @@ class InitiateConflictPrompt extends UiPrompt {
             this.conflict.conflictProvince.inConflict = false;
             this.conflict.conflictProvince = null;
         }
+        this.game.reapplyStateDependentEffects();
         this.conflict.calculateSkill();
         return true;
     }
