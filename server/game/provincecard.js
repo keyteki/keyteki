@@ -9,13 +9,16 @@ class ProvinceCard extends BaseCard {
         this.strengthModifier = 0;
         this.isProvince = true;
         this.isBroken = false;
+        // This is specifically for Public Forum, may want to consider
+        // a list of statuses if this becomes a more common design space
+        this.hasHonorToken = false;
         this.menu = _([{ command: 'break', text: 'Break/unbreak this province' }, { command: 'hide', text: 'Flip face down' }]);
     }
 
     getStrength() {
         return this.cardData.strength + this.strengthModifier + this.getDynastyOrStrongholdCardModifier();
     }
-    
+
     getDynastyOrStrongholdCardModifier() {
         let province = this.controller.getSourceList(this.location);
         let card = province.find(card => card !== this);
@@ -24,7 +27,7 @@ class ProvinceCard extends BaseCard {
         }
         return 0;
     }
-    
+
     getElement() {
         return this.cardData.element;
     }
@@ -41,7 +44,7 @@ class ProvinceCard extends BaseCard {
     flipFaceup() {
         this.facedown = false;
     }
-    
+
     breakProvince() {
         this.isBroken = true;
     }
@@ -52,7 +55,7 @@ class ProvinceCard extends BaseCard {
         }
         return super.canTriggerAbilities();
     }
-    
+
     getSummary(activePlayer, hideWhenFaceup) {
         let baseSummary = super.getSummary(activePlayer, hideWhenFaceup);
 
