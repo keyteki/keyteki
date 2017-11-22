@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Messages from './Messages.jsx';
+import $ from 'jquery';
 
 class Chat extends React.Component {
     constructor () {
