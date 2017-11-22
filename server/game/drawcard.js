@@ -395,20 +395,26 @@ class DrawCard extends BaseCard {
     honor() {
         if(this.isDishonored) {
             this.isDishonored = false;
+            return true;
         } else if(!this.isHonored) {
             this.isHonored = true;
+            return true;
         }
+        return false;
     }
 
     dishonor() {
         if(!this.allowGameAction('dishonor')) {
-            return;
+            return false;
         }
         if(this.isHonored) {
             this.isHonored = false;
+            return true;
         } else if(!this.isDishonored) {
             this.isDishonored = true;
+            return true;
         }
+        return false;
     }
 
 
