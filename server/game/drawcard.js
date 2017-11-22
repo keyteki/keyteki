@@ -1,7 +1,6 @@
 const _ = require('underscore');
 
 const BaseCard = require('./basecard.js');
-const SetupCardAction = require('./setupcardaction.js');
 const DynastyCardAction = require('./dynastycardaction.js');
 const PlayCardAction = require('./playcardaction.js');
 const PlayAttachmentAction = require('./playattachmentaction.js');
@@ -541,7 +540,7 @@ class DrawCard extends BaseCard {
         let events = this.attachments.map(attachment => {
             return {
                 name: 'onCardLeavesPlay',
-                params: { card: attachment },
+                params: { card: attachment }
             };
         });
         this.game.raiseMultipleEvents(events);

@@ -149,7 +149,7 @@ describe('InitateConflictPrompt: ', function() {
             describe('if a conflict can be initiated here', function() {
                 beforeEach(function() {
                     this.cardSpy.allowGameAction.and.returnValue(true);
-                    this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy)
+                    this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy);
                 });
 
                 describe('and it\'s currently the conflict province, ', function() {
@@ -165,7 +165,7 @@ describe('InitateConflictPrompt: ', function() {
 
                     it('should remove the province from the conflict', function() {
                         expect(this.cardSpy.inConflict).toBe(false);
-                    })
+                    });
 
                     it('should change the conflict province to null', function() {
                         expect(this.conflictSpy.conflictProvince).toBe(null);
@@ -198,7 +198,7 @@ describe('InitateConflictPrompt: ', function() {
                 });
 
                 it('should call canDeclareAsAttacker', function() {
-                    expect(this.cardSpy.canDeclareAsAttacker).toHaveBeenCalled()
+                    expect(this.cardSpy.canDeclareAsAttacker).toHaveBeenCalled();
                 });
 
                 describe('and it can be declared as an attacker,', function() {
@@ -221,7 +221,7 @@ describe('InitateConflictPrompt: ', function() {
                                 this.cardSpy.isCovert.and.returnValue(true);
                                 this.conflictSpy.addAttacker.and.callFake(() => {
                                     this.conflictSpy.attackers = [this.cardSpy];
-                                })
+                                });
                                 this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy);
                             });
 
@@ -285,7 +285,7 @@ describe('InitateConflictPrompt: ', function() {
                     });
 
                     it('should return false', function() {
-                        expect(this.prompt.onCardClicked(this.playerSpy, this.cardSpy)).toBe(false)
+                        expect(this.prompt.onCardClicked(this.playerSpy, this.cardSpy)).toBe(false);
                     });
                 });
             });
@@ -322,7 +322,7 @@ describe('InitateConflictPrompt: ', function() {
                     });
 
                     it('should return false', function() {
-                        expect(this.prompt.onCardClicked(this.playerSpy, this.cardSpy)).toBe(false)
+                        expect(this.prompt.onCardClicked(this.playerSpy, this.cardSpy)).toBe(false);
                     });
                 });
 
@@ -346,7 +346,7 @@ describe('InitateConflictPrompt: ', function() {
                 });
 
                 it('should return false', function() {
-                    expect(this.prompt.onCardClicked(this.playerSpy, this.cardSpy)).toBe(false)
+                    expect(this.prompt.onCardClicked(this.playerSpy, this.cardSpy)).toBe(false);
                 });          
             });
         });
@@ -357,7 +357,7 @@ describe('InitateConflictPrompt: ', function() {
             });
 
             it('should return false', function() {
-                expect(this.prompt.onCardClicked(this.playerSpy, this.cardSpy)).toBe(false)
+                expect(this.prompt.onCardClicked(this.playerSpy, this.cardSpy)).toBe(false);
             });    
         });
     });
@@ -445,6 +445,6 @@ describe('InitateConflictPrompt: ', function() {
             it('should not set complete to true', function() {
                 expect(this.prompt.completed).toBe(false);
             });
-    })
-    })
+        });
+    });
 });

@@ -17,7 +17,6 @@ const FatePhase = require('./gamesteps/fatephase.js');
 const RegroupPhase = require('./gamesteps/regroupphase.js');
 const SimpleStep = require('./gamesteps/simplestep.js');
 const DeckSearchPrompt = require('./gamesteps/decksearchprompt.js');
-const HonorBidPrompt = require('./gamesteps/honorbidprompt.js');
 const MenuPrompt = require('./gamesteps/menuprompt.js');
 const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');

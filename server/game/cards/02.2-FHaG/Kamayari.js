@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class Kamayari extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
             title: 'Bow character who triggered ability',
             when: {
