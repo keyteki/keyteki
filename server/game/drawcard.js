@@ -1,7 +1,6 @@
 const _ = require('underscore');
 
 const BaseCard = require('./basecard.js');
-const SetupCardAction = require('./setupcardaction.js');
 const DynastyCardAction = require('./dynastycardaction.js');
 const PlayCardAction = require('./playcardaction.js');
 const PlayAttachmentAction = require('./playattachmentaction.js');
@@ -151,6 +150,7 @@ class DrawCard extends BaseCard {
         clone.bowed = this.bowed;
         clone.isHonored = this.isHonored;
         clone.isDishonored = this.isDishonored;
+        clone.location = this.location;
         clone.parent = this.parent;
         clone.fate = this.fate;
         clone.traits = Object.assign({}, this.traits);
@@ -343,7 +343,7 @@ class DrawCard extends BaseCard {
          * @return {integer} The political skill value
          */
         if(printed) {
-            return this.cardData.military;
+            return this.cardData.political;
         }
 
         if(this.cardData.political !== null && this.cardData.political !== undefined) {
@@ -540,7 +540,7 @@ class DrawCard extends BaseCard {
         let events = this.attachments.map(attachment => {
             return {
                 name: 'onCardLeavesPlay',
-                params: { card: attachment },
+                params: { card: attachment }
             };
         });
         this.game.raiseMultipleEvents(events);
@@ -617,25 +617,25 @@ class DrawCard extends BaseCard {
         return this.game.currentConflict && this.game.currentConflict.isParticipating(this);
     }
 
-    canDeclareAsAttacker(conflictType) {
+    canDeclareAsAttacker(conflictType = this.game.currentConflict.conflictType) {
         return (this.allowGameAction('declareAsAttacker') && this.canParticipateAsAttacker(conflictType) &&
                 (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowed));
     }
 
-    canDeclareAsDefender(conflictType) {
+    canDeclareAsDefender(conflictType = this.game.currentConflict.conflictType) {
         return (this.allowGameAction('declareAsDefender') && this.canParticipateAsDefender(conflictType) && 
                 (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowed) && !this.covert);
     }
 
-    canParticipateInConflict(conflictType) {
+    canParticipateInConflict(conflictType = this.game.currentConflict.conflictType) {
         return this.location === 'play area' && !this.conflictOptions.cannotParticipateIn[conflictType];
     }
 
-    canParticipateAsAttacker(conflictType) {
+    canParticipateAsAttacker(conflictType = this.game.currentConflict.conflictType) {
         return this.allowGameAction('participateAsAttacker') && this.canParticipateInConflict(conflictType);
     }
 
-    canParticipateAsDefender(conflictType) {
+    canParticipateAsDefender(conflictType = this.game.currentConflict.conflictType) {
         return this.allowGameAction('participateAsDefender') && this.canParticipateInConflict(conflictType);
     }
 

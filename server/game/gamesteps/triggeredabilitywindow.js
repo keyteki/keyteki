@@ -121,7 +121,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
                     }),
                     handlers: _.map(cardChoices, abilityChoice => {
                         return () => {
-                            this.resolveAbility(player, abilityChoice)
+                            this.resolveAbility(player, abilityChoice);
                         };
                     })
                 });

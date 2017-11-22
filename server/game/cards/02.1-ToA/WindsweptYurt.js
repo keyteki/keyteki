@@ -24,21 +24,11 @@ class WindsweptYurt extends DrawCard {
                     this.game.addHonor(this.controller, 2);
                     this.game.addHonor(this.controller.opponent, 2);
                 }
-                let province = this.controller.getSourceList(this.previousLocation);
+                let province = this.controller.getSourceList(context.cardStateWhenInitiated.location);
                 let card = province.find(card => card.isDynasty);
                 card.facedown = false;
             }
         });
-    }
-
-    /**
-        This sets the location to be used within the handler.  We don't have a good way to save the card's
-        state while the costs are being paid.  This method gets called at selection time, so is as close
-        as we're going to get
-    **/
-    canTriggerAbilities(location) {
-        this.previousLocation = this.location;
-        return super.canTriggerAbilities(location);
     }
 }
 
