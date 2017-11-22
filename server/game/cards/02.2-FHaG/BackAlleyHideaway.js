@@ -11,19 +11,24 @@ const backAlleyPersistentEffect = function() {
             // register limit which needs to be shared among all the play actions which will be added by the interrupt ability
             card.backAlleyActionLimit.registerEvents(card.game);
         },
+        reapply: function(card) {
+            // enable popup functionality
+            card.showPopup = true;
+            card.popupMenuText = 'Use Interrupt ability';            
+        },
         unapply: function(card) {
-            card.attachments.each(c => {
+            card.attachments.each(character => {
                 // move all attachments to the correct discard pile
-                c.owner.moveCard(c, c.isDynasty ? 'dynasty discard pile' : 'conflict discard pile');
+                character.owner.moveCard(c, character.isDynasty ? 'dynasty discard pile' : 'conflict discard pile');
                 // remove any added playActions
-                c.abilities.playActions = _.reject(c.abilities.playActions, action => action.title === 'Play this character from Back-Alley Hideaway');
+                character.abilities.playActions = _.reject(character.abilities.playActions, action => action.title === 'Play this character from Back-Alley Hideaway');
             });
             // disable popup functionality
             card.showPopup = false;
             card.popupMenuText = '';
             // reset and unregister limit
-            this.backAlleyActionLimit.reset();
-            this.backAlleyActionLimit.unregisterEvents(card.game);
+            card.backAlleyActionLimit.reset();
+            card.backAlleyActionLimit.unregisterEvents(card.game);
         }
     };
 };
@@ -63,6 +68,7 @@ class BackAlleyHideaway extends DrawCard {
         this.persistentEffect({
             location: 'any',
             targetLocation: 'province',
+            condition: () => !this.facedown,
             match: this,
             effect: backAlleyPersistentEffect()
         });

@@ -117,7 +117,7 @@ class Card extends React.Component {
             return;
         }
 
-        if(this.props.showPopup) {
+        if(this.props.card.showPopup) {
             this.setState({ showPopup: !this.state.showPopup });
             return;
         }
@@ -163,7 +163,7 @@ class Card extends React.Component {
 
     getWrapper() {
         let wrapperClassName = '';
-        let attachments = _.size(this.props.card.attachments);
+        let attachments = this.props.source === 'play area' ? _.size(this.props.card.attachments) : 0;
         if(attachments > 0) {
             wrapperClassName = 'wrapper-' + attachments.toString();
         }
@@ -396,7 +396,7 @@ class Card extends React.Component {
 
         let linkIndex = 0;
         
-        let popupMenu = this.props.card.popupMenuText ? (<div>{ [<a className='btn btn-default' key={ linkIndex++ } onClick={ () => this.onPopupMenuItemClick() }>{ this.props.card.popupMenuText }</a>] }</div>) : null;
+        let popupMenu = (<div>{ [<a className='btn btn-default' key={ linkIndex++ } onClick={ () => this.onPopupMenuItemClick() }>Select Card</a>] }</div>);
         
         popup = (
             <div className='popup'>
@@ -407,6 +407,7 @@ class Card extends React.Component {
                     </span>
                 </div>
                 <div className={ popupClass } onClick={ event => event.stopPropagation() }>
+                    { popupMenu }
                     <div className='inner'>
                         { cardList }
                     </div>
