@@ -1,7 +1,7 @@
 const ProvinceCard = require('../../provincecard.js');
 
 class MassingAtTwilight extends ProvinceCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
     }
 }
 

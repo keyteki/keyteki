@@ -21,7 +21,7 @@ class CourtGames extends DrawCard {
                 if(context.select === 'Honor a character you control') {
                     this.game.promptForSelect(this.controller, {
                         cardType: 'character',
-                        cardCondition: card => card.isParticipating() && card.controller === this.controller && card.allowGameAction('honor', context)  && card.allowGameAction('target', context),
+                        cardCondition: card => card.isParticipating() && card.controller === this.controller && card.allowGameAction('honor', context) && card.allowGameAction('target', context),
                         source: this,
                         onSelect: (player, card) => {
                             this.game.addMessage('{0} uses {1} to honor {2}', this.controller, this, card);

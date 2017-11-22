@@ -1,3 +1,5 @@
+const _ = require('underscore');
+
 class EffectSource {
     constructor(name = 'Framework effect') {
         this.name = name;

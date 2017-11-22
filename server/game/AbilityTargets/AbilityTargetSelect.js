@@ -11,7 +11,7 @@ class AbilityTargetSelect {
         return _.any(this.properties.choices, condition => condition(context)) && context.ability.canPayCosts(context);
     }
 
-    getAllLegalTargets(context, pretarget = true) {
+    getAllLegalTargets(context) {
         return _.filter(this.properties.choices, condition => condition(context));
     }
 
