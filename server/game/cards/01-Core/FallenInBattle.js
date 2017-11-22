@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class FallenInBattle extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
+            title: 'Discard a character',
             when: {
                 afterConflict: event => event.conflict.winner === this.controller && event.conflict.conflictType === 'military' && event.conflict.skillDifference > 4
             },

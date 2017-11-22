@@ -4,6 +4,7 @@ const DrawCard = require('../../drawcard.js');
 class ForGreaterGlory extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
+            title: 'Put a fate on all your bushi in this conflict',
             when: {
                 onBreakProvince: event => event.conflict.conflictType === 'military' && this.controller.anyCardsInPlay(card => card.isAttacking() && card.hasTrait('bushi'))
             },

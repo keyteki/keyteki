@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class StaunchHida extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Resolve the ring effect',
             when: {
                 afterConflict: event => event.conflict.winner === this.controller && event.conflict.isDefending(this)
             },

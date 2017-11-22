@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class CourtGames extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
+            title: 'Honor or dishonor a character',
             condition: () => this.game.currentConflict && this.game.currentConflict.conflictType === 'political',
             max: ability.limit.perConflict(1),
             target: {
