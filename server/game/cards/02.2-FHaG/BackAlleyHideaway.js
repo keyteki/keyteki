@@ -19,7 +19,7 @@ const backAlleyPersistentEffect = function() {
         unapply: function(card) {
             card.attachments.each(character => {
                 // move all attachments to the correct discard pile
-                character.owner.moveCard(c, character.isDynasty ? 'dynasty discard pile' : 'conflict discard pile');
+                character.owner.moveCard(character, character.isDynasty ? 'dynasty discard pile' : 'conflict discard pile');
                 // remove any added playActions
                 character.abilities.playActions = _.reject(character.abilities.playActions, action => action.title === 'Play this character from Back-Alley Hideaway');
             });
