@@ -7,10 +7,11 @@ To implement a card, follow these steps:
 
 ##### 1. Create a file named after the card.
 
-Cards are organized under the `/server/game/cards` directory by grouping them by pack number and name.
+Cards are organized under the `/server/game/cards` directory by grouping them by cycle/set number, pack number if applicable, and name.
 
 ```
-/server/game/cards/attachments/01 - Core/cloudthemind.js
+/server/game/cards/01-Core/CloudTheMind.js //Core Set
+/server/game/cards/02.1-ToA/GoblinSneak.js //Imperial Cycle, Pack 1, Tears of Amaterasu
 ```
 
 #### 2. Create a class for the card and export it.
@@ -126,7 +127,7 @@ this.persistentEffect({
 
 #### Dynamic skill
 
-A few cards provide skill bonuses based on game state. For example, Ishiken Initiate gets a bonus to political and military skill depending on how many rings have been claimed. `dynamicMilitarySkill` and `dynamicPoliticalSkill` effects take a function to determine what the skill bonus is currently.
+A few cards provide skill bonuses based on game state. For example, [Ishiken Initiate](https://fiveringsdb.com/card/ishiken-initiate) gets a bonus to political and military skill depending on how many rings have been claimed. `dynamicMilitarySkill` and `dynamicPoliticalSkill` effects take a function to determine what the skill bonus is currently.
 
 ```javascript
 // This character gets +1M and +1P for each claimed ring.
@@ -140,7 +141,7 @@ this.persistentEffect({
 });
 ```
 
-Certain cards may apply effects that need to be recalculated mid-conflict. For example, Utaku infantray gets a bonus to political and military skill depending on how many unicorn characters you have in the conflict. For such scenarios, pass the optional `recalculateWhen` property as an array of event names for which the effect should be recalculated. **Note:** this mechanism should be used sparingly if possible and only with problematic cards.
+Certain cards may apply effects that need to be recalculated mid-conflict. For example, [Utaku Infantry](https://fiveringsdb.com/card/utaku-infantry) gets a bonus to political and military skill depending on how many unicorn characters you have in the conflict. For such scenarios, pass the optional `recalculateWhen` property as an array of event names for which the effect should be recalculated. **Note:** this mechanism should be used sparingly if possible and only with problematic cards.
 
 ```javascript
 // Utaku Infantry gets +1M and +1P for each participating unicorn character you control.
@@ -315,12 +316,12 @@ this.action({
 
 If a card has multiple costs, an array of cost objects may be sent using the `cost` property.
 
-``javascript
+```javascript
 this.action({
-    title: 'Reduce the next character marshalled by 3',
-    // This card must be knelt AND sacrificed as a cost for the action.
+    title: 'Reduce the next character bought by 3',
+    // This card must be bowed AND sacrificed as a cost for the action.
     cost: [
-        ability.costs.kneelSelf(),
+        ability.costs.bowSelf(),
         ability.costs.sacrificeSelf()
     ],
     // ...
@@ -359,14 +360,14 @@ Some card abilities require multiple targets. These may be specified using the `
 
 ```javascript
 this.action({
-    title: 'Kneel this card to modify the strength of two characters',
+    title: 'Bow this card to modify the skill of two characters',
     targets: {
         toLower: {
-            activePromptTitle: 'Choose a character to get -1 STR',
+            activePromptTitle: 'Choose a character to get -1 skill',
             cardCondition: card => this.cardCondition(card)
         },
         toRaise: {
-            activePromptTitle: 'Choose a character to get +1 STR',
+            activePromptTitle: 'Choose a character to get +1 skill',
             cardCondition: card => this.cardCondition(card)
         }
     },
@@ -465,17 +466,21 @@ this.reaction({
 });
 ```
 
-In rare cases, there may be multiple triggering conditions for the same ability. For example, WotN Catelyn Stark gains power whenever a character is killed OR sacrificed. In these cases, just defined an additional event on the `when` object.
+In rare cases, there may be multiple triggering conditions for the same ability. For example, [Young Rumormonger](https://fiveringsdb.com/card/young-rumormonger) can change the target when a player honors OR dishonors a character. In these cases, just define an additional event on the `when` object.
 
 ```javascript
-this.reaction({
+this.interrupt({
     when: {
-        onSacrificed: (event, player, card) => this.starkCharacterSacrificedOrKilled(event, player, card),
-        onCharacterKilled: (event, player, card) => this.starkCharacterSacrificedOrKilled(event, player, card)
+        onCardHonored: event => !event.card.isHonored,
+        onCardDishonored: event => event.card.allowGameAction('dishonor')
     },
-    handler: () => {
-        // gain power
-    }
+    canCancel: true,
+    target: {
+        // Select new target
+    },
+    handler: context => {
+        // Honor or dishonor new target
+    } 
 });
 ```
 
@@ -578,26 +583,6 @@ this.interrupt({
 });
 ```
 
-#### Multiple choice reactions and interrupts
-
-A few cards provide reactions or interrupts that have more than a yes or no choice. For example, Asako Diplomat can be used to honor or dishonor a character. In these cases, instead of sending a `handler` method, a `choices` object may be provided. Each property under the `choices` object will be used as the prompt button text, while the value will be the function to be executed if the player chooses that option. The option to decline / cancel the ability is provided automatically and does not need to be added to the `choices` object.
-
-```javascript
-this.reaction({
-    when: {
-        // conflict win
-    },
-    choices: {
-        'Honor a character': () => {
-            // code to honor a character
-        },
-        'Dishonor a character': () => {
-            // code to dishonor a character
-        }
-    }
-});
-```
-
 #### Paying additional costs for reactions and interrupts
 
 Some abilities have an additional cost, such as kneeling the card. In these cases, specify the `cost` parameter. The ability will check if the cost can be paid. If it can't, the ability will not prompt the player. If it can, costs will be paid automatically and then the ability will execute.
@@ -618,13 +603,14 @@ this.interrupt({
 
 If a card has multiple costs, an array of cost objects may be sent using the `cost` property.
 
+```javascript
 this.reaction({
-    when {
-        // condition for Ghaston Grey
-    }
-    // This card must be knelt AND sacrificed as a cost for the action.
+    when: {
+        // ...
+    },
+    // This card must be bowed AND sacrificed as a cost for the action.
     cost: [
-        ability.costs.kneelSelf(),
+        ability.costs.bowSelf(),
         ability.costs.sacrificeSelf()
     ],
     handler: () => {
