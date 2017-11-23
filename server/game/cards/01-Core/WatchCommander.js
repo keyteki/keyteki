@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class WatchCommander extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
+            title: 'Force opponent to lose 1 honor',
             limit: ability.limit.unlimitedPerConflict(),
             when: {
                 onCardPlayed: event => (

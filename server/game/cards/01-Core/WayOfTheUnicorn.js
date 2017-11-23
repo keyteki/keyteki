@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class WayOfTheUnicorn extends DrawCard {
     setupCardAbilities() {
         this.interrupt({
+            title: 'Keep the first player token',
             when: {
                 onPassFirstPlayer: event => event.player === this.controller.opponent
             },

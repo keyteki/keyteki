@@ -17,8 +17,7 @@ class RaiseTheAlarm extends DrawCard {
                 if(card.type === 'character' && this.controller.canPutIntoPlay(card, true)) {
                     this.game.addMessage('{0} uses {1} to bring {2} into the conflict!', this.controller, this, card);
                     this.controller.putIntoPlay(card, true);
-                }
-                else {
+                } else {
                     this.game.addMessage('{0} uses {1} but cannot bring {2} into the conflict!', this.controller, this, card);
                 }
             }

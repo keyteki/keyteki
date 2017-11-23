@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class OniMask extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
     }
 }
 

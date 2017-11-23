@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class KaradaDistrict extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
+            title: 'Take control of an attachment',
             cost: ability.costs.giveFateToOpponent(1),
             target: {
                 cardType: 'attachment',

@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class VoiceOfHonor extends DrawCard {
     setupCardAbilities() {
         this.interrupt({
+            title: 'Cancel an event',
             when: {
                 onCardAbilityInitiated: event => event.card.type === 'event' && this.controller.opponent && this.controller.getNumberOfCardsInPlay(card => card.isHonored) > this.controller.opponent.getNumberOfCardsInPlay(card => card.isHonored)
             },

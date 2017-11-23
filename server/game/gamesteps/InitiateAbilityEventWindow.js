@@ -8,7 +8,7 @@ class InitiateAbilityEventWindow extends EventWindow {
         super(game, events);
         _.each(this.events, event => {
             if(event.context.ability.isCardPlayed() && !event.context.dontRaiseCardPlayed) { //context.dontRaiseCardPlayed is a flag raised by events doing multiple resolutions
-                game.addEventToWindow(this, 'onCardPlayed', { player: event.context.player, card: event.card, originalLocation: 'hand' })
+                game.addEventToWindow(this, 'onCardPlayed', { player: event.context.player, card: event.card, originalLocation: 'hand' });
             }
         });
     }
@@ -22,7 +22,7 @@ class InitiateAbilityEventWindow extends EventWindow {
         ]);
     }
 
-    removeEvent(events) { // Events shouldn't be removed from this window when cancelled, as other abilities can still react to them
+    removeEvent() { // Events shouldn't be removed from this window when cancelled, as other abilities can still react to them
         _.each(this.events, event => event.checkCondition());
     }
 }
