@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class SpiesAtCourt extends DrawCard {
     setupCardAbilities(ability) {
         this.reaction({
+            title: 'Force opponent to discard 2 cards',
             when: {
                 afterConflict: event => event.conflict.winner === this.controller && event.conflict.conflictType === 'political' && this.controller.opponent
             },
