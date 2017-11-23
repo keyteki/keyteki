@@ -5,12 +5,12 @@ class PathfindersBlade extends DrawCard {
         this.interrupt({
             title: 'Cancel conflict province ability',
             when: {
-                onCardAbilityInitiated: event => this.parent.isAttacking && event.card === this.game.currentConflict.conflictProvince
+                onCardAbilityInitiated: event => this.parent.isAttacking() && event.card === this.game.currentConflict.conflictProvince
             },
             cost: ability.costs.sacrificeSelf(),
             canCancel: true,
             handler: context => {
-                this.game.addMessage('{0} sacrifices {1} to cancel the effects of {2}\'s ability', this.controller, this, context.event.card);
+                this.game.addMessage('{0} sacrifices {1} to cancel the effects of {2}\'s ability', context.cardStateWhenInitiated.controller, this, context.event.card);
                 context.cancel();
             }
         });

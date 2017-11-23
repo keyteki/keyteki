@@ -21,13 +21,11 @@ class ShrineMaiden extends DrawCard {
                     this.controller.moveCard(card, 'conflict discard pile');
                 });
 
-                if (toHand.length && toDiscard.length) {
+                if(toHand.length && toDiscard.length) {
                     this.game.addMessage('{0} uses {1}\'s reaction to add {2} to hand and discard {3}', this.controller, this, toHand, toDiscard);
-                }
-                else if (toHand.length) {
+                } else if(toHand.length) {
                     this.game.addMessage('{0} uses {1}\'s reaction to add {2} to hand', this.controller, this, toHand);
-                }
-                else {
+                } else {
                     this.game.addMessage('{0} uses {1}\'s reaction and discards {2}', this.controller, this, toDiscard);
                 }
             }

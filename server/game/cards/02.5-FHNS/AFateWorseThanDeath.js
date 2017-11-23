@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class AFateWorseThanDeath extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
     }
 }
 
