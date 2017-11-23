@@ -1,8 +1,10 @@
-/* global describe, it, expect, beforeEach, jasmine */
+/* eslint-disable no-unused-vars */
+/* global xdescribe, describe, it, expect, beforeEach, jasmine, document */
 /* eslint camelcase: 0, no-invalid-this: 0 */
 
 import GameBoard, { InnerGameBoard } from '../../client/GameBoard.jsx';
-import PlayerStats, { InnerPlayerStats } from '../../client/GameComponents/PlayerStats.jsx';
+import PlayerStatsRow from '../../client/GameComponents/PlayerStatsRow.jsx';
+import PlayerStatsBox from '../../client/GameComponents/PlayerStatsBox.jsx';
 import Card from '../../client/GameComponents/Card.jsx';
 import CardCollection from '../../client/GameComponents/CardPile.jsx';
 import GameConfiguration from '../../client/GameComponents/GameConfiguration.jsx';
@@ -12,7 +14,7 @@ import React from 'react';
 import TestUtils from 'react-dom/test-utils';
 import stubComponent from './test-setup.jsx';
 
-var state = { cards: {}, games: { state: {}, currentGame: { players: {} } }, socket: {}, auth: {} };
+let state = { cards: {}, games: { state: {}, currentGame: { players: {} } }, socket: {}, auth: {} };
 
 const store = {
     subscribe: () => { },
@@ -25,11 +27,10 @@ const store = {
 xdescribe('the <GameBoard /> component', function() {
     var node, component;
 
-    stubComponent(PlayerStats);
-    stubComponent(InnerPlayerStats);
+    stubComponent(PlayerStatsRow);
+    stubComponent(PlayerStatsBox);
     stubComponent(Card);
     stubComponent(CardCollection);
-    stubComponent(PlayerRow);
     stubComponent(GameConfiguration);
 
     beforeEach(function() {

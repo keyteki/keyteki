@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import Avatar from '../Avatar.jsx';
 
-export class PlayerStats extends React.Component {
+export class PlayerStatsRow extends React.Component {
     constructor() {
         super();
 
@@ -47,7 +46,7 @@ export class PlayerStats extends React.Component {
     }
 
     render() {
-        var playerAvatar = (
+        let playerAvatar = (
             <div className='player-avatar state'>
                 <Avatar emailHash={ this.props.user ? this.props.user.emailHash : 'unknown' } />
                 <b>{ this.props.user ? this.props.user.username : 'Noone' }</b>
@@ -55,36 +54,26 @@ export class PlayerStats extends React.Component {
 
         return (
             <div className='panel player-stats'>
-                <div className='stats-row'>
-                    { playerAvatar }
-                    {
-                        this.props.firstPlayer &&
-                        <div className='state first-player-state'>
-                            <img className='first-player-indicator' src='/img/first-player.png' title='First Player' />
-                        </div>
-                    }
-                </div>
+                { playerAvatar }
+                { this.getButton('fate', 'Fate') }
+                { this.getButton('honor', 'Honor') }
                 {
-                    (this.props.otherPlayer || this.props.spectating) ?
-                        <div className='stats-row'>
-                            <div className='state'>
-                                <div className='hand-size'>Hand Size: { this.props.handSize }</div>
-                            </div>
-                            { this.getButton('fate', 'Fate') }
-                            { this.getButton('honor', 'Honor') }
-                        </div> :
-                        <div className='stats-row'>
-                            { this.getButton('fate', 'Fate') }
-                            { this.getButton('honor', 'Honor') }
-                        </div>
+                    this.props.firstPlayer &&
+                    <div className='state first-player-state'>
+                        <img className='first-player-indicator' src='/img/first-player.png' title='First Player' />
+                    </div>
                 }
-                <div className='stats-row'>
+                {
+                    (this.props.otherPlayer || this.props.spectating) &&
                     <div className='state'>
-                        <div className ='hand-size'>
-                            Conflicts Remaining: { this.getStatValueOrDefault('conflictsRemaining') }
-                            { this.getStatValueOrDefault('politicalRemaining') && <span className='icon-political'/> }
-                            { this.getStatValueOrDefault('militaryRemaining') && <span className='icon-military'/> }
-                        </div>
+                        <div className='hand-size'>Hand Size: { this.props.handSize }</div>
+                    </div>
+                }
+                <div className='state'>
+                    <div className='conflicts-remaining'>
+                        Conflicts Remaining: { this.getStatValueOrDefault('conflictsRemaining') }
+                        { this.getStatValueOrDefault('politicalRemaining') && <span className='icon-political'/> }
+                        { this.getStatValueOrDefault('militaryRemaining') && <span className='icon-military'/> }
                     </div>
                 </div>
             </div>
@@ -92,14 +81,11 @@ export class PlayerStats extends React.Component {
     }
 }
 
-PlayerStats.displayName = 'PlayerStats';
-PlayerStats.propTypes = {
-    fate: PropTypes.number,
+PlayerStatsRow.displayName = 'PlayerStatsRow';
+PlayerStatsRow.propTypes = {
     firstPlayer: PropTypes.bool,
     handSize: PropTypes.number,
-    honor: PropTypes.number,
     otherPlayer: PropTypes.bool,
-    playerName: PropTypes.string,
     sendGameMessage: PropTypes.func,
     showControls: PropTypes.bool,
     spectating: PropTypes.bool,
@@ -107,4 +93,4 @@ PlayerStats.propTypes = {
     user: PropTypes.object
 };
 
-export default PlayerStats;
+export default PlayerStatsRow;

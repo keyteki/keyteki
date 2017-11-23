@@ -279,10 +279,32 @@ class InnerProfile extends React.Component {
                             </div>
                             <div className='panel'>
                                 <div className='form-group'>
-                                    <Checkbox name='optionSettings.flipDynasty' noGroup label={ 'Automatically flip dynasty cards' } fieldClass='col-sm-6'
-                                        onChange={ this.onOptionSettingToggle.bind(this, 'flipDynasty') } checked={ this.state.optionSettings.flipDynasty } />
-                                    <Checkbox name='optionSettings.cancelOwnAbilities' noGroup label={ 'Prompt to cancel/react to initiation of my own abilities' } fieldClass='col-sm-6'
-                                        onChange={ this.onOptionSettingToggle.bind(this, 'cancelOwnAbilities') } checked={ this.state.optionSettings.cancelOwnAbilities } />
+                                    <Checkbox
+                                        name='optionSettings.flipDynasty'
+                                        noGroup
+                                        label={ 'Automatically flip dynasty cards' }
+                                        fieldClass='col-sm-6'
+                                        onChange={ this.onOptionSettingToggle.bind(this, 'flipDynasty') }
+                                        checked={ this.state.optionSettings.flipDynasty }
+                                    />
+                                    <Checkbox
+                                        name='optionSettings.cancelOwnAbilities'
+                                        noGroup
+                                        label={ 'Prompt to cancel/react to initiation of my own abilities' }
+                                        fieldClass='col-sm-6'
+                                        onChange={ this.onOptionSettingToggle.bind(this, 'cancelOwnAbilities') }
+                                        checked={ this.state.optionSettings.cancelOwnAbilities } />
+                                    <Checkbox
+                                        name='optionSettings.showStatusInSidebar'
+                                        noGroup
+                                        label={
+                                            'Show player status in the sidebar, instead of horizontal bars.' +
+                                            ' Useful to free up space for cards on smaller screens.'
+                                        }
+                                        fieldClass='col-sm-6'
+                                        onChange={ this.onOptionSettingToggle.bind(this, 'showStatusInSidebar') }
+                                        checked={ this.state.optionSettings.showStatusInSidebar }
+                                    />
                                 </div>
                             </div>
                         </div>

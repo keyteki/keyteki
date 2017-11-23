@@ -8,7 +8,8 @@ import { toastr } from 'react-redux-toastr';
 import { bindActionCreators } from 'redux';
 import Draggable from 'react-draggable';
 
-import PlayerStats from './GameComponents/PlayerStats.jsx';
+import PlayerStatsBox from './GameComponents/PlayerStatsBox.jsx';
+import PlayerStatsRow from './GameComponents/PlayerStatsRow.jsx';
 import PlayerHand from './GameComponents/PlayerHand.jsx';
 import DynastyRow from './GameComponents/DynastyRow.jsx';
 import StrongholdRow from './GameComponents/StrongholdRow.jsx';
@@ -337,15 +338,18 @@ export class InnerGameBoard extends React.Component {
     renderSidebar(thisPlayer, otherPlayer) {
         return (
             <div className='province-pane'>
-                <div className='player-stats-row'>
-                    <PlayerStats
-                        stats={ otherPlayer ? otherPlayer.stats : null }
-                        user={ otherPlayer ? otherPlayer.user : null }
-                        firstPlayer={ otherPlayer && otherPlayer.firstPlayer }
-                        otherPlayer
-                        handSize={ otherPlayer && otherPlayer.cardPiles.hand ? otherPlayer.cardPiles.hand.length : 0 }
-                    />
-                </div>
+                {
+                    thisPlayer.optionSettings.showStatusInSidebar &&
+                    <div className='player-stats-box'>
+                        <PlayerStatsBox
+                            stats={ otherPlayer ? otherPlayer.stats : null }
+                            user={ otherPlayer ? otherPlayer.user : null }
+                            firstPlayer={ otherPlayer && otherPlayer.firstPlayer }
+                            otherPlayer
+                            handSize={ otherPlayer && otherPlayer.cardPiles.hand ? otherPlayer.cardPiles.hand.length : 0 }
+                        />
+                    </div>
+                }
                 { thisPlayer.hideProvinceDeck && <HonorFan value={ otherPlayer ? otherPlayer.showBid + '' : '0' } /> }
                 { thisPlayer.hideProvinceDeck && this.getRings() }
                 { thisPlayer.hideProvinceDeck && <HonorFan value={ thisPlayer.showBid + '' } /> }
@@ -366,17 +370,20 @@ export class InnerGameBoard extends React.Component {
                             size={ this.props.user.settings.cardSize } />
                     </div>
                 }
-                <div className='player-stats-row our-side'>
-                    <PlayerStats
-                        { ...bindActionCreators(actions, this.props.dispatch) }
-                        stats={ thisPlayer.stats }
-                        showControls={ !this.state.spectating }
-                        user={ thisPlayer.user }
-                        firstPlayer={ thisPlayer.firstPlayer }
-                        otherPlayer={ false }
-                        spectating={ this.state.spectating }
-                        handSize={ thisPlayer.cardPiles.hand ? thisPlayer.cardPiles.hand.length : 0 } />
-                </div>
+                {
+                    thisPlayer.optionSettings.showStatusInSidebar &&
+                    <div className='player-stats-box our-side'>
+                        <PlayerStatsBox
+                            { ...bindActionCreators(actions, this.props.dispatch) }
+                            stats={ thisPlayer.stats }
+                            showControls={ !this.state.spectating }
+                            user={ thisPlayer.user }
+                            firstPlayer={ thisPlayer.firstPlayer }
+                            otherPlayer={ false }
+                            spectating={ this.state.spectating }
+                            handSize={ thisPlayer.cardPiles.hand ? thisPlayer.cardPiles.hand.length : 0 } />
+                    </div>
+                }
             </div>
         );
     }
@@ -484,6 +491,18 @@ export class InnerGameBoard extends React.Component {
                 { popup }
                 { this.getPrompt(thisPlayer) }
                 { this.getPlayerHand(thisPlayer) }
+                {
+                    !thisPlayer.optionSettings.showStatusInSidebar &&
+                    <div className='player-stats-row'>
+                        <PlayerStatsRow
+                            stats={ otherPlayer ? otherPlayer.stats : null }
+                            user={ otherPlayer ? otherPlayer.user : null }
+                            firstPlayer={ otherPlayer && otherPlayer.firstPlayer }
+                            otherPlayer
+                            handSize={ otherPlayer && otherPlayer.cardPiles.hand ? otherPlayer.cardPiles.hand.length : 0 }
+                        />
+                    </div>
+                }
                 <div className='main-window'>
                     { this.renderSidebar(thisPlayer, otherPlayer) }
                     <div className='board-middle'>
@@ -589,6 +608,20 @@ export class InnerGameBoard extends React.Component {
                         />
                     </div>
                 </div>
+                {
+                    !thisPlayer.optionSettings.showStatusInSidebar &&
+                    <div className='player-stats-row our-side'>
+                        <PlayerStatsRow
+                            { ...bindActionCreators(actions, this.props.dispatch) }
+                            stats={ thisPlayer.stats }
+                            showControls={ !this.state.spectating }
+                            user={ thisPlayer.user }
+                            firstPlayer={ thisPlayer.firstPlayer }
+                            otherPlayer={ false }
+                            spectating={ this.state.spectating }
+                            handSize={ thisPlayer.cardPiles.hand ? thisPlayer.cardPiles.hand.length : 0 } />
+                    </div>
+                }
             </div>);
     }
 }

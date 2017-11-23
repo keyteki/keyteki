@@ -1,4 +1,4 @@
-.player-stats-row {
+.player-stats-box {
     width: 100%;
 }
 
@@ -57,6 +57,29 @@
     }
 }
 
+.player-stats-row {
+    width: 100%;
+
+    .player-stats {
+        margin: 0;
+        border-radius: 0;
+        padding: 10px 0 10px 5px;
+        position: static;
+        align-items: center;
+        flex-direction: row;
+    }
+
+    .state {
+        flex-grow: 0;
+    }
+
+    &.our-side {
+        .player-stats {
+            flex-direction: row;
+        }
+    }
+}
+
 .statpng {
     transform: rotate(180deg);
 }
@@ -99,6 +122,8 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    line-height: 27px;
+    vertical-align: middle;
 }
 
 .stat-image {
