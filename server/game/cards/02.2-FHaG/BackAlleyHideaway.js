@@ -1,3 +1,5 @@
+const _ = require('underscore');
+
 const Costs = require('../../costs.js');
 const DrawCard = require('../../drawcard.js');
 const DynastyCardAction = require('../../dynastycardaction.js');
@@ -53,12 +55,15 @@ class BackAlleyPlayCharacterAction extends DynastyCardAction {
 
     executeHandler(context) {
         context.game.addMessage('{0} plays {1} from {2} with {3} additional fate', context.player, context.source, context.source.parent, context.chooseFate);
+        // remove this action from the card
+        context.source.abilities.playActions = _.reject(context.source.abilities.playActions, action => action.title === 'Play this character from Back-Alley Hideaway');
+        // remove associations between this card and Back-Alley Hideaway
+        this.backAlleyCard.removeAttachment(context.source);
+        context.source.parent = null;
         context.source.fate = context.chooseFate;
         context.player.putIntoPlay(context.source, false, true);
-        // remove this action from the card
-        context.source.ability.playActions = _.reject(context.source.abilities.playActions, action => action.title === 'Play this character from Back-Alley Hideaway');
         // TODO: create a proper ThenEffect for this
-        context.player.sacrificeCard(this.backAlleyCard);
+        context.game.queueSimpleStep(() => context.player.sacrificeCard(this.backAlleyCard));
     }
 }
 

@@ -1549,9 +1549,11 @@ class Player extends Spectator {
             }
 
             if(card.isConflict || card.isDynasty) {
-                // In normal play, all attachments should already have been removed, but in manual play we may need to remove them
+                // In normal play, all attachments should already have been removed, but in manual play we may need to remove them.
+                // This is also used by Back-Alley Hideaway when it is sacrificed. This won't trigger any leaves play effects
                 card.attachments.each(attachment => {
-                    this.removeAttachment(attachment);
+                    attachment.leavesPlay();
+                    attachment.owner.moveCard(attachment, attachment.isDynasty ? 'dynasty discard pile' : 'conflict discard pile');
                 });
             }
 
@@ -1575,13 +1577,9 @@ class Player extends Spectator {
                 card.facedown = false;
             }
             targetPile.push(card);
-        } else if(targetLocation === 'conflict deck' && !options.bottom) {
+        } else if(['conflict discard pile', 'dynasty discard pile'].includes(targetLocation) && !options.bottom) {
+            // new cards go on the top of the discard pile
             targetPile.unshift(card);
-        } else if(targetLocation === 'dynasty deck' && !options.bottom) {
-            targetPile.unshift(card);
-        } else if(['conflict discard pile', 'dynasty discard pile'].includes(targetLocation)) {
-            targetPile.unshift(card);
-            this.game.raiseEvent('onCardPlaced', { card: card, location: targetLocation });
         } else {
             targetPile.push(card);
         }
