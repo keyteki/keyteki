@@ -140,7 +140,8 @@ class Conflict {
                 });
             } else {
                 this.resolveConflictRing(player);
-            }        
+            }
+            return { resolved: true, success: true };        
         });
     }
     

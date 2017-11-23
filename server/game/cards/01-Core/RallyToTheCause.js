@@ -3,6 +3,7 @@ const ProvinceCard = require('../../provincecard.js');
 class RallyToTheCause extends ProvinceCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Switch the conflict type',
             when: {
                 onProvinceRevealed: event => event.province === this
             },
