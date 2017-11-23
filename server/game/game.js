@@ -1204,7 +1204,7 @@ class Game extends EventEmitter {
      * @returns {Event} - this allows the caller to track Event.resolved and
      * tell whether or not the handler resolved successfully
      */
-    raiseEvent(eventName, params, handler) {
+    raiseEvent(eventName, params = {}, handler) {
         let event = EventBuilder.for(eventName, params, handler);
         this.openEventWindow([event]);
         return event;
