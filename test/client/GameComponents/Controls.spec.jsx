@@ -23,7 +23,7 @@ describe('The <Controls /> component', () => {
 
             expect(buttons.length).toBe(3);
             expect(buttons[0].innerText).toBe(' Toggle Chat');
-            expect(buttons[0].innerText).not.toBeFalsy();
+            expect(buttons[1].innerText).not.toBeFalsy();
             expect(buttons[2].innerText).toBe(' Settings');
         });
     });
@@ -43,7 +43,7 @@ describe('The <Controls /> component', () => {
 
             expect(buttons.length).toBe(3);
             expect(buttons[0].innerText).toBe('');
-            expect(buttons[0].innerText).toBe('');
+            expect(buttons[1].innerText).toBe('');
             expect(buttons[2].innerText).toBe('');
         });
     });
