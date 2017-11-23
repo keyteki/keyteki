@@ -7,6 +7,9 @@ class Event {
         this.cancelled = false;
         this.handler = handler;
         this.window = null;
+        this.thenEvents = [];
+        this.parentEvent = null;
+        this.result = { resolved: false, success: false};
         this.uuid = uuid.v1();
 
         _.extend(this, params);
@@ -42,7 +45,7 @@ class Event {
     
     executeHandler() {
         if(this.handler) {
-            this.resolved = this.handler(...this.params);
+            this.result = this.handler(...this.params) || { resolved: true, success: true};
         }
     }
 }

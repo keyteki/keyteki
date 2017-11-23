@@ -16,7 +16,7 @@ class ShrewdYasuki extends DrawCard {
             },
             handler: () => {
                 this.game.addMessage('{0} uses {1} to look at the top two cards of their conflict deck', this.controller, this);
-                let cards = this.controller.conflictDeck.first(2)
+                let cards = this.controller.conflictDeck.first(2);
                 let handlers = _.map(cards, card => {
                     return () => {
                         this.game.addMessage('{0} takes one card to their hand and puts the other on the bottom of their deck', this.controller);

@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class SakeHouseConfidant extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
     }
 }
 

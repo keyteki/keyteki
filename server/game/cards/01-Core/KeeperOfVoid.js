@@ -4,6 +4,7 @@ const RoleCard = require('../../rolecard.js');
 class KeeperOfVoid extends RoleCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Gain 1 fate',
             when: {
                 afterConflict: event => _.any(event.conflict.elements, element => this.hasTrait(element)) && event.conflict.winner === this.controller && event.conflict.defendingPlayer === this.controller
             },
