@@ -10,7 +10,7 @@ class Misinformation extends DrawCard {
                 this.game.addMessage('{0} plays {1}, giving all {2}\'s participating characters -1/-1', this.controller, this, this.controller.opponent);
                 this.controller.opponent.cardsInPlay.each(card => {
                     if(card.isParticipating()) {
-                        card.untilEndOfConflict(ability => ({
+                        this.untilEndOfConflict(ability => ({
                             match: card,
                             effect: [
                                 ability.effects.modifyMilitarySkill(-1),
