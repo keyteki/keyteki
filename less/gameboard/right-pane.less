@@ -50,13 +50,14 @@
     }
 }
 
-.chat-controls {
+.controls {
     display: flex;
     justify-content: end;
     align-items: center;
     padding: 5px;
 
     .btn {
+        position: relative;
         vertical-align: middle;
 
         i {
@@ -72,7 +73,14 @@
         color: @brand-primary;
     }
 
+    .auto {
+        .glyphicon {
+            color: @strength-color;
+        }
+    }
+
     .with-alert {
+
         i {
             display: block;
             color: @header-background;

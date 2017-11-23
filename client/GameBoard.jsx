@@ -19,7 +19,7 @@ import ActivePlayerPrompt from './GameComponents/ActivePlayerPrompt.jsx';
 import CardZoom from './GameComponents/CardZoom.jsx';
 import Card from './GameComponents/Card.jsx';
 import Chat from './GameComponents/Chat.jsx';
-import ChatControls from './GameComponents/ChatControls.jsx';
+import Controls from './GameComponents/Controls.jsx';
 import CardPile from './GameComponents/CardPile.jsx';
 import GameConfiguration from './GameComponents/GameConfiguration.jsx';
 import { tryParseJSON } from './util.js';
@@ -45,6 +45,7 @@ export class InnerGameBoard extends React.Component {
         this.onDynastyShuffleClick = this.onDynastyShuffleClick.bind(this);
         this.onMenuItemClick = this.onMenuItemClick.bind(this);
         this.onRingMenuItemClick = this.onRingMenuItemClick.bind(this);
+        this.onManualModeClick = this.onManualModeClick.bind(this);
         this.onSettingsClick = this.onSettingsClick.bind(this);
         this.onToggleChatClick = this.onToggleChatClick.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
@@ -346,6 +347,11 @@ export class InnerGameBoard extends React.Component {
         });
     }
 
+    onManualModeClick(event) {
+        event.preventDefault();
+        this.props.sendGameMessage('toggleManualMode');
+    }
+
     getRings() {
         return (<div className='panel ring-panel'>
             <Ring ring={ this.props.currentGame.rings.air } onClick={ this.onRingClick } size={ this.props.user.settings.cardSize } onMenuItemClick={ this.onRingMenuItemClick } />
@@ -623,10 +629,13 @@ export class InnerGameBoard extends React.Component {
                             onMouseOut={ this.onMouseOut }
                             sendMessage={ this.sendMessage }
                         />
-                        <ChatControls
+                        <Controls
                             onSettingsClick={ this.onSettingsClick }
+                            onManualModeClick={ this.onManualModeClick }
                             onToggleChatClick={ this.onToggleChatClick }
                             showChatAlert={ this.state.showChatAlert }
+                            manualModeEnabled={ manualMode }
+                            showManualMode={ !this.state.spectating }
                         />
                     </div>
                 </div>
