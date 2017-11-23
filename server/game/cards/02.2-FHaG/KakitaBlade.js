@@ -15,7 +15,7 @@ class KakitaBlade extends DrawCard {
                 this.game.addMessage('{0} uses {1} to gain 1 honor', this.controller, this);
                 this.game.addHonor(this.controller, 1);
             }
-        })
+        });
     }
 }
 

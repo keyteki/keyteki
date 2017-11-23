@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class WayOfTheLion extends DrawCard {
     setupCardAbilities() {
         this.action({
+            title: 'Double the base mil of a character',
             condition: () => this.game.currentConflict,
             target: {
                 cardType: 'character',
