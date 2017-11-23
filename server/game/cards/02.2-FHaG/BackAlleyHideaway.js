@@ -80,7 +80,7 @@ class BackAlleyHideaway extends DrawCard {
         this.interrupt({
             title: 'Place character in Hideaway',
             when: {
-                onCardLeavesPlay: event => event.card.controller === this.controller && event.card.isFaction('scorpion')
+                onCardLeavesPlay: event => event.card.controller === this.controller && event.card.isFaction('scorpion') && event.card.type === 'character'
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to move {2} into hiding', this.controller, this, context.event.card);

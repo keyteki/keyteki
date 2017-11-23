@@ -364,9 +364,14 @@ class Card extends React.Component {
         let cardIndex = 0;
 
         let cardList = _.map(this.props.card.attachments, card => {
-            let cardKey = card.uuid || cardIndex++;
+            let cardKey = cardIndex++;
+            if(!this.props.isMe) {
+                card = { facedown: true, isDynasty: card.isDynasty, isConflict: card.isConflict };
+            } else {
+                cardKey = card.uuid;
+            }
             return (<Card key={ cardKey } card={ card } source={ this.props.source }
-                disableMouseOver={ this.props.disableMouseOver }
+                disableMouseOver={ this.props.disableMouseOver || !this.props.isMe }
                 onMouseOver={ this.props.onMouseOver }
                 onMouseOut={ this.props.onMouseOut }
                 onTouchMove={ this.props.onTouchMove }
@@ -471,6 +476,7 @@ Card.propTypes = {
     className: PropTypes.string,
     disableMouseOver: PropTypes.bool,
     isInPopup: PropTypes.bool,
+    isMe: PropTypes.bool,
     onClick: PropTypes.func,
     onDragDrop: PropTypes.func,
     onMenuItemClick: PropTypes.func,
