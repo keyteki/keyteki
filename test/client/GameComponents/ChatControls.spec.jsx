@@ -45,6 +45,7 @@ function getExpectedHtml(withLabels = false) {
     return `<div class="chat-controls panel">
                 <button class="btn btn-transparent">
                     <span class="glyphicon glyphicon-menu-hamburger"></span>${withLabels ? ' Toggle Chat' : ''}
+                    <i class="glyphicon glyphicon-exclamation-sign"></i>
                 </button>
                 <button class="btn btn-transparent">
                     <span class="glyphicon glyphicon-cog"></span>${withLabels ? ' Settings' : ''}

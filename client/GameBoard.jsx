@@ -52,6 +52,7 @@ export class InnerGameBoard extends React.Component {
         this.state = {
             cardToZoom: undefined,
             showChat: true,
+            showChatAlert: false,
             showConflictDeck: false,
             showDynastyDeck: false,
             spectating: true,
@@ -66,6 +67,23 @@ export class InnerGameBoard extends React.Component {
 
     componentWillReceiveProps(props) {
         this.updateContextMenu(props);
+        this.notifyOfNewMessages(props);
+    }
+
+    notifyOfNewMessages({ currentGame }) {
+        if(this.props.currentGame && !this.state.showChat) {
+            const currentLength = this.getMessagesFromPlayers(this.props.currentGame.messages || []).length;
+
+            if(currentLength < this.getMessagesFromPlayers(currentGame.messages || []).length) {
+                this.setState({ showChatAlert: true });
+            }
+        }
+    }
+
+    getMessagesFromPlayers(messages) {
+        return messages.filter(
+            (message) => (message.message instanceof Array) && message.message.some((fragment) => !!fragment.name)
+        );
     }
 
     updateContextMenu(props) {
@@ -322,7 +340,10 @@ export class InnerGameBoard extends React.Component {
 
     onToggleChatClick(event) {
         event.preventDefault();
-        this.setState({ showChat: !this.state.showChat });
+        this.setState({
+            showChat: !this.state.showChat,
+            showChatAlert: this.state.showChat && this.state.showChatAlert
+        });
     }
 
     getRings() {
@@ -605,6 +626,7 @@ export class InnerGameBoard extends React.Component {
                         <ChatControls
                             onSettingsClick={ this.onSettingsClick }
                             onToggleChatClick={ this.onToggleChatClick }
+                            showChatAlert={ this.state.showChatAlert }
                         />
                     </div>
                 </div>

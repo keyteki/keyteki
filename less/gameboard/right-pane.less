@@ -59,6 +59,10 @@
     .btn {
         vertical-align: middle;
 
+        i {
+            display: none;
+        }
+
         &:hover .glyphicon {
             color: #fff;
         }
@@ -66,5 +70,16 @@
 
     .glyphicon {
         color: @brand-primary;
+    }
+
+    .with-alert {
+        i {
+            display: block;
+            color: @header-background;
+            position: absolute;
+            top: -5px;
+            right: 0;
+            font-size: 20px;
+        }
     }
 }
