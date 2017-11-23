@@ -3,6 +3,7 @@ const ProvinceCard = require('../../provincecard.js');
 class EndlessPlains extends ProvinceCard {
     setupCardAbilities(ability) {
         this.reaction({
+            title: 'Force opponent to discard a character',
             when: {
                 onConflictDeclared: event => event.conflict.conflictProvince === this && event.conflict.attackers.length > 0
             },
@@ -17,7 +18,7 @@ class EndlessPlains extends ProvinceCard {
             handler: context => {
                 this.game.addMessage('{0} breaks {1}, forcing {2} to discard {3}', this.controller, this, this.controller.opponent, context.target);
                 this.controller.opponent.discardCardFromPlay(context.target);
-             }
+            }
         });
     }
 }

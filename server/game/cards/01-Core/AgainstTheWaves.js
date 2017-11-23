@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class AgainstTheWaves extends DrawCard {
     setupCardAbilities() {
         this.action({
+            title: 'Bow or ready a shugenja',
             target: {
                 cardType: 'character',
                 cardCondition: (card, context) => card.location === 'play area' && card.hasTrait('shugenja') && (card.bowed || card.allowGameAction('bow', context))
