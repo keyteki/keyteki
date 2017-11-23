@@ -1577,7 +1577,9 @@ class Player extends Spectator {
                 card.facedown = false;
             }
             targetPile.push(card);
-        } else if(['conflict discard pile', 'dynasty discard pile'].includes(targetLocation) && !options.bottom) {
+        } else if(['conflict deck', 'dynasty deck'].includes(targetLocation) && !options.bottom) {
+            targetPile.unshift(card);
+        } else if(['conflict discard pile', 'dynasty discard pile'].includes(targetLocation)) {
             // new cards go on the top of the discard pile
             targetPile.unshift(card);
         } else {
