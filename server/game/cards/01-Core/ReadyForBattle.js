@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class ReadyForBattle extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Ready a character',
             when: {
                 onCardBowed: event => (event.card.bowed && event.card.controller === this.controller && event.source && 
                         (event.source.type === 'ring' || event.source.controller !== this.controller))

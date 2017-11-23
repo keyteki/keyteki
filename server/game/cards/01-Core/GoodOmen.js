@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class GoodOmen extends DrawCard {
     setupCardAbilities() {
         this.action({
+            title: 'Add a fate to a character',
             condition: () => this.controller.opponent && this.controller.showBid < this.controller.opponent.showBid,
             target: {
                 cardType: 'character',

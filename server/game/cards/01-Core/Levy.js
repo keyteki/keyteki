@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class Levy extends DrawCard {
     setupCardAbilities() {
         this.action({
+            title: 'Take an honor or a fate from your opponent',
             condition: () => this.controller.opponent,
             target: {
                 player: 'opponent',

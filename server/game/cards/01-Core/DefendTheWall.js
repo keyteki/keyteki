@@ -3,6 +3,7 @@ const ProvinceCard = require('../../provincecard.js');
 class DefendTheWall extends ProvinceCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Resolve the ring effect',
             when: {
                 afterConflict: event => event.conflict.conflictProvince === this && event.conflict.winner === this.controller
             },

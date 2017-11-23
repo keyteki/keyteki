@@ -2,7 +2,7 @@ const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 
 class PolicyDebate extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Initiate a political duel',
             targets: {

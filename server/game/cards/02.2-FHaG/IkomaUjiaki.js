@@ -6,7 +6,7 @@ class IkomaUjiaki extends DrawCard {
         this.action({
             title: 'Put 2 characters into play',
             cost: ability.costs.discardImperialFavor(),
-            condition: () => _.any(['province 1', 'province 2', 'province 3', 'province 4'], location => {
+            condition: () => this.isParticipating() && _.any(['province 1', 'province 2', 'province 3', 'province 4'], location => {
                 let card = this.controller.getDynastyCardInProvince(location);
                 return card.facedown;
             }),
