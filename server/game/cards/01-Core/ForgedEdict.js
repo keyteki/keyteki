@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class ForgedEdict extends DrawCard {
     setupCardAbilities(ability) {
         this.interrupt({
+            title: 'Cancel an event',
             when: {
                 onCardAbilityInitiated: event => event.card.type === 'event'
             },

@@ -1,5 +1,4 @@
 const ProvinceCard = require('../../provincecard.js');
-const _ = require('underscore');
 
 class RiotInTheStreets extends ProvinceCard {
     setupCardAbilities() {

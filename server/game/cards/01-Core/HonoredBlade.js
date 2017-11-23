@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class HonoredBlade extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Gain 1 honor',
             when: {
                 afterConflict: event => event.conflict.isParticipating(this.parent) && event.conflict.winner === this.parent.controller
             },

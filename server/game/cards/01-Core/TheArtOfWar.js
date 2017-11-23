@@ -3,6 +3,7 @@ const ProvinceCard = require('../../provincecard.js');
 class TheArtOfWar extends ProvinceCard {
     setupCardAbilities() {
         this.interrupt({
+            title: 'Draw 3 cards',
             when: {
                 onBreakProvince: event => event.province === this
             },

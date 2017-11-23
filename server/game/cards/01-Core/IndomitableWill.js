@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class IndomitableWill extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Prevent a character from bowing at the end of the conflict',
             when: {
                 afterConflict: event => (event.conflict.winner === this.controller && 
                         ((event.conflict.attackingPlayer === this.controller && event.conflict.attackers.length === 1) || 
