@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class GaijinCustoms extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
     }
 }
 

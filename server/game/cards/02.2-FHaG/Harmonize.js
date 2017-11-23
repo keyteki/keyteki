@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class Harmonize extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Send a character home from each side',
             condition: () => this.controller.isDefendingPlayer(),

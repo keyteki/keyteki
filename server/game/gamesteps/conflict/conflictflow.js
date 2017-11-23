@@ -1,5 +1,7 @@
 const _ = require('underscore');
+const AbilityContext = require('../../AbilityContext');
 const BaseStepWithPipeline = require('../basestepwithpipeline.js');
+const CovertAbility = require('./CovertAbility');
 const SimpleStep = require('../simplestep.js');
 const ConflictActionWindow = require('../conflictactionwindow.js');
 const InitiateConflictPrompt = require('./initiateconflictprompt.js');
@@ -27,6 +29,8 @@ class ConflictFlow extends BaseStepWithPipeline {
             new SimpleStep(this.game, () => this.resetCards()),
             new InitiateConflictPrompt(this.game, this.conflict, this.conflict.attackingPlayer),
             new SimpleStep(this.game, () => this.initiateConflict()),
+            new SimpleStep(this.game, () => this.resolveCovert()),
+            new SimpleStep(this.game, () => this.raiseDeclarationEvents()),
             new SimpleStep(this.game, () => this.announceAttackerSkill()),
             new SimpleStep(this.game, () => this.promptForDefenders()),
             new SimpleStep(this.game, () => this.announceDefenderSkill()),
@@ -51,16 +55,50 @@ class ConflictFlow extends BaseStepWithPipeline {
             return;
         }
         
-        let events = [{
-            name: 'onConflictDeclared',
-            params: { conflict: this.conflict, conflictType: this.conflict.conflictType, conflictRing: this.conflict.conflictRing }
-        }];
-        
         let ring = this.game.rings[this.conflict.conflictRing];
         ring.contested = true;
         this.conflict.addElement(this.conflict.conflictRing);
         this.conflict.attackingPlayer.conflicts.perform(this.conflict.conflictType);
         _.each(this.conflict.attackers, card => card.inConflict = true);
+        this.game.addMessage('{0} is initiating a {1} conflict at {2}, contesting the {3} ring', this.conflict.attackingPlayer, this.conflict.conflictType, this.conflict.conflictProvince, this.conflict.conflictRing);
+    }
+
+    resolveCovert() {
+        if(this.conflict.cancelled || this.conflict.isSinglePlayer) {
+            return;
+        }
+
+        let targets = this.conflict.defendingPlayer.cardsInPlay.filter(card => card.covert);
+        let sources = _.filter(this.conflict.attackers, card => card.isCovert());
+        _.each(targets, card => card.covert = false);
+        if(sources.length > targets.length) {
+            sources = _.first(sources, targets.length);
+        }
+
+        let events = _.map(_.zip(sources, targets), array => {
+            let [source, target] = array;
+            let context = new AbilityContext({ game: this.game, player: this.conflict.attackingPlayer, source: source, ability: new CovertAbility({}) });
+            context.targets.target = target;
+            return {
+                params: { card: source, context: context },
+                handler: () => target.covert = true
+            };
+        });
+
+        this.game.raiseMultipleInitiateAbilityEvents(events);
+    }
+
+    raiseDeclarationEvents() {
+        if(this.conflict.cancelled) {
+            return;
+        }
+
+        let events = [{
+            name: 'onConflictDeclared',
+            params: { conflict: this.conflict, conflictType: this.conflict.conflictType, conflictRing: this.conflict.conflictRing }
+        }];
+
+        let ring = this.game.rings[this.conflict.conflictRing];
         if(ring.fate > 0) {
             events.push({
                 name: 'onSelectRingWithFate',
@@ -73,10 +111,9 @@ class ConflictFlow extends BaseStepWithPipeline {
             });
             this.game.addFate(this.conflict.attackingPlayer, ring.fate);
             ring.removeFate();
+            this.game.addMessage('{0} takes {1} fate from the {2} ring', this.conflict.attackingPlayer, ring.fate, this.conflict.conflictRing);
         }
 
-        this.game.addMessage('{0} is initiating a {1} conflict at {2}, contesting the {3} ring', this.conflict.attackingPlayer, this.conflict.conflictType, this.conflict.conflictProvince, this.conflict.conflictRing);
- 
         if(!this.conflict.isSinglePlayer) {
             this.conflict.conflictProvince.inConflict = true;
             if(this.conflict.conflictProvince.facedown) {
@@ -90,6 +127,7 @@ class ConflictFlow extends BaseStepWithPipeline {
                 });
             }
         }
+
         this.game.reapplyStateDependentEffects();
         this.game.raiseMultipleEvents(events);
     }
@@ -110,16 +148,6 @@ class ConflictFlow extends BaseStepWithPipeline {
             onCancel: () => this.conflict.cancelConflict()
         });
     }
-
-    allowAsAttacker(card) {
-        return this.conflict.attackingPlayer === card.controller && card.canDeclareAsAttacker(this.conflict.conflictType);
-    }
-
-    chooseAttackers(player, attackers) {
-        this.conflict.addAttackers(attackers);
-
-        return true;
-    }
     
     announceAttackerSkill() {
         if(this.conflict.cancelled) {
@@ -137,18 +165,6 @@ class ConflictFlow extends BaseStepWithPipeline {
         }
 
         this.game.queueStep(new SelectDefendersPrompt(this.game, this.conflict.defendingPlayer, this.conflict));
-    }
-
-    allowAsDefender(card) {
-        return this.conflict.defendingPlayer === card.controller && card.canDeclareAsDefender(this.conflict.conflictType);
-    }
-
-    chooseDefenders(defenders) {
-        this.conflict.addDefenders(defenders);
-
-        this.game.raiseEvent('onDefendersDeclared', { conflict: this.conflict });
-
-        return true;
     }
 
     announceDefenderSkill() {
@@ -304,7 +320,10 @@ class ConflictFlow extends BaseStepWithPipeline {
             return;
         }
         if(this.conflict.winner) {
-            this.game.raiseEvent('onClaimRing', { player: this.conflict.winner, conflict: this.conflict }, () => ring.claimRing(this.conflict.winner));
+            this.game.raiseEvent('onClaimRing', { player: this.conflict.winner, conflict: this.conflict }, () => {
+                ring.claimRing(this.conflict.winner);
+                return { resolved: true, success: true };
+            });
 
         }
         //Do this lazily for now

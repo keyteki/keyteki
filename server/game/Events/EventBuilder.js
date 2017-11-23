@@ -1,3 +1,5 @@
+const _ = require('underscore');
+
 const Event = require('./Event');
 const InitiateCardAbilityEvent = require('./InitiateCardAbilityEvent');
 const LeavesPlayEvent = require('./LeavesPlayEvent');
@@ -15,6 +17,16 @@ class EventBuilder {
         let factory = NameToEvent.default;
         if(NameToEvent[name]) {
             factory = NameToEvent[name];
+        }
+
+        if(params.thenEvents) {
+            let thenEvents = _.map(params.thenEvents, event => this.for(event.name, event.params, event.handler));
+            let event = factory(name, _.omit(params, 'thenEvents'), handler);
+            _.each(thenEvents, thenEvent => {
+                thenEvent.parentEvent = event;
+            });
+            event.thenEvents = thenEvents;
+            return event;   
         }
 
         return factory(name, params, handler);

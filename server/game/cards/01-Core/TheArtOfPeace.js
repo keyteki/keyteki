@@ -4,6 +4,7 @@ const ProvinceCard = require('../../provincecard.js');
 class TheArtOfPeace extends ProvinceCard {
     setupCardAbilities() {
         this.interrupt({
+            title: 'Honor all defenders and dishonor all attackers',
             when: {
                 onBreakProvince: event => event.province === this && (event.conflict.attackers.length > 0 || event.conflict.defenders.length > 0)
             },

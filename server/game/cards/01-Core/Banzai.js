@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class Banzai extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
+            title: 'Increase a character\'s military skill',
             condition: () => this.game.currentConflict,
             max: ability.limit.perConflict(1),
             target: {

@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class Breakthrough extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Declare a new conflict',
             when: {
                 onConflictFinished: event => {
                     return (event.conflict.conflictProvince &&
