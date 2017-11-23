@@ -1,7 +1,6 @@
 const _ = require('underscore');
 
 const cards = require('../../../server/game/cards');
-const AbilityLimit = require('../../../server/game/abilitylimit.js');
 const eventNames = [
     'onCardMoved',
     'onCardBlankToggled',
@@ -61,7 +60,7 @@ const eventNames = [
     'onCardPlayed',
     'onDeckShuffled',
     'onDuelResolution'
-]
+];
 
 describe('All Cards:', function() {
     beforeEach(function() {
@@ -140,7 +139,7 @@ describe('All Cards:', function() {
 
                 it('should not have a when property', function() {
                     expect(this.action.when).toBeUndefined();
-                })
+                });
             });    
 
             describe('For each reaction that \'' + cardClass.name + '\' has', function() {
@@ -197,7 +196,7 @@ describe('All Cards:', function() {
 
                 it('should have a legal when property', function() {
                     expect(this.whenPassed).toBe(true);
-                })
+                });
 
                 it('should have an abilityIdentifier', function() {
                     expect(this.reaction.abilityIdentifier).toEqual(jasmine.any(String));
