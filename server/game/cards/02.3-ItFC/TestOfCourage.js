@@ -3,7 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class TestOfCourage extends DrawCard {
     setupCardAbilities() {
         this.action({
-            title: 'Move into conflict',
+            title: 'Move a character into conflict',
             condition: () => this.game.currentConflict && this.controller.opponent && this.controller.showBid < this.controller.opponent.showBid,
             target: {
                 cardType: 'character',
@@ -16,21 +16,18 @@ class TestOfCourage extends DrawCard {
                 let honorEvent = {
                     name: 'onCardHonored',
                     params: { player: this.controller, card: context.target, source: this },
-                    handler: event => {
-                        this.game.addMessage('{0} honors {1}', this, event.card);
-                        event.card.honor();
-                    }
+                    handler: event => event.card.honor()
                 };
                 let moveEvent = {
                     name: 'onMoveToConflict',
                     params: { card: context.target, conflict: this.game.currentConflict, thenEvents: [honorEvent] },
                     handler: event => {
-                        console.log('executing handler')
                         if(this.controller.isAttackingPlayer()) {
                             event.conflict.addAttacker(event.card);
                         } else {
                             event.conflict.addDefender(event.card);
                         }
+                        this.game.addMessage('{0} honors {1}', this, event.card);                        
                         return { resolved: true, success: true };
                     }
                 };
