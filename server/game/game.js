@@ -1226,7 +1226,7 @@ class Game extends EventEmitter {
         if(!_.isArray(events)) {
             events = [events];
         }
-        let window = new ThenEventWindow(this, events)
+        let window = new ThenEventWindow(this, events);
         this.queueStep(window);
         return window;
     }

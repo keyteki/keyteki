@@ -1648,7 +1648,7 @@ class Player extends Spectator {
      */
     dishonorCard(card, source) {
         this.game.raiseEvent('onCardDishonored', { player: this, card: card, source: source }, () => {
-            return { resolved: true, result: card.dishonor() }
+            return { resolved: true, result: card.dishonor() };
         });
     }
 
