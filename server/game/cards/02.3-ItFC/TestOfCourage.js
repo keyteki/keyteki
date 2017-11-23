@@ -36,7 +36,7 @@ class TestOfCourage extends DrawCard {
                     params: { cards: [context.target], conflict: this.game.currentConflict }
                 });
             }
-        })
+        });
     }
 }
 
