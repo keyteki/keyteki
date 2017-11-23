@@ -23,7 +23,7 @@ class MagnificentLighthouse extends DrawCard {
                     this.game.addMessage('{0} uses {1} to look at the top {2} card{3} of {4}\'s conflict deck', this.controller, this, topThree.length, topThree.length === 1 ? '' : 's', this.controller.opponent);                    
                 }
                 let messages = ['{0} places a card on the bottom of the deck', '{0} chooses to discard {1}'];
-                let destinations = [topThree[0].isDynasty ? 'dynasty deck bottom' : 'conflict deck bottom', topThree[0].isDynasty ? 'dynasty discard pile' : 'conflict discard pile']
+                let destinations = [topThree[0].isDynasty ? 'dynasty deck bottom' : 'conflict deck bottom', topThree[0].isDynasty ? 'dynasty discard pile' : 'conflict discard pile'];
                 let choices = [];
                 let handlers = _.map(topThree, card => {
                     return () => {

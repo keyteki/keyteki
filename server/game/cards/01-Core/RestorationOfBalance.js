@@ -3,6 +3,7 @@ const ProvinceCard = require('../../provincecard.js');
 class RestorationOfBalance extends ProvinceCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Force opponent to discard to 4 cards',
             when: {
                 onProvinceRevealed: event => event.province === this && this.controller.opponent.hand.size() > 4
             },

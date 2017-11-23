@@ -7,6 +7,7 @@ describe('CardForcedReaction', function () {
         this.cardSpy = jasmine.createSpyObj('card', ['getType', 'isBlank', 'canTriggerAbilities']);
         this.cardSpy.location = 'play area';
         this.cardSpy.canTriggerAbilities.and.returnValue(true);
+        this.cardSpy.abilities = { reactions: [] };
         this.limitSpy = jasmine.createSpyObj('limit', ['increment', 'isAtMax', 'registerEvents', 'unregisterEvents']);
 
         this.properties = {
