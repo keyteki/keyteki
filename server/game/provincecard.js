@@ -9,9 +9,6 @@ class ProvinceCard extends BaseCard {
         this.strengthModifier = 0;
         this.isProvince = true;
         this.isBroken = false;
-        // This is specifically for Public Forum, may want to consider
-        // a list of statuses if this becomes a more common design space
-        this.hasHonorToken = false;
         this.menu = _([{ command: 'break', text: 'Break/unbreak this province' }, { command: 'hide', text: 'Flip face down' }]);
     }
 
