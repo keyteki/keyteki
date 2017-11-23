@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class WayOfTheCrab extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
+            title: 'Make your opponent sacrifice a character',
             condition: () => this.controller.opponent,
             cost: ability.costs.sacrifice(card => card.type === 'character' && card.isFaction('crab')),
             max: ability.limit.perRound(1),

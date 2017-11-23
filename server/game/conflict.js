@@ -82,7 +82,7 @@ class Conflict {
         });
         this.game.raiseMultipleEvents(events, {
             name: 'onMoveCharactersToConflict',
-            params: { conflict: this, cards: cards },
+            params: { conflict: this, cards: cards }
         });
     }
 
@@ -140,7 +140,8 @@ class Conflict {
                 });
             } else {
                 this.resolveConflictRing(player);
-            }        
+            }
+            return { resolved: true, success: true };        
         });
     }
     
