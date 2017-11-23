@@ -4,6 +4,7 @@ const DrawCard = require('../../drawcard.js');
 class Ambush extends DrawCard {
     setupCardAbilities() {
         this.action({
+            title: 'Put characters from you hand or provinces into play',
             condition: () => this.game.currentConflict,
             target: {
                 mode: 'maxStat',

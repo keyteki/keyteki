@@ -11,7 +11,7 @@ class FrostbittenCrossing extends ProvinceCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to remove all attachments from {2}', this.controller, this, context.target);
-                context.target.removeAllAttachments()
+                context.target.removeAllAttachments();
             }
         });
     }

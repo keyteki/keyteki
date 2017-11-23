@@ -43,7 +43,7 @@ class CardAction extends CardAbility {
         this.events = new EventRegistrar(game, this);
         this.doesNotTarget = properties.doesNotTarget;
         this.activationContexts = [];
-        this.abilityIdentifier = this.printedAbility ? this.card.id + this.card.abilities.actions.length : '';
+        this.abilityIdentifier = this.printedAbility ? this.card.id + this.card.abilities.actions.length.toString() : '';
         this.maxIdentifier = this.card.name + this.abilityIdentifier;
 
         this.cost.push(Costs.useInitiateAction());
@@ -54,7 +54,11 @@ class CardAction extends CardAbility {
     }
 
     meetsRequirements(context) {
-        if(!super.meetsRequirements(context)) {
+        if(!super.meetsRequirements()) {
+            return false;
+        }
+
+        if(!context.player.canInitiateAction) {
             return false;
         }
 
@@ -70,7 +74,7 @@ class CardAction extends CardAbility {
             return false;
         }
 
-        return context.player.canInitiateAction;
+        return this.canResolveTargets(context);
     }
 
     execute(player, arg) {

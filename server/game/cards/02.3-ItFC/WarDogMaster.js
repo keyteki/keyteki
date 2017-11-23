@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class WarDogMaster extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
             title: 'Gain a +X/+0 bonus',
             when: {

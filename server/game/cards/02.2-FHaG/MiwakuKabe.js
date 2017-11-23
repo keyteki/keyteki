@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class MiwakuKabe extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.interrupt({
             title: 'Shuffle this into deck',
             when: {
