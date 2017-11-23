@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class MantraOfWater extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Ready a monk and draw a card',
             when: {
                 onConflictDeclared: event => event.conflictRing === 'water' && event.conflict.attackingPlayer !== this.controller
             },
