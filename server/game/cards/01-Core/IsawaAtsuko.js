@@ -4,7 +4,7 @@ class IsawaAtsuko extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Wield the power of the void',
-            condition: () => this.game.currentConflict && this.game.currentConflict.elements.includes('void'),
+            condition: () => this.game.currentConflict && this.game.currentConflict.hasElement('void'),
             handler: () => {
                 this.game.addMessage('{0} uses {1} to give friendly characters +1/+1 and opposing characters -1/-1', this.controller, this);
                 this.controller.cardsInPlay.each(card => {
