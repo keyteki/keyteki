@@ -14,7 +14,7 @@ class AbilityTargetCard {
     }
 
     getAllLegalTargets(context, pretarget = true) {
-        return this.selector.getAllLegalTargets(context, pretarget)
+        return this.selector.getAllLegalTargets(context, pretarget);
     }
 
     resolve(context, pretarget = false, noCostsFirstButton = false) {

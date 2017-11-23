@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class Assassination extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
+            title: 'Discard a character',
             cost: ability.costs.payHonor(3),
             condition: () => this.game.currentConflict,
             max: ability.limit.perRound(1),

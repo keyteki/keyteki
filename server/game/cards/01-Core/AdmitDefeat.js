@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class AdmitDefeat extends DrawCard {
     setupCardAbilities() {
         this.action({
+            title: 'Bow a character',
             condition: () => this.game.currentConflict && this.game.currentConflict.defenders.length === 1,
             target: {
                 cardType: 'character',
