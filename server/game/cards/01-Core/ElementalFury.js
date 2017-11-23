@@ -3,6 +3,7 @@ const ProvinceCard = require('../../provincecard.js');
 class ElementalFury extends ProvinceCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Switch the contested ring',
             when: {
                 onProvinceRevealed: event => event.province === this
             },

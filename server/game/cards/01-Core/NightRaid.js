@@ -3,6 +3,7 @@ const ProvinceCard = require('../../provincecard.js');
 class NightRaid extends ProvinceCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Force opponent to discard cards equal to the number of attackers',
             when: {
                 onProvinceRevealed: event => event.province === this && this.controller.opponent.hand.size() > 0
             },

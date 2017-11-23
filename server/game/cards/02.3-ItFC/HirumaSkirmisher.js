@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class HirumaSkirmisher extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
             title: 'Gain covert until end of phase',
             when: {
