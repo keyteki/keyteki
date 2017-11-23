@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class Censure extends DrawCard {
     setupCardAbilities() {        
         this.interrupt({
+            title: 'Cancel an event',
             when: {
                 onCardAbilityInitiated: event => event.card.type === 'event' && this.controller.imperialFavor !== ''
             },
