@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class Misinformation extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Give opponent\'s participating cards -1/-1',
             condition: () => this.controller.opponent && this.controller.showBid > this.controller.opponent.showBid + 1 && 

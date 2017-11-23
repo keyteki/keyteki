@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class ICanSwim extends DrawCard {
     setupCardAbilities() {
         this.action({
+            title: 'Discard a dishonored character',
             condition: () => this.game.currentConflict && this.controller.opponent && this.controller.showBid > this.controller.opponent.showBid,
             target: {
                 cardType: 'character',

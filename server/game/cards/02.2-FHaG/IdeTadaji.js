@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class IdeTadaji extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Move characters into conflict',
             condition: () => this.isParticipating() && this.controller.opponent,
@@ -21,7 +21,7 @@ class IdeTadaji extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to move {2} and {3} into the conflict', this.controller, this, context.targets.myChar, context.targets.oppChar);
-                this.game.currentConflict.moveToConflict([context.targets.myChar, context.targets.oppChar])
+                this.game.currentConflict.moveToConflict([context.targets.myChar, context.targets.oppChar]);
             }
         });
     }
