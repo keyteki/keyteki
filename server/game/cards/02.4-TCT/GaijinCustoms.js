@@ -4,7 +4,7 @@ class GaijinCustoms extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Ready a non-unicorn character',
-            condition: () => this.controller.anyCardsInPlay(card => card.isFaction('unicorn')),
+            condition: () => this.controller.findCard(this.controller.cardsInPlay, card => card.isFaction('unicorn')) || this.controller.stronghold.isFaction('unicorn'),
             target: {
                 cardType: 'character',
                 cardCondition: (card) => card.location === 'play area' && !card.isFaction('unicorn') && card.bowed
