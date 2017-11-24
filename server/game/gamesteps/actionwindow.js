@@ -1,3 +1,5 @@
+const _ = require('underscore');
+
 const UiPrompt = require('./uiprompt.js');
 
 class ActionWindow extends UiPrompt {
@@ -10,6 +12,9 @@ class ActionWindow extends UiPrompt {
             this.currentPlayer = this.game.currentConflict.defendingPlayer;
         } else {
             this.currentPlayer = game.getFirstPlayer();
+        }
+        if(this.currentPlayer.opponent && _.any(this.currentPlayer.abilityRestrictions, restriction => restriction.isMatch('takeFirstAction'))) {
+            this.currentPlayer = this.currentPlayer.opponent;
         }
         this.prevPlayerPassed = false;
         this.game.currentActionWindow = this;
