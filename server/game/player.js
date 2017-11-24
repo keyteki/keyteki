@@ -1633,7 +1633,7 @@ class Player extends Spectator {
     }
 
     /**
-     * Raises an avent for an effect honoring a card
+     * Raises an event for an effect honoring a card
      * @param {DrawCard} card 
      * @param {EffectSource} source 
      */
@@ -1644,7 +1644,7 @@ class Player extends Spectator {
     }
 
     /**
-     * Raises an avent for an effect dishonoring a card
+     * Raises an event for an effect dishonoring a card
      * @param {DrawCard} card 
      * @param {EffectSource} source 
      */
@@ -1655,7 +1655,7 @@ class Player extends Spectator {
     }
 
     /**
-     * Raises an avent for an effect bowing a card
+     * Raises an event for an effect bowing a card
      * @param {DrawCard} card 
      * @param {EffectSource} source 
      */
@@ -1672,7 +1672,7 @@ class Player extends Spectator {
     }
 
     /**
-     * Raises an avent for an effect readying a card
+     * Raises an event for an effect readying a card
      * @param {DrawCard} card 
      * @param {EffectSource} source 
      */

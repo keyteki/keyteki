@@ -24,10 +24,9 @@ const LocationsWithEventHandling = ['play area', 'province'];
 
 class BaseCard extends EffectSource {
     constructor(owner, cardData) {
-        super();
+        super(owner.game);
         this.owner = owner;
         this.controller = owner;
-        this.game = this.owner.game;
         this.cardData = cardData;
 
         this.uuid = uuid.v1();
@@ -188,58 +187,6 @@ class BaseCard extends EffectSource {
         }
 
         this.abilities.persistentEffects.push(_.extend({ duration: 'persistent', location: location }, properties));
-    }
-
-    /**
-     * Applies an immediate effect which lasts until the end of the current
-     * conflict.
-     */
-    untilEndOfConflict(propertyFactory) {
-        var properties = propertyFactory(AbilityDsl);
-        this.game.addEffect(this, _.extend({ duration: 'untilEndOfConflict', location: 'any' }, properties));
-    }
-
-    /**
-     * Applies an immediate effect which expires at the end of the current 
-     * conflict. Per game rules this duration is outside of the phase.
-     */
-    atEndOfConflict(propertyFactory) {
-        var properties = propertyFactory(AbilityDsl);
-        this.game.addEffect(this, _.extend({ duration: 'atEndOfConflict', location: 'any' }, properties));
-    }
-
-    /**
-     * Applies an immediate effect which lasts until the end of the phase.
-     */
-    untilEndOfPhase(propertyFactory) {
-        var properties = propertyFactory(AbilityDsl);
-        this.game.addEffect(this, _.extend({ duration: 'untilEndOfPhase', location: 'any' }, properties));
-    }
-
-    /**
-     * Applies an immediate effect which expires at the end of the phase. Per
-     * game rules this duration is outside of the phase.
-     */
-    atEndOfPhase(propertyFactory) {
-        var properties = propertyFactory(AbilityDsl);
-        this.game.addEffect(this, _.extend({ duration: 'atEndOfPhase', location: 'any' }, properties));
-    }
-
-    /**
-     * Applies an immediate effect which lasts until the end of the round.
-     */
-    untilEndOfRound(propertyFactory) {
-        var properties = propertyFactory(AbilityDsl);
-        this.game.addEffect(this, _.extend({ duration: 'untilEndOfRound', location: 'any' }, properties));
-    }
-
-    /**
-     * Applies a lasting effect which lasts until an event contained in the
-     * `until` property for the effect has occurred.
-     */
-    lastingEffect(propertyFactory) {
-        let properties = propertyFactory(AbilityDsl);
-        this.game.addEffect(this, _.extend({ duration: 'custom', location: 'any' }, properties));
     }
 
     doAction(player, arg) {
