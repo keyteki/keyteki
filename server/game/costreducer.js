@@ -9,7 +9,7 @@ class CostReducer {
         this.match = properties.match;
         this.targetCondition = properties.targetCondition;
         this.amount = properties.amount || 1;
-        this.playingTypes = _.isArray(properties.playingTypes) ? properties.playingTypes : [properties.playingTypes];
+        this.playingTypes = properties.playingTypes ? (_.isArray(properties.playingTypes) ? properties.playingTypes : [properties.playingTypes]) : ['play'];
         if(this.limit) {
             this.limit.registerEvents(game);
         }

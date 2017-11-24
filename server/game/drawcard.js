@@ -540,7 +540,8 @@ class DrawCard extends BaseCard {
     }
 
     /**
-     * Removes all attachments from this card.
+     * Removes all attachments from this card. Note that this function (different from remove Attachment)
+     * opens windows for interrupts/reactions
      */
     removeAllAttachments() {
         let events = this.attachments.map(attachment => {
@@ -552,6 +553,11 @@ class DrawCard extends BaseCard {
         this.game.raiseMultipleEvents(events);
     }
 
+    /**
+     * This removes an attachment from this card's attachment Array.  It doesn't open any windows for
+     * game effects to respond to.
+     * @param {DrawCard} attachment 
+     */
     removeAttachment(attachment) {
         this.attachments = _(this.attachments.reject(card => card.uuid === attachment.uuid));
     }
@@ -583,7 +589,8 @@ class DrawCard extends BaseCard {
 
     /**
      * Deals with the engine effects of leaving play, making sure all statuses are removed. Anything which changes
-     * the state of the card should be here.
+     * the state of the card should be here. This is also called in some strange corner cases e.g. for attachments
+     * which aren't actually in play themselves when their parent (which is in play) leaves play.
      */
     leavesPlay() {
         // If this is an attachment and is attached to another card, we need to remove all links between them

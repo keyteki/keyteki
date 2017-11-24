@@ -33,7 +33,7 @@ class IkomaUjiaki extends DrawCard {
                         },
                         onSelect: (player, cards) => {
                             this.game.addMessage('{0} puts {1} into play', player, cards);
-                            player.putIntoPlay(cards, true);
+                            _.each(cards, card => player.putIntoPlay(card, true));
                             return true;
                         }
                     });
