@@ -1467,7 +1467,7 @@ class Player extends Spectator {
      * Marks that this player controls the favor for the relevant conflict type
      * @param {String} conflictType 
      */
-    claimImperialFavor(conflictType) {
+    claimImperialFavor() {
         let handlers = _.map(['military', 'political'], type => {
             return () => {
                 this.imperialFavor = type;
