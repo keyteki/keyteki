@@ -87,8 +87,17 @@
 .our-side {
     .province {
         .popup {
-            bottom: -2px;
-            top: initial;
+            position: absolute;
+            bottom: 100%;
+
+            .inner {
+                min-width: @card-width * 2 + (2 * 5px);
+                min-height: @card-height + (2 * 5px);
+
+                .card-wrapper {
+                    margin: 5px 5px 0 0;
+                }
+            }
 
             .arrow {
                 bottom: 15px;
