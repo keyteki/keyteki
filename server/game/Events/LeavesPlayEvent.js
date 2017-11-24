@@ -18,12 +18,15 @@ class LeavesPlayEvent extends Event {
         // Add an imminent triggering condition for all attachments leaving play
         if(this.card.attachments) {
             this.card.attachments.each(attachment => {
-                let destination = attachment.isDynasty ? 'dynasty discard pile' : 'conflict discard pile';
-                destination = attachment.isAncestral() ? 'hand' : destination;
-                let event = new LeavesPlayEvent({ card: attachment, destination: destination });
-                event.order = this.order - 1;
-                window.addEvent(event);
-                this.contingentEvents.push(event);
+                // we only need to add events for attachments that are in play.
+                if(attachment.location === 'play area') {
+                    let destination = attachment.isDynasty ? 'dynasty discard pile' : 'conflict discard pile';
+                    destination = attachment.isAncestral() ? 'hand' : destination;
+                    let event = new LeavesPlayEvent({ card: attachment, destination: destination });
+                    event.order = this.order - 1;
+                    window.addEvent(event);
+                    this.contingentEvents.push(event);
+                }
             });
         }
         // Add an imminent triggering condition for removing fate
@@ -49,7 +52,7 @@ class LeavesPlayEvent extends Event {
     leavesPlay() {
         this.cardStateWhenLeftPlay.leavesPlayEffects(); 
         this.card.owner.moveCard(this.card, this.destination);
-        return true;
+        return { resolved: true, success: true };
     }
 }
 

@@ -47,6 +47,10 @@ const Costs = {
      */
     sacrificeSelf: () => CostBuilders.sacrifice.self(),
     /**
+     * Cost that will sacrifice a specified card.
+     */
+    sacrificeSpecific: cardFunc => CostBuilders.sacrifice.specific(cardFunc),
+    /**
      * Cost that requires sacrificing a card that matches the passed condition
      * predicate function.
      */
