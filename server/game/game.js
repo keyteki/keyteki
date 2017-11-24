@@ -1327,10 +1327,12 @@ class Game extends EventEmitter {
                 honorDifference = currentPlayer.honorBid - otherPlayer.honorBid;
                 this.transferHonor(currentPlayer, otherPlayer, honorDifference);
                 this.addMessage('{0} gives {1} {2} honor', currentPlayer, otherPlayer, honorDifference);
+                this.raiseEvent('onHonorTradedAfterBid', { giver: currentPlayer, receiver: otherPlayer, amount: honorDifference });
             } else if(otherPlayer.honorBid > currentPlayer.honorBid) {
                 honorDifference = otherPlayer.honorBid - currentPlayer.honorBid;
                 this.transferHonor(otherPlayer, currentPlayer, honorDifference);
                 this.addMessage('{0} gives {1} {2} honor', otherPlayer, currentPlayer, honorDifference);
+                this.raiseEvent('onHonorTradedAfterBid', { giver: otherPlayer, receiver: currentPlayer, amount: honorDifference });
             }
         }
     }
