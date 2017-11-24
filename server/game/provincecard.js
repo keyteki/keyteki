@@ -15,7 +15,7 @@ class ProvinceCard extends BaseCard {
     getStrength() {
         return this.cardData.strength + this.strengthModifier + this.getDynastyOrStrongholdCardModifier();
     }
-    
+
     getDynastyOrStrongholdCardModifier() {
         let province = this.controller.getSourceList(this.location);
         let card = province.find(card => card !== this);
@@ -24,7 +24,7 @@ class ProvinceCard extends BaseCard {
         }
         return 0;
     }
-    
+
     getElement() {
         return this.cardData.element;
     }
@@ -41,7 +41,7 @@ class ProvinceCard extends BaseCard {
     flipFaceup() {
         this.facedown = false;
     }
-    
+
     breakProvince() {
         this.isBroken = true;
     }
@@ -52,7 +52,7 @@ class ProvinceCard extends BaseCard {
         }
         return super.canTriggerAbilities();
     }
-    
+
     getSummary(activePlayer, hideWhenFaceup) {
         let baseSummary = super.getSummary(activePlayer, hideWhenFaceup);
 
