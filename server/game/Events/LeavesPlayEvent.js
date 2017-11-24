@@ -44,12 +44,13 @@ class LeavesPlayEvent extends Event {
     
     preResolutionEffect() {
         this.cardStateWhenLeftPlay = this.card.createSnapshot();
+        // need to do leavesPlayEffects here before any attachments are discarded and we lose their persistent effects
+        this.card.leavesPlayEffects();
     }
 
     leavesPlay() {
-        this.cardStateWhenLeftPlay.leavesPlayEffects(); 
         this.card.owner.moveCard(this.card, this.destination);
-        return true;
+        return { resolved: true, success: true };
     }
 }
 
