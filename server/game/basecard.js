@@ -453,9 +453,9 @@ class BaseCard extends EffectSource {
         }
     }
 
-    addToken(type, number) {
+    addToken(type, number = 1) {
         if(_.isUndefined(this.tokens[type])) {
-            this.tokens[type] = 1;
+            this.tokens[type] = 0;
         }
 
         this.tokens[type] += number;
