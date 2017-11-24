@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import Counter from './Counter.jsx';
 
-class HonorCounter extends Counter {
+class HonorStatusCounter extends Counter {
     render() {
-        var className = 'honorcounter ' + this.props.name;
+        var className = 'honorstatuscounter ' + this.props.name;
 
         if(this.props.cancel) {
             className += ' cancel';
@@ -22,8 +22,8 @@ class HonorCounter extends Counter {
     }
 }
 
-HonorCounter.displayName = 'HonorCounter';
-HonorCounter.propTypes = {
+HonorStatusCounter.displayName = 'HonorStatusCounter';
+HonorStatusCounter.propTypes = {
     cancel: PropTypes.bool,
     dishonored: PropTypes.bool,
     fade: PropTypes.bool,
@@ -33,4 +33,4 @@ HonorCounter.propTypes = {
     value: PropTypes.number
 };
 
-export default HonorCounter;
+export default HonorStatusCounter;
