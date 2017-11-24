@@ -25,7 +25,7 @@ class CardCounters extends React.Component {
                     shortName={ counter.shortName } />);
             }
 
-            if(key === 'card-honor') {
+            if(key === 'card-honor' || key === 'honor') {
                 return (<HonorCounter key={ key } 
                     name={ key } 
                     value={ counter.count } 

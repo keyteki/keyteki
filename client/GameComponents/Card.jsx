@@ -21,6 +21,7 @@ class Card extends React.Component {
         };
 
         this.shortNames = {
+            honor: 'H',
             stand: 'T',
             poison: 'O',
             gold: 'G',
@@ -132,6 +133,7 @@ class Card extends React.Component {
         var counters = {};
 
         counters['card-fate'] = card.fate ? { count: card.fate, fade: card.type === 'attachment', shortName: 'F' } : undefined;
+        counters['card-honor'] = card.honor ? { count: card.honor, fade: card.type === 'attachment', shortName: 'F' } : undefined;
         if(card.isHonored) {
             counters['honor-status'] = { count: 1, fade: card.type === 'attachment', shortName: 'H' };
         } else if(card.isDishonored) {
