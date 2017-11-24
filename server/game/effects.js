@@ -411,6 +411,16 @@ const Effects = {
     playerCannotPlaceFate: playerCannotEffect('placeFate'),
     playerCannotSpendFate: playerCannotEffect('spendFate'),
     playerCannotTakeFirstAction: playerCannotEffect('takeFirstAction'),
+    changePlayerGloryModifier: function(amount) {
+        return {
+            apply: function(player) {
+                player.changeGloryModifier(amount);
+            },
+            unapply: function(player) {
+                player.changeGloryModifier(-amount);
+            }
+        };
+    },
     gainAbility: function(abilityType, properties) {
         return {
             apply: function(card, context) {

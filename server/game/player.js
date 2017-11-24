@@ -48,6 +48,7 @@ class Player extends Spectator {
         this.showBid = 0; // amount shown on the dial
         this.imperialFavor = '';
         this.totalGloryForFavor = 0;
+        this.gloryModifier = 0;
 
 
         this.deck = {};
@@ -1451,9 +1452,13 @@ class Player extends Spectator {
 
         let rings = this.getClaimedRings();
 
-        this.totalGloryForFavor = cardGlory + _.size(rings);
+        this.totalGloryForFavor = cardGlory + _.size(rings) + this.gloryModifier;
 
         return this.totalGloryForFavor;
+    }
+
+    changeGloryModifier(amount) {
+        this.gloryModifier += amount;
     }
 
     /**
