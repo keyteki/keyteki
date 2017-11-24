@@ -17,6 +17,6 @@ class GaijinCustoms extends DrawCard {
     }
 }
 
-GaijinCustoms.id = 'gaijin-customs';    
+GaijinCustoms.id = 'gaijin-customs';
 
 module.exports = GaijinCustoms;
