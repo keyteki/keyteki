@@ -310,10 +310,11 @@ class DrawCard extends BaseCard {
         });
     }
 
-    getMilitarySkill(printed = false) {
+    getMilitarySkill(printed = false, floor = true) {
         /**
          * Get the military skill.
          * @param  {boolean} printed - Use the printed value of the skill; default false
+         * @param  {boolean} floor - Return the value after flooring it at 0; default false
          * @return {integer} The military skill value
          */
         if(printed) {
@@ -330,16 +331,20 @@ class DrawCard extends BaseCard {
             
             let modifiedMilitarySkill = this.baseMilitarySkill + this.militarySkillModifier + skillFromAttachments + this.getSkillFromGlory();
             let multipliedMilitarySkill = Math.round(modifiedMilitarySkill * this.militarySkillMultiplier);
+            if(!floor) {
+                return multipliedMilitarySkill;
+            }
             return Math.max(0, multipliedMilitarySkill);
         }
 
         return null;
     }
 
-    getPoliticalSkill(printed = false) {
+    getPoliticalSkill(printed = false, floor = true) {
         /**
          * Get the political skill.
          * @param  {boolean} printed - Use the printed value of the skill; default false
+         * @param  {boolean} floor - Return the value after flooring it at 0; default false
          * @return {integer} The political skill value
          */
         if(printed) {
@@ -355,6 +360,9 @@ class DrawCard extends BaseCard {
             }, 0);
             let modifiedPoliticalSkill = this.basePoliticalSkill + this.politicalSkillModifier + skillFromAttachments + this.getSkillFromGlory();
             let multipliedPoliticalSkill = Math.round(modifiedPoliticalSkill * this.politicalSkillMultiplier);
+            if(!floor) {
+                return multipliedPoliticalSkill;
+            }
             return Math.max(0, multipliedPoliticalSkill);
         }
 
