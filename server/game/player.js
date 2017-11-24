@@ -1468,7 +1468,18 @@ class Player extends Spectator {
      * @param {String} conflictType 
      */
     claimImperialFavor(conflictType) {
-        this.imperialFavor = conflictType;
+        let handlers = _.map(['military', 'political'], type => {
+            return () => {
+                this.imperialFavor = type;
+                this.game.addMessage('{0} claims the Emperor\'s {1} favor!', this, type);
+            };
+        });
+        this.game.promptWithHandlerMenu(this, {
+            activePromptTitle: 'Which side of the Imperial Favor would you like to claim?',
+            source: 'Imperial Favor',
+            choices: ['Military', 'Political'],
+            handlers: handlers
+        });
     }
 
     /**
