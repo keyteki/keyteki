@@ -15,6 +15,6 @@ class BeforeTheThrone extends ProvinceCard {
     }
 }
 
-BeforeTheThrone.id = 'before-the-throne'
+BeforeTheThrone.id = 'before-the-throne';
 
 module.exports = BeforeTheThrone;
