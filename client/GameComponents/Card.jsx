@@ -139,11 +139,11 @@ class Card extends React.Component {
         var counters = {};
 
         counters['card-fate'] = card.fate ? { count: card.fate, fade: card.type === 'attachment', shortName: 'F' } : undefined;
-        counters['card-honor'] = card.honor ? { count: card.honor, fade: card.type === 'attachment', shortName: 'F' } : undefined;
+        counters['card-honor'] = card.honor ? { count: card.honor, fade: card.type === 'attachment', shortName: 'H' } : undefined;
         if(card.isHonored) {
-            counters['honor-status'] = { count: 1, fade: card.type === 'attachment', shortName: 'H' };
+            counters['honor-status'] = { count: 1, fade: card.type === 'attachment', shortName: 'Hd' };
         } else if(card.isDishonored) {
-            counters['honor-status'] = { count: 2, fade: card.type === 'attachment', shortName: 'D' };
+            counters['honor-status'] = { count: 2, fade: card.type === 'attachment', shortName: 'Dd' };
         } else {
             counters['honor-status'] = undefined;    
         }
