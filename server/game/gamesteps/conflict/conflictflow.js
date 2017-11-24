@@ -109,9 +109,9 @@ class ConflictFlow extends BaseStepWithPipeline {
                     fate: ring.fate
                 }
             });
+            this.game.addMessage('{0} takes {1} fate from the {2} ring', this.conflict.attackingPlayer, ring.fate, this.conflict.conflictRing);
             this.game.addFate(this.conflict.attackingPlayer, ring.fate);
             ring.removeFate();
-            this.game.addMessage('{0} takes {1} fate from the {2} ring', this.conflict.attackingPlayer, ring.fate, this.conflict.conflictRing);
         }
 
         if(!this.conflict.isSinglePlayer) {

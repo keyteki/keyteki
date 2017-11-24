@@ -1,17 +1,21 @@
 class Duel {
-    constructor(game, challenger, target, getSkill) {
+    constructor(game, challenger, target, type) {
         this.game = game;
         this.challenger = challenger;
-        this.challengerTotal = getSkill(challenger);
+        this.challengerTotal = this.getSkillTotal(challenger);
         this.target = target;
-        this.targetTotal = getSkill(target);
-        this.getSkill = getSkill;
+        this.targetTotal = this.getSkillTotal(target);
+        this.type = type;
         this.bidFinished = false;
     }
 
     getSkillTotal(card) {
-        this.game.reapplyStateDependentEffects();
-        return this.getSkill(card) + (this.bidFinished ? parseInt(card.controller.honorBid) : 0);
+        if(this.type === 'military') {
+            return card.getMillitarySkill(false, this.bidFinished) + (this.bidFinished ? parseInt(card.controller.honorBid) : 0);
+        } else if(this.type === 'political') {
+            return card.getPoliticalSkill(false, this.bidFinished) + (this.bidFinished ? parseInt(card.controller.honorBid) : 0);
+        }
+        return null;
     }
 
     isInvolved(card) {

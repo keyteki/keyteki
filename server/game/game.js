@@ -24,7 +24,7 @@ const SelectRingPrompt = require('./gamesteps/selectringprompt.js');
 const EventBuilder = require('./Events/EventBuilder.js');
 const EventWindow = require('./gamesteps/EventWindow.js');
 const ThenEventWindow = require('./gamesteps/ThenEventWindow.js');
-const InitateAbilityEventWindow = require('./gamesteps/InitiateAbilityEventWindow.js');
+const InitiateAbilityEventWindow = require('./gamesteps/InitiateAbilityEventWindow.js');
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const ForcedTriggeredAbilityWindow = require('./gamesteps/forcedtriggeredabilitywindow.js');
 const TriggeredAbilityWindow = require('./gamesteps/triggeredabilitywindow.js');
@@ -1267,7 +1267,7 @@ class Game extends EventEmitter {
      */
     raiseMultipleInitiateAbilityEvents(eventProps) {
         let events = _.map(eventProps, event => EventBuilder.for('onCardAbilityInitiated', event.params, event.handler));
-        this.queueStep(new InitateAbilityEventWindow(this, events));
+        this.queueStep(new InitiateAbilityEventWindow(this, events));
     }
 
     /**
@@ -1401,8 +1401,8 @@ class Game extends EventEmitter {
      * costsas a result of bids (transfering honor is the default)
      * @returns {undefined}
      */
-    initiateDuel(challenger, target, getSkill, resolutionHandler, costHandler = () => this.tradeHonorAfterBid()) {
-        this.currentDuel = new Duel(this, challenger, target, getSkill);
+    initiateDuel(challenger, target, type, resolutionHandler, costHandler = () => this.tradeHonorAfterBid()) {
+        this.currentDuel = new Duel(this, challenger, target, type);
         this.queueStep(new DuelFlow(this, this.currentDuel, costHandler, resolutionHandler));
     }
 
