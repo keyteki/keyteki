@@ -125,7 +125,7 @@ class DrawCard extends BaseCard {
         } else if(actionType === 'ready' && !this.bowed) {
             return false;
         } else if(actionType === 'moveToConflict') {
-            if(!this.game.currentConflict) {
+            if(!this.game.currentConflict || this.isParticipating()) {
                 return false;
             }
             if(this.controller.isAttackingPlayer()) {
@@ -135,6 +135,8 @@ class DrawCard extends BaseCard {
             } else if(!this.canParticipateAsDefender()) {
                 return false;
             }
+        } else if(actionType === 'sendHome' && !this.isParticipating()) {
+            return false;
         }
         return super.allowGameAction(actionType, context);
     }
