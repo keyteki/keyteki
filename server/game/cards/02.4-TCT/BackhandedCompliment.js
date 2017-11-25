@@ -1,10 +1,33 @@
+const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 
 class BackhandedCompliment extends DrawCard {
     setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+        let choices = {};
+        _.each(this.game.getPlayers(), player => {
+            choices[player.name] = () => true;
+        });
+        this.action({
+            title: 'Select a player to lose an honor and draw a card',
+            target: {
+                player: 'self',
+                mode: 'select',
+                choices: choices
+            },
+            handler: context => {
+                let player = this.game.getPlayerByName(context.select);
+                this.game.addHonor(player, -1);
+                player.drawCardsToHand(1);
+                if(player.name === this.controller.name) {                    
+                    this.game.addMessage('{0} uses {1} to lose an honor and draw a card', this.controller, this);
+                } else {                    
+                    this.game.addMessage('{0} uses {1} to make {2} lose an honor and draw a card', this.controller, this, player);
+                }
+            }
+        });
     }
 }
 
-BackhandedCompliment.id = 'backhanded-compliment'; // This is a guess at what the id might be - please check it!!!
+BackhandedCompliment.id = 'backhanded-compliment';
 
 module.exports = BackhandedCompliment;
