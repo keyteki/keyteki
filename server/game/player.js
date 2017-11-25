@@ -1677,7 +1677,7 @@ class Player extends Spectator {
      * @param {EffectSource} source
      */
     bowCards(cards, source) {
-        _.each(cards, card => this.bowCard(card, source))
+        _.each(cards, card => this.bowCard(card, source));
     }
 
     /**

@@ -9,8 +9,8 @@ class GuardiansOfSeikitsu extends ProvinceCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1}.', this.controller, this);
-                let targetChracters = this.game.findAnyCardsInPlay(card => card.getType() === 'character' && card.getCost() <= 2 && card.allowGameAction('bow', context))
-                this.controller.bowCards(targetChracters, this)
+                let targetChracters = this.game.findAnyCardsInPlay(card => card.getType() === 'character' && card.getCost() <= 2 && card.allowGameAction('bow', context));
+                this.controller.bowCards(targetChracters, this);
             }
         });
     }
