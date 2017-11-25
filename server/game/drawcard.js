@@ -531,6 +531,12 @@ class DrawCard extends BaseCard {
         }
         return [];
     }
+
+    removeTrait(trait) {
+        super.removeTrait(trait);
+        // Check to see if losing the trait has meant any of this cards attachments are illegal
+        this.checkForIllegalAttachments();
+    }
     
     checkForIllegalAttachments() {
         this.attachments.each(attachment => {
