@@ -2,7 +2,7 @@ const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 
 class BackhandedCompliment extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities() {
         this.action({
             title: 'Select a player to lose an honor and draw a card',
             target: {
