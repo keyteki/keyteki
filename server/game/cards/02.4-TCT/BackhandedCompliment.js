@@ -3,16 +3,12 @@ const DrawCard = require('../../drawcard.js');
 
 class BackhandedCompliment extends DrawCard {
     setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
-        let choices = {};
-        _.each(this.game.getPlayers(), player => {
-            choices[player.name] = () => true;
-        });
         this.action({
             title: 'Select a player to lose an honor and draw a card',
             target: {
                 player: 'self',
                 mode: 'select',
-                choices: choices
+                choices: _.extend({}, ..._.map(this.game.getPlayers(), player => ({[player.name]: () => true})))
             },
             handler: context => {
                 let player = this.game.getPlayerByName(context.select);
