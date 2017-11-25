@@ -398,6 +398,7 @@ const Effects = {
     cardCannotTriggerAbilities: cardCannotEffect('triggerAbilities'),
     cannotBeTargeted: cardCannotEffect('target'),
     cannotBeBowed: cardCannotEffect('bow'),
+    cannotBeReadied: cardCannotEffect('ready'),
     cannotBeMovedIntoConflict: cardCannotEffect('moveToConflict'),
     cannotBeSentHome: cardCannotEffect('sendHome'),
     cannotMoveCharactersIntoConflict: playerCannotEffect('moveToConflict'),
