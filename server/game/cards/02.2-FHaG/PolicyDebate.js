@@ -17,7 +17,7 @@ class PolicyDebate extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} plays {1} - {2} challenges {3} to a political duel!', this.controller, this, context.targets.challenger, context.targets.duelTarget);
-                this.game.initiateDuel(context.targets.challenger, context.targets.duelTarget, card => card.getPoliticalSkill(), (winner, loser) => {
+                this.game.initiateDuel(context.targets.challenger, context.targets.duelTarget, 'political', (winner, loser) => {
                     this.game.addMessage('{0} wins the duel - {1} reveals their hand: {2}', winner, loser.controller, loser.controller.hand.sortBy(card => card.name));
                     this.game.promptWithHandlerMenu(winner.controller, {
                         activePromptTitle: 'Choose card to discard',

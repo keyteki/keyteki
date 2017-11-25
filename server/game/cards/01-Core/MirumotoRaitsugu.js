@@ -11,7 +11,7 @@ class MirumotoRaitsugu extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to challenge {2} to a duel', this.controller, this, context.target);
-                this.game.initiateDuel(this, context.target, card => parseInt(card.getMilitarySkill()), (winner, loser) => {
+                this.game.initiateDuel(this, context.target, 'military', (winner, loser) => {
                     if(loser.fate > 0) {
                         this.game.addMessage('{0} wins the duel, and {1} loses a fate', winner, loser);
                         loser.modifyFate(-1);

@@ -48,6 +48,10 @@ class Event {
             this.result = this.handler(...this.params) || { resolved: true, success: true};
         }
     }
+
+    replaceHandler(newHandler) {
+        this.handler = newHandler;
+    }
 }
 
 module.exports = Event;
