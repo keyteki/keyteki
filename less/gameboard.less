@@ -206,20 +206,20 @@
   position: relative;
   justify-content: center;
   align-items: center;
-  
+
   &.hidden {
       display: none;
     }
 }
 
 .imperial-favor {
- 
+
   height: @card-height;
   width: @card-width;
   position: relative;
   justify-content: center;
   align-items: center;
-  
+
   &.hidden {
       display: none;
   }
@@ -281,8 +281,17 @@
 .our-side {
   .province {
     .popup {
-      bottom: -2px;
-      top: initial;
+      position: absolute;
+      bottom: 100%;
+
+      .inner {
+        min-width: @card-width * 2 + (2 * 5px);
+        min-height: @card-height + (2 * 5px);
+  
+        .card-wrapper {
+          margin: 5px 5px 0 0;
+        }
+      }
 
       .arrow {
         bottom: 15px;
@@ -785,13 +794,13 @@ img.honor-fan-value {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center; 
-  width: 150px; 
+  align-items: center;
+  width: 150px;
 }
 
 .ring {
   position: relative;
-  flex: 1;  
+  flex: 1;
 }
 
 .ring-info {
@@ -869,7 +878,7 @@ div.placeholder .panel-header {
   &.our-side {
     justify-content: flex-start;
   }
- 
+
   .popup {
     position: absolute;
     min-height: 92px;

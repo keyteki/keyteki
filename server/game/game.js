@@ -23,7 +23,8 @@ const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 const SelectRingPrompt = require('./gamesteps/selectringprompt.js');
 const EventBuilder = require('./Events/EventBuilder.js');
 const EventWindow = require('./gamesteps/EventWindow.js');
-const InitateAbilityEventWindow = require('./gamesteps/InitiateAbilityEventWindow.js');
+const ThenEventWindow = require('./gamesteps/ThenEventWindow.js');
+const InitiateAbilityEventWindow = require('./gamesteps/InitiateAbilityEventWindow.js');
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const ForcedTriggeredAbilityWindow = require('./gamesteps/forcedtriggeredabilitywindow.js');
 const TriggeredAbilityWindow = require('./gamesteps/triggeredabilitywindow.js');
@@ -1203,7 +1204,7 @@ class Game extends EventEmitter {
      * @returns {Event} - this allows the caller to track Event.resolved and
      * tell whether or not the handler resolved successfully
      */
-    raiseEvent(eventName, params, handler) {
+    raiseEvent(eventName, params = {}, handler) {
         let event = EventBuilder.for(eventName, params, handler);
         this.openEventWindow([event]);
         return event;
@@ -1219,6 +1220,15 @@ class Game extends EventEmitter {
             events = [events];
         }
         this.queueStep(new EventWindow(this, events));
+    }
+
+    openThenEventWindow(events) {
+        if(!_.isArray(events)) {
+            events = [events];
+        }
+        let window = new ThenEventWindow(this, events);
+        this.queueStep(window);
+        return window;
     }
 
     /**
@@ -1253,7 +1263,7 @@ class Game extends EventEmitter {
      */
     raiseMultipleInitiateAbilityEvents(eventProps) {
         let events = _.map(eventProps, event => EventBuilder.for('onCardAbilityInitiated', event.params, event.handler));
-        this.queueStep(new InitateAbilityEventWindow(this, events));
+        this.queueStep(new InitiateAbilityEventWindow(this, events));
     }
 
     /**
@@ -1380,15 +1390,15 @@ class Game extends EventEmitter {
      * of bids, and then resolves the outcome
      * @param {DrawCard} source - card which initiated the duel
      * @param {DrawCard} target - other card partipating in duel
-     * @param {Function} getSkill = card => Int // gets the skill to add to bid
+     * @param {String} type = 'military' or 'political' // gets the skill to add to bid
      * @param {Function} resolutionHandler - (winner, loser) => undefined //
      * function which deals with any effects due to winning/losing the duel
-     * @param {type} costHandler - () => undefined // function which resolves 
+     * @param {Function} costHandler - () => undefined // function which resolves 
      * costsas a result of bids (transfering honor is the default)
      * @returns {undefined}
      */
-    initiateDuel(challenger, target, getSkill, resolutionHandler, costHandler = () => this.tradeHonorAfterBid()) {
-        this.currentDuel = new Duel(this, challenger, target, getSkill);
+    initiateDuel(challenger, target, type, resolutionHandler, costHandler = () => this.tradeHonorAfterBid()) {
+        this.currentDuel = new Duel(this, challenger, target, type);
         this.queueStep(new DuelFlow(this, this.currentDuel, costHandler, resolutionHandler));
     }
 

@@ -93,13 +93,13 @@ describe('Player', function() {
                     this.attachment.parent = this.card;
                     this.attachment.location = 'play area';
                     this.card.attachments.push(this.attachment);
-                    spyOn(this.player, 'removeAttachment');
+                    spyOn(this.attachment, 'leavesPlay');
 
                     this.player.moveCard(this.card, 'hand');
                 });
 
                 it('should remove the attachments', function() {
-                    expect(this.player.removeAttachment).toHaveBeenCalledWith(this.attachment);
+                    expect(this.attachment.leavesPlay).toHaveBeenCalled();
                 });
             });
 

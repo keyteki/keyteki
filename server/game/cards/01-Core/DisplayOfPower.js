@@ -4,6 +4,7 @@ const EventRegistrar = require('../../eventregistrar.js');
 class DisplayOfPower extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Cancel opponent\'s ring effect and claim and resolve the ring',
             when: {
                 afterConflict: event => event.conflict.loser === this.controller && event.conflict.conflictUnopposed
             },

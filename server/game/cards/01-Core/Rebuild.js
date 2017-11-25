@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class Rebuild extends DrawCard {
     setupCardAbilities() {
         this.action({
+            title: 'Put a holding into play from your discard',
             targets: {
                 cardToShuffle: {
                     activePromptTitle: 'Choose a card to shuffle into your deck',

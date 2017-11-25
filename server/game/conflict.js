@@ -46,24 +46,36 @@ class Conflict {
     }
 
     addAttackers(attackers) {
-        this.attackers = this.attackers.concat(attackers);
-        this.markAsParticipating(attackers);
-        this.calculateSkill();
+        attackers = _.reject(attackers, card => this.isAttacking(card));
+        if(attackers.length > 0) {
+            this.attackers = this.attackers.concat(attackers);
+            this.markAsParticipating(attackers);
+            this.calculateSkill();
+        }
     }
 
     addAttacker(attacker) {
+        if(this.attackers.includes(attacker)) {
+            return;
+        }
         this.attackers.push(attacker);
         this.markAsParticipating([attacker]);
         this.calculateSkill();
     }
 
     addDefenders(defenders) {
-        this.defenders = this.defenders.concat(defenders);
-        this.markAsParticipating(defenders);
-        this.calculateSkill();
+        defenders = _.reject(defenders, card => this.isDefending(card));
+        if(defenders.length > 0) {
+            this.defenders = this.defenders.concat(defenders);
+            this.markAsParticipating(defenders);
+            this.calculateSkill();
+        }
     }
 
     addDefender(defender) {
+        if(this.defenders.includes(defender)) {
+            return;
+        }
         this.defenders.push(defender);
         this.markAsParticipating([defender]);
         this.calculateSkill();
@@ -140,7 +152,8 @@ class Conflict {
                 });
             } else {
                 this.resolveConflictRing(player);
-            }        
+            }
+            return { resolved: true, success: true };        
         });
     }
     

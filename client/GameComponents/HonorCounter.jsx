@@ -16,8 +16,8 @@ class HonorCounter extends Counter {
         }
         
         return (<div key={ this.props.name } className={ className }>
-            { this.props.honored ? <img src='/img/honor-stone.png' title='Honored' alt='Honored' /> : null }
-            { this.props.dishonored ? <img src='/img/dishonor-stone.png' title='Dishonored' alt='Dishonored' /> : null }
+            <img src='/img/Honor.png' title='Honor' alt='Honor' />
+            <div className='honorcountertext'> { this.props.value } </div>
         </div>);
     }
 }
@@ -25,9 +25,7 @@ class HonorCounter extends Counter {
 HonorCounter.displayName = 'HonorCounter';
 HonorCounter.propTypes = {
     cancel: PropTypes.bool,
-    dishonored: PropTypes.bool,
     fade: PropTypes.bool,
-    honored: PropTypes.bool,
     name: PropTypes.string.isRequired,
     shortName: PropTypes.string,
     value: PropTypes.number

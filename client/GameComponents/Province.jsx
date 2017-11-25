@@ -94,6 +94,8 @@ class Province extends React.Component {
                     onMenuItemClick={ this.props.onMenuItemClick }
                     onDragDrop={ this.props.onDragDrop } size={ this.props.size } /> : null }
                 { dynastyCard ? <Card className={ cardClassName } card={ dynastyCard } source={ this.props.source }
+                    popupLocation={ this.props.popupLocation }
+                    isMe={ this.props.isMe }
                     onMouseOver={ this.props.onMouseOver }
                     onMouseOut={ this.props.onMouseOut }
                     disableMouseOver={ dynastyCard.facedown }
