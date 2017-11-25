@@ -43,7 +43,7 @@ class EffectEngine {
         let newArea = event.newLocation === 'hand' ? 'hand' : 'play area';
         this.removeTargetFromEffects(event.card, event.originalLocation);
         this.unapplyAndRemove(effect => effect.duration === 'persistent' && effect.source === event.card && (effect.location === event.originalLocation || event.parentChanged));
-        // Any lasting effects should be removed when this card leaves play
+        // Any lasting effects on this card should be removed when it leaves play
         this.unapplyAndRemove(effect => effect.match === event.card && effect.location !== 'any');
         this.addTargetForPersistentEffects(event.card, newArea);
     }
