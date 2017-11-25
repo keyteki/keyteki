@@ -16,6 +16,6 @@ class GuardiansOfSeikitsu extends ProvinceCard {
     }
 }
 
-GuardiansOfSeikitsu.id = 'frostbitten-crossing';
+GuardiansOfSeikitsu.id = 'guardians-of-seikitsu';
 
 module.exports = GuardiansOfSeikitsu;
