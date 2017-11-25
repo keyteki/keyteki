@@ -220,6 +220,10 @@ class Card extends React.Component {
     }
 
     showCounters() {
+        if(_.contains(['province 1','province 2','province 3','province 4','stronghold province'], this.props.source) && this.props.card.type === 'province') {
+            return true;
+        }
+
         if(this.props.source !== 'play area' && this.props.source !== 'faction' && this.props.source !== 'revealed plots') {
             return false;
         }
