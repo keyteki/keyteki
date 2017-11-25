@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class SealOfThePhoenix extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
         this.whileAttached({
             effect: [
                 ability.effects.addFaction('phoenix'),
