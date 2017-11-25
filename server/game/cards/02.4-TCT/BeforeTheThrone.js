@@ -1,7 +1,7 @@
 const ProvinceCard = require('../../provincecard.js');
 
 class BeforeTheThrone extends ProvinceCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities() {
         this.interrupt({
             title: 'Take 2 honor',
             when: {
@@ -12,7 +12,7 @@ class BeforeTheThrone extends ProvinceCard {
                 if(this.controller.opponent) {
                     this.game.transferHonor(this.game.getOtherPlayer(this.controller), this.controller, 2);
                 } else {
-                    this.game.addHonor(2);
+                    this.game.addHonor(this.controller, 2);
                 }
             }
         });
