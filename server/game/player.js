@@ -1672,6 +1672,15 @@ class Player extends Spectator {
     }
 
     /**
+     * Bows multiple cards
+     * @param {[DrawCard]} cards
+     * @param {EffectSource} source
+     */
+    bowCards(cards, source) {
+        _.each(cards, card => this.bowCard(card, source))
+    }
+
+    /**
      * Raises an avent for an effect readying a card
      * @param {DrawCard} card 
      * @param {EffectSource} source 
