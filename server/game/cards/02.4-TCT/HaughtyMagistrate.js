@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class HaughtyMagistrate extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
         this.persistentEffect({
             condition: () => this.isAttacking(),
             match: card => card.isParticipating() && card.getGlory() < this.getGlory() && card !== this,
