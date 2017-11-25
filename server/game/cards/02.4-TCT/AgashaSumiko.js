@@ -1,10 +1,15 @@
 const DrawCard = require('../../drawcard.js');
 
 class AgashaSumiko extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            match: this,
+            condition: this.controller.imperialFavor !== '',
+            effect: ability.effects.doesNotBowAsAttacker
+        });
     }
 }
 
-AgashaSumiko.id = 'agasha-sumiko'; // This is a guess at what the id might be - please check it!!!
+AgashaSumiko.id = 'agasha-sumiko';
 
 module.exports = AgashaSumiko;
