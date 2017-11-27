@@ -14,6 +14,7 @@ class AkodoToshiro extends DrawCard {
                 this.untilEndOfConflict(ability => ({
                     match: card => card.isProvince,
                     targetLocation: 'province',
+                    targetController: 'any',
                     effect: ability.effects.cannotBeBroken()
                 }));
                 this.untilEndOfConflict(ability => ({
