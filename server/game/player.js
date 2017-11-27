@@ -1469,8 +1469,19 @@ class Player extends Spectator {
      * Marks that this player controls the favor for the relevant conflict type
      * @param {String} conflictType
      */
-    claimImperialFavor(conflictType) {
-        this.imperialFavor = conflictType;
+    claimImperialFavor() {
+        let handlers = _.map(['military', 'political'], type => {
+            return () => {
+                this.imperialFavor = type;
+                this.game.addMessage('{0} claims the Emperor\'s {1} favor!', this, type);
+            };
+        });
+        this.game.promptWithHandlerMenu(this, {
+            activePromptTitle: 'Which side of the Imperial Favor would you like to claim?',
+            source: 'Imperial Favor',
+            choices: ['Military', 'Political'],
+            handlers: handlers
+        });
     }
 
     /**
@@ -1648,7 +1659,7 @@ class Player extends Spectator {
     /**
      * Raises an avent for an effect dishonoring a card
      * @param {DrawCard} card
-     * @param {EffectSource} source
+     * @param {EffectSource} source 
      */
     dishonorCard(card, source) {
         this.game.raiseEvent('onCardDishonored', { player: this, card: card, source: source }, () => {
