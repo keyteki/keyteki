@@ -33,7 +33,7 @@ class DuelFlow extends BaseStepWithPipeline {
     }
 
     modifyDuelingSkill() {
-        this.duel.setBidFinished();
+        this.duel.modifyDuelingSkill();
     }
 
     determineResults() {
@@ -58,6 +58,7 @@ class DuelFlow extends BaseStepWithPipeline {
 
     cleanUpDuel() {
         this.game.currentDuel = null;
+        this.game.raiseEvent('onDuelFinished', { duel: this.duel });
     }
 }
 
