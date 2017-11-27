@@ -9,14 +9,13 @@ class FavorableGround extends DrawCard {
             target: {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',
-                gameAction: 'moveToConflict',
-                cardCondition: card => card.location === 'play area' && card.controller === this.controller
+                cardCondition: card => card.location === 'play area' && card.controller === this.controller && (card.allowGameAction('sendHome') || card.allowGameAction('moveToConflict'))
             },
             handler: context => {
-                if(context.target.inConflict) {
+                if(context.target.inConflict && context.target.allowGameAction('sendHome')) {
                     this.game.currentConflict.sendHome(context.target);
                     this.game.addMessage('{0} sacrifices {1} to send {2} home', this.controller, this, context.target);
-                } else {
+                } else if(context.target.allowGameAction('moveToConflict')) {
                     this.game.currentConflict.moveToConflict(context.target);
                     this.game.addMessage('{0} sacrifices {1} to move {2} into the conflict', this.controller, this, context.target);
                 }
