@@ -1,6 +1,10 @@
+const _ = require('underscore');
+const EffectSource = require('./EffectSource.js');
+
 class Duel {
     constructor(game, challenger, target, type) {
         this.game = game;
+        this.source = new EffectSource(game);
         this.challenger = challenger;
         this.challengerTotal = this.getSkillTotal(challenger);
         this.target = target;
@@ -11,9 +15,9 @@ class Duel {
 
     getSkillTotal(card) {
         if(this.type === 'military') {
-            return card.getMilitarySkill(false, this.bidFinished) + (this.bidFinished ? parseInt(card.controller.honorBid) : 0);
+            return card.getMilitarySkill(false, this.bidFinished);
         } else if(this.type === 'political') {
-            return card.getPoliticalSkill(false, this.bidFinished) + (this.bidFinished ? parseInt(card.controller.honorBid) : 0);
+            return card.getPoliticalSkill(false, this.bidFinished);
         }
         return null;
     }
@@ -26,8 +30,23 @@ class Duel {
         return this.challenger.name + ': ' + this.getSkillTotal(this.challenger).toString() + ' vs ' + this.getSkillTotal(this.target).toString() + ': ' + this.target.name;
     }
 
-    setBidFinished() {
+    modifyDuelingSkill() {
         this.bidFinished = true;
+        if(this.type === 'military') {
+            _.each([this.challenger, this.target], card => {
+                this.source.untilEndOfDuel(ability => ({
+                    match: card,
+                    effect: ability.effects.modifyMilitarySkill(parseInt(card.controller.honorBid))
+                }));
+            });
+        } else if(this.type === 'political') {
+            _.each([this.challenger, this.target], card => {
+                this.source.untilEndOfDuel(ability => ({
+                    match: card,
+                    effect: ability.effects.modifyPoliticalSkill(parseInt(card.controller.honorBid))
+                }));
+            });
+        }
     }
 
     determineResult() {

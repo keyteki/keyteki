@@ -12,7 +12,7 @@ const capitalize = {
 
 class RingSource extends EffectSource {
     constructor(player, ring) {
-        super();
+        super(player.game);
         this.controller = player;
         this.ring = ring;
         this.element = ring.element;
