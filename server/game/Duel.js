@@ -15,7 +15,7 @@ class Duel {
 
     getSkillTotal(card) {
         if(this.type === 'military') {
-            return card.getMillitarySkill(false, this.bidFinished);
+            return card.getMilitarySkill(false, this.bidFinished);
         } else if(this.type === 'political') {
             return card.getPoliticalSkill(false, this.bidFinished);
         }
