@@ -12,6 +12,7 @@ class KaiuInventor extends DrawCard {
                 this.game.addMessage('{0} uses {1} to add an additional use to each of {2}\'s abilities', this.controller, this, context.target);
                 this.lastingEffect(ability => ({
                     match: context.target,
+                    targetLocation: 'province',
                     until: {},
                     effect: ability.effects.increaseLimitOnAbilities(1)
                 }));
