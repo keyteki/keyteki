@@ -3,18 +3,24 @@ const DrawCard = require('../../drawcard.js');
 
 class BackhandedCompliment extends DrawCard {
     setupCardAbilities() {
+        let choices = {
+            "Me": () => true
+        }
+        if(this.controller.opponent) {
+            choices["My Opponent"] = () => true;
+        }
         this.action({
             title: 'Select a player to lose an honor and draw a card',
             target: {
                 player: 'self',
                 mode: 'select',
-                choices: _.extend({}, ..._.map(this.game.getPlayers(), player => ({[player.name]: () => true})))
+                choices: choices
             },
             handler: context => {
-                let player = this.game.getPlayerByName(context.select);
+                let player = context.select === "Me" ? this.controller : this.controller.opponent;
                 this.game.addHonor(player, -1);
                 player.drawCardsToHand(1);
-                if(player.name === this.controller.name) {                    
+                if(context.select === "Me") {                    
                     this.game.addMessage('{0} uses {1} to lose an honor and draw a card', this.controller, this);
                 } else {                    
                     this.game.addMessage('{0} uses {1} to make {2} lose an honor and draw a card', this.controller, this, player);
