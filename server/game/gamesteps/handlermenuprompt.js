@@ -21,12 +21,12 @@ class HandlerMenuPrompt extends UiPrompt {
         super(game);
         this.player = player;
         if(_.isString(properties.source)) {
-            properties.source = new EffectSource(properties.source);
+            properties.source = new EffectSource(game, properties.source);
         }
         if(properties.source && !properties.waitingPromptTitle) {
             properties.waitingPromptTitle = 'Waiting for opponent to use ' + properties.source.name;
         } else if(!properties.source) {
-            properties.source = new EffectSource();
+            properties.source = new EffectSource(game);
         }
         this.properties = properties;
     }
