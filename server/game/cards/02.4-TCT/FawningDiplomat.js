@@ -8,7 +8,7 @@ class FawningDiplomat extends DrawCard {
                 onCardLeavesPlay: event => event.card === this
             },
             handler: () => {
-                this.controller.claimImperialFavor()
+                this.controller.claimImperialFavor();
             }
         });
     }
