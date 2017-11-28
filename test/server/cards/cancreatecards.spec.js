@@ -59,7 +59,8 @@ const eventNames = [
     'onSendCharactersHome',
     'onCardPlayed',
     'onDeckShuffled',
-    'onDuelResolution'
+    'onDuelResolution',
+    'onDynastyCardTurnedFaceup'
 ];
 
 describe('All Cards:', function() {
