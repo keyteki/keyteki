@@ -1,13 +1,12 @@
-const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 
 class BackhandedCompliment extends DrawCard {
     setupCardAbilities() {
         let choices = {
-            "Me": () => true
-        }
+            'Me': () => true
+        };
         if(this.controller.opponent) {
-            choices["My Opponent"] = () => true;
+            choices['My Opponent'] = () => true;
         }
         this.action({
             title: 'Select a player to lose an honor and draw a card',
@@ -17,10 +16,10 @@ class BackhandedCompliment extends DrawCard {
                 choices: choices
             },
             handler: context => {
-                let player = context.select === "Me" ? this.controller : this.controller.opponent;
+                let player = context.select === 'Me' ? this.controller : this.controller.opponent;
                 this.game.addHonor(player, -1);
                 player.drawCardsToHand(1);
-                if(context.select === "Me") {                    
+                if(context.select === 'Me') {                    
                     this.game.addMessage('{0} uses {1} to lose an honor and draw a card', this.controller, this);
                 } else {                    
                     this.game.addMessage('{0} uses {1} to make {2} lose an honor and draw a card', this.controller, this, player);
