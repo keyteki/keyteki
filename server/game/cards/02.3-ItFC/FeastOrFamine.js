@@ -5,7 +5,7 @@ class FeastOrFamine extends ProvinceCard {
         this.interrupt({
             title: 'Move fate from an opposing character',
             when: {
-                onBreakProvince: event => event.province === this
+                onBreakProvince: event => event.province === this && this.controller.cardsInPlay.any(card => card.fate === 0)
             },
             target: {
                 cardType: 'character',
