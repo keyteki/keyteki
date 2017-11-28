@@ -8,14 +8,14 @@ class MountaintopStatuary extends DrawCard {
                 onDynastyCardTurnedFaceup: event => event.card === this
             },
             handler: () => {
-                this.game.addMessage('{0} uses {1} to move {1} to their stronghold province', this.controller, this);
+                this.game.addMessage('{0} uses {1}, moving it to their stronghold province', this.controller, this);
                 this.controller.moveCard(this, 'stronghold province');
             }
         });
         this.action({
             title: 'Send a 2 or lower cost character home',
             cost: ability.costs.sacrificeSelf(),
-            condition: () => this.game.currentConflict && this.game.currentConflict.conflictProvince === this,
+            condition: () => this.game.currentConflict && this.game.currentConflict.conflictProvince && this.game.currentConflict.conflictProvince.location === this.location,
             target: {
                 cardType: 'character',
                 gameAction: 'sendHome',

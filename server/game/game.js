@@ -315,13 +315,14 @@ class Game extends EventEmitter {
             return;
         }
 
+        /* This doesn't really work with cards which trigger from being flipped
         // If it's the Dynasty phase, and this is a Dynasty card in a province, flip it face up
         if(['province 1', 'province 2', 'province 3', 'province 4'].includes(card.location) && card.controller === player && card.isDynasty) {
             if(card.facedown && this.currentPhase === 'dynasty') {
                 card.facedown = false;
                 this.addMessage('{0} reveals {1}', player, card);
             }
-        }        
+        }*/        
     }
    
     /*
