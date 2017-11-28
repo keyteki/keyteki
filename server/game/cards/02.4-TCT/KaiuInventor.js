@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class KaiuInventor extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Add an additional ability use to a holding',
             target: {
