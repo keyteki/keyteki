@@ -4,8 +4,11 @@ class AgashaSumiko extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: this,
-            condition: this.controller.imperialFavor !== '',
-            effect: ability.effects.doesNotBowAsAttacker
+            condition: () => (
+                this.controller.imperialFavor !== '' &&
+                this.isAttacking()
+            ),
+            effect: ability.effects.doesNotBowAsAttacker()
         });
     }
 }
