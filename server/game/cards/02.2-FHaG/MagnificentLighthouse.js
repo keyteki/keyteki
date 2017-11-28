@@ -25,24 +25,23 @@ class MagnificentLighthouse extends DrawCard {
                 let messages = ['{0} places a card on the bottom of the deck', '{0} chooses to discard {1}'];
                 let destinations = [topThree[0].isDynasty ? 'dynasty deck bottom' : 'conflict deck bottom', topThree[0].isDynasty ? 'dynasty discard pile' : 'conflict discard pile'];
                 let choices = [];
-                let handlers = _.map(topThree, card => {
-                    return () => {
-                        this.game.addMessage(messages.pop(), this.controller, card);
-                        this.controller.opponent.moveCard(card, destinations.pop());
-                        if(messages.length > 0) {
-                            let index = _.indexOf(topThree, card);
-                            topThree.splice(index, 1);
-                            handlers.splice(index, 1);
-                            this.game.promptWithHandlerMenu(this.controller, {
-                                activePromptTitle: 'Select a card to put on the bottom of the deck',
-                                source: this,
-                                cards: topThree,
-                                handlers: handlers,
-                                choices: choices
-                            });
-                        }
-                    };
-                });
+                let handlers = [];
+                let cardHandler = card => {
+                    this.game.addMessage(messages.pop(), this.controller, card);
+                    this.controller.opponent.moveCard(card, destinations.pop());
+                    if(messages.length > 0) {
+                        let index = _.indexOf(topThree, card);
+                        topThree.splice(index, 1);
+                        this.game.promptWithHandlerMenu(this.controller, {
+                            activePromptTitle: 'Select a card to put on the bottom of the deck',
+                            source: this,
+                            cards: topThree,
+                            cardHandler: cardHandler,
+                            handlers: handlers,
+                            choices: choices
+                        });
+                    }
+                };
                 if(topThree.length < 3) {
                     choices = ['None'];
                     handlers.push(() => {
@@ -57,6 +56,7 @@ class MagnificentLighthouse extends DrawCard {
                                 activePromptTitle: 'Select a card to put on the bottom of the deck',
                                 source: this,
                                 cards: topThree,
+                                cardHandler: cardHandler,
                                 choices: choices,
                                 handlers: handlers
                             });
@@ -67,6 +67,7 @@ class MagnificentLighthouse extends DrawCard {
                     activePromptTitle: 'Select a card to discard',
                     source: this,
                     cards: topThree,
+                    cardHandler: cardHandler,
                     handlers: handlers,
                     choices: choices
                 });

@@ -11,14 +11,12 @@ class KitsukiInvestigator extends DrawCard {
                 this.game.promptWithHandlerMenu(this.controller, {
                     activePromptTitle: 'Choose card to discard',
                     cards: this.controller.opponent.hand.toArray(),
-                    handlers: this.controller.opponent.hand.map(card => {
-                        return () => {
-                            let sortedHand = this.controller.opponent.hand.sortBy(card => card.name);
-                            this.game.addMessage('{0} uses {1} to reveal {2}\'s hand: {3}', this.controller, this, this.controller.opponent, sortedHand);
-                            this.game.addMessage('{0} uses {1} to discard {2} from {3}\'s hand', this.controller, this, card, this.controller.opponent);
-                            this.controller.opponent.discardCardFromHand(card);
-                        };
-                    }),
+                    cardHandler: card => {
+                        let sortedHand = this.controller.opponent.hand.sortBy(card => card.name);
+                        this.game.addMessage('{0} uses {1} to reveal {2}\'s hand: {3}', this.controller, this, this.controller.opponent, sortedHand);
+                        this.game.addMessage('{0} uses {1} to discard {2} from {3}\'s hand', this.controller, this, card, this.controller.opponent);
+                        this.controller.opponent.discardCardFromHand(card);
+                    },
                     source: this
                 });
             }

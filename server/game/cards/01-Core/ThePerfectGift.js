@@ -16,33 +16,27 @@ class ThePerfectGift extends DrawCard {
                     n = opponentTopFour.length;
                     if(n > 0) {
                         this.game.addMessage('{0} reveals the top {1} from their conflict deck: {2}', otherPlayer, n > 1 ? n + ' cards' : 'card', opponentTopFour);
-                        let oppHandlers = _.map(opponentTopFour, card => {
-                            return () => {
-                                this.game.addMessage('{0} chooses {1} to give {2}', this.controller, card, otherPlayer);
-                                otherPlayer.moveCard(card, 'hand');
-                                otherPlayer.shuffleConflictDeck();
-                            };
-                        });
                         this.game.promptWithHandlerMenu(this.controller, {
                             activePromptTitle: 'Choose a card to give your opponent',
                             source: this,
                             cards: opponentTopFour,
-                            handlers: oppHandlers
+                            cardHandler: card => {
+                                this.game.addMessage('{0} chooses {1} to give {2}', this.controller, card, otherPlayer);
+                                otherPlayer.moveCard(card, 'hand');
+                                otherPlayer.shuffleConflictDeck();
+                            }
                         });
                     }
                 }
-                let myHandlers = _.map(myTopFour, card => {
-                    return () => {
-                        this.game.addMessage('{0} chooses {1} to give themself', this.controller, card);
-                        this.controller.moveCard(card, 'hand');
-                        this.controller.shuffleConflictDeck();                    
-                    };
-                });
                 this.game.queueSimpleStep(() => this.game.promptWithHandlerMenu(this.controller, {
                     activePromptTitle: 'Choose a card to give your yourself',
                     source: this,
                     cards: myTopFour,
-                    handlers: myHandlers
+                    cardHandler: card => {
+                        this.game.addMessage('{0} chooses {1} to give themself', this.controller, card);
+                        this.controller.moveCard(card, 'hand');
+                        this.controller.shuffleConflictDeck();                    
+                    }
                 }));
             }
         });

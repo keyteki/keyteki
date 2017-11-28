@@ -21,10 +21,8 @@ class PolicyDebate extends DrawCard {
                     this.game.addMessage('{0} wins the duel - {1} reveals their hand: {2}', winner, loser.controller, loser.controller.hand.sortBy(card => card.name));
                     this.game.promptWithHandlerMenu(winner.controller, {
                         activePromptTitle: 'Choose card to discard',
-                        cards: loser.controller.hand.uniq(card => card.name),
-                        handlers: _.map(loser.controller.hand.uniq(card => card.name), card => {
-                            return () => loser.controller.discardCardFromHand(card);
-                        }),
+                        cards: loser.controller.hand.toArray(),
+                        cardHandler: card => loser.controller.discardCardFromHand(card),
                         source: this
                     });
                 });
