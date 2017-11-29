@@ -6,9 +6,6 @@ class CentipedeTattoo extends DrawCard {
             effect: ability.effects.addKeyword('tattooed')
         });
         this.whileAttached({
-            // when: {
-            //     afterConflict: event => event.conflict.isParticipating(this.parent) && event.conflict.loser === this.parent.controller
-            // },
             condition: () => (
                 this.game.currentConflict &&
                 this.game.currentConflict.loser &&
