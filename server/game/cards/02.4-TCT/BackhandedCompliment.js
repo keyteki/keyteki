@@ -2,18 +2,15 @@ const DrawCard = require('../../drawcard.js');
 
 class BackhandedCompliment extends DrawCard {
     setupCardAbilities() {
-        let choices = {
-            'Me': () => true
-        };
-        if(this.controller.opponent) {
-            choices['My Opponent'] = () => true;
-        }
         this.action({
             title: 'Select a player to lose an honor and draw a card',
             target: {
                 player: 'self',
                 mode: 'select',
-                choices: choices
+                choices:  {
+                    'Me': () => true,
+                    'My Opponent': () => this.controller.opponent
+                }
             },
             handler: context => {
                 let player = context.select === 'Me' ? this.controller : this.controller.opponent;
