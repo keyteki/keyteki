@@ -46,8 +46,8 @@ class HandlerMenuPrompt extends UiPrompt {
                     cardQuantities[card.id] = 1;
                 }
             });
-            let cards = _.uniq(this.properties.cards, card => card.id)
-            buttons = _.map(cards, (card, index) => {
+            let cards = _.uniq(this.properties.cards, card => card.id);
+            buttons = _.map(cards, card => {
                 let text = card.name;
                 if(cardQuantities[card.id] > 1) {
                     text = text + ' (' + cardQuantities[card.id].toString() + ')';
