@@ -6,7 +6,7 @@ class UtakuMediatior extends DrawCard {
             match: this,
             condition: () => this.controller.imperialFavor === '',
             effect: [
-                ability.effects.ModifyMilitarySkill(1),
+                ability.effects.modifyMilitarySkill(1),
                 ability.effects.modifyPoliticalSkill(1)
             ]
         });
