@@ -95,28 +95,12 @@ class ConflictPhase extends Phase {
             } else if(this.currentPlayer.totalGloryForFavor < otherPlayer.totalGloryForFavor) {
                 winner = otherPlayer;
             }
+            this.game.addMessage('{0} succesfully claims the Emperor\'s favor with total glory of {1} vs {2}', winner, winner.totalGloryForFavor, winner.opponent.totalGloryForFavor);
+            winner.opponent.loseImperialFavor();
         }
-        this.game.promptWithMenu(winner, this, {
-            activePrompt: {
-                menuTitle: 'Which side of the Imperial Favor would you like to claim?',
-                buttons: [
-                    { text: 'Military', method: 'giveImperialFavorToPlayer', arg: 'military' },
-                    { text: 'Political', method: 'giveImperialFavorToPlayer', arg: 'political' }
-                ]
-            }
-        });
+        winner.claimImperialFavor();
     }
     
-    giveImperialFavorToPlayer(winner, arg) {
-        let loser = this.game.getOtherPlayer(winner);
-        winner.claimImperialFavor(arg);
-        if(loser) {
-            loser.loseImperialFavor();
-            this.game.addMessage('{0} succesfully claims the Emperor\'s {1} favor with total glory of {2} vs {3}', winner, arg, winner.totalGloryForFavor, loser.totalGloryForFavor);
-        }
-        return true;
-    }
-
     cleanupConflict() {
         if(!this.game.currentConflict.isSinglePlayer && !this.game.currentConflict.winnerGoesStraightToNextConflict) {
             this.currentPlayer = this.game.getOtherPlayer(this.currentPlayer);
