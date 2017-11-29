@@ -9,11 +9,11 @@ class IdeTrader extends DrawCard {
             },
             limit: ability.limit.perConflict(1),
             target: {
-                    mode: 'select',
-                    choices: {
-                        'Gain 1 fate': () => true,
-                        'Draw 1 card': () => true
-                    }
+                mode: 'select',
+                choices: {
+                    'Gain 1 fate': () => true,
+                    'Draw 1 card': () => true
+                }
             },
             handler: context => {
                 if(context.select === 'Gain 1 fate') {

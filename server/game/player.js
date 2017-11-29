@@ -1013,8 +1013,10 @@ class Player extends Spectator {
             return;
         }
 
+        let originalController = attachment.controller;
         attachment.controller = this;
         if(!this.canAttach(attachment, card)) {
+            attachment.controller = originalController;
             return;
         }
 
@@ -1417,6 +1419,7 @@ class Player extends Spectator {
             } else if(event.card.isDynasty) {
                 this.moveCard(event.card, 'dynasty discard pile');
             }
+            return { resolved: true, success: true };
         });
     }
 
@@ -1464,8 +1467,19 @@ class Player extends Spectator {
      * Marks that this player controls the favor for the relevant conflict type
      * @param {String} conflictType 
      */
-    claimImperialFavor(conflictType) {
-        this.imperialFavor = conflictType;
+    claimImperialFavor() {
+        let handlers = _.map(['military', 'political'], type => {
+            return () => {
+                this.imperialFavor = type;
+                this.game.addMessage('{0} claims the Emperor\'s {1} favor!', this, type);
+            };
+        });
+        this.game.promptWithHandlerMenu(this, {
+            activePromptTitle: 'Which side of the Imperial Favor would you like to claim?',
+            source: 'Imperial Favor',
+            choices: ['Military', 'Political'],
+            handlers: handlers
+        });
     }
 
     /**
@@ -1547,9 +1561,11 @@ class Player extends Spectator {
             }
 
             if(card.isConflict || card.isDynasty) {
-                // In normal play, all attachments should already have been removed, but in manual play we may need to remove them
+                // In normal play, all attachments should already have been removed, but in manual play we may need to remove them.
+                // This is also used by Back-Alley Hideaway when it is sacrificed. This won't trigger any leaves play effects
                 card.attachments.each(attachment => {
-                    this.removeAttachment(attachment);
+                    attachment.leavesPlay();
+                    attachment.owner.moveCard(attachment, attachment.isDynasty ? 'dynasty discard pile' : 'conflict discard pile');
                 });
             }
 
@@ -1573,13 +1589,11 @@ class Player extends Spectator {
                 card.facedown = false;
             }
             targetPile.push(card);
-        } else if(targetLocation === 'conflict deck' && !options.bottom) {
-            targetPile.unshift(card);
-        } else if(targetLocation === 'dynasty deck' && !options.bottom) {
+        } else if(['conflict deck', 'dynasty deck'].includes(targetLocation) && !options.bottom) {
             targetPile.unshift(card);
         } else if(['conflict discard pile', 'dynasty discard pile'].includes(targetLocation)) {
+            // new cards go on the top of the discard pile
             targetPile.unshift(card);
-            this.game.raiseEvent('onCardPlaced', { card: card, location: targetLocation });
         } else {
             targetPile.push(card);
         }
@@ -1625,29 +1639,34 @@ class Player extends Spectator {
                     }
                 }
             }
+            return { resolved: true, success: true };
         });
     }
 
     /**
-     * Raises an avent for an effect honoring a card
+     * Raises an event for an effect honoring a card
      * @param {DrawCard} card 
      * @param {EffectSource} source 
      */
     honorCard(card, source) {
-        this.game.raiseEvent('onCardHonored', { player: this, card: card, source: source }, () => card.honor());
+        this.game.raiseEvent('onCardHonored', { player: this, card: card, source: source }, () => {
+            return { resolved: true, success: card.honor() };
+        });
     }
 
     /**
-     * Raises an avent for an effect dishonoring a card
+     * Raises an event for an effect dishonoring a card
      * @param {DrawCard} card 
      * @param {EffectSource} source 
      */
     dishonorCard(card, source) {
-        this.game.raiseEvent('onCardDishonored', { player: this, card: card, source: source }, () => card.dishonor());
+        this.game.raiseEvent('onCardDishonored', { player: this, card: card, source: source }, () => {
+            return { resolved: true, result: card.dishonor() };
+        });
     }
 
     /**
-     * Raises an avent for an effect bowing a card
+     * Raises an event for an effect bowing a card
      * @param {DrawCard} card 
      * @param {EffectSource} source 
      */
@@ -1664,7 +1683,7 @@ class Player extends Spectator {
     }
 
     /**
-     * Raises an avent for an effect readying a card
+     * Raises an event for an effect readying a card
      * @param {DrawCard} card 
      * @param {EffectSource} source 
      */

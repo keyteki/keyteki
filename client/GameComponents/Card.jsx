@@ -17,10 +17,12 @@ class Card extends React.Component {
         this.onMenuItemClick = this.onMenuItemClick.bind(this);
 
         this.state = {
+            showPopup: false,
             showMenu: false
         };
 
         this.shortNames = {
+            honor: 'H',
             stand: 'T',
             poison: 'O',
             gold: 'G',
@@ -88,7 +90,7 @@ class Card extends React.Component {
                 dropTarget = 'hand';
             } else if(_.includes(nearestPile.attr('class'), 'player-board')) {
                 dropTarget = 'play area';
-            } else {
+            } else if(nearestPile.length > 0) {
                 var component = this.getReactComponentFromDOMNode(nearestPile[0]);
                 dropTarget = component.props.source;
             }
@@ -116,6 +118,11 @@ class Card extends React.Component {
             return;
         }
 
+        if(this.props.card.showPopup) {
+            this.setState({ showPopup: !this.state.showPopup });
+            return;
+        }
+
         if(this.props.onClick) {
             this.props.onClick(card);
         }
@@ -132,10 +139,11 @@ class Card extends React.Component {
         var counters = {};
 
         counters['card-fate'] = card.fate ? { count: card.fate, fade: card.type === 'attachment', shortName: 'F' } : undefined;
+        counters['card-honor'] = card.honor ? { count: card.honor, fade: card.type === 'attachment', shortName: 'H' } : undefined;
         if(card.isHonored) {
-            counters['honor-status'] = { count: 1, fade: card.type === 'attachment', shortName: 'H' };
+            counters['honor-status'] = { count: 1, fade: card.type === 'attachment', shortName: 'Hd' };
         } else if(card.isDishonored) {
-            counters['honor-status'] = { count: 2, fade: card.type === 'attachment', shortName: 'D' };
+            counters['honor-status'] = { count: 2, fade: card.type === 'attachment', shortName: 'Dd' };
         } else {
             counters['honor-status'] = undefined;    
         }
@@ -157,7 +165,7 @@ class Card extends React.Component {
 
     getWrapper() {
         let wrapperClassName = '';
-        let attachments = _.size(this.props.card.attachments);
+        let attachments = this.props.source === 'play area' ? _.size(this.props.card.attachments) : 0;
         if(attachments > 0) {
             wrapperClassName = 'wrapper-' + attachments.toString();
         }
@@ -212,6 +220,10 @@ class Card extends React.Component {
     }
 
     showCounters() {
+        if(_.contains(['province 1','province 2','province 3','province 4','stronghold province'], this.props.source) && this.props.card.type === 'province') {
+            return true;
+        }
+
         if(this.props.source !== 'play area' && this.props.source !== 'faction' && this.props.source !== 'revealed plots') {
             return false;
         }
@@ -322,7 +334,99 @@ class Card extends React.Component {
                     { this.showCounters() ? <CardCounters counters={ this.getCountersForCard(this.props.card) } /> : null }
                 </div>
                 { this.showMenu() ? <CardMenu menu={ this.props.card.menu } onMenuItemClick={ this.onMenuItemClick } /> : null }
+                { this.getPopup() }
             </div>);
+    }
+
+    onCloseClick(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        this.setState({ showPopup: !this.state.showPopup });
+
+        if(this.props.onCloseClick) {
+            this.props.onCloseClick();
+        }
+    }
+
+    onPopupCardClick(card) {
+        this.setState({ showPopup: false });
+
+        if(this.props.onClick) {
+            this.props.onClick(card);
+        }
+    }
+
+    onPopupMenuItemClick() {
+        this.setState({ showPopup: false });
+        
+        if(this.props.onClick) {
+            this.props.onClick(this.props.card);
+        }
+    }
+    
+    getPopup() {
+        let popup = null;
+        let cardIndex = 0;
+
+        let cardList = _.map(this.props.card.attachments, card => {
+            let cardKey = cardIndex++;
+            if(!this.props.isMe) {
+                card = { facedown: true, isDynasty: card.isDynasty, isConflict: card.isConflict };
+            } else {
+                cardKey = card.uuid;
+            }
+            return (<Card key={ cardKey } card={ card } source={ this.props.source }
+                disableMouseOver={ this.props.disableMouseOver || !this.props.isMe }
+                onMouseOver={ this.props.onMouseOver }
+                onMouseOut={ this.props.onMouseOut }
+                onTouchMove={ this.props.onTouchMove }
+                onClick={ this.onPopupCardClick.bind(this, card) }
+                onDragDrop={ this.props.onDragDrop }
+                orientation={ this.props.orientation === 'bowed' ? 'vertical' : this.props.orientation }
+                size={ this.props.size } />);
+        });
+
+        if(!this.props.card.showPopup || !this.state.showPopup) {
+            return null;
+        }
+
+        let popupClass = 'panel';
+        let arrowClass = 'arrow lg';
+
+        if(this.props.popupLocation === 'top') {
+            popupClass += ' our-side';
+            arrowClass += ' down';
+        } else {
+            arrowClass += ' up';
+        }
+
+        if(this.props.orientation === 'horizontal') {
+            arrowClass = 'arrow lg left';
+        }
+
+        let linkIndex = 0;
+        
+        let popupMenu = (<div>{ [<a className='btn btn-default' key={ linkIndex++ } onClick={ () => this.onPopupMenuItemClick() }>Select Card</a>] }</div>);
+        
+        popup = (
+            <div className='popup'>
+                <div className='panel-title' onClick={ event => event.stopPropagation() }>
+                    <span className='text-center'>{ this.props.title }</span>
+                    <span className='pull-right'>
+                        <a className='close-button glyphicon glyphicon-remove' onClick={ this.onCloseClick.bind(this) } />
+                    </span>
+                </div>
+                <div className={ popupClass } onClick={ event => event.stopPropagation() }>
+                    { popupMenu }
+                    <div className='inner'>
+                        { cardList }
+                    </div>
+                    <div className={ arrowClass } />
+                </div>
+            </div>);
+
+        return popup;
     }
 
     render() {
@@ -364,10 +468,12 @@ Card.propTypes = {
         new: PropTypes.bool,
         order: PropTypes.number,
         politicalSkill: PropTypes.number,
+        popupMenuText: PropTypes.array,
         power: PropTypes.number,
         saved: PropTypes.bool,
         selectable: PropTypes.bool,
         selected: PropTypes.bool,
+        showPopup: PropTypes.bool,
         strength: PropTypes.number,
         tokens: PropTypes.object,
         type: PropTypes.string,
@@ -376,12 +482,14 @@ Card.propTypes = {
     className: PropTypes.string,
     disableMouseOver: PropTypes.bool,
     isInPopup: PropTypes.bool,
+    isMe: PropTypes.bool,
     onClick: PropTypes.func,
     onDragDrop: PropTypes.func,
     onMenuItemClick: PropTypes.func,
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
     orientation: PropTypes.oneOf(['horizontal', 'bowed', 'vertical']),
+    popupLocation: PropTypes.string,
     size: PropTypes.string,
     source: PropTypes.oneOf(['hand', 'dynasty discard pile', 'conflict discard pile', 'play area', 'dynasty deck', 'conflict deck', 'province deck', 'province 1', 'province 2', 'province 3', 'province 4', 'attachment', 'stronghold province', 'additional', 'role card']).isRequired,
     style: PropTypes.object,

@@ -29,6 +29,10 @@ const Costs = {
      */
     bowSelf: () => CostBuilders.bow.self(),
     /**
+     * Cost that will bow the card that the card that initiated the ability is attached to.
+     */
+    bowParent: () => CostBuilders.bow.parent(),
+    /**
      * Cost that requires bowing a card that matches the passed condition
      * predicate function.
      */
@@ -42,6 +46,10 @@ const Costs = {
      * Cost that will sacrifice the card that initiated the ability.
      */
     sacrificeSelf: () => CostBuilders.sacrifice.self(),
+    /**
+     * Cost that will sacrifice a specified card.
+     */
+    sacrificeSpecific: cardFunc => CostBuilders.sacrifice.specific(cardFunc),
     /**
      * Cost that requires sacrificing a card that matches the passed condition
      * predicate function.
@@ -170,7 +178,7 @@ const Costs = {
      */
     useInitiateAction: function() {
         return {
-            canPay: function(context) {
+            canPay: function() {
                 return true; // We have to check this condition in Ability.meetsRequirements(), or we risk players starting another ability while costs are resolving
             },
             pay: function(context) {

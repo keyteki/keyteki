@@ -8,13 +8,17 @@ class ShiroNishiyama extends StrongholdCard {
             condition: () => this.game.currentConflict && this.controller.anyCardsInPlay(card => this.game.currentConflict.isDefending(card)),
             handler: () => {
                 this.game.addMessage('{0} bows {1} to add +1/+1 to all defenders they control', this.controller, this);
-                this.untilEndOfConflict(ability => ({
-                    match: card => card.isDefending() && card.controller === this.controller,
-                    effect: [
-                        ability.effects.modifyMilitarySkill(1),
-                        ability.effects.modifyPoliticalSkill(1)
-                    ]
-                }));
+                this.controller.cardsInPlay.each(card => {
+                    if(card.isDefending()) {
+                        this.untilEndOfConflict(ability => ({
+                            match: card,
+                            effect: [
+                                ability.effects.modifyMilitarySkill(1),
+                                ability.effects.modifyPoliticalSkill(1)
+                            ]
+                        }));
+                    }
+                });
             }
         });
     }

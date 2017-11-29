@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class ContingencyPlan extends DrawCard {
     setupCardAbilities() {
         this.reaction({
+            title: 'Change your bid by 1',
             when: {
                 onHonorDialsRevealed: () => true
             },

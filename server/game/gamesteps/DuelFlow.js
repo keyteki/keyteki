@@ -21,6 +21,7 @@ class DuelFlow extends BaseStepWithPipeline {
         this.duel = duel;
         this.resolutionHandler = resolutionHandler;
         this.pipeline.initialise([
+            new SimpleStep(this.game, () => this.game.reapplyStateDependentEffects()),
             new HonorBidPrompt(this.game, 'Choose your bid for the duel\n' + this.duel.getTotalsForDisplay()),
             new SimpleStep(this.game, costHandler),
             new SimpleStep(this.game, () => this.modifyDuelingSkill()),
@@ -32,7 +33,7 @@ class DuelFlow extends BaseStepWithPipeline {
     }
 
     modifyDuelingSkill() {
-        this.duel.setBidFinished();
+        this.duel.modifyDuelingSkill();
     }
 
     determineResults() {
@@ -48,12 +49,16 @@ class DuelFlow extends BaseStepWithPipeline {
 
     applyDuelResults() {
         if(this.duel.winner) {
-            this.game.raiseEvent('onDuelResolution', { duel: this.duel }, () => this.resolutionHandler(this.duel.winner, this.duel.loser));
+            this.game.raiseEvent('onDuelResolution', { duel: this.duel }, () => {
+                this.resolutionHandler(this.duel.winner, this.duel.loser);
+                return { resolved: true, success: true };
+            });
         }
     }
 
     cleanUpDuel() {
         this.game.currentDuel = null;
+        this.game.raiseEvent('onDuelFinished', { duel: this.duel });
     }
 }
 

@@ -1,7 +1,6 @@
 const _ = require('underscore');
 
 const BaseCard = require('./basecard.js');
-const SetupCardAction = require('./setupcardaction.js');
 const DynastyCardAction = require('./dynastycardaction.js');
 const PlayCardAction = require('./playcardaction.js');
 const PlayAttachmentAction = require('./playattachmentaction.js');
@@ -126,7 +125,7 @@ class DrawCard extends BaseCard {
         } else if(actionType === 'ready' && !this.bowed) {
             return false;
         } else if(actionType === 'moveToConflict') {
-            if(!this.game.currentConflict) {
+            if(!this.game.currentConflict || this.isParticipating()) {
                 return false;
             }
             if(this.controller.isAttackingPlayer()) {
@@ -136,6 +135,8 @@ class DrawCard extends BaseCard {
             } else if(!this.canParticipateAsDefender()) {
                 return false;
             }
+        } else if(actionType === 'sendHome' && !this.isParticipating()) {
+            return false;
         }
         return super.allowGameAction(actionType, context);
     }
@@ -151,6 +152,7 @@ class DrawCard extends BaseCard {
         clone.bowed = this.bowed;
         clone.isHonored = this.isHonored;
         clone.isDishonored = this.isDishonored;
+        clone.location = this.location;
         clone.parent = this.parent;
         clone.fate = this.fate;
         clone.traits = Object.assign({}, this.traits);
@@ -310,10 +312,11 @@ class DrawCard extends BaseCard {
         });
     }
 
-    getMilitarySkill(printed = false) {
+    getMilitarySkill(printed = false, floor = true) {
         /**
          * Get the military skill.
          * @param  {boolean} printed - Use the printed value of the skill; default false
+         * @param  {boolean} floor - Return the value after flooring it at 0; default false
          * @return {integer} The military skill value
          */
         if(printed) {
@@ -330,20 +333,24 @@ class DrawCard extends BaseCard {
             
             let modifiedMilitarySkill = this.baseMilitarySkill + this.militarySkillModifier + skillFromAttachments + this.getSkillFromGlory();
             let multipliedMilitarySkill = Math.round(modifiedMilitarySkill * this.militarySkillMultiplier);
+            if(!floor) {
+                return multipliedMilitarySkill;
+            }
             return Math.max(0, multipliedMilitarySkill);
         }
 
         return null;
     }
 
-    getPoliticalSkill(printed = false) {
+    getPoliticalSkill(printed = false, floor = true) {
         /**
          * Get the political skill.
          * @param  {boolean} printed - Use the printed value of the skill; default false
+         * @param  {boolean} floor - Return the value after flooring it at 0; default false
          * @return {integer} The political skill value
          */
         if(printed) {
-            return this.cardData.military;
+            return this.cardData.political;
         }
 
         if(this.cardData.political !== null && this.cardData.political !== undefined) {
@@ -355,6 +362,9 @@ class DrawCard extends BaseCard {
             }, 0);
             let modifiedPoliticalSkill = this.basePoliticalSkill + this.politicalSkillModifier + skillFromAttachments + this.getSkillFromGlory();
             let multipliedPoliticalSkill = Math.round(modifiedPoliticalSkill * this.politicalSkillMultiplier);
+            if(!floor) {
+                return multipliedPoliticalSkill;
+            }
             return Math.max(0, multipliedPoliticalSkill);
         }
 
@@ -395,20 +405,26 @@ class DrawCard extends BaseCard {
     honor() {
         if(this.isDishonored) {
             this.isDishonored = false;
+            return true;
         } else if(!this.isHonored) {
             this.isHonored = true;
+            return true;
         }
+        return false;
     }
 
     dishonor() {
         if(!this.allowGameAction('dishonor')) {
-            return;
+            return false;
         }
         if(this.isHonored) {
             this.isHonored = false;
+            return true;
         } else if(!this.isDishonored) {
             this.isDishonored = true;
+            return true;
         }
+        return false;
     }
 
 
@@ -517,6 +533,12 @@ class DrawCard extends BaseCard {
         }
         return [];
     }
+
+    removeTrait(trait) {
+        super.removeTrait(trait);
+        // Check to see if losing the trait has meant any of this cards attachments are illegal
+        this.checkForIllegalAttachments();
+    }
     
     checkForIllegalAttachments() {
         this.attachments.each(attachment => {
@@ -534,18 +556,24 @@ class DrawCard extends BaseCard {
     }
 
     /**
-     * Removes all attachments from this card.
+     * Removes all attachments from this card. Note that this function (different from remove Attachment)
+     * opens windows for interrupts/reactions
      */
     removeAllAttachments() {
         let events = this.attachments.map(attachment => {
             return {
                 name: 'onCardLeavesPlay',
-                params: { card: attachment },
+                params: { card: attachment }
             };
         });
         this.game.raiseMultipleEvents(events);
     }
 
+    /**
+     * This removes an attachment from this card's attachment Array.  It doesn't open any windows for
+     * game effects to respond to.
+     * @param {DrawCard} attachment 
+     */
     removeAttachment(attachment) {
         this.attachments = _(this.attachments.reject(card => card.uuid === attachment.uuid));
     }
@@ -577,7 +605,8 @@ class DrawCard extends BaseCard {
 
     /**
      * Deals with the engine effects of leaving play, making sure all statuses are removed. Anything which changes
-     * the state of the card should be here.
+     * the state of the card should be here. This is also called in some strange corner cases e.g. for attachments
+     * which aren't actually in play themselves when their parent (which is in play) leaves play.
      */
     leavesPlay() {
         // If this is an attachment and is attached to another card, we need to remove all links between them
@@ -617,25 +646,25 @@ class DrawCard extends BaseCard {
         return this.game.currentConflict && this.game.currentConflict.isParticipating(this);
     }
 
-    canDeclareAsAttacker(conflictType) {
+    canDeclareAsAttacker(conflictType = this.game.currentConflict.conflictType) {
         return (this.allowGameAction('declareAsAttacker') && this.canParticipateAsAttacker(conflictType) &&
                 (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowed));
     }
 
-    canDeclareAsDefender(conflictType) {
+    canDeclareAsDefender(conflictType = this.game.currentConflict.conflictType) {
         return (this.allowGameAction('declareAsDefender') && this.canParticipateAsDefender(conflictType) && 
                 (!this.bowed || this.conflictOptions.canBeDeclaredWhileBowed) && !this.covert);
     }
 
-    canParticipateInConflict(conflictType) {
+    canParticipateInConflict(conflictType = this.game.currentConflict.conflictType) {
         return this.location === 'play area' && !this.conflictOptions.cannotParticipateIn[conflictType];
     }
 
-    canParticipateAsAttacker(conflictType) {
+    canParticipateAsAttacker(conflictType = this.game.currentConflict.conflictType) {
         return this.allowGameAction('participateAsAttacker') && this.canParticipateInConflict(conflictType);
     }
 
-    canParticipateAsDefender(conflictType) {
+    canParticipateAsDefender(conflictType = this.game.currentConflict.conflictType) {
         return this.allowGameAction('participateAsDefender') && this.canParticipateInConflict(conflictType);
     }
 

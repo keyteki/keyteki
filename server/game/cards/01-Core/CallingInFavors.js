@@ -3,6 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class CallingInFavors extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
+            title: 'Take control of an attachment',
             cost: ability.costs.dishonor(() => true),
             target: {
                 cardType: 'attachment',

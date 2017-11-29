@@ -4,7 +4,7 @@ const EffectSource = require('./EffectSource.js');
 class AbilityContext {
     constructor(properties) {
         this.game = properties.game;
-        this.source = properties.source || new EffectSource();
+        this.source = properties.source || new EffectSource(this.game);
         this.player = properties.player;
         this.ability = properties.ability || new BaseAbility({});
         this.costs = {};
