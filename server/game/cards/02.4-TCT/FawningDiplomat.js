@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class FawningDiplomat extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities() {
         this.interrupt({
             title: 'Claim Imperial favor',
             when: {
