@@ -1667,7 +1667,7 @@ class Player extends Spectator {
     /**
      * Raises an avent for an effect dishonoring a card
      * @param {DrawCard} card
-     * @param {EffectSource} source 
+     * @param {EffectSource} source
      */
     dishonorCard(card, source) {
         this.game.raiseEvent('onCardDishonored', { player: this, card: card, source: source }, () => {
@@ -1690,6 +1690,15 @@ class Player extends Spectator {
 
             this.game.raiseEvent('onCardBowed', { player: this, card: card, source: source });
         });
+    }
+
+    /**
+     * Bows multiple cards
+     * @param {[DrawCard]} cards
+     * @param {EffectSource} source
+     */
+    bowCards(cards, source) {
+        _.each(cards, card => this.bowCard(card, source));
     }
 
     /**
