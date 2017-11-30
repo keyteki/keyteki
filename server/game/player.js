@@ -252,12 +252,12 @@ class Player extends Spectator {
         _.each(['province 1', 'province 2', 'province 3', 'province 4'], province => {
             let card = this.getDynastyCardInProvince(province);
             if(card && card.facedown) {
-                card.facedown = false;
+                this.game.raiseEvent('onDynastyCardTurnedFaceup', { player: this, card: card }, () => card.facedown = false);
                 revealedCards.push(card);
             }
         });
         if(revealedCards.length > 0) {
-            this.game.addMessage('{0} reveals {1}', this, revealedCards);
+            this.game.queueSimpleStep(() => this.game.addMessage('{0} reveals {1}', this, revealedCards));
         }
     }
 
