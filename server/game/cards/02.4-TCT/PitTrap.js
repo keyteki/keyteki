@@ -6,7 +6,7 @@ class PitTrap extends DrawCard {
             condition: () => (
                 this.game.currentPhase === 'regroup'
             ),
-            effect: ability.effects.cannotBeReadied()
+            effect: ability.effects.doesNotReadyDuringRegroup()
         });
     }
 
