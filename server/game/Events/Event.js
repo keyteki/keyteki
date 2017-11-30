@@ -21,7 +21,7 @@ class Event {
 
     cancel() {
         this.cancelled = true;
-        this.resolved = false;
+        this.result.resolved = true;
         this.window.removeEvent(this);
     }
     
@@ -46,6 +46,8 @@ class Event {
     executeHandler() {
         if(this.handler) {
             this.result = this.handler(...this.params) || { resolved: true, success: true};
+        } else {
+            this.result.resolved = true;
         }
     }
 

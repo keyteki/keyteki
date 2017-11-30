@@ -8,9 +8,11 @@ class DishonorCost {
     }
 
     pay(cards, context) {
+        let results = [];
         for(let card of cards) {
-            context.player.dishonorCard(card, context.source);
+            results.push(context.player.dishonorCard(card, context.source));
         }
+        return results;
     }
 }
 

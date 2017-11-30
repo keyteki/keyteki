@@ -8,9 +8,11 @@ class SacrificeCost {
     }
 
     pay(cards, context) {
+        let results = [];
         for(let card of cards) {
-            context.player.sacrificeCard(card);
+            results.push(context.player.sacrificeCard(card));
         }
+        return results;
     }
 }
 

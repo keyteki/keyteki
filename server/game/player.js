@@ -1327,7 +1327,8 @@ class Player extends Spectator {
      */
     sacrificeCard(card) {
         if(card.allowGameAction('sacrifice')) {
-            this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', isSacrifice: true });
+            let event = this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', isSacrifice: true });
+            return event.result;
         }
     }
 
@@ -1429,7 +1430,8 @@ class Player extends Spectator {
      */
     returnCardToHand(card) {
         if(card.allowGameAction('returnToHand')) {
-            this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: 'hand' });
+            let event = this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: 'hand' });
+            return event.result;
         }
     }
 
@@ -1649,9 +1651,10 @@ class Player extends Spectator {
      * @param {EffectSource} source 
      */
     honorCard(card, source) {
-        this.game.raiseEvent('onCardHonored', { player: this, card: card, source: source }, () => {
+        let event = this.game.raiseEvent('onCardHonored', { player: this, card: card, source: source }, () => {
             return { resolved: true, success: card.honor() };
         });
+        return event.result;
     }
 
     /**
@@ -1660,9 +1663,10 @@ class Player extends Spectator {
      * @param {EffectSource} source 
      */
     dishonorCard(card, source) {
-        this.game.raiseEvent('onCardDishonored', { player: this, card: card, source: source }, () => {
+        let event = this.game.raiseEvent('onCardDishonored', { player: this, card: card, source: source }, () => {
             return { resolved: true, result: card.dishonor() };
         });
+        return event.result;
     }
 
     /**

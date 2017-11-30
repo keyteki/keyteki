@@ -8,9 +8,11 @@ class ReturnToHandCost {
     }
 
     pay(cards, context) {
+        let results = [];
         for(let card of cards) {
-            context.player.returnCardToHand(card);
+            results.push(context.player.returnCardToHand(card));
         }
+        return results;
     }
 }
 

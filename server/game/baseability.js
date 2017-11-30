@@ -94,9 +94,18 @@ class BaseAbility {
      * Pays all costs for the ability simultaneously.
      */
     payCosts(context) {
-        _.each(this.cost, cost => {
-            cost.pay(context);
-        });
+        return _.flatten(_.map(this.cost, cost => {
+            if(cost.pay) {
+                let defaultResult = { resolved: true, success: cost.canPay(context) };
+                let result = cost.pay(context);
+                if(result) {
+                    return result;
+                }
+                return defaultResult;
+            }
+
+            return { resolved: true, success: true };
+        }));
     }
 
     /**
@@ -160,6 +169,7 @@ class BaseAbility {
         }
         return _.map(_.zip(this.targets, results), array => {
             let [target, result] = array;
+            console.log('resolvetargets', target, result)
             if(!result.resolved || !target.checkTarget(context)) {
                 return target.resolve(context);
             }
