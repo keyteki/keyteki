@@ -8,30 +8,31 @@ class HonorBidPrompt extends AllPlayerPrompt {
         this.menuTitle = menuTitle || 'Choose a bid';
         _.each(game.getPlayers(), player => {
             player.honorBid = 0;
-            player.showBid = 0;
         });
     }
-    
+
     activeCondition(player) {
         return player.honorBid === 0;
     }
-    
+
     completionCondition(player) {
         return player.honorBid > 0;
     }
-    
+
     continue() {
         let completed = super.continue();
-        
+
         if(completed) {
             _.each(this.game.getPlayers(), player => player.setShowBid());
             this.game.raiseEvent('onHonorDialsRevealed');
         }
-        
+
         return completed;
     }
 
     activePrompt() {
+        _.each(this.game.getPlayers(), player => player.showBid = 0);
+
         return {
             promptTitle: 'Honor Bid',
             menuTitle: this.menuTitle,
@@ -51,9 +52,9 @@ class HonorBidPrompt extends AllPlayerPrompt {
 
     menuCommand(player, bid) {
         this.game.addMessage('{0} has chosen a bid.', player);
-        
+
         player.honorBid = bid;
-        
+
         return true;
     }
 }

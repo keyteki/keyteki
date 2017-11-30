@@ -8,7 +8,8 @@ class WayOfTheScorpion extends DrawCard {
             target: {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',
-                cardCondition: card => card.location === 'play area' && !card.isFaction('scorpion') && this.game.currentConflict.isParticipating(card)
+                gameAction:'dishonor',
+                cardCondition: card => card.isParticipating() && !card.isFaction('scorpion')
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to dishonor {2}', this.controller, this, context.target);

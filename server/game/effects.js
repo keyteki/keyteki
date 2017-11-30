@@ -322,14 +322,14 @@ const Effects = {
             card.clearBlank();
         }
     },
-    discardIfStillInPlay: function() {
+    discardIfStillInPlay: function(condition = () => true) {
         return {
             apply: function(card, context) {
                 context.discardIfStillInPlay = context.discardIfStillInPlay || [];
                 context.discardIfStillInPlay.push(card);
             },
             unapply: function(card, context) {
-                if(card.location === 'play area' && context.discardIfStillInPlay.includes(card)) {
+                if(card.location === 'play area' && context.discardIfStillInPlay.includes(card) && condition()) {
                     context.discardIfStillInPlay = _.reject(context.discardIfStillInPlay, c => c === card);
                     card.controller.discardCardFromPlay(card);
                     context.game.addMessage('{0} discards {1} at the end of the phase because of {2}', context.source.controller, card, context.source);
@@ -398,6 +398,7 @@ const Effects = {
     cardCannotTriggerAbilities: cardCannotEffect('triggerAbilities'),
     cannotBeTargeted: cardCannotEffect('target'),
     cannotBeBowed: cardCannotEffect('bow'),
+    cannotBeBroken: cardCannotEffect('break'),
     cannotBeMovedIntoConflict: cardCannotEffect('moveToConflict'),
     cannotBeSentHome: cardCannotEffect('sendHome'),
     cannotMoveCharactersIntoConflict: playerCannotEffect('moveToConflict'),
@@ -411,6 +412,16 @@ const Effects = {
     playerCannotPlaceFate: playerCannotEffect('placeFate'),
     playerCannotSpendFate: playerCannotEffect('spendFate'),
     playerCannotTakeFirstAction: playerCannotEffect('takeFirstAction'),
+    changePlayerGloryModifier: function(amount) {
+        return {
+            apply: function(player) {
+                player.changeGloryModifier(amount);
+            },
+            unapply: function(player) {
+                player.changeGloryModifier(-amount);
+            }
+        };
+    },
     gainAbility: function(abilityType, properties) {
         return {
             apply: function(card, context) {
