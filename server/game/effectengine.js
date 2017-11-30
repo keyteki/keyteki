@@ -6,7 +6,7 @@ class EffectEngine {
     constructor(game) {
         this.game = game;
         this.events = new EventRegistrar(game, this);
-        this.events.register(['onCardMoved', 'onCardTraitChanged', 'onCardFactionChanged', 'onCardTakenControl', 'onCardBlankToggled', 'onConflictFinished', 'onAtEndOfConflict', 'onPhaseEnded', 'onAtEndOfPhase', 'onRoundEnded']);
+        this.events.register(['onCardMoved', 'onCardTraitChanged', 'onCardFactionChanged', 'onCardTakenControl', 'onCardBlankToggled', 'onConflictFinished', 'onAtEndOfConflict', 'onPhaseEnded', 'onAtEndOfPhase', 'onRoundEnded', 'onDuelFinished']);
         this.effects = [];
         this.recalculateEvents = {};
         this.customDurationEvents = [];
@@ -43,6 +43,8 @@ class EffectEngine {
         let newArea = event.newLocation === 'hand' ? 'hand' : 'play area';
         this.removeTargetFromEffects(event.card, event.originalLocation);
         this.unapplyAndRemove(effect => effect.duration === 'persistent' && effect.source === event.card && (effect.location === event.originalLocation || event.parentChanged));
+        // Any lasting effects on this card should be removed when it leaves play
+        this.unapplyAndRemove(effect => effect.match === event.card && effect.location !== 'any' && effect.duration !== 'persistent');
         this.addTargetForPersistentEffects(event.card, newArea);
     }
 
@@ -113,6 +115,10 @@ class EffectEngine {
 
     onConflictFinished() {
         this.unapplyAndRemove(effect => effect.duration === 'untilEndOfConflict');
+    }
+
+    onDuelFinished() {
+        this.unapplyAndRemove(effect => effect.duration === 'untilEndOfDuel');
     }
 
     onAtEndOfConflict() {
@@ -212,6 +218,9 @@ class EffectEngine {
         _.each(matchingEffects, effect => {
             effect.cancel();
             this.unregisterRecalculateEvents(effect.recalculateWhen);
+            if(effect.duration === 'custom') {
+                this.unregisterCustomDurationEvents(effect);
+            }
         });
         this.effects = remainingEffects;
     }
