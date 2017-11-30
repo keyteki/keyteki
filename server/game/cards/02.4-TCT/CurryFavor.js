@@ -5,7 +5,8 @@ class CurryFavor extends DrawCard {
         this.reaction({
             title: 'Ready a character',
             when: {
-                onParticipantsReturnHome: event => event.conflict.attackingPlayer && event.conflict.attackingPlayer === this.controller && event.conflict.attackingPlayer.conflicts.complete === 2,
+                onParticipantsReturnHome: event => event.conflict.attackingPlayer &&
+                  event.conflict.attackingPlayer === this.controller && event.conflict.attackingPlayer.conflicts.complete === 2
             },
             target: {
                 cardType: 'character',
