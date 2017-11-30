@@ -85,7 +85,6 @@ class BackAlleyHideaway extends DrawCard {
             handler: context => {
                 this.game.addMessage('{0} uses {1} to move {2} into hiding', this.controller, this, context.event.card);
                 context.event.replaceHandler(event => {
-                    event.cardStateWhenLeftPlay.leavesPlayEffects();
                     this.controller.removeCardFromPile(event.card);
                     event.card.leavesPlay();
                     event.card.moveTo('backalley hideaway');
