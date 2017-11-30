@@ -1613,6 +1613,9 @@ class Player extends Spectator {
      * @param {ProvinceCard} province 
      */
     breakProvince(province) {
+        if(!province.allowGameAction('break')) {
+            return;
+        }
         this.game.raiseEvent('onBreakProvince', { conflict: this.game.currentConflict, province: province }, () => {
             province.breakProvince();
             this.game.reapplyStateDependentEffects();
