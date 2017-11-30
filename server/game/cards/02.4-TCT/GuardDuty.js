@@ -6,8 +6,8 @@ class GuardDuty extends DrawCard {
             title: 'Honor this character',
             condition: () => this.parent.isDefending(),
             handler: () => {
-                this.game.addMessage('{0} uses {1} to honor {1}', this.controller, this, this.parent);
-                this.parent.honor();
+                this.game.addMessage('{0} uses {1} to honor {2}', this.controller, this, this.parent);
+                this.controller.honorCard(this.parent, this);
             }
         });
     }
