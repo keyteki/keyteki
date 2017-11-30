@@ -28,7 +28,7 @@ class ConflictActionWindow extends ActionWindow {
                 winnerText = 'No-one is winning the conflict';
             } else if(this.conflict.defenderSkill > this.conflict.attackerSkill) {
                 winnerText = 'Defender is winning the conflict';
-            } else if(this.conflict.conflictProvince && !this.conflict.conflictProvince.isBroken &&
+            } else if(this.conflict.conflictProvince && !this.conflict.conflictProvince.isBroken && this.conflict.conflictProvince.allowGameAction('break') &&
                 this.conflict.attackerSkill >= this.conflict.defenderSkill + this.conflict.conflictProvince.getStrength()) {
                 winnerText = winnerText + ' - {0} is breaking!';
             }

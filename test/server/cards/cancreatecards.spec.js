@@ -59,7 +59,8 @@ const eventNames = [
     'onSendCharactersHome',
     'onCardPlayed',
     'onDeckShuffled',
-    'onDuelResolution'
+    'onDuelResolution',
+    'onHonorTradedAfterBid'
 ];
 
 describe('All Cards:', function() {
