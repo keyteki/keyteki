@@ -1,10 +1,16 @@
 const DrawCard = require('../../drawcard.js');
 
 class SealOfThePhoenix extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.whileAttached({
+            effect: [
+                ability.effects.addFaction('phoenix'),
+                ability.effects.addTrait('scholar')
+            ]
+        });
     }
 }
 
-SealOfThePhoenix.id = 'seal-of-the-phoenix'; // This is a guess at what the id might be - please check it!!!
+SealOfThePhoenix.id = 'seal-of-the-phoenix';
 
 module.exports = SealOfThePhoenix;
