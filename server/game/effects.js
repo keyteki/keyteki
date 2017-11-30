@@ -87,6 +87,16 @@ const Effects = {
             }
         };
     },
+    doesNotReadyDuringRegroup: function () {
+        return {
+            apply: function(card) {
+                card.readysDuringReadying = false;
+            },
+            unapply: function(card) {
+                card.readysDuringReadying = true;
+            }
+        };
+    },
     modifyMilitarySkill: function(value) {
         return {
             apply: function(card) {
