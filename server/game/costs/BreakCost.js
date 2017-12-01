@@ -4,7 +4,7 @@ class BreakCost {
     }
 
     isEligible(card) {
-        return card.type === 'province' && !card.isBroken;
+        return card.type === 'province' && !card.isBroken && card.allowGameAction('break');
     }
 
     pay(cards, context) {

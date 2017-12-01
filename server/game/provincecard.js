@@ -18,11 +18,12 @@ class ProvinceCard extends BaseCard {
 
     getDynastyOrStrongholdCardModifier() {
         let province = this.controller.getSourceList(this.location);
-        let card = province.find(card => card !== this);
-        if(card) {
-            return card.getProvinceStrengthBonus();
-        }
-        return 0;
+        return province.reduce((bonus, card) => {
+            if(card !== this) {
+                return bonus + card.getProvinceStrengthBonus();
+            }
+            return bonus; 
+        }, 0);
     }
 
     getElement() {
