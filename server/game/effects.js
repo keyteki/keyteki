@@ -219,13 +219,16 @@ const Effects = {
     },
     discardByPoliticalSkill: {
         apply: function(card, context) {
-            if(card.getPoliticalSkill() <= 0) {
-                card.controller.discardCardFromPlay(card);
+            context.discardEvent = context.discardEvent || {};
+            if(card.getPoliticalSkill() <= 0 && (!context.discardEvent[card.uuid] || context.discardEvent[card.uuid].cancelled)) {
+                context.discardEvent[card.uuid] = card.controller.discardCardFromPlay(card);
                 context.game.addMessage('{0} is killed as their political skill is 0', card);
             }
         },
-        unapply: function() {
-            // nothing happens when this effect expires.
+        unapply: function(card, context) {
+            if(context.discardEvent[card.uuid]) {
+                delete context.discardEvent[card.uuid];
+            }
         },
         isStateDependent: true
     },
