@@ -568,8 +568,8 @@ class Player extends Spectator {
      * Checks whether this player can initiate a conflict of the passed type
      * @param {String} conflictType - one of 'military', 'political'
      */
-    canInitiateConflict(conflictType) {
-        return (!this.conflicts.isAtMax(conflictType) &&
+    canInitiateConflict(conflictType = '') {
+        return ((conflictType === '' ? true : !this.conflicts.isAtMax(conflictType)) &&
                 this.conflicts.conflictOpportunities > 0);
     }
 
