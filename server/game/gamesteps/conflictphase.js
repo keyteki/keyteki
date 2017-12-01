@@ -105,19 +105,8 @@ class ConflictPhase extends Phase {
         this.game.queueStep(new SimpleStep(this.game, () => this.startConflictChoice(this.currentPlayer)));
     }
 
-    chooseOpponent(attackingPlayer) {
-        return this.game.getOtherPlayer(attackingPlayer);
-    }
-
     passConflict(player) {      
         this.game.addMessage('{0} has passed the opportunity to declare a conflict', player);
-    }
-
-    completeConflicts(player) {
-        this.game.addMessage('{0} has finished their conflicts', player);
-
-        this.remainingPlayers.shift();
-        return true;
     }
 }
 
