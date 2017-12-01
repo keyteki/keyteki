@@ -1401,6 +1401,10 @@ class Game extends EventEmitter {
      * @returns {undefined}
      */
     initiateDuel(challenger, target, type, resolutionHandler, costHandler = () => this.tradeHonorAfterBid()) {
+        if(challenger.location !== 'play area' || target.location !== 'play area') {
+            this.addMessage('The duel cannot proceed as one participant is no longer in play');
+            return;
+        }
         this.currentDuel = new Duel(this, challenger, target, type);
         this.queueStep(new DuelFlow(this, this.currentDuel, costHandler, resolutionHandler));
     }
