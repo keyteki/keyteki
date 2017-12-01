@@ -44,26 +44,17 @@ class ConflictPhase extends Phase {
         if(attackingPlayer) {
             this.currentPlayer = attackingPlayer;
         }
-        let conflictOpportunityRemaining = true;
-        let otherPlayer = this.game.getOtherPlayer(this.currentPlayer);
-        
-        if(_.all(['military', 'political'], type => !this.currentPlayer.canInitiateConflict(type))) {
-            if(otherPlayer) {
-                this.currentPlayer = otherPlayer; 
-                if(!this.currentPlayer || _.all(['military', 'political'], type => !this.currentPlayer.canInitiateConflict(type))) {
-                    conflictOpportunityRemaining = false;
-                }
-            } else {
-                conflictOpportunityRemaining = false;
-            }
+        if(!this.currentPlayer.canInitiateConflict() && this.currentPlayer.opponent) {
+            this.currentPlayer = this.currentPlayer.opponent;
         }
-        if(conflictOpportunityRemaining) {
+        if(this.currentPlayer.canInitiateConflict()) {
             var conflict = new Conflict(this.game, this.currentPlayer, this.game.getOtherPlayer(this.currentPlayer));
             this.game.currentConflict = conflict;
-            if(this.currentPlayer.anyCardsInPlay(card => !card.bowed)) {
+            let availableConflictTypes = _.filter(['military', 'political'], type => this.currentPlayer.canInitiateConflict(type));
+            if(this.currentPlayer.cardsInPlay.any(card => _.any(availableConflictTypes, type => card.canDeclareAsAttacker(type)))) {
                 this.game.queueStep(new ConflictFlow(this.game, conflict));
             } else {
-                this.game.addMessage('{0} passes their conflict opportunity as they have no unbowed characters', this.currentPlayer);
+                this.game.addMessage('{0} passes their conflict opportunity as none of their characters can be declared as an attacker', this.currentPlayer);
                 conflict.passed = true;
                 this.currentPlayer.conflicts.usedConflictOpportunity();
                 this.game.queueSimpleStep(() => this.game.raiseEvent('onConflictPass', { conflict: conflict }));
