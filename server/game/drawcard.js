@@ -497,7 +497,7 @@ class DrawCard extends BaseCard {
     }
 
     canPlay() {
-        return this.owner.canInitiateAction && this.allowGameAction('play');
+        return this.allowGameAction('play');
     }
 
     canTriggerAbilities(location) {
