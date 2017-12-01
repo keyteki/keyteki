@@ -342,7 +342,8 @@ class ConflictFlow extends BaseStepWithPipeline {
                 name: 'OnReturnHome',
                 params: {
                     card: card,
-                    conflict: this.conflict
+                    conflict: this.conflict,
+                    bowedPreReturn: card.bowed
                 },
                 handler: () => card.returnHomeFromConflict()
             };
