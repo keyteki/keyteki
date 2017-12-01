@@ -497,7 +497,15 @@ class DrawCard extends BaseCard {
     }
 
     canPlay() {
-        return this.allowGameAction('play');
+        return this.owner.canInitiateAction && this.allowGameAction('play');
+    }
+
+    /**
+     * Checks whether an attachment can be played on a given card.  Intended to be
+     * used by cards inheriting this class
+     */
+    canPlayOn() {
+        return true;
     }
 
     canTriggerAbilities(location) {
