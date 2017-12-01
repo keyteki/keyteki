@@ -1338,7 +1338,7 @@ class Player extends Spectator {
      */
     discardCardFromPlay(card) {
         if(card.allowGameAction('discardCardFromPlay')) {
-            this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile' });
+            return this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile' });
         }
     }
 
