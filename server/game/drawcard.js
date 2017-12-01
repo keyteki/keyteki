@@ -497,7 +497,7 @@ class DrawCard extends BaseCard {
     }
 
     canPlay() {
-        return this.owner.canInitiateAction && this.allowGameAction('play');
+        return this.allowGameAction('play');
     }
 
     canTriggerAbilities(location) {
@@ -673,7 +673,7 @@ class DrawCard extends BaseCard {
         if(!this.conflictOptions.doesNotBowAs[side] && !this.bowed) {
             this.controller.bowCard(this);
         }
-        this.inConflict = false;
+        this.game.currentConflict.removeFromConflict(this);
     }
 
     play() {

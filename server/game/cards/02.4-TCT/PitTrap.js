@@ -1,10 +1,20 @@
 const DrawCard = require('../../drawcard.js');
 
 class PitTrap extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.whileAttached({
+            condition: () => (
+                this.game.currentPhase === 'regroup'
+            ),
+            effect: ability.effects.doesNotReadyDuringRegroup()
+        });
+    }
+
+    canPlay(card) {
+        return card.isAttacking() && super.canPlay();
     }
 }
 
-PitTrap.id = 'pit-trap'; // This is a guess at what the id might be - please check it!!!
+PitTrap.id = 'pit-trap';
 
 module.exports = PitTrap;

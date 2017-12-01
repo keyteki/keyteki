@@ -48,6 +48,7 @@ class Player extends Spectator {
         this.showBid = 0; // amount shown on the dial
         this.imperialFavor = '';
         this.totalGloryForFavor = 0;
+        this.gloryModifier = 0;
 
 
         this.deck = {};
@@ -251,12 +252,12 @@ class Player extends Spectator {
         _.each(['province 1', 'province 2', 'province 3', 'province 4'], province => {
             let card = this.getDynastyCardInProvince(province);
             if(card && card.facedown) {
-                card.facedown = false;
+                this.game.raiseEvent('onDynastyCardTurnedFaceup', { player: this, card: card }, () => card.facedown = false);
                 revealedCards.push(card);
             }
         });
         if(revealedCards.length > 0) {
-            this.game.addMessage('{0} reveals {1}', this, revealedCards);
+            this.game.queueSimpleStep(() => this.game.addMessage('{0} reveals {1}', this, revealedCards));
         }
     }
 
@@ -567,8 +568,8 @@ class Player extends Spectator {
      * Checks whether this player can initiate a conflict of the passed type
      * @param {String} conflictType - one of 'military', 'political'
      */
-    canInitiateConflict(conflictType) {
-        return (!this.conflicts.isAtMax(conflictType) &&
+    canInitiateConflict(conflictType = '') {
+        return ((conflictType === '' ? true : !this.conflicts.isAtMax(conflictType)) &&
                 this.conflicts.conflictOpportunities > 0);
     }
 
@@ -1451,9 +1452,13 @@ class Player extends Spectator {
 
         let rings = this.getClaimedRings();
 
-        this.totalGloryForFavor = cardGlory + _.size(rings);
+        this.totalGloryForFavor = cardGlory + _.size(rings) + this.gloryModifier;
 
         return this.totalGloryForFavor;
+    }
+
+    changeGloryModifier(amount) {
+        this.gloryModifier += amount;
     }
 
     /**
@@ -1613,6 +1618,9 @@ class Player extends Spectator {
      * @param {ProvinceCard} province 
      */
     breakProvince(province) {
+        if(!province.allowGameAction('break')) {
+            return;
+        }
         this.game.raiseEvent('onBreakProvince', { conflict: this.game.currentConflict, province: province }, () => {
             province.breakProvince();
             this.game.reapplyStateDependentEffects();
@@ -1680,6 +1688,15 @@ class Player extends Spectator {
 
             this.game.raiseEvent('onCardBowed', { player: this, card: card, source: source });
         });
+    }
+
+    /**
+     * Bows multiple cards
+     * @param {[DrawCard]} cards
+     * @param {EffectSource} source
+     */
+    bowCards(cards, source) {
+        _.each(cards, card => this.bowCard(card, source));
     }
 
     /**
