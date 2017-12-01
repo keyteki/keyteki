@@ -112,7 +112,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
                     this.resolveAbility(player, cardChoices[0]);
                     return true;
                 }
-                let eventCards = _.uniq(cardChoices, choice => choice.context.event.card);
+                let eventCards = _.uniq(_.map(cardChoices, choice => choice.context.event.card));
                 if(_.uniq(cardChoices, choice => choice.context.event.name).length === 1 && eventCards.length > 1) {
                     this.game.promptForSelect(player, {
                         source: 'Triggered Abilites',

@@ -339,7 +339,7 @@ class ConflictFlow extends BaseStepWithPipeline {
         
         let events = _.map(cards, card => {
             return {
-                name: 'OnReturnHome',
+                name: 'onReturnHome',
                 params: {
                     card: card,
                     conflict: this.conflict,
