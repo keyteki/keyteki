@@ -264,7 +264,7 @@ class Game extends EventEmitter {
     selectProvince(player, provinceId) {
         var province = player.findCardByUuid(player.provinceDeck, provinceId);
 
-        if(!province) {
+        if(!province || province.cannotBeStrongholdProvince()) {
             return;
         }
 

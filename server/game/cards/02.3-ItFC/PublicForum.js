@@ -15,6 +15,10 @@ class PublicForum extends ProvinceCard {
             }
         });
     }
+
+    cannotBeStrongholdProvince() {
+        return true;
+    }
 }
 
 PublicForum.id = 'public-forum';
