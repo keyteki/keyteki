@@ -112,24 +112,47 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
                     this.resolveAbility(player, cardChoices[0]);
                     return true;
                 }
-                this.game.promptWithHandlerMenu(player, {
-                    source: 'Triggered Abilites',
-                    activePromptTitle: 'Which event do you want to respond to?',
-                    waitingPromptTitle: 'Waiting for opponent',
-                    choices: _.map(cardChoices, abilityChoice => {
-                        return TriggeredAbilityWindowTitles.getAction(abilityChoice.context.event);
-                    }),
-                    handlers: _.map(cardChoices, abilityChoice => {
-                        return () => {
-                            this.resolveAbility(player, abilityChoice);
-                        };
-                    })
-                });
+                let eventCards = _.uniq(_.map(cardChoices, choice => choice.context.event.card));
+                if(_.uniq(cardChoices, choice => choice.context.event.name).length === 1 && eventCards.length > 1) {
+                    this.game.promptForSelect(player, {
+                        source: 'Triggered Abilites',
+                        activePromptTitle: 'Choose a card',
+                        waitingPromptTitle: 'Waiting for opponent',
+                        cardCondition: card => eventCards.includes(card),
+                        onSelect: (player, card) => {
+                            cardChoices = _.filter(cardChoices, choice => choice.context.event.card === card);
+                            if(cardChoices.length === 1) {
+                                this.resolveAbility(player, cardChoices[0]);
+                                return true;
+                            }
+                            this.promptBetweenChoices(player, cardChoices);
+                            return true;
+                        }
+                    });
+                    return true;
+                }
+                this.promptBetweenChoices(player, cardChoices);
                 return true;
             }
         });
 
         this.forceWindowPerPlayer[player.name] = false;
+    }
+
+    promptBetweenChoices(player, choices) {
+        this.game.promptWithHandlerMenu(player, {
+            source: 'Triggered Abilites',
+            activePromptTitle: 'Which event do you want to respond to?',
+            waitingPromptTitle: 'Waiting for opponent',
+            choices: _.map(choices, abilityChoice => {
+                return TriggeredAbilityWindowTitles.getAction(abilityChoice.context.event);
+            }),
+            handlers: _.map(choices, abilityChoice => {
+                return () => {
+                    this.resolveAbility(player, abilityChoice);
+                };
+            })
+        });
     }
 
     resolveAbility(player, abilityChoice) {
