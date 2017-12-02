@@ -263,7 +263,7 @@ class Player extends Spectator {
 
     /**
      * Returns the dynasty card from the passed province name
-     * @param {String} location - one of 'province 1', 'province 2', 'province 3', 'province 4'
+     * @param {String} location - one of 'province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'
      */
     getDynastyCardInProvince(location) {
         let province = this.getSourceList(location);
@@ -313,11 +313,8 @@ class Player extends Spectator {
      * Returns the total number of holdings controlled by this player
      */
     getNumberOfHoldingsInPlay() {
-        return _.reduce(['province 1', 'province 2', 'province 3', 'province 4'], (n, province) => {
-            if(this.getSourceList(province).any(card => card.getType() === 'holding' && !card.facedown)) {
-                return n + 1;
-            }
-            return n;
+        return _.reduce(['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'], (n, province) => {
+            return this.getSourceList(province).filter(card => card.getType() === 'holding' && !card.facedown).length + n;
         }, 0);
     }
 

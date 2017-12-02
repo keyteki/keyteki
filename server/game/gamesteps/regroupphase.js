@@ -47,14 +47,15 @@ class RegroupPhase extends Phase {
     discardFromProvincesForPlayer(player) {
         let cardsToDiscard = [];
         let cardsOnUnbrokenProvinces = [];
-        _.each(['province 1', 'province 2', 'province 3', 'province 4'], location => {
+        _.each(['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'], location => {
             let provinceCard = player.getProvinceCardInProvince(location);
-            let dynastyCard = player.getDynastyCardInProvince(location);
-            if(dynastyCard && provinceCard && !dynastyCard.facedown) {
+            let province = player.getSourceList(location);
+            let dynastyCards = province.filter(card => card.isDynasty && !card.facedown);
+            if(dynastyCards.length > 0 && provinceCard) {
                 if(provinceCard.isBroken) {
-                    cardsToDiscard.push(dynastyCard);
+                    cardsToDiscard = cardsToDiscard.concat(dynastyCards);
                 } else {
-                    cardsOnUnbrokenProvinces.push(dynastyCard);
+                    cardsOnUnbrokenProvinces = cardsOnUnbrokenProvinces.concat(dynastyCards);
                 }
             }
         });
