@@ -60,6 +60,7 @@ const eventNames = [
     'onCardPlayed',
     'onDeckShuffled',
     'onDuelResolution',
+    'onDynastyCardTurnedFaceup',
     'onHonorTradedAfterBid'
 ];
 

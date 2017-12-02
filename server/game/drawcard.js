@@ -500,6 +500,14 @@ class DrawCard extends BaseCard {
         return this.owner.canInitiateAction && this.allowGameAction('play');
     }
 
+    /**
+     * Checks whether an attachment can be played on a given card.  Intended to be
+     * used by cards inheriting this class
+     */
+    canPlayOn() {
+        return true;
+    }
+
     canTriggerAbilities(location) {
         if(this.type === 'character' || this.type === 'attachment') {
             if(!location.includes(this.location) && this.location !== 'play area') {
@@ -673,7 +681,7 @@ class DrawCard extends BaseCard {
         if(!this.conflictOptions.doesNotBowAs[side] && !this.bowed) {
             this.controller.bowCard(this);
         }
-        this.inConflict = false;
+        this.game.currentConflict.removeFromConflict(this);
     }
 
     play() {

@@ -54,7 +54,7 @@ class Province extends React.Component {
         var provinceCard = this.props.provinceCard || _.find(this.props.cards, card => {
             return card.isProvince;
         });
-        var dynastyCard = this.props.dynastyCard || _.find(this.props.cards, card => {
+        var dynastyCards = this.props.dynastyCard || _.filter(this.props.cards, card => {
             return card.isDynasty;
         });
         var strongholdCard = this.props.strongholdCard || _.find(this.props.cards, card => {
@@ -65,10 +65,12 @@ class Province extends React.Component {
             provinceCard.facedown = true;
         }
 
-        if(this.props.hiddenDynastyCard && dynastyCard) {
-            dynastyCard.facedown = true;
+        if(this.props.hiddenDynastyCard && dynastyCards.length > 0) {
+            for(var i = 0; i < dynastyCards.length; i++) {
+                dynastyCards[i].facedown = true;
+            }
         }
-        
+
         let cardClassName = '';
         if(provinceCard) {
             cardClassName = 'province-attachment';
@@ -93,15 +95,17 @@ class Province extends React.Component {
                     onClick={ this.props.onCardClick }
                     onMenuItemClick={ this.props.onMenuItemClick }
                     onDragDrop={ this.props.onDragDrop } size={ this.props.size } /> : null }
-                { dynastyCard ? <Card className={ cardClassName } card={ dynastyCard } source={ this.props.source }
-                    popupLocation={ this.props.popupLocation }
-                    isMe={ this.props.isMe }
-                    onMouseOver={ this.props.onMouseOver }
-                    onMouseOut={ this.props.onMouseOut }
-                    disableMouseOver={ dynastyCard.facedown }
-                    onClick={ this.props.onCardClick }
-                    onMenuItemClick={ this.props.onMenuItemClick }
-                    onDragDrop={ this.props.onDragDrop } size={ this.props.size } /> : null }
+                { dynastyCards.length > 0 ? _.map(dynastyCards, card => {
+                    return (<Card className={ cardClassName } card={ card } source={ this.props.source }
+                        popupLocation={ this.props.popupLocation }
+                        isMe={ this.props.isMe }
+                        onMouseOver={ this.props.onMouseOver }
+                        onMouseOut={ this.props.onMouseOut }
+                        disableMouseOver={ card.facedown }
+                        onClick={ this.props.onCardClick }
+                        onMenuItemClick={ this.props.onMenuItemClick }
+                        onDragDrop={ this.props.onDragDrop } size={ this.props.size } />);
+                }) : null }
                 { strongholdCard ? <Card className={ cardClassName } card={ strongholdCard } source={ this.props.source }
                     onMouseOver={ this.props.onMouseOver }
                     onMouseOut={ this.props.onMouseOut }

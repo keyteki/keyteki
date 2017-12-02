@@ -10,7 +10,7 @@ class PlayAttachmentAction extends BaseAbility {
                 Costs.useInitiateAction()
             ],
             target: { 
-                cardCondition: (card, context) => context.source.owner.canAttach(context.source, card)
+                cardCondition: (card, context) => context.player.canAttach(context.source, card) && context.source.canPlayOn(card)
             }
         });
         this.title = 'Play this attachment';
