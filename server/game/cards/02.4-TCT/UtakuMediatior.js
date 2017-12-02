@@ -1,6 +1,6 @@
 const DrawCard = require('../../drawcard.js');
 
-class UtakuMediatior extends DrawCard {
+class UtakuMediator extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: this,
@@ -13,6 +13,6 @@ class UtakuMediatior extends DrawCard {
     }
 }
 
-UtakuMediatior.id = 'utaku-mediatior';
+UtakuMediator.id = 'utaku-mediator';
 
-module.exports = UtakuMediatior;
+module.exports = UtakuMediator;
