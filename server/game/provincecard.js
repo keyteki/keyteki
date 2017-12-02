@@ -54,6 +54,10 @@ class ProvinceCard extends BaseCard {
         return super.canTriggerAbilities();
     }
 
+    cannotBeStrongholdProvince() {
+        return false;
+    }
+
     getSummary(activePlayer, hideWhenFaceup) {
         let baseSummary = super.getSummary(activePlayer, hideWhenFaceup);
 

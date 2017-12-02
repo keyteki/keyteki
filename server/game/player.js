@@ -1338,7 +1338,7 @@ class Player extends Spectator {
      */
     discardCardFromPlay(card) {
         if(card.allowGameAction('discardCardFromPlay')) {
-            this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile' });
+            return this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile' });
         }
     }
 
@@ -1473,6 +1473,9 @@ class Player extends Spectator {
      * @param {String} conflictType 
      */
     claimImperialFavor() {
+        if(this.opponent) {
+            this.opponent.loseImperialFavor();
+        }
         let handlers = _.map(['military', 'political'], type => {
             return () => {
                 this.imperialFavor = type;

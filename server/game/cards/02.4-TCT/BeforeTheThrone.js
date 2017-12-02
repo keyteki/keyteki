@@ -17,6 +17,10 @@ class BeforeTheThrone extends ProvinceCard {
             }
         });
     }
+
+    cannotBeStrongholdProvince() {
+        return true;
+    }
 }
 
 BeforeTheThrone.id = 'before-the-throne';
