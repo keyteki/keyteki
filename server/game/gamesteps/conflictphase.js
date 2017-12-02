@@ -87,7 +87,6 @@ class ConflictPhase extends Phase {
                 winner = otherPlayer;
             }
             this.game.addMessage('{0} succesfully claims the Emperor\'s favor with total glory of {1} vs {2}', winner, winner.totalGloryForFavor, winner.opponent.totalGloryForFavor);
-            winner.opponent.loseImperialFavor();
         }
         winner.claimImperialFavor();
     }
