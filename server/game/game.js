@@ -106,7 +106,7 @@ class Game extends EventEmitter {
     addMessage() {
         this.gameChat.addMessage(...arguments);
     }
-    
+
     /*
      * Adds a message to in-game chat with a graphical icon
      * @param {String} one of: 'endofround', 'success', 'info', 'danger', 'warning'
@@ -121,7 +121,7 @@ class Game extends EventEmitter {
     get messages() {
         return this.gameChat.messages;
     }
-    
+
     /*
      * Checks if a player is a spectator
      * @param {Object} player
@@ -130,7 +130,7 @@ class Game extends EventEmitter {
     isSpectator(player) {
         return player.constructor === Spectator;
     }
-    
+
     /*
      * Checks whether a player/spectator is still in the game
      * @param {String} playerName
@@ -180,7 +180,7 @@ class Game extends EventEmitter {
     getSpectators() {
         return _.pick(this.playersAndSpectators, player => this.isSpectator(player));
     }
-    
+
     /*
      * Gets the current First Player
      * @returns {Player}
@@ -206,7 +206,7 @@ class Game extends EventEmitter {
 
     /*
      * Returns the card (i.e. character) with matching uuid from either players
-     * 'in play' area. 
+     * 'in play' area.
      * @param {String} cardId
      * @returns {DrawCard}
      */
@@ -229,7 +229,7 @@ class Game extends EventEmitter {
     }
 
     /*
-     * Returns all cards (i.e. characters) which matching the passed predicated 
+     * Returns all cards (i.e. characters) which matching the passed predicated
      * function from either players 'in play' area.
      * @param {Function} predicate - card => Boolean
      * @returns {Array} Array of DrawCard objects
@@ -264,7 +264,7 @@ class Game extends EventEmitter {
     selectProvince(player, provinceId) {
         var province = player.findCardByUuid(player.provinceDeck, provinceId);
 
-        if(!province) {
+        if(!province || province.cannotBeStrongholdProvince()) {
             return;
         }
 
@@ -315,15 +315,16 @@ class Game extends EventEmitter {
             return;
         }
 
+        /* This doesn't really work with cards which trigger from being flipped
         // If it's the Dynasty phase, and this is a Dynasty card in a province, flip it face up
         if(['province 1', 'province 2', 'province 3', 'province 4'].includes(card.location) && card.controller === player && card.isDynasty) {
             if(card.facedown && this.currentPhase === 'dynasty') {
                 card.facedown = false;
                 this.addMessage('{0} reveals {1}', player, card);
             }
-        }        
+        }*/        
     }
-   
+
     /*
      * This function is called from the client whenever a ring is clicked
      * @param {String} sourcePlayer - name of the clicking player
@@ -337,20 +338,20 @@ class Game extends EventEmitter {
         if(!player || !ring) {
             return;
         }
-        
+
         // Check to see if the current step in the pipeline is waiting for input
         if(this.pipeline.handleRingClicked(player, ring)) {
             return;
         }
-        
+
         // If it's not the conflict phase and the ring hasn't been claimed, flip it
         if(this.currentPhase !== 'conflict' && !ring.claimed) {
             this.flipRing(player, ring);
         }
     }
-    
+
     /*
-     * This function is called from the client whenever the conflict deck is 
+     * This function is called from the client whenever the conflict deck is
      * clicked. It's primary purpose is to support implementation of Arisan
      * Academy
      * @param {String} sourcePlayer - name of the clicking player
@@ -363,9 +364,9 @@ class Game extends EventEmitter {
         if(!player || player.conflictDeckTopCardHidden) {
             return;
         }
-        
+
         let card = player.conflictDeck.first();
-        
+
         // Check to see if the current step in the pipeline is waiting for input
         if(this.pipeline.handleCardClicked(player, card)) {
             return;
@@ -382,7 +383,7 @@ class Game extends EventEmitter {
     returnRings() {
         _.each(this.rings, ring => ring.resetRing());
     }
-    
+
     /*
      * @deprecated
      * @param {type} card
@@ -395,14 +396,14 @@ class Game extends EventEmitter {
         });
     }
 
-    /* 
+    /*
      * Handles clicks on menu commands from in-play cards
      * @deprecated
      * @param {type} card
      * @param {type} player
      * @param {type} menuItem
      * @returns {undefined}
-     * 
+     *
      */
     callCardMenuCommand(card, player, menuItem) {
         if(!card || !card[menuItem.method] || !this.cardHasMenuItem(card, menuItem)) {
@@ -494,7 +495,7 @@ class Game extends EventEmitter {
                 }
                 break;
         }
-        
+
         /* deprecated code
         switch(card.location) {
             case 'province':
@@ -635,7 +636,7 @@ class Game extends EventEmitter {
             this.addMessage('{0} stops looking at their dynasty deck', player);
         }
     }
-    
+
     /*
      * This function is called from the client whenever a card is dragged from
      * one place to another
@@ -734,7 +735,7 @@ class Game extends EventEmitter {
 
     /*
      * Check to see if this player has won/lost the game due to honor (NB: this
-     * function doesn't check to see if a conquest victory has been achieved) 
+     * function doesn't check to see if a conquest victory has been achieved)
      * @param {Player} player
      * @returns {undefined}
      */
@@ -768,7 +769,7 @@ class Game extends EventEmitter {
 
         this.router.gameWon(this, reason, winner);
     }
-    
+
     /*
      * Designate a player as First Player
      * @param {Player} firstPlayer
@@ -809,7 +810,7 @@ class Game extends EventEmitter {
         }
     }
 
-    /* 
+    /*
      * This function is called by the client every time a player enters a chat message
      * @param {String} playerName
      * @param {String} message
@@ -978,7 +979,7 @@ class Game extends EventEmitter {
             return true;
         }
     }
-    
+
     /*
      * This function is called by the client when a player clicks an action window
      * toggle in the settings menu
@@ -1054,7 +1055,7 @@ class Game extends EventEmitter {
                 playerWithNoStronghold = player;
             }
         });
-        
+
         this.allCards = _(_.reduce(this.getPlayers(), (cards, player) => {
             return cards.concat(player.preparedDeck.allCards);
         }, []));
@@ -1210,7 +1211,7 @@ class Game extends EventEmitter {
         return event;
     }
 
-    /* Creates an EventWindow which will open windows for each kind of triggered 
+    /* Creates an EventWindow which will open windows for each kind of triggered
      * ability which can respond any passed events, and execute their handlers.
      * @param {type} events - Array of Event
      * @returns {undefined}
@@ -1246,7 +1247,7 @@ class Game extends EventEmitter {
     }
 
     /**
-     * Raises a custom event window for checking for any cancels to a card 
+     * Raises a custom event window for checking for any cancels to a card
      * ability
      * @param {Object} params
      * @param {Function} handler - this is an arrow function which is called if
@@ -1257,7 +1258,7 @@ class Game extends EventEmitter {
     }
 
     /**
-     * Raises a custom event window for checking for any cancels to several card 
+     * Raises a custom event window for checking for any cancels to several card
      * abilities which initiate simultaneously
      * @param {Array} eventProps
      */
@@ -1286,7 +1287,7 @@ class Game extends EventEmitter {
             return events.concat([conditionalEvent]);
         }
         this.openEventWindow(events);
-        return events;    
+        return events;
     }
 
     /*
@@ -1327,14 +1328,16 @@ class Game extends EventEmitter {
                 honorDifference = currentPlayer.honorBid - otherPlayer.honorBid;
                 this.transferHonor(currentPlayer, otherPlayer, honorDifference);
                 this.addMessage('{0} gives {1} {2} honor', currentPlayer, otherPlayer, honorDifference);
+                this.raiseEvent('onHonorTradedAfterBid', { giver: currentPlayer, receiver: otherPlayer, amount: honorDifference });
             } else if(otherPlayer.honorBid > currentPlayer.honorBid) {
                 honorDifference = otherPlayer.honorBid - currentPlayer.honorBid;
                 this.transferHonor(otherPlayer, currentPlayer, honorDifference);
                 this.addMessage('{0} gives {1} {2} honor', otherPlayer, currentPlayer, honorDifference);
+                this.raiseEvent('onHonorTradedAfterBid', { giver: otherPlayer, receiver: currentPlayer, amount: honorDifference });
             }
         }
     }
-    
+
     /*
      * Changes the controller of a card in play to the passed player, and cleans
      * all the related stuff up (swapping sides in a conflict, checking for
@@ -1384,7 +1387,7 @@ class Game extends EventEmitter {
         }
         this.raiseEvent('onCardTakenControl', { card: card });
     }
-    
+
     /*
      * Starts a duel between two characters. Prompts for bids, deals with costs
      * of bids, and then resolves the outcome
@@ -1393,17 +1396,21 @@ class Game extends EventEmitter {
      * @param {String} type = 'military' or 'political' // gets the skill to add to bid
      * @param {Function} resolutionHandler - (winner, loser) => undefined //
      * function which deals with any effects due to winning/losing the duel
-     * @param {Function} costHandler - () => undefined // function which resolves 
+     * @param {Function} costHandler - () => undefined // function which resolves
      * costsas a result of bids (transfering honor is the default)
      * @returns {undefined}
      */
     initiateDuel(challenger, target, type, resolutionHandler, costHandler = () => this.tradeHonorAfterBid()) {
+        if(challenger.location !== 'play area' || target.location !== 'play area') {
+            this.addMessage('The duel cannot proceed as one participant is no longer in play');
+            return;
+        }
         this.currentDuel = new Duel(this, challenger, target, type);
         this.queueStep(new DuelFlow(this, this.currentDuel, costHandler, resolutionHandler));
     }
 
     /*
-     * Checks whether a game action can be performed on a card or an array of 
+     * Checks whether a game action can be performed on a card or an array of
      * cards, and performs it on all legal targets.
      * @deprecated
      * @param {String} actionType

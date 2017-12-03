@@ -1,10 +1,16 @@
 const DrawCard = require('../../drawcard.js');
 
 class HaughtyMagistrate extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            condition: () => this.isAttacking(),
+            match: card => card.isParticipating() && card.getGlory() < this.getGlory() && card !== this,
+            targetController: 'any',
+            effect: ability.effects.cannotCountForResolution()
+        });
     }
 }
 
-HaughtyMagistrate.id = 'haughty-magistrate'; // This is a guess at what the id might be - please check it!!!
+HaughtyMagistrate.id = 'haughty-magistrate';
 
 module.exports = HaughtyMagistrate;

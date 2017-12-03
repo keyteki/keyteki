@@ -1,10 +1,18 @@
 const DrawCard = require('../../drawcard.js');
 
-class UtakuMediatior extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+class UtakuMediator extends DrawCard {
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            match: this,
+            condition: () => this.controller.imperialFavor === '',
+            effect: [
+                ability.effects.modifyMilitarySkill(1),
+                ability.effects.modifyPoliticalSkill(1)
+            ]
+        });
     }
 }
 
-UtakuMediatior.id = 'utaku-mediatior'; // This is a guess at what the id might be - please check it!!!
+UtakuMediator.id = 'utaku-mediator';
 
-module.exports = UtakuMediatior;
+module.exports = UtakuMediator;
