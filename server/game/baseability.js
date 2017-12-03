@@ -162,7 +162,6 @@ class BaseAbility {
         }
         return _.map(_.zip(this.targets, results), array => {
             let [target, result] = array;
-            console.log('resolvetargets', target, result)
             if(!result.resolved || !target.checkTarget(context)) {
                 return target.resolve(context);
             }
