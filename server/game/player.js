@@ -1425,8 +1425,7 @@ class Player extends Spectator {
      */
     returnCardToHand(card) {
         if(card.allowGameAction('returnToHand')) {
-            let event = this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: 'hand' });
-            return event.result;
+            return this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: 'hand' });
         }
     }
 

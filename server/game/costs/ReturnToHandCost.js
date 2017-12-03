@@ -1,3 +1,5 @@
+const _ = require('underscore');
+
 class ReturnToHandCost {
     constructor() {
         this.name = 'returnToHand';
@@ -8,11 +10,7 @@ class ReturnToHandCost {
     }
 
     pay(cards, context) {
-        let results = [];
-        for(let card of cards) {
-            results.push(context.player.returnCardToHand(card));
-        }
-        return results;
+        return _.map(cards, card => context.player.returnCardToHand(card));
     }
 }
 
