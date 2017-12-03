@@ -1,3 +1,5 @@
+const _ = require('underscore');
+
 class DishonorCost {
     constructor() {
         this.name = 'dishonor';
@@ -8,11 +10,7 @@ class DishonorCost {
     }
 
     pay(cards, context) {
-        let results = [];
-        for(let card of cards) {
-            results.push(context.player.dishonorCard(card, context.source));
-        }
-        return results;
+        return _.map(cards, card => context.player.dishonorCard(card, context.source));
     }
 }
 

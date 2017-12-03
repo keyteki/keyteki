@@ -38,10 +38,12 @@ class EventWindow extends BaseStepWithPipeline {
         let uuids = events.map(event => event.uuid);
         _.each(events, event => event.unsetWindow());
         this.events = _.reject(this.events, event => uuids.includes(event.uuid));
+        console.log(_.pluck(this.events, 'name'))
         _.each(this.events, event => event.checkCondition());
     }
 
     openWindow(abilityType) {
+        _.each(this.events, event => event.checkCondition());
         if(_.isEmpty(this.events)) {
             return;
         }
@@ -59,6 +61,7 @@ class EventWindow extends BaseStepWithPipeline {
 
     preResolutionEffects() {
         _.each(this.events, event => {
+            event.checkCondition();
             if(!event.cancelled) {
                 event.preResolutionEffect();
             }
@@ -71,6 +74,7 @@ class EventWindow extends BaseStepWithPipeline {
         let thenEvents = [];
 
         _.each(this.events, event => {
+            event.checkCondition();
             if(!event.cancelled) {
                 thenEvents = thenEvents.concat(event.thenEvents);
 

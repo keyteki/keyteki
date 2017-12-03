@@ -56,20 +56,20 @@ class AbilityResolver extends BaseStepWithPipeline {
         if(this.cancelled) {
             return;
         }
-        this.costsSuccessfullyPaid = this.context.ability.payCosts(this.context);
+        this.costEvents = this.context.ability.payCosts(this.context);
     }
 
     checkCostsHaveBeenPaid() {
         if(this.cancelled) {
             return;
         }
-        this.cancelled = _.any(this.costsSuccessfullyPaid, result => result.resolved && !result.success);
+        this.cancelled = _.any(this.costEvents, event => event.result.resolved && !event.result.success);
+
         if(this.cancelled) {
             this.game.addMessage('{0} attempted to use {1}, but did not successfully pay the required costs', this.context.player, this.context.source);
         }
 
-        if(!_.all(this.costsSuccessfullyPaid, result => result.resolved)) {
-            console.log(this.costsSuccessfullyPaid)
+        if(!_.all(this.costEvents, event => event.result.resolved)) {
             return false;
         }
     }
@@ -92,7 +92,6 @@ class AbilityResolver extends BaseStepWithPipeline {
         if(this.cancelled) {
             return;
         }
-        console.log('resolve Targets')
         this.context.stage = 'target';
         this.targetResults = this.context.ability.resolveTargets(this.context, this.targetResults);
     }

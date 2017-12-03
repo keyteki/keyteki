@@ -12,7 +12,7 @@ const Costs = {
                 return _.all(costs, cost => cost.canPay(context));
             },
             pay: function(context) {
-                _.each(costs, cost => cost.pay(context));
+                return _.map(costs, cost => cost.pay(context));
             },
             canIgnoreForTargeting: _.all(costs, cost => cost.canIgnoreForTargeting)
         };
@@ -175,7 +175,6 @@ const Costs = {
             pay: function(context) {
                 context.player.canInitiateAction = false;
                 context.game.markActionAsTaken();
-                return { resolved: true, success: true };
             },
             canIgnoreForTargeting: true
         };
@@ -367,11 +366,7 @@ const Costs = {
                 return result;
             },
             pay: function(context) {
-                if(context.player.fate < context.chooseFate) {
-                    return { resolved: true, success: false };
-                }
                 context.player.fate -= context.chooseFate;
-                return { resolved: true, success: true };
             }
         };
     }
