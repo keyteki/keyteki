@@ -15,8 +15,12 @@ class LeavesPlayEvent extends Event {
             this.destination = this.card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile';
         }
 
-        if(this.destination.includes('discard pile')) {
+        if(this.isSacrifice) {
+            this.gameAction = 'sacrifice';
+        } else if(this.destination.includes('discard pile')) {
             this.gameAction = 'discardFromPlay';
+        } else if(this.destination === 'hand') {
+            this.gameAction = 'returnToHand';
         }
     }
     
