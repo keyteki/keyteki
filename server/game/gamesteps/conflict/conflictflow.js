@@ -99,7 +99,7 @@ class ConflictFlow extends BaseStepWithPipeline {
         }];
 
         let ring = this.game.rings[this.conflict.conflictRing];
-        if(ring.fate > 0) {
+        if(ring.fate > 0 && this.conflict.attackingPlayer.allowGameAction('takeFateFromRings')) {
             events.push({
                 name: 'onSelectRingWithFate',
                 params: {

@@ -5,7 +5,7 @@ class SecludedTemple extends DrawCard {
         this.reaction({
             title: 'Remove a fate from opponent\'s characters',
             when: {
-                onPhaseStarted: event => event.phase === 'conflict' && this.controller.opponent && this.controller.cardsInPlay.size() < this.controller.opponent.cardsInPlay.size() && this.controller.opponent.cardsInPlay.any(card => card.fate > 0 && card.allowGameAction('removeFate'))
+                onPhaseStarted: event => event.phase === 'conflict' && this.controller.opponent && this.controller.cardsInPlay.size() < this.controller.opponent.cardsInPlay.size()
             },
             target: {
                 player: 'opponent',
