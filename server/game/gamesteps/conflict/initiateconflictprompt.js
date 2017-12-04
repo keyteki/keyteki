@@ -75,7 +75,7 @@ class InitiateConflictPrompt extends UiPrompt {
     }
 
     onRingClicked(player, ring) {
-        if(player !== this.choosingPlayer || ring.claimed || player.allowGameAction('initiateConflict', { source: { type: 'ring', element: ring.element } })) {
+        if(player !== this.choosingPlayer || ring.claimed || !player.allowGameAction('initiateConflict', { source: { type: 'ring', element: ring.element } })) {
             return false;
         }
 
