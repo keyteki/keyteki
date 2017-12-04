@@ -12,11 +12,11 @@ class ConsumedByFiveFires extends DrawCard {
                 this.game.addMessage('{0} plays {1}', this.controller, this);
                 this.consumedByFiveFiresChooseCard({}, []);
             }
-        })
+        });
     }
 
     consumedByFiveFiresChooseCard(targets, messages) {
-        let fateRemaining = 5 - _.reduce(targets, (totalFate, fateToRemove) => totalFate + fateToRemove);
+        let fateRemaining = 5 - _.reduce(targets, (totalFate, fateToRemove) => totalFate + fateToRemove, 0);
         if(fateRemaining === 0 || !this.controller.opponent.cardsInPlay.any(card => card.fate > 0 && !_.keys(targets).includes(card.uuid))) {
             this.game.addMessage('{0} chooses to: {1}', this.controller, messages);
             let events = _.map(targets, (fate, uuid) => {
@@ -29,6 +29,7 @@ class ConsumedByFiveFires extends DrawCard {
                 }
             });
             this.game.raiseMultipleEvents(_.compact(events));
+            return;
         }
         this.game.promptForSelect(this.controller, {
             source: this,
@@ -62,8 +63,7 @@ class ConsumedByFiveFires extends DrawCard {
                     if(card) {
                         return {
                             name: 'onCardRemoveFate',
-                            card: card,
-                            fate: fate
+                            params: { card: card, fate: fate }
                         };
                     }
                 });
