@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const UiPrompt = require('./uiprompt.js');
 
 class ActionWindow extends UiPrompt {

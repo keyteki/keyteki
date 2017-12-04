@@ -11,7 +11,7 @@ class Deathseeker extends DrawCard {
             target: {
                 cardType: 'character',
                 gameAction: 'discardCardFromPlay',
-                cardCondition: (card, context) => card.location === 'play area' && card.controller !== this.controller
+                cardCondition: card => card.location === 'play area' && card.controller !== this.controller
             },
             handler: context => {
                 if(context.target.fate === 0) {
