@@ -1,10 +1,16 @@
 const ProvinceCard = require('../../provincecard.js');
 
 class MassingAtTwilight extends ProvinceCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            match: this,
+            targetLocation: 'province',
+            condition: () => this.game.currentConflict && this.game.currentConflict.conflictProvince === this,
+            effect: ability.effects.changeConflictSkillFunction(card => card.getMilitarySkill() + card.getPoliticalSkill())
+        });
     }
 }
 
-MassingAtTwilight.id = 'massing-at-twilight'; // This is a guess at what the id might be - please check it!!!
+MassingAtTwilight.id = 'massing-at-twilight';
 
 module.exports = MassingAtTwilight;
