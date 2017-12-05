@@ -1,9 +1,10 @@
 const DrawCard = require('../../drawcard.js');
 
 class WayOfTheChrysanthemum extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             title: 'Gain extra honor after bid',
+            max: ability.limit.perRound(1),
             when: {
                 onHonorTradedAfterBid: event => event.receiver === this.controller
             },
