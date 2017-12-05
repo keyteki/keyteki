@@ -1819,6 +1819,11 @@ class Player extends Spectator {
         if(!_.isArray(elements)) {
             this.game.resolveAbility(RingEffects.contextFor(this, elements, optional));
             return;
+        } else if(elements.length === 0) {
+            if(this.game.currentConflict) {
+                this.game.addMessage('{0} chooses not to resolve the {1} ring', this, this.game.currentConflict.conflictRing);
+            }
+            return;
         } else if(elements.length === 1) {
             queue.push(elements[0]);
             if(queue.length > 1) {
