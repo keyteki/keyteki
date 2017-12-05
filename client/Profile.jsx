@@ -280,12 +280,12 @@ class InnerProfile extends React.Component {
                             <div className='panel'>
                                 <div className='form-group'>
                                     <Checkbox
-                                        name='optionSettings.flipDynasty'
+                                        name='optionSettings.markCardsUnselectable'
                                         noGroup
-                                        label={ 'Automatically flip dynasty cards' }
+                                        label={ 'Grey out cards with no relevant abilities during interrupt/reaction windows' }
                                         fieldClass='col-sm-6'
-                                        onChange={ this.onOptionSettingToggle.bind(this, 'flipDynasty') }
-                                        checked={ this.state.optionSettings.flipDynasty }
+                                        onChange={ this.onOptionSettingToggle.bind(this, 'markCardsUnselectable') }
+                                        checked={ this.state.optionSettings.markCardsUnselectable }
                                     />
                                     <Checkbox
                                         name='optionSettings.cancelOwnAbilities'
