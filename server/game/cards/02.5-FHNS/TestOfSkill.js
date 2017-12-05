@@ -32,7 +32,7 @@ const testOfSkillCost = function() {
         }
     };
 
-}
+};
 
 class TestOfSkill extends DrawCard {
     setupCardAbilities() {
