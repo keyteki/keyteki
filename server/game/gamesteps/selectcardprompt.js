@@ -106,6 +106,7 @@ class SelectCardPrompt extends UiPrompt {
 
     activePrompt() {
         return {
+            selectRing: true,
             selectCard: !this.properties.selectMyCard,
             selectMyCard: this.properties.selectMyCard,
             selectOrder: this.properties.ordered,
@@ -206,6 +207,7 @@ class SelectCardPrompt extends UiPrompt {
         this.selectedCards = [];
         this.choosingPlayer.clearSelectedCards();
         this.choosingPlayer.clearSelectableCards();
+        this.choosingPlayer.clearSelectableRings();
 
         // Restore previous selections.
         this.choosingPlayer.setSelectedCards(this.previouslySelectedCards);

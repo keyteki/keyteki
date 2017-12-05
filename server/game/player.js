@@ -1775,6 +1775,14 @@ class Player extends Spectator {
         this.promptState.clearSelectableCards();
     }
 
+    setSelectableRings(rings) {
+        this.promptState.setSelectableRings(rings);
+    }
+
+    clearSelectableRings() {
+        this.promptState.clearSelectableRings();
+    }
+
     getSummaryForCardList(list, activePlayer, hideWhenFaceup) {
         return list.map(card => {
             return card.getSummary(activePlayer, hideWhenFaceup);
@@ -1783,6 +1791,10 @@ class Player extends Spectator {
 
     getCardSelectionState(card) {
         return this.promptState.getCardSelectionState(card);
+    }
+
+    getRingSelectionState(ring) {
+        return this.promptState.getRingSelectionState(ring);
     }
 
     currentPrompt() {
