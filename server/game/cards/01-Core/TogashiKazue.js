@@ -14,7 +14,7 @@ class PlayTogashiKazueAsAttachment extends PlayAttachmentAction {
     meetsRequirements(context) {
         return (
             context.game.currentPhase !== 'dynasty' &&
-            this.location.includes(this.originalCard.location)&&
+            this.location.includes(this.originalCard.location) &&
             context.player.canPutIntoPlay(this.originalCard) &&
             this.originalCard.canPlay() &&
             this.canResolveTargets(context)
