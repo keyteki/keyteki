@@ -127,6 +127,7 @@ class InitiateConflictPrompt extends UiPrompt {
         }
         this.game.reapplyStateDependentEffects();
         this.conflict.calculateSkill();
+        this.recalculateCovert();
         return true;
     }
 

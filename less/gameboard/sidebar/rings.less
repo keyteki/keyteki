@@ -1,0 +1,63 @@
+.ring-pane {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ring-panel {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    align-self: stretch;
+}
+
+.ring-display {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+}
+
+.ring {
+    position: relative;
+}
+
+.ring-info {
+    flex: 1;
+    font-size: 12px;
+    margin-left: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+img.ring {
+    height: @ring-height;
+    width: @ring-width;
+    padding: 5px;
+
+    &.small {
+        height: @ring-sm-height;
+        width: @ring-sm-width;
+    }
+}
+
+@media (max-width: 1366px) {
+    .ring-panel {
+        padding: 0 5px;
+    }
+
+    .ring-display {
+        img.ring {
+            width: @ring-sm-width;
+            height: @ring-sm-height;
+        }
+    }
+
+    .ring-info {
+        font-size: 10px;
+    }
+}

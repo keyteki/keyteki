@@ -8,7 +8,8 @@ import { toastr } from 'react-redux-toastr';
 import { bindActionCreators } from 'redux';
 import Draggable from 'react-draggable';
 
-import PlayerStats from './GameComponents/PlayerStats.jsx';
+import PlayerStatsBox from './GameComponents/PlayerStatsBox.jsx';
+import PlayerStatsRow from './GameComponents/PlayerStatsRow.jsx';
 import PlayerHand from './GameComponents/PlayerHand.jsx';
 import DynastyRow from './GameComponents/DynastyRow.jsx';
 import StrongholdRow from './GameComponents/StrongholdRow.jsx';
@@ -16,8 +17,9 @@ import Ring from './GameComponents/Ring.jsx';
 import HonorFan from './GameComponents/HonorFan.jsx';
 import ActivePlayerPrompt from './GameComponents/ActivePlayerPrompt.jsx';
 import CardZoom from './GameComponents/CardZoom.jsx';
-import Messages from './GameComponents/Messages.jsx';
 import Card from './GameComponents/Card.jsx';
+import Chat from './GameComponents/Chat.jsx';
+import Controls from './GameComponents/Controls.jsx';
 import CardPile from './GameComponents/CardPile.jsx';
 import GameConfiguration from './GameComponents/GameConfiguration.jsx';
 import { tryParseJSON } from './util.js';
@@ -41,20 +43,20 @@ export class InnerGameBoard extends React.Component {
         this.onLeaveClick = this.onLeaveClick.bind(this);
         this.onConflictShuffleClick = this.onConflictShuffleClick.bind(this);
         this.onDynastyShuffleClick = this.onDynastyShuffleClick.bind(this);
-        this.onKeyPress = this.onKeyPress.bind(this);
-        this.onSendClick = this.onSendClick.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.onScroll = this.onScroll.bind(this);
         this.onMenuItemClick = this.onMenuItemClick.bind(this);
         this.onRingMenuItemClick = this.onRingMenuItemClick.bind(this);
+        this.onManualModeClick = this.onManualModeClick.bind(this);
+        this.onSettingsClick = this.onSettingsClick.bind(this);
+        this.onToggleChatClick = this.onToggleChatClick.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);
 
         this.state = {
-            canScroll: true,
             cardToZoom: undefined,
+            showChat: true,
+            showChatAlert: false,
             showConflictDeck: false,
             showDynastyDeck: false,
             spectating: true,
-            message: '',
             showActionWindowsMenu: false,
             showCardMenu: {}
         };
@@ -66,12 +68,23 @@ export class InnerGameBoard extends React.Component {
 
     componentWillReceiveProps(props) {
         this.updateContextMenu(props);
+        this.notifyOfNewMessages(props);
     }
 
-    componentDidUpdate() {
-        if(this.state.canScroll) {
-            $(this.refs.messagePanel).scrollTop(999999);
+    notifyOfNewMessages({ currentGame }) {
+        if(this.props.currentGame && !this.state.showChat) {
+            const currentLength = this.getMessagesFromPlayers(this.props.currentGame.messages || []).length;
+
+            if(currentLength < this.getMessagesFromPlayers(currentGame.messages || []).length) {
+                this.setState({ showChatAlert: true });
+            }
         }
+    }
+
+    getMessagesFromPlayers(messages) {
+        return messages.filter(
+            (message) => (message.message instanceof Array) && message.message.some((fragment) => !!fragment.name)
+        );
     }
 
     updateContextMenu(props) {
@@ -126,18 +139,6 @@ export class InnerGameBoard extends React.Component {
         if(this.props.setContextMenu) {
             this.props.setContextMenu(menu);
         }
-    }
-
-    onScroll() {
-        var messages = this.refs.messagePanel;
-
-        setTimeout(() => {
-            if(messages.scrollTop >= messages.scrollHeight - messages.offsetHeight - 20) {
-                this.setState({ canScroll: true });
-            } else {
-                this.setState({ canScroll: false });
-            }
-        }, 500);
     }
 
     onConcedeClick() {
@@ -218,37 +219,17 @@ export class InnerGameBoard extends React.Component {
 
         this.setState({ showDynastyDeck: !this.state.showDynastyDeck });
     }
-    
+
     onConflictTopCardClick() {
         this.props.sendGameMessage('conflictTopCardClicked');
     }
 
-    sendMessage() {
-        if(this.state.message === '') {
+    sendMessage(message) {
+        if(message === '') {
             return;
         }
 
-        this.props.sendGameMessage('chat', this.state.message);
-
-        this.setState({ message: '' });
-    }
-
-    onChange(event) {
-        this.setState({ message: event.target.value });
-    }
-
-    onKeyPress(event) {
-        if(event.key === 'Enter') {
-            this.sendMessage();
-
-            event.preventDefault();
-        }
-    }
-
-    onSendClick(event) {
-        event.preventDefault();
-
-        this.sendMessage();
+        this.props.sendGameMessage('chat', message);
     }
 
     onConflictShuffleClick() {
@@ -299,7 +280,7 @@ export class InnerGameBoard extends React.Component {
 
         return cardsByLocation;
     }
-    
+
     onCommand(command, arg, uuid, method) {
         let commandArg = arg;
 
@@ -352,8 +333,23 @@ export class InnerGameBoard extends React.Component {
         this.props.sendGameMessage('menuButton', null, 'pass');
     }
 
-    onSettingsClick() {
+    onSettingsClick(event) {
+        event.preventDefault();
+
         $(findDOMNode(this.refs.modal)).modal('show');
+    }
+
+    onToggleChatClick(event) {
+        event.preventDefault();
+        this.setState({
+            showChat: !this.state.showChat,
+            showChatAlert: this.state.showChat && this.state.showChatAlert
+        });
+    }
+
+    onManualModeClick(event) {
+        event.preventDefault();
+        this.props.sendGameMessage('toggleManualMode');
     }
 
     getRings() {
@@ -366,36 +362,57 @@ export class InnerGameBoard extends React.Component {
         </div>);
     }
 
-    getProvinces(thisPlayer, otherPlayer) {
-        return (<div className='province-pane'>
-            <HonorFan value={ otherPlayer ? otherPlayer.showBid : '0' } />
-            <div className='province-group'>
-                <CardPile className={ otherPlayer && otherPlayer.provinceSelected ? 'province-deck province-selected' : 'province-deck' }
-                    title='Province Deck' source='province deck' 
-                    cards={ otherPlayer ? otherPlayer.cardPiles.provinceDeck : [] }
-                    hiddenTopCard
-                    onMouseOver={ this.onMouseOver } 
-                    onMouseOut={ this.onMouseOut } 
-                    disableMouseOver disablePopup
-                    onCardClick={ this.onCardClick } 
-                    size={ this.props.user.settings.cardSize } />
+    renderSidebar(thisPlayer, otherPlayer) {
+        return (
+            <div className='province-pane'>
+                {
+                    thisPlayer.optionSettings.showStatusInSidebar &&
+                    <div className='player-stats-box'>
+                        <PlayerStatsBox
+                            stats={ otherPlayer ? otherPlayer.stats : null }
+                            user={ otherPlayer ? otherPlayer.user : null }
+                            firstPlayer={ otherPlayer && otherPlayer.firstPlayer }
+                            otherPlayer
+                            handSize={ otherPlayer && otherPlayer.cardPiles.hand ? otherPlayer.cardPiles.hand.length : 0 }
+                        />
+                    </div>
+                }
+                { thisPlayer.hideProvinceDeck && <HonorFan value={ otherPlayer ? otherPlayer.showBid + '' : '0' } /> }
+                { thisPlayer.hideProvinceDeck && this.getRings() }
+                { thisPlayer.hideProvinceDeck && <HonorFan value={ thisPlayer.showBid + '' } /> }
+                {
+                    !thisPlayer.hideProvinceDeck &&
+                    <div className='province-group our-side'>
+                        <CardPile
+                            className='province-deck'
+                            title='Province Deck' source='province deck'
+                            cards={ thisPlayer.cardPiles.provinceDeck }
+                            hiddenTopCard
+                            onMouseOver={ this.onMouseOver }
+                            onMouseOut={ this.onMouseOut }
+                            onCardClick={ this.onCardClick }
+                            onDragDrop={ this.onDragDrop }
+                            disablePopup={ this.state.spectating }
+                            closeOnClick
+                            size={ this.props.user.settings.cardSize } />
+                    </div>
+                }
+                {
+                    thisPlayer.optionSettings.showStatusInSidebar &&
+                    <div className='player-stats-box our-side'>
+                        <PlayerStatsBox
+                            { ...bindActionCreators(actions, this.props.dispatch) }
+                            stats={ thisPlayer.stats }
+                            showControls={ !this.state.spectating }
+                            user={ thisPlayer.user }
+                            firstPlayer={ thisPlayer.firstPlayer }
+                            otherPlayer={ false }
+                            spectating={ this.state.spectating }
+                            handSize={ thisPlayer.cardPiles.hand ? thisPlayer.cardPiles.hand.length : 0 } />
+                    </div>
+                }
             </div>
-            { this.getRings() }
-            <div className='province-group our-side'>
-                <CardPile className={ thisPlayer.provinceSelected ? 'province-deck province-selected' : 'province-deck' }
-                    title='Province Deck' source='province deck' 
-                    cards={ thisPlayer.cardPiles.provinceDeck } 
-                    hiddenTopCard
-                    onMouseOver={ this.onMouseOver } 
-                    onMouseOut={ this.onMouseOut } 
-                    onCardClick={ this.onCardClick } 
-                    onDragDrop={ this.onDragDrop } 
-                    disablePopup={ this.state.spectating }
-                    closeOnClick 
-                    size={ this.props.user.settings.cardSize } />
-            </div>
-            <HonorFan value={ thisPlayer.showBid } />
-        </div>);
+        );
     }
 
     getPrompt(thisPlayer) {
@@ -414,9 +431,14 @@ export class InnerGameBoard extends React.Component {
     }
 
     getPlayerHand(thisPlayer) {
+        let defaultPosition = {
+            x: (window.innerWidth / 2) - 240,
+            y: (window.innerHeight / 2)
+        };
+
         if(!this.state.spectating) {
             return (<Draggable
-                defaultPosition={ { x: 800, y: 700 } } >
+                defaultPosition={ defaultPosition } >
                 <div className='player-home-row-container'>
                     <PlayerHand
                         cards={ thisPlayer.cardPiles.hand }
@@ -435,7 +457,7 @@ export class InnerGameBoard extends React.Component {
         if(!this.props.currentGame) {
             return <div>Waiting for server...</div>;
         }
-        
+
         let manualMode = this.props.currentGame.manualMode;
 
         let thisPlayer = this.props.currentGame.players[this.props.username];
@@ -473,8 +495,6 @@ export class InnerGameBoard extends React.Component {
             thisPlayerCards.push(<div className='card-row' key={ 'other-empty' + i } />);
         }
 
-        let boundActionCreators = bindActionCreators(actions, this.props.dispatch);
-
         let popup = (
             <div id='settings-modal' ref='modal' className='modal fade' tabIndex='-1' role='dialog'>
                 <div className='modal-dialog' role='document'>
@@ -491,19 +511,27 @@ export class InnerGameBoard extends React.Component {
                         </div>
                     </div>
                 </div>
-            </div>); 
+            </div>);
 
         return (
             <div className='game-board'>
                 { popup }
                 { this.getPrompt(thisPlayer) }
                 { this.getPlayerHand(thisPlayer) }
-                <div className='player-stats-row'>
-                    <PlayerStats stats={ otherPlayer ? otherPlayer.stats : null }
-                        user={ otherPlayer ? otherPlayer.user : null } firstPlayer={ otherPlayer && otherPlayer.firstPlayer } otherPlayer handSize={ otherPlayer && otherPlayer.cardPiles.hand ? otherPlayer.cardPiles.hand.length : 0 } />
-                </div>
+                {
+                    !thisPlayer.optionSettings.showStatusInSidebar &&
+                    <div className='player-stats-row'>
+                        <PlayerStatsRow
+                            stats={ otherPlayer ? otherPlayer.stats : null }
+                            user={ otherPlayer ? otherPlayer.user : null }
+                            firstPlayer={ otherPlayer && otherPlayer.firstPlayer }
+                            otherPlayer
+                            handSize={ otherPlayer && otherPlayer.cardPiles.hand ? otherPlayer.cardPiles.hand.length : 0 }
+                        />
+                    </div>
+                }
                 <div className='main-window'>
-                    { this.getProvinces(thisPlayer, otherPlayer) }
+                    { this.renderSidebar(thisPlayer, otherPlayer) }
                     <div className='board-middle'>
                         <div className='player-deck-row'>
                             <DynastyRow
@@ -522,7 +550,7 @@ export class InnerGameBoard extends React.Component {
                                 onConflictTopCardClick={ this.onConflictTopCardClick }
                                 onMouseOver={ this.onMouseOver }
                                 onMouseOut={ this.onMouseOut }
-                                otherPlayer= { otherPlayer } 
+                                otherPlayer= { otherPlayer }
                                 cardSize={ this.props.user.settings.cardSize } />
                         </div>
                         <div className='player-stronghold-row'>
@@ -552,12 +580,12 @@ export class InnerGameBoard extends React.Component {
                                 spectating={ this.state.spectating }
                                 onCardClick={ this.onCardClick }
                                 onDragDrop={ this.onDragDrop }
-                                onMenuItemClick={ this.onMenuItemClick } 
+                                onMenuItemClick={ this.onMenuItemClick }
                                 onMouseOver={ this.onMouseOver }
                                 onMouseOut={ this.onMouseOut }
                                 strongholdProvinceCards={ thisPlayer.strongholdProvince }
                                 role={ thisPlayer.role }
-                                thisPlayer ={ thisPlayer } 
+                                thisPlayer ={ thisPlayer }
                                 cardSize={ this.props.user.settings.cardSize } />
                         </div>
                         <div className='player-deck-row our-side'>
@@ -586,7 +614,7 @@ export class InnerGameBoard extends React.Component {
                                 showDynastyDeck={ this.state.showDynastyDeck }
                                 onDragDrop={ this.onDragDrop }
                                 spectating={ this.state.spectating }
-                                onMenuItemClick={ this.onMenuItemClick } 
+                                onMenuItemClick={ this.onMenuItemClick }
                                 cardSize={ this.props.user.settings.cardSize } />
                         </div>
                     </div>
@@ -594,21 +622,37 @@ export class InnerGameBoard extends React.Component {
                         <CardZoom imageUrl={ this.props.cardToZoom ? '/img/cards/' + this.props.cardToZoom.id + '.jpg' : '' }
                             orientation={ this.props.cardToZoom ? this.props.cardToZoom.type === 'plot' ? 'horizontal' : 'vertical' : 'vertical' }
                             show={ !!this.props.cardToZoom } cardName={ this.props.cardToZoom ? this.props.cardToZoom.name : null } />
-                        <div className='chat'>
-                            <div className='messages panel' ref='messagePanel' onScroll={ this.onScroll }>
-                                <Messages messages={ this.props.currentGame.messages } onCardMouseOver={ this.onMouseOver } onCardMouseOut={ this.onMouseOut } />
-                            </div>
-                            <form>
-                                <input className='form-control' placeholder='Chat...' onKeyPress={ this.onKeyPress } onChange={ this.onChange }
-                                    value={ this.state.message } />
-                            </form>
-                        </div>
+                        <Chat
+                            visible={ this.state.showChat }
+                            messages={ this.props.currentGame.messages }
+                            onMouseOver={ this.onMouseOver }
+                            onMouseOut={ this.onMouseOut }
+                            sendMessage={ this.sendMessage }
+                        />
+                        <Controls
+                            onSettingsClick={ this.onSettingsClick }
+                            onManualModeClick={ this.onManualModeClick }
+                            onToggleChatClick={ this.onToggleChatClick }
+                            showChatAlert={ this.state.showChatAlert }
+                            manualModeEnabled={ manualMode }
+                            showManualMode={ !this.state.spectating }
+                        />
                     </div>
                 </div>
-                <div className='player-stats-row our-side'>
-                    <PlayerStats { ...boundActionCreators } stats={ thisPlayer.stats } showControls={ !this.state.spectating } user={ thisPlayer.user }
-                        firstPlayer={ thisPlayer.firstPlayer } otherPlayer={ false } onSettingsClick={ this.onSettingsClick.bind(this) } spectating={ this.state.spectating } handSize={ thisPlayer.cardPiles.hand ? thisPlayer.cardPiles.hand.length : 0 } />
-                </div>
+                {
+                    !thisPlayer.optionSettings.showStatusInSidebar &&
+                    <div className='player-stats-row our-side'>
+                        <PlayerStatsRow
+                            { ...bindActionCreators(actions, this.props.dispatch) }
+                            stats={ thisPlayer.stats }
+                            showControls={ !this.state.spectating }
+                            user={ thisPlayer.user }
+                            firstPlayer={ thisPlayer.firstPlayer }
+                            otherPlayer={ false }
+                            spectating={ this.state.spectating }
+                            handSize={ thisPlayer.cardPiles.hand ? thisPlayer.cardPiles.hand.length : 0 } />
+                    </div>
+                }
             </div>);
     }
 }

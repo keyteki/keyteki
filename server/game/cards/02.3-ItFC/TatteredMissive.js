@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const DrawCard = require('../../drawcard.js');
 
 class TatteredMissive extends DrawCard {
@@ -12,17 +10,14 @@ class TatteredMissive extends DrawCard {
                 let cards = this.controller.conflictDeck.first(5);
                 if(cards.length > 1) {
                     this.game.addMessage('{0} bows {1} to use {2} to look at the top 5 cards of their conflict deck', this.controller, this.parent, this);
-                    let handlers = _.map(cards, card => {
-                        return () => {
-                            this.game.addMessage('{0} reveals {1} and adds it to their hand', this.controller, card);
-                            this.controller.moveCard(card, 'hand');
-                            this.controller.shuffleConflictDeck();
-                        };
-                    });
                     this.game.promptWithHandlerMenu(this.controller, {
                         activePromptTitle: 'Select a card to reveal and put in your hand',
                         cards: cards,
-                        handlers: handlers,
+                        cardHandler: card => {
+                            this.game.addMessage('{0} reveals {1} and adds it to their hand', this.controller, card);
+                            this.controller.moveCard(card, 'hand');
+                            this.controller.shuffleConflictDeck();
+                        },
                         source: this
                     });
                 } else {

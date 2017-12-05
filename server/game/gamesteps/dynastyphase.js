@@ -33,9 +33,7 @@ class DynastyPhase extends Phase {
 
     flipDynastyCards () {
         _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
-            if(player.optionSettings['flipDynasty']) {
-                player.flipDynastyCards();
-            }
+            this.game.queueSimpleStep(() => player.flipDynastyCards());
         });
     }
 
