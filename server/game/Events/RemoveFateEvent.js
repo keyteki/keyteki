@@ -10,8 +10,8 @@ class RemoveFateEvent extends Event {
     removeFate() {
         let fate = Math.min(this.fate, this.card.fate);
         this.card.fate -= fate;
-        if(this.recipient && _.isNumber(this.recipient.fate)) {
-            this.recipient.fate += fate;
+        if(this.recipient && this.recipient.modifyFate) {
+            this.recipient.modifyFate(fate);
         }
         return true;
     }
