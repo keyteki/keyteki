@@ -39,6 +39,10 @@ img.ring {
     width: @ring-width;
     padding: 5px;
 
+    &.unselectable {
+        filter: grayscale(100%) brightness(60%);
+      }
+    
     &.small {
         height: @ring-sm-height;
         width: @ring-sm-width;

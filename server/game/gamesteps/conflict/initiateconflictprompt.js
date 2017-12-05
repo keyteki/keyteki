@@ -21,6 +21,21 @@ class InitiateConflictPrompt extends UiPrompt {
         this.covertRemaining = false;
     }
 
+    continue() {
+        if(!this.isComplete()) {
+            this.highlightSelectableRings();
+        }
+
+        return super.continue();
+    }
+
+    highlightSelectableRings() {
+        let selectableRings = _.filter(this.game.rings, ring => {
+            return this.checkRingCondition(ring);
+        });
+        this.choosingPlayer.setSelectableRings(selectableRings);
+    }
+
     activeCondition(player) {
         return player === this.choosingPlayer;
     }
@@ -51,6 +66,7 @@ class InitiateConflictPrompt extends UiPrompt {
         }
         
         return {
+            selectRing: true,
             menuTitle: menuTitle,
             buttons: buttons,
             promptTitle: promptTitle
@@ -75,11 +91,19 @@ class InitiateConflictPrompt extends UiPrompt {
     }
 
     onRingClicked(player, ring) {
-        if(player !== this.choosingPlayer || ring.claimed || _.any(player.abilityRestrictions, restriction => {
-            return restriction.isMatch('initiateConflict', null, { source: { type: 'ring', element: ring.element } });
-        })) {
+        if(player !== this.choosingPlayer) {
             return false;
         }
+
+        if(!this.checkRingCondition(ring)) {
+            return false;
+        }
+
+        return this.selectRing(ring);
+    }
+
+    selectRing(ring) {
+        let player = this.choosingPlayer;
 
         let canInitiateThisConflictType = !player.conflicts.isAtMax(ring.conflictType);        
         let canInitiateOtherConflictType = !player.conflicts.isAtMax(ring.conflictType === 'military' ? 'political' : 'military');
@@ -105,6 +129,18 @@ class InitiateConflictPrompt extends UiPrompt {
         this.conflict.calculateSkill();
         this.recalculateCovert();
         return true;
+    }
+
+    checkRingCondition(ring) {
+        let player = this.choosingPlayer;
+        if(ring.claimed || _.any(player.abilityRestrictions, restriction => {
+            return restriction.isMatch('initiateConflict', null, { source: { type: 'ring', element: ring.element } });
+        })) {
+            return false;
+        }
+
+        return true;
+
     }
 
     checkCardCondition(card) {

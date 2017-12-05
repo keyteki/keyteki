@@ -96,8 +96,14 @@ class Ring {
         };
     }
 
-    getState() {
+    getState(activePlayer) {
 
+        let selectionState = {};
+
+        if(activePlayer) {
+            selectionState = activePlayer.getRingSelectionState(this);
+        }
+        
         let state = {
             claimed: this.claimed,
             claimedBy: this.claimedBy,
@@ -107,8 +113,8 @@ class Ring {
             fate: this.fate,
             menu: this.getMenu()
         };
-
-        return state;
+        
+        return _.extend(state, selectionState);
     }
 
 }

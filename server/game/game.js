@@ -1590,7 +1590,7 @@ class Game extends EventEmitter {
             });
 
             _.each(this.rings, ring => {
-                ringState[ring.element] = ring.getState();
+                ringState[ring.element] = ring.getState(activePlayer);
             });
 
             return {
@@ -1621,6 +1621,7 @@ class Game extends EventEmitter {
      */
     getSummary(activePlayerName) {
         var playerSummaries = {};
+        let activePlayer = this.getPlayerByName(activePlayerName);
 
         _.each(this.getPlayers(), player => {
             var deck = undefined;
@@ -1659,11 +1660,11 @@ class Game extends EventEmitter {
             owner: this.owner,
             players: playerSummaries,
             rings: {
-                air: this.rings.air.getState(),
-                earth: this.rings.earth.getState(),
-                fire: this.rings.fire.getState(),
-                void: this.rings.void.getState(),
-                water: this.rings.water.getState()
+                air: this.rings.air.getState(activePlayer),
+                earth: this.rings.earth.getState(activePlayer),
+                fire: this.rings.fire.getState(activePlayer),
+                void: this.rings.void.getState(activePlayer),
+                water: this.rings.water.getState(activePlayer)
             },
             started: this.started,
             startedAt: this.startedAt,
