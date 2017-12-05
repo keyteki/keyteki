@@ -1031,6 +1031,10 @@ class Game extends EventEmitter {
         player.optionSettings[settingName] = toggle;
     }
 
+    toggleManualMode(playerName) {
+        this.chatCommands.manual(playerName);
+    }
+
     /*
      * Sets up Player objects, creates allCards, checks each player has a stronghold
      * and starts the game pipeline
@@ -1393,7 +1397,7 @@ class Game extends EventEmitter {
      * of bids, and then resolves the outcome
      * @param {DrawCard} source - card which initiated the duel
      * @param {DrawCard} target - other card partipating in duel
-     * @param {String} type = 'military' or 'political' // gets the skill to add to bid
+     * @param {Function} getSkill = card => Int // gets the skill to add to bid
      * @param {Function} resolutionHandler - (winner, loser) => undefined //
      * function which deals with any effects due to winning/losing the duel
      * @param {Function} costHandler - () => undefined // function which resolves
