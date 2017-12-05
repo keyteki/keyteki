@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 
 class PolicyDebate extends DrawCard {
@@ -24,10 +23,8 @@ class PolicyDebate extends DrawCard {
                     }
                     this.game.promptWithHandlerMenu(winner.controller, {
                         activePromptTitle: 'Choose card to discard',
-                        cards: loser.controller.hand.uniq(card => card.name),
-                        handlers: _.map(loser.controller.hand.uniq(card => card.name), card => {
-                            return () => loser.controller.discardCardFromHand(card);
-                        }),
+                        cards: loser.controller.hand.toArray(),
+                        cardHandler: card => loser.controller.discardCardFromHand(card),
                         source: this
                     });
                 });
