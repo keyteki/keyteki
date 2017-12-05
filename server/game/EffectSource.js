@@ -10,6 +10,7 @@ class EffectSource {
         this.factions = {};
         this.traits = {};
         this.type = '';
+        this.facedown = false;
     }
 
     isUnique() {
@@ -115,6 +116,7 @@ class EffectSource {
             id: this.id,
             label: this.name,
             name: this.name,
+            facedown: this.facedown,
             type: this.getType()
         };
     }
