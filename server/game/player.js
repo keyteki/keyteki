@@ -1458,6 +1458,10 @@ class Player extends Spectator {
         this.gloryModifier += amount;
     }
 
+    modifyFate(amount) {
+        this.fate = Math.max(0, this.fate + amount);
+    }
+
     /**
      * Returns an Array of Rings of all rings claimed by this player
      */
