@@ -1,0 +1,64 @@
+.card-pile {
+    padding: 0px;
+    position: relative;
+    margin: 0px 5px;
+
+    &.small {
+        &.vertical {
+            height: @card-sm-height;
+            min-width: @card-sm-width;
+        }
+
+        &.horizontal {
+            height: @card-sm-width;
+            width: @card-sm-height;
+        }
+    }
+
+    &.large {
+        &.vertical {
+            height: @card-lg-height;
+            min-width: @card-lg-width;
+        }
+
+        &.horizontal {
+            height: @card-lg-width;
+            width: @card-lg-height;
+        }
+    }
+
+    &.x-large {
+        &.vertical {
+            height: @card-xl-height;
+            min-width: @card-xl-width;
+        }
+
+        &.horizontal {
+            height: @card-xl-width;
+            width: @card-xl-height;
+        }
+    }
+
+    &.vertical {
+        height: @card-height;
+        min-width: @card-width;
+    }
+
+    &.horizontal {
+        height: @card-width;
+        width: @card-height;
+    }
+
+    .card-placeholder {
+        height: @card-height;
+    }
+
+    &.panel {
+        top: 0px;
+    }
+}
+
+.player-home-row .card-pile.horizontal {
+    margin-bottom: auto;
+    margin-top: auto;
+}

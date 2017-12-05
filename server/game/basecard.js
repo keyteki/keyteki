@@ -32,7 +32,6 @@ class BaseCard extends EffectSource {
         this.uuid = uuid.v1();
         this.id = cardData.id;
         this.name = cardData.name;
-        this.facedown = false;
         this.blankCount = 0;
         this.inConflict = false;
 

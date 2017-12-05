@@ -1,0 +1,18 @@
+@import "sidebar/honor-fan";
+@import "sidebar/province-deck";
+@import "sidebar/rings";
+
+.province-pane {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 200px;
+    max-width: 300px;
+}
+
+@media (max-width: 1366px) {
+    .province-pane {
+        max-width: 220px;
+    }
+}

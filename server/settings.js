@@ -8,8 +8,9 @@ const defaultWindows = {
 };
 
 const defaultOptionSettings = {
-    flipDynasty: true,
-    cancelOwnAbilities: false
+    markCardsUnselectable: true,
+    cancelOwnAbilities: false,
+    showStatusInSidebar: false
 };
 
 const defaultSettings = {

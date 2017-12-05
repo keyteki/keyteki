@@ -139,25 +139,25 @@ class Conflict {
         }
     }
     
-    chooseWhetherToResolveRingEffect(player = this.attackingPlayer) {
+    chooseWhetherToResolveRingEffect(player = this.attackingPlayer, optional = true) {
         this.game.raiseEvent('onResolveRingEffect', { player: player, conflict: this }, () => {
             let elements = this.getElements();
-            if(elements.length === 1) {
+            if(elements.length === 1 && optional) {
                 this.game.promptWithHandlerMenu(player, {
                     activePromptTitle: 'Do you want to resolve the ' + elements[0] + ' ring?',
                     waitingPromptTitle: 'Waiting for opponent to use decide whether to resolve the conflict ring',
                     source: 'Resolve Ring Effects',
                     choices: ['Yes', 'No'],
-                    handlers: [() => this.resolveConflictRing(player), () => this.game.addMessage('{0} chooses not to resolve the {1} ring', player, elements[0])]
+                    handlers: [() => player.resolveRingEffects(elements, optional), () => this.game.addMessage('{0} chooses not to resolve the {1} ring', player, elements[0])]
                 });
             } else {
-                this.resolveConflictRing(player);
+                this.resolveConflictRing(player, optional);
             }
             return { resolved: true, success: true };        
         });
     }
     
-    resolveConflictRing(player = this.attackingPlayer, optional = true) {
+    resolveConflictRing(player, optional) {
         let elements = this.getElements();
         if(elements.length === 0) {
             return;

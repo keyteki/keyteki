@@ -9,26 +9,23 @@ class AgashaSwordsmith extends DrawCard {
             handler: (context) => {
                 this.game.addMessage('{0} uses {1} to look at the top five cards of their deck.', this.controller, this);
                 let attachments = _.filter(this.controller.conflictDeck.first(5), card => card.type === 'attachment');
-                let handlers = _.map(attachments, card => {
-                    return () => {
-                        this.controller.moveCard(card, 'hand');
-                        this.game.addMessage('{0} takes {1} and adds it to their hand', this.controller, card);
-                        this.controller.shuffleConflictDeck();
-                        return true;
-                    };
-                });
                 let choices = ['Take nothing'];
-                handlers.push(() => {
+                let handlers = [() => {
                     this.game.addMessage('{0} takes nothing', this.controller);                    
                     this.controller.shuffleConflictDeck();
                     return true;
-                });
+                }];
                 this.game.promptWithHandlerMenu(this.controller, {
                     activePromptTitle: 'Choose a card',
                     source: context.source,
                     cards: attachments,
                     choices: choices,
-                    handlers: handlers
+                    handlers: handlers,
+                    cardHandler: card => {
+                        this.controller.moveCard(card, 'hand');
+                        this.game.addMessage('{0} takes {1} and adds it to their hand', this.controller, card);
+                        this.controller.shuffleConflictDeck();
+                    }
                 });
             }
         });

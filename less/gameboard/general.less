@@ -1,0 +1,189 @@
+.navbar-fixed-top {
+    z-index: 1060;
+}
+
+
+.game-board {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 50px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+@media (max-width: 1366px) {
+    .game-board {
+        top: 25px;
+    }
+}
+
+.main-window {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    min-height: calc(~"100vh - 170px");
+    z-index: 1010;
+}
+
+.popup {
+    z-index: @layer-card-menu;
+    background-color: rgba(0, 0, 0, 0.85);
+
+    a {
+        display: inline-block;
+        margin: 0 10px 8px 0;
+        text-decoration: none;
+
+        &:hover {
+            color: @brand-info;
+            cursor: pointer;
+        }
+    }
+
+    .panel {
+        margin-bottom: 0;
+    }
+
+    .panel-title {
+        margin: 5px 5px;
+    }
+}
+
+.select-cursor {
+    cursor: url(/img/crosshairs.cur), default;
+}
+
+.prompt-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.player-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.deck-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.player-info.our-side .deck-info {
+    justify-content: flex-end;
+}
+
+.deck-type {
+    display: flex;
+    flex-direction: row;
+    height: 100px;
+}
+
+.middle {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+}
+
+.additional-cards {
+    .popup {
+        position: absolute;
+        bottom: 75px;
+        right: 0;
+
+        .inner {
+            min-width: @card-height * 2 + (2 * 5px);
+            min-height: @card-width * 2 + (2 * 5px);
+
+            .card-wrapper {
+                margin: 5px 5px 0 0;
+            }
+        }
+
+        .arrow {
+            bottom: -30px;
+            right: 20px;
+        }
+    }
+}
+
+.middle-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.prompt-control-targeting {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.targeting-arrow {
+    margin: 5px;
+}
+
+.target-card {
+    border-radius: 6.25%;
+    flex-shrink: 1;
+    margin: 0 2px;
+    max-height: @card-height;
+    max-width: @card-width;
+}
+
+.target-card-image {
+    max-height: @card-height;
+    object-fit: contain;
+    width: 100%;
+}
+
+.game-status {
+    margin-top: 10px;
+}
+
+.close-button {
+    color: @foreground-color;
+    margin-bottom: 0 !important;
+    vertical-align: middle !important;
+}
+
+.settings-popup {
+    background: @background-color;
+
+    .modal-header {
+        background: @brand-tertiary;
+    }
+}
+
+.close {
+    color: @foreground-color;
+
+    :hover {
+        color: @brand-info;
+    }
+}
+
+.modal-title {
+    text-align: center;
+}
+
+.message {
+    .alert {
+        padding: 5px;
+        margin-bottom: 0;
+    }
+}
+
+.separator {
+    text-transform: capitalize;
+    hr {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+}

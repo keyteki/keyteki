@@ -35,7 +35,7 @@ class InnerMessages extends React.Component {
             'phoenix',
             'scorpion',
             'unicorn'
-        ]; 
+        ];
 
         this.formatMessageText = this.formatMessageText.bind(this);
     }
@@ -149,4 +149,5 @@ function mapStateToProps(state) {
 const Messages = connect(mapStateToProps, actions)(InnerMessages);
 
 export default Messages;
+export { InnerMessages };
 
