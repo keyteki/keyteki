@@ -9,7 +9,7 @@ class StaunchHida extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to resolve the ring effect', this.controller, this);
-                context.event.conflict.resolveConflictRing(this.controller);
+                context.event.conflict.chooseWhetherToResolveRingEffect(this.controller);
             }
         });
     }
