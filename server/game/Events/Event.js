@@ -33,6 +33,10 @@ class Event {
         this.window = null;
     }
 
+    createContingentEvents() {
+        return [];
+    }
+
     preResolutionEffect() {
         return;
     }
