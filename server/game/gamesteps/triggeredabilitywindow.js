@@ -100,6 +100,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
             activePromptTitle: TriggeredAbilityWindowTitles.getTitle(this.abilityType, this.events),
             buttons: buttons,
             controls: this.getAdditionalPromptControls(),
+            selectMyCard: true,
             waitingPromptTitle: 'Waiting for opponent',
             cardCondition: card => cards.includes(card),
             onMenuCommand: (player, arg) => {

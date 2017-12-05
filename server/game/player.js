@@ -80,7 +80,7 @@ class Player extends Spectator {
 
         this.createAdditionalPile('out of game', { title: 'Out of Game', area: 'player row' });
 
-        this.promptState = new PlayerPromptState();
+        this.promptState = new PlayerPromptState(this);
     }
 
     /**

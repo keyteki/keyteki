@@ -1,8 +1,10 @@
 const _ = require('underscore');
 
 class PlayerPromptState {
-    constructor() {
+    constructor(player) {
+        this.player = player;
         this.selectCard = false;
+        this.selectMyCard = false;
         this.selectOrder = false;
         this.menuTitle = '';
         this.promptTitle = '';
@@ -31,6 +33,7 @@ class PlayerPromptState {
 
     setPrompt(prompt) {
         this.selectCard = prompt.selectCard || false;
+        this.selectMyCard = prompt.selectMyCard || false;
         this.selectOrder = prompt.selectOrder || false;
         this.menuTitle = prompt.menuTitle || '';
         this.promptTitle = prompt.promptTitle;
@@ -61,7 +64,7 @@ class PlayerPromptState {
             // which we do differently from normal card selection.
             selected: card.selected || (index !== -1),
             selectable: selectable,
-            unselectable: this.selectCard && !selectable
+            unselectable: (this.selectCard && !selectable) || (this.selectMyCard && !selectable && card.controller === this.player)
         };
 
         if(index !== -1 && this.selectOrder) {
