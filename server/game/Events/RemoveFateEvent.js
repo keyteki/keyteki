@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const Event = require('./Event.js');
 
 class RemoveFateEvent extends Event {
