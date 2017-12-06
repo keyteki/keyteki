@@ -1,0 +1,39 @@
+.discard {
+    .popup {
+        position: absolute;
+        min-height: 146px;
+        bottom: initial;
+        top: 95px;
+
+        .inner {
+            min-height: @card-height;
+            width: @card-width * 5 + (5 * 5px) + @scrollbar-width;
+            max-height: @card-height * 4 + (4 * 5px);
+            overflow-y: auto;
+
+            .card-wrapper {
+                margin: 5px 5px 0 0;
+            }
+        }
+
+        .arrow {
+            bottom: initial;
+            top: -63px;
+            left: 10px;
+        }
+    }
+}
+
+.our-side {
+    .discard {
+        .popup {
+            bottom: 95px;
+            top: initial;
+
+            .arrow {
+                bottom: -30px;
+                top: initial;
+            }
+        }
+    }
+}

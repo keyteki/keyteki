@@ -86,10 +86,22 @@ class GameConfiguration extends React.Component {
                     </div>
                     <div className='panel'>
                         <div className='form-group'>
-                            <Checkbox name='timerSettings.events' noGroup label={ 'Show timer for events' } fieldClass='col-sm-6'
-                                onChange={ this.onTimerSettingToggle.bind(this, 'events') } checked={ this.props.timerSettings.events } />
-                            <Checkbox name='timerSettings.abilities' noGroup label={ 'Show timer for card abilities' } fieldClass='col-sm-6'
-                                onChange={ this.onTimerSettingToggle.bind(this, 'abilities') } checked={ this.props.timerSettings.abilities } />
+                            <Checkbox
+                                name='timerSettings.events'
+                                noGroup
+                                label={ 'Show timer for events' }
+                                fieldClass='col-sm-6'
+                                onChange={ this.onTimerSettingToggle.bind(this, 'events') }
+                                checked={ this.props.timerSettings.events }
+                            />
+                            <Checkbox
+                                name='timerSettings.abilities'
+                                noGroup
+                                label={ 'Show timer for card abilities' }
+                                fieldClass='col-sm-6'
+                                onChange={ this.onTimerSettingToggle.bind(this, 'abilities') }
+                                checked={ this.props.timerSettings.abilities }
+                            />
                         </div>
                     </div>
                     <div className='panel-title text-center'>
@@ -97,10 +109,33 @@ class GameConfiguration extends React.Component {
                     </div>
                     <div className='panel'>
                         <div className='form-group'>
-                            <Checkbox name='optionSettings.flipDynasty' noGroup label={ 'Automatically flip dynasty cards' } fieldClass='col-sm-6'
-                                onChange={ this.onOptionSettingToggle.bind(this, 'flipDynasty') } checked={ this.props.optionSettings.flipDynasty } />
-                            <Checkbox name='optionSettings.cancelOwnAbilities' noGroup label={ 'Prompt to cancel/react to initiation of my own abilities' } fieldClass='col-sm-6'
-                                onChange={ this.onOptionSettingToggle.bind(this, 'cancelOwnAbilities') } checked={ this.props.optionSettings.cancelOwnAbilities } />
+                            <Checkbox
+                                name='optionSettings.markCardsUnselectable'
+                                noGroup
+                                label={ 'Grey out cards with no relevant abilities during interrupt/reaction windows' }
+                                fieldClass='col-sm-6'
+                                onChange={ this.onOptionSettingToggle.bind(this, 'markCardsUnselectable') }
+                                checked={ this.props.optionSettings.markCardsUnselectable }
+                            />
+                            <Checkbox
+                                name='optionSettings.cancelOwnAbilities'
+                                noGroup
+                                label={ 'Prompt to cancel/react to initiation of my own abilities' }
+                                fieldClass='col-sm-6'
+                                onChange={ this.onOptionSettingToggle.bind(this, 'cancelOwnAbilities') }
+                                checked={ this.props.optionSettings.cancelOwnAbilities }
+                            />
+                            <Checkbox
+                                name='optionSettings.showStatusInSidebar'
+                                noGroup
+                                label={
+                                    'Show player status in the sidebar, instead of horizontal bars.' +
+                                    ' Useful to free up space for cards on smaller screens.'
+                                }
+                                fieldClass='col-sm-6'
+                                onChange={ this.onOptionSettingToggle.bind(this, 'showStatusInSidebar') }
+                                checked={ this.props.optionSettings.showStatusInSidebar }
+                            />
                         </div>
                     </div>
                 </form>

@@ -10,7 +10,7 @@ class DojiHotaru extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to resolve the ring\'s effect again', this.controller, this);
-                context.event.conflict.resolveConflictRing(context.event.conflict.attackingPlayer, false);
+                context.event.conflict.chooseWhetherToResolveRingEffect(context.event.conflict.attackingPlayer, false);
             }
         });
     }

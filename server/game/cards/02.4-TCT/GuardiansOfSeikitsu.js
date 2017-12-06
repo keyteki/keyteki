@@ -1,6 +1,6 @@
 const ProvinceCard = require('../../provincecard.js');
 
-class GuardiansOfSeikitsu extends ProvinceCard {
+class GuardiansOfTheSeikitsu extends ProvinceCard {
     setupCardAbilities() {
         this.reaction({
             title: 'Bow all characters 2 cost or less',
@@ -16,6 +16,6 @@ class GuardiansOfSeikitsu extends ProvinceCard {
     }
 }
 
-GuardiansOfSeikitsu.id = 'guardians-of-seikitsu';
+GuardiansOfTheSeikitsu.id = 'guardians-of-the-seikitsu';
 
-module.exports = GuardiansOfSeikitsu;
+module.exports = GuardiansOfTheSeikitsu;

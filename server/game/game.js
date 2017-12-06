@@ -264,7 +264,7 @@ class Game extends EventEmitter {
     selectProvince(player, provinceId) {
         var province = player.findCardByUuid(player.provinceDeck, provinceId);
 
-        if(!province) {
+        if(!province || province.cannotBeStrongholdProvince()) {
             return;
         }
 
@@ -1031,6 +1031,10 @@ class Game extends EventEmitter {
         player.optionSettings[settingName] = toggle;
     }
 
+    toggleManualMode(playerName) {
+        this.chatCommands.manual(playerName);
+    }
+
     /*
      * Sets up Player objects, creates allCards, checks each player has a stronghold
      * and starts the game pipeline
@@ -1393,7 +1397,7 @@ class Game extends EventEmitter {
      * of bids, and then resolves the outcome
      * @param {DrawCard} source - card which initiated the duel
      * @param {DrawCard} target - other card partipating in duel
-     * @param {String} type = 'military' or 'political' // gets the skill to add to bid
+     * @param {Function} getSkill = card => Int // gets the skill to add to bid
      * @param {Function} resolutionHandler - (winner, loser) => undefined //
      * function which deals with any effects due to winning/losing the duel
      * @param {Function} costHandler - () => undefined // function which resolves
@@ -1586,7 +1590,7 @@ class Game extends EventEmitter {
             });
 
             _.each(this.rings, ring => {
-                ringState[ring.element] = ring.getState();
+                ringState[ring.element] = ring.getState(activePlayer);
             });
 
             return {
@@ -1617,6 +1621,7 @@ class Game extends EventEmitter {
      */
     getSummary(activePlayerName) {
         var playerSummaries = {};
+        let activePlayer = this.getPlayerByName(activePlayerName);
 
         _.each(this.getPlayers(), player => {
             var deck = undefined;
@@ -1655,11 +1660,11 @@ class Game extends EventEmitter {
             owner: this.owner,
             players: playerSummaries,
             rings: {
-                air: this.rings.air.getState(),
-                earth: this.rings.earth.getState(),
-                fire: this.rings.fire.getState(),
-                void: this.rings.void.getState(),
-                water: this.rings.water.getState()
+                air: this.rings.air.getState(activePlayer),
+                earth: this.rings.earth.getState(activePlayer),
+                fire: this.rings.fire.getState(activePlayer),
+                void: this.rings.void.getState(activePlayer),
+                water: this.rings.water.getState(activePlayer)
             },
             started: this.started,
             startedAt: this.startedAt,

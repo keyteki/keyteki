@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const ProvinceCard = require('../../provincecard.js');
 
 class SecretCache extends ProvinceCard {
@@ -12,18 +11,15 @@ class SecretCache extends ProvinceCard {
                 let myTopFive = this.controller.conflictDeck.first(5);
                 if(myTopFive.length > 1) {
                     this.game.addMessage('{0} uses {1} to look at the top {2} cards of their conflict deck', this.controller, this, myTopFive.length);
-                    let handlers = _.map(myTopFive, card => {
-                        return () => {
-                            this.game.addMessage('{0} takes a card into their hand', this.controller);
-                            this.controller.moveCard(card, 'hand');
-                            this.controller.shuffleConflictDeck();                    
-                        };
-                    });
                     this.game.promptWithHandlerMenu(this.controller, {
                         source: this,
                         activePromptTitle: 'Choose a card',
                         cards: myTopFive,
-                        handlers: handlers
+                        cardHandler: card => {
+                            this.game.addMessage('{0} takes a card into their hand', this.controller);
+                            this.controller.moveCard(card, 'hand');
+                            this.controller.shuffleConflictDeck();                    
+                        }
                     });
                 } else {
                     this.game.addMessage('{0} uses {1} to take the last card from their conflict deck into their hand', this.controller, this);

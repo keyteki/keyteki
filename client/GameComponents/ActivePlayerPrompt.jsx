@@ -5,7 +5,6 @@ import _ from 'underscore';
 
 import AbilityTargeting from './AbilityTargeting.jsx';
 
-
 class ActivePlayerPrompt extends React.Component {
     constructor() {
         super();
@@ -169,6 +168,13 @@ class ActivePlayerPrompt extends React.Component {
         });
     }
 
+    getDefaultPosition() {
+        return {
+            x: (window.innerWidth / 2) - 105,
+            y: (window.innerHeight / 2) - 211
+        };
+    }
+
     render() {
         let promptTitle;
 
@@ -189,7 +195,7 @@ class ActivePlayerPrompt extends React.Component {
         }
 
         return (<Draggable
-            defaultPosition={ { x: 800, y: 500 } } >
+            defaultPosition={ this.getDefaultPosition() } >
             <div>
                 { timer }
                 <div className={ 'phase-indicator ' + this.props.phase } onClick={ this.props.onTitleClick }>
@@ -212,6 +218,7 @@ ActivePlayerPrompt.displayName = 'ActivePlayerPrompt';
 ActivePlayerPrompt.propTypes = {
     buttons: PropTypes.array,
     controls: PropTypes.array,
+    getDefaultPosition: PropTypes.func,
     onButtonClick: PropTypes.func,
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
