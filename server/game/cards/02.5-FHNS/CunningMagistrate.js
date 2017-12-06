@@ -1,7 +1,13 @@
 const DrawCard = require('../../drawcard.js');
 
 class CunningMagistrate extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            condition: () => this.isAttacking(),
+            match: card => card.isParticipating() && card.isDishonored && card !== this,
+            targetController: 'any',
+            effect: ability.effects.cannotCountForResolution()
+        });
     }
 }
 
