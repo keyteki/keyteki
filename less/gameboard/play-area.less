@@ -1,0 +1,83 @@
+.center {
+    flex-direction: column;
+    display: flex;
+}
+
+.play-area, .player-board {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.player-board {
+    margin: 10px;
+}
+
+.player-board.our-side > div:first-child {
+    margin-top: auto;
+}
+
+.player-home-row {
+    display: flex;
+    margin-top: 5px;
+
+    &.our-side {
+        margin-top: 0;
+        margin-bottom: 5px;
+    }
+}
+
+.player-home-row-container {
+    display: flex;
+    z-index: 1030;
+    position: absolute;
+}
+
+.player-deck-row {
+    display: flex;
+    margin-top: 5px;
+
+    &.our-side {
+        margin-top: 0;
+        margin-bottom: 18px;
+    }
+}
+
+.player-stronghold-row {
+    display: flex;
+    margin-top: 5px;
+
+    &.our-side {
+        margin-top: 0;
+        margin-bottom: 18px;
+    }
+}
+
+.deck-cards {
+    display: flex;
+}
+
+.card-row, .hand {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.card-row .card.horizontal {
+    margin-bottom: @card-height - @card-width;
+}
+
+.player-board .card-wrapper {
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+.board-middle {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.board-inner {
+    flex: 1;
+    display: flex;
+}

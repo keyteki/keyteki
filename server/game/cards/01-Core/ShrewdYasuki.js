@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 
 class ShrewdYasuki extends DrawCard {
@@ -16,18 +15,14 @@ class ShrewdYasuki extends DrawCard {
             },
             handler: () => {
                 this.game.addMessage('{0} uses {1} to look at the top two cards of their conflict deck', this.controller, this);
-                let cards = this.controller.conflictDeck.first(2);
-                let handlers = _.map(cards, card => {
-                    return () => {
+                this.game.promptWithHandlerMenu(this.controller, {
+                    activePromptTitle: 'Choose a card to put in your hand',
+                    cards: this.controller.conflictDeck.first(2),
+                    cardHandler: card => {
                         this.game.addMessage('{0} takes one card to their hand and puts the other on the bottom of their deck', this.controller);
                         this.controller.moveCard(card, 'hand');
                         this.game.queueSimpleStep(() => this.controller.moveFromTopToBottomOfConflictDrawDeck(1));
-                    };
-                });
-                this.game.promptWithHandlerMenu(this.controller, {
-                    activePromptTitle: 'Choose a card to put in your hand',
-                    cards: cards,
-                    handlers: handlers,
+                    },
                     source: this
                 });
             }

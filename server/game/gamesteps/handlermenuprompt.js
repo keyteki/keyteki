@@ -38,13 +38,25 @@ class HandlerMenuPrompt extends UiPrompt {
     activePrompt() {
         let buttons = [];
         if(this.properties.cards) {
-            buttons = _.map(this.properties.cards, (card, index) => {
-                return {text: card.name, arg: index, card: card};
+            let cardQuantities = {};
+            _.each(this.properties.cards, card => {
+                if(cardQuantities[card.id]) {
+                    cardQuantities[card.id] += 1;
+                } else {
+                    cardQuantities[card.id] = 1;
+                }
+            });
+            let cards = _.uniq(this.properties.cards, card => card.id);
+            buttons = _.map(cards, card => {
+                let text = card.name;
+                if(cardQuantities[card.id] > 1) {
+                    text = text + ' (' + cardQuantities[card.id].toString() + ')';
+                }
+                return {text: text, arg: card.id, card: card};
             });
         }
-        let length = buttons.length;
         buttons = buttons.concat(_.map(this.properties.choices, (choice, index) => {
-            return { text: choice, arg: index + length };
+            return { text: choice, arg: index };
         }));
         return {
             menuTitle: this.properties.activePromptTitle || 'Select one',
@@ -71,9 +83,20 @@ class HandlerMenuPrompt extends UiPrompt {
     }
 
     menuCommand(player, arg) {
+        if(_.isString(arg)) {
+            let card = _.find(this.properties.cards, card => card.id === arg);
+            if(card && this.properties.cardHandler) {
+                this.properties.cardHandler(card);
+                this.complete();
+                return true;
+            }
+            return false;
+        }
+
         if(!this.properties.handlers[arg]) {
             return false;
         }
+
         this.properties.handlers[arg]();
         this.complete();
 
