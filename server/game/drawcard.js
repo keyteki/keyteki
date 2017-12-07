@@ -497,14 +497,14 @@ class DrawCard extends BaseCard {
     }
 
     canPlay() {
-        return this.owner.canInitiateAction && this.allowGameAction('play');
+        return this.owner.canInitiateAction;
     }
 
     /**
      * Checks whether an attachment can be played on a given card.  Intended to be
      * used by cards inheriting this class
      */
-    canPlayOn() {
+    canPlayOn(card) { // eslint-disable-line no-unused-vars
         return true;
     }
 

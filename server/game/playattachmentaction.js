@@ -27,6 +27,7 @@ class PlayAttachmentAction extends BaseAbility {
             this.location.includes(context.source.location) &&
             context.player.canPutIntoPlay(context.source) &&
             context.source.canPlay() &&
+            context.source.allowGameAction('play', context) &&            
             this.canResolveTargets(context)
         );
     }

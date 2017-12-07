@@ -216,17 +216,19 @@ class Conflict {
     
     switchElement(element) {
         let oldRing = this.game.rings[this.conflictRing];
-        oldRing.contested = false;
-        this.elements = _.reject(this.elements, element => element === oldRing.element);
+        oldRing.resetRing();
+        this.removeElement(oldRing.element);
         this.conflictRing = element;
         let newRing = this.game.rings[element];
-        this.game.addFate(this.attackingPlayer, newRing.fate);
-        newRing.fate = 0;
+        if(this.attackingPlayer.allowGameAction('takeFateFromRings')) {
+            this.game.addFate(this.attackingPlayer, newRing.fate);
+            newRing.removeFate();
+        }
         newRing.contested = true;
         if(newRing.conflictType !== this.conflictType) {
             newRing.flipConflictType();
         }
-        this.elements.push(element);
+        this.addElement(element);
     }
     
     checkForIllegalParticipants() {

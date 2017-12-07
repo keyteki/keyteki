@@ -6,8 +6,9 @@ describe('BaseCard', function () {
         this.limitedCard = { id: '1234', text: 'Limited.' };
         this.nonLimitedCard = { id: '2222', text: 'Covert.' };
         this.game = jasmine.createSpyObj('game', ['raiseEvent', 'getCurrentAbilityContext']);
-        this.owner = jasmine.createSpyObj('owner', ['getCardSelectionState']);
+        this.owner = jasmine.createSpyObj('owner', ['getCardSelectionState', 'allowGameAction']);
         this.owner.getCardSelectionState.and.returnValue({});
+        this.owner.allowGameAction.and.returnValue(true);
         this.owner.game = this.game;
         this.card = new BaseCard(this.owner, this.testCard);
     });
@@ -158,8 +159,8 @@ describe('BaseCard', function () {
 
             it('should check each restriction', function() {
                 this.card.allowGameAction('kill', { context: 1 });
-                expect(this.restrictionSpy1.isMatch).toHaveBeenCalledWith('kill', this.card, { context: 1 });
-                expect(this.restrictionSpy2.isMatch).toHaveBeenCalledWith('kill', this.card, { context: 1 });
+                expect(this.restrictionSpy1.isMatch).toHaveBeenCalledWith('kill', { context: 1 });
+                expect(this.restrictionSpy2.isMatch).toHaveBeenCalledWith('kill', { context: 1 });
             });
 
             describe('and there are no matching restrictions', function() {

@@ -119,7 +119,7 @@ const Costs = {
     canPlayEvent: function() {
         return {
             canPay: function(context) {
-                return context.source.canPlay();
+                return context.source.allowGameAction('play', context);
             },
             canIgnoreForTargeting: true
         };

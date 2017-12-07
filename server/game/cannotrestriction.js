@@ -4,16 +4,16 @@ class CannotRestriction {
         this.condition = condition;
     }
 
-    isMatch(type, card, abilityContext) {
-        return this.type === type && this.checkCondition(card, abilityContext);
+    isMatch(type, abilityContext) {
+        return this.type === type && this.checkCondition(abilityContext);
     }
 
-    checkCondition(card, context) {
+    checkCondition(context) {
         if(!this.condition) {
             return true;
         }
 
-        return this.condition(card, context);
+        return this.condition(context);
     }
 }
 
