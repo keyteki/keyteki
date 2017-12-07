@@ -12,6 +12,10 @@ class Spectator {
     getCardSelectionState() {
         return {};
     }
+
+    getRingSelectionState() {
+        return {};
+    }
 }
 
 module.exports = Spectator;

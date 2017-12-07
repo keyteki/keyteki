@@ -72,8 +72,8 @@ export class PlayerStatsRow extends React.Component {
                 <div className='state'>
                     <div className='conflicts-remaining'>
                         Conflicts Remaining: { this.getStatValueOrDefault('conflictsRemaining') }
-                        { this.getStatValueOrDefault('politicalRemaining') && <span className='icon-political'/> }
-                        { this.getStatValueOrDefault('militaryRemaining') && <span className='icon-military'/> }
+                        { this.getStatValueOrDefault('politicalRemaining') ? <span className='icon-political'/> : null }
+                        { this.getStatValueOrDefault('militaryRemaining') ? <span className='icon-military'/> : null }
                     </div>
                 </div>
             </div>

@@ -10,6 +10,10 @@ class AnonymousSpectator {
     getCardSelectionState() {
         return {};
     }
+
+    getRingSelectionState() {
+        return {};
+    }
 }
 
 module.exports = AnonymousSpectator;
