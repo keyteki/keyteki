@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const Event = require('./Event.js');
 const RemoveFateEvent = require('./RemoveFateEvent.js');
 
@@ -6,7 +5,6 @@ class LeavesPlayEvent extends Event {
     constructor(params) {
         super('onCardLeavesPlay', params);
         this.handler = this.leavesPlay;
-        this.contingentEvents = [];
         if(!this.condition) {
             this.condition = () => this.card.location === 'play area';
         }
@@ -24,8 +22,8 @@ class LeavesPlayEvent extends Event {
         }
     }
     
-    setWindow(window) {
-        super.setWindow(window);
+    createContingentEvents() {
+        let contingentEvents = [];
         // Add an imminent triggering condition for all attachments leaving play
         if(this.card.attachments) {
             this.card.attachments.each(attachment => {
@@ -35,8 +33,7 @@ class LeavesPlayEvent extends Event {
                     destination = attachment.isAncestral() ? 'hand' : destination;
                     let event = new LeavesPlayEvent({ card: attachment, destination: destination });
                     event.order = this.order - 1;
-                    window.addEvent(event);
-                    this.contingentEvents.push(event);
+                    contingentEvents.push(event);
                 }
             });
         }
@@ -44,18 +41,9 @@ class LeavesPlayEvent extends Event {
         if(this.card.fate > 0) {
             let fateEvent = new RemoveFateEvent({ card: this.card, fate: this.card.fate });
             fateEvent.order = this.order - 1;
-            window.addEvent(fateEvent);
-            this.contingentEvents.push(fateEvent);
+            contingentEvents.push(fateEvent);
         }
-    }
-    
-    cancel() {
-        if(this.contingentEvents.length > 0) {
-            _.each(this.contingentEvents, event => event.cancelled = true);
-            this.window.removeEvent(this.contingentEvents);
-            this.contingentEvents = [];
-        }
-        super.cancel();
+        return contingentEvents;
     }
     
     preResolutionEffect() {
