@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class AsakoTsuki extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars - Remove this when the card is implemented
+    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
     }
 }
 
