@@ -1326,9 +1326,7 @@ class Player extends Spectator {
      * @param {DrawCard} card
      */
     sacrificeCard(card) {
-        if(card.allowGameAction('sacrifice')) {
-            this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', isSacrifice: true });
-        }
+        return this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', isSacrifice: true });
     }
 
     /**
@@ -1336,9 +1334,7 @@ class Player extends Spectator {
      * @param {DrawCard} card
      */
     discardCardFromPlay(card) {
-        if(card.allowGameAction('discardCardFromPlay')) {
-            return this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile' });
-        }
+        return this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile' });
     }
 
     /**
@@ -1429,7 +1425,7 @@ class Player extends Spectator {
      */
     returnCardToHand(card) {
         if(card.allowGameAction('returnToHand')) {
-            this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: 'hand' });
+            return this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: 'hand' });
         }
     }
 
@@ -1663,7 +1659,7 @@ class Player extends Spectator {
      * @param {EffectSource} source
      */
     honorCard(card, source) {
-        this.game.raiseEvent('onCardHonored', { player: this, card: card, source: source }, () => {
+        return this.game.raiseEvent('onCardHonored', { player: this, card: card, source: source }, () => {
             return { resolved: true, success: card.honor() };
         });
     }
@@ -1674,7 +1670,7 @@ class Player extends Spectator {
      * @param {EffectSource} source
      */
     dishonorCard(card, source) {
-        this.game.raiseEvent('onCardDishonored', { player: this, card: card, source: source }, () => {
+        return this.game.raiseEvent('onCardDishonored', { player: this, card: card, source: source }, () => {
             return { resolved: true, result: card.dishonor() };
         });
     }

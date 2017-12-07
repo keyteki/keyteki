@@ -5,9 +5,20 @@ class LeavesPlayEvent extends Event {
     constructor(params) {
         super('onCardLeavesPlay', params);
         this.handler = this.leavesPlay;
+        if(!this.condition) {
+            this.condition = () => this.card.location === 'play area';
+        }
 
         if(!this.destination) {
             this.destination = this.card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile';
+        }
+
+        if(this.isSacrifice) {
+            this.gameAction = 'sacrifice';
+        } else if(this.destination.includes('discard pile')) {
+            this.gameAction = 'discardCardFromPlay';
+        } else if(this.destination === 'hand') {
+            this.gameAction = 'returnToHand';
         }
     }
     

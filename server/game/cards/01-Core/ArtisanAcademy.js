@@ -36,9 +36,7 @@ class ArtisanAcademy extends DrawCard {
                 this.eventRegistrar.register(['onCardMoved', 'onPhaseEnded', 'onDeckShuffled']);
                 _.each(this.topCard.abilities.playActions, action => {
                     if(action.location && action.location.includes('hand')) {
-                        let clonedAction = _.clone(action);
-                        clonedAction.location = ['conflict deck'];
-                        this.topCard.abilities.playActions.push(clonedAction);
+                        action.location.push('conflict deck');
                     }
                 });
                 if(this.topCard.type === 'event') {
@@ -81,7 +79,12 @@ class ArtisanAcademy extends DrawCard {
     
     removeEffects() {
         this.eventRegistrar.unregisterAll();
-        this.topCard.abilities.playActions = _.reject(this.topCard.abilities.playActions, action => action.location === ['conflict deck']);
+        _.each(this.topCard.abilities.playActions, action => {
+            let index = _.indexOf(action.location, 'conflict deck');
+            if(index > -1) {
+                action.location.splice(index, 1);
+            }
+        });
         _.each(this.topCard.actions, action => {
             let index = _.indexOf(action.location, 'conflict deck');
             if(index > -1) {

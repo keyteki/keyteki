@@ -4,7 +4,7 @@ class DiscardFateCost {
     }
 
     isEligible(card) {
-        return card.location === 'play area' && card.type === 'character' && card.fate > 0;
+        return card.location === 'play area' && card.type === 'character' && card.fate > 0 && card.allowGameAction('removeFate');
     }
 
     pay(cards) {
