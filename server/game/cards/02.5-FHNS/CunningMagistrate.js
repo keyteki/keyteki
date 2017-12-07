@@ -11,6 +11,6 @@ class CunningMagistrate extends DrawCard {
     }
 }
 
-CunningMagistrate.id = 'cunning-magistrate'; // This is a guess at what the id might be - please check it!!!
+CunningMagistrate.id = 'cunning-magistrate';
 
 module.exports = CunningMagistrate;
