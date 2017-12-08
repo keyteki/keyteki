@@ -78,7 +78,6 @@ class ActionWindow extends UiPrompt {
             this.pass();
             return true;
         }
-
     }
 
     pass() {
