@@ -3,7 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class FairAccord extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
-            title: 'Discard  favor to gain to 2 fate',
+            title: 'Discard favor to gain to 2 fate',
             phase: 'dynasty',
             cost: ability.costs.discardImperialFavor(),
             handler: () => {
