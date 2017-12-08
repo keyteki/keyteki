@@ -416,6 +416,7 @@ const Effects = {
     cannotPlay: playerCannotEffect('play'),
     cardCannotTriggerAbilities: cardCannotEffect('triggerAbilities'),
     cannotBeTargeted: cardCannotEffect('target'),
+    cannotBeDishonored: cardCannotEffect('dishonor'),
     cannotBeBowed: cardCannotEffect('bow'),
     cannotBeBroken: cardCannotEffect('break'),
     cannotBeMovedIntoConflict: cardCannotEffect('moveToConflict'),
