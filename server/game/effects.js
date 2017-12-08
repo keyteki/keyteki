@@ -445,13 +445,13 @@ const Effects = {
         return {
             apply: function (card, context) {
                 if(context.game.currentConflict) {
-                    context.skillFunction = context.game.currentConflict.skillFunction;
+                    context.originalSkillFunction = context.game.currentConflict.skillFunction;
                     context.game.currentConflict.skillFunction = func;
                 }
             },
             unapply: function (card, context) {
                 if(context.game.currentConflict) {
-                    context.game.currentConflict.skillFunction = context.skillFunction;
+                    context.game.currentConflict.skillFunction = context.originalSkillFunction;
                 }
             }
         };
