@@ -83,7 +83,7 @@ class ActionWindow extends UiPrompt {
     pass() {
         this.game.addMessage('{0} passes', this.currentPlayer);
         
-        if(this.prevPlayerPassed || !this.currentPlayer.otherPlayer) {
+        if(this.prevPlayerPassed || !this.currentPlayer.opponent) {
             this.complete();
         }
 
