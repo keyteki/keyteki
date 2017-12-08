@@ -15,7 +15,7 @@ class SeppunIshikawa extends DrawCard {
 
     getImperialCardsInPlay() {
         if(this.controller && this.controller.cardsInPlay) {
-            return  _.reduce(_.flatten([this.controller.cardsInPlay._wrapped, this.getProvinces()]), (sum, card) => {
+            return _.reduce(_.flatten([this.controller.cardsInPlay._wrapped, this.getProvinces()]), (sum, card) => {
                 if(card.hasTrait('imperial')) {
                     return sum + 1;
                 }
@@ -30,8 +30,8 @@ class SeppunIshikawa extends DrawCard {
             return this.controller.getProvinceCardInProvince(location);
         });
         return _.filter(provinces, province => {
-            return !province.isBroken && !province.facedown
-        })
+            return !province.isBroken && !province.facedown;
+        });
     }
 }
 
