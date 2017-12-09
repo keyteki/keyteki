@@ -7,7 +7,7 @@ class CrisisBreaker extends DrawCard {
             condition: () => {
                 const currentConflict = this.game.currentConflict;
 
-                if (!currentConflict || currentConflict.conflictType !== 'military') {
+                if(!currentConflict || currentConflict.conflictType !== 'military') {
                     return false;
                 }
 
