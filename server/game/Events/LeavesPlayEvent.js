@@ -6,7 +6,8 @@ class LeavesPlayEvent extends Event {
         super('onCardLeavesPlay', params);
         this.handler = this.leavesPlay;
         if(!this.condition) {
-            this.condition = () => this.card.location === 'play area' || this.card.type === 'holding';
+            this.condition = () => this.card.location === 'play area' || (this.card.type === 'holding' && 
+                                   ['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(card.location));
         }
 
         if(!this.destination) {
