@@ -1,5 +1,4 @@
 const DrawCard = require('../../drawcard.js');
-const _ = require('underscore');
 
 class SeppunIshikawa extends DrawCard {
     setupCardAbilities(ability) {
