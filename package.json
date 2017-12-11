@@ -1,6 +1,6 @@
 {
   "name": "ringteki",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "A Legend of the Five Rings Card Game Server",
   "main": "index.js",
   "scripts": {
