@@ -443,6 +443,21 @@ const Effects = {
             }
         };
     },
+    changeConflictSkillFunction: function(func) {
+        return {
+            apply: function (card, context) {
+                if(context.game.currentConflict) {
+                    context.originalSkillFunction = context.game.currentConflict.skillFunction;
+                    context.game.currentConflict.skillFunction = func;
+                }
+            },
+            unapply: function (card, context) {
+                if(context.game.currentConflict) {
+                    context.game.currentConflict.skillFunction = context.originalSkillFunction;
+                }
+            }
+        };
+    },
     gainAbility: function(abilityType, properties) {
         return {
             apply: function(card, context) {
