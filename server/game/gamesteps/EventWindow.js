@@ -43,7 +43,10 @@ class EventWindow extends BaseStepWithPipeline {
     }
 
     openWindow(abilityType) {
-        _.each(this.events, event => event.checkCondition());
+        if(!abilityType.endsWith('reaction')) {
+            _.each(this.events, event => event.checkCondition());
+        }
+        
         if(_.isEmpty(this.events)) {
             return;
         }
