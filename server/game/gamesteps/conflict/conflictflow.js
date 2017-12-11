@@ -337,24 +337,23 @@ class ConflictFlow extends BaseStepWithPipeline {
 
         let cards = this.conflict.attackers.concat(this.conflict.defenders);
         
-        let events = _.map(cards, card => {
-            return {
-                name: 'onReturnHome',
-                params: {
-                    card: card,
-                    conflict: this.conflict,
-                    bowedPreReturn: card.bowed
-                },
-                handler: () => card.returnHomeFromConflict()
-            };
-        });
+        let events = _.map(cards, card => ({
+            name: 'onBowAfterConflict',
+            params: {
+                card: card,
+                conflict: this.conflict,
+                bowedPreReturn: card.bowed
+            },
+            handler: () => card.bowAfterConflict()
+        }));
         this.game.raiseMultipleEvents(events, {
-            name: 'onParticipantsReturnHome', 
+            name: 'onParticipantsBowAfterConflict', 
             params: { 
                 cards: cards, 
                 conflict: this.conflict
             }
         });
+        this.game.queueSimpleStep(() => _.each(cards, card => this.conflict.removeFromConflict(card)));
     }
     
     completeConflict() {

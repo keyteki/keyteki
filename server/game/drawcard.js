@@ -692,12 +692,11 @@ class DrawCard extends BaseCard {
         return this.allowGameAction('participateAsDefender') && this.canParticipateInConflict(conflictType);
     }
 
-    returnHomeFromConflict() {
+    bowAfterConflict() {
         let side = this.game.currentConflict.isAttacking(this) ? 'attacker' : 'defender';
         if(!this.conflictOptions.doesNotBowAs[side] && !this.bowed) {
             this.controller.bowCard(this);
         }
-        this.game.currentConflict.removeFromConflict(this);
     }
 
     play() {
