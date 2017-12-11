@@ -3,7 +3,7 @@ const AbilityContext = require('../../AbilityContext');
 const BaseStepWithPipeline = require('../basestepwithpipeline.js');
 const CovertAbility = require('./CovertAbility');
 const SimpleStep = require('../simplestep.js');
-const ConflictActionWindow = require('../conflictactionwindow.js');
+const ConflictActionWindow = require('./conflictactionwindow.js');
 const InitiateConflictPrompt = require('./initiateconflictprompt.js');
 const SelectDefendersPrompt = require('./selectdefendersprompt.js');
 
