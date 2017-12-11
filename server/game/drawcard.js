@@ -402,6 +402,22 @@ class DrawCard extends BaseCard {
         this.game.raiseEvent('onCardAddFate', { card: this, fate: fate });
     }
 
+    bow() {
+        if(this.allowGameAction('bow')) {
+            this.bowed = true;
+            return true;
+        }
+        return false;
+    }
+
+    ready() {
+        if(this.allowGameAction('ready')) {
+            this.bowed = false;
+            return true;
+        }
+        return false;
+    }
+
     honor() {
         if(this.isDishonored) {
             this.isDishonored = false;
