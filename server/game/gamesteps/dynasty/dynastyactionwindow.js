@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const ActionWindow = require('../actionwindow.js');
 
 class DynastyActionWindow extends ActionWindow {
