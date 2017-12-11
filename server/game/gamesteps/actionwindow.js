@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const UiPrompt = require('./uiprompt.js');
 
 class ActionWindow extends UiPrompt {
@@ -13,18 +11,11 @@ class ActionWindow extends UiPrompt {
         } else {
             this.currentPlayer = game.getFirstPlayer();
         }
-        if(this.currentPlayer.opponent && _.any(this.currentPlayer.abilityRestrictions, restriction => restriction.isMatch('takeFirstAction'))) {
+        if(this.currentPlayer.opponent && !this.currentPlayer.allowGameAction('takeFirstAction')) {
             this.currentPlayer = this.currentPlayer.opponent;
         }
         this.prevPlayerPassed = false;
         this.game.currentActionWindow = this;
-        
-        if(!this.currentPlayer.promptedActionWindows[this.windowName]) {
-            this.game.addMessage('{0} has chosen to pass', this.currentPlayer);
-            this.prevPlayerPassed = true;
-            this.nextPlayer();
-        }
-        
     }
     
     activeCondition(player) {
@@ -32,6 +23,10 @@ class ActionWindow extends UiPrompt {
     }
 
     continue() {
+        if(!this.currentPlayer.promptedActionWindows[this.windowName]) {
+            this.pass();
+        }
+
         let completed = super.continue();
 
         if(!completed) {
@@ -67,7 +62,7 @@ class ActionWindow extends UiPrompt {
 
         if(choice === 'manual') {
             this.game.promptForSelect(this.currentPlayer, {
-                source: 'Play Action',
+                source: 'Manual Action',
                 activePrompt: 'Which ability are you using?',
                 cardCondition: card => (card.controller === this.currentPlayer && !card.facedown),
                 onSelect: (player, card) => {
@@ -79,35 +74,28 @@ class ActionWindow extends UiPrompt {
             return true;
         }
         
-        this.game.addMessage('{0} has chosen to pass', this.currentPlayer);
-        
-        if(this.prevPlayerPassed) {
-            this.complete();
+        if(choice === 'pass') {
+            this.pass();
             return true;
+        }
+    }
+
+    pass() {
+        this.game.addMessage('{0} passes', this.currentPlayer);
+        
+        if(this.prevPlayerPassed || !this.currentPlayer.opponent) {
+            this.complete();
         }
 
         this.prevPlayerPassed = true;
         this.nextPlayer();
-
-        return true;
-    }
+   }
     
     nextPlayer() {
         let otherPlayer = this.game.getOtherPlayer(this.currentPlayer);
         
         if(otherPlayer) {
-            if(!otherPlayer.promptedActionWindows[this.windowName]) {
-                this.game.addMessage('{0} has chosen to pass', this.currentPlayer);
-                if(this.prevPlayerPassed) {
-                    this.complete();
-                } else {
-                    this.prevPlayerPassed = true;
-                }
-            } else {
-                this.currentPlayer = otherPlayer;
-            }
-        } else if(this.prevPlayerPassed) {
-            this.complete();
+            this.currentPlayer = otherPlayer;
         }
     }
 

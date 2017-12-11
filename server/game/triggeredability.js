@@ -42,14 +42,10 @@ class TriggeredAbility extends CardAbility {
     }
 
     meetsRequirements(context) {
-        if(!super.meetsRequirements()) {
-            return false;
-        }
-
         if(!this.isTriggeredByEvent(context.event)) {
             return false;
         }
-        return this.canResolveTargets(context);
+        return super.meetsRequirements(context);
     }
 
     isAction() {

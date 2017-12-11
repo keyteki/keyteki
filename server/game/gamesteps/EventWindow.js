@@ -16,6 +16,7 @@ class EventWindow extends BaseStepWithPipeline {
     initialise() {
         this.pipeline.initialise([
             new SimpleStep(this.game, () => this.openWindow('cancelinterrupt')),
+            new SimpleStep(this.game, () => this.createContigentEvents()),
             new SimpleStep(this.game, () => this.openWindow('forcedinterrupt')),
             new SimpleStep(this.game, () => this.openWindow('interrupt')),
             new SimpleStep(this.game, () => this.checkForOtherEffects()),
@@ -42,6 +43,10 @@ class EventWindow extends BaseStepWithPipeline {
     }
 
     openWindow(abilityType) {
+        if(!abilityType.endsWith('reaction')) {
+            _.each(this.events, event => event.checkCondition());
+        }
+        
         if(_.isEmpty(this.events)) {
             return;
         }
@@ -51,6 +56,21 @@ class EventWindow extends BaseStepWithPipeline {
             event: this.events
         });
     }
+
+    // This is primarily for LeavesPlayEvents
+    createContigentEvents() {
+        let contingentEvents = [];
+        _.each(this.events, event => {
+            contingentEvents = contingentEvents.concat(event.createContingentEvents());
+        });
+        if(contingentEvents.length > 0) {
+            _.each(contingentEvents, event => this.addEvent(event));
+            this.game.openAbilityWindow({
+                abilityType: 'cancelinterrupt',
+                event: contingentEvents
+            });
+        }
+    }
     
     // This catches any persistent/delayed effect cancels
     checkForOtherEffects() {
@@ -59,6 +79,7 @@ class EventWindow extends BaseStepWithPipeline {
 
     preResolutionEffects() {
         _.each(this.events, event => {
+            event.checkCondition();
             if(!event.cancelled) {
                 event.preResolutionEffect();
             }
@@ -71,6 +92,7 @@ class EventWindow extends BaseStepWithPipeline {
         let thenEvents = [];
 
         _.each(this.events, event => {
+            event.checkCondition();
             if(!event.cancelled) {
                 thenEvents = thenEvents.concat(event.thenEvents);
 

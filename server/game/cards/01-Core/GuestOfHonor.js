@@ -6,7 +6,7 @@ class GuestOfHonor extends DrawCard {
             condition: () => this.isParticipating(),
             targetType: 'player',
             targetController: 'opponent',
-            effect: ability.effects.playerCannotTriggerAbilities(card => card.type === 'event')
+            effect: ability.effects.cannotPlay(context => context && context.source.type === 'event')
         });
     }
 }
