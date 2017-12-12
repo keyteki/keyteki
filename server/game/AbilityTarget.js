@@ -37,7 +37,7 @@ class AbilityTarget {
         if(this.properties.optional) {
             promptProperties.buttons = [
                 { text: 'No more targets', arg: 'noMoreTargets' },
-                { text: 'Cancel', arg: 'done' }
+                { text: 'Cancel', arg: 'cancel' }
             ];
             promptProperties.onMenuCommand = () => {
                 result.resolved = true;

@@ -1876,6 +1876,7 @@ class Player extends Spectator {
             waitingPromptTitle: 'Waiting for opponent to discard characters with no fate',
             cardCondition: card => cardsToDiscard.includes(card),
             cardType: 'character',
+            buttons: [{ text: 'Done', arg: 'cancel' }],
             onSelect: (player, card) => {
                 player.discardCardFromPlay(card);
                 this.game.queueSimpleStep(() => player.discardCharactersWithNoFate(_.reject(cardsToDiscard, c => c === card)));

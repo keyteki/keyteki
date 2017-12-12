@@ -14,8 +14,7 @@ const UiPrompt = require('./uiprompt.js');
  *                      of cards that can be selected.
  * multiSelect        - boolean that ensures that the selected cards are sent as
  *                      an array, even if the numCards limit is 1.
- * buttons            - array of buttons for the prompt. Defaults to a single 
- *                      'Done' button
+ * buttons            - array of buttons for the prompt.
  * activePromptTitle  - the title that should be used in the prompt for the
  *                      choosing player.
  * waitingPromptTitle - the title that should be used in the prompt for the
@@ -108,10 +107,10 @@ class SelectCardPrompt extends UiPrompt {
     activePrompt() {
         let buttons = this.properties.buttons;
         if(!this.selector.automaticFireOnSelect()) {
-            buttons.unshift({ text: 'Done', arg: 'done' });
+            buttons = [{ text: 'Done', arg: 'done' }].concat(buttons);
         }
         if(this.game.manualMode && !_.any(buttons, button => button.arg === 'cancel')) {
-            buttons.push({ text: 'Cancel Prompt', arg: 'cancel' });
+            buttons = buttons.concat({ text: 'Cancel Prompt', arg: 'cancel' });
         }
         return {
             selectCard: this.properties.selectCard,
