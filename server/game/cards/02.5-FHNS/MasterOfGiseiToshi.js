@@ -17,7 +17,7 @@ class MasterOfGiseiToshi extends DrawCard {
                     targetType: 'player',
                     targetController: 'any',
                     condition: () => this.game.currentConflict && this.game.currentConflict.conflictRing === context.ring.element,
-                    effect: ability.effects.playerCannotTriggerAbilities(card => card.type === 'event' && !card.hasTrait('spell'))
+                    effect: ability.effects.cannotPlay(context => context && context.source.type === 'event' && !context.source.hasTrait('spell'))
                 }));
             }
         });
