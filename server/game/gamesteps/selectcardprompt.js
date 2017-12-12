@@ -71,7 +71,7 @@ class SelectCardPrompt extends UiPrompt {
 
     defaultProperties() {
         return {
-            buttons: [{ text: 'Done', arg: 'done' }],
+            buttons: [],
             pretarget: false,
             selectCard: true,
             selectMyCard: false,
@@ -106,13 +106,20 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     activePrompt() {
+        let buttons = this.properties.buttons;
+        if(!this.selector.automaticFireOnSelect()) {
+            buttons.unshift({ text: 'Done', arg: 'done' });
+        }
+        if(this.game.manualMode && !_.any(buttons, button => button.arg === 'cancel')) {
+            buttons.push({ text: 'Cancel Prompt', arg: 'cancel' });
+        }
         return {
             selectCard: this.properties.selectCard,
             selectMyCard: this.properties.selectMyCard,
             selectRing: true,
             selectOrder: this.properties.ordered,
             menuTitle: this.properties.activePromptTitle || this.selector.defaultActivePromptTitle(),
-            buttons: this.properties.buttons,
+            buttons: buttons,
             promptTitle: this.properties.source ? this.properties.source.name : undefined,
             controls: this.properties.controls
         };
@@ -182,21 +189,17 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     menuCommand(player, arg) {
-        if(arg !== 'done') {
-            if(this.properties.onMenuCommand(player, arg)) {
-                this.complete();
-                return true;
-            }
-            return false;
-        }
-
-        if(this.selector.hasEnoughSelected(this.selectedCards)) {
+        if(arg === 'done' && this.selector.hasEnoughSelected(this.selectedCards)) {
             return this.fireOnSelect();
-        } else if(this.selectedCards.length === 0) {
+        } else if(arg === 'cancel') {
             this.properties.onCancel(player);
             this.complete();
             return true;
+        } else if(this.properties.onMenuCommand(player, arg)) {
+            this.complete();
+            return true;
         }
+        return false;
     }
 
     complete() {
