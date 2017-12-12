@@ -27,7 +27,7 @@ class AFateWorseThanDeath extends DrawCard {
                     },
                     {
                         name: 'onCardRemoveFate',
-                        params: { card: context.target, fate: 1, source: this, gameAction: 'removeFate' },
+                        params: { card: context.target, fate: 1, source: this, gameAction: 'removeFate' }
                     },
                     {
                         // TODO: really should have a conditional 'onCharactersSentHome' event here also
