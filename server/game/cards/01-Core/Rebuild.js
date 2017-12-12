@@ -8,7 +8,7 @@ class Rebuild extends DrawCard {
                 cardToShuffle: {
                     activePromptTitle: 'Choose a card to shuffle into your deck',
                     cardCondition: card => {
-                        return (['province 1', 'province 2', 'province 3', 'province 4'].includes(card.location) && 
+                        return (['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(card.location) && 
                                 card.isDynasty && 
                                 !this.controller.getProvinceCardInProvince(card.location).isBroken);
                     }
