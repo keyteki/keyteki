@@ -93,7 +93,7 @@ class HandlerMenuPrompt extends UiPrompt {
             return false;
         }
         if(this.properties.choiceHandler) {
-            this.properties.choiceHandler(this.properties.choices[arg])
+            this.properties.choiceHandler(this.properties.choices[arg]);
         } else if(!this.properties.handlers || !this.properties.handlers[arg]) {
             return false;
         } else {
