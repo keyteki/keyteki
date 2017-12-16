@@ -3,7 +3,7 @@ const AbilityContext = require('../../AbilityContext');
 const BaseStepWithPipeline = require('../basestepwithpipeline.js');
 const CovertAbility = require('./CovertAbility');
 const SimpleStep = require('../simplestep.js');
-const ConflictActionWindow = require('./conflictactionwindow.js');
+const ConflictActionWindow = require('../conflictactionwindow.js');
 const InitiateConflictPrompt = require('./initiateconflictprompt.js');
 const SelectDefendersPrompt = require('./selectdefendersprompt.js');
 
@@ -99,7 +99,7 @@ class ConflictFlow extends BaseStepWithPipeline {
         }];
 
         let ring = this.game.rings[this.conflict.conflictRing];
-        if(ring.fate > 0 && this.conflict.attackingPlayer.allowGameAction('takeFateFromRings')) {
+        if(ring.fate > 0) {
             events.push({
                 name: 'onSelectRingWithFate',
                 params: {
@@ -337,23 +337,24 @@ class ConflictFlow extends BaseStepWithPipeline {
 
         let cards = this.conflict.attackers.concat(this.conflict.defenders);
         
-        let events = _.map(cards, card => ({
-            name: 'onBowAfterConflict',
-            params: {
-                card: card,
-                conflict: this.conflict,
-                bowedPreReturn: card.bowed
-            },
-            handler: () => card.bowAfterConflict()
-        }));
+        let events = _.map(cards, card => {
+            return {
+                name: 'onReturnHome',
+                params: {
+                    card: card,
+                    conflict: this.conflict,
+                    bowedPreReturn: card.bowed
+                },
+                handler: () => card.returnHomeFromConflict()
+            };
+        });
         this.game.raiseMultipleEvents(events, {
-            name: 'onParticipantsBowAfterConflict', 
+            name: 'onParticipantsReturnHome', 
             params: { 
                 cards: cards, 
                 conflict: this.conflict
             }
         });
-        this.game.queueSimpleStep(() => _.each(cards, card => this.conflict.removeFromConflict(card)));
     }
     
     completeConflict() {

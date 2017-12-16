@@ -8,8 +8,12 @@ class IdeMessenger extends DrawCard {
             target: {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',
-                gameAction: 'moveToConflict',
-                cardCondition: card => !card.isParticipating() && card.location === 'play area' && card.controller === this.controller
+                cardCondition: (
+                    (card, context) => card.allowGameAction('moveToConflict', context) &&
+                    this.game.currentConflict.isParticipating(card) === false &&
+                    card.location === 'play area' &&
+                    card.controller === this.controller
+                )
             },
             cost: ability.costs.payFate(1),
             handler: context => {

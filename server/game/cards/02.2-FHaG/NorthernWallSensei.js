@@ -13,7 +13,7 @@ class NorthernWallSensei extends DrawCard {
                 this.game.addMessage('{0} uses {1} to grant immunity to events to {2}', this.controller, this, context.target);
                 context.target.untilEndOfConflict(ability => ({
                     match: context.target,
-                    effect: ability.effects.immuneTo(context => context.source.type === 'event')
+                    effect: ability.effects.immuneTo(context => context && context.source.type === 'event')
                 }));
             }
         });

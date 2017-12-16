@@ -1,4 +1,4 @@
-const ActionWindow = require('../actionwindow.js');
+const ActionWindow = require('./actionwindow.js');
 
 const capitalize = {
     military: 'Military',
@@ -39,14 +39,19 @@ class ConflictActionWindow extends ActionWindow {
     }
     
     activePrompt() {
-        let props = super.activePrompt();
-
+        let buttons = [
+            { text: 'Pass', arg: 'pass' }
+        ];
+        if(this.game.manualMode) {
+            buttons.unshift({ text: 'Manual Action', arg: 'manual'});
+        }
+        
         this.conflict.calculateSkill();
         let conflictText = capitalize[this.conflict.conflictType] + ' ' + capitalize[this.conflict.conflictRing] + ' conflict';
         let skillText = 'Attacker: ' + this.conflict.attackerSkill + ' Defender: ' + this.conflict.defenderSkill;
         return {
             menuTitle: [conflictText, skillText].join('\n'),
-            buttons: props.buttons,
+            buttons: buttons,
             promptTitle: this.title
         };
     }

@@ -16,7 +16,7 @@ class ParentCost {
     }
 
     pay(context) {
-        return this.action.pay([context.costs[this.action.name]], context);
+        this.action.pay([context.costs[this.action.name]], context);
     }
 }
 

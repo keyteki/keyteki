@@ -5,7 +5,7 @@ class DoomedShugenja extends DrawCard {
         this.persistentEffect({
             location: 'any',
             targetType: 'player',
-            effect: ability.effects.playerCannotPlaceFate(context => context && context.source === this)
+            effect: ability.effects.playerCannotPlaceFate(card => card === this)
         });
     }
 }
