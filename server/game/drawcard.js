@@ -402,22 +402,6 @@ class DrawCard extends BaseCard {
         this.game.raiseEvent('onCardAddFate', { card: this, fate: fate });
     }
 
-    bow() {
-        if(this.allowGameAction('bow')) {
-            this.bowed = true;
-            return true;
-        }
-        return false;
-    }
-
-    ready() {
-        if(this.allowGameAction('ready')) {
-            this.bowed = false;
-            return true;
-        }
-        return false;
-    }
-
     honor() {
         if(this.isDishonored) {
             this.isDishonored = false;
@@ -513,14 +497,14 @@ class DrawCard extends BaseCard {
     }
 
     canPlay() {
-        return this.owner.canInitiateAction;
+        return this.owner.canInitiateAction && this.allowGameAction('play');
     }
 
     /**
      * Checks whether an attachment can be played on a given card.  Intended to be
      * used by cards inheriting this class
      */
-    canPlayOn(card) { // eslint-disable-line no-unused-vars
+    canPlayOn() {
         return true;
     }
 
@@ -692,11 +676,12 @@ class DrawCard extends BaseCard {
         return this.allowGameAction('participateAsDefender') && this.canParticipateInConflict(conflictType);
     }
 
-    bowAfterConflict() {
+    returnHomeFromConflict() {
         let side = this.game.currentConflict.isAttacking(this) ? 'attacker' : 'defender';
         if(!this.conflictOptions.doesNotBowAs[side] && !this.bowed) {
             this.controller.bowCard(this);
         }
+        this.game.currentConflict.removeFromConflict(this);
     }
 
     play() {

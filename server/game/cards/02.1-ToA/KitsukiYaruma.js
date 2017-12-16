@@ -4,7 +4,7 @@ class KitsukiYaruma extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: this,
-            effect: ability.effects.immuneTo(context => context.source.hasTrait('poison'))
+            effect: ability.effects.immuneTo(context => context && context.source.hasTrait('poison'))
         });
         this.reaction({
             title: 'Flip province facedown',

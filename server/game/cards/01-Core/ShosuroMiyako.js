@@ -17,7 +17,7 @@ class ShosuroMiyako extends DrawCard {
                 player: 'opponent',
                 choices: {
                     'Discard at random': () => this.controller.opponent.hand.size() > 0,
-                    'Dishonor a character': context => this.controller.opponent.cardsInPlay.any(card => card.allowGameAction('dishonor', context))
+                    'Dishonor a character': context => this.controller.opponent.anyCardsInPlay(card => card.allowGameAction('dishonor', context))
                 }
             },
             handler: context => {

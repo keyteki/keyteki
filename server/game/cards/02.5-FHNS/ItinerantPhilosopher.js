@@ -1,24 +1,10 @@
 const DrawCard = require('../../drawcard.js');
 
 class ItinerantPhilosopher extends DrawCard {
-    setupCardAbilities(ability) {
-        this.action({
-            title: 'Bow a character',
-            condition: () => this.isParticipating(),
-            cost: ability.costs.discardImperialFavor(),
-            target: {
-                cardType: 'character',
-                cardCondition: card => card.isParticipating() && card.controller === this.controller.opponent && 
-                                       card.attachments.size() > 0
-            },
-            handler: context => {
-                this.game.addMessage('{0} discards the Imperial Favor to use {1}, bowing {2}', this.controller, this, context.target);
-                this.controller.bowCard(context.target, this);
-            }
-        });
+    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
     }
 }
 
-ItinerantPhilosopher.id = 'itinerant-philosopher';
+ItinerantPhilosopher.id = 'itinerant-philosopher'; // This is a guess at what the id might be - please check it!!!
 
 module.exports = ItinerantPhilosopher;

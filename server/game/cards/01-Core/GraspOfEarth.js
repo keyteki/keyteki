@@ -23,7 +23,7 @@ class GraspOfEarth extends DrawCard {
                 this.untilEndOfConflict(ability => ({
                     targetType: 'player',
                     targetController: 'opponent',
-                    effect: ability.effects.cannotPlay(context => context && context.source.type === 'character')                    
+                    effect: ability.effects.cannotPlay((card) => card && card.getType() === 'character')                    
                 }));
             }
         });      
