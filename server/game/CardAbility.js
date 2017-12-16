@@ -51,6 +51,10 @@ class CardAbility extends BaseAbility {
         if(this.card.isBlank() && this.printedAbility) {
             return false ;
         }
+
+        if(!this.card.canTriggerAbilities(this.location)) {
+            return false;
+        }
         
         return this.canResolveTargets(context);
     }
