@@ -58,10 +58,6 @@ class CardAction extends CardAbility {
             return false;
         }
 
-        if(!this.card.canTriggerAbilities(this.location)) {
-            return false;
-        }
-
         if(this.phase !== 'any' && this.phase !== this.game.currentPhase) {
             return false;
         }

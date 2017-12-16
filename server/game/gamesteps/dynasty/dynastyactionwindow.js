@@ -1,3 +1,4 @@
+const _ = require('underscore');
 const ActionWindow = require('../actionwindow.js');
 
 class DynastyActionWindow extends ActionWindow {
@@ -23,7 +24,7 @@ class DynastyActionWindow extends ActionWindow {
         this.currentPlayer.passDynasty();
         if(!this.currentPlayer.opponent || !this.currentPlayer.opponent.passedDynasty) {
             this.game.addMessage('{0} is the first to pass, and gains 1 fate.', this.currentPlayer);
-            this.game.raiseEvent('onFirstPassDuringDynasty', { player: this.currentPlayer }, event => this.game.addFate(event.player, 1));
+            this.game.raiseEvent('onFirstPassDuringDynasty', { player: this.currentPlayer }, () => this.game.addFate(this.currentPlayer, 1));
         } else {
             this.game.addMessage('{0} passes.', this.currentPlayer);
         }
