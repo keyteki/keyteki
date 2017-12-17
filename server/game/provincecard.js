@@ -30,6 +30,10 @@ class ProvinceCard extends BaseCard {
         return this.cardData.element;
     }
 
+    getBaseStrength() {
+        return this.cardData.strength;  
+    }
+
     modifyProvinceStrength(amount, applying = true) {
         this.strengthModifier += amount;
         this.game.raiseEvent('onProvinceStrengthChanged', {

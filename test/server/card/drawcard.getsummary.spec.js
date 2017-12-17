@@ -3,6 +3,8 @@ const DrawCard = require('../../../server/game/drawcard.js');
 describe('DrawCard', function () {
     beforeEach(function () {
         this.testCard = { code: '111', label: 'test 1(some pack)', name: 'test 1' };
+        this.owner = jasmine.createSpyObj('owner', ['allowGameAction']);
+        this.owner.allowGameAction.and.returnValue(true);
     });
 
     describe('getSummary', function() {
@@ -10,7 +12,7 @@ describe('DrawCard', function () {
             describe('when the card has non-zero military skill', function() {
                 beforeEach(function() {
                     this.testCard.military = 3;
-                    this.card = new DrawCard({}, this.testCard);
+                    this.card = new DrawCard(this.owner, this.testCard);
                     this.summary = this.card.getSummary(true, true);
                 });
 
@@ -22,7 +24,7 @@ describe('DrawCard', function () {
             describe('when the card has a zero military skill', function() {
                 beforeEach(function() {
                     this.testCard.military = 0;
-                    this.card = new DrawCard({}, this.testCard);
+                    this.card = new DrawCard(this.owner, this.testCard);
                     this.summary = this.card.getSummary(true, true);
                 });
 
@@ -34,7 +36,7 @@ describe('DrawCard', function () {
             describe('when the card has no military skill', function() {
                 beforeEach(function() {
                     this.testCard.military = null;
-                    this.card = new DrawCard({}, this.testCard);
+                    this.card = new DrawCard(this.owner, this.testCard);
                     this.summary = this.card.getSummary(true, true);
                 });
 
@@ -47,7 +49,7 @@ describe('DrawCard', function () {
             describe('when the card has non-zero political skill', function() {
                 beforeEach(function() {
                     this.testCard.political = 3;
-                    this.card = new DrawCard({}, this.testCard);
+                    this.card = new DrawCard(this.owner, this.testCard);
                     this.summary = this.card.getSummary(true, true);
                 });
 
@@ -59,7 +61,7 @@ describe('DrawCard', function () {
             describe('when the card has a zero political skill', function() {
                 beforeEach(function() {
                     this.testCard.political = 0;
-                    this.card = new DrawCard({}, this.testCard);
+                    this.card = new DrawCard(this.owner, this.testCard);
                     this.summary = this.card.getSummary(true, true);
                 });
 
@@ -71,7 +73,7 @@ describe('DrawCard', function () {
             describe('when the card has no political skill', function() {
                 beforeEach(function() {
                     this.testCard.political = null;
-                    this.card = new DrawCard({}, this.testCard);
+                    this.card = new DrawCard(this.owner, this.testCard);
                     this.summary = this.card.getSummary(true, true);
                 });
 

@@ -322,7 +322,7 @@ class BaseCard extends EffectSource {
 
     allowGameAction(actionType, context = null) {
         return (!_.any(this.abilityRestrictions, restriction => restriction.isMatch(actionType, this, context)) &&
-                !_.any(this.controller.abilityRestrictions, restriction => restriction.isMatch(actionType, this, context)));
+            this.controller.allowGameAction(actionType, context));
     }
 
     allowEffectFrom(source) {

@@ -375,6 +375,10 @@ class Player extends Spectator {
         return this.conflicts.complete;
     }
 
+    allowGameAction(actionType, context = null) {
+        return !_.any(this.abilityRestrictions, restriction => restriction.isMatch(actionType, context));
+    }
+
     /**
      * Draws the passed number of cards from the top of the conflict deck into this players hand, shuffling and deducting honor if necessary
      * @param {Int} numCards

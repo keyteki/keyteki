@@ -18,8 +18,10 @@ class KnowTheWorld extends DrawCard {
                             ringCondition: ring => !ring.claimed && !ring.contested,
                             onSelect: (player, ring) => {
                                 this.game.addMessage('{0} plays {1}, returning the {2} ring and taking the {3} ring', player, this, ringToReturn.element, ring.element);
-                                this.game.addFate(player, ring.fate);
-                                ring.removeFate();
+                                if(this.controller.allowGameAction('takeFateFromRings')) {
+                                    this.game.addFate(player, ring.fate);
+                                    ring.removeFate();
+                                }
                                 ring.claimRing(player);
                                 ringToReturn.resetRing();
                                 return true;

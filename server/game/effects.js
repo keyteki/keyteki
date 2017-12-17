@@ -420,6 +420,7 @@ const Effects = {
     cannotBeBroken: cardCannotEffect('break'),
     cannotBeMovedIntoConflict: cardCannotEffect('moveToConflict'),
     cannotBeSentHome: cardCannotEffect('sendHome'),
+    cannotBeDishonored: cardCannotEffect('dishonor'),
     cannotMoveCharactersIntoConflict: playerCannotEffect('moveToConflict'),
     cannotCountForResolution: cardCannotEffect('countForResolution'),
     cannotBeAffectedByHonor: cardCannotEffect('affectedByHonor'),
@@ -431,6 +432,7 @@ const Effects = {
     playerCannotPlaceFate: playerCannotEffect('placeFate'),
     playerCannotSpendFate: playerCannotEffect('spendFate'),
     playerCannotTakeFirstAction: playerCannotEffect('takeFirstAction'),
+    playerCannotTakeFateFromRings: playerCannotEffect('takeFatefromRings'),
     changePlayerGloryModifier: function(amount) {
         return {
             apply: function(player) {
@@ -438,6 +440,21 @@ const Effects = {
             },
             unapply: function(player) {
                 player.changeGloryModifier(-amount);
+            }
+        };
+    },
+    changeConflictSkillFunction: function(func) {
+        return {
+            apply: function (card, context) {
+                if(context.game.currentConflict) {
+                    context.originalSkillFunction = context.game.currentConflict.skillFunction;
+                    context.game.currentConflict.skillFunction = func;
+                }
+            },
+            unapply: function (card, context) {
+                if(context.game.currentConflict) {
+                    context.game.currentConflict.skillFunction = context.originalSkillFunction;
+                }
             }
         };
     },
