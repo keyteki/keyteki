@@ -53,7 +53,7 @@ class DynastyActionWindow extends ActionWindow {
         if(_.all(this.game.getPlayers(), p => {
             return p.passedDynasty === false;
         })) {
-            this.game.addFate(this.currentPlayer, 1);
+            this.game.raiseEvent('onFirstPassDuringDynasty', { player: this.currentPlayer }, event => this.game.addFate(event.player, 1));
             this.game.addMessage('{0} is the first to pass, and gains 1 fate.', player);
         } else {
             this.game.addMessage('{0} has chosen to pass.', player);
