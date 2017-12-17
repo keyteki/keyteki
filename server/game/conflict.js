@@ -25,6 +25,7 @@ class Conflict {
         this.defenderSkill = 0;
         this.maxAllowedDefenders = 0;
         this.defenderSkillModifier = 0;
+        this.skillFunction = card => card.getSkill(this.conflictType);
     }
 
     singlePlayerDefender() {
@@ -217,16 +218,18 @@ class Conflict {
     switchElement(element) {
         let oldRing = this.game.rings[this.conflictRing];
         oldRing.contested = false;
-        this.elements = _.reject(this.elements, element => element === oldRing.element);
+        this.removeElement(oldRing.element);
         this.conflictRing = element;
         let newRing = this.game.rings[element];
-        this.game.addFate(this.attackingPlayer, newRing.fate);
-        newRing.fate = 0;
+        if(this.attackingPlayer.allowGameAction('takeFateFromRings')) {
+            this.game.addFate(this.attackingPlayer, newRing.fate);
+            newRing.fate = 0;
+        }
         newRing.contested = true;
         if(newRing.conflictType !== this.conflictType) {
             newRing.flipConflictType();
         }
-        this.elements.push(element);
+        this.addElement(element);
     }
     
     checkForIllegalParticipants() {
@@ -307,7 +310,7 @@ class Conflict {
             if(card.bowed || !card.allowGameAction('countForResolution')) {
                 return sum;
             }
-            return sum + card.getSkill(this.conflictType);
+            return sum + this.skillFunction(card);
         }, 0);
     }
 
