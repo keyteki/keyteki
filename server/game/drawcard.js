@@ -529,7 +529,7 @@ class DrawCard extends BaseCard {
                 return false;
             }
         } else if(this.type === 'event') {
-            if(!location.includes(this.location) && this.location !== 'hand') {
+            if(!location.includes(this.location) && !this.controller.isCardInPlayableLocation(this, 'play')) {
                 return false;
             }
         } else if(!this.location.includes('province')) {

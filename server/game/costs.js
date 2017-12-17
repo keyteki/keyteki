@@ -77,6 +77,10 @@ const Costs = {
      */
     discardFate: condition => CostBuilders.discardFate.select(condition),
     /**
+     * Cost that will discard a fate from the card's parent
+     */
+    discardFateFromParent: () => CostBuilders.discardFate.parent(),
+    /**
      * Cost that will dishonor the character that initiated the ability.
      */
     dishonorSelf: () => CostBuilders.dishonor.self(),
