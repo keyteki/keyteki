@@ -13,7 +13,7 @@ class ActionWindow extends UiPrompt {
         } else {
             this.currentPlayer = game.getFirstPlayer();
         }
-        if(this.currentPlayer.opponent && this.currentPlayer.allowGameAction('takeFirstAction')) {
+        if(this.currentPlayer.opponent && !this.currentPlayer.allowGameAction('takeFirstAction')) {
             this.currentPlayer = this.currentPlayer.opponent;
         }
         this.prevPlayerPassed = false;
