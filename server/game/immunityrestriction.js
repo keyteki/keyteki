@@ -3,7 +3,7 @@ class ImmunityRestriction {
         this.condition = condition;
     }
 
-    isMatch(type, card, abilityContext) {
+    isMatch(type, abilityContext) {
         return (
             abilityContext &&
             abilityContext.stage !== 'cost' &&

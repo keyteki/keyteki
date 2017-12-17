@@ -427,6 +427,21 @@ class DrawCard extends BaseCard {
         return false;
     }
 
+    bow() {
+        if(this.allowGameAction('bow')) {
+            this.bowed = true;
+            return true;
+        }
+        return false;
+    }
+
+    ready() {
+        if(this.allowGameAction('ready')) {
+            this.bowed = false;
+            return true;
+        }
+        return false;
+    }
 
     needsCovertTarget() {
         return this.isCovert() && !this.covertTarget;
@@ -497,14 +512,14 @@ class DrawCard extends BaseCard {
     }
 
     canPlay() {
-        return this.owner.canInitiateAction && this.allowGameAction('play');
+        return this.owner.canInitiateAction;
     }
 
     /**
      * Checks whether an attachment can be played on a given card.  Intended to be
      * used by cards inheriting this class
      */
-    canPlayOn() {
+    canPlayOn(card) { // eslint-disable-line no-unused-vars
         return true;
     }
 
