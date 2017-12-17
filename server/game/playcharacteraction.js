@@ -14,14 +14,13 @@ class PlayCharacterAction extends BaseAbility {
         this.title = 'Play this character';
         this.abilityType = 'action';
         this.cannotBeCancelled = true;
-        this.location = ['hand'];
     }
 
     meetsRequirements(context) {
         return (
             context.game.currentPhase !== 'dynasty' &&
             context.source.getType() === 'character' &&
-            this.location.includes(context.source.location) &&
+            context.player.isCardInPlayableLocation(context.source, 'play') &&
             context.player.canPutIntoPlay(context.source) &&
             context.source.canPlay() &&
             context.source.allowGameAction('play', context) &&
