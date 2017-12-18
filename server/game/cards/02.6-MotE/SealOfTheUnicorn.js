@@ -1,10 +1,16 @@
 const DrawCard = require('../../drawcard.js');
 
 class SealOfTheUnicorn extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.whileAttached({
+            effect: [
+                ability.effects.addFaction('unicorn'),
+                ability.effects.addTrait('cavalry')
+            ]
+        });
     }
 }
 
-SealOfTheUnicorn.id = 'seal-of-the-unicorn'; // This is a guess at what the id might be - please check it!!!
+SealOfTheUnicorn.id = 'seal-of-the-unicorn';
 
 module.exports = SealOfTheUnicorn;

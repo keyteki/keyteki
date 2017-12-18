@@ -10,7 +10,7 @@ class FearsomeMystic extends DrawCard {
         });
         this.action({
             title: 'Remove fate from characters',
-            condition: () => this.isParticipating() && this.controller.opponent && this.controller.opponent.cardsInPlay.any(card => card.isParticipating() && card.fate > 0),
+            condition: () => this.game.currentConflict && this.game.currentConflict.isParticipating(this),
             handler: context => {
                 this.game.addMessage('{0} uses {1} to remove 1 fate from all opposing characters with lower glory than her', this.controller, this);
                 let cards = this.game.findAnyCardsInPlay(card => {

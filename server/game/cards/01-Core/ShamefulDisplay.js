@@ -12,55 +12,59 @@ class ShamefulDisplay extends ProvinceCard {
                 activePromptTitle: 'Select two characters',
                 source: this,
                 cardType: 'character',
-                cardCondition: card => card.isParticipating() && (card.allowGameAction('honor') || card.allowGameAction('dishonor'))
+                cardCondition: card => card.isParticipating()
             },
             source: this,
             handler: context => {
-                if(!context.target[0].allowGameAction('honor')) {
-                    if(!context.target[1].allowGameAction('honor')) {
-                        this.chooseCharacter('Dishonor', context);
-                        return;
-                    } else if(!context.target[1].allowGameAction('dishonor')) {
-                        this.resolveShamefulDisplay(context.target[1], context.target[0]);
-                        return;
-                    }
-                } else if(!context.target[0].allowGameAction('dishonor')) {
-                    if(!context.target[1].allowGameAction('honor')) {
-                        this.resolveShamefulDisplay(context.target[0], context.target[1]);
-                        return;
-                    } else if(!context.target[1].allowGameAction('dishonor')) {
-                        this.chooseCharacter('Honor', context);
-                        return;
-                    }
+                if(_.all(context.target, card => card.isHonored)) {
+                    this.game.promptForSelect(this.controller, {
+                        activePromptTitle: 'Choose a character to dishonor',
+                        source: this,
+                        cardCondition: card => context.target.includes(card) && card.allowGameAction('dishonor', context),
+                        onSelect: (player, card) => {
+                            this.resolveShamefulDisplay(_.find(context.target, c => c !== card), card);
+                            return true;
+                        }
+                    });
+                } else if(_.all(context.target, card => !card.allowGameAction('dishonor'))) {
+                    this.game.promptForSelect(this.controller, {
+                        activePromptTitle: 'Choose a character to honor',
+                        source: this,
+                        cardCondition: card => context.target.includes(card) && card.allowGameAction('honor', context),
+                        onSelect: (player, card) => {
+                            this.resolveShamefulDisplay(card, _.find(context.target, c => c !== card));
+                            return true;
+                        }
+                    });
+                } else {
+                    let choices = ['Honor', 'Dishonor'];
+                    let handlers = _.map(choices, choice => {
+                        return () => this.chooseCharacter(choice, context.target, context);
+                    });
+                    this.game.promptWithHandlerMenu(this.controller, {
+                        activePromptTitle: 'Choose a character to:',
+                        source: this,
+                        choices: choices,
+                        handlers: handlers
+                    });
                 }
-                this.promptForChoice(context);
             }
         });
     }
-
-    promptForChoice(context) {
-        this.game.promptWithHandlerMenu(this.controller, {
-            activePromptTitle: 'Choose a character to:',
-            source: this,
-            choices: ['Honor', 'Dishonor'],
-            choiceHandler: choice => this.chooseCharacter(choice, context, true)
-        });
-    }
     
-    chooseCharacter(choice, context, backButton = false) {
-        let buttons = backButton ? [{ text: 'Back', arg: 'back' }] : [];
-        buttons.push({ text: 'Done', arg: 'done' });
+    chooseCharacter(choice, cards, context) {
+        let promptTitle = 'Choose a character to dishonor';
+        let condition = card => cards.includes(card) && card.allowGameAction('dishonor', context);            
+        if(choice === 'Honor') {
+            promptTitle = 'Choose a character to honor';
+            condition = card => cards.includes(card) && card.allowGameAction('honor', context);
+        }
         this.game.promptForSelect(this.controller, {
-            activePromptTitle: 'Choose a character to ' + choice.toLowerCase(),
+            activePromptTitle: promptTitle,
             source: this,
-            cardCondition: card => context.target.includes(card) && card.allowGameAction(choice.toLowerCase(), context),
-            buttons: buttons,
-            onMenuCommand: () => {
-                this.promptForChoice(context);
-                return true;
-            },
+            cardCondition: condition,
             onSelect: (player, card) => {
-                let otherCard = _.find(context.target, c => c !== card);
+                let otherCard = _.find(cards, c => c !== card);
                 if(choice === 'Honor') {
                     this.resolveShamefulDisplay(card, otherCard);
                 } else {
@@ -90,3 +94,4 @@ class ShamefulDisplay extends ProvinceCard {
 ShamefulDisplay.id = 'shameful-display';
 
 module.exports = ShamefulDisplay;
+

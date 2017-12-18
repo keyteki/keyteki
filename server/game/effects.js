@@ -416,11 +416,11 @@ const Effects = {
     cannotPlay: playerCannotEffect('play'),
     cardCannotTriggerAbilities: cardCannotEffect('triggerAbilities'),
     cannotBeTargeted: cardCannotEffect('target'),
-    cannotBeDishonored: cardCannotEffect('dishonor'),
     cannotBeBowed: cardCannotEffect('bow'),
     cannotBeBroken: cardCannotEffect('break'),
     cannotBeMovedIntoConflict: cardCannotEffect('moveToConflict'),
     cannotBeSentHome: cardCannotEffect('sendHome'),
+    cannotBeDishonored: cardCannotEffect('dishonor'),
     cannotMoveCharactersIntoConflict: playerCannotEffect('moveToConflict'),
     cannotCountForResolution: cardCannotEffect('countForResolution'),
     cannotBeAffectedByHonor: cardCannotEffect('affectedByHonor'),
@@ -485,13 +485,16 @@ const Effects = {
             }
         };
     },
-    revealTopCardOfConflictDeck: function() {
+    makeTopCardOfConflictDeckPlayable: function() {
         return {
-            apply: function(player) {
+            apply: function(player, context) {
                 player.conflictDeckTopCardHidden = false;
+                context.newPlayableLocation = player.addPlayableLocation('play', 'conflict deck');
             },
-            unapply: function(player) {
+            unapply: function(player, context) {
                 player.conflictDeckTopCardHidden = true;
+                player.playableLocations = _.reject(player.playableLocations, location => location === context.newPlayableLocation);
+                delete context.newPlayableLocation;
             }
         };
     },

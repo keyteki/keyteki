@@ -54,11 +54,11 @@ class CardAction extends CardAbility {
     }
 
     meetsRequirements(context) {
-        if(!context.player.canInitiateAction) {
+        if(!super.meetsRequirements()) {
             return false;
         }
 
-        if(!this.card.canTriggerAbilities(this.location)) {
+        if(!context.player.canInitiateAction) {
             return false;
         }
 
@@ -74,8 +74,7 @@ class CardAction extends CardAbility {
             return false;
         }
 
-        return super.meetsRequirements(context);
-
+        return this.canResolveTargets(context);
     }
 
     execute(player, arg) {
