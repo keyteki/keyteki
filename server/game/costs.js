@@ -123,7 +123,7 @@ const Costs = {
     expendEvent: function() {
         return {
             canPay: function(context) {
-                return context.source.allowGameAction('play');
+                return context.source.allowGameAction('play', context) && context.source.canPlay();
             },
             pay: function(context) {
                 context.source.controller.moveCard(context.source, 'conflict discard pile');
