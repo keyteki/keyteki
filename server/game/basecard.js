@@ -271,10 +271,6 @@ class BaseCard extends EffectSource {
         return glory;
     }
 
-    canPlay() {
-        return true;
-    }
-    
     canTriggerAbilities(context) {
         return !this.facedown && this.allowGameAction('triggerAbilities', context);
     }

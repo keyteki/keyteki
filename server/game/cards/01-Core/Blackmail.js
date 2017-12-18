@@ -18,9 +18,9 @@ class Blackmail extends DrawCard {
         });
     }
 
-    canPlay() {
+    canPlay(context) {
         if(this.controller.opponent && this.controller.honor < this.controller.opponent.honor) {
-            return super.canPlay();
+            return super.canPlay(context);
         }
         return false;
     }

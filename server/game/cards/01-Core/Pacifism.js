@@ -14,12 +14,12 @@ class Pacifism extends DrawCard {
         });
     }
 
-    canPlay() {
+    canPlay(context) {
         if(this.game.currentConflict) {
             return false;
         }
 
-        return super.canPlay();
+        return super.canPlay(context);
     }
 }
 
