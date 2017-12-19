@@ -19,7 +19,7 @@ class PlayCardAction extends BaseAbility {
             context.source.abilities.actions.length === 0 &&
             context.source.abilities.reactions.length === 0 &&
             context.player.isCardInPlayableLocation(context.source, 'play') &&
-            context.source.canPlay(context)
+            context.source.canPlay(context.player, context.source)
         );
     }
 
