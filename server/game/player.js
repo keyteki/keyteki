@@ -331,8 +331,8 @@ class Player extends Spectator {
 
     /**
      * Adds a new PlayableLocation of the specified type, and returns it
-     * @param {String} playingType 
-     * @param {String} location 
+     * @param {String} playingType
+     * @param {String} location
      */
     addPlayableLocation(playingType, location) {
         let newPlayableLocation = new PlayableLocation(playingType, this, location);
@@ -581,7 +581,7 @@ class Player extends Spectator {
             this.game.promptForSelect(this, {
                 activePromptTitle: 'Choose order for random discard',
                 mode: 'exactly',
-                num: toDiscard,
+                numCards: toDiscard,
                 multiselect: true,
                 ordered: true,
                 cardCondition: card => cards.includes(card),
