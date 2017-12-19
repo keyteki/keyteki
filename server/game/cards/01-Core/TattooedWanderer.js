@@ -19,6 +19,7 @@ class PlayTattooedWandererAsAttachment extends PlayAttachmentAction {
             context.player.isCardInPlayableLocation(this.originalCard, 'play') &&
             context.player.canPutIntoPlay(this.originalCard) &&
             this.originalCard.canPlay(clonedContext) &&
+            context.player.canInitiateAction &&
             this.canResolveTargets(clonedContext)
         );
     }
