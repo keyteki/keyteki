@@ -5,8 +5,9 @@ class MulliganConflictPrompt extends SelectCardPrompt {
         super(game, choosingPlayer, {
             numCards: 0,
             multiSelect: true,
+            optional: true,
             activePromptTitle: 'Select conflict cards to mulligan',
-            cardCondition: card => {
+             cardCondition: card => {
                 return ['hand'].includes(card.location) && choosingPlayer === card.owner; 
             },
             onSelect: (player, cards) => {

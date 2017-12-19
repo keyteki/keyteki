@@ -106,7 +106,7 @@ class SelectCardPrompt extends UiPrompt {
 
     activePrompt() {
         let buttons = this.properties.buttons;
-        if(!this.selector.automaticFireOnSelect()) {
+        if(!this.selector.automaticFireOnSelect() && this.selector.hasEnoughSelected(this.selectedCards)) {
             buttons = [{ text: 'Done', arg: 'done' }].concat(buttons);
         }
         if(this.game.manualMode && !_.any(buttons, button => button.arg === 'cancel')) {
@@ -188,12 +188,12 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     menuCommand(player, arg) {
-        if(arg === 'done' && this.selector.hasEnoughSelected(this.selectedCards)) {
-            return this.fireOnSelect();
-        } else if(arg === 'cancel') {
+        if(arg === 'cancel' || (arg === 'done' && this.properties.optional && this.selectedCards.length === 0)) {
             this.properties.onCancel(player);
             this.complete();
             return true;
+        } else if(arg === 'done' && this.selector.hasEnoughSelected(this.selectedCards)) {
+            return this.fireOnSelect();
         } else if(this.properties.onMenuCommand(player, arg)) {
             this.complete();
             return true;

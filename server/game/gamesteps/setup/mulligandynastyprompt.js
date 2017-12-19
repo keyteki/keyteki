@@ -5,6 +5,7 @@ class MulliganDynastyPrompt extends SelectCardPrompt {
         super(game, choosingPlayer, {
             numCards: 0,
             multiSelect: true,
+            optional: true,
             activePromptTitle: 'Select dynasty cards to mulligan',
             cardType: ['holding','character'],
             cardCondition: card => {
