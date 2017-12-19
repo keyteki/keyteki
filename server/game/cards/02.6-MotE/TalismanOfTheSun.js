@@ -11,7 +11,7 @@ class TalismanOfTheSun extends DrawCard {
                 source: this,
                 cardType: 'province',
                 gameAction: 'initiateConflict',
-                cardCondition: card => card.controller === this.controller && card !== this.game.currentConflict.conflictProvince &&
+                cardCondition: card => card.controller === this.controller && card !== this.game.currentConflict.conflictProvince && !card.isBroken &&
                                        (card.location !== 'stronghold province' ||
                                         _.size(this.game.allCards.filter(card => card.isProvince && card.isBroken && card.controller === this.controller)) > 2),
                 onSelect: (player, card) => {
