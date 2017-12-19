@@ -12,7 +12,7 @@ class PillowBook extends DrawCard {
                     targetType: 'player',
                     until: {
                         onCardMoved: event => event.card === topCard && event.originalLocation === 'conflict deck',
-                        onConflictFinished: event => event.phase === 'conflict',
+                        onConflictFinished: () => true,
                         onDeckShuffled: event => event.player === this.controller && event.deck === 'conflict deck'
                     },
                     effect: ability.effects.makeTopCardOfConflictDeckPlayable()
