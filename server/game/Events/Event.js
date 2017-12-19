@@ -21,7 +21,7 @@ class Event {
 
     cancel() {
         this.cancelled = true;
-        this.result.resolved = true;
+        this.resolved = false;
         this.window.removeEvent(this);
     }
     
@@ -33,21 +33,11 @@ class Event {
         this.window = null;
     }
 
-    createContingentEvents() {
-        return [];
-    }
-
     preResolutionEffect() {
         return;
     }
     
     checkCondition() {
-        if(this.cancelled) {
-            return;
-        }
-        if(this.card && this.gameAction && !this.card.allowGameAction(this.gameAction)) {
-            this.cancel();
-        }
         if(this.condition && this.window && !this.condition(this.window.events)) {
             this.cancel();
         }
@@ -56,8 +46,6 @@ class Event {
     executeHandler() {
         if(this.handler) {
             this.result = this.handler(...this.params) || { resolved: true, success: true};
-        } else {
-            this.result.resolved = true;
         }
     }
 

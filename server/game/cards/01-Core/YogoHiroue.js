@@ -22,7 +22,6 @@ class YogoHiroue extends DrawCard {
     
     yogoHiroueDelayedEffect(event) {
         this.events.unregisterAll();
-        // TODO allowGameAction really should be passed a context object here
         if(event.conflict.winner === this.controller && this.delayedEffectTarget.location === 'play area' && this.delayedEffectTarget.allowGameAction('dishonor')) {
             this.game.promptWithHandlerMenu(this.controller, {
                 activePromptTitle: 'Dishonor ' + this.delayedEffectTarget.name + '?',

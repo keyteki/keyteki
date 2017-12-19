@@ -4,7 +4,6 @@ class RemoveFateEvent extends Event {
     constructor(params) {
         super('onCardRemoveFate', params);
         this.handler = this.removeFate;
-        this.gameAction = 'removeFate';
     }
     
     removeFate() {

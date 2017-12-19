@@ -16,7 +16,7 @@ class PlayTogashiKazueAsAttachment extends PlayAttachmentAction {
         clonedContext.source = this.clone;
         return (
             context.game.currentPhase !== 'dynasty' &&
-            this.location.includes(this.originalCard.location) &&
+            context.player.isCardInPlayableLocation(this.originalCard, 'play') &&
             context.player.canPutIntoPlay(this.originalCard) &&
             this.originalCard.canPlay() &&
             this.originalCard.allowGameAction('play', clonedContext) &&

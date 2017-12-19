@@ -1,10 +1,14 @@
 const DrawCard = require('../../drawcard.js');
 
 class BeastmasterMatriarch extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            match: this,
+            effect: ability.effects.dynamicMilitarySkill(() => (this.controller.opponent ? (2 * this.controller.opponent.getClaimedRings().length) : 0))
+        });
     }
 }
 
-BeastmasterMatriarch.id = 'beastmaster-matriarch'; // This is a guess at what the id might be - please check it!!!
+BeastmasterMatriarch.id = 'beastmaster-matriarch';
 
 module.exports = BeastmasterMatriarch;

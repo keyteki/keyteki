@@ -49,6 +49,7 @@ class DuelistTraining extends DrawCard {
                                         cardCondition: card => card.location === 'hand',
                                         numCards: difference,
                                         mode: 'exactly',
+                                        ordered: true,
                                         multiSelect: true,
                                         onSelect: (player, card) => {
                                             player.discardCardsFromHand(card);
