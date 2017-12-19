@@ -14,12 +14,12 @@ class EmbraceTheVoid extends DrawCard {
         });
     }
     
-    canPlay() {
+    canPlay(context) {
         if(!this.controller.cardsInPlay.any(card => card.getType() === 'character' && card.hasTrait('shugenja'))) {
             return false;
         }
         
-        return super.canPlay();
+        return super.canPlay(context);
     }
 }
 
