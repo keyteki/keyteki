@@ -9,9 +9,10 @@ class MiwakuKabe extends DrawCard {
             },
             handler: () => {
                 this.game.addMessage('{0} uses {1} to shuffle itself back into the dynasty deck', this.controller, this);
-                this.controller.replaceDynastyCard(this.location);
+                const location = this.location;
                 this.controller.moveCard(this, 'dynasty deck');
                 this.game.queueSimpleStep(() => this.controller.shuffleDynastyDeck());
+                this.game.queueSimpleStep(() => this.controller.replaceDynastyCard(location));
             }
         });
     }
