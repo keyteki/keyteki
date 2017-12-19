@@ -40,7 +40,7 @@ class TestOfSkill extends DrawCard {
             title: 'Reveal 3 cards',
             cost: testOfSkillCost(),
             handler: context => {
-                let [matchingCards, cardsToDiscard] = _.partition(context.costs.testOfSkillRevealedCards, card => card.type === context.costs.testOfSkillCardType);
+                let [matchingCards, cardsToDiscard] = _.partition(context.costs.testOfSkillRevealedCards, card => card.type === context.costs.testOfSkillCardType && card.location === 'conflict deck');
                 let discardHandler = () => {
                     cardsToDiscard = cardsToDiscard.concat(matchingCards);
                     this.game.addMessage('{0} discards {1}', this.controller, cardsToDiscard);

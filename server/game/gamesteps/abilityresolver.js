@@ -16,6 +16,7 @@ class AbilityResolver extends BaseStepWithPipeline {
             new SimpleStep(game, () => this.resolveCosts()),
             new SimpleStep(game, () => this.waitForCostResolution()),
             new SimpleStep(game, () => this.payCosts()),
+            new SimpleStep(game, () => this.checkCostsHaveBeenPaid()),
             new SimpleStep(game, () => this.resolveTargets()),
             new SimpleStep(game, () => this.waitForTargetResolution()),
             new SimpleStep(game, () => this.initiateAbility())
@@ -55,7 +56,22 @@ class AbilityResolver extends BaseStepWithPipeline {
         if(this.cancelled) {
             return;
         }
-        this.context.ability.payCosts(this.context);
+        this.costEvents = this.context.ability.payCosts(this.context);
+    }
+
+    checkCostsHaveBeenPaid() {
+        if(this.cancelled) {
+            return;
+        }
+        this.cancelled = _.any(this.costEvents, event => event.result.resolved && !event.result.success);
+
+        if(this.cancelled) {
+            this.game.addMessage('{0} attempted to use {1}, but did not successfully pay the required costs', this.context.player, this.context.source);
+        }
+
+        if(!_.all(this.costEvents, event => event.result.resolved)) {
+            return false;
+        }
     }
 
     resolveEarlyTargets() {
@@ -86,6 +102,9 @@ class AbilityResolver extends BaseStepWithPipeline {
         }
 
         this.cancelled = _.any(this.targetResults, result => result.resolved && !result.value);
+        if(this.cancelled && !pretarget) {
+            this.game.addMessage('{0} attempted to use {1}, but targets were not chosen', this.context.player, this.context.source);
+        }           
 
         if(!_.all(this.targetResults, result => result.resolved || (pretarget && result.costsFirst))) {
             return false;

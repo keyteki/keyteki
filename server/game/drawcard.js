@@ -511,8 +511,8 @@ class DrawCard extends BaseCard {
         return card && card.getType() === 'character' && this.getType() === 'attachment';
     }
 
-    canPlay() {
-        return this.owner.canInitiateAction;
+    canPlay(context) {
+        return this.allowGameAction('play', context);
     }
 
     /**

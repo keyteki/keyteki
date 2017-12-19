@@ -15,9 +15,9 @@ class GoodOmen extends DrawCard {
         });
     }
 
-    canPlay() {
+    canPlay(context) {
         if(this.controller.opponent && this.controller.showBid < this.controller.opponent.showBid) {
-            return super.canPlay();
+            return super.canPlay(context);
         }
         return false;
     }

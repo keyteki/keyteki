@@ -9,6 +9,7 @@ describe('DynastyCardAction', function () {
         this.cardSpy.isDynasty = true;
         this.cardSpy.controller = this.playerSpy;
         this.cardSpy.owner = this.playerSpy;
+        this.cardSpy.facedown = false;
         this.gameSpy.currentActionWindow = this.windowSpy;
         this.windowSpy.currentPlayer = this.playerSpy;
         this.gameSpy.abilityCardStack = ['framework'];
@@ -28,6 +29,7 @@ describe('DynastyCardAction', function () {
             this.playerSpy.canPutIntoPlay.and.returnValue(true);
             this.playerSpy.isCardInPlayableLocation.and.returnValue(true);
             this.playerSpy.getReducedCost.and.returnValue(0);
+            this.playerSpy.canInitiateAction = true;
             this.cardSpy.getType.and.returnValue('character');
             this.cardSpy.canPlay.and.returnValue(true);
             this.cardSpy.isLimited.and.returnValue(false);

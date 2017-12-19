@@ -48,7 +48,7 @@ class BackAlleyPlayCharacterAction extends DynastyCardAction {
         return (
             context.source.location === 'backalley hideaway' &&
             context.player.canPutIntoPlay(context.source) &&
-            context.source.canPlay() &&
+            context.source.canPlay(context) &&
             this.canPayCosts(context)
         );
     }
