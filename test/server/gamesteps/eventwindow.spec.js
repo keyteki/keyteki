@@ -1,5 +1,5 @@
 const EventWindow = require('../../../server/game/gamesteps/EventWindow.js');
-const Event = require('../../../server/game/event.js');
+const Event = require('../../../server/game/events/Event');
 
 xdescribe('EventWindow', function() {
     beforeEach(function() {
