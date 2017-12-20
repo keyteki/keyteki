@@ -74,7 +74,6 @@ class SelectCardPrompt extends UiPrompt {
             buttons: [{ text: 'Done', arg: 'done' }],
             pretarget: false,
             selectCard: true,
-            selectMyCard: false,
             onSelect: () => true,
             onMenuCommand: () => true,
             onCancel: () => true
@@ -108,7 +107,6 @@ class SelectCardPrompt extends UiPrompt {
     activePrompt() {
         return {
             selectCard: this.properties.selectCard,
-            selectMyCard: this.properties.selectMyCard,
             selectRing: true,
             selectOrder: this.properties.ordered,
             menuTitle: this.properties.activePromptTitle || this.selector.defaultActivePromptTitle(),
