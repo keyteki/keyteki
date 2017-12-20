@@ -6,15 +6,27 @@ class LeavesPlayEvent extends Event {
     constructor(params) {
         super('onCardLeavesPlay', params);
         this.handler = this.leavesPlay;
-        this.contingentEvents = [];
 
         if(!this.destination) {
             this.destination = this.card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile';
         }
+
+        if(!this.condition) {
+            this.condition = () => this.card.location === 'play area' || (this.card.type === 'holding' && 
+                                   ['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(this.card.location));
+        }
+
+        if(this.isSacrifice) {
+            this.gameAction = 'sacrifice';
+        } else if(this.destination.includes('discard pile')) {
+            this.gameAction = 'discardCardFromPlay';
+        } else if(this.destination === 'hand') {
+            this.gameAction = 'returnToHand';
+        }
     }
     
-    setWindow(window) {
-        super.setWindow(window);
+    createContingentEvents() {
+        let contingentEvents = [];
         // Add an imminent triggering condition for all attachments leaving play
         if(this.card.attachments) {
             this.card.attachments.each(attachment => {
@@ -24,8 +36,7 @@ class LeavesPlayEvent extends Event {
                     destination = attachment.isAncestral() ? 'hand' : destination;
                     let event = new LeavesPlayEvent({ card: attachment, destination: destination });
                     event.order = this.order - 1;
-                    window.addEvent(event);
-                    this.contingentEvents.push(event);
+                    contingentEvents.push(event);
                 }
             });
         }
@@ -33,16 +44,9 @@ class LeavesPlayEvent extends Event {
         if(this.card.fate > 0) {
             let fateEvent = new RemoveFateEvent({ card: this.card, fate: this.card.fate });
             fateEvent.order = this.order - 1;
-            window.addEvent(fateEvent);
-            this.contingentEvents.push(fateEvent);
+            contingentEvents.push(fateEvent);
         }
-    }
-    
-    cancel() {
-        _.each(this.contingentEvents, event => event.cancelled = true);
-        this.window.removeEvent(this.contingentEvents);
-        this.contingentEvents = [];
-        super.cancel();
+        return contingentEvents;
     }
     
     preResolutionEffect() {
