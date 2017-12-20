@@ -23,7 +23,7 @@ class DynastyActionWindow extends ActionWindow {
             this.game.addMessage('{0} passes', this.currentPlayer);
         }
         if(!this.currentPlayer.opponent || this.currentPlayer.opponent.passedDynasty) {
-           this.complete();
+            this.complete();
         } else {
             this.nextPlayer();
         }
