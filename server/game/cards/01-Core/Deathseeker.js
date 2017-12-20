@@ -10,7 +10,8 @@ class Deathseeker extends DrawCard {
             cost: ability.costs.sacrificeSelf(),
             target: {
                 cardType: 'character',
-                cardCondition: (card, context) => card.location === 'play area' && card.controller !== this.controller && card.allowGameAction('discardCardFromPlay', context)
+                cardCondition: (card, context) => card.location === 'play area' && card.controller !== this.controller && 
+                                                  (card.fate > 0 ? card.allowGameAction('removeFate') : card.allowGameAction('discardCardFromPlay', context))
             },
             handler: context => {
                 if(context.target.fate === 0) {
