@@ -124,7 +124,7 @@ const Costs = {
     /**
      * Cost which moves the event to the discard pile
      */
-    expendEvent: function() {
+    canPlayEvent: function() {
         return {
             canPay: function(context) {
                 return context.source.canPlay(context);
