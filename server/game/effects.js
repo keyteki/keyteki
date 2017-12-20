@@ -490,6 +490,10 @@ const Effects = {
             apply: function(player, context) {
                 player.conflictDeckTopCardHidden = false;
                 context.newPlayableLocation = player.addPlayableLocation('play', 'conflict deck');
+                let topCard = player.conflictDeck.first();
+                if(topCard && topCard.type === 'event') {
+                    _.each(topCard.abilities.reactions, reaction => reaction.registerEvents());
+                }
             },
             unapply: function(player, context) {
                 player.conflictDeckTopCardHidden = true;
