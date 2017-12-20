@@ -117,7 +117,7 @@ const Costs = {
     playEvent: function() {
         return Costs.all(
             Costs.payReduceableFateCost('play'),
-            Costs.expendEvent(),
+            Costs.canPlayEvent(),
             Costs.playLimited()
         );
     },
@@ -128,9 +128,6 @@ const Costs = {
         return {
             canPay: function(context) {
                 return context.source.canPlay(context);
-            },
-            pay: function(context) {
-                context.source.controller.moveCard(context.source, 'conflict discard pile');
             },
             canIgnoreForTargeting: true
         };
@@ -161,9 +158,6 @@ const Costs = {
             canPay: function(context) {
                 return !context.player.isAbilityAtMax(context.ability.maxIdentifier);
             },
-            pay: function(context) {
-                context.player.incrementAbilityMax(context.ability.maxIdentifier);
-            },
             canIgnoreForTargeting: true
         };
     },
@@ -174,9 +168,6 @@ const Costs = {
         return {
             canPay: function(context) {
                 return !context.ability.limit.isAtMax();
-            },
-            pay: function(context) {
-                context.ability.limit.increment();
             },
             canIgnoreForTargeting: true
         };

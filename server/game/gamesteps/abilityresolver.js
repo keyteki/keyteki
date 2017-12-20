@@ -127,8 +127,26 @@ class AbilityResolver extends BaseStepWithPipeline {
         if(this.cancelled) {
             return;
         }
+
+        // Increment limits (limits aren't used up on cards in hand)
+        if(this.context.ability.limit && this.context.source.location !== 'hand') {
+            this.context.ability.limit.increment();
+        }
+        if(this.context.ability.max) {
+            this.context.player.incrementAbilityMax(this.context.ability.maxIdentifier);
+        }
+
+
+        // If this is a card ability, raise an initiateAbilityEvent
         if(this.context.ability.isCardAbility()) {
-            this.game.raiseInitiateAbilityEvent({ card: this.context.source, context: this.context }, () => this.executeHandler());
+            // If this is an event, move it to 'being played', and queue a step to send it to the discard pile after it resolves
+            if(this.context.source.type === 'event') {
+                this.context.player.moveCard(this.context.source, 'being played');
+                this.game.raiseInitiateAbilityEvent({ card: this.context.source, context: this.context }, () => this.executeHandler());
+                this.game.queueSimpleStep(() => this.context.player.moveCard(this.context.source, 'conflict discard pile'));
+            } else {
+                this.game.raiseInitiateAbilityEvent({ card: this.context.source, context: this.context }, () => this.executeHandler());
+            }
         } else {
             this.executeHandler();
         }
