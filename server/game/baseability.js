@@ -94,11 +94,9 @@ class BaseAbility {
      * Pays all costs for the ability simultaneously.
      */
     payCosts(context) {
-        return _.compact(_.flatten(_.map(this.cost, cost => {
-            if(cost.pay) {
-                return cost.pay(context);
-            }
-        })));
+        _.each(this.cost, cost => {
+            cost.pay(context);
+        });
     }
 
     /**
