@@ -547,6 +547,7 @@ class Game extends EventEmitter {
             case 'claim':
                 this.addMessage('{0} claims the {1} ring', player, ringElement);
                 ring.claimRing(player);
+                ring.contested = false;
                 break;
             case 'unclaimed':
                 this.addMessage('{0} sets the {1} ring to unclaimed', player, ringElement);
