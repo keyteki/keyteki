@@ -1,5 +1,5 @@
 const CardReaction = require('../../../server/game/cardreaction.js');
-const Event = require('../../../server/game/events/Event');
+const Event = require('../../../server/game/events/Event.js');
 
 describe('CardReaction', function () {
     beforeEach(function () {
