@@ -10,7 +10,7 @@ class AsakoDiplomat extends DrawCard {
             target: {
                 activePromptTitle: 'Choose a character to honor or dishonor',
                 cardType: 'character',
-                cardCondition: card => card.location === 'play area'
+                cardCondition: (card, context) => card.location === 'play area' && (card.allowGameAction('dishonor', context) || card.allowGameAction('honor', context))
             },
             handler: context => {
                 if(!context.target.allowGameAction('dishonor', context)) {
