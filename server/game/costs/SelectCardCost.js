@@ -46,7 +46,7 @@ class SelectCardCost {
     pay(context) {
         let selected = context.costs[this.action.name];
         let selectedAsArray = Array.isArray(selected) ? selected : [selected];
-        return this.action.pay(selectedAsArray, context);
+        this.action.pay(selectedAsArray, context);
     }
 }
 

@@ -19,12 +19,15 @@
     .popup {
         position: absolute;
         min-height: 92px;
-        min-width: 168px;
+        min-width: 180px;
         left: 90px;
         top: -75px;
 
         .inner {
-            columns: 2;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            align-items: flex-start;
             min-height: 128px;
 
             .card-wrapper {
@@ -35,6 +38,17 @@
         &.hidden {
             display: none;
         }
+    }
 
+    &.large {
+        .popup {
+            min-width: 240px
+        }
+    }
+
+    &.x-large {
+        .popup {
+            min-width: 320px
+        }
     }
 }

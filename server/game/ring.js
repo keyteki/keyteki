@@ -76,7 +76,7 @@ class Ring {
     claimRing(player) {
         this.claimed = true;
         this.claimedBy = player.name;
-        this.contested = false;
+        //this.contested = false;       This is now done separately
     }
 
     resetRing() {
@@ -116,7 +116,6 @@ class Ring {
         
         return _.extend(state, selectionState);
     }
-
 }
 
 module.exports = Ring;
