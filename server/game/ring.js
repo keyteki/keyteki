@@ -76,7 +76,7 @@ class Ring {
     claimRing(player) {
         this.claimed = true;
         this.claimedBy = player.name;
-        //this.contested = false;       This is now done separately
+        this.contested = false;
     }
 
     resetRing() {
