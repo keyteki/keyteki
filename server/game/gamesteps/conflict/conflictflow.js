@@ -329,7 +329,7 @@ class ConflictFlow extends BaseStepWithPipeline {
 
         }
         //Do this lazily for now
-        this.game.queueSimpleStep(() => ring.contested = false);
+        ring.contested = false;
     }
 
     returnHome() {
