@@ -5,25 +5,12 @@ class CrisisBreaker extends DrawCard {
         this.action({
             title: 'Ready and bring into play',
             condition: () => {
-                const currentConflict = this.game.currentConflict;
-
-                if(!currentConflict || currentConflict.conflictType !== 'military') {
+                if(!this.game.currentConflict || this.game.currentConflict.conflictType !== 'military') {
                     return false;
                 }
 
-                const originalSkillFunction = currentConflict.skillFunction;
-
-                currentConflict.skillFunction = (card) => card.getSkill('military');
-                currentConflict.calculateSkill();
-
-                const conditionFulfilled = currentConflict.attackingPlayer === this.controller ?
-                    currentConflict.attackerSkill < currentConflict.defenderSkill :
-                    currentConflict.defenderSkill < currentConflict.attackerSkill;
-
-                currentConflict.skillFunction = originalSkillFunction;
-                currentConflict.calculateSkill();
-
-                return conditionFulfilled;
+                let diff = this.game.currentConflict.attackerSkill - this.game.currentConflict.defenderSkill;
+                return (diff < 0 && this.controller.isAttackingPlayer()) || (diff > 0 && this.controller.isDefendingPlayer());
             },
             target: {
                 activePromptTitle: 'Choose a character',
