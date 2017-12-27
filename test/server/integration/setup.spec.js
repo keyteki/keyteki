@@ -35,7 +35,7 @@ describe('setup phase', function() {
 
             it('should give 1 fate to second player', function() {
                 expect(this.player2.player.fate).toBe(1);
-            })
+            });
 
             it('should start with no cards in hand or on provinces', function() {
                 const locations = [
@@ -43,7 +43,7 @@ describe('setup phase', function() {
                     'provinceOne',
                     'provinceTwo',
                     'provinceThree',
-                    'provinceFour',
+                    'provinceFour'
                 ];
                 _.each(locations, loc => expect(this.player1.player[loc].value().length).toBe(0));
             });
