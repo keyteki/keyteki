@@ -41,7 +41,7 @@ class PlayerInteractionWrapper {
 
     filterCardsByName(name, location = 'any') {
         var matchFunc = matchCardByNameAndPack(name);
-        var cards = this.player.allCards.filter(card => matchFunc(card.cardData) && (location === 'any' || card.location === location));
+        var cards = this.game.allCards.filter(card => matchFunc(card.cardData) && (location === 'any' || card.location === location) && card.controller === this.player);
 
         if(cards.length === 0) {
             var locationString = location === 'any' ? 'any location' : location;
@@ -82,7 +82,7 @@ class PlayerInteractionWrapper {
             throw new Error(`Couldn't click on "${text}" for ${this.player.name}. Current prompt is:\n${this.formatPrompt()}`);
         }
 
-        this.game.menuButton(this.player.name, promptButton.arg, promptButton.method);
+        this.game.menuButton(this.player.name, promptButton.arg, promptButton.uuid, promptButton.method);
         this.game.continue();
     }
 
