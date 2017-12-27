@@ -358,7 +358,7 @@ const Costs = {
                         context.game.promptWithHandlerMenu(context.player, {
                             activePromptTitle: 'Choose additional fate',
                             source: context.source,
-                            choices: choices,
+                            choices: _.map(choices, choice => _.isString(choice) ? choice : choice.toString()),
                             handlers: handlers
                         });
                     };
@@ -373,7 +373,7 @@ const Costs = {
                 context.game.promptWithHandlerMenu(context.player, {
                     activePromptTitle: 'Choose additional fate',
                     source: context.source,
-                    choices: choices,
+                    choices: _.map(choices, choice => _.isString(choice) ? choice : choice.toString()),
                     handlers: handlers
                 });
                 return result;

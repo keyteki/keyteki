@@ -52,6 +52,26 @@ var customMatchers = {
                 return result;
             }
         };
+    },
+    toBeAbleToSelect: function(util, customEqualityMatchers) {
+        return {
+            compare: function(player, card) {
+                if(_.isString(card)) {
+                    card = player.findCardByName(card);
+                }
+                let result = {};
+
+                result.pass = player.player.promptState.getCardSelectionState(card).selectable;
+
+                if(result.pass) {
+                    result.message = `Expected ${card.name} not to be selectable by ${player.name} but it was.`;
+                } else {
+                    result.message = `Expected ${card.name} to be selectable by ${player.name} but it wasn't.`;
+                }
+
+                return result;
+            }
+        };
     }
 };
 

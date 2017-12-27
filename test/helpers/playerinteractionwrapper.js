@@ -56,13 +56,25 @@ class PlayerInteractionWrapper {
     }
 
     filterCards(condition) {
-        var cards = this.player.allCards.filter(condition);
+        var cards = this.game.allCards.filter(card => condition(card) && card.controller === this.player);
 
         if(cards.length === 0) {
             throw new Error(`Could not find any matching cards for ${this.player.name}`);
         }
 
         return cards;
+    }
+
+    placeCardInProvince(card, location) {
+        if(_.isString(card)) {
+            card = this.findCardByName(card);
+        }
+        if(card.location !== location) {
+            this.player.moveCard(this.player.getDynastyCardInProvince(location), 'dynasty deck');
+            this.player.moveCard(card, location);
+        }
+        card.facedown = false;
+        return card;
     }
 
     hasPrompt(title) {
