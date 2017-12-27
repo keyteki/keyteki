@@ -38,7 +38,7 @@ describe('dynasty phase', function() {
             it('should not allow the player without priority to play a character', function() {
                 this.player2.clickCard(this.doomedShugenja1);
                 expect(this.player2).toHavePrompt('Waiting for opponent to take an action or pass');
-            })
+            });
 
             it('should prompt the player for the amount of fate to place on the character', function() {
                 this.player1.clickCard(this.akodoToturi);
