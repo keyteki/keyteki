@@ -18,7 +18,7 @@ class AFateWorseThanDeath extends DrawCard {
                         handler: () => {
                             return { resolved: true, success: context.target.bow() };
                         }
-                    })
+                    });
                 }
                 if(context.target.allowGameAction('dishonor', context)) {
                     events.push({
