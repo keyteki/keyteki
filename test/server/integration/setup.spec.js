@@ -30,7 +30,7 @@ describe('setup phase', function() {
     
         describe('setting up provinces', function() {
             beforeEach(function() {
-                this.flow.selectFirstPlayer(this.player1);
+                this.selectFirstPlayer(this.player1);
             });
 
             it('should give 1 fate to second player', function() {
@@ -70,8 +70,8 @@ describe('setup phase', function() {
 
         describe('dynasty mulligans', function() {
             beforeEach(function() {
-                this.flow.selectFirstPlayer(this.player1);
-                this.flow.selectProvinces();
+                this.selectFirstPlayer(this.player1);
+                this.selectProvinces();
                 this.spy = spyOn(this.player1.player, 'shuffleDynastyDeck');
             });
 
@@ -119,9 +119,9 @@ describe('setup phase', function() {
 
         describe('conflict mulligan', function() {
             beforeEach(function() {
-                this.flow.selectFirstPlayer(this.player1);
-                this.flow.selectProvinces();
-                this.flow.eachPlayerInFirstPlayerOrder(player => player.clickPrompt('Done'));
+                this.selectFirstPlayer(this.player1);
+                this.selectProvinces();
+                this.eachPlayerInFirstPlayerOrder(player => player.clickPrompt('Done'));
                 this.spy = spyOn(this.player1.player, 'shuffleConflictDeck');
             });
 
@@ -168,7 +168,7 @@ describe('setup phase', function() {
 
             describe('if both player click Done', function() {
                 it('should go to the dynasty phase', function() {
-                    this.flow.eachPlayerInFirstPlayerOrder(player => player.clickPrompt('Done'));
+                    this.eachPlayerInFirstPlayerOrder(player => player.clickPrompt('Done'));
                     expect(this.game.currentPhase).toBe('dynasty');
                 });
             });
