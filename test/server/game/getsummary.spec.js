@@ -87,7 +87,7 @@ describe('the Game', () => {
                 game.playersAndSpectators[spectator.name] = spectator;
             });
 
-            it('should show the specators to any player', () => {
+            it('should show the spectators to any player', () => {
                 var state = game.getSummary('any');
 
                 expect(state.spectators).not.toBe(undefined);

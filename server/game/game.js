@@ -47,6 +47,7 @@ class Game extends EventEmitter {
         this.id = details.id;
         this.name = details.name;
         this.allowSpectators = details.allowSpectators;
+        this.spectatorSquelch = details.spectatorSquelch;
         this.owner = details.owner;
         this.started = false;
         this.playStarted = false;
@@ -839,8 +840,10 @@ class Game extends EventEmitter {
                 return;
             }
         }
-
-        this.gameChat.addChatMessage('{0} {1}', player, message);
+        
+        if(!this.isSpectator(player) || !this.spectatorSquelch) {
+            this.gameChat.addChatMessage('{0} {1}', player, message);
+        }
     }
 
     /*
