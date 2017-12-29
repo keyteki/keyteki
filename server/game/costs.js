@@ -12,7 +12,11 @@ const Costs = {
                 return _.all(costs, cost => cost.canPay(context));
             },
             pay: function(context) {
-                _.each(costs, cost => cost.pay(context));
+                _.each(costs, cost => {
+                    if(cost.pay) {
+                        cost.pay(context);
+                    }
+                });
             },
             canIgnoreForTargeting: _.all(costs, cost => cost.canIgnoreForTargeting)
         };
