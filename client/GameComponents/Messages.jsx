@@ -1,8 +1,8 @@
-import EmojiConvertor from 'emoji-js';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'underscore';
+import EmojiConvertor from 'emoji-js';
 
 import Avatar from '../Avatar.jsx';
 import * as actions from '../actions';

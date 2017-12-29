@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'underscore';
 import $ from 'jquery';
+import EmojiConvertor from 'emoji-js';
 import moment from 'moment';
 
 import * as actions from './actions';
@@ -19,6 +20,8 @@ class InnerLobby extends React.Component {
         this.onKeyPress = this.onKeyPress.bind(this);
         this.onSendClick = this.onSendClick.bind(this);
         this.onScroll = this.onScroll.bind(this);
+
+        this.emoji = new EmojiConvertor();
 
         this.state = {
             canScroll: true,
@@ -132,7 +135,7 @@ class InnerLobby extends React.Component {
                 if(!message.user) {
                     return;
                 }
-                return (<div className='lobby-message'>{ message.message }</div>);
+                return (<div className='lobby-message'>{ this.emoji.replace_colons(message.message) }</div>);
             });
 
             return (
