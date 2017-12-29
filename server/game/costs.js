@@ -12,7 +12,11 @@ const Costs = {
                 return _.all(costs, cost => cost.canPay(context));
             },
             pay: function(context) {
-                _.each(costs, cost => cost.pay(context));
+                _.each(costs, cost => {
+                    if(cost.pay) {
+                        cost.pay(context);
+                    }
+                });
             },
             canIgnoreForTargeting: _.all(costs, cost => cost.canIgnoreForTargeting)
         };
@@ -349,7 +353,7 @@ const Costs = {
                         context.game.promptWithHandlerMenu(context.player, {
                             activePromptTitle: 'Choose additional fate',
                             source: context.source,
-                            choices: choices,
+                            choices: _.map(choices, choice => _.isString(choice) ? choice : choice.toString()),
                             handlers: handlers
                         });
                     };
@@ -364,7 +368,7 @@ const Costs = {
                 context.game.promptWithHandlerMenu(context.player, {
                     activePromptTitle: 'Choose additional fate',
                     source: context.source,
-                    choices: choices,
+                    choices: _.map(choices, choice => _.isString(choice) ? choice : choice.toString()),
                     handlers: handlers
                 });
                 return result;

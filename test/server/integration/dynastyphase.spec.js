@@ -1,156 +1,161 @@
-xdescribe('dynasty phase', function() {
+describe('dynasty phase', function() {
     integration(function() {
-        describe('purchasing normal cards', function() {
+        describe('playing a card from a province', function() {
             beforeEach(function() {
-                const deck = this.buildDeck('phoenix', [
-                    'Adept of the Waves', 'Against the Waves',
-                    'Asako Diplomat', 'Shiba Tsukune', 'Shiba Tsukune', 'Naive Student', 'Solemn Scholar',
-                    'Forgotten Library', 'Display of Power'
+                const deck1 = this.buildDeck('lion', [
+                    'yojin-no-shiro',
+                    'shameful-display', 'shameful-display', 'shameful-display', 'shameful-display', 'shameful-display',
+                    'akodo-gunso', 'akodo-gunso', 'matsu-berserker', 'matsu-berserker',
+                    'akodo-toturi', 'akodo-toturi', 'akodo-toturi', 'akodo-toturi',
+                    'against-the-waves', 'against-the-waves', 'against-the-waves', 'against-the-waves' 
                 ]);
-                this.player1.selectDeck(deck);
-                this.player2.selectDeck(deck);
+                const deck2 = this.buildDeck('dragon', [
+                    'mountain-s-anvil-castle',
+                    'shameful-display', 'shameful-display', 'shameful-display', 'shameful-display', 'shameful-display',
+                    'doomed-shugenja', 'doomed-shugenja', 'doomed-shugenja',
+                    'niten-master', 'niten-master', 'niten-master',
+                    'togashi-kazue', 'togashi-kazue', 'togashi-kazue', 'togashi-kazue'
+                ]);
+
+                this.player1.selectDeck(deck1);
+                this.player2.selectDeck(deck2);
                 this.startGame();
                 this.skipSetupPhase();
-                // this.player1.selectPlot('Trading with the Pentoshi');
-                // this.player2.selectPlot('Sneak Attack');
-                this.selectFirstPlayer(this.player1);
 
-                this.adeptOfTheWaves = this.player1.findCardByName('Adept of the Waves');
-                this.shibaTsukune = this.player1.findCardByName('Shiba Tsukune');
-                this.solemnScholer = this.player1.findCardByName('Solemn Scholar');
-                this.displayOfPower = this.player1.findCardByName('Display of Power');
+                this.akodoGunso = this.player1.placeCardInProvince('akodo-gunso', 'province 1');
+                this.akodoToturi = this.player1.placeCardInProvince('akodo-toturi', 'province 2');
+                this.matsuBerserker = this.player1.placeCardInProvince('matsu-berserker', 'province 3');
+                
+                this.doomedShugenja1 = this.player2.placeCardInProvince('doomed-shugenja', 'province 1');
+                this.doomedShugenja2 = this.player2.findCard(card => card.id === 'doomed-shugenja' && card.location !== 'province 1');
+                this.player2.placeCardInProvince(this.doomedShugenja2, 'province 2');
             });
 
-            it('should limit purchasing to the amount of fate', function() {
-                this.player1.clickCard(this.kingsroad); // 9 remaining
-                this.player1.clickCard(this.ned1); // 2 remaining
-                this.player1.clickCard(this.arya); // not enough gold
+            it('should prompt first player to play a card', function() {
+                expect(this.player1).toHavePrompt('Click pass when done');
+            });
 
-                expect(this.kingsroad.location).toBe('play area');
-                expect(this.ned1.location).toBe('play area');
-                expect(this.arya.location).toBe('hand');
-                expect(this.player1Object.gold).toBe(2);
+            it('should not allow the player without priority to play a character', function() {
+                this.player2.clickCard(this.doomedShugenja1);
+                expect(this.player2).toHavePrompt('Waiting for opponent to take an action or pass');
+            });
+
+            it('should prompt the player for the amount of fate to place on the character', function() {
+                this.player1.clickCard(this.akodoToturi);
+                expect(this.player1).toHavePrompt('Choose additional fate');
+            });
+
+            it('should stop players from placing more fate than they have', function() {
+                this.player1.clickCard(this.akodoToturi);
+                expect(this.player1).toHavePromptButton('2');
+                expect(this.player1).not.toHavePromptButton('3');
+                expect(this.player1).not.toHavePromptButton(['More']);
+            });
+
+            it('should charge player for playing card and fate and pass priority', function() {
+                this.player1.clickCard(this.akodoToturi);
+                this.player1.clickPrompt('1');
+
+                expect(this.akodoToturi.location).toBe('play area');
+                expect(this.akodoToturi.fate).toBe(1);
+                expect(this.player1.player.fate).toBe(1);
+                expect(this.player2).toHavePrompt('Click pass when done');
+            });
+
+            it('should replace the played card with a facedown dynasty card', function() {
+                this.player1.clickCard(this.akodoToturi);
+                this.player1.clickPrompt('1');
+
+                expect(this.player1.player.getDynastyCardInProvince('province 2').facedown).toBe(true);
+            });
+
+            it('should give the first player who passes 1 fate', function() {
+                this.player1.clickCard(this.akodoToturi);
+                this.player1.clickPrompt('1');
+                this.player2.clickPrompt('Pass');
+
+                expect(this.player2.player.fate).toBe(9);
+            });
+
+            it('should not pass priority to a player who has previously passed', function() {
+                this.player1.clickCard(this.akodoToturi);
+                this.player1.clickPrompt('0');
+                this.player2.clickPrompt('Pass');
+                this.player1.clickCard(this.matsuBerserker);
+                this.player1.clickPrompt('0');
+
+                expect(this.player1).toHavePrompt('Click pass when done');
+            });
+
+            it('should not allow a player to play a card without enough fate', function() {
+                this.player1.clickCard(this.akodoToturi); // 7 remaining
+                this.player1.clickPrompt('1'); // 1 remaining
+                this.player2.clickPrompt('Pass');
+                this.player1.clickCard(this.akodoGunso);
+
+                expect(this.player1).not.toHavePrompt('Choose additional fate');
+                expect(this.player1).toHavePrompt('Click pass when done');
             });
 
             it('should trigger any enters play abilities', function() {
-                // Ensure there is a card in draw deck
-                this.kingsroad.controller.moveCard(this.kingsroad, 'draw deck');
-                this.player1.clickCard(this.arya);
+                this.player1.clickCard(this.akodoGunso);
+                this.player1.clickPrompt('0');
 
-                this.player1.clickPrompt('Arya Stark');
-
-                expect(this.arya.dupes.size()).toBe(1);
+                expect(this.akodoGunso.location).toBe('play area');
+                expect(this.player1).toHavePrompt('Any reactions to Akodo Gunsō being played or Akodo Gunsō entering play?');
+                expect(this.player1).toBeAbleToSelect(this.akodoGunso);
             });
 
-            it('should allow reducers to reduce cost', function() {
-                this.player1.clickCard('The Kingsroad', 'hand');
-                this.player1.clickCard('The Kingsroad', 'play area');
-                this.player1.clickCard(this.ned1);
+            it('should add a fate to a character when a duplicate is clicked', function() {
+                this.akodoToturiDupe = this.player1.findCardByName('akodo-toturi', 'dynasty deck');
+                this.player1.placeCardInProvince(this.akodoToturiDupe, 'province 4');
+                this.player1.clickCard(this.akodoToturi);
+                this.player1.clickPrompt('1');
+                this.player2.clickPrompt('Pass');
+                this.player1.clickCard(this.akodoToturiDupe);
 
-                expect(this.ned1.location).toBe('play area');
-                expect(this.kingsroad.location).toBe('discard pile');
-                expect(this.player1Object.gold).toBe(5);
+                expect(this.akodoToturiDupe.location).toBe('dynasty discard pile');
+                expect(this.akodoToturi.fate).toBe(2);
             });
 
             it('should allow events to be played', function() {
-                this.player1.clickCard(this.hearMeRoar);
+                this.player1.clickCard(this.akodoToturi);
+                this.player1.clickPrompt('1');
+                this.player2.clickCard(this.doomedShugenja1);
+                this.player2.clickPrompt('0');
+                this.player1.clickCard('against-the-waves');
 
-                expect(this.hearMeRoar.location).toBe('discard pile');
+                expect(this.doomedShugenja1.location).toBe('play area');
+                expect(this.player1).toHavePrompt('Choose a character');
+                expect(this.player1).toBeAbleToSelect(this.doomedShugenja1);
             });
 
-            describe('when playing dupes', function() {
-                beforeEach(function() {
-                    this.player1.clickCard(this.ned1);
-                });
-                // TODO: Update these test for L5R rules
-                it('should allow the same card to be marshalled as a dupe for free', function() {
-                    expect(this.player1Object.gold).toBe(3);
-
-                    this.player1.clickCard(this.ned2);
-
-                    expect(this.player1Object.gold).toBe(3);
-                    expect(this.player1Object.cardsInPlay.size()).toBe(1);
-                    expect(this.ned1.dupes).toContain(this.ned2);
-                });
-
-                it('should allow a card with the same name to be marshalled as a dupe for free', function() {
-                    expect(this.player1Object.gold).toBe(3);
-
-                    this.player1.clickCard(this.wotnNed);
-
-                    expect(this.player1Object.gold).toBe(3);
-                    expect(this.player1Object.cardsInPlay.size()).toBe(1);
-                    expect(this.ned1.dupes).toContain(this.wotnNed);
-                });
-            });
-        });
-
-        describe('when a card is limited', function() {
-            beforeEach(function() {
-                const deck = this.buildDeck('tyrell', ['Sneak Attack', 'The Roseroad', 'The Arbor', 'The Arbor']);
-                this.player1.selectDeck(deck);
-                this.player2.selectDeck(deck);
-                this.startGame();
-                this.skipSetupPhase();
-                this.player1.selectPlot('Sneak Attack');
-                this.player2.selectPlot('Sneak Attack');
-                this.selectFirstPlayer(this.player1);
-
-                this.roseroad = this.player1.findCardByName('The Roseroad');
-                [this.arbor1, this.arbor2] = this.player1.filterCardsByName('The Arbor');
+            // This is disabled until building decks using the api rather than the db is possible
+            xit('should not allow a player to play two limited cards', function() {
+                this.player1.clickCard(this.akodoToturi);
+                this.player1.clickPrompt('1');
+                this.player2.clickCard(this.doomedShugenja1);
+                this.player2.clickPrompt('0');
+                this.player1.clickCard('against-the-waves');
+                this.player1.clickCard(this.doomedShugenja1);
+                this.player2.clickCard(this.doomedShugenja2);
+                
+                expect(this.doomedShugenja1.bowed).toBe(true);
+                expect(this.player2).toHavePrompt('Click pass when done');
             });
 
-            it('should not allow more than one limited location to be placed', function() {
-                this.player1.clickCard(this.roseroad);
-                this.player1.clickCard(this.arbor1);
+            it('should allow a player to play a dupe from hand', function() {
+                this.togashiKazueInPlay = this.player2.findCardByName('togashi-kazue', 'hand');
+                this.player2.player.putIntoPlay(this.togashiKazueInPlay);
+                this.togashiKazueInHand = this.player2.findCardByName('togashi-kazue', 'hand');
 
-                expect(this.roseroad.location).toBe('play area');
-                expect(this.arbor1.location).toBe('hand');
-            });
+                this.player1.clickCard(this.akodoToturi);
+                this.player1.clickPrompt('1');
+                this.player2.clickCard(this.togashiKazueInHand);
 
-            it('should not allow duplicates of a single limited location to be placed', function() {
-                this.player1.clickCard(this.arbor1);
-                this.player1.clickCard(this.arbor2);
-
-                expect(this.arbor1.location).toBe('play area');
-                expect(this.arbor2.location).toBe('hand');
-            });
-        });
-
-        describe('when attachments are purchased', function() {
-            beforeEach(function() {
-                const deck = this.buildDeck('baratheon', ['Sneak Attack', 'Red God\'s Blessing', 'Dragonstone Faithful']);
-                this.player1.selectDeck(deck);
-                this.player2.selectDeck(deck);
-                this.startGame();
-                this.skipSetupPhase();
-                this.player1.selectPlot('Sneak Attack');
-                this.player2.selectPlot('Sneak Attack');
-                this.selectFirstPlayer(this.player1);
-
-                this.character = this.player1.findCardByName('Dragonstone Faithful');
-                this.attachment = this.player1.findCardByName('Red God\'s Blessing');
-
-                this.player1.clickCard(this.character);
-                this.player1.clickCard(this.attachment);
-            });
-
-            it('should prompt the user for the attachment target', function() {
-                expect(this.player1).toHavePrompt('Select target for attachment');
-            });
-
-            describe('when the attachments have been placed', function() {
-                beforeEach(function() {
-                    this.player1.clickCard(this.character);
-                });
-
-                it('should attach to the selected card', function() {
-                    expect(this.character.attachments).toContain(this.attachment);
-                });
-
-                it('should properly calculate the effects of the attachment', function() {
-                    expect(this.character.getStrength()).toBe(2);
-                });
+                expect(this.togashiKazueInHand.location).toBe('conflict discard pile');
+                expect(this.togashiKazueInPlay.fate).toBe(1);
+                expect(this.player1).toHavePrompt('Click pass when done');
             });
         });
     });
