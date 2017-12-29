@@ -95,7 +95,9 @@ class BaseAbility {
      */
     payCosts(context) {
         _.each(this.cost, cost => {
-            cost.pay(context);
+            if(cost.pay) {
+                cost.pay(context);
+            }
         });
     }
 

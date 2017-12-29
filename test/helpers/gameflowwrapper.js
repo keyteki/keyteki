@@ -41,8 +41,10 @@ class GameFlowWrapper {
     }
 
     skipSetupPhase() {
-        this.keepStartingHands();
-        _.each(this.allPlayers, player => player.clickPrompt('Done'));
+        this.selectFirstPlayer(this.player1);
+        this.selectProvinces();
+        this.completeSetup();            
+        this.guardCurrentPhase('dynasty');
     }
 
     guardCurrentPhase(phase) {
@@ -52,25 +54,16 @@ class GameFlowWrapper {
     }
 
     selectProvinces() {
-        const provinceLocations = [
-            'province 1',
-            'province 2',
-            'province 3',
-            'province 4',
-            'stronghold province'
-        ];
         _.each(this.allPlayers, player => {
-            _.each(provinceLocations, (loc) => {
-                let card = player.player.provinceDeck.value()[0];
-                player.dragCard(card, loc);
-            });
+            player.player.provinceDeck.first().selected = true;
             player.clickPrompt('Done');
         });
     }
 
     completeSetup() {
         this.guardCurrentPhase('setup');
-        _.each(this.allPlayers, player => player.clickPrompt('Done'));
+        this.eachPlayerInFirstPlayerOrder(player => player.clickPrompt('Done'));
+        this.eachPlayerInFirstPlayerOrder(player => player.clickPrompt('Done'));
     }
 
     skipActionWindow() {
@@ -89,8 +82,12 @@ class GameFlowWrapper {
     }
 
     selectFirstPlayer(player) {
-        var promptedPlayer = this.getPromptedPlayer('Select first player');
-        promptedPlayer.clickPrompt(player.name);
+        var promptedPlayer = this.getPromptedPlayer('You won the flip. Do you want to be:');
+        if(player === promptedPlayer) {
+            promptedPlayer.clickPrompt('First Player');
+        } else {
+            promptedPlayer.clickPrompt('Second Player');
+        }
     }
 }
 
