@@ -8,7 +8,6 @@ const defaultProperties = {
     numCards: 1,
     cardCondition: () => true,
     cardType: ['attachment', 'character', 'event', 'holding', 'stronghold', 'role', 'province'],
-    gameAction: 'target',
     multiSelect: false
 };
 
