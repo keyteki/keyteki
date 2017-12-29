@@ -41,7 +41,7 @@ class PlayerInteractionWrapper {
 
     filterCardsByName(name, location = 'any') {
         var matchFunc = matchCardByNameAndPack(name);
-        var cards = this.player.allCards.filter(card => matchFunc(card.cardData) && (location === 'any' || card.location === location));
+        var cards = this.game.allCards.filter(card => matchFunc(card.cardData) && (location === 'any' || card.location === location) && card.controller === this.player);
 
         if(cards.length === 0) {
             var locationString = location === 'any' ? 'any location' : location;
@@ -56,13 +56,25 @@ class PlayerInteractionWrapper {
     }
 
     filterCards(condition) {
-        var cards = this.player.allCards.filter(condition);
+        var cards = this.game.allCards.filter(card => condition(card) && card.controller === this.player);
 
         if(cards.length === 0) {
             throw new Error(`Could not find any matching cards for ${this.player.name}`);
         }
 
         return cards;
+    }
+
+    placeCardInProvince(card, location) {
+        if(_.isString(card)) {
+            card = this.findCardByName(card);
+        }
+        if(card.location !== location) {
+            this.player.moveCard(this.player.getDynastyCardInProvince(location), 'dynasty deck');
+            this.player.moveCard(card, location);
+        }
+        card.facedown = false;
+        return card;
     }
 
     hasPrompt(title) {
@@ -82,7 +94,7 @@ class PlayerInteractionWrapper {
             throw new Error(`Couldn't click on "${text}" for ${this.player.name}. Current prompt is:\n${this.formatPrompt()}`);
         }
 
-        this.game.menuButton(this.player.name, promptButton.arg, promptButton.method);
+        this.game.menuButton(this.player.name, promptButton.arg, promptButton.uuid, promptButton.method);
         this.game.continue();
     }
 

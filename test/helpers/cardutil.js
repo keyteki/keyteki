@@ -9,7 +9,7 @@ const CardUtil = {
         }
 
         return function(cardData) {
-            return cardData.name === name && (!pack || cardData.pack_code === pack);
+            return (cardData.name === name || cardData.id === name) && (!pack || cardData.pack_code === pack);
         };
     }
 };
