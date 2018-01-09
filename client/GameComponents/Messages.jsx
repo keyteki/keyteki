@@ -2,11 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'underscore';
+import uuid from 'uuid';
 
 import Avatar from '../Avatar.jsx';
 import * as actions from '../actions';
-
-const uuid = require('uuid')
 
 class InnerMessages extends React.Component {
     constructor() {
