@@ -64,7 +64,7 @@ HonorFan.propTypes = {
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
     socket: PropTypes.object,
-    value: PropTypes.number
+    value: PropTypes.string
 };
 
 export default HonorFan;
