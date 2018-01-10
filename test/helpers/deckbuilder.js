@@ -1,8 +1,10 @@
+const fs = require('fs');
+const path = require('path');
 const _ = require('underscore');
-const monk = require('monk');
 
-const CardService = require('../../server/services/CardService.js');
 const {matchCardByNameAndPack} = require('./cardutil.js');
+
+const PathToSubModulePacks = path.join(__dirname,  '../../fiveringsdb-data/Card');
 
 const defaultFaction = 'phoenix';
 const defaultRole = 'seeker-of-water';
@@ -14,12 +16,9 @@ const dynastyFiller = 'adept-of-the-waves';
 const minConflict = 10;
 const conflictFiller = 'supernatural-storm';
 
-
 class DeckBuilder {
     constructor() {
-        this.cards = {};
-        this.loaded = false;
-        // Filler info which might be used outside the class
+        this.cards = this.loadCards(PathToSubModulePacks);
         this.fillers = {
             faction: defaultFaction,
             role: defaultRole,
@@ -28,33 +27,27 @@ class DeckBuilder {
             dynasty: dynastyFiller,
             conflict: conflictFiller
         };
-        this.loadCards();
     }
 
-    // Lazily loads the cards from the db
-    async loadCards() {
-        if(!this.load) {
-            let db = monk('mongodb://127.0.0.1:27017/ringteki');
-            let cardService = new CardService(db);
-            this.load = cardService.getAllCards()
-                .then((cards) => {
-                    this.cards = {};
-                    _.each(cards, card => {
-                        this.cards[card.id] = card;
-                    });
-                    this.loaded = true;
-                })
-                .then(() => db.close())
-                .catch(() => db.close());
-        }
-        return this.load;
-    }
+    loadCards(directory) {
+        var cards = {};
 
-    checkCardsLoaded(done) {
-        while(!this.loaded) {};
-        done();
-    }
+        var jsonCards = fs.readdirSync(directory).filter(file => file.endsWith('.json'));
 
+        _.each(jsonCards, file => {
+            var cardsInPack = require(path.join(PathToSubModulePacks, file));
+
+            _.each(cardsInPack, card => {
+                if(card.text) {
+                    card.text_canonical = card.text.replace(/<[^>]*>/, '').toLowerCase();
+                }
+                cards[card.id] = card;
+            });
+        });
+
+        return cards;
+    }
+    
     /*
         options: as player1 and player2 are described in setupTest #1514
     */
@@ -154,9 +147,6 @@ class DeckBuilder {
     }
 
     buildDeck(faction, cardLabels) {
-        if(!this.loaded) {
-            throw new Error('Cards have not finished loading from database');
-        }
         var cardCounts = {};
         _.each(cardLabels, label => {
             var cardData = this.getCard(label);
@@ -181,9 +171,6 @@ class DeckBuilder {
     }
 
     getCard(idOrLabelOrName) {
-        if(!this.loaded) {
-            throw new Error('Cards have not finished loading from database');
-        }
         if(this.cards[idOrLabelOrName]) {
             return this.cards[idOrLabelOrName];
         }

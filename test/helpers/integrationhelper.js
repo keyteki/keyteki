@@ -81,7 +81,7 @@ beforeEach(function() {
 
 global.integration = function(definitions) {
     describe('integration', function() {
-        beforeEach(function(done) {
+        beforeEach(function() {
             this.flow = new GameFlowWrapper();
 
             this.game = this.flow.game;
@@ -174,8 +174,6 @@ global.integration = function(definitions) {
                 }
                 this.noMoreActions();
             }
-
-            deckBuilder.checkCardsLoaded(done);
         });
 
         definitions();
