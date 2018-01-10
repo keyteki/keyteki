@@ -79,9 +79,7 @@ describe('conflict phase', function() {
                         dynastyDeck: ['Imperial Storehouse', 'sinister-soshi', 'doomed-shugenja']
                     },
                     player2: {
-                        provinces: {
-                            'province 1': 'night-raid'
-                        }
+                        provinces: ['night-raid']
                     }
                 });
                 this.sinisterSoshi = this.player1.placeCardInProvince('sinister-soshi', 'province 1');
@@ -107,7 +105,7 @@ describe('conflict phase', function() {
 
             it('should skip initiating a conflict when the first players units are bowed, even if their attachments are not', function() {
                 this.spy = spyOn(this.game, 'addMessage');
-                let tattooedWanderer = this.player1.playCardFromHand('tattooed-wanderer');
+                let tattooedWanderer = this.player1.playCharacterFromHand('tattooed-wanderer');
                 this.player2.clickPrompt('Pass');
                 this.player1.playAttachment('fine-katana', tattooedWanderer);
                 tattooedWanderer.bowed = true;
@@ -120,45 +118,46 @@ describe('conflict phase', function() {
             describe('when first player has an unbowed attacker who is able to be declared', function() {
                 beforeEach(function() {
                     this.nightRaid = this.player2.findCardByName('night-raid');
-                    this.tattooedWanderer = this.player1.playCardFromHand('tattooed-wanderer');
-                    this.noMoreActions('Initiate an action');
+                    this.tattooedWanderer = this.player1.playCharacterFromHand('tattooed-wanderer');
+                    this.noMoreActions();
                 });
-            });
 
-            it('should prompt the first player to initiate a conflict', function() {
-                expect(this.player1).toHavePrompt('Choose an elemental ring\n(click the ring again to change conflict type)');
-            });
+                it('should prompt the first player to initiate a conflict', function() {
+                    expect(this.player1).toHavePrompt('Choose an elemental ring\n(click the ring again to change conflict type)');
+                });
+    
+                it('should select a ring when clicked', function() {
+                    this.player1.clickRing('air');
+                    expect(this.player1).toHavePrompt('Choose province to attack');
+                    expect(this.game.currentConflict.conflictRing).toBe('air');
+                });
+    
+                it('should select a province when clicked', function() {
+                    this.player1.clickCard(this.nightRaid);
+                    expect(this.game.currentConflict.conflictProvince).toBe(this.nightRaid);
+                    expect(this.nightRaid.inConflict).toBe(true);
+                });
+    
+                it('should select an attacker when clicked', function() {
+                    this.player1.clickCard(this.tattooedWanderer);
+                    expect(this.game.currentConflict.attackers).toContain(this.tattooedWanderer);
+                    expect(this.tattooedWanderer.inConflict).toBe(true);
+                });
+    
+                it('should not allow illegal attackers to be selected', function() {
+                    this.player1.player.putIntoPlay(this.sinisterSoshi);
+                    this.player1.player.putIntoPlay(this.doomedShugenja);
+                    this.doomedShugenja.bowed = true;
+                    this.player1.clickRing('air');
 
-            it('should select a ring when clicked', function() {
-                this.player1.clickRing('air');
-                expect(this.player1).toHavePrompt('Choose province to attack');
-                expect(this.game.currentConflict.conflictRing).toBe('air');
-            });
-
-            it('should select a province when clicked', function() {
-                this.player1.clickCard(this.nightRaid);
-                expect(this.game.currentConflict.conflictProvince).toBe(this.nightRaid);
-                expect(this.nightRaid.inConflict).toBe(true);
-            });
-
-            it('should select an attacker when clicked', function() {
-                this.player1.clickCard(this.tattooedWanderer);
-                expect(this.game.currentConflict.attackers).toContain(this.tattooedWanderer);
-                expect(this.tattooedWanderer.inConflict).toBe(true);
-            });
-
-            it('should not allow illegal attackers to be selected', function() {
-                this.player1.player.putIntoPlay(this.sinisterSoshi);
-                this.player1.player.putIntoPlay(this.doomedShugenja);
-                this.doomedShugenja.bowed = true;
-
-                this.player1.clickCard(this.sinisterSoshi);
-                expect(this.sinisterSoshi.inConflict).toBe(false);
-                expect(this.game.currentConflict.attackers).not.toContain(this.sinisterSoshi);
-
-                this.player1.clickCard(this.doomedShugenja);
-                expect(this.doomedShugenja.inConflict).toBe(false);
-                expect(this.game.currentConflict.attackers).not.toContain(this.doomedShugenja);
+                    this.player1.clickCard(this.sinisterSoshi);
+                    expect(this.sinisterSoshi.inConflict).toBe(false);
+                    expect(this.game.currentConflict.attackers).not.toContain(this.sinisterSoshi);
+    
+                    this.player1.clickCard(this.doomedShugenja);
+                    expect(this.doomedShugenja.inConflict).toBe(false);
+                    expect(this.game.currentConflict.attackers).not.toContain(this.doomedShugenja);
+                });
             });
         });
         // check reacting to conflict declaration works correctly
@@ -259,7 +258,7 @@ describe('conflict phase', function() {
                 this.player1.clickPrompt('Pass');
                 this.player2.clickPrompt('Pass');
                 
-                expect(this.player2).toHavePrompt('Conflict Action Window');
+                expect(this.player2).toHavePrompt('Choose defenders');
             });
         });
         

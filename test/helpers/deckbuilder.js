@@ -75,11 +75,15 @@ class DeckBuilder {
             provinceDeck.push(player.strongholdProvince);
         }
         if(player.provinces) {
-            _.each(player.provinces, province => {
-                if(province.provinceCard) {
-                    provinceDeck.push(province.provinceCard);
-                }
-            });
+            if(_.isArray(player.provinces)) {
+                provinceDeck = provinceDeck.concat(player.provinces);
+            } else {
+                _.each(player.provinces, province => {
+                    if(province.provinceCard) {
+                        provinceDeck.push(province.provinceCard);
+                    }
+                });
+            }
         }
         //Fill the deck up to minimum number of provinces
         while(provinceDeck.length < minProvince) {

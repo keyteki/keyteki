@@ -292,7 +292,7 @@ class PlayerInteractionWrapper {
     }
 
     get currentActionTargets() {
-        return this.player.playerState.selectableCards;
+        return this.player.promptState.selectableCards;
     }
 
     /**
@@ -406,6 +406,7 @@ class PlayerInteractionWrapper {
         }
         this.game.cardClicked(this.player.name, card.uuid);
         this.game.continue();
+        return card;
     }
 
     clickRing(element) {
@@ -507,6 +508,21 @@ class PlayerInteractionWrapper {
             throw new Error(`Player ${this.name} does not have enough fate to place ${fate} tokens.`);
         }
         this.clickPrompt(fate);
+    }
+
+    playAttachment(attachment, target) {
+        let card = this.clickCard(attachment, 'hand');
+        this.clickCard(target, 'play area');
+        return card;
+    }
+
+    playCharacterFromHand(card, fate = 0) {
+        if(_.isString(card)) {
+            card = this.findCardByName(card, 'hand');
+        }
+        this.clickCard(card, 'hand');
+        this.clickPrompt(fate.toString());
+        return card;
     }
 
     /**
