@@ -540,7 +540,7 @@ class PlayerInteractionWrapper {
         if(_.isString(province)) {
             province = this.findCardByName(province, 'any', 'opponent');
         } else if(!province) {
-            province = this.filterCards(card => card.isProvince && card.location === 'province 1', 'opponent')[0];
+            province = this.findCard(card => card.isProvince && card.location === 'province 1', 'opponent');
         }
         if(province.isBroken) {
             throw new Error(`Cannot initiate conflict on ${province.name} because it is broken`);
