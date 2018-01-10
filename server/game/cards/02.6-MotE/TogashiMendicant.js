@@ -8,7 +8,7 @@ class TogashiMendicant extends DrawCard {
             when: {
                 onPhaseStarted: event => event.phase === 'fate' && this.controller.dynastyDeck.size() > 0
             },
-            methods: ['togshiMendicantPrompt'],
+            methods: ['togashiMendicantPrompt'],
             handler: () => {
                 this.game.addMessage('{0} uses {1} to rearrange the top 3 cards of their deck', this.controller, this);
                 this.togashiMendicantPrompt(this.controller.dynastyDeck.first(3), [], 'Which card do you want to be on top?');
