@@ -95,7 +95,7 @@ global.integration = function(definitions) {
             });
 
             this.buildDeck = function(faction, cards) {
-                return deckBuilder.buildDeck(faction, cards);
+                return deckBuilder.customDeck(faction, cards);
             };
         });
 
