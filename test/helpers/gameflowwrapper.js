@@ -4,8 +4,6 @@ const _ = require('underscore');
 const Game = require('../../server/game/game.js');
 const PlayerInteractionWrapper = require('./playerinteractionwrapper.js');
 const Settings = require('../../server/settings.js');
-const DeckBuilder = require('./deckbuilder.js');
-const deckBuilder = new DeckBuilder();
 
 class GameFlowWrapper {
     constructor() {
@@ -59,8 +57,8 @@ class GameFlowWrapper {
     selectStrongholdProvinces(strongholds = {}) {
         this.guardCurrentPhase('setup');
         //Select the fillers, so that province cards specified for province setup aren't used
-        this.player1.selectStrongholdProvince(strongholds.player1 || deckBuilder.fillers.province);
-        this.player2.selectStrongholdProvince(strongholds.player2 || deckBuilder.fillers.province);
+        this.player1.selectStrongholdProvince(strongholds.player1 || 'shameful-display');
+        this.player2.selectStrongholdProvince(strongholds.player2 || 'shameful-display');
     }
 
     /**
@@ -81,6 +79,7 @@ class GameFlowWrapper {
      * Skips setup phase with defaults
      */
     skipSetupPhase() {
+        this.selectFirstPlayer(this.player1);
         this.selectStrongholdProvinces();
         this.keepDynasty();
         this.keepConflict();
@@ -193,63 +192,6 @@ class GameFlowWrapper {
         } else {
             promptedPlayer.clickPrompt('Second Player');
         }
-    }
-
-    /**
-     * Factory method. Creates a new simulation of a game.
-     * @param {Object} [options = {}] - specifies the state of the game
-     */
-    static async setupTest(options = {}) {
-        var game = new GameFlowWrapper();
-        var player1 = game.player1;
-        var player2 = game.player2;
-
-        //Set defaults
-        if(!options.player1) {
-            options.player1 = {};
-        }
-        if(!options.player2) {
-            options.player2 = {};
-        }
-
-        //Build decks
-        var deck1 = deckBuilder.customDeck(options.player1)
-            .then(deck => player1.selectDeck(deck));
-        var deck2 = deckBuilder.customDeck(options.player2)
-            .then(deck => player2.selectDeck(deck));
-        await Promise.all([deck1, deck2]);
-
-        game.startGame();
-        //Setup phase
-        game.selectFirstPlayer(player1);
-
-        game.selectStrongholdProvinces({
-            player1: options.player1.strongholdProvince,
-            player2: options.player2.strongholdProvince
-        });
-        game.keepDynasty();
-        game.keepConflict();
-
-        //Advance the phases to the specified
-        game.advancePhases(options.phase);
-
-        //Set state
-        player1.fate = options.player1.fate;
-        player2.fate = options.player2.fate;
-        player1.honor = options.player1.honor;
-        player2.honor = options.player2.honor;
-        player1.inPlay = options.player1.inPlay;
-        player2.inPlay = options.player2.inPlay;
-        player1.hand = options.player1.hand;
-        player2.hand = options.player2.hand;
-        player1.provinces = options.player1.provinces;
-        player2.provinces = options.player2.provinces;
-        player1.dynastyDiscardPile = options.player1.dynastyDiscard;
-        player2.dynastyDiscardPile = options.player2.dynastyDiscard;
-        player1.conflictDiscard = options.player1.conflictDiscard;
-        player2.conflictDiscard = options.player2.conflictDiscard;
-
-        return game;
     }
 
     /*

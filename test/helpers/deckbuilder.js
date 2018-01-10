@@ -28,11 +28,10 @@ class DeckBuilder {
             dynasty: dynastyFiller,
             conflict: conflictFiller
         };
-        this.loadCards();
     }
 
     // Lazily loads the cards from the db
-    async loadCards() {
+    async loadCards(done = () => true) {
         if(!this.load) {
             let db = monk('mongodb://127.0.0.1:27017/ringteki');
             let cardService = new CardService(db);
@@ -43,6 +42,7 @@ class DeckBuilder {
                         this.cards[card.id] = card;
                     });
                     this.loaded = true;
+                    done();
                 })
                 .then(() => db.close())
                 .catch(() => db.close());
@@ -53,7 +53,7 @@ class DeckBuilder {
     /*
         options: as player1 and player2 are described in setupTest #1514
     */
-    async customDeck(player = {}) {
+    customDeck(player = {}) {
         let faction = defaultFaction;
         let role = defaultRole;
         let stronghold = defaultStronghold;
@@ -144,8 +144,10 @@ class DeckBuilder {
         return this.buildDeck(faction, deck);
     }
 
-    async buildDeck(faction, cardLabels) {
-        await this.loadCards();
+    buildDeck(faction, cardLabels) {
+        if(!this.loaded) {
+            throw new Error('Cards have not finished loading from database');
+        }
         var cardCounts = {};
         _.each(cardLabels, label => {
             var cardData = this.getCard(label);

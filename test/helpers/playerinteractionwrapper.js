@@ -327,11 +327,13 @@ class PlayerInteractionWrapper {
         var matchFunc = matchCardByNameAndPack(name);
         // So that function can accept either lists or single locations
         if(locations !== 'any') {
-            locations = [].concat(locations);
-        }
-        // 'provinces' = ['province 1', 'province 2', etc.]
-        if(_.contains(locations, 'provinces')) {
-            locations = _.reject(locations, elem => elem === 'provinces').concat('province 1', 'province 2', 'province 3', 'province 4');
+            if(!_.isArray(locations)) {
+                locations = [locations];
+            }
+            // 'provinces' = ['province 1', 'province 2', etc.]
+            if(_.contains(locations, 'provinces')) {
+                locations = _.reject(locations, elem => elem === 'provinces').concat('province 1', 'province 2', 'province 3', 'province 4');
+            }
         }
         try {
             var cards = this.filterCards(card => matchFunc(card.cardData) && (locations === 'any' || _.contains(locations, card.location)), side);
@@ -510,44 +512,43 @@ class PlayerInteractionWrapper {
     /**
       Initiates a conflict for the player
       @param {String} [ring] - element of the ring to initiate on, void by default
-      @param {number} [province] - id of the province location, 1 by default
+      @param {String|DrawCard} [province] - conflict province, defaults to province card in province 1
       @param {String} conflictType - type of conflict ('military' or 'political')
       @param {(String|DrawCard)[]} attackers - list of attackers. can be either names,
         ids, or card objects
      */
-    initiateConflict(conflictType, attackers, province = 1, ring = 'void') {
+    declareConflict(conflictType, province, attackers, ring = 'void') {
         if(!ring || !_.contains(['void','fire','water','air','earth'], ring)) {
             throw new Error(`${ring} is not a valid ring selection`);
         }
-        if(!province || province < 0 || province > 4) {
-            throw new Error(`province ${province} is not a valid selection`);
+        if(_.isString(province)) {
+            province = this.findCardByName(province, 'any', 'opponent');
+        } else if(!province) {
+            province = this.filterCards(card => card.isProvince && card.location === 'province 1', 'opponent')[0];
+        }
+        if(province.isBroken) {
+            throw new Error(`Cannot initiate conflict on ${province.name} because it is broken`);
         }
         if(!conflictType || !_.contains(['military', 'political'], conflictType)) {
             throw new Error(`${conflictType} is not a valid conflict type`);
-        }
-        if(!attackers || attackers.length === 0) {
-            throw new Error(`Player ${this.name} must declare at least one attacker`);
-        }
-        province = 'province ' + province;
-        var provinceCard = this.filterCards(card => card.isProvince && card.location === province, 'opponent')[0];
-        if(provinceCard.isBroken) {
-            throw new Error(`Cannot initiate conflict on ${province} because it is broken`);
         }
         //Turn to list of card objects
         attackers = this.mixedListToCardList(attackers, 'play area');
         //Filter out those that are unable to participate
         attackers = this.filterUnableToParticipate(attackers, conflictType);
 
-        if(attackers.length === 0) {
-            throw new Error(`None of the specified attackers can participate in ${conflictType} conflicts`);
-        }
         this.clickRing(ring);
         if(this.game.currentConflict !== conflictType) {
             this.clickRing(ring);
         }
-        this.clickCard(provinceCard);
-        _.each(attackers, card => this.clickCard(card));
-        this.clickPrompt('Initiate Conflict');
+        this.clickCard(province);
+        if(attackers.length > 0) {
+            _.each(attackers, card => this.clickCard(card));
+            this.clickPrompt('Initiate Conflict');
+            if(this.hasPrompt('You still have unused Covert - are you sure?')) {
+                this.clickPrompt('Yes');
+            }
+        }
     }
 
     /**
@@ -556,10 +557,6 @@ class PlayerInteractionWrapper {
         card objects
      */
     assignDefenders(defenders = []) {
-        if(!defenders) {
-            return;
-        }
-        //Some defenders assigned
         if(defenders.length !== 0) {
             var conflictType = this.game.currentConflict.conflictType;
             // Turn to list of card objects
@@ -583,6 +580,9 @@ class PlayerInteractionWrapper {
      * @param {String[]|String} locations - list of locations to get card objects from
      */
     mixedListToCardList(mixed, locations = 'any') {
+        if(!mixed) {
+            return [];
+        }
         // Yank all the non-string cards
         var cardList = _.reject(mixed, card => _.isString(card));
         mixed = _.filter(mixed, card => _.isString(card));
