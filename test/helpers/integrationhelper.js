@@ -8,6 +8,8 @@ require('./objectformatters.js');
 const DeckBuilder = require('./deckbuilder.js');
 const GameFlowWrapper = require('./gameflowwrapper.js');
 
+const deckBuilder = new DeckBuilder();
+
 const ProxiedGameFlowWrapperMethods = [
     'eachPlayerInFirstPlayerOrder', 'startGame', 'keepDynasty', 'keepConflict', 'skipSetupPhase', 'selectFirstPlayer',
     'noMoreActions', 'selectStrongholdProvinces', 'advancePhases', 'getPromptedPlayer'
@@ -92,10 +94,8 @@ global.integration = function(definitions) {
                 this[method] = (...args) => this.flow[method].apply(this.flow, args);
             });
 
-            this.deckBuilder = new DeckBuilder();
-
             this.buildDeck = function(faction, cards) {
-                return this.deckBuilder.buildDeck(faction, cards);
+                return deckBuilder.buildDeck(faction, cards);
             };
 
             /**
@@ -112,8 +112,8 @@ global.integration = function(definitions) {
                 }
 
                 //Build decks
-                this.player1.selectDeck(this.deckBuilder.customDeck(options.player1));
-                this.player2.selectDeck(this.deckBuilder.customDeck(options.player2));
+                this.player1.selectDeck(deckBuilder.customDeck(options.player1));
+                this.player2.selectDeck(deckBuilder.customDeck(options.player2));
 
                 this.startGame();
                 //Setup phase
@@ -175,7 +175,7 @@ global.integration = function(definitions) {
                 this.noMoreActions();
             }
 
-            this.deckBuilder.loadCards(done);
+            deckBuilder.checkCardsLoaded(done);
         });
 
         definitions();

@@ -28,10 +28,11 @@ class DeckBuilder {
             dynasty: dynastyFiller,
             conflict: conflictFiller
         };
+        this.loadCards();
     }
 
     // Lazily loads the cards from the db
-    async loadCards(done = () => true) {
+    async loadCards() {
         if(!this.load) {
             let db = monk('mongodb://127.0.0.1:27017/ringteki');
             let cardService = new CardService(db);
@@ -42,12 +43,16 @@ class DeckBuilder {
                         this.cards[card.id] = card;
                     });
                     this.loaded = true;
-                    done();
                 })
                 .then(() => db.close())
                 .catch(() => db.close());
         }
         return this.load;
+    }
+
+    checkCardsLoaded(done) {
+        while(!this.loaded) {};
+        done();
     }
 
     /*
