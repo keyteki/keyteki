@@ -189,7 +189,7 @@ describe('conflict phase', function() {
                     attackers: [this.childOfThePlains]
                 });
                 expect(this.elementalFury.facedown).toBe(false);
-            })
+            });
 
             it('should give first player the first opportunitiy to react', function() {
                 this.initiateConflict({
