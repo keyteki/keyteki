@@ -74,14 +74,11 @@ class Effect {
 
         if(!_.isFunction(this.match)) {
             this.addTargets([this.match]);
-        }
-
-        if(this.targetType === 'player') {
+        } else if(this.targetType === 'player') {
             this.addTargets(_.values(this.game.getPlayers()))
+        } else {
+            this.addTargets(this.game.findAnyCardsInPlay(this.match));
         }
-
-        this.addTargets(this.game.findAnyCardsInPlay(() => true));
-        
     }
 
     addTargets(targets) {
@@ -165,7 +162,7 @@ class Effect {
         return this.targets.includes(card);
     }
 
-    setActive(newActive, newTargets) {
+    setActive(newActive) {
         let oldActive = this.active;
 
         this.active = newActive;

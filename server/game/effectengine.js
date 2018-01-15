@@ -19,7 +19,7 @@ class EffectEngine {
 
         this.effects.push(effect);
         this.effects = _.sortBy(this.effects, effect => effect.order);
-        effect.addTargets(this.getTargets());
+        effect.getTargets();
         this.registerRecalculateEvents(effect.recalculateWhen);
         if(effect.duration === 'custom') {
             this.registerCustomDurationEvents(effect);
@@ -89,7 +89,7 @@ class EffectEngine {
 
     addTargetForPersistentEffects(card, targetLocation) {
         _.each(this.effects, effect => {
-            if(effect.duration === 'persistent' && effect.targetLocation === targetLocation) {
+            if(effect.duration === 'persistent' && effect.targetLocation === targetLocation && (_.isFunction(effect.match) || effect.match === card)) {
                 effect.addTargets([card]);
             }
         });
