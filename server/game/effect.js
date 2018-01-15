@@ -75,7 +75,7 @@ class Effect {
         if(!_.isFunction(this.match)) {
             this.addTargets([this.match]);
         } else if(this.targetType === 'player') {
-            this.addTargets(_.values(this.game.getPlayers()))
+            this.addTargets(_.values(this.game.getPlayers()));
         } else {
             this.addTargets(this.game.getTargetsForEffect(this.match));
         }
