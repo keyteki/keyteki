@@ -207,6 +207,8 @@ class PlayerInteractionWrapper {
             if(options.covert !== undefined) {
                 card.covert = options.covert;
             }
+            // Activate persistent effects of the card
+            card.applyPersistentEffects();
             // Get the attachments
             if(options.attachments) {
                 var attachments = [];
