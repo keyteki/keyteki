@@ -67,6 +67,23 @@ class Effect {
         return ['any', this.source.location].includes(this.location);
     }
 
+    getTargets() {
+        if(!this.active || !this.condition()) {
+            return;
+        }
+
+        if(!_.isFunction(this.match)) {
+            this.addTargets([this.match]);
+        }
+
+        if(this.targetType === 'player') {
+            this.addTargets(_.values(this.game.getPlayers()))
+        }
+
+        this.addTargets(this.game.findAnyCardsInPlay(() => true));
+        
+    }
+
     addTargets(targets) {
         if(!this.active || !this.condition()) {
             return;
@@ -158,7 +175,7 @@ class Effect {
         }
 
         if(!oldActive && newActive) {
-            this.addTargets(newTargets);
+            this.getTargets();
         }
     }
 
@@ -167,7 +184,7 @@ class Effect {
         this.targets = [];
     }
 
-    reapply(newTargets) {
+    reapply() {
         if(!this.active) {
             return;
         }
@@ -185,7 +202,7 @@ class Effect {
                 _.each(invalidTargets, target => {
                     this.removeTarget(target);
                 });
-                this.addTargets(newTargets);
+                this.getTargets();
             }
         }
 

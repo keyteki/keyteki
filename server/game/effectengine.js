@@ -25,16 +25,16 @@ class EffectEngine {
             this.registerCustomDurationEvents(effect);
         }
     }
-
+    /*
     getTargets() {
         var validTargets = this.game.allCards.filter(card => ['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province', 'play area', 'hand'].includes(card.location));
         return validTargets.concat(_.values(this.game.getPlayers()));
     }
-
+    */
     reapplyStateDependentEffects() {
         _.each(this.effects, effect => {
             if(effect.isStateDependent) {
-                effect.reapply(this.getTargets());
+                effect.reapply();
             }
         });
     }
@@ -56,7 +56,7 @@ class EffectEngine {
                 // effect for existing targets and then recalculate effects for
                 // the new controller from scratch.
                 effect.cancel();
-                effect.addTargets(this.getTargets());
+                effect.getTargets();
             } else if(effect.duration === 'persistent' && effect.hasTarget(card) && !effect.isValidTarget(card)) {
                 // Evict the card from any effects applied on it that are no
                 // longer valid under the new controller.
@@ -106,10 +106,9 @@ class EffectEngine {
 
     onCardBlankToggled(event) {
         let {card, isBlank} = event;
-        let targets = this.getTargets();
         let matchingEffects = _.filter(this.effects, effect => effect.duration === 'persistent' && effect.source === card);
         _.each(matchingEffects, effect => {
-            effect.setActive(!isBlank, targets);
+            effect.setActive(!isBlank);
         });
     }
 
