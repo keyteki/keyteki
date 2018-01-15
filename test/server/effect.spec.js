@@ -12,7 +12,7 @@ function createTarget(properties = {}) {
 
 describe('Effect', function() {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['findAnyCardsInPlay']);
+        this.gameSpy = jasmine.createSpyObj('game', ['getTargetsForEffect']);
         this.sourceSpy = jasmine.createSpyObj('source', ['getType', 'isBlank']);
         this.properties = {
             match: jasmine.createSpy('match'),
@@ -396,7 +396,7 @@ describe('Effect', function() {
         beforeEach(function() {
             this.target = createTarget({ target: 1, location: 'play area' });
             this.newTarget = createTarget({ target: 2, location: 'play area' });
-            this.gameSpy.findAnyCardsInPlay.and.returnValue([this.newTarget]);
+            this.gameSpy.getTargetsForEffect.and.returnValue([this.newTarget]);
         });
 
         describe('when the effect is active', function() {
@@ -656,7 +656,7 @@ describe('Effect', function() {
                     this.effect.active = true;
                     this.effect.condition.and.returnValue(true);
                     this.properties.match.and.callFake(card => card !== this.target);
-                    this.gameSpy.findAnyCardsInPlay.and.returnValue([this.newTarget, this.target, this.matchingTarget]);
+                    this.gameSpy.getTargetsForEffect.and.returnValue([this.newTarget, this.target, this.matchingTarget]);
                     this.effect.reapply();
                 });
 
