@@ -25,12 +25,7 @@ class EffectEngine {
             this.registerCustomDurationEvents(effect);
         }
     }
-    /*
-    getTargets() {
-        var validTargets = this.game.allCards.filter(card => ['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province', 'play area', 'hand'].includes(card.location));
-        return validTargets.concat(_.values(this.game.getPlayers()));
-    }
-    */
+
     reapplyStateDependentEffects() {
         _.each(this.effects, effect => {
             if(effect.isStateDependent) {
