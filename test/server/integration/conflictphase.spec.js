@@ -306,7 +306,7 @@ describe('conflict phase', function() {
 
                 it('Kaede should be bowed', function() {
                     expect(this.isawaKaede.bowed).toBe(true);
-                })
+                });
 
                 describe('if the defending player wins', function() {
                     beforeEach(function() {
