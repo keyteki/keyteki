@@ -554,7 +554,7 @@ class PlayerInteractionWrapper {
         attackers = this.filterUnableToParticipate(attackers, conflictType);
 
         this.clickRing(ring);
-        if(this.game.currentConflict !== conflictType) {
+        if(this.game.currentConflict.conflictType !== conflictType) {
             this.clickRing(ring);
         }
         this.clickCard(province);
