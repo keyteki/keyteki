@@ -77,7 +77,7 @@ class Effect {
         } else if(this.targetType === 'player') {
             this.addTargets(_.values(this.game.getPlayers()))
         } else {
-            this.addTargets(this.game.findAnyCardsInPlay(this.match));
+            this.addTargets(this.game.getTargetsforEffect(this.match));
         }
     }
 
