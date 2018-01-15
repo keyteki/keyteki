@@ -1591,7 +1591,7 @@ class Player extends Spectator {
 
         var targetPile = this.getSourceList(targetLocation);
 
-        if(!targetPile || targetPile.contains(card)) {
+        if(targetPile && targetPile.contains(card)) {
             return;
         }
 
@@ -1637,7 +1637,7 @@ class Player extends Spectator {
         } else if(['conflict discard pile', 'dynasty discard pile'].includes(targetLocation)) {
             // new cards go on the top of the discard pile
             targetPile.unshift(card);
-        } else {
+        } else if(targetPile) {
             targetPile.push(card);
         }
 
