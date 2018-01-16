@@ -434,9 +434,47 @@ class PlayerInteractionWrapper {
         this.game.continue();
     }
 
-    moveCard(card, targetLocation) {
+    /**
+     * Moves cards between Locations
+     * @param {String|DrawCard} card - card to be moved
+     * @param {String} targetLocation - location where the card should be moved
+     * @param {String | String[]} searchLocations - locations where to find the
+     * card object, if card parameter is a String
+     */
+    moveCard(card, targetLocation, searchLocations = 'any') {
+        if(_.isString(card)) {
+            card = this.mixedListToCardList([card], searchLocations)[0];
+        }
         this.player.moveCard(card, targetLocation);
         this.game.continue();
+    }
+
+    // Proxied method
+    attach(attachment, target, raiseCardPlayed = false) {
+        this.player.attach(attachment, target, raiseCardPlayed);
+        this.game.continue();
+    }
+
+    /**
+     * Claims the specified elemental ring for the player
+     * @param {String} element - a ring element
+     */
+    claimRing(element) {
+        if(!element) {
+            return;
+        }
+        if(!_.includes(['fire','earth', 'water', 'air','void'], element)) {
+            throw new Error(`${element} is not a valid ring selection`);
+        }
+        this.game.rings[element].claimRing(this.player);
+        this.game.continue();
+    }
+    /**
+     * Lists the rings claimed by the player as strings
+     * @return {String[]} list of ring elements claimed by the player
+     */
+    get claimedRings() {
+        return this.player.getClaimedRings().map(ring => ring.element);
     }
 
     togglePromptedActionWindow(window, value) {
