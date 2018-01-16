@@ -29,6 +29,10 @@ class GameFlowWrapper {
         return _.find(this.allPlayers, player => player.firstPlayer);
     }
 
+    get rings() {
+        return this.game.rings;
+    }
+
     eachPlayerInFirstPlayerOrder(handler) {
         var playersInOrder = _.sortBy(this.allPlayers, player => !player.firstPlayer);
 

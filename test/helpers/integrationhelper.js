@@ -129,6 +129,12 @@ global.integration = function(definitions) {
                 this.advancePhases(options.phase);
 
                 //Set state
+                if(options.player1.rings) {
+                    _.each(options.player1.rings, ring => this.player1.claimRing(ring));
+                }
+                if(options.player2.rings) {
+                    _.each(options.player2.rings, ring => this.player2.claimRing(ring));
+                }
                 this.player1.fate = options.player1.fate;
                 this.player2.fate = options.player2.fate;
                 this.player1.honor = options.player1.honor;
