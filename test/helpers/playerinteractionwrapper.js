@@ -379,7 +379,9 @@ class PlayerInteractionWrapper {
 
     hasPrompt(title) {
         var currentPrompt = this.player.currentPrompt();
-        return !!currentPrompt && currentPrompt.menuTitle.toLowerCase() === title.toLowerCase();
+        return !!currentPrompt &&
+        ((currentPrompt.menuTitle && currentPrompt.menuTitle.toLowerCase() === title.toLowerCase()) ||
+        (currentPrompt.promptTitle && currentPrompt.promptTitle.toLowerCase() === title.toLowerCase()));
     }
 
 

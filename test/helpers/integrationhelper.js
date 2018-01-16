@@ -19,15 +19,14 @@ var customMatchers = {
     toHavePrompt: function(util, customEqualityMatchers) {
         return {
             compare: function(actual, expected) {
-                var currentTitle = actual.currentPrompt().menuTitle;
                 var result = {};
-
-                result.pass = util.equals(currentTitle, expected, customEqualityMatchers);
+                var currentPrompt = actual.currentPrompt();
+                result.pass = actual.hasPrompt(expected);
 
                 if(result.pass) {
                     result.message = `Expected ${actual.name} not to have prompt "${expected}" but it did.`;
                 } else {
-                    result.message = `Expected ${actual.name} to have prompt "${expected}" but it had "${currentTitle}".`;
+                    result.message = `Expected ${actual.name} to have prompt "${expected}" but it had menuTitle "${currentPrompt.menuTitle}" and promptTitle "${currentPrompt.promptTitle}".`;
                 }
 
                 return result;
