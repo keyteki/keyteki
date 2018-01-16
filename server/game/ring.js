@@ -116,7 +116,6 @@ class Ring {
         
         return _.extend(state, selectionState);
     }
-
 }
 
 module.exports = Ring;

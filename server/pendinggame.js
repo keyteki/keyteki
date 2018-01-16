@@ -13,6 +13,7 @@ class PendingGame {
         this.id = uuid.v1();
         this.name = details.name;
         this.allowSpectators = details.spectators;
+        this.spectatorSquelch = details.spectatorSquelch;
         this.gameType = details.gameType;
         this.isMelee = details.isMelee;
         this.createdAt = new Date();
@@ -300,6 +301,7 @@ class PendingGame {
             node: this.node ? this.node.identity : undefined,
             owner: this.owner.username,
             players: playerSummaries,
+            spectatorSquelch: this.spectatorSquelch,
             started: this.started,
             spectators: _.map(this.spectators, spectator => {
                 return {
