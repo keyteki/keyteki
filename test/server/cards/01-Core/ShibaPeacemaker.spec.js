@@ -1,4 +1,4 @@
-describe('Shiba Peacemaker', function() {
+xdescribe('Shiba Peacemaker', function() {
     integration(function() {
         beforeEach(function() {
             this.setupTest({
@@ -24,7 +24,7 @@ describe('Shiba Peacemaker', function() {
             });
         });
 
-        xdescribe('When Shiba Peacemaker is in a province', function() {
+        describe('When Shiba Peacemaker is in a province', function() {
             it('should have an active ability restricion', function() {
                 expect(this.shibaPeacemaker2.abilityRestrictions.length).toBe(1);
             });
@@ -35,7 +35,7 @@ describe('Shiba Peacemaker', function() {
             });
         });
 
-        xdescribe('When Shiba Peacemaker is the only card in play', function() {
+        describe('When Shiba Peacemaker is the only card in play', function() {
             it('should skip conflict declaration', function() {
                 this.spy = spyOn(this.game, 'addMessage');
                 this.noMoreActions();
@@ -44,7 +44,7 @@ describe('Shiba Peacemaker', function() {
             });
         });
 
-        xdescribe('When another character is in play', function() {
+        describe('When another character is in play', function() {
             it('should not allow Shiba Peacemaker to be declared as an attacker', function() {
                 this.seekerOfKnowledge = this.player1.playCharacterFromHand('seeker-of-knowledge');
                 this.noMoreActions();
@@ -56,7 +56,7 @@ describe('Shiba Peacemaker', function() {
             });
         });
 
-        xdescribe('During a conflict', function() {
+        describe('During a conflict', function() {
             it('should not allow Shiba Peacemaker to be Charged into the conflict', function() {
                 this.seekerOfKnowledge = this.player1.playCharacterFromHand('seeker-of-knowledge');
                 this.noMoreActions();

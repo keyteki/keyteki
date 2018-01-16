@@ -1,11 +1,11 @@
-xdescribe('Calling In Favors', function() {
+describe('Calling In Favors', function() {
     integration(function() {
         describe('When playing Calling In Favors', function() {
             beforeEach(function() {
                 this.setupTest({
                     phase: 'conflict',
                     player1: {
-                        inPlay: ['adept-of-the-waves'],
+                        inPlay: ['adept-of-the-waves', 'seppun-guardsman'],
                         hand: ['fine-katana', 'watch-commander', 'favored-mount', 'born-in-war']
                     },
                     player2: {
@@ -24,7 +24,7 @@ xdescribe('Calling In Favors', function() {
                     this.player2.clickCard('calling-in-favors', 'hand');
                 });
 
-                it('should prompt the player to choose a target', function() {
+                xit('should prompt the player to choose a target', function() {
                     expect(this.player2).toHavePrompt('Choose an attachment');
                 });
 
@@ -102,6 +102,29 @@ xdescribe('Calling In Favors', function() {
                     expect(this.asceticVisionary.isDishonored).toBe(true);
                     expect(this.asceticVisionary.attachments.toArray()).not.toContain(this.fineKatana);
                     expect(this.fineKatana.location).toBe('conflict discard pile');
+                });
+            });
+
+            describe('if the attachment has been used already this turn', function() {
+                xit('should be usable by the other player', function() {
+                    this.adeptOfTheWaves = this.player1.findCardByName('adept-of-the-waves');
+                    this.favoredMount = this.player1.playAttachment('favored-mount', 'adept-of-the-waves');
+                    this.noMoreActions();
+                    this.initiateConflict({
+                        type: 'military',
+                        attackers: ['seppun-guardsman'],
+                        defenders: []
+                    });
+                    this.player2.clickPrompt('Pass');
+                    this.player1.clickCard(this.favoredMount);
+                    expect(this.adeptOfTheWaves.inConflict).toBe(true);
+                    this.player2.clickCard('calling-in-favors');
+                    this.player2.clickCard(this.favoredMount);
+                    this.player2.clickCard(this.miyaMystic);
+                    expect(this.miyaMystic.attachments.toArray()).toContain(this.favoredMount);
+                    this.player1.clickPrompt('Pass');
+                    this.player2.clickCard(this.favoredMount);
+                    expect(this.miyaMystic.inConflict).toBe(true);
                 });
             });
 

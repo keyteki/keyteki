@@ -1,4 +1,4 @@
-xdescribe('Charge!', function() {
+describe('Charge!', function() {
     integration(function() {
         describe('When playing Charge!', function() {
             beforeEach(function() {

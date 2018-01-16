@@ -117,5 +117,44 @@ describe('Blackmail', function() {
                 });
             });
         });
+
+        describe('A character with an action ability', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    phase: 'conflict',
+                    player1: {
+                        honor: 10,
+                        inPlay: ['soshi-illusionist'],
+                        hand: ['blackmail']
+                    },
+                    player2: {
+                        honor: 11,
+                        inPlay: ['brash-samurai', 'asahina-artisan']
+                    }
+                });
+                this.noMoreActions();
+                this.initiateConflict({
+                    type: 'political',
+                    attackers: ['soshi-illusionist'],
+                    defenders: ['brash-samurai']
+                });
+                this.brashSamurai = this.player2.clickCard('brash-samurai');
+                this.soshiIllusionist = this.player1.clickCard('soshi-illusionist');
+                this.player1.clickCard(this.brashSamurai);
+                this.asahinaArtisan = this.player2.clickCard('asahina-artisan');
+                this.player2.clickCard(this.brashSamurai);
+                this.player1.clickCard('blackmail');
+                this.player1.clickCard(this.asahinaArtisan);
+                this.player2.clickPrompt('Pass');
+            });
+
+            xit('should be usable after blackmailing, even if it were used by its previous controller', function() {
+                this.player1.clickCard(this.asahinaArtisan);
+                expect(this.player1).toHavePrompt('Choose a character');
+                
+                this.player1.clickCard(this.soshiIllusionist);
+                expect(this.game.currentConflict.attackerSkill).toBe(6);
+            });
+        });
     });
 });
