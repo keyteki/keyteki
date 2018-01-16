@@ -79,12 +79,12 @@ class ShamefulDisplay extends ProvinceCard {
         this.game.addMessage('{0} uses {1} to dishonor {2} and honor {3}', this.controller, this, cardToDishonor, cardToHonor);
         let honorEvent = {
             name: 'onCardHonored',
-            params: { player: this.controller, card: cardToHonor, source: this },
+            params: { player: this.controller, card: cardToHonor, source: this, gameAction: 'honor' },
             handler: () => cardToHonor.honor()
         };
         let dishonorEvent = {
             name: 'onCardDishonored',
-            params: { player: this.controller, card: cardToDishonor, source: this },
+            params: { player: this.controller, card: cardToDishonor, source: this, gameAction: 'dishonor' },
             handler: () => cardToDishonor.dishonor()
         };
         this.game.raiseMultipleEvents([honorEvent, dishonorEvent]);

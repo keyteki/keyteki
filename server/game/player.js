@@ -1695,7 +1695,7 @@ class Player extends Spectator {
      * @param {EffectSource} source
      */
     honorCard(card, source) {
-        this.game.raiseEvent('onCardHonored', { player: this, card: card, source: source }, () => {
+        this.game.raiseEvent('onCardHonored', { player: this, card: card, source: source, gameAction: 'honor' }, () => {
             return { resolved: true, success: card.honor() };
         });
     }
@@ -1706,7 +1706,7 @@ class Player extends Spectator {
      * @param {EffectSource} source
      */
     dishonorCard(card, source) {
-        this.game.raiseEvent('onCardDishonored', { player: this, card: card, source: source }, () => {
+        this.game.raiseEvent('onCardDishonored', { player: this, card: card, source: source, gameAction: 'dishonor' }, () => {
             return { resolved: true, result: card.dishonor() };
         });
     }
