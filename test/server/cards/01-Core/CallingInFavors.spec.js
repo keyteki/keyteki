@@ -106,7 +106,7 @@ describe('Calling In Favors', function() {
             });
 
             describe('if the attachment has been used already this turn', function() {
-                xit('should be usable by the other player', function() {
+                it('should be usable by the other player', function() {
                     this.adeptOfTheWaves = this.player1.findCardByName('adept-of-the-waves');
                     this.favoredMount = this.player1.playAttachment('favored-mount', 'adept-of-the-waves');
                     this.noMoreActions();
