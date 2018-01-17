@@ -61,7 +61,7 @@ describe('A Fate Worse Than Death', function() {
                 this.player1.clickCard('a-fate-worse-than-death');
                 this.player1.clickCard(this.witchHunter);
 
-                expect(this.player2).toHavePrompt('Any interrupts?');
+                expect(this.player2).toHavePrompt('Triggered Abilities');
                 expect(this.player2).toBeAbleToSelect(this.embrace);
                 expect(this.player2).toBeAbleToSelect(this.rumormonger);
             });
