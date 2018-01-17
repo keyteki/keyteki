@@ -1415,23 +1415,10 @@ class Player extends Spectator {
      * @deprecated
      * Use discardCardFromHand or discardCardFromPlay
      */
-    discardCards(cards, allowSave = true, callback = () => true) {
-        this.game.applyGameAction('discard', cards, cards => {
-            var params = {
-                player: this,
-                cards: cards,
-                allowSave: allowSave,
-                originalLocation: cards[0].location
-            };
-            this.game.raiseEvent('onCardsDiscarded', params, event => {
-                _.each(event.cards, card => {
+    discardCards(cards, allowSave = true) {
+        _.each(cards, card => {
                     this.doSingleCardDiscard(card, allowSave);
                 });
-                this.game.queueSimpleStep(() => {
-                    callback(event.cards);
-                });
-            });
-        });
     }
 
     /**
@@ -1721,11 +1708,9 @@ class Player extends Spectator {
             return;
         }
 
-        this.game.applyGameAction('bow', card, card => {
             card.bowed = true;
 
             this.game.raiseEvent('onCardBowed', { player: this, card: card, source: source });
-        });
     }
 
     /**
@@ -1747,11 +1732,9 @@ class Player extends Spectator {
             return;
         }
 
-        this.game.applyGameAction('ready', card, card => {
             card.bowed = false;
 
-            this.game.raiseEvent('onCardStood', { player: this, card: card, source: source });
-        });
+        this.game.raiseEvent('onCardReadied', { player: this, card: card, source: source });
     }
 
     /**
