@@ -10,7 +10,7 @@ describe('A Fate Worse Than Death', function() {
                 player2: {
                     inPlay: ['steadfast-witch-hunter', 'borderlands-defender'],
                     dynastyDeck: ['young-rumormonger'],
-                    hand: ['embrace-the-void', 'ready-for-battle']
+                    hand: ['embrace-the-void', 'ready-for-battle', 'watch-commander']
                 }
             });
             this.witchHunter = this.player2.findCardByName('steadfast-witch-hunter');
@@ -31,7 +31,7 @@ describe('A Fate Worse Than Death', function() {
                 this.player1.clickCard('a-fate-worse-than-death');
                 this.player1.clickCard(this.witchHunter);
             });
-            
+
             it('should dishonor its target', function() {
                 expect(this.witchHunter.isDishonored).toBe(true);
             });
@@ -52,6 +52,14 @@ describe('A Fate Worse Than Death', function() {
                 expect(this.witchHunter.blankCount).toBe(1);
                 this.player2.clickCard(this.witchHunter);
                 expect(this.player2).toHavePrompt('Conflict Action Window');
+            });
+
+            it('should no longer be blanked once the fate phase begins', function() {
+                this.noMoreActions();
+                this.flow.finishConflictPhase();
+                expect(this.game.currentPhase).toBe('fate');
+                expect(this.witchHunter.location).toBe('play area');
+                expect(this.witchHunter.blankCount).toBe(0);
             });
         });
 
@@ -100,6 +108,30 @@ describe('A Fate Worse Than Death', function() {
                 expect(this.defender.fate).toBe(0);
                 expect(this.defender.blankCount).toBe(1);
             });
+        });
+
+        describe('This event', function() {
+            beforeEach(function() {
+                this.player2.moveCard('ready-for-battle', 'conflict discard pile');
+                this.watchCommander = this.player2.playAttachment('watch-commander', this.witchHunter);
+                this.player1.clickCard('a-fate-worse-than-death');
+                this.player1.clickCard(this.witchHunter);
+            })
+
+            it('should not remove Watch Commander when it is played', function() {
+                expect(this.witchHunter.attachments.toArray()).toContain(this.watchCommander);
+                expect(this.watchCommander.location).toBe('play area');
+            });
+
+            it('should not remove Watch Commander when the blank effect ends', function() {
+                this.player2.clickPrompt('Pass');
+                this.noMoreActions();
+                this.flow.finishConflictPhase();
+                expect(this.game.currentPhase).toBe('fate');
+                expect(this.witchHunter.location).toBe('play area');
+                expect(this.witchHunter.attachments.toArray()).toContain(this.watchCommander);
+                expect(this.watchCommander.location).toBe('play area');                
+            })
         });
     });
 });
