@@ -1417,8 +1417,8 @@ class Player extends Spectator {
      */
     discardCards(cards, allowSave = true) {
         _.each(cards, card => {
-                    this.doSingleCardDiscard(card, allowSave);
-                });
+            this.doSingleCardDiscard(card, allowSave);
+        });
     }
 
     /**
@@ -1710,8 +1710,8 @@ class Player extends Spectator {
         
         card.bowed = true;
         // TODO: this is a workaround to stop Ready For Battle from breaking
-        let params = { player: this, card: card }
-        if (source) {
+        let params = { player: this, card: card };
+        if(source) {
             params.context = { source: source };
         }
         this.game.raiseEvent('onCardBowed', params);

@@ -17,7 +17,7 @@ describe('A Fate Worse Than Death', function() {
             this.witchHunter.fate = 1;
             this.defender = this.player2.findCardByName('borderlands-defender');
             this.defender.fate = 1;
-            this.noMoreActions()
+            this.noMoreActions();
             this.initiateConflict({
                 attackers: ['miya-mystic'],
                 defenders: [this.witchHunter, 'borderlands-defender']
@@ -26,11 +26,12 @@ describe('A Fate Worse Than Death', function() {
 
         describe('When played, it', function() {
             beforeEach(function() {
-                this.player2.moveCard('ready-for-battle', 'conflict discard pile')
+                this.player2.moveCard('ready-for-battle', 'conflict discard pile');
                 this.player2.clickPrompt('Pass');
                 this.player1.clickCard('a-fate-worse-than-death');
                 this.player1.clickCard(this.witchHunter);
-            })
+            });
+            
             it('should dishonor its target', function() {
                 expect(this.witchHunter.isDishonored).toBe(true);
             });

@@ -63,7 +63,7 @@ class EventBuilder {
         if(!_.isArray(cards)) {
             cards = [cards];
         }
-        let events = _.map(cards, card => ActionToEvent[action](card, context))
+        let events = _.map(cards, card => ActionToEvent[action](card, context));
         if(ActionToConditionalEvents[action]) {
             let conditionalEvent = ActionToConditionalEvents[action](cards);
             conditionalEvent.condition = () => _.any(events, event => !event.cancelled); 

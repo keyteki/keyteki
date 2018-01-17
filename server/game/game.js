@@ -1308,7 +1308,7 @@ class Game extends EventEmitter {
     applyGameAction(context, actions, additionalEventProps = []) {
         let events = additionalEventProps.map(event => EventBuilder.for(event.name || 'unnamedEvent', event.params, event.handler));
         _.each(actions, (cards, action) => {
-            events = events.concat(EventBuilder.getEventsForAction(action, cards, context))
+            events = events.concat(EventBuilder.getEventsForAction(action, cards, context));
         });
         this.openEventWindow(events);
         return events;
