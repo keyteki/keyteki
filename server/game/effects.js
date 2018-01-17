@@ -238,7 +238,7 @@ const Effects = {
         },
         isStateDependent: true
     },
-    discardCardFromPlayEffect: function() {
+    discardFromPlayEffect: function() {
         return {
             apply: function(card, context) {
                 card.controller.discardCardFromPlay(card);
@@ -411,7 +411,7 @@ const Effects = {
             }
         };
     },
-    cannotBeDiscarded: cardCannotEffect('discardCardFromPlay'),
+    cannotBeDiscarded: cardCannotEffect('discardFromPlay'),
     cannotRemoveFate: cardCannotEffect('removeFate'),
     cannotPlay: playerCannotEffect('play'),
     cardCannotTriggerAbilities: cardCannotEffect('triggerAbilities'),
