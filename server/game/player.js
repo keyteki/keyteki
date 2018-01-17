@@ -1707,10 +1707,14 @@ class Player extends Spectator {
         if(card.bowed) {
             return;
         }
-
-            card.bowed = true;
-
-            this.game.raiseEvent('onCardBowed', { player: this, card: card, source: source });
+        
+        card.bowed = true;
+        // TODO: this is a workaround to stop Ready For Battle from breaking
+        let params = { player: this, card: card }
+        if (source) {
+            params.context = { source: source };
+        }
+        this.game.raiseEvent('onCardBowed', params);
     }
 
     /**
@@ -1732,8 +1736,7 @@ class Player extends Spectator {
             return;
         }
 
-            card.bowed = false;
-
+        card.bowed = false;
         this.game.raiseEvent('onCardReadied', { player: this, card: card, source: source });
     }
 
