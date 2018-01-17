@@ -15,7 +15,7 @@ class TestOfCourage extends DrawCard {
                 this.game.addMessage('{0} plays {1}, moving {2} into conflict', this.controller, this, context.target);
                 let honorEvent = {
                     name: 'onCardHonored',
-                    params: { player: this.controller, card: context.target, source: this },
+                    params: { player: this.controller, card: context.target, source: this, gameAction: 'honor' },
                     handler: event => event.card.honor()
                 };
                 let moveEvent = {
@@ -28,7 +28,6 @@ class TestOfCourage extends DrawCard {
                             event.conflict.addDefender(event.card);
                         }
                         this.game.addMessage('{0} honors {1}', this, event.card);                        
-                        return { resolved: true, success: true };
                     }
                 };
                 this.game.raiseMultipleEvents([moveEvent], {

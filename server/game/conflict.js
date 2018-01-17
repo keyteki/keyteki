@@ -154,7 +154,6 @@ class Conflict {
             } else {
                 this.resolveConflictRing(player, optional);
             }
-            return { resolved: true, success: true };        
         });
     }
     

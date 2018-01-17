@@ -12,36 +12,34 @@ class BayushiKachiko extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to send {2} home', this.controller, this, context.target);
-                let sendHomeHandler = event => {
-                    let result = { resolved: true, success: false};
-                    if(event.card.isParticipating() && event.card.allowGameAction('sendHome', context)) {
-                        event.conflict.removeFromConflict(event.card);
-                        if(event.card.allowGameAction('bow', context)) {
-                            context.game.promptWithHandlerMenu(context.player, {
-                                source: context.source,
-                                activePromptTitle: 'Do you want to bow ' + event.card.name,
-                                choices: ['Yes', 'No'],
-                                handlers: [
-                                    () => {
-                                        context.game.addMessage('{0} chooses to bow {1} using {2}', context.player, event.card, context.source);
-                                        result.success = true;
-                                    },
-                                    () => true
-                                ]
-                            });
-                        }                        
-                    }
-                    return result;
-                };
-                let thenEvent = {
+                let bowEvent = {
                     name: 'onCardBowed',
-                    params: { player: context.player, card: context.target, source: context.source},
-                    handler: () => context.target.bowed = true
+                    params: { card: context.target, source: context.source, gameAction: 'bow' },
+                    handler: () => context.target.bow()
+                };
+                let menuEvent = {
+                    name: 'unnamedEvent',
+                    params: { context: context, thenEvents: [bowEvent] },
+                    handler: event => {
+                        if(!context.target.allowGameAction('bow', context)) {
+                            event.cancel();
+                            return;
+                        }
+                        this.game.promptWithHandlerMenu(context.player, {
+                            source: context.source,
+                            activePromptTitle: 'Do you want to bow ' + context.target.name + '?',
+                            choices: ['Yes', 'No'],
+                            handlers: [
+                                () => context.game.addMessage('{0} chooses to bow {1} using {2}', context.player, context.target, context.source),
+                                () => event.cancel()
+                            ]
+                        });
+                    }
                 };
                 let sendHomeEvent = {
                     name: 'onSendHome',
-                    params: { card: context.target, conflict: this.game.currentConflict, thenEvents: [thenEvent] },
-                    handler: sendHomeHandler
+                    params: { card: context.target, conflict: this.game.currentConflict, gameAction: 'sendHome', thenEvents: [menuEvent] },
+                    handler: () => this.game.currentConflict.removeFromConflict(context.target)
                 };
                 this.game.raiseMultipleEvents([sendHomeEvent], {
                     name: 'onSendCharactersHome',
