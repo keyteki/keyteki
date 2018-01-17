@@ -24,7 +24,7 @@ describe('Calling In Favors', function() {
                     this.player2.clickCard('calling-in-favors', 'hand');
                 });
 
-                xit('should prompt the player to choose a target', function() {
+                it('should prompt the player to choose a target', function() {
                     expect(this.player2).toHavePrompt('Choose an attachment');
                 });
 
