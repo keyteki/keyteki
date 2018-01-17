@@ -10,7 +10,7 @@ describe('A Fate Worse Than Death', function() {
                 player2: {
                     inPlay: ['steadfast-witch-hunter', 'borderlands-defender'],
                     dynastyDeck: ['young-rumormonger'],
-                    hand: ['embrace-the-void']
+                    hand: ['embrace-the-void', 'ready-for-battle']
                 }
             });
             this.witchHunter = this.player2.findCardByName('steadfast-witch-hunter');
@@ -26,6 +26,7 @@ describe('A Fate Worse Than Death', function() {
 
         describe('When played, it', function() {
             beforeEach(function() {
+                this.player2.moveCard('ready-for-battle', 'conflict discard pile')
                 this.player2.clickPrompt('Pass');
                 this.player1.clickCard('a-fate-worse-than-death');
                 this.player1.clickCard(this.witchHunter);
@@ -50,6 +51,20 @@ describe('A Fate Worse Than Death', function() {
                 expect(this.witchHunter.blankCount).toBe(1);
                 this.player2.clickCard(this.witchHunter);
                 expect(this.player2).toHavePrompt('Conflict Action Window');
+            });
+        });
+
+        describe('Ready For Battle', function() {
+            it('should be playable to ready the target', function() {
+                this.ready = this.player2.findCardByName('ready-for-battle');
+                this.player2.clickPrompt('Pass');
+                this.player1.clickCard('a-fate-worse-than-death');
+                this.player1.clickCard(this.witchHunter);
+                expect(this.player2).toHavePrompt('Triggered Abilities');
+                expect(this.player2).toBeAbleToSelect(this.ready);
+
+                this.player2.clickCard(this.ready);
+                expect(this.witchHunter.bowed).toBe(false);
             });
         });
 
