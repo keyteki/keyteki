@@ -35,9 +35,8 @@ class EventWindow extends BaseStepWithPipeline {
         if(!_.isArray(events)) {
             events = [events];
         }
-        let uuids = events.map(event => event.uuid);
         _.each(events, event => event.unsetWindow());
-        this.events = _.reject(this.events, event => uuids.includes(event.uuid));
+        this.events = _.difference(this.events, events);
         _.each(this.events, event => event.checkCondition());
     }
 
@@ -54,7 +53,7 @@ class EventWindow extends BaseStepWithPipeline {
     
     // This catches any persistent/delayed effect cancels
     checkForOtherEffects() {
-        _.each(this.events, event => this.game.emit(event.name + 'OtherEffects', ...event.params));
+        _.each(this.events, event => this.game.emit(event.name + 'OtherEffects', event));
     }
 
     preResolutionEffects() {
@@ -76,7 +75,7 @@ class EventWindow extends BaseStepWithPipeline {
 
                 this.game.queueSimpleStep(() => {
                     event.executeHandler();
-                    this.game.emit(event.name, ...event.params);
+                    this.game.emit(event.name, event);
                 });
             }
         });
