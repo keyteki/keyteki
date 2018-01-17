@@ -1,4 +1,4 @@
-xdescribe('Shiba Peacemaker', function() {
+describe('Shiba Peacemaker', function() {
     integration(function() {
         beforeEach(function() {
             this.setupTest({
