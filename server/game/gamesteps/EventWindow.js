@@ -94,11 +94,8 @@ class EventWindow extends BaseStepWithPipeline {
             event.checkCondition();
             if(!event.cancelled) {
                 thenEvents = thenEvents.concat(event.thenEvents);
-
-                this.game.queueSimpleStep(() => {
-                    event.executeHandler();
-                    this.game.emit(event.name, ...event.params);
-                });
+                event.executeHandler();
+                this.game.emit(event.name, ...event.params);
             }
         });
 
