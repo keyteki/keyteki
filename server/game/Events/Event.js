@@ -8,7 +8,7 @@ class Event {
         this.handler = handler;
         this.window = null;
         this.thenEvents = [];
-        this.success = false;
+        this.isSuccessful = () => false;
         this.parentEvent = null;
         this.uuid = uuid.v1();
 
@@ -43,7 +43,7 @@ class Event {
     }
     
     executeHandler() {
-        this.success = true;
+        this.isSuccessful = () => true;
         if(this.handler) {
             this.handler(...this.params);
         }
