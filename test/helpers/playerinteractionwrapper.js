@@ -293,8 +293,20 @@ class PlayerInteractionWrapper {
         return _.map(buttons, button => button.text.toString());
     }
 
+    /**
+     * Lists cards selectable by the player during the action
+     * @return {DrawCard[]} - selectable cards
+     */
     get currentActionTargets() {
         return this.player.promptState.selectableCards;
+    }
+
+    /**
+     * Lists cards currently selected by the player
+     * @return {DrawCard[]} - selected cards
+     */
+    get selectedCards() {
+        return this.player.promptState.selectedCards;
     }
 
     /**
