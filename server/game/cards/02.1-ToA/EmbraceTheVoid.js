@@ -7,6 +7,7 @@ class EmbraceTheVoid extends DrawCard {
             when: {
                 onCardRemoveFate: event => event.card === this.parent && event.fate > 0
             },
+            canCancel: true,
             handler: context => {
                 this.game.addMessage('{0} uses {1} to take the {2} fate being removed from {3}', this.controller, this, context.event.fate, this.parent);
                 context.event.recipient = this.controller;
