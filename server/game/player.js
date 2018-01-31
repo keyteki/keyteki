@@ -830,7 +830,7 @@ class Player extends Spectator {
             return false;
         }
 
-        return limit.isAtMax();
+        return limit.isAtMax(this);
     }
 
     /**
