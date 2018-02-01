@@ -6,10 +6,12 @@ describe('Blackmail', function() {
                     phase: 'conflict',
                     player1: {
                         faction: 'scorpion',
+                        honor: 10,
                         inPlay: ['seppun-guardsman'],
                         hand: ['blackmail']
                     },
                     player2: {
+                        honor: 11,
                         inPlay: ['miya-mystic', 'shiba-peacemaker', 'radiant-orator', 'otomo-courtier'],
                         hand: ['watch-commander', 'honored-blade']
                     }
@@ -129,31 +131,26 @@ describe('Blackmail', function() {
                     },
                     player2: {
                         honor: 11,
-                        inPlay: ['brash-samurai', 'asahina-artisan']
+                        inPlay: ['doji-gift-giver', 'doji-whisperer']
                     }
                 });
                 this.noMoreActions();
                 this.initiateConflict({
                     type: 'political',
                     attackers: ['soshi-illusionist'],
-                    defenders: ['brash-samurai']
+                    defenders: ['doji-gift-giver', 'doji-whisperer']
                 });
-                this.brashSamurai = this.player2.clickCard('brash-samurai');
+                this.dojiGiftGiver = this.player2.clickCard('doji-gift-giver');
                 this.soshiIllusionist = this.player1.clickCard('soshi-illusionist');
-                this.player1.clickCard(this.brashSamurai);
-                this.asahinaArtisan = this.player2.clickCard('asahina-artisan');
-                this.player2.clickCard(this.brashSamurai);
                 this.player1.clickCard('blackmail');
-                this.player1.clickCard(this.asahinaArtisan);
+                this.player1.clickCard(this.dojiGiftGiver);
                 this.player2.clickPrompt('Pass');
             });
 
             it('should be usable after blackmailing, even if it were used by its previous controller', function() {
-                this.player1.clickCard(this.asahinaArtisan);
-                expect(this.player1).toHavePrompt('Choose a character');
-                
-                this.player1.clickCard(this.soshiIllusionist);
-                expect(this.game.currentConflict.attackerSkill).toBe(6);
+                expect(this.soshiIllusionist.bowed).toBe(true);
+                this.player1.clickCard(this.dojiGiftGiver);
+                expect(this.player2).toHavePrompt('Choose a character');
             });
         });
     });
