@@ -841,7 +841,7 @@ class Player extends Spectator {
         let limit = this.abilityMaxByIdentifier[maxIdentifier];
 
         if(limit) {
-            limit.increment();
+            limit.increment(this);
         }
     }
 
