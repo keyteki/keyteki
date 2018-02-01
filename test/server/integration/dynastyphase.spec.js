@@ -131,7 +131,7 @@ describe('dynasty phase', function() {
             });
 
             // This is disabled until building decks using the api rather than the db is possible
-            xit('should not allow a player to play two limited cards', function() {
+            it('should not allow a player to play two limited cards', function() {
                 this.player1.clickCard(this.akodoToturi);
                 this.player1.clickPrompt('1');
                 this.player2.clickCard(this.doomedShugenja1);

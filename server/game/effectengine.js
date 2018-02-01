@@ -89,7 +89,7 @@ class EffectEngine {
 
     addTargetForPersistentEffects(card, targetLocation) {
         _.each(this.effects, effect => {
-            if(effect.duration === 'persistent' && effect.targetLocation === targetLocation) {
+            if(effect.duration === 'persistent' && (effect.targetLocation === 'any' || effect.targetLocation === targetLocation)) {
                 effect.addTargets([card]);
             }
         });

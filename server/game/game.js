@@ -323,7 +323,7 @@ class Game extends EventEmitter {
                 card.facedown = false;
                 this.addMessage('{0} reveals {1}', player, card);
             }
-        }*/        
+        }*/
     }
 
     /*
@@ -840,7 +840,7 @@ class Game extends EventEmitter {
                 return;
             }
         }
-        
+
         if(!this.isSpectator(player) || !this.spectatorSquelch) {
             this.gameChat.addChatMessage('{0} {1}', player, message);
         }

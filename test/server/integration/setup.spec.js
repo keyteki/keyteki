@@ -71,7 +71,7 @@ describe('setup phase', function() {
         describe('dynasty mulligans', function() {
             beforeEach(function() {
                 this.selectFirstPlayer(this.player1);
-                this.selectProvinces();
+                this.selectStrongholdProvinces();
                 this.spy = spyOn(this.player1.player, 'shuffleDynastyDeck');
             });
 
@@ -120,7 +120,7 @@ describe('setup phase', function() {
         describe('conflict mulligan', function() {
             beforeEach(function() {
                 this.selectFirstPlayer(this.player1);
-                this.selectProvinces();
+                this.selectStrongholdProvinces();
                 this.eachPlayerInFirstPlayerOrder(player => player.clickPrompt('Done'));
                 this.spy = spyOn(this.player1.player, 'shuffleConflictDeck');
             });
