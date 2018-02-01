@@ -6,7 +6,7 @@ describe('Calling In Favors', function() {
                     phase: 'conflict',
                     player1: {
                         inPlay: ['adept-of-the-waves', 'seppun-guardsman'],
-                        hand: ['fine-katana', 'watch-commander', 'favored-mount', 'born-in-war']
+                        hand: ['fine-katana', 'watch-commander', 'favored-mount', 'born-in-war', 'oni-mask']
                     },
                     player2: {
                         inPlay: ['miya-mystic', 'ascetic-visionary'],
@@ -108,23 +108,26 @@ describe('Calling In Favors', function() {
             describe('if the attachment has been used already this turn', function() {
                 it('should be usable by the other player', function() {
                     this.adeptOfTheWaves = this.player1.findCardByName('adept-of-the-waves');
-                    this.favoredMount = this.player1.playAttachment('favored-mount', 'adept-of-the-waves');
+                    this.oniMask = this.player1.playAttachment('oni-mask', 'adept-of-the-waves');
+                    this.adeptOfTheWaves.fate = 1;
+                    this.miyaMystic.fate = 1;
                     this.noMoreActions();
                     this.initiateConflict({
                         type: 'military',
-                        attackers: ['seppun-guardsman'],
-                        defenders: []
+                        attackers: [this.adeptOfTheWaves],
+                        defenders: [this.miyaMystic]
                     });
                     this.player2.clickPrompt('Pass');
-                    this.player1.clickCard(this.favoredMount);
-                    expect(this.adeptOfTheWaves.inConflict).toBe(true);
+                    this.player1.clickCard(this.oniMask);
+                    this.player1.clickCard(this.miyaMystic);
+                    expect(this.miyaMystic.isBlank()).toBe(true);
                     this.player2.clickCard('calling-in-favors');
-                    this.player2.clickCard(this.favoredMount);
+                    this.player2.clickCard(this.oniMask);
                     this.player2.clickCard(this.miyaMystic);
-                    expect(this.miyaMystic.attachments.toArray()).toContain(this.favoredMount);
+                    expect(this.miyaMystic.attachments.toArray()).toContain(this.oniMask);
                     this.player1.clickPrompt('Pass');
-                    this.player2.clickCard(this.favoredMount);
-                    expect(this.miyaMystic.inConflict).toBe(true);
+                    this.player2.clickCard(this.oniMask);
+                   expect(this.player2).toHavePrompt('Oni Mask');
                 });
             });
 
