@@ -248,19 +248,20 @@ class Lobby {
         const pendingTimeout = 60 * 60 * 1000;
         const regularTimeout = 24 * 60 * 60 * 1000;
         let stalePendingGames = _.filter(this.games, game => !game.started && now - game.createdAt > pendingTimeout);
-        let staleGames = _.filter(this.games, game => game.started && now - game.createdAt > regularTimeout);
+        let emptyGames = _.filter(this.games, game =>
+            game.started && now - game.createdAt > regularTimeout && _.isEmpty(game.getPlayers()));
 
         _.each(stalePendingGames, game => {
             logger.info('closed pending game', game.id, 'due to inactivity');
             delete this.games[game.id];
         });
 
-        _.each(staleGames, game => {
-            logger.info('closed started game', game.id, 'due to inactivity');
+        _.each(emptyGames, game => {
+            logger.info('closed started game', game.id, 'due to no active players');
             delete this.games[game.id];
         });
 
-        if(staleGames.length > 0 || stalePendingGames.length > 0) {
+        if(emptyGames.length > 0 || stalePendingGames.length > 0) {
             this.broadcastGameList();
         }
     }
