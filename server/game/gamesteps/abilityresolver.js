@@ -112,7 +112,7 @@ class AbilityResolver extends BaseStepWithPipeline {
         // Increment limits (limits aren't used up on cards in hand)
         if(this.context.ability.limit && this.context.source.location !== 'hand' &&
            (!this.context.cardStateWhenInitiated || this.context.cardStateWhenInitiated.location === this.context.source.location)) {
-            this.context.ability.limit.increment();
+            this.context.ability.limit.increment(this.context.player);
         }
         if(this.context.ability.max) {
             this.context.player.incrementAbilityMax(this.context.ability.maxIdentifier);
