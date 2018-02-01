@@ -463,6 +463,7 @@ class PlayerInteractionWrapper {
         }
         this.player.moveCard(card, targetLocation);
         this.game.continue();
+        return card;
     }
 
     // Proxied method
