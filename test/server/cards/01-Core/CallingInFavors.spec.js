@@ -127,7 +127,7 @@ describe('Calling In Favors', function() {
                     expect(this.miyaMystic.attachments.toArray()).toContain(this.oniMask);
                     this.player1.clickPrompt('Pass');
                     this.player2.clickCard(this.oniMask);
-                   expect(this.player2).toHavePrompt('Oni Mask');
+                    expect(this.player2).toHavePrompt('Oni Mask');
                 });
             });
 
