@@ -8,6 +8,7 @@ describe('CardForcedReaction', function () {
         this.cardSpy.location = 'play area';
         this.cardSpy.canTriggerAbilities.and.returnValue(true);
         this.cardSpy.abilities = { reactions: [] };
+        this.cardSpy.controller = { name: 'player1' };
         this.limitSpy = jasmine.createSpyObj('limit', ['increment', 'isAtMax', 'registerEvents', 'unregisterEvents']);
 
         this.properties = {
@@ -82,7 +83,7 @@ describe('CardForcedReaction', function () {
             });
 
             it('should return false', function() {
-                expect(this.meetsRequirements()).toBe(false);
+                expect(this.meetsRequirements(this.context)).toBe(false);
             });
         });
 
@@ -92,7 +93,7 @@ describe('CardForcedReaction', function () {
             });
 
             it('should return false', function() {
-                expect(this.meetsRequirements()).toBe(false);
+                expect(this.meetsRequirements(this.context)).toBe(false);
             });
         });
 
@@ -102,7 +103,7 @@ describe('CardForcedReaction', function () {
             });
 
             it('should return false', function() {
-                expect(this.meetsRequirements()).toBe(false);
+                expect(this.meetsRequirements(this.context)).toBe(false);
             });
         });
 
@@ -113,7 +114,7 @@ describe('CardForcedReaction', function () {
             });
 
             it('should return false', function() {
-                expect(this.meetsRequirements()).toBe(false);
+                expect(this.meetsRequirements(this.context)).toBe(false);
             });
         });
 
@@ -128,7 +129,7 @@ describe('CardForcedReaction', function () {
                 });
 
                 it('should return false', function() {
-                    expect(this.meetsRequirements()).toBe(false);
+                    expect(this.meetsRequirements(this.context)).toBe(false);
                 });
             });
 
@@ -138,7 +139,7 @@ describe('CardForcedReaction', function () {
                 });
 
                 it('should return true', function() {
-                    expect(this.meetsRequirements()).toBe(true);
+                    expect(this.meetsRequirements(this.context)).toBe(true);
                 });
             });
         });

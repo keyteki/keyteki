@@ -4,7 +4,7 @@ class SupernaturalStorm extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Increase the skill of one character',
-            condition: () => this.game.currentConflict,
+            condition: () => this.game.currentConflict && this.controller.cardsInPlay.any(card => card.hasTrait('shugenja')),
             target: {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',
