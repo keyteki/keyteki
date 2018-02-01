@@ -13,7 +13,7 @@ class FixedAbilityLimit {
     }
 
     isAtMax(player) {
-        return this.useCount[player.name] && this.useCount[player.name] >= this.max;
+        return !!this.useCount[player.name] && this.useCount[player.name] >= this.max;
     }
 
     increment(player) {
