@@ -7,7 +7,7 @@ describe('Radiant Orator', function() {
                     inPlay: ['Bayushi Kachiko']
                 },
                 player2: {
-                    inPlay: ['Radiant Orator', 'Serene Warrior'],
+                    inPlay: ['Radiant Orator', 'Serene Warrior']
                 }
             });
             this.noMoreActions();
