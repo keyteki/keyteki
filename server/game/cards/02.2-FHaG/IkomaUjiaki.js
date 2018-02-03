@@ -8,7 +8,7 @@ class IkomaUjiaki extends DrawCard {
             cost: ability.costs.discardImperialFavor(),
             condition: () => this.isParticipating() && _.any(['province 1', 'province 2', 'province 3', 'province 4'], location => {
                 let card = this.controller.getDynastyCardInProvince(location);
-                return card.facedown;
+                return card && card.facedown;
             }),
             handler: () => {
                 let revealedCards = [];
