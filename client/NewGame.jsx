@@ -11,11 +11,13 @@ class InnerNewGame extends React.Component {
         this.onCancelClick = this.onCancelClick.bind(this);
         this.onSubmitClick = this.onSubmitClick.bind(this);
         this.onNameChange = this.onNameChange.bind(this);
-        this.onSpecatorsClick = this.onSpecatorsClick.bind(this);
+        this.onSpectatorsClick = this.onSpectatorsClick.bind(this);
+        this.onSpectatorSquelchClick = this.onSpectatorSquelchClick.bind(this);
         this.onPasswordChange = this.onPasswordChange.bind(this);
 
         this.state = {
             spectators: true,
+            spectatorSquelch: false,
             selectedGameFormat: 'duel',
             selectedGameType: 'casual',
             password: ''
@@ -40,8 +42,12 @@ class InnerNewGame extends React.Component {
         this.setState({ password: event.target.value });
     }
 
-    onSpecatorsClick(event) {
+    onSpectatorsClick(event) {
         this.setState({ spectators: event.target.checked });
+    }
+
+    onSpectatorSquelchClick(event) {
+        this.setState({ spectatorSquelch: event.target.checked });
     }
 
     onSubmitClick(event) {
@@ -50,6 +56,7 @@ class InnerNewGame extends React.Component {
         this.props.socket.emit('newgame', {
             name: this.state.gameName,
             spectators: this.state.spectators,
+            spectatorSquelch: this.state.spectatorSquelch,
             gameType: this.state.selectedGameType,
             isMelee: this.state.selectedGameFormat === 'melee',
             password: this.state.password
@@ -87,8 +94,14 @@ class InnerNewGame extends React.Component {
                         <div className='row'>
                             <div className='checkbox col-sm-8'>
                                 <label>
-                                    <input type='checkbox' onChange={ this.onSpecatorsClick } checked={ this.state.spectators } />
+                                    <input type='checkbox' onChange={ this.onSpectatorsClick } checked={ this.state.spectators } />
                                     Allow spectators
+                                </label>
+                            </div>
+                            <div className='checkbox col-sm-8'>
+                                <label>
+                                    <input type='checkbox' onChange={ this.onSpectatorSquelchClick } checked={ this.state.spectatorSquelch } />
+                                    Don't allow spectators to chat
                                 </label>
                             </div>
                         </div>

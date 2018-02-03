@@ -54,8 +54,8 @@ class Card extends React.Component {
         event.preventDefault();
         var touch = event.targetTouches[0];
 
-        event.currentTarget.style.left = touch.pageX - 32 + 'px';
-        event.currentTarget.style.top = touch.pageY - 42 + 'px';
+        event.currentTarget.style.left = touch.screenX - 32 + 'px';
+        event.currentTarget.style.top = touch.screenY - 42 + 'px';
         event.currentTarget.style.position = 'fixed';
     }
 
@@ -73,15 +73,19 @@ class Card extends React.Component {
     }
 
     onTouchStart(event) {
-        this.setState({ touchStart: $(event.currentTarget).position() });
+        this.setState({ touchStart: $(event.currentTarget).offset() });
     }
 
     onTouchEnd(event) {
         var target = $(event.currentTarget);
         var nearestPile = target.nearest('.card-pile, .hand, .player-board');
 
-        var pilePosition = nearestPile.position();
-        var cardPosition = target.position();
+        var pilePosition = nearestPile.offset();
+        var cardPosition = target.offset();
+
+        if(cardPosition.left === this.state.touchStart.left && cardPosition.top === this.state.touchStart.top) {
+            return;
+        }
 
         if(cardPosition.left + target.width() > pilePosition.left - 10 && cardPosition.left < pilePosition.left + nearestPile.width() + 10) {
             var dropTarget = '';
@@ -145,7 +149,7 @@ class Card extends React.Component {
         } else if(card.isDishonored) {
             counters['honor-status'] = { count: 2, fade: card.type === 'attachment', shortName: 'Dd' };
         } else {
-            counters['honor-status'] = undefined;    
+            counters['honor-status'] = undefined;
         }
 
         _.each(card.tokens, (token, key) => {
@@ -359,12 +363,12 @@ class Card extends React.Component {
 
     onPopupMenuItemClick() {
         this.setState({ showPopup: false });
-        
+
         if(this.props.onClick) {
             this.props.onClick(this.props.card);
         }
     }
-    
+
     getPopup() {
         let popup = null;
         let cardIndex = 0;
@@ -406,9 +410,9 @@ class Card extends React.Component {
         }
 
         let linkIndex = 0;
-        
+
         let popupMenu = (<div>{ [<a className='btn btn-default' key={ linkIndex++ } onClick={ () => this.onPopupMenuItemClick() }>Select Card</a>] }</div>);
-        
+
         popup = (
             <div className='popup'>
                 <div className='panel-title' onClick={ event => event.stopPropagation() }>
@@ -468,7 +472,7 @@ Card.propTypes = {
         new: PropTypes.bool,
         order: PropTypes.number,
         politicalSkill: PropTypes.number,
-        popupMenuText: PropTypes.array,
+        popupMenuText: PropTypes.string,
         power: PropTypes.number,
         saved: PropTypes.bool,
         selectable: PropTypes.bool,

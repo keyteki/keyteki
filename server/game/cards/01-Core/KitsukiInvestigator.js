@@ -5,7 +5,7 @@ class KitsukiInvestigator extends DrawCard {
         this.action({
             title: 'Look at opponent\'s hand',
             max: ability.limit.perConflict(1),
-            condition: () => this.isParticipating() && this.game.currentConflict.conflictType === 'political',
+            condition: () => this.isParticipating() && this.game.currentConflict.conflictType === 'political' && this.controller.opponent && this.controller.opponent.hand.size() > 0,
             cost: ability.costs.payFateToRing(1),
             handler: () => {
                 let sortedHand = this.controller.opponent.hand.sortBy(card => card.name);
