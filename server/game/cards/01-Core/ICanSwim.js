@@ -7,7 +7,7 @@ class ICanSwim extends DrawCard {
             condition: () => this.game.currentConflict && this.controller.opponent && this.controller.showBid > this.controller.opponent.showBid,
             target: {
                 cardType: 'character',
-                gameAction: 'discardCardFromPlay',
+                gameAction: 'discardFromPlay',
                 cardCondition: card => card.isParticipating() && card.isDishonored && card.controller !== this.controller 
             },
             handler: context => {
