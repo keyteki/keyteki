@@ -15,18 +15,14 @@ class AFateWorseThanDeath extends DrawCard {
                     events.push({
                         name: 'onCardBowed',
                         params: { card: context.target, source: this, gameAction: 'bow' },
-                        handler: () => {
-                            return { resolved: true, success: context.target.bow() };
-                        }
+                        handler: () => context.target.bow()
                     });
                 }
                 if(context.target.allowGameAction('dishonor', context)) {
                     events.push({
                         name: 'onCardDishonored',
                         params: { card: context.target, source: this, gameAction: 'dishonor' },
-                        handler: () => {
-                            return { resolved: true, success: context.target.dishonor() };
-                        }
+                        handler: () => context.target.dishonor()
                     });
                 }
                 if(context.target.allowGameAction('removeFate', context)) {

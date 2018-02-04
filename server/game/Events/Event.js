@@ -7,8 +7,8 @@ class Event {
         this.handler = handler;
         this.window = null;
         this.thenEvents = [];
+        this.isSuccessful = () => false;
         this.parentEvent = null;
-        this.result = { resolved: false, success: false};
 
         _.extend(this, params);
         if(!this.order) {
@@ -18,7 +18,6 @@ class Event {
 
     cancel() {
         this.cancelled = true;
-        this.resolved = false;
         this.window.removeEvent(this);
     }
     
@@ -41,8 +40,9 @@ class Event {
     }
     
     executeHandler() {
+        this.isSuccessful = () => true;
         if(this.handler) {
-            this.result = this.handler(this) || { resolved: true, success: true};
+            this.handler(this);
         }
     }
 
