@@ -1424,22 +1424,9 @@ class Player extends Spectator {
      * @deprecated
      * Use discardCardFromHand or discardCardFromPlay
      */
-    discardCards(cards, allowSave = true, callback = () => true) {
-        this.game.applyGameAction('discard', cards, cards => {
-            var params = {
-                player: this,
-                cards: cards,
-                allowSave: allowSave,
-                originalLocation: cards[0].location
-            };
-            this.game.raiseEvent('onCardsDiscarded', params, event => {
-                _.each(event.cards, card => {
-                    this.doSingleCardDiscard(card, allowSave);
-                });
-                this.game.queueSimpleStep(() => {
-                    callback(event.cards);
-                });
-            });
+    discardCards(cards, allowSave = true) {
+        _.each(cards, card => {
+            this.doSingleCardDiscard(card, allowSave);
         });
     }
 
@@ -1697,12 +1684,14 @@ class Player extends Spectator {
         if(card.bowed) {
             return;
         }
-
-        this.game.applyGameAction('bow', card, card => {
-            card.bowed = true;
-
-            this.game.raiseEvent('onCardBowed', { player: this, card: card, source: source });
-        });
+        
+        card.bowed = true;
+        // TODO: this is a workaround to stop Ready For Battle from breaking
+        let params = { player: this, card: card };
+        if(source) {
+            params.context = { source: source };
+        }
+        this.game.raiseEvent('onCardBowed', params);
     }
 
     /**
@@ -1724,11 +1713,8 @@ class Player extends Spectator {
             return;
         }
 
-        this.game.applyGameAction('ready', card, card => {
-            card.bowed = false;
-
-            this.game.raiseEvent('onCardStood', { player: this, card: card, source: source });
-        });
+        card.bowed = false;
+        this.game.raiseEvent('onCardReadied', { player: this, card: card, source: source });
     }
 
     /**

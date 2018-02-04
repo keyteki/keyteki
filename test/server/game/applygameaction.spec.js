@@ -1,6 +1,6 @@
 const Game = require('../../../server/game/game.js');
 
-describe('Game', function() {
+xdescribe('Game', function() {
     beforeEach(function() {
         this.gameService = jasmine.createSpyObj('gameService', ['save']);
         this.game = new Game('1', 'Test Game', { gameService: this.gameService });
