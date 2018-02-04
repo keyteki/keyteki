@@ -1667,33 +1667,7 @@ class Player extends Spectator {
         if(!province.allowGameAction('break')) {
             return;
         }
-        this.game.raiseEvent('onBreakProvince', { conflict: this.game.currentConflict, province: province }, () => {
-            province.breakProvince();
-            this.game.reapplyStateDependentEffects();
-            if(province.controller.opponent) {
-                this.game.addMessage('{0} has broken {1}!', province.controller.opponent, province);
-                if(province.location === 'stronghold province') {
-                    this.game.recordWinner(province.controller.opponent, 'conquest');
-                } else {
-                    let dynastyCard = province.controller.getDynastyCardInProvince(province.location);
-                    if(dynastyCard) {
-                        let promptTitle = 'Do you wish to discard ' + (dynastyCard.facedown ? 'the facedown card' : dynastyCard.name) + '?';
-                        this.game.promptWithHandlerMenu(province.controller.opponent, {
-                            activePromptTitle: promptTitle,
-                            source: 'Break ' + province.name,
-                            choices: ['Yes', 'No'],
-                            handlers: [
-                                () => {
-                                    this.game.addMessage('{0} chooses to discard {1}', province.controller.opponent, dynastyCard.facedown ? 'the facedown card' : dynastyCard);
-                                    province.controller.moveCard(dynastyCard, 'dynasty discard pile');
-                                },
-                                () => this.game.addMessage('{0} chooses not to discard {1}', province.controller.opponent, dynastyCard.facedown ? 'the facedown card' : dynastyCard)
-                            ]
-                        });
-                    }
-                }
-            }
-        });
+        this.game.raiseEvent('onBreakProvince', { conflict: this.game.currentConflict, province: province }, () => province.breakProvince());
     }
 
     /**
