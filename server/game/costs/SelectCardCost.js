@@ -27,6 +27,7 @@ class SelectCardCost {
             context: context,
             selector: this.selector,
             source: context.source,
+            buttons: [{ text: 'Cancel', arg: 'cancel' }],
             onSelect: (player, cards) => {
                 context.costs[this.action.name] = cards;
                 result.value = true;

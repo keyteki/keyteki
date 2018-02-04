@@ -30,7 +30,7 @@ class BaseCardSelector {
     }
 
     hasEnoughSelected(selectedCards) {
-        return selectedCards.length > 0;
+        return this.optional || selectedCards.length > 0;
     }
 
     hasEnoughTargets(context, pretarget = false) {

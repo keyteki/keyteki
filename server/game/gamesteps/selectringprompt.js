@@ -38,7 +38,7 @@ class SelectRingPrompt extends UiPrompt {
 
     defaultProperties() {
         return {
-            buttons: [{ text: 'Done', arg: 'done' }],
+            buttons: [],
             ringCondition: () => true,
             onSelect: () => true,
             onMenuCommand: () => true,
@@ -66,6 +66,10 @@ class SelectRingPrompt extends UiPrompt {
     }
 
     activePrompt() {
+        let buttons = this.properties.buttons;
+        if(this.game.manualMode && !_.any(buttons, button => button.arg === 'cancel')) {
+            buttons.push({ text: 'Cancel Prompt', arg: 'cancel' });
+        }
         return {
             source: this.properties.source,
             selectCard: true,
@@ -100,15 +104,15 @@ class SelectRingPrompt extends UiPrompt {
     }
 
     menuCommand(player, arg) {
-        if(arg !== 'done') {
-            if(this.properties.onMenuCommand(player, arg)) {
-                this.complete();
-            }
-            return;
+        if(arg === 'cancel') {
+            this.properties.onCancel(player);
+            this.complete();
+            return true;
+        } else if(this.properties.onMenuCommand(player, arg)) {
+            this.complete();
+            return true;
         }
-
-        this.properties.onCancel(player);
-        this.complete();
+        return false;
     }
 
     complete() {
