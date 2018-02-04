@@ -29,11 +29,21 @@ class Event {
         this.window = null;
     }
 
+    createContingentEvents() {
+        return [];
+    }
+
     preResolutionEffect() {
         return;
     }
     
     checkCondition() {
+        if(this.cancelled) {
+            return;
+        }
+        if(this.card && this.gameAction && !this.card.allowGameAction(this.gameAction, this.context)) {
+            this.cancel();
+        }
         if(this.condition && this.window && !this.condition(this.window.events)) {
             this.cancel();
         }
