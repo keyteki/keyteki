@@ -7,7 +7,7 @@ class WayOfTheDragon extends DrawCard {
         });
     }
     canAttach(card) {
-        if(card.attachments && card.attachments.any(card => card instanceof WayOfTheDragon)) {
+        if(card.attachments && card.attachments.any(card => card instanceof WayOfTheDragon && card !== this)) {
             return false;
         } else if(card.controller !== this.controller) {
             return false;

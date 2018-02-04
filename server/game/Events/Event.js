@@ -1,5 +1,4 @@
 const _ = require('underscore');
-const uuid = require('uuid');
 
 class Event {
     constructor(name, params, handler) {
@@ -10,10 +9,8 @@ class Event {
         this.thenEvents = [];
         this.isSuccessful = () => false;
         this.parentEvent = null;
-        this.uuid = uuid.v1();
 
         _.extend(this, params);
-        this.params = [this].concat(params);
         if(!this.order) {
             this.order = 0;
         }
@@ -45,7 +42,7 @@ class Event {
     executeHandler() {
         this.isSuccessful = () => true;
         if(this.handler) {
-            this.handler(...this.params);
+            this.handler(this);
         }
     }
 

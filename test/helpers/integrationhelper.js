@@ -19,15 +19,14 @@ var customMatchers = {
     toHavePrompt: function(util, customEqualityMatchers) {
         return {
             compare: function(actual, expected) {
-                var currentTitle = actual.currentPrompt().menuTitle;
                 var result = {};
-
-                result.pass = util.equals(currentTitle, expected, customEqualityMatchers);
+                var currentPrompt = actual.currentPrompt();
+                result.pass = actual.hasPrompt(expected);
 
                 if(result.pass) {
                     result.message = `Expected ${actual.name} not to have prompt "${expected}" but it did.`;
                 } else {
-                    result.message = `Expected ${actual.name} to have prompt "${expected}" but it had "${currentTitle}".`;
+                    result.message = `Expected ${actual.name} to have prompt "${expected}" but it had menuTitle "${currentPrompt.menuTitle}" and promptTitle "${currentPrompt.promptTitle}".`;
                 }
 
                 return result;
@@ -130,6 +129,12 @@ global.integration = function(definitions) {
                 this.advancePhases(options.phase);
 
                 //Set state
+                if(options.player1.rings) {
+                    _.each(options.player1.rings, ring => this.player1.claimRing(ring));
+                }
+                if(options.player2.rings) {
+                    _.each(options.player2.rings, ring => this.player2.claimRing(ring));
+                }
                 this.player1.fate = options.player1.fate;
                 this.player2.fate = options.player2.fate;
                 this.player1.honor = options.player1.honor;
@@ -173,7 +178,7 @@ global.integration = function(definitions) {
                     return;
                 }
                 this.noMoreActions();
-            }
+            };
         });
 
         definitions();

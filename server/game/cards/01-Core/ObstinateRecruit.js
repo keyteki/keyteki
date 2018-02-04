@@ -5,7 +5,7 @@ class ObstinateRecruit extends DrawCard {
         this.persistentEffect({
             condition: () => this.controller.opponent && this.controller.opponent.honor > this.controller.honor,
             match: this,
-            effect: ability.effects.discardCardFromPlayEffect()
+            effect: ability.effects.discardFromPlayEffect()
         });
     }
 }

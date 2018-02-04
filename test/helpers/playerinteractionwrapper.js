@@ -207,6 +207,8 @@ class PlayerInteractionWrapper {
             if(options.covert !== undefined) {
                 card.covert = options.covert;
             }
+            // Activate persistent effects of the card
+            card.applyPersistentEffects();
             // Get the attachments
             if(options.attachments) {
                 var attachments = [];
@@ -291,8 +293,20 @@ class PlayerInteractionWrapper {
         return _.map(buttons, button => button.text.toString());
     }
 
+    /**
+     * Lists cards selectable by the player during the action
+     * @return {DrawCard[]} - selectable cards
+     */
     get currentActionTargets() {
         return this.player.promptState.selectableCards;
+    }
+
+    /**
+     * Lists cards currently selected by the player
+     * @return {DrawCard[]} - selected cards
+     */
+    get selectedCards() {
+        return this.player.promptState.selectedCards;
     }
 
     /**
@@ -379,7 +393,9 @@ class PlayerInteractionWrapper {
 
     hasPrompt(title) {
         var currentPrompt = this.player.currentPrompt();
-        return !!currentPrompt && currentPrompt.menuTitle.toLowerCase() === title.toLowerCase();
+        return !!currentPrompt &&
+        ((currentPrompt.menuTitle && currentPrompt.menuTitle.toLowerCase() === title.toLowerCase()) ||
+        (currentPrompt.promptTitle && currentPrompt.promptTitle.toLowerCase() === title.toLowerCase()));
     }
 
 
@@ -434,9 +450,48 @@ class PlayerInteractionWrapper {
         this.game.continue();
     }
 
-    moveCard(card, targetLocation) {
+    /**
+     * Moves cards between Locations
+     * @param {String|DrawCard} card - card to be moved
+     * @param {String} targetLocation - location where the card should be moved
+     * @param {String | String[]} searchLocations - locations where to find the
+     * card object, if card parameter is a String
+     */
+    moveCard(card, targetLocation, searchLocations = 'any') {
+        if(_.isString(card)) {
+            card = this.mixedListToCardList([card], searchLocations)[0];
+        }
         this.player.moveCard(card, targetLocation);
         this.game.continue();
+        return card;
+    }
+
+    // Proxied method
+    attach(attachment, target, raiseCardPlayed = false) {
+        this.player.attach(attachment, target, raiseCardPlayed);
+        this.game.continue();
+    }
+
+    /**
+     * Claims the specified elemental ring for the player
+     * @param {String} element - a ring element
+     */
+    claimRing(element) {
+        if(!element) {
+            return;
+        }
+        if(!_.includes(['fire','earth', 'water', 'air','void'], element)) {
+            throw new Error(`${element} is not a valid ring selection`);
+        }
+        this.game.rings[element].claimRing(this.player);
+        this.game.continue();
+    }
+    /**
+     * Lists the rings claimed by the player as strings
+     * @return {String[]} list of ring elements claimed by the player
+     */
+    get claimedRings() {
+        return this.player.getClaimedRings().map(ring => ring.element);
     }
 
     togglePromptedActionWindow(window, value) {
@@ -554,7 +609,7 @@ class PlayerInteractionWrapper {
         attackers = this.filterUnableToParticipate(attackers, conflictType);
 
         this.clickRing(ring);
-        if(this.game.currentConflict !== conflictType) {
+        if(this.game.currentConflict.conflictType !== conflictType) {
             this.clickRing(ring);
         }
         this.clickCard(province);
