@@ -12,9 +12,9 @@ const Costs = {
                 return _.all(costs, cost => cost.canPay(context));
             },
             pay: function(context) {
-                return _.map(costs, cost => {
+                _.each(costs, cost => {
                     if(cost.pay) {
-                        return cost.pay(context);
+                        cost.pay(context);
                     }
                 });
             },
@@ -81,6 +81,10 @@ const Costs = {
      */
     discardFate: condition => CostBuilders.discardFate.select(condition),
     /**
+     * Cost that will discard a fate from the card's parent
+     */
+    discardFateFromParent: () => CostBuilders.discardFate.parent(),
+    /**
      * Cost that will dishonor the character that initiated the ability.
      */
     dishonorSelf: () => CostBuilders.dishonor.self(),
@@ -123,7 +127,7 @@ const Costs = {
     canPlayEvent: function() {
         return {
             canPay: function(context) {
-                return context.source.allowGameAction('play', context);
+                return context.source.canPlay(context);
             },
             canIgnoreForTargeting: true
         };
@@ -163,7 +167,7 @@ const Costs = {
     useLimit: function() {
         return {
             canPay: function(context) {
-                return !context.ability.limit.isAtMax();
+                return !context.ability.limit.isAtMax(context.player);
             },
             canIgnoreForTargeting: true
         };
@@ -349,7 +353,7 @@ const Costs = {
                         context.game.promptWithHandlerMenu(context.player, {
                             activePromptTitle: 'Choose additional fate',
                             source: context.source,
-                            choices: choices,
+                            choices: _.map(choices, choice => _.isString(choice) ? choice : choice.toString()),
                             handlers: handlers
                         });
                     };
@@ -364,7 +368,7 @@ const Costs = {
                 context.game.promptWithHandlerMenu(context.player, {
                     activePromptTitle: 'Choose additional fate',
                     source: context.source,
-                    choices: choices,
+                    choices: _.map(choices, choice => _.isString(choice) ? choice : choice.toString()),
                     handlers: handlers
                 });
                 return result;

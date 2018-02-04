@@ -402,22 +402,6 @@ class DrawCard extends BaseCard {
         this.game.raiseEvent('onCardAddFate', { card: this, fate: fate });
     }
 
-    bow() {
-        if(this.allowGameAction('bow')) {
-            this.bowed = true;
-            return true;
-        }
-        return false;
-    }
-
-    ready() {
-        if(this.allowGameAction('ready')) {
-            this.bowed = false;
-            return true;
-        }
-        return false;
-    }
-
     honor() {
         if(this.isDishonored) {
             this.isDishonored = false;
@@ -443,6 +427,21 @@ class DrawCard extends BaseCard {
         return false;
     }
 
+    bow() {
+        if(this.allowGameAction('bow')) {
+            this.bowed = true;
+            return true;
+        }
+        return false;
+    }
+
+    ready() {
+        if(this.allowGameAction('ready')) {
+            this.bowed = false;
+            return true;
+        }
+        return false;
+    }
 
     needsCovertTarget() {
         return this.isCovert() && !this.covertTarget;
@@ -512,8 +511,8 @@ class DrawCard extends BaseCard {
         return card && card.getType() === 'character' && this.getType() === 'attachment';
     }
 
-    canPlay() {
-        return this.owner.canInitiateAction;
+    canPlay(context) {
+        return this.allowGameAction('play', context);
     }
 
     /**
@@ -530,7 +529,7 @@ class DrawCard extends BaseCard {
                 return false;
             }
         } else if(this.type === 'event') {
-            if(!location.includes(this.location) && this.location !== 'hand') {
+            if(!location.includes(this.location) && !this.controller.isCardInPlayableLocation(this, 'play')) {
                 return false;
             }
         } else if(!this.location.includes('province')) {
@@ -692,11 +691,12 @@ class DrawCard extends BaseCard {
         return this.allowGameAction('participateAsDefender') && this.canParticipateInConflict(conflictType);
     }
 
-    bowAfterConflict() {
+    returnHomeFromConflict() {
         let side = this.game.currentConflict.isAttacking(this) ? 'attacker' : 'defender';
         if(!this.conflictOptions.doesNotBowAs[side] && !this.bowed) {
             this.controller.bowCard(this);
         }
+        this.game.currentConflict.removeFromConflict(this);
     }
 
     play() {

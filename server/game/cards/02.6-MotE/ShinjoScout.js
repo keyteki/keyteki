@@ -1,10 +1,20 @@
 const DrawCard = require('../../drawcard.js');
 
 class ShinjoScout extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities() {
+        this.reaction({
+            title: 'Gain 1 fate',
+            when: {
+                onFirstPassDuringDynasty: event => event.player === this.controller
+            },
+            handler: () => {
+                this.game.addMessage('{0} uses {1} to gain 1 fate', this.controller, this);
+                this.game.addFate(this.controller, 1);
+            }
+        });
     }
 }
 
-ShinjoScout.id = 'shinjo-scout'; // This is a guess at what the id might be - please check it!!!
+ShinjoScout.id = 'shinjo-scout';
 
 module.exports = ShinjoScout;

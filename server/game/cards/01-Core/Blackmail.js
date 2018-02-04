@@ -4,7 +4,7 @@ class Blackmail extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Take control of a character',
-            condition: () => this.controller.opponent && this.controller.honor < this.controller.opponent.honor && this.game.currentConflict,
+            condition: () => this.game.currentConflict,
             target: {
                 cardType: 'character',
                 cardCondition: card => card.controller !== this.controller && card.getCost() < 3
@@ -16,6 +16,13 @@ class Blackmail extends DrawCard {
                 }));
             }
         });
+    }
+
+    canPlay(context) {
+        if(this.controller.opponent && this.controller.honor < this.controller.opponent.honor) {
+            return super.canPlay(context);
+        }
+        return false;
     }
 }
 

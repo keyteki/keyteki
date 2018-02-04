@@ -7,8 +7,8 @@ class ShrewdYasuki extends DrawCard {
             condition: () => {
                 let otherPlayer = this.game.getOtherPlayer(this.controller);
                 return (
-                    this.game.currentConflict && 
-                    this.game.currentConflict.isParticipating(this) && 
+                    this.controller.conflictDeck.size() > 0 &&
+                    this.isParticipating() && 
                     (this.controller.getNumberOfHoldingsInPlay() > 0 ||
                     (otherPlayer && otherPlayer.getNumberOfHoldingsInPlay() > 0))
                 ); 

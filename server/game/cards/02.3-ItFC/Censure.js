@@ -5,7 +5,7 @@ class Censure extends DrawCard {
         this.interrupt({
             title: 'Cancel an event',
             when: {
-                onCardAbilityInitiated: event => event.card.type === 'event' && this.controller.imperialFavor !== ''
+                onCardAbilityInitiated: event => event.card.type === 'event'
             },
             canCancel: true,
             handler: context => {
@@ -13,6 +13,13 @@ class Censure extends DrawCard {
                 context.cancel();
             }
         });
+    }
+
+    canPlay(context) {
+        if(this.controller.imperialFavor !== '') {
+            return super.canPlay(context);
+        }
+        return false;
     }
 }
 

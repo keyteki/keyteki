@@ -96,12 +96,11 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
 
         buttons.push({ text: 'Pass', method: 'pass' });
         this.game.promptForSelect(player, {
-            source: 'Triggered Abilites',
+            source: 'Triggered Abilities',
             activePromptTitle: TriggeredAbilityWindowTitles.getTitle(this.abilityType, this.events),
             buttons: buttons,
             controls: this.getAdditionalPromptControls(),
-            selectCard: false,
-            selectMyCard: player.optionSettings.markCardsUnselectable,
+            selectCard: player.optionSettings.markCardsUnselectable,
             waitingPromptTitle: 'Waiting for opponent',
             cardCondition: card => cards.includes(card),
             onMenuCommand: (player, arg) => {
@@ -117,7 +116,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
                 let eventCards = _.uniq(_.map(cardChoices, choice => choice.context.event.card));
                 if(_.uniq(cardChoices, choice => choice.context.event.name).length === 1 && eventCards.length > 1) {
                     this.game.promptForSelect(player, {
-                        source: 'Triggered Abilites',
+                        source: 'Triggered Abilities',
                         activePromptTitle: 'Choose a card',
                         waitingPromptTitle: 'Waiting for opponent',
                         cardCondition: card => eventCards.includes(card),
@@ -143,7 +142,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
 
     promptBetweenChoices(player, choices) {
         this.game.promptWithHandlerMenu(player, {
-            source: 'Triggered Abilites',
+            source: 'Triggered Abilities',
             activePromptTitle: 'Which event do you want to respond to?',
             waitingPromptTitle: 'Waiting for opponent',
             choices: _.map(choices, abilityChoice => {

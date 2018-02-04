@@ -16,7 +16,7 @@ class CostReducer {
     }
 
     canReduce(playingType, card, target = null) {
-        if(this.limit && this.limit.isAtMax()) {
+        if(this.limit && this.limit.isAtMax(this.source.controller)) {
             return false;
         }
 
@@ -44,12 +44,12 @@ class CostReducer {
 
     markUsed() {
         if(this.limit) {
-            this.limit.increment();
+            this.limit.increment(this.source.controller);
         }
     }
 
     isExpired() {
-        return !!this.limit && this.limit.isAtMax() && !this.limit.isRepeatable();
+        return !!this.limit && this.limit.isAtMax(this.source.controller) && !this.limit.isRepeatable();
     }
 
     unregisterEvents() {

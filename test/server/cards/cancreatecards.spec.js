@@ -25,8 +25,8 @@ const eventNames = [
     'onBreakProvince',
     'onResolveRingEffects',
     'onClaimRing',
-    'onBowAfterConflict',
-    'onParticipantsBowAfterConflict',
+    'onReturnHome',
+    'onParticipantsReturnHome',
     'onConflictFinished',
     'onConflictPass',
     'onDetermineImperialFavor',
@@ -61,7 +61,8 @@ const eventNames = [
     'onDeckShuffled',
     'onDuelResolution',
     'onDynastyCardTurnedFaceup',
-    'onHonorTradedAfterBid'
+    'onHonorTradedAfterBid',
+    'onFirstPassDuringDynasty'
 ];
 
 describe('All Cards:', function() {

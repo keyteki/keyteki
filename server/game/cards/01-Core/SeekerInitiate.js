@@ -1,3 +1,4 @@
+const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 
 class SeekerInitiate extends DrawCard {
@@ -5,8 +6,8 @@ class SeekerInitiate extends DrawCard {
         this.reaction({
             title: 'Look at top 5 cards',
             when: {
-                onClaimRing: event => this.controller.role && this.controller.role.hasTrait(event.conflict.conflictRing) && 
-                             event.player === this.controller && this.controller.conflictDeck.size() > 0
+                onClaimRing: event => this.controller.role && _.any(event.conflict.getElements(), element => this.controller.role.hasTrait(element)) && 
+                                      event.player === this.controller && this.controller.conflictDeck.size() > 0
             },
             handler: () => {
                 let myTopFive = this.controller.conflictDeck.first(5);

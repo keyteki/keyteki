@@ -1,5 +1,5 @@
 const CardForcedReaction = require('../../../server/game/cardforcedreaction.js');
-const Event = require('../../../server/game/event.js');
+const Event = require('../../../server/game/Events/Event.js');
 
 describe('CardForcedReaction', function () {
     beforeEach(function () {
@@ -8,6 +8,7 @@ describe('CardForcedReaction', function () {
         this.cardSpy.location = 'play area';
         this.cardSpy.canTriggerAbilities.and.returnValue(true);
         this.cardSpy.abilities = { reactions: [] };
+        this.cardSpy.controller = { name: 'player1' };
         this.limitSpy = jasmine.createSpyObj('limit', ['increment', 'isAtMax', 'registerEvents', 'unregisterEvents']);
 
         this.properties = {
@@ -35,7 +36,7 @@ describe('CardForcedReaction', function () {
 
         it('should call the when handler with the appropriate arguments', function() {
             this.executeEventHandler(1, 2, 3);
-            expect(this.properties.when.onSomething).toHaveBeenCalledWith(this.event, 1, 2, 3);
+            expect(this.properties.when.onSomething).toHaveBeenCalledWith(this.event);
         });
 
         describe('when the when condition returns false', function() {
@@ -73,7 +74,7 @@ describe('CardForcedReaction', function () {
 
         it('should call the when handler with the appropriate arguments', function() {
             this.meetsRequirements();
-            expect(this.properties.when.onSomething).toHaveBeenCalledWith(this.event, 1, 2, 3);
+            expect(this.properties.when.onSomething).toHaveBeenCalledWith(this.event);
         });
 
         xdescribe('when in the setup phase', function() {
@@ -82,7 +83,7 @@ describe('CardForcedReaction', function () {
             });
 
             it('should return false', function() {
-                expect(this.meetsRequirements()).toBe(false);
+                expect(this.meetsRequirements(this.context)).toBe(false);
             });
         });
 
@@ -92,7 +93,7 @@ describe('CardForcedReaction', function () {
             });
 
             it('should return false', function() {
-                expect(this.meetsRequirements()).toBe(false);
+                expect(this.meetsRequirements(this.context)).toBe(false);
             });
         });
 
@@ -102,7 +103,7 @@ describe('CardForcedReaction', function () {
             });
 
             it('should return false', function() {
-                expect(this.meetsRequirements()).toBe(false);
+                expect(this.meetsRequirements(this.context)).toBe(false);
             });
         });
 
@@ -113,7 +114,7 @@ describe('CardForcedReaction', function () {
             });
 
             it('should return false', function() {
-                expect(this.meetsRequirements()).toBe(false);
+                expect(this.meetsRequirements(this.context)).toBe(false);
             });
         });
 
@@ -128,7 +129,7 @@ describe('CardForcedReaction', function () {
                 });
 
                 it('should return false', function() {
-                    expect(this.meetsRequirements()).toBe(false);
+                    expect(this.meetsRequirements(this.context)).toBe(false);
                 });
             });
 
@@ -138,7 +139,7 @@ describe('CardForcedReaction', function () {
                 });
 
                 it('should return true', function() {
-                    expect(this.meetsRequirements()).toBe(true);
+                    expect(this.meetsRequirements(this.context)).toBe(true);
                 });
             });
         });

@@ -76,7 +76,7 @@ class Ring {
     claimRing(player) {
         this.claimed = true;
         this.claimedBy = player.name;
-        this.contested = false;
+        //this.contested = false;  Ruling change means that the ring stays contested until the reaction window closes
     }
 
     resetRing() {
@@ -116,7 +116,6 @@ class Ring {
         
         return _.extend(state, selectionState);
     }
-
 }
 
 module.exports = Ring;

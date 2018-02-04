@@ -99,6 +99,7 @@ class Province extends React.Component {
                     return (<Card className={ cardClassName } card={ card } source={ this.props.source }
                         popupLocation={ this.props.popupLocation }
                         isMe={ this.props.isMe }
+                        key={ card.uuid }
                         onMouseOver={ this.props.onMouseOver }
                         onMouseOut={ this.props.onMouseOut }
                         disableMouseOver={ card.facedown }

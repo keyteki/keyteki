@@ -4,7 +4,6 @@ class PlayerPromptState {
     constructor(player) {
         this.player = player;
         this.selectCard = false;
-        this.selectMyCard = false;
         this.selectOrder = false;
         this.selectRing = false;
         this.menuTitle = '';
@@ -43,7 +42,6 @@ class PlayerPromptState {
 
     setPrompt(prompt) {
         this.selectCard = prompt.selectCard || false;
-        this.selectMyCard = prompt.selectMyCard || false;
         this.selectOrder = prompt.selectOrder || false;
         this.selectRing = prompt.selectRing || false;
         this.menuTitle = prompt.menuTitle || '';
@@ -76,7 +74,7 @@ class PlayerPromptState {
             // which we do differently from normal card selection.
             selected: card.selected || (index !== -1),
             selectable: selectable,
-            unselectable: (this.selectCard && !selectable) || (this.selectMyCard && !selectable && card.controller === this.player)
+            unselectable: (this.selectCard && !selectable)
         };
 
         if(index !== -1 && this.selectOrder) {

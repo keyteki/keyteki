@@ -1,6 +1,6 @@
 const DrawCard = require('../../drawcard.js');
 
-class StoneOfSorrows extends DrawCard {
+class TheStoneOfSorrows extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: () => this.parent && !this.parent.bowed,
@@ -11,6 +11,6 @@ class StoneOfSorrows extends DrawCard {
     }
 }
 
-StoneOfSorrows.id = 'stone-of-sorrows'; // This is a guess at what the id might be - please check it!!!
+TheStoneOfSorrows.id = 'the-stone-of-sorrows';
 
-module.exports = StoneOfSorrows;
+module.exports = TheStoneOfSorrows;

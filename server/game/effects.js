@@ -238,7 +238,7 @@ const Effects = {
         },
         isStateDependent: true
     },
-    discardCardFromPlayEffect: function() {
+    discardFromPlayEffect: function() {
         return {
             apply: function(card, context) {
                 card.controller.discardCardFromPlay(card);
@@ -411,16 +411,16 @@ const Effects = {
             }
         };
     },
-    cannotBeDiscarded: cardCannotEffect('discardCardFromPlay'),
+    cannotBeDiscarded: cardCannotEffect('discardFromPlay'),
     cannotRemoveFate: cardCannotEffect('removeFate'),
     cannotPlay: playerCannotEffect('play'),
     cardCannotTriggerAbilities: cardCannotEffect('triggerAbilities'),
     cannotBeTargeted: cardCannotEffect('target'),
-    cannotBeDishonored: cardCannotEffect('dishonor'),
     cannotBeBowed: cardCannotEffect('bow'),
     cannotBeBroken: cardCannotEffect('break'),
     cannotBeMovedIntoConflict: cardCannotEffect('moveToConflict'),
     cannotBeSentHome: cardCannotEffect('sendHome'),
+    cannotBeDishonored: cardCannotEffect('dishonor'),
     cannotMoveCharactersIntoConflict: playerCannotEffect('moveToConflict'),
     cannotCountForResolution: cardCannotEffect('countForResolution'),
     cannotBeAffectedByHonor: cardCannotEffect('affectedByHonor'),
@@ -432,7 +432,7 @@ const Effects = {
     playerCannotPlaceFate: playerCannotEffect('placeFate'),
     playerCannotSpendFate: playerCannotEffect('spendFate'),
     playerCannotTakeFirstAction: playerCannotEffect('takeFirstAction'),
-    playerCannotTakeFateFromRings: playerCannotEffect('takeFatefromRings'),
+    playerCannotTakeFateFromRings: playerCannotEffect('takeFateFromRings'),
     changePlayerGloryModifier: function(amount) {
         return {
             apply: function(player) {
@@ -485,13 +485,20 @@ const Effects = {
             }
         };
     },
-    revealTopCardOfConflictDeck: function() {
+    makeTopCardOfConflictDeckPlayable: function() {
         return {
-            apply: function(player) {
+            apply: function(player, context) {
                 player.conflictDeckTopCardHidden = false;
+                context.newPlayableLocation = player.addPlayableLocation('play', 'conflict deck');
+                let topCard = player.conflictDeck.first();
+                if(topCard && topCard.type === 'event') {
+                    _.each(topCard.abilities.reactions, reaction => reaction.registerEvents());
+                }
             },
-            unapply: function(player) {
+            unapply: function(player, context) {
                 player.conflictDeckTopCardHidden = true;
+                player.playableLocations = _.reject(player.playableLocations, location => location === context.newPlayableLocation);
+                delete context.newPlayableLocation;
             }
         };
     },
@@ -505,7 +512,7 @@ const Effects = {
                 }
             },
             unapply: function(card, context) {
-                if(context.restrictNumberOfDefenders && context.restrictNumberOfDefenders[card.uuid]) {
+                if(context.restrictNumberOfDefenders && context.restrictNumberOfDefenders[card.uuid] !== undefined) {
                     if(context.game.currentConflict) {
                         context.game.currentConflict.maxAllowedDefenders = context.restrictNumberOfDefenders[card.uuid];
                     }

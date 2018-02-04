@@ -322,12 +322,22 @@ class Player extends Spectator {
 
     /**
      * Checks whether the passes card is in a legal location for the passed type of play
-     * TODO: This isn't currently used by the code, but could be a better solution than what we're currently using for e.g. Artisan Academy
      * @param {BaseCard} card
      * @param {String} playingType
      */
     isCardInPlayableLocation(card, playingType) {
         return _.any(this.playableLocations, location => location.playingType === playingType && location.contains(card));
+    }
+
+    /**
+     * Adds a new PlayableLocation of the specified type, and returns it
+     * @param {String} playingType
+     * @param {String} location
+     */
+    addPlayableLocation(playingType, location) {
+        let newPlayableLocation = new PlayableLocation(playingType, this, location);
+        this.playableLocations.push(newPlayableLocation);
+        return newPlayableLocation;
     }
 
     /**
@@ -381,7 +391,7 @@ class Player extends Spectator {
 
     /**
      * Draws the passed number of cards from the top of the conflict deck into this players hand, shuffling and deducting honor if necessary
-     * @param {Int} numCards
+     * @param {number} numCards
      */
     drawCardsToHand(numCards) {
         let remainingCards = 0;
@@ -430,6 +440,9 @@ class Player extends Spectator {
      * @param {String} location - one of 'province 1', 'province 2', 'province 3', 'province 4'
      */
     replaceDynastyCard(location) {
+        if(this.getSourceList(location).size() > 1) {
+            return;
+        }
         if(this.dynastyDeck.size() === 0) {
             this.deckRanOutOfCards('dynasty');
         }
@@ -438,7 +451,7 @@ class Player extends Spectator {
 
     /**
      * Returns an Array of cards (upto to a max limit) in the conflict deck which match the passed predicate
-     * @param {Int or Function} limit - lazy coding so you can pass just a predicate...
+     * @param {number | Function} limit - lazy coding so you can pass just a predicate...
      * @param {Function} predicate - DrawCard => Boolean
      */
     searchConflictDeck(limit, predicate) {
@@ -564,7 +577,22 @@ class Player extends Spectator {
             }
         }
 
-        this.discardCardsFromHand(cards, true);
+        if(toDiscard > 1) {
+            this.game.promptForSelect(this, {
+                activePromptTitle: 'Choose order for random discard',
+                mode: 'exactly',
+                numCards: toDiscard,
+                multiselect: true,
+                ordered: true,
+                cardCondition: card => cards.includes(card),
+                onSelect: (player, cards) => {
+                    this.discardCardsFromHand(cards, true);
+                    return true;
+                }
+            });
+        } else {
+            this.discardCardsFromHand(cards, true);
+        }
     }
 
     /**
@@ -802,7 +830,7 @@ class Player extends Spectator {
             return false;
         }
 
-        return limit.isAtMax();
+        return limit.isAtMax(this);
     }
 
     /**
@@ -813,7 +841,7 @@ class Player extends Spectator {
         let limit = this.abilityMaxByIdentifier[maxIdentifier];
 
         if(limit) {
-            limit.increment();
+            limit.increment(this);
         }
     }
 
@@ -859,11 +887,20 @@ class Player extends Spectator {
      * @param {Boolean} inConflict
      */
     canPutIntoPlay(card, inConflict = false) {
-        if(inConflict && card.allowGameAction('playIntoConflict') && (!this.game.currentConflict ||
-                (this.isAttackingPlayer() && !card.allowGameAction('participateAsAttacker')) ||
-                (this.isDefendingPlayer() && !card.allowGameAction('participateAsDefender')) ||
-                card.conflictOptions.cannotParticipateIn[this.game.currentConflict.conflictType])) {
-            return false;
+        if(inConflict) {
+            // There is no current conflict
+            if(!this.game.currentConflict) {
+                return false;
+            }
+            // controller is attacking, and character can't attack, or controller is defending, and character can't defend
+            if((this.isAttackingPlayer() && !card.allowGameAction('participateAsAttacker')) || 
+                (this.isDefendingPlayer() && !card.allowGameAction('participateAsDefender'))) {
+                return false;
+            }
+            // card cannot participate in this conflict type
+            if(card.conflictOptions.cannotParticipateIn[this.game.currentConflict.conflictType]) {
+                return false;
+            }
         }
 
         if(!card.isUnique()) {
@@ -873,7 +910,7 @@ class Player extends Spectator {
         return !_.any(this.game.getPlayers(), player => {
             return player.anyCardsInPlay(c => (
                 c.name === card.name
-                && (c.owner === this || c.controller === this)
+                && ((c.owner === this || c.controller === this) || (c.owner === card.owner))
                 && c !== card
             ));
         });
@@ -1041,7 +1078,7 @@ class Player extends Spectator {
                 this.game.promptForSelect(this, {
                     activePromptTitle: 'Choose a card to discard',
                     waitingPromptTitle: 'Waiting for opponent to choose a card to discard',
-                    cardCondition: c => c.parent === card && c.isRestricted(),
+                    cardCondition: c => c.parent === card && c.isRestricted() && c !== attachment,
                     onSelect: (player, card) => {
                         this.game.addMessage('{0} discards {1} from {2} due to too many Restricted attachments', player, card, card.parent);
                         player.discardCardFromPlay(card);
@@ -1330,7 +1367,9 @@ class Player extends Spectator {
      * @param {DrawCard} card
      */
     sacrificeCard(card) {
-        return this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', isSacrifice: true });
+        if(card.allowGameAction('sacrifice')) {
+            this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', isSacrifice: true });
+        }
     }
 
     /**
@@ -1338,7 +1377,9 @@ class Player extends Spectator {
      * @param {DrawCard} card
      */
     discardCardFromPlay(card) {
-        return this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile' });
+        if(card.allowGameAction('discardFromPlay')) {
+            return this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile' });
+        }
     }
 
     /**
@@ -1419,7 +1460,6 @@ class Player extends Spectator {
             } else if(event.card.isDynasty) {
                 this.moveCard(event.card, 'dynasty discard pile');
             }
-            return { resolved: true, success: true };
         });
     }
 
@@ -1429,7 +1469,7 @@ class Player extends Spectator {
      */
     returnCardToHand(card) {
         if(card.allowGameAction('returnToHand')) {
-            return this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: 'hand' });
+            this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: 'hand' });
         }
     }
 
@@ -1559,7 +1599,7 @@ class Player extends Spectator {
 
         var targetPile = this.getSourceList(targetLocation);
 
-        if(!targetPile || targetPile.contains(card)) {
+        if(targetPile && targetPile.contains(card)) {
             return;
         }
 
@@ -1605,7 +1645,7 @@ class Player extends Spectator {
         } else if(['conflict discard pile', 'dynasty discard pile'].includes(targetLocation)) {
             // new cards go on the top of the discard pile
             targetPile.unshift(card);
-        } else {
+        } else if(targetPile) {
             targetPile.push(card);
         }
 
@@ -1627,34 +1667,7 @@ class Player extends Spectator {
         if(!province.allowGameAction('break')) {
             return;
         }
-        this.game.raiseEvent('onBreakProvince', { conflict: this.game.currentConflict, province: province }, () => {
-            province.breakProvince();
-            this.game.reapplyStateDependentEffects();
-            if(province.controller.opponent) {
-                this.game.addMessage('{0} has broken {1}!', province.controller.opponent, province);
-                if(province.location === 'stronghold province') {
-                    this.game.recordWinner(province.controller.opponent, 'conquest');
-                } else {
-                    let dynastyCard = province.controller.getDynastyCardInProvince(province.location);
-                    if(dynastyCard) {
-                        let promptTitle = 'Do you wish to discard ' + (dynastyCard.facedown ? 'the facedown card' : dynastyCard.name) + '?';
-                        this.game.promptWithHandlerMenu(province.controller.opponent, {
-                            activePromptTitle: promptTitle,
-                            source: 'Break ' + province.name,
-                            choices: ['Yes', 'No'],
-                            handlers: [
-                                () => {
-                                    this.game.addMessage('{0} chooses to discard {1}', province.controller.opponent, dynastyCard.facedown ? 'the facedown card' : dynastyCard);
-                                    province.controller.moveCard(dynastyCard, 'dynasty discard pile');
-                                },
-                                () => this.game.addMessage('{0} chooses not to discard {1}', province.controller.opponent, dynastyCard.facedown ? 'the facedown card' : dynastyCard)
-                            ]
-                        });
-                    }
-                }
-            }
-            return { resolved: true, success: true };
-        });
+        this.game.raiseEvent('onBreakProvince', { conflict: this.game.currentConflict, province: province }, () => province.breakProvince());
     }
 
     /**
@@ -1663,9 +1676,7 @@ class Player extends Spectator {
      * @param {EffectSource} source
      */
     honorCard(card, source) {
-        return this.game.raiseEvent('onCardHonored', { player: this, card: card, source: source }, () => {
-            return { resolved: true, success: card.honor() };
-        });
+        this.game.raiseEvent('onCardHonored', { player: this, card: card, source: source }, () => card.honor());
     }
 
     /**
@@ -1674,9 +1685,7 @@ class Player extends Spectator {
      * @param {EffectSource} source
      */
     dishonorCard(card, source) {
-        return this.game.raiseEvent('onCardDishonored', { player: this, card: card, source: source }, () => {
-            return { resolved: true, result: card.dishonor() };
-        });
+        this.game.raiseEvent('onCardDishonored', { player: this, card: card, source: source }, () => card.dishonor());
     }
 
     /**
