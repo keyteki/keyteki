@@ -1702,7 +1702,7 @@ class Player extends Spectator {
      * @param {EffectSource} source
      */
     honorCard(card, source) {
-        this.game.raiseEvent('onCardHonored', { player: this, card: card, source: source, gameAction: 'honor'  }, () => card.honor());
+        this.game.raiseEvent('onCardHonored', { player: this, card: card, source: source, gameAction: 'honor' }, () => card.honor());
     }
 
     /**
