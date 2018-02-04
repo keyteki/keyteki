@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'underscore';
+import EmojiConvertor from 'emoji-js';
 import uuid from 'uuid';
 
 import Avatar from '../Avatar.jsx';
@@ -39,6 +40,8 @@ class InnerMessages extends React.Component {
         ];
 
         this.formatMessageText = this.formatMessageText.bind(this);
+
+        this.emoji = new EmojiConvertor();
     }
 
     getMessage() {
@@ -123,7 +126,7 @@ class InnerMessages extends React.Component {
                     <span className={ 'icon-clan-' + fragment } key={ index++ } />
                 );
             }
-            return fragment;
+            return this.emoji.replace_colons(fragment);
         });
     }
 
