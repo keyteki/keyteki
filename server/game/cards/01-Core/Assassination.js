@@ -9,7 +9,7 @@ class Assassination extends DrawCard {
             max: ability.limit.perRound(1),
             target: {
                 cardType: 'character',
-                gameAction: 'discardCardFromPlay',
+                gameAction: 'discardFromPlay',
                 cardCondition: card => card.location === 'play area' && card.getCost() < 3
             },
             handler: context => {

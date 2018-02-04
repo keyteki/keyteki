@@ -1,7 +1,7 @@
 class FixedAbilityLimit {
     constructor(max) {
         this.max = max;
-        this.useCount = 0;
+        this.useCount = {};
     }
 
     isRepeatable() {
@@ -12,16 +12,20 @@ class FixedAbilityLimit {
         this.max = this.max + amount;
     }
 
-    isAtMax() {
-        return this.useCount >= this.max;
+    isAtMax(player) {
+        return !!this.useCount[player.name] && this.useCount[player.name] >= this.max;
     }
 
-    increment() {
-        this.useCount += 1;
+    increment(player) {
+        if(this.useCount[player.name]) {
+            this.useCount[player.name] += 1;
+        } else {
+            this.useCount[player.name] = 1;
+        }
     }
 
     reset() {
-        this.useCount = 0;
+        this.useCount = {};
     }
 
     registerEvents() {

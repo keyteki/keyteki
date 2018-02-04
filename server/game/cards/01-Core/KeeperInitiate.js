@@ -1,3 +1,4 @@
+const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 
 class KeeperInitiate extends DrawCard {
@@ -6,7 +7,7 @@ class KeeperInitiate extends DrawCard {
             title: 'Put this into play',
             when: {
                 onClaimRing: event => (event.player === this.controller && this.controller.role && 
-                        this.controller.role.hasTrait(event.conflict.conflictRing) && !this.facedown && 
+                        _.any(event.conflict.getElements(), element => this.controller.role.hasTrait(element)) && !this.facedown && 
                         this.location !== 'play area' && this.controller.canPutIntoPlay(this))
             },
             location: ['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile'],

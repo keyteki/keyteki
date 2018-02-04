@@ -6,6 +6,7 @@ class MaxStatCardSelector extends BaseCardSelector {
 
         this.cardStat = properties.cardStat;
         this.maxStat = properties.maxStat;
+        this.numCards = properties.numCards;
     }
 
     canTarget(card, context) {
@@ -20,12 +21,12 @@ class MaxStatCardSelector extends BaseCardSelector {
 
     hasReachedLimit(selectedCards) {
         let currentStatSum = selectedCards.reduce((sum, c) => sum + this.cardStat(c), 0);
-        return currentStatSum >= this.maxStat();
+        return currentStatSum >= this.maxStat() || (this.numCards > 0 && selectedCards.length >= this.numCards);
     }
-    
+
     hasExceededLimit(selectedCards) {
         let currentStatSum = selectedCards.reduce((sum, c) => sum + this.cardStat(c), 0);
-        return currentStatSum > this.maxStat();
+        return currentStatSum > this.maxStat() || (this.numCards > 0 && selectedCards.length > this.numCards);
     }
 }
 
