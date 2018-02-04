@@ -167,7 +167,7 @@ const Costs = {
     useLimit: function() {
         return {
             canPay: function(context) {
-                return !context.ability.limit.isAtMax();
+                return !context.ability.limit.isAtMax(context.player);
             },
             canIgnoreForTargeting: true
         };

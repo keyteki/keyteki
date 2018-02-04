@@ -272,6 +272,133 @@ describe('conflict phase', function() {
         // check province breaks can be reacted to
         // check ring effects resolve correctly, and allow choice
         // check claiming the ring works, and can be reacted to
+
+        describe('3.2.7 Claiming the ring', function() {
+            describe('If Kaede is attacking, and the defending player wins with Keeper of Void and an Initiate in discard', function() {
+                beforeEach(function() {
+                    this.setupTest({
+                        phase: 'conflict',
+                        player1: {
+                            inPlay: ['isawa-kaede']
+                        },
+                        player2: {
+                            role: 'keeper-of-void',
+                            inPlay: ['otomo-courtier'],
+                            dynastyDeck: ['keeper-initiate'],
+                            hand: ['mirumoto-s-fury']
+                        }
+                    });
+                    this.player2.placeCardInProvince('keeper-initiate', 'province 1');
+                    this.noMoreActions();
+                    this.initiateConflict({
+                        type: 'political',
+                        ring: 'air',
+                        attackers: ['isawa-kaede'],
+                        defenders: ['otomo-courtier']
+                    });
+                    this.player2.clickCard('mirumoto-s-fury');
+                    this.isawaKaede = this.player2.clickCard('isawa-kaede', 'any', 'opponent');
+                });
+
+                it('the ring should have the void element', function() {
+                    expect(this.game.currentConflict.hasElement('void')).toBe(true);
+                });
+
+                it('Kaede should be bowed', function() {
+                    expect(this.isawaKaede.bowed).toBe(true);
+                });
+
+                describe('if the defending player wins', function() {
+                    beforeEach(function() {
+                        this.noMoreActions();
+                        this.player2.clickCard('keeper-of-void');
+                    });
+
+                    it('player2 should have won the conflict', function() {
+                        expect(this.game.currentConflict.winner).toBe(this.player2.player);
+                    });
+
+                    it('the defending player should claim the ring', function() {
+                        expect(this.game.rings['air'].claimedBy).toBe('player2');
+                    });
+
+                    it('the ring should still be contested', function() {
+                        expect(this.game.rings['air'].contested).toBe(true);
+                    });
+
+                    it('the ring should have the void element', function() {
+                        expect(this.game.currentConflict.hasElement('void')).toBe(true);
+                    });
+
+                    it('the defending player should have the opportunity to trigger Keeper Initiate', function() {
+                        expect(this.player2).toHavePrompt('Any reactions?');
+
+                        this.keeperInitiate = this.player2.clickCard('keeper-initiate');
+                        expect(this.keeperInitiate.location).toBe('play area');
+                        expect(this.player1).toHavePrompt('Initiate an action');
+                    });
+                });
+            });
+
+            describe('If Hotaru is attacking with a Seeker of Knowledge', function() {
+                beforeEach(function() {
+                    this.setupTest({
+                        phase: 'conflict',
+                        player1: {
+                            inPlay: ['doji-hotaru', 'seeker-of-knowledge']
+                        }
+                    });
+                    this.noMoreActions();
+                    this.initiateConflict({
+                        type: 'political',
+                        ring: 'fire',
+                        attackers: ['doji-hotaru', 'seeker-of-knowledge'],
+                        defenders: [],
+                        jumpTo: 'resolveRing'
+                    });
+                    this.dojiHotaru = this.player1.findCardByName('doji-hotaru');
+                    this.player1.clickPrompt('Yes');
+                });
+
+                it('should prompt the player to choose an element to resolve', function() {
+                    expect(this.player1).toHavePrompt('Choose a ring effect to resolve');
+                });
+
+                it('should allow the player to choose air', function() {
+                    this.player1.clickRing('air');
+                    expect(this.player1).toHavePrompt('Choose an effect to resolve');
+                });
+
+                describe('When the ring is claimed', function() {
+                    beforeEach(function() {
+                        this.player1.clickRing('air');
+                        this.player1.clickPrompt('Gain 2 Honor');    
+                    });
+                
+                    it('should be claimed by player1', function() {
+                        expect(this.game.rings['fire'].claimedBy).toBe('player1');
+                    });
+
+                    it('should still be contested', function() {
+                        expect(this.game.rings['fire'].contested).toBe(true);
+                    });
+
+                    it('should allow the player to trigger Hotaru', function() {
+                        expect(this.player1).toHavePrompt('Any reactions?');
+                        expect(this.player1).toBeAbleToSelect(this.dojiHotaru);
+                    });
+
+                    it('should allow the player to resolve the air ring effect again', function() {
+                        this.player1.clickCard(this.dojiHotaru);
+                        expect(this.player1).toHavePrompt('Choose a ring effect to resolve');
+
+                        this.player1.clickRing('air');
+                        expect(this.player1).toHavePrompt('Choose an effect to resolve');
+                    });
+                });
+            });
+        });
+        
         // check return home and reactions to it work correctly
         // check that the next pre-conflict window works properly
         // check that passing conflicts works

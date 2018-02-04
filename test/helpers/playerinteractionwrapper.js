@@ -207,6 +207,8 @@ class PlayerInteractionWrapper {
             if(options.covert !== undefined) {
                 card.covert = options.covert;
             }
+            // Activate persistent effects of the card
+            card.applyPersistentEffects();
             // Get the attachments
             if(options.attachments) {
                 var attachments = [];
@@ -291,8 +293,20 @@ class PlayerInteractionWrapper {
         return _.map(buttons, button => button.text.toString());
     }
 
+    /**
+     * Lists cards selectable by the player during the action
+     * @return {DrawCard[]} - selectable cards
+     */
     get currentActionTargets() {
         return this.player.promptState.selectableCards;
+    }
+
+    /**
+     * Lists cards currently selected by the player
+     * @return {DrawCard[]} - selected cards
+     */
+    get selectedCards() {
+        return this.player.promptState.selectedCards;
     }
 
     /**
@@ -449,6 +463,7 @@ class PlayerInteractionWrapper {
         }
         this.player.moveCard(card, targetLocation);
         this.game.continue();
+        return card;
     }
 
     // Proxied method

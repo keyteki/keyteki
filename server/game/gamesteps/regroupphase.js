@@ -34,7 +34,6 @@ class RegroupPhase extends Phase {
             _.each(this.game.getPlayers(), player => {
                 player.readyCards();
             });
-            return { resolved: true, success: true };
         });
     }
     
@@ -93,20 +92,14 @@ class RegroupPhase extends Phase {
     }
     
     returnRings() {
-        this.game.raiseEvent('onReturnRings', {}, () => {
-            this.game.returnRings();
-            return { resolved: true, success: true };
-        });
+        this.game.raiseEvent('onReturnRings', {}, () => this.game.returnRings());
     }
 
     passFirstPlayer() {
         let firstPlayer = this.game.getFirstPlayer();
         let otherPlayer = this.game.getOtherPlayer(firstPlayer);
         if(otherPlayer) {
-            this.game.raiseEvent('onPassFirstPlayer', { player: otherPlayer }, () => {
-                this.game.setFirstPlayer(otherPlayer);
-                return { resolved: true, success: true };
-            });
+            this.game.raiseEvent('onPassFirstPlayer', { player: otherPlayer }, () => this.game.setFirstPlayer(otherPlayer));
         }
     }
 

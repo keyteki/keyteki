@@ -12,7 +12,6 @@ class RemoveFateEvent extends Event {
         if(this.recipient && this.recipient.modifyFate) {
             this.recipient.modifyFate(fate);
         }
-        return true;
     }
 }
 

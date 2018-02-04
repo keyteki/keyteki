@@ -49,10 +49,7 @@ class DuelFlow extends BaseStepWithPipeline {
 
     applyDuelResults() {
         if(this.duel.winner) {
-            this.game.raiseEvent('onDuelResolution', { duel: this.duel }, () => {
-                this.resolutionHandler(this.duel.winner, this.duel.loser);
-                return { resolved: true, success: true };
-            });
+            this.game.raiseEvent('onDuelResolution', { duel: this.duel }, () => this.resolutionHandler(this.duel.winner, this.duel.loser));
         }
     }
 

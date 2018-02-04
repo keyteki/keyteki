@@ -178,7 +178,7 @@ global.integration = function(definitions) {
                     return;
                 }
                 this.noMoreActions();
-            }
+            };
         });
 
         definitions();
