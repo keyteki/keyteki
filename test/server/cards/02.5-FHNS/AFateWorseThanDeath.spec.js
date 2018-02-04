@@ -116,7 +116,7 @@ describe('A Fate Worse Than Death', function() {
                 this.watchCommander = this.player2.playAttachment('watch-commander', this.witchHunter);
                 this.player1.clickCard('a-fate-worse-than-death');
                 this.player1.clickCard(this.witchHunter);
-            })
+            });
 
             it('should not remove Watch Commander when it is played', function() {
                 expect(this.witchHunter.attachments.toArray()).toContain(this.watchCommander);
@@ -131,7 +131,7 @@ describe('A Fate Worse Than Death', function() {
                 expect(this.witchHunter.location).toBe('play area');
                 expect(this.witchHunter.attachments.toArray()).toContain(this.watchCommander);
                 expect(this.watchCommander.location).toBe('play area');                
-            })
+            });
         });
     });
 });
