@@ -36,7 +36,7 @@ describe('CardForcedReaction', function () {
 
         it('should call the when handler with the appropriate arguments', function() {
             this.executeEventHandler(1, 2, 3);
-            expect(this.properties.when.onSomething).toHaveBeenCalledWith(this.event, 1, 2, 3);
+            expect(this.properties.when.onSomething).toHaveBeenCalledWith(this.event);
         });
 
         describe('when the when condition returns false', function() {
@@ -73,8 +73,8 @@ describe('CardForcedReaction', function () {
         });
 
         it('should call the when handler with the appropriate arguments', function() {
-            this.meetsRequirements(this.context);
-            expect(this.properties.when.onSomething).toHaveBeenCalledWith(this.event, 1, 2, 3);
+            this.meetsRequirements();
+            expect(this.properties.when.onSomething).toHaveBeenCalledWith(this.event);
         });
 
         xdescribe('when in the setup phase', function() {

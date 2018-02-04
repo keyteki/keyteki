@@ -16,7 +16,7 @@ class BaseAbilityWindow extends BaseStep {
 
     emitEvents() {
         _.each(this.events, event => {
-            this.game.emit(event.name + ':' + this.abilityType, ...event.params);
+            this.game.emit(event.name + ':' + this.abilityType, event);
         });
     }
 
