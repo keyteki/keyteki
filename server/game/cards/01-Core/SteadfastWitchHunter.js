@@ -6,7 +6,7 @@ class SteadfastWitchHunter extends DrawCard {
             title: 'Ready character',
             cost: ability.costs.sacrifice(card => card.getType() === 'character'),
             target: {
-                activePromptTitle: 'Select a character',
+                activePromptTitle: 'Choose a character to ready',
                 cardCondition: card =>
                     card.location === 'play area'
                     && card.bowed

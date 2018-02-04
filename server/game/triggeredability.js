@@ -38,7 +38,7 @@ class TriggeredAbility extends CardAbility {
             return false;
         }
 
-        return listener(...event.params);
+        return listener(event);
     }
 
     meetsRequirements(context) {

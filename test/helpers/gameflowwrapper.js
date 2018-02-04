@@ -5,6 +5,16 @@ const Game = require('../../server/game/game.js');
 const PlayerInteractionWrapper = require('./playerinteractionwrapper.js');
 const Settings = require('../../server/settings.js');
 
+// Phase values enum
+const phaseValue = {
+  dynasty: 0,
+  draw: 1,
+  conflict: 2,
+  fate: 3,
+  regroup: 4
+}
+const numPhases = 5;
+
 class GameFlowWrapper {
     constructor() {
         var gameRouter = jasmine.createSpyObj('gameRouter', ['gameWon', 'playerLeft', 'reportError']);
@@ -158,6 +168,62 @@ class GameFlowWrapper {
     }
 
     /**
+     * Moves to the next phase of the game
+     * @return {number} value of phase change.
+     * regroup -> dynasty value is 4
+     * all other changes is -1
+     */
+    nextPhase() {
+            var phaseChange = 0;
+        switch(this.game.currentPhase) {
+            case 'setup':
+                this.skipSetupPhase();
+                break;
+            case 'dynasty':
+                this.noMoreActions();
+                phaseChange = -1;
+                break;
+            case 'draw':
+                this.bidHonor();
+                phaseChange = -1;
+                break;
+            case 'conflict':
+                this.finishConflictPhase();
+                phaseChange = -1;
+                break;
+            case 'fate':
+                this.finishFatePhase();
+                phaseChange = -1;
+                break;
+            case 'regroup':
+                this.finishRegroupPhase();
+                phaseChange = 4; //New turn
+                break;
+            default:
+                break;
+        }
+        return phaseChange;
+    }
+
+    /**
+     * Moves through phases, until a certain one is reached
+     * @param {String} endphase - phase in which to end
+     */
+    advancePhases(endphase) {
+        if(!endphase) {
+          return;
+        }
+
+        var endValue = phaseValue[endphase];
+        var currentValue = phaseValue[this.game.currentPhase];
+        //The phase difference = (end - start) modulo number of phases
+        var phaseDifference = (endValue - currentValue) % numPhases;
+        while(phaseDifference !== 0) {
+            phaseDifference += this.nextPhase();
+        }
+    }
+
+    /**
     *   Executes the honor bidding
     *   @param {?number} player1amt - amount for player1 to bid
     *   @param {?number} player2amt = amount for player2 to bid
@@ -196,38 +262,6 @@ class GameFlowWrapper {
         } else {
             promptedPlayer.clickPrompt('Second Player');
         }
-    }
-
-    /*
-     * Moves through phases, until a certain one is reached
-     */
-    advancePhases(endphase = 'dynasty') {
-        if(endphase === 'dynasty') {
-            return;
-        }
-        //Dynasty actions
-        this.noMoreActions();
-
-        if(endphase === 'draw') {
-            return;
-        }
-        //Draw actions
-        this.bidHonor();
-
-        if(endphase === 'conflict') {
-            return;
-        }
-        //Conflict actions
-        this.finishConflictPhase();
-
-        if(endphase === 'fate') {
-            return;
-        }
-        //Fate actions
-        this.finishFatePhase();
-
-        //Finish at the regroup phase
-        return;
     }
 }
 

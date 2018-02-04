@@ -10,7 +10,7 @@ class FallenInBattle extends DrawCard {
             max: ability.limit.perConflict(1),
             target: {
                 cardType: 'character',
-                gameAction: 'discardCardFromPlay',
+                gameAction: 'discardFromPlay',
                 cardCondition: card => this.game.currentConflict.isParticipating(card)
             },
             handler: context => {

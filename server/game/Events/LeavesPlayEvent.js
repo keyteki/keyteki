@@ -56,7 +56,6 @@ class LeavesPlayEvent extends Event {
 
     leavesPlay() {
         this.card.owner.moveCard(this.card, this.destination);
-        return { resolved: true, success: true };
     }
 }
 

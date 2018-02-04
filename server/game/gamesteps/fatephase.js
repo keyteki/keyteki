@@ -26,7 +26,7 @@ class FatePhase extends Phase {
 
     discardCharactersWithNoFate() {
         _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
-            let cardsToDiscard = player.filterCardsInPlay(card => card.fate === 0 && card.type === 'character' && card.allowGameAction('discardCardFromPlay'));
+            let cardsToDiscard = player.filterCardsInPlay(card => card.fate === 0 && card.type === 'character' && card.allowGameAction('discardFromPlay'));
             this.game.queueSimpleStep(() => player.discardCharactersWithNoFate(cardsToDiscard));
         });
     }
@@ -44,10 +44,7 @@ class FatePhase extends Phase {
     }
     
     placeFateOnUnclaimedRings() {
-        this.game.raiseEvent('onPlaceFateOnUnclaimedRings', {}, () => {
-            this.game.placeFateOnUnclaimedRings();
-            return { resolved: true, success: true };
-        });
+        this.game.raiseEvent('onPlaceFateOnUnclaimedRings', {}, () => this.game.placeFateOnUnclaimedRings());
     }
 }
 
