@@ -9,7 +9,7 @@ class ThePerfectGift extends DrawCard {
                 let otherPlayer = this.controller.opponent;
                 let myTopFour = this.controller.conflictDeck.first(4);
                 let n = myTopFour.length;
-                this.game.addMessage('{0} plays {1}, revealing the top {2} from their conflict deck: {3}', this.controller, this,  n > 1 ? n + ' cards' : 'card', myTopFour);
+                this.game.addMessage('{0} plays {1}, revealing the top {2} from their conflict deck: {3}', this.controller, this, n > 1 ? n + ' cards' : 'card', myTopFour);
                 if(otherPlayer) {
                     let opponentTopFour = otherPlayer.conflictDeck.first(4);
                     n = opponentTopFour.length;
