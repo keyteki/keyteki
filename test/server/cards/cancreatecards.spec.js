@@ -86,7 +86,8 @@ describe('All Cards:', function() {
                 this.card = new cardClass(this.playerSpy, {});
                 this.actionSpy = spyOn(this.card, 'action');
                 this.card.setupCardAbilities(AbilityDsl);
-                this.calls = this.actionSpy.calls.allArgs();
+                this.calls = _.flatten(this.actionSpy.calls.allArgs());
+                console.log(this.calls)
             });
             
             it('should have a title which is a string', function() {
@@ -126,6 +127,7 @@ describe('All Cards:', function() {
                 this.calls = this.calls.concat(this.reactionSpy.calls.allArgs());
                 this.calls = this.calls.concat(this.forcedInterruptSpy.calls.allArgs());
                 this.calls = this.calls.concat(this.interruptSpy.calls.allArgs());
+                this.calls = _.flatten(this.calls);
             });
             
             it('should have a title which is a string', function() {
