@@ -87,7 +87,6 @@ describe('All Cards:', function() {
                 this.actionSpy = spyOn(this.card, 'action');
                 this.card.setupCardAbilities(AbilityDsl);
                 this.calls = _.flatten(this.actionSpy.calls.allArgs());
-                console.log(this.calls)
             });
             
             it('should have a title which is a string', function() {
@@ -107,7 +106,11 @@ describe('All Cards:', function() {
             });
 
             it('should have a legal location as its location', function() {
-                expect(_.all(this.calls, args => _.isUndefined(args.location) || _.every(args.location, location => ['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile', 'conflict discard pile', 'hand'].includes(location)))).toBe(true);
+                expect(_.all(this.calls, args => (
+                    _.isUndefined(args.location) || 
+                    ['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile', 'conflict discard pile', 'hand'].includes(args.location) ||
+                    _.every(args.location, location => ['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile', 'conflict discard pile', 'hand'].includes(location))
+                ))).toBe(true);
             });
 
             it('should not have a when property', function() {
@@ -159,7 +162,11 @@ describe('All Cards:', function() {
             });
 
             it('should have a legal location as its location', function() {
-                expect(_.all(this.calls, args => _.isUndefined(args.location) || _.every(args.location, location => ['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile', 'conflict discard pile', 'hand'].includes(location)))).toBe(true);
+                expect(_.all(this.calls, args => (
+                    _.isUndefined(args.location) || 
+                    ['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile', 'conflict discard pile', 'hand'].includes(args.location) ||
+                    _.every(args.location, location => ['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile', 'conflict discard pile', 'hand'].includes(location))
+                ))).toBe(true);
             });
         });    
     });
