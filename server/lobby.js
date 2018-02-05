@@ -245,11 +245,10 @@ class Lobby {
 
     clearStaleGames() {
         let now = Date.now();
-        const pendingTimeout = 60 * 60 * 1000;
-        const regularTimeout = 24 * 60 * 60 * 1000;
-        let stalePendingGames = _.filter(this.games, game => !game.started && now - game.createdAt > pendingTimeout);
+        const timeout = 60 * 60 * 1000;
+        let stalePendingGames = _.filter(this.games, game => !game.started && now - game.createdAt > timeout);
         let emptyGames = _.filter(this.games, game =>
-            game.started && now - game.createdAt > regularTimeout && _.isEmpty(game.getPlayers()));
+            game.started && now - game.createdAt > timeout && _.isEmpty(game.getPlayers()));
 
         _.each(stalePendingGames, game => {
             logger.info('closed pending game', game.id, 'due to inactivity');
