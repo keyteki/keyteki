@@ -269,7 +269,10 @@ class PlayerInteractionWrapper {
      * Sets the contents of the dynasty discard pile
      * @param {String[]} newContents - list of names of cards to be put in dynasty discard
      */
-    set dynastyDiscard(newContents = []) {
+    set dynastyDiscard(newContents) {
+        if(!newContents) {
+            return;
+        }
         // Move cards to the deck
         _.each(this.dynastyDiscard, card => {
             this.moveCard(card, 'dynasty deck');
