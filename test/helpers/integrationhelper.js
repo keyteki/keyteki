@@ -135,26 +135,24 @@ global.integration = function(definitions) {
                 if(options.player2.rings) {
                     _.each(options.player2.rings, ring => this.player2.claimRing(ring));
                 }
+                //Player stats
                 this.player1.fate = options.player1.fate;
                 this.player2.fate = options.player2.fate;
                 this.player1.honor = options.player1.honor;
                 this.player2.honor = options.player2.honor;
+                //Field
                 this.player1.inPlay = options.player1.inPlay;
                 this.player2.inPlay = options.player2.inPlay;
+                //Conflict deck related
                 this.player1.hand = options.player1.hand;
                 this.player2.hand = options.player2.hand;
-                this.player1.dynastyDiscardPile = options.player1.dynastyDiscard;
-                this.player2.dynastyDiscardPile = options.player2.dynastyDiscard;
                 this.player1.conflictDiscard = options.player1.conflictDiscard;
                 this.player2.conflictDiscard = options.player2.conflictDiscard;
-
-                // If a province setup has been specified (i.e. provinces is an Object, not an Array), set them up
-                if(!_.isArray(options.player1.provinces)) {
-                    this.player1.provinces = options.player1.provinces;
-                }
-                if(!_.isArray(options.player2.provinces)) {
-                    this.player2.provinces = options.player2.provinces;
-                }
+                //Dynsaty deck related
+                this.player1.provinces = options.player1.provinces;
+                this.player2.provinces = options.player2.provinces;
+                this.player1.dynastyDiscard = options.player1.dynastyDiscard;
+                this.player2.dynastyDiscard = options.player2.dynastyDiscard;
             };
 
             this.initiateConflict = function(options = {}) {
