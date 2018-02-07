@@ -55,6 +55,7 @@ class Game extends EventEmitter {
         this.savedGameId = details.savedGameId;
         this.gameType = details.gameType;
         this.currentActionWindow = null;
+        this.currentEventWindow = null;
         this.currentConflict = null;
         this.currentDuel = null;
         this.manualMode = false;
