@@ -9,6 +9,7 @@ class Event {
         this.window = null;
         this.thenEvents = [];
         this.isSuccessful = () => this.success;
+        this.condition = () => true;
         this.parentEvent = null;
         this.order = 0;
 
@@ -43,7 +44,7 @@ class Event {
         if(this.card && this.gameAction && !this.card.allowGameAction(this.gameAction, this.context)) {
             this.cancel();
         }
-        if(this.condition && this.window && !this.condition(this.window.events)) {
+        if(!this.condition()) {
             this.cancel();
         }
     }
