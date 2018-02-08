@@ -10,6 +10,7 @@ class ThenEventWindow extends EventWindow {
             new SimpleStep(this.game, () => this.checkEventCondition()),
             new SimpleStep(this.game, () => this.filterUnsuccessfulEvents()),
             new SimpleStep(this.game, () => this.openWindow('cancelinterrupt')),
+            new SimpleStep(this.game, () => this.createContigentEvents()),
             new SimpleStep(this.game, () => this.openWindow('forcedinterrupt')),
             new SimpleStep(this.game, () => this.openWindow('interrupt')),
             new SimpleStep(this.game, () => this.checkForOtherEffects()),
