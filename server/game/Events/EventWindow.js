@@ -89,10 +89,16 @@ class EventWindow extends BaseStepWithPipeline {
         let thenEvents = [];
 
         _.each(this.events, event => {
-            thenEvents = thenEvents.concat(event.thenEvents);
-            event.executeHandler();
-            this.game.emit(event.name, event);
+            // need to checkCondition here to ensure the event won't fizzle due to another event's resolution (e.g. double honoring an ordinary character with YR etc.)
+            event.checkCondition();
+            if(!event.cancelled) {
+                thenEvents = thenEvents.concat(event.thenEvents);
+                event.executeHandler();
+                this.game.emit(event.name, event);
+            }
         });
+
+        //TODO: need to reapply state dependent effects here
 
         if(thenEvents.length > 0) {
             let thenEventWindow = this.game.openThenEventWindow(thenEvents);
