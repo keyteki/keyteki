@@ -1,7 +1,7 @@
 const _ = require('underscore');
 
-const BaseStepWithPipeline = require('./basestepwithpipeline.js');
-const SimpleStep = require('./simplestep.js');
+const BaseStepWithPipeline = require('../gamesteps/basestepwithpipeline.js');
+const SimpleStep = require('../gamesteps/simplestep.js');
 
 class EventWindow extends BaseStepWithPipeline {
     constructor(game, events) {
