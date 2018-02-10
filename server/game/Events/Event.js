@@ -50,7 +50,7 @@ class Event {
     }
     
     executeHandler() {
-        this.success =  true;
+        this.success = true;
         if(this.handler) {
             this.handler(this);
         }
