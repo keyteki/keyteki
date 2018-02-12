@@ -8,10 +8,10 @@ describe('Cavalry Reserves', function() {
                 player1: {
                     inPlay: ['Adept of the Waves'],
                     hand: ['Cavalry Reserves'],
-                    dynastyDiscard: ['Border Rider', 'Border Rider', 'Border Rider', 'Moto Horde', 'Moto Juro', 'Bayushi Liar'],
+                    dynastyDiscard: ['Border Rider', 'Border Rider', 'Border Rider', 'Moto Horde', 'Moto Juro', 'Bayushi Liar']
                 },
                 player2: {
-                    inPlay: [],
+                    inPlay: []
                 }
             });
             this.noMoreActions();
@@ -56,7 +56,7 @@ describe('Cavalry Reserves', function() {
                 this.player1.clickCard(this.horde);
                 expect(this.player1.selectedCards).toContain(this.juro);
                 expect(this.player1.selectedCards).not.toContain(this.horde);
-            })
+            });
 
             it('should put selected cards into play', function() {
                 this.player1.clickCard(this.rider1);
