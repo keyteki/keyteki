@@ -745,7 +745,9 @@ class Game extends EventEmitter {
             this.recordWinner(player, 'honor');
         } else if(player.getTotalHonor() === 0) {
             var opponent = this.getOtherPlayer(player);
-            this.recordWinner(opponent, 'dishonor');
+            if(opponent) {
+                this.recordWinner(opponent, 'dishonor');
+            }
         }
 
     }
