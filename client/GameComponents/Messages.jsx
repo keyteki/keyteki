@@ -125,8 +125,11 @@ class InnerMessages extends React.Component {
                 return (
                     <span className={ 'icon-clan-' + fragment } key={ index++ } />
                 );
+            } else if(_.isString(fragment)) {
+                return this.emoji.replace_colons(fragment);
             }
-            return this.emoji.replace_colons(fragment);
+
+            return fragment;
         });
     }
 
