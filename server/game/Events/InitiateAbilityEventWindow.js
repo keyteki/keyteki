@@ -1,7 +1,7 @@
 const _ = require('underscore');
 
 const EventWindow = require('./EventWindow.js');
-const SimpleStep = require('./simplestep.js');
+const SimpleStep = require('../gamesteps/simplestep.js');
 
 class InitiateAbilityEventWindow extends EventWindow {
     constructor(game, events) {

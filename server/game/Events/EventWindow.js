@@ -1,7 +1,7 @@
 const _ = require('underscore');
 
-const BaseStepWithPipeline = require('./basestepwithpipeline.js');
-const SimpleStep = require('./simplestep.js');
+const BaseStepWithPipeline = require('../gamesteps/basestepwithpipeline.js');
+const SimpleStep = require('../gamesteps/simplestep.js');
 
 class EventWindow extends BaseStepWithPipeline {
     constructor(game, events) {
@@ -15,6 +15,8 @@ class EventWindow extends BaseStepWithPipeline {
 
     initialise() {
         this.pipeline.initialise([
+            new SimpleStep(this.game, () => this.setCurrentEventWindow()),
+            new SimpleStep(this.game, () => this.checkEventCondition()),
             new SimpleStep(this.game, () => this.openWindow('cancelinterrupt')),
             new SimpleStep(this.game, () => this.createContigentEvents()),
             new SimpleStep(this.game, () => this.openWindow('forcedinterrupt')),
@@ -23,7 +25,8 @@ class EventWindow extends BaseStepWithPipeline {
             new SimpleStep(this.game, () => this.preResolutionEffects()),
             new SimpleStep(this.game, () => this.executeHandler()),
             new SimpleStep(this.game, () => this.openWindow('forcedreaction')),
-            new SimpleStep(this.game, () => this.openWindow('reaction'))
+            new SimpleStep(this.game, () => this.openWindow('reaction')),
+            new SimpleStep(this.game, () => this.resetCurrentEventWindow())
         ]);
     }
 
@@ -32,19 +35,20 @@ class EventWindow extends BaseStepWithPipeline {
         this.events.push(event);
     }
     
-    removeEvent(events) {
-        if(!_.isArray(events)) {
-            events = [events];
-        }
-        _.each(events, event => event.unsetWindow());
-        this.events = _.difference(this.events, events);
+    removeEvent(event) {
+        this.events = _.reject(this.events, e => e === event);
+    }
+
+    setCurrentEventWindow() {
+        this.previousEventWindow = this.game.currentEventWindow;
+        this.game.currentEventWindow = this;
+    }
+
+    checkEventCondition() {
         _.each(this.events, event => event.checkCondition());
     }
 
     openWindow(abilityType) {
-        if(!abilityType.endsWith('reaction')) {
-            _.each(this.events, event => event.checkCondition());
-        }
         if(_.isEmpty(this.events)) {
             return;
         }
@@ -76,12 +80,7 @@ class EventWindow extends BaseStepWithPipeline {
     }
 
     preResolutionEffects() {
-        _.each(this.events, event => {
-            event.checkCondition();
-            if(!event.cancelled) {
-                event.preResolutionEffect();
-            }
-        });
+        _.each(this.events, event => event.preResolutionEffect());
     }
     
     executeHandler() {
@@ -90,6 +89,7 @@ class EventWindow extends BaseStepWithPipeline {
         let thenEvents = [];
 
         _.each(this.events, event => {
+            // need to checkCondition here to ensure the event won't fizzle due to another event's resolution (e.g. double honoring an ordinary character with YR etc.)
             event.checkCondition();
             if(!event.cancelled) {
                 thenEvents = thenEvents.concat(event.thenEvents);
@@ -98,6 +98,8 @@ class EventWindow extends BaseStepWithPipeline {
             }
         });
 
+        //TODO: need to reapply state dependent effects here
+
         if(thenEvents.length > 0) {
             let thenEventWindow = this.game.openThenEventWindow(thenEvents);
             this.game.queueSimpleStep(() => {
@@ -105,6 +107,15 @@ class EventWindow extends BaseStepWithPipeline {
                     this.addEvent(event);
                 });
             });
+        }
+    }
+
+    resetCurrentEventWindow() {
+        if(this.previousEventWindow) {
+            this.previousEventWindow.checkEventCondition();
+            this.game.currentEventWindow = this.previousEventWindow;
+        } else {
+            this.game.currentEventWindow = null;
         }
     }
 }

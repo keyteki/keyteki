@@ -22,7 +22,7 @@ class BayushiKachiko extends DrawCard {
                     params: { context: context, thenEvents: [bowEvent] },
                     handler: event => {
                         if(!context.target.allowGameAction('bow', context)) {
-                            event.cancel();
+                            event.success = false;
                             return;
                         }
                         this.game.promptWithHandlerMenu(context.player, {
@@ -31,7 +31,7 @@ class BayushiKachiko extends DrawCard {
                             choices: ['Yes', 'No'],
                             handlers: [
                                 () => context.game.addMessage('{0} chooses to bow {1} using {2}', context.player, context.target, context.source),
-                                () => event.cancel()
+                                () => event.success = false
                             ]
                         });
                     }

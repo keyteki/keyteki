@@ -18,7 +18,7 @@ class LeavesPlayEvent extends Event {
         if(this.isSacrifice) {
             this.gameAction = 'sacrifice';
         } else if(this.destination.includes('discard pile')) {
-            this.gameAction = 'discardCardFromPlay';
+            this.gameAction = 'discardFromPlay';
         } else if(this.destination === 'hand') {
             this.gameAction = 'returnToHand';
         }
