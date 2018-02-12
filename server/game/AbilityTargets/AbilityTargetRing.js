@@ -32,9 +32,7 @@ class AbilityTargetCard {
             if(!noCostsFirstButton) {
                 buttons.push({ text: 'Pay costs first', arg: 'costsFirst' });
             }
-            buttons.push({ text: 'Cancel', arg: 'done' });
-        } else {
-            buttons.push({ text: 'Done', arg: 'done' });
+            buttons.push({ text: 'Cancel', arg: 'cancel' });
         }
         let waitingPromptTitle = '';
         if(pretarget) {

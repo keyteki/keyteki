@@ -11,9 +11,9 @@ class AgainstTheWaves extends DrawCard {
             handler: context => {
                 this.game.addMessage('{0} uses {1} to {2} {3}', this.controller, this, context.target.bowed ? 'unbow' : 'bow', context.target);
                 if(context.target.bowed) {
-                    this.controller.readyCard(context.target);
+                    this.game.applyGameAction(context, { ready: context.target });
                 } else {
-                    this.controller.bowCard(context.target, context.source);
+                    this.game.applyGameAction(context, { bow: context.target });
                 }
             }
         });

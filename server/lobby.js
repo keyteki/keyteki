@@ -39,6 +39,8 @@ class Lobby {
         this.lastUserBroadcast = moment();
 
         this.loadCardData();
+
+        setInterval(() => this.clearStaleGames(), 60 * 1000);
     }
 
     async loadCardData() {
@@ -239,6 +241,28 @@ class Lobby {
         });
 
         this.broadcastGameList();
+    }
+
+    clearStaleGames() {
+        let now = Date.now();
+        const timeout = 60 * 60 * 1000;
+        let stalePendingGames = _.filter(this.games, game => !game.started && now - game.createdAt > timeout);
+        let emptyGames = _.filter(this.games, game =>
+            game.started && now - game.createdAt > timeout && _.isEmpty(game.getPlayers()));
+
+        _.each(stalePendingGames, game => {
+            logger.info('closed pending game', game.id, 'due to inactivity');
+            delete this.games[game.id];
+        });
+
+        _.each(emptyGames, game => {
+            logger.info('closed started game', game.id, 'due to no active players');
+            delete this.games[game.id];
+        });
+
+        if(emptyGames.length > 0 || stalePendingGames.length > 0) {
+            this.broadcastGameList();
+        }
     }
 
     // Events

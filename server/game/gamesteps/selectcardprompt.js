@@ -14,8 +14,7 @@ const UiPrompt = require('./uiprompt.js');
  *                      of cards that can be selected.
  * multiSelect        - boolean that ensures that the selected cards are sent as
  *                      an array, even if the numCards limit is 1.
- * buttons            - array of buttons for the prompt. Defaults to a single 
- *                      'Done' button
+ * buttons            - array of buttons for the prompt.
  * activePromptTitle  - the title that should be used in the prompt for the
  *                      choosing player.
  * waitingPromptTitle - the title that should be used in the prompt for the
@@ -71,7 +70,7 @@ class SelectCardPrompt extends UiPrompt {
 
     defaultProperties() {
         return {
-            buttons: [{ text: 'Done', arg: 'done' }],
+            buttons: [],
             pretarget: false,
             selectCard: true,
             onSelect: () => true,
@@ -105,12 +104,19 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     activePrompt() {
+        let buttons = this.properties.buttons;
+        if(!this.selector.automaticFireOnSelect() && this.selector.hasEnoughSelected(this.selectedCards)) {
+            buttons = [{ text: 'Done', arg: 'done' }].concat(buttons);
+        }
+        if(this.game.manualMode && !_.any(buttons, button => button.arg === 'cancel')) {
+            buttons = buttons.concat({ text: 'Cancel Prompt', arg: 'cancel' });
+        }
         return {
             selectCard: this.properties.selectCard,
             selectRing: true,
             selectOrder: this.properties.ordered,
             menuTitle: this.properties.activePromptTitle || this.selector.defaultActivePromptTitle(),
-            buttons: this.properties.buttons,
+            buttons: buttons,
             promptTitle: this.properties.source ? this.properties.source.name : undefined,
             controls: this.properties.controls
         };
@@ -180,21 +186,17 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     menuCommand(player, arg) {
-        if(arg !== 'done') {
-            if(this.properties.onMenuCommand(player, arg)) {
-                this.complete();
-                return true;
-            }
-            return false;
-        }
-
-        if(this.selector.hasEnoughSelected(this.selectedCards)) {
-            return this.fireOnSelect();
-        } else if(this.selectedCards.length === 0) {
+        if(arg === 'cancel' || (arg === 'done' && this.properties.optional && this.selectedCards.length === 0)) {
             this.properties.onCancel(player);
             this.complete();
             return true;
+        } else if(arg === 'done' && this.selector.hasEnoughSelected(this.selectedCards)) {
+            return this.fireOnSelect();
+        } else if(this.properties.onMenuCommand(player, arg)) {
+            this.complete();
+            return true;
         }
+        return false;
     }
 
     complete() {

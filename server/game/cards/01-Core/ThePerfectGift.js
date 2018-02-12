@@ -4,14 +4,14 @@ class ThePerfectGift extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Give each player a gift',
+            condition: () => this.controller.conflictDeck.size() > 0 || (this.controller.opponent && this.controller.opponent.conflictDeck.size() > 0),
             handler: () => {
-                let otherPlayer = this.game.getOtherPlayer(this.controller);
-                let opponentTopFour = [];
+                let otherPlayer = this.controller.opponent;
                 let myTopFour = this.controller.conflictDeck.first(4);
                 let n = myTopFour.length;
-                this.game.addMessage('{0} reveals the top {1} from their conflict deck: {2}', this.controller, n > 1 ? n + ' cards' : 'card', myTopFour);
+                this.game.addMessage('{0} plays {1}, revealing the top {2} from their conflict deck: {3}', this.controller, this, n > 1 ? n + ' cards' : 'card', myTopFour);
                 if(otherPlayer) {
-                    opponentTopFour = otherPlayer.conflictDeck.first(4);
+                    let opponentTopFour = otherPlayer.conflictDeck.first(4);
                     n = opponentTopFour.length;
                     if(n > 0) {
                         this.game.addMessage('{0} reveals the top {1} from their conflict deck: {2}', otherPlayer, n > 1 ? n + ' cards' : 'card', opponentTopFour);

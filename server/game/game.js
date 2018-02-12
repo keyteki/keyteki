@@ -22,9 +22,9 @@ const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 const SelectRingPrompt = require('./gamesteps/selectringprompt.js');
 const EventBuilder = require('./Events/EventBuilder.js');
-const EventWindow = require('./gamesteps/EventWindow.js');
-const ThenEventWindow = require('./gamesteps/ThenEventWindow.js');
-const InitiateAbilityEventWindow = require('./gamesteps/InitiateAbilityEventWindow.js');
+const EventWindow = require('./Events/EventWindow.js');
+const ThenEventWindow = require('./Events/ThenEventWindow.js');
+const InitiateAbilityEventWindow = require('./Events/InitiateAbilityEventWindow.js');
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const ForcedTriggeredAbilityWindow = require('./gamesteps/forcedtriggeredabilitywindow.js');
 const TriggeredAbilityWindow = require('./gamesteps/triggeredabilitywindow.js');
@@ -55,6 +55,7 @@ class Game extends EventEmitter {
         this.savedGameId = details.savedGameId;
         this.gameType = details.gameType;
         this.currentActionWindow = null;
+        this.currentEventWindow = null;
         this.currentConflict = null;
         this.currentDuel = null;
         this.manualMode = false;
@@ -745,7 +746,9 @@ class Game extends EventEmitter {
             this.recordWinner(player, 'honor');
         } else if(player.getTotalHonor() === 0) {
             var opponent = this.getOtherPlayer(player);
-            this.recordWinner(opponent, 'dishonor');
+            if(opponent) {
+                this.recordWinner(opponent, 'dishonor');
+            }
         }
 
     }
@@ -1298,6 +1301,23 @@ class Game extends EventEmitter {
     }
 
     /*
+     * Checks whether a game action can be performed on a card or an array of
+     * cards, and performs it on all legal targets.
+     * @param {String} actionType
+     * @param {Array or BaseCard} cards - Array of BaseCard
+     * @param {Function} func - (Array or BaseCard) => undefined
+     * @returns {undefined}
+     */
+    applyGameAction(context, actions, additionalEventProps = []) {
+        let events = additionalEventProps.map(event => EventBuilder.for(event.name || 'unnamedEvent', event.params, event.handler));
+        _.each(actions, (cards, action) => {
+            events = events.concat(EventBuilder.getEventsForAction(action, cards, context));
+        });
+        this.openEventWindow(events);
+        return events;
+    }
+
+    /*
      * Flips a ring to show the opposite side (military or political)
      * @param {Player} player
      * @param {Ring} ring
@@ -1414,37 +1434,6 @@ class Game extends EventEmitter {
         }
         this.currentDuel = new Duel(this, challenger, target, type);
         this.queueStep(new DuelFlow(this, this.currentDuel, costHandler, resolutionHandler));
-    }
-
-    /*
-     * Checks whether a game action can be performed on a card or an array of
-     * cards, and performs it on all legal targets.
-     * @deprecated
-     * @param {String} actionType
-     * @param {Array or BaseCard} cards - Array of BaseCard
-     * @param {Function} func - (Array or BaseCard) => undefined
-     * @returns {undefined}
-     */
-    applyGameAction(actionType, cards, func) {
-        let wasArray = _.isArray(cards);
-        if(!wasArray) {
-            cards = [cards];
-        }
-        let [allowed, disallowed] = _.partition(cards, card => card.allowGameAction(actionType));
-
-        if(!_.isEmpty(disallowed)) {
-            // TODO: add a cannot / immunity message.
-        }
-
-        if(_.isEmpty(allowed)) {
-            return;
-        }
-
-        if(wasArray) {
-            func(allowed);
-        } else {
-            func(allowed[0]);
-        }
     }
 
     watch(socketId, user) {

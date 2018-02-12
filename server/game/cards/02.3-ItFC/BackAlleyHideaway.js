@@ -92,7 +92,6 @@ class BackAlleyHideaway extends DrawCard {
                     this.attachments.push(event.card);
                     event.card.parent = this;
                     event.card.abilities.playActions.push(new BackAlleyPlayCharacterAction(this));
-                    return { resolved: true, success: true };
                 });
             }
         });

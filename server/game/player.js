@@ -1377,7 +1377,7 @@ class Player extends Spectator {
      * @param {DrawCard} card
      */
     discardCardFromPlay(card) {
-        if(card.allowGameAction('discardCardFromPlay')) {
+        if(card.allowGameAction('discardFromPlay')) {
             return this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile' });
         }
     }
@@ -1424,22 +1424,9 @@ class Player extends Spectator {
      * @deprecated
      * Use discardCardFromHand or discardCardFromPlay
      */
-    discardCards(cards, allowSave = true, callback = () => true) {
-        this.game.applyGameAction('discard', cards, cards => {
-            var params = {
-                player: this,
-                cards: cards,
-                allowSave: allowSave,
-                originalLocation: cards[0].location
-            };
-            this.game.raiseEvent('onCardsDiscarded', params, event => {
-                _.each(event.cards, card => {
-                    this.doSingleCardDiscard(card, allowSave);
-                });
-                this.game.queueSimpleStep(() => {
-                    callback(event.cards);
-                });
-            });
+    discardCards(cards, allowSave = true) {
+        _.each(cards, card => {
+            this.doSingleCardDiscard(card, allowSave);
         });
     }
 
@@ -1460,7 +1447,6 @@ class Player extends Spectator {
             } else if(event.card.isDynasty) {
                 this.moveCard(event.card, 'dynasty discard pile');
             }
-            return { resolved: true, success: true };
         });
     }
 
@@ -1668,34 +1654,7 @@ class Player extends Spectator {
         if(!province.allowGameAction('break')) {
             return;
         }
-        this.game.raiseEvent('onBreakProvince', { conflict: this.game.currentConflict, province: province }, () => {
-            province.breakProvince();
-            this.game.reapplyStateDependentEffects();
-            if(province.controller.opponent) {
-                this.game.addMessage('{0} has broken {1}!', province.controller.opponent, province);
-                if(province.location === 'stronghold province') {
-                    this.game.recordWinner(province.controller.opponent, 'conquest');
-                } else {
-                    let dynastyCard = province.controller.getDynastyCardInProvince(province.location);
-                    if(dynastyCard) {
-                        let promptTitle = 'Do you wish to discard ' + (dynastyCard.facedown ? 'the facedown card' : dynastyCard.name) + '?';
-                        this.game.promptWithHandlerMenu(province.controller.opponent, {
-                            activePromptTitle: promptTitle,
-                            source: 'Break ' + province.name,
-                            choices: ['Yes', 'No'],
-                            handlers: [
-                                () => {
-                                    this.game.addMessage('{0} chooses to discard {1}', province.controller.opponent, dynastyCard.facedown ? 'the facedown card' : dynastyCard);
-                                    province.controller.moveCard(dynastyCard, 'dynasty discard pile');
-                                },
-                                () => this.game.addMessage('{0} chooses not to discard {1}', province.controller.opponent, dynastyCard.facedown ? 'the facedown card' : dynastyCard)
-                            ]
-                        });
-                    }
-                }
-            }
-            return { resolved: true, success: true };
-        });
+        this.game.raiseEvent('onBreakProvince', { conflict: this.game.currentConflict, province: province }, () => province.breakProvince());
     }
 
     /**
@@ -1704,9 +1663,7 @@ class Player extends Spectator {
      * @param {EffectSource} source
      */
     honorCard(card, source) {
-        this.game.raiseEvent('onCardHonored', { player: this, card: card, source: source }, () => {
-            return { resolved: true, success: card.honor() };
-        });
+        this.game.raiseEvent('onCardHonored', { player: this, card: card, source: source, gameAction: 'honor' }, () => card.honor());
     }
 
     /**
@@ -1715,9 +1672,7 @@ class Player extends Spectator {
      * @param {EffectSource} source
      */
     dishonorCard(card, source) {
-        this.game.raiseEvent('onCardDishonored', { player: this, card: card, source: source }, () => {
-            return { resolved: true, result: card.dishonor() };
-        });
+        this.game.raiseEvent('onCardDishonored', { player: this, card: card, source: source, gameAction: 'dishonor' }, () => card.dishonor());
     }
 
     /**
@@ -1729,12 +1684,14 @@ class Player extends Spectator {
         if(card.bowed) {
             return;
         }
-
-        this.game.applyGameAction('bow', card, card => {
-            card.bowed = true;
-
-            this.game.raiseEvent('onCardBowed', { player: this, card: card, source: source });
-        });
+        
+        card.bowed = true;
+        // TODO: this is a workaround to stop Ready For Battle from breaking
+        let params = { player: this, card: card };
+        if(source) {
+            params.context = { source: source };
+        }
+        this.game.raiseEvent('onCardBowed', params);
     }
 
     /**
@@ -1756,11 +1713,8 @@ class Player extends Spectator {
             return;
         }
 
-        this.game.applyGameAction('ready', card, card => {
-            card.bowed = false;
-
-            this.game.raiseEvent('onCardStood', { player: this, card: card, source: source });
-        });
+        card.bowed = false;
+        this.game.raiseEvent('onCardReadied', { player: this, card: card, source: source });
     }
 
     /**
@@ -1917,6 +1871,7 @@ class Player extends Spectator {
             waitingPromptTitle: 'Waiting for opponent to discard characters with no fate',
             cardCondition: card => cardsToDiscard.includes(card),
             cardType: 'character',
+            buttons: [{ text: 'Done', arg: 'cancel' }],
             onSelect: (player, card) => {
                 player.discardCardFromPlay(card);
                 this.game.queueSimpleStep(() => player.discardCharactersWithNoFate(_.reject(cardsToDiscard, c => c === card)));
