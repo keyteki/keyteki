@@ -11,10 +11,10 @@ const defaultRole = 'seeker-of-water';
 const defaultStronghold = 'city-of-the-open-hand';
 const minProvince = 5;
 const provinceFiller = 'shameful-display';
-const minDynasty = 8;
 const dynastyFiller = 'adept-of-the-waves';
-const minConflict = 10;
 const conflictFiller = 'supernatural-storm';
+const dynastyBuffer = 8; // buffer decks to prevent re-shuffling
+const conflictBuffer = 8; // buffer decks to prevent re-shuffling
 
 class DeckBuilder {
     constructor() {
@@ -102,8 +102,8 @@ class DeckBuilder {
                 dynastyDeck.push(...province.dynastyCards);
             }
         });
-        //Fill the deck up to minimum
-        while(dynastyDeck.length < minDynasty) {
+        //Add cards to prevent reshuffling due to running out of cards
+        for(let i = 0; i < dynastyBuffer; i++) {
             dynastyDeck.push(dynastyFiller);
         }
         /**
@@ -119,8 +119,8 @@ class DeckBuilder {
         if(player.hand) {
             conflictDeck.push(...player.hand);
         }
-        //Fill the deck up to minimum
-        while(conflictDeck.length < minConflict) {
+        //Add cards to prevent reshuffling due to running out of cards
+        for(let i = 0; i < conflictBuffer; i++) {
             conflictDeck.push(conflictFiller);
         }
 
