@@ -33,12 +33,12 @@ class PlayCharacterAction extends BaseAbility {
         let cardPlayedEvent = {
             name: 'onCardPlayed',
             params: { player: context.player, card: context.source, originalLocation: context.source.location }
-        }
+        };
         let putIntoPlayHandler = () => {
             context.game.addMessage('{0} plays {1} at home with {2} additional fate', context.player, context.source, context.source.fate);
             let event = context.game.applyGameAction(context, { putIntoPlay: context.source }, [cardPlayedEvent])[0];
             event.fate = context.chooseFate;
-        }
+        };
         if(context.source.allowGameAction('putIntoConflict', context)) {
             context.game.promptWithHandlerMenu(context.player, {
                 activePromptTitle: 'Where do you wish to play this character?',
