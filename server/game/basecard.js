@@ -263,6 +263,9 @@ class BaseCard extends EffectSource {
         }
 
         if(originalLocation !== targetLocation) {
+            if(targetLocation === 'play area') {
+                this.applyPersistentEffects();
+            }
             this.game.raiseEvent('onCardMoved', { card: this, originalLocation: originalLocation, newLocation: targetLocation });
         }
     }

@@ -14,15 +14,12 @@ class CavalryReserves extends DrawCard {
                 numCards: 0,
                 multiSelect: true,
                 cardType: 'character',
-                cardCondition: card => {
-                    return (card.hasTrait('cavalry') && !card.facedown &&
-                            card.location === 'dynasty discard pile' &&
-                            this.controller.canPutIntoPlay(card, true));
-                }
+                gameAction: 'putIntoConflict',
+                cardCondition: card => card.hasTrait('cavalry') && card.location === 'dynasty discard pile'
             },
             handler: context => {
                 this.game.addMessage('{0} plays {1}, putting {2} into the conflict', this.controller, this, context.target);
-                _.each(context.target, card => this.controller.putIntoPlay(card, true));
+                this.game.applyGameAction(context, { putIntoConflict: context.target });
             }
         });
     }

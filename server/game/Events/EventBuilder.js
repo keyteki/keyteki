@@ -3,13 +3,15 @@ const _ = require('underscore');
 const Event = require('./Event');
 const InitiateCardAbilityEvent = require('./InitiateCardAbilityEvent');
 const LeavesPlayEvent = require('./LeavesPlayEvent');
+const EntersPlayEvent = require('./EntersPlayEvent');
 const RemoveFateEvent = require('./RemoveFateEvent');
 
 const NameToEvent = {
     default: (name, params, handler) => new Event(name, params, handler),
     onCardAbilityInitiated: (name, params, handler) => new InitiateCardAbilityEvent(params, handler),
     onCardLeavesPlay: (name, params) => new LeavesPlayEvent(params),
-    onCardRemoveFate: (name, params) => new RemoveFateEvent(params)
+    onCardRemoveFate: (name, params) => new RemoveFateEvent(params),
+    onCardEntersPlay: (name, params) => new EntersPlayEvent(params)
 };
 
 const ActionToEvent = {
@@ -31,7 +33,9 @@ const ActionToEvent = {
     returnToHand: (card, context) => new LeavesPlayEvent({ card: card, context: context, destination: 'hand' }),
     sacrifice: (card, context) => new LeavesPlayEvent({ card: card, context: context, isSacrifice: true }),
     takeControl: (card, context) => new Event('onCardTakenControl', { card: card, context: context, gameAction: 'takeControl' }, () => context.game.takeControl(context.player, card)),
-    placeFate: (card, context) => new Event('onCardFateAdded', { card: card, context: context, gameAction: 'placeFate' }, () => card.fate++)
+    placeFate: (card, context) => new Event('onCardFateAdded', { card: card, context: context, gameAction: 'placeFate' }, () => card.fate++),
+    putIntoPlay: (card, context) => new EntersPlayEvent({ card: card, context: context }),
+    putIntoConflict: (card, context) => new EntersPlayEvent({ card: card, context: context, intoConflict: true })
 };
 
 const ActionToConditionalEvents = {

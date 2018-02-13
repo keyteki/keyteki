@@ -8,14 +8,15 @@ class ShosuroActress extends DrawCard {
             condition: () => this.game.currentConflict,
             target: {
                 cardType: 'character',
+                gameAction: 'putIntoConflict',
                 cardCondition: card => {
                     return (card.owner !== this.controller && card.location.includes('discard pile') && 
-                            card.getCost() < 4 && !card.hasTrait('shinobi') && this.controller.canPutIntoPlay(card, true));
+                            card.getCost() < 4 && !card.hasTrait('shinobi'));
                 }
             },
             handler: context => {
                 this.game.addMessage('{0} sacrifices {1} to put {2} into play under their control', context.cardStateWhenInitiated.controller, this, context.target);
-                context.player.putIntoPlay(context.target, true);
+                this.game.applyGameAction(context, { putIntoConflict: context.target });
             }
         });
     }
