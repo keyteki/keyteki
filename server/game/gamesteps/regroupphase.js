@@ -64,6 +64,7 @@ class RegroupPhase extends Phase {
                 source: 'Discard Dynasty Cards',
                 numCards: 0,
                 multiSelect: true,
+                optional: true,
                 activePromptTitle: 'Select dynasty cards to discard',
                 waitingPromptTitle: 'Waiting for opponent to discard dynasty cards',
                 cardCondition: card => cardsOnUnbrokenProvinces.includes(card),
