@@ -12,7 +12,9 @@ class EntersPlayEvent extends Event {
         if(this.fate) {
             this.card.fate = this.fate;
         }
-        this.context.player.moveCard(this.card, 'play area');
+        if(this.card.type === 'character') {
+            this.context.player.moveCard(this.card, 'play area');
+        }
         this.card.controller = this.context.player;
 
         if(this.intoConflict) {
