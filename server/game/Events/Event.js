@@ -43,6 +43,7 @@ class Event {
         }
         if(this.card && this.gameAction && !this.card.allowGameAction(this.gameAction, this.context)) {
             this.cancel();
+            return;
         }
         if(!this.condition()) {
             this.cancel();
@@ -58,6 +59,21 @@ class Event {
 
     replaceHandler(newHandler) {
         this.handler = newHandler;
+    }
+
+    addThenEvent(event) {
+        this.thenEvents.push(event);
+        event.parentEvent = this;
+    }
+
+    addThenGameAction(context, actions) {
+        let events = [];
+        _.each(actions, (cards, action) => {
+            events = events.concat(context.game.getEventsForGameAction(action, cards, context));
+        });
+        this.thenEvents = this.thenEvents.concat(events);
+        _.each(events, event => event.parentEvent = this);
+        return events;
     }
 }
 
