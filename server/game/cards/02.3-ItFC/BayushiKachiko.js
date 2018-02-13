@@ -14,7 +14,7 @@ class BayushiKachiko extends DrawCard {
                 this.game.addMessage('{0} uses {1} to send {2} home', this.controller, this, context.target);
                 let sendHomeEvent = this.game.applyGameAction(context, { sendHome: context.target })[0];
                 let menuEvent = this.game.addEventToWindow(sendHomeEvent.window, 'menuEvent', { order: sendHomeEvent.order + 1 }, event => {
-                    if (!context.target.allowGameAction('bow', context) || !sendHomeEvent.success) {
+                    if(!context.target.allowGameAction('bow', context) || !sendHomeEvent.success) {
                         event.success = false;
                         return;
                     }
