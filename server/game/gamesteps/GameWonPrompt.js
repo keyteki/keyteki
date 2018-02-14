@@ -1,4 +1,4 @@
-const AllPlayerPrompt = require('./AllPlayerPrompt');
+const AllPlayerPrompt = require('./allplayerprompt');
 
 class GameWonPrompt extends AllPlayerPrompt {
     constructor(game, winner) {
