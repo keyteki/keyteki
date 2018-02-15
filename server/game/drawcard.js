@@ -116,7 +116,7 @@ class DrawCard extends BaseCard {
     allowGameAction(actionType, context = null) {
         if(actionType === 'dishonor') {
             if(this.location !== 'play area' || this.type !== 'character' || this.isDishonored || 
-               (!super.allowGameAction('becomeDishonored', context) && !this.isHonored))) {
+               (!super.allowGameAction('becomeDishonored', context) && !this.isHonored)) {
                 return false;
             }
         } else if(actionType === 'honor' && (this.location !== 'play area' || this.type !== 'character' || this.isHonored)) {
