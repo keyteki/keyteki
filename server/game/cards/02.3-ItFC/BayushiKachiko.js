@@ -14,8 +14,8 @@ class BayushiKachiko extends DrawCard {
                 this.game.addMessage('{0} uses {1} to send {2} home', this.controller, this, context.target);
                 let sendHomeEvent = this.game.applyGameAction(context, { sendHome: context.target })[0];
                 let menuEvent = this.game.addEventToWindow(sendHomeEvent.window, 'menuEvent', { order: sendHomeEvent.order + 1 }, event => {
-                    if(!context.target.allowGameAction('bow', context) || !sendHomeEvent.success) {
-                        event.success = false;
+                    if(!context.target.allowGameAction('bow', context) || sendHomeEvent.cancelled) {
+                        event.cancelThenEvents();
                         return;
                     }
                     this.game.promptWithHandlerMenu(context.player, {
@@ -24,7 +24,7 @@ class BayushiKachiko extends DrawCard {
                         choices: ['Yes', 'No'],
                         handlers: [
                             () => context.game.addMessage('{0} chooses to bow {1} using {2}', context.player, context.target, context.source),
-                            () => event.success = false
+                            () => event.cancelThenEvents()
                         ]
                     });
                 });
