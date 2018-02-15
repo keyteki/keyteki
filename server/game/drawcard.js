@@ -115,14 +115,15 @@ class DrawCard extends BaseCard {
     
     allowGameAction(actionType, context = null) {
         if(actionType === 'dishonor') {
-            if(this.isDishonored || (!super.allowGameAction('becomeDishonored', context) && !this.isHonored)) {
+            if(this.location !== 'play area' || this.type !== 'character' || this.isDishonored || 
+               (!super.allowGameAction('becomeDishonored', context) && !this.isHonored))) {
                 return false;
             }
-        } else if(actionType === 'honor' && this.isHonored) {
+        } else if(actionType === 'honor' && (this.location !== 'play area' || this.type !== 'character' || this.isHonored)) {
             return false;
-        } else if(actionType === 'bow' && this.bowed) {
+        } else if(actionType === 'bow' && (this.location !== 'play area' || this.bowed)) {
             return false;
-        } else if(actionType === 'ready' && !this.bowed) {
+        } else if(actionType === 'ready' && (this.location !== 'play area' || !this.bowed)) {
             return false;
         } else if(actionType === 'moveToConflict') {
             if(!this.game.currentConflict || this.isParticipating()) {
