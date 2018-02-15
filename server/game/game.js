@@ -1396,8 +1396,6 @@ class Game extends EventEmitter {
                 card.inConflict = false;
                 player.bowCard(card);
             }
-            card.applyPersistentEffects();
-            this.currentConflict.calculateSkill();
         } else if(card.isAttacking()) {
             this.currentConflict.attackers = _.reject(this.currentConflict.attackers, c => c === card);
             if(card.canParticipateAsDefender(this.currentConflict.conflictType)) {
@@ -1407,11 +1405,8 @@ class Game extends EventEmitter {
                 card.inConflict = false;
                 player.bowCard(card);
             }
-            card.applyPersistentEffects();
-            this.currentConflict.calculateSkill();
-        } else {
-            card.applyPersistentEffects();
         }
+        this.reapplyStateDependentEffects();
         this.raiseEvent('onCardTakenControl', { card: card });
     }
 
