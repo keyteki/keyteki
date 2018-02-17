@@ -140,7 +140,9 @@ class DrawCard extends BaseCard {
             return false;
         } else if(actionType === 'removeFate' && (this.location !== 'play area' || this.fate === 0)) {
             return false;
-        } else if(['discardFromPlay', 'returnToHand', 'sacrifice', 'returnToDeck', 'placeFate', 'takeControl'].includes(actionType) && this.location !== 'play area') {
+        } else if(actionType === 'sacrifice' && ['character', 'attachment'].includes(this.type) && this.location !== 'play area') {
+            return false;
+        } else if(['discardFromPlay', 'returnToHand', 'returnToDeck', 'takeControl'].includes(actionType) && this.location !== 'play area') {
             return false;
         }
         return super.allowGameAction(actionType, context);
