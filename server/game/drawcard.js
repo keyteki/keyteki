@@ -138,6 +138,10 @@ class DrawCard extends BaseCard {
             }
         } else if(actionType === 'sendHome' && !this.isParticipating()) {
             return false;
+        } else if(actionType === 'removeFate' && (this.location !== 'play area' || this.fate === 0)) {
+            return false;
+        } else if(['discardFromPlay', 'returnToHand', 'sacrifice', 'returnToDeck', 'placeFate', 'takeControl'].includes(actionType) && this.location !== 'play area') {
+            return false;
         }
         return super.allowGameAction(actionType, context);
     }
