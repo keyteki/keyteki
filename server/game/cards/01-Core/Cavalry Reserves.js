@@ -14,7 +14,7 @@ class CavalryReserves extends DrawCard {
                 multiSelect: true,
                 cardType: 'character',
                 gameAction: 'putIntoConflict',
-                cardCondition: card => card.hasTrait('cavalry') && card.location === 'dynasty discard pile'
+                cardCondition: card => card.hasTrait('cavalry') && card.location === 'dynasty discard pile' && card.controller === this.controller
             },
             handler: context => {
                 this.game.addMessage('{0} plays {1}, putting {2} into the conflict', this.controller, this, context.target);
