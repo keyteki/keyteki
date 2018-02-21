@@ -47,7 +47,7 @@ class Event {
             this.cancel();
             return;
         }
-        if(!this.condition()) {
+        if(!this.condition(this)) {
             this.cancel();
         }
     }

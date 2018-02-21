@@ -336,23 +336,25 @@ class ConflictFlow extends BaseStepWithPipeline {
             return;
         }
 
-        let cards = this.conflict.attackers.concat(this.conflict.defenders);
-        
-        let events = _.map(cards, card => {
-            return {
-                name: 'onReturnHome',
-                params: {
-                    card: card,
-                    conflict: this.conflict,
-                    bowedPreReturn: card.bowed
-                },
-                handler: () => card.returnHomeFromConflict()
-            };
-        });
-        this.game.raiseMultipleEvents(events, {
+        // Create bow events for attackers
+        let attackerBowEvents = this.game.getEventsForGameAction('bow', this.conflict.attackers);
+        // Cancel any events where attacker shouldn't bow
+        _.each(attackerBowEvents, event => event.cancelled = event.card.conflictOptions.doesNotBowAs['attacker']);
+
+        // Create bow events for defenders
+        let defenderBowEvents = this.game.getEventsForGameAction('bow', this.conflict.defenders);
+        // Cancel any events where defender shouldn't bow
+        _.each(defenderBowEvents, event => event.cancelled = event.card.conflictOptions.doesNotBowAs['defender']);
+
+        let bowEvents = attackerBowEvents.concat(defenderBowEvents);
+
+        // Create a return home event for every bow event
+        let returnHomeEvents = _.map(bowEvents, event => this.game.getEvent('onReturnHome', { conflict: this.conflict, bowEvent: event }, () => this.conflict.removeFromConflict(event.card)));
+
+        this.game.raiseMultipleEvents(bowEvents.concat(returnHomeEvents), {
             name: 'onParticipantsReturnHome', 
-            params: { 
-                cards: cards, 
+            params: {
+                returnHomeEvents: returnHomeEvents, 
                 conflict: this.conflict
             }
         });
