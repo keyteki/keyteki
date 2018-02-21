@@ -10,7 +10,7 @@ class Kamayari extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to bow {2}', this.controller, this, context.event.card);
-                this.controller.bowCard(context.event.card, context.source);
+                this.game.applyGameAction(context, { bow: context.target });
             }
         });
     }

@@ -14,7 +14,7 @@ class RiotInTheStreets extends ProvinceCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to bow {2}', this.controller, this, context.target);
-                this.controller.bowCard(context.target, context.source);
+                this.game.applyGameAction(context, { bow: context.target });
             }
         });
     }
