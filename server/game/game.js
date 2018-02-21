@@ -247,6 +247,10 @@ class Game extends EventEmitter {
         return foundCards;
     }
 
+    getTargetsForEffect(match) {
+        return this.findAnyCardsInPlay(match).concat(this.provinceCards);
+    }
+
     /*
      * Adds a persistent/lasting/delayed effect to the effect engine
      * @param {BaseCard} source - card generating the effect
@@ -1072,6 +1076,7 @@ class Game extends EventEmitter {
         this.allCards = _(_.reduce(this.getPlayers(), (cards, player) => {
             return cards.concat(player.preparedDeck.allCards);
         }, []));
+        this.provinceCards = this.allCards.find(card => card.isProvince);
 
         if(playerWithNoStronghold) {
             this.addMessage('{0} does not have a stronghold in their decklist', playerWithNoStronghold);
