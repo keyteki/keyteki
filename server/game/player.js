@@ -1654,7 +1654,7 @@ class Player extends Spectator {
         if(!province.allowGameAction('break')) {
             return;
         }
-        this.game.raiseEvent('onBreakProvince', { conflict: this.game.currentConflict, province: province }, () => province.breakProvince());
+        this.game.raiseEvent('onBreakProvince', { conflict: this.game.currentConflict, card: province }, () => province.breakProvince());
     }
 
     /**
