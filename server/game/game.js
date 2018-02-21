@@ -1314,6 +1314,9 @@ class Game extends EventEmitter {
     }
 
     getEventsForGameAction(action, cards, context) {
+        if(!context) {
+            context = new AbilityContext({ game: this });
+        }
         return EventBuilder.getEventsForAction(action, cards, context);
     }
 
