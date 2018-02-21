@@ -25,7 +25,7 @@ class WaterRingEffect extends BaseAbility {
             context.player.readyCard(context.target, context.source);
         } else {
             context.game.addMessage('{0} resolves the {1} ring, bowing {2}', context.player, 'water', context.target);
-            context.player.bowCard(context.target, context.source);            
+            context.game.applyGameAction(context, { bow: context.target });
         }
     }
 

@@ -13,8 +13,8 @@ class DojiGiftGiver extends DrawCard {
                 cardCondition: card => card.isParticipating() && card.controller !== this.controller
             },
             handler: context => {
-                this.game.addMessage('{0} uses {1} to give 1 fate to {2}, forcing them to bow {3}', this.controller, this, this.controller.opponent, context.target);
-                this.controller.opponent.bowCard(context.target, context.source);
+                this.game.addMessage('{0} uses {1} to give 1 fate to {2}, forcing them to bow {3}', context.player, this, context.player.opponent, context.target);
+                this.game.applyGameAction(context, { bow: context.target });
             }
         });
     }
