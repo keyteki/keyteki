@@ -34,8 +34,8 @@ const ActionToEvent = {
     sacrifice: (card, context) => new LeavesPlayEvent({ card: card, context: context, isSacrifice: true }),
     takeControl: (card, context) => new Event('onCardTakenControl', { card: card, context: context, gameAction: 'takeControl' }, () => context.game.takeControl(context.player, card)),
     placeFate: (card, context) => new Event('onCardFateAdded', { card: card, context: context, gameAction: 'placeFate' }, () => card.fate++),
-    putIntoPlay: (card, context) => new EntersPlayEvent({ card: card, context: context }),
-    putIntoConflict: (card, context) => new EntersPlayEvent({ card: card, context: context, intoConflict: true })
+    putIntoPlay: card => new EntersPlayEvent({}, card),
+    putIntoConflict: card => new EntersPlayEvent({ intoConflict: true }, card)
 };
 
 const ActionToConditionalEvents = {
