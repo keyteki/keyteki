@@ -1215,6 +1215,10 @@ class Game extends EventEmitter {
         }
     }
 
+    getEvent(eventName, params, handler) {
+        return EventBuilder.for(eventName, params, handler);
+    }
+
     /*
      * Creates a game Event, and opens a window for it.
      * @param {String} eventName
@@ -1224,7 +1228,7 @@ class Game extends EventEmitter {
      * tell whether or not the handler resolved successfully
      */
     raiseEvent(eventName, params = {}, handler) {
-        let event = EventBuilder.for(eventName, params, handler);
+        let event = this.getEvent(eventName, params, handler);
         this.openEventWindow([event]);
         return event;
     }
@@ -1308,6 +1312,10 @@ class Game extends EventEmitter {
         return events;
     }
 
+    getEventsForGameAction(action, cards, context) {
+        return EventBuilder.getEventsForAction(action, cards, context);
+    }
+
     /*
      * Checks whether a game action can be performed on a card or an array of
      * cards, and performs it on all legal targets.
@@ -1319,7 +1327,7 @@ class Game extends EventEmitter {
     applyGameAction(context, actions, additionalEventProps = []) {
         let events = additionalEventProps.map(event => EventBuilder.for(event.name || 'unnamedEvent', event.params, event.handler));
         _.each(actions, (cards, action) => {
-            events = events.concat(EventBuilder.getEventsForAction(action, cards, context));
+            events = events.concat(this.getEventsForGameAction(action, cards, context));
         });
         this.openEventWindow(events);
         return events;
