@@ -14,7 +14,7 @@ class KeeperInitiate extends DrawCard {
             handler: context => {
                 this.game.addMessage('{0} puts {1} into play from their {2}', this.controller, this, this.location === 'dynasty discard pile' ? 'discard pile' : 'province');
                 let event = this.game.applyGameAction(context, { putIntoPlay: this });
-                event.fate = 1; // TODO: Change this to a true thenEvent
+                event.addThenGameAction(context, { placeFate: this });
             }
         });
     }
