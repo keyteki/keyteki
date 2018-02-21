@@ -5,7 +5,7 @@ class BeforeTheThrone extends ProvinceCard {
         this.interrupt({
             title: 'Take 2 honor',
             when: {
-                onBreakProvince: event => event.province === this
+                onBreakProvince: event => event.card === this
             },
             handler: () => {
                 this.game.addMessage('{0} uses {1} to take 2 honor', this.controller, this);

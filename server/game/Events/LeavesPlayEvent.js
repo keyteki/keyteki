@@ -2,9 +2,10 @@ const Event = require('./Event.js');
 const RemoveFateEvent = require('./RemoveFateEvent.js');
 
 class LeavesPlayEvent extends Event {
-    constructor(params) {
+    constructor(params, card) {
         super('onCardLeavesPlay', params);
         this.handler = this.leavesPlay;
+        this.card = card;
 
         if(!this.destination) {
             this.destination = this.card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile';
@@ -15,7 +16,7 @@ class LeavesPlayEvent extends Event {
                                    ['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(this.card.location));
         }
 
-        if(this.isSacrifice) {
+        if(params.isSacrifice) {
             this.gameAction = 'sacrifice';
         } else if(this.destination.includes('discard pile')) {
             this.gameAction = 'discardFromPlay';

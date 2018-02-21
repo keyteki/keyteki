@@ -5,7 +5,7 @@ class TheArtOfWar extends ProvinceCard {
         this.interrupt({
             title: 'Draw 3 cards',
             when: {
-                onBreakProvince: event => event.province === this
+                onBreakProvince: event => event.card === this
             },
             handler: () => {
                 this.game.addMessage('{0} uses {1} to draw 3 cards', this.controller, this);
