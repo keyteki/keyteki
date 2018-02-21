@@ -21,7 +21,7 @@ class ThenEventWindow extends EventWindow {
     }
 
     filterUnsuccessfulEvents() {
-        this.events = _.filter(this.events, event => event.parentEvent.isSuccessful());
+        this.events = _.reject(this.events, event => event.cancelled || event.parentEvent.cancelled);
     }
 }
 

@@ -9,7 +9,8 @@ describe('Bayushi Kachiko', function() {
                     inPlay: ['bayushi-kachiko']
                 },
                 player2: {
-                    inPlay: ['shrewd-yasuki', 'borderlands-defender']
+                    inPlay: ['shrewd-yasuki', 'borderlands-defender'],
+                    hand: ['ready-for-battle']
                 }
             });
             this.noMoreActions();
@@ -46,6 +47,13 @@ describe('Bayushi Kachiko', function() {
                 this.shrewdYasuki = this.player1.clickCard('shrewd-yasuki', 'any', 'opponent');
                 this.player1.clickPrompt('Yes');
                 expect(this.shrewdYasuki.bowed).toBe(true);
+            });
+
+            it('should allow the target\'s controller to play relevant reactions', function() {
+                this.shrewdYasuki = this.player1.clickCard('shrewd-yasuki', 'any', 'opponent');
+                this.player1.clickPrompt('Yes');
+                expect(this.player2).toHavePrompt('Triggered Abilities');
+                expect(this.player2).toBeAbleToSelect('ready-for-battle');
             });
 
             it('should not bow the target if No is selected', function() {

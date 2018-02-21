@@ -5,7 +5,7 @@ class TheArtOfPeace extends ProvinceCard {
         this.interrupt({
             title: 'Honor all defenders and dishonor all attackers',
             when: {
-                onBreakProvince: event => event.province === this && (event.conflict.attackers.length > 0 || event.conflict.defenders.length > 0)
+                onBreakProvince: event => event.card === this && (event.conflict.attackers.length > 0 || event.conflict.defenders.length > 0)
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to dishonor all attackers and honor all defenders in this conflict', this.controller, this);

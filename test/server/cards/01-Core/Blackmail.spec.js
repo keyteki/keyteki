@@ -153,5 +153,34 @@ describe('Blackmail', function() {
                 expect(this.player2).toHavePrompt('Choose a character');
             });
         });
+
+        describe('A character with a constant abilitiy', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    phase: 'conflict',
+                    player1: {
+                        honor: 11,
+                        inPlay: ['yogo-outcast'],
+                    },
+                    player2: {
+                        honor: 10,
+                        hand: ['blackmail']
+                    }
+                });
+                this.yogoOutcast = this.player1.findCardByName('yogo-outcast');
+                this.noMoreActions();
+                this.initiateConflict({
+                    type: 'political',
+                    attackers: ['yogo-outcast'],
+                    defenders: []
+                });
+                this.player2.clickCard('blackmail');
+                this.player2.clickCard(this.yogoOutcast);
+            });
+
+            it('should only have one instance of the constant ability in effect', function() {
+                expect(this.yogoOutcast.getPoliticalSkill()).toBe(3);
+            });
+        });    
     });
 });

@@ -21,6 +21,7 @@ const MenuPrompt = require('./gamesteps/menuprompt.js');
 const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 const SelectRingPrompt = require('./gamesteps/selectringprompt.js');
+const GameWonPrompt = require('./gamesteps/GameWonPrompt');
 const EventBuilder = require('./Events/EventBuilder.js');
 const EventWindow = require('./Events/EventWindow.js');
 const ThenEventWindow = require('./Events/ThenEventWindow.js');
@@ -245,6 +246,10 @@ class Game extends EventEmitter {
         });
 
         return foundCards;
+    }
+
+    getTargetsForEffect(match) {
+        return this.findAnyCardsInPlay(match).concat(this.provinceCards);
     }
 
     /*
@@ -773,6 +778,8 @@ class Game extends EventEmitter {
         this.winReason = reason;
 
         this.router.gameWon(this, reason, winner);
+
+        this.queueStep(new GameWonPrompt(this, winner));
     }
 
     /*
@@ -1070,6 +1077,7 @@ class Game extends EventEmitter {
         this.allCards = _(_.reduce(this.getPlayers(), (cards, player) => {
             return cards.concat(player.preparedDeck.allCards);
         }, []));
+        this.provinceCards = this.allCards.find(card => card.isProvince);
 
         if(playerWithNoStronghold) {
             this.addMessage('{0} does not have a stronghold in their decklist', playerWithNoStronghold);
@@ -1208,6 +1216,10 @@ class Game extends EventEmitter {
         }
     }
 
+    getEvent(eventName, params, handler) {
+        return EventBuilder.for(eventName, params, handler);
+    }
+
     /*
      * Creates a game Event, and opens a window for it.
      * @param {String} eventName
@@ -1217,7 +1229,7 @@ class Game extends EventEmitter {
      * tell whether or not the handler resolved successfully
      */
     raiseEvent(eventName, params = {}, handler) {
-        let event = EventBuilder.for(eventName, params, handler);
+        let event = this.getEvent(eventName, params, handler);
         this.openEventWindow([event]);
         return event;
     }
@@ -1301,6 +1313,10 @@ class Game extends EventEmitter {
         return events;
     }
 
+    getEventsForGameAction(action, cards, context) {
+        return EventBuilder.getEventsForAction(action, cards, context);
+    }
+
     /*
      * Checks whether a game action can be performed on a card or an array of
      * cards, and performs it on all legal targets.
@@ -1315,7 +1331,7 @@ class Game extends EventEmitter {
         }
         let events = additionalEventProps.map(event => EventBuilder.for(event.name || 'unnamedEvent', event.params, event.handler));
         _.each(actions, (cards, action) => {
-            events = events.concat(EventBuilder.getEventsForAction(action, cards, context));
+            events = events.concat(this.getEventsForGameAction(action, cards, context));
         });
         this.openEventWindow(events);
         return events;
@@ -1400,8 +1416,6 @@ class Game extends EventEmitter {
                 card.inConflict = false;
                 this.applyGameAction(null, { bow: card });
             }
-            card.applyPersistentEffects();
-            this.currentConflict.calculateSkill();
         } else if(card.isAttacking()) {
             this.currentConflict.attackers = _.reject(this.currentConflict.attackers, c => c === card);
             if(card.canParticipateAsDefender(this.currentConflict.conflictType)) {
@@ -1411,11 +1425,8 @@ class Game extends EventEmitter {
                 card.inConflict = false;
                 this.applyGameAction(null, { bow: card });
             }
-            card.applyPersistentEffects();
-            this.currentConflict.calculateSkill();
-        } else {
-            card.applyPersistentEffects();
         }
+        this.reapplyStateDependentEffects();
         this.raiseEvent('onCardTakenControl', { card: card });
     }
 

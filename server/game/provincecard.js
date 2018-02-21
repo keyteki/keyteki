@@ -47,6 +47,13 @@ class ProvinceCard extends BaseCard {
         this.facedown = false;
     }
 
+    allowGameAction(actiontype, context) {
+        if(actiontype === 'break' && this.isBroken) {
+            return false;
+        }
+        return super.allowGameAction(actiontype, context);
+    }
+
     breakProvince() {
         this.isBroken = true;
         this.game.reapplyStateDependentEffects();

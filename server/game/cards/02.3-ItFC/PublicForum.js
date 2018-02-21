@@ -5,7 +5,7 @@ class PublicForum extends ProvinceCard {
         this.interrupt({
             title: 'Prevent break and add Honor token',
             when: {
-                onBreakProvince: event => event.province === this && !event.province.hasToken('honor')
+                onBreakProvince: event => event.card === this && !event.province.hasToken('honor')
             },
             canCancel: true,
             handler: context => {
