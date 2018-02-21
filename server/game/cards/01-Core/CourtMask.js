@@ -4,19 +4,12 @@ class CourtMask extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Return court mask to hand',
-            handler: () => {
+            handler: context => {
                 this.game.addMessage('{0} returns {1} to their hand, dishonoring {2}', this.controller, this, this.parent);
-                let returnEvent = {
-                    name: 'onCardLeavesPlay',
-                    params: { card: this, destination: 'hand', source: this },
-                    handler: () => this.controller.returnCardToHand(this)
-                };
-                let dishonorEvent = {
-                    name: 'onCardDishonored',
-                    params: { player: this.controller, card: this.parent, source: this, gameAction: 'dishonor', order: -1 },
-                    handler: () => this.parent.dishonor()
-                };
-                this.game.raiseMultipleEvents([returnEvent, dishonorEvent]);
+                this.game.applyGameAction(context, {
+                    returnToHand: this,
+                    dishonor: this.parent
+                });
             }
         });
     }
