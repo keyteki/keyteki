@@ -21,6 +21,7 @@ const MenuPrompt = require('./gamesteps/menuprompt.js');
 const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 const SelectRingPrompt = require('./gamesteps/selectringprompt.js');
+const GameWonPrompt = require('./gamesteps/GameWonPrompt');
 const EventBuilder = require('./Events/EventBuilder.js');
 const EventWindow = require('./Events/EventWindow.js');
 const ThenEventWindow = require('./Events/ThenEventWindow.js');
@@ -772,6 +773,8 @@ class Game extends EventEmitter {
         this.winReason = reason;
 
         this.router.gameWon(this, reason, winner);
+
+        this.queueStep(new GameWonPrompt(this, winner));
     }
 
     /*
