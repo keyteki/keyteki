@@ -15,7 +15,7 @@ class ForShame extends DrawCard {
                     context.target.controller.dishonorCard(context.target, context.source);
                 } else if(!context.target.allowGameAction('dishonor', context)) {
                     this.game.addMessage('{0} uses {1} to bow {2}', context.player, this, context.target);
-                    context.target.controller.bowCard(context.target, context.source);                    
+                    this.game.applyGameAction(context, { bow: context.target });
                 } else {
                     this.game.promptWithHandlerMenu(context.target.controller, {
                         source: this,
@@ -28,7 +28,7 @@ class ForShame extends DrawCard {
                             },
                             () => {
                                 this.game.addMessage('{0} uses {1} to bow {2}', context.player, this, context.target);
-                                this.controller.bowCard(context.target, context.source);                                
+                                this.game.applyGameAction(context, { bow: context.target });
                             }
                         ]
                     });

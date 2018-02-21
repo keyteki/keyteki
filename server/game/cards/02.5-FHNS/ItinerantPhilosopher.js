@@ -13,7 +13,7 @@ class ItinerantPhilosopher extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} discards the Imperial Favor to use {1}, bowing {2}', this.controller, this, context.target);
-                this.controller.bowCard(context.target, this);
+                this.game.applyGameAction(context, { bow: context.target });
             }
         });
     }
