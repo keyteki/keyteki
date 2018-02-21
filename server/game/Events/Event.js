@@ -44,7 +44,7 @@ class Event {
         if(this.card && this.gameAction && !this.card.allowGameAction(this.gameAction, this.context)) {
             this.cancel();
         }
-        if(!this.condition()) {
+        if(!this.condition(this)) {
             this.cancel();
         }
     }

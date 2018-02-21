@@ -28,6 +28,7 @@ const InitiateAbilityEventWindow = require('./Events/InitiateAbilityEventWindow.
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const ForcedTriggeredAbilityWindow = require('./gamesteps/forcedtriggeredabilitywindow.js');
 const TriggeredAbilityWindow = require('./gamesteps/triggeredabilitywindow.js');
+const AbilityContext = require('./AbilityContext.js');
 const Ring = require('./ring.js');
 const Conflict = require('./conflict.js');
 const ConflictFlow = require('./gamesteps/conflict/conflictflow.js');
@@ -445,7 +446,7 @@ class Game extends EventEmitter {
                     player.readyCard(card);
                 } else {
                     this.addMessage('{0} bows {1}', player, card);
-                    player.bowCard(card);
+                    card.bow();
                 }
                 break;
             case 'honor':
@@ -1309,6 +1310,9 @@ class Game extends EventEmitter {
      * @returns {undefined}
      */
     applyGameAction(context, actions, additionalEventProps = []) {
+        if(!context) {
+            context = new AbilityContext({ game: this });
+        }
         let events = additionalEventProps.map(event => EventBuilder.for(event.name || 'unnamedEvent', event.params, event.handler));
         _.each(actions, (cards, action) => {
             events = events.concat(EventBuilder.getEventsForAction(action, cards, context));
@@ -1394,7 +1398,7 @@ class Game extends EventEmitter {
             } else {
                 this.addMessage('{0} cannot participate in the conflict any more and is sent home bowed', card);
                 card.inConflict = false;
-                player.bowCard(card);
+                this.applyGameAction(null, { bow: card });
             }
             card.applyPersistentEffects();
             this.currentConflict.calculateSkill();
@@ -1405,7 +1409,7 @@ class Game extends EventEmitter {
             } else {
                 this.addMessage('{0} cannot participate in the conflict any more and is sent home bowed', card);
                 card.inConflict = false;
-                player.bowCard(card);
+                this.applyGameAction(null, { bow: card });
             }
             card.applyPersistentEffects();
             this.currentConflict.calculateSkill();

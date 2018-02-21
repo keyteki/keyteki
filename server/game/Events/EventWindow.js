@@ -8,7 +8,11 @@ class EventWindow extends BaseStepWithPipeline {
         super(game);
 
         this.events = [];
-        _.each(events, event => this.addEvent(event));
+        _.each(events, event => {
+            if(!event.cancelled) {
+                this.addEvent(event);
+            }
+        });
 
         this.initialise();
     }
