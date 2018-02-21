@@ -80,7 +80,7 @@ describe('the DrawCard', function() {
                     this.card.location = 'province 1';
                     this.player.provinceOne = _([this.card]);
                     this.player.dynastyDeck = _([new DrawCard(this.player, {})]);
-                    this.player.putIntoPlay(this.card);
+                    this.player.moveCard(this.card, 'play area');
                     // Resolve events in pipeline.
                     this.game.continue();
                 });

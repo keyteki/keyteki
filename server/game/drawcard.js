@@ -138,6 +138,29 @@ class DrawCard extends BaseCard {
             }
         } else if(actionType === 'sendHome' && !this.isParticipating()) {
             return false;
+        } else if(actionType === 'putIntoConflict') {
+            // There is no current conflict, or no context (cards must be put into play by a player, not a framework event)
+            if(!this.game.currentConflict || !context || !this.allowGameAction('putIntoPlay', context)) {
+                return false;
+            }
+            // controller is attacking, and character can't attack, or controller is defending, and character can't defend
+            if((context.player.isAttackingPlayer() && !this.allowGameAction('participateAsAttacker')) || 
+                (context.player.isDefendingPlayer() && !this.allowGameAction('participateAsDefender'))) {
+                return false;
+            }
+            // card cannot participate in this conflict type
+            if(this.conflictOptions.cannotParticipateIn[this.game.currentConflict.conflictType]) {
+                return false;
+            }            
+        } else if(actionType === 'putIntoPlay' && this.isUnique()) {
+            if(this.game.allCards.any(card => (
+                card.location === 'play area' &&
+                card.name === this.name &&
+                ((card.owner === context.player || card.controller === context.player) || (card.owner === this.owner)) &&
+                card !== this
+            ))) {
+                return false;
+            }
         } else if(actionType === 'removeFate' && (this.location !== 'play area' || this.fate === 0)) {
             return false;
         } else if(actionType === 'sacrifice' && ['character', 'attachment'].includes(this.type) && this.location !== 'play area') {

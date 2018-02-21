@@ -17,17 +17,16 @@ class DuplicateUniqueAction extends BaseAbility {
             !source.facedown &&
             source.getType() === 'character' &&
             (player.isCardInPlayableLocation(context.source, 'dynasty') || player.isCardInPlayableLocation(context.source, 'play')) &&
-            !player.canPutIntoPlay(source) &&
+            player.getDuplicateInPlay(context.source) &&
             player.canInitiateAction
         );
     }
     
     executeHandler(context) {
-        let duplicate = context.player.getDuplicateInPlay(context.source);
-        duplicate.modifyFate(1);
-        
+        let duplicate = context.player.getDuplicateInPlay(context.source);        
         context.game.addMessage('{0} discards a duplicate to add 1 fate to {1}', context.player, context.source.name);
         context.player.moveCard(context.source, context.source.isDynasty ? 'dynasty discard pile' : 'conflict discard pile');
+        context.game.applyGameAction(context, { placeFate: duplicate });
     }
 }
 

@@ -96,7 +96,7 @@ describe('conflict phase', function() {
 
             it('should skip initiating a conflict when the first player has no units which can attack', function() {
                 this.spy = spyOn(this.game, 'addMessage');
-                this.player1.player.putIntoPlay(this.sinisterSoshi);
+                this.player1.putIntoPlay(this.sinisterSoshi);
                 this.noMoreActions();
 
                 expect(this.spy).toHaveBeenCalledWith('{0} passes their conflict opportunity as none of their characters can be declared as an attacker', this.player1.player);
@@ -145,8 +145,8 @@ describe('conflict phase', function() {
                 });
     
                 it('should not allow illegal attackers to be selected', function() {
-                    this.player1.player.putIntoPlay(this.sinisterSoshi);
-                    this.player1.player.putIntoPlay(this.doomedShugenja);
+                    this.player1.putIntoPlay(this.sinisterSoshi);
+                    this.player1.putIntoPlay(this.doomedShugenja);
                     this.doomedShugenja.bowed = true;
                     this.player1.clickRing('air');
 

@@ -175,7 +175,7 @@ describe('Calling In Favors', function() {
             describe('if Young Rumormonger is in play', function() {
                 beforeEach(function() {
                     this.youngRumormonger = this.player2.placeCardInProvince('young-rumormonger', 'province 1');
-                    this.player2.player.putIntoPlay(this.youngRumormonger);
+                    this.player2.putIntoPlay(this.youngRumormonger);
                     this.fineKatana = this.player1.playAttachment('fine-katana', 'adept-of-the-waves');
                     this.player2.clickCard('calling-in-favors', 'hand');
                     this.player2.clickCard(this.fineKatana);

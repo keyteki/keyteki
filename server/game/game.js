@@ -1327,7 +1327,7 @@ class Game extends EventEmitter {
     applyGameAction(context, actions, additionalEventProps = []) {
         let events = additionalEventProps.map(event => EventBuilder.for(event.name || 'unnamedEvent', event.params, event.handler));
         _.each(actions, (cards, action) => {
-            events = events.concat(this.getEventsForGameAction(action, cards, context));
+            events = this.getEventsForGameAction(action, cards, context).concat(events);
         });
         this.openEventWindow(events);
         return events;
@@ -1391,11 +1391,6 @@ class Game extends EventEmitter {
      */
     takeControl(player, card) {
         if(card.controller === player || !card.allowGameAction('takeControl')) {
-            return;
-        }
-
-        if(card.location !== 'play area') {
-            player.putIntoPlay(card);
             return;
         }
 
