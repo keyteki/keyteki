@@ -23,7 +23,7 @@ class MountaintopStatuary extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} sacrifices {1} to send {2} home', this.controller, this, context.target);
-                this.game.currentConflict.sendHome(context.target, this);
+                this.game.applyGameAction(context, { sendHome: context.target });
             }
         });
     }

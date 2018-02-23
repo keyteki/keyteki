@@ -8,14 +8,13 @@ class YogoHiroue extends DrawCard {
             target: {
                 cardType: 'character',
                 gameAction: 'moveToConflict',
-                cardCondition: card => card.location === 'play area' && !card.isParticipating()
             },
             methods: ['yogoHiroueDelayedEffect'],
             handler: context => {
                 this.game.addMessage('{0} uses {1} to move {2} into the conflict', this.controller, this, context.target);
                 this.events.register([{ afterConflict: 'yogoHiroueDelayedEffect' }]);
                 this.delayedEffectTarget = context.target;
-                this.game.currentConflict.moveToConflict(context.target);
+                this.game.applyGameAction(context, { moveToConflict: context.target });
             }
         });
     }

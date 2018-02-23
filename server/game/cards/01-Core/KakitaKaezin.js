@@ -15,18 +15,10 @@ class KakitaKaezin extends DrawCard {
                 this.game.initiateDuel(this, context.target, 'military', (winner, loser) => {
                     if(winner === this) {
                         this.game.addMessage('{0} wins the duel, and sends all characters except {0} and {1} home', winner, loser);
-                        let cards = this.game.allCards.filter(card => {
-                            return (card.type === 'character' &&
-                                    card.location === 'play area' &&
-                                    card.isParticipating() && 
-                                    card !== loser &&
-                                    card !== winner &&
-                                    card.allowGameAction('sendHome', context));
-                        });
-                        this.game.currentConflict.sendHome(cards);
+                        this.game.applyGameAction(context, { sendHome: this.game.allCards.filter(card => card !== loser && card !== winner && card.allowGameAction('sendHome', context)) });
                     } else {
                         this.game.addMessage('{0} wins the duel, and {1} is sent home', winner, loser);
-                        this.game.currentConflict.sendHome(loser);
+                        this.game.applyGameAction(context, { sendHome: loser });
                     }
                 });
             }

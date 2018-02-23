@@ -139,9 +139,11 @@ class ChatCommands {
                 numCards: 0,
                 multiSelect: true,
                 onSelect: (p, cards) => {
-                    //send home card
-                    this.game.currentConflict.moveToConflict(cards);
-
+                    if(p.isAttackingPlayer()) {
+                        this.game.currentConflict.addAttackers(cards);
+                    } else {
+                        this.game.currentConflict.addDefenders(cards);
+                    }
                     this.game.addMessage('{0} uses the /move-to-conflict command', p);
                     return true;
                 }
@@ -160,7 +162,7 @@ class ChatCommands {
                 cardType: 'character',
                 onSelect: (p, card) => {
                     //send home card
-                    this.game.currentConflict.sendHome(card);
+                    this.game.currentConflict.removeFromConflict(card);
 
                     this.game.addMessage('{0} uses the /send-home command to send {1} home', p, card);
                     return true;

@@ -8,7 +8,7 @@ class BayushiKachiko extends DrawCard {
             target: {
                 cardType: 'character',
                 gameAction: 'sendHome',
-                cardCondition: card => card.isParticipating() && card.getPoliticalSkill() < this.getPoliticalSkill()
+                cardCondition: card => card.getPoliticalSkill() < this.getPoliticalSkill()
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to send {2} home', this.controller, this, context.target);

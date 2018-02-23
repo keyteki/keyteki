@@ -10,7 +10,7 @@ class Outwit extends DrawCard {
             target: {
                 cardType: 'character',
                 gameAction: 'sendHome',
-                cardCondition: card => card.isParticipating() && card.controller !== this.controller && card.getPoliticalSkill() < _.max(this.controller.cardsInPlay.map(card => {
+                cardCondition: card => card.controller !== this.controller && card.getPoliticalSkill() < _.max(this.controller.cardsInPlay.map(card => {
                     if(card.hasTrait('courtier') && card.isParticipating()) {
                         return card.getPoliticalSkill();
                     }
@@ -19,7 +19,7 @@ class Outwit extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to send {2} home', this.controller, this, context.target);
-                this.game.currentConflict.sendHome(context.target);
+                this.game.applyGameAction(context, { sendHome: context.target });
             }
         });
     }
