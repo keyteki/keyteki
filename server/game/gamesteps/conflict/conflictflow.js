@@ -251,28 +251,16 @@ class ConflictFlow extends BaseStepWithPipeline {
         }
                 
         if(this.conflict.isAttackerTheWinner()) {
-            _.each(this.conflict.attackers, card => {
-                if(card.hasPride()) {
-                    this.conflict.attackingPlayer.honorCard(card);
-                }
-            });
-            _.each(this.conflict.defenders, card => {
-                if(card.hasPride()) {
-                    this.conflict.defendingPlayer.dishonorCard(card);
-                }
+            this.game.applyGameAction(null, { 
+                honor: _.filter(this.conflict.attackers, card => card.hasPride()),
+                dishonor: _.filter(this.conflict.defenders, card => card.hasPride())
             });
         } else if(this.conflict.winner === this.conflict.defendingPlayer) {
-            _.each(this.conflict.attackers, card => {
-                if(card.hasPride()) {
-                    this.conflict.attackingPlayer.dishonorCard(card);
-                }
+            this.game.applyGameAction(null, { 
+                dishonor: _.filter(this.conflict.attackers, card => card.hasPride()),
+                honor: _.filter(this.conflict.defenders, card => card.hasPride())
             });
-            _.each(this.conflict.defenders, card => {
-                if(card.hasPride()) {
-                    this.conflict.defendingPlayer.honorCard(card);
                 }
-            });
-        }
         
         this.game.raiseEvent('afterConflict', { conflict: this.conflict });
     }
