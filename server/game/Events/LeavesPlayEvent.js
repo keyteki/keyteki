@@ -11,11 +11,6 @@ class LeavesPlayEvent extends Event {
             this.destination = this.card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile';
         }
 
-        if(!this.condition) {
-            this.condition = () => this.card.location === 'play area' || (this.card.type === 'holding' && 
-                                   ['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(this.card.location));
-        }
-
         if(params.isSacrifice) {
             this.gameAction = 'sacrifice';
         } else if(this.destination.includes('discard pile')) {
@@ -23,6 +18,15 @@ class LeavesPlayEvent extends Event {
         } else if(this.destination === 'hand') {
             this.gameAction = 'returnToHand';
         }
+    }
+
+    checkCondition() {
+        if(this.card.location !== 'play area') {
+            if(this.card.type !== 'holding' || !['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(this.card.location)) {
+                this.cancel();
+            }
+        }
+        super.checkCondition();
     }
     
     createContingentEvents() {
@@ -34,7 +38,7 @@ class LeavesPlayEvent extends Event {
                 if(attachment.location === 'play area') {
                     let destination = attachment.isDynasty ? 'dynasty discard pile' : 'conflict discard pile';
                     destination = attachment.isAncestral() ? 'hand' : destination;
-                    let event = new LeavesPlayEvent({ card: attachment, destination: destination });
+                    let event = new LeavesPlayEvent({ destination: destination }, attachment);
                     event.order = this.order - 1;
                     contingentEvents.push(event);
                 }
