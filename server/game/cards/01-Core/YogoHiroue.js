@@ -7,7 +7,7 @@ class YogoHiroue extends DrawCard {
             condition: () => this.isParticipating(),
             target: {
                 cardType: 'character',
-                gameAction: 'moveToConflict',
+                gameAction: 'moveToConflict'
             },
             methods: ['yogoHiroueDelayedEffect'],
             handler: context => {
