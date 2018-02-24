@@ -2,9 +2,8 @@ const DrawCard = require('../../../server/game/drawcard.js');
 
 describe('DrawCard', function() {
     beforeEach(function() {
-        this.game = jasmine.createSpyObj('game', ['raiseEvent', 'addMessage']);
-        this.player = jasmine.createSpyObj('player', ['discardCardFromPlay']);
-        this.player.game = this.game;
+        this.game = jasmine.createSpyObj('game', ['raiseEvent', 'addMessage', 'applyGameAction']);
+        this.player = { game: this.game };
         this.card = new DrawCard(this.player, {});
         this.card.setBlank();
     });
@@ -28,7 +27,7 @@ describe('DrawCard', function() {
 
                 it('should not discard the attachment', function() {
                     this.card.clearBlank();
-                    expect(this.player.discardCardFromPlay).not.toHaveBeenCalled();
+                    expect(this.game.applyGameAction).not.toHaveBeenCalled();
                 });
             });
 
@@ -39,7 +38,7 @@ describe('DrawCard', function() {
 
                 it('should discard the attachment without allowing saves', function() {
                     this.card.clearBlank();
-                    expect(this.player.discardCardFromPlay).toHaveBeenCalledWith(this.attachment, false);
+                    expect(this.game.applyGameAction).toHaveBeenCalledWith(null, { discardFromPlay: [this.attachment] });
                 });
             });
         });

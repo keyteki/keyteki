@@ -594,12 +594,11 @@ class DrawCard extends BaseCard {
     }
     
     checkForIllegalAttachments() {
-        this.attachments.each(attachment => {
-            if(!this.allowAttachment(attachment) || !attachment.canAttach(this)) {
-                this.controller.discardCardFromPlay(attachment, false);
-                this.game.addMessage('{0} is discarded from {1} as it is no longer legally attached', attachment, this);
-            }
-        });
+        let illegalAttachments = this.attachments.reject(attachment => this.allowAttachment(attachment) && attachment.canAttach(this));
+        if(illegalAttachments.length > 0) {
+            this.game.addMessage('{0} {1} discarded from {2} as it is no longer legally attached', illegalAttachments, illegalAttachments.length > 1 ? 'are' : 'is', this);
+            this.game.applyGameAction(null, { discardFromPlay: illegalAttachments });
+        }
     }
 
     getActions() {

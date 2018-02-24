@@ -17,7 +17,7 @@ class MirumotoRaitsugu extends DrawCard {
                         loser.modifyFate(-1);
                     } else {
                         this.game.addMessage('{0} wins the duel, and {1} is discarded', winner, loser);
-                        loser.controller.discardCardFromPlay(loser);
+                        this.game.applyGameAction(context, { discardFromPlay: loser });
                     }
                 });
             }

@@ -1081,7 +1081,7 @@ class Player extends Spectator {
                     cardCondition: c => c.parent === card && c.isRestricted(),
                     onSelect: (player, card) => {
                         this.game.addMessage('{0} discards {1} from {2} due to too many Restricted attachments', player, card, card.parent);
-                        player.discardCardFromPlay(card);
+                        this.game.applyGameAction(null, { discardFromPlay: card });
                         return true;
                     },
                     source: 'Too many Restricted attachments'
@@ -1873,13 +1873,13 @@ class Player extends Spectator {
             cardType: 'character',
             buttons: [{ text: 'Done', arg: 'cancel' }],
             onSelect: (player, card) => {
-                player.discardCardFromPlay(card);
+                this.game.applyGameAction(null, { discardFromPlay: card });
                 this.game.queueSimpleStep(() => player.discardCharactersWithNoFate(_.reject(cardsToDiscard, c => c === card)));
                 return true;
             },
             onCancel: () => {
                 _.each(cardsToDiscard, character => {
-                    this.discardCardFromPlay(character);
+                    this.game.applyGameAction(null, { discardFromPlay: character });
                 });
                 return true;
             }

@@ -221,13 +221,13 @@ const Effects = {
         apply: function(card, context) {
             context.discardEvent = context.discardEvent || {};
             if(card.getPoliticalSkill() <= 0) {
-                context.discardEvent[card.uuid] = card.controller.discardCardFromPlay(card);
+                context.discardEvent[card.uuid] = context.game.applyGameAction(null, { discardFromPlay: card })[0];
                 context.game.addMessage('{0} is killed as their political skill is 0', card);
             }
         },
         reapply: function(card, context) {
             if(card.getPoliticalSkill() <= 0 && (!context.discardEvent[card.uuid] || context.discardEvent[card.uuid].cancelled)) {
-                context.discardEvent[card.uuid] = card.controller.discardCardFromPlay(card);
+                context.discardEvent[card.uuid] = context.game.applyGameAction(null, { discardFromPlay: card })[0];
                 context.game.addMessage('{0} is killed as their political skill is 0', card);
             }
         },
@@ -241,7 +241,7 @@ const Effects = {
     discardFromPlayEffect: function() {
         return {
             apply: function(card, context) {
-                card.controller.discardCardFromPlay(card);
+                context.game.applyGameAction(null, { discardFromPlay: card });
                 context.game.addMessage('{0} is discarded from play', card);
             },
             unapply: function() {
@@ -350,7 +350,7 @@ const Effects = {
             unapply: function(card, context) {
                 if(card.location === 'play area' && context.discardIfStillInPlay.includes(card) && condition()) {
                     context.discardIfStillInPlay = _.reject(context.discardIfStillInPlay, c => c === card);
-                    card.controller.discardCardFromPlay(card);
+                    context.game.applyGameAction(null, { discardFromPlay: card });
                     context.game.addMessage('{0} discards {1} at the end of the phase because of {2}', context.source.controller, card, context.source);
                 }
             }
