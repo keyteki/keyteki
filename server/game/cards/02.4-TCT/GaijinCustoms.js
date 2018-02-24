@@ -7,11 +7,12 @@ class GaijinCustoms extends DrawCard {
             condition: () => this.controller.anyCardsInPlay(card => card.isFaction('unicorn')) || this.controller.stronghold.isFaction('unicorn'),
             target: {
                 cardType: 'character',
-                cardCondition: (card) => card.location === 'play area' && !card.isFaction('unicorn') && card.bowed
+                gameAction: 'ready',
+                cardCondition: card => !card.isFaction('unicorn')
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to ready {2}', this.controller, this, context.target);
-                this.controller.readyCard(context.target, this);
+                this.game.applyGameAction(context, { ready: context.target });
             }
         });
     }
