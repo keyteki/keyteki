@@ -260,7 +260,7 @@ class ConflictFlow extends BaseStepWithPipeline {
                 dishonor: _.filter(this.conflict.attackers, card => card.hasPride()),
                 honor: _.filter(this.conflict.defenders, card => card.hasPride())
             });
-                }
+        }
         
         this.game.raiseEvent('afterConflict', { conflict: this.conflict });
     }

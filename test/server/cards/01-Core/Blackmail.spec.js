@@ -160,7 +160,7 @@ describe('Blackmail', function() {
                     phase: 'conflict',
                     player1: {
                         honor: 11,
-                        inPlay: ['yogo-outcast'],
+                        inPlay: ['yogo-outcast']
                     },
                     player2: {
                         honor: 10,
