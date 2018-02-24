@@ -6,6 +6,7 @@ class LeavesPlayEvent extends Event {
         super('onCardLeavesPlay', params);
         this.handler = this.leavesPlay;
         this.card = card;
+        this.options = params.options || {};
 
         if(!this.destination) {
             this.destination = this.card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile';
@@ -56,7 +57,7 @@ class LeavesPlayEvent extends Event {
     }
 
     leavesPlay() {
-        this.card.owner.moveCard(this.card, this.destination);
+        this.card.owner.moveCard(this.card, this.destination, this.options);
     }
 }
 

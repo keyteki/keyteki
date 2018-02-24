@@ -365,7 +365,7 @@ const Effects = {
             unapply: function(card, context) {
                 if(card.location === 'play area' && context.returnToHandIfStillInPlay.includes(card)) {
                     context.returnToHandIfStillInPlay = _.reject(context.returnToHandIfStillInPlay, c => c === card);
-                    card.controller.returnCardToHand(card);
+                    context.game.applyGameAction(null, { returnToHand: card });
                     context.game.addMessage('{0} returns {1} to hand at the end of the phase because of {2}', context.source.controller, card, context.source);
                 }
             }
@@ -380,8 +380,9 @@ const Effects = {
             unapply: function(card, context) {
                 if(card.location === 'play area' && context.moveToBottomOfDeckIfStillInPlay.includes(card)) {
                     context.moveToBottomOfDeckIfStillInPlay = _.reject(context.moveToBottomOfDeckIfStillInPlay, c => c === card);
-                    card.owner.moveCardToBottomOfDeck(card);
                     context.game.addMessage('{0} moves {1} to the bottom of their deck as {2}\'s effect ends', context.source.controller, card, context.source);
+                    let events = context.game.applyGameAction(null, { returnToDeck: card });
+                    events[0].options.bottom = true; 
                 }
             }
         };

@@ -31,6 +31,7 @@ const ActionToEvent = {
     break: (card, context) => new Event('onBreakProvince', { conflict: context.game.currentConflict }, () => card.breakProvince()),
     discardFromPlay: (card, context) => new LeavesPlayEvent({ source: context.source }, card),
     returnToHand: card => new LeavesPlayEvent({ destination: 'hand' }, card),
+    returnToDeck: card => new LeavesPlayEvent({ destination: card.isDynasty ? 'dynasty deck' : 'conflict deck' }, card),
     sacrifice: card => new LeavesPlayEvent({ isSacrifice: true }, card),
     takeControl: (card, context) => new Event('onCardTakenControl', {}, () => context.game.takeControl(context.player, card)),
     placeFate: card => new Event('onCardFateAdded', {}, () => card.fate++),
