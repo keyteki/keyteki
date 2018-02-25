@@ -1094,14 +1094,14 @@ class Player extends Spectator {
             name: 'onCardAttached',
             params: { card: attachment, parent: card }
         }];
-
+        /* TODO: onCardAttached really needs its own Event code, but nothing triggers from attachments entering play at the moment
         if(originalLocation !== 'play area') {
             events.push({
                 name: 'onCardEntersPlay',
                 params: { card: attachment, originalLocation: originalLocation }
             });
         }
-
+        */
         if(raiseCardPlayed) {
             events.push({
                 name: 'onCardPlayed',
@@ -1109,7 +1109,7 @@ class Player extends Spectator {
             });
         }
 
-        //this.game.raiseMultipleEvents(events);
+        this.game.raiseMultipleEvents(events);
     }
 
     showConflictDeck() {
