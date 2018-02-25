@@ -5,14 +5,15 @@ class AsceticVisionary extends DrawCard {
         this.action({
             title: 'Ready a character',
             cost: ability.costs.payFateToRing(1),
-            condition: () => this.game.currentConflict && this.game.currentConflict.isAttacking(this),
+            condition: () => this.isAttacking(),
             target: {
                 cardType: 'character',
-                cardCondition: card => card.bowed && card.location === 'play area' && (card.hasTrait('monk') || card.attachments.any(card => card.hasTrait('monk')))
+                gameAction: 'ready',
+                cardCondition: card => card.hasTrait('monk') || card.attachments.any(card => card.hasTrait('monk'))
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to unbow {2}', this.controller, this, context.target);
-                this.controller.readyCard(context.target);
+                this.game.applyGameAction(context, { ready: context.target });
             }
         });
     }

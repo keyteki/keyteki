@@ -13,7 +13,7 @@ class WayOfTheScorpion extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to dishonor {2}', this.controller, this, context.target);
-                this.controller.dishonorCard(context.target, context.source);
+                this.game.applyGameAction(context, { dishonor: context.target });
             }
         });
     }

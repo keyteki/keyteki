@@ -13,7 +13,7 @@ class YogoHiroue extends DrawCard {
             handler: context => {
                 this.game.addMessage('{0} uses {1} to move {2} into the conflict', this.controller, this, context.target);
                 this.events.register([{ afterConflict: 'yogoHiroueDelayedEffect' }]);
-                this.delayedEffectTarget = context.target;
+                this.delayedEffectContext = context;
                 this.game.applyGameAction(context, { moveToConflict: context.target });
             }
         });
@@ -21,15 +21,16 @@ class YogoHiroue extends DrawCard {
     
     yogoHiroueDelayedEffect(event) {
         this.events.unregisterAll();
-        if(event.conflict.winner === this.controller && this.delayedEffectTarget.location === 'play area' && this.delayedEffectTarget.allowGameAction('dishonor')) {
+        if(event.conflict.winner === this.controller && this.delayedEffectContext.target.allowGameAction('dishonor')) {
             this.game.promptWithHandlerMenu(this.controller, {
-                activePromptTitle: 'Dishonor ' + this.delayedEffectTarget.name + '?',
+                activePromptTitle: 'Dishonor ' + this.delayedEffectContext.target.name + '?',
                 choices: ['Yes', 'No'],
                 handlers: [
                     () => {
-                        this.controller.dishonorCard(this.delayedEffectTarget, this);
-                        this.game.addMessage('{0} chooses to dishonor {1} due to {2}\'s delayed effect', this.controller, this.delayedEffectTarget, this);
-                    }, () => true
+                        this.game.addMessage('{0} chooses to dishonor {1} due to {2}\'s delayed effect', this.controller, this.delayedEffectContext.target, this);
+                        this.game.applyGameAction(this.delayedEffectContext, { dishonor: this.delayedEffectContext.target });
+                    },
+                    () => true
                 ],
                 source: this
             });

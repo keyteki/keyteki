@@ -4,10 +4,10 @@ class ProdigyOfTheWaves extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Ready this character',
-            condition: () => this.bowed && this.game.rings['water'].claimed,
-            handler: () => {
+            condition: context => context.source.allowGameAction('ready', context) && this.game.rings['water'].claimed,
+            handler: context => {
                 this.game.addMessage('{0} readies {1} using its ability', this.controller, this);
-                this.controller.readyCard(this, this);
+                this.game.applyGameAction(context, { ready: context.source });
             }
         });
     }

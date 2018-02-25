@@ -30,11 +30,8 @@ class RegroupPhase extends Phase {
     }
 
     readyCards() {
-        this.game.raiseEvent('onReadyAllCards', {}, () => {
-            _.each(this.game.getPlayers(), player => {
-                player.readyCards();
-            });
-        });
+        let cardsToReady = this.game.allCards.filter(card => card.location === 'play area' && card.bowed && card.readiesDuringReadying); 
+        this.game.applyGameAction(null, { ready: cardsToReady }, [{ name: 'onReadyAllCards', params: { cards: cardsToReady } }]);
     }
     
     discardFromProvinces() {

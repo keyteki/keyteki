@@ -448,7 +448,7 @@ class Game extends EventEmitter {
             case 'bow':
                 if(card.bowed) {
                     this.addMessage('{0} readies {1}', player, card);
-                    player.readyCard(card);
+                    card.ready();
                 } else {
                     this.addMessage('{0} bows {1}', player, card);
                     card.bow();
@@ -456,11 +456,11 @@ class Game extends EventEmitter {
                 break;
             case 'honor':
                 this.addMessage('{0} honors {1}', player, card);
-                player.honorCard(card);
+                card.honor();
                 break;
             case 'dishonor':
                 this.addMessage('{0} dishonors {1}', player, card);
-                player.dishonorCard(card);
+                card.dishonor();
                 break;
             case 'addfate':
                 this.addMessage('{0} adds a fate to {1}', player, card);
@@ -1081,7 +1081,7 @@ class Game extends EventEmitter {
         this.allCards = _(_.reduce(this.getPlayers(), (cards, player) => {
             return cards.concat(player.preparedDeck.allCards);
         }, []));
-        this.provinceCards = this.allCards.find(card => card.isProvince);
+        this.provinceCards = this.allCards.filter(card => card.isProvince);
 
         if(playerWithNoStronghold) {
             this.addMessage('{0} does not have a stronghold in their decklist', playerWithNoStronghold);
@@ -1336,11 +1336,13 @@ class Game extends EventEmitter {
         if(!context) {
             context = new AbilityContext({ game: this });
         }
-        let events = additionalEventProps.map(event => EventBuilder.for(event.name || 'unnamedEvent', event.params, event.handler));
+        let events = additionalEventProps.map(event => EventBuilder.for(event.name || 'unnamedEvent', event.params || {}, event.handler));
         _.each(actions, (cards, action) => {
             events = this.getEventsForGameAction(action, cards, context).concat(events);
         });
-        this.openEventWindow(events);
+        if(events.length > 0) {
+            this.openEventWindow(events);
+        }
         return events;
     }
 

@@ -7,11 +7,12 @@ class WayOfTheCrane extends DrawCard {
             target: {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',
-                cardCondition: card => card.location === 'play area' && card.isFaction('crane') && card.controller === this.controller
+                gameAction: 'honor',
+                cardCondition: card => card.isFaction('crane') && card.controller === this.controller
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to honor {2}', this.controller, this, context.target);
-                this.controller.honorCard(context.target, context.source);
+                this.game.applyGameAction(context, { honor: context.target });
             }
         });
     }
