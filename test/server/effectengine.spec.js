@@ -12,9 +12,10 @@ describe('EffectEngine', function () {
         this.gameSpy.getPlayers.and.returnValue([]);
         this.gameSpy.allCards = _([this.handCard, this.playAreaCard, this.discardedCard]);
 
-        this.effectSpy = jasmine.createSpyObj('effect', ['addTargets', 'isInActiveLocation', 'reapply', 'removeTarget', 'cancel', 'setActive']);
+        this.effectSpy = jasmine.createSpyObj('effect', ['addTargets', 'getTargets', 'isInActiveLocation', 'reapply', 'removeTarget', 'cancel', 'setActive']);
         this.effectSpy.isInActiveLocation.and.returnValue(true);
         this.effectSpy.targetLocation = 'play area';
+        this.effectSpy.match = () => true;
 
         this.engine = new EffectEngine(this.gameSpy);
     });
@@ -29,7 +30,7 @@ describe('EffectEngine', function () {
         });
 
         it('should add existing valid targets to the effect', function() {
-            expect(this.effectSpy.addTargets).toHaveBeenCalledWith([this.handCard, this.playAreaCard]);
+            expect(this.effectSpy.getTargets).toHaveBeenCalled();
         });
 
         describe('when the effect has custom duration', function() {
@@ -49,7 +50,7 @@ describe('EffectEngine', function () {
         });
     });
 
-    describe('getTargets()', function() {
+    xdescribe('getTargets()', function() {
         beforeEach(function() {
             this.player = {};
             this.gameSpy.getPlayers.and.returnValue([this.player]);
@@ -72,7 +73,7 @@ describe('EffectEngine', function () {
             });
 
             it('should reapply valid targets', function() {
-                expect(this.effectSpy.reapply).toHaveBeenCalledWith([this.handCard, this.playAreaCard]);
+                expect(this.effectSpy.reapply).toHaveBeenCalled();
             });
         });
 
@@ -271,7 +272,7 @@ describe('EffectEngine', function () {
                 });
 
                 it('should set the active value for the effect along with cards to target', function() {
-                    expect(this.effectSpy.setActive).toHaveBeenCalledWith(true, [this.handCard, this.playAreaCard]);
+                    expect(this.effectSpy.setActive).toHaveBeenCalledWith(true);
                 });
             });
 
@@ -470,7 +471,7 @@ describe('EffectEngine', function () {
             this.effectSpy.until = {
                 foo: jasmine.createSpy('listener')
             };
-            this.effectSpy2 = jasmine.createSpyObj('effect', ['addTargets', 'isInActiveLocation', 'reapply', 'removeTarget', 'cancel', 'setActive']);
+            this.effectSpy2 = jasmine.createSpyObj('effect', ['addTargets', 'getTargets', 'isInActiveLocation', 'reapply', 'removeTarget', 'cancel', 'setActive']);
             this.effectSpy2.isInActiveLocation.and.returnValue(true);
             this.effectSpy2.targetLocation = 'play area';
             this.effectSpy2.duration = 'custom';

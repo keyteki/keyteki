@@ -10,7 +10,7 @@ class IkomaUjiaki extends DrawCard {
                 let card = this.controller.getDynastyCardInProvince(location);
                 return card && card.facedown;
             }),
-            handler: () => {
+            handler: context => {
                 let revealedCards = [];
                 _.each(['province 1', 'province 2', 'province 3', 'province 4'], location => {
                     let card = this.controller.getDynastyCardInProvince(location);
@@ -27,13 +27,14 @@ class IkomaUjiaki extends DrawCard {
                         activePrompt: 'Choose up to 2 characters',
                         cardType: 'character',
                         source: this,
+                        optional: true,
                         cardCondition: card => {
                             return (['province 1', 'province 2', 'province 3', 'province 4'].includes(card.location) && 
-                                this.controller.canPutIntoPlay(card, true) && !card.facedown && card.controller === this.controller);
+                                !card.facedown && card.controller === this.controller && card.allowGameAction('putIntoConflict', context));
                         },
                         onSelect: (player, cards) => {
                             this.game.addMessage('{0} puts {1} into play', player, cards);
-                            _.each(cards, card => player.putIntoPlay(card, true));
+                            this.game.applyGameAction(context, { putIntoConflict: cards });
                             return true;
                         }
                     });

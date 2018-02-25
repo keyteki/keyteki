@@ -969,7 +969,7 @@ class Player extends Spectator {
 
         _.each(cards, card => card.applyPersistentEffects());
 
-        this.game.raiseMultipleEvents(events);
+        //this.game.raiseMultipleEvents(events);
     }
 
     /**
@@ -1078,7 +1078,7 @@ class Player extends Spectator {
                 this.game.promptForSelect(this, {
                     activePromptTitle: 'Choose a card to discard',
                     waitingPromptTitle: 'Waiting for opponent to choose a card to discard',
-                    cardCondition: c => c.parent === card && c.isRestricted() && c !== attachment,
+                    cardCondition: c => c.parent === card && c.isRestricted(),
                     onSelect: (player, card) => {
                         this.game.addMessage('{0} discards {1} from {2} due to too many Restricted attachments', player, card, card.parent);
                         player.discardCardFromPlay(card);
@@ -1109,7 +1109,7 @@ class Player extends Spectator {
             });
         }
 
-        this.game.raiseMultipleEvents(events);
+        //this.game.raiseMultipleEvents(events);
     }
 
     showConflictDeck() {
@@ -1654,7 +1654,7 @@ class Player extends Spectator {
         if(!province.allowGameAction('break')) {
             return;
         }
-        this.game.raiseEvent('onBreakProvince', { conflict: this.game.currentConflict, province: province }, () => province.breakProvince());
+        this.game.raiseEvent('onBreakProvince', { conflict: this.game.currentConflict, card: province }, () => province.breakProvince());
     }
 
     /**

@@ -146,7 +146,7 @@ describe('dynasty phase', function() {
 
             it('should allow a player to play a dupe from hand', function() {
                 this.togashiKazueInPlay = this.player2.findCardByName('togashi-kazue', 'hand');
-                this.player2.player.putIntoPlay(this.togashiKazueInPlay);
+                this.player2.putIntoPlay(this.togashiKazueInPlay);
                 this.togashiKazueInHand = this.player2.findCardByName('togashi-kazue', 'hand');
 
                 this.player1.clickCard(this.akodoToturi);
