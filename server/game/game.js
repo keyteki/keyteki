@@ -474,10 +474,14 @@ class Game extends EventEmitter {
                 if(this.currentConflict) {
                     if(card.isParticipating()) {
                         this.addMessage('{0} moves {1} out of the conflict', player, card);
-                        this.currentConflict.sendHome(card);
+                        this.currentConflict.removeFromConflict(card);
                     } else {
                         this.addMessage('{0} moves {1} into the conflict', player, card);
-                        this.currentConflict.moveToConflict(card);
+                        if(card.controller.isAttackingPlayer()) {
+                            this.currentConflict.addAttacker(card);
+                        } else if(card.controller.isDefendingPlayer()) {
+                            this.currentConflict.addDefender(card);
+                        }
                     }
                 }
                 break;

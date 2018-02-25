@@ -15,12 +15,11 @@ class CrisisBreaker extends DrawCard {
             target: {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',
-                cardCondition: card => card.location === 'play area' && card.hasTrait('berserker') && (card.allowGameAction('moveToConflict') || card.allowGameAction('ready'))
+                cardCondition: card => card.hasTrait('berserker') && (card.allowGameAction('moveToConflict') || card.allowGameAction('ready'))
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to ready {2} and move it into the conflict', this.controller, this, context.target);
-                this.controller.readyCard(context.target, this);
-                this.game.currentConflict.moveToConflict(context.target);
+                this.game.applyGameAction(context, { moveToConflict: context.target, ready: context.target });
             }
         });
     }
