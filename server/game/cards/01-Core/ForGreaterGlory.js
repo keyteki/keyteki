@@ -11,11 +11,7 @@ class ForGreaterGlory extends DrawCard {
             max: ability.limit.perConflict(1),
             handler: context => {
                 this.game.addMessage('{0} uses {1} to add fate to each of their participating Bushi', this.controller, this);
-                _.each(context.event.conflict.attackers, card => {
-                    if(card.hasTrait('bushi')) {
-                        card.modifyFate(1);
-                    }
-                });
+                this.game.applyGameAction(context, { placeFate: _.filter(context.event.conflict.attackers, card => card.hasTrait('bushi')) });
             }
         });
     }

@@ -32,15 +32,7 @@ class FatePhase extends Phase {
     }
     
     removeFateFromCharacters() {
-        let cards = this.game.findAnyCardsInPlay(card => {
-            return (card.type === 'character' &&
-                    card.allowGameAction('removeFate') &&
-                    card.fate > 0);
-        });
-        this.game.raiseMultipleEvents(_.map(cards, card => ({
-            name: 'onCardRemoveFate',
-            params: { card: card, fate: 1 }
-        })));
+        this.game.applyGameAction(null, { removeFate: this.game.findAnyCardsInPlay(card => card.allowGameAction('removeFate')) });
     }
     
     placeFateOnUnclaimedRings() {

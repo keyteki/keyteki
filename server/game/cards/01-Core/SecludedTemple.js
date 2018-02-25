@@ -16,7 +16,7 @@ class SecludedTemple extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to force {2} to remove a fate from {3}', this.controller, this, this.controller.opponent, context.target);
-                context.target.modifyFate(-1);
+                this.game.applyGameAction(context, { removeFate: context.target });
             }
         });
     }

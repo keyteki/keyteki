@@ -7,9 +7,9 @@ class EnlightenedWarrior extends DrawCard {
             when: {
                 onSelectRingWithFate: event => event.player !== this.controller 
             },
-            handler: () => {
+            handler: context => {
                 this.game.addMessage('{0} uses {1} to place a fate on him', this.controller, this);
-                this.modifyFate(1);
+                this.game.applyGameAction(context, { placeFate: context.source });
             }
         });
     }
