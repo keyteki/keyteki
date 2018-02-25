@@ -29,7 +29,7 @@ const ActionToEvent = {
     }),
     removeFate: () => new RemoveFateEvent({ fate: 1 }),
     break: (card, context) => new Event('onBreakProvince', { conflict: context.game.currentConflict }, () => card.breakProvince()),
-    discardFromPlay: (card, context) => new LeavesPlayEvent({}, card),
+    discardFromPlay: card => new LeavesPlayEvent({}, card),
     returnToHand: card => new LeavesPlayEvent({ destination: 'hand' }, card),
     sacrifice: card => new LeavesPlayEvent({ isSacrifice: true }, card),
     takeControl: (card, context) => new Event('onCardTakenControl', {}, () => context.game.takeControl(context.player, card)),
