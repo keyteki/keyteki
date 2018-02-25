@@ -1109,7 +1109,7 @@ class Player extends Spectator {
             });
         }
 
-        //this.game.raiseMultipleEvents(events);
+        this.game.raiseMultipleEvents(events);
     }
 
     showConflictDeck() {

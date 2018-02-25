@@ -10,10 +10,10 @@ describe('Obstinate Recruit', function() {
                     hand: ['charge']
                 },
                 player2: {
-                    honor: 11,
+                    honor: 11
                 }
             });
-            this.obstinateRecruit = this.player1.placeCardInProvince('obstinate-recruit', 'province 1')
+            this.obstinateRecruit = this.player1.placeCardInProvince('obstinate-recruit', 'province 1');
         });
 
         describe('when controller has more honor', function() {
@@ -21,7 +21,7 @@ describe('Obstinate Recruit', function() {
                 this.player1.player.honor = 12;
                 this.player1.clickCard(this.obstinateRecruit);
                 this.player1.clickPrompt('0');
-                 expect(this.obstinateRecruit.location).toBe('play area');
+                expect(this.obstinateRecruit.location).toBe('play area');
             });
         });
 
