@@ -337,15 +337,14 @@ class ConflictFlow extends BaseStepWithPipeline {
         let bowEvents = attackerBowEvents.concat(defenderBowEvents);
 
         // Create a return home event for every bow event
-        let returnHomeEvents = _.map(bowEvents, event => this.game.getEvent('onReturnHome', { conflict: this.conflict, bowEvent: event }, () => this.conflict.removeFromConflict(event.card)));
-
-        this.game.raiseMultipleEvents(bowEvents.concat(returnHomeEvents), {
-            name: 'onParticipantsReturnHome', 
-            params: {
-                returnHomeEvents: returnHomeEvents, 
-                conflict: this.conflict
-            }
-        });
+        let returnHomeEvents = _.map(bowEvents, event => this.game.getEvent(
+            'onReturnHome', 
+            { conflict: this.conflict, bowEvent: event, card: event.card }, 
+            () => this.conflict.removeFromConflict(event.card)
+        ));
+        let events = bowEvents.concat(returnHomeEvents);
+        events.push(this.game.getEvent('onParticipantsReturnHome', { returnHomeEvents: returnHomeEvents, conflict: this.conflict }));
+        this.game.openEventWindow(events);
     }
     
     completeConflict() {
