@@ -7,9 +7,10 @@ class MatsuBeiona extends DrawCard {
             when: {
                 'onCardEntersPlay': event => event.card === this && this.controller.filterCardsInPlay(card => card.hasTrait('bushi') && card.getType() === 'character' && card !== this).length >= 3
             },
-            handler: () => {
+            handler: context => {
                 this.game.addMessage('{0} uses {1}\'s ability to put 2 fate on {1}', this.controller, this);
-                this.modifyFate(2);
+                let event = this.game.applyGameAction(context, { placeFate: context.source })[0];
+                event.fate = 2;
             }
         });
     }

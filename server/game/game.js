@@ -1332,7 +1332,7 @@ class Game extends EventEmitter {
         if(!context) {
             context = new AbilityContext({ game: this });
         }
-        let events = additionalEventProps.map(event => EventBuilder.for(event.name || 'unnamedEvent', event.params, event.handler));
+        let events = additionalEventProps.map(event => EventBuilder.for(event.name || 'unnamedEvent', event.params || {}, event.handler));
         _.each(actions, (cards, action) => {
             events = this.getEventsForGameAction(action, cards, context).concat(events);
         });

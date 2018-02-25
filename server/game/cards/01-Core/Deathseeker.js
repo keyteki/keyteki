@@ -19,7 +19,7 @@ class Deathseeker extends DrawCard {
                     context.target.owner.discardCardFromPlay(context.target);
                 } else {
                     this.game.addMessage('{0} sacrifices {1} to remove 1 fate from {2}', context.player, this, context.target);
-                    context.target.modifyFate(-1);                    
+                    this.game.applyGameAction(context, { removeFate: context.target });                 
                 }
             }
         });

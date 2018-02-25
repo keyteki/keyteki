@@ -161,7 +161,7 @@ class DrawCard extends BaseCard {
             ))) {
                 return false;
             }
-        } else if(actionType === 'removeFate' && (this.location !== 'play area' || this.fate === 0)) {
+        } else if(actionType === 'removeFate' && (this.location !== 'play area' || this.fate === 0 || this.type !== 'character')) {
             return false;
         } else if(actionType === 'sacrifice' && ['character', 'attachment'].includes(this.type) && this.location !== 'play area') {
             return false;
@@ -413,23 +413,11 @@ class DrawCard extends BaseCard {
         return 0;
     }
 
-    modifyFate(fate) {
+    modifyFate(amount) {
         /**
-         * @param  {integer} fate - the amount of fate to modify this card's fate total by
+         * @param  {Number} amount - the amount of fate to modify this card's fate total by
          */
-        if(fate < 0) {
-            if(!this.allowGameAction('removeFate')) {
-                return;
-            }
-            this.game.raiseEvent('onCardRemoveFate', {
-                card: this,
-                fate: -fate
-            });
-            return;
-        }
-
-        this.fate += fate;
-        this.game.raiseEvent('onCardAddFate', { card: this, fate: fate });
+        this.fate = Math.max(0, this.fate + amount);
     }
 
     honor() {
