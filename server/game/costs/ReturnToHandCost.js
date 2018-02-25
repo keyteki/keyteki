@@ -8,9 +8,7 @@ class ReturnToHandCost {
     }
 
     pay(cards, context) {
-        for(let card of cards) {
-            context.player.returnCardToHand(card);
-        }
+        context.game.applyGameAction(context, { returnToHand: cards });
     }
 }
 

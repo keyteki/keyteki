@@ -12,11 +12,11 @@ class ShinjoAltansarnai extends DrawCard {
                 cardType: 'character',
                 player: 'opponent',
                 gameAction: 'discardFromPlay',
-                cardCondition: card => card.controller !== this.controller && card.location === 'play area'
+                cardCondition: card => card.controller !== this.controller
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1}, forcing {2} to discard {3}', this.controller, this, this.controller.opponent, context.target);
-                this.controller.discardCardFromPlay(context.target);
+                this.game.applyGameAction(context, { discardFromPlay: context.target });
             }
         });
     }

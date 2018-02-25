@@ -68,7 +68,7 @@ class BackAlleyPlayCharacterAction extends DynastyCardAction {
         }]);
         event.fate = context.chooseFate;
         // TODO: create a proper ThenEffect for this
-        context.game.queueSimpleStep(() => context.player.sacrificeCard(this.backAlleyCard));
+        context.game.queueSimpleStep(() => context.game.applyGameAction(context, { sacrifice: this.backAlleyCard }));
     }
 }
 

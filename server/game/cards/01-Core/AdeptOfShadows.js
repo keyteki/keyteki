@@ -5,9 +5,9 @@ class AdeptOfShadows extends DrawCard {
         this.action({
             title: 'Return to hand',
             cost: ability.costs.payHonor(1),
-            handler: () => {
-                this.owner.returnCardToHand(this);
+            handler: context => {
                 this.game.addMessage('{0} returns {1} to their hand', this.controller, this);
+                this.game.applyGameAction(context, { returnToHand: context.source });
             }
         });
     }
