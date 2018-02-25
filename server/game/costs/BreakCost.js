@@ -8,9 +8,7 @@ class BreakCost {
     }
 
     pay(cards, context) {
-        for(let card of cards) {
-            context.player.breakProvince(card);
-        }
+        context.game.applyGameAction(context, { break: cards });
     }
 }
 
