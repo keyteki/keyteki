@@ -448,7 +448,7 @@ class Game extends EventEmitter {
             case 'bow':
                 if(card.bowed) {
                     this.addMessage('{0} readies {1}', player, card);
-                    player.readyCard(card);
+                    card.ready();
                 } else {
                     this.addMessage('{0} bows {1}', player, card);
                     card.bow();
@@ -1077,7 +1077,7 @@ class Game extends EventEmitter {
         this.allCards = _(_.reduce(this.getPlayers(), (cards, player) => {
             return cards.concat(player.preparedDeck.allCards);
         }, []));
-        this.provinceCards = this.allCards.find(card => card.isProvince);
+        this.provinceCards = this.allCards.filter(card => card.isProvince);
 
         if(playerWithNoStronghold) {
             this.addMessage('{0} does not have a stronghold in their decklist', playerWithNoStronghold);
@@ -1332,7 +1332,7 @@ class Game extends EventEmitter {
         if(!context) {
             context = new AbilityContext({ game: this });
         }
-        let events = additionalEventProps.map(event => EventBuilder.for(event.name || 'unnamedEvent', event.params, event.handler));
+        let events = additionalEventProps.map(event => EventBuilder.for(event.name || 'unnamedEvent', event.params || {}, event.handler));
         _.each(actions, (cards, action) => {
             events = this.getEventsForGameAction(action, cards, context).concat(events);
         });
