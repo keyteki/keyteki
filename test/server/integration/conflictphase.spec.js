@@ -400,7 +400,7 @@ describe('conflict phase', function() {
         });
         
         // check return home and reactions to it work correctly
-        fdescribe('3.2.8 Return Home', function() {
+        describe('3.2.8 Return Home', function() {
             describe('When participants return home', function() {
                 beforeEach(function() {
                     this.setupTest({
@@ -437,7 +437,7 @@ describe('conflict phase', function() {
                     it('it should remain ready', function() {
                         this.player2.clickCard('the-mountain-does-not-fall');
                         this.player2.clickCard(this.intimidatingHida);
-                        this.noMoreActions()
+                        this.noMoreActions();
                         expect(this.player1).toHavePrompt('Initiate an action');
                         expect(this.dojiChallenger.bowed).toBe(true);
                         expect(this.intimidatingHida.bowed).toBe(false);    
