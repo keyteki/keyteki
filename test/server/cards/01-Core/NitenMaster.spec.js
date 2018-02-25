@@ -1,4 +1,4 @@
-fdescribe('Niten Master', function() {
+describe('Niten Master', function() {
     integration(function() {
         beforeEach(function() {
             this.setupTest({
