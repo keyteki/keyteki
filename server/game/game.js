@@ -456,11 +456,11 @@ class Game extends EventEmitter {
                 break;
             case 'honor':
                 this.addMessage('{0} honors {1}', player, card);
-                player.honorCard(card);
+                card.honor();
                 break;
             case 'dishonor':
                 this.addMessage('{0} dishonors {1}', player, card);
-                player.dishonorCard(card);
+                card.dishonor();
                 break;
             case 'addfate':
                 this.addMessage('{0} adds a fate to {1}', player, card);
@@ -1336,7 +1336,9 @@ class Game extends EventEmitter {
         _.each(actions, (cards, action) => {
             events = this.getEventsForGameAction(action, cards, context).concat(events);
         });
-        this.openEventWindow(events);
+        if(events.length > 0) {
+            this.openEventWindow(events);
+        }
         return events;
     }
 

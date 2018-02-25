@@ -14,7 +14,7 @@ class BentensTouch extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to bow {2} and honor {3}', this.controller, this, context.costs.bow, context.target);
-                this.controller.honorCard(context.target, this);
+                this.game.applyGameAction(context, { honor: context.target });
             }
         });
     }
