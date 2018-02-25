@@ -8,9 +8,7 @@ class SacrificeCost {
     }
 
     pay(cards, context) {
-        for(let card of cards) {
-            context.player.sacrificeCard(card);
-        }
+        context.game.applyGameAction(context, { sacrifice: cards });
     }
 }
 

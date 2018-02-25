@@ -161,7 +161,7 @@ class DrawCard extends BaseCard {
             ))) {
                 return false;
             }
-        } else if(actionType === 'removeFate' && (this.location !== 'play area' || this.fate === 0)) {
+        } else if(actionType === 'removeFate' && (this.location !== 'play area' || this.fate === 0 || this.type !== 'character')) {
             return false;
         } else if(actionType === 'sacrifice' && ['character', 'attachment'].includes(this.type) && this.location !== 'play area') {
             return false;
@@ -413,23 +413,11 @@ class DrawCard extends BaseCard {
         return 0;
     }
 
-    modifyFate(fate) {
+    modifyFate(amount) {
         /**
-         * @param  {integer} fate - the amount of fate to modify this card's fate total by
+         * @param  {Number} amount - the amount of fate to modify this card's fate total by
          */
-        if(fate < 0) {
-            if(!this.allowGameAction('removeFate')) {
-                return;
-            }
-            this.game.raiseEvent('onCardRemoveFate', {
-                card: this,
-                fate: -fate
-            });
-            return;
-        }
-
-        this.fate += fate;
-        this.game.raiseEvent('onCardAddFate', { card: this, fate: fate });
+        this.fate = Math.max(0, this.fate + amount);
     }
 
     honor() {
@@ -594,12 +582,11 @@ class DrawCard extends BaseCard {
     }
     
     checkForIllegalAttachments() {
-        this.attachments.each(attachment => {
-            if(!this.allowAttachment(attachment) || !attachment.canAttach(this)) {
-                this.controller.discardCardFromPlay(attachment, false);
-                this.game.addMessage('{0} is discarded from {1} as it is no longer legally attached', attachment, this);
-            }
-        });
+        let illegalAttachments = this.attachments.reject(attachment => this.allowAttachment(attachment) && attachment.canAttach(this));
+        if(illegalAttachments.length > 0) {
+            this.game.addMessage('{0} {1} discarded from {2} as it is no longer legally attached', illegalAttachments, illegalAttachments.length > 1 ? 'are' : 'is', this);
+            this.game.applyGameAction(null, { discardFromPlay: illegalAttachments });
+        }
     }
 
     getActions() {

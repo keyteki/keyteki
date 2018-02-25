@@ -47,15 +47,12 @@ class TogashiKazue extends DrawCard {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',
                 gameAction: 'removeFate',
-                cardCondition: card => card.isParticipating() && card.fate > 0 && card !== this.parent
+                cardCondition: card => card.isParticipating() && card !== this.parent
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to steal a fate from {2} and place it on {3}', this.controller, this, context.target, this.parent);
-                this.game.raiseEvent('onCardRemoveFate', {
-                    card: context.target,
-                    fate: 1,
-                    recipient: this.parent
-                });
+                let event = this.game.applyGameAction(context, { removeFate: context.target })[0];
+                event.recipient = context.source.parent;
             }
         });
     }

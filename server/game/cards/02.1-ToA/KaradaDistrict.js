@@ -25,7 +25,7 @@ class KaradaDistrict extends DrawCard {
                     });
                 } else {
                     this.game.addMessage('{0} uses {1}, paying 1 fate to {2} in order to take control of {3} but cannot attach to anyone so it is discarded', this.controller, this, this.controller.opponent, context.target);
-                    context.target.owner.discardCardFromPlay(context.target);
+                    this.game.applyGameAction(context, { discardFromPlay: context.target });
                 }
             }
         });
