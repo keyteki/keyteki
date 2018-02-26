@@ -21,15 +21,6 @@ class LeavesPlayEvent extends Event {
         }
     }
 
-    checkCondition() {
-        if(this.card.location !== 'play area') {
-            if(this.card.type !== 'holding' || !['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(this.card.location)) {
-                this.cancel();
-            }
-        }
-        super.checkCondition();
-    }
-    
     createContingentEvents() {
         let contingentEvents = [];
         // Add an imminent triggering condition for all attachments leaving play
