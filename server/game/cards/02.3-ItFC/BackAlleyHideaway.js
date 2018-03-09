@@ -42,6 +42,7 @@ class BackAlleyPlayCharacterAction extends DynastyCardAction {
         this.limit = backAlleyCard.backAlleyActionLimit;
         this.backAlleyCard = backAlleyCard;
         this.cost.push(Costs.useLimit());
+        this.cannotBeCancelled = false;
     }
 
     meetsRequirements(context) {
@@ -68,6 +69,10 @@ class BackAlleyPlayCharacterAction extends DynastyCardAction {
         }]);
         event.fate = context.chooseFate;
         event.addThenGameAction(context, { sacrifice: this.backAlleyCard });
+    }
+
+    isCardAbility() {
+        return true;
     }
 }
 
