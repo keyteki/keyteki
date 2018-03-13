@@ -31,6 +31,7 @@ class ChatCommands {
             '/rem-fate-ring': this.remRingFate,
             '/claim-ring' : this.claimRing,
             '/unclaim-ring': this.unclaimRing,
+            '/chess-clocks': this.chessClocks,
             '/disconnectme': this.disconnectMe,
             '/manual': this.manual
         };
@@ -45,6 +46,19 @@ class ChatCommands {
         }
 
         return this.commands[command].call(this, player, args) !== false;
+    }
+
+    chessClocks(player, args) {
+        let num = this.getNumberOrDefault(args[1], 30);
+        if(player.chessClockLeft > 0) {
+            this.game.addMessage('{0} switches off chess clocks for both players', player);
+        } else {
+            this.game.addMessage('{0} switches on chess clocks for both players set at {1} minutes', player, num);
+            player.chessClockLeft = 60 * num;
+            if(player.opponent) {
+                player.opponent.chessClockLeft = 60 * num;
+            }
+        }
     }
 
     draw(player, args) {
