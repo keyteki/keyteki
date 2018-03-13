@@ -66,7 +66,7 @@ class BackAlleyPlayCharacterAction extends DynastyCardAction {
         let event = context.game.applyGameAction(context, { putIntoPlay: context.source }, [{
             name: 'onCardPlayed',
             params: { player: context.player, card: context.source, originalLocation: 'backalley hideaway' }
-        }]);
+        }])[0];
         event.fate = context.chooseFate;
         event.addThenGameAction(context, { sacrifice: this.backAlleyCard });
     }
