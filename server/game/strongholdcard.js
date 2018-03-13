@@ -11,6 +11,7 @@ class StrongholdCard extends BaseCard {
         this.honorModifier = 0;
         this.influenceModifier = 0;
         this.menu = _([{ command: 'bow', text: 'Bow/Ready' }]);
+        this.bowed = false;
 
         this.isStronghold = true;
     }
@@ -29,6 +30,14 @@ class StrongholdCard extends BaseCard {
 
     getProvinceStrengthBonus() {
         return parseInt(this.cardData.strength_bonus) + this.strengthModifier;
+    }
+
+    bow() {
+        this.bowed = true;
+    }
+
+    ready() {
+        this.bowed = false;
     }
 
     flipFaceup() {
