@@ -5,7 +5,7 @@ class KakitaAsami extends DrawCard {
         this.action ({
             title: 'Take one honor from your opponent',
             condition: () => {
-                if(!this.game.currentConflict || this.game.currentConflict.conflictType !== 'political') {
+                if(!this.isParticipating() || this.game.currentConflict.conflictType !== 'political' || !this.controller.opponent) {
                     return false;
                 }
 
@@ -13,13 +13,8 @@ class KakitaAsami extends DrawCard {
                 return (diff > 0 && this.controller.isAttackingPlayer()) || (diff < 0 && this.controller.isDefendingPlayer());
             },
             handler: context => {
-                let otherPlayer = this.game.getOtherPlayer(context.player);
-                this.game.addMessage('{0} uses {1} to take 1 honor from {2}',this.controller,this,otherPlayer);
-                if(otherPlayer) {
-                    this.game.transferHonor(otherPlayer, this.controller, 1);
-                } else {
-                    this.game.addHonor(this.controller, 1);
-                }
+                this.game.addMessage('{0} uses {1} to take 1 honor from {2}', context.player, context.source, context.player.opponent);
+                this.game.transferHonor(context.player.opponent, context.player, 1);
             }
         });
     }

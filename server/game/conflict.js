@@ -216,8 +216,10 @@ class Conflict {
     
     switchElement(element) {
         let oldRing = this.game.rings[this.conflictRing];
-        oldRing.contested = false;
-        this.removeElement(oldRing.element);
+        if(oldRing) {
+            oldRing.contested = false;
+            this.removeElement(oldRing.element);
+        }
         this.conflictRing = element;
         let newRing = this.game.rings[element];
         if(this.attackingPlayer.allowGameAction('takeFateFromRings')) {

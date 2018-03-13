@@ -10,16 +10,16 @@ class Deathseeker extends DrawCard {
             cost: ability.costs.sacrificeSelf(),
             target: {
                 cardType: 'character',
-                cardCondition: (card, context) => card.location === 'play area' && card.controller !== this.controller && 
-                                                  (card.fate > 0 ? card.allowGameAction('removeFate') : card.allowGameAction('discardFromPlay', context))
+                cardCondition: (card, context) => card.controller !== context.player && 
+                                                  (card.fate > 0 ? card.allowGameAction('removeFate', context) : card.allowGameAction('discardFromPlay', context))
             },
             handler: context => {
                 if(context.target.fate === 0) {
-                    this.game.addMessage('{0} sacrifices {1} to discard {2}', context.cardStateWhenInitiated.controller, this, context.target);
-                    context.target.owner.discardCardFromPlay(context.target);
+                    this.game.addMessage('{0} sacrifices {1} to discard {2}', context.player, this, context.target);
+                    this.game.applyGameAction(context, { discardFromPlay: context.target });
                 } else {
-                    this.game.addMessage('{0} sacrifices {1} to remove 1 fate from {2}', context.cardStateWhenInitiated.controller, this, context.target);
-                    context.target.modifyFate(-1);                    
+                    this.game.addMessage('{0} sacrifices {1} to remove 1 fate from {2}', context.player, this, context.target);
+                    this.game.applyGameAction(context, { removeFate: context.target });                 
                 }
             }
         });

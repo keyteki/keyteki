@@ -4,10 +4,10 @@ class DojiRepresentative extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Move this character home',
-            condition: () => this.game.currentConflict && this.isParticipating(),
-            handler: () => {
+            condition: context => context.source.allowGameAction('sendHome', context),
+            handler: context => {
                 this.game.addMessage('{0} moves {1} home using its ability', this.controller, this);
-                this.game.currentConflict.sendHome(this);
+                this.game.applyGameAction(context, { sendHome: context.source });
             }
         });
     }

@@ -8,9 +8,7 @@ class BowCost {
     }
 
     pay(cards, context) {
-        for(let card of cards) {
-            context.player.bowCard(card, context.source);
-        }
+        context.game.applyGameAction(context, { bow: cards });
     }
 }
 

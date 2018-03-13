@@ -9,12 +9,14 @@ class MantraOfFire extends DrawCard {
             },
             target: {
                 cardType: 'character',
-                cardCondition: card => card.location === 'play area' && (card.hasTrait('monk') || card.attachments.any(card => card.hasTrait('monk')))
+                gameAction: 'placeFate',
+                cardCondition: card => card.hasTrait('monk') || card.attachments.any(card => card.hasTrait('monk'))
             },
             handler: context => {
                 this.game.addMessage('{0} plays {1} to add fate to {2} and draw a card', this.controller, this, context.target);
-                context.target.modifyFate(1);
-                this.controller.drawCardsToHand(1);
+                this.game.applyGameAction(context, { placeFate: context.target }, [{
+                    handler: () => this.controller.drawCardsToHand(1)
+                }]);
             }
         });
     }

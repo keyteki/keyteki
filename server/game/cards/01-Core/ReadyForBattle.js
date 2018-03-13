@@ -10,7 +10,7 @@ class ReadyForBattle extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} plays {1} to ready {2}', this.controller, this, context.event.card);
-                this.controller.readyCard(context.event.card);
+                this.game.applyGameAction(context, { ready: context.event.card });
             }
         });
     }

@@ -22,7 +22,7 @@ class ShamefulDisplay extends ProvinceCard {
                         source: this,
                         cardCondition: card => context.target.includes(card) && card.allowGameAction('dishonor', context),
                         onSelect: (player, card) => {
-                            this.resolveShamefulDisplay(_.find(context.target, c => c !== card), card);
+                            this.resolveShamefulDisplay(context, _.find(context.target, c => c !== card), card);
                             return true;
                         }
                     });
@@ -32,7 +32,7 @@ class ShamefulDisplay extends ProvinceCard {
                         source: this,
                         cardCondition: card => context.target.includes(card) && card.allowGameAction('honor', context),
                         onSelect: (player, card) => {
-                            this.resolveShamefulDisplay(card, _.find(context.target, c => c !== card));
+                            this.resolveShamefulDisplay(context, card, _.find(context.target, c => c !== card));
                             return true;
                         }
                     });
@@ -66,28 +66,18 @@ class ShamefulDisplay extends ProvinceCard {
             onSelect: (player, card) => {
                 let otherCard = _.find(cards, c => c !== card);
                 if(choice === 'Honor') {
-                    this.resolveShamefulDisplay(card, otherCard);
+                    this.resolveShamefulDisplay(context, card, otherCard);
                 } else {
-                    this.resolveShamefulDisplay(otherCard, card);                    
+                    this.resolveShamefulDisplay(context, otherCard, card);                    
                 }
                 return true;
             }
         });
     }
     
-    resolveShamefulDisplay(cardToHonor, cardToDishonor) {
+    resolveShamefulDisplay(context, cardToHonor, cardToDishonor) {
         this.game.addMessage('{0} uses {1} to dishonor {2} and honor {3}', this.controller, this, cardToDishonor, cardToHonor);
-        let honorEvent = {
-            name: 'onCardHonored',
-            params: { player: this.controller, card: cardToHonor, source: this, gameAction: 'honor' },
-            handler: () => cardToHonor.honor()
-        };
-        let dishonorEvent = {
-            name: 'onCardDishonored',
-            params: { player: this.controller, card: cardToDishonor, source: this, gameAction: 'dishonor' },
-            handler: () => cardToDishonor.dishonor()
-        };
-        this.game.raiseMultipleEvents([honorEvent, dishonorEvent]);
+        this.game.applyGameAction(context, { honor: cardToHonor, dishonor: cardToDishonor });
     }
 }
 

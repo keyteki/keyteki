@@ -216,7 +216,7 @@ class PlayerInteractionWrapper {
                 card.covert = options.covert;
             }
             // Activate persistent effects of the card
-            card.applyPersistentEffects();
+            //card.applyPersistentEffects();
             // Get the attachments
             if(options.attachments) {
                 var attachments = [];
@@ -405,6 +405,17 @@ class PlayerInteractionWrapper {
         }
         card.facedown = false;
         return card;
+    }
+
+    putIntoPlay(card) {
+        if(_.isString(card)) {
+            card = this.findCardByName(card);
+        }
+        if(card.location !== 'play area') {
+            this.player.moveCard(card, 'play area');
+        }
+        card.facedown = false;
+        return card;        
     }
 
     hasPrompt(title) {

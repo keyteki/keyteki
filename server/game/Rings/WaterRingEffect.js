@@ -2,7 +2,7 @@ const BaseAbility = require('../baseability.js');
 
 class WaterRingEffect extends BaseAbility {
     constructor(optional = true) {
-        super({ 
+        super({
             target: {
                 activePromptTitle: 'Choose character to bow or unbow',
                 source: 'Water Ring',
@@ -22,10 +22,10 @@ class WaterRingEffect extends BaseAbility {
     executeHandler(context) {
         if(context.target.bowed) {
             context.game.addMessage('{0} resolves the {1} ring, readying {2}', context.player, 'water', context.target);
-            context.player.readyCard(context.target, context.source);
+            context.game.applyGameAction(context, { ready: context.target });
         } else {
             context.game.addMessage('{0} resolves the {1} ring, bowing {2}', context.player, 'water', context.target);
-            context.player.bowCard(context.target, context.source);            
+            context.game.applyGameAction(context, { bow: context.target });
         }
     }
 

@@ -22,11 +22,12 @@ class CourtGames extends DrawCard {
                 if(context.select === 'Honor a character you control') {
                     this.game.promptForSelect(this.controller, {
                         cardType: 'character',
-                        cardCondition: card => card.isParticipating() && card.controller === this.controller && card.allowGameAction('honor', context) && card.allowGameAction('target', context),
+                        gameAction: 'honor',
+                        cardCondition: card => card.isParticipating() && card.controller === this.controller && card.allowGameAction('target', context),
                         source: this,
                         onSelect: (player, card) => {
                             this.game.addMessage('{0} uses {1} to honor {2}', this.controller, this, card);
-                            player.honorCard(card, context.source);
+                            this.game.applyGameAction(context, { honor: card });
                             return true;
                         }
                     });
@@ -34,11 +35,12 @@ class CourtGames extends DrawCard {
                     let otherPlayer = this.controller.opponent;
                     this.game.promptForSelect(otherPlayer, {
                         cardType: 'character',
-                        cardCondition: card => card.isParticipating() && card.controller === otherPlayer && card.allowGameAction('dishonor', context) && card.allowGameAction('target', context),
+                        gameAction: 'dishonor',
+                        cardCondition: card => card.isParticipating() && card.controller === otherPlayer && card.allowGameAction('target', context),
                         source: this,
                         onSelect: (player, card) => {
                             this.game.addMessage('{0} uses {1} to dishonor {2}', this.controller, this, card);
-                            player.dishonorCard(card, context.source);
+                            this.game.applyGameAction(context, { dishonor: card });
                             return true;
                         }
                     });

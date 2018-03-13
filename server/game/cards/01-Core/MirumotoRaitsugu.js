@@ -14,10 +14,10 @@ class MirumotoRaitsugu extends DrawCard {
                 this.game.initiateDuel(this, context.target, 'military', (winner, loser) => {
                     if(loser.fate > 0) {
                         this.game.addMessage('{0} wins the duel, and {1} loses a fate', winner, loser);
-                        loser.modifyFate(-1);
+                        this.game.applyGameAction(context, { removeFate: loser });
                     } else {
                         this.game.addMessage('{0} wins the duel, and {1} is discarded', winner, loser);
-                        loser.controller.discardCardFromPlay(loser);
+                        this.game.applyGameAction(context, { discardFromPlay: loser });
                     }
                 });
             }

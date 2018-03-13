@@ -17,11 +17,9 @@ class JadeTetsubo extends DrawCard {
             },
             handler: (context) => {
                 this.game.addMessage('{0} uses {1} to return all fate from {2}', this.controller, this, context.target);
-                this.game.raiseEvent('onCardRemoveFate', {
-                    card: context.target,
-                    fate: context.target.getFate(),
-                    recipient: context.target.controller
-                });
+                let event = this.game.applyGameAction(context, { removeFate: context.target })[0];
+                event.fate = context.target.getFate();
+                event.recipient = context.target.controller;
             }
         });
     }

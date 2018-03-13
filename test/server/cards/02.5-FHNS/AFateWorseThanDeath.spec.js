@@ -80,7 +80,7 @@ describe('A Fate Worse Than Death', function() {
         describe('All events', function() {
             it('should share interrupt windows', function() {
                 this.rumormonger = this.player2.placeCardInProvince('young-rumormonger', 'province 1');
-                this.player2.player.putIntoPlay(this.rumormonger);
+                this.player2.putIntoPlay(this.rumormonger);
                 this.embrace = this.player2.playAttachment('embrace-the-void', this.witchHunter);
                 this.player1.clickCard('a-fate-worse-than-death');
                 this.player1.clickCard(this.witchHunter);

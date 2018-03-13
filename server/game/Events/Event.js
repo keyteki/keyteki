@@ -4,11 +4,11 @@ class Event {
     constructor(name, params, handler) {
         this.name = name;
         this.cancelled = false;
-        this.success = false;
+        this.resolved = false;
         this.handler = handler;
         this.window = null;
         this.thenEvents = [];
-        this.isSuccessful = () => this.success;
+        this.getOutcome = () => ({ resolved: this.resolved, cancelled: this.cancelled });
         this.condition = () => true;
         this.parentEvent = null;
         this.order = 0;
@@ -18,7 +18,9 @@ class Event {
 
     cancel() {
         this.cancelled = true;
-        this.window.removeEvent(this);
+        if(this.window) {
+            this.window.removeEvent(this);
+        }
     }
     
     setWindow(window) {
@@ -38,19 +40,20 @@ class Event {
     }
     
     checkCondition() {
-        if(this.cancelled || this.success) {
+        if(this.cancelled || this.resolved) {
             return;
         }
         if(this.card && this.gameAction && !this.card.allowGameAction(this.gameAction, this.context)) {
             this.cancel();
+            return;
         }
-        if(!this.condition()) {
+        if(!this.condition(this)) {
             this.cancel();
         }
     }
     
     executeHandler() {
-        this.success = true;
+        this.resolved = true;
         if(this.handler) {
             this.handler(this);
         }
@@ -58,6 +61,25 @@ class Event {
 
     replaceHandler(newHandler) {
         this.handler = newHandler;
+    }
+
+    addThenEvent(event) {
+        this.thenEvents.push(event);
+        event.parentEvent = this;
+    }
+
+    addThenGameAction(context, actions) {
+        let events = [];
+        _.each(actions, (cards, action) => {
+            events = events.concat(context.game.getEventsForGameAction(action, cards, context));
+        });
+        _.each(events, event => event.parentEvent = this);
+        this.thenEvents = this.thenEvents.concat(events);
+        return events;
+    }
+
+    cancelThenEvents() {
+        _.each(this.thenEvents, event => event.cancel());
     }
 }
 

@@ -115,14 +115,15 @@ class DrawCard extends BaseCard {
     
     allowGameAction(actionType, context = null) {
         if(actionType === 'dishonor') {
-            if(this.isDishonored || (!super.allowGameAction('becomeDishonored', context) && !this.isHonored)) {
+            if(this.location !== 'play area' || this.type !== 'character' || this.isDishonored || 
+               (!super.allowGameAction('becomeDishonored', context) && !this.isHonored)) {
                 return false;
             }
-        } else if(actionType === 'honor' && this.isHonored) {
+        } else if(actionType === 'honor' && (this.location !== 'play area' || this.type !== 'character' || this.isHonored)) {
             return false;
-        } else if(actionType === 'bow' && this.bowed) {
+        } else if(actionType === 'bow' && (this.location !== 'play area' || this.bowed)) {
             return false;
-        } else if(actionType === 'ready' && !this.bowed) {
+        } else if(actionType === 'ready' && (this.location !== 'play area' || !this.bowed)) {
             return false;
         } else if(actionType === 'moveToConflict') {
             if(!this.game.currentConflict || this.isParticipating()) {
@@ -136,6 +137,35 @@ class DrawCard extends BaseCard {
                 return false;
             }
         } else if(actionType === 'sendHome' && !this.isParticipating()) {
+            return false;
+        } else if(actionType === 'putIntoConflict') {
+            // There is no current conflict, or no context (cards must be put into play by a player, not a framework event)
+            if(!this.game.currentConflict || !context || !this.allowGameAction('putIntoPlay', context)) {
+                return false;
+            }
+            // controller is attacking, and character can't attack, or controller is defending, and character can't defend
+            if((context.player.isAttackingPlayer() && !this.allowGameAction('participateAsAttacker')) || 
+                (context.player.isDefendingPlayer() && !this.allowGameAction('participateAsDefender'))) {
+                return false;
+            }
+            // card cannot participate in this conflict type
+            if(this.conflictOptions.cannotParticipateIn[this.game.currentConflict.conflictType]) {
+                return false;
+            }            
+        } else if(actionType === 'putIntoPlay' && this.isUnique()) {
+            if(this.game.allCards.any(card => (
+                card.location === 'play area' &&
+                card.name === this.name &&
+                ((card.owner === context.player || card.controller === context.player) || (card.owner === this.owner)) &&
+                card !== this
+            ))) {
+                return false;
+            }
+        } else if(actionType === 'removeFate' && (this.location !== 'play area' || this.fate === 0 || this.type !== 'character')) {
+            return false;
+        } else if(actionType === 'sacrifice' && ['character', 'attachment'].includes(this.type) && this.location !== 'play area') {
+            return false;
+        } else if(['discardFromPlay', 'returnToHand', 'returnToDeck', 'takeControl'].includes(actionType) && this.location !== 'play area') {
             return false;
         }
         return super.allowGameAction(actionType, context);
@@ -383,23 +413,11 @@ class DrawCard extends BaseCard {
         return 0;
     }
 
-    modifyFate(fate) {
+    modifyFate(amount) {
         /**
-         * @param  {integer} fate - the amount of fate to modify this card's fate total by
+         * @param  {Number} amount - the amount of fate to modify this card's fate total by
          */
-        if(fate < 0) {
-            if(!this.allowGameAction('removeFate')) {
-                return;
-            }
-            this.game.raiseEvent('onCardRemoveFate', {
-                card: this,
-                fate: -fate
-            });
-            return;
-        }
-
-        this.fate += fate;
-        this.game.raiseEvent('onCardAddFate', { card: this, fate: fate });
+        this.fate = Math.max(0, this.fate + amount);
     }
 
     honor() {
@@ -564,12 +582,11 @@ class DrawCard extends BaseCard {
     }
     
     checkForIllegalAttachments() {
-        this.attachments.each(attachment => {
-            if(!this.allowAttachment(attachment) || !attachment.canAttach(this)) {
-                this.controller.discardCardFromPlay(attachment, false);
-                this.game.addMessage('{0} is discarded from {1} as it is no longer legally attached', attachment, this);
-            }
-        });
+        let illegalAttachments = this.attachments.reject(attachment => this.allowAttachment(attachment) && attachment.canAttach(this));
+        if(illegalAttachments.length > 0) {
+            this.game.addMessage('{0} {1} discarded from {2} as it is no longer legally attached', illegalAttachments, illegalAttachments.length > 1 ? 'are' : 'is', this);
+            this.game.applyGameAction(null, { discardFromPlay: illegalAttachments });
+        }
     }
 
     getActions() {

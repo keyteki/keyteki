@@ -8,7 +8,11 @@ class EventWindow extends BaseStepWithPipeline {
         super(game);
 
         this.events = [];
-        _.each(events, event => this.addEvent(event));
+        _.each(events, event => {
+            if(!event.cancelled) {
+                this.addEvent(event);
+            }
+        });
 
         this.initialise();
     }
@@ -92,8 +96,8 @@ class EventWindow extends BaseStepWithPipeline {
             // need to checkCondition here to ensure the event won't fizzle due to another event's resolution (e.g. double honoring an ordinary character with YR etc.)
             event.checkCondition();
             if(!event.cancelled) {
-                thenEvents = thenEvents.concat(event.thenEvents);
                 event.executeHandler();
+                thenEvents = thenEvents.concat(_.reject(event.thenEvents, event => event.cancelled));
                 this.game.emit(event.name, event);
             }
         });

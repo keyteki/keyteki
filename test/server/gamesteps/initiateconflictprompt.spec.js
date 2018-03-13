@@ -368,6 +368,8 @@ describe('InitateConflictPrompt: ', function() {
             this.conflictSpy.conflictType = 'military';
             this.cardSpy = jasmine.createSpyObj('card', ['allowGameAction']);
             this.conflictSpy.conflictProvince = this.cardSpy;
+            this.attackerSpy = jasmine.createSpyObj('attacker', ['allowGameAction']);
+            this.conflictSpy.attackers = [this.attackerSpy];
             this.prompt.menuCommand(this.playerSpy, 'done');
         });
 
@@ -400,6 +402,18 @@ describe('InitateConflictPrompt: ', function() {
                 beforeEach(function() {
                     this.prompt.completed = false;
                     this.conflictSpy.conflictProvince = null;
+                    this.prompt.menuCommand(this.playerSpy, 'done');
+                });
+
+                it('should not set complete to true', function() {
+                    expect(this.prompt.completed).toBe(false);
+                });
+            });
+
+            describe('if no attackers have been declared', function() {
+                beforeEach(function() {
+                    this.prompt.completed = false;
+                    this.conflictSpy.attackers = [];
                     this.prompt.menuCommand(this.playerSpy, 'done');
                 });
 

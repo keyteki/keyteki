@@ -13,12 +13,13 @@ class Harmonize extends DrawCard {
                 oppCharacter: {
                     cardType: 'character',
                     dependsOn: 'myCharacter',
+                    gameAction: 'sendHome',
                     cardCondition: (card, context) => card.isAttacking() && card.getCost() <= context.targets.myCharacter.getCost()
                 }
             },
             handler: context => {
                 this.game.addMessage('{0} plays {1}, sending {2} and {3} home', this.controller, this, context.targets.myCharacter, context.targets.oppCharacter);
-                this.game.currentConflict.sendHome([context.targets.myCharacter, context.targets.oppCharacter]);
+                this.game.applyGameAction(context, { sendHome: [context.targets.myCharacter, context.targets.oppCharacter] });
             }
         });
     }

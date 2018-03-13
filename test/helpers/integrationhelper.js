@@ -12,7 +12,7 @@ const deckBuilder = new DeckBuilder();
 
 const ProxiedGameFlowWrapperMethods = [
     'eachPlayerInFirstPlayerOrder', 'startGame', 'keepDynasty', 'keepConflict', 'skipSetupPhase', 'selectFirstPlayer',
-    'noMoreActions', 'selectStrongholdProvinces', 'advancePhases', 'getPromptedPlayer'
+    'noMoreActions', 'selectStrongholdProvinces', 'advancePhases', 'getPromptedPlayer', 'nextPhase'
 ];
 
 var customMatchers = {
@@ -122,11 +122,14 @@ global.integration = function(definitions) {
                     player1: options.player1.strongholdProvince,
                     player2: options.player2.strongholdProvince
                 });
-                this.keepDynasty();
-                this.keepConflict();
 
-                //Advance the phases to the specified
-                this.advancePhases(options.phase);
+                if(options.phase !== 'setup') {
+                    this.keepDynasty();
+                    this.keepConflict();
+
+                    //Advance the phases to the specified
+                    this.advancePhases(options.phase);
+                }
 
                 //Set state
                 if(options.player1.rings) {

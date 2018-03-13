@@ -9,11 +9,12 @@ class MantraOfWater extends DrawCard {
             },
             target: {
                 cardType: 'character',
-                cardCondition: card => card.location === 'play area' && (card.hasTrait('monk') || card.attachments.any(card => card.hasTrait('monk'))) && card.bowed
+                gameAction: 'ready',
+                cardCondition: card => card.hasTrait('monk') || card.attachments.any(card => card.hasTrait('monk'))
             },
             handler: context => {
                 this.game.addMessage('{0} plays {1} to ready {2} and draw a card', this.controller, this, context.target);
-                this.controller.readyCard(context.target, this);
+                this.game.applyGameAction(context, { ready: context.target });
                 this.controller.drawCardsToHand(1);
             }
         });

@@ -42,13 +42,15 @@ class BackAlleyPlayCharacterAction extends DynastyCardAction {
         this.limit = backAlleyCard.backAlleyActionLimit;
         this.backAlleyCard = backAlleyCard;
         this.cost.push(Costs.useLimit());
+        this.cannotBeCancelled = false;
     }
 
     meetsRequirements(context) {
         return (
             context.source.location === 'backalley hideaway' &&
-            context.player.canPutIntoPlay(context.source) &&
+            context.source.allowGameAction('putIntoPlay', context) &&
             context.source.canPlay(context) &&
+            context.source.parent.canTriggerAbilities() &&
             context.player.canInitiateAction &&
             this.canPayCosts(context)
         );
@@ -61,10 +63,16 @@ class BackAlleyPlayCharacterAction extends DynastyCardAction {
         // remove associations between this card and Back-Alley Hideaway
         this.backAlleyCard.removeAttachment(context.source);
         context.source.parent = null;
-        context.source.fate = context.chooseFate;
-        context.player.putIntoPlay(context.source, false, true);
-        // TODO: create a proper ThenEffect for this
-        context.game.queueSimpleStep(() => context.player.sacrificeCard(this.backAlleyCard));
+        let event = context.game.applyGameAction(context, { putIntoPlay: context.source }, [{
+            name: 'onCardPlayed',
+            params: { player: context.player, card: context.source, originalLocation: 'backalley hideaway' }
+        }]);
+        event.fate = context.chooseFate;
+        event.addThenGameAction(context, { sacrifice: this.backAlleyCard });
+    }
+
+    isCardAbility() {
+        return true;
     }
 }
 

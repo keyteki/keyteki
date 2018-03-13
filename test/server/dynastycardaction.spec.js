@@ -2,8 +2,8 @@ const DynastyCardAction = require('../../server/game/dynastycardaction.js');
 
 describe('DynastyCardAction', function () {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'on', 'removeListener', 'abilityCardStack']);
-        this.playerSpy = jasmine.createSpyObj('player', ['canPutIntoPlay', 'isCardInPlayableLocation', 'putIntoPlay', 'replaceDynastyCard', 'getReducedCost']);
+        this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'on', 'removeListener', 'abilityCardStack', 'applyGameAction']);
+        this.playerSpy = jasmine.createSpyObj('player', ['isCardInPlayableLocation', 'replaceDynastyCard', 'getReducedCost']);
         this.cardSpy = jasmine.createSpyObj('card', ['getType', 'canPlay', 'isLimited', 'allowGameAction']);
         this.windowSpy = jasmine.createSpyObj('window', ['markActionAsTaken']);
         this.cardSpy.isDynasty = true;
@@ -26,7 +26,6 @@ describe('DynastyCardAction', function () {
     describe('meetsRequirements()', function() {
         beforeEach(function() {
             this.gameSpy.currentPhase = 'dynasty';
-            this.playerSpy.canPutIntoPlay.and.returnValue(true);
             this.playerSpy.isCardInPlayableLocation.and.returnValue(true);
             this.playerSpy.getReducedCost.and.returnValue(0);
             this.playerSpy.canInitiateAction = true;
@@ -84,7 +83,7 @@ describe('DynastyCardAction', function () {
 
         describe('when the card cannot be put into play', function() {
             beforeEach(function() {
-                this.playerSpy.canPutIntoPlay.and.returnValue(false);
+                this.cardSpy.allowGameAction.and.returnValue(false);
             });
 
             it('should return false', function() {
@@ -95,11 +94,12 @@ describe('DynastyCardAction', function () {
 
     describe('executeHandler()', function() {
         beforeEach(function() {
+            this.gameSpy.applyGameAction.and.returnValue([{}]);
             this.action.executeHandler(this.context);
         });
 
         it('should put the card into play', function() {
-            expect(this.playerSpy.putIntoPlay).toHaveBeenCalledWith(this.cardSpy, false, true);
+            expect(this.gameSpy.applyGameAction).toHaveBeenCalledWith(this.context, { putIntoPlay: this.cardSpy }, jasmine.anything());
         });
     });
 });

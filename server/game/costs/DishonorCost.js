@@ -8,9 +8,7 @@ class DishonorCost {
     }
 
     pay(cards, context) {
-        for(let card of cards) {
-            context.player.dishonorCard(card, context.source);
-        }
+        context.game.applyGameAction(context, { dishonor: cards });
     }
 }
 

@@ -9,11 +9,11 @@ class MiyaMystic extends DrawCard {
             target: {
                 activePromptTitle: 'Select an attachment',
                 cardType: 'attachment',
-                cardCondition: card => card.location === 'play area'
+                gameAction: 'discardFromPlay'
             },
             handler: context => {
-                this.game.addMessage('{0} sacrifices {1} to discard {2}', context.cardStateWhenInitiated.controller, this, context.target);
-                this.controller.removeAttachment(context.target);
+                this.game.addMessage('{0} sacrifices {1} to discard {2}', context.player, this, context.target);
+                this.game.applyGameAction(context, { discardFromPlay: context.target });
             }
         });
     }

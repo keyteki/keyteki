@@ -51,6 +51,8 @@ class Player extends Spectator {
         this.totalGloryForFavor = 0;
         this.gloryModifier = 0;
 
+        this.chessClockLeft = -1; // time left on clock in seconds
+        this.timerStart = 0;
 
         this.deck = {};
         this.conflicts = new ConflictTracker();
@@ -82,6 +84,23 @@ class Player extends Spectator {
         this.createAdditionalPile('out of game', { title: 'Out of Game', area: 'player row' });
 
         this.promptState = new PlayerPromptState(this);
+    }
+
+    startClock() {
+        if(this.chessClockLeft > -1 && this.timerStart === 0) {
+            this.timerStart = Date.now();
+        }
+    }
+
+    stopClock() {
+        if(this.timerStart > 0 && this.chessClockLeft > 0) {
+            this.chessClockLeft -= Math.floor(((Date.now() - this.timerStart) / 1000) - 0.5);
+            this.timerStart = 0;
+            if(this.chessClockLeft < 0 && this.opponent) {
+                this.game.addMessage('{0}\'s clock has run out', this);
+                this.game.recordWinner(this.opponent, 'chessClock');
+            }
+        }
     }
 
     /**
@@ -969,7 +988,7 @@ class Player extends Spectator {
 
         _.each(cards, card => card.applyPersistentEffects());
 
-        this.game.raiseMultipleEvents(events);
+        //this.game.raiseMultipleEvents(events);
     }
 
     /**
@@ -1078,10 +1097,10 @@ class Player extends Spectator {
                 this.game.promptForSelect(this, {
                     activePromptTitle: 'Choose a card to discard',
                     waitingPromptTitle: 'Waiting for opponent to choose a card to discard',
-                    cardCondition: c => c.parent === card && c.isRestricted() && c !== attachment,
+                    cardCondition: c => c.parent === card && c.isRestricted(),
                     onSelect: (player, card) => {
                         this.game.addMessage('{0} discards {1} from {2} due to too many Restricted attachments', player, card, card.parent);
-                        player.discardCardFromPlay(card);
+                        this.game.applyGameAction(null, { discardFromPlay: card });
                         return true;
                     },
                     source: 'Too many Restricted attachments'
@@ -1094,14 +1113,14 @@ class Player extends Spectator {
             name: 'onCardAttached',
             params: { card: attachment, parent: card }
         }];
-
+        /* TODO: onCardAttached really needs its own Event code, but nothing triggers from attachments entering play at the moment
         if(originalLocation !== 'play area') {
             events.push({
                 name: 'onCardEntersPlay',
                 params: { card: attachment, originalLocation: originalLocation }
             });
         }
-
+        */
         if(raiseCardPlayed) {
             events.push({
                 name: 'onCardPlayed',
@@ -1654,7 +1673,7 @@ class Player extends Spectator {
         if(!province.allowGameAction('break')) {
             return;
         }
-        this.game.raiseEvent('onBreakProvince', { conflict: this.game.currentConflict, province: province }, () => province.breakProvince());
+        this.game.raiseEvent('onBreakProvince', { conflict: this.game.currentConflict, card: province }, () => province.breakProvince());
     }
 
     /**
@@ -1873,13 +1892,13 @@ class Player extends Spectator {
             cardType: 'character',
             buttons: [{ text: 'Done', arg: 'cancel' }],
             onSelect: (player, card) => {
-                player.discardCardFromPlay(card);
+                this.game.applyGameAction(null, { discardFromPlay: card });
                 this.game.queueSimpleStep(() => player.discardCharactersWithNoFate(_.reject(cardsToDiscard, c => c === card)));
                 return true;
             },
             onCancel: () => {
                 _.each(cardsToDiscard, character => {
-                    this.discardCardFromPlay(character);
+                    this.game.applyGameAction(null, { discardFromPlay: character });
                 });
                 return true;
             }
@@ -1890,6 +1909,8 @@ class Player extends Spectator {
         return {
             fate: this.fate,
             honor: this.getTotalHonor(),
+            chessClockLeft: this.chessClockLeft,
+            chessClockActive: this.timerStart > 0,
             conflictsRemaining: this.conflicts.conflictOpportunities,
             militaryRemaining: !this.conflicts.isAtMax('military'),
             politicalRemaining: !this.conflicts.isAtMax('political')

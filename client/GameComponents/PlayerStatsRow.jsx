@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from '../Avatar.jsx';
+import Clock from './Clock.jsx';
 
 export class PlayerStatsRow extends React.Component {
     constructor() {
@@ -52,6 +53,12 @@ export class PlayerStatsRow extends React.Component {
                 <b>{ this.props.user ? this.props.user.username : 'Noone' }</b>
             </div>);
 
+        let secondsLeft = this.getStatValueOrDefault('chessClockLeft');
+        let chessClock = (
+            <div className='state'>
+                <Clock secondsLeft={ secondsLeft } active={ this.getStatValueOrDefault('chessClockActive') } />
+            </div>);
+            
         return (
             <div className='panel player-stats'>
                 { playerAvatar }
@@ -76,6 +83,7 @@ export class PlayerStatsRow extends React.Component {
                         { this.getStatValueOrDefault('militaryRemaining') ? <span className='icon-military'/> : null }
                     </div>
                 </div>
+                { secondsLeft > 0 && chessClock }
             </div>
         );
     }
