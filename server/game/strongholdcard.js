@@ -12,6 +12,7 @@ class StrongholdCard extends BaseCard {
         this.influenceModifier = 0;
         this.menu = _([{ command: 'bow', text: 'Bow/Ready' }]);
         this.bowed = false;
+        this.readysDuringReadying = true;
 
         this.isStronghold = true;
     }
