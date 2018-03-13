@@ -10,7 +10,7 @@ class RemoveFateEvent extends Event {
 
     createContingentEvents() {
         if(this.recipient && this.recipient.type === 'character') {
-            this.addFateEvent = this.recipient.game.getEventsForGameAction(this.context, { placeFate: this.recipient })[0];
+            this.addFateEvent = this.recipient.game.getEventsForGameAction('placeFate', this.recipient, this.context)[0];
             this.addFateEvent.order = this.order + 1;
             this.addFateEvent.condition = () => !this.cancelled;
             return [this.addFateEvent];

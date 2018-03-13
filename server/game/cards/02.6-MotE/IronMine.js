@@ -10,7 +10,7 @@ class IronMine extends DrawCard {
             canCancel: true,
             handler: context => {
                 this.game.addMessage('{0} uses {1} to save {2}', this.controller, this, context.event.card);
-                context.event.window.addEvent(this.game.getEventsForGameAction(context, { sacrifice: context.source })[0]);
+                context.event.window.addEvent(this.game.getEventsForGameAction('sacrifice', context.source, context)[0]);
                 context.cancel();
             }
         });

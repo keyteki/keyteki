@@ -5,13 +5,13 @@ class PublicForum extends ProvinceCard {
         this.interrupt({
             title: 'Prevent break and add Honor token',
             when: {
-                onBreakProvince: event => event.card === this && !event.province.hasToken('honor')
+                onBreakProvince: event => event.card === this && !event.card.hasToken('honor')
             },
             canCancel: true,
             handler: context => {
                 this.game.addMessage('{0} adds an honor token to {1} instead of breaking it', this.controller, this);
                 context.cancel();
-                context.event.province.addToken('honor');
+                context.event.card.addToken('honor');
             }
         });
     }
