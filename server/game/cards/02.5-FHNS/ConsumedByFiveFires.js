@@ -19,7 +19,7 @@ class ConsumedByFiveFires extends DrawCard {
         let fateRemaining = 5 - _.reduce(targets, (totalFate, fateToRemove) => totalFate + fateToRemove, 0);
         if(fateRemaining === 0 || !this.controller.opponent.cardsInPlay.any(card => card.fate > 0 && !_.keys(targets).includes(card.uuid))) {
             this.game.addMessage('{0} chooses to: {1}', this.controller, messages);
-            let keys = _.getKeys(targets);
+            let keys = _.keys(targets);
             let events = this.game.applyGameAction(context, { removeFate: context.player.opponent.cardsInPlay.filter(card => keys.includes(card.uuid)) });
             _.each(events, event => event.fate = targets[event.card.uuid]);
             return;
@@ -51,7 +51,7 @@ class ConsumedByFiveFires extends DrawCard {
             },
             onCancel: () => {
                 this.game.addMessage('{0} chooses to: {1}', this.controller, messages);
-                let keys = _.getKeys(targets);
+                let keys = _.keys(targets);
                 let events = this.game.applyGameAction(context, { removeFate: context.player.opponent.cardsInPlay.filter(card => keys.includes(card.uuid)) });
                 _.each(events, event => event.fate = targets[event.card.uuid]);
                 return true;

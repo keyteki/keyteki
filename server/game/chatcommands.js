@@ -52,6 +52,10 @@ class ChatCommands {
         let num = this.getNumberOrDefault(args[1], 30);
         if(player.chessClockLeft > 0) {
             this.game.addMessage('{0} switches off chess clocks for both players', player);
+            player.chessClockLeft = 0;
+            if(player.opponent) {
+                player.opponent.chessClockLeft = 0;
+            }
         } else {
             this.game.addMessage('{0} switches on chess clocks for both players set at {1} minutes', player, num);
             player.chessClockLeft = 60 * num;

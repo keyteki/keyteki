@@ -99,6 +99,10 @@ class Player extends Spectator {
             if(this.chessClockLeft < 0 && this.opponent) {
                 this.game.addMessage('{0}\'s clock has run out', this);
                 this.game.recordWinner(this.opponent, 'chessClock');
+                this.chessClockLeft = 0;
+                if(this.opponent) {
+                    this.opponent.chessClockLeft = 0;
+                }
             }
         }
     }
