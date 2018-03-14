@@ -7,6 +7,7 @@ class SteadfastWitchHunter extends DrawCard {
             cost: ability.costs.sacrifice(card => card.getType() === 'character'),
             target: {
                 activePromptTitle: 'Choose a character to ready',
+                cardType: 'character',
                 gameAction: 'ready'
             },
             handler: context => {
