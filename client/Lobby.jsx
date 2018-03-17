@@ -169,7 +169,7 @@ class InnerLobby extends React.Component {
                                 <span className='glyphicon glyphicon-remove' />
                             </a>
                             <div className='userlist'>Online Users
-                            { userList }
+                                { userList }
                             </div>
                         </div> :
                         <div>
