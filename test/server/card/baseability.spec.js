@@ -4,7 +4,10 @@ const _ = require('underscore');
 
 describe('BaseAbility', function () {
     beforeEach(function () {
-        this.properties = {};
+        this.gameSpy = jasmine.createSpyObj('game', ['promptForSelect', 'getEvent']);
+        this.allCardsSpy = jasmine.createSpyObj('allCards', ['filter']);
+        this.gameSpy.allCards = this.allCardsSpy;
+        this.properties = { game: this.gameSpy };
     });
 
     describe('constructor', function() {
@@ -174,20 +177,24 @@ describe('BaseAbility', function () {
 
     describe('payCosts()', function() {
         beforeEach(function() {
-            this.cost1 = jasmine.createSpyObj('cost1', ['pay']);
-            this.cost2 = jasmine.createSpyObj('cost1', ['pay']);
+            this.cost1 = jasmine.createSpyObj('cost1', ['canPay', 'pay']);
+            this.cost2 = jasmine.createSpyObj('cost2', ['canPay', 'resolve', 'payEvent']);
+            this.cost3 = jasmine.createSpyObj('cost3', ['canPay']);
             this.ability = new BaseAbility(this.properties);
             this.ability.cost = [this.cost1, this.cost2];
-            this.context = { context: 1 };
+            this.context = { game: this.gameSpy };
         });
 
-        it('should call pay with the context object', function() {
+        it('should call payEvent for costs with payEvent', function() {
             this.ability.payCosts(this.context);
-            expect(this.cost1.pay).toHaveBeenCalledWith(this.context);
-            expect(this.cost2.pay).toHaveBeenCalledWith(this.context);
+            expect(this.cost2.payEvent).toHaveBeenCalledWith(this.context);
+        });
+
+        it('should not call pay for costs without payEvent', function() {
+            this.ability.payCosts(this.context);
+            expect(this.cost1.pay).not.toHaveBeenCalled();
         });
     });
-
     describe('canResolveTargets()', function() {
         beforeEach(function() {
             this.cardCondition = jasmine.createSpy('cardCondition');
@@ -243,7 +250,6 @@ describe('BaseAbility', function () {
 
     describe('resolveTargets()', function() {
         beforeEach(function() {
-            this.gameSpy = jasmine.createSpyObj('game', ['promptForSelect']);
             this.player = { player: 1 };
             this.source = { source: 1 };
 
@@ -254,6 +260,7 @@ describe('BaseAbility', function () {
             this.ability = new BaseAbility(this.properties);
 
             this.context = { game: this.gameSpy, player: this.player, source: this.source, ability: this.ability, targets: {} };
+            this.allCardsSpy.filter.and.returnValue([this.target1, this.target2]);
         });
 
         it('should return target results for each target', function() {

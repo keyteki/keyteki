@@ -47,11 +47,21 @@ class ProvinceCard extends BaseCard {
         this.facedown = false;
     }
 
-    allowGameAction(actiontype, context) {
-        if(actiontype === 'break' && this.isBroken) {
+    allowGameAction(actionType, context) {
+        let illegalActions = [
+            'bow', 'ready', 'dishonor', 'honor', 'sacrifice', 
+            'discardFromPlay', 'moveToConflict', 'sendHome', 'putIntoPlay', 'putIntoConflict', 
+            'returnToHand', 'takeControl', 'placeFate', 'removeFate'
+        ];
+
+        if(illegalActions.includes(actionType)) {
             return false;
         }
-        return super.allowGameAction(actiontype, context);
+    
+        if(actionType === 'break' && this.isBroken) {
+            return false;
+        }
+        return super.allowGameAction(actionType, context);
     }
 
     breakProvince() {
