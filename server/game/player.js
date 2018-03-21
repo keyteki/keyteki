@@ -1091,12 +1091,11 @@ class Player extends Spectator {
         if(originalParent) {
             originalParent.removeAttachment(attachment);
         }
-        attachment.moveTo('play area');
         card.attachments.push(attachment);
         attachment.parent = card;
+        attachment.moveTo('play area');
 
         this.game.queueSimpleStep(() => {
-            attachment.applyPersistentEffects();
             if(_.size(card.attachments.filter(c => c.isRestricted())) > 2) {
                 this.game.promptForSelect(this, {
                     activePromptTitle: 'Choose a card to discard',
