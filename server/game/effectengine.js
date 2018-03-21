@@ -6,11 +6,10 @@ class EffectEngine {
     constructor(game) {
         this.game = game;
         this.events = new EventRegistrar(game, this);
-        this.events.register(['onCardMoved', 'onCardBlankToggled', 'onCardTakenControl', 'onConflictFinished', 'onPhaseEnded', 'onRoundEnded', 'onDuelFinished']);
+        this.events.register(['onCardMoved', 'onCardTraitChanged', 'onCardFactionChanged', 'onCardTakenControl', 'onCardBlankToggled', 'onConflictFinished', 'onAtEndOfConflict', 'onPhaseEnded', 'onAtEndOfPhase', 'onRoundEnded', 'onDuelFinished']);
         this.effects = [];
-        this.delayedEffects = [];
+        this.recalculateEvents = {};
         this.customDurationEvents = [];
-        this.newEffect = false;
     }
 
     add(effect) {
@@ -21,48 +20,16 @@ class EffectEngine {
         this.effects.push(effect);
         this.effects = _.sortBy(this.effects, effect => effect.order);
         effect.getTargets();
+        this.registerRecalculateEvents(effect.recalculateWhen);
         if(effect.duration === 'custom') {
             this.registerCustomDurationEvents(effect);
         }
-        this.newEffect = true;
     }
 
-    addDelayedEffect(effect) {
-        this.delayedEffects.push(effect);
-    }
-
-    removeDelayedEffect(effect) {
-        this.delayedEffects = _.reject(this.delayedEffects, e => e === effect);
-    }
-
-    checkDelayedEffects(eventNames) {
-        _.each(this.delayedEffects, effect => {
-            if(effect.trigger.length === 0 || _.any(effect.trigger, name => eventNames.includes(name))) {
-                effect.getTargets();
-            }
-        });
-    }
-
-    checkEffects(hasChanged = false) {
-        if(!hasChanged && !this.newEffect) {
-            return false;
-        }
-        let returnValue = this.newEffect;
+    reapplyStateDependentEffects() {
         _.each(this.effects, effect => {
-            // Check each effect's condition and find new targets
-            // Reapply all effects which have reapply function
-            this.newEffect = effect.checkCondition() || effect.reapply();
-        });
-        returnValue = returnValue || this.newEffect;
-        this.reapplyOtherEffects();
-        this.checkEffects();
-        return returnValue;
-    }
-
-    reapplyOtherEffects() {
-        _.each(this.effects, effect => {
-            if(effect.reapplyOnCheckState) {
-                effect.unapplyThenApply();
+            if(effect.isStateDependent) {
+                effect.reapply();
             }
         });
     }
@@ -71,9 +38,8 @@ class EffectEngine {
         let newArea = event.newLocation === 'hand' ? 'hand' : 'play area';
         this.removeTargetFromEffects(event.card, event.originalLocation);
         this.unapplyAndRemove(effect => effect.duration === 'persistent' && effect.source === event.card && (effect.location === event.originalLocation || event.parentChanged));
-        // Any lasting or delayed effects on this card should be removed when it leaves play
+        // Any lasting effects on this card should be removed when it leaves play
         this.unapplyAndRemove(effect => effect.match === event.card && effect.location !== 'any' && effect.duration !== 'persistent');
-        this.delayedEffects = _.reject(this.delayedEffects, effect => effect.match === event.card);
         this.addTargetForPersistentEffects(event.card, newArea);
     }
 
@@ -142,19 +108,63 @@ class EffectEngine {
     }
 
     onConflictFinished() {
-        this.newEffect = this.unapplyAndRemove(effect => effect.duration === 'untilEndOfConflict');
+        this.unapplyAndRemove(effect => effect.duration === 'untilEndOfConflict');
     }
 
     onDuelFinished() {
-        this.newEffect = this.unapplyAndRemove(effect => effect.duration === 'untilEndOfDuel');
+        this.unapplyAndRemove(effect => effect.duration === 'untilEndOfDuel');
+    }
+
+    onAtEndOfConflict() {
+        this.unapplyAndRemove(effect => effect.duration === 'atEndOfConflict');
     }
 
     onPhaseEnded() {
-        this.newEffect = this.unapplyAndRemove(effect => effect.duration === 'untilEndOfPhase');
+        this.unapplyAndRemove(effect => effect.duration === 'untilEndOfPhase');
+    }
+
+    onAtEndOfPhase() {
+        this.unapplyAndRemove(effect => effect.duration === 'atEndOfPhase');
     }
 
     onRoundEnded() {
-        this.newEffect = this.unapplyAndRemove(effect => effect.duration === 'untilEndOfRound');
+        this.unapplyAndRemove(effect => effect.duration === 'untilEndOfRound');
+    }
+
+    registerRecalculateEvents(eventNames) {
+        _.each(eventNames, eventName => {
+            if(!this.recalculateEvents[eventName]) {
+                var handler = this.recalculateEvent.bind(this);
+                this.recalculateEvents[eventName] = {
+                    name: eventName,
+                    handler: handler,
+                    count: 1
+                };
+                this.game.on(eventName, handler);
+            } else {
+                this.recalculateEvents[eventName].count++;
+            }
+        });
+    }
+
+    unregisterRecalculateEvents(eventNames) {
+        _.each(eventNames, eventName => {
+            var event = this.recalculateEvents[eventName];
+            if(event && event.count <= 1) {
+                this.game.removeListener(event.name, event.handler);
+                delete this.recalculateEvents[eventName];
+            } else if(event) {
+                event.count--;
+            }
+        });
+    }
+
+    recalculateEvent(event) {
+        _.each(this.effects, effect => {
+            if(effect.isStateDependent && effect.recalculateWhen.includes(event.name)) {
+                effect.reapply(this.getTargets());
+            }
+        });
     }
 
     registerCustomDurationEvents(effect) {
@@ -190,6 +200,7 @@ class EffectEngine {
             let listener = customDurationEffect.until[event.name];
             if(listener && listener(...args)) {
                 customDurationEffect.cancel();
+                this.unregisterRecalculateEvents(customDurationEffect.recalculateWhen);
                 this.unregisterCustomDurationEvents(customDurationEffect);
                 this.effects = _.reject(this.effects, effect => effect === customDurationEffect);
             }
@@ -200,12 +211,12 @@ class EffectEngine {
         var [matchingEffects, remainingEffects] = _.partition(this.effects, match);
         _.each(matchingEffects, effect => {
             effect.cancel();
+            this.unregisterRecalculateEvents(effect.recalculateWhen);
             if(effect.duration === 'custom') {
                 this.unregisterCustomDurationEvents(effect);
             }
         });
         this.effects = remainingEffects;
-        return matchingEffects.length > 0;
     }
 }
 

@@ -202,33 +202,54 @@ class DrawCard extends BaseCard {
         return clone;
     }
 
-    modifySkill(amount, type) {
+    modifySkill(amount, type, applying = true) {
         /**
          * Direct the skill modification to the correct sub function.
          * @param  {integer} amount - The amount to modify the skill by.
          * @param  {string}   type - The type of the skill; military or political
+         * @param  {boolean}  applying -  [description]
          */
         if(type === 'military') {
-            this.modifyMilitarySkill(amount);
+            this.modifyMilitarySkill(amount, applying);
         } else if(type === 'political') {
-            this.modifyPoliticalSkill(amount);
+            this.modifyPoliticalSkill(amount, applying);
         }
     }
 
-    modifyGlory(amount) {
+    modifyGlory(amount, applying = true) {
         /**
          * Modify glory.
          * @param  {integer} amount - The amount to modify glory by.
+         * @param  {boolean}  applying -  [description]
          */
         this.gloryModifier += amount;
+        this.game.raiseEvent('onCardGloryChanged', {
+            card: this,
+            amount: amount,
+            applying: applying
+        });
     }
 
-    modifyMilitarySkillMultiplier(amount) {
+    modifyMilitarySkillMultiplier(amount, applying = true) {
+        let militarySkillBefore = this.getMilitarySkill();
+
         this.militarySkillMultiplier *= amount;
+        this.game.raiseEvent('onCardMilitarySkillChanged', {
+            card: this,
+            amount: this.getMilitarySkill() - militarySkillBefore,
+            applying: applying
+        });
     }
 
-    modifyPoliticalSkillMultiplier(amount) {
+    modifyPoliticalSkillMultiplier(amount, applying = true) {
+        let politicalSkillBefore = this.getPoliticalSkill();
+
         this.politicalSkillMultiplier *= amount;
+        this.game.raiseEvent('onCardPoliticalSkillChanged', {
+            card: this,
+            amount: this.getPoliticalSkill() - politicalSkillBefore,
+            applying: applying
+        });
     }
 
     getSkill(type, printed = false) {
@@ -270,37 +291,60 @@ class DrawCard extends BaseCard {
         return 0;
     }
 
-    modifyMilitarySkill(amount) {
+    modifyMilitarySkill(amount, applying = true) {
         /**
          * Modify the military skill.
          * @param  {integer} amount - The amount to modify the skill by.
+         * @param  {boolean}  applying -  [description]
          */
         this.militarySkillModifier += amount;
+        this.game.raiseEvent('onCardMilitarySkillChanged', {
+            card: this,
+            amount: amount,
+            applying: applying
+        });
     }
 
-    modifyPoliticalSkill(amount) {
+    modifyPoliticalSkill(amount, applying = true) {
         /**
          * Modify the political skill.
          * @param  {integer} amount - The amount to modify the skill by.
          * @param  {boolean}  applying -  [description]
          */
         this.politicalSkillModifier += amount;
+        this.game.raiseEvent('onCardPoliticalSkillChanged', {
+            card: this,
+            amount: amount,
+            applying: applying
+        });
     }
 
     modifyBaseMilitarySkill(amount) {
         /**
          * Modify the military skill.
          * @param  {integer} amount - The amount to modify the skill by.
+         * @param  {boolean}  applying -  [description]
          */
         this.baseMilitarySkill += amount;
+        this.game.raiseEvent('onCardMilitarySkillChanged', {
+            card: this,
+            amount: amount,
+            applying: false
+        });
     }
 
     modifyBasePoliticalSkill(amount) {
         /**
          * Modify the political skill.
          * @param  {integer} amount - The amount to modify the skill by.
+         * @param  {boolean}  applying -  [description]
          */
         this.basePoliticalSkill += amount;
+        this.game.raiseEvent('onCardPoliticalSkillChanged', {
+            card: this,
+            amount: amount,
+            applying: false
+        });
     }
 
     getMilitarySkill(printed = false, floor = true) {
@@ -447,6 +491,7 @@ class DrawCard extends BaseCard {
 
     clearBlank() {
         super.clearBlank();
+        this.checkForIllegalAttachments();
     }
 
     /**
@@ -535,6 +580,12 @@ class DrawCard extends BaseCard {
         return [];
     }
 
+    removeTrait(trait) {
+        super.removeTrait(trait);
+        // Check to see if losing the trait has meant any of this cards attachments are illegal
+        this.checkForIllegalAttachments();
+    }
+    
     checkForIllegalAttachments() {
         let illegalAttachments = this.attachments.reject(attachment => this.allowAttachment(attachment) && attachment.canAttach(this));
         if(illegalAttachments.length > 0) {

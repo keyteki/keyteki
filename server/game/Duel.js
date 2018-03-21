@@ -27,6 +27,7 @@ class Duel {
     }
 
     getTotalsForDisplay() {
+        this.game.reapplyStateDependentEffects();
         return this.challenger.name + ': ' + this.getSkillTotal(this.challenger).toString() + ' vs ' + this.getSkillTotal(this.target).toString() + ': ' + this.target.name;
     }
 
