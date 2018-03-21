@@ -25,9 +25,6 @@ class ActionWindow extends UiPrompt {
     continue() {
         if(!this.currentPlayer.promptedActionWindows[this.windowName]) {
             this.pass();
-            if(!this.currentPlayer.promptedActionWindows[this.windowName]) {
-                this.pass();
-            }
         }
         
         let completed = super.continue();
@@ -38,6 +35,7 @@ class ActionWindow extends UiPrompt {
         } else {
             this.game.currentActionWindow = null;
         }
+
         return completed;
     }
 

@@ -101,7 +101,6 @@ class ConflictPhase extends Phase {
         } else {
             this.game.currentConflict = null;
         }
-        this.game.checkGameState(true);
         this.game.queueStep(new SimpleStep(this.game, () => this.startConflictChoice(this.currentPlayer)));
     }
 

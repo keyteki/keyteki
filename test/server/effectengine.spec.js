@@ -61,7 +61,7 @@ describe('EffectEngine', function () {
         });
     });
 
-    xdescribe('reapplyStateDependentEffects()', function() {
+    describe('reapplyStateDependentEffects()', function() {
         beforeEach(function() {
             this.engine.effects = [this.effectSpy];
         });
@@ -391,7 +391,7 @@ describe('EffectEngine', function () {
         });
     });
 
-    xdescribe('onAtEndOfPhase()', function() {
+    describe('onAtEndOfPhase()', function() {
         beforeEach(function() {
             this.engine.effects = [this.effectSpy];
         });
