@@ -2,7 +2,7 @@ const AbilityResolver = require('../../../server/game/gamesteps/abilityresolver.
 
 describe('AbilityResolver', function() {
     beforeEach(function() {
-        this.game = jasmine.createSpyObj('game', ['getPlayers', 'markActionAsTaken', 'popAbilityContext', 'pushAbilityContext', 'raiseEvent', 'reportError', 'raiseInitiateAbilityEvent']);
+        this.game = jasmine.createSpyObj('game', ['getPlayers', 'markActionAsTaken', 'popAbilityContext', 'pushAbilityContext', 'raiseEvent', 'reportError', 'raiseInitiateAbilityEvent', 'openEventWindow']);
         this.game.raiseEvent.and.callFake((name, params, handler) => {
             if(handler) {
                 handler(params);
@@ -17,6 +17,9 @@ describe('AbilityResolver', function() {
         this.ability = jasmine.createSpyObj('ability', ['isAction', 'isCardAbility', 'isCardPlayed', 'isPlayableEventAbility', 'resolveCosts', 'payCosts', 'resolveTargets', 'executeHandler']);
         this.ability.isCardAbility.and.returnValue(true);
         this.source = jasmine.createSpyObj('source', ['createSnapshot', 'getType']);
+        this.costEvent = jasmine.createSpyObj('costEvent', ['getResult']);
+        this.costEvent.getResult.and.returnValue({ resolved: true, cancelled: false});
+        this.ability.payCosts.and.returnValue([this.costEvent]);
         this.player = { player: 1 };
         this.game.getPlayers.and.returnValue([this.player]);
         this.context = { foo: 'bar', player: this.player, source: this.source, ability: this.ability, targets: {}, selects: {}, rings: {} };

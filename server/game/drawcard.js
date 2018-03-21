@@ -114,19 +114,21 @@ class DrawCard extends BaseCard {
     }
     
     allowGameAction(actionType, context = null) {
-        if(actionType === 'dishonor') {
+        if(actionType === 'break' || this.facedown) {
+            return false;
+        } else if(actionType === 'dishonor') {
             if(this.location !== 'play area' || this.type !== 'character' || this.isDishonored || 
                (!super.allowGameAction('becomeDishonored', context) && !this.isHonored)) {
                 return false;
             }
         } else if(actionType === 'honor' && (this.location !== 'play area' || this.type !== 'character' || this.isHonored)) {
             return false;
-        } else if(actionType === 'bow' && (this.location !== 'play area' || this.bowed)) {
+        } else if(actionType === 'bow' && (['event', 'holding'].includes(this.type) || this.location !== 'play area' || this.bowed)) {
             return false;
-        } else if(actionType === 'ready' && (this.location !== 'play area' || !this.bowed)) {
+        } else if(actionType === 'ready' && (['event', 'holding'].includes(this.type) || this.location !== 'play area' || !this.bowed)) {
             return false;
         } else if(actionType === 'moveToConflict') {
-            if(!this.game.currentConflict || this.isParticipating()) {
+            if(!this.game.currentConflict || this.isParticipating() || this.type !== 'character') {
                 return false;
             }
             if(this.controller.isAttackingPlayer()) {
@@ -152,8 +154,11 @@ class DrawCard extends BaseCard {
             if(this.conflictOptions.cannotParticipateIn[this.game.currentConflict.conflictType]) {
                 return false;
             }            
-        } else if(actionType === 'putIntoPlay' && this.isUnique()) {
-            if(this.game.allCards.any(card => (
+        } else if(actionType === 'putIntoPlay') {
+            if(this.location === 'play area' || !['character', 'attachment'].includes(this.type)) {
+                return false;
+            }
+            if(this.isUnique() && this.game.allCards.any(card => (
                 card.location === 'play area' &&
                 card.name === this.name &&
                 ((card.owner === context.player || card.controller === context.player) || (card.owner === this.owner)) &&
