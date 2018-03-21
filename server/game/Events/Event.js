@@ -8,9 +8,7 @@ class Event {
         this.handler = handler;
         this.window = null;
         this.thenEvents = [];
-        this.getResult = () => {
-            return { resolved: this.resolved, cancelled: this.cancelled };
-        };
+        this.getOutcome = () => ({ resolved: this.resolved, cancelled: this.cancelled });
         this.condition = () => true;
         this.parentEvent = null;
         this.order = 0;

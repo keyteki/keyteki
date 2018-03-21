@@ -4,6 +4,7 @@ class BaseCardSelector {
         this.cardType = properties.cardType;
         this.gameAction = properties.gameAction;
         this.optional = properties.optional;
+        this.stage = properties.stage || 'effect';
 
         if(!Array.isArray(properties.cardType)) {
             this.cardType = [properties.cardType];

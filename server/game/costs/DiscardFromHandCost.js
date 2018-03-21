@@ -7,8 +7,8 @@ class DiscardFromHandCost {
         return card.location === 'hand';
     }
 
-    payEvent(cards, context) {
-        context.game.getEvent('payCosts', {}, () => context.player.discardCardsFromHand(cards, false));
+    pay(cards, context) {
+        context.player.discardCardsFromHand(cards, false);
     }
 }
 
