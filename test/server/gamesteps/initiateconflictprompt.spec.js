@@ -54,10 +54,6 @@ describe('InitateConflictPrompt: ', function() {
                     this.promptProperties = this.prompt.activePrompt();
                 });
 
-                it('should check skill totals', function() {
-                    expect(this.conflictSpy.calculateSkill).toHaveBeenCalled();
-                });
-
                 it('should display total Skill selected', function() {
                     expect(this.promptProperties.menuTitle).toContain('skill: 4');
                 });

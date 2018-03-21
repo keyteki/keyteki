@@ -510,7 +510,7 @@ describe('Effect', function() {
         });
     });
 
-    describe('reapply()', function() {
+    xdescribe('reapply()', function() {
         beforeEach(function() {
             this.target = createTarget({ target: 1, location: 'play area' });
             this.newTarget = createTarget({ target: 2, location: 'play area' });

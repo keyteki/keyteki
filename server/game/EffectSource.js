@@ -111,6 +111,13 @@ class EffectSource {
         this.game.addEffect(this, _.extend({ duration: 'custom', location: 'any' }, properties));
     }
 
+    /**
+     * Applies a delayed effect
+     */
+    delayedEffect(properties) {
+        return this.game.addDelayedEffect(this, properties);
+    }
+
     getShortSummary() {
         return {
             id: this.id,

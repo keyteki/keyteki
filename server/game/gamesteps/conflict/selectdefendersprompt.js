@@ -24,7 +24,7 @@ class SelectDefendersPrompt extends UiPrompt {
     }
 
     activePrompt() {
-        this.conflict.calculateSkill();
+        //this.conflict.calculateSkill();
         let promptTitle = (capitalize[this.conflict.conflictType] + ' ' + capitalize[this.conflict.conflictRing] + ' Conflict: ' 
             + this.conflict.attackerSkill + ' vs ' + this.conflict.defenderSkill);
         return {
@@ -60,7 +60,7 @@ class SelectDefendersPrompt extends UiPrompt {
     }
 
     selectCard(card) {
-        if(this.conflict.maxAllowedDefenders !== 0 && this.conflict.defenders.length >= this.conflict.maxAllowedDefenders && !_.contains(this.conflict.defenders, card)) {
+        if(this.conflict.maxAllowedDefenders > -1 && this.conflict.defenders.length >= this.conflict.maxAllowedDefenders && !_.contains(this.conflict.defenders, card)) {
             return false;
         }
 
@@ -69,6 +69,8 @@ class SelectDefendersPrompt extends UiPrompt {
         } else {
             this.conflict.removeFromConflict(card);
         }
+
+        this.conflict.calculateSkill(true);
 
         return true;
     }

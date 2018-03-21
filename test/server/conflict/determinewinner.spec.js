@@ -8,6 +8,8 @@ describe('Conflict', function() {
         this.gameSpy.applyGameAction.and.callFake((type, card, handler) => {
             handler(card);
         });
+        this.effectEngineSpy = jasmine.createSpyObj('effectEngine', ['checkEffects']);
+        this.gameSpy.effectEngine = this.effectEngineSpy;
 
         this.attackingPlayer = new Player('1', { username: 'Player 1', settings: {} }, true, this.gameSpy);
         spyOn(this.attackingPlayer, 'winConflict');

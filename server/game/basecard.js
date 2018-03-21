@@ -315,7 +315,7 @@ class BaseCard extends EffectSource {
         this.blankCount++;
         var after = this.isBlank();
         if(!before && after) {
-            this.game.raiseEvent('onCardBlankToggled', { card: this, isBlank: after });
+            this.game.emitEvent('onCardBlankToggled', { card: this, isBlank: after });
         }
     }
 
@@ -355,8 +355,6 @@ class BaseCard extends EffectSource {
         } else {
             this.traits[lowerCaseTrait]++;
         }
-
-        this.game.raiseEvent('onCardTraitChanged', { card: this });
     }
 
     addFaction(faction) {
@@ -367,8 +365,6 @@ class BaseCard extends EffectSource {
         var lowerCaseFaction = faction.toLowerCase();
         this.factions[lowerCaseFaction] = this.factions[lowerCaseFaction] || 0;
         this.factions[lowerCaseFaction]++;
-
-        this.game.raiseEvent('onCardFactionChanged', { card: this });
     }
 
     removeKeyword(keyword) {
@@ -381,12 +377,10 @@ class BaseCard extends EffectSource {
         let lowerCaseTrait = trait.toLowerCase();
         this.traits[lowerCaseTrait] = this.traits[lowerCaseTrait] || 0;
         this.traits[lowerCaseTrait]--;
-        this.game.raiseEvent('onCardTraitChanged', { card: this });
     }
 
     removeFaction(faction) {
         this.factions[faction.toLowerCase()]--;
-        this.game.raiseEvent('onCardFactionChanged', { card: this });
     }
 
     clearBlank() {
@@ -394,7 +388,7 @@ class BaseCard extends EffectSource {
         this.blankCount--;
         var after = this.isBlank();
         if(before && !after) {
-            this.game.raiseEvent('onCardBlankToggled', { card: this, isBlank: after });
+            this.game.emitEvent('onCardBlankToggled', { card: this, isBlank: after });
         }
     }
 

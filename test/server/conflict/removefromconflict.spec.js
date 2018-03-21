@@ -8,6 +8,8 @@ describe('Conflict', function() {
         this.gameSpy.applyGameAction.and.callFake((type, card, handler) => {
             handler(card);
         });
+        this.effectEngineSpy = jasmine.createSpyObj('effectEngine', ['checkEffects']);
+        this.gameSpy.effectEngine = this.effectEngineSpy;
 
         this.attackingPlayer = new Player('1', { username: 'Player 1', settings: {} }, true, this.gameSpy);
         spyOn(this.attackingPlayer, 'winConflict');
@@ -22,6 +24,7 @@ describe('Conflict', function() {
         this.conflict = new Conflict(this.gameSpy, this.attackingPlayer, this.defendingPlayer, 'military');
         this.conflict.addAttackers([this.attackerCard]);
         this.conflict.addDefenders([this.defenderCard]);
+        this.conflict.calculateSkill();
     });
 
     describe('removeFromConflict()', function() {
@@ -33,11 +36,6 @@ describe('Conflict', function() {
             it('should remove the card from the attacker list', function() {
                 expect(this.conflict.attackers).not.toContain(this.attackerCard);
             });
-
-            it('should recalculate conflict skills', function() {
-                expect(this.conflict.attackerSkill).toBe(0);
-                expect(this.conflict.defenderSkill).toBe(3);
-            });
         });
 
         describe('when the card is a defender', function() {
@@ -47,11 +45,6 @@ describe('Conflict', function() {
 
             it('should remove the card from the defender list', function() {
                 expect(this.conflict.defenders).not.toContain(this.defenderCard);
-            });
-
-            it('should recalculate conflict skills', function() {
-                expect(this.conflict.attackerSkill).toBe(5);
-                expect(this.conflict.defenderSkill).toBe(0);
             });
         });
 
