@@ -97,19 +97,56 @@ class GameServer {
     handleError(game, e) {
         logger.error(e);
 
-        var debugData = {};
+        let gameState = game.getState();
+        let debugData = {};
 
-        debugData.game = game.getState();
+        if(e.message.includes('Maximum call stack')) {
+            debugData.badSerializaton = this.detectBinary(gameState);
+        } else {
+            debugData.game = gameState;
+            debugData.game.players = undefined;
 
-        _.each(game.getPlayers(), player => {
-            debugData[player.name] = player.getState(player);
-        });
+            debugData.messages = game.messages;
+            debugData.game.messages = undefined;
 
+            debugData.pipeline = game.pipeline.getDebugInfo();
+
+            _.each(game.getPlayers(), player => {
+                debugData[player.name] = player.getState(player);
+            });
+        }
+        
         Raven.captureException(e, { extra: debugData });
 
         if(game) {
             game.addMessage('A Server error has occured processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.');
         }
+    }
+
+    detectBinary(state, path = '', results = []) {
+        const allowedTypes = ['Array', 'Boolean', 'Date', 'Number', 'Object', 'String'];
+
+        if(!state) {
+            return results;
+        }
+
+        let type = state.constructor.name;
+
+        if(!allowedTypes.includes(type)) {
+            results.push({ path: path, type: type });
+        }
+
+        if(type === 'Object') {
+            for(let key in state) {
+                this.detectBinary(state[key], `${path}.${key}`, results);
+            }
+        } else if(type === 'Array') {
+            for(let i = 0; i < state.length; ++i) {
+                this.detectBinary(state[i], `${path}[${i}]`, results);
+            }
+        }
+
+        return results;
     }
 
     runAndCatchErrors(game, func) {
