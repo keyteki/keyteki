@@ -114,7 +114,7 @@ class DrawCard extends BaseCard {
     }
     
     allowGameAction(actionType, context = null) {
-        if(actionType === 'break' || this.facedown) {
+        if(actionType === 'break') {
             return false;
         } else if(actionType === 'dishonor') {
             if(this.location !== 'play area' || this.type !== 'character' || this.isDishonored || 
@@ -155,7 +155,7 @@ class DrawCard extends BaseCard {
                 return false;
             }            
         } else if(actionType === 'putIntoPlay') {
-            if(this.location === 'play area' || !['character', 'attachment'].includes(this.type)) {
+            if(this.location === 'play area' || this.facedown || !['character', 'attachment'].includes(this.type)) {
                 return false;
             }
             if(this.isUnique() && this.game.allCards.any(card => (
@@ -168,7 +168,7 @@ class DrawCard extends BaseCard {
             }
         } else if(actionType === 'removeFate' && (this.location !== 'play area' || this.fate === 0 || this.type !== 'character')) {
             return false;
-        } else if(actionType === 'sacrifice' && ['character', 'attachment'].includes(this.type) && this.location !== 'play area') {
+        } else if(actionType === 'sacrifice' && ((['character', 'attachment'].includes(this.type) && this.location !== 'play area') || this.facedown)) {
             return false;
         } else if(['discardFromPlay', 'returnToHand', 'returnToDeck', 'takeControl'].includes(actionType) && this.location !== 'play area') {
             return false;
