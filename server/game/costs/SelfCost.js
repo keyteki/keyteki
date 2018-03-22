@@ -16,8 +16,8 @@ class SelfCost {
         return result;
     }
 
-    pay(context) {
-        this.action.pay([context.costs[this.action.name]], context);
+    payEvent(context) {
+        return this.action.payEvent([context.costs[this.action.name]], context);
     }
 
     canUnpay(context) {
