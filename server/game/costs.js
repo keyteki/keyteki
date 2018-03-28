@@ -11,10 +11,13 @@ const Costs = {
             canPay: function(context) {
                 return _.all(costs, cost => cost.canPay(context));
             },
-            pay: function(context) {
-                _.each(costs, cost => {
+            payEvent: function(context) {
+                return _.map(costs, cost => {
+                    if(cost.payEvent) {
+                        return cost.payEvent(context);
+                    }
                     if(cost.pay) {
-                        cost.pay(context);
+                        return context.game.getEvent('payCost', {}, () => cost.pay(context));
                     }
                 });
             },
@@ -293,13 +296,11 @@ const Costs = {
     giveFateToOpponent: function(amount) {
         return {
             canPay: function(context) {
-                return context.player.fate >= amount && (context.source.allowGameAction('giveFate', context) || amount === 0);
+                return amount === 0 || (context.player.fate >= amount && context.player.opponent && context.source.allowGameAction('giveFate', context));
             },
             pay: function(context) {
-                context.game.addFate(context.player, -amount);
-                let otherPlayer = context.game.getOtherPlayer(context.player);
-                if(otherPlayer) {
-                    context.game.addFate(otherPlayer, amount);
+                if(amount > 0) {
+                    context.game.transferFate(context.player.opponent, context.player, amount);
                 }
             }
         };

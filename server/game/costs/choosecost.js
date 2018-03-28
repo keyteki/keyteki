@@ -57,6 +57,7 @@ class ChooseCost {
     }
 
     pay(context) {
+        // TODO: if this is ever used, it may need updating to pass events
         this.chosenCost.pay(context);
     }
 }
