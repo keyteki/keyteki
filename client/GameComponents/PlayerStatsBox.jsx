@@ -56,7 +56,7 @@ export class PlayerStatsBox extends React.Component {
         let secondsLeft = this.getStatValueOrDefault('chessClockLeft');
         let chessClock = (
             <div className='state'>
-                <Clock secondsLeft={ secondsLeft } active={ this.getStatValueOrDefault('chessClockActive') } />
+                <Clock secondsLeft={ secondsLeft } active={ this.props.stats['chessClockActive'] } />
             </div>);
             
         return (
