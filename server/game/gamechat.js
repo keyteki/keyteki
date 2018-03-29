@@ -1,6 +1,6 @@
 const _ = require('underscore');
 
-const BaseCard = require('./basecard.js');
+const EffectSource = require('./EffectSource');
 const Spectator = require('./spectator.js');
 
 class GameChat {
@@ -60,7 +60,7 @@ class GameChat {
                 if(!_.isUndefined(arg) && !_.isNull(arg)) {
                     if(_.isArray(arg)) {
                         return this.formatArray(arg);
-                    } else if(arg instanceof BaseCard) {
+                    } else if(arg instanceof EffectSource) {
                         return { id: arg.id, label: arg.name, type: arg.getType() };
                     } else if(arg instanceof Spectator) {
                         return { name: arg.user.username, emailHash: arg.user.emailHash, noAvatar: arg.user.settings.disableGravatar };
