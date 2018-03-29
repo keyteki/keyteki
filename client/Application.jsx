@@ -14,6 +14,7 @@ import Decks from './Decks.jsx';
 import AddDeck from './AddDeck.jsx';
 import EditDeck from './EditDeck.jsx';
 import NotFound from './NotFound.jsx';
+import ErrorBoundary from './SiteComponents/ErrorBoundary.jsx';
 import NavBar from './NavBar.jsx';
 import GameLobby from './GameLobby.jsx';
 import GameBoard from './GameBoard.jsx';
@@ -412,7 +413,9 @@ class App extends React.Component {
         return (<div className={ backgroundClass }>
             <NavBar leftMenu={ leftMenu } rightMenu={ rightMenu } title='Jigoku Online' currentPath={ this.props.path } numGames={ this.props.games.length } />
             <div className='container'>
-                { component }
+                <ErrorBoundary navigate={ this.props.navigate } errorPath={ this.props.path } message={ 'We\'re sorry - something\'s gone wrong.' }>
+                    { component }
+                </ErrorBoundary>
             </div>
         </div>);
     }

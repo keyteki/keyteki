@@ -1,4 +1,4 @@
-/*global user, authToken, Raven */
+/*global user, authToken */
 import React from 'react';
 import { render } from 'react-dom';
 import Application from './Application.jsx';
@@ -7,8 +7,10 @@ import configureStore from './configureStore';
 import { navigate, login } from './actions';
 import 'bootstrap/dist/js/bootstrap';
 import ReduxToastr from 'react-redux-toastr';
+import Raven from 'raven-js';
 
 import version from '../version.js';
+import ErrorBoundary from './SiteComponents/ErrorBoundary';
 
 const ravenOptions = {
     ignoreErrors: [
@@ -79,6 +81,8 @@ render(
                 position='top-right'
                 transitionIn='fadeIn'
                 transitionOut='fadeOut' />
-            <Application />
+            <ErrorBoundary message={ 'We\'re sorry, a critical error has occured in the client and we\'re unable to show you anything.  Please try refreshing your browser after filling out a report.' }>
+                <Application />
+            </ErrorBoundary>
         </div>
     </Provider>, document.getElementById('component'));
