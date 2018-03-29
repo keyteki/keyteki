@@ -4,6 +4,7 @@ class MeddlingMediator extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Take 1 fate or 1 honor',
+            phase: 'conflict',
             condition: () => this.controller.opponent && this.controller.opponent.conflicts.complete > 1,
             target: {
                 mode: 'select',
