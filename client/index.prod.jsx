@@ -7,6 +7,7 @@ import configureStore from './configureStore';
 import { navigate, login } from './actions';
 import 'bootstrap/dist/js/bootstrap';
 import ReduxToastr from 'react-redux-toastr';
+import Raven from 'raven-js';
 
 import version from '../version.js';
 
