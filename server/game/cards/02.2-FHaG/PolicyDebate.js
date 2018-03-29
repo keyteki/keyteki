@@ -23,7 +23,7 @@ class PolicyDebate extends DrawCard {
                     }
                     this.game.promptWithHandlerMenu(winner.controller, {
                         activePromptTitle: 'Choose card to discard',
-                        cards: loser.controller.hand.toArray(),
+                        cards: loser.controller.hand.sortBy(card => card.name),
                         cardHandler: card => loser.controller.discardCardFromHand(card),
                         source: this
                     });
