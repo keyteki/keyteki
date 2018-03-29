@@ -1,4 +1,4 @@
-/*global user, authToken, Raven */
+/*global user, authToken */
 import React from 'react';
 import { render } from 'react-dom';
 import Application from './Application.jsx';

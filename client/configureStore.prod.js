@@ -8,14 +8,14 @@ import _ from 'underscore';
 import callAPIMiddleware from './middleware/api-middleware.js';
 
 const enhancer = compose(
-     applyMiddleware(thunkMiddleware, callAPIMiddleware, createRavenMiddleware(Raven, {
+    applyMiddleware(thunkMiddleware, callAPIMiddleware, createRavenMiddleware(Raven, {
         stateTransformer: state => {
             let ret = _.omit(state, 'auth');
 
             ret.cards = _.omit(ret.cards, 'alliances', 'cards', 'factions', 'packs');
             return ret;
         }
-    })));;
+    })));
 
 export default function configureStore(initialState) {
     const store = createStore(rootReducer, initialState, enhancer);
