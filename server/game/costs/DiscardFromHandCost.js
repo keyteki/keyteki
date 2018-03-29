@@ -8,7 +8,7 @@ class DiscardFromHandCost {
     }
 
     payEvent(cards, context) {
-        context.game.getEvent('payCosts', {}, () => context.player.discardCardsFromHand(cards, false));
+        return context.game.getEvent('payCosts', {}, () => context.player.discardCardsFromHand(cards, false));
     }
 }
 
