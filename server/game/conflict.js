@@ -23,8 +23,12 @@ class Conflict {
         this.attackerSkillModifier = 0;
         this.defenders = [];
         this.defenderSkill = 0;
-        this.maxAllowedDefenders = 0;
+        this.maxAllowedDefenders = -1;
         this.defenderSkillModifier = 0;
+        this.skillFunction = card => card.getSkill(this.conflictType);
+    }
+
+    resetSkillFunction () {
         this.skillFunction = card => card.getSkill(this.conflictType);
     }
 
@@ -51,7 +55,6 @@ class Conflict {
         if(attackers.length > 0) {
             this.attackers = this.attackers.concat(attackers);
             this.markAsParticipating(attackers);
-            this.calculateSkill();
         }
     }
 
@@ -61,7 +64,6 @@ class Conflict {
         }
         this.attackers.push(attacker);
         this.markAsParticipating([attacker]);
-        this.calculateSkill();
     }
 
     addDefenders(defenders) {
@@ -69,7 +71,6 @@ class Conflict {
         if(defenders.length > 0) {
             this.defenders = this.defenders.concat(defenders);
             this.markAsParticipating(defenders);
-            this.calculateSkill();
         }
     }
 
@@ -79,7 +80,6 @@ class Conflict {
         }
         this.defenders.push(defender);
         this.markAsParticipating([defender]);
-        this.calculateSkill();
     }
     
     moveToConflict(cards) {
@@ -210,7 +210,6 @@ class Conflict {
         ring.flipConflictType();
         this.conflictType = ring.conflictType;
         this.conflictTypeSwitched = true;
-        this.game.reapplyStateDependentEffects();
         this.checkForIllegalParticipants();
     }
     
@@ -253,8 +252,6 @@ class Conflict {
         this.defenders = _.reject(this.defenders, c => c === card);
 
         card.inConflict = false;
-
-        this.calculateSkill();
     }
 
     markAsParticipating(cards) {
@@ -291,10 +288,12 @@ class Conflict {
         }, 0);
     }
 
-    calculateSkill() {
+    calculateSkill(stateChanged = false) {
         if(this.winnerDetermined) {
-            return;
+            return false;
         }
+
+        stateChanged = this.game.effectEngine.checkEffects(stateChanged);
 
         this.attackerSkill = this.calculateSkillFor(this.attackers) + this.attackerSkillModifier;
         this.defenderSkill = this.calculateSkillFor(this.defenders) + this.defenderSkillModifier;
@@ -304,6 +303,7 @@ class Conflict {
         } else if(this.defendingPlayer.imperialFavor === this.conflictType && this.defenders.length > 0) {
             this.defenderSkill++;
         }
+        return stateChanged;
     }
 
     calculateSkillFor(cards) {
@@ -317,18 +317,15 @@ class Conflict {
 
     modifyAttackerSkill(value) {
         this.attackerSkillModifier += value;
-        this.calculateSkill();
     }
 
     modifyDefenderSkill(value) {
         this.defenderSkillModifier += value;
-        this.calculateSkill();
     }
 
     determineWinner() {
-        this.winnerDetermined = true;
-
         this.calculateSkill();
+        this.winnerDetermined = true;
 
         let result = this.checkNoWinnerOrLoser();
         if(result.noWinner) {

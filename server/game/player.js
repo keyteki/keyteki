@@ -990,7 +990,7 @@ class Player extends Spectator {
             }
         });
 
-        _.each(cards, card => card.applyPersistentEffects());
+        //_.each(cards, card => card.applyPersistentEffects());
 
         //this.game.raiseMultipleEvents(events);
     }
@@ -1111,6 +1111,7 @@ class Player extends Spectator {
             }
         });
 
+        this.game.queueSimpleStep(() => this.game.checkGameState(true));
 
         let events = [{
             name: 'onCardAttached',

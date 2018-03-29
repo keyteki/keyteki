@@ -20,7 +20,7 @@ class ConflictActionWindow extends ActionWindow {
     continue() {
         let completed = super.continue();
         if(!completed && this.displayTotals) {
-            this.conflict.calculateSkill();
+            //this.conflict.calculateSkill();
             let conflictText = capitalize[this.conflict.conflictType] + ' ' + capitalize[this.conflict.conflictRing] + ' conflict';
             this.game.addMessage('{0} - Attacker: {1} Defender: {2}', conflictText, this.conflict.attackerSkill, this.conflict.defenderSkill);
             let winnerText = 'Attacker is winning the conflict';
@@ -41,7 +41,7 @@ class ConflictActionWindow extends ActionWindow {
     activePrompt() {
         let props = super.activePrompt();
         
-        this.conflict.calculateSkill();
+        //this.conflict.calculateSkill();
         let conflictText = capitalize[this.conflict.conflictType] + ' ' + capitalize[this.conflict.conflictRing] + ' conflict';
         let skillText = 'Attacker: ' + this.conflict.attackerSkill + ' Defender: ' + this.conflict.defenderSkill;
         return {

@@ -5,6 +5,7 @@ describe('Game', function() {
     beforeEach(function() {
         this.gameService = jasmine.createSpyObj('gameService', ['save']);
         this.game = new Game('1', 'Test Game', { gameService: this.gameService });
+        this.spy = spyOn(this.game, 'checkGameState');
 
         this.player = jasmine.createSpyObj('player', ['']);
         this.player.name = 'Player 1';
