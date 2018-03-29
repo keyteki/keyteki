@@ -11,6 +11,9 @@ class BaseCardSelector {
     }
 
     canTarget(card, context, pretarget = false) {
+        if(!card) {
+            return false;
+        }
         if(pretarget && context.ability && !context.ability.canPayCosts(context, card)) {
             return false;
         }

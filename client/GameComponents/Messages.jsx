@@ -96,6 +96,13 @@ class InnerMessages extends React.Component {
             } else if(fragment.message) {
                 return this.formatMessageText(fragment.message);
             } else if(fragment.id && fragment.label) {
+                if(fragment.type === 'ring') {
+                    let element = fragment.label.split(' ')[0];
+                    return this.formatMessageText(['the ', element.toLowerCase(), ' ring']);
+                }
+                if(fragment.type === '') {
+                    return fragment.label;
+                }
                 return (
                     <span key={ index++ }
                         className='card-link'

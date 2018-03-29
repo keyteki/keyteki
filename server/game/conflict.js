@@ -29,7 +29,7 @@ class Conflict {
     }
 
     singlePlayerDefender() {
-        let dummyPlayer = new Player('', Settings.getUserWithDefaultsSet({ name: 'Dummy Player' }), false, this.game);
+        let dummyPlayer = new Player('', Settings.getUserWithDefaultsSet({ username: 'Dummy Player' }), false, this.game);
         dummyPlayer.initialise();
         return dummyPlayer;
     }
