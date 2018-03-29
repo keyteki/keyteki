@@ -14,7 +14,7 @@ import Decks from './Decks.jsx';
 import AddDeck from './AddDeck.jsx';
 import EditDeck from './EditDeck.jsx';
 import NotFound from './NotFound.jsx';
-import ErrorBoundary from './SiteComponents/ErrorBoundary';
+import ErrorBoundary from './SiteComponents/ErrorBoundary.jsx';
 import NavBar from './NavBar.jsx';
 import GameLobby from './GameLobby.jsx';
 import GameBoard from './GameBoard.jsx';
