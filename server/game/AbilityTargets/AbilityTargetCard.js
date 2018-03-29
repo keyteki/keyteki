@@ -87,6 +87,8 @@ class AbilityTargetCard {
     checkTarget(context) {
         if(this.properties.optional || context.targets[this.name] === 'noMoreTargets') {
             return true;
+        } else if(!context.targets[this.name]) {
+            return false;
         }
         let cards = context.targets[this.name];
         if(!_.isArray(cards)) {
