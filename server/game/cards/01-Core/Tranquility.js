@@ -4,7 +4,7 @@ class Tranquility extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Opponent\'s characters at home can\'t use abilities',
-            condition: () => this.game.currentConflict && this.controller.opponent,
+            condition: () => this.game.currentConflict && this.controller.opponent && this.controller.opponent.cardsInPlay.any(card => !card.inConflict),
             handler: () => {
                 this.game.addMessage('{0} plays {1} - characters at {2}\'s home are unable to trigger abilities until the end of the conflict', this.controller, this, this.controller.opponent);
                 this.controller.opponent.cardsInPlay.each(card => {
