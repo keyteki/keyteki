@@ -115,7 +115,7 @@ class InitiateConflictPrompt extends UiPrompt {
 
         _.each(this.conflict.attackers, card => {
             if(!card.canDeclareAsAttacker(ring.conflictType)) {
-                this.conflict.removeFromConflict(card);
+                this.removeFromConflict(card);
             }
         });
 
@@ -179,10 +179,8 @@ class InitiateConflictPrompt extends UiPrompt {
             if(card.controller === this.choosingPlayer) {
                 if(!this.conflict.attackers.includes(card)) {
                     this.conflict.addAttacker(card);
-                } else if(!card.isCovert() || this.covertRemaining) {
-                    this.conflict.removeFromConflict(card);
                 } else {
-                    return false;
+                    this.removeFromConflict(card);
                 }
             } else {
                 if(!this.selectedDefenders.includes(card)) {
@@ -197,6 +195,13 @@ class InitiateConflictPrompt extends UiPrompt {
         }
 
         return true;
+    }
+
+    removeFromConflict(card) {
+        if(card.isCovert() && !this.covertRemaining) {
+            this.selectedDefenders.pop().covert = false;
+        }
+        this.conflict.removeFromConflict(card);
     }
 
     menuCommand(player, arg) {
