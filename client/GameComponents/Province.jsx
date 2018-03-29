@@ -76,6 +76,11 @@ class Province extends React.Component {
             cardClassName = 'province-attachment';
         }
 
+        if(this.props.size !== 'normal') {
+            cardClassName += ' ' + this.props.size;
+        }
+
+
         if(this.props.orientation === 'horizontal' || this.props.orientation === 'bowed') {
             className += ' horizontal';
         } else {

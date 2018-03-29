@@ -147,6 +147,11 @@
       height: @card-sm-width;
       width: @card-sm-height;
     }
+
+    &.bowed {
+      left: 8px;
+      top: -8px;
+    }
   }
 
   &.vertical {
@@ -171,8 +176,8 @@
     }
 
     &.bowed {
-      left: 19px;
-      top: -20px;
+      left: 14px;
+      top: -14px;
     }
   }
 
@@ -188,8 +193,8 @@
     }
 
     &.bowed {
-      left: 24px;
-      top: -26px;
+      left: 20px;
+      top: -21px;
     }
   }
 
@@ -469,7 +474,19 @@
 }
 
 .province-attachment {
-  margin-top: @province-attachment-offset - @card-height;
+  margin-top: @attachment-offset - @card-height;
+
+  &.small {
+    margin-top: @attachment-offset-sm - @card-sm-height;
+  }
+
+  &.large {
+    margin-top: @attachment-offset-lg - @card-lg-height;
+  }
+
+  &.x-large {
+    margin-top: @attachment-offset-xl - @card-xl-height;
+  }
 }
 
 .generate-province-attachment(@n, @i: 1) when (@i =< @n) {
