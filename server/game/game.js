@@ -1565,14 +1565,14 @@ class Game extends EventEmitter {
         this.addMessage('{0} has reconnected', player);
     }
 
-    checkGameState(hasChanged = false, eventNames = []) {
+    checkGameState(hasChanged = false, events = []) {
         if(
             (this.currentConflict && this.currentConflict.calculateSkill(hasChanged)) ||
             this.effectEngine.checkEffects(hasChanged) || hasChanged
         ) {
             _.each(this.getPlayers(), player => player.cardsInPlay.each(card => card.checkForIllegalAttachments()));
         }
-        this.effectEngine.checkDelayedEffects(eventNames);
+        this.effectEngine.checkDelayedEffects(events.concat([this.getEvent('onCheckGameState', {})]));
     }
 
     continue() {

@@ -15,15 +15,16 @@ class KitsuSpiritcaller extends DrawCard {
             handler: context => {
                 this.game.addMessage('{0} bows {1} to call {2} back from the dead until the end of the conflict', this.controller, this, context.target);
                 let event = this.game.applyGameAction(context, { putIntoConflict: context.target })[0];
-                event.addThenEvent(this.game.getEvent('unnamedEvent', {}, () => this.delayedEffect({
-                    match: context.target,
-                    trigger: 'onConflictFinished',
+                event.addThenEvent(this.game.getEvent('unnamedEvent', {}, () => context.source.delayedEffect({
+                    target: context.target,
+                    when: {
+                        onConflictFinished: () => context.target.allowGameAction('returnToDeck')
+                    },
                     context: context,
-                    effectFunc: (card, context) => {
+                    handler: () => {
                         this.game.addMessage('{0} returns to the bottom of the deck due to {1}\'s effect', context.target, context.source);
-                        let events = this.game.getEventsForGameAction('returnToDeck', card, context);
+                        let events = this.game.applyGameAction(context, { returnToDeck: context.target });
                         events[0].options.bottom = true;
-                        return events;
                     }
                 })));
             }

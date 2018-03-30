@@ -1,107 +1,51 @@
-const _ = require('underscore');
-
 /**
- * Represents a delayed card based effect applied to one or more targets.
+ * Represents a delayed card based effect.
  *
  * Properties:
- * match            - function that takes a card and context object and returns
- *                    a boolean about whether the passed card should have the
- *                    effect applied. Alternatively, a card can be passed as the
- *                    match property to match that single card.
- * condition        - function that returns a boolean determining whether the
- *                    effect can be applied. Use with cards that have a
- *                    condition that must be met before applying a persistent
- *                    effect (e.g. "when there are more Summer plots revealed
- *                    than Winter plots").
- * targetController - string that determines which player's cards are targeted.
- *                    Can be 'current' (default), 'opponent' or 'any'.
- * targetType       - string that determines whether cards or players are the
- *                    target for the effect. Can be 'card' (default) or 'player'
+ * target           - card to which this effect has been applied
+ * context          - context of the ability which generated the effect
+ * when             - object with event names as keys and conditions as values
  * gameAction       - gameAction to apply to target
- * effectFunc       - a function
- * trigger
+ * message          - message to be displayed in chat with {0} as the source of the effect
+ *                    and {1} as the target
+ * handler          - a function which resolves the effect.  Can be omited if a gameAction
+ *                    is present
  */
 
 class DelayedEffect {
     constructor(game, source, properties) {
         this.game = game;
-        this.context = properties.context;
         this.source = source;
-        this.match = properties.match || (() => true);
-        this.condition = properties.condition || (() => true);
-        this.targetController = properties.targetController || 'current';
-        this.targetType = properties.targetType || 'card';
+        this.target = properties.target;
+        this.context = properties.context;
+        this.when = properties.when;
         this.gameAction = properties.gameAction;
-        this.effectFunc = properties.effectFunc;
         this.message = properties.message;
-        this.trigger = properties.trigger || [];
-        this.events = [];
-        if(!_.isArray(this.trigger)) {
-            this.trigger = [this.trigger];
-        }
+        this.handler = properties.handler;
     }
 
-    getTargets() {
-        if(!this.condition(this.context) || _.any(this.events, event => !event.cancelled)) {
-            return;
+    checkEffect(events) {
+        let matchingEvents = events.filter(event => this.when[event.name]);
+        if(matchingEvents.length > 0) {
+            if(matchingEvents.some(event => event.name !== 'onCheckGameState')) {
+                this.game.effectEngine.removeDelayedEffect(this);
+            }
+            return matchingEvents.some(event => this.when[event.name](event));
         }
-
-        if(!_.isFunction(this.match)) {
-            this.resolveEffect([this.match]);
-        } else if(this.targetType === 'player') {
-            this.addTargets(_.values(this.game.getPlayers()));
-        } else {
-            this.addTargets(this.game.getTargetsForEffect(this.match));
-        }
+        return false;
     }
 
-    addTargets(targets) {
-        if(!this.condition(this.context)) {
-            return;
-        }
-        this.resolveEffect(_.filter(targets, target => this.isValidTarget(target)));
-    }
-
-    resolveEffect(targets) {
-        if(targets.length === 0) {
+    executeHandler(event) {
+        if(this.handler) {
+            this.handler(event);
             return;
         }
         if(this.message) {
-            this.game.addMessage(this.message, targets, this.source);
+            this.game.addMessage(this.message, this.source, this.target);
         }
-        this.events = this.gameAction ? this.game.getEventsForGameAction(this.gameAction, targets, this.context) : this.effectFunc(targets, this.context);
-        if(this.game.currentEventWindow && this.trigger.length === 0) {
-            // Terminal conditions share reaction windows with the effect which triggered them
-            this.game.currentEventWindow.openThenEventWindow(this.events);
-        } else {
-            this.game.openEventWindow(this.events);
+        if(this.gameAction && this.target && (!this.event || this.event.cancelled)) {
+            this.event = this.game.applyGameAction(this.context, { [this.gameAction]: this.target })[0];
         }
-    }
-
-    isValidTarget(target) {
-        if(!this.match(target, this.context)) {
-            return false;
-        }
-
-        if(this.targetType === 'card') {
-            if(this.targetController === 'current') {
-                return target.controller === this.context.player;
-            }
-
-            if(this.targetController === 'opponent') {
-                return target.controller !== this.context.player;
-            }
-        } else if(this.targetType === 'player') {
-            if(this.targetController === 'current') {
-                return target === this.context.player;
-            }
-
-            if(this.targetController === 'opponent') {
-                return target !== this.context.player;
-            }
-        }
-
-        return true;
     }
 }
 

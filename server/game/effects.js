@@ -215,7 +215,7 @@ const Effects = {
     delayedEffect: function(properties) {
         return {
             apply: function(card, context) {
-                properties.match = card;
+                properties.target = card;
                 properties.context = properties.context || context;
                 context.delayedEffect = context.delayedEffect || {};
                 context.delayedEffect[card.uuid] = context.source.delayedEffect(properties);

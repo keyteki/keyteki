@@ -18,12 +18,13 @@ class AkodoToshiro extends DrawCard {
                     effect: ability.effects.cannotBeBroken()
                 }));
                 this.delayedEffect({
-                    match: context.source,
+                    target: context.source,
                     context: context,
-                    trigger: 'onConflictFinished',
+                    when: {
+                        onConflictFinished: () => !context.player.cardsInPlay.any(card => card.hasTrait('commander'))
+                    },
                     message: '{0} is discarded due to his delayed effect',
-                    gameAction: 'discardFromPlay',
-                    condition: () => !context.player.cardsInPlay.any(card => card.hasTrait('commander'))
+                    gameAction: 'discardFromPlay'
                 });
             }
         });

@@ -35,10 +35,10 @@ class EffectEngine {
         this.delayedEffects = _.reject(this.delayedEffects, e => e === effect);
     }
 
-    checkDelayedEffects(eventNames) {
+    checkDelayedEffects(events) {
         _.each(this.delayedEffects, effect => {
-            if(effect.trigger.length === 0 || _.any(effect.trigger, name => eventNames.includes(name))) {
-                effect.getTargets();
+            if(effect.checkEffect(events)) {
+                effect.executeHandler();
             }
         });
     }
@@ -73,7 +73,7 @@ class EffectEngine {
         this.unapplyAndRemove(effect => effect.duration === 'persistent' && effect.source === event.card && (effect.location === event.originalLocation || event.parentChanged));
         // Any lasting or delayed effects on this card should be removed when it leaves play
         this.unapplyAndRemove(effect => effect.match === event.card && effect.location !== 'any' && effect.duration !== 'persistent');
-        this.delayedEffects = _.reject(this.delayedEffects, effect => effect.match === event.card);
+        this.delayedEffects = _.reject(this.delayedEffects, effect => effect.target === event.card);
         this.addTargetForPersistentEffects(event.card, newArea);
     }
 
