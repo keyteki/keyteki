@@ -9,7 +9,6 @@ class AbilityResolver extends BaseStepWithPipeline {
 
         this.context = context;
         this.pipeline.initialise([
-            new SimpleStep(game, () => this.setNoNewActions()),
             new SimpleStep(game, () => this.createSnapshot()),
             new SimpleStep(game, () => this.resolveEarlyTargets()),
             new SimpleStep(game, () => this.waitForTargetResolution(true)),
@@ -21,10 +20,6 @@ class AbilityResolver extends BaseStepWithPipeline {
             new SimpleStep(game, () => this.waitForTargetResolution()),
             new SimpleStep(game, () => this.initiateAbility())
         ]);
-    }
-
-    setNoNewActions() {
-        _.each(this.game.getPlayers(), player => player.canInitiateAction = false);
     }
 
     createSnapshot() {

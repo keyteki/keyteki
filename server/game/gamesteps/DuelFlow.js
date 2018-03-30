@@ -21,14 +21,15 @@ class DuelFlow extends BaseStepWithPipeline {
         this.duel = duel;
         this.resolutionHandler = resolutionHandler;
         this.pipeline.initialise([
-            new SimpleStep(this.game, () => this.game.reapplyStateDependentEffects()),
+            new SimpleStep(this.game, () => this.game.checkGameState(true)),
             new HonorBidPrompt(this.game, 'Choose your bid for the duel\n' + this.duel.getTotalsForDisplay()),
             new SimpleStep(this.game, costHandler),
             new SimpleStep(this.game, () => this.modifyDuelingSkill()),
             new SimpleStep(this.game, () => this.determineResults()),
             new SimpleStep(this.game, () => this.announceResult()),
             new SimpleStep(this.game, () => this.applyDuelResults()),
-            new SimpleStep(this.game, () => this.cleanUpDuel())            
+            new SimpleStep(this.game, () => this.cleanUpDuel()),
+            new SimpleStep(this.game, () => this.game.checkGameState(true))
         ]);
     }
 

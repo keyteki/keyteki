@@ -3,7 +3,7 @@ const DrawCard = require('../../../server/game/drawcard.js');
 describe('DrawCard', function() {
     beforeEach(function() {
         this.owner = {
-            game: jasmine.createSpyObj('game', ['raiseEvent'])
+            game: jasmine.createSpyObj('game', ['emitEvent'])
         };
     });
 

@@ -58,13 +58,12 @@ class InitiateConflictPrompt extends UiPrompt {
                 if(this.covertRemaining) {
                     menuTitle = 'Choose defenders to Covert';
                 } else {
-                    this.conflict.calculateSkill();
                     menuTitle = capitalize[this.conflict.conflictType] + ' skill: '.concat(this.conflict.attackerSkill);
                 }
                 buttons.unshift({ text: 'Initiate Conflict', arg: 'done' });
             }
-        }
-        
+        }        
+
         return {
             selectRing: true,
             menuTitle: menuTitle,
@@ -108,14 +107,18 @@ class InitiateConflictPrompt extends UiPrompt {
         let canInitiateThisConflictType = !player.conflicts.isAtMax(ring.conflictType);        
         let canInitiateOtherConflictType = !player.conflicts.isAtMax(ring.conflictType === 'military' ? 'political' : 'military');
 
-        if((this.conflict.conflictRing === ring.element && canInitiateOtherConflictType) ||
-                (this.conflict.conflictRing !== ring.element && !canInitiateThisConflictType)) {
+        if(this.conflict.conflictRing === ring.element) {
+            if(!canInitiateOtherConflictType) {
+                return false;
+            }
+            this.game.flipRing(player, ring);
+        } else if(!canInitiateThisConflictType) {
             this.game.flipRing(player, ring);
         }
 
         _.each(this.conflict.attackers, card => {
             if(!card.canDeclareAsAttacker(ring.conflictType)) {
-                this.conflict.removeFromConflict(card);
+                this.removeFromConflict(card);
             }
         });
 
@@ -125,9 +128,10 @@ class InitiateConflictPrompt extends UiPrompt {
             this.conflict.conflictProvince.inConflict = false;
             this.conflict.conflictProvince = null;
         }
-        this.game.reapplyStateDependentEffects();
-        this.conflict.calculateSkill();
+
+        this.conflict.calculateSkill(true);
         this.recalculateCovert();
+
         return true;
     }
 
@@ -179,10 +183,8 @@ class InitiateConflictPrompt extends UiPrompt {
             if(card.controller === this.choosingPlayer) {
                 if(!this.conflict.attackers.includes(card)) {
                     this.conflict.addAttacker(card);
-                } else if(!card.isCovert() || this.covertRemaining) {
-                    this.conflict.removeFromConflict(card);
                 } else {
-                    return false;
+                    this.removeFromConflict(card);
                 }
             } else {
                 if(!this.selectedDefenders.includes(card)) {
@@ -193,10 +195,19 @@ class InitiateConflictPrompt extends UiPrompt {
                     card.covert = false;
                 }         
             }
-            this.recalculateCovert();
         }
 
+        this.conflict.calculateSkill(true);
+        this.recalculateCovert();
+
         return true;
+    }
+
+    removeFromConflict(card) {
+        if(card.isCovert() && !this.covertRemaining) {
+            this.selectedDefenders.pop().covert = false;
+        }
+        this.conflict.removeFromConflict(card);
     }
 
     menuCommand(player, arg) {

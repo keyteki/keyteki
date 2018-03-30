@@ -19,7 +19,6 @@ class PlayTogashiKazueAsAttachment extends PlayAttachmentAction {
             context.player.isCardInPlayableLocation(this.originalCard, 'play') &&
             context.source.allowGameAction('putIntoPlay', context) &&
             this.originalCard.canPlay(clonedContext) &&
-            context.player.canInitiateAction &&
             this.canResolveTargets(clonedContext)
         );
     }

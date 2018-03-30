@@ -1,12 +1,11 @@
 const Player = require('../../../server/game/player.js');
 
-const PlayActionPrompt = require('../../../server/game/gamesteps/playactionprompt.js');
-
 describe('Player', function() {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'getOtherPlayer', 'playerDecked', 'resolveAbility', 'queueStep', 'raiseEvent']);
+        this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'getOtherPlayer', 'playerDecked', 'resolveAbility', 'queueStep', 'raiseEvent', 'promptWithHandlerMenu']);
         this.player = new Player('1', {username: 'Player 1', settings: {}}, true, this.gameSpy);
         this.player.initialise();
+        this.player.canInitiateAction = true;
     });
 
     describe('findAndUseAction', function() {
@@ -16,6 +15,7 @@ describe('Player', function() {
 
             this.player.hand.push(this.cardSpy);
             this.cardSpy.location = 'hand';
+            this.cardSpy.name = 'Card';
             this.cardSpy.controller = this.player;
         });
 
@@ -122,7 +122,7 @@ describe('Player', function() {
 
             it('should prompt the player to choose a play action', function() {
                 this.player.findAndUseAction(this.cardSpy);
-                expect(this.gameSpy.queueStep).toHaveBeenCalledWith(jasmine.any(PlayActionPrompt));
+                expect(this.gameSpy.promptWithHandlerMenu).toHaveBeenCalledWith(this.player, jasmine.objectContaining({ activePromptTitle: 'Play Card:' }));
             });
 
             it('should return true', function() {

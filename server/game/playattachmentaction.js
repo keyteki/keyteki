@@ -26,7 +26,6 @@ class PlayAttachmentAction extends BaseAbility {
             context.player.isCardInPlayableLocation(context.source, 'play') &&
             context.source.allowGameAction('putIntoPlay', context) &&
             context.source.canPlay(context) &&
-            context.player.canInitiateAction &&
             this.canResolveTargets(context)
         );
     }
