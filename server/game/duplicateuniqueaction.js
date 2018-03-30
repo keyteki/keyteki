@@ -17,8 +17,7 @@ class DuplicateUniqueAction extends BaseAbility {
             !source.facedown &&
             source.getType() === 'character' &&
             (player.isCardInPlayableLocation(context.source, 'dynasty') || player.isCardInPlayableLocation(context.source, 'play')) &&
-            player.getDuplicateInPlay(context.source) &&
-            player.canInitiateAction
+            player.getDuplicateInPlay(context.source)
         );
     }
     

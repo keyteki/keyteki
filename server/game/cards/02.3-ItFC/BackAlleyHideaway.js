@@ -51,7 +51,6 @@ class BackAlleyPlayCharacterAction extends DynastyCardAction {
             context.source.allowGameAction('putIntoPlay', context) &&
             context.source.canPlay(context) &&
             context.source.parent.canTriggerAbilities() &&
-            context.player.canInitiateAction &&
             this.canPayCosts(context)
         );
     }

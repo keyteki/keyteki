@@ -7,7 +7,6 @@ const AttachmentPrompt = require('./gamesteps/attachmentprompt.js');
 const ConflictTracker = require('./conflicttracker.js');
 const RingEffects = require('./RingEffects.js');
 const PlayableLocation = require('./playablelocation.js');
-const PlayActionPrompt = require('./gamesteps/playactionprompt.js');
 const PlayerPromptState = require('./playerpromptstate.js');
 const RoleCard = require('./rolecard.js');
 const StrongholdCard = require('./strongholdcard.js');
@@ -870,34 +869,37 @@ class Player extends Spectator {
 
     /**
      * Called when a card is clicked.  Gets all actions for that card (including standard actions), checks to see how many of them meet
-     * their requirements.  If only one does, calls that ability, if more than one do, creates a PlayActionPrompt
+     * their requirements.  If only one does, calls that ability, if more than one do, prompts the player to pick one
      * @param {BaseCard} card
      */
     findAndUseAction(card) {
-        if(!card) {
+        if(!card || !this.canInitiateAction) {
             return false;
         }
 
-        var context = new AbilityContext({
+        let contexts = _.map(card.getActions(), action => new AbilityContext({
             game: this.game,
             player: this,
-            source: card
-        });
+            source: card,
+            ability: action
+        }));
 
-        var actions = _.filter(card.getActions(), action => {
-            context.ability = action;
-            return action.meetsRequirements(context);
-        });
+        contexts = _.filter(contexts, context => context.ability.meetsRequirements(context));
 
-        if(actions.length === 0) {
+        if(contexts.length === 0) {
             return false;
         }
 
-        if(actions.length === 1) {
-            context.ability = actions[0];
-            this.game.resolveAbility(context);
+        this.canInitiateAction = false;
+        if(contexts.length === 1) {
+            this.game.resolveAbility(contexts[0]);
         } else {
-            this.game.queueStep(new PlayActionPrompt(this.game, this, actions, context));
+            this.game.promptWithHandlerMenu(this, {
+                activePromptTitle: (card.location === 'play area' ? 'Choose an ability:' : 'Play ' + card.name + ':'),
+                source: card,
+                choices: _.map(contexts, context => context.ability.title).concat('Cancel'),
+                handlers: _.map(contexts, context => (() => this.game.resolveAbility(context))).concat(() => true)
+            });
         }
 
         return true;
