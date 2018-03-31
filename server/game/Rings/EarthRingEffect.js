@@ -3,7 +3,7 @@ const BaseAbility = require('../baseability.js');
 class EarthRingEffect extends BaseAbility {
     constructor(optional = true) {
         super({});
-        this.title = 'Resolve the Earth Ring';
+        this.title = 'Earth Ring Effect';
         this.optional = optional;
     }
 

@@ -13,7 +13,7 @@ class AirRingEffect extends BaseAbility {
                 }
             }
         });
-        this.title = 'Resolve the Air Ring';
+        this.title = 'Air Ring Effect';
         this.optional = optional;
         this.cannotTargetFirst = !optional;
     }
