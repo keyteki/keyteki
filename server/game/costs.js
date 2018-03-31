@@ -312,7 +312,7 @@ const Costs = {
             },
             resolve: function(context, result = { resolved: false }) {
                 let extrafate = context.player.fate - context.player.getReducedCost('play', context.source);
-                if(!context.source.allowGameAction('placeFate', context) || !context.source.allowGameAction('spendFate', context)) {
+                if(!context.player.allowGameAction('placeFateWhenPlayingCharacter', context) || !context.player.allowGameAction('spendFate', context)) {
                     extrafate = 0;
                 }
                 let choices = [];

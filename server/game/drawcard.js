@@ -170,7 +170,7 @@ class DrawCard extends BaseCard {
             return false;
         } else if(actionType === 'sacrifice' && ((['character', 'attachment'].includes(this.type) && this.location !== 'play area') || this.facedown)) {
             return false;
-        } else if(['discardFromPlay', 'returnToHand', 'returnToDeck', 'takeControl'].includes(actionType) && this.location !== 'play area') {
+        } else if(['discardFromPlay', 'returnToHand', 'returnToDeck', 'takeControl', 'placeFate'].includes(actionType) && this.location !== 'play area') {
             return false;
         }
         return super.allowGameAction(actionType, context);
