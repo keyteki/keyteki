@@ -22,7 +22,7 @@ class PlayerInteractionWrapper {
     }
 
     set fate(newFate) {
-        if(newFate > 0) {
+        if(newFate >= 0) {
             this.player.fate = newFate;
         }
     }
