@@ -119,13 +119,13 @@ class ConflictFlow extends BaseStepWithPipeline {
         if(!this.conflict.isSinglePlayer) {
             this.conflict.conflictProvince.inConflict = true;
             if(this.conflict.conflictProvince.facedown) {
-                this.conflict.conflictProvince.facedown = false;
                 events.push({
                     name: 'onProvinceRevealed',
                     params: {
                         conflict: this.conflict,
                         province: this.conflict.conflictProvince
-                    }
+                    },
+                    handler: this.conflict.conflictProvince.facedown = false
                 });
             }
         }
