@@ -10,7 +10,7 @@ class VoidRingEffect extends BaseAbility {
                 gameAction: 'removeFate'
             }
         });
-        this.title = 'Resolve the Void Ring';
+        this.title = 'Void Ring Effect';
         this.optional = optional;
         this.cannotTargetFirst = !optional;
     }

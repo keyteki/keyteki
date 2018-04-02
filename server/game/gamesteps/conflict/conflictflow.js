@@ -1,7 +1,7 @@
 const _ = require('underscore');
 const AbilityContext = require('../../AbilityContext');
 const BaseStepWithPipeline = require('../basestepwithpipeline.js');
-const CovertAbility = require('./CovertAbility');
+const CovertAbility = require('../../KeywordAbilities/CovertAbility');
 const SimpleStep = require('../simplestep.js');
 const ConflictActionWindow = require('./conflictactionwindow.js');
 const InitiateConflictPrompt = require('./initiateconflictprompt.js');
@@ -119,13 +119,13 @@ class ConflictFlow extends BaseStepWithPipeline {
         if(!this.conflict.isSinglePlayer) {
             this.conflict.conflictProvince.inConflict = true;
             if(this.conflict.conflictProvince.facedown) {
-                this.conflict.conflictProvince.facedown = false;
                 events.push({
                     name: 'onProvinceRevealed',
                     params: {
                         conflict: this.conflict,
                         province: this.conflict.conflictProvince
-                    }
+                    },
+                    handler: this.conflict.conflictProvince.facedown = false
                 });
             }
         }

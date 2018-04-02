@@ -20,6 +20,8 @@ describe('Conflict', function() {
         spyOn(this.attackerCard, 'getSkill').and.returnValue(5);
         this.defenderCard = new DrawCard(this.defendingPlayer, {});
         spyOn(this.defenderCard, 'getSkill').and.returnValue(3);
+        spyOn(this.attackerCard, 'canParticipateAsAttacker').and.returnValue(true);
+        spyOn(this.defenderCard, 'canParticipateAsDefender').and.returnValue(true);
 
         this.conflict = new Conflict(this.gameSpy, this.attackingPlayer, this.defendingPlayer, 'military');
         this.conflict.addAttackers([this.attackerCard]);

@@ -361,7 +361,7 @@ const Effects = {
     playerCannotInitiateConflict: playerCannotEffect('initiateConflict'),
     cardCannotInitiateConflict: cardCannotEffect('initiateConflict'),
     cardCannotPlaceFate: cardCannotEffect('placeFate'),
-    playerCannotPlaceFate: playerCannotEffect('placeFate'),
+    cannotPlaceFateWhenPlayingCharacter: playerCannotEffect('placeFateWhenPlayingCharacter'),
     playerCannotSpendFate: playerCannotEffect('spendFate'),
     playerCannotTakeFirstAction: playerCannotEffect('takeFirstAction'),
     playerCannotTakeFateFromRings: playerCannotEffect('takeFateFromRings'),

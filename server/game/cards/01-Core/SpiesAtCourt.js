@@ -11,7 +11,7 @@ class SpiesAtCourt extends DrawCard {
             max: ability.limit.perConflict(1),
             handler: context => {
                 this.game.addMessage('{0} dishonors {1} and plays {2} to force {3} to discard 2 cards at random', this.controller, context.costs.dishonor, this, this.controller.opponent);
-                this.controller.opponent.discardAtRandom(2);
+                this.controller.opponent.discardAtRandom(2, context.source);
             }
         });
     }

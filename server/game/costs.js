@@ -184,7 +184,6 @@ const Costs = {
                 return true; // We have to check this condition in Ability.meetsRequirements(), or we risk players starting another ability while costs are resolving
             },
             pay: function(context) {
-                context.player.canInitiateAction = false;
                 context.game.markActionAsTaken();
             },
             canIgnoreForTargeting: true
@@ -312,7 +311,7 @@ const Costs = {
             },
             resolve: function(context, result = { resolved: false }) {
                 let extrafate = context.player.fate - context.player.getReducedCost('play', context.source);
-                if(!context.source.allowGameAction('placeFate', context) || !context.source.allowGameAction('spendFate', context)) {
+                if(!context.player.allowGameAction('placeFateWhenPlayingCharacter', context) || !context.player.allowGameAction('spendFate', context)) {
                     extrafate = 0;
                 }
                 let choices = [];

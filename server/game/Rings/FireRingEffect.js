@@ -10,7 +10,7 @@ class FireRingEffect extends BaseAbility {
                 cardCondition: card => card.location === 'play area' && (card.allowGameAction('honor') || card.allowGameAction('dishonor'))
             }
         });
-        this.title = 'Resolve the Fire Ring';
+        this.title = 'Fire Ring Effect';
         this.optional = optional;
         this.cannotTargetFirst = !optional;
     }

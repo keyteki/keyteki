@@ -22,6 +22,13 @@ class ActionWindow extends UiPrompt {
         return player === this.currentPlayer;
     }
 
+    onCardClicked(player, card) {
+        if(player !== this.currentPlayer) {
+            return false;
+        }
+        player.initiateCardAction(card);
+    }
+
     continue() {
         if(!this.currentPlayer.promptedActionWindows[this.windowName]) {
             this.pass();
@@ -34,7 +41,6 @@ class ActionWindow extends UiPrompt {
 
         if(!completed) {
             this.game.currentActionWindow = this;
-            this.currentPlayer.canInitiateAction = true;
         } else {
             this.game.currentActionWindow = null;
         }
@@ -60,8 +66,6 @@ class ActionWindow extends UiPrompt {
     }
 
     menuCommand(player, choice) {
-        player.canInitiateAction = false;
-
         if(choice === 'manual') {
             this.game.promptForSelect(this.currentPlayer, {
                 source: 'Manual Action',

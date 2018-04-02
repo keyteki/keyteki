@@ -62,7 +62,7 @@ describe('Charge!', function() {
                         this.player1.clickCard('charge', 'hand');
 
                         expect(this.player1).not.toHavePrompt('Choose a character');
-                        expect(this.player1.player.canInitiateAction).toBe(true);
+                        expect(this.game.currentActionWindow).not.toBe(null);
                     });
                 });
             });

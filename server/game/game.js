@@ -319,25 +319,6 @@ class Game extends EventEmitter {
             this.selectProvince(player, cardId);
             return;
         }
-
-        // Check if the card itself is waiting for a click
-        if(card.onClick(player)) {
-            return;
-        }
-
-        // Look for actions or play actions for this card
-        if(player.findAndUseAction(card)) {
-            return;
-        }
-
-        /* This doesn't really work with cards which trigger from being flipped
-        // If it's the Dynasty phase, and this is a Dynasty card in a province, flip it face up
-        if(['province 1', 'province 2', 'province 3', 'province 4'].includes(card.location) && card.controller === player && card.isDynasty) {
-            if(card.facedown && this.currentPhase === 'dynasty') {
-                card.facedown = false;
-                this.addMessage('{0} reveals {1}', player, card);
-            }
-        }*/
     }
 
     /*
@@ -386,9 +367,6 @@ class Game extends EventEmitter {
         if(this.pipeline.handleCardClicked(player, card)) {
             return;
         }
-
-        // Look for actions or play actions for this card
-        player.findAndUseAction(card);
     }
 
     /*

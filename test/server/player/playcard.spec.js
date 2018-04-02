@@ -5,10 +5,9 @@ describe('Player', function() {
         this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'getOtherPlayer', 'playerDecked', 'resolveAbility', 'queueStep', 'raiseEvent', 'promptWithHandlerMenu']);
         this.player = new Player('1', {username: 'Player 1', settings: {}}, true, this.gameSpy);
         this.player.initialise();
-        this.player.canInitiateAction = true;
     });
 
-    describe('findAndUseAction', function() {
+    describe('initiateCardAction', function() {
         beforeEach(function() {
             this.playActionSpy = jasmine.createSpyObj('playAction', ['meetsRequirements', 'canPayCosts', 'canResolveTargets']);
             this.cardSpy = jasmine.createSpyObj('card', ['getActions']);
@@ -22,7 +21,7 @@ describe('Player', function() {
         describe('when card is undefined', function() {
             beforeEach(function() {
                 this.player.hand.pop();
-                this.canPlay = this.player.findAndUseAction(undefined);
+                this.canPlay = this.player.initiateCardAction(undefined);
             });
 
             it('should return false', function() {
@@ -47,12 +46,12 @@ describe('Player', function() {
                 });
 
                 it('should resolve the play action', function() {
-                    this.player.findAndUseAction(this.cardSpy);
+                    this.player.initiateCardAction(this.cardSpy);
                     expect(this.gameSpy.resolveAbility).toHaveBeenCalledWith(jasmine.objectContaining({ game: this.gameSpy, player: this.player, source: this.cardSpy, ability: this.playActionSpy }));
                 });
 
                 it('should return true', function() {
-                    expect(this.player.findAndUseAction(this.cardSpy)).toBe(true);
+                    expect(this.player.initiateCardAction(this.cardSpy)).toBe(true);
                 });
             });
 
@@ -64,12 +63,12 @@ describe('Player', function() {
                 });
 
                 it('should not resolve the play action', function() {
-                    this.player.findAndUseAction(this.cardSpy);
+                    this.player.initiateCardAction(this.cardSpy);
                     expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
                 });
 
                 it('should return false', function() {
-                    expect(this.player.findAndUseAction(this.cardSpy)).toBe(false);
+                    expect(this.player.initiateCardAction(this.cardSpy)).toBe(false);
                 });
             });
 
@@ -81,12 +80,12 @@ describe('Player', function() {
                 });
 
                 it('should not resolve the play action', function() {
-                    this.player.findAndUseAction(this.cardSpy);
+                    this.player.initiateCardAction(this.cardSpy);
                     expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
                 });
 
                 it('should return false', function() {
-                    expect(this.player.findAndUseAction(this.cardSpy)).toBe(false);
+                    expect(this.player.initiateCardAction(this.cardSpy)).toBe(false);
                 });
             });
 
@@ -98,12 +97,12 @@ describe('Player', function() {
                 });
 
                 it('should not resolve the play action', function() {
-                    this.player.findAndUseAction(this.cardSpy);
+                    this.player.initiateCardAction(this.cardSpy);
                     expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
                 });
 
                 it('should return false', function() {
-                    expect(this.player.findAndUseAction(this.cardSpy)).toBe(false);
+                    expect(this.player.initiateCardAction(this.cardSpy)).toBe(false);
                 });
             });
         });
@@ -121,12 +120,12 @@ describe('Player', function() {
             });
 
             it('should prompt the player to choose a play action', function() {
-                this.player.findAndUseAction(this.cardSpy);
+                this.player.initiateCardAction(this.cardSpy);
                 expect(this.gameSpy.promptWithHandlerMenu).toHaveBeenCalledWith(this.player, jasmine.objectContaining({ activePromptTitle: 'Play Card:' }));
             });
 
             it('should return true', function() {
-                expect(this.player.findAndUseAction(this.cardSpy)).toBe(true);
+                expect(this.player.initiateCardAction(this.cardSpy)).toBe(true);
             });
         });
     });
