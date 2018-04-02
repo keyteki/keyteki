@@ -22,7 +22,7 @@ class BayushiShoju extends DrawCard {
                             when: {
                                 onCheckGameState: () => context.target.getPoliticalSkill() < 1
                             },
-                            message: '{0} is discarded due to {1}\'s lasting effect',
+                            message: '{1} is discarded due to {0}\'s lasting effect',
                             gameAction: 'discardFromPlay'
                         })
                     ]
