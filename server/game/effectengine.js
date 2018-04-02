@@ -43,7 +43,7 @@ class EffectEngine {
         });
     }
 
-    checkEffects(hasChanged = false) {
+    checkEffects(hasChanged = false, loops = 0) {
         if(!hasChanged && !this.newEffect) {
             return false;
         }
@@ -55,7 +55,11 @@ class EffectEngine {
         });
         returnValue = returnValue || this.newEffect;
         this.reapplyOtherEffects();
-        this.checkEffects();
+        if(loops === 10) {
+            throw new Error('EffectEngine.checkEffects looped 10 times');
+        } else {
+            this.checkEffects(false, loops + 1);
+        }
         return returnValue;
     }
 
