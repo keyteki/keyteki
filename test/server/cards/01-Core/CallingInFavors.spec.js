@@ -68,7 +68,7 @@ describe('Calling In Favors', function() {
                     this.fineKatana = this.player1.playAttachment('fine-katana', 'adept-of-the-waves');
                     this.player2.clickCard('calling-in-favors', 'hand');
 
-                    expect(this.player2.player.canInitiateAction).toBe(true);
+                    expect(this.game.currentActionWindow).not.toBe(null);
                     expect(this.player2).not.toHavePrompt('Choose an attachment');
                 });
             });

@@ -184,7 +184,6 @@ const Costs = {
                 return true; // We have to check this condition in Ability.meetsRequirements(), or we risk players starting another ability while costs are resolving
             },
             pay: function(context) {
-                context.player.canInitiateAction = false;
                 context.game.markActionAsTaken();
             },
             canIgnoreForTargeting: true

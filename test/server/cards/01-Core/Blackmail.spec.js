@@ -34,7 +34,7 @@ describe('Blackmail', function() {
                 this.player1.clickCard('blackmail');
 
                 expect(this.player1).not.toHavePrompt('Choose a character');
-                expect(this.player1.player.canInitiateAction).toBe(true);
+                expect(this.game.currentActionWindow).not.toBe(null);
             });
 
             it('should allow characters with cost under 3 in the conflict to be chosen', function() {

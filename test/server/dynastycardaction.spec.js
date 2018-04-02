@@ -28,7 +28,6 @@ describe('DynastyCardAction', function () {
             this.gameSpy.currentPhase = 'dynasty';
             this.playerSpy.isCardInPlayableLocation.and.returnValue(true);
             this.playerSpy.getReducedCost.and.returnValue(0);
-            this.playerSpy.canInitiateAction = true;
             this.cardSpy.getType.and.returnValue('character');
             this.cardSpy.canPlay.and.returnValue(true);
             this.cardSpy.isLimited.and.returnValue(false);
