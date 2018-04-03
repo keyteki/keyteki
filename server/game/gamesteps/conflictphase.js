@@ -95,13 +95,12 @@ class ConflictPhase extends Phase {
         if(!this.game.currentConflict.isSinglePlayer && !this.game.currentConflict.winnerGoesStraightToNextConflict) {
             this.currentPlayer = this.game.getOtherPlayer(this.currentPlayer);
         }
-        if(!this.game.currentConflict.winnerGoesStraightToNextConflict) {
-            this.game.currentConflict = null;
-            this.game.queueStep(new ActionWindow(this.game, 'Action Window', 'preConflict'));            
-        } else {
-            this.game.currentConflict = null;
-        }
+        let skipActionWindow = this.game.currentConflict.winnerGoesStraightToNextConflict;
+        this.game.currentConflict = null;
         this.game.checkGameState(true);
+        if(!skipActionWindow) {
+            this.game.queueStep(new ActionWindow(this.game, 'Action Window', 'preConflict'));            
+        } 
         this.game.queueStep(new SimpleStep(this.game, () => this.startConflictChoice(this.currentPlayer)));
     }
 

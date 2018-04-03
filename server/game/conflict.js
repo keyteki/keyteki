@@ -353,6 +353,7 @@ class Conflict {
         this.winner.winConflict(this.conflictType, this.attackingPlayer === this.winner);
         this.loser.loseConflict(this.conflictType, this.attackingPlayer === this.loser);
         this.skillDifference = this.winnerSkill - this.loserSkill;
+        this.game.effectEngine.checkEffects(true);
     }
 
     checkNoWinnerOrLoser() {
