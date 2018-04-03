@@ -43,32 +43,27 @@ class EffectEngine {
         });
     }
 
-    checkEffects(hasChanged = false, loops = 0) {
-        if(!hasChanged && !this.newEffect) {
+    checkEffects(stateChanged = false, loops = 0) {
+        if(!stateChanged && !this.newEffect) {
             return false;
         }
-        let returnValue = this.newEffect;
+        stateChanged = false;
+        this.newEffect = false;
         _.each(this.effects, effect => {
             // Check each effect's condition and find new targets
             // Reapply all effects which have reapply function
-            this.newEffect = effect.checkCondition() || effect.reapply();
-        });
-        returnValue = returnValue || this.newEffect;
-        this.reapplyOtherEffects();
-        if(loops === 10) {
-            throw new Error('EffectEngine.checkEffects looped 10 times');
-        } else {
-            this.checkEffects(false, loops + 1);
-        }
-        return returnValue;
-    }
-
-    reapplyOtherEffects() {
-        _.each(this.effects, effect => {
+            stateChanged = effect.checkCondition(stateChanged);
+            stateChanged = effect.reapply(stateChanged);
             if(effect.reapplyOnCheckState) {
                 effect.unapplyThenApply();
             }
         });
+        if(loops === 10) {
+            throw new Error('EffectEngine.checkEffects looped 10 times');
+        } else {
+            this.checkEffects(stateChanged, loops + 1);
+        }
+        return stateChanged;
     }
 
     onCardMoved(event) {
@@ -210,6 +205,13 @@ class EffectEngine {
         });
         this.effects = remainingEffects;
         return matchingEffects.length > 0;
+    }
+
+    getDebugInfo() {
+        return {
+            effects: _.map(this.effects, effect => effect.getDebugInfo()),
+            delayedEffects: _.map(this.delayedEffects, effect => effect.getDebugInfo())
+        };
     }
 }
 

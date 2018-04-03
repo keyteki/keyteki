@@ -47,6 +47,13 @@ class DelayedEffect {
             this.event = this.game.applyGameAction(this.context, { [this.gameAction]: this.target })[0];
         }
     }
+
+    getDebugInfo() {
+        return {
+            source: this.source.name,
+            target: this.target.name
+        };
+    }
 }
 
 module.exports = DelayedEffect;

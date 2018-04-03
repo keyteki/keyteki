@@ -182,8 +182,7 @@ class Effect {
         this.targets = [];
     }
 
-    checkCondition() {
-        let stateChanged = false;
+    checkCondition(stateChanged) {
         if(!this.active) {
             return stateChanged;
         }
@@ -201,8 +200,7 @@ class Effect {
         return stateChanged;
     }
 
-    reapply() {
-        let stateChanged = false;
+    reapply(stateChanged) {
         if(this.active && this.effect.reapply) {
             _.each(this.targets, target => stateChanged = this.effect.reapply(target, this.context) || stateChanged);
         }
@@ -214,6 +212,15 @@ class Effect {
             this.effect.unapply(target, this.context);
             this.effect.apply(target, this.context);
         });
+    }
+
+    getDebugInfo() {
+        return {
+            source: this.source.name,
+            targets: _.map(this.targets, target => target.name),
+            active: this.active,
+            condition: this.condition()
+        };
     }
 }
 
