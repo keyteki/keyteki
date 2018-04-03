@@ -1950,6 +1950,7 @@ class Player extends Spectator {
             numConflictCards: this.conflictDeck.size(),
             numDynastyCards: this.dynastyDeck.size(),
             numProvinceCards: this.provinceDeck.size(),
+            optionSettings: this.optionSettings,
             phase: this.game.currentPhase,
             promptedActionWindows: this.promptedActionWindows,
             provinces: {
@@ -1960,14 +1961,10 @@ class Player extends Spectator {
             },
             showBid: this.showBid,
             stats: this.getStats(),
-            strongholdProvince: this.getSummaryForCardList(this.strongholdProvince, activePlayer)
+            timerSettings: this.timerSettings,
+            strongholdProvince: this.getSummaryForCardList(this.strongholdProvince, activePlayer),
+            user: _.omit(this.user, ['password', 'email'])
         };
-
-        if(isActivePlayer) {
-            state.optionSettings = this.optionSettings;
-            state.timerSettings = this.timerSettings;
-            state.user = _.omit(this.user, ['password', 'email']);
-        }
 
         if(this.showConflict) {
             state.showConflictDeck = true;
