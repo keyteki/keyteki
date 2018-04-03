@@ -1944,7 +1944,6 @@ class Player extends Spectator {
             firstPlayer: this.firstPlayer,
             hideProvinceDeck: this.hideProvinceDeck,
             id: this.id,
-            optionSettings: this.optionSettings,
             imperialFavor: this.imperialFavor,
             left: this.left,
             name: this.name,
@@ -1961,17 +1960,21 @@ class Player extends Spectator {
             },
             showBid: this.showBid,
             stats: this.getStats(),
-            strongholdProvince: this.getSummaryForCardList(this.strongholdProvince, activePlayer),
-            timerSettings: this.timerSettings,
-            user: _.omit(this.user, ['password', 'email'])
+            strongholdProvince: this.getSummaryForCardList(this.strongholdProvince, activePlayer)
         };
 
-        if(this.showConflictDeck) {
+        if(isActivePlayer) {
+            state.optionSettings = this.optionSettings;
+            state.timerSettings = this.timerSettings;
+            state.user = _.omit(this.user, ['password', 'email']);
+        }
+
+        if(this.showConflict) {
             state.showConflictDeck = true;
             state.cardPiles.conflictDeck = this.getSummaryForCardList(this.conflictDeck, activePlayer);
         }
 
-        if(this.showDynastyDeck) {
+        if(this.showDynasty) {
             state.showDynastyDeck = true;
             state.cardPiles.dynastyDeck = this.getSummaryForCardList(this.dynastyDeck, activePlayer);
         }

@@ -688,12 +688,9 @@ class DrawCard extends BaseCard {
             isDishonored: this.isDishonored,
             isHonored: this.isHonored,
             bowed: this.bowed,
-            saved: this.saved,
             fate: this.fate,
             new: this.new,
-            covert: this.covert,
-            militaryskill: this.getMilitarySkill(),
-            politicalskill: this.getPoliticalSkill()
+            covert: this.covert
         });
     }
 }

@@ -1662,7 +1662,7 @@ class Game extends EventEmitter {
             manualMode: this.manualMode,
             messages: this.gameChat.messages,
             name: this.name,
-            owner: this.owner,
+            owner: _.omit(this.owner, ['blocklist', 'email', 'emailHash', 'promptedActionWindows', 'settings']),
             players: playerSummaries,
             rings: {
                 air: this.rings.air.getState(activePlayer),

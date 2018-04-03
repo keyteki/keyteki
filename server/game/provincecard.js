@@ -107,7 +107,6 @@ class ProvinceCard extends BaseCard {
 
         return _.extend(baseSummary, {
             isProvince: this.isProvince,
-            strength: this.getStrength(),
             isBroken: this.isBroken
         });
     }
