@@ -228,7 +228,7 @@ class DynastyRow extends React.Component {
         if(this.props.isMe || this.props.spectating && !this.props.otherPlayer) {
 
             return (
-                <div className='dynasty-row'>
+                <div className='dynasty-row no-highlight'>
                     <div className='deck-cards'>
                         <CardPile 
                             className='dynasty discard pile' 
@@ -295,7 +295,7 @@ class DynastyRow extends React.Component {
             );
         }
         return (
-            <div className='dynasty-row'>
+            <div className='dynasty-row no-highlight'>
                 <div className='deck-cards'>
                     <CardPile 
                         className='conflict discard pile' 

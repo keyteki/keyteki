@@ -77,7 +77,7 @@ class Ring extends React.Component {
             className = className + ' unselectable';
         }
 
-        return (<div className='ring-display'>
+        return (<div className='ring-display no-highlight'>
             <div className={ 'ring' } onClick={ event => this.onClick(event, this.props.ring.element) } >
                 <img className={ className } title={ this.props.ring.element } src={ '/img/' + this.props.ring.conflictType + '-' + this.props.ring.element + '.png' } />
                 { this.showCounters() ? <CardCounters counters={ this.getCountersForRing(this.props.ring.element) } /> : null }

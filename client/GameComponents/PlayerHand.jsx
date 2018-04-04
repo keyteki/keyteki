@@ -101,7 +101,7 @@ class PlayerHand extends React.Component {
 
         return (<div>
             <grip>
-                <div className={ 'hand-title-bar ' } >
+                <div className={ 'hand-title-bar no-highlight ' } >
                     { 'Hand (' + cards.length + ')' } 
                 </div>
             </grip>
