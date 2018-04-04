@@ -437,7 +437,7 @@ export class InnerGameBoard extends React.Component {
         };
 
         if(!this.state.spectating) {
-            return (<Draggable
+            return (<Draggable handle='grip'
                 defaultPosition={ defaultPosition } >
                 <div className='player-home-row-container'>
                     <PlayerHand
