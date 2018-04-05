@@ -9,8 +9,8 @@ class MotoNergui extends DrawCard {
                 cardType: 'character',
                 gameAction: 'sendHome',
                 cardCondition: (card, context) => {
-                    let participants = context.game.currentConflict.attacker.concat(context.game.currenctConflict.defenders);
-                    return participants.includes(card) && card.getGlory() === Math.max(participants.map(c => c.getGlory()));
+                    let participants = context.game.currentConflict.attackers.concat(context.game.currentConflict.defenders);
+                    return participants.includes(card) && card.getGlory() === Math.max(...participants.map(c => c.getGlory()));
                 }
             },
             handler: context => {

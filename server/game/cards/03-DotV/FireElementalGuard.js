@@ -11,7 +11,7 @@ class FireElementalGuard extends DrawCard {
             condition: context => this.spellsPlayedThisConflict[context.player.name] > 2,
             target: {
                 cardType: 'attachment',
-                gameAction: 'discardFromPlay',
+                gameAction: 'discardFromPlay'
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to discard {2}', context.player, context.source, context.target);

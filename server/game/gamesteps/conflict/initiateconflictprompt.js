@@ -42,10 +42,14 @@ class InitiateConflictPrompt extends UiPrompt {
     }
 
     activePrompt() {
-        let buttons = [{ text: 'Pass Conflict', arg: 'pass' }];
+        let buttons = [];
         let menuTitle = '';
         let promptTitle = '';
         
+        if(this.attackerChoosesRing) {
+            buttons.push({ text: 'Pass Conflict', arg: 'pass' });
+        }
+
         if(this.conflict.conflictRing === '') {
             menuTitle = 'Choose an elemental ring\n(click the ring again to change conflict type)';
             promptTitle = 'Initiate Conflict';

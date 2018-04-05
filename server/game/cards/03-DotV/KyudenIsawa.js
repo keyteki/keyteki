@@ -13,7 +13,7 @@ class KyudenIsawa extends StrongholdCard {
                 activePromptTitle: 'Choose a spell event',
                 cardType: 'event',
                 cardCondition: (card, context) => {
-                    if(card.location !== 'conflict discard deck' || !card.hasTrait('spell')) {
+                    if(card.location !== 'conflict discard pile' || !card.hasTrait('spell')) {
                         return false;
                     }
                     return _.any(card.abilities.actions, action => {

@@ -12,6 +12,6 @@ class InquisitiveIshika extends DrawCard {
     }
 }
 
-InquisitiveIshika.id = 'inquisitive-ishika'; // This is a guess at what the id might be - please check it!!!
+InquisitiveIshika.id = 'inquisitive-ishika';
 
 module.exports = InquisitiveIshika;

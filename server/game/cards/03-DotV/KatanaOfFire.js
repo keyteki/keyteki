@@ -17,7 +17,7 @@ class KatanaOfFire extends DrawCard {
 
     // Helper methods for clarity
     controllerHasFireRing() {
-        return this.game.rings.fire.isConsideredClaimed(this.controller.name);
+        return this.game.rings.fire.isConsideredClaimed(this.controller);
     }
     numberOfFireCards() {
         return this.controller.getNumberOfCardsInPlay(card => card.hasTrait('fire'));

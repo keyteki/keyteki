@@ -52,7 +52,9 @@ class AbilityResolver extends BaseStepWithPipeline {
             return;
         }
         this.costEvents = this.context.ability.payCosts(this.context);
-        this.game.openEventWindow(this.costEvents);
+        if(this.costEvents.length > 0) {
+            this.game.openEventWindow(this.costEvents);
+        }
     }
 
     checkCostsWerePaid() {

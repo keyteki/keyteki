@@ -9,7 +9,7 @@ class KamiUnleashed extends DrawCard {
             condition: context => context.source.isAttacking(),
             handler: context => {
                 this.game.addMessage('{0} sacrifices {1} to resolve the ring effect', context.player, context.source);
-                this.game.currentconflict.resolveRing(context.player);
+                this.game.currentConflict.resolveConflictRing(context.player);
             }
         });
     }

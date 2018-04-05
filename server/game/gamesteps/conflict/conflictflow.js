@@ -57,24 +57,32 @@ class ConflictFlow extends BaseStepWithPipeline {
         }
         this.game.promptWithHandlerMenu(this.conflict.attackingPlayer, {
             source: 'Declare Conflict',
-            activePromptTitle: 'Do you wish to pass your conflict opportunity?',
-            choices: ['Yes', 'No'],
+            activePromptTitle: 'Do you wish to declare a conflict?',
+            choices: ['Declare a conflict', 'Pass conflict opportunity'],
             handlers: [
-                () => this.conflict.passConflict(),
                 () => this.game.promptForRingSelect(this.conflict.defendingPlayer, {
                     activePromptTitle: 'Choose a ring for ' + this.conflict.attackingPlayer.name + '\'s conflict',
                     source: 'Defender chooses conflict ring',
                     waitingPromptTitle: 'Waiting for defender to choose conflict ring',
+                    buttons: [{ text:'Done', arg: 'done'}],
                     ringCondition: ring => ring.canDeclare(this.conflict.attackingPlayer),
                     onSelect: (player, ring) => {
-                        this.conflict.conflictRing = ring.element;
-                        if(this.conflict.attackingPlayer.conflicts.isAtMax(ring.conflictType)) {
+                        if(this.conflict.attackingPlayer.conflicts.isAtMax(ring.conflictType) || this.conflict.conflictRing === ring.element &&
+                            !this.conflict.attackingPlayer.conflicts.isAtMax(ring.conflictType === 'military' ? 'political' : 'military')) {
                             ring.flipConflictType();
                         }
+                        this.conflict.conflictRing = ring.element;
                         this.conflict.conflictType = ring.conflictType;
-                        this.pipeline.queueStep(new InitiateConflictPrompt(this.game, this.conflict, this.conflict.attackingPlayer, false));
+                    },
+                    onMenuCommand: (player, arg) => {
+                        if(arg === 'done' && this.conflict.conflictRing !== '' && this.conflict.conflictType !== '') {
+                            this.pipeline.queueStep(new InitiateConflictPrompt(this.game, this.conflict, this.conflict.attackingPlayer, false));
+                            return true;                            
+                        }
+                        return false;
                     }
-                })
+                }),
+                () => this.conflict.passConflict()
             ]
         });
     }
@@ -99,9 +107,18 @@ class ConflictFlow extends BaseStepWithPipeline {
 
         let targets = this.conflict.defendingPlayer.cardsInPlay.filter(card => card.covert);
         let sources = _.filter(this.conflict.attackers, card => card.isCovert());
+
+        if(targets.length === 0 || sources.length === 0) {
+            return;
+        }
+
         _.each(targets, card => card.covert = false);
         if(sources.length > targets.length) {
             sources = _.first(sources, targets.length);
+        }
+
+        if(sources.length < targets.length) {
+            targets = _.first(targets, sources.length);
         }
 
         let events = _.map(_.zip(sources, targets), array => {
@@ -154,7 +171,7 @@ class ConflictFlow extends BaseStepWithPipeline {
                         conflict: this.conflict,
                         province: this.conflict.conflictProvince
                     },
-                    handler: this.conflict.conflictProvince.facedown = false
+                    handler: () => this.conflict.conflictProvince.facedown = false
                 });
             }
         }
@@ -185,10 +202,9 @@ class ConflictFlow extends BaseStepWithPipeline {
             return;
         }
 
-        // Explicitly recalculate strength in case an effect has modified character strength.
         _.each(this.conflict.defenders, card => card.inConflict = true);
         this.conflict.defendingPlayer.cardsInPlay.each(card => card.covert = false);
-        //this.conflict.calculateSkill();
+
         if(this.conflict.defenders.length > 0) {
             this.game.addMessage('{0} has defended with skill {1}', this.conflict.defendingPlayer, this.conflict.defenderSkill);
         } else {

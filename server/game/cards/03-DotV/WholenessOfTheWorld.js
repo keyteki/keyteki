@@ -5,7 +5,7 @@ class WholenessOfTheWorld extends DrawCard {
         this.interrupt({
             title: 'Keep a claimed ring',
             when: {
-                onReturnRing: (event, context) => event.ring.isConsideredClaimedBy(context.player)
+                onReturnRing: event => event.ring.isConsideredClaimed(this.controller)
             },
             canCancel: true,
             handler: context => {

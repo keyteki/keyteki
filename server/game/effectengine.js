@@ -51,12 +51,7 @@ class EffectEngine {
         this.newEffect = false;
         _.each(this.effects, effect => {
             // Check each effect's condition and find new targets
-            // Reapply all effects which have reapply function
             stateChanged = effect.checkCondition(stateChanged);
-            stateChanged = effect.reapply(stateChanged);
-            if(effect.reapplyOnCheckState) {
-                effect.unapplyThenApply();
-            }
         });
         if(loops === 10) {
             throw new Error('EffectEngine.checkEffects looped 10 times');

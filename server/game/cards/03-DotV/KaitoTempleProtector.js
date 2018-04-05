@@ -20,7 +20,7 @@ class KaitoTempleProtector extends DrawCard {
                 this.game.addMessage('{0} uses {1}, targeting {2} and changing {1}\'s base {3} skill to {4} and {5} skill to {6}', context.player, context.source, context.target, 'military', newMil, 'political', newPol);
                 context.source.untilEndOfConflict(ability => ({
                     match: context.source,
-                    effects: [
+                    effect: [
                         ability.effects.modifyBaseMilitarySkill(newMil - context.source.baseMilitarySkill),
                         ability.effects.modifyBasePoliticalSkill(newPol - context.source.basePoliticalSkill)
                     ]

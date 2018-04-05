@@ -12,6 +12,7 @@ const EventToTitleFunc = {
     onMoveCharactersToConflict: () => 'characters moving to the conflict',
     onPhaseEnded: event => event.phase + ' phase ending',
     onPhaseStarted: event => event.phase + ' phase starting',
+    onReturnRing: event => 'returning the ' + event.ring.element + ' ring',
     onSacrificed: event => event.card.name + ' being sacrificed',
     onRemovedFromChallenge: event => event.card.name + ' being removed from the challenge'
 };

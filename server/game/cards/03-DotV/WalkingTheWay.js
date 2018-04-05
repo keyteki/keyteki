@@ -27,6 +27,7 @@ class WalkingTheWay extends DrawCard {
                         cardFromDeck.facedown = false;
                         player.moveCard(card, 'dynasty discard pile');
                         player.shuffleDynastyDeck();
+                        return true;
                     }
                 })
             })

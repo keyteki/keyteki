@@ -88,7 +88,16 @@ class Effect {
         }
 
         let newTargets = _.difference(targets, this.targets);
-
+        if(this.effect.reapply) {
+            _.each(this.targets, target => {
+                stateChanged = this.effect.reapply(target, this.context) || stateChanged;
+            });
+        } else if(this.effect.reapplyOnCheckState) {
+            _.each(this.targets, target => {
+                this.effect.unapply(target, this.context);
+                this.effect.apply(target, this.context);
+            });
+        }
         _.each(newTargets, target => {
             if(this.isValidTarget(target)) {
                 this.targets.push(target);
@@ -200,20 +209,6 @@ class Effect {
             stateChanged = this.getTargets() || stateChanged;
         }
         return stateChanged;
-    }
-
-    reapply(stateChanged) {
-        if(this.active && this.effect.reapply) {
-            _.each(this.targets, target => stateChanged = this.effect.reapply(target, this.context) || stateChanged);
-        }
-        return stateChanged;
-    }
-
-    unapplyThenApply() {
-        _.each(this.targets, target => {
-            this.effect.unapply(target, this.context);
-            this.effect.apply(target, this.context);
-        });
     }
 
     getDebugInfo() {

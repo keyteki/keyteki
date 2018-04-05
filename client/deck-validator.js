@@ -110,6 +110,14 @@ class DeckValidator {
         let dynastyCount = getDeckCount(deck.dynastyCards);
         let conflictCount = getDeckCount(deck.conflictCards);
         
+        if(deck.stronghold.length > 1) {
+            errors.push('Too many strongholds');
+        }
+
+        if(deck.role.length > 1) {
+            errors.push('Too many roles');
+        }
+
         if(provinceCount < rules.requiredProvinces) {
             errors.push('Too few province cards');
         } else if(provinceCount > rules.requiredProvinces) {
