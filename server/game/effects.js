@@ -447,6 +447,63 @@ const Effects = {
             reapplyOnCheckState: true
         };
     },
+    contributeToConflict: function() {
+        return {
+            apply: function(card, context) {
+                context.attackingModifier = context.attackingModifier || {};
+                context.defendingModifier = context.defendingModifier || {};
+                if(context.game.currentConflict) {
+                    const conflict = context.game.currentConflict;
+                    const skill = conflict.skillFunction(card) || 0;
+                    if(card.controller.isAttackingPlayer()) {
+                        context.attackingModifier[card.uuid] = skill;
+                        conflict.modifyAttackerSkill(skill);
+                    } else {
+                        context.defendingModifier[card.uuid] = skill;
+                        conflict.modifyDefenderSkill(skill);
+                    }
+                }
+            },
+            reapply: function(card, context) {
+                if(context.game.currentConflict) {
+                    const conflict = context.game.currentConflict;
+                    const skill = conflict.skillFunction(card) || 0;
+                    if(card.controller.isAttackingPlayer()) {
+                        if(context.defendingModifier[card.uuid]) {
+                            conflict.modifyDefenderSkill(-context.defendingModifier[card.uuid]);
+                            delete context.defendingModifier[card.uuid];
+                        }
+                        let skillDifference = skill - (context.attackingModifier[card.uuid] || 0);
+                        conflict.modifyAttackerSkill(skillDifference);
+                        context.attackingModifier[card.uuid] = skill;
+                        return skillDifference !== 0;
+                    }
+                    if(context.attackingModifier[card.uuid]) {
+                        conflict.modifyAttackerSkill(-context.attackingModifier[card.uuid]);
+                        delete context.attackingModifier[card.uuid];
+                    }
+                    let skillDifference = skill - (context.defendingModifier[card.uuid] || 0);
+                    conflict.modifyDefenderSkill(skillDifference);
+                    context.defendingModifier[card.uuid] = skill;
+                    return skillDifference !== 0;
+                }
+                return false;
+            },
+            unapply: function(card, context) {
+                if(context.attackingModifier[card.uuid]) {
+                    if(context.game.currentConflict) {
+                        context.game.currentConflict.modifyAttackerSkill(-context.attackingModifier[card.uuid]);
+                    }
+                    delete context.attackingModifier[card.uuid];
+                } else if(context.defendingModifier[card.uuid]) {
+                    if(context.game.currentConflict) {
+                        context.game.currentConflict.modifyDefenderSkill(-context.defendingModifier[card.uuid]);
+                    }
+                    delete context.defendingModifier[card.uuid];
+                }
+            }
+        };
+    },
     restrictNumberOfDefenders: function(amount) {
         return {
             apply: function(card, context) {
