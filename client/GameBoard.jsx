@@ -540,6 +540,7 @@ export class InnerGameBoard extends React.Component {
                                 conflictDeckTopCardHidden={ otherPlayer ? otherPlayer.conflictDeckTopCardHidden : true }
                                 dynastyDiscardPile={ otherPlayer ? otherPlayer.cardPiles.dynastyDiscardPile : [] }
                                 dynastyDeck={ otherPlayer ? otherPlayer.cardPiles.dynastyDeck : [] }
+                                removedFromGame={ otherPlayer ? otherPlayer.cardPiles.removedFromGame : [] }
                                 numConflictCards={ otherPlayer ? otherPlayer.numConflictCards : 0 }
                                 numDynastyCards={ otherPlayer ? otherPlayer.numDynastyCards : 0 }
                                 province1Cards={ otherPlayer ? otherPlayer.provinces.one : [] }
@@ -595,6 +596,7 @@ export class InnerGameBoard extends React.Component {
                                 conflictDeckTopCardHidden={ thisPlayer.conflictDeckTopCardHidden }
                                 dynastyDiscardPile={ thisPlayer.cardPiles.dynastyDiscardPile }
                                 dynastyDeck={ thisPlayer.cardPiles.dynastyDeck }
+                                removedFromGame={ thisPlayer.cardPiles.removedFromGame }
                                 onCardClick={ this.onCardClick }
                                 onConflictClick={ this.onConflictClick }
                                 onDynastyClick={ this.onDynastyClick }
