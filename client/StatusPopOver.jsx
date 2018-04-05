@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'underscore';
 import $ from 'jquery';
 import ReactDOMServer from 'react-dom/server';
 
@@ -37,18 +36,8 @@ class StatusPopOver extends React.Component {
         this.setState({ showing: props.show });
     }
 
-    getStatus() {
-        var index = 0;
-
-        var extendedStatuses = _.map(this.props.list, text => {
-            return <li key={ index++ } className='text-danger'>{ text }</li>;
-        });
-
-        return extendedStatuses;
-    }
-
     render() {
-        let content = ReactDOMServer.renderToString((<ul>{ this.getStatus() }</ul>));
+        let content = ReactDOMServer.renderToString(this.props.children);
 
         return (
             <span data-trigger='hover' data-html='true' data-toggle='popover' data-content={ content }>
@@ -60,7 +49,7 @@ class StatusPopOver extends React.Component {
 
 StatusPopOver.displayName = 'StatusPopOver';
 StatusPopOver.propTypes = {
-    list: PropTypes.array,
+    children: PropTypes.node.isRequired,
     show: PropTypes.bool,
     status: PropTypes.string
 };

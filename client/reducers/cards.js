@@ -14,7 +14,7 @@ function selectDeck(state, deck) {
 function processDecks(decks, state) {
     _.each(decks, deck => {
         if(!state.cards || !deck.faction) {
-            deck.validation = {};
+            deck.status = {};
             return;
         }
 
@@ -47,7 +47,7 @@ function processDecks(decks, state) {
             return { count: card.count, card: state.cards[card.card.id] };
         });
 
-        deck.validation = validateDeck(deck, state.packs);
+        deck.status = validateDeck(deck, { packs: state.packs });
     });
 }
 
