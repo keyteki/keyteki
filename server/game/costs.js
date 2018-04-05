@@ -101,6 +101,10 @@ const Costs = {
      */    
     breakSelf: () => CostBuilders.break.self(),
     /**
+     * Cost that will put into play the card that initiated the ability.
+     */
+    putSelfIntoPlay: () => CostBuilders.putIntoPlay.self(),
+    /**
      * Cost that discards the Imperial Favor
      */
     discardImperialFavor: function() {
