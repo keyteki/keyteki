@@ -12,11 +12,12 @@ const capitalize = {
 };
 
 class InitiateConflictPrompt extends UiPrompt {
-    constructor(game, conflict, choosingPlayer) {
+    constructor(game, conflict, choosingPlayer, attackerChoosesRing = true) {
         super(game);
         
         this.conflict = conflict;
         this.choosingPlayer = choosingPlayer;
+        this.attackerChoosesRing = attackerChoosesRing;
         this.selectedDefenders = [];
         this.covertRemaining = false;
     }
@@ -136,6 +137,9 @@ class InitiateConflictPrompt extends UiPrompt {
     }
 
     checkRingCondition(ring) {
+        if(!this.attackerChoosesRing && ring.element !== this.conflict.conflictRing) {
+            return false;
+        }
         return ring.canDeclare(this.choosingPlayer);
     }
 
@@ -238,10 +242,7 @@ class InitiateConflictPrompt extends UiPrompt {
                 handlers: [
                     () => {
                         this.complete();
-                        this.conflict.passed = true;
-                        this.choosingPlayer.conflicts.usedConflictOpportunity();
-                        this.game.queueSimpleStep(() => this.game.raiseEvent('onConflictPass', { conflict: this.conflict }));
-                        this.game.queueSimpleStep(() => this.conflict.cancelConflict());
+                        this.conflict.passConflict();
                     },
                     () => true
                 ]

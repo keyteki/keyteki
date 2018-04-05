@@ -54,10 +54,7 @@ class ConflictPhase extends Phase {
             if(this.currentPlayer.cardsInPlay.any(card => _.any(availableConflictTypes, type => card.canDeclareAsAttacker(type)))) {
                 this.game.queueStep(new ConflictFlow(this.game, conflict));
             } else {
-                this.game.addMessage('{0} passes their conflict opportunity as none of their characters can be declared as an attacker', this.currentPlayer);
-                conflict.passed = true;
-                this.currentPlayer.conflicts.usedConflictOpportunity();
-                this.game.queueSimpleStep(() => this.game.raiseEvent('onConflictPass', { conflict: conflict }));
+                conflict.passConflict('{0} passes their conflict opportunity as none of their characters can be declared as an attacker');
             }
             this.game.queueStep(new SimpleStep(this.game, () => this.cleanupConflict()));
         } else {

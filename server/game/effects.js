@@ -376,6 +376,7 @@ const Effects = {
     playerCannotSpendFate: playerCannotEffect('spendFate'),
     playerCannotTakeFirstAction: playerCannotEffect('takeFirstAction'),
     playerCannotTakeFateFromRings: playerCannotEffect('takeFateFromRings'),
+    playerCannotChooseConflictRing: playerCannotEffect('chooseConflictRing'),
     changePlayerGloryModifier: function(amount) {
         return {
             apply: function(player) {
