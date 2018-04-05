@@ -18,12 +18,16 @@ class KnowTheWorld extends DrawCard {
                             ringCondition: ring => !ring.claimed && !ring.contested,
                             onSelect: (player, ring) => {
                                 this.game.addMessage('{0} plays {1}, returning the {2} ring and taking the {3} ring', player, this, ringToReturn.element, ring.element);
-                                if(this.controller.allowGameAction('takeFateFromRings')) {
-                                    this.game.addFate(player, ring.fate);
-                                    ring.removeFate();
-                                }
-                                ring.claimRing(player);
-                                ringToReturn.resetRing();
+                                let events = [];
+                                events.push(this.game.getEvent('onReturnRing', { ring: ringToReturn }, () => ringToReturn.resetRing()));
+                                events.push(this.game.getEvent('unnamedEvent', {}, () => {
+                                    ring.claimRing(player);
+                                    if(this.controller.allowGameAction('takeFateFromRings')) {
+                                        this.game.addFate(player, ring.fate);
+                                        ring.removeFate();
+                                    }
+                                }));
+                                this.game.openEventWindow(events);
                                 return true;
                             }
                         });
