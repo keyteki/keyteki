@@ -1,6 +1,6 @@
 div.placeholder {
     background-color: rgba(0, 0, 0, 0.0);
-    border: 0px;
+    border-color: transparent;
     box-shadow: none;
 }
 
@@ -11,19 +11,59 @@ div.placeholder .panel-header {
 
 .placeholder {
     background-color: rgba(0, 0, 0, 0.0);
-    border: 0;
+    border-color: transparent;
     box-shadow: none;
     padding: 0;
     position: relative;
     margin: 5px 7px;
 
+    &.card-pile {
+        margin: 0 5px;
+    }
+
     &.vertical {
         height: @card-height;
-        width: @card-width;
+        min-width: @card-width;
     }
 
     &.horizontal {
         height: @card-width;
-        width: @card-height;
+        min-width: @card-height;
+    }
+
+    &.small {
+        &.vertical {
+            height: @card-sm-height;
+            min-width: @card-sm-width;
+        }
+
+        &.horizontal {
+            height: @card-sm-width;
+            width: @card-sm-height;
+        }
+    }
+
+    &.large {
+        &.vertical {
+            height: @card-lg-height;
+            min-width: @card-lg-width;
+        }
+
+        &.horizontal {
+            height: @card-lg-width;
+            width: @card-lg-height;
+        }
+    }
+
+    &.x-large {
+        &.vertical {
+            height: @card-xl-height;
+            min-width: @card-xl-width;
+        }
+
+        &.horizontal {
+            height: @card-xl-width;
+            width: @card-xl-height;
+        }
     }
 }

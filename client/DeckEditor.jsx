@@ -83,7 +83,7 @@ class InnerDeckEditor extends React.Component {
             dynastyCards: deck.dynastyCards,
             faction: deck.faction,
             alliance: deck.alliance,
-            validation: deck.validation
+            status: deck.status
         };
     }
 

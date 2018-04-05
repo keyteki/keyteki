@@ -102,13 +102,32 @@
     background: @brand-success;
   }
 
-  &.unreleased {
+  &.casual-play {
     background: @brand-warning;
   }
 
   &.invalid {
     background: @brand-danger;
   }
+}
+
+.deck-status-summary {
+  font-size: 12px;
+
+  .valid {
+    color: @brand-success;
+  }
+
+  .invalid {
+    color: @brand-danger;
+  }
+}
+
+.deck-status-errors {
+  border-top: 1px solid @header-border;
+  font-size: 14px;
+  margin-top: 1em;
+  padding-top: 1em;
 }
 
 .player-row {

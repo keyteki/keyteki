@@ -12,11 +12,12 @@ const capitalize = {
 };
 
 class InitiateConflictPrompt extends UiPrompt {
-    constructor(game, conflict, choosingPlayer) {
+    constructor(game, conflict, choosingPlayer, attackerChoosesRing = true) {
         super(game);
         
         this.conflict = conflict;
         this.choosingPlayer = choosingPlayer;
+        this.attackerChoosesRing = attackerChoosesRing;
         this.selectedDefenders = [];
         this.covertRemaining = false;
     }
@@ -41,10 +42,14 @@ class InitiateConflictPrompt extends UiPrompt {
     }
 
     activePrompt() {
-        let buttons = [{ text: 'Pass Conflict', arg: 'pass' }];
+        let buttons = [];
         let menuTitle = '';
         let promptTitle = '';
         
+        if(this.attackerChoosesRing) {
+            buttons.push({ text: 'Pass Conflict', arg: 'pass' });
+        }
+
         if(this.conflict.conflictRing === '') {
             menuTitle = 'Choose an elemental ring\n(click the ring again to change conflict type)';
             promptTitle = 'Initiate Conflict';
@@ -136,13 +141,10 @@ class InitiateConflictPrompt extends UiPrompt {
     }
 
     checkRingCondition(ring) {
-        let player = this.choosingPlayer;
-        if(ring.claimed || !player.allowGameAction('initiateConflict', { source: { type: 'ring', element: ring.element } })) {
+        if(!this.attackerChoosesRing && ring.element !== this.conflict.conflictRing) {
             return false;
         }
-
-        return true;
-
+        return ring.canDeclare(this.choosingPlayer);
     }
 
     checkCardCondition(card) {
@@ -244,10 +246,7 @@ class InitiateConflictPrompt extends UiPrompt {
                 handlers: [
                     () => {
                         this.complete();
-                        this.conflict.passed = true;
-                        this.choosingPlayer.conflicts.usedConflictOpportunity();
-                        this.game.queueSimpleStep(() => this.game.raiseEvent('onConflictPass', { conflict: this.conflict }));
-                        this.game.queueSimpleStep(() => this.conflict.cancelConflict());
+                        this.conflict.passConflict();
                     },
                     () => true
                 ]

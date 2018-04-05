@@ -23,6 +23,10 @@ const CostBuilders = {
         select: 'Select character to dishonor',
         selectMultiple: number => `Select ${number} characters to dishonor`
     }),
+    putIntoPlay: new CostBuilder(new GameActionCost('putIntoPlay'), {
+        select: 'Select character to put into play',
+        selectMultiple: number => `Select ${number} characters to put into play`
+    }),
     returnToHand: new CostBuilder(new GameActionCost('returnToHand'), {
         select: 'Select card to return to hand',
         selectMultiple: number => `Select ${number} cards to return to hand`

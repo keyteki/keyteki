@@ -4,7 +4,7 @@ const _ = require('underscore');
 
 const {matchCardByNameAndPack} = require('./cardutil.js');
 
-const PathToSubModulePacks = path.join(__dirname,  '../../fiveringsdb-data/Card');
+const PathToSubModulePacks = path.join(__dirname,  '../../fiveringsdb-data/json/Card');
 
 const defaultFaction = 'phoenix';
 const defaultRole = 'seeker-of-water';

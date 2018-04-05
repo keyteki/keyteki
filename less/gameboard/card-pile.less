@@ -7,11 +7,21 @@
         &.vertical {
             height: @card-sm-height;
             min-width: @card-sm-width;
+
+            .card-placeholder {
+                height: @card-sm-height;
+                width: @card-sm-width;
+            }
         }
 
         &.horizontal {
             height: @card-sm-width;
             width: @card-sm-height;
+
+            .card-placeholder {
+                height: @card-sm-width;
+                width: @card-sm-height;
+            }
         }
     }
 
@@ -19,11 +29,21 @@
         &.vertical {
             height: @card-lg-height;
             min-width: @card-lg-width;
+
+            .card-placeholder {
+                height: @card-lg-height;
+                width: @card-lg-width;
+            }
         }
 
         &.horizontal {
             height: @card-lg-width;
             width: @card-lg-height;
+
+            .card-placeholder {
+                height: @card-lg-width;
+                width: @card-lg-height;
+            }
         }
     }
 
@@ -31,26 +51,42 @@
         &.vertical {
             height: @card-xl-height;
             min-width: @card-xl-width;
+
+            .card-placeholder {
+                height: @card-xl-height;
+                width: @card-xl-width;
+            }
         }
 
         &.horizontal {
             height: @card-xl-width;
             width: @card-xl-height;
+
+            .card-placeholder {
+                height: @card-xl-width;
+                width: @card-xl-height;
+            }
         }
     }
 
     &.vertical {
         height: @card-height;
         min-width: @card-width;
+
+        .card-placeholder {
+            height: @card-height;
+            width: @card-width;
+        }
     }
 
     &.horizontal {
         height: @card-width;
         width: @card-height;
-    }
 
-    .card-placeholder {
-        height: @card-height;
+        .card-placeholder {
+            height: @card-width;
+            width: @card-height;
+        }
     }
 
     &.panel {

@@ -9,6 +9,7 @@ class Ring {
         this.contested = false;
         this.element = element;
         this.fate = 0;
+        this.effects = {};
         
         this.menu = _([
             { command: 'flip', text: 'Flip' },
@@ -20,7 +21,33 @@ class Ring {
             { command: 'takefate', text: 'Take all fate' },
             { command: 'conflict', text: 'Initiate Conflict' }
         ]);
+    }
 
+    addEffect(effectType, effectFunc) {
+        if(!this.effects[effectType]) {
+            this.effects[effectType] = [];
+        }
+        this.effects[effectType].push(effectFunc);
+    }
+
+    removeEffect(effectType, effectFunc) {
+        this.effects[effectType] = _.reject(this.effects[effectType], effect => effect === effectFunc);
+    }
+
+    isConsideredClaimed(player = null) {
+        let check = player => (_.any(this.effects.considerAsClaimed, func => func(player)) || this.claimedBy === player.name);
+        if(player) {
+            return check(player);
+        }
+        return _.any(this.game.getPlayers(), player => check(player));
+    }
+
+    canDeclare(player) {
+        return !_.any(this.effects.cannotDeclare, func => func(player)) && !this.claimed;
+    }
+
+    isUnclaimed() {
+        return !this.contested && !this.claimed;
     }
 
     flipConflictType() {
@@ -31,8 +58,11 @@ class Ring {
         }
     }
 
-    getElement() {
-        return this.element;
+    getElements() {
+        if(this.game.currentConflict && this.game.currentConflict.conflictRing === this.element) {
+            return this.game.currentConflict.getElements();
+        }
+        return [this.element];
     }
 
     getFate() {
@@ -56,17 +86,11 @@ class Ring {
         /**
          * @param  {integer} fate - the amount of fate to modify this card's fate total by
          */
-        //var oldFate = this.fate;
-
         this.fate += fate;
 
         if(this.fate < 0) {
             this.fate = 0;
         }
-
-
-        //this.game.raiseEvent('onRingFateChanged', { ring: this, fate: this.fate - oldFate });
-
     }
     
     removeFate() {

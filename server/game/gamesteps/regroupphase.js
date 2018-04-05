@@ -78,7 +78,7 @@ class RegroupPhase extends Phase {
                         this.game.addMessage('{0} discards {1} from their provinces', player, cardsToDiscard);
                         _.each(cardsToDiscard, card => player.moveCard(card, 'dynasty discard pile'));
                     }
-                    return true;                    
+                    return true;
                 }
             });
             return;
@@ -90,7 +90,12 @@ class RegroupPhase extends Phase {
     }
     
     returnRings() {
-        this.game.raiseEvent('onReturnRings', {}, () => this.game.returnRings());
+        let ringsToReturn = _.filter(this.game.rings, ring => ring.claimed);
+        this.game.raiseMultipleEvents(_.map(ringsToReturn, ring => ({
+            name: 'onReturnRing',
+            params: { ring: ring },
+            handler: () => ring.resetRing()
+        })));
     }
 
     passFirstPlayer() {

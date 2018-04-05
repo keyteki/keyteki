@@ -532,9 +532,7 @@ class Lobby {
                     dynasty.card = cards[dynasty.card.id];
                 });
 
-                let validation = validateDeck(deck, packs);
-                deck.status = validation.status;
-
+                deck.status = validateDeck(deck, { packs: packs, includeExtendedStatus: false });
                 game.selectDeck(socket.user.username, deck);
 
                 this.sendGameState(game);

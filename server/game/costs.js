@@ -101,6 +101,10 @@ const Costs = {
      */    
     breakSelf: () => CostBuilders.break.self(),
     /**
+     * Cost that will put into play the card that initiated the ability.
+     */
+    putSelfIntoPlay: () => CostBuilders.putIntoPlay.self(),
+    /**
      * Cost that discards the Imperial Favor
      */
     discardImperialFavor: function() {
@@ -270,7 +274,7 @@ const Costs = {
             },
             resolve: function(context, result = { resolved: false }) {
                 context.game.promptForRingSelect(context.player, {
-                    ringCondition: ring => !ring.claimed && !ring.contested,
+                    ringCondition: ring => ring.isUnclaimed(),
                     activePromptTitle: 'Choose a ring to place fate on',
                     source: context.source,
                     onSelect: (player, ring) => {

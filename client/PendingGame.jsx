@@ -9,6 +9,7 @@ import AlertPanel from './SiteComponents/AlertPanel.jsx';
 import DeckRow from './DeckRow.jsx';
 import Messages from './GameComponents/Messages.jsx';
 import Avatar from './Avatar.jsx';
+import DeckStatus from './DeckStatus.jsx';
 
 import * as actions from './actions';
 
@@ -91,16 +92,7 @@ class InnerPendingGame extends React.Component {
                 deck = <span className='deck-selection'>Deck Selected</span>;
             }
 
-            let statusClass = 'deck-status';
-            if(player.deck.status === 'Valid') {
-                statusClass += ' valid';
-            } else if(player.deck.status === 'Invalid') {
-                statusClass += ' invalid';
-            } else if(player.deck.status === 'Unreleased Cards') {
-                statusClass += ' unreleased';
-            }
-
-            status = <span className={ statusClass }>{ player.deck.status }</span>;
+            status = <DeckStatus status={ player.deck.status } />;
         } else if(player && playerIsMe) {
             selectLink = <span className='card-link' data-toggle='modal' data-target='#decks-modal'>Select deck...</span>;
         }

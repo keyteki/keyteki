@@ -38,7 +38,7 @@ const eventNames = [
     'onPhaseEnded',
     'onAtEndOfPhase',
     'onReadyAllCards',
-    'onReturnRings',
+    'onReturnRing',
     'onPassFirstPlayer',
     'onRoundEnded',
     'onDecksPrepared',

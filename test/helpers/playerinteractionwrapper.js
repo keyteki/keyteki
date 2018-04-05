@@ -392,7 +392,7 @@ class PlayerInteractionWrapper {
         return cards;
     }
 
-    placeCardInProvince(card, location) {
+    placeCardInProvince(card, location = 'province 1') {
         if(_.isString(card)) {
             card = this.findCardByName(card);
         }

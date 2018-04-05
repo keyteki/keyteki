@@ -9,7 +9,6 @@ class ChasingTheSun extends DrawCard {
             handler: () => this.game.promptForSelect(this.controller, {
                 source: this,
                 cardType: 'province',
-                gameAction: 'initiateConflict',
                 cardCondition: card => card.controller !== this.controller && card !== this.game.currentConflict.conflictProvince &&
                                        (card.location !== 'stronghold province' ||
                                         _.size(this.game.allCards.filter(card => card.isProvince && card.isBroken && card.controller !== this.controller)) > 2),

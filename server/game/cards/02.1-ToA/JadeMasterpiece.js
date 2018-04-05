@@ -8,11 +8,11 @@ class JadeMasterpiece extends DrawCard {
             target: {
                 mode: 'ring',
                 activePromptTitle: 'Choose an unclaimed ring to move fate from',
-                ringCondition: ring => !ring.claimed && !ring.contested && ring.fate > 0
+                ringCondition: ring => ring.isUnclaimed() && ring.fate > 0
             },
             handler: context => this.game.promptForRingSelect(this.controller, {
                 activePromptTitle: 'Choose an unclaimed ring to move fate to',
-                ringCondition: ring => !ring.claimed && !ring.contested && ring !== context.ring,
+                ringCondition: ring => ring.isUnclaimed() && ring !== context.ring,
                 onSelect: (player, ring) => {
                     this.game.addMessage('{0} uses {1} to move 1 fate from the {2} ring to the {3} ring', player, this, context.ring.element, ring.element);
                     context.ring.modifyFate(-1);
