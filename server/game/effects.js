@@ -343,6 +343,17 @@ const Effects = {
             }
         };
     },
+    addRingEffect: function(effectType, effectFunc) {
+        return {
+            apply: function(ring, context) {
+                context.ringEffect = ring.addEffect(effectType, effectFunc);
+            },
+            unapply: function(ring, context) {
+                ring.removeEffect(context.ringEffect);
+                delete context.ringEffect;
+            }
+        };
+    },
     cannotBeDiscarded: cardCannotEffect('discardFromPlay'),
     cannotRemoveFate: cardCannotEffect('removeFate'),
     cannotPlay: playerCannotEffect('play'),

@@ -14,7 +14,7 @@ class SeekerOfEnlightenment extends DrawCard {
     
     getFateOnRings() {
         return _.reduce(this.game.rings, (fate, ring) => {
-            if(!ring.claimed && !ring.contested) {
+            if(ring.isUnclaimed()) {
                 return fate + ring.fate;
             }
             return fate;

@@ -75,6 +75,8 @@ class Effect {
             return this.addTargets([this.match]);
         } else if(this.targetType === 'player') {
             return this.addTargets(_.values(this.game.getPlayers()));
+        } else if(this.targetType === 'ring') {
+            return this.addTargets(_.values(this.game.rings));
         }
         return this.addTargets(this.game.getTargetsForEffect(this.match));
     }

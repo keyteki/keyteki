@@ -270,7 +270,7 @@ const Costs = {
             },
             resolve: function(context, result = { resolved: false }) {
                 context.game.promptForRingSelect(context.player, {
-                    ringCondition: ring => !ring.claimed && !ring.contested,
+                    ringCondition: ring => ring.isUnclaimed(),
                     activePromptTitle: 'Choose a ring to place fate on',
                     source: context.source,
                     onSelect: (player, ring) => {
