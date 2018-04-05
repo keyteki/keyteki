@@ -77,7 +77,7 @@ class TriggeredAbilityWindow extends BaseAbilityWindow {
     }
 
     eligibleChoiceForPlayer(abilityChoice, player) {
-        if(!player.optionSettings.cancelOwnAbilities && _.any(this.events, event => event.name === 'onCardAbilityInitiated' && event.context.player === player)) {
+        if(!player.optionSettings.cancelOwnAbilities && this.abilityType === 'cancelinterrupt' && _.any(this.events, event => event.name === 'onCardAbilityInitiated' && event.context.player === player)) {
             return false;
         }
         return abilityChoice.player === player && !abilityChoice.context.event.cancelled && abilityChoice.context.ability.meetsRequirements(abilityChoice.context);
