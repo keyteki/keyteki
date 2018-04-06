@@ -16,13 +16,13 @@ describe('Kyuden Isawa', function() {
                     defenders: []
                 });
                 this.player2.pass();
+                this.againstTheWaves = this.player1.clickCard('against-the-waves');
+                this.adeptOfTheWaves = this.player1.clickCard('adept-of-the-waves');
+                this.player2.pass();
             });
 
             it('should let you play a spell from the discard pile', function() {
-                this.againstTheWaves = this.player1.clickCard('against-the-waves');
-                this.adeptOfTheWaves = this.player1.clickCard('adept-of-the-waves');
                 expect(this.adeptOfTheWaves.bowed).toBe(true);
-                this.player2.pass();
                 this.kyudenIsawa = this.player1.clickCard('kyuden-isawa');
                 expect(this.player1).toHavePrompt('Choose a spell event');
                 this.player1.clickCard(this.againstTheWaves);
@@ -30,6 +30,13 @@ describe('Kyuden Isawa', function() {
                 this.player1.clickCard(this.adeptOfTheWaves);
                 expect(this.adeptOfTheWaves.bowed).toBe(false);
                 expect(this.againstTheWaves.location).toBe('removed from game');
+            });
+
+            it('should pass priority', function() {
+                this.kyudenIsawa = this.player1.clickCard('kyuden-isawa');
+                this.player1.clickCard(this.againstTheWaves);
+                this.player1.clickCard(this.adeptOfTheWaves);
+                expect(this.player2).toHavePrompt('Conflict Action Window');
             });
         });
     });

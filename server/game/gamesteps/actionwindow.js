@@ -15,7 +15,7 @@ class ActionWindow extends UiPrompt {
             this.currentPlayer = this.currentPlayer.opponent;
         }
         this.prevPlayerPassed = false;
-        this.game.currentActionWindow = this;
+        this.priorityPassed = false;
     }
     
     activeCondition(player) {
@@ -41,6 +41,7 @@ class ActionWindow extends UiPrompt {
 
         if(!completed) {
             this.game.currentActionWindow = this;
+            this.priorityPassed = false;
         } else {
             this.game.currentActionWindow = null;
         }
@@ -106,8 +107,11 @@ class ActionWindow extends UiPrompt {
     }
 
     markActionAsTaken() {
-        this.prevPlayerPassed = false;
-        this.nextPlayer();
+        if(!this.priorityPassed) {
+            this.prevPlayerPassed = false;
+            this.nextPlayer();
+            this.priorityPassed = true;
+        }
     }
 }
 

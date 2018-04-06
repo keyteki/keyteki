@@ -16,7 +16,6 @@ class GuidanceOfTheAncestors extends DrawCard {
                     ability: new PlayAttachmentAction()
                 });
                 this.game.resolveAbility(context);
-                this.game.markActionAsTaken();
             }
         });
     }

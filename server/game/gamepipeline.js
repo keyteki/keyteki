@@ -94,6 +94,10 @@ class GamePipeline {
     }
 
     continue() {
+        if(this.queue.length > 0) {
+            this.pipeline = this.queue.concat(this.pipeline);
+            this.queue = [];            
+        }
         while(this.pipeline.length > 0) {
             var currentStep = this.getCurrentStep();
 
