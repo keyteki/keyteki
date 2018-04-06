@@ -51,7 +51,7 @@ class ConflictFlow extends BaseStepWithPipeline {
     }
 
     promptForNewConflict() {
-        if(this.conflict.attackingPlayer.allowGameAction('chooseConflictRing')) {
+        if(this.conflict.attackingPlayer.allowGameAction('chooseConflictRing') || !this.conflict.attackingPlayer.opponent) {
             this.pipeline.queueStep(new InitiateConflictPrompt(this.game, this.conflict, this.conflict.attackingPlayer));
             return;
         }
@@ -64,22 +64,15 @@ class ConflictFlow extends BaseStepWithPipeline {
                     activePromptTitle: 'Choose a ring for ' + this.conflict.attackingPlayer.name + '\'s conflict',
                     source: 'Defender chooses conflict ring',
                     waitingPromptTitle: 'Waiting for defender to choose conflict ring',
-                    buttons: [{ text:'Done', arg: 'done'}],
                     ringCondition: ring => ring.canDeclare(this.conflict.attackingPlayer),
                     onSelect: (player, ring) => {
-                        if(this.conflict.attackingPlayer.conflicts.isAtMax(ring.conflictType) || this.conflict.conflictRing === ring.element &&
-                            !this.conflict.attackingPlayer.conflicts.isAtMax(ring.conflictType === 'military' ? 'political' : 'military')) {
+                        if(this.conflict.attackingPlayer.conflicts.isAtMax(ring.conflictType)) {
                             ring.flipConflictType();
                         }
                         this.conflict.conflictRing = ring.element;
                         this.conflict.conflictType = ring.conflictType;
-                    },
-                    onMenuCommand: (player, arg) => {
-                        if(arg === 'done' && this.conflict.conflictRing !== '' && this.conflict.conflictType !== '') {
-                            this.pipeline.queueStep(new InitiateConflictPrompt(this.game, this.conflict, this.conflict.attackingPlayer, false));
-                            return true;                            
-                        }
-                        return false;
+                        this.pipeline.queueStep(new InitiateConflictPrompt(this.game, this.conflict, this.conflict.attackingPlayer, false));
+                        return true;
                     }
                 }),
                 () => this.conflict.passConflict()
