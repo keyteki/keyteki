@@ -143,6 +143,7 @@ describe('Karada District', function() {
                 it('should discard any now illegally attached attachments', function() {
                     this.adeptOfTheWaves = this.player1.findCardByName('adept-of-the-waves');
                     this.favoredMount = this.player1.playAttachment('favored-mount', 'adept-of-the-waves');
+                    this.player2.pass();
                     this.bornInWar = this.player1.playAttachment('born-in-war', 'adept-of-the-waves');
                     this.player2.clickCard(this.karada2);
                     this.player2.clickCard(this.favoredMount);
