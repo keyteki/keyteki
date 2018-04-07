@@ -18,7 +18,7 @@ class HidaAmoro extends DrawCard {
                         cardType: 'character',
                         cardCondition: card => card.location === 'play area' && card.controller === triggeringPlayer,
                         onSelect: (player, card) => {
-                            this.game.addMessage('{0} triggers {1}, they choose to sacrifice {3}', triggeringPlayer, this, card);
+                            this.game.addMessage('{0} triggers {1}, they choose to sacrifice {2}', triggeringPlayer, this, card);
                             this.game.applyGameAction(context, { sacrifice: card });
                             return true;
                         }
