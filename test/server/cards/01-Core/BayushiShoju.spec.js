@@ -90,7 +90,7 @@ describe('Bayushi Shoju', function() {
                 this.setupTest({
                     phase: 'conflict',
                     player1: {
-                        inPlay: ['bayushi-shoju'],
+                        inPlay: ['bayushi-shoju']
                     },
                     player2: {
                         role: 'keeper-of-void',

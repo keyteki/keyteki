@@ -13,7 +13,7 @@ describe('Talisman of the Sun', function() {
                         hand: ['talisman-of-the-sun']
                     }
                 });
-                this.player1.pass()
+                this.player1.pass();
                 this.talismanOfTheSun = this.player2.playAttachment('talisman-of-the-sun', 'serene-warrior');
                 this.noMoreActions();
                 this.initiateConflict({
@@ -34,9 +34,7 @@ describe('Talisman of the Sun', function() {
 
             it('should apply any constant abilities of the new province', function() {
                 this.player2.clickCard(this.talismanOfTheSun);
-                this.spy = spyOn(this.game, 'addMessage');
                 this.sanpukuSeido = this.player2.clickCard('sanpuku-seido');
-                console.log(this.spy.calls.allArgs())
                 expect(this.game.currentConflict.attackerSkill).toBe(0);
                 expect(this.game.currentConflict.defenderSkill).toBe(4);
             });
