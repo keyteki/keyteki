@@ -60,7 +60,7 @@ export class PlayerStatsRow extends React.Component {
             </div>);
             
         return (
-            <div className='panel player-stats'>
+            <div className='panel player-stats no-highlight'>
                 { playerAvatar }
                 { this.getButton('fate', 'Fate') }
                 { this.getButton('honor', 'Honor') }
