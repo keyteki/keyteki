@@ -260,9 +260,9 @@ class Player extends Spectator {
             let card = this.getDynastyCardInProvince(province);
             if(card) {
                 card.facedown = false;
-            } else {
-                this.moveCard(this.dynastyDeck.first(), province);
-                card = this.getDynastyCardInProvince(province);
+            } else if(this.dynastyDeck.size() > 0) {
+                card = this.dynastyDeck.first();
+                this.moveCard(card, province);
                 card.facedown = false;
             }
         });
