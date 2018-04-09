@@ -382,7 +382,7 @@ export class InnerGameBoard extends React.Component {
                 { thisPlayer.hideProvinceDeck && <HonorFan value={ thisPlayer.showBid + '' } /> }
                 {
                     !thisPlayer.hideProvinceDeck &&
-                    <div className='province-group our-side'>
+                    <div className='province-group our-side no-highlight'>
                         <CardPile
                             className='province-deck'
                             title='Province Deck' source='province deck'
@@ -437,7 +437,7 @@ export class InnerGameBoard extends React.Component {
         };
 
         if(!this.state.spectating) {
-            return (<Draggable
+            return (<Draggable handle='grip'
                 defaultPosition={ defaultPosition } >
                 <div className='player-home-row-container'>
                     <PlayerHand

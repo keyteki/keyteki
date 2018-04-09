@@ -194,13 +194,15 @@ class ActivePlayerPrompt extends React.Component {
                 </div>);
         }
 
-        return (<Draggable
+        return (<Draggable handle='grip'
             defaultPosition={ this.getDefaultPosition() } >
-            <div>
+            <div className='no-highlight'>
                 { timer }
-                <div className={ 'phase-indicator ' + this.props.phase } onClick={ this.props.onTitleClick }>
-                    { this.props.phase } phase
-                </div>
+                <grip>
+                    <div className={ 'phase-indicator ' + this.props.phase } onClick={ this.props.onTitleClick }>
+                        { this.props.phase } phase
+                    </div>
+                </grip>
                 { promptTitle }
                 <div className='menu-pane'>
                     <div className='panel'>

@@ -345,12 +345,11 @@ const Effects = {
     },
     addRingEffect: function(effectType, effectFunc) {
         return {
-            apply: function(ring, context) {
-                context.ringEffect = ring.addEffect(effectType, effectFunc);
+            apply: function(ring) {
+                ring.addEffect(effectType, effectFunc);
             },
-            unapply: function(ring, context) {
-                ring.removeEffect(context.ringEffect);
-                delete context.ringEffect;
+            unapply: function(ring) {
+                ring.removeEffect(effectType, effectFunc);
             }
         };
     },

@@ -16,7 +16,7 @@ class DojiShigeru extends DrawCard {
                     source: this,
                     cardCondition: card => card.location === 'hand',
                     onSelect: (player, card) => {
-                        player.discardCardsFromHand(card);
+                        player.discardCardFromHand(card);
                         return true;
                     }
                 });
