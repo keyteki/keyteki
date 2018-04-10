@@ -644,7 +644,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        player.drop(cardId, source, target)
+        player.drop(cardId, source, target);
     }
 
     /*

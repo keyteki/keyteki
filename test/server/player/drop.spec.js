@@ -81,7 +81,7 @@ describe('Player', () => {
 
             describe('when the card is not in hand', function() {
                 beforeEach(function() {
-                    this.cardSpy.location = 'play area'
+                    this.cardSpy.location = 'play area';
                     this.player.drop(this.cardSpy.uuid, 'hand', 'conflict discard pile');
                 });
 
