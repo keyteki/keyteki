@@ -91,6 +91,7 @@ class ConflictFlow extends BaseStepWithPipeline {
         this.conflict.attackingPlayer.conflicts.perform(this.conflict.conflictType);
         _.each(this.conflict.attackers, card => card.inConflict = true);
         this.game.addMessage('{0} is initiating a {1} conflict at {2}, contesting the {3} ring', this.conflict.attackingPlayer, this.conflict.conflictType, this.conflict.conflictProvince, this.conflict.conflictRing);
+        this.game.checkGameState(true);
     }
 
     resolveCovert() {
