@@ -644,20 +644,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        if(player.drop(cardId, source, target)) {
-            var movedCard = 'a card';
-            if(!_.isEmpty(_.intersection(['conflict discard pile', 'dynasty discard pile', 'out of game', 'play area', 'stronghold province', 'province 1', 'province 2', 'province 3', 'province 4'],
-                [source, target]))) {
-                // log the moved card only if it moved from/to a public place
-                var card = this.findAnyCardInAnyList(cardId);
-                if(card && !(['dynasty deck', 'province deck'].includes(source) && ['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(target))) {
-                    movedCard = card;
-                }
-            }
-
-            this.addMessage('{0} has moved {1} from their {2} to their {3}',
-                player, movedCard, source, target);
-        }
+        player.drop(cardId, source, target);
     }
 
     /*

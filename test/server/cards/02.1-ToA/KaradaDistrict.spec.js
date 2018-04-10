@@ -82,8 +82,9 @@ describe('Karada District', function() {
 
             describe('if there is no target to attach to', function() {
                 it('should discard the attachment', function() {
-                    this.player2.dragCard(this.player2.findCardByName('fire-elemental-guard'), 'dynasty discard pile');
-                    this.player2.dragCard(this.player2.findCardByName('miya-mystic'), 'dynasty discard pile');
+                    this.game.manualMode = true;
+                    this.player2.dragCard(this.fireElementalGuard, 'dynasty discard pile');
+                    this.player2.dragCard(this.miyaMystic, 'dynasty discard pile');
                     this.fineKatana = this.player1.playAttachment('fine-katana', 'adept-of-the-waves');
                     this.player2.clickCard(this.karada2);
                     this.player2.clickCard(this.fineKatana);
@@ -93,6 +94,7 @@ describe('Karada District', function() {
 
             describe('if no characters can legally hold the attachment', function() {
                 it('should discard the attachment', function() {
+                    this.game.manualMode = true;
                     this.player2.dragCard(this.miyaMystic, 'dynasty discard pile');
                     this.fineKatana = this.player1.playAttachment('fine-katana', 'adept-of-the-waves');
                     this.player2.clickCard(this.karada2);
