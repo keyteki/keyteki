@@ -12,7 +12,7 @@ class HighKick extends DrawCard {
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1}\'s ability to bow and prevent {2} from using any abilities', this.controller, this, context.target);
-                this.game.applyGameAction(context, { bow: context.target }, [{ params: { order: 1 }, handler: () => this.untilEndOfPhase(ability => ({
+                this.game.applyGameAction(context, { bow: context.target }, [{ params: { order: 1 }, handler: () => this.untilEndOfConflict(ability => ({
                     match: context.target,
                     effect: ability.effects.cardCannotTriggerAbilities()
                 }))}]);
