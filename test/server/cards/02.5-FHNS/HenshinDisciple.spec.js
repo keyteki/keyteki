@@ -1,11 +1,11 @@
-fdescribe('Henshin Disciple', function() {
+describe('Henshin Disciple', function() {
     integration(function() {
         describe('Henshin Disciple\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     phase: 'conflict',
                     player1: {
-                        inPlay: ['henshin-disciple'],
+                        inPlay: ['henshin-disciple', 'seeker-of-knowledge'],
                         hand: ['know-the-world']
                     }
                 });
