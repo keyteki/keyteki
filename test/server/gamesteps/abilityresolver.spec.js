@@ -200,6 +200,7 @@ describe('AbilityResolver', function() {
                     beforeEach(function() {
                         this.target = { foo: 'bar' };
                         this.targetResult.value = this.target;
+                        this.context.targets.target = this.target;
                     });
 
                     describe('and the target name is arbitrary', function() {
