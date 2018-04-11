@@ -314,7 +314,7 @@ class ConflictFlow extends BaseStepWithPipeline {
         }
 
         if(this.conflict.isAttackerTheWinner()) {
-            this.conflict.chooseWhetherToResolveRingEffect();
+            this.conflict.resolveRing();
         }       
     }
     

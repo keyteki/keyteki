@@ -1482,38 +1482,16 @@ class Player extends Spectator {
      * Resolves any number of ring effects.  If there are more than one, then it will prompt the first player to choose what order those effects should be applied in
      * @param {Array} elements - Array of String, alternatively can be passed a String for convenience
      * @param {Boolean} optional - Indicates that the player can choose which effects to resolve.  This parameter only effects resolution of a single effect
-     * @param {Array} queue - Array of String, used in the chat message displaying order
      */
-    resolveRingEffects(elements, optional = false, queue = []) {
-        if(!_.isArray(elements)) {
-            this.game.resolveAbility(RingEffects.contextFor(this, elements, optional));
-            return;
-        } else if(elements.length === 0) {
-            if(this.game.currentConflict) {
-                this.game.addMessage('{0} chooses not to resolve the {1} ring', this, this.game.currentConflict.conflictRing);
-            }
-            return;
-        } else if(elements.length === 1) {
-            queue.push(elements[0]);
-            if(queue.length > 1) {
-                this.game.addMessage('{0} chooses that the rings will resolve in the following order: {1}', this.game.getFirstPlayer(), queue);
-            }
-            _.each(queue, element => this.game.queueSimpleStep(() => this.game.resolveAbility(RingEffects.contextFor(this, element, false))));
-            return;
-        }
-        let handlers = _.map(elements, element => {
-            return () => {
-                queue.push(element);
-                this.game.queueSimpleStep(() => this.resolveRingEffects(_.without(elements, element), false, queue));
+    resolveRingEffects(elements, optional = true) {
+        optional = optional && elements.length === 1;
+        this.game.openSimultaneousEffectWindow(_.map(_.flatten([elements]), element => {
+            let context = RingEffects.contextFor(this, element, optional);
+            return {
+                title: context.ability.title,
+                handler: () => this.game.resolveAbility(context)
             };
-        });
-        let choices = _.map(elements, element => RingEffects.getRingName(element));
-        this.game.promptWithHandlerMenu(this.game.getFirstPlayer(), {
-            activePromptTitle: 'Choose ring resolution order',
-            source: 'Ring resolution order',
-            choices: choices,
-            handlers: handlers
-        });
+        }));
     }
 
     /**

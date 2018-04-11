@@ -29,7 +29,7 @@ describe('Sashimono', function() {
                 });
                 expect(this.lPB.conflictOptions.doesNotBowAs.attacker).toBe(true);
                 this.player1.clickPrompt('No');
-                this.player1.clickPrompt('No');
+                this.player1.clickPrompt('Gain 2 honor');
                 expect(this.lPB.bowed).toBe(false);
                 expect(this.miyaMystic.bowed).toBe(true);
             });
@@ -45,7 +45,7 @@ describe('Sashimono', function() {
                 expect(this.game.currentConflict.conflictType).toBe('political');
                 expect(this.lPB.conflictOptions.doesNotBowAs.attacker).toBe(false);
                 this.player1.clickPrompt('No');
-                this.player1.clickPrompt('No');
+                this.player1.clickPrompt('Gain 2 honor');
                 expect(this.lPB.bowed).toBe(true);
                 expect(this.miyaMystic.bowed).toBe(true);
             });

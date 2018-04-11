@@ -57,10 +57,7 @@ class EventWindow extends BaseStepWithPipeline {
             return;
         }
 
-        this.game.openAbilityWindow({
-            abilityType: abilityType,
-            event: this.events
-        });
+        this.game.openAbilityWindow(abilityType, this.events);
     }
 
     // This is primarily for LeavesPlayEvents
@@ -71,10 +68,7 @@ class EventWindow extends BaseStepWithPipeline {
         });
         if(contingentEvents.length > 0) {
             _.each(contingentEvents, event => this.addEvent(event));
-            this.game.openAbilityWindow({
-                abilityType: 'cancelinterrupt',
-                event: contingentEvents
-            });
+            this.game.openAbilityWindow('cancelinterrupt', contingentEvents);
         }
     }
     

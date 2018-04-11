@@ -8,37 +8,36 @@ class ShibaTsukune extends DrawCard {
             when : {
                 onPhaseEnded: event => event.phase === 'conflict'
             },
-            handler: () => {
-                this.game.promptForRingSelect(this.controller, {
-                    activePromptTitle: 'Choose a ring to resolve',
-                    source: this,
-                    ringCondition: ring => ring.isUnclaimed(),
-                    onSelect: (player, firstRing) => {
-                        if(_.size(_.filter(this.game.rings, ring => ring.isUnclaimed())) > 1) {
-                            this.game.promptForRingSelect(player, {
-                                activePromptTitle: 'Choose a second ring to resolve, or click Done',
-                                ringCondition: ring => ring.isUnclaimed() && ring !== firstRing,
-                                source: this,
-                                onSelect: (player, secondRing) => {
-                                    let array = [firstRing.element, secondRing.element];
-                                    this.game.addMessage('{0} uses {1} to resolve the {2} rings', this.controller, this, array);
-                                    player.resolveRingEffects(array);
-                                    return true;
-                                },
-                                onCancel: () => {
-                                    this.game.addMessage('{0} uses {1} to resolve the {2} ring', this.controller, this, firstRing.element);
-                                    player.resolveRingEffects(firstRing.element);
-                                    return true;
-                                }
-                            });
-                        } else {
-                            this.game.addMessage('{0} uses {1} to resolve the {2} ring', this.controller, this, firstRing.element);
-                            player.resolveRingEffects(firstRing.element);
-                        }
-                        return true;
+            handler: context => this.game.promptForRingSelect(context.player, {
+                activePromptTitle: 'Choose a ring to resolve',
+                source: context.source,
+                ringCondition: ring => !ring.claimed,
+                onSelect: (player, firstRing) => {
+                    if(_.size(_.filter(this.game.rings, ring => !ring.claimed)) > 1) {
+                        this.game.promptForRingSelect(player, {
+                            activePromptTitle: 'Choose a second ring to resolve, or click Done',
+                            ringCondition: ring => !ring.claimed && ring !== firstRing,
+                            source: context.source,
+                            optional: true,
+                            onMenuCommand: player => {
+                                this.game.addMessage('{0} uses {1} to resolve the {2} ring', context.player, context.source, firstRing.element);
+                                player.resolveRingEffects(firstRing.element);
+                                return true;
+                            },
+                            onSelect: (player, secondRing) => {
+                                let array = [firstRing.element, secondRing.element];
+                                this.game.addMessage('{0} uses {1} to resolve the {2} rings', context.player, context.source, array);
+                                player.resolveRingEffects(array);
+                                return true;
+                            }
+                        });
+                    } else {
+                        this.game.addMessage('{0} uses {1} to resolve the {2} ring', context.player, context.source, firstRing.element);
+                        player.resolveRingEffects(firstRing.element);
                     }
-                });
-            }
+                    return true;
+                }
+            })
         });
     }
 }

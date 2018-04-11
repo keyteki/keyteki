@@ -87,7 +87,7 @@ describe('Yogo Hiroue', function() {
                 this.player1.playCharacterFromHand('unassuming-yojimbo');
                 this.player1.clickPrompt('Conflict');
                 this.noMoreActions();
-                expect(this.player1).toHavePrompt('Resolve Ring Effects');
+                expect(this.player1).toHavePrompt('Air Ring');
             });
 
             it('should not trigger the delayed effect if the card returns to play', function() {
@@ -105,7 +105,7 @@ describe('Yogo Hiroue', function() {
                 this.player1.playCharacterFromHand('unassuming-yojimbo');
                 this.player1.clickPrompt('Conflict');
                 this.noMoreActions();
-                expect(this.player1).toHavePrompt('Resolve Ring Effects');
+                expect(this.player1).toHavePrompt('Air Ring');
             });
         });
     });

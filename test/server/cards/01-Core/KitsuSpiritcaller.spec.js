@@ -76,7 +76,7 @@ describe('Kitsu Spiritcaller', function() {
                     this.player1.clickCard(this.honoredGeneral);
                     this.noMoreActions();
                     this.player1.clickPrompt('No');
-                    this.player1.clickPrompt('No');
+                    this.player1.clickPrompt('Gain 2 honor');
                     expect(this.honoredGeneral.location).toBe('dynasty deck');
                     expect(this.player1.player.dynastyDeck.last()).toBe(this.honoredGeneral);
                 });
@@ -88,7 +88,7 @@ describe('Kitsu Spiritcaller', function() {
                     this.reprieve = this.player1.playAttachment('reprieve', this.honoredGeneral);
                     this.noMoreActions();
                     this.player1.clickPrompt('No');
-                    this.player1.clickPrompt('No');
+                    this.player1.clickPrompt('Gain 2 honor');
                     expect(this.player1).toHavePrompt('Triggered Abilities');
                     expect(this.player1).toBeAbleToSelect(this.reprieve);
                     this.player1.clickCard(this.reprieve);

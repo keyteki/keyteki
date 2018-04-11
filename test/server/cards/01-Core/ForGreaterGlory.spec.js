@@ -88,7 +88,7 @@ describe('For Greater Glory', function() {
                 expect(this.player2).toHavePrompt('Triggered Abilities');
                 expect(this.player2).toBeAbleToSelect(this.publicForum);
                 this.player2.clickCard(this.publicForum);
-                expect(this.player1).toHavePrompt('Resolve Ring Effects');
+                expect(this.player1).toHavePrompt('Air Ring');
             });
 
             it('should trigger when Public Forum is broken', function() {
@@ -100,7 +100,7 @@ describe('For Greater Glory', function() {
                     jumpTo: 'afterConflict'
                 });
                 this.player2.clickCard(this.publicForum);
-                this.player1.clickPrompt('No');
+                this.player1.clickPrompt('Gain 2 honor');
                 this.noMoreActions();
                 this.player2.clickPrompt('Pass Conflict');
                 this.player2.clickPrompt('Yes');

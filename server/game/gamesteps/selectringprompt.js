@@ -67,6 +67,9 @@ class SelectRingPrompt extends UiPrompt {
 
     activePrompt() {
         let buttons = this.properties.buttons;
+        if(this.properties.optional) {
+            buttons.push({ text: 'Done', arg: 'done' });
+        }
         if(this.game.manualMode && !_.any(buttons, button => button.arg === 'cancel')) {
             buttons.push({ text: 'Cancel Prompt', arg: 'cancel' });
         }

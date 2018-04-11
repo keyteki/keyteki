@@ -2,6 +2,7 @@ describe('Duelist Training', function() {
     integration(function() {
         describe('Duelist Training', function() {
             beforeEach(function() {
+                //this.spy = spyOn(this.game, 'reportError')
                 this.setupTest({
                     phase: 'conflict',
                     player1: {
@@ -31,6 +32,7 @@ describe('Duelist Training', function() {
             });
 
             it('should initiate a duel', function() {
+                //expect(this.spy).toHaveBeenCalledWith(null);
                 this.player1.clickCard(this.giverOfGifts1);
                 //expect(this.player1).toHavePrompt('Choose an ability:');
                 this.player1.clickPrompt('Initiate a duel to bow');

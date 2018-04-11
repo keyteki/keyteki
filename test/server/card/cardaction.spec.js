@@ -69,7 +69,7 @@ describe('CardAction', function () {
 
         describe('location', function() {
             it('should use the location sent via properties', function() {
-                this.properties.location = 'foo';
+                this.properties.location = ['foo'];
                 this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
                 expect(this.action.location).toContain('foo');
             });
@@ -88,9 +88,31 @@ describe('CardAction', function () {
                 });
             });
         });
+
+        describe('when there is no limit', function() {
+            beforeEach(function() {
+                this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+            });
+
+            it('should not register an event', function() {
+                expect(this.limitSpy.registerEvents).not.toHaveBeenCalled();
+            });
+        });
+
+        describe('when there is a limit', function() {
+            beforeEach(function() {
+                this.properties.limit = this.limitSpy;
+                this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
+            });
+
+            it('should register events for the limit', function() {
+                expect(this.limitSpy.registerEvents).toHaveBeenCalledWith(this.gameSpy);
+            });
+        });
     });
 
-    describe('execute()', function() {
+    // execute() is deprecated
+    xdescribe('execute()', function() {
         beforeEach(function() {
             this.player = {canInitiateAction: true};
             this.cardSpy.controller = this.player;
@@ -159,7 +181,7 @@ describe('CardAction', function () {
             beforeEach(function() {
                 this.cardSpy.location = 'hand';
                 this.cardSpy.canTriggerAbilities.and.returnValue(false);
-                this.properties.location = 'play area';
+                this.properties.location = ['play area'];
                 this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
                 this.action.execute(this.player, 'arg');
             });
@@ -354,58 +376,6 @@ describe('CardAction', function () {
 
             it('should return false', function() {
                 expect(this.result).toBe(false);
-            });
-        });
-    });
-
-    describe('registerEvents()', function() {
-        describe('when there is no limit', function() {
-            beforeEach(function() {
-                this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
-                this.action.registerEvents();
-            });
-
-            it('should not register an event', function() {
-                expect(this.limitSpy.registerEvents).not.toHaveBeenCalled();
-            });
-        });
-
-        describe('when there is a limit', function() {
-            beforeEach(function() {
-                this.properties.limit = this.limitSpy;
-                this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
-                this.action.registerEvents();
-            });
-
-            it('should register events for the limit', function() {
-                expect(this.limitSpy.registerEvents).toHaveBeenCalledWith(this.gameSpy);
-            });
-        });
-    });
-
-    describe('unregisterEvents()', function() {
-        describe('when there is no limit', function() {
-            beforeEach(function() {
-                this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
-
-                this.action.unregisterEvents();
-            });
-
-            it('should not unregister an event', function() {
-                expect(this.limitSpy.unregisterEvents).not.toHaveBeenCalled();
-            });
-        });
-
-        describe('when there is a limit', function() {
-            beforeEach(function() {
-                this.properties.limit = this.limitSpy;
-                this.action = new CardAction(this.gameSpy, this.cardSpy, this.properties);
-
-                this.action.unregisterEvents();
-            });
-
-            it('should unregister events for the limit', function() {
-                expect(this.limitSpy.unregisterEvents).toHaveBeenCalledWith(this.gameSpy);
             });
         });
     });

@@ -28,7 +28,7 @@ describe('Shrewd Yasuki', function() {
         describe('after the conflict', function() {
             it('shouldn\'t be a legal action', function() {
                 this.noMoreActions();
-                this.player1.clickPrompt('No');
+                this.player1.clickPrompt('Gain 2 honor');
                 this.player1.clickCard('shrewd-yasuki');
                 expect(this.player1).toHavePrompt('Initiate an action');
             });            

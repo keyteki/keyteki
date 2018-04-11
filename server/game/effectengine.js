@@ -9,6 +9,7 @@ class EffectEngine {
         this.events.register(['onCardMoved', 'onCardBlankToggled', 'onCardTakenControl', 'onConflictFinished', 'onPhaseEnded', 'onRoundEnded', 'onDuelFinished']);
         this.effects = [];
         this.delayedEffects = [];
+        this.terminalConditions = [];
         this.customDurationEvents = [];
         this.newEffect = false;
     }
@@ -27,6 +28,14 @@ class EffectEngine {
         this.newEffect = true;
     }
 
+    addTerminalCondition(effect) {
+        this.terminalConditions.push(effect);
+    }
+
+    removeTerminalCondition(effect) {
+        this.terminalConditions = _.reject(this.terminalConditions, e => e === effect);
+    }
+
     addDelayedEffect(effect) {
         this.delayedEffects.push(effect);
     }
@@ -36,11 +45,20 @@ class EffectEngine {
     }
 
     checkDelayedEffects(events) {
-        _.each(this.delayedEffects, effect => {
-            if(effect.checkEffect(events)) {
-                effect.executeHandler();
-            }
-        });
+        let effectsToTrigger = _.filter(this.delayedEffects, effect => effect.checkEffect(events));
+        if(effectsToTrigger.length > 0) {
+            this.game.openSimultaneousEffectWindow(_.map(effectsToTrigger, effect => ({
+                title: effect.source.name + '\'s effect on ' + effect.target.name,
+                handler: () => effect.executeHandler()
+            })));
+        }
+    }
+
+    checkTerminalConditions() {
+        let effectsToTrigger = _.filter(this.terminalConditions, effect => effect.condition());
+        if(effectsToTrigger.length > 0) {
+            this.game.openEventWindow(_.flatten(_.map(effectsToTrigger, effect => effect.getEvents())));
+        }
     }
 
     checkEffects(stateChanged = false, loops = 0) {
@@ -68,6 +86,7 @@ class EffectEngine {
         // Any lasting or delayed effects on this card should be removed when it leaves play
         this.unapplyAndRemove(effect => effect.match === event.card && effect.targetLocation !== 'any' && effect.duration !== 'persistent');
         this.delayedEffects = _.reject(this.delayedEffects, effect => effect.target === event.card);
+        this.terminalConditions = _.reject(this.terminalConditions, effect => effect.target === event.card);
         this.addTargetForPersistentEffects(event.card, newArea);
     }
 
