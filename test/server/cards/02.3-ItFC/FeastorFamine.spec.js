@@ -86,6 +86,7 @@ describe('Feast of Famine', function() {
                 expect(this.player2).toBeAbleToSelect(this.shinjoOutrider);
                 this.player2.clickCard(this.shinjoOutrider);
                 expect(this.player2).toBeAbleToSelect(this.nitenAdept);
+                expect(this.player2).not.toBeAbleToSelect(this.doomedShugenja);
                 this.player2.clickCard(this.nitenAdept);
                 expect(this.shinjoOutrider.fate).toBe(0);
                 expect(this.nitenAdept.fate).toBe(2);
@@ -101,6 +102,7 @@ describe('Feast of Famine', function() {
                 expect(this.player2).toBeAbleToSelect(this.shinjoOutrider);
                 this.player2.clickCard(this.shinjoOutrider);
                 expect(this.player2).toBeAbleToSelect(this.togashiInitiate);
+                expect(this.player2).not.toBeAbleToSelect(this.doomedShugenja);
                 this.player2.clickCard(this.togashiInitiate);
                 expect(this.shinjoOutrider.fate).toBe(0);
                 expect(this.togashiInitiate.fate).toBe(2);
