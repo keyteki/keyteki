@@ -16,8 +16,10 @@ class DuelistTraining extends DrawCard {
                 handler: context => {
                     this.game.addMessage('{0} uses {1} to challenge {2} to a duel', this.parent.controller, this, context.target);
                     let outcome = (winner, loser) => {
-                        this.game.addMessage('{0} wins the duel, and bows {1}', winner, loser);
-                        this.game.applyGameAction(context, { bow: loser });
+                        if(loser) {
+                            this.game.addMessage('{0} wins the duel, and bows {1}', winner, loser);
+                            this.game.applyGameAction(context, { bow: loser });
+                        }
                     };
                     this.game.initiateDuel(this.parent, context.target, 'military', outcome, () => {
                         let difference = this.parent.controller.honorBid - context.target.controller.honorBid;
