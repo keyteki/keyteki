@@ -548,7 +548,6 @@ const Effects = {
             },
             unapply: function(card, context) {
                 if(context.removeAction && context.removeAction[card.uuid]) {
-                    context.removeAction[card.uuid].unregisterEvents();
                     card.abilities.actions = _.reject(card.abilities.actions, ability => ability === context.removeAction[card.uuid]);
                     delete context.removeAction[card.uuid];
                 }
