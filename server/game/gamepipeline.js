@@ -141,6 +141,16 @@ class GamePipeline {
 
         return name;
     }
+
+    consoleDebugInfo() {
+        let pipeline = this;
+        let step = pipeline.pipeline[0];
+        while(step.pipeline) {
+            pipeline = step.pipeline;
+            step = pipeline.pipeline[0];
+        }
+        //console.log(pipeline.getDebugInfo());
+    }
 }
 
 module.exports = GamePipeline;

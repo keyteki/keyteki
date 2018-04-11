@@ -5,17 +5,16 @@ const DrawCard = require('../../../server/game/drawcard.js');
 describe('Player', function() {
     describe('moveCard', function() {
         beforeEach(function() {
-            this.gameSpy = jasmine.createSpyObj('game', ['raiseEvent', 'getOtherPlayer', 'playerDecked', 'addMessage']);
+            this.gameSpy = jasmine.createSpyObj('game', ['emitEvent', 'on', 'raiseEvent', 'getOtherPlayer', 'playerDecked', 'addMessage']);
             this.player = new Player('1', {username: 'Player 1', settings: {}}, true, this.gameSpy);
             this.player.initialise();
-            this.player.phase = 'dynasty';
 
             this.gameSpy.raiseEvent.and.callFake((name, params, handler) => {
                 if(handler) {
                     handler(params);
                 }
             });
-            this.card = new DrawCard(this.player, { code: '1', name: 'Test' });
+            this.card = new DrawCard(this.player, { code: '1', name: 'Test', type: 'character' });
             this.card.isConflict = true;
             spyOn(this.card, 'leavesPlay');
         });
@@ -105,12 +104,11 @@ describe('Player', function() {
 
             describe('when the card is an attachment', function() {
                 beforeEach(function() {
-                    this.attachment = new DrawCard(this.player, {});
+                    this.attachment = new DrawCard(this.player, { type: 'attachment' });
                     this.attachment.isConflict = true;
                     this.attachment.parent = this.card;
                     this.attachment.location = 'play area';
                     this.card.attachments.push(this.attachment);
-                    spyOn(this.player, 'removeAttachment');
 
                     this.player.moveCard(this.attachment, 'hand');
                 });

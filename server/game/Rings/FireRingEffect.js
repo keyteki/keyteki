@@ -2,17 +2,18 @@ const BaseAbility = require('../baseability.js');
 
 class FireRingEffect extends BaseAbility {
     constructor(optional = true) {
-        super({ 
+        super({
             target: {
                 activePromptTitle: 'Choose character to honor or dishonor',
                 source: 'Fire Ring',
                 cardType: 'character',
+                buttons: optional ? [{ text: 'Don\'t resolve', arg: 'dontResolve' }] : [],
                 cardCondition: card => card.location === 'play area' && (card.allowGameAction('honor') || card.allowGameAction('dishonor'))
             }
         });
         this.title = 'Fire Ring Effect';
         this.optional = optional;
-        this.cannotTargetFirst = !optional;
+        this.cannotTargetFirst = true;
     }
 
     meetsRequirements(context) {
@@ -20,6 +21,10 @@ class FireRingEffect extends BaseAbility {
     }
 
     executeHandler(context) {
+        if(!context.target) {
+            context.game.addMessage('{0} chooses not to resolve the {1} ring', context.player, context.game.currentConflict ? context.game.currentConflict.conflictRing : 'fire');
+            return;
+        }
         let choices = [];
         let handlers = [];
         if(context.target.allowGameAction('honor', context)) {
@@ -39,8 +44,8 @@ class FireRingEffect extends BaseAbility {
         choices.push('Back');
         handlers.push(() => context.game.resolveAbility(context));
         if(this.optional) {
-            choices.push('Cancel');
-            handlers.push(() => true);
+            choices.push('Don\'t resolve the fire ring');
+            handlers.push(() => context.game.addMessage('{0} chooses not to resolve the {1} ring', context.player, context.game.currentConflict ? context.game.currentConflict.conflictRing : 'fire'));
         }
         context.game.promptWithHandlerMenu(context.player, {
             choices: choices,

@@ -80,7 +80,8 @@ describe('Bayushi Kachiko', function() {
                     canCancel: true,
                     handler: context => context.cancel()
                 });
-                this.shrewdYasuki.abilities.reactions[0].registerEvents();
+
+                this.shrewdYasuki.abilities.reactions.find(ability => ability.title === 'Cancel Send Home').registerEvents();
                 this.game.registerAbility(this.shrewdYasuki.abilities.reactions[0]);
                 this.player2.clickPrompt('Pass');
                 this.player1.clickCard('bayushi-kachiko');

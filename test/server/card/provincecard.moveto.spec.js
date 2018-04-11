@@ -3,10 +3,9 @@ const ProvinceCard = require('../../../server/game/provincecard.js');
 describe('ProvinceCard', function () {
     beforeEach(function () {
         this.testCard = { code: '111', label: 'test 1(some pack)', name: 'test 1' };
-        this.gameSpy = jasmine.createSpyObj('game', ['raiseEvent']);
+        this.gameSpy = jasmine.createSpyObj('game', ['emitEvent', 'on']);
         this.card = new ProvinceCard({ game: this.gameSpy }, this.testCard);
-        spyOn(this.card.events, 'register');
-        spyOn(this.card.events, 'unregisterAll');
+        this.card.type = 'province';
     });
 
     describe('moveTo()', function() {
@@ -31,9 +30,19 @@ describe('ProvinceCard', function () {
             });
         });
 
-        describe('when the card has events', function() {
+        describe('when the card has a reaction', function() {
             beforeEach(function() {
-                this.card.registerEvents(['foo', 'bar']);
+                this.card.reaction({
+                    title: 'Force opponent to discard cards equal to the number of attackers',
+                    when: {
+                        onProvinceRevealed: event => event.province === this && this.controller.opponent.hand.size() > 0
+                    },
+                    handler: () => {
+                        this.game.doSomething();
+                    }
+                });
+                spyOn(this.card.abilities.reactions[0], 'registerEvents');
+                spyOn(this.card.abilities.reactions[0], 'unregisterEvents');
             });
 
             describe('when in a non-event handling area', function() {
@@ -41,51 +50,37 @@ describe('ProvinceCard', function () {
                     this.card.location = 'province deck';
                 });
 
-                describe('and moving to another non-event handling area', function() {
+                describe('and moving to an event handling area', function() {
                     beforeEach(function() {
                         this.card.moveTo('stronghold province');
                     });
 
-                    it('should not register events', function() {
-                        expect(this.card.events.register).not.toHaveBeenCalled();
-                    });
-
-                    it('should not unregister events', function() {
-                        expect(this.card.events.unregisterAll).not.toHaveBeenCalled();
-                    });
-                });
-
-                describe('and moving to an event handling area', function() {
-                    beforeEach(function() {
-                        this.card.moveTo('province');
-                    });
-
                     it('should register events', function() {
-                        expect(this.card.events.register).toHaveBeenCalledWith(['foo', 'bar']);
+                        expect(this.card.abilities.reactions[0].registerEvents).toHaveBeenCalled();
                     });
 
                     it('should not unregister events', function() {
-                        expect(this.card.events.unregisterAll).not.toHaveBeenCalled();
+                        expect(this.card.abilities.reactions[0].unregisterEvents).not.toHaveBeenCalled();
                     });
                 });
             });
 
             describe('when in an event handling area', function() {
                 beforeEach(function() {
-                    this.card.location = 'province';
+                    this.card.location = 'province 1';
                 });
 
                 describe('and moving to another event handling area', function() {
                     beforeEach(function() {
-                        this.card.moveTo('province');
+                        this.card.moveTo('province 2');
                     });
 
                     it('should not register events', function() {
-                        expect(this.card.events.register).not.toHaveBeenCalled();
+                        expect(this.card.abilities.reactions[0].registerEvents).not.toHaveBeenCalled();
                     });
 
                     it('should not unregister events', function() {
-                        expect(this.card.events.unregisterAll).not.toHaveBeenCalled();
+                        expect(this.card.abilities.reactions[0].unregisterEvents).not.toHaveBeenCalled();
                     });
                 });
 
@@ -95,11 +90,11 @@ describe('ProvinceCard', function () {
                     });
 
                     it('should not register events', function() {
-                        expect(this.card.events.register).not.toHaveBeenCalled();
+                        expect(this.card.abilities.reactions[0].registerEvents).not.toHaveBeenCalled();
                     });
 
                     it('should unregister events', function() {
-                        expect(this.card.events.unregisterAll).toHaveBeenCalled();
+                        expect(this.card.abilities.reactions[0].unregisterEvents).toHaveBeenCalled();
                     });
                 });
             });

@@ -19,26 +19,22 @@ class TriggeredAbility extends CardAbility {
         }
     }
 
-    eventHandler(event) {
-        if(!this.isTriggeredByEvent(event)) {
-            return;
-        }
+    eventHandler(event, window) {
+        let context = this.createContext(event);
 
-        this.game.registerAbility(this, event);
+        if(this.isTriggeredByEvent(event, context) && this.meetsRequirements(context)) {
+            window.addChoice(context);
+        }
     }
 
     createContext(event) {
         return new TriggeredAbilityContext({ event: event, game: this.game, source: this.card, player: this.card.controller, ability: this });
     }
 
-    isTriggeredByEvent(event) {
+    isTriggeredByEvent(event, context) {
         let listener = this.when[event.name];
 
-        if(!listener) {
-            return false;
-        }
-
-        return listener(event);
+        return listener && listener(event, context);
     }
 
     meetsRequirements(context) {
@@ -46,7 +42,7 @@ class TriggeredAbility extends CardAbility {
             return false;
         }
 
-        if(!this.isTriggeredByEvent(context.event)) {
+        if(!this.isTriggeredByEvent(context.event, context)) {
             return false;
         }
         return this.canResolveTargets(context);
@@ -71,15 +67,11 @@ class TriggeredAbility extends CardAbility {
         _.each(eventNames, eventName => {
             var event = {
                 name: eventName + ':' + this.abilityType,
-                handler: event => this.eventHandler(event)
+                handler: (event, window) => this.eventHandler(event, window)
             };
             this.game.on(event.name, event.handler);
             this.events.push(event);
         });
-
-        if(this.limit) {
-            this.limit.registerEvents(this.game);
-        }
     }
 
     unregisterEvents() {
@@ -87,9 +79,6 @@ class TriggeredAbility extends CardAbility {
             _.each(this.events, event => {
                 this.game.removeListener(event.name, event.handler);
             });
-            if(this.limit) {
-                this.limit.unregisterEvents(this.game);
-            }
             this.events = null;
         }
     }

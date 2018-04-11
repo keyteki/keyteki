@@ -44,7 +44,7 @@ describe('Asahina Storyteller', function() {
                 expect(this.asceticVisionary.isFaction('crane')).toBe(true);
                 this.noMoreActions();
                 this.player1.clickPrompt('No');
-                this.player1.clickPrompt('No');
+                this.player1.clickPrompt('Gain 2 Honor');
                 expect(this.asceticVisionary.isBlank()).toBe(false);
                 expect(this.sealOfTheCrane.location).toBe('conflict discard pile');
                 expect(this.asceticVisionary.isFaction('crane')).toBe(false);

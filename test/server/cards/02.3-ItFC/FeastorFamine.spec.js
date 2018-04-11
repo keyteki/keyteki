@@ -50,7 +50,7 @@ describe('Feast of Famine', function() {
                 this.player1.pass();
                 this.player2.playAttachment('fine-katana', this.nitenAdept);
                 this.noMoreActions();
-                expect(this.player1).toHavePrompt('Resolve Ring Effects');
+                expect(this.player1).toHavePrompt('Air Ring');
                 expect(this.feastOrFamine.isBroken).toBe(false);
             });
 

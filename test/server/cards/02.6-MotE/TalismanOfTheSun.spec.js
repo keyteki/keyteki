@@ -5,7 +5,7 @@ describe('Talisman of the Sun', function() {
                 this.setupTest({
                     phase: 'conflict',
                     player1: {
-                        inPlay: ['shrine-maiden'],
+                        inPlay: ['shrine-maiden']
                     },
                     player2: {
                         provinces: ['public-forum', 'sanpuku-seido'],

@@ -226,6 +226,20 @@ const Effects = {
             }
         };
     },
+    terminalCondition: function(properties) {
+        return {
+            apply: function(card, context) {
+                properties.target = card;
+                properties.context = properties.context || context;
+                context.terminalCondition = context.terminalCondition || {};
+                context.terminalCondition[card.uuid] = context.source.terminalCondition(properties);                
+            },
+            unapply: function(card, context) {
+                context.game.effectEngine.removeTerminalCondition(context.terminalCondition[card.uuid]);
+                delete context.terminalCondition[card.uuid];
+            }
+        };
+    },
     addKeyword: function(keyword) {
         return {
             apply: function(card) {
@@ -409,7 +423,9 @@ const Effects = {
                 abilityType = abilityType === 'forcedreaction' ? 'forcedReaction' : abilityType;
                 card[abilityType](properties);
                 let ability = _.last(card.abilities[abilityType === 'action' ? 'actions' : 'reactions']);
-                ability.registerEvents();
+                if(abilityType !== 'action') {
+                    ability.registerEvents();
+                }
                 if(context.source.grantedAbilityLimits[card.uuid]) {
                     ability.limit = context.source.grantedAbilityLimits[card.uuid];
                 } else {
@@ -421,7 +437,9 @@ const Effects = {
             unapply: function(card, context) {
                 if(context.gainAbility && context.gainAbility[card.uuid]) {
                     let list = abilityType === 'action' ? 'actions' : 'reactions';
-                    context.gainAbility[card.uuid].unregisterEvents();
+                    if(abilityType !== 'action') {
+                        context.gainAbility[card.uuid].unregisterEvents();
+                    }
                     card.abilities[list] = _.reject(card.abilities[list], ability => ability === context.gainAbility[card.uuid]);
                     delete context.gainAbility[card.uuid];
                 }

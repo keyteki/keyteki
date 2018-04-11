@@ -308,6 +308,14 @@ describe('conflict phase', function() {
                     expect(this.isawaKaede.bowed).toBe(true);
                 });
 
+                it('the defending player should be able to trigger Keeper of Void', function() {
+                    this.noMoreActions();
+                    this.keeperOfVoid = this.player2.findCardByName('keeper-of-void');
+                    expect(this.player2).toHavePrompt('Triggered Abilities');
+                    expect(this.player2).toBeAbleToSelect(this.keeperOfVoid);
+
+                });
+
                 describe('if the defending player wins', function() {
                     beforeEach(function() {
                         this.noMoreActions();
@@ -357,10 +365,12 @@ describe('conflict phase', function() {
                         jumpTo: 'resolveRing'
                     });
                     this.dojiHotaru = this.player1.findCardByName('doji-hotaru');
+                    //this.spy = spyOn(this.game.currentConflict, 'chooseElementsToResolve');
                     this.player1.clickPrompt('Yes');
                 });
 
                 it('should prompt the player to choose an element to resolve', function() {
+                    //expect(this.spy).toHaveBeenCalledWith(this.player1.player, ['air', 'fire'], true);
                     expect(this.player1).toHavePrompt('Choose a ring effect to resolve');
                 });
 
@@ -454,7 +464,7 @@ describe('conflict phase', function() {
                     });
                     this.noMoreActions();
                     this.player1.clickPrompt('No');
-                    this.player1.clickPrompt('No');
+                    this.player1.clickPrompt('Gain 2 honor');
                     expect(this.dojiWhisperer.bowed).toBe(true);
                     expect(this.player1).toHavePrompt('Triggered Abilities');
                     expect(this.player1).toBeAbleToSelect('curry-favor');

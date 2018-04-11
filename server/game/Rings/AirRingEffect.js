@@ -9,13 +9,13 @@ class AirRingEffect extends BaseAbility {
                 source: 'Air Ring',
                 choices: {
                     'Gain 2 Honor': () => true,
-                    'Take 1 Honor from Opponent': context => context.player.opponent
+                    'Take 1 Honor from opponent': context => context.player.opponent,
+                    'Don\'t resolve': () => optional
                 }
             }
         });
         this.title = 'Air Ring Effect';
-        this.optional = optional;
-        this.cannotTargetFirst = !optional;
+        this.cannotTargetFirst = true;
     }
 
     meetsRequirements(context) {
@@ -29,6 +29,8 @@ class AirRingEffect extends BaseAbility {
         } else if(context.select === 'Take 1 Honor from Opponent') {
             context.game.addMessage('{0} resolves the {1} ring, taking 1 honor from {2}', context.player, 'air', context.player.opponent);
             context.game.transferHonor(context.player.opponent, context.player, 1);            
+        } else {
+            context.game.addMessage('{0} chooses not to resolve the {1} ring', context.player, context.game.currentConflict ? context.game.currentConflict.conflictRing : 'air');
         }
     }
 

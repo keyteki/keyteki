@@ -118,6 +118,13 @@ class EffectSource {
         return this.game.addDelayedEffect(this, properties);
     }
 
+    /**
+     * Applies a terminal condition
+     */
+    terminalCondition(properties) {
+        return this.game.addTerminalCondition(this, properties);
+    }
+
     getShortSummary() {
         return {
             id: this.id,

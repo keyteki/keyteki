@@ -9,7 +9,6 @@ const CardInterrupt = require('./cardinterrupt.js');
 const CardReaction = require('./cardreaction.js');
 const CustomPlayAction = require('./customplayaction.js');
 const EffectSource = require('./EffectSource.js');
-const EventRegistrar = require('./eventregistrar.js');
 
 const ValidKeywords = [
     'ancestral',
@@ -20,7 +19,6 @@ const ValidKeywords = [
     'pride',
     'covert'
 ];
-const LocationsWithEventHandling = ['play area', 'province'];
 
 class BaseCard extends EffectSource {
     constructor(owner, cardData) {
@@ -58,7 +56,6 @@ class BaseCard extends EffectSource {
         };
         this.abilityRestrictions = [];
         this.menu = _([]);
-        this.events = new EventRegistrar(this.game, this);
 
         this.showPopup = false;
         this.popupMenuText = '';
@@ -231,42 +228,32 @@ class BaseCard extends EffectSource {
         this.inConflict = false;
     }
 
+    updateAbilityEvents(from, to) {
+        _.each(this.abilities.reactions, reaction => {
+            if(reaction.location.includes(to) && !reaction.location.includes(from)) {
+                reaction.registerEvents();
+            } else if(!reaction.location.includes(to) && reaction.location.includes(from)) {
+                reaction.unregisterEvents();
+            }
+        });
+    }
+
     moveTo(targetLocation) {
         let originalLocation = this.location;
 
         this.location = targetLocation;
-
-        if(LocationsWithEventHandling.includes(targetLocation) && !LocationsWithEventHandling.includes(originalLocation)) {
-            this.events.register(this.eventsForRegistration);
-        } else if(LocationsWithEventHandling.includes(originalLocation) && !LocationsWithEventHandling.includes(targetLocation)) {
-            this.events.unregisterAll();
-        }
-
-        _.each(this.abilities.actions, action => {
-            if(action.isEventListeningLocation(targetLocation) && !action.isEventListeningLocation(originalLocation)) {
-                action.registerEvents();
-            } else if(action.isEventListeningLocation(originalLocation) && !action.isEventListeningLocation(targetLocation)) {
-                action.unregisterEvents();
-            }
-        });
-        _.each(this.abilities.reactions, reaction => {
-            if(reaction.isEventListeningLocation(targetLocation) && !reaction.isEventListeningLocation(originalLocation)) {
-                reaction.registerEvents();
-                this.game.registerAbility(reaction);
-            } else if(reaction.isEventListeningLocation(originalLocation) && !reaction.isEventListeningLocation(targetLocation)) {
-                reaction.unregisterEvents();
-            }
-        });
 
         if(['play area', 'conflict discard pile', 'dynasty discard pile', 'hand'].includes(targetLocation)) {
             this.facedown = false;
         }
 
         if(originalLocation !== targetLocation) {
+            this.updateAbilityEvents(originalLocation, targetLocation);
+
             if(targetLocation === 'play area') {
                 this.applyPersistentEffects();
             }
-            this.game.raiseEvent('onCardMoved', { card: this, originalLocation: originalLocation, newLocation: targetLocation });
+            this.game.emitEvent('onCardMoved', { card: this, originalLocation: originalLocation, newLocation: targetLocation });
         }
     }
 
@@ -416,15 +403,6 @@ class BaseCard extends EffectSource {
         }
     }
 
-    onClick(player) {
-        var action = _.find(this.abilities.actions, action => action.isClickToActivate());
-        if(action) {
-            return action.execute(player) || action.deactivate(player);
-        }
-
-        return false;
-    }
-    
     getActions() {
         return this.abilities.actions;
     }

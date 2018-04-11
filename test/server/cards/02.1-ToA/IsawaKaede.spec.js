@@ -1,6 +1,6 @@
 describe('Isawa Kaede', function() {
     integration(function() {
-        describe('IsawaKaede\'s ability', function() {
+        describe('Isawa Kaede\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     phase: 'conflict',
@@ -22,6 +22,7 @@ describe('Isawa Kaede', function() {
                     attackers: ['isawa-kaede'],
                     defenders: ['shinjo-outrider']
                 });
+                this.player1.player.optionSettings.orderForcedAbilities = true;
                 this.shibaTsukune = this.player1.findCardByName('shiba-tsukune');
                 this.shibaTsukune.modifyFate(1);
                 this.isawaKaede = this.player1.findCardByName('isawa-kaede');
@@ -30,11 +31,11 @@ describe('Isawa Kaede', function() {
 
             it('should allow Kaede to trigger both rings if she wins', function() {
                 this.noMoreActions();
-                expect(this.player1).toHavePrompt('Do you want to resolve all the elements of the conflict ring?');
+                expect(this.player1).toHavePrompt('Choose a ring effect to resolve');
                 this.player1.clickPrompt('Resolve All Elements');
-                expect(this.player1).toHavePrompt('Choose ring resolution order');
-                expect(this.player1.currentButtons).toContain('Fire Ring');
-                expect(this.player1.currentButtons).toContain('Void Ring');
+                expect(this.player1).toHavePrompt('Choose an effect to be resolved');
+                expect(this.player1.currentButtons).toContain('Fire Ring Effect');
+                expect(this.player1.currentButtons).toContain('Void Ring Effect');
             });
 
             it('should interact correctly with Seeker of Knowledge', function() {
@@ -44,10 +45,10 @@ describe('Isawa Kaede', function() {
                 this.player1.clickPrompt('Conflict');
                 this.noMoreActions();
                 this.player1.clickPrompt('Resolve All Elements');
-                expect(this.player1).toHavePrompt('Choose ring resolution order');
-                expect(this.player1.currentButtons).toContain('Fire Ring');
-                expect(this.player1.currentButtons).toContain('Void Ring');
-                expect(this.player1.currentButtons).toContain('Air Ring');
+                expect(this.player1).toHavePrompt('Choose an effect to be resolved');
+                expect(this.player1.currentButtons).toContain('Fire Ring Effect');
+                expect(this.player1.currentButtons).toContain('Void Ring Effect');
+                expect(this.player1.currentButtons).toContain('Air Ring Effect');
             });
 
             it('should not allow the defender to resolve multiple rings if Kaede loses', function() {
@@ -76,11 +77,11 @@ describe('Isawa Kaede', function() {
                 expect(this.player2).toHavePrompt('Triggered Abilities');
                 expect(this.player2).toBeAbleToSelect('display-of-power');
                 this.player2.clickCard('display-of-power');
-                expect(this.player2).toHavePrompt('Do you want to resolve all the elements of the conflict ring?');
+                expect(this.player2).toHavePrompt('Choose a ring effect to resolve');
                 this.player2.clickPrompt('Resolve All Elements');
-                expect(this.player1).toHavePrompt('Choose ring resolution order');
-                expect(this.player1.currentButtons).toContain('Fire Ring');
-                expect(this.player1.currentButtons).toContain('Void Ring');
+                expect(this.player1).toHavePrompt('Choose an effect to be resolved');
+                expect(this.player1.currentButtons).toContain('Fire Ring Effect');
+                expect(this.player1.currentButtons).toContain('Void Ring Effect');
             });
         });
     });

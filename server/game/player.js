@@ -80,8 +80,6 @@ class Player extends Spectator {
         this.timerSettings.windowTimer = user.settings.windowTimer;
         this.optionSettings = user.settings.optionSettings;
 
-        this.createAdditionalPile('out of game', { title: 'Out of Game', area: 'player row' });
-
         this.promptState = new PlayerPromptState(this);
     }
 
@@ -260,9 +258,9 @@ class Player extends Spectator {
             let card = this.getDynastyCardInProvince(province);
             if(card) {
                 card.facedown = false;
-            } else {
-                this.moveCard(this.dynastyDeck.first(), province);
-                card = this.getDynastyCardInProvince(province);
+            } else if(this.dynastyDeck.size() > 0) {
+                card = this.dynastyDeck.first();
+                this.moveCard(card, province);
                 card.facedown = false;
             }
         });
@@ -472,48 +470,6 @@ class Player extends Spectator {
     }
 
     /**
-     * Returns an Array of cards (upto to a max limit) in the conflict deck which match the passed predicate
-     * @param {number | Function} limit - lazy coding so you can pass just a predicate...
-     * @param {Function} predicate - DrawCard => Boolean
-     */
-    searchConflictDeck(limit, predicate) {
-        var cards = this.conflictDeck;
-
-        if(_.isFunction(limit)) {
-            predicate = limit;
-        } else {
-            if(limit > 0) {
-                cards = _(this.conflictDeck.first(limit));
-            } else {
-                cards = _(this.conflictDeck.last(-limit));
-            }
-        }
-
-        return cards.filter(predicate);
-    }
-
-    /**
-     * Returns an Array of cards (upto to a max limit) in the dynasty deck which match the passed predicate
-     * @param {Int or Function} limit - lazy coding so you can pass just a predicate...
-     * @param {Function} predicate - DrawCard => Boolean
-     */
-    searchDynastyDeck(limit, predicate) {
-        var cards = this.dynastyDeck;
-
-        if(_.isFunction(limit)) {
-            predicate = limit;
-        } else {
-            if(limit > 0) {
-                cards = _(this.dynastyDeck.first(limit));
-            } else {
-                cards = _(this.dynastyDeck.last(-limit));
-            }
-        }
-
-        return cards.filter(predicate);
-    }
-
-    /**
      * Shuffles the conflict deck, raising an event and displaying a message in chat
      */
     shuffleConflictDeck() {
@@ -533,53 +489,6 @@ class Player extends Spectator {
         }
         this.game.raiseEvent('onDeckShuffled', { player: this, deck: 'dynasty deck' });
         this.dynastyDeck = _(this.dynastyDeck.shuffle());
-    }
-
-
-    /**
-     * Discards a number of cards from the top of the conflict deck equal to the passed Int.  Calls the callback when finished.
-     * @deprecated - there is no support for Game.playerDecked
-     * @param {Int} number
-     * @param {Function} callback
-     */
-    discardFromConflict(number, callback = () => true) {
-        number = Math.min(number, this.conflictDeck.size());
-
-        var cards = this.conflictDeck.first(number);
-        this.discardCards(cards, false, discarded => {
-            callback(discarded);
-            if(this.conflictDeck.size() === 0) {
-                this.game.playerDecked(this);
-            }
-        });
-    }
-
-    /**
-     * Moves a card from the play area to the top of the relevant deck
-     * @param {DrawCard} card
-     */
-    moveCardToTopOfDeck(card) {
-        this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty deck' : 'conflict deck'});
-    }
-
-    /**
-     * Moves a card from the play area to the bottom of the relevant deck
-     * @param {DrawCard} card
-     */
-    moveCardToBottomOfDeck(card) {
-        this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty deck bottom' : 'conflict deck bottom' });
-    }
-
-    /**
-     * Moves the passed number of cards from the top of the conflict deck to the bottom
-     * @param {Int} number
-     */
-    moveFromTopToBottomOfConflictDrawDeck(number) {
-        while(number > 0) {
-            this.moveCard(this.conflictDeck.first(), 'conflict deck', { bottom: true });
-
-            number--;
-        }
     }
 
     /**
@@ -906,98 +815,6 @@ class Player extends Spectator {
     }
 
     /**
-     * Checks to see if a card can be put into play (in the current conflict). Checks for any other unique cards with the same title, and
-     * for any relevant conflict restrictions
-     * @param {DrawCard} card
-     * @param {Boolean} inConflict
-     */
-    canPutIntoPlay(card, inConflict = false) {
-        if(inConflict) {
-            // There is no current conflict
-            if(!this.game.currentConflict) {
-                return false;
-            }
-            // controller is attacking, and character can't attack, or controller is defending, and character can't defend
-            if((this.isAttackingPlayer() && !card.allowGameAction('participateAsAttacker')) || 
-                (this.isDefendingPlayer() && !card.allowGameAction('participateAsDefender'))) {
-                return false;
-            }
-            // card cannot participate in this conflict type
-            if(card.conflictOptions.cannotParticipateIn[this.game.currentConflict.conflictType]) {
-                return false;
-            }
-        }
-
-        if(!card.isUnique()) {
-            return true;
-        }
-
-        return !_.any(this.game.getPlayers(), player => {
-            return player.anyCardsInPlay(c => (
-                c.name === card.name
-                && ((c.owner === this || c.controller === this) || (c.owner === card.owner))
-                && c !== card
-            ));
-        });
-    }
-
-    /**
-     * Puts one or more characters into play, calling the onCardEntersPlay and onCardPlayed events if necessary
-     * @param {DrawCard} card - can also pass an Array of DrawCard
-     * @param {Boolean} intoConflict
-     * @param {Boolean} raiseCardPlayed
-     */
-    putIntoPlay(cards, intoConflict = false, raiseCardPlayed = false) {
-        if(!_.isArray(cards)) {
-            cards = [cards];
-        }
-
-        cards = _.filter(cards, card => this.canPutIntoPlay(card, intoConflict));
-        if(cards.length === 0) {
-            return;
-        }
-
-        let events = [];
-        _.each(cards, card => {
-            // this is deprecated, as this function should never be called for attachments, unless they get dragged into play
-            if(card.getType() === 'attachment') {
-                this.promptForAttachment(card);
-                return;
-            }
-
-            let originalLocation = card.location;
-
-            card.new = true;
-            this.moveCard(card, 'play area');
-            card.controller = this;
-
-            if(intoConflict && this.game.currentConflict) {
-                if(this.game.currentConflict.attackingPlayer === this) {
-                    this.game.currentConflict.addAttacker(card);
-                } else {
-                    this.game.currentConflict.addDefender(card);
-                }
-            }
-
-            events.push({
-                name: 'onCardEntersPlay',
-                params: { card: card, originalLocation: originalLocation }
-            });
-
-            if(raiseCardPlayed) {
-                events.push({
-                    name: 'onCardPlayed',
-                    params: { player: this, card: card, originalLocation: originalLocation }
-                });
-            }
-        });
-
-        //_.each(cards, card => card.applyPersistentEffects());
-
-        //this.game.raiseMultipleEvents(events);
-    }
-
-    /**
      * Called at the start of the setup phase
      */
     setupBegin() {
@@ -1042,15 +859,6 @@ class Player extends Spectator {
     }
 
     /**
-     * Not really sure what purpose this serves, as attachments should never be in the cardsInPlay list
-     */
-    hasUnmappedAttachments() {
-        return this.cardsInPlay.any(card => {
-            return card.getType() === 'attachment';
-        });
-    }
-
-    /**
      * Checks whether attaching passed attachment to passed card is legal
      * @param {DrawCard} attachment
      * @param {DrawCard} card
@@ -1066,6 +874,25 @@ class Player extends Spectator {
             card.allowAttachment(attachment) &&
             attachment.canAttach(card)
         );
+    }
+
+    /**
+     * Checks for any other unique cards with the same title
+     * @param {DrawCard} card
+     * @param {Boolean} inConflict
+     */
+    canPutIntoPlay(card) {
+        if(!card.isUnique()) {
+            return true;
+        }
+
+        return !_.any(this.game.getPlayers(), player => {
+            return player.anyCardsInPlay(c => (
+                c.name === card.name
+                && ((c.owner === this || c.controller === this) || (c.owner === card.owner))
+                && c !== card
+            ));
+        });
     }
 
     /**
@@ -1085,7 +912,6 @@ class Player extends Spectator {
             attachment.controller = originalController;
             return;
         }
-
         let originalLocation = attachment.location;
         let originalParent = attachment.parent;
 
@@ -1143,32 +969,6 @@ class Player extends Spectator {
 
     showDynastyDeck() {
         this.showDynasty = true;
-    }
-
-    /**
-     * Checks whether drag-dropping passed card from passed source to passed target is legal
-     * @param {BaseCard} card
-     * @param {String} source
-     * @param {String} target
-     */
-    isValidDropCombination(card, source, target) {
-        if(!card) {
-            return false;
-        }
-
-        let provinceLocations = ['stronghold province', 'province 1', 'province 2', 'province 3', 'province 4'];
-
-        if(card.isProvince && target !== 'province deck') {
-            if(!provinceLocations.includes(target) || this.getSourceList(target).any(card => card.isProvince)) {
-                return false;
-            }
-        }
-
-        if(target === 'province deck' && !card.isProvince) {
-            return false;
-        }
-
-        return source !== target;
     }
 
     /**
@@ -1277,54 +1077,49 @@ class Player extends Spectator {
         var sourceList = this.getSourceList(source);
         var card = this.findCardByUuid(sourceList, cardId);
 
-        if(!this.isValidDropCombination(card, source, target)) {
-            return false;
+        // Dragging is only legal in manual mode, when the card is currently in source, when the source and target are different and when the target is a legal location
+        if(!this.game.manualMode || source === target || !this.isLegalLocationForCard(card, target) || card.location !== source) {
+            return;
         }
 
+        // Don't allow two province cards in one province
+        if(card.isProvince && target !== 'province deck' && this.getSourceList(target).any(card => card.isProvince)) {
+            return;
+        }
 
+        let display = 'a card';
+        if(!card.facedown && source !== 'hand' || ['play area', 'dynasty discard pile', 'conflict discard pile', 'removed from game'].includes(target)) {
+            display = card;
+        }
+
+        this.game.addMessage('{0} manually moves {1} from their {2} to their {3}', this, display, source, target);
+        this.moveCard(card, target);
+        this.game.checkGameState(true);
+    }
+
+    /**
+     * Checks whether card.type is consistent with location
+     * @param {BaseCard} card 
+     * @param {String} location 
+     */
+    isLegalLocationForCard(card, location) {
         if(!card) {
-            if(source === 'play area') {
-                var otherPlayer = this.game.getOtherPlayer(this);
-
-                if(!otherPlayer) {
-                    return false;
-                }
-
-                card = otherPlayer.findCardInPlayByUuid(cardId);
-
-                if(!card) {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        }
-
-        if(card.controller !== this) {
             return false;
         }
 
-        if(target === 'play area' && card.getType() === 'event') {
-            return false;
-        }
+        const provinceLocations = ['stronghold province', 'province 1', 'province 2', 'province 3', 'province 4'];
+        const conflictCardLocations = ['hand', 'conflict deck', 'conflict discard pile', 'removed from game'];
+        const legalLocations = {
+            stronghold: ['stronghold province'],
+            role: ['role'],
+            province: [...provinceLocations, 'province deck'],
+            holding: [...provinceLocations, 'dynasty deck', 'dynasty discard pile', 'removed from game'],
+            character: [...provinceLocations, ...conflictCardLocations, 'dynasty deck', 'dynasty discard pile', 'play area'],
+            event: [...conflictCardLocations, 'being played'],
+            attachment: [...conflictCardLocations, 'play area']
+        };
 
-        if(target === 'play area') {
-            this.putIntoPlay(card);
-        } else { // TODO: remove these or change them to discardCardFromPlay
-            if(target === 'conflict discard pile') {
-                this.discardCard(card, false);
-                return true;
-            }
-
-            if(target === 'dynasty discard pile') {
-                this.discardCard(card, false);
-                return true;
-            }
-
-            this.moveCard(card, target);
-        }
-
-        return true;
+        return legalLocations[card.type] && legalLocations[card.type].includes(location);
     }
 
     /**
@@ -1393,26 +1188,6 @@ class Player extends Spectator {
     }
 
     /**
-     * Moves a card from in play to the relavent discard pile, and raises the appropriate events
-     * @param {DrawCard} card
-     */
-    sacrificeCard(card) {
-        if(card.allowGameAction('sacrifice')) {
-            this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile', isSacrifice: true });
-        }
-    }
-
-    /**
-     * Moves a card from in play to the relavent discard pile, and raises the appropriate events
-     * @param {DrawCard} card
-     */
-    discardCardFromPlay(card) {
-        if(card.allowGameAction('discardFromPlay')) {
-            return this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile' });
-        }
-    }
-
-    /**
      * Moves the passed cards from this players hand to the relevant discard pile, raising the appropriate events
      * @param {Array of DrawCard} cards
      * @param {Boolean} atRandom
@@ -1440,54 +1215,6 @@ class Player extends Spectator {
 
     discardCardFromHand(card) {
         this.discardCardsFromHand([card]);
-    }
-
-    /**
-     * @deprecated
-     * Use discardCardFromHand or discardCardFromPlay
-     */
-    discardCard(card, allowSave = true) {
-        this.discardCards([card], allowSave);
-    }
-
-    /**
-     * @deprecated
-     * Use discardCardFromHand or discardCardFromPlay
-     */
-    discardCards(cards, allowSave = true) {
-        _.each(cards, card => {
-            this.doSingleCardDiscard(card, allowSave);
-        });
-    }
-
-    /**
-     * @deprecated
-     * Use discardCardFromHand or discardCardFromPlay
-     */
-    doSingleCardDiscard(card, allowSave = true) {
-        var params = {
-            player: this,
-            card: card,
-            allowSave: allowSave,
-            originalLocation: card.location
-        };
-        this.game.raiseEvent('onCardDiscarded', params, event => {
-            if(event.card.isConflict) {
-                this.moveCard(event.card, 'conflict discard pile');
-            } else if(event.card.isDynasty) {
-                this.moveCard(event.card, 'dynasty discard pile');
-            }
-        });
-    }
-
-    /**
-     * Moves a card from the play area to this players hand, raising all relevant events
-     * @param {DrawCard} card
-     */
-    returnCardToHand(card) {
-        if(card.allowGameAction('returnToHand')) {
-            this.game.raiseEvent('onCardLeavesPlay', { card: card, destination: 'hand' });
-        }
     }
 
     /**
@@ -1558,34 +1285,6 @@ class Player extends Spectator {
     }
 
     /**
-     * Readies all inplay cards for this player, excluding characters if that parameter is passed
-     * @param {Boolean} notCharacters - this is not currently used
-     */
-    readyCards(notCharacters = false) {
-        this.cardsInPlay.each(card => {
-            card.attachments.each(attachment => {
-                this.readyCard(attachment);
-            });
-
-            if((notCharacters && card.getType() === 'character') || !card.readysDuringReadying) {
-                return;
-            }
-
-            this.readyCard(card);
-        });
-
-        this.stronghold.bowed = false;
-    }
-
-    /**
-     * Moves an attachment from a character in play to the discard
-     * @param {*} attachment
-     */
-    removeAttachment(attachment) {
-        this.game.raiseEvent('onCardLeavesPlay', { card: attachment, destination: 'conflict discard pile' });
-    }
-
-    /**
      * Called by the game when the game starts, sets the players decklist
      * @param {*} deck
      */
@@ -1616,38 +1315,39 @@ class Player extends Spectator {
 
         var targetPile = this.getSourceList(targetLocation);
 
-        if(targetPile && targetPile.contains(card)) {
+        if(!this.isLegalLocationForCard(card, targetLocation) || targetPile && targetPile.contains(card)) {
             return;
         }
 
         let location = card.location;
 
-        if(location === 'play area' || (card.type === 'holding' && ['province 1', 'province 2', 'province 3', 'province 4'].includes(location))) {
+        if(location === 'play area' || (card.type === 'holding' && ['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(location))) {
             if(card.owner !== this) {
                 card.owner.moveCard(card, targetLocation, options);
                 return;
             }
 
-            if(card.isConflict || card.isDynasty) {
-                // In normal play, all attachments should already have been removed, but in manual play we may need to remove them.
-                // This is also used by Back-Alley Hideaway when it is sacrificed. This won't trigger any leaves play effects
-                card.attachments.each(attachment => {
-                    attachment.leavesPlay();
-                    attachment.owner.moveCard(attachment, attachment.isDynasty ? 'dynasty discard pile' : 'conflict discard pile');
-                });
-            }
+            // In normal play, all attachments should already have been removed, but in manual play we may need to remove them.
+            // This is also used by Back-Alley Hideaway when it is sacrificed. This won't trigger any leaves play effects
+            card.attachments.each(attachment => {
+                attachment.leavesPlay();
+                attachment.owner.moveCard(attachment, attachment.isDynasty ? 'dynasty discard pile' : 'conflict discard pile');
+            });
 
             card.leavesPlay();
-
-            card.moveTo(targetLocation);
-        } else {
-            if(targetLocation === 'play area') {
-                card.controller = this;
-            } else {
-                card.controller = card.owner;
+            card.controller = this;
+        } else if(targetLocation === 'play area') {
+            card.controller = this;
+            // This should only be called when an attachment is dragged into play
+            if(card.type === 'attachment') {
+                this.promptForAttachment(card);
+                return;
             }
-            card.moveTo(targetLocation);
+        } else {
+            card.controller = card.owner;
         }
+
+        card.moveTo(targetLocation);
 
         if(['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(targetLocation)) {
             if(['dynasty deck', 'province deck'].includes(location)) {
@@ -1665,86 +1365,15 @@ class Player extends Spectator {
         } else if(targetPile) {
             targetPile.push(card);
         }
-
+        /*
         if(['conflict discard pile', 'dynasty discard pile'].includes(targetLocation)) {
             this.game.raiseEvent('onCardPlaced', { card: card, location: targetLocation });
         }
-
+        */
         // Replace a card which has been played, put into play or discarded from a province
         if(card.isDynasty && ['province 1', 'province 2', 'province 3', 'province 4'].includes(location) && targetLocation !== 'dynasty deck') {
             this.replaceDynastyCard(location);
         }
-    }
-
-    /**
-     * Raises an event for breaking a province, checks to see if the breaking player wants to discard the card in the province, and checks conquer victory condition
-     * @param {ProvinceCard} province
-     */
-    breakProvince(province) {
-        if(!province.allowGameAction('break')) {
-            return;
-        }
-        this.game.raiseEvent('onBreakProvince', { conflict: this.game.currentConflict, card: province }, () => province.breakProvince());
-    }
-
-    /**
-     * Raises an avent for an effect honoring a card
-     * @param {DrawCard} card
-     * @param {EffectSource} source
-     */
-    honorCard(card, source) {
-        this.game.raiseEvent('onCardHonored', { player: this, card: card, source: source, gameAction: 'honor' }, () => card.honor());
-    }
-
-    /**
-     * Raises an avent for an effect dishonoring a card
-     * @param {DrawCard} card
-     * @param {EffectSource} source
-     */
-    dishonorCard(card, source) {
-        this.game.raiseEvent('onCardDishonored', { player: this, card: card, source: source, gameAction: 'dishonor' }, () => card.dishonor());
-    }
-
-    /**
-     * Raises an avent for an effect bowing a card
-     * @param {DrawCard} card
-     * @param {EffectSource} source
-     */
-    bowCard(card, source) {
-        if(card.bowed) {
-            return;
-        }
-        
-        card.bowed = true;
-        // TODO: this is a workaround to stop Ready For Battle from breaking
-        let params = { player: this, card: card };
-        if(source) {
-            params.context = { source: source };
-        }
-        this.game.raiseEvent('onCardBowed', params);
-    }
-
-    /**
-     * Bows multiple cards
-     * @param {[DrawCard]} cards
-     * @param {EffectSource} source
-     */
-    bowCards(cards, source) {
-        _.each(cards, card => this.bowCard(card, source));
-    }
-
-    /**
-     * Raises an avent for an effect readying a card
-     * @param {DrawCard} card
-     * @param {EffectSource} source
-     */
-    readyCard(card, source) {
-        if(!card.bowed) {
-            return;
-        }
-
-        card.bowed = false;
-        this.game.raiseEvent('onCardReadied', { player: this, card: card, source: source });
     }
 
     /**
@@ -1853,38 +1482,16 @@ class Player extends Spectator {
      * Resolves any number of ring effects.  If there are more than one, then it will prompt the first player to choose what order those effects should be applied in
      * @param {Array} elements - Array of String, alternatively can be passed a String for convenience
      * @param {Boolean} optional - Indicates that the player can choose which effects to resolve.  This parameter only effects resolution of a single effect
-     * @param {Array} queue - Array of String, used in the chat message displaying order
      */
-    resolveRingEffects(elements, optional = false, queue = []) {
-        if(!_.isArray(elements)) {
-            this.game.resolveAbility(RingEffects.contextFor(this, elements, optional));
-            return;
-        } else if(elements.length === 0) {
-            if(this.game.currentConflict) {
-                this.game.addMessage('{0} chooses not to resolve the {1} ring', this, this.game.currentConflict.conflictRing);
-            }
-            return;
-        } else if(elements.length === 1) {
-            queue.push(elements[0]);
-            if(queue.length > 1) {
-                this.game.addMessage('{0} chooses that the rings will resolve in the following order: {1}', this.game.getFirstPlayer(), queue);
-            }
-            _.each(queue, element => this.game.queueSimpleStep(() => this.game.resolveAbility(RingEffects.contextFor(this, element, false))));
-            return;
-        }
-        let handlers = _.map(elements, element => {
-            return () => {
-                queue.push(element);
-                this.game.queueSimpleStep(() => this.resolveRingEffects(_.without(elements, element), false, queue));
+    resolveRingEffects(elements, optional = true) {
+        optional = optional && elements.length === 1;
+        this.game.openSimultaneousEffectWindow(_.map(_.flatten([elements]), element => {
+            let context = RingEffects.contextFor(this, element, optional);
+            return {
+                title: context.ability.title,
+                handler: () => this.game.resolveAbility(context)
             };
-        });
-        let choices = _.map(elements, element => RingEffects.getRingName(element));
-        this.game.promptWithHandlerMenu(this.game.getFirstPlayer(), {
-            activePromptTitle: 'Choose ring resolution order',
-            source: 'Ring resolution order',
-            choices: choices,
-            handlers: handlers
-        });
+        }));
     }
 
     /**

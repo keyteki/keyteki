@@ -126,6 +126,14 @@ class GameConfiguration extends React.Component {
                                 checked={ this.props.optionSettings.cancelOwnAbilities }
                             />
                             <Checkbox
+                                name='optionSettings.orderForcedAbilities'
+                                noGroup
+                                label={ 'Prompt to order forced triggered/simultaneous abilities' }
+                                fieldClass='col-sm-6'
+                                onChange={ this.onOptionSettingToggle.bind(this, 'orderForcedAbilities') }
+                                checked={ this.props.optionSettings.orderForcedAbilities }
+                            />
+                            <Checkbox
                                 name='optionSettings.showStatusInSidebar'
                                 noGroup
                                 label={

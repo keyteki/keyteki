@@ -1,8 +1,5 @@
-const _ = require('underscore');
-
 const CardAbility = require('./CardAbility.js');
 const Costs = require('./costs.js');
-const EventRegistrar = require('./eventregistrar.js');
 
 /**
  * Represents an action ability provided by card text.
@@ -39,10 +36,7 @@ class CardAction extends CardAbility {
         this.phase = properties.phase || 'any';
         this.anyPlayer = properties.anyPlayer || false;
         this.condition = properties.condition;
-        this.clickToActivate = !!properties.clickToActivate;
-        this.events = new EventRegistrar(game, this);
         this.doesNotTarget = properties.doesNotTarget;
-        this.activationContexts = [];
         this.abilityIdentifier = this.printedAbility ? this.card.id + this.card.abilities.actions.length.toString() : '';
         this.maxIdentifier = this.card.name + this.abilityIdentifier;
 
@@ -71,62 +65,6 @@ class CardAction extends CardAbility {
         }
 
         return this.canResolveTargets(context);
-    }
-
-    execute(player, arg) {
-        var context = this.createContext(player, arg);
-
-        if(!this.meetsRequirements(context)) {
-            return false;
-        }
-
-        this.activationContexts.push(context);
-
-        this.game.resolveAbility(context);
-
-        return true;
-    }
-
-    executeHandler(context) {
-        this.handler(context);
-    }
-
-    isClickToActivate() {
-        return this.clickToActivate;
-    }
-
-    deactivate(player) {
-        var context = _.last(this.activationContexts);
-
-        if(!context || player !== context.player) {
-            return false;
-        }
-
-        if(this.canUnpayCosts(context)) {
-            this.unpayCosts(context);
-            context.abilityDeactivated = true;
-            return true;
-        }
-
-        return false;
-    }
-
-    onBeginRound() {
-        this.activationContexts = [];
-    }
-
-    registerEvents() {
-        this.events.register(['onBeginRound']);
-        if(this.limit) {
-            this.limit.registerEvents(this.game);
-        }
-    }
-
-    unregisterEvents() {
-        this.events.unregisterAll();
-        if(this.limit) {
-            this.limit.unregisterEvents(this.game);
-        }
     }
 }
 

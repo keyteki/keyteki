@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const AbilityContext = require('./AbilityContext.js');
 const AbilityLimit = require('./abilitylimit.js');
 const BaseAbility = require('./baseability.js');
@@ -14,7 +12,7 @@ class CardAbility extends BaseAbility {
         this.title = properties.title;
         this.limit = properties.limit || AbilityLimit.perRound(1);
         this.max = properties.max;
-        this.location = properties.location || [];
+        this.location = this.buildLocation(card, properties.location);
         this.printedAbility = properties.printedAbility === false ? false : true;
         this.cannotBeCopied = properties.cannotBeCopied;
         this.cannotBeCancelled = properties.cannotBeCancelled;
@@ -23,19 +21,36 @@ class CardAbility extends BaseAbility {
         this.methods = properties.methods || [];
         this.handler = properties.handler;
 
-        if(!_.isArray(this.location)) {
-            if(this.location === 'province') {
-                this.location = ['province 1', 'province 2', 'province 3', 'province 4'];
-            } else {
-                this.location = [properties.location];
-            }
-        }
-
         if(card.getType() === 'event') {
             this.cost.push(Costs.playEvent());
         }
 
         this.cost.push(Costs.useLimit());
+
+        this.limit.registerEvents(game);
+    }
+
+    buildLocation(card, location) {
+        const DefaultLocationForType = {
+            event: 'hand',
+            holding: 'province',
+            province: 'province',
+            role: 'role',
+            stronghold: 'stronghold province'
+        };
+
+        let defaultedLocation = location || DefaultLocationForType[card.getType()] || 'play area';
+
+        if(!Array.isArray(defaultedLocation)) {
+            defaultedLocation = [defaultedLocation];
+        }
+
+        if(defaultedLocation.some(location => location === 'province')) {
+            defaultedLocation = defaultedLocation.filter(location => location !== 'province');
+            defaultedLocation = defaultedLocation.concat(['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province']);
+        }
+
+        return defaultedLocation;
     }
 
     createContext(player) {
@@ -53,30 +68,19 @@ class CardAbility extends BaseAbility {
             return false ;
         }
 
-        return this.card.canTriggerAbilities(this.location);
+        if(this.card.facedown) {
+            return false;
+        }
+
+        if(!this.location.includes(this.card.location)) {
+            return false;
+        }
+
+        return this.card.canTriggerAbilities();
     }
 
-    isEventListeningLocation(location) {
-        if(!location) {
-            return false;
-        }
-        if(this.location.includes(location)) {
-            return true;
-        }
-        
-        if(location.includes('deck')) {
-            return false;
-        }
-        
-        let type = this.card.getType();
-        if(type === 'character' || type === 'attachment') {
-            return (location === 'play area');
-        } else if(type === 'event') {
-            return (location === 'hand');
-        } else if(type === 'role' || location.includes('province')) {
-            return true;
-        }
-        return false;
+    executeHandler(context) {
+        this.handler(context);
     }
 
     isCardPlayed() {

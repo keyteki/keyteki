@@ -7,7 +7,7 @@ class CourtesyAbility extends TriggeredAbility {
                 onCardLeavesPlay: (event, context) => event.card === context.source && 
                                                       context.source.hasCourtesy()
             },
-            title: 'Courtesy',
+            title: card.name + '\'s Courtesy',
             cannotBeCopied: true,
             printedAbility: false,
             handler: context => {

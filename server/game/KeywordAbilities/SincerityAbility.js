@@ -7,7 +7,7 @@ class SincerityAbility extends TriggeredAbility {
                 onCardLeavesPlay: (event, context) => event.card === context.source && 
                                                       context.source.hasSincerity()
             },
-            title: 'Sincerity',
+            title: card.name + '\'s Sincerity',
             cannotBeCopied: true,
             printedAbility: false,
             handler: context => {

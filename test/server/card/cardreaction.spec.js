@@ -40,13 +40,15 @@ describe('CardReaction', function () {
             this.executeEventHandler = (...args) => {
                 this.event = new Event('onSomething', args);
                 this.reaction = new CardReaction(this.gameSpy, this.cardSpy, this.properties);
-                this.reaction.eventHandler(this.event);
+                this.window = jasmine.createSpyObj('window', ['addChoice']);
+                this.reaction.eventHandler(this.event, this.window);
+                this.context = this.reaction.createContext(this.event);
             };
         });
 
         it('should call the when handler with the appropriate arguments', function() {
             this.executeEventHandler(1, 2, 3);
-            expect(this.properties.when.onSomething).toHaveBeenCalledWith(this.event);
+            expect(this.properties.when.onSomething).toHaveBeenCalledWith(this.event, this.context);
         });
 
         describe('when the when condition returns false', function() {
@@ -56,7 +58,7 @@ describe('CardReaction', function () {
             });
 
             it('should not register the ability', function() {
-                expect(this.gameSpy.registerAbility).not.toHaveBeenCalled();
+                expect(this.window.addChoice).not.toHaveBeenCalled();
             });
         });
 
@@ -67,7 +69,7 @@ describe('CardReaction', function () {
             });
 
             it('should register the ability', function() {
-                expect(this.gameSpy.registerAbility).toHaveBeenCalledWith(this.reaction, this.event);
+                expect(this.window.addChoice).toHaveBeenCalledWith(this.context);
             });
         });
     });
@@ -84,7 +86,7 @@ describe('CardReaction', function () {
 
         it('should call the when handler with the appropriate arguments', function() {
             this.meetsRequirements();
-            expect(this.properties.when.onSomething).toHaveBeenCalledWith(this.event);
+            expect(this.properties.when.onSomething).toHaveBeenCalledWith(this.event, this.context);
         });
 
         xdescribe('when in the setup phase', function() {
@@ -364,9 +366,9 @@ describe('CardReaction', function () {
         it('should not unregister events already unregistered', function() {
             this.reaction.registerEvents();
             this.reaction.unregisterEvents();
-            expect(this.gameSpy.removeListener.calls.count()).toBe(3);
+            expect(this.gameSpy.removeListener.calls.count()).toBe(2);
             this.reaction.unregisterEvents();
-            expect(this.gameSpy.removeListener.calls.count()).toBe(3);
+            expect(this.gameSpy.removeListener.calls.count()).toBe(2);
         });
     });
 });

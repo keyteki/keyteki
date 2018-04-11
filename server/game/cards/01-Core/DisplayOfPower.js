@@ -34,7 +34,7 @@ class DisplayOfPower extends DrawCard {
                 {
                     name: 'onResolveRingEffect',
                     params: { player: this.controller, conflict: event.conflict, order: -1 },
-                    handler: () => event.conflict.chooseWhetherToResolveRingEffect(this.controller)
+                    handler: () => event.conflict.resolveRing(this.controller)
                 },
                 {
                     name: 'onClaimRing',

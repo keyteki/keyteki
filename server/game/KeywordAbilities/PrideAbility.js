@@ -8,7 +8,7 @@ class PrideAbility extends TriggeredAbility {
                                                    ((event.conflict.winner === context.player && context.source.allowGameAction('honor', context)) ||
                                                    (event.conflict.loser === context.player && context.source.allowGameAction('dishonor', context)))
             },
-            title: 'Pride',
+            title: card.name + '\'s Pride',
             cannotBeCopied: true,
             printedAbility: false,
             handler: context => {

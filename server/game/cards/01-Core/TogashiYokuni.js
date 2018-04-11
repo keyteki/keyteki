@@ -37,7 +37,9 @@ class TogashiYokuni extends DrawCard {
                             this.controller.registerAbilityMax(newAbility.maxIdentifier, newAbility.max);
                         }
                         // Register any events which the new ability has
-                        newAbility.registerEvents();
+                        if(this.abilities.reactions.includes(newAbility)) {
+                            newAbility.registerEvents();
+                        }
                         newAbility.printedAbility = false;
                         // Get rid of any other abilities which might have been copied that we don't want (making sure we don't delete this ability)
                         this.abilities.actions = _.reject(this.abilities.actions, action => action.cannotBeCopied);

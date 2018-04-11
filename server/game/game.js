@@ -6,6 +6,7 @@ const GameChat = require('./gamechat.js');
 const EffectEngine = require('./effectengine.js');
 const Effect = require('./effect.js');
 const DelayedEffect = require('./DelayedEffect.js');
+const TerminalCondition = require('./TerminalCondition.js');
 const Player = require('./player.js');
 const Spectator = require('./spectator.js');
 const AnonymousSpectator = require('./anonymousspectator.js');
@@ -30,6 +31,7 @@ const InitiateAbilityEventWindow = require('./Events/InitiateAbilityEventWindow.
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const ForcedTriggeredAbilityWindow = require('./gamesteps/forcedtriggeredabilitywindow.js');
 const TriggeredAbilityWindow = require('./gamesteps/triggeredabilitywindow.js');
+const SimultaneousEffectWindow = require('./gamesteps/SimultaneousEffectWindow');
 const AbilityContext = require('./AbilityContext.js');
 const Ring = require('./ring.js');
 const Conflict = require('./conflict.js');
@@ -266,6 +268,12 @@ class Game extends EventEmitter {
     addDelayedEffect(source, properties) {
         let effect = new DelayedEffect(this, source, properties);
         this.effectEngine.addDelayedEffect(effect);
+        return effect;
+    }
+
+    addTerminalCondition(source, properties) {
+        let effect = new TerminalCondition(this, source, properties);
+        this.effectEngine.addTerminalCondition(effect);
         return effect;
     }
 
@@ -644,20 +652,7 @@ class Game extends EventEmitter {
             return;
         }
 
-        if(player.drop(cardId, source, target)) {
-            var movedCard = 'a card';
-            if(!_.isEmpty(_.intersection(['conflict discard pile', 'dynasty discard pile', 'out of game', 'play area', 'stronghold province', 'province 1', 'province 2', 'province 3', 'province 4'],
-                [source, target]))) {
-                // log the moved card only if it moved from/to a public place
-                var card = this.findAnyCardInAnyList(cardId);
-                if(card && !(['dynasty deck', 'province deck'].includes(source) && ['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(target))) {
-                    movedCard = card;
-                }
-            }
-
-            this.addMessage('{0} has moved {1} from their {2} to their {3}',
-                player, movedCard, source, target);
-        }
+        player.drop(cardId, source, target);
     }
 
     /*
@@ -1165,16 +1160,22 @@ class Game extends EventEmitter {
     /*
      * Opens a window for triggered card abilities to respond to an Event and
      * adds it to the window stack
-     * @param {Object} properties - { abilityType: String, event: Event or Array of Event }
+     * @param {String} abilityType
+     * @param {Array} events
      * @returns {undefined}
      */
-    openAbilityWindow(properties) {
-        let windowClass = ['forcedreaction', 'forcedinterrupt', 'whenrevealed'].includes(properties.abilityType) ? ForcedTriggeredAbilityWindow : TriggeredAbilityWindow;
-        let window = new windowClass(this, { abilityType: properties.abilityType, event: properties.event });
-        this.abilityWindowStack.push(window);
-        window.emitEvents();
+    openAbilityWindow(abilityType, events) {
+        if(['forcedreaction', 'forcedinterrupt'].includes(abilityType)) {
+            this.queueStep(new ForcedTriggeredAbilityWindow(this, abilityType, events));
+        } else {
+            this.queueStep(new TriggeredAbilityWindow(this, abilityType, events));
+        }
+    }
+
+    openSimultaneousEffectWindow(choices) {
+        let window = new SimultaneousEffectWindow(this);
+        _.each(choices, choice => window.addChoice(choice));
         this.queueStep(window);
-        this.queueSimpleStep(() => this.abilityWindowStack.pop());
     }
 
     /*
@@ -1541,8 +1542,11 @@ class Game extends EventEmitter {
             this.effectEngine.checkEffects(hasChanged) || hasChanged
         ) {
             _.each(this.getPlayers(), player => player.cardsInPlay.each(card => card.checkForIllegalAttachments()));
+            this.effectEngine.checkTerminalConditions();
         }
-        this.effectEngine.checkDelayedEffects(events.concat([this.getEvent('onCheckGameState', {})]));
+        if(events.length > 0) {
+            this.effectEngine.checkDelayedEffects(events);
+        }
     }
 
     continue() {

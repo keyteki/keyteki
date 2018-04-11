@@ -4,12 +4,10 @@ class ObstinateRecruit extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: this,
-            effect: ability.effects.delayedEffect({
-                when: {
-                    onCheckGameState: () => this.controller.opponent && this.controller.opponent.honor > this.controller.honor
-                },
+            effect: ability.effects.terminalCondition({
+                condition:  () => this.controller.opponent && this.controller.opponent.honor > this.controller.honor,
                 gameAction: 'discardFromPlay',
-                message: '{0} is discarded from play as his controller has less honor'
+                message: '{0} is discarded from play as its controller has less honor'
             })
         });
     }

@@ -61,12 +61,10 @@ describe('Bayushi Shoju', function() {
                     expect(this.watchCommander.location).toBe('conflict discard pile');
                     expect(this.player2).not.toBeAbleToSelect(this.watchCommander);
                     expect(this.player2).toHavePrompt('Conflict Action Window');
-                    //console.log(this.messageSpy.calls.allArgs())
                 });
             });
 
-            // Needs personal honor to be implemented as a forced interrupt
-            xdescribe('Noble Sacrifice on an honored Yogo Outcast:', function() {
+            describe('Noble Sacrifice on an honored Yogo Outcast:', function() {
                 beforeEach(function() {
                     this.yogoOutcast.honor();
                     this.player2.pass();
@@ -80,7 +78,7 @@ describe('Bayushi Shoju', function() {
                     this.player2.clickPrompt('Pay Costs First');
                     this.player2.clickCard(this.yogoOutcast);
                     expect(this.yogoOutcast.location).toBe('dynasty discard pile');
-                    expect(this.player2).toHavePrompt('Conflict Action Window');
+                    expect(this.player1).toHavePrompt('Conflict Action Window');
                 });
             });
         });

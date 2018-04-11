@@ -34,19 +34,22 @@ describe('Mountaintop Statuary', function() {
             });
         });
 
-        describe('when Rebuild is played on Mountaintop Statuaryary in the stronghold province', function() {
+        describe('when Rebuild is played on Mountaintop Statuary in the stronghold province', function() {
             beforeEach(function() {
                 this.player1.clickCard(this.mountaintopStatuary);
                 this.player1.clickCard('rebuild');
             });
 
             it('it should prompt the player', function() {
+                expect(this.mountaintopStatuary.location).toBe('stronghold province');
                 expect(this.player1).toHavePrompt('Rebuild');
                 expect(this.player1).toBeAbleToSelect(this.mountaintopStatuary);
             });
 
             it('it should shuffle Mountaintop Statuary and place Imperial Palace in the stronghold province', function() {
+                expect(this.player1).toHavePrompt('Rebuild');
                 this.player1.clickCard(this.mountaintopStatuary);
+                expect(this.player1).toHavePrompt('Rebuild');
                 this.player1.clickCard(this.imperialPalace);
                 expect(this.mountaintopStatuary.location).toBe('dynasty deck');
                 expect(this.imperialPalace.location).toBe('stronghold province');

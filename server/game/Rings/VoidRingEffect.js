@@ -6,13 +6,14 @@ class VoidRingEffect extends BaseAbility {
             target: {
                 activePromptTitle: 'Choose character to remove fate from',
                 source: 'Void Ring',
+                buttons: optional ? [{ text: 'Don\'t resolve', arg: 'dontResolve' }] : [],
                 cardType: 'character',
                 gameAction: 'removeFate'
             }
         });
+
+        this.cannotTargetFirst = true;
         this.title = 'Void Ring Effect';
-        this.optional = optional;
-        this.cannotTargetFirst = !optional;
     }
 
     meetsRequirements(context) {
@@ -20,8 +21,12 @@ class VoidRingEffect extends BaseAbility {
     }
 
     executeHandler(context) {
-        context.game.addMessage('{0} resolves the {1} ring, removing a fate from {2}', context.player, 'void', context.target);
-        context.game.applyGameAction(context, { removeFate: context.target });
+        if(context.target) {
+            context.game.addMessage('{0} resolves the {1} ring, removing a fate from {2}', context.player, context.game.currentConflict ? context.game.currentConflict.conflictRing : 'void', context.target);
+            context.game.applyGameAction(context, { removeFate: context.target });
+        } else {
+            context.game.addMessage('{0} chooses not to resolve the {1} ring', context.player, 'void');
+        }
     }
 
     isAction() {
