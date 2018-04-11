@@ -45,12 +45,12 @@ class CardAbility extends BaseAbility {
             defaultedLocation = [defaultedLocation];
         }
 
-        let index = defaultedLocation.indexOf('province');
-
-        if(index === -1) {
-            return defaultedLocation;
+        if(defaultedLocation.some(location => location === 'province')) {
+            defaultedLocation = defaultedLocation.filter(location => location !== 'province');
+            defaultedLocation = defaultedLocation.concat(['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province']);
         }
-        return defaultedLocation.splice(index, 1).concat(['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province']);
+
+        return defaultedLocation;
     }
 
     createContext(player) {

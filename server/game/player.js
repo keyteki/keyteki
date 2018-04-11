@@ -1115,7 +1115,7 @@ class Player extends Spectator {
             province: [...provinceLocations, 'province deck'],
             holding: [...provinceLocations, 'dynasty deck', 'dynasty discard pile', 'removed from game'],
             character: [...provinceLocations, ...conflictCardLocations, 'dynasty deck', 'dynasty discard pile', 'play area'],
-            event: conflictCardLocations,
+            event: [...conflictCardLocations, 'being played'],
             attachment: [...conflictCardLocations, 'play area']
         };
 
