@@ -509,21 +509,6 @@ class DrawCard extends BaseCard {
         return true;
     }
 
-    canTriggerAbilities(location) {
-        if(this.type === 'character' || this.type === 'attachment') {
-            if(!location.includes(this.location) && this.location !== 'play area') {
-                return false;
-            }
-        } else if(this.type === 'event') {
-            if(!location.includes(this.location) && !this.controller.isCardInPlayableLocation(this, 'play')) {
-                return false;
-            }
-        } else if(!this.location.includes('province')) {
-            return false;
-        }
-        return super.canTriggerAbilities();
-    }
-
     checkForIllegalAttachments() {
         let illegalAttachments = this.attachments.reject(attachment => this.allowAttachment(attachment) && attachment.canAttach(this));
         if(illegalAttachments.length > 0) {
