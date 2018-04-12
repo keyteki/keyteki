@@ -36,7 +36,7 @@ class ConflictFlow extends BaseStepWithPipeline {
             new SimpleStep(this.game, () => this.announceDefenderSkill()),
             new SimpleStep(this.game, () => this.openConflictActionWindow()),
             new SimpleStep(this.game, () => this.determineWinner()),
-            new SimpleStep(this.game, () => this.applyKeywords()),
+            new SimpleStep(this.game, () => this.afterConflict()),
             new SimpleStep(this.game, () => this.applyUnopposed()),
             new SimpleStep(this.game, () => this.checkBreakProvince()),
             new SimpleStep(this.game, () => this.resolveRingEffects()),
@@ -266,23 +266,13 @@ class ConflictFlow extends BaseStepWithPipeline {
         return true;
     }
 
-    applyKeywords() {
+    afterConflict() {
+        this.game.checkGameState(true);
+        
         if(this.conflict.isAttackerTheWinner() && this.conflict.defenders.length === 0) {
             this.conflict.conflictUnopposed = true;
         }
                 
-        if(this.conflict.isAttackerTheWinner()) {
-            this.game.applyGameAction(null, { 
-                honor: _.filter(this.conflict.attackers, card => card.hasPride()),
-                dishonor: _.filter(this.conflict.defenders, card => card.hasPride())
-            });
-        } else if(this.conflict.winner === this.conflict.defendingPlayer) {
-            this.game.applyGameAction(null, { 
-                dishonor: _.filter(this.conflict.attackers, card => card.hasPride()),
-                honor: _.filter(this.conflict.defenders, card => card.hasPride())
-            });
-        }
-        
         this.game.raiseEvent('afterConflict', { conflict: this.conflict });
     }
 
