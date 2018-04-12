@@ -53,7 +53,7 @@ function rulesForKeeperRole(element) {
 
 function rulesForSeekerRole(element) {
     return {
-        provinceMax: {[element]: 1},
+        maxProvince: {[element]: 1},
         roleRestrictions: ['seeker', element]
     };
 }
@@ -168,9 +168,9 @@ class DeckValidator {
             unreleasedCards.push(role.name + ' is not yet released');
         }
 
-        _.each(rules.maxProvince, element => {
+        _.each(rules.maxProvince, (amount, element) => {
             let provinces = _.filter(deck.provinceCards, card => card.card.element === element);
-            if(provinces.length > rules.maxProvince[element]) {
+            if(provinces.length > amount) {
                 errors.push('Too many provinces with ' + element + ' element');
             }
         });
@@ -268,7 +268,7 @@ class DeckValidator {
         let totalInfluence = _.reduce(validators, (total, validator) => total + validator.influence || 0, 0);
         let maxProvince = _.reduce(validators, (result, validator) => {
             if(validator.maxProvince) {
-                _.each(_.keys(result), key => result[key] += validator.maxProvince[key] || 0);
+                _.each(result, (amount, element) => result[element] = amount + (validator.maxProvince[element] || 0));
             }
             return result;
         }, { air: 0, earth: 0, fire: 0, void: 0, water: 0 });

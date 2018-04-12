@@ -112,7 +112,7 @@ class AbilityResolver extends BaseStepWithPipeline {
             if(result.name === 'target') {
                 if(result.mode === 'ring') {
                     this.context.ring = this.context.rings.target;
-                } else if(result.mode === 'select') {
+                } else if(result.mode === 'select' && this.context.selects.target) {
                     this.context.select = this.context.selects.target.choice;
                 } else {
                     this.context.target = this.context.targets.target;
