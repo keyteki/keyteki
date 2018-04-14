@@ -45,14 +45,16 @@ describe('the DrawCard', function() {
         beforeEach(function() {
             this.gameService = jasmine.createSpyObj('gameService', ['save']);
             this.game = new Game({}, { gameService: this.gameService });
+            this.spy = spyOn(this.game, 'reportError');
 
-            this.player = new Player(1, { username: 'foo', settings: {} }, false, this.game);
+            this.player = new Player(1, { username: 'foo', settings: { optionSettings: {} } }, false, this.game);
             this.player.noTimer = true;
-            this.player2 = new Player(2, { username: 'bar', settings: {} }, false, this.game);
+            this.player2 = new Player(2, { username: 'bar', settings: { optionSettings: {} } }, false, this.game);
 
             this.game.playersAndSpectators['foo'] = this.player;
             this.game.playersAndSpectators['bar'] = this.player2;
             this.game.initialise();
+            this.game.setFirstPlayer(this.player);
 
             this.game.currentPhase = 'dynasty';
             this.player.phase = 'dynasty';
