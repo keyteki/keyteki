@@ -62,13 +62,11 @@ class TriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
         }
         // remove any choices which involve the current player canceling their own abilities
         if(this.abilityType === 'cancelinterrupt' && !this.currentPlayer.optionSettings.cancelOwnAbilities) {
-            console.log(this.choices)
             this.choices = this.choices.filter(context => !(
                 context.player === this.currentPlayer &&
                 context.event.name === 'onCardAbilityInitiated' &&
                 context.event.context.player === this.currentPlayer
             ));
-            console.log(this.choices)
         }
 
         // if the current player has no available choices in this window, check to see if they should get a fake cancel prompt
