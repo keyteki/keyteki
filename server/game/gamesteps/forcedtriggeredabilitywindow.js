@@ -4,10 +4,12 @@ const BaseStep = require('./basestep.js');
 const TriggeredAbilityWindowTitles = require('./triggeredabilitywindowtitles.js');
 
 class ForcedTriggeredAbilityWindow extends BaseStep {
-    constructor(game, abilityType, events) {
+    constructor(game, abilityType, window, eventsToExclude = []) {
         super(game);
         this.choices = [];
-        this.events = events;
+        this.events = [];
+        this.eventWindow = window;
+        this.eventsToExclude = eventsToExclude;
         this.abilityType = abilityType;        
         this.currentPlayer = this.game.getFirstPlayer();
         this.resolvedAbilities = [];
@@ -15,7 +17,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
     continue() {
         this.game.currentAbilityWindow = this;
-        if(this.events.length > 0) {
+        if(this.eventWindow) {
             this.emitEvents();
         }
 
@@ -145,6 +147,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
     emitEvents() {
         this.choices = [];
+        this.events = _.difference(this.eventWindow.events, this.eventsToExclude);
         _.each(this.events, event => {
             this.game.emit(event.name + ':' + this.abilityType, event, this);
         });

@@ -4,35 +4,39 @@ const ForcedTriggeredAbilityWindow = require('./forcedtriggeredabilitywindow.js'
 const TriggeredAbilityWindowTitles = require('./triggeredabilitywindowtitles.js');
 
 class TriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
-    constructor(game, abilityType, events) {
-        super(game, abilityType, events);
+    constructor(game, abilityType, window, eventsToExclude = []) {
+        super(game, abilityType, window, eventsToExclude);
         this.complete = false;
         this.prevPlayerPassed = false;
     }
 
     showCancelPrompt(player) {
-        if(this.abilityType === 'cancelinterrupt') {
+        // Cancel prompts are only shown in cancel windows
+        if(this.abilityType !== 'cancelinterrupt') {
             return false;
         }
+        // Show a cancel prompt if we're in Step 6, the player has the approriate setting, and there's an event for the other player
         return _.any(this.events, event => (
             event.name === 'onCardAbilityInitiated' && 
             (event.card.type === 'event' ? player.timerSettings.events : player.timerSettings.abilities) && 
-            (event.context.player !== player || player.optionSettings.cancelOwnAbilities)
+            (event.context.player !== player)
         ));
     }
 
     promptWithCancelPrompt(player) {
         this.game.promptWithMenu(player, this, {
             source: 'Triggered Abilities',
-            activePromptTitle: TriggeredAbilityWindowTitles.getTitle(this.abilityType, this.events),
-            controls: this.getAdditionalPromptControls(),
             waitingPromptTitle: 'Waiting for opponent',
-            buttons: [
-                { timer: true, method: 'pass' },
-                { text: 'I need more time', timerCancel: true },
-                { text: 'Don\'t ask again until end of round', timerCancel: true, method: 'pass', arg: 'pauseRound' },
-                { text: 'Pass', method: 'pass' }
-            ]
+            activePrompt: {
+                promptTitle: TriggeredAbilityWindowTitles.getTitle(this.abilityType, this.events),
+                controls: this.getAdditionalPromptControls(),
+                buttons: [
+                    { timer: true, method: 'pass' },
+                    { text: 'I need more time', timerCancel: true },
+                    { text: 'Don\'t ask again until end of round', timerCancel: true, method: 'pass', arg: 'pauseRound' },
+                    { text: 'Pass', method: 'pass' }
+                ]
+            }
         });
     }
 
@@ -41,10 +45,10 @@ class TriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
             player.noTimer = true;
             player.resetTimerAtEndOfRound = true;
         }
-        this.currentPlayer = this.currentPlayer.opponent;
-        if(this.prevPlayerPassed || !this.currentPlayer) {
+        if(this.prevPlayerPassed || !this.currentPlayer.opponent) {
             this.complete = true;
         } else {
+            this.currentPlayer = this.currentPlayer.opponent;
             this.prevPlayerPassed = true;
         }
 
@@ -52,19 +56,31 @@ class TriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
     }
 
     filterChoices() {
-        if(this.complete || this.choices.length === 0) {
+        // If both players have passed, close the window
+        if(this.complete) {
             return true;
         }
+        // remove any choices which involve the current player canceling their own abilities
+        if(this.abilityType === 'cancelinterrupt' && !this.currentPlayer.optionSettings.cancelOwnAbilities) {
+            this.choices = this.choices.filter(context => !(
+                context.player === this.currentPlayer &&
+                context.event.name === 'onCardAbilityInitiated' &&
+                context.event.context.player === this.currentPlayer
+            ));
+        }
 
+        // if the current player has no available choices in this window, check to see if they should get a fake cancel prompt
         if(!_.any(this.choices, context => context.player === this.currentPlayer)) {
             if(this.showCancelPrompt(this.currentPlayer)) {
                 this.promptWithCancelPrompt(this.currentPlayer);
                 return false;
             }
+            // Otherwise pass
             this.pass();
             return this.filterChoices();
         }
 
+        // Filter choices for current player, and prompt
         this.choices = _.filter(this.choices, context => context.player === this.currentPlayer);
         this.promptBetweenSources(this.choices);
         return false;
