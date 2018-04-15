@@ -14,6 +14,7 @@ class FireRingEffect extends BaseAbility {
         this.title = 'Fire Ring Effect';
         this.optional = optional;
         this.cannotTargetFirst = true;
+        this.defaultPriority = 4; // Default resolution priority when players have ordering switched off
     }
 
     meetsRequirements(context) {
