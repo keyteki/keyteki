@@ -145,6 +145,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
     emitEvents() {
         this.choices = [];
+        this.events = _.reject(this.events, event => event.cancelled);
         _.each(this.events, event => {
             this.game.emit(event.name + ':' + this.abilityType, event, this);
         });
