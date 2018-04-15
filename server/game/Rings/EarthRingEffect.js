@@ -15,6 +15,7 @@ class EarthRingEffect extends BaseAbility {
         });
         this.title = 'Earth Ring Effect';
         this.cannotTargetFirst = true;
+        this.defaultPriority = 1; // Default resolution priority when players have ordering switched off
     }
 
     meetsRequirements() {

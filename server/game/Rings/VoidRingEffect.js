@@ -14,6 +14,7 @@ class VoidRingEffect extends BaseAbility {
 
         this.cannotTargetFirst = true;
         this.title = 'Void Ring Effect';
+        this.defaultPriority = 2; // Default resolution priority when players have ordering switched off
     }
 
     meetsRequirements(context) {
