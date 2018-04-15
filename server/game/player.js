@@ -1490,7 +1490,7 @@ class Player extends Spectator {
         optional = optional && elements.length === 1;
         let effects = elements.map(element => RingEffects.contextFor(this, element, optional));
         effects = _.sortBy(effects, context => this.firstPlayer ? context.ability.defaultPriority : -context.ability.defaultPriority);
-        this.game.openSimultaneousEffectWindow(effects.map( context => ({ title: context.ability.title, handler: () => this.game.resolveAbility(context) })));
+        this.game.openSimultaneousEffectWindow(effects.map(context => ({ title: context.ability.title, handler: () => this.game.resolveAbility(context) })));
     }
 
     /**
