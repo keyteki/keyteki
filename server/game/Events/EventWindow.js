@@ -1,7 +1,9 @@
 const _ = require('underscore');
 
 const BaseStepWithPipeline = require('../gamesteps/basestepwithpipeline.js');
+const ForcedTriggeredAbilityWindow = require('../gamesteps/forcedtriggeredabilitywindow.js');
 const SimpleStep = require('../gamesteps/simplestep.js');
+const TriggeredAbilityWindow = require('../gamesteps/triggeredabilitywindow.js');
 
 class EventWindow extends BaseStepWithPipeline {
     constructor(game, events) {
@@ -57,7 +59,11 @@ class EventWindow extends BaseStepWithPipeline {
             return;
         }
 
-        this.game.openAbilityWindow(abilityType, this.events);
+        if(['forcedreaction', 'forcedinterrupt'].includes(abilityType)) {
+            this.queueStep(new ForcedTriggeredAbilityWindow(this.game, abilityType, this));
+        } else {
+            this.queueStep(new TriggeredAbilityWindow(this.game, abilityType, this));
+        }
     }
 
     // This is primarily for LeavesPlayEvents
@@ -67,8 +73,9 @@ class EventWindow extends BaseStepWithPipeline {
             contingentEvents = contingentEvents.concat(event.createContingentEvents());
         });
         if(contingentEvents.length > 0) {
+            // Exclude current events from the new window, we just want to give players opportunities to respond to the contingent events
+            this.queueStep(new TriggeredAbilityWindow(this.game, 'cancelinterrupt', this, this.events.slice(0)));
             _.each(contingentEvents, event => this.addEvent(event));
-            this.game.openAbilityWindow('cancelinterrupt', contingentEvents);
         }
     }
     

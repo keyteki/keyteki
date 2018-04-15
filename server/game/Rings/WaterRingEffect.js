@@ -13,6 +13,7 @@ class WaterRingEffect extends BaseAbility {
         });
         this.cannotTargetFirst = true;
         this.title = 'Water Ring Effect';
+        this.defaultPriority = 3; // Default resolution priority when players have ordering switched off
     }
 
     meetsRequirements(context) {

@@ -188,6 +188,7 @@ class Conflict {
                 } else if(arg === 'done') {
                     player.resolveRingEffects(chosenElements, optional);
                 }
+                return true;
             }
         });
     }

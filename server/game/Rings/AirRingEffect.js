@@ -16,6 +16,7 @@ class AirRingEffect extends BaseAbility {
         });
         this.title = 'Air Ring Effect';
         this.cannotTargetFirst = true;
+        this.defaultPriority = 5; // Default resolution priority when players have ordering switched off
     }
 
     meetsRequirements(context) {

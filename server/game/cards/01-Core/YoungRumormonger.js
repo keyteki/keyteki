@@ -19,7 +19,7 @@ class YoungRumormonger extends DrawCard {
                 this.game.addMessage('{0} uses {1} to {2} {3} instead of {4}', this.controller, this, context.event.gameAction, context.target, context.event.card);
                 let newEvent = this.game.getEventsForGameAction(context.event.gameAction, context.target, context)[0];
                 context.event.window.addEvent(newEvent);
-                context.event.getResult = newEvent.getResult;
+                context.event.getResult = () =>newEvent.getResult();
                 context.cancel();
             } 
         });

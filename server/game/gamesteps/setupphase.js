@@ -21,6 +21,11 @@ class SetupPhase extends Phase {
         ]);
     }
 
+    startPhase() {
+        // Don't raise any events without a determined first player
+        this.game.currentPhase = this.name;
+    }
+
     setupBegin() {
         _.each(this.game.getPlayers(), player => {
             player.setupBegin();
