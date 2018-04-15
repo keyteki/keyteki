@@ -4,7 +4,7 @@ const ForcedTriggeredAbilityWindow = require('./forcedtriggeredabilitywindow.js'
 
 class SimultaneousEffectWindow extends ForcedTriggeredAbilityWindow {
     constructor(game) {
-        super(game, 'delayedeffects', []);
+        super(game, 'delayedeffects');
     }
 
     addChoice(choice) {

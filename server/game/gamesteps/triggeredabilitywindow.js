@@ -4,8 +4,8 @@ const ForcedTriggeredAbilityWindow = require('./forcedtriggeredabilitywindow.js'
 const TriggeredAbilityWindowTitles = require('./triggeredabilitywindowtitles.js');
 
 class TriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
-    constructor(game, abilityType, events) {
-        super(game, abilityType, events);
+    constructor(game, abilityType, window, eventsToExclude = []) {
+        super(game, abilityType, window, eventsToExclude);
         this.complete = false;
         this.prevPlayerPassed = false;
     }

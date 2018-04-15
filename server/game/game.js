@@ -29,8 +29,6 @@ const EventWindow = require('./Events/EventWindow.js');
 const ThenEventWindow = require('./Events/ThenEventWindow.js');
 const InitiateAbilityEventWindow = require('./Events/InitiateAbilityEventWindow.js');
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
-const ForcedTriggeredAbilityWindow = require('./gamesteps/forcedtriggeredabilitywindow.js');
-const TriggeredAbilityWindow = require('./gamesteps/triggeredabilitywindow.js');
 const SimultaneousEffectWindow = require('./gamesteps/SimultaneousEffectWindow');
 const AbilityContext = require('./AbilityContext.js');
 const Ring = require('./ring.js');
@@ -1155,21 +1153,6 @@ class Game extends EventEmitter {
      */
     resolveAbility(context) {
         this.queueStep(new AbilityResolver(this, context));
-    }
-
-    /*
-     * Opens a window for triggered card abilities to respond to an Event and
-     * adds it to the window stack
-     * @param {String} abilityType
-     * @param {Array} events
-     * @returns {undefined}
-     */
-    openAbilityWindow(abilityType, events) {
-        if(['forcedreaction', 'forcedinterrupt'].includes(abilityType)) {
-            this.queueStep(new ForcedTriggeredAbilityWindow(this, abilityType, events));
-        } else {
-            this.queueStep(new TriggeredAbilityWindow(this, abilityType, events));
-        }
     }
 
     openSimultaneousEffectWindow(choices) {
