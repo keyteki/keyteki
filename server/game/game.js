@@ -353,29 +353,6 @@ class Game extends EventEmitter {
     }
 
     /*
-     * This function is called from the client whenever the conflict deck is
-     * clicked. It's primary purpose is to support implementation of Arisan
-     * Academy
-     * @param {String} sourcePlayer - name of the clicking player
-     * @returns {undefined}
-     */
-    conflictTopCardClicked(sourcePlayer) {
-        let player = this.getPlayerByName(sourcePlayer);
-
-        // If the top card of the conflict deck is hidden, don't do anything
-        if(!player || player.conflictDeckTopCardHidden) {
-            return;
-        }
-
-        let card = player.conflictDeck.first();
-
-        // Check to see if the current step in the pipeline is waiting for input
-        if(this.pipeline.handleCardClicked(player, card)) {
-            return;
-        }
-    }
-
-    /*
      * @deprecated
      * @param {type} card
      * @param {type} menuItem

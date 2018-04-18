@@ -34,8 +34,7 @@ describe('Artisan Academy', function() {
                 expect(this.player1.player.conflictDeck.first()).toBe(this.ornateFan);
                 this.player1.clickCard(this.artisanAcademy);
                 this.player2.clickPrompt('Pass');
-                this.game.conflictTopCardClicked('player1');
-                this.game.continue();
+                this.player1.clickCard(this.ornateFan);
                 expect(this.player1).toHavePrompt('Choose a card');
 
                 this.dojiWhisperer = this.player1.clickCard('doji-whisperer');
@@ -46,8 +45,7 @@ describe('Artisan Academy', function() {
                 this.steward = this.player1.moveCard('steward-of-law', 'conflict deck');
                 this.player1.clickCard(this.artisanAcademy);
                 this.player2.clickPrompt('Pass');
-                this.game.conflictTopCardClicked('player1');
-                this.game.continue();
+                this.player1.clickCard(this.steward);
                 expect(this.player1).toHavePrompt('Choose additional fate');
 
                 this.player1.clickPrompt('0');

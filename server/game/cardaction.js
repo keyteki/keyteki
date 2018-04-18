@@ -48,7 +48,7 @@ class CardAction extends CardAbility {
     }
 
     meetsRequirements(context) {
-        if(!super.meetsRequirements()) {
+        if(!super.meetsRequirements(context)) {
             return false;
         }
 
