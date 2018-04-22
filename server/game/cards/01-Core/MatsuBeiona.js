@@ -5,7 +5,15 @@ class MatsuBeiona extends DrawCard {
         this.reaction({
             title: 'Gain 2 fate',
             when: {
-                'onCardEntersPlay': event => event.card === this && this.controller.filterCardsInPlay(card => card.hasTrait('bushi') && card.getType() === 'character' && card !== this).length >= 3
+                onCardEntersPlay: (event, context) => (
+                    event.card === context.source &&
+                    context.source.allowGameAction('placeFate', context) && 
+                    context.player.filterCardsInPlay(card => (
+                        card.hasTrait('bushi') && 
+                        card.getType() === 'character' && 
+                        card !== context.source
+                    )).length >= 3
+                )
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1}\'s ability to put 2 fate on {1}', this.controller, this);

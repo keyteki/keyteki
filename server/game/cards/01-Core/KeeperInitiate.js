@@ -6,9 +6,11 @@ class KeeperInitiate extends DrawCard {
         this.reaction({
             title: 'Put this into play',
             when: {
-                onClaimRing: event => (event.player === this.controller && this.controller.role && 
-                        _.any(event.conflict.getElements(), element => this.controller.role.hasTrait(element)) && !this.facedown && 
-                        this.location !== 'play area') // TODO: this needs allowGameAction when a context reference is available
+                onClaimRing: (event, context) => (
+                    event.player === context.player && !context.source.facedown && context.player.role && 
+                    _.any(event.conflict.getElements(), element => context.player.role.hasTrait(element)) && 
+                    context.source.location !== 'play area' && context.source.allowGameAction('putIntoPlay', context)
+                )
             },
             location: ['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile'],
             handler: context => {

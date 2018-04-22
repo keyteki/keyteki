@@ -16,7 +16,7 @@ class CrisisBreaker extends DrawCard {
                 activePromptTitle: 'Choose a character',
                 cardType: 'character',
                 cardCondition: (card, context) => card.hasTrait('berserker') && card.controller === context.player &&
-                                                  (card.allowGameAction('moveToConflict') || card.allowGameAction('ready'))
+                                                  (card.allowGameAction('moveToConflict', context) || card.allowGameAction('ready', context))
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1} to ready {2} and move it into the conflict', this.controller, this, context.target);

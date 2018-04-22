@@ -5,7 +5,9 @@ class GoblinSneak extends DrawCard {
         this.reaction({
             title: 'Steal a fate',
             when: {
-                onCardEntersPlay: event => event.card === this && this.controller.opponent && this.controller.opponent.fate > 0
+                onCardEntersPlay: (event, context) => event.card === context.source && context.player.opponent && 
+                                                      context.player.opponent.fate > 0 &&
+                                                      context.source.allowGameAction('placeFate', context)
             },
             handler: context => {
                 this.game.addMessage('{0} uses {1}\'s ability to take a fate from {2}', this.controller, this, this.controller.opponent);
