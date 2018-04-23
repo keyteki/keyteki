@@ -250,10 +250,11 @@ class DynastyRow extends React.Component {
                             onMouseOut={ this.props.onMouseOut }
                             onCardClick={ this.props.onCardClick }
                             popupLocation='top'
-                            disablePopup={ this.props.spectating || !this.props.isMe || !this.props.manualMode }
+                            disableMenu={ this.props.spectating || !this.props.isMe || !this.props.manualMode }
                             onDragDrop={ this.props.onDragDrop }
                             menu={ dynastyDeckMenu }
-                            hiddenTopCard cardCount={ this.props.numDynastyCards }
+                            hiddenTopCard 
+                            cardCount={ this.props.numDynastyCards }
                             popupMenu={ dynastyDeckPopupMenu }
                             size={ this.props.cardSize } />
 
@@ -270,12 +271,12 @@ class DynastyRow extends React.Component {
                             onMouseOver={ this.props.onMouseOver }
                             onMouseOut={ this.props.onMouseOut }
                             onCardClick={ this.props.onCardClick }
-                            onConflictTopCardClick={ this.props.onConflictTopCardClick }
                             popupLocation='top'
-                            disablePopup={ this.props.spectating || !this.props.isMe || !this.props.manualMode }
+                            disableMenu={ this.props.spectating || !this.props.isMe || !this.props.manualMode }
                             onDragDrop={ this.props.onDragDrop }
                             menu={ conflictDeckMenu }
-                            hiddenTopCard={ this.props.conflictDeckTopCardHidden }
+                            topCard={ this.props.conflictDeckTopCard }
+                            hiddenTopCard={ !this.props.conflictDeckTopCard }
                             cardCount={ this.props.numConflictCards }
                             popupMenu={ conflictDeckPopupMenu }
                             size={ this.props.cardSize } />
@@ -338,12 +339,12 @@ class DynastyRow extends React.Component {
                         onMouseOver={ this.props.onMouseOver }
                         onMouseOut={ this.props.onMouseOut }
                         onCardClick={ this.props.onCardClick }
-                        onConflictTopCardClick={ this.props.onConflictTopCardClick }
                         popupLocation='top'
-                        disablePopup
+                        disableMenu
+                        hiddenTopCard={ !this.props.conflictDeckTopCard }
                         onDragDrop={ this.props.onDragDrop }
                         menu={ conflictDeckMenu }
-                        hiddenTopCard= { this.props.conflictDeckTopCardHidden }
+                        topCard={ this.props.conflictDeckTopCard }
                         cardCount={ this.props.numConflictCards }
                         popupMenu={ conflictDeckPopupMenu }
                         size={ this.props.cardSize } />
@@ -361,7 +362,7 @@ class DynastyRow extends React.Component {
                         onMouseOut={ this.props.onMouseOut }
                         onCardClick={ this.props.onCardClick }
                         popupLocation='top'
-                        disablePopup
+                        disableMenu
                         onDragDrop={ this.props.onDragDrop }
                         menu={ dynastyDeckMenu }
                         hiddenTopCard
@@ -391,7 +392,7 @@ DynastyRow.propTypes = {
     additionalPiles: PropTypes.object,
     cardSize: PropTypes.string,
     conflictDeck: PropTypes.array,
-    conflictDeckTopCardHidden: PropTypes.bool,
+    conflictDeckTopCard: PropTypes.object,
     conflictDiscardPile: PropTypes.array,
     dynastyDeck: PropTypes.array,
     dynastyDiscardPile: PropTypes.array,
@@ -404,7 +405,6 @@ DynastyRow.propTypes = {
     onCardClick: PropTypes.func,
     onConflictClick: PropTypes.func,
     onConflictShuffleClick: PropTypes.func,
-    onConflictTopCardClick: PropTypes.func,
     onDiscardedCardClick: PropTypes.func,
     onDragDrop: PropTypes.func,
     onDynastyClick: PropTypes.func,

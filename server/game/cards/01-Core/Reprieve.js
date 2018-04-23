@@ -5,7 +5,8 @@ class Reprieve extends DrawCard {
         this.interrupt({
             title: 'Prevent a character from leaving play',
             when: {
-                onCardLeavesPlay: event => event.card === this.parent
+                onCardLeavesPlay: (event, context) => event.card === context.source.parent && 
+                                                      context.source.allowGameAction('discardFromPlay', context)
             },
             canCancel: true,
             handler: (context) => {

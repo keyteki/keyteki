@@ -5,7 +5,7 @@ class SavvyPolitician extends DrawCard {
         this.reaction({
             title: 'Honor a character',
             when: {
-                'onCardHonored': event => event.card === this
+                'onCardHonored': (event, context) => event.card === context.source
             },
             target: {
                 cardType: 'character',

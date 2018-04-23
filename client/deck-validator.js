@@ -181,6 +181,17 @@ class DeckValidator {
             }
         });
 
+        let totalConflictChars = _.reduce(deck.conflictCards, (total, card) => {
+            if(card.card.type === 'character') {
+                return total + card.count;
+            }
+            return total;
+        }, 0);
+
+        if(totalConflictChars > rules.maxConflictCharacters) {
+            errors.push('Too many conflict characters');
+        }
+
         let totalInfluence = _.reduce(cardCountByName, (total, card) => {
             if(card.influence && card.faction !== deck.faction.value) {
                 return total + card.influence * card.count;
@@ -210,6 +221,7 @@ class DeckValidator {
             minimumConflict: 40,
             maximumConflict: 45,
             requiredProvinces: 5,
+            maxConflictCharacters: 10,
             maxProvince: {
                 air: 1,
                 earth: 1,

@@ -32,7 +32,7 @@ class CardAbility extends BaseAbility {
 
     buildLocation(card, location) {
         const DefaultLocationForType = {
-            event: 'hand',
+            event: 'hand', 
             holding: 'province',
             province: 'province',
             role: 'role',
@@ -62,7 +62,7 @@ class CardAbility extends BaseAbility {
         });
     }
 
-    meetsRequirements() {
+    meetsRequirements(context) {
         // This doesn't check targets, so any classes inheriting from it need to
         if(this.card.isBlank() && this.printedAbility) {
             return false ;
@@ -72,7 +72,7 @@ class CardAbility extends BaseAbility {
             return false;
         }
 
-        if(!this.location.includes(this.card.location)) {
+        if(this.card.type === 'event' ? !context.player.isCardInPlayableLocation(context.source, 'play') : !this.location.includes(this.card.location)) {
             return false;
         }
 

@@ -9,6 +9,7 @@ class TimeForWar extends DrawCard {
                 afterConflict: event => event.conflict.loser === this.controller && event.conflict.conflictType === 'political'
             },
             target: {
+                // TODO: rewrite this to use sequential targeting
                 cardType: 'character',
                 cardCondition: card => {
                     let weapons = this.controller.conflictDiscardPile.filter(card => card.type === 'attachment' && card.hasTrait('weapon') && card.getCost() < 4);

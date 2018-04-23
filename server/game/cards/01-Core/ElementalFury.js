@@ -8,7 +8,7 @@ class ElementalFury extends ProvinceCard {
                 onProvinceRevealed: event => event.province === this
             },
             target: {
-                ringCondition: ring => ring.isUnclaimed(),
+                ringCondition: ring => ring.isUnclaimed() && ring.element !== this.game.currentConflict.conflictRing,
                 mode: 'ring'
             },
             source: this,

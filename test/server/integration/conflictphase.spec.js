@@ -199,7 +199,7 @@ describe('conflict phase', function() {
                     attackers: [this.childOfThePlains]
                 });
                 
-                expect(this.player1).toHavePrompt('Any reactions?');
+                expect(this.player1).toHavePrompt('Triggered Abilities');
                 expect(this.player1).toBeAbleToSelect(this.spyglass);
                 expect(this.player1).toBeAbleToSelect(this.childOfThePlains);
             });
@@ -213,7 +213,7 @@ describe('conflict phase', function() {
                 });
                 this.player1.clickCard(this.spyglass);
                 
-                expect(this.player2).toHavePrompt('Any reactions?');
+                expect(this.player2).toHavePrompt('Triggered Abilities');
                 expect(this.player2).toBeAbleToSelect('mantra-of-fire');
                 expect(this.player2).toBeAbleToSelect('elemental-fury');
             });
@@ -227,7 +227,7 @@ describe('conflict phase', function() {
                 });
                 this.player1.clickPrompt('Pass');
                 
-                expect(this.player2).toHavePrompt('Any reactions?');
+                expect(this.player2).toHavePrompt('Triggered Abilities');
                 expect(this.player2).toBeAbleToSelect('mantra-of-fire');
                 expect(this.player2).toBeAbleToSelect('elemental-fury');
             });
@@ -243,7 +243,7 @@ describe('conflict phase', function() {
                 this.player2.clickCard(this.elementalFury);
                 this.player2.clickRing('water');
                 
-                expect(this.player1).toHavePrompt('Any reactions?');
+                expect(this.player1).toHavePrompt('Triggered Abilities');
                 expect(this.player1).toBeAbleToSelect(this.spyglass);
                 expect(this.player1).toBeAbleToSelect(this.childOfThePlains);
             });
@@ -339,7 +339,7 @@ describe('conflict phase', function() {
                     });
 
                     it('the defending player should have the opportunity to trigger Keeper Initiate', function() {
-                        expect(this.player2).toHavePrompt('Any reactions?');
+                        expect(this.player2).toHavePrompt('Triggered Abilities');
 
                         this.keeperInitiate = this.player2.clickCard('keeper-initiate');
                         expect(this.keeperInitiate.location).toBe('play area');
@@ -394,7 +394,7 @@ describe('conflict phase', function() {
                     });
 
                     it('should allow the player to trigger Hotaru', function() {
-                        expect(this.player1).toHavePrompt('Any reactions?');
+                        expect(this.player1).toHavePrompt('Triggered Abilities');
                         expect(this.player1).toBeAbleToSelect(this.dojiHotaru);
                     });
 

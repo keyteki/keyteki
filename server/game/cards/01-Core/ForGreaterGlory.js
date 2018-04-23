@@ -6,7 +6,10 @@ class ForGreaterGlory extends DrawCard {
         this.reaction({
             title: 'Put a fate on all your bushi in this conflict',
             when: {
-                onBreakProvince: event => event.conflict.conflictType === 'military' && this.controller.anyCardsInPlay(card => card.isAttacking() && card.hasTrait('bushi'))
+                onBreakProvince: (event, context) => event.conflict.conflictType === 'military' && this.controller.anyCardsInPlay(card => (
+                    card.isAttacking() && card.hasTrait('bushi') && 
+                    card.allowGameAction('placeFate', context)
+                ))
             },
             max: ability.limit.perConflict(1),
             handler: context => {

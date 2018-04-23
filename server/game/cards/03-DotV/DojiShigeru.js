@@ -6,20 +6,22 @@ class DojiShigeru extends DrawCard {
             title: 'Opponent discards a card',
             limit: ability.limit.unlimitedPerConflict(),
             when: {
-                onCardPlayed: event => event.player === this.controller.opponent && event.card.type === 'event' && 
-                                       this.isParticipating()
+                onCardPlayed: (event, context) => event.player === context.player.opponent && event.card.type === 'event' && 
+                                                  context.source.isParticipating() && context.player.opponent.hand.size() > 0
             },
-            handler: () => {
+            handler: context => {
                 this.game.addMessage('{0} uses {1} to force {2} to choose and discard a card', this.controller, this, this.controller.opponent);
-                this.game.promptForSelect(this.controller.opponent, {
-                    activePromptTitle: 'Choose a card to discard',
-                    source: this,
-                    cardCondition: card => card.location === 'hand',
-                    onSelect: (player, card) => {
-                        player.discardCardFromHand(card);
-                        return true;
-                    }
-                });
+                if(context.player.opponent.hand.size() > 0) {
+                    this.game.promptForSelect(this.controller.opponent, {
+                        activePromptTitle: 'Choose a card to discard',
+                        source: this,
+                        cardCondition: card => card.location === 'hand',
+                        onSelect: (player, card) => {
+                            player.discardCardFromHand(card);
+                            return true;
+                        }
+                    });
+                }
             }
         });
     }

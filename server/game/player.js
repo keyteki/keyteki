@@ -1550,7 +1550,6 @@ class Player extends Spectator {
                 removedFromGame: this.getSummaryForCardList(this.removedFromGame, activePlayer),
                 provinceDeck: this.getSummaryForCardList(this.provinceDeck, activePlayer, true)
             },
-            conflictDeckTopCardHidden: this.conflictDeckTopCardHidden,
             disconnected: this.disconnected,
             faction: this.faction,
             firstPlayer: this.firstPlayer,
@@ -1594,6 +1593,10 @@ class Player extends Spectator {
 
         if(this.stronghold) {
             state.stronghold = this.stronghold.getSummary(activePlayer);
+        }
+
+        if(!this.conflictDeckTopCardHidden) {
+            state.conflictDeckTopCard = this.conflictDeck.first().getSummary(activePlayer); 
         }
 
         return _.extend(state, promptState);

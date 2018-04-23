@@ -353,29 +353,6 @@ class Game extends EventEmitter {
     }
 
     /*
-     * This function is called from the client whenever the conflict deck is
-     * clicked. It's primary purpose is to support implementation of Arisan
-     * Academy
-     * @param {String} sourcePlayer - name of the clicking player
-     * @returns {undefined}
-     */
-    conflictTopCardClicked(sourcePlayer) {
-        let player = this.getPlayerByName(sourcePlayer);
-
-        // If the top card of the conflict deck is hidden, don't do anything
-        if(!player || player.conflictDeckTopCardHidden) {
-            return;
-        }
-
-        let card = player.conflictDeck.first();
-
-        // Check to see if the current step in the pipeline is waiting for input
-        if(this.pipeline.handleCardClicked(player, card)) {
-            return;
-        }
-    }
-
-    /*
      * @deprecated
      * @param {type} card
      * @param {type} menuItem
@@ -1351,14 +1328,20 @@ class Game extends EventEmitter {
             var otherPlayer = remainingPlayers.shift();
             if(currentPlayer.honorBid > otherPlayer.honorBid) {
                 honorDifference = currentPlayer.honorBid - otherPlayer.honorBid;
-                this.transferHonor(currentPlayer, otherPlayer, honorDifference);
                 this.addMessage('{0} gives {1} {2} honor', currentPlayer, otherPlayer, honorDifference);
-                this.raiseEvent('onHonorTradedAfterBid', { giver: currentPlayer, receiver: otherPlayer, amount: honorDifference });
+                this.raiseEvent('onHonorTradedAfterBid', { 
+                    giver: currentPlayer, 
+                    receiver: otherPlayer, 
+                    amount: honorDifference 
+                }, () => this.transferHonor(currentPlayer, otherPlayer, honorDifference));
             } else if(otherPlayer.honorBid > currentPlayer.honorBid) {
                 honorDifference = otherPlayer.honorBid - currentPlayer.honorBid;
-                this.transferHonor(otherPlayer, currentPlayer, honorDifference);
                 this.addMessage('{0} gives {1} {2} honor', otherPlayer, currentPlayer, honorDifference);
-                this.raiseEvent('onHonorTradedAfterBid', { giver: otherPlayer, receiver: currentPlayer, amount: honorDifference });
+                this.raiseEvent('onHonorTradedAfterBid', { 
+                    giver: otherPlayer, 
+                    receiver: currentPlayer, 
+                    amount: honorDifference 
+                }, () => this.transferHonor(currentPlayer, otherPlayer, honorDifference));
             }
         }
     }

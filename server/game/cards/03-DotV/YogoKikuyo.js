@@ -5,9 +5,10 @@ class YogoKikuyo extends DrawCard {
         this.interrupt({
             title: 'Cancel a spell',
             when: {
-                onCardAbilityInitiated: event => this.game.currentConflict && event.card.type === 'event' &&
-                                          event.card.hasTrait('spell') && event.card.controller === this.controller.opponent
-
+                onCardAbilityInitiated: (event, context) => this.game.currentConflict && event.card.type === 'event' &&
+                                                            event.card.hasTrait('spell') && 
+                                                            event.card.controller === context.player.opponent &&
+                                                            context.source.allowGameAction('putIntoPlay', context)
             },
             cost: ability.costs.putSelfIntoPlay(),
             location: 'hand',
