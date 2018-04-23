@@ -387,7 +387,7 @@ export class InnerGameBoard extends React.Component {
                             onMouseOut={ this.onMouseOut }
                             onCardClick={ this.onCardClick }
                             onDragDrop={ this.onDragDrop }
-                            disablePopup={ this.state.spectating }
+                            disableMenu={ this.state.spectating }
                             closeOnClick
                             size={ this.props.user.settings.cardSize } />
                     </div>

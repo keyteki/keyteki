@@ -128,7 +128,6 @@ Province.propTypes = {
     cardCount: PropTypes.number,
     cards: PropTypes.array,
     disableMouseOver: PropTypes.bool,
-    disablePopup: PropTypes.bool,
     dynastyCard: PropTypes.object,
     hiddenDynastyCard: PropTypes.bool,
     hiddenProvinceCard: PropTypes.bool,
