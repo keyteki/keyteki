@@ -37,18 +37,22 @@ class ShamefulDisplay extends ProvinceCard {
                         }
                     });
                 } else {
-                    let choices = ['Honor', 'Dishonor'];
-                    let handlers = _.map(choices, choice => {
-                        return () => this.chooseCharacter(choice, context.target, context);
-                    });
-                    this.game.promptWithHandlerMenu(this.controller, {
-                        activePromptTitle: 'Choose a character to:',
-                        source: this,
-                        choices: choices,
-                        handlers: handlers
-                    });
+                    this.promptToChooseHonorOrDishonor(context.target, context);
                 }
             }
+        });
+    }
+
+    promptToChooseHonorOrDishonor(cards, context) {
+        let choices = ['Honor', 'Dishonor'];
+        let handlers = _.map(choices, choice => {
+            return () => this.chooseCharacter(choice, cards, context);
+        });
+        this.game.promptWithHandlerMenu(this.controller, {
+            activePromptTitle: 'Choose a character to:',
+            source: this,
+            choices: choices,
+            handlers: handlers
         });
     }
     
@@ -63,6 +67,7 @@ class ShamefulDisplay extends ProvinceCard {
             activePromptTitle: promptTitle,
             source: this,
             cardCondition: condition,
+            buttons: [{ text: 'Back', arg: 'back'}],
             onSelect: (player, card) => {
                 let otherCard = _.find(cards, c => c !== card);
                 if(choice === 'Honor') {
@@ -71,6 +76,12 @@ class ShamefulDisplay extends ProvinceCard {
                     this.resolveShamefulDisplay(context, otherCard, card);                    
                 }
                 return true;
+            },
+            onMenuCommand: (player, arg) => {
+                if(arg === 'back') {
+                    this.promptToChooseHonorOrDishonor(cards, context);
+                    return true;
+                }
             }
         });
     }

@@ -28,7 +28,7 @@ class StrongholdRow extends React.Component {
             return (
                 <div className='stronghold-row'>
                     <div className='deck-cards'>
-                        { this.props.role && this.props.role.location ? <CardPile className='rolecard' source='role card' cards={ [] } topCard={ this.props.role } disablePopup
+                        { this.props.role && this.props.role.location ? <CardPile className='rolecard' source='role card' cards={ [] } topCard={ this.props.role } disableMenu
                             onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick } size={ this.props.cardSize } /> : <Placeholder size={ this.props.cardSize } /> }
                         <Province isMe={ this.props.isMe } source='stronghold province' cards={ this.props.strongholdProvinceCards } onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onDragDrop={ this.props.onDragDrop } onCardClick={ this.props.onCardClick } size={ this.props.cardSize } onMenuItemClick={ this.props.onMenuItemClick } />
                         { this.getFavor(this.props.thisPlayer) }
@@ -47,7 +47,7 @@ class StrongholdRow extends React.Component {
                     <Placeholder className='province' size={ this.props.cardSize } />
                     { (!this.props.isMe && this.props.thisPlayer) ? this.getFavor(this.props.thisPlayer) : this.getFavor(this.props.otherPlayer) }
                     <Province isMe={ this.props.isMe } source='stronghold province' cards={ this.props.strongholdProvinceCards } onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick } size={ this.props.cardSize } />
-                    { this.props.role && this.props.role.location ? <CardPile className='rolecard' source='role card' cards={ [] } topCard={ this.props.role } disablePopup
+                    { this.props.role && this.props.role.location ? <CardPile className='rolecard' source='role card' cards={ [] } topCard={ this.props.role } disableMenu
                         onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick } size={ this.props.cardSize } onMenuItemClick={ this.props.onMenuItemClick } /> : '' }
                 </div>
             </div>

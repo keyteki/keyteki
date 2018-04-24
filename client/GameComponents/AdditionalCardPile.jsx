@@ -23,7 +23,7 @@ class AdditionalCardPile extends React.Component {
                 onMouseOver={ this.props.onMouseOver }
                 onMouseOut={ this.props.onMouseOut }
                 popupLocation={ this.props.isMe || this.props.spectating ? 'top' : 'bottom' }
-                disablePopup={ this.props.pile.isPrivate && !(this.props.isMe || this.props.spectating) }
+                disableMenu={ this.props.pile.isPrivate && !(this.props.isMe || this.props.spectating) }
                 orientation='horizontal' />
         );
     }

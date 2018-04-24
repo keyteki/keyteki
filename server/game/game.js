@@ -1341,7 +1341,7 @@ class Game extends EventEmitter {
                     giver: otherPlayer, 
                     receiver: currentPlayer, 
                     amount: honorDifference 
-                }, () => this.transferHonor(currentPlayer, otherPlayer, honorDifference));
+                }, () => this.transferHonor(otherPlayer, currentPlayer, honorDifference));
             }
         }
     }
