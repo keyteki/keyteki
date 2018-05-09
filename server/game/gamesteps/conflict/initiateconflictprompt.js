@@ -117,15 +117,9 @@ class InitiateConflictPrompt extends UiPrompt {
                 return false;
             }
             this.game.flipRing(player, ring);
-        } else if(!canInitiateThisConflictType) {
+        } else if(!canInitiateThisConflictType || this.conflict.attackers.some(card => !card.canDeclareAsAttacker(ring.conflictType))) {
             this.game.flipRing(player, ring);
         }
-
-        _.each(this.conflict.attackers, card => {
-            if(!card.canDeclareAsAttacker(ring.conflictType)) {
-                this.removeFromConflict(card);
-            }
-        });
 
         this.conflict.conflictRing = ring.element;
         this.conflict.conflictType = ring.conflictType;
@@ -133,6 +127,12 @@ class InitiateConflictPrompt extends UiPrompt {
             this.conflict.conflictProvince.inConflict = false;
             this.conflict.conflictProvince = null;
         }
+
+        _.each(this.conflict.attackers, card => {
+            if(!card.canDeclareAsAttacker(ring.conflictType)) {
+                this.removeFromConflict(card);
+            }
+        });
 
         this.conflict.calculateSkill(true);
         this.recalculateCovert();
