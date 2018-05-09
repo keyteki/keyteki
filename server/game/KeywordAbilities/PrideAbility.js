@@ -1,4 +1,5 @@
 const TriggeredAbility = require('../triggeredability.js');
+const AbilityLimit = require('../abilitylimit');
 
 class PrideAbility extends TriggeredAbility {
     constructor(game, card) {
@@ -11,6 +12,7 @@ class PrideAbility extends TriggeredAbility {
             title: card.name + '\'s Pride',
             cannotBeCopied: true,
             printedAbility: false,
+            limit: AbilityLimit.perConflict(1),
             handler: context => {
                 if(context.event.conflict.winner === context.player) {
                     this.game.addMessage('{0} is honored due to their Pride', context.source);
