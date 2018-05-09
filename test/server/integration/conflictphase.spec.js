@@ -371,7 +371,7 @@ describe('conflict phase', function() {
 
                 it('should prompt the player to choose an element to resolve', function() {
                     //expect(this.spy).toHaveBeenCalledWith(this.player1.player, ['air', 'fire'], true);
-                    expect(this.player1).toHavePrompt('Choose a ring effect to resolve');
+                    expect(this.player1).toHavePrompt('Resolve Ring Effect');
                 });
 
                 it('should allow the player to choose air', function() {
@@ -400,7 +400,7 @@ describe('conflict phase', function() {
 
                     it('should allow the player to resolve the air ring effect again', function() {
                         this.player1.clickCard(this.dojiHotaru);
-                        expect(this.player1).toHavePrompt('Choose a ring effect to resolve');
+                        expect(this.player1).toHavePrompt('Resolve Ring Effect');
 
                         this.player1.clickRing('air');
                         expect(this.player1).toHavePrompt('Choose an effect to resolve');
