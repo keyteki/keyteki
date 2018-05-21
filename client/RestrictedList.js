@@ -26,7 +26,7 @@ class RestrictedList {
             version: restrictedList.version,
             valid: errors.length === 0,
             errors: errors,
-            joustCards: cardsOnRestrictedList
+            restrictedCards: cardsOnRestrictedList
         };
     }
 }
