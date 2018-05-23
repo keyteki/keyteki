@@ -4,6 +4,13 @@ import { connect } from 'react-redux';
 
 import * as actions from './actions';
 
+const defaultTime = {
+    timer: '60',
+    chess: '40',
+    hourglass: '15',
+    byoyomi: '10'
+};
+
 class InnerNewGame extends React.Component {
     constructor() {
         super();
@@ -11,6 +18,7 @@ class InnerNewGame extends React.Component {
         this.onCancelClick = this.onCancelClick.bind(this);
         this.onSubmitClick = this.onSubmitClick.bind(this);
         this.onNameChange = this.onNameChange.bind(this);
+        this.onClockClick = this.onClockClick.bind(this);
         this.onSpectatorsClick = this.onSpectatorsClick.bind(this);
         this.onSpectatorSquelchClick = this.onSpectatorSquelchClick.bind(this);
         this.onPasswordChange = this.onPasswordChange.bind(this);
@@ -18,7 +26,9 @@ class InnerNewGame extends React.Component {
         this.state = {
             spectators: true,
             spectatorSquelch: false,
-            selectedGameFormat: 'duel',
+            clocks: false,
+            selectedClockType: 'timer',
+            clockTimer: 60,
             selectedGameType: 'casual',
             password: ''
         };
@@ -50,15 +60,24 @@ class InnerNewGame extends React.Component {
         this.setState({ spectatorSquelch: event.target.checked });
     }
 
+    onClockClick(event) {
+        this.setState({ clocks: event.target.checked });
+    }
+
     onSubmitClick(event) {
         event.preventDefault();
+
+        let clocks = {
+            type: this.state.clocks ? this.state.selectedClockType : 'none',
+            time: this.state.clocks ? this.state.clockTimer : 0
+        };
 
         this.props.socket.emit('newgame', {
             name: this.state.gameName,
             spectators: this.state.spectators,
             spectatorSquelch: this.state.spectatorSquelch,
             gameType: this.state.selectedGameType,
-            isMelee: this.state.selectedGameFormat === 'melee',
+            clocks: clocks,
             password: this.state.password
         });
     }
@@ -67,12 +86,52 @@ class InnerNewGame extends React.Component {
         this.setState({ selectedGameType: gameType });
     }
 
-    onGameFormatChange(format) {
-        this.setState({ selectedGameFormat: format });
+    onClockRadioChange(clockType) {
+        this.setState({ selectedClockType: clockType, clockTimer: defaultTime[clockType] });
     }
 
     isGameTypeSelected(gameType) {
         return this.state.selectedGameType === gameType;
+    }
+
+    isClockTypeSelected(clockType) {
+        return this.state.selectedClockType === clockType;
+    }
+
+    getClockInput() {
+        return (
+            <div>
+                <div className='row game-password'>
+                    <div className='col-sm-12'>
+                        <b>Clocks</b>
+                    </div>
+                    <div className='col-sm-10'>
+                        <label className='radio-inline'>
+                            <input type='radio' onChange={ this.onClockRadioChange.bind(this, 'timer') } checked={ this.isClockTypeSelected('timer') } />
+                            Timer
+                        </label>
+                        <label className='radio-inline'>
+                            <input type='radio' onChange={ this.onClockRadioChange.bind(this, 'chess') } checked={ this.isClockTypeSelected('chess') } />
+                            Chess
+                        </label>
+                        <label className='radio-inline'>
+                            <input type='radio' onChange={ this.onClockRadioChange.bind(this, 'hourglass') } checked={ this.isClockTypeSelected('hourglass') } />
+                            Hourglass
+                        </label>
+                        <label className='radio-inline'>
+                            <input type='radio' onChange={ this.onClockRadioChange.bind(this, 'byoyomi') } checked={ this.isClockTypeSelected('byoyomi') } />
+                            Byoyomi
+                        </label>
+                    </div>
+                </div>
+                <div className='row'>
+                    <div className='col-sm-8'>
+                        <label>Clock Timer</label>
+                        <input className='form-control' value={ this.state.clockTimer } onChange={ event => this.setState({ clockTimer: event.target.value.replace(/\D/,'') }) }/>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     render() {
@@ -104,6 +163,12 @@ class InnerNewGame extends React.Component {
                                     Don't allow spectators to chat
                                 </label>
                             </div>
+                            <div className='checkbox col-sm-8'>
+                                <label>
+                                    <input type='checkbox' onChange={ this.onClockClick } checked={ this.state.clocks } />
+                                    Timed game
+                                </label>
+                            </div>
                         </div>
                         <div className='row'>
                             <div className='col-sm-12'>
@@ -124,6 +189,7 @@ class InnerNewGame extends React.Component {
                                 </label>
                             </div>
                         </div>
+                        { this.state.clocks ? this.getClockInput() : null }
                         <div className='row game-password'>
                             <div className='col-sm-8'>
                                 <label>Password</label>

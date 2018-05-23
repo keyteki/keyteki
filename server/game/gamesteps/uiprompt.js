@@ -51,7 +51,6 @@ class UiPrompt extends BaseStep {
     }
 
     continue() {
-        _.each(this.game.getPlayers(), player => player.stopClock());
         var completed = this.isComplete();
 
         if(completed) {
@@ -74,8 +73,6 @@ class UiPrompt extends BaseStep {
             return false;
         }
 
-        player.stopClock();
-        
         return this.menuCommand(player, arg, method);
     }
     

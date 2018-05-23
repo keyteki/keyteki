@@ -23,10 +23,10 @@ class Clock extends React.Component {
             clearInterval(this.timerHandle);
         }
 
-        if(newProps.active) {
+        if(newProps.mode !== 'stop') {
             this.timerHandle = setInterval(() => {
                 this.setState({
-                    timeLeft: this.state.timeLeft - 1
+                    timeLeft: this.state.timeLeft + (newProps.mode === 'up' ? 1 : -1)
                 });
             }, 1000);
         } 
@@ -35,7 +35,7 @@ class Clock extends React.Component {
 
     render() {
         let className = 'player-stats-row';
-        if(this.props.active) {
+        if(this.props.mode !== 'stop') {
             className += ' clock-active';
         }
         return (
@@ -48,7 +48,7 @@ class Clock extends React.Component {
 
 Clock.displayName = 'Clock';
 Clock.propTypes = {
-    active: PropTypes.bool,
+    mode: PropTypes.string,
     secondsLeft: PropTypes.number
 };
 

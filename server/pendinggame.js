@@ -15,7 +15,7 @@ class PendingGame {
         this.allowSpectators = details.spectators;
         this.spectatorSquelch = details.spectatorSquelch;
         this.gameType = details.gameType;
-        this.isMelee = details.isMelee;
+        this.clocks = details.clocks;
         this.createdAt = new Date();
         this.gameChat = new GameChat();
     }
@@ -292,6 +292,7 @@ class PendingGame {
 
         return {
             allowSpectators: this.allowSpectators,
+            clocks: this.clocks,
             createdAt: this.createdAt,
             gameType: this.gameType,
             id: this.id,
