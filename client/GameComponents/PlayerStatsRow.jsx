@@ -53,12 +53,13 @@ export class PlayerStatsRow extends React.Component {
                 <b>{ this.props.user ? this.props.user.username : 'Noone' }</b>
             </div>);
 
-        let secondsLeft = this.getStatValueOrDefault('chessClockLeft');
-        let chessClock = (
+        let clockMode = this.getStatValueOrDefault('clockMode');
+        let clock = clockMode === 'off' ? null : (
             <div className='state'>
-                <Clock secondsLeft={ secondsLeft } active={ this.props.stats && this.props.stats['chessClockActive'] } />
-            </div>);
-            
+                <Clock secondsLeft={ this.getStatValueOrDefault('clockLeft') } mode={ clockMode } />
+            </div>
+        );
+    
         return (
             <div className='panel player-stats no-highlight'>
                 { playerAvatar }
@@ -83,7 +84,7 @@ export class PlayerStatsRow extends React.Component {
                         { this.getStatValueOrDefault('militaryRemaining') ? <span className='icon-military'/> : null }
                     </div>
                 </div>
-                { secondsLeft > 0 && chessClock }
+                { clock }
             </div>
         );
     }

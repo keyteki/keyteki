@@ -5,7 +5,7 @@ class HidaKisada extends DrawCard {
     setupCardAbilities() {
         this.canCancel = false;
         this.abilityRegistrar = new EventRegistrar(this.game, this);
-        this.abilityRegistrar.register(['onCardAbilityInitiatedOtherEffects', 'onConflictDeclared', 'onConflictFinished']);
+        this.abilityRegistrar.register(['onCardAbilityInitiatedOtherEffects', 'onCardAbilityTriggered', 'onConflictDeclared', 'onConflictFinished']);
     }
     
     onCardAbilityInitiatedOtherEffects(event) {
@@ -14,6 +14,12 @@ class HidaKisada extends DrawCard {
                 event.cancel();
                 this.game.addMessage('{0} attempts to initiate {1}{2}, but {3} cancels it', event.context.player, event.card, event.card.type === 'event' ? '' : '\'s ability', this);
             }
+            this.canCancel = false;
+        }
+    }
+
+    onCardAbilityTriggered(event) {
+        if(this.canCancel && event.ability.abilityType === 'action' && event.player !== this.controller) {
             this.canCancel = false;
         }
     }

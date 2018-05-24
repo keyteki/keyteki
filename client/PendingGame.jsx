@@ -195,6 +195,8 @@ class InnerPendingGame extends React.Component {
             }) : <div>You have no decks, please add one</div>;
         }
 
+        let game = this.props.currentGame;
+
         let popup = (
             <div id='decks-modal' ref='modal' className='modal fade' tabIndex='-1' role='dialog'>
                 <div className='modal-dialog' role='document'>
@@ -222,11 +224,26 @@ class InnerPendingGame extends React.Component {
                     { this.props.currentGame.name }
                 </div>
                 <div className='panel'>
-                    <div className='btn-group'>
-                        <button className='btn btn-primary' disabled={ !this.isGameReady() || this.props.connecting || this.state.waiting } onClick={ this.onStartClick }>Start</button>
-                        <button className='btn btn-primary' onClick={ this.onLeaveClick }>Leave</button>
+                    <div className='row-flex-box'>
+                        <div className='column-flex-box'>
+                            <div className='btn-group'>
+                                <button className='btn btn-primary' disabled={ !this.isGameReady() || this.props.connecting || this.state.waiting } onClick={ this.onStartClick }>Start</button>
+                                <button className='btn btn-primary' onClick={ this.onLeaveClick }>Leave</button>
+                            </div>
+                            <div className='game-status'>{ this.getGameStatus() }</div>
+                        </div>
+                        <div className='column-flex-box'>
+                            <div>
+                                { 'Spectators allowed: ' + (game.spectators ? 'Yes' : 'No') }
+                            </div>
+                            <div>
+                                { game.spectators ? 'Spectators can chat: ' + (game.spectatorSquelch ? 'No' : 'Yes') : null }
+                            </div>
+                            <div>
+                                { game.clocks.type !== 'none' ? 'Clock: ' + game.clocks.time + ' mins (' + (game.clocks.type) + ')' : null }
+                            </div>
+                        </div>
                     </div>
-                    <div className='game-status'>{ this.getGameStatus() }</div>
                 </div>
                 <div className='panel-title text-center'>
                     Players
