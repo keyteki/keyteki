@@ -6,8 +6,8 @@ class TheArtOfPeace extends ProvinceCard {
             title: 'Honor all defenders and dishonor all attackers',
             when: {
                 onBreakProvince: (event, context) => event.card === context.source && (
-                    event.conflict.attackers.some(card => card.allowGameAction('honor', context)) || 
-                    event.conflict.defenders.some(card => card.allowGameAction('dishonor', context))
+                    event.conflict.attackers.some(card => card.allowGameAction('dishonor', context)) || 
+                    event.conflict.defenders.some(card => card.allowGameAction('honor', context))
                 )
             },
             handler: context => {
