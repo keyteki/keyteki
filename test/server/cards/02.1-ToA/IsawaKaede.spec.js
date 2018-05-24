@@ -31,7 +31,7 @@ describe('Isawa Kaede', function() {
 
             it('should allow Kaede to trigger both rings if she wins', function() {
                 this.noMoreActions();
-                expect(this.player1).toHavePrompt('Choose a ring effect to resolve');
+                expect(this.player1).toHavePrompt('Resolve Ring Effect');
                 this.player1.clickPrompt('Resolve All Elements');
                 expect(this.player1).toHavePrompt('Choose an effect to be resolved');
                 expect(this.player1.currentButtons).toContain('Fire Ring Effect');
@@ -56,7 +56,7 @@ describe('Isawa Kaede', function() {
                 this.noMoreActions();
                 expect(this.player2).toHavePrompt('Triggered Abilities');
                 this.player2.clickCard('defend-the-wall');
-                expect(this.player2).toHavePrompt('Choose a ring effect to resolve');
+                expect(this.player2).toHavePrompt('Resolve Ring Effect');
             });
 
             it('should not permit Kaede to be targeted by the void ring', function() {
@@ -77,7 +77,7 @@ describe('Isawa Kaede', function() {
                 expect(this.player2).toHavePrompt('Triggered Abilities');
                 expect(this.player2).toBeAbleToSelect('display-of-power');
                 this.player2.clickCard('display-of-power');
-                expect(this.player2).toHavePrompt('Choose a ring effect to resolve');
+                expect(this.player2).toHavePrompt('Resolve Ring Effect');
                 this.player2.clickPrompt('Resolve All Elements');
                 expect(this.player1).toHavePrompt('Choose an effect to be resolved');
                 expect(this.player1.currentButtons).toContain('Fire Ring Effect');

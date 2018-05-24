@@ -6,7 +6,7 @@ class ShrineMaiden extends DrawCard {
         this.reaction({
             title: 'Reveal your top 3 conflict cards',
             when: {
-                onCardEntersPlay: event => event.card === this
+                onCardEntersPlay: event => event.card === this && this.controller.conflictDeck.size() > 2
             },
             handler: () => {
                 let [toHand, toDiscard] = _.partition(this.controller.conflictDeck.first(3), card => {

@@ -1,4 +1,5 @@
 const _ = require('underscore');
+const EffectSource = require('../EffectSource.js');
 const UiPrompt = require('./uiprompt.js');
 
 /**
@@ -27,8 +28,13 @@ class SelectRingPrompt extends UiPrompt {
         super(game);
 
         this.choosingPlayer = choosingPlayer;
+        if(_.isString(properties.source)) {
+            properties.source = new EffectSource(game, properties.source);
+        }
         if(properties.source && !properties.waitingPromptTitle) {
             properties.waitingPromptTitle = 'Waiting for opponent to use ' + properties.source.name;
+        } else if(!properties.source) {
+            properties.source = new EffectSource(game);
         }
 
         this.properties = properties;
