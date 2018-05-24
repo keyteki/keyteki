@@ -80,7 +80,7 @@ class Game extends EventEmitter {
         this.shortCardData = options.shortCardData || [];
 
         _.each(details.players, player => {
-            this.playersAndSpectators[player.user.username] = new Player(player.id, player.user, this.owner === player.user.username, this);
+            this.playersAndSpectators[player.user.username] = new Player(player.id, player.user, this.owner === player.user.username, this, details.clocks);
         });
 
         _.each(details.spectators, spectator => {
@@ -294,6 +294,10 @@ class Game extends EventEmitter {
         });
 
         province.selected = true;
+    }
+
+    stopClocks() {
+        _.each(this.getPlayers(), player => player.stopClock());
     }
 
     /*
