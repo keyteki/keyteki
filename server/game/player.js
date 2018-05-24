@@ -86,7 +86,7 @@ class Player extends Spectator {
     startClock() {
         this.clock.start();
         if(this.opponent) {
-            this.opponent.opponentStart();
+            this.opponent.clock.opponentStart();
         }
     }
 
