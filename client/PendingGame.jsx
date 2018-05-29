@@ -240,7 +240,7 @@ class InnerPendingGame extends React.Component {
                                 { game.spectators ? 'Spectators can chat: ' + (game.spectatorSquelch ? 'No' : 'Yes') : null }
                             </div>
                             <div>
-                                { game.clocks.type !== 'none' ? 'Clock: ' + game.clocks.time + ' mins (' + (game.clocks.type) + ')' : null }
+                                { game.clocks && game.clocks.type !== 'none' ? 'Clock: ' + game.clocks.time + ' mins (' + (game.clocks.type) + ')' : null }
                             </div>
                         </div>
                     </div>

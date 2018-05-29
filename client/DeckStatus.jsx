@@ -17,7 +17,7 @@ class DeckStatus extends React.Component {
         if(!status.basicRules) {
             statusName = 'Invalid';
             className += ' invalid';
-        } else if(!status.officialRole || !status.noUnreleasedCards) {
+        } else if(!status.officialRole || !status.noUnreleasedCards || !status.faqRestrictedList) {
             statusName = 'Casual play only';
             className += ' casual-play';
         } else {
