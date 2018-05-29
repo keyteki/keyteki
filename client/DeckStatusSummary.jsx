@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 
 class DeckStatusSummary extends React.Component {
     render() {
-        let { basicRules, officialRole, noUnreleasedCards } = this.props.status;
+        let { basicRules, officialRole, noUnreleasedCards, faqVersion, faqRestrictedList } = this.props.status;
         const items = [
             { title: 'Basic deckbuilding rules', value: basicRules },
             { title: 'Official FFG OP role', value: officialRole },
+            { title: `FAQ v${faqVersion} restricted list`, value: faqRestrictedList },
             { title: 'Only released cards', value: noUnreleasedCards }
         ];
 
