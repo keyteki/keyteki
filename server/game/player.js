@@ -1516,8 +1516,6 @@ class Player extends Spectator {
         return {
             fate: this.fate,
             honor: this.getTotalHonor(),
-            clockLeft: this.clock.timeLeft,
-            clockMode: this.clock.mode,
             conflictsRemaining: this.conflicts.conflictOpportunities,
             militaryRemaining: !this.conflicts.isAtMax('military'),
             politicalRemaining: !this.conflicts.isAtMax('political')
@@ -1587,6 +1585,10 @@ class Player extends Spectator {
 
         if(!this.conflictDeckTopCardHidden) {
             state.conflictDeckTopCard = this.conflictDeck.first().getSummary(activePlayer); 
+        }
+
+        if(this.clock) {
+            state.clock = this.clock.getState();
         }
 
         return _.extend(state, promptState);

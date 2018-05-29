@@ -364,6 +364,7 @@ export class InnerGameBoard extends React.Component {
                     thisPlayer.optionSettings.showStatusInSidebar &&
                     <div className='player-stats-box'>
                         <PlayerStatsBox
+                            clockState={ otherPlayer ? otherPlayer.clock : null }
                             stats={ otherPlayer ? otherPlayer.stats : null }
                             user={ otherPlayer ? otherPlayer.user : null }
                             firstPlayer={ otherPlayer && otherPlayer.firstPlayer }
@@ -397,6 +398,7 @@ export class InnerGameBoard extends React.Component {
                     <div className='player-stats-box our-side'>
                         <PlayerStatsBox
                             { ...bindActionCreators(actions, this.props.dispatch) }
+                            clockState={ thisPlayer.clock }
                             stats={ thisPlayer.stats }
                             showControls={ !this.state.spectating }
                             user={ thisPlayer.user }
@@ -517,6 +519,7 @@ export class InnerGameBoard extends React.Component {
                     !thisPlayer.optionSettings.showStatusInSidebar &&
                     <div className='player-stats-row'>
                         <PlayerStatsRow
+                            clockState={ otherPlayer ? otherPlayer.clock : null }
                             stats={ otherPlayer ? otherPlayer.stats : null }
                             user={ otherPlayer ? otherPlayer.user : null }
                             firstPlayer={ otherPlayer && otherPlayer.firstPlayer }
@@ -639,6 +642,7 @@ export class InnerGameBoard extends React.Component {
                     <div className='player-stats-row our-side'>
                         <PlayerStatsRow
                             { ...bindActionCreators(actions, this.props.dispatch) }
+                            clockState={ thisPlayer.clock }
                             stats={ thisPlayer.stats }
                             showControls={ !this.state.spectating }
                             user={ thisPlayer.user }
