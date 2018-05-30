@@ -14,7 +14,7 @@ const Socket = require('../socket.js');
 const version = require('../../version.js');
 
 if(config.sentryDsn) {
-    Raven.config(config.sentryDsn, { release: version }).install();
+    Raven.config(config.sentryDsn, { sendTimeout: 5, release: version }).install();
 }
 
 class GameServer {
