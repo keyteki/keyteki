@@ -29,6 +29,29 @@ describe('Isawa Kaede', function() {
                 this.isawaKaede.modifyFate(1);
             });
 
+            it('should allow Kaede to resolve only the chosen ring if she wins', function() {
+                this.noMoreActions();
+                expect(this.player1).toHavePrompt('Choose a ring effect to resolve');
+                this.player1.clickRing('fire');
+                this.player1.clickPrompt('Done');
+                expect(this.player1).toHavePrompt('Fire Ring');
+                this.player1.clickCard(this.shibaTsukune);
+                this.player1.clickPrompt('Honor Shiba Tsukune');
+                expect(this.shibaTsukune.isHonored).toBe(true);
+                expect(this.player1).toHavePrompt('Action Window');
+            });
+
+            it('should allow Kaede to resolve only the void ring if she wins', function() {
+                this.noMoreActions();
+                expect(this.player1).toHavePrompt('Choose a ring effect to resolve');
+                this.player1.clickRing('void');
+                this.player1.clickPrompt('Done');
+                expect(this.player1).toHavePrompt('Void Ring');
+                this.player1.clickCard(this.shibaTsukune);
+                expect(this.shibaTsukune.fate).toBe(0);
+                expect(this.player1).toHavePrompt('Action Window');
+            });
+
             it('should allow Kaede to trigger both rings if she wins', function() {
                 this.noMoreActions();
                 expect(this.player1).toHavePrompt('Resolve Ring Effect');

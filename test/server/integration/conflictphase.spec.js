@@ -76,7 +76,7 @@ describe('conflict phase', function() {
                     phase: 'conflict',
                     player1: {
                         hand: ['Fine Katana', 'tattooed-wanderer'],
-                        dynastyDeck: ['Imperial Storehouse', 'sinister-soshi', 'doomed-shugenja']
+                        dynastyDeck: ['Imperial Storehouse', 'sinister-soshi', 'doomed-shugenja', 'vengeful-berserker']
                     },
                     player2: {
                         provinces: ['night-raid']
@@ -84,6 +84,7 @@ describe('conflict phase', function() {
                 });
                 this.sinisterSoshi = this.player1.placeCardInProvince('sinister-soshi', 'province 1');
                 this.doomedShugenja = this.player1.placeCardInProvince('doomed-shugenja', 'province 2');
+                this.vengefulBerserker = this.player1.placeCardInProvince('vengeful-berserker', 'province 3');
             });
 
             it('should skip initiating a conflict when the first player has no units in play', function() {
@@ -157,6 +158,41 @@ describe('conflict phase', function() {
                     this.player1.clickCard(this.doomedShugenja);
                     expect(this.doomedShugenja.inConflict).toBe(false);
                     expect(this.game.currentConflict.attackers).not.toContain(this.doomedShugenja);
+                });
+
+                it('should remove illegal attackers from the conflict when the conflict type is changed', function() {
+                    this.player1.putIntoPlay(this.vengefulBerserker);
+                    this.player1.clickRing('air');
+
+                    expect(this.game.currentConflict.conflictType).toBe('military');
+                    this.player1.clickCard(this.vengefulBerserker);
+                    expect(this.game.currentConflict.attackers).toContain(this.vengefulBerserker);
+                    expect(this.vengefulBerserker.inConflict).toBe(true);
+                    expect(this.vengefulBerserker.bowed).toBe(false);                    
+
+                    this.player1.clickRing('air');
+                    expect(this.game.currentConflict.conflictType).toBe('political');
+                    expect(this.game.currentConflict.attackers).not.toContain(this.vengefulBerserker);
+                    expect(this.vengefulBerserker.inConflict).toBe(false);
+                    expect(this.vengefulBerserker.bowed).toBe(false);                    
+                });
+
+                it('should flip the ring to match attackers when the ring is changed', function() {
+                    this.player1.putIntoPlay(this.vengefulBerserker);
+                    this.player1.clickRing('earth');
+                    expect(this.game.currentConflict.conflictType).toBe('political');
+                    this.player1.clickRing('air');
+                    expect(this.game.currentConflict.conflictType).toBe('military');
+                    
+                    this.player1.clickCard(this.vengefulBerserker);
+                    expect(this.game.currentConflict.attackers).toContain(this.vengefulBerserker);
+                    expect(this.vengefulBerserker.inConflict).toBe(true);
+                    expect(this.vengefulBerserker.bowed).toBe(false);                    
+
+                    this.player1.clickRing('earth');
+                    expect(this.game.currentConflict.conflictType).toBe('military');
+                    expect(this.game.currentConflict.attackers).toContain(this.vengefulBerserker);
+                    expect(this.vengefulBerserker.inConflict).toBe(true);
                 });
             });
         });
