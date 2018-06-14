@@ -134,7 +134,9 @@ class App extends React.Component {
                 url += ':' + server.port;
             }
 
-            if(this.props.gameSocket) {
+            this.props.onGameHandoffReceived(server);
+
+            if(this.props.gameSocket && this.props.currentGameId !== server.gameId) {
                 this.props.closeGameSocket();
             }
 
@@ -373,7 +375,7 @@ class App extends React.Component {
                 component = <NotFound />;
                 break;
         }
-        
+
         let backgroundClass = 'bg';
         if(gameBoardVisible && this.props.user) {
             switch(this.props.user.settings.background) {
@@ -426,6 +428,7 @@ App.propTypes = {
     clearGameState: PropTypes.func,
     closeGameSocket: PropTypes.func,
     currentGame: PropTypes.object,
+    currentGameId: PropTypes.string,
     disconnecting: PropTypes.bool,
     dispatch: PropTypes.func,
     gameSocket: PropTypes.object,
@@ -440,6 +443,7 @@ App.propTypes = {
     loadPacks: PropTypes.func,
     loggedIn: PropTypes.bool,
     navigate: PropTypes.func,
+    onGameHandoffReceived: PropTypes.func,
     path: PropTypes.string,
     receiveBannerNotice: PropTypes.func,
     receiveGameState: PropTypes.func,
@@ -461,6 +465,7 @@ App.propTypes = {
 function mapStateToProps(state) {
     return {
         currentGame: state.games.currentGame,
+        currentGameId: state.games.gameId,
         disconnecting: state.socket.gameDisconnecting,
         gameSocket: state.socket.gameSocket,
         games: state.games.games,
