@@ -1,38 +1,38 @@
-const AbilityContext = require('./AbilityContext.js');
 const AbilityLimit = require('./abilitylimit.js');
-const BaseAbility = require('./baseability.js');
+const ThenAbility = require('./ThenAbility');
 const Costs = require('./costs.js');
 
-class CardAbility extends BaseAbility {
+class CardAbility extends ThenAbility {
     constructor(game, card, properties) {
-        super(properties);
+        super(game, card, properties);
 
-        this.game = game;
-        this.card = card;
         this.title = properties.title;
         this.limit = properties.limit || AbilityLimit.perRound(1);
-        this.max = properties.max;
+        this.limit.registerEvents(game);
+        this.limit.card = card;
         this.location = this.buildLocation(card, properties.location);
         this.printedAbility = properties.printedAbility === false ? false : true;
-        this.cannotBeCopied = properties.cannotBeCopied;
         this.cannotBeCancelled = properties.cannotBeCancelled;
         this.cannotTargetFirst = !!properties.cannotTargetFirst;
-        this.doesNotTarget = properties.doesNotTarget;
-        this.methods = properties.methods || [];
-        this.handler = properties.handler;
+        this.max = properties.max;
+        this.abilityIdentifier = properties.abilityIdentifier;
+        if(!this.abilityIdentifier) {
+            this.abilityIdentifier = this.printedAbility ? this.card.id + '1' : '';
+        }
+        this.maxIdentifier = this.card.name + this.abilityIdentifier;
 
-        if(card.getType() === 'event') {
-            this.cost.push(Costs.playEvent());
+        if(this.max) {
+            this.card.owner.registerAbilityMax(this.maxIdentifier, this.max);
         }
 
-        this.cost.push(Costs.useLimit());
-
-        this.limit.registerEvents(game);
+        if(card.getType() === 'event') {
+            this.cost = this.cost.concat(Costs.payReduceableFateCost('play'), Costs.playLimited());
+        }
     }
 
     buildLocation(card, location) {
         const DefaultLocationForType = {
-            event: 'hand', 
+            event: 'hand',
             holding: 'province',
             province: 'province',
             role: 'role',
@@ -53,34 +53,87 @@ class CardAbility extends BaseAbility {
         return defaultedLocation;
     }
 
-    createContext(player) {
-        return new AbilityContext({
-            ability: this,
-            game: this.game,
-            player: player,
-            source: this.card
-        });
-    }
-
     meetsRequirements(context) {
-        // This doesn't check targets, so any classes inheriting from it need to
         if(this.card.isBlank() && this.printedAbility) {
-            return false ;
+            return 'blank';
         }
 
-        if(this.card.facedown) {
-            return false;
+        if(!this.card.canTriggerAbilities(context) || this.card.type === 'event' && !this.card.canPlay(context)) {
+            return 'cannotTrigger';
         }
 
-        if(this.card.type === 'event' ? !context.player.isCardInPlayableLocation(context.source, 'play') : !this.location.includes(this.card.location)) {
-            return false;
+        if(this.limit.isAtMax(context.player)) {
+            return 'limit';
         }
 
-        return this.card.canTriggerAbilities();
+        if(this.max && context.player.isAbilityAtMax(this.maxIdentifier)) {
+            return 'max';
+        }
+
+        return super.meetsRequirements(context);
     }
 
-    executeHandler(context) {
-        this.handler(context);
+    isInValidLocation(context) {
+        return this.card.type === 'event' ? context.player.isCardInPlayableLocation(context.source, 'play') : this.location.includes(this.card.location);
+    }
+
+    displayMessage(context) {
+        if(this.properties.message) {
+            let messageArgs = this.properties.messageArgs;
+            if(typeof messageArgs === 'function') {
+                messageArgs = messageArgs(context);
+            }
+            if(!Array.isArray(messageArgs)) {
+                messageArgs = [messageArgs];
+            }
+            this.game.addMessage(this.properties.message, ...messageArgs);
+            return;
+        }
+        // Player1 plays Assassination
+        let messageArgs = [context.player, context.source.type === 'event' ? ' plays ' : ' uses ', context.source];
+        let costMessages = this.cost.map(cost => {
+            if(cost.action && cost.action.cost) {
+                return { message: this.game.gameChat.formatMessage(cost.action.cost, [context.costs[cost.action.name]]) };
+            }
+        }).filter(obj => obj);
+        if(costMessages.length > 0) {
+            // , 
+            messageArgs.push(', ');
+            // paying 3 honor
+            messageArgs.push(costMessages);            
+        } else {
+            messageArgs = messageArgs.concat(['', '']);
+        }
+        let effectMessage = this.properties.effect;
+        let effectArgs = [];
+        let extraArgs = null;
+        if(!effectMessage) {
+            let gameActions = this.getGameActions(context);
+            if(gameActions.length > 0) {
+                // effects with multiple game actions really need their own effect message
+                effectMessage = gameActions[0].effectMsg;
+                effectArgs.push(gameActions[0].target);
+                extraArgs = gameActions[0].effectArgs;
+            }
+        } else {
+            effectArgs.push(context.target || context.ring || context.source);
+            extraArgs = this.properties.effectArgs;
+        }
+
+        if(extraArgs) {
+            if(typeof extraArgs === 'function') {
+                extraArgs = extraArgs(context);
+            }
+            effectArgs = effectArgs.concat(extraArgs);
+        }
+
+        if(effectMessage) {
+            // to 
+            messageArgs.push(' to ');
+            // discard Stoic Gunso
+            messageArgs.push({ message: this.game.gameChat.formatMessage(effectMessage, effectArgs) });
+        }
+        this.game.addMessage('{0}{1}{2}{3}{4}{5}{6}', ...messageArgs);
     }
 
     isCardPlayed() {
@@ -88,6 +141,10 @@ class CardAbility extends BaseAbility {
     }
 
     isCardAbility() {
+        return true;
+    }
+
+    isTriggeredAbility() {
         return true;
     }
 }

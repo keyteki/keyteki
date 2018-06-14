@@ -50,9 +50,10 @@ class AbilityTargeting extends React.Component {
         return (
             <div className='prompt-control-targeting'>
                 { source }
-                <span className='glyphicon glyphicon-arrow-right targeting-arrow' />
-                { targetCards }
-            </div>);
+                { targetCards.length ? <span className='glyphicon glyphicon-arrow-right targeting-arrow' /> : null }
+                { targetCards.length ? targetCards : null }
+            </div>
+        );
     }
 }
 

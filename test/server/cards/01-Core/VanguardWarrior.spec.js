@@ -20,7 +20,6 @@ describe('Vanguard Warrior', function() {
                 expect(this.player1).toHavePrompt('Vanguard Warrior');
                 this.borderlandsDefender = this.player1.clickCard('borderlands-defender');
                 expect(this.borderlandsDefender.fate).toBe(1);
-                expect(this.spy).toHaveBeenCalledWith('{0} sacrifices {1} to put one fate on {2}', this.player1.player, this.vanguardWarrior, this.borderlandsDefender);
             });
 
             it('should be possible to prevent the sacrifice', function() {

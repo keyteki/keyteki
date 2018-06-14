@@ -1,17 +1,15 @@
-const _ = require('underscore');
 const RoleCard = require('../../rolecard.js');
 
 class KeeperOfVoid extends RoleCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             title: 'Gain 1 fate',
             when: {
-                afterConflict: event => _.any(event.conflict.elements, element => this.hasTrait(element)) && event.conflict.winner === this.controller && event.conflict.defendingPlayer === this.controller
+                afterConflict: (event, context) => event.conflict.elements.some(element => this.hasTrait(element)) && 
+                                                   event.conflict.winner === context.player && 
+                                                   event.conflict.defendingPlayer === context.player
             },
-            handler: () => {
-                this.game.addMessage('{0} uses {1} to gain 1 fate', this.controller, this);
-                this.game.addFate(this.controller, 1);
-            }
+            gameAction: ability.actions.gainFate()
         });
     }
 }

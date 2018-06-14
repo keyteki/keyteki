@@ -7,24 +7,25 @@ class KaradaDistrict extends DrawCard {
             cost: ability.costs.giveFateToOpponent(1),
             target: {
                 cardType: 'attachment',
-                cardCondition: card => card.parent && card.parent.controller !== this.controller
+                cardCondition: (card, context) => card.parent && card.parent.controller === context.player.opponent
             },
+            effect: 'take control of {0}',
             handler: context => {
-                context.target.controller = this.controller;
-                if(this.controller.cardsInPlay.any(card => card.type === 'character' && this.controller.canAttach(context.target, card))) {
-                    this.game.promptForSelect(this.controller, {
+                if(context.player.cardsInPlay.any(card => card.type === 'character' && ability.actions.attach({ attachment: context.target }).canAffect(card, context))) {
+                    this.game.promptForSelect(context.player, {
                         activePromptTitle: 'Choose a character to attach ' + context.target.name + ' to',
-                        source: this,
+                        context: context,
                         cardType: 'character',
-                        cardCondition: card => this.controller.canAttach(context.target, card) && card.controller === this.controller,
+                        controller: 'self',
+                        gameAction: ability.actions.attach({ attachment: context.target }),
                         onSelect: (player, card) => {
-                            this.game.addMessage('{0} uses {1}, paying 1 fate to {2} in order to take control of {3} and attach it to {4}', player, this, player.opponent, context.target, card);
-                            player.attach(context.target, card);
+                            this.game.addMessage('{0} attaches {1} to {2}', player, context.target, card);
+                            this.game.openEventWindow(ability.actions.attach({ attachment: context.target }).getEvent(card, context));
                             return true;
                         }
                     });
                 } else {
-                    this.game.addMessage('{0} uses {1}, paying 1 fate to {2} in order to take control of {3} but cannot attach to anyone so it is discarded', this.controller, this, this.controller.opponent, context.target);
+                    this.game.addMessage('{0} cannot attach {1} to anyone so it is discarded', context.player, context.target);
                     this.game.applyGameAction(context, { discardFromPlay: context.target });
                 }
             }

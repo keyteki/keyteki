@@ -6,7 +6,7 @@ class CunningMagistrate extends DrawCard {
             condition: () => this.isParticipating(),
             match: card => card.isParticipating() && card.isDishonored && card !== this,
             targetController: 'any',
-            effect: ability.effects.cannotCountForResolution()
+            effect: ability.effects.cardCannot('countForResolution')
         });
     }
 }

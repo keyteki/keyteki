@@ -1,18 +1,15 @@
 const ProvinceCard = require('../../provincecard.js');
 
 class MeditationsOnTheTao extends ProvinceCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Remove a fate from a character',
-            condition: () => this.game.currentConflict && this.game.currentConflict.conflictProvince === this,
+            condition: context => context.source.isConflictProvince(),
             target: {
                 cardType: 'character',
-                gameAction: 'removeFate',
-                cardCondition: card => card.isAttacking() && card.fate > 0
-            },
-            handler: context => {
-                this.game.addMessage('{0} uses {1} to remove a fate from {2}', this.controller, this, context.target);
-                this.game.applyGameAction(context, { removeFate: context.target });
+                controller: 'opponent',
+                cardCondition: card => card.isAttacking(),
+                gameAction: ability.actions.removeFate()
             }
         });
     }

@@ -5,7 +5,7 @@ class AncestralLands extends ProvinceCard {
         this.persistentEffect({
             match: this,
             targetLocation: 'province',
-            condition: () => this.game.currentConflict && this.game.currentConflict.conflictType === 'political',
+            condition: () => this.game.isDuringConflict('political'),
             effect: ability.effects.modifyProvinceStrength(5)
         });
     }

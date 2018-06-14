@@ -39,6 +39,7 @@ describe('Asahina Storyteller', function() {
                 this.player2.pass();
                 this.player1.clickCard('oni-mask');
                 this.player1.clickCard(this.asceticVisionary);
+                expect(this.asceticVisionary.isBlank()).toBe(true);
                 this.player2.pass();
                 this.sealOfTheCrane = this.player1.playAttachment('seal-of-the-crane', this.asceticVisionary);
                 expect(this.asceticVisionary.isFaction('crane')).toBe(true);

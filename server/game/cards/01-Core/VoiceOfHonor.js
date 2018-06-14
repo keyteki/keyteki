@@ -2,16 +2,17 @@ const DrawCard = require('../../drawcard.js');
 
 class VoiceOfHonor extends DrawCard {
     setupCardAbilities() {
-        this.interrupt({
+        this.wouldInterrupt({
             title: 'Cancel an event',
             when: {
-                onCardAbilityInitiated: event => event.card.type === 'event' && this.controller.opponent && this.controller.getNumberOfCardsInPlay(card => card.isHonored) > this.controller.opponent.getNumberOfCardsInPlay(card => card.isHonored)
+                onCardAbilityInitiated: (event, context) => event.card.type === 'event' && context.player.opponent && 
+                                                            context.player.getNumberOfCardsInPlay(card => card.isHonored) > 
+                                                            context.player.opponent.getNumberOfCardsInPlay(card => card.isHonored)
             },
-            canCancel: true,
-            handler: context => {
-                this.game.addMessage('{0} uses {1} to cancel {2}', this.controller, this, context.event.card);
-                context.cancel();
-            }
+            cannotBeMirrored: true,
+            effect: 'cancel {1}',
+            effectArgs: context => context.event.card,
+            handler: context => context.cancel()
         });
     }
 }

@@ -51,7 +51,7 @@ describe('Game', function() {
         });
 
         describe('when there are two players', function() {
-            describe('and first player is not set', function() {
+            xdescribe('and first player is not set', function() {
                 beforeEach(function() {
                     this.game.playersAndSpectators['test1'] = this.notSetPlayer1;
                     this.game.playersAndSpectators['test2'] = this.notSetPlayer2;

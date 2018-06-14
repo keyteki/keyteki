@@ -5,17 +5,19 @@ class BorderlandsFortifications extends DrawCard {
         this.action({
             title: 'Switch this card with another',
             target: {
-                cardCondition: card => card.isDynasty && ['province 1', 'province 2', 'province 3', 'province 4'].includes(card.location)
+                location: 'province',
+                controller: 'self',
+                cardCondition: card => card.isDynasty
             },
+            effect: 'swap it with {0}',
             handler: context => {
-                this.game.addMessage('{0} uses {1} to swap it with {2}', this.controller, this, context.target.facedown ? 'a facedown card' : context.target);
-                let location = this.location;
-                this.controller.removeCardFromPile(this);
-                this.controller.removeCardFromPile(context.target);
-                this.moveTo(context.target.location);
+                let location = context.source.location;
+                context.player.removeCardFromPile(context.source);
+                context.player.removeCardFromPile(context.target);
+                context.source.moveTo(context.target.location);
                 context.target.moveTo(location);
-                this.controller.getSourceList(location).push(context.target);
-                this.controller.getSourceList(this.location).push(this);
+                context.player.getSourceList(location).push(context.target);
+                context.player.getSourceList(context.source.location).push(context.source);
             }
         });
     }

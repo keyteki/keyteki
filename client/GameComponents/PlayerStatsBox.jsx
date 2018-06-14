@@ -89,8 +89,10 @@ export class PlayerStatsBox extends React.Component {
                     <div className='state'>
                         <div className='conflicts-remaining'>
                             Conflicts Remaining: { this.getStatValueOrDefault('conflictsRemaining') }
-                            { this.getStatValueOrDefault('politicalRemaining') ? <span className='icon-political'/> : null }
-                            { this.getStatValueOrDefault('militaryRemaining') ? <span className='icon-military'/> : null }
+                            { this.getStatValueOrDefault('politicalRemaining') > 0 ? <span className='icon-political'/> : null }
+                            { this.getStatValueOrDefault('politicalRemaining') > 1 ? <span className='icon-political'/> : null }
+                            { this.getStatValueOrDefault('militaryRemaining') > 0 ? <span className='icon-military'/> : null }
+                            { this.getStatValueOrDefault('militaryRemaining') > 1 ? <span className='icon-military'/> : null }
                         </div>
                     </div>
                 </div>

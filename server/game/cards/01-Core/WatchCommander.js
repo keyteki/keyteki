@@ -6,25 +6,19 @@ class WatchCommander extends DrawCard {
             title: 'Force opponent to lose 1 honor',
             limit: ability.limit.unlimitedPerConflict(),
             when: {
-                onCardPlayed: event => (
-                    event.player !== this.controller && this.game.currentConflict && this.game.currentConflict.isParticipating(this.parent)
-                )
+                onCardPlayed: (event, context) => event.player === context.player.opponent && context.source.parent.isParticipating()
             },
-            handler: () => {
-                let opponent = this.game.getOtherPlayer(this.controller);
-                this.game.addHonor(opponent,-1);
-                this.game.addMessage('{0} uses {1} to make {2} lose 1 honor',
-                    this.controller, this, opponent);
-            }
+            gameAction: ability.actions.loseHonor()
         });
     }
-    canAttach(card) {
-        if(card.attachments && card.attachments.any(card => card instanceof WatchCommander && card !== this)) {
+    
+    canAttach(card, context) {
+        if(card.attachments && card.attachments.any(card => card.id === 'watch-commander' && card !== this)) {
             return false;
-        } else if(card.controller !== this.controller) {
+        } else if(card.controller !== context.player) {
             return false;
         }
-        return super.canAttach(card);
+        return super.canAttach(card, context);
     }
 }
 

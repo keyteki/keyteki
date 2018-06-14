@@ -8,15 +8,11 @@ class NitenMaster extends DrawCard {
                 onCardAttached: (event, context) => (
                     event.parent === context.source && 
                     event.card.hasTrait('weapon') && 
-                    event.card.controller === context.player &&
-                    context.source.allowGameAction('ready', context)
+                    event.card.controller === context.player
                 )
             },
-            limit: ability.limit.perRound(2),
-            handler: context => {
-                this.game.addMessage('{0} uses {1} to ready itself', this.controller, this);
-                this.game.applyGameAction(context, { ready: context.source });
-            }
+            gameAction: ability.actions.ready(),
+            limit: ability.limit.perRound(2)
         });
     }
 }

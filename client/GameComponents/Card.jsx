@@ -488,15 +488,18 @@ Card.propTypes = {
     isInPopup: PropTypes.bool,
     isMe: PropTypes.bool,
     onClick: PropTypes.func,
+    onCloseClick: PropTypes.func,
     onDragDrop: PropTypes.func,
     onMenuItemClick: PropTypes.func,
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
+    onTouchMove: PropTypes.func,
     orientation: PropTypes.oneOf(['horizontal', 'bowed', 'vertical']),
     popupLocation: PropTypes.string,
     size: PropTypes.string,
     source: PropTypes.oneOf(['hand', 'dynasty discard pile', 'conflict discard pile', 'play area', 'dynasty deck', 'conflict deck', 'province deck', 'province 1', 'province 2', 'province 3', 'province 4', 'attachment', 'stronghold province', 'additional', 'role card']).isRequired,
     style: PropTypes.object,
+    title: PropTypes.string,
     wrapped: PropTypes.bool
 };
 Card.defaultProps = {

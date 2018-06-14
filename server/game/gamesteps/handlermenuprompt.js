@@ -1,4 +1,5 @@
 const _ = require('underscore');
+const AbilityContext = require('../AbilityContext.js');
 const EffectSource = require('../EffectSource.js');
 const UiPrompt = require('./uiprompt.js');
 
@@ -22,6 +23,8 @@ class HandlerMenuPrompt extends UiPrompt {
         this.player = player;
         if(_.isString(properties.source)) {
             properties.source = new EffectSource(game, properties.source);
+        } else if(properties.context && properties.context.source) {
+            properties.source = properties.context.source;
         }
         if(properties.source && !properties.waitingPromptTitle) {
             properties.waitingPromptTitle = 'Waiting for opponent to use ' + properties.source.name;
@@ -29,6 +32,7 @@ class HandlerMenuPrompt extends UiPrompt {
             properties.source = new EffectSource(game);
         }
         this.properties = properties;
+        this.context = properties.context || new AbilityContext({ game: game, player: player, source: properties.source });
     }
 
     activeCondition(player) {
@@ -67,15 +71,22 @@ class HandlerMenuPrompt extends UiPrompt {
     }
 
     getAdditionalPromptControls() {
-        let controls = [];
         if(this.properties.controls && this.properties.controls.type === 'targeting') {
-            controls.push({
+            return [{
                 type: 'targeting',
                 source: this.properties.source.getShortSummary(),
                 targets: this.properties.controls.targets.map(target => target.getShortSummary())
-            });
+            }];
         }
-        return controls;
+        let targets = this.context.targets ? Object.values(this.context.targets).map(target => target.getShortSummary()) : [];
+        if(targets.length === 0 && this.context.event && this.context.event.card) {
+            this.targets = [this.context.event.card.getShortSummary()];
+        }
+        return [{
+            type: 'targeting',
+            source: this.context.source.getShortSummary(),
+            targets: targets
+        }];
     }
 
     waitingPrompt() {

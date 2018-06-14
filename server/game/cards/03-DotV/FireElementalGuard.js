@@ -2,7 +2,7 @@ const DrawCard = require('../../drawcard.js');
 const EventRegistrar = require('../../eventregistrar.js');
 
 class FireElementalGuard extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.spellsPlayedThisConflict = {};
         this.eventRegistrar = new EventRegistrar(this.game, this);
         this.eventRegistrar.register(['onConflictFinished', 'onCardPlayed']);
@@ -11,11 +11,7 @@ class FireElementalGuard extends DrawCard {
             condition: context => this.spellsPlayedThisConflict[context.player.name] > 2,
             target: {
                 cardType: 'attachment',
-                gameAction: 'discardFromPlay'
-            },
-            handler: context => {
-                this.game.addMessage('{0} uses {1} to discard {2}', context.player, context.source, context.target);
-                this.game.applyGameAction(context, { discardFromPlay: context.target });
+                gameAction: ability.actions.discardFromPlay()
             }
         });
     }
@@ -25,7 +21,7 @@ class FireElementalGuard extends DrawCard {
     }
 
     onCardPlayed(event) {
-        if(this.game.currentConflict && event.card.hasTrait('spell')) {
+        if(this.game.isDuringConflict() && event.card.hasTrait('spell')) {
             if(this.spellsPlayedThisConflict[event.player.name]) {
                 this.spellsPlayedThisConflict[event.player.name] += 1;
             } else {

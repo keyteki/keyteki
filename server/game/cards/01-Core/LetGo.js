@@ -1,17 +1,12 @@
 const DrawCard = require('../../drawcard.js');
 
 class LetGo extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
-            title: 'Choose an attachment – discard it.',
+            title: 'Discard an attachment',
             target: {
-                activePromptTitle: 'Select an attachment',
                 cardType: 'attachment',
-                gameAction: 'discardFromPlay'
-            },
-            handler: context => {
-                this.game.addMessage('{0} uses {1} to discard {2}', this.controller, this, context.target);
-                this.game.applyGameAction(context, { discardFromPlay: context.target });
+                gameAction: ability.actions.discardFromPlay()
             }
         });
     }

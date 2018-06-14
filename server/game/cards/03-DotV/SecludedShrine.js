@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class SecludedShrine extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             title: 'Count a ring as claimed',
             when: {
@@ -9,16 +9,13 @@ class SecludedShrine extends DrawCard {
             },
             target: {
                 mode: 'ring',
-                ringCondition: () => true
+                ringCondition: () => true,
+                gameAction: ability.actions.ringLastingEffect(context => ({
+                    duration: 'untilEndOfPhase',
+                    effect: ability.effects.considerRingAsClaimed(player => player === context.player)
+                }))
             },
-            handler: context => {
-                this.game.addMessage('{0} uses {1} - the {2} ring is considered to be claimed by {0} until the end of the phase', context.player, context.source, context.ring.element);
-                this.untilEndOfPhase(ability => ({
-                    match: context.ring,
-                    targetType: 'ring',
-                    effect: ability.effects.addRingEffect('considerAsClaimed', player => player === context.player)
-                }));
-            }
+            effect: 'make it so that they are considered to have claimed {0} until the end of the phase'
         });
     }
 }

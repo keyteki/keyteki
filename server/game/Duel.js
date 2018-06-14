@@ -1,11 +1,10 @@
 const _ = require('underscore');
-const EffectSource = require('./EffectSource.js');
 
 class Duel {
     constructor(game, challenger, target, type) {
         this.game = game;
         this.type = type;
-        this.source = new EffectSource(game);
+        this.source = game.getFrameworkContext().source;
         this.challenger = challenger;
         this.challengerTotal = this.getSkillTotal(challenger);
         this.target = target;

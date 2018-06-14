@@ -58,7 +58,6 @@ describe('conflict phase', function() {
                 this.player2.clickPrompt('Pass');
                 this.player1.clickCard('adept-of-the-waves');
                 this.player1.clickCard('adept-of-the-waves');
-
                 expect(this.player2).toHavePrompt('Initiate an action');
             });
 
@@ -130,7 +129,7 @@ describe('conflict phase', function() {
                 it('should select a ring when clicked', function() {
                     this.player1.clickRing('air');
                     expect(this.player1).toHavePrompt('Choose province to attack');
-                    expect(this.game.currentConflict.conflictRing).toBe('air');
+                    expect(this.game.currentConflict.element).toBe('air');
                 });
     
                 it('should select a province when clicked', function() {
@@ -234,6 +233,8 @@ describe('conflict phase', function() {
                     province: 'elemental-fury',
                     attackers: [this.childOfThePlains]
                 });
+
+                expect(this.spyglass.location).toBe('play area');
                 
                 expect(this.player1).toHavePrompt('Triggered Abilities');
                 expect(this.player1).toBeAbleToSelect(this.spyglass);
@@ -492,7 +493,9 @@ describe('conflict phase', function() {
 
                 it('reactions should trigger correctly', function() {
                     this.noMoreActions();
+                    // End of player 1's first conflict
                     this.noMoreActions();
+                    // Player 2's first conflict passes automatically
                     this.noMoreActions();
                     this.initiateConflict({
                         attackers: ['doji-whisperer'],

@@ -4,7 +4,7 @@ const DrawCard = require('../../../server/game/drawcard.js');
 
 describe('Conflict', function() {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['applyGameAction', 'on', 'raiseEvent', 'reapplyStateDependentEffects']);
+        this.gameSpy = jasmine.createSpyObj('game', ['applyGameAction', 'on', 'raiseEvent', 'reapplyStateDependentEffects', 'getFrameworkContext']);
         this.gameSpy.applyGameAction.and.callFake((type, card, handler) => {
             handler(card);
         });
@@ -12,9 +12,7 @@ describe('Conflict', function() {
         this.gameSpy.effectEngine = this.effectEngineSpy;
 
         this.attackingPlayer = new Player('1', { username: 'Player 1', settings: {} }, true, this.gameSpy);
-        spyOn(this.attackingPlayer, 'winConflict');
         this.defendingPlayer = new Player('2', { username: 'Player 2', settings: {} }, true, this.gameSpy);
-        spyOn(this.defendingPlayer, 'winConflict');
 
         this.attackerCard = new DrawCard(this.attackingPlayer, {});
         spyOn(this.attackerCard, 'getSkill').and.returnValue(5);

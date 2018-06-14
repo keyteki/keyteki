@@ -1,18 +1,18 @@
 const _ = require('underscore');
 
 class Event {
-    constructor(name, params, handler) {
+    constructor(name, params, handler, gameAction) {
         this.name = name;
         this.cancelled = false;
         this.resolved = false;
         this.handler = handler;
+        this.gameAction = gameAction;
+        this.context = null;
         this.window = null;
-        this.thenEvents = [];
         this.getResult = () => {
             return { resolved: this.resolved, cancelled: this.cancelled };
         };
-        this.condition = () => true;
-        this.parentEvent = null;
+        this.condition = (event) => true; // eslint-disable-line no-unused-vars
         this.order = 0;
 
         _.extend(this, params);
@@ -45,12 +45,11 @@ class Event {
         if(this.cancelled || this.resolved) {
             return;
         }
-        if(this.gameAction) {
-            if(!this.card || !this.card.allowGameAction(this.gameAction, this.context)) {
-                this.cancel();
-                return;
-            }
+        if(this.gameAction && !this.gameAction.checkEventCondition(this)) {
+            this.cancel();
+            return;
         }
+        // TODO: do we need to check conditions on anything anymore?
         if(!this.condition(this)) {
             this.cancel();
         }
@@ -65,25 +64,6 @@ class Event {
 
     replaceHandler(newHandler) {
         this.handler = newHandler;
-    }
-
-    addThenEvent(event) {
-        this.thenEvents.push(event);
-        event.parentEvent = this;
-    }
-
-    addThenGameAction(context, actions) {
-        let events = [];
-        _.each(actions, (cards, action) => {
-            events = events.concat(context.game.getEventsForGameAction(action, cards, context));
-        });
-        _.each(events, event => event.parentEvent = this);
-        this.thenEvents = this.thenEvents.concat(events);
-        return events;
-    }
-
-    cancelThenEvents() {
-        _.each(this.thenEvents, event => event.cancel());
     }
 }
 

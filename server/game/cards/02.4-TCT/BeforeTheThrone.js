@@ -1,20 +1,13 @@
 const ProvinceCard = require('../../provincecard.js');
 
 class BeforeTheThrone extends ProvinceCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.interrupt({
             title: 'Take 2 honor',
             when: {
-                onBreakProvince: event => event.card === this
+                onBreakProvince: (event, context) => event.card === context.source
             },
-            handler: () => {
-                this.game.addMessage('{0} uses {1} to take 2 honor', this.controller, this);
-                if(this.controller.opponent) {
-                    this.game.transferHonor(this.game.getOtherPlayer(this.controller), this.controller, 2);
-                } else {
-                    this.game.addHonor(this.controller, 2);
-                }
-            }
+            gameAction: ability.actions.takeHonor(2)
         });
     }
 

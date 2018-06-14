@@ -81,11 +81,6 @@ describe('Player', function() {
                 expect(this.card.leavesPlay).toHaveBeenCalled();
             });
 
-            it('should raise the left play event', function() {
-                this.player.moveCard(this.card, 'conflict discard pile');
-                expect(this.gameSpy.raiseEvent).toHaveBeenCalled();
-            });
-
             describe('when the card has attachments', function() {
                 beforeEach(function() {
                     this.attachment = new DrawCard(this.player, {});

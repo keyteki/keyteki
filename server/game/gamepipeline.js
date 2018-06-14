@@ -149,7 +149,7 @@ class GamePipeline {
             pipeline = step.pipeline;
             step = pipeline.pipeline[0];
         }
-        //console.log(pipeline.getDebugInfo());
+        // console.log(pipeline.getDebugInfo());
     }
 }
 

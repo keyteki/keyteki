@@ -5,10 +5,7 @@ class YogoOutcast extends DrawCard {
         this.persistentEffect({
             condition: () => this.isLessHonorableThanOpponent(),
             match: this,
-            effect: [
-                ability.effects.modifyMilitarySkill(1),
-                ability.effects.modifyPoliticalSkill(1)
-            ]
+            effect: ability.effects.modifyBothSkills(1)
         });
     }
     

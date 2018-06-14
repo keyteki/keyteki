@@ -2,7 +2,7 @@ const Conflict = require('../../../server/game/conflict.js');
 const Player = require('../../../server/game/player.js');
 const DrawCard = require('../../../server/game/drawcard.js');
 
-describe('Conflict', function() {
+xdescribe('Conflict', function() {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['applyGameAction', 'on', 'raiseEvent', 'reapplyStateDependentEffects']);
         this.gameSpy.applyGameAction.and.callFake((type, card, handler) => {

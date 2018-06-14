@@ -2,31 +2,33 @@ const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 
 class ShrineMaiden extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             title: 'Reveal your top 3 conflict cards',
             when: {
-                onCardEntersPlay: event => event.card === this && this.controller.conflictDeck.size() > 2
+                onCharacterEntersPlay: (event, context) => event.card === context.source
             },
-            handler: () => {
-                let [toHand, toDiscard] = _.partition(this.controller.conflictDeck.first(3), card => {
+            cost: ability.costs.revealCards(context => context.player.conflictDeck.first(3)),
+            effect: 'take any revealed spells into their hand', 
+            handler: context => {
+                let [toHand, toDiscard] = _.partition(context.player.conflictDeck.first(3), card => {
                     return card.hasTrait('kiho') || card.hasTrait('spell');
                 });
 
                 _.each(toHand, card => {
-                    this.controller.moveCard(card, 'hand');
+                    context.player.moveCard(card, 'hand');
                 });
 
                 _.each(toDiscard, card => {
-                    this.controller.moveCard(card, 'conflict discard pile');
+                    context.player.moveCard(card, 'conflict discard pile');
                 });
 
                 if(toHand.length && toDiscard.length) {
-                    this.game.addMessage('{0} uses {1}\'s reaction to add {2} to hand and discard {3}', this.controller, this, toHand, toDiscard);
+                    this.game.addMessage('{0} adds {1} to their hand and discards {2}', context.player, toHand, toDiscard);
                 } else if(toHand.length) {
-                    this.game.addMessage('{0} uses {1}\'s reaction to add {2} to hand', this.controller, this, toHand);
+                    this.game.addMessage('{0} adds {1} to their hand', context.player, toHand);
                 } else {
-                    this.game.addMessage('{0} uses {1}\'s reaction and discards {2}', this.controller, this, toDiscard);
+                    this.game.addMessage('{0} discards {1}', context.player, toDiscard);
                 }
             }
         });

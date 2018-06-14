@@ -2,24 +2,23 @@ const DrawCard = require('../../drawcard.js');
 
 class YoungRumormonger extends DrawCard {
     setupCardAbilities() {
-        this.interrupt({
+        this.wouldInterrupt({
             title: 'Honor/dishonor a different character',
             when: {
-                onCardHonored: event => event.gameAction === 'honor',
-                onCardDishonored: event => event.gameAction === 'dishonor'
+                onCardHonored: event => event.gameAction.name === 'honor',
+                onCardDishonored: event => event.gameAction.name === 'dishonor'
             },
-            canCancel: true,
             target: {
                 cardType: 'character',
-                cardCondition: (card, context) => card !== context.event.card && 
-                                                  card.controller === context.event.card.controller && 
-                                                  card.allowGameAction(context.event.gameAction, context)
+                cardCondition: (card, context) => card !== context.event.card && card.controller === context.event.card.controller &&
+                                                  card.allowGameAction(context.event.gameAction.action, context)
             },
+            effect: '{1} {0} instead of {2}',
+            effectArgs: context => [context.event.gameAction.name, context.event.card],
             handler: context => {
-                this.game.addMessage('{0} uses {1} to {2} {3} instead of {4}', this.controller, this, context.event.gameAction, context.target, context.event.card);
-                let newEvent = this.game.getEventsForGameAction(context.event.gameAction, context.target, context)[0];
+                let newEvent = context.event.gameAction.getEvent(context.target, context);
+                context.event.getResult = () => newEvent.getResult();
                 context.event.window.addEvent(newEvent);
-                context.event.getResult = () =>newEvent.getResult();
                 context.cancel();
             } 
         });

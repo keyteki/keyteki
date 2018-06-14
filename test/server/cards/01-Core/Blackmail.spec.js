@@ -79,7 +79,7 @@ describe('Blackmail', function() {
                     this.noMoreActions();
                     expect(this.player1).toHavePrompt('Initiate an action');
                     expect(this.miyaMystic.controller).toBe(this.player2.player);
-                    expect(this.spy).not.toHaveBeenCalledWith('{0} cannot participate in the conflict any more and is sent home bowed', this.miyaMystic);
+                    expect(this.spy).not.toHaveBeenCalledWith('{0} cannot participate in the conflict any more and {1} sent home bowed', [this.miyaMystic], 'is');
                 });
             });
 
@@ -101,7 +101,7 @@ describe('Blackmail', function() {
                 });
 
                 it('should display a game message indicating why the character has been sent home', function() {
-                    expect(this.spy).toHaveBeenCalledWith('{0} cannot participate in the conflict any more and is sent home bowed', this.shibaPeacemaker);
+                    expect(this.spy).toHaveBeenCalledWith('{0} cannot participate in the conflict any more and {1} sent home bowed', [this.shibaPeacemaker], 'is');
                 });
                 
                 it('should correctly calculate the new conflict totals', function() {

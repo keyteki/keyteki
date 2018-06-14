@@ -1,35 +1,26 @@
 const DrawCard = require('../../drawcard.js');
 
 class BayushiKachiko extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Send a character home',
-            condition: () => this.isParticipating() && this.game.currentConflict.conflictType === 'political',
+            condition: context => this.game.isDuringConflict('political') && context.source.isParticipating(), 
             target: {
                 cardType: 'character',
-                gameAction: 'sendHome',
-                cardCondition: card => card.getPoliticalSkill() < this.getPoliticalSkill()
+                cardCondition: (card, context) => card.politicalSkill < context.source.politicalSkill,
+                gameAction: ability.actions.sendHome()
             },
-            handler: context => {
-                this.game.addMessage('{0} uses {1} to send {2} home', this.controller, this, context.target);
-                let sendHomeEvent = this.game.applyGameAction(context, { sendHome: context.target })[0];
-                let menuEvent = this.game.addEventToWindow(sendHomeEvent.window, 'menuEvent', { order: sendHomeEvent.order + 1 }, event => {
-                    if(!context.target.allowGameAction('bow', context) || sendHomeEvent.cancelled) {
-                        event.cancelThenEvents();
-                        return;
+            then: context => ({
+                target: {
+                    mode: 'select',
+                    activePromptTitle: 'Do you want to bow ' + context.target.name + '?',
+                    choices: {
+                        'Yes': ability.actions.bow({ target: context.target }),
+                        'No': () => true 
                     }
-                    this.game.promptWithHandlerMenu(context.player, {
-                        source: context.source,
-                        activePromptTitle: 'Do you want to bow ' + context.target.name + '?',
-                        choices: ['Yes', 'No'],
-                        handlers: [
-                            () => context.game.addMessage('{0} chooses to bow {1} using {2}', context.player, context.target, context.source),
-                            () => event.cancelThenEvents()
-                        ]
-                    });
-                });
-                menuEvent.addThenGameAction(context, { bow: context.target });
-            }
+                },
+                message: '{0} chooses to bow {2} due to {1}\'s ability'
+            })
         });
     }
 }

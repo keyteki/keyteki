@@ -10,42 +10,27 @@ class CourtGames extends DrawCard {
                 player: 'self',
                 mode: 'select',
                 choices: {
-                    'Honor a character you control': context => this.controller.cardsInPlay.any(card => {
-                        return card.isParticipating() && card.allowGameAction('honor', context) && card.allowGameAction('target', context);
-                    }),
-                    'Dishonor an opposing character': context => this.controller.opponent && this.controller.opponent.cardsInPlay.any(card => {
-                        return card.isParticipating() && card.allowGameAction('dishonor', context) && card.allowGameAction('target', context);
-                    })
+                    'Honor a friendly character': ability.actions.honor(context => ({
+                        promptForSelect: {
+                            cardType: 'character',
+                            controller: 'self',
+                            cardCondition: card => card.isParticipating() && card.allowGameAction('target', context),
+                            message: '{0} chooses to honor {1}'    
+                        }
+                    })),
+                    'Dishonor an opposing character': ability.actions.dishonor(context => ({
+                        promptForSelect: {
+                            player: context.player.opponent,
+                            cardType: 'character',
+                            controller: 'opponent',
+                            cardCondition: card => card.isParticipating() && card.allowGameAction('target', context),
+                            message: '{0} chooses to dishonor {1}'
+                        }
+                    }))
                 }
             },
-            handler: context => {
-                if(context.select === 'Honor a character you control') {
-                    this.game.promptForSelect(this.controller, {
-                        cardType: 'character',
-                        gameAction: 'honor',
-                        cardCondition: card => card.isParticipating() && card.controller === this.controller && card.allowGameAction('target', context),
-                        source: this,
-                        onSelect: (player, card) => {
-                            this.game.addMessage('{0} uses {1} to honor {2}', this.controller, this, card);
-                            this.game.applyGameAction(context, { honor: card });
-                            return true;
-                        }
-                    });
-                } else {
-                    let otherPlayer = this.controller.opponent;
-                    this.game.promptForSelect(otherPlayer, {
-                        cardType: 'character',
-                        gameAction: 'dishonor',
-                        cardCondition: card => card.isParticipating() && card.controller === otherPlayer && card.allowGameAction('target', context),
-                        source: this,
-                        onSelect: (player, card) => {
-                            this.game.addMessage('{0} uses {1} to dishonor {2}', this.controller, this, card);
-                            this.game.applyGameAction(context, { dishonor: card });
-                            return true;
-                        }
-                    });
-                }
-            }
+            effect: '{0}',
+            effectArgs: context => context.select.toLowerCase()
         });
     }
 }

@@ -1,15 +1,16 @@
 const _ = require('underscore');
+const EffectSource = require('./EffectSource');
 
-class Ring {
+class Ring extends EffectSource {
     constructor(game, element, type) {
-        this.game = game;
+        super(game, element.replace(/\b\w/g, l => l.toUpperCase()) + ' Ring');
+        this.type = 'ring';
         this.claimed = false;
         this.claimedBy = '';
         this.conflictType = type;
         this.contested = false;
         this.element = element;
         this.fate = 0;
-        this.effects = {};
         
         this.menu = _([
             { command: 'flip', text: 'Flip' },
@@ -22,28 +23,21 @@ class Ring {
             { command: 'conflict', text: 'Initiate Conflict' }
         ]);
     }
-
-    addEffect(effectType, effectFunc) {
-        if(!this.effects[effectType]) {
-            this.effects[effectType] = [];
-        }
-        this.effects[effectType].push(effectFunc);
-    }
-
-    removeEffect(effectType, effectFunc) {
-        this.effects[effectType] = _.reject(this.effects[effectType], effect => effect === effectFunc);
-    }
-
+    
     isConsideredClaimed(player = null) {
-        let check = player => (_.any(this.effects.considerAsClaimed, func => func(player)) || this.claimedBy === player.name);
+        let check = player => (this.getEffects('considerAsClaimed').some(match => match(player)) || this.claimedBy === player.name);
         if(player) {
             return check(player);
         }
-        return _.any(this.game.getPlayers(), player => check(player));
+        return this.game.getPlayers().some(player => check(player));
+    }
+
+    isConflictType(type) {
+        return !this.isUnclaimed() && type === this.conflictType;
     }
 
     canDeclare(player) {
-        return !_.any(this.effects.cannotDeclare, func => func(player)) && !this.claimed;
+        return !this.getEffects('cannotDeclare').some(match => match(player)) && !this.claimed;
     }
 
     isUnclaimed() {
@@ -59,10 +53,11 @@ class Ring {
     }
 
     getElements() {
-        if(this.game.currentConflict && this.game.currentConflict.conflictRing === this.element) {
-            return this.game.currentConflict.getElements();
-        }
-        return [this.element];
+        return _.uniq(this.getEffects('addElement').concat([this.element]));
+    }
+
+    hasElement(element) {
+        return this.getElements().includes(element);
     }
 
     getFate() {
@@ -82,15 +77,11 @@ class Ring {
         return menu;
     }
 
+    /**
+     * @param {Number} fate - the amount of fate to modify this card's fate total by
+     */
     modifyFate(fate) {
-        /**
-         * @param  {integer} fate - the amount of fate to modify this card's fate total by
-         */
-        this.fate += fate;
-
-        if(this.fate < 0) {
-            this.fate = 0;
-        }
+        this.fate = Math.max(this.fate + fate, 0);
     }
     
     removeFate() {
@@ -100,7 +91,6 @@ class Ring {
     claimRing(player) {
         this.claimed = true;
         this.claimedBy = player.name;
-        //this.contested = false;  Ruling change means that the ring stays contested until the reaction window closes
     }
 
     resetRing() {
@@ -109,17 +99,6 @@ class Ring {
         this.contested = false;
     }
     
-    getShortSummary() {
-        return {
-            id: this.element,
-            label: this.element,
-            name: this.element,
-            type: 'ring',
-            element: this.element,
-            conflictType: this.conflictType
-        };
-    }
-
     getState(activePlayer) {
 
         let selectionState = {};
@@ -138,7 +117,11 @@ class Ring {
             menu: this.getMenu()
         };
         
-        return _.extend(state, selectionState);
+        return Object.assign(state, selectionState);
+    }
+
+    getShortSummary() {
+        return Object.assign(super.getShortSummary(), { element: this.element });
     }
 }
 

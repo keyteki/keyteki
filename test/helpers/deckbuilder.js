@@ -4,7 +4,7 @@ const _ = require('underscore');
 
 const {matchCardByNameAndPack} = require('./cardutil.js');
 
-const PathToSubModulePacks = path.join(__dirname,  '../../fiveringsdb-data/json/Card');
+const PathToSubModulePacks = path.join(__dirname, '../../fiveringsdb-data/json/Card');
 
 const defaultFaction = 'phoenix';
 const defaultRole = 'seeker-of-water';
@@ -38,9 +38,6 @@ class DeckBuilder {
             var cardsInPack = require(path.join(PathToSubModulePacks, file));
 
             _.each(cardsInPack, card => {
-                if(card.text) {
-                    card.text_canonical = card.text.replace(/<[^>]*>/, '').toLowerCase();
-                }
                 cards[card.id] = card;
             });
         });
