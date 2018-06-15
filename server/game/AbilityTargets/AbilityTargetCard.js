@@ -3,13 +3,18 @@ const _ = require('underscore');
 const CardSelector = require('../CardSelector.js');
 
 class AbilityTargetCard {
-    constructor(name, properties) {
+    constructor(name, properties, ability) {
         this.name = name;
         this.properties = properties;
         for(let gameAction of this.properties.gameAction) {
             gameAction.getDefaultTargets = context => context.targets[name];
         }
         this.selector = this.getSelector(properties);
+        this.checkDependentTarget = context => true; // eslint-disable-line no-unused-vars
+        if(this.properties.dependsOn) {
+            let dependsOnTarget = ability.targets.find(target => target.name === this.properties.dependsOn);
+            dependsOnTarget.checkDependentTarget = context => this.hasLegalTarget(context);
+        }
     }
 
     getSelector(properties) {
@@ -22,18 +27,18 @@ class AbilityTargetCard {
             if(context.stage === 'pretarget' && !context.ability.canPayCosts(contextCopy)) {
                 return false;
             }
-            return (!properties.cardCondition || properties.cardCondition(card, contextCopy)) &&
+            return (!properties.cardCondition || properties.cardCondition(card, contextCopy)) && this.checkDependentTarget(contextCopy) &&
                    (properties.gameAction.length === 0 || properties.gameAction.some(gameAction => gameAction.hasLegalTarget(contextCopy)));
         };
         return CardSelector.for(Object.assign({}, properties, { cardCondition: cardCondition}));
     }
 
     canResolve(context) {
-        if(this.properties.dependsOn) {
-            let dependsOnTarget = context.ability.targets.find(target => target.name === this.properties.dependsOn);
-            return dependsOnTarget.getContextsForDependentTargets(context).some(targetContext => this.selector.hasEnoughTargets(targetContext));
-        }
-        // check for a legal target
+        // if this depends on another target, that will check hasLegalTarget already
+        return !!this.properties.dependsOn || this.hasLegalTarget(context);
+    }
+
+    hasLegalTarget(context) {
         return this.selector.hasEnoughTargets(context);
     }
 
@@ -41,19 +46,7 @@ class AbilityTargetCard {
         return this.properties.gameAction.filter(gameAction => gameAction.hasLegalTarget(context));
     }
 
-    getContextsForDependentTargets(context) {
-        return this.getAllLegalTargets(context).map(target => {
-            let contextCopy = context.copy();
-            contextCopy.targets[this.name] = target;
-            return contextCopy;
-        });
-    }
-
     getAllLegalTargets(context) {
-        if(this.properties.dependsOn) {
-            let dependsOnTarget = context.ability.targets.find(target => target.name === this.properties.dependsOn);
-            return dependsOnTarget.getContextsForDependentTargets(context).some(targetContext => this.selector.getAllLegalTargets(targetContext));            
-        }
         return this.selector.getAllLegalTargets(context);
     }
 

@@ -31,7 +31,7 @@ class BaseAbility {
             this.gameAction = [this.gameAction];
         }
         this.cost = this.buildCost(properties.cost);
-        this.targets = this.buildTargets(properties);
+        this.buildTargets(properties);
     }
 
     buildCost(cost) {
@@ -47,16 +47,14 @@ class BaseAbility {
     }
 
     buildTargets(properties) {
+        this.targets = [];
         if(properties.target) {
-            return [this.getAbilityTarget('target', properties.target)];
+            this.targets.push(this.getAbilityTarget('target', properties.target));
+        } else if(properties.targets) {
+            for(const key of Object.keys(properties.targets)) {
+                this.targets.push(this.getAbilityTarget(key, properties.targets[key]));
+            }
         }
-
-        if(properties.targets) {
-            let targetPairs = Object.entries(properties.targets);
-            return targetPairs.map(([name, properties]) => this.getAbilityTarget(name, properties));
-        }
-
-        return [];
     }
     
     getAbilityTarget(name, properties) {
@@ -68,13 +66,13 @@ class BaseAbility {
             properties.gameAction = [];
         }
         if(properties.mode === 'select') {
-            return new AbilityTargetSelect(name, properties);
+            return new AbilityTargetSelect(name, properties, this);
         } else if(properties.mode === 'ring') {
-            return new AbilityTargetRing(name, properties);
+            return new AbilityTargetRing(name, properties, this);
         } else if(properties.mode === 'ability') {
-            return new AbilityTargetAbility(name, properties);
+            return new AbilityTargetAbility(name, properties, this);
         }
-        return new AbilityTargetCard(name, properties);
+        return new AbilityTargetCard(name, properties, this);
     }
 
     /**

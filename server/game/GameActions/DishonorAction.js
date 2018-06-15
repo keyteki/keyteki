@@ -11,6 +11,8 @@ class DishonorAction extends CardGameAction {
     canAffect(card, context) {
         if(card.location !== 'play area' || card.type !== 'character' || card.isDishonored) {
             return false;
+        } else if(!card.isHonored && !card.checkRestrictions('becomeDishonored', context)) {
+            return false;
         }
         return super.canAffect(card, context);
     }

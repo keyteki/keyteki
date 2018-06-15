@@ -31,8 +31,8 @@ class PutIntoPlayAction extends CardGameAction {
                 return false;
             }
             // controller is attacking, and character can't attack, or controller is defending, and character can't defend
-            if((context.player.isAttackingPlayer() && !card.checkRestrictions('participateAsAttacker', context)) || 
-                (context.player.isDefendingPlayer() && !card.checkRestrictions('participateAsDefender', context))) {
+            if((context.player.isAttackingPlayer() && !card.canParticipateAsAttacker()) || 
+                (context.player.isDefendingPlayer() && !card.canParticipateAsDefender())) {
                 return false;
             }
             // card cannot participate in this conflict type

@@ -15,6 +15,9 @@ class DisplayOfPower extends DrawCard {
     }
     
     onResolveRingEffect(event, context) {
+        if(event.cancelled) {
+            return;
+        }
         this.game.addMessage('{0} cancels the ring effect and {1} may resolve it and then claims it', context.source, context.player);
         let ring = this.game.currentConflict.ring;
         event.window.addEvent(GameActions.resolveRing().getEvent(ring, context));
@@ -26,4 +29,3 @@ class DisplayOfPower extends DrawCard {
 DisplayOfPower.id = 'display-of-power';
 
 module.exports = DisplayOfPower;
-

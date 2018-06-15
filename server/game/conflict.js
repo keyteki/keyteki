@@ -44,10 +44,6 @@ class Conflict extends GameObject {
     resetCards() {
         this.attackingPlayer.resetForConflict();
         this.defendingPlayer.resetForConflict();
-        if(this.ring) {
-            this.ring.resetRing();
-            this.ring = null;
-        }
         if(this.conflictProvince) {
             this.conflictProvince.inConflict = false;
         }

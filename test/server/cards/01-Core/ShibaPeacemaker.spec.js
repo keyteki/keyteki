@@ -14,10 +14,6 @@ describe('Shiba Peacemaker', function() {
         });
 
         describe('When Shiba Peacemaker is in play', function() {
-            it('should have an active ability restricion', function() {
-                expect(this.shibaPeacemaker1.getEffects('abilityRestrictions').length).toBe(1);
-            });
-
             it('should not be able to participate as an attacker', function() {
                 expect(this.shibaPeacemaker1.canParticipateAsAttacker('military')).toBe(false);
                 expect(this.shibaPeacemaker1.canParticipateAsAttacker('political')).toBe(false);
@@ -25,10 +21,6 @@ describe('Shiba Peacemaker', function() {
         });
 
         describe('When Shiba Peacemaker is in a province', function() {
-            it('should have an active ability restricion', function() {
-                expect(this.shibaPeacemaker2.getEffects('abilityRestrictions').length).toBe(1);
-            });
-
             it('should not be able to participate as an attacker', function() {
                 expect(this.shibaPeacemaker2.canParticipateAsAttacker('military')).toBe(false);
                 expect(this.shibaPeacemaker2.canParticipateAsAttacker('political')).toBe(false);

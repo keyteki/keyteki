@@ -83,7 +83,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
                 let targets = map.get(event.context.source) || [];
                 if(event.context.target) {
                     targets.push(event.context.target);
-                } else if(event.card !== event.context.source) {
+                } else if(event.card && event.card !== event.context.source) {
                     targets.push(event.card);
                 } else if(event.context.event && event.context.event.card) {
                     targets.push(event.context.event.card);

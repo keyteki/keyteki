@@ -21,7 +21,7 @@ class MoveToConflictAction extends CardGameAction {
         } else if(!card.canParticipateAsDefender()) {
             return false;
         }
-        return true;
+        return card.location === 'play area';
     }
 
     getEvent(card, context) {

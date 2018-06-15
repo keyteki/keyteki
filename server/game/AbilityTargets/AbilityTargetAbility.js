@@ -1,10 +1,15 @@
 const CardSelector = require('../CardSelector.js');
 
 class AbilityTargetAbility {
-    constructor(name, properties) {
+    constructor(name, properties, ability) {
         this.name = name;
         this.properties = properties;
         this.selector = this.getSelector(properties);
+        this.checkDependentTarget = context => true; // eslint-disable-line no-unused-vars
+        if(this.properties.dependsOn) {
+            let dependsOnTarget = ability.targets.find(target => target.name === this.properties.dependsOn);
+            dependsOnTarget.checkDependentTarget = context => this.hasLegalTarget(context);
+        }
     }
 
     getSelector(properties) {
@@ -16,7 +21,7 @@ class AbilityTargetAbility {
                 if(context.stage === 'pretarget' && !context.ability.canPayCosts(contextCopy)) {
                     return false;
                 }
-                return properties.cardCondition(card, contextCopy) &&
+                return properties.cardCondition(card, contextCopy) && this.checkDependentTarget(context) && 
                        properties.gameAction.some(gameAction => gameAction.hasLegalTarget(contextCopy));
             });
         };
@@ -24,6 +29,10 @@ class AbilityTargetAbility {
     }
 
     canResolve(context) {
+        return !!this.properties.dependsOn || this.hasLegalTarget(context);
+    }
+
+    hasLegalTarget(context) {
         return this.selector.hasEnoughTargets(context);
     }
 

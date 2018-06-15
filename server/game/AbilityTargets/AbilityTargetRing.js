@@ -1,7 +1,7 @@
 const _ = require('underscore');
 
 class AbilityTargetCard {
-    constructor(name, properties) {
+    constructor(name, properties, ability) {
         this.name = name;
         this.properties = _.omit(properties, 'ringCondition');
         this.properties.ringCondition = (ring, context) => {
@@ -11,28 +11,29 @@ class AbilityTargetCard {
                 contextCopy.ring = ring;
             }
             return (properties.gameAction.length === 0 || properties.gameAction.some(gameAction => gameAction.hasLegalTarget(context))) && 
-                   properties.ringCondition(ring, context) && context.ability.canPayCosts(context);
+                   properties.ringCondition(ring, context) && context.ability.canPayCosts(context) && this.checkDependentTarget(context);
         };
         for(let gameAction of this.properties.gameAction) {
             gameAction.getDefaultTargets = context => context.rings[name];
         }
+        this.checkDependentTarget = context => true; // eslint-disable-line no-unused-vars
+        if(this.properties.dependsOn) {
+            let dependsOnTarget = ability.targets.find(target => target.name === this.properties.dependsOn);
+            dependsOnTarget.checkDependentTarget = context => this.hasLegalTarget(context);
+        }
     }
 
     canResolve(context) {
+        return !!this.properties.dependsOn || this.hasLegalTarget(context);
+    }
+
+    hasLegalTarget(context) {
         return _.any(context.game.rings, ring => this.properties.ringCondition(ring, context));
     }
 
     getGameAction(context) {
         return this.properties.gameAction.filter(gameAction => gameAction.hasLegalTarget(context));
     }
-
-    getContextsForDependentTargets(context) {
-        return this.getAllLegalTargets(context).map(target => {
-            let contextCopy = context.copy();
-            contextCopy.rings[this.name] = target;
-            return contextCopy;
-        });
-    }    
 
     getAllLegalTargets(context) {
         return _.filter(context.game.rings, ring => this.properties.ringCondition(ring, context));

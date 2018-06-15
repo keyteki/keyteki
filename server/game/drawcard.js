@@ -464,25 +464,23 @@ class DrawCard extends BaseCard {
     }
     
     canDeclareAsAttacker(conflictType = this.game.currentConflict.conflictType) {
-        return (this.allowGameAction('declareAsAttacker') && !this.bowed && 
-                this.canParticipateAsAttacker(conflictType));
+        return (this.allowGameAction('declareAsAttacker') && this.canParticipateAsAttacker(conflictType) && 
+                this.location === 'play area' && !this.bowed);
     }
 
     canDeclareAsDefender(conflictType = this.game.currentConflict.conflictType) {
         return (this.allowGameAction('declareAsDefender') && this.canParticipateAsDefender(conflictType) && 
-                !this.bowed && !this.covert);
-    }
-
-    canParticipateInConflict(conflictType = this.game.currentConflict.conflictType) {
-        return this.location === 'play area' && !this.hasDash(conflictType);
+                this.location === 'play area' && !this.bowed && !this.covert);
     }
 
     canParticipateAsAttacker(conflictType = this.game.currentConflict.conflictType) {
-        return this.allowGameAction('participateAsAttacker') && this.canParticipateInConflict(conflictType);
+        let effects = this.getEffects('cannotParticipateAsAttacker');
+        return !effects.some(value => value === 'both' || value === conflictType) && !this.hasDash(conflictType);
     }
 
     canParticipateAsDefender(conflictType = this.game.currentConflict.conflictType) {
-        return this.allowGameAction('participateAsDefender') && this.canParticipateInConflict(conflictType);
+        let effects = this.getEffects('cannotParticipateAsDefender');
+        return !effects.some(value => value === 'both' || value === conflictType) && !this.hasDash(conflictType);
     }
 
     bowsOnReturnHome() {
