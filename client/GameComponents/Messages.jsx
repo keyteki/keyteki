@@ -103,7 +103,7 @@ class InnerMessages extends React.Component {
                             <b>{ fragment.name }</b>
                         </span>
                     </div>
-                );    
+                );
             } else if(fragment.id) {
                 if(fragment.type === 'ring') {
                     return this.formatMessageText(['the ', fragment.element, ' ring']);

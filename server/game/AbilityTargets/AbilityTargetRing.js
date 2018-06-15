@@ -10,7 +10,7 @@ class AbilityTargetCard {
             if(this.name === 'target') {
                 contextCopy.ring = ring;
             }
-            return (properties.gameAction.length === 0 || properties.gameAction.some(gameAction => gameAction.hasLegalTarget(context))) && 
+            return (properties.gameAction.length === 0 || properties.gameAction.some(gameAction => gameAction.hasLegalTarget(context))) &&
                    properties.ringCondition(ring, context) && context.ability.canPayCosts(context) && this.checkDependentTarget(context);
         };
         for(let gameAction of this.properties.gameAction) {

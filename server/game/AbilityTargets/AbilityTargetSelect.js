@@ -36,7 +36,7 @@ class AbilityTargetSelect {
         if(this.name === 'target') {
             contextCopy.select = key;
         }
-        return context.ability.canPayCosts(contextCopy) && this.checkDependentTarget(contextCopy) && 
+        return context.ability.canPayCosts(contextCopy) && this.checkDependentTarget(contextCopy) &&
                choice.some(gameAction => gameAction.hasLegalTarget(contextCopy));
     }
 

@@ -59,7 +59,7 @@ export class PlayerStatsRow extends React.Component {
                 <Clock secondsLeft={ this.getStatValueOrDefault('clockLeft') } mode={ clockMode } />
             </div>
         );
-    
+
         return (
             <div className='panel player-stats no-highlight'>
                 { playerAvatar }

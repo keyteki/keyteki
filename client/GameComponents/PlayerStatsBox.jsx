@@ -59,7 +59,7 @@ export class PlayerStatsBox extends React.Component {
                 <Clock secondsLeft={ this.getStatValueOrDefault('clockLeft') } mode={ clockMode } />
             </div>
         );
-            
+
         return (
             <div className='panel player-stats'>
                 <div className='stats-row'>

@@ -21,7 +21,7 @@ class AbilityTargetAbility {
                 if(context.stage === 'pretarget' && !context.ability.canPayCosts(contextCopy)) {
                     return false;
                 }
-                return properties.cardCondition(card, contextCopy) && this.checkDependentTarget(context) && 
+                return properties.cardCondition(card, contextCopy) && this.checkDependentTarget(context) &&
                        properties.gameAction.some(gameAction => gameAction.hasLegalTarget(contextCopy));
             });
         };

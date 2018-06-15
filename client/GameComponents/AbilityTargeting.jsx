@@ -25,10 +25,10 @@ class AbilityTargeting extends React.Component {
                     src={ '/img/cards/' + (!card.facedown ? (card.id + '.jpg') : 'cardback.jpg') } />
             </div>);
     }
-    
+
     renderSimpleRing(ring) {
         return (
-            <div className='target-card vertical'>    
+            <div className='target-card vertical'>
                 <img className='target-card-image vertical'
                     alt={ ring.name }
                     src={ '/img/' + ring.conflictType + '-' + ring.element + '.png' } />
@@ -37,7 +37,7 @@ class AbilityTargeting extends React.Component {
 
     renderStringChoice(string) {
         return (
-            <div className='target-card vertical'>    
+            <div className='target-card vertical'>
                 { string }
             </div>);
     }

@@ -252,7 +252,7 @@ class InnerProfile extends React.Component {
                                 Timed Bluff Window
                             </div>
                             <div className='panel'>
-                                <p className='help-block small'>Sometimes, it is useful to have the game prompt you to play an event, even when you can't play one, as it makes it more difficult for your opponent to deduce what you have in your hand. This 'bluff' window has a timer will count down.  
+                                <p className='help-block small'>Sometimes, it is useful to have the game prompt you to play an event, even when you can't play one, as it makes it more difficult for your opponent to deduce what you have in your hand. This 'bluff' window has a timer will count down.
                                 At the end of that timer, the window will automatically pass. This option controls the duration of the timer.  The timer will only show when you *don't* have an ability which can be used. The timer can be configure to show when events are played by your opponent, or
                                 to show when there's a window to play an event which you don't currently have in your hand.</p>
                                 <div className='form-group'>
