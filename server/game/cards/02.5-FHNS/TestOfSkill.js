@@ -33,7 +33,7 @@ class TestOfSkill extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Reveal cards and take ones matching named type',
-            condition: context => context.player.conflictDeck.size() >= context.player.cardsInPlay.any(card => card.hasTrait('duelist')) ? 3 : 4, 
+            condition: context => context.player.conflictDeck.size() >= context.player.cardsInPlay.any(card => card.hasTrait('duelist')) ? 3 : 4,
             cost: [ability.costs.revealCards(context => context.player.conflictDeck.first(
                 context.player.cardsInPlay.any(card => card.hasTrait('duelist')) ? 3 : 4
             )), testOfSkillCost()],
@@ -71,7 +71,7 @@ class TestOfSkill extends DrawCard {
                             cards: matchingCards,
                             cardHandler: card => {
                                 matchingCards = takeCardHandler(card);
-                                discardHandler();                                        
+                                discardHandler();
                             },
                             choices: ['Done'],
                             handlers: [discardHandler]

@@ -74,11 +74,11 @@ class GameObject {
     getTraits() {
         return [];
     }
-            
+
     isFaction() {
         return false;
     }
-            
+
     hasToken() {
         return false;
     }

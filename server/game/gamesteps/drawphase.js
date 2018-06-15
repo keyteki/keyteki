@@ -32,7 +32,7 @@ class DrawPhase extends Phase {
     drawConflictCards() {
         for(let player of this.game.getPlayers()) {
             this.game.addMessage('{0} draws {1} cards for the draw phase', player, player.honorBid);
-            GameActions.draw({ amount: player.honorBid }).resolve(player, this.game.getFrameworkContext());    
+            GameActions.draw({ amount: player.honorBid }).resolve(player, this.game.getFrameworkContext());
         }
     }
 }

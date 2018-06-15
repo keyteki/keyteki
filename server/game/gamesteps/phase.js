@@ -22,7 +22,7 @@ class Phase extends BaseStepWithPipeline {
             }
             if(this.name !== 'setup') {
                 this.game.addAlert('endofround', 'turn: {0} - {1} phase', this.game.roundNumber, this.name);
-            }    
+            }
         });
     }
 

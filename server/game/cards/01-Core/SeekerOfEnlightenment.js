@@ -8,14 +8,14 @@ class SeekerOfEnlightenment extends DrawCard {
             effect: ability.effects.modifyBothSkills(() => this.getFateOnRings())
         });
     }
-    
+
     getFateOnRings() {
         return _.reduce(this.game.rings, (fate, ring) => {
             if(ring.isUnclaimed()) {
                 return fate + ring.fate;
             }
             return fate;
-        }, 0); 
+        }, 0);
     }
 }
 

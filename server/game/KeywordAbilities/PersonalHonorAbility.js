@@ -4,8 +4,8 @@ class PersonalHonorAbility extends TriggeredAbility {
     constructor(game, card) {
         super(game, card, 'forcedinterrupt', {
             when: {
-                onCardLeavesPlay: (event, context) => event.card === context.source && 
-                                                      context.source.allowGameAction('affectedByHonor') && 
+                onCardLeavesPlay: (event, context) => event.card === context.source &&
+                                                      context.source.allowGameAction('affectedByHonor') &&
                                                       (context.source.isHonored || context.source.isDishonored)
             },
             title: card.name + '\'s Personal Honor',

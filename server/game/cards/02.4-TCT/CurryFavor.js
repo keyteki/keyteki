@@ -6,7 +6,7 @@ class CurryFavor extends DrawCard {
             title: 'Ready a character',
             when: {
                 onReturnHome: (event, context) => event.conflict.attackingPlayer === context.player && event.card.controller === context.player &&
-                                                  this.game.completedConflicts.filter(conflict => conflict.attackingPlayer === context.player).length > 1 && 
+                                                  this.game.completedConflicts.filter(conflict => conflict.attackingPlayer === context.player).length > 1 &&
                                                   !event.bowEvent.cancelled
             },
             cannotBeMirrored: true,

@@ -353,7 +353,7 @@ class Player extends GameObject {
         this.dynastyDeck = _(this.dynastyDeck.shuffle());
     }
 
-    /** 
+    /**
      * Returns the number of conflict opportunities remaining for this player
      * @param {String} type - one of 'military', 'political', ''
      * @returns {Number} opportunities remaining
@@ -659,8 +659,8 @@ class Player extends GameObject {
 
     /**
      * Checks whether card.type is consistent with location
-     * @param {BaseCard} card 
-     * @param {String} location 
+     * @param {BaseCard} card
+     * @param {String} location
      */
     isLegalLocationForCard(card, location) {
         if(!card) {
@@ -1045,7 +1045,7 @@ class Player extends GameObject {
         }
 
         if(this.isTopConflictCardShown()) {
-            state.conflictDeckTopCard = this.conflictDeck.first().getSummary(activePlayer); 
+            state.conflictDeckTopCard = this.conflictDeck.first().getSummary(activePlayer);
         }
 
         return _.extend(state, promptState);

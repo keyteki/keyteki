@@ -45,7 +45,7 @@ class RandomDiscardAction extends PlayerAction {
             } else if(event.cards.length === 1) {
                 let card = event.cards[0];
                 player.moveCard(card, card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile');
-            }            
+            }
         });
     }
 }

@@ -163,7 +163,7 @@ describe('Duelist Training', function() {
                 expect(this.player1).toHavePrompt('Choose an ability:');
                 this.player1.clickPrompt('Initiate a duel to bow');
                 expect(this.player1).toHavePrompt('Giver of Gifts');
-                expect(this.player1).toBeAbleToSelect(this.seppunGuardsman);                
+                expect(this.player1).toBeAbleToSelect(this.seppunGuardsman);
             });
 
             it('should reset the limit of the abilitiy if DT leaves play', function() {

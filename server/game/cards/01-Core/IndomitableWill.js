@@ -6,7 +6,7 @@ class IndomitableWill extends DrawCard {
             title: 'Prevent a character from bowing at the end of the conflict',
             when: {
                 afterConflict: (event, context) => event.conflict.winner === context.player &&
-                                                   event.conflict.getCharacters(context.player).length === 1 
+                                                   event.conflict.getCharacters(context.player).length === 1
             },
             cannotBeMirrored: true,
             effect: 'prevent {1} from bowing as a result of the conflict\'s resolution',

@@ -88,7 +88,7 @@ class EventWindow extends BaseStepWithPipeline {
             _.each(contingentEvents, event => this.addEvent(event));
         }
     }
-    
+
     // This catches any persistent/delayed effect cancels
     checkForOtherEffects() {
         _.each(this.events, event => this.game.emit(event.name + 'OtherEffects', event));
@@ -97,10 +97,10 @@ class EventWindow extends BaseStepWithPipeline {
     preResolutionEffects() {
         _.each(this.events, event => event.preResolutionEffect());
     }
-    
+
     executeHandler() {
         this.events = _.sortBy(this.events, 'order');
-        
+
         _.each(this.events, event => {
             // need to checkCondition here to ensure the event won't fizzle due to another event's resolution (e.g. double honoring an ordinary character with YR etc.)
             event.checkCondition();

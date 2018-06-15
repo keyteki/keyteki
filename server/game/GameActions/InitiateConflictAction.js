@@ -28,8 +28,8 @@ class InitiateConflictAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent('onConflictInitiated', { 
-            player: player, 
+        return super.createEvent('onConflictInitiated', {
+            player: player,
             context: context
         }, () => context.game.initiateConflict(player, this.canPass));
     }

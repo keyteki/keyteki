@@ -416,7 +416,7 @@ class PlayerInteractionWrapper {
             this.player.moveCard(card, 'play area');
         }
         card.facedown = false;
-        return card;        
+        return card;
     }
 
     hasPrompt(title) {

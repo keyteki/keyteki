@@ -4,7 +4,7 @@ class AttachAction extends CardGameAction {
     setDefaultProperties() {
         this.attachment = null;
     }
-    
+
     setup() {
         this.name = 'attach';
         this.targetType = ['character'];

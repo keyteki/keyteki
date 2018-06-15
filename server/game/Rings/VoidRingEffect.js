@@ -3,7 +3,7 @@ const GameActions = require('../GameActions/GameActions');
 
 class VoidRingEffect extends BaseAbility {
     constructor(optional = true) {
-        super({ 
+        super({
             target: {
                 activePromptTitle: 'Choose character to remove fate from',
                 source: 'Void Ring',

@@ -35,7 +35,7 @@ class ThePerfectGift extends DrawCard {
                     cardHandler: card => {
                         this.game.addMessage('{0} chooses {1} to give themself', context.player, card);
                         context.player.moveCard(card, 'hand');
-                        context.player.shuffleConflictDeck();                    
+                        context.player.shuffleConflictDeck();
                     }
                 }));
             }

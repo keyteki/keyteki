@@ -8,7 +8,7 @@ class KabukiHero extends DrawCard {
             condtion: () => this.game.isDuringConflict(),
             effect: 'give itself +{1}{2}/+0{3} until the end of the conflict',
             effectArgs: context => [context.source.politicalSkill, 'military', 'political'],
-            gameAction: ability.actions.cardLastingEffect(context => ({ 
+            gameAction: ability.actions.cardLastingEffect(context => ({
                 effect: ability.effects.modifyMilitarySkill(context.source.politicalSkill)
             }))
         });

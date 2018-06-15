@@ -213,7 +213,7 @@ const Costs = {
                         result.resolved = true;
                     };
                 });
-                
+
                 if(extrafate > max) {
                     choices[3] = 'More';
                     handlers[3] = () => {
@@ -244,13 +244,13 @@ const Costs = {
                         });
                     };
                 }
-                
+
                 choices.push('Cancel');
                 handlers.push(() => {
                     result.value = false;
                     result.resolved = true;
                 });
-                
+
                 context.game.promptWithHandlerMenu(context.player, {
                     activePromptTitle: 'Choose additional fate',
                     source: context.source,

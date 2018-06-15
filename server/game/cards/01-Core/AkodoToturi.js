@@ -5,7 +5,7 @@ class AkodoToturi extends DrawCard {
         this.reaction({
             title: 'Resolve ring effect',
             when: {
-                onClaimRing: (event, context) => this.game.isDuringConflict('military') && context.source.isParticipating() && 
+                onClaimRing: (event, context) => this.game.isDuringConflict('military') && context.source.isParticipating() &&
                                                  event.player === context.player
             },
             gameAction: ability.actions.resolveRing({ attackingPlayer: false })

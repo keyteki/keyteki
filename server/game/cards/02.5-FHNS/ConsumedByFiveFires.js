@@ -59,6 +59,6 @@ class ConsumedByFiveFires extends DrawCard {
     }
 }
 
-ConsumedByFiveFires.id = 'consumed-by-five-fires'; 
+ConsumedByFiveFires.id = 'consumed-by-five-fires';
 
 module.exports = ConsumedByFiveFires;

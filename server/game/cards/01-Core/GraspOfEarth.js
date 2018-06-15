@@ -16,7 +16,7 @@ class GraspOfEarth extends DrawCard {
                     effect: ability.effects.playerCannot('play', context => context.source.type === 'character' && context.source.location === 'hand')
                 })
             ]
-        });      
+        });
     }
 
     canAttach(card, context) {

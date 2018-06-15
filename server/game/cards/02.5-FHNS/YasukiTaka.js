@@ -5,7 +5,7 @@ class YasukiTaka extends DrawCard {
         this.reaction({
             title: 'Gain fate',
             when: {
-                onCardLeavesPlay: event => this.game.currentPhase === 'conflict' && event.cardStateWhenLeftPlay.isFaction('crab') > 0 && 
+                onCardLeavesPlay: event => this.game.currentPhase === 'conflict' && event.cardStateWhenLeftPlay.isFaction('crab') > 0 &&
                                            event.cardStateWhenLeftPlay.type === 'character'
             },
             limit: ability.limit.perPhase(Infinity),

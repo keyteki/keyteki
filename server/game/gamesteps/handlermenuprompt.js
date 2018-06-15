@@ -4,7 +4,7 @@ const EffectSource = require('../EffectSource.js');
 const UiPrompt = require('./uiprompt.js');
 
 /**
- * General purpose menu prompt. Takes a choices object with menu options and 
+ * General purpose menu prompt. Takes a choices object with menu options and
  * a handler for each. Handlers should return true in order to complete the
  * prompt.
  *

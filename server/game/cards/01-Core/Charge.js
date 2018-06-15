@@ -7,7 +7,7 @@ class Charge extends DrawCard {
             condition: () => this.game.currentConflict && this.game.currentConflict.conflictType === 'military',
             target: {
                 cardType: 'character',
-                location: 'province', 
+                location: 'province',
                 controller: 'self',
                 gameAction: ability.actions.putIntoConflict()
             }

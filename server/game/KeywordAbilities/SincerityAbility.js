@@ -4,7 +4,7 @@ class SincerityAbility extends TriggeredAbility {
     constructor(game, card) {
         super(game, card, 'forcedinterrupt', {
             when: {
-                onCardLeavesPlay: (event, context) => event.card === context.source && 
+                onCardLeavesPlay: (event, context) => event.card === context.source &&
                                                       context.source.hasSincerity()
             },
             title: card.name + '\'s Sincerity',

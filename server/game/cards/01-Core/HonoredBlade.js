@@ -5,7 +5,7 @@ class HonoredBlade extends DrawCard {
         this.reaction({
             title: 'Gain 1 honor',
             when: {
-                afterConflict: (event, context) => context.source.parent.isParticipating() && 
+                afterConflict: (event, context) => context.source.parent.isParticipating() &&
                                                    event.conflict.winner === context.source.parent.controller
             },
             gameAction: ability.actions.gainHonor()

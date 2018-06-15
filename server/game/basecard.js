@@ -173,19 +173,19 @@ class BaseCard extends EffectSource {
     canTriggerAbilities(context) {
         return !this.facedown && (this.checkRestrictions('triggerAbilities', context) || !context.ability.isTriggeredAbility());
     }
-    
+
     getModifiedLimitMax(max) {
         return this.sumEffects('increaseLimitOnAbilities') + max;
     }
-    
+
     getMenu() {
         var menu = [];
 
-        if(this.menu.isEmpty() || !this.game.manualMode || 
+        if(this.menu.isEmpty() || !this.game.manualMode ||
                 !['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province','play area'].includes(this.location)) {
             return undefined;
         }
-        
+
         if(this.facedown) {
             return [{ command: 'reveal', text: 'Reveal' }];
         }
@@ -194,7 +194,7 @@ class BaseCard extends EffectSource {
         if(this.location === 'play area' || this.isProvince || this.isStronghold) {
             menu = menu.concat(this.menu.value());
         }
-        
+
         return menu;
     }
 
@@ -225,7 +225,7 @@ class BaseCard extends EffectSource {
     getPrintedFaction() {
         return this.cardData.clan;
     }
-    
+
     checkRestrictions(actionType, context = null) {
         return super.checkRestrictions(actionType, context) && this.controller.checkRestrictions(actionType, context);
     }
@@ -267,14 +267,14 @@ class BaseCard extends EffectSource {
         let isActivePlayer = activePlayer === this.owner;
 
         if(!isActivePlayer && (this.facedown || hideWhenFaceup) && this.isProvince) {
-            return { 
+            return {
                 uuid: this.uuid,
                 inConflict: this.inConflict,
                 facedown: true};
         }
 
         if(!isActivePlayer && (this.facedown || hideWhenFaceup)) {
-            return { 
+            return {
                 facedown: true};
         }
 

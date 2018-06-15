@@ -67,7 +67,7 @@ class UiPrompt extends BaseStep {
             player.cancelPrompt();
         });
     }
-    
+
     onMenuCommand(player, arg, uuid, method) {
         if(!this.activeCondition(player) || uuid !== this.uuid) {
             return false;
@@ -75,7 +75,7 @@ class UiPrompt extends BaseStep {
 
         return this.menuCommand(player, arg, method);
     }
-    
+
     menuCommand(player, arg, method) { // eslint-disable-line no-unused-vars
         return true;
     }

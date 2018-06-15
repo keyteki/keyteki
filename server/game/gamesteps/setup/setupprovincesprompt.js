@@ -17,7 +17,7 @@ class SetupProvincesPrompt extends AllPlayerPrompt {
         card.selected = true;
         player.selectedProvince = card;
         this.game.addMessage('{0} has finished selecting a stronghold province', player);
-        return true;     
+        return true;
     }
 
     activePrompt() {

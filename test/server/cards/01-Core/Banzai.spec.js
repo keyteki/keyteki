@@ -31,7 +31,7 @@ describe('Banzai!', function() {
                 this.player1.clickCard(this.banzai);
                 expect(this.player1).toHavePrompt('Banzai!');
                 expect(this.player1).toBeAbleToSelect(this.miyaMystic);
-                expect(this.player1).not.toBeAbleToSelect(this.seppunGuardsman);                
+                expect(this.player1).not.toBeAbleToSelect(this.seppunGuardsman);
             });
 
             it('should give +2/+0', function() {
@@ -72,8 +72,8 @@ describe('Banzai!', function() {
                 this.player1.clickCard(this.miyaMystic);
                 this.player1.clickPrompt('Lose 1 honor to resolve this ability again');
                 expect(this.player1).toHavePrompt('Choose a character');
-                expect(this.player1).toBeAbleToSelect(this.miyaMystic);                
-                expect(this.player1).toBeAbleToSelect(this.seppunGuardsman);                
+                expect(this.player1).toBeAbleToSelect(this.miyaMystic);
+                expect(this.player1).toBeAbleToSelect(this.seppunGuardsman);
             });
 
             it('should deduct an honor and give an extra +2/+0', function() {
@@ -91,7 +91,7 @@ describe('Banzai!', function() {
                 expect(this.miyaMystic.getMilitarySkill()).toBe(5);
                 expect(this.miyaMystic.getPoliticalSkill()).toBe(1);
                 expect(this.player1.player.honor).toBe(9);
-                expect(this.player2).toHavePrompt('Conflict Action Window');         
+                expect(this.player2).toHavePrompt('Conflict Action Window');
             });
 
             it('should give the player an opportunity to lose a 2nd honor', function() {
@@ -109,10 +109,10 @@ describe('Banzai!', function() {
                 this.player1.clickPrompt('Lose 1 honor for no effect');
                 expect(this.miyaMystic.getMilitarySkill()).toBe(5);
                 expect(this.miyaMystic.getPoliticalSkill()).toBe(1);
-                expect(this.player1.player.honor).toBe(8);   
-                expect(this.player2).toHavePrompt('Conflict Action Window');         
+                expect(this.player1.player.honor).toBe(8);
+                expect(this.player2).toHavePrompt('Conflict Action Window');
             });
-            
+
             it('shouldn\'t be usable twice in a single conflict', function() {
                 this.initiateConflict({
                     type: 'military',
@@ -135,7 +135,7 @@ describe('Banzai!', function() {
                     attackers: [this.miyaMystic, this.seppunGuardsman],
                     defenders: []
                 });
-                this.player2.putIntoPlay(this.bayushiLiar);                
+                this.player2.putIntoPlay(this.bayushiLiar);
                 this.player2.pass();
                 this.player1.clickCard(this.banzai);
                 this.player1.clickCard(this.miyaMystic);
@@ -145,7 +145,7 @@ describe('Banzai!', function() {
                 this.player2.clickCard(this.bayushiLiar);
                 expect(this.player2).toHavePrompt('Conflict Action Window');
                 expect(this.miyaMystic.getMilitarySkill()).toBe(1);
-                expect(this.miyaMystic.getPoliticalSkill()).toBe(1);                
+                expect(this.miyaMystic.getPoliticalSkill()).toBe(1);
             });
 
             it('should allow cancelling at second prompt', function() {
@@ -167,8 +167,8 @@ describe('Banzai!', function() {
                 this.player2.clickCard(this.bayushiLiar);
                 expect(this.player2).toHavePrompt('Conflict Action Window');
                 expect(this.miyaMystic.getMilitarySkill()).toBe(3);
-                expect(this.miyaMystic.getPoliticalSkill()).toBe(1);                                
-                expect(this.player1.player.honor).toBe(9);   
+                expect(this.miyaMystic.getPoliticalSkill()).toBe(1);
+                expect(this.player1.player.honor).toBe(9);
             });
         });
     });

@@ -13,7 +13,7 @@ class DisplayOfPower extends DrawCard {
             handler: context => this.game.once('onResolveRingEffect:cancelinterrupt', event => this.onResolveRingEffect(event, context))
         });
     }
-    
+
     onResolveRingEffect(event, context) {
         if(event.cancelled) {
             return;

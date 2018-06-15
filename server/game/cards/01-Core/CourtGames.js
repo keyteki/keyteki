@@ -15,7 +15,7 @@ class CourtGames extends DrawCard {
                             cardType: 'character',
                             controller: 'self',
                             cardCondition: card => card.isParticipating() && card.allowGameAction('target', context),
-                            message: '{0} chooses to honor {1}'    
+                            message: '{0} chooses to honor {1}'
                         }
                     })),
                     'Dishonor an opposing character': ability.actions.dishonor(context => ({

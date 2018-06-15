@@ -10,10 +10,10 @@ III Conflict Phase
     ACTION WINDOW
     NOTE: After this action window, if no conflict
     opporunities remain, proceed to (3.4).
-3.2 Next player in player order declares a 
+3.2 Next player in player order declares a
     conflict(go to Conflict Resolution), or passes
     (go to 3.3).
-3.3 Conflict Ends/Conflict was passed. Return to 
+3.3 Conflict Ends/Conflict was passed. Return to
     the action window following step (3.1).
 3.4 Determine Imperial Favor.
 3.4.1 Glory count.
@@ -50,10 +50,10 @@ class ConflictPhase extends Phase {
             if(this.currentPlayer.opponent) {
                 this.currentPlayer = this.currentPlayer.opponent;
             }
-            this.game.queueStep(new ActionWindow(this.game, 'Action Window', 'preConflict'));            
+            this.game.queueStep(new ActionWindow(this.game, 'Action Window', 'preConflict'));
             this.game.queueStep(new SimpleStep(this.game, () => this.startConflictChoice()));
         } else {
-            this.game.queueStep(new SimpleStep(this.game, () => this.claimImperialFavor()));            
+            this.game.queueStep(new SimpleStep(this.game, () => this.claimImperialFavor()));
         }
     }
 

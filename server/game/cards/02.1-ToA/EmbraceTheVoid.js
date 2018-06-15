@@ -12,12 +12,12 @@ class EmbraceTheVoid extends DrawCard {
             handler: context => context.event.recipient = context.player
         });
     }
-    
+
     canPlay(context) {
         if(!this.controller.cardsInPlay.any(card => card.getType() === 'character' && card.hasTrait('shugenja'))) {
             return false;
         }
-        
+
         return super.canPlay(context);
     }
 }

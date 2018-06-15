@@ -4,7 +4,7 @@ class KitsukiInvestigator extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Look at opponent\'s hand',
-            condition: context => context.source.isParticipating() && this.game.isDuringConflict('political') && 
+            condition: context => context.source.isParticipating() && this.game.isDuringConflict('political') &&
                                   context.player.opponent && context.player.opponent.hand.size() > 0,
             cost: ability.costs.payFateToRing(),
             effect: 'reveal {1}\'s hand: {2}',

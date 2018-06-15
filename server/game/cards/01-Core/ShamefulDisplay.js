@@ -55,10 +55,10 @@ class ShamefulDisplay extends ProvinceCard {
             handlers: handlers
         });
     }
-    
+
     chooseCharacter(choice, cards, context) {
         let promptTitle = 'Choose a character to dishonor';
-        let condition = card => cards.includes(card) && card.allowGameAction('dishonor', context);            
+        let condition = card => cards.includes(card) && card.allowGameAction('dishonor', context);
         if(choice === 'Honor') {
             promptTitle = 'Choose a character to honor';
             condition = card => cards.includes(card) && card.allowGameAction('honor', context);
@@ -73,7 +73,7 @@ class ShamefulDisplay extends ProvinceCard {
                 if(choice === 'Honor') {
                     this.resolveShamefulDisplay(context, card, otherCard);
                 } else {
-                    this.resolveShamefulDisplay(context, otherCard, card);                    
+                    this.resolveShamefulDisplay(context, otherCard, card);
                 }
                 return true;
             },
@@ -85,7 +85,7 @@ class ShamefulDisplay extends ProvinceCard {
             }
         });
     }
-    
+
     resolveShamefulDisplay(context, cardToHonor, cardToDishonor) {
         this.game.applyGameAction(context, { honor: cardToHonor, dishonor: cardToDishonor });
     }

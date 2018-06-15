@@ -15,7 +15,7 @@ class RingAction extends GameAction {
         let result = super.hasLegalTarget(context);
         if(this.promptForSelect) {
             return _.any(context.game.rings, ring => (
-                this.canAffect(ring, context) && 
+                this.canAffect(ring, context) &&
                 (!this.promptForSelect.ringCondition || this.promptForSelect.ringCondition(ring, context))
             ));
         }

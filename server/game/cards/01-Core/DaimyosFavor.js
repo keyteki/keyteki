@@ -18,7 +18,7 @@ class DaimyosFavor extends DrawCard {
             }))
         });
     }
-    
+
     canAttach(card, context) {
         if(card.controller !== context.player) {
             return false;

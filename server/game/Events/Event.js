@@ -24,7 +24,7 @@ class Event {
             this.window.removeEvent(this);
         }
     }
-    
+
     setWindow(window) {
         this.window = window;
     }
@@ -40,7 +40,7 @@ class Event {
     preResolutionEffect() {
         return;
     }
-    
+
     checkCondition() {
         if(this.cancelled || this.resolved) {
             return;
@@ -54,7 +54,7 @@ class Event {
             this.cancel();
         }
     }
-    
+
     executeHandler() {
         this.resolved = true;
         if(this.handler) {

@@ -4,7 +4,7 @@ class CourtesyAbility extends TriggeredAbility {
     constructor(game, card) {
         super(game, card, 'forcedinterrupt', {
             when: {
-                onCardLeavesPlay: (event, context) => event.card === context.source && 
+                onCardLeavesPlay: (event, context) => event.card === context.source &&
                                                       context.source.hasCourtesy()
             },
             title: card.name + '\'s Courtesy',

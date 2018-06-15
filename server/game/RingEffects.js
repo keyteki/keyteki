@@ -28,7 +28,7 @@ class RingEffects {
         if(!factory) {
             throw new Error(`Unknown ring effect of ${element}`);
         }
-        
+
         return (new AbilityContext({
             game: player.game,
             player: player,
@@ -36,7 +36,7 @@ class RingEffects {
             ability: factory(optional)
         }));
     }
-    
+
     static getRingName(element) {
         return RingNames[element];
     }

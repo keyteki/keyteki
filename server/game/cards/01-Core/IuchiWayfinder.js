@@ -14,7 +14,7 @@ class IuchiWayfinder extends DrawCard {
                     cardType: 'province',
                     locations: 'province',
                     controller: 'opponent',
-                    cardCondition: card => card.facedown                       
+                    cardCondition: card => card.facedown
                 }
             })
         });

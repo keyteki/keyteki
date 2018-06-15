@@ -16,7 +16,7 @@ class Banzai extends DrawCard {
             effect: 'grant 2 military skill to {0}',
             then: context => {
                 if(context.isResolveAbility) {
-                    return { 
+                    return {
                         target: {
                             mode: 'select',
                             choices: {

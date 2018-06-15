@@ -8,11 +8,11 @@ class BayushiShoju extends DrawCard {
             condition: context => context.source.isParticipating() && this.game.currentConflict.conflictType === 'political',
             target: {
                 cardType: 'character',
-                controller: 'opponent', 
+                controller: 'opponent',
                 cardCondition: card => card.isParticipating(),
                 gameAction: ability.actions.cardLastingEffect(context => ({
                     effect: [
-                        ability.effects.modifyPoliticalSkill(-1), 
+                        ability.effects.modifyPoliticalSkill(-1),
                         ability.effects.terminalCondition({
                             condition: () => context.target.getPoliticalSkill() < 1,
                             message: '{1} is discarded due to {0}\'s lasting effect',

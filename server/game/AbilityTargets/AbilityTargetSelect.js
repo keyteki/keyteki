@@ -103,7 +103,7 @@ class AbilityTargetSelect {
         }
         return result;
     }
-    
+
     checkTarget(context) {
         return this.isChoiceLegal(context.selects[this.name].choice, context);
     }

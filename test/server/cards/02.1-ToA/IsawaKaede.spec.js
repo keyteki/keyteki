@@ -89,7 +89,7 @@ describe('Isawa Kaede', function() {
                 this.player2.clickRing('void');
                 expect(this.player2).toHavePrompt('Void Ring');
                 expect(this.player2).toBeAbleToSelect(this.shibaTsukune);
-                expect(this.player2).not.toBeAbleToSelect(this.isawaKaede);                
+                expect(this.player2).not.toBeAbleToSelect(this.isawaKaede);
             });
 
             it('should allow the defender to resolve multiple rings when Display of Power is played', function() {

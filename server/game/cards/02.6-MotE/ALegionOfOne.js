@@ -16,7 +16,7 @@ class ALegionOfOne extends DrawCard {
             effect: 'give {0} +3/+0',
             then: context => {
                 if(context.isResolveAbility) {
-                    return { 
+                    return {
                         target: {
                             mode: 'select',
                             choices: {
@@ -39,7 +39,7 @@ class ALegionOfOne extends DrawCard {
                     message: '{0} chooses {3}to remove a fate to resolve {1} again',
                     messageArgs: context => context.select === 'Done' ? 'not ' : '',
                     then: { gameAction: ability.actions.resolveAbility({ ability: context.ability }) }
-                };                
+                };
             }
         });
     }

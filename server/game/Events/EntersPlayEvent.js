@@ -9,7 +9,7 @@ class EntersPlayEvent extends Event {
         this.gameAction = gameAction;
         this.originalLocation = card.location;
     }
-    
+
     entersPlay() {
         this.card.new = true;
         if(this.fate) {

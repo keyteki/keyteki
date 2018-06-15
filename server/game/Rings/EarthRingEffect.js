@@ -2,7 +2,7 @@ const BaseAbility = require('../baseability.js');
 
 class EarthRingEffect extends BaseAbility {
     constructor(optional = true) {
-        super({ 
+        super({
             target: {
                 mode: 'select',
                 activePromptTitle: 'Choose an effect to resolve',

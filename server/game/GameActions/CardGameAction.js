@@ -7,7 +7,7 @@ class CardGameAction extends GameAction {
         this.promptForSelect = null;
         this.promptWithHandlerMenu = null;
     }
-    
+
     setup() {
         this.targetType = ['character', 'attachment', 'holding', 'event', 'stronghold', 'province', 'role'];
     }

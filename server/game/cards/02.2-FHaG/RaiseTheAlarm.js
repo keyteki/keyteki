@@ -18,7 +18,7 @@ class RaiseTheAlarm extends DrawCard {
                         ability.actions.putIntoConflict().resolve(card, context);
                     } else {
                         this.game.addMessage('{0} is revealed but cannot be brought into the conflict!', card);
-                    }    
+                    }
                 }
             })
         });

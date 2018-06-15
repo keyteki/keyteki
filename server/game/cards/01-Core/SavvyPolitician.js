@@ -8,7 +8,7 @@ class SavvyPolitician extends DrawCard {
                 'onCardHonored': (event, context) => event.card === context.source
             },
             target: {
-                cardType: 'character', 
+                cardType: 'character',
                 gameAction: ability.actions.honor()
             }
         });

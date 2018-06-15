@@ -102,7 +102,7 @@ describe('A Fate Worse Than Death', function() {
                 expect(this.defender.bowed).toBe(false);
                 expect(this.defender.inConflict).toBe(true);
             });
-            
+
             it('should still be affected by the other effects', function() {
                 expect(this.defender.isDishonored).toBe(true);
                 expect(this.defender.fate).toBe(0);
@@ -130,7 +130,7 @@ describe('A Fate Worse Than Death', function() {
                 expect(this.game.currentPhase).toBe('fate');
                 expect(this.witchHunter.location).toBe('play area');
                 expect(this.witchHunter.attachments.toArray()).toContain(this.watchCommander);
-                expect(this.watchCommander.location).toBe('play area');                
+                expect(this.watchCommander.location).toBe('play area');
             });
         });
     });

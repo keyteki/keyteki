@@ -5,7 +5,7 @@ class IronMine extends DrawCard {
         this.wouldInterrupt({
             title: 'Prevent a character from leaving play',
             when: {
-                onCardLeavesPlay: (event, context) => event.card.controller === context.player && event.card.type === 'character' && 
+                onCardLeavesPlay: (event, context) => event.card.controller === context.player && event.card.type === 'character' &&
                                                       context.source.allowGameAction('sacrifice', context)
             },
             effect: 'prevent {0} from leaving play',

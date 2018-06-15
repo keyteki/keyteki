@@ -10,7 +10,7 @@ xdescribe('Game', function() {
 
         this.source = new Player('1', { username: 'Player 1', settings: {} }, true, this.game);
         this.target = new Player('1', { username: 'Player 2', settings: {} }, true, this.game);
-        
+
         this.source.name = 'Player 1';
         this.target.name = 'Player 2';
         this.game.playersAndSpectators[this.target.name] = this.target;

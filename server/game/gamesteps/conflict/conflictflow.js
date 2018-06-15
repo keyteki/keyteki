@@ -86,7 +86,7 @@ class ConflictFlow extends BaseStepWithPipeline {
         if(this.conflict.conflictPassed) {
             return;
         }
-        
+
         _.each(this.conflict.attackers, card => card.inConflict = true);
         this.game.addMessage('{0} is initiating a {1} conflict at {2}, contesting {3}', this.conflict.attackingPlayer, this.conflict.conflictType, this.conflict.conflictProvince, this.conflict.ring);
     }
@@ -157,9 +157,9 @@ class ConflictFlow extends BaseStepWithPipeline {
             return;
         }
 
-        let events = [this.game.getEvent('onConflictDeclared', { 
-            conflict: this.conflict, 
-            type: this.conflict.conflictType, 
+        let events = [this.game.getEvent('onConflictDeclared', {
+            conflict: this.conflict,
+            type: this.conflict.conflictType,
             ring: this.conflict.ring
         })];
 
@@ -223,7 +223,7 @@ class ConflictFlow extends BaseStepWithPipeline {
 
         this.game.raiseEvent('onDefendersDeclared', { conflict: this.conflict });
     }
-    
+
     openConflictActionWindow() {
         if(this.conflict.conflictPassed) {
             return;
@@ -235,7 +235,7 @@ class ConflictFlow extends BaseStepWithPipeline {
         if(this.conflict.conflictPassed) {
             return;
         }
-        
+
         if(this.game.manualMode && !this.conflict.isSinglePlayer) {
             this.game.promptWithMenu(this.conflict.attackingPlayer, this, {
                 activePrompt: {
@@ -250,7 +250,7 @@ class ConflictFlow extends BaseStepWithPipeline {
                 waitingPromptTitle: 'Waiting for opponent to resolve conflict'
             });
             return;
-        } 
+        }
 
         this.conflict.determineWinner();
 
@@ -261,7 +261,7 @@ class ConflictFlow extends BaseStepWithPipeline {
                 this.conflict.winner, this.conflict.conflictType, this.conflict.winnerSkill, this.conflict.loserSkill);
         }
     }
-    
+
     manuallyDetermineWinner(player, choice) {
         if(choice === 'attacker') {
             this.conflict.winner = player;
@@ -281,11 +281,11 @@ class ConflictFlow extends BaseStepWithPipeline {
     afterConflict() {
         this.game.conflictCompleted(this.conflict);
         this.game.checkGameState(true);
-        
+
         if(this.conflict.isAttackerTheWinner() && this.conflict.defenders.length === 0) {
             this.conflict.conflictUnopposed = true;
         }
-                
+
         this.game.raiseEvent('afterConflict', { conflict: this.conflict });
     }
 
@@ -293,13 +293,13 @@ class ConflictFlow extends BaseStepWithPipeline {
         if(this.conflict.conflictPassed || this.game.manualMode || this.conflict.isSinglePlayer) {
             return;
         }
-        
+
         if(this.conflict.conflictUnopposed) {
             this.game.addMessage('{0} loses 1 honor for not defending the conflict', this.conflict.loser);
             this.game.applyGameAction(null, { loseHonor: this.conflict.loser });
         }
     }
-    
+
     checkBreakProvince() {
         if(this.conflict.conflictPassed || this.conflict.isSinglePlayer || this.game.manualMode) {
             return;
@@ -310,7 +310,7 @@ class ConflictFlow extends BaseStepWithPipeline {
             this.game.applyGameAction(null, { break: province });
         }
     }
-    
+
     resolveRingEffects() {
         if(this.conflict.conflictPassed) {
             return;
@@ -318,9 +318,9 @@ class ConflictFlow extends BaseStepWithPipeline {
 
         if(this.conflict.isAttackerTheWinner()) {
             GameActions.resolveRing().resolve(this.conflict.ring, this.game.getFrameworkContext(this.conflict.attackingPlayer));
-        }       
+        }
     }
-    
+
     claimRing() {
         if(this.conflict.conflictPassed) {
             return;
@@ -360,15 +360,15 @@ class ConflictFlow extends BaseStepWithPipeline {
 
         // Create a return home event for every bow event
         let returnHomeEvents = _.map(bowEvents, event => this.game.getEvent(
-            'onReturnHome', 
-            { conflict: this.conflict, bowEvent: event, card: event.card }, 
+            'onReturnHome',
+            { conflict: this.conflict, bowEvent: event, card: event.card },
             () => this.conflict.removeFromConflict(event.card)
         ));
         let events = bowEvents.concat(returnHomeEvents);
         events.push(this.game.getEvent('onParticipantsReturnHome', { returnHomeEvents: returnHomeEvents, conflict: this.conflict }));
         this.game.openEventWindow(events);
     }
-    
+
     completeConflict() {
         this.game.currenConflict = null;
         if(this.conflict.conflictPassed) {

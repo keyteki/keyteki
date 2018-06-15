@@ -27,7 +27,7 @@ describe('setup phase', function() {
                 expect(this.secondPlayer).toHavePrompt('Waiting for opponent to use Choose First Player');
             });
         });
-    
+
         describe('setting up provinces', function() {
             beforeEach(function() {
                 this.selectFirstPlayer(this.player1);
@@ -52,7 +52,7 @@ describe('setup phase', function() {
                 expect(this.player1.player.strongholdProvince.value().length).toBe(1);
                 expect(this.player1.player.strongholdProvince.first().isStronghold).toBe(true);
                 expect(this.player2.player.strongholdProvince.value().length).toBe(1);
-                expect(this.player2.player.strongholdProvince.first().isStronghold).toBe(true);                
+                expect(this.player2.player.strongholdProvince.first().isStronghold).toBe(true);
             });
 
             it('should present both players with a prompt to set up provinces', function() {

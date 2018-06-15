@@ -16,7 +16,7 @@ class DuelistTraining extends DrawCard {
                     gameAction: ability.actions.duel(context => ({
                         type: 'military',
                         challenger: context.source,
-                        resolutionHandler: (context, winner, loser) => this.resolutionHandler(context, winner, loser), 
+                        resolutionHandler: (context, winner, loser) => this.resolutionHandler(context, winner, loser),
                         costHandler: (context, prompt) => this.costHandler(context, prompt)
                     }))
                 }
@@ -49,12 +49,12 @@ class DuelistTraining extends DrawCard {
             source: this,
             choices: ['Pay with honor', 'Pay with cards'],
             handlers: [
-                () => prompt.transferHonorAfterBid(context), 
+                () => prompt.transferHonorAfterBid(context),
                 () => GameActions.chosenDiscard({ amount: difference }).resolve(lowBidder, context)
             ]
         });
     }
-    
+
     leavesPlay() {
         this.grantedAbilityLimits = {};
         super.leavesPlay();

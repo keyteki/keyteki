@@ -8,7 +8,7 @@ class IshikenInitiate extends DrawCard {
             effect: ability.effects.modifyBothSkills(() => this.getNoOfClaimedRings())
         });
     }
-    
+
     getNoOfClaimedRings() {
         let claimedRings = _.size(this.controller.getClaimedRings());
         let otherPlayer = this.game.getOtherPlayer(this.controller);

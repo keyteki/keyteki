@@ -28,7 +28,7 @@ class DynastyActionWindow extends ActionWindow {
             this.nextPlayer();
         }
     }
-    
+
     nextPlayer() {
         let otherPlayer = this.currentPlayer.opponent;
         if(otherPlayer && !otherPlayer.passedDynasty) {

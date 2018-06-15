@@ -20,7 +20,7 @@ class YoungRumormonger extends DrawCard {
                 context.event.getResult = () => newEvent.getResult();
                 context.event.window.addEvent(newEvent);
                 context.cancel();
-            } 
+            }
         });
     }
 }

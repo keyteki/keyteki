@@ -13,7 +13,7 @@ class BayushiYunako extends DrawCard {
                     return {
                         effect: [
                             ability.effects.modifyBaseMilitarySkill(-diff),
-                            ability.effects.modifyBasePoliticalSkill(diff)    
+                            ability.effects.modifyBasePoliticalSkill(diff)
                         ]
                     };
                 })

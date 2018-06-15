@@ -7,7 +7,7 @@ class BornInWar extends DrawCard {
             effect: ability.effects.modifyMilitarySkill((card, context) => _.size(_.filter(context.game.rings, ring => ring.isUnclaimed())))
         });
     }
-    
+
     canAttach(card, context) {
         if(card.hasTrait('cavalry')) {
             return super.canAttach(card, context);

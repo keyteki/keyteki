@@ -6,7 +6,7 @@ class Breakthrough extends DrawCard {
             title: 'Declare a new conflict',
             when: {
                 onConflictFinished: (event, context) => event.conflict.attackingPlayer === context.player &&
-                                                        event.conflict.winner === context.player && 
+                                                        event.conflict.winner === context.player &&
                                                         event.conflict.conflictProvince.isBroken
             },
             gameAction: ability.actions.initiateConflict({ canPass: false })

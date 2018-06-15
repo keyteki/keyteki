@@ -42,7 +42,7 @@ class DuelAction extends CardGameAction {
                 return;
             }
             context.game.currentDuel = new Duel(context.game, this.challenger, card, this.type);
-            context.game.queueStep(new DuelFlow(context.game, context.game.currentDuel, prompt => this.honorCosts(prompt), (winner, loser) => this.resolveDuel(winner, loser)));                
+            context.game.queueStep(new DuelFlow(context.game, context.game.currentDuel, prompt => this.honorCosts(prompt), (winner, loser) => this.resolveDuel(winner, loser)));
         });
     }
 }

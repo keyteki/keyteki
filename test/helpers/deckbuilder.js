@@ -44,7 +44,7 @@ class DeckBuilder {
 
         return cards;
     }
-    
+
     /*
         options: as player1 and player2 are described in setupTest #1514
     */

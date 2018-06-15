@@ -36,7 +36,7 @@ class LeavesPlayEvent extends Event {
         }
         return contingentEvents;
     }
-    
+
     preResolutionEffect() {
         this.cardStateWhenLeftPlay = this.card.createSnapshot();
     }

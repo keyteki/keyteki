@@ -39,7 +39,7 @@ class ModifyBidAction extends PlayerAction {
             return;
         }
         context.game.promptWithHandlerMenu(player, {
-            context: context, 
+            context: context,
             choices: ['Increase honor bid', 'Decrease honor bid'],
             handlers: [
                 () => this.direction = 'increase',
@@ -50,8 +50,8 @@ class ModifyBidAction extends PlayerAction {
 
     getEvent(player, context) {
         let params = {
-            player: player, 
-            amount: this.amount, 
+            player: player,
+            amount: this.amount,
             direction: this.direction,
             context: context
         };

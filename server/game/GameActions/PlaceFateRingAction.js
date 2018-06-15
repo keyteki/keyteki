@@ -24,7 +24,7 @@ class PlaceFateRingAction extends RingAction {
     canAffect(ring, context) {
         if(this.origin && !this.origin.checkRestrictions('spendFate', context) || this.origin.fate < this.amount) {
             return false;
-        } 
+        }
         return this.amount > 0 && super.canAffect(ring, context);
     }
 

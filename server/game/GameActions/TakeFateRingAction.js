@@ -13,7 +13,7 @@ class TakeFateRingAction extends RingAction {
     }
 
     canAffect(ring, context) {
-        return context.player.checkRestrictions('takeFateFromRings', context) && 
+        return context.player.checkRestrictions('takeFateFromRings', context) &&
                ring.fate > 0 && this.amount > 0 && super.canAffect(ring, context);
     }
 

@@ -209,7 +209,7 @@ describe('Togashi Yokuni', function() {
                 this.player1.clickRing('fire');
                 this.player1.clickPrompt('Banzai! (2)');
                 expect(this.game.rings.fire.fate).toBe(2);
-                expect(this.player2.player.hand.size()).toBe(1);                
+                expect(this.player2.player.hand.size()).toBe(1);
             });
 
             it('should not allow Kitsuki Investigator to use its ability twice with Way of the Dragon', function() {
@@ -223,7 +223,7 @@ describe('Togashi Yokuni', function() {
                 this.player1.clickCard(this.kitsukiInvestigator);
                 expect(this.player1).toHavePrompt('Conflict Action Window');
                 expect(this.game.rings.fire.fate).toBe(1);
-                expect(this.player2.player.hand.size()).toBe(2);                
+                expect(this.player2.player.hand.size()).toBe(2);
             });
 
             it('should not allow Togashi Yokuni to use its ability twice with Way of the Dragon', function() {
@@ -237,10 +237,10 @@ describe('Togashi Yokuni', function() {
                 this.player1.clickCard(this.togashiYokuni);
                 expect(this.player1).toHavePrompt('Conflict Action Window');
                 expect(this.game.rings.fire.fate).toBe(1);
-                expect(this.player2.player.hand.size()).toBe(2);                
+                expect(this.player2.player.hand.size()).toBe(2);
             });
         });
-        
+
         describe('Togashi Yokuni/Bayushi Shoju interaction', function() {
             beforeEach(function() {
                 this.setupTest({
@@ -279,7 +279,7 @@ describe('Togashi Yokuni', function() {
                 expect(this.tattooedWanderer.location).toBe('conflict discard pile');
             });
         });
-        
+
         describe('Togashi Yokuni/Yogo Hiroue interaction', function() {
             beforeEach(function() {
                 this.setupTest({
@@ -323,7 +323,7 @@ describe('Togashi Yokuni', function() {
 
             });
         });
-        
+
         describe('Togashi Yokuni/Illustrious Plagiarist interaction', function() {
             beforeEach(function() {
                 this.setupTest({
@@ -396,7 +396,7 @@ describe('Togashi Yokuni', function() {
                 this.player1.clickCard('banzai');
                 this.player1.clickCard(this.togashiYokuni);
                 this.player1.clickPrompt('Done');
-                expect(this.togashiYokuni.getMilitarySkill()).toBe(8);                
+                expect(this.togashiYokuni.getMilitarySkill()).toBe(8);
                 this.player2.pass();
                 this.player1.clickCard(this.togashiYokuni);
                 this.player1.clickPrompt('Increase a character\'s military skill');
@@ -407,12 +407,12 @@ describe('Togashi Yokuni', function() {
                 this.player1.clickCard(this.togashiYokuni);
                 this.player1.clickCard(this.legionOfOne);
                 this.player2.pass();
-                this.player1.clickCard(this.togashiYokuni);            
-                this.player1.clickCard(this.togashiYokuni);            
+                this.player1.clickCard(this.togashiYokuni);
+                this.player1.clickCard(this.togashiYokuni);
                 expect(this.togashiYokuni.getMilitarySkill()).toBe(13);
                 this.player2.pass();
-                this.player1.clickCard(this.togashiYokuni);            
-                this.player1.clickCard(this.togashiYokuni);            
+                this.player1.clickCard(this.togashiYokuni);
+                this.player1.clickCard(this.togashiYokuni);
                 expect(this.togashiYokuni.getMilitarySkill()).toBe(16);
             });
         });

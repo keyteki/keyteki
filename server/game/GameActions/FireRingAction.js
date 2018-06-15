@@ -5,7 +5,7 @@ class FireRingAction extends CardGameAction {
         super(propertyFactory);
         this.map = new Map();
     }
-    
+
     setup() {
         this.name = 'fireRingEffect';
         this.targetType = ['character'];

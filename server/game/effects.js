@@ -81,7 +81,7 @@ const Effects = {
         apply: (card, context) => {
             properties.target = card;
             properties.context = properties.context || context;
-            return context.source.terminalCondition(() => properties);    
+            return context.source.terminalCondition(() => properties);
         },
         unapply: (card, context, effect) => context.game.effectEngine.removeTerminalCondition(effect)
     }),

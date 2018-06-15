@@ -7,7 +7,7 @@ class HidaKisada extends DrawCard {
         this.abilityRegistrar = new EventRegistrar(this.game, this);
         this.abilityRegistrar.register(['onCardAbilityInitiatedOtherEffects', 'onCardAbilityTriggered', 'onConflictDeclared', 'onConflictFinished']);
     }
-    
+
     onCardAbilityInitiatedOtherEffects(event) {
         if(this.canCancel && event.context.ability.abilityType === 'action' && !event.context.ability.cannotBeCancelled && event.context.player !== this.controller) {
             if(!event.cancelled && this.location === 'play area' && !this.isBlank() && !this.game.completedConflicts.some(conflict => conflict.winner === this.controller.opponent)) {
@@ -23,11 +23,11 @@ class HidaKisada extends DrawCard {
             this.canCancel = false;
         }
     }
-    
+
     onConflictFinished() {
         this.canCancel = false;
     }
-    
+
     onConflictDeclared() {
         this.canCancel = true;
     }

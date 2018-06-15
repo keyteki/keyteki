@@ -100,7 +100,7 @@ const effectDurations = [
 const checkGameAction = function(gameAction) {
     if(Array.isArray(gameAction)) {
         return gameAction.every(action => actionNames.includes(action.name));
-    } 
+    }
     return actionNames.includes(gameAction.name);
 };
 
@@ -111,11 +111,11 @@ const mockContext = {
         getNumberOfHoldingsInPlay: () => 1,
         opponent: {
             cardsInPlay: [],
-            hand: { 
+            hand: {
                 size: () => 1,
                 sortBy: () => true
             }
-        } 
+        }
     },
     source: {},
     ability: {},
@@ -125,7 +125,7 @@ const mockContext = {
     targetAbility: {},
     select: { toLowerCase: () => 'abc' },
     targets: { cardToShuffle: {} },
-    target: { 
+    target: {
         attachments: { size: () => 1 }
     }
 };
@@ -152,7 +152,7 @@ describe('All Cards:', function() {
                 this.card.setupCardAbilities(AbilityDsl);
                 this.calls = _.flatten(this.actionSpy.calls.allArgs());
             });
-            
+
             it('should have a title which is a string', function() {
                 expect(_.all(this.calls, args => _.isString(args.title))).toBe(true);
             });
@@ -223,7 +223,7 @@ describe('All Cards:', function() {
                     } else if(args.target) {
                         if(args.target.gameAction) {
                             return true;
-                        } 
+                        }
                         return args.target.mode && args.target.mode === 'select' && Object.values(args.target.choices).every(choice => !_.isFunction(choice));
                     }
                     return args.targets && Object.values(args.targets).some(target => target.gameAction || (
@@ -266,7 +266,7 @@ describe('All Cards:', function() {
 
             it('should have a legal location as its location', function() {
                 expect(_.all(this.calls, args => (
-                    _.isUndefined(args.location) || 
+                    _.isUndefined(args.location) ||
                     ['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile', 'conflict discard pile', 'hand'].includes(args.location) ||
                     _.every(args.location, location => ['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile', 'conflict discard pile', 'hand'].includes(location))
                 ))).toBe(true);
@@ -291,7 +291,7 @@ describe('All Cards:', function() {
                 this.calls = this.calls.concat(this.interruptSpy.calls.allArgs());
                 this.calls = _.flatten(this.calls);
             });
-            
+
             it('should have a title which is a string', function() {
                 expect(_.all(this.calls, args => _.isString(args.title))).toBe(true);
             });
@@ -362,7 +362,7 @@ describe('All Cards:', function() {
                     } else if(args.target) {
                         if(args.target.gameAction) {
                             return true;
-                        } 
+                        }
                         return args.target.mode && args.target.mode === 'select' && Object.values(args.target.choices).every(choice => !_.isFunction(choice));
                     }
                     return args.targets && Object.values(args.targets).some(target => target.gameAction || (
@@ -417,11 +417,11 @@ describe('All Cards:', function() {
 
             it('should have a legal location as its location', function() {
                 expect(_.all(this.calls, args => (
-                    _.isUndefined(args.location) || 
+                    _.isUndefined(args.location) ||
                     ['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile', 'conflict discard pile', 'hand'].includes(args.location) ||
                     _.every(args.location, location => ['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile', 'conflict discard pile', 'hand'].includes(location))
                 ))).toBe(true);
             });
-        });    
+        });
     });
 });

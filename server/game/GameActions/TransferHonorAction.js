@@ -19,9 +19,9 @@ class TransferHonorAction extends PlayerAction {
 
     getEvent(player, context) {
         let params = {
-            context: context, 
-            player: player, 
-            amount: this.amount, 
+            context: context,
+            player: player,
+            amount: this.amount,
             afterBid: this.afterBid
         };
         return super.createEvent('onTransferHonor', params, event => {

@@ -63,7 +63,7 @@ class GameAction {
         this.preEventHandler(context);
         let window = context.game.openEventWindow([], false);
         context.game.queueSimpleStep(() => {
-            for(let event of this.getEventArray(context)) { 
+            for(let event of this.getEventArray(context)) {
                 window.addEvent(event);
             }
         });

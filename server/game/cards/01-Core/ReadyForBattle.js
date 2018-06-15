@@ -5,7 +5,7 @@ class ReadyForBattle extends DrawCard {
         this.reaction({
             title: 'Ready a character',
             when: {
-                onCardBowed: (event, context) => event.card.controller === context.player && (event.context.source.type === 'ring' || 
+                onCardBowed: (event, context) => event.card.controller === context.player && (event.context.source.type === 'ring' ||
                                                  context.player.opponent && event.context.source.controller === context.player.opponent) &&
                                                  event.card.allowGameAction('ready', context)
             },

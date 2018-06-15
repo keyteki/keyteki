@@ -92,7 +92,7 @@ describe('Display of Power', function() {
                 expect(this.player2).toHavePrompt('Triggered Abilities');
                 expect(this.player2).toBeAbleToSelect(this.keeperInitiate);
                 this.player2.clickCard(this.keeperInitiate);
-                expect(this.keeperInitiate.location).toBe('play area');                
+                expect(this.keeperInitiate.location).toBe('play area');
             });
 
             it('shouldn\'t allow the opponent to trigger reactions to claiming the ring', function() {

@@ -1,4 +1,8 @@
 {
+  "env": {
+    "node": true,
+      "es6": true
+  },
   "extends": "eslint:recommended",
   "rules": {
     "indent": [
@@ -109,6 +113,9 @@
           }
         }
       }
+    ],
+    "no-trailing-spaces": [
+      2
     ]
   },
   "parser": "babel-eslint"

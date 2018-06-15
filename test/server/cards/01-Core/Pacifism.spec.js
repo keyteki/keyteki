@@ -38,7 +38,7 @@ describe('Pacifism', function() {
                 this.player1.clickRing('earth');
                 expect(this.game.currentConflict.conflictType).toBe('military');
                 expect(this.togashiKazue.inConflict).toBe(false);
-                expect(this.game.currentConflict.attackers).not.toContain(this.togashiKazue);                
+                expect(this.game.currentConflict.attackers).not.toContain(this.togashiKazue);
                 expect(this.togashiKazue.bowed).toBe(false);
             });
 

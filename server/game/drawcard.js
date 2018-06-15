@@ -93,7 +93,7 @@ class DrawCard extends BaseCard {
     hasKeyword(keyword) {
         return this.getEffects('addKeyword').includes(keyword.toLowerCase());
     }
-    
+
     hasPrintedKeyword(keyword) {
         return this.printedKeywords.includes(keyword.toLowerCase());
     }
@@ -164,7 +164,7 @@ class DrawCard extends BaseCard {
         if(type === 'military') {
             return this.printedMilitarySkill === null || dashEffects.includes(type);
         } else if(type === 'political') {
-            return this.printedPoliticalSkill === null || dashEffects.includes(type);            
+            return this.printedPoliticalSkill === null || dashEffects.includes(type);
         }
         return this.printedMilitarySkill === null || this.printedPoliticalSkill === null || dashEffects.length > 0;
     }
@@ -196,7 +196,7 @@ class DrawCard extends BaseCard {
         }
         return 0;
     }
-    
+
     getProvinceStrengthBonus() {
         if(this.cardData.strength_bonus && !this.facedown) {
             return parseInt(this.cardData.strength_bonus);
@@ -266,17 +266,17 @@ class DrawCard extends BaseCard {
         if(this.hasDash('military')) {
             return 0;
         }
-    
-        return this.mostRecentEffect('setBaseMilitarySkill') || 
+
+        return this.mostRecentEffect('setBaseMilitarySkill') ||
                this.sumEffects('modifyBaseMilitarySkill') + this.printedMilitarySkill;
     }
-    
+
     getBasePoliticalSkill() {
         if(this.hasDash('political')) {
             return 0;
         }
 
-        return this.mostRecentEffect('setBasePoliticalSkill') || 
+        return this.mostRecentEffect('setBasePoliticalSkill') ||
                this.sumEffects('modifyBasePoliticalSkill') + this.printedPoliticalSkill;
     }
 
@@ -427,7 +427,7 @@ class DrawCard extends BaseCard {
     /**
      * This removes an attachment from this card's attachment Array.  It doesn't open any windows for
      * game effects to respond to.
-     * @param {DrawCard} attachment 
+     * @param {DrawCard} attachment
      */
     removeAttachment(attachment) {
         this.attachments = _(this.attachments.reject(card => card.uuid === attachment.uuid));
@@ -462,7 +462,7 @@ class DrawCard extends BaseCard {
         this.covert = false;
         this.inConflict = false;
     }
-    
+
     canDeclareAsAttacker(conflictType = this.game.currentConflict.conflictType) {
         return (this.allowGameAction('declareAsAttacker') && this.canParticipateAsAttacker(conflictType) && 
                 this.location === 'play area' && !this.bowed);

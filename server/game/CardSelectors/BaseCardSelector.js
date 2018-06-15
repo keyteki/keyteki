@@ -25,7 +25,7 @@ class BaseCardSelector {
 
     findPossibleCards(context) {
         if(this.location.includes('any')) {
-            return context.game.allCards.toArray(); 
+            return context.game.allCards.toArray();
         }
         let possibleCards = [];
         if(this.controller !== 'opponent') {

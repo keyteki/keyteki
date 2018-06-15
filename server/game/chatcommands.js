@@ -15,7 +15,7 @@ class ChatCommands {
             '/reveal': this.reveal,
             '/duel': this.duel,
             '/move-to-conflict': this.moveToConflict,
-            '/send-home': this.sendHome,            
+            '/send-home': this.sendHome,
             '/claim-favor': this.claimFavor,
             '/add-fate': this.addFate,
             '/rem-fate': this.remFate,
@@ -65,7 +65,7 @@ class ChatCommands {
 
         player.drawCardsToHand(num);
     }
-    
+
     claimFavor(player, args) {
         let type = args[1] || 'military';
         this.game.addMessage('{0} uses /claim-favor to claim the emperor\'s {1} favor', player, type);
@@ -110,7 +110,7 @@ class ChatCommands {
         this.game.addMessage('{0} initiates a duel', player);
         this.game.queueStep(new HonorBidPrompt(this.game, 'Choose your bid for the duel'));
     }
-    
+
     moveToConflict(player) {
         if(this.game.currentConflict) {
             this.game.promptForSelect(player, {
@@ -191,7 +191,7 @@ class ChatCommands {
             }
         });
     }
-    
+
     reveal(player) {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a card',
@@ -328,7 +328,7 @@ class ChatCommands {
     disconnectMe(player) {
         player.socket.disconnect();
     }
-    
+
     manual(player) {
         if(this.game.manualMode) {
             this.game.manualMode = false;

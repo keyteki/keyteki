@@ -9,7 +9,7 @@ class WarriorPoet extends DrawCard {
             gameAction: ability.actions.cardLastingEffect(context => ({
                 target: this.game.currentConfict.getCharacters(context.player.opponent),
                 effect: ability.effects.modifyBothSkills(-1)
-            })) 
+            }))
         });
     }
 }

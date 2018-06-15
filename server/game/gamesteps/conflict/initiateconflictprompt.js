@@ -14,7 +14,7 @@ const capitalize = {
 class InitiateConflictPrompt extends UiPrompt {
     constructor(game, conflict, choosingPlayer, attackerChoosesRing = true, canPass = attackerChoosesRing) {
         super(game);
-        
+
         this.conflict = conflict;
         this.choosingPlayer = choosingPlayer;
         this.attackerChoosesRing = attackerChoosesRing;
@@ -46,7 +46,7 @@ class InitiateConflictPrompt extends UiPrompt {
         let buttons = [];
         let menuTitle = '';
         let promptTitle = '';
-        
+
         if(this.canPass) {
             buttons.push({ text: 'Pass Conflict', arg: 'pass' });
         }
@@ -68,7 +68,7 @@ class InitiateConflictPrompt extends UiPrompt {
                 }
                 buttons.unshift({ text: 'Initiate Conflict', arg: 'done' });
             }
-        }        
+        }
 
         return {
             selectRing: true,
@@ -170,7 +170,7 @@ class InitiateConflictPrompt extends UiPrompt {
         }
         return false;
     }
-    
+
     recalculateCovert() {
         let attackersWithCovert = _.size(_.filter(this.conflict.attackers, card => card.isCovert()));
         this.covertRemaining = attackersWithCovert > _.size(this.selectedDefenders);
@@ -199,7 +199,7 @@ class InitiateConflictPrompt extends UiPrompt {
                 } else {
                     this.selectedDefenders = _.reject(this.selectedDefenders, c => c === card);
                     card.covert = false;
-                }         
+                }
             }
         }
 
@@ -218,7 +218,7 @@ class InitiateConflictPrompt extends UiPrompt {
 
     menuCommand(player, arg) {
         if(arg === 'done') {
-            if(!this.conflict.ring || this.game.rings[this.conflict.element] !== this.conflict.ring || 
+            if(!this.conflict.ring || this.game.rings[this.conflict.element] !== this.conflict.ring ||
                                 (!this.conflict.isSinglePlayer && !this.conflict.conflictProvince) || this.conflict.attackers.length === 0) {
                 return false;
             }

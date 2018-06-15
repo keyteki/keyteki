@@ -22,7 +22,7 @@ class ShrewdYasuki extends DrawCard {
                     }
                 });
             }
-        });        
+        });
     }
 }
 

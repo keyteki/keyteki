@@ -43,7 +43,7 @@ class DeckSearchAction extends PlayerAction {
                         context.game.addMessage('{0} takes a card into their hand', player);
                     }
                     player.moveCard(card, 'hand');
-                    player.shuffleConflictDeck();                                
+                    player.shuffleConflictDeck();
                 }
             });
         });

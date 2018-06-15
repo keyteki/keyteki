@@ -5,7 +5,7 @@ class DefendTheWall extends ProvinceCard {
         this.reaction({
             title: 'Resolve the ring effect',
             when: {
-                afterConflict: (event, context) => event.conflict.conflictProvince === context.source && 
+                afterConflict: (event, context) => event.conflict.conflictProvince === context.source &&
                                                    event.conflict.winner === context.player
             },
             gameAction: ability.actions.resolveRing()

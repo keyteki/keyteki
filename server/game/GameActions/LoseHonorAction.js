@@ -13,7 +13,7 @@ class LoseHonorAction extends PlayerAction {
     }
 
     canAffect(player, context) {
-        return this.amount === 0 ? false : super.canAffect(player, context);        
+        return this.amount === 0 ? false : super.canAffect(player, context);
     }
 
     getEvent(player, context) {

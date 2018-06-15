@@ -38,7 +38,7 @@ const CostBuilders = {
     }),
     reveal: new CostBuilder(GameActions.reveal(), {
         select: 'Select card to reveal',
-        selectMultiple: number => `Select ${number} cards to reveal`        
+        selectMultiple: number => `Select ${number} cards to reveal`
     }),
     sacrifice: new CostBuilder(GameActions.sacrifice(), {
         select: 'Select card to sacrifice',

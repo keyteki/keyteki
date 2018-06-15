@@ -29,7 +29,7 @@ describe('Radiant Orator', function() {
         describe('If additional rings are claimed', function() {
             beforeEach(function() {
                 this.game.rings['water'].claimRing(this.player2);
-                this.game.rings['earth'].claimRing(this.player2);                
+                this.game.rings['earth'].claimRing(this.player2);
                 this.initiateConflict({
                     ring: 'air',
                     attackers: ['Bayushi Kachiko'],

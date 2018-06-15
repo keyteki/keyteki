@@ -34,7 +34,7 @@ class Conflict extends GameObject {
         let effects = this.getEffects('restrictNumberOfDefenders');
         return effects.length === 0 ? -1 : Math.min(...effects);
     }
-        
+
     singlePlayerDefender() {
         let dummyPlayer = new Player('', Settings.getUserWithDefaultsSet({ username: 'Dummy Player' }), false, this.game);
         dummyPlayer.initialise();
@@ -80,12 +80,12 @@ class Conflict extends GameObject {
         this.defenders.push(defender);
         this.markAsParticipating([defender]);
     }
-            
-    
+
+
     hasElement(element) {
         return this.elements.includes(element);
     }
-    
+
     get elements() {
         return this.ring ? this.ring.getElements() : [];
     }
@@ -93,12 +93,12 @@ class Conflict extends GameObject {
     get elementsToResolve() {
         return this.sumEffects('modifyConflictElementsToResolve') + 1;
     }
-    
+
     switchType() {
         this.ring.flipConflictType();
         this.conflictTypeSwitched = true;
     }
-    
+
     switchElement(element) {
         let newRing = this.game.rings[element];
         if(!newRing) {
@@ -116,7 +116,7 @@ class Conflict extends GameObject {
         newRing.contested = true;
         this.ring = newRing;
     }
-    
+
     checkForIllegalParticipants() {
         let illegal = this.attackers.filter(card => !card.canParticipateAsAttacker(this.conflictType));
         illegal = illegal.concat(this.defenders.filter(card => !card.canParticipateAsDefender(this.conflictType)));
@@ -187,7 +187,7 @@ class Conflict extends GameObject {
         let additionalDefenders = additionalCharacters.filter(card => card.controller === this.defendingPlayer);
         this.attackerSkill = this.calculateSkillFor(this.attackers.concat(additionalAttackers));
         this.defenderSkill = this.calculateSkillFor(this.defenders.concat(additionalDefenders));
-        
+
         if(this.attackingPlayer.imperialFavor === this.conflictType && this.attackers.length > 0) {
             this.attackerSkill++;
         } else if(this.defendingPlayer.imperialFavor === this.conflictType && this.defenders.length > 0) {

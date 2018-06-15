@@ -6,8 +6,8 @@ class NitenMaster extends DrawCard {
             title: 'Ready this character',
             when: {
                 onCardAttached: (event, context) => (
-                    event.parent === context.source && 
-                    event.card.hasTrait('weapon') && 
+                    event.parent === context.source &&
+                    event.card.hasTrait('weapon') &&
                     event.card.controller === context.player
                 )
             },

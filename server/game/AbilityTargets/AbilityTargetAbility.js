@@ -91,12 +91,12 @@ class AbilityTargetAbility {
         context.game.promptForSelect(context.player, Object.assign(promptProperties, this.properties));
         return result;
     }
-    
+
     checkTarget(context) {
         if(!context.targetAbility) {
             return false;
         }
-        return this.properties.cardType === context.targetAbility.card.type && 
+        return this.properties.cardType === context.targetAbility.card.type &&
                this.properties.cardCondition(context.targetAbility.card, context);
     }
 }

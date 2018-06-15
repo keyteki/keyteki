@@ -14,8 +14,8 @@ const UiPrompt = require('./uiprompt.js');
  *                      opponent players.
  * ringCondition      - a function that takes a ring and should return a boolean
  *                      on whether that ring is elligible to be selected.
- * onSelect           - a callback that is called as soon as an elligible ring 
- *                      is clicked. If the callback does not return true, the 
+ * onSelect           - a callback that is called as soon as an elligible ring
+ *                      is clicked. If the callback does not return true, the
  *                      prompt is not marked as complete.
  * onMenuCommand      - a callback that is called when one of the additional
  *                      buttons is clicked.

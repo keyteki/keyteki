@@ -31,16 +31,16 @@ class RegroupPhase extends Phase {
     }
 
     readyCards() {
-        let cardsToReady = this.game.allCards.filter(card => card.bowed && card.readysDuringReadying); 
+        let cardsToReady = this.game.allCards.filter(card => card.bowed && card.readysDuringReadying);
         this.game.applyGameAction(null, { ready: cardsToReady }, [{ name: 'onReadyAllCards', params: { cards: cardsToReady } }]);
     }
-    
+
     discardFromProvinces() {
         _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
             this.game.queueSimpleStep(() => this.discardFromProvincesForPlayer(player));
         });
     }
-    
+
     discardFromProvincesForPlayer(player) {
         let cardsToDiscard = [];
         let cardsOnUnbrokenProvinces = [];
@@ -91,7 +91,7 @@ class RegroupPhase extends Phase {
             _.each(cardsToDiscard, card => player.moveCard(card, 'dynasty discard pile'));
         }
     }
-    
+
     returnRings() {
         GameActions.returnRing().resolve(_.filter(this.game.rings, ring => ring.claimed), this.game.getFrameworkContext());
     }

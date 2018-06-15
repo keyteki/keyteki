@@ -5,7 +5,7 @@ class GiftedTactician extends DrawCard {
         this.reaction({
             title: 'Draw a card',
             when: {
-                afterConflict: (event, context) => event.conflict.winner === context.player && context.source.isParticipating() && 
+                afterConflict: (event, context) => event.conflict.winner === context.player && context.source.isParticipating() &&
                                                    event.conflict.conflictType === 'military'
             },
             gameAction: ability.actions.draw()

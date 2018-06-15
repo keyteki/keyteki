@@ -52,7 +52,7 @@ class HonorBidPrompt extends AllPlayerPrompt {
             this.game.addMessage('{0} gives {1} {2} honor', firstPlayer.opponent, firstPlayer, -difference);
             GameActions.takeHonor({ amount: -difference }).resolve(firstPlayer.opponent, context);
         }
-    }    
+    }
 
 
     activePrompt() {

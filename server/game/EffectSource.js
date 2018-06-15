@@ -73,7 +73,7 @@ class EffectSource extends GameObject {
         return effect;
     }
 
-    /* 
+    /*
      * Adds a persistent/lasting/delayed effect to the effect engine
      * @param {Object} properties - properties for the effect - see Effects/Effect.js
      */
@@ -83,7 +83,7 @@ class EffectSource extends GameObject {
         if(Array.isArray(effectFactory)) {
             for(const factory of effectFactory) {
                 this.game.effectEngine.add(factory(this.game, this, properties));
-            }    
+            }
         } else {
             this.game.effectEngine.add(effectFactory(this.game, this, properties));
         }

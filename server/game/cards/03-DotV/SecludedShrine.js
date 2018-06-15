@@ -20,6 +20,6 @@ class SecludedShrine extends DrawCard {
     }
 }
 
-SecludedShrine.id = 'secluded-shrine'; 
+SecludedShrine.id = 'secluded-shrine';
 
 module.exports = SecludedShrine;

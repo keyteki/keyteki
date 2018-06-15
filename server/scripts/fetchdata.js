@@ -43,7 +43,7 @@ let fetchCards = apiRequest('cards')
 
         cards.forEach(function(card) {
             var imagePath = path.join(imageDir, card.id + '.jpg');
-            
+
             if(card.pack_cards.length > 0 && card.pack_cards[0].image_url) {
                 var imagesrc = card.pack_cards[0].image_url;
 

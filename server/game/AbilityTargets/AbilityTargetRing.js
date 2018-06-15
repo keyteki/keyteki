@@ -92,7 +92,7 @@ class AbilityTargetCard {
         context.game.promptForRingSelect(player, _.extend(promptProperties, this.properties));
         return result;
     }
-    
+
     checkTarget(context) {
         return this.properties.ringCondition(context.rings[this.name], context);
     }

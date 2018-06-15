@@ -33,7 +33,7 @@ class SetupPhase extends Phase {
         let firstPlayer = allPlayersShuffled.shift();
         firstPlayer.firstPlayer = true;
     }
-    
+
     chooseFirstPlayer() {
         let firstPlayer = this.game.getFirstPlayer();
         if(firstPlayer.opponent) {
@@ -42,7 +42,7 @@ class SetupPhase extends Phase {
                 source: 'Choose First Player',
                 choices: ['First Player', 'Second Player'],
                 handlers: [
-                    () => firstPlayer.opponent.modifyFate(1), 
+                    () => firstPlayer.opponent.modifyFate(1),
                     () => {
                         firstPlayer.modifyFate(1);
                         this.game.setFirstPlayer(firstPlayer.opponent);
@@ -63,7 +63,7 @@ class SetupPhase extends Phase {
 
     placeProvinces() {
         _.each(this.game.getPlayers(), player => {
-            let provinceIterator = 1; 
+            let provinceIterator = 1;
             for(let card of player.provinceDeck.shuffle()) {
                 let destination;
                 if(card.selected) {

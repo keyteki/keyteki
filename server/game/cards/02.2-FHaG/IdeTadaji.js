@@ -16,7 +16,7 @@ class IdeTadaji extends DrawCard {
                     cardType: 'character',
                     controller: 'opponent',
                     cardCondition: card => !card.bowed && card.getCost() <= 2,
-                    gameAction: ability.actions.moveToConflict()                    
+                    gameAction: ability.actions.moveToConflict()
                 }
             }
         });

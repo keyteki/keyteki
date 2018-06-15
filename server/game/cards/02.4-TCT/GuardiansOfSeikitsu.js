@@ -7,7 +7,7 @@ class GuardiansOfTheSeikitsu extends ProvinceCard {
             when: {
                 onProvinceRevealed: (event, context) => event.province === context.source
             },
-            gameAction: ability.actions.bow(() => ({ 
+            gameAction: ability.actions.bow(() => ({
                 target: this.game.findAnyCardsInPlay(card => card.getType() === 'character' && card.getCost() <= 2)
             }))
         });

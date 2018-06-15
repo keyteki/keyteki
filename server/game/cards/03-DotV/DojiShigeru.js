@@ -6,7 +6,7 @@ class DojiShigeru extends DrawCard {
             title: 'Opponent discards a card',
             limit: ability.limit.unlimitedPerConflict(),
             when: {
-                onCardPlayed: (event, context) => event.player === context.player.opponent && event.card.type === 'event' && 
+                onCardPlayed: (event, context) => event.player === context.player.opponent && event.card.type === 'event' &&
                                                   context.source.isParticipating()
             },
             gameAction: ability.actions.chosenDiscard()

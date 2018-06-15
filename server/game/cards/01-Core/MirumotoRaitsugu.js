@@ -10,7 +10,7 @@ class MirumotoRaitsugu extends DrawCard {
                 controller: 'opponent',
                 cardCondition: card => card.isParticipating(),
                 gameAction: ability.actions.duel(context => ({
-                    type: 'military', 
+                    type: 'military',
                     challenger: context.source,
                     resolutionHandler: (context, winner, loser) => this.resolutionHandler(context, winner, loser)
                 }))

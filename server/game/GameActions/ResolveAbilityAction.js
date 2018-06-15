@@ -5,7 +5,7 @@ const SimpleStep = require('../gamesteps/simplestep.js');
 class NoCostsAbilityResolver extends AbilityResolver {
     initialise() {
         this.pipeline.initialise([
-            new SimpleStep(this.game, () => this.setAdditionalContext()),            
+            new SimpleStep(this.game, () => this.setAdditionalContext()),
             new SimpleStep(this.game, () => this.createSnapshot()),
             new SimpleStep(this.game, () => this.resolveTargets()),
             new SimpleStep(this.game, () => this.waitForTargetResolution()),

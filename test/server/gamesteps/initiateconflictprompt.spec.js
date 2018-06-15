@@ -117,7 +117,7 @@ describe('InitateConflictPrompt: ', function() {
 
                 it('should return false', function() {
                     expect(this.prompt.onCardClicked(this.playerSpy, this.cardSpy)).toBe(false);
-                });                
+                });
             });
 
             describe('if a conflict can\'t be initiated here, ', function() {
@@ -127,7 +127,7 @@ describe('InitateConflictPrompt: ', function() {
 
                 it('should return false', function() {
                     expect(this.prompt.onCardClicked(this.playerSpy, this.cardSpy)).toBe(false);
-                });                
+                });
             });
 
             describe('if it\'s the stronghold province and fewer than 3 provinces have been broken, ', function() {
@@ -140,7 +140,7 @@ describe('InitateConflictPrompt: ', function() {
 
                 it('should return false', function() {
                     expect(this.prompt.onCardClicked(this.playerSpy, this.cardSpy)).toBe(false);
-                });                
+                });
             });
 
             describe('if a conflict can be initiated here', function() {
@@ -158,7 +158,7 @@ describe('InitateConflictPrompt: ', function() {
 
                     it('should return true', function() {
                         expect(this.returnValue).toBe(true);
-                    });                
+                    });
 
                     it('should remove the province from the conflict', function() {
                         expect(this.cardSpy.inConflict).toBe(false);
@@ -171,7 +171,7 @@ describe('InitateConflictPrompt: ', function() {
 
                 it('should return true', function() {
                     expect(this.returnValue).toBe(true);
-                });                
+                });
 
                 it('should become the conflict province', function() {
                     expect(this.conflictSpy.conflictProvince).toBe(this.cardSpy);
@@ -191,7 +191,7 @@ describe('InitateConflictPrompt: ', function() {
             describe('if the character is controlled by this player,', function() {
                 beforeEach(function() {
                     this.cardSpy.controller = this.playerSpy;
-                    this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy); 
+                    this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy);
                 });
 
                 it('should call canDeclareAsAttacker', function() {
@@ -201,7 +201,7 @@ describe('InitateConflictPrompt: ', function() {
                 describe('and it can be declared as an attacker,', function() {
                     beforeEach(function() {
                         this.cardSpy.canDeclareAsAttacker.and.returnValue(true);
-                        this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy); 
+                        this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy);
                     });
 
                     describe('and it\'s not currently participating,', function() {
@@ -227,14 +227,14 @@ describe('InitateConflictPrompt: ', function() {
                             });
                         });
                     });
-                                   
+
                     describe('and it\'s currently participating,', function() {
                         beforeEach(function() {
                             this.conflictSpy.attackers.push(this.cardSpy);
                             this.defenderSpy = jasmine.createSpyObj('defender', ['checkRestrictions', 'canBeBypassedByCovert']);
                             this.defenderSpy.covert = true;
                             this.prompt.selectedDefenders = [this.defenderSpy];
-                            this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy); 
+                            this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy);
                         });
 
                         it('should call isCovert', function() {
@@ -252,14 +252,14 @@ describe('InitateConflictPrompt: ', function() {
                         describe('and it has covert,', function() {
                             beforeEach(function() {
                                 this.cardSpy.isCovert.and.returnValue(true);
-                                this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy); 
+                                this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy);
                             });
 
                             describe('and no covert is remaining', function() {
                                 it('should return true', function() {
                                     expect(this.returnValue).toBe(true);
                                 });
-        
+
                                 it('should call removeFromConflict', function() {
                                     expect(this.conflictSpy.removeFromConflict).toHaveBeenCalledWith(this.cardSpy);
                                 });
@@ -273,13 +273,13 @@ describe('InitateConflictPrompt: ', function() {
                             describe('and covert is remaining', function() {
                                 beforeEach(function() {
                                     this.prompt.covertRemaining = true;
-                                    this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy); 
+                                    this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy);
                                 });
 
                                 it('should return true', function() {
                                     expect(this.returnValue).toBe(true);
                                 });
-        
+
                                 it('should call removeFromConflict', function() {
                                     expect(this.conflictSpy.removeFromConflict).toHaveBeenCalledWith(this.cardSpy);
                                 });
@@ -309,7 +309,7 @@ describe('InitateConflictPrompt: ', function() {
                     beforeEach(function() {
                         this.prompt.selectedDefenders.push(this.cardSpy);
                         this.cardSpy.covert = true;
-                        this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy); 
+                        this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy);
                     });
 
                     it('should return true', function() {
@@ -338,7 +338,7 @@ describe('InitateConflictPrompt: ', function() {
                 describe('if there is covert remaining', function() {
                     beforeEach(function() {
                         this.prompt.covertRemaining = true;
-                        this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy); 
+                        this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy);
                     });
 
                     it('should return true', function() {
@@ -356,7 +356,7 @@ describe('InitateConflictPrompt: ', function() {
 
                 it('should return false', function() {
                     expect(this.prompt.onCardClicked(this.playerSpy, this.cardSpy)).toBe(false);
-                });          
+                });
             });
         });
 
@@ -367,7 +367,7 @@ describe('InitateConflictPrompt: ', function() {
 
             it('should return false', function() {
                 expect(this.prompt.onCardClicked(this.playerSpy, this.cardSpy)).toBe(false);
-            });    
+            });
         });
     });
 
@@ -429,7 +429,7 @@ describe('InitateConflictPrompt: ', function() {
         describe('when passed "pass",', function() {
             beforeEach(function() {
                 this.prompt.completed = false;
-                this.prompt.menuCommand(this.playerSpy, 'pass');               
+                this.prompt.menuCommand(this.playerSpy, 'pass');
             });
 
             it('should prompt the player with a handler menu', function() {

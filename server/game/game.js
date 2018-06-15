@@ -186,7 +186,7 @@ class Game extends EventEmitter {
         return this.getPlayers().find(p => p.firstPlayer);
     }
 
-    /** 
+    /**
      * Gets a player other than the one passed (usually their opponent)
      * @param {Player} player
      * @returns {Player}
@@ -247,11 +247,11 @@ class Game extends EventEmitter {
         } else if(!Array.isArray(types)) {
             types = [types];
         }
-        return types.every(type => this.currentConflict.elements.concat(this.currentConflict.conflictType).includes(type)); 
+        return types.every(type => this.currentConflict.elements.concat(this.currentConflict.conflictType).includes(type));
     }
 
     conflictCompleted(conflict) {
-        this.completedConflicts.push({ 
+        this.completedConflicts.push({
             attackingPlayer: conflict.attackingPlayer,
             declaredType: conflict.declaredType,
             winner: conflict.winner,
@@ -353,7 +353,7 @@ class Game extends EventEmitter {
         this.checkGameState(true);
     }
 
-    /** 
+    /**
      * Sets a Player flag and displays a chat message to show that a popup with a
      * player's conflict deck is open
      * @param {String} playerName
@@ -826,7 +826,7 @@ class Game extends EventEmitter {
     /**
      * Creates an EventWindow which will open windows for each kind of triggered
      * ability which can respond any passed events, and execute their handlers.
-     * @param {Event[]} events 
+     * @param {Event[]} events
      * @param {Boolean} queueWindow - sets whether the game should queue the window or not
      * @returns {EventWindow}
      */
@@ -871,7 +871,7 @@ class Game extends EventEmitter {
         this.queueStep(new InitiateAbilityEventWindow(this, events));
     }
 
-    /** 
+    /**
      * Checks whether a game action can be performed on a card or an array of
      * cards, and performs it on all legal targets.
      * @param {AbilityContext} context

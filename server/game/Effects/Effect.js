@@ -4,9 +4,9 @@ const _ = require('underscore');
  * Represents a card based effect applied to one or more targets.
  *
  * Properties:
- * match            - function that takes a card/player/ring and context object 
- *                    and returns a boolean about whether the passed object should 
- *                    have the effect applied. Alternatively, a card/player/ring can 
+ * match            - function that takes a card/player/ring and context object
+ *                    and returns a boolean about whether the passed object should
+ *                    have the effect applied. Alternatively, a card/player/ring can
  *                    be passed as the match property to match that single object.
  *                    Doesn't apply to conflict effects.
  * duration         - string representing how long the effect lasts.
@@ -24,7 +24,7 @@ const _ = require('underscore');
  *                    'province', or a specific location (e.g. 'stronghold province'
  *                    or 'hand'). This has no effect if a specific card is passed
  *                    to match.  Card effects only.
- * effect           - object representing the effect to be applied. 
+ * effect           - object representing the effect to be applied.
  */
 class Effect {
     constructor(game, source, properties, effect) {
@@ -55,7 +55,7 @@ class Effect {
     getTargets() {
         return [];
     }
-    
+
     addTarget(target) {
         this.targets.push(target);
         this.effect.apply(target);

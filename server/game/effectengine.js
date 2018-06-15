@@ -68,7 +68,7 @@ class EffectEngine {
         this.unapplyAndRemove(effect => (
             typeof effect.match !== 'function' && effect.duration !== 'persistent' &&
             effect.match.location !== 'play area' && effect.targetLocation !== 'any' &&
-            (effect.targetLocation !== 'province' || !['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(effect.match.location)) 
+            (effect.targetLocation !== 'province' || !['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(effect.match.location))
         ));
         for(const effect of this.effects) {
             // Check each effect's condition and find new targets

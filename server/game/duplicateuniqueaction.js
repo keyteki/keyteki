@@ -10,7 +10,7 @@ class DuplicateUniqueAction extends BaseAction {
         if(this.card.game.currentPhase !== 'dynasty') {
             return 'phase';
         }
-        
+
         if(!this.card.controller.isCardInPlayableLocation(this.card, 'dynasty') && !this.card.controller.isCardInPlayableLocation(this.card, 'play')) {
             return 'location';
         }
@@ -18,11 +18,11 @@ class DuplicateUniqueAction extends BaseAction {
     }
 
     displayMessage(context) {
-        context.game.addMessage('{0} discards a duplicate to add 1 fate to {1}', context.player, context.source);        
+        context.game.addMessage('{0} discards a duplicate to add 1 fate to {1}', context.player, context.source);
     }
-    
+
     executeHandler(context) {
-        let duplicate = context.player.getDuplicateInPlay(context.source);        
+        let duplicate = context.player.getDuplicateInPlay(context.source);
         context.player.moveCard(context.source, context.source.isDynasty ? 'dynasty discard pile' : 'conflict discard pile');
         context.game.applyGameAction(context, { placeFate: duplicate });
     }

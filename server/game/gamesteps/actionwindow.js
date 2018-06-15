@@ -17,7 +17,7 @@ class ActionWindow extends UiPrompt {
         this.prevPlayerPassed = false;
         this.priorityPassed = false;
     }
-    
+
     activeCondition(player) {
         return player === this.currentPlayer;
     }
@@ -40,7 +40,7 @@ class ActionWindow extends UiPrompt {
                 this.game.resolveAbility(action.createContext());
                 return true;
             }
-        } 
+        }
         this.game.promptWithHandlerMenu(player, {
             activePromptTitle: (card.location === 'play area' ? 'Choose an ability:' : 'Play ' + card.name + ':'),
             source: card,
@@ -57,7 +57,7 @@ class ActionWindow extends UiPrompt {
                 this.pass();
             }
         }
-        
+
         let completed = super.continue();
 
         if(!completed) {
@@ -103,7 +103,7 @@ class ActionWindow extends UiPrompt {
             });
             return true;
         }
-        
+
         if(choice === 'pass') {
             this.pass();
             return true;
@@ -112,7 +112,7 @@ class ActionWindow extends UiPrompt {
 
     pass() {
         this.game.addMessage('{0} passes', this.currentPlayer);
-        
+
         if(this.prevPlayerPassed || !this.currentPlayer.opponent) {
             this.complete();
         }
@@ -120,10 +120,10 @@ class ActionWindow extends UiPrompt {
         this.prevPlayerPassed = true;
         this.nextPlayer();
     }
-    
+
     nextPlayer() {
         let otherPlayer = this.game.getOtherPlayer(this.currentPlayer);
-        
+
         if(otherPlayer) {
             this.currentPlayer = otherPlayer;
         }

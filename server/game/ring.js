@@ -11,7 +11,7 @@ class Ring extends EffectSource {
         this.contested = false;
         this.element = element;
         this.fate = 0;
-        
+
         this.menu = _([
             { command: 'flip', text: 'Flip' },
             { command: 'claim', text: 'Claim' },
@@ -23,7 +23,7 @@ class Ring extends EffectSource {
             { command: 'conflict', text: 'Initiate Conflict' }
         ]);
     }
-    
+
     isConsideredClaimed(player = null) {
         let check = player => (this.getEffects('considerAsClaimed').some(match => match(player)) || this.claimedBy === player.name);
         if(player) {
@@ -67,13 +67,13 @@ class Ring extends EffectSource {
     getMenu() {
         var menu = [];
 
-        if(this.menu.isEmpty() || !this.game.manualMode) { 
+        if(this.menu.isEmpty() || !this.game.manualMode) {
             return undefined;
         }
-        
+
         menu.push({ command: 'click', text: 'Select Ring' });
         menu = menu.concat(this.menu.value());
-        
+
         return menu;
     }
 
@@ -83,7 +83,7 @@ class Ring extends EffectSource {
     modifyFate(fate) {
         this.fate = Math.max(this.fate + fate, 0);
     }
-    
+
     removeFate() {
         this.fate = 0;
     }
@@ -98,7 +98,7 @@ class Ring extends EffectSource {
         this.claimedBy = '';
         this.contested = false;
     }
-    
+
     getState(activePlayer) {
 
         let selectionState = {};
@@ -106,7 +106,7 @@ class Ring extends EffectSource {
         if(activePlayer) {
             selectionState = activePlayer.getRingSelectionState(this);
         }
-        
+
         let state = {
             claimed: this.claimed,
             claimedBy: this.claimedBy,
@@ -116,7 +116,7 @@ class Ring extends EffectSource {
             fate: this.fate,
             menu: this.getMenu()
         };
-        
+
         return Object.assign(state, selectionState);
     }
 

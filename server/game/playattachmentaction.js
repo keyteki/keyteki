@@ -10,7 +10,7 @@ class PlayAttachmentAction extends BaseAction {
         });
         this.title = 'Play this attachment';
     }
-    
+
     meetsRequirements(context = this.createContext()) {
         if(context.game.currentPhase === 'dynasty') {
             return 'phase';
@@ -32,14 +32,14 @@ class PlayAttachmentAction extends BaseAction {
     }
 
     executeHandler(context) {
-        let cardPlayedEvent = context.game.getEvent('onCardPlayed', { 
-            player: context.player, 
-            card: context.source, 
-            originalLocation: context.source.location 
+        let cardPlayedEvent = context.game.getEvent('onCardPlayed', {
+            player: context.player,
+            card: context.source,
+            originalLocation: context.source.location
         });
         context.game.openEventWindow([new AttachAction({ attachment: context.source }).getEvent(context.target, context), cardPlayedEvent]);
     }
-    
+
     isCardPlayed() {
         return true;
     }

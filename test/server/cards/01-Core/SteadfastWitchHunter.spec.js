@@ -37,10 +37,10 @@ describe('Steadfast Witch Hunter', function() {
             it('should still display a message if the target is chosen then sacrificed', function() {
                 this.player1.clickCard('against-the-waves');
                 this.player1.clickCard(this.steadfastWitchHunter);
-                this.player2.clickCard(this.steadfastWitchHunter);    
+                this.player2.clickCard(this.steadfastWitchHunter);
                 expect(this.player2).toHavePrompt('Steadfast Witch Hunter');
                 this.player2.clickCard(this.steadfastWitchHunter);
-                this.player2.clickCard(this.steadfastWitchHunter);                
+                this.player2.clickCard(this.steadfastWitchHunter);
                 expect(this.steadfastWitchHunter.location).toBe('dynasty discard pile');
                 expect(this.spy).toHaveBeenCalledWith('{0} attempted to use {1}, but targets were not successfully chosen', this.player2.player, this.steadfastWitchHunter);
             });
@@ -50,10 +50,10 @@ describe('Steadfast Witch Hunter', function() {
                 this.borderlandsDefender.bowed = true;
                 this.player1.clickCard('against-the-waves');
                 this.player1.clickCard(this.steadfastWitchHunter);
-                this.player2.clickCard(this.steadfastWitchHunter);    
+                this.player2.clickCard(this.steadfastWitchHunter);
                 expect(this.player2).toHavePrompt('Steadfast Witch Hunter');
                 this.player2.clickCard(this.steadfastWitchHunter);
-                this.player2.clickCard(this.steadfastWitchHunter);                
+                this.player2.clickCard(this.steadfastWitchHunter);
                 expect(this.steadfastWitchHunter.location).toBe('dynasty discard pile');
                 expect(this.player2).toHavePrompt('Steadfast Witch Hunter');
                 this.player2.clickCard(this.borderlandsDefender);

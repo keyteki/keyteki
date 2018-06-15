@@ -97,10 +97,10 @@ class CardAbility extends ThenAbility {
             }
         }).filter(obj => obj);
         if(costMessages.length > 0) {
-            // , 
+            // ,
             messageArgs.push(', ');
             // paying 3 honor
-            messageArgs.push(costMessages);            
+            messageArgs.push(costMessages);
         } else {
             messageArgs = messageArgs.concat(['', '']);
         }
@@ -128,7 +128,7 @@ class CardAbility extends ThenAbility {
         }
 
         if(effectMessage) {
-            // to 
+            // to
             messageArgs.push(' to ');
             // discard Stoic Gunso
             messageArgs.push({ message: this.game.gameChat.formatMessage(effectMessage, effectArgs) });

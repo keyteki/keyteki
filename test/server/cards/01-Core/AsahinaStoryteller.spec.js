@@ -49,7 +49,7 @@ describe('Asahina Storyteller', function() {
                 expect(this.asceticVisionary.isBlank()).toBe(false);
                 expect(this.sealOfTheCrane.location).toBe('conflict discard pile');
                 expect(this.asceticVisionary.isFaction('crane')).toBe(false);
-                expect(this.asceticVisionary.hasSincerity()).toBe(false);                
+                expect(this.asceticVisionary.hasSincerity()).toBe(false);
             });
         });
     });

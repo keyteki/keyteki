@@ -56,11 +56,11 @@ class FatePhase extends Phase {
             }
         });
     }
-    
+
     removeFateFromCharacters() {
         this.game.applyGameAction(null, { removeFate: this.game.findAnyCardsInPlay(card => card.allowGameAction('removeFate')) });
     }
-    
+
     placeFateOnUnclaimedRings() {
         this.game.raiseEvent('onPlaceFateOnUnclaimedRings', {}, () => {
             _.each(this.game.rings, ring => {

@@ -45,7 +45,7 @@ class CardAction extends CardAbility {
         if(!this.isInValidLocation(context)) {
             return 'location';
         }
-        
+
         if(this.phase !== 'any' && this.phase !== this.game.currentPhase) {
             return 'phase';
         }

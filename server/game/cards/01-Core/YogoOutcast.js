@@ -8,7 +8,7 @@ class YogoOutcast extends DrawCard {
             effect: ability.effects.modifyBothSkills(1)
         });
     }
-    
+
     isLessHonorableThanOpponent() {
         let otherPlayer = this.game.getOtherPlayer(this.controller);
         if(otherPlayer && otherPlayer.honor > this.controller.honor) {

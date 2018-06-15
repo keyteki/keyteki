@@ -7,7 +7,7 @@ class MountainsAnvilCastle extends StrongholdCard {
             cost: ability.costs.bowSelf(),
             condition: () => this.game.currentConflict,
             target: {
-                cardType: 'character', 
+                cardType: 'character',
                 cardCondition: card => card.isParticipating() && card.attachments.size() > 0,
                 gameAction: ability.actions.cardLastingEffect(context => ({
                     effect: ability.effects.modifyBothSkills(Math.min(context.target.attachments.size(), 2))

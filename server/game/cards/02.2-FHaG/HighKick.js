@@ -11,7 +11,7 @@ class HighKick extends DrawCard {
                 controller: 'opponent',
                 cardCondition: card => card.isParticipating(),
                 gameAction: [
-                    ability.actions.bow(), 
+                    ability.actions.bow(),
                     ability.actions.cardLastingEffect({ effect: ability.effects.cardCannot('triggerAbilities') })
                 ]
             },

@@ -8,7 +8,7 @@ class DiscardFromPlayAction extends CardGameAction {
         this.effectMsg = isSacrifice ? 'sacrifice {0}' : 'discard {0}';
         this.cost = 'sacrificing {0}';
     }
-    
+
     setup() {
         this.targetType = ['character', 'attachment', 'holding'];
     }

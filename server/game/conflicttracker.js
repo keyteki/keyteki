@@ -100,7 +100,7 @@ class ConflictTracker {
     getLost(conflictType) {
         return this.conflictTypes[conflictType].lost;
     }
-    
+
     getTotalLost() {
         return this.getLost('military') + this.getLost('political');
     }
@@ -142,7 +142,7 @@ class ConflictTracker {
     modifyMaxForType(conflictType, number) {
         this.conflictTypes[conflictType].max += number;
     }
-    
+
     usedConflictOpportunity() {
         this.conflictOpportunities--;
     }

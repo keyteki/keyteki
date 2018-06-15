@@ -23,6 +23,6 @@ class MountaintopStatuary extends DrawCard {
     }
 }
 
-MountaintopStatuary.id = 'mountaintop-statuary'; 
+MountaintopStatuary.id = 'mountaintop-statuary';
 
 module.exports = MountaintopStatuary;

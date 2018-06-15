@@ -29,7 +29,7 @@ class CardEffect extends Effect {
         }
         return this.game.allCards.filter(card => this.match(card) && card.location === this.targetLocation);
     }
-    
+
 }
 
 module.exports = CardEffect;

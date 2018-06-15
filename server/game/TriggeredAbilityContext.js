@@ -3,7 +3,7 @@ const AbilityContext = require('./AbilityContext.js');
 class TriggeredAbilityContext extends AbilityContext {
     constructor(properties) {
         super(properties);
-        
+
         this.event = properties.event;
     }
 
@@ -16,7 +16,7 @@ class TriggeredAbilityContext extends AbilityContext {
         props.event = this.event;
         return props;
     }
-    
+
     cancel() {
         this.event.cancel();
     }

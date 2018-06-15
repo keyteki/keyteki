@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class Censure extends DrawCard {
-    setupCardAbilities() {        
+    setupCardAbilities() {
         this.wouldInterrupt({
             title: 'Cancel an event',
             when: {

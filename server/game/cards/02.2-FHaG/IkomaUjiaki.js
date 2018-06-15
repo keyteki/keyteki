@@ -19,7 +19,7 @@ class IkomaUjiaki extends DrawCard {
                     if(card && card.facedown) {
                         revealedCards.push(card);
                         card.facedown = false;
-                    } 
+                    }
                 });
                 if(revealedCards.length > 0) {
                     this.game.promptForSelect(context.player, {

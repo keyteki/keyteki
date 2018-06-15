@@ -5,7 +5,7 @@ class DojiHotaru extends DrawCard {
         this.reaction({
             title: 'Resolve ring effect',
             when: {
-                onClaimRing: (event, context) => this.game.isDuringConflict('political') && context.source.isParticipating() && 
+                onClaimRing: (event, context) => this.game.isDuringConflict('political') && context.source.isParticipating() &&
                                                  event.player === context.player
             },
             gameAction: ability.actions.resolveRing({ attackingPlayer: false })

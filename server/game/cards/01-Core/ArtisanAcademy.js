@@ -15,7 +15,7 @@ class ArtisanAcademy extends DrawCard {
                     onDeckShuffled: event => event.player === context.player && event.deck === 'conflict deck'
                 },
                 effect: [
-                    ability.effects.showTopConflictCard(), 
+                    ability.effects.showTopConflictCard(),
                     ability.effects.canPlayFromOwn('conflict deck')
                 ]
             }))

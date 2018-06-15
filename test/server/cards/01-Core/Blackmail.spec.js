@@ -97,13 +97,13 @@ describe('Blackmail', function() {
                     expect(this.shibaPeacemaker.bowed).toBe(true);
                     expect(this.game.currentConflict.attackers).not.toContain(this.shibaPeacemaker);
                     expect(this.game.currentConflict.defenders).not.toContain(this.shibaPeacemaker);
-                    expect(this.shibaPeacemaker.controller).toBe(this.player1.player);                    
+                    expect(this.shibaPeacemaker.controller).toBe(this.player1.player);
                 });
 
                 it('should display a game message indicating why the character has been sent home', function() {
                     expect(this.spy).toHaveBeenCalledWith('{0} cannot participate in the conflict any more and {1} sent home bowed', [this.shibaPeacemaker], 'is');
                 });
-                
+
                 it('should correctly calculate the new conflict totals', function() {
                     expect(this.game.currentConflict.attackerSkill).toBe(2);
                     expect(this.game.currentConflict.defenderSkill).toBe(2);
@@ -181,6 +181,6 @@ describe('Blackmail', function() {
             it('should only have one instance of the constant ability in effect', function() {
                 expect(this.yogoOutcast.getPoliticalSkill()).toBe(3);
             });
-        });    
+        });
     });
 });

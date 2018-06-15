@@ -4,7 +4,7 @@ class BayushiKachiko extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Send a character home',
-            condition: context => this.game.isDuringConflict('political') && context.source.isParticipating(), 
+            condition: context => this.game.isDuringConflict('political') && context.source.isParticipating(),
             target: {
                 cardType: 'character',
                 cardCondition: (card, context) => card.politicalSkill < context.source.politicalSkill,
@@ -16,7 +16,7 @@ class BayushiKachiko extends DrawCard {
                     activePromptTitle: 'Do you want to bow ' + context.target.name + '?',
                     choices: {
                         'Yes': ability.actions.bow({ target: context.target }),
-                        'No': () => true 
+                        'No': () => true
                     }
                 },
                 message: '{0} chooses to bow {2} due to {1}\'s ability'
