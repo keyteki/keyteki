@@ -78,6 +78,9 @@ class HandlerMenuPrompt extends UiPrompt {
                 targets: this.properties.controls.targets.map(target => target.getShortSummary())
             }];
         }
+        if(this.context.source.type === '') {
+            return [];
+        }
         let targets = this.context.targets ? Object.values(this.context.targets).map(target => target.getShortSummary()) : [];
         if(targets.length === 0 && this.context.event && this.context.event.card) {
             this.targets = [this.context.event.card.getShortSummary()];
