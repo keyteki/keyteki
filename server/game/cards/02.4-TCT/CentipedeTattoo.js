@@ -6,14 +6,22 @@ class CentipedeTattoo extends DrawCard {
             effect: ability.effects.addKeyword('tattooed')
         });
         this.whileAttached({
-            condition: () => this.parent.isParticipating() && this.game.currentConflict.loser === this.parent.controller,
-            effect: ability.effects.doesNotBow()
+            condition: () => (
+                this.game.currentConflict &&
+                this.game.currentConflict.loser &&
+                this.game.currentConflict.isParticipating(this.parent) &&
+                this.game.currentConflict.loser === this.parent.controller
+            ),
+            effect: [
+                ability.effects.doesNotBowAsAttacker(),
+                ability.effects.doesNotBowAsDefender()
+            ]
         });
     }
 
-    canAttach(card, context) {
+    canAttach(card) {
         if(card.hasTrait('monk')) {
-            return super.canAttach(card, context);
+            return super.canAttach(card);
         }
         return false;
     }

@@ -1,16 +1,18 @@
 const DrawCard = require('../../drawcard.js');
 
 class ICanSwim extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Discard a dishonored character',
-            condition: context => context.player.opponent && context.player.showBid > context.player.opponent.showBid,
-            cannotBeMirrored: true,
+            condition: () => this.game.currentConflict && this.controller.opponent && this.controller.showBid > this.controller.opponent.showBid,
             target: {
                 cardType: 'character',
-                controller: 'opponent',
-                cardCondition: card => card.isParticipating() && card.isDishonored,
-                gameAction: ability.actions.discardFromPlay()
+                gameAction: 'discardFromPlay',
+                cardCondition: card => card.isParticipating() && card.isDishonored && card.controller !== this.controller 
+            },
+            handler: context => {
+                this.game.addMessage('{0} plays {1} to discard {2}', this.controller, this, context.target);
+                this.game.applyGameAction(context, { discardFromPlay: context.target });
             }
         });
     }

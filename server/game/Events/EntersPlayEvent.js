@@ -1,21 +1,22 @@
 const Event = require('./Event.js');
 
 class EntersPlayEvent extends Event {
-    constructor(params, card, fate, gameAction) {
-        super('onCharacterEntersPlay', params);
+    constructor(params, card) {
+        super('onCardEntersPlay', params);
         this.handler = this.entersPlay;
         this.card = card;
-        this.fate = fate;
-        this.gameAction = gameAction;
         this.originalLocation = card.location;
     }
-
+    
     entersPlay() {
         this.card.new = true;
         if(this.fate) {
             this.card.fate = this.fate;
         }
-        this.context.player.moveCard(this.card, 'play area');
+        if(this.card.type === 'character') {
+            this.context.player.moveCard(this.card, 'play area');
+        }
+        this.card.controller = this.context.player;
 
         if(this.intoConflict) {
             if(this.context.player.isAttackingPlayer()) {

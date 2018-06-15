@@ -1,17 +1,19 @@
+const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 
 class ShibaYojimbo extends DrawCard {
     setupCardAbilities() {
-        this.wouldInterrupt({
+        this.interrupt({
             title: 'Cancel ability',
             when: {
-                onCardAbilityInitiated: (event, context) => event.context.ability.isTriggeredAbility() && event.cardTargets.some(card => (
-                    card.hasTrait('shugenja') && card.controller === context.player && card.location === 'play area')
-                )
+                onCardAbilityInitiated: event => _.any(event.cardTargets, card => card.hasTrait('shugenja') && card.controller === this.controller && 
+                                                 card.location === 'play area') && event.context.ability.isTriggeredAbility()
             },
-            effect: 'cancel the effects of {1}',
-            effectArgs: context => context.event.card,
-            handler: context => context.cancel()
+            canCancel: true,
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to cancel the effects of {2}', this.controller, this, context.event.card);
+                context.cancel();
+            }
         });
     }
 }

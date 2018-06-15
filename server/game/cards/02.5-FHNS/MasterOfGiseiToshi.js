@@ -1,7 +1,7 @@
 const DrawCard = require('../../drawcard.js');
 
 class MasterOfGiseiToshi extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
             title: 'Prevent non-spell events from being played while contesting a ring',
             when: {
@@ -11,13 +11,15 @@ class MasterOfGiseiToshi extends DrawCard {
                 mode: 'ring',
                 ringCondition: () => true
             },
-            effect: 'prevent non-spell events from being played while {0} is contested',
-            gameAction: ability.actions.playerLastingEffect(context => ({
-                duration: 'untilEndOfPhase',
-                targetController: 'any',
-                condition: () => this.game.currentConflict && this.game.currentConflict.ring === context.ring,
-                effect: ability.effects.playerCannot('play', context => context.source.type === 'event' && !context.source.hasTrait('spell'))
-            }))
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to prevent non-spell events from being played while the {2} ring is contested', context.player, this, context.ring.element);                
+                this.untilEndOfPhase(ability => ({
+                    targetType: 'player',
+                    targetController: 'any',
+                    condition: () => this.game.currentConflict && this.game.currentConflict.conflictRing === context.ring.element,
+                    effect: ability.effects.cannotPlay(context => context && context.source.type === 'event' && !context.source.hasTrait('spell'))
+                }));
+            }
         });
     }
 }

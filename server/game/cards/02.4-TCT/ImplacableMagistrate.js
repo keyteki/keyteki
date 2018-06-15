@@ -6,7 +6,7 @@ class ImplacableMagistrate extends DrawCard {
             condition: () => this.isAttacking(),
             match: card => card.isParticipating() && !card.isHonored && card !== this,
             targetController: 'any',
-            effect: ability.effects.cardCannot('countForResolution')
+            effect: ability.effects.cannotCountForResolution()
         });
     }
 }

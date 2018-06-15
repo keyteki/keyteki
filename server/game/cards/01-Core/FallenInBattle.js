@@ -5,15 +5,19 @@ class FallenInBattle extends DrawCard {
         this.reaction({
             title: 'Discard a character',
             when: {
-                afterConflict: (event, context) => event.conflict.winner === context.player && event.conflict.conflictType === 'military' &&
-                                                   event.conflict.skillDifference >= 5
+                afterConflict: event => event.conflict.winner === this.controller && event.conflict.conflictType === 'military' && 
+                                        event.conflict.skillDifference > 4
             },
+            max: ability.limit.perConflict(1),
             target: {
                 cardType: 'character',
-                cardCondition: card => card.isParticipating(),
-                gameAction: ability.actions.discardFromPlay()
+                gameAction: 'discardFromPlay',
+                cardCondition: card => this.game.currentConflict.isParticipating(card)
             },
-            max: ability.limit.perConflict(1)
+            handler: context => {
+                this.game.addMessage('{0} plays {1} to discard {2}', this.controller, this, context.target);
+                this.game.applyGameAction(context, { discardFromPlay: context.target });
+            }
         });
     }
 }

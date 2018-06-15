@@ -1,10 +1,24 @@
+const uuid = require('uuid');
 const _ = require('underscore');
 
 const AbilityDsl = require('./abilitydsl.js');
 const CardAction = require('./cardaction.js');
+const CardForcedInterrupt = require('./cardforcedinterrupt.js');
+const CardForcedReaction = require('./cardforcedreaction.js');
+const CardInterrupt = require('./cardinterrupt.js');
+const CardReaction = require('./cardreaction.js');
 const CustomPlayAction = require('./customplayaction.js');
 const EffectSource = require('./EffectSource.js');
-const TriggeredAbility = require('./triggeredability');
+
+const ValidKeywords = [
+    'ancestral',
+    'restricted',
+    'limited',
+    'sincerity',
+    'courtesy',
+    'pride',
+    'covert'
+];
 
 class BaseCard extends EffectSource {
     constructor(owner, cardData) {
@@ -13,23 +27,45 @@ class BaseCard extends EffectSource {
         this.controller = owner;
         this.cardData = cardData;
 
+        this.uuid = uuid.v1();
         this.id = cardData.id;
         this.name = cardData.name;
+        this.blankCount = 0;
         this.inConflict = false;
 
         this.type = cardData.type;
 
         this.tokens = {};
+        this.strongholdModifierValues = {
+            honor: 0,
+            fate: 0,
+            influence: 0,
+            strength: 0
+        };
+        this.canProvideStrongholdModifier = {
+            honor: true,
+            fate: true,
+            influence: true,
+            strength: true
+        };
+        this.provinceModifierValues = {
+            strength: 0
+        };
+        this.canProvideProvinceModifier = {
+            strength: true
+        };
+        this.abilityRestrictions = [];
         this.menu = _([]);
 
         this.showPopup = false;
         this.popupMenuText = '';
 
         this.abilities = { actions: [], reactions: [], persistentEffects: [], playActions: [] };
-        this.traits = cardData.traits || [];
+        this.parseKeywords(cardData.text_canonical || '');
+        this.parseTraits(cardData.traits || '');
         this.setupCardAbilities(AbilityDsl);
 
-        this.printedFaction = cardData.clan;
+        this.addFaction(cardData.clan);
 
         this.isProvince = false;
         this.isConflict = false;
@@ -37,43 +73,90 @@ class BaseCard extends EffectSource {
         this.isStronghold = false;
     }
 
-    /**
-     * Create card abilities by calling subsequent methods with appropriate properties
-     * @param {AbilityDsl} ability - object containing limits, costs, effects, and game actions
-     */
+    parseKeywords(text) {
+        var lines = text.split('\n');
+        var potentialKeywords = [];
+        _.each(lines, line => {
+            line = line.slice(0, -1);
+            _.each(line.split('. '), k => potentialKeywords.push(k));
+        });
+
+        this.keywords = {};
+        this.printedKeywords = [];
+        this.allowedAttachmentTraits = [];
+
+        _.each(potentialKeywords, keyword => {
+            if(_.contains(ValidKeywords, keyword)) {
+                this.printedKeywords.push(keyword);
+            } else if(keyword.startsWith('no attachments except')) {
+                var traits = keyword.replace('no attachments except ', '');
+                this.allowedAttachmentTraits = traits.split(' or ');
+            } else if(keyword.startsWith('no attachments')) {
+                this.allowedAttachmentTraits = ['none'];
+            }
+        });
+
+        if(this.printedKeywords.length > 0) {
+            this.persistentEffect({
+                match: this,
+                effect: AbilityDsl.effects.addMultipleKeywords(this.printedKeywords)
+            });
+        }
+    }
+
+    parseTraits(traits) {
+        this.traits = {};
+
+        _.each(traits, trait => this.addTrait(trait));
+    }
+
+    registerEvents(events) {
+        this.eventsForRegistration = events;
+    }
+
     setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    }
+
+    provinceModifiers(modifiers) {
+        this.provincetModifierValues = _.extend(this.provinceModifierValues, modifiers);
+        if(modifiers.strength) {
+            this.persistentEffect({
+                condition: () => this.canProvideProvinceModifier['strength'],
+                match: card => card.controller.activeProvince === card,
+                targetController: 'current',
+                effect: AbilityDsl.effects.modifyStrength(modifiers.strength)
+            });
+        }
     }
 
     action(properties) {
         var action = new CardAction(this.game, this, properties);
+        /*
+        if(!action.isClickToActivate() && action.allowMenu()) {
+            var index = this.abilities.actions.length;
+            this.menu.push(action.getMenuItem(index));
+        }*/
         this.abilities.actions.push(action);
-        return action;
-    }
-
-    triggeredAbility(abilityType, properties) {
-        let reaction = new TriggeredAbility(this.game, this, abilityType, properties);
-        this.abilities.reactions.push(reaction);
-        return reaction;
     }
 
     reaction(properties) {
-        this.triggeredAbility('reaction', properties);
+        var reaction = new CardReaction(this.game, this, properties);
+        this.abilities.reactions.push(reaction);
     }
 
     forcedReaction(properties) {
-        this.triggeredAbility('forcedreaction', properties);
-    }
-
-    wouldInterrupt(properties) {
-        this.triggeredAbility('cancelinterrupt', properties);
+        var reaction = new CardForcedReaction(this.game, this, properties);
+        this.abilities.reactions.push(reaction);
     }
 
     interrupt(properties) {
-        this.triggeredAbility('interrupt', properties);
+        var reaction = new CardInterrupt(this.game, this, properties);
+        this.abilities.reactions.push(reaction);
     }
 
     forcedInterrupt(properties) {
-        this.triggeredAbility('forcedinterrupt', properties);
+        var reaction = new CardForcedInterrupt(this.game, this, properties);
+        this.abilities.reactions.push(reaction);
     }
 
     /**
@@ -102,25 +185,29 @@ class BaseCard extends EffectSource {
         this.abilities.persistentEffects.push(_.extend({ duration: 'persistent', location: location }, properties));
     }
 
-    hasTrait(trait) {
-        trait = trait.toLowerCase();
-        return this.traits.includes(trait) || this.getEffects('addTrait').includes(trait);
+    doAction(player, arg) {
+        var action = this.abilities.actions[arg];
+
+        if(!action) {
+            return;
+        }
+
+        action.execute(player, arg);
     }
 
-    getTraits() {
-        let traits = this.traits.concat(this.getEffects('addTrait'));
-        return _.uniq(traits);
+    hasKeyword(keyword) {
+        var keywordCount = this.keywords[keyword.toLowerCase()] || 0;
+        return keywordCount > 0;
     }
 
-    isFaction(faction) {
-        faction = faction.toLowerCase();
-        return this.printedFaction === faction || this.getEffects('addFaction').includes(faction);
+    hasPrintedKeyword(keyword) {
+        return this.printedKeywords.includes(keyword.toLowerCase());
     }
 
     applyAnyLocationPersistentEffects() {
         _.each(this.abilities.persistentEffects, effect => {
             if(effect.location === 'any') {
-                this.addEffectToEngine(effect);
+                this.game.addEffect(this, effect);
             }
         });
     }
@@ -128,7 +215,7 @@ class BaseCard extends EffectSource {
     applyPersistentEffects() {
         _.each(this.abilities.persistentEffects, effect => {
             if(effect.location !== 'any') {
-                this.addEffectToEngine(effect);
+                this.game.addEffect(this, effect);
             }
         });
     }
@@ -143,7 +230,7 @@ class BaseCard extends EffectSource {
 
     updateAbilityEvents(from, to) {
         _.each(this.abilities.reactions, reaction => {
-            if(reaction.location.includes(to) && !reaction.location.includes(from) || this.type === 'event' && to === 'conflict deck') {
+            if(reaction.location.includes(to) && !reaction.location.includes(from)) {
                 reaction.registerEvents();
             } else if(!reaction.location.includes(to) && reaction.location.includes(from)) {
                 reaction.unregisterEvents();
@@ -170,22 +257,22 @@ class BaseCard extends EffectSource {
         }
     }
 
+    modifyFavor(player, glory) {
+        return glory;
+    }
+
     canTriggerAbilities(context) {
-        return !this.facedown && (this.checkRestrictions('triggerAbilities', context) || !context.ability.isTriggeredAbility());
+        return !this.facedown && this.allowGameAction('triggerAbilities', context);
     }
-
-    getModifiedLimitMax(max) {
-        return this.sumEffects('increaseLimitOnAbilities') + max;
-    }
-
+    
     getMenu() {
         var menu = [];
 
-        if(this.menu.isEmpty() || !this.game.manualMode ||
+        if(this.menu.isEmpty() || !this.game.manualMode || 
                 !['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province','play area'].includes(this.location)) {
             return undefined;
         }
-
+        
         if(this.facedown) {
             return [{ command: 'reveal', text: 'Reveal' }];
         }
@@ -194,24 +281,8 @@ class BaseCard extends EffectSource {
         if(this.location === 'play area' || this.isProvince || this.isStronghold) {
             menu = menu.concat(this.menu.value());
         }
-
+        
         return menu;
-    }
-
-    isConflictProvince() {
-        return false;
-    }
-
-    isAttacking() {
-        return this.game.currentConflict && this.game.currentConflict.isAttacking(this);
-    }
-
-    isDefending() {
-        return this.game.currentConflict && this.game.currentConflict.isDefending(this);
-    }
-
-    isParticipating() {
-        return this.game.currentConflict && this.game.currentConflict.isParticipating(this);
     }
 
     isUnique() {
@@ -219,17 +290,94 @@ class BaseCard extends EffectSource {
     }
 
     isBlank() {
-        return this.anyEffect('blank');
+        return this.blankCount > 0;
     }
 
     getPrintedFaction() {
         return this.cardData.clan;
     }
 
-    checkRestrictions(actionType, context = null) {
-        return super.checkRestrictions(actionType, context) && this.controller.checkRestrictions(actionType, context);
+    setBlank() {
+        var before = this.isBlank();
+        this.blankCount++;
+        var after = this.isBlank();
+        if(!before && after) {
+            this.game.emitEvent('onCardBlankToggled', { card: this, isBlank: after });
+        }
     }
 
+    allowGameAction(actionType, context = null) {
+        return (!_.any(this.abilityRestrictions, restriction => restriction.isMatch(actionType, context)) &&
+            this.controller.allowGameAction(actionType, context));
+    }
+
+    allowEffectFrom(source) {
+        let context = { game: this.game, player: source.controller, source: source, stage: 'effect' };
+        return !_.any(this.abilityRestrictions, restriction => restriction.isMatch('applyEffect', context));
+    }
+
+    addAbilityRestriction(restriction) {
+        this.abilityRestrictions.push(restriction);
+    }
+
+    removeAbilityRestriction(restriction) {
+        this.abilityRestrictions = _.reject(this.abilityRestrictions, r => r === restriction);
+    }
+
+    addKeyword(keyword) {
+        var lowerCaseKeyword = keyword.toLowerCase();
+        this.keywords[lowerCaseKeyword] = this.keywords[lowerCaseKeyword] || 0;
+        this.keywords[lowerCaseKeyword]++;
+    }
+
+    addTrait(trait) {
+        let lowerCaseTrait = trait.toLowerCase();
+
+        if(!lowerCaseTrait || lowerCaseTrait === '') {
+            return;
+        }
+
+        if(!this.traits[lowerCaseTrait]) {
+            this.traits[lowerCaseTrait] = 1;
+        } else {
+            this.traits[lowerCaseTrait]++;
+        }
+    }
+
+    addFaction(faction) {
+        if(!faction) {
+            return;
+        }
+
+        var lowerCaseFaction = faction.toLowerCase();
+        this.factions[lowerCaseFaction] = this.factions[lowerCaseFaction] || 0;
+        this.factions[lowerCaseFaction]++;
+    }
+
+    removeKeyword(keyword) {
+        var lowerCaseKeyword = keyword.toLowerCase();
+        this.keywords[lowerCaseKeyword] = this.keywords[lowerCaseKeyword] || 0;
+        this.keywords[lowerCaseKeyword]--;
+    }
+
+    removeTrait(trait) {
+        let lowerCaseTrait = trait.toLowerCase();
+        this.traits[lowerCaseTrait] = this.traits[lowerCaseTrait] || 0;
+        this.traits[lowerCaseTrait]--;
+    }
+
+    removeFaction(faction) {
+        this.factions[faction.toLowerCase()]--;
+    }
+
+    clearBlank() {
+        var before = this.isBlank();
+        this.blankCount--;
+        var after = this.isBlank();
+        if(before && !after) {
+            this.game.emitEvent('onCardBlankToggled', { card: this, isBlank: after });
+        }
+    }
 
     addToken(type, number = 1) {
         if(_.isUndefined(this.tokens[type])) {
@@ -267,14 +415,14 @@ class BaseCard extends EffectSource {
         let isActivePlayer = activePlayer === this.owner;
 
         if(!isActivePlayer && (this.facedown || hideWhenFaceup) && this.isProvince) {
-            return {
+            return { 
                 uuid: this.uuid,
                 inConflict: this.inConflict,
                 facedown: true};
         }
 
         if(!isActivePlayer && (this.facedown || hideWhenFaceup)) {
-            return {
+            return { 
                 facedown: true};
         }
 
@@ -293,7 +441,7 @@ class BaseCard extends EffectSource {
             uuid: this.uuid
         };
 
-        return Object.assign(state, selectionState);
+        return _.extend(state, selectionState);
     }
 }
 

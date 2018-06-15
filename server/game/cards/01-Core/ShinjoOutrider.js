@@ -1,10 +1,14 @@
 const DrawCard = require('../../drawcard.js');
 
 class ShinjoOutrider extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Move this character to conflict',
-            gameAction: ability.actions.moveToConflict()
+            condition: context => context.source.allowGameAction('moveToConflict', context),
+            handler: context => {
+                this.game.addMessage('{0} moves {1} to the conflict by using its ability', this.controller, this);
+                this.game.applyGameAction(context, { moveToConflict: context.source });
+            }
         });
     }
 }

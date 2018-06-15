@@ -3,78 +3,47 @@ const _ = require('underscore');
 const CardSelector = require('../CardSelector.js');
 
 class AbilityTargetCard {
-    constructor(name, properties, ability) {
+    constructor(name, properties) {
         this.name = name;
         this.properties = properties;
-        for(let gameAction of this.properties.gameAction) {
-            gameAction.getDefaultTargets = context => context.targets[name];
-        }
-        this.selector = this.getSelector(properties);
-        this.checkDependentTarget = context => true; // eslint-disable-line no-unused-vars
-        if(this.properties.dependsOn) {
-            let dependsOnTarget = ability.targets.find(target => target.name === this.properties.dependsOn);
-            dependsOnTarget.checkDependentTarget = context => this.hasLegalTarget(context);
-        }
-    }
-
-    getSelector(properties) {
-        let cardCondition = (card, context) => {
-            let contextCopy = context.copy();
-            contextCopy.targets[this.name] = card;
-            if(this.name === 'target') {
-                contextCopy.target = card;
-            }
-            if(context.stage === 'pretarget' && !context.ability.canPayCosts(contextCopy)) {
-                return false;
-            }
-            return (!properties.cardCondition || properties.cardCondition(card, contextCopy)) && this.checkDependentTarget(contextCopy) &&
-                   (properties.gameAction.length === 0 || properties.gameAction.some(gameAction => gameAction.hasLegalTarget(contextCopy)));
-        };
-        return CardSelector.for(Object.assign({}, properties, { cardCondition: cardCondition}));
+        this.selector = CardSelector.for(properties);
     }
 
     canResolve(context) {
-        // if this depends on another target, that will check hasLegalTarget already
-        return !!this.properties.dependsOn || this.hasLegalTarget(context);
+        return this.selector.hasEnoughTargets(context, true);
     }
 
-    hasLegalTarget(context) {
-        return this.selector.hasEnoughTargets(context);
+    getAllLegalTargets(context, pretarget = true) {
+        return this.selector.getAllLegalTargets(context, pretarget);
     }
 
-    getGameAction(context) {
-        return this.properties.gameAction.filter(gameAction => gameAction.hasLegalTarget(context));
-    }
-
-    getAllLegalTargets(context) {
-        return this.selector.getAllLegalTargets(context);
-    }
-
-    resolve(context, noCostsFirstButton = false) {
+    resolve(context, pretarget = false, noCostsFirstButton = false) {
         let otherProperties = _.omit(this.properties, 'cardCondition');
         let result = { resolved: false, name: this.name, value: null, costsFirst: false, mode: this.properties.mode };
         let player = context.player;
-        if(this.getAllLegalTargets(context).length === 0) {
+        if(_.size(this.getAllLegalTargets(context, pretarget)) === 0) {
             result.resolved = true;
             return result;
         }
         if(this.properties.player && this.properties.player === 'opponent') {
-            if(context.stage === 'pretarget') {
+            if(pretarget) {
                 result.costsFirst = true;
                 return result;
             }
             player = player.opponent;
         }
         let buttons = [];
-        let waitingPromptTitle = '';
         if(this.properties.optional) {
             buttons.push({ text: 'No more targets', arg: 'noMoreTargets' });
         }
-        if(context.stage === 'pretarget') {
+        if(pretarget) {
             if(!noCostsFirstButton) {
                 buttons.push({ text: 'Pay costs first', arg: 'costsFirst' });
             }
             buttons.push({ text: 'Cancel', arg: 'cancel' });
+        }
+        let waitingPromptTitle = '';
+        if(pretarget) {
             if(context.ability.abilityType === 'action') {
                 waitingPromptTitle = 'Waiting for opponent to take an action or pass';
             } else {
@@ -84,8 +53,10 @@ class AbilityTargetCard {
         let promptProperties = {
             waitingPromptTitle: waitingPromptTitle,
             context: context,
+            source: context.source,
             selector: this.selector,
             buttons: buttons,
+            pretarget: pretarget,
             onSelect: (player, card) => {
                 result.resolved = true;
                 result.value = card;
@@ -109,10 +80,10 @@ class AbilityTargetCard {
                 return true;
             }
         };
-        context.game.promptForSelect(player, Object.assign(promptProperties, otherProperties));
+        context.game.promptForSelect(player, _.extend(promptProperties, otherProperties));
         return result;
     }
-
+    
     checkTarget(context) {
         if(this.properties.optional || context.targets[this.name] === 'noMoreTargets') {
             return true;
@@ -120,10 +91,10 @@ class AbilityTargetCard {
             return false;
         }
         let cards = context.targets[this.name];
-        if(!Array.isArray(cards)) {
+        if(!_.isArray(cards)) {
             cards = [cards];
         }
-        return (cards.every(card => this.selector.canTarget(card, context)) &&
+        return (_.all(cards, card => this.selector.canTarget(card, context)) &&
                 this.selector.hasEnoughSelected(cards) &&
                 !this.selector.hasExceededLimit(cards));
     }

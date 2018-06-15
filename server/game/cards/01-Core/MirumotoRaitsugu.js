@@ -1,31 +1,27 @@
 const DrawCard = require('../../drawcard.js');
 
 class MirumotoRaitsugu extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Duel an opposing character',
-            condition: context => context.source.isParticipating(),
+            condition: () => this.isParticipating(),
             target: {
                 cardType: 'character',
-                controller: 'opponent',
-                cardCondition: card => card.isParticipating(),
-                gameAction: ability.actions.duel(context => ({
-                    type: 'military',
-                    challenger: context.source,
-                    resolutionHandler: (context, winner, loser) => this.resolutionHandler(context, winner, loser)
-                }))
+                cardCondition: card => card.controller !== this.controller && card.isParticipating() && card.getMilitarySkill(true) !== undefined
+            },
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to challenge {2} to a duel', this.controller, this, context.target);
+                this.game.initiateDuel(this, context.target, 'military', (winner, loser) => {
+                    if(loser && loser.fate > 0) {
+                        this.game.addMessage('{0} wins the duel, and {1} loses a fate', winner, loser);
+                        this.game.applyGameAction(context, { removeFate: loser });
+                    } else if(loser) {
+                        this.game.addMessage('{0} wins the duel, and {1} is discarded', winner, loser);
+                        this.game.applyGameAction(context, { discardFromPlay: loser });
+                    }
+                });
             }
         });
-    }
-
-    resolutionHandler(context, winner, loser) {
-        if(loser && loser.fate > 0) {
-            this.game.addMessage('{0} wins the duel, and {1} loses a fate', winner, loser);
-            this.game.applyGameAction(context, { removeFate: loser });
-        } else if(loser) {
-            this.game.addMessage('{0} wins the duel, and {1} is discarded', winner, loser);
-            this.game.applyGameAction(context, { discardFromPlay: loser });
-        }
     }
 }
 

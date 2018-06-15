@@ -1,11 +1,14 @@
 const ProvinceCard = require('../../provincecard.js');
 
 class FertileFields extends ProvinceCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Draw a card',
-            condition: context => this.game.currentConflict && this.game.currentConflict.conflictProvince === context.source,
-            gameAction: ability.actions.draw()
+            condition: () => this.game.currentConflict && this.game.currentConflict.conflictProvince === this,
+            handler: () => {
+                this.game.addMessage('{0} uses {1} to draw a card', this.controller, this);
+                this.controller.drawCardsToHand(1);
+            }
         });
     }
 }

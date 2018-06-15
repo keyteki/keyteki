@@ -1,18 +1,21 @@
+const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 
 class TestOfCourage extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Move a character into conflict',
-            condition: context => context.player.opponent && context.player.showBid < context.player.opponent.showBid,
+            condition: () => this.game.currentConflict && this.controller.opponent && this.controller.showBid < this.controller.opponent.showBid,
             target: {
                 cardType: 'character',
-                controller: 'self',
-                cardCondition: card => card.isFaction('lion'),
-                gameAction: ability.actions.moveToConflict()
+                gameAction: 'moveToConflict',
+                cardCondition: card => card.controller === this.controller && card.isFaction('lion')
             },
-            then: {
-                gameAction: ability.actions.honor(context => ({ target: context.target }))
+            handler: context => {
+                this.game.addMessage('{0} plays {1}, moving {2} into conflict', this.controller, this, context.target);
+                let events = this.game.applyGameAction(context, { moveToConflict: context.target });
+                let moveEvent = _.find(events, event => event.gameAction === 'moveToConflict');
+                moveEvent.addThenGameAction(context, { honor: context.target });
             }
         });
     }

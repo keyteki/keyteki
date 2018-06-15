@@ -1,27 +1,32 @@
 const ProvinceCard = require('../../provincecard.js');
 
 class FeastOrFamine extends ProvinceCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.interrupt({
             title: 'Move fate from an opposing character',
             when: {
-                onBreakProvince: (event, context) => event.card === context.source
+                onBreakProvince: (event, context) => event.card === context.source && context.player.cardsInPlay.any(
+                    card => card.fate === 0 && card.allowGameAction('placeFate', context)
+                )
             },
             target: {
                 cardType: 'character',
-                controller: 'opponent',
-                gameAction: ability.actions.placeFate(context => ({
-                    origin: context.target,
-                    amount: context.target.fate,
-                    promptForSelect: {
-                        cardType: 'character',
-                        controller: 'self',
-                        cardCondition: card => card.fate === 0,
-                        message: '{0} moves the fate to {2}'
-                    }
-                }))
+                gameAction: 'removeFate',
+                cardCondition: card => card.controller !== this.controller
             },
-            effect: 'move all fate from {0} to a character they control'
+            handler: context => this.game.promptForSelect(this.controller, {
+                activePromptTitle: 'Choose a character',
+                source: this,
+                cardType: 'character',
+                cardCondition: card => card.controller === this.controller && card.allowGameAction('placeFate', context) && card.fate === 0,
+                onSelect: (player, card) => {
+                    this.game.addMessage('{0} uses {1} to move {2} fate from {3} to {4}', player, this, context.target.fate, context.target, card);
+                    let event = this.game.applyGameAction(context, { removeFate: context.target })[0];
+                    event.fate = context.target.getFate();
+                    event.recipient = card;
+                    return true;
+                }
+            })
         });
     }
 }

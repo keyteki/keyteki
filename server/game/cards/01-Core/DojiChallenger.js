@@ -1,14 +1,18 @@
 const DrawCard = require('../../drawcard.js');
 
 class DojiChallenger extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Move a character into the conflict',
-            condition: context => context.source.isAttacking(),
+            condition: () => this.isAttacking(),
             target: {
                 cardType: 'character',
-                controller: 'opponent',
-                gameAction: ability.actions.moveToConflict()
+                gameAction: 'moveToConflict',
+                cardCondition: card => card.controller !== this.controller
+            },
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to move {2} into the conflict', this.controller, this, context.target);
+                this.game.applyGameAction(context, { moveToConflict: context.target });
             }
         });
     }

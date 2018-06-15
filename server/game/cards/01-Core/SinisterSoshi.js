@@ -1,17 +1,24 @@
 const DrawCard = require('../../drawcard.js');
 
 class SinisterSoshi extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Give a character -2/-2',
-            condition: () => this.game.isDuringConflict(),
+            condition: () => this.game.currentConflict,
             target: {
                 cardType: 'character',
-                cardCondition: card => card.isParticipating(),
-                gameAction: ability.actions.cardLastingEffect({ effect: ability.effects.modifyBothSkills(-2) })
+                cardCondition: card => card.isParticipating()
             },
-            effect: 'give {0} -2{1}/-2{2}',
-            effectArgs: () => ['military', 'political']
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to give {2} -2/-2', this.controller, this, context.target);
+                this.untilEndOfConflict(ability => ({
+                    match: context.target,
+                    effect: [
+                        ability.effects.modifyMilitarySkill(-2),
+                        ability.effects.modifyPoliticalSkill(-2)
+                    ]
+                }));
+            }
         });
     }
 }

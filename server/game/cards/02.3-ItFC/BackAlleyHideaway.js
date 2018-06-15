@@ -1,53 +1,58 @@
 const _ = require('underscore');
 
+const Costs = require('../../costs.js');
 const DrawCard = require('../../drawcard.js');
 const DynastyCardAction = require('../../dynastycardaction.js');
-const GameActions = require('../../GameActions/GameActions');
-const ThenAbility = require('../../ThenAbility');
 
-const backAlleyPersistentEffect = {
-    apply: card => {
-        // enable popup functionality
-        card.showPopup = true;
-        card.popupMenuText = 'Use Interrupt ability';
-        // register limit which needs to be shared among all the play actions which will be added by the interrupt ability
-        card.backAlleyActionLimit.registerEvents(card.game);
-    },
-    unapply: card => {
-        card.attachments.each(character => {
-            // move all attachments to the correct discard pile
-            character.owner.moveCard(character, character.isDynasty ? 'dynasty discard pile' : 'conflict discard pile');
-            // remove any added playActions
-            character.abilities.playActions = _.reject(character.abilities.playActions, action => action.title === 'Play this character from Back-Alley Hideaway');
-        });
-        // disable popup functionality
-        card.showPopup = false;
-        card.popupMenuText = '';
-        // reset and unregister limit
-        card.backAlleyActionLimit.reset();
-        card.backAlleyActionLimit.unregisterEvents(card.game);
-    }
+const backAlleyPersistentEffect = function() {
+    return {
+        apply: function(card) {
+            // enable popup functionality
+            card.showPopup = true;
+            card.popupMenuText = 'Use Interrupt ability';
+            // register limit which needs to be shared among all the play actions which will be added by the interrupt ability
+            card.backAlleyActionLimit.registerEvents(card.game);
+        },
+        reapply: function(card) {
+            // enable popup functionality
+            card.showPopup = true;
+            card.popupMenuText = 'Use Interrupt ability';            
+        },
+        unapply: function(card) {
+            card.attachments.each(character => {
+                // move all attachments to the correct discard pile
+                character.owner.moveCard(character, character.isDynasty ? 'dynasty discard pile' : 'conflict discard pile');
+                // remove any added playActions
+                character.abilities.playActions = _.reject(character.abilities.playActions, action => action.title === 'Play this character from Back-Alley Hideaway');
+            });
+            // disable popup functionality
+            card.showPopup = false;
+            card.popupMenuText = '';
+            // reset and unregister limit
+            card.backAlleyActionLimit.reset();
+            card.backAlleyActionLimit.unregisterEvents(card.game);
+        }
+    };
 };
 
 class BackAlleyPlayCharacterAction extends DynastyCardAction {
-    constructor(backAlleyCard, card) {
-        super(card);
+    constructor(backAlleyCard) {
+        super();
         this.title = 'Play this character from Back-Alley Hideaway';
         this.limit = backAlleyCard.backAlleyActionLimit;
         this.backAlleyCard = backAlleyCard;
+        this.cost.push(Costs.useLimit());
+        this.cannotBeCancelled = false;
     }
 
-    meetsRequirements(context = this.createContext()) {
-        if(context.source.location !== 'backalley hideaway') {
-            return 'location';
-        }
-        if(!context.source.canPlay(context) || !context.source.parent.canTriggerAbilities(context)) {
-            return 'cannotTrigger';
-        }
-        if(!this.canPayCosts(context)) {
-            return 'cost';
-        }
-        return '';
+    meetsRequirements(context) {
+        return (
+            context.source.location === 'backalley hideaway' &&
+            context.source.allowGameAction('putIntoPlay', context) &&
+            context.source.canPlay(context) &&
+            context.source.parent.canTriggerAbilities() &&
+            this.canPayCosts(context)
+        );
     }
 
     executeHandler(context) {
@@ -57,10 +62,12 @@ class BackAlleyPlayCharacterAction extends DynastyCardAction {
         // remove associations between this card and Back-Alley Hideaway
         this.backAlleyCard.removeAttachment(context.source);
         context.source.parent = null;
-        let putIntoPlayEvent = GameActions.putIntoPlay(context.chooseFate).getEvent(context.source, context);
-        let cardPlayedEvent = context.game.getEvent('onCardPlayed', { player: context.player, card: context.source, originalLocation: 'backalley hideaway' });
-        let window = context.game.openEventWindow([putIntoPlayEvent, cardPlayedEvent]);
-        window.addThenAbility([putIntoPlayEvent], new ThenAbility(context.game, this.backAlleyCard, { gameAction: GameActions.sacrifice({ target: this.backAlleyCard }) }));
+        let event = context.game.applyGameAction(context, { putIntoPlay: context.source }, [{
+            name: 'onCardPlayed',
+            params: { player: context.player, card: context.source, originalLocation: 'backalley hideaway' }
+        }])[0];
+        event.fate = context.chooseFate;
+        event.addThenGameAction(context, { sacrifice: this.backAlleyCard });
     }
 
     isCardAbility() {
@@ -76,23 +83,24 @@ class BackAlleyHideaway extends DrawCard {
             targetLocation: 'province',
             condition: () => !this.facedown,
             match: this,
-            effect: ability.effects.customDetachedCard(backAlleyPersistentEffect)
+            effect: backAlleyPersistentEffect()
         });
         this.interrupt({
             title: 'Place character in Hideaway',
             when: {
-                onCardLeavesPlay: (event, context) => event.card.isFaction('scorpion') && event.card.type === 'character' &&
-                                                      event.card.controller === context.player
+                onCardLeavesPlay: event => event.card.controller === this.controller && event.card.isFaction('scorpion') && event.card.type === 'character'
             },
-            effect: 'move {0} into hiding',
-            handler: context => context.event.replaceHandler(event => {
-                context.player.removeCardFromPile(event.card);
-                event.card.leavesPlay();
-                event.card.moveTo('backalley hideaway');
-                context.source.attachments.push(event.card);
-                event.card.parent = context.source;
-                event.card.abilities.playActions.push(new BackAlleyPlayCharacterAction(context.source, event.card));
-            })
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to move {2} into hiding', this.controller, this, context.event.card);
+                context.event.replaceHandler(event => {
+                    this.controller.removeCardFromPile(event.card);
+                    event.card.leavesPlay();
+                    event.card.moveTo('backalley hideaway');
+                    this.attachments.push(event.card);
+                    event.card.parent = this;
+                    event.card.abilities.playActions.push(new BackAlleyPlayCharacterAction(this));
+                });
+            }
         });
     }
 }

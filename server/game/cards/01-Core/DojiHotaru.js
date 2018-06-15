@@ -1,14 +1,17 @@
 const DrawCard = require('../../drawcard.js');
 
 class DojiHotaru extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
             title: 'Resolve ring effect',
             when: {
-                onClaimRing: (event, context) => this.game.isDuringConflict('political') && context.source.isParticipating() &&
-                                                 event.player === context.player
+                onClaimRing: event => (event.conflict && event.conflict.isParticipating(this) && 
+                        event.conflict.conflictType === 'political' && event.player === this.controller)
             },
-            gameAction: ability.actions.resolveRing({ attackingPlayer: false })
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to resolve the ring\'s effect again', this.controller, this);
+                context.event.conflict.resolveRing(context.event.conflict.attackingPlayer, false);
+            }
         });
     }
 }

@@ -15,9 +15,8 @@ class SetupPhase extends Phase {
             new SetupProvincesPrompt(game),
             new SimpleStep(game, () => this.placeProvinces()),
             new SimpleStep(game, () => this.fillProvinces()),
-            new MulliganDynastyPrompt(game),
-            new SimpleStep(game, () => this.drawStartingHands()),
-            new MulliganConflictPrompt(game),
+            new SimpleStep(game, () => this.doDynastyMulligan()),
+            new SimpleStep(game, () => this.doConflictMulligan()),
             new SimpleStep(game, () => this.startGame())
         ]);
     }
@@ -28,12 +27,16 @@ class SetupPhase extends Phase {
     }
 
     setupBegin() {
+        _.each(this.game.getPlayers(), player => {
+            player.setupBegin();
+        });
+
         let allPlayersShuffled = _.shuffle(this.game.getPlayers());
 
         let firstPlayer = allPlayersShuffled.shift();
         firstPlayer.firstPlayer = true;
     }
-
+    
     chooseFirstPlayer() {
         let firstPlayer = this.game.getFirstPlayer();
         if(firstPlayer.opponent) {
@@ -42,9 +45,9 @@ class SetupPhase extends Phase {
                 source: 'Choose First Player',
                 choices: ['First Player', 'Second Player'],
                 handlers: [
-                    () => firstPlayer.opponent.modifyFate(1),
+                    () => this.game.addFate(firstPlayer.opponent, 1), 
                     () => {
-                        firstPlayer.modifyFate(1);
+                        this.game.addFate(firstPlayer, 1);
                         this.game.setFirstPlayer(firstPlayer.opponent);
                     }
                 ]
@@ -54,53 +57,45 @@ class SetupPhase extends Phase {
 
     attachStronghold() {
         _.each(this.game.getPlayers(), player => {
-            player.moveCard(player.stronghold, 'stronghold province');
-            if(player.role) {
-                player.role.moveTo('role');
-            }
+            player.attachStronghold();
         });
     }
 
     placeProvinces() {
         _.each(this.game.getPlayers(), player => {
-            let provinceIterator = 1;
-            for(let card of player.provinceDeck.shuffle()) {
-                let destination;
-                if(card.selected) {
-                    destination = 'stronghold province';
-                    card.selected = false;
-                } else {
-                    destination = 'province ' + provinceIterator;
-                    provinceIterator++;
-                }
-                player.moveCard(card, destination);
-            }
-            player.hideProvinceDeck = true;
+            player.placeProvinces();
         });
     }
 
     fillProvinces() {
         _.each(this.game.getPlayers(), player => {
-            for(let province of ['province 1', 'province 2', 'province 3', 'province 4']) {
-                let card = player.dynastyDeck.first();
-                if(card) {
-                    player.moveCard(card, province);
-                    card.facedown = false;
-                }
-            }
+            player.fillProvinces();
         });
         this.game.allCards.each(card => {
             card.applyAnyLocationPersistentEffects();
         });
     }
 
-    drawStartingHands() {
-        _.each(this.game.getPlayers(), player => player.drawCardsToHand(4));
+    prepareDecks() {
+        this.game.raiseEvent('onDecksPrepared');
+    }
+
+    doDynastyMulligan() {
+        _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
+            this.game.queueStep(new MulliganDynastyPrompt(this.game, player));
+        });
+    }
+
+    doConflictMulligan() {
+        _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
+            player.drawStartingHand();
+            this.game.queueStep(new MulliganConflictPrompt(this.game, player));
+        });
     }
 
     startGame() {
         _.each(this.game.getPlayers(), player => {
-            player.honor = player.stronghold.cardData.honor;
+            player.startGame();
         });
     }
 }

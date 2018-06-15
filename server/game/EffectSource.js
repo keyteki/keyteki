@@ -1,24 +1,62 @@
 const _ = require('underscore');
 
 const AbilityDsl = require('./abilitydsl.js');
-const DelayedEffect = require('./DelayedEffect.js');
-const GameObject = require('./GameObject');
-const TerminalCondition = require('./TerminalCondition.js');
 
-// This class is inherited by Ring and BaseCard and also represents Framework effects
-
-class EffectSource extends GameObject {
+class EffectSource {
     constructor(game, name = 'Framework effect') {
-        super(game, name);
+        this.game = game;
+        this.name = name;
+        this.id = this.name;
+        this.factions = {};
+        this.traits = {};
+        this.type = '';
+        this.facedown = false;
     }
 
+    isUnique() {
+        return false;
+    }
+
+    isBlank() {
+        return false;
+    }
+
+    getType() {
+        return this.type;
+    }
+
+    getPrintedFaction() {
+        return null;
+    }
+
+    hasKeyword() {
+        return false;
+    }
+
+    hasTrait(trait) {
+        let traitCount = this.traits[trait.toLowerCase()] || 0;
+        return traitCount > 0;
+    }
+
+    getTraits() {
+        return _.keys(_.omit(this.traits, trait => trait < 1));
+    }
+            
+    isFaction(faction) {
+        return !!this.factions[faction.toLowerCase()];
+    }
+            
+    hasToken() {
+        return false;
+    }
+            
     /**
      * Applies an immediate effect which lasts until the end of the current
      * duel.
      */
     untilEndOfDuel(propertyFactory) {
         var properties = propertyFactory(AbilityDsl);
-        this.addEffectToEngine(Object.assign({ duration: 'untilEndOfDuel', location: 'any' }, properties));
+        this.game.addEffect(this, _.extend({ duration: 'untilEndOfDuel', location: 'any' }, properties));
     }
 
     /**
@@ -27,7 +65,16 @@ class EffectSource extends GameObject {
      */
     untilEndOfConflict(propertyFactory) {
         var properties = propertyFactory(AbilityDsl);
-        this.addEffectToEngine(Object.assign({ duration: 'untilEndOfConflict', location: 'any' }, properties));
+        this.game.addEffect(this, _.extend({ duration: 'untilEndOfConflict', location: 'any' }, properties));
+    }
+
+    /**
+     * Applies an immediate effect which expires at the end of the current 
+     * conflict. Per game rules this duration is outside of the phase.
+     */
+    atEndOfConflict(propertyFactory) {
+        var properties = propertyFactory(AbilityDsl);
+        this.game.addEffect(this, _.extend({ duration: 'atEndOfConflict', location: 'any' }, properties));
     }
 
     /**
@@ -35,7 +82,16 @@ class EffectSource extends GameObject {
      */
     untilEndOfPhase(propertyFactory) {
         var properties = propertyFactory(AbilityDsl);
-        this.addEffectToEngine(Object.assign({ duration: 'untilEndOfPhase', location: 'any' }, properties));
+        this.game.addEffect(this, _.extend({ duration: 'untilEndOfPhase', location: 'any' }, properties));
+    }
+
+    /**
+     * Applies an immediate effect which expires at the end of the phase. Per
+     * game rules this duration is outside of the phase.
+     */
+    atEndOfPhase(propertyFactory) {
+        var properties = propertyFactory(AbilityDsl);
+        this.game.addEffect(this, _.extend({ duration: 'atEndOfPhase', location: 'any' }, properties));
     }
 
     /**
@@ -43,7 +99,7 @@ class EffectSource extends GameObject {
      */
     untilEndOfRound(propertyFactory) {
         var properties = propertyFactory(AbilityDsl);
-        this.addEffectToEngine(Object.assign({ duration: 'untilEndOfRound', location: 'any' }, properties));
+        this.game.addEffect(this, _.extend({ duration: 'untilEndOfRound', location: 'any' }, properties));
     }
 
     /**
@@ -52,42 +108,33 @@ class EffectSource extends GameObject {
      */
     lastingEffect(propertyFactory) {
         let properties = propertyFactory(AbilityDsl);
-        this.addEffectToEngine(Object.assign({ duration: 'custom', location: 'any' }, properties));
+        this.game.addEffect(this, _.extend({ duration: 'custom', location: 'any' }, properties));
     }
 
     /**
      * Applies a delayed effect
      */
-    delayedEffect(propertyFactory) {
-        let effect = new DelayedEffect(this.game, this, propertyFactory(AbilityDsl));
-        this.game.effectEngine.addDelayedEffect(effect);
-        return effect;
+    delayedEffect(properties) {
+        return this.game.addDelayedEffect(this, properties);
     }
 
     /**
      * Applies a terminal condition
      */
-    terminalCondition(propertyFactory) {
-        let effect = new TerminalCondition(this.game, this, propertyFactory(AbilityDsl));
-        this.game.effectEngine.addTerminalCondition(effect);
-        return effect;
+    terminalCondition(properties) {
+        return this.game.addTerminalCondition(this, properties);
     }
 
-    /*
-     * Adds a persistent/lasting/delayed effect to the effect engine
-     * @param {Object} properties - properties for the effect - see Effects/Effect.js
-     */
-    addEffectToEngine(properties) {
-        let effectFactory = properties.effect;
-        properties = _.omit(properties, 'effect');
-        if(Array.isArray(effectFactory)) {
-            for(const factory of effectFactory) {
-                this.game.effectEngine.add(factory(this.game, this, properties));
-            }
-        } else {
-            this.game.effectEngine.add(effectFactory(this.game, this, properties));
-        }
+    getShortSummary() {
+        return {
+            id: this.id,
+            label: this.name,
+            name: this.name,
+            facedown: this.facedown,
+            type: this.getType()
+        };
     }
+
 }
 
 module.exports = EffectSource;

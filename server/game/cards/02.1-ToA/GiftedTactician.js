@@ -1,14 +1,16 @@
 const DrawCard = require('../../drawcard.js');
 
 class GiftedTactician extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
             title: 'Draw a card',
             when: {
-                afterConflict: (event, context) => event.conflict.winner === context.player && context.source.isParticipating() &&
-                                                   event.conflict.conflictType === 'military'
+                afterConflict: event => event.conflict.winner === this.controller && this.isParticipating() && event.conflict.conflictType === 'military'
             },
-            gameAction: ability.actions.draw()
+            handler: () => {
+                this.game.addMessage('{0} uses {1} to draw 1 card', this.controller, this);
+                this.controller.drawCardsToHand(1);
+            }
         });
     }
 }

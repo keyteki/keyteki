@@ -2,7 +2,7 @@ const _ = require('underscore');
 
 const EffectEngine = require('../../server/game/effectengine.js');
 
-xdescribe('EffectEngine', function () {
+describe('EffectEngine', function () {
     beforeEach(function () {
         this.playAreaCard = { location: 'play area' };
         this.handCard = { location: 'hand' };
@@ -29,7 +29,7 @@ xdescribe('EffectEngine', function () {
             expect(this.engine.effects).toContain(this.effectSpy);
         });
 
-        xit('should add existing valid targets to the effect', function() {
+        it('should add existing valid targets to the effect', function() {
             expect(this.effectSpy.getTargets).toHaveBeenCalled();
         });
 

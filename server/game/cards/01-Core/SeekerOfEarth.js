@@ -1,13 +1,16 @@
 const RoleCard = require('../../rolecard.js');
 
 class SeekerOfEarth extends RoleCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
             title: 'Gain 1 fate',
             when: {
-                onProvinceRevealed: (event, context) => event.province.controller === context.player && context.source.hasTrait(event.province.getElement())
+                onProvinceRevealed: event => event.province.controller === this.controller && this.hasTrait(event.province.getElement())
             },
-            gameAction: ability.actions.gainFate()
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to gain 1 fate when {2} is revealed', this.controller, this, context.event.province);
+                this.game.addFate(this.controller, 1);
+            }
         });
     }
 }

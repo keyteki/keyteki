@@ -2,7 +2,7 @@ const _ = require('underscore');
 
 const Effects = require('../../../server/game/effects.js');
 
-xdescribe('Effects.dynamicMilitarySkill', function() {
+describe('Effects.dynamicMilitarySkill', function() {
     beforeEach(function() {
         this.context = {};
         this.calculateMethod = jasmine.createSpy('calculateMethod');

@@ -3,19 +3,21 @@ const DrawCard = require('../../drawcard.js');
 
 const testOfSkillCost = function() {
     return {
-        action: { name: 'testOfSkillCost', cost: 'naming {0}' },
-        canPay: function() {
-            return true;
+        canPay: function(context) {
+            if(context.player.cardsInPlay.any(card => card.hasTrait('duelist'))) {
+                return context.player.conflictDeck.size() > 3;
+            }
+            return context.player.conflictDeck.size() > 2;
         },
         resolve: function(context, result = { resolved: false }) {
             let choices = ['attachment', 'character', 'event'];
             context.game.promptWithHandlerMenu(context.player, {
                 activePromptTitle: 'Select a card type',
-                context: context,
+                source: context.source,
                 choices: choices,
                 handlers: _.map(choices, choice => {
                     return () => {
-                        context.costs.testOfSkillCost = choice;
+                        context.costs.testOfSkillCardType = choice;
                         result.value = true;
                         result.resolved = true;
                     };
@@ -23,55 +25,51 @@ const testOfSkillCost = function() {
             });
             return result;
         },
-        pay: function() {
+        pay: function(context) {
+            let amount = context.player.cardsInPlay.any(card => card.hasTrait('duelist')) ? 4 : 3;
+            context.costs.testOfSkillRevealedCards = context.player.conflictDeck.first(amount);
+            context.game.addMessage('{0} plays {1}, naming {2}, and revealing the top {3} cards of their conflict deck: {4}', context.player, context.source, context.costs.testOfSkillCardType, amount, context.costs.testOfSkillRevealedCards);
         }
     };
 
 };
 
 class TestOfSkill extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
-            title: 'Reveal cards and take ones matching named type',
-            condition: context => context.player.conflictDeck.size() >= context.player.cardsInPlay.any(card => card.hasTrait('duelist')) ? 3 : 4,
-            cost: [ability.costs.revealCards(context => context.player.conflictDeck.first(
-                context.player.cardsInPlay.any(card => card.hasTrait('duelist')) ? 3 : 4
-            )), testOfSkillCost()],
-            cannotBeMirrored: true,
-            effect: 'take cards into their hand',
+            title: 'Reveal 3 cards',
+            cost: testOfSkillCost(),
             handler: context => {
-                let [matchingCards, cardsToDiscard] = _.partition(context.costs.reveal, card => card.type === context.costs.testOfSkillCost && card.location === 'conflict deck');
+                let [matchingCards, cardsToDiscard] = _.partition(context.costs.testOfSkillRevealedCards, card => card.type === context.costs.testOfSkillCardType && card.location === 'conflict deck');
                 let discardHandler = () => {
                     cardsToDiscard = cardsToDiscard.concat(matchingCards);
-                    this.game.addMessage('{0} discards {1}', context.player, cardsToDiscard);
+                    this.game.addMessage('{0} discards {1}', this.controller, cardsToDiscard);
                     _.each(cardsToDiscard, card => {
-                        context.player.moveCard(card, 'conflict discard pile');
+                        this.controller.moveCard(card, 'conflict discard pile');
                     });
                 };
                 let takeCardHandler = card => {
-                    this.game.addMessage('{0} adds {1} to their hand', context.player, card);
-                    context.player.moveCard(card, 'hand');
+                    this.game.addMessage('{0} adds {1} to their hand', this.controller, card);
+                    this.controller.moveCard(card, 'hand');
                     return _.reject(matchingCards, c => c.uuid === card.uuid);
                 };
                 if(matchingCards.length === 0) {
                     return discardHandler();
                 }
-                this.game.promptWithHandlerMenu(context.player, {
+                this.game.promptWithHandlerMenu(this.controller, {
                     activePromptTitle: 'Select a card',
-                    context: context,
                     cards: matchingCards,
                     cardHandler: card => {
                         matchingCards = takeCardHandler(card);
                         if(matchingCards.length === 0) {
                             return discardHandler();
                         }
-                        this.game.promptWithHandlerMenu(context.player, {
+                        this.game.promptWithHandlerMenu(this.controller, {
                             activePromptTitle: 'Select a card',
-                            context: context,
                             cards: matchingCards,
                             cardHandler: card => {
                                 matchingCards = takeCardHandler(card);
-                                discardHandler();
+                                discardHandler();                                        
                             },
                             choices: ['Done'],
                             handlers: [discardHandler]

@@ -5,17 +5,25 @@ class IdeTrader extends DrawCard {
         this.reaction({
             title: 'Gain a fate/card',
             when: {
-                onMoveToConflict: (event, context) => context.source.isParticipating()
+                onMoveCharactersToConflict: () => this.isParticipating()
             },
-            multipleTrigger: false,
             limit: ability.limit.perConflict(1),
             target: {
                 mode: 'select',
                 choices: {
-                    'Gain 1 fate': ability.actions.gainFate(),
-                    'Draw 1 card': ability.actions.draw()
+                    'Gain 1 fate': () => true,
+                    'Draw 1 card': () => true
                 }
-            }
+            },
+            handler: context => {
+                if(context.select === 'Gain 1 fate') {
+                    this.game.addMessage('{0} uses {1} to gain 1 fate', this.controller, this);
+                    this.game.addFate(this.controller, 1);
+                } else {
+                    this.game.addMessage('{0} uses {1} to draw 1 card', this.controller, this);
+                    this.controller.drawCardsToHand(1);
+                }
+            }        
         });
     }
 }

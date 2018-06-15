@@ -1,26 +1,26 @@
 const DrawCard = require('../../drawcard.js');
 
 class RaiseTheAlarm extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Flip a dynasty card',
-            condition: context => this.game.isDuringConflict('military') && context.player.isDefendingPlayer(),
-            cannotBeMirrored: true,
-            effect: 'flip the card in the conflict province faceup',
-            gameAction: ability.actions.flipDynasty(context => ({
-                target: context.player.controller.getDynastyCardInProvince(this.game.currentConflict.conflictProvince.location)
-            })),
-            then: context => ({
-                handler: () => {
-                    let card = context.player.controller.getDynastyCardInProvince(this.game.currentConflict.conflictProvince.location);
-                    if(card.type === 'character' && card.allowGameAction('putIntoConflict', context)) {
-                        this.game.addMessage('{0} is revealed and brought into the conflict!', card);
-                        ability.actions.putIntoConflict().resolve(card, context);
-                    } else {
-                        this.game.addMessage('{0} is revealed but cannot be brought into the conflict!', card);
-                    }
+            condition: () => {
+                if(!this.controller.isDefendingPlayer() || !this.game.currentConflict.conflictProvince || this.game.currentConflict.conflictType !== 'military') {
+                    return false;
                 }
-            })
+                let dynastyCard = this.controller.getDynastyCardInProvince(this.game.currentConflict.conflictProvince.location);
+                return dynastyCard && dynastyCard.facedown;
+            },
+            handler: context => {
+                let card = this.controller.getDynastyCardInProvince(this.game.currentConflict.conflictProvince.location);
+                card.facedown = false;
+                if(card.type === 'character' && card.allowGameAction('putIntoConflict', context)) {
+                    this.game.addMessage('{0} uses {1} to bring {2} into the conflict!', this.controller, this, card);
+                    this.game.applyGameAction(context, { putIntoConflict: card });
+                } else {
+                    this.game.addMessage('{0} uses {1} but cannot bring {2} into the conflict!', this.controller, this, card);
+                }
+            }
         });
     }
 }

@@ -1,27 +1,40 @@
+const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 
 class KnowTheWorld extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Switch a claimed ring with an unclaimed one',
-            effect: 'switch a claimed ring with an unclaimed one',
-            gameAction: ability.actions.jointAction([
-                ability.actions.returnRing(context => ({
-                    promptForSelect: {
-                        activePromptTitle: 'Choose a ring to return',
-                        ringCondition: ring => ring.claimedBy === context.player.name,
-                        message: '{0} returns {1}'
+            condition: () => _.any(this.game.rings, ring => ring.claimedBy === this.controller.name) && _.any(this.game.rings, ring => ring.isUnclaimed()),
+            handler: () => {
+                this.game.promptForRingSelect(this.controller, {
+                    source: this,
+                    activePromptTitle: 'Choose a ring to return',
+                    ringCondition: ring => ring.claimedBy === this.controller.name,
+                    onSelect: (player, ringToReturn) => {
+                        this.game.promptForRingSelect(player, {
+                            source: this,
+                            activePromptTitle: 'Choose a ring to take',
+                            ringCondition: ring => ring.isUnclaimed(),
+                            onSelect: (player, ring) => {
+                                this.game.addMessage('{0} plays {1}, returning the {2} ring and taking the {3} ring', player, this, ringToReturn.element, ring.element);
+                                let events = [];
+                                events.push(this.game.getEvent('onReturnRing', { ring: ringToReturn }, () => ringToReturn.resetRing()));
+                                events.push(this.game.getEvent('unnamedEvent', {}, () => {
+                                    ring.claimRing(player);
+                                    if(this.controller.allowGameAction('takeFateFromRings')) {
+                                        this.game.addFate(player, ring.fate);
+                                        ring.removeFate();
+                                    }
+                                }));
+                                this.game.openEventWindow(events);
+                                return true;
+                            }
+                        });
+                        return true;
                     }
-                })),
-                ability.actions.takeRing({
-                    takeFate: true,
-                    promptForSelect: {
-                        activePromptTitle: 'Choose a ring to take',
-                        ringCondition: ring => ring.isUnclaimed(),
-                        message: '{0} takes {1}'
-                    }
-                })
-            ])
+                });
+            }
         });
     }
 }

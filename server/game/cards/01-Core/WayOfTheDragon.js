@@ -6,13 +6,13 @@ class WayOfTheDragon extends DrawCard {
             effect: ability.effects.increaseLimitOnAbilities(1)
         });
     }
-    canAttach(card, context) {
-        if(card.attachments && card.attachments.any(card => card.id = 'way-of-the-dragon' && card !== this)) {
+    canAttach(card) {
+        if(card.attachments && card.attachments.any(card => card instanceof WayOfTheDragon && card !== this)) {
             return false;
-        } else if(card.controller !== context.player) {
+        } else if(card.controller !== this.controller) {
             return false;
         }
-        return super.canAttach(card, context);
+        return super.canAttach(card);
     }
 }
 

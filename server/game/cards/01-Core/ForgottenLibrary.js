@@ -1,13 +1,16 @@
 const DrawCard = require('../../drawcard.js');
 
 class ForgottenLibrary extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
             title: 'Draw a card',
             when: {
                 onPhaseStarted: event => event.phase === 'draw'
             },
-            gameAction: ability.actions.draw()
+            handler: () => {
+                this.game.addMessage('{0} uses {1} to draw a card', this.controller, this);
+                this.controller.drawCardsToHand(1);
+            }
         });
     }
 }

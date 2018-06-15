@@ -20,14 +20,14 @@ describe('Sashimono', function() {
             });
 
             it('should stop its user bowing as an attacker in a military conflict', function() {
-                expect(this.lPB.bowsOnReturnHome()).toBe(true);
+                expect(this.lPB.conflictOptions.doesNotBowAs.attacker).toBe(false);
                 this.initiateConflict({
                     type: 'military',
                     attackers: [this.lPB, this.miyaMystic],
                     defenders: [],
                     jumpTo: 'resolve'
                 });
-                expect(this.lPB.bowsOnReturnHome()).toBe(false);
+                expect(this.lPB.conflictOptions.doesNotBowAs.attacker).toBe(true);
                 this.player1.clickPrompt('No');
                 this.player1.clickPrompt('Gain 2 honor');
                 expect(this.lPB.bowed).toBe(false);
@@ -35,7 +35,7 @@ describe('Sashimono', function() {
             });
 
             it('should not stop its user bowing as an attacker in a political conflict', function() {
-                expect(this.lPB.bowsOnReturnHome()).toBe(true);
+                expect(this.lPB.conflictOptions.doesNotBowAs.attacker).toBe(false);
                 this.initiateConflict({
                     type: 'political',
                     attackers: [this.lPB, this.miyaMystic],
@@ -43,12 +43,13 @@ describe('Sashimono', function() {
                     jumpTo: 'resolve'
                 });
                 expect(this.game.currentConflict.conflictType).toBe('political');
-                expect(this.lPB.bowsOnReturnHome()).toBe(true);
+                expect(this.lPB.conflictOptions.doesNotBowAs.attacker).toBe(false);
                 this.player1.clickPrompt('No');
                 this.player1.clickPrompt('Gain 2 honor');
                 expect(this.lPB.bowed).toBe(true);
                 expect(this.miyaMystic.bowed).toBe(true);
             });
+
         });
     });
 });

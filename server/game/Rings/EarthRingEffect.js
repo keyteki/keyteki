@@ -2,7 +2,7 @@ const BaseAbility = require('../baseability.js');
 
 class EarthRingEffect extends BaseAbility {
     constructor(optional = true) {
-        super({
+        super({ 
             target: {
                 mode: 'select',
                 activePromptTitle: 'Choose an effect to resolve',
@@ -18,18 +18,30 @@ class EarthRingEffect extends BaseAbility {
         this.defaultPriority = 1; // Default resolution priority when players have ordering switched off
     }
 
+    meetsRequirements() {
+        return true;
+    }
+
     executeHandler(context) {
         if(context.select === 'Don\'t resolve') {
-            context.game.addMessage('{0} chooses not to resolve the {1} ring', context.player, 'earth');
+            context.game.addMessage('{0} chooses not to resolve the {1} ring', context.player, context.game.currentConflict ? context.game.currentConflict.conflictRing : 'earth');
             return;
         }
         if(context.player.opponent) {
             context.game.addMessage('{0} resolves the {1} ring, drawing a card and forcing {2} to discard a card at random', context.player, 'earth', context.player.opponent);
-            context.game.applyGameAction(context, { draw: context.player, discardAtRandom: context.player.opponent });
+            context.player.opponent.discardAtRandom(1, 'Earth Ring');
         } else {
             context.game.addMessage('{0} resolves the {1} ring, drawing a card', context.player, 'earth');
-            context.game.applyGameAction(context, { draw: context.player });
         }
+        context.player.drawCardsToHand(1);
+    }
+
+    isAction() {
+        return false;
+    }
+
+    isCardAbility() {
+        return false;
     }
 }
 

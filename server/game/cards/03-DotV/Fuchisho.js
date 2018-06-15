@@ -1,18 +1,23 @@
 const DrawCard = require('../../drawcard.js');
 
 class Fushicho extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.interrupt({
             title: 'Resurrect a character',
             when: {
-                onCardLeavesPlay: (event, context) => event.card === context.source
+                onCardLeavesPlay: event => event.card === this
             },
             target: {
+                activePrompt: 'Choose a character',
                 cardType: 'character',
-                location: 'dynasty discard pile',
-                controller: 'self',
-                cardCondition: card => card.isFaction('phoenix'),
-                gameAction: ability.actions.putIntoPlay({ fate: 1 })
+                gameAction: 'putIntoPlay', 
+                cardCondition: card => card.location === 'dynasty discard pile' &&
+                                       card.controller === this.controller && card.isFaction('phoenix')
+            },
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to resurrect {2}', this.controller, this, context.target);
+                let event = this.game.applyGameAction(context, { putIntoPlay: context.target })[0];
+                event.fate = 1;
             }
         });
     }

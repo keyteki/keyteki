@@ -25,7 +25,7 @@ class SelectDefendersPrompt extends UiPrompt {
 
     activePrompt() {
         //this.conflict.calculateSkill();
-        let promptTitle = (capitalize[this.conflict.conflictType] + ' ' + capitalize[this.conflict.element] + ' Conflict: '
+        let promptTitle = (capitalize[this.conflict.conflictType] + ' ' + capitalize[this.conflict.conflictRing] + ' Conflict: ' 
             + this.conflict.attackerSkill + ' vs ' + this.conflict.defenderSkill);
         return {
             menuTitle: 'Choose defenders',
@@ -53,7 +53,7 @@ class SelectDefendersPrompt extends UiPrompt {
     checkCardCondition(card) {
 
         return (
-            card.getType() === 'character' &&
+            card.getType() === 'character' && 
             card.controller === this.player &&
             card.canDeclareAsDefender(this.conflict.conflictType)
         );
@@ -78,7 +78,6 @@ class SelectDefendersPrompt extends UiPrompt {
     menuCommand() {
         _.each(this.conflict.defenders, card => card.covert = false);
         this.complete();
-        return true;
     }
 }
 

@@ -1,16 +1,20 @@
 const DrawCard = require('../../drawcard.js');
 
 class StrengthInNumbers extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Send home defending character',
-            condition: context => context.player.isAttackingPlayer(),
+            condition: () => this.controller.isAttackingPlayer(),
             target: {
+                activePromptTitle: 'Choose a character',
                 cardType: 'character',
-                cardCondition: card => card.isDefending() && card.getGlory() <= this.game.currentConflict.attackers.length,
-                gameAction: ability.actions.sendHome()
+                gameAction: 'sendHome',
+                cardCondition: card => card.getGlory() <= this.game.currentConflict.attackers.length && card.isDefending()
             },
-            cannotBeMirrored: true
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to send {2} home', this.controller, this, context.target);
+                this.game.applyGameAction(context, { sendHome: context.target });
+            }
         });
     }
 }

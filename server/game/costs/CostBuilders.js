@@ -1,54 +1,40 @@
 const CostBuilder = require('./CostBuilder.js');
-const GameActions = require('../GameActions/GameActions');
-const PlayerCost = require('./PlayerCost');
-const RingCost = require('./RingCost');
+const DiscardFromHandCost = require('./DiscardFromHandCost.js');
+const GameActionCost = require('./GameActionCost');
 
 const CostBuilders = {
-    bow: new CostBuilder(GameActions.bow(), {
+    bow: new CostBuilder(new GameActionCost('bow'), {
         select: 'Select card to bow',
         selectMultiple: number => `Select ${number} cards to bow`
     }),
-    break: new CostBuilder(GameActions.break(), {
+    break: new CostBuilder(new GameActionCost('break'), {
         select: 'Select province to break',
         selectMultiple: number => `Select ${number} provinces to break`
     }),
-    discardCard: new CostBuilder(GameActions.discardCard(), {
-        select: 'Select card to discard',
-        selectMultiple: number => `Select ${number} cards to discard`
-    }),
-    discardFromHand: new CostBuilder(GameActions.discardCard({ location: 'hand' }), {
+    discardFromHand: new CostBuilder(new DiscardFromHandCost(), {
         select: 'Select card to discard from hand',
         selectMultiple: number => `Select ${number} cards to discard from hand`
     }),
-    discardFate: new CostBuilder(GameActions.removeFate(), {
+    discardFate: new CostBuilder(new GameActionCost('discardFate', 'removeFate'), {
         select: 'Select character to discard a fate from',
         selectMultiple: number => `Select ${number} cards to discard a fate from`
     }),
-    dishonor: new CostBuilder(GameActions.dishonor(), {
+    dishonor: new CostBuilder(new GameActionCost('dishonor'), {
         select: 'Select character to dishonor',
         selectMultiple: number => `Select ${number} characters to dishonor`
     }),
-    putIntoPlay: new CostBuilder(GameActions.putIntoPlay(), {
+    putIntoPlay: new CostBuilder(new GameActionCost('putIntoPlay'), {
         select: 'Select character to put into play',
         selectMultiple: number => `Select ${number} characters to put into play`
     }),
-    returnToHand: new CostBuilder(GameActions.returnToHand(), {
+    returnToHand: new CostBuilder(new GameActionCost('returnToHand'), {
         select: 'Select card to return to hand',
         selectMultiple: number => `Select ${number} cards to return to hand`
     }),
-    reveal: new CostBuilder(GameActions.reveal(), {
-        select: 'Select card to reveal',
-        selectMultiple: number => `Select ${number} cards to reveal`
-    }),
-    sacrifice: new CostBuilder(GameActions.sacrifice(), {
+    sacrifice: new CostBuilder(new GameActionCost('sacrifice'), {
         select: 'Select card to sacrifice',
         selectMultiple: number => `Select ${number} cards to sacrifice`
-    }),
-    discardImperialFavor: () => new PlayerCost(GameActions.loseImperialFavor()),
-    giveFateToOpponent: (amount) => new PlayerCost(GameActions.takeFate({ amount: amount })),
-    payHonor: (amount) => new PlayerCost(GameActions.loseHonor({ amount: amount })),
-    payFate: (amount) => new PlayerCost(GameActions.gainFate({ amount: -amount })),
-    payFateToRing: (amount, ringCondition) => new RingCost(GameActions.placeFateOnRing({ amount: amount }), ringCondition)
+    })
 };
 
 module.exports = CostBuilders;

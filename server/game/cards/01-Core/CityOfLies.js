@@ -1,14 +1,16 @@
 const DrawCard = require('../../drawcard.js');
 
 class CityOfLies extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Reduce cost of next event by 1',
-            effect: 'reduce the cost of their next event by 1',
-            gameAction: ability.actions.playerLastingEffect({
-                duration: 'untilEndOfPhase',
-                effect: ability.effects.reduceNextPlayedCardCost(1, card => card.type === 'event')
-            })
+            handler: () => {
+                this.game.addMessage('{0} uses {1} to reduce the cost of their next event by 1', this.controller, this);
+                this.untilEndOfPhase(ability => ({
+                    targetType: 'player',
+                    effect: ability.effects.reduceNextPlayedCardCost(1, card => card.type === 'event')
+                }));
+            }
         });
     }
 }

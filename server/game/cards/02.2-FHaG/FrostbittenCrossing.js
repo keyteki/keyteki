@@ -1,16 +1,18 @@
 const ProvinceCard = require('../../provincecard.js');
 
 class FrostbittenCrossing extends ProvinceCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Discard all attachments from a character',
-            condition: context => context.source.isConflictProvince(),
+            condition: () => this.game.currentConflict && this.game.currentConflict.conflictProvince === this,
             target: {
                 cardType: 'character',
                 cardCondition: (card, context) => card.isParticipating() && card.attachments.any(attachment => attachment.allowGameAction('discardFromPlay', context))
             },
-            effect: 'remove all attachments from {0}',
-            gameAction: ability.actions.discardFromPlay(context => ({ target: context.target.attachments.toArray() }))
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to remove all attachments from {2}', this.controller, this, context.target);
+                this.game.applyGameAction(context, { discardFromPlay: context.target.attachments.toArray() });
+            }
         });
     }
 }

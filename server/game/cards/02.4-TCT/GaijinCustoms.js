@@ -1,14 +1,18 @@
 const DrawCard = require('../../drawcard.js');
 
 class GaijinCustoms extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Ready a non-unicorn character',
-            condition: context => context.player.anyCardsInPlay(card => card.isFaction('unicorn')) || context.player.stronghold.isFaction('unicorn'),
+            condition: () => this.controller.anyCardsInPlay(card => card.isFaction('unicorn')) || this.controller.stronghold.isFaction('unicorn'),
             target: {
                 cardType: 'character',
-                cardCondition: card => !card.isFaction('unicorn'),
-                gameAction: ability.actions.ready()
+                gameAction: 'ready',
+                cardCondition: card => !card.isFaction('unicorn')
+            },
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to ready {2}', this.controller, this, context.target);
+                this.game.applyGameAction(context, { ready: context.target });
             }
         });
     }

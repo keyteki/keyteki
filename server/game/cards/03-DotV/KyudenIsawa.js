@@ -1,32 +1,6 @@
+const _ = require('underscore');
 const StrongholdCard = require('../../strongholdcard.js');
-const AbilityResolver = require('../../gamesteps/abilityresolver');
-
-class KyudenIsawaResolver extends AbilityResolver {
-    constructor(game, context, kyudenContext, kyudenCard) {
-        super(game, context);
-        this.kyudenContext = kyudenContext;
-        this.kyudenCard = kyudenCard;
-        this.cancelPressed = false;
-    }
-
-    resolveCosts() {
-        if(this.cancelled) {
-            this.kyudenCard.chooseSpell(this.kyudenContext);
-            this.cancelPressed = true;
-        }
-        super.resolveCosts();
-    }
-
-    initiateAbility() {
-        super.initiateAbility();
-        if(!this.cancelPressed) {
-            this.game.queueSimpleStep(() => {
-                this.game.addMessage('{0} is removed from the game by {1}\'s ability', this.context.source, this.kyudenContext.source);
-                this.context.player.moveCard(this.context.source, 'removed from game');
-            });
-        }
-    }
-}
+const AbilityContext = require('../../AbilityContext.js');
 
 
 class KyudenIsawa extends StrongholdCard {
@@ -34,41 +8,44 @@ class KyudenIsawa extends StrongholdCard {
         this.action({
             title: 'Play a spell event from discard',
             cost: ability.costs.bowSelf(),
-            condition: context => this.game.isDuringConflict() && context.player.conflictDiscardPile.any(card => {
-                if(card.type !== 'event' || !card.hasTrait('spell')) {
-                    return false;
+            condition: () => this.game.currentConflict,
+            target: {
+                activePromptTitle: 'Choose a spell event',
+                cardType: 'event',
+                cardCondition: (card, context) => {
+                    if(card.controller !== context.player || card.location !== 'conflict discard pile' || !card.hasTrait('spell')) {
+                        return false;
+                    }
+                    return _.any(card.abilities.actions, action => {
+                        let spellContext = new AbilityContext({
+                            game: context.game,
+                            player: context.player,
+                            source: card,
+                            ability: action
+                        });
+    
+                        return (action.phase === 'any' || action.phase === this.game.currentPhase) &&
+                            (!action.condition || action.condition(spellContext)) &&
+                            action.canResolveTargets(spellContext);
+                    });
                 }
-                return card.abilities.actions.some(action => {
-                    let reason = action.meetsRequirements();
-                    return reason === '' || reason === 'location';
-                });
-            }),
-            effect: 'play a spell event from discard',
-            handler: context => this.chooseSpell(context)
-        });
-    }
-
-    chooseSpell(context) {
-        this.game.promptForSelect(context.player, {
-            activePromptTitle: 'Choose a spell event',
-            cardType: 'event',
-            location: 'conflict discard pile',
-            controller: 'self',
-            context: context,
-            cardCondition: card => card.hasTrait('spell') && card.abilities.actions.some(action => {
-                let reason = action.meetsRequirements();
-                return reason === '' || reason === 'location';
-            }),
-            onSelect: (player, card) => {
+            },
+            handler: context => {
+                this.game.addMessage('{0} bows {1} to play {2} from discard', this.controller, this, context.target);
                 // TODO: make this work for events with multiple actions
-                this.resolveSpell(context, card.abilities.actions[0]);
-                return true;
+                let spellContext = new AbilityContext({
+                    game: context.game,
+                    player: context.player,
+                    source: context.target,
+                    ability: context.target.abilities.actions[0]
+                });
+                this.game.resolveAbility(spellContext);
+                this.game.queueSimpleStep(() => {
+                    this.game.addMessage('{0} is removed from the game by {1}\'s ability', context.target, this);
+                    this.controller.moveCard(context.target, 'removed from game');
+                });
             }
         });
-    }
-
-    resolveSpell(context, ability) {
-        this.game.queueStep(new KyudenIsawaResolver(this.game, ability.createContext(context.player), context, this));
     }
 }
 

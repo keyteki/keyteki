@@ -5,15 +5,19 @@ class EndlessPlains extends ProvinceCard {
         this.reaction({
             title: 'Force opponent to discard a character',
             when: {
-                onConflictDeclared: (event, context) => event.conflict.conflictProvince === context.source
+                onConflictDeclared: event => event.conflict.conflictProvince === this && event.conflict.attackers.length > 0
             },
             cost: ability.costs.breakSelf(),
             target: {
                 player: 'opponent',
                 activePromptTitle: 'Choose a character to discard',
-                controller: 'opponent',
-                cardCondition: card => card.isAttacking(),
-                gameAction: ability.actions.discardFromPlay()
+                cardType: 'character',
+                gameAction: 'discardFromPlay',
+                cardCondition: card => this.game.currentConflict.isAttacking(card)
+            },
+            handler: context => {
+                this.game.addMessage('{0} breaks {1}, forcing {2} to discard {3}', this.controller, this, this.controller.opponent, context.target);
+                this.game.applyGameAction(context, { discardFromPlay: context.target });
             }
         });
     }

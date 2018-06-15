@@ -234,10 +234,10 @@ class InnerPendingGame extends React.Component {
                         </div>
                         <div className='column-flex-box'>
                             <div>
-                                { 'Spectators allowed: ' + (game.allowSpectators ? 'Yes' : 'No') }
+                                { 'Spectators allowed: ' + (game.spectators ? 'Yes' : 'No') }
                             </div>
                             <div>
-                                { game.allowSpectators ? 'Spectators can chat: ' + (game.spectatorSquelch ? 'No' : 'Yes') : null }
+                                { game.spectators ? 'Spectators can chat: ' + (game.spectatorSquelch ? 'No' : 'Yes') : null }
                             </div>
                             <div>
                                 { game.clocks && game.clocks.type !== 'none' ? 'Clock: ' + game.clocks.time + ' mins (' + (game.clocks.type) + ')' : null }

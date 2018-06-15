@@ -10,22 +10,19 @@ class PrideAbility extends TriggeredAbility {
                                                    (event.conflict.loser === context.player && context.source.allowGameAction('dishonor', context)))
             },
             title: card.name + '\'s Pride',
+            cannotBeCopied: true,
             printedAbility: false,
-            message: '{0} is {1}honored due to their Pride',
-            messageArgs: context => [context.source, context.event.conflict.winner === context.player ? '' : 'dis'],
             limit: AbilityLimit.perConflict(1),
             handler: context => {
                 if(context.event.conflict.winner === context.player) {
+                    this.game.addMessage('{0} is honored due to their Pride', context.source);
                     this.game.applyGameAction(context, { honor: context.source });
                 } else {
+                    this.game.addMessage('{0} is dishonored due to their Pride', context.source);
                     this.game.applyGameAction(context, { dishonor: context.source });
                 }
             }
         });
-    }
-
-    isTriggeredAbility() {
-        return false;
     }
 }
 

@@ -27,7 +27,9 @@ class DelayedEffect {
     checkEffect(events) {
         let matchingEvents = events.filter(event => this.when[event.name]);
         if(matchingEvents.length > 0) {
-            this.game.effectEngine.removeDelayedEffect(this);
+            if(matchingEvents.some(event => event.name !== 'onCheckGameState')) {
+                this.game.effectEngine.removeDelayedEffect(this);
+            }
             return matchingEvents.find(event => this.when[event.name](event));
         }
         return false;
@@ -41,8 +43,8 @@ class DelayedEffect {
         if(this.message) {
             this.game.addMessage(this.message, this.source, this.target);
         }
-        if(this.gameAction && this.target) {
-            this.gameAction.resolve(this.target, this.context);
+        if(this.gameAction && this.target && (!this.event || this.event.cancelled)) {
+            this.event = this.game.applyGameAction(this.context, { [this.gameAction]: this.target })[0];
         }
     }
 

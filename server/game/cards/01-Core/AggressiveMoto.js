@@ -4,7 +4,7 @@ class AggressiveMoto extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: this,
-            effect: ability.effects.cardCannot('declareAsDefender')
+            effect: ability.effects.cannotBeDeclaredAsDefender()
         });
     }
 }

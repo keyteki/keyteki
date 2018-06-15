@@ -1,19 +1,25 @@
 const DrawCard = require('../../drawcard.js');
 
 class RadiantOrator extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Send a character home',
-            condition: context => context.source.isParticipating() && context.player.opponent && (
-                // My total glory
-                context.player.cardsInPlay.reduce((myTotal, card) => myTotal + (card.isParticipating() && !card.bowed ? card.getGlory() : 0), 0) >
-                // is greater than Opponents total glory
-                context.player.opponent.cardsInPlay.reduce((oppTotal, card) => oppTotal + (card.isParticipating() && !card.bowed ? card.getGlory() : 0), 0)
-            ),
+            condition: () => {
+                if(!this.controller.opponent) {
+                    return false;
+                }
+                let myGlory = this.controller.cardsInPlay.reduce((total, card) => card.isParticipating() && !card.bowed ? card.getGlory() + total : total, 0);
+                let oppGlory = this.controller.opponent.cardsInPlay.reduce((total, card) => card.isParticipating() && !card.bowed ? card.getGlory() + total : total, 0);
+                return (this.isParticipating() && myGlory > oppGlory);
+            },
             target: {
                 cardType: 'character',
-                controller: 'opponent',
-                gameAction: ability.actions.sendHome()
+                gameAction: 'sendHome',
+                cardCondition: card => card.controller !== this.controller
+            },
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to send {2} home', this.controller, this, context.target);
+                this.game.applyGameAction(context, { sendHome: context.target });
             }
         });
     }

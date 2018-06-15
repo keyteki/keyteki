@@ -2,8 +2,7 @@ const ChatCommands = require('../../../server/game/chatcommands.js');
 
 describe('ChatCommands', function() {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'promptForSelect', 'getFrameworkContext', 'queueStep','queueSimpleStep', 'openEventWindow']);
-        this.gameSpy.getFrameworkContext.and.returnValue({ game: this.gameSpy, player: this.playerSpy });
+        this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'promptForSelect']);
 
         this.playerSpy = jasmine.createSpyObj('player', ['drawCardsToHand', 'discardAtRandom', 'discardFromDraw']);
         this.chatCommands = new ChatCommands(this.gameSpy);
@@ -86,7 +85,7 @@ describe('ChatCommands', function() {
             });
         });
 
-        xdescribe('with a /discard command', function() {
+        describe('with a /discard command', function() {
             describe('with no arguments', function() {
                 it('should discard 1 card', function () {
                     this.chatCommands.executeCommand(this.playerSpy, '/discard', ['/discard']);

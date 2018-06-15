@@ -16,9 +16,13 @@ class WaterRingEffect extends BaseAbility {
         this.defaultPriority = 3; // Default resolution priority when players have ordering switched off
     }
 
+    meetsRequirements(context) {
+        return this.canResolveTargets(context);
+    }
+
     executeHandler(context) {
         if(!context.target) {
-            context.game.addMessage('{0} chooses not to resolve the {1} ring', context.player, 'water');
+            context.game.addMessage('{0} chooses not to resolve the {1} ring', context.player, context.game.currentConflict ? context.game.currentConflict.conflictRing : 'water');
             return;
         }
         if(context.target.bowed) {
@@ -28,6 +32,14 @@ class WaterRingEffect extends BaseAbility {
             context.game.addMessage('{0} resolves the {1} ring, bowing {2}', context.player, 'water', context.target);
             context.game.applyGameAction(context, { bow: context.target });
         }
+    }
+
+    isAction() {
+        return false;
+    }
+
+    isCardAbility() {
+        return false;
     }
 }
 

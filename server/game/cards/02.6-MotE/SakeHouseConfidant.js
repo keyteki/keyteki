@@ -4,13 +4,19 @@ class SakeHouseConfidant extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Give Shinobi +2 political',
-            condition: context => context.source.isParticipating(),
+            condition: () => this.isParticipating(),
             cost: ability.costs.discardImperialFavor(),
-            effect: 'give their Shinobi +0/+2',
-            gameAction: ability.actions.cardLastingEffect(context => ({
-                target: context.player.cardsInPlay.filter(card => card.hasTrait('shinobi')),
-                effect: ability.effects.modifyPoliticalSkill(2)
-            }))
+            handler: () => {
+                this.game.addMessage('{0} uses {1} to discard the imperial favor and give all controlled Shinobi +2 political', this.controller, this);
+                this.controller.cardsInPlay.each(card => {
+                    if(card.hasTrait('shinobi')) {
+                        this.untilEndOfConflict(ability => ({
+                            match: card,
+                            effect: ability.effects.modifyPoliticalSkill(2)
+                        }));
+                    }
+                });
+            }
         });
     }
 }

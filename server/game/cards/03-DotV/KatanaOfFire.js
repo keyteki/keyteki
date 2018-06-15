@@ -3,7 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class KatanaOfFire extends DrawCard {
     setupCardAbilities(ability) {
         this.whileAttached({
-            effect: ability.effects.modifyMilitarySkill(() => this.totalKatanaModifier())
+            effect: ability.effects.dynamicMilitarySkill(() => this.totalKatanaModifier())
         });
     }
 

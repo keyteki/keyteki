@@ -1,14 +1,16 @@
 const DrawCard = require('../../drawcard.js');
 
 class DaidojiNerishma extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Flip a card faceup',
             target: {
-                controller: 'self',
-                location: 'province',
-                cardCondition: card => card.isDynasty && card.facedown,
-                gameAction: ability.actions.flipDynasty()
+                cardCondition: card => (card.isDynasty && card.facedown && 
+                        ['province 1', 'province 2', 'province 3', 'province 4'].includes(card.location) && card.controller === this.controller)
+            },
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to flip {2} faceup', this.controller, this, context.target);
+                context.target.facedown = false;
             }
         });
     }

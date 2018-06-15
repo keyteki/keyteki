@@ -1,18 +1,19 @@
 const DrawCard = require('../../drawcard.js');
 
 class Reprieve extends DrawCard {
-    setupCardAbilities(ability) {
-        this.wouldInterrupt({
+    setupCardAbilities() {
+        this.interrupt({
             title: 'Prevent a character from leaving play',
             when: {
-                onCardLeavesPlay: (event, context) => event.card === context.source.parent &&
+                onCardLeavesPlay: (event, context) => event.card === context.source.parent && 
                                                       context.source.allowGameAction('discardFromPlay', context)
             },
-            effect: 'prevent {0} from leaving play',
-            effectArgs: context => context.event.card,
-            handler: context => {
+            canCancel: true,
+            handler: (context) => {
+                this.game.addMessage('{0} uses {1} to save {2}', this.controller, this, this.parent);
+                let window = context.event.window;
                 context.cancel();
-                context.event.window.addEvent(ability.actions.discardFromPlay().getEvent(context.source, context));
+                this.game.addEventToWindow(window, 'onCardLeavesPlay', { card: this, destination: 'conflict discard pile' });
             }
         });
     }

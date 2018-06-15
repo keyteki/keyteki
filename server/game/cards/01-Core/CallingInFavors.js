@@ -7,17 +7,16 @@ class CallingInFavors extends DrawCard {
             cost: ability.costs.dishonor(() => true),
             target: {
                 cardType: 'attachment',
-                controller: 'opponent'
+                cardCondition: card => card.controller !== this.controller && card.location === 'play area'
             },
-            effect: 'take control of {0}',
             handler: context => {
-                if(ability.actions.attach({ attachment: context.target }).canAffect(context.costs.dishonor, context)) {
-                    this.game.addMessage('{0} attaches {1} to {2}', context.player, context.target, context.costs.dishonor);
-                    ability.actions.attach({ attachment: context.target }).resolve(context.costs.dishonor, context);
+                context.target.controller = this.controller;
+                if(this.controller.canAttach(context.target, context.costs.dishonor)) {
+                    this.game.addMessage('{0} plays {1}, dishonoring {2} in order to take control of {3} and attach it to {2}', this.controller, this, context.costs.dishonor, context.target);
+                    this.controller.attach(context.target, context.costs.dishonor);
                 } else {
-                    // TODO: This message won't work with Mirror
-                    this.game.addMessage('{0} cannot be attached to {1}, and so is discarded', context.target, context.costs.dishonor);
-                    ability.actions.discardFromPlay().resolve(context.target, context);
+                    this.game.addMessage('{0} plays {1}, dishonoring {2} but {3} cannot attach to them so it is discarded', this.controller, this, context.costs.dishonor, context.target);
+                    this.game.applyGameAction(context, { discardFromPlay: context.target });
                 }
             }
         });

@@ -1,45 +1,52 @@
 const DrawCard = require('../../drawcard.js');
 
 class ALegionOfOne extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Give a solitary character +3/+0',
-            condition: () => this.game.isDuringConflict('military'),
+            condition: () => this.game.currentConflict && this.game.currentConflict.conflictType === 'military',
             target: {
                 cardType: 'character',
-                controller: 'self',
-                cardCondition: (card, context) => card.isParticipating() && this.game.currentConflict.getCharacters(context.player).length === 1,
-                gameAction: ability.actions.cardLastingEffect({
-                    effect: ability.effects.modifyMilitarySkill(3)
-                })
+                cardCondition: card => card.controller === this.controller &&
+                                       (card.isAttacking() && this.game.currentConflict.attackers.length === 1 ||
+                                       card.isDefending() && this.game.currentConflict.defenders.length === 1)
             },
-            effect: 'give {0} +3/+0',
-            then: context => {
-                if(context.isResolveAbility) {
-                    return {
-                        target: {
-                            mode: 'select',
-                            choices: {
-                                'Remove 1 fate for no effect': ability.actions.removeFate({target: context.target }),
-                                'Done': () => true
-                            }
-                        },
-                        message: '{0} chooses {3}to remove a fate for no effect',
-                        messageArgs: context => context.select === 'Done' ? 'not ' : ''
-                    };
-                }
-                return {
-                    target: {
-                        mode: 'select',
-                        choices: {
-                            'Remove 1 fate to resolve this ability again': ability.actions.removeFate({target: context.target }),
-                            'Done': () => true
-                        }
-                    },
-                    message: '{0} chooses {3}to remove a fate to resolve {1} again',
-                    messageArgs: context => context.select === 'Done' ? 'not ' : '',
-                    then: { gameAction: ability.actions.resolveAbility({ ability: context.ability }) }
+            handler: context => {
+                this.game.addMessage('{0} plays {1}, giving {2} +3/+0', this.controller, this, context.target);
+                let resolveAbility = () => {
+                    this.untilEndOfConflict(ability => ({
+                        match: context.target,
+                        effect: ability.effects.modifyMilitarySkill(3)
+                    }));
                 };
+                resolveAbility();
+                if(context.target.fate > 0 && context.target.allowGameAction('removeFate')) {
+                    let resolveAgain = () => {
+                        this.game.addMessage('{0} removes a fate from {1}, resolving {2} again', this.controller, context.target, this);
+                        this.game.raiseEvent('onCardRemoveFate', { card: context.target, fate: 1 });
+                        context.dontRaiseCardPlayed = true;
+                        this.game.raiseInitiateAbilityEvent({ card: this, context: context }, () => {
+                            resolveAbility();
+                            if(context.target.fate > 0 && context.target.allowGameAction('removeFate')) {
+                                this.game.promptWithHandlerMenu(this.controller, {
+                                    activePromptTitle: 'Discard a fate for no effect?',
+                                    source: this,
+                                    choices: ['Yes', 'No'],
+                                    handlers: [() => {
+                                        this.game.addMessage('{0} removes a fate from {1} for no effect', this.controller, context.target);
+                                        this.game.raiseEvent('onCardRemoveFate', { card: context.target, fate: 1 });
+                                    }, () => true]
+                                });
+                            }
+                        });
+                    };
+                    this.game.promptWithHandlerMenu(this.controller, {
+                        activePromptTitle: 'Discard a fate to resolve A Legion of One again?',
+                        source: this,
+                        choices: ['Yes', 'No'],
+                        handlers: [resolveAgain, () => true]
+                    });
+                }
             }
         });
     }

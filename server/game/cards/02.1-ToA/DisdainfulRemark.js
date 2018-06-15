@@ -1,18 +1,20 @@
 const DrawCard = require('../../drawcard.js');
 
 class DisdainfulRemark extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Add Province Strength',
-            condition: context => context.player.anyCardsInPlay(card => card.isParticipating() && card.hasTrait('courtier')) &&
-                                  context.player.opponent && context.player.opponent.hand.size() > 0,
-            effect: 'add {1} to the province strength',
-            effectArgs: context => context.player.opponent.hand.size(),
-            gameAction: ability.actions.cardLastingEffect(context => ({
-                target: this.game.currentConflict.conflictProvince,
-                targetLocation: 'province',
-                effect: ability.effects.modifyProvinceStrength(context.player.opponent.hand.size())
-            }))
+            condition: () => this.controller.anyCardsInPlay(card => card.isParticipating() && card.hasTrait('courtier')) && 
+                             this.controller.opponent && this.controller.opponent.hand.size() > 0,
+            handler: () => {
+                let opponentHandSize = this.controller.opponent.hand.size();
+                this.game.addMessage('{0} uses {1}\'s ability to add {2} to the province strength.', this.controller, this, opponentHandSize);
+                this.untilEndOfConflict(ability => ({
+                    match: this.game.currentConflict.conflictProvince,
+                    targetLocation: 'province',
+                    effect: ability.effects.modifyProvinceStrength(opponentHandSize)
+                }));
+            }
         });
     }
 }

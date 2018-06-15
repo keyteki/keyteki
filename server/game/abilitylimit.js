@@ -1,7 +1,6 @@
 class FixedAbilityLimit {
     constructor(max) {
         this.max = max;
-        this.card = null;
         this.useCount = {};
     }
 
@@ -9,12 +8,12 @@ class FixedAbilityLimit {
         return false;
     }
 
-    getModifiedMax() {
-        return this.card ? this.card.getModifiedLimitMax(this.max) : this.max;
+    modifyMax(amount) {
+        this.max = this.max + amount;
     }
 
     isAtMax(player) {
-        return !!this.useCount[player.name] && this.useCount[player.name] >= this.getModifiedMax();
+        return !!this.useCount[player.name] && this.useCount[player.name] >= this.max;
     }
 
     increment(player) {

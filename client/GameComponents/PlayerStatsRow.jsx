@@ -59,7 +59,7 @@ export class PlayerStatsRow extends React.Component {
                 <Clock secondsLeft={ this.getStatValueOrDefault('clockLeft') } mode={ clockMode } />
             </div>
         );
-
+    
         return (
             <div className='panel player-stats no-highlight'>
                 { playerAvatar }
@@ -80,10 +80,8 @@ export class PlayerStatsRow extends React.Component {
                 <div className='state'>
                     <div className='conflicts-remaining'>
                         Conflicts Remaining: { this.getStatValueOrDefault('conflictsRemaining') }
-                        { this.getStatValueOrDefault('politicalRemaining') > 0 ? <span className='icon-political'/> : null }
-                        { this.getStatValueOrDefault('politicalRemaining') > 1 ? <span className='icon-political'/> : null }
-                        { this.getStatValueOrDefault('militaryRemaining') > 0 ? <span className='icon-military'/> : null }
-                        { this.getStatValueOrDefault('militaryRemaining') > 1 ? <span className='icon-military'/> : null }
+                        { this.getStatValueOrDefault('politicalRemaining') ? <span className='icon-political'/> : null }
+                        { this.getStatValueOrDefault('militaryRemaining') ? <span className='icon-military'/> : null }
                     </div>
                 </div>
                 { clock }

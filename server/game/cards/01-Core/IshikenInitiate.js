@@ -5,10 +5,13 @@ class IshikenInitiate extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: this,
-            effect: ability.effects.modifyBothSkills(() => this.getNoOfClaimedRings())
+            effect: [
+                ability.effects.dynamicMilitarySkill(() => this.getNoOfClaimedRings()),
+                ability.effects.dynamicPoliticalSkill(() => this.getNoOfClaimedRings())
+            ]
         });
     }
-
+    
     getNoOfClaimedRings() {
         let claimedRings = _.size(this.controller.getClaimedRings());
         let otherPlayer = this.game.getOtherPlayer(this.controller);

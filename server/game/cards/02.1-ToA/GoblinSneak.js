@@ -1,15 +1,20 @@
 const DrawCard = require('../../drawcard.js');
 
 class GoblinSneak extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
             title: 'Steal a fate',
             when: {
-                onCharacterEntersPlay: (event, context) => event.card === context.source && context.player.opponent
+                onCardEntersPlay: (event, context) => event.card === context.source && context.player.opponent && 
+                                                      context.player.opponent.fate > 0 &&
+                                                      context.source.allowGameAction('placeFate', context)
             },
-            effect: 'take a fate from {1} and place it on {0}',
-            effectArgs: context => context.player.opponent,
-            gameAction: ability.actions.placeFate(context => ({ origin: context.player.opponent }))
+            handler: context => {
+                this.game.addMessage('{0} uses {1}\'s ability to take a fate from {2}', this.controller, this, this.controller.opponent);
+                this.game.applyGameAction(context, { placeFate: context.source }, [{
+                    handler: () => this.game.addFate(this.controller.opponent, -1)
+                }]);
+            }
         });
     }
 }

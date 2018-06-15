@@ -12,19 +12,17 @@ class WalkingTheWay extends DrawCard {
         this.action({
             title: 'Place a card from your deck faceup on a province',
             condition: context => context.player.dynastyDeck.size() > 0,
-            effect: 'look at the top three cards of their dynasty deck',
             handler: context => this.game.promptWithHandlerMenu(context.player, {
                 activePromptTitle: 'Choose a card to place in a province',
-                context: context,
+                source: context.source,
                 cards: context.player.dynastyDeck.first(3),
                 cardHandler: cardFromDeck => this.game.promptForSelect(context.player, {
                     activePromptTitle: 'Choose a card to replace with ' + cardFromDeck.name,
-                    context: context,
+                    source: context.source,
                     cardType: ['holding', 'character'],
-                    location: 'province',
-                    controller: 'self',
+                    cardCondition: card => card.location.includes('province'),
                     onSelect: (player, card) => {
-                        this.game.addMessage('{0} discards {1}, replacing it with {2}', player, card, cardFromDeck);
+                        this.game.addMessage('{0} plays {1} and discards {2}, replacing it with {3}', player, context.source, card, cardFromDeck);
                         player.moveCard(cardFromDeck, card.location);
                         cardFromDeck.facedown = false;
                         player.moveCard(card, 'dynasty discard pile');

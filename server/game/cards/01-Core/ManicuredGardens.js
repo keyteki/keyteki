@@ -1,11 +1,14 @@
 const ProvinceCard = require('../../provincecard.js');
 
 class ManicuredGarden extends ProvinceCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Gain 1 fate',
-            condition: context => context.source.isConflictProvince(),
-            gameAction: ability.actions.gainFate()
+            condition: () => this.game.currentConflict && this.game.currentConflict.conflictProvince === this,
+            handler: () => {
+                this.game.addMessage('{0} uses {1} to gain 1 fate', this.controller, this);
+                this.game.addFate(this.controller, 1);
+            }
         });
     }
 }

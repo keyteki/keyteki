@@ -3,7 +3,10 @@ const DrawCard = require('../../drawcard.js');
 class PitTrap extends DrawCard {
     setupCardAbilities(ability) {
         this.whileAttached({
-            effect: ability.effects.doesNotReady()
+            condition: () => (
+                this.game.currentPhase === 'regroup'
+            ),
+            effect: ability.effects.doesNotReadyDuringRegroup()
         });
     }
 

@@ -1,19 +1,21 @@
 const DrawCard = require('../../drawcard.js');
 
 class NorthernWallSensei extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Grant immunity to events',
-            condition: context => context.source.isParticipating(),
+            condition: () => this.isParticipating(),
             target: {
                 cardType: 'character',
-                controller: 'self',
-                cardCondition: card => card.isParticipating() && card.attachments.size() > 0,
-                gameAction: ability.actions.cardLastingEffect({
-                    effect: ability.effects.immuneTo(context => context.source.type === 'event')
-                })
+                cardCondition: card => card.isParticipating() && card.controller === this.controller && card.attachments.size() > 0
             },
-            effect: 'grant immunity to events to {0}'
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to grant immunity to events to {2}', this.controller, this, context.target);
+                context.target.untilEndOfConflict(ability => ({
+                    match: context.target,
+                    effect: ability.effects.immuneTo(context => context.source.type === 'event')
+                }));
+            }
         });
     }
 }
