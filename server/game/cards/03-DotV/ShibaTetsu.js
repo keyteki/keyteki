@@ -6,11 +6,20 @@ class ShibaTetsu extends DrawCard {
             title: 'Gain +1/+1',
             limit: ability.limit.unlimitedPerConflict(),
             when: {
-                onCardPlayed: (event, context) => event.player === context.player && event.card.hasTrait('spell') && this.game.isDuringConflict()
+                onCardPlayed: event => (
+                    event.player === this.controller && event.card.hasTrait('spell') && this.game.currentConflict
+                )
             },
-            effect: 'give him +1{1}/+2{2}',
-            effectArgs: () => ['military', 'political'],
-            gameAction: ability.actions.cardLastingEffect({ effect: ability.effects.modifyBothSkills(1) })
+            handler: context => {
+                this.game.addMessage('{0} uses {1}, giving him +1{2}/+1{3}', context.player, context.source, 'military', 'political'); 
+                context.source.untilEndOfConflict(ability => ({
+                    match: context.source,
+                    effect: [
+                        ability.effects.modifyMilitarySkill(1),
+                        ability.effects.modifyPoliticalSkill(1)
+                    ]
+                }));
+            }
         });
     }
 }

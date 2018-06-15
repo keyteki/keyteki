@@ -32,7 +32,9 @@ describe('Duelist Training', function() {
             });
 
             it('should initiate a duel', function() {
+                //expect(this.spy).toHaveBeenCalledWith(null);
                 this.player1.clickCard(this.giverOfGifts1);
+                //expect(this.player1).toHavePrompt('Choose an ability:');
                 this.player1.clickPrompt('Initiate a duel to bow');
                 expect(this.player1).toHavePrompt('Giver of Gifts');
                 expect(this.player1).toBeAbleToSelect(this.seppunGuardsman);
@@ -60,8 +62,9 @@ describe('Duelist Training', function() {
                 this.player2.clickPrompt('1');
                 expect(this.player1).toHavePrompt('Duelist Training');
                 this.player1.clickPrompt('Pay with cards');
-                expect(this.player1).toHavePrompt('Giver of Gifts');
+                expect(this.player1).toHavePrompt('Duelist Training');
                 this.player1.clickCard('charge');
+                this.player1.clickPrompt('Done');
                 expect(this.seppunGuardsman.bowed).toBe(true);
             });
 
@@ -163,7 +166,7 @@ describe('Duelist Training', function() {
                 expect(this.player1).toHavePrompt('Choose an ability:');
                 this.player1.clickPrompt('Initiate a duel to bow');
                 expect(this.player1).toHavePrompt('Giver of Gifts');
-                expect(this.player1).toBeAbleToSelect(this.seppunGuardsman);
+                expect(this.player1).toBeAbleToSelect(this.seppunGuardsman);                
             });
 
             it('should reset the limit of the abilitiy if DT leaves play', function() {
@@ -175,9 +178,7 @@ describe('Duelist Training', function() {
                 this.player2.clickCard('let-go');
                 this.player2.clickCard(this.duelistTraining1);
                 expect(this.duelistTraining1.location).toBe('conflict discard pile');
-                this.player1.moveCard(this.duelistTraining1, 'hand');
-                this.player1.playAttachment(this.duelistTraining1, this.giverOfGifts1);
-                this.player2.pass();
+                this.player1.player.attach(this.duelistTraining1, this.giverOfGifts1);
                 expect(this.duelistTraining1.location).toBe('play area');
                 expect(this.giverOfGifts1.attachments.toArray()).toContain(this.duelistTraining1);
                 this.player1.clickCard(this.giverOfGifts1);

@@ -7,14 +7,27 @@ class MountainsAnvilCastle extends StrongholdCard {
             cost: ability.costs.bowSelf(),
             condition: () => this.game.currentConflict,
             target: {
+                source: this,
                 cardType: 'character',
-                cardCondition: card => card.isParticipating() && card.attachments.size() > 0,
-                gameAction: ability.actions.cardLastingEffect(context => ({
-                    effect: ability.effects.modifyBothSkills(Math.min(context.target.attachments.size(), 2))
-                }))
+                cardCondition: card => {
+                    return (this.game.currentConflict.isParticipating(card) &&
+                            card.attachments.size() > 0);
+                }
             },
-            effect: 'give {0} +{1}{2}/{1}{3}',
-            effectArgs: context => [Math.min(context.target.attachments.size(), 2), 'military', 'political']
+            handler: context => {
+                this.game.addMessage('{0} bows {1} to give {2} {3}', this.controller, this, context.target, context.target.attachments.size() > 1 ? '+2/+2' : '+1/+1');
+                let modifier = 1;
+                if(context.target.attachments.size() > 1) {
+                    modifier = 2;
+                }
+                this.untilEndOfConflict(ability => ({
+                    match: context.target,
+                    effect: [
+                        ability.effects.modifyMilitarySkill(modifier),
+                        ability.effects.modifyPoliticalSkill(modifier)
+                    ]
+                }));
+            }
         });
     }
 }

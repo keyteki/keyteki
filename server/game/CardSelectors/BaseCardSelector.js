@@ -2,73 +2,40 @@ class BaseCardSelector {
     constructor(properties) {
         this.cardCondition = properties.cardCondition;
         this.cardType = properties.cardType;
+        this.gameAction = properties.gameAction;
         this.optional = properties.optional;
-        this.location = this.buildLocation(properties.location);
-        this.controller = properties.controller || 'any';
 
         if(!Array.isArray(properties.cardType)) {
             this.cardType = [properties.cardType];
         }
     }
 
-    buildLocation(property) {
-        let location = property || 'play area';
-        if(!Array.isArray(location)) {
-            location = [location];
-        }
-        let index = location.indexOf('province');
-        if(index > -1) {
-            location.splice(index, 1, 'province 1', 'province 2', 'province 3', 'province 4', 'stronghold province');
-        }
-        return location;
-    }
-
-    findPossibleCards(context) {
-        if(this.location.includes('any')) {
-            return context.game.allCards.toArray();
-        }
-        let possibleCards = [];
-        if(this.controller !== 'opponent') {
-            possibleCards = this.location.reduce((array, location) => {
-                let cards = context.player.getSourceList(location).toArray();
-                if(location === 'play area') {
-                    return array.concat(cards, ...cards.map(card => card.attachments.toArray()));
-                }
-                return array.concat(cards);
-            }, possibleCards);
-        }
-        if(this.controller !== 'self' && context.player.opponent) {
-            possibleCards = this.location.reduce((array, location) => {
-                let cards = context.player.opponent.getSourceList(location).toArray();
-                if(location === 'play area') {
-                    return array.concat(cards, ...cards.map(card => card.attachments.toArray()));
-                }
-                return array.concat(cards);
-            }, possibleCards);
-        }
-        return possibleCards;
-    }
-
-    canTarget(card, context) {
+    canTarget(card, context, pretarget = false) {
         if(!card) {
             return false;
         }
-        if(context.stage.includes('target') && !card.checkRestrictions('target', context)) {
+        if(pretarget && context.ability && !context.ability.canPayCosts(context, card)) {
+            return false;
+        }
+        if(context.stage === 'target' && !card.allowGameAction('target', context)) {
+            return false;
+        }
+        if(this.gameAction && !card.allowGameAction(this.gameAction, context)) {
             return false;
         }
         return this.cardType.includes(card.getType()) && this.cardCondition(card, context);
     }
 
-    getAllLegalTargets(context) {
-        return this.findPossibleCards(context).filter(card => this.canTarget(card, context));
+    getAllLegalTargets(context, pretarget) {
+        return context.game.allCards.filter(card => this.canTarget(card, context, pretarget));
     }
 
     hasEnoughSelected(selectedCards) {
         return this.optional || selectedCards.length > 0;
     }
 
-    hasEnoughTargets(context) {
-        return (this.optional || this.findPossibleCards(context).some(card => this.canTarget(card, context)));
+    hasEnoughTargets(context, pretarget = false) {
+        return (this.optional || context.game.allCards.any(card => this.canTarget(card, context, pretarget)));
     }
 
     defaultActivePromptTitle() {
@@ -86,7 +53,7 @@ class BaseCardSelector {
     hasReachedLimit(selectedCards) { // eslint-disable-line no-unused-vars
         return false;
     }
-
+    
     hasExceededLimit(selectedCards) { // eslint-disable-line no-unused-vars
         return false;
     }

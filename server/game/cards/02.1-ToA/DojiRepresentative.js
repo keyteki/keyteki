@@ -1,10 +1,14 @@
 const DrawCard = require('../../drawcard.js');
 
 class DojiRepresentative extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Move this character home',
-            gameAction: ability.actions.sendHome()
+            condition: context => context.source.allowGameAction('sendHome', context),
+            handler: context => {
+                this.game.addMessage('{0} moves {1} home using its ability', this.controller, this);
+                this.game.applyGameAction(context, { sendHome: context.source });
+            }
         });
     }
 }

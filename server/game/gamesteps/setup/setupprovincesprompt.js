@@ -5,31 +5,44 @@ class SetupProvincesPrompt extends AllPlayerPrompt {
         return !!player.selectedProvince;
     }
 
-    onCardClicked(player, card) {
-        if(!card || !card.isProvince || card.cannotBeStrongholdProvince()) {
-            return false;
-        }
-
-        player.provinceDeck.each(p => {
-            p.selected = false;
-        });
-
-        card.selected = true;
-        player.selectedProvince = card;
-        this.game.addMessage('{0} has finished selecting a stronghold province', player);
-        return true;
-    }
-
     activePrompt() {
         return {
-            menuTitle: 'Select stronghold province'
+            menuTitle: 'Select stronghold province',
+            buttons: [
+                { arg: 'provincesselected', text: 'Done' }
+            ]
         };
     }
 
     waitingPrompt() {
-        return {
-            menuTitle: 'Waiting for opponent to finish selecting a stronghold province'
+        return { 
+            menuTitle: 'Waiting for opponent to finish selecting a stronghold province',
+            buttons: [
+                { arg: 'changeprovince', text: 'Change Province' }
+            ] 
         };
+    }
+
+    onMenuCommand(player, arg) {
+        if(arg === 'changeprovince') {
+            player.selectedProvince = undefined;
+            this.game.addMessage('{0} has cancelled their province selection', player);
+
+            return;
+        }
+
+        var province = player.findCard(player.provinceDeck, card => {
+            return card.selected;
+        });
+
+        if(!province) {
+            return;
+        }
+
+        player.selectedProvince = province;
+
+        this.game.addMessage('{0} has finished selecting a stronghold province', player);
+        
     }
 }
 

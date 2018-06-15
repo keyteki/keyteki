@@ -37,32 +37,34 @@ class CardAction extends CardAbility {
         this.anyPlayer = properties.anyPlayer || false;
         this.condition = properties.condition;
         this.doesNotTarget = properties.doesNotTarget;
+        this.abilityIdentifier = this.printedAbility ? this.card.id + this.card.abilities.actions.length.toString() : '';
+        this.maxIdentifier = this.card.name + this.abilityIdentifier;
 
         this.cost.push(Costs.useInitiateAction());
+        if(this.max) {
+            this.card.owner.registerAbilityMax(this.maxIdentifier, this.max);
+            this.cost.push(Costs.playMax());
+        }
     }
 
-    meetsRequirements(context = this.createContext()) {
-        if(!this.isInValidLocation(context)) {
-            return 'location';
+    meetsRequirements(context) {
+        if(!super.meetsRequirements(context)) {
+            return false;
         }
 
         if(this.phase !== 'any' && this.phase !== this.game.currentPhase) {
-            return 'phase';
+            return false;
         }
 
         if(context.player !== this.card.controller && !this.anyPlayer) {
-            return 'player';
+            return false;
         }
 
         if(this.condition && !this.condition(context)) {
-            return 'condition';
+            return false;
         }
 
-        return super.meetsRequirements(context);
-    }
-
-    isAction() {
-        return true;
+        return this.canResolveTargets(context);
     }
 }
 

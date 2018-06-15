@@ -249,12 +249,11 @@ class InnerProfile extends React.Component {
                                 </div>
                             </div>
                             <div className='panel-title'>
-                                Timed Bluff Window
+                                Timed Interrupt Window
                             </div>
                             <div className='panel'>
-                                <p className='help-block small'>Sometimes, it is useful to have the game prompt you to play an event, even when you can't play one, as it makes it more difficult for your opponent to deduce what you have in your hand. This 'bluff' window has a timer will count down.
-                                At the end of that timer, the window will automatically pass. This option controls the duration of the timer.  The timer will only show when you *don't* have an ability which can be used. The timer can be configure to show when events are played by your opponent, or
-                                to show when there's a window to play an event which you don't currently have in your hand.</p>
+                                <p className='help-block small'>Every time a game event occurs that you could possibly interrupt to cancel it, a timer will count down.  At the end of that timer, the window will automatically pass.
+                                This option controls the duration of the timer.  The timer will only show when you *don't* have an ability which can be used. The timer can be configure to show when events are played (useful if you play cards like Voice of Honor) and to show when card abilities are triggered.</p>
                                 <div className='form-group'>
                                     <label className='col-sm-3 control-label'>Window timeout</label>
                                     <div className='col-sm-5'>
@@ -269,10 +268,10 @@ class InnerProfile extends React.Component {
                                     </div>
                                     <label className='col-sm-1 control-label'>seconds</label>
 
-                                    <Checkbox name='timerSettings.events' noGroup label={ 'Show timer for opponent\'s events' } fieldClass='col-sm-6'
+                                    <Checkbox name='timerSettings.events' noGroup label={ 'Show timer for events' } fieldClass='col-sm-6'
                                         onChange={ this.onTimerSettingToggle.bind(this, 'events') } checked={ this.state.timerSettings.events } />
-                                    <Checkbox name='timerSettings.abilities' noGroup label={ 'Show timer for events in my deck' } fieldClass='col-sm-6'
-                                        onChange={ this.onTimerSettingToggle.bind(this, 'eventsInDeck') } checked={ this.state.timerSettings.eventsInDeck } />
+                                    <Checkbox name='timerSettings.abilities' noGroup label={ 'Show timer for card abilities' } fieldClass='col-sm-6'
+                                        onChange={ this.onTimerSettingToggle.bind(this, 'abilities') } checked={ this.state.timerSettings.abilities } />
                                 </div>
                             </div>
                             <div className='panel-title'>
@@ -302,14 +301,6 @@ class InnerProfile extends React.Component {
                                         fieldClass='col-sm-6'
                                         onChange={ this.onOptionSettingToggle.bind(this, 'orderForcedAbilities') }
                                         checked={ this.state.optionSettings.orderForcedAbilities }
-                                    />
-                                    <Checkbox
-                                        name='optionSettings.confirmOneClick'
-                                        noGroup
-                                        label={ 'Show a confirmation prompt when initating 1-click abilities' }
-                                        fieldClass='col-sm-6'
-                                        onChange={ this.onOptionSettingToggle.bind(this, 'confirmOneClick') }
-                                        checked={ this.state.optionSettings.confirmOneClick }
                                     />
                                     <Checkbox
                                         name='optionSettings.showStatusInSidebar'

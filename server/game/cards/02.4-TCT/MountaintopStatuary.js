@@ -5,24 +5,30 @@ class MountaintopStatuary extends DrawCard {
         this.reaction({
             title: 'Move this to stronghold province',
             when: {
-                onDynastyCardTurnedFaceup: (event, context) => event.card === context.source
+                onDynastyCardTurnedFaceup: event => event.card === this
             },
-            effect: 'move it to their stronghold province',
-            handler: context => context.player.moveCard(context.source, 'stronghold province')
+            handler: () => {
+                this.game.addMessage('{0} uses {1}, moving it to their stronghold province', this.controller, this);
+                this.controller.moveCard(this, 'stronghold province');
+            }
         });
         this.action({
             title: 'Send a 2 or lower cost character home',
             cost: ability.costs.sacrificeSelf(),
-            condition: context => this.game.isDuringConflict() && this.game.currentConflict.conflictProvince.location === context.source.location,
+            condition: () => this.game.currentConflict && this.game.currentConflict.conflictProvince && this.game.currentConflict.conflictProvince.location === this.location,
             target: {
                 cardType: 'character',
-                cardCondition: card => card.isAttacking() && card.getCost() <= 2,
-                gameAction: ability.actions.sendHome()
+                gameAction: 'sendHome',
+                cardCondition: card => card.isAttacking() && card.getCost() < 3
+            },
+            handler: context => {
+                this.game.addMessage('{0} sacrifices {1} to send {2} home', this.controller, this, context.target);
+                this.game.applyGameAction(context, { sendHome: context.target });
             }
         });
     }
 }
 
-MountaintopStatuary.id = 'mountaintop-statuary';
+MountaintopStatuary.id = 'mountaintop-statuary'; 
 
 module.exports = MountaintopStatuary;

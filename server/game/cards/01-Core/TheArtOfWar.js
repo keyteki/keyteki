@@ -1,13 +1,16 @@
 const ProvinceCard = require('../../provincecard.js');
 
 class TheArtOfWar extends ProvinceCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.interrupt({
             title: 'Draw 3 cards',
             when: {
-                onBreakProvince: (event, context) => event.card === context.source
+                onBreakProvince: event => event.card === this
             },
-            gameAction: ability.actions.draw({ amount: 3 })
+            handler: () => {
+                this.game.addMessage('{0} uses {1} to draw 3 cards', this.controller, this);
+                this.controller.drawCardsToHand(3);
+            }
         });
     }
 }

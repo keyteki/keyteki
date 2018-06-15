@@ -1,20 +1,24 @@
 const DrawCard = require('../../drawcard.js');
 
 class ShinjoTatsuo extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Move this and another character to the conflict',
+            condition: context => context.source.allowGameAction('moveToConflict', context),
             target: {
                 cardType: 'character',
-                controller: 'self',
-                cardCondition: (card, context) => card !== context.source,
                 optional: true,
-                gameAction: ability.actions.moveToConflict(context => {
-                    return context.target ? { target: [context.target, context.source] } : { target: context.source };
-                })
+                gameAction: 'moveToConflict',
+                cardCondition: card => card.controller === this.controller && card !== this
             },
-            effect: 'move {1}{2}{3} into the conflict',
-            effectArgs: context => [context.source, context.target ? ' and ' : '', context.target ? context.target : '']
+            handler: context => {
+                let cards = [context.source];
+                if(context.target !== 'noMoreTargets') {
+                    cards.push(context.target);
+                }
+                this.game.addMessage('{0} uses {1} to move {2} to the conflict', this.controller, this, cards);
+                this.game.applyGameAction(context, { moveToConflict: cards });
+            }
         });
     }
 }

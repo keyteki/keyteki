@@ -25,50 +25,18 @@ class FatePhase extends Phase {
     }
 
     discardCharactersWithNoFate() {
-        for(let player of this.game.getPlayersInFirstPlayerOrder()) {
-            this.game.queueSimpleStep(() => this.promptPlayerToDiscard(player, player.cardsInPlay.filter(card => (
-                card.fate === 0 && card.allowGameAction('discardFromPlay')
-            ))));
-        }
-    }
-
-    promptPlayerToDiscard(player, cardsToDiscard) {
-        if(cardsToDiscard.length === 0) {
-            return;
-        }
-        this.game.promptForSelect(player, {
-            source: 'Fate Phase',
-            activePromptTitle: 'Choose character to discard\n(or click Done to discard all characters with no fate)',
-            waitingPromptTitle: 'Waiting for opponent to discard characters with no fate',
-            cardCondition: card => cardsToDiscard.includes(card),
-            cardType: 'character',
-            controller: 'self',
-            buttons: [{ text: 'Done', arg: 'cancel' }],
-            onSelect: (player, card) => {
-                this.game.applyGameAction(null, { discardFromPlay: card });
-                this.promptPlayerToDiscard(player, cardsToDiscard.filter(c => c !== card));
-                return true;
-            },
-            onCancel: () => {
-                for(let character of cardsToDiscard) {
-                    this.game.applyGameAction(null, { discardFromPlay: character });
-                }
-            }
+        _.each(this.game.getPlayersInFirstPlayerOrder(), player => {
+            let cardsToDiscard = player.filterCardsInPlay(card => card.fate === 0 && card.type === 'character' && card.allowGameAction('discardFromPlay'));
+            this.game.queueSimpleStep(() => player.discardCharactersWithNoFate(cardsToDiscard));
         });
     }
-
+    
     removeFateFromCharacters() {
         this.game.applyGameAction(null, { removeFate: this.game.findAnyCardsInPlay(card => card.allowGameAction('removeFate')) });
     }
-
+    
     placeFateOnUnclaimedRings() {
-        this.game.raiseEvent('onPlaceFateOnUnclaimedRings', {}, () => {
-            _.each(this.game.rings, ring => {
-                if(!ring.claimed) {
-                    ring.modifyFate(1);
-                }
-            });
-        });
+        this.game.raiseEvent('onPlaceFateOnUnclaimedRings', {}, () => this.game.placeFateOnUnclaimedRings());
     }
 }
 

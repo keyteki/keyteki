@@ -87,10 +87,6 @@ function games(state = {
             retState = _.omit(state, 'currentGame');
             retState.newGame = false;
             return retState;
-        case 'HANDOFF_RECEIVED':
-            return Object.assign({}, state, {
-                gameId: action.details.gameId
-            });
         default:
             return state;
     }

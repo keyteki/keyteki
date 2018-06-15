@@ -51,10 +51,3 @@ export function cancelPasswordJoin() {
         type: 'CANCEL_PASSWORD_JOIN'
     };
 }
-
-export function onGameHandoffReceived(details) {
-    return {
-        type: 'HANDOFF_RECEIVED',
-        details: details
-    };
-}

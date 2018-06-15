@@ -6,7 +6,7 @@ class TheStoneOfSorrows extends DrawCard {
             condition: () => this.parent && !this.parent.bowed,
             targetType: 'player',
             targetController: 'opponent',
-            effect: ability.effects.playerCannot('takeFateFromRings')
+            effect: ability.effects.playerCannotTakeFateFromRings()
         });
     }
 }

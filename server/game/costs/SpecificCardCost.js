@@ -6,7 +6,7 @@ class SpecificCardCost {
 
     canPay(context) {
         let card = this.cardFunc(context);
-        return this.action.canAffect(card, context);
+        return this.action.isEligible(card, context);
     }
 
     resolve(context, result = { resolved: false }) {
@@ -14,12 +14,12 @@ class SpecificCardCost {
         context.costs[this.action.name] = card;
 
         result.resolved = true;
-        result.value = this.action.setTarget(card, context);
+        result.value = card;
         return result;
     }
 
     payEvent(context) {
-        return this.action.getEventArray(context);
+        return this.action.payEvent([context.costs[this.action.name]], context);
     }
 }
 

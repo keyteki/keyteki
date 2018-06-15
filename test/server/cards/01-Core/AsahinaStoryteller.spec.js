@@ -39,7 +39,6 @@ describe('Asahina Storyteller', function() {
                 this.player2.pass();
                 this.player1.clickCard('oni-mask');
                 this.player1.clickCard(this.asceticVisionary);
-                expect(this.asceticVisionary.isBlank()).toBe(true);
                 this.player2.pass();
                 this.sealOfTheCrane = this.player1.playAttachment('seal-of-the-crane', this.asceticVisionary);
                 expect(this.asceticVisionary.isFaction('crane')).toBe(true);
@@ -49,7 +48,7 @@ describe('Asahina Storyteller', function() {
                 expect(this.asceticVisionary.isBlank()).toBe(false);
                 expect(this.sealOfTheCrane.location).toBe('conflict discard pile');
                 expect(this.asceticVisionary.isFaction('crane')).toBe(false);
-                expect(this.asceticVisionary.hasSincerity()).toBe(false);
+                expect(this.asceticVisionary.hasSincerity()).toBe(false);                
             });
         });
     });

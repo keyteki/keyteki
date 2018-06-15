@@ -1,42 +1,37 @@
 const DrawCard = require('../../drawcard.js');
 
 class PolicyDebate extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Initiate a political duel',
             targets: {
                 challenger: {
                     cardType: 'character',
-                    controller: 'self',
-                    cardCondition: card => card.isParticipating() && !card.hasDash('political')
+                    cardCondition: card => card.isParticipating() && card.controller === this.controller && card.getPoliticalSkill(true) !== undefined
                 },
                 duelTarget: {
                     cardType: 'character',
-                    controller: 'opponent',
-                    cardCondition: card => card.isParticipating(),
-                    gameAction: ability.actions.duel(context => ({
-                        type: 'political',
-                        challenger: context.targets.challenger,
-                        resolutionHandler: (context, winner, loser) => this.duelOutcome(context, winner, loser)
-                    }))
+                    cardCondition: card => card.isParticipating() && card.controller !== this.controller && card.getPoliticalSkill(true) !== undefined
                 }
+            },
+            handler: context => {
+                this.game.addMessage('{0} plays {1} - {2} challenges {3} to a political duel!', this.controller, this, context.targets.challenger, context.targets.duelTarget);
+                this.game.initiateDuel(context.targets.challenger, context.targets.duelTarget, 'political', (winner, loser) => {
+                    if(loser) {
+                        this.game.addMessage('{0} wins the duel - {1} reveals their hand: {2}', winner, loser.controller, loser.controller.hand.sortBy(card => card.name));
+                        if(loser.controller.hand.size() === 0) {
+                            return;
+                        }
+                        this.game.promptWithHandlerMenu(winner.controller, {
+                            activePromptTitle: 'Choose card to discard',
+                            cards: loser.controller.hand.sortBy(card => card.name),
+                            cardHandler: card => loser.controller.discardCardFromHand(card),
+                            source: this
+                        });
+                    }
+                });
             }
         });
-    }
-
-    duelOutcome(context, winner, loser) {
-        if(loser) {
-            this.game.addMessage('{0} wins the duel - {1} reveals their hand: {2}', winner, loser.controller, loser.controller.hand.sortBy(card => card.name));
-            if(loser.controller.hand.size() === 0) {
-                return;
-            }
-            this.game.promptWithHandlerMenu(winner.controller, {
-                activePromptTitle: 'Choose card to discard',
-                context: context,
-                cards: loser.controller.hand.sortBy(card => card.name),
-                cardHandler: card => loser.controller.discardCardFromHand(card)
-            });
-        }
     }
 }
 

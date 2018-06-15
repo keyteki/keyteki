@@ -7,12 +7,12 @@ const Settings = require('../../server/settings.js');
 
 // Phase values enum
 const phaseValue = {
-    dynasty: 0,
-    draw: 1,
-    conflict: 2,
-    fate: 3,
-    regroup: 4
-};
+  dynasty: 0,
+  draw: 1,
+  conflict: 2,
+  fate: 3,
+  regroup: 4
+}
 const numPhases = 5;
 
 class GameFlowWrapper {
@@ -122,8 +122,8 @@ class GameFlowWrapper {
      */
     finishConflictPhase() {
         this.guardCurrentPhase('conflict');
-        while(this.player1.player.getConflictOpportunities() > 0 ||
-            this.player2.player.getConflictOpportunities() > 0) {
+        while(this.player1.player.conflicts.conflictOpportunities > 0 ||
+            this.player2.player.conflicts.conflictOpportunities > 0) {
             try {
                 this.noMoreActions();
             } catch(e) {
@@ -176,7 +176,7 @@ class GameFlowWrapper {
      * all other changes is -1
      */
     nextPhase() {
-        var phaseChange = 0;
+            var phaseChange = 0;
         switch(this.game.currentPhase) {
             case 'setup':
                 this.skipSetupPhase();
@@ -213,7 +213,7 @@ class GameFlowWrapper {
      */
     advancePhases(endphase) {
         if(!endphase) {
-            return;
+          return;
         }
 
         var endValue = phaseValue[endphase];

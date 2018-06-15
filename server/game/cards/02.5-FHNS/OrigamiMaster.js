@@ -4,21 +4,19 @@ class OrigamiMaster extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Move an honor token',
-            condition: context => context.source.isHonored,
+            condition: () => this.isHonored,
             target: {
                 cardType: 'character',
-                controller: 'self',
-                cardCondition: (card, context) => card.isDishonored || card.allowGameAction('becomeHonored', context)
+                cardCondition: (card, context) => card.location === 'play area' && card.controller === this.controller && !card.isHonored &&
+                                                  (card.isDishonored || card.allowGameAction('becomeHonored', context))
             },
-            effect: 'move an honor token to {0}',
             handler: context => {
-                if(context.source.isHonored) {
-                    context.source.isHonored = false;
-                    if(context.target.isDishonored) {
-                        context.target.isDishonored = false;
-                    } else {
-                        context.target.isHonored = true;
-                    }
+                this.game.addMessage('{0} uses {1} to move an honor token to {2}', this.controller, this, context.target);
+                this.isHonored = false;
+                if(context.target.isDishonored) {
+                    context.target.isDishonored = false;
+                } else {
+                    context.target.isHonored = true;
                 }
             }
         });

@@ -1,13 +1,17 @@
 const DrawCard = require('../../drawcard.js');
 
 class IntimidatingHida extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
             title: 'Make opponent lose honor',
             when: {
-                onConflictPass: (event, context) => event.conflict.attackingPlayer === context.player.opponent
+                onConflictPass: event => event.conflict.attackingPlayer !== this.controller
             },
-            gameAction: ability.actions.loseHonor()
+            handler: () => {
+                let otherPlayer = this.game.getOtherPlayer(this.controller);
+                this.game.addMessage('{0} uses {1} to make {2} lose an honor', this.controller, this, otherPlayer);
+                this.game.addHonor(otherPlayer, -1);
+            }
         });
     }
 }

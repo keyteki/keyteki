@@ -1,5 +1,5 @@
 const _ = require('underscore');
-const GameActions = require('./GameActions/GameActions');
+const SimpleStep = require('./gamesteps/simplestep.js');
 const HonorBidPrompt = require('./gamesteps/honorbidprompt.js');
 
 class ChatCommands {
@@ -9,13 +9,21 @@ class ChatCommands {
             '/draw': this.draw,
             '/honor': this.honor,
             '/dishonor': this.dishonor,
+            '/blank': this.blank,
+            '/unblank': this.unblank,
+            '/add-trait': this.addTrait,
+            '/remove-trait': this.removeTrait,
+            '/add-keyword': this.addKeyword,
+            '/remove-keyword': this.removeKeyword,
             '/discard': this.discard,
+            '/give-control': this.giveControl,
+            '/reset-challenges-count': this.resetChallengeCount,
             '/cancel-prompt': this.cancelPrompt,
             '/token': this.setToken,
             '/reveal': this.reveal,
             '/duel': this.duel,
             '/move-to-conflict': this.moveToConflict,
-            '/send-home': this.sendHome,
+            '/send-home': this.sendHome,            
             '/claim-favor': this.claimFavor,
             '/add-fate': this.addFate,
             '/rem-fate': this.remFate,
@@ -65,7 +73,7 @@ class ChatCommands {
 
         player.drawCardsToHand(num);
     }
-
+    
     claimFavor(player, args) {
         let type = args[1] || 'military';
         this.game.addMessage('{0} uses /claim-favor to claim the emperor\'s {1} favor', player, type);
@@ -106,11 +114,40 @@ class ChatCommands {
         });
     }
 
+    blank(player) {
+        this.game.promptForSelect(player, {
+            activePromptTitle: 'Select a card',
+            waitingPromptTitle: 'Waiting for opponent to blank card',
+            cardCondition: card => card.location === 'play area' && card.controller === player,
+            onSelect: (p, card) => {
+                card.setBlank();
+
+                this.game.addMessage('{0} uses the /blank command to blank {1}', p, card);
+                return true;
+            }
+        });
+    }
+
+    unblank(player) {
+        this.game.promptForSelect(player, {
+            activePromptTitle: 'Select a card',
+            waitingPromptTitle: 'Waiting for opponent to unblank card',
+            cardCondition: card => card.location === 'play area' && card.controller === player,
+            onSelect: (p, card) => {
+                card.clearBlank();
+
+                this.game.addMessage('{0} uses the /unblank command to remove the blank condition from {1}', p, card);
+                return true;
+            }
+        });
+    }
+    
     duel(player) {
         this.game.addMessage('{0} initiates a duel', player);
         this.game.queueStep(new HonorBidPrompt(this.game, 'Choose your bid for the duel'));
+        this.game.queueStep(new SimpleStep(this.game, () => this.game.tradeHonorAfterBid()));
     }
-
+    
     moveToConflict(player) {
         if(this.game.currentConflict) {
             this.game.promptForSelect(player, {
@@ -155,18 +192,133 @@ class ChatCommands {
         }
     }
 
+    addTrait(player, args) {
+        var trait = args[1];
+
+        if(!trait) {
+            return false;
+        }
+
+        this.game.promptForSelect(player, {
+            activePromptTitle: 'Select a card',
+            waitingPromptTitle: 'Waiting for opponent to add trait to card',
+            cardCondition: card => card.location === 'play area' && card.controller === player,
+            onSelect: (p, card) => {
+                card.addTrait(trait);
+
+                this.game.addMessage('{0} uses the /add-trait command to add the {1} trait to {2}', p, trait, card);
+                return true;
+            }
+        });
+    }
+
+    removeTrait(player, args) {
+        var trait = args[1];
+        if(!trait) {
+            return false;
+        }
+
+        this.game.promptForSelect(player, {
+            activePromptTitle: 'Select a card',
+            waitingPromptTitle: 'Waiting for opponent to remove trait remove card',
+            cardCondition: card => card.location === 'play area' && card.controller === player,
+            onSelect: (p, card) => {
+                card.removeTrait(trait);
+
+                this.game.addMessage('{0} uses the /remove-trait command to remove the {1} trait from {2}', p, trait, card);
+                return true;
+            }
+        });
+    }
+
+    addKeyword(player, args) {
+        var keyword = args[1];
+        if(!keyword) {
+            return false;
+        }
+
+        this.game.promptForSelect(player, {
+            activePromptTitle: 'Select a card',
+            waitingPromptTitle: 'Waiting for opponent to add keyword to card',
+            cardCondition: card => card.location === 'play area' && card.controller === player,
+            onSelect: (p, card) => {
+                card.addKeyword(keyword);
+
+                this.game.addMessage('{0} uses the /add-keyword command to add the {1} keyword to {2}', p, keyword, card);
+                return true;
+            }
+        });
+    }
+
+    removeKeyword(player, args) {
+        var keyword = args[1];
+        if(!keyword) {
+            return false;
+        }
+
+        this.game.promptForSelect(player, {
+            activePromptTitle: 'Select a card',
+            waitingPromptTitle: 'Waiting for opponent to add keyword to card',
+            cardCondition: card => card.location === 'play area' && card.controller === player,
+            onSelect: (p, card) => {
+                card.removeKeyword(keyword);
+
+                this.game.addMessage('{0} uses the /remove-keyword command to remove the {1} keyword from {2}', p, keyword, card);
+                return true;
+            }
+        });
+    }
+
     discard(player, args) {
         var num = this.getNumberOrDefault(args[1], 1);
 
         this.game.addMessage('{0} uses the /discard command to discard {1} card{2} at random', player, num, num > 1 ? 's' : '');
 
-        GameActions.discardAtRandom(num).resolve(player, this.game.getFrameworkContext());
+        player.discardAtRandom(num);
+    }
+
+    strength(player, args) {
+        var num = this.getNumberOrDefault(args[1], 1);
+
+        this.game.promptForSelect(player, {
+            activePromptTitle: 'Select a card to set strength for',
+            waitingPromptTitle: 'Waiting for opponent to set strength',
+            cardCondition: card => card.location === 'play area' && card.controller === player && card.getType() === 'character',
+            onSelect: (p, card) => {
+                card.strengthModifier = num - card.cardData.strength;
+                this.game.addMessage('{0} uses the /strength command to set the strength of {1} to {2}', p, card, num);
+                return true;
+            }
+        });
+    }
+
+    giveControl(player) {
+        this.game.promptForSelect(player, {
+            activePromptTitle: 'Select a character',
+            waitingPromptTitle: 'Waiting for opponent to give control',
+            cardCondition: card => ['play area', 'discard pile', 'dead pile'].includes(card.location) && card.controller === player,
+            onSelect: (p, card) => {
+                var otherPlayer = this.game.getOtherPlayer(player);
+                if(!otherPlayer) {
+                    return true;
+                }
+
+                this.game.takeControl(otherPlayer, card);
+                this.game.addMessage('{0} uses the /give-control command to pass control of {1} to {2}', p, card, otherPlayer);
+
+                return true;
+            }
+        });
+    }
+
+    resetChallengeCount(player) {
+        player.challenges.reset();
+        this.game.addMessage('{0} uses /reset-challenges-count to reset the number of challenges performed', player);
     }
 
     cancelPrompt(player) {
         this.game.addMessage('{0} uses the /cancel-prompt to skip the current step.', player);
         this.game.pipeline.cancelStep();
-        this.game.cancelPromptUsed = true;
     }
 
     setToken(player, args) {
@@ -191,7 +343,7 @@ class ChatCommands {
             }
         });
     }
-
+    
     reveal(player) {
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select a card',
@@ -328,7 +480,7 @@ class ChatCommands {
     disconnectMe(player) {
         player.socket.disconnect();
     }
-
+    
     manual(player) {
         if(this.game.manualMode) {
             this.game.manualMode = false;

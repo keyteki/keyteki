@@ -1,24 +1,27 @@
+const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 
 class FingerOfJade extends DrawCard {
     setupCardAbilities(ability) {
-        this.wouldInterrupt({
+        this.interrupt({
             title: 'Cancel an ability',
             when: {
-                onCardAbilityInitiated: (event, context) => event.cardTargets.some(card => card === context.source.parent)
+                onCardAbilityInitiated: event => _.any(event.cardTargets, card => card === this.parent)
             },
+            canCancel: true,
             cost: ability.costs.sacrificeSelf(),
-            effect: 'cancel the effects of {1}',
-            effectArgs: context => context.event.card,
-            handler: context => context.cancel()
+            handler: context => {
+                this.game.addMessage('{0} sacrifices {1} to cancel the effects of {2}', context.player, this, context.event.card);
+                context.cancel();
+            }
         });
     }
 
-    canAttach(card, context) {
-        if(card.controller !== context.player) {
+    canAttach(card) {
+        if(card.controller !== this.controller) {
             return false;
         }
-        return super.canAttach(card, context);
+        return super.canAttach(card);
     }
 }
 

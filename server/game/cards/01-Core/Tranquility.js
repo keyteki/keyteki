@@ -1,16 +1,21 @@
 const DrawCard = require('../../drawcard.js');
 
 class Tranquility extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Opponent\'s characters at home can\'t use abilities',
-            condition: context => this.game.isDuringConflict() && context.player.opponent,
-            effect: 'stop characters at {1}\'s home from triggering abilities until the end of the conflict',
-            effectArgs: context => context.player.opponent,
-            gameAction: ability.actions.cardLastingEffect(context => ({
-                target: context.player.opponent.cardsInPlay.filter(card => !card.isParticipating()),
-                effect: ability.effects.cardCannot('triggerAbilities')
-            }))
+            condition: () => this.game.currentConflict && this.controller.opponent && this.controller.opponent.cardsInPlay.any(card => !card.inConflict),
+            handler: () => {
+                this.game.addMessage('{0} plays {1} - characters at {2}\'s home are unable to trigger abilities until the end of the conflict', this.controller, this, this.controller.opponent);
+                this.controller.opponent.cardsInPlay.each(card => {
+                    if(card.type === 'character' && !card.isParticipating()) {
+                        card.untilEndOfConflict(ability => ({
+                            match: card,
+                            effect: ability.effects.cardCannotTriggerAbilities()
+                        }));
+                    }
+                });
+            }
         });
     }
 }

@@ -1,64 +1,41 @@
 const _ = require('underscore');
 
 class AbilityTargetCard {
-    constructor(name, properties, ability) {
+    constructor(name, properties) {
         this.name = name;
-        this.properties = _.omit(properties, 'ringCondition');
-        this.properties.ringCondition = (ring, context) => {
-            let contextCopy = context.copy();
-            contextCopy.rings[this.name] = ring;
-            if(this.name === 'target') {
-                contextCopy.ring = ring;
-            }
-            return (properties.gameAction.length === 0 || properties.gameAction.some(gameAction => gameAction.hasLegalTarget(context))) &&
-                   properties.ringCondition(ring, context) && context.ability.canPayCosts(context) && this.checkDependentTarget(context);
-        };
-        for(let gameAction of this.properties.gameAction) {
-            gameAction.getDefaultTargets = context => context.rings[name];
-        }
-        this.checkDependentTarget = context => true; // eslint-disable-line no-unused-vars
-        if(this.properties.dependsOn) {
-            let dependsOnTarget = ability.targets.find(target => target.name === this.properties.dependsOn);
-            dependsOnTarget.checkDependentTarget = context => this.hasLegalTarget(context);
-        }
+        this.properties = properties;
     }
 
     canResolve(context) {
-        return !!this.properties.dependsOn || this.hasLegalTarget(context);
-    }
-
-    hasLegalTarget(context) {
-        return _.any(context.game.rings, ring => this.properties.ringCondition(ring, context));
-    }
-
-    getGameAction(context) {
-        return this.properties.gameAction.filter(gameAction => gameAction.hasLegalTarget(context));
+        return _.any(context.game.rings, ring => this.properties.ringCondition(ring)) && context.ability.canPayCosts(context);
     }
 
     getAllLegalTargets(context) {
-        return _.filter(context.game.rings, ring => this.properties.ringCondition(ring, context));
+        return _.filter(context.game.rings, ring => this.properties.ringCondition(ring));
     }
 
-    resolve(context, noCostsFirstButton = false) {
+    resolve(context, pretarget = false, noCostsFirstButton = false) {
         let result = { resolved: false, name: this.name, value: null, costsFirst: false, mode: 'ring' };
         let player = context.player;
         if(this.properties.player && this.properties.player === 'opponent') {
-            if(context.stage === 'pretarget') {
+            if(pretarget) {
                 result.costsFirst = true;
                 return result;
             }
             player = player.opponent;
         }
         let buttons = [];
-        let waitingPromptTitle = '';
         if(this.properties.optional) {
             buttons.push({ text: 'No more targets', arg: 'noMoreTargets' });
         }
-        if(context.stage === 'pretarget') {
+        if(pretarget) {
             if(!noCostsFirstButton) {
                 buttons.push({ text: 'Pay costs first', arg: 'costsFirst' });
             }
             buttons.push({ text: 'Cancel', arg: 'cancel' });
+        }
+        let waitingPromptTitle = '';
+        if(pretarget) {
             if(context.ability.abilityType === 'action') {
                 waitingPromptTitle = 'Waiting for opponent to take an action or pass';
             } else {
@@ -68,6 +45,7 @@ class AbilityTargetCard {
         let promptProperties = {
             waitingPromptTitle: waitingPromptTitle,
             context: context,
+            source: context.source,
             buttons: buttons,
             onSelect: (player, ring) => {
                 result.resolved = true;
@@ -92,9 +70,9 @@ class AbilityTargetCard {
         context.game.promptForRingSelect(player, _.extend(promptProperties, this.properties));
         return result;
     }
-
+    
     checkTarget(context) {
-        return this.properties.ringCondition(context.rings[this.name], context);
+        return this.properties.ringCondition(context.rings[this.name]);
     }
 }
 

@@ -4,18 +4,22 @@ class KitsukiInvestigator extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Look at opponent\'s hand',
-            condition: context => context.source.isParticipating() && this.game.isDuringConflict('political') &&
-                                  context.player.opponent && context.player.opponent.hand.size() > 0,
-            cost: ability.costs.payFateToRing(),
-            effect: 'reveal {1}\'s hand: {2}',
-            effectArgs: context => [context.player.opponent, context.player.opponent.hand.sortBy(card => card.name)],
-            gameAction: ability.actions.discardCard(context => ({
-                promptWithHandlerMenu: {
-                    cards: context.player.opponent.hand.sortBy(card => card.name),
-                    message: '{0} chooses {1} to be discarded'
-                }
-            })),
-            max: ability.limit.perConflict(1)
+            max: ability.limit.perConflict(1),
+            condition: () => this.isParticipating() && this.game.currentConflict.conflictType === 'political' && this.controller.opponent && this.controller.opponent.hand.size() > 0,
+            cost: ability.costs.payFateToRing(1),
+            handler: () => {
+                let sortedHand = this.controller.opponent.hand.sortBy(card => card.name);
+                this.game.addMessage('{0} uses {1} to reveal {2}\'s hand: {3}', this.controller, this, this.controller.opponent, sortedHand);
+                this.game.promptWithHandlerMenu(this.controller, {
+                    activePromptTitle: 'Choose card to discard',
+                    cards: sortedHand,
+                    cardHandler: card => {
+                        this.game.addMessage('{0} uses {1} to discard {2} from {3}\'s hand', this.controller, this, card, this.controller.opponent);
+                        this.controller.opponent.discardCardFromHand(card);
+                    },
+                    source: this
+                });
+            }
         });
     }
 }

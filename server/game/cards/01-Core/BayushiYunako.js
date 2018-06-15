@@ -1,24 +1,25 @@
 const DrawCard = require('../../drawcard.js');
 
 class BayushiYunako extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Switch a character\'s M and P skill',
-            condition: context => context.source.isParticipating(),
+            condition: () => this.game.currentConflict && this.game.currentConflict.isParticipating(this),
             target: {
                 cardType: 'character',
-                cardCondition: card => !card.hasDash(),
-                gameAction: ability.actions.cardLastingEffect(context => {
-                    let diff = context.target.baseMilitarySkill - context.target.basePoliticalSkill;
-                    return {
-                        effect: [
-                            ability.effects.modifyBaseMilitarySkill(-diff),
-                            ability.effects.modifyBasePoliticalSkill(diff)
-                        ]
-                    };
-                })
+                cardCondition: card => card.location === 'play area' && card.cardData.military !== undefined && card.cardData.political !== undefined
             },
-            effect: 'switch {0}\'s military and political skill'
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to switch {2}\'s military and political skill', this.controller, this, context.target);
+                let diff = context.target.baseMilitarySkill - context.target.basePoliticalSkill;
+                this.untilEndOfConflict(ability => ({
+                    match: context.target,
+                    effect: [
+                        ability.effects.modifyBaseMilitarySkill(-diff),
+                        ability.effects.modifyBasePoliticalSkill(diff)
+                    ]
+                }));
+            }
         });
     }
 }

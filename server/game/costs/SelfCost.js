@@ -5,19 +5,27 @@ class SelfCost {
     }
 
     canPay(context) {
-        return this.action.canAffect(context.source, context);
+        return this.action.isEligible(context.source, context);
     }
 
     resolve(context, result = { resolved: false }) {
         context.costs[this.action.name] = context.source;
 
         result.resolved = true;
-        result.value = this.action.setTarget(context.source, context);
+        result.value = context.source;
         return result;
     }
 
     payEvent(context) {
-        return this.action.getEventArray(context);
+        return this.action.payEvent([context.costs[this.action.name]], context);
+    }
+
+    canUnpay(context) {
+        return !!this.unpayAction && this.unpayAction.isEligible(context.source, context);
+    }
+
+    unpay(context) {
+        this.unpayAction.pay([context.source], context);
     }
 }
 

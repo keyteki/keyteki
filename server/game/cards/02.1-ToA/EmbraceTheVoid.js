@@ -2,22 +2,24 @@ const DrawCard = require('../../drawcard.js');
 
 class EmbraceTheVoid extends DrawCard {
     setupCardAbilities() {
-        this.wouldInterrupt({
+        this.interrupt({
             title: 'Take Fate',
             when: {
-                onMoveFate: (event, context) => event.origin === context.source.parent && event.fate > 0
+                onCardRemoveFate: event => event.card === this.parent && event.fate > 0
             },
-            effect: 'take the {1} fate being removed from {0}',
-            effectArgs: context => context.event.fate,
-            handler: context => context.event.recipient = context.player
+            canCancel: true,
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to take the {2} fate being removed from {3}', this.controller, this, context.event.fate, this.parent);
+                context.event.recipient = this.controller;
+            }
         });
     }
-
+    
     canPlay(context) {
         if(!this.controller.cardsInPlay.any(card => card.getType() === 'character' && card.hasTrait('shugenja'))) {
             return false;
         }
-
+        
         return super.canPlay(context);
     }
 }

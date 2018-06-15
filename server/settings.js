@@ -11,7 +11,6 @@ const defaultOptionSettings = {
     markCardsUnselectable: true,
     cancelOwnAbilities: false,
     orderForcedAbilities: false,
-    confirmOneClick: false,
     showStatusInSidebar: false
 };
 
@@ -23,7 +22,7 @@ const defaultSettings = {
 
 const defaultTimerSettings = {
     events: true,
-    eventsInDeck: false
+    abilities: false
 };
 
 function getUserWithDefaultsSet(user) {

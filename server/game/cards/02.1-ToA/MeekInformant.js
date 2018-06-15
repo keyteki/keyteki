@@ -1,15 +1,13 @@
 const DrawCard = require('../../drawcard.js');
 
 class MeekInformant extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
             title: 'Reveal opponent\'s hand',
             when: {
-                onCardPlayed: (event, context) => event.card === context.source && context.player.opponent
+                onCardPlayed: event => event.card === this && this.controller.opponent && this.controller.opponent.hand.size() > 0
             },
-            effect: 'reveal {1}\'s hand',
-            effectArgs: context => context.player.opponent,
-            gameAction: ability.actions.reveal(context => ({ target: context.player.opponent.hand.toArray() }))
+            handler: () => this.game.addMessage('{0} uses {1} to reveal {2}\'s hand: {3}', this.controller, this, this.controller.opponent, this.controller.opponent.hand.sortBy(card => card.name))
         });
     }
 }

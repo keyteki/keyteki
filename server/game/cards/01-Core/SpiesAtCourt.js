@@ -5,11 +5,14 @@ class SpiesAtCourt extends DrawCard {
         this.reaction({
             title: 'Force opponent to discard 2 cards',
             when: {
-                afterConflict: (event, context) => event.conflict.winner === context.player && event.conflict.conflictType === 'political'
+                afterConflict: event => event.conflict.winner === this.controller && event.conflict.conflictType === 'political' && this.controller.opponent
             },
             cost: ability.costs.dishonor(card => card.isParticipating()),
-            gameAction: ability.actions.discardAtRandom({ amount: 2 }),
-            max: ability.limit.perConflict(1)
+            max: ability.limit.perConflict(1),
+            handler: context => {
+                this.game.addMessage('{0} dishonors {1} and plays {2} to force {3} to discard 2 cards at random', this.controller, context.costs.dishonor, this, this.controller.opponent);
+                this.controller.opponent.discardAtRandom(2, context.source);
+            }
         });
     }
 }

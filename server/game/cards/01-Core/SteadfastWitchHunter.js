@@ -8,7 +8,11 @@ class SteadfastWitchHunter extends DrawCard {
             target: {
                 activePromptTitle: 'Choose a character to ready',
                 cardType: 'character',
-                gameAction: ability.actions.ready()
+                gameAction: 'ready'
+            },
+            handler: context => {
+                this.game.addMessage('{0} uses {1} and sacrifices {2} to ready {3}', context.player, context.source, context.costs.sacrifice, context.target);
+                this.game.applyGameAction(context, { ready: context.target });
             }
         });
     }

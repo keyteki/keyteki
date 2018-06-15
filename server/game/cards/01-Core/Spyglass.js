@@ -5,12 +5,15 @@ class Spyglass extends DrawCard {
         this.reaction({
             title: 'Draw a card',
             when: {
-                onConflictDeclared: (event, context) => context.source.parent.isAttacking(),
-                onDefendersDeclared: (event, context) => context.source.parent.isDefending(),
-                onMoveToConflict: (event, context) => event.card === context.source.parent
+                onConflictDeclared: event => event.conflict.isAttacking(this.parent),
+                onDefendersDeclared: event => event.conflict.isDefending(this.parent),
+                onMoveToConflict: event => event.card === this.parent
             },
-            gameAction: ability.actions.draw(),
-            limit: ability.limit.perRound(2)
+            limit: ability.limit.perRound(2),
+            handler: () => {
+                this.game.addMessage('{0} uses {1} to draw 1 card', this.controller, this);
+                this.controller.drawCardsToHand(1);
+            }
         });
     }
 }

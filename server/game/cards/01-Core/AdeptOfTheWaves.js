@@ -1,18 +1,21 @@
 const DrawCard = require('../../drawcard.js');
 
 class AdeptOfTheWaves extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Grant Covert to a character',
             target: {
                 cardType: 'character',
-                gameAction: ability.actions.cardLastingEffect(() => ({
-                    duration: 'untilEndOfPhase',
-                    condition: () => this.game.isDuringConflict('water'),
-                    effect: ability.effects.addKeyword('covert')
-                }))
+                cardCondition: card => card.location === 'play area'
             },
-            effect: 'grant Covert during Water conflicts to {0}'
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to grant Covert during Water conflicts to {2}', this.controller, this, context.target);
+                this.untilEndOfPhase(ability => ({
+                    match: context.target,
+                    condition: () => this.game.currentConflict && this.game.currentConflict.conflictRing === 'water',
+                    effect: ability.effects.addKeyword('covert')
+                }));
+            }
         });
     }
 }

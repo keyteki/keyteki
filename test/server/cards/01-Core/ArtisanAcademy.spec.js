@@ -14,14 +14,14 @@ describe('Artisan Academy', function() {
 
         describe('Before activating Artisan Academy', function() {
             it('should have the top card facedown', function() {
-                expect(this.player1.player.isTopConflictCardShown()).toBe(false);
+                expect(this.player1.player.conflictDeckTopCardHidden).toBe(true);
             });
         });
-
+        
         describe('When activating Artisan Academy', function() {
             it('should turn the top card face up', function() {
                 this.player1.clickCard(this.artisanAcademy);
-                expect(this.player1.player.isTopConflictCardShown()).toBe(true);
+                expect(this.player1.player.conflictDeckTopCardHidden).toBe(false);                
             });
 
             it('should add a playable location', function() {

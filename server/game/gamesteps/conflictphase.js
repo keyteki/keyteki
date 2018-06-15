@@ -1,8 +1,9 @@
+const _ = require('underscore');
 const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
 const Conflict = require('../conflict.js');
+const ConflictFlow = require('./conflict/conflictflow.js');
 const ActionWindow = require('./actionwindow.js');
-const GameActions = require('../GameActions/GameActions');
 
 /*
 III Conflict Phase
@@ -10,10 +11,10 @@ III Conflict Phase
     ACTION WINDOW
     NOTE: After this action window, if no conflict
     opporunities remain, proceed to (3.4).
-3.2 Next player in player order declares a
+3.2 Next player in player order declares a 
     conflict(go to Conflict Resolution), or passes
     (go to 3.3).
-3.3 Conflict Ends/Conflict was passed. Return to
+3.3 Conflict Ends/Conflict was passed. Return to 
     the action window following step (3.1).
 3.4 Determine Imperial Favor.
 3.4.1 Glory count.
@@ -33,48 +34,75 @@ class ConflictPhase extends Phase {
     }
 
     beginPhase() {
-        this.currentPlayer = this.game.getFirstPlayer();
+        this.remainingPlayers = this.game.getPlayersInFirstPlayerOrder();
+        this.currentPlayer = this.remainingPlayers[0];
+        this.game.militaryConflictCompleted = false;
+        this.game.politicalConflictCompleted = false;
     }
 
-    startConflictChoice() {
-        if(this.currentPlayer.getConflictOpportunities() === 0 && this.currentPlayer.opponent) {
+    startConflictChoice(attackingPlayer = null) {
+        if(attackingPlayer) {
+            this.currentPlayer = attackingPlayer;
+        }
+        if(!this.currentPlayer.canInitiateConflict() && this.currentPlayer.opponent) {
             this.currentPlayer = this.currentPlayer.opponent;
         }
-        if(this.currentPlayer.getConflictOpportunities() > 0) {
-            if(GameActions.initiateConflict().canAffect(this.currentPlayer, this.game.getFrameworkContext(this.currentPlayer))) {
-                GameActions.initiateConflict().resolve(this.currentPlayer, this.game.getFrameworkContext(this.currentPlayer));
+        if(this.currentPlayer.canInitiateConflict()) {
+            var conflict = new Conflict(this.game, this.currentPlayer, this.game.getOtherPlayer(this.currentPlayer));
+            this.game.currentConflict = conflict;
+            let availableConflictTypes = _.filter(['military', 'political'], type => this.currentPlayer.canInitiateConflict(type));
+            if(this.currentPlayer.cardsInPlay.any(card => _.any(availableConflictTypes, type => card.canDeclareAsAttacker(type)))) {
+                this.game.queueStep(new ConflictFlow(this.game, conflict));
             } else {
-                var conflict = new Conflict(this.game, this.currentPlayer, this.currentPlayer.opponent);
                 conflict.passConflict('{0} passes their conflict opportunity as none of their characters can be declared as an attacker');
             }
-            if(this.currentPlayer.opponent) {
-                this.currentPlayer = this.currentPlayer.opponent;
-            }
-            this.game.queueStep(new ActionWindow(this.game, 'Action Window', 'preConflict'));
-            this.game.queueStep(new SimpleStep(this.game, () => this.startConflictChoice()));
+            this.game.queueStep(new SimpleStep(this.game, () => this.cleanupConflict()));
         } else {
-            this.game.queueStep(new SimpleStep(this.game, () => this.claimImperialFavor()));
+            this.game.queueStep(new SimpleStep(this.game, () => this.determineImperialFavor()));
+            this.game.queueStep(new SimpleStep(this.game, () => this.countGlory()));
+            this.game.queueStep(new SimpleStep(this.game, () => this.claimImperialFavor()));            
         }
     }
-
+   
+    determineImperialFavor() {
+        this.game.raiseEvent('onDetermineImperialFavor');
+    }
+    
+    countGlory() {
+        _.each(this.game.getPlayersInFirstPlayerOrder(), player => player.getFavor());
+    }
+    
     claimImperialFavor() {
-        let gloryTotals = this.game.getPlayersInFirstPlayerOrder().map(player => {
-            return player.cardsInPlay.reduce((total, card) => total + card.getContributionToImperialFavor(), player.getClaimedRings().length + player.gloryModifier);
-        });
-        let winner = this.game.getFirstPlayer();
-        if(winner.opponent) {
-            if(gloryTotals[0] === gloryTotals[1]) {
-                this.game.addMessage('Both players are tied in glory at {0}.  The imperial favor remains in its current state', gloryTotals[0]);
+        let otherPlayer = this.game.getOtherPlayer(this.currentPlayer);
+        let winner = this.currentPlayer;
+        if(otherPlayer) {
+            if(this.currentPlayer.totalGloryForFavor === otherPlayer.totalGloryForFavor) {
+                this.game.addMessage('Both players are tied in glory at {0}.  The imperial favor remains in its current state', this.currentPlayer.totalGloryForFavor);
                 this.game.raiseEvent('onFavorGloryTied');
                 return;
-            } else if(gloryTotals[0] < gloryTotals[1]) {
-                winner = winner.opponent;
-                this.game.addMessage('{0} succesfully claims the Emperor\'s favor with total glory of {1} vs {2}', winner, gloryTotals[1], gloryTotals[0]);
-            } else {
-                this.game.addMessage('{0} succesfully claims the Emperor\'s favor with total glory of {1} vs {2}', winner, gloryTotals[0], gloryTotals[1]);
+            } else if(this.currentPlayer.totalGloryForFavor < otherPlayer.totalGloryForFavor) {
+                winner = otherPlayer;
             }
+            this.game.addMessage('{0} succesfully claims the Emperor\'s favor with total glory of {1} vs {2}', winner, winner.totalGloryForFavor, winner.opponent.totalGloryForFavor);
         }
         winner.claimImperialFavor();
+    }
+    
+    cleanupConflict() {
+        if(!this.game.currentConflict.isSinglePlayer && !this.game.currentConflict.winnerGoesStraightToNextConflict) {
+            this.currentPlayer = this.game.getOtherPlayer(this.currentPlayer);
+        }
+        let skipActionWindow = this.game.currentConflict.winnerGoesStraightToNextConflict;
+        this.game.currentConflict = null;
+        this.game.checkGameState(true);
+        if(!skipActionWindow) {
+            this.game.queueStep(new ActionWindow(this.game, 'Action Window', 'preConflict'));            
+        } 
+        this.game.queueStep(new SimpleStep(this.game, () => this.startConflictChoice(this.currentPlayer)));
+    }
+
+    passConflict(player) {      
+        this.game.addMessage('{0} has passed the opportunity to declare a conflict', player);
     }
 }
 

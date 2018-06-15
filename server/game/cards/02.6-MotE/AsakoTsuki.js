@@ -1,16 +1,20 @@
 const DrawCard = require('../../drawcard.js');
 
 class AsakoTsuki extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
             title: 'Honor a scholar character',
             when: {
-                onClaimRing: event => event.conflict && event.conflict.ring.element === 'water'
+                onClaimRing: event => event.conflict && event.conflict.conflictRing === 'water'
             },
             target: {
                 cardType: 'character',
-                cardCondition: card => card.hasTrait('scholar'),
-                gameAction: ability.actions.honor()
+                gameAction: 'honor',
+                cardCondition: card => card.hasTrait('scholar')
+            },
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to honor {2}', this.controller, this, context.target);
+                this.game.applyGameAction(context, { honor: context.target });
             }
         });
     }

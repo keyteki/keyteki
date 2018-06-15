@@ -1,20 +1,25 @@
 const DrawCard = require('../../drawcard.js');
 
 class Harmonize extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Send a character home from each side',
-            cannotBeMirrored: true,
+            condition: () => this.controller.isDefendingPlayer(),
             targets: {
                 myCharacter: {
-                    cardCondition: (card, context) => card.isDefending() && card.controller === context.player,
-                    gameAction: ability.actions.sendHome()
+                    cardType: 'character',
+                    cardCondition: card => card.isDefending() 
                 },
                 oppCharacter: {
+                    cardType: 'character',
                     dependsOn: 'myCharacter',
-                    cardCondition: (card, context) => card.isAttacking() && card.getCost() <= context.targets.myCharacter.getCost(),
-                    gameAction: ability.actions.sendHome()
+                    gameAction: 'sendHome',
+                    cardCondition: (card, context) => card.isAttacking() && card.getCost() <= context.targets.myCharacter.getCost()
                 }
+            },
+            handler: context => {
+                this.game.addMessage('{0} plays {1}, sending {2} and {3} home', this.controller, this, context.targets.myCharacter, context.targets.oppCharacter);
+                this.game.applyGameAction(context, { sendHome: [context.targets.myCharacter, context.targets.oppCharacter] });
             }
         });
     }

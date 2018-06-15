@@ -1,14 +1,17 @@
 const DrawCard = require('../../drawcard.js');
 
 class IkomaProdigy extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
             title: 'Gain 1 honor',
             when: {
-                onCharacterEntersPlay: (event, context) => event.card === context.source && context.source.fate > 0,
-                onMoveFate: (event, context) => event.recipient === context.source && event.fate > 0
+                onCardEntersPlay: event => event.card === this && this.fate > 0,
+                onCardAddFate: event => event.card === this && event.fate > 0
             },
-            gameAction: ability.actions.gainHonor()
+            handler: () => {
+                this.game.addHonor(this.controller, 1);
+                this.game.addMessage('{0} uses {1} to gain 1 honor', this.controller, this);
+            }
         });
     }
 }

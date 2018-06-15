@@ -21,23 +21,17 @@ class TerminalCondition {
         this.condition = properties.condition || (() => true);
         this.gameAction = properties.gameAction;
         this.message = properties.message;
-        this.getEventFunc = properties.getEvent;
-        this.event = null;
+        this.getEventsFunc = properties.getEvents;
     }
 
-    checkCondition() {
-        return this.condition() && (!this.event || this.event.cancelled);
-    }
-
-    getEvent() {
+    getEvents() {
         if(this.message) {
             this.game.addMessage(this.message, this.source, this.target);
         }
-        if(this.getEventFunc) {
-            return this.getEventFunc();
+        if(this.getEventsFunc) {
+            return this.getEventsFunc();
         } else if(this.gameAction) {
-            this.event = this.gameAction.getEvent(this.target, this.context);
-            return this.event;
+            return this.game.getEventsForGameAction(this.gameAction, this.target, this.context)[0];
         }
     }
 

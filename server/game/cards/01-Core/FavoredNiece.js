@@ -6,7 +6,10 @@ class FavoredNiece extends DrawCard {
             title: 'Discard then draw a card',
             limit: ability.limit.perRound(2),
             cost: ability.costs.discardFromHand(),
-            gameAction: ability.actions.draw()
+            handler: () => {
+                this.game.addMessage('{0} uses {1} to discard and draw a card', this.controller, this);
+                this.controller.drawCardsToHand(1);
+            }
         });
     }
 }

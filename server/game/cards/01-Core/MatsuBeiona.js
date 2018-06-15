@@ -1,19 +1,25 @@
 const DrawCard = require('../../drawcard.js');
 
 class MatsuBeiona extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
-            title: 'Put 2 fate on this character',
+            title: 'Gain 2 fate',
             when: {
-                onCharacterEntersPlay: (event, context) => (
+                onCardEntersPlay: (event, context) => (
                     event.card === context.source &&
-                    context.player.cardsInPlay.filter(card => (
-                        card.hasTrait('bushi') &&
+                    context.source.allowGameAction('placeFate', context) && 
+                    context.player.filterCardsInPlay(card => (
+                        card.hasTrait('bushi') && 
+                        card.getType() === 'character' && 
                         card !== context.source
                     )).length >= 3
                 )
             },
-            gameAction: ability.actions.placeFate({ amount: 2 })
+            handler: context => {
+                this.game.addMessage('{0} uses {1}\'s ability to put 2 fate on {1}', this.controller, this);
+                let event = this.game.applyGameAction(context, { placeFate: context.source })[0];
+                event.fate = 2;
+            }
         });
     }
 }

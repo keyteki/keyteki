@@ -2,15 +2,16 @@ const DrawCard = require('../../drawcard.js');
 
 class WholenessOfTheWorld extends DrawCard {
     setupCardAbilities() {
-        this.wouldInterrupt({
+        this.interrupt({
             title: 'Keep a claimed ring',
             when: {
-                onReturnRing: (event, context) => event.ring.claimedBy === context.player.name
+                onReturnRing: event => event.ring.isConsideredClaimed(this.controller)
             },
-            cannotBeMirrored: true,
-            effect: 'prevent {1} from returning to the unclaimed pool',
-            effectArgs: context => context.event.ring,
-            handler: context => context.cancel()
+            canCancel: true,
+            handler: context => {
+                this.game.addMessage('{0} plays {1} to prevent the {2} from returning to the unclaimed pool', context.player, context.source, context.event.ring.element);
+                context.cancel();
+            }
         });
     }
 }

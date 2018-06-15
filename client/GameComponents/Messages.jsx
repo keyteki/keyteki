@@ -95,20 +95,10 @@ class InnerMessages extends React.Component {
                 return message;
             } else if(fragment.message) {
                 return this.formatMessageText(fragment.message);
-            } else if(fragment.emailHash) {
-                return (
-                    <div key={ index++ }>
-                        <Avatar emailHash={ fragment.emailHash } forceDefault={ fragment.noAvatar } float />
-                        <span key={ index++ }>
-                            <b>{ fragment.name }</b>
-                        </span>
-                    </div>
-                );
-            } else if(fragment.id) {
+            } else if(fragment.id && fragment.label) {
                 if(fragment.type === 'ring') {
-                    return this.formatMessageText(['the ', fragment.element, ' ring']);
-                } else if(fragment.type === 'player') {
-                    return fragment.name;
+                    let element = fragment.label.split(' ')[0];
+                    return this.formatMessageText(['the ', element.toLowerCase(), ' ring']);
                 }
                 if(fragment.type === '') {
                     return fragment.label;
@@ -118,8 +108,17 @@ class InnerMessages extends React.Component {
                         className='card-link'
                         onMouseOver={ this.props.onCardMouseOver.bind(this, fragment) }
                         onMouseOut={ this.props.onCardMouseOut.bind(this) }>
-                        { fragment.name }
+                        { fragment.label }
                     </span>
+                );
+            } else if(fragment.name) {
+                return (
+                    <div key={ index++ }>
+                        <Avatar emailHash={ fragment.emailHash } forceDefault={ fragment.noAvatar } float />
+                        <span key={ index++ }>
+                            <b>{ fragment.name }</b>
+                        </span>
+                    </div>
                 );
             } else if(_.contains(this.iconsConflict, fragment)) {
                 return (

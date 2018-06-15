@@ -5,7 +5,7 @@ class TogashiTadakatsu extends DrawCard {
         this.persistentEffect({
             targetType: 'player',
             targetController: 'any',
-            effect: ability.effects.playerCannot('chooseConflictRing')
+            effect: ability.effects.playerCannotChooseConflictRing()
         });
     }
 }

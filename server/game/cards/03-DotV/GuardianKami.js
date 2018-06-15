@@ -7,7 +7,10 @@ class GuardianKami extends DrawCard {
             cost: ability.costs.sacrificeSelf(),
             max: ability.limit.perConflict(1),
             condition: context => context.source.isDefending(),
-            gameAction: ability.actions.resolveRing()
+            handler: context => {
+                this.game.addMessage('{0} sacrifices {1} to resolve the ring effect', context.player, context.source);
+                this.game.currentConflict.resolveRing(context.player);
+            }
         });
     }
 }

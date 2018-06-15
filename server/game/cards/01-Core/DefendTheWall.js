@@ -1,14 +1,16 @@
 const ProvinceCard = require('../../provincecard.js');
 
 class DefendTheWall extends ProvinceCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
             title: 'Resolve the ring effect',
             when: {
-                afterConflict: (event, context) => event.conflict.conflictProvince === context.source &&
-                                                   event.conflict.winner === context.player
+                afterConflict: event => event.conflict.conflictProvince === this && event.conflict.winner === this.controller
             },
-            gameAction: ability.actions.resolveRing()
+            handler: context => {
+                this.game.addMessage('{0} uses {1} to resolve the ring effect', this.controller, this);
+                context.event.conflict.resolveRing(this.controller);
+            }
         });
     }
 }

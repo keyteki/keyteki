@@ -2,19 +2,23 @@ const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 
 class WarDogMaster extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
             title: 'Gain a +X/+0 bonus',
             when: {
-                onConflictDeclared: (event, context) => context.source.isAttacking()
+                onConflictDeclared: event => event.conflict.attackers.includes(this) && this.controller.dynastyDeck.size() > 0
             },
-            cost: ability.costs.discardSpecific(context => context.player.dynastyDeck.first()),
-            effect: 'give {0} a bonus to their military skill',
-            gameAction: ability.actions.cardLastingEffect(context => ({
-                effect: ability.effects.modifyMilitarySkill(
-                    _.isNumber(context.costs.discardSpecific.getCost()) ? context.costs.discardSpecific.getCost() : 0
-                )
-            }))
+            handler: () => {
+                let card = this.controller.dynastyDeck.first();
+                let bonus = card.getCost();
+                bonus = _.isNumber(bonus) ? bonus : 0;
+                this.game.addMessage('{0} uses {1} to discard {2} and gain a bonus of +{3}/+0', this.controller, this, card, bonus);
+                this.controller.moveCard(card, 'dynasty discard pile');
+                this.untilEndOfConflict(ability => ({
+                    match: this,
+                    effect: ability.effects.modifyMilitarySkill(bonus)
+                }));
+            }
         });
     }
 }

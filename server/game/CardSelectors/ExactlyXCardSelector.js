@@ -18,9 +18,9 @@ class ExactlyXCardSelector extends BaseCardSelector {
         return selectedCards.length === this.numCards;
     }
 
-    hasEnoughTargets(context) {
+    hasEnoughTargets(context, pretarget = false) {
         let numMatchingCards = context.game.allCards.reduce((total, card) => {
-            if(this.canTarget(card, context)) {
+            if(this.canTarget(card, context, pretarget)) {
                 return total + 1;
             }
             return total;
@@ -31,10 +31,6 @@ class ExactlyXCardSelector extends BaseCardSelector {
 
     hasReachedLimit(selectedCards) {
         return selectedCards.length >= this.numCards;
-    }
-
-    automaticFireOnSelect() {
-        return this.numCards === 1;
     }
 }
 

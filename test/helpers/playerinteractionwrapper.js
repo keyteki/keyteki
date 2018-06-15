@@ -416,7 +416,7 @@ class PlayerInteractionWrapper {
             this.player.moveCard(card, 'play area');
         }
         card.facedown = false;
-        return card;
+        return card;        
     }
 
     hasPrompt(title) {
@@ -494,6 +494,12 @@ class PlayerInteractionWrapper {
         return card;
     }
 
+    // Proxied method
+    attach(attachment, target, raiseCardPlayed = false) {
+        this.player.attach(attachment, target, raiseCardPlayed);
+        this.game.continue();
+    }
+
     /**
      * Claims the specified elemental ring for the player
      * @param {String} element - a ring element
@@ -540,7 +546,7 @@ class PlayerInteractionWrapper {
         }
         card = this.findCardByName(card, 'province deck');
         this.clickCard(card);
-        //this.clickPrompt('Done');
+        this.clickPrompt('Done');
     }
 
     /**
@@ -589,9 +595,6 @@ class PlayerInteractionWrapper {
 
     playAttachment(attachment, target) {
         let card = this.clickCard(attachment, 'hand');
-        if(this.currentButtons.includes('Play ' + card.name + ' as an attachment')) {
-            this.clickPrompt('Play ' + card.name + ' as an attachment');
-        }
         this.clickCard(target, 'play area');
         return card;
     }
@@ -601,9 +604,6 @@ class PlayerInteractionWrapper {
             card = this.findCardByName(card, 'hand');
         }
         this.clickCard(card, 'hand');
-        if(this.currentButtons.includes('Play this character')) {
-            this.clickPrompt('Play this character');
-        }
         this.clickPrompt(fate.toString());
         return card;
     }
@@ -708,7 +708,7 @@ class PlayerInteractionWrapper {
             if(!card) {
                 return false;
             }
-            return !card.hasDash(type);
+            return !card.conflictOptions.cannotParticipateIn[type];
         });
     }
 }

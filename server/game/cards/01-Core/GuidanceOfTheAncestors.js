@@ -6,15 +6,17 @@ class GuidanceOfTheAncestors extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Play this from the discard pile',
-            condition: context => context.player.fate >= context.player.getReducedCost('play', context.source),
+            condition: () => this.controller.fate >= this.controller.getReducedCost('play', this),
             location: 'conflict discard pile',
-            effect: 'play {0} from the discard pile',
-            handler: context => this.game.resolveAbility(new AbilityContext({
-                game: this.game,
-                player: context.player,
-                source: context.source,
-                ability: new PlayAttachmentAction(context.source)
-            }))
+            handler: () => {
+                let context = new AbilityContext({
+                    game: this.game,
+                    player: this.controller,
+                    source: this,
+                    ability: new PlayAttachmentAction()
+                });
+                this.game.resolveAbility(context);
+            }
         });
     }
 }

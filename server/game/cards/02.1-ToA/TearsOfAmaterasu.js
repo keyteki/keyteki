@@ -1,13 +1,19 @@
 const ProvinceCard = require('../../provincecard.js');
 
 class TearsOfAmaterasu extends ProvinceCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.reaction({
             title: 'Gain fate equal to the number of attackers',
             when: {
-                onProvinceRevealed: (event, context) => event.province === context.source && event.conflict.attackers.length > 0
+                onProvinceRevealed: event => event.province === this && event.conflict.attackers.length > 0
             },
-            gameAction: ability.actions.gainFate(context => ({ amount: context.event.conflict.attackers.length }))
+            handler: context => {
+                let numberOfAttackers = context.event.conflict.attackers.length;
+                if(numberOfAttackers > 0) {
+                    this.game.addMessage('{0} uses {1} to gain {2} fate', this.controller, this, numberOfAttackers);
+                    this.game.addFate(this.controller, numberOfAttackers);
+                }
+            }
         });
     }
 }

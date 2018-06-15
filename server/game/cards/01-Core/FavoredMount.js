@@ -8,15 +8,19 @@ class FavoredMount extends DrawCard {
         this.action({
             title: 'Move this character into the conflict',
             cost: ability.costs.bowSelf(),
-            gameAction: ability.actions.moveToConflict(context => ({ target: context.source.parent }))
+            condition: context => this.parent.allowGameAction('moveToConflict', context),
+            handler: context => {
+                this.game.addMessage('{0} bows {1} to move {2} into the conflict', this.controller, this, this.parent);
+                this.game.applyGameAction(context, { moveToConflict: context.source.parent });
+            }
         });
     }
 
-    canAttach(card, context) {
-        if(card.controller !== context.player) {
+    canAttach(card) {
+        if(card.controller !== this.controller) {
             return false;
         }
-        return super.canAttach(card, context);
+        return super.canAttach(card);
     }
 }
 

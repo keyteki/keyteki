@@ -1,22 +1,23 @@
 const DrawCard = require('../../drawcard.js');
 
 class GiverOfGifts extends DrawCard {
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.action({
             title: 'Move an attachment',
             target: {
                 cardType: 'attachment',
-                controller: 'self',
-                gameAction: ability.actions.attach(context => ({
-                    attachment: context.target,
-                    promptForSelect: {
-                        controller: 'self',
-                        cardCondition: card => card !== context.target.parent,
-                        message: '{0} moves the attachment to {2}'
-                    }
-                }))
+                cardCondition: card => card.controller === this.controller && card.location === 'play area'
             },
-            effect: 'move {0} to another character'
+            handler: context => this.game.promptForSelect(this.controller, {
+                source: this,
+                cardType: 'character',
+                cardCondition: card => this.controller.canAttach(context.target, card) && card.controller === this.controller && card !== context.target.parent,
+                onSelect: (player, card) => {
+                    this.game.addMessage('{0} uses {1} to move {2} from {3} to {4}', player, this, context.target, context.target.parent, card);
+                    player.attach(context.target, card);
+                    return true;
+                }
+            })
         });
     }
 }

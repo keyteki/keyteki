@@ -4,7 +4,10 @@ class SeppunIshikawa extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: this,
-            effect: ability.effects.modifyBothSkills(() => this.getImperialCardsInPlay())
+            effect: [
+                ability.effects.dynamicMilitarySkill(() => this.getImperialCardsInPlay()),
+                ability.effects.dynamicPoliticalSkill(() => this.getImperialCardsInPlay())
+            ]
         });
     }
 
@@ -12,7 +15,7 @@ class SeppunIshikawa extends DrawCard {
         return this.game.allCards.reduce((sum, card) => {
             if(card !== this && card.controller === this.controller && card.hasTrait('imperial') && !card.facedown &&
                 (card.location === 'play area' || (card.isProvince && !card.isBroken) ||
-                (['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(card.location) &&
+                (['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(card.location) && 
                  card.type === 'holding'))) {
                 return sum + 1;
             }

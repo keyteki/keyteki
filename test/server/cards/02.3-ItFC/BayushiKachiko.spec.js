@@ -42,7 +42,7 @@ describe('Bayushi Kachiko', function() {
                 this.shrewdYasuki = this.player1.clickCard('shrewd-yasuki', 'any', 'opponent');
                 expect(this.player1).toHavePrompt('Do you want to bow Shrewd Yasuki?');
             });
-
+            
             it('should bow the target if Yes is selected', function() {
                 this.shrewdYasuki = this.player1.clickCard('shrewd-yasuki', 'any', 'opponent');
                 this.player1.clickPrompt('Yes');
@@ -72,15 +72,17 @@ describe('Bayushi Kachiko', function() {
                 });
                 this.shrewdYasuki = this.player2.findCardByName('shrewd-yasuki');
                 // Give Yasuki a hypothetical ability which cancels send homes
-                this.shrewdYasuki.wouldInterrupt({
+                this.shrewdYasuki.interrupt({
                     title: 'Cancel Send Home',
                     when: {
                         onSendHome: event => event.card === this.shrewdYasuki
                     },
+                    canCancel: true,
                     handler: context => context.cancel()
                 });
 
                 this.shrewdYasuki.abilities.reactions.find(ability => ability.title === 'Cancel Send Home').registerEvents();
+                this.game.registerAbility(this.shrewdYasuki.abilities.reactions[0]);
                 this.player2.clickPrompt('Pass');
                 this.player1.clickCard('bayushi-kachiko');
                 this.player1.clickCard(this.shrewdYasuki);
@@ -103,11 +105,11 @@ describe('Bayushi Kachiko', function() {
                 });
                 this.shrewdYasuki = this.player2.findCardByName('shrewd-yasuki');
                 // Give Yasuki a hypothetical ability so it cannot be bowed
-                this.shrewdYasuki.addEffectToEngine({
+                this.shrewdYasuki.persistentEffect({
                     match: this.shrewdYasuki,
-                    effect: AbilityDsl.effects.cardCannot('bow')
+                    effect: AbilityDsl.effects.cannotBeBowed()
                 });
-                this.game.checkGameState(true);
+                this.game.addEffect(this.shrewdYasuki, this.shrewdYasuki.abilities.persistentEffects[0]);
                 expect(this.shrewdYasuki.allowGameAction('bow')).toBe(false);
 
                 this.player2.clickPrompt('Pass');

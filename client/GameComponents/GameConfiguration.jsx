@@ -89,18 +89,18 @@ class GameConfiguration extends React.Component {
                             <Checkbox
                                 name='timerSettings.events'
                                 noGroup
-                                label={ 'Show timer for opponent\'s events' }
+                                label={ 'Show timer for events' }
                                 fieldClass='col-sm-6'
                                 onChange={ this.onTimerSettingToggle.bind(this, 'events') }
                                 checked={ this.props.timerSettings.events }
                             />
                             <Checkbox
-                                name='timerSettings.eventsInDeck'
+                                name='timerSettings.abilities'
                                 noGroup
-                                label={ 'Show timer for events in your deck' }
+                                label={ 'Show timer for card abilities' }
                                 fieldClass='col-sm-6'
-                                onChange={ this.onTimerSettingToggle.bind(this, 'eventsInDeck') }
-                                checked={ this.props.timerSettings.eventsInDeck }
+                                onChange={ this.onTimerSettingToggle.bind(this, 'abilities') }
+                                checked={ this.props.timerSettings.abilities }
                             />
                         </div>
                     </div>
@@ -132,14 +132,6 @@ class GameConfiguration extends React.Component {
                                 fieldClass='col-sm-6'
                                 onChange={ this.onOptionSettingToggle.bind(this, 'orderForcedAbilities') }
                                 checked={ this.props.optionSettings.orderForcedAbilities }
-                            />
-                            <Checkbox
-                                name='optionSettings.confirmOneClick'
-                                noGroup
-                                label={ 'Show a confirmation prompt when initating 1-click abilities' }
-                                fieldClass='col-sm-6'
-                                onChange={ this.onOptionSettingToggle.bind(this, 'confirmOneClick') }
-                                checked={ this.props.optionSettings.confirmOneClick }
                             />
                             <Checkbox
                                 name='optionSettings.showStatusInSidebar'

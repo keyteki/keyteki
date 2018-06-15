@@ -5,18 +5,16 @@ class TalismanOfTheSun extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Move conflict to a different province',
-            condition: context => context.player.isDefendingPlayer(),
+            condition: () => this.controller.isDefendingPlayer(),
             cost: ability.costs.bowSelf(),
-            effect: 'move the conflict to another province',
-            handler: context => this.game.promptForSelect(context.player, {
-                context: context,
+            handler: () => this.game.promptForSelect(this.controller, {
+                source: this,
                 cardType: 'province',
-                location: 'province',
-                controller: 'self',
-                cardCondition: card => card !== this.game.currentConflict.conflictProvince && !card.isBroken && (card.location !== 'stronghold province' ||
-                                        _.size(this.game.provinceCards.filter(card => card.isBroken && card.controller === context.player)) > 2),
+                cardCondition: card => card.controller === this.controller && card !== this.game.currentConflict.conflictProvince && !card.isBroken &&
+                                       (card.location !== 'stronghold province' ||
+                                        _.size(this.game.allCards.filter(card => card.isProvince && card.isBroken && card.controller === this.controller)) > 2),
                 onSelect: (player, card) => {
-                    this.game.addMessage('{0} moves the conflict to {1}', context.player, card);
+                    this.game.addMessage('{0} uses {1}, moving the conflict to {2}', this.controller, this, card);
                     card.inConflict = true;
                     this.game.currentConflict.conflictProvince.inConflict = false;
                     this.game.currentConflict.conflictProvince = card;

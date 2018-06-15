@@ -3,8 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class MotoYouth extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            condition: () => this.game.isDuringConflict('military') &&
-                             this.game.completedConflicts.every(conflict => conflict.declaredType !== 'military' && !conflict.typeSwitched),
+            condition: () => this.game.currentConflict && this.game.currentConflict.conflictType === 'military' && !this.game.militaryConflictCompleted,
             match: this,
             effect: ability.effects.modifyMilitarySkill(1)
         });
