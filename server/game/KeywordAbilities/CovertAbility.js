@@ -1,16 +1,12 @@
 const BaseAbility = require('../baseability.js');
 
 class CovertAbility extends BaseAbility {
-    isAction() {
-        return false;
+    constructor() {
+        super({});
     }
 
     isCardAbility() {
         return true;
-    }
-
-    isTriggeredAbility() {
-        return false;
     }
 }
 

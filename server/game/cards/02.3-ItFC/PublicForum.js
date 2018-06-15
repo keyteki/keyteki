@@ -2,14 +2,13 @@ const ProvinceCard = require('../../provincecard.js');
 
 class PublicForum extends ProvinceCard {
     setupCardAbilities() {
-        this.interrupt({
+        this.wouldInterrupt({
             title: 'Prevent break and add Honor token',
             when: {
-                onBreakProvince: event => event.card === this && !event.card.hasToken('honor')
+                onBreakProvince: (event, context) => event.card === context.source && !event.card.hasToken('honor')
             },
-            canCancel: true,
+            effect: 'add an honor token to {0} instead of breaking it',
             handler: context => {
-                this.game.addMessage('{0} adds an honor token to {1} instead of breaking it', this.controller, this);
                 context.cancel();
                 context.event.card.addToken('honor');
             }

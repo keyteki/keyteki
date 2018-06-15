@@ -98,4 +98,4 @@ describe('Kitsu Spiritcaller', function() {
             });
         });
     });
-});             
+});

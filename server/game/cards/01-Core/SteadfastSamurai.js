@@ -1,22 +1,21 @@
 const DrawCard = require('../../drawcard.js');
 
 class SteadfastSamurai extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.forcedReaction({
             title: 'Can\'t be discarded or remove fate',
             when: {
-                onPhaseStarted: event => event.phase === 'fate' && this.controller.opponent && this.controller.honor > this.controller.opponent.honor + 4
+                onPhaseStarted: (event, context) => event.phase === 'fate' && context.player.opponent &&
+                                                    context.player.honor >= context.player.opponent.honor + 5
             },
-            handler: () => {
-                this.game.addMessage('{0} uses {1}\'s ability to stop him being discarded or losing fate in this phase', this.controller, this);
-                this.untilEndOfPhase(ability => ({
-                    match: this,
-                    effect: [
-                        ability.effects.cannotRemoveFate(),
-                        ability.effects.cannotBeDiscarded()
-                    ]
-                }));
-            }
+            effect: 'stop him being discarded or losing fate in this phase',
+            gameAction: ability.actions.cardLastingEffect({
+                duration: 'untilEndOfPhase',
+                effect: [
+                    ability.effects.cardCannot('removeFate'),
+                    ability.effects.cardCannot('discardFromPlay')
+                ]
+            })
         });
     }
 }

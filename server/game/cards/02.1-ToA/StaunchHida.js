@@ -1,16 +1,13 @@
 const DrawCard = require('../../drawcard.js');
 
 class StaunchHida extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             title: 'Resolve the ring effect',
             when: {
-                afterConflict: event => event.conflict.winner === this.controller && event.conflict.isDefending(this)
+                afterConflict: (event, context) => event.conflict.winner === context.player && context.source.isDefending()
             },
-            handler: context => {
-                this.game.addMessage('{0} uses {1} to resolve the ring effect', this.controller, this);
-                context.event.conflict.resolveRing(this.controller);
-            }
+            gameAction: ability.actions.resolveRing()
         });
     }
 }

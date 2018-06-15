@@ -31,7 +31,7 @@ describe('Shrewd Yasuki', function() {
                 this.player1.clickPrompt('Gain 2 honor');
                 this.player1.clickCard('shrewd-yasuki');
                 expect(this.player1).toHavePrompt('Initiate an action');
-            });            
+            });
         });
 
         describe('when neither player has a holding in play', function() {

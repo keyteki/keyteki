@@ -307,7 +307,7 @@ class Lobby {
 
         var game = this.findGameForUser(socket.user.username);
         if(game && game.started) {
-            socket.send('handoff', { address: game.node.address, port: game.node.port, protocol: game.node.protocol, name: game.node.identity });
+            socket.send('handoff', { address: game.node.address, port: game.node.port, protocol: game.node.protocol, name: game.node.identity, gameId: game.id });
         }
     }
 
@@ -627,7 +627,7 @@ class Lobby {
                     name: player.name,
                     emailHash: player.emailHash,
                     owner: game.owner === player.name,
-                    faction: player.faction 
+                    faction: { cardData: { code: player.faction } }
                 };
             });
 

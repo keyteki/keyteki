@@ -5,7 +5,7 @@ const _ = require('underscore');
 describe('BaseAbility', function () {
     beforeEach(function () {
         this.gameSpy = jasmine.createSpyObj('game', ['promptForSelect', 'getEvent']);
-        this.allCardsSpy = jasmine.createSpyObj('allCards', ['filter']);
+        this.allCardsSpy = jasmine.createSpyObj('allCards', ['toArray']);
         this.gameSpy.allCards = this.allCardsSpy;
         this.properties = { game: this.gameSpy };
     });
@@ -96,6 +96,7 @@ describe('BaseAbility', function () {
             this.ability = new BaseAbility(this.properties);
             this.ability.cost = [this.cost1, this.cost2];
             this.context = { context: 1 };
+            this.context.copy = () => this.context;
         });
 
         describe('when all costs can be paid', function() {
@@ -106,8 +107,8 @@ describe('BaseAbility', function () {
 
             it('should call canPay with the context object', function() {
                 this.ability.canPayCosts(this.context);
-                expect(this.cost1.canPay).toHaveBeenCalledWith(this.context, []);
-                expect(this.cost2.canPay).toHaveBeenCalledWith(this.context, []);
+                expect(this.cost1.canPay).toHaveBeenCalledWith(this.context);
+                expect(this.cost2.canPay).toHaveBeenCalledWith(this.context);
             });
 
             it('should return true', function() {
@@ -195,23 +196,25 @@ describe('BaseAbility', function () {
             expect(this.cost1.pay).not.toHaveBeenCalled();
         });
     });
+
     describe('canResolveTargets()', function() {
         beforeEach(function() {
             this.cardCondition = jasmine.createSpy('cardCondition');
-            this.properties.target = { cardCondition: this.cardCondition };
+            this.properties.target = { cardCondition: this.cardCondition, location: 'any' };
             this.ability = new BaseAbility(this.properties);
 
-            this.card1 = jasmine.createSpyObj('card', ['allowGameAction', 'getType']);
-            this.card1.allowGameAction.and.returnValue(true);
+            this.card1 = jasmine.createSpyObj('card', ['checkRestrictions', 'getType']);
+            this.card1.checkRestrictions.and.returnValue(true);
             this.card1.getType.and.returnValue('character');
-            this.card2 = jasmine.createSpyObj('card', ['allowGameAction', 'getType']);
-            this.card2.allowGameAction.and.returnValue(true);
+            this.card2 = jasmine.createSpyObj('card', ['checkRestrictions', 'getType']);
+            this.card2.checkRestrictions.and.returnValue(true);
             this.card2.getType.and.returnValue('holding');
             let game = { allCards: _([this.card1, this.card2]) };
             game.getCurrentAbilityContext = () => {
                 return { source: 'framework', card: null, stage: 'framework' };
             };
-            this.context = { game: game };
+            this.context = { game: game, stage: 'target', targets: {} };
+            this.context.copy = () => this.context;
         });
 
         describe('when there is a non-draw card', function() {
@@ -253,14 +256,22 @@ describe('BaseAbility', function () {
             this.player = { player: 1 };
             this.source = { source: 1 };
 
-            this.target1 = { target: 1, mode: 'single' };
-            this.target2 = { target: 2, mode: 'single' };
+            this.target1 = { target: 1, mode: 'single', location: 'any' };
+            this.target2 = { target: 2, mode: 'single', location: 'any' };
+
+            this.card1 = jasmine.createSpyObj('card1', ['checkRestrictions', 'getType']);
+            this.card1.checkRestrictions.and.returnValue(true);
+            this.card1.getType.and.returnValue('character');
+            this.card2 = jasmine.createSpyObj('card1', ['checkRestrictions', 'getType']);
+            this.card2.checkRestrictions.and.returnValue(true);
+            this.card2.getType.and.returnValue('character');
 
             this.properties.targets = { target1: this.target1, target2: this.target2 };
             this.ability = new BaseAbility(this.properties);
 
-            this.context = { game: this.gameSpy, player: this.player, source: this.source, ability: this.ability, targets: {} };
-            this.allCardsSpy.filter.and.returnValue([this.target1, this.target2]);
+            this.context = { game: this.gameSpy, player: this.player, source: this.source, ability: this.ability, stage: 'target', targets: {} };
+            this.context.copy = () => this.context;
+            this.allCardsSpy.toArray.and.returnValue([this.card1, this.card2]);
         });
 
         it('should return target results for each target', function() {
@@ -269,8 +280,8 @@ describe('BaseAbility', function () {
 
         it('should prompt the player to select each target', function() {
             this.ability.resolveTargets(this.context);
-            expect(this.gameSpy.promptForSelect).toHaveBeenCalledWith(this.player, { source: this.source, target: 1, onSelect: jasmine.any(Function), onCancel: jasmine.any(Function), selector: jasmine.any(Object), context: this.context, waitingPromptTitle: jasmine.any(String), buttons: jasmine.any(Array), onMenuCommand: jasmine.any(Function), pretarget: true, mode: 'single' });
-            expect(this.gameSpy.promptForSelect).toHaveBeenCalledWith(this.player, { source: this.source, target: 1, onSelect: jasmine.any(Function), onCancel: jasmine.any(Function), selector: jasmine.any(Object), context: this.context, waitingPromptTitle: jasmine.any(String), buttons: jasmine.any(Array), onMenuCommand: jasmine.any(Function), pretarget: true, mode: 'single' });
+            expect(this.gameSpy.promptForSelect).toHaveBeenCalledWith(this.player, { target: 1, onSelect: jasmine.any(Function), onCancel: jasmine.any(Function), selector: jasmine.any(Object), context: this.context, waitingPromptTitle: jasmine.any(String), buttons: jasmine.any(Array), onMenuCommand: jasmine.any(Function), mode: 'single', location: 'any', gameAction: [] });
+            expect(this.gameSpy.promptForSelect).toHaveBeenCalledWith(this.player, { target: 1, onSelect: jasmine.any(Function), onCancel: jasmine.any(Function), selector: jasmine.any(Object), context: this.context, waitingPromptTitle: jasmine.any(String), buttons: jasmine.any(Array), onMenuCommand: jasmine.any(Function), mode: 'single', location: 'any', gameAction: [] });
         });
 
         describe('the select prompt', function() {

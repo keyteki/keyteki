@@ -1,35 +1,13 @@
-const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
 const PlayAttachmentAction = require('../../playattachmentaction.js');
 
 class PlayTattooedWandererAsAttachment extends PlayAttachmentAction {
-    constructor(originalCard, owner, cardData) {
-        super();
-        this.clone = new DrawCard(owner, cardData);
-        this.clone.type = 'attachment';
-        this.originalCard = originalCard;
+    constructor(card) {
+        super(card);
         this.title = 'Play Tattooed Wanderer as an attachment';
     }
 
-    meetsRequirements(context) {
-        let clonedContext = _.clone(context);
-        clonedContext.source = this.clone;
-        return (
-            context.game.currentPhase !== 'dynasty' &&
-            context.player.isCardInPlayableLocation(this.originalCard, 'play') &&
-            context.source.allowGameAction('putIntoPlay', context) &&
-            this.originalCard.canPlay(clonedContext) &&
-            this.canResolveTargets(clonedContext)
-        );
-    }
-        
-    resolveTargets(context, results = []) {
-        context.source = this.clone;
-        return super.resolveTargets(context, results);
-    }
-    
     executeHandler(context) {
-        context.source = this.originalCard;
         context.source.type = 'attachment';
         super.executeHandler(context);
     }
@@ -37,12 +15,17 @@ class PlayTattooedWandererAsAttachment extends PlayAttachmentAction {
 
 class TattooedWanderer extends DrawCard {
     setupCardAbilities(ability) {
-        this.abilities.playActions.push(new PlayTattooedWandererAsAttachment(this, this.owner, this.cardData));
+        this.abilities.playActions.push(new PlayTattooedWandererAsAttachment(this));
         this.whileAttached({
             effect: ability.effects.addKeyword('covert')
         });
     }
-    
+
+    // Remove the check on being an attachment when checking whether this can be played as one
+    canAttach(card) {
+        return card && card.getType() === 'character';
+    }
+
     leavesPlay() {
         this.type = 'character';
         super.leavesPlay();

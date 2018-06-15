@@ -1,28 +1,13 @@
 const DrawCard = require('../../drawcard.js');
 
 class ContingencyPlan extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             title: 'Change your bid by 1',
             when: {
                 onHonorDialsRevealed: () => true
             },
-            handler: () => {
-                this.game.promptWithHandlerMenu(this.controller, {
-                    source: this,
-                    choices: ['Increase your bid', 'Decrease your bid'],
-                    handlers: [
-                        () => {
-                            this.game.addMessage('{0} uses {1} to increase their bid by 1', this.controller, this);
-                            this.controller.honorBid++;
-                        },
-                        () => {
-                            this.game.addMessage('{0} uses {1} to decrease their bid by 1', this.controller, this);
-                            this.controller.honorBid--;
-                        }
-                    ]
-                });
-            }
+            gameAction: ability.actions.modifyBid({ promptPlayer: true })
         });
     }
 }

@@ -1,17 +1,16 @@
 const DrawCard = require('../../drawcard.js');
 
 class CurryFavor extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             title: 'Ready a character',
             when: {
-                onReturnHome: event => event.conflict.attackingPlayer === this.controller && event.card.controller === this.controller &&
-                                       this.controller.conflicts.complete === 2 && !event.bowEvent.cancelled && event.card.allowGameAction('ready')
+                onReturnHome: (event, context) => event.conflict.attackingPlayer === context.player && event.card.controller === context.player &&
+                                                  this.game.completedConflicts.filter(conflict => conflict.attackingPlayer === context.player).length > 1 &&
+                                                  !event.bowEvent.cancelled
             },
-            handler: context => {
-                this.game.addMessage('{0} uses {1} to ready {2}', this.controller, this, context.event.card);
-                this.game.applyGameAction(context, { ready: context.event.card });
-            }
+            cannotBeMirrored: true,
+            gameAction: ability.actions.ready(context => ({ target: context.event.card }))
         });
     }
 }

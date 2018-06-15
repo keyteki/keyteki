@@ -17,50 +17,50 @@ class CardCounters extends React.Component {
 
         var counterDivs = _.map(this.props.counters, (counter, key) => {
             if(key === 'card-fate' || key === 'ring-fate') {
-                return (<FateCounter key={ key } 
-                    name={ key } 
-                    value={ counter.count } 
-                    fade={ counter.fade } 
-                    cancel={ counter.cancel } 
+                return (<FateCounter key={ key }
+                    name={ key }
+                    value={ counter.count }
+                    fade={ counter.fade }
+                    cancel={ counter.cancel }
                     shortName={ counter.shortName } />);
             }
 
             if(key === 'card-honor' || key === 'honor') {
-                return (<HonorCounter key={ key } 
-                    name={ key } 
-                    value={ counter.count } 
-                    fade={ counter.fade } 
-                    cancel={ counter.cancel } 
+                return (<HonorCounter key={ key }
+                    name={ key }
+                    value={ counter.count }
+                    fade={ counter.fade }
+                    cancel={ counter.cancel }
                     shortName={ counter.shortName } />);
             }
 
             if(key === 'honor-status' && counter.count === 1) {
-                return (<HonorStatusCounter key={ key } 
-                    name={ key } 
-                    value={ counter.count } 
+                return (<HonorStatusCounter key={ key }
+                    name={ key }
+                    value={ counter.count }
                     honored
                     dishonored={ false }
-                    fade={ counter.fade } 
-                    cancel={ counter.cancel } 
+                    fade={ counter.fade }
+                    cancel={ counter.cancel }
                     shortName={ counter.shortName } />);
             }
 
             if(key === 'honor-status' && counter.count === 2) {
-                return (<HonorStatusCounter key={ key } 
-                    name={ key } 
-                    value={ counter.count } 
+                return (<HonorStatusCounter key={ key }
+                    name={ key }
+                    value={ counter.count }
                     honored={ false }
                     dishonored
-                    fade={ counter.fade } 
-                    cancel={ counter.cancel } 
+                    fade={ counter.fade }
+                    cancel={ counter.cancel }
                     shortName={ counter.shortName } />);
             }
 
-            return (<Counter key={ key } 
-                name={ key } 
-                value={ counter.count } 
-                fade={ counter.fade } 
-                cancel={ counter.cancel } 
+            return (<Counter key={ key }
+                name={ key }
+                value={ counter.count }
+                fade={ counter.fade }
+                cancel={ counter.cancel }
                 shortName={ counter.shortName } />);
         });
 

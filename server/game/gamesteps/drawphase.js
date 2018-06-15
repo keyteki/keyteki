@@ -1,8 +1,8 @@
-const _ = require('underscore');
 const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
 const ActionWindow = require('./actionwindow.js');
 const HonorBidPrompt = require('./honorbidprompt.js');
+const GameActions = require('../GameActions/GameActions');
 
 /*
 II Draw Phase
@@ -19,21 +19,21 @@ class DrawPhase extends Phase {
     constructor(game) {
         super(game, 'draw');
         this.initialise([
-            new HonorBidPrompt(this.game, 'Choose how many cards to draw'),
-            new SimpleStep(game, () => this.tradeHonor()),
-            new SimpleStep(game, () => this.drawConflict()),
+            new SimpleStep(game, () => this.displayHonorBidPrompt()),
+            new SimpleStep(game, () => this.drawConflictCards()),
             new ActionWindow(this.game, 'Action Window', 'draw')
         ]);
     }
 
-    tradeHonor() {
-        this.game.tradeHonorAfterBid();
+    displayHonorBidPrompt() {
+        this.game.queueStep(new HonorBidPrompt(this.game, 'Choose how many cards to draw'));
     }
 
-    drawConflict() {
-        _.each(this.game.getPlayers(), p => {
-            p.drawPhase();
-        });
+    drawConflictCards() {
+        for(let player of this.game.getPlayers()) {
+            this.game.addMessage('{0} draws {1} cards for the draw phase', player, player.honorBid);
+            GameActions.draw({ amount: player.honorBid }).resolve(player, this.game.getFrameworkContext());
+        }
     }
 }
 

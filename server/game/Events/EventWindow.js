@@ -10,6 +10,7 @@ class EventWindow extends BaseStepWithPipeline {
         super(game);
 
         this.events = [];
+        this.thenAbilities = [];
         _.each(events, event => {
             if(!event.cancelled) {
                 this.addEvent(event);
@@ -24,12 +25,14 @@ class EventWindow extends BaseStepWithPipeline {
             new SimpleStep(this.game, () => this.setCurrentEventWindow()),
             new SimpleStep(this.game, () => this.checkEventCondition()),
             new SimpleStep(this.game, () => this.openWindow('cancelinterrupt')),
-            new SimpleStep(this.game, () => this.createContigentEvents()),
+            new SimpleStep(this.game, () => this.createContingentEvents()),
             new SimpleStep(this.game, () => this.openWindow('forcedinterrupt')),
             new SimpleStep(this.game, () => this.openWindow('interrupt')),
             new SimpleStep(this.game, () => this.checkForOtherEffects()),
             new SimpleStep(this.game, () => this.preResolutionEffects()),
             new SimpleStep(this.game, () => this.executeHandler()),
+            new SimpleStep(this.game, () => this.checkGameState()),
+            new SimpleStep(this.game, () => this.checkThenAbilities()),
             new SimpleStep(this.game, () => this.openWindow('forcedreaction')),
             new SimpleStep(this.game, () => this.openWindow('reaction')),
             new SimpleStep(this.game, () => this.resetCurrentEventWindow())
@@ -40,9 +43,16 @@ class EventWindow extends BaseStepWithPipeline {
         event.setWindow(this);
         this.events.push(event);
     }
-    
+
     removeEvent(event) {
         this.events = _.reject(this.events, e => e === event);
+    }
+
+    addThenAbility(events, ability) {
+        if(!Array.isArray(events)) {
+            events = [events];
+        }
+        this.thenAbilities.push({ events: events, ability: ability });
     }
 
     setCurrentEventWindow() {
@@ -67,7 +77,7 @@ class EventWindow extends BaseStepWithPipeline {
     }
 
     // This is primarily for LeavesPlayEvents
-    createContigentEvents() {
+    createContingentEvents() {
         let contingentEvents = [];
         _.each(this.events, event => {
             contingentEvents = contingentEvents.concat(event.createContingentEvents());
@@ -78,7 +88,7 @@ class EventWindow extends BaseStepWithPipeline {
             _.each(contingentEvents, event => this.addEvent(event));
         }
     }
-    
+
     // This catches any persistent/delayed effect cancels
     checkForOtherEffects() {
         _.each(this.events, event => this.game.emit(event.name + 'OtherEffects', event));
@@ -87,37 +97,30 @@ class EventWindow extends BaseStepWithPipeline {
     preResolutionEffects() {
         _.each(this.events, event => event.preResolutionEffect());
     }
-    
+
     executeHandler() {
         this.events = _.sortBy(this.events, 'order');
-        
-        let thenEvents = [];
 
         _.each(this.events, event => {
             // need to checkCondition here to ensure the event won't fizzle due to another event's resolution (e.g. double honoring an ordinary character with YR etc.)
             event.checkCondition();
             if(!event.cancelled) {
                 event.executeHandler();
-                thenEvents = thenEvents.concat(_.reject(event.thenEvents, event => event.cancelled));
                 this.game.emit(event.name, event);
             }
         });
-
-        this.game.queueSimpleStep(() => this.game.checkGameState(_.any(this.events, event => event.handler), this.events));
-
-        if(thenEvents.length > 0) {
-            this.openThenEventWindow(thenEvents);
-        }
     }
 
-    openThenEventWindow(events) {
-        let window = this.game.openThenEventWindow(events);
-        this.game.queueSimpleStep(() => {
-            _.each(window.events, event => {
-                this.addEvent(event);
-            });
-        });
+    checkGameState() {
+        this.game.checkGameState(_.any(this.events, event => event.handler), this.events);
+    }
 
+    checkThenAbilities() {
+        for(const thenAbility of this.thenAbilities) {
+            if(thenAbility.events.every(event => !event.cancelled)) {
+                this.game.resolveAbility(thenAbility.ability.createContext());
+            }
+        }
     }
 
     resetCurrentEventWindow() {

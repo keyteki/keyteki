@@ -5,31 +5,25 @@ class JadeTetsubo extends DrawCard {
         this.action({
             title: 'Return all fate from a character',
             cost: ability.costs.bowSelf(),
-            condition: () => this.game.currentConflict && this.parent.isParticipating(),
+            condition: context => context.source.parent.isParticipating(),
             target: {
-                activePromptTitle: 'Choose a character',
                 cardType: 'character',
-                cardCondition: card => (
-                    card.isParticipating() &&
-                    card.getMilitarySkill() < this.parent.getMilitarySkill() &&
-                    card.getFate() > 0
-                )
+                cardCondition: (card, context) => card.isParticipating() && card.militarySkill < context.source.parent.militarySkill,
+                gameAction: ability.actions.removeFate(context => ({
+                    amount: context.target.fate,
+                    recipient: context.target.owner
+                }))
             },
-            handler: (context) => {
-                this.game.addMessage('{0} uses {1} to return all fate from {2}', this.controller, this, context.target);
-                let event = this.game.applyGameAction(context, { removeFate: context.target })[0];
-                event.fate = context.target.getFate();
-                event.recipient = context.target.controller;
-            }
+            effect: 'return all fate from {0} to its owner'
         });
     }
 
-    canAttach(card) {
-        if(this.controller !== card.controller) {
+    canAttach(card, context) {
+        if(card.controller !== context.player) {
             return false;
         }
 
-        return super.canAttach(card);
+        return super.canAttach(card, context);
     }
 }
 

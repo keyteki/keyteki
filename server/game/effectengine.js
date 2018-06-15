@@ -6,7 +6,7 @@ class EffectEngine {
     constructor(game) {
         this.game = game;
         this.events = new EventRegistrar(game, this);
-        this.events.register(['onCardMoved', 'onCardBlankToggled', 'onCardTakenControl', 'onConflictFinished', 'onPhaseEnded', 'onRoundEnded', 'onDuelFinished']);
+        this.events.register(['onConflictFinished', 'onPhaseEnded', 'onRoundEnded', 'onDuelFinished']);
         this.effects = [];
         this.delayedEffects = [];
         this.terminalConditions = [];
@@ -15,13 +15,7 @@ class EffectEngine {
     }
 
     add(effect) {
-        if(!effect.isInActiveLocation()) {
-            return;
-        }
-
         this.effects.push(effect);
-        this.effects = _.sortBy(this.effects, effect => effect.order);
-        effect.getTargets();
         if(effect.duration === 'custom') {
             this.registerCustomDurationEvents(effect);
         }
@@ -33,7 +27,7 @@ class EffectEngine {
     }
 
     removeTerminalCondition(effect) {
-        this.terminalConditions = _.reject(this.terminalConditions, e => e === effect);
+        this.terminalConditions = this.terminalConditions.filter(e => e !== effect);
     }
 
     addDelayedEffect(effect) {
@@ -41,13 +35,14 @@ class EffectEngine {
     }
 
     removeDelayedEffect(effect) {
-        this.delayedEffects = _.reject(this.delayedEffects, e => e === effect);
+        this.delayedEffects = this.delayedEffects.filter(e => e !== effect);
     }
 
     checkDelayedEffects(events) {
-        let effectsToTrigger = _.filter(this.delayedEffects, effect => effect.checkEffect(events));
+        this.delayedEffects = this.delayedEffects.filter(effect => effect.target.location === 'play area');
+        let effectsToTrigger = this.delayedEffects.filter(effect => effect.checkEffect(events));
         if(effectsToTrigger.length > 0) {
-            this.game.openSimultaneousEffectWindow(_.map(effectsToTrigger, effect => ({
+            this.game.openSimultaneousEffectWindow(effectsToTrigger.map(effect => ({
                 title: effect.source.name + '\'s effect on ' + effect.target.name,
                 handler: () => effect.executeHandler()
             })));
@@ -55,9 +50,9 @@ class EffectEngine {
     }
 
     checkTerminalConditions() {
-        let effectsToTrigger = _.filter(this.terminalConditions, effect => effect.condition());
+        let effectsToTrigger = this.terminalConditions.filter(effect => effect.checkCondition());
         if(effectsToTrigger.length > 0) {
-            this.game.openEventWindow(_.flatten(_.map(effectsToTrigger, effect => effect.getEvents())));
+            this.game.openThenEventWindow(effectsToTrigger.map(effect => effect.getEvent()));
         }
     }
 
@@ -67,91 +62,24 @@ class EffectEngine {
         }
         stateChanged = false;
         this.newEffect = false;
-        _.each(this.effects, effect => {
+        // remove any effects for cards which are no longer in the correct location
+        this.unapplyAndRemove(effect => effect.duration === 'persistent' && effect.location !== effect.source.location && effect.location !== 'any');
+        // Any lasting or delayed effects on a card which is no longer in play should be removed
+        this.unapplyAndRemove(effect => (
+            typeof effect.match !== 'function' && effect.duration !== 'persistent' &&
+            effect.match.location !== 'play area' && effect.targetLocation !== 'any' &&
+            (effect.targetLocation !== 'province' || !['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(effect.match.location))
+        ));
+        for(const effect of this.effects) {
             // Check each effect's condition and find new targets
             stateChanged = effect.checkCondition(stateChanged);
-        });
+        }
         if(loops === 10) {
             throw new Error('EffectEngine.checkEffects looped 10 times');
         } else {
             this.checkEffects(stateChanged, loops + 1);
         }
         return stateChanged;
-    }
-
-    onCardMoved(event) {
-        let newArea = event.newLocation === 'hand' ? 'hand' : 'play area';
-        this.removeTargetFromEffects(event.card, event.originalLocation);
-        this.unapplyAndRemove(effect => effect.duration === 'persistent' && effect.source === event.card && (effect.location === event.originalLocation || event.parentChanged));
-        // Any lasting or delayed effects on this card should be removed when it leaves play
-        this.unapplyAndRemove(effect => effect.match === event.card && effect.targetLocation !== 'any' && effect.duration !== 'persistent');
-        this.delayedEffects = _.reject(this.delayedEffects, effect => effect.target === event.card);
-        this.terminalConditions = _.reject(this.terminalConditions, effect => effect.target === event.card);
-        this.addTargetForPersistentEffects(event.card, newArea);
-    }
-
-    onCardTakenControl(event) {
-        let card = event.card;
-        _.each(this.effects, effect => {
-            if(effect.duration === 'persistent' && effect.source === card) {
-                // Since the controllers have changed, explicitly cancel the
-                // effect for existing targets and then recalculate effects for
-                // the new controller from scratch.
-                effect.cancel();
-                effect.getTargets();
-            } else if(effect.duration === 'persistent' && effect.hasTarget(card) && !effect.isValidTarget(card)) {
-                // Evict the card from any effects applied on it that are no
-                // longer valid under the new controller.
-                effect.removeTarget(card);
-            }
-        });
-
-        // Reapply all relevant persistent effects given the card's new
-        // controller.
-        this.addTargetForPersistentEffects(card, 'play area');
-    }
-
-    onCardTraitChanged(event) {
-        this.recalculateTargetingChange(event.card);
-    }
-
-    onCardFactionChanged(event) {
-        this.recalculateTargetingChange(event.card);
-    }
-
-    recalculateTargetingChange(card) {
-        _.each(this.effects, effect => {
-            if(effect.duration === 'persistent' && effect.hasTarget(card) && !effect.isValidTarget(card)) {
-                effect.removeTarget(card);
-            }
-        });
-
-        this.addTargetForPersistentEffects(card, 'play area');
-    }
-
-    addTargetForPersistentEffects(card, targetLocation) {
-        _.each(this.effects, effect => {
-            if(effect.duration === 'persistent' && effect.targetLocation === targetLocation && (_.isFunction(effect.match) || effect.match === card)) {
-                effect.addTargets([card]);
-            }
-        });
-    }
-
-    removeTargetFromEffects(card, location) {
-        let area = location === 'hand' ? 'hand' : 'play area';
-        _.each(this.effects, effect => {
-            if(effect.targetLocation === area && effect.location !== 'any' || location === 'play area' && effect.duration !== 'persistent') {
-                effect.removeTarget(card);
-            }
-        });
-    }
-
-    onCardBlankToggled(event) {
-        let {card, isBlank} = event;
-        let matchingEffects = _.filter(this.effects, effect => effect.duration === 'persistent' && effect.source === card);
-        _.each(matchingEffects, effect => {
-            effect.setActive(!isBlank);
-        });
     }
 
     onConflictFinished() {
@@ -175,7 +103,7 @@ class EffectEngine {
             return;
         }
 
-        let eventNames = _.keys(effect.until);
+        let eventNames = Object.keys(effect.until);
         let handler = this.createCustomDurationHandler(effect);
         _.each(eventNames, eventName => {
             this.customDurationEvents.push({
@@ -188,13 +116,13 @@ class EffectEngine {
     }
 
     unregisterCustomDurationEvents(effect) {
-        let [eventsForEffect, remainingEvents] = _.partition(this.customDurationEvents, event => event.effect === effect);
+        let eventsForEffect = this.customDurationEvents.filter(event => event.effect === effect);
 
         _.each(eventsForEffect, event => {
             this.game.removeListener(event.name, event.handler);
         });
 
-        this.customDurationEvents = remainingEvents;
+        this.customDurationEvents = this.customDurationEvents.filter(event => event.effect !== effect);
     }
 
     createCustomDurationHandler(customDurationEffect) {
@@ -204,27 +132,27 @@ class EffectEngine {
             if(listener && listener(...args)) {
                 customDurationEffect.cancel();
                 this.unregisterCustomDurationEvents(customDurationEffect);
-                this.effects = _.reject(this.effects, effect => effect === customDurationEffect);
+                this.effects = this.effects.filter(effect => effect !== customDurationEffect);
             }
         };
     }
 
     unapplyAndRemove(match) {
-        var [matchingEffects, remainingEffects] = _.partition(this.effects, match);
+        let matchingEffects = this.effects.filter(match);
         _.each(matchingEffects, effect => {
             effect.cancel();
             if(effect.duration === 'custom') {
                 this.unregisterCustomDurationEvents(effect);
             }
         });
-        this.effects = remainingEffects;
+        this.effects = this.effects.filter(effect => !matchingEffects.includes(effect));
         return matchingEffects.length > 0;
     }
 
     getDebugInfo() {
         return {
-            effects: _.map(this.effects, effect => effect.getDebugInfo()),
-            delayedEffects: _.map(this.delayedEffects, effect => effect.getDebugInfo())
+            effects: this.effects.map(effect => effect.getDebugInfo()),
+            delayedEffects: this.delayedEffects.map(effect => effect.getDebugInfo())
         };
     }
 }

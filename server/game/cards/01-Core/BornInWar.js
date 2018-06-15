@@ -4,13 +4,13 @@ const DrawCard = require('../../drawcard.js');
 class BornInWar extends DrawCard {
     setupCardAbilities(ability) {
         this.whileAttached({
-            effect: ability.effects.dynamicMilitarySkill((card, context) => _.size(_.filter(context.game.rings, ring => ring.isUnclaimed())))
+            effect: ability.effects.modifyMilitarySkill((card, context) => _.size(_.filter(context.game.rings, ring => ring.isUnclaimed())))
         });
     }
-    
-    canAttach(card) {
+
+    canAttach(card, context) {
         if(card.hasTrait('cavalry')) {
-            return super.canAttach(card);
+            return super.canAttach(card, context);
         }
         return false;
     }

@@ -5,15 +5,17 @@ class ChasingTheSun extends DrawCard {
     setupCardAbilities() {
         this.action({
             title: 'Move the conflict to another eligible province',
-            condition: () => this.controller.isAttackingPlayer(),
-            handler: () => this.game.promptForSelect(this.controller, {
-                source: this,
+            condition: context => context.player.isAttackingPlayer(),
+            cannotBeMirrored: true,
+            effect: 'move the conflict to a different province',
+            handler: context => this.game.promptForSelect(context.player, {
+                context: context,
                 cardType: 'province',
-                cardCondition: card => card.controller !== this.controller && card !== this.game.currentConflict.conflictProvince &&
-                                       (card.location !== 'stronghold province' ||
-                                        _.size(this.game.allCards.filter(card => card.isProvince && card.isBroken && card.controller !== this.controller)) > 2),
+                location: 'province',
+                cardCondition: (card, context) => !card.isConflictProvince() && (card.location !== 'stronghold province' ||
+                                                  _.size(this.game.provinceCards.filter(card => card.isBroken && card.controller === context.player.opponent)) > 2),
                 onSelect: (player, card) => {
-                    this.game.addMessage('{0} plays {1}, moving the conflict to {2}', this.controller, this, card);
+                    this.game.addMessage('{0} moves the conflict to {}', player, card);
                     card.inConflict = true;
                     this.game.currentConflict.conflictProvince.inConflict = false;
                     this.game.currentConflict.conflictProvince = card;

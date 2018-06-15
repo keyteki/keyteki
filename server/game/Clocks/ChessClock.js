@@ -10,7 +10,7 @@ class ChessClock extends Clock {
         this.mode = 'down';
         super.start();
     }
-    
+
     stop() {
         super.stop();
         this.mode = 'stop';

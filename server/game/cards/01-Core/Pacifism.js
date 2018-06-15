@@ -4,8 +4,8 @@ class Pacifism extends DrawCard {
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: [
-                ability.effects.cannotParticipateAsAttacker(() => this.game.currentConflict.conflictType === 'military'),
-                ability.effects.cannotParticipateAsDefender(() => this.game.currentConflict.conflictType === 'military')
+                ability.effects.cannotParticipateAsAttacker('military'),
+                ability.effects.cannotParticipateAsDefender('military')
             ]
         });
     }
