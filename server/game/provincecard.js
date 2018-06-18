@@ -67,6 +67,10 @@ class ProvinceCard extends BaseCard {
         return false;
     }
 
+    hideWhenFacedown() {
+        return false;
+    }
+
     getSummary(activePlayer, hideWhenFaceup) {
         let baseSummary = super.getSummary(activePlayer, hideWhenFaceup);
 

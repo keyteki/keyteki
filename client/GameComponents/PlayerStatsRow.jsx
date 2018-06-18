@@ -53,10 +53,9 @@ export class PlayerStatsRow extends React.Component {
                 <b>{ this.props.user ? this.props.user.username : 'Noone' }</b>
             </div>);
 
-        let clockMode = this.getStatValueOrDefault('clockMode');
-        let clock = clockMode === 'off' ? null : (
+        let clock = (!this.props.clockState || this.props.clockState.mode === 'off') ? null : (
             <div className='state'>
-                <Clock secondsLeft={ this.getStatValueOrDefault('clockLeft') } mode={ clockMode } />
+                <Clock secondsLeft={ this.props.clockState.timeLeft } mode={ this.props.clockState.mode } stateId={ this.props.clockState.stateId } />
             </div>
         );
 
@@ -94,6 +93,7 @@ export class PlayerStatsRow extends React.Component {
 
 PlayerStatsRow.displayName = 'PlayerStatsRow';
 PlayerStatsRow.propTypes = {
+    clockState: PropTypes.object,
     firstPlayer: PropTypes.bool,
     handSize: PropTypes.number,
     otherPlayer: PropTypes.bool,

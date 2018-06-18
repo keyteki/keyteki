@@ -1048,6 +1048,10 @@ class Player extends GameObject {
             state.conflictDeckTopCard = this.conflictDeck.first().getSummary(activePlayer);
         }
 
+        if(this.clock) {
+            state.clock = this.clock.getState();
+        }
+
         return _.extend(state, promptState);
     }
 }

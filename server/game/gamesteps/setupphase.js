@@ -101,6 +101,7 @@ class SetupPhase extends Phase {
     startGame() {
         _.each(this.game.getPlayers(), player => {
             player.honor = player.stronghold.cardData.honor;
+            player.readyToStart = true;
         });
     }
 }
