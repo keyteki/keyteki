@@ -76,7 +76,7 @@ class HonorBidPrompt extends AllPlayerPrompt {
     menuCommand(player, bid) {
         this.game.addMessage('{0} has chosen a bid.', player);
 
-        player.honorBid = bid;
+        player.honorBid = parseInt(bid);
 
         return true;
     }
