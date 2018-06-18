@@ -463,6 +463,10 @@ class DrawCard extends BaseCard {
         this.inConflict = false;
     }
 
+    canBeBypassedByCovert(context) {
+        return !this.isCovert() && this.checkRestrictions('applyCovert', context);
+    }
+
     canDeclareAsAttacker(conflictType = this.game.currentConflict.conflictType) {
         return (this.allowGameAction('declareAsAttacker') && this.canParticipateAsAttacker(conflictType) &&
                 this.location === 'play area' && !this.bowed);
