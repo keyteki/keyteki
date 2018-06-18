@@ -11,13 +11,11 @@ class Clock extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        if(newProps.secondsLeft === 0) {
+        if(newProps.secondsLeft === 0 || this.stateId === newProps.stateId) {
             return;
         }
-        if(this.secondsLeft !== newProps.secondsLeft) {
-            this.secondsLeft = newProps.secondsLeft;
-            this.setState({ timeLeft: newProps.secondsLeft });
-        }
+        this.stateId = newProps.stateId;
+        this.setState({ timeLeft: newProps.secondsLeft });
 
         if(this.timerHandle) {
             clearInterval(this.timerHandle);
@@ -49,7 +47,8 @@ class Clock extends React.Component {
 Clock.displayName = 'Clock';
 Clock.propTypes = {
     mode: PropTypes.string,
-    secondsLeft: PropTypes.number
+    secondsLeft: PropTypes.number,
+    stateId: PropTypes.number
 };
 
 export default Clock;

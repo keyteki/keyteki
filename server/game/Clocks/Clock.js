@@ -5,6 +5,7 @@ class Clock {
         this.mode = 'off';
         this.timerStart = 0;
         this.paused = false;
+        this.stateId = 0;
     }
 
     pause() {
@@ -19,9 +20,14 @@ class Clock {
         this.timeLeft += secs;
     }
 
+    updateStateId() {
+        this.stateId++;
+    }
+
     start() {
         if(!this.paused) {
             this.timerStart = Date.now();
+            this.updateStateId();
         }
     }
 
@@ -29,11 +35,13 @@ class Clock {
         if(this.timerStart > 0) {
             this.updateTimeLeft(Math.floor(((Date.now() - this.timerStart) / 1000) + 0.5));
             this.timerStart = 0;
+            this.updateStateId();
         }
     }
 
     opponentStart() {
         this.timerStart = Date.now();
+        this.updateStateId();
     }
 
     timeRanOut() {
@@ -41,7 +49,7 @@ class Clock {
     }
 
     updateTimeLeft(secs) {
-        if(this.timeLeft === 0) {
+        if(this.timeLeft === 0 || secs < 0) {
             return;
         }
         if(this.mode === 'down') {
@@ -53,6 +61,14 @@ class Clock {
         } else if(this.mode === 'up') {
             this.modify(secs);
         }
+    }
+
+    getState() {
+        return {
+            mode: this.mode,
+            timeLeft: this.timeLeft,
+            stateId: this.stateId
+        };
     }
 }
 
