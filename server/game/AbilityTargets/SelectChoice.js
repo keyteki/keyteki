@@ -10,7 +10,7 @@ class SelectChoice {
             name: this.choice,
             type: 'select'
         };
-    }    
+    }
 }
 
 module.exports = SelectChoice;

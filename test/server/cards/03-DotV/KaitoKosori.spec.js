@@ -1,6 +1,6 @@
 describe('Kaito Kosori', function() {
     integration(function() {
-        describe('Moto Nergui\'s ability', function() {
+        describe('Kaito Kosori\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     phase: 'conflict',

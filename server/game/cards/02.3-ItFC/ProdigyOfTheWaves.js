@@ -1,14 +1,11 @@
 const DrawCard = require('../../drawcard.js');
 
 class ProdigyOfTheWaves extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Ready this character',
-            condition: context => context.source.allowGameAction('ready', context) && this.game.rings['water'].isConsideredClaimed(),
-            handler: context => {
-                this.game.addMessage('{0} readies {1} using its ability', this.controller, this);
-                this.game.applyGameAction(context, { ready: context.source });
-            }
+            condition: () => this.game.rings['water'].isConsideredClaimed(),
+            gameAction: ability.actions.ready()
         });
     }
 }

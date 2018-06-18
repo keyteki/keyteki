@@ -1,4 +1,6 @@
 const _ = require('underscore');
+const AbilityContext = require('../AbilityContext.js');
+const EffectSource = require('../EffectSource.js');
 const UiPrompt = require('./uiprompt.js');
 
 /**
@@ -12,8 +14,8 @@ const UiPrompt = require('./uiprompt.js');
  *                      opponent players.
  * ringCondition      - a function that takes a ring and should return a boolean
  *                      on whether that ring is elligible to be selected.
- * onSelect           - a callback that is called as soon as an elligible ring 
- *                      is clicked. If the callback does not return true, the 
+ * onSelect           - a callback that is called as soon as an elligible ring
+ *                      is clicked. If the callback does not return true, the
  *                      prompt is not marked as complete.
  * onMenuCommand      - a callback that is called when one of the additional
  *                      buttons is clicked.
@@ -27,11 +29,19 @@ class SelectRingPrompt extends UiPrompt {
         super(game);
 
         this.choosingPlayer = choosingPlayer;
+        if(_.isString(properties.source)) {
+            properties.source = new EffectSource(game, properties.source);
+        } else if(properties.context && properties.context.source) {
+            properties.source = properties.context.source;
+        }
         if(properties.source && !properties.waitingPromptTitle) {
             properties.waitingPromptTitle = 'Waiting for opponent to use ' + properties.source.name;
+        } else if(!properties.source) {
+            properties.source = new EffectSource(game);
         }
 
         this.properties = properties;
+        this.context = properties.context || new AbilityContext({ game: game, player: choosingPlayer, source: properties.source });
         _.defaults(this.properties, this.defaultProperties());
         this.selectedRing = null;
     }
@@ -39,11 +49,27 @@ class SelectRingPrompt extends UiPrompt {
     defaultProperties() {
         return {
             buttons: [],
+            controls: this.getDefaultControls(),
             ringCondition: () => true,
             onSelect: () => true,
             onMenuCommand: () => true,
             onCancel: () => true
         };
+    }
+
+    getDefaultControls() {
+        if(!this.properties.context) {
+            return [];
+        }
+        let targets = this.properties.context.targets ? Object.values(this.properties.context.targets).map(target => target.getShortSummary()) : [];
+        if(targets.length === 0 && this.properties.context.event && this.properties.context.event.card) {
+            this.targets = [this.properties.context.event.card.getShortSummary()];
+        }
+        return [{
+            type: 'targeting',
+            source: this.properties.context.source.getShortSummary(),
+            targets: targets
+        }];
     }
 
     activeCondition(player) {
@@ -60,7 +86,7 @@ class SelectRingPrompt extends UiPrompt {
 
     highlightSelectableRings() {
         let selectableRings = _.filter(this.game.rings, ring => {
-            return this.properties.ringCondition(ring);
+            return this.properties.ringCondition(ring, this.context);
         });
         this.choosingPlayer.setSelectableRings(selectableRings);
     }
@@ -97,7 +123,7 @@ class SelectRingPrompt extends UiPrompt {
             return false;
         }
 
-        if(!this.properties.ringCondition(ring)) {
+        if(!this.properties.ringCondition(ring, this.context)) {
             return true;
         }
 

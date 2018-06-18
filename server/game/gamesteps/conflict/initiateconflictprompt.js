@@ -12,12 +12,13 @@ const capitalize = {
 };
 
 class InitiateConflictPrompt extends UiPrompt {
-    constructor(game, conflict, choosingPlayer, attackerChoosesRing = true) {
+    constructor(game, conflict, choosingPlayer, attackerChoosesRing = true, canPass = attackerChoosesRing) {
         super(game);
-        
+
         this.conflict = conflict;
         this.choosingPlayer = choosingPlayer;
         this.attackerChoosesRing = attackerChoosesRing;
+        this.canPass = canPass;
         this.selectedDefenders = [];
         this.covertRemaining = false;
     }
@@ -45,16 +46,16 @@ class InitiateConflictPrompt extends UiPrompt {
         let buttons = [];
         let menuTitle = '';
         let promptTitle = '';
-        
-        if(this.attackerChoosesRing) {
+
+        if(this.canPass) {
             buttons.push({ text: 'Pass Conflict', arg: 'pass' });
         }
 
-        if(this.conflict.conflictRing === '') {
+        if(!this.conflict.ring) {
             menuTitle = 'Choose an elemental ring\n(click the ring again to change conflict type)';
             promptTitle = 'Initiate Conflict';
         } else {
-            promptTitle = capitalize[this.conflict.conflictType] + ' ' + capitalize[this.conflict.conflictRing] + ' Conflict';
+            promptTitle = capitalize[this.conflict.conflictType] + ' ' + capitalize[this.conflict.element] + ' Conflict';
             if(!this.conflict.conflictProvince && !this.conflict.isSinglePlayer) {
                 menuTitle = 'Choose province to attack';
             } else if(this.conflict.attackers.length === 0) {
@@ -67,7 +68,7 @@ class InitiateConflictPrompt extends UiPrompt {
                 }
                 buttons.unshift({ text: 'Initiate Conflict', arg: 'done' });
             }
-        }        
+        }
 
         return {
             selectRing: true,
@@ -109,16 +110,13 @@ class InitiateConflictPrompt extends UiPrompt {
     selectRing(ring) {
         let player = this.choosingPlayer;
 
-        let canInitiateThisConflictType = !player.conflicts.isAtMax(ring.conflictType);        
-        let canInitiateOtherConflictType = !player.conflicts.isAtMax(ring.conflictType === 'military' ? 'political' : 'military');
-
-        if(this.conflict.conflictRing === ring.element) {
-            if(!canInitiateOtherConflictType) {
+        if(this.conflict.ring === ring) {
+            if(player.getConflictOpportunities(ring.conflictType === 'military' ? 'political' : 'military') === 0) {
                 return false;
             }
-            this.game.flipRing(player, ring);
-        } else if(!canInitiateThisConflictType) {
-            this.game.flipRing(player, ring);
+            ring.flipConflictType();
+        } else if(player.getConflictOpportunities(ring.conflictType) === 0 || this.conflict.attackers.some(card => !card.canDeclareAsAttacker(ring.conflictType))) {
+            ring.flipConflictType();
         }
 
         _.each(this.conflict.attackers, card => {
@@ -127,12 +125,18 @@ class InitiateConflictPrompt extends UiPrompt {
             }
         });
 
-        this.conflict.conflictRing = ring.element;
-        this.conflict.conflictType = ring.conflictType;
-        if(this.conflict.conflictProvince && !this.conflict.conflictProvince.allowGameAction('initiateConflict')) {
+        this.conflict.ring = ring;
+        ring.contested = true;
+        if(this.conflict.conflictProvince && !this.conflict.conflictProvince.checkRestrictions('initiateConflict')) {
             this.conflict.conflictProvince.inConflict = false;
             this.conflict.conflictProvince = null;
         }
+
+        _.each(this.conflict.attackers, card => {
+            if(!card.canDeclareAsAttacker(ring.conflictType)) {
+                this.removeFromConflict(card);
+            }
+        });
 
         this.conflict.calculateSkill(true);
         this.recalculateCovert();
@@ -141,14 +145,14 @@ class InitiateConflictPrompt extends UiPrompt {
     }
 
     checkRingCondition(ring) {
-        if(!this.attackerChoosesRing && ring.element !== this.conflict.conflictRing) {
+        if(!this.attackerChoosesRing && ring !== this.conflict.ring) {
             return false;
         }
         return ring.canDeclare(this.choosingPlayer);
     }
 
     checkCardCondition(card) {
-        if(card.isProvince && card.controller !== this.choosingPlayer && !card.isBroken && card.allowGameAction('initiateConflict')) {
+        if(card.isProvince && card.controller !== this.choosingPlayer && !card.isBroken && card.checkRestrictions('initiateConflict')) {
             if(card.location === 'stronghold province' && _.size(this.game.allCards.filter(card => card.isProvince && card.isBroken && card.controller !== this.choosingPlayer)) < 3) {
                 return false;
             }
@@ -160,13 +164,13 @@ class InitiateConflictPrompt extends UiPrompt {
                 if(card.canDeclareAsAttacker(this.conflict.conflictType)) {
                     return true;
                 }
-            } else if(this.selectedDefenders.includes(card) || (card.canBeBypassedByCovert() && this.covertRemaining)) {
+            } else if(this.selectedDefenders.includes(card) || (!card.isCovert() && this.covertRemaining)) {
                 return true;
             }
         }
         return false;
     }
-    
+
     recalculateCovert() {
         let attackersWithCovert = _.size(_.filter(this.conflict.attackers, card => card.isCovert()));
         this.covertRemaining = attackersWithCovert > _.size(this.selectedDefenders);
@@ -195,7 +199,7 @@ class InitiateConflictPrompt extends UiPrompt {
                 } else {
                     this.selectedDefenders = _.reject(this.selectedDefenders, c => c === card);
                     card.covert = false;
-                }         
+                }
             }
         }
 
@@ -214,30 +218,14 @@ class InitiateConflictPrompt extends UiPrompt {
 
     menuCommand(player, arg) {
         if(arg === 'done') {
-            let keys = _.keys(capitalize);
-            if(!keys.includes(this.conflict.conflictType) || !keys.includes(this.conflict.conflictRing) || 
+            if(!this.conflict.ring || this.game.rings[this.conflict.element] !== this.conflict.ring ||
                                 (!this.conflict.isSinglePlayer && !this.conflict.conflictProvince) || this.conflict.attackers.length === 0) {
-                return;
+                return false;
             }
-            if(this.covertRemaining && this.conflict.defendingPlayer.anyCardsInPlay(card => {
-                return card.canBeBypassedByCovert() && !card.covert && !card.bowed;
-            })) {
-                this.game.promptWithHandlerMenu(this.choosingPlayer, {
-                    activePromptTitle: 'You still have unused Covert - are you sure?',
-                    source: 'Declare Conflict',
-                    choices: ['Yes', 'No'],
-                    handlers: [
-                        () => {
-                            this.complete();
-                            this.conflict.conflictDeclared = true;
-                        },
-                        () => true
-                    ]
-                });
-            } else {
-                this.complete();
-                this.conflict.conflictDeclared = true;
-            }
+            this.complete();
+            this.conflict.declaredRing = this.conflict.ring;
+            this.conflict.declaredType = this.conflict.ring.conflictType;
+            return true;
         } else if(arg === 'pass') {
             this.game.promptWithHandlerMenu(this.choosingPlayer, {
                 activePromptTitle: 'Are you sure you want to pass your conflict opportunity?',
@@ -251,7 +239,9 @@ class InitiateConflictPrompt extends UiPrompt {
                     () => true
                 ]
             });
+            return true;
         }
+        return false;
     }
 }
 

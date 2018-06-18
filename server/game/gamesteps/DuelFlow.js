@@ -1,6 +1,5 @@
 const BaseStepWithPipeline = require('./basestepwithpipeline.js');
 const SimpleStep = require('./simplestep.js');
-const HonorBidPrompt = require('./honorbidprompt.js');
 
 /**
 D. Duel Timing
@@ -22,8 +21,7 @@ class DuelFlow extends BaseStepWithPipeline {
         this.resolutionHandler = resolutionHandler;
         this.pipeline.initialise([
             new SimpleStep(this.game, () => this.game.checkGameState(true)),
-            new HonorBidPrompt(this.game, 'Choose your bid for the duel\n' + this.duel.getTotalsForDisplay()),
-            new SimpleStep(this.game, costHandler),
+            new SimpleStep(this.game, () => this.game.promptForHonorBid('Choose your bid for the duel\n' + duel.getTotalsForDisplay(), costHandler)),
             new SimpleStep(this.game, () => this.modifyDuelingSkill()),
             new SimpleStep(this.game, () => this.determineResults()),
             new SimpleStep(this.game, () => this.announceResult()),

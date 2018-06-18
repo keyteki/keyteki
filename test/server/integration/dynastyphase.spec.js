@@ -7,7 +7,7 @@ describe('dynasty phase', function() {
                     'shameful-display', 'shameful-display', 'shameful-display', 'shameful-display', 'shameful-display',
                     'akodo-gunso', 'akodo-gunso', 'matsu-berserker', 'matsu-berserker',
                     'akodo-toturi', 'akodo-toturi', 'akodo-toturi', 'akodo-toturi',
-                    'against-the-waves', 'against-the-waves', 'against-the-waves', 'against-the-waves' 
+                    'against-the-waves', 'against-the-waves', 'against-the-waves', 'against-the-waves'
                 ]);
                 const deck2 = this.buildDeck('dragon', [
                     'mountain-s-anvil-castle',
@@ -25,7 +25,7 @@ describe('dynasty phase', function() {
                 this.akodoGunso = this.player1.placeCardInProvince('akodo-gunso', 'province 1');
                 this.akodoToturi = this.player1.placeCardInProvince('akodo-toturi', 'province 2');
                 this.matsuBerserker = this.player1.placeCardInProvince('matsu-berserker', 'province 3');
-                
+
                 this.doomedShugenja1 = this.player2.placeCardInProvince('doomed-shugenja', 'province 1');
                 this.doomedShugenja2 = this.player2.findCard(card => card.id === 'doomed-shugenja' && card.location !== 'province 1');
                 this.player2.placeCardInProvince(this.doomedShugenja2, 'province 2');
@@ -139,7 +139,7 @@ describe('dynasty phase', function() {
                 this.player1.clickCard('against-the-waves');
                 this.player1.clickCard(this.doomedShugenja1);
                 this.player2.clickCard(this.doomedShugenja2);
-                
+
                 expect(this.doomedShugenja1.bowed).toBe(true);
                 expect(this.player2).toHavePrompt('Click pass when done');
             });

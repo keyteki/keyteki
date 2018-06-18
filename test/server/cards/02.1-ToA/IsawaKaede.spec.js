@@ -29,9 +29,32 @@ describe('Isawa Kaede', function() {
                 this.isawaKaede.modifyFate(1);
             });
 
-            it('should allow Kaede to trigger both rings if she wins', function() {
+            it('should allow Kaede to resolve only the chosen ring if she wins', function() {
                 this.noMoreActions();
                 expect(this.player1).toHavePrompt('Choose a ring effect to resolve');
+                this.player1.clickRing('fire');
+                this.player1.clickPrompt('Done');
+                expect(this.player1).toHavePrompt('Fire Ring');
+                this.player1.clickCard(this.shibaTsukune);
+                this.player1.clickPrompt('Honor Shiba Tsukune');
+                expect(this.shibaTsukune.isHonored).toBe(true);
+                expect(this.player1).toHavePrompt('Action Window');
+            });
+
+            it('should allow Kaede to resolve only the void ring if she wins', function() {
+                this.noMoreActions();
+                expect(this.player1).toHavePrompt('Choose a ring effect to resolve');
+                this.player1.clickRing('void');
+                this.player1.clickPrompt('Done');
+                expect(this.player1).toHavePrompt('Void Ring');
+                this.player1.clickCard(this.shibaTsukune);
+                expect(this.shibaTsukune.fate).toBe(0);
+                expect(this.player1).toHavePrompt('Action Window');
+            });
+
+            it('should allow Kaede to trigger both rings if she wins', function() {
+                this.noMoreActions();
+                expect(this.player1).toHavePrompt('Resolve Ring Effect');
                 this.player1.clickPrompt('Resolve All Elements');
                 expect(this.player1).toHavePrompt('Choose an effect to be resolved');
                 expect(this.player1.currentButtons).toContain('Fire Ring Effect');
@@ -56,7 +79,7 @@ describe('Isawa Kaede', function() {
                 this.noMoreActions();
                 expect(this.player2).toHavePrompt('Triggered Abilities');
                 this.player2.clickCard('defend-the-wall');
-                expect(this.player2).toHavePrompt('Choose a ring effect to resolve');
+                expect(this.player2).toHavePrompt('Resolve Ring Effect');
             });
 
             it('should not permit Kaede to be targeted by the void ring', function() {
@@ -66,7 +89,7 @@ describe('Isawa Kaede', function() {
                 this.player2.clickRing('void');
                 expect(this.player2).toHavePrompt('Void Ring');
                 expect(this.player2).toBeAbleToSelect(this.shibaTsukune);
-                expect(this.player2).not.toBeAbleToSelect(this.isawaKaede);                
+                expect(this.player2).not.toBeAbleToSelect(this.isawaKaede);
             });
 
             it('should allow the defender to resolve multiple rings when Display of Power is played', function() {
@@ -77,7 +100,7 @@ describe('Isawa Kaede', function() {
                 expect(this.player2).toHavePrompt('Triggered Abilities');
                 expect(this.player2).toBeAbleToSelect('display-of-power');
                 this.player2.clickCard('display-of-power');
-                expect(this.player2).toHavePrompt('Choose a ring effect to resolve');
+                expect(this.player2).toHavePrompt('Resolve Ring Effect');
                 this.player2.clickPrompt('Resolve All Elements');
                 expect(this.player1).toHavePrompt('Choose an effect to be resolved');
                 expect(this.player1.currentButtons).toContain('Fire Ring Effect');

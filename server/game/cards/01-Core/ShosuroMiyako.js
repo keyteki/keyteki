@@ -1,43 +1,30 @@
 const DrawCard = require('../../drawcard.js');
 
 class ShosuroMiyako extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             title: 'Opponent discards or dishonors',
             when: {
-                onCardPlayed: event => {
-                    return (event.player === this.controller && 
-                            event.card.type === 'character' && 
-                            event.originalLocation === 'hand' && 
-                            this.controller.opponent);
-                }
+                onCardPlayed: (event, context) => event.player === context.player && event.card.type === 'character' &&
+                                                  event.originalLocation === 'hand' && context.player.opponent
             },
             target: {
                 mode: 'select',
                 player: 'opponent',
                 choices: {
-                    'Discard at random': () => this.controller.opponent.hand.size() > 0,
-                    'Dishonor a character': context => this.controller.opponent.cardsInPlay.any(card => card.allowGameAction('dishonor', context))
+                    'Discard at random': ability.actions.discardAtRandom(),
+                    'Dishonor a character': ability.actions.dishonor(context => ({
+                        promptForSelect: {
+                            activePromptTitle: 'Choose a character to dishonor',
+                            player: context.player.opponent,
+                            controller: 'opponent',
+                            message: '{0} chooses to dishonor {2}'
+                        }
+                    }))
                 }
             },
-            handler: context => {
-                if(context.select === 'Discard at random') {
-                    this.game.addMessage('{0} uses {1} - {2} chooses to discard a card at random', this.controller, this, this.controller.opponent);
-                    this.controller.opponent.discardAtRandom(1, context.source);
-                } else {
-                    this.game.promptForSelect(this.controller.opponent, {
-                        source: this,
-                        cardType: 'character',
-                        gameAction: 'dishonor',
-                        cardCondition: card => card.controller === this.controller.opponent,
-                        onSelect: (player, card) => {
-                            this.game.addMessage('{0} uses {1} - {2} chooses to dishonor {3}', this.controller, this, player, card);
-                            this.game.applyGameAction(context, { dishonor: card });
-                            return true;
-                        }
-                    });
-                }
-            }
+            effect: 'force {1} to {2}',
+            effectArgs: context => [context.player.opponent, context.select.toLowerCase()]
         });
     }
 }

@@ -58,7 +58,7 @@ xdescribe('challenges phase', function() {
                 this.selectFirstPlayer(this.player1);
 
                 this.completeMarshalPhase();
-                
+
                 this.player1.clickPrompt('Intrigue');
                 this.player1.clickCard('Steward at the Wall', 'play area');
                 this.player1.clickPrompt('Done');

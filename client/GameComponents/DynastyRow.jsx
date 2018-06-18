@@ -253,7 +253,7 @@ class DynastyRow extends React.Component {
                             disableMenu={ this.props.spectating || !this.props.isMe || !this.props.manualMode }
                             onDragDrop={ this.props.onDragDrop }
                             menu={ dynastyDeckMenu }
-                            hiddenTopCard 
+                            hiddenTopCard
                             cardCount={ this.props.numDynastyCards }
                             popupMenu={ dynastyDeckPopupMenu }
                             size={ this.props.cardSize } />

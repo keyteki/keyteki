@@ -2,7 +2,7 @@ const CardAction = require('../../../server/game/cardaction.js');
 
 describe('CardAction', function () {
     beforeEach(function () {
-        this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'raiseEvent', 'resolveAbility']);
+        this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'raiseEvent', 'queueSimpleStep']);
         this.gameSpy.currentPhase = 'dynasty';
 
         this.cardSpy = jasmine.createSpyObj('card', ['getType', 'isBlank', 'canTriggerAbilities']);
@@ -133,7 +133,7 @@ describe('CardAction', function () {
                 });
 
                 it('should not queue the ability resolver', function() {
-                    expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
+                    expect(this.gameSpy.resolveAbilityForContext).not.toHaveBeenCalled();
                 });
             });
 
@@ -143,7 +143,7 @@ describe('CardAction', function () {
                 });
 
                 it('should queue the ability resolver', function() {
-                    expect(this.gameSpy.resolveAbility).toHaveBeenCalled();
+                    expect(this.gameSpy.resolveAbilityForContext).toHaveBeenCalled();
                 });
             });
         });
@@ -160,7 +160,7 @@ describe('CardAction', function () {
                 });
 
                 it('should not queue the ability resolver', function() {
-                    expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
+                    expect(this.gameSpy.resolveAbilityForContext).not.toHaveBeenCalled();
                 });
             });
 
@@ -172,7 +172,7 @@ describe('CardAction', function () {
                 });
 
                 it('should queue the ability resolver', function() {
-                    expect(this.gameSpy.resolveAbility).toHaveBeenCalled();
+                    expect(this.gameSpy.resolveAbilityForContext).toHaveBeenCalled();
                 });
             });
         });
@@ -187,7 +187,7 @@ describe('CardAction', function () {
             });
 
             it('should not queue the ability resolver', function() {
-                expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
+                expect(this.gameSpy.resolveAbilityForContext).not.toHaveBeenCalled();
             });
         });
 
@@ -199,7 +199,7 @@ describe('CardAction', function () {
             });
 
             it('should not queue the ability resolver', function() {
-                expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
+                expect(this.gameSpy.resolveAbilityForContext).not.toHaveBeenCalled();
             });
         });
 
@@ -216,7 +216,7 @@ describe('CardAction', function () {
                 });
 
                 it('should not queue the ability resolver', function() {
-                    expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
+                    expect(this.gameSpy.resolveAbilityForContext).not.toHaveBeenCalled();
                 });
             });
 
@@ -227,7 +227,7 @@ describe('CardAction', function () {
                 });
 
                 it('should queue the ability resolver', function() {
-                    expect(this.gameSpy.resolveAbility).toHaveBeenCalled();
+                    expect(this.gameSpy.resolveAbilityForContext).toHaveBeenCalled();
                 });
             });
         });
@@ -242,7 +242,7 @@ describe('CardAction', function () {
             });
 
             it('should not queue the ability resolver', function() {
-                expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
+                expect(this.gameSpy.resolveAbilityForContext).not.toHaveBeenCalled();
             });
         });
 
@@ -260,7 +260,7 @@ describe('CardAction', function () {
                 });
 
                 it('should queue the ability resolver', function() {
-                    expect(this.gameSpy.resolveAbility).toHaveBeenCalled();
+                    expect(this.gameSpy.resolveAbilityForContext).toHaveBeenCalled();
                 });
             });
 
@@ -271,7 +271,7 @@ describe('CardAction', function () {
                 });
 
                 it('should not queue the ability resolver', function() {
-                    expect(this.gameSpy.resolveAbility).not.toHaveBeenCalled();
+                    expect(this.gameSpy.resolveAbilityForContext).not.toHaveBeenCalled();
                 });
             });
         });
@@ -283,7 +283,7 @@ describe('CardAction', function () {
             });
 
             it('should queue the ability resolver', function() {
-                expect(this.gameSpy.resolveAbility).toHaveBeenCalled();
+                expect(this.gameSpy.resolveAbilityForContext).toHaveBeenCalled();
             });
         });
     });

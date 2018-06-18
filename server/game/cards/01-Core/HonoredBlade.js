@@ -1,16 +1,14 @@
 const DrawCard = require('../../drawcard.js');
 
 class HonoredBlade extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             title: 'Gain 1 honor',
             when: {
-                afterConflict: event => event.conflict.isParticipating(this.parent) && event.conflict.winner === this.parent.controller
+                afterConflict: (event, context) => context.source.parent.isParticipating() &&
+                                                   event.conflict.winner === context.source.parent.controller
             },
-            handler: () => {
-                this.game.addMessage('{0} uses {1} to gain 1 honor', this.controller, this);
-                this.game.addHonor(this.controller, 1);
-            }
+            gameAction: ability.actions.gainHonor()
         });
     }
 }

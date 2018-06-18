@@ -69,7 +69,7 @@ xdescribe('DrawCard', function () {
                     expect(this.summary.politicalskill).toBe(0);
                 });
             });
-            
+
             describe('when the card has no political skill', function() {
                 beforeEach(function() {
                     this.testCard.political = null;

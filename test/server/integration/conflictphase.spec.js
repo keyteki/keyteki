@@ -58,7 +58,6 @@ describe('conflict phase', function() {
                 this.player2.clickPrompt('Pass');
                 this.player1.clickCard('adept-of-the-waves');
                 this.player1.clickCard('adept-of-the-waves');
-
                 expect(this.player2).toHavePrompt('Initiate an action');
             });
 
@@ -76,7 +75,7 @@ describe('conflict phase', function() {
                     phase: 'conflict',
                     player1: {
                         hand: ['Fine Katana', 'tattooed-wanderer'],
-                        dynastyDeck: ['Imperial Storehouse', 'sinister-soshi', 'doomed-shugenja']
+                        dynastyDeck: ['Imperial Storehouse', 'sinister-soshi', 'doomed-shugenja', 'vengeful-berserker']
                     },
                     player2: {
                         provinces: ['night-raid']
@@ -84,6 +83,7 @@ describe('conflict phase', function() {
                 });
                 this.sinisterSoshi = this.player1.placeCardInProvince('sinister-soshi', 'province 1');
                 this.doomedShugenja = this.player1.placeCardInProvince('doomed-shugenja', 'province 2');
+                this.vengefulBerserker = this.player1.placeCardInProvince('vengeful-berserker', 'province 3');
             });
 
             it('should skip initiating a conflict when the first player has no units in play', function() {
@@ -125,25 +125,25 @@ describe('conflict phase', function() {
                 it('should prompt the first player to initiate a conflict', function() {
                     expect(this.player1).toHavePrompt('Choose an elemental ring\n(click the ring again to change conflict type)');
                 });
-    
+
                 it('should select a ring when clicked', function() {
                     this.player1.clickRing('air');
                     expect(this.player1).toHavePrompt('Choose province to attack');
-                    expect(this.game.currentConflict.conflictRing).toBe('air');
+                    expect(this.game.currentConflict.element).toBe('air');
                 });
-    
+
                 it('should select a province when clicked', function() {
                     this.player1.clickCard(this.nightRaid);
                     expect(this.game.currentConflict.conflictProvince).toBe(this.nightRaid);
                     expect(this.nightRaid.inConflict).toBe(true);
                 });
-    
+
                 it('should select an attacker when clicked', function() {
                     this.player1.clickCard(this.tattooedWanderer);
                     expect(this.game.currentConflict.attackers).toContain(this.tattooedWanderer);
                     expect(this.tattooedWanderer.inConflict).toBe(true);
                 });
-    
+
                 it('should not allow illegal attackers to be selected', function() {
                     this.player1.putIntoPlay(this.sinisterSoshi);
                     this.player1.putIntoPlay(this.doomedShugenja);
@@ -153,10 +153,45 @@ describe('conflict phase', function() {
                     this.player1.clickCard(this.sinisterSoshi);
                     expect(this.sinisterSoshi.inConflict).toBe(false);
                     expect(this.game.currentConflict.attackers).not.toContain(this.sinisterSoshi);
-    
+
                     this.player1.clickCard(this.doomedShugenja);
                     expect(this.doomedShugenja.inConflict).toBe(false);
                     expect(this.game.currentConflict.attackers).not.toContain(this.doomedShugenja);
+                });
+
+                it('should remove illegal attackers from the conflict when the conflict type is changed', function() {
+                    this.player1.putIntoPlay(this.vengefulBerserker);
+                    this.player1.clickRing('air');
+
+                    expect(this.game.currentConflict.conflictType).toBe('military');
+                    this.player1.clickCard(this.vengefulBerserker);
+                    expect(this.game.currentConflict.attackers).toContain(this.vengefulBerserker);
+                    expect(this.vengefulBerserker.inConflict).toBe(true);
+                    expect(this.vengefulBerserker.bowed).toBe(false);
+
+                    this.player1.clickRing('air');
+                    expect(this.game.currentConflict.conflictType).toBe('political');
+                    expect(this.game.currentConflict.attackers).not.toContain(this.vengefulBerserker);
+                    expect(this.vengefulBerserker.inConflict).toBe(false);
+                    expect(this.vengefulBerserker.bowed).toBe(false);
+                });
+
+                it('should flip the ring to match attackers when the ring is changed', function() {
+                    this.player1.putIntoPlay(this.vengefulBerserker);
+                    this.player1.clickRing('earth');
+                    expect(this.game.currentConflict.conflictType).toBe('political');
+                    this.player1.clickRing('air');
+                    expect(this.game.currentConflict.conflictType).toBe('military');
+
+                    this.player1.clickCard(this.vengefulBerserker);
+                    expect(this.game.currentConflict.attackers).toContain(this.vengefulBerserker);
+                    expect(this.vengefulBerserker.inConflict).toBe(true);
+                    expect(this.vengefulBerserker.bowed).toBe(false);
+
+                    this.player1.clickRing('earth');
+                    expect(this.game.currentConflict.conflictType).toBe('military');
+                    expect(this.game.currentConflict.attackers).toContain(this.vengefulBerserker);
+                    expect(this.vengefulBerserker.inConflict).toBe(true);
                 });
             });
         });
@@ -198,7 +233,9 @@ describe('conflict phase', function() {
                     province: 'elemental-fury',
                     attackers: [this.childOfThePlains]
                 });
-                
+
+                expect(this.spyglass.location).toBe('play area');
+
                 expect(this.player1).toHavePrompt('Triggered Abilities');
                 expect(this.player1).toBeAbleToSelect(this.spyglass);
                 expect(this.player1).toBeAbleToSelect(this.childOfThePlains);
@@ -212,7 +249,7 @@ describe('conflict phase', function() {
                     attackers: [this.childOfThePlains]
                 });
                 this.player1.clickCard(this.spyglass);
-                
+
                 expect(this.player2).toHavePrompt('Triggered Abilities');
                 expect(this.player2).toBeAbleToSelect('mantra-of-fire');
                 expect(this.player2).toBeAbleToSelect('elemental-fury');
@@ -226,7 +263,7 @@ describe('conflict phase', function() {
                     attackers: [this.childOfThePlains]
                 });
                 this.player1.clickPrompt('Pass');
-                
+
                 expect(this.player2).toHavePrompt('Triggered Abilities');
                 expect(this.player2).toBeAbleToSelect('mantra-of-fire');
                 expect(this.player2).toBeAbleToSelect('elemental-fury');
@@ -242,7 +279,7 @@ describe('conflict phase', function() {
                 this.player1.clickPrompt('Pass');
                 this.player2.clickCard(this.elementalFury);
                 this.player2.clickRing('water');
-                
+
                 expect(this.player1).toHavePrompt('Triggered Abilities');
                 expect(this.player1).toBeAbleToSelect(this.spyglass);
                 expect(this.player1).toBeAbleToSelect(this.childOfThePlains);
@@ -257,11 +294,11 @@ describe('conflict phase', function() {
                 });
                 this.player1.clickPrompt('Pass');
                 this.player2.clickPrompt('Pass');
-                
+
                 expect(this.player2).toHavePrompt('Choose defenders');
             });
         });
-        
+
         // check covert works and is correctly cancellable
         // check defender declaration works and stops illegal defenders from being selected
         // check conflict action window works properly, and messages are correctly displayed
@@ -371,7 +408,7 @@ describe('conflict phase', function() {
 
                 it('should prompt the player to choose an element to resolve', function() {
                     //expect(this.spy).toHaveBeenCalledWith(this.player1.player, ['air', 'fire'], true);
-                    expect(this.player1).toHavePrompt('Choose a ring effect to resolve');
+                    expect(this.player1).toHavePrompt('Resolve Ring Effect');
                 });
 
                 it('should allow the player to choose air', function() {
@@ -382,9 +419,9 @@ describe('conflict phase', function() {
                 describe('When the ring is claimed', function() {
                     beforeEach(function() {
                         this.player1.clickRing('air');
-                        this.player1.clickPrompt('Gain 2 Honor');    
+                        this.player1.clickPrompt('Gain 2 Honor');
                     });
-                
+
                     it('should be claimed by player1', function() {
                         expect(this.game.rings['fire'].claimedBy).toBe('player1');
                     });
@@ -400,7 +437,7 @@ describe('conflict phase', function() {
 
                     it('should allow the player to resolve the air ring effect again', function() {
                         this.player1.clickCard(this.dojiHotaru);
-                        expect(this.player1).toHavePrompt('Choose a ring effect to resolve');
+                        expect(this.player1).toHavePrompt('Resolve Ring Effect');
 
                         this.player1.clickRing('air');
                         expect(this.player1).toHavePrompt('Choose an effect to resolve');
@@ -408,7 +445,7 @@ describe('conflict phase', function() {
                 });
             });
         });
-        
+
         // check return home and reactions to it work correctly
         describe('3.2.8 Return Home', function() {
             describe('When participants return home', function() {
@@ -450,13 +487,15 @@ describe('conflict phase', function() {
                         this.noMoreActions();
                         expect(this.player1).toHavePrompt('Initiate an action');
                         expect(this.dojiChallenger.bowed).toBe(true);
-                        expect(this.intimidatingHida.bowed).toBe(false);    
+                        expect(this.intimidatingHida.bowed).toBe(false);
                     });
                 });
 
                 it('reactions should trigger correctly', function() {
                     this.noMoreActions();
+                    // End of player 1's first conflict
                     this.noMoreActions();
+                    // Player 2's first conflict passes automatically
                     this.noMoreActions();
                     this.initiateConflict({
                         attackers: ['doji-whisperer'],
@@ -473,7 +512,7 @@ describe('conflict phase', function() {
                 });
             });
         });
-        
+
         // check that the next pre-conflict window works properly
         // check that passing conflicts works
         // check that auto-passing conflicts works correctly

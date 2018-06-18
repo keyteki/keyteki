@@ -3,20 +3,16 @@ const DrawCard = require('../../drawcard.js');
 class TheMountainDoesNotFall extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
-            title: 'Chooes a character to not bow when defending',
-            max: ability.limit.perRound(1),
+            title: 'Choose a character to not bow when defending',
             target: {
-                activePromptTitle: 'Choose a character',
                 cardType: 'character',
-                cardCondition: card => card.location === 'play area'
+                gameAction: ability.actions.cardLastingEffect(context => ({
+                    condition: () => context.target.isDefending(),
+                    effect: ability.effects.doesNotBow()
+                }))
             },
-            handler: context => {
-                this.game.addMessage('{0} uses {1} to make {2} not bow as a defender', this.controller, this, context.target);
-                this.untilEndOfPhase(ability => ({
-                    match: context.target,
-                    effect: ability.effects.doesNotBowAsDefender()
-                }));
-            }
+            effect: 'make {0} not bow as a defender',
+            max: ability.limit.perRound(1)
         });
     }
 }

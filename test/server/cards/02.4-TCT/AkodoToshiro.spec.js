@@ -48,7 +48,7 @@ describe('Akodo Toshiro', function() {
                 this.player1.clickPrompt('Don\'t resolve');
                 this.player1.clickPrompt('Akodo Toshiro\'s effect on Akodo Toshiro');
                 expect(this.akodoToshiro.location).toBe('dynasty discard pile');
-                expect(this.player1).toHavePrompt('Action Window');                
+                expect(this.player1).toHavePrompt('Action Window');
             });
 
             it('should send the character to the bottom of the dynasty deck if Toshiro\'s effect is resolved first', function() {
@@ -56,7 +56,7 @@ describe('Akodo Toshiro', function() {
                 this.player1.clickPrompt('Don\'t resolve');
                 this.player1.clickPrompt('Kitsu Spiritcaller\'s effect on Akodo Toshiro');
                 expect(this.player1.player.dynastyDeck.last()).toBe(this.akodoToshiro);
-                expect(this.player1).toHavePrompt('Action Window');                
+                expect(this.player1).toHavePrompt('Action Window');
             });
         });
     });

@@ -1,22 +1,19 @@
 const DrawCard = require('../../drawcard.js');
 
 class MantraOfWater extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             title: 'Ready a monk and draw a card',
             when: {
-                onConflictDeclared: event => event.conflictRing === 'water' && event.conflict.attackingPlayer !== this.controller
+                onConflictDeclared: (event, context) => event.ring.hasElement('water') && event.conflict.attackingPlayer === context.player.opponent
             },
             target: {
                 cardType: 'character',
-                gameAction: 'ready',
-                cardCondition: card => card.hasTrait('monk') || card.attachments.any(card => card.hasTrait('monk'))
+                cardCondition: card => card.hasTrait('monk') || card.attachments.any(card => card.hasTrait('monk')),
+                gameAction: ability.actions.ready()
             },
-            handler: context => {
-                this.game.addMessage('{0} plays {1} to ready {2} and draw a card', this.controller, this, context.target);
-                this.game.applyGameAction(context, { ready: context.target });
-                this.controller.drawCardsToHand(1);
-            }
+            effect: 'ready {0} and draw a card',
+            gameAction: ability.actions.draw()
         });
     }
 }

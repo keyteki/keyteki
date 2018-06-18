@@ -7,10 +7,7 @@ class KamiUnleashed extends DrawCard {
             cost: ability.costs.sacrificeSelf(),
             max: ability.limit.perConflict(1),
             condition: context => context.source.isAttacking(),
-            handler: context => {
-                this.game.addMessage('{0} sacrifices {1} to resolve the ring effect', context.player, context.source);
-                this.game.currentConflict.resolveRing(context.player);
-            }
+            gameAction: ability.actions.resolveRing()
         });
     }
 }

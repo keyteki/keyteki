@@ -3,10 +3,10 @@ const InitateConflictPrompt = require('../../../server/game/gamesteps/conflict/i
 describe('InitateConflictPrompt: ', function() {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'raiseEvent', 'promptWithHandlerMenu']);
+        this.fireRing = { element: 'fire' };
+        this.gameSpy.rings = { fire: this.fireRing};
         this.playerSpy = jasmine.createSpyObj('player', ['keep', 'mulligan']);
         this.conflictSpy = jasmine.createSpyObj('conflict', ['calculateSkill', 'removeFromConflict', 'addAttacker']);
-        this.conflictSpy.conflictRing = '';
-        this.conflictSpy.conflictType = '';
         this.conflictSpy.attackers = [];
         this.conflictSpy.conflictProvince = null;
         this.prompt = new InitateConflictPrompt(this.gameSpy, this.conflictSpy, this.playerSpy);
@@ -33,7 +33,8 @@ describe('InitateConflictPrompt: ', function() {
 
         describe('when a military fire ring has been chosen', function() {
             beforeEach(function() {
-                this.conflictSpy.conflictRing = 'fire';
+                this.conflictSpy.element = 'fire';
+                this.conflictSpy.ring = { element: 'fire' };
                 this.conflictSpy.conflictType = 'military';
                 this.promptProperties = this.prompt.activePrompt();
             });
@@ -78,7 +79,7 @@ describe('InitateConflictPrompt: ', function() {
 
     describe('the cardClicked function, ', function() {
         beforeEach(function() {
-            this.cardSpy = jasmine.createSpyObj('card', ['allowGameAction', 'canDeclareAsAttacker', 'isCovert', 'canBeBypassedByCovert']);
+            this.cardSpy = jasmine.createSpyObj('card', ['checkRestrictions', 'canDeclareAsAttacker', 'isCovert', 'canBeBypassedByCovert']);
         });
 
         describe('when a different player clicks a card, ', function() {
@@ -116,17 +117,17 @@ describe('InitateConflictPrompt: ', function() {
 
                 it('should return false', function() {
                     expect(this.prompt.onCardClicked(this.playerSpy, this.cardSpy)).toBe(false);
-                });                
+                });
             });
 
             describe('if a conflict can\'t be initiated here, ', function() {
                 beforeEach(function() {
-                    this.cardSpy.allowGameAction.and.returnValue(false);
+                    this.cardSpy.checkRestrictions.and.returnValue(false);
                 });
 
                 it('should return false', function() {
                     expect(this.prompt.onCardClicked(this.playerSpy, this.cardSpy)).toBe(false);
-                });                
+                });
             });
 
             describe('if it\'s the stronghold province and fewer than 3 provinces have been broken, ', function() {
@@ -139,12 +140,12 @@ describe('InitateConflictPrompt: ', function() {
 
                 it('should return false', function() {
                     expect(this.prompt.onCardClicked(this.playerSpy, this.cardSpy)).toBe(false);
-                });                
+                });
             });
 
             describe('if a conflict can be initiated here', function() {
                 beforeEach(function() {
-                    this.cardSpy.allowGameAction.and.returnValue(true);
+                    this.cardSpy.checkRestrictions.and.returnValue(true);
                     this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy);
                 });
 
@@ -157,7 +158,7 @@ describe('InitateConflictPrompt: ', function() {
 
                     it('should return true', function() {
                         expect(this.returnValue).toBe(true);
-                    });                
+                    });
 
                     it('should remove the province from the conflict', function() {
                         expect(this.cardSpy.inConflict).toBe(false);
@@ -170,7 +171,7 @@ describe('InitateConflictPrompt: ', function() {
 
                 it('should return true', function() {
                     expect(this.returnValue).toBe(true);
-                });                
+                });
 
                 it('should become the conflict province', function() {
                     expect(this.conflictSpy.conflictProvince).toBe(this.cardSpy);
@@ -190,7 +191,7 @@ describe('InitateConflictPrompt: ', function() {
             describe('if the character is controlled by this player,', function() {
                 beforeEach(function() {
                     this.cardSpy.controller = this.playerSpy;
-                    this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy); 
+                    this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy);
                 });
 
                 it('should call canDeclareAsAttacker', function() {
@@ -200,7 +201,7 @@ describe('InitateConflictPrompt: ', function() {
                 describe('and it can be declared as an attacker,', function() {
                     beforeEach(function() {
                         this.cardSpy.canDeclareAsAttacker.and.returnValue(true);
-                        this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy); 
+                        this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy);
                     });
 
                     describe('and it\'s not currently participating,', function() {
@@ -226,14 +227,14 @@ describe('InitateConflictPrompt: ', function() {
                             });
                         });
                     });
-                                   
+
                     describe('and it\'s currently participating,', function() {
                         beforeEach(function() {
                             this.conflictSpy.attackers.push(this.cardSpy);
-                            this.defenderSpy = jasmine.createSpyObj('defender', ['allowGameAction', 'canBeBypassedByCovert']);
+                            this.defenderSpy = jasmine.createSpyObj('defender', ['checkRestrictions', 'canBeBypassedByCovert']);
                             this.defenderSpy.covert = true;
                             this.prompt.selectedDefenders = [this.defenderSpy];
-                            this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy); 
+                            this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy);
                         });
 
                         it('should call isCovert', function() {
@@ -251,14 +252,14 @@ describe('InitateConflictPrompt: ', function() {
                         describe('and it has covert,', function() {
                             beforeEach(function() {
                                 this.cardSpy.isCovert.and.returnValue(true);
-                                this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy); 
+                                this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy);
                             });
 
                             describe('and no covert is remaining', function() {
                                 it('should return true', function() {
                                     expect(this.returnValue).toBe(true);
                                 });
-        
+
                                 it('should call removeFromConflict', function() {
                                     expect(this.conflictSpy.removeFromConflict).toHaveBeenCalledWith(this.cardSpy);
                                 });
@@ -272,13 +273,13 @@ describe('InitateConflictPrompt: ', function() {
                             describe('and covert is remaining', function() {
                                 beforeEach(function() {
                                     this.prompt.covertRemaining = true;
-                                    this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy); 
+                                    this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy);
                                 });
 
                                 it('should return true', function() {
                                     expect(this.returnValue).toBe(true);
                                 });
-        
+
                                 it('should call removeFromConflict', function() {
                                     expect(this.conflictSpy.removeFromConflict).toHaveBeenCalledWith(this.cardSpy);
                                 });
@@ -308,7 +309,7 @@ describe('InitateConflictPrompt: ', function() {
                     beforeEach(function() {
                         this.prompt.selectedDefenders.push(this.cardSpy);
                         this.cardSpy.covert = true;
-                        this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy); 
+                        this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy);
                     });
 
                     it('should return true', function() {
@@ -337,7 +338,7 @@ describe('InitateConflictPrompt: ', function() {
                 describe('if there is covert remaining', function() {
                     beforeEach(function() {
                         this.prompt.covertRemaining = true;
-                        this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy); 
+                        this.returnValue = this.prompt.onCardClicked(this.playerSpy, this.cardSpy);
                     });
 
                     it('should return true', function() {
@@ -355,7 +356,7 @@ describe('InitateConflictPrompt: ', function() {
 
                 it('should return false', function() {
                     expect(this.prompt.onCardClicked(this.playerSpy, this.cardSpy)).toBe(false);
-                });          
+                });
             });
         });
 
@@ -366,38 +367,28 @@ describe('InitateConflictPrompt: ', function() {
 
             it('should return false', function() {
                 expect(this.prompt.onCardClicked(this.playerSpy, this.cardSpy)).toBe(false);
-            });    
+            });
         });
     });
 
     describe('the menuCommand function:', function() {
         beforeEach(function() {
-            this.conflictSpy.conflictRing = 'fire';
+            this.conflictSpy.element = 'fire';
+            this.conflictSpy.ring = this.fireRing;
             this.conflictSpy.conflictType = 'military';
-            this.cardSpy = jasmine.createSpyObj('card', ['allowGameAction']);
+            this.cardSpy = jasmine.createSpyObj('card', ['checkRestrictions']);
             this.conflictSpy.conflictProvince = this.cardSpy;
-            this.attackerSpy = jasmine.createSpyObj('attacker', ['allowGameAction']);
+            this.attackerSpy = jasmine.createSpyObj('attacker', ['checkRestrictions']);
             this.conflictSpy.attackers = [this.attackerSpy];
             this.prompt.menuCommand(this.playerSpy, 'done');
         });
 
         describe('when passed "done"', function() {
-            describe('if the conflict type is undefined', function() {
-                beforeEach(function() {
-                    this.prompt.completed = false;
-                    this.conflictSpy.conflictType = '';
-                    this.prompt.menuCommand(this.playerSpy, 'done');
-                });
-
-                it('should not set complete to true', function() {
-                    expect(this.prompt.completed).toBe(false);
-                });
-            });
-
             describe('if the conflict ring is undefined', function() {
                 beforeEach(function() {
                     this.prompt.completed = false;
-                    this.conflictSpy.conflictRing = '';
+                    this.conflictSpy.ring = undefined;
+                    this.conflictSpy.element = undefined;
                     this.prompt.menuCommand(this.playerSpy, 'done');
                 });
 
@@ -430,25 +421,6 @@ describe('InitateConflictPrompt: ', function() {
                 });
             });
 
-            describe('if covert is remaining and there is a legal target', function() {
-                beforeEach(function() {
-                    this.prompt.completed = false;
-                    this.prompt.covertRemaining = true;
-                    this.opponentSpy = jasmine.createSpyObj('opponent', ['anyCardsInPlay']); 
-                    this.opponentSpy.anyCardsInPlay.and.returnValue(true);
-                    this.conflictSpy.defendingPlayer = this.opponentSpy;
-                    this.prompt.menuCommand(this.playerSpy, 'done');
-                });
-
-                it('should not set complete to true', function() {
-                    expect(this.prompt.completed).toBe(false);
-                });
-
-                it('should prompt the player with a handler menu', function() {
-                    expect(this.gameSpy.promptWithHandlerMenu).toHaveBeenCalledWith(this.playerSpy, jasmine.objectContaining({ activePromptTitle: 'You still have unused Covert - are you sure?' }));
-                });
-            });
-
             it('should set completed to true', function() {
                 expect(this.prompt.completed).toBe(true);
             });
@@ -457,7 +429,7 @@ describe('InitateConflictPrompt: ', function() {
         describe('when passed "pass",', function() {
             beforeEach(function() {
                 this.prompt.completed = false;
-                this.prompt.menuCommand(this.playerSpy, 'pass');               
+                this.prompt.menuCommand(this.playerSpy, 'pass');
             });
 
             it('should prompt the player with a handler menu', function() {

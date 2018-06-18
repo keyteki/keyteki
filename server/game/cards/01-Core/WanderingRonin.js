@@ -3,21 +3,13 @@ const DrawCard = require('../../drawcard.js');
 class WanderingRonin extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
-            title: 'Remove 1 fate',
-            phase: 'conflict',
-            condition: () => this.game.currentConflict,
+            title: 'Give this character +2/+2',
+            condition: () => this.game.isDuringConflict(),
             cost: ability.costs.discardFateFromSelf(),
-            limit: ability.limit.perConflict(2),
-            handler: () => {
-                this.game.addMessage('{0} removes a fate from {1} to give it +2 military and +2 political until the end of the conflict', this.controller, this);
-                this.untilEndOfConflict(ability => ({
-                    match: this,
-                    effect: [
-                        ability.effects.modifyMilitarySkill(2),
-                        ability.effects.modifyPoliticalSkill(2)
-                    ]
-                }));
-            }
+            effect: 'give himself +2{1}/+2{2}',
+            effectArgs: () => ['military', 'political'],
+            gameAction: ability.actions.cardLastingEffect({ effect: ability.effects.modifyBothSkills(2) }),
+            limit: ability.limit.perConflict(2)
         });
     }
 }

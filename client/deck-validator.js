@@ -2,6 +2,8 @@ const $ = require('jquery'); // eslint-disable-line no-unused-vars
 const _ = require('underscore');
 const moment = require('moment');
 
+const RestrictedList = require('./RestrictedList');
+
 const worldsRole = {
     crab: 'keeper-of-earth',
     crane: 'seeker-of-air',
@@ -98,6 +100,7 @@ const roleRules = {
 class DeckValidator {
     constructor(packs) {
         this.packs = packs;
+        this.restrictedList = new RestrictedList();
     }
 
     validateDeck(deck) {
@@ -109,7 +112,7 @@ class DeckValidator {
         let provinceCount = getDeckCount(deck.provinceCards);
         let dynastyCount = getDeckCount(deck.dynastyCards);
         let conflictCount = getDeckCount(deck.conflictCards);
-        
+
         if(deck.stronghold.length > 1) {
             errors.push('Too many strongholds');
         }
@@ -132,16 +135,16 @@ class DeckValidator {
 
         if(conflictCount < rules.minimumConflict) {
             errors.push('Too few conflict cards');
-        } else if(conflictCount > rules.maximumConflict) { 
+        } else if(conflictCount > rules.maximumConflict) {
             errors.push('Too many conflict cards');
         }
-        
+
         _.each(rules.rules, rule => {
             if(!rule.condition(deck)) {
                 errors.push(rule.message);
             }
         });
-        
+
         let allCards = deck.provinceCards.concat(deck.dynastyCards).concat(deck.conflictCards);
         let cardCountByName = {};
 
@@ -202,15 +205,19 @@ class DeckValidator {
         if(totalInfluence > rules.influence) {
             errors.push('Total influence (' + totalInfluence.toString() + ') is higher than max allowed influence (' + rules.influence.toString() + ')');
         }
-        
+
+        let restrictedResult = this.restrictedList.validate(allCards.map(cardQuantity => cardQuantity.card));
+
         return {
             basicRules: errors.length === 0,
             noUnreleasedCards: unreleasedCards.length === 0,
             officialRole: !role || role.id === worldsRole[deck.faction.value] || openRoles.includes(role.id),
+            faqRestrictedList: restrictedResult.valid,
+            faqVersion: restrictedResult.version,
             provinceCount: provinceCount,
             dynastyCount: dynastyCount,
             conflictCount: conflictCount,
-            extendedStatus: errors.concat(unreleasedCards)
+            extendedStatus: errors.concat(unreleasedCards).concat(restrictedResult.errors)
         };
     }
 

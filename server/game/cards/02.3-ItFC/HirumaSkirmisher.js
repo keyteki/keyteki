@@ -1,19 +1,17 @@
 const DrawCard = require('../../drawcard.js');
 
 class HirumaSkirmisher extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             title: 'Gain covert until end of phase',
             when: {
-                'onCardEntersPlay': event => event.card === this
+                'onCharacterEntersPlay': (event, context) => event.card === context.source
             },
-            handler: () => {
-                this.game.addMessage('{0} uses {1}\'s ability to give {1} covert until the end of the phase', this.controller, this);
-                this.untilEndOfPhase(ability => ({
-                    match: this,
-                    effect: ability.effects.addKeyword('covert')
-                }));
-            }
+            effect: 'give itself Covert until the end of the phase',
+            gameAction: ability.actions.cardLastingEffect({
+                duration: 'untilEndOfPhase',
+                effect: ability.effects.addKeyword('covert')
+            })
         });
     }
 }

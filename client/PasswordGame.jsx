@@ -52,13 +52,13 @@ class InnerPasswordGame extends React.Component {
                     <div className='col-sm-6'>
                         <AlertPanel type='error' message={ this.props.passwordError } />
                     </div>
-                    : null }    
+                    : null }
                 <div className='col-sm-12'>
                     <div className='btn-group'>
                         <button className='btn btn-primary' onClick={ this.onJoinClick.bind(this) }>{ this.props.passwordJoinType }</button>
                         <button className='btn btn-primary' onClick={ this.onCancelClick.bind(this) }>Cancel</button>
                     </div>
-                </div>    
+                </div>
             </div>);
     }
 }

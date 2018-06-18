@@ -1,52 +1,31 @@
 const DrawCard = require('../../drawcard.js');
-const EventRegistrar = require('../../eventregistrar.js');
+const GameActions = require('../../GameActions/GameActions');
 
 class DisplayOfPower extends DrawCard {
     setupCardAbilities() {
         this.reaction({
             title: 'Cancel opponent\'s ring effect and claim and resolve the ring',
             when: {
-                afterConflict: event => event.conflict.loser === this.controller && event.conflict.conflictUnopposed
+                afterConflict: (event, context) => event.conflict.loser === context.player && event.conflict.conflictUnopposed
             },
-            handler: () => {
-                this.eventRegistrar = new EventRegistrar(this.game, this);
-                this.eventRegistrar.register([{ 'onResolveRingEffect:cancelinterrupt': 'displayOfPowerOnResolveRingEffect' }]);
-                this.game.addMessage('{0} uses {1} at {2}', this.controller, this, this.game.currentConflict.conflictProvince);
-            }
+            cannotBeMirrored: true,
+            effect: 'resolve and claim the ring when the ring effect resolves',
+            handler: context => this.game.once('onResolveRingEffect:cancelinterrupt', event => this.onResolveRingEffect(event, context))
         });
     }
-    
-    displayOfPowerOnResolveRingEffect(event) {
-        this.eventRegistrar.unregisterAll();
-        this.game.queueSimpleStep(() => this.displayOfPowerCancelRingEffect(event));
-    }
 
-    displayOfPowerCancelRingEffect(event) {
-        if(event.player !== this.controller) {
-            if(event.cancelled) {
-                this.game.addMessage('{0} attempts to cancel the ring effect, but it has already been cancelled', this);
-                return;
-            }
-            event.cancel();
-            this.game.addMessage('{0} cancels the ring effect and {1} may resolve it and then claims it', this, this.controller);
-            let ring = this.game.rings[event.conflict.conflictRing];
-            this.game.raiseMultipleEvents([
-                {
-                    name: 'onResolveRingEffect',
-                    params: { player: this.controller, conflict: event.conflict, order: -1 },
-                    handler: () => event.conflict.resolveRing(this.controller)
-                },
-                {
-                    name: 'onClaimRing',
-                    params: { player: this.controller, conflict: event.conflict },
-                    handler: () => ring.claimRing(this.controller)
-                }
-            ]);
+    onResolveRingEffect(event, context) {
+        if(event.cancelled) {
+            return;
         }
+        this.game.addMessage('{0} cancels the ring effect and {1} may resolve it and then claims it', context.source, context.player);
+        let ring = this.game.currentConflict.ring;
+        event.window.addEvent(GameActions.resolveRing().getEvent(ring, context));
+        event.window.addEvent(this.game.getEvent('onClaimRing', { player: this.controller, conflict: event.conflict }, () => ring.claimRing(context.player)));
+        event.cancel();
     }
 }
 
 DisplayOfPower.id = 'display-of-power';
 
 module.exports = DisplayOfPower;
-

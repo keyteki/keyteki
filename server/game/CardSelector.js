@@ -12,6 +12,7 @@ const defaultProperties = {
 };
 
 const ModeToSelector = {
+    ability: p => new SingleCardSelector(p),
     exactly: p => new ExactlyXCardSelector(p.numCards, p),
     maxStat: p => new MaxStatCardSelector(p),
     single: p => new SingleCardSelector(p),

@@ -26,7 +26,7 @@ describe('Katana of Fire', function() {
                 });
 
                 it('should boost adept\'s military skill by at least 1 (counting itself)', function() {
-                    expect(this.adept.getMilitarySkill()).toBe(this.adept.baseMilitarySkill + 1);
+                    expect(this.adept.getMilitarySkill()).toBe(this.adept.getBaseMilitarySkill() + 1);
                 });
 
                 describe('and another fire card is added to play', function() {
@@ -43,6 +43,7 @@ describe('Katana of Fire', function() {
                         this.player1.clickCard(this.doomedShugenja);
                     });
                     it('should boost adept\'s military skill by 1', function() {
+                        expect(this.doomedShugenja.location).toBe('play area');
                         expect(this.adept.getMilitarySkill()).toBe(this.skillBeforeMove + 1);
                     });
                 });

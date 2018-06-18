@@ -17,7 +17,7 @@ class ActionWindow extends UiPrompt {
         this.prevPlayerPassed = false;
         this.priorityPassed = false;
     }
-    
+
     activeCondition(player) {
         return player === this.currentPlayer;
     }
@@ -26,7 +26,28 @@ class ActionWindow extends UiPrompt {
         if(player !== this.currentPlayer) {
             return false;
         }
-        player.initiateCardAction(card);
+
+        let actions = card.getActions(player);
+
+        let legalActions = actions.filter(action => action.meetsRequirements() === '');
+
+        if(legalActions.length === 0) {
+            return false;
+        } else if(legalActions.length === 1) {
+            let action = legalActions[0];
+            let targetPrompts = action.targets.some(target => target.properties.player !== 'opponent');
+            if(!this.currentPlayer.optionSettings.confirmOneClick || action.cost.some(cost => cost.promptsPlayer) || targetPrompts) {
+                this.game.resolveAbility(action.createContext());
+                return true;
+            }
+        }
+        this.game.promptWithHandlerMenu(player, {
+            activePromptTitle: (card.location === 'play area' ? 'Choose an ability:' : 'Play ' + card.name + ':'),
+            source: card,
+            choices: legalActions.map(action => action.title).concat('Cancel'),
+            handlers: legalActions.map(action => (() => this.game.resolveAbility(action.createContext()))).concat(() => true)
+        });
+        return true;
     }
 
     continue() {
@@ -36,7 +57,7 @@ class ActionWindow extends UiPrompt {
                 this.pass();
             }
         }
-        
+
         let completed = super.continue();
 
         if(!completed) {
@@ -71,7 +92,9 @@ class ActionWindow extends UiPrompt {
             this.game.promptForSelect(this.currentPlayer, {
                 source: 'Manual Action',
                 activePrompt: 'Which ability are you using?',
-                cardCondition: card => (card.controller === this.currentPlayer && !card.facedown),
+                location: 'any',
+                controller: 'self',
+                cardCondition: card => !card.facedown,
                 onSelect: (player, card) => {
                     this.game.addMessage('{0} uses {1}\'s ability', player, card);
                     this.markActionAsTaken();
@@ -80,7 +103,7 @@ class ActionWindow extends UiPrompt {
             });
             return true;
         }
-        
+
         if(choice === 'pass') {
             this.pass();
             return true;
@@ -89,7 +112,7 @@ class ActionWindow extends UiPrompt {
 
     pass() {
         this.game.addMessage('{0} passes', this.currentPlayer);
-        
+
         if(this.prevPlayerPassed || !this.currentPlayer.opponent) {
             this.complete();
         }
@@ -97,10 +120,10 @@ class ActionWindow extends UiPrompt {
         this.prevPlayerPassed = true;
         this.nextPlayer();
     }
-    
+
     nextPlayer() {
         let otherPlayer = this.game.getOtherPlayer(this.currentPlayer);
-        
+
         if(otherPlayer) {
             this.currentPlayer = otherPlayer;
         }

@@ -129,7 +129,7 @@ class InnerResetPassword extends React.Component {
                 </div>);
         });
 
-        return (       
+        return (
             <div>
                 { errorBar }
                 <form className='form form-horizontal'>

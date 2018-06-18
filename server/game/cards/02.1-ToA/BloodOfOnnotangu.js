@@ -6,7 +6,7 @@ class BloodOfOnnotangu extends ProvinceCard {
             targetType: 'player',
             targetController: 'any',
             condition: () => !this.isBroken && this.game.currentConflict && this.game.currentConflict.conflictProvince === this,
-            effect: ability.effects.playerCannotSpendFate()
+            effect: ability.effects.playerCannot('spendFate')
         });
     }
 }

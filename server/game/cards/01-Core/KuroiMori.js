@@ -5,7 +5,7 @@ class KuroiMori extends ProvinceCard {
     setupCardAbilities() {
         this.action({
             title: 'Switch the conflict type or ring',
-            condition: () => this.game.currentConflict && this.game.currentConflict.conflictProvince === this,
+            condition: context => context.source.isConflictProvince(),
             target: {
                 player: 'self',
                 mode: 'select',
@@ -14,20 +14,21 @@ class KuroiMori extends ProvinceCard {
                     'Switch the conflict type': () => true
                 }
             },
-            source: this,
+            effect: '{1}',
+            effectArgs: context => context.select.toLowerCase(),
             handler: context => {
                 if(context.select === 'Switch the contested ring') {
-                    this.game.promptForRingSelect(this.controller, {
+                    this.game.promptForRingSelect(context.player, {
+                        context: context,
                         ringCondition: ring => ring.isUnclaimed(),
                         onSelect: (player, ring) => {
-                            this.game.addMessage('{0} uses {1} to switch the conflict ring to {2}', player, this, ring.element);
+                            this.game.addMessage('{0} switches the conflict ring to {1}', player, ring);
                             this.game.currentConflict.switchElement(ring.element);
                             return true;
                         }
                     });
                 } else {
                     this.game.currentConflict.switchType();
-                    this.game.addMessage('{0} uses {1} to switch the conflict type to {2}', this.controller, this, this.game.currentConflict.conflictType);
                 }
             }
         });

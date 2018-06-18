@@ -42,7 +42,7 @@ describe('Moto Nergui', function() {
                 this.utakuYumino = this.player1.clickCard('utaku-yumino');
                 expect(this.utakuYumino.inConflict).toBe(false);
             });
-            
+
             it('should allow Nergui to send an enemy character home', function() {
                 this.initiateConflict({
                     type: 'military',
