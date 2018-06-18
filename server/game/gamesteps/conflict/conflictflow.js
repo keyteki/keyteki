@@ -131,7 +131,7 @@ class ConflictFlow extends BaseStepWithPipeline {
                 buttons: [{ text: 'No target', arg: 'cancel' }],
                 cardType: 'character',
                 controller: 'opponent',
-                cardCondition: card => card.canBeCovertedBy(context),
+                cardCondition: card => card.canBeBypassedByCoverted(context),
                 onSelect: (player, card) => {
                     context['target'] = context.targets.target = card;
                     this.covert.push(context);
