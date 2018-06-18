@@ -75,10 +75,9 @@ describe('BaseCard', function () {
                     this.summary = this.card.getSummary(this.owner);
                 });
 
-                it('should return card data', function() {
-                    expect(this.summary.uuid).toEqual(this.card.uuid);
-                    expect(this.summary.name).toEqual(this.testCard.name);
-                    expect(this.summary.code).toEqual(this.testCard.code);
+                it('should return no card data', function () {
+                    expect(this.summary.uuid).toBeUndefined();
+                    expect(this.summary.name).toBeUndefined();
                 });
 
                 it('should return facedown', function() {
