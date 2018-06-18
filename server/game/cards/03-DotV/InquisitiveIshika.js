@@ -7,7 +7,7 @@ class InquisitiveIshika extends DrawCard {
             condition: () => this.game.currentConflict,
             targetType: 'player',
             targetController: 'any',
-            effect: ability.effects.reduceCost({ match: card => _.any(this.game.currentConflict.getElements(), element => card.hasTrait(element)) })
+            effect: ability.effects.reduceCost({ match: card => _.any(this.game.currentConflict.elements, element => card.hasTrait(element)) })
         });
     }
 }

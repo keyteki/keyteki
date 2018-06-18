@@ -14,7 +14,7 @@ class HonorCounter extends Counter {
         if(this.props.fade) {
             className += ' fade-out';
         }
-        
+
         return (<div key={ this.props.name } className={ className }>
             <img src='/img/Honor.png' title='Honor' alt='Honor' />
             <div className='honorcountertext'> { this.props.value } </div>

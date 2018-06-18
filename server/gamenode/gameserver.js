@@ -116,7 +116,7 @@ class GameServer {
                 debugData[player.name] = player.getState(player);
             });
         }
-        
+
         Raven.captureException(e, { extra: debugData });
 
         if(game) {

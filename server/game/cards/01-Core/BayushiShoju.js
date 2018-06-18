@@ -3,29 +3,25 @@ const DrawCard = require('../../drawcard.js');
 class BayushiShoju extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
-            title: 'Give a character -1P',
+            title: 'Give a character -0/-1',
             limit: ability.limit.perRound(2),
-            condition: () => this.game.currentConflict && this.game.currentConflict.conflictType === 'political' && this.game.currentConflict.isParticipating(this),
+            condition: context => context.source.isParticipating() && this.game.currentConflict.conflictType === 'political',
             target: {
-                source: this,
                 cardType: 'character',
-                cardCondition: card => this.game.currentConflict.isParticipating(card) && card.controller !== this.controller
-            },
-            handler: context => {
-                this.game.addMessage('{0} uses {1} to reduce {2}\'s political skill by 1.  They will die if they reach 0', this.controller, this, context.target);
-                this.untilEndOfConflict(ability => ({
-                    match: context.target,
+                controller: 'opponent',
+                cardCondition: card => card.isParticipating(),
+                gameAction: ability.actions.cardLastingEffect(context => ({
                     effect: [
                         ability.effects.modifyPoliticalSkill(-1),
                         ability.effects.terminalCondition({
-                            context: context,
                             condition: () => context.target.getPoliticalSkill() < 1,
                             message: '{1} is discarded due to {0}\'s lasting effect',
-                            gameAction: 'discardFromPlay'
+                            gameAction: ability.actions.discardFromPlay()
                         })
                     ]
-                }));
-            }
+                }))
+            },
+            effect: 'reduce {0}\'s political skill by 1 - they will die if they reach 0'
         });
     }
 }

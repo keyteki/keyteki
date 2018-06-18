@@ -4,9 +4,6 @@ const EventEmitter = require('events');
 const ChatCommands = require('./chatcommands.js');
 const GameChat = require('./gamechat.js');
 const EffectEngine = require('./effectengine.js');
-const Effect = require('./effect.js');
-const DelayedEffect = require('./DelayedEffect.js');
-const TerminalCondition = require('./TerminalCondition.js');
 const Player = require('./player.js');
 const Spectator = require('./spectator.js');
 const AnonymousSpectator = require('./anonymousspectator.js');
@@ -18,15 +15,17 @@ const ConflictPhase = require('./gamesteps/conflictphase.js');
 const FatePhase = require('./gamesteps/fatephase.js');
 const RegroupPhase = require('./gamesteps/regroupphase.js');
 const SimpleStep = require('./gamesteps/simplestep.js');
-const DeckSearchPrompt = require('./gamesteps/decksearchprompt.js');
 const MenuPrompt = require('./gamesteps/menuprompt.js');
 const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt.js');
+const HonorBidPrompt = require('./gamesteps/honorbidprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 const SelectRingPrompt = require('./gamesteps/selectringprompt.js');
 const GameWonPrompt = require('./gamesteps/GameWonPrompt');
-const EventBuilder = require('./Events/EventBuilder.js');
+const GameActions = require('./GameActions/GameActions');
+const Event = require('./Events/Event');
+const InitiateCardAbilityEvent = require('./Events/InitiateCardAbilityEvent');
 const EventWindow = require('./Events/EventWindow.js');
-const ThenEventWindow = require('./Events/ThenEventWindow.js');
+const ThenEventWindow = require('./Events/ThenEventWindow');
 const InitiateAbilityEventWindow = require('./Events/InitiateAbilityEventWindow.js');
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const SimultaneousEffectWindow = require('./gamesteps/SimultaneousEffectWindow');
@@ -34,8 +33,7 @@ const AbilityContext = require('./AbilityContext.js');
 const Ring = require('./ring.js');
 const Conflict = require('./conflict.js');
 const ConflictFlow = require('./gamesteps/conflict/conflictflow.js');
-const Duel = require('./Duel.js');
-const DuelFlow = require('./gamesteps/DuelFlow.js');
+const MenuCommands = require('./MenuCommands');
 
 class Game extends EventEmitter {
     constructor(details, options = {}) {
@@ -43,7 +41,6 @@ class Game extends EventEmitter {
 
         this.effectEngine = new EffectEngine(this);
         this.playersAndSpectators = {};
-        this.playerCards = {};
         this.gameChat = new GameChat();
         this.chatCommands = new ChatCommands(this);
         this.pipeline = new GamePipeline();
@@ -57,19 +54,18 @@ class Game extends EventEmitter {
         this.createdAt = new Date();
         this.savedGameId = details.savedGameId;
         this.gameType = details.gameType;
+        this.currentAbilityWindow = null;
         this.currentActionWindow = null;
         this.currentEventWindow = null;
         this.currentConflict = null;
         this.currentDuel = null;
         this.manualMode = false;
+        this.cancelPromptUsed = false;
         this.currentPhase = '';
-        this.abilityCardStack = [];
-        this.abilityWindowStack = [];
         this.password = details.password;
         this.roundNumber = 0;
 
-        this.militaryConflictCompleted = false;
-        this.politicalConflictCompleted = false;
+        this.completedConflicts = [];
         this.rings = {
             air: new Ring(this, 'air','military'),
             earth: new Ring(this, 'earth','political'),
@@ -90,8 +86,6 @@ class Game extends EventEmitter {
         this.setMaxListeners(0);
 
         this.router = options.router;
-
-        this.pushAbilityContext('framework', null, 'framework');
     }
     /*
      * Reports errors from the game engine back to the router
@@ -102,22 +96,20 @@ class Game extends EventEmitter {
         this.router.handleError(this, e);
     }
 
-    /*
+    /**
      * Adds a message to the in-game chat e.g 'Jadiel draws 1 card'
      * @param {String} message to display (can include {i} references to args)
-     * @param {} args to match the references in @string
-     * @returns {undefined}
+     * @param {Array} args to match the references in @string
      */
     addMessage() {
         this.gameChat.addMessage(...arguments);
     }
 
-    /*
+    /**
      * Adds a message to in-game chat with a graphical icon
      * @param {String} one of: 'endofround', 'success', 'info', 'danger', 'warning'
      * @param {String} message to display (can include {i} references to args)
-     * @param {} args to match the references in @string
-     * @returns {undefined}
+     * @param {Array} args to match the references in @string
      */
     addAlert() {
         this.gameChat.addAlert(...arguments);
@@ -127,7 +119,7 @@ class Game extends EventEmitter {
         return this.gameChat.messages;
     }
 
-    /*
+    /**
      * Checks if a player is a spectator
      * @param {Object} player
      * @returns {Boolean}
@@ -136,7 +128,7 @@ class Game extends EventEmitter {
         return player.constructor === Spectator;
     }
 
-    /*
+    /**
      * Checks whether a player/spectator is still in the game
      * @param {String} playerName
      * @returns {Boolean}
@@ -145,32 +137,32 @@ class Game extends EventEmitter {
         return this.playersAndSpectators[playerName] && !this.playersAndSpectators[playerName].left;
     }
 
-    /*
+    /**
      * Get all players (not spectators) in the game
-     * @returns {Object} {name1: Player, name2: Player}
+     * @returns {Player[]}
      */
     getPlayers() {
-        return _.omit(this.playersAndSpectators, player => this.isSpectator(player));
+        return Object.values(this.playersAndSpectators).filter(player => !this.isSpectator(player));
     }
 
-    /*
+    /**
      * Returns the Player object (not spectator) for a name
      * @param {String} playerName
      * @returns {Player}
      */
     getPlayerByName(playerName) {
-        return this.getPlayers()[playerName];
+        return this.playersAndSpectators[playerName];
     }
 
-    /*
+    /**
      * Get all players (not spectators) with the first player at index 0
-     * @returns {Array} Array of Player objects
+     * @returns {Player[]} Array of Player objects
      */
     getPlayersInFirstPlayerOrder() {
-        return _.sortBy(this.getPlayers(), player => !player.firstPlayer);
+        return this.getPlayers().sort(a => a.firstPlayer ? -1 : 1);
     }
 
-    /*
+    /**
      * Get all players and spectators in the game
      * @returns {Object} {name1: Player, name2: Player, name3: Spectator}
      */
@@ -178,38 +170,36 @@ class Game extends EventEmitter {
         return this.playersAndSpectators;
     }
 
-    /*
+    /**
      * Get all spectators in the game
-     * @returns {Object} {name1: Spectator, name2: Spectator}
+     * @returns {Spectator[]} {name1: Spectator, name2: Spectator}
      */
     getSpectators() {
-        return _.pick(this.playersAndSpectators, player => this.isSpectator(player));
+        return Object.values(this.playersAndSpectators).filter(player => this.isSpectator(player));
     }
 
-    /*
+    /**
      * Gets the current First Player
      * @returns {Player}
      */
     getFirstPlayer() {
-        return _.find(this.getPlayers(), p => {
-            return p.firstPlayer;
-        });
+        return this.getPlayers().find(p => p.firstPlayer);
     }
 
-    /*
+    /**
      * Gets a player other than the one passed (usually their opponent)
      * @param {Player} player
      * @returns {Player}
      */
     getOtherPlayer(player) {
-        var otherPlayer = _.find(this.getPlayers(), p => {
+        var otherPlayer = this.getPlayers().find(p => {
             return p.name !== player.name;
         });
 
         return otherPlayer;
     }
 
-    /*
+    /**
      * Returns the card (i.e. character) with matching uuid from either players
      * 'in play' area.
      * @param {String} cardId
@@ -224,7 +214,7 @@ class Game extends EventEmitter {
         }, null);
     }
 
-    /*
+    /**
      * Returns the card with matching uuid from anywhere in the game
      * @param {String} cardId
      * @returns {BaseCard}
@@ -233,7 +223,7 @@ class Game extends EventEmitter {
         return this.allCards.find(card => card.uuid === cardId);
     }
 
-    /*
+    /**
      * Returns all cards (i.e. characters) which matching the passed predicated
      * function from either players 'in play' area.
      * @param {Function} predicate - card => Boolean
@@ -249,62 +239,35 @@ class Game extends EventEmitter {
         return foundCards;
     }
 
-    getTargetsForEffect(match) {
-        return this.findAnyCardsInPlay(match).concat(this.provinceCards);
-    }
-
-    /*
-     * Adds a persistent/lasting/delayed effect to the effect engine
-     * @param {BaseCard} source - card generating the effect
-     * @param {Object} properties - properties for the effect - see effect.js
-     * @returns {undefined}
-     */
-    addEffect(source, properties) {
-        this.effectEngine.add(new Effect(this, source, properties));
-    }
-
-    addDelayedEffect(source, properties) {
-        let effect = new DelayedEffect(this, source, properties);
-        this.effectEngine.addDelayedEffect(effect);
-        return effect;
-    }
-
-    addTerminalCondition(source, properties) {
-        let effect = new TerminalCondition(this, source, properties);
-        this.effectEngine.addTerminalCondition(effect);
-        return effect;
-    }
-
-    /*
-     * Marks a province as selected for choosing a stronghold provice at the
-     * start of the game
-     * @param {Player} player
-     * @param {String} provinceId - uuid of the selected province
-     * @returns {undefined}
-     */
-    selectProvince(player, provinceId) {
-        var province = player.findCardByUuid(player.provinceDeck, provinceId);
-
-        if(!province || province.cannotBeStrongholdProvince()) {
-            return;
+    isDuringConflict(types) {
+        if(!this.currentConflict) {
+            return false;
+        } else if(!types) {
+            return true;
+        } else if(!Array.isArray(types)) {
+            types = [types];
         }
+        return types.every(type => this.currentConflict.elements.concat(this.currentConflict.conflictType).includes(type));
+    }
 
-        player.provinceDeck.each(p => {
-            p.selected = false;
+    conflictCompleted(conflict) {
+        this.completedConflicts.push({
+            attackingPlayer: conflict.attackingPlayer,
+            declaredType: conflict.declaredType,
+            winner: conflict.winner,
+            typeSwitched: conflict.conflictTypeSwitched,
+            passed: conflict.conflictPassed
         });
-
-        province.selected = true;
     }
 
     stopClocks() {
         _.each(this.getPlayers(), player => player.stopClock());
     }
 
-    /*
+    /**
      * This function is called from the client whenever a card is clicked
      * @param {String} sourcePlayer - name of the clicking player
      * @param {String} cardId - uuid of the card clicked
-     * @returns {undefined}
      */
     cardClicked(sourcePlayer, cardId) {
         var player = this.getPlayerByName(sourcePlayer);
@@ -320,22 +283,13 @@ class Game extends EventEmitter {
         }
 
         // Check to see if the current step in the pipeline is waiting for input
-        if(this.pipeline.handleCardClicked(player, card)) {
-            return;
-        }
-
-        // If the card is in the province deck, select it
-        if(card.location === 'province deck') {
-            this.selectProvince(player, cardId);
-            return;
-        }
+        this.pipeline.handleCardClicked(player, card);
     }
 
-    /*
+    /**
      * This function is called from the client whenever a ring is clicked
      * @param {String} sourcePlayer - name of the clicking player
      * @param {String} ringindex - element of the ring clicked
-     * @returns {undefined}
      */
     ringClicked(sourcePlayer, ringindex) {
         var ring = this.rings[ringindex];
@@ -352,50 +306,20 @@ class Game extends EventEmitter {
 
         // If it's not the conflict phase and the ring hasn't been claimed, flip it
         if(this.currentPhase !== 'conflict' && !ring.claimed) {
-            this.flipRing(player, ring);
+            ring.flipConflictType();
         }
     }
 
-    /*
-     * @deprecated
-     * @param {type} card
-     * @param {type} menuItem
-     * @returns {Boolean}
-     */
-    cardHasMenuItem(card, menuItem) {
-        return card.menu && card.menu.any(m => {
-            return m.method === menuItem.method;
-        });
-    }
-
-    /*
-     * Handles clicks on menu commands from in-play cards
-     * @deprecated
-     * @param {type} card
-     * @param {type} player
-     * @param {type} menuItem
-     * @returns {undefined}
-     *
-     */
-    callCardMenuCommand(card, player, menuItem) {
-        if(!card || !card[menuItem.method] || !this.cardHasMenuItem(card, menuItem)) {
-            return;
-        }
-
-        card[menuItem.method](player, menuItem.arg);
-    }
-
-    /*
+    /**
      * This function is called by the client when a card menu item is clicked
-     * TO DO: handle this more elegantly with a separate class?
      * @param {String} sourcePlayer - name of clicking player
      * @param {String} cardId - uuid of card whose menu was clicked
      * @param {Object} menuItem - { command: String, text: String, arg: String, method: String }
-     * @returns {undefined}
      */
     menuItemClick(sourcePlayer, cardId, menuItem) {
         var player = this.getPlayerByName(sourcePlayer);
-        if(!player) {
+        var card = this.findAnyCardInAnyList(cardId);
+        if(!player || !card) {
             return;
         }
 
@@ -403,175 +327,36 @@ class Game extends EventEmitter {
             this.cardClicked(sourcePlayer, cardId);
             return;
         }
-        var card = this.findAnyCardInAnyList(cardId);
-        if(!card) {
-            return;
-        }
 
-        switch(menuItem.command) {
-            case 'bow':
-                if(card.bowed) {
-                    this.addMessage('{0} readies {1}', player, card);
-                    card.ready();
-                } else {
-                    this.addMessage('{0} bows {1}', player, card);
-                    card.bow();
-                }
-                break;
-            case 'honor':
-                this.addMessage('{0} honors {1}', player, card);
-                card.honor();
-                break;
-            case 'dishonor':
-                this.addMessage('{0} dishonors {1}', player, card);
-                card.dishonor();
-                break;
-            case 'addfate':
-                this.addMessage('{0} adds a fate to {1}', player, card);
-                card.modifyFate(1);
-                break;
-            case 'remfate':
-                this.addMessage('{0} removes a fate from {1}', player, card);
-                card.modifyFate(-1);
-                break;
-            case 'move':
-                if(this.currentConflict) {
-                    if(card.isParticipating()) {
-                        this.addMessage('{0} moves {1} out of the conflict', player, card);
-                        this.currentConflict.removeFromConflict(card);
-                    } else {
-                        this.addMessage('{0} moves {1} into the conflict', player, card);
-                        if(card.controller.isAttackingPlayer()) {
-                            this.currentConflict.addAttacker(card);
-                        } else if(card.controller.isDefendingPlayer()) {
-                            this.currentConflict.addDefender(card);
-                        }
-                    }
-                }
-                break;
-            case 'control':
-                if(player.opponent) {
-                    this.addMessage('{0} gives {1} control of {2}', player, player.opponent, card);
-                    this.takeControl(player.opponent, card);
-                }
-                break;
-            case 'reveal':
-                this.addMessage('{0} reveals {1}', player, card);
-                card.facedown = false;
-                break;
-            case 'hide':
-                this.addMessage('{0} flips {1} facedown', player, card);
-                card.facedown = true;
-                break;
-            case 'break':
-                this.addMessage('{0} {1} {2}', player, card.isBroken ? 'unbreaks' : 'breaks', card);
-                card.isBroken = card.isBroken ? false : true;
-                if(card.location === 'stronghold province' && card.isBroken) {
-                    this.recordWinner(player.opponent, 'conquest');
-                }
-                break;
-        }
+        MenuCommands.cardMenuClick(menuItem, this, player, card);
         this.checkGameState(true);
-
-        /* deprecated code
-        switch(card.location) {
-            case 'province':
-                this.callCardMenuCommand(player.activePlot, player, menuItem);
-                break;
-            case 'play area':
-                if(card.controller !== player && !menuItem.anyPlayer) {
-                    return;
-                }
-
-                this.callCardMenuCommand(card, player, menuItem);
-                break;
-        }
-        */
     }
 
-    /*
+    /**
      * This function is called by the client when a ring menu item is clicked
-     * TO DO: handle this more elegantly with a separate class?
      * @param {String} sourcePlayer - name of clicking player
      * @param {Object} sourceRing - not sure what this is, but it has an element!
      * @param {Object} menuItem - { command: String, text: String, arg: String, method: String }
-     * @returns {undefined}
      */
     ringMenuItemClick(sourcePlayer, sourceRing, menuItem) {
         var player = this.getPlayerByName(sourcePlayer);
-        if(!player) {
+        var ring = this.rings[sourceRing.element];
+        if(!player || !ring) {
             return;
         }
 
-        let ringElement = sourceRing.element;
         if(menuItem.command === 'click') {
-            this.ringClicked(sourcePlayer, ringElement);
+            this.ringClicked(sourcePlayer, ring.element);
             return;
         }
-        var ring = this.rings[ringElement];
-        if(!ring) {
-            return;
-        }
-        switch(menuItem.command) {
-            case 'flip':
-                if(this.currentConflict) {
-                    this.addMessage('{0} switches the conflict type', player);
-                    this.currentConflict.switchType();
-                } else {
-                    this.flipRing(player, ring);
-                }
-                break;
-            case 'claim':
-                this.addMessage('{0} claims the {1} ring', player, ringElement);
-                ring.claimRing(player);
-                break;
-            case 'unclaimed':
-                this.addMessage('{0} sets the {1} ring to unclaimed', player, ringElement);
-                ring.resetRing();
-                break;
-            case 'contested':
-                if(this.currentConflict) {
-                    if(!ring.claimed) {
-                        this.addMessage('{0} switches the conflict to contest the {1} ring', player, ringElement);
-                        this.currentConflict.switchElement(ringElement);
-                    } else {
-                        this.addMessage('{0} tried to switch the conflict to contest the {1} ring, but it\'s already claimed', player, ringElement);
-                    }
-                }
-                break;
-            case 'addfate':
-                this.addMessage('{0} adds a fate to the {1} ring', player, ringElement);
-                ring.modifyFate(1);
-                break;
-            case 'remfate':
-                this.addMessage('{0} removes a fate from the {1} ring', player, ringElement);
-                ring.modifyFate(-1);
-                break;
-            case 'takefate':
-                this.addMessage('{0} takes all the fate from the {1} ring and adds it to their pool', player, ringElement);
-                this.addFate(player, ring.fate);
-                ring.fate = 0;
-                break;
-            case 'conflict':
-                if(this.currentActionWindow && this.currentActionWindow.windowName === 'preConflict') {
-                    this.addMessage('{0} initiates a conflict', player);
-                    var conflict = new Conflict(this, player, player.opponent, ring.conflictType, ringElement);
-                    this.currentConflict = conflict;
-                    this.queueStep(new ConflictFlow(this, conflict));
-                    this.queueStep(new SimpleStep(this, () => this.currentConflict = null));
-                } else {
-                    this.addMessage('{0} tried to initiate a conflict, but this can only be done in a pre-conflict action window', player);
-                }
-                break;
-        }
+        MenuCommands.ringMenuClick(menuItem, this, player, ring);
         this.checkGameState(true);
     }
 
-    /*
+    /**
      * Sets a Player flag and displays a chat message to show that a popup with a
      * player's conflict deck is open
      * @param {String} playerName
-     * @returns {undefined}
      */
     showConflictDeck(playerName) {
         var player = this.getPlayerByName(playerName);
@@ -591,11 +376,10 @@ class Game extends EventEmitter {
         }
     }
 
-    /*
+    /**
      * Sets a Player flag and displays a chat message to show that a popup with a
      * player's dynasty deck is open
      * @param {String} playerName
-     * @returns {undefined}
      */
     showDynastyDeck(playerName) {
         var player = this.getPlayerByName(playerName);
@@ -615,14 +399,13 @@ class Game extends EventEmitter {
         }
     }
 
-    /*
+    /**
      * This function is called from the client whenever a card is dragged from
      * one place to another
      * @param {String} playerName
      * @param {String} cardId - uuid of card
      * @param {String} source - area where the card was dragged from
      * @param {String} target - area where the card was dropped
-     * @returns {undefined}
      */
     drop(playerName, cardId, source, target) {
         var player = this.getPlayerByName(playerName);
@@ -634,97 +417,29 @@ class Game extends EventEmitter {
         player.drop(cardId, source, target);
     }
 
-    /*
-     * Change a players total honor
-     * @param {Player} player
-     * @param {Int} honor
-     * @returns {undefined}
-     */
-    addHonor(player, honor) {
-        player.honor += honor;
-
-        if(player.honor < 0) {
-            player.honor = 0;
-        }
-
-        this.checkWinCondition(player);
-    }
-
-    /*
-     * Change a players total fate
-     * @param {Player} player
-     * @param {Int} fate
-     * @returns {undefined}
-     */
-    addFate(player, fate) {
-        player.fate += fate;
-
-        if(player.fate < 0) {
-            player.fate = 0;
-        }
-    }
-
-    /*
-     * Transfer honor from one player to another (NB: parameters for honor are
-     * the opposite way round to those for fate!)
-     * @param {Player} source
-     * @param {Player} target
-     * @param {Int} honor
-     * @returns {undefined}
-     */
-    transferHonor(source, target, honor) {
-        var appliedHonor = Math.min(source.honor, honor);
-        source.honor -= appliedHonor;
-        target.honor += appliedHonor;
-
-        this.checkWinCondition(target);
-        this.checkWinCondition(source);
-    }
-
-    /*
-     * Transfer fate from one player to another (NB: parameters for honor are
-     * the opposite way round to those for fate!)
-     * @param {Player} to
-     * @param {Player} from
-     * @param {Int} fate
-     * @returns {undefined}
-     */
-    transferFate(to, from, fate) {
-        var appliedFate = Math.min(from.fate, fate);
-
-        from.fate -= appliedFate;
-        to.fate += appliedFate;
-
-        this.raiseEvent('onFateTransferred', { source: from, target: to, amount: fate });
-    }
-
-    /*
-     * Check to see if this player has won/lost the game due to honor (NB: this
+    /**
+     * Check to see if either player has won/lost the game due to honor (NB: this
      * function doesn't check to see if a conquest victory has been achieved)
-     * @param {Player} player
-     * @returns {undefined}
      */
-    checkWinCondition(player) {
-        if(player.getTotalHonor() >= 25) {
-            this.recordWinner(player, 'honor');
-        } else if(player.getTotalHonor() === 0) {
-            var opponent = this.getOtherPlayer(player);
-            if(opponent) {
-                this.recordWinner(opponent, 'dishonor');
+    checkWinCondition() {
+        for(const player of this.getPlayersInFirstPlayerOrder()) {
+            if(player.honor >= 25) {
+                this.recordWinner(player, 'honor');
+            } else if(player.opponent && player.opponent.honor <= 0) {
+                this.recordWinner(player, 'dishonor');
             }
         }
-
     }
 
-    /*
+    /**
      * Display message declaring victory for one player, and record stats for
      * the game
      * @param {Player} winner
      * @param {String} reason
-     * @returns {undefined}
      */
     recordWinner(winner, reason) {
         if(this.winner) {
+
             return;
         }
 
@@ -739,28 +454,25 @@ class Game extends EventEmitter {
         this.queueStep(new GameWonPrompt(this, winner));
     }
 
-    /*
+    /**
      * Designate a player as First Player
      * @param {Player} firstPlayer
-     * @returns {undefined}
      */
     setFirstPlayer(firstPlayer) {
-        _.each(this.getPlayers(), player => {
+        for(let player of this.getPlayers()) {
             if(player === firstPlayer) {
                 player.firstPlayer = true;
             } else {
                 player.firstPlayer = false;
             }
-        });
+        }
     }
 
-    /*
+    /**
      * Changes a Player variable and displays a message in chat
-     * @deprecated
      * @param {String} playerName
      * @param {String} stat
-     * @param {Int} value
-     * @returns {undefined}
+     * @param {Number} value
      */
     changeStat(playerName, stat, value) {
         var player = this.getPlayerByName(playerName);
@@ -779,11 +491,10 @@ class Game extends EventEmitter {
         }
     }
 
-    /*
+    /**
      * This function is called by the client every time a player enters a chat message
      * @param {String} playerName
      * @param {String} message
-     * @returns {undefined}
      */
     chat(playerName, message) {
         var player = this.playersAndSpectators[playerName];
@@ -800,7 +511,7 @@ class Game extends EventEmitter {
             }
 
             let card = _.find(this.shortCardData, c => {
-                return c.name.toLowerCase() === message.toLowerCase() || c.name.toLowerCase() === message.toLowerCase();
+                return c.name.toLowerCase() === message.toLowerCase() || c.id.toLowerCase() === message.toLowerCase();
             });
 
             if(card) {
@@ -815,10 +526,9 @@ class Game extends EventEmitter {
         }
     }
 
-    /*
+    /**
      * This is called by the client when a player clicks 'Concede'
      * @param {String} playerName
-     * @returns {undefined}
      */
     concede(playerName) {
         var player = this.getPlayerByName(playerName);
@@ -837,108 +547,85 @@ class Game extends EventEmitter {
     }
 
     selectDeck(playerName, deck) {
-        var player = this.getPlayerByName(playerName);
-
-        if(!player) {
-            return;
+        let player = this.getPlayerByName(playerName);
+        if(player) {
+            player.selectDeck(deck);
         }
-
-        player.selectDeck(deck);
     }
 
-    /*
+    /**
      * Called when a player clicks Shuffle Deck on the conflict deck menu in
      * the client
      * @param {String} playerName
-     * @returns {undefined}
      */
     shuffleConflictDeck(playerName) {
-        var player = this.getPlayerByName(playerName);
-        if(!player) {
-            return;
+        let player = this.getPlayerByName(playerName);
+        if(player) {
+            player.shuffleConflictDeck();
         }
-
-        player.shuffleConflictDeck();
     }
 
-    /*
+    /**
      * Called when a player clicks Shuffle Deck on the dynasty deck menu in
      * the client
      * @param {String} playerName
-     * @returns {undefined}
      */
     shuffleDynastyDeck(playerName) {
-        var player = this.getPlayerByName(playerName);
-        if(!player) {
-            return;
+        let player = this.getPlayerByName(playerName);
+        if(player) {
+            player.shuffleDynastyDeck();
         }
-
-        player.shuffleDynastyDeck();
     }
 
-    /*
+    /**
      * Prompts a player with a multiple choice menu
      * @param {Player} player
      * @param {Object} contextObj - the object which contains the methods that are referenced by the menubuttons
      * @param {Object} properties - see menuprompt.js
-     * @returns {undefined}
      */
     promptWithMenu(player, contextObj, properties) {
         this.queueStep(new MenuPrompt(this, player, contextObj, properties));
     }
 
-    /*
+    /**
      * Prompts a player with a multiple choice menu
      * @param {Player} player
      * @param {Object} properties - see handlermenuprompt.js
-     * @returns {undefined}
      */
     promptWithHandlerMenu(player, properties) {
         this.queueStep(new HandlerMenuPrompt(this, player, properties));
     }
 
-    /*
+    /**
      * Prompts a player to click a card
      * @param {Player} player
      * @param {Object} properties - see selectcardprompt.js
-     * @returns {undefined}
      */
     promptForSelect(player, properties) {
         this.queueStep(new SelectCardPrompt(this, player, properties));
     }
 
-    /*
+    /**
      * Prompts a player to click a ring
      * @param {Player} player
      * @param {Object} properties - see selectringprompt.js
-     * @returns {undefined}
      */
     promptForRingSelect(player, properties) {
         this.queueStep(new SelectRingPrompt(this, player, properties));
     }
 
-    /*
-     * Prompts a player with a multiple choice menu which corresponds to cards
-     * in their conflict deck
-     * TO DO: this is basically deprecated - needs new functionality using popups
-     * @param {type} player
-     * @param {type} properties
-     * @returns {undefined}
-     */
-    promptForDeckSearch(player, properties) {
-        this.raiseEvent('onBeforeDeckSearch', { source: properties.source, player: player }, event => {
-            this.queueStep(new DeckSearchPrompt(this, event.player, properties));
-        });
+    promptForHonorBid(activePromptTitle, costHandler) {
+        this.queueStep(new HonorBidPrompt(this, activePromptTitle, costHandler));
     }
 
-    /*
+    /**
      * This function is called by the client whenever a player clicks a button
      * in a prompt
      * @param {String} playerName
      * @param {String} arg - arg property of the button clicked
      * @param {String} uuid - unique identifier of the prompt clicked
      * @param {String} method - method property of the button clicked
-     * @returns {Boolean} no idea what this does...
+     * @returns {Boolean} this indicates to the server whether the received input is legal or not
      */
     menuButton(playerName, arg, uuid, method) {
         var player = this.getPlayerByName(playerName);
@@ -947,12 +634,10 @@ class Game extends EventEmitter {
         }
 
         // check to see if the current step in the pipeline is waiting for input
-        if(this.pipeline.handleMenuCommand(player, arg, uuid, method)) {
-            return true;
-        }
+        return this.pipeline.handleMenuCommand(player, arg, uuid, method);
     }
 
-    /*
+    /**
      * This function is called by the client when a player clicks an action window
      * toggle in the settings menu
      * @param {String} playerName
@@ -969,7 +654,7 @@ class Game extends EventEmitter {
         player.promptedActionWindows[windowName] = toggle;
     }
 
-    /*
+    /**
      * This function is called by the client when a player clicks an timer setting
      * toggle in the settings menu
      * @param {String} playerName
@@ -1025,12 +710,12 @@ class Game extends EventEmitter {
 
         let playerWithNoStronghold = null;
 
-        _.each(this.getPlayers(), player => {
+        for(let player of this.getPlayers()) {
             player.initialise();
             if(!player.stronghold) {
                 playerWithNoStronghold = player;
             }
-        });
+        }
 
         this.allCards = _(_.reduce(this.getPlayers(), (cards, player) => {
             return cards.concat(player.preparedDeck.allCards);
@@ -1038,8 +723,12 @@ class Game extends EventEmitter {
         this.provinceCards = this.allCards.filter(card => card.isProvince);
 
         if(playerWithNoStronghold) {
-            this.addMessage('{0} does not have a stronghold in their decklist', playerWithNoStronghold);
-            return;
+            this.queueSimpleStep(() => {
+                this.addMessage('{0} does not have a stronghold in their decklist', playerWithNoStronghold);
+                return false;
+            });
+            this.continue();
+            return false;
         }
 
         this.pipeline.initialise([
@@ -1097,37 +786,6 @@ class Game extends EventEmitter {
     }
 
     /*
-     * Gets context on the card ability currently being resolved
-     * @deprecated
-     * @returns {Object} - { source: String, card: BaseCard, stage: String }
-     */
-    getCurrentAbilityContext() {
-        return _.last(this.abilityCardStack);
-    }
-
-    /*
-     * Adds information of the card ability currently being resolved to the
-     * ability stack
-     * @deprecated
-     * @param {String} source
-     * @param {BaseCard} card
-     * @param {String} stage
-     * @returns {undefined}
-     */
-    pushAbilityContext(source, card, stage) {
-        this.abilityCardStack.push({ source: source, card: card, stage: stage });
-    }
-
-    /*
-     * Remove information about the current card ability being resolved (because
-     * it has finished resolving, or moved to a different stage of resolution)
-     * @returns {undefined}
-     */
-    popAbilityContext() {
-        this.abilityCardStack.pop();
-    }
-
-    /*
      * Resolves a card ability or ring effect
      * @param {AbilityContext} context - see AbilityContext.js
      * @returns {undefined}
@@ -1142,34 +800,11 @@ class Game extends EventEmitter {
         this.queueStep(window);
     }
 
-    /*
-     * Looks for any currently open event windows on the stack which might trigger
-     * a new ability (from a card which has e.g. come into play, and registers
-     * the ability in those windows so it can respond to those events
-     * @param {BaseAbility} ability
-     * @param {Event} event - event which triggers ability
-     * @returns {undefined}
-     */
-    registerAbility(ability, event) {
-        let windowIndex = _.findLastIndex(this.abilityWindowStack, window => window.canTriggerAbility(ability));
-
-        if(windowIndex === -1) {
-            return;
-        }
-
-        let window = this.abilityWindowStack[windowIndex];
-        if(event) {
-            window.registerAbility(ability, event);
-        } else {
-            window.registerAbilityForEachEvent(ability);
-        }
-    }
-
     getEvent(eventName, params, handler) {
-        return EventBuilder.for(eventName, params, handler);
+        return new Event(eventName, params, handler);
     }
 
-    /*
+    /**
      * Creates a game Event, and opens a window for it.
      * @param {String} eventName
      * @param {Object} params - parameters for this event
@@ -1188,39 +823,31 @@ class Game extends EventEmitter {
         this.emit(event.name, event);
     }
 
-    /* Creates an EventWindow which will open windows for each kind of triggered
+    /**
+     * Creates an EventWindow which will open windows for each kind of triggered
      * ability which can respond any passed events, and execute their handlers.
-     * @param {type} events - Array of Event
-     * @returns {undefined}
+     * @param {Event[]} events
+     * @param {Boolean} queueWindow - sets whether the game should queue the window or not
+     * @returns {EventWindow}
      */
-    openEventWindow(events) {
+    openEventWindow(events, queueWindow = true) {
         if(!_.isArray(events)) {
             events = [events];
         }
-        this.queueStep(new EventWindow(this, events));
-    }
-
-    openThenEventWindow(events) {
-        if(!_.isArray(events)) {
-            events = [events];
+        let window = new EventWindow(this, events);
+        if(queueWindow) {
+            this.queueStep(window);
         }
-        let window = new ThenEventWindow(this, events);
-        this.queueStep(window);
         return window;
     }
 
-    /**
-     * Adds an event to an open EventWindow
-     * @param {EventWindow} window - window to add an event to
-     * @param {String} eventName
-     * @param {Object} params - event-specific parameters
-     * @param {Function} handler - (Event + params) => undefined
-     * @returns {Event} - as above
-     */
-    addEventToWindow(window, eventName, params, handler) {
-        let event = EventBuilder.for(eventName, params, handler);
-        window.addEvent(event);
-        return event;
+    openThenEventWindow(events) {
+        if(this.currentEventWindow) {
+            let window = new ThenEventWindow(this, events);
+            this.queueStep(window);
+            return window;
+        }
+        return this.openEventWindow(events);
     }
 
     /**
@@ -1240,174 +867,66 @@ class Game extends EventEmitter {
      * @param {Array} eventProps
      */
     raiseMultipleInitiateAbilityEvents(eventProps) {
-        let events = _.map(eventProps, event => EventBuilder.for('onCardAbilityInitiated', event.params, event.handler));
+        let events = _.map(eventProps, event => new InitiateCardAbilityEvent(event.params, event.handler));
         this.queueStep(new InitiateAbilityEventWindow(this, events));
     }
 
     /**
-     * Raises multiple events whose resolution is performed atomically. Any
-     * abilities triggered by these events will appear within the same prompt
-     * for the player. Allows each event to take its own handler which will
-     * all execute in the same step
-     * @param {Array} eventProps - Array of { name: String, params: Object, handler: Function }
-     * @param {Object} conditionalEvent - { name: String, params: Object, handler: Function },
-     * this event should be made conditional on at least one of the others not having
-     * been cancelled
-     * @returns {Array} Array of Event
-     */
-    raiseMultipleEvents(eventProps, conditionalEvent = null) {
-        let events = eventProps.map(event => EventBuilder.for(event.name, event.params, event.handler));
-        if(conditionalEvent) {
-            conditionalEvent = EventBuilder.for(conditionalEvent.name, conditionalEvent.params, conditionalEvent.handler);
-            conditionalEvent.condition = () => _.any(events, event => !event.cancelled);
-            this.openEventWindow(events.concat([conditionalEvent]));
-            return events.concat([conditionalEvent]);
-        }
-        this.openEventWindow(events);
-        return events;
-    }
-
-    getEventsForGameAction(action, cards, context) {
-        if(!context) {
-            context = new AbilityContext({ game: this });
-        }
-        return EventBuilder.getEventsForAction(action, cards, context);
-    }
-
-    /*
      * Checks whether a game action can be performed on a card or an array of
      * cards, and performs it on all legal targets.
-     * @param {String} actionType
-     * @param {Array or BaseCard} cards - Array of BaseCard
-     * @param {Function} func - (Array or BaseCard) => undefined
-     * @returns {undefined}
+     * @param {AbilityContext} context
+     * @param {Object} actions - Object with { actionName: targets }
+     * @returns {Event[]} - TODO: Change this?
      */
-    applyGameAction(context, actions, additionalEventProps = []) {
+    applyGameAction(context, actions) {
         if(!context) {
-            context = new AbilityContext({ game: this });
+            context = this.getFrameworkContext();
         }
-        let events = additionalEventProps.map(event => EventBuilder.for(event.name || 'unnamedEvent', event.params || {}, event.handler));
-        _.each(actions, (cards, action) => {
-            events = this.getEventsForGameAction(action, cards, context).concat(events);
-        });
+        let actionPairs = Object.entries(actions);
+        let events = actionPairs.reduce((array, [action, cards]) => {
+            let gameAction = GameActions[action]();
+            if(gameAction.setTarget(cards, context)) {
+                return array.concat(gameAction.getEventArray(context));
+            }
+            return array;
+        }, []);
         if(events.length > 0) {
             this.openEventWindow(events);
         }
         return events;
     }
 
-    /*
-     * Flips a ring to show the opposite side (military or political)
-     * @param {Player} player
-     * @param {Ring} ring
-     * @returns {undefined}
-     */
-    flipRing(player, ring) {
-        ring.flipConflictType();
+    getFrameworkContext(player = null) {
+        return new AbilityContext({ game: this, player: player });
     }
 
-    /*
-     * Puts 1 fate on all unclaimed rings
-     * @returns {undefined}
-     */
-    placeFateOnUnclaimedRings() {
-        _.each(this.rings, ring => {
-            if(!ring.claimed) {
-                ring.modifyFate(1);
-            }
-        });
+    initiateConflict(player) {
+        this.currentConflict = new Conflict(this, player, player.opponent);
+        this.queueStep(new ConflictFlow(this, this.currentConflict));
     }
 
-    /*
-     * Transfers honor equal to the difference in bids from the high bidder to
-     * the low bidder
-     * @returns {undefined}
-     */
-    tradeHonorAfterBid() {
-        var honorDifference = 0;
-        var remainingPlayers = this.getPlayersInFirstPlayerOrder();
-        let currentPlayer = remainingPlayers.shift();
-        if(remainingPlayers.length > 0) {
-
-            var otherPlayer = remainingPlayers.shift();
-            if(currentPlayer.honorBid > otherPlayer.honorBid) {
-                honorDifference = currentPlayer.honorBid - otherPlayer.honorBid;
-                this.addMessage('{0} gives {1} {2} honor', currentPlayer, otherPlayer, honorDifference);
-                this.raiseEvent('onHonorTradedAfterBid', { 
-                    giver: currentPlayer, 
-                    receiver: otherPlayer, 
-                    amount: honorDifference 
-                }, () => this.transferHonor(currentPlayer, otherPlayer, honorDifference));
-            } else if(otherPlayer.honorBid > currentPlayer.honorBid) {
-                honorDifference = otherPlayer.honorBid - currentPlayer.honorBid;
-                this.addMessage('{0} gives {1} {2} honor', otherPlayer, currentPlayer, honorDifference);
-                this.raiseEvent('onHonorTradedAfterBid', { 
-                    giver: otherPlayer, 
-                    receiver: currentPlayer, 
-                    amount: honorDifference 
-                }, () => this.transferHonor(otherPlayer, currentPlayer, honorDifference));
-            }
-        }
-    }
-
-    /*
+    /**
      * Changes the controller of a card in play to the passed player, and cleans
-     * all the related stuff up (swapping sides in a conflict, checking for
-     * illegal attachments, etc)
+     * all the related stuff up (swapping sides in a conflic)
      * @param {Player} player
      * @param {DrawCard} card
-     * @returns {undefined}
      */
     takeControl(player, card) {
         if(card.controller === player || !card.allowGameAction('takeControl')) {
             return;
         }
-
         card.controller.removeCardFromPile(card);
         player.cardsInPlay.push(card);
         card.controller = player;
-        //card.checkForIllegalAttachments();
-        if(card.isDefending()) {
-            this.currentConflict.defenders = _.reject(this.currentConflict.defenders, c => c === card);
-            if(card.canParticipateAsAttacker(this.currentConflict.conflictType)) {
-                this.currentConflict.attackers.push(card);
+        if(card.isParticipating()) {
+            this.currentConflict.removeFromConflict(card);
+            if(player.isAttackingPlayer()) {
+                this.currentConflict.addAttacker(card);
             } else {
-                this.addMessage('{0} cannot participate in the conflict any more and is sent home bowed', card);
-                card.inConflict = false;
-                this.applyGameAction(null, { bow: card });
-            }
-        } else if(card.isAttacking()) {
-            this.currentConflict.attackers = _.reject(this.currentConflict.attackers, c => c === card);
-            if(card.canParticipateAsDefender(this.currentConflict.conflictType)) {
-                this.currentConflict.defenders.push(card);
-            } else {
-                this.addMessage('{0} cannot participate in the conflict any more and is sent home bowed', card);
-                card.inConflict = false;
-                this.applyGameAction(null, { bow: card });
+                this.currentConflict.addDefender(card);
             }
         }
-        this.raiseEvent('onCardTakenControl', { card: card });
-    }
-
-    /*
-     * Starts a duel between two characters. Prompts for bids, deals with costs
-     * of bids, and then resolves the outcome
-     * @param {DrawCard} source - card which initiated the duel
-     * @param {DrawCard} target - other card partipating in duel
-     * @param {Function} getSkill = card => Int // gets the skill to add to bid
-     * @param {Function} resolutionHandler - (winner, loser) => undefined //
-     * function which deals with any effects due to winning/losing the duel
-     * @param {Function} costHandler - () => undefined // function which resolves
-     * costsas a result of bids (transfering honor is the default)
-     * @returns {undefined}
-     */
-    initiateDuel(challenger, target, type, resolutionHandler, costHandler = () => this.tradeHonorAfterBid()) {
-        if(challenger.location !== 'play area' || target.location !== 'play area') {
-            this.addMessage('The duel cannot proceed as one participant is no longer in play');
-            return;
-        }
-        this.currentDuel = new Duel(this, challenger, target, type);
-        this.queueStep(new DuelFlow(this, this.currentDuel, costHandler, resolutionHandler));
+        this.checkGameState(true);
     }
 
     watch(socketId, user) {
@@ -1422,7 +941,7 @@ class Game extends EventEmitter {
     }
 
     join(socketId, user) {
-        if(this.started || _.values(this.getPlayers()).length === 2) {
+        if(this.started || this.getPlayers().length === 2) {
             return false;
         }
 
@@ -1507,14 +1026,32 @@ class Game extends EventEmitter {
     }
 
     checkGameState(hasChanged = false, events = []) {
+        // check for a game state change (recalculating conflict skill if necessary)
         if(
-            (this.currentConflict && this.currentConflict.calculateSkill(hasChanged)) ||
-            this.effectEngine.checkEffects(hasChanged) || hasChanged
+            (!this.currentConflict && this.effectEngine.checkEffects(hasChanged)) ||
+            (this.currentConflict && this.currentConflict.calculateSkill(hasChanged)) || hasChanged
         ) {
-            _.each(this.getPlayers(), player => player.cardsInPlay.each(card => card.checkForIllegalAttachments()));
+            this.checkWinCondition();
+            // if the state has changed, check for:
+            for(const player of this.getPlayers()) {
+                player.cardsInPlay.each(card => {
+                    if(card.getModifiedController() !== player) {
+                        // any card being controlled by the wrong player
+                        this.takeControl(card.getModifiedController(), card);
+                    }
+                    // any attachments which are illegally attached
+                    card.checkForIllegalAttachments();
+                });
+            }
+            if(this.currentConflict) {
+                // conflicts with illegal participants
+                this.currentConflict.checkForIllegalParticipants();
+            }
+            // any terminal conditions which have met their condition
             this.effectEngine.checkTerminalConditions();
         }
         if(events.length > 0) {
+            // check for any delayed effects which need to fire
             this.effectEngine.checkDelayedEffects(events);
         }
     }
@@ -1527,7 +1064,7 @@ class Game extends EventEmitter {
      * This information is all logged when a game is won
      */
     getSaveState() {
-        var players = _.map(this.getPlayers(), player => {
+        var players = this.getPlayers().map(player => {
             return {
                 name: player.name,
                 faction: player.faction.name || player.faction.value,
@@ -1556,9 +1093,9 @@ class Game extends EventEmitter {
         let ringState = {};
 
         if(this.started) {
-            _.each(this.getPlayers(), player => {
+            for(const player of this.getPlayers()) {
                 playerState[player.name] = player.getState(activePlayer);
-            });
+            }
 
             _.each(this.rings, ring => {
                 ringState[ring.element] = ring.getState(activePlayer);
@@ -1572,7 +1109,7 @@ class Game extends EventEmitter {
                 players: playerState,
                 rings: ringState,
                 messages: this.gameChat.messages,
-                spectators: _.map(this.getSpectators(), spectator => {
+                spectators: this.getSpectators().map(spectator => {
                     return {
                         id: spectator.id,
                         name: spectator.name
@@ -1594,7 +1131,7 @@ class Game extends EventEmitter {
         var playerSummaries = {};
         let activePlayer = this.getPlayerByName(activePlayerName);
 
-        _.each(this.getPlayers(), player => {
+        for(const player of this.getPlayers()) {
             var deck = undefined;
             if(player.left) {
                 return;
@@ -1618,7 +1155,7 @@ class Game extends EventEmitter {
                 name: player.name,
                 owner: player.owner
             };
-        });
+        }
 
         return {
             allowSpectators: this.allowSpectators,
@@ -1639,7 +1176,7 @@ class Game extends EventEmitter {
             },
             started: this.started,
             startedAt: this.startedAt,
-            spectators: _.map(this.getSpectators(), spectator => {
+            spectators: this.getSpectators().map(spectator => {
                 return {
                     id: spectator.id,
                     lobbyId: spectator.lobbyId,

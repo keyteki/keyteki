@@ -1,4 +1,5 @@
 const _ = require('underscore');
+const AbilityTargetAbility = require('./AbilityTargets/AbilityTargetAbility.js');
 const AbilityTargetCard = require('./AbilityTargets/AbilityTargetCard.js');
 const AbilityTargetRing = require('./AbilityTargets/AbilityTargetRing.js');
 const AbilityTargetSelect = require('./AbilityTargets/AbilityTargetSelect.js');
@@ -17,13 +18,20 @@ class BaseAbility {
      * Creates an ability.
      *
      * @param {Object} properties - An object with ability related properties.
-     * @param {Object|Array} properties.cost - optional property that specifies
+     * @param {Object|Array} [properties.cost] - optional property that specifies
      * the cost for the ability. Can either be a cost object or an array of cost
      * objects.
+     * @param {Object} [properties.target] - optional property that specifies
+     * the target of the ability.
+     * @param {GameAction[]} [properties.gameAction] - optional array of game actions
      */
     constructor(properties) {
+        this.gameAction = properties.gameAction || [];
+        if(!Array.isArray(this.gameAction)) {
+            this.gameAction = [this.gameAction];
+        }
         this.cost = this.buildCost(properties.cost);
-        this.targets = this.buildTargets(properties);
+        this.buildTargets(properties);
     }
 
     buildCost(cost) {
@@ -31,7 +39,7 @@ class BaseAbility {
             return [];
         }
 
-        if(!_.isArray(cost)) {
+        if(!Array.isArray(cost)) {
             return [cost];
         }
 
@@ -39,25 +47,49 @@ class BaseAbility {
     }
 
     buildTargets(properties) {
+        this.targets = [];
         if(properties.target) {
-            return [this.getAbilityTarget('target', properties.target)];
+            this.targets.push(this.getAbilityTarget('target', properties.target));
+        } else if(properties.targets) {
+            for(const key of Object.keys(properties.targets)) {
+                this.targets.push(this.getAbilityTarget(key, properties.targets[key]));
+            }
         }
-
-        if(properties.targets) {
-            let targetPairs = Object.entries(properties.targets);
-            return targetPairs.map(([name, properties]) => this.getAbilityTarget(name, properties));
-        }
-
-        return [];
     }
-    
+
     getAbilityTarget(name, properties) {
-        if(properties.mode === 'select') {
-            return new AbilityTargetSelect(name, properties);
-        } else if(properties.mode === 'ring') {
-            return new AbilityTargetRing(name, properties);
+        if(properties.gameAction) {
+            if(!Array.isArray(properties.gameAction)) {
+                properties.gameAction = [properties.gameAction];
+            }
+        } else {
+            properties.gameAction = [];
         }
-        return new AbilityTargetCard(name, properties);
+        if(properties.mode === 'select') {
+            return new AbilityTargetSelect(name, properties, this);
+        } else if(properties.mode === 'ring') {
+            return new AbilityTargetRing(name, properties, this);
+        } else if(properties.mode === 'ability') {
+            return new AbilityTargetAbility(name, properties, this);
+        }
+        return new AbilityTargetCard(name, properties, this);
+    }
+
+    /**
+     * @param {*} context
+     * @returns {String}
+     */
+    meetsRequirements(context) {
+        // check legal targets exist
+        // check costs can be paid
+        // check for potential to change game state
+        if(this.targets.length === 0) {
+            if(this.gameAction.length > 0 && !this.gameAction.some(gameAction => gameAction.hasLegalTarget(context))) {
+                return 'condition';
+            }
+            return this.canPayCosts(context) ? '' : 'cost';
+        }
+        return this.canResolveTargets(context) ? '' : (this.canPayCosts(context) ? 'target' : 'cost');
     }
 
     /**
@@ -65,11 +97,9 @@ class BaseAbility {
      *
      * @returns {Boolean}
      */
-    canPayCosts(context, targets = []) {
-        if(!_.isArray(targets)) {
-            targets = [targets];
-        }
-        return _.all(this.cost, cost => cost.canPay(context, targets));
+    canPayCosts(context) {
+        let contextCopy = context.copy({ stage: 'costs' });
+        return this.cost.every(cost => cost.canPay(contextCopy));
     }
 
     /**
@@ -81,7 +111,7 @@ class BaseAbility {
      * @returns {Array} An array of cost resolution results.
      */
     resolveCosts(context) {
-        return _.map(this.cost, cost => {
+        return this.cost.map(cost => {
             if(cost.resolve) {
                 return cost.resolve(context);
             }
@@ -94,32 +124,14 @@ class BaseAbility {
      * Pays all costs for the ability simultaneously.
      */
     payCosts(context) {
-        return _.compact(_.flatten(_.map(this.cost, cost => {
+        return this.cost.reduce((array, cost) => {
             if(cost.payEvent) {
-                return cost.payEvent(context);
+                return array.concat(cost.payEvent(context));
             } else if(cost.pay) {
-                return context.game.getEvent('payCost', {}, () => cost.pay(context));
+                return array.concat(context.game.getEvent('payCost', {}, () => cost.pay(context)));
             }
-        }))); 
-    }
-
-    /**
-     * Return whether when unpay is implemented for the ability cost and the
-     * cost can be unpaid.
-     *
-     * @returns {boolean}
-     */
-    canUnpayCosts(context) {
-        return _.all(this.cost, cost => cost.unpay && cost.canUnpay(context));
-    }
-
-    /**
-     * Unpays each cost associated with the ability.
-     */
-    unpayCosts(context) {
-        _.each(this.cost, cost => {
-            cost.unpay(context);
-        });
+            return array;
+        }, []);
     }
 
     /**
@@ -128,28 +140,7 @@ class BaseAbility {
      * @returns {Boolean}
      */
     canResolveTargets(context) {
-        if(this.targets.length > 0) {
-            return this.targets.every(target => {
-                let dependsOn = target.properties.dependsOn;
-                if(!dependsOn) {
-                    return target.canResolve(context);
-                }
-                let dependsOnTarget = _.find(this.targets, t => t.name === dependsOn);
-                return _.any(dependsOnTarget.getAllLegalTargets(context), t => {
-                    if(dependsOnTarget.mode === 'select') {
-                        context.selects[dependsOn] = t;
-                        return target.canResolve(context);
-                    }
-                    if(dependsOnTarget.mode === 'ring') {
-                        context.rings[dependsOn] = t;
-                        return target.canResolve(context);
-                    }
-                    context.targets[dependsOn] = t;
-                    return target.canResolve(context);
-                });
-            });
-        }
-        return this.canPayCosts(context);
+        return this.targets.every(target => target.canResolve(context));
     }
 
     /**
@@ -159,16 +150,19 @@ class BaseAbility {
      */
     resolveTargets(context, results = []) {
         if(results.length === 0) {
-            let canIgnoreAllCosts = _.all(this.cost, cost => cost.canIgnoreForTargeting);
-            return this.targets.map(target => target.resolve(context, true, canIgnoreAllCosts));
+            let canIgnoreAllCosts = this.cost.every(cost => cost.canIgnoreForTargeting);
+            return this.targets.map(target => target.resolve(context, canIgnoreAllCosts));
         }
-        return _.map(_.zip(this.targets, results), array => {
+        return _.zip(this.targets, results).map(array => {
             let [target, result] = array;
             if(!result.resolved || !target.checkTarget(context)) {
                 return target.resolve(context);
             }
             return result;
         });
+    }
+
+    displayMessage(context) { // eslint-disable-line no-unused-vars
     }
 
     /**
@@ -180,7 +174,7 @@ class BaseAbility {
     }
 
     isAction() {
-        return true;
+        return false;
     }
 
     isCardPlayed() {
@@ -192,7 +186,7 @@ class BaseAbility {
     }
 
     isTriggeredAbility() {
-        return true;
+        return false;
     }
 }
 

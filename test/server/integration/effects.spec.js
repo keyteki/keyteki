@@ -173,7 +173,7 @@ xdescribe('effects', function() {
 
                 it('should not apply the effect', function() {
                     expect(this.player2.player.gold).toBe(1);
-                });                
+                });
             });
         });
     });

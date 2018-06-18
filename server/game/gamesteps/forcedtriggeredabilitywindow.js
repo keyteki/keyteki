@@ -10,7 +10,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         this.events = [];
         this.eventWindow = window;
         this.eventsToExclude = eventsToExclude;
-        this.abilityType = abilityType;        
+        this.abilityType = abilityType;
         this.currentPlayer = this.game.getFirstPlayer();
         this.resolvedAbilities = [];
     }
@@ -64,15 +64,40 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     getPromptForSelectProperties() {
-        return this.getPromptProperties();
+        return Object.assign({ location: 'any' }, this.getPromptProperties());
     }
 
     getPromptProperties() {
         return {
             source: 'Triggered Abilities',
+            controls: this.getPromptControls(),
             activePromptTitle: TriggeredAbilityWindowTitles.getTitle(this.abilityType, this.events),
             waitingPromptTitle: 'Waiting for opponent'
         };
+    }
+
+    getPromptControls() {
+        let map = new Map();
+        for(let event of this.events) {
+            if(event.context && event.context.source) {
+                let targets = map.get(event.context.source) || [];
+                if(event.context.target) {
+                    targets.push(event.context.target);
+                } else if(event.card && event.card !== event.context.source) {
+                    targets.push(event.card);
+                } else if(event.context.event && event.context.event.card) {
+                    targets.push(event.context.event.card);
+                } else if(event.card) {
+                    targets.push(event.card);
+                }
+                map.set(event.context.source, _.uniq(targets));
+            }
+        }
+        return [...map.entries()].map(([source, targets]) => ({
+            type: 'targeting',
+            source: source.getShortSummary(),
+            targets: targets.map(target => target.getShortSummary())
+        }));
     }
 
     promptBetweenAbilities(choices, addBackButton = true) {

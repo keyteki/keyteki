@@ -5,12 +5,10 @@ class FawningDiplomat extends DrawCard {
         this.interrupt({
             title: 'Claim Imperial favor',
             when: {
-                onCardLeavesPlay: event => event.card === this
+                onCardLeavesPlay: (event, context) => event.card === context.source
             },
-            handler: () => {
-                this.game.addMessage('{0} uses {1} to claim the Emperor\'s favor as she leaves play', this.controller, this);
-                this.controller.claimImperialFavor();
-            }
+            effect: 'claim the Emperor\'s favor as she leaves play',
+            handler: context => context.player.claimImperialFavor()
         });
     }
 }

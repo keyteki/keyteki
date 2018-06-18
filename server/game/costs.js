@@ -4,27 +4,6 @@ const CostBuilders = require('./costs/CostBuilders.js');
 
 const Costs = {
     /**
-     * Cost that aggregates a list of other costs.
-     */
-    all: function(...costs) {
-        return {
-            canPay: function(context) {
-                return _.all(costs, cost => cost.canPay(context));
-            },
-            payEvent: function(context) {
-                return _.map(costs, cost => {
-                    if(cost.payEvent) {
-                        return cost.payEvent(context);
-                    }
-                    if(cost.pay) {
-                        return context.game.getEvent('payCost', {}, () => cost.pay(context));
-                    }
-                });
-            },
-            canIgnoreForTargeting: _.all(costs, cost => cost.canIgnoreForTargeting)
-        };
-    },
-    /**
      * Cost that allows the player to choose between multiple costs. The
      * `choices` object should have string keys representing the button text
      * that will be used to prompt the player, with the values being the cost
@@ -72,6 +51,10 @@ const Costs = {
      */
     returnSelfToHand: () => CostBuilders.returnToHand.self(),
     /**
+     * Cost that requires discarding a specific card.
+     */
+    discardSpecific: cardFunc => CostBuilders.discardCard.specific(cardFunc),
+    /**
      * Cost that requires discarding a card from hand.
      */
     discardFromHand: condition => CostBuilders.discardFromHand.select(condition),
@@ -88,57 +71,30 @@ const Costs = {
      */
     discardFateFromParent: () => CostBuilders.discardFate.parent(),
     /**
-     * Cost that will dishonor the character that initiated the ability.
+     * Cost that will dishonor the character that initiated the ability
      */
     dishonorSelf: () => CostBuilders.dishonor.self(),
     /**
      * Cost that requires dishonoring a card that matches the passed condition
-     * predicate function.
+     * predicate function
      */
     dishonor: condition => CostBuilders.dishonor.select(condition),
     /**
-     * Cost that will break the province that initiated the ability.
-     */    
+     * Cost that will break the province that initiated the ability
+     */
     breakSelf: () => CostBuilders.break.self(),
     /**
-     * Cost that will put into play the card that initiated the ability.
+     * Cost that will put into play the card that initiated the ability
      */
     putSelfIntoPlay: () => CostBuilders.putIntoPlay.self(),
     /**
+     * Cost that will reveal specific cards
+     */
+    revealCards: (cardFunc) => CostBuilders.reveal.specific(cardFunc),
+    /**
      * Cost that discards the Imperial Favor
      */
-    discardImperialFavor: function() {
-        return {
-            canPay: function(context) {
-                return context.player.imperialFavor !== '';
-            },
-            pay: function(context) {
-                context.player.loseImperialFavor();
-            }
-        };
-    },
-    /**
-     * Cost that will pay the reduceable fate cost associated with an event card
-     * and place it in discard.
-     */
-    playEvent: function() {
-        return Costs.all(
-            Costs.payReduceableFateCost('play'),
-            Costs.canPlayEvent(),
-            Costs.playLimited()
-        );
-    },
-    /**
-     * Cost which moves the event to the discard pile
-     */
-    canPlayEvent: function() {
-        return {
-            canPay: function(context) {
-                return context.source.canPlay(context);
-            },
-            canIgnoreForTargeting: true
-        };
-    },
+    discardImperialFavor: () => CostBuilders.discardImperialFavor(),
     /**
      * Cost that ensures that the player can still play a Limited card this
      * round.
@@ -156,36 +112,14 @@ const Costs = {
             canIgnoreForTargeting: true
         };
     },
-    /**
-     * Cost that ensures that the player has not exceeded the maximum usage for
-     * an ability.
-     */
-    playMax: function() {
-        return {
-            canPay: function(context) {
-                return !context.player.isAbilityAtMax(context.ability.maxIdentifier);
-            },
-            canIgnoreForTargeting: true
-        };
-    },
-    /**
-     * Cost that represents using an ability's limit
-     */
-    useLimit: function() {
-        return {
-            canPay: function(context) {
-                return !context.ability.limit.isAtMax(context.player);
-            },
-            canIgnoreForTargeting: true
-        };
-    },
+
     /**
      * Cost that represents using your action in an ActionWindow
      */
     useInitiateAction: function() {
         return {
             canPay: function() {
-                return true; // We have to check this condition in Ability.meetsRequirements(), or we risk players starting another ability while costs are resolving
+                return true;
             },
             pay: function(context) {
                 context.game.markActionAsTaken();
@@ -200,7 +134,7 @@ const Costs = {
         return {
             canPay: function(context) {
                 let amount = context.source.getCost();
-                return context.player.fate >= amount && (context.source.allowGameAction('spendFate', context) || amount === 0);
+                return context.player.fate >= amount && (amount === 0 || context.player.checkRestrictions('spendFate', context));
             },
             pay: function(context) {
                 context.player.fate -= context.source.getCost();
@@ -215,99 +149,47 @@ const Costs = {
      */
     payReduceableFateCost: function(playingType) {
         return {
-            canPay: function(context, targets = []) {
+            canPay: function(context) {
                 let reducedCost = context.player.getReducedCost(playingType, context.source);
-                if(targets.length === 1) {
-                    reducedCost = context.player.getReducedCost(playingType, context.source, targets[0]);
-                } else if(context.target) {
-                    reducedCost = context.player.getReducedCost(playingType, context.source, context.target);
-                }
-                return context.player.fate >= reducedCost && (context.source.allowGameAction('spendFate', context) || reducedCost === 0);
+                return context.player.fate >= reducedCost && (reducedCost === 0 || context.player.checkRestrictions('spendFate', context));
             },
             pay: function(context) {
-                if(context.target) {
-                    context.costs.fate = context.player.getReducedCost(playingType, context.source, context.target);
-                    context.player.markUsedReducers(playingType, context.source, context.target);
-                } else {
-                    context.costs.fate = context.player.getReducedCost(playingType, context.source);
-                    context.player.markUsedReducers(playingType, context.source);
-                }
+                context.costs.fate = context.player.getReducedCost(playingType, context.source);
+                context.player.markUsedReducers(playingType, context.source);
                 context.player.fate -= context.costs.fate;
             },
             canIgnoreForTargeting: true
         };
     },
     /**
-     * Cost in which the player must pay a fixed, non-reduceable amount of fate.
+     * Cost that is dependent on context.targets[targetName]
      */
-    payFate: function(amount) {
+    payTargetDependentFateCost: function(targetName, playingType) {
         return {
             canPay: function(context) {
-                return context.player.fate >= amount && (context.source.allowGameAction('spendFate', context) || amount === 0);
+                let reducedCost = context.player.getReducedCost(playingType, context.source, context.targets[targetName]);
+                return context.player.fate >= reducedCost && (reducedCost === 0 || context.player.checkRestrictions('spendFate', context));
             },
             pay: function(context) {
-                context.game.addFate(context.player, -amount);
-            },
-            canIgnoreForTargeting: true
+                context.costs.targetDependentFate = context.player.getReducedCost(playingType, context.source, context.targets[targetName]);
+                context.player.markUsedReducers(playingType, context.source, context.targets[targetName]);
+                context.player.fate -= context.costs.targetDependentFate;
+            }
         };
     },
+    /**
+     * Cost in which the player must pay a fixed, non-reduceable amount of fate.
+     */
+    payFate: (amount) => CostBuilders.payFate(amount),
     /**
      * Cost in which the player must pay a fixed, non-reduceable amount of honor.
      */
-    payHonor: function(amount) {
-        return {
-            canPay: function(context) {
-                return context.player.honor >= amount;
-            },
-            pay: function(context) {
-                context.game.addHonor(context.player, -amount);
-            }
-        };
-    },
+    payHonor: (amount) => CostBuilders.payHonor(amount),
     /**
      * Cost where a character must spend fate to an unclaimed ring
      */
-    payFateToRing: function(amount) {
-        return {
-            canPay: function(context) {
-                return context.player.fate >= amount && (context.source.allowGameAction('spendFate', context) || amount === 0);
-            },
-            resolve: function(context, result = { resolved: false }) {
-                context.game.promptForRingSelect(context.player, {
-                    ringCondition: ring => ring.isUnclaimed(),
-                    activePromptTitle: 'Choose a ring to place fate on',
-                    source: context.source,
-                    onSelect: (player, ring) => {
-                        context.costs.payFateToRing = ring;
-                        result.value = true;
-                        result.resolved = true;
-                        return true;
-                    },
-                    onCancel: () => {
-                        result.value = false;
-                        result.resolved = true;
-                    }
-                });
-                return result;
-            },
-            pay: function(context) {
-                context.game.addFate(context.player, -amount);
-                context.costs.payFateToRing.modifyFate(amount);
-            }
-        };
-    },
-    giveFateToOpponent: function(amount) {
-        return {
-            canPay: function(context) {
-                return amount === 0 || (context.player.fate >= amount && context.player.opponent && context.source.allowGameAction('giveFate', context));
-            },
-            pay: function(context) {
-                if(amount > 0) {
-                    context.game.transferFate(context.player.opponent, context.player, amount);
-                }
-            }
-        };
-    },
+    payFateToRing: (amount = 1, ringCondition = ring => ring.isUnclaimed()) => CostBuilders.payFateToRing(amount, ringCondition),
+    giveFateToOpponent: (amount = 1) => CostBuilders.giveFateToOpponent(amount),
     chooseFate: function () {
         return {
             canPay: function() {
@@ -315,7 +197,7 @@ const Costs = {
             },
             resolve: function(context, result = { resolved: false }) {
                 let extrafate = context.player.fate - context.player.getReducedCost('play', context.source);
-                if(!context.player.allowGameAction('placeFateWhenPlayingCharacter', context) || !context.player.allowGameAction('spendFate', context)) {
+                if(!context.player.checkRestrictions('placeFateWhenPlayingCharacter', context) || !context.player.checkRestrictions('spendFate', context)) {
                     extrafate = 0;
                 }
                 let choices = [];
@@ -331,7 +213,7 @@ const Costs = {
                         result.resolved = true;
                     };
                 });
-                
+
                 if(extrafate > max) {
                     choices[3] = 'More';
                     handlers[3] = () => {
@@ -362,13 +244,13 @@ const Costs = {
                         });
                     };
                 }
-                
+
                 choices.push('Cancel');
                 handlers.push(() => {
                     result.value = false;
                     result.resolved = true;
                 });
-                
+
                 context.game.promptWithHandlerMenu(context.player, {
                     activePromptTitle: 'Choose additional fate',
                     source: context.source,
@@ -379,7 +261,8 @@ const Costs = {
             },
             pay: function(context) {
                 context.player.fate -= context.chooseFate;
-            }
+            },
+            promptsPlayer: true
         };
     }
 };

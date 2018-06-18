@@ -9,7 +9,7 @@ class RingSelector extends BaseCardSelector {
     }
 
     hasEnoughTargets(context) {
-        return _.any(context.game.rings, ring => this.ringCondition(ring));
+        return _.any(context.game.rings, ring => this.ringCondition(ring, context));
     }
 
     defaultActivePromptTitle() {

@@ -6,8 +6,8 @@ class DojiShizue extends DrawCard {
             match: this,
             condition: () => this.game.currentPhase === 'fate' && this.controller.imperialFavor !== '',
             effect: [
-                ability.effects.cannotRemoveFate(),
-                ability.effects.cannotBeDiscarded()
+                ability.effects.cardCannot('removeFate'),
+                ability.effects.cardCannot('discardFromPlay')
             ]
         });
     }

@@ -1,17 +1,17 @@
 const DrawCard = require('../../drawcard.js');
 
 class StandYourGround extends DrawCard {
-    setupCardAbilities() {
-        this.interrupt({
+    setupCardAbilities(ability) {
+        this.wouldInterrupt({
             title: 'Prevent a character from leaving play',
             when: {
-                onCardLeavesPlay: event => event.card.controller === this.controller && event.card.getType() === 'character' && event.card.isHonored
+                onCardLeavesPlay: (event, context) => event.card.controller === context.player && event.card.isHonored
             },
-            canCancel: true,
+            effect: 'prevent {0} from leaving play',
+            cannotBeMirrored: true,
             handler: context => {
+                context.event.window.addEvent(ability.actions.discardStatusToken().getEvent(context.event.card, context));
                 context.cancel();
-                context.event.card.isHonored = false;
-                this.game.addMessage('{0} uses {1} to stop {2} from leaving play', this.controller, this, context.event.card);
             }
         });
     }

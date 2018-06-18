@@ -5,14 +5,14 @@ class MiwakuKabe extends DrawCard {
         this.interrupt({
             title: 'Shuffle this into deck',
             when: {
-                onBreakProvince: event => event.card.controller === this.controller && event.card.location === this.location
+                onBreakProvince: (event, context) => event.card.controller === context.player && event.card.location === context.source.location
             },
-            handler: () => {
-                this.game.addMessage('{0} uses {1} to shuffle itself back into the dynasty deck', this.controller, this);
-                const location = this.location;
-                this.controller.moveCard(this, 'dynasty deck');
-                this.game.queueSimpleStep(() => this.controller.shuffleDynastyDeck());
-                this.game.queueSimpleStep(() => this.controller.replaceDynastyCard(location));
+            effect: 'shuffle itself back into the dynasty deck',
+            handler: context => {
+                const location = context.source.location;
+                context.player.moveCard(context.source, 'dynasty deck');
+                this.game.queueSimpleStep(() => context.player.shuffleDynastyDeck());
+                this.game.queueSimpleStep(() => context.player.replaceDynastyCard(location));
             }
         });
     }

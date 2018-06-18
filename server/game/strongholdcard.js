@@ -47,8 +47,8 @@ class StrongholdCard extends BaseCard {
 
     allowGameAction(actionType, context = null) {
         let illegalActions = [
-            'dishonor', 'honor', 'sacrifice', 
-            'discardFromPlay', 'moveToConflict', 'sendHome', 'putIntoPlay', 'putIntoConflict', 
+            'dishonor', 'honor', 'sacrifice',
+            'discardFromPlay', 'moveToConflict', 'sendHome', 'putIntoPlay', 'putIntoConflict',
             'break', 'returnToHand', 'takeControl', 'placeFate', 'removeFate'
         ];
         if(illegalActions.includes(actionType)) {

@@ -4,19 +4,19 @@ class ParentCost {
     }
 
     canPay(context) {
-        return !!context.source.parent && this.action.isEligible(context.source.parent, context);
+        return context.source.parent && this.action.canAffect(context.source.parent, context);
     }
 
     resolve(context, result = { resolved: false }) {
         context.costs[this.action.name] = context.source.parent;
 
         result.resolved = true;
-        result.value = context.source.parent;
+        result.value = this.action.setTarget(context.source.parent, context);
         return result;
     }
 
     payEvent(context) {
-        return this.action.payEvent([context.costs[this.action.name]], context);
+        return this.action.getEventArray(context);
     }
 }
 

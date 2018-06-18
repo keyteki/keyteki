@@ -96,7 +96,7 @@ class GamePipeline {
     continue() {
         if(this.queue.length > 0) {
             this.pipeline = this.queue.concat(this.pipeline);
-            this.queue = [];            
+            this.queue = [];
         }
         while(this.pipeline.length > 0) {
             var currentStep = this.getCurrentStep();
@@ -149,7 +149,7 @@ class GamePipeline {
             pipeline = step.pipeline;
             step = pipeline.pipeline[0];
         }
-        //console.log(pipeline.getDebugInfo());
+        // console.log(pipeline.getDebugInfo());
     }
 }
 

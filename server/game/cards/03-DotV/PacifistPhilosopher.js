@@ -8,10 +8,7 @@ class PacifistPhilosopher extends DrawCard {
             when: {
                 onConflictPass: () => true
             },
-            handler: () => {
-                this.game.addMessage('{0} uses {1} to gain 1 fate.', this.controller, this);
-                this.game.addFate(this.controller, 1);
-            }
+            gameAction: ability.actions.gainFate()
         });
     }
 }

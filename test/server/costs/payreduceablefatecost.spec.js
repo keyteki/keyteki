@@ -3,7 +3,8 @@ const Costs = require('../../../server/game/costs.js');
 describe('Costs.payReduceableFateCost', function() {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['addMessage']);
-        this.playerSpy = jasmine.createSpyObj('player', ['getDuplicateInPlay', 'getReducedCost', 'markUsedReducers']);
+        this.playerSpy = jasmine.createSpyObj('player', ['getDuplicateInPlay', 'getReducedCost', 'markUsedReducers', 'checkRestrictions']);
+        this.playerSpy.checkRestrictions.and.returnValue(true);
         this.cardSpy = { card: 1, allowGameAction: () => true };
         this.context = {
             costs: {},

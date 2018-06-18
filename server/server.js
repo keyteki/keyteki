@@ -50,14 +50,14 @@ class Server {
             saveUninitialized: false,
             resave: false,
             secret: config.secret,
-            cookie: { 
+            cookie: {
                 maxAge: config.cookieLifetime,
                 secure: config.https,
                 httpOnly: false,
                 domain: config.domain
             },
             name: 'sessionId'
-            
+
         }));
 
         app.use(passport.initialize());

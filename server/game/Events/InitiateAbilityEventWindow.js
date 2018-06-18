@@ -8,10 +8,10 @@ class InitiateAbilityEventWindow extends EventWindow {
         super(game, events);
         _.each(this.events, event => {
             if(event.context.ability.isCardPlayed() && !event.context.dontRaiseCardPlayed) { //context.dontRaiseCardPlayed is a flag raised by events doing multiple resolutions
-                game.addEventToWindow(this, 'onCardPlayed', { player: event.context.player, card: event.card, originalLocation: 'hand' }); // TODO: this isn't true with Kyuden Isawa
+                this.addEvent(this.game.getEvent('onCardPlayed', { player: event.context.player, card: event.card, originalLocation: 'hand' })); // TODO: this isn't true with Kyuden Isawa
             }
             if(event.context.ability.isCardAbility() && event.context.ability.isTriggeredAbility()) {
-                game.addEventToWindow(this, 'onCardAbilityTriggered', { ability: event.context.ability, player: event.context.player, card: event.card });
+                this.addEvent(this.game.getEvent('onCardAbilityTriggered', { ability: event.context.ability, player: event.context.player, card: event.card }));
             }
         });
     }

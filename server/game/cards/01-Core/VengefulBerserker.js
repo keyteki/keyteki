@@ -1,22 +1,17 @@
 const DrawCard = require('../../drawcard.js');
 
 class VengefulBerserker extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             title: 'Double military skill',
             when: {
-                onCardLeavesPlay: event => {
+                onCardLeavesPlay: (event, context) => {
                     let card = event.cardStateWhenLeftPlay;
-                    return card.type === 'character' && card.controller === this.controller && this.game.currentConflict;
+                    return card.type === 'character' && card.controller === context.player && this.game.isDuringConflict();
                 }
             },
-            handler: () => {
-                this.game.addMessage('{0} uses {1}\'s ability to double his military skill until the end of the conflict', this.controller, this);
-                this.untilEndOfConflict(ability => ({
-                    match: this,
-                    effect: ability.effects.modifyMilitarySkillMultiplier(2)
-                }));
-            }
+            effect: 'double his military skill until the end of the conflict',
+            gameAction: ability.actions.cardLastingEffect({ effect: ability.effects.modifyMilitarySkillMultiplier(2) })
         });
     }
 }

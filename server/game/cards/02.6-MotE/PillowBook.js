@@ -1,23 +1,23 @@
 const DrawCard = require('../../drawcard.js');
 
 class PillowBook extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.action({
             title: 'Make top card of your conflict deck playable',
-            condition: () => this.parent.isParticipating() && this.controller.conflictDeck.size() > 0,
-            handler: () => {
-                let topCard = this.controller.conflictDeck.first();
-                this.game.addMessage('{0} uses {1} to reveal the top card of their conflict deck: {2}', this.controller, this, topCard);
-                this.lastingEffect(ability => ({
-                    targetType: 'player',
-                    until: {
-                        onCardMoved: event => event.card === topCard && event.originalLocation === 'conflict deck',
-                        onConflictFinished: () => true,
-                        onDeckShuffled: event => event.player === this.controller && event.deck === 'conflict deck'
-                    },
-                    effect: ability.effects.makeTopCardOfConflictDeckPlayable()
-                }));
-            }
+            condition: context => context.source.isParticipating() && context.player.conflictDeck.size() > 0,
+            effect: 'make the top card of their deck playable until the end of the conflict',
+            gameAction: ability.actions.playerLastingEffect(context => ({
+                duration: 'lastingEffect',
+                until: {
+                    onCardMoved: event => event.card === context.player.conflictDeck.first() && event.originalLocation === 'conflict deck',
+                    onConflictFinished: () => true,
+                    onDeckShuffled: event => event.player === context.player && event.deck === 'conflict deck'
+                },
+                effect: [
+                    ability.effects.showTopConflictCard(),
+                    ability.effects.canPlayFromOwn('conflict deck')
+                ]
+            }))
         });
     }
 }

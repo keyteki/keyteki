@@ -1,16 +1,13 @@
 const DrawCard = require('../../drawcard.js');
 
 class ThePathOfMan extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             title: 'Gain 2 fate',
             when: {
-                afterConflict: event => event.conflict.winner === this.controller && event.conflict.skillDifference > 4
+                afterConflict: (event, context) => event.conflict.winner === context.player && event.conflict.skillDifference >= 5
             },
-            handler: () => {
-                this.game.addMessage('{0} plays {1} to gain 2 fate', this.controller, this);
-                this.game.addFate(this.controller, 2);
-            }
+            gameAction: ability.actions.gainFate(2)
         });
     }
 }

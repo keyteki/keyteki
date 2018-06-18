@@ -89,7 +89,7 @@ class InnerDecks extends React.Component {
         let content = null;
 
         let successPanel = null;
-        
+
         if(this.props.deckDeleted) {
             setTimeout(() => {
                 this.props.clearDeckStatus();
@@ -97,7 +97,7 @@ class InnerDecks extends React.Component {
             successPanel = (
                 <AlertPanel message='Deck deleted successfully' type={ 'success' } />
             );
-        }    
+        }
 
         if(this.props.loading) {
             content = <div>Loading decks from the server...</div>;

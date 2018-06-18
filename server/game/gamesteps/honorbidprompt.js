@@ -1,14 +1,15 @@
-const _ = require('underscore');
-
 const AllPlayerPrompt = require('./allplayerprompt.js');
+const GameActions = require('../GameActions/GameActions');
 
 class HonorBidPrompt extends AllPlayerPrompt {
-    constructor(game, menuTitle) {
+    constructor(game, menuTitle, costHandler) {
         super(game);
         this.menuTitle = menuTitle || 'Choose a bid';
-        _.each(game.getPlayers(), player => {
+        this.costHandler = costHandler;
+        for(let player of game.getPlayers()) {
             player.honorBid = 0;
-        });
+            player.showBid = 0;
+        }
     }
 
     activeCondition(player) {
@@ -23,16 +24,38 @@ class HonorBidPrompt extends AllPlayerPrompt {
         let completed = super.continue();
 
         if(completed) {
-            _.each(this.game.getPlayers(), player => player.setShowBid());
-            this.game.raiseEvent('onHonorDialsRevealed');
+            this.game.raiseEvent('onHonorDialsRevealed', {}, () => {
+                for(const player of this.game.getPlayers()) {
+                    player.setShowBid();
+                }
+            });
+            if(this.costHandler) {
+                this.game.queueSimpleStep(() => this.costHandler(this));
+            } else {
+                this.game.queueSimpleStep(() => this.transferHonorAfterBid());
+            }
         }
 
         return completed;
     }
 
-    activePrompt() {
-        _.each(this.game.getPlayers(), player => player.showBid = 0);
+    transferHonorAfterBid(context = this.game.getFrameworkContext()) {
+        let firstPlayer = this.game.getFirstPlayer();
+        if(!firstPlayer.opponent) {
+            return;
+        }
+        let difference = firstPlayer.honorBid - firstPlayer.opponent.honorBid;
+        if(difference > 0) {
+            this.game.addMessage('{0} gives {1} {2} honor', firstPlayer, firstPlayer.opponent, difference);
+            GameActions.takeHonor({ amount: difference }).resolve(firstPlayer, context);
+        } else if(difference < 0) {
+            this.game.addMessage('{0} gives {1} {2} honor', firstPlayer.opponent, firstPlayer, -difference);
+            GameActions.takeHonor({ amount: -difference }).resolve(firstPlayer.opponent, context);
+        }
+    }
 
+
+    activePrompt() {
         return {
             promptTitle: 'Honor Bid',
             menuTitle: this.menuTitle,

@@ -13,20 +13,13 @@ class WindsweptYurt extends DrawCard {
                 }
             },
             cost: ability.costs.sacrificeSelf(),
-            source: this,
+            effect: 'give each player 2 {1}',
+            effectArgs: context => context.select === 'Each player gains 2 fate' ? 'fate' : 'honor',
             handler: context => {
                 if(context.select === 'Each player gains 2 fate') {
-                    this.game.addMessage('{0} uses {1} to give each player 2 fate', this.controller, this);
-                    this.game.addFate(this.controller, 2);
-                    if(this.controller.opponent) {
-                        this.game.addFate(this.controller.opponent, 2);
-                    }
+                    ability.actions.gainFate({ amount: 2 }).resolve(this.game.getPlayers(), context);
                 } else {
-                    this.game.addMessage('{0} uses {1} to give each player 2 honor', this.controller, this);
-                    this.game.addHonor(this.controller, 2);
-                    if(this.controller.opponent) {
-                        this.game.addHonor(this.controller.opponent, 2);
-                    }
+                    ability.actions.gainHonor({ amount: 2 }).resolve(this.game.getPlayers(), context);
                 }
                 let card = this.controller.getDynastyCardInProvince(context.cardStateWhenInitiated.location);
                 if(card) {

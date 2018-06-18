@@ -4,23 +4,26 @@ class PersonalHonorAbility extends TriggeredAbility {
     constructor(game, card) {
         super(game, card, 'forcedinterrupt', {
             when: {
-                onCardLeavesPlay: (event, context) => event.card === context.source && 
-                                                      context.source.allowGameAction('affectedByHonor') && 
+                onCardLeavesPlay: (event, context) => event.card === context.source &&
+                                                      context.source.allowGameAction('affectedByHonor') &&
                                                       (context.source.isHonored || context.source.isDishonored)
             },
             title: card.name + '\'s Personal Honor',
-            cannotBeCopied: true,
             printedAbility: false,
+            message: '{0} {1} 1 honor due to {2}\'s personal honor',
+            messageArgs: context => [context.player, context.source.isHonored ? 'gains' : 'loses', context.source],
             handler: context => {
                 if(context.source.isHonored) {
-                    this.game.addMessage('{0} gains 1 honor due to {1}\'s personal honor', context.player, context.source);
-                    this.game.addHonor(context.player, 1);
+                    this.game.applyGameAction(context, { gainHonor: context.player });
                 } else if(context.source.isDishonored) {
-                    this.game.addMessage('{0} loses 1 honor due to {1}\'s personal honor', context.player, context.source);
-                    this.game.addHonor(context.player, -1);
+                    this.game.applyGameAction(context, { loseHonor: context.player });
                 }
             }
         });
+    }
+
+    isTriggeredAbility() {
+        return false;
     }
 }
 
