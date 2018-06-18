@@ -120,7 +120,7 @@ export default function(state = {}, action) {
                     newState.selectedDeck = newState.decks[0];
                 }
             }
-            
+
             return newState;
         case 'RECEIVE_DECK':
             newState = Object.assign({}, state, {
@@ -164,7 +164,7 @@ export default function(state = {}, action) {
             return newState;
         case 'ADD_DECK':
             var newDeck = { name: 'New Deck' };
-            
+
             newState = Object.assign({}, state, {
                 selectedDeck: newDeck,
                 deckSaved: false
@@ -197,7 +197,7 @@ export default function(state = {}, action) {
             });
 
             return newState;
-        case 'DECK_DELETED':            
+        case 'DECK_DELETED':
             newState = Object.assign({}, state, {
                 deckDeleted: true
             });

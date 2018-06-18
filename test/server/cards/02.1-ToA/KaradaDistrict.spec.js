@@ -40,7 +40,7 @@ describe('Karada District', function() {
                     beforeEach(function() {
                         this.player2.clickCard(this.fineKatana);
                     });
-                    
+
                     it('should transfer fate to the target\'s controller', function() {
                         expect(this.player2.fate).toBe(1);
                         expect(this.player1.fate).toBe(4);
@@ -58,7 +58,7 @@ describe('Karada District', function() {
                             it('should transfer control of the attachment', function() {
                                 expect(this.fineKatana.controller).toBe(this.player2.player);
                             });
-    
+
                             it('should attach the target to the character', function() {
                                 expect(this.miyaMystic.attachments.toArray()).toContain(this.fineKatana);
                             });

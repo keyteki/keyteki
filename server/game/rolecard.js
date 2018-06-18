@@ -30,8 +30,8 @@ class RoleCard extends BaseCard {
 
     allowGameAction(actionType, context = null) {
         let illegalActions = [
-            'bow', 'ready', 'dishonor', 'honor', 'sacrifice', 
-            'discardFromPlay', 'moveToConflict', 'sendHome', 'putIntoPlay', 'putIntoConflict', 
+            'bow', 'ready', 'dishonor', 'honor', 'sacrifice',
+            'discardFromPlay', 'moveToConflict', 'sendHome', 'putIntoPlay', 'putIntoConflict',
             'break', 'returnToHand', 'takeControl', 'placeFate', 'removeFate'
         ];
         if(illegalActions.includes(actionType)) {

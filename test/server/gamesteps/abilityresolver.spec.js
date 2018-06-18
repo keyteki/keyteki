@@ -14,7 +14,7 @@ describe('AbilityResolver', function() {
             }
         });
 
-        this.ability = jasmine.createSpyObj('ability', ['isAction', 'isCardAbility', 'isCardPlayed', 'isPlayableEventAbility', 'resolveCosts', 'payCosts', 'resolveTargets', 'executeHandler']);
+        this.ability = jasmine.createSpyObj('ability', ['isAction', 'isCardAbility', 'isCardPlayed', 'displayMessage', 'resolveCosts', 'payCosts', 'resolveTargets', 'executeHandler']);
         this.ability.isCardAbility.and.returnValue(true);
         this.source = jasmine.createSpyObj('source', ['createSnapshot', 'getType']);
         this.costEvent = jasmine.createSpyObj('costEvent', ['getResult']);
@@ -76,7 +76,6 @@ describe('AbilityResolver', function() {
         describe('when the ability is a card ability', function() {
             beforeEach(function() {
                 this.ability.resolveCosts.and.returnValue([{ resolved: true, value: true }, { resolved: true, value: true }]);
-                this.ability.isPlayableEventAbility.and.returnValue(true);
                 this.ability.isCardAbility.and.returnValue(true);
                 this.resolver.continue();
             });
@@ -89,7 +88,6 @@ describe('AbilityResolver', function() {
         describe('when the ability is not a card ability', function() {
             beforeEach(function() {
                 this.ability.resolveCosts.and.returnValue([{ resolved: true, value: true }, { resolved: true, value: true }]);
-                this.ability.isPlayableEventAbility.and.returnValue(true);
                 this.ability.isCardAbility.and.returnValue(false);
                 this.resolver.continue();
             });

@@ -110,4 +110,4 @@ describe('Yogo Hiroue', function() {
         });
     });
 });
-                
+

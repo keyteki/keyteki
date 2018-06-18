@@ -39,7 +39,7 @@ describe('Savvy Politician', function() {
             });
 
             it('should not trigger its ability when winning a conflict with kimono attached', function() {
-                this.player1.attach(this.kimono, this.politician1);
+                this.player1.playAttachment(this.kimono, this.politician1);
                 this.noMoreActions();
                 this.initiateConflict({
                     attackers: ['Savvy Politician'],

@@ -3,23 +3,17 @@ const DrawCard = require('../../drawcard.js');
 class Sashimono extends DrawCard {
     setupCardAbilities(ability) {
         this.whileAttached({
-            condition: () => (
-                this.game.currentConflict &&
-                this.game.currentConflict.conflictType === 'military'
-            ),
-            effect: [
-                ability.effects.doesNotBowAsAttacker(),
-                ability.effects.doesNotBowAsDefender()
-            ]
+            condition: () => this.game.isDuringConflict('military'),
+            effect: ability.effects.doesNotBow()
         });
     }
 
-    canAttach(card) {
+    canAttach(card, context) {
         if(!card.hasTrait('bushi')) {
             return false;
         }
 
-        return super.canAttach(card);
+        return super.canAttach(card, context);
     }
 }
 

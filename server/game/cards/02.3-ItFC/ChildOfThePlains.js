@@ -1,20 +1,17 @@
 const DrawCard = require('../../drawcard.js');
 
 class ChildOfThePlains extends DrawCard {
-    setupCardAbilities() {
+    setupCardAbilities(ability) {
         this.reaction({
             title: 'Get first action',
             when: {
-                onProvinceRevealed: event => event.conflict.isAttacking(this)
+                onProvinceRevealed: (event, context) => context.source.isAttacking()
             },
-            handler: () => {
-                this.game.addMessage('{0} uses {1} to get the first action in this conflict', this.controller, this);
-                this.untilEndOfConflict(ability => ({
-                    targetType: 'player',
-                    targetController: 'opponent',
-                    effect: ability.effects.playerCannotTakeFirstAction()
-                }));
-            }
+            effect: 'get the first action in this conflict',
+            gameAction: ability.actions.playerLastingEffect({
+                targetController: 'opponent',
+                effect:ability.effects.playerCannot('takeFirstAction')
+            })
         });
     }
 }

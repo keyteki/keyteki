@@ -4,19 +4,18 @@ class HighKick extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Bow and Disable a character',
-            condition: () => this.game.currentConflict && this.game.currentConflict.conflictType === 'military',
+            condition: () => this.game.isDuringConflict('military'),
             cost: ability.costs.bow(card => card.hasTrait('monk') && card.isParticipating()),
             target: {
                 cardType: 'character',
-                cardCondition: card => card.isParticipating() && card.controller !== this.controller
+                controller: 'opponent',
+                cardCondition: card => card.isParticipating(),
+                gameAction: [
+                    ability.actions.bow(),
+                    ability.actions.cardLastingEffect({ effect: ability.effects.cardCannot('triggerAbilities') })
+                ]
             },
-            handler: context => {
-                this.game.addMessage('{0} uses {1}\'s ability to bow and prevent {2} from using any abilities', this.controller, this, context.target);
-                this.game.applyGameAction(context, { bow: context.target }, [{ params: { order: 1 }, handler: () => this.untilEndOfConflict(ability => ({
-                    match: context.target,
-                    effect: ability.effects.cardCannotTriggerAbilities()
-                }))}]);
-            }
+            effect: 'bow {0} and prevent them from using abilities'
         });
     }
 }

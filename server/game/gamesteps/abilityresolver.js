@@ -8,18 +8,23 @@ class AbilityResolver extends BaseStepWithPipeline {
         super(game);
 
         this.context = context;
+        this.initialise();
+    }
+
+    initialise() {
         this.pipeline.initialise([
-            new SimpleStep(game, () => this.createSnapshot()),
-            new SimpleStep(game, () => this.resolveEarlyTargets()),
-            new SimpleStep(game, () => this.waitForTargetResolution(true)),
-            new SimpleStep(game, () => this.resolveCosts()),
-            new SimpleStep(game, () => this.waitForCostResolution()),
-            new SimpleStep(game, () => this.payCosts()),
-            new SimpleStep(game, () => this.checkCostsWerePaid()),
-            new SimpleStep(game, () => this.resolveTargets()),
-            new SimpleStep(game, () => this.waitForTargetResolution()),
-            new SimpleStep(game, () => this.initiateAbility())
+            new SimpleStep(this.game, () => this.createSnapshot()),
+            new SimpleStep(this.game, () => this.resolveEarlyTargets()),
+            new SimpleStep(this.game, () => this.waitForTargetResolution()),
+            new SimpleStep(this.game, () => this.resolveCosts()),
+            new SimpleStep(this.game, () => this.waitForCostResolution()),
+            new SimpleStep(this.game, () => this.payCosts()),
+            new SimpleStep(this.game, () => this.checkCostsWerePaid()),
+            new SimpleStep(this.game, () => this.resolveTargets()),
+            new SimpleStep(this.game, () => this.waitForTargetResolution()),
+            new SimpleStep(this.game, () => this.initiateAbility())
         ]);
+
     }
 
     createSnapshot() {
@@ -75,7 +80,7 @@ class AbilityResolver extends BaseStepWithPipeline {
         if(this.cancelled) {
             return;
         }
-        this.context.stage = 'target';
+        this.context.stage = 'pretarget';
         if(this.context.ability.cannotTargetFirst) {
             this.targetResults = _.map(this.context.ability.targets, (props, name) => {
                 return { resolved: false, name: name, value: null, costsFirst: true, mode: props.mode };
@@ -93,18 +98,18 @@ class AbilityResolver extends BaseStepWithPipeline {
         this.targetResults = this.context.ability.resolveTargets(this.context, this.targetResults);
     }
 
-    waitForTargetResolution(pretarget = false) {
+    waitForTargetResolution() {
         if(this.cancelled) {
             return;
         }
 
         this.cancelled = _.any(this.targetResults, result => result.resolved && !result.value);
-        if(this.cancelled && !pretarget) {
+        if(this.cancelled && this.context.stage !== 'pretarget') {
             this.game.addMessage('{0} attempted to use {1}, but targets were not successfully chosen', this.context.player, this.context.source);
             return;
         }
 
-        if(!_.all(this.targetResults, result => result.resolved || (pretarget && result.costsFirst))) {
+        if(!_.all(this.targetResults, result => result.resolved || (this.context.stage === 'pretarget' && result.costsFirst))) {
             return false;
         }
 
@@ -135,20 +140,30 @@ class AbilityResolver extends BaseStepWithPipeline {
             this.context.player.incrementAbilityMax(this.context.ability.maxIdentifier);
         }
 
+        this.context.ability.displayMessage(this.context);
 
         // If this is a card ability, raise an initiateAbilityEvent
         if(this.context.ability.isCardAbility()) {
             // If this is an event, move it to 'being played', and queue a step to send it to the discard pile after it resolves
             if(this.context.source.type === 'event') {
                 this.context.player.moveCard(this.context.source, 'being played');
-                this.game.raiseInitiateAbilityEvent({ card: this.context.source, context: this.context }, () => this.executeHandler());
+                this.game.raiseInitiateAbilityEvent({ card: this.context.source, context: this.context }, () => this.executeCardAbilityHandler());
                 this.game.queueSimpleStep(() => this.context.player.moveCard(this.context.source, 'conflict discard pile'));
             } else {
-                this.game.raiseInitiateAbilityEvent({ card: this.context.source, context: this.context }, () => this.executeHandler());
+                this.game.raiseInitiateAbilityEvent({ card: this.context.source, context: this.context }, () => this.executeCardAbilityHandler());
             }
         } else {
             this.executeHandler();
         }
+    }
+
+    executeCardAbilityHandler() {
+        // create an event window for the handler to add events to
+        this.game.raiseEvent('onAbilityResolved', { card: this.context.source, context: this.context }, () => {
+            this.context.stage = 'effect';
+            this.context.ability.executeHandler(this.context);
+        });
+
     }
 
     executeHandler() {

@@ -112,7 +112,7 @@ class DeckValidator {
         let provinceCount = getDeckCount(deck.provinceCards);
         let dynastyCount = getDeckCount(deck.dynastyCards);
         let conflictCount = getDeckCount(deck.conflictCards);
-        
+
         if(deck.stronghold.length > 1) {
             errors.push('Too many strongholds');
         }
@@ -135,16 +135,16 @@ class DeckValidator {
 
         if(conflictCount < rules.minimumConflict) {
             errors.push('Too few conflict cards');
-        } else if(conflictCount > rules.maximumConflict) { 
+        } else if(conflictCount > rules.maximumConflict) {
             errors.push('Too many conflict cards');
         }
-        
+
         _.each(rules.rules, rule => {
             if(!rule.condition(deck)) {
                 errors.push(rule.message);
             }
         });
-        
+
         let allCards = deck.provinceCards.concat(deck.dynastyCards).concat(deck.conflictCards);
         let cardCountByName = {};
 
@@ -207,7 +207,7 @@ class DeckValidator {
         }
 
         let restrictedResult = this.restrictedList.validate(allCards.map(cardQuantity => cardQuantity.card));
-        
+
         return {
             basicRules: errors.length === 0,
             noUnreleasedCards: unreleasedCards.length === 0,

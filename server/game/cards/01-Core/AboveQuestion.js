@@ -3,7 +3,7 @@ const DrawCard = require('../../drawcard.js');
 class AboveQuestion extends DrawCard {
     setupCardAbilities(ability) {
         this.whileAttached({
-            effect: ability.effects.cannotBeTargeted(context => context && context.source.type === 'event' && context.source.controller === this.controller.opponent)
+            effect: ability.effects.cardCannot('target', context => context && context.source.type === 'event' && context.source.controller === this.controller.opponent)
         });
     }
 }

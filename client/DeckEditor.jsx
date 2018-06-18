@@ -41,7 +41,7 @@ class InnerDeckEditor extends React.Component {
         }
         let cardList = '';
 
-        if(this.props.deck && (this.props.deck.stronghold || this.props.deck.role || this.props.deck.provinceCards || 
+        if(this.props.deck && (this.props.deck.stronghold || this.props.deck.role || this.props.deck.provinceCards ||
                 this.props.deck.conflictCards || this.props.deck.dynastyCards)) {
             _.each(this.props.deck.stronghold, card => {
                 cardList += card.count + ' ' + card.card.name + '\n';
@@ -141,7 +141,7 @@ class InnerDeckEditor extends React.Component {
         let deck = this.state.deck;
 
         deck = this.copyDeck(deck);
-        
+
         this.props.updateDeck(deck);
     }
 
@@ -154,7 +154,7 @@ class InnerDeckEditor extends React.Component {
         deck.provinceCards = [];
         deck.conflictCards = [];
         deck.dynastyCards = [];
-        
+
         _.each(split, line => {
             line = line.trim();
             let index = 2;
@@ -244,7 +244,7 @@ class InnerDeckEditor extends React.Component {
         let strainPath = 'strains';
         let deckPath = 'decks';
         let deckResponse = {};
-        
+
         let importId = String(importUrl).split('/')[4];
         let selector = String(importUrl).split('/')[3];
 
@@ -283,7 +283,7 @@ class InnerDeckEditor extends React.Component {
                 deckClan = deckRecord.head.primary_clan;
                 deckAlliance = deckRecord.head.secondary_clan;
                 deckName = deckRecord.head.name;
-                deckList = deckRecord.head.cards; 
+                deckList = deckRecord.head.cards;
             }
 
             let deck = this.copyDeck(this.state.deck);
@@ -365,12 +365,12 @@ class InnerDeckEditor extends React.Component {
                 }
             });
 
-            
+
             this.setState({cardList: cardList, deck: deck, showAlliance: deck.alliance });
             this.props.updateDeck(deck);
 
         }
-    }    
+    }
 
     render() {
         if(!this.props.deck || this.props.loading) {

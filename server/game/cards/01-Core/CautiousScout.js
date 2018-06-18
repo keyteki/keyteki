@@ -7,7 +7,7 @@ class CautiousScout extends DrawCard {
             targetLocation: 'province',
             targetController: 'opponent',
             condition: () => this.isAttacking() && this.game.currentConflict.attackers.length === 1,
-            effect: ability.effects.blank
+            effect: ability.effects.blank()
         });
     }
 }

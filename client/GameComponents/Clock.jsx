@@ -29,7 +29,7 @@ class Clock extends React.Component {
                     timeLeft: this.state.timeLeft + (newProps.mode === 'up' ? 1 : -1)
                 });
             }, 1000);
-        } 
+        }
 
     }
 

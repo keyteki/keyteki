@@ -14,7 +14,7 @@ class HonorStatusCounter extends Counter {
         if(this.props.fade) {
             className += ' fade-out';
         }
-        
+
         return (<div key={ this.props.name } className={ className }>
             { this.props.honored ? <img src='/img/honor-stone.png' title='Honored' alt='Honored' /> : null }
             { this.props.dishonored ? <img src='/img/dishonor-stone.png' title='Dishonored' alt='Dishonored' /> : null }

@@ -2,17 +2,16 @@ const DrawCard = require('../../drawcard.js');
 
 class ForgedEdict extends DrawCard {
     setupCardAbilities(ability) {
-        this.interrupt({
+        this.wouldInterrupt({
             title: 'Cancel an event',
             when: {
                 onCardAbilityInitiated: event => event.card.type === 'event'
             },
-            canCancel: true,
+            cannotBeMirrored: true,
             cost: ability.costs.dishonor(card => card.hasTrait('courtier')),
-            handler: context => {
-                this.game.addMessage('{0} dishonors {1} to cancel {2} using {3}', this.controller, context.costs.dishonor, context.event.card, this);
-                context.cancel();
-            }
+            effect: 'cancel {1}',
+            effectArgs: context => context.event.card,
+            handler: context => context.cancel()
         });
     }
 }

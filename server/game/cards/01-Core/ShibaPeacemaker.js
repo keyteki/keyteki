@@ -4,7 +4,6 @@ class ShibaPeacemaker extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',
-            targetLocation: 'any',
             match: this,
             effect: ability.effects.cannotParticipateAsAttacker()
         });

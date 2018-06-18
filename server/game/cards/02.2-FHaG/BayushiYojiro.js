@@ -6,7 +6,7 @@ class BayushiYojiro extends DrawCard {
             condition: () => this.isParticipating(),
             targetController: 'any',
             match: card => card.isParticipating(),
-            effect: ability.effects.cannotBeAffectedByHonor()
+            effect: ability.effects.cardCannot('affectedByHonor')
         });
     }
 }

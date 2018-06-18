@@ -6,7 +6,7 @@ class StoicMagistrate extends DrawCard {
             condition: () => this.isDefending(),
             match: card => this.game.currentConflict.isParticipating(card) && card.getCost() <= 2,
             targetController: 'any',
-            effect: ability.effects.cannotCountForResolution()
+            effect: ability.effects.cardCannot('countForResolution')
         });
     }
 }

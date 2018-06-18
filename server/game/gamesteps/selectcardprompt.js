@@ -53,10 +53,13 @@ class SelectCardPrompt extends UiPrompt {
         this.choosingPlayer = choosingPlayer;
         if(_.isString(properties.source)) {
             properties.source = new EffectSource(game, properties.source);
+        } else if(properties.context && properties.context.source) {
+            properties.source = properties.context.source;
         }
         if(properties.source && !properties.waitingPromptTitle) {
             properties.waitingPromptTitle = 'Waiting for opponent to use ' + properties.source.name;
-        } else if(!properties.source) {
+        }
+        if(!properties.source) {
             properties.source = new EffectSource(game);
         }
 
@@ -71,12 +74,24 @@ class SelectCardPrompt extends UiPrompt {
     defaultProperties() {
         return {
             buttons: [],
-            pretarget: false,
+            controls: this.getDefaultControls(),
             selectCard: true,
             onSelect: () => true,
             onMenuCommand: () => true,
             onCancel: () => true
         };
+    }
+
+    getDefaultControls() {
+        let targets = this.context.targets ? Object.values(this.context.targets).map(target => target.getShortSummary()) : [];
+        if(targets.length === 0 && this.context.event && this.context.event.card) {
+            this.targets = [this.context.event.card.getShortSummary()];
+        }
+        return [{
+            type: 'targeting',
+            source: this.context.source.getShortSummary(),
+            targets: targets
+        }];
     }
 
     savePreviouslySelectedCards() {
@@ -93,10 +108,7 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     highlightSelectableCards() {
-        let selectableCards = this.game.allCards.filter(card => {
-            return this.checkCardCondition(card);
-        });
-        this.choosingPlayer.setSelectableCards(selectableCards);
+        this.choosingPlayer.setSelectableCards(this.selector.getAllLegalTargets(this.context));
     }
 
     activeCondition(player) {
@@ -106,7 +118,9 @@ class SelectCardPrompt extends UiPrompt {
     activePrompt() {
         let buttons = this.properties.buttons;
         if(!this.selector.automaticFireOnSelect() && this.selector.hasEnoughSelected(this.selectedCards)) {
-            buttons = [{ text: 'Done', arg: 'done' }].concat(buttons);
+            if(buttons.every(button => button.text !== 'Done')) {
+                buttons = [{ text: 'Done', arg: 'done' }].concat(buttons);
+            }
         }
         if(this.game.manualMode && !_.any(buttons, button => button.arg === 'cancel')) {
             buttons = buttons.concat({ text: 'Cancel Prompt', arg: 'cancel' });
@@ -151,7 +165,7 @@ class SelectCardPrompt extends UiPrompt {
         }
 
         return (
-            this.selector.canTarget(card, this.context, this.properties.pretarget) &&
+            this.selector.canTarget(card, this.context) &&
             !this.selector.wouldExceedLimit(this.selectedCards, card)
         );
     }

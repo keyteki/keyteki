@@ -61,6 +61,7 @@ describe('For Greater Glory', function() {
                 expect(this.player2).toBeAbleToSelect(this.endlessPlains);
                 this.player2.clickCard(this.endlessPlains);
                 this.player1.clickPrompt('No');
+                expect(this.endlessPlains.isBroken).toBe(true);
                 expect(this.player1).toHavePrompt('Triggered Abilities');
                 expect(this.player1).toBeAbleToSelect(this.forGreaterGlory);
                 expect(this.player1).toBeAbleToSelect(this.shinjoAltansarnai);

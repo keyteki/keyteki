@@ -27,7 +27,7 @@ describe('setup phase', function() {
                 expect(this.secondPlayer).toHavePrompt('Waiting for opponent to use Choose First Player');
             });
         });
-    
+
         describe('setting up provinces', function() {
             beforeEach(function() {
                 this.selectFirstPlayer(this.player1);
@@ -52,7 +52,7 @@ describe('setup phase', function() {
                 expect(this.player1.player.strongholdProvince.value().length).toBe(1);
                 expect(this.player1.player.strongholdProvince.first().isStronghold).toBe(true);
                 expect(this.player2.player.strongholdProvince.value().length).toBe(1);
-                expect(this.player2.player.strongholdProvince.first().isStronghold).toBe(true);                
+                expect(this.player2.player.strongholdProvince.first().isStronghold).toBe(true);
             });
 
             it('should present both players with a prompt to set up provinces', function() {
@@ -62,8 +62,7 @@ describe('setup phase', function() {
 
             it('should allow proceeding once all provinces have been set up', function() {
                 let strongholdProvince = this.player1.player.provinceDeck.value()[0];
-                strongholdProvince.selected = true;
-                this.player1.clickPrompt('Done');
+                this.player1.clickCard(strongholdProvince);
                 expect(this.player1.currentPrompt().menuTitle).toBe('Waiting for opponent to finish selecting a stronghold province');
             });
         });
@@ -75,12 +74,12 @@ describe('setup phase', function() {
                 this.spy = spyOn(this.player1.player, 'shuffleDynastyDeck');
             });
 
-            it('should present first player with a dynasty mulligan prompt', function() {
+            it('should present both players with a dynasty mulligan prompt', function() {
                 expect(this.player1).toHavePrompt('Select dynasty cards to mulligan');
-                expect(this.player2).toHavePrompt('Waiting for opponent to mulligan dynasty cards');
+                expect(this.player1).toHavePrompt('Select dynasty cards to mulligan');
             });
 
-            describe('if the player clicks Done', function() {
+            describe('if a player clicks Done', function() {
                 beforeEach(function() {
                     this.player1.clickPrompt('Done');
                 });
@@ -125,9 +124,9 @@ describe('setup phase', function() {
                 this.spy = spyOn(this.player1.player, 'shuffleConflictDeck');
             });
 
-            it('should present first player with a conflict mulligan prompt', function() {
+            it('should present both players with a conflict mulligan prompt', function() {
                 expect(this.player1).toHavePrompt('Select conflict cards to mulligan');
-                expect(this.player2).toHavePrompt('Waiting for opponent to mulligan conflict cards');
+                expect(this.player2).toHavePrompt('Select conflict cards to mulligan');
             });
 
             describe('if the player clicks Done', function() {

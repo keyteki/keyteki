@@ -5,17 +5,14 @@ class HidaTomonatsu extends DrawCard {
         this.reaction({
             title: 'Return a character to deck',
             when: {
-                afterConflict: event => event.conflict.winner === this.controller && event.conflict.isDefending(this)
+                afterConflict: (event, context) => event.conflict.winner === context.player && context.source.isDefending()
             },
             cost: ability.costs.sacrificeSelf(),
             target: {
                 cardType: 'character',
-                gameAction: 'returnToDeck',
-                cardCondition: card => card.isAttacking() && !card.isUnique()
-            },
-            handler: context => {
-                this.game.addMessage('{0} activates {1} to move {2} to the top of {3}\'s deck', context.player, this, context.target, context.target.controller);
-                this.game.applyGameAction(context, { returnToDeck: context.target });
+                controller: 'opponent',
+                cardCondition: card => card.isAttacking() && !card.isUnique(),
+                gameAction: ability.actions.returnToDeck()
             }
         });
     }

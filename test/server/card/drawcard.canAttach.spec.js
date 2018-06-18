@@ -2,6 +2,9 @@ const DrawCard = require('../../../server/game/drawcard.js');
 
 describe('DrawCard', function() {
     beforeEach(function() {
+        this.blankEffect = jasmine.createSpyObj('blankEffect', ['getValue']);
+        this.blankEffect.getValue.and.returnValue(true);
+        this.blankEffect.type = 'blank';
         this.game = jasmine.createSpyObj('game', ['emitEvent', 'on']);
         this.owner = {
             game: this.game
@@ -11,7 +14,7 @@ describe('DrawCard', function() {
     describe('canAttach()', function() {
         describe('when the card is an attachment', function() {
             beforeEach(function() {
-                this.targetCard = new DrawCard(this.owner, { type: 'character', text_canonical: '' });
+                this.targetCard = new DrawCard(this.owner, { type: 'character', text: '' });
                 this.attachment = new DrawCard(this.owner, { type: 'attachment' });
             });
 
@@ -22,7 +25,7 @@ describe('DrawCard', function() {
 
         describe('when the card is not an attachment', function() {
             beforeEach(function() {
-                this.targetCard = new DrawCard(this.owner, { type: 'character', text_canonical: '' });
+                this.targetCard = new DrawCard(this.owner, { type: 'character', text: '' });
                 this.attachment = new DrawCard(this.owner, { type: 'event' });
             });
 
@@ -35,7 +38,7 @@ describe('DrawCard', function() {
     describe('allowAttachment()', function() {
         describe('when the target card does not allow attachments', function() {
             beforeEach(function() {
-                this.targetCard = new DrawCard(this.owner, { type: 'character', text_canonical: 'no attachments.' });
+                this.targetCard = new DrawCard(this.owner, { type: 'character', text: 'No attachments.' });
                 this.attachment = new DrawCard(this.owner, { type: 'attachment' });
             });
 
@@ -45,7 +48,7 @@ describe('DrawCard', function() {
 
             describe('but the target card is blank', function() {
                 beforeEach(function() {
-                    this.targetCard.setBlank();
+                    this.targetCard.addEffect(this.blankEffect);
                 });
 
                 it('should return true', function() {
@@ -56,12 +59,12 @@ describe('DrawCard', function() {
 
         describe('when the target card only allows certain kinds of attachments', function() {
             beforeEach(function() {
-                this.targetCard = new DrawCard(this.owner, { type: 'character', text_canonical: 'no attachments except weapon.' });
+                this.targetCard = new DrawCard(this.owner, { type: 'character', text: 'No attachments except weapon.' });
             });
 
             describe('and the card text has the target in italics', function() {
                 beforeEach(function() {
-                    this.targetCard = new DrawCard(this.owner, { type: 'character', text_canonical: 'no attachments except weapon.' });
+                    this.targetCard = new DrawCard(this.owner, { type: 'character', text: 'No attachments except weapon.' });
                 });
 
                 describe('and the attachment has that trait', function() {
@@ -96,7 +99,7 @@ describe('DrawCard', function() {
 
                 describe('but the target card is blank', function() {
                     beforeEach(function() {
-                        this.targetCard.setBlank();
+                        this.targetCard.addEffect(this.blankEffect);
                     });
 
                     it('should return true', function() {
@@ -108,7 +111,7 @@ describe('DrawCard', function() {
 
         describe('when the target card only allows two kinds of attachments', function() {
             beforeEach(function() {
-                this.targetCard = new DrawCard(this.owner, { type: 'character', text_canonical: 'no attachments except monk or tattoo.' });
+                this.targetCard = new DrawCard(this.owner, { type: 'character', text: 'No attachments except monk or tattoo.' });
             });
 
             describe('and the attachment has the first of those traits', function() {
@@ -152,7 +155,7 @@ describe('DrawCard', function() {
 
                 describe('but the target card is blank', function() {
                     beforeEach(function() {
-                        this.targetCard.setBlank();
+                        this.targetCard.addEffect(this.blankEffect);
                     });
 
                     it('should return true', function() {
@@ -164,7 +167,7 @@ describe('DrawCard', function() {
 
         describe('when there are no restrictions', function() {
             beforeEach(function() {
-                this.targetCard = new DrawCard(this.owner, { type: 'character', text_canonical: '' });
+                this.targetCard = new DrawCard(this.owner, { type: 'character', text: '' });
                 this.attachment = new DrawCard(this.owner, { type: 'attachment', traits: [] });
             });
 

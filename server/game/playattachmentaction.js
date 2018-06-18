@@ -1,41 +1,45 @@
-const BaseAbility = require('./baseability.js');
+const BaseAction = require('./BaseAction');
 const Costs = require('./costs.js');
+const AttachAction = require('./GameActions/AttachAction');
 
-class PlayAttachmentAction extends BaseAbility {
-    constructor() {
-        super({
-            cost: [
-                Costs.payReduceableFateCost('play'),
-                Costs.playLimited(),
-                Costs.useInitiateAction()
-            ],
-            target: { 
-                cardCondition: (card, context) => context.player.canAttach(context.source, card) && context.source.canPlayOn(card)
-            }
+class PlayAttachmentAction extends BaseAction {
+    constructor(card) {
+        super(card, [Costs.payTargetDependentFateCost('target', 'play'), Costs.playLimited()], {
+            gameAction: new AttachAction(context => ({ attachment: context.source })),
+            cardCondition: (card, context) => context.source.canPlayOn(card)
         });
         this.title = 'Play this attachment';
-        this.cannotTargetFirst = false;
-        this.abilityType = 'action';
-        this.cannotBeCancelled = true;
     }
-    
-    meetsRequirements(context) {
-        return (
-            context.game.currentPhase !== 'dynasty' &&
-            context.source.getType() === 'attachment' &&
-            context.player.isCardInPlayableLocation(context.source, 'play') &&
-            context.source.allowGameAction('putIntoPlay', context) &&
-            context.source.canPlay(context) &&
-            this.canResolveTargets(context)
-        );
+
+    meetsRequirements(context = this.createContext()) {
+        if(context.game.currentPhase === 'dynasty') {
+            return 'phase';
+        }
+        if(!context.player.isCardInPlayableLocation(context.source, 'play')) {
+            return 'location';
+        }
+        if(!context.source.canPlay(context)) {
+            return 'cannotTrigger';
+        }
+        if(context.source.anotherUniqueInPlay(context.player)) {
+            return 'unique';
+        }
+        return super.meetsRequirements(context);
+    }
+
+    displayMessage(context) {
+        context.game.addMessage('{0} plays {1}, attaching it to {2}', context.player, context.source, context.target);
     }
 
     executeHandler(context) {
-        this.originalLocation = context.source.location;
-        context.player.attach(context.source, context.target, true);
-        context.game.addMessage('{0} plays {1}, attaching it to {2}', context.player, context.source, context.target);
+        let cardPlayedEvent = context.game.getEvent('onCardPlayed', {
+            player: context.player,
+            card: context.source,
+            originalLocation: context.source.location
+        });
+        context.game.openEventWindow([new AttachAction({ attachment: context.source }).getEvent(context.target, context), cardPlayedEvent]);
     }
-    
+
     isCardPlayed() {
         return true;
     }
