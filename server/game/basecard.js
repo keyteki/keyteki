@@ -263,22 +263,27 @@ class BaseCard extends EffectSource {
         return 0;
     }
 
+    hideWhenFacedown() {
+        return !this.anyEffect('canBeSeenWhenFacedown');
+    }
+
     getSummary(activePlayer, hideWhenFaceup) {
         let isActivePlayer = activePlayer === this.owner;
 
-        if(!isActivePlayer && (this.facedown || hideWhenFaceup) && this.isProvince) {
-            return {
+        if(!isActivePlayer && (this.facedown || hideWhenFaceup)) {
+            return !this.isProvince ? { facedown: true } : {
                 uuid: this.uuid,
                 inConflict: this.inConflict,
-                facedown: true};
-        }
-
-        if(!isActivePlayer && (this.facedown || hideWhenFaceup)) {
-            return {
-                facedown: true};
+                facedown: true
+            };
         }
 
         let selectionState = activePlayer.getCardSelectionState(this);
+
+        if(this.facedown && this.hideWhenFacedown()) {
+            return Object.assign({ facedown: true }, selectionState);
+        }
+
         let state = {
             id: this.cardData.id,
             controlled: this.owner !== this.controller,
