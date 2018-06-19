@@ -15,8 +15,8 @@ class LastingEffectAction extends GameAction {
         this.effectMsg = 'apply a lasting effect';
     }
 
-    hasLegalTarget() {
-        this.update();
+    hasLegalTarget(context) {
+        this.update(context);
         return this.effect.length > 0;
     }
 
