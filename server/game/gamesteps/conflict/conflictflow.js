@@ -115,7 +115,7 @@ class ConflictFlow extends BaseStepWithPipeline {
         if(targets.length === sources.length) {
             for(let i = 0; i < targets.length; i++) {
                 let context = new AbilityContext({ game: this.game, player: this.conflict.attackingPlayer, source: sources[i], ability: new CovertAbility() });
-                context.targets.target = targets[i];
+                context['target'] = context.targets.target = targets[i];
                 this.covert.push(context);
             }
             if(this.covert.every(context => context.targets.target.canBeBypassedByCovert(context))) {
@@ -128,10 +128,11 @@ class ConflictFlow extends BaseStepWithPipeline {
             let context = new AbilityContext({ game: this.game, player: this.conflict.attackingPlayer, source: source, ability: new CovertAbility() });
             this.game.promptForSelect(this.conflict.attackingPlayer, {
                 activePromptTitle: 'Choose covert target for ' + source.name,
-                buttons: [{ text: 'No target', arg: 'cancel' }],
+                buttons: [{ text: 'No Target', arg: 'cancel' }],
                 cardType: 'character',
                 controller: 'opponent',
-                cardCondition: card => card.canBeBypassedByCoverted(context),
+                source: 'Choose Covert',
+                cardCondition: card => card.canBeBypassedByCovert(context),
                 onSelect: (player, card) => {
                     context['target'] = context.targets.target = card;
                     this.covert.push(context);

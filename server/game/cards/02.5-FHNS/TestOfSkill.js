@@ -33,14 +33,17 @@ class TestOfSkill extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Reveal cards and take ones matching named type',
-            condition: context => context.player.conflictDeck.size() >= context.player.cardsInPlay.any(card => card.hasTrait('duelist')) ? 3 : 4,
+            condition: context => context.player.conflictDeck.size() >= context.player.cardsInPlay.some(card => card.hasTrait('duelist')) ? 4 : 3,
             cost: [ability.costs.revealCards(context => context.player.conflictDeck.first(
-                context.player.cardsInPlay.any(card => card.hasTrait('duelist')) ? 3 : 4
+                context.player.cardsInPlay.some(card => card.hasTrait('duelist')) ? 4 : 3
             )), testOfSkillCost()],
             cannotBeMirrored: true,
             effect: 'take cards into their hand',
             handler: context => {
                 let [matchingCards, cardsToDiscard] = _.partition(context.costs.reveal, card => card.type === context.costs.testOfSkillCost && card.location === 'conflict deck');
+                //Handle situations where card is played from deck, such as with pillow book
+                matchingCards = _.reject(matchingCards, c=> c.uuid === context.source.uuid);
+
                 let discardHandler = () => {
                     cardsToDiscard = cardsToDiscard.concat(matchingCards);
                     this.game.addMessage('{0} discards {1}', context.player, cardsToDiscard);

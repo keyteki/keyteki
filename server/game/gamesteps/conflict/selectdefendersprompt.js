@@ -24,7 +24,6 @@ class SelectDefendersPrompt extends UiPrompt {
     }
 
     activePrompt() {
-        //this.conflict.calculateSkill();
         let promptTitle = (capitalize[this.conflict.conflictType] + ' ' + capitalize[this.conflict.element] + ' Conflict: '
             + this.conflict.attackerSkill + ' vs ' + this.conflict.defenderSkill);
         return {
