@@ -1,4 +1,4 @@
-fdescribe('Policy Debate', function() {
+describe('Policy Debate', function() {
     integration(function() {
         describe('when used during a conflict', function() {
             beforeEach(function() {
