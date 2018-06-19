@@ -491,10 +491,6 @@ class DrawCard extends BaseCard {
         return !this.anyEffect('doesNotBow');
     }
 
-    readiesDuringReadyPhase() {
-        return this.anyEffect('doesNotReady');
-    }
-
     setDefaultController(player) {
         this.defaultController = player;
     }
