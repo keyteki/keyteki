@@ -300,6 +300,153 @@ describe('conflict phase', function() {
         });
 
         // check covert works and is correctly cancellable
+        describe('Covert declaration', function() {
+            beforeEach(function() {
+                //this.errors = spyOn(this.game, 'reportError');
+                this.setupTest({
+                    phase: 'conflict',
+                    player1: {
+                        inPlay: ['unassuming-yojimbo', 'kaiu-shuichi']
+                    },
+                    player2: {
+                        inPlay: ['seppun-guardsman', 'adept-of-the-waves', 'miya-mystic'],
+                        hand: ['finger-of-jade']
+                    }
+                });
+                this.shamefulDisplay = this.player2.findCardByName('shameful-display', 'province 1');
+                this.seppunGuardsman = this.player2.findCardByName('seppun-guardsman');
+                this.miyaMystic = this.player2.findCardByName('miya-mystic');
+                this.player1.pass();
+                this.fingerOfJade = this.player2.playAttachment('finger-of-jade', this.miyaMystic);
+                this.player1.pass();
+                this.adeptOfTheWaves = this.player2.clickCard('adept-of-the-waves');
+                this.player2.clickCard(this.adeptOfTheWaves);
+                this.noMoreActions();
+            });
+
+            it('should allow covert to be declared when attackers are selected', function() {
+                this.player1.clickRing('air');
+                this.unassumingYojimbo = this.player1.clickCard('unassuming-yojimbo');
+                expect(this.unassumingYojimbo.inConflict).toBe(true);
+                this.player1.clickCard(this.seppunGuardsman);
+                expect(this.seppunGuardsman.covert).toBe(true);
+            });
+
+            it('should not prompt the players if the characters selected are legal targets for covert', function() {
+                this.player1.clickRing('air');
+                this.unassumingYojimbo = this.player1.clickCard('unassuming-yojimbo');
+                this.player1.clickCard('kaiu-shuichi');
+                this.player1.clickCard(this.seppunGuardsman);
+                this.player1.clickCard(this.adeptOfTheWaves);
+                this.player1.clickCard(this.shamefulDisplay);
+                this.player1.clickPrompt('Initiate Conflict');
+                expect(this.player2).toHavePrompt('Choose Defenders');
+            });
+
+            it('should prompt the player if insufficient covert targets are selected', function() {
+                this.player1.clickRing('water');
+                this.unassumingYojimbo = this.player1.clickCard('unassuming-yojimbo');
+                this.player1.clickCard('kaiu-shuichi');
+                this.player1.clickCard(this.shamefulDisplay);
+                this.player1.clickPrompt('Initiate Conflict');
+                expect(this.player1).toHavePrompt('Choose Covert');
+            });
+
+            it('should allow the player not to covert if they don\'t want to', function() {
+                this.player1.clickRing('water');
+                this.unassumingYojimbo = this.player1.clickCard('unassuming-yojimbo');
+                this.player1.clickCard(this.shamefulDisplay);
+                this.player1.clickPrompt('Initiate Conflict');
+                expect(this.player1.currentButtons).toContain('No Target');
+                this.player1.clickPrompt('No Target');
+                expect(this.player2).toHavePrompt('Choose Defenders');
+                expect(this.seppunGuardsman.covert).toBe(false);
+                expect(this.adeptOfTheWaves.covert).toBe(false);
+                expect(this.miyaMystic.covert).toBe(false);
+            });
+
+            it('should not allow the player to select characters with covert', function() {
+                this.player1.clickRing('water');
+                this.unassumingYojimbo = this.player1.clickCard('unassuming-yojimbo');
+                this.player1.clickCard(this.shamefulDisplay);
+                this.player1.clickPrompt('Initiate Conflict');
+                expect(this.player1).toHavePrompt('Choose Covert');
+                expect(this.player1).toBeAbleToSelect(this.seppunGuardsman);
+                expect(this.player1).not.toBeAbleToSelect(this.adeptOfTheWaves);
+            });
+
+            it('should prompt the player separately for multiple characters with covert', function() {
+                this.player1.clickRing('air');
+                this.unassumingYojimbo = this.player1.clickCard('unassuming-yojimbo');
+                this.player1.clickCard('kaiu-shuichi');
+                this.player1.clickCard(this.shamefulDisplay);
+                this.player1.clickPrompt('Initiate Conflict');
+                expect(this.player1).toHavePrompt('Choose covert target for Unassuming Yōjimbō');
+                this.player1.clickCard(this.seppunGuardsman);
+                expect(this.player1).toHavePrompt('Choose covert target for Kaiu Shuichi');
+            });
+
+            it('should allow selecting the same target multiple times for covert', function() {
+                this.player1.clickRing('air');
+                this.unassumingYojimbo = this.player1.clickCard('unassuming-yojimbo');
+                this.player1.clickCard('kaiu-shuichi');
+                this.player1.clickCard(this.shamefulDisplay);
+                this.player1.clickPrompt('Initiate Conflict');
+                expect(this.player1).toHavePrompt('Choose covert target for Unassuming Yōjimbō');
+                this.player1.clickCard(this.seppunGuardsman);
+                expect(this.player1).toHavePrompt('Choose covert target for Kaiu Shuichi');
+                expect(this.player1).toBeAbleToSelect(this.seppunGuardsman);
+            });
+
+            it('should prompt the player simultaneously for all covert choices for cancels when targeted automatically', function() {
+                this.player1.clickRing('air');
+                this.unassumingYojimbo = this.player1.clickCard('unassuming-yojimbo');
+                this.player1.clickCard('kaiu-shuichi');
+                this.player1.clickCard(this.shamefulDisplay);
+                this.player1.clickPrompt('Initiate Conflict');
+                this.player1.clickCard(this.seppunGuardsman);
+                this.player1.clickCard(this.miyaMystic);
+                expect(this.player2).toHavePrompt('Triggered Abilities');
+                let controls = this.player2.currentPrompt().controls;
+                expect(controls[0].source.id).toBe('unassuming-yojimbo');
+                expect(controls[0].targets[0].id).toBe('seppun-guardsman');
+                expect(controls[1].source.id).toBe('kaiu-shuichi');
+                expect(controls[1].targets[0].id).toBe('miya-mystic');
+            });
+
+            it('should apply covert to all non-cancelled coverts', function() {
+                this.player1.clickRing('air');
+                this.unassumingYojimbo = this.player1.clickCard('unassuming-yojimbo');
+                this.player1.clickCard('kaiu-shuichi');
+                this.player1.clickCard(this.shamefulDisplay);
+                this.player1.clickPrompt('Initiate Conflict');
+                this.player1.clickCard(this.seppunGuardsman);
+                this.player1.clickCard(this.miyaMystic);
+                this.player2.clickCard(this.fingerOfJade);
+                expect(this.player2).toHavePrompt('Choose Defenders');
+                this.player2.clickCard(this.seppunGuardsman);
+                this.player2.clickCard(this.miyaMystic);
+                expect(this.game.currentConflict.defenders).toContain(this.miyaMystic);
+                expect(this.game.currentConflict.defenders).not.toContain(this.seppunGuardsman);
+            });
+
+            it('should apply double targeted characters that only cancelled one instance of covert', function() {
+                this.player1.clickRing('air');
+                this.unassumingYojimbo = this.player1.clickCard('unassuming-yojimbo');
+                this.player1.clickCard('kaiu-shuichi');
+                this.player1.clickCard(this.shamefulDisplay);
+                this.player1.clickPrompt('Initiate Conflict');
+                this.player1.clickCard(this.miyaMystic);
+                this.player1.clickCard(this.miyaMystic);
+                this.player2.clickCard(this.fingerOfJade);
+                this.player2.clickCard(this.unassumingYojimbo);
+                expect(this.player2).toHavePrompt('Choose Defenders');
+                this.player2.clickCard(this.seppunGuardsman);
+                this.player2.clickCard(this.miyaMystic);
+                expect(this.game.currentConflict.defenders).not.toContain(this.miyaMystic);
+                expect(this.game.currentConflict.defenders).toContain(this.seppunGuardsman);
+            });
+        });
         // check defender declaration works and stops illegal defenders from being selected
         // check conflict action window works properly, and messages are correctly displayed
         // check pride is properly triggered and can be interrupted and reacted to
