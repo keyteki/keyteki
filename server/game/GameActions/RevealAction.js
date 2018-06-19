@@ -9,7 +9,8 @@ class RevealAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(!card.facedown && card.location !== 'hand') {
+        let testLocations = ['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province','play area'];
+        if(!card.facedown && testLocations.includes(card.location)) {
             return false;
         }
         return super.canAffect(card, context);

@@ -6,6 +6,14 @@ class SpecificCardCost {
 
     canPay(context) {
         let card = this.cardFunc(context);
+        //handle cases where "card" is actually an array of cards
+        if(card.length !== undefined && card.length > 0) {
+            let result = true;
+            card.forEach((subcard) => {
+                result = result && this.action.canAffect(subcard);
+            });
+            return result;
+        }
         return this.action.canAffect(card, context);
     }
 
