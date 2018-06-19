@@ -263,6 +263,10 @@ class BaseCard extends EffectSource {
         return 0;
     }
 
+    readiesDuringReadyPhase() {
+        return !this.anyEffect('doesNotReady');
+    }
+
     hideWhenFacedown() {
         return !this.anyEffect('canBeSeenWhenFacedown');
     }

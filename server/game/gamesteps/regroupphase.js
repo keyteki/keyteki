@@ -20,7 +20,7 @@ class RegroupPhase extends Phase {
     constructor(game) {
         super(game, 'regroup');
         this.initialise([
-            new ActionWindow(this.game, 'After regroup phase begins', 'regroup'),
+            new ActionWindow(this.game, 'Action Window', 'regroup'),
             new SimpleStep(game, () => this.readyCards()),
             new SimpleStep(game, () => this.discardFromProvinces()),
             new SimpleStep(game, () => this.returnRings()),
@@ -31,8 +31,8 @@ class RegroupPhase extends Phase {
     }
 
     readyCards() {
-        let cardsToReady = this.game.allCards.filter(card => card.bowed && card.readysDuringReadying);
-        this.game.applyGameAction(null, { ready: cardsToReady }, [{ name: 'onReadyAllCards', params: { cards: cardsToReady } }]);
+        let cardsToReady = this.game.allCards.filter(card => card.bowed && card.readiesDuringReadyPhase());
+        GameActions.ready().resolve(cardsToReady, this.game.getFrameworkContext());
     }
 
     discardFromProvinces() {
