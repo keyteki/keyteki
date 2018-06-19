@@ -167,6 +167,9 @@ class Conflict extends GameObject {
     }
 
     hasMoreParticipants(player, predicate = () => true) {
+        if(!player) {
+            return false;
+        }
         if(!player.opponent) {
             return this.anyParticipants(predicate);
         }
