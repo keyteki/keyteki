@@ -1,4 +1,4 @@
-fdescribe('Bayushi Manipulator', function() {
+describe('Bayushi Manipulator', function() {
     integration(function() {
         describe('Bayushi Manipulator\'s ability', function() {
             beforeEach(function() {
