@@ -31,7 +31,7 @@ describe('Steadfast Witch Hunter', function() {
                 this.player2.clickPrompt('Pay Costs First');
                 this.player2.clickCard(this.steadfastWitchHunter);
                 expect(this.steadfastWitchHunter.location).toBe('dynasty discard pile');
-                expect(this.spy).toHaveBeenCalledWith('{0} attempted to use {1}, but targets were not successfully chosen', this.player2.player, this.steadfastWitchHunter);
+                expect(this.spy).toHaveBeenCalledWith('{0} attempted to use {1}, but there are insufficient legal targets', this.player2.player, this.steadfastWitchHunter);
             });
 
             it('should still display a message if the target is chosen then sacrificed', function() {
@@ -42,7 +42,7 @@ describe('Steadfast Witch Hunter', function() {
                 this.player2.clickCard(this.steadfastWitchHunter);
                 this.player2.clickCard(this.steadfastWitchHunter);
                 expect(this.steadfastWitchHunter.location).toBe('dynasty discard pile');
-                expect(this.spy).toHaveBeenCalledWith('{0} attempted to use {1}, but targets were not successfully chosen', this.player2.player, this.steadfastWitchHunter);
+                expect(this.spy).toHaveBeenCalledWith('{0} attempted to use {1}, but there are insufficient legal targets', this.player2.player, this.steadfastWitchHunter);
             });
 
             it('should prompt the player to select a new target if the first target is no longer in play', function() {

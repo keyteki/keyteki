@@ -5,10 +5,10 @@ class AbilityTargetAbility {
         this.name = name;
         this.properties = properties;
         this.selector = this.getSelector(properties);
-        this.checkDependentTarget = context => true; // eslint-disable-line no-unused-vars
+        this.dependentTarget = null;
         if(this.properties.dependsOn) {
             let dependsOnTarget = ability.targets.find(target => target.name === this.properties.dependsOn);
-            dependsOnTarget.checkDependentTarget = context => this.hasLegalTarget(context);
+            dependsOnTarget.dependentTarget = this;
         }
     }
 
@@ -21,7 +21,8 @@ class AbilityTargetAbility {
                 if(context.stage === 'pretarget' && !context.ability.canPayCosts(contextCopy)) {
                     return false;
                 }
-                return properties.cardCondition(card, contextCopy) && this.checkDependentTarget(context) &&
+                return properties.cardCondition(card, contextCopy) &&
+                       (!this.dependentTarget || this.dependentTarget.hasLegalTarget(contextCopy)) &&
                        properties.gameAction.some(gameAction => gameAction.hasLegalTarget(contextCopy));
             });
         };
@@ -44,11 +45,9 @@ class AbilityTargetAbility {
         return this.properties.gameAction.filter(gameAction => gameAction.hasLegalTarget(context));
     }
 
-    resolve(context) {
-        let result = { resolved: false, name: this.name, value: null, costsFirst: false, mode: this.properties.mode };
-        if(this.getAllLegalTargets(context).length === 0) {
-            result.resolved = true;
-            return result;
+    resolve(context, targetResults) {
+        if(targetResults.cancelled || targetResults.payCostsFirst || targetResults.delayTargeting) {
+            return;
         }
         let buttons = [];
         let waitingPromptTitle = '';
@@ -64,32 +63,25 @@ class AbilityTargetAbility {
             waitingPromptTitle: waitingPromptTitle,
             buttons: buttons,
             context: context,
+            selector: this.selector,
             onSelect: (player, card) => {
-                result.resolved = true;
                 let ability = card.abilities.actions.find(action => action.printedAbility) || card.abilities.reactions.find(reaction => reaction.printedAbility);
-                result.value = ability;
                 context.targetAbility = ability;
                 return true;
             },
             onCancel: () => {
-                result.resolved = true;
+                targetResults.cancelled = true;
                 return true;
             },
             onMenuCommand: (player, arg) => {
                 if(arg === 'costsFirst') {
-                    result.costsFirst = true;
-                    return true;
-                } else if(arg === 'cancel') {
-                    result.resolved = true;
+                    targetResults.costsFirst = true;
                     return true;
                 }
-                result.resolved = true;
-                result.value = arg;
                 return true;
             }
         };
         context.game.promptForSelect(context.player, Object.assign(promptProperties, this.properties));
-        return result;
     }
 
     checkTarget(context) {
@@ -97,7 +89,8 @@ class AbilityTargetAbility {
             return false;
         }
         return this.properties.cardType === context.targetAbility.card.type &&
-               this.properties.cardCondition(context.targetAbility.card, context);
+               this.properties.cardCondition(context.targetAbility.card, context) &&
+               (!this.dependentTarget || this.dependentTarget.checkTarget(context));
     }
 }
 

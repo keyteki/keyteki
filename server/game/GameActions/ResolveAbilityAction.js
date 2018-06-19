@@ -8,7 +8,6 @@ class NoCostsAbilityResolver extends AbilityResolver {
             new SimpleStep(this.game, () => this.setAdditionalContext()),
             new SimpleStep(this.game, () => this.createSnapshot()),
             new SimpleStep(this.game, () => this.resolveTargets()),
-            new SimpleStep(this.game, () => this.waitForTargetResolution()),
             new SimpleStep(this.game, () => this.initiateAbility())
         ]);
     }

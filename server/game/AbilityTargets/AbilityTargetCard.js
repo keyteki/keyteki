@@ -10,10 +10,10 @@ class AbilityTargetCard {
             gameAction.getDefaultTargets = context => context.targets[name];
         }
         this.selector = this.getSelector(properties);
-        this.checkDependentTarget = context => true; // eslint-disable-line no-unused-vars
+        this.dependentTarget = null;
         if(this.properties.dependsOn) {
             let dependsOnTarget = ability.targets.find(target => target.name === this.properties.dependsOn);
-            dependsOnTarget.checkDependentTarget = context => this.hasLegalTarget(context);
+            dependsOnTarget.dependentTarget = this;
         }
     }
 
@@ -27,7 +27,8 @@ class AbilityTargetCard {
             if(context.stage === 'pretarget' && !context.ability.canPayCosts(contextCopy)) {
                 return false;
             }
-            return (!properties.cardCondition || properties.cardCondition(card, contextCopy)) && this.checkDependentTarget(contextCopy) &&
+            return (!properties.cardCondition || properties.cardCondition(card, contextCopy)) &&
+                   (!this.dependentTarget || this.dependentTarget.hasLegalTarget(contextCopy)) &&
                    (properties.gameAction.length === 0 || properties.gameAction.some(gameAction => gameAction.hasLegalTarget(contextCopy)));
         };
         return CardSelector.for(Object.assign({}, properties, { cardCondition: cardCondition}));
@@ -50,18 +51,20 @@ class AbilityTargetCard {
         return this.selector.getAllLegalTargets(context);
     }
 
-    resolve(context, noCostsFirstButton = false) {
-        let otherProperties = _.omit(this.properties, 'cardCondition');
-        let result = { resolved: false, name: this.name, value: null, costsFirst: false, mode: this.properties.mode };
-        let player = context.player;
-        if(this.getAllLegalTargets(context).length === 0) {
-            result.resolved = true;
-            return result;
+    resolve(context, targetResults) {
+        if(targetResults.cancelled || targetResults.payCostsFirst || targetResults.delayTargeting) {
+            return;
         }
-        if(this.properties.player && this.properties.player === 'opponent') {
+        let otherProperties = _.omit(this.properties, 'cardCondition', 'player');
+        let playerProp = this.properties.player;
+        if(typeof playerProp === 'function') {
+            playerProp = playerProp(context);
+        }
+        let player = context.player;
+        if(playerProp === 'opponent') {
             if(context.stage === 'pretarget') {
-                result.costsFirst = true;
-                return result;
+                targetResults.delayTargeting = this;
+                return;
             }
             player = player.opponent;
         }
@@ -71,7 +74,7 @@ class AbilityTargetCard {
             buttons.push({ text: 'No more targets', arg: 'noMoreTargets' });
         }
         if(context.stage === 'pretarget') {
-            if(!noCostsFirstButton) {
+            if(!targetResults.noCostsFirstButton) {
                 buttons.push({ text: 'Pay costs first', arg: 'costsFirst' });
             }
             buttons.push({ text: 'Cancel', arg: 'cancel' });
@@ -87,35 +90,30 @@ class AbilityTargetCard {
             selector: this.selector,
             buttons: buttons,
             onSelect: (player, card) => {
-                result.resolved = true;
-                result.value = card;
                 context.targets[this.name] = card;
+                if(this.name === 'target') {
+                    context.target = card;
+                }
                 return true;
             },
             onCancel: () => {
-                result.resolved = true;
+                targetResults.cancelled = true;
                 return true;
             },
             onMenuCommand: (player, arg) => {
                 if(arg === 'costsFirst') {
-                    result.costsFirst = true;
-                    return true;
-                } else if(arg === 'cancel') {
-                    result.resolved = true;
+                    targetResults.costsFirst = true;
                     return true;
                 }
-                result.resolved = true;
-                result.value = arg;
                 return true;
             }
         };
         context.game.promptForSelect(player, Object.assign(promptProperties, otherProperties));
-        return result;
     }
 
     checkTarget(context) {
         if(this.properties.optional || context.targets[this.name] === 'noMoreTargets') {
-            return true;
+            return (!this.dependentTarget || this.dependentTarget.checkTarget(context));
         } else if(!context.targets[this.name]) {
             return false;
         }
@@ -125,7 +123,8 @@ class AbilityTargetCard {
         }
         return (cards.every(card => this.selector.canTarget(card, context)) &&
                 this.selector.hasEnoughSelected(cards) &&
-                !this.selector.hasExceededLimit(cards));
+                !this.selector.hasExceededLimit(cards)) &&
+                (!this.dependentTarget || this.dependentTarget.checkTarget(context));
     }
 }
 
