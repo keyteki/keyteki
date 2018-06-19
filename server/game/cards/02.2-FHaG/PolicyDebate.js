@@ -8,9 +8,10 @@ class PolicyDebate extends DrawCard {
                 challenger: {
                     cardType: 'character',
                     controller: 'self',
-                    cardCondition: card => card.isParticipating() && !card.hasDash('political')
+                    cardCondition: card => card.isParticipating()
                 },
                 duelTarget: {
+                    dependsOn: 'challenger',
                     cardType: 'character',
                     controller: 'opponent',
                     cardCondition: card => card.isParticipating(),
@@ -34,7 +35,7 @@ class PolicyDebate extends DrawCard {
                 activePromptTitle: 'Choose card to discard',
                 context: context,
                 cards: loser.controller.hand.sortBy(card => card.name),
-                cardHandler: card => loser.controller.discardCardFromHand(card)
+                cardHandler: card => this.game.applyGameAction(context, { discardCard: card })
             });
         }
     }
