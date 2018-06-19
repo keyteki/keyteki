@@ -112,7 +112,7 @@ class MenuCommands {
             case 'conflict':
                 if(game.currentActionWindow && game.currentActionWindow.windowName === 'preConflict') {
                     game.addMessage('{0} initiates a conflict', player);
-                    var conflict = new Conflict(game, player, player.opponent, ring.conflictType, ring.element);
+                    var conflict = new Conflict(game, player, player.opponent, ring);
                     game.currentConflict = conflict;
                     game.queueStep(new ConflictFlow(game, conflict));
                     game.queueSimpleStep(() => game.currentConflict = null);
