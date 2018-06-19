@@ -83,14 +83,15 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     getDefaultControls() {
-        let targets = this.context.targets ? Object.values(this.context.targets).map(target => target.getShortSummary()) : [];
+        let targets = this.context.targets ? Object.values(this.context.targets) : [];
+        targets = targets.reduce((array, target) => array.concat(target), []);
         if(targets.length === 0 && this.context.event && this.context.event.card) {
-            this.targets = [this.context.event.card.getShortSummary()];
+            this.targets = [this.context.event.card];
         }
         return [{
             type: 'targeting',
             source: this.context.source.getShortSummary(),
-            targets: targets
+            targets: targets.map(target => target.getShortSummary())
         }];
     }
 
