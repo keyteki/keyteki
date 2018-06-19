@@ -70,7 +70,7 @@ describe('conflict phase', function() {
         });
 
         // check conflicts pass correctly
-        fdescribe('When the action window closes', function() {
+        describe('When the action window closes', function() {
             beforeEach(function() {
                 this.setupTest({
                     phase: 'conflict',
