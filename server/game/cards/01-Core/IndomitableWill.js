@@ -10,7 +10,7 @@ class IndomitableWill extends DrawCard {
             },
             cannotBeMirrored: true,
             effect: 'prevent {1} from bowing as a result of the conflict\'s resolution',
-            effectArgs: context => context.player.cardsInPlay.find(card => card.isParicipating()),
+            effectArgs: context => context.player.cardsInPlay.find(card => card.isParticipating()),
             gameAction: ability.actions.cardLastingEffect(context => ({
                 target: context.event.conflict.getCharacters(context.player),
                 effect: ability.effects.doesNotBow()

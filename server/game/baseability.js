@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const AbilityTargetAbility = require('./AbilityTargets/AbilityTargetAbility.js');
 const AbilityTargetCard = require('./AbilityTargets/AbilityTargetCard.js');
 const AbilityTargetRing = require('./AbilityTargets/AbilityTargetRing.js');
@@ -32,6 +31,7 @@ class BaseAbility {
         }
         this.cost = this.buildCost(properties.cost);
         this.buildTargets(properties);
+        this.nonDependentTargets = this.targets.filter(target => !target.properties.dependsOn);
     }
 
     buildCost(cost) {
@@ -140,26 +140,38 @@ class BaseAbility {
      * @returns {Boolean}
      */
     canResolveTargets(context) {
-        return this.targets.every(target => target.canResolve(context));
+        return this.nonDependentTargets.every(target => target.canResolve(context));
     }
 
     /**
      * Prompts the current player to choose each target defined for the ability.
-     *
-     * @returns {Array} An array of target resolution objects.
      */
-    resolveTargets(context, results = []) {
-        if(results.length === 0) {
-            let canIgnoreAllCosts = this.cost.every(cost => cost.canIgnoreForTargeting);
-            return this.targets.map(target => target.resolve(context, canIgnoreAllCosts));
+    resolveTargets(context) {
+        let targetResults = {
+            canIgnoreAllCosts: context.stage === 'pretarget' ? this.cost.every(cost => cost.canIgnoreForTargeting) : false,
+            cancelled: false,
+            payCostsFirst: false,
+            delayTargeting: null
+        };
+        for(let target of this.targets) {
+            context.game.queueSimpleStep(() => target.resolve(context, targetResults));
         }
-        return _.zip(this.targets, results).map(array => {
-            let [target, result] = array;
-            if(!result.resolved || !target.checkTarget(context)) {
-                return target.resolve(context);
-            }
-            return result;
-        });
+        return targetResults;
+    }
+
+    resolveRemainingTargets(context, nextTarget) {
+        let index = this.targets.indexOf(nextTarget);
+        for(let target of this.targets.slice(index)) {
+            context.game.queueSimpleStep(() => target.resolve(context, {}));
+        }
+    }
+
+    hasLegalTargets(context) {
+        return this.nonDependentTargets.every(target => target.hasLegalTarget(context));
+    }
+
+    checkAllTargets(context) {
+        return this.nonDependentTargets.every(target => target.checkTarget(context));
     }
 
     displayMessage(context) { // eslint-disable-line no-unused-vars

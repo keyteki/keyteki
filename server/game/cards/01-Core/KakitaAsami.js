@@ -6,7 +6,7 @@ class KakitaAsami extends DrawCard {
             title: 'Take one honor from your opponent',
             condition: context => {
                 let diff = this.game.currentConflict.attackerSkill - this.game.currentConflict.defenderSkill;
-                return this.game.isDuringConflict('political') && (context.isAttackingPlayer() ? diff < 0 : diff > 0);
+                return this.game.isDuringConflict('political') && (context.player.isAttackingPlayer() ? diff < 0 : diff > 0);
             },
             gameAction: ability.actions.takeHonor()
         });

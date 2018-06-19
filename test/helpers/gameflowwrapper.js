@@ -147,12 +147,11 @@ class GameFlowWrapper {
      */
     finishFatePhase() {
         // this.guardCurrentPhase('fate');
-        var playersInPromptedOrder = _.sortBy(this.allPlayers, player => player.hasPrompt('Waiting for opponent to discard dynasty cards'));
-        _.each(playersInPromptedOrder, player => {
-            if(player.inPlay.length > 0) {
+        for(let player of this.allPlayers) {
+            if(this.player.currentPrompt().menuTitle === 'Fate Phase') {
                 player.clickPrompt('Done');
             }
-        });
+        }
         this.guardCurrentPhase('regroup');
     }
 
@@ -194,10 +193,12 @@ class GameFlowWrapper {
                 phaseChange = -1;
                 break;
             case 'fate':
+                console.log('fate');
                 this.finishFatePhase();
                 phaseChange = -1;
                 break;
             case 'regroup':
+                console.log('regroup');
                 this.finishRegroupPhase();
                 phaseChange = 4; //New turn
                 break;
@@ -216,12 +217,8 @@ class GameFlowWrapper {
             return;
         }
 
-        var endValue = phaseValue[endphase];
-        var currentValue = phaseValue[this.game.currentPhase];
-        //The phase difference = (end - start) modulo number of phases
-        var phaseDifference = (endValue - currentValue) % numPhases;
-        while(phaseDifference !== 0) {
-            phaseDifference += this.nextPhase();
+        while(this.game.currentPhase !== endphase) {
+            this.nextPhase();
         }
     }
 

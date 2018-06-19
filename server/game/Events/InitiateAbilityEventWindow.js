@@ -7,7 +7,7 @@ class InitiateAbilityEventWindow extends EventWindow {
     constructor(game, events) {
         super(game, events);
         _.each(this.events, event => {
-            if(event.context.ability.isCardPlayed() && !event.context.dontRaiseCardPlayed) { //context.dontRaiseCardPlayed is a flag raised by events doing multiple resolutions
+            if(event.context.ability.isCardPlayed() && !event.context.isResolveAbility) {
                 this.addEvent(this.game.getEvent('onCardPlayed', { player: event.context.player, card: event.card, originalLocation: 'hand' })); // TODO: this isn't true with Kyuden Isawa
             }
             if(event.context.ability.isCardAbility() && event.context.ability.isTriggeredAbility()) {

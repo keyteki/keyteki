@@ -39,7 +39,7 @@ describe('For Shame!', function() {
                 this.player2.clickCard(this.outrider);
                 this.player1.clickCard('assassination');
                 this.player1.clickCard(this.whisperer);
-                this.player2.playCharacterFromHand('steward-of-law');
+                this.stewardOfLaw = this.player2.playCharacterFromHand('steward-of-law');
                 this.player2.clickPrompt('Conflict');
                 this.player1.pass();
                 this.player2.clickCard('for-shame');
@@ -47,6 +47,7 @@ describe('For Shame!', function() {
                 expect(this.player2).toBeAbleToSelect(this.moto);
                 expect(this.player2).not.toBeAbleToSelect(this.outrider);
                 expect(this.player2).not.toBeAbleToSelect(this.wayfinder);
+                expect(this.player2).not.toBeAbleToSelect(this.stewardOfLaw);
             });
 
             it('should prompt to bow or dishonor a character', function() {

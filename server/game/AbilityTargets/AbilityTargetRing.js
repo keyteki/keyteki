@@ -1,25 +1,26 @@
 const _ = require('underscore');
 
-class AbilityTargetCard {
+class AbilityTargetRing {
     constructor(name, properties, ability) {
         this.name = name;
-        this.properties = _.omit(properties, 'ringCondition');
-        this.properties.ringCondition = (ring, context) => {
+        this.properties = properties;
+        this.ringCondition = (ring, context) => {
             let contextCopy = context.copy();
             contextCopy.rings[this.name] = ring;
             if(this.name === 'target') {
                 contextCopy.ring = ring;
             }
             return (properties.gameAction.length === 0 || properties.gameAction.some(gameAction => gameAction.hasLegalTarget(contextCopy))) &&
-                   properties.ringCondition(ring, contextCopy) && context.ability.canPayCosts(contextCopy) && this.checkDependentTarget(contextCopy);
+                   properties.ringCondition(ring, contextCopy) && context.ability.canPayCosts(contextCopy) &&
+                   (!this.dependentTarget || this.dependentTarget.hasLegalTarget(contextCopy));
         };
         for(let gameAction of this.properties.gameAction) {
             gameAction.getDefaultTargets = context => context.rings[name];
         }
-        this.checkDependentTarget = context => true; // eslint-disable-line no-unused-vars
+        this.dependentTarget = null;
         if(this.properties.dependsOn) {
             let dependsOnTarget = ability.targets.find(target => target.name === this.properties.dependsOn);
-            dependsOnTarget.checkDependentTarget = context => this.hasLegalTarget(context);
+            dependsOnTarget.dependentTarget = this;
         }
     }
 
@@ -28,7 +29,7 @@ class AbilityTargetCard {
     }
 
     hasLegalTarget(context) {
-        return _.any(context.game.rings, ring => this.properties.ringCondition(ring, context));
+        return _.any(context.game.rings, ring => this.ringCondition(ring, context));
     }
 
     getGameAction(context) {
@@ -36,16 +37,18 @@ class AbilityTargetCard {
     }
 
     getAllLegalTargets(context) {
-        return _.filter(context.game.rings, ring => this.properties.ringCondition(ring, context));
+        return _.filter(context.game.rings, ring => this.ringCondition(ring, context));
     }
 
-    resolve(context, noCostsFirstButton = false) {
-        let result = { resolved: false, name: this.name, value: null, costsFirst: false, mode: 'ring' };
+    resolve(context, targetResults) {
+        if(targetResults.cancelled || targetResults.payCostsFirst || targetResults.delayTargeting) {
+            return;
+        }
         let player = context.player;
         if(this.properties.player && this.properties.player === 'opponent') {
             if(context.stage === 'pretarget') {
-                result.costsFirst = true;
-                return result;
+                targetResults.delayTargeting = this;
+                return;
             }
             player = player.opponent;
         }
@@ -55,7 +58,7 @@ class AbilityTargetCard {
             buttons.push({ text: 'No more targets', arg: 'noMoreTargets' });
         }
         if(context.stage === 'pretarget') {
-            if(!noCostsFirstButton) {
+            if(!targetResults.noCostsFirstButton) {
                 buttons.push({ text: 'Pay costs first', arg: 'costsFirst' });
             }
             buttons.push({ text: 'Cancel', arg: 'cancel' });
@@ -70,32 +73,31 @@ class AbilityTargetCard {
             context: context,
             buttons: buttons,
             onSelect: (player, ring) => {
-                result.resolved = true;
-                result.value = ring;
                 context.rings[this.name] = ring;
+                if(this.name === 'target') {
+                    context.ring = ring;
+                }
                 return true;
             },
             onCancel: () => {
-                result.resolved = true;
+                targetResults.cancelled = true;
                 return true;
             },
             onMenuCommand: (player, arg) => {
                 if(arg === 'costsFirst') {
-                    result.costsFirst = true;
+                    targetResults.payCostsFirst = true;
                     return true;
                 }
-                result.resolved = true;
-                result.value = arg;
                 return true;
             }
         };
         context.game.promptForRingSelect(player, _.extend(promptProperties, this.properties));
-        return result;
     }
 
     checkTarget(context) {
-        return this.properties.ringCondition(context.rings[this.name], context);
+        return context.rings[this.name] && this.properties.ringCondition(context.rings[this.name], context) &&
+               (!this.dependentTarget || this.dependentTarget.checkTarget(context));
     }
 }
 
-module.exports = AbilityTargetCard;
+module.exports = AbilityTargetRing;
