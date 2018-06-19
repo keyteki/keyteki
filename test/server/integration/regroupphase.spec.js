@@ -33,15 +33,18 @@ describe('regroup phase', function() {
         });
 
         // Check characters and attachments are both readied
-        describe('Readying characters and attachments', function() {
+        describe('Readying characters, attachments, and strongholds', function() {
             beforeEach(function() {
                 this.setupTest({
                     phase: 'regroup',
                     player1: {
+                        honor: 10,
+                        stronghold: 'city-of-the-open-hand',
                         inPlay: ['adept-of-the-waves', 'shiba-tsukune'],
                         hand: ['jade-masterpiece']
                     },
                     player2: {
+                        honor: 11,
                         inPlay: ['doomed-shugenja'],
                         hand: ['daimyo-s-favor']
                     }
@@ -57,6 +60,7 @@ describe('regroup phase', function() {
                 this.player1.clickRing('air');
                 this.player1.clickRing('void');
                 this.player2.clickCard(this.daimyosFavor);
+                this.cityOfTheOpenHand = this.player1.clickCard('city-of-the-open-hand');
             });
 
             it('should ready characters', function() {
@@ -72,6 +76,12 @@ describe('regroup phase', function() {
                 this.noMoreActions();
                 expect(this.jadeMasterpiece.bowed).toBe(false);
                 expect(this.daimyosFavor.bowed).toBe(false);
+            });
+
+            it('should ready strongholds', function() {
+                expect(this.cityOfTheOpenHand.bowed).toBe(true);
+                this.noMoreActions();
+                expect(this.cityOfTheOpenHand.bowed).toBe(false);
             });
         });
 

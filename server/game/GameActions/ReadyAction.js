@@ -9,7 +9,7 @@ class ReadyAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(card.location !== 'play area' || !card.bowed) {
+        if((card.location !== 'play area' && !card.isStronghold) || !card.bowed) {
             return false;
         }
         return super.canAffect(card, context);
