@@ -4,7 +4,7 @@ class FlipDynastyAction extends CardGameAction {
     setup() {
         this.name = 'reveal';
         this.targetType = ['character', 'holding'];
-        this.effectMsg = 'revealing {0}';
+        this.effectMsg = 'reveal {0}';
     }
 
     canAffect(card, context) {

@@ -5,7 +5,8 @@ class DaimyosFavor extends DrawCard {
         this.action({
             title: 'Bow to reduce attachment cost',
             cost: ability.costs.bowSelf(),
-            effect: 'reduce the cost of the next attachment they play on {0} by 1',
+            effect: 'reduce the cost of the next attachment they play on {1} by 1',
+            effectArgs: context => context.source.parent,
             gameAction: ability.actions.playerLastingEffect(context => ({
                 duration: 'untilEndOfPhase',
                 effect: ability.effects.reduceCost({
