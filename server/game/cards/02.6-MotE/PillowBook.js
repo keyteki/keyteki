@@ -6,18 +6,21 @@ class PillowBook extends DrawCard {
             title: 'Make top card of your conflict deck playable',
             condition: context => context.source.parent.isParticipating() && context.player.conflictDeck.size() > 0,
             effect: 'make the top card of their deck playable until the end of the conflict',
-            gameAction: ability.actions.playerLastingEffect(context => ({
-                duration: 'lastingEffect',
-                until: {
-                    onCardMoved: event => event.card === context.player.conflictDeck.first() && event.originalLocation === 'conflict deck',
-                    onConflictFinished: () => true,
-                    onDeckShuffled: event => event.player === context.player && event.deck === 'conflict deck'
-                },
-                effect: [
-                    ability.effects.showTopConflictCard(),
-                    ability.effects.canPlayFromOwn('conflict deck')
-                ]
-            }))
+            gameAction: ability.actions.playerLastingEffect(context => {
+                let topCard = context.player.conflictDeck.first();
+                return {
+                    duration: 'lastingEffect',
+                    until: {
+                        onCardMoved: event => event.card === topCard && event.originalLocation === 'conflict deck',
+                        onPhaseEnded: event => event.phase === 'conflict',
+                        onDeckShuffled: event => event.player === context.player && event.deck === 'conflict deck'
+                    },
+                    effect: [
+                        ability.effects.showTopConflictCard(),
+                        ability.effects.canPlayFromOwn('conflict deck')
+                    ]
+                };
+            })
         });
     }
 }

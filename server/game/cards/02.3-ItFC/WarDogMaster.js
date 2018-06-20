@@ -12,7 +12,7 @@ class WarDogMaster extends DrawCard {
             effect: 'give {0} a bonus to their military skill',
             gameAction: ability.actions.cardLastingEffect(context => ({
                 effect: ability.effects.modifyMilitarySkill(
-                    _.isNumber(context.costs.discardSpecific.getCost()) ? context.costs.discardSpecific.getCost() : 0
+                    _.isNumber(context.costs.discardCard.getCost()) ? context.costs.discardCard.getCost() : 0
                 )
             }))
         });

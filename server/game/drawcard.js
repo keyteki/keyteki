@@ -367,7 +367,7 @@ class DrawCard extends BaseCard {
     }
 
     canPlay(context) {
-        return this.checkRestrictions('play', context);
+        return this.checkRestrictions('play', context) && context.player.checkRestrictions('play', context);
     }
 
     /**

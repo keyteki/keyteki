@@ -54,7 +54,7 @@ class ConflictFlow extends BaseStepWithPipeline {
     }
 
     promptForNewConflict() {
-        if(this.conflict.attackingPlayer.allowGameAction('chooseConflictRing') || !this.conflict.attackingPlayer.opponent) {
+        if(this.conflict.attackingPlayer.checkRestrictions('chooseConflictRing') || !this.conflict.attackingPlayer.opponent) {
             this.pipeline.queueStep(new InitiateConflictPrompt(this.game, this.conflict, this.conflict.attackingPlayer, true, this.canPass));
             return;
         }
