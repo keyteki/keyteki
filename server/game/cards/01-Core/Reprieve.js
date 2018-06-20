@@ -8,7 +8,7 @@ class Reprieve extends DrawCard {
                 onCardLeavesPlay: (event, context) => event.card === context.source.parent &&
                                                       context.source.allowGameAction('discardFromPlay', context)
             },
-            effect: 'prevent {0} from leaving play',
+            effect: 'prevent {1} from leaving play',
             effectArgs: context => context.event.card,
             handler: context => {
                 context.cancel();

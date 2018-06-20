@@ -167,6 +167,9 @@ class Conflict extends GameObject {
     }
 
     hasMoreParticipants(player, predicate = () => true) {
+        if(!player) {
+            return false;
+        }
         if(!player.opponent) {
             return this.anyParticipants(predicate);
         }
@@ -247,6 +250,7 @@ class Conflict extends GameObject {
         this.game.addMessage(message, this.attackingPlayer);
         this.conflictPassed = true;
         this.game.conflictCompleted(this);
+        this.game.currentConflict = null;
         this.game.raiseEvent('onConflictPass', { conflict: this });
         this.resetCards();
     }
