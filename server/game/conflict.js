@@ -247,6 +247,7 @@ class Conflict extends GameObject {
         this.game.addMessage(message, this.attackingPlayer);
         this.conflictPassed = true;
         this.game.conflictCompleted(this);
+        this.game.currentConflict = null;
         this.game.raiseEvent('onConflictPass', { conflict: this });
         this.resetCards();
     }

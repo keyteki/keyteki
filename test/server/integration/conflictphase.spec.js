@@ -68,6 +68,69 @@ describe('conflict phase', function() {
                 expect(this.player1).toHavePrompt('Choose an elemental ring\n(click the ring again to change conflict type)');
             });
         });
+
+        // check conflicts pass correctly
+        describe('When the action window closes', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    phase: 'conflict',
+                    player1: {
+                        inPlay: ['sinister-soshi'],
+                        hand: ['steward-of-law', 'political-rival']
+                    },
+                    player2: {
+                        inPlay:['otomo-courtier']
+                    }
+                });
+            });
+            it('should pass the conflict when the player chooses that option', function() {
+                this.stewardOfLaw = this.player1.playCharacterFromHand('steward-of-law');
+                this.noMoreActions();
+                expect(this.player1).toHavePrompt('Initiate Conflict');
+                this.player1.clickPrompt('Pass Conflict');
+                expect(this.player1).toHavePrompt('Pass Conflict');
+                this.player1.clickPrompt('Yes');
+                expect(this.player1).toHavePrompt('Action Window');
+                this.noMoreActions();
+                expect(this.player2).toHavePrompt('Initiate Conflict');
+                this.player2.clickPrompt('Pass Conflict');
+                expect(this.player2).toHavePrompt('Pass Conflict');
+                this.player2.clickPrompt('Yes');
+                expect(this.player1).toHavePrompt('Action Window');
+                this.noMoreActions();
+                expect(this.player1).toHavePrompt('Initiate Conflict');
+            });
+
+            it('should pass the conflict when the player has no legal attackers', function() {
+                this.chat = spyOn(this.game, 'addMessage');
+                this.noMoreActions();
+                expect(this.chat).toHaveBeenCalledWith('{0} passes their conflict opportunity as none of their characters can be declared as an attacker', this.player1.player);
+                expect(this.player1).toHavePrompt('Action Window');
+            });
+
+            it('should pass the conflict when the player has no attackers who can attack in their remaining conflict types', function() {
+                this.chat = spyOn(this.game, 'addMessage');
+                this.stewardOfLaw = this.player1.playCharacterFromHand('steward-of-law');
+                this.noMoreActions();
+                this.initiateConflict({
+                    type: 'political',
+                    attackers: [this.stewardOfLaw],
+                    defenders: ['otomo-courtier']
+                });
+                this.noMoreActions();
+                // End of Conflict
+                expect(this.player1).toHavePrompt('Action Window');
+                this.noMoreActions();
+                // player 2's conflict autopasses
+                expect(this.player1).toHavePrompt('Action Window');
+                this.politicalRival = this.player1.playCharacterFromHand('political-rival');
+                this.noMoreActions();
+                expect(this.player1).toHavePrompt('Action Window');
+                expect(this.chat).toHaveBeenCalledWith('{0} passes their conflict opportunity as none of their characters can be declared as an attacker', this.player1.player);
+            });
+        });
+        // check conflicts pass when players choose to pass the conflict
+
         // check conflict declaration on first conflict, provinces/rings are correctly selectable, only legal attackers can be selected
         describe('When a players is prompted to declare a conflict', function() {
             beforeEach(function() {
