@@ -23,6 +23,13 @@ describe('Miya Satoshi', function() {
 
             it('should prompt the player to choose where to put Kanjo District', function() {
                 expect(this.player1).toHavePrompt('Choose a card to discard');
+                expect(this.player1).toBeAbleToSelect(this.shibaTsukune);
+            });
+
+            it('should allow the player to choose a facedown card', function() {
+                this.shibaTsukune.facedown = true;
+                expect(this.player1).toHavePrompt('Choose a card to discard');
+                expect(this.player1).toBeAbleToSelect(this.shibaTsukune);
             });
 
             describe('When the player chooses a card', function() {
