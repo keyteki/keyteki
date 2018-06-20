@@ -11,6 +11,7 @@ class AbilityTargetCard {
         }
         this.selector = this.getSelector(properties);
         this.dependentTarget = null;
+        this.dependentCost = null;
         if(this.properties.dependsOn) {
             let dependsOnTarget = ability.targets.find(target => target.name === this.properties.dependsOn);
             dependsOnTarget.dependentTarget = this;
@@ -24,7 +25,7 @@ class AbilityTargetCard {
             if(this.name === 'target') {
                 contextCopy.target = card;
             }
-            if(context.stage === 'pretarget' && !context.ability.canPayCosts(contextCopy)) {
+            if(context.stage === 'pretarget' && this.dependentCost && !this.dependentCost.canPay(contextCopy)) {
                 return false;
             }
             return (!properties.cardCondition || properties.cardCondition(card, contextCopy)) &&

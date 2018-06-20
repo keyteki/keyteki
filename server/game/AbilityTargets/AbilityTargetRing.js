@@ -10,14 +10,17 @@ class AbilityTargetRing {
             if(this.name === 'target') {
                 contextCopy.ring = ring;
             }
+            if(context.stage === 'pretarget' && this.dependentCost && !this.dependentCost.canPay(contextCopy)) {
+                return false;
+            }
             return (properties.gameAction.length === 0 || properties.gameAction.some(gameAction => gameAction.hasLegalTarget(contextCopy))) &&
-                   properties.ringCondition(ring, contextCopy) && context.ability.canPayCosts(contextCopy) &&
-                   (!this.dependentTarget || this.dependentTarget.hasLegalTarget(contextCopy));
+                   properties.ringCondition(ring, contextCopy) && (!this.dependentTarget || this.dependentTarget.hasLegalTarget(contextCopy));
         };
         for(let gameAction of this.properties.gameAction) {
             gameAction.getDefaultTargets = context => context.rings[name];
         }
         this.dependentTarget = null;
+        this.dependentCost = null;
         if(this.properties.dependsOn) {
             let dependsOnTarget = ability.targets.find(target => target.name === this.properties.dependsOn);
             dependsOnTarget.dependentTarget = this;
