@@ -724,6 +724,38 @@ describe('conflict phase', function() {
         });
 
         // check that the next pre-conflict window works properly
+        fdescribe('after conflict window', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    phase: 'conflict',
+                    player1: {
+                        inPlay: ['doji-whisperer'],
+                        hand: ['levy']
+                    }
+                });
+                this.noMoreActions();
+                this.initiateConflict({
+                    attackers: ['doji-whisperer'],
+                    defenders: []
+                });
+                this.noMoreActions();
+            });
+
+            it('should no longer have an ongoing conflict', function() {
+                expect(this.game.isDuringConflict()).toBe(false);
+            });
+
+            it('should give priority to player 1', function() {
+                expect(this.player1).toHavePrompt('Action Window');
+            });
+
+            it('should pass priority properly', function() {
+                this.player1.clickCard('levy');
+                this.player2.clickPrompt('Give your opponent 1 honor');
+                expect(this.player2).toHavePrompt('Action Window');
+            });
+        });
+
         // check that passing conflicts works
         // check that auto-passing conflicts works correctly
         // check that second conflict declaration works

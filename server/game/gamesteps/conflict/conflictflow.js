@@ -379,7 +379,7 @@ class ConflictFlow extends BaseStepWithPipeline {
             return;
         }
 
-        this.game.currenConflict = null;
+        this.game.currentConflict = null;
         this.game.raiseEvent('onConflictFinished', { conflict: this.conflict });
         this.resetCards();
     }
