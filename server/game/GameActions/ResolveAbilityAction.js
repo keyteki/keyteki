@@ -25,7 +25,9 @@ class ResolveAbilityAction extends CardAction {
     setup() {
         super.setup();
         this.name = 'resolveAbility';
-        this.effectMsg = 'resolve {0}\'s ' + this.ability.title + ' ability';
+        if(this.ability) {
+            this.effectMsg = 'resolve {0}\'s ' + this.ability.title + ' ability';
+        }
     }
 
     canAffect(card, context) {

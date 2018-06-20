@@ -11,6 +11,7 @@ class AbilityTargetSelect {
             }
         }
         this.dependentTarget = null;
+        this.dependentCost = null;
         if(this.properties.dependsOn) {
             let dependsOnTarget = ability.targets.find(target => target.name === this.properties.dependsOn);
             dependsOnTarget.dependentTarget = this;
@@ -32,7 +33,7 @@ class AbilityTargetSelect {
         if(this.name === 'target') {
             contextCopy.select = key;
         }
-        if(!context.ability.canPayCosts(contextCopy)) {
+        if(context.stage === 'pretarget' && this.dependentCost && !this.dependentCost.canPay(contextCopy)) {
             return false;
         }
         if(this.dependentTarget && !this.dependentTarget.hasLegalTarget(contextCopy)) {

@@ -103,7 +103,7 @@ const Effects = {
     }),
     changePlayerGloryModifier: (value) => EffectBuilder.player.static('gloryModifier', value),
     increaseCost: (properties) => Effects.reduceCost(_.extend(properties, { amount: -properties.amount })),
-    playerCannot: (type, predicate) => EffectBuilder.player.static('restriction', new CannotRestriction(type, predicate)),
+    playerCannot: (type, predicate) => EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(type, predicate)),
     reduceCost: (properties) => EffectBuilder.player.detached('costReducer', {
         apply: (player, context) => player.addCostReducer(new CostReducer(context.game, context.source, properties)),
         unapply: (player, context, reducer) => player.removeCostReducer(reducer)

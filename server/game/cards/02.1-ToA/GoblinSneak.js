@@ -9,7 +9,10 @@ class GoblinSneak extends DrawCard {
             },
             effect: 'take a fate from {1} and place it on {0}',
             effectArgs: context => context.player.opponent,
-            gameAction: ability.actions.placeFate(context => ({ origin: context.player.opponent }))
+            gameAction: ability.actions.placeFate(context => ({
+                origin: context.player.opponent,
+                target: context.source
+            }))
         });
     }
 }

@@ -6,7 +6,7 @@ class FairAccord extends DrawCard {
             title: 'Discard favor to gain 2 fate',
             phase: 'dynasty',
             cost: ability.costs.discardImperialFavor(),
-            gameAction: ability.actions.gainFate(2)
+            gameAction: ability.actions.gainFate({ amount: 2 })
         });
     }
 }

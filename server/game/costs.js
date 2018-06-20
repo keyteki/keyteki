@@ -166,7 +166,12 @@ const Costs = {
      */
     payTargetDependentFateCost: function(targetName, playingType) {
         return {
+            dependsOn: targetName,
             canPay: function(context) {
+                if(!context.targets[targetName]) {
+                    // we don't need to check now because this will be checked again once targeting is done
+                    return true;
+                }
                 let reducedCost = context.player.getReducedCost(playingType, context.source, context.targets[targetName]);
                 return context.player.fate >= reducedCost && (reducedCost === 0 || context.player.checkRestrictions('spendFate', context));
             },

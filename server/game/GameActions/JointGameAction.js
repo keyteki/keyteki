@@ -33,8 +33,8 @@ class JointGameAction extends GameAction {
         return this.gameActions.every(gameAction => gameAction.hasLegalTarget(context));
     }
 
-    canAffect(player, context) {
-        return this.gameActions.every(gameAction => gameAction.hasLegalTarget(context));
+    canAffect(target, context) {
+        return this.gameActions.every(gameAction => gameAction.canAffect(target, context));
     }
 
     getEventArray(context) {

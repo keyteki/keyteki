@@ -6,6 +6,8 @@ class GameAction {
         this.setDefaultProperties();
         if(typeof propertyFactory === 'function') {
             this.propertyFactory = propertyFactory;
+        } else if(typeof propertyFactory !== 'object') {
+            throw new Error('Game Actions should only be passed functions or objects');
         } else {
             this.applyProperties(propertyFactory);
             this.propertyFactory = () => propertyFactory;

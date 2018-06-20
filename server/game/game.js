@@ -286,6 +286,22 @@ class Game extends EventEmitter {
         this.pipeline.handleCardClicked(player, card);
     }
 
+    facedownCardClicked(playerName, location, controllerName, isProvince = false) {
+        let player = this.getPlayerByName(playerName);
+        let controller = this.getPlayerByName(controllerName);
+        if(!player || !controller) {
+            return;
+        }
+        let list = controller.getSourceList(location);
+        if(!list) {
+            return;
+        }
+        let card = list.find(card => !isProvince === !card.isProvince);
+        if(card) {
+            return this.pipeline.handleCardClicked(player, card);
+        }
+    }
+
     /**
      * This function is called from the client whenever a ring is clicked
      * @param {String} sourcePlayer - name of the clicking player

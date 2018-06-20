@@ -7,7 +7,7 @@ class ThePathOfMan extends DrawCard {
             when: {
                 afterConflict: (event, context) => event.conflict.winner === context.player && event.conflict.skillDifference >= 5
             },
-            gameAction: ability.actions.gainFate(2)
+            gameAction: ability.actions.gainFate({ amount: 2 })
         });
     }
 }

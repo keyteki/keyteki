@@ -9,7 +9,7 @@ class SupernaturalStorm extends DrawCard {
                 cardType: 'character',
                 cardCondition: card => card.isParticipating(),
                 gameAction: ability.actions.cardLastingEffect(context => ({
-                    effect: ability.effects.modifyBothSkills(context.player.cardsInPlay.reduce((total, card) => total + card.hasTrait('shugenja') ? 1 : 0, 0))
+                    effect: ability.effects.modifyBothSkills(context.player.cardsInPlay.reduce((total, card) => total + (card.hasTrait('shugenja') ? 1 : 0), 0))
                 }))
             },
             effect: 'imbue {0} with the supernatural power of the storm!'

@@ -12,7 +12,7 @@ class RaiseTheAlarm extends DrawCard {
             })),
             then: context => ({
                 handler: () => {
-                    let card = context.player.controller.getDynastyCardInProvince(this.game.currentConflict.conflictProvince.location);
+                    let card = context.player.getDynastyCardInProvince(this.game.currentConflict.conflictProvince.location);
                     if(card.type === 'character' && card.allowGameAction('putIntoConflict', context)) {
                         this.game.addMessage('{0} is revealed and brought into the conflict!', card);
                         ability.actions.putIntoConflict().resolve(card, context);

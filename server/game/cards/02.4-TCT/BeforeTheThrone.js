@@ -7,7 +7,7 @@ class BeforeTheThrone extends ProvinceCard {
             when: {
                 onBreakProvince: (event, context) => event.card === context.source
             },
-            gameAction: ability.actions.takeHonor(2)
+            gameAction: ability.actions.takeHonor({ amount: 2 })
         });
     }
 

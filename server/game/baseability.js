@@ -29,8 +29,14 @@ class BaseAbility {
         if(!Array.isArray(this.gameAction)) {
             this.gameAction = [this.gameAction];
         }
-        this.cost = this.buildCost(properties.cost);
         this.buildTargets(properties);
+        this.cost = this.buildCost(properties.cost);
+        for(const cost of this.cost) {
+            if(cost.dependsOn) {
+                let dependsOnTarget = this.targets.find(target => target.name === cost.dependsOn);
+                dependsOnTarget.dependentCost = cost;
+            }
+        }
         this.nonDependentTargets = this.targets.filter(target => !target.properties.dependsOn);
     }
 
@@ -83,13 +89,16 @@ class BaseAbility {
         // check legal targets exist
         // check costs can be paid
         // check for potential to change game state
+        if(!this.canPayCosts(context)) {
+            return 'cost';
+        }
         if(this.targets.length === 0) {
             if(this.gameAction.length > 0 && !this.gameAction.some(gameAction => gameAction.hasLegalTarget(context))) {
                 return 'condition';
             }
-            return this.canPayCosts(context) ? '' : 'cost';
+            return '';
         }
-        return this.canResolveTargets(context) ? '' : (this.canPayCosts(context) ? 'target' : 'cost');
+        return this.canResolveTargets(context) ? '' : 'target';
     }
 
     /**

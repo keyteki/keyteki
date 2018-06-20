@@ -273,19 +273,18 @@ class BaseCard extends EffectSource {
 
     getSummary(activePlayer, hideWhenFaceup) {
         let isActivePlayer = activePlayer === this.owner;
-
-        if(!isActivePlayer && (this.facedown || hideWhenFaceup)) {
-            return !this.isProvince ? { facedown: true } : {
-                uuid: this.uuid,
-                inConflict: this.inConflict,
-                facedown: true
-            };
-        }
-
         let selectionState = activePlayer.getCardSelectionState(this);
 
-        if(this.facedown && this.hideWhenFacedown()) {
-            return Object.assign({ facedown: true }, selectionState);
+        // This is my facedowm card, but I'm not allowed to look at it
+        // OR This is not my card, and it's either facedown or hidden from me
+        if(isActivePlayer ? this.facedown && this.hideWhenFacedown() : (this.facedown || hideWhenFaceup)) {
+            let state = {
+                controller: this.controller.name,
+                facedown: true,
+                inConflict: this.inConflict,
+                location: this.location
+            };
+            return Object.assign(state, selectionState);
         }
 
         let state = {
@@ -293,6 +292,7 @@ class BaseCard extends EffectSource {
             controlled: this.owner !== this.controller,
             inConflict: this.inConflict,
             facedown: this.facedown,
+            location: this.location,
             menu: this.getMenu(),
             name: this.cardData.name,
             popupMenuText: this.popupMenuText,
