@@ -9,12 +9,12 @@ class IuchiWayfinder extends DrawCard {
             },
             effect: 'reveal a province',
             gameAction: ability.actions.reveal({
+                chatMessage: true,
                 promptForSelect: {
                     activePromptTitle: 'Choose a province to reveal',
                     cardType: 'province',
-                    locations: 'province',
-                    controller: 'opponent',
-                    cardCondition: card => card.facedown
+                    location: 'province',
+                    controller: 'opponent'
                 }
             })
         });
