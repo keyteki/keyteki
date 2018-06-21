@@ -10,6 +10,7 @@ class WaningHostilities extends DrawCard {
             effect: 'limit both players to a single conflict this turn',
             gameAction: ability.actions.playerLastingEffect({
                 duration: 'untilEndOfPhase',
+                targetController: 'any',
                 effect: ability.effects.setMaxConflicts(1)
             })
         });

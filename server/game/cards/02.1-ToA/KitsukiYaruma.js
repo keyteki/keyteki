@@ -14,6 +14,7 @@ class KitsukiYaruma extends DrawCard {
             },
             target: {
                 cardType: 'province',
+                location: 'province',
                 cardCondition: card => !card.isBroken && !card.facedown
             },
             effect: 'turn {0} facedown',
