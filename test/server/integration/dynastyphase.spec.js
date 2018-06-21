@@ -52,6 +52,12 @@ describe('dynasty phase', function() {
                 expect(this.player1).not.toHavePromptButton(['More']);
             });
 
+            it('should return to the dynasty prompt if the player clicks cancel', function() {
+                this.player1.clickCard(this.akodoToturi);
+                this.player1.clickPrompt('Cancel');
+                expect(this.player1).toHavePrompt('Click pass when done');
+            });
+
             it('should charge player for playing card and fate and pass priority', function() {
                 this.player1.clickCard(this.akodoToturi);
                 this.player1.clickPrompt('1');

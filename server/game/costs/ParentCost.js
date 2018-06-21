@@ -7,12 +7,9 @@ class ParentCost {
         return context.source.parent && this.action.canAffect(context.source.parent, context);
     }
 
-    resolve(context, result = { resolved: false }) {
+    resolve(context) {
         context.costs[this.action.name] = context.source.parent;
-
-        result.resolved = true;
-        result.value = this.action.setTarget(context.source.parent, context);
-        return result;
+        this.action.setTarget(context.source.parent);
     }
 
     payEvent(context) {

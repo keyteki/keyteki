@@ -119,14 +119,14 @@ class BaseAbility {
      *
      * @returns {Array} An array of cost resolution results.
      */
-    resolveCosts(context) {
-        return this.cost.map(cost => {
-            if(cost.resolve) {
-                return cost.resolve(context);
-            }
-
-            return { resolved: true, value: cost.canPay(context) };
-        });
+    resolveCosts(context, results) {
+        for(let cost of this.cost.filter(cost => cost.resolve)) {
+            context.game.queueSimpleStep(() => {
+                if(!results.cancelled) {
+                    cost.resolve(context, results);
+                }
+            });
+        }
     }
 
     /**

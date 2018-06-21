@@ -200,7 +200,7 @@ const Costs = {
             canPay: function() {
                 return true;
             },
-            resolve: function(context, result = { resolved: false }) {
+            resolve: function(context, result) {
                 let extrafate = context.player.fate - context.player.getReducedCost('play', context.source);
                 if(!context.player.checkRestrictions('placeFateWhenPlayingCharacter', context) || !context.player.checkRestrictions('spendFate', context)) {
                     extrafate = 0;
@@ -212,11 +212,7 @@ const Costs = {
                     choices.push(i);
                 }
                 let handlers = _.map(choices, fate => {
-                    return () => {
-                        context.chooseFate += fate;
-                        result.value = true;
-                        result.resolved = true;
-                    };
+                    return () => context.chooseFate += fate;
                 });
 
                 if(extrafate > max) {
@@ -249,12 +245,12 @@ const Costs = {
                         });
                     };
                 }
-
-                choices.push('Cancel');
-                handlers.push(() => {
-                    result.value = false;
-                    result.resolved = true;
-                });
+                if(result.canCancel) {
+                    choices.push('Cancel');
+                    handlers.push(() => {
+                        result.cancelled = true;
+                    });
+                }
 
                 context.game.promptWithHandlerMenu(context.player, {
                     activePromptTitle: 'Choose additional fate',
@@ -262,7 +258,6 @@ const Costs = {
                     choices: _.map(choices, choice => _.isString(choice) ? choice : choice.toString()),
                     handlers: handlers
                 });
-                return result;
             },
             pay: function(context) {
                 context.player.fate -= context.chooseFate;
