@@ -89,6 +89,7 @@ class ConflictFlow extends BaseStepWithPipeline {
 
         _.each(this.conflict.attackers, card => card.inConflict = true);
         this.game.addMessage('{0} is initiating a {1} conflict at {2}, contesting {3}', this.conflict.attackingPlayer, this.conflict.conflictType, this.conflict.conflictProvince, this.conflict.ring);
+        this.game.recordConflict(this.conflict);
     }
 
     promptForCovert() {
@@ -284,7 +285,7 @@ class ConflictFlow extends BaseStepWithPipeline {
             return;
         }
 
-        this.game.conflictCompleted(this.conflict);
+        this.game.recordConflictWinner(this.conflict);
         this.game.checkGameState(true);
 
         if(this.conflict.isAttackerTheWinner() && this.conflict.defenders.length === 0) {
