@@ -160,7 +160,9 @@ global.integration = function(definitions) {
                 this.player2.provinces = options.player2.provinces;
                 this.player1.dynastyDiscard = options.player1.dynastyDiscard;
                 this.player2.dynastyDiscard = options.player2.dynastyDiscard;
-                this.game.checkGameState(true);
+                if(options.phase !== 'setup') {
+                    this.game.checkGameState(true);
+                }
             };
 
             this.initiateConflict = function(options = {}) {

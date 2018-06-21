@@ -1,4 +1,4 @@
-fdescribe('Togashi Tadakatsu', function() {
+describe('Togashi Tadakatsu', function() {
     integration(function() {
         describe('Togashi Tadakatsu\'s ability', function() {
             describe('when a conflict is declared', function() {
