@@ -34,7 +34,7 @@ class TestOfSkill extends DrawCard {
         this.action({
             title: 'Reveal cards and take ones matching named type',
             condition: context => context.player.conflictDeck.size() >= context.player.cardsInPlay.some(card => card.hasTrait('duelist')) ? 4 : 3,
-            cost: [ability.costs.revealCards(context => context.player.conflictDeck.first(
+            cost: [ability.costs.reveal(context => context.player.conflictDeck.first(
                 context.player.cardsInPlay.some(card => card.hasTrait('duelist')) ? 4 : 3
             )), testOfSkillCost()],
             cannotBeMirrored: true,

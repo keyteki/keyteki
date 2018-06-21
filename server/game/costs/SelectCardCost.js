@@ -13,7 +13,7 @@ class SelectCardCost {
             return action.canAffect(card, context) && properties.cardCondition(card, context);
         };
 
-        let fullProperties = Object.assign({ location: 'any' }, properties, { cardCondition: condition });
+        let fullProperties = Object.assign({ location: 'any', controller: 'self' }, properties, { cardCondition: condition });
 
         return CardSelector.for(fullProperties);
     }
