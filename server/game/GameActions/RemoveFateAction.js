@@ -15,7 +15,7 @@ class RemoveFateAction extends CardGameAction {
     }
 
     checkRecipient(context) {
-        if(!this.recipient || ['player, ring'].includes(this.recipient.type)) {
+        if(!this.recipient || ['player', 'ring'].includes(this.recipient.type)) {
             return true;
         }
         return this.recipient.allowGameAction('placeFate', context);

@@ -11,7 +11,7 @@ class WindsweptYurt extends DrawCard {
                         amount: 2,
                         target: context.game.getPlayers()
                     })),
-                    'Each player gains 2 honor': ability.actions.gainFate(context => ({
+                    'Each player gains 2 honor': ability.actions.gainHonor(context => ({
                         amount: 2,
                         target: context.game.getPlayers()
                     }))

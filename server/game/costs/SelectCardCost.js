@@ -10,10 +10,10 @@ class SelectCardCost {
 
     createSelector(action, properties) {
         let condition = (card, context) => {
-            return card.controller === context.player && action.canAffect(card, context) && properties.cardCondition(card, context);
+            return action.canAffect(card, context) && properties.cardCondition(card, context);
         };
 
-        let fullProperties = Object.assign({}, properties, { cardCondition: condition });
+        let fullProperties = Object.assign({ location: 'any' }, properties, { cardCondition: condition });
 
         return CardSelector.for(fullProperties);
     }
@@ -27,7 +27,6 @@ class SelectCardCost {
             activePromptTitle: this.activePromptTitle,
             context: context,
             selector: this.selector,
-            source: context.source,
             buttons: result.canCancel ? [{ text: 'Cancel', arg: 'cancel' }] : [],
             onSelect: (player, cards) => {
                 context.costs[this.action.name] = cards;

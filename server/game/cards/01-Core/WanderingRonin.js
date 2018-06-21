@@ -5,7 +5,7 @@ class WanderingRonin extends DrawCard {
         this.action({
             title: 'Give this character +2/+2',
             condition: () => this.game.isDuringConflict(),
-            cost: ability.costs.discardFateFromSelf(),
+            cost: ability.costs.removeFateFromSelf(),
             effect: 'give himself +2{1}/+2{2}',
             effectArgs: () => ['military', 'political'],
             gameAction: ability.actions.cardLastingEffect({ effect: ability.effects.modifyBothSkills(2) }),

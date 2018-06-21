@@ -8,15 +8,14 @@ class WaningHostilities extends DrawCard {
                 onPhaseStarted: event => event.phase === 'conflict'
             },
             effect: 'limit both players to a single conflict this turn',
-            gameAction: ability.actions.playerLastingEffect(context => ({
-                target: context.game.getPlayers(),
+            gameAction: ability.actions.playerLastingEffect({
                 duration: 'untilEndOfPhase',
                 effect: ability.effects.setMaxConflicts(1)
-            }))
+            })
         });
     }
 }
 
-WaningHostilities.id = 'waning-hostilities'; // This is a guess at what the id might be - please check it!!!
+WaningHostilities.id = 'waning-hostilities';
 
 module.exports = WaningHostilities;
