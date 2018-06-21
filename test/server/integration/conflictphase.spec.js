@@ -724,7 +724,7 @@ describe('conflict phase', function() {
         });
 
         // check that the next pre-conflict window works properly
-        fdescribe('after conflict window', function() {
+        describe('after conflict window', function() {
             beforeEach(function() {
                 this.setupTest({
                     phase: 'conflict',

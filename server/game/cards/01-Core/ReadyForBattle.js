@@ -6,8 +6,7 @@ class ReadyForBattle extends DrawCard {
             title: 'Ready a character',
             when: {
                 onCardBowed: (event, context) => event.card.controller === context.player && (event.context.source.type === 'ring' ||
-                                                 context.player.opponent && event.context.source.controller === context.player.opponent) &&
-                                                 event.card.allowGameAction('ready', context)
+                                                 context.player.opponent && event.context.source.controller === context.player.opponent)
             },
             cannotBeMirrored: true,
             gameAction: ability.actions.ready(context => ({ target: context.event.card }))

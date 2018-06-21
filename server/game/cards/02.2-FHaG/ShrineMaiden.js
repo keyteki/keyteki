@@ -8,7 +8,7 @@ class ShrineMaiden extends DrawCard {
             when: {
                 onCharacterEntersPlay: (event, context) => event.card === context.source
             },
-            cost: ability.costs.revealCards(context => context.player.conflictDeck.first(3)),
+            cost: ability.costs.reveal(context => context.player.conflictDeck.first(3)),
             effect: 'take any revealed spells into their hand',
             handler: context => {
                 let [toHand, toDiscard] = _.partition(context.player.conflictDeck.first(3), card => {

@@ -8,12 +8,9 @@ class SelfCost {
         return this.action.canAffect(context.source, context);
     }
 
-    resolve(context, result = { resolved: false }) {
+    resolve(context) {
         context.costs[this.action.name] = context.source;
-
-        result.resolved = true;
-        result.value = this.action.setTarget(context.source, context);
-        return result;
+        this.action.setTarget(context.source);
     }
 
     payEvent(context) {

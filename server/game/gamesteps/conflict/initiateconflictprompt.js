@@ -115,8 +115,15 @@ class InitiateConflictPrompt extends UiPrompt {
                 return false;
             }
             ring.flipConflictType();
-        } else if(player.getConflictOpportunities(ring.conflictType) === 0 || this.conflict.attackers.some(card => !card.canDeclareAsAttacker(ring.conflictType))) {
-            ring.flipConflictType();
+        } else {
+            if(player.getConflictOpportunities(ring.conflictType) === 0 || this.conflict.attackers.some(card => !card.canDeclareAsAttacker(ring.conflictType))) {
+                ring.flipConflictType();
+            }
+            if(this.conflict.ring) {
+                this.conflict.ring.resetRing();
+            }
+            this.conflict.ring = ring;
+            ring.contested = true;
         }
 
         _.each(this.conflict.attackers, card => {
@@ -125,8 +132,6 @@ class InitiateConflictPrompt extends UiPrompt {
             }
         });
 
-        this.conflict.ring = ring;
-        ring.contested = true;
         if(this.conflict.conflictProvince && !this.conflict.conflictProvince.checkRestrictions('initiateConflict')) {
             this.conflict.conflictProvince.inConflict = false;
             this.conflict.conflictProvince = null;

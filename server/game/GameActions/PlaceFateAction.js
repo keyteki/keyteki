@@ -17,7 +17,19 @@ class PlaceFateAction extends CardGameAction {
         if(this.amount === 0 || card.location !== 'play area' || card.type !== 'character') {
             return false;
         }
-        return super.canAffect(card, context) && (!this.origin || this.origin.allowGameAction('removeFate'));
+        return super.canAffect(card, context) && this.checkOrigin(context);
+    }
+
+    checkOrigin(context) {
+        if(this.origin) {
+            if(this.origin.fate === 0) {
+                return false;
+            } else if(['player', 'ring'].includes(this.origin.type)) {
+                return true;
+            }
+            return this.origin.allowGameAction('removeFate', context);
+        }
+        return true;
     }
 
     checkEventCondition(event) {

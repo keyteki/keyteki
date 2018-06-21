@@ -16,11 +16,7 @@ const CostBuilders = {
         select: 'Select card to discard',
         selectMultiple: number => `Select ${number} cards to discard`
     }),
-    discardFromHand: new CostBuilder(GameActions.discardCard({ location: 'hand' }), {
-        select: 'Select card to discard from hand',
-        selectMultiple: number => `Select ${number} cards to discard from hand`
-    }),
-    discardFate: new CostBuilder(GameActions.removeFate(), {
+    removeFate: new CostBuilder(GameActions.removeFate(), {
         select: 'Select character to discard a fate from',
         selectMultiple: number => `Select ${number} cards to discard a fate from`
     }),

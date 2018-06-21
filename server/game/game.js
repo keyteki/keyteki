@@ -250,14 +250,21 @@ class Game extends EventEmitter {
         return types.every(type => this.currentConflict.elements.concat(this.currentConflict.conflictType).includes(type));
     }
 
-    conflictCompleted(conflict) {
+    recordConflict(conflict) {
         this.completedConflicts.push({
             attackingPlayer: conflict.attackingPlayer,
             declaredType: conflict.declaredType,
-            winner: conflict.winner,
-            typeSwitched: conflict.conflictTypeSwitched,
-            passed: conflict.conflictPassed
+            passed: conflict.conflictPassed,
+            uuid: conflict.uuid
         });
+    }
+
+    recordConflictWinner(conflict) {
+        let record = this.completedConflicts.find(record => record.uuid === conflict.uuid);
+        if(record) {
+            record.winner = conflict.winner;
+            record.typeSwitched = conflict.conflictTypeSwitched;
+        }
     }
 
     stopClocks() {

@@ -12,22 +12,18 @@ class RingCost {
         return rings.some(ring => this.action.canAffect(ring, context));
     }
 
-    resolve(context, result = { resolved: false }) {
+    resolve(context, result) {
         context.game.promptForRingSelect(context.player, {
-            source: context.source,
+            context: context,
+            buttons: result.canCancel ? [{ text: 'Cancel', arg: 'cancel' }] : [],
             ringCondition: this.ringCondition,
             onSelect: (player, ring) => {
                 context.costs[this.action.name] = ring;
-                result.resolved = true;
-                result.value = this.action.setTarget(ring, context);
+                this.action.setTarget(ring);
                 return true;
             },
-            onCancel: () => {
-                result.value = false;
-                result.resolved = true;
-            }
+            onCancel: () => result.cancelled = true
         });
-        return result;
     }
 
     payEvent(context) {

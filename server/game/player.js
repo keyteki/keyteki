@@ -362,7 +362,7 @@ class Player extends GameObject {
     getConflictOpportunities(type = '') {
         let myConflicts = this.game.completedConflicts.filter(conflict => conflict.attackingPlayer === this);
         let additionalConflicts = this.getEffects('additionalConflict');
-        let maxConflicts = this.mostRecentEffect('maxConflicts') || 2 + additionalConflicts.length;
+        let maxConflicts = this.anyEffect('maxConflicts') ? this.mostRecentEffect('maxConflicts') : 2 + additionalConflicts.length;
         let opportunities = Math.max(maxConflicts - myConflicts.length, 0);
         if(type) {
             let maxConflictsForType = 1 + additionalConflicts.filter(t => t === type).length;
@@ -421,6 +421,7 @@ class Player extends GameObject {
      */
     addCostReducer(reducer) {
         this.costReducers.push(reducer);
+        return reducer;
     }
 
     /**

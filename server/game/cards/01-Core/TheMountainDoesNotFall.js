@@ -7,6 +7,7 @@ class TheMountainDoesNotFall extends DrawCard {
             target: {
                 cardType: 'character',
                 gameAction: ability.actions.cardLastingEffect(context => ({
+                    duration: 'untilEndOfPhase',
                     condition: () => context.target.isDefending(),
                     effect: ability.effects.doesNotBow()
                 }))

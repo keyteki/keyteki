@@ -52,8 +52,11 @@ describe('Bayushi Kachiko', function() {
             it('should allow the target\'s controller to play relevant reactions', function() {
                 this.shrewdYasuki = this.player1.clickCard('shrewd-yasuki', 'any', 'opponent');
                 this.player1.clickPrompt('Yes');
+                expect(this.shrewdYasuki.bowed).toBe(true);
                 expect(this.player2).toHavePrompt('Triggered Abilities');
                 expect(this.player2).toBeAbleToSelect('ready-for-battle');
+                this.player2.clickCard('ready-for-battle');
+                expect(this.shrewdYasuki.bowed).toBe(false);
             });
 
             it('should not bow the target if No is selected', function() {

@@ -252,7 +252,7 @@ class Conflict extends GameObject {
         if(this.ring) {
             this.ring.resetRing();
         }
-        this.game.conflictCompleted(this);
+        this.game.recordConflict(this);
         this.game.currentConflict = null;
         this.game.raiseEvent('onConflictPass', { conflict: this });
         this.resetCards();

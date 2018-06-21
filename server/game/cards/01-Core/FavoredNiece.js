@@ -5,7 +5,7 @@ class FavoredNiece extends DrawCard {
         this.action({
             title: 'Discard then draw a card',
             limit: ability.limit.perRound(2),
-            cost: ability.costs.discardFromHand(),
+            cost: ability.costs.discardCard(card => card.location === 'hand'),
             gameAction: ability.actions.draw()
         });
     }
