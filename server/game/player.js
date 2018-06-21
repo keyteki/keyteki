@@ -421,6 +421,7 @@ class Player extends GameObject {
      */
     addCostReducer(reducer) {
         this.costReducers.push(reducer);
+        return reducer;
     }
 
     /**

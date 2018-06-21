@@ -15,7 +15,7 @@ class CourtGames extends DrawCard {
                             cardType: 'character',
                             controller: 'self',
                             cardCondition: card => card.isParticipating() && card.allowGameAction('target', context),
-                            message: '{0} chooses to honor {1}'
+                            message: '{0} chooses to honor {2}'
                         }
                     })),
                     'Dishonor an opposing character': ability.actions.dishonor(context => ({
@@ -24,12 +24,12 @@ class CourtGames extends DrawCard {
                             cardType: 'character',
                             controller: 'opponent',
                             cardCondition: card => card.isParticipating() && card.allowGameAction('target', context),
-                            message: '{0} chooses to dishonor {1}'
+                            message: '{0} chooses to dishonor {2}'
                         }
                     }))
                 }
             },
-            effect: '{0}',
+            effect: '{1}',
             effectArgs: context => context.select.toLowerCase()
         });
     }
