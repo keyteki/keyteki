@@ -263,6 +263,10 @@ class DrawCard extends BaseCard {
         return floor ? Math.max(0, skill) : skill;
     }
 
+    get baseMilitarySkill() {
+        return this.getBaseMilitarySkill();
+    }
+
     getBaseMilitarySkill() {
         if(this.hasDash('military')) {
             return 0;
@@ -270,6 +274,10 @@ class DrawCard extends BaseCard {
 
         return this.mostRecentEffect('setBaseMilitarySkill') ||
                this.sumEffects('modifyBaseMilitarySkill') + this.printedMilitarySkill;
+    }
+
+    get basePoliticalSkill() {
+        return this.getBasePoliticalSkill();
     }
 
     getBasePoliticalSkill() {
