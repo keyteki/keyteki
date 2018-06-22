@@ -162,11 +162,12 @@ class DrawCard extends BaseCard {
     hasDash(type = '') {
         let dashEffects = this.getEffects('setDash');
         if(type === 'military') {
-            return this.printedMilitarySkill === null || dashEffects.includes(type);
+            return this.printedMilitarySkill === undefined || this.printedMilitarySkill === null || dashEffects.includes(type);
         } else if(type === 'political') {
-            return this.printedPoliticalSkill === null || dashEffects.includes(type);
+            return this.printedPoliticalSkill === undefined || this.printedPoliticalSkill === null || dashEffects.includes(type);
         }
-        return this.printedMilitarySkill === null || this.printedPoliticalSkill === null || dashEffects.length > 0;
+        return this.printedMilitarySkill === undefined || this.printedMilitarySkill === null ||
+               this.printedPoliticalSkill === undefined || this.printedPoliticalSkill === null || dashEffects.length > 0;
     }
 
     getSkill(type) {
@@ -262,6 +263,10 @@ class DrawCard extends BaseCard {
         return floor ? Math.max(0, skill) : skill;
     }
 
+    get baseMilitarySkill() {
+        return this.getBaseMilitarySkill();
+    }
+
     getBaseMilitarySkill() {
         if(this.hasDash('military')) {
             return 0;
@@ -269,6 +274,10 @@ class DrawCard extends BaseCard {
 
         return this.mostRecentEffect('setBaseMilitarySkill') ||
                this.sumEffects('modifyBaseMilitarySkill') + this.printedMilitarySkill;
+    }
+
+    get basePoliticalSkill() {
+        return this.getBasePoliticalSkill();
     }
 
     getBasePoliticalSkill() {

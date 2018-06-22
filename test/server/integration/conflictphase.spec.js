@@ -129,7 +129,6 @@ describe('conflict phase', function() {
                 expect(this.chat).toHaveBeenCalledWith('{0} passes their conflict opportunity as none of their characters can be declared as an attacker', this.player1.player);
             });
         });
-        // check conflicts pass when players choose to pass the conflict
 
         // check conflict declaration on first conflict, provinces/rings are correctly selectable, only legal attackers can be selected
         describe('When a players is prompted to declare a conflict', function() {
@@ -256,109 +255,6 @@ describe('conflict phase', function() {
                     expect(this.game.currentConflict.attackers).toContain(this.vengefulBerserker);
                     expect(this.vengefulBerserker.inConflict).toBe(true);
                 });
-            });
-        });
-        // check reacting to conflict declaration works correctly
-        describe('reactions to declaring a conflict', function() {
-            beforeEach(function() {
-                this.setupTest({
-                    phase: 'conflict',
-                    player1: {
-                        inPlay: ['child-of-the-plains'],
-                        hand: ['spyglass']
-                    },
-                    player2: {
-                        provinces: ['elemental-fury', 'secret-cache'],
-                        inPlay: ['tattooed-wanderer'],
-                        hand: ['mantra-of-fire']
-                    }
-                });
-                this.childOfThePlains = this.player1.findCardByName('child-of-the-plains');
-                this.spyglass = this.player1.playAttachment('spyglass', this.childOfThePlains);
-                this.elementalFury = this.player2.findCardByName('elemental-fury');
-                this.noMoreActions('Initiate an action');
-            });
-
-            it('should reveal the province', function() {
-                this.initiateConflict({
-                    ring: 'fire',
-                    type: 'military',
-                    province: 'elemental-fury',
-                    attackers: [this.childOfThePlains]
-                });
-                expect(this.elementalFury.facedown).toBe(false);
-            });
-
-            it('should give first player the first opportunitiy to react', function() {
-                this.initiateConflict({
-                    ring: 'fire',
-                    type: 'military',
-                    province: 'elemental-fury',
-                    attackers: [this.childOfThePlains]
-                });
-
-                expect(this.spyglass.location).toBe('play area');
-
-                expect(this.player1).toHavePrompt('Triggered Abilities');
-                expect(this.player1).toBeAbleToSelect(this.spyglass);
-                expect(this.player1).toBeAbleToSelect(this.childOfThePlains);
-            });
-
-            it('should pass priority to the second player when the first player takes an action', function() {
-                this.initiateConflict({
-                    ring: 'fire',
-                    type: 'military',
-                    province: 'elemental-fury',
-                    attackers: [this.childOfThePlains]
-                });
-                this.player1.clickCard(this.spyglass);
-
-                expect(this.player2).toHavePrompt('Triggered Abilities');
-                expect(this.player2).toBeAbleToSelect('mantra-of-fire');
-                expect(this.player2).toBeAbleToSelect('elemental-fury');
-            });
-
-            it('should pass priority to the second player when the first player passes', function() {
-                this.initiateConflict({
-                    ring: 'fire',
-                    type: 'military',
-                    province: 'elemental-fury',
-                    attackers: [this.childOfThePlains]
-                });
-                this.player1.clickPrompt('Pass');
-
-                expect(this.player2).toHavePrompt('Triggered Abilities');
-                expect(this.player2).toBeAbleToSelect('mantra-of-fire');
-                expect(this.player2).toBeAbleToSelect('elemental-fury');
-            });
-
-            it('should pass priority back to first player if first player passes then second player reacts', function() {
-                this.initiateConflict({
-                    ring: 'fire',
-                    type: 'military',
-                    province: 'elemental-fury',
-                    attackers: [this.childOfThePlains]
-                });
-                this.player1.clickPrompt('Pass');
-                this.player2.clickCard(this.elementalFury);
-                this.player2.clickRing('water');
-
-                expect(this.player1).toHavePrompt('Triggered Abilities');
-                expect(this.player1).toBeAbleToSelect(this.spyglass);
-                expect(this.player1).toBeAbleToSelect(this.childOfThePlains);
-            });
-
-            it('should close the window if both players pass without reacting', function() {
-                this.initiateConflict({
-                    ring: 'fire',
-                    type: 'military',
-                    province: 'elemental-fury',
-                    attackers: [this.childOfThePlains]
-                });
-                this.player1.clickPrompt('Pass');
-                this.player2.clickPrompt('Pass');
-
-                expect(this.player2).toHavePrompt('Choose defenders');
             });
         });
 
@@ -510,6 +406,111 @@ describe('conflict phase', function() {
                 expect(this.game.currentConflict.defenders).toContain(this.seppunGuardsman);
             });
         });
+
+        // check reacting to conflict declaration works correctly
+        describe('reactions to declaring a conflict', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    phase: 'conflict',
+                    player1: {
+                        inPlay: ['child-of-the-plains'],
+                        hand: ['spyglass']
+                    },
+                    player2: {
+                        provinces: ['elemental-fury', 'secret-cache'],
+                        inPlay: ['tattooed-wanderer'],
+                        hand: ['mantra-of-fire']
+                    }
+                });
+                this.childOfThePlains = this.player1.findCardByName('child-of-the-plains');
+                this.spyglass = this.player1.playAttachment('spyglass', this.childOfThePlains);
+                this.elementalFury = this.player2.findCardByName('elemental-fury');
+                this.noMoreActions('Initiate an action');
+            });
+
+            it('should reveal the province', function() {
+                this.initiateConflict({
+                    ring: 'fire',
+                    type: 'military',
+                    province: 'elemental-fury',
+                    attackers: [this.childOfThePlains]
+                });
+                expect(this.elementalFury.facedown).toBe(false);
+            });
+
+            it('should give first player the first opportunitiy to react', function() {
+                this.initiateConflict({
+                    ring: 'fire',
+                    type: 'military',
+                    province: 'elemental-fury',
+                    attackers: [this.childOfThePlains]
+                });
+
+                expect(this.spyglass.location).toBe('play area');
+
+                expect(this.player1).toHavePrompt('Triggered Abilities');
+                expect(this.player1).toBeAbleToSelect(this.spyglass);
+                expect(this.player1).toBeAbleToSelect(this.childOfThePlains);
+            });
+
+            it('should pass priority to the second player when the first player takes an action', function() {
+                this.initiateConflict({
+                    ring: 'fire',
+                    type: 'military',
+                    province: 'elemental-fury',
+                    attackers: [this.childOfThePlains]
+                });
+                this.player1.clickCard(this.spyglass);
+
+                expect(this.player2).toHavePrompt('Triggered Abilities');
+                expect(this.player2).toBeAbleToSelect('mantra-of-fire');
+                expect(this.player2).toBeAbleToSelect('elemental-fury');
+            });
+
+            it('should pass priority to the second player when the first player passes', function() {
+                this.initiateConflict({
+                    ring: 'fire',
+                    type: 'military',
+                    province: 'elemental-fury',
+                    attackers: [this.childOfThePlains]
+                });
+                this.player1.clickPrompt('Pass');
+
+                expect(this.player2).toHavePrompt('Triggered Abilities');
+                expect(this.player2).toBeAbleToSelect('mantra-of-fire');
+                expect(this.player2).toBeAbleToSelect('elemental-fury');
+            });
+
+            it('should pass priority back to first player if first player passes then second player reacts', function() {
+                this.initiateConflict({
+                    ring: 'fire',
+                    type: 'military',
+                    province: 'elemental-fury',
+                    attackers: [this.childOfThePlains]
+                });
+                this.player1.clickPrompt('Pass');
+                this.player2.clickCard(this.elementalFury);
+                this.player2.clickRing('water');
+
+                expect(this.player1).toHavePrompt('Triggered Abilities');
+                expect(this.player1).toBeAbleToSelect(this.spyglass);
+                expect(this.player1).toBeAbleToSelect(this.childOfThePlains);
+            });
+
+            it('should close the window if both players pass without reacting', function() {
+                this.initiateConflict({
+                    ring: 'fire',
+                    type: 'military',
+                    province: 'elemental-fury',
+                    attackers: [this.childOfThePlains]
+                });
+                this.player1.clickPrompt('Pass');
+                this.player2.clickPrompt('Pass');
+
+                expect(this.player2).toHavePrompt('Choose defenders');
+            });
+        });
+
         // check defender declaration works and stops illegal defenders from being selected
         // check conflict action window works properly, and messages are correctly displayed
         // check pride is properly triggered and can be interrupted and reacted to

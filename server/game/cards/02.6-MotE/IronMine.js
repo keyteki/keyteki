@@ -8,7 +8,7 @@ class IronMine extends DrawCard {
                 onCardLeavesPlay: (event, context) => event.card.controller === context.player && event.card.type === 'character' &&
                                                       context.source.allowGameAction('sacrifice', context)
             },
-            effect: 'prevent {0} from leaving play',
+            effect: 'prevent {1} from leaving play',
             effectArgs: context => context.event.card,
             handler: context => {
                 context.event.window.addEvent(ability.actions.sacrifice().getEvent(context.source, context));

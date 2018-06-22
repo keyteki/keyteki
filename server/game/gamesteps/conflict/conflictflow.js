@@ -173,7 +173,7 @@ class ConflictFlow extends BaseStepWithPipeline {
                 ring: ring,
                 fate: ring.fate
             }));
-            if(this.conflict.attackingPlayer.allowGameAction('takeFateFromRings')) {
+            if(this.conflict.attackingPlayer.checkRestrictions('takeFateFromRings')) {
                 this.game.addMessage('{0} takes {1} fate from {2}', this.conflict.attackingPlayer, ring.fate, ring);
                 this.conflict.attackingPlayer.modifyFate(ring.fate);
                 ring.removeFate();

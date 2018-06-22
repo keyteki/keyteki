@@ -20,6 +20,7 @@ class SpecificCardCost {
     resolve(context) {
         let card = this.cardFunc(context);
         context.costs[this.action.name] = card;
+
         this.action.setTarget(card);
     }
 

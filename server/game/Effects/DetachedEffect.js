@@ -5,15 +5,15 @@ class DetachedEffect extends StaticEffect {
         super(type);
         this.applyFunc = applyFunc;
         this.unapplyFunc = unapplyFunc;
-        this.state = null;
+        this.state = {};
     }
 
     apply(target) {
-        this.state = this.applyFunc(target, this.context, this.state);
+        this.state[target.uuid] = this.applyFunc(target, this.context, this.state[target.uuid]);
     }
 
     unapply(target) {
-        this.state = this.unapplyFunc(target, this.context, this.state);
+        this.state[target.uuid] = this.unapplyFunc(target, this.context, this.state[target.uuid]);
     }
 }
 

@@ -30,6 +30,7 @@ class DeckSearchAction extends PlayerAction {
             let amount = this.amount > -1 ? this.amount : player.conflictDeck.size();
             context.game.promptWithHandlerMenu(player, {
                 activePromptTitle: 'Select a card to ' + (this.reveal ? 'reveal and ' : '') + 'put in your hand',
+                context: context,
                 cards: player.conflictDeck.first(amount).filter(card => this.cardCondition(card, context)),
                 choices: ['Take nothing'],
                 handlers: [() => {

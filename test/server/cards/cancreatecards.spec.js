@@ -124,6 +124,9 @@ const mockContext = {
     },
     targetAbility: {},
     select: { toLowerCase: () => 'abc' },
+    costs: {
+        discardCard: { getCost: () => 1 }
+    },
     targets: { cardToShuffle: {} },
     target: {
         attachments: { size: () => 1 }

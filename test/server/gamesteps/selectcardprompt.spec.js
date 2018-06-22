@@ -26,6 +26,7 @@ describe('the SelectCardPrompt', function() {
         this.player.selectedCards = [this.previousCard];
 
         this.properties = {
+            location: 'any',
             cardCondition: function() {
                 return true;
             },

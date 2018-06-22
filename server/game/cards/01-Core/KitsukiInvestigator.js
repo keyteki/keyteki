@@ -12,7 +12,7 @@ class KitsukiInvestigator extends DrawCard {
             gameAction: ability.actions.discardCard(context => ({
                 promptWithHandlerMenu: {
                     cards: context.player.opponent.hand.sortBy(card => card.name),
-                    message: '{0} chooses {1} to be discarded'
+                    message: '{0} chooses {2} to be discarded'
                 }
             })),
             max: ability.limit.perConflict(1)
