@@ -160,7 +160,7 @@ class ChatCommands {
 
         this.game.addMessage('{0} uses the /discard command to discard {1} card{2} at random', player, num, num > 1 ? 's' : '');
 
-        GameActions.discardAtRandom(num).resolve(player, this.game.getFrameworkContext());
+        GameActions.discardAtRandom({ amount: num }).resolve(player, this.game.getFrameworkContext());
     }
 
     cancelPrompt(player) {

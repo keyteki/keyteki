@@ -1,21 +1,11 @@
 const CardGameAction = require('./CardGameAction');
 
 class DiscardCardAction extends CardGameAction {
-    setDefaultProperties() {
-        this.location = '';
-    }
     setup() {
         super.setup();
         this.name = 'discardCard';
         this.effectMsg = 'discard {0}';
         this.cost = 'discarding {0}';
-    }
-
-    canAffect(card, context) {
-        if(this.location && card.location !== this.location) {
-            return false;
-        }
-        return super.canAffect(card, context);
     }
 
     checkEventCondition() {

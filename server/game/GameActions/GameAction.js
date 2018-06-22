@@ -32,7 +32,7 @@ class GameAction {
 
     applyProperties(properties) {
         for(let [key, value] of Object.entries(properties)) {
-            if(value) {
+            if(value !== undefined) {
                 this[key] = value;
             }
         }

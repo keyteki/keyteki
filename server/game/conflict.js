@@ -155,6 +155,10 @@ class Conflict extends GameObject {
         return this.attackers.concat(this.defenders).some(predicate);
     }
 
+    getParticipants(predicate = () => true) {
+        return this.attackers.concat(this.defenders).filter(predicate);
+    }
+
     getNumberOfParticipants(predicate) {
         let participants = this.attackers.concat(this.defenders);
         return _.reduce(participants, (count, card) => {
@@ -166,16 +170,22 @@ class Conflict extends GameObject {
         }, 0);
     }
 
-    hasMoreParticipants(player, predicate = () => true) {
+    getNumberOfParticipantsFor(player, predicate) {
+        let characters = this.getCharacters(player);
+        if(predicate) {
+            return characters.filter(predicate).length;
+        }
+        return characters.length + player.sumEffects('additionalCharactersInConflict');
+    }
+
+    hasMoreParticipants(player, predicate) {
         if(!player) {
             return false;
         }
         if(!player.opponent) {
-            return this.anyParticipants(predicate);
+            return !!this.getNumberOfParticipantsFor(player, predicate);
         }
-        let playerTotal = this.getCharacters(player).filter(predicate).length + player.sumEffects('additionalCharactersInConflict');
-        let opponentTotal = this.getCharacters(player.opponent).filter(predicate).length + player.opponent.sumEffects('additionalCharactersInConflict');
-        return playerTotal > opponentTotal;
+        return this.getNumberOfParticipantsFor(player) > this.getNumberOfParticipantsFor(player.opponent);
     }
 
     calculateSkill(stateChanged = false) {

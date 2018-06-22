@@ -7,7 +7,7 @@ class WayOfTheDragon extends DrawCard {
         });
     }
     canAttach(card, context) {
-        if(card.attachments && card.attachments.any(card => card.id = 'way-of-the-dragon' && card !== this)) {
+        if(card.attachments && card.attachments.any(card => card.id === 'way-of-the-dragon' && card !== this)) {
             return false;
         } else if(card.controller !== context.player) {
             return false;

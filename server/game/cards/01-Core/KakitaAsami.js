@@ -9,7 +9,7 @@ class KakitaAsami extends DrawCard {
                     return false;
                 }
                 let diff = this.game.currentConflict.attackerSkill - this.game.currentConflict.defenderSkill;
-                return context.player.isAttackingPlayer() ? diff < 0 : diff > 0;
+                return context.player.isAttackingPlayer() ? diff > 0 : diff < 0;
             },
             gameAction: ability.actions.takeHonor()
         });

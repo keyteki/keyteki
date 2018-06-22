@@ -61,6 +61,15 @@ class BaseCardSelector {
         if(context.stage.includes('target') && !card.checkRestrictions('target', context)) {
             return false;
         }
+        if(this.controller === 'self' && card.controller !== context.player) {
+            return false;
+        }
+        if(this.controller === 'opponent' && card.controller !== context.player.opponent) {
+            return false;
+        }
+        if(!this.location.includes('any') && !this.location.includes(card.location)) {
+            return false;
+        }
         return this.cardType.includes(card.getType()) && this.cardCondition(card, context);
     }
 
