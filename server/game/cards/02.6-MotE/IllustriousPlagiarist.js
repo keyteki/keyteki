@@ -13,8 +13,8 @@ class IllustriousPlagiarist extends DrawCard {
                 gameAction: ability.actions.cardLastingEffect(context => ({
                     target: context.source,
                     effect: context.target.abilities.actions.map(action => {
-                        // We need to keep the old abilityIdentifier
-                        let newProps = { printedAbility: false, abilityIdentifier: action.abilityIdentifier };
+                        // We need to keep the old abilityIdentifier and ignore additional event costs
+                        let newProps = { printedAbility: false, abilityIdentifier: action.abilityIdentifier, cost: action.abilityCost };
                         // If the copied ability has a max, we need to create a new instantiation of it, with the same max and reset event
                         if(action.properties.max) {
                             newProps.max = ability.limit.repeatable(action.properties.max.max, action.properties.max.eventName);
