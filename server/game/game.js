@@ -262,6 +262,7 @@ class Game extends EventEmitter {
     recordConflictWinner(conflict) {
         let record = this.completedConflicts.find(record => record.uuid === conflict.uuid);
         if(record) {
+            record.completed = true;
             record.winner = conflict.winner;
             record.typeSwitched = conflict.conflictTypeSwitched;
         }
