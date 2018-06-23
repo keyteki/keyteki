@@ -19,17 +19,15 @@ class CardEffect extends Effect {
     }
 
     getTargets() {
-        let provinces = ['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'];
         if(this.targetLocation === 'any') {
-            return this.game.allCards.filter(card => this.match(card));
+            return this.game.allCards.filter(this.match);
         } else if(this.targetLocation === 'province') {
-            return this.game.allCards.filter(card => this.match(card) && provinces.includes(card.location));
+            return this.game.provinceCards.filter(this.match);
         } else if(this.targetLocation === 'play area') {
             return this.game.findAnyCardsInPlay(this.match);
         }
         return this.game.allCards.filter(card => this.match(card) && card.location === this.targetLocation);
     }
-
 }
 
 module.exports = CardEffect;

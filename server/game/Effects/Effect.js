@@ -97,9 +97,12 @@ class Effect {
             // Apply the effect to new targets
             _.each(newTargets, target => this.addTarget(target));
             return stateChanged || newTargets.length > 0;
-        } else if(this.targets.includes(this.match) && !this.isValidTarget(this.match)) {
-            this.cancel();
-            return true;
+        } else if(this.targets.includes(this.match)) {
+            if(!this.isValidTarget(this.match)) {
+                this.cancel();
+                return true;
+            }
+            return this.effect.recalculate(this.match) || stateChanged;
         } else if(!this.targets.includes(this.match) && this.isValidTarget(this.match)) {
             this.addTarget(this.match);
             return true;
