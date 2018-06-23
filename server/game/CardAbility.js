@@ -94,7 +94,7 @@ class CardAbility extends ThenAbility {
         let messageArgs = [context.player, context.source.type === 'event' ? ' plays ' : ' uses ', context.source];
         let costMessages = this.cost.map(cost => {
             if(cost.action && cost.action.cost) {
-                return { message: this.game.gameChat.formatMessage(cost.action.cost, [context.costs[cost.action.name]]) };
+                return { message: this.game.gameChat.getFormattedMessage(cost.action.cost, context.costs[cost.action.name]) };
             }
         }).filter(obj => obj);
         if(costMessages.length > 0) {
@@ -132,7 +132,7 @@ class CardAbility extends ThenAbility {
             // to
             messageArgs.push(' to ');
             // discard Stoic Gunso
-            messageArgs.push({ message: this.game.gameChat.formatMessage(effectMessage, effectArgs) });
+            messageArgs.push({ message: this.game.gameChat.getFormattedMessage(effectMessage, ...effectArgs) });
         }
         this.game.addMessage('{0}{1}{2}{3}{4}{5}{6}', ...messageArgs);
     }
