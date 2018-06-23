@@ -1,5 +1,6 @@
 const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
+const GameActions = require('../../GameActions/GameActions');
 
 class ConsumedByFiveFires extends DrawCard {
     // TODO: need refactoring
@@ -19,8 +20,13 @@ class ConsumedByFiveFires extends DrawCard {
         if(fateRemaining === 0 || !context.player.opponent.cardsInPlay.any(card => card.fate > 0 && !_.keys(targets).includes(card.uuid))) {
             this.game.addMessage('{0} chooses to: {1}', context.player, messages);
             let keys = _.keys(targets);
-            let events = this.game.applyGameAction(context, { removeFate: context.player.opponent.cardsInPlay.filter(card => keys.includes(card.uuid)) });
-            _.each(events, event => event.fate = targets[event.card.uuid]);
+            let events = keys.map(key => {
+                let card = context.player.opponent.cardsInPlay.find(c => c.uuid === key);
+                if(card) {
+                    return GameActions.removeFate({ amount: targets[key]}).getEvent(card, context);
+                }
+            }).filter(obj => obj);
+            this.game.openThenEventWindow(events);
             return;
         }
         this.game.promptForSelect(context.player, {
