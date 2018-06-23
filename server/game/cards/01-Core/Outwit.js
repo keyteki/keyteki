@@ -8,7 +8,8 @@ class Outwit extends DrawCard {
                 cardType: 'character',
                 controller: 'opponent',
                 cardCondition: (card, context) => context.player.cardsInPlay.some(myCard => (
-                    myCard.hasTrait('courtier') && myCard.politicalSkill > card.politicalSkill
+                    myCard.hasTrait('courtier') && myCard.isParticipating() &&
+                    myCard.politicalSkill > card.politicalSkill
                 )),
                 gameAction: ability.actions.sendHome()
             }

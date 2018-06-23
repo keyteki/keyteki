@@ -8,7 +8,8 @@ class Rout extends DrawCard {
                 cardType: 'character',
                 controller: 'opponent',
                 cardCondition: (card, context) => context.player.cardsInPlay.some(myCard => (
-                    myCard.hasTrait('bushi') && myCard.militarySkill > card.militarySkill
+                    myCard.hasTrait('bushi') && myCard.isParticipating() &&
+                    myCard.militarySkill > card.militarySkill
                 )),
                 gameAction: ability.actions.sendHome()
             }
