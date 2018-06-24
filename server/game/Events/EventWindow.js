@@ -42,10 +42,12 @@ class EventWindow extends BaseStepWithPipeline {
     addEvent(event) {
         event.setWindow(this);
         this.events.push(event);
+        return event;
     }
 
     removeEvent(event) {
         this.events = _.reject(this.events, e => e === event);
+        return event;
     }
 
     addThenAbility(events, ability) {
