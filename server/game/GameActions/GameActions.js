@@ -26,6 +26,7 @@ const ModifyFateAction = require('./ModifyFateAction');
 const MoveToConflictAction = require('./MoveToConflictAction');
 const PlaceFateAction = require('./PlaceFateAction');
 const PlaceFateRingAction = require('./PlaceFateRingAction');
+const PlayCardAction = require('./PlayCardAction');
 const PutIntoPlayAction = require('./PutIntoPlayAction');
 const RandomDiscardAction = require('./RandomDiscardAction');
 const ReadyAction = require('./ReadyAction');
@@ -59,6 +60,7 @@ const GameActions = {
     honor: (propertyFactory) => new HonorAction(propertyFactory),
     moveToConflict: (propertyFactory) => new MoveToConflictAction(propertyFactory),
     placeFate: (propertyFactory) => new PlaceFateAction(propertyFactory), // amount = 1, origin
+    playCard: (propertyFactory) => new PlayCardAction(propertyFactory), // resetOnCancel = false, postHandler
     putIntoConflict: (propertyFactory) => new PutIntoPlayAction(propertyFactory), // fate = 0
     putIntoPlay: (propertyFactory) => new PutIntoPlayAction(propertyFactory, false), // fate = 0
     ready: (propertyFactory) => new ReadyAction(propertyFactory),

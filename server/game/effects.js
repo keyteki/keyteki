@@ -2,10 +2,8 @@ const _ = require('underscore');
 
 const AbilityLimit = require('./abilitylimit.js');
 const CannotRestriction = require('./cannotrestriction.js');
-const CostReducer = require('./costreducer');
 const EffectBuilder = require('./Effects/EffectBuilder');
 const ImmunityRestriction = require('./immunityrestriction.js');
-const PlayableLocation = require('./playablelocation.js');
 
 /* Types of effect
     1. Static effects - do something for a period
@@ -94,18 +92,14 @@ const Effects = {
     additionalCharactersInConflict: (amount) => EffectBuilder.player.flexible('additionalCharactersInConflict', amount),
     additionalConflict: (type) => EffectBuilder.player.static('additionalConflict', type),
     canPlayFromOwn: (location) => EffectBuilder.player.detached('canPlayFromOwn', {
-        apply: (player) => {
-            let playableLocation = new PlayableLocation('play', player, location);
-            player.playableLocations.push(playableLocation);
-            return playableLocation;
-        },
-        unapply: (player, context, location) => player.playableLocations = player.playableLocations.filter(l => l !== location)
+        apply: (player) => player.addPlayableLocation('play', player, location),
+        unapply: (player, context, location) => player.removePlayableLocation(location)
     }),
     changePlayerGloryModifier: (value) => EffectBuilder.player.static('gloryModifier', value),
     increaseCost: (properties) => Effects.reduceCost(_.extend(properties, { amount: -properties.amount })),
     playerCannot: (type, predicate) => EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(type, predicate)),
     reduceCost: (properties) => EffectBuilder.player.detached('costReducer', {
-        apply: (player, context) => player.addCostReducer(new CostReducer(context.game, context.source, properties)),
+        apply: (player, context) => player.addCostReducer(context.source, properties),
         unapply: (player, context, reducer) => player.removeCostReducer(reducer)
     }),
     reduceNextPlayedCardCost: (amount, match) => Effects.reduceCost({ amount: amount, match: match, limit: AbilityLimit.fixed(1) }),

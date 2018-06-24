@@ -4,6 +4,7 @@ const GameObject = require('./GameObject');
 const Deck = require('./deck.js');
 const AttachmentPrompt = require('./gamesteps/attachmentprompt.js');
 const ClockSelector = require('./Clocks/ClockSelector');
+const CostReducer = require('./costreducer.js');
 const GameActions = require('./GameActions/GameActions');
 const RingEffects = require('./RingEffects.js');
 const PlayableLocation = require('./playablelocation.js');
@@ -417,9 +418,12 @@ class Player extends GameObject {
 
     /**
      * Adds the passed Cost Reducer to this Player
-     * @param {CostReducer} reducer
+     * @param {EffectSource} source = source of the reducer
+     * @param {Object} properties
+     * @returns {CostReducer}
      */
-    addCostReducer(reducer) {
+    addCostReducer(source, properties) {
+        let reducer = new CostReducer(this.game, source, properties);
         this.costReducers.push(reducer);
         return reducer;
     }
@@ -433,6 +437,16 @@ class Player extends GameObject {
             reducer.unregisterEvents();
             this.costReducers = _.reject(this.costReducers, r => r === reducer);
         }
+    }
+
+    addPlayableLocation(type, player, location) {
+        let playableLocation = new PlayableLocation(type, player, location);
+        this.playableLocations.push(playableLocation);
+        return playableLocation;
+    }
+
+    removePlayableLocation(location) {
+        this.playableLocations = _.reject(this.playableLocations, l => l === location);
     }
 
     /**
