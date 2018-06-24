@@ -43,6 +43,9 @@ class LeavesPlayEvent extends Event {
 
     leavesPlay() {
         this.card.owner.moveCard(this.card, this.destination, this.options);
+        if(this.options.shuffle) {
+            this.card.owner.shuffleConflictDeck();
+        }
     }
 }
 

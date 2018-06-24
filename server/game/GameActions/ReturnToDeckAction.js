@@ -4,6 +4,7 @@ const LeavesPlayEvent = require('../Events/LeavesPlayEvent');
 class ReturnToDeckAction extends CardGameAction {
     setDefaultProperties() {
         this.bottom = false;
+        this.shuffle = false;
     }
     setup() {
         this.name = 'returnToDeck';
@@ -20,7 +21,7 @@ class ReturnToDeckAction extends CardGameAction {
 
     getEvent(card, context) {
         let destination = card.isDynasty ? 'dynasty deck' : 'conflict deck';
-        return new LeavesPlayEvent({ context: context, destination: destination, options: { bottom: this.bottom } }, card, this);
+        return new LeavesPlayEvent({ context: context, destination: destination, options: { bottom: this.bottom, shuffle: this.shuffle } }, card, this);
     }
 }
 

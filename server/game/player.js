@@ -332,7 +332,7 @@ class Player extends GameObject {
     }
 
     /**
-     * Shuffles the conflict deck, raising an event and displaying a message in chat
+     * Shuffles the conflict deck, emitting an event and displaying a message in chat
      */
     shuffleConflictDeck() {
         if(this.name !== 'Dummy Player') {
@@ -343,7 +343,7 @@ class Player extends GameObject {
     }
 
     /**
-     * Shuffles the dynasty deck, raising an event and displaying a message in chat
+     * Shuffles the dynasty deck, emitting an event and displaying a message in chat
      */
     shuffleDynastyDeck() {
         if(this.name !== 'Dummy Player') {
