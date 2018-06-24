@@ -1,4 +1,4 @@
-fdescribe('Kanjo District', function() {
+describe('Kanjo District', function() {
     integration(function() {
         describe('Kanjo District\'s ability', function() {
             beforeEach(function() {
