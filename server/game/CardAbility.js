@@ -109,15 +109,15 @@ class CardAbility extends ThenAbility {
         let effectArgs = [];
         let extraArgs = null;
         if(!effectMessage) {
-            let gameActions = this.getGameActions(context);
+            let gameActions = this.getGameActions(context).filter(gameAction => gameAction.hasLegalTarget(context));
             if(gameActions.length > 0) {
                 // effects with multiple game actions really need their own effect message
                 effectMessage = gameActions[0].effectMsg;
-                effectArgs.push(gameActions[0].target);
+                effectArgs = effectArgs.concat(gameActions[0].target);
                 extraArgs = gameActions[0].effectArgs;
             }
         } else {
-            effectArgs.push(context.target || context.ring || context.source);
+            effectArgs = effectArgs.concat(context.target || context.ring || context.source);
             extraArgs = this.properties.effectArgs;
         }
 

@@ -71,7 +71,7 @@ describe('CardAbility displayMessage', function() {
 
         it('should have an effect term as the seventh arg', function() {
             expect(this.args[7].message).toContain('discard ');
-            expect(this.args[7].message[1].message).toContain(this.target);
+            expect(this.args[7].message).toContain(this.target);
         });
     });
 
@@ -133,4 +133,71 @@ describe('CardAbility displayMessage', function() {
             expect(this.args[7].message).toContain(this.eventToCancel);
         });
     });
+
+    describe('City of the Open Hand', function() {
+        beforeEach(function() {
+            class Player {
+                constructor(name) {
+                    this.name = name;
+                    this.type = 'player';
+                }
+
+                checkRestrictions() {
+                    return true;
+                }
+            }
+            this.opponent = new Player('Player 2');
+            this.opponent.opponent = this.player;
+            this.player.opponent = this.opponent;
+            this.cardSpy.type = 'stronghold';
+            this.ability = new CardAbility(this.gameSpy, this.cardSpy, {
+                cost: AbilityDsl.costs.bowSelf(),
+                gameAction: AbilityDsl.actions.takeHonor()
+            });
+            this.ability.displayMessage({
+                game: this.gameSpy,
+                player: this.player,
+                source: this.cardSpy,
+                costs: {
+                    bow: this.cardSpy
+                }
+            });
+            this.args = this.gameSpy.addMessage.calls.allArgs()[0];
+        });
+
+        it('should send a 6 part message', function() {
+            expect(this.args[0]).toBe('{0}{1}{2}{3}{4}{5}{6}');
+        });
+
+        it('should have the player object as the first arg', function() {
+            expect(this.args[1]).toBe(this.player);
+        });
+
+        it('should have \'uses\' as the second arg', function() {
+            expect(this.args[2]).toBe(' uses ');
+        });
+
+        it('should have the source as the third arg', function() {
+            expect(this.args[3]).toBe(this.cardSpy);
+        });
+
+        it('should have a comma as the fourth arg', function() {
+            expect(this.args[4]).toBe(', ');
+        });
+
+        it('should have a cost term as the fifth arg', function() {
+            expect(this.args[5][0].message).toContain('bowing ');
+            expect(this.args[5][0].message).toContain(this.cardSpy);
+        });
+
+        it('should have \'to\' as the sixth arg', function() {
+            expect(this.args[6]).toBe(' to ');
+        });
+
+        it('should have an effect term as the seventh arg', function() {
+            expect(this.args[7].message).toContain('take 1 honor from ');
+            expect(this.args[7].message).toContain(this.opponent);
+        });
+    });
+
 });

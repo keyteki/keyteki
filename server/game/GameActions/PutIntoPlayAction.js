@@ -14,7 +14,7 @@ class PutIntoPlayAction extends CardGameAction {
     setup() {
         this.name = this.intoConflict ? 'putIntoConflict' : 'putIntoPlay';
         this.targetType = ['character'];
-        this.effectMsg = 'put {0} into play' + this.intoConflict ? ' in the conflict' : '';
+        this.effectMsg = 'put {0} into play' + (this.intoConflict ? ' in the conflict' : '');
         this.cost = 'putting {0} into play';
     }
 
