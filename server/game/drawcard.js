@@ -230,7 +230,7 @@ class DrawCard extends BaseCard {
             return bonus ? total + bonus : total;
         }, skill);
         // multiply total
-        skill = this.getEffects('modifyMilitarySkillMultiplier').reduce((total, effect) => total * effect.value, skill);
+        skill = this.getEffects('modifyMilitarySkillMultiplier').reduce((total, value) => total * value, skill);
         return floor ? Math.max(0, skill) : skill;
     }
 
@@ -259,7 +259,7 @@ class DrawCard extends BaseCard {
             return bonus ? total + bonus : total;
         }, skill);
         // multiply total
-        skill = this.getEffects('modifyPoliticalSkillMultiplier').reduce((total, effect) => total * effect.value, skill);
+        skill = this.getEffects('modifyPoliticalSkillMultiplier').reduce((total, value) => total * value, skill);
         return floor ? Math.max(0, skill) : skill;
     }
 
