@@ -39,7 +39,7 @@ class FireRingEffect extends BaseAbility {
             });
         }
         choices.push('Back');
-        handlers.push(() => context.game.resolveAbility(context));
+        handlers.push(() => context.player.resolveRingEffects(['fire'], this.optional));
         if(this.optional) {
             choices.push('Don\'t resolve the fire ring');
             handlers.push(() => context.game.addMessage('{0} chooses not to resolve the {1} ring', context.player, 'fire'));
