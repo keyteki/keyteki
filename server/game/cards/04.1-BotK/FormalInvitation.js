@@ -1,10 +1,23 @@
 const DrawCard = require('../../drawcard.js');
 
 class FormalInvitation extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.action({
+            title: 'Move attached character into the conflict',
+            condition: () => this.game.isDuringConflict('political'),
+            gameAction: ability.actions.moveToConflict(context => ({ target: context.source.parent }))
+        });
+    }
+
+    canAttach(card, context) {
+        if(card.getType() === 'character' && card.getGlory() < 2) {
+            return false;
+        }
+
+        return super.canAttach(card, context);
     }
 }
 
-FormalInvitation.id = 'formal-invitation'; // This is a guess at what the id might be - please check it!!!
+FormalInvitation.id = 'formal-invitation';
 
 module.exports = FormalInvitation;
