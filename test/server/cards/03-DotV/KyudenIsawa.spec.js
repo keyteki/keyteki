@@ -65,5 +65,33 @@ describe('Kyuden Isawa', function() {
                 expect(this.player1).toHavePrompt('Walking the Way');
             });
         });
+
+        describe('Kyuden Isawa/Maze of Illusion', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    phase: 'conflict',
+                    player1: {
+                        stronghold: 'kyuden-isawa',
+                        inPlay: ['adept-of-the-waves'],
+                        hand: ['against-the-waves', 'walking-the-way'],
+                        conflictDiscard: ['maze-of-illusion']
+                    },
+                    player2: {
+                        inPlay: ['seppun-guardsman']
+                    }
+                });
+                this.noMoreActions();
+                this.initiateConflict({
+                    attackers: ['adept-of-the-waves'],
+                    defenders: ['seppun-guardsman']
+                });
+                this.player2.pass();
+            });
+
+            it('should allow you to use Kyuden Isawa on Maze of Illusion', function() {
+                this.player1.clickCard('kyuden-isawa');
+                this.player1.clickCard('maze-of-illusion', 'conflict discard pile');
+            });
+        });
     });
 });
