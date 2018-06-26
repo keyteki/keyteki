@@ -15,7 +15,7 @@ class ALegionOfOne extends DrawCard {
             },
             effect: 'give {0} +3/+0',
             then: context => {
-                if(context.isResolveAbility) {
+                if(context.secondResolution) {
                     return {
                         target: {
                             mode: 'select',
@@ -38,7 +38,7 @@ class ALegionOfOne extends DrawCard {
                     },
                     message: '{0} chooses {3}to remove a fate to resolve {1} again',
                     messageArgs: context => context.select === 'Done' ? 'not ' : '',
-                    then: { gameAction: ability.actions.resolveAbility({ ability: context.ability }) }
+                    then: { gameAction: ability.actions.resolveAbility({ ability: context.ability, secondResolution: true }) }
                 };
             }
         });

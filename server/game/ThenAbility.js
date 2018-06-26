@@ -67,7 +67,7 @@ class ThenAbility extends BaseAbility {
         if(events.length > 0) {
             let window = this.openEventWindow(events);
             if(then) {
-                window.addThenAbility(events, new ThenAbility(this.game, this.card, then));
+                window.addThenAbility(events, new ThenAbility(this.game, this.card, then), context);
             }
         }
     }

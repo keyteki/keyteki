@@ -9,7 +9,7 @@ class ModifyFateAction extends PlayerAction {
         super.setup();
         this.name = this.amount >= 0 ? 'gainFate' : 'spendFate';
         this.effectMsg = 'gain ' + this.amount + ' fate';
-        this.cost = 'paying ' + this.amount + ' fate';
+        this.cost = 'paying ' + -this.amount + ' fate';
     }
 
     defaultTargets(context) {

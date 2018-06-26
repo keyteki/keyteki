@@ -5,21 +5,28 @@ const SimpleStep = require('../gamesteps/simplestep.js');
 class NoCostsAbilityResolver extends AbilityResolver {
     initialise() {
         this.pipeline.initialise([
-            new SimpleStep(this.game, () => this.setAdditionalContext()),
             new SimpleStep(this.game, () => this.createSnapshot()),
             new SimpleStep(this.game, () => this.resolveTargets()),
             new SimpleStep(this.game, () => this.initiateAbility())
         ]);
     }
 
-    setAdditionalContext() {
-        this.context.isResolveAbility = true;
+    initiateAbility() {
+        if(this.cancelled) {
+            return;
+        } else if(this.context.ability.max && !this.context.secondResolution) {
+            this.context.player.incrementAbilityMax(this.context.ability.maxIdentifier);
+        }
+        this.context.ability.displayMessage(this.context);
+        let handler = this.context.secondResolution ? () => this.executeHandler() : () => this.executeCardAbilityHandler();
+        this.game.raiseInitiateAbilityEvent({ card: this.context.source, context: this.context }, handler);
     }
 }
 
 class ResolveAbilityAction extends CardAction {
     setDefaultProperties() {
         this.ability = null;
+        this.secondResolution = false;
     }
 
     setup() {
@@ -36,7 +43,11 @@ class ResolveAbilityAction extends CardAction {
 
     getEvent(card, context) {
         return super.createEvent('unnamedEvent', { card: card, context: context }, () => {
-            context.game.queueStep(new NoCostsAbilityResolver(context.game, this.ability.createContext(context.player)));
+            let newContext = Object.assign(this.ability.createContext(context.player), {
+                isResolveAbility: true,
+                secondResolution: this.secondResolution
+            });
+            context.game.queueStep(new NoCostsAbilityResolver(context.game, newContext));
         });
     }
 }
