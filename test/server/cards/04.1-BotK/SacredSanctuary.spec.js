@@ -21,22 +21,22 @@ describe('Sacred Sanctuary', function() {
                 this.adept = this.player2.findCardByName('niten-adept');
                 this.sanctuary = this.player2.findCardByName('sacred-sanctuary');
                 this.high_kick = this.player2.findCardByName('high-kick');
-				this.kazue.bow();
+                this.kazue.bow();
                 this.initiateConflict({
                     type: 'military',
                     attackers: [this.yaruma]
                 });
             });
 
-            it('should trigger when attackers are declared and there is a monk in play', function() {;
+            it('should trigger when attackers are declared and there is a monk in play', function() {
                 expect(this.player2).toBeAbleToSelect(this.sanctuary);
             });
 
             it('should prompt the player to choose only a monk', function() {
                 this.player2.clickCard(this.sanctuary);
                 expect(this.player2).toHavePrompt('Sacred Sanctuary');
-                expect(this.player2).toBeAbleToSelect(this.kazue)
-                expect(this.player2).not.toBeAbleToSelect(this.adept)
+                expect(this.player2).toBeAbleToSelect(this.kazue);
+                expect(this.player2).not.toBeAbleToSelect(this.adept);
             });
 
             it('should prevent chosen character from bowing at the end of the conflict', function() {

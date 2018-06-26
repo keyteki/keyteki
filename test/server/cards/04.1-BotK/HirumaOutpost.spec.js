@@ -1,4 +1,4 @@
-fdescribe('Hiruma Outpose', function() {
+describe('Hiruma Outpose', function() {
     integration(function() {
         describe('Hiruma Outpose\'s ability', function() {
             beforeEach(function() {
@@ -17,7 +17,7 @@ fdescribe('Hiruma Outpose', function() {
                 this.shamefulDisplay = this.player2.findCardByName('shameful-display', 'province 2');
             });
 
-            fit('should trigger when an attack is declared against a province without a holding', function() {
+            it('should trigger when an attack is declared against a province without a holding', function() {
                 this.player1.pass();
                 this.player2.clickCard(this.imperialStorehouse);
                 this.noMoreActions();
@@ -25,8 +25,6 @@ fdescribe('Hiruma Outpose', function() {
                     province: this.shamefulDisplay,
                     attackers: ['matsu-berserker']
                 });
-                console.log(this.hirumaOutpost.abilities.reactions);
-                console.log(this.game.effectEngine.getDebugInfo());
                 expect(this.player2).toHavePrompt('Triggered Abilities');
                 expect(this.player2).toBeAbleToSelect(this.hirumaOutpost);
             });

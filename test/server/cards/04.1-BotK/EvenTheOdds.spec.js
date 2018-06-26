@@ -1,4 +1,4 @@
-fdescribe('Even the Odds', function() {
+describe('Even the Odds', function() {
     integration(function() {
         describe('Even the Odds\'s ability', function() {
             beforeEach(function() {
