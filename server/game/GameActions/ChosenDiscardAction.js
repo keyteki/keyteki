@@ -9,7 +9,7 @@ class ChosenDiscardAction extends PlayerAction {
         super.setup();
         this.name = 'discard';
         this.effectMsg = 'discard ' + this.amount + ' cards';
-        this.cards = [];
+        this.cards = {};
     }
 
     canAffect(player, context) {
@@ -21,36 +21,29 @@ class ChosenDiscardAction extends PlayerAction {
 
     preEventHandler(context) {
         super.preEventHandler(context);
-        const player = this.target[0];
-        let amount = Math.min(player.hand.size(), this.amount);
-        if(amount === 0) {
-            return;
-        }
-        context.game.promptForSelect(player, {
-            activePromptTitle: 'Choose ' + (amount === 1 ? 'a card' : (amount + ' cards')) + ' to discard',
-            context: context,
-            mode: 'exactly',
-            numCards: amount,
-            ordered: true,
-            location: 'hand',
-            controller: player === context.player ? 'self' : 'opponent',
-            onSelect: (player, cards) => {
-                this.cards = cards;
-                context.game.addMessage('{0} discards {1}', player, cards);
-                return true;
+        for(let player of this.target) {
+            let amount = Math.min(player.hand.size(), this.amount);
+            if(amount > 0) {
+                context.game.promptForSelect(player, {
+                    activePromptTitle: 'Choose ' + (amount === 1 ? 'a card' : (amount + ' cards')) + ' to discard',
+                    context: context,
+                    mode: 'exactly',
+                    numCards: amount,
+                    ordered: true,
+                    location: 'hand',
+                    controller: player === context.player ? 'self' : 'opponent',
+                    onSelect: (player, cards) => {
+                        this.cards[player.uuid] = cards;
+                        context.game.addMessage('{0} discards {1}', player, cards);
+                        return true;
+                    }
+                });
             }
-        });
-    }
-
-    getEventArray(context) {
-        if(this.cards.length === 0) {
-            return [];
         }
-        return super.getEventArray(context);
     }
 
     getEvent(player, context) {
-        return super.createEvent('onCardsDiscardedFromHand', { player: player, cards: this.cards, context: context }, event => {
+        return super.createEvent('onCardsDiscardedFromHand', { player: player, cards: this.cards[player.uuid], context: context }, event => {
             for(let card of event.cards) {
                 player.moveCard(card, card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile');
             }
