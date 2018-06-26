@@ -1,10 +1,17 @@
 const DrawCard = require('../../drawcard.js');
 
 class ThirdTowerGuard extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            condition: () => (
+                this.game.rings.earth.isConsideredClaimed(this.controller)) || (this.game.rings.water.isConsideredClaimed(this.controller)
+            ),
+            match: this,
+            effect: ability.effects.modifyMilitarySkill(2)
+        });
     }
 }
 
-ThirdTowerGuard.id = 'third-tower-guard'; // This is a guess at what the id might be - please check it!!!
+ThirdTowerGuard.id = 'third-tower-guard';
 
 module.exports = ThirdTowerGuard;
