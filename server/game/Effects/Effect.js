@@ -40,10 +40,6 @@ class Effect {
         this.effect.context = this.context = { game: game, source: source };
     }
 
-    isInActiveLocation() {
-        return ['any', this.source.location].includes(this.location);
-    }
-
     isValidTarget(target) { // eslint-disable-line no-unused-vars
         return true;
     }
@@ -80,7 +76,7 @@ class Effect {
     }
 
     checkCondition(stateChanged) {
-        if(!this.condition() || (this.duration === 'persistent' && this.source.isBlank())) {
+        if(!this.condition() || (this.duration === 'persistent' && (this.source.isBlank() || this.source.facedown))) {
             stateChanged = this.targets.length > 0 || stateChanged;
             this.cancel();
             return stateChanged;

@@ -6,6 +6,7 @@ describe('Player', function() {
     describe('moveCard', function() {
         beforeEach(function() {
             this.gameSpy = jasmine.createSpyObj('game', ['emitEvent', 'on', 'raiseEvent', 'getOtherPlayer', 'playerDecked', 'addMessage']);
+            this.gameSpy.effectEngine = jasmine.createSpyObj('effectEngine', ['removeLastingEffects']);
             this.player = new Player('1', {username: 'Player 1', settings: {}}, true, this.gameSpy);
             this.player.initialise();
 

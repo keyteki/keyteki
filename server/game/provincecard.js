@@ -36,6 +36,10 @@ class ProvinceCard extends BaseCard {
         return this.game.currentConflict && this.game.currentConflict.conflictProvince === this;
     }
 
+    isBlank() {
+        return this.isBroken || super.isBlank();
+    }
+
     breakProvince() {
         this.isBroken = true;
         if(this.controller.opponent) {

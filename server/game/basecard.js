@@ -89,9 +89,11 @@ class BaseCard extends EffectSource {
      * is both in play and not blank.
      */
     persistentEffect(properties) {
-        const allowedLocations = ['any', 'play area'];
+        const allowedLocations = ['any', 'play area', 'province'];
         const defaultLocationForType = {
-            province: 'any'
+            province: 'province',
+            holding: 'province',
+            stronghold: 'province'
         };
 
         let location = properties.location || defaultLocationForType[this.getType()] || 'play area';
@@ -125,14 +127,6 @@ class BaseCard extends EffectSource {
         });
     }
 
-    applyPersistentEffects() {
-        _.each(this.abilities.persistentEffects, effect => {
-            if(effect.location !== 'any') {
-                this.addEffectToEngine(effect);
-            }
-        });
-    }
-
     leavesPlay() {
         this.tokens = {};
         _.each(this.abilities.actions, action => action.limit.reset());
@@ -151,6 +145,25 @@ class BaseCard extends EffectSource {
         });
     }
 
+    updateEffects(from = '', to = '') {
+        const activeLocations = {
+            'play area': ['play area'],
+            'province': ['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province']
+        };
+        if(from === 'play area' || this.type === 'holding' && activeLocations['province'].includes(from) && !activeLocations['province'].includes(to)) {
+            this.removeLastingEffects();
+        }
+        _.each(this.abilities.persistentEffects, effect => {
+            if(effect.location !== 'any') {
+                if(activeLocations[effect.location].includes(to) && !activeLocations[effect.location].includes(from)) {
+                    effect.ref = this.addEffectToEngine(effect);
+                } else if(!activeLocations[effect.location].includes(to) && activeLocations[effect.location].includes(from)) {
+                    this.removeEffectFromEngine(effect.ref);
+                }
+            }
+        });
+    }
+
     moveTo(targetLocation) {
         let originalLocation = this.location;
 
@@ -162,10 +175,7 @@ class BaseCard extends EffectSource {
 
         if(originalLocation !== targetLocation) {
             this.updateAbilityEvents(originalLocation, targetLocation);
-
-            if(targetLocation === 'play area') {
-                this.applyPersistentEffects();
-            }
+            this.updateEffects(originalLocation, targetLocation);
             this.game.emitEvent('onCardMoved', { card: this, originalLocation: originalLocation, newLocation: targetLocation });
         }
     }
