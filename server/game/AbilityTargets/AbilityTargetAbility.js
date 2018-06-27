@@ -34,6 +34,12 @@ class AbilityTargetAbility {
         return !!this.properties.dependsOn || this.hasLegalTarget(context);
     }
 
+    resetGameActions() {
+        for(let action of this.properties.gameAction) {
+            action.reset();
+        }
+    }
+
     hasLegalTarget(context) {
         return this.selector.hasEnoughTargets(context);
     }

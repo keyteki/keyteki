@@ -41,7 +41,7 @@ class CardGameAction extends GameAction {
                 context: context,
                 selector: selector,
                 onSelect: (player, cards) => {
-                    this.setTarget(cards, context);
+                    this.setTarget(cards);
                     if(this.promptForSelect.message) {
                         context.game.addMessage(this.promptForSelect.message, player, context.source, cards);
                     }
@@ -63,7 +63,7 @@ class CardGameAction extends GameAction {
             let defaultProperties = {
                 context: context,
                 cardHandler: card => {
-                    this.setTarget(card, context);
+                    this.setTarget(card);
                     if(properties.message) {
                         context.game.addMessage(properties.message, properties.player, context.source, card);
                     }

@@ -23,7 +23,7 @@ class ActionWindow extends UiPrompt {
     }
 
     onCardClicked(player, card) {
-        if(player !== this.currentPlayer) {
+        if(player !== this.currentPlayer || player !== card.controller) {
             return false;
         }
 

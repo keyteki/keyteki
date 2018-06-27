@@ -266,7 +266,7 @@ class BaseCard extends EffectSource {
     }
 
     getActions() {
-        return this.abilities.actions;
+        return this.abilities.actions.slice();
     }
 
     getProvinceStrengthBonus() {
