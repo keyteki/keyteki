@@ -34,7 +34,7 @@ class RingAction extends GameAction {
                 context: context,
                 ringCondition: ring => this.canAffect(ring, context),
                 onSelect: (player, ring) => {
-                    this.setTarget(ring, context);
+                    this.setTarget(ring);
                     if(this.promptForSelect.message) {
                         context.game.addMessage(properties.message, player, context.source, ring);
                     }

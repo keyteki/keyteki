@@ -89,6 +89,12 @@ class BaseAbility {
         // check legal targets exist
         // check costs can be paid
         // check for potential to change game state
+        for(let target of this.targets) {
+            target.resetGameActions();
+        }
+        for(let action of this.gameAction) {
+            action.reset();
+        }
         if(!this.canPayCosts(context)) {
             return 'cost';
         }

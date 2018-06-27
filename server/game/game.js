@@ -909,10 +909,8 @@ class Game extends EventEmitter {
         let actionPairs = Object.entries(actions);
         let events = actionPairs.reduce((array, [action, cards]) => {
             let gameAction = GameActions[action]();
-            if(gameAction.setTarget(cards, context)) {
-                return array.concat(gameAction.getEventArray(context));
-            }
-            return array;
+            gameAction.setTarget(cards);
+            return array.concat(gameAction.getEventArray(context));
         }, []);
         if(events.length > 0) {
             this.openEventWindow(events);

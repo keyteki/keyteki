@@ -23,9 +23,9 @@ class ChooseGameAction extends GameAction {
         }
     }
 
-    setTarget(target, context) {
+    setTarget(target) {
         for(let gameAction of this.gameActions) {
-            gameAction.setTarget(target, context);
+            gameAction.setTarget(target);
         }
     }
 
