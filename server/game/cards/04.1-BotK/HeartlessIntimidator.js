@@ -6,7 +6,8 @@ class HeartlessIntimidator extends DrawCard {
             title: 'Force opponent to discard 1 card',
             limit: ability.limit.perPhase(Infinity),
             when: {
-                onModifyHonor: (event, context) => event.player === context.player.opponent && event.amount < 0
+                onModifyHonor: (event, context) => event.player === context.player.opponent && event.amount < 0,
+                onTransferHonor: (event, context) => event.player === context.player.opponent && event.amount > 0
             },
             gameAction: ability.actions.discardCard(context => ({
                 target: context.player.opponent.conflictDeck.first()
