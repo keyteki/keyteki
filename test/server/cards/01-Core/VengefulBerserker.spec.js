@@ -1,6 +1,6 @@
-describe('Togashi Kazue', function() {
+describe('Vengeful Berserker', function() {
     integration(function() {
-        describe('Togashi Kazue\'s ability', function() {
+        describe('Vengeful Berserker\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     phase: 'conflict',

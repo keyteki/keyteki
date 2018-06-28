@@ -15,9 +15,13 @@ class CardGameAction extends GameAction {
     hasLegalTarget(context) {
         let result = super.hasLegalTarget(context);
         if(this.promptForSelect) {
-            return this.getSelector().hasEnoughTargets(context);
+            let contextCopy = context.copy();
+            contextCopy.stage = 'effect';
+            return this.getSelector().hasEnoughTargets(contextCopy);
         } else if(this.promptWithHandlerMenu) {
-            return this.promptWithHandlerMenu.cards.some(card => this.canAffect(card, context));
+            let contextCopy = context.copy();
+            contextCopy.stage = 'effect';
+            return this.promptWithHandlerMenu.cards.some(card => this.canAffect(card, contextCopy));
         }
         return result;
     }
