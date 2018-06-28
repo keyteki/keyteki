@@ -71,7 +71,7 @@ describe('CardAbility displayMessage', function() {
 
         it('should have an effect term as the seventh arg', function() {
             expect(this.args[7].message).toContain('discard ');
-            expect(this.args[7].message).toContain(this.target);
+            expect(this.args[7].message[1].message).toContain(this.target);
         });
     });
 
@@ -196,7 +196,7 @@ describe('CardAbility displayMessage', function() {
 
         it('should have an effect term as the seventh arg', function() {
             expect(this.args[7].message).toContain('take 1 honor from ');
-            expect(this.args[7].message).toContain(this.opponent);
+            expect(this.args[7].message[1].message).toContain(this.opponent);
         });
     });
 
