@@ -113,11 +113,11 @@ class CardAbility extends ThenAbility {
             if(gameActions.length > 0) {
                 // effects with multiple game actions really need their own effect message
                 effectMessage = gameActions[0].effectMsg;
-                effectArgs = effectArgs.concat(gameActions[0].target);
+                effectArgs.push(gameActions[0].target);
                 extraArgs = gameActions[0].effectArgs;
             }
         } else {
-            effectArgs = effectArgs.concat(context.target || context.ring || context.source);
+            effectArgs.push(context.target || context.ring || context.source);
             extraArgs = this.properties.effectArgs;
         }
 
