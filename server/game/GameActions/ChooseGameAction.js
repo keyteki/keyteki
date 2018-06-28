@@ -1,15 +1,10 @@
 const GameAction = require('./GameAction');
 
 class ChooseGameAction extends GameAction {
-    constructor(choices) {
-        super();
-        this.choices = choices;
-        for(const key of Object.keys(choices)) {
-            if(!Array.isArray(choices[key])) {
-                this.choices[key] = [choices[key]];
-            }
-        }
-        this.gameActions = Object.values(choices).reduce((array, actions) => array.concat(actions), []);
+    setDefaultProperties() {
+        this.choice = null;
+        this.choices = {};
+        this.activePromptTitle = 'Select an action:';
     }
 
     setup() {
@@ -18,6 +13,13 @@ class ChooseGameAction extends GameAction {
     }
 
     update(context) {
+        super.update();
+        for(const key of Object.keys(this.choices)) {
+            if(!Array.isArray(this.choices[key])) {
+                this.choices[key] = [this.choices[key]];
+            }
+        }
+        this.gameActions = Object.values(this.choices).reduce((array, actions) => array.concat(actions), []);
         for(let gameAction of this.gameActions) {
             gameAction.update(context);
         }
@@ -30,6 +32,8 @@ class ChooseGameAction extends GameAction {
     }
 
     preEventHandler(context) {
+        super.preEventHandler(context);
+        let activePromptTitle = this.activePromptTitle;
         let choices = Object.keys(this.choices);
         let handlers = choices.map(choice => {
             return () => {
@@ -39,7 +43,7 @@ class ChooseGameAction extends GameAction {
                 }
             };
         });
-        context.game.promptWithHandlerMenu(context.player, {choices, handlers});
+        context.game.promptWithHandlerMenu(context.player, {activePromptTitle, choices, handlers});
     }
 
     hasLegalTarget(context) {
