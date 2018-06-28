@@ -1,4 +1,4 @@
-fdescribe('Way of the Crab', function() {
+describe('Way of the Crab', function() {
     integration(function() {
         describe('Way of the Crab\'s ability', function() {
             beforeEach(function() {
