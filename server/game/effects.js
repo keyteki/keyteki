@@ -102,7 +102,10 @@ const Effects = {
         apply: (player, context) => player.addCostReducer(context.source, properties),
         unapply: (player, context, reducer) => player.removeCostReducer(reducer)
     }),
-    reduceNextPlayedCardCost: (amount, match) => Effects.reduceCost({ amount: amount, match: match, limit: AbilityLimit.fixed(1) }),
+    reduceNextPlayedCardCost: (amount, match) => EffectBuilder.player.detached('costReducer', {
+        apply: (player, context) => player.addCostReducer(context.source, { amount: amount, match: match, limit: AbilityLimit.fixed(1) }),
+        unapply: (player, context, reducer) => player.removeCostReducer(reducer)
+    }),
     setMaxConflicts: (amount) => EffectBuilder.player.static('maxConflicts', amount),
     showTopConflictCard: () => EffectBuilder.player.static('showTopConflictCard'),
     // Conflict effects
