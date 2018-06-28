@@ -1,5 +1,4 @@
 const BaseAbility = require('../baseability.js');
-const GameActions = require('../GameActions/GameActions');
 
 class AirRingEffect extends BaseAbility {
     constructor(optional = true) {
@@ -23,10 +22,10 @@ class AirRingEffect extends BaseAbility {
     executeHandler(context) {
         if(context.select === 'Gain 2 Honor') {
             context.game.addMessage('{0} resolves the {1} ring, gaining 2 honor', context.player, 'air');
-            GameActions.gainHonor({ amount: 2 }).resolve(context.player, context);
+            context.game.actions.gainHonor({ amount: 2 }).resolve(context.player, context);
         } else if(context.select === 'Take 1 Honor from opponent') {
             context.game.addMessage('{0} resolves the {1} ring, taking 1 honor from {2}', context.player, 'air', context.player.opponent);
-            GameActions.takeHonor().resolve(context.player.opponent, context);
+            context.game.actions.takeHonor().resolve(context.player.opponent, context);
         } else if(!context.game.currentConflict || context.game.currentConflict.element === 'air') {
             context.game.addMessage('{0} chooses not to resolve the {1} ring', context.player, context.game.currentConflict ? 'air' : context.game.currentConflict.element);
         }
