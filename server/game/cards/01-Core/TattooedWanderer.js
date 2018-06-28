@@ -7,9 +7,16 @@ class PlayTattooedWandererAsAttachment extends PlayAttachmentAction {
         this.title = 'Play Tattooed Wanderer as an attachment';
     }
 
-    executeHandler(context) {
+    canResolveTargets(context) {
         context.source.type = 'attachment';
-        super.executeHandler(context);
+        let result = super.canResolveTargets(context);
+        context.source.type = 'character';
+        return result;
+    }
+
+    resolveTargets(context) {
+        context.source.type = 'attachment';
+        return super.resolveTargets(context);
     }
 }
 
@@ -19,11 +26,6 @@ class TattooedWanderer extends DrawCard {
         this.whileAttached({
             effect: ability.effects.addKeyword('covert')
         });
-    }
-
-    // Remove the check on being an attachment when checking whether this can be played as one
-    canAttach(card) {
-        return card && card.getType() === 'character';
     }
 
     leavesPlay() {
