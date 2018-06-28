@@ -7,9 +7,16 @@ class PlayTogashiKazueAsAttachment extends PlayAttachmentAction {
         this.title = 'Play Togashi Kazue as an attachment';
     }
 
-    executeHandler(context) {
+    canResolveTargets(context) {
         context.source.type = 'attachment';
-        super.executeHandler(context);
+        let result = super.canResolveTargets(context);
+        context.source.type = 'character';
+        return result;
+    }
+
+    resolveTargets(context) {
+        context.source.type = 'attachment';
+        return super.resolveTargets(context);
     }
 }
 
@@ -28,11 +35,6 @@ class TogashiKazue extends DrawCard {
             effect: 'steal a fate from {0} and place it on {1}',
             effectArgs: context => context.source.parent
         });
-    }
-
-    // Remove the check on being an attachment when checking whether this can be played as one
-    canAttach(card) {
-        return card && card.getType() === 'character';
     }
 
     leavesPlay() {
