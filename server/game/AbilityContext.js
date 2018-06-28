@@ -15,7 +15,11 @@ class AbilityContext {
     }
 
     copy(newProps) {
-        return new AbilityContext(Object.assign({}, this.getProps(), newProps));
+        let copy = new AbilityContext(Object.assign({}, this.getProps(), newProps));
+        copy.target = this.target;
+        copy.select = this.select;
+        copy.ring = this.ring;
+        return copy;
     }
 
     getProps() {
@@ -28,7 +32,7 @@ class AbilityContext {
             targets: Object.assign({}, this.targets),
             rings: Object.assign({}, this.rings),
             selects: Object.assign({}, this.selects),
-            state: this.stage
+            stage: this.stage
         };
     }
 }
