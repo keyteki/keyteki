@@ -204,6 +204,35 @@ describe('Calling In Favors', function() {
                 });
             });
         });
+
+        describe('Calling in Favors on Cloud the Mind', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    phase: 'conflict',
+                    player1: {
+                        inPlay: ['adept-of-the-waves'],
+                        hand: ['cloud-the-mind']
+                    },
+                    player2: {
+                        inPlay: ['yogo-hiroue', 'soshi-illusionist'],
+                        hand: ['calling-in-favors']
+                    }
+                });
+                this.yogoHiroue = this.player2.findCardByName('yogo-hiroue');
+                this.cloudTheMind = this.player1.playAttachment('cloud-the-mind', this.yogoHiroue);
+            });
+
+            it('should let the player move Cloud the Mind to a different character', function() {
+                expect(this.yogoHiroue.attachments.toArray()).toContain(this.cloudTheMind);
+                this.callingInFavors = this.player2.clickCard('calling-in-favors');
+                expect(this.player2).toHavePrompt('Calling in Favors');
+                this.player2.clickCard(this.cloudTheMind);
+                this.soshiIllusionist = this.player2.clickCard('soshi-illusionist');
+                expect(this.soshiIllusionist.isDishonored).toBe(true);
+                expect(this.soshiIllusionist.attachments.toArray()).toContain(this.cloudTheMind);
+                expect(this.cloudTheMind.controller).toBe(this.player2.player);
+            });
+        });
     });
 });
 
