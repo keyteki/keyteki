@@ -5,7 +5,7 @@ describe('Upholding Authority', function() {
                 this.setupTest({
                     phase: 'conflict',
                     player1: {
-                        inPlay: ['upholding-authority']
+                        inPlay: []
                     },
                     player2: {
                         inPlay: []

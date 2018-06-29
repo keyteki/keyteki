@@ -5,7 +5,7 @@ describe('Sabotage', function() {
                 this.setupTest({
                     phase: 'conflict',
                     player1: {
-                        inPlay: ['sabotage']
+                        inPlay: []
                     },
                     player2: {
                         inPlay: []

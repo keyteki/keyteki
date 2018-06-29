@@ -5,7 +5,7 @@ describe('Spreading the Darkness', function() {
                 this.setupTest({
                     phase: 'conflict',
                     player1: {
-                        inPlay: ['spreading-the-darkness']
+                        inPlay: []
                     },
                     player2: {
                         inPlay: []

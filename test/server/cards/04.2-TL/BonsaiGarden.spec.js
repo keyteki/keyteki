@@ -5,7 +5,7 @@ describe('Bonsai Garden', function() {
                 this.setupTest({
                     phase: 'conflict',
                     player1: {
-                        inPlay: ['bonsai-garden']
+                        inPlay: []
                     },
                     player2: {
                         inPlay: []
