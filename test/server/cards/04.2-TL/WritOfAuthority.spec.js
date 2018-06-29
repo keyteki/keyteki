@@ -5,7 +5,7 @@ describe('Writ of Authority', function() {
                 this.setupTest({
                     phase: 'conflict',
                     player1: {
-                        inPlay: ['writ-of-authority']
+                        inPlay: []
                     },
                     player2: {
                         inPlay: []

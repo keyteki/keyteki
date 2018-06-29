@@ -5,7 +5,7 @@ describe('Adopted Kin', function() {
                 this.setupTest({
                     phase: 'conflict',
                     player1: {
-                        inPlay: ['adopted-kin']
+                        inPlay: []
                     },
                     player2: {
                         inPlay: []
