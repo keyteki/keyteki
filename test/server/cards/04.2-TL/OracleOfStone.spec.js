@@ -5,7 +5,7 @@ describe('Oracle of Stone', function() {
                 this.setupTest({
                     phase: 'conflict',
                     player1: {
-                        inPlay: ['oracle-of-stone']
+                        inPlay: []
                     },
                     player2: {
                         inPlay: []

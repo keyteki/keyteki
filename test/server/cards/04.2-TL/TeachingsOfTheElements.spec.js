@@ -5,7 +5,7 @@ describe('Teachings of the Elements', function() {
                 this.setupTest({
                     phase: 'conflict',
                     player1: {
-                        inPlay: ['teachings-of-the-elements']
+                        inPlay: []
                     },
                     player2: {
                         inPlay: []

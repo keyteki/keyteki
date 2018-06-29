@@ -5,7 +5,7 @@ describe('Border Fortress', function() {
                 this.setupTest({
                     phase: 'conflict',
                     player1: {
-                        inPlay: ['border-fortress']
+                        inPlay: []
                     },
                     player2: {
                         inPlay: []

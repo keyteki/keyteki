@@ -5,7 +5,7 @@ describe('Press of Battle', function() {
                 this.setupTest({
                     phase: 'conflict',
                     player1: {
-                        inPlay: ['press-of-battle']
+                        inPlay: []
                     },
                     player2: {
                         inPlay: []
