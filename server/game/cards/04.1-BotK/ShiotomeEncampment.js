@@ -4,7 +4,6 @@ class ShiotomeEncampment extends DrawCard {
     setupCardAbilities(ability) {
         this.action({
             title: 'Ready a Cavalry character',
-            effect: 'ready a Cavalry character',
             condition: context =>
                 Object.values(this.game.rings).some(
                     ring =>
