@@ -14,6 +14,9 @@ class DynastyCardAction extends BaseAction {
 
     meetsRequirements(context = this.createContext()) {
         this.originalLocation = this.card.location;
+        if(this.card.facedown) {
+            return 'facedown';
+        }
         if(context.game.currentPhase !== 'dynasty') {
             return 'phase';
         }

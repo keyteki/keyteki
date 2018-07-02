@@ -7,6 +7,10 @@ class DuplicateUniqueAction extends BaseAction {
     }
 
     meetsRequirements(context = this.createContext()) {
+        if(this.card.facedown) {
+            return 'facedown';
+        }
+
         if(this.card.game.currentPhase !== 'dynasty') {
             return 'phase';
         }
