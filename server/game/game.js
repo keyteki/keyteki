@@ -1151,7 +1151,7 @@ class Game extends EventEmitter {
         var playerSummaries = {};
         let activePlayer = this.getPlayerByName(activePlayerName);
 
-        for(const player of this.getPlayers()) {
+        _.each(this.getPlayers(), player => {
             var deck = undefined;
             if(player.left) {
                 return;
@@ -1175,7 +1175,7 @@ class Game extends EventEmitter {
                 name: player.name,
                 owner: player.owner
             };
-        }
+        });
 
         return {
             allowSpectators: this.allowSpectators,
