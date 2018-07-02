@@ -8,7 +8,7 @@ describe('Bayushi Shoju', function() {
                     player1: {
                         honor: 10,
                         inPlay: ['bayushi-shoju'],
-                        hand: ['fiery-madness']
+                        hand: ['fiery-madness', 'a-fate-worse-than-death']
                     },
                     player2: {
                         honor: 9,
@@ -48,6 +48,19 @@ describe('Bayushi Shoju', function() {
                 expect(this.player2).toBeAbleToSelect(this.reprieve);
                 this.player2.clickCard(this.reprieve);
                 expect(this.yogoOutcast.location).toBe('dynasty discard pile');
+            });
+
+            describe('A Fate Worse Than Death and Shoju\'s delayed effect', function() {
+                it('should discard the target after A Fate Worse Than Death dishonors it', function() {
+                    this.player2.pass();
+                    this.player1.clickCard(this.bayushiShoju);
+                    this.player1.clickCard(this.yogoOutcast);
+                    expect(this.yogoOutcast.getPoliticalSkill()).toBe(1);
+                    this.player2.pass();
+                    this.player1.clickCard('a-fate-worse-than-death', 'hand');
+                    this.player1.clickCard(this.yogoOutcast);
+                    expect(this.yogoOutcast.location).toBe('dynasty discard pile');
+                });
             });
 
             describe('Fiery Madness and Shoju\'s delayed effect', function() {
