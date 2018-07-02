@@ -73,6 +73,7 @@ class ConflictFlow extends BaseStepWithPipeline {
                             ring.flipConflictType();
                         }
                         this.conflict.ring = ring;
+                        ring.contested = true;
                         this.pipeline.queueStep(new InitiateConflictPrompt(this.game, this.conflict, this.conflict.attackingPlayer, false));
                         return true;
                     }
