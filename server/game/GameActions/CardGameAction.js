@@ -49,7 +49,7 @@ class CardGameAction extends GameAction {
                     if(this.promptForSelect.message) {
                         let messageArgs = this.promptForSelect.messageArgs || [];
                         if(typeof messageArgs === 'function') {
-                            messageArgs = messageArgs(this);
+                            messageArgs = messageArgs(cards);
                         }
                         if(!Array.isArray(messageArgs)) {
                             messageArgs = [messageArgs];
