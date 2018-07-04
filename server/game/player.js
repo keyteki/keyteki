@@ -731,6 +731,10 @@ class Player extends GameObject {
         return this.getEffects('gloryModifier').reduce((total, value) => total + value, 0);
     }
 
+    get skillModifier() {
+        return this.getEffects('conflictSkillModifier').reduce((total, value) => total + value, 0);
+    }
+
     modifyFate(amount) {
         this.fate = Math.max(0, this.fate + amount);
     }

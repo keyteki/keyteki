@@ -198,8 +198,8 @@ class Conflict extends GameObject {
         let additionalCharacters = this.getEffects('contribute');
         let additionalAttackers = additionalCharacters.filter(card => card.controller === this.attackingPlayer);
         let additionalDefenders = additionalCharacters.filter(card => card.controller === this.defendingPlayer);
-        this.attackerSkill = this.calculateSkillFor(this.attackers.concat(additionalAttackers));
-        this.defenderSkill = this.calculateSkillFor(this.defenders.concat(additionalDefenders));
+        this.attackerSkill = this.calculateSkillFor(this.attackers.concat(additionalAttackers)) + this.attackingPlayer.skillModifier;
+        this.defenderSkill = this.calculateSkillFor(this.defenders.concat(additionalDefenders)) + this.defendingPlayer.skillModifier;
 
         if(this.attackingPlayer.imperialFavor === this.conflictType && this.attackers.length > 0) {
             this.attackerSkill++;
