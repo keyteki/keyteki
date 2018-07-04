@@ -14,7 +14,8 @@ class JadeMasterpiece extends DrawCard {
                     promptForSelect: {
                         activePromptTitle: 'Choose an unclaimed ring to move fate to',
                         ringCondition: ring => ring.isUnclaimed() && ring !== context.ring,
-                        message: '{0} moves a fate to {2}'
+                        message: '{0} moves a fate from {1} to {2}',
+                        messageArgs: ring => [context.player, context.ring, ring]
                     }
                 }))
             },

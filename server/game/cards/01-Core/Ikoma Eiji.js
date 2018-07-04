@@ -8,15 +8,16 @@ class IkomaEiji extends DrawCard {
                 afterConflict: (event, context) => event.conflict.loser === context.player && event.conflict.conflictType === 'political'
             },
             effect: 'put a character into play',
-            gameAction: ability.actions.putIntoPlay({
+            gameAction: ability.actions.putIntoPlay(context => ({
                 promptForSelect: {
                     cardType: 'character',
                     location: ['province', 'dynasty discard pile'],
                     controller: 'self',
                     cardCondition: card => card.hasTrait('bushi') && card.getCost() < 4,
-                    message: '{0} puts {2} into play with {1}\'s ability'
+                    message: '{0} puts {1} into play with {2}\'s ability',
+                    messageArgs: card => [context.player, card, context.source]
                 }
-            })
+            }))
         });
     }
 }

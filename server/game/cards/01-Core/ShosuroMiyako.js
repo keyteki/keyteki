@@ -18,7 +18,8 @@ class ShosuroMiyako extends DrawCard {
                             activePromptTitle: 'Choose a character to dishonor',
                             player: context.player.opponent,
                             controller: 'opponent',
-                            message: '{0} chooses to dishonor {2}'
+                            message: '{0} chooses to dishonor {1}',
+                            messageArgs: card => [context.player.opponent, card]
                         }
                     }))
                 }

@@ -47,7 +47,14 @@ class CardGameAction extends GameAction {
                 onSelect: (player, cards) => {
                     this.setTarget(cards);
                     if(this.promptForSelect.message) {
-                        context.game.addMessage(this.promptForSelect.message, player, context.source, cards);
+                        let messageArgs = this.promptForSelect.messageArgs || [];
+                        if(typeof messageArgs === 'function') {
+                            messageArgs = messageArgs(this);
+                        }
+                        if(!Array.isArray(messageArgs)) {
+                            messageArgs = [messageArgs];
+                        }
+                        context.game.addMessage(this.promptForSelect.message, ...messageArgs);
                     }
                     return true;
                 }

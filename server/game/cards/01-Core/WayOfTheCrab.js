@@ -14,7 +14,8 @@ class WayOfTheCrab extends DrawCard {
                     activePromptTitle: 'Choose a character to sacrifice',
                     cardType: 'character',
                     controller: 'opponent',
-                    message: '{0} sacrifices {2}'
+                    message: '{0} sacrifices {1} to {2}',
+                    messageArgs: card => [context.player.opponent, card, context.source]
                 }
             })),
             max: ability.limit.perRound(1)

@@ -17,7 +17,8 @@ class FeastOrFamine extends ProvinceCard {
                         cardType: 'character',
                         controller: 'self',
                         cardCondition: card => card.fate === 0,
-                        message: '{0} moves the fate to {2}'
+                        message: '{0} moves {1} fate from {2} to {3}',
+                        messageArgs: card => [context.player, context.target.fate, context.target, card]
                     }
                 }))
             },
