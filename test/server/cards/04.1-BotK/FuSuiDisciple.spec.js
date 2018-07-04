@@ -157,7 +157,7 @@ describe('Fu Sui Disciple', function() {
                 expect(this.fuSuiDiciple.isDishonored).toBe(true);
                 expect(this.player1).toHavePrompt('Action Window');
             });
-            /*
+
             it('shouldn\'t allow choosing a character who can\'t be honored or dishonored', function() {
                 this.player1.clickCard('know-the-world');
                 this.player1.clickRing('void');
@@ -204,7 +204,6 @@ describe('Fu Sui Disciple', function() {
                 expect(this.player2.currentButtons).toContain('Me');
                 expect(this.player2.currentButtons).not.toContain('My Opponent');
             });
-            */
         });
     });
 });

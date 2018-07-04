@@ -5,25 +5,32 @@ describe('Marauding Oni', function() {
                 this.setupTest({
                     phase: 'conflict',
                     player1: {
+                        honor: 11,
                         inPlay: ['marauding-oni']
                     },
                     player2: {
-                        inPlay: []
+                        inPlay: ['doomed-shugenja']
                     }
                 });
                 this.noMoreActions();
             });
 
-            it('should trigger under XYZ circumstances', function() {
-
+            it('should make its controller lose one honor when declared as an attacker', function() {
+                this.initiateConflict({
+                    attackers: ['marauding-oni']
+                });
+                expect(this.player1.honor).toBe(10);
             });
 
-            it('should not trigger under ABC circumstances', function() {
-
-            });
-
-            it('should have DEF effect on GHI', function() {
-
+            it('should make its controller lose one honor when declared as an defender', function() {
+                this.player1.clickPrompt('Pass Conflict');
+                this.player1.clickPrompt('Yes');
+                this.noMoreActions();
+                this.initiateConflict({
+                    attackers: ['doomed-shugenja'],
+                    defenders: ['marauding-oni']
+                });
+                expect(this.player1.honor).toBe(10);
             });
         });
     });
