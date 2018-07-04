@@ -12,7 +12,8 @@ const deckBuilder = new DeckBuilder();
 
 const ProxiedGameFlowWrapperMethods = [
     'eachPlayerInFirstPlayerOrder', 'startGame', 'keepDynasty', 'keepConflict', 'skipSetupPhase', 'selectFirstPlayer',
-    'noMoreActions', 'selectStrongholdProvinces', 'advancePhases', 'getPromptedPlayer', 'nextPhase'
+    'noMoreActions', 'selectStrongholdProvinces', 'advancePhases', 'getPromptedPlayer', 'nextPhase', 'getChatLogs',
+    'getChatLog'
 ];
 
 var customMatchers = {
