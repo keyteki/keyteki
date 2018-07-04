@@ -15,7 +15,9 @@ class Harmonize extends DrawCard {
                     cardCondition: (card, context) => card.isAttacking() && card.getCost() <= context.targets.myCharacter.getCost(),
                     gameAction: ability.actions.sendHome()
                 }
-            }
+            },
+            effect: 'send home {1} and {2}',
+            effectArgs: context => [context.targets.myCharacter, context.targets.oppCharacter]
         });
     }
 }
