@@ -26,7 +26,11 @@ class LeavesPlayEvent extends Event {
                         destination = 'hand';
                         attachment.game.addMessage('{0} returns to {1}\'s hand due to its Ancestral keyword', attachment, attachment.owner);
                     }
-                    contingentEvents.push(new LeavesPlayEvent({ order: this.order - 1, destination: destination, isContingent: true }, attachment));
+                    contingentEvents.push(new LeavesPlayEvent({
+                        order: this.order - 1,
+                        destination: destination,
+                        condition: () => attachment.parent === this.card
+                    }, attachment));
                 }
             });
         }

@@ -10,7 +10,7 @@ describe('Tainted Koku', function() {
                     },
                     player2: {
                         inPlay: ['bayushi-shoju'],
-                        hand: ['tainted-koku','assassinate']
+                        hand: ['tainted-koku','assassination', 'adopted-kin']
                     }
                 });
                 this.initiate = this.player1.findCardByName('togashi-initiate');
@@ -18,16 +18,16 @@ describe('Tainted Koku', function() {
 
                 this.koku = this.player2.findCardByName('tainted-koku');
                 this.shoju = this.player2.findCardByName('bayushi-shoju');
-                this.assa = this.player2.findCardByName('assassinate');
+                this.assa = this.player2.findCardByName('assassination');
 
             });
 
             it('should correctly be discarded by Let go ', function() {
-                this.noMoreActions();
+                this.player1.pass();
                 this.player2.clickCard(this.koku);
                 this.player2.clickCard(this.mendicant);
-                this.player1.clickCard(this.letgo);
-                this.player1.clickCard(this.mendicant);
+                this.player1.clickCard('let-go');
+                this.player1.clickCard(this.koku);
                 expect(this.koku.location).toBe('conflict discard pile');
             });
 
@@ -43,16 +43,17 @@ describe('Tainted Koku', function() {
                 this.player1.pass();
                 this.player2.clickCard(this.shoju);
                 this.player2.clickCard(this.mendicant);
-                expect(this.mendicant.location).toBe('dynasty discard pile');
-                expect(this.player1).toHavePrompt('Waiting for opponent to take an action or pass');
+                expect(this.player2).toHavePrompt('Triggered Abilities');
                 expect(this.player2).toBeAbleToSelect(this.koku);
                 this.player2.clickCard(this.koku);
+                expect(this.player2).toHavePrompt('Tainted Koku');
                 expect(this.player2).toBeAbleToSelect(this.initiate);
                 this.player2.clickCard(this.initiate);
+                expect(this.mendicant.location).toBe('dynasty discard pile');
                 expect(this.initiate.attachments.toArray()).toContain(this.koku);
             });
 
-            it('should go back to hand if ancestral and only attached character left leaves play ', function() {
+            it('should not go back to hand if ancestral and has been moved to another character', function() {
                 this.noMoreActions();
                 this.initiateConflict({
                     attackers: [this.mendicant],
@@ -61,16 +62,21 @@ describe('Tainted Koku', function() {
                 });
                 this.player2.clickCard(this.koku);
                 this.player2.clickCard(this.mendicant);
-                this.koku.addKeyword('ancestral');
                 this.player1.pass();
-                this.Player2.clickCard('assa');
-                this.Player2.clickCard('this.initiate');
-                expect(this.initiate.location).toBe('dynasty discard pile');
+                this.adoptedKin = this.player2.playAttachment('adopted-kin', this.mendicant);
                 this.player1.pass();
-                this.player2.clickCard(this.shoju);
+                this.player2.clickCard(this.assa);
                 this.player2.clickCard(this.mendicant);
+                expect(this.player2).toHavePrompt('Triggered Abilities');
+                expect(this.player2).toBeAbleToSelect(this.koku);
+                this.player2.clickCard(this.koku);
+                expect(this.player2).toHavePrompt('Tainted Koku');
+                expect(this.player2).toBeAbleToSelect(this.initiate);
+                this.player2.clickCard(this.initiate);
                 expect(this.mendicant.location).toBe('dynasty discard pile');
-                expect(this.player2.player.hand).toContain(this.koku);
+                expect(this.adoptedKin.location).toBe('conflict discard pile');
+                expect(this.koku.location).toBe('play area');
+                expect(this.initiate.attachments.toArray()).toContain(this.koku);
             });
         });
     });

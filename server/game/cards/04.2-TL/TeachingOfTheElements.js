@@ -1,10 +1,24 @@
+const _ = require('underscore');
 const ProvinceCard = require('../../provincecard.js');
 
-class TeachingOfTheElements extends ProvinceCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+class TeachingsOfTheElements extends ProvinceCard {
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            match: this,
+            effect: ability.effects.modifyProvinceStrength(() => this.getNoOfClaimedRings())
+        });
+    }
+
+    getNoOfClaimedRings() {
+        let claimedRings = _.size(this.controller.getClaimedRings());
+        let otherPlayer = this.game.getOtherPlayer(this.controller);
+        if(otherPlayer) {
+            claimedRings += _.size(otherPlayer.getClaimedRings());
+        }
+        return claimedRings;
     }
 }
 
-TeachingOfTheElements.id = 'teaching-of-the-elements'; // This is a guess at what the id might be - please check it!!!
+TeachingsOfTheElements.id = 'teachings-of-the-elements';
 
-module.exports = TeachingOfTheElements;
+module.exports = TeachingsOfTheElements;
