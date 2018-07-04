@@ -56,6 +56,7 @@ class PlayCardAction extends CardGameAction {
         let location = context.player.addPlayableLocation('play', card.controller, card.location);
         let newContext = actions[0].createContext(context.player);
         if(actions[0].meetsRequirements(newContext)) {
+            context.player.removePlayableLocation(location);
             return false;
         }
         context.player.removePlayableLocation(location);
