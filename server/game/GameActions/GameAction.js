@@ -40,9 +40,7 @@ class GameAction {
                 this[key] = value;
             }
         }
-        if(!Array.isArray(this.target)) {
-            this.target = [this.target];
-        }
+        this.setTarget(this.target);
         this.setup();
     }
 

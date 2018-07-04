@@ -25,6 +25,7 @@ const LookAtAction = require('./LookAtAction');
 const LoseHonorAction = require('./LoseHonorAction');
 const ModifyBidAction = require('./ModifyBidAction');
 const ModifyFateAction = require('./ModifyFateAction');
+const MoveCardAction = require('./MoveCardAction');
 const MoveToConflictAction = require('./MoveToConflictAction');
 const PlaceFateAction = require('./PlaceFateAction');
 const PlaceFateRingAction = require('./PlaceFateRingAction');
@@ -61,6 +62,7 @@ const GameActions = {
     flipDynasty: (propertyFactory) => new FlipDynastyAction(propertyFactory),
     honor: (propertyFactory) => new HonorAction(propertyFactory),
     lookAt: (propertyFactory) => new LookAtAction(propertyFactory),
+    moveCard: (propertyFactory) => new MoveCardAction(propertyFactory), // destination, switch = false, shuffle = false
     moveToConflict: (propertyFactory) => new MoveToConflictAction(propertyFactory),
     placeFate: (propertyFactory) => new PlaceFateAction(propertyFactory), // amount = 1, origin
     playCard: (propertyFactory) => new PlayCardAction(propertyFactory), // resetOnCancel = false, postHandler

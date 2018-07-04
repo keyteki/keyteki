@@ -9,7 +9,7 @@ class ConsumedByFiveFires extends DrawCard {
             title: 'Remove up to 5 fate from characters',
             condition: context => context.player.cardsInPlay.any(card => card.hasTrait('shugenja')) && context.player.opponent &&
                                   context.player.opponent.cardsInPlay.any(card => card.fate > 0),
-            effect: 'to remove fate from {1}\'s characters',
+            effect: 'remove fate from {1}\'s characters',
             effectArgs: context => context.player.opponent,
             handler: context => this.chooseCard(context, {}, [])
         });
