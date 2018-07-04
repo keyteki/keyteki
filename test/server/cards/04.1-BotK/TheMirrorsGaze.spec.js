@@ -289,5 +289,41 @@ describe('The Mirror\'s Gaze', function() {
                 expect(this.player1).toHavePrompt('Conflict Action Window');
             });
         });
+
+        describe('Cards which can\'t be mirrored', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    phase: 'conflict',
+                    player1: {
+                        honor: 11,
+                        fate: 4,
+                        inPlay: ['asahina-storyteller'],
+                        hand: ['the-mirror-s-gaze', 'banzai']
+                    },
+                    player2: {
+                        fate: 4,
+                        inPlay: ['brash-samurai'],
+                        hand: ['voice-of-honor']
+                    }
+                });
+                this.mirrorGaze = this.player1.playAttachment('the-mirror-s-gaze', 'asahina-storyteller');
+                this.noMoreActions();
+                this.initiateConflict({
+                    attackers: ['asahina-storyteller'],
+                    defenders: ['brash-samurai']
+                });
+            });
+
+            it('should not get a prompt for mirror', function() {
+                this.brashSaumrai = this.player2.clickCard('brash-samurai');
+                expect(this.brashSaumrai.isHonored).toBe(true);
+                this.player1.clickCard('banzai');
+                this.player1.clickCard('asahina-storyteller');
+                expect(this.player2).toHavePrompt('Triggered Abilities');
+                this.player2.clickCard('voice-of-honor');
+                expect(this.player1).not.toHavePrompt('Triggered Abilities');
+                expect(this.player2).toHavePrompt('Conflict Action Window');
+            });
+        });
     });
 });
