@@ -415,7 +415,7 @@ class DrawCard extends BaseCard {
     }
 
     getActions(player, location = this.location) {
-        if(this.location === 'play area') {
+        if(location === 'play area') {
             return super.getActions();
         }
         let actions = [];

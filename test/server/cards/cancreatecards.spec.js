@@ -53,7 +53,7 @@ const eventNames = [
     'onDuelResolution',
     'onDynastyCardTurnedFaceup',
     'onTransferHonor',
-    'onFirstPassDuringDynasty',
+    'onPassDuringDynasty',
     'onModifyHonor',
     'onAbilityResolved'
 ];
@@ -423,8 +423,8 @@ describe('All Cards:', function() {
             it('should have a legal location as its location', function() {
                 expect(_.all(this.calls, args => (
                     _.isUndefined(args.location) ||
-                    ['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile', 'conflict discard pile', 'hand'].includes(args.location) ||
-                    _.every(args.location, location => ['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile', 'conflict discard pile', 'hand'].includes(location))
+                    ['province', 'dynasty discard pile', 'conflict discard pile', 'hand'].includes(args.location) ||
+                    _.every(args.location, location => ['province', 'dynasty discard pile', 'conflict discard pile', 'hand'].includes(location))
                 ))).toBe(true);
             });
         });
