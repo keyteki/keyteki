@@ -21,7 +21,7 @@ class ChasingTheSun extends DrawCard {
                     this.game.currentConflict.conflictProvince = card;
                     if(card.facedown) {
                         card.facedown = false;
-                        this.game.raiseEvent('onProvinceRevealed', { conflict: this.game.currentConflict, province: card });
+                        this.game.raiseEvent('onProvinceRevealed', { context: context, card: card });
                     }
                     return true;
                 }

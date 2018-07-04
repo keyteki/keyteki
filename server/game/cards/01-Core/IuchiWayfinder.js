@@ -8,7 +8,7 @@ class IuchiWayfinder extends DrawCard {
                 onCharacterEntersPlay: (event, context) => event.card === context.source
             },
             effect: 'reveal a province',
-            gameAction: ability.actions.reveal({
+            gameAction: ability.actions.lookAt({
                 chatMessage: true,
                 promptForSelect: {
                     activePromptTitle: 'Choose a province to reveal',

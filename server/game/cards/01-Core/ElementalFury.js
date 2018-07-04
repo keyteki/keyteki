@@ -5,7 +5,7 @@ class ElementalFury extends ProvinceCard {
         this.reaction({
             title: 'Switch the contested ring',
             when: {
-                onProvinceRevealed: (event, context) => event.province === context.source
+                onProvinceRevealed: (event, context) => event.card === context.source && this.game.isDuringConflict()
             },
             target: {
                 ringCondition: ring => ring.isUnclaimed(),

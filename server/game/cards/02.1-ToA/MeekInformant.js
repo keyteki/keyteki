@@ -9,7 +9,7 @@ class MeekInformant extends DrawCard {
             },
             effect: 'reveal {1}\'s hand',
             effectArgs: context => context.player.opponent,
-            gameAction: ability.actions.reveal(context => ({ target: context.player.opponent.hand.toArray(), chatMessage: true }))
+            gameAction: ability.actions.lookAt(context => ({ target: context.player.opponent.hand.toArray(), chatMessage: true }))
         });
     }
 }

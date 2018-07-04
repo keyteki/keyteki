@@ -5,10 +5,10 @@ class RallyToTheCause extends ProvinceCard {
         this.reaction({
             title: 'Switch the conflict type',
             when: {
-                onProvinceRevealed: (event, context) => event.province === context.source
+                onProvinceRevealed: (event, context) => event.card === context.source && this.game.isDuringConflict()
             },
             effect: 'switch the conflict type',
-            handler: context => context.event.conflict.switchType()
+            handler: () => this.game.currentConflict.switchType()
         });
     }
 }

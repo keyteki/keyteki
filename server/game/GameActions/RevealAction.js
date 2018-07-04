@@ -4,10 +4,11 @@ class RevealAction extends CardGameAction {
     setDefaultProperties() {
         this.chatMessage = false;
     }
+
     setup() {
         super.setup();
         this.name = 'reveal';
-        this.effectMsg = 'reveal {0}';
+        this.effectMsg = 'reveal a card';
         this.cost = 'revealing {0}';
     }
 
@@ -19,26 +20,16 @@ class RevealAction extends CardGameAction {
         return super.canAffect(card, context);
     }
 
-    checkEventCondition() {
-        return true;
-    }
-
-    getEventArray(context) {
-        if(this.target.length === 0) {
-            return [];
-        }
-        return [this.createEvent('onCardsRevealed', { cards: this.target, context: context }, event => {
-            if(this.chatMessage) {
-                context.game.addMessage('{0} reveals {1}', context.source, event.cards);
-            }
-        })];
-    }
-
     getEvent(card, context) {
-        return super.createEvent('onCardRevealed', { card: card, context: context }, () => {
+        let eventName = 'onCardRevealed';
+        if(card.type === 'province') {
+            eventName = 'onProvinceRevealed';
+        }
+        return super.createEvent(eventName, { card, context }, event => {
             if(this.chatMessage) {
                 context.game.addMessage('{0} reveals {1}', context.source, card);
             }
+            event.card.facedown = false;
         });
     }
 }

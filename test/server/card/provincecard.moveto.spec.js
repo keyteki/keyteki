@@ -35,7 +35,7 @@ describe('ProvinceCard', function () {
                 this.card.reaction({
                     title: 'Force opponent to discard cards equal to the number of attackers',
                     when: {
-                        onProvinceRevealed: event => event.province === this && this.controller.opponent.hand.size() > 0
+                        onProvinceRevealed: event => event.card === this && this.controller.opponent.hand.size() > 0
                     },
                     handler: () => {
                         this.game.doSomething();

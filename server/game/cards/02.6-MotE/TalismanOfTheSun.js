@@ -21,7 +21,7 @@ class TalismanOfTheSun extends DrawCard {
                     this.game.currentConflict.conflictProvince.inConflict = false;
                     this.game.currentConflict.conflictProvince = card;
                     if(card.facedown) {
-                        this.game.raiseEvent('onProvinceRevealed', { conflict: this.game.currentConflict, province: card }, () => card.facedown = false);
+                        this.game.raiseEvent('onProvinceRevealed', { context: context, card: card }, () => card.facedown = false);
                     }
                     return true;
                 }

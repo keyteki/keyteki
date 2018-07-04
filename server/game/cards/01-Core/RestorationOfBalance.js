@@ -5,9 +5,11 @@ class RestorationOfBalance extends ProvinceCard {
         this.reaction({
             title: 'Force opponent to discard to 4 cards',
             when: {
-                onProvinceRevealed: (event, context) => event.province === context.source && context.player.opponent.hand.size() > 4
+                onProvinceRevealed: (event, context) => event.card === context.source
             },
-            gameAction: ability.actions.chosenDiscard(context => ({ amount: Math.max(0, context.player.opponent.hand.size() - 4) }))
+            gameAction: ability.actions.chosenDiscard(context => ({
+                amount: Math.max(0, context.player.opponent.hand.size() - 4)
+            }))
         });
     }
 }
