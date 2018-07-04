@@ -54,8 +54,11 @@ class DeckBuilder {
         let stronghold = defaultStronghold;
         let provinceDeck = [];
         let conflictDeck = [];
+        let conflictDeckSize = conflictBuffer; 
         let dynastyDeck = [];
+        let dynastyDeckSize = dynastyBuffer; 
         let inPlayCards = []; // Considered separately, because may consist of both dynasty and conflict
+
         if(player.faction) {
             faction = player.faction;
         }
@@ -88,8 +91,13 @@ class DeckBuilder {
          * Create the dynasty deck - dynasty deck consists of cards in decks,
          * provinces and discard
          */
+        let initialDynastySize = 0;
+        if(player.dynastyDeckSize) {
+            dynastyDeckSize = player.dynastyDeckSize;
+        }
         if(player.dynastyDeck) {
             dynastyDeck.push(...player.dynastyDeck);
+            initialDynastySize = player.dynastyDeck.length;
         }
         if(player.dynastyDiscard) {
             dynastyDeck.push(...player.dynastyDiscard);
@@ -100,15 +108,20 @@ class DeckBuilder {
             }
         });
         //Add cards to prevent reshuffling due to running out of cards
-        for(let i = 0; i < dynastyBuffer; i++) {
+        for(let i = initialDynastySize; i < dynastyDeckSize; i++) {
             dynastyDeck.push(dynastyFiller);
         }
         /**
          * Create the conflict deck - conflict deck consists of cards in decks,
          * hand and discard
          */
+        let initialConflictSize = 0;
+        if(player.conflictDeckSize) {
+            conflictDeckSize = player.conflictDeckSize;
+        }
         if(player.conflictDeck) {
             conflictDeck.push(...player.conflictDeck);
+            initialConflictSize = player.conflictDeck.length;
         }
         if(player.conflictDiscard) {
             conflictDeck.push(...player.conflictDiscard);
@@ -117,7 +130,7 @@ class DeckBuilder {
             conflictDeck.push(...player.hand);
         }
         //Add cards to prevent reshuffling due to running out of cards
-        for(let i = 0; i < conflictBuffer; i++) {
+        for(let i = initialConflictSize; i < conflictDeckSize; i++) {
             conflictDeck.push(conflictFiller);
         }
 
