@@ -1,10 +1,18 @@
 const DrawCard = require('../../drawcard.js');
 
 class IkomaReservist extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            condition: () => (
+                this.game.rings.fire.isConsideredClaimed(this.controller) ||
+                this.game.rings.water.isConsideredClaimed(this.controller)
+            ),
+            match: this,
+            effect: ability.effects.modifyMilitarySkill(2)
+        });
     }
 }
 
-IkomaReservist.id = 'ikoma-reservist'; // This is a guess at what the id might be - please check it!!!
+IkomaReservist.id = 'ikoma-reservist';
 
 module.exports = IkomaReservist;
