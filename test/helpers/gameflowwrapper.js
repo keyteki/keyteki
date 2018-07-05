@@ -17,7 +17,10 @@ const numPhases = 5;
 
 class GameFlowWrapper {
     constructor() {
-        var gameRouter = jasmine.createSpyObj('gameRouter', ['gameWon', 'playerLeft', 'reportError']);
+        var gameRouter = jasmine.createSpyObj('gameRouter', ['gameWon', 'playerLeft', 'handleError']);
+        gameRouter.handleError.and.callFake((game, error) => {
+            throw error;
+        });
         var details = {
             name: 'player1\'s game',
             id: 12345,
@@ -29,6 +32,7 @@ class GameFlowWrapper {
             ]
         };
         this.game = new Game(details, { router: gameRouter });
+        this.game.started = true;
 
         this.player1 = new PlayerInteractionWrapper(this.game, this.game.getPlayerByName('player1'));
         this.player2 = new PlayerInteractionWrapper(this.game, this.game.getPlayerByName('player2'));
