@@ -5,15 +5,22 @@ describe('Feral Ningyo', function () {
                 this.setupTest({
                     phase: 'conflict',
                     player1: {
-                        fate: 3,
+                        fate: 4,
                         inPlay: ['adept-of-the-waves'],
-                        hand: ['feral-ningyo']
+                        hand: ['feral-ningyo', 'cloud-the-mind']
+                    },
+                    player2: {
+                        inPlay: ['hida-kisada'],
+                        hand: ['let-go']
                     }
                 });
                 this.feral = this.player1.findCardByName('feral-ningyo');
+                this.kisada = this.player2.findCardByName('hida-kisada');
+                this.cloud = this.player1.playAttachment('cloud-the-mind', this.kisada);
             });
 
             it('should not activate outside of conflicts', function () {
+                this.player2.pass();
                 this.player1.clickCard(this.feral);
                 expect(this.player1).not.toHavePromptButton('Put into play');
             });
@@ -29,6 +36,28 @@ describe('Feral Ningyo', function () {
                 this.player2.clickPrompt('Pass');
                 this.player1.clickCard(this.feral);
                 expect(this.player1).not.toHavePromptButton('Put into play');
+            });
+
+            describe('when Hida Kisada\'s ability is active', function () {
+                beforeEach(function () {
+                    this.player2.clickCard('let-go', 'hand');
+                    this.player2.clickCard(this.cloud);
+                    this.noMoreActions();
+                    this.initiateConflict({
+                        type: 'military',
+                        ring: 'water',
+                        attackers: ['adept-of-the-waves'],
+                        defenders: []
+                    });
+                });
+
+                it('should cancel Feral Ningyo being put into play', function () {
+                    this.player2.clickPrompt('Pass');
+                    this.player1.clickCard(this.feral);
+                    this.player1.clickPrompt('Put into play');
+                    expect(this.feral.location).toBe('hand');
+                    expect(this.player2).toHavePrompt('Conflict Action Window');
+                });
             });
 
             describe('during a water conflict', function () {
