@@ -6,17 +6,19 @@ class DuplicateUniqueAction extends BaseAction {
         this.title = 'Add fate to a duplicate';
     }
 
-    meetsRequirements(context = this.createContext()) {
-        if(this.card.facedown) {
+    meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
+        if(!ignoredRequirements.includes('facedown') && this.card.facedown) {
             return 'facedown';
         }
 
-        if(this.card.game.currentPhase !== 'dynasty') {
+        if(!ignoredRequirements.includes('phase') && this.card.game.currentPhase !== 'dynasty') {
             return 'phase';
         }
 
         if(!this.card.controller.isCardInPlayableLocation(this.card, 'dynasty') && !this.card.controller.isCardInPlayableLocation(this.card, 'play')) {
-            return 'location';
+            if(!ignoredRequirements.includes('location')) {
+                return 'location';
+            }
         }
         return super.meetsRequirements(context);
     }

@@ -12,15 +12,15 @@ class PlayCharacterAction extends BaseAction {
         this.title = 'Play this character';
     }
 
-    meetsRequirements(context = this.createContext()) {
-        if(context.game.currentPhase === 'dynasty') {
+    meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
+        if(!ignoredRequirements.includes('phase') && context.game.currentPhase === 'dynasty') {
             return 'phase';
         }
-        if(!context.player.isCardInPlayableLocation(context.source, 'play')) {
+        if(!ignoredRequirements.includes('location') && !context.player.isCardInPlayableLocation(context.source, 'play')) {
             return 'location';
         }
-        if(!context.source.canPlay(context)) {
-            return 'triggerAbility';
+        if(!ignoredRequirements.includes('cannotTrigger') && !context.source.canPlay(context)) {
+            return 'cannotTrigger';
         }
         if(context.source.anotherUniqueInPlay(context.player)) {
             return 'unique';

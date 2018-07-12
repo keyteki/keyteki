@@ -15,11 +15,11 @@ class BaseAction extends BaseAbility {
         this.cannotBeCancelled = true;
     }
 
-    createContext() {
+    createContext(player = this.card.controller) {
         return new AbilityContext({
             ability: this,
             game: this.card.game,
-            player: this.card.controller,
+            player: player,
             source: this.card,
             stage: 'pretarget'
         });

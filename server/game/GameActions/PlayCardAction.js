@@ -11,10 +11,7 @@ class PlayCardResolver extends AbilityResolver {
 
     payCosts() {
         if((this.cancelled || this.canPayResults.cancelled) && this.playGameAction.resetOnCancel) {
-            this.playGameAction.preEventHandler(this.gameActionContext);
-            this.game.queueSimpleStep(() => {
-                this.game.openThenEventWindow(this.playGameAction.getEventArray(this.gameActionContext));
-            });
+            this.gameActionContext.ability.executeHandler(this.gameActionContext);
             this.cancelPressed = true;
         }
         super.payCosts();
@@ -53,13 +50,10 @@ class PlayCardAction extends CardGameAction {
                 return false;
             }
         }
-        let location = context.player.addPlayableLocation('play', card.controller, card.location);
         let newContext = actions[0].createContext(context.player);
-        if(actions[0].meetsRequirements(newContext)) {
-            context.player.removePlayableLocation(location);
+        if(actions[0].meetsRequirements(newContext, ['location', 'player'])) {
             return false;
         }
-        context.player.removePlayableLocation(location);
         return super.canAffect(card, context);
     }
 

@@ -51,7 +51,7 @@ class ChooseGameAction extends GameAction {
                 }
             };
         });
-        context.game.promptWithHandlerMenu(context.player, {activePromptTitle, choices, handlers});
+        context.game.promptWithHandlerMenu(context.player, { activePromptTitle, context, choices, handlers });
     }
 
     hasLegalTarget(context) {
