@@ -14,6 +14,7 @@ class EmbraceTheVoid extends DrawCard {
                     recipient: context.player,
                     amount: context.event.fate
                 }).getEvent(context.source.parent, context));
+                context.event.getResult = () => newEvent.getResult();
                 newEvent.order = context.event.order;
                 context.cancel();
             }
