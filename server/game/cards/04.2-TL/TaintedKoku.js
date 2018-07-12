@@ -9,7 +9,7 @@ class TaintedKoku extends DrawCard {
             },
             target: {
                 cardType: 'character',
-                cardCondition: (card, context) => card.controller === context.source.parent.controller,
+                cardCondition: (card, context) => card.controller === context.source.parent.controller && card !== context.source.parent,
                 gameAction: ability.actions.attach(context => ({ attachment: context.source }))
             }
         });

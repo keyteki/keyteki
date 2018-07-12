@@ -48,6 +48,7 @@ describe('Tainted Koku', function() {
                 this.player2.clickCard(this.koku);
                 expect(this.player2).toHavePrompt('Tainted Koku');
                 expect(this.player2).toBeAbleToSelect(this.initiate);
+                expect(this.player2).not.toBeAbleToSelect(this.mendicant);
                 this.player2.clickCard(this.initiate);
                 expect(this.mendicant.location).toBe('dynasty discard pile');
                 expect(this.initiate.attachments.toArray()).toContain(this.koku);
