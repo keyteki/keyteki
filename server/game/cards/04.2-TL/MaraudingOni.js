@@ -16,6 +16,7 @@ class MaraudingOni extends DrawCard {
                 onConflictDeclared: (event, context) => context.source.isAttacking(),
                 onDefendersDeclared: (event, context) => context.source.isDefending()
             },
+            effect: 'lose an honor',
             gameAction: ability.actions.loseHonor(context => ({ target: context.player })),
             limit: ability.limit.unlimitedPerConflict()
         });
