@@ -6,8 +6,16 @@ class BorderlandsDefender extends DrawCard {
             match: this,
             condition: () => this.isDefending(),
             effect: [
-                ability.effects.cardCannot('sendHome', context => context && context.player === this.controller.opponent),
-                ability.effects.cardCannot('bow', context => context && context.source.type !== 'ring' && context.player === this.controller.opponent)
+                ability.effects.cardCannot({
+                    cannot: 'sendHome',
+                    restricts: 'opponentsCardEffects',
+                    source: this
+                }),
+                ability.effects.cardCannot({
+                    cannot: 'bow',
+                    restricts: 'opponentsCardEffects',
+                    source: this
+                })
             ]
         });
     }

@@ -1,20 +1,44 @@
+const checkRestrictions = {
+    charactersFromHand: context => context.source.type === 'character' && context.source.location === 'hand',
+    copiesOfDiscardEvents: context =>
+        context.source.type === 'event' && context.player.conflictDiscardPile.any(card => card.name === context.source.name),
+    events: context => context.source.type === 'event',
+    opponentsCardEffects: (context, player) =>
+        context.player && context.player === player.opponent &&
+        context.ability.isCardAbility(),
+    opponentsEvents: (context, player) =>
+        context.player && context.player === player.opponent && context.source.type === 'event',
+    opponentsRingEffects: (context, player) =>
+        context.player && context.player === player.opponent && context.source.type === 'ring',
+    source: (context, player, source) => context.source === source,
+    spellEvents: context => context.source.type === 'event' && context.source.hasTrait('spell')
+};
 class CannotRestriction {
-    constructor(type, condition) {
-        this.type = type;
-        this.condition = condition;
+    constructor(properties) {
+        if(typeof properties === 'string') {
+            this.type = properties;
+        } else {
+            this.type = properties.cannot;
+            this.restriction = properties.restricts;
+            this.player = properties.player;
+            this.source = properties.source;
+        }
     }
 
     isMatch(type, abilityContext) {
-        return this.type === type && this.checkCondition(abilityContext);
+        return (!this.type || this.type === type) && this.checkCondition(abilityContext);
     }
 
     checkCondition(context) {
-        if(!this.condition) {
+        if(!this.restriction) {
             return true;
+        } else if(!checkRestrictions[this.restriction]) {
+            throw new Error('unknown restriction:' + this.restriction);
         } else if(!context) {
-            return false;
+            return false; // throw Error here?
         }
-        return this.condition(context);
+        let player = this.player || this.source.controller;
+        return checkRestrictions[this.restriction](context, player, this.source);
     }
 }
 

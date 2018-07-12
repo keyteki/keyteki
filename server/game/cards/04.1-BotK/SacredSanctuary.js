@@ -17,10 +17,11 @@ class SacredSanctuary extends ProvinceCard {
                         effect: ability.effects.doesNotBow()
                     }),
                     ability.actions.cardLastingEffect(context => ({
-                        effect: ability.effects.cardCannot('bow', abilityContext => (
-                            abilityContext.source.type !== 'ring' && context.player.opponent &&
-                            abilityContext.source.controller === context.player.opponent
-                        ))
+                        effect: ability.effects.cardCannot({
+                            cannot: 'bow',
+                            restricts: 'opponentsCardEffects',
+                            player: context.player
+                        })
                     }))
                 ]
             },

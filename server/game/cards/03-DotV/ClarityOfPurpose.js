@@ -14,10 +14,11 @@ class ClarityOfPurpose extends DrawCard {
                         effect: ability.effects.doesNotBow()
                     }),
                     ability.actions.cardLastingEffect(context => ({
-                        effect: ability.effects.cardCannot('bow', abilityContext => (
-                            abilityContext.source.type !== 'ring' && context.player.opponent &&
-                            abilityContext.player === context.player.opponent
-                        ))
+                        effect: ability.effects.cardCannot({
+                            cannot: 'bow',
+                            restricts: 'opponentsCardEffects',
+                            player: context.player
+                        })
                     }))
                 ]
             },

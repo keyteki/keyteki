@@ -10,7 +10,7 @@ class NorthernWallSensei extends DrawCard {
                 controller: 'self',
                 cardCondition: card => card.isParticipating() && card.attachments.size() > 0,
                 gameAction: ability.actions.cardLastingEffect({
-                    effect: ability.effects.immuneTo(context => context.source.type === 'event')
+                    effect: ability.effects.immuneTo({ restricts: 'events' })
                 })
             },
             effect: 'grant immunity to events to {0}'

@@ -13,7 +13,10 @@ class GraspOfEarth extends DrawCard {
                     effect: ability.effects.cardCannot('moveToConflict')
                 })),
                 ability.actions.playerLastingEffect({
-                    effect: ability.effects.playerCannot('play', context => context.source.type === 'character' && context.source.location === 'hand')
+                    effect: ability.effects.playerCannot({
+                        cannot: 'play',
+                        restricts: 'charactersFromHand'
+                    })
                 })
             ]
         });

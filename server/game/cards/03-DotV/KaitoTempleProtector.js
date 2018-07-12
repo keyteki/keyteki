@@ -5,7 +5,11 @@ class KaitoTempleProtector extends DrawCard {
         this.persistentEffect({
             condition: () => this.isDefending(),
             match: this,
-            effect: ability.effects.cardCannot('sendHome', context => context.player === this.controller.opponent)
+            effect: ability.effects.cardCannot({
+                cannot: 'sendHome',
+                restricts: 'opponentsCardEffects',
+                source: this
+            })
         });
         this.action({
             title: 'Change base skills to match another character\'s',
