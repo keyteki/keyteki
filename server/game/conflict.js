@@ -171,6 +171,11 @@ class Conflict extends GameObject {
     }
 
     getNumberOfParticipantsFor(player, predicate) {
+        if(player === 'attacker') {
+            player = this.attackingPlayer;
+        } else if(player === 'defender') {
+            player = this.defendingPlayer;
+        }
         let characters = this.getCharacters(player);
         if(predicate) {
             return characters.filter(predicate).length;

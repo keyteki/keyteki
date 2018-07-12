@@ -8,7 +8,7 @@ class TearsOfAmaterasu extends ProvinceCard {
                 onProvinceRevealed: (event, context) => event.card === context.source
             },
             gameAction: ability.actions.gainFate(() => ({
-                amount: this.game.currentConflict ? this.game.currentConflict.attackers.length : 0
+                amount: this.game.currentConflict ? this.game.currentConflict.getNumberOfParticipantsFor('attacker') : 0
             }))
         });
     }

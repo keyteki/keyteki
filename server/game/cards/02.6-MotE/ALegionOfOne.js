@@ -8,7 +8,9 @@ class ALegionOfOne extends DrawCard {
             target: {
                 cardType: 'character',
                 controller: 'self',
-                cardCondition: (card, context) => card.isParticipating() && this.game.currentConflict.getCharacters(context.player).length === 1,
+                cardCondition: (card, context) =>
+                    card.isParticipating() &&
+                    this.game.currentConflict.getNumberOfParticipantsFor(context.player) === 1,
                 gameAction: ability.actions.cardLastingEffect({
                     effect: ability.effects.modifyMilitarySkill(3)
                 })
