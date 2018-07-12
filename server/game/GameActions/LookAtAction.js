@@ -24,13 +24,13 @@ class LookAtAction extends CardGameAction {
             return [];
         }
         return [this.createEvent('onLookAtCards', { cards: this.target, context: context }, event => {
-            context.game.addMessage('{0} reveals {1}', context.source, event.cards);
+            context.game.addMessage('{0} sees {1}', context.source, event.cards);
         })];
     }
 
     getEvent(card, context) {
         return super.createEvent('onLookAtCards', { card: card, context: context }, () => {
-            context.game.addMessage('{0} reveals {1}', context.source, card);
+            context.game.addMessage('{0} sees {1}', context.source, card);
         });
     }
 }
