@@ -47,6 +47,11 @@ class Player extends GameObject {
         this.passedDynasty = false;
         this.honorBid = 0; // amount from the most recent bid after modifiers
         this.showBid = 0; // amount shown on the dial
+        this.conflictOpportunities = {
+            military: 1,
+            political: 1,
+            total: 2
+        };
         this.imperialFavor = '';
 
         this.clock = ClockSelector.for(this, clockdetails);
@@ -354,22 +359,25 @@ class Player extends GameObject {
         this.dynastyDeck = _(this.dynastyDeck.shuffle());
     }
 
+    addConflictOpportunity(type) {
+        if(type) {
+            this.conflictOpportunities[type]++;
+        }
+        this.conflictOpportunities.total++;
+    }
+
     /**
      * Returns the number of conflict opportunities remaining for this player
      * @param {String} type - one of 'military', 'political', ''
      * @returns {Number} opportunities remaining
      */
 
-    getConflictOpportunities(type = '') {
-        let myConflicts = this.game.completedConflicts.filter(conflict => conflict.attackingPlayer === this);
-        let additionalConflicts = this.getEffects('additionalConflict');
-        let maxConflicts = this.anyEffect('maxConflicts') ? this.mostRecentEffect('maxConflicts') : 2 + additionalConflicts.length;
-        let opportunities = Math.max(maxConflicts - myConflicts.length, 0);
-        if(type) {
-            let maxConflictsForType = 1 + additionalConflicts.filter(t => t === type).length;
-            opportunities = Math.min(opportunities, maxConflictsForType - myConflicts.filter(conflict => conflict.declaredType === type).length);
+    getConflictOpportunities(type = 'total') {
+        let maxConflicts = this.mostRecentEffect('maxConflicts');
+        if(maxConflicts) {
+            return Math.max(0, maxConflicts - this.game.getConflicts(this).length);
         }
-        return Math.max(opportunities, 0);
+        return this.conflictOpportunities[type];
     }
 
     /**
@@ -536,6 +544,9 @@ class Player extends GameObject {
 
         this.passedDynasty = false;
         this.limitedPlayed = 0;
+        this.conflictOpportunities.military = 1;
+        this.conflictOpportunities.political = 1;
+        this.conflictOpportunities.total = 2;
     }
 
     showConflictDeck() {

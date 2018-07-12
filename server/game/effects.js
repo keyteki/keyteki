@@ -90,7 +90,10 @@ const Effects = {
     considerRingAsClaimed: (match) => EffectBuilder.ring.static('considerAsClaimed', match),
     // Player effects
     additionalCharactersInConflict: (amount) => EffectBuilder.player.flexible('additionalCharactersInConflict', amount),
-    additionalConflict: (type) => EffectBuilder.player.static('additionalConflict', type),
+    additionalConflict: (type) => EffectBuilder.player.detached('additionalConflict', {
+        apply: player => player.addConflictOpportunity(type),
+        unapply: () => true
+    }),
     canPlayFromOwn: (location) => EffectBuilder.player.detached('canPlayFromOwn', {
         apply: (player) => player.addPlayableLocation('play', player, location),
         unapply: (player, context, location) => player.removePlayableLocation(location)

@@ -409,9 +409,7 @@ this.action({
 this.action({
     title: 'Take 1 fate or 1 honor',
     phase: 'conflict',
-    condition: context => this.game.completedConflicts.filter(
-        conflict => conflict.attackingPlayer === context.player.opponent
-    ).length > 1,
+    condition: context => this.game.getConflicts(context.player.opponent).filter(conflict => !conflict.passed).length > 1,
     target: {
         player: 'self',
         mode: 'select',
