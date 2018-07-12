@@ -5,6 +5,7 @@ class BaseCardSelector {
         this.optional = properties.optional;
         this.location = this.buildLocation(properties.location);
         this.controller = properties.controller || 'any';
+        this.checkTarget = properties.targets;
 
         if(!Array.isArray(properties.cardType)) {
             this.cardType = [properties.cardType];
@@ -62,7 +63,7 @@ class BaseCardSelector {
         if(!card) {
             return false;
         }
-        if(context.stage.includes('target') && !card.checkRestrictions('target', context)) {
+        if(this.checkTarget && !card.checkRestrictions('target', context)) {
             return false;
         }
         if(this.controller === 'self' && card.controller !== context.player) {

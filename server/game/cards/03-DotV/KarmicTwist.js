@@ -7,7 +7,7 @@ class KarmicTwist extends DrawCard {
             target: {
                 activePromptTitle: 'Choose a donor character',
                 cardType: 'character',
-                cardCondition: (card, context) => !card.isUnique() && card.allowGameAction('removeFate', context),
+                cardCondition: card => !card.isUnique(),
                 gameAction: ability.actions.placeFate(context => ({
                     amount: context.target.fate,
                     origin: context.target,

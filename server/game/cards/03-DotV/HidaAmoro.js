@@ -5,7 +5,7 @@ class HidaAmoro extends DrawCard {
         this.forcedReaction({
             title: 'Sacrifice a character',
             when: {
-                onConflictPass: event => event.conflict.attackingPlayer.cardsInPlay.any(card => card.allowGameAction('sacrifice'))
+                onConflictPass: () => true
             },
             limit: ability.limit.perPhase(Infinity),
             effect: 'force {1} to sacrifice a character',
