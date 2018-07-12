@@ -21,14 +21,9 @@ class LeavesPlayEvent extends Event {
             this.card.attachments.each(attachment => {
                 // we only need to add events for attachments that are in play.
                 if(attachment.location === 'play area') {
-                    let destination = attachment.isDynasty ? 'dynasty discard pile' : 'conflict discard pile';
-                    if(attachment.isAncestral()) {
-                        destination = 'hand';
-                        attachment.game.addMessage('{0} returns to {1}\'s hand due to its Ancestral keyword', attachment, attachment.owner);
-                    }
                     contingentEvents.push(new LeavesPlayEvent({
                         order: this.order - 1,
-                        destination: destination,
+                        destination: attachment.isDynasty ? 'dynasty discard pile' : 'conflict discard pile',
                         condition: () => attachment.parent === this.card
                     }, attachment));
                 }
@@ -43,6 +38,10 @@ class LeavesPlayEvent extends Event {
 
     preResolutionEffect() {
         this.cardStateWhenLeftPlay = this.card.createSnapshot();
+        if(this.card.isAncestral()) {
+            this.destination = 'hand';
+            this.card.game.addMessage('{0} returns to {1}\'s hand due to its Ancestral keyword', this.card, this.card.owner);
+        }
     }
 
     leavesPlay() {
@@ -52,5 +51,6 @@ class LeavesPlayEvent extends Event {
         }
     }
 }
+
 
 module.exports = LeavesPlayEvent;
