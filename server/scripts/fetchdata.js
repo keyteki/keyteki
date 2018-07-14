@@ -53,7 +53,7 @@ let fetchCards = apiRequest('cards')
                 }
             }
 
-	    if(card.pack_cards.length === 2 && card.pack_cards[1].image_url) {
+            if(card.pack_cards.length === 2 && card.pack_cards[1].image_url) {
                 imagesrc = card.pack_cards[1].image_url;
 
                 if(imagesrc && !fs.existsSync(imagePath)) {

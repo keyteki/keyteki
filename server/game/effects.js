@@ -99,6 +99,7 @@ const Effects = {
     }),
     changePlayerGloryModifier: (value) => EffectBuilder.player.static('gloryModifier', value),
     changePlayerSkillModifier: (value) => EffectBuilder.player.flexible('conflictSkillModifier', value),
+    customDetachedPlayer: (properties) => EffectBuilder.player.detached('customEffect', properties),
     increaseCost: (properties) => Effects.reduceCost(_.extend(properties, { amount: -properties.amount })),
     playerCannot: (properties) => EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(properties)),
     reduceCost: (properties) => EffectBuilder.player.detached('costReducer', {

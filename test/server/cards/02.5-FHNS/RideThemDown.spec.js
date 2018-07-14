@@ -11,7 +11,7 @@ describe('Ride Them Down', function() {
                     player2: {
                         inPlay: [],
                         provinces: ['pilgrimage'],
-                        dynastyDeck: ['favorable-ground']
+                        dynastyDiscard: ['favorable-ground']
                     }
                 });
             });

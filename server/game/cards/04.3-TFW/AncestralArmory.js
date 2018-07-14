@@ -10,7 +10,7 @@ class AncestralArmory extends DrawCard {
                 cardCondition: card => card.hasTrait('weapon'),
                 location: ['conflict discard pile'],
                 controller: 'self',
-                gameAction: ability.actions.moveCard({ destination: 'hand' }) // revisit implementation once returnToHand game action is rewritten.
+                gameAction: ability.actions.returnToHand({ location: 'conflict discard pile' }) // revisit implementation once returnToHand game action is rewritten.
             }
         });
     }

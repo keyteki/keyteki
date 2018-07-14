@@ -5,14 +5,14 @@ describe('Chikai Order Protector', function() {
                 this.setupTest({
                     phase: 'conflict',
                     player1: {
-                        inPlay: ['chikai-order-protector', 'adept-of-the-waves', 'radiant-orator', 'serene-warrior']
-                    },
-                    player2: {
                         inPlay: ['steward-of-law', 'kami-unleashed'],
                         hand: ['for-shame']
+                    },
+                    player2: {
+                        inPlay: ['chikai-order-protector', 'adept-of-the-waves', 'radiant-orator', 'serene-warrior']
                     }
                 });
-                this.chikaiOrderProtector = this.player1.findCardByName('chikai-order-protector');
+                this.chikaiOrderProtector = this.player2.findCardByName('chikai-order-protector');
                 this.noMoreActions();
             });
 
@@ -23,10 +23,9 @@ describe('Chikai Order Protector', function() {
                     attackers: ['steward-of-law'],
                     defenders: ['chikai-order-protector', 'radiant-orator']
                 });
-                this.player1.pass();
-                this.player2.pass();
                 this.noMoreActions();
                 expect(this.chikaiOrderProtector.bowed).toBeFalsy();
+                expect(this.player1).toHavePrompt('Action Window');
             });
 
             it('should not bow as a result of defending a conflict in which a Shugenja character participated', function() {
@@ -36,10 +35,9 @@ describe('Chikai Order Protector', function() {
                     attackers: ['steward-of-law'],
                     defenders: ['chikai-order-protector', 'adept-of-the-waves']
                 });
-                this.player1.pass();
-                this.player2.pass();
                 this.noMoreActions();
                 expect(this.chikaiOrderProtector.bowed).toBeFalsy();
+                expect(this.player1).toHavePrompt('Action Window');
             });
 
             it('should bow as a result of defending a conflict in which a Courtier or Shugenja character did not participate', function() {
@@ -49,22 +47,25 @@ describe('Chikai Order Protector', function() {
                     attackers: ['steward-of-law'],
                     defenders: ['chikai-order-protector', 'serene-warrior']
                 });
-                this.player1.pass();
-                this.player2.pass();
                 this.noMoreActions();
                 expect(this.chikaiOrderProtector.bowed).toBeTruthy();
+                expect(this.player1).toHavePrompt('Action Window');
             });
 
             it('should bow as a result of attacking a conflict in which a Courtier or Shugenja character participated', function() {
+                this.player1.clickPrompt('Pass Conflict');
+                this.player1.clickPrompt('Yes');
+                this.noMoreActions();
                 this.initiateConflict({
                     ring: 'air',
                     type: 'military',
                     attackers: ['chikai-order-protector', 'adept-of-the-waves'],
                     defenders: ['steward-of-law']
                 });
-                this.player2.pass();
-                this.player1.pass();
                 this.noMoreActions();
+                this.player2.clickPrompt('No');
+                this.player2.clickPrompt('Gain 2 honor');
+                expect(this.player1).toHavePrompt('Action Window');
                 expect(this.chikaiOrderProtector.bowed).toBeTruthy();
             });
 
@@ -75,10 +76,9 @@ describe('Chikai Order Protector', function() {
                     attackers: ['steward-of-law'],
                     defenders: ['chikai-order-protector', 'adept-of-the-waves']
                 });
-                this.player1.pass();
-                this.player2.clickCard('for-shame');
-                this.player2.clickCard(this.chikaiOrderProtector);
-                this.player1.clickPrompt('Bow this character');
+                this.player2.pass();
+                this.player1.clickCard('for-shame');
+                this.player1.clickCard(this.chikaiOrderProtector);
                 expect(this.chikaiOrderProtector.isDishonored).toBeFalsy();
                 expect(this.chikaiOrderProtector.bowed).toBeTruthy();
             });

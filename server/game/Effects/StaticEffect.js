@@ -22,9 +22,9 @@ const hasDash = {
     modifyPoliticalSkillMultiplier: card => card.hasDash('political'),
     setBaseMilitarySkill: card => card.hasDash('military'),
     setBasePoliticalSkill: card => card.hasDash('political'),
-    setDash: (card, type) => !card.hasDash(type),
+    setDash: (card, type) => card.hasDash(type),
     setMilitarySkill: card => card.hasDash('military'),
-    setPoliticalSkill: card => !card.hasDash('political')
+    setPoliticalSkill: card => card.hasDash('political')
 };
 
 const conflictingEffects = {
