@@ -218,7 +218,7 @@ class DrawCard extends BaseCard {
 
         if(this.hasDash('military')) {
             return 0;
-        } else if(this.mostRecentEffect('setMilitarySkill')) {
+        } else if(this.anyEffect('setMilitarySkill')) {
             return this.mostRecentEffect('setMilitarySkill');
         }
 
@@ -247,7 +247,7 @@ class DrawCard extends BaseCard {
          */
         if(this.hasDash('political')) {
             return 0;
-        } else if(this.mostRecentEffect('setPoliticalSkill')) {
+        } else if(this.anyEffect('setPoliticalSkill')) {
             return this.mostRecentEffect('setPoliticalSkill');
         }
 
@@ -270,10 +270,10 @@ class DrawCard extends BaseCard {
     getBaseMilitarySkill() {
         if(this.hasDash('military')) {
             return 0;
+        } else if(this.anyEffect('setBaseMilitarySkill')) {
+            return this.mostRecentEffect('setBaseMilitarySkill');
         }
-
-        return this.mostRecentEffect('setBaseMilitarySkill') ||
-               this.sumEffects('modifyBaseMilitarySkill') + this.printedMilitarySkill;
+        return this.sumEffects('modifyBaseMilitarySkill') + this.printedMilitarySkill;
     }
 
     get basePoliticalSkill() {
@@ -283,10 +283,10 @@ class DrawCard extends BaseCard {
     getBasePoliticalSkill() {
         if(this.hasDash('political')) {
             return 0;
+        } else if(this.anyEffect('setBasePoliticalSkill')) {
+            return this.mostRecentEffect('setBasePoliticalSkill');
         }
-
-        return this.mostRecentEffect('setBasePoliticalSkill') ||
-               this.sumEffects('modifyBasePoliticalSkill') + this.printedPoliticalSkill;
+        return this.sumEffects('modifyBasePoliticalSkill') + this.printedPoliticalSkill;
     }
 
     getSkillFromGlory() {

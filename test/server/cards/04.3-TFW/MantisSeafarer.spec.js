@@ -74,10 +74,10 @@ describe('Mantis Seafarer', function () {
                     defenders: ['kuni-yori']
                 });
                 this.noMoreActions();
-                expect(this.player1).not.toBeAbleToSelect(this.seafarer);
+                expect(this.player1).toHavePrompt('Action Window');
             });
 
-            it('should not trigger when if the seafarer is not present', function () {
+            it('should not trigger when the seafarer is not present', function () {
                 this.initiateConflict({
                     type: 'military',
                     ring: 'air',
@@ -85,7 +85,7 @@ describe('Mantis Seafarer', function () {
                     defenders: []
                 });
                 this.noMoreActions();
-                expect(this.player1).not.toBeAbleToSelect(this.seafarer);
+                expect(this.player1).toHavePrompt('Air Ring');
             });
 
             describe('when it is triggered', function () {

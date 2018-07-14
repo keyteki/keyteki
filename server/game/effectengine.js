@@ -40,11 +40,11 @@ class EffectEngine {
     }
 
     checkDelayedEffects(events) {
-        this.delayedEffects = this.delayedEffects.filter(effect => effect.target.location === 'play area');
+        this.delayedEffects = this.delayedEffects.filter(effect => !effect.target || effect.target.type === 'player' || effect.target.location === 'play area');
         let effectsToTrigger = this.delayedEffects.filter(effect => effect.checkEffect(events));
         if(effectsToTrigger.length > 0) {
             this.game.openSimultaneousEffectWindow(effectsToTrigger.map(effect => ({
-                title: effect.source.name + '\'s effect on ' + effect.target.name,
+                title: effect.source.name + '\'s effect' + (effect.target ? ' on ' + effect.target.name : ''),
                 handler: () => effect.executeHandler()
             })));
         }
@@ -61,11 +61,11 @@ class EffectEngine {
         this.unapplyAndRemove(effect => effect.match === card && effect.duration !== 'persistent');
     }
 
-    checkEffects(stateChanged = false, loops = 0) {
-        if(!stateChanged && !this.newEffect) {
+    checkEffects(prevStateChanged = false, loops = 0) {
+        if(!prevStateChanged && !this.newEffect) {
             return false;
         }
-        stateChanged = false;
+        let stateChanged = false;
         this.newEffect = false;
         // Check each effect's condition and find new targets
         stateChanged = this.effects.reduce((stateChanged, effect) => effect.checkCondition(stateChanged), stateChanged);

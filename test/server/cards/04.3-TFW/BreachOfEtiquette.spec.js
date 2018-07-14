@@ -6,7 +6,7 @@ describe('Breach of Etiquette', function() {
                     phase: 'conflict',
                     player1: {
                         honor: 10,
-                        inPlay: ['yogo-hiruoe', 'soshi-illusionist', 'bayushi-yunako'],
+                        inPlay: ['yogo-hiroue', 'soshi-illusionist', 'bayushi-yunako'],
                         hand: ['watch-commander']
                     },
                     player2: {
@@ -20,6 +20,7 @@ describe('Breach of Etiquette', function() {
                 this.watchCommander = this.player1.playAttachment('watch-commander', 'yogo-hiroue');
                 this.noMoreActions();
                 this.initiateConflict({
+                    type: 'political',
                     attackers: ['yogo-hiroue', 'bayushi-yunako'],
                     defenders: ['brash-samurai']
                 });

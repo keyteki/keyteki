@@ -20,6 +20,7 @@ class InitiateAbilityEventWindow extends EventWindow {
         this.pipeline.initialise([
             new SimpleStep(this.game, () => this.openWindow('cancelinterrupt')),
             new SimpleStep(this.game, () => this.checkForOtherEffects()),
+            new SimpleStep(this.game, () => this.checkGameState()),
             new SimpleStep(this.game, () => this.openWindow('reaction')), // Reactions to this event need to take place before the ability resolves
             new SimpleStep(this.game, () => this.executeHandler())
         ]);

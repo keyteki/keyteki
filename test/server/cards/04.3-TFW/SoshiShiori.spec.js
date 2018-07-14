@@ -25,8 +25,8 @@ describe('Soshi Shiori', function() {
             it('should correctly trigger after winning a conflict', function() {
                 this.initiateConflict({
                     type: 'political',
-                    attackers: 'bayushi-liar',
-                    defenders: 'ikoma-reservist',
+                    attackers: ['bayushi-liar'],
+                    defenders: ['ikoma-reservist'],
                     jumpTo: 'afterConflict'
                 });
                 expect(this.player1).toBeAbleToSelect(this.soshi);
@@ -36,8 +36,8 @@ describe('Soshi Shiori', function() {
                 this.player2.honor = 15,
                 this.initiateConflict({
                     type: 'political',
-                    attackers: 'bayushi-liar',
-                    defenders: 'ikoma-reservist'
+                    attackers: ['bayushi-liar'],
+                    defenders: ['ikoma-reservist']
                 });
                 this.player2.clickCard(this.writ);
                 this.player2.clickCard(this.reservist);
@@ -49,13 +49,13 @@ describe('Soshi Shiori', function() {
             it('should correctly make the opponent lose 1 honor', function() {
                 this.initiateConflict({
                     type: 'political',
-                    attackers: 'bayushi-liar',
-                    defenders: 'ikoma-reservist',
+                    attackers: ['bayushi-liar'],
+                    defenders: ['ikoma-reservist'],
                     jumpTo: 'afterConflict'
                 });
                 this.player1.clickCard(this.soshi);
                 expect(this.player1).toHavePrompt('Choose a player to lose 1 honor');
-                this.player1.clickPromptButon('Opponent');
+                this.player1.clickPrompt('Opponent');
                 expect(this.player2.honor).toBe(9);
                 expect(this.player1.honor).toBe(12);
             });
@@ -63,13 +63,13 @@ describe('Soshi Shiori', function() {
             it('should correctly make the player lose 1 honor', function() {
                 this.initiateConflict({
                     type: 'political',
-                    attackers: 'bayushi-liar',
-                    defenders: 'ikoma-reservist',
+                    attackers: ['bayushi-liar'],
+                    defenders: ['ikoma-reservist'],
                     jumpTo: 'afterConflict'
                 });
                 this.player1.clickCard(this.soshi);
                 expect(this.player1).toHavePrompt('Choose a player to lose 1 honor');
-                this.player1.clickPromptButon('Me');
+                this.player1.clickPrompt('Me');
                 expect(this.player1.honor).toBe(11);
                 expect(this.player2.honor).toBe(10);
             });

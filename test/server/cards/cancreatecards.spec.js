@@ -50,6 +50,7 @@ const eventNames = [
     'onSendCharactersHome',
     'onCardPlayed',
     'onDeckShuffled',
+    'afterDuel',
     'onDuelResolution',
     'onDynastyCardTurnedFaceup',
     'onTransferHonor',
@@ -59,6 +60,7 @@ const eventNames = [
 ];
 
 const actionNames = [
+    'applyLastingEffect',
     'attach',
     'bow',
     'break',
@@ -125,6 +127,9 @@ const mockContext = {
         conflict: { attackingPlayer: {} }
     },
     targetAbility: {},
+    selects: {
+        effect: { choice: '' }
+    },
     select: { toLowerCase: () => 'abc' },
     costs: {
         discardCard: { getCost: () => 1 }
