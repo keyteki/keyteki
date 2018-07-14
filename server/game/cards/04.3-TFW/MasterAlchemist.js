@@ -1,10 +1,20 @@
 const DrawCard = require('../../drawcard.js');
 
 class MasterAlchemist extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.action({
+            title: 'Honor or dishonor a character',
+            cost: ability.costs.payFateToRing(1, ring => ring.element === 'fire'),
+            condition: () => this.game.isDuringConflict(),
+            target: {
+                activePromptTitle: 'Choose a character to honor or dishonor',
+                cardType: 'character',
+                gameAction: ability.actions.fireRingEffect()
+            }
+        });
     }
 }
 
-MasterAlchemist.id = 'master-alchemist'; // This is a guess at what the id might be - please check it!!!
+MasterAlchemist.id = 'master-alchemist';
 
 module.exports = MasterAlchemist;

@@ -52,7 +52,6 @@ describe('Katana of Fire', function() {
                     beforeEach(function() {
                         this.skillBeforeClaim = this.adept.getMilitarySkill();
                         this.player1.claimRing('fire');
-                        this.game.checkGameState(true);
                     });
                     it('should increase the skill of the character by 2', function() {
                         expect(this.game.rings.fire.isConsideredClaimed(this.player1.player)).toBe(true);

@@ -85,8 +85,8 @@ const Effects = {
     }),
     // Ring effects
     addElement: (element) => EffectBuilder.ring.static('addElement', element),
-    cannotDeclareRing: (match) => EffectBuilder.ring.static('cannotDeclare', match),
-    considerRingAsClaimed: (match) => EffectBuilder.ring.static('considerAsClaimed', match),
+    cannotDeclareRing: (match) => EffectBuilder.ring.static('cannotDeclare', match), // TODO: Add this to lasting effect checks
+    considerRingAsClaimed: (match) => EffectBuilder.ring.static('considerAsClaimed', match), // TODO: Add this to lasting effect checks
     // Player effects
     additionalCharactersInConflict: (amount) => EffectBuilder.player.flexible('additionalCharactersInConflict', amount),
     additionalConflict: (type) => EffectBuilder.player.detached('additionalConflict', {
@@ -113,9 +113,9 @@ const Effects = {
     showTopConflictCard: () => EffectBuilder.player.static('showTopConflictCard'),
     // Conflict effects
     contributeToConflict: (card) => EffectBuilder.conflict.static('contribute', card),
-    changeConflictSkillFunction: (func) => EffectBuilder.conflict.static('skillFunction', func),
-    modifyConflictElementsToResolve: (value) => EffectBuilder.conflict.static('modifyConflictElementsToResolve', value),
-    restrictNumberOfDefenders: (value) => EffectBuilder.conflict.static('restrictNumberOfDefenders', value)
+    changeConflictSkillFunction: (func) => EffectBuilder.conflict.static('skillFunction', func), // TODO: Add this to lasting effect checks
+    modifyConflictElementsToResolve: (value) => EffectBuilder.conflict.static('modifyConflictElementsToResolve', value), // TODO: Add this to lasting effect checks
+    restrictNumberOfDefenders: (value) => EffectBuilder.conflict.static('restrictNumberOfDefenders', value) // TODO: Add this to lasting effect checks
 };
 
 module.exports = Effects;

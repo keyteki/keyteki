@@ -49,7 +49,7 @@ class Duel {
                 }));
             });
         }
-        this.game.checkGameState();
+        this.game.checkGameState(true);
     }
 
     determineResult() {

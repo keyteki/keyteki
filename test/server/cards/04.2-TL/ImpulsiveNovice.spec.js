@@ -16,32 +16,28 @@ describe('Impulsive Novice', function() {
             });
 
             it('should give +1 to both skills if the fire ring is claimed', function() {
-                this.game.rings.fire.claimRing(this.player1.player);
-                this.game.checkGameState(true);
+                this.player1.claimRing('fire');
                 expect(this.novice.getMilitarySkill()).toBe(3);
                 expect(this.novice.getPoliticalSkill()).toBe(3);
             });
 
             it('should give +1 to both skills if the void ring is claimed', function() {
-                this.game.rings.void.claimRing(this.player1.player);
-                this.game.checkGameState(true);
+                this.player1.claimRing('void');
                 expect(this.novice.getMilitarySkill()).toBe(3);
                 expect(this.novice.getPoliticalSkill()).toBe(3);
             });
 
             it('not give +1 to both skills if the opponent claimed the void or fire ring', function() {
-                this.game.rings.void.claimRing(this.player2.player);
-                this.game.rings.fire.claimRing(this.player2.player);
-                this.game.checkGameState(true);
+                this.player2.claimRing('fire');
+                this.player2.claimRing('void');
                 expect(this.novice.getMilitarySkill()).toBe(2);
                 expect(this.novice.getPoliticalSkill()).toBe(2);
             });
 
             it('not give +1 to both skills if any other ring is claimed', function() {
-                this.game.rings.water.claimRing(this.player1.player);
-                this.game.rings.air.claimRing(this.player1.player);
-                this.game.rings.earth.claimRing(this.player1.player);
-                this.game.checkGameState(true);
+                this.player1.claimRing('air');
+                this.player1.claimRing('earth');
+                this.player1.claimRing('water');
                 expect(this.novice.getMilitarySkill()).toBe(2);
                 expect(this.novice.getPoliticalSkill()).toBe(2);
             });

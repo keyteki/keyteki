@@ -38,6 +38,8 @@ class Effect {
         this.effect = effect;
         this.targets = [];
         this.effect.context = this.context = { game: game, source: source };
+        this.effect.duration = this.duration;
+        this.effect.isConditional = !!properties.condition;
     }
 
     isValidTarget(target) { // eslint-disable-line no-unused-vars
