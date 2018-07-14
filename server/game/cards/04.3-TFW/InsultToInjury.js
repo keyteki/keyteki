@@ -1,10 +1,17 @@
 const DrawCard = require('../../drawcard.js');
 
 class InsultToInjury extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.reaction({
+            title: 'Dishonor the loser of a duel',
+            when: {
+                afterDuel: (event, context) => event.winner.hasTrait('duelist') && event.winner.controller === context.player
+            },
+            gameAction: ability.actions.dishonor(context => ({ target: context.event.loser }))
+        });
     }
 }
 
-InsultToInjury.id = 'insult-to-injury'; // This is a guess at what the id might be - please check it!!!
+InsultToInjury.id = 'insult-to-injury';
 
 module.exports = InsultToInjury;
