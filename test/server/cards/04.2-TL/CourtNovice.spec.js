@@ -16,29 +16,25 @@ describe('Court Novice', function() {
             });
 
             it('should give +2 to political skill if the air ring is claimed', function() {
-                this.game.rings.air.claimRing(this.player1.player);
-                this.game.checkGameState(true);
+                this.player1.claimRing('air');
                 expect(this.novice.getPoliticalSkill()).toBe(3);
             });
 
             it('should give +2 to political skill if the water ring is claimed', function() {
-                this.game.rings.water.claimRing(this.player1.player);
-                this.game.checkGameState(true);
+                this.player1.claimRing('water');
                 expect(this.novice.getPoliticalSkill()).toBe(3);
             });
 
             it('should not give +2 to political skill if the opponent claimed the air or water ring', function() {
-                this.game.rings.air.claimRing(this.player2.player);
-                this.game.rings.water.claimRing(this.player2.player);
-                this.game.checkGameState(true);
+                this.player2.claimRing('air');
+                this.player2.claimRing('water');
                 expect(this.novice.getPoliticalSkill()).toBe(1);
             });
 
             it('should not give +2 to political skill if any other ring is claimed', function() {
-                this.game.rings.void.claimRing(this.player1.player);
-                this.game.rings.earth.claimRing(this.player1.player);
-                this.game.rings.fire.claimRing(this.player1.player);
-                this.game.checkGameState(true);
+                this.player1.claimRing('earth');
+                this.player1.claimRing('fire');
+                this.player1.claimRing('void');
                 expect(this.novice.getPoliticalSkill()).toBe(1);
             });
         });

@@ -16,29 +16,25 @@ describe('Ikoma Reservist', function() {
             });
 
             it('should give +2 to military skill if the fire ring is claimed', function() {
-                this.game.rings.fire.claimRing(this.player1.player);
-                this.game.checkGameState(true);
+                this.player1.claimRing('fire');
                 expect(this.reservist.getMilitarySkill()).toBe(3);
             });
 
             it('should give +2 to military skill if the water ring is claimed', function() {
-                this.game.rings.water.claimRing(this.player1.player);
-                this.game.checkGameState(true);
+                this.player1.claimRing('water');
                 expect(this.reservist.getMilitarySkill()).toBe(3);
             });
 
             it('should not give +2 to military skill if the opponent claimed the air or water ring', function() {
-                this.game.rings.fire.claimRing(this.player2.player);
-                this.game.rings.water.claimRing(this.player2.player);
-                this.game.checkGameState(true);
+                this.player2.claimRing('fire');
+                this.player2.claimRing('water');
                 expect(this.reservist.getMilitarySkill()).toBe(1);
             });
 
             it('should not give +2 to military skill if any other ring is claimed', function() {
-                this.game.rings.void.claimRing(this.player1.player);
-                this.game.rings.earth.claimRing(this.player1.player);
-                this.game.rings.air.claimRing(this.player1.player);
-                this.game.checkGameState(true);
+                this.player1.claimRing('air');
+                this.player1.claimRing('earth');
+                this.player1.claimRing('void');
                 expect(this.reservist.getMilitarySkill()).toBe(1);
             });
         });
