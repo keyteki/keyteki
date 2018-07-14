@@ -512,6 +512,7 @@ class PlayerInteractionWrapper {
             throw new Error(`${element} is not a valid ring selection`);
         }
         this.game.rings[element].claimRing(this.player);
+        this.game.checkGameState(true);
         this.game.continue();
     }
     /**
