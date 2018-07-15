@@ -14,6 +14,7 @@ class Event {
         };
         this.condition = (event) => true; // eslint-disable-line no-unused-vars
         this.order = 0;
+        this.isContingent = false;
 
         _.extend(this, params);
     }

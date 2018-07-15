@@ -24,21 +24,22 @@ class LeavesPlayEvent extends Event {
                     contingentEvents.push(new LeavesPlayEvent({
                         order: this.order - 1,
                         destination: attachment.isDynasty ? 'dynasty discard pile' : 'conflict discard pile',
-                        condition: () => attachment.parent === this.card
+                        condition: () => attachment.parent === this.card,
+                        isContingent: true
                     }, attachment));
                 }
             });
         }
         // Add an imminent triggering condition for removing fate
         if(this.card.fate > 0) {
-            contingentEvents.push(new MoveFateEvent({ order: this.order - 1 }, this.card.fate, this.card));
+            contingentEvents.push(new MoveFateEvent({ order: this.order - 1, isContingent: true }, this.card.fate, this.card));
         }
         return contingentEvents;
     }
 
     preResolutionEffect() {
         this.cardStateWhenLeftPlay = this.card.createSnapshot();
-        if(this.card.isAncestral()) {
+        if(this.card.isAncestral() && this.isContingent) {
             this.destination = 'hand';
             this.card.game.addMessage('{0} returns to {1}\'s hand due to its Ancestral keyword', this.card, this.card.owner);
         }
