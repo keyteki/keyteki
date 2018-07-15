@@ -36,7 +36,7 @@ class CannotRestriction {
         } else if(!context) {
             return false; // throw Error here?
         }
-        let player = this.player || this.source.controller;
+        let player = this.player || this.source && this.source.controller;
         return checkRestrictions[this.restriction](context, player, this.source);
     }
 }
