@@ -1,5 +1,4 @@
 const checkRestrictions = {
-    charactersFromHand: context => context.source.type === 'character' && context.source.location === 'hand',
     copiesOfDiscardEvents: context =>
         context.source.type === 'event' && context.player.conflictDiscardPile.any(card => card.name === context.source.name),
     events: context => context.source.type === 'event',

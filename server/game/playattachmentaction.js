@@ -35,7 +35,8 @@ class PlayAttachmentAction extends BaseAction {
         let cardPlayedEvent = context.game.getEvent('onCardPlayed', {
             player: context.player,
             card: context.source,
-            originalLocation: context.source.location
+            originalLocation: context.source.location,
+            playType: 'attachment'
         });
         context.game.openEventWindow([new AttachAction({ attachment: context.source }).getEvent(context.target, context), cardPlayedEvent]);
     }

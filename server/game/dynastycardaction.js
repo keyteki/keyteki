@@ -36,7 +36,12 @@ class DynastyCardAction extends BaseAction {
 
     executeHandler(context) {
         let enterPlayEvent = GameActions.putIntoPlay({ fate: context.chooseFate }).getEvent(context.source, context);
-        let cardPlayedEvent = context.game.getEvent('onCardPlayed', { player: context.player, card: context.source, originalLocation: context.source.location });
+        let cardPlayedEvent = context.game.getEvent('onCardPlayed', {
+            player: context.player,
+            card: context.source,
+            originalLocation: context.source.location,
+            playType: 'dynasty'
+        });
         context.game.openEventWindow([enterPlayEvent, cardPlayedEvent]);
     }
 

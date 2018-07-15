@@ -58,7 +58,12 @@ class BackAlleyPlayCharacterAction extends DynastyCardAction {
         this.backAlleyCard.removeAttachment(context.source);
         context.source.parent = null;
         let putIntoPlayEvent = GameActions.putIntoPlay({ fate: context.chooseFate }).getEvent(context.source, context);
-        let cardPlayedEvent = context.game.getEvent('onCardPlayed', { player: context.player, card: context.source, originalLocation: 'backalley hideaway' });
+        let cardPlayedEvent = context.game.getEvent('onCardPlayed', {
+            player: context.player,
+            card: context.source,
+            originalLocation: 'backalley hideaway',
+            playType: 'dynasty'
+        });
         let window = context.game.openEventWindow([putIntoPlayEvent, cardPlayedEvent]);
         let thenAbility = new ThenAbility(context.game, this.backAlleyCard, { gameAction: GameActions.sacrifice({ target: this.backAlleyCard }) });
         window.addThenAbility([putIntoPlayEvent], thenAbility, context);
