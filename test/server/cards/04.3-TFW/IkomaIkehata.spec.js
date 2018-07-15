@@ -17,35 +17,44 @@ describe('Ikoma Ikehata', function() {
                 this.crane = this.player1.findCardByName('way-of-the-crane');
 
                 this.mystic = this.player2.findCardByName('miya-mystic');
+                this.shamefulDisplay = this.player2.findCardByName('shameful-display', 'province 1');
                 this.noMoreActions();
             });
 
             it('should trigger only after winning a political conflict', function() {
-                this.initiateConflict({
-                    type: 'military',
-                    attackers: ['ikoma-ikehata'],
-                    defenders: ['miya-mystic'],
-                    jumpTo: 'afterConflict'
-                });
+                this.player1.clickRing('air');
+                this.player1.clickCard(this.shamefulDisplay);
+                this.player1.clickCard(this.ikehata);
+                this.player1.clickPrompt('Initiate Conflict');
+                this.player1.clickPrompt('No Target');
+                this.player2.clickCard(this.mystic);
+                this.player2.clickPrompt('Done');
+                this.noMoreActions();
                 expect(this.player1).not.toBeAbleToSelect(this.ikehata);
             });
 
             it('should trigger after winning a political conflict', function() {
-                this.initiateConflict({
-                    type: 'political',
-                    attackers: ['ikoma-ikehata'],
-                    defenders: ['miya-mystic'],
-                    jumpTo: 'afterConflict'
-                });
+                this.player1.clickRing('air');
+                this.player1.clickRing('air');
+                this.player1.clickCard(this.shamefulDisplay);
+                this.player1.clickCard(this.ikehata);
+                this.player1.clickPrompt('Initiate Conflict');
+                this.player1.clickPrompt('No Target');
+                this.player2.clickCard(this.mystic);
+                this.player2.clickPrompt('Done');
+                this.noMoreActions();
                 expect(this.player1).toBeAbleToSelect(this.ikehata);
             });
 
             it('should only target characters that are not honored', function() {
-                this.initiateConflict({
-                    type: 'political',
-                    attackers: ['ikoma-ikehata'],
-                    defenders: ['miya-mystic']
-                });
+                this.player1.clickRing('air');
+                this.player1.clickRing('air');
+                this.player1.clickCard(this.shamefulDisplay);
+                this.player1.clickCard(this.ikehata);
+                this.player1.clickPrompt('Initiate Conflict');
+                this.player1.clickPrompt('No Target');
+                this.player2.clickCard(this.mystic);
+                this.player2.clickPrompt('Done');
                 this.player2.pass();
                 this.player1.clickCard(this.crane);
                 this.player1.clickCard(this.hotaru);
@@ -60,11 +69,14 @@ describe('Ikoma Ikehata', function() {
             });
 
             it('should correctly honor targeted character', function() {
-                this.initiateConflict({
-                    type: 'political',
-                    attackers: ['ikoma-ikehata'],
-                    defenders: ['miya-mystic']
-                });
+                this.player1.clickRing('air');
+                this.player1.clickRing('air');
+                this.player1.clickCard(this.shamefulDisplay);
+                this.player1.clickCard(this.ikehata);
+                this.player1.clickPrompt('Initiate Conflict');
+                this.player1.clickPrompt('No Target');
+                this.player2.clickCard(this.mystic);
+                this.player2.clickPrompt('Done');
                 this.player2.pass();
                 this.player1.clickCard(this.crane);
                 this.player1.clickCard(this.hotaru);
@@ -81,11 +93,14 @@ describe('Ikoma Ikehata', function() {
             });
 
             it('should correctly draw a card after honoring', function() {
-                this.initiateConflict({
-                    type: 'political',
-                    attackers: ['ikoma-ikehata'],
-                    defenders: ['miya-mystic']
-                });
+                this.player1.clickRing('air');
+                this.player1.clickRing('air');
+                this.player1.clickCard(this.shamefulDisplay);
+                this.player1.clickCard(this.ikehata);
+                this.player1.clickPrompt('Initiate Conflict');
+                this.player1.clickPrompt('No Target');
+                this.player2.clickCard(this.mystic);
+                this.player2.clickPrompt('Done');
                 this.player2.pass();
                 this.player1.clickCard(this.crane);
                 this.player1.clickCard(this.hotaru);
