@@ -890,6 +890,9 @@ class Game extends EventEmitter {
 
     openThenEventWindow(events) {
         if(this.currentEventWindow) {
+            if(!_.isArray(events)) {
+                events = [events];
+            }
             return this.queueStep(new ThenEventWindow(this, events));
         }
         return this.openEventWindow(events);

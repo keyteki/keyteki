@@ -83,7 +83,7 @@ describe('Bayushi Shoju', function() {
                     this.player2.pass();
                 });
 
-                it('Yogo Outcast should be discarded by Shoju\'s effect', function() {
+                it('Yogo Outcast should not be discarded by Shoju\'s effect', function() {
                     expect(this.yogoOutcast.getPoliticalSkill()).toBe(3);
                     this.player1.playAttachment('fiery-madness', this.yogoOutcast);
                     expect(this.yogoOutcast.location).toBe('play area');
@@ -91,7 +91,8 @@ describe('Bayushi Shoju', function() {
                     this.player2.clickPrompt('Pay Costs First');
                     this.player2.clickCard(this.yogoOutcast);
                     expect(this.yogoOutcast.location).toBe('dynasty discard pile');
-                    expect(this.player1).toHavePrompt('Conflict Action Window');
+                    expect(this.player2).toHavePrompt('Noble Sacrifice');
+                    expect(this.player2).toBeAbleToSelect(this.bayushiShoju);
                 });
             });
         });

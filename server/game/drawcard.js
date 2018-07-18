@@ -7,7 +7,6 @@ const PlayAttachmentAction = require('./playattachmentaction.js');
 const PlayCharacterAction = require('./playcharacteraction.js');
 const DuplicateUniqueAction = require('./duplicateuniqueaction.js');
 const CourtesyAbility = require('./KeywordAbilities/CourtesyAbility');
-const PersonalHonorAbility = require('./KeywordAbilities/PersonalHonorAbility');
 const PrideAbility = require('./KeywordAbilities/PrideAbility');
 const SincerityAbility = require('./KeywordAbilities/SincerityAbility');
 
@@ -53,7 +52,6 @@ class DrawCard extends BaseCard {
 
         if(cardData.type === 'character') {
             this.abilities.reactions.push(new CourtesyAbility(this.game, this));
-            this.abilities.reactions.push(new PersonalHonorAbility(this.game, this));
             this.abilities.reactions.push(new PrideAbility(this.game, this));
             this.abilities.reactions.push(new SincerityAbility(this.game, this));
         }
@@ -456,6 +454,14 @@ class DrawCard extends BaseCard {
 
         if(this.isParticipating()) {
             this.game.currentConflict.removeFromConflict(this);
+        }
+
+        if(this.isDishonored && this.checkRestrictions('affectedByHonor')) {
+            this.game.addMessage('{0} loses 1 honor due to {1}\'s personal honor', this.controller, this);
+            this.game.openThenEventWindow(this.game.actions.loseHonor().getEvent(this.controller, this.game.getFrameworkContext()));
+        } else if(this.isHonored && this.checkRestrictions('affectedByHonor')) {
+            this.game.addMessage('{0} gains 1 honor due to {1}\'s personal honor', this.controller, this);
+            this.game.openThenEventWindow(this.game.actions.gainHonor().getEvent(this.controller, this.game.getFrameworkContext()));
         }
 
         this.isDishonored = false;
