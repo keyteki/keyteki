@@ -3,8 +3,7 @@ const checkRestrictions = {
         context.source.type === 'event' && context.player.conflictDiscardPile.any(card => card.name === context.source.name),
     events: context => context.source.type === 'event',
     opponentsCardEffects: (context, player) =>
-        context.player && context.player === player.opponent &&
-        context.ability.isCardAbility(),
+        context.player && context.player === player.opponent && context.ability.isCardAbility(),
     opponentsEvents: (context, player) =>
         context.player && context.player === player.opponent && context.source.type === 'event',
     opponentsRingEffects: (context, player) =>
@@ -32,7 +31,7 @@ class CannotRestriction {
         if(!this.restriction) {
             return true;
         } else if(!checkRestrictions[this.restriction]) {
-            throw new Error('unknown restriction:' + this.restriction);
+            return context.source.hasTrait(this.restriction);
         } else if(!context) {
             return false; // throw Error here?
         }
