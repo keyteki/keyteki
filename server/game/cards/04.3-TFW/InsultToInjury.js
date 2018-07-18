@@ -5,7 +5,7 @@ class InsultToInjury extends DrawCard {
         this.reaction({
             title: 'Dishonor the loser of a duel',
             when: {
-                afterDuel: (event, context) => event.winner.hasTrait('duelist') && event.winner.controller === context.player
+                afterDuel: (event, context) => event.winnder && event.winner.hasTrait('duelist') && event.winner.controller === context.player
             },
             gameAction: ability.actions.dishonor(context => ({ target: context.event.loser }))
         });
