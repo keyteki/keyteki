@@ -8,7 +8,7 @@ describe('Karada District', function() {
                         fate:3,
                         inPlay: ['adept-of-the-waves', 'seppun-guardsman'],
                         dynastyDeck: ['karada-district'],
-                        hand: ['fine-katana', 'watch-commander', 'favored-mount', 'born-in-war', 'oni-mask']
+                        hand: ['fine-katana', 'watch-commander', 'cloud-the-mind', 'favored-mount', 'born-in-war', 'oni-mask']
                     },
                     player2: {
                         fate:2,
@@ -100,6 +100,16 @@ describe('Karada District', function() {
                     this.player2.clickCard(this.karada2);
                     this.player2.clickCard(this.fineKatana);
                     expect(this.fineKatana.location).toBe('conflict discard pile');
+                });
+            });
+
+            describe('if the attachment is already owned', function() {
+                it('should discard the attachment', function() {
+                    this.cloudTheMind = this.player1.playAttachment('cloud-the-mind', this.fireElementalGuard);
+                    this.player2.clickPrompt('Pass');
+                    this.player1.clickCard(this.karada1);
+                    this.player1.clickCard(this.cloudTheMind);
+                    expect(this.cloudTheMind.location).toBe('conflict discard pile');
                 });
             });
 
