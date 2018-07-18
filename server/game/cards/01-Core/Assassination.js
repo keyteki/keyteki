@@ -8,7 +8,7 @@ class Assassination extends DrawCard {
             cost: ability.costs.payHonor(3),
             target: {
                 cardType: 'character',
-                cardCondition: card => card.getCost() <= 2,
+                cardCondition: card => card.costLessThan(3),
                 gameAction: ability.actions.discardFromPlay()
             },
             max: ability.limit.perRound(1)

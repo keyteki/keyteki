@@ -9,7 +9,7 @@ class ShosuroActress extends DrawCard {
                 cardType: 'character',
                 location: ['conflict discard pile', 'dynasty discard pile'],
                 controller: 'opponent',
-                cardCondition: card => card.getCost() <= 3 && !card.hasTrait('shinobi'),
+                cardCondition: card => card.costLessThan(3) && !card.hasTrait('shinobi'),
                 // TODO make this take control
                 gameAction: ability.actions.putIntoConflict()
             }

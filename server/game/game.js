@@ -34,6 +34,7 @@ const Ring = require('./ring.js');
 const Conflict = require('./conflict.js');
 const ConflictFlow = require('./gamesteps/conflict/conflictflow.js');
 const MenuCommands = require('./MenuCommands');
+const SpiritOfTheRiver = require('./cards/SpiritOfTheRiver');
 
 class Game extends EventEmitter {
     constructor(details, options = {}) {
@@ -240,6 +241,12 @@ class Game extends EventEmitter {
         });
 
         return foundCards;
+    }
+
+    createToken(card) {
+        let token = new SpiritOfTheRiver(card);
+        this.allCards.push(token);
+        return token;
     }
 
     get actions() {

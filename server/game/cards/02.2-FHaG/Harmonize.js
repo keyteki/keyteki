@@ -12,7 +12,7 @@ class Harmonize extends DrawCard {
                 },
                 oppCharacter: {
                     dependsOn: 'myCharacter',
-                    cardCondition: (card, context) => card.isAttacking() && card.getCost() <= context.targets.myCharacter.getCost(),
+                    cardCondition: (card, context) => card.isAttacking() && card.costLessThan(context.targets.myCharacter.getCost()),
                     gameAction: ability.actions.sendHome()
                 }
             },

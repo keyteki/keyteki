@@ -13,7 +13,7 @@ class SoshiShadowshaper extends DrawCard {
             cost: ability.costs.payHonor(1),
             target: {
                 cardType: 'character',
-                cardCondition: card => card.getCost() <= 2 && this.charactersPlayedThisPhase.includes(card),
+                cardCondition: card => card.costLessThan(3) && this.charactersPlayedThisPhase.includes(card),
                 gameAction: ability.actions.returnToHand()
             }
         });

@@ -132,6 +132,10 @@ class DrawCard extends BaseCard {
         return this.fate;
     }
 
+    costLessThan(num) {
+        return num && (this.cardData.cost || this.cardData.cost === 0) && this.cardData.cost < num;
+    }
+
     anotherUniqueInPlay(player) {
         return this.isUnique() && this.game.allCards.any(card => (
             card.location === 'play area' &&

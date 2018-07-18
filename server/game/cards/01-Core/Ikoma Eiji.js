@@ -13,7 +13,7 @@ class IkomaEiji extends DrawCard {
                     cardType: 'character',
                     location: ['province', 'dynasty discard pile'],
                     controller: 'self',
-                    cardCondition: card => card.hasTrait('bushi') && card.getCost() < 4,
+                    cardCondition: card => card.hasTrait('bushi') && card.costLessThan(4),
                     message: '{0} puts {1} into play with {2}\'s ability',
                     messageArgs: card => [context.player, card, context.source]
                 }
