@@ -116,6 +116,7 @@ describe('Ikoma Ikehata', function() {
                 expect(this.ikehata.isHonored).toBe(true);
                 expect(this.player1.hand.length).toBe(3);
             });
+
         });
     });
 });
