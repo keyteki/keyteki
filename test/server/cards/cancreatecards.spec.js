@@ -15,7 +15,7 @@ const eventNames = [
     'onDefendersDeclared',
     'afterConflict',
     'onBreakProvince',
-    'onResolveRingEffects',
+    'onResolveConflictRings',
     'onClaimRing',
     'onReturnHome',
     'onParticipantsReturnHome',

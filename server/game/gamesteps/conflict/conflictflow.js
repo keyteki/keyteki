@@ -324,7 +324,7 @@ class ConflictFlow extends BaseStepWithPipeline {
         }
 
         if(this.conflict.isAttackerTheWinner()) {
-            GameActions.resolveRing().resolve(this.conflict.ring, this.game.getFrameworkContext(this.conflict.attackingPlayer));
+            GameActions.resolveConflictRing().resolve(this.conflict.ring, this.game.getFrameworkContext(this.conflict.attackingPlayer));
         }
     }
 

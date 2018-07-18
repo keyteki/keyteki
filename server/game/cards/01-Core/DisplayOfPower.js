@@ -10,17 +10,17 @@ class DisplayOfPower extends DrawCard {
             },
             cannotBeMirrored: true,
             effect: 'resolve and claim the ring when the ring effect resolves',
-            handler: context => this.game.once('onResolveRingEffect:cancelinterrupt', event => this.onResolveRingEffect(event, context))
+            handler: context => this.game.once('onResolveConflictRing:cancelinterrupt', event => this.onResolveConflictRing(event, context))
         });
     }
 
-    onResolveRingEffect(event, context) {
+    onResolveConflictRing(event, context) {
         if(event.cancelled) {
             return;
         }
         this.game.addMessage('{0} cancels the ring effect and {1} may resolve it and then claims it', context.source, context.player);
         let ring = this.game.currentConflict.ring;
-        event.window.addEvent(GameActions.resolveRing().getEvent(ring, context));
+        event.window.addEvent(GameActions.resolveConflictRing().getEvent(ring, context));
         event.window.addEvent(this.game.getEvent('onClaimRing', { player: this.controller, conflict: event.conflict }, () => ring.claimRing(context.player)));
         event.cancel();
     }

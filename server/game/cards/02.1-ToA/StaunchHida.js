@@ -7,7 +7,7 @@ class StaunchHida extends DrawCard {
             when: {
                 afterConflict: (event, context) => event.conflict.winner === context.player && context.source.isDefending()
             },
-            gameAction: ability.actions.resolveRing()
+            gameAction: ability.actions.resolveConflictRing()
         });
     }
 }

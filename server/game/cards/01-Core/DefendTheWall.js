@@ -8,7 +8,7 @@ class DefendTheWall extends ProvinceCard {
                 afterConflict: (event, context) => event.conflict.conflictProvince === context.source &&
                                                    event.conflict.winner === context.player
             },
-            gameAction: ability.actions.resolveRing()
+            gameAction: ability.actions.resolveConflictRing()
         });
     }
 }
