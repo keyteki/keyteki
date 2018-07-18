@@ -5,26 +5,27 @@ class MasterOfTheSwiftWaves extends DrawCard {
         this.action({
             title:'Switch 2 characters you control',
             condition: () => this.game.isDuringConflict(),
-            gameAction: ability.actions.jointAction([
-                ability.actions.sendHome(context => ({
-                    promptForSelect: {
-                        activePromptTitle: 'Choose a participating character to send home',
-                        cardType: 'character',
-                        cardCondition: (card,context) => card.isParticipating() && card.controller === context.player,
-                        message: '{0} moves {1} back home',
-                        messageArgs: card => [context.player, card]
-                    }
-                })),
-                ability.actions.moveToConflict(context => ({
-                    promptForSelect: {
-                        activePromptTitle: 'Choose a character to move to the conflict',
-                        cardType: 'character',
-                        cardCondition: (card,context) => !card.isParticipating() && card.controller === context.player,
-                        message: '{0} moves {1} to the conflict',
-                        messageArgs: card => [context.player, card]
-                    }
-                }))
-            ])
+            targets: {
+                characterInConflict: {
+                    activePromptTitle: 'Choose a participating character to send home',
+                    cardType: 'character',
+                    controller: 'self',
+                    cardCondition: card => card.isParticipating()
+                },
+                characterAtHome: {
+                    dependsOn: 'characterInConflict',
+                    activePromptTitle: 'Choose a character to move to the conflict',
+                    cardType: 'character',
+                    controller: 'self',
+                    cardCondition: card => !card.isParticipating(),
+                    gameAction: ability.actions.jointAction([
+                        ability.actions.sendHome(context => ({ target: context.targets.characterInConflict })),
+                        ability.actions.moveToConflict()
+                    ])
+                }
+            },
+            effect: 'switch {1} and {2}',
+            effectArgs: context => [context.targets.characterInConflict, context.targets.characterAtHome]
         });
     }
 }

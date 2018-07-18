@@ -44,6 +44,10 @@ class GameAction {
         this.setup();
     }
 
+    setDefaultTarget(func) {
+        this.getDefaultTargets = func;
+    }
+
     setTarget(target) {
         if(Array.isArray(target)) {
             this.target = target;

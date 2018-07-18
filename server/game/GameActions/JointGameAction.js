@@ -17,6 +17,12 @@ class JointGameAction extends GameAction {
         }
     }
 
+    setDefaultTarget(func) {
+        for(let gameAction of this.gameActions) {
+            gameAction.setDefaultTarget(func);
+        }
+    }
+
     setTarget(target) {
         for(let gameAction of this.gameActions) {
             gameAction.setTarget(target);

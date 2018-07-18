@@ -7,7 +7,7 @@ class AbilityTargetCard {
         this.name = name;
         this.properties = properties;
         for(let gameAction of this.properties.gameAction) {
-            gameAction.getDefaultTargets = context => context.targets[name];
+            gameAction.setDefaultTarget(context => context.targets[name]);
         }
         this.selector = this.getSelector(properties);
         this.dependentTarget = null;

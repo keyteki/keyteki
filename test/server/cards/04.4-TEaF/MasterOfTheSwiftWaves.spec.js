@@ -45,7 +45,7 @@ describe('Master of the Swift Waves', function() {
                 this.player2.pass();
                 this.player1.clickCard(this.swift);
                 this.player1.clickCard(this.swift);
-                expect(this.player1).toHavePromptButton('Choose a character to move to the conflict');
+                expect(this.player1).toHavePrompt('Choose a character to move to the conflict');
                 expect(this.player1).not.toBeAbleToSelect(this.swift);
                 expect(this.player1).not.toBeAbleToSelect(this.historian);
                 expect(this.player1).toBeAbleToSelect(this.shono);
@@ -63,7 +63,7 @@ describe('Master of the Swift Waves', function() {
                 this.player1.clickCard(this.swift);
                 this.player1.clickCard(this.shono);
                 expect(this.shono.inConflict).toBe(true);
-                expect(this.swift.not.inConflict).toBe(true);
+                expect(this.swift.inConflict).toBe(false);
             });
 
             it('should not trigger without valid targets', function() {
