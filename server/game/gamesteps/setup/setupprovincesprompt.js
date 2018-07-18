@@ -95,6 +95,7 @@ class SetupProvincesPrompt extends AllPlayerPrompt {
         for(let i = 1; i < 5; i++) {
             player.moveCard(provinces[i - 1], 'province ' + i.toString());
         }
+        player.hideProvinceDeck = true;
 
         return true;
     }
