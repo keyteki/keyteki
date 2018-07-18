@@ -11,9 +11,6 @@ class ActionWindow extends UiPrompt {
         } else {
             this.currentPlayer = game.getFirstPlayer();
         }
-        if(this.currentPlayer.opponent && !this.currentPlayer.allowGameAction('takeFirstAction')) {
-            this.currentPlayer = this.currentPlayer.opponent;
-        }
         this.prevPlayerPassed = false;
         this.priorityPassed = false;
     }
@@ -51,6 +48,11 @@ class ActionWindow extends UiPrompt {
     }
 
     continue() {
+        if(this.currentPlayer.opponent && this.currentPlayer.opponent.actionPhasePriority) {
+            this.currentPlayer = this.currentPlayer.opponent;
+            this.currentPlayer.actionPhasePriority = false;
+        }
+
         if(!this.currentPlayer.promptedActionWindows[this.windowName]) {
             this.pass();
             if(!this.currentPlayer.promptedActionWindows[this.windowName]) {

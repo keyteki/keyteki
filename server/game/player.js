@@ -47,6 +47,7 @@ class Player extends GameObject {
         this.takenDynastyMulligan = false;
         this.takenConflictMulligan = false;
         this.passedDynasty = false;
+        this.actionPhasePriority = false;
         this.honorBid = 0; // amount from the most recent bid after modifiers
         this.showBid = 0; // amount shown on the dial
         this.conflictOpportunities = {

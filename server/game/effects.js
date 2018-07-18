@@ -108,6 +108,10 @@ const Effects = {
     changePlayerGloryModifier: (value) => EffectBuilder.player.static('gloryModifier', value),
     changePlayerSkillModifier: (value) => EffectBuilder.player.flexible('conflictSkillModifier', value),
     customDetachedPlayer: (properties) => EffectBuilder.player.detached('customEffect', properties),
+    gainActionPhasePriority: () => EffectBuilder.player.detached('actionPhasePriority', {
+        apply: player => player.actionPhasePriority = true,
+        unapply: player => player.actionPhasePriority = false
+    }),
     increaseCost: (properties) => Effects.reduceCost(_.extend(properties, { amount: -properties.amount })),
     playerCannot: (properties) => EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(properties)),
     reduceCost: (properties) => EffectBuilder.player.detached('costReducer', {
