@@ -88,6 +88,7 @@ class SetupProvincesPrompt extends AllPlayerPrompt {
             return false;
         }
 
+        this.strongholdProvince[player.uuid].inConflict = false;
         this.clickedDone[player.uuid] = true;
         this.game.addMessage('{0} has placed their provinces', player);
         player.moveCard(this.strongholdProvince[player.uuid], 'stronghold province');
