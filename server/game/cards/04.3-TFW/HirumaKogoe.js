@@ -18,17 +18,15 @@ class HirumaKogoe extends DrawCard {
             context: context,
             cards: promptCards,
             cardHandler: card => {
-                orderedCards.unshift(card);
+                orderedCards.push(card);
                 promptCards = promptCards.filter(c => c !== card);
                 if(promptCards.length > 1) {
                     this.hirumaKogoePrompt(context, promptCards, orderedCards, 'Which card do you want to be the second card?');
                     return;
                 } else if(promptCards.length === 1) {
-                    orderedCards.unshift(promptCards[0]);
+                    orderedCards.push(promptCards[0]);
                 }
-                for(const card of orderedCards) {
-                    context.player.conflictDeck.unshift(card);
-                }
+                context.player.conflictDeck.splice(0, 3, ...orderedCards);
             }
         });
     }
