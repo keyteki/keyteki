@@ -406,6 +406,9 @@ class PlayerInteractionWrapper {
             this.player.moveCard(card, location);
         }
         card.facedown = false;
+        if(this.game.currentPhase !== 'setup') {
+            this.game.checkGameState(true);
+        }
         return card;
     }
 

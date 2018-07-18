@@ -203,6 +203,12 @@ class Player extends GameObject {
         return cardsToReturn;
     }
 
+    areLocationsAdjacent(location1, location2) {
+        let index1 = provinceLocations.indexOf(location1);
+        let index2 = provinceLocations.indexOf(location2);
+        return index1 > -1 && index2 > -2 && Math.abs(index1 - index2) === 1;
+    }
+
     /**
      * Returns the dynasty card from the passed province name
      * @param {String} location - one of 'province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'

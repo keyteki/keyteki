@@ -17,7 +17,7 @@ const ProxiedGameFlowWrapperMethods = [
 ];
 
 var customMatchers = {
-    toHavePrompt: function(util, customEqualityMatchers) {
+    toHavePrompt: function() {
         return {
             compare: function(actual, expected) {
                 var result = {};
@@ -53,7 +53,7 @@ var customMatchers = {
             }
         };
     },
-    toBeAbleToSelect: function(util, customEqualityMatchers) {
+    toBeAbleToSelect: function() {
         return {
             compare: function(player, card) {
                 if(_.isString(card)) {
@@ -130,10 +130,17 @@ global.integration = function(definitions) {
                         this.player2.player.promptedActionWindows[options.phase] = true;
                     }
                     this.keepDynasty();
+                    //Set dynastydiscard now to avoid provinces triggering too soon
+                    this.player1.dynastyDiscard = options.player1.dynastyDiscard;
+                    this.player2.dynastyDiscard = options.player2.dynastyDiscard;
+
                     this.keepConflict();
 
                     //Advance the phases to the specified
                     this.advancePhases(options.phase);
+                } else {
+                    this.player1.dynastyDiscard = options.player1.dynastyDiscard;
+                    this.player2.dynastyDiscard = options.player2.dynastyDiscard;
                 }
 
                 //Set state
@@ -159,8 +166,6 @@ global.integration = function(definitions) {
                 //Dynsaty deck related
                 this.player1.provinces = options.player1.provinces;
                 this.player2.provinces = options.player2.provinces;
-                this.player1.dynastyDiscard = options.player1.dynastyDiscard;
-                this.player2.dynastyDiscard = options.player2.dynastyDiscard;
                 if(options.phase !== 'setup') {
                     this.game.checkGameState(true);
                 }

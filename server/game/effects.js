@@ -58,6 +58,14 @@ const Effects = {
             }
         }
     }),
+    gainPlayAction: (playActionClass) => EffectBuilder.card.detached('gainPlayAction', {
+        apply: card => {
+            let action = new playActionClass(card);
+            card.abilities.playActions.push(action);
+            return action;
+        },
+        unapply: (card, context, playAction) => card.abilities.playActions = card.abilities.playActions.filter(action => action !== playAction)
+    }),
     immuneTo: (properties) => EffectBuilder.card.static('abilityRestrictions', new CannotRestriction(properties)),
     increaseLimitOnAbilities: (amount) => EffectBuilder.card.static('increaseLimitOnAbilities', amount),
     modifyBaseMilitarySkill: (value) => EffectBuilder.card.flexible('modifyBaseMilitarySkill', value),
