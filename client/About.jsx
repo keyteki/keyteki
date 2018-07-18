@@ -28,12 +28,13 @@ class About extends React.Component {
 
                     <p>The background of the site is by an artist named <a href='https://speeh.deviantart.com/' target='_blank'>Speeh</a> and can be found <a href='https://speeh.deviantart.com/art/L5R-Fu-Leng-575822238' target='_blank'>here</a>.</p>
                     <p>The in game backgrounds are by <a href='https://alayna.deviantart.com/' target='_blank'>Alayna Lemmer-Danner</a>.  She's very talented, you should check out her work!</p>
+                    <p>The tokens used for Spirit of the River are by <a href='https://www.dojocreativedesign.com/l5r-cardgame' target='_blank'>David Robotham</a>.  He has a selection of L5R related merchandise, check it out <a href='https://www.dojocreativedesign.com/shop' target='_blank'>here</a>.</p>
                     <p>Don't want to be distracted by beautiful art during your games? In-game backgrounds can be disabled from your <Link href='/profile'>Profile</Link>.</p>
 
                     <h3>Can I help?</h3>
                     <p>Sure!  The project is all written in Javascript.  The server is node.js and the client is React.js.  The source code can be found in the&nbsp;
                         <a target='_blank' href='http://github.com/gryffon/ringteki'>GitHub Repository</a>.  Check out the code and instructions on there on how to get started and hack away!  See the card implementation
-                status list above to have a look at what needs to be done.  If you want to join the dev discord, or ask any other question, send me a note on here, or post in the L5R Facebook group.  I'll likely find it.
+                status list above to have a look at what needs to be done.  If you want to join the dev discord, there's a link on the <Link href='/community'>Community</Link> page.
                     </p>
 
                     <h3>Donations</h3>
