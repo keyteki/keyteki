@@ -29,12 +29,8 @@ describe('Appealing to the Fortunes', function() {
                 });
 
                 it('province strength should be 5', function() {
-                    this.initiateConflict({
-                        type: 'military',
-                        attackers: [this.borderlandsDefender],
-                        province: this.appealingToTheFortunes,
-                        defenders: []
-                    });
+                    this.appealingToTheFortunes.facedown = false;
+                    this.game.checkGameState(true);
                     expect(this.appealingToTheFortunes.getStrength()).toBe(5);
                 });
 
@@ -98,12 +94,8 @@ describe('Appealing to the Fortunes', function() {
                 });
 
                 it('province strength should be 3', function() {
-                    this.initiateConflict({
-                        type: 'military',
-                        attackers: [this.borderlandsDefender],
-                        province: this.appealingToTheFortunes,
-                        defenders: []
-                    });
+                    this.appealingToTheFortunes.facedown = false;
+                    this.game.checkGameState(true);
                     expect(this.appealingToTheFortunes.getStrength()).toBe(3);
                 });
 
