@@ -12,10 +12,10 @@ describe('Flooded Waste', function() {
                     }
                 });
                 this.matsuBerserker = this.player1.findCardByName('matsu-berserker');
-		this.ikomaProdigy = this.player1.findCardByName('ikoma-prodigy');
+                this.ikomaProdigy = this.player1.findCardByName('ikoma-prodigy');
                 this.noMoreActions();
                 this.initiateConflict({
-                    attackers: ['matsu-berserker',''ikoma-prodigy']
+                    attackers: ['matsu-berserker', 'ikoma-prodigy']
                 });
             });
 
@@ -25,9 +25,9 @@ describe('Flooded Waste', function() {
             });
 
             it('should bow each attacking character', function() {
-                this.player2.clickCard('rally-to-the-cause');
+                this.player2.clickCard('flooded-waste');
                 expect(this.matsuBerserker.bowed).toBe(true);
-		expect(this.ikomaProdigy.bowed).toBe(true);
+                expect(this.ikomaProdigy.bowed).toBe(true);
             });
         });
     });

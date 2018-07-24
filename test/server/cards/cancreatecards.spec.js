@@ -134,7 +134,8 @@ const mockContext = {
     },
     targetAbility: {},
     selects: {
-        effect: { choice: '' }
+        effect: { choice: '' },
+        select: { choice: '' }
     },
     select: { toLowerCase: () => 'abc' },
     costs: {

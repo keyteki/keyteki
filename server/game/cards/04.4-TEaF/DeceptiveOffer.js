@@ -26,7 +26,7 @@ class DeceptiveOffer extends DrawCard {
             },
             effect: '{1}{2}',
             effectArgs: context => {
-                if(context.targets.select.choice === 'Give your opponent 1 honor') {
+                if(context.selects.select.choice === 'Give your opponent 1 honor') {
                     return ['take 1 honor from ', context.player.opponent];
                 }
                 return ['give +2/+2 to ', context.targets.character];
