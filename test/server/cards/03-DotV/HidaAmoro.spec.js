@@ -1,4 +1,4 @@
-fdescribe('Hida Amoro', function() {
+describe('Hida Amoro', function() {
     integration(function() {
         describe('Hida Amoro\'s ability', function() {
             beforeEach(function() {
