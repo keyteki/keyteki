@@ -298,6 +298,9 @@ class DrawCard extends BaseCard {
         if(this.isHonored) {
             return this.getGlory();
         } else if(this.isDishonored) {
+            if(this.anyEffect('addGloryWhileDishonored')) {
+                return this.getGlory();
+            }
             return 0 - this.getGlory();
         }
         return 0;
