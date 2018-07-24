@@ -15,9 +15,9 @@ describe('AbilityResolver', function() {
         });
 
         this.ability = jasmine.createSpyObj('ability', [
-            'isAction', 'isCardAbility', 'isCardPlayed', 'displayMessage', 'resolveCosts', 'payCosts', 'resolveTargets', 'executeHandler', 'hasLegalTargets', 'checkAllTargets'
+            'isAction', 'isTriggeredAbility', 'isCardPlayed', 'displayMessage', 'resolveCosts', 'payCosts', 'resolveTargets', 'executeHandler', 'hasLegalTargets', 'checkAllTargets'
         ]);
-        this.ability.isCardAbility.and.returnValue(false);
+        this.ability.isTriggeredAbility.and.returnValue(false);
         this.ability.hasLegalTargets.and.returnValue(true);
         this.ability.resolveTargets.and.returnValue({});
         this.source = jasmine.createSpyObj('source', ['createSnapshot', 'getType']);
@@ -76,7 +76,7 @@ describe('AbilityResolver', function() {
         describe('when the ability is a card ability', function() {
             beforeEach(function() {
                 this.ability.resolveCosts.and.returnValue([{ resolved: true, value: true }, { resolved: true, value: true }]);
-                this.ability.isCardAbility.and.returnValue(true);
+                this.ability.isTriggeredAbility.and.returnValue(true);
                 this.resolver.continue();
             });
 
@@ -88,7 +88,7 @@ describe('AbilityResolver', function() {
         describe('when the ability is not a card ability', function() {
             beforeEach(function() {
                 this.ability.resolveCosts.and.returnValue([{ resolved: true, value: true }, { resolved: true, value: true }]);
-                this.ability.isCardAbility.and.returnValue(false);
+                this.ability.isTriggeredAbility.and.returnValue(false);
                 this.resolver.continue();
             });
 

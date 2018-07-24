@@ -15,7 +15,7 @@ class InitiateAbilityEventWindow extends EventWindow {
                     playType: 'event'
                 }));
             }
-            if(event.context.ability.isCardAbility() && event.context.ability.isTriggeredAbility()) {
+            if(event.context.ability.isTriggeredAbility()) {
                 this.addEvent(this.game.getEvent('onCardAbilityTriggered', { ability: event.context.ability, player: event.context.player, card: event.card }));
             }
         });

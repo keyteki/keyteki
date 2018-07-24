@@ -142,10 +142,6 @@ class CardAbility extends ThenAbility {
         return this.card.getType() === 'event';
     }
 
-    isCardAbility() {
-        return true;
-    }
-
     isTriggeredAbility() {
         return true;
     }

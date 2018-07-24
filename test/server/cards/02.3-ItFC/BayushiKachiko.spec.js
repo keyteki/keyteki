@@ -1,5 +1,3 @@
-const AbilityDsl = require('../../../../server/game/abilitydsl.js');
-
 describe('Bayushi Kachiko', function() {
     integration(function() {
         beforeEach(function() {
@@ -10,7 +8,7 @@ describe('Bayushi Kachiko', function() {
                 },
                 player2: {
                     inPlay: ['shrewd-yasuki', 'borderlands-defender'],
-                    hand: ['ready-for-battle']
+                    hand: ['ready-for-battle', 'clarity-of-purpose']
                 }
             });
             this.noMoreActions();
@@ -104,16 +102,10 @@ describe('Bayushi Kachiko', function() {
                     attackers: ['bayushi-kachiko'],
                     defenders: ['shrewd-yasuki', 'borderlands-defender']
                 });
-                this.shrewdYasuki = this.player2.findCardByName('shrewd-yasuki');
-                // Give Yasuki a hypothetical ability so it cannot be bowed
-                this.shrewdYasuki.addEffectToEngine({
-                    match: this.shrewdYasuki,
-                    effect: AbilityDsl.effects.cardCannot('bow')
-                });
-                this.game.checkGameState(true);
-                expect(this.shrewdYasuki.allowGameAction('bow')).toBe(false);
 
-                this.player2.clickPrompt('Pass');
+                this.player2.clickCard('clarity-of-purpose');
+                this.shrewdYasuki = this.player2.clickCard('shrewd-yasuki');
+
                 this.player1.clickCard('bayushi-kachiko');
                 this.player1.clickCard(this.shrewdYasuki);
 
