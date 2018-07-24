@@ -39,7 +39,9 @@ class MyAncestorsStrength extends DrawCard {
                         };
                     })
                 }
-            }
+            },
+            effect: 'set {1}\'s base skills to those of {2}',
+            effectArgs: context => [context.targets.shugenja, context.targets.ancestor]
         });
     }
 }
