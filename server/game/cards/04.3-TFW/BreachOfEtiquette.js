@@ -14,7 +14,8 @@ class BreachOfEtiquette extends DrawCard {
                         source: context.source,
                         context: context,
                         when: {
-                            onCardAbilityTriggered: event => event.player === player && !event.card.hasTrait('courtier')
+                            onCardAbilityTriggered: event =>
+                                event.player === player && event.card.type === 'character' && !event.card.hasTrait('courtier')
                         },
                         gameAction: ability.actions.loseHonor(),
                         message: '{1} loses 1 honor due to {0}',
