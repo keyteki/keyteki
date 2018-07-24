@@ -1,10 +1,19 @@
 const DrawCard = require('../../drawcard.js');
 
 class Dispatch extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.action({
+            title: 'Move a character into or out of the conflict',
+            target: {
+                cardType: 'character',
+                cardCondition: card => card.isFaction('unicorn'),
+                controller: 'self',
+                gameAction: [ability.actions.sendHome(), ability.actions.moveToConflict()]
+            }
+        });
     }
 }
 
-Dispatch.id = 'dispatch'; // This is a guess at what the id might be - please check it!!!
+Dispatch.id = 'dispatch';
 
 module.exports = Dispatch;
