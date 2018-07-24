@@ -2,7 +2,7 @@ const checkRestrictions = {
     copiesOfDiscardEvents: context =>
         context.source.type === 'event' && context.player.conflictDiscardPile.any(card => card.name === context.source.name),
     events: context => context.source.type === 'event',
-    nonspellEvents: context => context.source.type === 'event' && !context.source.hasTrait('spell'),
+    nonSpellEvents: context => context.source.type === 'event' && !context.source.hasTrait('spell'),
     opponentsCardEffects: (context, player) =>
         context.player && context.player === player.opponent && context.ability.isCardAbility(),
     opponentsEvents: (context, player) =>
