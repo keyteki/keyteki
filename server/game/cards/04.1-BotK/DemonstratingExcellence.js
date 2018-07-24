@@ -14,6 +14,7 @@ class DemonstratingExcellence extends ProvinceCard {
             when: {
                 onBreakProvince: (event, context) => event.card === context.source
             },
+            effect: 'gain 1 fate and draw a card',
             gameAction: [
                 ability.actions.gainFate(),
                 ability.actions.draw()
