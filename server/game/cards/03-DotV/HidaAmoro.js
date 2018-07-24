@@ -15,7 +15,7 @@ class HidaAmoro extends DrawCard {
                     player: context.event.conflict.attackingPlayer,
                     activePromptTitle: 'Choose a character to sacrifice',
                     cardType: 'character',
-                    cardCondtion: card => card.controller === context.event.conflict.attackingPlayer,
+                    cardCondition: card => card.controller === context.event.conflict.attackingPlayer,
                     message: '{0} sacrifices {1} to {2}',
                     messageArgs: card => [context.player.opponent, card, context.source]
                 }
