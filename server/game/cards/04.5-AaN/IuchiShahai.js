@@ -1,10 +1,16 @@
 const DrawCard = require('../../drawcard.js');
 
 class IuchiShahai extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            effect: ability.effects.reduceCost({
+                match: card => card.hasTrait('meishodo'),
+                targetCondition: target => target === this || target.isFaction('neutral')
+            })
+        });
     }
 }
 
-IuchiShahai.id = 'iuchi-shahai'; // This is a guess at what the id might be - please check it!!!
+IuchiShahai.id = 'iuchi-shahai';
 
 module.exports = IuchiShahai;

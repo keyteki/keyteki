@@ -116,6 +116,9 @@ class BaseCard extends EffectSource {
 
     isFaction(faction) {
         faction = faction.toLowerCase();
+        if(faction === 'neutral') {
+            return this.printedFaction === faction && !this.anyEffect('addFaction');
+        }
         return this.printedFaction === faction || this.getEffects('addFaction').includes(faction);
     }
 
