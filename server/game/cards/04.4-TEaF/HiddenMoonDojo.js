@@ -21,14 +21,11 @@ class HiddenMoonDojo extends DrawCard {
         this.action({
             title: 'Turn an adjacent card face up',
             condition: () => this.game.isDuringConflict(),
-            effect: 'turn an adjacent card face up',
             gameAction: ability.actions.flipDynasty({
                 promptForSelect: {
                     location: 'province',
                     controller: 'self',
-                    cardCondition: (card, context) => context.player.areLocationsAdjacent(context.source.location, card.location),
-                    message: '{0} reveals {1}',
-                    messageArgs: card => [card.controller, card]
+                    cardCondition: (card, context) => context.player.areLocationsAdjacent(context.source.location, card.location)
                 }
             })
         });
