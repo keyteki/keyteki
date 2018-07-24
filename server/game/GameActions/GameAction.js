@@ -66,7 +66,7 @@ class GameAction {
     }
 
     resolve(targets, context) {
-        this.getDefaultTargets = () => targets;
+        this.setDefaultTarget(() => targets);
         this.preEventHandler(context);
         let eventWindow;
         context.game.queueSimpleStep(() => {
