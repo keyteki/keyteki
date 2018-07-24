@@ -31,7 +31,7 @@ describe('Isawa Kaede', function() {
 
             it('should allow Kaede to resolve only the chosen ring if she wins', function() {
                 this.noMoreActions();
-                expect(this.player1).toHavePrompt('Choose a ring effect to resolve');
+                expect(this.player1).toHavePrompt('Resolve Ring Effect');
                 this.player1.clickRing('fire');
                 this.player1.clickPrompt('Done');
                 expect(this.player1).toHavePrompt('Fire Ring');
@@ -43,7 +43,7 @@ describe('Isawa Kaede', function() {
 
             it('should allow Kaede to resolve only the void ring if she wins', function() {
                 this.noMoreActions();
-                expect(this.player1).toHavePrompt('Choose a ring effect to resolve');
+                expect(this.player1).toHavePrompt('Resolve Ring Effect');
                 this.player1.clickRing('void');
                 this.player1.clickPrompt('Done');
                 expect(this.player1).toHavePrompt('Void Ring');

@@ -33,7 +33,7 @@ class ResolveConflictRingAction extends RingAction {
             this.resolveRingEffects(player, chosenElements, optional);
             return;
         }
-        let activePromptTitle = 'Choose a ring effect to resolve';
+        let activePromptTitle = 'Choose a ring effect to resolve (click the ring you want to resolve)';
         if(chosenElements.length > 0) {
             activePromptTitle = chosenElements.reduce((string, element) => string + ' ' + element, activePromptTitle + '\nChosen elements:');
         }
