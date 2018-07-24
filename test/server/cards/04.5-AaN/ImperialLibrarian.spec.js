@@ -5,26 +5,26 @@ describe('Imperial Librarian', function() {
                 this.setupTest({
                     phase: 'conflict',
                     player1: {
-                        inPlay: []
+                        inPlay: ['imperial-librarian','agasha-sumiko'],
+                        hand: ['formal-invitation','charge']
                     },
                     player2: {
-                        inPlay: []
+                        inPlay: ['akodo-toturi']
                     }
                 });
+                this.librarian = this.player1.findCardByName('imperial-librarian');
+                this.sumiko = this.player1.findCardByName('agasha-sumiko');
+                this.toturi = this.player2.findCardByName('akodo-toturi');
                 this.noMoreActions();
             });
 
-            it('should trigger under XYZ circumstances', function() {
-
+            it('should correctly modify other character\'s glory', function() {
+                this.game.checkGameState(true);
+                expect(this.librarian.glory).toBe(2);
+                expect(this.toturi.glory).toBe(4);
+                expect(this.sumiko.glory).toBe(2);
             });
 
-            it('should not trigger under ABC circumstances', function() {
-
-            });
-
-            it('should have DEF effect on GHI', function() {
-
-            });
         });
     });
 });
