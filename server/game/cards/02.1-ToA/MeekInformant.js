@@ -9,7 +9,7 @@ class MeekInformant extends DrawCard {
             },
             effect: 'Look at {1}\'s hand',
             effectArgs: context => context.player.opponent,
-            gameAction: ability.actions.lookAt(context => ({ target: context.player.opponent.hand.toArray(), chatMessage: true }))
+            gameAction: ability.actions.lookAt(context => ({ target: context.player.opponent.hand.sortBy(card => card.name), chatMessage: true }))
         });
     }
 }
