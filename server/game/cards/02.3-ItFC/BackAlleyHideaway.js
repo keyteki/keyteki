@@ -87,7 +87,8 @@ class BackAlleyHideaway extends DrawCard {
                 onCardLeavesPlay: (event, context) => event.card.isFaction('scorpion') && event.card.type === 'character' &&
                                                       event.card.controller === context.player
             },
-            effect: 'move {0} into hiding',
+            effect: 'move {1} into hiding',
+            effectArgs: context => context.event.card,
             handler: context => context.event.replaceHandler(event => {
                 context.player.removeCardFromPile(event.card);
                 event.card.leavesPlay();
