@@ -15,7 +15,7 @@ class Censure extends DrawCard {
     }
 
     canPlay(context) {
-        if(this.controller.imperialFavor !== '') {
+        if(context.player.imperialFavor !== '') {
             return super.canPlay(context);
         }
         return false;
