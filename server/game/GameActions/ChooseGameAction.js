@@ -26,12 +26,13 @@ class ChooseGameAction extends GameAction {
         for(let gameAction of this.gameActions) {
             gameAction.update(context);
         }
+        this.setTarget(this.target);
     }
 
     setTarget(target) {
         super.setTarget(target);
         for(let gameAction of this.gameActions) {
-            gameAction.setTarget(target);
+            gameAction.setDefaultTarget(() => target);
         }
     }
 

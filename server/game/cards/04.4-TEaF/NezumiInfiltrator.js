@@ -20,7 +20,10 @@ class NezumiInfiltrator extends DrawCard {
                 onCharacterEntersPlay: (event, context) => event.card === context.source && this.game.isDuringConflict()
             },
             max: ability.limit.perConflict(1),
+            effect: 'change the province strength of {1}',
+            effectArgs: context => context.game.currentConflict.conflictProvince,
             gameAction: ability.actions.chooseAction(() => ({
+                target: this.game.currentConflict.conflictProvince,
                 messages: {
                     'Raise attacked province\'s strength by 1': '{0} chooses to increase {1}\'s strength by 1',
                     'Lower attacked province\'s strength by 1': '{0} chooses to reduce {1}\'s strength by 1'
@@ -28,12 +31,10 @@ class NezumiInfiltrator extends DrawCard {
                 choices: {
                     'Raise attacked province\'s strength by 1': ability.actions.cardLastingEffect(() => ({
                         targetLocation: 'province',
-                        target: this.game.currentConflict.conflictProvince,
                         effect: ability.effects.modifyProvinceStrength(1)
                     })),
                     'Lower attacked province\'s strength by 1': ability.actions.cardLastingEffect(() => ({
                         targetLocation: 'province',
-                        target: this.game.currentConflict.conflictProvince,
                         effect: (
                             this.game.currentConflict.conflictProvince.getStrength() > 1 ?
                                 ability.effects.modifyProvinceStrength(-1) : []
