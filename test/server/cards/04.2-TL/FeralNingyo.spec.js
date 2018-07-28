@@ -7,7 +7,7 @@ describe('Feral Ningyo', function () {
                     player1: {
                         fate: 4,
                         inPlay: ['adept-of-the-waves'],
-                        hand: ['feral-ningyo', 'cloud-the-mind']
+                        hand: ['feral-ningyo', 'cloud-the-mind', 'fine-katana']
                     },
                     player2: {
                         inPlay: ['hida-kisada'],
@@ -51,12 +51,25 @@ describe('Feral Ningyo', function () {
                     });
                 });
 
-                it('should cancel Feral Ningyo being put into play', function () {
+                it('should cancel Feral Ningyo activating it\'s ability the first time', function () {
                     this.player2.clickPrompt('Pass');
                     this.player1.clickCard(this.feral);
                     this.player1.clickPrompt('Put into play');
                     expect(this.feral.location).toBe('hand');
                     expect(this.player2).toHavePrompt('Conflict Action Window');
+                });
+
+                // RRG v1.4: Cards in hidden game areas (e.g. in hand) have no card memory, so Limits do not apply to them.
+                it('should not prevent Feral Ningyo from activating it\'s ability a second time', function () {
+                    this.player2.clickPrompt('Pass');
+                    this.player1.clickCard(this.feral);
+                    this.player1.clickPrompt('Put into play');
+                    expect(this.feral.location).toBe('hand');
+                    expect(this.player2).toHavePrompt('Conflict Action Window');
+                    this.player2.pass();
+                    this.player1.clickCard(this.feral);
+                    this.player1.clickPrompt('Put into play');
+                    expect(this.feral.location).toBe('play area');
                 });
             });
 
@@ -80,6 +93,17 @@ describe('Feral Ningyo', function () {
 
                 it('should return to it the conflict deck at the end of the conflict', function () {
                     this.player1.clickPrompt('Put into play');
+                    this.noMoreActions();
+                    this.player1.clickPrompt('No');
+                    this.player1.clickPrompt('Don\'t resolve');
+                    expect(this.feral.location).toBe('conflict deck');
+                });
+
+                it('should return to it the conflict deck at the end of the conflict even with a card attached', function () {
+                    this.player1.clickPrompt('Put into play');
+                    this.player2.pass();
+                    this.katana = this.player1.playAttachment('fine-katana', this.feral);
+                    expect(this.katana.parent).toBe(this.feral);
                     this.noMoreActions();
                     this.player1.clickPrompt('No');
                     this.player1.clickPrompt('Don\'t resolve');
