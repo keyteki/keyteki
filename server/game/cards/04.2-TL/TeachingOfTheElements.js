@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const ProvinceCard = require('../../provincecard.js');
 
 class TeachingsOfTheElements extends ProvinceCard {
@@ -10,12 +9,8 @@ class TeachingsOfTheElements extends ProvinceCard {
     }
 
     getNoOfClaimedRings() {
-        let claimedRings = _.size(this.controller.getClaimedRings());
-        let otherPlayer = this.game.getOtherPlayer(this.controller);
-        if(otherPlayer) {
-            claimedRings += _.size(otherPlayer.getClaimedRings());
-        }
-        return claimedRings;
+        let claimedRings = Object.values(this.game.rings).filter(ring => ring.isConsideredClaimed());
+        return claimedRings.length;
     }
 }
 
