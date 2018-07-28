@@ -4,6 +4,7 @@ const RingEffects = require('../RingEffects');
 class ResolveElementAction extends RingAction {
     setDefaultProperties() {
         this.optional = false;
+        this.physicalRing = null;
     }
 
     setup() {
@@ -14,9 +15,10 @@ class ResolveElementAction extends RingAction {
 
     getEventArray(context) {
         if(this.target.length > 1) {
-            let sortedRings = this.target.sort(ring => {
-                let priority = RingEffects.contextFor(context.player, ring.element).ability.defaultPriority;
-                return context.player.firstPlayer ? priority : -priority;
+            let sortedRings = this.target.sort((a, b) => {
+                let aPriority = RingEffects.contextFor(context.player, a.element).ability.defaultPriority;
+                let bPriority = RingEffects.contextFor(context.player, b.element).ability.defaultPriority;
+                return context.player.firstPlayer ? aPriority - bPriority : bPriority - aPriority;
             });
             let effectObjects = sortedRings.map(ring => ({
                 title: RingEffects.getRingName(ring.element) + ' Effect',
@@ -28,7 +30,14 @@ class ResolveElementAction extends RingAction {
     }
 
     getEvent(ring, context, optional = this.optional) {
-        return super.createEvent('onResolveRingElement', { player: context.player, ring: ring, context: context, optional: optional }, () => {
+        let params = {
+            context: context,
+            optional: optional,
+            physicalRing: this.physicalRing,
+            player: context.player,
+            ring: ring
+        };
+        return super.createEvent('onResolveRingElement', params, () => {
             context.game.resolveAbility(RingEffects.contextFor(context.player, ring.element, optional));
         });
     }

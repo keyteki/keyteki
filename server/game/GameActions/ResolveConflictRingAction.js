@@ -75,7 +75,7 @@ class ResolveConflictRingAction extends RingAction {
             elements = [elements];
         }
         let rings = elements.map(element => player.game.rings[element]);
-        let action = new ResolveElementAction({ target: rings, optional: optional });
+        let action = new ResolveElementAction({ target: rings, optional: optional, physicalRing: player.game.currentConflict.ring });
         player.game.openThenEventWindow(action.getEventArray(player.game.getFrameworkContext(player)));
     }
 }
