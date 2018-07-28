@@ -15,6 +15,7 @@ class AllAndNothing extends DrawCard {
             handler: context => {
                 let event = ability.actions.resolveRingEffect({ optional: context.event.optional, physicalRing: context.ring }).getEvent(context.ring, context);
                 context.event.window.addEvent(event);
+                this.game.openThenEventWindow(ability.actions.draw().getEvent(context.player, context));
                 context.cancel();
             }
         });
