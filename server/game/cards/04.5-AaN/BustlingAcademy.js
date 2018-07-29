@@ -10,14 +10,18 @@ class BustlingAcademy extends DrawCard {
                 cardType: ['character','holding'],
                 gameAction: ability.actions.discardCard()
             },
-            then: context => ({
-                handler: () => {
-                    let card = context.player.getDynastyCardInProvince(context.cardStateWhenInitiated.location);
-                    if(card) {
-                        card.facedown = false;
+            then: context => {
+                let location = context.target.location;
+                let controller = context.target.controller;
+                return {
+                    handler: () => {
+                        let card = controller.getDynastyCardInProvince(location);
+                        if(card) {
+                            card.facedown = false;
+                        }
                     }
-                }
-            })
+                };
+            }
         });
     }
 }

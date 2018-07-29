@@ -39,12 +39,13 @@ describe('Bustling Academy', function() {
                 expect(this.shio.location).toBe('dynasty discard pile');
             });
 
-            it('should correctly refill the province faceup', function() {
+            fit('should correctly refill the province faceup', function() {
                 this.player2.moveCard('shinjo-scout', 'dynasty deck');
                 this.player1.clickCard(this.ba);
                 this.player1.clickCard(this.shio);
                 expect(this.shio.location).toBe('dynasty discard pile');
                 expect(this.scout.location).toBe('province 1');
+                expect(this.scout.facedown).toBe(false);
             });
 
             it('should correctly discard itself', function() {
