@@ -15,8 +15,7 @@ class SoshiShiori extends DrawCard {
                     'Me': ability.actions.loseHonor(context => ({ target: context.player })),
                     'Opponent': ability.actions.loseHonor()
                 }
-            },
-            effect: 'make {0} lose 1 honor'
+            }
         });
     }
 }

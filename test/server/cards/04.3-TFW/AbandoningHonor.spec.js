@@ -84,8 +84,36 @@ describe('Abandoning Honor', function() {
                 this.player2.clickCard(this.bd);
                 expect(this.bd.location).toBe('dynasty discard pile');
             });
+        });
 
+        describe('Abandoning Honor / Pride interaction', function() {
+            beforeEach(function () {
+                this.setupTest({
+                    phase: 'conflict',
+                    player1: {
+                        inPlay: ['shinjo-shono'],
+                        hand: ['fine-katana']
+                    },
+                    player2: {
+                        provinces: ['abandoning-honor']
+                    }
+                });
+                this.shinjoShono = this.player1.findCardByName('shinjo-shono');
+                this.shinjoShono.isDishonored = true;
+                this.player1.playAttachment('fine-katana', this.shinjoShono);
+                this.noMoreActions();
+                this.initiateConflict({
+                    attackers: [this.shinjoShono],
+                    province: 'abandoning-honor',
+                    defenders: []
+                });
+                this.noMoreActions();
+            });
 
+            it('should trigger Pride first', function() {
+                expect(this.shinjoShono.location).toBe('play area');
+                expect(this.shinjoShono.isDishonored).toBe(false);
+            });
         });
     });
 });
