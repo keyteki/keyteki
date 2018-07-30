@@ -45,6 +45,7 @@ describe('Bustling Academy', function() {
                 this.player1.clickCard(this.shio);
                 expect(this.shio.location).toBe('dynasty discard pile');
                 expect(this.scout.location).toBe('province 1');
+                expect(this.scout.facedown).toBe(false);
             });
 
             it('should correctly discard itself', function() {
