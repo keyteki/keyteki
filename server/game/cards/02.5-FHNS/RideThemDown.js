@@ -10,7 +10,7 @@ class RideThemDown extends DrawCard {
             gameAction: ability.actions.cardLastingEffect(() => ({
                 target: this.game.currentConflict.conflictProvince,
                 targetLocation: 'province',
-                effect: ability.effects.modifyProvinceStrength(-(this.game.currentConflict.conflictProvince.getBaseStrength() - 1))
+                effect: ability.effects.setBaseProvinceStrength(1)
             }))
         });
     }

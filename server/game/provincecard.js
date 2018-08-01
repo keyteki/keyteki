@@ -11,8 +11,28 @@ class ProvinceCard extends BaseCard {
         this.menu = _([{ command: 'break', text: 'Break/unbreak this province' }, { command: 'hide', text: 'Flip face down' }]);
     }
 
+    get strength() {
+        return this.getStrength();
+    }
+
     getStrength() {
-        return this.cardData.strength + this.sumEffects('modifyProvinceStrength') + this.getDynastyOrStrongholdCardModifier();
+        if(this.anyEffect('setProvinceStrength')) {
+            return this.mostRecentEffect('setProvinceStrength');
+        }
+
+        let strength = this.baseStrength + this.sumEffects('modifyProvinceStrength') + this.getDynastyOrStrongholdCardModifier();
+        return this.getEffects('modifyProvinceStrengthMultiplier').reduce((total, value) => total * value, strength);
+    }
+
+    get baseStrength() {
+        return this.getBaseStrength();
+    }
+
+    getBaseStrength() {
+        if(this.anyEffect('setBaseProvinceStrength')) {
+            return this.mostRecentEffect('setBaseProvinceStrength');
+        }
+        return this.sumEffects('modifyBaseProvinceStrength') + this.cardData.strength;
     }
 
     getDynastyOrStrongholdCardModifier() {
@@ -20,12 +40,12 @@ class ProvinceCard extends BaseCard {
         return province.reduce((bonus, card) => bonus + card.getProvinceStrengthBonus(), 0);
     }
 
-    getElement() {
-        return this.cardData.element;
+    get element() {
+        return this.getElement();
     }
 
-    getBaseStrength() {
-        return this.cardData.strength;
+    getElement() {
+        return this.cardData.element;
     }
 
     flipFaceup() {
