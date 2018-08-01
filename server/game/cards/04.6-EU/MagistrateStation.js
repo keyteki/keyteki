@@ -1,10 +1,18 @@
 const ProvinceCard = require('../../provincecard.js');
 
 class MagistrateStation extends ProvinceCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.action({
+            title: 'Ready an honored character',
+            target: {
+                cardType: 'character',
+                cardCondition: card => card.isHonored,
+                gameAction: ability.actions.ready()
+            }
+        });
     }
 }
 
-MagistrateStation.id = 'magistrate-station'; // This is a guess at what the id might be - please check it!!!
+MagistrateStation.id = 'magistrate-station';
 
 module.exports = MagistrateStation;
