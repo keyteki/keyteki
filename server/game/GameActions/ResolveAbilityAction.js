@@ -18,8 +18,7 @@ class NoCostsAbilityResolver extends AbilityResolver {
             this.context.player.incrementAbilityMax(this.context.ability.maxIdentifier);
         }
         this.context.ability.displayMessage(this.context);
-        let handler = this.context.secondResolution ? () => this.executeHandler() : () => this.executeCardAbilityHandler();
-        this.game.raiseInitiateAbilityEvent({ card: this.context.source, context: this.context }, handler);
+        this.game.raiseInitiateAbilityEvent({ card: this.context.source, context: this.context }, () => this.executeHandler());
     }
 }
 

@@ -130,7 +130,8 @@ const mockContext = {
     },
     ability: {},
     event: {
-        conflict: { attackingPlayer: {} }
+        conflict: { attackingPlayer: {} },
+        context: {}
     },
     targetAbility: {},
     selects: {

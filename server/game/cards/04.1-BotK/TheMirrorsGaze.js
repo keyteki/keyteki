@@ -7,7 +7,7 @@ class TheMirrorsGaze extends DrawCard {
             when: {
                 onAbilityResolved: (event, context) => {
                     let ability = event.context.ability;
-                    if(event.card.type !== 'event' || ability.cannotBeMirrored) {
+                    if(event.initiateEvent.cancelled || event.card.type !== 'event' || ability.cannotBeMirrored) {
                         return false;
                     } else if(event.context.player !== context.player.opponent || context.player.isAbilityAtMax(ability.maxIdentifier)) {
                         return false;
