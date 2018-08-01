@@ -11,17 +11,22 @@ describe('Sacred Sanctuary', function() {
                     player2: {
                         provinces: ['sacred-sanctuary'],
                         inPlay: ['togashi-kazue', 'niten-adept'],
-                        hand: ['high-kick']
+                        hand: ['high-kick', 'tattooed-wanderer']
                     }
                 });
-                this.noMoreActions();
                 this.yaruma = this.player1.findCardByName('kitsuki-yaruma');
                 this.for_shame = this.player1.findCardByName('for-shame');
                 this.kazue = this.player2.findCardByName('togashi-kazue');
                 this.adept = this.player2.findCardByName('niten-adept');
                 this.sanctuary = this.player2.findCardByName('sacred-sanctuary');
                 this.high_kick = this.player2.findCardByName('high-kick');
+                this.wanderer = this.player2.findCardByName('tattooed-wanderer');
                 this.kazue.bow();
+                this.player1.pass();
+                this.player2.clickCard(this.wanderer);
+                this.player2.clickPrompt('Play Tattooed Wanderer as an attachment');
+                this.player2.clickCard(this.kazue);
+                this.noMoreActions();
                 this.initiateConflict({
                     type: 'military',
                     attackers: [this.yaruma]
@@ -32,11 +37,12 @@ describe('Sacred Sanctuary', function() {
                 expect(this.player2).toBeAbleToSelect(this.sanctuary);
             });
 
-            it('should prompt the player to choose only a monk', function() {
+            it('should prompt the player to choose only a monk character', function() {
                 this.player2.clickCard(this.sanctuary);
                 expect(this.player2).toHavePrompt('Sacred Sanctuary');
                 expect(this.player2).toBeAbleToSelect(this.kazue);
                 expect(this.player2).not.toBeAbleToSelect(this.adept);
+                expect(this.player2).not.toBeAbleToSelect(this.wanderer);
             });
 
             it('should prevent chosen character from bowing at the end of the conflict', function() {

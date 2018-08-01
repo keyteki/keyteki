@@ -8,6 +8,7 @@ class SacredSanctuary extends ProvinceCard {
                 onConflictDeclared: (event, context) => event.conflict.conflictProvince === context.source
             },
             target: {
+                cardType: 'character',
                 controller: 'self',
                 cardCondition: card => card.hasTrait('monk'),
                 gameAction: [
