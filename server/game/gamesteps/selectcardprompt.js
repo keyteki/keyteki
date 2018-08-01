@@ -41,7 +41,7 @@ const UiPrompt = require('./uiprompt.js');
  *                      done button without selecting any cards.
  * source             - what is at the origin of the user prompt, usually a card;
  *                      used to provide a default waitingPromptTitle, if missing
- * gameAction         - a string representing the game action to be checked on
+ * gameAction         - a GameAction object representing the game action to be checked on
  *                      target cards.
  * ordered            - an optional boolean indicating whether or not to display
  *                      the order of the selection during the prompt.
@@ -66,7 +66,15 @@ class SelectCardPrompt extends UiPrompt {
         this.properties = properties;
         this.context = properties.context || new AbilityContext({ game: game, player: choosingPlayer, source: properties.source });
         _.defaults(this.properties, this.defaultProperties());
-        this.selector = properties.selector || CardSelector.for(properties);
+        if(properties.gameAction) {
+            if(!Array.isArray(properties.gameAction)) {
+                this.properties.gameAction = [properties.gameAction];
+            }
+            let cardCondition = this.properties.cardCondition;
+            this.properties.cardCondition = (card, context) =>
+                cardCondition(card, context) && this.properties.gameAction.some(gameAction => gameAction.canAffect(card, context));
+        }
+        this.selector = properties.selector || CardSelector.for(this.properties);
         this.selectedCards = [];
         this.savePreviouslySelectedCards();
     }
@@ -76,6 +84,7 @@ class SelectCardPrompt extends UiPrompt {
             buttons: [],
             controls: this.getDefaultControls(),
             selectCard: true,
+            cardCondition: () => true,
             onSelect: () => true,
             onMenuCommand: () => true,
             onCancel: () => true

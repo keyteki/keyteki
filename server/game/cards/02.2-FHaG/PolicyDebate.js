@@ -18,7 +18,7 @@ class PolicyDebate extends DrawCard {
                     gameAction: ability.actions.duel(context => ({
                         type: 'political',
                         challenger: context.targets.challenger,
-                        resolutionHandler: (context, winner, loser) => this.duelOutcome(context, winner, loser)
+                        resolutionHandler: (winner, loser) => this.duelOutcome(context, winner, loser)
                     }))
                 }
             }

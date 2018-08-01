@@ -162,6 +162,9 @@ class DrawCard extends BaseCard {
     }
 
     hasDash(type = '') {
+        if(type === 'glory') {
+            return false;
+        }
         let dashEffects = this.getEffects('setDash');
         if(type === 'military') {
             return this.printedMilitarySkill === undefined || this.printedMilitarySkill === null || dashEffects.includes(type);
