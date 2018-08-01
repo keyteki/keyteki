@@ -13,7 +13,7 @@ class VoidFist extends DrawCard {
                 cardType: 'character',
                 cardCondition: (card, context) =>
                     card.isParticipating() && this.game.currentConflict.getCharacters(context.player).some(myCard =>
-                        myCard.hasTrait('monk') && myCard.militarySkill > card.militarySkill
+                        myCard.hasTrait('monk') && myCard.militarySkill >= card.militarySkill
                     ),
                 gameAction: [ability.actions.bow(), ability.actions.sendHome()]
             },
