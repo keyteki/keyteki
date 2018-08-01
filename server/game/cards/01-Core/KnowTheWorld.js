@@ -11,7 +11,7 @@ class KnowTheWorld extends DrawCard {
                         activePromptTitle: 'Choose a ring to return',
                         ringCondition: ring => ring.claimedBy === context.player.name,
                         message: '{0} returns {1}',
-                        messageArgs: card => [context.player, card]
+                        messageArgs: ring => [context.player, ring]
                     }
                 })),
                 ability.actions.takeRing(context => ({
@@ -20,7 +20,7 @@ class KnowTheWorld extends DrawCard {
                         activePromptTitle: 'Choose a ring to take',
                         ringCondition: ring => ring.isUnclaimed(),
                         message: '{0} takes {1}',
-                        messageArgs: card => [context.player, card]
+                        messageArgs: ring => [context.player, ring]
                     }
                 }))
             ])
