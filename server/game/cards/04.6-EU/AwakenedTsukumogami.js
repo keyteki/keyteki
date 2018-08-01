@@ -1,10 +1,15 @@
 const DrawCard = require('../../drawcard.js');
 
 class AwakenedTsukumogami extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            effect: Object.values(this.game.rings).map(ring =>
+                ability.effects.alternateFatePool(card => card.isConflict && ring.getElements().some(element => card.hasTrait(element)) && ring)
+            )
+        });
     }
 }
 
-AwakenedTsukumogami.id = 'awakened-tsukumogami'; // This is a guess at what the id might be - please check it!!!
+AwakenedTsukumogami.id = 'awakened-tsukumogami';
 
 module.exports = AwakenedTsukumogami;

@@ -56,7 +56,8 @@ const eventNames = [
     'onTransferHonor',
     'onPassDuringDynasty',
     'onModifyHonor',
-    'onAbilityResolved'
+    'onAbilityResolved',
+    'onResolveFateCost'
 ];
 
 const actionNames = [
@@ -152,6 +153,13 @@ const mockContext = {
 describe('All Cards:', function() {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'addPower', 'addMessage', 'addEffect']);
+        this.gameSpy.rings = {
+            air: {},
+            earth: {},
+            fire: {},
+            void: {},
+            water: {}
+        };
         this.playerSpy = jasmine.createSpyObj('player', ['registerAbilityMax']);
         this.playerSpy.game = this.gameSpy;
     });

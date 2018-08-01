@@ -3,7 +3,7 @@ const DynastyCardAction = require('../../server/game/dynastycardaction.js');
 describe('DynastyCardAction', function () {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['addMessage', 'on', 'removeListener', 'getEvent', 'openEventWindow']);
-        this.playerSpy = jasmine.createSpyObj('player', ['isCardInPlayableLocation', 'replaceDynastyCard', 'getReducedCost']);
+        this.playerSpy = jasmine.createSpyObj('player', ['isCardInPlayableLocation', 'replaceDynastyCard', 'getMinimumCost']);
         this.cardSpy = jasmine.createSpyObj('card', ['getType', 'canPlay', 'isLimited', 'anotherUniqueInPlay']);
         this.windowSpy = jasmine.createSpyObj('window', ['markActionAsTaken']);
         this.cardSpy.isDynasty = true;
@@ -29,7 +29,7 @@ describe('DynastyCardAction', function () {
         beforeEach(function() {
             this.gameSpy.currentPhase = 'dynasty';
             this.playerSpy.isCardInPlayableLocation.and.returnValue(true);
-            this.playerSpy.getReducedCost.and.returnValue(0);
+            this.playerSpy.getMinimumCost.and.returnValue(0);
             this.cardSpy.getType.and.returnValue('character');
             this.cardSpy.canPlay.and.returnValue(true);
             this.cardSpy.isLimited.and.returnValue(false);

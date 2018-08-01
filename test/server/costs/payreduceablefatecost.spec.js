@@ -3,7 +3,7 @@ const Costs = require('../../../server/game/costs.js');
 describe('Costs.payReduceableFateCost', function() {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['addMessage']);
-        this.playerSpy = jasmine.createSpyObj('player', ['getDuplicateInPlay', 'getReducedCost', 'markUsedReducers', 'checkRestrictions']);
+        this.playerSpy = jasmine.createSpyObj('player', ['getDuplicateInPlay', 'getMinimumCost', 'getReducedCost', 'markUsedReducers', 'checkRestrictions']);
         this.playerSpy.checkRestrictions.and.returnValue(true);
         this.cardSpy = { card: 1, allowGameAction: () => true };
         this.context = {
@@ -18,7 +18,7 @@ describe('Costs.payReduceableFateCost', function() {
     describe('canPay()', function() {
         beforeEach(function() {
             this.playerSpy.fate = 4;
-            this.playerSpy.getReducedCost.and.returnValue(4);
+            this.playerSpy.getMinimumCost.and.returnValue(4);
         });
 
         it('should return true when all criteria are met', function() {
@@ -27,7 +27,7 @@ describe('Costs.payReduceableFateCost', function() {
 
         it('should check the cost properly', function() {
             this.cost.canPay(this.context);
-            expect(this.playerSpy.getReducedCost).toHaveBeenCalledWith('playing-type', this.cardSpy);
+            expect(this.playerSpy.getMinimumCost).toHaveBeenCalledWith('playing-type', this.cardSpy);
         });
 
         describe('when there is not enough fate', function() {

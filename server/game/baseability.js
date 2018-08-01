@@ -122,8 +122,6 @@ class BaseAbility {
      * have a `resolve` method in order to prompt the user to make a choice,
      * such as choosing a card to kneel. Consumers of this method should wait
      * until all costs have a `resolved` value of `true` before proceeding.
-     *
-     * @returns {Array} An array of cost resolution results.
      */
     resolveCosts(context, results) {
         for(let cost of this.cost.filter(cost => cost.resolve)) {

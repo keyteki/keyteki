@@ -466,13 +466,29 @@ class Player extends GameObject {
         this.playableLocations = _.reject(this.playableLocations, l => l === location);
     }
 
+    getAlternateFatePools(playingType, card) {
+        let effects = this.getEffects('alternateFatePool');
+        return effects.filter(match => match(card) && match(card).fate > 0).map(match => match(card));
+    }
+
+    getMinimumCost(playingType, card, target) {
+        let reducedCost = this.getReducedCost(playingType, card, target);
+        let alternateFatePools = this.getAlternateFatePools(playingType, card);
+        let alternateFate = alternateFatePools.reduce((total, pool) => total + pool.fate, 0);
+        let triggeredCostReducers = 0;
+        let fakeWindow = { addChoice: () => triggeredCostReducers++ };
+        let fakeEvent = this.game.getEvent('onResolveFateCost', { card: card, player: this });
+        this.game.emit('onResolveFateCost:interrupt', fakeEvent, fakeWindow);
+        return Math.max(reducedCost - triggeredCostReducers - alternateFate, 0);
+    }
+
     /**
      * Checks if any Cost Reducers on this Player apply to the passed card/target, and returns the cost to play the cost if they are used
      * @param {String} playingType - not sure what legal values for this are
      * @param {DrawCard} card
      * @param {BaseCard} target
      */
-    getReducedCost(playingType, card, target = null) {
+    getReducedCost(playingType, card, target) {
         var baseCost = card.getCost();
         var matchingReducers = _.filter(this.costReducers, reducer => reducer.canReduce(playingType, card, target));
         var reducedCost = _.reduce(matchingReducers, (cost, reducer) => cost - reducer.getAmount(card), baseCost);

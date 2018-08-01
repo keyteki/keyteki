@@ -1,6 +1,8 @@
 const _ = require('underscore');
 const ChooseCost = require('./costs/choosecost.js');
 const CostBuilders = require('./costs/CostBuilders.js');
+const ReduceableFateCost = require('./costs/ReduceableFateCost');
+const TargetDependentFateCost = require('./costs/TargetDependentFateCost');
 
 const Costs = {
     /**
@@ -147,41 +149,11 @@ const Costs = {
      * reducer effects the play has activated. Upon playing the card, all
      * matching reducer effects will expire, if applicable.
      */
-    payReduceableFateCost: function(playingType) {
-        return {
-            canPay: function(context) {
-                let reducedCost = context.player.getReducedCost(playingType, context.source);
-                return context.player.fate >= reducedCost && (reducedCost === 0 || context.player.checkRestrictions('spendFate', context));
-            },
-            pay: function(context) {
-                context.costs.fate = context.player.getReducedCost(playingType, context.source);
-                context.player.markUsedReducers(playingType, context.source);
-                context.player.fate -= context.costs.fate;
-            },
-            canIgnoreForTargeting: true
-        };
-    },
+    payReduceableFateCost: playingType => new ReduceableFateCost(playingType),
     /**
      * Cost that is dependent on context.targets[targetName]
      */
-    payTargetDependentFateCost: function(targetName, playingType) {
-        return {
-            dependsOn: targetName,
-            canPay: function(context) {
-                if(!context.targets[targetName]) {
-                    // we don't need to check now because this will be checked again once targeting is done
-                    return true;
-                }
-                let reducedCost = context.player.getReducedCost(playingType, context.source, context.targets[targetName]);
-                return context.player.fate >= reducedCost && (reducedCost === 0 || context.player.checkRestrictions('spendFate', context));
-            },
-            pay: function(context) {
-                context.costs.targetDependentFate = context.player.getReducedCost(playingType, context.source, context.targets[targetName]);
-                context.player.markUsedReducers(playingType, context.source, context.targets[targetName]);
-                context.player.fate -= context.costs.targetDependentFate;
-            }
-        };
-    },
+    payTargetDependentFateCost: (targetName, playingType) => new TargetDependentFateCost(playingType, targetName),
     /**
      * Cost in which the player must pay a fixed, non-reduceable amount of fate.
      */
