@@ -1,7 +1,15 @@
 const DrawCard = require('../../drawcard.js');
 
 class ReclusiveZokujin extends DrawCard {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            condition: () => this.game.rings.earth.contested,
+            match: this,
+            effect: ability.effects.immune({
+                restricts: 'opponentsCardEffects',
+                source: this
+            })
+        });
     }
 }
 
