@@ -741,6 +741,14 @@ class Player extends GameObject {
         return this.game.currentConflict && this.game.currentConflict.defendingPlayer === this;
     }
 
+    /**
+     * Returns true if this player is less honorable than its opponent.  Returns false if
+     * the player does not have an opponent.
+     */
+    isLessHonorableThanOpponent() {
+        return this.honor < (this.opponent ? this.opponent.honor : -1);
+    }
+
     resetForConflict() {
         this.cardsInPlay.each(card => {
             card.resetForConflict();
