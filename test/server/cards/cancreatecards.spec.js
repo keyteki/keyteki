@@ -140,7 +140,8 @@ const mockContext = {
     },
     select: { toLowerCase: () => 'abc' },
     costs: {
-        discardCard: { getCost: () => 1 }
+        discardCard: { getCost: () => 1 },
+        returnRing: []
     },
     targets: { cardToShuffle: {} },
     target: {

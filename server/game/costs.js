@@ -195,6 +195,50 @@ const Costs = {
      */
     payFateToRing: (amount = 1, ringCondition = ring => ring.isUnclaimed()) => CostBuilders.payFateToRing(amount, ringCondition),
     giveFateToOpponent: (amount = 1) => CostBuilders.giveFateToOpponent(amount),
+    returnRings: function () {
+        return {
+            canPay: function(context) {
+                return Object.values(context.game.rings).some(ring => ring.claimedBy === context.player.name);
+            },
+            resolve: function(context, result) {
+                let chosenRings = [];
+                let promptPlayer = () => {
+                    let buttons = [];
+                    if(chosenRings.length > 0) {
+                        buttons.push({ text: 'Done', arg: 'done' });
+                    }
+                    if(result.canCancel) {
+                        buttons.push({ text: 'Cancel', arg: 'cancel'});
+                    }
+                    context.game.promptForRingSelect(context.player, {
+                        activePromptTitle: 'Choose a ring to return',
+                        context: context,
+                        buttons: buttons,
+                        ringCondition: ring => ring.claimedBy === context.player.name && !chosenRings.includes(ring),
+                        onSelect: (player, ring) => {
+                            chosenRings.push(ring);
+                            if(Object.values(context.game.rings).some(ring => ring.claimedBy === context.player.name && !chosenRings.includes(ring))) {
+                                promptPlayer();
+                            } else {
+                                context.costs.returnRing = chosenRings;
+                            }
+                            return true;
+                        },
+                        onMenuCommand: (player, arg) => {
+                            if(arg === 'done') {
+                                context.costs.returnRing = chosenRings;
+                                return true;
+                            }
+                        },
+                        onCancel: () => context.costs.returnRing = []
+                    });
+                };
+                promptPlayer();
+            },
+            payEvent: context => context.game.actions.returnRing({ target: context.costs.returnRing }).getEventArray(context),
+            promptsPlayer: true
+        };
+    },
     chooseFate: function () {
         return {
             canPay: function() {

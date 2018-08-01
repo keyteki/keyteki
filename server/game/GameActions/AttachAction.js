@@ -3,6 +3,7 @@ const CardGameAction = require('./CardGameAction');
 class AttachAction extends CardGameAction {
     setDefaultProperties() {
         this.attachment = null;
+        this.attachmentChosenOnResolution = false;
     }
 
     setup() {
@@ -15,10 +16,12 @@ class AttachAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(!context || !context.player || !this.attachment || !card || card.location !== 'play area') {
+        if(!context || !context.player || !card || card.location !== 'play area') {
             return false;
+        } else if(this.attachmentChosenOnResolution) {
+            return super.canAffect(card, context);
         }
-        if(this.attachment.anotherUniqueInPlay(context.player) || !this.attachment.canAttach(card, context)) {
+        if(!this.attachment || this.attachment.anotherUniqueInPlay(context.player) || !this.attachment.canAttach(card, context)) {
             return false;
         }
         return card.allowAttachment(this.attachment) && super.canAffect(card, context);
@@ -26,6 +29,11 @@ class AttachAction extends CardGameAction {
 
     checkEventCondition(event) {
         return this.canAffect(event.parent, event.context);
+    }
+
+    getEventArray(context) {
+        this.attachmentChosenOnResolution = false;
+        return super.getEventArray(context);
     }
 
     getEvent(card, context) {

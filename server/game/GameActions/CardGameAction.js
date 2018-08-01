@@ -18,7 +18,7 @@ class CardGameAction extends GameAction {
             let contextCopy = context.copy();
             contextCopy.stage = 'effect';
             return this.getSelector().hasEnoughTargets(contextCopy);
-        } else if(this.promptWithHandlerMenu) {
+        } else if(this.promptWithHandlerMenu && !this.promptWithHandlerMenu.customHandler) {
             let contextCopy = context.copy();
             contextCopy.stage = 'effect';
             return this.promptWithHandlerMenu.cards.some(card => this.canAffect(card, contextCopy));
@@ -63,8 +63,10 @@ class CardGameAction extends GameAction {
             context.game.promptForSelect(properties.player, properties);
         } else if(this.promptWithHandlerMenu) {
             let properties = this.promptWithHandlerMenu;
-            properties.cards = properties.cards.filter(card => this.canAffect(card, context));
-            this.target = [];
+            if(!properties.customHandler) {
+                properties.cards = properties.cards.filter(card => this.canAffect(card, context));
+                this.target = [];
+            }
             if(properties.cards.length === 0) {
                 return;
             }
