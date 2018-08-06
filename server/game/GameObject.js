@@ -1,6 +1,6 @@
 const uuid = require('uuid');
 const _ = require('underscore');
-const GameActions = require('./GameActions/GameActions');
+const GameActions = require('./GameActions');
 
 class GameObject {
     constructor(game, name) {

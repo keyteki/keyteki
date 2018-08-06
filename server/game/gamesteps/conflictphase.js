@@ -2,7 +2,7 @@ const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
 const Conflict = require('../conflict.js');
 const ActionWindow = require('./actionwindow.js');
-const GameActions = require('../GameActions/GameActions');
+const GameActions = require('../GameActions');
 
 /*
 III Conflict Phase

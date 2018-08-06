@@ -55,6 +55,10 @@ class EffectSource extends GameObject {
         this.addEffectToEngine(Object.assign({ duration: 'custom', location: 'any' }, properties));
     }
 
+    roundDurationEffect(properties) {
+        this.addEffectToEngine(properties);
+    }
+
     /**
      * Applies a delayed effect
      */

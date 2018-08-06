@@ -1,5 +1,5 @@
 const UiPrompt = require('./uiprompt.js');
-const GameActions = require('../GameActions/GameActions');
+const GameActions = require('../GameActions');
 
 class AttachmentPrompt extends UiPrompt {
     constructor(game, player, attachmentCard, playingType) {

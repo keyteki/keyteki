@@ -2,7 +2,7 @@ const _ = require('underscore');
 
 const DrawCard = require('../../drawcard.js');
 const DynastyCardAction = require('../../dynastycardaction.js');
-const GameActions = require('../../GameActions/GameActions');
+const GameActions = require('../../GameActions');
 const ThenAbility = require('../../ThenAbility');
 
 const backAlleyPersistentEffect = {

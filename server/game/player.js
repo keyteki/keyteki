@@ -5,7 +5,7 @@ const Deck = require('./deck.js');
 const AttachmentPrompt = require('./gamesteps/attachmentprompt.js');
 const ClockSelector = require('./Clocks/ClockSelector');
 const CostReducer = require('./costreducer.js');
-const GameActions = require('./GameActions/GameActions');
+const GameActions = require('./GameActions');
 const RingEffects = require('./RingEffects.js');
 const PlayableLocation = require('./playablelocation.js');
 const PlayerPromptState = require('./playerpromptstate.js');
@@ -39,7 +39,7 @@ class Player extends GameObject {
         this.clock = ClockSelector.for(this, clockdetails);
 
         this.playableLocations = [
-            new PlayableLocation('play', this, 'hand'),
+            new PlayableLocation('play', this, 'hand')
         ];
         this.optionSettings = user.settings.optionSettings;
 
@@ -230,8 +230,8 @@ class Player extends GameObject {
      * Called when one of the players decks runs out of cards, removing 5 honor and shuffling the discard pile back into the deck
      * @param {String} deck - one of 'conflict' or 'dynasty'
      */
-    deckRanOutOfCards(deck) {
-        this.game.addMessage('{0}\'s deck has run out of cards, so they shuffle', this, deck);
+    deckRanOutOfCards() {
+        this.game.addMessage('{0}\'s deck has run out of cards, so they shuffle', this);
         for(let card of this.discard) {
             this.moveCard(card, 'deck');
         }
@@ -531,12 +531,12 @@ class Player extends GameObject {
             stats: this.getStats(),
             user: _.omit(this.user, ['password', 'email'])
         };
-
+        /*
         if(this.showDeck) {
             state.showDeck = true;
             state.cardPiles.deck = this.getSummaryForCardList(this.deck, activePlayer, true),
         }
-
+*/
         if(this.isTopCardShown()) {
             state.deckTopCard = this.deck[0].getSummary(activePlayer);
         }

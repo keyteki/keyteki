@@ -1,5 +1,5 @@
 const Effects = require('./effects.js');
-const GameActions = require('./GameActions/GameActions');
+const GameActions = require('./GameActions');
 
 const AbilityDsl = {
     effects: Effects,

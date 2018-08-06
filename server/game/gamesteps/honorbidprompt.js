@@ -1,5 +1,5 @@
 const AllPlayerPrompt = require('./allplayerprompt.js');
-const GameActions = require('../GameActions/GameActions');
+const GameActions = require('../GameActions');
 
 class HonorBidPrompt extends AllPlayerPrompt {
     constructor(game, menuTitle, costHandler) {

@@ -1,6 +1,6 @@
 const _ = require('underscore');
 const DrawCard = require('../../drawcard.js');
-const GameActions = require('../../GameActions/GameActions');
+const GameActions = require('../../GameActions');
 
 class ConsumedByFiveFires extends DrawCard {
     // TODO: need refactoring

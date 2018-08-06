@@ -21,7 +21,7 @@ const HonorBidPrompt = require('./gamesteps/honorbidprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
 const SelectRingPrompt = require('./gamesteps/selectringprompt.js');
 const GameWonPrompt = require('./gamesteps/GameWonPrompt');
-const GameActions = require('./GameActions/GameActions');
+const GameActions = require('./GameActions');
 const Event = require('./Events/Event');
 const InitiateCardAbilityEvent = require('./Events/InitiateCardAbilityEvent');
 const EventWindow = require('./Events/EventWindow.js');
@@ -572,14 +572,12 @@ class Game extends EventEmitter {
 
         this.playersAndSpectators = players;
 
-        let playerWithNoStronghold = null;
-
         for(let player of this.getPlayers()) {
             player.initialise();
         }
 
         this.allCards = _(_.reduce(this.getPlayers(), (cards, player) => {
-            return cards.concat(player.preparedDeck.cards);
+            return cards.concat(player.deck);
         }, []));
 
         this.pipeline.initialise([

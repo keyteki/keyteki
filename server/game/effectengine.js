@@ -86,7 +86,12 @@ class EffectEngine {
     }
 
     onRoundEnded() {
-        this.newEffect = this.unapplyAndRemove(effect => effect.duration === 'untilEndOfRound');
+        this.newEffect = this.unapplyAndRemove(effect => effect.duration === 'untilEndOfRound' || effect.roundDuration === 1);
+        _.each(this.effects, effect => {
+            if(effect.roundDuration > 1) {
+                effect.roundDuration -= 1;
+            }
+        });
     }
 
     registerCustomDurationEvents(effect) {

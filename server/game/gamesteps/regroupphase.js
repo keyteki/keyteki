@@ -3,7 +3,7 @@ const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
 const ActionWindow = require('./actionwindow.js');
 const EndRoundPrompt = require('./regroup/endroundprompt.js');
-const GameActions = require('../GameActions/GameActions');
+const GameActions = require('../GameActions');
 
 /*
 V Regroup Phase

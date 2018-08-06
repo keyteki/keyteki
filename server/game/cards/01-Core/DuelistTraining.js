@@ -1,5 +1,5 @@
 const DrawCard = require('../../drawcard.js');
-const GameActions = require('../../GameActions/GameActions');
+const GameActions = require('../../GameActions');
 
 class DuelistTraining extends DrawCard {
     setupCardAbilities(ability) {

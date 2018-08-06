@@ -1,6 +1,5 @@
 const BaseAction = require('./BaseAction');
-const Costs = require('./costs.js');
-const GameActions = require('./GameActions/GameActions');
+const GameActions = require('./GameActions');
 
 class PlayCharacterAction extends BaseAction {
     constructor(card) {

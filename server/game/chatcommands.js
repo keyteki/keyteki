@@ -1,5 +1,5 @@
 const _ = require('underscore');
-const GameActions = require('./GameActions/GameActions');
+const GameActions = require('./GameActions');
 const HonorBidPrompt = require('./gamesteps/honorbidprompt.js');
 
 class ChatCommands {
