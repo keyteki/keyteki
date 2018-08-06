@@ -1,5 +1,5 @@
 const DrawCard = require('../../drawcard.js');
-const GameActions = require('../../GameActions/GameActions');
+const GameActions = require('../../GameActions');
 
 class DuelistTraining extends DrawCard {
     setupCardAbilities(ability) {
@@ -16,7 +16,7 @@ class DuelistTraining extends DrawCard {
                     gameAction: ability.actions.duel(context => ({
                         type: 'military',
                         challenger: context.source,
-                        resolutionHandler: (context, winner, loser) => this.resolutionHandler(context, winner, loser),
+                        resolutionHandler: (winner, loser) => this.resolutionHandler(context, winner, loser),
                         costHandler: (context, prompt) => this.costHandler(context, prompt)
                     }))
                 }

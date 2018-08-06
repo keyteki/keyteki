@@ -171,6 +171,11 @@ class Conflict extends GameObject {
     }
 
     getNumberOfParticipantsFor(player, predicate) {
+        if(player === 'attacker') {
+            player = this.attackingPlayer;
+        } else if(player === 'defender') {
+            player = this.defendingPlayer;
+        }
         let characters = this.getCharacters(player);
         if(predicate) {
             return characters.filter(predicate).length;
@@ -188,8 +193,8 @@ class Conflict extends GameObject {
         return this.getNumberOfParticipantsFor(player) > this.getNumberOfParticipantsFor(player.opponent);
     }
 
-    calculateSkill(stateChanged = false) {
-        stateChanged = this.game.effectEngine.checkEffects(stateChanged);
+    calculateSkill(prevStateChanged = false) {
+        let stateChanged = this.game.effectEngine.checkEffects(prevStateChanged);
 
         if(this.winnerDetermined) {
             return stateChanged;
@@ -198,8 +203,8 @@ class Conflict extends GameObject {
         let additionalCharacters = this.getEffects('contribute');
         let additionalAttackers = additionalCharacters.filter(card => card.controller === this.attackingPlayer);
         let additionalDefenders = additionalCharacters.filter(card => card.controller === this.defendingPlayer);
-        this.attackerSkill = this.calculateSkillFor(this.attackers.concat(additionalAttackers));
-        this.defenderSkill = this.calculateSkillFor(this.defenders.concat(additionalDefenders));
+        this.attackerSkill = this.calculateSkillFor(this.attackers.concat(additionalAttackers)) + this.attackingPlayer.skillModifier;
+        this.defenderSkill = this.calculateSkillFor(this.defenders.concat(additionalDefenders)) + this.defendingPlayer.skillModifier;
 
         if(this.attackingPlayer.imperialFavor === this.conflictType && this.attackers.length > 0) {
             this.attackerSkill++;

@@ -7,7 +7,7 @@ class AbilityTargetCard {
         this.name = name;
         this.properties = properties;
         for(let gameAction of this.properties.gameAction) {
-            gameAction.getDefaultTargets = context => context.targets[name];
+            gameAction.setDefaultTarget(context => context.targets[name]);
         }
         this.selector = this.getSelector(properties);
         this.dependentTarget = null;
@@ -32,12 +32,18 @@ class AbilityTargetCard {
                    (!this.dependentTarget || this.dependentTarget.hasLegalTarget(contextCopy)) &&
                    (properties.gameAction.length === 0 || properties.gameAction.some(gameAction => gameAction.hasLegalTarget(contextCopy)));
         };
-        return CardSelector.for(Object.assign({}, properties, { cardCondition: cardCondition}));
+        return CardSelector.for(Object.assign({}, properties, { cardCondition: cardCondition, targets: true }));
     }
 
     canResolve(context) {
         // if this depends on another target, that will check hasLegalTarget already
         return !!this.properties.dependsOn || this.hasLegalTarget(context);
+    }
+
+    resetGameActions() {
+        for(let action of this.properties.gameAction) {
+            action.reset();
+        }
     }
 
     hasLegalTarget(context) {

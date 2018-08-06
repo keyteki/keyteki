@@ -23,24 +23,26 @@ class RandomDiscardAction extends PlayerAction {
                 return;
             }
             player.game.addMessage('{0} discards {1} at random', player, cards);
+            let handler = (player, cards = []) => {
+                cards = cards.concat(event.cards.filter(card => !cards.includes(card)));
+                for(const card of cards) {
+                    player.moveCard(card, card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile');
+                }
+                return true;
+            };
             if(event.cards.length > 1) {
                 player.game.promptForSelect(player, {
                     activePromptTitle: 'Choose order for random discard',
-                    mode: 'exactly',
+                    mode: 'upTo',
                     numCards: event.cards.length,
+                    optional: true,
                     ordered: true,
                     location: 'hand',
                     controller: 'self',
                     source: context.source,
-                    buttons: [{ test: 'Done', arg: 'done' }],
                     cardCondition: card => event.cards.includes(card),
-                    onSelect: (player, cards) => {
-                        cards = cards.concat(event.cards.filter(card => !cards.includes(card)));
-                        for(const card of cards) {
-                            player.moveCard(card, card.isDynasty ? 'dynasty discard pile' : 'conflict discard pile');
-                        }
-                        return true;
-                    }
+                    onSelect: handler,
+                    onCancel: handler
                 });
             } else if(event.cards.length === 1) {
                 let card = event.cards[0];

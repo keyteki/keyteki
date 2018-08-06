@@ -74,7 +74,7 @@ describe('Display of Power', function() {
                 this.noMoreActions();
                 this.player2.clickCard('display-of-power');
                 this.player2.pass();
-                expect(this.player2).toHavePrompt('Choose a ring effect to resolve');
+                expect(this.player2).toHavePrompt('Resolve Ring Effect');
                 this.player2.clickRing('air');
                 expect(this.player2).toHavePrompt('Air Ring');
             });

@@ -4,7 +4,10 @@ class IsawaKaede extends DrawCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: this,
-            effect: ability.effects.immuneTo(context => context.source.type === 'ring' && context.player === this.controller.opponent)
+            effect: ability.effects.immuneTo({
+                restricts: 'opponentsRingEffects',
+                source: this
+            })
         });
         this.persistentEffect({
             condition: () => this.isAttacking(),

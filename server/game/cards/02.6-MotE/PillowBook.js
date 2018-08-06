@@ -12,7 +12,7 @@ class PillowBook extends DrawCard {
                     duration: 'lastingEffect',
                     until: {
                         onCardMoved: event => event.card === topCard && event.originalLocation === 'conflict deck',
-                        onPhaseEnded: event => event.phase === 'conflict',
+                        onConflictFinished: () => true,
                         onDeckShuffled: event => event.player === context.player && event.deck === 'conflict deck'
                     },
                     effect: [

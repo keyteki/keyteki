@@ -11,13 +11,14 @@ class YoungRumormonger extends DrawCard {
             target: {
                 cardType: 'character',
                 cardCondition: (card, context) => card !== context.event.card && card.controller === context.event.card.controller &&
-                                                  card.allowGameAction(context.event.gameAction.action, context)
+                                                  card.allowGameAction(context.event.gameAction.name, context)
             },
             effect: '{1} {0} instead of {2}',
             effectArgs: context => [context.event.gameAction.name, context.event.card],
             handler: context => {
                 let newEvent = context.event.gameAction.getEvent(context.target, context);
                 context.event.getResult = () => newEvent.getResult();
+                newEvent.order = context.event.order;
                 context.event.window.addEvent(newEvent);
                 context.cancel();
             }

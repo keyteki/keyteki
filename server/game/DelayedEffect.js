@@ -22,12 +22,15 @@ class DelayedEffect {
         this.gameAction = properties.gameAction;
         this.message = properties.message;
         this.handler = properties.handler;
+        this.multipleTrigger = properties.multipleTrigger;
     }
 
     checkEffect(events) {
         let matchingEvents = events.filter(event => this.when[event.name]);
         if(matchingEvents.length > 0) {
-            this.game.effectEngine.removeDelayedEffect(this);
+            if(!this.multipleTrigger) {
+                this.game.effectEngine.removeDelayedEffect(this);
+            }
             return matchingEvents.find(event => this.when[event.name](event));
         }
         return false;

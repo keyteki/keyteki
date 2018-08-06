@@ -27,7 +27,7 @@ class DuelAction extends CardGameAction {
     }
 
     resolveDuel(winner, loser) {
-        this.resolutionHandler(this.context, winner, loser);
+        this.resolutionHandler(winner, loser);
     }
 
     honorCosts(prompt) {

@@ -8,7 +8,7 @@ class CloudTheMind extends DrawCard {
     }
 
     canPlay(context) {
-        if(!this.controller.cardsInPlay.any(card => card.getType() === 'character' && card.hasTrait('shugenja'))) {
+        if(!context.player.cardsInPlay.any(card => card.getType() === 'character' && card.hasTrait('shugenja'))) {
             return false;
         }
 

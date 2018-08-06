@@ -38,10 +38,8 @@ class Effect {
         this.effect = effect;
         this.targets = [];
         this.effect.context = this.context = { game: game, source: source };
-    }
-
-    isInActiveLocation() {
-        return ['any', this.source.location].includes(this.location);
+        this.effect.duration = this.duration;
+        this.effect.isConditional = !!properties.condition;
     }
 
     isValidTarget(target) { // eslint-disable-line no-unused-vars
@@ -80,7 +78,7 @@ class Effect {
     }
 
     checkCondition(stateChanged) {
-        if(!this.condition() || (this.duration === 'persistent' && this.source.isBlank())) {
+        if(!this.condition() || (this.duration === 'persistent' && (this.source.isBlank() || this.source.facedown))) {
             stateChanged = this.targets.length > 0 || stateChanged;
             this.cancel();
             return stateChanged;
@@ -97,9 +95,12 @@ class Effect {
             // Apply the effect to new targets
             _.each(newTargets, target => this.addTarget(target));
             return stateChanged || newTargets.length > 0;
-        } else if(this.targets.includes(this.match) && !this.isValidTarget(this.match)) {
-            this.cancel();
-            return true;
+        } else if(this.targets.includes(this.match)) {
+            if(!this.isValidTarget(this.match)) {
+                this.cancel();
+                return true;
+            }
+            return this.effect.recalculate(this.match) || stateChanged;
         } else if(!this.targets.includes(this.match) && this.isValidTarget(this.match)) {
             this.addTarget(this.match);
             return true;

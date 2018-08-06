@@ -2,7 +2,7 @@ const GameAction = require('./GameAction');
 
 class JointGameAction extends GameAction {
     constructor(gameActions) {
-        super();
+        super({ gameActions: gameActions });
         this.gameActions = gameActions;
     }
 
@@ -17,9 +17,15 @@ class JointGameAction extends GameAction {
         }
     }
 
-    setTarget(target, context) {
+    setDefaultTarget(func) {
         for(let gameAction of this.gameActions) {
-            gameAction.setTarget(target, context);
+            gameAction.setDefaultTarget(func);
+        }
+    }
+
+    setTarget(target) {
+        for(let gameAction of this.gameActions) {
+            gameAction.setTarget(target);
         }
     }
 

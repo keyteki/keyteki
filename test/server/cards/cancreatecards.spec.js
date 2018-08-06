@@ -15,7 +15,7 @@ const eventNames = [
     'onDefendersDeclared',
     'afterConflict',
     'onBreakProvince',
-    'onResolveRingEffects',
+    'onResolveConflictRings',
     'onClaimRing',
     'onReturnHome',
     'onParticipantsReturnHome',
@@ -50,13 +50,18 @@ const eventNames = [
     'onSendCharactersHome',
     'onCardPlayed',
     'onDeckShuffled',
+    'afterDuel',
     'onDuelResolution',
     'onDynastyCardTurnedFaceup',
     'onTransferHonor',
-    'onFirstPassDuringDynasty'
+    'onPassDuringDynasty',
+    'onModifyHonor',
+    'onAbilityResolved',
+    'onResolveFateCost'
 ];
 
 const actionNames = [
+    'applyLastingEffect',
     'attach',
     'bow',
     'break',
@@ -105,7 +110,11 @@ const checkGameAction = function(gameAction) {
 };
 
 const mockContext = {
-    game: {},
+    game: {
+        currentConflict: {
+            getCharacters: () => []
+        }
+    },
     player: {
         cardsInPlay: [],
         getNumberOfHoldingsInPlay: () => 1,
@@ -117,15 +126,23 @@ const mockContext = {
             }
         }
     },
-    source: {},
+    source: {
+        getMilitarySkill: () => 1
+    },
     ability: {},
     event: {
-        conflict: { attackingPlayer: {} }
+        conflict: { attackingPlayer: {} },
+        context: {}
     },
     targetAbility: {},
+    selects: {
+        effect: { choice: '' },
+        select: { choice: '' }
+    },
     select: { toLowerCase: () => 'abc' },
     costs: {
-        discardCard: { getCost: () => 1 }
+        discardCard: { getCost: () => 1 },
+        returnRing: []
     },
     targets: { cardToShuffle: {} },
     target: {
@@ -136,6 +153,13 @@ const mockContext = {
 describe('All Cards:', function() {
     beforeEach(function() {
         this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'addPower', 'addMessage', 'addEffect']);
+        this.gameSpy.rings = {
+            air: {},
+            earth: {},
+            fire: {},
+            void: {},
+            water: {}
+        };
         this.playerSpy = jasmine.createSpyObj('player', ['registerAbilityMax']);
         this.playerSpy.game = this.gameSpy;
     });
@@ -421,8 +445,8 @@ describe('All Cards:', function() {
             it('should have a legal location as its location', function() {
                 expect(_.all(this.calls, args => (
                     _.isUndefined(args.location) ||
-                    ['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile', 'conflict discard pile', 'hand'].includes(args.location) ||
-                    _.every(args.location, location => ['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile', 'conflict discard pile', 'hand'].includes(location))
+                    ['province', 'dynasty discard pile', 'conflict discard pile', 'hand'].includes(args.location) ||
+                    _.every(args.location, location => ['province', 'dynasty discard pile', 'conflict discard pile', 'hand'].includes(location))
                 ))).toBe(true);
             });
         });

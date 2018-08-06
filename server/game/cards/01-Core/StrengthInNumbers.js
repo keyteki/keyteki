@@ -7,7 +7,9 @@ class StrengthInNumbers extends DrawCard {
             condition: context => context.player.isAttackingPlayer(),
             target: {
                 cardType: 'character',
-                cardCondition: card => card.isDefending() && card.getGlory() <= this.game.currentConflict.attackers.length,
+                cardCondition: card =>
+                    card.isDefending() &&
+                    card.getGlory() <= this.game.currentConflict.getNumberOfParticipantsFor('attacker'),
                 gameAction: ability.actions.sendHome()
             },
             cannotBeMirrored: true

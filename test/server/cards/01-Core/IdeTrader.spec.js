@@ -98,5 +98,33 @@ describe('Ide Trader', function() {
                 expect(this.player1).toBeAbleToSelect(this.spyglass);
             });
         });
+
+        describe('Ide Trader/Charge interaction', function() {
+            beforeEach(function() {
+                this.setupTest({
+                    phase: 'conflict',
+                    player1: {
+                        inPlay: ['seppun-guardsman'],
+                        dynastyDeck: ['ide-trader'],
+                        hand: ['charge']
+                    }
+                });
+                this.ideTrader = this.player1.placeCardInProvince('ide-trader');
+                this.noMoreActions();
+                this.initiateConflict({
+                    attackers: ['seppun-guardsman'],
+                    defenders: []
+                });
+                this.player2.pass();
+            });
+
+            it('should not trigger Ide Trader when it is Charged', function() {
+                this.player1.clickCard('charge');
+                this.player1.clickCard(this.ideTrader);
+                expect(this.ideTrader.inConflict).toBe(true);
+                expect(this.player1).not.toHavePrompt('Triggered Abilities');
+                expect(this.player1).not.toBeAbleToSelect(this.ideTrader);
+            });
+        });
     });
 });

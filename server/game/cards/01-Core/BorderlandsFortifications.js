@@ -9,7 +9,8 @@ class BorderlandsFortifications extends DrawCard {
                 controller: 'self',
                 cardCondition: card => card.isDynasty
             },
-            effect: 'swap it with {0}',
+            effect: 'swap it with {1}',
+            effectArgs: context => context.target.facedown ? 'a facedown card' : context.target,
             handler: context => {
                 let location = context.source.location;
                 context.player.removeCardFromPile(context.source);

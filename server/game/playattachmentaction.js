@@ -1,5 +1,4 @@
 const BaseAction = require('./BaseAction');
-const Costs = require('./costs.js');
 const AttachAction = require('./GameActions/AttachAction');
 
 class PlayAttachmentAction extends BaseAction {
@@ -11,14 +10,14 @@ class PlayAttachmentAction extends BaseAction {
         this.title = 'Play this attachment';
     }
 
-    meetsRequirements(context = this.createContext()) {
-        if(context.game.currentPhase === 'dynasty') {
+    meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
+        if(!ignoredRequirements.includes('phase') && context.game.currentPhase === 'dynasty') {
             return 'phase';
         }
-        if(!context.player.isCardInPlayableLocation(context.source, 'play')) {
+        if(!ignoredRequirements.includes('location') && !context.player.isCardInPlayableLocation(context.source, 'play')) {
             return 'location';
         }
-        if(!context.source.canPlay(context)) {
+        if(!ignoredRequirements.includes('cannotTrigger') && !context.source.canPlay(context)) {
             return 'cannotTrigger';
         }
         if(context.source.anotherUniqueInPlay(context.player)) {
@@ -35,7 +34,8 @@ class PlayAttachmentAction extends BaseAction {
         let cardPlayedEvent = context.game.getEvent('onCardPlayed', {
             player: context.player,
             card: context.source,
-            originalLocation: context.source.location
+            originalLocation: context.source.location,
+            playType: 'attachment'
         });
         context.game.openEventWindow([new AttachAction({ attachment: context.source }).getEvent(context.target, context), cardPlayedEvent]);
     }

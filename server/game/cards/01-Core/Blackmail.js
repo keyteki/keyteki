@@ -8,7 +8,7 @@ class Blackmail extends DrawCard {
             target: {
                 cardType: 'character',
                 controller: 'opponent',
-                cardCondition: (card, context) => !card.anotherUniqueInPlay(context.player) && card.getCost() < 3,
+                cardCondition: (card, context) => !card.anotherUniqueInPlay(context.player) && card.costLessThan(3),
                 gameAction: ability.actions.cardLastingEffect(context => ({
                     effect: ability.effects.takeControl(context.player)
                 }))
@@ -18,7 +18,7 @@ class Blackmail extends DrawCard {
     }
 
     canPlay(context) {
-        if(this.controller.opponent && this.controller.honor < this.controller.opponent.honor) {
+        if(context.player.opponent && context.player.honor < context.player.opponent.honor) {
             return super.canPlay(context);
         }
         return false;

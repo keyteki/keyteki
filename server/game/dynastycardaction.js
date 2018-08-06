@@ -1,6 +1,5 @@
 const BaseAction = require('./BaseAction');
-const Costs = require('./costs.js');
-const GameActions = require('./GameActions/GameActions');
+const GameActions = require('./GameActions');
 
 class DynastyCardAction extends BaseAction {
     constructor(card) {
@@ -12,18 +11,19 @@ class DynastyCardAction extends BaseAction {
         this.title = 'Play this character';
     }
 
-    meetsRequirements(context = this.createContext()) {
+    meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
         this.originalLocation = this.card.location;
-        if(context.game.currentPhase !== 'dynasty') {
+        if(!ignoredRequirements.includes('facedown') && this.card.facedown) {
+            return 'facedown';
+        } else if(!ignoredRequirements.includes('player') && context.player !== this.card.controller) {
+            return 'player';
+        } else if(!ignoredRequirements.includes('phase') && context.game.currentPhase !== 'dynasty') {
             return 'phase';
-        }
-        if(!context.player.isCardInPlayableLocation(this.card, 'dynasty')) {
+        } else if(!ignoredRequirements.includes('location') && !context.player.isCardInPlayableLocation(this.card, 'dynasty')) {
             return 'location';
-        }
-        if(!this.card.canPlay(context)) {
+        } else if(!ignoredRequirements.includes('cannotTrigger') && !this.card.canPlay(context)) {
             return 'cannotTrigger';
-        }
-        if(this.card.anotherUniqueInPlay(context.player)) {
+        } else if(this.card.anotherUniqueInPlay(context.player)) {
             return 'unique';
         }
         return super.meetsRequirements(context);
@@ -35,7 +35,12 @@ class DynastyCardAction extends BaseAction {
 
     executeHandler(context) {
         let enterPlayEvent = GameActions.putIntoPlay({ fate: context.chooseFate }).getEvent(context.source, context);
-        let cardPlayedEvent = context.game.getEvent('onCardPlayed', { player: context.player, card: context.source, originalLocation: context.source.location });
+        let cardPlayedEvent = context.game.getEvent('onCardPlayed', {
+            player: context.player,
+            card: context.source,
+            originalLocation: context.source.location,
+            playType: 'dynasty'
+        });
         context.game.openEventWindow([enterPlayEvent, cardPlayedEvent]);
     }
 

@@ -8,7 +8,7 @@ class KeeperInitiate extends DrawCard {
                 onClaimRing: (event, context) => event.player === context.player && context.player.role &&
                                                  event.conflict.elements.some(element => context.player.role.hasTrait(element))
             },
-            location: ['province 1', 'province 2', 'province 3', 'province 4', 'dynasty discard pile'],
+            location: ['province', 'dynasty discard pile'],
             gameAction: ability.actions.putIntoPlay(),
             then: {
                 gameAction: ability.actions.placeFate()

@@ -10,7 +10,7 @@ class TimeForWar extends DrawCard {
             targets: {
                 weapon: {
                     cardType: 'attachment',
-                    cardCondition: (card, context) => card.controller === context.player && card.getCost() <= 3 && card.hasTrait('weapon') &&
+                    cardCondition: (card, context) => card.controller === context.player && card.costLessThan(4) && card.hasTrait('weapon') &&
                                                       ['conflict discard pile', 'hand'].includes(card.location)
                 },
                 bushi: {

@@ -1,6 +1,5 @@
 const AbilityTargetAbility = require('./AbilityTargets/AbilityTargetAbility.js');
 const AbilityTargetCard = require('./AbilityTargets/AbilityTargetCard.js');
-const AbilityTargetRing = require('./AbilityTargets/AbilityTargetRing.js');
 const AbilityTargetSelect = require('./AbilityTargets/AbilityTargetSelect.js');
 /**
  * Base class representing an ability that can be done by the player. This
@@ -17,9 +16,6 @@ class BaseAbility {
      * Creates an ability.
      *
      * @param {Object} properties - An object with ability related properties.
-     * @param {Object|Array} [properties.cost] - optional property that specifies
-     * the cost for the ability. Can either be a cost object or an array of cost
-     * objects.
      * @param {Object} [properties.target] - optional property that specifies
      * the target of the ability.
      * @param {GameAction[]} [properties.gameAction] - optional array of game actions
@@ -30,26 +26,7 @@ class BaseAbility {
             this.gameAction = [this.gameAction];
         }
         this.buildTargets(properties);
-        this.cost = this.buildCost(properties.cost);
-        for(const cost of this.cost) {
-            if(cost.dependsOn) {
-                let dependsOnTarget = this.targets.find(target => target.name === cost.dependsOn);
-                dependsOnTarget.dependentCost = cost;
-            }
-        }
         this.nonDependentTargets = this.targets.filter(target => !target.properties.dependsOn);
-    }
-
-    buildCost(cost) {
-        if(!cost) {
-            return [];
-        }
-
-        if(!Array.isArray(cost)) {
-            return [cost];
-        }
-
-        return cost;
     }
 
     buildTargets(properties) {
@@ -73,8 +50,6 @@ class BaseAbility {
         }
         if(properties.mode === 'select') {
             return new AbilityTargetSelect(name, properties, this);
-        } else if(properties.mode === 'ring') {
-            return new AbilityTargetRing(name, properties, this);
         } else if(properties.mode === 'ability') {
             return new AbilityTargetAbility(name, properties, this);
         }
@@ -89,8 +64,11 @@ class BaseAbility {
         // check legal targets exist
         // check costs can be paid
         // check for potential to change game state
-        if(!this.canPayCosts(context)) {
-            return 'cost';
+        for(let target of this.targets) {
+            target.resetGameActions();
+        }
+        for(let action of this.gameAction) {
+            action.reset();
         }
         if(this.targets.length === 0) {
             if(this.gameAction.length > 0 && !this.gameAction.some(gameAction => gameAction.hasLegalTarget(context))) {
@@ -99,48 +77,6 @@ class BaseAbility {
             return '';
         }
         return this.canResolveTargets(context) ? '' : 'target';
-    }
-
-    /**
-     * Return whether all costs are capable of being paid for the ability.
-     *
-     * @returns {Boolean}
-     */
-    canPayCosts(context) {
-        let contextCopy = context.copy({ stage: 'costs' });
-        return this.cost.every(cost => cost.canPay(contextCopy));
-    }
-
-    /**
-     * Resolves all costs for the ability prior to payment. Some cost objects
-     * have a `resolve` method in order to prompt the user to make a choice,
-     * such as choosing a card to kneel. Consumers of this method should wait
-     * until all costs have a `resolved` value of `true` before proceeding.
-     *
-     * @returns {Array} An array of cost resolution results.
-     */
-    resolveCosts(context, results) {
-        for(let cost of this.cost.filter(cost => cost.resolve)) {
-            context.game.queueSimpleStep(() => {
-                if(!results.cancelled) {
-                    cost.resolve(context, results);
-                }
-            });
-        }
-    }
-
-    /**
-     * Pays all costs for the ability simultaneously.
-     */
-    payCosts(context) {
-        return this.cost.reduce((array, cost) => {
-            if(cost.payEvent) {
-                return array.concat(cost.payEvent(context));
-            } else if(cost.pay) {
-                return array.concat(context.game.getEvent('payCost', {}, () => cost.pay(context)));
-            }
-            return array;
-        }, []);
     }
 
     /**
@@ -157,7 +93,6 @@ class BaseAbility {
      */
     resolveTargets(context) {
         let targetResults = {
-            canIgnoreAllCosts: context.stage === 'pretarget' ? this.cost.every(cost => cost.canIgnoreForTargeting) : false,
             cancelled: false,
             payCostsFirst: false,
             delayTargeting: null

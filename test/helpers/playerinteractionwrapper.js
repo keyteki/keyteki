@@ -1,6 +1,7 @@
 const _ = require('underscore');
 
 const { matchCardByNameAndPack } = require('./cardutil.js');
+const { detectBinary } = require('../../server/util');
 
 class PlayerInteractionWrapper {
     constructor(game, player) {
@@ -405,6 +406,9 @@ class PlayerInteractionWrapper {
             this.player.moveCard(card, location);
         }
         card.facedown = false;
+        if(this.game.currentPhase !== 'setup') {
+            this.game.checkGameState(true);
+        }
         return card;
     }
 
@@ -442,6 +446,7 @@ class PlayerInteractionWrapper {
 
         this.game.menuButton(this.player.name, promptButton.arg, promptButton.uuid, promptButton.method);
         this.game.continue();
+        this.checkUnserializableGameState();
     }
 
     clickCard(card, location = 'any', side) {
@@ -450,12 +455,14 @@ class PlayerInteractionWrapper {
         }
         this.game.cardClicked(this.player.name, card.uuid);
         this.game.continue();
+        this.checkUnserializableGameState();
         return card;
     }
 
     clickRing(element) {
         this.game.ringClicked(this.player.name, element);
         this.game.continue();
+        this.checkUnserializableGameState();
     }
 
     clickMenu(card, menuText) {
@@ -471,11 +478,13 @@ class PlayerInteractionWrapper {
 
         this.game.menuItemClick(this.player.name, card.uuid, items[0]);
         this.game.continue();
+        this.checkUnserializableGameState();
     }
 
     dragCard(card, targetLocation) {
         this.game.drop(this.player.name, card.uuid, card.location, targetLocation);
         this.game.continue();
+        this.checkUnserializableGameState();
     }
 
     /**
@@ -506,6 +515,7 @@ class PlayerInteractionWrapper {
             throw new Error(`${element} is not a valid ring selection`);
         }
         this.game.rings[element].claimRing(this.player);
+        this.game.checkGameState(true);
         this.game.continue();
     }
     /**
@@ -540,7 +550,7 @@ class PlayerInteractionWrapper {
         }
         card = this.findCardByName(card, 'province deck');
         this.clickCard(card);
-        //this.clickPrompt('Done');
+        this.clickPrompt('Done');
     }
 
     /**
@@ -710,6 +720,15 @@ class PlayerInteractionWrapper {
             }
             return !card.hasDash(type);
         });
+    }
+
+    checkUnserializableGameState() {
+        let state = this.game.getState(this.player.name);
+        let results = detectBinary(state);
+
+        if(results.length !== 0) {
+            throw new Error('Unable to serialize game state back to client:\n' + JSON.stringify(results));
+        }
     }
 }
 

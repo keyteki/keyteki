@@ -5,7 +5,11 @@ class GuestOfHonor extends DrawCard {
         this.persistentEffect({
             condition: () => this.isParticipating(),
             targetController: 'opponent',
-            effect: ability.effects.playerCannot('play', context => context.source.type === 'event')
+            effect: ability.effects.playerCannot({
+                cannot: 'play',
+                restricts: 'events',
+                source: this
+            })
         });
     }
 }

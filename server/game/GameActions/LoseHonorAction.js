@@ -3,6 +3,7 @@ const PlayerAction = require('./PlayerAction');
 class LoseHonorAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = 1;
+        this.dueToUnopposed = false;
     }
 
     setup() {
@@ -17,7 +18,7 @@ class LoseHonorAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent('onModifyHonor', { player: player, amount: -this.amount, context: context }, event => player.modifyHonor(event.amount));
+        return super.createEvent('onModifyHonor', { player: player, amount: -this.amount, dueToUnopposed: this.dueToUnopposed, context: context }, event => player.modifyHonor(event.amount));
     }
 }
 

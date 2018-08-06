@@ -26,6 +26,10 @@ class Community extends React.Component {
                     <h3>The Lotus Pavilion</h3>
                     <p>Link: <a href='http://thelotuspavilion.com/' target='_blank'>The Lotus Pavilion</a></p>
                     <p>Browser-based tournament software that originated for AGOT 2.0. Has an excellent pedigree.</p>
+
+                    <h3>The Ringteki Dev Discord</h3>
+                    <p>Link: <a href='https://discord.gg/tMzhyND' target='_blank'>Ringteki Discord</a></p>
+                    <p>If you're interested in helping develop Ringteki, or you have a bug to report, feel free to contact us here.</p>
                 </div>
             </div>
         );

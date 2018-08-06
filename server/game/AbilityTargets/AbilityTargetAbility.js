@@ -27,11 +27,17 @@ class AbilityTargetAbility {
                        properties.gameAction.some(gameAction => gameAction.hasLegalTarget(contextCopy));
             });
         };
-        return CardSelector.for(Object.assign({}, properties, { cardCondition: cardCondition}));
+        return CardSelector.for(Object.assign({}, properties, { cardCondition: cardCondition, targets: false }));
     }
 
     canResolve(context) {
         return !!this.properties.dependsOn || this.hasLegalTarget(context);
+    }
+
+    resetGameActions() {
+        for(let action of this.properties.gameAction) {
+            action.reset();
+        }
     }
 
     hasLegalTarget(context) {

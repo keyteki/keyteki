@@ -164,7 +164,7 @@ class InitiateConflictPrompt extends UiPrompt {
             if(!this.conflict.conflictProvince || card === this.conflict.conflictProvince) {
                 return true;
             }
-        } else if(card.type === 'character') {
+        } else if(card.type === 'character' && card.location === 'play area') {
             if(card.controller === this.choosingPlayer) {
                 if(card.canDeclareAsAttacker(this.conflict.conflictType)) {
                     return true;

@@ -107,7 +107,7 @@ class Province extends React.Component {
                         key={ card.uuid }
                         onMouseOver={ this.props.onMouseOver }
                         onMouseOut={ this.props.onMouseOut }
-                        disableMouseOver={ card.facedown }
+                        disableMouseOver={ card.facedown && !card.id }
                         onClick={ this.props.onCardClick }
                         onMenuItemClick={ this.props.onMenuItemClick }
                         onDragDrop={ this.props.onDragDrop } size={ this.props.size } />);

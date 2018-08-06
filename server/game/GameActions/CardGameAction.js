@@ -15,9 +15,13 @@ class CardGameAction extends GameAction {
     hasLegalTarget(context) {
         let result = super.hasLegalTarget(context);
         if(this.promptForSelect) {
-            return this.getSelector().hasEnoughTargets(context);
-        } else if(this.promptWithHandlerMenu) {
-            return this.promptWithHandlerMenu.cards.some(card => this.canAffect(card, context));
+            let contextCopy = context.copy();
+            contextCopy.stage = 'effect';
+            return this.getSelector().hasEnoughTargets(contextCopy);
+        } else if(this.promptWithHandlerMenu && !this.promptWithHandlerMenu.customHandler) {
+            let contextCopy = context.copy();
+            contextCopy.stage = 'effect';
+            return this.promptWithHandlerMenu.cards.some(card => this.canAffect(card, contextCopy));
         }
         return result;
     }
@@ -32,8 +36,8 @@ class CardGameAction extends GameAction {
         super.preEventHandler(context);
         if(this.promptForSelect) {
             let selector = this.getSelector();
+            this.target = [];
             if(!selector.hasEnoughTargets(context)) {
-                this.target = [];
                 return;
             }
             let defaultProperties = {
@@ -41,9 +45,16 @@ class CardGameAction extends GameAction {
                 context: context,
                 selector: selector,
                 onSelect: (player, cards) => {
-                    this.setTarget(cards, context);
+                    this.setTarget(cards);
                     if(this.promptForSelect.message) {
-                        context.game.addMessage(this.promptForSelect.message, player, context.source, cards);
+                        let messageArgs = this.promptForSelect.messageArgs || [];
+                        if(typeof messageArgs === 'function') {
+                            messageArgs = messageArgs(cards);
+                        }
+                        if(!Array.isArray(messageArgs)) {
+                            messageArgs = [messageArgs];
+                        }
+                        context.game.addMessage(this.promptForSelect.message, ...messageArgs);
                     }
                     return true;
                 }
@@ -52,18 +63,23 @@ class CardGameAction extends GameAction {
             context.game.promptForSelect(properties.player, properties);
         } else if(this.promptWithHandlerMenu) {
             let properties = this.promptWithHandlerMenu;
-            properties.cards = properties.cards.filter(card => this.canAffect(card, context));
-            if(properties.cards.length === 0) {
+            if(!properties.customHandler) {
+                properties.cards = properties.cards.filter(card => this.canAffect(card, context));
                 this.target = [];
+            }
+            if(properties.cards.length === 0) {
                 return;
             }
             if(!properties.player) {
                 properties.player = context.player;
             }
+            if(properties.customHandler) {
+                properties.cardHandler = card => properties.customHandler(card, this);
+            }
             let defaultProperties = {
                 context: context,
                 cardHandler: card => {
-                    this.setTarget(card, context);
+                    this.setTarget(card);
                     if(properties.message) {
                         context.game.addMessage(properties.message, properties.player, context.source, card);
                     }

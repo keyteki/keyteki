@@ -55,6 +55,10 @@ class EffectSource extends GameObject {
         this.addEffectToEngine(Object.assign({ duration: 'custom', location: 'any' }, properties));
     }
 
+    roundDurationEffect(properties) {
+        this.addEffectToEngine(properties);
+    }
+
     /**
      * Applies a delayed effect
      */
@@ -78,15 +82,20 @@ class EffectSource extends GameObject {
      * @param {Object} properties - properties for the effect - see Effects/Effect.js
      */
     addEffectToEngine(properties) {
-        let effectFactory = properties.effect;
+        let effect = properties.effect;
         properties = _.omit(properties, 'effect');
-        if(Array.isArray(effectFactory)) {
-            for(const factory of effectFactory) {
-                this.game.effectEngine.add(factory(this.game, this, properties));
-            }
-        } else {
-            this.game.effectEngine.add(effectFactory(this.game, this, properties));
+        if(Array.isArray(effect)) {
+            return effect.map(factory => this.game.effectEngine.add(factory(this.game, this, properties)));
         }
+        return [this.game.effectEngine.add(effect(this.game, this, properties))];
+    }
+
+    removeEffectFromEngine(effectArray) {
+        this.game.effectEngine.unapplyAndRemove(effect => effectArray.includes(effect));
+    }
+
+    removeLastingEffects() {
+        this.game.effectEngine.removeLastingEffects(this);
     }
 }
 

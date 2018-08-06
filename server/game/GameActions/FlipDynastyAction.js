@@ -4,7 +4,8 @@ class FlipDynastyAction extends CardGameAction {
     setup() {
         this.name = 'reveal';
         this.targetType = ['character', 'holding'];
-        this.effectMsg = 'reveal {0}';
+        this.effectMsg = 'reveal the facedown card in {1}';
+        this.effectArgs = () => this.target[0].location;
     }
 
     canAffect(card, context) {
@@ -15,7 +16,10 @@ class FlipDynastyAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onDynastyCardTurnedFaceup', { card: card, context: context }, () => card.facedown = false);
+        return super.createEvent('onDynastyCardTurnedFaceup', { card: card, context: context }, () => {
+            context.game.addMessage('{0} reveals {1}', context.source, card);
+            card.facedown = false;
+        });
     }
 }
 

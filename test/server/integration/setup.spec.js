@@ -55,15 +55,54 @@ describe('setup phase', function() {
                 expect(this.player2.player.strongholdProvince.first().isStronghold).toBe(true);
             });
 
-            it('should present both players with a prompt to set up provinces', function() {
+            it('should present both players with a prompt to choose their stronghold province', function() {
                 expect(this.player1.currentPrompt().menuTitle).toBe('Select stronghold province');
                 expect(this.player2.currentPrompt().menuTitle).toBe('Select stronghold province');
             });
 
-            it('should allow proceeding once all provinces have been set up', function() {
+            it('should prompt players to choose their province positions', function() {
                 let strongholdProvince = this.player1.player.provinceDeck.value()[0];
                 this.player1.clickCard(strongholdProvince);
-                expect(this.player1.currentPrompt().menuTitle).toBe('Waiting for opponent to finish selecting a stronghold province');
+                expect(this.player1.currentPrompt().menuTitle).toBe('Choose province order, or press Done to place them at random');
+            });
+
+            it('should place provinces at random if the player clicks done', function() {
+                let strongholdProvince = this.player1.player.provinceDeck.value()[0];
+                this.player1.clickCard(strongholdProvince);
+                this.player1.clickPrompt('Done');
+                expect(this.player1.currentPrompt().menuTitle).toBe('Waiting for opponent to finish selecting provinces');
+                expect(strongholdProvince.location).toBe('stronghold province');
+                expect(this.player1.player.provinceDeck.size()).toBe(0);
+            });
+
+            it('should allow the player to change their stronghold province', function() {
+                let strongholdProvince = this.player1.player.provinceDeck.value()[0];
+                this.player1.clickCard(this.player1.player.provinceDeck.value()[1]);
+                expect(this.player1).toHavePrompt('Choose province order, or press Done to place them at random');
+                this.player1.clickPrompt('Change stronghold province');
+                expect(this.player1).toHavePrompt('Select stronghold province');
+                this.player1.clickCard(strongholdProvince);
+                this.player1.clickPrompt('Done');
+                expect(this.player1.currentPrompt().menuTitle).toBe('Waiting for opponent to finish selecting provinces');
+                expect(strongholdProvince.location).toBe('stronghold province');
+                expect(this.player1.player.provinceDeck.size()).toBe(0);
+            });
+
+            it('should allow players to place provinces in an order of their choice', function() {
+                let strongholdProvince = this.player1.player.provinceDeck.value()[0];
+                this.player1.clickCard(strongholdProvince);
+                expect(this.player1).toHavePrompt('Choose province order, or press Done to place them at random');
+                let provinces = this.player1.player.provinceDeck.value();
+                for(let i = 1; i < 5; i++) {
+                    this.player1.clickCard(provinces[i]);
+                }
+                this.player1.clickPrompt('Done');
+                for(let i = 1; i < 5; i++) {
+                    expect(provinces[i].location).toBe('province ' + i.toString());
+                }
+                expect(this.player1.currentPrompt().menuTitle).toBe('Waiting for opponent to finish selecting provinces');
+                expect(strongholdProvince.location).toBe('stronghold province');
+                expect(this.player1.player.provinceDeck.size()).toBe(0);
             });
         });
 

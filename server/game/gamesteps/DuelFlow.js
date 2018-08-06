@@ -44,6 +44,7 @@ class DuelFlow extends BaseStepWithPipeline {
         if(!this.duel.winner) {
             this.game.addMessage('The duel ends in a draw');
         }
+        this.game.raiseEvent('afterDuel', { duel: this.duel, winner: this.duel.winner, loser: this.duel.loser });
     }
 
     applyDuelResults() {

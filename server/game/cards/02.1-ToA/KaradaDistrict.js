@@ -11,7 +11,7 @@ class KaradaDistrict extends DrawCard {
             },
             effect: 'take control of {0}',
             handler: context => {
-                if(context.player.cardsInPlay.any(card => card.type === 'character' && ability.actions.attach({ attachment: context.target }).canAffect(card, context))) {
+                if(context.target.controller === context.player.opponent && context.player.cardsInPlay.any(card => card.type === 'character' && ability.actions.attach({ attachment: context.target }).canAffect(card, context))) {
                     this.game.promptForSelect(context.player, {
                         activePromptTitle: 'Choose a character to attach ' + context.target.name + ' to',
                         context: context,
@@ -25,7 +25,7 @@ class KaradaDistrict extends DrawCard {
                         }
                     });
                 } else {
-                    this.game.addMessage('{0} cannot attach {1} to anyone so it is discarded', context.player, context.target);
+                    this.game.addMessage(context.target.controller === context.player.opponent ? '{0} cannot attach {1} to anyone so it is discarded' : '{0} already owns {1} so it is discarded', context.player, context.target);
                     this.game.applyGameAction(context, { discardFromPlay: context.target });
                 }
             }

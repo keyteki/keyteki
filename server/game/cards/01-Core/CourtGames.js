@@ -14,8 +14,10 @@ class CourtGames extends DrawCard {
                         promptForSelect: {
                             cardType: 'character',
                             controller: 'self',
-                            cardCondition: card => card.isParticipating() && card.allowGameAction('target', context),
-                            message: '{0} chooses to honor {2}'
+                            targets: true,
+                            cardCondition: card => card.isParticipating(),
+                            message: '{0} chooses to honor {1}',
+                            messageArgs: card => [context.player, card]
                         }
                     })),
                     'Dishonor an opposing character': ability.actions.dishonor(context => ({
@@ -23,8 +25,10 @@ class CourtGames extends DrawCard {
                             player: context.player.opponent,
                             cardType: 'character',
                             controller: 'opponent',
-                            cardCondition: card => card.isParticipating() && card.allowGameAction('target', context),
-                            message: '{0} chooses to dishonor {2}'
+                            targets: true,
+                            cardCondition: card => card.isParticipating(),
+                            message: '{0} chooses to dishonor {1}',
+                            messageArgs: card => [context.player.opponent, card]
                         }
                     }))
                 }

@@ -13,7 +13,6 @@ class SetupPhase extends Phase {
             new SimpleStep(game, () => this.chooseFirstPlayer()),
             new SimpleStep(game, () => this.attachStronghold()),
             new SetupProvincesPrompt(game),
-            new SimpleStep(game, () => this.placeProvinces()),
             new SimpleStep(game, () => this.fillProvinces()),
             new MulliganDynastyPrompt(game),
             new SimpleStep(game, () => this.drawStartingHands()),
@@ -58,24 +57,6 @@ class SetupPhase extends Phase {
             if(player.role) {
                 player.role.moveTo('role');
             }
-        });
-    }
-
-    placeProvinces() {
-        _.each(this.game.getPlayers(), player => {
-            let provinceIterator = 1;
-            for(let card of player.provinceDeck.shuffle()) {
-                let destination;
-                if(card.selected) {
-                    destination = 'stronghold province';
-                    card.selected = false;
-                } else {
-                    destination = 'province ' + provinceIterator;
-                    provinceIterator++;
-                }
-                player.moveCard(card, destination);
-            }
-            player.hideProvinceDeck = true;
         });
     }
 

@@ -391,7 +391,6 @@ export class InnerGameBoard extends React.Component {
                             onCardClick={ this.onCardClick }
                             onDragDrop={ this.onDragDrop }
                             disableMenu={ this.state.spectating }
-                            closeOnClick
                             size={ this.props.user.settings.cardSize } />
                     </div>
                 }

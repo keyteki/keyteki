@@ -8,14 +8,16 @@ class ALegionOfOne extends DrawCard {
             target: {
                 cardType: 'character',
                 controller: 'self',
-                cardCondition: (card, context) => card.isParticipating() && this.game.currentConflict.getCharacters(context.player).length === 1,
+                cardCondition: (card, context) =>
+                    card.isParticipating() &&
+                    this.game.currentConflict.getNumberOfParticipantsFor(context.player) === 1,
                 gameAction: ability.actions.cardLastingEffect({
                     effect: ability.effects.modifyMilitarySkill(3)
                 })
             },
             effect: 'give {0} +3/+0',
             then: context => {
-                if(context.isResolveAbility) {
+                if(context.secondResolution) {
                     return {
                         target: {
                             mode: 'select',
@@ -38,7 +40,7 @@ class ALegionOfOne extends DrawCard {
                     },
                     message: '{0} chooses {3}to remove a fate to resolve {1} again',
                     messageArgs: context => context.select === 'Done' ? 'not ' : '',
-                    then: { gameAction: ability.actions.resolveAbility({ ability: context.ability }) }
+                    then: { gameAction: ability.actions.resolveAbility({ ability: context.ability, secondResolution: true }) }
                 };
             }
         });

@@ -186,6 +186,7 @@ describe('InitateConflictPrompt: ', function() {
         describe('when the card is a character,', function () {
             beforeEach(function() {
                 this.cardSpy.type = 'character';
+                this.cardSpy.location = 'play area';
             });
 
             describe('if the character is controlled by this player,', function() {
@@ -363,6 +364,7 @@ describe('InitateConflictPrompt: ', function() {
         describe('when the card is an attachment,', function() {
             beforeEach(function() {
                 this.cardSpy.type === 'attachment';
+                this.cardSpy.location = 'play area';
             });
 
             it('should return false', function() {
@@ -379,6 +381,7 @@ describe('InitateConflictPrompt: ', function() {
             this.cardSpy = jasmine.createSpyObj('card', ['checkRestrictions']);
             this.conflictSpy.conflictProvince = this.cardSpy;
             this.attackerSpy = jasmine.createSpyObj('attacker', ['checkRestrictions']);
+            this.attackerSpy.location = 'play area';
             this.conflictSpy.attackers = [this.attackerSpy];
             this.prompt.menuCommand(this.playerSpy, 'done');
         });

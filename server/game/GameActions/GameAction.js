@@ -1,22 +1,26 @@
 const Event = require('../Events/Event.js');
 
 class GameAction {
-    constructor(propertyFactory = () => {}) {
-        this.target = [];
-        this.setDefaultProperties();
+    constructor(propertyFactory = {}) {
+        this.reset();
         if(typeof propertyFactory === 'function') {
             this.propertyFactory = propertyFactory;
         } else if(typeof propertyFactory !== 'object') {
             throw new Error('Game Actions should only be passed functions or objects');
         } else {
             this.applyProperties(propertyFactory);
-            this.propertyFactory = () => propertyFactory;
+            this.propertyFactory = context => propertyFactory; // eslint-disable-line no-unused-vars
         }
         this.getDefaultTargets = context => this.defaultTargets(context);
         this.setup();
     }
 
     setDefaultProperties() {
+    }
+
+    reset() {
+        this.target = [];
+        this.setDefaultProperties();
     }
 
     setup() {
@@ -36,19 +40,20 @@ class GameAction {
                 this[key] = value;
             }
         }
-        if(!Array.isArray(this.target)) {
-            this.target = [this.target];
-        }
+        this.setTarget(this.target);
         this.setup();
     }
 
-    setTarget(targetFunc, context) {
-        if(typeof targetFunc === 'function') {
-            this.getDefaultTargets = targetFunc;
-        } else if(targetFunc) {
-            this.getDefaultTargets = () => targetFunc;
+    setDefaultTarget(func) {
+        this.getDefaultTargets = func;
+    }
+
+    setTarget(target) {
+        if(Array.isArray(target)) {
+            this.target = target;
+        } else {
+            this.target = [target];
         }
-        return this.hasLegalTarget(context);
     }
 
     hasLegalTarget(context) {
@@ -61,16 +66,16 @@ class GameAction {
     }
 
     resolve(targets, context) {
-        this.getDefaultTargets = () => targets;
+        this.setDefaultTarget(() => targets);
         this.preEventHandler(context);
-        let window = context.game.openEventWindow([], false);
+        let eventWindow;
         context.game.queueSimpleStep(() => {
             for(let event of this.getEventArray(context)) {
-                window.addEvent(event);
+                eventWindow.addEvent(event);
             }
         });
-        context.game.queueStep(window);
-        return window;
+        eventWindow = context.game.openEventWindow([]);
+        return eventWindow;
     }
 
     canAffect(target, context) {

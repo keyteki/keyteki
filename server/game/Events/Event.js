@@ -14,6 +14,7 @@ class Event {
         };
         this.condition = (event) => true; // eslint-disable-line no-unused-vars
         this.order = 0;
+        this.isContingent = false;
 
         _.extend(this, params);
     }
@@ -42,7 +43,7 @@ class Event {
     }
 
     checkCondition() {
-        if(this.cancelled || this.resolved) {
+        if(this.cancelled || this.resolved || this.name === 'unnamedEvent') {
             return;
         }
         if(this.gameAction && !this.gameAction.checkEventCondition(this)) {

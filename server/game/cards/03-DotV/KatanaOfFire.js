@@ -8,14 +8,14 @@ class KatanaOfFire extends DrawCard {
     }
 
     canPlay(context) {
-        if(!this.controller.cardsInPlay.any(card => card.getType() === 'character' && card.hasTrait('shugenja'))) {
+        if(!context.player.cardsInPlay.any(card => card.getType() === 'character' && card.hasTrait('shugenja'))) {
             return false;
         }
 
         return super.canPlay(context);
     }
 
-    // Helper methods for clarity
+    // Helper methods for clarity - TODO: needs fixing to not use this.controller
     controllerHasFireRing() {
         return this.game.rings.fire.isConsideredClaimed(this.controller);
     }

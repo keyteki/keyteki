@@ -1,5 +1,4 @@
 const CardAbility = require('./CardAbility.js');
-const Costs = require('./costs.js');
 
 /**
  * Represents an action ability provided by card text.
@@ -33,28 +32,25 @@ class CardAction extends CardAbility {
         super(game, card, properties);
 
         this.abilityType = 'action';
-        this.phase = properties.phase || 'any';
+        this.phase = properties.phase || 'main';
         this.anyPlayer = properties.anyPlayer || false;
         this.condition = properties.condition;
-        this.doesNotTarget = properties.doesNotTarget;
-
-        this.cost.push(Costs.useInitiateAction());
     }
 
-    meetsRequirements(context = this.createContext()) {
-        if(!this.isInValidLocation(context)) {
+    meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
+        if(!ignoredRequirements.includes('location') && !this.isInValidLocation(context)) {
             return 'location';
         }
 
-        if(this.phase !== 'any' && this.phase !== this.game.currentPhase) {
+        if(!ignoredRequirements.includes('phase') && this.phase !== 'any' && this.phase !== this.game.currentPhase) {
             return 'phase';
         }
 
-        if(context.player !== this.card.controller && !this.anyPlayer) {
+        if(!ignoredRequirements.includes('player') && context.player !== this.card.controller && !this.anyPlayer) {
             return 'player';
         }
 
-        if(this.condition && !this.condition(context)) {
+        if(!ignoredRequirements.includes('condition') && this.condition && !this.condition(context)) {
             return 'condition';
         }
 

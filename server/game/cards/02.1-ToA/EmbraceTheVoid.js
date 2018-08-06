@@ -10,17 +10,19 @@ class EmbraceTheVoid extends DrawCard {
             effect: 'take the {1} fate being removed from {2}',
             effectArgs: context => [context.event.fate, context.source.parent],
             handler: context => {
-                context.event.window.addEvent(ability.actions.removeFate({
+                let newEvent = context.event.window.addEvent(ability.actions.removeFate({
                     recipient: context.player,
                     amount: context.event.fate
                 }).getEvent(context.source.parent, context));
+                context.event.getResult = () => newEvent.getResult();
+                newEvent.order = context.event.order;
                 context.cancel();
             }
         });
     }
 
     canPlay(context) {
-        if(!this.controller.cardsInPlay.any(card => card.getType() === 'character' && card.hasTrait('shugenja'))) {
+        if(!context.player.cardsInPlay.any(card => card.getType() === 'character' && card.hasTrait('shugenja'))) {
             return false;
         }
 

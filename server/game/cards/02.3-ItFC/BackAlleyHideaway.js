@@ -2,7 +2,7 @@ const _ = require('underscore');
 
 const DrawCard = require('../../drawcard.js');
 const DynastyCardAction = require('../../dynastycardaction.js');
-const GameActions = require('../../GameActions/GameActions');
+const GameActions = require('../../GameActions');
 const ThenAbility = require('../../ThenAbility');
 
 const backAlleyPersistentEffect = {
@@ -58,9 +58,15 @@ class BackAlleyPlayCharacterAction extends DynastyCardAction {
         this.backAlleyCard.removeAttachment(context.source);
         context.source.parent = null;
         let putIntoPlayEvent = GameActions.putIntoPlay({ fate: context.chooseFate }).getEvent(context.source, context);
-        let cardPlayedEvent = context.game.getEvent('onCardPlayed', { player: context.player, card: context.source, originalLocation: 'backalley hideaway' });
+        let cardPlayedEvent = context.game.getEvent('onCardPlayed', {
+            player: context.player,
+            card: context.source,
+            originalLocation: 'backalley hideaway',
+            playType: 'dynasty'
+        });
         let window = context.game.openEventWindow([putIntoPlayEvent, cardPlayedEvent]);
-        window.addThenAbility([putIntoPlayEvent], new ThenAbility(context.game, this.backAlleyCard, { gameAction: GameActions.sacrifice({ target: this.backAlleyCard }) }));
+        let thenAbility = new ThenAbility(context.game, this.backAlleyCard, { gameAction: GameActions.sacrifice({ target: this.backAlleyCard }) });
+        window.addThenAbility([putIntoPlayEvent], thenAbility, context);
     }
 
     isCardAbility() {
@@ -72,9 +78,6 @@ class BackAlleyHideaway extends DrawCard {
     setupCardAbilities(ability) {
         this.backAlleyActionLimit = ability.limit.perRound(1);
         this.persistentEffect({
-            location: 'any',
-            targetLocation: 'province',
-            condition: () => !this.facedown,
             match: this,
             effect: ability.effects.customDetachedCard(backAlleyPersistentEffect)
         });
@@ -84,7 +87,8 @@ class BackAlleyHideaway extends DrawCard {
                 onCardLeavesPlay: (event, context) => event.card.isFaction('scorpion') && event.card.type === 'character' &&
                                                       event.card.controller === context.player
             },
-            effect: 'move {0} into hiding',
+            effect: 'move {1} into hiding',
+            effectArgs: context => context.event.card,
             handler: context => context.event.replaceHandler(event => {
                 context.player.removeCardFromPile(event.card);
                 event.card.leavesPlay();

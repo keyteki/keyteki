@@ -8,7 +8,7 @@ class IsawaMasahiro extends DrawCard {
             cost: ability.costs.bowSelf(),
             target: {
                 cardType: 'character',
-                cardCondition: card => card.getCost() <= 2 && card.isParticipating(),
+                cardCondition: card => card.costLessThan(3) && card.isParticipating(),
                 gameAction: ability.actions.discardFromPlay()
             }
         });

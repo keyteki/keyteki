@@ -1,6 +1,6 @@
-describe('Feast of Famine', function() {
+describe('Feast or Famine', function() {
     integration(function() {
-        describe('Feast of Famine\'s ability', function() {
+        describe('Feast or Famine\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
                     phase: 'conflict',

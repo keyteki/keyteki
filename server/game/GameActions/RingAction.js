@@ -34,9 +34,16 @@ class RingAction extends GameAction {
                 context: context,
                 ringCondition: ring => this.canAffect(ring, context),
                 onSelect: (player, ring) => {
-                    this.setTarget(ring, context);
+                    this.setTarget(ring);
                     if(this.promptForSelect.message) {
-                        context.game.addMessage(properties.message, player, context.source, ring);
+                        let messageArgs = this.promptForSelect.messageArgs || [];
+                        if(typeof messageArgs === 'function') {
+                            messageArgs = messageArgs(ring);
+                        }
+                        if(!Array.isArray(messageArgs)) {
+                            messageArgs = [messageArgs];
+                        }
+                        context.game.addMessage(this.promptForSelect.message, ...messageArgs);
                     }
                     return true;
                 }

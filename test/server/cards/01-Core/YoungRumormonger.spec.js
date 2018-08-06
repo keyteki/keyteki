@@ -9,7 +9,7 @@ describe('Young Rumormonger', function() {
                         hand: ['spies-at-court']
                     },
                     player2: {
-                        hand: ['banzai', 'banzai', 'banzai']
+                        hand: ['banzai', 'charge']
                     }
                 });
                 this.noMoreActions();
@@ -35,6 +35,9 @@ describe('Young Rumormonger', function() {
                 expect(this.player2).toHavePrompt('Spies At Court');
                 expect(this.youngRumormonger.isDishonored).toBe(true);
                 expect(this.otomoCourtier.isDishonored).toBe(false);
+                expect(this.player2).toBeAbleToSelect('banzai');
+                this.player2.clickPrompt('Done');
+                expect(this.player2.hand.length).toBe(0);
             });
         });
 

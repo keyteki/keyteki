@@ -28,7 +28,6 @@ describe('Ambush', function() {
         describe('When playing Ambush', function() {
             beforeEach(function() {
                 this.player2.clickCard(this.ambush, 'hand');
-
             });
 
             it('should not allow the player to select more than 2 characters', function() {

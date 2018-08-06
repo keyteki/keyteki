@@ -5,8 +5,8 @@ class ShosuroMiyako extends DrawCard {
         this.reaction({
             title: 'Opponent discards or dishonors',
             when: {
-                onCardPlayed: (event, context) => event.player === context.player && event.card.type === 'character' &&
-                                                  event.originalLocation === 'hand' && context.player.opponent
+                onCardPlayed: (event, context) => event.player === context.player && event.playType === 'character' &&
+                                                  context.player.opponent
             },
             target: {
                 mode: 'select',
@@ -18,7 +18,8 @@ class ShosuroMiyako extends DrawCard {
                             activePromptTitle: 'Choose a character to dishonor',
                             player: context.player.opponent,
                             controller: 'opponent',
-                            message: '{0} chooses to dishonor {2}'
+                            message: '{0} chooses to dishonor {1}',
+                            messageArgs: card => [context.player.opponent, card]
                         }
                     }))
                 }

@@ -7,7 +7,7 @@ class KamiUnleashed extends DrawCard {
             cost: ability.costs.sacrificeSelf(),
             max: ability.limit.perConflict(1),
             condition: context => context.source.isAttacking(),
-            gameAction: ability.actions.resolveRing()
+            gameAction: ability.actions.resolveConflictRing()
         });
     }
 }

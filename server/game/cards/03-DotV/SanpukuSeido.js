@@ -3,7 +3,7 @@ const ProvinceCard = require('../../provincecard.js');
 class SanpukuSeido extends ProvinceCard {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            condition: () => this.game.currentConflict && this.game.currentConflict.conflictProvince === this && !this.facedown,
+            condition: () => this.isConflictProvince(),
             effect: ability.effects.changeConflictSkillFunction(card => card.getGlory())
         });
     }

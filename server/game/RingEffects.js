@@ -3,7 +3,6 @@ const EarthRingEffect = require('./Rings/EarthRingEffect');
 const FireRingEffect = require('./Rings/FireRingEffect');
 const VoidRingEffect = require('./Rings/VoidRingEffect');
 const WaterRingEffect = require('./Rings/WaterRingEffect');
-const AbilityContext = require('./AbilityContext');
 
 const ElementToEffect = {
     air: optional => new AirRingEffect(optional),
@@ -29,12 +28,10 @@ class RingEffects {
             throw new Error(`Unknown ring effect of ${element}`);
         }
 
-        return (new AbilityContext({
-            game: player.game,
-            player: player,
-            source: player.game.rings[element],
-            ability: factory(optional)
-        }));
+        let context = player.game.getFrameworkContext(player);
+        context.source = player.game.rings[element];
+        context.ability = factory(optional);
+        return context;
     }
 
     static getRingName(element) {

@@ -7,7 +7,8 @@ describe('TriggeredAbility', function () {
         //this.cardSpy.location = 'play area';
         //this.cardSpy.canTriggerAbilities.and.returnValue(true);
         //this.cardSpy.abilities = { reactions: [] };
-        //this.cardSpy.controller = { name: 'player1' };
+        this.player = { name: 'player1' };
+        this.cardSpy.controller = this.player;
         //this.limitSpy = jasmine.createSpyObj('limit', ['increment', 'isAtMax', 'registerEvents', 'unregisterEvents']);
 
         this.properties = {
@@ -28,7 +29,7 @@ describe('TriggeredAbility', function () {
                 this.event = { name: 'onSomething' };
                 this.window = jasmine.createSpyObj('window', ['addChoice']);
                 this.reaction.eventHandler(this.event, this.window);
-                this.context = this.reaction.createContext(this.event);
+                this.context = this.reaction.createContext(this.player, this.event);
             };
         });
 

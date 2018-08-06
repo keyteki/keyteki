@@ -17,7 +17,10 @@ const numPhases = 5;
 
 class GameFlowWrapper {
     constructor() {
-        var gameRouter = jasmine.createSpyObj('gameRouter', ['gameWon', 'playerLeft', 'reportError']);
+        var gameRouter = jasmine.createSpyObj('gameRouter', ['gameWon', 'playerLeft', 'handleError']);
+        gameRouter.handleError.and.callFake((game, error) => {
+            throw error;
+        });
         var details = {
             name: 'player1\'s game',
             id: 12345,
@@ -29,6 +32,7 @@ class GameFlowWrapper {
             ]
         };
         this.game = new Game(details, { router: gameRouter });
+        this.game.started = true;
 
         this.player1 = new PlayerInteractionWrapper(this.game, this.game.getPlayerByName('player1'));
         this.player2 = new PlayerInteractionWrapper(this.game, this.game.getPlayerByName('player2'));
@@ -261,6 +265,47 @@ class GameFlowWrapper {
         } else {
             promptedPlayer.clickPrompt('Second Player');
         }
+    }
+
+    /**
+     * Get an array of the latest chat messages
+     * @param {Number} numBack - number of messages back from the latest to retrieve
+     * @param {Boolean} reverse - reverse the retrieved elements so the array is easily read when printed
+     */
+    getChatLogs(numBack = 1, reverse = true) {
+        let results = [];
+        for(let i = 0; i < this.game.messages.length && i < numBack; i++) {
+            let result = '';
+            let chatMessage = this.game.messages[this.game.messages.length - i - 1];
+            for(let j = 0; j < chatMessage.message.length; j++) {
+                result += getChatString(chatMessage.message[j]);
+            }
+            results.push(result);
+        }
+
+        return reverse ? results.reverse() : results;
+
+        function getChatString(item) {
+            if(Array.isArray(item)) {
+                return item.map(arrItem => getChatString(arrItem)).join('');
+            } else if(item instanceof Object) {
+                if(item.name) {
+                    return item.name;
+                } else if(item.message) {
+                    return getChatString(item.message);
+                }
+            }
+            return item;
+        }
+    }
+
+    /**
+     * Get specified chat message or nothing
+     * @param {Number} numBack - How far back you want to get a message, defaults to the latest chat message
+     */
+    getChatLog(numBack = 0) {
+        let messages = this.getChatLogs(numBack + 1, false);
+        return messages.length && messages[numBack] ? messages[numBack] : '<No Message Found>';
     }
 }
 

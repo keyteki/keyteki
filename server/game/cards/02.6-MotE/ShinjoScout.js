@@ -5,7 +5,7 @@ class ShinjoScout extends DrawCard {
         this.reaction({
             title: 'Gain 1 fate',
             when: {
-                onFirstPassDuringDynasty: (event, context) => event.player === context.player
+                onPassDuringDynasty: (event, context) => event.player === context.player && event.firstToPass
             },
             gameAction: ability.actions.gainFate()
         });

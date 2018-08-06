@@ -2,7 +2,7 @@ const _ = require('underscore');
 const AbilityContext = require('../../AbilityContext');
 const BaseStepWithPipeline = require('../basestepwithpipeline.js');
 const CovertAbility = require('../../KeywordAbilities/CovertAbility');
-const GameActions = require('../../GameActions/GameActions');
+const GameActions = require('../../GameActions');
 const SimpleStep = require('../simplestep.js');
 const ConflictActionWindow = require('./conflictactionwindow.js');
 const InitiateConflictPrompt = require('./initiateconflictprompt.js');
@@ -73,6 +73,7 @@ class ConflictFlow extends BaseStepWithPipeline {
                             ring.flipConflictType();
                         }
                         this.conflict.ring = ring;
+                        ring.contested = true;
                         this.pipeline.queueStep(new InitiateConflictPrompt(this.game, this.conflict, this.conflict.attackingPlayer, false));
                         return true;
                     }
@@ -184,8 +185,8 @@ class ConflictFlow extends BaseStepWithPipeline {
             this.conflict.conflictProvince.inConflict = true;
             if(this.conflict.conflictProvince.facedown) {
                 events.push(this.game.getEvent('onProvinceRevealed', {
-                    conflict: this.conflict,
-                    province: this.conflict.conflictProvince
+                    card: this.conflict.conflictProvince,
+                    context: this.game.getFrameworkContext(this.conflict.attackingPlayer)
                 }, () => this.conflict.conflictProvince.facedown = false));
             }
         }
@@ -302,7 +303,7 @@ class ConflictFlow extends BaseStepWithPipeline {
 
         if(this.conflict.conflictUnopposed) {
             this.game.addMessage('{0} loses 1 honor for not defending the conflict', this.conflict.loser);
-            this.game.applyGameAction(null, { loseHonor: this.conflict.loser });
+            GameActions.loseHonor({ dueToUnopposed: true }).resolve(this.conflict.loser, this.game.getFrameworkContext(this.conflict.loser));
         }
     }
 
@@ -323,7 +324,7 @@ class ConflictFlow extends BaseStepWithPipeline {
         }
 
         if(this.conflict.isAttackerTheWinner()) {
-            GameActions.resolveRing().resolve(this.conflict.ring, this.game.getFrameworkContext(this.conflict.attackingPlayer));
+            GameActions.resolveConflictRing().resolve(this.conflict.ring, this.game.getFrameworkContext(this.conflict.attackingPlayer));
         }
     }
 
@@ -382,7 +383,7 @@ class ConflictFlow extends BaseStepWithPipeline {
 
         this.game.currentConflict = null;
         this.game.raiseEvent('onConflictFinished', { conflict: this.conflict });
-        this.resetCards();
+        this.game.queueSimpleStep(() => this.resetCards());
     }
 }
 

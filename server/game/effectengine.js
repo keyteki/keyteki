@@ -6,7 +6,7 @@ class EffectEngine {
     constructor(game) {
         this.game = game;
         this.events = new EventRegistrar(game, this);
-        this.events.register(['onConflictFinished', 'onPhaseEnded', 'onRoundEnded', 'onDuelFinished']);
+        this.events.register(['onPhaseEnded', 'onRoundEnded']);
         this.effects = [];
         this.delayedEffects = [];
         this.terminalConditions = [];
@@ -20,6 +20,7 @@ class EffectEngine {
             this.registerCustomDurationEvents(effect);
         }
         this.newEffect = true;
+        return effect;
     }
 
     addTerminalCondition(effect) {
@@ -39,11 +40,11 @@ class EffectEngine {
     }
 
     checkDelayedEffects(events) {
-        this.delayedEffects = this.delayedEffects.filter(effect => effect.target.location === 'play area');
+        this.delayedEffects = this.delayedEffects.filter(effect => !effect.target || effect.target.type === 'player' || effect.target.location === 'play area');
         let effectsToTrigger = this.delayedEffects.filter(effect => effect.checkEffect(events));
         if(effectsToTrigger.length > 0) {
             this.game.openSimultaneousEffectWindow(effectsToTrigger.map(effect => ({
-                title: effect.source.name + '\'s effect on ' + effect.target.name,
+                title: effect.source.name + '\'s effect' + (effect.target ? ' on ' + effect.target.name : ''),
                 handler: () => effect.executeHandler()
             })));
         }
@@ -56,24 +57,18 @@ class EffectEngine {
         }
     }
 
-    checkEffects(stateChanged = false, loops = 0) {
-        if(!stateChanged && !this.newEffect) {
+    removeLastingEffects(card) {
+        this.unapplyAndRemove(effect => effect.match === card && effect.duration !== 'persistent');
+    }
+
+    checkEffects(prevStateChanged = false, loops = 0) {
+        if(!prevStateChanged && !this.newEffect) {
             return false;
         }
-        stateChanged = false;
+        let stateChanged = false;
         this.newEffect = false;
-        // remove any effects for cards which are no longer in the correct location
-        this.unapplyAndRemove(effect => effect.duration === 'persistent' && effect.location !== effect.source.location && effect.location !== 'any');
-        // Any lasting or delayed effects on a card which is no longer in play should be removed
-        this.unapplyAndRemove(effect => (
-            typeof effect.match !== 'function' && effect.match.type !== 'ring' &&
-            effect.duration !== 'persistent' && effect.match.location !== 'play area' && effect.targetLocation !== 'any' &&
-            (effect.targetLocation !== 'province' || !['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province'].includes(effect.match.location))
-        ));
-        for(const effect of this.effects) {
-            // Check each effect's condition and find new targets
-            stateChanged = effect.checkCondition(stateChanged);
-        }
+        // Check each effect's condition and find new targets
+        stateChanged = this.effects.reduce((stateChanged, effect) => effect.checkCondition(stateChanged), stateChanged);
         if(loops === 10) {
             throw new Error('EffectEngine.checkEffects looped 10 times');
         } else {
@@ -86,16 +81,17 @@ class EffectEngine {
         this.newEffect = this.unapplyAndRemove(effect => effect.duration === 'untilEndOfConflict');
     }
 
-    onDuelFinished() {
-        this.newEffect = this.unapplyAndRemove(effect => effect.duration === 'untilEndOfDuel');
-    }
-
     onPhaseEnded() {
         this.newEffect = this.unapplyAndRemove(effect => effect.duration === 'untilEndOfPhase');
     }
 
     onRoundEnded() {
-        this.newEffect = this.unapplyAndRemove(effect => effect.duration === 'untilEndOfRound');
+        this.newEffect = this.unapplyAndRemove(effect => effect.duration === 'untilEndOfRound' || effect.roundDuration === 1);
+        _.each(this.effects, effect => {
+            if(effect.roundDuration > 1) {
+                effect.roundDuration -= 1;
+            }
+        });
     }
 
     registerCustomDurationEvents(effect) {

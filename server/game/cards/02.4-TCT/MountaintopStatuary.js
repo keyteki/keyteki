@@ -16,7 +16,7 @@ class MountaintopStatuary extends DrawCard {
             condition: context => this.game.isDuringConflict() && this.game.currentConflict.conflictProvince.location === context.source.location,
             target: {
                 cardType: 'character',
-                cardCondition: card => card.isAttacking() && card.getCost() <= 2,
+                cardCondition: card => card.isAttacking() && card.costLessThan(3),
                 gameAction: ability.actions.sendHome()
             }
         });

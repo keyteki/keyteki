@@ -18,7 +18,7 @@ class PolicyDebate extends DrawCard {
                     gameAction: ability.actions.duel(context => ({
                         type: 'political',
                         challenger: context.targets.challenger,
-                        resolutionHandler: (context, winner, loser) => this.duelOutcome(context, winner, loser)
+                        resolutionHandler: (winner, loser) => this.duelOutcome(context, winner, loser)
                     }))
                 }
             }
@@ -35,7 +35,10 @@ class PolicyDebate extends DrawCard {
                 activePromptTitle: 'Choose card to discard',
                 context: context,
                 cards: loser.controller.hand.sortBy(card => card.name),
-                cardHandler: card => this.game.applyGameAction(context, { discardCard: card })
+                cardHandler: card => {
+                    this.game.addMessage('{0} chooses to discard {1}', winner.controller, card);
+                    this.game.applyGameAction(context, { discardCard: card });
+                }
             });
         }
     }

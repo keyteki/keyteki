@@ -2,10 +2,7 @@ const _ = require('underscore');
 
 const AbilityLimit = require('./abilitylimit.js');
 const CannotRestriction = require('./cannotrestriction.js');
-const CostReducer = require('./costreducer');
 const EffectBuilder = require('./Effects/EffectBuilder');
-const ImmunityRestriction = require('./immunityrestriction.js');
-const PlayableLocation = require('./playablelocation.js');
 
 /* Types of effect
     1. Static effects - do something for a period
@@ -19,10 +16,7 @@ const Effects = {
     addKeyword: (keyword) => EffectBuilder.card.static('addKeyword', keyword),
     addTrait: (trait) => EffectBuilder.card.static('addTrait', trait),
     blank: () => EffectBuilder.card.static('blank'),
-    canBeSeenWhenFacedown: () => EffectBuilder.card.static('canBeSeenWhenFacedown'),
-    cannotParticipateAsAttacker: (type = 'both') => EffectBuilder.card.static('cannotParticipateAsAttacker', type),
-    cannotParticipateAsDefender: (type = 'both') => EffectBuilder.card.static('cannotParticipateAsDefender', type),
-    cardCannot: (type, predicate) => EffectBuilder.card.static('abilityRestrictions', new CannotRestriction(type, predicate)),
+    cardCannot: (properties) => EffectBuilder.card.static('abilityRestrictions', new CannotRestriction(properties)),
     customDetachedCard: (properties) => EffectBuilder.card.detached('customEffect', properties),
     delayedEffect: (properties) => EffectBuilder.card.detached('delayedEffect', {
         apply: (card, context) => {
@@ -32,7 +26,6 @@ const Effects = {
         },
         unapply: (card, context, effect) => context.game.effectEngine.removeDelayedEffect(effect)
     }),
-    doesNotBow: () => EffectBuilder.card.static('doesNotBow'),
     doesNotReady: () => EffectBuilder.card.static('doesNotReady'),
     gainAbility: (abilityType, properties) => EffectBuilder.card.detached('gainAbility', {
         apply: (card, context) => {
@@ -61,22 +54,6 @@ const Effects = {
             }
         }
     }),
-    immuneTo: (condition) => EffectBuilder.card.static('abilityRestrictions', new ImmunityRestriction(condition)),
-    increaseLimitOnAbilities: (amount) => EffectBuilder.card.static('increaseLimitOnAbilities', amount),
-    modifyBaseMilitarySkill: (value) => EffectBuilder.card.flexible('modifyBaseMilitarySkill', value),
-    modifyBasePoliticalSkill: (value) => EffectBuilder.card.flexible('modifyBasePoliticalSkill', value),
-    modifyBothSkills: (value) => EffectBuilder.card.flexible('modifyBothSkills', value),
-    modifyGlory: (value) => EffectBuilder.card.flexible('modifyGlory', value),
-    modifyMilitarySkill: (value) => EffectBuilder.card.flexible('modifyMilitarySkill', value),
-    modifyMilitarySkillMultiplier: (value) => EffectBuilder.card.flexible('modifyMilitarySkillMultiplier', value),
-    modifyPoliticalSkill: (value) => EffectBuilder.card.flexible('modifyPoliticalSkill', value),
-    modifyPoliticalSkillMultiplier: (value) => EffectBuilder.card.flexible('modifyPoliticalSkillMultiplier', value),
-    modifyProvinceStrength: (value) => EffectBuilder.card.flexible('modifyProvinceStrength', value),
-    setBaseMilitarySkill: (value) => EffectBuilder.card.static('setBaseMilitarySkill', value),
-    setBasePoliticalSkill: (value) => EffectBuilder.card.static('setBasePolitcalSkill', value),
-    setDash: (type) => EffectBuilder.card.static('setDash', type),
-    setMilitarySkill: (value) => EffectBuilder.card.static('setMilitarySkill', value),
-    setPoliticalSkill: (value) => EffectBuilder.card.static('setPoliticalSkill', value),
     takeControl: (player) => EffectBuilder.card.static('takeControl', player),
     terminalCondition: (properties) => EffectBuilder.card.detached('terminalCondition', {
         apply: (card, context) => {
@@ -86,36 +63,14 @@ const Effects = {
         },
         unapply: (card, context, effect) => context.game.effectEngine.removeTerminalCondition(effect)
     }),
-    // Ring effects
-    addElement: (element) => EffectBuilder.ring.static('addElement', element),
-    cannotDeclareRing: (match) => EffectBuilder.ring.static('cannotDeclare', match),
-    considerRingAsClaimed: (match) => EffectBuilder.ring.static('considerAsClaimed', match),
     // Player effects
-    additionalCharactersInConflict: (amount) => EffectBuilder.player.flexible('additionalCharactersInConflict', amount),
-    additionalConflict: (type) => EffectBuilder.player.static('additionalConflict', type),
     canPlayFromOwn: (location) => EffectBuilder.player.detached('canPlayFromOwn', {
-        apply: (player) => {
-            let playableLocation = new PlayableLocation('play', player, location);
-            player.playableLocations.push(playableLocation);
-            return playableLocation;
-        },
-        unapply: (player, context, location) => player.playableLocations = player.playableLocations.filter(l => l !== location)
+        apply: (player) => player.addPlayableLocation('play', player, location),
+        unapply: (player, context, location) => player.removePlayableLocation(location)
     }),
-    changePlayerGloryModifier: (value) => EffectBuilder.player.static('gloryModifier', value),
-    increaseCost: (properties) => Effects.reduceCost(_.extend(properties, { amount: -properties.amount })),
-    playerCannot: (type, predicate) => EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(type, predicate)),
-    reduceCost: (properties) => EffectBuilder.player.detached('costReducer', {
-        apply: (player, context) => player.addCostReducer(new CostReducer(context.game, context.source, properties)),
-        unapply: (player, context, reducer) => player.removeCostReducer(reducer)
-    }),
-    reduceNextPlayedCardCost: (amount, match) => Effects.reduceCost({ amount: amount, match: match, limit: AbilityLimit.fixed(1) }),
-    setMaxConflicts: (amount) => EffectBuilder.player.static('maxConflicts', amount),
-    showTopConflictCard: () => EffectBuilder.player.static('showTopConflictCard'),
-    // Conflict effects
-    contributeToConflict: (card) => EffectBuilder.conflict.static('contribute', card),
-    changeConflictSkillFunction: (func) => EffectBuilder.conflict.static('skillFunction', func),
-    modifyConflictElementsToResolve: (value) => EffectBuilder.conflict.static('modifyConflictElementsToResolve', value),
-    restrictNumberOfDefenders: (value) => EffectBuilder.conflict.static('restrictNumberOfDefenders', value)
+    customDetachedPlayer: (properties) => EffectBuilder.player.detached('customEffect', properties),
+    playerCannot: (properties) => EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(properties)),
+    showTopConflictCard: () => EffectBuilder.player.static('showTopConflictCard')
 };
 
 module.exports = Effects;

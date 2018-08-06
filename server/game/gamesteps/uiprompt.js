@@ -20,7 +20,7 @@ class UiPrompt extends BaseStep {
     setPrompt() {
         _.each(this.game.getPlayers(), player => {
             if(this.activeCondition(player)) {
-                player.setPrompt(this.addDefaultCommandToButtons(this.activePrompt()));
+                player.setPrompt(this.addDefaultCommandToButtons(this.activePrompt(player)));
                 player.startClock();
             } else {
                 player.setPrompt(this.waitingPrompt());
@@ -28,11 +28,11 @@ class UiPrompt extends BaseStep {
         });
     }
 
-    activeCondition(player) { // eslint-disable-line no-unused-vars
-        return true;
+    activeCondition(player) {
+        return player === this.game.activePlayer;
     }
 
-    activePrompt() {
+    activePrompt(player) { // eslint-disable-line no-unused-vars
     }
 
     addDefaultCommandToButtons(original) {

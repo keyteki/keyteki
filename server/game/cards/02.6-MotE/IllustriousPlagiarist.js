@@ -11,6 +11,7 @@ class IllustriousPlagiarist extends DrawCard {
                 cardCondition: (card, context) => card === context.player.opponent.conflictDiscardPile.find(card => card.type === 'event') &&
                                                   card.abilities.actions.length > 0,
                 gameAction: ability.actions.cardLastingEffect(context => ({
+                    duration: 'untilEndOfPhase',
                     target: context.source,
                     effect: context.target.abilities.actions.map(action => {
                         // We need to keep the old abilityIdentifier and ignore additional event costs

@@ -27,7 +27,7 @@ describe('Iuchi Wayfinder', function() {
                 this.iuchiWayfinder = this.player1.playCharacterFromHand('iuchi-wayfinder');
                 this.player1.clickCard(this.iuchiWayfinder);
                 this.player1.clickCard(this.shamefulDisplay1);
-                expect(this.chat).toHaveBeenCalledWith('{0} reveals {1}', this.iuchiWayfinder, [this.shamefulDisplay1]);
+                expect(this.chat).toHaveBeenCalledWith('{0} sees {1}', this.iuchiWayfinder, [this.shamefulDisplay1]);
             });
         });
     });
