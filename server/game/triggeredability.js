@@ -52,8 +52,7 @@ class TriggeredAbility extends CardAbility {
             game: this.game,
             source: this.card,
             player: player,
-            ability: this,
-            stage: 'pretarget'
+            ability: this
         });
     }
 

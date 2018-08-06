@@ -30,7 +30,6 @@ const InitiateAbilityEventWindow = require('./Events/InitiateAbilityEventWindow.
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const SimultaneousEffectWindow = require('./gamesteps/SimultaneousEffectWindow');
 const AbilityContext = require('./AbilityContext.js');
-const Ring = require('./ring.js');
 const Conflict = require('./conflict.js');
 const ConflictFlow = require('./gamesteps/conflict/conflictflow.js');
 const MenuCommands = require('./MenuCommands');
@@ -58,22 +57,12 @@ class Game extends EventEmitter {
         this.currentAbilityWindow = null;
         this.currentActionWindow = null;
         this.currentEventWindow = null;
-        this.currentConflict = null;
-        this.currentDuel = null;
         this.manualMode = false;
         this.cancelPromptUsed = false;
         this.currentPhase = '';
         this.password = details.password;
         this.roundNumber = 0;
 
-        this.conflictRecord = [];
-        this.rings = {
-            air: new Ring(this, 'air','military'),
-            earth: new Ring(this, 'earth','political'),
-            fire: new Ring(this, 'fire','military'),
-            void: new Ring(this, 'void','political'),
-            water: new Ring(this, 'water','military')
-        };
         this.shortCardData = options.shortCardData || [];
 
         _.each(details.players, player => {
@@ -253,55 +242,6 @@ class Game extends EventEmitter {
         return GameActions;
     }
 
-    isDuringConflict(types) {
-        if(!this.currentConflict) {
-            return false;
-        } else if(!types) {
-            return true;
-        } else if(!Array.isArray(types)) {
-            types = [types];
-        }
-        return types.every(type => this.currentConflict.elements.concat(this.currentConflict.conflictType).includes(type));
-    }
-
-    recordConflict(conflict) {
-        this.conflictRecord.push({
-            attackingPlayer: conflict.attackingPlayer,
-            declaredType: conflict.declaredType,
-            passed: conflict.conflictPassed,
-            uuid: conflict.uuid
-        });
-        conflict.attackingPlayer.conflictOpportunities.total--;
-        if(conflict.conflictPassed) {
-            conflict.attackingPlayer.conflictOpportunities.military = Math.max(
-                conflict.attackingPlayer.conflictOpportunities.military,
-                conflict.attackingPlayer.conflictOpportunities.total
-            );
-            conflict.attackingPlayer.conflictOpportunities.political = Math.max(
-                conflict.attackingPlayer.conflictOpportunities.political,
-                conflict.attackingPlayer.conflictOpportunities.total
-            );
-        } else {
-            conflict.attackingPlayer.conflictOpportunities[conflict.declaredType]--;
-        }
-    }
-
-    getConflicts(player) {
-        if(!player) {
-            return [];
-        }
-        return this.conflictRecord.filter(record => record.attackingPlayer === player);
-    }
-
-    recordConflictWinner(conflict) {
-        let record = this.conflictRecord.find(record => record.uuid === conflict.uuid);
-        if(record) {
-            record.completed = true;
-            record.winner = conflict.winner;
-            record.typeSwitched = conflict.conflictTypeSwitched;
-        }
-    }
-
     stopClocks() {
         _.each(this.getPlayers(), player => player.stopClock());
     }
@@ -345,30 +285,6 @@ class Game extends EventEmitter {
     }
 
     /**
-     * This function is called from the client whenever a ring is clicked
-     * @param {String} sourcePlayer - name of the clicking player
-     * @param {String} ringindex - element of the ring clicked
-     */
-    ringClicked(sourcePlayer, ringindex) {
-        var ring = this.rings[ringindex];
-        var player = this.getPlayerByName(sourcePlayer);
-
-        if(!player || !ring) {
-            return;
-        }
-
-        // Check to see if the current step in the pipeline is waiting for input
-        if(this.pipeline.handleRingClicked(player, ring)) {
-            return;
-        }
-
-        // If it's not the conflict phase and the ring hasn't been claimed, flip it
-        if(this.currentPhase !== 'conflict' && !ring.claimed) {
-            ring.flipConflictType();
-        }
-    }
-
-    /**
      * This function is called by the client when a card menu item is clicked
      * @param {String} sourcePlayer - name of clicking player
      * @param {String} cardId - uuid of card whose menu was clicked
@@ -391,69 +307,25 @@ class Game extends EventEmitter {
     }
 
     /**
-     * This function is called by the client when a ring menu item is clicked
-     * @param {String} sourcePlayer - name of clicking player
-     * @param {Object} sourceRing - not sure what this is, but it has an element!
-     * @param {Object} menuItem - { command: String, text: String, arg: String, method: String }
-     */
-    ringMenuItemClick(sourcePlayer, sourceRing, menuItem) {
-        var player = this.getPlayerByName(sourcePlayer);
-        var ring = this.rings[sourceRing.element];
-        if(!player || !ring) {
-            return;
-        }
-
-        if(menuItem.command === 'click') {
-            this.ringClicked(sourcePlayer, ring.element);
-            return;
-        }
-        MenuCommands.ringMenuClick(menuItem, this, player, ring);
-        this.checkGameState(true);
-    }
-
-    /**
      * Sets a Player flag and displays a chat message to show that a popup with a
      * player's conflict deck is open
      * @param {String} playerName
      */
-    showConflictDeck(playerName) {
+    showDeck(playerName) {
         var player = this.getPlayerByName(playerName);
 
         if(!player) {
             return;
         }
 
-        if(!player.showConflict) {
-            player.showConflictDeck();
+        if(!player.showDeck) {
+            player.showtDeck();
 
-            this.addMessage('{0} is looking at their conflict deck', player);
+            this.addMessage('{0} is looking at their deck', player);
         } else {
-            player.showConflict = false;
+            player.showDeck = false;
 
-            this.addMessage('{0} stops looking at their conflict deck', player);
-        }
-    }
-
-    /**
-     * Sets a Player flag and displays a chat message to show that a popup with a
-     * player's dynasty deck is open
-     * @param {String} playerName
-     */
-    showDynastyDeck(playerName) {
-        var player = this.getPlayerByName(playerName);
-
-        if(!player) {
-            return;
-        }
-
-        if(!player.showDynasty) {
-            player.showDynastyDeck();
-
-            this.addMessage('{0} is looking at their dynasty deck', player);
-        } else {
-            player.showDynasty = false;
-
-            this.addMessage('{0} stops looking at their dynasty deck', player);
+            this.addMessage('{0} stops looking at their deck', player);
         }
     }
 
@@ -481,10 +353,8 @@ class Game extends EventEmitter {
      */
     checkWinCondition() {
         for(const player of this.getPlayersInFirstPlayerOrder()) {
-            if(player.honor >= 25) {
-                this.recordWinner(player, 'honor');
-            } else if(player.opponent && player.opponent.honor <= 0) {
-                this.recordWinner(player, 'dishonor');
+            if(player.keys > 2) {
+                this.recordWinner(player, 'keys');
             }
         }
     }
@@ -510,20 +380,6 @@ class Game extends EventEmitter {
         this.router.gameWon(this, reason, winner);
 
         this.queueStep(new GameWonPrompt(this, winner));
-    }
-
-    /**
-     * Designate a player as First Player
-     * @param {Player} firstPlayer
-     */
-    setFirstPlayer(firstPlayer) {
-        for(let player of this.getPlayers()) {
-            if(player === firstPlayer) {
-                player.firstPlayer = true;
-            } else {
-                player.firstPlayer = false;
-            }
-        }
     }
 
     /**
@@ -616,22 +472,10 @@ class Game extends EventEmitter {
      * the client
      * @param {String} playerName
      */
-    shuffleConflictDeck(playerName) {
+    shuffleDeck(playerName) {
         let player = this.getPlayerByName(playerName);
         if(player) {
-            player.shuffleConflictDeck();
-        }
-    }
-
-    /**
-     * Called when a player clicks Shuffle Deck on the dynasty deck menu in
-     * the client
-     * @param {String} playerName
-     */
-    shuffleDynastyDeck(playerName) {
-        let player = this.getPlayerByName(playerName);
-        if(player) {
-            player.shuffleDynastyDeck();
+            player.shuffleDeck();
         }
     }
 
@@ -664,16 +508,12 @@ class Game extends EventEmitter {
     }
 
     /**
-     * Prompts a player to click a ring
+     * Prompts a player to choose a house
      * @param {Player} player
-     * @param {Object} properties - see selectringprompt.js
+     * @param {Object} properties - see selecthouseprompt.js
      */
-    promptForRingSelect(player, properties) {
-        this.queueStep(new SelectRingPrompt(this, player, properties));
-    }
-
-    promptForHonorBid(activePromptTitle, costHandler) {
-        this.queueStep(new HonorBidPrompt(this, activePromptTitle, costHandler));
+    promptForHouseSelect(player, properties) {
+        this.queueStep(new SelectHousePrompt(this, player, properties));
     }
 
     /**
@@ -693,40 +533,6 @@ class Game extends EventEmitter {
 
         // check to see if the current step in the pipeline is waiting for input
         return this.pipeline.handleMenuCommand(player, arg, uuid, method);
-    }
-
-    /**
-     * This function is called by the client when a player clicks an action window
-     * toggle in the settings menu
-     * @param {String} playerName
-     * @param {String} windowName - the name of the action window being toggled
-     * @param {Boolean} toggle - the new setting of the toggle
-     * @returns {undefined}
-     */
-    togglePromptedActionWindow(playerName, windowName, toggle) {
-        var player = this.getPlayerByName(playerName);
-        if(!player) {
-            return;
-        }
-
-        player.promptedActionWindows[windowName] = toggle;
-    }
-
-    /**
-     * This function is called by the client when a player clicks an timer setting
-     * toggle in the settings menu
-     * @param {String} playerName
-     * @param {String} settingName - the name of the setting being toggled
-     * @param {Boolean} toggle - the new setting of the toggle
-     * @returns {undefined}
-     */
-    toggleTimerSetting(playerName, settingName, toggle) {
-        var player = this.getPlayerByName(playerName);
-        if(!player) {
-            return;
-        }
-
-        player.timerSettings[settingName] = toggle;
     }
 
     /*
@@ -770,24 +576,11 @@ class Game extends EventEmitter {
 
         for(let player of this.getPlayers()) {
             player.initialise();
-            if(!player.stronghold) {
-                playerWithNoStronghold = player;
-            }
         }
 
         this.allCards = _(_.reduce(this.getPlayers(), (cards, player) => {
-            return cards.concat(player.preparedDeck.allCards);
+            return cards.concat(player.preparedDeck.cards);
         }, []));
-        this.provinceCards = this.allCards.filter(card => card.isProvince);
-
-        if(playerWithNoStronghold) {
-            this.queueSimpleStep(() => {
-                this.addMessage('{0} does not have a stronghold in their decklist', playerWithNoStronghold);
-                return false;
-            });
-            this.continue();
-            return false;
-        }
 
         this.pipeline.initialise([
             new SetupPhase(this),
@@ -806,11 +599,11 @@ class Game extends EventEmitter {
      */
     beginRound() {
         this.raiseEvent('onBeginRound');
-        this.queueStep(new DynastyPhase(this));
+        this.queueStep(new KeyPhase(this));
+        this.queueStep(new HousePhase(this));
+        this.queueStep(new MainPhase(this));
         this.queueStep(new DrawPhase(this));
-        this.queueStep(new ConflictPhase(this));
-        this.queueStep(new FatePhase(this));
-        this.queueStep(new RegroupPhase(this));
+        this.queueStep(new ReadyPhase(this));
         this.queueStep(new SimpleStep(this, () => this.beginRound()));
     }
 
@@ -831,17 +624,6 @@ class Game extends EventEmitter {
      */
     queueSimpleStep(handler) {
         this.pipeline.queueStep(new SimpleStep(this, handler));
-    }
-
-    /*
-     * Tells the current action window that the player with priority has taken
-     * an action (and so priority should pass to the other player)
-     * @returns {undefined}
-     */
-    markActionAsTaken() {
-        if(this.currentActionWindow) {
-            this.currentActionWindow.markActionAsTaken();
-        }
     }
 
     /*
@@ -906,27 +688,6 @@ class Game extends EventEmitter {
     }
 
     /**
-     * Raises a custom event window for checking for any cancels to a card
-     * ability
-     * @param {Object} params
-     * @param {Function} handler - this is an arrow function which is called if
-     * nothing cancels the event
-     */
-    raiseInitiateAbilityEvent(params, handler) {
-        this.raiseMultipleInitiateAbilityEvents([{ params: params, handler: handler}]);
-    }
-
-    /**
-     * Raises a custom event window for checking for any cancels to several card
-     * abilities which initiate simultaneously
-     * @param {Array} eventProps
-     */
-    raiseMultipleInitiateAbilityEvents(eventProps) {
-        let events = _.map(eventProps, event => new InitiateCardAbilityEvent(event.params, event.handler));
-        this.queueStep(new InitiateAbilityEventWindow(this, events));
-    }
-
-    /**
      * Checks whether a game action can be performed on a card or an array of
      * cards, and performs it on all legal targets.
      * @param {AbilityContext} context
@@ -953,11 +714,6 @@ class Game extends EventEmitter {
         return new AbilityContext({ game: this, player: player });
     }
 
-    initiateConflict(player) {
-        this.currentConflict = new Conflict(this, player, player.opponent);
-        this.queueStep(new ConflictFlow(this, this.currentConflict));
-    }
-
     /**
      * Changes the controller of a card in play to the passed player, and cleans
      * all the related stuff up (swapping sides in a conflic)
@@ -971,14 +727,6 @@ class Game extends EventEmitter {
         card.controller.removeCardFromPile(card);
         player.cardsInPlay.push(card);
         card.controller = player;
-        if(card.isParticipating()) {
-            this.currentConflict.removeFromConflict(card);
-            if(player.isAttackingPlayer()) {
-                this.currentConflict.addAttacker(card);
-            } else {
-                this.currentConflict.addDefender(card);
-            }
-        }
         this.checkGameState(true);
     }
 
@@ -1080,10 +828,7 @@ class Game extends EventEmitter {
 
     checkGameState(hasChanged = false, events = []) {
         // check for a game state change (recalculating conflict skill if necessary)
-        if(
-            (!this.currentConflict && this.effectEngine.checkEffects(hasChanged)) ||
-            (this.currentConflict && this.currentConflict.calculateSkill(hasChanged)) || hasChanged
-        ) {
+        if(this.effectEngine.checkEffects(hasChanged) || hasChanged) {
             this.checkWinCondition();
             // if the state has changed, check for:
             for(const player of this.getPlayers()) {
@@ -1095,10 +840,6 @@ class Game extends EventEmitter {
                     // any attachments which are illegally attached
                     card.checkForIllegalAttachments();
                 });
-            }
-            if(this.currentConflict) {
-                // conflicts with illegal participants
-                this.currentConflict.checkForIllegalParticipants();
             }
             // any terminal conditions which have met their condition
             this.effectEngine.checkTerminalConditions();
@@ -1120,9 +861,8 @@ class Game extends EventEmitter {
         var players = this.getPlayers().map(player => {
             return {
                 name: player.name,
-                faction: player.faction.name || player.faction.value,
-                alliance: player.alliance ? player.alliance.name : undefined,
-                honor: player.getTotalHonor()
+                houses: player.houses,
+                keys: player.keys
             };
         });
 
@@ -1143,16 +883,11 @@ class Game extends EventEmitter {
     getState(activePlayerName) {
         let activePlayer = this.playersAndSpectators[activePlayerName] || new AnonymousSpectator();
         let playerState = {};
-        let ringState = {};
 
         if(this.started) {
             for(const player of this.getPlayers()) {
                 playerState[player.name] = player.getState(activePlayer);
             }
-
-            _.each(this.rings, ring => {
-                ringState[ring.element] = ring.getState(activePlayer);
-            });
 
             return {
                 id: this.id,
@@ -1160,7 +895,6 @@ class Game extends EventEmitter {
                 name: this.name,
                 owner: this.owner,
                 players: playerState,
-                rings: ringState,
                 messages: this.gameChat.messages,
                 spectators: this.getSpectators().map(spectator => {
                     return {
@@ -1220,13 +954,6 @@ class Game extends EventEmitter {
             name: this.name,
             owner: _.omit(this.owner, ['blocklist', 'email', 'emailHash', 'promptedActionWindows', 'settings']),
             players: playerSummaries,
-            rings: {
-                air: this.rings.air.getState(activePlayer),
-                earth: this.rings.earth.getState(activePlayer),
-                fire: this.rings.fire.getState(activePlayer),
-                void: this.rings.void.getState(activePlayer),
-                water: this.rings.water.getState(activePlayer)
-            },
             started: this.started,
             startedAt: this.startedAt,
             spectators: this.getSpectators().map(spectator => {

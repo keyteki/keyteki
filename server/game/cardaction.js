@@ -1,5 +1,4 @@
 const CardAbility = require('./CardAbility.js');
-const Costs = require('./costs.js');
 
 /**
  * Represents an action ability provided by card text.
@@ -33,12 +32,9 @@ class CardAction extends CardAbility {
         super(game, card, properties);
 
         this.abilityType = 'action';
-        this.phase = properties.phase || 'any';
+        this.phase = properties.phase || 'main';
         this.anyPlayer = properties.anyPlayer || false;
         this.condition = properties.condition;
-        this.doesNotTarget = properties.doesNotTarget;
-
-        this.cost.push(Costs.useInitiateAction());
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {

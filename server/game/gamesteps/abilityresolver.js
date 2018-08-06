@@ -24,7 +24,6 @@ class AbilityResolver extends BaseStepWithPipeline {
             new SimpleStep(this.game, () => this.resolveTargets()),
             new SimpleStep(this.game, () => this.initiateAbility())
         ]);
-
     }
 
     createSnapshot() {

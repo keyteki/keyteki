@@ -28,8 +28,8 @@ class UiPrompt extends BaseStep {
         });
     }
 
-    activeCondition(player) { // eslint-disable-line no-unused-vars
-        return true;
+    activeCondition(player) {
+        return player === this.game.activePlayer;
     }
 
     activePrompt(player) { // eslint-disable-line no-unused-vars

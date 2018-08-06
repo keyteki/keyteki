@@ -9,7 +9,6 @@ class ThenAbility extends BaseAbility {
         this.card = card;
         this.properties = properties;
         this.handler = properties.handler || this.executeGameActionPrehandlers;
-        this.cannotTargetFirst = true;
     }
 
     createContext(player = this.card.controller) {
@@ -17,8 +16,7 @@ class ThenAbility extends BaseAbility {
             ability: this,
             game: this.game,
             player: player,
-            source: this.card,
-            stage: 'pretarget'
+            source: this.card
         });
     }
 

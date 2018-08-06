@@ -5,7 +5,6 @@ class PlayerPromptState {
         this.player = player;
         this.selectCard = false;
         this.selectOrder = false;
-        this.selectRing = false;
         this.menuTitle = '';
         this.promptTitle = '';
         this.buttons = [];
@@ -32,18 +31,9 @@ class PlayerPromptState {
         this.selectableCards = [];
     }
 
-    setSelectableRings(rings) {
-        this.selectableRings = rings;
-    }
-
-    clearSelectableRings() {
-        this.selectableRings = [];
-    }
-
     setPrompt(prompt) {
         this.selectCard = prompt.selectCard || false;
         this.selectOrder = prompt.selectOrder || false;
-        this.selectRing = prompt.selectRing || false;
         this.menuTitle = prompt.menuTitle || '';
         this.promptTitle = prompt.promptTitle;
         this.buttons = _.map(prompt.buttons || [], button => {
@@ -60,7 +50,6 @@ class PlayerPromptState {
 
     cancelPrompt() {
         this.selectCard = false;
-        this.selectRing = false;
         this.menuTitle = '';
         this.buttons = [];
         this.controls = [];
@@ -84,19 +73,10 @@ class PlayerPromptState {
         return result;
     }
 
-    getRingSelectionState(ring) {
-        if(this.selectRing) {
-            return { unselectable: !this.selectableRings.includes(ring) };
-        }
-        return { unselectable: ring.game.currentConflict && !ring.contested };
-
-    }
-
     getState() {
         return {
             selectCard: this.selectCard,
             selectOrder: this.selectOrder,
-            selectRing: this.selectRing,
             menuTitle: this.menuTitle,
             promptTitle: this.promptTitle,
             buttons: this.buttons,
