@@ -4,6 +4,7 @@ import Draggable from 'react-draggable';
 import _ from 'underscore';
 
 import AbilityTargeting from './AbilityTargeting.jsx';
+import HouseTargeting from './HouseTargeting.jsx';
 
 class ActivePlayerPrompt extends React.Component {
     constructor() {
@@ -164,6 +165,13 @@ class ActivePlayerPrompt extends React.Component {
                             onMouseOver={ this.props.onMouseOver }
                             source={ control.source }
                             targets={ control.targets } />);
+                case 'house':
+                    return (
+                        <HouseTargeting
+                            command={ control.command }
+                            houses={ control.houses }
+                            onButtonClick={ this.props.onButtonClick }
+                            uuid={ control.uuid } />);
             }
         });
     }

@@ -5,6 +5,14 @@ const CardAction = require('./cardaction.js');
 const EffectSource = require('./EffectSource.js');
 const TriggeredAbility = require('./triggeredability');
 
+const PlayAction = require('./BaseActions/PlayAction');
+const PlayCreatureAction = require('./BaseActions/PlayCreatureAction');
+const PlayArtifactAction = require('./BaseActions/PlayArtifactAction');
+const PlayUpgradeAction = require('./BaseActions/PlayUpgradeAction');
+const FightAction = require('./BaseActions/FightAction');
+const ReapAction = require('./BaseActions/ReapAction');
+const RemoveStun = require('./BaseActions/RemoveStun');
+
 class Card extends EffectSource {
     constructor(owner, cardData) {
         super(owner.game);
@@ -19,23 +27,25 @@ class Card extends EffectSource {
         this.type = cardData.type;
 
         this.tokens = {};
-        this.menu = _([]);
 
         this.abilities = { actions: [], reactions: [], persistentEffects: [] };
         this.traits = cardData.traits || [];
         this.setupCardAbilities(AbilityDsl);
 
         this.printedFaction = cardData.house;
+        this.printedAmber = cardData.amber;
 
-        this.attachments = _([]);
+        this.upgrades = [];
         this.parent = null;
 
         this.printedPower = cardData.power;
         this.exhausted = false;
+        this.stunned = false;
+        this.damage = 0;
 
         this.keywords = cardData.keyword;
 
-        this.menu = _([
+        this.menu = [
             { command: 'bow', text: 'Bow/Ready' },
             { command: 'honor', text: 'Honor' },
             { command: 'dishonor', text: 'Dishonor' },
@@ -43,7 +53,7 @@ class Card extends EffectSource {
             { command: 'remfate', text: 'Remove 1 fate' },
             { command: 'move', text: 'Move into/out of conflict' },
             { command: 'control', text: 'Give control' }
-        ]);
+        ];
     }
 
     /**
@@ -135,8 +145,8 @@ class Card extends EffectSource {
     }
 
     leavesPlay() {
-        if(this.parent && this.parent.attachments) {
-            this.parent.removeAttachment(this);
+        if(this.parent && this.parent.upgrades) {
+            this.parent.removeUpgrade(this);
             this.parent = null;
         }
         this.exhausted = false;
@@ -193,7 +203,7 @@ class Card extends EffectSource {
     getMenu() {
         var menu = [];
 
-        if(this.menu.isEmpty() || !this.game.manualMode || this.location !== 'play area') {
+        if(!this.menu.length || !this.game.manualMode || this.location !== 'play area') {
             return undefined;
         }
 
@@ -203,7 +213,7 @@ class Card extends EffectSource {
 
         menu.push({ command: 'click', text: 'Select Card' });
         if(this.location === 'play area') {
-            menu = menu.concat(this.menu.value());
+            menu = menu.concat(this.menu);
         }
 
         return menu;
@@ -254,7 +264,7 @@ class Card extends EffectSource {
     createSnapshot() {
         let clone = new Card(this.owner, this.cardData);
 
-        clone.attachments = _(this.attachments.map(attachment => attachment.createSnapshot()));
+        clone.upgrades = _(this.upgrades.map(upgrade => upgrade.createSnapshot()));
         clone.effects = _.clone(this.effects);
         clone.tokens = _.clone(this.tokens);
         clone.controller = this.controller;
@@ -275,12 +285,27 @@ class Card extends EffectSource {
         return this.sumEffects('modifyPower') + this.printedPower;
     }
 
+    stun() {
+        this.stunned = true;
+    }
+
+    unstun() {
+        this.stunned = false;
+    }
+
     exhaust() {
         this.exhausted = true;
     }
 
     ready() {
         this.exhausted = false;
+    }
+
+    takeDamage(amount) {
+        this.damage += amount;
+        if(this.damage > this.power) {
+            this.game.actions.destroy().resolve(this, this.game.getFrameworkContext());
+        }
     }
 
     /**
@@ -311,6 +336,36 @@ class Card extends EffectSource {
         return this.checkRestrictions(type, context) && context.player.checkRestrictions(type, context);
     }
 
+    use(player, canCancel = true) {
+        let actions = this.getActions(player);
+
+        let legalActions = actions.filter(action => action.meetsRequirements(action.createContext(player)) === '');
+
+        if(legalActions.length === 0) {
+            return false;
+        } else if(legalActions.length === 1) {
+            let action = legalActions[0];
+            let targetPrompts = action.targets.some(target => target.properties.player !== 'opponent');
+            if(!this.game.activePlayer.optionSettings.confirmOneClick || action.cost.some(cost => cost.promptsPlayer) || targetPrompts || !canCancel) {
+                this.game.resolveAbility(action.createContext(player));
+                return true;
+            }
+        }
+        let choices = legalActions.map(action => action.title);
+        let handlers = legalActions.map(action => (() => this.game.resolveAbility(action.createContext(player))));
+        if(canCancel) {
+            choices = choices.concat('Cancel');
+            handlers = handlers.concat(() => true);
+        }
+        this.game.promptWithHandlerMenu(player, {
+            activePromptTitle: (this.location === 'play area' ? 'Choose an ability:' : 'Play ' + this.name + ':'),
+            source: this,
+            choices: choices,
+            handlers: handlers
+        });
+        return true;
+    }
+
     getActions(player, location = this.location) {
         let actions = [];
         if(this.location === 'hand') {
@@ -320,6 +375,8 @@ class Card extends EffectSource {
                 actions.push(new PlayCreatureAction(this));
             } else if(this.type === 'artifact') {
                 actions.push(new PlayArtifactAction(this));
+            } else if(this.type === 'action') {
+                actions.push(new PlayAction(this));
             }
         } else if(this.location === 'play area' && this.type === 'creature') {
             actions.push(new FightAction(this));
@@ -332,10 +389,10 @@ class Card extends EffectSource {
     /**
      * This removes an attachment from this card's attachment Array.  It doesn't open any windows for
      * game effects to respond to.
-     * @param {Card} attachment
+     * @param {Card} upgrade
      */
-    removeAttachment(attachment) {
-        this.attachments = _(this.attachments.reject(card => card.uuid === attachment.uuid));
+    removeUpgrade(upgrade) {
+        this.upgrades = this.upgrades.filter(card => card.uuid !== upgrade.uuid);
     }
 
     setDefaultController(player) {
@@ -347,6 +404,11 @@ class Card extends EffectSource {
             return this.mostRecentEffect('takeControl') || this.defaultController;
         }
         return this.owner;
+    }
+
+    isOnFlank() {
+        let index = this.controller.cardsInPlay.indexOf(this);
+        return index === 0 || index === this.controller.cardsInPlay.length - 1;
     }
 
     getSummary(activePlayer, hideWhenFaceup) {

@@ -1,15 +1,16 @@
-const PlayerAction = require('./PlayerAction');
+const GameAction = require('./GameAction');
 
-class LastingEffectAction extends PlayerAction {
-    constructor(propertyFactory, duration) {
+class LastingEffectAction extends GameAction {
+    constructor(propertyFactory, duration = 2) {
         super(propertyFactory);
-        this.duration = duration;
+        this.duration = this.duration || duration;
     }
 
     setDefaultProperties() {
         this.condition = null;
         this.effect = [];
         this.targetController = this.duration === 1 ? 'current' : 'opponent';
+        this.until = null;
     }
 
     setup() {
@@ -28,7 +29,8 @@ class LastingEffectAction extends PlayerAction {
             condition: this.condition,
             effect: this.effect,
             roundDuration: this.duration,
-            targetController: this.targetController
+            targetController: this.targetController,
+            until: this.until
         };
         return [super.createEvent('applyLastingEffect', { context: context }, event => event.context.source.roundDurationEffect(properties))];
     }

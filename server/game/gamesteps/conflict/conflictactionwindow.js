@@ -1,4 +1,4 @@
-const ActionWindow = require('../actionwindow.js');
+const ActionWindow = require('../main/actionwindow');
 
 const capitalize = {
     military: 'Military',

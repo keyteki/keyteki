@@ -73,6 +73,14 @@ class PlayerPromptState {
         return result;
     }
 
+    getRingSelectionState(ring) {
+        if(this.selectRing) {
+            return { unselectable: !this.selectableRings.includes(ring) };
+        }
+        return { unselectable: ring.game.currentConflict && !ring.contested };
+
+    }
+
     getState() {
         return {
             selectCard: this.selectCard,

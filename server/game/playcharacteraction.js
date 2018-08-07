@@ -1,4 +1,4 @@
-const BaseAction = require('./BaseAction');
+const BaseAction = require('./BaseActions/BaseAction');
 const GameActions = require('./GameActions');
 
 class PlayCharacterAction extends BaseAction {

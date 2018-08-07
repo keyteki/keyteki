@@ -8,32 +8,27 @@ const Player = require('./player.js');
 const Spectator = require('./spectator.js');
 const AnonymousSpectator = require('./anonymousspectator.js');
 const GamePipeline = require('./gamepipeline.js');
-const SetupPhase = require('./gamesteps/setupphase.js');
-const DynastyPhase = require('./gamesteps/dynastyphase.js');
-const DrawPhase = require('./gamesteps/drawphase.js');
-const ConflictPhase = require('./gamesteps/conflictphase.js');
-const FatePhase = require('./gamesteps/fatephase.js');
-const RegroupPhase = require('./gamesteps/regroupphase.js');
+const SetupPhase = require('./gamesteps/setup/setupphase');
+const KeyPhase = require('./gamesteps/key/KeyPhase');
+const HousePhase = require('./gamesteps/house/HousePhase');
+const MainPhase = require('./gamesteps/main/MainPhase');
+const ReadyPhase = require('./gamesteps/ReadyPhase');
+const DrawPhase = require('./gamesteps/draw/drawphase');
 const SimpleStep = require('./gamesteps/simplestep.js');
 const MenuPrompt = require('./gamesteps/menuprompt.js');
 const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt.js');
-const HonorBidPrompt = require('./gamesteps/honorbidprompt.js');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt.js');
-const SelectRingPrompt = require('./gamesteps/selectringprompt.js');
+const SelectHousePrompt = require('./gamesteps/SelectHousePrompt');
 const GameWonPrompt = require('./gamesteps/GameWonPrompt');
 const GameActions = require('./GameActions');
 const Event = require('./Events/Event');
-const InitiateCardAbilityEvent = require('./Events/InitiateCardAbilityEvent');
 const EventWindow = require('./Events/EventWindow.js');
 const ThenEventWindow = require('./Events/ThenEventWindow');
-const InitiateAbilityEventWindow = require('./Events/InitiateAbilityEventWindow.js');
 const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const SimultaneousEffectWindow = require('./gamesteps/SimultaneousEffectWindow');
 const AbilityContext = require('./AbilityContext.js');
-const Conflict = require('./conflict.js');
-const ConflictFlow = require('./gamesteps/conflict/conflictflow.js');
 const MenuCommands = require('./MenuCommands');
-const SpiritOfTheRiver = require('./cards/SpiritOfTheRiver');
+const Ring = require('./ring.js');
 
 class Game extends EventEmitter {
     constructor(details, options = {}) {
@@ -76,6 +71,14 @@ class Game extends EventEmitter {
         this.setMaxListeners(0);
 
         this.router = options.router;
+
+        this.rings = {
+            air: new Ring(this, 'air','military'),
+            earth: new Ring(this, 'earth','political'),
+            fire: new Ring(this, 'fire','military'),
+            void: new Ring(this, 'void','political'),
+            water: new Ring(this, 'water','military')
+        };
     }
     /*
      * Reports errors from the game engine back to the router
@@ -203,7 +206,7 @@ class Game extends EventEmitter {
             if(card) {
                 return card;
             }
-            return player.findCardInPlayByUuid(cardId);
+            return player.cardsInPlay.find(card => card.uuid === cardId);
         }, null);
     }
 
@@ -226,7 +229,7 @@ class Game extends EventEmitter {
         var foundCards = [];
 
         _.each(this.getPlayers(), player => {
-            foundCards = foundCards.concat(player.findCards(player.cardsInPlay, predicate));
+            foundCards = foundCards.concat(player.cardsInPlay.filter(predicate));
         });
 
         return foundCards;
@@ -600,8 +603,8 @@ class Game extends EventEmitter {
         this.queueStep(new KeyPhase(this));
         this.queueStep(new HousePhase(this));
         this.queueStep(new MainPhase(this));
-        this.queueStep(new DrawPhase(this));
         this.queueStep(new ReadyPhase(this));
+        this.queueStep(new DrawPhase(this));
         this.queueStep(new SimpleStep(this, () => this.beginRound()));
     }
 
@@ -830,13 +833,13 @@ class Game extends EventEmitter {
             this.checkWinCondition();
             // if the state has changed, check for:
             for(const player of this.getPlayers()) {
-                player.cardsInPlay.each(card => {
+                _.each(player.cardsInPlay, card => {
                     if(card.getModifiedController() !== player) {
                         // any card being controlled by the wrong player
                         this.takeControl(card.getModifiedController(), card);
                     }
                     // any attachments which are illegally attached
-                    card.checkForIllegalAttachments();
+                    // card.checkForIllegalAttachments();
                 });
             }
             // any terminal conditions which have met their condition
@@ -881,11 +884,16 @@ class Game extends EventEmitter {
     getState(activePlayerName) {
         let activePlayer = this.playersAndSpectators[activePlayerName] || new AnonymousSpectator();
         let playerState = {};
+        let ringState = {};
 
         if(this.started) {
             for(const player of this.getPlayers()) {
                 playerState[player.name] = player.getState(activePlayer);
             }
+
+            _.each(this.rings, ring => {
+                ringState[ring.element] = ring.getState(activePlayer);
+            });
 
             return {
                 id: this.id,
@@ -893,6 +901,7 @@ class Game extends EventEmitter {
                 name: this.name,
                 owner: this.owner,
                 players: playerState,
+                rings: ringState,
                 messages: this.gameChat.messages,
                 spectators: this.getSpectators().map(spectator => {
                     return {
@@ -933,7 +942,7 @@ class Game extends EventEmitter {
             playerSummaries[player.name] = {
                 deck: deck,
                 emailHash: player.emailHash,
-                faction: player.faction.value,
+                faction: '',
                 id: player.id,
                 lobbyId: player.lobbyId,
                 left: player.left,

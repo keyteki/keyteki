@@ -413,7 +413,7 @@ class App extends React.Component {
         }
 
         return (<div className={ backgroundClass }>
-            <NavBar leftMenu={ leftMenu } rightMenu={ rightMenu } title='Jigoku Online' currentPath={ this.props.path } numGames={ this.props.games.length } />
+            <NavBar leftMenu={ leftMenu } rightMenu={ rightMenu } title='Crucible Online' currentPath={ this.props.path } numGames={ this.props.games.length } />
             <div className='container'>
                 <ErrorBoundary navigate={ this.props.navigate } errorPath={ this.props.path } message={ 'We\'re sorry - something\'s gone wrong.' }>
                     { component }

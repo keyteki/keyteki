@@ -309,15 +309,7 @@ class Card extends React.Component {
             cardClass += ' ' + this.props.className;
         }
 
-        if(this.props.card.isConflict || this.props.source === 'conflict deck') {
-            cardBack = 'conflictcardback.jpg';
-        } else if(this.props.card.isDynasty || this.props.source === 'dynasty deck') {
-            cardBack = 'dynastycardback.jpg';
-        } else if(this.props.card.isProvince || this.props.source === 'province deck') {
-            cardBack = 'provincecardback.jpg';
-        } else {
-            cardBack = 'cardback.jpg';
-        }
+        cardBack = 'keyforgecardback.jpg';
 
         return (
             <div className='card-frame' ref='cardFrame'
@@ -501,7 +493,7 @@ Card.propTypes = {
     orientation: PropTypes.oneOf(['horizontal', 'bowed', 'vertical']),
     popupLocation: PropTypes.string,
     size: PropTypes.string,
-    source: PropTypes.oneOf(['hand', 'dynasty discard pile', 'conflict discard pile', 'play area', 'dynasty deck', 'conflict deck', 'province deck', 'province 1', 'province 2', 'province 3', 'province 4', 'attachment', 'stronghold province', 'additional', 'role card']).isRequired,
+    source: PropTypes.oneOf(['archives', 'hand', 'discard', 'deck', 'purged', 'dynasty discard pile', 'conflict discard pile', 'play area', 'dynasty deck', 'conflict deck', 'province deck', 'province 1', 'province 2', 'province 3', 'province 4', 'attachment', 'stronghold province', 'additional', 'role card']).isRequired,
     style: PropTypes.object,
     title: PropTypes.string,
     wrapped: PropTypes.bool

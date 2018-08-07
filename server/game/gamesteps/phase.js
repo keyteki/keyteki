@@ -16,12 +16,8 @@ class Phase extends BaseStepWithPipeline {
     startPhase() {
         this.game.raiseEvent('onPhaseStarted', { phase: this.name }, () => {
             this.game.currentPhase = this.name;
-            if(this.name === 'dynasty') {
-                this.game.roundNumber++;
-                this.game.conflictRecord = [];
-            }
             if(this.name !== 'setup') {
-                this.game.addAlert('endofround', 'turn: {0} - {1} phase', this.game.roundNumber, this.name);
+                this.game.addAlert('endofround', '{0}\'s turn {1} - {2} phase', this.game.activePlayer, this.game.activePlayer.turn, this.name);
             }
         });
     }

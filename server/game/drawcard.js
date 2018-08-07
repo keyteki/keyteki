@@ -527,8 +527,9 @@ class DrawCard extends BaseCard {
         return this.owner;
     }
 
-    play() {
-    //empty function so playcardaction doesn't crash the game
+    isOnFlank() {
+        let index = this.controller.cardsInPlay.indexOf(this);
+        return index === 0 || index === this.controller.cardsInPlay.length - 1;
     }
 
     getSummary(activePlayer, hideWhenFaceup) {

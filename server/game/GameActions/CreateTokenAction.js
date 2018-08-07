@@ -1,5 +1,5 @@
 const CardGameAction = require('./CardGameAction');
-const DiscardFromPlayAction = require('./DiscardFromPlayAction');
+const DiscardFromPlayAction = require('./DestroyAction');
 class CreateTokenAction extends CardGameAction {
     setup() {
         this.name = 'createToken';

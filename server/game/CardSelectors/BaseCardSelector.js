@@ -31,27 +31,27 @@ class BaseCardSelector {
             } else if(this.controller === 'opponent') {
                 return context.game.allCards.filter(card => card.controller === context.player.opponent);
             }
-            return context.game.allCards.toArray();
+            return context.game.allCards;
         }
-        let attachments = context.player.cardsInPlay.reduce((array, card) => array.concat(card.attachments.toArray()), []);
+        let upgrades = context.player.cardsInPlay.reduce((array, card) => array.concat(card.upgrades), []);
         if(context.player.opponent) {
-            attachments = attachments.concat(...context.player.opponent.cardsInPlay.map(card => card.attachments.toArray()));
+            upgrades = upgrades.concat(...context.player.opponent.cardsInPlay.map(card => card.upgrades));
         }
         let possibleCards = [];
         if(this.controller !== 'opponent') {
             possibleCards = this.location.reduce((array, location) => {
-                let cards = context.player.getSourceList(location).toArray();
+                let cards = context.player.getSourceList(location);
                 if(location === 'play area') {
-                    return array.concat(cards, attachments.filter(card => card.controller === context.player));
+                    return array.concat(cards, upgrades.filter(card => card.controller === context.player));
                 }
                 return array.concat(cards);
             }, possibleCards);
         }
         if(this.controller !== 'self' && context.player.opponent) {
             possibleCards = this.location.reduce((array, location) => {
-                let cards = context.player.opponent.getSourceList(location).toArray();
+                let cards = context.player.opponent.getSourceList(location);
                 if(location === 'play area') {
-                    return array.concat(cards, attachments.filter(card => card.controller === context.player.opponent));
+                    return array.concat(cards, upgrades.filter(card => card.controller === context.player.opponent));
                 }
                 return array.concat(cards);
             }, possibleCards);

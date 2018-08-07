@@ -54,6 +54,7 @@ const Effects = {
             }
         }
     }),
+    modifyPower: (amount) => EffectBuilder.card.flexible('modifyPower', amount),
     takeControl: (player) => EffectBuilder.card.static('takeControl', player),
     terminalCondition: (properties) => EffectBuilder.card.detached('terminalCondition', {
         apply: (card, context) => {
@@ -69,6 +70,7 @@ const Effects = {
         unapply: (player, context, location) => player.removePlayableLocation(location)
     }),
     customDetachedPlayer: (properties) => EffectBuilder.player.detached('customEffect', properties),
+    modifyKeyCost: (amount) => EffectBuilder.player.flexible('modifyKeyCost', amount),
     playerCannot: (properties) => EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(properties)),
     showTopConflictCard: () => EffectBuilder.player.static('showTopConflictCard')
 };

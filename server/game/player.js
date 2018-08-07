@@ -2,17 +2,9 @@ const _ = require('underscore');
 
 const GameObject = require('./GameObject');
 const Deck = require('./deck.js');
-const AttachmentPrompt = require('./gamesteps/attachmentprompt.js');
 const ClockSelector = require('./Clocks/ClockSelector');
-const CostReducer = require('./costreducer.js');
-const GameActions = require('./GameActions');
-const RingEffects = require('./RingEffects.js');
 const PlayableLocation = require('./playablelocation.js');
 const PlayerPromptState = require('./playerpromptstate.js');
-const RoleCard = require('./rolecard.js');
-const StrongholdCard = require('./strongholdcard.js');
-
-const provinceLocations = ['stronghold province', 'province 1', 'province 2', 'province 3', 'province 4'];
 
 class Player extends GameObject {
     constructor(id, user, owner, game, clockdetails) {
@@ -35,6 +27,8 @@ class Player extends GameObject {
 
         this.deckData = {};
         this.takenMulligan = false;
+
+        this.chains = 0;
 
         this.clock = ClockSelector.for(this, clockdetails);
 
@@ -95,82 +89,8 @@ class Player extends GameObject {
      */
     removeCardByUuid(list, uuid) {
         list = list.filter(card => card.uuid !== uuid);
+        console.log(list);
         return list;
-    }
-
-    /**
-     * Returns a card with the passed name in the passed list
-     * @param {_(Array)} list
-     * @param {String} name
-     */
-    findCardByName(list, name) {
-        return this.findCard(list, card => card.name === name);
-    }
-
-    /**
-     * Returns a card with the passed uuid in the passed list
-     * @param {_(Array)} list
-     * @param {String} uuid
-     */
-    findCardByUuid(list, uuid) {
-        return this.findCard(list, card => card.uuid === uuid);
-    }
-
-    /**
-     * Returns a card with the passed uuid from cardsInPlay
-     * @param {String} uuid
-     */
-    findCardInPlayByUuid(uuid) {
-        return this.findCard(this.cardsInPlay, card => card.uuid === uuid);
-    }
-
-    /**
-     * Returns a card which matches passed predicate in the passed list
-     * @param {_(Array)} cardList
-     * @param {Function} predicate - BaseCard => Boolean
-     */
-    findCard(cardList, predicate) {
-        var cards = this.findCards(cardList, predicate);
-        if(!cards || _.isEmpty(cards)) {
-            return undefined;
-        }
-
-        return cards[0];
-    }
-
-    /**
-     * Returns an Array of BaseCard which match (or whose attachments match) passed predicate in the passed list
-     * @param {_(Array)} cardList
-     * @param {Function} predicate - BaseCard => Boolean
-     */
-    findCards(cardList, predicate) {
-        if(!cardList) {
-            return;
-        }
-
-        var cardsToReturn = [];
-
-        cardList.each(card => {
-            if(predicate(card)) {
-                cardsToReturn.push(card);
-            }
-
-            if(card.attachments) {
-                cardsToReturn = cardsToReturn.concat(card.attachments.filter(predicate));
-            }
-
-            return cardsToReturn;
-        });
-
-        return cardsToReturn;
-    }
-
-    /**
-     * Returns true if any characters or attachments controlled by this playe match the passed predicate
-     * @param {Function} predicate - DrawCard => Boolean
-     */
-    anyCardsInPlay(predicate) {
-        return this.game.allCards.any(card => card.controller === this && card.location === 'play area' && predicate(card));
     }
 
     /**
@@ -268,6 +188,7 @@ class Player extends GameObject {
 
         this.keys = 0;
         this.amber = 0;
+        this.turn = 0;
         this.readyToStart = false;
         this.opponent = this.game.getOtherPlayer(this);
     }
@@ -285,10 +206,11 @@ class Player extends GameObject {
     /**
      * Called at the start of the Dynasty Phase.  Resets a lot of the single round parameters
      */
-    beginRound() {
+    endRound() {
         for(let card of this.cardsInPlay) {
             card.new = false;
         }
+        this.turn += 1;
     }
 
     showDeck() {
@@ -318,7 +240,9 @@ class Player extends GameObject {
      */
     drop(cardId, source, target) {
         var sourceList = this.getSourceList(source);
-        var card = this.findCardByUuid(sourceList, cardId);
+        var card = sourceList.find(card => card.uuid === cardId);
+
+        console.log('drop', card && card.name);
 
         // Dragging is only legal in manual mode, when the card is currently in source, when the source and target are different and when the target is a legal location
         if(!this.game.manualMode || source === target || !this.isLegalLocationForCard(card, target) || card.location !== source) {
@@ -384,7 +308,7 @@ class Player extends GameObject {
 
         var targetPile = this.getSourceList(targetLocation);
 
-        if(!this.isLegalLocationForCard(card, targetLocation) || targetPile && targetPile.contains(card)) {
+        if(!this.isLegalLocationForCard(card, targetLocation) || targetPile && targetPile.includes(card)) {
             return;
         }
 
@@ -398,10 +322,10 @@ class Player extends GameObject {
 
             // In normal play, all attachments should already have been removed, but in manual play we may need to remove them.
             // This is also used by Back-Alley Hideaway when it is sacrificed. This won't trigger any leaves play effects
-            card.upgrades.each(upgrade => {
+            for(let upgrade of card.upgrades) {
                 upgrade.leavesPlay();
                 upgrade.owner.moveCard(upgrade, 'discard');
-            });
+            }
 
             card.leavesPlay();
             card.controller = this;
@@ -437,11 +361,10 @@ class Player extends GameObject {
             return;
         }
 
-        var originalLocation = card.location;
-        var originalPile = this.getSourceList(originalLocation);
-
-        if(originalPile) {
-            originalPile = this.removeCardByUuid(originalPile, card.uuid);
+        if(card.location === 'play area') {
+            this.cardsInPlay = this.cardsInPlay.filter(c => c !== card);
+        } else if(this[card.location]) {
+            this[card.location] = this[card.location].filter(c => c !== card);
         }
     }
 
@@ -491,25 +414,106 @@ class Player extends GameObject {
         return this.anyEffect('showTopConflictCard');
     }
 
+    modifyAmber(amount) {
+        this.amber = Math.max(this.amber + amount, 0);
+    }
+
+    modifyChains(amount) {
+        this.chains = Math.max(this.chains + amount, 0);
+    }
+
+    get maxHandSize() {
+        return 6 + this.sumEffects('modifyHandSize') - Math.floor((this.chains + 5) / 6);
+    }
+
     getAvailableHouses() {
         return this.houses;
     }
 
+    canForgeKey(modifier = 0) {
+        return this.amber >= this.getCurrentKeyCost() + modifier;
+    }
+
+    getCurrentKeyCost() {
+        return this.sumEffects('modifyKeyCost') + 6;
+    }
+
+    forgeKey(modifier) {
+        let cost = Math.max(0, this.getCurrentKeyCost() + modifier);
+        this.modifyAmber(-cost);
+        this.keys += 1;
+    }
+
     getStats() {
         return {
-            fate: this.fate,
-            honor: this.getTotalHonor(),
-            conflictsRemaining: this.getConflictOpportunities(),
-            militaryRemaining: this.getConflictOpportunities('military'),
-            politicalRemaining: this.getConflictOpportunities('political')
+            amber: this.amber,
+            chains: this.chains,
+            keys: this.keys,
+            houses: this.houses
         };
+    }
+
+    getRingSelectionState(ring) {
+        return this.promptState.getRingSelectionState(ring);
     }
 
     /**
      * This information is passed to the UI
      * @param {Player} activePlayer
      */
+
     getState(activePlayer) {
+        let isActivePlayer = activePlayer === this;
+        let promptState = isActivePlayer ? this.promptState.getState() : {};
+        let state = {
+            cardPiles: {
+                cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
+                conflictDiscardPile: this.getSummaryForCardList(this.archives, activePlayer),
+                dynastyDiscardPile: this.getSummaryForCardList(this.discard, activePlayer),
+                hand: this.getSummaryForCardList(this.hand, activePlayer, true),
+                removedFromGame: this.getSummaryForCardList(this.purged, activePlayer),
+                provinceDeck: this.getSummaryForCardList(this.deck, activePlayer, true)
+            },
+            disconnected: this.disconnected,
+            faction: '',
+            firstPlayer: false,
+            houses: this.houses,
+            hideProvinceDeck: true,
+            id: this.id,
+            imperialFavor: '',
+            left: this.left,
+            name: this.name,
+            numConflictCards: this.deck.length,
+            numDynastyCards: this.deck.length,
+            numProvinceCards: this.deck.length,
+            optionSettings: this.optionSettings,
+            phase: this.game.currentPhase,
+            promptedActionWindows: { // these flags represent phase settings
+                dynasty: true,
+                draw: true,
+                preConflict: true,
+                conflict: true,
+                fate: true,
+                regroup: true
+            },
+            provinces: {
+                one: this.getSummaryForCardList([], activePlayer, !this.readyToStart),
+                two: this.getSummaryForCardList([], activePlayer, !this.readyToStart),
+                three: this.getSummaryForCardList([], activePlayer, !this.readyToStart),
+                four: this.getSummaryForCardList([], activePlayer, !this.readyToStart)
+            },
+            showBid: 0,
+            stats: this.getStats(),
+            timerSettings: {},
+            strongholdProvince: this.getSummaryForCardList([], activePlayer),
+            user: _.omit(this.user, ['password', 'email'])
+        };
+
+        if(this.clock) {
+            state.clock = this.clock.getState();
+        }
+
+        /*
         let isActivePlayer = activePlayer === this;
         let promptState = isActivePlayer ? this.promptState.getState() : {};
         let state = {
@@ -531,12 +535,11 @@ class Player extends GameObject {
             stats: this.getStats(),
             user: _.omit(this.user, ['password', 'email'])
         };
-        /*
         if(this.showDeck) {
             state.showDeck = true;
             state.cardPiles.deck = this.getSummaryForCardList(this.deck, activePlayer, true),
         }
-*/
+
         if(this.isTopCardShown()) {
             state.deckTopCard = this.deck[0].getSummary(activePlayer);
         }
@@ -544,6 +547,7 @@ class Player extends GameObject {
         if(this.clock) {
             state.clock = this.clock.getState();
         }
+        */
 
         return _.extend(state, promptState);
     }

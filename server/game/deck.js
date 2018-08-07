@@ -44,7 +44,7 @@ class Deck {
             { id: 'bulwark', count: 1 },
             { id: 'champion-anaphiel', count: 1 },
             { id: 'francus', count: 1 },
-            { id: 'sargeant-zakiel', count: 1 },
+            { id: 'sergeant-zakiel', count: 1 },
             { id: 'staunch-knight', count: 1 },
             { id: 'save-the-pack', count: 1 },
             { id: 'ancient-bear', count: 2 },

@@ -46,6 +46,18 @@ export class PlayerStatsRow extends React.Component {
         );
     }
 
+    getHouses() {
+        return (
+            <div className='state'>
+                {
+                    this.props.houses.map(house => (
+                        <img className='house-image' src={ '/img/' + house + '.png' } title={ house } />
+                    ))
+                }
+            </div>
+        );
+    }
+
     render() {
         let playerAvatar = (
             <div className='player-avatar state'>
@@ -62,12 +74,13 @@ export class PlayerStatsRow extends React.Component {
         return (
             <div className='panel player-stats no-highlight'>
                 { playerAvatar }
-                { this.getButton('fate', 'Fate') }
-                { this.getButton('honor', 'Honor') }
+                { this.getButton('amber', 'Amber') }
+                { this.getButton('chains', 'Chains') }
+                { this.props.houses ? this.getHouses() : null }
                 {
                     this.props.firstPlayer &&
                     <div className='state first-player-state'>
-                        <img className='first-player-indicator' src='/img/first-player.png' title='First Player' />
+                        <img className='first-player-indicator' src='/img/first-player.png' title='Active Player' />
                     </div>
                 }
                 {
@@ -76,15 +89,6 @@ export class PlayerStatsRow extends React.Component {
                         <div className='hand-size'>Hand Size: { this.props.handSize }</div>
                     </div>
                 }
-                <div className='state'>
-                    <div className='conflicts-remaining'>
-                        Conflicts Remaining: { this.getStatValueOrDefault('conflictsRemaining') }
-                        { this.getStatValueOrDefault('politicalRemaining') > 0 ? <span className='icon-political'/> : null }
-                        { this.getStatValueOrDefault('politicalRemaining') > 1 ? <span className='icon-political'/> : null }
-                        { this.getStatValueOrDefault('militaryRemaining') > 0 ? <span className='icon-military'/> : null }
-                        { this.getStatValueOrDefault('militaryRemaining') > 1 ? <span className='icon-military'/> : null }
-                    </div>
-                </div>
                 { clock }
             </div>
         );
@@ -96,6 +100,7 @@ PlayerStatsRow.propTypes = {
     clockState: PropTypes.object,
     firstPlayer: PropTypes.bool,
     handSize: PropTypes.number,
+    houses: PropTypes.array,
     otherPlayer: PropTypes.bool,
     sendGameMessage: PropTypes.func,
     showControls: PropTypes.bool,
