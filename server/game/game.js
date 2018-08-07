@@ -151,14 +151,6 @@ class Game extends EventEmitter {
     }
 
     /**
-     * Get all players (not spectators) with the first player at index 0
-     * @returns {Player[]} Array of Player objects
-     */
-    getPlayersInFirstPlayerOrder() {
-        return this.getPlayers().sort(a => a.firstPlayer ? -1 : 1);
-    }
-
-    /**
      * Get all players and spectators in the game
      * @returns {Object} {name1: Player, name2: Player, name3: Spectator}
      */
@@ -172,14 +164,6 @@ class Game extends EventEmitter {
      */
     getSpectators() {
         return Object.values(this.playersAndSpectators).filter(player => this.isSpectator(player));
-    }
-
-    /**
-     * Gets the current First Player
-     * @returns {Player}
-     */
-    getFirstPlayer() {
-        return this.getPlayers().find(p => p.firstPlayer);
     }
 
     /**
@@ -199,7 +183,7 @@ class Game extends EventEmitter {
      * Returns the card (i.e. character) with matching uuid from either players
      * 'in play' area.
      * @param {String} cardId
-     * @returns {DrawCard}
+     * @returns {Card}
      */
     findAnyCardInPlayByUuid(cardId) {
         return _.reduce(this.getPlayers(), (card, player) => {
@@ -213,7 +197,7 @@ class Game extends EventEmitter {
     /**
      * Returns the card with matching uuid from anywhere in the game
      * @param {String} cardId
-     * @returns {BaseCard}
+     * @returns {Card}
      */
     findAnyCardInAnyList(cardId) {
         return this.allCards.find(card => card.uuid === cardId);
@@ -235,11 +219,6 @@ class Game extends EventEmitter {
         return foundCards;
     }
 
-    createToken(card) {
-        let token = new SpiritOfTheRiver(card);
-        this.allCards.push(token);
-        return token;
-    }
 
     get actions() {
         return GameActions;
@@ -322,7 +301,7 @@ class Game extends EventEmitter {
         }
 
         if(!player.showDeck) {
-            player.showtDeck();
+            player.showDeck = true;
 
             this.addMessage('{0} is looking at their deck', player);
         } else {
@@ -355,7 +334,7 @@ class Game extends EventEmitter {
      * function doesn't check to see if a conquest victory has been achieved)
      */
     checkWinCondition() {
-        for(const player of this.getPlayersInFirstPlayerOrder()) {
+        for(const player of this.getPlayers()) {
             if(player.keys > 2) {
                 this.recordWinner(player, 'keys');
             }

@@ -11,7 +11,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         this.eventWindow = window;
         this.eventsToExclude = eventsToExclude;
         this.abilityType = abilityType;
-        this.currentPlayer = this.game.getFirstPlayer();
+        this.currentPlayer = this.game.activePlayer;
         this.resolvedAbilities = [];
     }
 

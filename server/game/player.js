@@ -31,6 +31,7 @@ class Player extends GameObject {
         this.chains = 0;
 
         this.clock = ClockSelector.for(this, clockdetails);
+        this.showDeck = false;
 
         this.playableLocations = [
             new PlayableLocation('play', this, 'hand')
@@ -84,12 +85,11 @@ class Player extends GameObject {
 
     /**
      * Removes a card with the passed uuid from a list. Returns an _(Array)
-     * @param {_(Array)} list
+     * @param {Card[]} list
      * @param {String} uuid
      */
     removeCardByUuid(list, uuid) {
         list = list.filter(card => card.uuid !== uuid);
-        console.log(list);
         return list;
     }
 
@@ -213,14 +213,6 @@ class Player extends GameObject {
         this.turn += 1;
     }
 
-    showDeck() {
-        this.deck = true;
-    }
-
-    showDynastyDeck() {
-        this.showDynasty = true;
-    }
-
     /**
      * Gets the appropriate list for the passed location
      * @param {String} source
@@ -332,6 +324,7 @@ class Player extends GameObject {
         } else if(targetLocation === 'play area') {
             card.setDefaultController(this);
             card.controller = this;
+            card.exhausted = true;
         } else if(location === 'being played' && card.owner !== this) {
             card.owner.moveCard(card, targetLocation, options);
             return;
@@ -345,6 +338,8 @@ class Player extends GameObject {
             targetPile.unshift(card);
         } else if(['discard', 'purged'].includes(targetLocation)) {
             // new cards go on the top of the discard pile
+            targetPile.unshift(card);
+        } else if(targetLocation === 'play area' && options.left) {
             targetPile.unshift(card);
         } else if(targetPile) {
             targetPile.push(card);

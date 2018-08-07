@@ -24,6 +24,7 @@ class PlayUpgradeAction extends BaseAction {
 
     displayMessage(context) {
         let amberMsg = context.source.printedAmber > 0 ? ', gaining ' + context.source.printedAmber.toString() + ' amber' : '';
+        context.player.modifyAmber(context.source.printedAmber);
         if(context.target) {
             context.game.addMessage('{0} plays {1}{2}{3} attaching it to {4}', context.player, context.source, amberMsg, context.source.printedAmber > 0 ? '' : ',', context.target);
         } else {

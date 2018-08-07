@@ -20,13 +20,16 @@ class PlayArtifactAction extends BaseAction {
     }
 
     executeHandler(context) {
+        context.player.moveCard(context.source, 'being played');
         let amberMsg = context.source.printedAmber > 0 ? ', gaining ' + context.source.printedAmber.toString() + ' amber' : '';
+        context.player.modifyAmber(context.source.printedAmber);
         context.game.addMessage('{0} plays {1}{2}', context.player, context.source, amberMsg);
         context.game.raiseEvent('onCardPlayed', {
             player: context.player,
             card: context.source,
             originalLocation: context.source.location
         });
+        context.game.queueSimpleStep(() => context.source.owner.moveCard(context.source, 'discard'));
     }
 
     isCardPlayed() {

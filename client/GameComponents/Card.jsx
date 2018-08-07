@@ -272,7 +272,7 @@ class Card extends React.Component {
 
         cardClass += ' card-type-' + this.props.card.type;
 
-        if(this.props.orientation === 'bowed' || this.props.card.bowed) {
+        if(this.props.orientation === 'bowed' || this.props.card.exhausted) {
             cardClass += ' horizontal';
             imageClass += ' vertical bowed';
         } else if(this.props.card.isBroken) {
@@ -445,10 +445,10 @@ Card.propTypes = {
         attachments: PropTypes.array,
         baseMilitarySkill: PropTypes.number,
         basePoliticalSkill: PropTypes.number,
-        bowed: PropTypes.bool,
         controlled: PropTypes.bool,
         controller: PropTypes.string,
         covert: PropTypes.bool,
+        exhausted: PropTypes.bool,
         facedown: PropTypes.bool,
         id: PropTypes.string,
         inConflict: PropTypes.bool,

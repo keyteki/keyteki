@@ -4,7 +4,7 @@ class StaunchKnight extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: this,
-            condition: this.isOnFlank(),
+            condition: () => this.isOnFlank(),
             effect: ability.effects.modifyPower(2)
         });
     }

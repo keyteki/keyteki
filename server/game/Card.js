@@ -252,6 +252,10 @@ class Card extends EffectSource {
         return !this.anyEffect('doesNotReady');
     }
 
+    isBlank() {
+        return this.anyEffect('blank');
+    }
+
     hasKeyword(keyword) {
         keyword = keyword.toLowerCase();
         return this.hasPrintedKeyword(keyword) || this.getEffects('addKeyword').includes(keyword);
@@ -346,7 +350,7 @@ class Card extends EffectSource {
         } else if(legalActions.length === 1) {
             let action = legalActions[0];
             let targetPrompts = action.targets.some(target => target.properties.player !== 'opponent');
-            if(!this.game.activePlayer.optionSettings.confirmOneClick || action.cost.some(cost => cost.promptsPlayer) || targetPrompts || !canCancel) {
+            if(!this.game.activePlayer.optionSettings.confirmOneClick || targetPrompts || !canCancel) {
                 this.game.resolveAbility(action.createContext(player));
                 return true;
             }

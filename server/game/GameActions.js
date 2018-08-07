@@ -9,6 +9,8 @@ const DestroyAction = require('./GameActions/DestroyAction');
 const DiscardCardAction = require('./GameActions/DiscardCardAction');
 const DrawAction = require('./GameActions/DrawAction');
 const ExhaustAction = require('./GameActions/ExhaustAction');
+const FightGameAction = require('./GameActions/FightGameAction');
+const ForgeAction = require('./GameActions/ForgeAction');
 const JointGameAction = require('./GameActions/JointGameAction');
 const LastingEffectAction = require('./GameActions/LastingEffectAction');
 const LastingEffectCardAction = require('./GameActions/LastingEffectCardAction');
@@ -19,6 +21,7 @@ const PlayCardAction = require('./GameActions/PlayCardAction');
 const PutIntoPlayAction = require('./GameActions/PutIntoPlayAction');
 const RandomDiscardAction = require('./GameActions/RandomDiscardAction');
 const ReadyAction = require('./GameActions/ReadyAction');
+const ReapGameAction = require('./GameActions/ReapGameAction');
 const ResolveAbilityAction = require('./GameActions/ResolveAbilityAction');
 const ReturnToDeckAction = require('./GameActions/ReturnToDeckAction');
 const ReturnToHandAction = require('./GameActions/ReturnToHandAction');
@@ -35,14 +38,16 @@ const Actions = {
     discard: (propertyFactory) => new DiscardCardAction(propertyFactory),
     destroy: (propertyFactory) => new DestroyAction(propertyFactory),
     exhaust: (propertyFactory) => new ExhaustAction(propertyFactory),
-    reveal: (propertyFactory) => new RevealAction(propertyFactory),
+    fight: (propertyFactory) => new FightGameAction(propertyFactory),
     moveCard: (propertyFactory) => new MoveCardAction(propertyFactory), // destination, switch = false, shuffle = false
     playCard: (propertyFactory) => new PlayCardAction(propertyFactory), // resetOnCancel = false, postHandler
-    putIntoPlay: (propertyFactory) => new PutIntoPlayAction(propertyFactory, false), // fate = 0
+    putIntoPlay: (propertyFactory) => new PutIntoPlayAction(propertyFactory),
     ready: (propertyFactory) => new ReadyAction(propertyFactory),
+    reap: (propertyFactory) => new ReapGameAction(propertyFactory),
     resolveAbility: (propertyFactory) => new ResolveAbilityAction(propertyFactory), // ability
     returnToDeck: (propertyFactory) => new ReturnToDeckAction(propertyFactory), // bottom = false
     returnToHand: (propertyFactory) => new ReturnToHandAction(propertyFactory),
+    reveal: (propertyFactory) => new RevealAction(propertyFactory),
     sacrifice: (propertyFactory) => new DestroyAction(propertyFactory, true),
     use: (propertyFactory) => new UseAction(propertyFactory),
     // player actions
@@ -50,6 +55,7 @@ const Actions = {
     deckSearch: (propertyFactory) => new DeckSearchAction(propertyFactory), // amount = -1, reveal = true, cardCondition = (card, context) => true
     discardAtRandom: (propertyFactory) => new RandomDiscardAction(propertyFactory), // amount = 1
     draw: (propertyFactory) => new DrawAction(propertyFactory), // amount = 1
+    forgeKey: (propertyFactory) => new ForgeAction(propertyFactory), // modifier = 0
     forRemainderOfTurn: (propertyFactory) => new LastingEffectAction(propertyFactory, 1),
     gainAmber: (propertyFactory) => new ModifyAmberAction(propertyFactory), // amount = 1
     lastingEffect: (propertyFactory) => new LastingEffectAction(propertyFactory),

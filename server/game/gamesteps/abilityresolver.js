@@ -18,11 +18,9 @@ class AbilityResolver extends BaseStepWithPipeline {
             new SimpleStep(this.game, () => this.createSnapshot()),
             new SimpleStep(this.game, () => this.resolveEarlyTargets()),
             new SimpleStep(this.game, () => this.checkForCancel()),
-            new SimpleStep(this.game, () => this.resolveCosts()),
-            new SimpleStep(this.game, () => this.payCosts()),
-            new SimpleStep(this.game, () => this.checkCostsWerePaid()),
             new SimpleStep(this.game, () => this.resolveTargets()),
-            new SimpleStep(this.game, () => this.initiateAbility())
+            new SimpleStep(this.game, () => this.initiateAbility()),
+            new SimpleStep(this.game, () => this.executeHandler())
         ]);
     }
 
@@ -50,46 +48,6 @@ class AbilityResolver extends BaseStepWithPipeline {
         this.cancelled = this.targetResults.cancelled;
     }
 
-    resolveCosts() {
-        if(this.cancelled) {
-            return;
-        }
-        this.canPayResults = {
-            cancelled: false,
-            canCancel: this.canCancel
-        };
-        this.context.stage = 'costs';
-        this.context.ability.resolveCosts(this.context, this.canPayResults);
-    }
-
-    payCosts() {
-        if(this.cancelled) {
-            return;
-        } else if(this.canPayResults.cancelled) {
-            this.cancelled = true;
-            return;
-        }
-        this.costEvents = this.context.ability.payCosts(this.context);
-        if(this.costEvents.length > 0) {
-            this.game.openEventWindow(this.costEvents);
-        }
-    }
-
-    checkCostsWerePaid() {
-        if(this.cancelled) {
-            return;
-        }
-        this.cancelled = _.any(this.costEvents, event => {
-            let result = event.getResult();
-            return !result.resolved || result.cancelled;
-        });
-
-        if(this.cancelled) {
-            this.game.addMessage('{0} attempted to use {1}, but did not successfully pay the required costs', this.context.player, this.context.source);
-        }
-    }
-
-
     resolveTargets() {
         if(this.cancelled) {
             return;
@@ -114,31 +72,7 @@ class AbilityResolver extends BaseStepWithPipeline {
         if(this.cancelled) {
             return;
         }
-
-        // Increment limits (limits aren't used up on cards in hand)
-        if(this.context.ability.limit && this.context.source.location !== 'hand' &&
-           (!this.context.cardStateWhenInitiated || this.context.cardStateWhenInitiated.location === this.context.source.location)) {
-            this.context.ability.limit.increment(this.context.player);
-        }
-        if(this.context.ability.max) {
-            this.context.player.incrementAbilityMax(this.context.ability.maxIdentifier);
-        }
-
         this.context.ability.displayMessage(this.context);
-
-        // If this is a card ability, raise an initiateAbilityEvent
-        if(this.context.ability.isTriggeredAbility()) {
-            // If this is an event, move it to 'being played', and queue a step to send it to the discard pile after it resolves
-            if(this.context.ability.isCardPlayed()) {
-                this.context.player.moveCard(this.context.source, 'being played');
-                this.game.raiseInitiateAbilityEvent({ card: this.context.source, context: this.context }, () => this.executeHandler());
-                this.game.queueSimpleStep(() => this.context.player.moveCard(this.context.source, 'conflict discard pile'));
-            } else {
-                this.game.raiseInitiateAbilityEvent({ card: this.context.source, context: this.context }, () => this.executeHandler());
-            }
-        } else {
-            this.executeHandler();
-        }
     }
 
     executeHandler() {

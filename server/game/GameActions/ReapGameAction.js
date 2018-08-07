@@ -8,14 +8,17 @@ class ReapGameAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(card.location !== 'play area') {
+        if(card.location !== 'play area' || card.exhausted) {
             return false;
         }
         return super.canAffect(card, context);
     }
 
     getEvent(card, context) {
-        return super.createEvent('onReap', { card: card, context: context }, () => card.controller.modifyAmber);
+        return super.createEvent('onReap', { card: card, context: context }, () => {
+            card.exhaust();
+            card.controller.modifyAmber(1);
+        });
     }
 }
 

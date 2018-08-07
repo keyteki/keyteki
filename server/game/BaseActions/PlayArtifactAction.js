@@ -27,6 +27,7 @@ class PlayArtifactAction extends BaseAction {
         });
         let amberMsg = context.source.printedAmber > 0 ? ', gaining ' + context.source.printedAmber.toString() + ' amber' : '';
         context.game.addMessage('{0} plays {1}{2}', context.player, context.source, amberMsg);
+        context.player.modifyAmber(context.source.printedAmber);
         context.game.openEventWindow([context.game.actions.putIntoPlay().getEvent(context.source, context), cardPlayedEvent]);
     }
 
