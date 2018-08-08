@@ -63,7 +63,7 @@ class GameObject {
         return null;
     }
 
-    hasKeyword() {
+    getKeywordValue() {
         return false;
     }
 

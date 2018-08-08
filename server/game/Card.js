@@ -31,6 +31,7 @@ class Card extends EffectSource {
         this.abilities = { actions: [], reactions: [], persistentEffects: [] };
         this.traits = cardData.traits || [];
         this.setupCardAbilities(AbilityDsl);
+        this.setupKeywordAbilities(AbilityDsl);
 
         this.printedFaction = cardData.house;
         this.printedAmber = cardData.amber;
@@ -39,6 +40,7 @@ class Card extends EffectSource {
         this.parent = null;
 
         this.printedPower = cardData.power;
+        this.printedArmor = cardData.armor;
         this.exhausted = false;
         this.stunned = false;
         this.damage = 0;
@@ -54,6 +56,8 @@ class Card extends EffectSource {
             { command: 'move', text: 'Move into/out of conflict' },
             { command: 'control', text: 'Give control' }
         ];
+
+        this.onEndRound();
     }
 
     /**
@@ -61,6 +65,39 @@ class Card extends EffectSource {
      * @param {AbilityDsl} ability - object containing limits, costs, effects, and game actions
      */
     setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    }
+
+    setupKeywordAbilities(ability) {
+        // Assault
+        this.interrupt({
+            title: 'Assault',
+            when: {
+                onFight: (event, context) => event.attacker === context.source
+            },
+            gameAction: ability.actions.dealDamage(context => ({
+                amount: context.source.getKeywordValue('assault'),
+                target: context.event.defender
+            }))
+        });
+
+        // Hazardous
+        this.interrupt({
+            title: 'Hazardous',
+            when: {
+                onFight: (event, context) => event.defender === context.source
+            },
+            gameAction: ability.actions.dealDamage(context => ({
+                amount: context.source.getKeywordValue('hazardous'),
+                target: context.event.attacker
+            }))
+        });
+
+        // Taunt
+        this.persistentEffect({
+            condition: () => this.getKeywordValue('taunt'),
+            match: card => this.neighbors.includes(card) && !card.getKeywordValue('taunt'),
+            effect: ability.cardCannot('attack')
+        });
     }
 
     play(properties) {
@@ -153,6 +190,12 @@ class Card extends EffectSource {
         this.new = false;
         this.tokens = {};
         this.controller = this.owner;
+        this.onEndRound();
+    }
+
+    onEndRound() {
+        this.armorUsed = 0;
+        this.elusiveUsed = false;
     }
 
     updateAbilityEvents(from, to) {
@@ -256,13 +299,10 @@ class Card extends EffectSource {
         return this.anyEffect('blank');
     }
 
-    hasKeyword(keyword) {
+    getKeywordValue(keyword) {
         keyword = keyword.toLowerCase();
-        return this.hasPrintedKeyword(keyword) || this.getEffects('addKeyword').includes(keyword);
-    }
-
-    hasPrintedKeyword(keyword) {
-        return this.keywords.includes(keyword.toLowerCase());
+        let reduceFunc = (total, keywords) => total + keywords[keyword] ? keywords[keyword] : 0;
+        return this.getEffects('addKeyword').reduce(reduceFunc, reduceFunc(0, this.keywords));
     }
 
     createSnapshot() {
@@ -289,6 +329,17 @@ class Card extends EffectSource {
         return this.sumEffects('modifyPower') + this.printedPower;
     }
 
+    get armor() {
+        return this.getArmor();
+    }
+
+    getArmor(printed = false) {
+        if(printed) {
+            return this.printedArmor;
+        }
+        return this.sumEffects('modifyArmor') + this.printedArmor;
+    }
+
     stun() {
         this.stunned = true;
     }
@@ -303,13 +354,6 @@ class Card extends EffectSource {
 
     ready() {
         this.exhausted = false;
-    }
-
-    takeDamage(amount) {
-        this.damage += amount;
-        if(this.damage > this.power) {
-            this.game.actions.destroy().resolve(this, this.game.getFrameworkContext());
-        }
     }
 
     /**
@@ -411,8 +455,19 @@ class Card extends EffectSource {
     }
 
     isOnFlank() {
+        return this.neighbors.length < 2;
+    }
+
+    get neighbors() {
         let index = this.controller.cardsInPlay.indexOf(this);
-        return index === 0 || index === this.controller.cardsInPlay.length - 1;
+        let neighbors = [];
+        if(index > 0) {
+            neighbors.push(this.controller.cardsInPlay[index - 1]);
+        }
+        if(index < this.controller.cardsInPlay.length - 1) {
+            neighbors.push(this.controller.cardsInPlay[index + 1]);
+        }
+        return neighbors;
     }
 
     getSummary(activePlayer, hideWhenFaceup) {
