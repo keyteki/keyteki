@@ -1,5 +1,6 @@
 const ExactlyXCardSelector = require('./CardSelectors/ExactlyXCardSelector');
 const MaxStatCardSelector = require('./CardSelectors/MaxStatCardSelector');
+const MostStatCardSelector = require('./CardSelectors/MostStatCardSelector');
 const SingleCardSelector = require('./CardSelectors/SingleCardSelector');
 const UnlimitedCardSelector = require('./CardSelectors/UnlimitedCardSelector');
 const UpToXCardSelector = require('./CardSelectors/UpToXCardSelector');
@@ -7,7 +8,7 @@ const UpToXCardSelector = require('./CardSelectors/UpToXCardSelector');
 const defaultProperties = {
     numCards: 1,
     cardCondition: () => true,
-    cardType: ['attachment', 'character', 'event', 'holding', 'stronghold', 'role', 'province'],
+    cardType: ['action', 'actifact', 'creature', 'upgrade'],
     multiSelect: false
 };
 
@@ -15,6 +16,7 @@ const ModeToSelector = {
     ability: p => new SingleCardSelector(p),
     exactly: p => new ExactlyXCardSelector(p.numCards, p),
     maxStat: p => new MaxStatCardSelector(p),
+    mostStat: p => new MostStatCardSelector(p),
     single: p => new SingleCardSelector(p),
     unlimited: p => new UnlimitedCardSelector(p),
     upTo: p => new UpToXCardSelector(p.numCards, p)

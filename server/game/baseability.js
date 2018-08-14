@@ -1,5 +1,6 @@
 const AbilityTargetAbility = require('./AbilityTargets/AbilityTargetAbility.js');
 const AbilityTargetCard = require('./AbilityTargets/AbilityTargetCard.js');
+const AbilityTargetHouse = require('./AbilityTargets/AbilityTargetHouse.js');
 const AbilityTargetSelect = require('./AbilityTargets/AbilityTargetSelect.js');
 /**
  * Base class representing an ability that can be done by the player. This
@@ -50,6 +51,8 @@ class BaseAbility {
         }
         if(properties.mode === 'select') {
             return new AbilityTargetSelect(name, properties, this);
+        } else if(properties.mode === 'house') {
+            return new AbilityTargetHouse(name, properties, this);
         } else if(properties.mode === 'ability') {
             return new AbilityTargetAbility(name, properties, this);
         }
@@ -85,7 +88,7 @@ class BaseAbility {
      * @returns {Boolean}
      */
     canResolveTargets(context) {
-        return this.nonDependentTargets.every(target => target.canResolve(context));
+        return this.nonDependentTargets.some(target => target.canResolve(context));
     }
 
     /**

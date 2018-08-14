@@ -1,45 +1,34 @@
-const fs = require('fs');
 const path = require('path');
 const _ = require('underscore');
 
 const {matchCardByNameAndPack} = require('./cardutil.js');
 
-const PathToSubModulePacks = path.join(__dirname, '../../fiveringsdb-data/json/Card');
+const pathToJson = path.join(__dirname, '../../server/scripts/keyforge.json');
 
-const defaultFaction = 'phoenix';
-const defaultRole = 'seeker-of-water';
-const defaultStronghold = 'city-of-the-open-hand';
-const minProvince = 5;
-const provinceFiller = 'shameful-display';
-const dynastyFiller = 'adept-of-the-waves';
-const conflictFiller = 'supernatural-storm';
-const dynastyBuffer = 8; // buffer decks to prevent re-shuffling
-const conflictBuffer = 8; // buffer decks to prevent re-shuffling
+const defaultFiller = {
+    brobnar: 'anger',
+    dis: 'hand-of-dis',
+    logos: 'foggify',
+    mars: 'ammonia-clouds',
+    sanctum: 'champion-anaphiel',
+    shadows: 'macis-asp',
+    untamed: 'ancient-bear'
+};
+const minDeck = 15;
+const fillerHouses = ['untamed', 'sanctum', 'shadows'];
 
 class DeckBuilder {
     constructor() {
-        this.cards = this.loadCards(PathToSubModulePacks);
-        this.fillers = {
-            faction: defaultFaction,
-            role: defaultRole,
-            stronghold: defaultStronghold,
-            province: provinceFiller,
-            dynasty: dynastyFiller,
-            conflict: conflictFiller
-        };
+        this.cards = this.loadCards(pathToJson);
     }
 
-    loadCards(directory) {
-        var cards = {};
+    loadCards(pathToJson) {
+        let cards = {};
+        let jsonCards = require(pathToJson);
 
-        var jsonCards = fs.readdirSync(directory).filter(file => file.endsWith('.json'));
-
-        _.each(jsonCards, file => {
-            var cardsInPack = require(path.join(PathToSubModulePacks, file));
-
-            _.each(cardsInPack, card => {
-                cards[card.id] = card;
-            });
+        _.each(jsonCards.CardData, card => {
+            let id = card.name.toLowerCase().replace(/[".!]/gi, '').replace(/[ ']/gi, '-');
+            cards[id] = Object.assign({ id: id }, card);
         });
 
         return cards;
@@ -49,114 +38,37 @@ class DeckBuilder {
         options: as player1 and player2 are described in setupTest #1514
     */
     customDeck(player = {}) {
-        let faction = defaultFaction;
-        let role = defaultRole;
-        let stronghold = defaultStronghold;
-        let provinceDeck = [];
-        let conflictDeck = [];
-        let conflictDeckSize = conflictBuffer; 
-        let dynastyDeck = [];
-        let dynastyDeckSize = dynastyBuffer; 
-        let inPlayCards = []; // Considered separately, because may consist of both dynasty and conflict
+        let deck = [];
 
-        if(player.faction) {
-            faction = player.faction;
-        }
-        if(player.role) {
-            role = player.role;
-        }
-        if(player.stronghold) {
-            stronghold = player.stronghold;
-        }
-        //Create the province deck
-        if(player.strongholdProvince) {
-            provinceDeck.push(player.strongholdProvince);
-        }
-        if(player.provinces) {
-            if(_.isArray(player.provinces)) {
-                provinceDeck = provinceDeck.concat(player.provinces);
-            } else {
-                _.each(player.provinces, province => {
-                    if(province.provinceCard) {
-                        provinceDeck.push(province.provinceCard);
-                    }
-                });
+        for(let zone of ['deck', 'hand', 'inPlay', 'discard', 'archives']) {
+            if(Array.isArray(player[zone])) {
+                deck = deck.concat(player[zone]);
             }
         }
-        //Fill the deck up to minimum number of provinces
-        while(provinceDeck.length < minProvince) {
-            provinceDeck.push(provinceFiller);
-        }
-        /*
-         * Create the dynasty deck - dynasty deck consists of cards in decks,
-         * provinces and discard
-         */
-        let initialDynastySize = 0;
-        if(player.dynastyDeckSize) {
-            dynastyDeckSize = player.dynastyDeckSize;
-        }
-        if(player.dynastyDeck) {
-            dynastyDeck.push(...player.dynastyDeck);
-            initialDynastySize = player.dynastyDeck.length;
-        }
-        if(player.dynastyDiscard) {
-            dynastyDeck.push(...player.dynastyDiscard);
-        }
-        _.each(player.provinces, province => {
-            if(province.dynastyCards) {
-                dynastyDeck.push(...province.dynastyCards);
+
+        let houses = [];
+        for(let label of deck) {
+            let card = this.getCard(label);
+            if(!houses.includes(card.house.toLowerCase())) {
+                houses.push(card.house.toLowerCase());
             }
-        });
-        //Add cards to prevent reshuffling due to running out of cards
-        for(let i = initialDynastySize; i < dynastyDeckSize; i++) {
-            dynastyDeck.push(dynastyFiller);
-        }
-        /**
-         * Create the conflict deck - conflict deck consists of cards in decks,
-         * hand and discard
-         */
-        let initialConflictSize = 0;
-        if(player.conflictDeckSize) {
-            conflictDeckSize = player.conflictDeckSize;
-        }
-        if(player.conflictDeck) {
-            conflictDeck.push(...player.conflictDeck);
-            initialConflictSize = player.conflictDeck.length;
-        }
-        if(player.conflictDiscard) {
-            conflictDeck.push(...player.conflictDiscard);
-        }
-        if(player.hand) {
-            conflictDeck.push(...player.hand);
-        }
-        //Add cards to prevent reshuffling due to running out of cards
-        for(let i = initialConflictSize; i < conflictDeckSize; i++) {
-            conflictDeck.push(conflictFiller);
         }
 
-        //Collect the names of cards in play
-        _.each(player.inPlay, card => {
-            if(_.isString(card)) {
-                inPlayCards.push(card);
-            } else {
-                //Add the card itself
-                inPlayCards.push(card.card);
-                //Add any attachments
-                if(card.attachments) {
-                    inPlayCards.push(...card.attachments);
-                }
-            }
-        });
+        let missingHouses = 3 - houses.length;
+        if(missingHouses < 0) {
+            throw new Error('More than 3 houses present');
+        } else if(missingHouses > 0) {
+            houses = houses.concat(_.difference(fillerHouses, houses).slice(0, missingHouses));
+        }
 
-        //Collect all the cards together
-        var deck = provinceDeck.concat(conflictDeck)
-            .concat(dynastyDeck).concat(inPlayCards)
-            .concat(role).concat(stronghold);
+        while(deck.length < minDeck) {
+            deck = deck.concat(defaultFiller[houses[0]]);
+        }
 
-        return this.buildDeck(faction, deck);
+        return this.buildDeck(houses, deck);
     }
 
-    buildDeck(faction, cardLabels) {
+    buildDeck(houses, cardLabels) {
         var cardCounts = {};
         _.each(cardLabels, label => {
             var cardData = this.getCard(label);
@@ -165,18 +77,14 @@ class DeckBuilder {
             } else {
                 cardCounts[cardData.id] = {
                     count: 1,
-                    card: cardData
+                    id: cardData.id
                 };
             }
         });
 
         return {
-            faction: { value: faction },
-            stronghold: _.filter(cardCounts, count => count.card.type === 'stronghold'),
-            role: _.filter(cardCounts, count => count.card.type === 'role'),
-            conflictCards: _.filter(cardCounts, count => count.card.side === 'conflict'),
-            dynastyCards: _.filter(cardCounts, count => count.card.side === 'dynasty'),
-            provinceCards: _.filter(cardCounts, count => count.card.type === 'province')
+            houses: houses,
+            cards: Object.values(cardCounts)
         };
     }
 

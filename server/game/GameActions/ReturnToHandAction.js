@@ -1,5 +1,4 @@
 const CardGameAction = require('./CardGameAction');
-const LeavesPlayEvent = require('../Events/LeavesPlayEvent');
 
 class ReturnToHandAction extends CardGameAction {
     setDefaultProperties() {
@@ -7,8 +6,8 @@ class ReturnToHandAction extends CardGameAction {
     }
 
     setup() {
+        super.setup();
         this.name = 'returnToHand';
-        this.targetType = ['character', 'attachment'];
         this.effectMsg = 'return {0} to their hand';
         this.cost = 'returning {0} to their hand';
     }
@@ -22,7 +21,7 @@ class ReturnToHandAction extends CardGameAction {
 
     getEvent(card, context) {
         if(this.location === 'play area') {
-            return new LeavesPlayEvent({ context: context, destination: 'hand' }, card, this);
+            return super.createEvent('onLeavesPlay', { card: card, context: context }, () => card.owner.moveCard(card, 'hand'));
         }
         return super.createEvent('onMoveCard', { card: card, context: context }, () => card.owner.moveCard(card, 'hand'));
     }

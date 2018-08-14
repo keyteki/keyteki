@@ -24,12 +24,14 @@ class PutIntoPlayAction extends CardGameAction {
 
     preEventHandler(context) {
         super.preEventHandler(context);
-        context.game.promptWithHandlerMenu(context.player, {
-            activePromptTitle: 'Which flank do you want to place this creature on?',
-            context: context,
-            choices: ['Left', 'Right'],
-            choiceHandler: choice => this.left = choice === 'Left'
-        });
+        if(context.player.cardsInPlay.length) {
+            context.game.promptWithHandlerMenu(context.player, {
+                activePromptTitle: 'Which flank do you want to place this creature on?',
+                context: context,
+                choices: ['Left', 'Right'],
+                choiceHandler: choice => this.left = choice === 'Left'
+            });
+        }
     }
 
     getEvent(card, context) {

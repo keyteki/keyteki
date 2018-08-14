@@ -7,7 +7,7 @@ class ReapAction extends BaseAction {
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
-        if(!ignoredRequirements.includes('house') && context.player.activeHouse !== this.card.printedFaction) {
+        if(!this.card.canUse(context)) {
             return 'phase';
         }
         if(!ignoredRequirements.includes('location') && context.source.location !== 'play area') {
@@ -16,7 +16,10 @@ class ReapAction extends BaseAction {
         if(!ignoredRequirements.includes('stunned') && context.source.stunned) {
             return 'stunned';
         }
-        return context.game.actions.reap().canAffect(context.source) && super.meetsRequirements(context);
+        if(!context.game.actions.reap().canAffect(context.source)) {
+            return 'condition';
+        }
+        return super.meetsRequirements(context);
     }
 
     executeHandler(context) {

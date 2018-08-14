@@ -5,6 +5,7 @@ const CardAction = require('./cardaction.js');
 const EffectSource = require('./EffectSource.js');
 const TriggeredAbility = require('./triggeredability');
 
+const DiscardAction = require('./BaseActions/DiscardAction');
 const PlayAction = require('./BaseActions/PlayAction');
 const PlayCreatureAction = require('./BaseActions/PlayCreatureAction');
 const PlayArtifactAction = require('./BaseActions/PlayArtifactAction');
@@ -31,7 +32,9 @@ class Card extends EffectSource {
         this.abilities = { actions: [], reactions: [], persistentEffects: [] };
         this.traits = cardData.traits || [];
         this.setupCardAbilities(AbilityDsl);
-        this.setupKeywordAbilities(AbilityDsl);
+        if(this.type === 'creature') {
+            this.setupKeywordAbilities(AbilityDsl);
+        }
 
         this.printedFaction = cardData.house;
         this.printedAmber = cardData.amber;
@@ -45,7 +48,7 @@ class Card extends EffectSource {
         this.stunned = false;
         this.damage = 0;
 
-        this.keywords = cardData.keyword;
+        this.keywords = cardData.keywords;
 
         this.menu = [
             { command: 'bow', text: 'Bow/Ready' },
@@ -57,12 +60,12 @@ class Card extends EffectSource {
             { command: 'control', text: 'Give control' }
         ];
 
-        this.onEndRound();
+        this.endRound();
     }
 
     /**
      * Create card abilities by calling subsequent methods with appropriate properties
-     * @param {AbilityDsl} ability - object containing limits, costs, effects, and game actions
+     * @param ability - object containing limits, costs, effects, and game actions
      */
     setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
     }
@@ -96,32 +99,56 @@ class Card extends EffectSource {
         this.persistentEffect({
             condition: () => this.getKeywordValue('taunt'),
             match: card => this.neighbors.includes(card) && !card.getKeywordValue('taunt'),
-            effect: ability.cardCannot('attack')
+            effect: ability.effects.cardCannot('attack')
         });
     }
 
     play(properties) {
         if(properties.fight) {
             this.fight(_.omit(properties, 'fight'));
+        } else if(properties.reap) {
+            this.reap(_.omit(properties, 'reap'));
         }
-        return this.triggeredAbility('reaction', Object.assign({ onCardPlayed: (event, context) => event.card === context.source }, properties));
+        let when = { onCardPlayed: (event, context) => event.card === context.source };
+        if(properties.condition) {
+            when = { onCardPlayed: (event, context) => event.card === context.source && properties.condition(context) };
+        }
+        if(this.type === 'action') {
+            properties.location = properties.location || 'being played';
+        }
+        return this.reaction(Object.assign({ when: when }, properties));
     }
 
     fight(properties) {
         if(properties.reap) {
             this.reap(_.omit(properties, 'reap'));
         }
-        return this.triggeredAbility('reaction', Object.assign({ afterFight: (event, context) => event.attacker === context.source }, properties));
+        let when = { onFight: (event, context) => event.card === context.source };
+        if(properties.condition) {
+            when = { onFight: (event, context) => event.card === context.source && properties.condition(context) };
+        }
+        return this.reaction(Object.assign({ when: when }, properties));
     }
 
     reap(properties) {
-        properties.when = { afterReap: (event, context) => event.card === context.source };
-        return this.triggeredAbility('reaction', properties);
+        properties.when = { onReap: (event, context) => event.card === context.source };
+        if(properties.condition) {
+            properties.when = { onReap: (event, context) => event.card === context.source && properties.condition(context) };
+        }
+        return this.reaction(properties);
     }
 
     destroyed(properties) {
-        properties.when = { onCardLeavesPlay: (event, context) => event.card === context.source && event.destination === 'discard pile' };
-        return this.triggeredAbility('reaction', properties);
+        properties.when = { onDestroyCard: (event, context) => event.card === context.source };
+        if(properties.condition) {
+            properties.when = { onDestroyCard: (event, context) => event.card === context.source && properties.condition(context) };
+        }
+        return this.interrupt(properties);
+    }
+
+    omni(properties) {
+        properties.omni = true;
+        return this.action(properties);
     }
 
     action(properties) {
@@ -190,10 +217,10 @@ class Card extends EffectSource {
         this.new = false;
         this.tokens = {};
         this.controller = this.owner;
-        this.onEndRound();
+        this.endRound();
     }
 
-    onEndRound() {
+    endRound() {
         this.armorUsed = 0;
         this.elusiveUsed = false;
     }
@@ -228,19 +255,14 @@ class Card extends EffectSource {
 
         this.location = targetLocation;
 
-        if(['play area', 'discard pile', 'hand'].includes(targetLocation)) {
+        if(['play area', 'discard', 'hand'].includes(targetLocation)) {
             this.facedown = false;
         }
-
         if(originalLocation !== targetLocation) {
             this.updateAbilityEvents(originalLocation, targetLocation);
             this.updateEffects(originalLocation, targetLocation);
             this.game.emitEvent('onCardMoved', { card: this, originalLocation: originalLocation, newLocation: targetLocation });
         }
-    }
-
-    canUse(context) {
-        return !this.facedown && (this.checkRestrictions('use', context) || !context.ability.isTriggeredAbility());
     }
 
     getMenu() {
@@ -377,18 +399,29 @@ class Card extends EffectSource {
      * Opponent cards only, specific factions, etc) for this card.
      */
     canAttach(card, context) { // eslint-disable-line no-unused-vars
-        return card && card.getType() === 'character' && this.getType() === 'attachment';
+        return card && card.getType() === 'creature' && this.getType() === 'upgrade';
     }
 
     canPlay(context, type = 'play') {
+        if(this.printedFaction !== context.player.activeHouse || this.game.cardsUsed.filter(card => card.name === this.name).length > 6) {
+            return false;
+        }
         return this.checkRestrictions(type, context) && context.player.checkRestrictions(type, context);
+    }
+
+    canUse(context, omni = false) {
+        if(this.game.cardsUsed.filter(card => card.name === this.name).length > 6) {
+            return false;
+        } else if(this.printedFaction !== context.player.activeHouse && !omni && !this.controller.canIgnoreHouseRestrictions(this, context)) {
+            return false;
+        }
+        return this.checkRestrictions('use', context) && context.player.checkRestrictions('use', context);
     }
 
     use(player, canCancel = true) {
         let actions = this.getActions(player);
 
         let legalActions = actions.filter(action => action.meetsRequirements(action.createContext(player)) === '');
-
         if(legalActions.length === 0) {
             return false;
         } else if(legalActions.length === 1) {
@@ -414,7 +447,10 @@ class Card extends EffectSource {
         return true;
     }
 
-    getActions(player, location = this.location) {
+    getActions(player) {
+        if(player !== this.controller) {
+            return [];
+        }
         let actions = [];
         if(this.location === 'hand') {
             if(this.type === 'upgrade') {
@@ -426,6 +462,7 @@ class Card extends EffectSource {
             } else if(this.type === 'action') {
                 actions.push(new PlayAction(this));
             }
+            actions.push(new DiscardAction(this));
         } else if(this.location === 'play area' && this.type === 'creature') {
             actions.push(new FightAction(this));
             actions.push(new ReapAction(this));

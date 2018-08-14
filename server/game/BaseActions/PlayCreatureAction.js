@@ -7,9 +7,6 @@ class PlayCreatureAction extends BaseAction {
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
-        if(!ignoredRequirements.includes('house') && context.player.activeHouse !== this.card.printedFaction) {
-            return 'phase';
-        }
         if(!ignoredRequirements.includes('location') && !context.player.isCardInPlayableLocation(context.source, 'play')) {
             return 'location';
         }
@@ -20,6 +17,7 @@ class PlayCreatureAction extends BaseAction {
     }
 
     executeHandler(context) {
+        context.game.cardsUsed.push(context.source);
         let cardPlayedEvent = context.game.getEvent('onCardPlayed', {
             player: context.player,
             card: context.source,
@@ -28,7 +26,9 @@ class PlayCreatureAction extends BaseAction {
         let amberMsg = context.source.printedAmber > 0 ? ', gaining ' + context.source.printedAmber.toString() + ' amber' : '';
         context.game.addMessage('{0} plays {1}{2}', context.player, context.source, amberMsg);
         context.player.modifyAmber(context.source.printedAmber);
-        context.game.openEventWindow([context.game.actions.putIntoPlay().getEvent(context.source, context), cardPlayedEvent]);
+        let action = context.game.actions.putIntoPlay();
+        action.preEventHandler(context);
+        context.game.openEventWindow([action.getEvent(context.source, context), cardPlayedEvent]);
     }
 
     isCardPlayed() {

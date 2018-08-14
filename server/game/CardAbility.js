@@ -14,10 +14,6 @@ class CardAbility extends ThenAbility {
             return 'blank';
         }
 
-        if(this.card.type === 'event' ? !this.card.canPlay(context) : this.card.canUse(context)) {
-            return 'cannotUse';
-        }
-
         return super.meetsRequirements(context);
     }
 

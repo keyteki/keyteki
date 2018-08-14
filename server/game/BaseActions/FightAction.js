@@ -3,7 +3,10 @@ const FightGameAction = require('../GameActions/FightGameAction');
 
 class FightAction extends BaseAction {
     constructor(card) {
-        super(card, { gameAction: new FightGameAction({ attacker: card }) });
+        super(card, {
+            cardType: 'creature',
+            gameAction: new FightGameAction({ attacker: card })
+        });
         this.title = 'Fight with this creature';
     }
 
@@ -17,7 +20,7 @@ class FightAction extends BaseAction {
         if(!ignoredRequirements.includes('stunned') && context.source.stunned) {
             return 'stunned';
         }
-        return super.canResolveTargets(context) && super.meetsRequirements(context);
+        return super.meetsRequirements(context);
     }
 
     executeHandler(context) {

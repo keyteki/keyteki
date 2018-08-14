@@ -21,7 +21,7 @@ class HousePhase extends Phase {
         this.game.promptWithHandlerMenu(this.game.activePlayer, {
             promptTitle: 'Choose Active House',
             activePromptTitle: 'Choose which house you want to activate this turn',
-            choices: this.game.activePlayer.houses,
+            choices: this.game.activePlayer.getAvailableHouses(),
             choiceHandler: house => this.game.activePlayer.activeHouse = house
         });
     }

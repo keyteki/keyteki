@@ -42,7 +42,19 @@ class ThenAbility extends BaseAbility {
     }
 
     executeHandler(context) {
-        this.handler(context);
+        if(this.properties.may) {
+            this.game.promptWithHandlerMenu(context.player, {
+                activePromptTitle: 'Do you wish to ' + this.properties.may + '?',
+                context: context,
+                choices: ['Yes', 'No'],
+                handlers: [
+                    () => this.handler(context),
+                    () => true
+                ]
+            });
+        } else {
+            this.handler(context);
+        }
         this.game.queueSimpleStep(() => this.game.checkGameState());
     }
 

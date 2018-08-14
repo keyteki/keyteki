@@ -1,15 +1,12 @@
 const BaseAction = require('./BaseAction');
 
-class PlayArtifactAction extends BaseAction {
+class PlayAction extends BaseAction {
     constructor(card) {
         super(card);
         this.title = 'Play this artifact';
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
-        if(!ignoredRequirements.includes('house') && context.player.activeHouse !== this.card.printedFaction) {
-            return 'phase';
-        }
         if(!ignoredRequirements.includes('location') && !context.player.isCardInPlayableLocation(context.source, 'play')) {
             return 'location';
         }
@@ -20,6 +17,7 @@ class PlayArtifactAction extends BaseAction {
     }
 
     executeHandler(context) {
+        context.game.cardsUsed.push(context.source);
         let cardPlayedEvent = context.game.getEvent('onCardPlayed', {
             player: context.player,
             card: context.source,
@@ -36,5 +34,5 @@ class PlayArtifactAction extends BaseAction {
     }
 }
 
-module.exports = PlayArtifactAction;
+module.exports = PlayAction;
 

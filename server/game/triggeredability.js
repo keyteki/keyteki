@@ -41,6 +41,7 @@ class TriggeredAbility extends CardAbility {
 
     eventHandler(event, window) {
         let context = this.createContext(this.card.controller, event);
+        //console.log(event.name, this.card.name, this.isTriggeredByEvent(event, context), this.meetsRequirements(context));
         if(this.isTriggeredByEvent(event, context) && this.meetsRequirements(context) === '') {
             window.addChoice(context);
         }

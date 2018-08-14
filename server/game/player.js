@@ -54,11 +54,11 @@ class Player extends GameObject {
 
     /**
      * Checks whether a card with a uuid matching the passed card is in the passed _(Array)
-     * @param {_(Array)} list
-     * @param {BaseCard} card
+     * @param {Array} list
+     * @param card
      */
     isCardUuidInList(list, card) {
-        return list.any(c => {
+        return list.some(c => {
             return c.uuid === card.uuid;
         });
     }
@@ -66,7 +66,7 @@ class Player extends GameObject {
     /**
      * Checks whether a card with a name matching the passed card is in the passed list
      * @param {_(Array)} list
-     * @param {BaseCard} card
+     * @param card
      */
     isCardNameInList(list, card) {
         return list.any(c => {
@@ -177,6 +177,7 @@ class Player extends GameObject {
         var preparedDeck = deck.prepare(this);
         this.houses = preparedDeck.houses;
         this.deck = preparedDeck.cards;
+        this.allCards = preparedDeck.cards;
     }
 
     /**
@@ -233,8 +234,6 @@ class Player extends GameObject {
     drop(cardId, source, target) {
         var sourceList = this.getSourceList(source);
         var card = sourceList.find(card => card.uuid === cardId);
-
-        console.log('drop', card && card.name);
 
         // Dragging is only legal in manual mode, when the card is currently in source, when the source and target are different and when the target is a legal location
         if(!this.game.manualMode || source === target || !this.isLegalLocationForCard(card, target) || card.location !== source) {
@@ -334,7 +333,7 @@ class Player extends GameObject {
 
         card.moveTo(targetLocation);
 
-        if(['deck', 'play area'].includes(targetLocation) && !options.bottom) {
+        if(targetLocation === 'deck' && !options.bottom) {
             targetPile.unshift(card);
         } else if(['discard', 'purged'].includes(targetLocation)) {
             // new cards go on the top of the discard pile
@@ -422,7 +421,14 @@ class Player extends GameObject {
     }
 
     getAvailableHouses() {
+        if(this.anyEffect('restrictHouseChoice')) {
+            return _.intersection(...this.getEffects('restrictHouseChoice'), this.houses);
+        }
         return this.houses;
+    }
+
+    canIgnoreHouseRestrictions(card, context) {
+        return this.getEffects('canUse').some(match => match(card, context));
     }
 
     canForgeKey(modifier = 0) {

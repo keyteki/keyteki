@@ -15,7 +15,15 @@ class ReapGameAction extends CardGameAction {
     }
 
     getEvent(card, context) {
+        if(card.stunned) {
+            return super.createEvent('onRemoveStun', {card: card, context: context}, () => {
+                context.game.cardsUsed.push(context.source);
+                card.exhaust();
+                card.unstun();
+            });
+        }
         return super.createEvent('onReap', { card: card, context: context }, () => {
+            context.game.cardsUsed.push(context.source);
             card.exhaust();
             card.controller.modifyAmber(1);
         });

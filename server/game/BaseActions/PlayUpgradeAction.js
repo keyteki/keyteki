@@ -10,9 +10,6 @@ class PlayUpgradeAction extends BaseAction {
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
-        if(!ignoredRequirements.includes('house') && context.player.activeHouse !== this.card.printedFaction) {
-            return 'phase';
-        }
         if(!ignoredRequirements.includes('location') && !context.player.isCardInPlayableLocation(context.source, 'play')) {
             return 'location';
         }
@@ -33,6 +30,7 @@ class PlayUpgradeAction extends BaseAction {
     }
 
     executeHandler(context) {
+        context.game.cardsUsed.push(context.source);
         let cardPlayedEvent = context.game.getEvent('onCardPlayed', {
             player: context.player,
             card: context.source,

@@ -8,7 +8,14 @@ class Deck {
     constructor(data) {
         let cardData = {};
         for(const card of rawData.CardData.filter(card => card.name !== '')) {
-            let id = card.name.toLowerCase().replace(/"\?.!/gi, '').replace(/[ ']/gi, '-');
+            let id = card.name.toLowerCase().replace(/[".!]/gi, '').replace(/[ ']/gi, '-');
+            let keywords = {};
+            if(card.keywords) {
+                for(const keyword of card.keywords.split(', ')) {
+                    let split = keyword.split(':');
+                    keywords[split[0].toLowerCase()] = split.length > 1 && parseInt(split[1]) ? parseInt(split[1]) : 1;
+                }
+            }
             cardData[id] = {
                 name: card.name,
                 id: id,
@@ -21,43 +28,47 @@ class Deck {
                 power: card.power === '' ? null : parseInt(card.power),
                 armor: card.type === 'creature' ? (card.armor !== '' ? parseInt(card.armor) : 0) : null,
                 traits: card.traits === '' ? [] : card.traits.split(', ').map(trait => trait.toLowerCase()),
-                keywords: card.keywords === '' ? [] : card.keywords.split(', ').map(keyword => keyword.toLowerCase())
+                keywords: keywords
             };
         }
-        let cards = [
-            { id: 'foggify', count: 1 },
-            { id: 'labwork', count: 2 },
-            { id: 'library-access', count: 1 },
-            { id: 'neuro-syphon', count: 1 },
-            { id: 'remote-access', count: 1 },
-            { id: 'batdrone', count: 2 },
-            { id: 'dextre', count: 1 },
-            { id: 'dr-escotera', count: 1 },
-            { id: 'ganymede-archivist', count: 1 },
-            { id: 'titan-mechanic', count: 1 },
-            { id: 'begone', count: 1 },
-            { id: 'shield-of-justice', count: 1 },
-            { id: 'take-hostages', count: 1 },
-            { id: 'virtuous-works', count: 1 },
-            { id: 'potion-of-invulnerability', count: 2 },
-            { id: 'sigil-of-brotherhood', count: 1 },
-            { id: 'bulwark', count: 1 },
-            { id: 'champion-anaphiel', count: 1 },
-            { id: 'francus', count: 1 },
-            { id: 'sergeant-zakiel', count: 1 },
-            { id: 'staunch-knight', count: 1 },
-            { id: 'save-the-pack', count: 1 },
-            { id: 'ancient-bear', count: 2 },
-            { id: 'dust-pixie', count: 1 },
-            { id: 'flaxia', count: 1 },
-            { id: 'inka-the-spider', count: 1 },
-            { id: 'snufflegator', count: 2 },
-            { id: 'mighty-tiger', count: 1 },
-            { id: 'mushroom-man', count: 2 },
-            { id: 'witch-of-the-eye', count: 1 }
-        ];
+        let cards = data.cards;
+        let houses = data.houses;
+        if(!houses) {
+            cards = [
+                { id: 'arise', count: 1 },
+                { id: 'control-the-weak', count: 1 },
+                { id: 'hand-of-dis', count: 1 },
+                { id: 'mind-barb', count: 1 },
+                { id: 'three-fates', count: 1 },
+                { id: 'lash-of-broken-dreams', count: 1 },
+                { id: 'ember-imp', count: 1 },
+                { id: 'pit-demon', count: 1 },
+                { id: 'pitlord', count: 2 },
+                { id: 'shooler', count: 1 },
+                { id: 'succubus', count: 1 },
+                { id: 'shield-of-justice', count: 1 },
+                { id: 'blinding-light', count: 2 },
+                { id: 'charge', count: 1 },
+                { id: 'protectrix', count: 3 },
+                { id: 'sigil-of-brotherhood', count: 1 },
+                { id: 'bulwark', count: 1 },
+                { id: 'francus', count: 1 },
+                { id: 'staunch-knight', count: 1 },
+                { id: 'shoulder-armor', count: 1 },
+                { id: 'key-charge', count: 1 },
+                { id: 'lost-in-the-woods', count: 1 },
+                { id: 'ancient-bear', count: 1 },
+                { id: 'regrowth', count: 2 },
+                { id: 'word-of-returning', count: 1 },
+                { id: 'hunting-witch', count: 1 },
+                { id: 'murmook', count: 2 },
+                { id: 'way-of-the-bear', count: 1 },
+                { id: 'witch-of-the-eye', count: 2 }
+            ];
+            houses = ['dis', 'sanctum', 'untamed'];
+        }
         this.data = {
-            houses: ['logos', 'sanctum', 'untamed'],
+            houses: houses,
             cards: cards.map(card => ({
                 count: card.count,
                 card: cardData[card.id]

@@ -1,7 +1,12 @@
 const Card = require('../../Card.js');
 
 class SigilOfBrotherhood extends Card {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.omni({
+            gameAction: ability.actions.forRemainderOfTurn({
+                effect: ability.effects.canUse(card => card.printedFaction === 'sanctum')
+            })
+        });
     }
 }
 

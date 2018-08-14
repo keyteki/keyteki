@@ -26,7 +26,7 @@ class DrawPhase extends Phase {
             if(this.game.activePlayer.opponent) {
                 this.game.activePlayer = this.game.activePlayer.opponent;
             }
-            this.game.activePlayer.endRound();
+            this.game.endRound();
         });
     }
 }

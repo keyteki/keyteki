@@ -35,9 +35,7 @@ class AbilityResolver extends BaseStepWithPipeline {
             return;
         }
         this.context.stage = 'pretarget';
-        if(!this.context.ability.cannotTargetFirst) {
-            this.targetResults = this.context.ability.resolveTargets(this.context);
-        }
+        this.targetResults = this.context.ability.resolveTargets(this.context);
     }
 
     checkForCancel() {
@@ -76,6 +74,9 @@ class AbilityResolver extends BaseStepWithPipeline {
     }
 
     executeHandler() {
+        if(this.cancelled) {
+            return;
+        }
         this.context.stage = 'effect';
         this.context.ability.executeHandler(this.context);
     }

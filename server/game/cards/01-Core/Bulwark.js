@@ -1,7 +1,11 @@
 const Card = require('../../Card.js');
 
 class Bulwark extends Card {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            match: card => this.neighbors.includes(card),
+            effect: ability.effects.modifyArmor(2)
+        });
     }
 }
 

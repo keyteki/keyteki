@@ -25,9 +25,6 @@ class AbilityTargetCard {
             if(this.name === 'target') {
                 contextCopy.target = card;
             }
-            if(context.stage === 'pretarget' && this.dependentCost && !this.dependentCost.canPay(contextCopy)) {
-                return false;
-            }
             return (!properties.cardCondition || properties.cardCondition(card, contextCopy)) &&
                    (!this.dependentTarget || this.dependentTarget.hasLegalTarget(contextCopy)) &&
                    (properties.gameAction.length === 0 || properties.gameAction.some(gameAction => gameAction.hasLegalTarget(contextCopy)));

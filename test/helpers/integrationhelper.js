@@ -11,9 +11,7 @@ const GameFlowWrapper = require('./gameflowwrapper.js');
 const deckBuilder = new DeckBuilder();
 
 const ProxiedGameFlowWrapperMethods = [
-    'eachPlayerInFirstPlayerOrder', 'startGame', 'keepDynasty', 'keepConflict', 'skipSetupPhase', 'selectFirstPlayer',
-    'noMoreActions', 'selectStrongholdProvinces', 'advancePhases', 'getPromptedPlayer', 'nextPhase', 'getChatLogs',
-    'getChatLog'
+    'startGame', 'selectFirstPlayer', 'keepCards', 'getChatLogs', 'getChatLog'
 ];
 
 var customMatchers = {
@@ -119,79 +117,28 @@ global.integration = function(definitions) {
                 //Setup phase
                 this.selectFirstPlayer(this.player1);
 
-                this.selectStrongholdProvinces({
-                    player1: options.player1.strongholdProvince,
-                    player2: options.player2.strongholdProvince
-                });
-
-                if(options.phase !== 'setup') {
-                    if(['draw', 'fate', 'regroup'].includes(options.phase)) {
-                        this.player1.player.promptedActionWindows[options.phase] = true;
-                        this.player2.player.promptedActionWindows[options.phase] = true;
-                    }
-                    this.keepDynasty();
-                    //Set dynastydiscard now to avoid provinces triggering too soon
-                    this.player1.dynastyDiscard = options.player1.dynastyDiscard;
-                    this.player2.dynastyDiscard = options.player2.dynastyDiscard;
-
-                    this.keepConflict();
-
-                    //Advance the phases to the specified
-                    this.advancePhases(options.phase);
-                } else {
-                    this.player1.dynastyDiscard = options.player1.dynastyDiscard;
-                    this.player2.dynastyDiscard = options.player2.dynastyDiscard;
+                if(options.player1.house) {
+                    this.keepCards();
+                    this.player1.clickPrompt(options.player1.house);
                 }
 
-                //Set state
-                if(options.player1.rings) {
-                    _.each(options.player1.rings, ring => this.player1.claimRing(ring));
-                }
-                if(options.player2.rings) {
-                    _.each(options.player2.rings, ring => this.player2.claimRing(ring));
-                }
                 //Player stats
-                this.player1.fate = options.player1.fate;
-                this.player2.fate = options.player2.fate;
-                this.player1.honor = options.player1.honor;
-                this.player2.honor = options.player2.honor;
+                this.player1.amber = options.player1.amber;
+                this.player2.amber = options.player2.amber;
+                this.player1.chains = options.player1.chains;
+                this.player2.chains = options.player2.chains;
                 //Field
                 this.player1.inPlay = options.player1.inPlay;
                 this.player2.inPlay = options.player2.inPlay;
                 //Conflict deck related
                 this.player1.hand = options.player1.hand;
                 this.player2.hand = options.player2.hand;
-                this.player1.conflictDiscard = options.player1.conflictDiscard;
-                this.player2.conflictDiscard = options.player2.conflictDiscard;
-                //Dynsaty deck related
-                this.player1.provinces = options.player1.provinces;
-                this.player2.provinces = options.player2.provinces;
+                this.player1.discard = options.player1.discard;
+                this.player2.discard = options.player2.discard;
+
                 if(options.phase !== 'setup') {
                     this.game.checkGameState(true);
                 }
-            };
-
-            this.initiateConflict = function(options = {}) {
-                if(!options.type) {
-                    options.type = 'military';
-                }
-                if(!options.ring) {
-                    options.ring = 'air';
-                }
-                let attackingPlayer = this.getPromptedPlayer('Choose an elemental ring\n(click the ring again to change conflict type)');
-                if(!attackingPlayer) {
-                    throw new Error('Neither player can declare a conflict');
-                }
-                attackingPlayer.declareConflict(options.type, options.province, options.attackers, options.ring);
-                if(!options.defenders) {
-                    return;
-                }
-                let defendingPlayer = this.getPromptedPlayer('Choose defenders');
-                defendingPlayer.assignDefenders(options.defenders);
-                if(!options.jumpTo) {
-                    return;
-                }
-                this.noMoreActions();
             };
         });
 

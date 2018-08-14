@@ -9,12 +9,14 @@ class AbilityContext {
         this.ability = properties.ability || new BaseAbility({});
         this.targets = properties.targets || {};
         this.selects = properties.selects || {};
+        this.houses = properties.houses || {};
     }
 
     copy(newProps) {
         let copy = new AbilityContext(Object.assign({}, this.getProps(), newProps));
         copy.target = this.target;
         copy.select = this.select;
+        copy.house = this.house;
         return copy;
     }
 
@@ -25,7 +27,8 @@ class AbilityContext {
             player: this.player,
             ability: this.ability,
             targets: Object.assign({}, this.targets),
-            selects: Object.assign({}, this.selects)
+            selects: Object.assign({}, this.selects),
+            houses: Object.assign({}, this.houses)
         };
     }
 }

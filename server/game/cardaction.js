@@ -32,22 +32,16 @@ class CardAction extends CardAbility {
         super(game, card, properties);
 
         this.abilityType = 'action';
-        this.phase = properties.phase || 'main';
-        this.anyPlayer = properties.anyPlayer || false;
         this.condition = properties.condition;
+        this.omni = !!properties.omni;
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
+        if(!this.card.canUse(context, this.omni)) {
+            return 'cannotTrigger';
+        }
         if(!ignoredRequirements.includes('location') && !this.isInValidLocation(context)) {
             return 'location';
-        }
-
-        if(!ignoredRequirements.includes('phase') && this.phase !== 'any' && this.phase !== this.game.currentPhase) {
-            return 'phase';
-        }
-
-        if(!ignoredRequirements.includes('player') && context.player !== this.card.controller && !this.anyPlayer) {
-            return 'player';
         }
 
         if(!ignoredRequirements.includes('condition') && this.condition && !this.condition(context)) {
@@ -55,6 +49,12 @@ class CardAction extends CardAbility {
         }
 
         return super.meetsRequirements(context);
+    }
+
+    executeHandler(context) {
+        this.game.cardsUsed.push(context.source);
+        context.source.exhaust();
+        super.executeHandler(context);
     }
 
     isAction() {

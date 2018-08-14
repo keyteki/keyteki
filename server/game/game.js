@@ -56,7 +56,9 @@ class Game extends EventEmitter {
         this.cancelPromptUsed = false;
         this.currentPhase = '';
         this.password = details.password;
-        this.roundNumber = 0;
+
+        this.cardsUsed = [];
+        this.activePlayer = null;
 
         this.shortCardData = options.shortCardData || [];
 
@@ -828,6 +830,18 @@ class Game extends EventEmitter {
             // check for any delayed effects which need to fire
             this.effectEngine.checkDelayedEffects(events);
         }
+    }
+
+    endRound() {
+        this.activePlayer.endRound();
+        this.cardsUsed = [];
+        for(let card of this.cardsInPlay) {
+            card.endRound();
+        }
+    }
+
+    get cardsInPlay() {
+        return this.getPlayers().reduce((array, player) => array.concat(player.cardsInPlay), []);
     }
 
     continue() {

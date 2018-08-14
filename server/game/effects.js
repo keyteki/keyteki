@@ -1,6 +1,5 @@
 const _ = require('underscore');
 
-const AbilityLimit = require('./abilitylimit.js');
 const CannotRestriction = require('./cannotrestriction.js');
 const EffectBuilder = require('./Effects/EffectBuilder');
 
@@ -54,6 +53,7 @@ const Effects = {
             }
         }
     }),
+    modifyArmor: (amount) => EffectBuilder.card.flexible('modifyArmor', amount),
     modifyPower: (amount) => EffectBuilder.card.flexible('modifyPower', amount),
     takeControl: (player) => EffectBuilder.card.static('takeControl', player),
     terminalCondition: (properties) => EffectBuilder.card.detached('terminalCondition', {
@@ -69,8 +69,11 @@ const Effects = {
         apply: (player) => player.addPlayableLocation('play', player, location),
         unapply: (player, context, location) => player.removePlayableLocation(location)
     }),
+    canUse: (match) => EffectBuilder.player.static('canUse', match),
     customDetachedPlayer: (properties) => EffectBuilder.player.detached('customEffect', properties),
+    restrictHouseChoice: (house) => EffectBuilder.player.static('restrictHouseChoice', house),
     modifyKeyCost: (amount) => EffectBuilder.player.flexible('modifyKeyCost', amount),
+    modifyHandSize: (amount) => EffectBuilder.player.flexible('modifyHandSize', amount),
     playerCannot: (properties) => EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(properties)),
     showTopConflictCard: () => EffectBuilder.player.static('showTopConflictCard')
 };

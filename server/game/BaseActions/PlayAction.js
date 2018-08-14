@@ -1,6 +1,6 @@
 const BaseAction = require('./BaseAction');
 
-class PlayArtifactAction extends BaseAction {
+class PlayAction extends BaseAction {
     constructor(card) {
         super(card);
         this.title = 'Play this action';
@@ -20,6 +20,8 @@ class PlayArtifactAction extends BaseAction {
     }
 
     executeHandler(context) {
+        let location = context.source.location;
+        context.game.cardsUsed.push(context.source);
         context.player.moveCard(context.source, 'being played');
         let amberMsg = context.source.printedAmber > 0 ? ', gaining ' + context.source.printedAmber.toString() + ' amber' : '';
         context.player.modifyAmber(context.source.printedAmber);
@@ -27,7 +29,7 @@ class PlayArtifactAction extends BaseAction {
         context.game.raiseEvent('onCardPlayed', {
             player: context.player,
             card: context.source,
-            originalLocation: context.source.location
+            originalLocation: location
         });
         context.game.queueSimpleStep(() => context.source.owner.moveCard(context.source, 'discard'));
     }
@@ -37,4 +39,4 @@ class PlayArtifactAction extends BaseAction {
     }
 }
 
-module.exports = PlayArtifactAction;
+module.exports = PlayAction;

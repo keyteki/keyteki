@@ -1,7 +1,14 @@
 const Card = require('../../Card.js');
 
 class InkaTheSpider extends Card {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.play({
+            target: {
+                cardType: 'creature',
+                gameAction: ability.actions.stun()
+            },
+            reap: true
+        });
     }
 }
 

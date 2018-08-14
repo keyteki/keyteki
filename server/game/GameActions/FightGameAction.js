@@ -3,6 +3,7 @@ const CardGameAction = require('./CardGameAction');
 class FightGameAction extends CardGameAction {
     setDefaultProperties () {
         this.attacker = null;
+        this.attackerExhausted = false;
     }
 
     setup() {
@@ -13,20 +14,25 @@ class FightGameAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(card.location !== 'play area' || !this.attacker) {
+        if(card.location !== 'play area' || !this.attacker || card.controller === this.attacker.controller) {
             return false;
-        } else if(this.attacker.exhausted || !this.attacker.checkRestrictions('fight', context)) {
+        } else if(this.attacker.exhausted && !this.attackerExhausted || !this.attacker.checkRestrictions('fight', context)) {
             return false;
         }
         return super.canAffect(card, context);
     }
 
     preEventHandler(context) {
+        context.game.cardsUsed.push(context.source);
         this.attacker.exhaust();
+        this.attackerExhausted = true;
         super.preEventHandler(context);
     }
 
     getEvent(card, context) {
+        if(card.stunned) {
+            return super.createEvent('onRemoveStun', {card: card, context: context}, () => card.unstun());
+        }
         let params = {
             card: card,
             context: context,
@@ -34,7 +40,7 @@ class FightGameAction extends CardGameAction {
             destroyed: []
         };
         return super.createEvent('onFight', params, event => {
-            if(!event.defender.getKeywordValue('elusive') || event.defender.elusiveUsed) {
+            if(!event.card.getKeywordValue('elusive') || event.card.elusiveUsed) {
                 let damageEvents = [];
                 if(!event.attacker.getKeywordValue('skirmish')) {
                     let defenderParams = {
@@ -52,7 +58,7 @@ class FightGameAction extends CardGameAction {
                 damageEvents.push(context.game.actions.dealDamage(attackerParams).getEvent(event.card, context));
                 context.game.openEventWindow(damageEvents);
             }
-            event.defender.elusiveUsed = true;
+            event.card.elusiveUsed = true;
         });
     }
 }

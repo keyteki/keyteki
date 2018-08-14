@@ -39,6 +39,8 @@ class SetupPhase extends Phase {
                     }
                 ]
             });
+        } else {
+            this.game.activePlayer.drawCardsToHand(1);
         }
     }
 

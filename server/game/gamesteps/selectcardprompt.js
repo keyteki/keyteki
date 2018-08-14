@@ -232,7 +232,6 @@ class SelectCardPrompt extends UiPrompt {
         this.selectedCards = [];
         this.choosingPlayer.clearSelectedCards();
         this.choosingPlayer.clearSelectableCards();
-        this.choosingPlayer.clearSelectableRings();
 
         // Restore previous selections.
         this.choosingPlayer.setSelectedCards(this.previouslySelectedCards);

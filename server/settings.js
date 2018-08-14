@@ -11,7 +11,7 @@ const defaultOptionSettings = {
     markCardsUnselectable: true,
     cancelOwnAbilities: false,
     orderForcedAbilities: false,
-    confirmOneClick: false,
+    confirmOneClick: true,
     showStatusInSidebar: false
 };
 

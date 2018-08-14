@@ -2,7 +2,8 @@ const CardGameAction = require('./CardGameAction');
 
 class DealDamageAction extends CardGameAction {
     setDefaultProperties() {
-        this.amount = 1;
+        this.amount = null;
+        this.amountForCard = (card, context) => 1; // eslint-disable-line no-unused-vars
         this.fightEvent = null;
         this.damageSource = null;
     }
@@ -10,17 +11,20 @@ class DealDamageAction extends CardGameAction {
     setup() {
         this.targetType = ['creature'];
         this.name = 'damage';
-        this.effectMsg = 'deal {1} damage to {0}';
-        this.effectArgs = this.amount;
+        this.effectMsg = 'deal {1}damage to {0}';
+        this.effectArgs = this.amount ? this.amount + ' ' : '';
     }
 
     canAffect(card, context) {
+        if(this.amount === 0 || !this.amount && this.amountForCard(card, context) === 0) {
+            return false;
+        }
         return card.location === 'play area' && super.canAffect(card, context);
     }
 
     getEvent(card, context) {
         let params = {
-            amount: this.amount,
+            amount: this.amount || this.amountForCard(card, context),
             card: card,
             context: context,
             damageSource: this.damageSource,

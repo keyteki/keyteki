@@ -1,7 +1,12 @@
 const Card = require('../../Card.js');
 
 class ShieldOfJustice extends Card {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.play({
+            gameAction: ability.actions.forRemainderOfTurn({
+                effect: ability.effects.cardCannot('damage')
+            })
+        });
     }
 }
 

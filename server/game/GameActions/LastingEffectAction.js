@@ -11,6 +11,9 @@ class LastingEffectAction extends GameAction {
         this.effect = [];
         this.targetController = this.duration === 1 ? 'current' : 'opponent';
         this.until = null;
+        this.when = null;
+        this.gameAction = [];
+        this.message = null;
     }
 
     setup() {
@@ -21,7 +24,7 @@ class LastingEffectAction extends GameAction {
 
     hasLegalTarget(context) {
         this.update(context);
-        return this.effect.length > 0;
+        return this.effect.length || this.when && this.gameAction.length;
     }
 
     getEventArray(context) {
