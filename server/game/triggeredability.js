@@ -36,11 +36,19 @@ class TriggeredAbility extends CardAbility {
     constructor(game, card, abilityType, properties) {
         super(game, card, properties);
         this.when = properties.when;
+        this.triggeredByOpponent = !!properties.triggeredByOpponent;
         this.abilityType = abilityType;
     }
 
     eventHandler(event, window) {
-        let context = this.createContext(this.card.controller, event);
+        let player = this.card.controller;
+        if(this.triggeredByOpponent && player.opponent) {
+            player = player.opponent;
+        }
+        if(!player) {
+            return;
+        }
+        let context = this.createContext(player, event);
         //console.log(event.name, this.card.name, this.isTriggeredByEvent(event, context), this.meetsRequirements(context));
         if(this.isTriggeredByEvent(event, context) && this.meetsRequirements(context) === '') {
             window.addChoice(context);

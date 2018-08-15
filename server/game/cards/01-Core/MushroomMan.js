@@ -1,7 +1,11 @@
 const Card = require('../../Card.js');
 
 class MushroomMan extends Card {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.persistentEffect({
+            match: this,
+            effect: ability.effects.modifyPower(() => ((3 - this.controller.keys) * 3))
+        });
     }
 }
 

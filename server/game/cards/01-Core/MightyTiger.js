@@ -1,7 +1,14 @@
 const Card = require('../../Card.js');
 
 class MightyTiger extends Card {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.play({
+            target: {
+                cardType: 'creature',
+                controller: 'opponent',
+                gameAction: ability.actions.dealDamage({ amount: 4 })
+            }
+        });
     }
 }
 

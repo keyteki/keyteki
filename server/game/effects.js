@@ -32,7 +32,11 @@ const Effects = {
             if(abilityType === 'action') {
                 ability = card.action(properties);
             } else {
-                ability = card.triggeredAbility(abilityType, properties);
+                if(['fight', 'reap', 'play'].includes(abilityType)) {
+                    ability = card[abilityType](properties);
+                } else {
+                    ability = card.triggeredAbility(abilityType, properties);
+                }
                 ability.registerEvents();
             }
             if(context.source.grantedAbilityLimits) {
@@ -53,6 +57,7 @@ const Effects = {
             }
         }
     }),
+    ignores: (trait) => EffectBuilder.card.static('ignores', trait),
     modifyArmor: (amount) => EffectBuilder.card.flexible('modifyArmor', amount),
     modifyPower: (amount) => EffectBuilder.card.flexible('modifyPower', amount),
     takeControl: (player) => EffectBuilder.card.static('takeControl', player),

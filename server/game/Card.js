@@ -506,6 +506,10 @@ class Card extends EffectSource {
         return neighbors;
     }
 
+    ignores(trait) {
+        return this.getEffects('ignores').includes(trait);
+    }
+
     getSummary(activePlayer, hideWhenFaceup) {
         let isActivePlayer = activePlayer === this.owner;
         let selectionState = activePlayer.getCardSelectionState(this);

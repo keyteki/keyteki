@@ -8,7 +8,7 @@ class HonorAction extends CardGameAction {
 
     setup() {
         this.name = 'heal';
-        this.targetType = ['character'];
+        this.targetType = ['creature'];
         this.effectMsg = 'heal {0} ' + (this.fully ? 'fully' : ('for ' + this.amount + ' damage'));
     }
 

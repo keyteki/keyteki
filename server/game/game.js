@@ -844,6 +844,10 @@ class Game extends EventEmitter {
         return this.getPlayers().reduce((array, player) => array.concat(player.cardsInPlay), []);
     }
 
+    get creaturesInPlay() {
+        return this.cardsInPlay.filter(card => card.type === 'creature');
+    }
+
     continue() {
         this.pipeline.continue();
     }

@@ -23,6 +23,7 @@ let fetchCards = cardService.replaceCards(rawData.CardData);
 //let createDeck = deckService.findByUserName('public');
 
 let createDecks = [];
+/*
 createDecks.push(deckService.create({
     username: 'public',
     name: 'Arria, Moonhurst Monk',
@@ -59,7 +60,7 @@ createDecks.push(deckService.create({
         { id: 'mushroom-man', count: 2 },
         { id: 'witch-of-the-eye', count: 1 }
     ]
-}));
+}));*/
 createDecks.push(deckService.create({
     username: 'public',
     name: 'Flaregas, Spawn of Conflascoot',
@@ -96,7 +97,122 @@ createDecks.push(deckService.create({
         { id: 'hunting-witch', count: 1 }
     ]
 }));
-Promise.all([fetchCards, createDeck])
+createDecks.push(deckService.create({
+    username: 'public',
+    name: 'Pinance Mobis-Ortiz, Countess',
+    houses: ['dis', 'sanctum', 'untamed'],
+    cards: [
+        { id: 'arise', count: 1 },
+        { id: 'control-the-weak', count: 1 },
+        { id: 'hand-of-dis', count: 1 },
+        { id: 'mind-barb', count: 1 },
+        { id: 'three-fates', count: 1 },
+        { id: 'lash-of-broken-dreams', count: 1 },
+        { id: 'ember-imp', count: 1 },
+        { id: 'pit-demon', count: 1 },
+        { id: 'pitlord', count: 2 },
+        { id: 'shooler', count: 1 },
+        { id: 'succubus', count: 1 },
+        { id: 'shield-of-justice', count: 1 },
+        { id: 'blinding-light', count: 2 },
+        { id: 'charge', count: 1 },
+        { id: 'protectrix', count: 3 },
+        { id: 'sigil-of-brotherhood', count: 1 },
+        { id: 'bulwark', count: 1 },
+        { id: 'francus', count: 1 },
+        { id: 'staunch-knight', count: 1 },
+        { id: 'shoulder-armor', count: 1 },
+        { id: 'key-charge', count: 1 },
+        { id: 'lost-in-the-woods', count: 1 },
+        { id: 'ancient-bear', count: 1 },
+        { id: 'regrowth', count: 2 },
+        { id: 'word-of-returning', count: 1 },
+        { id: 'hunting-witch', count: 1 },
+        { id: 'murmook', count: 2 },
+        { id: 'way-of-the-bear', count: 1 },
+        { id: 'witch-of-the-eye', count: 2 }
+    ]
+}));
+createDecks.push(deckService.create({
+    username: 'public',
+    name: 'The Pampered Virtuoso Baron of Caringhall',
+    houses: ['dis', 'logos', 'shadows'],
+    cards: [
+        { id: 'arise', count: 2 },
+        { id: 'control-the-weak', count: 1 },
+        { id: 'gateway-to-dis', count: 1 },
+        { id: 'guilty-hearts', count: 1 },
+        { id: 'annihilation-ritual', count: 1 },
+        { id: 'domination-bauble', count: 1 },
+        { id: 'lash-of-broken-dreams', count: 1 },
+        { id: 'charette', count: 1 },
+        { id: 'ember-imp', count: 1 },
+        { id: 'guardian-demon', count: 1 },
+        { id: 'tocsin', count: 1 },
+        { id: 'interdimensional-graft', count: 1 },
+        { id: 'labwork', count: 1 },
+        { id: 'library-access', count: 1 },
+        { id: 'phase-shift', count: 1 },
+        { id: 'wild-wormhole', count: 1 },
+        { id: 'anomaly-exploiter', count: 1 },
+        { id: 'batdrone', count: 1 },
+        { id: 'dr-escotera', count: 1 },
+        { id: 'ganymede-archivist', count: 1 },
+        { id: 'mother', count: 1 },
+        { id: 'research smoko', count: 1 },
+        { id: 'experimental-therapy', count: 1 },
+        { id: 'bait-and-switch', count: 1 },
+        { id: 'poison-wave', count: 1 },
+        { id: 'relentless-whispers', count: 1 },
+        { id: 'seeker-needle', count: 1 },
+        { id: 'the-sting', count: 1 },
+        { id: 'nexus', count: 1 },
+        { id: 'noddy-the-thief', count: 2 },
+        { id: 'shadow-self', count: 1 },
+        { id: 'urchin', count: 1 },
+        { id: 'duskrunner', count: 1 },
+        { id: 'silvertooth', count: 1 }
+    ]
+}));
+createDecks.push(deckService.create({
+    username: 'public',
+    name: 'Guru Catbee, the Inventive Baron',
+    houses: ['dis', 'logos', 'sanctum'],
+    cards: [
+        { id: 'arise', count: 1 },
+        { id: 'gateway-to-dis', count: 1 },
+        { id: 'gongoozle', count: 1 },
+        { id: 'hysteria', count: 1 },
+        { id: 'domination-bauble', count: 1 },
+        { id: 'lash-of-broken-dreams', count: 1 },
+        { id: 'ember-imp', count: 2 },
+        { id: 'gabos-longarms', count: 1 },
+        { id: 'shaffles', count: 1 },
+        { id: 'succubus', count: 1 },
+        { id: 'the-terror', count: 1 },
+        { id: 'flame-wreathed', count: 1 },
+        { id: 'labwork', count: 2 },
+        { id: 'neuro-syphon', count: 1 },
+        { id: 'twin-bolt-emission', count: 1 },
+        { id: 'wild-wormhole', count: 1 },
+        { id: 'doc-bookton', count: 1 },
+        { id: 'ganymede-archivist', count: 1 },
+        { id: 'quixo-the-adventurer', count: 1 },
+        { id: 'mother', count: 1 },
+        { id: 'titan-mechanic', count: 2 },
+        { id: 'blinding-light', count: 1 },
+        { id: 'shield-of-justice', count: 1 },
+        { id: 'take-hostages', count: 2 },
+        { id: 'terms-of-redress', count: 1 },
+        { id: 'bulwark', count: 1 },
+        { id: 'champion-tabris', count: 1 },
+        { id: 'grey-monk', count: 1 },
+        { id: 'raiding-knight', count: 1 },
+        { id: 'sequis', count: 2 },
+        { id: 'the-vaultkeeper', count: 1 }
+    ]
+}));
+Promise.all(createDecks)
     .then(results => {
         console.log(results);
         db.close();

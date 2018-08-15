@@ -5,6 +5,7 @@ class HandOfDis extends Card {
         this.play({
             target: {
                 cardType: 'creature',
+                cardCondition: card => !card.isOnFlank(),
                 gameAction: ability.actions.destroy()
             }
         });

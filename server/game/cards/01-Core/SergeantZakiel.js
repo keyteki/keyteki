@@ -1,7 +1,14 @@
 const Card = require('../../Card.js');
 
 class SergeantZakiel extends Card {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
+    setupCardAbilities(ability) {
+        this.play({
+            target: {
+                cardType: 'creature',
+                controller: 'self',
+                gameAction: //TODO: Sequential action?
+            }
+        })
     }
 }
 
