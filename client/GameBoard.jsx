@@ -8,19 +8,15 @@ import { toastr } from 'react-redux-toastr';
 import { bindActionCreators } from 'redux';
 import Draggable from 'react-draggable';
 
-import PlayerStatsBox from './GameComponents/PlayerStatsBox.jsx';
 import PlayerStatsRow from './GameComponents/PlayerStatsRow.jsx';
 import PlayerHand from './GameComponents/PlayerHand.jsx';
 import DynastyRow from './GameComponents/DynastyRow.jsx';
-import StrongholdRow from './GameComponents/StrongholdRow.jsx';
 import Ring from './GameComponents/Ring.jsx';
-import HonorFan from './GameComponents/HonorFan.jsx';
 import ActivePlayerPrompt from './GameComponents/ActivePlayerPrompt.jsx';
 import CardZoom from './GameComponents/CardZoom.jsx';
 import Card from './GameComponents/Card.jsx';
 import Chat from './GameComponents/Chat.jsx';
 import Controls from './GameComponents/Controls.jsx';
-import CardPile from './GameComponents/CardPile.jsx';
 import GameConfiguration from './GameComponents/GameConfiguration.jsx';
 import { tryParseJSON } from './util.js';
 
@@ -486,6 +482,7 @@ export class InnerGameBoard extends React.Component {
                     !thisPlayer.optionSettings.showStatusInSidebar &&
                     <div className='player-stats-row'>
                         <PlayerStatsRow
+                            activeHouse={ otherPlayer ? otherPlayer.activeHouse : '' }
                             clockState={ otherPlayer ? otherPlayer.clock : null }
                             houses={ otherPlayer ? otherPlayer.houses : null }
                             stats={ otherPlayer ? otherPlayer.stats : null }
@@ -588,6 +585,7 @@ export class InnerGameBoard extends React.Component {
                     <div className='player-stats-row our-side'>
                         <PlayerStatsRow
                             { ...bindActionCreators(actions, this.props.dispatch) }
+                            activeHouse={ thisPlayer.activeHouse }
                             clockState={ thisPlayer.clock }
                             houses={ thisPlayer.houses }
                             stats={ thisPlayer.stats }

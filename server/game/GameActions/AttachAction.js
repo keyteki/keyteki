@@ -8,7 +8,7 @@ class AttachAction extends CardGameAction {
 
     setup() {
         this.name = 'attach';
-        this.targetType = ['character'];
+        this.targetType = ['creature'];
         this.effectMsg = 'attach {1} to {0}';
         this.effectArgs = () => {
             return this.upgrade;
@@ -24,7 +24,7 @@ class AttachAction extends CardGameAction {
         if(!this.upgrade || !this.upgrade.canAttach(card, context)) {
             return false;
         }
-        return card.allowAttachment(this.upgrade) && super.canAffect(card, context);
+        return super.canAffect(card, context);
     }
 
     checkEventCondition(event) {

@@ -22,9 +22,10 @@ for(const card of rawData.CardData.filter(card => card.name !== '')) {
 let fetchCards = cardService.replaceCards(rawData.CardData);
 //let createDeck = deckService.findByUserName('public');
 
-let createDeck = deckService.create({
+let createDecks = [];
+createDecks.push(deckService.create({
     username: 'public',
-    deckName: 'Arria, Moonhurst Monk',
+    name: 'Arria, Moonhurst Monk',
     houses: ['logos', 'sanctum', 'untamed'],
     cards: [
         { id: 'foggify', count: 1 },
@@ -58,7 +59,43 @@ let createDeck = deckService.create({
         { id: 'mushroom-man', count: 2 },
         { id: 'witch-of-the-eye', count: 1 }
     ]
-});
+}));
+createDecks.push(deckService.create({
+    username: 'public',
+    name: 'Flaregas, Spawn of Conflascoot',
+    houses: ['dis', 'shadows', 'untamed'],
+    cards: [
+        { id: 'arise', count: 1 },
+        { id: 'gateway-to-dis', count: 1 },
+        { id: 'poltergeist', count: 1 },
+        { id: 'dominator-bauble', count: 1 },
+        { id: 'key-to-dis', count: 1 },
+        { id: 'eater-of-the-dead', count: 1 },
+        { id: 'pit-demon', count: 3 },
+        { id: 'shooler', count: 1 },
+        { id: 'succubus', count: 1 },
+        { id: 'the-terror', count: 1 },
+        { id: 'bait-and-switch', count: 1 },
+        { id: 'key-of-darkness', count: 1 },
+        { id: 'nerve-blast', count: 1 },
+        { id: 'pawn-sacrifice', count: 1 },
+        { id: 'poison-wave', count: 1 },
+        { id: 'magda-the-rat', count: 1 },
+        { id: 'noddy-the-thief', count: 1 },
+        { id: 'shadow-self', count: 1 },
+        { id: 'silvertooth', count: 1 },
+        { id: 'urchin', count: 2 },
+        { id: 'silent-dagger', count: 1 },
+        { id: 'fogbank', count: 1 },
+        { id: 'grasping vines', count: 1 },
+        { id: 'lost-in-the-woods', count: 3 },
+        { id: 'regrowth', count: 2 },
+        { id: 'niffle-ape', count: 2 },
+        { id: 'snufflegator', count: 1 },
+        { id: 'niffle-queen', count: 1 },
+        { id: 'hunting-witch', count: 1 }
+    ]
+}));
 Promise.all([fetchCards, createDeck])
     .then(results => {
         console.log(results);

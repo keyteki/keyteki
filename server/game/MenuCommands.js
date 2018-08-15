@@ -4,44 +4,38 @@ const ConflictFlow = require('./gamesteps/conflict/conflictflow.js');
 class MenuCommands {
     static cardMenuClick(menuItem, game, player, card) {
         switch(menuItem.command) {
-            case 'bow':
-                if(card.bowed) {
+            case 'exhaust':
+                if(card.exhausted) {
                     game.addMessage('{0} readies {1}', player, card);
                     card.ready();
                 } else {
-                    game.addMessage('{0} bows {1}', player, card);
-                    card.bow();
+                    game.addMessage('{0} exhausts {1}', player, card);
+                    card.exhaust();
                 }
                 break;
-            case 'honor':
-                game.addMessage('{0} honors {1}', player, card);
-                card.honor();
+            case 'addDamage':
+                game.addMessage('{0} adds a damage to {1}', player, card);
+                card.addToken('damage');
                 break;
-            case 'dishonor':
-                game.addMessage('{0} dishonors {1}', player, card);
-                card.dishonor();
+            case 'remDamage':
+                game.addMessage('{0} removes a damage from {1}', player, card);
+                card.removeToken('damage');
                 break;
-            case 'addfate':
-                game.addMessage('{0} adds a fate to {1}', player, card);
-                card.modifyFate(1);
+            case 'addAmber':
+                game.addMessage('{0} adds an amber to {1}', player, card);
+                card.addToken('amber');
                 break;
-            case 'remfate':
-                game.addMessage('{0} removes a fate from {1}', player, card);
-                card.modifyFate(-1);
+            case 'remAmber':
+                game.addMessage('{0} removes an amber from {1}', player, card);
+                card.removeToken('amber');
                 break;
-            case 'move':
-                if(game.currentConflict) {
-                    if(card.isParticipating()) {
-                        game.addMessage('{0} moves {1} out of the conflict', player, card);
-                        game.currentConflict.removeFromConflict(card);
-                    } else {
-                        game.addMessage('{0} moves {1} into the conflict', player, card);
-                        if(card.controller.isAttackingPlayer()) {
-                            game.currentConflict.addAttacker(card);
-                        } else if(card.controller.isDefendingPlayer()) {
-                            game.currentConflict.addDefender(card);
-                        }
-                    }
+            case 'stun':
+                if(card.stunned) {
+                    game.addMessage('{0} removes the stun from {1}', player, card);
+                    card.stunned = false;
+                } else {
+                    game.addMessage('{0} stuns {1}', player, card);
+                    card.stun();
                 }
                 break;
             case 'control':

@@ -5,7 +5,7 @@ class Community extends React.Component {
         return (
             <div className='col-xs-12 full-height'>
                 <div className='panel-title text-center'>
-                    Jigoku Online - Community Information
+                    The Crucible Online - Community Information
                 </div>
                 <div className='panel about-container'>
                     <h3>What is this page?</h3>

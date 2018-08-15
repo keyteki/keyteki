@@ -8,8 +8,8 @@ class MoveCardAction extends CardGameAction {
     }
 
     setup() {
+        super.setup();
         this.name = 'move';
-        this.targetType = ['character', 'attachment', 'event', 'holding'];
         this.effectMsg = 'move {0}';
     }
 
@@ -22,22 +22,10 @@ class MoveCardAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent('onMoveCard', { card: card, context: context }, () => {
-            if(this.switch) {
-                // This is somewhat convoluted in order to avoid triggering refilling the province
-                let otherCard = card.controller.getDynastyCardInProvince(this.destination);
-                if(otherCard) {
-                    card.controller.removeCardFromPile(otherCard);
-                    otherCard.moveTo(card.location);
-                    let sourcePile = card.controller.getSourceList(card.location);
-                    sourcePile.push(otherCard);
-                }
-            }
             context.player.moveCard(card, this.destination);
             if(this.shuffle) {
-                if(this.destination === 'conflict deck') {
-                    context.player.shuffleConflictDeck();
-                } else if(this.destination === 'dynasty deck') {
-                    context.player.shuffleDynastyDeck();
+                if(this.destination === 'deck') {
+                    context.player.shuffleDeck();
                 }
             }
         });

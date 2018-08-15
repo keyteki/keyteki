@@ -4,6 +4,8 @@ const AttachAction = require('../GameActions/AttachAction');
 class PlayUpgradeAction extends BaseAction {
     constructor(card) {
         super(card, {
+            activePromptTitle: 'Choose a creature to attach this upgrade to',
+            cardType: 'creature',
             gameAction: new AttachAction(context => ({ upgrade: context.source }))
         });
         this.title = 'Play this upgrade';

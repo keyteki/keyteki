@@ -21,7 +21,7 @@ class ForgeAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent('onForgeKey', { player: player, modifer: this.modifier, context: context }, event => player.forgeKey(event.modifier));
+        return super.createEvent('onForgeKey', { player: player, modifier: this.modifier, context: context }, event => player.forgeKey(event.modifier));
     }
 }
 

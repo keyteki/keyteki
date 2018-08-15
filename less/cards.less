@@ -46,18 +46,18 @@
 
 .generate-wrappers(@n, @i: 1) when (@i =< @n) {
   .wrapper-@{i} {
-    margin-left: @attachment-offset*@i;
+    height: @card-height+(@upgrade-offset)*@i;
 
   &.small {
-      margin-left: -(@attachment-offset-sm)*@i;
+      height: @card-sm-height+(@upgrade-offset)*@i;
     }
 
     &.large {
-      margin-left: -(@attachment-offset-lg)*@i;
+      height: @card-lg-height+(@upgrade-offset)*@i;
     }
 
     &.x-large {
-      margin-left: -(@attachment-offset-xl)*@i;
+      height: @card-lg-height+(@upgrade-offset)*@i;
     }
   }
   .generate-wrappers(@n, (@i + 1));
@@ -307,69 +307,28 @@
   border-radius: 12px;
 }
 
-.attachment {
-  margin-top: -(@card-height);
 
-  &.small {
-    margin-top: -(@card-sm-height);
-
-  }
-
-  &.large {
-    margin-top: -(@card-lg-height);
-
-  }
-
-  &.x-large {
-    margin-top: -(@card-xl-height);
-
-  }
-
-}
-
-.generate-attachments(@n, @i: 1) when (@i =< @n) {
-  .attachment-@{i} {
-    margin-left: -(@attachment-offset)*@i;
+.generate-upgrades(@n, @i: 1) when (@i =< @n) {
+  .upgrade-@{i} {
+    margin-top: -(@card-height)-(@upgrade-offset)*@i;
     z-index: @layer-cards - @i;
 
     &.small {
-      margin-left: -(@attachment-offset-sm)*@i;
+      margin-top: -(@card-sm-height)-(@upgrade-offset-sm)*@i;
     }
 
     &.large {
-      margin-left: -(@attachment-offset-lg)*@i;
+      margin-top: -(@card-lg-height)-(@upgrade-offset-lg)*@i;
     }
 
     &.x-large {
-      margin-left: -(@attachment-offset-xl)*@i;
+      margin-top: -(@card-xl-height)-(@upgrade-offset-xl)*@i;
     }
   }
-
-  .attachment-@{i}.horizontal {
-    margin-left: -(@attachment-offset)*@i;
-    margin-top: -(@card-height)-(@attachment-offset);
-    z-index: @layer-cards - @i;
-
-    &.small {
-      margin-left: -(@attachment-offset-sm)*@i;
-      margin-top: -(@card-sm-height)-(@attachment-offset-sm);
-    }
-
-    &.large {
-      margin-left: -(@attachment-offset-lg)*@i;
-      margin-top: -(@card-lg-height)-(@attachment-offset-lg);
-    }
-
-    &.x-large {
-      margin-left: -(@attachment-offset-xl)*@i;
-      margin-top: -(@card-xl-height)-(@attachment-offset-xl);
-    }
-
-  }
-  .generate-attachments(@n, (@i + 1));
+  .generate-upgrades(@n, (@i + 1));
 }
 
-.generate-attachments(10, 1);
+.generate-upgrades(10, 1);
 
 .card-type-faction.horizontal {
     margin: 10px 0 0 -10px;
@@ -405,14 +364,29 @@
   }
 }
 
-.fatecountertext {
+.countertext {
   position: relative;
   left: 0px;
   top: -95%;
   text-align: center;
   font-size: 14px;
   color: white;
-  text-shadow: 1px 1px 2px #000;
+  text-shadow:
+  -1px -1px 0 #000,
+  1px -1px 0 #000,
+  -1px 1px 0 #000,
+  1px 1px 0 #000;
+}
+
+.counterimage {
+  width: 25px;
+  height: 25px;  
+}
+
+.counter {
+  box-sizing: border-box;
+  width: 25px;
+  height: 25px;
 }
 
 .fatecounter {
@@ -500,36 +474,3 @@
 }
 
 */
-
-.strength {
-  background-color: @strength-color;
-}
-
-.stand {
-  background-color: rgba(128,128,128,0.85);
-}
-
-.province-attachment {
-  margin-top: @attachment-offset - @card-height;
-
-  &.small {
-    margin-top: @attachment-offset-sm - @card-sm-height;
-  }
-
-  &.large {
-    margin-top: @attachment-offset-lg - @card-lg-height;
-  }
-
-  &.x-large {
-    margin-top: @attachment-offset-xl - @card-xl-height;
-  }
-}
-
-.generate-province-attachment(@n, @i: 1) when (@i =< @n) {
-  .province-attachment-@{i} {
-    z-index: @layer-cards - @i;
-  }
-  .generate-province-attachment(@n, (@i + 1));
-}
-
-.generate-province-attachment(5, 1);

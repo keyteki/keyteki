@@ -240,42 +240,6 @@ class InnerProfile extends React.Component {
                         </div>
                         <div>
                             <div className='panel-title'>
-                                Action window defaults
-                            </div>
-                            <div className='panel'>
-                                <p className='help-block small'>If an option is selected here, you will always be prompted if you want to take an action in that window.  If an option is not selected, you will receive no prompts for that window.  For some windows (e.g. dominance) this could mean the whole window is skipped.</p>
-                                <div className='form-group'>
-                                    { windows }
-                                </div>
-                            </div>
-                            <div className='panel-title'>
-                                Timed Bluff Window
-                            </div>
-                            <div className='panel'>
-                                <p className='help-block small'>Sometimes, it is useful to have the game prompt you to play an event, even when you can't play one, as it makes it more difficult for your opponent to deduce what you have in your hand. This 'bluff' window has a timer will count down.
-                                At the end of that timer, the window will automatically pass. This option controls the duration of the timer.  The timer will only show when you *don't* have an ability which can be used. The timer can be configure to show when events are played by your opponent, or
-                                to show when there's a window to play an event which you don't currently have in your hand.</p>
-                                <div className='form-group'>
-                                    <label className='col-sm-3 control-label'>Window timeout</label>
-                                    <div className='col-sm-5'>
-                                        <Slider value={ this.state.windowTimer }
-                                            slideStop={ this.onSlideStop.bind(this) }
-                                            step={ 1 }
-                                            max={ 10 }
-                                            min={ 0 } />
-                                    </div>
-                                    <div className='col-sm-2'>
-                                        <input className='form-control text-center' name='timer' value={ this.state.windowTimer } onChange={ this.onSlideStop.bind(this) } />
-                                    </div>
-                                    <label className='col-sm-1 control-label'>seconds</label>
-
-                                    <Checkbox name='timerSettings.events' noGroup label={ 'Show timer for opponent\'s events' } fieldClass='col-sm-6'
-                                        onChange={ this.onTimerSettingToggle.bind(this, 'events') } checked={ this.state.timerSettings.events } />
-                                    <Checkbox name='timerSettings.abilities' noGroup label={ 'Show timer for events in my deck' } fieldClass='col-sm-6'
-                                        onChange={ this.onTimerSettingToggle.bind(this, 'eventsInDeck') } checked={ this.state.timerSettings.eventsInDeck } />
-                                </div>
-                            </div>
-                            <div className='panel-title'>
                                 Options
                             </div>
                             <div className='panel'>
@@ -289,38 +253,12 @@ class InnerProfile extends React.Component {
                                         checked={ this.state.optionSettings.markCardsUnselectable }
                                     />
                                     <Checkbox
-                                        name='optionSettings.cancelOwnAbilities'
-                                        noGroup
-                                        label={ 'Prompt to cancel/react to initiation of my own abilities' }
-                                        fieldClass='col-sm-6'
-                                        onChange={ this.onOptionSettingToggle.bind(this, 'cancelOwnAbilities') }
-                                        checked={ this.state.optionSettings.cancelOwnAbilities } />
-                                    <Checkbox
-                                        name='optionSettings.orderForcedAbilities'
-                                        noGroup
-                                        label={ 'Prompt to order forced triggered/simultaneous abilities' }
-                                        fieldClass='col-sm-6'
-                                        onChange={ this.onOptionSettingToggle.bind(this, 'orderForcedAbilities') }
-                                        checked={ this.state.optionSettings.orderForcedAbilities }
-                                    />
-                                    <Checkbox
                                         name='optionSettings.confirmOneClick'
                                         noGroup
                                         label={ 'Show a confirmation prompt when initating 1-click abilities' }
                                         fieldClass='col-sm-6'
                                         onChange={ this.onOptionSettingToggle.bind(this, 'confirmOneClick') }
                                         checked={ this.state.optionSettings.confirmOneClick }
-                                    />
-                                    <Checkbox
-                                        name='optionSettings.showStatusInSidebar'
-                                        noGroup
-                                        label={
-                                            'Show player status in the sidebar, instead of horizontal bars.' +
-                                            ' Useful to free up space for cards on smaller screens.'
-                                        }
-                                        fieldClass='col-sm-6'
-                                        onChange={ this.onOptionSettingToggle.bind(this, 'showStatusInSidebar') }
-                                        checked={ this.state.optionSettings.showStatusInSidebar }
                                     />
                                 </div>
                             </div>
@@ -333,59 +271,47 @@ class InnerProfile extends React.Component {
                                 <div className='row'>
                                     <div className='col-sm-4' onClick={ () => this.onBackgroundClick('none') }>
                                         <img className={ 'img-responsive' + (this.state.selectedBackground === 'none' ? ' selected' : '') }
-                                            src='img/blank.png' />
+                                            src='img/bgs/blank.png' />
                                         <span className='bg-label'>None</span>
                                     </div>
-                                    <div className='col-sm-4' onClick={ () => this.onBackgroundClick('CRAB') }>
-                                        <img className={ 'img-responsive' + (this.state.selectedBackground === 'CRAB' ? ' selected' : '') }
-                                            src='/img/bgs/crab.jpg' />
-                                        <span className='bg-label'>Crab</span>
+                                    <div className='col-sm-4' onClick={ () => this.onBackgroundClick('Brobnar') }>
+                                        <img className={ 'img-responsive' + (this.state.selectedBackground === 'Brobnar' ? ' selected' : '') }
+                                            src='/img/bgs/brobnar.png' />
+                                        <span className='bg-label'>Brobnar</span>
                                     </div>
-                                    <div className='col-sm-4' onClick={ () => this.onBackgroundClick('CRANE') }>
-                                        <img className={ 'img-responsive' + (this.state.selectedBackground === 'CRANE' ? ' selected' : '') }
-                                            src='/img/bgs/crane.jpg' />
-                                        <span className='bg-label'>Crane</span>
-                                    </div>
-                                </div>
-                                <div className='row'>
-                                    <div className='col-sm-4' onClick={ () => this.onBackgroundClick('DRAGON') }>
-                                        <img className={ 'img-responsive' + (this.state.selectedBackground === 'DRAGON' ? ' selected' : '') }
-                                            src='/img/bgs/dragon.jpg' />
-                                        <span className='bg-label'>Dragon</span>
-                                    </div>
-                                    <div className='col-sm-4' onClick={ () => this.onBackgroundClick('LION') }>
-                                        <img className={ 'img-responsive' + (this.state.selectedBackground === 'LION' ? ' selected' : '') }
-                                            src='/img/bgs/lion.jpg' />
-                                        <span className='bg-label'>Lion</span>
-                                    </div>
-                                    <div className='col-sm-4' onClick={ () => this.onBackgroundClick('MANTIS') }>
-                                        <img className={ 'img-responsive' + (this.state.selectedBackground === 'MANTIS' ? ' selected' : '') }
-                                            src='/img/bgs/mantis.jpg' />
-                                        <span className='bg-label'>Mantis</span>
+                                    <div className='col-sm-4' onClick={ () => this.onBackgroundClick('Dis') }>
+                                        <img className={ 'img-responsive' + (this.state.selectedBackground === 'Dis' ? ' selected' : '') }
+                                            src='/img/bgs/dis.png' />
+                                        <span className='bg-label'>Dis</span>
                                     </div>
                                 </div>
                                 <div className='row'>
-                                    <div className='col-sm-4' onClick={ () => this.onBackgroundClick('PHOENIX') }>
-                                        <img className={ 'img-responsive' + (this.state.selectedBackground === 'PHOENIX' ? ' selected' : '') }
-                                            src='/img/bgs/phoenix.jpg' />
-                                        <span className='bg-label'>Phoenix</span>
+                                    <div className='col-sm-4' onClick={ () => this.onBackgroundClick('Logos') }>
+                                        <img className={ 'img-responsive' + (this.state.selectedBackground === 'Logos' ? ' selected' : '') }
+                                            src='/img/bgs/logos.png' />
+                                        <span className='bg-label'>Logos</span>
                                     </div>
-                                    <div className='col-sm-4' onClick={ () => this.onBackgroundClick('SCORPION') }>
-                                        <img className={ 'img-responsive' + (this.state.selectedBackground === 'SCORPION' ? ' selected' : '') }
-                                            src='/img/bgs/scorpion.jpg' />
-                                        <span className='bg-label'>Scorpion</span>
+                                    <div className='col-sm-4' onClick={ () => this.onBackgroundClick('Mars') }>
+                                        <img className={ 'img-responsive' + (this.state.selectedBackground === 'Mars' ? ' selected' : '') }
+                                            src='/img/bgs/mars.png' />
+                                        <span className='bg-label'>Mars</span>
                                     </div>
-                                    <div className='col-sm-4' onClick={ () => this.onBackgroundClick('SPIDER') }>
-                                        <img className={ 'img-responsive' + (this.state.selectedBackground === 'SPIDER' ? ' selected' : '') }
-                                            src='/img/bgs/spider.jpg' />
-                                        <span className='bg-label'>Spider</span>
+                                    <div className='col-sm-4' onClick={ () => this.onBackgroundClick('Sanctum') }>
+                                        <img className={ 'img-responsive' + (this.state.selectedBackground === 'Sanctum' ? ' selected' : '') }
+                                            src='/img/bgs/sanctum.png' />
+                                        <span className='bg-label'>Sanctum</span>
                                     </div>
                                 </div>
                                 <div className='row'>
-                                    <div className='col-sm-4' onClick={ () => this.onBackgroundClick('UNICORN') }>
-                                        <img className={ 'img-responsive' + (this.state.selectedBackground === 'UNICORN' ? ' selected' : '') }
-                                            src='/img/bgs/unicorn.jpg' />
-                                        <span className='bg-label'>Unicorn</span>
+                                    <div className='col-sm-4' onClick={ () => this.onBackgroundClick('Shadows') }>
+                                        <img className={ 'img-responsive' + (this.state.selectedBackground === 'Shadows' ? ' selected' : '') }
+                                            src='/img/bgs/shadows.png' />
+                                        <span className='bg-label'>Shadows</span>
+                                    </div>
+                                    <div className='col-sm-4' onClick={ () => this.onBackgroundClick('Untamed') }>
+                                        <img className={ 'img-responsive' + (this.state.selectedBackground === 'Untamed' ? ' selected' : '') }
+                                            src='/img/bgs/untamed.jpg' />
+                                        <span className='bg-label'>Untamed</span>
                                     </div>
                                 </div>
                             </div>

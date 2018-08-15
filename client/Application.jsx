@@ -379,32 +379,26 @@ class App extends React.Component {
         let backgroundClass = 'bg';
         if(gameBoardVisible && this.props.user) {
             switch(this.props.user.settings.background) {
-                case 'CRAB':
-                    backgroundClass = 'bg-board-crab';
+                case 'Brobnar':
+                    backgroundClass = 'bg-board-brobnar';
                     break;
-                case 'CRANE':
-                    backgroundClass = 'bg-board-crane';
+                case 'Dis':
+                    backgroundClass = 'bg-board-dis';
                     break;
-                case 'DRAGON':
-                    backgroundClass = 'bg-board-dragon';
+                case 'Logos':
+                    backgroundClass = 'bg-board-logos';
                     break;
-                case 'LION':
-                    backgroundClass = 'bg-board-lion';
+                case 'Mars':
+                    backgroundClass = 'bg-board-mars';
                     break;
-                case 'MANTIS':
-                    backgroundClass = 'bg-board-mantis';
+                case 'Sanctum':
+                    backgroundClass = 'bg-board-sanctum';
                     break;
-                case 'PHOENIX':
-                    backgroundClass = 'bg-board-phoenix';
+                case 'Shadows':
+                    backgroundClass = 'bg-board-shadows';
                     break;
-                case 'SCORPION':
-                    backgroundClass = 'bg-board-scorpion';
-                    break;
-                case 'SPIDER':
-                    backgroundClass = 'bg-board-spider';
-                    break;
-                case 'UNICORN':
-                    backgroundClass = 'bg-board-unicorn';
+                case 'Untamed':
+                    backgroundClass = 'bg-board-untamed';
                     break;
                 default:
                     backgroundClass = '';
@@ -413,7 +407,7 @@ class App extends React.Component {
         }
 
         return (<div className={ backgroundClass }>
-            <NavBar leftMenu={ leftMenu } rightMenu={ rightMenu } title='Crucible Online' currentPath={ this.props.path } numGames={ this.props.games.length } />
+            <NavBar leftMenu={ leftMenu } rightMenu={ rightMenu } title='The Crucible Online' currentPath={ this.props.path } numGames={ this.props.games.length } />
             <div className='container'>
                 <ErrorBoundary navigate={ this.props.navigate } errorPath={ this.props.path } message={ 'We\'re sorry - something\'s gone wrong.' }>
                     { component }

@@ -116,9 +116,9 @@ global.integration = function(definitions) {
                 this.startGame();
                 //Setup phase
                 this.selectFirstPlayer(this.player1);
+                this.keepCards();
 
                 if(options.player1.house) {
-                    this.keepCards();
                     this.player1.clickPrompt(options.player1.house);
                 }
 

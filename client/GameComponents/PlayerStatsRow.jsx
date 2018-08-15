@@ -89,6 +89,13 @@ export class PlayerStatsRow extends React.Component {
                         <div className='hand-size'>Hand Size: { this.props.handSize }</div>
                     </div>
                 }
+                {
+                    this.props.activeHouse &&
+                    <div className='state'>
+                        <div className='hand-size'>Active House: </div>
+                        <img className='house-image' src={ '/img/' + this.props.activeHouse + '.png' } title={ this.props.activeHouse } />
+                    </div>
+                }
                 { clock }
             </div>
         );
@@ -97,6 +104,7 @@ export class PlayerStatsRow extends React.Component {
 
 PlayerStatsRow.displayName = 'PlayerStatsRow';
 PlayerStatsRow.propTypes = {
+    activeHouse: PropTypes.string,
     clockState: PropTypes.object,
     firstPlayer: PropTypes.bool,
     handSize: PropTypes.number,

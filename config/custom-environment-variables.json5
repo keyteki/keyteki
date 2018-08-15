@@ -2,7 +2,7 @@
     env: 'NODE_ENV',
     dbPath: 'DB_PATH',
     mqUrl: 'ZMQ_URL',
-    domain: 'jigoku.online',
+    domain: 'thecrucible.online',
     https: 'false',
 
     lobby: {

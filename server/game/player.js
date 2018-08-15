@@ -125,7 +125,7 @@ class Player extends GameObject {
     }
 
     /**
-     * Draws the passed number of cards from the top of the conflict deck into this players hand, shuffling and deducting honor if necessary
+     * Draws the passed number of cards from the top of the deck into this players hand, shuffling if necessary
      * @param {number} numCards
      */
     drawCardsToHand(numCards) {
@@ -159,11 +159,11 @@ class Player extends GameObject {
     }
 
     /**
-     * Shuffles the conflict deck, emitting an event and displaying a message in chat
+     * Shuffles the deck, emitting an event and displaying a message in chat
      */
     shuffleDeck() {
         if(this.name !== 'Dummy Player') {
-            this.game.addMessage('{0} is shuffling their conflict deck', this);
+            this.game.addMessage('{0} is shuffling their deck', this);
         }
         this.game.emitEvent('onDeckShuffled', { player: this });
         this.deck = _.shuffle(this.deck);
@@ -189,7 +189,7 @@ class Player extends GameObject {
 
         this.keys = 0;
         this.amber = 0;
-        this.turn = 0;
+        this.turn = 1;
         this.readyToStart = false;
         this.opponent = this.game.getOtherPlayer(this);
     }
@@ -467,6 +467,7 @@ class Player extends GameObject {
         let isActivePlayer = activePlayer === this;
         let promptState = isActivePlayer ? this.promptState.getState() : {};
         let state = {
+            activeHouse: this.activeHouse,
             cardPiles: {
                 cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
                 conflictDiscardPile: this.getSummaryForCardList(this.archives, activePlayer),

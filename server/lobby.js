@@ -513,27 +513,13 @@ class Lobby {
             .then(results => {
                 let [cards, packs, deck] = results;
 
-                _.each(deck.stronghold, stronghold => {
-                    stronghold.card = cards[stronghold.card.id];
+                _.each(deck.cards, card => {
+                    card.card = cards[card.id];
                 });
 
-                _.each(deck.role, role => {
-                    role.card = cards[role.card.id];
-                });
+                deck.status = {
 
-                _.each(deck.provinceCards, province => {
-                    province.card = cards[province.card.id];
-                });
-
-                _.each(deck.conflictCards, conflict => {
-                    conflict.card = cards[conflict.card.id];
-                });
-
-                _.each(deck.dynastyCards, dynasty => {
-                    dynasty.card = cards[dynasty.card.id];
-                });
-
-                deck.status = validateDeck(deck, { packs: packs, includeExtendedStatus: false });
+                };
                 game.selectDeck(socket.user.username, deck);
 
                 this.sendGameState(game);

@@ -22,13 +22,11 @@ class Card extends React.Component {
         };
 
         this.shortNames = {
-            honor: 'H',
-            stand: 'T',
-            poison: 'O',
-            gold: 'G',
-            valarmorghulis: 'V',
-            betrayal: 'B',
-            vengeance: 'N'
+            damage: 'D',
+            amber: 'A',
+            stun: 'S',
+            armor: 'R',
+            power: 'P'
         };
     }
 
@@ -142,36 +140,30 @@ class Card extends React.Component {
     getCountersForCard(card) {
         var counters = {};
 
-        counters['card-fate'] = card.fate ? { count: card.fate, fade: card.type === 'attachment', shortName: 'F' } : undefined;
-        counters['card-honor'] = card.honor ? { count: card.honor, fade: card.type === 'attachment', shortName: 'H' } : undefined;
-        if(card.isHonored) {
-            counters['honor-status'] = { count: 1, fade: card.type === 'attachment', shortName: 'Hd' };
-        } else if(card.isDishonored) {
-            counters['honor-status'] = { count: 2, fade: card.type === 'attachment', shortName: 'Dd' };
-        } else {
-            counters['honor-status'] = undefined;
-        }
-
         _.each(card.tokens, (token, key) => {
-            counters[key] = { count: token, fade: card.type === 'attachment', shortName: this.shortNames[key] };
+            counters[key] = { count: token, fade: card.type === 'upgrade', shortName: this.shortNames[key] };
         });
 
-        _.each(card.attachments, attachment => {
-            _.extend(counters, this.getCountersForCard(attachment));
+        _.each(card.upgrades, upgrade => {
+            _.extend(counters, this.getCountersForCard(upgrade));
         });
 
         var filteredCounters = _.omit(counters, counter => {
             return _.isUndefined(counter) || _.isNull(counter) || counter < 0;
         });
 
+        if(card.stunned) {
+            filteredCounters.stun = 0;
+        }
+
         return filteredCounters;
     }
 
     getWrapper() {
         let wrapperClassName = '';
-        let attachments = this.props.source === 'play area' ? _.size(this.props.card.attachments) : 0;
-        if(attachments > 0) {
-            wrapperClassName = 'wrapper-' + attachments.toString();
+        let upgrades = this.props.source === 'play area' ? _.size(this.props.card.upgrades) : 0;
+        if(upgrades > 0) {
+            wrapperClassName = 'wrapper-' + upgrades.toString();
         }
 
         return wrapperClassName;
@@ -184,14 +176,14 @@ class Card extends React.Component {
         }
 
         var index = 1;
-        var attachments = _.map(this.props.card.attachments, attachment => {
-            var returnedAttachment = (<Card key={ attachment.uuid } source={ this.props.source } card={ attachment }
-                className={ 'attachment attachment-' + index } wrapped={ false }
-                onMouseOver={ this.props.disableMouseOver ? null : this.onMouseOver.bind(this, attachment) }
+        var upgrades = _.map(this.props.card.upgrades, upgrade => {
+            var returnedAttachment = (<Card key={ upgrade.uuid } source={ this.props.source } card={ upgrade }
+                className={ 'upgrade upgrade-' + index } wrapped={ false }
+                onMouseOver={ this.props.disableMouseOver ? null : this.onMouseOver.bind(this, upgrade) }
                 onMouseOut={ this.props.disableMouseOver ? null : this.onMouseOut }
                 onClick={ this.props.onClick }
                 onMenuItemClick={ this.props.onMenuItemClick }
-                onDragStart={ ev => this.onCardDragStart(ev, attachment, this.props.source) }
+                onDragStart={ ev => this.onCardDragStart(ev, upgrade, this.props.source) }
                 size={ this.props.size } />);
 
             index += 1;
@@ -199,7 +191,7 @@ class Card extends React.Component {
             return returnedAttachment;
         });
 
-        return attachments;
+        return upgrades;
     }
 
     getCardOrder() {
@@ -232,7 +224,7 @@ class Card extends React.Component {
             return false;
         }
 
-        if(this.props.card.facedown || this.props.card.type === 'attachment') {
+        if(this.props.card.facedown || this.props.card.type === 'upgrade') {
             return false;
         }
 
@@ -365,7 +357,7 @@ class Card extends React.Component {
         let popup = null;
         let cardIndex = 0;
 
-        let cardList = _.map(this.props.card.attachments, card => {
+        let cardList = _.map(this.props.card.upgrades, card => {
             let cardKey = cardIndex++;
             if(!this.props.isMe) {
                 card = { facedown: true, isDynasty: card.isDynasty, isConflict: card.isConflict };
@@ -442,7 +434,7 @@ Card.displayName = 'Card';
 Card.propTypes = {
     card: PropTypes.shape({
         attached: PropTypes.bool,
-        attachments: PropTypes.array,
+        upgrades: PropTypes.array,
         baseMilitarySkill: PropTypes.number,
         basePoliticalSkill: PropTypes.number,
         controlled: PropTypes.bool,
@@ -474,6 +466,7 @@ Card.propTypes = {
         selected: PropTypes.bool,
         showPopup: PropTypes.bool,
         strength: PropTypes.number,
+        stunned: PropTypes.bool,
         tokens: PropTypes.object,
         type: PropTypes.string,
         unselectable: PropTypes.bool,
@@ -493,7 +486,7 @@ Card.propTypes = {
     orientation: PropTypes.oneOf(['horizontal', 'bowed', 'vertical']),
     popupLocation: PropTypes.string,
     size: PropTypes.string,
-    source: PropTypes.oneOf(['archives', 'hand', 'discard', 'deck', 'purged', 'dynasty discard pile', 'conflict discard pile', 'play area', 'dynasty deck', 'conflict deck', 'province deck', 'province 1', 'province 2', 'province 3', 'province 4', 'attachment', 'stronghold province', 'additional', 'role card']).isRequired,
+    source: PropTypes.oneOf(['archives', 'hand', 'discard', 'deck', 'purged', 'dynasty discard pile', 'conflict discard pile', 'play area', 'dynasty deck', 'conflict deck', 'province deck', 'province 1', 'province 2', 'province 3', 'province 4', 'upgrade', 'stronghold province', 'additional', 'role card']).isRequired,
     style: PropTypes.object,
     title: PropTypes.string,
     wrapped: PropTypes.bool

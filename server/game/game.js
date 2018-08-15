@@ -292,7 +292,7 @@ class Game extends EventEmitter {
 
     /**
      * Sets a Player flag and displays a chat message to show that a popup with a
-     * player's conflict deck is open
+     * player's deck is open
      * @param {String} playerName
      */
     showDeck(playerName) {

@@ -181,7 +181,7 @@ class InnerLobby extends React.Component {
                 </div>
                 <div className='col-sm-offset-1 col-sm-10'>
                     <div className='main-header'>
-                        <span className='text-center'><h1>Legend of the Five Rings LCG</h1></span>
+                        <span className='text-center'><h1>Keyforge UDG</h1></span>
                     </div>
                 </div>
                 { this.props.bannerNotice ? <AlertPanel message={ this.props.bannerNotice } type='error' /> : null }

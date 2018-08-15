@@ -1,19 +1,19 @@
 # Ringteki
 
 
-Web based implementation of The Legend of the Five Rings LCG
+Web based implementation of Keyforge: the UDG
 
 ## FAQ
 
 ### What is it?
 
-This is the respository for the code internally known as ringteki which is running on [jigoku.online](https://jigoku.online/) allowing people to play L5R LCG online using only their browser
+This is the respository for the code internally known as keyteki which is running on [thecrucible.online](https://thecrucible.online/) allowing people to play L5R LCG online using only their browser
 
 ### Does't this look a lot like Jinteki/Throneteki? The Android netrunner/AGOT online experience?
 
 Glad you noticed!  Yes, jinteki was a huge inspiration for this project, as the interface is clean and user friendly, so I've tried to make this similar in a lot of ways
 
-Ringteki is a fork of the throneteki sourcecode
+Keyteki is a fork of the ringteki sourcecode
 
 ### Can I contribute?
 
@@ -36,7 +36,7 @@ See this document for features I have planned and a link to the currently implem
 
 ### How do I do X Y Z?
 
-Check out the [About page](https://jigoku.online/about)  of a Ringteki live deployment.
+Check out the [About page](https://thecrucible.online/about)  of a Keyteki live deployment.
 
 ## Development
 

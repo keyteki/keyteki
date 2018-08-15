@@ -14,11 +14,13 @@ class DrawPhase extends Phase {
         let player = this.game.activePlayer;
         let amount = player.maxHandSize - player.hand.length;
         if(amount > 0) {
-            this.game.addMessage('{0} draws {1} cards for the draw phase', player, amount);
+            this.game.addMessage('{0} draws {1} cards up to their maximum hand size of {2}', player, amount, player.maxHandSize);
             this.game.actions.draw({ amount: amount }).resolve(player, this.game.getFrameworkContext());
-
         }
-        player.modifyChains(-1);
+        if(amount >= 0 && player.chains > 0) {
+            player.modifyChains(-1);
+            this.game.addMessage('{0}\'s chains are reduced by 1 to {1}', player.chains);
+        }
     }
 
     roundEnded() {

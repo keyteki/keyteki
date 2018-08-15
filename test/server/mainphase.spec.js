@@ -1,10 +1,10 @@
-fdescribe('main phase', function() {
+describe('main phase', function() {
     integration(function() {
         beforeEach(function() {
             this.setupTest({
                 player1: {
                     house: 'untamed',
-                    hand: ['regrowth', 'hunting-witch', 'way-of-the-bear', 'protectrix', 'inka-the-spider'],
+                    hand: ['regrowth', 'hunting-witch', 'way-of-the-bear', 'protectrix', 'inka-the-spider', 'nepenthe-seed'],
                     discard: ['ancient-bear'],
                     inPlay: ['witch-of-the-eye', 'champion-anaphiel']
                 },
@@ -118,6 +118,57 @@ fdescribe('main phase', function() {
                 expect(this.inkaTheSpider.location).toBe('play area');
                 expect(this.player1.player.cardsInPlay[0]).toBe(this.inkaTheSpider);
                 expect(this.inkaTheSpider.neighbors).toContain(this.witchOfTheEye);
+                expect(this.inkaTheSpider.exhausted).toBe(true);
+            });
+
+            it('should resolve any Play: abilities on the creature', function() {
+                this.championAnaphiel.stunned = true;
+                this.inkaTheSpider = this.player1.clickCard('inka-the-spider');
+                this.player1.clickPrompt('Play this creature');
+                expect(this.player1).toHavePrompt('Which flank do you want to place this creature on?');
+                this.player1.clickPrompt('Right');
+                expect(this.inkaTheSpider.location).toBe('play area');
+                expect(this.player1.player.cardsInPlay[2]).toBe(this.inkaTheSpider);
+                expect(this.inkaTheSpider.neighbors).toContain(this.championAnaphiel);
+                expect(this.inkaTheSpider.exhausted).toBe(true);
+                expect(this.player1).toHavePrompt('Inka the Spider');
+                expect(this.player1).toBeAbleToSelect(this.witchOfTheEye);
+                expect(this.player1).toBeAbleToSelect(this.batdrone);
+                expect(this.player1).toBeAbleToSelect(this.inkaTheSpider);
+                expect(this.player1).not.toBeAbleToSelect(this.championAnaphiel);
+                this.player1.clickCard(this.batdrone);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.batdrone.stunned).toBe(true);
+            });
+
+            it('should put the card into play exhuasted if it\'s an artifact', function() {
+                this.nepentheSeed = this.player1.clickCard('nepenthe-seed');
+                expect(this.player1).toHavePrompt('Nepenthe Seed');
+                expect(this.player1).toHavePromptButton('Play this artifact');
+                expect(this.player1).toHavePromptButton('Discard this card');
+                expect(this.player1).toHavePromptButton('Cancel');
+                this.player1.clickPrompt('Play this artifact');
+                expect(this.nepentheSeed.location).toBe('play area');
+                expect(this.nepentheSeed.exhausted).toBe(true);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+
+            it('should prompt for a creature to attach to if it\'s an upgrade', function() {
+                this.wayOfTheBear = this.player1.clickCard('way-of-the-bear');
+                expect(this.player1).toHavePrompt('Way of the Bear');
+                expect(this.player1).toHavePromptButton('Play this upgrade');
+                expect(this.player1).toHavePromptButton('Cancel');
+                this.player1.clickPrompt('Play this upgrade');
+                expect(this.player1).toHavePrompt('Choose a creature to attach this upgrade to');
+                expect(this.player1).toBeAbleToSelect(this.witchOfTheEye);
+                expect(this.player1).toBeAbleToSelect(this.championAnaphiel);
+                expect(this.player1).toBeAbleToSelect(this.batdrone);
+                expect(this.player1).not.toBeAbleToSelect(this.ancientBear);
+                this.player1.clickCard(this.championAnaphiel);
+                expect(this.championAnaphiel.upgrades).toContain(this.wayOfTheBear);
+                expect(this.wayOfTheBear.location).toBe('play area');
+                expect(this.wayOfTheBear.exhausted).toBe(false);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
     });

@@ -7,13 +7,13 @@ class About extends React.Component {
         return (
             <div className='col-xs-12 full-height'>
                 <div className='panel-title text-center'>
-                    About Jigoku Online - Help and information
+                    About The Crucible Online - Help and information
                 </div>
                 <div className='panel about-container'>
                     <a className='btn btn-danger btn-lg pull-right' target='_blank' href='https://github.com/gryffon/ringteki/issues'>Report Problems</a>
                     <h3>What is this?</h3>
 
-                    <p>This site was setup to allow you to play Legend of the Five Rings, an LCG from Fantasy Flight Games (FFG) in your browser.</p>
+                    <p>This site was setup to allow you to play Keyforge, an UDG from Fantasy Flight Games (FFG) in your browser.</p>
 
                     <h3>That's pretty cool!  But how does any of this work?</h3>
                     <p>Head on over to the <Link href='/how-to-play'>How To Play guide</Link> for a thorough explanation.</p>
@@ -54,7 +54,7 @@ class About extends React.Component {
                     <p>I'd also like to thank cryogen and his team for their work on creating throneteki, which i've based this particular application off of.</p>
 
                     <h2>Additional Notes</h2>
-                    <p>The Legend of the Five Rings living card game, the artwork and many other things are all copyright Fantasy Flight Games and I make no claims of ownership or otherwise of any of the
+                    <p>The Keyforge Unique Deck Game, the artwork and many other things are all copyright Fantasy Flight Games and I make no claims of ownership or otherwise of any of the
                     artwork or trademarks.  This site exists for passionate fans to play a game they enjoy and augment, rather than replace, the in person LCG.  FFG does not endorse, support, and is not
                     involved with, this site in any way.
                     </p>

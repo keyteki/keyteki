@@ -20,6 +20,9 @@ class AbilityTargetHouse {
         return this.houses.length;
     }
 
+    resetGameActions() {
+    }
+
     getGameAction() {
         return [];
     }

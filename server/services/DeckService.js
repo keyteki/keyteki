@@ -21,13 +21,8 @@ class DeckService {
         let properties = {
             username: deck.username,
             name: deck.deckName,
-            provinceCards: deck.provinceCards,
-            stronghold: deck.stronghold,
-            role: deck.role,
-            conflictCards: deck.conflictCards,
-            dynastyCards: deck.dynastyCards,
-            faction: deck.faction,
-            alliance: deck.alliance,
+            houses: deck.houses,
+            cards: deck.cards,
             lastUpdated: new Date()
         };
 
@@ -36,14 +31,10 @@ class DeckService {
 
     update(deck) {
         let properties = {
+            username: deck.username,
             name: deck.deckName,
-            provinceCards: deck.provinceCards,
-            stronghold: deck.stronghold,
-            role: deck.role,
-            conflictCards: deck.conflictCards,
-            dynastyCards: deck.dynastyCards,
-            faction: deck.faction,
-            alliance: deck.alliance,
+            houses: deck.houses,
+            cards: deck.cards,
             lastUpdated: new Date()
         };
 

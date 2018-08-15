@@ -46,17 +46,16 @@ class Card extends EffectSource {
         this.printedArmor = cardData.armor;
         this.exhausted = false;
         this.stunned = false;
-        this.damage = 0;
 
         this.keywords = cardData.keywords;
 
         this.menu = [
-            { command: 'bow', text: 'Bow/Ready' },
-            { command: 'honor', text: 'Honor' },
-            { command: 'dishonor', text: 'Dishonor' },
-            { command: 'addfate', text: 'Add 1 fate' },
-            { command: 'remfate', text: 'Remove 1 fate' },
-            { command: 'move', text: 'Move into/out of conflict' },
+            { command: 'exhaust', text: 'Exhaust/Ready' },
+            { command: 'addDamage', text: 'Add 1 damage' },
+            { command: 'remDamage', text: 'Remove 1 damage' },
+            { command: 'addAmber', text: 'Add 1 amber' },
+            { command: 'remAmber', text: 'Remove 1 amber' },
+            { command: 'stun', text: 'Stun/Remove Stun' },
             { command: 'control', text: 'Give control' }
         ];
 
@@ -395,7 +394,7 @@ class Card extends EffectSource {
     }
 
     /**
-     * Checks whether the passed card meets the attachment restrictions (e.g.
+     * Checks whether the passed card meets the upgrade restrictions (e.g.
      * Opponent cards only, specific factions, etc) for this card.
      */
     canAttach(card, context) { // eslint-disable-line no-unused-vars
@@ -472,7 +471,7 @@ class Card extends EffectSource {
     }
 
     /**
-     * This removes an attachment from this card's attachment Array.  It doesn't open any windows for
+     * This removes an upgrade from this card's upgrade Array.  It doesn't open any windows for
      * game effects to respond to.
      * @param {Card} upgrade
      */
@@ -529,9 +528,12 @@ class Card extends EffectSource {
             menu: this.getMenu(),
             name: this.cardData.name,
             new: this.new,
+            stunned: this.stunned,
             tokens: this.tokens,
             type: this.getType(),
-            upgrades: this.upgrades,
+            upgrades: this.upgrades.map(upgrade => {
+                return upgrade.getSummary(activePlayer, hideWhenFaceup);
+            }),
             uuid: this.uuid
         };
 

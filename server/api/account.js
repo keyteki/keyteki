@@ -45,9 +45,9 @@ function sendEmail(address, email) {
         var emailTransport = nodemailer.createTransport(config.emailPath);
 
         emailTransport.sendMail({
-            from: 'Jigoku Online <noreply@jigoku.online>',
+            from: 'The Crucible Online <noreply@thecrucible.online>',
             to: address,
-            subject: 'Your account at Jigoku Online',
+            subject: 'Your account at The Crucible Online',
             text: email
         }, function(error) {
             if(error) {
@@ -244,11 +244,11 @@ module.exports.init = function(server) {
                 return userService.setResetToken(user, resetToken, formattedExpiration);
             })
             .then(() => {
-                let url = 'https://jigoku.online/reset-password?id=' + emailUser._id + '&token=' + resetToken;
-                let emailText = 'Hi,\n\nSomeone, hopefully you, has requested their password on Jigoku Online (https://jigoku.online) to be reset.  If this was you, click this link ' + url + ' to complete the process.\n\n' +
+                let url = 'https://thecrucible.online/reset-password?id=' + emailUser._id + '&token=' + resetToken;
+                let emailText = 'Hi,\n\nSomeone, hopefully you, has requested their password on The Crucible Online (https://thecrucible.online) to be reset.  If this was you, click this link ' + url + ' to complete the process.\n\n' +
                     'If you did not request this reset, do not worry, your account has not been affected and your password has not been changed, just ignore this email.\n' +
                     'Kind regards,\n\n' +
-                    'The Jigoku Online team';
+                    'The The Crucible Online team';
 
                 return sendEmail(emailUser.email, emailText);
             })
