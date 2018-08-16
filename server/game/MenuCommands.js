@@ -1,5 +1,4 @@
 const Conflict = require('./conflict.js');
-const ConflictFlow = require('./gamesteps/conflict/conflictflow.js');
 
 class MenuCommands {
     static cardMenuClick(menuItem, game, player, card) {
@@ -102,17 +101,6 @@ class MenuCommands {
                 game.addMessage('{0} takes all the fate from the {1} ring and adds it to their pool', player, ring.element);
                 player.modifyFate(ring.fate);
                 ring.fate = 0;
-                break;
-            case 'conflict':
-                if(game.currentActionWindow && game.currentActionWindow.windowName === 'preConflict') {
-                    game.addMessage('{0} initiates a conflict', player);
-                    var conflict = new Conflict(game, player, player.opponent, ring);
-                    game.currentConflict = conflict;
-                    game.queueStep(new ConflictFlow(game, conflict));
-                    game.queueSimpleStep(() => game.currentConflict = null);
-                } else {
-                    game.addMessage('{0} tried to initiate a conflict, but game can only be done in a pre-conflict action window', player);
-                }
                 break;
         }
     }

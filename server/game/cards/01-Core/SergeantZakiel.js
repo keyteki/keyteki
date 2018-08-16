@@ -6,9 +6,9 @@ class SergeantZakiel extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'self',
-                gameAction: //TODO: Sequential action?
+                gameAction: 'TODO'//TODO: Sequential action?
             }
-        })
+        });
     }
 }
 

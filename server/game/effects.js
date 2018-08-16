@@ -76,10 +76,11 @@ const Effects = {
     }),
     canUse: (match) => EffectBuilder.player.static('canUse', match),
     customDetachedPlayer: (properties) => EffectBuilder.player.detached('customEffect', properties),
-    restrictHouseChoice: (house) => EffectBuilder.player.static('restrictHouseChoice', house),
     modifyKeyCost: (amount) => EffectBuilder.player.flexible('modifyKeyCost', amount),
     modifyHandSize: (amount) => EffectBuilder.player.flexible('modifyHandSize', amount),
     playerCannot: (properties) => EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(properties)),
+    redirectAmber: (recepient) => EffectBuilder.player.dynamic('redirectAmber', recepient),
+    restrictHouseChoice: (house) => EffectBuilder.player.static('restrictHouseChoice', house),
     showTopConflictCard: () => EffectBuilder.player.static('showTopConflictCard')
 };
 

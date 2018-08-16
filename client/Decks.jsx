@@ -42,7 +42,7 @@ class InnerDecks extends React.Component {
     onConfirmDeleteClick(event) {
         event.preventDefault();
 
-        this.props.deleteDeck(this.props.selectedDeck);
+        //this.props.deleteDeck(this.props.selectedDeck);
 
         this.setState({ showDelete: false });
     }
@@ -75,7 +75,6 @@ class InnerDecks extends React.Component {
                 </div>
                 <div className='panel col-xs-12'>
                     <div className='btn-group col-xs-12'>
-                        <button className='btn btn-primary' onClick={ this.onEditClick.bind(this) }>Edit</button>
                         <button className='btn btn-primary' onClick={ this.onDeleteClick }>Delete</button>
                         { this.state.showDelete ?
                             <button className='btn btn-danger' onClick={ this.onConfirmDeleteClick }>Delete</button> :
@@ -112,7 +111,6 @@ class InnerDecks extends React.Component {
                             Your decks
                         </div>
                         <div className='panel deck-list-container'>
-                            <Link className='btn btn-primary' href='/decks/add'>New Deck</Link>
                             <div className='deck-list'>{ !this.props.decks || this.props.decks.length === 0 ? 'You have no decks, try adding one.' : deckList }</div>
                         </div>
                     </div>
@@ -120,6 +118,9 @@ class InnerDecks extends React.Component {
                 </div>);
         }
         return content;
+        /*
+                                    <Link className='btn btn-primary' href='/decks/add'>New Deck</Link>
+        */
     }
 }
 

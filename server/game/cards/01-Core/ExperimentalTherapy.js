@@ -6,7 +6,10 @@ class ExperimentalTherapy extends Card {
             effect: ability.effects.addHouse(['brobnar', 'dis', 'logos', 'mars', 'sanctum', 'shadows', 'untamed'])
         });
         this.play({
-            gameAction: [ability.actions.exhaust(), ability.actions.stun()]
+            gameAction: [
+                ability.actions.exhaust(),
+                ability.actions.stun()
+            ]
         });
     }
 }

@@ -16,7 +16,9 @@ class DeckRow extends React.Component {
     render() {
         return (
             <div className={ this.props.active ? 'deck-row active' : 'deck-row' } key={ this.props.deck.name } onClick={ this.props.onClick }>
-                <div className='col-xs-1 deck-image'><img className='deck-sm-mon' src={ '/img/mons/' + this.props.deck.faction.value + '.png' } /></div>
+                <div className='col-xs-1 deck-image'>
+                    <img className='deck-sm-mon' src={ '/img/mons/' + this.props.deck.faction.value + '.png' } />
+                </div>
                 <span className='col-xs-8 col-md-7 col-lg-9 deck-name'>{ this.props.deck.name }</span><span className='col-xs-2 col-md-3 col-lg-2 deck-status-label text-right pull-right'>{ this.getStatusName(this.props.deck.status) }</span>
                 <div className='row small'>
                     <span className='col-md-7 deck-factionalliance'>{ this.props.deck.faction.name }{ this.props.deck.alliance && this.props.deck.alliance.name ? <span>/{ this.props.deck.alliance.name }</span> : null }</span>
