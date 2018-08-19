@@ -7,6 +7,7 @@ class SampleCollection extends Card {
                 num: context.player.opponent.keys,
                 action: ability.actions.archive({
                     promptForSelect: {
+                        activePromptTitle: 'Choose a creature to archive',
                         cardType: 'creature',
                         controller: 'opponent'
                     }

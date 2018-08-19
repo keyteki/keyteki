@@ -2,6 +2,7 @@ const _ = require('underscore');
 const Phase = require('../phase.js');
 const SimpleStep = require('../simplestep.js');
 const MulliganPrompt = require('./mulliganprompt.js');
+const Effects = require('../../effects.js');
 
 class SetupPhase extends Phase {
     constructor(game) {
@@ -9,6 +10,7 @@ class SetupPhase extends Phase {
         this.initialise([
             new SimpleStep(game, () => this.setupBegin()),
             new SimpleStep(game, () => this.chooseFirstPlayer()),
+            new SimpleStep(game, () => this.firstPlayerEffects()),
             new SimpleStep(game, () => this.drawStartingHands()),
             new MulliganPrompt(game),
             new SimpleStep(game, () => this.startGame())
@@ -36,15 +38,22 @@ class SetupPhase extends Phase {
                 choices: ['First Player', 'Second Player'],
                 handlers: [
                     () => this.game.activePlayer.drawCardsToHand(1),
-                    () => {
-                        this.game.activePlayer = this.game.activePlayer.opponent;
-                        this.game.activePlayer.drawCardsToHand(1);
-                    }
+                    () => this.game.activePlayer = this.game.activePlayer.opponent
                 ]
             });
-        } else {
-            this.game.activePlayer.drawCardsToHand(1);
         }
+    }
+
+    firstPlayerEffects() {
+        this.game.activePlayer.drawCardsToHand(1);
+        this.game.actions.forRemainderOfTurn({
+            condition: () => this.game.cardsUsed.length || this.game.cardsPlayed.length || this.game.cardsDiscarded.length,
+            effect: [
+                Effects.playerCannot('play'),
+                Effects.playerCannot('use'),
+                Effects.playerCannot('discard')
+            ]
+        }).resolve(this.game.activePlayer, this.game.getFrameworkContext());
     }
 
     drawStartingHands() {

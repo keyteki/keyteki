@@ -34,6 +34,7 @@ const ReturnAmberAction = require('./GameActions/ReturnAmber');
 const ReturnToDeckAction = require('./GameActions/ReturnToDeckAction');
 const ReturnToHandAction = require('./GameActions/ReturnToHandAction');
 const SequentialAction = require('./GameActions/SequentialAction');
+const SequentialForEachAction = require('./GameActions/SequentialForEachAction');
 const StealAction = require('./GameActions/StealAction');
 const StunAction = require('./GameActions/StunAction');
 const UseAction = require('./GameActions/UseAction');
@@ -82,7 +83,8 @@ const Actions = {
     changeEvent: (propertyFactory) => new ChangeEventAction(propertyFactory),
     chooseAction: (propertyFactory) => new ChooseGameAction(propertyFactory), // choices, activePromptTitle = 'Select one'
     jointAction: (gameActions) => new JointGameAction(gameActions), // takes an array of gameActions, not a propertyFactory
-    sequential: (gameActions) => new SequentialAction(gameActions) // takes an array of gameActions, not a propertyFactory
+    sequential: (gameActions) => new SequentialAction(gameActions), // takes an array of gameActions, not a propertyFactory
+    sequentialForEach: (propertyFactory) => new SequentialForEachAction(propertyFactory)
 };
 
 module.exports = Actions;

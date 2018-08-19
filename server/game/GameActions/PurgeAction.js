@@ -8,7 +8,13 @@ class PurgeAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onCardPurged', { card: card, context: context }, () => card.owner.moveCard(card, 'purged'));
+        return super.createEvent('onCardPurged', { card: card, context: context }, () => {
+            if(card.location === 'play area') {
+                context.game.raiseEvent('onCardLeavesPlay', { card, context }, () => card.owner.moveCard(card, 'purged'));
+            } else {
+                card.owner.moveCard(card, 'purged');
+            }
+        });
     }
 }
 

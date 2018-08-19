@@ -59,6 +59,7 @@ class Game extends EventEmitter {
 
         this.cardsUsed = [];
         this.cardsPlayed = [];
+        this.cardsDiscarded = [];
         this.activePlayer = null;
 
         this.shortCardData = options.shortCardData || [];
@@ -650,7 +651,7 @@ class Game extends EventEmitter {
     /**
      * Creates an EventWindow which will open windows for each kind of triggered
      * ability which can respond any passed events, and execute their handlers.
-     * @param {Event[]} events
+     * @param events
      * @returns {EventWindow}
      */
     openEventWindow(events) {
@@ -701,7 +702,7 @@ class Game extends EventEmitter {
      * Changes the controller of a card in play to the passed player, and cleans
      * all the related stuff up (swapping sides in a conflic)
      * @param {Player} player
-     * @param {DrawCard} card
+     * @param card
      */
     takeControl(player, card) {
         if(card.controller === player || !card.allowGameAction('takeControl')) {
@@ -837,6 +838,7 @@ class Game extends EventEmitter {
         this.activePlayer.endRound();
         this.cardsUsed = [];
         this.cardsPlayed = [];
+        this.cardsDiscarded = [];
         for(let card of this.cardsInPlay) {
             card.endRound();
         }
@@ -922,7 +924,7 @@ class Game extends EventEmitter {
      */
     getSummary(activePlayerName) {
         var playerSummaries = {};
-        let activePlayer = this.getPlayerByName(activePlayerName);
+        // let activePlayer = this.getPlayerByName(activePlayerName);
 
         for(const player of this.getPlayers()) {
             var deck = undefined;

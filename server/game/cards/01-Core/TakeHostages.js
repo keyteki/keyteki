@@ -4,9 +4,10 @@ class TakeHostages extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.forRemainderOfTurn({
-                effect: ability.effects.gainAbility('fight', {
-                    gameAction: ability.actions.capture()
-                })
+                when: {
+                    onFight: (event, context) => event.attacker.controller === context.player && event.attacker.location === 'play area'
+                },
+                gameAction: ability.actions.capture()
             })
         });
     }

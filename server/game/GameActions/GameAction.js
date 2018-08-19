@@ -66,7 +66,9 @@ class GameAction {
     }
 
     resolve(targets, context) {
-        this.setDefaultTarget(() => targets);
+        if(targets) {
+            this.setDefaultTarget(() => targets);
+        }
         this.preEventHandler(context);
         let eventWindow;
         context.game.queueSimpleStep(() => {
@@ -90,10 +92,21 @@ class GameAction {
         return [];
     }
 
+    /**
+     * Gets an event for the target
+     * @param {Object} target
+     * @param {Object} context
+     * @returns {Event}
+     */
     getEvent(target, context) { // eslint-disable-line no-unused-vars
         throw new Error('GameAction.getEvent called');
     }
 
+    /**
+     * Gets an array for with an event for each legal target
+     * @param {Object} context
+     * @returns {Event[]}
+     */
     getEventArray(context) {
         return this.target.filter(target => this.canAffect(target, context)).map(target => this.getEvent(target, context));
     }

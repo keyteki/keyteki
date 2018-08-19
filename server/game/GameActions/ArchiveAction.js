@@ -14,7 +14,13 @@ class ArchiveAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onCardArchived', { card: card, context: context }, () => context.player.moveCard(card, 'archives'));
+        return super.createEvent('onCardArchived', { card: card, context: context }, () => {
+            if(card.location === 'play area') {
+                context.game.raiseEvent('onCardLeavesPlay', { card, context }, () => context.player.moveCard(card, 'archives'));
+            } else {
+                context.player.moveCard(card, 'archives');
+            }
+        });
     }
 }
 

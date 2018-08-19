@@ -46,6 +46,7 @@ class SequentialAction extends GameAction {
     getEventArray(context) {
         return [super.createEvent('unnamedEvent', {}, () => {
             for(let action of this.gameActions) {
+                context.game.queueSimpleStep(() => action.preEventHandler(context));
                 context.game.queueSimpleStep(() => context.game.openEventWindow(action.getEventArray(context)));
             }
         })];

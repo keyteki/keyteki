@@ -7,6 +7,7 @@ class Event {
         this.resolved = false;
         this.handler = handler;
         this.gameAction = gameAction;
+        this.card = null;
         this.context = null;
         this.window = null;
         this.getResult = () => {
@@ -58,6 +59,9 @@ class Event {
 
     executeHandler() {
         this.resolved = true;
+        if(this.card) {
+            this.clone = this.card.createSnapshot();
+        }
         if(this.handler) {
             this.handler(this);
         }

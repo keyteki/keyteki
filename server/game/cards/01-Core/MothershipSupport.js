@@ -8,6 +8,7 @@ class MothershipSupport extends Card {
                 action: ability.actions.dealDamage({
                     amount: 2,
                     promptForSelect: {
+                        activePromptTitle: 'Choose a creature to deal 2 damage to',
                         cardType: 'creature'
                     }
                 })

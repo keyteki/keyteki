@@ -166,11 +166,11 @@ class Card extends EffectSource {
     }
 
     leavesPlay(properties) {
-        properties.when = {
-            onCardDestroyed: (event, context) => event.card === context.source,
-            onCardPurged:
-            onCardReturnsToHand:
-        };
+        properties.when = { onCardLeavesPlay: (event, context) => event.card === context.source };
+        if(properties.condition) {
+            properties.when = { onCardLeavesPlay: (event, context) => event.card === context.source && properties.condition(context) };
+        }
+        return this.interrupt(properties);
     }
 
     omni(properties) {
