@@ -53,7 +53,7 @@ class Player extends GameObject {
     }
 
     /**
-     * Checks whether a card with a uuid matching the passed card is in the passed _(Array)
+     * Checks whether a card with a uuid matching the passed card is in the passed Array
      * @param {Array} list
      * @param card
      */
@@ -65,11 +65,11 @@ class Player extends GameObject {
 
     /**
      * Checks whether a card with a name matching the passed card is in the passed list
-     * @param {_(Array)} list
+     * @param {Array} list
      * @param card
      */
     isCardNameInList(list, card) {
-        return list.any(c => {
+        return list.some(c => {
             return c.name === card.name;
         });
     }
@@ -85,7 +85,7 @@ class Player extends GameObject {
 
     /**
      * Removes a card with the passed uuid from a list. Returns an _(Array)
-     * @param {Card[]} list
+     * @param list
      * @param {String} uuid
      */
     removeCardByUuid(list, uuid) {
@@ -117,7 +117,7 @@ class Player extends GameObject {
 
     /**
      * Checks whether the passes card is in a legal location for the passed type of play
-     * @param {BaseCard} card
+     * @param card
      * @param {String} playingType
      */
     isCardInPlayableLocation(card, playingType) {
@@ -148,7 +148,6 @@ class Player extends GameObject {
 
     /**
      * Called when one of the players decks runs out of cards, removing 5 honor and shuffling the discard pile back into the deck
-     * @param {String} deck - one of 'conflict' or 'dynasty'
      */
     deckRanOutOfCards() {
         this.game.addMessage('{0}\'s deck has run out of cards, so they shuffle', this);
@@ -252,7 +251,7 @@ class Player extends GameObject {
 
     /**
      * Checks whether card.type is consistent with location
-     * @param {BaseCard} card
+     * @param card
      * @param {String} location
      */
     isLegalLocationForCard(card, location) {
@@ -285,7 +284,7 @@ class Player extends GameObject {
     /**
      * Moves a card from one location to another. This involves removing in from the list it's currently in, calling DrawCard.move (which changes
      * its location property), and then adding it to the list it should now be in
-     * @param {Card} card
+     * @param card
      * @param {String} targetLocation
      * @param {Object} options
      */
@@ -314,11 +313,11 @@ class Player extends GameObject {
             // In normal play, all attachments should already have been removed, but in manual play we may need to remove them.
             // This is also used by Back-Alley Hideaway when it is sacrificed. This won't trigger any leaves play effects
             for(let upgrade of card.upgrades) {
-                upgrade.leavesPlay();
+                upgrade.onLeavesPlay();
                 upgrade.owner.moveCard(upgrade, 'discard');
             }
 
-            card.leavesPlay();
+            card.onLeavesPlay();
             card.controller = this;
         } else if(targetLocation === 'play area') {
             card.setDefaultController(this);
@@ -343,11 +342,13 @@ class Player extends GameObject {
         } else if(targetPile) {
             targetPile.push(card);
         }
+
+        this.game.raiseEvent('onCardPlaced', { card: card, from: location, to: targetLocation });
     }
 
     /**
      * Removes a card from whichever list it's currently in
-     * @param {DrawCard} card
+     * @param card
      */
     removeCardFromPile(card) {
         if(card.controller !== this) {
@@ -364,7 +365,7 @@ class Player extends GameObject {
 
     /**
      * Sets the passed cards as selected
-     * @param {Card[]} cards
+     * @param cards
      */
     setSelectedCards(cards) {
         this.promptState.setSelectedCards(cards);
@@ -409,6 +410,10 @@ class Player extends GameObject {
     }
 
     modifyAmber(amount) {
+        if(amount > 0 && this.anyEffect('redirectAmber')) {
+            this.mostRecentEffect('redirectAmber').addToken('amber', amount);
+            return;
+        }
         this.amber = Math.max(this.amber + amount, 0);
     }
 
@@ -442,6 +447,9 @@ class Player extends GameObject {
     forgeKey(modifier) {
         let cost = Math.max(0, this.getCurrentKeyCost() + modifier);
         this.modifyAmber(-cost);
+        if(this.anyEffect('forgeAmberRecipient')) {
+            this.mostRecentEffect('forgeAmberRecipient').modifyAmber(cost);
+        }
         this.keys += 1;
     }
 
@@ -470,11 +478,9 @@ class Player extends GameObject {
             activeHouse: this.activeHouse,
             cardPiles: {
                 cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
-                conflictDiscardPile: this.getSummaryForCardList(this.archives, activePlayer),
                 dynastyDiscardPile: this.getSummaryForCardList(this.discard, activePlayer),
                 hand: this.getSummaryForCardList(this.hand, activePlayer, true),
-                removedFromGame: this.getSummaryForCardList(this.purged, activePlayer),
-                provinceDeck: this.getSummaryForCardList(this.deck, activePlayer, true)
+                removedFromGame: this.getSummaryForCardList(this.purged, activePlayer)
             },
             disconnected: this.disconnected,
             faction: '',
@@ -485,9 +491,8 @@ class Player extends GameObject {
             imperialFavor: '',
             left: this.left,
             name: this.name,
-            numConflictCards: this.deck.length,
+            numConflictCards: this.archives.length,
             numDynastyCards: this.deck.length,
-            numProvinceCards: this.deck.length,
             optionSettings: this.optionSettings,
             phase: this.game.currentPhase,
             promptedActionWindows: { // these flags represent phase settings
@@ -513,6 +518,10 @@ class Player extends GameObject {
 
         if(this.clock) {
             state.clock = this.clock.getState();
+        }
+
+        if(isActivePlayer) {
+            state.cardPiles.conflictDiscardPile = this.getSummaryForCardList(this.archives, activePlayer);
         }
 
         /*

@@ -7,6 +7,10 @@ class DestroyAction extends CardGameAction {
         this.effectMsg = isSacrifice ? 'sacrifice {0}' : 'destroy {0}';
     }
 
+    setDefaultProperties() {
+        this.inFight = false;
+    }
+
     setup() {
         this.targetType = ['creature', 'artifact'];
     }
@@ -16,7 +20,8 @@ class DestroyAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onDestroyCard', { card, context }, () => card.owner.moveCard(card, 'discard'));
+        let inFight = this.inFight;
+        return super.createEvent('onCardDestroyed', { card, context, inFight }, () => card.owner.moveCard(card, 'discard'));
     }
 }
 

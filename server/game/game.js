@@ -58,6 +58,7 @@ class Game extends EventEmitter {
         this.password = details.password;
 
         this.cardsUsed = [];
+        this.cardsPlayed = [];
         this.activePlayer = null;
 
         this.shortCardData = options.shortCardData || [];
@@ -835,6 +836,7 @@ class Game extends EventEmitter {
     endRound() {
         this.activePlayer.endRound();
         this.cardsUsed = [];
+        this.cardsPlayed = [];
         for(let card of this.cardsInPlay) {
             card.endRound();
         }

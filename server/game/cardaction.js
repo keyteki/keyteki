@@ -1,4 +1,5 @@
 const CardAbility = require('./CardAbility.js');
+const Costs = require('./costs.js');
 
 /**
  * Represents an action ability provided by card text.
@@ -34,27 +35,22 @@ class CardAction extends CardAbility {
         this.abilityType = 'action';
         this.condition = properties.condition;
         this.omni = !!properties.omni;
+        this.cost = this.cost.concat(Costs.exhaust(), Costs.use());
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
-        if(!this.card.canUse(context, this.omni)) {
+        if(!ignoredRequirements.includes('house') && !this.card.canUse(context) && !this.omni) {
+            return 'house';
+        } else if(!this.card.checkRestrictions('use', context) || !context.player.checkRestrictions('use', context)) {
             return 'cannotTrigger';
-        }
-        if(!ignoredRequirements.includes('location') && !this.isInValidLocation(context)) {
+        } else if(!ignoredRequirements.includes('location') && !this.isInValidLocation(context)) {
             return 'location';
-        }
-
-        if(!ignoredRequirements.includes('condition') && this.condition && !this.condition(context)) {
+        } else if(!ignoredRequirements.includes('condition') && this.condition && !this.condition(context)) {
             return 'condition';
+        } else if(!ignoredRequirements.includes('stunned') && this.card.stunned) {
+            return 'stunned';
         }
-
         return super.meetsRequirements(context);
-    }
-
-    executeHandler(context) {
-        this.game.cardsUsed.push(context.source);
-        context.source.exhaust();
-        super.executeHandler(context);
     }
 
     isAction() {

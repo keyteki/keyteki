@@ -29,17 +29,15 @@ class DeckSummary extends React.Component {
     }
 
     getCardsToRender() {
+
         let cardsToRender = [];
         let groupedCards = {};
 
-        let combinedCards = _.union(this.props.deck.stronghold, this.props.deck.role, this.props.deck.provinceCards, this.props.deck.dynastyCards, this.props.deck.conflictCards);
+        //let combinedCards = _.union(this.props.deck.stronghold, this.props.deck.role, this.props.deck.provinceCards, this.props.deck.dynastyCards, this.props.deck.conflictCards);
 
-        _.each(combinedCards, (card) => {
-            let type = card.card.type;
+        _.each(this.props.deck.cards, (card) => {
+            let type = card.card.house;
 
-            if(type === 'character') {
-                type = card.card.side + ' character';
-            }
             if(!groupedCards[type]) {
                 groupedCards[type] = [card];
             } else {
@@ -52,7 +50,7 @@ class DeckSummary extends React.Component {
             let count = 0;
 
             _.each(cardList, card => {
-                cards.push(<div key={ card.card.id }><span>{ card.count + 'x ' }</span><span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ card.card.name }</span></div>);
+                cards.push(<div key={ card.id }><span>{ card.count + 'x ' }</span><span className='card-link' onMouseOver={ this.onCardMouseOver } onMouseOut={ this.onCardMouseOut }>{ card.card.name }</span></div>);
                 count += parseInt(card.count);
             });
 
@@ -71,19 +69,34 @@ class DeckSummary extends React.Component {
             return <div>Waiting for selected deck...</div>;
         }
 
+        let cardCounts = {
+            creature: 0,
+            artifact: 0,
+            action: 0,
+            upgrade: 0
+        };
+
+        _.each(this.props.deck.cards, (card) => {
+            let type = card.card.type;
+
+            if(_.isNumber(cardCounts[type])) {
+                cardCounts[type] += parseInt(card.count);
+            }
+        });
+
         var cardsToRender = this.getCardsToRender();
 
         return (
             <div className='deck-summary col-xs-12'>
                 { this.state.cardToShow ? <img className='hover-image' src={ '/img/cards/' + this.state.cardToShow.id + '.jpg' } /> : null }
                 <div className='decklist'>
-                    <div className='col-xs-2 col-sm-3 no-x-padding'>{ this.props.deck.faction ? <img className='deck-mon img-responsive' src={ '/img/mons/' + this.props.deck.faction.value + '.png' } /> : null }</div>
+                    <div className='col-xs-2 col-sm-3 no-x-padding'><img className='deck-mon img-responsive' src={ '/img/cards/flaregas-spawn-of-conflascoot.jpg' } /></div>
                     <div className='col-xs-8 col-sm-6'>
-                        <div className='info-row row'><span>Clan:</span>{ this.props.deck.faction ? <span className={ 'pull-right' }>{ this.props.deck.faction.name }</span> : null }</div>
-                        <div className='info-row row' ref='alliance'><span>Alliance:</span>{ this.props.deck.alliance && this.props.deck.alliance.name ? <span className='pull-right'>{ this.props.deck.alliance.name }</span> : <span> None </span> }</div>
-                        <div className='info-row row' ref='provinceCount'><span>Province deck:</span><span className='pull-right'>{ this.props.deck.status.provinceCount } cards</span></div>
-                        <div className='info-row row' ref='dynastyDrawCount'><span>Dynasty Deck:</span><span className='pull-right'>{ this.props.deck.status.dynastyCount } cards</span></div>
-                        <div className='info-row row' ref='conflictDrawCount'><span>Conflict Deck:</span><span className='pull-right'>{ this.props.deck.status.conflictCount } cards</span></div>
+                        <div className='info-row row'><img className='deck-med-house' src={ '/img/house/' + this.props.deck.houses[0] + '.png' } /><img className='deck-med-house' src={ '/img/house/' + this.props.deck.houses[1] + '.png' } /><img className='deck-med-house' src={ '/img/house/' + this.props.deck.houses[2] + '.png' } /></div>
+                        <div className='info-row row' ref='alliance'><span>Actions:</span><span className='pull-right'>{ cardCounts.action } cards</span></div>
+                        <div className='info-row row' ref='provinceCount'><span>Artifacts:</span><span className='pull-right'>{ cardCounts.artifact } cards</span></div>
+                        <div className='info-row row' ref='dynastyDrawCount'><span>Creatures:</span><span className='pull-right'>{ cardCounts.creature } cards</span></div>
+                        <div className='info-row row' ref='conflictDrawCount'><span>Upgrades:</span><span className='pull-right'>{ cardCounts.upgrade } cards</span></div>
                         <div className='info-row row'><span>Validity:</span>
                             <DeckStatus className='pull-right' status={ this.props.deck.status } />
                         </div>

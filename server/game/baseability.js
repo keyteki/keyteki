@@ -17,9 +17,12 @@ class BaseAbility {
      * Creates an ability.
      *
      * @param {Object} properties - An object with ability related properties.
+     * @param {Object|Array} [properties.cost] - optional property that specifies
+     * the cost for the ability. Can either be a cost object or an array of cost
+     * objects.
      * @param {Object} [properties.target] - optional property that specifies
      * the target of the ability.
-     * @param {GameAction[]} [properties.gameAction] - optional array of game actions
+     * @param {Array} [properties.gameAction] - optional array of game actions
      */
     constructor(properties) {
         this.gameAction = properties.gameAction || [];
@@ -27,7 +30,20 @@ class BaseAbility {
             this.gameAction = [this.gameAction];
         }
         this.buildTargets(properties);
+        this.cost = this.buildCost(properties.cost);
         this.nonDependentTargets = this.targets.filter(target => !target.properties.dependsOn);
+    }
+
+    buildCost(cost) {
+        if(!cost) {
+            return [];
+        }
+
+        if(!Array.isArray(cost)) {
+            return [cost];
+        }
+
+        return cost;
     }
 
     buildTargets(properties) {
@@ -73,6 +89,9 @@ class BaseAbility {
         for(let action of this.gameAction) {
             action.reset();
         }
+        if(!this.canPayCosts(context)) {
+            return 'cost';
+        }
         if(this.targets.length === 0) {
             if(this.gameAction.length > 0 && !this.gameAction.some(gameAction => gameAction.hasLegalTarget(context))) {
                 return 'condition';
@@ -80,6 +99,23 @@ class BaseAbility {
             return '';
         }
         return this.canResolveTargets(context) ? '' : 'target';
+    }
+
+    /**
+     * Return whether all costs are capable of being paid for the ability.
+     *
+     * @returns {Boolean}
+     */
+    canPayCosts(context) {
+        let contextCopy = context.copy({ stage: 'costs' });
+        return this.cost.every(cost => cost.canPay(contextCopy));
+    }
+
+    /**
+     * Pays all costs for the ability simultaneously.
+     */
+    payCosts(context) {
+        return this.cost.map(cost => cost.payEvent(context));
     }
 
     /**

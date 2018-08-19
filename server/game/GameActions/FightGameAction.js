@@ -1,64 +1,29 @@
 const CardGameAction = require('./CardGameAction');
 
 class FightGameAction extends CardGameAction {
-    setDefaultProperties () {
-        this.attacker = null;
-        this.attackerExhausted = false;
-    }
-
     setup() {
-        this.name = 'attack';
+        this.name = 'fight';
         this.targetType = ['creature'];
-        this.effectMsg = 'make {1} fight {0}';
-        this.effectArgs = this.attacker;
+        this.effectMsg = 'fight with {0}';
     }
 
     canAffect(card, context) {
-        if(card.location !== 'play area' || !this.attacker || card.controller === this.attacker.controller) {
-            return false;
-        } else if(this.attacker.exhausted && !this.attackerExhausted || !this.attacker.checkRestrictions('fight', context)) {
+        let fightAction = card.abilities.actions.find(action => action.title === 'Fight with this creature');
+        if(!fightAction || fightAction.meetsRequirements(fightAction.createContext(context.player), ['house'])) {
             return false;
         }
         return super.canAffect(card, context);
     }
 
-    preEventHandler(context) {
-        context.game.cardsUsed.push(context.source);
-        this.attacker.exhaust();
-        this.attackerExhausted = true;
-        super.preEventHandler(context);
-    }
-
     getEvent(card, context) {
         if(card.stunned) {
-            return super.createEvent('onRemoveStun', {card: card, context: context}, () => card.unstun());
+            return super.createEvent('onRemoveStun', { card, context }, () => card.unstun());
         }
-        let params = {
-            card: card,
-            context: context,
-            attacker: this.attacker,
-            destroyed: []
-        };
-        return super.createEvent('onFight', params, event => {
-            if(!event.card.getKeywordValue('elusive') || event.card.elusiveUsed) {
-                let damageEvents = [];
-                if(!event.attacker.getKeywordValue('skirmish')) {
-                    let defenderParams = {
-                        amount: event.card.power,
-                        fightEvent: event,
-                        damageSource: event.card
-                    };
-                    damageEvents.push(context.game.actions.dealDamage(defenderParams).getEvent(event.attacker, context));
-                }
-                let attackerParams = {
-                    amount: event.attacker.power,
-                    fightEvent: event,
-                    damageSource: event.attacker
-                };
-                damageEvents.push(context.game.actions.dealDamage(attackerParams).getEvent(event.card, context));
-                context.game.openEventWindow(damageEvents);
-            }
-            event.card.elusiveUsed = true;
+        return super.createEvent('unnamedEvent', {card, context}, () => {
+            let fightAction = card.abilities.actions.find(action => action.title === 'Fight with this creature');
+            let fightContext = fightAction.createContext(context.player);
+            fightContext.canCancel = false;
+            context.game.resolveAbility(fightContext);
         });
     }
 }

@@ -301,7 +301,7 @@ class Card extends React.Component {
             cardClass += ' ' + this.props.className;
         }
 
-        cardBack = 'keyforgecardback.jpg';
+        cardBack = 'cardBack.png';
 
         return (
             <div className='card-frame' ref='cardFrame'
@@ -317,7 +317,7 @@ class Card extends React.Component {
                     draggable>
                     <div>
                         <span className='card-name'>{ this.props.card.name }</span>
-                        <img className={ imageClass } src={ '/img/cards/' + (!this.isFacedown() && !this.props.card.isToken ? (this.props.card.id + '.jpg') : cardBack) } />
+                        <img className={ imageClass } src={ '/img/cards/' + (!this.isFacedown() && this.props.card.id ? (this.props.card.id + '.jpg') : cardBack) } />
                     </div>
                     { this.showCounters() ? <CardCounters counters={ this.getCountersForCard(this.props.card) } /> : null }
                 </div>

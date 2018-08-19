@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const CannotRestriction = require('./cannotrestriction.js');
 const EffectBuilder = require('./Effects/EffectBuilder');
 
@@ -11,10 +9,11 @@ const EffectBuilder = require('./Effects/EffectBuilder');
 
 const Effects = {
     // Card effects
-    addFaction: (faction) => EffectBuilder.card.static('addFaction', faction),
+    addHouse: (house) => EffectBuilder.card.static('addHouse', house),
     addKeyword: (keyword) => EffectBuilder.card.static('addKeyword', keyword),
     addTrait: (trait) => EffectBuilder.card.static('addTrait', trait),
     blank: () => EffectBuilder.card.static('blank'),
+    bonusDamage: (match) => EffectBuilder.card.static('bonusDamage', match),
     cardCannot: (properties) => EffectBuilder.card.static('abilityRestrictions', new CannotRestriction(properties)),
     customDetachedCard: (properties) => EffectBuilder.card.detached('customEffect', properties),
     delayedEffect: (properties) => EffectBuilder.card.detached('delayedEffect', {
@@ -69,19 +68,26 @@ const Effects = {
         },
         unapply: (card, context, effect) => context.game.effectEngine.removeTerminalCondition(effect)
     }),
+    transferDamage: (card) => EffectBuilder.card.dynamic('transferDamage', card),
     // Player effects
+    canPlay: (match) => EffectBuilder.player.static('canPlay', match),
     canPlayFromOwn: (location) => EffectBuilder.player.detached('canPlayFromOwn', {
         apply: (player) => player.addPlayableLocation('play', player, location),
         unapply: (player, context, location) => player.removePlayableLocation(location)
     }),
+    canPlayHouse: (house) => EffectBuilder.player.static('canPlayHouse', house),
+    canPlayNonHouse: (house) => EffectBuilder.player.static('canPlayNonHouse', house),
     canUse: (match) => EffectBuilder.player.static('canUse', match),
+    canUseHouse: (house) => EffectBuilder.player.static('canUseHouse', house),
     customDetachedPlayer: (properties) => EffectBuilder.player.detached('customEffect', properties),
+    forgeAmberRecipient: (player) => EffectBuilder.player.static('forgeAmberRecipient', player),
     modifyKeyCost: (amount) => EffectBuilder.player.flexible('modifyKeyCost', amount),
     modifyHandSize: (amount) => EffectBuilder.player.flexible('modifyHandSize', amount),
     playerCannot: (properties) => EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(properties)),
     redirectAmber: (recepient) => EffectBuilder.player.dynamic('redirectAmber', recepient),
     restrictHouseChoice: (house) => EffectBuilder.player.static('restrictHouseChoice', house),
-    showTopConflictCard: () => EffectBuilder.player.static('showTopConflictCard')
+    showTopConflictCard: () => EffectBuilder.player.static('showTopConflictCard'),
+    skipStep: (step) => EffectBuilder.player.static('skipStep', step)
 };
 
 module.exports = Effects;

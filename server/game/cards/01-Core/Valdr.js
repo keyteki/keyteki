@@ -2,7 +2,10 @@ const Card = require('../../Card.js');
 
 class Valdr extends Card {
     setupCardAbilities(ability) {
-        // TODO
+        this.persistentEffect({
+            match: this,
+            effect: ability.effects.bonusDamage(card => card.isOnFlank() ? 2 : 0)
+        });
     }
 }
 

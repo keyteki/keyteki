@@ -10,7 +10,8 @@ const PlayAction = require('./BaseActions/PlayAction');
 const PlayCreatureAction = require('./BaseActions/PlayCreatureAction');
 const PlayArtifactAction = require('./BaseActions/PlayArtifactAction');
 const PlayUpgradeAction = require('./BaseActions/PlayUpgradeAction');
-const FightAction = require('./BaseActions/FightAction');
+const ResolveFightAction = require('./GameActions/ResolveFightAction');
+//const FightAction = require('./BaseActions/FightAction');
 const ReapAction = require('./BaseActions/ReapAction');
 const RemoveStun = require('./BaseActions/RemoveStun');
 
@@ -36,7 +37,7 @@ class Card extends EffectSource {
             this.setupKeywordAbilities(AbilityDsl);
         }
 
-        this.printedFaction = cardData.house;
+        this.printedHouse = cardData.house;
         this.printedAmber = cardData.amber;
 
         this.upgrades = [];
@@ -44,6 +45,7 @@ class Card extends EffectSource {
 
         this.printedPower = cardData.power;
         this.printedArmor = cardData.armor;
+        this.armorUsed = 0;
         this.exhausted = false;
         this.stunned = false;
 
@@ -100,6 +102,24 @@ class Card extends EffectSource {
             match: card => this.neighbors.includes(card) && !card.getKeywordValue('taunt'),
             effect: ability.effects.cardCannot('attack')
         });
+
+        // Fight
+        this.action({
+            title: 'Fight with this creature',
+            target: {
+                activePromptTitle: 'Choose a creature to attack',
+                cardType: 'creature',
+                controller: 'opponent',
+                gameAction: new ResolveFightAction({ attacker: this })
+            }
+        });
+
+        /*
+        // Reap
+        this.action({
+            title: 'Reap with this creature',
+            gameAction:
+        })*/
     }
 
     play(properties) {
@@ -122,9 +142,9 @@ class Card extends EffectSource {
         if(properties.reap) {
             this.reap(_.omit(properties, 'reap'));
         }
-        let when = { onFight: (event, context) => event.card === context.source };
+        let when = { onFight: (event, context) => event.attacker === context.source };
         if(properties.condition) {
-            when = { onFight: (event, context) => event.card === context.source && properties.condition(context) };
+            when = { onFight: (event, context) => event.attacker === context.source && properties.condition(context) };
         }
         return this.reaction(Object.assign({ when: when }, properties));
     }
@@ -138,11 +158,19 @@ class Card extends EffectSource {
     }
 
     destroyed(properties) {
-        properties.when = { onDestroyCard: (event, context) => event.card === context.source };
+        properties.when = { onCardDestroyed: (event, context) => event.card === context.source };
         if(properties.condition) {
-            properties.when = { onDestroyCard: (event, context) => event.card === context.source && properties.condition(context) };
+            properties.when = { onCardDestroyed: (event, context) => event.card === context.source && properties.condition(context) };
         }
         return this.interrupt(properties);
+    }
+
+    leavesPlay(properties) {
+        properties.when = {
+            onCardDestroyed: (event, context) => event.card === context.source,
+            onCardPurged:
+            onCardReturnsToHand:
+        };
     }
 
     omni(properties) {
@@ -162,12 +190,16 @@ class Card extends EffectSource {
         return reaction;
     }
 
+    constantReaction(properties) {
+        return this.triggeredAbility('constant', properties);
+    }
+
     reaction(properties) {
-        this.triggeredAbility('reaction', properties);
+        return this.triggeredAbility('reaction', properties);
     }
 
     interrupt(properties) {
-        this.triggeredAbility('interrupt', properties);
+        return this.triggeredAbility('interrupt', properties);
     }
 
     /**
@@ -194,9 +226,9 @@ class Card extends EffectSource {
         return _.uniq(traits);
     }
 
-    isFaction(faction) {
-        faction = faction.toLowerCase();
-        return this.printedFaction === faction || this.getEffects('addFaction').includes(faction);
+    hasHouse(house) {
+        house = house.toLowerCase();
+        return this.printedHouse === house || this.getEffects('addHouse').includes(house);
     }
 
     applyAnyLocationPersistentEffects() {
@@ -207,7 +239,7 @@ class Card extends EffectSource {
         });
     }
 
-    leavesPlay() {
+    onLeavesPlay() {
         if(this.parent && this.parent.upgrades) {
             this.parent.removeUpgrade(this);
             this.parent = null;
@@ -350,6 +382,11 @@ class Card extends EffectSource {
         return this.sumEffects('modifyPower') + this.printedPower;
     }
 
+    getBonusDamage(target) {
+        let effects = this.getEffects('bonusDamage');
+        return effects.reduce((match, total) => total + match(target), 0);
+    }
+
     get armor() {
         return this.getArmor();
     }
@@ -401,20 +438,37 @@ class Card extends EffectSource {
         return card && card.getType() === 'creature' && this.getType() === 'upgrade';
     }
 
-    canPlay(context, type = 'play') {
-        if(this.printedFaction !== context.player.activeHouse || this.game.cardsUsed.filter(card => card.name === this.name).length > 6) {
-            return false;
+    canPlay(context) {
+        if(this.hasHouse(context.player.activeHouse) || this.anyEffect('canActivate')) {
+            return true;
+        } else if(context.player.getEffects('canPlay').some(match => match(context))) {
+            return true;
         }
-        return this.checkRestrictions(type, context) && context.player.checkRestrictions(type, context);
+        let houseEffects = context.player.getEffects('canPlayHouse').filter(house => this.hasHouse(house));
+        if(houseEffects.length) {
+            context.game.effectEngine.unapplyAndRemove(effect => effect === houseEffects[0]);
+            return true;
+        }
+        let nonHouseEffects = context.player.getEffects('canPlayNonHouse').filter(house => !this.hasHouse(house));
+        if(nonHouseEffects.length) {
+            context.game.effectEngine.unapplyAndRemove(effect => effect === nonHouseEffects[0]);
+            return true;
+        }
+        return false;
     }
 
-    canUse(context, omni = false) {
-        if(this.game.cardsUsed.filter(card => card.name === this.name).length > 6) {
-            return false;
-        } else if(this.printedFaction !== context.player.activeHouse && !omni && !this.controller.canIgnoreHouseRestrictions(this, context)) {
-            return false;
+    canUse(context) {
+        if(this.hasHouse(context.player.activeHouse) || this.anyEffect('canActivate')) {
+            return true;
+        } else if(context.player.getEffects('canUse').some(match => match(context))) {
+            return true;
         }
-        return this.checkRestrictions('use', context) && context.player.checkRestrictions('use', context);
+        let houseEffects = context.player.getEffects('canUseHouse').filter(house => this.hasHouse(house));
+        if(houseEffects.length) {
+            context.game.effectEngine.unapplyAndRemove(effect => effect === houseEffects[0]);
+            return true;
+        }
+        return false;
     }
 
     use(player, canCancel = true) {
@@ -446,12 +500,12 @@ class Card extends EffectSource {
         return true;
     }
 
-    getActions(player) {
+    getActions(player, location = this.location) {
         if(player !== this.controller) {
             return [];
         }
         let actions = [];
-        if(this.location === 'hand') {
+        if(location === 'hand') {
             if(this.type === 'upgrade') {
                 actions.push(new PlayUpgradeAction(this));
             } else if(this.type === 'creature') {
@@ -462,8 +516,8 @@ class Card extends EffectSource {
                 actions.push(new PlayAction(this));
             }
             actions.push(new DiscardAction(this));
-        } else if(this.location === 'play area' && this.type === 'creature') {
-            actions.push(new FightAction(this));
+        } else if(location === 'play area' && this.type === 'creature') {
+            //actions.push(new FightAction(this));
             actions.push(new ReapAction(this));
             actions.push(new RemoveStun(this));
         }

@@ -51,7 +51,7 @@ export class PlayerStatsRow extends React.Component {
             <div className='state'>
                 {
                     this.props.houses.map(house => (
-                        <img className='house-image' src={ '/img/' + house + '.png' } title={ house } />
+                        <img className='house-image' src={ '/img/house/' + house + '.png' } title={ house } />
                     ))
                 }
             </div>
@@ -93,7 +93,7 @@ export class PlayerStatsRow extends React.Component {
                     this.props.activeHouse &&
                     <div className='state'>
                         <div className='hand-size'>Active House: </div>
-                        <img className='house-image' src={ '/img/' + this.props.activeHouse + '.png' } title={ this.props.activeHouse } />
+                        <img className='house-image' src={ '/img/house/' + this.props.activeHouse + '.png' } title={ this.props.activeHouse } />
                     </div>
                 }
                 { clock }

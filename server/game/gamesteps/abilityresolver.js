@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const BaseStepWithPipeline = require('./basestepwithpipeline.js');
 const SimpleStep = require('./simplestep.js');
 
@@ -18,6 +16,7 @@ class AbilityResolver extends BaseStepWithPipeline {
             new SimpleStep(this.game, () => this.createSnapshot()),
             new SimpleStep(this.game, () => this.resolveEarlyTargets()),
             new SimpleStep(this.game, () => this.checkForCancel()),
+            new SimpleStep(this.game, () => this.payCosts()),
             new SimpleStep(this.game, () => this.resolveTargets()),
             new SimpleStep(this.game, () => this.initiateAbility()),
             new SimpleStep(this.game, () => this.executeHandler())
@@ -25,7 +24,7 @@ class AbilityResolver extends BaseStepWithPipeline {
     }
 
     createSnapshot() {
-        if(['character', 'holding', 'attachment'].includes(this.context.source.getType())) {
+        if(['creature', 'artifact'].includes(this.context.source.getType())) {
             this.context.cardStateWhenInitiated = this.context.source.createSnapshot();
         }
     }
@@ -44,6 +43,16 @@ class AbilityResolver extends BaseStepWithPipeline {
         }
 
         this.cancelled = this.targetResults.cancelled;
+    }
+
+    payCosts() {
+        if(this.cancelled) {
+            return;
+        }
+        this.costEvents = this.context.ability.payCosts(this.context);
+        if(this.costEvents.length > 0) {
+            this.game.openEventWindow(this.costEvents);
+        }
     }
 
     resolveTargets() {

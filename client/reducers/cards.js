@@ -13,11 +13,11 @@ function selectDeck(state, deck) {
 
 function processDecks(decks, state) {
     _.each(decks, deck => {
-        if(!state.cards || !deck.faction) {
+        if(!state.cards || !deck.houses) {
             deck.status = {};
             return;
         }
-
+        /*
         deck.faction = state.factions[deck.faction.value];
         if(deck.alliance) {
             if(deck.alliance.value === '') {
@@ -26,28 +26,19 @@ function processDecks(decks, state) {
                 deck.alliance = state.factions[deck.alliance.value];
             }
         }
-
-        deck.stronghold = _.map(deck.stronghold, card => {
-            return { count: card.count, card: state.cards[card.card.id] };
+        */
+        deck.cards = _.map(deck.cards, card => {
+            return { count: card.count, card: state.cards[card.id], id: card.id };
         });
 
-        deck.role = _.map(deck.role, card => {
-            return { count: card.count, card: state.cards[card.card.id] };
-        });
-
-        deck.provinceCards = _.map(deck.provinceCards, card => {
-            return { count: card.count, card: state.cards[card.card.id] };
-        });
-
-        deck.conflictCards = _.map(deck.conflictCards, card => {
-            return { count: card.count, card: state.cards[card.card.id] };
-        });
-
-        deck.dynastyCards = _.map(deck.dynastyCards, card => {
-            return { count: card.count, card: state.cards[card.card.id] };
-        });
-
-        deck.status = validateDeck(deck, { packs: state.packs });
+        deck.status = {
+            basicRules: true,
+            noUnreleasedCards: true,
+            officialRole: true,
+            faqRestrictedList: true,
+            faqVersion: 'v1.0',
+            extendedStatus: []
+        };
     });
 }
 
@@ -55,22 +46,8 @@ export default function(state = {}, action) {
     let newState;
     switch(action.type) {
         case 'RECEIVE_CARDS':
-            var agendas = {};
-
-            _.each(action.response.cards, card => {
-                if(card.type === 'agenda' && card.pack_code !== 'VDS') {
-                    agendas[card.id] = card;
-                }
-            });
-
-            var banners = _.filter(agendas, card => {
-                return card.label.startsWith('Banner of the');
-            });
-
             return Object.assign({}, state, {
-                cards: action.response.cards,
-                agendas: agendas,
-                banners: banners
+                cards: action.response.cards
             });
         case 'RECEIVE_PACKS':
             return Object.assign({}, state, {
@@ -129,14 +106,6 @@ export default function(state = {}, action) {
             });
 
             processDecks([action.response.deck], state);
-
-            newState.decks = _.map(state.decks, deck => {
-                if(action.response.deck._id === deck.id) {
-                    return deck;
-                }
-
-                return deck;
-            });
 
             if(!_.any(newState.decks, deck => {
                 return deck._id === action.response.deck._id;

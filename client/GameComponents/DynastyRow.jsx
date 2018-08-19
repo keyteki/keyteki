@@ -214,19 +214,9 @@ class DynastyRow extends React.Component {
     }
 
     render() {
-        var conflictDeckMenu = [
-            { text: 'Show', handler: this.onShowConflictDeckClick, showPopup: true },
-            { text: 'Shuffle', handler: this.onConflictShuffleClick}
-        ];
-
         var dynastyDeckMenu = [
             { text: 'Show', handler: this.onShowDynastyDeckClick, showPopup: true },
             { text: 'Shuffle', handler: this.onDynastyShuffleClick}
-        ];
-
-        var conflictDeckPopupMenu = [
-            { text: 'Close', handler: this.onConflictCloseClick},
-            { text: 'Close and Shuffle', handler: this.onConflictCloseAndShuffleClick}
         ];
 
         var dynastyDeckPopupMenu = [
@@ -286,6 +276,8 @@ class DynastyRow extends React.Component {
                             onCardClick={ this.props.onCardClick }
                             popupLocation={ this.props.isMe || this.props.spectating ? 'top' : 'bottom' }
                             onDragDrop={ this.props.onDragDrop }
+                            hiddenTopCard
+                            cardCount={ this.props.numConflictCards }
                             size={ this.props.cardSize } />
                         { this.getArtifactCards() }
                     </div>
@@ -311,6 +303,8 @@ class DynastyRow extends React.Component {
                         onCardClick={ this.props.onCardClick }
                         popupLocation={ this.props.isMe || this.props.spectating ? 'top' : 'bottom' }
                         onDragDrop={ this.props.onDragDrop }
+                        hiddenTopCard
+                        cardCount={ this.props.numDynastyCards }
                         size={ this.props.cardSize } />
                     <CardPile
                         className='dynasty draw'

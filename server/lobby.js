@@ -516,10 +516,15 @@ class Lobby {
                 _.each(deck.cards, card => {
                     card.card = cards[card.id];
                 });
-
                 deck.status = {
-
+                    basicRules: true,
+                    noUnreleasedCards: true,
+                    officialRole: true,
+                    faqRestrictedList: true,
+                    faqVersion: 'v1.0',
+                    extendedStatus: []
                 };
+
                 game.selectDeck(socket.user.username, deck);
 
                 this.sendGameState(game);

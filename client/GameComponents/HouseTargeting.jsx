@@ -17,7 +17,7 @@ class HouseTargeting extends React.Component {
                 <img className='house-image'
                     alt={ house }
                     onClick={ event => this.onClick(event, house) }
-                    src={ '/img/' + house + '.png' } />
+                    src={ '/img/house/' + house + '.png' } />
             </div>);
     }
 

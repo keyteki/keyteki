@@ -8,28 +8,16 @@ class RevealAction extends CardGameAction {
     setup() {
         super.setup();
         this.name = 'reveal';
-        this.effectMsg = 'reveal a card';
-        this.cost = 'revealing {0}';
+        this.effectMsg = 'reveal {0}';
     }
 
     canAffect(card, context) {
-        let testLocations = ['province 1', 'province 2', 'province 3', 'province 4', 'stronghold province','play area'];
-        if(!card.facedown && testLocations.includes(card.location)) {
-            return false;
-        }
-        return super.canAffect(card, context);
+        return card.location === 'hand' && super.canAffect(card, context);
     }
 
     getEvent(card, context) {
-        let eventName = 'onCardRevealed';
-        if(card.type === 'province') {
-            eventName = 'onProvinceRevealed';
-        }
-        return super.createEvent(eventName, { card, context }, event => {
-            if(this.chatMessage) {
-                context.game.addMessage('{0} reveals {1}', context.source, card);
-            }
-            event.card.facedown = false;
+        return super.createEvent('onRevealCards', { card, context }, () => {
+            context.game.addMessage('{0} reveals {1}', context.source, card);
         });
     }
 }

@@ -39,6 +39,7 @@ class Effect {
         this.targets = [];
         this.effect.context = this.context = { game: game, source: source };
         this.effect.duration = this.duration;
+        this.effect.effect = this;
         this.effect.isConditional = !!properties.condition;
     }
 

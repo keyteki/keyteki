@@ -8,18 +8,23 @@ class Phase extends BaseStepWithPipeline {
     }
 
     initialise(steps) {
-        var startStep = new SimpleStep(this.game, () => this.startPhase());
-        var endStep = new SimpleStep(this.game, () => this.endPhase());
-        this.pipeline.initialise([startStep].concat(steps).concat([endStep]));
+        this.pipeline.initialise([new SimpleStep(this.game, () => this.startPhase())]);
+        this.steps = steps.concat(new SimpleStep(this.game, () => this.endPhase()));
     }
 
     startPhase() {
+        if(this.game.activePlayer && this.game.activePlayer.getEffects('skipStep').includes(this.name)) {
+            return;
+        }
         this.game.raiseEvent('onPhaseStarted', { phase: this.name }, () => {
             this.game.currentPhase = this.name;
             if(this.name !== 'setup') {
                 this.game.addAlert('endofround', '{0}\'s turn {1} - {2} phase', this.game.activePlayer, this.game.activePlayer.turn, this.name);
             }
         });
+        for(let step of this.steps) {
+            this.game.queueStep(step);
+        }
     }
 
     endPhase() {

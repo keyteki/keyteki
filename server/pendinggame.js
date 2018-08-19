@@ -40,7 +40,7 @@ class PendingGame {
     getSaveState() {
         var players = _.map(this.getPlayers(), player => {
             return {
-                faction: player.faction.name,
+                houses: player.houses,
                 name: player.name
             };
         });

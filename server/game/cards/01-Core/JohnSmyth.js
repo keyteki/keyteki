@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class JohnSmythe extends Card {
+class JohnSmyth extends Card {
     setupCardAbilities(ability) {
         this.fight({
             reap: true,
@@ -13,6 +13,6 @@ class JohnSmythe extends Card {
     }
 }
 
-JohnSmythe.id = 'john-smythe'; // This is a guess at what the id might be - please check it!!!
+JohnSmyth.id = 'john-smyth'; // This is a guess at what the id might be - please check it!!!
 
-module.exports = JohnSmythe;
+module.exports = JohnSmyth;

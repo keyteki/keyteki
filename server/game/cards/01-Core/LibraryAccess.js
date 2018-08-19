@@ -5,7 +5,7 @@ class LibraryAccess extends Card {
         this.play({
             gameAction: ability.actions.forRemainderOfTurn(context => ({
                 when: { onCardPlayed: event => event.player === context.player },
-                gameAction: ability.actions.draw()
+                gameAction: ability.actions.draw() // TODO Fix this!
             }))
         });
         /*

@@ -13,6 +13,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         this.abilityType = abilityType;
         this.currentPlayer = this.game.activePlayer;
         this.resolvedAbilities = [];
+        this.pressedDone = false;
     }
 
     continue() {
@@ -36,20 +37,16 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     filterChoices() {
-        if(this.choices.length === 0) {
+        if(this.choices.length === 0 || this.pressedDone) {
             return true;
         }
-        if(this.choices.length === 1 || !this.currentPlayer.optionSettings.orderForcedAbilities) {
+        this.noOptionalChoices = this.choices.every(context => !context.ability.optional);
+        if(this.noOptionalChoices && (this.choices.length === 1 || !this.currentPlayer.optionSettings.orderForcedAbilities)) {
             this.resolveAbility(this.choices[0]);
             return false;
         }
-        if(_.uniq(this.choices, context => context.source).length === 1) {
-            // All choices share a source
-            this.promptBetweenAbilities(this.choices, false);
-        } else {
-            // Choose an card to trigger
-            this.promptBetweenSources(this.choices);
-        }
+        // Choose an card to trigger
+        this.promptBetweenSources(this.choices);
         return false;
     }
 
@@ -64,7 +61,17 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     getPromptForSelectProperties() {
-        return Object.assign({ location: 'any' }, this.getPromptProperties());
+        let properties = {
+            buttons: this.noOptionalChoices ? [] : [{ text: 'Done', arg: 'done' }],
+            location: 'any',
+            onMenuCommand: (player, arg) => {
+                if(arg === 'done') {
+                    this.pressedDone = true;
+                    return true;
+                }
+            }
+        };
+        return Object.assign(properties, this.getPromptProperties());
     }
 
     getPromptProperties() {

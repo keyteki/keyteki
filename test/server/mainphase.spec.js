@@ -38,13 +38,13 @@ describe('main phase', function() {
             it('should prompt for a target if they choose to fight', function() {
                 this.player1.clickCard('witch-of-the-eye');
                 this.player1.clickPrompt('Fight with this creature');
-                expect(this.player1).toHavePrompt('Choose a creature');
+                expect(this.player1).toHavePrompt('Choose a creature to attack');
                 expect(this.player1).toBeAbleToSelect(this.batdrone);
                 expect(this.player1).not.toBeAbleToSelect(this.championAnaphiel);
                 expect(this.player1).not.toBeAbleToSelect(this.witchOfTheEye);
                 this.player1.clickCard(this.batdrone);
                 expect(this.witchOfTheEye.exhausted).toBe(true);
-                expect(this.witchOfTheEye.damage).toBe(2);
+                expect(this.witchOfTheEye.tokens.damage).toBe(2);
                 expect(this.batdrone.location).toBe('discard');
             });
 

@@ -75,7 +75,7 @@ class GameObject {
         return [];
     }
 
-    isFaction() {
+    hasHouse() {
         return false;
     }
 

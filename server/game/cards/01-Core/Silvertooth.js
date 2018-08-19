@@ -2,7 +2,12 @@ const Card = require('../../Card.js');
 
 class Silvertooth extends Card {
     setupCardAbilities(ability) {
-        //TODO
+        this.constantReaction({
+            when: {
+                onCardEntersPlay: (event, context) => event.card === context.source
+            },
+            gameAction: ability.actions.ready()
+        });
     }
 }
 

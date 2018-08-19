@@ -2,7 +2,16 @@ const Card = require('../../Card.js');
 
 class SeekerNeedle extends Card {
     setupCardAbilities(ability) {
-        // TODO
+        this.action({
+            target: {
+                cardType: 'creature',
+                gameAction: ability.actions.dealDamage()
+            },
+            then: context => ({
+                condition: () => context.preEvent.destroyed,
+                gameAction: ability.actions.gainAmber()
+            })
+        });
     }
 }
 

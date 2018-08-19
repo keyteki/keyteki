@@ -28,6 +28,7 @@ class EventWindow extends BaseStepWithPipeline {
             new SimpleStep(this.game, () => this.executeHandler()),
             new SimpleStep(this.game, () => this.checkGameState()),
             new SimpleStep(this.game, () => this.checkThenAbilities()),
+            new SimpleStep(this.game, () => this.triggerConstantReactions()),
             new SimpleStep(this.game, () => this.openWindow('reaction')),
             new SimpleStep(this.game, () => this.resetCurrentEventWindow())
         ]);
@@ -92,9 +93,19 @@ class EventWindow extends BaseStepWithPipeline {
     checkThenAbilities() {
         for(const thenAbility of this.thenAbilities) {
             if(thenAbility.events.every(event => !event.cancelled)) {
-                this.game.resolveAbility(thenAbility.ability.createContext(thenAbility.context.player));
+                let context = thenAbility.ability.createContext(thenAbility.context.player);
+                context.preEvents = thenAbility.events;
+                context.preEvent = thenAbility.events[0];
+                this.game.resolveAbility(context);
             }
         }
+    }
+
+    triggerConstantReactions() {
+        let reactionWindow = {
+            addChoice: context => this.game.resolveAbility(context)
+        };
+        _.each(this.events, event => this.game.emit(event.name + 'constant', event, reactionWindow));
     }
 
     resetCurrentEventWindow() {

@@ -1,6 +1,7 @@
 const ArchiveAction = require('./GameActions/ArchiveAction');
 const AttachAction = require('./GameActions/AttachAction');
 const CaptureAction = require('./GameActions/CaptureAction');
+const ChangeEventAction = require('./GameActions/ChangeEventAction');
 const ChooseGameAction = require('./GameActions/ChooseGameAction');
 const ChosenDiscardAction = require('./GameActions/ChosenDiscardAction');
 const DeckSearchAction = require('./GameActions/DeckSearchAction');
@@ -19,8 +20,11 @@ const LastingEffectCardAction = require('./GameActions/LastingEffectCardAction')
 const LoseAmberAction = require('./GameActions/LoseAmberAction');
 const RevealAction = require('./GameActions/RevealAction');
 const ModifyAmberAction = require('./GameActions/ModifyAmberAction');
+const ModifyChainsActions = require('./GameActions/ModifyChainsAction');
 const MoveCardAction = require('./GameActions/MoveCardAction');
+const PlaceAmberAction = require('./GameActions/PlaceAmberAction');
 const PlayCardAction = require('./GameActions/PlayCardAction');
+const PurgeAction = require('./GameActions/PurgeAction');
 const PutIntoPlayAction = require('./GameActions/PutIntoPlayAction');
 const RandomDiscardAction = require('./GameActions/RandomDiscardAction');
 const ReadyAction = require('./GameActions/ReadyAction');
@@ -29,6 +33,7 @@ const ResolveAbilityAction = require('./GameActions/ResolveAbilityAction');
 const ReturnAmberAction = require('./GameActions/ReturnAmber');
 const ReturnToDeckAction = require('./GameActions/ReturnToDeckAction');
 const ReturnToHandAction = require('./GameActions/ReturnToHandAction');
+const SequentialAction = require('./GameActions/SequentialAction');
 const StealAction = require('./GameActions/StealAction');
 const StunAction = require('./GameActions/StunAction');
 const UseAction = require('./GameActions/UseAction');
@@ -47,7 +52,9 @@ const Actions = {
     fight: (propertyFactory) => new FightGameAction(propertyFactory),
     heal: (propertyFactory) => new HealAction(propertyFactory),
     moveCard: (propertyFactory) => new MoveCardAction(propertyFactory), // destination, switch = false, shuffle = false
+    placeAmber: (propertyFactory) => new PlaceAmberAction(propertyFactory), // amount = 1
     playCard: (propertyFactory) => new PlayCardAction(propertyFactory), // resetOnCancel = false, postHandler
+    purge: (propertyFactory) => new PurgeAction(propertyFactory),
     putIntoPlay: (propertyFactory) => new PutIntoPlayAction(propertyFactory),
     ready: (propertyFactory) => new ReadyAction(propertyFactory),
     reap: (propertyFactory) => new ReapGameAction(propertyFactory),
@@ -67,12 +74,15 @@ const Actions = {
     forgeKey: (propertyFactory) => new ForgeAction(propertyFactory), // modifier = 0
     forRemainderOfTurn: (propertyFactory) => new LastingEffectAction(propertyFactory, 1),
     gainAmber: (propertyFactory) => new ModifyAmberAction(propertyFactory), // amount = 1
+    gainChains: (propertyFactory) => new ModifyChainsActions(propertyFactory), // amount = 1
     lastingEffect: (propertyFactory) => new LastingEffectAction(propertyFactory),
     loseAmber: (propertyFactory) => new LoseAmberAction(propertyFactory),
     steal: (propertyFactory) => new StealAction(propertyFactory), // amount = 1
     // meta actions
+    changeEvent: (propertyFactory) => new ChangeEventAction(propertyFactory),
     chooseAction: (propertyFactory) => new ChooseGameAction(propertyFactory), // choices, activePromptTitle = 'Select one'
-    jointAction: (gameActions) => new JointGameAction(gameActions) // takes an array of gameActions, not a propertyFactory
+    jointAction: (gameActions) => new JointGameAction(gameActions), // takes an array of gameActions, not a propertyFactory
+    sequential: (gameActions) => new SequentialAction(gameActions) // takes an array of gameActions, not a propertyFactory
 };
 
 module.exports = Actions;

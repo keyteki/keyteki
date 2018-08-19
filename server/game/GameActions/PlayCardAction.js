@@ -1,6 +1,7 @@
 const CardGameAction = require('./CardGameAction');
-const AbilityResolver = require('../gamesteps/abilityresolver');
+//const AbilityResolver = require('../gamesteps/abilityresolver');
 
+/*
 class PlayCardResolver extends AbilityResolver {
     constructor(game, context, playGameAction, gameActionContext) {
         super(game, context);
@@ -23,74 +24,31 @@ class PlayCardResolver extends AbilityResolver {
             this.game.queueSimpleStep(() => this.playGameAction.postHandler(this.context.source));
         }
     }
-}
+}*/
 
 class PlayCardAction extends CardGameAction {
     setDefaultProperties() {
-        this.resetOnCancel = false;
-        this.postHandler = () => true;
         this.location = 'hand';
-        this.action = null;
     }
 
     setup() {
+        super.setup();
         this.name = 'play';
-        this.targetType = ['character', 'attachment', 'event'];
-        this.effectMsg = 'play {0} as if it were in their hand';
+        this.effectMsg = 'play {0}';
     }
 
     canAffect(card, context) {
         if(!super.canAffect(card, context)) {
             return false;
-        } else if(this.action) {
-            let newContext = this.action.createContext(context.player);
-            return this.action.card === card && !this.action.meetsRequirements(newContext, ['location', 'player']);
         }
-        let actions = card.getActions(context.player, this.location);
-        return this.getLegalActions(actions, context).length > 0;
-    }
-
-    getLegalActions(actions, context) {
-        // filter actions to exclude actions which involve this game action, or which are not legal
-        return actions.filter(action => {
-            let gameActions = action.targets.reduce((array, target) => array.concat(target.properties.gameAction), action.gameAction);
-            let newContext = action.createContext(context.player);
-            return !gameActions.includes(this) && !action.meetsRequirements(newContext, ['location', 'player']);
-        });
-    }
-
-    cancelAction(context) {
-        this.target = [];
-        this.action = null;
-        context.ability.executeHandler(context);
-    }
-
-    preEventHandler(context) {
-        super.preEventHandler(context);
-        context.game.queueSimpleStep(() => {
-            if(this.target.length > 0 && !this.action) {
-                let actions = this.getLegalActions(this.target[0].getActions(context.player, this.location), context);
-                if(actions.length === 1) {
-                    this.action = actions[0];
-                    return;
-                }
-                context.game.promptWithHandlerMenu(context.player, {
-                    source: this.target[0],
-                    choices: actions.map(action => action.title).concat(this.resetOnCancel ? 'Cancel' : []),
-                    handlers: actions.map(action => () => this.action = action).concat(() => this.cancelAction(context))
-                });
-            }
-        });
-    }
-
-    getEventArray(context) {
-        return this.action ? super.getEventArray(context) : [];
+        let actions = card.getActions(context.player, this.location).filter(action => action.title.includes('Play'));
+        return actions.filter(action => action.meetsRequirements(action.createContext(context.player, ['house']))).length > 0;
     }
 
     getEvent(card, context) {
-        let playContext = this.action.createContext(context.player);
+        let action = card.getActions(context.player, this.location).find(action => action.title.includes('Play'));
         return super.createEvent('unnamedEvent', { card: card, context: context }, () => {
-            context.game.queueStep(new PlayCardResolver(context.game, playContext, this, context));
+            context.game.resolveAbility(action.createContext(context.player));
         });
     }
 }

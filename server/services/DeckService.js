@@ -14,13 +14,14 @@ class DeckService {
     }
 
     findByUserName(userName) {
-        return this.decks.find({ username: userName }, { sort: { lastUpdated: -1 } });
+        let decks = this.decks.find({ username: 'public' }, { sort: { lastUpdated: -1 } });
+        return decks;
     }
 
     create(deck) {
         let properties = {
             username: deck.username,
-            name: deck.deckName,
+            name: deck.name,
             houses: deck.houses,
             cards: deck.cards,
             lastUpdated: new Date()

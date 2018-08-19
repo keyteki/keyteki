@@ -1,8 +1,18 @@
 const Card = require('../../Card.js');
 
 class MothershipSupport extends Card {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
-        // TODO
+    setupCardAbilities(ability) {
+        this.play({
+            gameAction: ability.actions.sequentialForEach(context => ({
+                forEach: context.player.cardsInPlay(card => card.type === 'creature' && card.hasHouse('mars') && !card.exhausted),
+                action: ability.actions.dealDamage({
+                    amount: 2,
+                    promptForSelect: {
+                        cardType: 'creature'
+                    }
+                })
+            }))
+        });
     }
 }
 

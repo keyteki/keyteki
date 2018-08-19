@@ -7,10 +7,11 @@ class RelentlessWhispers extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.dealDamage({ amount: 2 })
             },
-            then: context => ({ // TODO: Fix this
-                condition: () => context.target.location === 'discard',
+            then: context => ({
+                condition: () => context.preEvent.destroyed,
+                gameAction: ability.actions.steal()
             })
-        })
+        });
     }
 }
 

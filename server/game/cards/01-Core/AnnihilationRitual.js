@@ -2,7 +2,12 @@ const Card = require('../../Card.js');
 
 class AnnihilationRitual extends Card {
     setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
-        //TODO
+        this.constantReaction({
+            when: {
+                onCardPlaced: event => event.card.type === 'creature' && event.card.to === 'discard' && event.card.from === 'play area'
+            },
+            gameAction: ability.actions.purge(context => ({ target: context.event.card }))
+        });
     }
 }
 

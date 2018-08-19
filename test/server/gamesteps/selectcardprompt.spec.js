@@ -1,7 +1,7 @@
 const _ = require('underscore');
 const SelectCardPrompt = require('../../../server/game/gamesteps/selectcardprompt.js');
 
-describe('the SelectCardPrompt', function() {
+xdescribe('the SelectCardPrompt', function() {
     function createCardSpy(properties = {}) {
         let card = jasmine.createSpyObj('card', ['allowGameAction', 'getType']);
         card.getType.and.returnValue('character');

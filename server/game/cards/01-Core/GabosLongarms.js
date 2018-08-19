@@ -7,7 +7,11 @@ class GabosLongarms extends Card {
                 onFight: (event, context) => event.attacker === context.source
             },
             target: {
-                cardType: 'creature', //TODO
+                cardType: 'creature',
+                gameAction: ability.actions.changeEvent(context => ({
+                    event: context.event,
+                    attackerTarget: context.target
+                }))
             }
         });
     }

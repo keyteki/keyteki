@@ -4,10 +4,10 @@ class ShadowSelf extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: this,
-            effect: ability.effects.dealsNoFightDamage()
+            effect: ability.effects.cardCannot('dealFightDamage')
         });
 
-        this.persistentEffect({ // TODO
+        this.persistentEffect({
             match: card => this.neighbors.includes(card),
             effect: ability.effects.transferDamage(this)
         });

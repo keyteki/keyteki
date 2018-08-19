@@ -18,6 +18,9 @@ class SetupPhase extends Phase {
     startPhase() {
         // Don't raise any events without a determined first player
         this.game.currentPhase = this.name;
+        for(let step of this.steps) {
+            this.game.queueStep(step);
+        }
     }
 
     setupBegin() {

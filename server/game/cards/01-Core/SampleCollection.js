@@ -1,8 +1,18 @@
 const Card = require('../../Card.js');
 
 class SampleCollection extends Card {
-    setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
-        // TODO: Needs a forEach action
+    setupCardAbilities(ability) {
+        this.play({
+            gameAction: ability.actions.sequentialForEach(context => ({
+                num: context.player.opponent.keys,
+                action: ability.actions.archive({
+                    promptForSelect: {
+                        cardType: 'creature',
+                        controller: 'opponent'
+                    }
+                })
+            }))
+        });
     }
 }
 

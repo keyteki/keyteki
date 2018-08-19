@@ -6,17 +6,28 @@ class SpanglerBox extends Card {
         this.action({
             target: {
                 cardType: 'creature',
-                gameAction: ability.actions.purge()
+                gameAction: ability.actions.purge(),
+                postHandler: context => this.purgedCreatures.push(context.target)
             },
             effect: 'purge a creature and give control to the other player',
             then: {
                 condition: context => !!context.player.opponent,
-                gameAction: ability.action.cardLastingEffect(context => ({
+                gameAction: ability.actions.cardLastingEffect(context => ({
                     duration: 'lastingEffect',
                     effect: ability.effects.takeControl(context.player.opponent)
                 }))
             }
         });
+        this.constantReaction({
+            when: {
+                on
+            }
+            effect: 'returning to play all creatures purged by Spangler Box',
+            gameAction: ability.actions.putIntoPlay({
+                target: this.purgedCreatures,
+                postHandler: () => this.purgedCreatures = []
+            })
+        })
     }
 }
 

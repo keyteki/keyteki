@@ -2,7 +2,16 @@ const Card = require('../../Card.js');
 
 class GauntletOfCommand extends Card {
     setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
-        // TODO
+        this.action({
+            target: {
+                cardType: 'creature',
+                controller: 'self',
+                gameAction: ability.actions.sequential([
+                    ability.actions.ready(),
+                    ability.actions.fight()
+                ])
+            }
+        });
     }
 }
 

@@ -7,8 +7,8 @@ class DiscardAction extends BaseAction {
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
-        if(!ignoredRequirements.includes('house') && context.player.activeHouse !== this.card.printedFaction) {
-            return 'phase';
+        if(!ignoredRequirements.includes('house') && !this.card.hasHouse(context.player.activeHouse)) {
+            return 'house';
         }
         if(!ignoredRequirements.includes('location') && !context.player.isCardInPlayableLocation(context.source, 'play')) {
             return 'location';

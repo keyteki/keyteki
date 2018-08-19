@@ -80,6 +80,11 @@ class ThenAbility extends BaseAbility {
                 window.addThenAbility(events, new ThenAbility(this.game, this.card, then), context);
             }
         }
+        for(let action of actions) {
+            if(action.postHandler) {
+                action.postHandler(context, action);
+            }
+        }
     }
 
     openEventWindow(events) {

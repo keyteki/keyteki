@@ -4,7 +4,12 @@ class EtherSpider extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',
-            effect: ability.effects.redirectAmber(this) // TODO
+            effect: ability.effects.redirectAmber(this)
+        });
+
+        this.persistentEffect({
+            match: this,
+            effect: ability.effects.cardCannot('dealFightDamage')
         });
     }
 }

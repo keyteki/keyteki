@@ -28,13 +28,13 @@ module.exports.init = function(server) {
 
     server.get('/api/factions', function(req, res) {
         let factions = [
-            { name: 'Crab Clan', value: 'crab' },
-            { name: 'Crane Clan', value: 'crane' },
-            { name: 'Dragon Clan', value: 'dragon' },
-            { name: 'Lion Clan', value: 'lion' },
-            { name: 'Phoenix Clan', value: 'phoenix' },
-            { name: 'Scorpion Clan', value: 'scorpion' },
-            { name: 'Unicorn Clan', value: 'unicorn' }
+            { name: 'Brobnar', value: 'brobnar' },
+            { name: 'Dis', value: 'dis' },
+            { name: 'Logos', value: 'logos' },
+            { name: 'Mars', value: 'mars' },
+            { name: 'Sanctum', value: 'sanctum' },
+            { name: 'Shadows', value: 'shadows' },
+            { name: 'Untamed', value: 'untamed' }
         ];
         res.send({ success: true, factions: factions });
     });
