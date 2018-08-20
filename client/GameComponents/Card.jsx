@@ -301,7 +301,7 @@ class Card extends React.Component {
             cardClass += ' ' + this.props.className;
         }
 
-        cardBack = 'cardBack.png';
+        cardBack = 'idbacks/' + this.props.card.cardback + '.jpg';
 
         return (
             <div className='card-frame' ref='cardFrame'
@@ -317,7 +317,7 @@ class Card extends React.Component {
                     draggable>
                     <div>
                         <span className='card-name'>{ this.props.card.name }</span>
-                        <img className={ imageClass } src={ '/img/cards/' + (!this.isFacedown() && this.props.card.id ? (this.props.card.id + '.jpg') : cardBack) } />
+                        <img className={ imageClass } src={ '/img/' + (!this.isFacedown() && this.props.card.id ? ('cards/' + this.props.card.id + '.jpg') : cardBack) } />
                     </div>
                     { this.showCounters() ? <CardCounters counters={ this.getCountersForCard(this.props.card) } /> : null }
                 </div>
@@ -437,6 +437,7 @@ Card.propTypes = {
         upgrades: PropTypes.array,
         baseMilitarySkill: PropTypes.number,
         basePoliticalSkill: PropTypes.number,
+        cardback: PropTypes.string,
         controlled: PropTypes.bool,
         controller: PropTypes.string,
         covert: PropTypes.bool,

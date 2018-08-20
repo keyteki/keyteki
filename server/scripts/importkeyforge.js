@@ -19,7 +19,7 @@ for(const card of rawData.CardData.filter(card => card.name !== '')) {
     card.traits = card.traits === '' ? [] : card.traits.split(', ').map(trait => trait.toLowerCase());
     card.keywords = card.keywords === '' ? [] : card.keywords.split(', ').map(keyword => keyword.toLowerCase());
 }
-//let fetchCards = cardService.replaceCards(rawData.CardData);
+let fetchCards = cardService.replaceCards(rawData.CardData);
 //let createDeck = deckService.findByUserName('public');
 
 let createDecks = [];
@@ -64,6 +64,8 @@ createDecks.push(deckService.create({
 createDecks.push(deckService.create({
     username: 'public',
     name: 'Flaregas, Spawn of Conflascoot',
+    identity: 'flaregas-spawn-of-conflascoot',
+    cardback: 'flaregas-spawn-of-conflascoot_back',
     houses: ['dis', 'shadows', 'untamed'],
     cards: [
         { id: 'arise', count: 1 },
@@ -100,6 +102,8 @@ createDecks.push(deckService.create({
 createDecks.push(deckService.create({
     username: 'public',
     name: 'Pinance Mobis-Ortiz, Countess',
+    identity: 'pinance-mobis-ortiz-countess',
+    cardback: 'cardback',
     houses: ['dis', 'sanctum', 'untamed'],
     cards: [
         { id: 'arise', count: 1 },
@@ -136,6 +140,8 @@ createDecks.push(deckService.create({
 createDecks.push(deckService.create({
     username: 'public',
     name: 'The Pampered Virtuoso Baron of Caringhall',
+    identity: 'the-pampered-virtuoso-baron-of-caringhall',
+    cardback: 'cardback',
     houses: ['dis', 'logos', 'shadows'],
     cards: [
         { id: 'arise', count: 2 },
@@ -177,6 +183,8 @@ createDecks.push(deckService.create({
 createDecks.push(deckService.create({
     username: 'public',
     name: 'Guru Catbee, the Inventive Baron',
+    identity: 'guru-catbee-the-inventive-baron',
+    cardback: 'cardback',
     houses: ['dis', 'logos', 'sanctum'],
     cards: [
         { id: 'arise', count: 1 },
@@ -214,6 +222,8 @@ createDecks.push(deckService.create({
 createDecks.push(deckService.create({
     username: 'public',
     name: 'The Barely Skeptical Bureaucrat of Nibitex',
+    identity: 'the-barely-skeptical-bureaucrat-of-nibitex',
+    cardback: 'cardback',
     houses: ['brobnar', 'logos', 'sanctum'],
     cards: [
         { id: 'coward-s-end', count: 1 },
@@ -253,6 +263,8 @@ createDecks.push(deckService.create({
 createDecks.push(deckService.create({
     username: 'public',
     name: 'Thomsen of Trinitop',
+    identity: 'thomsen-of-trinitop',
+    cardback: 'thomsen-of-trinitop_back',
     houses: ['brobnar', 'logos', 'mars'],
     cards: [
         { id: 'anger', count: 2 },
@@ -291,6 +303,8 @@ createDecks.push(deckService.create({
 createDecks.push(deckService.create({
     username: 'public',
     name: 'Vervious, the Dreamer of the Mountain',
+    identity: 'vervious-the-dreamer-of-the-mountain',
+    cardback: 'vervious-the-dreamer-of-the-mountain_back',
     houses: ['logos', 'mars', 'shadows'],
     cards: [
         { id: 'foggify', count: 1 },
@@ -329,7 +343,7 @@ createDecks.push(deckService.create({
     ]
 }));*/
 
-Promise.all(fetchCards)
+Promise.all([fetchCards, ...createDecks])
     .then(results => {
         console.log(results);
         db.close();

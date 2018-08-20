@@ -499,6 +499,7 @@ export class InnerGameBoard extends React.Component {
                         <div className='player-deck-row'>
                             <DynastyRow
                                 artifactCards={ otherPlayerArtifacts }
+                                cardback={ otherPlayer ? otherPlayer.cardback : '' }
                                 conflictDiscardPile={ otherPlayer ? otherPlayer.cardPiles.conflictDiscardPile : [] }
                                 conflictDeck={ otherPlayer ? otherPlayer.cardPiles.conflictDeck : [] }
                                 conflictDeckTopCard={ otherPlayer ? otherPlayer.conflictDeckTopCard : null }
@@ -531,6 +532,7 @@ export class InnerGameBoard extends React.Component {
                         <div className='player-deck-row our-side'>
                             <DynastyRow isMe={ !this.state.spectating }
                                 artifactCards={ thisPlayerArtifacts }
+                                cardback={ thisPlayer.cardback }
                                 conflictDiscardPile={ thisPlayer.cardPiles.conflictDiscardPile }
                                 conflictDeck={ thisPlayer.cardPiles.conflictDeck }
                                 conflictDeckTopCard={ thisPlayer.conflictDeckTopCard }

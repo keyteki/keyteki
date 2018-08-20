@@ -206,7 +206,7 @@ class CardPile extends React.Component {
         let cardOrientation = this.props.orientation === 'horizontal' && topCard && topCard.facedown ? 'bowed' : this.props.orientation;
 
         if(this.props.hiddenTopCard && !this.props.topCard && cardCount > 0) {
-            topCard = { facedown: true };
+            topCard = { facedown: true, cardback: this.props.cardback };
         }
 
         if(this.props.orientation === 'horizontal' || this.props.orientation === 'bowed') {
@@ -239,6 +239,7 @@ class CardPile extends React.Component {
 CardPile.displayName = 'CardPile';
 CardPile.propTypes = {
     cardCount: PropTypes.number,
+    cardback: PropTypes.string,
     cards: PropTypes.array,
     className: PropTypes.string,
     closeOnClick: PropTypes.bool,

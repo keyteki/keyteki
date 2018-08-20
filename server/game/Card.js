@@ -585,6 +585,7 @@ class Card extends EffectSource {
 
         if(isActivePlayer ? this.facedown : (this.facedown || hideWhenFaceup)) {
             let state = {
+                cardback: this.owner.deckData.cardback,
                 controller: this.controller.name,
                 facedown: true,
                 location: this.location
@@ -594,6 +595,7 @@ class Card extends EffectSource {
 
         let state = {
             id: this.cardData.id,
+            cardback: this.owner.deckData.cardback,
             controlled: this.owner !== this.controller,
             exhausted: this.exhausted,
             facedown: this.facedown,

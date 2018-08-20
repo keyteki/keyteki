@@ -476,6 +476,7 @@ class Player extends GameObject {
         let promptState = isActivePlayer ? this.promptState.getState() : {};
         let state = {
             activeHouse: this.activeHouse,
+            cardback: this.deckData.cardback,
             cardPiles: {
                 cardsInPlay: this.getSummaryForCardList(this.cardsInPlay, activePlayer),
                 dynastyDiscardPile: this.getSummaryForCardList(this.discard, activePlayer),

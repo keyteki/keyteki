@@ -21,6 +21,8 @@ class DeckService {
     create(deck) {
         let properties = {
             username: deck.username,
+            identity: deck.identity,
+            cardback: deck.cardback,
             name: deck.name,
             houses: deck.houses,
             cards: deck.cards,

@@ -263,6 +263,7 @@ class DynastyRow extends React.Component {
                             onDragDrop={ this.props.onDragDrop }
                             menu={ dynastyDeckMenu }
                             hiddenTopCard
+                            cardback={ this.props.cardback }
                             cardCount={ this.props.numDynastyCards }
                             popupMenu={ dynastyDeckPopupMenu }
                             size={ this.props.cardSize } />
@@ -277,6 +278,7 @@ class DynastyRow extends React.Component {
                             popupLocation={ this.props.isMe || this.props.spectating ? 'top' : 'bottom' }
                             onDragDrop={ this.props.onDragDrop }
                             hiddenTopCard
+                            cardback={ this.props.cardback }
                             cardCount={ this.props.numConflictCards }
                             size={ this.props.cardSize } />
                         { this.getArtifactCards() }
@@ -304,6 +306,7 @@ class DynastyRow extends React.Component {
                         popupLocation={ this.props.isMe || this.props.spectating ? 'top' : 'bottom' }
                         onDragDrop={ this.props.onDragDrop }
                         hiddenTopCard
+                        cardback={ this.props.cardback }
                         cardCount={ this.props.numDynastyCards }
                         size={ this.props.cardSize } />
                     <CardPile
@@ -319,6 +322,7 @@ class DynastyRow extends React.Component {
                         onDragDrop={ this.props.onDragDrop }
                         menu={ dynastyDeckMenu }
                         hiddenTopCard
+                        cardback={ this.props.cardback }
                         cardCount={ this.props.numDynastyCards }
                         popupMenu={ dynastyDeckPopupMenu }
                         size={ this.props.cardSize } />
@@ -356,6 +360,7 @@ DynastyRow.propTypes = {
     additionalPiles: PropTypes.object,
     artifactCards: PropTypes.array,
     cardSize: PropTypes.string,
+    cardback: PropTypes.string,
     conflictDeck: PropTypes.array,
     conflictDeckTopCard: PropTypes.object,
     conflictDiscardPile: PropTypes.array,
