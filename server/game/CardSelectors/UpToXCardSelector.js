@@ -5,6 +5,7 @@ class UpToXCardSelector extends BaseCardSelector {
         super(properties);
 
         this.numCards = numCards;
+        this.optional = true;
     }
 
     defaultActivePromptTitle() {

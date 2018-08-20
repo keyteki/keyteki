@@ -8,7 +8,7 @@ const UpToXCardSelector = require('./CardSelectors/UpToXCardSelector');
 const defaultProperties = {
     numCards: 1,
     cardCondition: () => true,
-    cardType: ['action', 'actifact', 'creature', 'upgrade'],
+    cardType: ['action', 'artifact', 'creature', 'upgrade'],
     multiSelect: false
 };
 

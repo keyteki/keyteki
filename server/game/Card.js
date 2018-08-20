@@ -75,20 +75,22 @@ class Card extends EffectSource {
         // Assault
         this.interrupt({
             title: 'Assault',
+            printedAbiliy: false,
             when: {
                 onFight: (event, context) => event.attacker === context.source
             },
             gameAction: ability.actions.dealDamage(context => ({
                 amount: context.source.getKeywordValue('assault'),
-                target: context.event.defender
+                target: context.event.card
             }))
         });
 
         // Hazardous
         this.interrupt({
             title: 'Hazardous',
+            printedAbiliy: false,
             when: {
-                onFight: (event, context) => event.defender === context.source
+                onFight: (event, context) => event.card === context.source
             },
             gameAction: ability.actions.dealDamage(context => ({
                 amount: context.source.getKeywordValue('hazardous'),
@@ -98,7 +100,7 @@ class Card extends EffectSource {
 
         // Taunt
         this.persistentEffect({
-            condition: () => this.getKeywordValue('taunt'),
+            condition: () => !!this.getKeywordValue('taunt'),
             match: card => this.neighbors.includes(card) && !card.getKeywordValue('taunt'),
             effect: ability.effects.cardCannot('attack')
         });
@@ -106,12 +108,21 @@ class Card extends EffectSource {
         // Fight
         this.action({
             title: 'Fight with this creature',
+            printedAbiliy: false,
             target: {
                 activePromptTitle: 'Choose a creature to attack',
                 cardType: 'creature',
                 controller: 'opponent',
                 gameAction: new ResolveFightAction({ attacker: this })
             }
+        });
+
+        // Remove Stun
+        this.action({
+            title: 'Remove this creature\'s stun',
+            printedAbiliy: false,
+            condition: () => this.stunned,
+            gameAction: ability.actions.removeStun()
         });
 
         /*
@@ -135,7 +146,7 @@ class Card extends EffectSource {
         if(this.type === 'action') {
             properties.location = properties.location || 'being played';
         }
-        return this.reaction(Object.assign({ when: when }, properties));
+        return this.reaction(Object.assign({ when: when, name: 'Play' }, properties));
     }
 
     fight(properties) {
@@ -146,7 +157,7 @@ class Card extends EffectSource {
         if(properties.condition) {
             when = { onFight: (event, context) => event.attacker === context.source && properties.condition(context) };
         }
-        return this.reaction(Object.assign({ when: when }, properties));
+        return this.reaction(Object.assign({ when: when, name: 'Fight' }, properties));
     }
 
     reap(properties) {
@@ -154,6 +165,7 @@ class Card extends EffectSource {
         if(properties.condition) {
             properties.when = { onReap: (event, context) => event.card === context.source && properties.condition(context) };
         }
+        properties.name = 'Reap';
         return this.reaction(properties);
     }
 
@@ -332,7 +344,10 @@ class Card extends EffectSource {
         return !!this.tokens[type];
     }
 
-    removeToken(type, number) {
+    removeToken(type, number = this.tokens[type]) {
+        if(!this.tokens[type]) {
+            return;
+        }
         this.tokens[type] -= number;
 
         if(this.tokens[type] < 0) {
@@ -354,7 +369,7 @@ class Card extends EffectSource {
 
     getKeywordValue(keyword) {
         keyword = keyword.toLowerCase();
-        let reduceFunc = (total, keywords) => total + keywords[keyword] ? keywords[keyword] : 0;
+        let reduceFunc = (total, keywords) => total + (keywords[keyword] ? keywords[keyword] : 0);
         return this.getEffects('addKeyword').reduce(reduceFunc, reduceFunc(0, this.keywords));
     }
 
@@ -519,7 +534,7 @@ class Card extends EffectSource {
         } else if(location === 'play area' && this.type === 'creature') {
             //actions.push(new FightAction(this));
             actions.push(new ReapAction(this));
-            actions.push(new RemoveStun(this));
+            // actions.push(new RemoveStun(this));
         }
         return actions.concat(this.abilities.actions.slice());
     }

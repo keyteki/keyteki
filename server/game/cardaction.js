@@ -33,6 +33,7 @@ class CardAction extends CardAbility {
         super(game, card, properties);
 
         this.abilityType = 'action';
+        this.title = properties.title || 'Use this card\'s ' + (properties.omni ? 'Omni' : 'Action') + ' ability';
         this.condition = properties.condition;
         this.omni = !!properties.omni;
         this.cost = this.cost.concat(Costs.exhaust(), Costs.use());

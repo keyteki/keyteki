@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class EmberImp extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
-            condition: () => this.game.cardsUsed.length > 1,
+            condition: () => this.game.cardsPlayed.length > 1,
             targetController: 'opponent',
             effect: ability.effects.playerCannot('play')
         });

@@ -47,7 +47,7 @@ class SetupPhase extends Phase {
     firstPlayerEffects() {
         this.game.activePlayer.drawCardsToHand(1);
         this.game.actions.forRemainderOfTurn({
-            condition: () => this.game.cardsUsed.length || this.game.cardsPlayed.length || this.game.cardsDiscarded.length,
+            condition: () => !!this.game.cardsUsed.length || !!this.game.cardsPlayed.length || !!this.game.cardsDiscarded.length,
             effect: [
                 Effects.playerCannot('play'),
                 Effects.playerCannot('use'),

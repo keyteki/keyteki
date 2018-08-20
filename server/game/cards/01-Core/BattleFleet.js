@@ -4,19 +4,18 @@ class BattleFleet extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
+                activePromptTitle: 'Choose which cards to reveal',
                 mode: 'unlimited',
                 controller: 'self',
                 location: 'hand',
                 cardCondition: card => card.hasHouse('mars'),
-                gameAction: [
-                    ability.actions.reveal(),
-                    ability.actions.draw(context => ({
-                        target: context.player,
-                        amount: context.target.length
-                    }))
-                ]
+                gameAction: ability.actions.draw(context => ({
+                    target: context.player,
+                    amount: context.target.length
+                }))
             },
-            effect: 'reveal Mars cards from their hand, and draw that many cards'
+            effect: 'reveal {0} from their hand, and draw {1} cards',
+            effectArgs: context => context.target.length ? context.target.length : 1
         });
     }
 }

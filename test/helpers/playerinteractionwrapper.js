@@ -311,13 +311,49 @@ class PlayerInteractionWrapper {
         this.clickPrompt('Pass');
     }
 
+    checkActions(card) {
+        console.log(card.getActions(this.player).map(action => [action.title, action.meetsRequirements()]));
+    }
+
+    fightWith(creature, target) {
+        if(creature.type !== 'creature' || !this.hasPrompt('Choose a card to play, discard or use')) {
+            throw new Error(`${creature.name} cannot fight now`);
+        }
+        this.clickCard(creature);
+        this.clickPrompt('Fight with this creature');
+        if(target) {
+            this.clickCard(target);
+        }
+    }
+
+    reap(creature) {
+        if(creature.type !== 'creature' || !this.hasPrompt('Choose a card to play, discard or use')) {
+            throw new Error(`${creature.name} cannot reap now`);
+        }
+        this.clickCard(creature);
+        this.clickPrompt('Reap with this creature');
+    }
+
+    play(card) {
+        if(card.type === 'creature') {
+            this.playCreature(card);
+        } else if(card.type === 'artifact') {
+            this.clickCard(card);
+            this.clickPrompt('Play this artifact');
+        } else if(card.type === 'action') {
+            this.clickCard(card);
+            this.clickPrompt('Play this action');
+        }
+    }
+
     playUpgrade(upgrade, target) {
         let card = this.clickCard(upgrade, 'hand');
+        this.clickPrompt('Play this upgrade');
         this.clickCard(target, 'play area');
         return card;
     }
 
-    playCharacterFromHand(card, left = false) {
+    playCreature(card, left = false) {
         if(_.isString(card)) {
             card = this.findCardByName(card, 'hand');
         }

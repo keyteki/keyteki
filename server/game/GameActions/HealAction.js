@@ -13,18 +13,19 @@ class HonorAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if(card.location !== 'play area' || card.damage === 0 || this.amount === 0) {
+        if(card.location !== 'play area' || !card.hasToken('damage') || this.amount === 0) {
             return false;
         }
         return super.canAffect(card, context);
     }
 
     getEvent(card, context) {
-        return super.createEvent('onHeal', { card: card, context: context }, () => {
+        let amount = Math.min(card.tokens.damage, this.amount);
+        return super.createEvent('onHeal', { amount, card, context }, event => {
             if(this.fully) {
-                card.damage = 0;
+                card.removeToken('damage');
             } else {
-                card.damage = Math.max(0, card.damage - this.amount);
+                card.removeToken('damage', event.amount);
             }
         });
     }

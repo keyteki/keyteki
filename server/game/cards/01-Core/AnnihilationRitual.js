@@ -4,7 +4,7 @@ class AnnihilationRitual extends Card {
     setupCardAbilities(ability) { // eslint-disable-line no-unused-vars
         this.constantReaction({
             when: {
-                onCardPlaced: event => event.card.type === 'creature' && event.card.to === 'discard' && event.card.from === 'play area'
+                onCardPlaced: event => event.card.type === 'creature' && event.to === 'discard' && event.from === 'play area'
             },
             gameAction: ability.actions.purge(context => ({ target: context.event.card }))
         });

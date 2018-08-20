@@ -8,8 +8,15 @@ class GuardianDemon extends Card {
             target: {
                 cardType: 'creature',
                 gameAction: ability.actions.heal({ amount: 2 })
-            }
-        })
+            },
+            then: context => ({
+                target: {
+                    cardType: 'creature',
+                    cardCondition: card => card !== context.target,
+                    gameAction: ability.actions.dealDamage({ amount: context.preEvent.amount })
+                }
+            })
+        });
     }
 }
 

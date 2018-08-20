@@ -33,7 +33,7 @@ class AbilityResolver extends BaseStepWithPipeline {
         if(this.cancelled) {
             return;
         }
-        this.context.stage = 'pretarget';
+        //this.context.stage = 'pretarget';
         this.targetResults = this.context.ability.resolveTargets(this.context);
     }
 

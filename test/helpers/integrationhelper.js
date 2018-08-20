@@ -115,11 +115,18 @@ global.integration = function(definitions) {
 
                 this.startGame();
                 //Setup phase
-                this.selectFirstPlayer(this.player1);
-                this.keepCards();
 
-                if(options.player1.house) {
-                    this.player1.clickPrompt(options.player1.house);
+                if(options.phase !== 'setup') {
+                    this.selectFirstPlayer(this.player1);
+                    this.keepCards();
+                    // Choose a house
+                    this.player1.clickPrompt(this.player1.currentButtons[0]);
+                    this.player1.clickPrompt('Done');
+                    this.player2.clickPrompt(this.player2.currentButtons[0]);
+                    this.player2.clickPrompt('Done');
+                    if(options.player1.house) {
+                        this.player1.clickPrompt(options.player1.house);
+                    }
                 }
 
                 //Player stats
@@ -136,9 +143,25 @@ global.integration = function(definitions) {
                 this.player1.discard = options.player1.discard;
                 this.player2.discard = options.player2.discard;
 
-                if(options.phase !== 'setup') {
-                    this.game.checkGameState(true);
+                for(let player of [this.player1, this.player2]) {
+                    let cards = ['inPlay', 'hand', 'discard'].reduce((array, location) => {
+                        if(Array.isArray(player[location])) {
+                            array = array.concat(player[location]);
+                        }
+                        return array;
+                    }, []);
+                    for(let card of cards) {
+                        let split = card.id.split('-');
+                        for(let i = 1; i < split.length; i++) {
+                            split[i] = split[i].slice(0, 1).toUpperCase() + split[i].slice(1);
+                        }
+                        let camel = split.join('');
+                        if(!this[camel]) {
+                            this[camel] = card;
+                        }
+                    }
                 }
+                this.game.checkGameState(true);
             };
         });
 

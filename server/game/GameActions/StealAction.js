@@ -19,7 +19,7 @@ class StealAction extends PlayerAction {
         let params = {
             context: context,
             player: player,
-            amount: Math.max(this.amount, player.amber)
+            amount: Math.min(this.amount, player.amber)
         };
         return super.createEvent('onStealAmber', params, event => {
             event.player.modifyAmber(-event.amount);

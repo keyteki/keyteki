@@ -105,7 +105,7 @@ class EventWindow extends BaseStepWithPipeline {
         let reactionWindow = {
             addChoice: context => this.game.resolveAbility(context)
         };
-        _.each(this.events, event => this.game.emit(event.name + 'constant', event, reactionWindow));
+        _.each(this.events, event => this.game.emit(event.name + ':constant', event, reactionWindow));
     }
 
     resetCurrentEventWindow() {

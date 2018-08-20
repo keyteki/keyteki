@@ -1,4 +1,4 @@
-describe('main phase', function() {
+fdescribe('main phase', function() {
     integration(function() {
         beforeEach(function() {
             this.setupTest({
@@ -60,8 +60,9 @@ describe('main phase', function() {
                 expect(this.player1.hand).toContain(this.ancientBear);
             });
 
-            it('should not allow a player to fight or reap but should remove the stun from a stunned creature', function() {
+            fit('should not allow a player to fight or reap but should remove the stun from a stunned creature', function() {
                 this.witchOfTheEye.stunned = true;
+                this.player1.checkActions(this.witchOfTheEye);
                 this.player1.clickCard('witch-of-the-eye');
                 expect(this.player1).toHavePrompt('Witch of the Eye');
                 expect(this.player1).not.toHavePromptButton('Fight with this creature');

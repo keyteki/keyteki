@@ -51,7 +51,6 @@ class Event {
             this.cancel();
             return;
         }
-        // TODO: do we need to check conditions on anything anymore?
         if(!this.condition(this)) {
             this.cancel();
         }

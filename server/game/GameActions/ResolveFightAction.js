@@ -25,6 +25,7 @@ class ResolveFightAction extends CardGameAction {
         let params = {
             card: card,
             context: context,
+            condition: event => event.attacker.location === 'play area' && event.card.location === 'play area',
             attacker: this.attacker,
             attackerTarget: card,
             defenderTarget: this.attacker,

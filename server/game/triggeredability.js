@@ -36,6 +36,7 @@ class TriggeredAbility extends CardAbility {
     constructor(game, card, abilityType, properties) {
         super(game, card, properties);
         this.when = properties.when;
+        this.title = properties.title || 'Use this card\'s ' + (properties.name ? properties.name + ' ' : '') + 'ability';
         this.triggeredByOpponent = !!properties.triggeredByOpponent;
         this.abilityType = abilityType;
     }

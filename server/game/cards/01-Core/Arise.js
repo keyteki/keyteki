@@ -6,10 +6,13 @@ class Arise extends Card {
             target: {
                 mode: 'house'
             },
-            gameAction: ability.actions.returnToHand(context => ({
-                location: 'discard',
-                target: context.player.discard.filter(card => card.type === 'creature' && card.house === context.house)
-            }))
+            gameAction: [
+                ability.actions.returnToHand(context => ({
+                    location: 'discard',
+                    target: context.player.discard.filter(card => card.type === 'creature' && card.hasHouse(context.house))
+                })),
+                ability.actions.gainChains()
+            ]
         });
     }
 }

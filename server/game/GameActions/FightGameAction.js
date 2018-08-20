@@ -9,7 +9,7 @@ class FightGameAction extends CardGameAction {
 
     canAffect(card, context) {
         let fightAction = card.abilities.actions.find(action => action.title === 'Fight with this creature');
-        if(!fightAction || fightAction.meetsRequirements(fightAction.createContext(context.player), ['house'])) {
+        if(!fightAction || fightAction.meetsRequirements(fightAction.createContext(context.player), ['house', 'stunned'])) {
             return false;
         }
         return super.canAffect(card, context);
@@ -17,7 +17,12 @@ class FightGameAction extends CardGameAction {
 
     getEvent(card, context) {
         if(card.stunned) {
-            return super.createEvent('onRemoveStun', { card, context }, () => card.unstun());
+            return super.createEvent('onRemoveStun', { card, context }, () => {
+                let removeStun = card.abilities.actions.find(action => action.title === 'Remove this creature\'s stun');
+                let removeStunContext = removeStun.createContext(context.player);
+                removeStunContext.canCancel = false;
+                context.game.resolveAbility(removeStunContext);
+            });
         }
         return super.createEvent('unnamedEvent', {card, context}, () => {
             let fightAction = card.abilities.actions.find(action => action.title === 'Fight with this creature');

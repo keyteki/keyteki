@@ -42,9 +42,11 @@ class DealDamageAction extends CardGameAction {
             } else {
                 target.armorUsed += currentArmor;
                 target.addToken('damage', event.amount - currentArmor);
-                if(target.tokens.damage > target.power || event.damageSource.getKeywordValue('poison')) {
+                if(target.tokens.damage >= target.power || event.damageSource && event.damageSource.getKeywordValue('poison')) {
                     context.game.actions.destroy({ inFight: !!event.fightEvent }).resolve(target, context.game.getFrameworkContext());
-                    event.fightEvent.destroyed.push(target);
+                    if(event.fightEvent) {
+                        event.fightEvent.destroyed.push(target);
+                    }
                     event.destroyed = true;
                 }
             }

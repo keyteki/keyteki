@@ -100,7 +100,6 @@ class GamePipeline {
         }
         while(this.pipeline.length > 0) {
             var currentStep = this.getCurrentStep();
-
             // Explicitly check for a return of false - if no return values is
             // defined then just continue to the next step.
             if(currentStep.continue() === false) {

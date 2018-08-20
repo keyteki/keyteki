@@ -56,10 +56,11 @@ class AbilityTargetCard {
     }
 
     resolve(context, targetResults) {
-        if(targetResults.cancelled || targetResults.payCostsFirst || targetResults.delayTargeting) {
+        if(targetResults.cancelled || targetResults.payCostsFirst) {
             return;
         }
         let otherProperties = _.omit(this.properties, 'cardCondition', 'player');
+        /*
         let playerProp = this.properties.player;
         if(typeof playerProp === 'function') {
             playerProp = playerProp(context);
@@ -72,6 +73,7 @@ class AbilityTargetCard {
             }
             player = player.opponent;
         }
+        */
         let buttons = [];
         let waitingPromptTitle = '';
         if(this.properties.optional) {
@@ -112,7 +114,7 @@ class AbilityTargetCard {
                 return true;
             }
         };
-        context.game.promptForSelect(player, Object.assign(promptProperties, otherProperties));
+        context.game.promptForSelect(context.player, Object.assign(promptProperties, otherProperties));
     }
 
     checkTarget(context) {
