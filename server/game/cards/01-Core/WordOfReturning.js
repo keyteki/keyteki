@@ -9,7 +9,9 @@ class WordOfReturning extends Card {
                     target: context.player.opponent.cardsInPlay.filter(card => card.type === 'creature'),
                     amountForCard: card => card.amber
                 })),
-                ability.actions.returnAmber()
+                ability.actions.returnAmber(context => ({
+                    target: context.player.opponent.cardsInPlay.filter(card => card.type === 'creature')
+                }))
             ]
         });
     }

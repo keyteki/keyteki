@@ -11,14 +11,16 @@ class SloppyLabwork extends Card {
                     gameAction: ability.actions.archive()
                 },
                 discard: {
+                    dependsOn: 'archive',
                     activePromptTitle: 'Choose a card to discard',
                     location: 'hand',
                     controller: 'self',
+                    cardCondition: (card, context) => card !== context.targets.archive,
                     gameAction: ability.actions.discard()
                 }
             },
-            effect: 'archive a card and discard {1}',
-            effectArgs: context => context.targets.discard
+            effect: 'archive a card{1}{2}',
+            effectArgs: context => context.targets.discard ? [' and discard ', context.targets.discard] : ['', '']
         });
     }
 }

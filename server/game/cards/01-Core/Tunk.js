@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class Tunk extends Card {
     setupCardAbilities(ability) {
-        this.reaction({
+        this.constantReaction({
             when: {
                 onCardPlayed: (event, context) => event.card.hasHouse('mars') && event.player === context.player
             },
