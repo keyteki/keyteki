@@ -23,13 +23,10 @@ class About extends React.Component {
                     <p>This is handled by the good people at <a href='http://gravatar.com' target='_blank'>Gravatar</a>.  Sign up there with the same email address you did there and it should appear on the site after a short while.
                 It will also use the avatar on any site that uses gravatar.  Examples include github and jinteki.</p>
 
-                    <h3>The artwork on this site is pretty cool, where's that from?</h3>
-                    <p>You're right, it is pretty nice isn't it?</p>
-
-                    <p>The background of the site is by an artist named <a href='https://speeh.deviantart.com/' target='_blank'>Speeh</a> and can be found <a href='https://speeh.deviantart.com/art/L5R-Fu-Leng-575822238' target='_blank'>here</a>.</p>
-                    <p>The in game backgrounds are by <a href='https://alayna.deviantart.com/' target='_blank'>Alayna Lemmer-Danner</a>.  She's very talented, you should check out her work!</p>
-                    <p>The tokens used for Spirit of the River are by <a href='https://www.dojocreativedesign.com/l5r-cardgame' target='_blank'>David Robotham</a>.  He has a selection of L5R related merchandise, check it out <a href='https://www.dojocreativedesign.com/shop' target='_blank'>here</a>.</p>
-                    <p>Don't want to be distracted by beautiful art during your games? In-game backgrounds can be disabled from your <Link href='/profile'>Profile</Link>.</p>
+                    <h3>This looks a lot like Ringteki and Throneteki... But where's the source code?</h3>
+                    <p>Keyteki (the codebase which runs this website) was forked from the Ringteki code, and I owe a huge debt to all the people who contributed to it.</p>
+                    <p>However, unlike Throneteki and Ringteki, Keyteki is not Open Source.  The reason for this is that it seems very likely that FFG will produce their own Keyforge digital implementation in the future, and I have no intention to compete with an official platform, or to support anyone else doing that</p>
+                    <p>For this reason, I've decided not to make the source code publically available.  If at any point FFG decides they want this website removed, they just need to ask.</p>
 
                     <h3>Donations</h3>
                     <p>Since I've been asked a few times about where people can donate to the project, I thought I'd put up a small section about it here.</p>
@@ -40,10 +37,10 @@ class About extends React.Component {
 
                     <p>If you wish to reward the devs in particular, feel free to thank them when you see them out at events. Sharing a cold beverage is always appreciated!</p>
 
-                    <h2>Special Thanks</h2>
+                    <h3>Special Thanks</h3>
                     <p>I'd like to thank gyffon, cryogen, and the throneteki and ringteki teams as without their help and support this site would never have happened.</p>
 
-                    <h2>Additional Notes</h2>
+                    <h3>Additional Notes</h3>
                     <p>The Keyforge Unique Deck Game, the artwork and many other things are all copyright Fantasy Flight Games and I make no claims of ownership or otherwise of any of the
                     artwork or trademarks.  This site exists for passionate fans to play a game they enjoy and augment, rather than replace, the in person LCG.  FFG does not endorse, support, and is not
                     involved with, this site in any way.
