@@ -10,7 +10,10 @@ class InterdimensionalGraft extends Card {
                 when: {
                     onForgeKey: event => event.player === context.player.opponent
                 },
-                gameAction: ability.actions.steal(context => ({ amount: context.player.opponent.amber }))
+                gameAction: ability.actions.steal(context => ({
+                    amount: context.player.opponent.amber,
+                    target: context.player.opponent
+                }))
             }))
         });
     }

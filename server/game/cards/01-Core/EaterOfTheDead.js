@@ -10,7 +10,7 @@ class EaterOfTheDead extends Card {
                 gameAction: ability.actions.purge({ location: 'discard' })
             },
             then: context => ({
-                gameAction: ability.actions.modifyPowerToken({ target: context.source })
+                gameAction: ability.actions.addPowerCounter({ target: context.source })
             })
         });
     }

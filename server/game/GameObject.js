@@ -21,8 +21,8 @@ class GameObject {
         this.effects = this.effects.filter(e => e !== effect);
     }
 
-    getEffects(type) {
-        let filteredEffects = this.effects.filter(effect => effect.type === type);
+    getEffects(type, predicate = effect => true) {
+        let filteredEffects = this.effects.filter(effect => effect.type === type && predicate(effect));
         return filteredEffects.map(effect => effect.getValue(this));
     }
 

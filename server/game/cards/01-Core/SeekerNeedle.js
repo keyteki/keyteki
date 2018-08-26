@@ -8,7 +8,7 @@ class SeekerNeedle extends Card {
                 gameAction: ability.actions.dealDamage()
             },
             then: context => ({
-                condition: () => context.preEvent.destroyed,
+                condition: () => context.preThenEvent.destroyed,
                 gameAction: ability.actions.gainAmber()
             })
         });

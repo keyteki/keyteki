@@ -116,9 +116,9 @@ global.integration = function(definitions) {
                 this.startGame();
                 //Setup phase
 
+                this.selectFirstPlayer(this.player1);
+                this.keepCards();
                 if(options.phase !== 'setup') {
-                    this.selectFirstPlayer(this.player1);
-                    this.keepCards();
                     // Choose a house
                     this.player1.clickPrompt(this.player1.currentButtons[0]);
                     this.player1.clickPrompt('Done');
@@ -142,14 +142,11 @@ global.integration = function(definitions) {
                 this.player2.hand = options.player2.hand;
                 this.player1.discard = options.player1.discard;
                 this.player2.discard = options.player2.discard;
+                this.player1.archives = options.player1.archives;
+                this.player2.archives = options.player2.archives;
 
                 for(let player of [this.player1, this.player2]) {
-                    let cards = ['inPlay', 'hand', 'discard'].reduce((array, location) => {
-                        if(Array.isArray(player[location])) {
-                            array = array.concat(player[location]);
-                        }
-                        return array;
-                    }, []);
+                    let cards = ['inPlay', 'hand', 'discard', 'archives'].reduce((array, location) => array.concat(player[location]), []);
                     for(let card of cards) {
                         let split = card.id.split('-');
                         for(let i = 1; i < split.length; i++) {

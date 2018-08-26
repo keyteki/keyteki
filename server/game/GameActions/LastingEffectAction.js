@@ -1,5 +1,5 @@
 const GameAction = require('./GameAction');
-const DelayedEffect = require('../DelayedEffect');
+const Effects = require('../effects.js');
 
 class LastingEffectAction extends GameAction {
     constructor(propertyFactory, duration = 2) {
@@ -13,7 +13,7 @@ class LastingEffectAction extends GameAction {
         this.targetController = this.duration === 1 ? 'current' : 'opponent';
         this.until = null;
         this.when = null;
-        this.gameAction = [];
+        this.gameAction = null;
         this.message = null;
         this.multipleTrigger = true;
     }
@@ -26,24 +26,16 @@ class LastingEffectAction extends GameAction {
 
     hasLegalTarget(context) {
         this.update(context);
-        return !!this.effect.length || this.when && !!this.gameAction.length;
+        return !!this.effect.length || this.when && !!this.gameAction;
     }
 
     getEventArray(context) {
-        if(this.when && this.gameAction.length) {
-            let target = [];
-            if(this.targetController !== 'opponent') {
-                target.push(context.player);
-            }
-            if(this.targetController !== 'current' && context.player.opponent) {
-                target.push(context.player.opponent);
-            }
-            this.effect = [new DelayedEffect(context.game, context.source, {
+        if(this.when && this.gameAction) {
+            this.effect = [Effects.delayedEffect({
                 when: this.when,
                 gameAction: this.gameAction,
                 message: this.message,
                 multipleTrigger: this.multipleTrigger,
-                target: target,
                 context: context
             })];
         }

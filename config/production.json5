@@ -5,6 +5,6 @@
 
     gameNode: {
         socketioPort: 80,
-        origin: 'http://www.thecrucible.online:* https://www.thecrucible.online:* '
+        origin: 'http://www.thecrucible.online:* https://www.thecrucible.online:* http://thecrucible.online:* https://thecrucible.online:* '
     }
 }

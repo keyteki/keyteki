@@ -16,14 +16,6 @@ const Effects = {
     bonusDamage: (match) => EffectBuilder.card.static('bonusDamage', match),
     cardCannot: (properties) => EffectBuilder.card.static('abilityRestrictions', new CannotRestriction(properties)),
     customDetachedCard: (properties) => EffectBuilder.card.detached('customEffect', properties),
-    delayedEffect: (properties) => EffectBuilder.card.detached('delayedEffect', {
-        apply: (card, context) => {
-            properties.target = card;
-            properties.context = properties.context || context;
-            return context.source.delayedEffect(() => properties);
-        },
-        unapply: (card, context, effect) => context.game.effectEngine.removeDelayedEffect(effect)
-    }),
     doesNotReady: () => EffectBuilder.card.static('doesNotReady'),
     gainAbility: (abilityType, properties) => EffectBuilder.card.detached('gainAbility', {
         apply: (card, context) => {
@@ -68,7 +60,7 @@ const Effects = {
         },
         unapply: (card, context, effect) => context.game.effectEngine.removeTerminalCondition(effect)
     }),
-    transferDamage: (card) => EffectBuilder.card.dynamic('transferDamage', card),
+    transferDamage: (card) => EffectBuilder.card.static('transferDamage', card),
     // Player effects
     canPlay: (match) => EffectBuilder.player.static('canPlay', match),
     canPlayFromOwn: (location) => EffectBuilder.player.detached('canPlayFromOwn', {
@@ -80,11 +72,18 @@ const Effects = {
     canUse: (match) => EffectBuilder.player.static('canUse', match),
     canUseHouse: (house) => EffectBuilder.player.static('canUseHouse', house),
     customDetachedPlayer: (properties) => EffectBuilder.player.detached('customEffect', properties),
+    delayedEffect: (properties) => EffectBuilder.player.detached('delayedEffect', {
+        apply: (player, context) => {
+            properties.context = properties.context || context;
+            return context.source.delayedEffect(() => properties);
+        },
+        unapply: (card, context, effect) => context.game.effectEngine.removeDelayedEffect(effect)
+    }),
     forgeAmberRecipient: (player) => EffectBuilder.player.static('forgeAmberRecipient', player),
     modifyKeyCost: (amount) => EffectBuilder.player.flexible('modifyKeyCost', amount),
     modifyHandSize: (amount) => EffectBuilder.player.flexible('modifyHandSize', amount),
     playerCannot: (properties) => EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(properties)),
-    redirectAmber: (recepient) => EffectBuilder.player.dynamic('redirectAmber', recepient),
+    redirectAmber: (recepient) => EffectBuilder.player.static('redirectAmber', recepient),
     restrictHouseChoice: (house) => EffectBuilder.player.static('restrictHouseChoice', house),
     showTopConflictCard: () => EffectBuilder.player.static('showTopConflictCard'),
     skipStep: (step) => EffectBuilder.player.static('skipStep', step)

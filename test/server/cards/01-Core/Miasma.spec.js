@@ -3,27 +3,39 @@ describe('Miasma', function() {
         describe('Miasma\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
-                    phase: 'conflict',
                     player1: {
-                        inPlay: []
+                        house: 'shadows',
+                        amber: 5,
+                        hand: ['miasma']
                     },
                     player2: {
-                        inPlay: []
+                        amber: 7,
+                        inPlay: ['snufflegator']
                     }
                 });
-                this.noMoreActions();
+                this.player1.play(this.miasma);
+                this.player1.clickPrompt('Done');
             });
 
-            it('should trigger under XYZ circumstances', function() {
-
+            it('should skip the next turn\'s key phase', function() {
+                expect(this.player1.amber).toBe(6);
+                expect(this.player2.amber).toBe(7);
+                expect(this.player2.player.keys).toBe(0);
             });
 
-            it('should not trigger under ABC circumstances', function() {
-
-            });
-
-            it('should have DEF effect on GHI', function() {
-
+            it('should not skip the following turn key phase', function() {
+                this.player2.clickPrompt('untamed');
+                this.player2.clickPrompt('Done');
+                expect(this.player1.amber).toBe(0);
+                expect(this.player2.amber).toBe(7);
+                expect(this.player2.player.keys).toBe(0);
+                expect(this.player1.player.keys).toBe(1);
+                this.player1.clickPrompt('shadows');
+                this.player1.clickPrompt('Done');
+                expect(this.player1.amber).toBe(0);
+                expect(this.player2.amber).toBe(1);
+                expect(this.player2.player.keys).toBe(1);
+                expect(this.player1.player.keys).toBe(1);
             });
         });
     });

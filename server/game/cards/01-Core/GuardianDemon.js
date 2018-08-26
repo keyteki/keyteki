@@ -13,8 +13,10 @@ class GuardianDemon extends Card {
                 target: {
                     cardType: 'creature',
                     cardCondition: card => card !== context.target,
-                    gameAction: ability.actions.dealDamage({ amount: context.preEvent.amount })
-                }
+                    gameAction: ability.actions.dealDamage(context => ({ amount: context.preThenEvent.amount }))
+                },
+                message: '{0} uses {1} to deal {3} damage to {2}',
+                messageArgs: context => context.preThenEvent.amount
             })
         });
     }

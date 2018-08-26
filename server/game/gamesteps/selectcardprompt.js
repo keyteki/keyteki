@@ -127,7 +127,7 @@ class SelectCardPrompt extends UiPrompt {
 
     activePrompt() {
         let buttons = this.properties.buttons;
-        if(!this.selector.automaticFireOnSelect() && this.selector.hasEnoughSelected(this.selectedCards)) {
+        if(!this.selector.automaticFireOnSelect() && this.hasEnoughSelected()) {
             if(buttons.every(button => button.text !== 'Done')) {
                 buttons = [{ text: 'Done', arg: 'done' }].concat(buttons);
             }
@@ -144,6 +144,11 @@ class SelectCardPrompt extends UiPrompt {
             promptTitle: this.properties.source ? this.properties.source.name : undefined,
             controls: this.properties.controls
         };
+    }
+
+    hasEnoughSelected() {
+        return this.selector.hasEnoughSelected(this.selectedCards, this.context) ||
+               this.selector.getAllLegalTargets(this.context).every(card => this.selectedCards.includes(card));
     }
 
     waitingPrompt() {
@@ -214,7 +219,7 @@ class SelectCardPrompt extends UiPrompt {
             this.properties.onCancel(player);
             this.complete();
             return true;
-        } else if(arg === 'done' && this.selector.hasEnoughSelected(this.selectedCards)) {
+        } else if(arg === 'done' && this.hasEnoughSelected()) {
             return this.fireOnSelect();
         } else if(this.properties.onMenuCommand(player, arg)) {
             this.complete();

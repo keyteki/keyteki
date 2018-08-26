@@ -29,13 +29,8 @@ class SequentialAction extends GameAction {
         }
     }
 
-    preEventHandler(context) {
-        for(let gameAction of this.gameActions) {
-            gameAction.preEventHandler(context);
-        }
-    }
-
     hasLegalTarget(context) {
+        this.update(context);
         return this.gameActions.some(gameAction => gameAction.hasLegalTarget(context));
     }
 

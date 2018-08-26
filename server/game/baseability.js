@@ -107,8 +107,7 @@ class BaseAbility {
      * @returns {Boolean}
      */
     canPayCosts(context) {
-        let contextCopy = context.copy({ stage: 'costs' });
-        return this.cost.every(cost => cost.canPay(contextCopy));
+        return this.cost.every(cost => cost.canPay(context));
     }
 
     /**
@@ -136,7 +135,7 @@ class BaseAbility {
             payCostsFirst: false,
             delayTargeting: null
         };
-        for(let target of this.targets) {
+        for(let target of this.targets.filter(target => target.hasLegalTarget(context))) {
             context.game.queueSimpleStep(() => target.resolve(context, targetResults));
         }
         return targetResults;

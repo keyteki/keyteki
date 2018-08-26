@@ -305,7 +305,7 @@ class Player extends GameObject {
         let location = card.location;
 
         if(location === 'play area') {
-            if(card.owner !== this) {
+            if(targetLocation !== 'archives' && card.owner !== this) {
                 card.owner.moveCard(card, targetLocation, options);
                 return;
             }
@@ -323,7 +323,7 @@ class Player extends GameObject {
             card.setDefaultController(this);
             card.controller = this;
             card.exhausted = true;
-        } else if(location === 'being played' && card.owner !== this) {
+        } else if(card.owner !== this) {
             card.owner.moveCard(card, targetLocation, options);
             return;
         } else {
@@ -426,10 +426,16 @@ class Player extends GameObject {
     }
 
     getAvailableHouses() {
+        let availableHouses = this.cardsInPlay.reduce((houses, card) => {
+            if(!houses.includes(card.printedHouse)) {
+                return houses.concat(card.printedHouse);
+            }
+            return houses;
+        }, this.houses);
         if(this.anyEffect('restrictHouseChoice')) {
-            return _.intersection(...this.getEffects('restrictHouseChoice'), this.houses);
+            return _.intersection(...this.getEffects('restrictHouseChoice'), availableHouses);
         }
-        return this.houses;
+        return availableHouses;
     }
 
     canIgnoreHouseRestrictions(card, context) {

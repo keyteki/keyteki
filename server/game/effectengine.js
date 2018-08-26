@@ -41,13 +41,15 @@ class EffectEngine {
 
     checkDelayedEffects(events) {
         this.delayedEffects = this.delayedEffects.filter(effect => !effect.target || effect.target.type === 'player' || effect.target.location === 'play area');
+        _.each(this.delayedEffects, effect => effect.checkEffect(events));
+        /*
         let effectsToTrigger = this.delayedEffects.filter(effect => effect.checkEffect(events));
         if(effectsToTrigger.length > 0) {
             this.game.openSimultaneousEffectWindow(effectsToTrigger.map(effect => ({
                 title: effect.source.name + '\'s effect' + (effect.target ? ' on ' + effect.target.name : ''),
                 handler: () => effect.executeHandler()
             })));
-        }
+        }*/
     }
 
     checkTerminalConditions() {

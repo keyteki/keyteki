@@ -25,6 +25,7 @@ class DrawPhase extends Phase {
 
     roundEnded() {
         this.game.raiseEvent('onRoundEnded', {}, () => {
+            this.game.activePlayer.activeHouse = null;
             if(this.game.activePlayer.opponent) {
                 this.game.activePlayer = this.game.activePlayer.opponent;
             }

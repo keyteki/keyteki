@@ -10,7 +10,7 @@ class Dysania extends Card {
                 ability.actions.discard(context => ({
                     target: context.player.opponent.archives
                 })),
-                ability.actions.draw(context => ({
+                ability.actions.gainAmber(context => ({
                     amount: context.player.opponent.archives.length
                 }))
             ]

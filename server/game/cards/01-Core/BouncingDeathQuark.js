@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class BouncingDeathQuark extends Card {
+class BouncingDeathquark extends Card {
     setupCardAbilities(ability) {
         this.play({
             targets: {
@@ -27,6 +27,6 @@ class BouncingDeathQuark extends Card {
     }
 }
 
-BouncingDeathQuark.id = 'bouncing-death-quark'; // This is a guess at what the id might be - please check it!!!
+BouncingDeathquark.id = 'bouncing-deathquark'; // This is a guess at what the id might be - please check it!!!
 
-module.exports = BouncingDeathQuark;
+module.exports = BouncingDeathquark;

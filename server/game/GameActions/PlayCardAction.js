@@ -41,12 +41,16 @@ class PlayCardAction extends CardGameAction {
         if(!super.canAffect(card, context)) {
             return false;
         }
-        let actions = card.getActions(context.player, this.location).filter(action => action.title.includes('Play'));
-        return actions.filter(action => action.meetsRequirements(action.createContext(context.player, ['house']))).length > 0;
+        let actions = card.getActions(this.location).filter(action => action.title.includes('Play'));
+        return actions.find(action => {
+            let actionContext = action.createContext(context.player);
+            actionContext.ignoreHouse = true;
+            return !action.meetsRequirements(actionContext, ['location']);
+        });
     }
 
     getEvent(card, context) {
-        let action = card.getActions(context.player, this.location).find(action => action.title.includes('Play'));
+        let action = card.getActions(this.location).find(action => action.title.includes('Play'));
         return super.createEvent('unnamedEvent', { card: card, context: context }, () => {
             context.game.resolveAbility(action.createContext(context.player));
         });

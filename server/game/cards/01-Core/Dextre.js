@@ -7,10 +7,7 @@ class Dextre extends Card {
         });
 
         this.destroyed({
-            gameAction: ability.actions.moveCard(context => ({
-                target: context.source,
-                destination: 'deck'
-            }))
+            gameAction: ability.actions.returnToDeck()
         });
     }
 }

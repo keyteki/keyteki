@@ -5,8 +5,8 @@ class MagdaTheRat extends Card {
         this.play({
             gameAction: ability.actions.steal({ amount: 2})
         });
-        this.destroyed({
-            triggeredByOppnent: true,
+        this.leavesPlay({
+            triggeredByOpponent: true,
             gameAction: ability.actions.steal({ amount: 2})
         });
     }

@@ -9,15 +9,15 @@ class ExactlyXCardSelector extends BaseCardSelector {
 
     defaultActivePromptTitle() {
         if(this.cardType.length === 1) {
-            return this.numCards === 1 ? 'Choose a ' + this.cardType[0] : `Choose ${this.numCards} ${this.cardType[0]}`;
+            return this.numCards === 1 ? 'Choose a ' + this.cardType[0] : `Choose ${this.numCards} ${this.cardType[0]}s`;
         }
-        return this.numCards === 1 ? 'Select a card' : `Select ${this.numCards} cards`;
+        return this.numCards === 1 ? 'Choose a card' : `Choose ${this.numCards} cards`;
     }
 
     hasEnoughSelected(selectedCards) {
         return selectedCards.length === this.numCards;
     }
-
+    /*
     hasEnoughTargets(context) {
         let numMatchingCards = context.game.allCards.reduce((total, card) => {
             if(this.canTarget(card, context)) {
@@ -27,7 +27,7 @@ class ExactlyXCardSelector extends BaseCardSelector {
         }, 0);
 
         return numMatchingCards >= this.numCards;
-    }
+    }*/
 
     hasReachedLimit(selectedCards) {
         return selectedCards.length >= this.numCards;

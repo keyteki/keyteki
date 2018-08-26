@@ -63,6 +63,8 @@ describe('keywords', function() {
 
             it('Assault should stop hazardous if it resolves first', function() {
                 this.player1.playUpgrade(this.wayOfTheBear, this.mightyTiger);
+                expect(this.wayOfTheBear.location).toBe('play area');
+                expect(this.mightyTiger.getKeywordValue('assault')).toBe(2);
                 this.player1.fightWith(this.mightyTiger, this.briarGrubbling);
                 expect(this.player1).toHavePrompt('Any Interrupts?');
                 this.player1.clickCard(this.mightyTiger);
@@ -147,6 +149,7 @@ describe('keywords', function() {
 
             it('Elusive shouldn\'t stop Assault', function() {
                 this.player1.fightWith(this.ancientBear, this.urchin);
+                expect(this.ancientBear.exhausted).toBe(true);
                 expect(this.urchin.location).toBe('discard');
                 expect(this.ancientBear.location).toBe('play area');
                 expect(this.ancientBear.hasToken('damage')).toBe(false);

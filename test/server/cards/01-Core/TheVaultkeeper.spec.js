@@ -3,27 +3,30 @@ describe('The Vaultkeeper', function() {
         describe('The Vaultkeeper\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
-                    phase: 'conflict',
                     player1: {
-                        inPlay: []
+                        house: 'logos',
+                        hand: ['phase-shift', 'bumpsy', 'dextre', 'urchin']
                     },
                     player2: {
-                        inPlay: []
+                        amber: 4,
+                        inPlay: ['the-vaultkeeper']
                     }
                 });
-                this.noMoreActions();
+                this.player1.play(this.phaseShift);
             });
 
-            it('should trigger under XYZ circumstances', function() {
-
+            it('should not allow amber to be stolen', function() {
+                this.player1.play(this.urchin);
+                expect(this.player1.amber).toBe(0);
+                expect(this.player2.amber).toBe(4);
             });
 
-            it('should not trigger under ABC circumstances', function() {
-
-            });
-
-            it('should have DEF effect on GHI', function() {
-
+            it('should allow amber to be captured or lost', function() {
+                this.player1.play(this.dextre);
+                expect(this.dextre.tokens.amber).toBe(1);
+                expect(this.player2.amber).toBe(3);
+                this.player1.play(this.bumpsy);
+                expect(this.player2.amber).toBe(2);
             });
         });
     });

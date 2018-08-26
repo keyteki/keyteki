@@ -3,6 +3,14 @@
   vertical-align: middle;
   display: inline-block;
 
+  &.mytaunt {
+    margin-top: -@upgrade-offset;
+  }
+
+  &.opptaunt {
+    margin-top: @upgrade-offset;
+  }
+
   &.imperial-favor {
     margin: 0 7px 10px;
 
@@ -16,6 +24,14 @@
         height: @card-sm-width;
         width: @card-sm-height;
       }
+
+      &.mytaunt {
+        margin-top: -@upgrade-offset-sm;
+      }
+
+      &.opptaunt {
+        margin-top: @upgrade-offset-sm;
+      }
     }
 
     &.large {
@@ -28,6 +44,15 @@
         height: @card-lg-width;
         width: @card-lg-height;
       }
+
+      &.mytaunt {
+        margin-top: -@upgrade-offset-lg;
+      }
+
+      &.opptaunt {
+        margin-top: @upgrade-offset-lg;
+      }
+
     }
 
     &.x-large {
@@ -40,6 +65,15 @@
         height: @card-xl-width;
         width: @card-xl-height;
       }
+
+      &.mytaunt {
+        margin-top: -@upgrade-offset-xl;
+      }
+
+      &.opptaunt {
+        margin-top: @upgrade-offset-xl;
+      }
+
     }
   }
 }

@@ -17,6 +17,8 @@ class ResolveFightAction extends CardGameAction {
             return false;
         } else if(!this.attacker.checkRestrictions('fight') || card.controller === this.attacker.controller) {
             return false;
+        } else if(!card.checkRestrictions('attackDueToTaunt') && !this.attacker.ignores('taunt')) {
+            return false;
         }
         return super.canAffect(card, context);
     }
@@ -32,7 +34,7 @@ class ResolveFightAction extends CardGameAction {
             destroyed: []
         };
         return super.createEvent('onFight', params, event => {
-            if(!event.card.getKeywordValue('elusive') || event.card.elusiveUsed) {
+            if(!event.card.getKeywordValue('elusive') || event.card.elusiveUsed || event.attacker.ignores('elusive')) {
                 let damageEvents = [];
                 if((!event.attacker.getKeywordValue('skirmish') || event.defenderTarget !== event.attacker) && event.card.checkRestrictions('dealFightDamage')) {
                     let defenderParams = {
@@ -44,7 +46,7 @@ class ResolveFightAction extends CardGameAction {
                 }
                 if(event.attacker.checkRestrictions('dealFightDamage')) {
                     let attackerParams = {
-                        amount: event.attacker.power,
+                        amount: event.attacker.power + event.attacker.getBonusDamage(event.attackerTarget),
                         fightEvent: event,
                         damageSource: event.attacker
                     };

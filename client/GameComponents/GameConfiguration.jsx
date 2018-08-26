@@ -8,15 +8,6 @@ class GameConfiguration extends React.Component {
     constructor(props) {
         super(props);
 
-        this.windows = [
-            { name: 'dynasty', label: 'Dynasty phase', style: 'col-sm-4' },
-            { name: 'draw', label: 'Draw phase', style: 'col-sm-4' },
-            { name: 'preConflict', label: 'Conflict phase', style: 'col-sm-4' },
-            { name: 'conflict', label: 'During conflict', style: 'col-sm-4' },
-            { name: 'fate', label: 'Fate phase', style: 'col-sm-4' },
-            { name: 'regroup', label: 'Regroup phase', style: 'col-sm-4' }
-        ];
-
         this.state = {
             windowTimer: this.props.timerSettings.windowTimer
         };
@@ -73,37 +64,6 @@ class GameConfiguration extends React.Component {
         return (
             <div>
                 <form className='form form-horizontal'>
-                    <div className='panel-title'>
-                        Action window defaults
-                    </div>
-                    <div className='panel'>
-                        <div className='form-group'>
-                            { windows }
-                        </div>
-                    </div>
-                    <div className='panel-title text-center'>
-                        Timed Interrupt Window
-                    </div>
-                    <div className='panel'>
-                        <div className='form-group'>
-                            <Checkbox
-                                name='timerSettings.events'
-                                noGroup
-                                label={ 'Show timer for opponent\'s events' }
-                                fieldClass='col-sm-6'
-                                onChange={ this.onTimerSettingToggle.bind(this, 'events') }
-                                checked={ this.props.timerSettings.events }
-                            />
-                            <Checkbox
-                                name='timerSettings.eventsInDeck'
-                                noGroup
-                                label={ 'Show timer for events in your deck' }
-                                fieldClass='col-sm-6'
-                                onChange={ this.onTimerSettingToggle.bind(this, 'eventsInDeck') }
-                                checked={ this.props.timerSettings.eventsInDeck }
-                            />
-                        </div>
-                    </div>
                     <div className='panel-title text-center'>
                         Options
                     </div>
@@ -116,14 +76,6 @@ class GameConfiguration extends React.Component {
                                 fieldClass='col-sm-6'
                                 onChange={ this.onOptionSettingToggle.bind(this, 'markCardsUnselectable') }
                                 checked={ this.props.optionSettings.markCardsUnselectable }
-                            />
-                            <Checkbox
-                                name='optionSettings.cancelOwnAbilities'
-                                noGroup
-                                label={ 'Prompt to cancel/react to initiation of my own abilities' }
-                                fieldClass='col-sm-6'
-                                onChange={ this.onOptionSettingToggle.bind(this, 'cancelOwnAbilities') }
-                                checked={ this.props.optionSettings.cancelOwnAbilities }
                             />
                             <Checkbox
                                 name='optionSettings.orderForcedAbilities'
@@ -140,17 +92,6 @@ class GameConfiguration extends React.Component {
                                 fieldClass='col-sm-6'
                                 onChange={ this.onOptionSettingToggle.bind(this, 'confirmOneClick') }
                                 checked={ this.props.optionSettings.confirmOneClick }
-                            />
-                            <Checkbox
-                                name='optionSettings.showStatusInSidebar'
-                                noGroup
-                                label={
-                                    'Show player status in the sidebar, instead of horizontal bars.' +
-                                    ' Useful to free up space for cards on smaller screens.'
-                                }
-                                fieldClass='col-sm-6'
-                                onChange={ this.onOptionSettingToggle.bind(this, 'showStatusInSidebar') }
-                                checked={ this.props.optionSettings.showStatusInSidebar }
                             />
                         </div>
                     </div>

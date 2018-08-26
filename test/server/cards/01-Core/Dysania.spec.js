@@ -3,27 +3,22 @@ describe('Dysania', function() {
         describe('Dysania\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
-                    phase: 'conflict',
                     player1: {
-                        inPlay: []
+                        house: 'logos',
+                        hand: ['dysania']
                     },
                     player2: {
-                        inPlay: []
+                        archives: ['dextre', 'labwork', 'ganymede-archivist']
                     }
                 });
-                this.noMoreActions();
             });
 
-            it('should trigger under XYZ circumstances', function() {
-
-            });
-
-            it('should not trigger under ABC circumstances', function() {
-
-            });
-
-            it('should have DEF effect on GHI', function() {
-
+            it('should discard opponent\'s archives and gain amber', function() {
+                this.player1.play(this.dysania);
+                expect(this.dextre.location).toBe('discard');
+                expect(this.labwork.location).toBe('discard');
+                expect(this.ganymedeArchivist.location).toBe('discard');
+                expect(this.player1.amber).toBe(3);
             });
         });
     });

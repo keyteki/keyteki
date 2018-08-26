@@ -26,7 +26,7 @@ class Deck {
                 house: card.house.toLowerCase(),
                 amber: card.amber === '' ? 0 : parseInt(card.amber),
                 power: card.power === '' ? null : parseInt(card.power),
-                armor: card.type === 'creature' ? (card.armor !== '' ? parseInt(card.armor) : 0) : null,
+                armor: card.type.toLowerCase() === 'creature' ? (card.armor !== '' ? parseInt(card.armor) : 0) : null,
                 traits: card.traits === '' ? [] : card.traits.split(', ').map(trait => trait.toLowerCase()),
                 keywords: keywords
             };

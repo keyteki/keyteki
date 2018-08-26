@@ -21,13 +21,12 @@ const LoseAmberAction = require('./GameActions/LoseAmberAction');
 const ModifyAmberAction = require('./GameActions/ModifyAmberAction');
 const ModifyChainsActions = require('./GameActions/ModifyChainsAction');
 const MoveCardAction = require('./GameActions/MoveCardAction');
-const PlaceAmberAction = require('./GameActions/PlaceAmberAction');
+const AddTokenAction = require('./GameActions/AddTokenAction');
 const PlayCardAction = require('./GameActions/PlayCardAction');
 const PurgeAction = require('./GameActions/PurgeAction');
 const PutIntoPlayAction = require('./GameActions/PutIntoPlayAction');
 const RandomDiscardAction = require('./GameActions/RandomDiscardAction');
 const ReadyAction = require('./GameActions/ReadyAction');
-const ReapGameAction = require('./GameActions/ReapGameAction');
 const RemoveStunAction = require('./GameActions/RemoveStunAction');
 const ResolveAbilityAction = require('./GameActions/ResolveAbilityAction');
 const ReturnAmberAction = require('./GameActions/ReturnAmber');
@@ -42,6 +41,7 @@ const UseAction = require('./GameActions/UseAction');
 
 const Actions = {
     // card actions
+    addPowerCounter: (propertyFactory) => new AddTokenAction(propertyFactory),
     archive: (propertyFactory) => new ArchiveAction(propertyFactory),
     attach: (propertyFactory) => new AttachAction(propertyFactory), // attachment
     capture: (propertyFactory) => new CaptureAction(propertyFactory),
@@ -54,12 +54,11 @@ const Actions = {
     fight: (propertyFactory) => new FightGameAction(propertyFactory),
     heal: (propertyFactory) => new HealAction(propertyFactory),
     moveCard: (propertyFactory) => new MoveCardAction(propertyFactory), // destination, switch = false, shuffle = false
-    placeAmber: (propertyFactory) => new PlaceAmberAction(propertyFactory), // amount = 1
+    placeAmber: (propertyFactory) => new AddTokenAction(propertyFactory, 'amber'), // amount = 1
     playCard: (propertyFactory) => new PlayCardAction(propertyFactory), // resetOnCancel = false, postHandler
     purge: (propertyFactory) => new PurgeAction(propertyFactory),
     putIntoPlay: (propertyFactory) => new PutIntoPlayAction(propertyFactory),
     ready: (propertyFactory) => new ReadyAction(propertyFactory),
-    reap: (propertyFactory) => new ReapGameAction(propertyFactory),
     removeStun: (propertyFactory) => new RemoveStunAction(propertyFactory),
     resolveAbility: (propertyFactory) => new ResolveAbilityAction(propertyFactory), // ability
     returnAmber: (propertyFactory) => new ReturnAmberAction(propertyFactory),

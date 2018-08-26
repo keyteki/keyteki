@@ -12,7 +12,7 @@ class DestroyAction extends CardGameAction {
     }
 
     setup() {
-        this.targetType = ['creature', 'artifact'];
+        this.targetType = ['creature', 'artifact', 'upgrade'];
     }
 
     canAffect(card, context) {

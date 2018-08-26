@@ -5,7 +5,8 @@ describe('Battle Fleet', function() {
                 this.setupTest({
                     player1: {
                         house: 'mars',
-                        hand: ['battle-fleet', 'zorg', 'combat-pheromones', 'soft-landing', 'dextre']
+                        hand: ['battle-fleet', 'zorg', 'combat-pheromones', 'soft-landing', 'dextre'],
+                        inPlay: ['mindwarper']
                     },
                     player2: {
                         inPlay: []
@@ -21,6 +22,7 @@ describe('Battle Fleet', function() {
                 expect(this.player1).toBeAbleToSelect(this.softLanding);
                 expect(this.player1).not.toBeAbleToSelect(this.battleFleet);
                 expect(this.player1).not.toBeAbleToSelect(this.dextre);
+                expect(this.player1).not.toBeAbleToSelect(this.mindwarper);
             });
 
             it('should allow the player to select 0 cards', function() {
@@ -29,8 +31,13 @@ describe('Battle Fleet', function() {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should have DEF effect on GHI', function() {
-
+            it('should draw the correct number of cards', function() {
+                this.player1.clickCard(this.zorg);
+                this.player1.clickCard(this.combatPheromones);
+                this.player1.clickCard(this.softLanding);
+                this.player1.clickPrompt('Done');
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1.hand.length).toBe(7);
             });
         });
     });

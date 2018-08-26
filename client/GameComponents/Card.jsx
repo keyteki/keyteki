@@ -166,6 +166,10 @@ class Card extends React.Component {
             wrapperClassName = 'wrapper-' + upgrades.toString();
         }
 
+        if(this.props.card.taunt && this.props.card.location === 'play area') {
+            wrapperClassName += this.props.isMe ? ' mytaunt' : 'opptaunt';
+        }
+
         return wrapperClassName;
     }
 
@@ -468,6 +472,7 @@ Card.propTypes = {
         showPopup: PropTypes.bool,
         strength: PropTypes.number,
         stunned: PropTypes.bool,
+        taunt: PropTypes.bool,
         tokens: PropTypes.object,
         type: PropTypes.string,
         unselectable: PropTypes.bool,

@@ -3,27 +3,57 @@ describe('Interdimensional Graft', function() {
         describe('Interdimensional Graft\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
-                    phase: 'conflict',
                     player1: {
-                        inPlay: []
+                        house: 'logos',
+                        hand: ['interdimensional-graft']
                     },
                     player2: {
-                        inPlay: []
+                        amber: 5,
+                        hand: ['key-charge', 'hunting-witch', 'dust-pixie', 'ancient-bear'],
+                        inPlay: ['snufflegator']
                     }
                 });
-                this.noMoreActions();
+                this.player1.play(this.interdimensionalGraft);
             });
 
-            it('should trigger under XYZ circumstances', function() {
-
+            it('should trigger on forging a key in the key phase', function() {
+                this.player2.amber = 9;
+                this.player1.clickPrompt('Done');
+                expect(this.player2.player.keys).toBe(1);
+                expect(this.player2.amber).toBe(0);
+                expect(this.player1.amber).toBe(4);
             });
 
-            it('should not trigger under ABC circumstances', function() {
-
+            it('should trigger on forging a key using a card ability', function() {
+                expect(this.player1.amber).toBe(1);
+                this.player1.clickPrompt('Done');
+                expect(this.player2.player.keys).toBe(0);
+                expect(this.player2.amber).toBe(5);
+                this.player2.clickPrompt('untamed');
+                this.player2.play(this.huntingWitch);
+                this.player2.play(this.dustPixie);
+                this.player2.reap(this.snufflegator);
+                expect(this.player2.amber).toBe(9);
+                this.player2.play(this.keyCharge);
+                expect(this.player2.amber).toBe(8);
+                this.player2.clickPrompt('Yes');
+                expect(this.player2.amber).toBe(0);
+                expect(this.player1.amber).toBe(3);
+                expect(this.player2.player.keys).toBe(1);
+                expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('should have DEF effect on GHI', function() {
-
+            it('should not trigger on subsequent turns', function() {
+                this.player1.clickPrompt('Done');
+                this.player2.clickPrompt('untamed');
+                this.player2.play(this.dustPixie);
+                expect(this.player2.amber).toBe(7);
+                this.player2.clickPrompt('Done');
+                this.player1.clickPrompt('logos');
+                this.player1.clickPrompt('Done');
+                expect(this.player2.player.keys).toBe(1);
+                expect(this.player1.amber).toBe(1);
+                expect(this.player1.amber).toBe(1);
             });
         });
     });

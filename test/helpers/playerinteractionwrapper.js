@@ -116,6 +116,17 @@ class PlayerInteractionWrapper {
         return this.player.discard;
     }
 
+    set archives(newContents = []) {
+        var cardsInArchives = this.archives;
+        _.each(cardsInArchives, card => this.moveCard(card, 'deck'));
+        let cards = this.mixedListToCardList(newContents, 'deck');
+        _.each(cards, card => this.moveCard(card, 'archives'));
+    }
+
+    get archives() {
+        return this.player.archives;
+    }
+
     get opponent() {
         return this.player.opponent;
     }
@@ -312,7 +323,7 @@ class PlayerInteractionWrapper {
     }
 
     checkActions(card) {
-        console.log(card.getActions(this.player).map(action => [action.title, action.meetsRequirements()]));
+        console.log(card.getActions().map(action => [action.title, action.meetsRequirements()]));
     }
 
     fightWith(creature, target) {
@@ -358,6 +369,7 @@ class PlayerInteractionWrapper {
             card = this.findCardByName(card, 'hand');
         }
         this.clickCard(card, 'hand');
+        this.clickPrompt('Play this creature');
         if(this.hasPrompt('Which flank do you want to place this creature on?')) {
             if(left) {
                 this.clickPrompt('Left');

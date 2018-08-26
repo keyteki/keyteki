@@ -10,13 +10,14 @@ class AbilityContext {
         this.targets = properties.targets || {};
         this.selects = properties.selects || {};
         this.houses = properties.houses || {};
+        this.ignoreHouse = false;
     }
 
     copy(newProps) {
         let copy = new AbilityContext(Object.assign({}, this.getProps(), newProps));
-        copy.target = this.target;
-        copy.select = this.select;
-        copy.house = this.house;
+        for(const property of ['target', 'select', 'house', 'preThenEvent', 'preThenEvents']) {
+            copy[property] = this[property];
+        }
         return copy;
     }
 
@@ -28,7 +29,8 @@ class AbilityContext {
             ability: this.ability,
             targets: Object.assign({}, this.targets),
             selects: Object.assign({}, this.selects),
-            houses: Object.assign({}, this.houses)
+            houses: Object.assign({}, this.houses),
+            ignoreHouse: this.ignoreHouse
         };
     }
 }

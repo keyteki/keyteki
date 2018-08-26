@@ -3,27 +3,40 @@ describe('Effervescent Principle', function() {
         describe('Effervescent Principle\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
-                    phase: 'conflict',
                     player1: {
-                        inPlay: []
+                        house: 'logos',
+                        amber: 0,
+                        hand: ['effervescent-principle']
                     },
                     player2: {
-                        inPlay: []
+                        amber: 1
                     }
                 });
-                this.noMoreActions();
             });
 
-            it('should trigger under XYZ circumstances', function() {
-
+            it('should halve both players amber', function() {
+                this.player1.play(this.effervescentPrinciple);
+                expect(this.player1.amber).toBe(0);
+                expect(this.player2.amber).toBe(1);
+                expect(this.player1.chains).toBe(1);
             });
 
-            it('should not trigger under ABC circumstances', function() {
-
+            it('should halve both players amber', function() {
+                this.player1.amber = 1;
+                this.player2.amber = 4;
+                this.player1.play(this.effervescentPrinciple);
+                expect(this.player1.amber).toBe(1);
+                expect(this.player2.amber).toBe(2);
+                expect(this.player1.chains).toBe(1);
             });
 
-            it('should have DEF effect on GHI', function() {
-
+            it('should halve both players amber', function() {
+                this.player1.amber = 0;
+                this.player2.amber = 7;
+                this.player1.play(this.effervescentPrinciple);
+                expect(this.player1.amber).toBe(0);
+                expect(this.player2.amber).toBe(4);
+                expect(this.player1.chains).toBe(1);
             });
         });
     });

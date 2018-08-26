@@ -60,7 +60,7 @@ createDecks.push(deckService.create({
         { id: 'mushroom-man', count: 2 },
         { id: 'witch-of-the-eye', count: 1 }
     ]
-}));
+}));*/
 createDecks.push(deckService.create({
     username: 'public',
     name: 'Flaregas, Spawn of Conflascoot',
@@ -103,8 +103,8 @@ createDecks.push(deckService.create({
     username: 'public',
     name: 'Pinance Mobis-Ortiz, Countess',
     identity: 'pinance-mobis-ortiz-countess',
-    cardback: 'cardback',
-    houses: ['dis', 'sanctum', 'untamed'],
+    cardback: 'pinance-mobis-ortiz-countess_back',
+    houses: ['dis', 'untamed', 'sanctum'],
     cards: [
         { id: 'arise', count: 1 },
         { id: 'control-the-weak', count: 1 },
@@ -141,8 +141,8 @@ createDecks.push(deckService.create({
     username: 'public',
     name: 'The Pampered Virtuoso Baron of Caringhall',
     identity: 'the-pampered-virtuoso-baron-of-caringhall',
-    cardback: 'cardback',
-    houses: ['dis', 'logos', 'shadows'],
+    cardback: 'the-pampered-virtuoso-baron-of-caringhall_back',
+    houses: ['shadows', 'dis', 'logos'],
     cards: [
         { id: 'arise', count: 2 },
         { id: 'control-the-weak', count: 1 },
@@ -184,8 +184,8 @@ createDecks.push(deckService.create({
     username: 'public',
     name: 'Guru Catbee, the Inventive Baron',
     identity: 'guru-catbee-the-inventive-baron',
-    cardback: 'cardback',
-    houses: ['dis', 'logos', 'sanctum'],
+    cardback: 'guru-catbee-the-inventive-baron_back',
+    houses: ['logos', 'sanctum', 'dis'],
     cards: [
         { id: 'arise', count: 1 },
         { id: 'gateway-to-dis', count: 1 },
@@ -223,8 +223,8 @@ createDecks.push(deckService.create({
     username: 'public',
     name: 'The Barely Skeptical Bureaucrat of Nibitex',
     identity: 'the-barely-skeptical-bureaucrat-of-nibitex',
-    cardback: 'cardback',
-    houses: ['brobnar', 'logos', 'sanctum'],
+    cardback: 'the-barely-skeptical-bureaucrat-of-nibitex_back',
+    houses: ['sanctum', 'brobnar', 'logos'],
     cards: [
         { id: 'coward-s-end', count: 1 },
         { id: 'loot-the-bodies', count: 1 },
@@ -265,7 +265,7 @@ createDecks.push(deckService.create({
     name: 'Thomsen of Trinitop',
     identity: 'thomsen-of-trinitop',
     cardback: 'thomsen-of-trinitop_back',
-    houses: ['brobnar', 'logos', 'mars'],
+    houses: ['mars', 'brobnar', 'logos'],
     cards: [
         { id: 'anger', count: 2 },
         { id: 'blood-money', count: 1 },
@@ -305,7 +305,7 @@ createDecks.push(deckService.create({
     name: 'Vervious, the Dreamer of the Mountain',
     identity: 'vervious-the-dreamer-of-the-mountain',
     cardback: 'vervious-the-dreamer-of-the-mountain_back',
-    houses: ['logos', 'mars', 'shadows'],
+    houses: ['mars', 'logos', 'shadows'],
     cards: [
         { id: 'foggify', count: 1 },
         { id: 'labwork', count: 2 },
@@ -341,7 +341,7 @@ createDecks.push(deckService.create({
         { id: 'magda-the-rat', count: 1 },
         { id: 'nexus', count: 1 }
     ]
-}));*/
+}));
 
 Promise.all([fetchCards, ...createDecks])
     .then(results => {

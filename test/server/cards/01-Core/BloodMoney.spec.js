@@ -3,27 +3,21 @@ describe('Blood Money', function() {
         describe('Blood Money\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
-                    phase: 'conflict',
                     player1: {
-                        inPlay: []
+                        house: 'brobnar',
+                        hand: ['blood-money']
                     },
                     player2: {
-                        inPlay: []
+                        inPlay: ['zorg']
                     }
                 });
-                this.noMoreActions();
             });
 
-            it('should trigger under XYZ circumstances', function() {
-
-            });
-
-            it('should not trigger under ABC circumstances', function() {
-
-            });
-
-            it('should have DEF effect on GHI', function() {
-
+            it('should place 2 amber on a creature', function() {
+                this.player1.play(this.bloodMoney);
+                expect(this.player1).toHavePrompt('Blood Money');
+                this.player1.clickCard(this.zorg);
+                expect(this.zorg.tokens.amber).toBe(2);
             });
         });
     });

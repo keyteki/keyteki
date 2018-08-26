@@ -3,27 +3,29 @@ describe('Valdr', function() {
         describe('Valdr\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
-                    phase: 'conflict',
                     player1: {
-                        inPlay: []
+                        house: 'brobnar',
+                        inPlay: ['valdr']
                     },
                     player2: {
-                        inPlay: []
+                        inPlay: ['troll', 'francus', 'zorg']
                     }
                 });
-                this.noMoreActions();
             });
 
-            it('should trigger under XYZ circumstances', function() {
-
+            it('should deal extra damage to the creature on the left flank', function() {
+                this.player1.fightWith(this.valdr, this.troll);
+                expect(this.troll.location).toBe('discard');
             });
 
-            it('should not trigger under ABC circumstances', function() {
-
+            it('should deal extra damage to the creature on the right flank', function() {
+                this.player1.fightWith(this.valdr, this.zorg);
+                expect(this.zorg.location).toBe('discard');
             });
 
-            it('should have DEF effect on GHI', function() {
-
+            it('should not deal extra damage to a character not on a flank', function() {
+                this.player1.fightWith(this.valdr, this.francus);
+                expect(this.francus.tokens.damage).toBe(5);
             });
         });
     });

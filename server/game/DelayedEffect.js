@@ -31,7 +31,10 @@ class DelayedEffect {
             if(!this.multipleTrigger) {
                 this.game.effectEngine.removeDelayedEffect(this);
             }
-            return matchingEvents.find(event => this.when[event.name](event));
+            let event = matchingEvents.find(event => this.when[event.name](event));
+            if(event) {
+                this.executeHandler(event);
+            }
         }
         return false;
     }
@@ -51,8 +54,8 @@ class DelayedEffect {
 
     getDebugInfo() {
         return {
-            source: this.source.name,
-            target: this.target.name
+            source: this.source && this.source.name,
+            target: this.target && this.target.name
         };
     }
 }

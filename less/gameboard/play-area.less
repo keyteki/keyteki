@@ -55,11 +55,23 @@
 
 .deck-cards {
     display: flex;
+    flex-grow: 1;
+
+    &.opponent {
+        justify-content: right;
+        flex-direction: row-reverse;
+    }
 }
 
-.card-row, .hand {
+.hand {
+   display: flex;
+   justify-content: flex-start; 
+}
+
+.card-row {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
+    align-content:center;
 }
 
 .card-row .card.horizontal {
@@ -74,6 +86,8 @@
 .board-middle {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
+    margin-right: 350px;
 }
 
 .board-inner {

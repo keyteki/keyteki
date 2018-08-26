@@ -46,7 +46,7 @@ class CardAbility extends ThenAbility {
                 extraArgs = gameActions[0].effectArgs;
             }
         } else {
-            effectArgs.push(context.target || context.ring || context.source);
+            effectArgs.push(context.target || context.source);
             extraArgs = this.properties.effectArgs;
         }
 

@@ -453,7 +453,7 @@ export class InnerGameBoard extends React.Component {
         }
 
         let thisPlayerArtifacts = thisPlayer.cardPiles.cardsInPlay.filter(card => card.type === 'artifact');
-        let otherPlayerArtifacts = otherPlayer ? otherPlayer.cardPiles.filter(card => card.type === 'actifact') : [];
+        let otherPlayerArtifacts = otherPlayer ? otherPlayer.cardPiles.cardsInPlay.filter(card => card.type === 'artifact') : [];
 
         let popup = (
             <div id='settings-modal' ref='modal' className='modal fade' tabIndex='-1' role='dialog'>
@@ -591,7 +591,7 @@ export class InnerGameBoard extends React.Component {
                             clockState={ thisPlayer.clock }
                             houses={ thisPlayer.houses }
                             stats={ thisPlayer.stats }
-                            showControls={ !this.state.spectating }
+                            showControls={ !this.state.spectating && manualMode }
                             user={ thisPlayer.user }
                             firstPlayer={ thisPlayer.firstPlayer }
                             otherPlayer={ false }

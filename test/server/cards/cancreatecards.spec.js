@@ -8,13 +8,15 @@ const mockContext = {
         cardsUsed: [],
         cardsPlayed: []
     },
+    target: [],
     targets: {},
     player: {}
 };
 
 describe('All Cards:', function() {
     beforeEach(function() {
-        this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'addPower', 'addMessage', 'addEffect']);
+        this.gameSpy = jasmine.createSpyObj('game', ['on', 'removeListener', 'addPower', 'addMessage', 'addEffect', 'getPlayers']);
+        this.gameSpy.getPlayers.and.returnValue([]);
         this.playerSpy = jasmine.createSpyObj('player', ['registerAbilityMax']);
         this.playerSpy.game = this.gameSpy;
     });

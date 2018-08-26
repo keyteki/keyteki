@@ -1,7 +1,7 @@
 # Ringteki
 
 
-Web based implementation of Keyforge: the UDG
+Web based implementation of Keyforge: the Unique Deck Game
 
 ## FAQ
 
@@ -36,7 +36,7 @@ See this document for features I have planned and a link to the currently implem
 
 ### How do I do X Y Z?
 
-Check out the [About page](https://thecrucible.online/about)  of a Keyteki live deployment.
+Check out the [About page](https://thecrucible.online/about) of Keyteki live deployment.
 
 ## Development
 

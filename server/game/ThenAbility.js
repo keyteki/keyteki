@@ -8,6 +8,7 @@ class ThenAbility extends BaseAbility {
         this.game = game;
         this.card = card;
         this.properties = properties;
+        this.condition = properties.condition || (() => true);
         this.handler = properties.handler || this.executeGameActionPrehandlers;
     }
 

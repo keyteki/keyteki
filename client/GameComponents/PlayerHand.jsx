@@ -71,14 +71,14 @@ class PlayerHand extends React.Component {
     getCardWidth() {
         switch(this.props.cardSize) {
             case 'small':
-                return 65 * 0.8;
+                return 90 * 0.6;
             case 'large':
-                return 65 * 1.4;
+                return 90 * 1.4;
             case 'x-large':
-                return 65 * 2;
+                return 90 * 2;
             case 'normal':
             default:
-                return 65;
+                return 90;
         }
     }
 

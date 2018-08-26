@@ -7,18 +7,9 @@ class NoCostsAbilityResolver extends AbilityResolver {
         this.pipeline.initialise([
             new SimpleStep(this.game, () => this.createSnapshot()),
             new SimpleStep(this.game, () => this.resolveTargets()),
-            new SimpleStep(this.game, () => this.initiateAbility())
+            new SimpleStep(this.game, () => this.initiateAbility()),
+            new SimpleStep(this.game, () => this.executeHandler())
         ]);
-    }
-
-    initiateAbility() {
-        if(this.cancelled) {
-            return;
-        } else if(this.context.ability.max && !this.context.secondResolution) {
-            this.context.player.incrementAbilityMax(this.context.ability.maxIdentifier);
-        }
-        this.context.ability.displayMessage(this.context);
-        this.game.raiseInitiateAbilityEvent({ card: this.context.source, context: this.context }, () => this.executeHandler());
     }
 }
 

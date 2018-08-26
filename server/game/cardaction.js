@@ -40,9 +40,7 @@ class CardAction extends CardAbility {
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
-        if(!ignoredRequirements.includes('house') && !this.card.canUse(context) && !this.omni) {
-            return 'house';
-        } else if(!this.card.checkRestrictions('use', context) || !context.player.checkRestrictions('use', context)) {
+        if(!this.card.checkRestrictions('use', context) || !context.player.checkRestrictions('use', context)) {
             return 'cannotTrigger';
         } else if(!ignoredRequirements.includes('location') && !this.isInValidLocation(context)) {
             return 'location';

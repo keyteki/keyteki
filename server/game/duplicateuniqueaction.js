@@ -1,4 +1,4 @@
-const BaseAction = require('./BaseActions/BaseAction');
+const BaseAction = require('./BaseActions/BasePlayAction');
 
 class DuplicateUniqueAction extends BaseAction {
     constructor(card) {

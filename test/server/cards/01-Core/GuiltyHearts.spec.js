@@ -3,7 +3,6 @@ describe('Guilty Hearts', function() {
         describe('Guilty Hearts\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
-                    phase: 'conflict',
                     player1: {
                         inPlay: []
                     },
@@ -11,7 +10,6 @@ describe('Guilty Hearts', function() {
                         inPlay: []
                     }
                 });
-                this.noMoreActions();
             });
 
             it('should trigger under XYZ circumstances', function() {

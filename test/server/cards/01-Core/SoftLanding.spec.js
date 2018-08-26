@@ -3,27 +3,40 @@ describe('Soft Landing', function() {
         describe('Soft Landing\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
-                    phase: 'conflict',
                     player1: {
-                        inPlay: []
+                        house: 'mars',
+                        hand: ['zorg', 'mindwarper', 'soft-landing']
                     },
                     player2: {
-                        inPlay: []
+                        inPlay: ['troll']
                     }
                 });
-                this.noMoreActions();
+                this.player1.play(this.softLanding);
             });
 
-            it('should trigger under XYZ circumstances', function() {
-
+            it('should ready the next card played', function() {
+                this.player1.play(this.zorg);
+                expect(this.zorg.exhausted).toBe(false);
+                this.player1.play(this.mindwarper);
+                expect(this.mindwarper.exhausted).toBe(true);
             });
-
-            it('should not trigger under ABC circumstances', function() {
-
+            /*
+            it('should stack', function() {
+                this.player1.moveCard(this.softLanding, 'hand');
+                this.player1.play(this.softLanding);
+                this.player1.play(this.zorg);
+                expect(this.zorg.exhausted).toBe(false);
+                this.player1.play(this.mindwarper);
+                expect(this.mindwarper.exhausted).toBe(false);
             });
-
-            it('should have DEF effect on GHI', function() {
-
+            */
+            it('should not carry over to the following turn', function() {
+                this.player1.clickPrompt('Done');
+                this.player2.clickPrompt('brobnar');
+                this.player2.clickPrompt('Done');
+                this.player1.clickPrompt('mars');
+                this.player1.play(this.mindwarper);
+                expect(this.mindwarper.exhausted).toBe(true);
             });
         });
     });

@@ -50,7 +50,7 @@ class TriggeredAbility extends CardAbility {
             return;
         }
         let context = this.createContext(player, event);
-        //console.log(event.name, this.card.name, this.isTriggeredByEvent(event, context), this.meetsRequirements(context));
+        // console.log(event.name, this.card.name, this.isTriggeredByEvent(event, context), this.meetsRequirements(context));
         if(this.isTriggeredByEvent(event, context) && this.meetsRequirements(context) === '') {
             window.addChoice(context);
         }

@@ -3,27 +3,39 @@ describe('Mindwarper', function() {
         describe('Mindwarper\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
-                    phase: 'conflict',
                     player1: {
-                        inPlay: []
+                        amber: 1,
+                        house: 'mars',
+                        inPlay: ['mindwarper', 'zorg']
                     },
                     player2: {
-                        inPlay: []
+                        amber: 2,
+                        inPlay: ['bumpsy']
                     }
                 });
-                this.noMoreActions();
             });
 
-            it('should trigger under XYZ circumstances', function() {
-
+            it('should prompt for a target an place one of its controller\'s amber on that creature', function() {
+                this.player1.clickCard(this.mindwarper);
+                this.player1.clickPrompt('Use this card\'s Action ability');
+                expect(this.player1).toHavePrompt('Mindwarper');
+                expect(this.player1).toBeAbleToSelect(this.bumpsy);
+                expect(this.player1).not.toBeAbleToSelect(this.mindwarper);
+                expect(this.player1).not.toBeAbleToSelect(this.zorg);
+                this.player1.clickCard(this.bumpsy);
+                expect(this.player1.amber).toBe(1);
+                expect(this.player2.amber).toBe(1);
+                expect(this.bumpsy.tokens.amber).toBe(1);
             });
 
-            it('should not trigger under ABC circumstances', function() {
-
-            });
-
-            it('should have DEF effect on GHI', function() {
-
+            it('should give the amber to the creature\'s opponent when killed', function() {
+                this.player1.clickCard(this.mindwarper);
+                this.player1.clickPrompt('Use this card\'s Action ability');
+                this.player1.clickCard(this.bumpsy);
+                this.player1.fightWith(this.zorg, this.bumpsy);
+                expect(this.bumpsy.location).toBe('discard');
+                expect(this.player1.amber).toBe(2);
+                expect(this.player2.amber).toBe(1);
             });
         });
     });

@@ -1,6 +1,6 @@
 const GameAction = require('./GameAction');
 
-class SequentialAction extends GameAction {
+class SequentialForEachAction extends GameAction {
     setDefaultProperties() {
         this.num = 0;
         this.forEach = [];
@@ -20,11 +20,12 @@ class SequentialAction extends GameAction {
 
     setTarget(target) {
         if(this.action) {
-            this.action.setDefaultTarget(target);
+            this.action.setTarget(target);
         }
     }
 
-    hasLegalTarget() {
+    hasLegalTarget(context) {
+        this.update(context);
         return (this.num || this.forEach.length) && !!this.action;
     }
 
@@ -48,4 +49,4 @@ class SequentialAction extends GameAction {
     }
 }
 
-module.exports = SequentialAction;
+module.exports = SequentialForEachAction;

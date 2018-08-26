@@ -13,7 +13,7 @@ class About extends React.Component {
                     <a className='btn btn-danger btn-lg pull-right' target='_blank' href='https://github.com/gryffon/ringteki/issues'>Report Problems</a>
                     <h3>What is this?</h3>
 
-                    <p>This site was setup to allow you to play Keyforge, an UDG from Fantasy Flight Games (FFG) in your browser.</p>
+                    <p>This site was setup to allow you to play Keyforge, a Unique Deck Game from Fantasy Flight Games (FFG) in your browser.</p>
 
                     <h3>That's pretty cool!  But how does any of this work?</h3>
                     <p>Head on over to the <Link href='/how-to-play'>How To Play guide</Link> for a thorough explanation.</p>
@@ -31,27 +31,17 @@ class About extends React.Component {
                     <p>The tokens used for Spirit of the River are by <a href='https://www.dojocreativedesign.com/l5r-cardgame' target='_blank'>David Robotham</a>.  He has a selection of L5R related merchandise, check it out <a href='https://www.dojocreativedesign.com/shop' target='_blank'>here</a>.</p>
                     <p>Don't want to be distracted by beautiful art during your games? In-game backgrounds can be disabled from your <Link href='/profile'>Profile</Link>.</p>
 
-                    <h3>Can I help?</h3>
-                    <p>Sure!  The project is all written in Javascript.  The server is node.js and the client is React.js.  The source code can be found in the&nbsp;
-                        <a target='_blank' href='http://github.com/gryffon/ringteki'>GitHub Repository</a>.  Check out the code and instructions on there on how to get started and hack away!  See the card implementation
-                status list above to have a look at what needs to be done.  If you want to join the dev discord, there's a link on the <Link href='/community'>Community</Link> page.
-                    </p>
-
                     <h3>Donations</h3>
                     <p>Since I've been asked a few times about where people can donate to the project, I thought I'd put up a small section about it here.</p>
-                    <p>You can use this link: <a target='_blank' href='https://paypal.me/ringteki'>Paypal</a> to donate to the project. Note: The account uses my name, but is completely separate from my personal Paypal account.</p>
-                    <p>We may also look into creating a Patreon in the future, for those people who wish to make recurring donations.</p>
+                    <p>You can use this link: <a target='_blank' href='https://paypal.me/keyteki'>Paypal</a> to donate to the project. Note: The account uses my name, but is completely separate from my personal Paypal account.</p>
 
-                    <p>Just to make things clear, I'm not doing this for any personal gain whatsoever, I'm happy to run the servers at my own expense, but any money raised via this link will be used towards paying the hosting fees for the server and related services such as error tracking. All money in this account will only go towards these expenses.</p>
+                    <p>Just to make things clear, I'm not doing this for any personal gain whatsoever, any money raised via this link will be used towards paying the hosting fees for the server and related services such as error tracking. All money in this account will only go towards these expenses.</p>
                     <p>Also, this is not required to continue to use and enjoy the site and will not give anything of substance in return. I will also create an expense report that I will publish, so that you know where your donations are going.</p>
 
                     <p>If you wish to reward the devs in particular, feel free to thank them when you see them out at events. Sharing a cold beverage is always appreciated!</p>
 
                     <h2>Special Thanks</h2>
-                    <p>I'd like to thank mtgred, and the whole of the jinteki.net development team(except whoever decided to write the code in clojure, not you. - just kidding!) as without their
-                work to use as a guide and as inspiration, this site would not be where it is today.  To say jinteki is an inspiration is an understatement.
-                    </p>
-                    <p>I'd also like to thank cryogen and his team for their work on creating throneteki, which i've based this particular application off of.</p>
+                    <p>I'd like to thank gyffon, cryogen, and the throneteki and ringteki teams as without their help and support this site would never have happened.</p>
 
                     <h2>Additional Notes</h2>
                     <p>The Keyforge Unique Deck Game, the artwork and many other things are all copyright Fantasy Flight Games and I make no claims of ownership or otherwise of any of the

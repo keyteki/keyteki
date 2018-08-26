@@ -12,7 +12,7 @@ class UseAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onUseCard', { card: card, context: context }, () => card.use(false));
+        return super.createEvent('onUseCard', { card: card, context: context }, () => card.use(context.player, true));
     }
 }
 

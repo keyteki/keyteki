@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import AlertPanel from './SiteComponents/AlertPanel.jsx';
 import Input from './FormComponents/Input.jsx';
 import Checkbox from './FormComponents/Checkbox.jsx';
-import Slider from 'react-bootstrap-slider';
 
 import * as actions from './actions';
 
@@ -205,17 +204,6 @@ class InnerProfile extends React.Component {
             return <AlertPanel type='error' message='You must be logged in to update your profile' />;
         }
 
-        let windows = _.map(this.windows, window => {
-            return (<Checkbox key={ window.name }
-                noGroup
-                name={ 'promptedActionWindows.' + window.name }
-                label={ window.label }
-                fieldClass={ window.style }
-                type='checkbox'
-                onChange={ (this.onWindowToggle.bind(this, window.name)) }
-                checked={ this.state.promptedActionWindows[window.name] } />);
-        });
-
         return (
             <div className='col-sm-8 col-sm-offset-2 profile full-height'>
                 <div className='about-container'>
@@ -251,6 +239,14 @@ class InnerProfile extends React.Component {
                                         fieldClass='col-sm-6'
                                         onChange={ this.onOptionSettingToggle.bind(this, 'markCardsUnselectable') }
                                         checked={ this.state.optionSettings.markCardsUnselectable }
+                                    />
+                                    <Checkbox
+                                        name='optionSettings.orderForcedAbilities'
+                                        noGroup
+                                        label={ 'Prompt to order forced triggered/simultaneous abilities' }
+                                        fieldClass='col-sm-6'
+                                        onChange={ this.onOptionSettingToggle.bind(this, 'orderForcedAbilities') }
+                                        checked={ this.state.optionSettings.orderForcedAbilities }
                                     />
                                     <Checkbox
                                         name='optionSettings.confirmOneClick'
@@ -326,28 +322,28 @@ class InnerProfile extends React.Component {
                                         <div className='card-settings' onClick={ () => this.onCardClick('small') }>
                                             <div className={ 'card small vertical' + (this.state.selectedCardSize === 'small' ? ' selected' : '') }>
                                                 <img className='card small vertical'
-                                                    src='img/cards/dynastycardback.jpg' />
+                                                    src='img/cards/cardback.png' />
                                             </div>
                                             <span className='bg-label'>Small</span>
                                         </div>
                                         <div className='card-settings' onClick={ () => this.onCardClick('normal') }>
                                             <div className={ 'card vertical' + (this.state.selectedCardSize === 'normal' ? ' selected' : '') }>
                                                 <img className='card vertical'
-                                                    src='img/cards/dynastycardback.jpg' />
+                                                    src='img/cards/cardback.png' />
                                             </div>
                                             <span className='bg-label'>Normal</span>
                                         </div>
                                         <div className='card-settings' onClick={ () => this.onCardClick('large') }>
                                             <div className={ 'card vertical large' + (this.state.selectedCardSize === 'large' ? ' selected' : '') } >
                                                 <img className='card-image large vertical'
-                                                    src='/img/cards/dynastycardback.jpg' />
+                                                    src='/img/cards/cardback.png' />
                                             </div>
                                             <span className='bg-label'>Large</span>
                                         </div>
                                         <div className='card-settings' onClick={ () => this.onCardClick('x-large') }>
                                             <div className={ 'card vertical x-large' + (this.state.selectedCardSize === 'x-large' ? ' selected' : '') }>
                                                 <img className='card-image x-large vertical'
-                                                    src='img/cards/dynastycardback.jpg' />
+                                                    src='img/cards/cardback.png' />
                                             </div>
                                             <span className='bg-label'>Extra-Large</span>
                                         </div>

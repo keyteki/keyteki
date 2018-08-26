@@ -14,8 +14,8 @@ class AbilityResolver extends BaseStepWithPipeline {
     initialise() {
         this.pipeline.initialise([
             new SimpleStep(this.game, () => this.createSnapshot()),
-            new SimpleStep(this.game, () => this.resolveEarlyTargets()),
-            new SimpleStep(this.game, () => this.checkForCancel()),
+            //new SimpleStep(this.game, () => this.resolveEarlyTargets()),
+            //new SimpleStep(this.game, () => this.checkForCancel()),
             new SimpleStep(this.game, () => this.payCosts()),
             new SimpleStep(this.game, () => this.resolveTargets()),
             new SimpleStep(this.game, () => this.initiateAbility()),
@@ -59,6 +59,8 @@ class AbilityResolver extends BaseStepWithPipeline {
         if(this.cancelled) {
             return;
         }
+        this.context.ability.resolveTargets(this.context);
+        /*
         this.context.stage = 'target';
 
 
@@ -72,7 +74,7 @@ class AbilityResolver extends BaseStepWithPipeline {
         } else if(this.targetResults.payCostsFirst || !this.context.ability.checkAllTargets(this.context)) {
             // Targeting was stopped by the player choosing to pay costs first, or one of the chosen targets is no longer legal. Retarget from scratch
             this.context.ability.resolveTargets(this.context);
-        }
+        }*/
     }
 
     initiateAbility() {

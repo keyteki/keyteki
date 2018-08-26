@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class GraspingVine extends Card {
+class GraspingVines extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
@@ -13,6 +13,6 @@ class GraspingVine extends Card {
     }
 }
 
-GraspingVine.id = 'grasping-vine'; // This is a guess at what the id might be - please check it!!!
+GraspingVines.id = 'grasping-vines'; // This is a guess at what the id might be - please check it!!!
 
-module.exports = GraspingVine;
+module.exports = GraspingVines;

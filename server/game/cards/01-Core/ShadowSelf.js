@@ -7,9 +7,17 @@ class ShadowSelf extends Card {
             effect: ability.effects.cardCannot('dealFightDamage')
         });
 
-        this.persistentEffect({
-            match: card => this.neighbors.includes(card),
-            effect: ability.effects.transferDamage(this)
+        this.interrupt({
+            when: {
+                onDamageDealt: (event, context) =>
+                    context.source.neighbors.includes(event.card) && !event.card.hasTrait('specter') && !event.redirectApplied
+            },
+            effect: 'redirect the damage',
+            gameAction: ability.actions.changeEvent(context => ({
+                event: context.event,
+                redirectApplied: true,
+                card: context.source
+            }))
         });
     }
 }

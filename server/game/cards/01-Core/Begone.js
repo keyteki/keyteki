@@ -6,7 +6,7 @@ class Begone extends Card {
             target: {
                 mode: 'select',
                 choices: {
-                    'Destroy each Dis creature': ability.actions.destroy(context => ({ target: context.game.cardsInPlay.filter(card => card.house === 'dis') })),
+                    'Destroy each Dis creature': ability.actions.destroy(context => ({ target: context.game.cardsInPlay.filter(card => card.hasHouse('dis')) })),
                     'Gain 1 amber': ability.actions.gainAmber()
                 }
             }

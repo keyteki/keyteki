@@ -9,26 +9,26 @@ class FightGameAction extends CardGameAction {
 
     canAffect(card, context) {
         let fightAction = card.abilities.actions.find(action => action.title === 'Fight with this creature');
-        if(!fightAction || fightAction.meetsRequirements(fightAction.createContext(context.player), ['house', 'stunned'])) {
+        let newContext = fightAction.createContext(context.player);
+        newContext.ignoreHouse = true;
+        if(!fightAction || fightAction.meetsRequirements(newContext, ['stunned'])) {
             return false;
         }
         return super.canAffect(card, context);
     }
 
     getEvent(card, context) {
-        if(card.stunned) {
-            return super.createEvent('onRemoveStun', { card, context }, () => {
-                let removeStun = card.abilities.actions.find(action => action.title === 'Remove this creature\'s stun');
-                let removeStunContext = removeStun.createContext(context.player);
-                removeStunContext.canCancel = false;
-                context.game.resolveAbility(removeStunContext);
-            });
-        }
         return super.createEvent('unnamedEvent', {card, context}, () => {
-            let fightAction = card.abilities.actions.find(action => action.title === 'Fight with this creature');
-            let fightContext = fightAction.createContext(context.player);
-            fightContext.canCancel = false;
-            context.game.resolveAbility(fightContext);
+            let newContext;
+            if(card.stunned) {
+                let removeStunAction = card.getActions().find(action => action.title === 'Remove this creature\'s stun');
+                newContext = removeStunAction.createContext(context.player);
+            } else {
+                let fightAction = card.abilities.actions.find(action => action.title === 'Fight with this creature');
+                newContext = fightAction.createContext(context.player);
+            }
+            newContext.canCancel = false;
+            context.game.resolveAbility(newContext);
         });
     }
 }

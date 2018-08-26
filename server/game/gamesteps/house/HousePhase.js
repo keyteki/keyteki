@@ -33,7 +33,7 @@ class HousePhase extends Phase {
     takeCardsFromArchives() {
         if(this.game.activePlayer.archives.length) {
             this.game.promptWithHandlerMenu(this.game.activePlayer, {
-                promptTitle: 'Access Archives',
+                source: 'Access Archives',
                 activePromptTitle: 'Do you wish to take all the cards in archives into your hand?',
                 choices: ['Yes', 'No'],
                 handlers: [

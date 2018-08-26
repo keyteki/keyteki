@@ -4,9 +4,7 @@ class GuiltyHearts extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'destroy creatures with amber',
-            gameAction: ability.actions.destroy(context =>
-                ({ target: context.game.cardsInPlay.filter(card => card.type === 'creature' && card.hasToken('amber')) })
-            )
+            gameAction: ability.actions.destroy(context => ({ target: context.game.creaturesInPlay.filter(card => card.hasToken('amber')) }))
         });
     }
 }

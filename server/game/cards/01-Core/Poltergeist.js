@@ -8,7 +8,9 @@ class Poltergeist extends Card {
                 gameAction: ability.actions.use()
             },
             then: context => ({
-                gameAction: ability.actions.destroy({ target: context.target })
+                gameAction: ability.actions.destroy({ target: context.target }),
+                message: '{1} destroys {3}',
+                messageArgs: context.target
             })
         });
     }

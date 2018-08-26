@@ -6,11 +6,11 @@ class EffervescentPrinciple extends Card {
             effect: 'gain a chain and make both players lose half their amber',
             gameAction: [
                 ability.actions.loseAmber(context => ({
-                    amount: Math.floor((context.player.opponent.amber + 1) / 2)
+                    amount: Math.floor(context.player.opponent.amber / 2)
                 })),
                 ability.actions.loseAmber(context => ({
                     target: context.player,
-                    amount: Math.floor((context.player.amber + 1) / 2)
+                    amount: Math.floor(context.player.amber / 2)
                 })),
                 ability.actions.gainChains()
             ]

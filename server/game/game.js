@@ -60,6 +60,7 @@ class Game extends EventEmitter {
         this.cardsUsed = [];
         this.cardsPlayed = [];
         this.cardsDiscarded = [];
+        this.effectsUsed = [];
         this.activePlayer = null;
 
         this.shortCardData = options.shortCardData || [];
@@ -187,7 +188,7 @@ class Game extends EventEmitter {
      * Returns the card (i.e. character) with matching uuid from either players
      * 'in play' area.
      * @param {String} cardId
-     * @returns {Card}
+     * @returns Card
      */
     findAnyCardInPlayByUuid(cardId) {
         return _.reduce(this.getPlayers(), (card, player) => {
@@ -201,7 +202,7 @@ class Game extends EventEmitter {
     /**
      * Returns the card with matching uuid from anywhere in the game
      * @param {String} cardId
-     * @returns {Card}
+     * @returns Card
      */
     findAnyCardInAnyList(cardId) {
         return this.allCards.find(card => card.uuid === cardId);
@@ -821,6 +822,10 @@ class Game extends EventEmitter {
                         // any card being controlled by the wrong player
                         this.takeControl(card.getModifiedController(), card);
                     }
+                    if(card.type === 'creature' && card.tokens.damage >= card.power) {
+                        this.addMessage('{0} has {1} damage and {2} power and is destroyed', card, card.tokens.damage ? card.tokens.damage : 0, card.power);
+                        this.actions.destroy().resolve(card, this.getFrameworkContext());
+                    }
                     // any attachments which are illegally attached
                     // card.checkForIllegalAttachments();
                 });
@@ -839,6 +844,7 @@ class Game extends EventEmitter {
         this.cardsUsed = [];
         this.cardsPlayed = [];
         this.cardsDiscarded = [];
+        this.effectsUsed = [];
         for(let card of this.cardsInPlay) {
             card.endRound();
         }
@@ -864,7 +870,9 @@ class Game extends EventEmitter {
             return {
                 name: player.name,
                 houses: player.houses,
-                keys: player.keys
+                deck: player.deckData.identity,
+                keys: player.keys,
+                turn: player.turn
             };
         });
 

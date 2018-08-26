@@ -3,27 +3,20 @@ describe('Niffle Ape', function() {
         describe('Niffle Ape\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
-                    phase: 'conflict',
                     player1: {
-                        inPlay: []
+                        house: 'untamed',
+                        inPlay: ['niffle-ape']
                     },
                     player2: {
-                        inPlay: []
+                        inPlay: ['champion-anaphiel', 'urchin']
                     }
                 });
-                this.noMoreActions();
             });
 
-            it('should trigger under XYZ circumstances', function() {
-
-            });
-
-            it('should not trigger under ABC circumstances', function() {
-
-            });
-
-            it('should have DEF effect on GHI', function() {
-
+            it('should allow attacking through taunt, and should avoid elusive', function() {
+                this.player1.fightWith(this.niffleApe, this.urchin);
+                expect(this.urchin.location).toBe('discard');
+                expect(this.niffleApe.tokens.damage).toBe(1);
             });
         });
     });

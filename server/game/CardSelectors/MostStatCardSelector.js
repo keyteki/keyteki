@@ -7,9 +7,22 @@ class ExactlyStatCardSelector extends ExactlyXCardSelector {
     }
 
     canTarget(card, context) {
-        let sorted = this.findPossibleCards(context).filter(card => super.canTarget(card, context)).sortBy(card => this.cardStat(card));
+        let sorted = this.getSortedCards(context);
         let minStat = sorted.length < this.numCards ? 0 : this.cardStat(sorted[this.numCards - 1]);
         return this.cardStat(card) >= minStat && sorted.includes(card);
+    }
+
+    getSortedCards(context) {
+        return this.findPossibleCards(context).filter(card => super.canTarget(card, context)).sort((a,b) => this.cardStat(a) - this.cardStat(b));
+    }
+
+    hasEnoughSelected(selectedCards, context) {
+        if(!super.hasEnoughSelected(selectedCards)) {
+            return false;
+        }
+        let sorted = this.getSortedCards(context);
+        let minStat = sorted.length < this.numCards ? 0 : this.cardStat(sorted[this.numCards - 1]);
+        return sorted.every(card => this.cardStat(card) <= minStat || selectedCards.includes(card));
     }
 }
 

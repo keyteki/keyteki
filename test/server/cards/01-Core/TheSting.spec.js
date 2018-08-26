@@ -3,27 +3,39 @@ describe('The Sting', function() {
         describe('The Sting\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
-                    phase: 'conflict',
                     player1: {
-                        inPlay: []
+                        house: 'untamed',
+                        amber: 8,
+                        hand: ['key-charge']
                     },
                     player2: {
-                        inPlay: []
+                        amber: 6,
+                        inPlay: ['the-sting']
                     }
                 });
-                this.noMoreActions();
             });
 
-            it('should trigger under XYZ circumstances', function() {
-
+            it('should skip the controllers key phase', function() {
+                this.player1.clickPrompt('Done');
+                expect(this.player2.amber).toBe(6);
+                expect(this.player2.player.keys).toBe(0);
             });
 
-            it('should not trigger under ABC circumstances', function() {
-
+            it('should cause the controller to receive oppponent\'s forging amber', function() {
+                this.player1.play(this.keyCharge);
+                this.player1.clickPrompt('Yes');
+                expect(this.player1.amber).toBe(1);
+                expect(this.player2.amber).toBe(12);
+                expect(this.player1.player.keys).toBe(1);
             });
 
-            it('should have DEF effect on GHI', function() {
-
+            it('should sacrifice when used', function() {
+                this.player1.clickPrompt('Done');
+                this.player2.clickPrompt('shadows');
+                this.player2.clickCard(this.theSting);
+                expect(this.player2).toHavePrompt('The Sting');
+                this.player2.clickPrompt('Use this card\'s Action ability');
+                expect(this.theSting.location).toBe('discard');
             });
         });
     });

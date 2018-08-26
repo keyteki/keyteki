@@ -2,7 +2,7 @@ const CardGameAction = require('./CardGameAction');
 
 class ReturnAmber extends CardGameAction {
     setDefaultProperties() {
-        this.amount = null;
+        this.amount = 1;
         this.recipient = null;
     }
 

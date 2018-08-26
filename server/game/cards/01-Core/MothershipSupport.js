@@ -3,8 +3,9 @@ const Card = require('../../Card.js');
 class MothershipSupport extends Card {
     setupCardAbilities(ability) {
         this.play({
+            effect: 'deal 2 damage to a creature for each ready Mars creature they control',
             gameAction: ability.actions.sequentialForEach(context => ({
-                forEach: context.player.cardsInPlay(card => card.type === 'creature' && card.hasHouse('mars') && !card.exhausted),
+                forEach: context.player.cardsInPlay.filter(card => card.type === 'creature' && card.hasHouse('mars') && !card.exhausted),
                 action: ability.actions.dealDamage({
                     amount: 2,
                     promptForSelect: {

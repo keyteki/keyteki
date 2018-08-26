@@ -13,7 +13,7 @@ class CaptureAction extends CardAction {
     }
 
     canAffect(card, context) {
-        return context.player.opponent && context.player.checkRestrictions('capture', context) && 
+        return context.player.opponent && context.player.checkRestrictions('capture', context) &&
                context.player.opponent.amber > 0 && this.amount > 0 && super.canAffect(card, context);
     }
 
@@ -21,11 +21,11 @@ class CaptureAction extends CardAction {
         let params = {
             context: context,
             card: card,
-            amount: Math.max(this.amount, context.player.opponent.amber)
+            amount: Math.min(this.amount, context.player.opponent.amber)
         };
         return super.createEvent('onCapture', params, event => {
             context.player.opponent.modifyAmber(-event.amount);
-            event.creature.addToken('amber', event.amount);
+            event.card.addToken('amber', event.amount);
         });
     }
 }
