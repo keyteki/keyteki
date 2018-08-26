@@ -1,5 +1,3 @@
-const Conflict = require('./conflict.js');
-
 class MenuCommands {
     static cardMenuClick(menuItem, game, player, card) {
         switch(menuItem.command) {
@@ -42,65 +40,6 @@ class MenuCommands {
                     game.addMessage('{0} gives {1} control of {2}', player, player.opponent, card);
                     card.setDefaultController(player.opponent);
                 }
-                break;
-            case 'reveal':
-                game.addMessage('{0} reveals {1}', player, card);
-                card.facedown = false;
-                break;
-            case 'hide':
-                game.addMessage('{0} flips {1} facedown', player, card);
-                card.facedown = true;
-                break;
-            case 'break':
-                game.addMessage('{0} {1} {2}', player, card.isBroken ? 'unbreaks' : 'breaks', card);
-                card.isBroken = card.isBroken ? false : true;
-                if(card.location === 'stronghold province' && card.isBroken) {
-                    game.recordWinner(player.opponent, 'conquest');
-                }
-                break;
-        }
-    }
-
-    static ringMenuClick(menuItem, game, player, ring) {
-        switch(menuItem.command) {
-            case 'flip':
-                if(game.currentConflict && game.currentConflict.ring) {
-                    game.addMessage('{0} switches the conflict type', player);
-                    game.currentConflict.switchType();
-                } else {
-                    ring.flipConflictType();
-                }
-                break;
-            case 'claim':
-                game.addMessage('{0} claims the {1} ring', player, ring.element);
-                ring.claimRing(player);
-                break;
-            case 'unclaimed':
-                game.addMessage('{0} sets the {1} ring to unclaimed', player, ring.element);
-                ring.resetRing();
-                break;
-            case 'contested':
-                if(game.currentConflict) {
-                    if(!ring.claimed) {
-                        game.addMessage('{0} switches the conflict to contest the {1} ring', player, ring.element);
-                        game.currentConflict.switchElement(ring.element);
-                    } else {
-                        game.addMessage('{0} tried to switch the conflict to contest the {1} ring, but it\'s already claimed', player, ring.element);
-                    }
-                }
-                break;
-            case 'addfate':
-                game.addMessage('{0} adds a fate to the {1} ring', player, ring.element);
-                ring.modifyFate(1);
-                break;
-            case 'remfate':
-                game.addMessage('{0} removes a fate from the {1} ring', player, ring.element);
-                ring.modifyFate(-1);
-                break;
-            case 'takefate':
-                game.addMessage('{0} takes all the fate from the {1} ring and adds it to their pool', player, ring.element);
-                player.modifyFate(ring.fate);
-                ring.fate = 0;
                 break;
         }
     }

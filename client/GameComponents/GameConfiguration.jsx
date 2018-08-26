@@ -50,17 +50,6 @@ class GameConfiguration extends React.Component {
     }
 
     render() {
-        let windows = _.map(this.windows, window => {
-            return (<Checkbox key={ window.name }
-                noGroup
-                name={ 'promptedActionWindows.' + window.name }
-                label={ window.label }
-                fieldClass={ window.style }
-                type='checkbox'
-                onChange={ this.onToggle.bind(this, window.name, this.props.actionWindows[window.name]) }
-                checked={ this.props.actionWindows[window.name] } />);
-        });
-
         return (
             <div>
                 <form className='form form-horizontal'>

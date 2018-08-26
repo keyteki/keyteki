@@ -28,7 +28,6 @@ const AbilityResolver = require('./gamesteps/abilityresolver.js');
 const SimultaneousEffectWindow = require('./gamesteps/SimultaneousEffectWindow');
 const AbilityContext = require('./AbilityContext.js');
 const MenuCommands = require('./MenuCommands');
-const Ring = require('./ring.js');
 
 class Game extends EventEmitter {
     constructor(details, options = {}) {
@@ -76,14 +75,6 @@ class Game extends EventEmitter {
         this.setMaxListeners(0);
 
         this.router = options.router;
-
-        this.rings = {
-            air: new Ring(this, 'air','military'),
-            earth: new Ring(this, 'earth','political'),
-            fire: new Ring(this, 'fire','military'),
-            void: new Ring(this, 'void','political'),
-            water: new Ring(this, 'water','military')
-        };
     }
     /*
      * Reports errors from the game engine back to the router
@@ -900,17 +891,12 @@ class Game extends EventEmitter {
                 playerState[player.name] = player.getState(activePlayer);
             }
 
-            _.each(this.rings, ring => {
-                ringState[ring.element] = ring.getState(activePlayer);
-            });
-
             return {
                 id: this.id,
                 manualMode: this.manualMode,
                 name: this.name,
                 owner: this.owner,
                 players: playerState,
-                rings: ringState,
                 messages: this.gameChat.messages,
                 spectators: this.getSpectators().map(spectator => {
                     return {
