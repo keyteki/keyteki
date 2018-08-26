@@ -6,7 +6,6 @@ import $ from 'jquery';
 import AdditionalCardPile from './AdditionalCardPile.jsx';
 import Card from './Card.jsx';
 import CardPile from './CardPile.jsx';
-import Placeholder from './Placeholder.jsx';
 import {tryParseJSON} from '../util.js';
 
 class DynastyRow extends React.Component {
@@ -206,9 +205,9 @@ class DynastyRow extends React.Component {
 
     getArtifactCards() {
         return _.map(this.props.artifactCards, card => {
-            return (<Card key={ card.uuid } source='play area' card={ card } disableMouseOver={ card.facedown && !card.code }
-                onMenuItemClick={ this.onMenuItemClick } onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut }
-                onClick={ this.onCardClick } onDragDrop={ this.onDragDrop } size={ this.props.cardSize } />);
+            return (<Card key={ card.uuid } source='play area' card={ card } disableMouseOver={ card.facedown && !card.id }
+                onMenuItemClick={ this.props.onMenuItemClick } onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut }
+                onClick={ this.props.onCardClick } onDragDrop={ this.onDragDrop } size={ this.props.cardSize } />);
         });
 
     }

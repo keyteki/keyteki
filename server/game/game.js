@@ -401,7 +401,7 @@ class Game extends EventEmitter {
                 this.checkGameState(true);
                 return;
             }
-
+            /*
             let card = _.find(this.shortCardData, c => {
                 return c.name.toLowerCase() === message.toLowerCase() || c.id.toLowerCase() === message.toLowerCase();
             });
@@ -410,7 +410,7 @@ class Game extends EventEmitter {
                 this.gameChat.addChatMessage('{0} {1}', player, card);
 
                 return;
-            }
+            }*/
         }
 
         if(!this.isSpectator(player) || !this.spectatorSquelch) {
