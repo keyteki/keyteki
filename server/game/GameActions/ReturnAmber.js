@@ -4,12 +4,13 @@ class ReturnAmber extends CardGameAction {
     setDefaultProperties() {
         this.amount = 1;
         this.recipient = null;
+        this.all = false;
     }
 
     setup() {
         this.name = 'removeAmber';
         this.targetType = ['creature'];
-        this.effectMsg = 'remove ' + this.amount + ' amber from {0}';
+        this.effectMsg = 'remove ' + this.all ? 'all' : this.amount + ' amber from {0}';
     }
 
     canAffect(card, context) {
@@ -23,7 +24,7 @@ class ReturnAmber extends CardGameAction {
         let params = {
             card: card,
             context: context,
-            amount: Math.min(this.amount, card.tokens.amber),
+            amount: this.all ? card.amber : Math.min(this.amount, card.amber),
             recipient: this.recipient || card.controller.opponent
         };
         return super.createEvent('onReturnAmber', params, event => {

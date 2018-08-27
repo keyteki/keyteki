@@ -409,6 +409,10 @@ class Card extends EffectSource {
         return this.sumEffects('modifyArmor') + this.printedArmor;
     }
 
+    get amber() {
+        return this.hasToken('amber') ? this.tokens.amber : 0;
+    }
+
     stun() {
         this.stunned = true;
     }
