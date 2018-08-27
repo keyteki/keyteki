@@ -12,12 +12,23 @@ class AbilityTargetHouse {
         }
     }
 
+    getHouses(context) {
+        let houses = this.houses;
+        if(typeof houses === 'function') {
+            houses = houses(context);
+        }
+        if(!Array.isArray(houses)) {
+            return [houses];
+        }
+        return houses;
+    }
+
     canResolve() {
         return !!this.properties.dependsOn || this.hasLegalTarget();
     }
 
-    hasLegalTarget() {
-        return this.houses.length;
+    hasLegalTarget(context) {
+        return !!this.getHouses(context).length;
     }
 
     resetGameActions() {
@@ -27,8 +38,8 @@ class AbilityTargetHouse {
         return [];
     }
 
-    getAllLegalTargets() {
-        return this.houses;
+    getAllLegalTargets(context) {
+        return this.getHouses(context);
     }
 
     resolve(context, targetResults) {
@@ -44,7 +55,7 @@ class AbilityTargetHouse {
             player = player.opponent;
         }
         let promptTitle = this.properties.activePromptTitle || 'Choose a house';
-        let choices = this.houses;
+        let choices = this.getHouses(context);
         let handlers = choices.map(choice => {
             return (() => {
                 context.houses[this.name] = new SelectChoice(choice);

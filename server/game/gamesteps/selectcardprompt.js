@@ -127,7 +127,7 @@ class SelectCardPrompt extends UiPrompt {
 
     activePrompt() {
         let buttons = this.properties.buttons;
-        if(!this.selector.automaticFireOnSelect() && this.hasEnoughSelected()) {
+        if(this.properties.optional || !this.selector.automaticFireOnSelect() && this.hasEnoughSelected()) {
             if(buttons.every(button => button.text !== 'Done')) {
                 buttons = [{ text: 'Done', arg: 'done' }].concat(buttons);
             }

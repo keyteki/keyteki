@@ -4,7 +4,7 @@ class DrEscotera extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.gainAmber(context => ({
-                amount: context.player.opponent.keys
+                amount: context.player.opponent ? context.player.opponent.keys : 0
             }))
         });
     }

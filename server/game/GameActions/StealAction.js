@@ -23,7 +23,7 @@ class StealAction extends PlayerAction {
         };
         return super.createEvent('onStealAmber', params, event => {
             event.player.modifyAmber(-event.amount);
-            event.player.opponent.modifyAmber(event.amount);
+            context.game.actions.gainAmber({ amount: event.amount }).resolve(event.player.opponent, context);
         });
     }
 }

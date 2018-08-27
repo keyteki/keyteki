@@ -76,9 +76,6 @@ class AbilityTargetCard {
         */
         let buttons = [];
         let waitingPromptTitle = '';
-        if(this.properties.optional) {
-            buttons.push({ text: 'No more targets', arg: 'noMoreTargets' });
-        }
         if(context.stage === 'pretarget') {
             if(!targetResults.noCostsFirstButton) {
                 buttons.push({ text: 'Pay costs first', arg: 'costsFirst' });
@@ -118,7 +115,7 @@ class AbilityTargetCard {
     }
 
     checkTarget(context) {
-        if(this.properties.optional || context.targets[this.name] === 'noMoreTargets') {
+        if(this.properties.optional) {
             return (!this.dependentTarget || this.dependentTarget.checkTarget(context));
         } else if(!context.targets[this.name]) {
             return false;

@@ -85,7 +85,6 @@ describe('Spangler Box', function() {
                 this.player2.clickCard(this.gormOfOmm);
                 this.player2.clickPrompt('Use this card\'s Omni ability');
                 this.player2.clickCard(this.spanglerBox);
-                this.player2.clickPrompt('Right');
                 expect(this.spanglerBox.location).toBe('discard');
                 expect(this.silvertooth.location).toBe('play area');
                 expect(this.stealerOfSouls.location).toBe('play area');

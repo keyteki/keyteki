@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class Dysania extends Card {
     setupCardAbilities(ability) {
         this.play({
-            conditon: context => !!context.player.opponent,
+            condition: context => !!context.player.opponent,
             effect: 'discard all cards in {1}\'s archives, and draw that many cards',
             effectArgs: context => context.player.opponent,
             gameAction: [

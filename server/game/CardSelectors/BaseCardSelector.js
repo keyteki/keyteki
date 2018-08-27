@@ -87,7 +87,7 @@ class BaseCardSelector {
     }
 
     hasEnoughTargets(context) {
-        return (this.optional || this.findPossibleCards(context).some(card => this.canTarget(card, context)));
+        return (this.findPossibleCards(context).some(card => this.canTarget(card, context)));
     }
 
     defaultActivePromptTitle() {

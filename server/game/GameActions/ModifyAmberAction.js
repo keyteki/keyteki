@@ -23,7 +23,13 @@ class ModifyAmberAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent('onModifyAmber', { player: player, amount: this.amount, context: context }, () => player.modifyAmber(this.amount));
+        return super.createEvent('onModifyAmber', { player: player, amount: this.amount, context: context }, () => {
+            if(player.anyEffect('redirectAmber')) {
+                player.mostRecentEffect('redirectAmber').addToken('amber', this.amount);
+            } else {
+                player.modifyAmber(this.amount);
+            }
+        });
     }
 }
 

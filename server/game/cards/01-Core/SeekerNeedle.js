@@ -7,10 +7,10 @@ class SeekerNeedle extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.dealDamage()
             },
-            then: context => ({
-                condition: () => context.preThenEvent.destroyed,
+            then: {
+                condition: context => context.preThenEvent.destroyed,
                 gameAction: ability.actions.gainAmber()
-            })
+            }
         });
     }
 }

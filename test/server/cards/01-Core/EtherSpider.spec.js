@@ -7,7 +7,7 @@ describe('Ether Spider', function() {
                     player1: {
                         house: 'sanctum',
                         inPlay: ['sequis'],
-                        hand: ['virtuous-works']
+                        hand: ['virtuous-works', 'inspiration']
                     },
                     player2: {
                         amber: 1,
@@ -29,6 +29,19 @@ describe('Ether Spider', function() {
                 expect(this.etherSpider.tokens.amber).toBe(1);
                 expect(this.player2.amber).toBe(0);
                 expect(this.sequis.tokens.amber).toBe(1);
+            });
+
+            it('should return amber to opponent when it leaves play', function() {
+                this.player1.play(this.virtuousWorks);
+                expect(this.player1.amber).toBe(0);
+                expect(this.etherSpider.tokens.amber).toBe(3);
+                this.player1.fightWith(this.sequis, this.etherSpider);
+                this.player1.play(this.inspiration);
+                this.player1.clickCard(this.sequis);
+                this.player1.clickPrompt('Fight with this creature');
+                this.player1.clickCard(this.etherSpider);
+                expect(this.etherSpider.location).toBe('discard');
+                expect(this.player1.amber).toBe(3);
             });
 
             it('should deal no damage when attacked', function() {

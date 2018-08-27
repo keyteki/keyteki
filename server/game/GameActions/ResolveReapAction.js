@@ -16,7 +16,7 @@ class ResolveReapAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent('onReap', { card: card, context: context }, () => {
-            card.controller.modifyAmber(1);
+            context.game.actions.gainAmber().resolve(context.player, context);
         });
     }
 }

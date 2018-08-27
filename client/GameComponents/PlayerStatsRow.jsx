@@ -23,7 +23,7 @@ export class PlayerStatsRow extends React.Component {
     }
 
     getButton(stat, name, statToSet = stat) {
-        const imageStyle = { backgroundImage: `url(/img/${name}.png)` };
+        const imageStyle = { backgroundImage: `url(/img/${name.toLowerCase()}.png)` };
 
         return (
             <div className='state'>

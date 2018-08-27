@@ -6,8 +6,9 @@ class GuardianDemon extends Card {
             fight: true,
             reap: true,
             target: {
+                optional: true,
                 cardType: 'creature',
-                gameAction: ability.actions.heal({ amount: 2 })
+                gameAction: ability.actions.heal({ amount: 2 }) // TODO allow player to pick 1 damage if they want
             },
             then: context => ({
                 target: {

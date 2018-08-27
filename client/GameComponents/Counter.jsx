@@ -14,7 +14,7 @@ class Counter extends React.Component {
         }
 
         return (<div key={ this.props.name } className={ className }>
-            <img className='counterimage' src={ '/img/' + this.props.name + '.png' } title={ this.props.name } />
+            <img className='counterimage' src={ '/img/' + this.props.name.toLowerCase() + '.png' } title={ this.props.name } />
             <div className='countertext'> { this.props.value ? this.props.value : null } </div>
         </div>);
     }

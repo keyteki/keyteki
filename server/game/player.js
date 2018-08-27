@@ -410,10 +410,6 @@ class Player extends GameObject {
     }
 
     modifyAmber(amount) {
-        if(amount > 0 && this.anyEffect('redirectAmber')) {
-            this.mostRecentEffect('redirectAmber').addToken('amber', amount);
-            return;
-        }
         this.amber = Math.max(this.amber + amount, 0);
     }
 

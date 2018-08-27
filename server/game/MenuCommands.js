@@ -12,19 +12,19 @@ class MenuCommands {
                 break;
             case 'addDamage':
                 game.addMessage('{0} adds a damage to {1}', player, card);
-                card.addToken('damage');
+                card.addToken('damage', 1);
                 break;
             case 'remDamage':
                 game.addMessage('{0} removes a damage from {1}', player, card);
-                card.removeToken('damage');
+                card.removeToken('damage', 1);
                 break;
             case 'addAmber':
                 game.addMessage('{0} adds an amber to {1}', player, card);
-                card.addToken('amber');
+                card.addToken('amber', 1);
                 break;
             case 'remAmber':
                 game.addMessage('{0} removes an amber from {1}', player, card);
-                card.removeToken('amber');
+                card.removeToken('amber', 1);
                 break;
             case 'stun':
                 if(card.stunned) {

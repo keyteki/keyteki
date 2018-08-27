@@ -26,6 +26,7 @@ describe('Guardian Demon', function() {
                 expect(this.player1).not.toBeAbleToSelect(this.restringuntus);
                 expect(this.player1).not.toBeAbleToSelect(this.emberImp);
                 expect(this.player1).not.toBeAbleToSelect(this.commanderRemiel);
+                expect(this.player1).toHavePromptButton('Done');
                 this.player1.clickCard(this.theTerror);
                 expect(this.player1).toHavePrompt('Guardian Demon');
                 expect(this.player1).not.toBeAbleToSelect(this.theTerror);
@@ -77,7 +78,7 @@ describe('Guardian Demon', function() {
                 this.player1.play(this.guardianDemon);
                 expect(this.player1).toHavePrompt('Guardian Demon');
                 expect(this.player1).toBeAbleToSelect(this.emberImp);
-                expect(this.player1).not.toHavePromptButton('Done');
+                expect(this.player1).toHavePromptButton('Done');
                 this.player1.clickCard(this.emberImp);
                 expect(this.player1).toHavePrompt('Guardian Demon');
                 this.player1.clickCard(this.theTerror);

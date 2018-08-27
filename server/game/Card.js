@@ -252,6 +252,7 @@ class Card extends EffectSource {
             this.controller.opponent.modifyAmber(this.tokens.amber);
         }
         this.exhausted = false;
+        this.stunned = false;
         this.new = false;
         this.tokens = {};
         this.controller = this.owner;
@@ -532,13 +533,14 @@ class Card extends EffectSource {
     }
 
     get neighbors() {
-        let index = this.controller.cardsInPlay.indexOf(this);
+        let creatures = this.controller.cardsInPlay.filter(card => card.type === 'creature');
+        let index = creatures.indexOf(this);
         let neighbors = [];
         if(index > 0) {
-            neighbors.push(this.controller.cardsInPlay[index - 1]);
+            neighbors.push(creatures[index - 1]);
         }
-        if(index < this.controller.cardsInPlay.length - 1) {
-            neighbors.push(this.controller.cardsInPlay[index + 1]);
+        if(index < creatures.length - 1) {
+            neighbors.push(creatures[index + 1]);
         }
         return neighbors;
     }

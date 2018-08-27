@@ -3,7 +3,7 @@
 
 const _ = require('underscore');
 
-const BaseCard = require('../../server/game/basecard.js');
+const Card = require('../../server/game/Card.js');
 const Game = require('../../server/game/game.js');
 const Player = require('../../server/game/player.js');
 
@@ -16,7 +16,7 @@ function formatObject(...keys) {
     };
 }
 
-BaseCard.prototype.toString = formatObject('name', 'location');
+Card.prototype.toString = formatObject('name', 'location');
 Player.prototype.toString = formatObject('name');
 
 Game.prototype.toString = function() {
