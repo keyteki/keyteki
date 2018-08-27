@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import AlertPanel from './SiteComponents/AlertPanel.jsx';
 import DeckSummary from './DeckSummary.jsx';
-import Link from './Link.jsx';
 import DeckRow from './DeckRow.jsx';
 
 import * as actions from './actions';
