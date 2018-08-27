@@ -14,7 +14,7 @@ class ZyzzixTheMany extends Card {
             then: context => ({
                 gameAction: [
                     ability.actions.archive({ target: context.target }),
-                    ability.actions.addPowerToken({ amount: 3 })
+                    ability.actions.addPowerCounter({ amount: 3 })
                 ]
             })
         });
