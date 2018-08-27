@@ -13,7 +13,7 @@ class ChosenDiscardAction extends PlayerAction {
     }
 
     canAffect(player, context) {
-        if(player.hand.size() === 0 || this.amount === 0) {
+        if(player.hand.length === 0 || this.amount === 0) {
             return false;
         }
         return super.canAffect(player, context);
@@ -22,7 +22,7 @@ class ChosenDiscardAction extends PlayerAction {
     preEventHandler(context) {
         super.preEventHandler(context);
         for(let player of this.target) {
-            let amount = Math.min(player.hand.size(), this.amount);
+            let amount = Math.min(player.hand.length, this.amount);
             if(amount > 0) {
                 context.game.promptForSelect(player, {
                     activePromptTitle: 'Choose ' + (amount === 1 ? 'a card' : (amount + ' cards')) + ' to discard',

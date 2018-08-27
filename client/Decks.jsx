@@ -74,12 +74,6 @@ class InnerDecks extends React.Component {
                     { this.props.selectedDeck.name }
                 </div>
                 <div className='panel col-xs-12'>
-                    <div className='btn-group col-xs-12'>
-                        <button className='btn btn-primary' onClick={ this.onDeleteClick }>Delete</button>
-                        { this.state.showDelete ?
-                            <button className='btn btn-danger' onClick={ this.onConfirmDeleteClick }>Delete</button> :
-                            null }
-                    </div>
                     <DeckSummary deck={ this.props.selectedDeck } cards={ this.props.cards } />
                 </div>
             </div>);
