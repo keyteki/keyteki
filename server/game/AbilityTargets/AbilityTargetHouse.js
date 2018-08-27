@@ -23,8 +23,8 @@ class AbilityTargetHouse {
         return houses;
     }
 
-    canResolve() {
-        return !!this.properties.dependsOn || this.hasLegalTarget();
+    canResolve(context) {
+        return !!this.properties.dependsOn || this.hasLegalTarget(context);
     }
 
     hasLegalTarget(context) {
