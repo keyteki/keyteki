@@ -92,11 +92,13 @@ class EventWindow extends BaseStepWithPipeline {
 
     checkThenAbilities() {
         for(const thenAbility of this.thenAbilities) {
-            if(thenAbility.events.every(event => !event.cancelled) && thenAbility.ability.condition(thenAbility.context)) {
+            if(thenAbility.events.every(event => !event.cancelled)) {
                 let context = thenAbility.ability.createContext(thenAbility.context.player);
                 context.preThenEvents = thenAbility.events;
                 context.preThenEvent = thenAbility.events[0];
-                this.game.resolveAbility(context);
+                if(!thenAbility.condition || thenAbility.ability.condition(thenAbility.context)) {
+                    this.game.resolveAbility(context);
+                }
             }
         }
     }

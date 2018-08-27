@@ -18,7 +18,9 @@ class LostInTheWoods extends Card {
                     controller: 'opponent',
                     gameAction: ability.actions.returnToDeck({shuffle: true })
                 }
-            }
+            },
+            effects: 'shuffle {1} into their owner\'s deck',
+            effectsArg: context => Object.values(context.targets)
         });
     }
 }
