@@ -9,7 +9,7 @@ class ControlTheWeak extends Card {
                 houses: context => context.player.opponent.houses
             },
             gameAction: ability.actions.lastingEffect(context => ({
-                effect: ability.effect.restrictHouseChoice([context.house])
+                effect: ability.effects.restrictHouseChoice([context.house])
             }))
         });
     }
