@@ -43,6 +43,7 @@
     "express": "^4.15.5",
     "express-session": "^1.15.6",
     "helmet": "^3.8.1",
+    "jimp": "^0.3.9",
     "jquery": "^3.1.0",
     "jquery-migrate": "3.0.0",
     "jquery-nearest": "^1.4.0",
