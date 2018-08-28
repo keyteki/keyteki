@@ -89,5 +89,29 @@ describe('Three Fates', function() {
                 expect(this.urchin.location).toBe('discard');
             });
         });
+
+        describe('bug with two 5s and two 3s', function() {
+            beforeEach(function () {
+                this.setupTest({
+                    player1: {
+                        house: 'dis',
+                        hand: ['three-fates']
+                    },
+                    player2: {
+                        inPlay: ['shooler', 'ancient-bear', 'murmook', 'witch-of-the-eye']
+                    }
+                });
+                this.player1.play(this.threeFates);
+            });
+
+            it('should allow selecting all the creatures', function() {
+                expect(this.player1).toHavePrompt('Three Fates');
+                expect(this.player1).toBeAbleToSelect(this.shooler);
+                expect(this.player1).toBeAbleToSelect(this.ancientBear);
+                expect(this.player1).toBeAbleToSelect(this.murmook);
+                expect(this.player1).toBeAbleToSelect(this.witchOfTheEye);
+                expect(this.player1).not.toHavePromptButton('Done');
+            });
+        });
     });
 });

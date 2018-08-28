@@ -20,6 +20,7 @@ class BouncingDeathquark extends Card {
                     context.player.cardsInPlay.some(card => card.type === 'creature' && card.allowGameAction('destroy')) &&
                     context.player.opponent &&
                     context.player.opponent.cardsInPlay.some(card => card.type === 'creature' && card.allowGameAction('destroy')),
+                alwaysTriggers: true,
                 may: 'repeat this effect',
                 gameAction: ability.actions.resolveAbility({ ability: context.ability })
             })

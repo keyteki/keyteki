@@ -1,6 +1,6 @@
 const CardGameAction = require('./CardGameAction');
 
-class HonorAction extends CardGameAction {
+class HealAction extends CardGameAction {
     setDefaultProperties() {
         this.amount = 1;
         this.fully = false;
@@ -31,4 +31,4 @@ class HonorAction extends CardGameAction {
     }
 }
 
-module.exports = HonorAction;
+module.exports = HealAction;

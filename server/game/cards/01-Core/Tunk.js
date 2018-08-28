@@ -4,7 +4,7 @@ class Tunk extends Card {
     setupCardAbilities(ability) {
         this.constantReaction({
             when: {
-                onCardPlayed: (event, context) => event.card.hasHouse('mars') && event.player === context.player
+                onCardPlayed: (event, context) => event.card.hasHouse('mars') && event.card.type === 'creature' && event.player === context.player
             },
             gameAction: ability.actions.heal({ fully: true })
         });

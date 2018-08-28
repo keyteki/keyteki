@@ -13,7 +13,7 @@ class ExactlyStatCardSelector extends ExactlyXCardSelector {
     }
 
     getSortedCards(context) {
-        return this.findPossibleCards(context).filter(card => super.canTarget(card, context)).sort((a,b) => this.cardStat(a) - this.cardStat(b));
+        return this.findPossibleCards(context).filter(card => super.canTarget(card, context)).sort((a,b) => this.cardStat(b) - this.cardStat(a));
     }
 
     hasEnoughSelected(selectedCards, context) {

@@ -6,13 +6,13 @@ class DealDamageAction extends CardGameAction {
         this.amountForCard = (card, context) => 1; // eslint-disable-line no-unused-vars
         this.fightEvent = null;
         this.damageSource = null;
+        this.splash = 0;
     }
 
     setup() {
         this.targetType = ['creature'];
         this.name = 'damage';
-        this.effectMsg = 'deal {1}damage to {0}';
-        this.effectArgs = this.amount ? this.amount + ' ' : '';
+        this.effectMsg = 'deal ' + (this.amount ? this.amount + ' ' : '') + 'damage to {0}' + this.splash ? ' and ' + this.splash + ' to their neighbors' : '';
     }
 
     canAffect(card, context) {
@@ -22,9 +22,18 @@ class DealDamageAction extends CardGameAction {
         return card.location === 'play area' && super.canAffect(card, context);
     }
 
-    getEvent(card, context) {
+    getEventArray(context) {
+        if(this.splash) {
+            return this.target.filter(card => this.canAffect(card, context)).reduce((array, card) => (
+                array.concat(this.getEvent(card, context), card.neighbors.map(neighbor => this.getEvent(neighbor, context, this.splash)))
+            ), []);
+        }
+        return super.getEventArray(context);
+    }
+
+    getEvent(card, context, amount) {
         let params = {
-            amount: this.amount || this.amountForCard(card, context),
+            amount: amount || this.amount || this.amountForCard(card, context),
             card: card,
             context: context,
             damageSource: this.damageSource,

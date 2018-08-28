@@ -10,7 +10,8 @@ class Inspiration extends Card {
                     ability.actions.ready(),
                     ability.actions.use()
                 ])
-            }
+            },
+            effect: 'ready and use {0}'
         });
     }
 }

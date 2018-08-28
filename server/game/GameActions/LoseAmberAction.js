@@ -8,7 +8,7 @@ class LoseAmberAction extends PlayerAction {
     setup() {
         super.setup();
         this.name = 'loseAmber';
-        this.effectMsg = 'make {0} lose ' + this.amount + ' honor';
+        this.effectMsg = 'make {0} lose ' + this.amount + ' amber';
     }
 
     canAffect(player, context) {
@@ -16,7 +16,7 @@ class LoseAmberAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent('onModifyHonor', { player: player, amount: this.amount, context: context }, event => player.modifyAmber(-event.amount));
+        return super.createEvent('onModifyAmber', { player: player, amount: this.amount, context: context }, event => player.modifyAmber(-event.amount));
     }
 }
 

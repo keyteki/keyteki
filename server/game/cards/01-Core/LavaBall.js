@@ -7,7 +7,7 @@ class LavaBall extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.dealDamage({
                     amount: 4,
-                    splash: true
+                    splash: 2
                 })
             }
         });
