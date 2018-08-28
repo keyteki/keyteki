@@ -12,18 +12,6 @@ class SequentialForEachAction extends GameAction {
         this.effectMsg = 'do several things';
     }
 
-    setDefaultTarget(func) {
-        if(this.action) {
-            this.action.setDefaultTarget(func);
-        }
-    }
-
-    setTarget(target) {
-        if(this.action) {
-            this.action.setTarget(target);
-        }
-    }
-
     hasLegalTarget(context) {
         this.update(context);
         return (this.num || this.forEach.length) && !!this.action;

@@ -52,7 +52,9 @@ class PlayCardAction extends CardGameAction {
     getEvent(card, context) {
         let action = card.getActions(this.location).find(action => action.title.includes('Play'));
         return super.createEvent('unnamedEvent', { card: card, context: context }, () => {
-            context.game.resolveAbility(action.createContext(context.player));
+            let actionContext = action.createContext(context.player);
+            actionContext.ignoreHouse = true;
+            context.game.resolveAbility(actionContext);
         });
     }
 }

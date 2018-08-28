@@ -14,12 +14,13 @@ const Effects = {
     addTrait: (trait) => EffectBuilder.card.static('addTrait', trait),
     blank: () => EffectBuilder.card.static('blank'),
     bonusDamage: (match) => EffectBuilder.card.static('bonusDamage', match),
-    cardCannot: (properties) => EffectBuilder.card.static('abilityRestrictions', new CannotRestriction(properties)),
+    cardCannot: (type, condition) => EffectBuilder.card.static('abilityRestrictions', new CannotRestriction(type, condition)),
     customDetachedCard: (properties) => EffectBuilder.card.detached('customEffect', properties),
     doesNotReady: () => EffectBuilder.card.static('doesNotReady'),
     gainAbility: (abilityType, properties) => EffectBuilder.card.detached('gainAbility', {
         apply: (card, context) => {
             let ability;
+            properties.printedAbility = false;
             if(abilityType === 'action') {
                 ability = card.action(properties);
             } else {
@@ -82,9 +83,10 @@ const Effects = {
     forgeAmberRecipient: (player) => EffectBuilder.player.static('forgeAmberRecipient', player),
     modifyKeyCost: (amount) => EffectBuilder.player.flexible('modifyKeyCost', amount),
     modifyHandSize: (amount) => EffectBuilder.player.flexible('modifyHandSize', amount),
-    playerCannot: (properties) => EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(properties)),
+    playerCannot: (type, condition) => EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(type, condition)),
     redirectAmber: (recepient) => EffectBuilder.player.static('redirectAmber', recepient),
     restrictHouseChoice: (house) => EffectBuilder.player.static('restrictHouseChoice', house),
+    stopHouseChoice: (house) => EffectBuilder.player.state('stopHouseChoice', house),
     showTopConflictCard: () => EffectBuilder.player.static('showTopConflictCard'),
     skipStep: (step) => EffectBuilder.player.static('skipStep', step)
 };

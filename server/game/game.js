@@ -813,7 +813,7 @@ class Game extends EventEmitter {
                         // any card being controlled by the wrong player
                         this.takeControl(card.getModifiedController(), card);
                     }
-                    if(card.type === 'creature' && card.tokens.damage >= card.power) {
+                    if(card.type === 'creature' && card.tokens.damage >= card.power && !card.moribund) {
                         this.addMessage('{0} has {1} damage and {2} power and is destroyed', card, card.tokens.damage ? card.tokens.damage : 0, card.power);
                         this.actions.destroy().resolve(card, this.getFrameworkContext());
                     }

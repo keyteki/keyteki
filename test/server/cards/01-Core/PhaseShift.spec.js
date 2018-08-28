@@ -19,6 +19,8 @@ describe('Phase Shift', function() {
                 this.player1.clickCard(this.virtuousWorks);
                 this.player1.clickPrompt('Play this action');
                 expect(this.player1.amber).toBe(3);
+                this.player1.clickCard(this.punch);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
             it('should stack', function() {

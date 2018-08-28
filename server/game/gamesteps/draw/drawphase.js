@@ -19,7 +19,7 @@ class DrawPhase extends Phase {
         }
         if(amount >= 0 && player.chains > 0) {
             player.modifyChains(-1);
-            this.game.addMessage('{0}\'s chains are reduced by 1 to {1}', player.chains);
+            this.game.addMessage('{0}\'s chains are reduced by 1 to {1}', player, player.chains);
         }
     }
 

@@ -78,7 +78,6 @@ class TriggeredAbility extends CardAbility {
         }
 
         var eventNames = _.keys(this.when);
-
         this.events = [];
         _.each(eventNames, eventName => {
             var event = {

@@ -13,29 +13,11 @@ class EffectSource extends GameObject {
     }
 
     /**
-     * Applies an immediate effect which lasts until the end of the current
-     * duel.
-     */
-    untilEndOfDuel(propertyFactory) {
-        var properties = propertyFactory(AbilityDsl);
-        this.addEffectToEngine(Object.assign({ duration: 'untilEndOfDuel', location: 'any' }, properties));
-    }
-
-    /**
-     * Applies an immediate effect which lasts until the end of the current
-     * conflict.
-     */
-    untilEndOfConflict(propertyFactory) {
-        var properties = propertyFactory(AbilityDsl);
-        this.addEffectToEngine(Object.assign({ duration: 'untilEndOfConflict', location: 'any' }, properties));
-    }
-
-    /**
      * Applies an immediate effect which lasts until the end of the phase.
      */
     untilEndOfPhase(propertyFactory) {
         var properties = propertyFactory(AbilityDsl);
-        this.addEffectToEngine(Object.assign({ duration: 'untilEndOfPhase', location: 'any' }, properties));
+        return this.addEffectToEngine(Object.assign({ duration: 'untilEndOfPhase', location: 'any' }, properties));
     }
 
     /**
@@ -43,7 +25,7 @@ class EffectSource extends GameObject {
      */
     untilEndOfRound(propertyFactory) {
         var properties = propertyFactory(AbilityDsl);
-        this.addEffectToEngine(Object.assign({ duration: 'untilEndOfRound', location: 'any' }, properties));
+        return this.addEffectToEngine(Object.assign({ duration: 'untilEndOfRound', location: 'any' }, properties));
     }
 
     /**
@@ -52,11 +34,11 @@ class EffectSource extends GameObject {
      */
     lastingEffect(propertyFactory) {
         let properties = propertyFactory(AbilityDsl);
-        this.addEffectToEngine(Object.assign({ duration: 'custom', location: 'any' }, properties));
+        return this.addEffectToEngine(Object.assign({ duration: 'custom', location: 'any' }, properties));
     }
 
     roundDurationEffect(properties) {
-        this.addEffectToEngine(properties);
+        return this.addEffectToEngine(properties);
     }
 
     /**

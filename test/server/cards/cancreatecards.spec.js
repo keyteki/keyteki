@@ -9,7 +9,9 @@ const mockContext = {
         cardsPlayed: []
     },
     target: [],
-    targets: {},
+    targets: {
+        reveal: []
+    },
     player: {}
 };
 

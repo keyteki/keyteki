@@ -48,6 +48,7 @@ class Card extends EffectSource {
         this.armorUsed = 0;
         this.exhausted = false;
         this.stunned = false;
+        this.moribund = false;
 
         this.keywords = cardData.keywords;
 
@@ -253,6 +254,7 @@ class Card extends EffectSource {
         }
         this.exhausted = false;
         this.stunned = false;
+        this.moribund = false;
         this.new = false;
         this.tokens = {};
         this.controller = this.owner;
