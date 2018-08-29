@@ -112,7 +112,7 @@ class EventWindow extends BaseStepWithPipeline {
 
     resetCurrentEventWindow() {
         if(this.previousEventWindow) {
-            this.previousEventWindow.checkEventCondition();
+            //this.previousEventWindow.checkEventCondition();
             this.game.currentEventWindow = this.previousEventWindow;
         } else {
             this.game.currentEventWindow = null;

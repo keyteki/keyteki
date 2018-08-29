@@ -19,10 +19,15 @@ class DestroyAction extends CardGameAction {
         return card.location === 'play area' && super.canAffect(card, context);
     }
 
+    checkEventCondition(event) {
+        // TODO This is an ugly hack....
+        event.card.moribund = true;
+        return super.checkEventCondition(event);
+    }
+
     getEvent(card, context) {
         let inFight = this.inFight;
         return super.createEvent('onCardDestroyed', { card, context, inFight }, () => {
-            card.moribund = true;
             context.game.raiseEvent('onCardLeavesPlay', { card, context }, () => card.owner.moveCard(card, 'discard'));
         });
     }
