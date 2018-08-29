@@ -5,6 +5,7 @@ class VezymaThinkdrone extends Card {
         this.reap({
             may: 'archive a friendly creature or artifact',
             target: {
+                optional: true,
                 cardType: ['creature', 'artifact'],
                 controller: 'self',
                 gameAction: ability.actions.archive()

@@ -21,7 +21,7 @@ class RandomDiscardAction extends PlayerAction {
             let amount = Math.min(this.amount, player.hand.length);
             let cards = _.shuffle(player.hand).slice(0, amount);
             context.game.addMessage('{0} discards {1} at random', player, cards);
-            context.game.actions.discardCard().resolve(cards, context);
+            context.game.actions.discard().resolve(cards, context);
         });
     }
 }

@@ -4,6 +4,7 @@ class Protectrix extends Card {
     setupCardAbilities(ability) {
         this.reap({
             target: {
+                optional: true,
                 cardType: 'creature',
                 gameAction: ability.actions.heal({ fully: true })
             },
