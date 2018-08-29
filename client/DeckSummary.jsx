@@ -36,12 +36,14 @@ class DeckSummary extends React.Component {
         //let combinedCards = _.union(this.props.deck.stronghold, this.props.deck.role, this.props.deck.provinceCards, this.props.deck.dynastyCards, this.props.deck.conflictCards);
 
         _.each(this.props.deck.cards, (card) => {
-            let type = card.card.house;
+            if(card.card) {
+                let type = card.card.house;
 
-            if(!groupedCards[type]) {
-                groupedCards[type] = [card];
-            } else {
-                groupedCards[type].push(card);
+                if(!groupedCards[type]) {
+                    groupedCards[type] = [card];
+                } else {
+                    groupedCards[type].push(card);
+                }
             }
         });
 

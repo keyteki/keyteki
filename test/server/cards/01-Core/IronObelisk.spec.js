@@ -3,7 +3,6 @@ describe('Iron Obelisk', function() {
         describe('Iron Obelisk\'s ability', function() {
             beforeEach(function() {
                 this.setupTest({
-                    phase: 'conflict',
                     player1: {
                         house: 'brobnar',
                         hand: ['anger', 'hebe-the-huge'],

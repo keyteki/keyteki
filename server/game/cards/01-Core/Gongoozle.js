@@ -9,7 +9,7 @@ class Gongoozle extends Card {
             },
             then: context => ({
                 condition: () => context.target.location === 'play area',
-                gameAction: ability.actions.chosenDiscard({ target: context.target.controller })
+                gameAction: ability.actions.discardAtRandom({ target: context.target.controller })
             })
         });
     }

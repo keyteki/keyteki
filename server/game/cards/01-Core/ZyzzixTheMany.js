@@ -6,6 +6,7 @@ class ZyzzixTheMany extends Card {
             reap: true,
             optional: true,
             target: {
+                optional: true,
                 cardType: 'creature',
                 controller: 'self',
                 location: 'hand',

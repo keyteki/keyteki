@@ -12,8 +12,8 @@ const Costs = {
             } else if(context.ignoreHouse || context.player.getEffects('canUse').some(match => match(context.source))) {
                 return true;
             }
-            let houseEffects = context.player.getEffects('canUseHouse', effect => !context.game.effectsUsed.includes(effect));
-            return houseEffects.some(house => context.source.hasHouse(house));
+            let houseEffects = context.player.effects.filter(effect => effect.type === 'canUseHouse' && !context.game.effectsUsed.includes(effect));
+            return houseEffects.some(effect => context.source.hasHouse(effect.getValue(context.player)));
         },
         payEvent: context => context.game.getEvent('unnamedEvent', {}, () => {
             context.game.cardsUsed.push(context.source);
@@ -22,8 +22,8 @@ const Costs = {
             } else if(context.source.hasHouse(context.player.activeHouse)) {
                 return true;
             }
-            let houseEffects = context.player.getEffects('canUseHouse', effect => !context.game.effectsUsed.includes(effect));
-            let effect = houseEffects.find(house => context.source.hasHouse(house));
+            let houseEffects = context.player.effects.filter(effect => effect.type === 'canUseHouse' && !context.game.effectsUsed.includes(effect));
+            let effect = houseEffects.find(effect => context.source.hasHouse(effect.getValue(context.player)));
             if(effect) {
                 context.game.effectsUsed.push(effect);
                 return true;
@@ -37,7 +37,7 @@ const Costs = {
                 return false;
             } else if(context.source.hasHouse(context.player.activeHouse)) {
                 return true;
-            } else if(context.ignoreHouse || context.player.getEffects('canUse').some(match => match(context))) {
+            } else if(context.ignoreHouse || context.player.getEffects('canPlay').some(match => match(context.source))) {
                 return true;
             }
             let houseEffects = context.player.effects.filter(effect => effect.type === 'canPlayHouse' && !context.game.effectsUsed.includes(effect));
@@ -47,7 +47,7 @@ const Costs = {
         },
         payEvent: context => context.game.getEvent('unnamedEvent', {}, () => {
             context.game.cardsPlayed.push(context.source);
-            if(context.ignoreHouse || context.player.getEffects('canUse').some(match => match(context))) {
+            if(context.ignoreHouse || context.player.getEffects('canPlay').some(match => match(context.source))) {
                 return true;
             } else if(context.source.hasHouse(context.player.activeHouse)) {
                 return true;

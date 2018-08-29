@@ -429,7 +429,7 @@ class Player extends GameObject {
             return houses;
         }, this.houses);
         if(this.anyEffect('restrictHouseChoice')) {
-            return _.intersection(...this.getEffects('restrictHouseChoice'), availableHouses);
+            return [].concat(...this.getEffects('restrictHouseChoice'));
         }
         return availableHouses;
     }

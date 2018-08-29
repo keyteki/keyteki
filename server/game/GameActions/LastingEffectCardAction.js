@@ -2,7 +2,7 @@ const CardGameAction = require('./CardGameAction');
 
 class LastingEffectCardAction extends CardGameAction {
     setDefaultProperties() {
-        this.duration = 'untilEndOfConflict';
+        this.duration = 'untilEndOfRound';
         this.condition = null;
         this.until = null;
         this.effect = [];

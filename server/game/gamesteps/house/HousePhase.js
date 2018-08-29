@@ -19,15 +19,21 @@ class HousePhase extends Phase {
             onSelect: house => this.game.activePlayer.activeHouse = house
         });
         */
-        this.game.promptWithHandlerMenu(this.game.activePlayer, {
-            promptTitle: 'Choose Active House',
-            activePromptTitle: 'Choose which house you want to activate this turn',
-            choices: this.game.activePlayer.getAvailableHouses(),
-            choiceHandler: house => {
-                this.game.activePlayer.activeHouse = house;
-                this.game.addMessage('{0} chooses {1} as their active house this turn', this.game.activePlayer, house);
-            }
-        });
+        let choices = this.game.activePlayer.getAvailableHouses();
+        if(choices.length > 0) {
+            this.game.promptWithHandlerMenu(this.game.activePlayer, {
+                promptTitle: 'Choose Active House',
+                activePromptTitle: 'Choose which house you want to activate this turn',
+                source: 'House Choice',
+                choices: choices,
+                choiceHandler: house => {
+                    this.game.activePlayer.activeHouse = house;
+                    this.game.addMessage('{0} chooses {1} as their active house this turn', this.game.activePlayer, house);
+                }
+            });
+        } else {
+            this.game.addMessage('{0} has no legal choices for active house this turn, and so must play without an active house', this.game.activePlayer);
+        }
     }
 
     takeCardsFromArchives() {
