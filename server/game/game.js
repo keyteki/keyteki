@@ -813,13 +813,14 @@ class Game extends EventEmitter {
                         // any card being controlled by the wrong player
                         this.takeControl(card.getModifiedController(), card);
                     }
-                    if(card.type === 'creature' && card.tokens.damage >= card.power && !card.moribund) {
-                        this.addMessage('{0} has {1} damage and {2} power and is destroyed', card, card.tokens.damage ? card.tokens.damage : 0, card.power);
-                        this.actions.destroy().resolve(card, this.getFrameworkContext());
-                    }
                     // any attachments which are illegally attached
                     // card.checkForIllegalAttachments();
                 });
+            }
+            // destroy any creatures who have damage greater than equal to their power
+            let creaturesToDestroy = this.creaturesInPlay.filter(card => card.type === 'creature' && card.tokens.damage >= card.power && !card.moribund);
+            if(creaturesToDestroy.length > 0) {
+                this.actions.destroy().resolve(creaturesToDestroy, this.getFrameworkContext());
             }
             // any terminal conditions which have met their condition
             this.effectEngine.checkTerminalConditions();

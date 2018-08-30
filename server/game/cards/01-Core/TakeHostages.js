@@ -8,7 +8,7 @@ class TakeHostages extends Card {
                 when: {
                     onFight: event => event.attacker.controller === context.player && event.attacker.location === 'play area'
                 },
-                gameAction: ability.actions.capture()
+                gameAction: ability.actions.capture(context => ({ target: context.event.attacker }))
             }))
         });
     }

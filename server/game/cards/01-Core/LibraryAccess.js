@@ -3,6 +3,7 @@ const Card = require('../../Card.js');
 class LibraryAccess extends Card {
     setupCardAbilities(ability) {
         this.play({
+            effect: 'draw a card after playing a card for the remainder of the turn',
             gameAction: ability.actions.forRemainderOfTurn(context => ({
                 when: {
                     onCardPlayed: event => event.player === context.player
