@@ -4,6 +4,7 @@ const cards = require('../../../server/game/cards');
 const AbilityDsl = require('../../../server/game/abilitydsl');
 
 const mockContext = {
+    event: {},
     game: {
         cardsUsed: [],
         cardsPlayed: []
